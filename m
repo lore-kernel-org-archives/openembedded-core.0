@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.12220.1602843683020080320
+ by mx.groups.io with SMTP id smtpd.web11.12219.1602843682980813705
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0121E38C166F
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
+	by mail.yoctoproject.org (Postfix) with ESMTP id E9D2838C1643
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:21 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] openssl: upgrading to 1.1.1h SUCCEEDED
-Message-ID: <MADEUP.163E71D66B298D86.21580@lists.openembedded.org>
-X-Groupsio-MsgNum: 143413
-Content-Type: multipart/mixed; boundary="===============4399820368060388850=="
+Subject: [AUH] kea: upgrading to 1.9.0 SUCCEEDED
+Message-ID: <MADEUP.163E71D66D402828.21580@lists.openembedded.org>
+X-Groupsio-MsgNum: 143414
+Content-Type: multipart/mixed; boundary="===============0093112097749312302=="
 
---===============4399820368060388850==
+--===============0093112097749312302==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *openssl* to *1.1.1h* has Succeeded.
+that the automatic attempt to upgrade the recipe *kea* to *1.9.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-openssl-upgrade-1.1.1g-1.1.1h.patch
+    - apply the patch: git am 0001-kea-upgrade-1.7.10-1.9.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,121 +44,663 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4399820368060388850==
+--===============0093112097749312302==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-http.so.6 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-hooks.so.15.0.0", added "/usr
+ /share/kea/api/network6-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/config-set.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/statistic-reset.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-stats.so.16.1.1 /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/ha-continue.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/remote-network4-list.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcp++.so.30 /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/leases-reclaim.json /usr/share/kea/api/remote-network6-de
+ l.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/network6-list.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/cache-remove.json /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/lease4-resend-ddns.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/statistic-remove-all.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/libreload.json /usr/share/kea/api/class-add.json /usr/share/kea/api/version-get.json /usr/share/kea/api/class-list.json /usr/share/kea/api/config-get.json /
+ usr/share/kea/api/cache-clear.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/status-get.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/remote-server4-set.json /usr/share/kea/api/cache-flush.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-option6-global-del.json /usr/lib/libkea-http.so.18.1.0 /usr/lib/libkea-eval.so.22 /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/cache-get.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/subnet4-add.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/ha-scopes.json /usr/lib/
+ libkea-dns++.so.5.0.0 /usr/share/kea/api/network4-list.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-subnet-add.json /usr/share/kea/api/build-report.json /usr/share/kea/api/config-test.json /usr/lib/libkea-log.so.6.0.1 /usr/share/kea/api/class-del.json /usr/share/kea/api/class-update.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/subnet4-list.json /usr/share/kea/api/remote-network6-list.json /usr/lib/libkea-eval.so.22.0.4 /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/statistic-get.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/remote-global-parameter4-get.json 
+ /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-global-set.json /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/ha-sync.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/lease4-del.json /usr/share/kea/api/remote-subnet6-set.json /usr/lib/
+ libkea-cc.so.8.1.5 /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-del.json /usr/lib/libkea-hooks.so.26 /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-network4-set.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/list-commands.json /usr/share/kea/api/dhcp-disable.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/lease6-get.json /usr/share/kea/api/reservation-get-page.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/remo
+ te-option-def6-set.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/config-reload.json /usr/share/kea/api/reservation-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-global-parameter4-del.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/cache-size.json /usr/lib/libkea-util.so.26 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/network4-add.json /usr/lib/libkea-database.so.6.1.0 /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-option6-s
+ ubnet-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/cache-load.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/remote-option4-global-get.json /usr/share/kea/api/subnet6-add.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/class-get.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease4-get-by-client-id.json /usr/lib/libkea-util.so.26.1.0 /usr/share/kea/api/network6-get.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/reservation-del.json /u
+ sr/share/kea/api/remote-option-def4-del.json /usr/share/kea/api/lease6-get-by-hostname.json"
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-http.so.6 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-hooks.so.15.0.0", added "/usr
+ /share/kea/api/network6-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/config-set.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/statistic-reset.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-stats.so.16.1.1 /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/ha-continue.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/remote-network4-list.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcp++.so.30 /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/leases-reclaim.json /usr/share/kea/api/remote-network6-de
+ l.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/network6-list.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/cache-remove.json /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/lease4-resend-ddns.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/statistic-remove-all.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/libreload.json /usr/share/kea/api/class-add.json /usr/share/kea/api/version-get.json /usr/share/kea/api/class-list.json /usr/share/kea/api/config-get.json /
+ usr/share/kea/api/cache-clear.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/status-get.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/remote-server4-set.json /usr/share/kea/api/cache-flush.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-option6-global-del.json /usr/lib/libkea-http.so.18.1.0 /usr/lib/libkea-eval.so.22 /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/cache-get.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/subnet4-add.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/ha-scopes.json /usr/lib/
+ libkea-dns++.so.5.0.0 /usr/share/kea/api/network4-list.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-subnet-add.json /usr/share/kea/api/build-report.json /usr/share/kea/api/config-test.json /usr/lib/libkea-log.so.6.0.1 /usr/share/kea/api/class-del.json /usr/share/kea/api/class-update.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/subnet4-list.json /usr/share/kea/api/remote-network6-list.json /usr/lib/libkea-eval.so.22.0.4 /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/statistic-get.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/remote-global-parameter4-get.json 
+ /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-global-set.json /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/ha-sync.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/lease4-del.json /usr/share/kea/api/remote-subnet6-set.json /usr/lib/
+ libkea-cc.so.8.1.5 /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-del.json /usr/lib/libkea-hooks.so.26 /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-network4-set.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/list-commands.json /usr/share/kea/api/dhcp-disable.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/lease6-get.json /usr/share/kea/api/reservation-get-page.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/remo
+ te-option-def6-set.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/config-reload.json /usr/share/kea/api/reservation-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-global-parameter4-del.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/cache-size.json /usr/lib/libkea-util.so.26 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/network4-add.json /usr/lib/libkea-database.so.6.1.0 /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-option6-s
+ ubnet-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/cache-load.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/remote-option4-global-get.json /usr/share/kea/api/subnet6-add.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/class-get.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease4-get-by-client-id.json /usr/lib/libkea-util.so.26.1.0 /usr/share/kea/api/network6-get.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/reservation-del.json /u
+ sr/share/kea/api/remote-option-def4-del.json /usr/share/kea/api/lease6-get-by-hostname.json"
+packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-http.so.6 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-hooks.so.15.0.0", added "/
+ usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/config-set.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/statistic-reset.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-stats.so.16.1.1 /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/ha-continue.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/remote-network4-list.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcp++.so.30 /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/leases-reclaim.json /usr/share/kea/api/remote-network6
+ -del.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/network6-list.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/cache-remove.json /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/lease4-resend-ddns.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/statistic-remove-all.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/libreload.json /usr/share/kea/api/class-add.json /usr/share/kea/api/version-get.json /usr/share/kea/api/class-list.json /usr/share/kea/api/config-get.jso
+ n /usr/share/kea/api/cache-clear.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/status-get.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/remote-server4-set.json /usr/share/kea/api/cache-flush.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-option6-global-del.json /usr/lib/libkea-http.so.18.1.0 /usr/lib/libkea-eval.so.22 /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/cache-get.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/subnet4-add.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/ha-scopes.json /usr/l
+ ib/libkea-dns++.so.5.0.0 /usr/share/kea/api/network4-list.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-subnet-add.json /usr/share/kea/api/build-report.json /usr/share/kea/api/config-test.json /usr/lib/libkea-log.so.6.0.1 /usr/share/kea/api/class-del.json /usr/share/kea/api/class-update.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/subnet4-list.json /usr/share/kea/api/remote-network6-list.json /usr/lib/libkea-eval.so.22.0.4 /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/statistic-get.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/remote-global-parameter4-get.js
+ on /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-global-set.json /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/ha-sync.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/lease4-del.json /usr/share/kea/api/remote-subnet6-set.json /usr/l
+ ib/libkea-cc.so.8.1.5 /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-del.json /usr/lib/libkea-hooks.so.26 /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-network4-set.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/list-commands.json /usr/share/kea/api/dhcp-disable.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/lease6-get.json /usr/share/kea/api/reservation-get-page.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/r
+ emote-option-def6-set.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/config-reload.json /usr/share/kea/api/reservation-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-global-parameter4-del.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/cache-size.json /usr/lib/libkea-util.so.26 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/network4-add.json /usr/lib/libkea-database.so.6.1.0 /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-option
+ 6-subnet-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/cache-load.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/remote-option4-global-get.json /usr/share/kea/api/subnet6-add.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/class-get.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease4-get-by-client-id.json /usr/lib/libkea-util.so.26.1.0 /usr/share/kea/api/network6-get.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/reservation-del.json
+  /usr/share/kea/api/remote-option-def4-del.json /usr/share/kea/api/lease6-get-by-hostname.json"
+packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-http.so.6 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-hooks.so.15.0.0", added
+  "/usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/config-set.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/statistic-reset.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-stats.so.16.1.1 /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/ha-continue.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/remote-network4-list.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcp++.so.30 /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/leases-reclaim.json /usr/share/kea/api/remote-netwo
+ rk6-del.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/network6-list.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/cache-remove.json /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/lease4-resend-ddns.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/statistic-remove-all.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/libreload.json /usr/share/kea/api/class-add.json /usr/share/kea/api/version-get.json /usr/share/kea/api/class-list.json /usr/share/kea/api/config-get.
+ json /usr/share/kea/api/cache-clear.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/status-get.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/remote-server4-set.json /usr/share/kea/api/cache-flush.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-option6-global-del.json /usr/lib/libkea-http.so.18.1.0 /usr/lib/libkea-eval.so.22 /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/cache-get.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/subnet4-add.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/ha-scopes.json /us
+ r/lib/libkea-dns++.so.5.0.0 /usr/share/kea/api/network4-list.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-subnet-add.json /usr/share/kea/api/build-report.json /usr/share/kea/api/config-test.json /usr/lib/libkea-log.so.6.0.1 /usr/share/kea/api/class-del.json /usr/share/kea/api/class-update.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/subnet4-list.json /usr/share/kea/api/remote-network6-list.json /usr/lib/libkea-eval.so.22.0.4 /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/statistic-get.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/remote-global-parameter4-get
+ .json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-global-set.json /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/ha-sync.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/lease4-del.json /usr/share/kea/api/remote-subnet6-set.json /us
+ r/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-del.json /usr/lib/libkea-hooks.so.26 /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-network4-set.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/list-commands.json /usr/share/kea/api/dhcp-disable.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/lease6-get.json /usr/share/kea/api/reservation-get-page.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/ap
+ i/remote-option-def6-set.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/config-reload.json /usr/share/kea/api/reservation-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-global-parameter4-del.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/cache-size.json /usr/lib/libkea-util.so.26 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/network4-add.json /usr/lib/libkea-database.so.6.1.0 /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-opt
+ ion6-subnet-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/cache-load.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/remote-option4-global-get.json /usr/share/kea/api/subnet6-add.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/class-get.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease4-get-by-client-id.json /usr/lib/libkea-util.so.26.1.0 /usr/share/kea/api/network6-get.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/reservation-del.j
+ son /usr/share/kea/api/remote-option-def4-del.json /usr/share/kea/api/lease6-get-by-hostname.json"
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-http.so.6 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-hooks.so.15.0.0", added "/usr/sha
+ re/kea/api/network6-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/config-set.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/statistic-reset.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-stats.so.16.1.1 /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/ha-continue.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/remote-network4-list.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcp++.so.30 /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/leases-reclaim.json /usr/share/kea/api/remote-network6-del.js
+ on /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/network6-list.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/cache-remove.json /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/lease4-resend-ddns.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/statistic-remove-all.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/libreload.json /usr/share/kea/api/class-add.json /usr/share/kea/api/version-get.json /usr/share/kea/api/class-list.json /usr/share/kea/api/config-get.json /usr/
+ share/kea/api/cache-clear.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/status-get.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/remote-server4-set.json /usr/share/kea/api/cache-flush.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-option6-global-del.json /usr/lib/libkea-http.so.18.1.0 /usr/lib/libkea-eval.so.22 /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/cache-get.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/subnet4-add.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/ha-scopes.json /usr/lib/libk
+ ea-dns++.so.5.0.0 /usr/share/kea/api/network4-list.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-subnet-add.json /usr/share/kea/api/build-report.json /usr/share/kea/api/config-test.json /usr/lib/libkea-log.so.6.0.1 /usr/share/kea/api/class-del.json /usr/share/kea/api/class-update.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/subnet4-list.json /usr/share/kea/api/remote-network6-list.json /usr/lib/libkea-eval.so.22.0.4 /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/statistic-get.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/remote-global-parameter4-get.json /usr
+ /share/kea/api/remote-global-parameter6-get-all.json /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-global-set.json /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/ha-sync.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/lease4-del.json /usr/share/kea/api/remote-subnet6-set.json /usr/lib/libk
+ ea-cc.so.8.1.5 /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-del.json /usr/lib/libkea-hooks.so.26 /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-network4-set.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/list-commands.json /usr/share/kea/api/dhcp-disable.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/lease6-get.json /usr/share/kea/api/reservation-get-page.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/remote-o
+ ption-def6-set.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/config-reload.json /usr/share/kea/api/reservation-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-global-parameter4-del.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/cache-size.json /usr/lib/libkea-util.so.26 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/network4-add.json /usr/lib/libkea-database.so.6.1.0 /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-option6-subne
+ t-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/cache-load.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/remote-option4-global-get.json /usr/share/kea/api/subnet6-add.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/class-get.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease4-get-by-client-id.json /usr/lib/libkea-util.so.26.1.0 /usr/share/kea/api/network6-get.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/reservation-del.json /usr/s
+ hare/kea/api/remote-option-def4-del.json /usr/share/kea/api/lease6-get-by-hostname.json"
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-asiodns.so.1 changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.7.1.0 to libkea-asiolink.so.19.1.0
+  /usr/lib/libkea-cc.so.8 changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.9.0.0 to libkea-cfgclient.so.10.0.0
+  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.5.1.0 to libkea-database.so.6.1.0
+  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.2.0.1 to libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.18.0.0 to libkea-dhcp++.so.30.0.0
+  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.26.0.0 to libkea-dhcpsrv.so.38.0.0
+  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.4.0.0 to libkea-dns++.so.5.0.0
+  /usr/lib/libkea-eval.so changed symlink target from libkea-eval.so.12.0.3 to libkea-eval.so.22.0.4
+  /usr/lib/libkea-exceptions.so.0 changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-exceptions.so changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.15.0.0 to libkea-hooks.so.26.0.0
+  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.6.1.2 to libkea-http.so.18.1.0
+  /usr/lib/libkea-log.so.6 changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.10.0.0 to libkea-process.so.11.0.0
+  /usr/lib/libkea-stats.so changed symlink target from libkea-stats.so.6.1.0 to libkea-stats.so.16.1.1
+  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.15.0.0 to libkea-util.so.26.1.0
+  /usr/lib/libkea-asiodns.so.1.0.0 moved to /usr/lib/libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-cc.so.8.1.4 moved to /usr/lib/libkea-cc.so.8.1.5
+  /usr/lib/libkea-database.so.5.1.0 moved to /usr/lib/libkea-database.so.6.1.0
+  /usr/lib/libkea-database.so.5 moved to /usr/lib/libkea-database.so.6
+  /usr/lib/libkea-dhcp_ddns.so.2.0.1 moved to /usr/lib/libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp_ddns.so.2 moved to /usr/lib/libkea-dhcp_ddns.so.3
+  /usr/lib/libkea-dhcp++.so.18.0.0 moved to /usr/lib/libkea-dhcp++.so.30.0.0
+  /usr/lib/libkea-dhcp++.so.18 moved to /usr/lib/libkea-dhcp++.so.30
+  /usr/lib/libkea-dhcpsrv.so.26.0.0 moved to /usr/lib/libkea-dhcpsrv.so.38.0.0
+  /usr/lib/libkea-dhcpsrv.so.26 moved to /usr/lib/libkea-dhcpsrv.so.38
+  /usr/lib/libkea-dns++.so.4.0.0 moved to /usr/lib/libkea-dns++.so.5.0.0
+  /usr/lib/libkea-dns++.so.4 moved to /usr/lib/libkea-dns++.so.5
+  /usr/lib/libkea-eval.so.12.0.3 moved to /usr/lib/libkea-eval.so.22.0.4
+  /usr/lib/libkea-eval.so.12 moved to /usr/lib/libkea-eval.so.22
+  /usr/lib/libkea-exceptions.so.0.2.0 moved to /usr/lib/libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so.15.0.0 moved to /usr/lib/libkea-hooks.so.26.0.0
+  /usr/lib/libkea-hooks.so.15 moved to /usr/lib/libkea-hooks.so.26
+  /usr/lib/libkea-log.so.6.0.0 moved to /usr/lib/libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so.10.0.0 moved to /usr/lib/libkea-process.so.11.0.0
+  /usr/lib/libkea-process.so.10 moved to /usr/lib/libkea-process.so.11
+  /usr/lib/libkea-util.so.15.0.0 moved to /usr/lib/libkea-util.so.26.1.0
+  /usr/lib/libkea-util.so.15 moved to /usr/lib/libkea-util.so.26
+  /usr/include/kea/dhcpsrv/free_lease_queue.h was added
+  /usr/include/kea/dhcpsrv/ip_range.h was added
+  /usr/include/kea/dhcpsrv/ip_range_permutation.h was added
+  /usr/include/kea/http/auth_config.h was added
+  /usr/include/kea/http/basic_auth_config.h was added
+  /usr/include/kea/http/basic_auth.h was added
+  /usr/include/kea/util/encode/utf8.h was added
+  /usr/lib/libkea-asiolink.so.19.1.0 was added
+  /usr/lib/libkea-asiolink.so.19 was added
+  /usr/lib/libkea-cfgclient.so.10.0.0 was added
+  /usr/lib/libkea-cfgclient.so.10 was added
+  /usr/lib/libkea-http.so.18.1.0 was added
+  /usr/lib/libkea-http.so.18 was added
+  /usr/lib/libkea-stats.so.16.1.1 was added
+  /usr/lib/libkea-stats.so.16 was added
+  /usr/share/kea/api was added
+  /usr/share/kea/api/build-report.json was added
+  /usr/share/kea/api/cache-clear.json was added
+  /usr/share/kea/api/cache-flush.json was added
+  /usr/share/kea/api/cache-get-by-id.json was added
+  /usr/share/kea/api/cache-get.json was added
+  /usr/share/kea/api/cache-insert.json was added
+  /usr/share/kea/api/cache-load.json was added
+  /usr/share/kea/api/cache-remove.json was added
+  /usr/share/kea/api/cache-size.json was added
+  /usr/share/kea/api/cache-write.json was added
+  /usr/share/kea/api/class-add.json was added
+  /usr/share/kea/api/class-del.json was added
+  /usr/share/kea/api/class-get.json was added
+  /usr/share/kea/api/class-list.json was added
+  /usr/share/kea/api/class-update.json was added
+  /usr/share/kea/api/config-backend-pull.json was added
+  /usr/share/kea/api/config-get.json was added
+  /usr/share/kea/api/config-reload.json was added
+  /usr/share/kea/api/config-set.json was added
+  /usr/share/kea/api/config-test.json was added
+  /usr/share/kea/api/config-write.json was added
+  /usr/share/kea/api/dhcp-disable.json was added
+  /usr/share/kea/api/dhcp-enable.json was added
+  /usr/share/kea/api/ha-continue.json was added
+  /usr/share/kea/api/ha-heartbeat.json was added
+  /usr/share/kea/api/ha-maintenance-cancel.json was added
+  /usr/share/kea/api/ha-maintenance-notify.json was added
+  /usr/share/kea/api/ha-maintenance-start.json was added
+  /usr/share/kea/api/ha-scopes.json was added
+  /usr/share/kea/api/ha-sync.json was added
+  /usr/share/kea/api/lease4-add.json was added
+  /usr/share/kea/api/lease4-del.json was added
+  /usr/share/kea/api/lease4-get-all.json was added
+  /usr/share/kea/api/lease4-get-by-client-id.json was added
+  /usr/share/kea/api/lease4-get-by-hostname.json was added
+  /usr/share/kea/api/lease4-get-by-hw-address.json was added
+  /usr/share/kea/api/lease4-get.json was added
+  /usr/share/kea/api/lease4-get-page.json was added
+  /usr/share/kea/api/lease4-resend-ddns.json was added
+  /usr/share/kea/api/lease4-update.json was added
+  /usr/share/kea/api/lease4-wipe.json was added
+  /usr/share/kea/api/lease6-add.json was added
+  /usr/share/kea/api/lease6-bulk-apply.json was added
+  /usr/share/kea/api/lease6-del.json was added
+  /usr/share/kea/api/lease6-get-all.json was added
+  /usr/share/kea/api/lease6-get-by-duid.json was added
+  /usr/share/kea/api/lease6-get-by-hostname.json was added
+  /usr/share/kea/api/lease6-get.json was added
+  /usr/share/kea/api/lease6-get-page.json was added
+  /usr/share/kea/api/lease6-resend-ddns.json was added
+  /usr/share/kea/api/lease6-update.json was added
+  /usr/share/kea/api/lease6-wipe.json was added
+  /usr/share/kea/api/leases-reclaim.json was added
+  /usr/share/kea/api/libreload.json was added
+  /usr/share/kea/api/list-commands.json was added
+  /usr/share/kea/api/network4-add.json was added
+  /usr/share/kea/api/network4-del.json was added
+  /usr/share/kea/api/network4-get.json was added
+  /usr/share/kea/api/network4-list.json was added
+  /usr/share/kea/api/network4-subnet-add.json was added
+  /usr/share/kea/api/network4-subnet-del.json was added
+  /usr/share/kea/api/network6-add.json was added
+  /usr/share/kea/api/network6-del.json was added
+  /usr/share/kea/api/network6-get.json was added
+  /usr/share/kea/api/network6-list.json was added
+  /usr/share/kea/api/network6-subnet-add.json was added
+  /usr/share/kea/api/network6-subnet-del.json was added
+  /usr/share/kea/api/remote-global-parameter4-del.json was added
+  /usr/share/kea/api/remote-global-parameter4-get-all.json was added
+  /usr/share/kea/api/remote-global-parameter4-get.json was added
+  /usr/share/kea/api/remote-global-parameter4-set.json was added
+  /usr/share/kea/api/remote-global-parameter6-del.json was added
+  /usr/share/kea/api/remote-global-parameter6-get-all.json was added
+  /usr/share/kea/api/remote-global-parameter6-get.json was added
+  /usr/share/kea/api/remote-global-parameter6-set.json was added
+  /usr/share/kea/api/remote-network4-del.json was added
+  /usr/share/kea/api/remote-network4-get.json was added
+  /usr/share/kea/api/remote-network4-list.json was added
+  /usr/share/kea/api/remote-network4-set.json was added
+  /usr/share/kea/api/remote-network6-del.json was added
+  /usr/share/kea/api/remote-network6-get.json was added
+  /usr/share/kea/api/remote-network6-list.json was added
+  /usr/share/kea/api/remote-network6-set.json was added
+  /usr/share/kea/api/remote-option4-global-del.json was added
+  /usr/share/kea/api/remote-option4-global-get-all.json was added
+  /usr/share/kea/api/remote-option4-global-get.json was added
+  /usr/share/kea/api/remote-option4-global-set.json was added
+  /usr/share/kea/api/remote-option4-network-del.json was added
+  /usr/share/kea/api/remote-option4-network-set.json was added
+  /usr/share/kea/api/remote-option4-pool-del.json was added
+  /usr/share/kea/api/remote-option4-pool-set.json was added
+  /usr/share/kea/api/remote-option4-subnet-del.json was added
+  /usr/share/kea/api/remote-option4-subnet-set.json was added
+  /usr/share/kea/api/remote-option6-global-del.json was added
+  /usr/share/kea/api/remote-option6-global-get-all.json was added
+  /usr/share/kea/api/remote-option6-global-get.json was added
+  /usr/share/kea/api/remote-option6-global-set.json was added
+  /usr/share/kea/api/remote-option6-network-del.json was added
+  /usr/share/kea/api/remote-option6-network-set.json was added
+  /usr/share/kea/api/remote-option6-pd-pool-del.json was added
+  /usr/share/kea/api/remote-option6-pd-pool-set.json was added
+  /usr/share/kea/api/remote-option6-pool-del.json was added
+  /usr/share/kea/api/remote-option6-pool-set.json was added
+  /usr/share/kea/api/remote-option6-subnet-del.json was added
+  /usr/share/kea/api/remote-option6-subnet-set.json was added
+  /usr/share/kea/api/remote-option-def4-del.json was added
+  /usr/share/kea/api/remote-option-def4-get-all.json was added
+  /usr/share/kea/api/remote-option-def4-get.json was added
+  /usr/share/kea/api/remote-option-def4-set.json was added
+  /usr/share/kea/api/remote-option-def6-del.json was added
+  /usr/share/kea/api/remote-option-def6-get-all.json was added
+  /usr/share/kea/api/remote-option-def6-get.json was added
+  /usr/share/kea/api/remote-option-def6-set.json was added
+  /usr/share/kea/api/remote-server4-del.json was added
+  /usr/share/kea/api/remote-server4-get-all.json was added
+  /usr/share/kea/api/remote-server4-get.json was added
+  /usr/share/kea/api/remote-server4-set.json was added
+  /usr/share/kea/api/remote-server6-del.json was added
+  /usr/share/kea/api/remote-server6-get-all.json was added
+  /usr/share/kea/api/remote-server6-get.json was added
+  /usr/share/kea/api/remote-server6-set.json was added
+  /usr/share/kea/api/remote-subnet4-del-by-id.json was added
+  /usr/share/kea/api/remote-subnet4-del-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet4-get-by-id.json was added
+  /usr/share/kea/api/remote-subnet4-get-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet4-list.json was added
+  /usr/share/kea/api/remote-subnet4-set.json was added
+  /usr/share/kea/api/remote-subnet6-del-by-id.json was added
+  /usr/share/kea/api/remote-subnet6-del-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet6-get-by-id.json was added
+  /usr/share/kea/api/remote-subnet6-get-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet6-list.json was added
+  /usr/share/kea/api/remote-subnet6-set.json was added
+  /usr/share/kea/api/reservation-add.json was added
+  /usr/share/kea/api/reservation-del.json was added
+  /usr/share/kea/api/reservation-get-all.json was added
+  /usr/share/kea/api/reservation-get-by-hostname.json was added
+  /usr/share/kea/api/reservation-get-by-id.json was added
+  /usr/share/kea/api/reservation-get.json was added
+  /usr/share/kea/api/reservation-get-page.json was added
+  /usr/share/kea/api/server-tag-get.json was added
+  /usr/share/kea/api/shutdown.json was added
+  /usr/share/kea/api/statistic-get-all.json was added
+  /usr/share/kea/api/statistic-get.json was added
+  /usr/share/kea/api/statistic-remove-all.json was added
+  /usr/share/kea/api/statistic-remove.json was added
+  /usr/share/kea/api/statistic-reset-all.json was added
+  /usr/share/kea/api/statistic-reset.json was added
+  /usr/share/kea/api/statistic-sample-age-set-all.json was added
+  /usr/share/kea/api/statistic-sample-age-set.json was added
+  /usr/share/kea/api/statistic-sample-count-set-all.json was added
+  /usr/share/kea/api/statistic-sample-count-set.json was added
+  /usr/share/kea/api/stat-lease4-get.json was added
+  /usr/share/kea/api/stat-lease6-get.json was added
+  /usr/share/kea/api/status-get.json was added
+  /usr/share/kea/api/subnet4-add.json was added
+  /usr/share/kea/api/subnet4-del.json was added
+  /usr/share/kea/api/subnet4-get.json was added
+  /usr/share/kea/api/subnet4-list.json was added
+  /usr/share/kea/api/subnet4-update.json was added
+  /usr/share/kea/api/subnet6-add.json was added
+  /usr/share/kea/api/subnet6-del.json was added
+  /usr/share/kea/api/subnet6-get.json was added
+  /usr/share/kea/api/subnet6-list.json was added
+  /usr/share/kea/api/subnet6-update.json was added
+  /usr/share/kea/api/version-get.json was added
+  /usr/lib/libkea-asiolink.so.7.1.0 was removed
+  /usr/lib/libkea-asiolink.so.7 was removed
+  /usr/lib/libkea-cfgclient.so.9.0.0 was removed
+  /usr/lib/libkea-cfgclient.so.9 was removed
+  /usr/lib/libkea-http.so.6.1.2 was removed
+  /usr/lib/libkea-http.so.6 was removed
+  /usr/lib/libkea-stats.so.6.1.0 was removed
+  /usr/lib/libkea-stats.so.6 was removed
+
+--===============0093112097749312302==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-openssl-upgrade-1.1.1g-1.1.1h.patch"
+ filename="0001-kea-upgrade-1.7.10-1.9.0.patch"
 
-From 5a30855afbb8ea7de66276a085e4fdcda20c04c0 Mon Sep 17 00:00:00 2001
+From e599d41f1b5fa671be531c6bfeda326f3dc212d7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 00:57:09 +0000
-Subject: [PATCH] openssl: upgrade 1.1.1g -> 1.1.1h
+Date: Thu, 15 Oct 2020 23:57:37 +0000
+Subject: [PATCH] kea: upgrade 1.7.10 -> 1.9.0
 
 ---
- .../openssl/files/environment.d-openssl.sh           |  1 -
- meta/recipes-connectivity/openssl/openssl/run-ptest  | 12 ------------
- .../openssl/{openssl_1.1.1g.bb => openssl_1.1.1h.bb} |  3 +--
- 3 files changed, 1 insertion(+), 15 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/run-ptest
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1g.bb => openssl_1.1.1h.bb} (98%)
+ meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.9.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.9.0.bb} (96%)
 
-diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-deleted file mode 100644
-index b9cc24a7ac..0000000000
---- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
-+++ /dev/null
-@@ -1 +0,0 @@
--export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
-diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
-deleted file mode 100644
-index 3fb22471f8..0000000000
---- a/meta/recipes-connectivity/openssl/openssl/run-ptest
-+++ /dev/null
-@@ -1,12 +0,0 @@
--#!/bin/sh
--
--set -e
--
--# Optional arguments are 'list' to lists all tests, or the test name (base name
--# ie test_evp, not 03_test_evp.t).
--
--export TOP=.
--# OPENSSL_ENGINES is relative from the test binaries
--export OPENSSL_ENGINES=../engines
--
--perl ./test/run_tests.pl $* | perl -0pe 's#(.*) \.*.ok#PASS: \1#g; s#(.*) \.*.skipped: (.*)#SKIP: \1 (\2)#g; s#(.*) \.*.\nDubious#FAIL: \1#;'
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1h.bb
-index 815955837b..fc0b0f839a 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb
-@@ -12,7 +12,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d343e62fc9c833710bbbed25f27364c8"
- DEPENDS = "hostperl-runtime-native"
+diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.9.0.bb
+similarity index 96%
+rename from meta/recipes-connectivity/kea/kea_1.7.10.bb
+rename to meta/recipes-connectivity/kea/kea_1.9.0.bb
+index 2ea4b12758..13b9c8d92a 100644
+--- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
++++ b/meta/recipes-connectivity/kea/kea_1.9.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "\
+     file://kea-dhcp-ddns.service \
+     file://fix-multilib-conflict.patch \
+ "
+-SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
++SRC_URI[sha256sum] = "4ca801b474aa392156c9480e56d12490b5c514fe3ea4a17d70ebf9fb30ff44e3"
  
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
--           file://run-ptest \
-            file://0001-skip-test_symbol_presence.patch \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-@@ -23,7 +22,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+ inherit autotools systemd
  
--SRC_URI[sha256sum] = "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
-+SRC_URI[sha256sum] = "5c9ca8774bd7b03e5784f26ae9e9e6d749c9da2438545077e6b3d755a06595d9"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.18.4
 
 
---===============4399820368060388850==
+--===============0093112097749312302==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/openssl: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/libcrypto: PKGSIZE changed from 2851620 to 2855716 (+0%)
-packages/core2-32-poky-linux/openssl/libcrypto: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/libcrypto: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/libssl: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/libssl: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-bin: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-bin: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-conf: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-conf: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-dbg: PKGSIZE changed from 89716164 to 94885960 (+6%)
-packages/core2-32-poky-linux/openssl/openssl-dbg: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-dbg: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-dev: PKGSIZE changed from 1371674 to 1372706 (+0%)
-packages/core2-32-poky-linux/openssl/openssl-dev: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-dev: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-doc: PKGSIZE changed from 132570 to 132734 (+0%)
-packages/core2-32-poky-linux/openssl/openssl-doc: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-doc: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-engines: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-engines: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-locale: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-locale: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-misc: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-misc: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-ptest: PKGSIZE changed from 62150597 to 64669405 (+4%)
-packages/core2-32-poky-linux/openssl/openssl-ptest: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-ptest: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-src: PKGSIZE changed from 23925768 to 23949480 (+0%)
-packages/core2-32-poky-linux/openssl/openssl-src: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-src: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl-staticdev: PKGSIZE changed from 12066112 to 12081192 (+0%)
-packages/core2-32-poky-linux/openssl/openssl-staticdev: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl-staticdev: PV changed from "1.1.1g" to "1.1.1h"
-packages/core2-32-poky-linux/openssl/openssl: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
-packages/core2-32-poky-linux/openssl/openssl: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/kea/kea-dbg: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-util.so.15 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-process.so.10.0.0", added "/usr
+ /lib/libkea-eval.so.22.0.4 /usr/share/kea/api/cache-remove.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/lib/libkea-http.so.18.1.0 /usr/share/kea/api/cache-clear.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/share/kea/api/remote-option6-global-del.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/remote-option-def6-set.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease4-resend-ddns.json /usr/sha
+ re/kea/api/cache-load.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/share/kea/api/build-report.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-hooks.so.26 /usr/lib/libkea-util.so.26 /usr/share/kea/api/cache-get.json /usr/share/kea/api/ha-sync.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/share/kea/api/remote-subnet6-set.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/statistic-remove-all.json /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/lease4-del.json /usr/lib/libkea-dhcp++.so.30 /usr/lib/libk
+ ea-log.so.6.0.1 /usr/share/kea/api/leases-reclaim.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/config-set.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/version-get.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/remote-option-def4-del.json /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/remote-server4-set.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/ha-continue.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/remote-global-paramet
+ er4-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/class-add.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-get.json /usr/lib/libkea-eval.so.22 /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/status-get.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/network4-add.json /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/class-list.json /usr/share/kea/api/remote-network4-set.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/class-del.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/cache-flush.json /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-u
+ til.so.26.1.0 /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/network6-get.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-scopes.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-list.json /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/reservation-get-all.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/subnet6-add.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/remote-option4-global-set.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-del.json /usr/share/kea/api/config-reload.json /usr/share/ke
+ a/api/subnet6-del.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/class-get.json /usr/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/remote-global-parameter4-get.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/reservation-get-page.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease6-get.json /usr/share/kea/api/cache-size.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/config-get.json /usr/share/kea/api/config-test.json /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/libreload.json /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/statist
+ ic-reset.json /usr/share/kea/api/network6-subnet-add.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/subnet4-add.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/lease6-get-by-hostname.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/remote-network4-list.json /usr/share/kea/api/remote-network6-del.json /usr/lib/libkea-stats.so.16.1.1 /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/lease4-get-by-client-id.json /
+ usr/share/kea/api/network4-list.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/remote-network6-list.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/dhcp-disable.json /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-option6-subnet-set.json /usr/share/kea/api/class-update.json /usr/share/kea/api/network6-list.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/list-comma
+ nds.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/remote-option4-global-get.json"
+packages/core2-32-poky-linux/kea/kea-dbg: PKGSIZE changed from 258778088 to 264391764 (+2%)
+packages/core2-32-poky-linux/kea/kea-dbg: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea/kea-dbg: PV changed from "1.7.10" to "1.9.0"
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-util.so.15 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-process.so.10.0.0", added "/usr
+ /lib/libkea-eval.so.22.0.4 /usr/share/kea/api/cache-remove.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/lib/libkea-http.so.18.1.0 /usr/share/kea/api/cache-clear.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/share/kea/api/remote-option6-global-del.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/remote-option-def6-set.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease4-resend-ddns.json /usr/sha
+ re/kea/api/cache-load.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/share/kea/api/build-report.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-hooks.so.26 /usr/lib/libkea-util.so.26 /usr/share/kea/api/cache-get.json /usr/share/kea/api/ha-sync.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/share/kea/api/remote-subnet6-set.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/statistic-remove-all.json /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/lease4-del.json /usr/lib/libkea-dhcp++.so.30 /usr/lib/libk
+ ea-log.so.6.0.1 /usr/share/kea/api/leases-reclaim.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/config-set.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/version-get.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/remote-option-def4-del.json /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/remote-server4-set.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/ha-continue.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/remote-global-paramet
+ er4-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/class-add.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-get.json /usr/lib/libkea-eval.so.22 /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/status-get.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/network4-add.json /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/class-list.json /usr/share/kea/api/remote-network4-set.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/class-del.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/cache-flush.json /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-u
+ til.so.26.1.0 /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/network6-get.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-scopes.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-list.json /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/reservation-get-all.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/subnet6-add.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/remote-option4-global-set.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-del.json /usr/share/kea/api/config-reload.json /usr/share/ke
+ a/api/subnet6-del.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/class-get.json /usr/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/remote-global-parameter4-get.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/reservation-get-page.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease6-get.json /usr/share/kea/api/cache-size.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/config-get.json /usr/share/kea/api/config-test.json /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/libreload.json /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/statist
+ ic-reset.json /usr/share/kea/api/network6-subnet-add.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/subnet4-add.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/lease6-get-by-hostname.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/remote-network4-list.json /usr/share/kea/api/remote-network6-del.json /usr/lib/libkea-stats.so.16.1.1 /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/lease4-get-by-client-id.json /
+ usr/share/kea/api/network4-list.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/remote-network6-list.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/dhcp-disable.json /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-option6-subnet-set.json /usr/share/kea/api/class-update.json /usr/share/kea/api/network6-list.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/list-comma
+ nds.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/remote-option4-global-get.json"
+packages/core2-32-poky-linux/kea/kea-dev: PKGSIZE changed from 3458982 to 3511432 (+2%)
+packages/core2-32-poky-linux/kea/kea-dev: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea/kea-dev: PV changed from "1.7.10" to "1.9.0"
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-util.so.15 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-process.so.10.0.0", added "/usr
+ /lib/libkea-eval.so.22.0.4 /usr/share/kea/api/cache-remove.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/lib/libkea-http.so.18.1.0 /usr/share/kea/api/cache-clear.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/share/kea/api/remote-option6-global-del.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/remote-option-def6-set.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease4-resend-ddns.json /usr/sha
+ re/kea/api/cache-load.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/share/kea/api/build-report.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-hooks.so.26 /usr/lib/libkea-util.so.26 /usr/share/kea/api/cache-get.json /usr/share/kea/api/ha-sync.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/share/kea/api/remote-subnet6-set.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/statistic-remove-all.json /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/lease4-del.json /usr/lib/libkea-dhcp++.so.30 /usr/lib/libk
+ ea-log.so.6.0.1 /usr/share/kea/api/leases-reclaim.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/config-set.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/version-get.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/remote-option-def4-del.json /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/remote-server4-set.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/ha-continue.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/remote-global-paramet
+ er4-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/class-add.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-get.json /usr/lib/libkea-eval.so.22 /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/status-get.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/network4-add.json /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/class-list.json /usr/share/kea/api/remote-network4-set.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/class-del.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/cache-flush.json /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-u
+ til.so.26.1.0 /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/network6-get.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-scopes.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-list.json /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/reservation-get-all.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/subnet6-add.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/remote-option4-global-set.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-del.json /usr/share/kea/api/config-reload.json /usr/share/ke
+ a/api/subnet6-del.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/class-get.json /usr/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/remote-global-parameter4-get.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/reservation-get-page.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease6-get.json /usr/share/kea/api/cache-size.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/config-get.json /usr/share/kea/api/config-test.json /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/libreload.json /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/statist
+ ic-reset.json /usr/share/kea/api/network6-subnet-add.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/subnet4-add.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/lease6-get-by-hostname.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/remote-network4-list.json /usr/share/kea/api/remote-network6-del.json /usr/lib/libkea-stats.so.16.1.1 /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/lease4-get-by-client-id.json /
+ usr/share/kea/api/network4-list.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/remote-network6-list.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/dhcp-disable.json /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-option6-subnet-set.json /usr/share/kea/api/class-update.json /usr/share/kea/api/network6-list.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/list-comma
+ nds.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/remote-option4-global-get.json"
+packages/core2-32-poky-linux/kea/kea-doc: PKGSIZE changed from 889774 to 897867 (+1%)
+packages/core2-32-poky-linux/kea/kea-doc: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea/kea-doc: PV changed from "1.7.10" to "1.9.0"
+packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-util.so.15 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-process.so.10.0.0", added "/
+ usr/lib/libkea-eval.so.22.0.4 /usr/share/kea/api/cache-remove.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/lib/libkea-http.so.18.1.0 /usr/share/kea/api/cache-clear.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/share/kea/api/remote-option6-global-del.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/remote-option-def6-set.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease4-resend-ddns.json /usr/
+ share/kea/api/cache-load.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/share/kea/api/build-report.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-hooks.so.26 /usr/lib/libkea-util.so.26 /usr/share/kea/api/cache-get.json /usr/share/kea/api/ha-sync.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/share/kea/api/remote-subnet6-set.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/statistic-remove-all.json /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/lease4-del.json /usr/lib/libkea-dhcp++.so.30 /usr/lib/l
+ ibkea-log.so.6.0.1 /usr/share/kea/api/leases-reclaim.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/config-set.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/version-get.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/remote-option-def4-del.json /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/remote-server4-set.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/ha-continue.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/remote-global-para
+ meter4-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/class-add.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-get.json /usr/lib/libkea-eval.so.22 /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/status-get.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/network4-add.json /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/class-list.json /usr/share/kea/api/remote-network4-set.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/class-del.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/cache-flush.json /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libke
+ a-util.so.26.1.0 /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/network6-get.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-scopes.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-list.json /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/reservation-get-all.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/subnet6-add.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/remote-option4-global-set.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-del.json /usr/share/kea/api/config-reload.json /usr/share
+ /kea/api/subnet6-del.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/class-get.json /usr/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/remote-global-parameter4-get.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/reservation-get-page.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease6-get.json /usr/share/kea/api/cache-size.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/config-get.json /usr/share/kea/api/config-test.json /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/libreload.json /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/stat
+ istic-reset.json /usr/share/kea/api/network6-subnet-add.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/subnet4-add.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/lease6-get-by-hostname.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/remote-network4-list.json /usr/share/kea/api/remote-network6-del.json /usr/lib/libkea-stats.so.16.1.1 /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/lease4-get-by-client-id.jso
+ n /usr/share/kea/api/network4-list.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/remote-network6-list.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/dhcp-disable.json /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-option6-subnet-set.json /usr/share/kea/api/class-update.json /usr/share/kea/api/network6-list.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/list-co
+ mmands.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/remote-option4-global-get.json"
+packages/core2-32-poky-linux/kea/kea-locale: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea/kea-locale: PV changed from "1.7.10" to "1.9.0"
+packages/core2-32-poky-linux/kea/kea-src: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-util.so.15 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-process.so.10.0.0", added "/usr
+ /lib/libkea-eval.so.22.0.4 /usr/share/kea/api/cache-remove.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/lib/libkea-http.so.18.1.0 /usr/share/kea/api/cache-clear.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/share/kea/api/remote-option6-global-del.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/remote-option-def6-set.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease4-resend-ddns.json /usr/sha
+ re/kea/api/cache-load.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/share/kea/api/build-report.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-hooks.so.26 /usr/lib/libkea-util.so.26 /usr/share/kea/api/cache-get.json /usr/share/kea/api/ha-sync.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/share/kea/api/remote-subnet6-set.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/statistic-remove-all.json /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/lease4-del.json /usr/lib/libkea-dhcp++.so.30 /usr/lib/libk
+ ea-log.so.6.0.1 /usr/share/kea/api/leases-reclaim.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/config-set.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/version-get.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/remote-option-def4-del.json /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/remote-server4-set.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/ha-continue.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/remote-global-paramet
+ er4-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/class-add.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-get.json /usr/lib/libkea-eval.so.22 /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/status-get.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/network4-add.json /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/class-list.json /usr/share/kea/api/remote-network4-set.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/class-del.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/cache-flush.json /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-u
+ til.so.26.1.0 /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/network6-get.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-scopes.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-list.json /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/reservation-get-all.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/subnet6-add.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/remote-option4-global-set.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-del.json /usr/share/kea/api/config-reload.json /usr/share/ke
+ a/api/subnet6-del.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/class-get.json /usr/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/remote-global-parameter4-get.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/reservation-get-page.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease6-get.json /usr/share/kea/api/cache-size.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/config-get.json /usr/share/kea/api/config-test.json /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/libreload.json /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/statist
+ ic-reset.json /usr/share/kea/api/network6-subnet-add.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/subnet4-add.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/lease6-get-by-hostname.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/remote-network4-list.json /usr/share/kea/api/remote-network6-del.json /usr/lib/libkea-stats.so.16.1.1 /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/lease4-get-by-client-id.json /
+ usr/share/kea/api/network4-list.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/remote-network6-list.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/dhcp-disable.json /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-option6-subnet-set.json /usr/share/kea/api/class-update.json /usr/share/kea/api/network6-list.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/list-comma
+ nds.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/remote-option4-global-get.json"
+packages/core2-32-poky-linux/kea/kea-src: PKGSIZE changed from 8192136 to 8318945 (+2%)
+packages/core2-32-poky-linux/kea/kea-src: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea/kea-src: PV changed from "1.7.10" to "1.9.0"
+packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-util.so.15 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-process.so.10.0.0", added
+  "/usr/lib/libkea-eval.so.22.0.4 /usr/share/kea/api/cache-remove.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/lib/libkea-http.so.18.1.0 /usr/share/kea/api/cache-clear.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/share/kea/api/remote-option6-global-del.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/remote-option-def6-set.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease4-resend-ddns.json /u
+ sr/share/kea/api/cache-load.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/share/kea/api/build-report.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-hooks.so.26 /usr/lib/libkea-util.so.26 /usr/share/kea/api/cache-get.json /usr/share/kea/api/ha-sync.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/share/kea/api/remote-subnet6-set.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/statistic-remove-all.json /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/lease4-del.json /usr/lib/libkea-dhcp++.so.30 /usr/li
+ b/libkea-log.so.6.0.1 /usr/share/kea/api/leases-reclaim.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/config-set.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/version-get.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/remote-option-def4-del.json /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/remote-server4-set.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/ha-continue.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/remote-global-p
+ arameter4-del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/class-add.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-get.json /usr/lib/libkea-eval.so.22 /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/status-get.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/network4-add.json /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/class-list.json /usr/share/kea/api/remote-network4-set.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/class-del.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/cache-flush.json /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/li
+ bkea-util.so.26.1.0 /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/network6-get.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-scopes.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-list.json /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/reservation-get-all.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/subnet6-add.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/remote-option4-global-set.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-del.json /usr/share/kea/api/config-reload.json /usr/sh
+ are/kea/api/subnet6-del.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/class-get.json /usr/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/remote-global-parameter4-get.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/reservation-get-page.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease6-get.json /usr/share/kea/api/cache-size.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/config-get.json /usr/share/kea/api/config-test.json /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/libreload.json /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/s
+ tatistic-reset.json /usr/share/kea/api/network6-subnet-add.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/subnet4-add.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/lease6-get-by-hostname.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/remote-network4-list.json /usr/share/kea/api/remote-network6-del.json /usr/lib/libkea-stats.so.16.1.1 /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/lease4-get-by-client-id.
+ json /usr/share/kea/api/network4-list.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/remote-network6-list.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/dhcp-disable.json /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-option6-subnet-set.json /usr/share/kea/api/class-update.json /usr/share/kea/api/network6-list.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/list
+ -commands.json /usr/share/kea/api/shutdown.json /usr/share/kea/api/remote-option4-global-get.json"
+packages/core2-32-poky-linux/kea/kea-staticdev: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea/kea-staticdev: PV changed from "1.7.10" to "1.9.0"
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-eval.so.12.0.3 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-eval.so.12 /usr/lib/libkea-stats.so.6 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-util.so.15 /usr/lib/libkea-stats.so.6.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-process.so.10.0.0", added "/usr/lib
+ /libkea-eval.so.22.0.4 /usr/share/kea/api/cache-remove.json /usr/share/kea/api/ha-maintenance-cancel.json /usr/lib/libkea-http.so.18.1.0 /usr/share/kea/api/cache-clear.json /usr/share/kea/api/remote-subnet6-list.json /usr/share/kea/api/remote-option4-subnet-del.json /usr/share/kea/api/remote-subnet4-list.json /usr/share/kea/api/remote-global-parameter6-get-all.json /usr/share/kea/api/remote-option6-global-del.json /usr/share/kea/api/remote-subnet4-get-by-id.json /usr/share/kea/api/remote-option-def6-set.json /usr/share/kea/api/lease6-update.json /usr/share/kea/api/reservation-get-by-hostname.json /usr/share/kea/api/subnet4-get.json /usr/share/kea/api/lease6-wipe.json /usr/share/kea/api/remote-option4-global-del.json /usr/share/kea/api/remote-option6-network-del.json /usr/share/kea/api/subnet6-update.json /usr/share/kea/api/reservation-get.json /usr/share/kea/api/reservation-add.json /usr/share/kea/api/reservation-get-by-id.json /usr/share/kea/api/lease4-resend-ddns.json /usr/share/k
+ ea/api/cache-load.json /usr/share/kea/api/remote-option-def4-get.json /usr/share/kea/api/remote-option6-pd-pool-del.json /usr/share/kea/api/remote-option6-subnet-del.json /usr/share/kea/api/build-report.json /usr/share/kea/api/remote-subnet6-del-by-id.json /usr/lib/libkea-hooks.so.26 /usr/lib/libkea-util.so.26 /usr/share/kea/api/cache-get.json /usr/share/kea/api/ha-sync.json /usr/share/kea/api/remote-network6-set.json /usr/share/kea/api/statistic-sample-count-set-all.json /usr/share/kea/api/remote-subnet6-set.json /usr/share/kea/api/remote-option4-subnet-set.json /usr/share/kea/api/ha-maintenance-notify.json /usr/share/kea/api/network4-del.json /usr/share/kea/api/network4-subnet-add.json /usr/share/kea/api/remote-server4-get.json /usr/share/kea/api/statistic-remove-all.json /usr/share/kea/api/remote-global-parameter6-set.json /usr/share/kea/api/remote-server6-set.json /usr/share/kea/api/lease6-add.json /usr/share/kea/api/lease4-del.json /usr/lib/libkea-dhcp++.so.30 /usr/lib/libkea-l
+ og.so.6.0.1 /usr/share/kea/api/leases-reclaim.json /usr/lib/libkea-dhcpsrv.so.38.0.0 /usr/share/kea/api/remote-subnet4-del-by-prefix.json /usr/share/kea/api/remote-option4-global-get-all.json /usr/share/kea/api/subnet6-list.json /usr/share/kea/api/dhcp-enable.json /usr/share/kea/api/remote-option6-global-get.json /usr/share/kea/api/remote-server6-del.json /usr/share/kea/api/config-set.json /usr/share/kea/api/remote-option6-global-get-all.json /usr/share/kea/api/remote-option6-pool-del.json /usr/share/kea/api/version-get.json /usr/lib/libkea-database.so.6 /usr/share/kea/api/remote-option-def4-del.json /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-exceptions.so.0.2.1 /usr/share/kea/api/remote-option-def4-set.json /usr/share/kea/api/remote-server4-set.json /usr/lib/libkea-http.so.18 /usr/share/kea/api/ha-continue.json /usr/share/kea/api/stat-lease4-get.json /usr/share/kea/api/network6-del.json /usr/share/kea/api/remote-option6-pool-set.json /usr/share/kea/api/remote-global-parameter4-
+ del.json /usr/lib/libkea-cfgclient.so.10 /usr/share/kea/api/remote-network4-del.json /usr/share/kea/api/remote-subnet6-get-by-id.json /usr/share/kea/api/lease4-add.json /usr/share/kea/api/class-add.json /usr/share/kea/api/remote-option-def6-get.json /usr/share/kea/api/statistic-get.json /usr/lib/libkea-eval.so.22 /usr/share/kea/api/lease6-bulk-apply.json /usr/share/kea/api/status-get.json /usr/share/kea/api/subnet6-get.json /usr/share/kea/api/lease6-resend-ddns.json /usr/share/kea/api/network4-subnet-del.json /usr/share/kea/api/network4-add.json /usr/share/kea/api/lease4-wipe.json /usr/share/kea/api/class-list.json /usr/share/kea/api/remote-network4-set.json /usr/lib/libkea-process.so.11.0.0 /usr/share/kea/api/class-del.json /usr/share/kea/api/lease6-get-all.json /usr/share/kea/api/cache-flush.json /usr/lib/libkea-cfgclient.so.10.0.0 /usr/share/kea/api/remote-network4-get.json /usr/share/kea/api/remote-option6-global-set.json /usr/share/kea/api/subnet4-del.json /usr/lib/libkea-util.
+ so.26.1.0 /usr/share/kea/api/lease6-get-page.json /usr/share/kea/api/statistic-sample-age-set.json /usr/share/kea/api/network6-subnet-del.json /usr/share/kea/api/lease4-get-by-hostname.json /usr/share/kea/api/network6-get.json /usr/share/kea/api/statistic-remove.json /usr/share/kea/api/cache-insert.json /usr/share/kea/api/statistic-reset-all.json /usr/share/kea/api/ha-scopes.json /usr/share/kea/api/lease4-get-all.json /usr/share/kea/api/config-write.json /usr/share/kea/api/subnet4-list.json /usr/lib/libkea-asiolink.so.19.1.0 /usr/share/kea/api/statistic-get-all.json /usr/share/kea/api/remote-subnet4-del-by-id.json /usr/share/kea/api/remote-global-parameter4-get-all.json /usr/share/kea/api/reservation-get-all.json /usr/lib/libkea-hooks.so.26.0.0 /usr/share/kea/api/subnet6-add.json /usr/lib/libkea-asiolink.so.19 /usr/share/kea/api/remote-option4-global-set.json /usr/lib/libkea-process.so.11 /usr/share/kea/api/reservation-del.json /usr/share/kea/api/config-reload.json /usr/share/kea/ap
+ i/subnet6-del.json /usr/share/kea/api/stat-lease6-get.json /usr/share/kea/api/class-get.json /usr/lib/libkea-cc.so.8.1.5 /usr/share/kea/api/remote-global-parameter4-get.json /usr/share/kea/api/remote-option6-network-set.json /usr/share/kea/api/network6-add.json /usr/share/kea/api/remote-global-parameter6-get.json /usr/share/kea/api/statistic-sample-age-set-all.json /usr/share/kea/api/lease4-get-page.json /usr/share/kea/api/remote-option-def6-del.json /usr/share/kea/api/reservation-get-page.json /usr/share/kea/api/lease4-get-by-hw-address.json /usr/share/kea/api/lease6-get.json /usr/share/kea/api/cache-size.json /usr/share/kea/api/network4-get.json /usr/share/kea/api/config-get.json /usr/share/kea/api/config-test.json /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp_ddns.so.3 /usr/share/kea/api/libreload.json /usr/share/kea/api/remote-global-parameter4-set.json /usr/share/kea/api/remote-server4-del.json /usr/share/kea/api/ha-maintenance-start.json /usr/share/kea/api/statistic-r
+ eset.json /usr/share/kea/api/network6-subnet-add.json /usr/lib/libkea-asiodns.so.1.0.1 /usr/share/kea/api/remote-server4-get-all.json /usr/share/kea/api/remote-subnet6-del-by-prefix.json /usr/share/kea/api/statistic-sample-count-set.json /usr/share/kea/api/remote-option-def4-get-all.json /usr/share/kea/api/subnet4-add.json /usr/lib/libkea-dhcp++.so.30.0.0 /usr/share/kea/api/remote-option4-network-set.json /usr/share/kea/api/remote-global-parameter6-del.json /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-stats.so.16 /usr/share/kea/api/remote-option4-network-del.json /usr/share/kea/api/cache-write.json /usr/share/kea/api/cache-get-by-id.json /usr/share/kea/api/lease6-get-by-hostname.json /usr/share/kea/api/remote-network6-get.json /usr/share/kea/api/remote-subnet4-get-by-prefix.json /usr/share/kea/api/remote-network4-list.json /usr/share/kea/api/remote-network6-del.json /usr/lib/libkea-stats.so.16.1.1 /usr/lib/libkea-dns++.so.5 /usr/share/kea/api/lease4-get-by-client-id.json /usr/
+ share/kea/api/network4-list.json /usr/share/kea/api/remote-server6-get-all.json /usr/share/kea/api/lease4-update.json /usr/share/kea/api/config-backend-pull.json /usr/share/kea/api/remote-network6-list.json /usr/share/kea/api/remote-option-def6-get-all.json /usr/lib/libkea-dhcpsrv.so.38 /usr/share/kea/api/dhcp-disable.json /usr/share/kea/api/server-tag-get.json /usr/share/kea/api/lease6-del.json /usr/share/kea/api/remote-subnet4-set.json /usr/share/kea/api/remote-subnet6-get-by-prefix.json /usr/share/kea/api/remote-option4-pool-del.json /usr/share/kea/api/remote-option6-subnet-set.json /usr/share/kea/api/class-update.json /usr/share/kea/api/network6-list.json /usr/share/kea/api/remote-option4-pool-set.json /usr/share/kea/api/remote-option6-pd-pool-set.json /usr/share/kea/api/subnet4-update.json /usr/share/kea/api/lease4-get.json /usr/share/kea/api/remote-server6-get.json /usr/share/kea/api/ha-heartbeat.json /usr/share/kea/api/lease6-get-by-duid.json /usr/share/kea/api/list-commands.
+ json /usr/share/kea/api/shutdown.json /usr/share/kea/api/remote-option4-global-get.json"
+packages/core2-32-poky-linux/kea/kea: PKGSIZE changed from 14112316 to 14648065 (+4%)
+packages/core2-32-poky-linux/kea/kea: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea/kea: PV changed from "1.7.10" to "1.9.0"
+packages/core2-32-poky-linux/kea: PKGV changed from 1.7.10 [default] to 1.9.0 [default]
+packages/core2-32-poky-linux/kea: PV changed from "1.7.10" to "1.9.0"
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-asiodns.so.1 changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.7.1.0 to libkea-asiolink.so.19.1.0
+  /usr/lib/libkea-cc.so.8 changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.9.0.0 to libkea-cfgclient.so.10.0.0
+  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.5.1.0 to libkea-database.so.6.1.0
+  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.2.0.1 to libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.18.0.0 to libkea-dhcp++.so.30.0.0
+  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.26.0.0 to libkea-dhcpsrv.so.38.0.0
+  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.4.0.0 to libkea-dns++.so.5.0.0
+  /usr/lib/libkea-eval.so changed symlink target from libkea-eval.so.12.0.3 to libkea-eval.so.22.0.4
+  /usr/lib/libkea-exceptions.so.0 changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-exceptions.so changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.15.0.0 to libkea-hooks.so.26.0.0
+  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.6.1.2 to libkea-http.so.18.1.0
+  /usr/lib/libkea-log.so.6 changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.10.0.0 to libkea-process.so.11.0.0
+  /usr/lib/libkea-stats.so changed symlink target from libkea-stats.so.6.1.0 to libkea-stats.so.16.1.1
+  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.15.0.0 to libkea-util.so.26.1.0
+  /usr/lib/libkea-asiodns.so.1.0.0 moved to /usr/lib/libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-cc.so.8.1.4 moved to /usr/lib/libkea-cc.so.8.1.5
+  /usr/lib/libkea-database.so.5.1.0 moved to /usr/lib/libkea-database.so.6.1.0
+  /usr/lib/libkea-database.so.5 moved to /usr/lib/libkea-database.so.6
+  /usr/lib/libkea-dhcp_ddns.so.2.0.1 moved to /usr/lib/libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp_ddns.so.2 moved to /usr/lib/libkea-dhcp_ddns.so.3
+  /usr/lib/libkea-dhcp++.so.18.0.0 moved to /usr/lib/libkea-dhcp++.so.30.0.0
+  /usr/lib/libkea-dhcp++.so.18 moved to /usr/lib/libkea-dhcp++.so.30
+  /usr/lib/libkea-dhcpsrv.so.26.0.0 moved to /usr/lib/libkea-dhcpsrv.so.38.0.0
+  /usr/lib/libkea-dhcpsrv.so.26 moved to /usr/lib/libkea-dhcpsrv.so.38
+  /usr/lib/libkea-dns++.so.4.0.0 moved to /usr/lib/libkea-dns++.so.5.0.0
+  /usr/lib/libkea-dns++.so.4 moved to /usr/lib/libkea-dns++.so.5
+  /usr/lib/libkea-eval.so.12.0.3 moved to /usr/lib/libkea-eval.so.22.0.4
+  /usr/lib/libkea-eval.so.12 moved to /usr/lib/libkea-eval.so.22
+  /usr/lib/libkea-exceptions.so.0.2.0 moved to /usr/lib/libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so.15.0.0 moved to /usr/lib/libkea-hooks.so.26.0.0
+  /usr/lib/libkea-hooks.so.15 moved to /usr/lib/libkea-hooks.so.26
+  /usr/lib/libkea-log.so.6.0.0 moved to /usr/lib/libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so.10.0.0 moved to /usr/lib/libkea-process.so.11.0.0
+  /usr/lib/libkea-process.so.10 moved to /usr/lib/libkea-process.so.11
+  /usr/lib/libkea-util.so.15.0.0 moved to /usr/lib/libkea-util.so.26.1.0
+  /usr/lib/libkea-util.so.15 moved to /usr/lib/libkea-util.so.26
+  /usr/include/kea/dhcpsrv/free_lease_queue.h was added
+  /usr/include/kea/dhcpsrv/ip_range.h was added
+  /usr/include/kea/dhcpsrv/ip_range_permutation.h was added
+  /usr/include/kea/http/auth_config.h was added
+  /usr/include/kea/http/basic_auth_config.h was added
+  /usr/include/kea/http/basic_auth.h was added
+  /usr/include/kea/util/encode/utf8.h was added
+  /usr/lib/libkea-asiolink.so.19.1.0 was added
+  /usr/lib/libkea-asiolink.so.19 was added
+  /usr/lib/libkea-cfgclient.so.10.0.0 was added
+  /usr/lib/libkea-cfgclient.so.10 was added
+  /usr/lib/libkea-http.so.18.1.0 was added
+  /usr/lib/libkea-http.so.18 was added
+  /usr/lib/libkea-stats.so.16.1.1 was added
+  /usr/lib/libkea-stats.so.16 was added
+  /usr/share/kea/api was added
+  /usr/share/kea/api/build-report.json was added
+  /usr/share/kea/api/cache-clear.json was added
+  /usr/share/kea/api/cache-flush.json was added
+  /usr/share/kea/api/cache-get-by-id.json was added
+  /usr/share/kea/api/cache-get.json was added
+  /usr/share/kea/api/cache-insert.json was added
+  /usr/share/kea/api/cache-load.json was added
+  /usr/share/kea/api/cache-remove.json was added
+  /usr/share/kea/api/cache-size.json was added
+  /usr/share/kea/api/cache-write.json was added
+  /usr/share/kea/api/class-add.json was added
+  /usr/share/kea/api/class-del.json was added
+  /usr/share/kea/api/class-get.json was added
+  /usr/share/kea/api/class-list.json was added
+  /usr/share/kea/api/class-update.json was added
+  /usr/share/kea/api/config-backend-pull.json was added
+  /usr/share/kea/api/config-get.json was added
+  /usr/share/kea/api/config-reload.json was added
+  /usr/share/kea/api/config-set.json was added
+  /usr/share/kea/api/config-test.json was added
+  /usr/share/kea/api/config-write.json was added
+  /usr/share/kea/api/dhcp-disable.json was added
+  /usr/share/kea/api/dhcp-enable.json was added
+  /usr/share/kea/api/ha-continue.json was added
+  /usr/share/kea/api/ha-heartbeat.json was added
+  /usr/share/kea/api/ha-maintenance-cancel.json was added
+  /usr/share/kea/api/ha-maintenance-notify.json was added
+  /usr/share/kea/api/ha-maintenance-start.json was added
+  /usr/share/kea/api/ha-scopes.json was added
+  /usr/share/kea/api/ha-sync.json was added
+  /usr/share/kea/api/lease4-add.json was added
+  /usr/share/kea/api/lease4-del.json was added
+  /usr/share/kea/api/lease4-get-all.json was added
+  /usr/share/kea/api/lease4-get-by-client-id.json was added
+  /usr/share/kea/api/lease4-get-by-hostname.json was added
+  /usr/share/kea/api/lease4-get-by-hw-address.json was added
+  /usr/share/kea/api/lease4-get.json was added
+  /usr/share/kea/api/lease4-get-page.json was added
+  /usr/share/kea/api/lease4-resend-ddns.json was added
+  /usr/share/kea/api/lease4-update.json was added
+  /usr/share/kea/api/lease4-wipe.json was added
+  /usr/share/kea/api/lease6-add.json was added
+  /usr/share/kea/api/lease6-bulk-apply.json was added
+  /usr/share/kea/api/lease6-del.json was added
+  /usr/share/kea/api/lease6-get-all.json was added
+  /usr/share/kea/api/lease6-get-by-duid.json was added
+  /usr/share/kea/api/lease6-get-by-hostname.json was added
+  /usr/share/kea/api/lease6-get.json was added
+  /usr/share/kea/api/lease6-get-page.json was added
+  /usr/share/kea/api/lease6-resend-ddns.json was added
+  /usr/share/kea/api/lease6-update.json was added
+  /usr/share/kea/api/lease6-wipe.json was added
+  /usr/share/kea/api/leases-reclaim.json was added
+  /usr/share/kea/api/libreload.json was added
+  /usr/share/kea/api/list-commands.json was added
+  /usr/share/kea/api/network4-add.json was added
+  /usr/share/kea/api/network4-del.json was added
+  /usr/share/kea/api/network4-get.json was added
+  /usr/share/kea/api/network4-list.json was added
+  /usr/share/kea/api/network4-subnet-add.json was added
+  /usr/share/kea/api/network4-subnet-del.json was added
+  /usr/share/kea/api/network6-add.json was added
+  /usr/share/kea/api/network6-del.json was added
+  /usr/share/kea/api/network6-get.json was added
+  /usr/share/kea/api/network6-list.json was added
+  /usr/share/kea/api/network6-subnet-add.json was added
+  /usr/share/kea/api/network6-subnet-del.json was added
+  /usr/share/kea/api/remote-global-parameter4-del.json was added
+  /usr/share/kea/api/remote-global-parameter4-get-all.json was added
+  /usr/share/kea/api/remote-global-parameter4-get.json was added
+  /usr/share/kea/api/remote-global-parameter4-set.json was added
+  /usr/share/kea/api/remote-global-parameter6-del.json was added
+  /usr/share/kea/api/remote-global-parameter6-get-all.json was added
+  /usr/share/kea/api/remote-global-parameter6-get.json was added
+  /usr/share/kea/api/remote-global-parameter6-set.json was added
+  /usr/share/kea/api/remote-network4-del.json was added
+  /usr/share/kea/api/remote-network4-get.json was added
+  /usr/share/kea/api/remote-network4-list.json was added
+  /usr/share/kea/api/remote-network4-set.json was added
+  /usr/share/kea/api/remote-network6-del.json was added
+  /usr/share/kea/api/remote-network6-get.json was added
+  /usr/share/kea/api/remote-network6-list.json was added
+  /usr/share/kea/api/remote-network6-set.json was added
+  /usr/share/kea/api/remote-option4-global-del.json was added
+  /usr/share/kea/api/remote-option4-global-get-all.json was added
+  /usr/share/kea/api/remote-option4-global-get.json was added
+  /usr/share/kea/api/remote-option4-global-set.json was added
+  /usr/share/kea/api/remote-option4-network-del.json was added
+  /usr/share/kea/api/remote-option4-network-set.json was added
+  /usr/share/kea/api/remote-option4-pool-del.json was added
+  /usr/share/kea/api/remote-option4-pool-set.json was added
+  /usr/share/kea/api/remote-option4-subnet-del.json was added
+  /usr/share/kea/api/remote-option4-subnet-set.json was added
+  /usr/share/kea/api/remote-option6-global-del.json was added
+  /usr/share/kea/api/remote-option6-global-get-all.json was added
+  /usr/share/kea/api/remote-option6-global-get.json was added
+  /usr/share/kea/api/remote-option6-global-set.json was added
+  /usr/share/kea/api/remote-option6-network-del.json was added
+  /usr/share/kea/api/remote-option6-network-set.json was added
+  /usr/share/kea/api/remote-option6-pd-pool-del.json was added
+  /usr/share/kea/api/remote-option6-pd-pool-set.json was added
+  /usr/share/kea/api/remote-option6-pool-del.json was added
+  /usr/share/kea/api/remote-option6-pool-set.json was added
+  /usr/share/kea/api/remote-option6-subnet-del.json was added
+  /usr/share/kea/api/remote-option6-subnet-set.json was added
+  /usr/share/kea/api/remote-option-def4-del.json was added
+  /usr/share/kea/api/remote-option-def4-get-all.json was added
+  /usr/share/kea/api/remote-option-def4-get.json was added
+  /usr/share/kea/api/remote-option-def4-set.json was added
+  /usr/share/kea/api/remote-option-def6-del.json was added
+  /usr/share/kea/api/remote-option-def6-get-all.json was added
+  /usr/share/kea/api/remote-option-def6-get.json was added
+  /usr/share/kea/api/remote-option-def6-set.json was added
+  /usr/share/kea/api/remote-server4-del.json was added
+  /usr/share/kea/api/remote-server4-get-all.json was added
+  /usr/share/kea/api/remote-server4-get.json was added
+  /usr/share/kea/api/remote-server4-set.json was added
+  /usr/share/kea/api/remote-server6-del.json was added
+  /usr/share/kea/api/remote-server6-get-all.json was added
+  /usr/share/kea/api/remote-server6-get.json was added
+  /usr/share/kea/api/remote-server6-set.json was added
+  /usr/share/kea/api/remote-subnet4-del-by-id.json was added
+  /usr/share/kea/api/remote-subnet4-del-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet4-get-by-id.json was added
+  /usr/share/kea/api/remote-subnet4-get-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet4-list.json was added
+  /usr/share/kea/api/remote-subnet4-set.json was added
+  /usr/share/kea/api/remote-subnet6-del-by-id.json was added
+  /usr/share/kea/api/remote-subnet6-del-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet6-get-by-id.json was added
+  /usr/share/kea/api/remote-subnet6-get-by-prefix.json was added
+  /usr/share/kea/api/remote-subnet6-list.json was added
+  /usr/share/kea/api/remote-subnet6-set.json was added
+  /usr/share/kea/api/reservation-add.json was added
+  /usr/share/kea/api/reservation-del.json was added
+  /usr/share/kea/api/reservation-get-all.json was added
+  /usr/share/kea/api/reservation-get-by-hostname.json was added
+  /usr/share/kea/api/reservation-get-by-id.json was added
+  /usr/share/kea/api/reservation-get.json was added
+  /usr/share/kea/api/reservation-get-page.json was added
+  /usr/share/kea/api/server-tag-get.json was added
+  /usr/share/kea/api/shutdown.json was added
+  /usr/share/kea/api/statistic-get-all.json was added
+  /usr/share/kea/api/statistic-get.json was added
+  /usr/share/kea/api/statistic-remove-all.json was added
+  /usr/share/kea/api/statistic-remove.json was added
+  /usr/share/kea/api/statistic-reset-all.json was added
+  /usr/share/kea/api/statistic-reset.json was added
+  /usr/share/kea/api/statistic-sample-age-set-all.json was added
+  /usr/share/kea/api/statistic-sample-age-set.json was added
+  /usr/share/kea/api/statistic-sample-count-set-all.json was added
+  /usr/share/kea/api/statistic-sample-count-set.json was added
+  /usr/share/kea/api/stat-lease4-get.json was added
+  /usr/share/kea/api/stat-lease6-get.json was added
+  /usr/share/kea/api/status-get.json was added
+  /usr/share/kea/api/subnet4-add.json was added
+  /usr/share/kea/api/subnet4-del.json was added
+  /usr/share/kea/api/subnet4-get.json was added
+  /usr/share/kea/api/subnet4-list.json was added
+  /usr/share/kea/api/subnet4-update.json was added
+  /usr/share/kea/api/subnet6-add.json was added
+  /usr/share/kea/api/subnet6-del.json was added
+  /usr/share/kea/api/subnet6-get.json was added
+  /usr/share/kea/api/subnet6-list.json was added
+  /usr/share/kea/api/subnet6-update.json was added
+  /usr/share/kea/api/version-get.json was added
+  /usr/lib/libkea-asiolink.so.7.1.0 was removed
+  /usr/lib/libkea-asiolink.so.7 was removed
+  /usr/lib/libkea-cfgclient.so.9.0.0 was removed
+  /usr/lib/libkea-cfgclient.so.9 was removed
+  /usr/lib/libkea-http.so.6.1.2 was removed
+  /usr/lib/libkea-http.so.6 was removed
+  /usr/lib/libkea-stats.so.6.1.0 was removed
+  /usr/lib/libkea-stats.so.6 was removed
 
---===============4399820368060388850==--
+--===============0093112097749312302==--
