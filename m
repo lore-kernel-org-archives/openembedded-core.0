@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.12520.1602843683017164064
+ by mx.groups.io with SMTP id smtpd.web11.12220.1602843683020080320
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id F2CC838C166B
-	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:21 -0700 (PDT)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0121E38C166F
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] openssh: upgrading to 8.4p1 SUCCEEDED
-Message-ID: <MADEUP.163E71D66A8FD500.13247@lists.openembedded.org>
-X-Groupsio-MsgNum: 143412
-Content-Type: multipart/mixed; boundary="===============4272831179315986890=="
+Subject: [AUH] openssl: upgrading to 1.1.1h SUCCEEDED
+Message-ID: <MADEUP.163E71D66B298D86.21580@lists.openembedded.org>
+X-Groupsio-MsgNum: 143413
+Content-Type: multipart/mixed; boundary="===============4399820368060388850=="
 
---===============4272831179315986890==
+--===============4399820368060388850==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *openssh* to *8.4p1* has Succeeded.
+that the automatic attempt to upgrade the recipe *openssl* to *1.1.1h* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-openssh-upgrade-8.3p1-8.4p1.patch
+    - apply the patch: git am 0001-openssl-upgrade-1.1.1g-1.1.1h.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,88 +44,121 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4272831179315986890==
+--===============4399820368060388850==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-openssh-upgrade-8.3p1-8.4p1.patch"
+ filename="0001-openssl-upgrade-1.1.1g-1.1.1h.patch"
 
-From ad5104f973b8db3f6d7f50ac35f9b6d15bfbbaea Mon Sep 17 00:00:00 2001
+From 5a30855afbb8ea7de66276a085e4fdcda20c04c0 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 00:07:02 +0000
-Subject: [PATCH] openssh: upgrade 8.3p1 -> 8.4p1
+Date: Fri, 16 Oct 2020 00:57:09 +0000
+Subject: [PATCH] openssl: upgrade 1.1.1g -> 1.1.1h
 
 ---
- .../openssh/{openssh_8.3p1.bb => openssh_8.4p1.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssh/{openssh_8.3p1.bb => openssh_8.4p1.bb} (98%)
+ .../openssl/files/environment.d-openssl.sh           |  1 -
+ meta/recipes-connectivity/openssl/openssl/run-ptest  | 12 ------------
+ .../openssl/{openssl_1.1.1g.bb => openssl_1.1.1h.bb} |  3 +--
+ 3 files changed, 1 insertion(+), 15 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/run-ptest
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1g.bb => openssl_1.1.1h.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_8.3p1.bb b/meta/recipes-connectivity/openssh/openssh_8.4p1.bb
+diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+deleted file mode 100644
+index b9cc24a7ac..0000000000
+--- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
++++ /dev/null
+@@ -1 +0,0 @@
+-export OPENSSL_CONF="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/openssl.cnf"
+diff --git a/meta/recipes-connectivity/openssl/openssl/run-ptest b/meta/recipes-connectivity/openssl/openssl/run-ptest
+deleted file mode 100644
+index 3fb22471f8..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/run-ptest
++++ /dev/null
+@@ -1,12 +0,0 @@
+-#!/bin/sh
+-
+-set -e
+-
+-# Optional arguments are 'list' to lists all tests, or the test name (base name
+-# ie test_evp, not 03_test_evp.t).
+-
+-export TOP=.
+-# OPENSSL_ENGINES is relative from the test binaries
+-export OPENSSL_ENGINES=../engines
+-
+-perl ./test/run_tests.pl $* | perl -0pe 's#(.*) \.*.ok#PASS: \1#g; s#(.*) \.*.skipped: (.*)#SKIP: \1 (\2)#g; s#(.*) \.*.\nDubious#FAIL: \1#;'
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb
 similarity index 98%
-rename from meta/recipes-connectivity/openssh/openssh_8.3p1.bb
-rename to meta/recipes-connectivity/openssh/openssh_8.4p1.bb
-index e007328704..720b238e71 100644
---- a/meta/recipes-connectivity/openssh/openssh_8.3p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_8.4p1.bb
-@@ -25,7 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://sshd_check_keys \
-            file://add-test-support-for-busybox.patch \
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1h.bb
+index 815955837b..fc0b0f839a 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb
+@@ -12,7 +12,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d343e62fc9c833710bbbed25f27364c8"
+ DEPENDS = "hostperl-runtime-native"
+ 
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+-           file://run-ptest \
+            file://0001-skip-test_symbol_presence.patch \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+@@ -23,7 +22,7 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
             "
--SRC_URI[sha256sum] = "f2befbe0472fe7eb75d23340eb17531cb6b3aac24075e2066b41f814e12387b2"
-+SRC_URI[sha256sum] = "5a01d22e407eb1c05ba8a8f7c654d388a13e9f226e4ed33bd38748dafa1d2b24"
  
- PAM_SRC_URI = "file://sshd"
+-SRC_URI[sha256sum] = "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
++SRC_URI[sha256sum] = "5c9ca8774bd7b03e5784f26ae9e9e6d749c9da2438545077e6b3d755a06595d9"
  
+ inherit lib_package multilib_header multilib_script ptest
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.18.4
 
 
---===============4272831179315986890==
+--===============4399820368060388850==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/openssh: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-dbg: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-dbg: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-dbg: PKGSIZE changed from 10948312 to 11109236 (+1%)
-packages/core2-32-poky-linux/openssh/openssh-dev: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-dev: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-doc: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-doc: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-doc: PKGSIZE changed from 298001 to 303199 (+2%)
-packages/core2-32-poky-linux/openssh/openssh-keygen: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-keygen: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-keygen: PKGSIZE changed from 533948 to 542140 (+2%)
-packages/core2-32-poky-linux/openssh/openssh-locale: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-locale: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-misc: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-misc: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-misc: PKGSIZE changed from 2571294 to 2608447 (+1%)
-packages/core2-32-poky-linux/openssh/openssh-ptest: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-ptest: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-ptest: PKGSIZE changed from 759369 to 817358 (+8%)
-packages/core2-32-poky-linux/openssh/openssh-scp: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-scp: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-sftp-server: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-sftp-server: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-sftp-server: PKGSIZE changed from 140716 to 144812 (+3%)
-packages/core2-32-poky-linux/openssh/openssh-sftp: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-sftp: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-src: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-src: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-src: PKGSIZE changed from 3069258 to 3097442 (+1%)
-packages/core2-32-poky-linux/openssh/openssh-ssh: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-ssh: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-ssh: PKGSIZE changed from 888004 to 896196 (+1%)
-packages/core2-32-poky-linux/openssh/openssh-sshd: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-sshd: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh-sshd: PKGSIZE changed from 1476470 to 1536687 (+4%)
-packages/core2-32-poky-linux/openssh/openssh-staticdev: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh-staticdev: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
-packages/core2-32-poky-linux/openssh/openssh: PV changed from "8.3p1" to "8.4p1"
-packages/core2-32-poky-linux/openssh/openssh: PKGV changed from 8.3p1 [default] to 8.4p1 [default]
+packages/core2-32-poky-linux/openssl: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/libcrypto: PKGSIZE changed from 2851620 to 2855716 (+0%)
+packages/core2-32-poky-linux/openssl/libcrypto: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/libcrypto: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/libssl: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/libssl: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-bin: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-bin: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-conf: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-conf: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-dbg: PKGSIZE changed from 89716164 to 94885960 (+6%)
+packages/core2-32-poky-linux/openssl/openssl-dbg: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-dbg: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-dev: PKGSIZE changed from 1371674 to 1372706 (+0%)
+packages/core2-32-poky-linux/openssl/openssl-dev: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-dev: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-doc: PKGSIZE changed from 132570 to 132734 (+0%)
+packages/core2-32-poky-linux/openssl/openssl-doc: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-doc: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-engines: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-engines: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-locale: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-locale: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-misc: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-misc: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-ptest: PKGSIZE changed from 62150597 to 64669405 (+4%)
+packages/core2-32-poky-linux/openssl/openssl-ptest: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-ptest: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-src: PKGSIZE changed from 23925768 to 23949480 (+0%)
+packages/core2-32-poky-linux/openssl/openssl-src: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-src: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl-staticdev: PKGSIZE changed from 12066112 to 12081192 (+0%)
+packages/core2-32-poky-linux/openssl/openssl-staticdev: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl-staticdev: PV changed from "1.1.1g" to "1.1.1h"
+packages/core2-32-poky-linux/openssl/openssl: PKGV changed from 1.1.1g [default] to 1.1.1h [default]
+packages/core2-32-poky-linux/openssl/openssl: PV changed from "1.1.1g" to "1.1.1h"
 
---===============4272831179315986890==--
+--===============4399820368060388850==--
