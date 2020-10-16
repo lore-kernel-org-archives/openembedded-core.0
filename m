@@ -1,90 +1,116 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.11556.1602840412422073786
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web12.11687.1602840413633327926
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 02:26:52 -0700
+ Fri, 16 Oct 2020 02:26:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qq9M+Nrn;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id h24so2130111ejg.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 02:26:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WNE3v49f;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id h24so2130193ejg.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 02:26:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=xM4uvJwKeZsgi2NUpoD2IgGmMveHA4r+qvCWumNtqf8=;
-        b=qq9M+Nrndv2omu8D8PA1d+ghPoFBnUtsE87q+EEIXbqOt0k0fMNSr1nvEz50lr8PsX
-         UefhPmcdH+uyWH5wwH5MxGobLMumHAsQ+rDycNmDUpDSwir+81Fm2w4mplLCTPcdTs9F
-         zek1mrVlY1GxGFVhcDaIIEkjR8paTVujnc212ychD0deV3XTBuWxUdKUGGasxqh6zSv7
-         Nl8hEyYtpPru9xRVDQRiDzrUqDQjyjlJ4bAZiHK0C1bg7aAQQ+QjbuIxb2S/XZenU97r
-         SGKJs6c0NNfKbDbVTe8YthoTbm+Fj0XvI5BleM30Yfy9KwoYIIlHHWxcr8eBFDVd35Fc
-         omNw==
+        bh=alvaXQ+KB52H0IEGs06EJfUZu+cv53uHoTpVUNyqOdk=;
+        b=WNE3v49fTMEL03fgZtqyOznp5TWGYxKYHT/zA+Ahb386WYFCAhpOpPEy3SvxDjq83w
+         3d+TNaWt4IuQy5/4MUnaGZiu+BAw6K+AQPrgLhrnlUICW8Tq/7nGCSXren/RVNCfXhAr
+         g4AwalOrkRbm1uYxve+bTwzwKshGuGUkL3CLRlHMhqAW3F5O7KagCguw04Fj1g0L/zmt
+         QE+XPBseivvaDe0a7MOXk6pji6vra2TU2S12Qu7hBrN69CM4PnKGGfUNBbuU/nBsAp7L
+         ommrAPXBzUTszR79mG4YwfWIJ557TmSuI5qC5+8zBdj3tBYYkoQeKlby+WwCai/RvXEv
+         4mQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=xM4uvJwKeZsgi2NUpoD2IgGmMveHA4r+qvCWumNtqf8=;
-        b=nwoumC6pWLnXrhvro55XSh4v3JvefSolo8ZbB7QdzqC9EZhkvk08Kur3LssG+OY+FM
-         vBqYX8kdnIUVYwu6Ve7iWKk3w10UjPczKPnyG3Eq5kDiNuHANFhqxNOhPOOgs+h+OnEN
-         40bS2mAIPM7qZ+5f7/SkuO5324nXWYTZKa+/2S5CPEDuRUHZp3PbM6UfuTdMR/QG0XIN
-         ZO5Ds9cFLjsKKzSn6a9hQ05Db+OY9bGRGip4uM5E7Ck7WFLsxt7Xfqt8ikMh+jUg0Mo6
-         bZj13bzvPRZOccGqFQElej2271EYYztEnAxefPx5cUscMAJ3r+KhKcze/1ZaCEgqcL+g
-         fhjQ==
-X-Gm-Message-State: AOAM532n/LRa4DkTjgAfcc936wkJFE/BpHyt1jz8YhmxO58Nfsj8j+25
-	8a7E+d7KCLPlO7M9mx5YBql6dBh82PU=
-X-Google-Smtp-Source: ABdhPJx1WLUbi3h5WhDJbY28q2W7aIhVqBt8RptVHpAwiKHnEtMtsBK9C2G/TSSu8BVek0k9BNXUxg==
-X-Received: by 2002:a17:906:44a:: with SMTP id e10mr2795222eja.401.1602840410681;
-        Fri, 16 Oct 2020 02:26:50 -0700 (PDT)
+        bh=alvaXQ+KB52H0IEGs06EJfUZu+cv53uHoTpVUNyqOdk=;
+        b=IRDgzv8LR9H9MPOzQGbtSs1mGoJqyJe91g0bjiBOA4VcnqfVs1wWThgyaKsc8PTzFO
+         6q1bc6sfa+0S419dtWuxKtm2r0uPr/AiYeB3Aw9j+/seh0F1lL2SKQYvyuHL9cfo3KKr
+         Lt0bCotQsVo7lmsWhIlqxHdq50Yb6X5WKCqfCuLOiOUle/UrASfD8zN6eIeEjSgRNHv4
+         OzetKviiJLgK4WbtCcLee597VrfqQSmr8SZn2KQD5RqwMgH5AroP7OaANtMhWPb2vYFs
+         SE4HxqMAN0hspcGNz0P1Pd0piBI45vs+bofEn9KV0Ad3mGNyz6n0HsMWaS9FugNbVJ5P
+         n8YA==
+X-Gm-Message-State: AOAM5330ygMHNGqJ5iifxKXnxEiwpjQeqZajuBor0HGn029/bBqq2uEq
+	Sc1oveZ3bg5TLEyr+79COtnjDyt38iw=
+X-Google-Smtp-Source: ABdhPJwopVpZmE2oFV2yIrkX/p3qcW7xHL7nTFu1Sk8FZANN+fMlWespi+sIMzofwmTcTcX0zvFuuw==
+X-Received: by 2002:a17:906:c43:: with SMTP id t3mr2650303ejf.219.1602840411784;
+        Fri, 16 Oct 2020 02:26:51 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id h15sm1170065ejf.50.2020.10.16.02.26.49
+        by smtp.gmail.com with ESMTPSA id x22sm1155438ejc.102.2020.10.16.02.26.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 02:26:50 -0700 (PDT)
+        Fri, 16 Oct 2020 02:26:51 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] arch-mips.inc: remove duplicated mips64el-o32 from PACKAGE_EXTRA_ARCHS_tune-mips64el-o32
-Date: Fri, 16 Oct 2020 11:26:40 +0200
-Message-Id: <20201016092641.3860384-2-Martin.Jansa@gmail.com>
+Subject: [PATCH][RFC] arch-arm64.inc: don't append ARMPKGSFX_ENDIAN_64 to TUNE_ARCH/TUNE_PKGARCH
+Date: Fri, 16 Oct 2020 11:26:41 +0200
+Message-Id: <20201016092641.3860384-3-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201016092641.3860384-1-Martin.Jansa@gmail.com>
 References: <20201016092641.3860384-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* broken since:
-  commit ae5073c4abd8935c01d14d3e6395124f815bd10b
-  Author: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-  Date:   Fri Sep 23 15:28:08 2016 +0100
+* the _be suffix is already included in ARMPKGARCH with:
+  ARMPKGARCH_tune-aarch64 ?= "aarch64"
+  ARMPKGARCH_tune-aarch64_be ?= "aarch64_be"
 
-    arch-mips: Add mips64-o32 tunes
+* broken since:
+  commit 08433cc58abf0cf3e42b22d20870a50287cfb8bc
+  Author: Khem Raj <raj.khem@gmail.com>
+  Date:   Tue May 26 16:10:37 2020 -0700
+
+    armv8/tunes: Set TUNE_PKGARCH_64 based on ARMPKGARCH
 
 * fixes:
-  scripts/tune/log.fake-mips-24k.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips32.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips32r2.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips32r6.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips64.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips64r2.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips64r6.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips-74k.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-octeon.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
+  scripts/tune/log.fake-cortexa32.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa32) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa34.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa34) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa35.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa35) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa53.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa53) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa55.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa55) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa57.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa57) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa57-cortexa53.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa57_cortexa53) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa65.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa65) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa65ae.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa65ae) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa72.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa72) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa72-cortexa53.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa72_cortexa53) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa73.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa73) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa73-cortexa35.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa73_cortexa35) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa73-cortexa53.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa73_cortexa53) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa75.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa75) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa75-cortexa55.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa75_cortexa55) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa76.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa76) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa76ae.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa76ae) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa76-cortexa55.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa76_cortexa55) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-cortexa77.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_cortexa77) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-neoversee1.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_neoversee1) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-neoversen1.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_neoversen1) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-thunderx.aarch64_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be fake_thunderx) for DEFAULTTUNE (aarch64_be) does not contain TUNE_PKGARCH (aarch64_be_be).
+  scripts/tune/log.fake-thunderx.thunderx_be:    Error, the PACKAGE_ARCHS variable (all any noarch aarch64_be thunderx_be fake_thunderx) for DEFAULTTUNE (thunderx_be) does not contain TUNE_PKGARCH (thunderx_be_be).
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/conf/machine/include/mips/arch-mips.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index b45989a775..cb1a4c443c 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -135,7 +135,7 @@ PACKAGE_EXTRA_ARCHS_tune-mips64-o32 = "mips mips64-o32"
- TUNE_FEATURES_tune-mips64el-o32 = "o32 fpu-hard"
- BASE_LIB_tune-mips64el-o32 = "lib"
- MIPSPKGSFX_VARIANT_tune-mips64el-o32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-o32 = "mipsel mips64el-o32 mips64el-o32"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-o32 = "mipsel mips64el-o32"
+RFC because I'm not sure what the original intention was and
+I'm not using any of these tune files (haven't even run another
+tune/test.sh with them).
+
+ meta/conf/machine/include/arm/arch-arm64.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+index 142342298f..499318241c 100644
+--- a/meta/conf/machine/include/arm/arch-arm64.inc
++++ b/meta/conf/machine/include/arm/arch-arm64.inc
+@@ -22,8 +22,8 @@ PACKAGE_EXTRA_ARCHS_tune-aarch64 = "aarch64"
+ PACKAGE_EXTRA_ARCHS_tune-aarch64_be = "aarch64_be"
  
- # MIPS 64 o32 and Soft Float
- AVAILTUNES += "mips64-nf-o32 mips64el-nf-o32"
+ ARMPKGSFX_ENDIAN_64 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '_be', '', d)}"
+-TUNE_ARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
+-TUNE_PKGARCH_64 = "${ARMPKGARCH}${ARMPKGSFX_ENDIAN_64}"
++TUNE_ARCH_64 = "${ARMPKGARCH}"
++TUNE_PKGARCH_64 = "${ARMPKGARCH}"
+ ABIEXTENSION_64 = ""
+ TARGET_FPU_64 = ""
+ 
