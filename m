@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.12220.1602843683020080320
+ by mx.groups.io with SMTP id smtpd.web11.12221.1602843683193938299
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 03:21:24 -0700
+ Fri, 16 Oct 2020 03:21:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 930AA38C179A
+	by mail.yoctoproject.org (Postfix) with ESMTP id 737D138C177C
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:22 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pycairo: upgrading to 1.20.0 SUCCEEDED
-Message-ID: <MADEUP.163E71D6A20D74CA.24086@lists.openembedded.org>
-X-Groupsio-MsgNum: 143437
-Content-Type: multipart/mixed; boundary="===============6769560770383123016=="
+Subject: [AUH] help2man: upgrading to 1.47.16 SUCCEEDED
+Message-ID: <MADEUP.163E71D69FEA02AA.24086@lists.openembedded.org>
+X-Groupsio-MsgNum: 143438
+Content-Type: multipart/mixed; boundary="===============5426519628605800279=="
 
---===============6769560770383123016==
+--===============5426519628605800279==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pycairo* to *1.20.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *help2man* to *1.47.16* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pycairo-upgrade-1.19.1-1.20.0.patch
+    - apply the patch: git am 0001-help2man-upgrade-1.47.15-1.47.16.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,92 +44,64 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6769560770383123016==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dev: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-doc: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-locale: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-staticdev: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-Changes to packages/core2-32-poky-linux/python3-pycairo (sysroot):
-  /usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info moved to /usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info
-
---===============6769560770383123016==
+--===============5426519628605800279==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-pycairo-upgrade-1.19.1-1.20.0.patch"
+ filename="0001-help2man-upgrade-1.47.15-1.47.16.patch"
 
-From 0035158ca67847576c4439a5abe8559d5d188ff5 Mon Sep 17 00:00:00 2001
+From ab5e2cec3039356ad518939c7ae8a5804a2b9b5b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 04:23:02 +0000
-Subject: [PATCH] python3-pycairo: upgrade 1.19.1 -> 1.20.0
+Date: Fri, 16 Oct 2020 03:09:25 +0000
+Subject: [PATCH] help2man: upgrade 1.47.15 -> 1.47.16
 
 ---
- .../{python3-pycairo_1.19.1.bb => python3-pycairo_1.20.0.bb}   | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pycairo_1.19.1.bb => python3-pycairo_1.20.0.bb} (84%)
+ .../help2man/{help2man_1.47.15.bb => help2man_1.47.16.bb}       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/help2man/{help2man_1.47.15.bb => help2man_1.47.16.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-pycairo_1.19.1.bb b/meta/recipes-devtools/python/python3-pycairo_1.20.0.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-pycairo_1.19.1.bb
-rename to meta/recipes-devtools/python/python3-pycairo_1.20.0.bb
-index 34c8543bce..50a2ba845d 100644
---- a/meta/recipes-devtools/python/python3-pycairo_1.19.1.bb
-+++ b/meta/recipes-devtools/python/python3-pycairo_1.20.0.bb
-@@ -13,8 +13,7 @@ DEPENDS = "cairo python3"
- SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
+diff --git a/meta/recipes-devtools/help2man/help2man_1.47.15.bb b/meta/recipes-devtools/help2man/help2man_1.47.16.bb
+similarity index 86%
+rename from meta/recipes-devtools/help2man/help2man_1.47.15.bb
+rename to meta/recipes-devtools/help2man/help2man_1.47.16.bb
+index 6ab9f6cbe7..27a15eb0e2 100644
+--- a/meta/recipes-devtools/help2man/help2man_1.47.15.bb
++++ b/meta/recipes-devtools/help2man/help2man_1.47.16.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
  
--SRC_URI[md5sum] = "59bc5c5d1debc3af0f6791af9d612551"
--SRC_URI[sha256sum] = "2c143183280feb67f5beb4e543fd49990c28e7df427301ede04fc550d3562e84"
-+SRC_URI[sha256sum] = "5695a10cb7f9ae0d01f665b56602a845b0a8cb17e2123bfece10c2e58552468c"
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "c25a35b30eceb315361484b0ff1f81c924e8ee5c8881576f1ee762f001dbcd1c"
++SRC_URI[sha256sum] = "3ef8580c5b86e32ca092ce8de43df204f5e6f714b0cd32bc6237e6cd0f34a8f4"
  
- S = "${WORKDIR}/pycairo-${PV}"
+ inherit autotools
  
 -- 
 2.18.4
 
 
---===============6769560770383123016==
+--===============5426519628605800279==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-pycairo: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dbg: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dbg: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dbg: PKGSIZE changed from 397268 to 398088 (+0%)
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dbg: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dev: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dev: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dev: PKGSIZE changed from 9335 to 8954 (-4%)
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-dev: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-doc: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-doc: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-doc: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-locale: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-locale: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-locale: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-src: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-src: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-src: PKGSIZE changed from 367468 to 358641 (-2%)
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-src: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-staticdev: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-staticdev: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo-staticdev: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo: PV changed from "1.19.1" to "1.20.0"
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo: PKGV changed from 1.19.1 [default] to 1.20.0 [default]
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo: PKGSIZE changed from 246270 to 245591 (-0%)
-packages/core2-32-poky-linux/python3-pycairo/python3-pycairo: FILELIST: removed "/usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info", added "/usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info"
-Changes to packages/core2-32-poky-linux/python3-pycairo (sysroot):
-  /usr/lib/python3.8/site-packages/pycairo-1.19.1.egg-info moved to /usr/lib/python3.8/site-packages/pycairo-1.20.0.egg-info
-packages/core2-32-poky-linux/python3-pygobject/python3-pygobject-dbg: PKGSIZE changed from 1148564 to 1148548 (-0%)
+packages/core2-32-poky-linux/help2man/help2man-dbg: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man/help2man-dbg: PV changed from "1.47.15" to "1.47.16"
+packages/core2-32-poky-linux/help2man/help2man-dev: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man/help2man-dev: PV changed from "1.47.15" to "1.47.16"
+packages/core2-32-poky-linux/help2man/help2man-doc: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man/help2man-doc: PV changed from "1.47.15" to "1.47.16"
+packages/core2-32-poky-linux/help2man/help2man-doc: PKGSIZE changed from 22143 to 22148 (+0%)
+packages/core2-32-poky-linux/help2man/help2man-locale: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man/help2man-locale: PV changed from "1.47.15" to "1.47.16"
+packages/core2-32-poky-linux/help2man/help2man-src: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man/help2man-src: PV changed from "1.47.15" to "1.47.16"
+packages/core2-32-poky-linux/help2man/help2man-staticdev: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man/help2man-staticdev: PV changed from "1.47.15" to "1.47.16"
+packages/core2-32-poky-linux/help2man/help2man: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man/help2man: PV changed from "1.47.15" to "1.47.16"
+packages/core2-32-poky-linux/help2man: PKGV changed from 1.47.15 [default] to 1.47.16 [default]
+packages/core2-32-poky-linux/help2man: PV changed from "1.47.15" to "1.47.16"
 
---===============6769560770383123016==--
+--===============5426519628605800279==--
