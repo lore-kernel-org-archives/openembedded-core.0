@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.12223.1602843683395098785
+ by mx.groups.io with SMTP id smtpd.web11.12221.1602843683193938299
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 4A60638C17C9
+	by mail.yoctoproject.org (Postfix) with ESMTP id 2EF7238C1780
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:23 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libhandy: upgrading to 1.0.0 SUCCEEDED
-Message-ID: <MADEUP.163E71D6F3FACFD9.24086@lists.openembedded.org>
-X-Groupsio-MsgNum: 143461
-Content-Type: multipart/mixed; boundary="===============0342324067657634572=="
+Subject: [AUH] adwaita-icon-theme: upgrading to 3.38.0 SUCCEEDED
+Message-ID: <MADEUP.163E71D6DE7F487D.24086@lists.openembedded.org>
+X-Groupsio-MsgNum: 143462
+Content-Type: multipart/mixed; boundary="===============6863686462161915711=="
 
---===============0342324067657634572==
+--===============6863686462161915711==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libhandy* to *1.0.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *adwaita-icon-theme* to *3.38.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libhandy-upgrade-0.0.13-1.0.0.patch
+    - apply the patch: git am 0001-adwaita-icon-theme-upgrade-3.36.1-3.38.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,293 +44,324 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0342324067657634572==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-libhandy-upgrade-0.0.13-1.0.0.patch"
-
-From 9b77b359b886378c29dd951edb72f487a6aff761 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 07:38:59 +0000
-Subject: [PATCH] libhandy: upgrade 0.0.13 -> 1.0.0
-
----
- meta/recipes-gnome/libhandy/libhandy_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb b/meta/recipes-gnome/libhandy/libhandy_git.bb
-index 9f74014640..01b932a528 100644
---- a/meta/recipes-gnome/libhandy/libhandy_git.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_git.bb
-@@ -3,9 +3,9 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
--SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
-+SRCREV = "94313c206258860b2428712e7ece1d02c5177857"
- S = "${WORKDIR}/git"
--PV = "0.0.13"
-+PV = "1.0.0"
- 
- GIR_MESON_ENABLE_FLAG = 'enabled'
- GIR_MESON_DISABLE_FLAG = 'disabled'
--- 
-2.18.4
-
-
---===============0342324067657634572==
+--===============6863686462161915711==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libhandy: PACKAGES: removed "libhandy-locale", added "libhandy-locale-eu libhandy-locale-id libhandy-locale-es libhandy-locale-ro libhandy-locale-uk libhandy-locale-en-gb libhandy-locale-pl libhandy-locale-pt-br"
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1387136 to 1677792 (+21%)
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 423485 to 535650 (+26%)
-packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
-packages/core2-32-poky-linux/libhandy/libhandy-doc: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 271852 (+99%)
-packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601888 to 4142047 (+59%)
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
-packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 593716 (+18%)
-packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
-Changes to packages/core2-32-poky-linux/libhandy (sysroot):
-  /usr/include/libhandy-1 was added
-  /usr/include/libhandy-1/handy.h was added
-  /usr/include/libhandy-1/hdy-action-row.h was added
-  /usr/include/libhandy-1/hdy-animation.h was added
-  /usr/include/libhandy-1/hdy-application-window.h was added
-  /usr/include/libhandy-1/hdy-avatar.h was added
-  /usr/include/libhandy-1/hdy-carousel.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-dots.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-lines.h was added
-  /usr/include/libhandy-1/hdy-clamp.h was added
-  /usr/include/libhandy-1/hdy-combo-row.h was added
-  /usr/include/libhandy-1/hdy-deck.h was added
-  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
-  /usr/include/libhandy-1/hdy-enums.h was added
-  /usr/include/libhandy-1/hdy-enum-value-object.h was added
-  /usr/include/libhandy-1/hdy-expander-row.h was added
-  /usr/include/libhandy-1/hdy-header-bar.h was added
-  /usr/include/libhandy-1/hdy-header-group.h was added
-  /usr/include/libhandy-1/hdy-keypad.h was added
-  /usr/include/libhandy-1/hdy-leaflet.h was added
-  /usr/include/libhandy-1/hdy-main.h was added
-  /usr/include/libhandy-1/hdy-navigation-direction.h was added
-  /usr/include/libhandy-1/hdy-preferences-group.h was added
-  /usr/include/libhandy-1/hdy-preferences-page.h was added
-  /usr/include/libhandy-1/hdy-preferences-row.h was added
-  /usr/include/libhandy-1/hdy-preferences-window.h was added
-  /usr/include/libhandy-1/hdy-search-bar.h was added
-  /usr/include/libhandy-1/hdy-squeezer.h was added
-  /usr/include/libhandy-1/hdy-swipeable.h was added
-  /usr/include/libhandy-1/hdy-swipe-group.h was added
-  /usr/include/libhandy-1/hdy-swipe-tracker.h was added
-  /usr/include/libhandy-1/hdy-title-bar.h was added
-  /usr/include/libhandy-1/hdy-types.h was added
-  /usr/include/libhandy-1/hdy-value-object.h was added
-  /usr/include/libhandy-1/hdy-version.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
-  /usr/include/libhandy-1/hdy-view-switcher.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
-  /usr/include/libhandy-1/hdy-window.h was added
-  /usr/include/libhandy-1/hdy-window-handle.h was added
-  /usr/lib/girepository-1.0/Handy-1.typelib was added
-  /usr/lib/libhandy-1.so.0 was added
-  /usr/lib/libhandy-1.so was added
-  /usr/lib/pkgconfig/libhandy-1.pc was added
-  /usr/share/gir-1.0/Handy-1.gir was added
-  /usr/share/vala/vapi/libhandy-1.deps was added
-  /usr/share/vala/vapi/libhandy-1.vapi was added
-  /usr/include/libhandy-0.0 was removed
-  /usr/include/libhandy-0.0/handy.h was removed
-  /usr/include/libhandy-0.0/hdy-action-row.h was removed
-  /usr/include/libhandy-0.0/hdy-animation.h was removed
-  /usr/include/libhandy-0.0/hdy-arrows.h was removed
-  /usr/include/libhandy-0.0/hdy-column.h was removed
-  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
-  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer.h was removed
-  /usr/include/libhandy-0.0/hdy-dialog.h was removed
-  /usr/include/libhandy-0.0/hdy-enums.h was removed
-  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
-  /usr/include/libhandy-0.0/hdy-fold.h was removed
-  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-header-group.h was removed
-  /usr/include/libhandy-0.0/hdy-keypad.h was removed
-  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
-  /usr/include/libhandy-0.0/hdy-list-box.h was removed
-  /usr/include/libhandy-0.0/hdy-main.h was removed
-  /usr/include/libhandy-0.0/hdy-paginator.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
-  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
-  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
-  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
-  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
-  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-version.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
-  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
-  /usr/lib/libhandy-0.0.so.0 was removed
-  /usr/lib/libhandy-0.0.so was removed
-  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
-  /usr/share/gir-1.0/Handy-0.0.gir was removed
-  /usr/share/vala/vapi/libhandy-0.0.deps was removed
-  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-cursors: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/sha
+ re/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png
+  /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x3
+ 2/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png", added "/usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/devices/inpu
+ t-gaming.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-gaming.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-hires: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share
+ /icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /
+ usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/
+ legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png", added "/usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/devices/input-
+ gaming.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-gaming.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic-hires: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /
+ usr/share/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-cl
+ ear.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwai
+ ta/32x32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png", added "/usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/devic
+ es/input-gaming.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-gaming.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/sh
+ are/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.pn
+ g /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x
+ 32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png", added "/usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/devices/inp
+ ut-gaming.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-gaming.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share/icons
+ /Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /usr/sh
+ are/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy
+ /weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png", added "/usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/devices/input-gaming
+ .png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-gaming.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png"
+Changes to packages/all-poky-linux/adwaita-icon-theme (sysroot):
+  /usr/share/icons/Adwaita/16x16/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/16x16/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/22x22/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/22x22/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/24x24/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/32x32/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/32x32/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/48x48/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/48x48/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/512x512/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/512x512/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/512x512/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/512x512/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/16x16/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/256x256/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png was removed
 
---===============0342324067657634572==
+--===============6863686462161915711==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Disposition: attachment;
+ filename="0001-adwaita-icon-theme-upgrade-3.36.1-3.38.0.patch"
+
+From c04e7c00cbe0c3faa042ab33d2a62a5384b70526 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Fri, 16 Oct 2020 07:05:52 +0000
+Subject: [PATCH] adwaita-icon-theme: upgrade 3.36.1 -> 3.38.0
+
+---
+ .../0001-Don-t-use-AC_CANONICAL_HOST.patch                  | 6 +++---
+ ...ta-icon-theme_3.36.1.bb => adwaita-icon-theme_3.38.0.bb} | 3 +--
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.36.1.bb => adwaita-icon-theme_3.38.0.bb} (93%)
+
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+index 5da3fbf6d8..c8c70c4b58 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+@@ -1,4 +1,4 @@
+-From 0a867caa8803a78f7cf3a204c4c358bc63daaf28 Mon Sep 17 00:00:00 2001
++From 8b3b153b6b95662316528ef083365b46cf5f7841 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 30 May 2017 14:55:49 +0300
+ Subject: [PATCH] Don't use AC_CANONICAL_HOST
+@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  1 file changed, 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index e749112..58790e8 100644
++index 449865d..888649e 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+  
+- AC_INIT([adwaita-icon-theme], [3.36.1],
++ AC_INIT([adwaita-icon-theme], [3.38.0],
+          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+ -AC_CANONICAL_HOST
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
+similarity index 93%
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
+index 2d78bea2c8..ff557978dc 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
+@@ -16,8 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Run-installation-commands-as-shell-jobs.patch \
+            "
+ 
+-SRC_URI[md5sum] = "c61ca9d6b3ce70a9ab66dcff945923ff"
+-SRC_URI[sha256sum] = "e498518627044dfd7db7d79a5b3d437848caf1991ef4ef036a2d3a2ac2c1f14d"
++SRC_URI[sha256sum] = "6683a1aaf2430ccd9ea638dd4bfe1002bc92b412050c3dba20e480f979faaf97"
+ 
+ DEPENDS += "librsvg-native"
+ 
+-- 
+2.18.4
+
+
+--===============6863686462161915711==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libhandy: PACKAGES: removed "libhandy-locale", added "libhandy-locale-ro libhandy-locale-uk libhandy-locale-en-gb libhandy-locale-pt-br libhandy-locale-pl libhandy-locale-es libhandy-locale-id libhandy-locale-eu"
-packages/core2-32-poky-linux/libhandy: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1387136 to 1677792 (+21%)
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKG changed from libhandy-0.0-dbg to libhandy-1-dbg
-packages/core2-32-poky-linux/libhandy/libhandy-dbg: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 423485 to 535650 (+26%)
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy-dev: PKG changed from libhandy-0.0-dev to libhandy-1-dev
-packages/core2-32-poky-linux/libhandy/libhandy-dev: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy-doc: PKG changed from libhandy-0.0-doc to libhandy-1-doc
-packages/core2-32-poky-linux/libhandy/libhandy-doc: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: RDEPENDS: added "gdk-pixbuf (['>= 2.40.0'])"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGSIZE changed from 136632 to 271852 (+99%)
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy-examples: PKG changed from libhandy-0.0-examples to libhandy-1-examples
-packages/core2-32-poky-linux/libhandy/libhandy-examples: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 2601888 to 4142047 (+59%)
-packages/core2-32-poky-linux/libhandy/libhandy-src: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy-src: PKG changed from libhandy-0.0-src to libhandy-1-src
-packages/core2-32-poky-linux/libhandy/libhandy-src: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKG changed from libhandy-0.0-staticdev to libhandy-1-staticdev
-packages/core2-32-poky-linux/libhandy/libhandy-staticdev: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-packages/core2-32-poky-linux/libhandy/libhandy: PKGV changed from 0.0.13 [default] to 1.0.0 [default]
-packages/core2-32-poky-linux/libhandy/libhandy: PKGSIZE changed from 502428 to 593716 (+18%)
-packages/core2-32-poky-linux/libhandy/libhandy: PV changed from "0.0.13" to "1.0.0"
-packages/core2-32-poky-linux/libhandy/libhandy: PKG changed from libhandy-0.0-0 to libhandy-1-0
-packages/core2-32-poky-linux/libhandy/libhandy: FILELIST: removed "/usr/lib/girepository-1.0/Handy-0.0.typelib /usr/lib/libhandy-0.0.so.0", added "/usr/share/locale/uk/LC_MESSAGES/libhandy.mo"
-Changes to packages/core2-32-poky-linux/libhandy (sysroot):
-  /usr/include/libhandy-1 was added
-  /usr/include/libhandy-1/handy.h was added
-  /usr/include/libhandy-1/hdy-action-row.h was added
-  /usr/include/libhandy-1/hdy-animation.h was added
-  /usr/include/libhandy-1/hdy-application-window.h was added
-  /usr/include/libhandy-1/hdy-avatar.h was added
-  /usr/include/libhandy-1/hdy-carousel.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-dots.h was added
-  /usr/include/libhandy-1/hdy-carousel-indicator-lines.h was added
-  /usr/include/libhandy-1/hdy-clamp.h was added
-  /usr/include/libhandy-1/hdy-combo-row.h was added
-  /usr/include/libhandy-1/hdy-deck.h was added
-  /usr/include/libhandy-1/hdy-deprecation-macros.h was added
-  /usr/include/libhandy-1/hdy-enums.h was added
-  /usr/include/libhandy-1/hdy-enum-value-object.h was added
-  /usr/include/libhandy-1/hdy-expander-row.h was added
-  /usr/include/libhandy-1/hdy-header-bar.h was added
-  /usr/include/libhandy-1/hdy-header-group.h was added
-  /usr/include/libhandy-1/hdy-keypad.h was added
-  /usr/include/libhandy-1/hdy-leaflet.h was added
-  /usr/include/libhandy-1/hdy-main.h was added
-  /usr/include/libhandy-1/hdy-navigation-direction.h was added
-  /usr/include/libhandy-1/hdy-preferences-group.h was added
-  /usr/include/libhandy-1/hdy-preferences-page.h was added
-  /usr/include/libhandy-1/hdy-preferences-row.h was added
-  /usr/include/libhandy-1/hdy-preferences-window.h was added
-  /usr/include/libhandy-1/hdy-search-bar.h was added
-  /usr/include/libhandy-1/hdy-squeezer.h was added
-  /usr/include/libhandy-1/hdy-swipeable.h was added
-  /usr/include/libhandy-1/hdy-swipe-group.h was added
-  /usr/include/libhandy-1/hdy-swipe-tracker.h was added
-  /usr/include/libhandy-1/hdy-title-bar.h was added
-  /usr/include/libhandy-1/hdy-types.h was added
-  /usr/include/libhandy-1/hdy-value-object.h was added
-  /usr/include/libhandy-1/hdy-version.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-bar.h was added
-  /usr/include/libhandy-1/hdy-view-switcher.h was added
-  /usr/include/libhandy-1/hdy-view-switcher-title.h was added
-  /usr/include/libhandy-1/hdy-window.h was added
-  /usr/include/libhandy-1/hdy-window-handle.h was added
-  /usr/lib/girepository-1.0/Handy-1.typelib was added
-  /usr/lib/libhandy-1.so.0 was added
-  /usr/lib/libhandy-1.so was added
-  /usr/lib/pkgconfig/libhandy-1.pc was added
-  /usr/share/gir-1.0/Handy-1.gir was added
-  /usr/share/vala/vapi/libhandy-1.deps was added
-  /usr/share/vala/vapi/libhandy-1.vapi was added
-  /usr/include/libhandy-0.0 was removed
-  /usr/include/libhandy-0.0/handy.h was removed
-  /usr/include/libhandy-0.0/hdy-action-row.h was removed
-  /usr/include/libhandy-0.0/hdy-animation.h was removed
-  /usr/include/libhandy-0.0/hdy-arrows.h was removed
-  /usr/include/libhandy-0.0/hdy-column.h was removed
-  /usr/include/libhandy-0.0/hdy-combo-row.h was removed
-  /usr/include/libhandy-0.0/hdy-deprecation-macros.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer-cycle-button.h was removed
-  /usr/include/libhandy-0.0/hdy-dialer.h was removed
-  /usr/include/libhandy-0.0/hdy-dialog.h was removed
-  /usr/include/libhandy-0.0/hdy-enums.h was removed
-  /usr/include/libhandy-0.0/hdy-enum-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-expander-row.h was removed
-  /usr/include/libhandy-0.0/hdy-fold.h was removed
-  /usr/include/libhandy-0.0/hdy-header-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-header-group.h was removed
-  /usr/include/libhandy-0.0/hdy-keypad.h was removed
-  /usr/include/libhandy-0.0/hdy-leaflet.h was removed
-  /usr/include/libhandy-0.0/hdy-list-box.h was removed
-  /usr/include/libhandy-0.0/hdy-main.h was removed
-  /usr/include/libhandy-0.0/hdy-paginator.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-group.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-page.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-row.h was removed
-  /usr/include/libhandy-0.0/hdy-preferences-window.h was removed
-  /usr/include/libhandy-0.0/hdy-search-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-squeezer.h was removed
-  /usr/include/libhandy-0.0/hdy-string-utf8.h was removed
-  /usr/include/libhandy-0.0/hdy-swipeable.h was removed
-  /usr/include/libhandy-0.0/hdy-swipe-group.h was removed
-  /usr/include/libhandy-0.0/hdy-title-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-value-object.h was removed
-  /usr/include/libhandy-0.0/hdy-version.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher-bar.h was removed
-  /usr/include/libhandy-0.0/hdy-view-switcher.h was removed
-  /usr/lib/girepository-1.0/Handy-0.0.typelib was removed
-  /usr/lib/libhandy-0.0.so.0 was removed
-  /usr/lib/libhandy-0.0.so was removed
-  /usr/lib/pkgconfig/libhandy-0.0.pc was removed
-  /usr/share/gir-1.0/Handy-0.0.gir was removed
-  /usr/share/vala/vapi/libhandy-0.0.deps was removed
-  /usr/share/vala/vapi/libhandy-0.0.vapi was removed
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-cursors: PKGV changed from 3.36.1 [default] to 3.38.0 [default]
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-cursors: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /us
+ r/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-st
+ orm.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Ad
+ waita/32x32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png", added "/usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/inpu
+ t-gaming.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/48x48/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-cursors: PV changed from "3.36.1" to "3.38.0"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-hires: PKGV changed from 3.36.1 [default] to 3.38.0 [default]
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-hires: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/
+ share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-stor
+ m.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwa
+ ita/32x32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png", added "/usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-
+ gaming.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/48x48/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-hires: PKGSIZE changed from 6607245 to 6655370 (+1%)
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-hires: PV changed from "3.36.1" to "3.38.0"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-src: PKGV changed from 3.36.1 [default] to 3.38.0 [default]
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-src: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/sh
+ are/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-storm.
+ png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwait
+ a/32x32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png", added "/usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-ga
+ ming.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/48x48/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-src: PV changed from "3.36.1" to "3.38.0"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic-hires: PKGV changed from 3.36.1 [default] to 3.38.0 [default]
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic-hires: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.
+ png /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/wea
+ ther-storm.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/i
+ cons/Adwaita/32x32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png", added "/usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devic
+ es/input-gaming.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/48x48/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic-hires: PKGSIZE changed from 1680368 to 1683491 (+0%)
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic-hires: PV changed from "3.36.1" to "3.38.0"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic: PKGV changed from 3.36.1 [default] to 3.38.0 [default]
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /u
+ sr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-s
+ torm.png /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/A
+ dwaita/32x32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png", added "/usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/inp
+ ut-gaming.png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/48x48/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic: PKGSIZE changed from 932235 to 972108 (+4%)
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme-symbolic: PV changed from "3.36.1" to "3.38.0"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme: PKGV changed from 3.36.1 [default] to 3.38.0 [default]
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme: FILELIST: removed "/usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/media-removable.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png /usr/share/
+ icons/Adwaita/16x16/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png /usr/share/icons/Adwaita/24x24/legacy/media-removable.png /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png 
+ /usr/share/icons/Adwaita/48x48/legacy/media-removable.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png /usr/share/icons/Adwaita/16x16/legacy/media-removable.png /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png /usr/share/icons/Adwaita/32
+ x32/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png", added "/usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/24x24/devices/media-removable.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/16x16/devices/input-gaming
+ .png /usr/share/icons/Adwaita/32x32/devices/input-gaming.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/22x22/devices/input-gaming.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png /usr/share/icons/Adwaita/48x48/devices/media-removable.png /usr/share/icons/Adwaita/32x32/devices/media-removable.png /usr/share/icons/Adwaita/48x48/devices/input-gaming.png /usr/share/icons/Adwaita/16x16/devices/media-removable.png /usr/share/icons/Adwaita/22x22/devices/media-removable.png /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png"
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme: PKGSIZE changed from 2274691 to 2212125 (-3%)
+packages/all-poky-linux/adwaita-icon-theme/adwaita-icon-theme: PV changed from "3.36.1" to "3.38.0"
+packages/all-poky-linux/adwaita-icon-theme: PKGV changed from 3.36.1 [default] to 3.38.0 [default]
+packages/all-poky-linux/adwaita-icon-theme: PV changed from "3.36.1" to "3.38.0"
+Changes to packages/all-poky-linux/adwaita-icon-theme (sysroot):
+  /usr/share/icons/Adwaita/16x16/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/16x16/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/16x16/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/16x16/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/22x22/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/22x22/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/22x22/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/22x22/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/24x24/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/24x24/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/24x24/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/32x32/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/32x32/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/32x32/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/32x32/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/48x48/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/48x48/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/48x48/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/48x48/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/512x512/devices/input-gaming.png was added
+  /usr/share/icons/Adwaita/512x512/devices/media-removable.png was added
+  /usr/share/icons/Adwaita/512x512/mimetypes/application-x-generic.png was added
+  /usr/share/icons/Adwaita/512x512/mimetypes/application-x-sharedlib.png was added
+  /usr/share/icons/Adwaita/16x16/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/16x16/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/22x22/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/24x24/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/256x256/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/32x32/legacy/weather-storm.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/media-removable.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-clear-night.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-clear.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds-night.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-few-clouds.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-fog.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-overcast.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-severe-alert.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-showers.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-showers-scattered.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-snow.png was removed
+  /usr/share/icons/Adwaita/48x48/legacy/weather-storm.png was removed
 
---===============0342324067657634572==--
+--===============6863686462161915711==--
