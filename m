@@ -1,125 +1,59 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
- by mx.groups.io with SMTP id smtpd.web10.5669.1602813976337819632
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web10.5894.1602814811033113614
  for <openembedded-core@lists.openembedded.org>;
- Thu, 15 Oct 2020 19:06:16 -0700
+ Thu, 15 Oct 2020 19:20:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rN18psTB;
- spf=pass (domain: gmail.com, ip: 209.85.216.68, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f68.google.com with SMTP id u3so550973pjr.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 15 Oct 2020 19:06:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=h6DvzqkDO1ABUePVzzNkOtc+LqF/L1w8D1NndhfG6IY=;
-        b=rN18psTBeXXm7fuV5rJIlAu7i2bN4vR2H4FIKO4SdSXYPm5renD5UcdPyiFGJ56mVO
-         xd3XuvNEwy53gq+3Pn09+uG/bYo8OOY+KUIbXowoSB7GpjufqTTC/Bd7k2Yc1yZmIQyw
-         7BM7s9wmzqcjn0wde/dP46tiFdBiqg2weAZDrsIgiStzZyrafgA33HvR++Kj4kVe1d1/
-         D3BUrT1R4DLcNnoxHds9YDC6LCo/NrwJsyD3jvKts6cQyVoRByH7PT00Tb+gGmmOt8Px
-         T2An7iR/la7u3d4s+JU5UYhjTWM7JBtjXN0i6yxkzO4HmPymlWZpRYXtzPUBMfME2wnA
-         3KhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=h6DvzqkDO1ABUePVzzNkOtc+LqF/L1w8D1NndhfG6IY=;
-        b=cijLGSgrGj5J7p4DpwDyH7xCSw33yagiKFy3jMaCl6aksAx8PJfA8CRQCa9NLl7KyF
-         1ZW6HAuDLaOKZtR2WjJv1bsxxjrvv7xiv5NGVP4RWoE2Zg4fBpVXAarTrMQW7mHYaUqX
-         PbIJ0Ja83xEM7hiLPGj2PqidVyyQGDO+/m2l3WePunLhQ8eZr6I5z2LnXIOQGgYSfL3p
-         oZMFEVUGppdnE8ERw+OGNSAvwJxt9DmolvPRpnxIPFpTCPetTTuMgAq3XH29Jeabyzq4
-         QcCwTeNcpFygrmwF2ni+l1LYTG2TL5/JlST3O6uNLBuxCwmLLFnSwSSjARKFuf0nNhsv
-         yCvg==
-X-Gm-Message-State: AOAM533MLuS6MTrBIdu4SpmjTNY1GwETypOdXX1vZ2XK2SorwJcufDiC
-	pQl3UgurfFhO+9SSIZYkZHbApNf+D1qU7Q==
-X-Google-Smtp-Source: ABdhPJyUuWjUCOde/8HWNE5AoJjamBhpmUgitIlMaWjwbpG7MPWBjAgitTTzNPByCCl4LtGu5o2CVQ==
-X-Received: by 2002:a17:902:b789:b029:d3:f9aa:7f27 with SMTP id e9-20020a170902b789b02900d3f9aa7f27mr1484004pls.47.1602813975144;
-        Thu, 15 Oct 2020 19:06:15 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4467])
-        by smtp.gmail.com with ESMTPSA id d2sm688342pjx.4.2020.10.15.19.06.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2020 19:06:14 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] recipes: Use GPL-2.0-only instead of GPL-2.0 for LIC_FILES_CHKSUM
-Date: Thu, 15 Oct 2020 19:06:12 -0700
-Message-Id: <20201016020612.273587-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.77,381,1596470400"; 
+   d="scan'208";a="100211450"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 16 Oct 2020 10:20:06 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 3D0CF4CE3119
+	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 10:20:05 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 16 Oct 2020 10:20:05 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] libuv: upgrade 1.39.0 -> 1.40.0
+Date: Fri, 16 Oct 2020 10:19:57 +0800
+Message-ID: <1602814797-29696-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 3D0CF4CE3119.A35C1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-connectivity/connman/connman-conf.bb            | 2 +-
- meta/recipes-core/busybox/busybox-inittab_1.32.0.bb          | 2 +-
- meta/recipes-core/systemd/systemd-serialgetty.bb             | 2 +-
- meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb       | 2 +-
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ .../libuv/{libuv_1.39.0.bb => libuv_1.40.0.bb}                  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/libuv/{libuv_1.39.0.bb => libuv_1.40.0.bb} (90%)
 
-diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
-index 9a519ec866..85fee09258 100644
---- a/meta/recipes-connectivity/connman/connman-conf.bb
-+++ b/meta/recipes-connectivity/connman/connman-conf.bb
-@@ -2,7 +2,7 @@ SUMMARY = "Connman config to setup wired interface on qemu machines"
- DESCRIPTION = "This is the ConnMan configuration to set up a Wired \
- network interface for a qemu machine."
- LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.39.0.bb b/meta/recipes-connectivity/libuv/libuv_1.40.0.bb
+similarity index 90%
+rename from meta/recipes-connectivity/libuv/libuv_1.39.0.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.40.0.bb
+index b6ce4757fd..f793db09be 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.39.0.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.40.0.bb
+@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
  
- inherit systemd
+-SRCREV = "25f4b8b8a3c0f934158cd37a37b0525d75ca488e"
++SRCREV = "4e69e333252693bd82d6338d6124f0416538dbfc"
+ SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
  
-diff --git a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-index 61fb8cbad1..2129acd8d3 100644
---- a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-+++ b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "inittab configuration for BusyBox"
- LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
- 
- SRC_URI = "file://inittab"
- 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 0cc0dc8c79..9a63c9f0a8 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Serial terminal support for systemd"
- HOMEPAGE = "https://www.freedesktop.org/wiki/Software/systemd/"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
- 
- PR = "r5"
- 
-diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-index 8781492d47..d95d1a63f5 100644
---- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "Inittab configuration for SysVinit"
- LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
- 
- PR = "r10"
- 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 1ab248fed5..8a02bc7f48 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -1,6 +1,6 @@
- SUMMARY = "Build tools needed by external modules"
- LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
- 
- inherit kernel-arch
- inherit pkgconfig
+ S = "${WORKDIR}/git"
 -- 
-2.28.0
+2.25.1
+
+
 
