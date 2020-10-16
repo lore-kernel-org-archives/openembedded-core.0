@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.12523.1602843683226428071
+ by mx.groups.io with SMTP id smtpd.web11.12219.1602843682980813705
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A7A8038C17D2
+	by mail.yoctoproject.org (Postfix) with ESMTP id 9E85338C17C6
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:24 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Tim Orling <timothy.t.orling@linux.intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] at-spi2-core: upgrading to 2.38.0 SUCCEEDED
-Message-ID: <MADEUP.163E71D74B6048DA.19966@lists.openembedded.org>
-X-Groupsio-MsgNum: 143498
-Content-Type: multipart/mixed; boundary="===============0956035987371294590=="
+Subject: [AUH] webkitgtk: upgrading to 2.30.1 FAILED
+Message-ID: <MADEUP.163E71D74E7021C3.21580@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============5294855973560362799=="
 
---===============0956035987371294590==
+--===============5294855973560362799==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,187 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *at-spi2-core* to *2.38.0* has Succeeded.
+that the automatic attempt to upgrade the recipe *webkitgtk* to *2.30.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-at-spi2-core-upgrade-2.36.1-2.38.0.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe webkitgtk failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1513 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20201016"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:43c8cc133897385a53963c9416c13261bbdb6c25"
+workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.webkitgtk.org/releases/webkitgtk-2.30.1.tar.xz...
+Loading cache...done.
+Loaded 1513 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 786 .bb files complete (784 cached, 2 parsed). 1357 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.1+snapshot-20201016"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:43c8cc133897385a53963c9416c13261bbdb6c25"
+workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   1% |                                    | ETA:  0:00:09
+Adding changed files:   2% |                                    | ETA:  0:00:06
+Adding changed files:   3% |#                                   | ETA:  0:00:06
+Adding changed files:   4% |#                                   | ETA:  0:00:06
+Adding changed files:   5% |##                                  | ETA:  0:00:05
+Adding changed files:   6% |##                                  | ETA:  0:00:05
+Adding changed files:   7% |##                                  | ETA:  0:00:05
+Adding changed files:   8% |###                                 | ETA:  0:00:05
+Adding changed files:  10% |###                                 | ETA:  0:00:05
+Adding changed files:  11% |####                                | ETA:  0:00:05
+Adding changed files:  12% |####                                | ETA:  0:00:04
+Adding changed files:  13% |####                                | ETA:  0:00:04
+Adding changed files:  14% |#####                               | ETA:  0:00:05
+Adding changed files:  15% |#####                               | ETA:  0:00:05
+Adding changed files:  16% |######                              | ETA:  0:00:04
+Adding changed files:  17% |######                              | ETA:  0:00:04
+Adding changed files:  19% |######                              | ETA:  0:00:04
+Adding changed files:  20% |#######                             | ETA:  0:00:04
+Adding changed files:  21% |#######                             | ETA:  0:00:04
+Adding changed files:  22% |########                            | ETA:  0:00:04
+Adding changed files:  23% |########                            | ETA:  0:00:04
+Adding changed files:  24% |########                            | ETA:  0:00:04
+Adding changed files:  25% |#########                           | ETA:  0:00:04
+Adding changed files:  26% |#########                           | ETA:  0:00:04
+Adding changed files:  28% |##########                          | ETA:  0:00:04
+Adding changed files:  29% |##########                          | ETA:  0:00:04
+Adding changed files:  30% |##########                          | ETA:  0:00:04
+Adding changed files:  31% |###########                         | ETA:  0:00:04
+Adding changed files:  32% |###########                         | ETA:  0:00:04
+Adding changed files:  33% |############                        | ETA:  0:00:04
+Adding changed files:  34% |############                        | ETA:  0:00:04
+Adding changed files:  35% |############                        | ETA:  0:00:04
+Adding changed files:  37% |#############                       | ETA:  0:00:04
+Adding changed files:  38% |#############                       | ETA:  0:00:03
+Adding changed files:  39% |##############                      | ETA:  0:00:03
+Adding changed files:  40% |##############                      | ETA:  0:00:03
+Adding changed files:  41% |##############                      | ETA:  0:00:03
+Adding changed files:  42% |###############                     | ETA:  0:00:03
+Adding changed files:  43% |###############                     | ETA:  0:00:03
+Adding changed files:  44% |################                    | ETA:  0:00:03
+Adding changed files:  45% |################                    | ETA:  0:00:03
+Adding changed files:  47% |################                    | ETA:  0:00:03
+Adding changed files:  48% |#################                   | ETA:  0:00:03
+Adding changed files:  49% |#################                   | ETA:  0:00:03
+Adding changed files:  50% |##################                  | ETA:  0:00:03
+Adding changed files:  51% |##################                  | ETA:  0:00:03
+Adding changed files:  52% |##################                  | ETA:  0:00:03
+Adding changed files:  53% |###################                 | ETA:  0:00:03
+Adding changed files:  54% |###################                 | ETA:  0:00:02
+Adding changed files:  56% |####################                | ETA:  0:00:02
+Adding changed files:  57% |####################                | ETA:  0:00:02
+Adding changed files:  58% |####################                | ETA:  0:00:02
+Adding changed files:  59% |#####################               | ETA:  0:00:02
+Adding changed files:  60% |#####################               | ETA:  0:00:02
+Adding changed files:  61% |######################              | ETA:  0:00:02
+Adding changed files:  62% |######################              | ETA:  0:00:02
+Adding changed files:  63% |#######################             | ETA:  0:00:02
+Adding changed files:  65% |#######################             | ETA:  0:00:02
+Adding changed files:  66% |#######################             | ETA:  0:00:02
+Adding changed files:  67% |########################            | ETA:  0:00:02
+Adding changed files:  68% |########################            | ETA:  0:00:02
+Adding changed files:  69% |#########################           | ETA:  0:00:02
+Adding changed files:  70% |#########################           | ETA:  0:00:01
+Adding changed files:  71% |#########################           | ETA:  0:00:01
+Adding changed files:  72% |##########################          | ETA:  0:00:01
+Adding changed files:  74% |##########################          | ETA:  0:00:01
+Adding changed files:  75% |###########################         | ETA:  0:00:01
+Adding changed files:  76% |###########################         | ETA:  0:00:01
+Adding changed files:  77% |###########################         | ETA:  0:00:01
+Adding changed files:  78% |############################        | ETA:  0:00:01
+Adding changed files:  79% |############################        | ETA:  0:00:01
+Adding changed files:  80% |#############################       | ETA:  0:00:01
+Adding changed files:  81% |#############################       | ETA:  0:00:01
+Adding changed files:  82% |#############################       | ETA:  0:00:01
+Adding changed files:  84% |##############################      | ETA:  0:00:01
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  87% |###############################     | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  91% |#################################   | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  94% |#################################   | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:06
+WARNING: Command 'git rebase 4f13d883c920249300a2cf6bfe478570d172feb7' failed:
+First, rewinding head to replay your work on top of it...
+Applying: FindGObjectIntrospection.cmake: prefix variables obtained from pkg-config with PKG_CONFIG_SYSROOT_DIR
+Applying: When building introspection files, add CMAKE_C_FLAGS to the compiler flags.
+Applying: OptionsGTK.cmake: drop the hardcoded introspection/gtkdoc disabling when cross-compiling
+Using index info to reconstruct a base tree...
+M	Source/cmake/OptionsGTK.cmake
+Falling back to patching base and 3-way merge...
+Auto-merging Source/cmake/OptionsGTK.cmake
+CONFLICT (content): Merge conflict in Source/cmake/OptionsGTK.cmake
+error: Failed to merge in the changes.
+Patch failed at 0003 OptionsGTK.cmake: drop the hardcoded introspection/gtkdoc disabling when cross-compiling
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/webkitgtk
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/webkitgtk/webkitgtk_2.30.1.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,209 +211,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0956035987371294590==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-at-spi2-core-upgrade-2.36.1-2.38.0.patch"
-
-From 29b132f8bbeeb571c1a0b55732ca1d9e856fd6c2 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 16 Oct 2020 09:49:36 +0000
-Subject: [PATCH] at-spi2-core: upgrade 2.36.1 -> 2.38.0
-
----
- .../atk/{at-spi2-core_2.36.1.bb => at-spi2-core_2.38.0.bb}     | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-core_2.36.1.bb => at-spi2-core_2.38.0.bb} (89%)
-
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.36.1.bb b/meta/recipes-support/atk/at-spi2-core_2.38.0.bb
-similarity index 89%
-rename from meta/recipes-support/atk/at-spi2-core_2.36.1.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.38.0.bb
-index 218af6afa7..88add83dd1 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.36.1.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.38.0.bb
-@@ -7,8 +7,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "d01e5326b4eb15ac3c27eed73ecf26f1"
--SRC_URI[sha256sum] = "97417b909dbbf000e7b21062a13b2f1fd52a336f5a53925bb26d27b65ace6c54"
-+SRC_URI[sha256sum] = "84e36c3fe66862133f5fe229772b76aa2526e10de5014a3778f2fa46ce550da5"
- 
- X11DEPENDS = "virtual/libx11 libxi libxtst"
- 
--- 
-2.18.4
-
-
---===============0956035987371294590==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 674132 to 675684 (+0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PKGSIZE changed from 696343 to 698887 (+0%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGSIZE changed from 736 to 666 (-10%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 914033 to 919002 (+1%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PKGSIZE changed from 404634 to 409030 (+1%)
-packages/core2-32-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.36.1" to "2.38.0"
-packages/core2-32-poky-linux/at-spi2-core: PKGV changed from 2.36.1 [default] to 2.38.0 [default]
-packages/core2-32-poky-linux/at-spi2-core: PV changed from "2.36.1" to "2.38.0"
-
---===============0956035987371294590==--
+--===============5294855973560362799==--
