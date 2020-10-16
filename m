@@ -1,60 +1,61 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web12.11687.1602840413633327926
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.11591.1602841247433073480
  for <openembedded-core@lists.openembedded.org>;
- Fri, 16 Oct 2020 02:26:53 -0700
+ Fri, 16 Oct 2020 02:40:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WNE3v49f;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id h24so2130193ejg.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 02:26:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qldn6vt0;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id o18so1630131edq.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 02:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=alvaXQ+KB52H0IEGs06EJfUZu+cv53uHoTpVUNyqOdk=;
-        b=WNE3v49fTMEL03fgZtqyOznp5TWGYxKYHT/zA+Ahb386WYFCAhpOpPEy3SvxDjq83w
-         3d+TNaWt4IuQy5/4MUnaGZiu+BAw6K+AQPrgLhrnlUICW8Tq/7nGCSXren/RVNCfXhAr
-         g4AwalOrkRbm1uYxve+bTwzwKshGuGUkL3CLRlHMhqAW3F5O7KagCguw04Fj1g0L/zmt
-         QE+XPBseivvaDe0a7MOXk6pji6vra2TU2S12Qu7hBrN69CM4PnKGGfUNBbuU/nBsAp7L
-         ommrAPXBzUTszR79mG4YwfWIJ557TmSuI5qC5+8zBdj3tBYYkoQeKlby+WwCai/RvXEv
-         4mQA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PJasHjXcjl8fiUp8aDnawsJfvWdcdx+7bFjpgGByTmc=;
+        b=Qldn6vt007mS/Ba0RMN47fiV1XIj6ir3XyqWoRrM4iSSXNqrlI8h4XiFW3MOe0gMSf
+         vszvEuBbTdThtz2XiarFICxITpSKiE1eO8TSnIFvLkbg/2c315GO1B4ecaFBn52FqLD5
+         UKza6bse8Hc7Vh8L4/cJLjXqhVdMaMGSH8yV4UfkY0tpSbZFyYIvDvvEed+stOo/Vpun
+         2mcEhsczM1jCQHr7m0wqap5wFbwAhiiy36juNV/qkpKR6BKoSGVlj77CZszPd15RZ8Z9
+         fI5y08WBuLTpKmpIBJ3SkSH7hptUiYJKJL+93YFkqe2VPtAmTKWSinFnGA/Ns1VioBI/
+         antg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=alvaXQ+KB52H0IEGs06EJfUZu+cv53uHoTpVUNyqOdk=;
-        b=IRDgzv8LR9H9MPOzQGbtSs1mGoJqyJe91g0bjiBOA4VcnqfVs1wWThgyaKsc8PTzFO
-         6q1bc6sfa+0S419dtWuxKtm2r0uPr/AiYeB3Aw9j+/seh0F1lL2SKQYvyuHL9cfo3KKr
-         Lt0bCotQsVo7lmsWhIlqxHdq50Yb6X5WKCqfCuLOiOUle/UrASfD8zN6eIeEjSgRNHv4
-         OzetKviiJLgK4WbtCcLee597VrfqQSmr8SZn2KQD5RqwMgH5AroP7OaANtMhWPb2vYFs
-         SE4HxqMAN0hspcGNz0P1Pd0piBI45vs+bofEn9KV0Ad3mGNyz6n0HsMWaS9FugNbVJ5P
-         n8YA==
-X-Gm-Message-State: AOAM5330ygMHNGqJ5iifxKXnxEiwpjQeqZajuBor0HGn029/bBqq2uEq
-	Sc1oveZ3bg5TLEyr+79COtnjDyt38iw=
-X-Google-Smtp-Source: ABdhPJwopVpZmE2oFV2yIrkX/p3qcW7xHL7nTFu1Sk8FZANN+fMlWespi+sIMzofwmTcTcX0zvFuuw==
-X-Received: by 2002:a17:906:c43:: with SMTP id t3mr2650303ejf.219.1602840411784;
-        Fri, 16 Oct 2020 02:26:51 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PJasHjXcjl8fiUp8aDnawsJfvWdcdx+7bFjpgGByTmc=;
+        b=klGbI13f5YbAGq+rwkE51QDUsPOCUPPqlbdlsrTXxq0aXzyIgir0dS/T8Y9MzrkspT
+         M8nszCbGNXIFTf+AGAQBTdcfkl4iDCz5YshhMcYWMJ7kip5C6sS9lC/HPWJDZJhDqr6r
+         WDLsgMiY1hWKmJ5BSl385cKQD0as646VOAalfyObN5mZeQXnzaOq2fKWwm/v1Pb1KoqF
+         Kh3dny+qK2wm5pCBQ6wfUnXCm7uCCYdS+iELxLzWiKWskOTOLqFlU2m/bLejme/yW7c8
+         6iKK9DBAz329yzE/bazK+rNgAj3flXdTuF13XWrjMllNqiyLa/zQd6/NZdTC8b80ABL3
+         Dq+w==
+X-Gm-Message-State: AOAM530CENKHKD1/W2klIRlVK+zWoubar7ldXhJANY6iP4qzsWqI+iW+
+	sVgP+ceLLkgetBBTbqJ9SR69MCwOVZs=
+X-Google-Smtp-Source: ABdhPJwlhzXp6ZxC1KDR+TSnxhTEvR+eNd5n4SWz6OGTAGAqw+GcOgUs4H1HzvM+Ya0EJdU+GSf7iA==
+X-Received: by 2002:aa7:c458:: with SMTP id n24mr2840692edr.189.1602841245412;
+        Fri, 16 Oct 2020 02:40:45 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id x22sm1155438ejc.102.2020.10.16.02.26.51
+        by smtp.gmail.com with ESMTPSA id w4sm991752eds.83.2020.10.16.02.40.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 02:26:51 -0700 (PDT)
+        Fri, 16 Oct 2020 02:40:44 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH][RFC] arch-arm64.inc: don't append ARMPKGSFX_ENDIAN_64 to TUNE_ARCH/TUNE_PKGARCH
-Date: Fri, 16 Oct 2020 11:26:41 +0200
-Message-Id: <20201016092641.3860384-3-Martin.Jansa@gmail.com>
+Subject: [RFC][PATCHv2] arch-arm64.inc: don't append _be to ARMPKGARCH for tune-aarch64_be
+Date: Fri, 16 Oct 2020 11:40:40 +0200
+Message-Id: <20201016094040.3865296-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201016092641.3860384-1-Martin.Jansa@gmail.com>
-References: <20201016092641.3860384-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 * the _be suffix is already included in ARMPKGARCH with:
   ARMPKGARCH_tune-aarch64 ?= "aarch64"
   ARMPKGARCH_tune-aarch64_be ?= "aarch64_be"
+
+  and then it was appended again through ARMPKGSFX_ENDIAN_64
+  TUNE_PKGARCH_64 = "${ARMPKGARCH}${ARMPKGSFX_ENDIAN_64}"
 
 * broken since:
   commit 08433cc58abf0cf3e42b22d20870a50287cfb8bc
@@ -96,21 +97,19 @@ RFC because I'm not sure what the original intention was and
 I'm not using any of these tune files (haven't even run another
 tune/test.sh with them).
 
- meta/conf/machine/include/arm/arch-arm64.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/machine/include/arm/arch-arm64.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
-index 142342298f..499318241c 100644
+index 142342298f..eab3323ec6 100644
 --- a/meta/conf/machine/include/arm/arch-arm64.inc
 +++ b/meta/conf/machine/include/arm/arch-arm64.inc
-@@ -22,8 +22,8 @@ PACKAGE_EXTRA_ARCHS_tune-aarch64 = "aarch64"
- PACKAGE_EXTRA_ARCHS_tune-aarch64_be = "aarch64_be"
- 
- ARMPKGSFX_ENDIAN_64 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '_be', '', d)}"
--TUNE_ARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
--TUNE_PKGARCH_64 = "${ARMPKGARCH}${ARMPKGSFX_ENDIAN_64}"
-+TUNE_ARCH_64 = "${ARMPKGARCH}"
-+TUNE_PKGARCH_64 = "${ARMPKGARCH}"
- ABIEXTENSION_64 = ""
- TARGET_FPU_64 = ""
- 
+@@ -10,7 +10,7 @@ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'aarch64:'
+ # Little Endian base configs
+ AVAILTUNES += "aarch64 aarch64_be"
+ ARMPKGARCH_tune-aarch64 ?= "aarch64"
+-ARMPKGARCH_tune-aarch64_be ?= "aarch64_be"
++ARMPKGARCH_tune-aarch64_be ?= "aarch64"
+ TUNE_FEATURES_tune-aarch64 = "aarch64"
+ TUNE_FEATURES_tune-aarch64_be = "${TUNE_FEATURES_tune-aarch64} bigendian"
+ TUNE_PKGARCH_64_tune-aarch64 = "aarch64"
