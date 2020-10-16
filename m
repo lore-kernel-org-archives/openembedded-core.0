@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.12524.1602843683381519813
+ by mx.groups.io with SMTP id smtpd.web11.12220.1602843683020080320
  for <openembedded-core@lists.openembedded.org>;
  Fri, 16 Oct 2020 03:21:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 87A1B38C177B
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8D48838C178A
 	for <openembedded-core@lists.openembedded.org>; Fri, 16 Oct 2020 03:21:24 -0700 (PDT)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-plugins-base: upgrading to 1.18.0 FAILED
-Message-ID: <MADEUP.163E71D72FA136E3.24086@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0089652588359799703=="
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.18.0 FAILED
+Message-ID: <MADEUP.163E71D72D616272.21580@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============6583453751796594677=="
 
---===============0089652588359799703==
+--===============6583453751796594677==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,11 +23,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *gstreamer1.0-plugins-base* to *1.18.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *gstreamer1.0-python* to *1.18.0* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade gstreamer1.0-plugins-base -V 1.18.0
+Running 'devtool upgrade' for recipe gstreamer1.0-python failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
@@ -48,7 +48,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a205895e9dbe37f8f994854d745bb94b9ad6b3bd"
+meta-yocto-bsp       = "tmp-auh-upgrades:7b34f2471a0cc47bbe98fce2ff1d920e29397135"
 workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
 
 Initialising tasks...done.
@@ -58,7 +58,7 @@ NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
 INFO: Extracting upgraded version source...
-INFO: Fetching https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.0.tar.xz...
+INFO: Fetching https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.18.0.tar.xz...
 Loading cache...done.
 Loaded 1511 entries from dependency cache.
 Parsing recipes...done.
@@ -77,7 +77,7 @@ TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:a205895e9dbe37f8f994854d745bb94b9ad6b3bd"
+meta-yocto-bsp       = "tmp-auh-upgrades:7b34f2471a0cc47bbe98fce2ff1d920e29397135"
 workspace            = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
 
 Initialising tasks...done.
@@ -89,31 +89,28 @@ NOTE: Writing buildhistory took: 2 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   6% |##                                  | ETA:  0:00:02
-Adding changed files:  13% |####                                | ETA:  0:00:01
-Adding changed files:  20% |#######                             | ETA:  0:00:00
-Adding changed files:  26% |#########                           | ETA:  0:00:00
-Adding changed files:  33% |############                        | ETA:  0:00:00
-Adding changed files:  40% |##############                      | ETA:  0:00:00
-Adding changed files:  46% |################                    | ETA:  0:00:00
-Adding changed files:  53% |###################                 | ETA:  0:00:00
-Adding changed files:  60% |#####################               | ETA:  0:00:00
-Adding changed files:  66% |########################            | ETA:  0:00:00
-Adding changed files:  73% |##########################          | ETA:  0:00:00
-Adding changed files:  80% |############################        | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
 Adding changed files: 100% |####################################| Time: 0:00:00
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
-    ret = main()
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 558, in upgrade
-    new_licenses = _extract_licenses(srctree, (rd.getVar('LIC_FILES_CHKSUM') or ""))
-  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 468, in _extract_licenses
-    with open(os.path.join(srcpath, path), 'rb') as f:
-FileNotFoundError: [Errno 2] No such file or directory: '/home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0-plugins-base/common/coverage/coverage-report.pl'
+WARNING: Command 'git rebase 79c86d0f1d96a490bcdf5a041b5c927ceacf0764' failed:
+First, rewinding head to replay your work on top of it...
+Applying: meson.build: fix builds with python 3.8
+Using index info to reconstruct a base tree...
+M	meson.build
+Falling back to patching base and 3-way merge...
+Auto-merging meson.build
+CONFLICT (content): Merge conflict in meson.build
+error: Failed to merge in the changes.
+Patch failed at 0001 meson.build: fix builds with python 3.8
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gstreamer1.0-python
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gstreamer1.0-python/gstreamer1.0-python_1.18.0.bb
 
 
 
@@ -124,4 +121,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0089652588359799703==--
+--===============6583453751796594677==--
