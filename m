@@ -1,204 +1,77 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web10.14213.1602945009434939340
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web11.14020.1602945010464698952
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Oct 2020 07:30:09 -0700
+ Sat, 17 Oct 2020 07:30:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oaiF/OMR;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id z22so3012701wmi.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2020 07:30:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Mhzei9Gp;
+ spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f67.google.com with SMTP id z22so3012726wmi.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2020 07:30:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CliKoApzSySZSwxky5VScddvqVFC8M6dlJ7oNzjviuM=;
-        b=oaiF/OMRB5Yw5z3YKapDG/vdQ2+3WUfUDehldrsA0cj2jNpz6P8YSbc1sNPzJPFkmN
-         LMhECwiHArVC1RlSAA0K/7bfSUtvJof5uhpyONTjU8upp/PnUUvvivKJ8TTuLlDY6eqU
-         3M5JcVrcsALL97UGhZxvulhG7cQG59GziAlH7ML7c+wlwXN+E5EwX04qpOgoLRgboIB1
-         d/NhdwJm+JqiTJ83Jor6ivSFrdFry+k3cgyUsSl1RP5V4QzzqJBqCBrDqX4AEjUMUSfz
-         zeYYFQLgKPgzg8qbHmCqqarqBcXgtsa0xyD374/7ClItEKIf8to0n3URWk7Oynkdi30f
-         PiSA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WDWRkocq7mVvnexhfzrGa/UBlO++eA+Km6/Aq52AJoU=;
+        b=Mhzei9GpMJrGQO/KcaLhvnBqfRQYxEX1RoOtu27YF3Q/NaYQN2GRmZW7Xg9qtbBe96
+         9skPzdAsctmKcsTl0UCR1/0Qx6zcC3+NQtoxLxLhwalUDoJvSPqUhj+DZ6Qvqs8dbhb5
+         VAXYkUMTDrlyISJEkRjJUXXah2y+ZmZPdweRVAGWZNLw6MDNAqbp6BB/UJQCtoXGzafk
+         klJ3mQlPS7vBlt0INjGKMzxCXaXeIZHUN4l8uNNl68SfpVlggneNd2AvGE71WQZ1mbfv
+         iwSbpmjrGPTZiSNXnzqP4PGqDvnM0zg76n2CACg//Cwev0nI20IS+K7fKoAey8aI1Iih
+         LuHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CliKoApzSySZSwxky5VScddvqVFC8M6dlJ7oNzjviuM=;
-        b=kvK/4M18VzDIehbIMEmLjr68/MwErlLtVOESlH85mKdWYspenmR9QFKmyFKt2PP4iF
-         T3KZk3HnC2XcvGcVqD95c3V1o1A4mZMBW/u46jBdrQClgvJVrm56j7lIjWcVTXYETuuN
-         UCRxT8LkdJbpe9TABDNXHE+bMnx/f4VBSsBZdO+y2Y5NYXbRT7o/2NhDNYYGzdRwiVxK
-         QdzuV0VuhEuJfF7UTwHYXCk/hauXLjJ0BMrBjAaCme9qP86juHMuEdJy65sHnRf2520T
-         H6DzUiBnYamyPJRXz/7abYqujrE61vx7bekOPywF7islFI888O+t7it+XyPmy/W8bNq9
-         0OTA==
-X-Gm-Message-State: AOAM5309l2wojKIXRYbaQqcDBQwtYsslWcnP4Nq9DUjiyLkUHmco55BP
-	EZ0gKCvrxRiOUih4LfrSSRmagD38wgmp+g==
-X-Google-Smtp-Source: ABdhPJwTj3+s2/ykI+tPEtn+LjpsHx5Niho/OQe+4GkURzvVi12uQqKzUif6yTbjPOnxhJUjsqRs3w==
-X-Received: by 2002:a1c:3d46:: with SMTP id k67mr8940325wma.150.1602945007325;
-        Sat, 17 Oct 2020 07:30:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WDWRkocq7mVvnexhfzrGa/UBlO++eA+Km6/Aq52AJoU=;
+        b=seIoOM2EgtVVTFeWLIvdWCSkrfw77o13iBRCxaMsnZQyHLz1gZBi7KCO9w2kxYeThm
+         Mv2VwFc/YkyPt/f/nAfrE/xeVEOGo6HFQnmXv7vmX1ii4RgYSM1dq2WQEcq59nXAJnTQ
+         3gT+01BXzJdrg+D2zv1deqND8riThI+qypDVDmAJdg3TP+jlJZnq//Jon5kMvQpAB3fj
+         pZ7XhVKa504b46ycJQ5oYGM8ioLRd7xVdpfY+RRsZoGt0Dihyqy9tivAovkCgbnA0NoM
+         5dCVOdvutFnoUCpaW2iWnsDVVspqoKCyy8wh3WM+GR7LMAS8d7RWJW6Ojq3liaK7zQx5
+         o7aQ==
+X-Gm-Message-State: AOAM531Q0pYlDIHxXZdFFC3H51ZNu/JMM2OsdtAINGh9n3CnRZhkty0D
+	TUp8BzPDz1STIPPBU7ELIsO5UQx5WiAi+A==
+X-Google-Smtp-Source: ABdhPJyRu7AEJk5MCO1aqI3jv4o+5fOGiGxdrNQVaRrrnq1J9i9FcDn1hdoqBKVpHaX0tnYId0cDxg==
+X-Received: by 2002:a1c:7f14:: with SMTP id a20mr8915784wmd.95.1602945008770;
+        Sat, 17 Oct 2020 07:30:08 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id c18sm8816700wrq.5.2020.10.17.07.30.06
+        by smtp.gmail.com with ESMTPSA id c18sm8816700wrq.5.2020.10.17.07.30.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2020 07:30:06 -0700 (PDT)
+        Sat, 17 Oct 2020 07:30:07 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v3 1/5] spirv-tools: import from meta-oe to OE core
-Date: Sat, 17 Oct 2020 15:29:31 +0100
-Message-Id: <20201017142935.3605756-1-quaresma.jose@gmail.com>
+Subject: [PATCH v3 2/5] spirv-tools: enable native build and install more header files
+Date: Sat, 17 Oct 2020 15:29:32 +0100
+Message-Id: <20201017142935.3605756-2-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201017142935.3605756-1-quaresma.jose@gmail.com>
+References: <20201017142935.3605756-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This receipe is needed to build the new shaderc
-
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...0001-Avoid-pessimizing-std-move-3124.patch | 50 +++++++++++++++++++
- ...STALL_LIBDIR-in-installed-CMake-file.patch | 35 +++++++++++++
- meta/recipes-graphics/spir/spirv-tools_git.bb | 35 +++++++++++++
- 3 files changed, 120 insertions(+)
- create mode 100644 meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch
- create mode 100644 meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
- create mode 100644 meta/recipes-graphics/spir/spirv-tools_git.bb
+ meta/recipes-graphics/spir/spirv-tools_git.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch b/meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch
-new file mode 100644
-index 0000000000..9b48cdcd09
---- /dev/null
-+++ b/meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch
-@@ -0,0 +1,50 @@
-+From 4fffcd275b50d08b54b0411679ead98970651bad Mon Sep 17 00:00:00 2001
-+From: David Neto <dneto@google.com>
-+Date: Fri, 27 Dec 2019 12:05:58 -0500
-+Subject: [PATCH] Avoid pessimizing std::move (#3124)
-+
-+Should fix a warning
-+
-+Upstream-Status: Backport [https://github.com/KhronosGroup/SPIRV-Tools/commit/8aa423930db37e37086665efcc55944d577c06e5]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ test/opt/pass_fixture.h | 9 +++------
-+ 1 file changed, 3 insertions(+), 6 deletions(-)
-+
-+diff --git a/test/opt/pass_fixture.h b/test/opt/pass_fixture.h
-+index 53fb206f..64c089d8 100644
-+--- a/test/opt/pass_fixture.h
-++++ b/test/opt/pass_fixture.h
-+@@ -60,8 +60,7 @@ class PassTest : public TestT {
-+   // from pass Process() function.
-+   std::tuple<std::vector<uint32_t>, Pass::Status> OptimizeToBinary(
-+       Pass* pass, const std::string& original, bool skip_nop) {
-+-    context_ =
-+-        std::move(BuildModule(env_, consumer_, original, assemble_options_));
-++    context_ = BuildModule(env_, consumer_, original, assemble_options_);
-+     EXPECT_NE(nullptr, context()) << "Assembling failed for shader:\n"
-+                                   << original << std::endl;
-+     if (!context()) {
-+@@ -197,8 +196,7 @@ class PassTest : public TestT {
-+   // messages.
-+   template <typename PassT, typename... Args>
-+   void SinglePassRunAndFail(const std::string& original, Args&&... args) {
-+-    context_ =
-+-        std::move(BuildModule(env_, consumer_, original, assemble_options_));
-++    context_ = BuildModule(env_, consumer_, original, assemble_options_);
-+     EXPECT_NE(nullptr, context()) << "Assembling failed for shader:\n"
-+                                   << original << std::endl;
-+     std::ostringstream errs;
-+@@ -235,8 +233,7 @@ class PassTest : public TestT {
-+   void RunAndCheck(const std::string& original, const std::string& expected) {
-+     assert(manager_->NumPasses());
-+ 
-+-    context_ =
-+-        std::move(BuildModule(env_, nullptr, original, assemble_options_));
-++    context_ = BuildModule(env_, nullptr, original, assemble_options_);
-+     ASSERT_NE(nullptr, context());
-+ 
-+     context()->set_preserve_bindings(OptimizerOptions()->preserve_bindings_);
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch b/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
-new file mode 100644
-index 0000000000..5d37da8fe0
---- /dev/null
-+++ b/meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
-@@ -0,0 +1,35 @@
-+From caf59c46ea5dc49e4dbf756c642b03e52c1b5468 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 20 Dec 2019 07:02:24 -0800
-+Subject: [PATCH] Respect CMAKE_INSTALL_LIBDIR in installed CMake files
-+
-+Upstream-Status: Submitted [https://github.com/google/effcee/pull/36]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ CMakeLists.txt        | 1 +
-+ effcee/CMakeLists.txt | 4 ++--
-+ 2 files changed, 3 insertions(+), 2 deletions(-)
-+
-+--- a/external/effcee/CMakeLists.txt
-++++ b/external/effcee/CMakeLists.txt
-+@@ -27,6 +27,7 @@ endif()
-+ 
-+ include(cmake/setup_build.cmake)
-+ include(cmake/utils.cmake)
-++include(GNUInstallDirs)
-+ 
-+ add_subdirectory(third_party)
-+ add_subdirectory(effcee)
-+--- a/external/effcee/effcee/CMakeLists.txt
-++++ b/external/effcee/effcee/CMakeLists.txt
-+@@ -14,8 +14,8 @@ install(
-+   DESTINATION
-+     include/effcee)
-+ install(TARGETS effcee
-+-  LIBRARY DESTINATION lib
-+-  ARCHIVE DESTINATION lib)
-++  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-++  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-+ 
-+ if(EFFCEE_BUILD_TESTING)
-+   add_executable(effcee-test
 diff --git a/meta/recipes-graphics/spir/spirv-tools_git.bb b/meta/recipes-graphics/spir/spirv-tools_git.bb
-new file mode 100644
-index 0000000000..8e8388e8d4
---- /dev/null
+index 8e8388e8d4..d1c2436cd9 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_git.bb
 +++ b/meta/recipes-graphics/spir/spirv-tools_git.bb
-@@ -0,0 +1,35 @@
-+SUMMARY  = "The SPIR-V Tools project provides an API and commands for \
-+processing SPIR-V modules"
-+DESCRIPTION = "The project includes an assembler, binary module parser, \
-+disassembler, validator, and optimizer for SPIR-V."
-+LICENSE  = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-+SECTION = "graphics"
+@@ -29,7 +29,11 @@ EXTRA_OECMAKE += "-DSPIRV_WERROR=OFF"
+ do_install_append() {
+ 	install -d ${D}/${includedir}/spirv
+ 	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}/${includedir}/spirv	
++	install -d ${D}/${includedir}/spirv/unified1
++	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/* ${D}/${includedir}/spirv/unified1
+ }
+ 
+ FILES_SOLIBSDEV = ""
+ FILES_${PN} += "${libdir}/*.so"
 +
-+S = "${WORKDIR}/git"
-+DEST_DIR = "${S}/external" 
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;name=spirv-tools \
-+	git://github.com/KhronosGroup/SPIRV-Headers.git;name=spirv-headers;destsuffix=${DEST_DIR}/spirv-headers \
-+	git://github.com/google/effcee.git;name=effcee;destsuffix=${DEST_DIR}/effcee \
-+	git://github.com/google/re2.git;name=re2;destsuffix=${DEST_DIR}/re2 \
-+	git://github.com/google/googletest.git;name=googletest;destsuffix=${DEST_DIR}/googletest \
-+        file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch \
-+        file://0001-Avoid-pessimizing-std-move-3124.patch \
-+"
-+SRCREV_spirv-tools = "c413b982c316b14e784f50d941814fc737b55b4a"
-+SRCREV_spirv-headers = "af64a9e826bf5bb5fcd2434dd71be1e41e922563"
-+SRCREV_effcee = "cd25ec17e9382f99a895b9ef53ff3c277464d07d"
-+SRCREV_re2 = "5bd613749fd530b576b890283bfb6bc6ea6246cb"
-+SRCREV_googletest = "f2fb48c3b3d79a75a88a99fba6576b25d42ec528"
-+
-+inherit cmake python3native
-+
-+EXTRA_OECMAKE += "-DSPIRV_WERROR=OFF"
-+
-+do_install_append() {
-+	install -d ${D}/${includedir}/spirv
-+	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}/${includedir}/spirv	
-+}
-+
-+FILES_SOLIBSDEV = ""
-+FILES_${PN} += "${libdir}/*.so"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.28.0
 
