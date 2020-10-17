@@ -1,133 +1,179 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web11.14991.1602947732686557909
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.15107.1602947733719482226
  for <openembedded-core@lists.openembedded.org>;
- Sat, 17 Oct 2020 08:15:33 -0700
+ Sat, 17 Oct 2020 08:15:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RMZ1pkND;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id s9so6681660wro.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2020 08:15:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XeJhmmZA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id h7so6725841wre.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 17 Oct 2020 08:15:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=p653nTriw7Qs4IpjT601Yslx+JmHnq2VK5xVyiQKj0o=;
-        b=RMZ1pkND64eiVbSWjho1RuRgcnqJDql3JmK3NBdc2DIYd+Od1rDcJYNK3P5aYRxUmJ
-         vFQ+NRrVqaRYnivtQqbSrc2f3p2ul22o1jo8o4egqZOlR0FOKJAWh08JsZ6H0ugZY8qb
-         2OCqEdqc8OlsIZDns8vNnePNOirsJjTRXE7MA+emA0x/wovhISykjRGKi/kHGKkUezeq
-         VfnkkfI4P8xpn7fX8cvdFL0M1s1E1bZnrncmPwRdaE5ZCmYDr059j74bgK5rulGTwU/f
-         yjtcUfik3BrRE281WiS/HGTbFxNlGMqqwnQxQVOZUwKUnp+y+U6OIGAqTttb8OlgvGpi
-         ZssQ==
+        bh=2yyD9sz0Z+NRUjWIM2H4SplTH7NB+vuNLyHZXrzkI8s=;
+        b=XeJhmmZASITZ5cgjKhAXpdCdQjZkrcP4WMpx7g52EfYOLB7d/bAwb72yff/kroAl72
+         74rwXcU4s+eH2o4B62VAxczoBNEgWOtVvtrcASIB+ijb6PgtWctPSsK0kIxmFieEY9P/
+         nZkGALpV9akXgLtNBQhcKNtLcc0nt+LHUPCs2DQlqDiYopwNzBLWOADFG3BDaKofKhYo
+         RA9QXQLcIYzaVE5OZQ0uxAXgVNxPx2gsaTSbzryVd8BW5+oP30XvOEQUuAGedLtmWloB
+         H2Ugx59Zaqz2al+MmpxC4klcRsWCv1/opzEnFv1Nzy89OFTuyR9WWX2bNYNuDbXSc0rE
+         6nWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=p653nTriw7Qs4IpjT601Yslx+JmHnq2VK5xVyiQKj0o=;
-        b=ajgl4peZmW++WCGyyEYj6CJS0UBPt1E+4aWKyvtThLjG3khudhsJ7LgnC6mn40d+2s
-         kF8p6K5k2ENH7Wg5z/yvseA8WTJ0+ll1/WoYehCtnLe8IAogQyATjVY/wNpM+zyhiCYt
-         QIjrDXiG/kIw51PAYeXh8HMqdppDTpYzrrNhddxJWwYXwe+pSA59WP27jExT3JjA78/v
-         X6y7xIIPx0MFwRsBoLBbee9x26WrbSHWxyeO2mVxVmP37ZuDxXYxUpGX3jivqdxJR2Eu
-         sPuTJxvUD0wUZXNvSOaojoVg8lZfjEJ+tQWOWemn5yWeeyCtrAYzR7pqiwqqPSqV19je
-         E/eg==
-X-Gm-Message-State: AOAM530CvQuk7PpgwHeb27k5kfqAlJT2tiV1bAp+48p4LRINZbU+xYU/
-	4MFNfoEsSjJysYDl0Y7PXt0cyo0SiFHQRA==
-X-Google-Smtp-Source: ABdhPJwPB9Jb/1/HRII90wbUEXM2C8PHPz64BRRw0vN8QEmh8u2StWsdRXoS9nXiPUuFrXJCq3tMzw==
-X-Received: by 2002:adf:e801:: with SMTP id o1mr10627718wrm.359.1602947731067;
-        Sat, 17 Oct 2020 08:15:31 -0700 (PDT)
+        bh=2yyD9sz0Z+NRUjWIM2H4SplTH7NB+vuNLyHZXrzkI8s=;
+        b=P46ErukjYNxLSchPItCBwkzsPCywGMd7/j7ZAgogRhYy4he6dJ9gHeed1Y61rWOV7f
+         NnD6tC9KalhV8Oc3aVOA/IstX/3VVcCpBaqzAwpmfGRtB7SRnc+G8w4g1jkrxJ08e20s
+         AUCelp/MuHYohF12HdwXmm72xyBRoa8b5Pg/htiTiSYQpEjcqlIITo7iZ+rKta0A5Hg4
+         8WkiAVz7BocDam+3btXp5fGfa/MVvpCDVZeuGuHRO/61M6d2YDffMda+Yj3O+h/oxco9
+         yvdD8ZpAHuurbQkh+h0HnbBsyCgUxfjkDSGH5LfyZ6oji4ftsULVyweKYi07ptXKZG44
+         6cCA==
+X-Gm-Message-State: AOAM533l0qhOwvse+WnFwO9rt3V3kidyGhQmDOcDgFnDilj66qFEE19s
+	Gujp+3BBZ5EoqXN3pK6yrzWAd1yIgDEEnQ==
+X-Google-Smtp-Source: ABdhPJxPB6vCdfdyBGuGuZQ//5l1PHLuhN5583qL14zvL9SOipXlpbbfD1rEleP8A3R6Flhzcr+vRA==
+X-Received: by 2002:adf:bbc6:: with SMTP id z6mr10602760wrg.298.1602947732130;
+        Sat, 17 Oct 2020 08:15:32 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id m1sm7637380wmm.34.2020.10.17.08.15.30
+        by smtp.gmail.com with ESMTPSA id m1sm7637380wmm.34.2020.10.17.08.15.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2020 08:15:30 -0700 (PDT)
+        Sat, 17 Oct 2020 08:15:31 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 09/13] gst-examples: upgrade to version 1.18.0
-Date: Sat, 17 Oct 2020 16:15:20 +0100
-Message-Id: <20201017151524.31550-10-quaresma.jose@gmail.com>
+Subject: [PATCH 10/13] gst-devtools: add version 1.18.0
+Date: Sat, 17 Oct 2020 16:15:21 +0100
+Message-Id: <20201017151524.31550-11-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201017151524.31550-1-quaresma.jose@gmail.com>
 References: <20201017151524.31550-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+The gst-validate tarball has been superseded by the gst-devtools tarball for consistency with the git module name.
+
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...001-Make-player-examples-installable.patch | 24 +++++++++----------
- ...mples_1.16.0.bb => gst-examples_1.18.0.bb} |  2 +-
- 2 files changed, 12 insertions(+), 14 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.16.0.bb => gst-examples_1.18.0.bb} (96%)
+ ...ct-has-a-different-signature-on-musl.patch | 10 ++---
+ .../gstreamer/gst-devtools_1.18.0.bb          | 43 +++++++++++++++++++
+ .../gstreamer/gst-validate_1.16.2.bb          | 25 -----------
+ 3 files changed, 48 insertions(+), 30 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-validate => gst-devtools}/0001-connect-has-a-different-signature-on-musl.patch (76%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-devtools_1.18.0.bb
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-index 0338bad1c0..ab93c13244 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-validate/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+similarity index 76%
+rename from meta/recipes-multimedia/gstreamer/gst-validate/0001-connect-has-a-different-signature-on-musl.patch
+rename to meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
+index a0d215c5a0..c0e4581358 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-validate/0001-connect-has-a-different-signature-on-musl.patch
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
 @@ -1,4 +1,4 @@
--From 755f6dab07565aca7b6aefacad8be65de364ff75 Mon Sep 17 00:00:00 2001
-+From 7924016fce2d0b435891a335cdae52fc939c7e3b Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Thu, 17 Aug 2017 11:07:02 +0300
- Subject: [PATCH] Make player examples installable
-@@ -7,16 +7,17 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Upstream-Status: Denied [Upstream considers these code examples, for now a least]
+-From 0bd8004d8dddc486d3961a5316d24e8f2645e4c8 Mon Sep 17 00:00:00 2001
++From 73b1002eda17451db1f58431b42c25203f1d3097 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sun, 9 Sep 2018 17:38:10 -0700
+ Subject: [PATCH] connect has a different signature on musl
+@@ -12,13 +12,13 @@ Upstream-Status: Pending
  
- https://bugzilla.gnome.org/show_bug.cgi?id=777827
-+
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  ---
-  playback/player/gst-play/meson.build | 1 +
-  playback/player/gtk/meson.build      | 1 +
-  2 files changed, 2 insertions(+)
+- plugins/fault_injection/socket_interposer.c | 7 ++++++-
++ validate/plugins/fault_injection/socket_interposer.c | 7 ++++++-
+  1 file changed, 6 insertions(+), 1 deletion(-)
  
- diff --git a/playback/player/gst-play/meson.build b/playback/player/gst-play/meson.build
--index 719b55b..a56fe13 100644
-+index 8ec021d..977cc5c 100644
- --- a/playback/player/gst-play/meson.build
- +++ b/playback/player/gst-play/meson.build
--@@ -8,5 +8,6 @@ executable('gst-play',
-+@@ -2,5 +2,6 @@ executable('gst-play',
-      ['gst-play.c',
-       'gst-play-kb.c',
-       'gst-play-kb.h'],
-@@ -24,16 +25,13 @@ index 719b55b..a56fe13 100644
-      dependencies : [gst_dep, gstplayer_dep, m_dep])
+-diff --git a/plugins/fault_injection/socket_interposer.c b/plugins/fault_injection/socket_interposer.c
++diff --git a/validate/plugins/fault_injection/socket_interposer.c b/validate/plugins/fault_injection/socket_interposer.c
+ index 53c1ebb..ad7adf8 100644
+---- a/plugins/fault_injection/socket_interposer.c
+-+++ b/plugins/fault_injection/socket_interposer.c
++--- a/validate/plugins/fault_injection/socket_interposer.c
+++++ b/validate/plugins/fault_injection/socket_interposer.c
+ @@ -100,10 +100,15 @@ socket_interposer_set_callback (struct sockaddr_in *addrin,
+  }
   
- diff --git a/playback/player/gtk/meson.build b/playback/player/gtk/meson.build
--index 08aae4f..671a65d 100644
-+index f7a7419..6281130 100644
- --- a/playback/player/gtk/meson.build
- +++ b/playback/player/gtk/meson.build
--@@ -18,5 +18,6 @@ executable('gtk-play',
--       gtk_play_resources,
--      'gtk-video-renderer.h',
--      'gtk-video-renderer.c'],
-+@@ -13,5 +13,6 @@ if gtk_dep.found()
-+         gtk_play_resources,
-+        'gtk-video-renderer.h',
-+        'gtk-video-renderer.c'],
- +    install: true,
--     dependencies : [glib_dep, gobject_dep, gmodule_dep, gst_dep, gsttag_dep, gstplayer_dep, gtk_dep, x11_dep])
-- 
---- 
--2.13.3
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.0.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.0.bb
+new file mode 100644
+index 0000000000..63e7a99b4f
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.0.bb
+@@ -0,0 +1,43 @@
++SUMMARY = "Gstreamer validation tool"
++DESCRIPTION = "A Tool to test GStreamer components"
++HOMEPAGE = "https://gstreamer.freedesktop.org/documentation/gst-devtools/index.html"
++SECTION = "multimedia"
++
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://validate/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
++
++#S = "${WORKDIR}/gst-devtools-${PV}"
++
++SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}.tar.xz \
++           file://0001-connect-has-a-different-signature-on-musl.patch \
++           "
++
++SRC_URI[md5sum] = "37ca48ea06fb4304cfc9009ec924bc52"
++SRC_URI[sha256sum] = "82337141b5654f11c440f783892ba9d9498b3b6b98c2286b000f96dce6945f16"
++
++DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
++RRECOMMENDS_${PN} = "git"
++
++FILES_${PN} += "${datadir}/gstreamer-1.0/* ${libdir}/gst-validate-launcher/* ${libdir}/gstreamer-1.0/*"
++
++inherit meson pkgconfig gettext upstream-version-is-even gobject-introspection
++
++# TODO: put this in a gettext.bbclass patch
++def gettext_oemeson(d):
++    if d.getVar('USE_NLS') == 'no':
++        return '-Dnls=disabled'
++    # Remove the NLS bits if USE_NLS is no or INHIBIT_DEFAULT_DEPS is set
++    if d.getVar('INHIBIT_DEFAULT_DEPS') and not oe.utils.inherits(d, 'cross-canadian'):
++        return '-Dnls=disabled'
++    return '-Dnls=enabled'
++
++EXTRA_OEMESON += " \
++    -Ddoc=disabled \
++    -Ddebug_viewer=disabled \
++    -Dtests=disabled \
++    -Dvalidate=enabled \
++    ${@gettext_oemeson(d)} \
++"
++
++GIR_MESON_ENABLE_FLAG = "enabled"
++GIR_MESON_DISABLE_FLAG = "disabled"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
+deleted file mode 100644
+index 35492fe861..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
++++ /dev/null
+@@ -1,25 +0,0 @@
+-SUMMARY = "Gstreamer validation tool"
+-DESCRIPTION = "A Tool to test GStreamer components"
+-HOMEPAGE = "https://gstreamer.freedesktop.org/releases/gst-validate/1.12.3.html"
+-SECTION = "multimedia"
 -
-+       dependencies : [glib_dep, gobject_dep, gmodule_dep, gst_dep, gsttag_dep, gstplayer_dep, gtk_dep, x11_dep])
-+ endif
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.0.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.18.0.bb
-index e23d23d9ca..bb998f6526 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.0.bb
-@@ -9,7 +9,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=http
-            file://gst-player.desktop \
-            "
- 
--SRCREV = "d953c127c1146b50d5676618299933950685dcd7"
-+SRCREV = "009290dc8784e6714dc2a29be123110c14a38123"
- 
- S = "${WORKDIR}/git"
- 
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
+-
+-SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz \
+-           file://0001-connect-has-a-different-signature-on-musl.patch \
+-           "
+-SRC_URI[md5sum] = "688f42c52d62e8c5e506df911553fb2c"
+-SRC_URI[sha256sum] = "4861ccb9326200e74d98007e316b387d48dd49f072e0b78cb9d3303fdecfeeca"
+-
+-DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+-RRECOMMENDS_${PN} = "git"
+-
+-FILES_${PN} += "${datadir}/gstreamer-1.0/* ${libdir}/gst-validate-launcher/* ${libdir}/gstreamer-1.0/*"
+-
+-inherit pkgconfig gettext autotools gobject-introspection gtk-doc upstream-version-is-even
+-
+-# With gtk-doc enabled this recipe fails to build, so forcibly disable it:
+-# WORKDIR/build/docs/validate/gst-validate-scan: line 117:
+-# WORKDIR/build/docs/validate/.libs/lt-gst-validate-scan: No such file or directory
+-GTKDOC_ENABLED = "False"
 -- 
 2.28.0
 
