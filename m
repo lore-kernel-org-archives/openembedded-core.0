@@ -1,139 +1,168 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.18961.1603023035208666628
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.18817.1603023036470827165
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2020 05:10:35 -0700
+ Sun, 18 Oct 2020 05:10:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lwQmtpyb;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id h7so8347246wre.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 05:10:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GyK2w8aX;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id y12so8329862wrp.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 05:10:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kU1XYn3SWv/twvOzfmqWMJY0hUEpSOr8O+WprMh4J7k=;
-        b=lwQmtpybxhdGlkK1wECLay0DOUClxztcd5eje14bDHWv4ru5H3X/GFh9TT1404nuAl
-         Xt6Q2/E8XlNKDS8M50G9FdmKYH7sbOxRbxixfmseeeJVcDkGHu368elpop8oDsJ03HZU
-         yijrdfH+H9ZbiQPwD6cpuPnpgXkshliFpKV25aqBxWCDDNL+tIoUuyr3R/MR0NMtD5xO
-         K3t403ffNI8wKjXDyJlDIKHCE6rllYC960biV100ILKSv5cxzrISjJgPh+ms01/IPhc2
-         v5o/0rNv0UwyvJiuO+vy8gyE+Gvtkjqpbk+TGJtPXRRYXitW/IAls06wd5pNOdHBSJSe
-         kNmg==
+        bh=qwVP9epTClDYiP0QGOKTVU8EW04YNG4MJkjFTj71d4U=;
+        b=GyK2w8aXWF+igSuFz1WKmZ8M1qH5vcUiAAZPIP8GyHWAu8Ww5Xu/SokwLEE36FS8gs
+         E0Vyk/1diptFIV8Bs/7wTlRp/z7IO0iH0nS8tnOkyCsBHZLGfw5a1mwSezDfxqmH5pYp
+         sinGzcaeKR+yLk1XT2Ru3NMPBZFCaeg+uCtV9EKISb9zMsfgWGUWKeWIsDsa4pF2wwiT
+         VyDp4YTk3QmV6NhpwIF0J3IVoioVRpJlyMsRK7a/dWz+KcM0UsgipC/iXT4H3rCeAfUq
+         k4V4z+JyjtLiwjHIdQplAVCd+EWP9n4kzBvRzD1m6xs3CbvoZr3I53kIWodp0ZVQ7a7b
+         yPtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kU1XYn3SWv/twvOzfmqWMJY0hUEpSOr8O+WprMh4J7k=;
-        b=h+bfUW6Un7vqV4bWk0sH81WgWMJ+biEpmbYbCQHMBeN4uQd2LH+WSaB4Kp4c+AQc80
-         7IDXGsSmGeqNcxmhRbxPYTvB/VIsBcb4UdbrwplMubq9JUzy5zpTEy2IsRzbudZlMxiH
-         TIz1Nq8OW/8Iljls/hjqS88TwDx5nLT9wRUNJ3pWwm7HZHrLSeRCpqSrbASCa8zyg165
-         O8Tjd/O+PEcFxQrSXzQb4T632pCGDkg5n1x4BN1wQDOjxwwNuGOeD4cQyM9rRsLAOmTO
-         R5CI+VAXCpTuCfHljX/lo2Ot7KZE699jdL37vlkf3aozuiU/SWsr7nV9IrB9nzSPnz/4
-         8W5g==
-X-Gm-Message-State: AOAM530ALowR5nYSg/EkKw8OfGeXL4uYMUBmHA/DHBkZpsZpHDdi+ULN
-	RURXSr/NNItU9+W7s2prKwvIF3/8s0tidw==
-X-Google-Smtp-Source: ABdhPJzZyhnf6+aF93GCjXadAkPXTdDyTnOsHeZLsho4PCa3QfIWX2svXHJX0wTKUXF3YnNkwo7UKA==
-X-Received: by 2002:adf:c00b:: with SMTP id z11mr13992807wre.320.1603023033493;
-        Sun, 18 Oct 2020 05:10:33 -0700 (PDT)
+        bh=qwVP9epTClDYiP0QGOKTVU8EW04YNG4MJkjFTj71d4U=;
+        b=icPzKGGJUOz6WjyEDDHX73o6QRVX61h/Y940xdlSpLlOAj1r3QC8HJ1eD09YWC6RRO
+         297FcyOEBywWIEm16+IoeYQOTSIaxTw9h+euMX8MiaaLpjEmUHf33EYPJBBFuZYVPWcM
+         52timHcrBejswKNN/SUFTl24axWd1ogOPOGXTwJivZaAj6cjcnRlz9IcGncgeDZ8t99C
+         PaMCdOJvtC7JT9NctRoV+uK9sv8XE0caz46eFPunYAKqobPxDiLO6LoCKlklO5mfAXXI
+         Ks/Sqm9G6z8Dvj683iMQpFLePAvnDvQm3LblTye15RyPmzuRVwRau9nbBT+LCrY2xVRI
+         GTxA==
+X-Gm-Message-State: AOAM531maSImjMSNRYGb6DcpK6gw4/uSkFghbEyYdbFDw+5Dd8+i4u1s
+	uvGMyMsU0i2x1FwDq1OObIqEsuPqcdCj9w==
+X-Google-Smtp-Source: ABdhPJzpxJlOrjG1FuHK3Bbe0Vss/qPAXwHcNQgNuI3FDHDA9amjSybOZwx4Xgf8kwgiF3lF/cel3A==
+X-Received: by 2002:adf:e38e:: with SMTP id e14mr9234147wrm.168.1603023034632;
+        Sun, 18 Oct 2020 05:10:34 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id z18sm9511084wrs.82.2020.10.18.05.10.32
+        by smtp.gmail.com with ESMTPSA id z18sm9511084wrs.82.2020.10.18.05.10.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 05:10:32 -0700 (PDT)
+        Sun, 18 Oct 2020 05:10:34 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v3 14/20] gstreamer1.0-rtsp-server: upgrade to version 1.18.0
-Date: Sun, 18 Oct 2020 13:09:56 +0100
-Message-Id: <20201018121002.1417335-15-quaresma.jose@gmail.com>
+Subject: [PATCH v3 15/20] gstreamer1.0-vaapi: upgrade to version 1.18.0
+Date: Sun, 18 Oct 2020 13:09:57 +0100
+Message-Id: <20201018121002.1417335-16-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201018121002.1417335-1-quaresma.jose@gmail.com>
 References: <20201018121002.1417335-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-    * 0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+    * 0001-vaapsink-downgrade-to-marginal.patch
       Removed since these are included in 1.18.0
+      https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi/-/commit/13d090b5660a2e2e2c997db44ba9a391101e8bd6
+
+    API and plugin documentation are no longer built with gtk_doc.
+    The gtk_doc documentation has been removed in favour of a new unified
+    documentation module built with hotdoc.
+    Distributors should use the documentation release tarball instead of trying
+    to package hotdoc and building the documentation from scratch.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...even-when-cross-compiling-if-introsp.patch | 36 -------------------
- ....bb => gstreamer1.0-rtsp-server_1.18.0.bb} |  9 +++--
- 2 files changed, 4 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.16.2.bb => gstreamer1.0-rtsp-server_1.18.0.bb} (74%)
+ .../0001-vaapsink-downgrade-to-marginal.patch | 46 -------------------
+ ...1.16.2.bb => gstreamer1.0-vaapi_1.18.0.bb} | 16 +++----
+ 2 files changed, 6 insertions(+), 56 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.18.0.bb} (82%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
 deleted file mode 100644
-index 6962a50d6e..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+index 7945a923c9..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
 +++ /dev/null
-@@ -1,36 +0,0 @@
--From 95ce953e34cd0e9f5d42ce7900a9572e7bc8ca47 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
--Date: Fri, 18 Oct 2019 00:42:12 +0100
--Subject: [PATCH] meson: build gir even when cross-compiling if introspection
-- was enabled explicitly
+@@ -1,46 +0,0 @@
+-From 0c28cf7bfa90f8947833722cddf23d513490c6c3 Mon Sep 17 00:00:00 2001
+-From: Anuj Mittal <anuj.mittal@intel.com>
+-Date: Wed, 28 Nov 2018 15:08:48 +0800
+-Subject: [PATCH] vaapsink: downgrade to marginal
 -
--This can be made to work in certain circumstances when
--cross-compiling, so default to not building g-i stuff
--when cross-compiling, but allow it if introspection was
--enabled explicitly via -Dintrospection=enabled.
+-Using vaapisink with default poky configuration results in an
+-unresponsive display as of today because DRI2 rendering is currently broken
+-in non composited environments [1] and libva doesn't support DRI3 [2].
 -
--See gstreamer/gstreamer#454 and gstreamer/gstreamer#381.
+-Downgrade vaapisink to marginal for now so playbin (and in turn gst-play
+-and gtk-play examples) use xvimagesink or others out of box.
 -
--Upstream-Status: Backport [95ce953e34cd0e9f5d42ce7900a9572e7bc8ca47]
+-[1] https://gitlab.freedesktop.org/xorg/xserver/issues/13
+-[2] https://github.com/intel/libva/issues/122
 -
--Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+-Upstream-Status: Pending
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- gst/vaapi/gstvaapi.c | 6 +-----
+- 1 file changed, 1 insertion(+), 5 deletions(-)
 -
--diff --git a/meson.build b/meson.build
--index e1e3b1d..3f45f0e 100644
----- a/meson.build
--+++ b/meson.build
--@@ -173,7 +173,7 @@ endif
+-diff --git a/gst/vaapi/gstvaapi.c b/gst/vaapi/gstvaapi.c
+-index 9a82454..4d94f2b 100644
+---- a/gst/vaapi/gstvaapi.c
+-+++ b/gst/vaapi/gstvaapi.c
+-@@ -195,7 +195,6 @@ plugin_init (GstPlugin * plugin)
+- {
+-   GstVaapiDisplay *display;
+-   GArray *decoders;
+--  guint rank;
 - 
-- gir = find_program('g-ir-scanner', required : get_option('introspection'))
-- gnome = import('gnome')
---build_gir = gir.found() and not meson.is_cross_build()
--+build_gir = gir.found() and (not meson.is_cross_build() or get_option('introspection').enabled())
-- gir_init_section = [ '--add-init-section=extern void gst_init(gint*,gchar**);' + \
--     'g_setenv("GST_REGISTRY_1.0", "@0@", TRUE);'.format(meson.current_build_dir() + '/gir_empty_registry.reg') + \
--     'g_setenv("GST_PLUGIN_PATH_1_0", "", TRUE);' + \
---- 
--2.17.1
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.0.bb
-similarity index 74%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.0.bb
-index 02c3c83840..0adfa2aac9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.0.bb
-@@ -8,18 +8,17 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
+-   plugin_add_dependencies (plugin);
+- 
+-@@ -220,10 +219,7 @@ plugin_init (GstPlugin * plugin)
+-   gst_element_register (plugin, "vaapidecodebin",
+-       GST_RANK_PRIMARY + 2, GST_TYPE_VAAPI_DECODE_BIN);
+- 
+--  rank = GST_RANK_PRIMARY;
+--  if (g_getenv ("WAYLAND_DISPLAY"))
+--    rank = GST_RANK_MARGINAL;
+--  gst_element_register (plugin, "vaapisink", rank, GST_TYPE_VAAPISINK);
+-+  gst_element_register (plugin, "vaapisink", GST_RANK_MARGINAL, GST_TYPE_VAAPISINK);
+- 
+- #if USE_ENCODERS
+-   gst_vaapiencode_register (plugin, display);
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.0.bb
+similarity index 82%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.0.bb
+index 1bedf25128..60a975bf4d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.0.bb
+@@ -8,28 +8,24 @@ REALPN = "gstreamer-vaapi"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
- PNREAL = "gst-rtsp-server"
- 
--SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
--           file://0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
+-SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
+-           file://0001-vaapsink-downgrade-to-marginal.patch \
 -           "
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
++SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
  
--SRC_URI[md5sum] = "8a998725820c771ba45be6e18bfdf73a"
--SRC_URI[sha256sum] = "de07a2837b3b04820ce68264a4909f70c221b85dbff0cede7926e9cdbb1dc26e"
-+SRC_URI[md5sum] = "77fe28c702a83566811ab5c7bbe99ab2"
-+SRC_URI[sha256sum] = "2ad19311054cbf2df0d0622936bc703dedc06ced706df46a3d3a3ea5a4b7c70f"
+-SRC_URI[md5sum] = "13f7cb6a64bde24e67f563377487dcce"
+-SRC_URI[sha256sum] = "191de7b0ab64a85dd0875c990721e7be95518f60e2a9106beca162004ed7c601"
++SRC_URI[md5sum] = "079a3739857e0cf4904afe92659d8a18"
++SRC_URI[sha256sum] = "c6efeb8c736f75bb1b53ab18413c60c4321300e7aee66641bcc07d59c2fe9e31"
  
- S = "${WORKDIR}/${PNREAL}-${PV}"
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
  
- inherit meson pkgconfig upstream-version-is-even gobject-introspection
+-inherit meson pkgconfig gtk-doc features_check upstream-version-is-even
++inherit meson pkgconfig features_check upstream-version-is-even
+ 
+ REQUIRED_DISTRO_FEATURES ?= "opengl"
  
  EXTRA_OEMESON += " \
 +    -Ddoc=disabled \
      -Dexamples=disabled \
-     -Dtests=disabled \
++    -Dtests=enabled \
  "
+ 
+-GTKDOC_MESON_OPTION = "gtk_doc"
+-GTKDOC_MESON_ENABLE_FLAG = "enabled"
+-GTKDOC_MESON_DISABLE_FLAG = "disabled"
+-
+ PACKAGES =+ "${PN}-tests"
+ 
+ # OpenGL packageconfig factored out to make it easy for distros
 -- 
 2.28.0
 
