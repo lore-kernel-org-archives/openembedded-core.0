@@ -1,147 +1,578 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.18902.1603023022936880519
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.18805.1603023024397744239
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2020 05:10:23 -0700
+ Sun, 18 Oct 2020 05:10:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bssW2scL;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id s9so8299755wro.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 05:10:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IZCIHt8D;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id e17so8282428wru.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 05:10:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Qp3ApZNwdVyNrZVWbK/1tGppYB+FMHe7qlfaOG0HmF4=;
-        b=bssW2scL/GOGfMc1az6Lv28fs20LmB0jVQOG0L8oY11GwjhjFLeCRQQEBfkUB+2Kft
-         aCVjSw0K5UY7SY8vB7V7uxZcf/VSJ9cbn5a9ptWFht7i0S4k5NTNNT1L2xaJaXc/7F8g
-         g+LWcWmMqEaPcMd0qJgkFXb5Wp3OJKlLI5jdvAqDmc7ppI61mJ7HS7JfwfqEo6lSP6LW
-         vIO7UhPfV9XtSJ9hkM2n3Q3z3mkPzf+D+nEg7t9ux3weXaLV4LqpvKLtX1alihrLbftV
-         45HAAkwOwWmlkM9UTXEvfUXhtOp3cUL/ZFJUMqRb3Q64IDIES2SXataObPnmX9/tupK2
-         9bIw==
+        bh=NnPM/1iwTYgLtZN4p7zGVBwD5GilMSlTUz6W+0NvmIg=;
+        b=IZCIHt8D/mYVs5kjUdiV9HBg8Qfm8qL0fsYjGro0iDmqR+vbgZgzm+noCBNOYp+mlE
+         g1F82VT7HahJIklIj8KKr282qcof4BJtjW2Pzd/bPw0HcqKdXMNEKwIrp87l4yd+rF2w
+         +MgM7S8yNuyqtiQ6pz8wuTCRsR/lnfQG58GxmP5CjxapG25/caTYXY7Pymc0nJrRZuzb
+         yKLqBkin/2+WcUu054Vthv9zGvpKCQ5iEsue6iEcW2iBNVFOcjvLhWqIn47Ht+46m+re
+         +1/aGo7r1cfHsHkhwkm9xv1J8S2Hh0WVgfo0ydnty8MvWFs//0Hk3QIph6o5kgKWSvIm
+         UFuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qp3ApZNwdVyNrZVWbK/1tGppYB+FMHe7qlfaOG0HmF4=;
-        b=AkoUERl4d33XOqcVUN/YgEAnBQIkf6qwdq0gwCMq+LcR/tM5weiucifWA0p5F8in3F
-         HKU5PMnS/Juiw4timc+MLzOMc7tU1A9K8Dh8ojA45wsyFgbBVczkE1CfzECNxRbTr+mV
-         aXdCc5gWgrs6M2raebTs/nJNuwQCES28eOqFGQG7hG76Dm4EkPebmcJqrwW48BJVn7X3
-         YQ1frREeF80y10p8stA7PF8lANs+xffeVQaWXelp0wTTGL2WIDBbJLcpzpVhzhTN4jvH
-         CDMoCk9AIdgQda9t4K2CJbvAQ+WQz1Cs1IuIuDdFLWtvwVeRtMjyM698v9xow3Ch8pEB
-         8SSQ==
-X-Gm-Message-State: AOAM531z6JpjCxdJQXQrjCQwF+OjqSXUbnOmfXKBwdzIn0WWjz0rx5Ua
-	gCkurybouobRb3pM9XQ04hHPH9MjVS62cw==
-X-Google-Smtp-Source: ABdhPJyu32CieLyi2m42ztfUWZo4OsiLBi2WNaiVq8UowRn8hdjoNqyOYiAvBqYpdm6wZClk1wcdAw==
-X-Received: by 2002:adf:e38e:: with SMTP id e14mr9233257wrm.168.1603023021026;
-        Sun, 18 Oct 2020 05:10:21 -0700 (PDT)
+        bh=NnPM/1iwTYgLtZN4p7zGVBwD5GilMSlTUz6W+0NvmIg=;
+        b=HYucwig7kIlRlLNAs95BYSb/Evt/ev78H0WwsGYyLWsnwyOJnOmstKNmR+sEcqvJRv
+         ufOYuz+p3RxeUBQ/N89I7FT3NKLxQRFEWCQN+56O6XW8TIod5na9V6wMZQOscD7A5iz9
+         eBmeVC9QyYIJ6LMHkpVqvhJhnjd2C5BGT3e2BDDQ5d36tVVCmW3dAu0ckdVXMHjYl0yg
+         GvyluFMYPhvEmgmDA/eAlahW5sJKiPYP5izW3JvcKArSLgMcDJnAM5KmF382WMV13VaX
+         amkX7wHoy9Zj7gXo2Cm1AXeE5yQmHHM/U2CMWCfobcBDN+vVr/j4V2JpiEZgF3ROXxaP
+         IqKw==
+X-Gm-Message-State: AOAM532IKbDQ4vPXz4gkzYNrGSHA/EPit57V/ilzhsPjdKTn0jEUhhLh
+	WjBpp3RjHCelq9z/9X1njMFfmMCZOS82eg==
+X-Google-Smtp-Source: ABdhPJyrMb3Zwj7TJNB5O8c1RoiII4vIYSOiqy+rYqKaHQHj390oJ7eW42Pz9osjr7vYOQNShIAXEg==
+X-Received: by 2002:a05:6000:12c2:: with SMTP id l2mr14421151wrx.76.1603023022221;
+        Sun, 18 Oct 2020 05:10:22 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id z18sm9511084wrs.82.2020.10.18.05.10.20
+        by smtp.gmail.com with ESMTPSA id z18sm9511084wrs.82.2020.10.18.05.10.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 05:10:20 -0700 (PDT)
+        Sun, 18 Oct 2020 05:10:21 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v3 02/20] gstreamer1.0: Fix reproducibility issue around libcap
-Date: Sun, 18 Oct 2020 13:09:44 +0100
-Message-Id: <20201018121002.1417335-3-quaresma.jose@gmail.com>
+Subject: [PATCH v3 03/20] gstreamer1.0-plugins-base: upgrade to version 1.18.0
+Date: Sun, 18 Oct 2020 13:09:45 +0100
+Message-Id: <20201018121002.1417335-4-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201018121002.1417335-1-quaresma.jose@gmail.com>
 References: <20201018121002.1417335-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently gstreamer configuration depends libcap and on whether
-setcap is found on the host system.
+    * 0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+    * 0002-meson-Add-variables-for-gir-files.patch
+      Removed since these are included in 1.18.0
 
-Removing libcap from DEPENDS and only use it when the 'setcap' is enabled.
+License-Update: remove file://common/coverage/coverage-report.pl
+Upstream dont have it any more.
 
-    * 0004-capfix.patch
-      Removed as the same goals can be achieved only with the PACKAGECONFIG 'setcap'
+    API and plugin documentation are no longer built with gtk_doc.
+    The gtk_doc documentation has been removed in favour of a new unified
+    documentation module built with hotdoc.
+    Distributors should use the documentation release tarball instead of trying
+    to package hotdoc and building the documentation from scratch.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- .../gstreamer/gstreamer1.0/0004-capfix.patch  | 48 -------------------
- .../gstreamer/gstreamer1.0_1.18.0.bb          |  4 +-
- 2 files changed, 2 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch
+ ...t-caps-from-src-pad-when-query-caps.patch} |  12 +-
+ ...even-when-cross-compiling-if-introsp.patch |  36 ---
+ ...02-meson-Add-variables-for-gir-files.patch | 235 ------------------
+ ...arse-enhance-SSA-text-lines-parsing.patch} |  10 +-
+ ...v-fb-Make-sure-config.h-is-included.patch} |   8 +-
+ ...04-glimagesink-Downrank-to-marginal.patch} |   8 +-
+ ...bb => gstreamer1.0-plugins-base_1.18.0.bb} |  31 +--
+ 7 files changed, 33 insertions(+), 307 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{get-caps-from-src-pad-when-query-caps.patch => 0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch} (81%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-meson-Add-variables-for-gir-files.patch
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0003-ssaparse-enhance-SSA-text-lines-parsing.patch => 0002-ssaparse-enhance-SSA-text-lines-parsing.patch} (98%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0005-viv-fb-Make-sure-config.h-is-included.patch => 0003-viv-fb-Make-sure-config.h-is-included.patch} (80%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0009-glimagesink-Downrank-to-marginal.patch => 0004-glimagesink-Downrank-to-marginal.patch} (85%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16.2.bb => gstreamer1.0-plugins-base_1.18.0.bb} (78%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+similarity index 81%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+index a4727e23ea..d5d9838372 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/get-caps-from-src-pad-when-query-caps.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+@@ -1,14 +1,13 @@
+-From 41de2ec64ab06bb58c82c1659adaa3811bc5bcf8 Mon Sep 17 00:00:00 2001
++From f9d48cd85ee68207733b1b91a00453462c33524a Mon Sep 17 00:00:00 2001
+ From: zhouming <b42586@freescale.com>
+ Date: Wed, 14 May 2014 10:16:20 +0800
+-Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
++Subject: [PATCH 1/4] ENGR00312515: get caps from src pad when query caps
+ 
+ https://bugzilla.gnome.org/show_bug.cgi?id=728312
+ 
+ Upstream-Status: Pending
+ 
+ Signed-off-by: zhouming <b42586@freescale.com>
+-
+ ---
+  gst-libs/gst/tag/gsttagdemux.c | 13 +++++++++++++
+  1 file changed, 13 insertions(+)
+@@ -17,10 +16,10 @@ Signed-off-by: zhouming <b42586@freescale.com>
+ diff --git a/gst-libs/gst/tag/gsttagdemux.c b/gst-libs/gst/tag/gsttagdemux.c
+ old mode 100644
+ new mode 100755
+-index 8a127c8..71c5d78
++index f545857..62d10ef
+ --- a/gst-libs/gst/tag/gsttagdemux.c
+ +++ b/gst-libs/gst/tag/gsttagdemux.c
+-@@ -1759,6 +1759,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
++@@ -1777,6 +1777,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
+        }
+        break;
+      }
+@@ -40,3 +39,6 @@ index 8a127c8..71c5d78
+      default:
+        res = gst_pad_query_default (pad, parent, query);
+        break;
++-- 
++2.28.0
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
 deleted file mode 100644
-index 32e9610cff..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch
+index 49ab471414..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
 +++ /dev/null
-@@ -1,48 +0,0 @@
--From 9607e9858d681f5ad2e1677f5dbbb1fb61bd8846 Mon Sep 17 00:00:00 2001
--From: Jose Quaresma <quaresma.jose@gmail.com>
--Date: Sun, 18 Oct 2020 10:40:59 +0100
--Subject: [PATCH 4/4] Currently gstreamer configuration depends on whether
-- setcap is found on the host system. Turn this into a configure option to make
-- builds deterinistic.
+@@ -1,36 +0,0 @@
+-From 30672ba7d134553e59935ddc875104adba26f25c Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
+-Date: Thu, 17 Oct 2019 20:06:24 +0100
+-Subject: [PATCH] meson: build gir even when cross-compiling if introspection
+- was enabled explicitly
 -
--RP 2020/2/19
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--Upstream-Status: Pending
+-This can be made to work in certain circumstances when
+-cross-compiling, so default to not building g-i stuff
+-when cross-compiling, but allow it if introspection was
+-enabled explicitly via -Dintrospection=enabled.
+-
+-See gstreamer/gstreamer#454 and gstreamer/gstreamer#381.
+-
+-Upstream-Status: Backport [30672ba7d134553e59935ddc875104adba26f25c]
+-
+-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ----
-- libs/gst/helpers/meson.build | 7 ++++++-
-- meson_options.txt            | 1 +
-- 2 files changed, 7 insertions(+), 1 deletion(-)
+- meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/libs/gst/helpers/meson.build b/libs/gst/helpers/meson.build
--index 9e5a4ae..c2e540f 100644
----- a/libs/gst/helpers/meson.build
--+++ b/libs/gst/helpers/meson.build
--@@ -66,7 +66,12 @@ if have_ptp
--       description : 'getifaddrs() and AF_LINK is available')
--   endif
+-diff --git a/meson.build b/meson.build
+-index 264d84c9e..c8147c224 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -372,7 +372,7 @@ endif
 - 
---  setcap_prog = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
--+  setcap_feature = get_option('setcap')
--+  if setcap_feature.disabled()
--+    setcap_prog = find_program('dontexist', required : false)
--+  else
--+    setcap_prog = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
--+  endif
--   cap_dep = dependency('libcap', required: false)
-- 
--   # user/group to change to in gst-ptp-helper
--diff --git a/meson_options.txt b/meson_options.txt
--index 346c423..03338ad 100644
----- a/meson_options.txt
--+++ b/meson_options.txt
--@@ -25,6 +25,7 @@ option('libdw', type : 'feature', value : 'auto', description : 'Use libdw to ge
-- option('dbghelp', type : 'feature', value : 'auto', description : 'Use dbghelp to generate backtraces')
-- option('bash-completion', type : 'feature', value : 'auto', description : 'Install bash completion files')
-- option('coretracers', type : 'feature', value : 'auto', description : 'Build coretracers plugin')
--+option('setcap', type : 'feature', value : 'auto', description : 'Use setcap')
-- 
-- # Common feature options
-- option('examples', type : 'feature', value : 'auto', yield : true)
+- gir = find_program('g-ir-scanner', required : get_option('introspection'))
+- gnome = import('gnome')
+--build_gir = gir.found() and not meson.is_cross_build()
+-+build_gir = gir.found() and (not meson.is_cross_build() or get_option('introspection').enabled())
+- gir_init_section = [ '--add-init-section=extern void gst_init(gint*,gchar**);' + \
+-     'g_setenv("GST_REGISTRY_DISABLE", "yes", TRUE);' + \
+-     'g_setenv("GST_REGISTRY_1.0", "@0@", TRUE);'.format(meson.current_build_dir() + '/gir_empty_registry.reg') + \
 --- 
--2.28.0
+-2.17.1
 -
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.0.bb
-index 8f7dfc6079..d382655bcb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.0.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
- SECTION = "multimedia"
- LICENSE = "LGPLv2+"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-meson-Add-variables-for-gir-files.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-meson-Add-variables-for-gir-files.patch
+deleted file mode 100644
+index ca85744c19..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-meson-Add-variables-for-gir-files.patch
++++ /dev/null
+@@ -1,235 +0,0 @@
+-From 685731e989dc074a4b0d48b6c8062e2738f09719 Mon Sep 17 00:00:00 2001
+-From: Thibault Saunier <tsaunier@igalia.com>
+-Date: Mon, 22 Oct 2018 11:44:37 +0200
+-Subject: [PATCH] meson: Add variables for gir files
+-
+-And flatten list of sources for dependencies
+-
+-Upstream-Status: Backport [685731e989dc074a4b0d48b6c8062e2738f09719]
+-
+-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+----
+- gst-libs/gst/allocators/meson.build | 5 +++--
+- gst-libs/gst/app/meson.build        | 6 ++++--
+- gst-libs/gst/audio/meson.build      | 5 +++--
+- gst-libs/gst/pbutils/meson.build    | 5 +++--
+- gst-libs/gst/rtp/meson.build        | 6 ++++--
+- gst-libs/gst/rtsp/meson.build       | 5 +++--
+- gst-libs/gst/sdp/meson.build        | 6 ++++--
+- gst-libs/gst/tag/meson.build        | 5 +++--
+- gst-libs/gst/video/meson.build      | 5 +++--
+- 9 files changed, 30 insertions(+), 18 deletions(-)
+-
+-diff --git a/gst-libs/gst/allocators/meson.build b/gst-libs/gst/allocators/meson.build
+-index 364baeebf..56f156dc3 100644
+---- a/gst-libs/gst/allocators/meson.build
+-+++ b/gst-libs/gst/allocators/meson.build
+-@@ -22,7 +22,7 @@ gstallocators = library('gstallocators-@0@'.format(api_version),
+- allocators_gen_sources  = []
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/allocators/allocators.h' ]
+--  allocators_gen_sources += [gnome.generate_gir(gstallocators,
+-+  allocators_gir = gnome.generate_gir(gstallocators,
+-     sources : gst_allocators_sources + gst_allocators_headers,
+-     namespace : 'GstAllocators',
+-     nsversion : api_version,
+-@@ -33,7 +33,8 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : [gst_dep]
+--  )]
+-+  )
+-+  allocators_gen_sources += allocators_gir
+- endif
+- 
+- allocators_dep = declare_dependency(link_with: gstallocators,
+-diff --git a/gst-libs/gst/app/meson.build b/gst-libs/gst/app/meson.build
+-index 81dd0f42c..7a90f5e10 100644
+---- a/gst-libs/gst/app/meson.build
+-+++ b/gst-libs/gst/app/meson.build
+-@@ -32,7 +32,7 @@ gstapp = library('gstapp-@0@'.format(api_version),
+- 
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/app/app.h' ]
+--  app_gen_sources += [gnome.generate_gir(gstapp,
+-+  app_gir = gnome.generate_gir(gstapp,
+-     sources : app_sources + app_headers + [gstapp_c] + [gstapp_h],
+-     namespace : 'GstApp',
+-     nsversion : api_version,
+-@@ -43,7 +43,9 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : [gst_dep, gst_base_dep]
+--  )]
+-+  )
+-+
+-+  app_gen_sources += app_gir
+- endif
+- 
+- app_dep = declare_dependency(link_with: gstapp,
+-diff --git a/gst-libs/gst/audio/meson.build b/gst-libs/gst/audio/meson.build
+-index 0e4efab2e..2a449d4bf 100644
+---- a/gst-libs/gst/audio/meson.build
+-+++ b/gst-libs/gst/audio/meson.build
+-@@ -153,7 +153,7 @@ gstaudio = library('gstaudio-@0@'.format(api_version),
+- 
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/audio/audio.h' ]
+--  audio_gen_sources += [gnome.generate_gir(gstaudio,
+-+  audio_gir = gnome.generate_gir(gstaudio,
+-     sources : audio_src + audio_headers + [gstaudio_c] + [gstaudio_h],
+-     namespace : 'GstAudio',
+-     nsversion : api_version,
+-@@ -164,7 +164,8 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : gstaudio_deps
+--  )]
+-+  )
+-+  audio_gen_sources += [audio_gir]
+- endif
+- 
+- audio_dep = declare_dependency(link_with : gstaudio,
+-diff --git a/gst-libs/gst/pbutils/meson.build b/gst-libs/gst/pbutils/meson.build
+-index 2faf62622..0e96722fd 100644
+---- a/gst-libs/gst/pbutils/meson.build
+-+++ b/gst-libs/gst/pbutils/meson.build
+-@@ -63,7 +63,7 @@ pbutils = library('gstpbutils-@0@'.format(api_version),
+- pbutils_gen_sources = [gstpbutils_h, gst_pbutils_version_h]
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/pbutils/pbutils.h' ]
+--  pbutils_gen_sources += [gnome.generate_gir(pbutils,
+-+  pbutils_gir = gnome.generate_gir(pbutils,
+-     sources : pbutils_sources + pbutils_headers + [gstpbutils_h, gst_pbutils_version_h],
+-     namespace : 'GstPbutils',
+-     nsversion : api_version,
+-@@ -74,7 +74,8 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : gstpbutils_deps
+--  )]
+-+  )
+-+  pbutils_gen_sources += [pbutils_gir]
+- endif
+- 
+- pbutils_dep = declare_dependency(link_with : pbutils,
+-diff --git a/gst-libs/gst/rtp/meson.build b/gst-libs/gst/rtp/meson.build
+-index f47ec6592..7ea6658d5 100644
+---- a/gst-libs/gst/rtp/meson.build
+-+++ b/gst-libs/gst/rtp/meson.build
+-@@ -49,7 +49,7 @@ gst_rtp = library('gstrtp-@0@'.format(api_version),
+- rtp_gen_sources = [gstrtp_enum_h]
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/rtp/rtp.h' ]
+--  rtp_gen_sources += [gnome.generate_gir(gst_rtp,
+-+  rtp_gir = gnome.generate_gir(gst_rtp,
+-     sources : rtp_sources + rtp_headers + [gstrtp_enum_c] + [gstrtp_enum_h],
+-     namespace : 'GstRtp',
+-     nsversion : api_version,
+-@@ -60,7 +60,9 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : gstrtp_deps
+--  )]
+-+  )
+-+
+-+  rtp_gen_sources += [rtp_gir]
+- endif
+- 
+- 
+-diff --git a/gst-libs/gst/rtsp/meson.build b/gst-libs/gst/rtsp/meson.build
+-index 27e309d5a..3632adceb 100644
+---- a/gst-libs/gst/rtsp/meson.build
+-+++ b/gst-libs/gst/rtsp/meson.build
+-@@ -54,7 +54,7 @@ gst_rtsp = library('gstrtsp-@0@'.format(api_version),
+- rtsp_gen_sources = [gstrtsp_h]
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/rtsp/rtsp.h' ]
+--  rtsp_gen_sources += [gnome.generate_gir(gst_rtsp,
+-+  rtsp_gir = gnome.generate_gir(gst_rtsp,
+-     sources : rtsp_sources + rtsp_headers + [gstrtsp_c] + [gstrtsp_h],
+-     namespace : 'GstRtsp',
+-     nsversion : api_version,
+-@@ -65,7 +65,8 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : gstrtsp_deps + [sdp_dep]
+--  )]
+-+  )
+-+  rtsp_gen_sources += [rtsp_gir]
+- endif
+- 
+- rtsp_dep = declare_dependency(link_with : gst_rtsp,
+-diff --git a/gst-libs/gst/sdp/meson.build b/gst-libs/gst/sdp/meson.build
+-index 62c18b732..24cdb5293 100644
+---- a/gst-libs/gst/sdp/meson.build
+-+++ b/gst-libs/gst/sdp/meson.build
+-@@ -23,7 +23,7 @@ gstsdp = library('gstsdp-@0@'.format(api_version),
+- sdp_gen_sources  = []
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/sdp/sdp.h' ]
+--  sdp_gen_sources += [gnome.generate_gir(gstsdp,
+-+  sdp_gir = gnome.generate_gir(gstsdp,
+-     sources : gst_sdp_sources + gst_sdp_headers,
+-     namespace : 'GstSdp',
+-     nsversion : api_version,
+-@@ -34,7 +34,9 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : rtsp_deps
+--  )]
+-+  )
+-+
+-+  sdp_gen_sources += [sdp_gir]
+- endif
+- 
+- sdp_dep = declare_dependency(link_with: gstsdp,
+-diff --git a/gst-libs/gst/tag/meson.build b/gst-libs/gst/tag/meson.build
+-index 27e66fd63..5ec37392a 100644
+---- a/gst-libs/gst/tag/meson.build
+-+++ b/gst-libs/gst/tag/meson.build
+-@@ -93,7 +93,7 @@ gsttag = library('gsttag-@0@'.format(api_version),
+- 
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/tag/tag.h' ]
+--  tag_gen_sources += [gnome.generate_gir(gsttag,
+-+  tag_gir = gnome.generate_gir(gsttag,
+-     sources : tag_sources + tag_headers + [gsttag_h] + [gsttag_c],
+-     namespace : 'GstTag',
+-     nsversion : api_version,
+-@@ -104,7 +104,8 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : tag_deps
+--  )]
+-+  )
+-+  tag_gen_sources += [tag_gir]
+- endif
+- 
+- tag_dep = declare_dependency(link_with: gsttag,
+-diff --git a/gst-libs/gst/video/meson.build b/gst-libs/gst/video/meson.build
+-index 5b35e1943..bf77aa157 100644
+---- a/gst-libs/gst/video/meson.build
+-+++ b/gst-libs/gst/video/meson.build
+-@@ -138,7 +138,7 @@ gstvideo = library('gstvideo-@0@'.format(api_version),
+- 
+- if build_gir
+-   gst_gir_extra_args = gir_init_section + [ '--c-include=gst/video/video.h' ]
+--  video_gen_sources += [gnome.generate_gir(gstvideo,
+-+  video_gir = gnome.generate_gir(gstvideo,
+-     sources : video_sources + video_headers + [gstvideo_c] + [gstvideo_h],
+-     namespace : 'GstVideo',
+-     nsversion : api_version,
+-@@ -149,7 +149,8 @@ if build_gir
+-     install : true,
+-     extra_args : gst_gir_extra_args,
+-     dependencies : gstvideo_deps
+--  )]
+-+  )
+-+  video_gen_sources += [video_gir]
+- endif
+- 
+- video_dep = declare_dependency(link_with : gstvideo,
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-ssaparse-enhance-SSA-text-lines-parsing.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
+index 9e95524057..e453a500c9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-ssaparse-enhance-SSA-text-lines-parsing.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
+@@ -1,7 +1,7 @@
+-From 918c96b24d10f61b7455b4cef3bab490849d0d77 Mon Sep 17 00:00:00 2001
++From f587861bbe12ad0b10370f835592746aafedbf56 Mon Sep 17 00:00:00 2001
+ From: Mingke Wang <mingke.wang@freescale.com>
+ Date: Thu, 19 Mar 2015 14:17:10 +0800
+-Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
++Subject: [PATCH 2/4] ssaparse: enhance SSA text lines parsing.
  
--DEPENDS = "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-native"
-+DEPENDS = "glib-2.0 glib-2.0-native libxml2 bison-native flex-native"
+ some parser will pass in the original ssa text line which starts with "Dialog:"
+ and there's are maybe multiple Dialog lines in one input buffer.
+@@ -9,9 +9,8 @@ and there's are maybe multiple Dialog lines in one input buffer.
+ Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=747496]
  
- inherit meson pkgconfig gettext upstream-version-is-even gobject-introspection
+ Signed-off-by: Mingke Wang <mingke.wang@freescale.com>
+-
+ ---
+- gst/subparse/gstssaparse.c | 150 ++++++++++++++++++++++++++++++++++++++++-----
++ gst/subparse/gstssaparse.c | 150 +++++++++++++++++++++++++++++++++----
+  1 file changed, 134 insertions(+), 16 deletions(-)
+  mode change 100644 => 100755 gst/subparse/gstssaparse.c
  
-@@ -36,7 +36,7 @@ PACKAGECONFIG[unwind] = "-Dlibunwind=enabled,-Dlibunwind=disabled,libunwind"
- PACKAGECONFIG[dw] = "-Dlibdw=enabled,-Dlibdw=disabled,elfutils"
- PACKAGECONFIG[bash-completion] = "-Dbash-completion=enabled,-Dbash-completion=disabled,bash-completion"
- PACKAGECONFIG[tools] = "-Dtools=enabled,-Dtools=disabled"
--PACKAGECONFIG[setcap] = "-Dsetcap=enabled,-Dsetcap=disabled,libcap libcap-native"
-+PACKAGECONFIG[setcap] = ",,libcap libcap-native"
+@@ -225,3 +224,6 @@ index c849c08..4b9636c
+  
+    if (ret != GST_FLOW_OK && GST_CLOCK_TIME_IS_VALID (ts)) {
+      GstSegment segment;
++-- 
++2.28.0
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
+similarity index 80%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-viv-fb-Make-sure-config.h-is-included.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
+index 6e53d2e8b5..2af83ff8b9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0005-viv-fb-Make-sure-config.h-is-included.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
+@@ -1,7 +1,7 @@
+-From bec38a0c2e2958927c42b2f9ae939969b7c4a326 Mon Sep 17 00:00:00 2001
++From 153f3b83a3fed77785bd1420bed8bbafa2d791b3 Mon Sep 17 00:00:00 2001
+ From: Carlos Rafael Giani <crg7475@mailbox.org>
+ Date: Tue, 21 May 2019 14:01:11 +0200
+-Subject: [PATCH] viv-fb: Make sure config.h is included
++Subject: [PATCH 3/4] viv-fb: Make sure config.h is included
  
- # TODO: put this in a gettext.bbclass patch
- def gettext_oemeson(d):
+ This prevents build errors due to missing GST_API_* symbols
+ 
+@@ -13,7 +13,7 @@ Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+  1 file changed, 4 insertions(+)
+ 
+ diff --git a/gst-libs/gst/gl/gl-prelude.h b/gst-libs/gst/gl/gl-prelude.h
+-index 05e1f6229..96ce5e685 100644
++index 05e1f62..96ce5e6 100644
+ --- a/gst-libs/gst/gl/gl-prelude.h
+ +++ b/gst-libs/gst/gl/gl-prelude.h
+ @@ -22,6 +22,10 @@
+@@ -28,5 +28,5 @@ index 05e1f6229..96ce5e685 100644
+  
+  #ifdef BUILDING_GST_GL
+ -- 
+-2.17.1
++2.28.0
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0009-glimagesink-Downrank-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-glimagesink-Downrank-to-marginal.patch
+similarity index 85%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0009-glimagesink-Downrank-to-marginal.patch
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-glimagesink-Downrank-to-marginal.patch
+index e8094f459e..f45ea65ef3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0009-glimagesink-Downrank-to-marginal.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-glimagesink-Downrank-to-marginal.patch
+@@ -1,7 +1,7 @@
+-From c6b37a80806f9128de47f1ccc3f2354f8d436bb6 Mon Sep 17 00:00:00 2001
++From 79841a02ee754eba736cb32aaf2ed2b2fc0483d4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 24 Sep 2015 19:47:32 +0300
+-Subject: [PATCH] glimagesink: Downrank to marginal
++Subject: [PATCH 4/4] glimagesink: Downrank to marginal
+ 
+ On desktop, where there is good OpenGL, xvimagesink will come up first,
+ on other platforms, OpenGL can't be trusted because it's either software (like
+@@ -15,7 +15,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/ext/gl/gstopengl.c b/ext/gl/gstopengl.c
+-index a4b2540..0ccaacd 100644
++index 302e845..463be9c 100644
+ --- a/ext/gl/gstopengl.c
+ +++ b/ext/gl/gstopengl.c
+ @@ -127,7 +127,7 @@ plugin_init (GstPlugin * plugin)
+@@ -28,5 +28,5 @@ index a4b2540..0ccaacd 100644
+    }
+  
+ -- 
+-2.1.4
++2.28.0
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
+similarity index 78%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
+index 6563b6f738..7fe5a480d4 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
+@@ -1,26 +1,22 @@
+ require gstreamer1.0-plugins-common.inc
+ 
+ LICENSE = "GPLv2+ & LGPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+-                    file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607"
+-
+-SRC_URI = " \
+-            https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz \
+-            file://get-caps-from-src-pad-when-query-caps.patch \
+-            file://0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
+-            file://0002-meson-Add-variables-for-gir-files.patch \
+-            file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
+-            file://0005-viv-fb-Make-sure-config.h-is-included.patch \
+-            file://0009-glimagesink-Downrank-to-marginal.patch \
+-            "
+-SRC_URI[md5sum] = "3fdb32823535799a748c1fc14f978e2c"
+-SRC_URI[sha256sum] = "b13e73e2fe74a4166552f9577c3dcb24bed077021b9c7fa600d910ec6987816a"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d"
++
++SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz \
++           file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch \
++           file://0003-viv-fb-Make-sure-config.h-is-included.patch \
++           file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
++           file://0004-glimagesink-Downrank-to-marginal.patch \
++           "
++SRC_URI[md5sum] = "5ea9dc2692335e03170c3639901c2d83"
++SRC_URI[sha256sum] = "762abdd1a950809a1cea62fff7f86b5f7d6bd5f6841e3e585c700b823cdb7897"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
+ DEPENDS += "iso-codes util-linux zlib"
+ 
+-inherit gobject-introspection gtk-doc
++inherit gobject-introspection
+ 
+ PACKAGES_DYNAMIC =+ "^libgst.*"
+ 
+@@ -74,16 +70,13 @@ OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'wayland', ' wayla
+ OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'dispmanx', ' dispmanx', '', d)}"
+ 
+ EXTRA_OEMESON += " \
++    -Ddoc=disabled \
+     -Dgl-graphene=disabled \
+     ${@get_opengl_cmdline_list('gl_api', d.getVar('OPENGL_APIS'), d)} \
+     ${@get_opengl_cmdline_list('gl_platform', d.getVar('OPENGL_PLATFORMS'), d)} \
+     ${@get_opengl_cmdline_list('gl_winsys', d.getVar('OPENGL_WINSYS'), d)} \
+ "
+ 
+-GTKDOC_MESON_OPTION = "gtk_doc"
+-GTKDOC_MESON_ENABLE_FLAG = "enabled"
+-GTKDOC_MESON_DISABLE_FLAG = "disabled"
+-
+ FILES_${PN}-dev += "${libdir}/gstreamer-1.0/include/gst/gl/gstglconfig.h"
+ FILES_${MLPREFIX}libgsttag-1.0 += "${datadir}/gst-plugins-base/1.0/license-translations.dict"
+ 
 -- 
 2.28.0
 
