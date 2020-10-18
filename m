@@ -1,77 +1,83 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.26005.1603043801084103770
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web12.26332.1603044746216439406
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2020 10:56:41 -0700
+ Sun, 18 Oct 2020 11:12:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LibWwN/V;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id j136so10451518wmj.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 10:56:40 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=O9wPvtan;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.53, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f53.google.com with SMTP id l16so7979117eds.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 11:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=njwCKCuTCMr7H50juIWvRCYHc+P0hZ/yCJB64bPdS6M=;
-        b=LibWwN/VhK9+I2fKF3+y7Bv0F/WRbOtHqw6eTJgfkUcwNjG93Rn7bZx4n/0ZEWph2y
-         ljtJmvMtpd51qjwPoxHpZvEdpUv+UaGXjc8Lsk1nr5fJv/LrmfMMHT6sU/IWE6o0gcTO
-         ijRXgeZ4/+YAMn+B/Z4LamAGovYJAvEo5G8nw=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CCnJnleX0Ipcbd69WSyCLqHDbPpa4ldIGnqcP9OILU0=;
+        b=O9wPvtanVN6ZFN3MrgCmfnXj01KnWqh7E9XBYiQnPi9JsOFPcgGo7I7gzuU21gj4WI
+         mznNjomxlhbLSQ9Ss287IDOAAum2ZhGwW3gWhZPnho16PPWYLEDKUVkUfmMtmFWqAIJY
+         xcD1oOZ8A7OudXQodTefCXdaO8sjSksJEnDhXi9L6nn67LPgQiZwZcuuhx/OkFrwLTm8
+         mB0VjZg66DHlnibhBmJKShZDJu30owrO0/8mwXOXII5JoGhJz5iY5+UNLIzwzpRcZxQf
+         WdH2B7uAts0z/xq7gRepV4MQGDc4y6qhrIEclyAe/knkUVZRu9bOV8WovaQARzlMfp0E
+         RkiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=njwCKCuTCMr7H50juIWvRCYHc+P0hZ/yCJB64bPdS6M=;
-        b=c1QfaL7VZ85JqXwOSazV4rqpqDQTeTMke90NHWBwPikl1cAGqpdsZlUCGemjmYVTQq
-         dGdpDMwVMOYMmRWdgmhRn8rTdrdReOnnRJ5sZ5exnvSv8iF3Nig8qw/OO2QFGd2tam54
-         VJ74Ws49q4wpbPvX2X77K2xEDUo+b7U/NZzVhtLcfgJIoq6WMbtV7kkWpMyRHwCPIjud
-         qltQADUiB+H/MXPprYj5uZtDYLs4V4qQEf7dA5fjjaKx0M3InnFYZK8dgvoTFSNoDRQO
-         k6xnIjvBJJvESQRMXsDdBgVZQ3l36CraHZoNt42zMWsmoMf34AGMul0cSmMFCz+Dwkcv
-         Hxsg==
-X-Gm-Message-State: AOAM532gKkhzXAKrRFTisgW1xdTiy9sXbRBaSMjsgNzMjGpuE683x/j3
-	M9HqZzIo3wuyEu1uyVBer8tJbw==
-X-Google-Smtp-Source: ABdhPJzDzvsdjCbdINKhTpbZ018TqIU6/UZSeEANmpOBD0yVuiykbbQ3QhRt/wEz72kCpgevEezV2g==
-X-Received: by 2002:a7b:c250:: with SMTP id b16mr14680126wmj.161.1603043799519;
-        Sun, 18 Oct 2020 10:56:39 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7d78:e5d6:b970:ac7f])
-        by smtp.gmail.com with ESMTPSA id z11sm14115140wrh.70.2020.10.18.10.56.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 10:56:38 -0700 (PDT)
-Message-ID: <27f0873f9e4c50789588953a20d530c9965e1a35.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 18 Oct 2020 12:00:01 AM HST
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org, 
-	yocto-security@lists.yoctoproject.org
-Date: Sun, 18 Oct 2020 18:56:36 +0100
-In-Reply-To: <20201018100004.8512E9601C6@nuc.router0800d9.com>
-References: <20201018100004.8512E9601C6@nuc.router0800d9.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CCnJnleX0Ipcbd69WSyCLqHDbPpa4ldIGnqcP9OILU0=;
+        b=We02YxbuAdrNH2M9NcUOXNJktTHpMpL51Sc3hv9QnwBM7IvsdOU2aBhqQMqPHaM/YK
+         aiqgKCVEKwW57Le+XHa+wwHjvf2joLXH4kjG/if0ZApobUnxV/dLZ9IqJAsjxczACj6X
+         hyYwVNTgbWfxJaYgJVw2DW2/X5yl7XhIilS5r+BSi5sV037zO70QLbJXLbTElqvHPau6
+         bU+wuFexxbh9dGsTU3c7QRzGtP2C2Pmv61Q9Edmw6rF4OGvD1BgptuULimCIlyqjV3vc
+         oGGqVMBW1hSAnrdDA476nLSME62ai4aulnf2eNcDE4YSps432ksLl84Gx16dnfa+xD66
+         bLpw==
+X-Gm-Message-State: AOAM531Z+HMFkTsbO2ujbyBwALoVnIFjctZnfET/lB+pjC57bUtqxTrk
+	e4pmb2E/cfJkvE3QkNwrIdlfU/CQMRPFgKrwVmIZ8w==
+X-Google-Smtp-Source: ABdhPJwXbXXdFOFzNYbGhje3BDu0P9TKbsD3sVh5XjIhv03QX2O4ruMOuf0H8nzcn5HYTK6m6zpQd0PB8wWlV1dKi1I=
+X-Received: by 2002:a50:d517:: with SMTP id u23mr14644370edi.338.1603044744491;
+ Sun, 18 Oct 2020 11:12:24 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201018100004.8512E9601C6@nuc.router0800d9.com> <27f0873f9e4c50789588953a20d530c9965e1a35.camel@linuxfoundation.org>
+In-Reply-To: <27f0873f9e4c50789588953a20d530c9965e1a35.camel@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Sun, 18 Oct 2020 08:12:13 -1000
+Message-ID: <CAOSpxdYO3dB_9PtC7pvmqNTa8ZUbGQU6YOfEFezM0mtCBjC7AQ@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 18 Oct 2020 12:00:01 AM HST
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	yocto-security@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-10-18 at 00:00 -1000, Steve Sakoman wrote:
-> Branch: master
-> 
-> New this week:
-> CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-> CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-> CVE-2020-26116: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26116 *
-> CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
-> 
-> Removed this week:
-> CVE-2019-18276: bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18276 *
-> CVE-2019-20907: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20907 *
-> CVE-2020-14346: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14346 *
-> CVE-2020-14361: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14361 *
-> CVE-2020-14362: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14362 *
-> CVE-2020-14363: libx11 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14363 *
-> CVE-2020-16092: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16092 *
+On Sun, Oct 18, 2020 at 7:56 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2020-10-18 at 00:00 -1000, Steve Sakoman wrote:
+> > Branch: master
+> >
+> > New this week:
+> > CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+> > CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+> > CVE-2020-26116: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26116 *
+> > CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
+> >
+> > Removed this week:
+> > CVE-2019-18276: bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18276 *
+> > CVE-2019-20907: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20907 *
+> > CVE-2020-14346: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14346 *
+> > CVE-2020-14361: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14361 *
+> > CVE-2020-14362: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14362 *
+> > CVE-2020-14363: libx11 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14363 *
+> > CVE-2020-16092: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16092 *
+>
+> I'm a little puzzled about how dunfell improved significantly but
+> master didn't?
 
-I'm a little puzzled about how dunfell improved significantly but
-master didn't?
+I am too!  The master CVE check runs first, so I guess it is possible
+that the database updated between runs.  But that seems unlikely.
 
-Cheers,
+I'll review the scripts, it seems more likely I have a bug.
 
-Richard
+FWIW, the dunfell report looks correct -- those are the upstream qemu
+database updates I submitted earlier this week.  There were a couple I
+submitted for other packages later in the week, but those don't seem
+to have taken effect yet.
 
+Steve
