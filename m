@@ -1,69 +1,92 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.17118.1603015216808576152
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web11.17504.1603016299631752689
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2020 03:00:16 -0700
+ Sun, 18 Oct 2020 03:18:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QOSX7TcE;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id h2so3486115pll.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 03:00:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Q1bsJsSM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.43, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f43.google.com with SMTP id n11so2228389ota.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 03:18:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=subject:from:to:message-id:date;
-        bh=ykcfYmY8ZDJfsNkBKSi+wZAJofYaF5UtUfgNiy9A2yc=;
-        b=QOSX7TcEV3vwcgtXM2OAvbYdRgq2Ff4PE7fF4DcyyMc0/l9gj14VUPmj+Mr3RT7iI3
-         p9krFAKV4khM8uTwGTIpjmJw8HHPKnSTXSS1yi2UHw7eYuAKrFpmWPk/48qW5W4aiWa8
-         uAjvZE+15cvaS1onK9dm7qD+IeXk7tbpI0DkM3dGUbkE6I3fHaItWfcmsq0VqRM5NYNN
-         BQ2oPJZ38Nbgs6XAj6U2iSk4rHeFXEnpJcxsXA20rH7D2dBNQnR1zo1NNsbE5T3wB05o
-         hNKzb+gPVMF5E/e+45rAysliHA9eAJWfgnzPbUtMEUbmK0WgtHAIWdaBLLh7IyfEZU3x
-         iBiQ==
+        bh=uFPZMXjZsEF+SbQACLxWdqmX4RprDr+je8ZRk3L4AL8=;
+        b=Q1bsJsSM9sBYtJwTQF7MFr/kpexzSHBzIRzIghvwEKymYffIuUIJ8/gHinKCA+7wSp
+         65ZZGXzN9uU9sipKEBDRf5Mm/kFmZkWeqhEiiClVanhhY4etuQ0mbb0VLZOIqwsGEWkT
+         s0by6pVhWHfOIXemDG7avNfxLkcK5+6fE7AmGdFCaL3TMP1vgn0Hj45gQRNnDPDgdk6a
+         mTgecYVkVdol7vbr+D/yrDOH/u60SObYPMCF6xOb9/s1fAfFAUlM1oICsqDpM+uLRmEU
+         Y4yq6F7rdDNYocKsyXYJklW9A4rm2ukIUfxjAar+vl5WDqrpTKRWnVfflgK0908UYNSj
+         SfgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=ykcfYmY8ZDJfsNkBKSi+wZAJofYaF5UtUfgNiy9A2yc=;
-        b=YyQ5LDAFroEtQo3YMahUAxvCuunDYq3m4e5zQQgnYAQL6hqn/rOsJ4s6UxGpHKqWdI
-         vxMbwbZZPp/LxWFEDIYewnOIQU1AxU7lMPo+nF44/V8fajNljbKPoGbKk9X1XfoCYozG
-         +OrZSO01gikyzb+L1xrwFeBmZqzbX+dOo0NTA2fXZMXpUSnLq/XmTSNw3Ciw6JvBOLzg
-         6RJROiB+D8xJEvLgfls1KbW8E+X+PiD2q6sQhyxPkKkK+RB2NBjvryQ77X4ntUwP1+0J
-         YLKIjupmdAR15eGiJTO1wOKj6blM6GGyyfZYJu/ap4uEofYcT4Cy5RGNLNr/48U2+8xj
-         BQbw==
-X-Gm-Message-State: AOAM531EJuWVj+5VZ/TTjHfzCBDggFjYUJTuGkcrv1BKk1nBQIJpRAzV
-	OJ7iiVcgIcdFntxXYLsUPhHfcjmYSaNvas98
-X-Google-Smtp-Source: ABdhPJwXlaakdEy06MENkc4rz5osJzlaysiguR7ONaKDBhrqCIRWIJ5UEybMl9xiKTt4eh5xbl3UKw==
-X-Received: by 2002:a17:90a:6fe5:: with SMTP id e92mr12240162pjk.98.1603015215419;
-        Sun, 18 Oct 2020 03:00:15 -0700 (PDT)
+        bh=uFPZMXjZsEF+SbQACLxWdqmX4RprDr+je8ZRk3L4AL8=;
+        b=d3cE7F8Q0Bu+7iydCGlKUfXQpEZS8odo0yiayTcGpEO3VNy3cBCdFUInHoz5n1AMDt
+         gIxW6QOPb7tpuonI5goWPpoIgutXdi+XSkRqCiHkfupFOWC3cd5girpgUA90UpuJcAzm
+         i7h3YV30EQDobuRfxJSmH68fmG0xgihgrvFt+rv2oVt7+dvAtxUS/b75xzdm4aAbBCx0
+         66vMyfIUhTH5TF4GLxQiFlyCltz6wRVH89/L9oMWpDPAhdCX8O54z25nb7U+Hy3RRdlF
+         1KKshjp6Vd82gs/dcl8kKyZhE3P6nF1mC4ClxkDRzj/qeUpKfjey0irK24M8BSdQOLn7
+         hDxA==
+X-Gm-Message-State: AOAM53014ZczbHuLzKPMLM/urqFJ9lod9kCtnLsUlDrgntU5wolyARi/
+	UhilCqqYPAznH29dKcx3/dbseQ2CZt8qP8oF
+X-Google-Smtp-Source: ABdhPJwnkBnHff25JeyakX4GWuCQtYKNYBNHv1dbOxu0lBeoxOdCPmaD/6PT/tWN3s2tu3GKBSq/TA==
+X-Received: by 2002:a9d:73c1:: with SMTP id m1mr8831970otk.91.1603016298335;
+        Sun, 18 Oct 2020 03:18:18 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id az18sm8178722pjb.35.2020.10.18.03.00.12
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id b7sm2679592oic.36.2020.10.18.03.18.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 03:00:14 -0700 (PDT)
+        Sun, 18 Oct 2020 03:18:17 -0700 (PDT)
 Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 8512E9601C6; Sun, 18 Oct 2020 00:00:04 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 18 Oct 2020 12:00:01 AM HST
+	id DC7D29601F8; Sun, 18 Oct 2020 00:18:13 -1000 (HST)
+Subject: OE-core CVE metrics for dunfell on Sun 18 Oct 2020 12:15:01 AM HST
 From: "Steve Sakoman" <steve@sakoman.com>
 To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
 X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20201018100004.8512E9601C6@nuc.router0800d9.com>
-Date: Sun, 18 Oct 2020 00:00:04 -1000 (HST)
+Message-Id: <20201018101813.DC7D29601F8@nuc.router0800d9.com>
+Date: Sun, 18 Oct 2020 00:18:13 -1000 (HST)
 
-Branch: master
+Branch: dunfell
 
 New this week:
-CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-26116: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26116 *
-CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
 
 Removed this week:
-CVE-2019-18276: bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18276 *
-CVE-2019-20907: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20907 *
-CVE-2020-14346: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14346 *
-CVE-2020-14361: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14361 *
-CVE-2020-14362: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14362 *
-CVE-2020-14363: libx11 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14363 *
-CVE-2020-16092: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16092 *
+CVE-2015-8666: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8666 *
+CVE-2016-1568: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-1568 *
+CVE-2016-2391: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2391 *
+CVE-2016-2857: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2857 *
+CVE-2016-2858: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2858 *
+CVE-2016-4001: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4001 *
+CVE-2016-4020: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4020 *
+CVE-2016-4964: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4964 *
+CVE-2016-5126: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5126 *
+CVE-2016-5337: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5337 *
+CVE-2016-5338: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5338 *
+CVE-2016-6351: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6351 *
+CVE-2016-6490: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6490 *
+CVE-2016-6833: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6833 *
+CVE-2016-6834: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6834 *
+CVE-2016-6836: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6836 *
+CVE-2016-6888: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6888 *
+CVE-2016-7116: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7116 *
+CVE-2016-7155: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7155 *
+CVE-2016-7156: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7156 *
+CVE-2016-7157: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7157 *
+CVE-2016-7170: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7170 *
+CVE-2016-7421: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7421 *
+CVE-2016-7422: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7422 *
+CVE-2016-7423: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7423 *
+CVE-2016-7466: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7466 *
+CVE-2016-7995: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7995 *
+CVE-2016-8576: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8576 *
+CVE-2016-8577: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8577 *
+CVE-2016-8669: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8669 *
+CVE-2016-9102: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9102 *
+CVE-2016-9103: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9103 *
+CVE-2016-9105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9105 *
+CVE-2016-9106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9106 *
 
-Full list:  Found 145 unpatched CVEs
+Full list:  Found 111 unpatched CVEs
 CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
 CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
 CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
@@ -76,58 +99,24 @@ CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014
 CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
 CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
 CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
-CVE-2015-8666: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8666 *
-CVE-2016-1568: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-1568 *
-CVE-2016-2391: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2391 *
-CVE-2016-2857: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2857 *
-CVE-2016-2858: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2858 *
-CVE-2016-4001: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4001 *
 CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
-CVE-2016-4020: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4020 *
 CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
 CVE-2016-4952: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4952 *
-CVE-2016-4964: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4964 *
 CVE-2016-5105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5105 *
 CVE-2016-5106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5106 *
 CVE-2016-5107: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5107 *
-CVE-2016-5126: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5126 *
 CVE-2016-5238: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5238 *
-CVE-2016-5337: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5337 *
-CVE-2016-5338: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5338 *
 CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2016-6351: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6351 *
 CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
-CVE-2016-6490: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6490 *
-CVE-2016-6833: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6833 *
-CVE-2016-6834: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6834 *
 CVE-2016-6835: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6835 *
-CVE-2016-6836: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6836 *
-CVE-2016-6888: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6888 *
-CVE-2016-7116: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7116 *
-CVE-2016-7155: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7155 *
-CVE-2016-7156: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7156 *
-CVE-2016-7157: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7157 *
-CVE-2016-7170: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7170 *
-CVE-2016-7421: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7421 *
-CVE-2016-7422: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7422 *
-CVE-2016-7423: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7423 *
-CVE-2016-7466: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7466 *
 CVE-2016-7994: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7994 *
-CVE-2016-7995: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7995 *
-CVE-2016-8576: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8576 *
-CVE-2016-8577: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8577 *
 CVE-2016-8578: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8578 *
 CVE-2016-8667: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8667 *
 CVE-2016-8668: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8668 *
-CVE-2016-8669: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8669 *
 CVE-2016-8909: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8909 *
 CVE-2016-8910: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8910 *
 CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
-CVE-2016-9102: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9102 *
-CVE-2016-9103: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9103 *
 CVE-2016-9104: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9104 *
-CVE-2016-9105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9105 *
-CVE-2016-9106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9106 *
 CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
 CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
 CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
