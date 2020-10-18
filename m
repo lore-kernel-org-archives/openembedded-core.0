@@ -1,79 +1,89 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.18915.1603023041995740966
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.21162.1603031227673782966
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2020 05:10:42 -0700
+ Sun, 18 Oct 2020 07:27:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nJj3p4k8;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id i1so8350087wro.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 05:10:41 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fo4IkXmr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id n18so8545635wrs.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 07:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=GXrDN+ozoBJz1/lQLef2Smgxj2xD8+hNBp4Y+Z/nXAs=;
-        b=nJj3p4k8lOlSRc5PpTevA9XBhf3Me/LHM0CdQalvSIj2BxqhLXFedZBaTPY7H0kPn6
-         P4urM/fe6vVJlwWIzBi10DmgFByJYHOCPcaoqJvf+tAPjgNC/hm354VN2r0ZVRw096rv
-         7bBCLPs75KjYXO/YioiS94sP3zPYVV90h+Sij1p8SeNMWMBYkUM0XLvD32k6olItD5k3
-         sDkPThSLgaG6YC29oUyYc78TiW+XyJgvRdt0EqNPLbUC/2dZWe1Zk3LW007RkMlTBE0A
-         4GR6Nj/yD1w8NmRI7Gpql3/UQOS5lSAa5pKqEGMWkHpDQ0h7y9WYS4lauzRxVqKKOkn7
-         I++Q==
+        bh=frkrHuC8yePy27v23SNVNoeLdQ8cpPzX5yhzw/cGMZQ=;
+        b=fo4IkXmrYghMn0L4F3bOOE295e0plbHP7amEgDt1jNwE4ZNoBFlvRwcSrr8BOBmsjg
+         PgkWTt9jSUNYWCe0ICj2vVXumUbTcjLYN591lhe5OwSPaMz8qeduLZNbJ2nLElBhTWVR
+         yMwK3SReU4AacWanZQORFr2D/cjcRFKtTYJdg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GXrDN+ozoBJz1/lQLef2Smgxj2xD8+hNBp4Y+Z/nXAs=;
-        b=YJkCNqsX1WSt4uE2xgamQTFGLXy/hLTVB9Ptks+Q4Ad88bmB0gGcGW1LnTgBs0rSlj
-         DWoP+8sxZW5uBIIWrmIwiFsYE6JREACCABmdswmywl2YKt0zRomw4N8e7blOiJd9zlKL
-         nHpa04lOhCMeIt9Fv9caTTsX0noyXjmWy1M/LWAYZHQ987Tx/78PAQgZ5qwH3qOIyuB5
-         fCS1+AKnNkrN0gO2+PUfje0QU/t1nlx3ggsmrPn+gXs4gXFudLr2IZqj1yA/wuZt9ahI
-         m4kHLih8iSKHw7+HFFO9N7FlgHhl5zIPRhbkeevUU/Eq1ANus4DOrDyhD1c8PVpIOG54
-         TtaQ==
-X-Gm-Message-State: AOAM530fS0GJGkHhqX/NoCE+y2+HsxYrB6oy58w9oxgFE2e5q75GRD6N
-	6n0R0DIlIefHCfJTayDIdAsLHCbUphpa9w==
-X-Google-Smtp-Source: ABdhPJy2brcAnQUgFijCmTAhh+Ym/8OVo6ZZc+yC9+6PAaPSGtqE84+BxhipRhkouM0bL3VJSNSgxA==
-X-Received: by 2002:a5d:654d:: with SMTP id z13mr14676995wrv.6.1603023040357;
-        Sun, 18 Oct 2020 05:10:40 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id z18sm9511084wrs.82.2020.10.18.05.10.39
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=frkrHuC8yePy27v23SNVNoeLdQ8cpPzX5yhzw/cGMZQ=;
+        b=mWIul7b6phIWud8CBlKPrdG1zsSqL02zirt/442yR/M6DwKqAENn0DNAEslhk5GGY8
+         9h4lsIE++TcHuTuoJ/oECq3UUzQ2y2H7u6J6CEQYSUH7O5VHEUvJCn1MmplJbi85w0x8
+         dNem6UALmmpHUY25c/5KDHn32TIVBCPYNdPxbAPtvVSQvv0RsTPwRtdf7/S5Zb92wxcK
+         BKMH0rgz61sRZKGWxCqSyOyvxsHaOBxG8K/BvCeSVFeXLScehzgTu8ALJb6eW1SF10Uw
+         grMxXfRqIUHmXZx5l2wqeuzw7il6w8gWzkdJID9uxBXZKCEg8i7kyhyXM+Ea6CRZDO4b
+         M7Bw==
+X-Gm-Message-State: AOAM531+qrzxY5v1ApwMD8KrtjTtekuYAb8VaFMXzZKH8p9DlTTgqEl/
+	RbOGCWl/bDPLdeT+gGkMBkRhjQ==
+X-Google-Smtp-Source: ABdhPJyNPrY4UiqpKe6cTeyg9+ceFFhcbZI4rxKnCnvNljfM3hmXaGsgmuMRKOmBU2pUZOsUT8BkoQ==
+X-Received: by 2002:adf:c00b:: with SMTP id z11mr14481070wre.320.1603031226021;
+        Sun, 18 Oct 2020 07:27:06 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.7.c.a.0.7.9.b.6.d.5.e.8.7.d.7.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:7d78:e5d6:b970:ac7f])
+        by smtp.gmail.com with ESMTPSA id q5sm14686876wrs.54.2020.10.18.07.27.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 05:10:39 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v3 20/20] orc: Upgrade 0.4.31 -> 0.4.32
-Date: Sun, 18 Oct 2020 13:10:02 +0100
-Message-Id: <20201018121002.1417335-21-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201018121002.1417335-1-quaresma.jose@gmail.com>
-References: <20201018121002.1417335-1-quaresma.jose@gmail.com>
+        Sun, 18 Oct 2020 07:27:05 -0700 (PDT)
+Message-ID: <ce3f803cce21cd9ca80c4701c3ede32a8c2ee10c.camel@linuxfoundation.org>
+Subject: Re: [OE-core][dunfell 7/8] qemu: add 34Kf-64tlb fictitious cpu type
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 18 Oct 2020 15:27:03 +0100
+In-Reply-To: <464f9f50bce368fb5109a5d7cc06cc25b0bfbe6a.1602771116.git.steve@sakoman.com>
+References: <cover.1602771116.git.steve@sakoman.com>
+	 <464f9f50bce368fb5109a5d7cc06cc25b0bfbe6a.1602771116.git.steve@sakoman.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/recipes-devtools/orc/{orc_0.4.31.bb => orc_0.4.32.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/orc/{orc_0.4.31.bb => orc_0.4.32.bb} (86%)
+On Thu, 2020-10-15 at 04:15 -1000, Steve Sakoman wrote:
+> From: Victor Kamensky <kamensky@cisco.com>
+> 
+> In Yocto Project PR 13992 it was reported that qemumips
+> in autobuilder runs almost twice slower then qemumips64 and
+> some times hit time out.
+> 
+> Upon investigations of qemu-system with perf, gdb, and
+> SystemTap and comparing qemumips and qemumips64 machines
+> behavior it was noticed that qemu soft mmu code behaves
+> quite different and in case if qemumips tlbwr instruction
+> called 16 times more oftern. It happens that in qemumips64
+> case qemu runs with cpu type that contains 64 TLB, but in case
+> of qemumips qemu runs with cpu type that contains only
+> 16 TLBs.
+> 
+> The idea of proposed qemu patch is to introduce fictitious
+> 34Kf-64tlb cpu type that defined exactly as 34Kf but has
+> 64 TLBs, instead of original 16 TLBs.
+> 
+> Testing of core-image-full-cmdline:do_testimage with
+> 34Kf-64tlb shows 40% or so test execution real time
+> improvement.
+> 
+> Note for future porters of the patch: easiest way to update
+> the patch and be in sync with 34Kf definition is to copy
+> 34Kf machine definition and apply the following changes to
+> it (just change 15 to 63 of CP0C1_MMU bits value)
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.31.bb b/meta/recipes-devtools/orc/orc_0.4.32.bb
-similarity index 86%
-rename from meta/recipes-devtools/orc/orc_0.4.31.bb
-rename to meta/recipes-devtools/orc/orc_0.4.32.bb
-index cd4dc31d70..a55b43b8ef 100644
---- a/meta/recipes-devtools/orc/orc_0.4.31.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.32.bb
-@@ -4,8 +4,7 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
--SRC_URI[md5sum] = "b6b95a47eff713e91873e2c2b1a5b3ad"
--SRC_URI[sha256sum] = "a0ab5f10a6a9ae7c3a6b4218246564c3bf00d657cbdf587e6d34ec3ef0616075"
-+SRC_URI[sha256sum] = "a66e3d8f2b7e65178d786a01ef61f2a0a0b4d0b8370de7ce134ba73da4af18f0"
- 
- inherit meson pkgconfig gtk-doc
- 
--- 
-2.28.0
+There is discussion upstream about just changing the tlb to 64 for this
+machine. I'd suggest we hold off this for dunfell until its resolved
+there.
+
+Cheers,
+
+Richard
 
