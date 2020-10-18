@@ -1,200 +1,165 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
- by mx.groups.io with SMTP id smtpd.web11.17504.1603016299631752689
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.18953.1603023020788392614
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2020 03:18:19 -0700
+ Sun, 18 Oct 2020 05:10:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Q1bsJsSM;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.43, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f43.google.com with SMTP id n11so2228389ota.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 03:18:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aHzkHloa;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id h5so8318961wrv.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 05:10:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=uFPZMXjZsEF+SbQACLxWdqmX4RprDr+je8ZRk3L4AL8=;
-        b=Q1bsJsSM9sBYtJwTQF7MFr/kpexzSHBzIRzIghvwEKymYffIuUIJ8/gHinKCA+7wSp
-         65ZZGXzN9uU9sipKEBDRf5Mm/kFmZkWeqhEiiClVanhhY4etuQ0mbb0VLZOIqwsGEWkT
-         s0by6pVhWHfOIXemDG7avNfxLkcK5+6fE7AmGdFCaL3TMP1vgn0Hj45gQRNnDPDgdk6a
-         mTgecYVkVdol7vbr+D/yrDOH/u60SObYPMCF6xOb9/s1fAfFAUlM1oICsqDpM+uLRmEU
-         Y4yq6F7rdDNYocKsyXYJklW9A4rm2ukIUfxjAar+vl5WDqrpTKRWnVfflgK0908UYNSj
-         SfgA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pZWY8Geo+sxKWG7gxW2642kngJeI0zuY1TYMZFoDS18=;
+        b=aHzkHloaFFxx7i2OqBasYmQVAFFxxAJgAr8DXPakVX+asI+dngN24nYfSbA+NuYEy5
+         W5Q2ndRBIMjDcqcpNXuySa65XjjsuENZYKTH5Px8edxI6NKkXGOhnBiPCI1IQFOx/Lfj
+         fNlJUMgquJVuF0QngWGO/hMVYe46/tRj/DD+E3f43azF4m8/Vb0q3d/0hKFfDVg6sP9X
+         K0IGSdR6KAn0+qeLver4qxBN5nGyblOhwS5nUQMXf31Xrm5AeP8mN8GVp9iKYdAVjbz1
+         r6L5gnARk89r+KMPzWekQWR5ihKnbVXinPqWc0mtXPQRNIVCcqfXvT/yxhXCZ/iNZbYk
+         qWXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=uFPZMXjZsEF+SbQACLxWdqmX4RprDr+je8ZRk3L4AL8=;
-        b=d3cE7F8Q0Bu+7iydCGlKUfXQpEZS8odo0yiayTcGpEO3VNy3cBCdFUInHoz5n1AMDt
-         gIxW6QOPb7tpuonI5goWPpoIgutXdi+XSkRqCiHkfupFOWC3cd5girpgUA90UpuJcAzm
-         i7h3YV30EQDobuRfxJSmH68fmG0xgihgrvFt+rv2oVt7+dvAtxUS/b75xzdm4aAbBCx0
-         66vMyfIUhTH5TF4GLxQiFlyCltz6wRVH89/L9oMWpDPAhdCX8O54z25nb7U+Hy3RRdlF
-         1KKshjp6Vd82gs/dcl8kKyZhE3P6nF1mC4ClxkDRzj/qeUpKfjey0irK24M8BSdQOLn7
-         hDxA==
-X-Gm-Message-State: AOAM53014ZczbHuLzKPMLM/urqFJ9lod9kCtnLsUlDrgntU5wolyARi/
-	UhilCqqYPAznH29dKcx3/dbseQ2CZt8qP8oF
-X-Google-Smtp-Source: ABdhPJwnkBnHff25JeyakX4GWuCQtYKNYBNHv1dbOxu0lBeoxOdCPmaD/6PT/tWN3s2tu3GKBSq/TA==
-X-Received: by 2002:a9d:73c1:: with SMTP id m1mr8831970otk.91.1603016298335;
-        Sun, 18 Oct 2020 03:18:18 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id b7sm2679592oic.36.2020.10.18.03.18.17
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pZWY8Geo+sxKWG7gxW2642kngJeI0zuY1TYMZFoDS18=;
+        b=YzPK3ZhBtbMbYNt6QAevp7t0Ul3oHL0ZOCkHYpqzCcVeLj3Qo871G0U16J9fnN35Z9
+         8YBUxTmLg78hqdE7fUp9pQPqiWrEdnnn/Y8maDn92jGE2rn8ti3B8MlIKnVcinEfY6p8
+         BBBha+hAfnf4ZSmnOZza2W3PexeLxUC2q4YUezGCoM4st1g7NehEmN+UUmyyjhmIk/F0
+         zf2xXmZAUXLb92CSYEwNl08tL0kIh2jLpvpzHLcer5bUbYBRA46lWYydn1ShHw5XYJ0z
+         dlcII0LE+NmhQqxNJ1YEPWgjxhprMDb4gTjD8XrD6r6UKP1fsF4uB4UOS5Qktva23QV8
+         pCCg==
+X-Gm-Message-State: AOAM53179nHfIeeU1v47/PCbfjFD/1xmy3sstGfcSk82cmkrk3rr6KgL
+	H43WB6WgHsHnWpwedTVQVYbEKivyF6WUCg==
+X-Google-Smtp-Source: ABdhPJySBLApGKcnIxQkLWsbNF9unvbDkAehaxLy7+Uha/mpaSTam//eelRMWEoRC3NFLi0gIXziKg==
+X-Received: by 2002:adf:ed49:: with SMTP id u9mr14081318wro.88.1603023018730;
+        Sun, 18 Oct 2020 05:10:18 -0700 (PDT)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id z18sm9511084wrs.82.2020.10.18.05.10.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 03:18:17 -0700 (PDT)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id DC7D29601F8; Sun, 18 Oct 2020 00:18:13 -1000 (HST)
-Subject: OE-core CVE metrics for dunfell on Sun 18 Oct 2020 12:15:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20201018101813.DC7D29601F8@nuc.router0800d9.com>
-Date: Sun, 18 Oct 2020 00:18:13 -1000 (HST)
+        Sun, 18 Oct 2020 05:10:17 -0700 (PDT)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH v3 00/20] Updates the gstreamer to version 1.18.0
+Date: Sun, 18 Oct 2020 13:09:42 +0100
+Message-Id: <20201018121002.1417335-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: dunfell
+V2:
+- Fixes the build of vulkan plugin
+- Fixes pacth headers
+- Upgrade orc 0.4.31 -> 0.4.32
 
-New this week:
+V3:
+- gstreamer1.0: Fix reproducibility issue around libcap
+- gstreamer1.0-python: install append is not need any more
+- gstreamer1.0-plugins-[good/bad]: disable new meson options
+- gstreamer1.0-plugins-[base/good/bad]: add new meson option as PACKAGECONFIG
+- Update pacth headers
 
-Removed this week:
-CVE-2015-8666: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8666 *
-CVE-2016-1568: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-1568 *
-CVE-2016-2391: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2391 *
-CVE-2016-2857: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2857 *
-CVE-2016-2858: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2858 *
-CVE-2016-4001: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4001 *
-CVE-2016-4020: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4020 *
-CVE-2016-4964: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4964 *
-CVE-2016-5126: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5126 *
-CVE-2016-5337: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5337 *
-CVE-2016-5338: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5338 *
-CVE-2016-6351: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6351 *
-CVE-2016-6490: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6490 *
-CVE-2016-6833: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6833 *
-CVE-2016-6834: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6834 *
-CVE-2016-6836: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6836 *
-CVE-2016-6888: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6888 *
-CVE-2016-7116: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7116 *
-CVE-2016-7155: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7155 *
-CVE-2016-7156: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7156 *
-CVE-2016-7157: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7157 *
-CVE-2016-7170: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7170 *
-CVE-2016-7421: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7421 *
-CVE-2016-7422: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7422 *
-CVE-2016-7423: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7423 *
-CVE-2016-7466: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7466 *
-CVE-2016-7995: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7995 *
-CVE-2016-8576: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8576 *
-CVE-2016-8577: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8577 *
-CVE-2016-8669: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8669 *
-CVE-2016-9102: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9102 *
-CVE-2016-9103: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9103 *
-CVE-2016-9105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9105 *
-CVE-2016-9106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9106 *
+Jose Quaresma (20):
+  gstreamer1.0: upgrade to version 1.18.0
+  gstreamer1.0: Fix reproducibility issue around libcap
+  gstreamer1.0-plugins-base: upgrade to version 1.18.0
+  gstreamer1.0-plugins-base: add new meson option as PACKAGECONFIG
+  gstreamer1.0-plugins-good: upgrade to version 1.18.0
+  gstreamer1.0-plugins-good: disable new meson options
+  gstreamer1.0-plugins-good: add new meson option as PACKAGECONFIG
+  gstreamer1.0-plugins-bad: upgrade to version 1.18.0
+  gstreamer1.0-plugins-bad: disable new meson options
+  gstreamer1.0-plugins-bad: add new meson options as PACKAGECONFIG
+  gstreamer1.0-plugins-ugly: upgrade to version 1.18.0
+  gstreamer1.0-python: upgrade to version 1.18.0
+  gstreamer1.0-python: install append is not need any more
+  gstreamer1.0-rtsp-server: upgrade to version 1.18.0
+  gstreamer1.0-vaapi: upgrade to version 1.18.0
+  gst-examples: upgrade to version 1.18.0
+  gstreamer1.0-omx: upgrade to version 1.18.0
+  gstreamer1.0-libav: upgrade to version 1.18.0
+  gst-devtools: add version 1.18.0 (gst-validate -> gst-devtools)
+  orc: Upgrade 0.4.31 -> 0.4.32
 
-Full list:  Found 111 unpatched CVEs
-CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
-CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
-CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-6425: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6425 *
-CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2014-8166: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8166 *
-CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
-CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
-CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
-CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
-CVE-2016-4952: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4952 *
-CVE-2016-5105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5105 *
-CVE-2016-5106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5106 *
-CVE-2016-5107: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5107 *
-CVE-2016-5238: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5238 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
-CVE-2016-6835: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6835 *
-CVE-2016-7994: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7994 *
-CVE-2016-8578: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8578 *
-CVE-2016-8667: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8667 *
-CVE-2016-8668: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8668 *
-CVE-2016-8909: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8909 *
-CVE-2016-8910: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8910 *
-CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
-CVE-2016-9104: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9104 *
-CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
-CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
-CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
-CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
-CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
-CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
-CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
-CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2017-6386: virglrenderer-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6386 *
-CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-1000205: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000205 *
-CVE-2018-10844: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10844 *
-CVE-2018-10845: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10845 *
-CVE-2018-10846: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10846 *
-CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-12617: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12617 *
-CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
-CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
-CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
-CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
-CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
-CVE-2018-18073: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18073 *
-CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2018-19665: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-19665 *
-CVE-2018-21232: re2c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
-CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-20175: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20175 *
-CVE-2019-20334: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20334 *
-CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
-CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
-CVE-2019-6290: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6290 *
-CVE-2019-6291: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6291 *
-CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-8343: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-8343 *
-CVE-2020-10648: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10648 *
-CVE-2020-10713: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
-CVE-2020-11022: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11022 *
-CVE-2020-11023: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11023 *
-CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-CVE-2020-12829: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
-CVE-2020-13253: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
-CVE-2020-13434: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13434 *
-CVE-2020-13435: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13435 *
-CVE-2020-13630: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13630 *
-CVE-2020-13631: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13631 *
-CVE-2020-13632: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13632 *
-CVE-2020-13645: glib-networking https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13645 *
-CVE-2020-13754: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
-CVE-2020-13791: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
-CVE-2020-14145: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14145 *
-CVE-2020-14150: bison-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14150 *
-CVE-2020-14308: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
-CVE-2020-14309: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
-CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-CVE-2020-14311: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
-CVE-2020-15469: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
-CVE-2020-15523: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15523 *
-CVE-2020-15704: ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15704 *
-CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15706: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
-CVE-2020-15707: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
-CVE-2020-15778: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15778 *
-CVE-2020-15859: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-24553: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24553 *
-CVE-2020-25219: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25219 *
-CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-26116: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26116 *
-CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2020-8432: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8432 *
+ .../orc/{orc_0.4.31.bb => orc_0.4.32.bb}      |   3 +-
+ ...ct-has-a-different-signature-on-musl.patch |  10 +-
+ .../gstreamer/gst-devtools_1.18.0.bb          |  43 ++++
+ ...001-Make-player-examples-installable.patch |  24 +-
+ ...mples_1.16.0.bb => gst-examples_1.18.0.bb} |   4 +-
+ .../gstreamer/gst-validate_1.16.2.bb          |  25 --
+ .../gstreamer/gstreamer1.0-libav_1.16.2.bb    |  35 ---
+ .../gstreamer/gstreamer1.0-libav_1.18.0.bb    |  21 ++
+ ...x_1.16.2.bb => gstreamer1.0-omx_1.18.0.bb} |   4 +-
+ ...alized-warnings-when-compiling-with.patch} |   8 +-
+ ...even-when-cross-compiling-if-introsp.patch |  36 ---
+ ...avoid-including-sys-poll.h-directly.patch} |   8 +-
+ ...sentinals-for-gst_structure_get-etc.patch} |  43 ++--
+ ...ssing-opencv-data-dir-in-yocto-buil.patch} |   8 +-
+ ....bb => gstreamer1.0-plugins-bad_1.18.0.bb} |  38 +--
+ ...t-caps-from-src-pad-when-query-caps.patch} |  12 +-
+ ...even-when-cross-compiling-if-introsp.patch |  36 ---
+ ...02-meson-Add-variables-for-gir-files.patch | 235 ------------------
+ ...arse-enhance-SSA-text-lines-parsing.patch} |  10 +-
+ ...v-fb-Make-sure-config.h-is-included.patch} |   8 +-
+ ...04-glimagesink-Downrank-to-marginal.patch} |   8 +-
+ ...bb => gstreamer1.0-plugins-base_1.18.0.bb} |  32 +--
+ ...defines-GLsync-to-fix-compile-on-som.patch |  70 ------
+ ...t-gstqtgl.h-instead-of-gst-gl-gstglf.patch |   8 +-
+ ...bb => gstreamer1.0-plugins-good_1.18.0.bb} |  17 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.18.0.bb} |   5 +-
+ ...son.build-fix-builds-with-python-3.8.patch |  24 --
+ ....16.2.bb => gstreamer1.0-python_1.18.0.bb} |  24 +-
+ ...even-when-cross-compiling-if-introsp.patch |  36 ---
+ ....bb => gstreamer1.0-rtsp-server_1.18.0.bb} |   9 +-
+ .../0001-vaapsink-downgrade-to-marginal.patch |  46 ----
+ ...1.16.2.bb => gstreamer1.0-vaapi_1.18.0.bb} |  16 +-
+ ...der.c-when-env-var-is-set-do-not-fal.patch |  16 +-
+ ...002-Remove-unused-valgrind-detection.patch | 112 +++++++++
+ ...even-when-cross-compiling-if-introsp.patch |  36 ---
+ ...eson-Add-option-for-installed-tests.patch} |  20 +-
+ .../0003-meson-Add-valgrind-feature.patch     |  74 ------
+ .../gstreamer/gstreamer1.0/capfix.patch       |  37 ---
+ ...er1.0_1.16.2.bb => gstreamer1.0_1.18.0.bb} |  29 +--
+ 39 files changed, 350 insertions(+), 880 deletions(-)
+ rename meta/recipes-devtools/orc/{orc_0.4.31.bb => orc_0.4.32.bb} (86%)
+ rename meta/recipes-multimedia/gstreamer/{gst-validate => gst-devtools}/0001-connect-has-a-different-signature-on-musl.patch (76%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-devtools_1.18.0.bb
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.16.0.bb => gst-examples_1.18.0.bb} (91%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.0.bb
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.16.2.bb => gstreamer1.0-omx_1.18.0.bb} (92%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch => 0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch} (80%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{avoid-including-sys-poll.h-directly.patch => 0002-avoid-including-sys-poll.h-directly.patch} (79%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{ensure-valid-sentinels-for-gst_structure_get-etc.patch => 0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch} (69%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch => 0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.16.2.bb => gstreamer1.0-plugins-bad_1.18.0.bb} (85%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{get-caps-from-src-pad-when-query-caps.patch => 0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch} (81%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-meson-Add-variables-for-gir-files.patch
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0003-ssaparse-enhance-SSA-text-lines-parsing.patch => 0002-ssaparse-enhance-SSA-text-lines-parsing.patch} (98%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0005-viv-fb-Make-sure-config.h-is-included.patch => 0003-viv-fb-Make-sure-config.h-is-included.patch} (80%)
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0009-glimagesink-Downrank-to-marginal.patch => 0004-glimagesink-Downrank-to-marginal.patch} (85%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16.2.bb => gstreamer1.0-plugins-base_1.18.0.bb} (78%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.2.bb => gstreamer1.0-plugins-good_1.18.0.bb} (84%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.16.2.bb => gstreamer1.0-plugins-ugly_1.18.0.bb} (89%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.2.bb => gstreamer1.0-python_1.18.0.bb} (50%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.16.2.bb => gstreamer1.0-rtsp-server_1.18.0.bb} (74%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.18.0.bb} (82%)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-Remove-unused-valgrind-detection.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+ rename meta/recipes-multimedia/gstreamer/gstreamer1.0/{0004-meson-Add-option-for-installed-tests.patch => 0003-meson-Add-option-for-installed-tests.patch} (97%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-meson-Add-valgrind-feature.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.2.bb => gstreamer1.0_1.18.0.bb} (72%)
+
+-- 
+2.28.0
+
