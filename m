@@ -1,637 +1,128 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
- by mx.groups.io with SMTP id smtpd.web09.8908.1603093068241942451
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.9373.1603096167661598008
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2020 00:37:49 -0700
+ Mon, 19 Oct 2020 01:29:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@mailbox.org header.s=mail20150812 header.b=ESKqoP/F;
- spf=pass (domain: mailbox.org, ip: 80.241.56.171, mailfrom: crg7475@mailbox.org)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4CF7rn1KhvzQjVN
-	for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 09:37:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	content-language:content-type:content-type:in-reply-to
-	:mime-version:date:date:message-id:references:subject:subject
-	:from:from:received; s=mail20150812; t=1603093060; bh=zAi3Q8VAxh
-	Zu5dkdkMunGXpyOKp7x6hyHHx/Rkm6O3s=; b=ESKqoP/FIjHdOtmXrF1xRli8k0
-	U3i4iYs32CtGFL4E1wMxtFC10GPsdb5XUxeQHCeWQoPBkOnHx5a90Qf8PTLxnCeO
-	/1tqG4s+NbpnIuyMD3FEcw4jbfHZvArVM/xYhgGSRANdGpguVXjrJEWeucddpEeJ
-	IaflHEbunXaySZCfZMIIO25eLHHewqV1/ij3sJLq65ZETX6xI4RxmQP4zCn+eIon
-	+YFCXwQeJiYI0a+zFpMOkaNFjbNK0hd6l6wGMWP8gly/ickZv/pPY43XvTI7GWQl
-	l3ojLqqEKknM/yHaGfMOoDoIkxv8St+hLAcay5/i3xwUV8tdE+QkxDwGmMtw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1603093063;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xi2q0tdYhpbTl0egOUbM3MpM2FPCUBhCpJYsJRj0xcs=;
-	b=AgmWW4EwqINAJQofAJScdUZg9WZ+V2e06L4cjWQeSwre1sn+7NF4Wd/zet7w+kpTipZff4
-	UgWNitk2V8nZZOYQWgcf2Wu3oF2ML2kcPJN1UAB24dfQDq6IRUtF7LOJbx9aW1nAapAkFE
-	+Sl4YdB/id5QYIlmXbKlHWlsajARvAruzVbQe+5kJJPLxAD+yL6BCH4WvtGknBCVCBYVDF
-	sIkSmbW2wGe7AC6NmDC//FlB92OC/RB4NIJIGfpPbnw+8+Y3ivcnEsrO1Xt47FOTLg/aj1
-	BAKAON1XT+RWR2stMi4FE4yM/NKw2tzqx3YYH2ayJLU2ANbufRivCJwNs3pHfw==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-	by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-	with ESMTP id jFEG0lEhGPhg
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Oct 2020 09:37:40 +0200 (CEST)
-From: "Carlos Rafael Giani" <crg7475@mailbox.org>
-Subject: Re: [OE-core] [PATCH v3 05/20] gstreamer1.0-plugins-good: upgrade to version 1.18.0
-To: openembedded-core@lists.openembedded.org
-References: <20201018121002.1417335-1-quaresma.jose@gmail.com>
- <20201018121002.1417335-6-quaresma.jose@gmail.com>
-Message-ID: <a010177b-5656-45bd-bbc2-c8de33f2b837@mailbox.org>
-Date: Mon, 19 Oct 2020 09:37:39 +0200
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ebpGs14a;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=3291; q=dns/txt; s=axis-central1;
+  t=1603096168; x=1634632168;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=Bcqz8CQv7ZidC36HR0coMAOfRTzejG57GE12KcN4BKQ=;
+  b=ebpGs14axGt9sPrBH6QKddfOi8s7ecfONDReDeOaMsymMl6JIdyxCJOy
+   EDzg4lSUN4Zg86ZbDVJZ+j2G0CO4kLbzXnOnAOjk2I1EN/DNInk3JnJA6
+   kI0THsjpMtSa0bLST5ZKlUYnaMdxTOg4cYzR1KOAzvHmo7NCsdsirn4Ai
+   tSA9hCi4rQVO0Q+s1okgNNBEeJ30JREzvQ8xgARFOhvo8tzVMFvNyG8c9
+   CPBujm07agLKyHJlvI5QwYOSIof+TfgYZ5vaVVBTrgADS/WcU0HX6Mqfz
+   Sy9G8MDzp9Qip4WLMdKYUr5q+hVgHh7cUe9Afsh3Te2+N6aF3TGCYvLx8
+   g==;
+IronPort-SDR: JDi0LMyesFQ/MhoBQp5cFQJwZD1KVCEZ4YarjUoogCZO4cIaXC9Sp6uXcqPZL7oIPICmRd9psM
+ hNKCiZmx3rqp3duMG9QWdO+Ff3qZ/dOhkFCjM+BPdyYS5tHg4eBVp9XXxwFYO2cmPI0zbJsopZ
+ hpeuSBSe4nEkE+68prcceREIgqr83xLiWIl8ZdbS13V8oqKkTvQUxATO7s9QGqxtgdFVIS6vlH
+ iwkXghfHqwFUxDUczqUSopZgfsR6hfMbKVoRpuEnA2dP8o2mKE8UxaV9l62uyCeGVOxgsNpwDu
+ aA4=
+X-IronPort-AV: E=Sophos;i="5.77,394,1596492000"; 
+   d="scan'208";a="14155408"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v3 5/5] spirv-tools: fix identation
+Thread-Topic: [OE-core] [PATCH v3 5/5] spirv-tools: fix identation
+Thread-Index: AQHWpJIgLmSdhz/JOkeUkG2p2D/cQ6memT6A
+Date: Mon, 19 Oct 2020 08:29:21 +0000
+Message-ID: <fd4eccc67f224c21b957742e33988bfd@XBOX03.axis.com>
+References: <20201017142935.3605756-1-quaresma.jose@gmail.com>
+ <20201017142935.3605756-5-quaresma.jose@gmail.com>
+In-Reply-To: <20201017142935.3605756-5-quaresma.jose@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20201018121002.1417335-6-quaresma.jose@gmail.com>
-X-MBO-SPAM-Probability: 
-X-Rspamd-Score: -7.07 / 15.00 / 15.00
-X-Rspamd-Queue-Id: D0D9717DF
-X-Rspamd-UID: 6d4f8b
-Content-Type: multipart/alternative;
- boundary="------------442E6E47EEA078196EA3859A"
 Content-Language: en-US
-
---------------442E6E47EEA078196EA3859A
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-The code in ext/qt/meson.build looks for the Qt5WaylandClient pkg-config=20
-file. Without this module, qmlglsink will not work with Wayland. This=20
-can be tested by checking whether or not HAVE_QT_WAYLAND has been added=20
-to the cflags in the autogenerated ninja file.
-
-I propose this change to fix the problem:
-
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0.b=
-b
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0.b=
-b
-@@ -28,6 +28,8 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender=20
-libxfixes libxdamage"
- =C2=A0X11ENABLEOPTS =3D "-Dximagesrc=3Denabled -Dximagesrc-xshm=3Denabled=
-=
-=20
--Dximagesrc-xfixes=3Denabled -Dximagesrc-xdamage=3Denabled"
- =C2=A0X11DISABLEOPTS =3D "-Dximagesrc=3Ddisabled -Dximagesrc-xshm=3Ddisab=
-led=20
--Dximagesrc-xfixes=3Ddisabled -Dximagesrc-xdamage=3Ddisabled"
-
-+QT5WAYLANDDEPENDS =3D "${@bb.utils.contains("DISTRO_FEATURES", "wayland",=
-=
-=20
-"qtwayland", "", d)}"
-+
- =C2=A0PACKAGECONFIG[asm]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-=
-Dasm=3Denabled,-Dasm=3Ddisabled,nasm"
- =C2=A0PACKAGECONFIG[bz2]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-=
-Dbz2=3Denabled,-Dbz2=3Ddisabled,bzip2"
- =C2=A0PACKAGECONFIG[cairo]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dcairo=3De=
-nabled,-Dcairo=3Ddisabled,cairo"
-@@ -43,7 +45,7 @@ PACKAGECONFIG[libpng]=C2=A0=C2=A0=C2=A0=C2=A0 =3D=20
-"-Dpng=3Denabled,-Dpng=3Ddisabled,libpng"
- =C2=A0PACKAGECONFIG[libv4l2]=C2=A0=C2=A0=C2=A0 =3D=20
-"-Dv4l2-libv4l2=3Denabled,-Dv4l2-libv4l2=3Ddisabled,v4l-utils"
- =C2=A0PACKAGECONFIG[mpg123]=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dmpg123=3Denabl=
-ed,-Dmpg123=3Ddisabled,mpg123"
- =C2=A0PACKAGECONFIG[pulseaudio] =3D "-Dpulse=3Denabled,-Dpulse=3Ddisabled=
-,pulseaudio"
--PACKAGECONFIG[qt5]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dqt5=
-=3Denabled,-Dqt5=3Ddisabled,qtbase=20
-qtdeclarative qtbase-native"
-+PACKAGECONFIG[qt5]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dqt5=
-=3Denabled,-Dqt5=3Ddisabled,qtbase=20
-qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"
- =C2=A0PACKAGECONFIG[soup]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dsoup=
-=
-=3Denabled,-Dsoup=3Ddisabled,libsoup-2.4"
- =C2=A0PACKAGECONFIG[speex]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dspeex=3De=
-nabled,-Dspeex=3Ddisabled,speex"
- =C2=A0PACKAGECONFIG[taglib]=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-Dtaglib=3Denabl=
-ed,-Dtaglib=3Ddisabled,taglib"
-
-
-On 18.10.20 14:09, Jose Quaresma wrote:
->      * 0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
->        Removed since these are included in 1.18.0
->
-> License-Update: removefile://common/coverage/coverage-report.pl
-> Upstream dont have it any more.
->
-> Signed-off-by: Jose Quaresma<quaresma.jose@gmail.com>
-> ---
->   ...defines-GLsync-to-fix-compile-on-som.patch | 70 -------------------
->   ...t-gstqtgl.h-instead-of-gst-gl-gstglf.patch |  8 +--
->   ...bb =3D> gstreamer1.0-plugins-good_1.18.0.bb} | 14 ++--
->   3 files changed, 10 insertions(+), 82 deletions(-)
->   delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plug=
-ins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
->   rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.=
-16.2.bb =3D> gstreamer1.0-plugins-good_1.18.0.bb} (84%)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
-/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch b/meta/rec=
-ipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-de=
-fines-GLsync-to-fix-compile-on-som.patch
-> deleted file mode 100644
-> index 136848763b..0000000000
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-q=
-mlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
-> +++ /dev/null
-> @@ -1,70 +0,0 @@
-> -From 3e0d5577444b32579bdf5b69d720a322322ff7bc Mon Sep 17 00:00:00 2001
-> -From: Milian Wolff<milian.wolff@kdab.com>
-> -Date: Tue, 26 Nov 2019 15:08:20 +0100
-> -Subject: [PATCH] qmlgl: ensure Qt defines GLsync to fix compile on some=
- platforms
-> -MIME-Version: 1.0
-> -Content-Type: text/plain; charset=3DUTF-8
-> -Content-Transfer-Encoding: 8bit
-> -
-> -By explictly including QtGui/qopengl.h we force the code path that
-> -defines GLsync in the Qt-specific way. Without that, some platforms
-> -failed to compile the qmlgl plugin, since neither Qt nor gstreamer
-> -defined GLsync then, leading to e.g.:
-> -
-> -```
-> -make[4]: Entering directory '/.../gst-plugins-good-1.16.1/ext/qt'
-> -  CXX      libgstqmlgl_la-qtitem.lo
-> -In file included from gstqtgl.h:32,
-> -                 from qtitem.h:27,
-> -                 from qtitem.cc:28:
-> -/.../usr/include/gstreamer-1.0/
-> -gst/gl/gstglfuncs.h:93:17: error: expected identifier before =E2=80=98*=
-=
-=E2=80=99 token
-> -   ret (GSTGLAPI *name) args;
-> -                 ^
-> -/.../usr/include/gstreamer-1.0/
-> -gst/gl/glprototypes/sync.h:27:1: note: in expansion of macro
-> -=E2=80=98GST_GL_EXT_FUNCTION=E2=80=99
-> - GST_GL_EXT_FUNCTION (GLsync, FenceSync,
-> - ^~~~~~~~~~~~~~~~~~~
-> -```
-> -Signed-off-by: Khem Raj<raj.khem@gmail.com>
-> -Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gst=
--plugins-good/commit/3e0d5577444b32579bdf5b69d720a322322ff7bc]
-> ----
-> - ext/qt/gstqtgl.h | 18 +++++++++++-------
-> - 1 file changed, 11 insertions(+), 7 deletions(-)
-> -
-> ---- a/ext/qt/gstqtgl.h
-> -+++ b/ext/qt/gstqtgl.h
-> -@@ -22,14 +22,7 @@
-> - #include <QtGui/qtgui-config.h>
-> - #endif
-> -
-> --/* qt uses the same trick as us to typedef GLsync on GLES2 but to a di=
-fferent
-> -- * type which confuses the preprocessor. Instead of trying to reconcil=
-e the
-> -- * two, we instead use the GLsync definition from Qt from above, and e=
-nsure
-> -- * that we don't typedef GLsync in gstglfuncs.h */
-> - #include <gst/gl/gstglconfig.h>
-> --#undef GST_GL_HAVE_GLSYNC
-> --#define GST_GL_HAVE_GLSYNC 1
-> --#include <gst/gl/gstglfuncs.h>
-> -
-> - /* The glext.h guard was renamed in 2018, but some software which
-> -  * includes their own copy of the GL headers (such as qt) might have
-> -@@ -46,6 +39,17 @@
-> - #endif
-> - #endif
-> -
-> -+/* pulls in GLsync, see below */
-> -+#include <QtGui/qopengl.h>
-> -+
-> -+/* qt uses the same trick as us to typedef GLsync on GLES2 but to a di=
-fferent
-> -+ * type which confuses the preprocessor. Instead of trying to reconcil=
-e the
-> -+ * two, we instead use the GLsync definition from Qt from above, and e=
-nsure
-> -+ * that we don't typedef GLsync in gstglfuncs.h */
-> -+#undef GST_GL_HAVE_GLSYNC
-> -+#define GST_GL_HAVE_GLSYNC 1
-> -+#include <gst/gl/gstglfuncs.h>
-> -+
-> - #if defined(QT_OPENGL_ES_2)
-> - #include <QtGui/QOpenGLContext>
-> - #include <QtGui/QOpenGLFunctions>
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
-/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch b/meta/rec=
-ipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-=
-gstqtgl.h-instead-of-gst-gl-gstglf.patch
-> index 3d423154e0..788d752058 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-q=
-t-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-q=
-t-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
-> @@ -1,4 +1,4 @@
-> -From d08234a659bec1fd5c984fedefbeb8192af07839 Mon Sep 17 00:00:00 2001
-> +From bf8b2fa0f6870589d036f0f33c140a3f85b530a0 Mon Sep 17 00:00:00 2001
->   From: Khem Raj<raj.khem@gmail.com>
->   Date: Tue, 31 Mar 2020 21:23:28 -0700
->   Subject: [PATCH] qt: include ext/qt/gstqtgl.h instead of gst/gl/gstglf=
-uncs.h
-> @@ -26,7 +26,7 @@ Signed-off-by: Khem Raj<raj.khem@gmail.com>
->    2 files changed, 2 insertions(+), 2 deletions(-)
->  =20
->   diff --git a/ext/qt/gstqsgtexture.cc b/ext/qt/gstqsgtexture.cc
-> -index 2b314e0..12b15dd 100644
-> +index a05d26e..4cc9fc6 100644
->   --- a/ext/qt/gstqsgtexture.cc
->   +++ b/ext/qt/gstqsgtexture.cc
->   @@ -27,7 +27,7 @@
-> @@ -39,7 +39,7 @@ index 2b314e0..12b15dd 100644
->    
->    #define GST_CAT_DEFAULT gst_qsg_texture_debug
->   diff --git a/ext/qt/qtwindow.cc b/ext/qt/qtwindow.cc
-> -index 62d26b6..bf68ebb 100644
-> +index 9360c33..0dfd3f1 100644
->   --- a/ext/qt/qtwindow.cc
->   +++ b/ext/qt/qtwindow.cc
->   @@ -25,7 +25,7 @@
-> @@ -52,5 +52,5 @@ index 62d26b6..bf68ebb 100644
->    #include "gstqsgtexture.h"
->    #include "gstqtglutility.h"
->   --
-> -2.26.0
-> +2.28.0
->  =20
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good=
-_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.=
-18.0.bb
-> similarity index 84%
-> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_=
-1.16.2.bb
-> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.=
-18.0.bb
-> index 17c9421394..c112f336b2 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2=
-.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0=
-.bb
-> @@ -1,19 +1,16 @@
->   require gstreamer1.0-plugins-common.inc
->  =20
-> -SRC_URI =3D " \
-> -https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good=
--${PV}.tar.xz \
-> -file://0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch =
- \
-> -file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch =
- \
-> -            "
-> +SRC_URI =3D"https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-=
-plugins-good-${PV}.tar.xz=20
-> \ +=20
-> file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch=
-=20
-> \ + "
->  =20
-> -SRC_URI[md5sum] =3D "bd025f8f14974f94b75ac69a9d1b9c93"
-> -SRC_URI[sha256sum] =3D "40bb3bafda25c0b739c8fc36e48380fccf61c4d3f83747e=
-97ac3f9b0171b1319"
-> +SRC_URI[md5sum] =3D "c437bf42bf830bc0f482c7d088fb37a5"
-> +SRC_URI[sha256sum] =3D "6329bc377a3afea5cf1ab329a91cc4a906f075781780d1e=
-dc59e8bea8c1a8bac"
->  =20
->   S =3D "${WORKDIR}/gst-plugins-good-${PV}"
->  =20
->   LICENSE =3D "GPLv2+ & LGPLv2.1+"
->   LIC_FILES_CHKSUM =3D"file://COPYING;md5=3Da6f89e2100d9b6cdffcea4f398e3=
-7343 \ -=20
-> file://common/coverage/coverage-report.pl;beginline=3D2;endline=3D17;md5=
-=
-=3Da4e1830fce078028c8f0974161272607=20
-> \=20
-> file://gst/replaygain/rganalysis.c;beginline=3D1;endline=3D23;md5=3Db60e=
-befd5b2f5a8e0cab6bfee391a5fe"
->  =20
->   DEPENDS +=3D "gstreamer1.0-plugins-base libcap zlib"
-> @@ -54,6 +51,7 @@ PACKAGECONFIG[wavpack]    =3D "-Dwavpack=3Denabled,-Dw=
-avpack=3Ddisabled,wavpack"
->   PACKAGECONFIG[x11]        =3D "${X11ENABLEOPTS},${X11DISABLEOPTS},${X1=
-1DEPENDS}"
->  =20
->   EXTRA_OEMESON +=3D " \
-> +    -Ddoc=3Ddisabled \
->       -Daalib=3Ddisabled \
->       -Ddirectsound=3Ddisabled \
->       -Ddv=3Ddisabled \
->
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Jose Quaresma
+> Sent: den 17 oktober 2020 16:30
+> To: openembedded-core@lists.openembedded.org
+> Cc: Jose Quaresma <quaresma.jose@gmail.com>
+> Subject: [OE-core] [PATCH v3 5/5] spirv-tools: fix identation
 >=20
->
+> replace tabs with spaces and remove extra spaces
+>=20
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  meta/recipes-graphics/spir/spirv-tools_git.bb | 20 +++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/spir/spirv-tools_git.bb b/meta/recipes=
+-graphics/spir/spirv-tools_git.bb
+> index d1c2436cd9..8c4d4299ed 100644
+> --- a/meta/recipes-graphics/spir/spirv-tools_git.bb
+> +++ b/meta/recipes-graphics/spir/spirv-tools_git.bb
+> @@ -9,12 +9,12 @@ SECTION =3D "graphics"
+>  S =3D "${WORKDIR}/git"
+>  DEST_DIR =3D "${S}/external"
+>  SRC_URI =3D "git://github.com/KhronosGroup/SPIRV-Tools.git;name=3Dspirv-=
+tools \
+> -	git://github.com/KhronosGroup/SPIRV-Headers.git;name=3Dspirv-headers;de=
+stsuffix=3D${DEST_DIR}/spirv-headers \
+> - 	git://github.com/google/effcee.git;name=3Deffcee;destsuffix=3D${DEST_D=
+IR}/effcee \
+> - 	git://github.com/google/re2.git;name=3Dre2;destsuffix=3D${DEST_DIR}/re=
+2 \
+> - 	git://github.com/google/googletest.git;name=3Dgoogletest;destsuffix=3D=
+${DEST_DIR}/googletest \
+> -        file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file=
+.patch \
+> -        file://0001-Avoid-pessimizing-std-move-3124.patch \
+> +           git://github.com/KhronosGroup/SPIRV-Headers.git;name=3Dspirv-=
+headers;destsuffix=3D${DEST_DIR}/spirv-headers \
+> +           git://github.com/google/effcee.git;name=3Deffcee;destsuffix=
+=3D${DEST_DIR}/effcee \
+> +           git://github.com/google/re2.git;name=3Dre2;destsuffix=3D${DES=
+T_DIR}/re2 \
+> +           git://github.com/google/googletest.git;name=3Dgoogletest;dest=
+suffix=3D${DEST_DIR}/googletest \
+> +           file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-f=
+ile.patch;destsuffix=3D${DEST_DIR}/effcee \
+> +           file://0001-Avoid-pessimizing-std-move-3124.patch \
+>  "
+>  SRCREV_spirv-tools =3D "c413b982c316b14e784f50d941814fc737b55b4a"
+>  SRCREV_spirv-headers =3D "af64a9e826bf5bb5fcd2434dd71be1e41e922563"
+> @@ -27,10 +27,10 @@ inherit cmake python3native
+>  EXTRA_OECMAKE +=3D "-DSPIRV_WERROR=3DOFF"
+>=20
+>  do_install_append() {
+> -	install -d ${D}/${includedir}/spirv
+> -	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}/${in=
+cludedir}/spirv
+> -	install -d ${D}/${includedir}/spirv/unified1
+> -	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/* ${D}=
+/${includedir}/spirv/unified1
+> +    install -d ${D}/${includedir}/spirv
+> +    install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}/$=
+{includedir}/spirv
+> +    install -d ${D}/${includedir}/spirv/unified1
+> +    install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/* $=
+{D}/${includedir}/spirv/unified1
 
---------------442E6E47EEA078196EA3859A
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Shell code in OE-Core is actually expected to be indented using tabs,=20
+so this part should be reverted. However, while you are here, you=20
+should change "${D}/${includedir}" to "${D}${includedir}".
 
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
-8">
-  </head>
-  <body>
-    <p>The code in ext/qt/meson.build looks for the Qt5WaylandClient
-      pkg-config file. Without this module, qmlglsink will not work with
-      Wayland. This can be tested by checking whether or not
-      HAVE_QT_WAYLAND has been added to the cflags in the autogenerated
-      ninja file.<br>
-    </p>
-    <p>I propose this change to fix the problem:</p>
-    <p>---
-      a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0=
-.bb<br>
-      +++
-      b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0=
-.bb<br>
-      @@ -28,6 +28,8 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender
-      libxfixes libxdamage"<br>
-      =C2=A0X11ENABLEOPTS =3D "-Dximagesrc=3Denabled -Dximagesrc-xshm=3Den=
-abled
-      -Dximagesrc-xfixes=3Denabled -Dximagesrc-xdamage=3Denabled"<br>
-      =C2=A0X11DISABLEOPTS =3D "-Dximagesrc=3Ddisabled -Dximagesrc-xshm=3D=
-disabled
-      -Dximagesrc-xfixes=3Ddisabled -Dximagesrc-xdamage=3Ddisabled"<br>
-      =C2=A0<br>
-      +QT5WAYLANDDEPENDS =3D <a class=3D"moz-txt-link-rfc2396E"
-        href=3D"mailto:${@bb.utils.contains(">"${@bb.utils.contains("</a>D=
-ISTRO_FEATURES",
-      "wayland", "qtwayland", "", d)}"<br>
-      +<br>
-      =C2=A0PACKAGECONFIG[asm]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-=3D "-Dasm=3Denabled,-Dasm=3Ddisabled,nasm"<br>
-      =C2=A0PACKAGECONFIG[bz2]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-=3D "-Dbz2=3Denabled,-Dbz2=3Ddisabled,bzip2"<br>
-      =C2=A0PACKAGECONFIG[cairo]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D
-      "-Dcairo=3Denabled,-Dcairo=3Ddisabled,cairo"<br>
-      @@ -43,7 +45,7 @@ PACKAGECONFIG[libpng]=C2=A0=C2=A0=C2=A0=C2=A0 =3D
-      "-Dpng=3Denabled,-Dpng=3Ddisabled,libpng"<br>
-      =C2=A0PACKAGECONFIG[libv4l2]=C2=A0=C2=A0=C2=A0 =3D
-      "-Dv4l2-libv4l2=3Denabled,-Dv4l2-libv4l2=3Ddisabled,v4l-utils"<br>
-      =C2=A0PACKAGECONFIG[mpg123]=C2=A0=C2=A0=C2=A0=C2=A0 =3D
-      "-Dmpg123=3Denabled,-Dmpg123=3Ddisabled,mpg123"<br>
-      =C2=A0PACKAGECONFIG[pulseaudio] =3D
-      "-Dpulse=3Denabled,-Dpulse=3Ddisabled,pulseaudio"<br>
-      -PACKAGECONFIG[qt5]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-=
-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase
-      qtdeclarative qtbase-native"<br>
-      +PACKAGECONFIG[qt5]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D "-=
-Dqt5=3Denabled,-Dqt5=3Ddisabled,qtbase
-      qtdeclarative qtbase-native ${QT5WAYLANDDEPENDS}"<br>
-      =C2=A0PACKAGECONFIG[soup]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D
-      "-Dsoup=3Denabled,-Dsoup=3Ddisabled,libsoup-2.4"<br>
-      =C2=A0PACKAGECONFIG[speex]=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D
-      "-Dspeex=3Denabled,-Dspeex=3Ddisabled,speex"<br>
-      =C2=A0PACKAGECONFIG[taglib]=C2=A0=C2=A0=C2=A0=C2=A0 =3D
-      "-Dtaglib=3Denabled,-Dtaglib=3Ddisabled,taglib"<br>
-    </p>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 18.10.20 14:09, Jose Quaresma wrote:=
-<br>
-    </div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:20201018121002.1417335-6-quaresma.jose@gmail.com">
-      <pre class=3D"moz-quote-pre" wrap=3D"">    * 0001-qmlgl-ensure-Qt-de=
-fines-GLsync-to-fix-compile-on-som.patch
-      Removed since these are included in 1.18.0
+>  }
+>=20
+>  FILES_SOLIBSDEV =3D ""
+> --
+> 2.28.0
 
-License-Update: remove <a class=3D"moz-txt-link-freetext" href=3D"file://c=
-ommon/coverage/coverage-report.pl">file://common/coverage/coverage-report.p=
-l</a>
-Upstream dont have it any more.
+//Peter
 
-Signed-off-by: Jose Quaresma <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
-ilto:quaresma.jose@gmail.com">&lt;quaresma.jose@gmail.com&gt;</a>
----
- ...defines-GLsync-to-fix-compile-on-som.patch | 70 -------------------
- ...t-gstqtgl.h-instead-of-gst-gl-gstglf.patch |  8 +--
- ...bb =3D&gt; gstreamer1.0-plugins-good_1.18.0.bb} | 14 ++--
- 3 files changed, 10 insertions(+), 82 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins=
--good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.=
-2.bb =3D&gt; gstreamer1.0-plugins-good_1.18.0.bb} (84%)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0=
-001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch b/meta/recip=
-es-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defi=
-nes-GLsync-to-fix-compile-on-som.patch
-deleted file mode 100644
-index 136848763b..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qml=
-gl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From 3e0d5577444b32579bdf5b69d720a322322ff7bc Mon Sep 17 00:00:00 2001
--From: Milian Wolff <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:mili=
-an.wolff@kdab.com">&lt;milian.wolff@kdab.com&gt;</a>
--Date: Tue, 26 Nov 2019 15:08:20 +0100
--Subject: [PATCH] qmlgl: ensure Qt defines GLsync to fix compile on some p=
-latforms
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--By explictly including QtGui/qopengl.h we force the code path that
--defines GLsync in the Qt-specific way. Without that, some platforms
--failed to compile the qmlgl plugin, since neither Qt nor gstreamer
--defined GLsync then, leading to e.g.:
--
--```
--make[4]: Entering directory '/.../gst-plugins-good-1.16.1/ext/qt'
--  CXX      libgstqmlgl_la-qtitem.lo
--In file included from gstqtgl.h:32,
--                 from qtitem.h:27,
--                 from qtitem.cc:28:
--/.../usr/include/gstreamer-1.0/
--gst/gl/gstglfuncs.h:93:17: error: expected identifier before =E2=80=98*=
-=E2=80=99 token
--   ret (GSTGLAPI *name) args;
--                 ^
--/.../usr/include/gstreamer-1.0/
--gst/gl/glprototypes/sync.h:27:1: note: in expansion of macro
--=E2=80=98GST_GL_EXT_FUNCTION=E2=80=99
-- GST_GL_EXT_FUNCTION (GLsync, FenceSync,
-- ^~~~~~~~~~~~~~~~~~~
--```
--Signed-off-by: Khem Raj <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto=
-:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
--Upstream-Status: Backport [<a class=3D"moz-txt-link-freetext" href=3D"htt=
-ps://gitlab.freedesktop.org/gstreamer/gst-plugins-good/commit/3e0d5577444b3=
-2579bdf5b69d720a322322ff7bc">https://gitlab.freedesktop.org/gstreamer/gst-p=
-lugins-good/commit/3e0d5577444b32579bdf5b69d720a322322ff7bc</a>]
-----
-- ext/qt/gstqtgl.h | 18 +++++++++++-------
-- 1 file changed, 11 insertions(+), 7 deletions(-)
--
----- a/ext/qt/gstqtgl.h
--+++ b/ext/qt/gstqtgl.h
--@@ -22,14 +22,7 @@
-- #include &lt;QtGui/qtgui-config.h&gt;
-- #endif
--=20
---/* qt uses the same trick as us to typedef GLsync on GLES2 but to a diff=
-erent
--- * type which confuses the preprocessor. Instead of trying to reconcile =
-the
--- * two, we instead use the GLsync definition from Qt from above, and ens=
-ure
--- * that we don't typedef GLsync in gstglfuncs.h */
-- #include &lt;gst/gl/gstglconfig.h&gt;
---#undef GST_GL_HAVE_GLSYNC
---#define GST_GL_HAVE_GLSYNC 1
---#include &lt;gst/gl/gstglfuncs.h&gt;
--=20
-- /* The glext.h guard was renamed in 2018, but some software which
--  * includes their own copy of the GL headers (such as qt) might have
--@@ -46,6 +39,17 @@
-- #endif
-- #endif
--=20
--+/* pulls in GLsync, see below */
--+#include &lt;QtGui/qopengl.h&gt;
--+
--+/* qt uses the same trick as us to typedef GLsync on GLES2 but to a diff=
-erent
--+ * type which confuses the preprocessor. Instead of trying to reconcile =
-the
--+ * two, we instead use the GLsync definition from Qt from above, and ens=
-ure
--+ * that we don't typedef GLsync in gstglfuncs.h */
--+#undef GST_GL_HAVE_GLSYNC
--+#define GST_GL_HAVE_GLSYNC 1
--+#include &lt;gst/gl/gstglfuncs.h&gt;
--+
-- #if defined(QT_OPENGL_ES_2)
-- #include &lt;QtGui/QOpenGLContext&gt;
-- #include &lt;QtGui/QOpenGLFunctions&gt;
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0=
-001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch b/meta/recip=
-es-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gs=
-tqtgl.h-instead-of-gst-gl-gstglf.patch
-index 3d423154e0..788d752058 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-=
-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-=
-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
-@@ -1,4 +1,4 @@
--From d08234a659bec1fd5c984fedefbeb8192af07839 Mon Sep 17 00:00:00 2001
-+From bf8b2fa0f6870589d036f0f33c140a3f85b530a0 Mon Sep 17 00:00:00 2001
- From: Khem Raj <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:raj.khem=
-@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
- Date: Tue, 31 Mar 2020 21:23:28 -0700
- Subject: [PATCH] qt: include ext/qt/gstqtgl.h instead of gst/gl/gstglfunc=
-s.h
-@@ -26,7 +26,7 @@ Signed-off-by: Khem Raj <a class=3D"moz-txt-link-rfc2396=
-E" href=3D"mailto:raj.khem@gmail.com">&lt;raj.khem@gmail.com&gt;</a>
-  2 files changed, 2 insertions(+), 2 deletions(-)
-=20
- diff --git a/ext/qt/gstqsgtexture.cc b/ext/qt/gstqsgtexture.cc
--index 2b314e0..12b15dd 100644
-+index a05d26e..4cc9fc6 100644
- --- a/ext/qt/gstqsgtexture.cc
- +++ b/ext/qt/gstqsgtexture.cc
- @@ -27,7 +27,7 @@
-@@ -39,7 +39,7 @@ index 2b314e0..12b15dd 100644
-  
-  #define GST_CAT_DEFAULT gst_qsg_texture_debug
- diff --git a/ext/qt/qtwindow.cc b/ext/qt/qtwindow.cc
--index 62d26b6..bf68ebb 100644
-+index 9360c33..0dfd3f1 100644
- --- a/ext/qt/qtwindow.cc
- +++ b/ext/qt/qtwindow.cc
- @@ -25,7 +25,7 @@
-@@ -52,5 +52,5 @@ index 62d26b6..bf68ebb 100644
-  #include "gstqsgtexture.h"
-  #include "gstqtglutility.h"
- --=20
--2.26.0
-+2.28.0
-=20
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1=
-.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18=
-.0.bb
-similarity index 84%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.=
-16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18=
-.0.bb
-index 17c9421394..c112f336b2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.b=
-b
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0.b=
-b
-@@ -1,19 +1,16 @@
- require gstreamer1.0-plugins-common.inc
-=20
--SRC_URI =3D " \
--            <a class=3D"moz-txt-link-freetext" href=3D"https://gstreamer.=
-freedesktop.org/src/gst-plugins-good/gst-plugins-good-$">https://gstreamer.=
-freedesktop.org/src/gst-plugins-good/gst-plugins-good-$</a>{PV}.tar.xz \
--            <a class=3D"moz-txt-link-freetext" href=3D"file://0001-qmlgl-=
-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch">file://0001-qmlgl-ens=
-ure-Qt-defines-GLsync-to-fix-compile-on-som.patch</a> \
--            <a class=3D"moz-txt-link-freetext" href=3D"file://0001-qt-inc=
-lude-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch">file://0001-qt-includ=
-e-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch</a> \
--            "
-+SRC_URI =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"https://gstreamer.=
-freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz\+file://=
-0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch\+">"https:/=
-/gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.=
-xz \
-+           file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstg=
-lf.patch \
-+           "</a>
-=20
--SRC_URI[md5sum] =3D "bd025f8f14974f94b75ac69a9d1b9c93"
--SRC_URI[sha256sum] =3D "40bb3bafda25c0b739c8fc36e48380fccf61c4d3f83747e97=
-ac3f9b0171b1319"
-+SRC_URI[md5sum] =3D "c437bf42bf830bc0f482c7d088fb37a5"
-+SRC_URI[sha256sum] =3D "6329bc377a3afea5cf1ab329a91cc4a906f075781780d1edc=
-59e8bea8c1a8bac"
-=20
- S =3D "${WORKDIR}/gst-plugins-good-${PV}"
-=20
- LICENSE =3D "GPLv2+ &amp; LGPLv2.1+"
- LIC_FILES_CHKSUM =3D <a class=3D"moz-txt-link-rfc2396E" href=3D"file://CO=
-PYING;md5=3Da6f89e2100d9b6cdffcea4f398e37343\-file://common/coverage/covera=
-ge-report.pl;beginline=3D2;endline=3D17;md5=3Da4e1830fce078028c8f0974161272=
-607\file://gst/replaygain/rganalysis.c;beginline=3D1;endline=3D23;md5=3Db60=
-ebefd5b2f5a8e0cab6bfee391a5fe">"file://COPYING;md5=3Da6f89e2100d9b6cdffcea4=
-f398e37343 \
--                    file://common/coverage/coverage-report.pl;beginline=
-=3D2;endline=3D17;md5=3Da4e1830fce078028c8f0974161272607 \
-                     file://gst/replaygain/rganalysis.c;beginline=3D1;endl=
-ine=3D23;md5=3Db60ebefd5b2f5a8e0cab6bfee391a5fe"</a>
-=20
- DEPENDS +=3D "gstreamer1.0-plugins-base libcap zlib"
-@@ -54,6 +51,7 @@ PACKAGECONFIG[wavpack]    =3D "-Dwavpack=3Denabled,-Dwav=
-pack=3Ddisabled,wavpack"
- PACKAGECONFIG[x11]        =3D "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DE=
-PENDS}"
-=20
- EXTRA_OEMESON +=3D " \
-+    -Ddoc=3Ddisabled \
-     -Daalib=3Ddisabled \
-     -Ddirectsound=3Ddisabled \
-     -Ddv=3Ddisabled \
-</pre>
-      <br>
-      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------442E6E47EEA078196EA3859A--
