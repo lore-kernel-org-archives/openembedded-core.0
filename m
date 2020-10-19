@@ -1,216 +1,138 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web10.10326.1603101997624805915
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web11.10568.1603102241335323792
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2020 03:06:37 -0700
+ Mon, 19 Oct 2020 03:10:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=M2pZFTiK;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id dn5so9587269edb.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 03:06:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rt0FbOnw;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id md26so13051824ejb.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 03:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Dn5OnFvvGH/9hy/hC4lkTuh44Zg9+fVatGr72UakyrU=;
-        b=M2pZFTiKunwU30MtBomYDmA0S+kEqU788I4Bn+30UwW2bmuP0jp35Rg6ZvetiF5hZU
-         uFy/f9rmNo8dfxHWBRj0Uz8kzPYRHQsaEIob4WD/wCpn218UK+H2SJxRebVCOafvKgU7
-         ySn3qBK21BMULCwHeSbeHo4OlPWwSjQ382aPmNVK43LKjoQytAvBnA6nYKcKSVWoQDf2
-         vnszGCezSrj/BVDl7rCFcRyrIGuVWVSM/7CjAiRSl42QMX6mpUeCpolhs4oKWcPFOPBj
-         4W/C6KnvWozf3h0Z6KSMBMAC3b9GKIgxOSYrFv88421ZMn4iqEEqd3eY3hAkD41usx3e
-         HSmw==
+         :cc:content-transfer-encoding;
+        bh=0XBKkgdSvBnLucFqc3Qcu9CG2k5439Dkzd/aasIG0IY=;
+        b=rt0FbOnwxh3gcSX8nc4ej1ph8KIr8clsaQ9/HZXD+yPv3FM+5ACTModFwHWt1/bA0D
+         vtcqilR1mZniYZLBPG7FN1KIRePXoWHSf38cTOVB4xb3cb4USGWp2QeQGYLMI7qWfA21
+         fnU9JQlX393s0nEJfYU85NwXajy/etXpychEy43tJ33xUucI7oIEhLD51TKopBYXRJ11
+         TPI0on4l0b6yfxlh0HRvWkjmYMaCxs8BS/1dG+yi3ipZmOC8g0oALcY6v62CQc9AkZz9
+         yYqmqAi2V+4olqib0wvLDGiclsSnyNG4B5dZp/oOjiabFQJ3/gzX59V4eKlZ2vrX68Jg
+         vtvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=Dn5OnFvvGH/9hy/hC4lkTuh44Zg9+fVatGr72UakyrU=;
-        b=dqZ80TkduHvE3M4eputjuP4qgkzqMQliayHjKpcFHCvdAZRw2MFnEm9CqY/cwjRrCg
-         qCSx72f+oghCyjkZouNFKoXzExz8XapQLx9zahmJIKUxQT8JALgCwiDD+HiEwo+VWxOg
-         vqpUqhQYawVy/8nlEVnfj4nrjWwefASKz77s3cky9Z1d/LHZ5yrZCGHJkqNRckqHa1ZU
-         lQJu/6AozGpkg96bWvlagx4PCvJjNfkp/6P4HLwhTZbZneeAl+G8I4H5e8tOPkhKitxy
-         aJrjmTX0sV84eU6p1D8zFjcL3HKzC03er4Pc/1KF40HsVIb//9pdep2wjCxotB1ZTb7U
-         4M2A==
-X-Gm-Message-State: AOAM533LC/0ZZwpU1GJZdUvJCZknRKAP7TtKA/77j5mVE+E1jvfhPABc
-	xocMCv8NIULCvEFV588H78Ip8sOoBP5a1WhIzRGBanIvlnlddQ==
-X-Google-Smtp-Source: ABdhPJyF+f9k4uRFnhP4Dz5m6f9YKL6tEJ595UZBADaLK0H8DSgEDPPhF+A4O+wOHk2eNplt9+czpHbkru6lWy9UrLo=
-X-Received: by 2002:a05:6402:b0e:: with SMTP id bm14mr17126621edb.19.1603101990573;
- Mon, 19 Oct 2020 03:06:30 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0XBKkgdSvBnLucFqc3Qcu9CG2k5439Dkzd/aasIG0IY=;
+        b=qN5XCKSFqR5KJzDsQKBNyh2T/KXyd1gEykriBeIX4c4k4gzSfjPZ2Jbx3djiscpGG1
+         7HyWO5OAnESty+HzFl94TOsqYHPj7L0tmfnS96R3iUee7LxNgEs5fZNGtfBpqMlZC6ZG
+         bAfXsQ0LqcWt1BPli03dsCmLV1Q9fErvXhBEfhwDQ/dQpHBO2pIeI336LQw7PHe5cCpB
+         /zVqQ+SVkEWE1fMqErQQ6ipOR4dCUuVA6GYu/DVHjVETn2sCBf/I9L9Deun39LZ7aRXi
+         gwkreBdwaKukmUVjpXfRd4yDzIiy6cCEvFnRJXaxkQqafRIdrtKKpxhJKYwjN1aIJmUA
+         2NtA==
+X-Gm-Message-State: AOAM530o1sgD59/xvGkJXp4TXS6v2CYCuAo/dakBVzVKpU1P4teba+oX
+	BL0TOy86gW+60lsgskbBrGazvAroZKrrkCPHC8URJEft2PSPrA==
+X-Google-Smtp-Source: ABdhPJx6nApWUg0jG4QHIp5PXcHJeXo+1ApPWG9en+tFVOC1rsTlg+CPy8D8D8ZLpRtjAobAJGLybj+Oz53rIRQyScs=
+X-Received: by 2002:a17:906:715a:: with SMTP id z26mr16744447ejj.300.1603102239876;
+ Mon, 19 Oct 2020 03:10:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201018121002.1417335-1-quaresma.jose@gmail.com>
-In-Reply-To: <20201018121002.1417335-1-quaresma.jose@gmail.com>
+References: <20201017142935.3605756-1-quaresma.jose@gmail.com>
+ <20201017142935.3605756-5-quaresma.jose@gmail.com> <fd4eccc67f224c21b957742e33988bfd@XBOX03.axis.com>
+In-Reply-To: <fd4eccc67f224c21b957742e33988bfd@XBOX03.axis.com>
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Mon, 19 Oct 2020 11:06:19 +0100
-Message-ID: <CANPvuR=b0hWOqmyPaFer+peo9emNg3Wi=f3+NewnsjnLj-G2ng@mail.gmail.com>
-Subject: Re: [PATCH v3 00/20] Updates the gstreamer to version 1.18.0
-To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 19 Oct 2020 11:10:28 +0100
+Message-ID: <CANPvuR=gnBY5euwoXzvBLQ9dVoaiqwJt18oS1GW3d_rQOchQfg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 5/5] spirv-tools: fix identation
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Is there a problem with this that I don't understand?
-This version of the series does not appear on.
-https://patchwork.openembedded.org/project/oe-core/series
+This patch it's only a little fix in the identencion and it can be
+dropped from the series.
+This is not really necessary for now and I don't need a new revision
+only to fix this patch.
 
-Jose Quaresma <quaresma.jose@gmail.com> escreveu no dia domingo,
-18/10/2020 =C3=A0(s) 13:10:
+Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia
+segunda, 19/10/2020 =C3=A0(s) 09:29:
 >
-> V2:
-> - Fixes the build of vulkan plugin
-> - Fixes pacth headers
-> - Upgrade orc 0.4.31 -> 0.4.32
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Jose Quaresma
+> > Sent: den 17 oktober 2020 16:30
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Jose Quaresma <quaresma.jose@gmail.com>
+> > Subject: [OE-core] [PATCH v3 5/5] spirv-tools: fix identation
+> >
+> > replace tabs with spaces and remove extra spaces
+> >
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > ---
+> >  meta/recipes-graphics/spir/spirv-tools_git.bb | 20 +++++++++----------
+> >  1 file changed, 10 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/meta/recipes-graphics/spir/spirv-tools_git.bb b/meta/recip=
+es-graphics/spir/spirv-tools_git.bb
+> > index d1c2436cd9..8c4d4299ed 100644
+> > --- a/meta/recipes-graphics/spir/spirv-tools_git.bb
+> > +++ b/meta/recipes-graphics/spir/spirv-tools_git.bb
+> > @@ -9,12 +9,12 @@ SECTION =3D "graphics"
+> >  S =3D "${WORKDIR}/git"
+> >  DEST_DIR =3D "${S}/external"
+> >  SRC_URI =3D "git://github.com/KhronosGroup/SPIRV-Tools.git;name=3Dspir=
+v-tools \
+> > -     git://github.com/KhronosGroup/SPIRV-Headers.git;name=3Dspirv-head=
+ers;destsuffix=3D${DEST_DIR}/spirv-headers \
+> > -     git://github.com/google/effcee.git;name=3Deffcee;destsuffix=3D${D=
+EST_DIR}/effcee \
+> > -     git://github.com/google/re2.git;name=3Dre2;destsuffix=3D${DEST_DI=
+R}/re2 \
+> > -     git://github.com/google/googletest.git;name=3Dgoogletest;destsuff=
+ix=3D${DEST_DIR}/googletest \
+> > -        file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-fi=
+le.patch \
+> > -        file://0001-Avoid-pessimizing-std-move-3124.patch \
+> > +           git://github.com/KhronosGroup/SPIRV-Headers.git;name=3Dspir=
+v-headers;destsuffix=3D${DEST_DIR}/spirv-headers \
+> > +           git://github.com/google/effcee.git;name=3Deffcee;destsuffix=
+=3D${DEST_DIR}/effcee \
+> > +           git://github.com/google/re2.git;name=3Dre2;destsuffix=3D${D=
+EST_DIR}/re2 \
+> > +           git://github.com/google/googletest.git;name=3Dgoogletest;de=
+stsuffix=3D${DEST_DIR}/googletest \
+> > +           file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake=
+-file.patch;destsuffix=3D${DEST_DIR}/effcee \
+> > +           file://0001-Avoid-pessimizing-std-move-3124.patch \
+> >  "
+> >  SRCREV_spirv-tools =3D "c413b982c316b14e784f50d941814fc737b55b4a"
+> >  SRCREV_spirv-headers =3D "af64a9e826bf5bb5fcd2434dd71be1e41e922563"
+> > @@ -27,10 +27,10 @@ inherit cmake python3native
+> >  EXTRA_OECMAKE +=3D "-DSPIRV_WERROR=3DOFF"
+> >
+> >  do_install_append() {
+> > -     install -d ${D}/${includedir}/spirv
+> > -     install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D=
+}/${includedir}/spirv
+> > -     install -d ${D}/${includedir}/spirv/unified1
+> > -     install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/=
+* ${D}/${includedir}/spirv/unified1
+> > +    install -d ${D}/${includedir}/spirv
+> > +    install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}=
+/${includedir}/spirv
+> > +    install -d ${D}/${includedir}/spirv/unified1
+> > +    install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/*=
+ ${D}/${includedir}/spirv/unified1
 >
-> V3:
-> - gstreamer1.0: Fix reproducibility issue around libcap
-> - gstreamer1.0-python: install append is not need any more
-> - gstreamer1.0-plugins-[good/bad]: disable new meson options
-> - gstreamer1.0-plugins-[base/good/bad]: add new meson option as PACKAGECO=
-NFIG
-> - Update pacth headers
+> Shell code in OE-Core is actually expected to be indented using tabs,
+> so this part should be reverted. However, while you are here, you
+> should change "${D}/${includedir}" to "${D}${includedir}".
 >
-> Jose Quaresma (20):
->   gstreamer1.0: upgrade to version 1.18.0
->   gstreamer1.0: Fix reproducibility issue around libcap
->   gstreamer1.0-plugins-base: upgrade to version 1.18.0
->   gstreamer1.0-plugins-base: add new meson option as PACKAGECONFIG
->   gstreamer1.0-plugins-good: upgrade to version 1.18.0
->   gstreamer1.0-plugins-good: disable new meson options
->   gstreamer1.0-plugins-good: add new meson option as PACKAGECONFIG
->   gstreamer1.0-plugins-bad: upgrade to version 1.18.0
->   gstreamer1.0-plugins-bad: disable new meson options
->   gstreamer1.0-plugins-bad: add new meson options as PACKAGECONFIG
->   gstreamer1.0-plugins-ugly: upgrade to version 1.18.0
->   gstreamer1.0-python: upgrade to version 1.18.0
->   gstreamer1.0-python: install append is not need any more
->   gstreamer1.0-rtsp-server: upgrade to version 1.18.0
->   gstreamer1.0-vaapi: upgrade to version 1.18.0
->   gst-examples: upgrade to version 1.18.0
->   gstreamer1.0-omx: upgrade to version 1.18.0
->   gstreamer1.0-libav: upgrade to version 1.18.0
->   gst-devtools: add version 1.18.0 (gst-validate -> gst-devtools)
->   orc: Upgrade 0.4.31 -> 0.4.32
+> >  }
+> >
+> >  FILES_SOLIBSDEV =3D ""
+> > --
+> > 2.28.0
 >
->  .../orc/{orc_0.4.31.bb =3D> orc_0.4.32.bb}      |   3 +-
->  ...ct-has-a-different-signature-on-musl.patch |  10 +-
->  .../gstreamer/gst-devtools_1.18.0.bb          |  43 ++++
->  ...001-Make-player-examples-installable.patch |  24 +-
->  ...mples_1.16.0.bb =3D> gst-examples_1.18.0.bb} |   4 +-
->  .../gstreamer/gst-validate_1.16.2.bb          |  25 --
->  .../gstreamer/gstreamer1.0-libav_1.16.2.bb    |  35 ---
->  .../gstreamer/gstreamer1.0-libav_1.18.0.bb    |  21 ++
->  ...x_1.16.2.bb =3D> gstreamer1.0-omx_1.18.0.bb} |   4 +-
->  ...alized-warnings-when-compiling-with.patch} |   8 +-
->  ...even-when-cross-compiling-if-introsp.patch |  36 ---
->  ...avoid-including-sys-poll.h-directly.patch} |   8 +-
->  ...sentinals-for-gst_structure_get-etc.patch} |  43 ++--
->  ...ssing-opencv-data-dir-in-yocto-buil.patch} |   8 +-
->  ....bb =3D> gstreamer1.0-plugins-bad_1.18.0.bb} |  38 +--
->  ...t-caps-from-src-pad-when-query-caps.patch} |  12 +-
->  ...even-when-cross-compiling-if-introsp.patch |  36 ---
->  ...02-meson-Add-variables-for-gir-files.patch | 235 ------------------
->  ...arse-enhance-SSA-text-lines-parsing.patch} |  10 +-
->  ...v-fb-Make-sure-config.h-is-included.patch} |   8 +-
->  ...04-glimagesink-Downrank-to-marginal.patch} |   8 +-
->  ...bb =3D> gstreamer1.0-plugins-base_1.18.0.bb} |  32 +--
->  ...defines-GLsync-to-fix-compile-on-som.patch |  70 ------
->  ...t-gstqtgl.h-instead-of-gst-gl-gstglf.patch |   8 +-
->  ...bb =3D> gstreamer1.0-plugins-good_1.18.0.bb} |  17 +-
->  ...bb =3D> gstreamer1.0-plugins-ugly_1.18.0.bb} |   5 +-
->  ...son.build-fix-builds-with-python-3.8.patch |  24 --
->  ....16.2.bb =3D> gstreamer1.0-python_1.18.0.bb} |  24 +-
->  ...even-when-cross-compiling-if-introsp.patch |  36 ---
->  ....bb =3D> gstreamer1.0-rtsp-server_1.18.0.bb} |   9 +-
->  .../0001-vaapsink-downgrade-to-marginal.patch |  46 ----
->  ...1.16.2.bb =3D> gstreamer1.0-vaapi_1.18.0.bb} |  16 +-
->  ...der.c-when-env-var-is-set-do-not-fal.patch |  16 +-
->  ...002-Remove-unused-valgrind-detection.patch | 112 +++++++++
->  ...even-when-cross-compiling-if-introsp.patch |  36 ---
->  ...eson-Add-option-for-installed-tests.patch} |  20 +-
->  .../0003-meson-Add-valgrind-feature.patch     |  74 ------
->  .../gstreamer/gstreamer1.0/capfix.patch       |  37 ---
->  ...er1.0_1.16.2.bb =3D> gstreamer1.0_1.18.0.bb} |  29 +--
->  39 files changed, 350 insertions(+), 880 deletions(-)
->  rename meta/recipes-devtools/orc/{orc_0.4.31.bb =3D> orc_0.4.32.bb} (86%=
-)
->  rename meta/recipes-multimedia/gstreamer/{gst-validate =3D> gst-devtools=
-}/0001-connect-has-a-different-signature-on-musl.patch (76%)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gst-devtools_1.18.0=
-.bb
->  rename meta/recipes-multimedia/gstreamer/{gst-examples_1.16.0.bb =3D> gs=
-t-examples_1.18.0.bb} (91%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gst-validate_1.16.2=
-.bb
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_=
-1.16.2.bb
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_=
-1.18.0.bb
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.16.2.bb =3D=
-> gstreamer1.0-omx_1.18.0.bb} (92%)
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{fix-m=
-aybe-uninitialized-warnings-when-compiling-with-Os.patch =3D> 0001-fix-mayb=
-e-uninitialized-warnings-when-compiling-with.patch} (80%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
-s-bad/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{avoid=
--including-sys-poll.h-directly.patch =3D> 0002-avoid-including-sys-poll.h-d=
-irectly.patch} (79%)
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{ensur=
-e-valid-sentinels-for-gst_structure_get-etc.patch =3D> 0003-ensure-valid-se=
-ntinals-for-gst_structure_get-etc.patch} (69%)
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/{openc=
-v-resolve-missing-opencv-data-dir-in-yocto-buil.patch =3D> 0004-opencv-reso=
-lve-missing-opencv-data-dir-in-yocto-buil.patch} (91%)
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.16.=
-2.bb =3D> gstreamer1.0-plugins-bad_1.18.0.bb} (85%)
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{get-=
-caps-from-src-pad-when-query-caps.patch =3D> 0001-ENGR00312515-get-caps-fro=
-m-src-pad-when-query-caps.patch} (81%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
-s-base/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
-s-base/0002-meson-Add-variables-for-gir-files.patch
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0003=
--ssaparse-enhance-SSA-text-lines-parsing.patch =3D> 0002-ssaparse-enhance-S=
-SA-text-lines-parsing.patch} (98%)
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0005=
--viv-fb-Make-sure-config.h-is-included.patch =3D> 0003-viv-fb-Make-sure-con=
-fig.h-is-included.patch} (80%)
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/{0009=
--glimagesink-Downrank-to-marginal.patch =3D> 0004-glimagesink-Downrank-to-m=
-arginal.patch} (85%)
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16=
-.2.bb =3D> gstreamer1.0-plugins-base_1.18.0.bb} (78%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugin=
-s-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16=
-.2.bb =3D> gstreamer1.0-plugins-good_1.18.0.bb} (84%)
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.16=
-.2.bb =3D> gstreamer1.0-plugins-ugly_1.18.0.bb} (89%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python=
-/0001-meson.build-fix-builds-with-python-3.8.patch
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.2.bb =
-=3D> gstreamer1.0-python_1.18.0.bb} (50%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-s=
-erver/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.16.=
-2.bb =3D> gstreamer1.0-rtsp-server_1.18.0.bb} (74%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/=
-0001-vaapsink-downgrade-to-marginal.patch
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb =
-=3D> gstreamer1.0-vaapi_1.18.0.bb} (82%)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-R=
-emove-unused-valgrind-detection.patch
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-m=
-eson-build-gir-even-when-cross-compiling-if-introsp.patch
->  rename meta/recipes-multimedia/gstreamer/gstreamer1.0/{0004-meson-Add-op=
-tion-for-installed-tests.patch =3D> 0003-meson-Add-option-for-installed-tes=
-ts.patch} (97%)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-m=
-eson-Add-valgrind-feature.patch
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix=
-.patch
->  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.2.bb =3D> gs=
-treamer1.0_1.18.0.bb} (72%)
->
-> --
-> 2.28.0
+> //Peter
 >
 
 
