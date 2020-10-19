@@ -1,79 +1,87 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web10.15662.1603122186820463775
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com [209.85.219.196])
+ by mx.groups.io with SMTP id smtpd.web12.110.1603122532493715546
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2020 08:43:07 -0700
+ Mon, 19 Oct 2020 08:48:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GVtQ4Mo3;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id ce10so14576082ejc.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 08:43:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=W/myoB3W;
+ spf=pass (domain: gmail.com, ip: 209.85.219.196, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f196.google.com with SMTP id c129so4966624yba.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 08:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YDC2kesL0K//PEeU1wAu8zWcs40rVSAu9SY/Gczdcec=;
-        b=GVtQ4Mo3jKWfVROHt1dhzBa93rp6ujOdvDIPbb6CR2SOj8PVqT4mXaL+Q8QNSqU2vW
-         X3kKjRy1etCO+DYZgJqXhTJvOlmZ6xqbpGehq8p5JFCAzL79lChez2eWKahRXSbhHnm6
-         1EoY0D7/v8+XYXzFpMeutj9A94pDFC+TtNPpZTLoSd9DM0AnjoxyivXyjDtIQKErR2i0
-         +4WjpbXKc0DA4kwucA2cA8sQ27tlnSbOBnYWY4K3+E5cjBF3rxxe74AzxR78OO+q5wC8
-         zpQgK25dDtzGNGF+4giDs+IiSC2aIDfg83Sr6Wh4DTS6eKeCekm431xgpJUG9cYpTwfG
-         dVRg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jAqI18hK4uFyGXCgAWo9HLRXmu6mKT5GW4MglN6kG7M=;
+        b=W/myoB3WuNwEoLyYal+HGMYAxdOmrgKKH+Eoxdd+4JG9FpHhlXCBy1UhsOzjwydTZZ
+         28ekVT9SOIeQBOo2E16/g+jOecrkcz0FxwGX7+eEhVOPKrKh/gpRvQdqR5uQONYqt/9e
+         8yC4tPkIoeu66SCnukOJ6URl4Hf7wE1wmJwCCYuvmd3DSplaF5vdcJp6PkiZ5CM109VP
+         xpf2Znh9pVVXhfA7209+ACFgOb4ID7wkBauI/JR1t5bYGEnHGqBOODdw/sT2x4wtCpR1
+         JkF4ONuvxcioI22JDrdlG08q2iIdpgywzmbbLsCYmF8O/sZTu1B45/LEQjU8JTSjx6QG
+         77Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YDC2kesL0K//PEeU1wAu8zWcs40rVSAu9SY/Gczdcec=;
-        b=ZuT4JbufooAN6+UmKXMs6Ft48OKiZevQ7uv9O6pJsUn3cfkCn56Yp4eNRg9Rf0HG9V
-         JS+UC7ZYC5/XlmBZCgyYcbQFQ2hs6SMljlBT7R0Cdb/5AIUS+Bu/kH1g3dYGNsaKQBTy
-         3joo5KF1zeLYgk9R8/G1fn7tXeH1W4NZP2priJ3ysorO/vm9smBskVeFrZ2bS0JCp0Nv
-         Pk04o2DIHsvndz3Oh+zw1lmcnRL/AV7ZlC2g15/d8IYBYAirVKvR3fWPG3g4jU396xsx
-         U06oVsJv/amlZHFOMKYIHhA+t/4/IFlTBPMr5jNBDhFiZ7Yi4AU571/koIDLHBH9gtXr
-         Ew+g==
-X-Gm-Message-State: AOAM533cC4HzdJA3F71UCFmqffZ/tKTAdzU8B0lpUjHQOSDBkTTFx9Ce
-	fAyR94Rg8iolw3VPfbVgNX5IZF1z77I=
-X-Google-Smtp-Source: ABdhPJwVtW03Vm8PM61JSscsZe/DXhfTbSQ3TWQZc+O/+cLBTRXVtsSx3+cg3YIZztF8mUBflZbNoA==
-X-Received: by 2002:a17:906:1484:: with SMTP id x4mr464685ejc.81.1603122185166;
-        Mon, 19 Oct 2020 08:43:05 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id o11sm497754ejd.60.2020.10.19.08.43.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 08:43:04 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 4/4] selftest/virgl: drop the custom 30 sec timeout
-Date: Mon, 19 Oct 2020 17:42:56 +0200
-Message-Id: <20201019154256.9519-4-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201019154256.9519-1-alex.kanavin@gmail.com>
-References: <20201019154256.9519-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jAqI18hK4uFyGXCgAWo9HLRXmu6mKT5GW4MglN6kG7M=;
+        b=YfgtqGuBlYM9Q0f7isVUmk/NTOppOPe+SfmntZZUv8QVT5ekFXA0Y9cwbCxN6EY+J5
+         1dmdLfeMTW7Ko+h7tgOBqLcUp4Jw92tyA/H5nz4g++xKB0BxhYt0v0oeELz95sneIUc9
+         oAht8QAM6fjBQ7sYSMoKIJVXaNuKOiJqd7bFTmRUmhiXdXDcpSf5dTGDwt9he+Jnb2bv
+         WHCk4dzLQFrTTaK/mzmsqsXPvnRbAg4JA/85+oJ5jvAfZ0PKXzShy96vembuS7rmZKrR
+         BcqaJkhAUfdDzLtet5OiDe3wUUqwJ3Z9TxlLFPfqLfMTqiBqqqT/6eoycJChD6PFrB5L
+         i6NA==
+X-Gm-Message-State: AOAM5338P9eRCH5dXX7zwlt4S7bwMdk7yYJcst9V55PjqhWJPcdK046/
+	G2IjZ1wTRnPHj9oaj05zi7nsFJPhJtd6YyPF9AQ=
+X-Google-Smtp-Source: ABdhPJyVFbzRtR5uqpAHh7z0vpwp1NonQqpLIIIcNbCZTrAgp9LQ29phUB13AoSE1cogT+ZfDETPZswGzIOjOZYmfn0=
+X-Received: by 2002:a25:cec7:: with SMTP id x190mr345120ybe.513.1603122531561;
+ Mon, 19 Oct 2020 08:48:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1602771116.git.steve@sakoman.com> <464f9f50bce368fb5109a5d7cc06cc25b0bfbe6a.1602771116.git.steve@sakoman.com>
+ <ce3f803cce21cd9ca80c4701c3ede32a8c2ee10c.camel@linuxfoundation.org>
+In-Reply-To: <ce3f803cce21cd9ca80c4701c3ede32a8c2ee10c.camel@linuxfoundation.org>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Mon, 19 Oct 2020 05:48:40 -1000
+Message-ID: <CAGDS+nkAJRozTjLXuDMB_EQq6L5-25HnGG-XumDYS86FC83k=g@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 7/8] qemu: add 34Kf-64tlb fictitious cpu type
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This is occasionally reached on the AB; I am not sure if it is due to
-host overload, or guest malfunction, but let's use the default 300 sec and
-see if it helps.
+On Sun, Oct 18, 2020 at 4:27 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2020-10-15 at 04:15 -1000, Steve Sakoman wrote:
+> > From: Victor Kamensky <kamensky@cisco.com>
+> >
+> > In Yocto Project PR 13992 it was reported that qemumips
+> > in autobuilder runs almost twice slower then qemumips64 and
+> > some times hit time out.
+> >
+> > Upon investigations of qemu-system with perf, gdb, and
+> > SystemTap and comparing qemumips and qemumips64 machines
+> > behavior it was noticed that qemu soft mmu code behaves
+> > quite different and in case if qemumips tlbwr instruction
+> > called 16 times more oftern. It happens that in qemumips64
+> > case qemu runs with cpu type that contains 64 TLB, but in case
+> > of qemumips qemu runs with cpu type that contains only
+> > 16 TLBs.
+> >
+> > The idea of proposed qemu patch is to introduce fictitious
+> > 34Kf-64tlb cpu type that defined exactly as 34Kf but has
+> > 64 TLBs, instead of original 16 TLBs.
+> >
+> > Testing of core-image-full-cmdline:do_testimage with
+> > 34Kf-64tlb shows 40% or so test execution real time
+> > improvement.
+> >
+> > Note for future porters of the patch: easiest way to update
+> > the patch and be in sync with 34Kf definition is to copy
+> > 34Kf machine definition and apply the following changes to
+> > it (just change 15 to 63 of CP0C1_MMU bits value)
+>
+> There is discussion upstream about just changing the tlb to 64 for this
+> machine. I'd suggest we hold off this for dunfell until its resolved
+> there.
 
-[YOCTO #14097]
+OK, I'll remove these two patches from the pull request.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-index 892c19c848..144decdd6b 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -13,6 +13,6 @@ class VirglTest(OERuntimeTestCase):
- 
-     @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-     def test_kmscube(self):
--        status, output = self.target.run('kmscube', timeout=30)
-+        status, output = self.target.run('kmscube')
-         self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-         self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
--- 
-2.28.0
-
+Steve
