@@ -1,95 +1,70 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web09.3004.1603132450775920874
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web09.3876.1603135209460833064
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2020 11:34:11 -0700
+ Mon, 19 Oct 2020 12:20:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AbzwKzc6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id x7so857712wrl.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 11:34:10 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=rw1XOX7u;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.47, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f47.google.com with SMTP id a9so918157lfc.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 12:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=vmsh5m6EAWyPD6QzayobLHmaz7PA8rYn97KGXMWNLUk=;
-        b=AbzwKzc61XigBPAaSJC8Dcalkj8QW2nJRPIdlkj++N11zpyhnVJH1IVn+IkihFsKNU
-         ZdJPobluuBxFJvl9jU46jOCuxdzDA7xcJSgz+SvhXYh641dlIqPdx5YwobTo1Sd3+MLu
-         gzLqM0M3SPA6T1ekDXTYuGUQMU86yHivPYvLY=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YqiHSJ+9u1NL2hw87lcozD8wtBTDobhMXEyCa1GPslc=;
+        b=rw1XOX7ucm9Yx2KZs8DOA/+xju/9lvcQiyNjhZGmAAUZ+oAEPyDESsr21LCvrmBYFT
+         FqR4IxI9WuyJhQFZZ3z8UjoQD0rjP4nJz0Xu/iO2h3tgCMsIruCZSFmiPquxafMP9S60
+         KtdIat0U5Tp22uubf1fdBNIjcT2Kqe3XYmhgmmIW+EsiSzgVY2ZAKqJlTAWaftBraYWP
+         qFj0FjoENoLOCDjlab0PvD0bnQtWdEUlQktufrVgP6vZsiHHI+HmU3Nbjc2fEB9WI++q
+         JFizi7tDBywq7yLfGYC6xs1jto4Hb6kc0qWoHxrhnahzmOHBTEzGsoI/zZf36WqXSo0T
+         XPSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=vmsh5m6EAWyPD6QzayobLHmaz7PA8rYn97KGXMWNLUk=;
-        b=dLWie07iPrfR+hV16PJUdCcwfHSKE3IO+Q8j3JVA91oXVItRIR9W7xNPD5P2tGfzr+
-         qZqhPxI7MFuQPF9iOr/cZ636W4BepNwXKo+/2Zx0r+GCzVhNvV2x8r51/FOINbVUjVfr
-         h5X5oFpmI2oWSopQ9asvkOJpVn22ADUsvbZv5ovxTvHlpIPksSFfP1Oibou40I3VE157
-         ZLd3GU97qlrFOYiAJCI135gdeOVw8Z/qMaJaOiqCRTnRJ7Yz7tW0KvLBj/fXpG7opCa+
-         Nx4gW1/E1TZldR546hPIvbOVBqJgFFf0Jl+LpNCQPtIdv0hA7CnV6+oL+O6oxdSfY/dO
-         9wQg==
-X-Gm-Message-State: AOAM533ZukndK23BEMZSK5+1vPaK6Spkgf4sqEI70LhPyMw2e7StQE0G
-	DtNr1E31TKv7ETQP/jALHDXCQQ==
-X-Google-Smtp-Source: ABdhPJwfoU+ORICL0oSJrU5YN9J7azE3GvbEuIvTNvtWRH9UzgIvodd/vrfsocR2M9pbjrBGDN1kDg==
-X-Received: by 2002:a5d:684d:: with SMTP id o13mr676236wrw.302.1603132449303;
-        Mon, 19 Oct 2020 11:34:09 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from e.c.4.c.b.d.d.d.d.1.e.7.a.1.c.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (e.c.4.c.b.d.d.d.d.1.e.7.a.1.c.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1c1a:7e1d:dddb:c4ce])
-        by smtp.gmail.com with ESMTPSA id l1sm830731wrb.1.2020.10.19.11.34.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 11:34:08 -0700 (PDT)
-Message-ID: <490104d86daace5b116470c8192d63fb605578e3.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 18 Oct 2020 12:00:01 AM HST
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Date: Mon, 19 Oct 2020 19:34:07 +0100
-In-Reply-To: <CAOSpxdaCefKtbfRkhXf96KukVaT-hVv6JT_RNqaXVQr4eDQm1A@mail.gmail.com>
-References: <20201018100004.8512E9601C6@nuc.router0800d9.com>
-	 <27f0873f9e4c50789588953a20d530c9965e1a35.camel@linuxfoundation.org>
-	 <CAOSpxdYO3dB_9PtC7pvmqNTa8ZUbGQU6YOfEFezM0mtCBjC7AQ@mail.gmail.com>
-	 <CAOSpxdaCefKtbfRkhXf96KukVaT-hVv6JT_RNqaXVQr4eDQm1A@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YqiHSJ+9u1NL2hw87lcozD8wtBTDobhMXEyCa1GPslc=;
+        b=KgN8I6SO5m5CTEQS2ZpyX6bJC6qAXQpIOuKMuwN4Cupb3bDDNAmLZmgyT0C70xfZyM
+         uLILrOsPm5UutTIgV3c1d/v9028hx9gddsFmFsabZnmzovTtlklhig6KCbCxa7ill9QI
+         24T9a0Mnaeok1fhx08uBZ/lmiY02XNTPUaVBj4mTtkq08iVUzN23n5P3M8OJs+GI3eZ0
+         yBtIGW/OKtFX1Nv9DVcfv8/YNrZLX90KCyzAft/8jvTw60r84+PVXZFa1rB7SQyScZv1
+         UyKFC/tcuLgLxaZh24P0YM8P0NcuwEvBPvorpdhdG7S9tQmIcgu/kFJW/4zQ4bqSW8uB
+         JA7Q==
+X-Gm-Message-State: AOAM530Fe5/u7l6NY29g28H9ZJUhbO4xpG9QQ8r3tuVffa3jzHF2pBal
+	8yNsEGV5wQ606we7RPiOwK6sUJEB/3RMn20cXWVSgg==
+X-Google-Smtp-Source: ABdhPJwjql48R5IZJzI3iP7laBWRT31Iwc07/7RalZY+4J/Tu5/T9dMMR9gIGNkn2kd39yLaxWgkPIeftMFQWqqKQVc=
+X-Received: by 2002:a05:6512:360e:: with SMTP id f14mr388324lfs.44.1603135207548;
+ Mon, 19 Oct 2020 12:20:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201018100004.8512E9601C6@nuc.router0800d9.com>
+ <27f0873f9e4c50789588953a20d530c9965e1a35.camel@linuxfoundation.org>
+ <CAOSpxdYO3dB_9PtC7pvmqNTa8ZUbGQU6YOfEFezM0mtCBjC7AQ@mail.gmail.com> <CAOSpxdaCefKtbfRkhXf96KukVaT-hVv6JT_RNqaXVQr4eDQm1A@mail.gmail.com>
+In-Reply-To: <CAOSpxdaCefKtbfRkhXf96KukVaT-hVv6JT_RNqaXVQr4eDQm1A@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 19 Oct 2020 20:19:56 +0100
+Message-ID: <CAAnfSTvEfyb4o3p-MXsc7dPo_XR_YE9e0v5EDbO8PTOkAWZKfw@mail.gmail.com>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 18 Oct 2020 12:00:01 AM HST
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	yocto-security@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-10-19 at 08:27 -1000, Steve Sakoman wrote:
-> ON Sun, Oct 18, 2020 at 8:12 AM Steve Sakoman <steve@sakoman.com>
-> wrote:
-> > On Sun, Oct 18, 2020 at 7:56 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > 
-> > > I'm a little puzzled about how dunfell improved significantly but
-> > > master didn't?
-> > 
-> > I am too!  The master CVE check runs first, so I guess it is
-> > possible
+On Mon, 19 Oct 2020 at 19:27, Steve Sakoman <steve@sakoman.com> wrote:
+> > I am too!  The master CVE check runs first, so I guess it is possible
 > > that the database updated between runs.  But that seems unlikely.
-> > 
+> >
 > > I'll review the scripts, it seems more likely I have a bug.
-> 
+>
 > I didn't see any obvious bugs, so I re-ran the report for master and
-> this time all of the qemu database changes I submitted were
-> recognized
+> this time all of the qemu database changes I submitted were recognized
 > and we had a big decrease in master CVE count too.
-> 
-> So perhaps the database did actually update between the master and
-> dunfell runs.
-> 
-> Another possibility -- I was using a common sstate for master and
-> dunfell.  Doesn't seem likely to cause this issue, but since we use
-> separate sstate on the autobuilder I'll do the same for the CVE
-> report.
+>
+> So perhaps the database did actually update between the master and dunfell runs.
 
-I have noticed this kind of oddity on more than one occasion, you can
-CVEs fixed in dunfell that are still in master in previous weeks.
+The report runs at midnight HST. Maybe the owners of the script picked
+a time that was suitably in the middle of the night for them, which
+turns out to be midnight for you?
 
-It does seem that either they update the database at an inopportune
-moment on a schedule or there is something odd going on in the code
-somewhere :/
+Maybe just offset the cron to half past?
 
-Cheers,
-
-Richard
-
+Ross
