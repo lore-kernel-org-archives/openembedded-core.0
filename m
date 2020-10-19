@@ -1,83 +1,52 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web12.26332.1603044746216439406
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.7112.1603080240718787797
  for <openembedded-core@lists.openembedded.org>;
- Sun, 18 Oct 2020 11:12:26 -0700
+ Sun, 18 Oct 2020 21:04:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=O9wPvtan;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.53, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f53.google.com with SMTP id l16so7979117eds.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 18 Oct 2020 11:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CCnJnleX0Ipcbd69WSyCLqHDbPpa4ldIGnqcP9OILU0=;
-        b=O9wPvtanVN6ZFN3MrgCmfnXj01KnWqh7E9XBYiQnPi9JsOFPcgGo7I7gzuU21gj4WI
-         mznNjomxlhbLSQ9Ss287IDOAAum2ZhGwW3gWhZPnho16PPWYLEDKUVkUfmMtmFWqAIJY
-         xcD1oOZ8A7OudXQodTefCXdaO8sjSksJEnDhXi9L6nn67LPgQiZwZcuuhx/OkFrwLTm8
-         mB0VjZg66DHlnibhBmJKShZDJu30owrO0/8mwXOXII5JoGhJz5iY5+UNLIzwzpRcZxQf
-         WdH2B7uAts0z/xq7gRepV4MQGDc4y6qhrIEclyAe/knkUVZRu9bOV8WovaQARzlMfp0E
-         RkiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CCnJnleX0Ipcbd69WSyCLqHDbPpa4ldIGnqcP9OILU0=;
-        b=We02YxbuAdrNH2M9NcUOXNJktTHpMpL51Sc3hv9QnwBM7IvsdOU2aBhqQMqPHaM/YK
-         aiqgKCVEKwW57Le+XHa+wwHjvf2joLXH4kjG/if0ZApobUnxV/dLZ9IqJAsjxczACj6X
-         hyYwVNTgbWfxJaYgJVw2DW2/X5yl7XhIilS5r+BSi5sV037zO70QLbJXLbTElqvHPau6
-         bU+wuFexxbh9dGsTU3c7QRzGtP2C2Pmv61Q9Edmw6rF4OGvD1BgptuULimCIlyqjV3vc
-         oGGqVMBW1hSAnrdDA476nLSME62ai4aulnf2eNcDE4YSps432ksLl84Gx16dnfa+xD66
-         bLpw==
-X-Gm-Message-State: AOAM531Z+HMFkTsbO2ujbyBwALoVnIFjctZnfET/lB+pjC57bUtqxTrk
-	e4pmb2E/cfJkvE3QkNwrIdlfU/CQMRPFgKrwVmIZ8w==
-X-Google-Smtp-Source: ABdhPJwXbXXdFOFzNYbGhje3BDu0P9TKbsD3sVh5XjIhv03QX2O4ruMOuf0H8nzcn5HYTK6m6zpQd0PB8wWlV1dKi1I=
-X-Received: by 2002:a50:d517:: with SMTP id u23mr14644370edi.338.1603044744491;
- Sun, 18 Oct 2020 11:12:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201018100004.8512E9601C6@nuc.router0800d9.com> <27f0873f9e4c50789588953a20d530c9965e1a35.camel@linuxfoundation.org>
-In-Reply-To: <27f0873f9e4c50789588953a20d530c9965e1a35.camel@linuxfoundation.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Sun, 18 Oct 2020 08:12:13 -1000
-Message-ID: <CAOSpxdYO3dB_9PtC7pvmqNTa8ZUbGQU6YOfEFezM0mtCBjC7AQ@mail.gmail.com>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 18 Oct 2020 12:00:01 AM HST
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=MF+587qC;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pauleg@linux.microsoft.com)
+Received: by linux.microsoft.com (Postfix, from userid 1054)
+	id DFABA20B4905; Sun, 18 Oct 2020 21:03:59 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DFABA20B4905
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1603080239;
+	bh=985aa0eo0HsqB0WDvp43FXyb7RexnbBLwvAJMACFv9g=;
+	h=From:To:Subject:Date:From;
+	b=MF+587qCq8zV3sun95q9LZAmGToO+rjhlPx8fTai0KJEniFuqfkN7DYllY6xRMKE1
+	 lVSs435hlzRGEBJBReY8PX+6EZKbXkx2NHkWJ4JNZVbDzWGCdBdZXAhhs6uSyWBF85
+	 3b/SP+PKnFVhf4nzBwKnlc8izU8GsTjl64PqSjR0=
+From: "Paul Eggleton" <paul.eggleton@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC PATCH 0/2] buildhistory: record SRC_URI
+Date: Sun, 18 Oct 2020 21:03:55 -0700
+Message-Id: <cover.1603080016.git.paul.eggleton@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
 
-On Sun, Oct 18, 2020 at 7:56 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sun, 2020-10-18 at 00:00 -1000, Steve Sakoman wrote:
-> > Branch: master
-> >
-> > New this week:
-> > CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-> > CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-> > CVE-2020-26116: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26116 *
-> > CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
-> >
-> > Removed this week:
-> > CVE-2019-18276: bash https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-18276 *
-> > CVE-2019-20907: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20907 *
-> > CVE-2020-14346: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14346 *
-> > CVE-2020-14361: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14361 *
-> > CVE-2020-14362: xserver-xorg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14362 *
-> > CVE-2020-14363: libx11 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14363 *
-> > CVE-2020-16092: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-16092 *
->
-> I'm a little puzzled about how dunfell improved significantly but
-> master didn't?
+Record SRC_URI for all built recipes in buildhistory. Since we also
+want this recorded for native recipes, enable writing out the "latest"
+file under packages/ for native recipes as well.
 
-I am too!  The master CVE check runs first, so I guess it is possible
-that the database updated between runs.  But that seems unlikely.
 
-I'll review the scripts, it seems more likely I have a bug.
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
 
-FWIW, the dunfell report looks correct -- those are the upstream qemu
-database updates I submitted earlier this week.  There were a couple I
-submitted for other packages later in the week, but those don't seem
-to have taken effect yet.
+The following changes since commit 1f26495884b8f567aecadc5936651846dfeed3f5:
 
-Steve
+  siteinfo: Recognize bigendian sh3be and sh4be (2020-10-17 23:22:15 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/buildhistory-src-uri
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/buildhistory-src-uri
+
+Paul Eggleton (2):
+  classes/buildhistory: record SRC_URI
+  classes/buildhistory: also save recipe info for native recipes
+
+ meta/classes/buildhistory.bbclass | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+-- 
+1.8.3.1
+
