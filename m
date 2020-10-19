@@ -1,66 +1,72 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web11.13263.1603113946882450558
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web11.15914.1603122184387790408
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2020 06:25:47 -0700
+ Mon, 19 Oct 2020 08:43:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KvtXZ6/o;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id s9so11410763wro.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 06:25:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KwELheeL;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id qp15so14564118ejb.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 08:43:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Ja4apUkq3ogZ6zhQTGfy7cUYhimkzVdY4NSiAHGBwDA=;
-        b=KvtXZ6/oUlEhOCbAI8bagWhsk2KYCxLuLWZ1HkgVJgKOy3CcbtOIZV46X2hAshuqmf
-         /NiF8LjbDvlEiJNMi4Ygy9Wl8MubMbTivALR6ZVBq8QjIJpxbn3SC7ZlzTbfd48LGavR
-         i5c0pUCbo3TkwxaS3tfR3DshrLurdqfiGJhq0=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ghz9NWqyXflU9PdfE7+yoTrgzw47CIDE8AwAXz/5aeY=;
+        b=KwELheeLu2EYbU6qtqYBElZGySlyuj3nYfqkpWsCNvQj5tnO65eg30BTa2M/GV5pV4
+         b3RPonaFj/SR5tW2BK49PYF2lUBE+f1KNzlvwZC6eRDYJg6ygYGWr8/v8yybAZ2vZuZp
+         BPW0Nz0XXd2qd7USHcEIAiizSW8fiJ/x9+MZwp1YnLqWMoyGdkEHZxQZi159/iThjNY2
+         x67HRIPa/sYZSHiH/eN/tbJbYVff0GGRb9Jk1NLPkHjVtlRpeiWHC6c9BqABIjiX5k/8
+         lNKd1cmGsG74aLcyHteZLxRiLPSAKcHQuBGuER4RvmkQQE4hPdCQ7dVsCOIDM4MxUSB4
+         Qaaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Ja4apUkq3ogZ6zhQTGfy7cUYhimkzVdY4NSiAHGBwDA=;
-        b=G1f9x4BWDqHGXgykVsINJJ8lEPlCgp7Um7x2oW2cVznQ/NbiKW1SPkuI00tcJgqzpt
-         +FU7bz+KduEmf0gMQ4Kk1n+iar6UHUnH1gs0DWwGNJWAMoFlAiKnLFXLzEmPmljjygCH
-         DDyGAM2g2kmbAt2/JyCPy8ZI4orRu0rpfSSDDiQWPu/gJ/ZCNXf9iyWinsegddaNunlT
-         U7ItXt23k2UupMsXsjfQwPY1aXRKsbVpv6eXzOjhPI3iWQSGMQP9Rd6IK9VLsNaGfAgm
-         4iINfjuqx0bYbdo5zz6cZC9suRmc3mUALtNWQ46xj+se14ysr9CW6qzNyCbAKNoLncsF
-         A+Pg==
-X-Gm-Message-State: AOAM5319vYJOQWdCQiHrKmMq68JeJunmE246qxoZc2SIBxAZNcWWJREf
-	pLz07dVOwQeEuKxRIFehJQdlAQ==
-X-Google-Smtp-Source: ABdhPJwLRysM6kC/tDBZ2GCC0tXjWVwvLnF0inJSeWOwKgnhnMPiMj5iRywrkQ+lVwpP12hkqAMnSw==
-X-Received: by 2002:adf:a551:: with SMTP id j17mr20936481wrb.217.1603113945289;
-        Mon, 19 Oct 2020 06:25:45 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from e.c.4.c.b.d.d.d.d.1.e.7.a.1.c.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (e.c.4.c.b.d.d.d.d.1.e.7.a.1.c.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1c1a:7e1d:dddb:c4ce])
-        by smtp.gmail.com with ESMTPSA id z6sm11652wmi.28.2020.10.19.06.25.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ghz9NWqyXflU9PdfE7+yoTrgzw47CIDE8AwAXz/5aeY=;
+        b=kW/hLffsRNf+SPUM4lHNjVu6Z07XS3Sg3MZhumvnze7YV7SVcnMwaK73OH8/hR6T8v
+         uJz8C+bGH3hiCe+dDR9jd52cCb3L//xiZdC2CcWvAVwxh5KD7U3oeqFZOWSCI9qgygGF
+         WBz+UCzwgn8Zlki5bJ6/iQ4mXNbgtRKrpoLt6BW7CMYekExxX9MerLp0WTSGrS2IVSjZ
+         2N5XCoXE4bmPV+pgCUpBOT8CVHneSB0SszFdXXt7RZAO5oMrZ3wlskMZz/I/TC2CfLHT
+         dQ68tvyIflx4Z7vZqsAmPmvvM5UnAheSwjmZLhnMJWZiO7W8JgIMgLCSbxvG67hoI+iU
+         GiiA==
+X-Gm-Message-State: AOAM532+vC553Lp76f+Konx+wWdJfnz9l3mPrDnyxdqSX/sux4cKa6dr
+	lAXa64tOpvgkhM5sO4XQQwOOWFNfFWk=
+X-Google-Smtp-Source: ABdhPJxRFphehPPAjdzB8wd/SUMYA0T2DydOdpdLAJCM/vd3+gv9rpzYE5Yui3JHX3608ECJF1+Qpg==
+X-Received: by 2002:a17:907:720f:: with SMTP id dr15mr441841ejc.447.1603122182606;
+        Mon, 19 Oct 2020 08:43:02 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
+        by smtp.gmail.com with ESMTPSA id o11sm497754ejd.60.2020.10.19.08.43.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 06:25:44 -0700 (PDT)
-Message-ID: <9ea47af9eca270bea1b3e468f530dad782023a44.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] busybox: add rev and pgrep
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Diego Sueiro <diego.sueiro@arm.com>
-Date: Mon, 19 Oct 2020 14:25:44 +0100
-In-Reply-To: <DB8PR10MB39778008487808091759D8AB92030@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-References: <20201015054600.24514-1-akuster808@gmail.com>
-	 <27107.1602752871157273119@lists.openembedded.org>
-	 <DB8PR10MB39778008487808091759D8AB92030@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Mon, 19 Oct 2020 08:43:02 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/4] ncurses: only include upstream releases in version check
+Date: Mon, 19 Oct 2020 17:42:53 +0200
+Message-Id: <20201019154256.9519-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-10-16 at 16:48 +0000, Andrej Valek wrote:
-> Why are you not enabling these configs correctly via defconfig?
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-core/ncurses/ncurses_6.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'd wondered about that. I didn't really want to block the fixes on
-that discussion and am trying to pick the best places for discussion
-but I'd take patches tweaking this.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
+index 5c02db8541..f3c84c2877 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.2.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
+@@ -7,7 +7,7 @@ SRC_URI += "file://0001-tic-hang.patch \
+ SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5"
+-UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)$"
+ 
+ # This is needed when using patchlevel versions like 6.1+20181013
+ #CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
+-- 
+2.28.0
 
