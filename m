@@ -1,130 +1,274 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.4990.1603138684650766101
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web09.5580.1603140641269495291
  for <openembedded-core@lists.openembedded.org>;
- Mon, 19 Oct 2020 13:18:05 -0700
+ Mon, 19 Oct 2020 13:50:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vV4YxSaS;
- spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: petr.vorel@gmail.com)
-Received: by mail-wr1-f68.google.com with SMTP id n18so1158433wrs.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 13:18:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QDEP5VoX;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id o9so415900plx.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 19 Oct 2020 13:50:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=B4Glb9xDdLu5iWc2KsKtOEeByRwywRslCn4Cmf1IlBc=;
-        b=vV4YxSaSXc2hYcXWTEFXQXo64kL4pNyV7RQUEM8HvWzUym0nnB5LMQJGOrfn0A0nnY
-         WIbL4AAF2c1xMOsj3fE9UbnlHEPydXOA9IAy0VGSbEFxt9Lg0hk0U9tLnscus2FPzb00
-         5XZG6Y+ahq1rhlXxheE3Vd0GcBBTVP3bWGn0JbsLCBwaNHIPRLLtb5on4v7L4Nqx0kWC
-         GG1v9Jb+iv5/WTi94s9B7aFcSzEBhRgpkG/ZCwNoDg+zv8pSvRG5Oz5y+VWIDKMpuGTn
-         zalT8JR/fNzqAe/Q3tf9CsHW2goXxVM/kRRk0xN/o+791a1o/uNvfFkqXj8aCm6KOnD6
-         2WWw==
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=iU5CgXFZDw8E57fJ3CLCX0IA3VSBP+bFSbFjO0IoyB4=;
+        b=QDEP5VoXU+h/Drk9pnzcBcN6AzsSK+UUv1vqt+QlbxFnyllHewgXblYjw2CVYGzMip
+         RY9xcoErD/vdQcJmtKyhYfEHdb9yjk53VKLBClKOIOYqNZeebnrmrQKCO9A2cIUWNj6M
+         5ObgJY8Xbx5XXQZsb6SAT/6K3P1xaWp28PqthmTmtVM7kstERh8Noj7Dup6Rq2GPNMcQ
+         KZISCTzeXhkM1F5rx7wQV0ibiAF5hcseTlenOQZzN+HAmmFO5tnFCG9BYUGh+d5+J55R
+         rHAgBle7lAXV2oN1nHkXE4mulEKQvG/deQOF07AQnCxS49oDzhIKhkyM8LEeUilg1A/A
+         oH0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=B4Glb9xDdLu5iWc2KsKtOEeByRwywRslCn4Cmf1IlBc=;
-        b=TLOAUCKGm69cQtVILVaMHEIEjY+VC8oj3c9fEVH2GJ+QD3cRxSqPiGhnOjRXzPPOWB
-         7BU8yYtoECz7YCBCgp78S2CdZiSXuWQVGsk39hUG2m1zy0cvqvf+r+9/KI2fmEIaFhu3
-         2omE5HaF2hzUEA28h2fxfzeuOdKULdZlu2PsCQQj7tAXioyIjmLQkPe995YghiyK8vbO
-         MyU2m1QzqlY5+CEoerHvmv5jZe5V6OJEOH+0tJC9Ahmolr9jaBslnlCGFyLsXlwVFbgI
-         1KLMmga5r41ny19arFphPfMy6txeENyTJgEQXtNzdJFanGl9pzgLFmBTKX/Pn+orfRLa
-         PKIw==
-X-Gm-Message-State: AOAM531VSj2jzjxuEupUQLMRW4YOLxn1jsH0gE3sQV7iIo01vbQ1xiQO
-	80AdvXZzVdOY16JIblORFIE=
-X-Google-Smtp-Source: ABdhPJzWsX03jhU5LzIoDQ9d0hIVqAGiQ5sNlpM593xRhoerFThDhoKA6NUkj6SX3inVx7rtZY43jw==
-X-Received: by 2002:adf:e741:: with SMTP id c1mr1120882wrn.16.1603138683079;
-        Mon, 19 Oct 2020 13:18:03 -0700 (PDT)
-Return-Path: <petr.vorel@gmail.com>
-Received: from dell5510 ([62.201.25.198])
-        by smtp.gmail.com with ESMTPSA id y10sm1017998wrq.73.2020.10.19.13.18.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 13:18:02 -0700 (PDT)
-Date: Mon, 19 Oct 2020 22:18:00 +0200
-From: "Petr Vorel" <petr.vorel@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: ltp@lists.linux.it, openembedded-core@lists.openembedded.org
-Subject: Re: [LTP] [PATCH v2] sigwaitinfo: Do not run invalid/undefined test cases
-Message-ID: <20201019201800.GA12642@dell5510>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20200529014448.3815022-1-raj.khem@gmail.com>
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=iU5CgXFZDw8E57fJ3CLCX0IA3VSBP+bFSbFjO0IoyB4=;
+        b=ttgVvbZpu+l+dNpuc2RJ3cgx925wHwrVS/mduBSM/eHAkhgBQ9d6PxwikGBMecfwMB
+         NVMCQUCXv3vEALwO8M/hvF+y4M9x8Z6Phr6ZVsb/AxPw5Dhzch6392hB39QbIqgrshpC
+         ju5qI3hWsaTU/XxEKLJGmoJs+go4tkMeuIRqszjK3bw40LzuNO4Zv/MmxCm0/f7d3TVh
+         zC+kwevfevf8UOwieP0bR5tAlLRtGxPDHmo0fpt9rp5tSvG4OgOLoVXGOQpUAbuUBHJx
+         vnRG34PbajtLmOiPWpII3kdXc57gSxTm/1F9kESvJO4kz8HQJCwTvFFlP+H3ndAHJDdn
+         9q9w==
+X-Gm-Message-State: AOAM531NlYrIbftR7p726egDiQjJGPuNEyaKbbt++qduGulyuXWWvxLB
+	3sWmIY0Z0zvqrZm5g7FUqm0=
+X-Google-Smtp-Source: ABdhPJwaroa1EQ+iZhLGmiPFa8YFsIa7ynZg+ELzkUKw/2Uekm5tDNvUJ4KBMLPa1IWluYpHx3XYYA==
+X-Received: by 2002:a17:902:64c8:b029:d3:c693:8ce8 with SMTP id y8-20020a17090264c8b02900d3c6938ce8mr1534326pli.27.1603140640779;
+        Mon, 19 Oct 2020 13:50:40 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (wsip-184-183-149-66.ph.ph.cox.net. [184.183.149.66])
+        by smtp.gmail.com with ESMTPSA id f71sm628790pfa.155.2020.10.19.13.50.39
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Oct 2020 13:50:39 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Mon, 19 Oct 2020 13:50:40 -0700
+Message-ID: <161901d6a659$817b7420$84725c60$@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200529014448.3815022-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKb84Fjzd3BpCXwXHTmhVKO6RNP4w==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_161A_01D6A61E.D51D5F70"
+Content-Language: en-us
 
-Hi Khem,
+------=_NextPart_000_161A_01D6A61E.D51D5F70
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-> These testcases run for eternity on musl
+All,
 
-> test_bad_address* cases are passing invalid pointers to a function; that's always UB
-> empty_set and timeout rely on the implementation-defined "may fail" for EINTR in sigtimedwait [1]
+ 
 
-> normally "may fail" is an "unspecified" but here the impl
-> is supposed to document it so it's "impl-defined"
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-> [1] https://pubs.opengroup.org/onlinepubs/9699919799/functions/sigtimedwait.html
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
 
-Sorry for the delay. Could you please verify, if test still fails in the current
-master? If yes, would you please update the patch?
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-Now, I dropped it from the latest update:
-https://lists.openembedded.org/g/openembedded-core/topic/patch_1_1_ltp_update_to/77667273?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,77667273
+ 
 
-Kind regards,
-Petr
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 337
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
 
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Rich Felker <dalias@aerifal.cx>
-> ---
-> v2: Extend same fixes to include sigwaitinfo01
+------=_NextPart_000_161A_01D6A61E.D51D5F70
+Content-Type: text/html;
+	boundary="----=_NextPart_000_1146_01D6A094.CB279060";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
->  .../kernel/syscalls/sigwaitinfo/sigwaitinfo01.c      | 12 ++----------
->  1 file changed, 2 insertions(+), 10 deletions(-)
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 337 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-> --- a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
-> +++ b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
-> @@ -422,15 +422,10 @@ struct test_desc {
->  } tests[] = {
->  #ifdef TEST_RT_SIGTIMEDWAIT
->  	{
-> -	test_empty_set, my_rt_sigtimedwait, SIGUSR1}, {
->  	test_unmasked_matching, my_rt_sigtimedwait, SIGUSR1}, {
->  	test_masked_matching, my_rt_sigtimedwait, SIGUSR1}, {
->  	test_unmasked_matching_noinfo, my_rt_sigtimedwait, SIGUSR1}, {
-> -	test_masked_matching_noinfo, my_rt_sigtimedwait, SIGUSR1}, {
-> -	test_bad_address, my_rt_sigtimedwait, SIGUSR1}, {
-> -	test_bad_address2, my_rt_sigtimedwait, SIGUSR1}, {
-> -	test_bad_address3, my_rt_sigtimedwait, SIGUSR1}, {
-> -	test_timeout, my_rt_sigtimedwait, 0},
-> +	test_masked_matching_noinfo, my_rt_sigtimedwait, SIGUSR1}, 
->  	    /* Special cases */
->  	    /* 1: sigwaitinfo does respond to ignored signal */
->  	{
-> @@ -452,25 +447,17 @@ struct test_desc {
->  #endif
->  #if defined TEST_SIGWAITINFO
->  	{
-> -	test_empty_set, my_sigwaitinfo, SIGUSR1}, {
->  	test_unmasked_matching, my_sigwaitinfo, SIGUSR1}, {
->  	test_masked_matching, my_sigwaitinfo, SIGUSR1}, {
->  	test_unmasked_matching_noinfo, my_sigwaitinfo, SIGUSR1}, {
-> -	test_masked_matching_noinfo, my_sigwaitinfo, SIGUSR1}, {
-> -	test_bad_address, my_sigwaitinfo, SIGUSR1}, {
-> -	test_bad_address2, my_sigwaitinfo, SIGUSR1},
-> +	test_masked_matching_noinfo, my_sigwaitinfo, SIGUSR1},
->  #endif
->  #if defined TEST_SIGTIMEDWAIT
->  	{
-> -	test_empty_set, my_sigtimedwait, SIGUSR1}, {
->  	test_unmasked_matching, my_sigtimedwait, SIGUSR1}, {
->  	test_masked_matching, my_sigtimedwait, SIGUSR1}, {
->  	test_unmasked_matching_noinfo, my_sigtimedwait, SIGUSR1}, {
-> -	test_masked_matching_noinfo, my_sigtimedwait, SIGUSR1}, {
-> -	test_bad_address, my_sigtimedwait, SIGUSR1}, {
-> -	test_bad_address2, my_sigtimedwait, SIGUSR1}, {
-> -	test_bad_address3, my_sigtimedwait, SIGUSR1}, {
-> -	test_timeout, my_sigtimedwait, 0},
-> +	test_masked_matching_noinfo, my_sigtimedwait, SIGUSR1},
->  #endif
->  };
+------=_NextPart_000_161A_01D6A61E.D51D5F70--
