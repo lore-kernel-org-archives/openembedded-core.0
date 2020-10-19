@@ -1,63 +1,52 @@
-Received: from mga05.intel.com (mga05.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.6573.1603143742162939505
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web09.6574.1603143743097897231
  for <openembedded-core@lists.openembedded.org>;
  Mon, 19 Oct 2020 14:42:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: <nil>, mailfrom: randy.e.witt@linux.intel.com)
-IronPort-SDR: pKmzQCibDxUA34mvraG+TUxfJopvsQgc8PjCJphn4gpEgAIYZByW6VUsI6blLXBfDSMkUYVfIV
- wCz0JNvWnboQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="251805862"
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.43, mailfrom: randy.e.witt@linux.intel.com)
+IronPort-SDR: pNriTqDO+vNE99Ur0mH+4QmmfGrCCX34ispeiDAqlUW8cjjpirQviHgDgBeJdbPd3fRBajtBPS
+ 9vT0SxSBCkkg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="251805863"
 X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; 
-   d="scan'208";a="251805862"
+   d="scan'208";a="251805863"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2020 14:42:20 -0700
-IronPort-SDR: l4PFLHGiECI8whXC6zjQZ8RohZZpexr+yUbAMMbAQJ+ZSqEsKjCv8r1ssw9Ahr/nsCnfF6f6eI
- U7nK8S8fH6dg==
+IronPort-SDR: sThKZ/DA5ZJZnONX5BsIHVoGggP5NQ5U077QBDPICxWKOVPrgROtb6G9JkIJcypqVpdqPPvwb9
+ Rrh4XdibJajQ==
 X-IronPort-AV: E=Sophos;i="5.77,395,1596524400"; 
-   d="scan'208";a="358958397"
+   d="scan'208";a="358958403"
 Received: from rewitt-desk0.jf.intel.com ([10.7.159.148])
   by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2020 14:42:20 -0700
 From: "Randy Witt" <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Randy Witt <randy.e.witt@linux.intel.com>
-Subject: [PATCH 0/4] Upgrade rt-tests to v1.8
-Date: Mon, 19 Oct 2020 14:42:10 -0700
-Message-Id: <20201019214214.2528690-1-randy.e.witt@linux.intel.com>
+Cc: Randy Witt <randy.e.witt@intel.com>,
+	Randy Witt <randy.e.witt@linux.intel.com>
+Subject: [PATCH 1/4] numactl: Add the recipe for numactl
+Date: Mon, 19 Oct 2020 14:42:11 -0700
+Message-Id: <20201019214214.2528690-2-randy.e.witt@linux.intel.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201019214214.2528690-1-randy.e.witt@linux.intel.com>
+References: <20201019214214.2528690-1-randy.e.witt@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rt-tests now requires numactl in order to successfully compile. Since
-numactl lives in meta-openembedded/meta-oe, it is added to oe-core as
-part of the patch series.
+From: Randy Witt <randy.e.witt@intel.com>
 
-After numactl is successfully merged into oe-core, I intend to send a
-patch to remove it from meta-openembedded.
+This is a direct copy of numactl from meta-openembedded. numactl is
+being moved to oe-core since the latest versions of rt-tests(which is in
+oe-core) require libnuma.
 
-Randy Witt (4):
-  numactl: Add the recipe for numactl
-  numactl: Remove COMPATIBLE_HOST restrictions
-  numactl: Skip the ptests when numa is not supported
-  rt-tests: Update recipes to use 1.8
-
- ...Allow-for-CC-and-AR-to-be-overridden.patch |  28 +++++
- ...{hwlatdetect_1.1.bb => hwlatdetect_1.8.bb} |   0
- ...gzip-with-n-for-build-reproducibilty.patch |  62 -----------
- meta/recipes-rt/rt-tests/rt-tests.inc         |  11 +-
- .../{rt-tests_1.1.bb => rt-tests_1.8.bb}      |   9 +-
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
  .../numactl/0001-define-run-test-target.patch |  32 ++++++
  ...1-numademo-fix-error-on-32bit-system.patch | 100 ++++++++++++++++++
  .../numactl/Fix-the-test-output-format.patch  |  64 +++++++++++
  meta/recipes-support/numactl/numactl/Makefile |   7 ++
- .../recipes-support/numactl/numactl/run-ptest |  23 ++++
- meta/recipes-support/numactl/numactl_git.bb   |  57 ++++++++++
- 11 files changed, 318 insertions(+), 75 deletions(-)
- create mode 100644 meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
- rename meta/recipes-rt/rt-tests/{hwlatdetect_1.1.bb => hwlatdetect_1.8.bb} (100%)
- delete mode 100644 meta/recipes-rt/rt-tests/rt-tests-1.1/0001-gzip-with-n-for-build-reproducibilty.patch
- rename meta/recipes-rt/rt-tests/{rt-tests_1.1.bb => rt-tests_1.8.bb} (70%)
+ .../recipes-support/numactl/numactl/run-ptest |   9 ++
+ meta/recipes-support/numactl/numactl_git.bb   |  60 +++++++++++
+ 6 files changed, 272 insertions(+)
  create mode 100644 meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
  create mode 100644 meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
  create mode 100644 meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
@@ -65,6 +54,314 @@ Randy Witt (4):
  create mode 100755 meta/recipes-support/numactl/numactl/run-ptest
  create mode 100644 meta/recipes-support/numactl/numactl_git.bb
 
+diff --git a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
+new file mode 100644
+index 00000000000..78ffb22f89b
+--- /dev/null
++++ b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
+@@ -0,0 +1,32 @@
++rename test target as run-test
++
++Upstream-Statue: Pending
++
++test target not only compile the test files, but also run them, which is
++not suitable for cross-compile environment, so rename it as run-test.
++
++and define test target to compile the test files.
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ Makefile.am | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index b6db339..de176c4 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -124,7 +124,9 @@ regress2: $(check_PROGRAMS)
++ test_numademo: numademo
++ 	./numademo -t -e 10M
++ 
++-test: all $(check_PROGRAMS) regress1 regress2 test_numademo
+++test: all $(check_PROGRAMS)
+++
+++run-test: all $(check_PROGRAMS) regress1 regress2 test_numademo
++ 
++ TESTS_ENVIRONMENT = builddir='$(builddir)'; export builddir;
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch b/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
+new file mode 100644
+index 00000000000..506101711a9
+--- /dev/null
++++ b/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
+@@ -0,0 +1,100 @@
++From 68485f8516884377e54c623b0deff73f97321d96 Mon Sep 17 00:00:00 2001
++From: "Hongzhi.Song" <hongzhi.song@windriver.com>
++Date: Thu, 19 Sep 2019 04:32:31 -0400
++Subject: [PATCH] numademo: fix error on 32bit system
++
++Error Info on 32bit:
++root@intel-x86:~# numademo -t -e 1M
++Configured Nodes does not match available memory nodes
++
++That's because sizeof(long)=4Word, but sizeof(long long)=8Word
++on 32bit. So (long long) assigning to (long) maybe cause overflow.
++
++long numa_node_size(int node, long *freep)
++{
++    ...
++    long sz = numa_node_size64_int(node, &f2);
++    ~^^~
++    return sz;
++    ...
++}
++long long numa_node_size64(int node, long long *freep)
++~^^   ^^~
++{
++    ...
++}
++
++Unify the return type of above functions.
++
++Upstream-Status: Accepted [next version is after 2.0.13 or 2.0.14]
++[https://github.com/numactl/numactl/commit/a7c4bc790a191d3e42b63850b409c1a72b75a4e1]
++                 Submitted [https://github.com/numactl/numactl/pull/79]
++[The first patch was merged but has a error, then the second fix it.]
++
++Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
++---
++ libnuma.c         | 4 ++--
++ numa.h            | 2 +-
++ numademo.c        | 2 +-
++ test/move_pages.c | 2 +-
++ 4 files changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/libnuma.c b/libnuma.c
++index cac8851..8b5c6aa 100644
++--- a/libnuma.c
+++++ b/libnuma.c
++@@ -791,10 +791,10 @@ long long numa_node_size64(int node, long long *freep)
++ 
++ make_internal_alias(numa_node_size64);
++ 
++-long numa_node_size(int node, long *freep)
+++long long numa_node_size(int node, long long *freep)
++ {
++ 	long long f2;
++-	long sz = numa_node_size64_int(node, &f2);
+++	long long sz = numa_node_size64_int(node, &f2);
++ 	if (freep)
++ 		*freep = f2;
++ 	return sz;
++diff --git a/numa.h b/numa.h
++index 3a8c543..268fb1d 100644
++--- a/numa.h
+++++ b/numa.h
++@@ -143,7 +143,7 @@ int numa_preferred(void);
++ 
++ /* Return node size and free memory */
++ long long numa_node_size64(int node, long long *freep);
++-long numa_node_size(int node, long *freep);
+++long long numa_node_size(int node, long long *freep);
++ 
++ int numa_pagesize(void);
++ 
++diff --git a/numademo.c b/numademo.c
++index a720db0..8c56da8 100644
++--- a/numademo.c
+++++ b/numademo.c
++@@ -301,7 +301,7 @@ int max_node, numnodes;
++ int get_node_list(void)
++ {
++         int a, got_nodes = 0;
++-        long free_node_sizes;
+++        long long free_node_sizes;
++ 
++         numnodes = numa_num_configured_nodes();
++         node_to_use = (int *)malloc(numnodes * sizeof(int));
++diff --git a/test/move_pages.c b/test/move_pages.c
++index d1d8436..f8ff25d 100644
++--- a/test/move_pages.c
+++++ b/test/move_pages.c
++@@ -26,7 +26,7 @@ int *node_to_use;
++ int get_node_list()
++ {
++         int a, got_nodes = 0, max_node, numnodes;
++-        long free_node_sizes;
+++        long long free_node_sizes;
++ 
++         numnodes = numa_num_configured_nodes();
++         node_to_use = (int *)malloc(numnodes * sizeof(int));
++-- 
++2.23.0
++
+diff --git a/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
+new file mode 100644
+index 00000000000..9812ecc8b3a
+--- /dev/null
++++ b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
+@@ -0,0 +1,64 @@
++From 59fd750a84bbe5874dec936d2bee9ef11a1b6505 Mon Sep 17 00:00:00 2001
++From: Li xin <lixin.fnst@cn.fujitsu.com>
++Date: Tue, 21 Jul 2015 02:01:22 +0900
++Subject: [PATCH] Fix the test output format
++
++Upstream-Status: Pending
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
++---
++ test/regress  |  6 +++---
++ test/regress2 | 11 +++++------
++ 2 files changed, 8 insertions(+), 9 deletions(-)
++
++diff --git a/test/regress b/test/regress
++index 2ce1705..d086a47 100755
++--- a/test/regress
+++++ b/test/regress
++@@ -74,6 +74,7 @@ probe_hardware()
++ 	if [ $numnodes -lt 2 ] ; then
++ 	    echo "need at least two nodes with at least $NEEDPAGES each of"
++ 	    echo "free memory for mempolicy regression tests"
+++	    echo "FAIL: numa regress"
++	    exit 77  # Skip test
++ 	fi
++ }
++@@ -207,10 +208,9 @@ main()
++ 	rm A B
++ 
++ 	if [ "$EXIT" = 0 ] ; then
++-		echo '========SUCCESS'
+++		echo 'PASS: numactl regress'
++ 	else
++-		echo '========FAILURE'
++-		exit 1
+++		echo 'FAIL: numactl regress'
++ 	fi
++ }
++ 
++diff --git a/test/regress2 b/test/regress2
++index aa6ea41..450c510 100755
++--- a/test/regress2
+++++ b/test/regress2
++@@ -9,12 +9,11 @@ testdir=`dirname "$0"`
++ export PATH=${builddir}:$PATH
++ 
++ T() {
++-       echo "$@" 
++-       if ! $VALGRIND "$@" ;  then
++-	  echo	$1 FAILED!!!!
++-	  exit 1
++-       fi
++-       echo
+++	if ! $VALGRIND "$@" 2>&1 1>/dev/null;  then
+++	   echo  "FAIL: $1"
+++	else
+++	   echo "PASS: $1"
+++	fi
++ }
++ 
++ # still broken
++-- 
++1.8.4.2
++
+diff --git a/meta/recipes-support/numactl/numactl/Makefile b/meta/recipes-support/numactl/numactl/Makefile
+new file mode 100644
+index 00000000000..9a5134c3f27
+--- /dev/null
++++ b/meta/recipes-support/numactl/numactl/Makefile
+@@ -0,0 +1,7 @@
++.PHONY: regress1 regress2
++
++regress1:
++	cd test ; ./regress
++
++regress2:
++	cd test ; ./regress2
+diff --git a/meta/recipes-support/numactl/numactl/run-ptest b/meta/recipes-support/numactl/numactl/run-ptest
+new file mode 100755
+index 00000000000..215f7c25b99
+--- /dev/null
++++ b/meta/recipes-support/numactl/numactl/run-ptest
+@@ -0,0 +1,9 @@
++#!/bin/sh
++make regress1
++make regress2
++if  numademo -t -e 10M; then
++	echo "PASS: numademo"
++else
++	echo "FAIL: numademo"
++fi
++
+diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
+new file mode 100644
+index 00000000000..20b7fed8624
+--- /dev/null
++++ b/meta/recipes-support/numactl/numactl_git.bb
+@@ -0,0 +1,60 @@
++SUMMARY = "Development package for building Applications that use numa"
++HOMEPAGE = "http://oss.sgi.com/projects/libnuma/" 
++DESCRIPTION = "Simple NUMA policy support. It consists of a numactl program \
++to run other programs with a specific NUMA policy and a libnuma to do \
++allocations with NUMA policy in applications."
++LICENSE = "GPL-2.0 & LGPL-2.1"
++SECTION = "apps"
++
++inherit autotools-brokensep ptest
++
++LIC_FILES_CHKSUM = "file://README.md;beginline=19;endline=32;md5=f8ff2391624f28e481299f3f677b21bb"
++
++SRCREV = "5d9f16722e3df49dc618a9f361bd482559695db7"
++PV = "2.0.13+git${SRCPV}"
++
++SRC_URI = "git://github.com/numactl/numactl \
++    file://Fix-the-test-output-format.patch \
++    file://Makefile \
++    file://run-ptest \
++    file://0001-define-run-test-target.patch \
++    file://0001-numademo-fix-error-on-32bit-system.patch \
++"
++
++S = "${WORKDIR}/git"
++
++# ARM does not currently support NUMA
++COMPATIBLE_HOST = "^((?!arm).*)$"
++
++do_install() {
++    oe_runmake DESTDIR=${D} prefix=${D}/usr install
++    #remove the empty man2 directory
++    rm -r ${D}${mandir}/man2
++}
++
++do_compile_ptest() {
++    oe_runmake test
++}
++
++do_install_ptest() {
++    #install tests binaries
++    local test_binaries="distance ftok mbind_mig_pages migrate_pages move_pages \
++    mynode    nodemap node-parse pagesize prefered randmap realloc_test \
++    tbitmap tshared"
++
++    [ ! -d ${D}/${PTEST_PATH}/test ] && mkdir -p ${D}/${PTEST_PATH}/test
++    for i in $test_binaries; do
++        install -m 0755 ${B}/test/.libs/$i ${D}${PTEST_PATH}/test
++    done
++
++    local test_scripts="checktopology checkaffinity printcpu regress regress2 \
++        shmtest  runltp bind_range"
++    for i in $test_scripts; do
++        install -m 0755 ${B}/test/$i ${D}${PTEST_PATH}/test
++    done
++
++    install -m 0755 ${WORKDIR}/Makefile ${D}${PTEST_PATH}/
++    install -m 0755 ${B}/.libs/numactl ${D}${PTEST_PATH}/
++}
++
++RDEPENDS_${PN}-ptest = "bash"
 -- 
 2.26.2
 
