@@ -1,76 +1,72 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.9857.1603276878104991481
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web10.13893.1603295669735450999
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 03:41:18 -0700
+ Wed, 21 Oct 2020 08:54:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XhaIkQ42;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id e2so1549164wme.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 03:41:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Nb6WAU3W;
+ spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id c5so2504366qtw.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 08:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=csG296/3W2aJLvxL7hEcb2sIYB2itJ6gYGkTDQZCjSo=;
-        b=XhaIkQ42twARP+tBI60SZjvFbTbHbTrzRdfICKfpIacKJNgbSoqWn3R8QuApjygsbq
-         HWybMjS/+/p7fPrJQGYn3aNfX3pZGaDF/9BMStniCuaHXOoUO3w4eRJpgxgNI0/UR70D
-         vrXRuILgcl45Vxp/N0oRWyVJ3FygdqEYAwy+s=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NfzsJ0i51cTP65W6pkjDGY9XyAwOMAQU9wZcPFDO7aU=;
+        b=Nb6WAU3WIMR1gGxdSNH66b/mwqTTIhT7WIqNCKPw7rJt4EgIJdFUK4g6A05PV8Mx34
+         ZW8NApYavnmGMkpzQXlhSgSPGcotaGhWdv3076r79xWNr1mflUXcuqKk/9AxZg3TDnHk
+         YSG3IVlRF43o32ryDoaZsK9ZM302/fth10EhXLVYLNuzefEXvzBKDkpU+s/fCWfAyVdF
+         JuSVpvPmFNhUpij1qpNc9VXkmg4yV3VfLkfxhjZd+QbH0qhVya1CDgBG//BLb5bUq2nz
+         1z/tZSSK5aGExbR79MEuu7w7LgrLjzd1DkuvgBlK0Co652z1NcFctBENfNAcryVnhiLa
+         87EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=csG296/3W2aJLvxL7hEcb2sIYB2itJ6gYGkTDQZCjSo=;
-        b=qO4I9D/fQJCqdGNL3xBLvYw8S7coxQSuSI/wfpcL+FQPALECjuFXjF3P+PaHtXPRSd
-         sV+DqQYNG85CLv33mLG5FsVaNjSQgSa+OuiRZe99R2qLp+hNKGZXZiT0EV9sE2Ewj25R
-         Pyt2QPTcHNyTTAXbfq14Yn48TK/JMmbk3MgTfaEPQux1Dkqtwxrkjb56COMPdozDnguO
-         /6eajSZtk5UK6RgQCIV+wsPbMZuTS2NUNkqFqg4awcYFoIeyKSGGH9zNkswtiL6WEh0K
-         iB0+w/vHqqhpWP2h2CekEwM2TlQuigcTt4iyWbUHwXQkvRgwsUhJUF48Ve5vnSLt3uvF
-         BDYQ==
-X-Gm-Message-State: AOAM5308qLzrBVM0Z+zyLDuuSTqyPVCUfsnz7vDjzEY2kzRaPMQomCmj
-	17piLC9lK43gJDLn7svGkPPo6w==
-X-Google-Smtp-Source: ABdhPJycuEU9btEVAnWCsIw8A3xMcOdkFV1YXLJ0F76trZtV5N4vwVS/MrfX10wO35RbHewbVlexDg==
-X-Received: by 2002:a1c:bc55:: with SMTP id m82mr2746868wmf.159.1603276876525;
-        Wed, 21 Oct 2020 03:41:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 1.4.2.6.b.f.7.8.7.6.9.2.8.f.1.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.4.2.6.b.f.7.8.7.6.9.2.8.f.1.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f1f8:2967:87fb:6241])
-        by smtp.gmail.com with ESMTPSA id c21sm2584964wme.36.2020.10.21.03.41.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 03:41:16 -0700 (PDT)
-Message-ID: <c1d1aef4a2b900c727360463d929730d671d7f81.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] tcl: adapt to potential psuedo changes
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <Martin.Jansa@gmail.com>, "Yu, Mingli"
-	 <mingli.yu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Oct 2020 11:41:15 +0100
-In-Reply-To: <CA+chaQdwgNY7j6xBzzgeYXGv+V=BqiAxuy1_OovZTN88Bc7wbQ@mail.gmail.com>
-References: <20201021092401.41424-1-mingli.yu@windriver.com>
-	 <CA+chaQdwgNY7j6xBzzgeYXGv+V=BqiAxuy1_OovZTN88Bc7wbQ@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NfzsJ0i51cTP65W6pkjDGY9XyAwOMAQU9wZcPFDO7aU=;
+        b=czOLNIo5Ue7REBg5cE9enU5gdcYxkJsB/HV7E0OGibVpPUCugZ/0d4uMOmvlzhn03w
+         /J4tY9ZAqstzmMC87e5+TgeuJ+Hf6RCFU0d2OBKDN+ASzPUzVvldMt9V5enpymGAB4bL
+         v77osrDmGY8OnZ2iLUTUx4MtMg64+a38A1Zwe34nAZMQIKh7Ay4xgcJxOGz7lrCMjj9g
+         QV3S8UxlYgX7QrEwioXqUx4jPPadgzkM8OHvyHOiNTWjCuJvggZiS5AgEHcNEerg6wqJ
+         A4pcYO2y9KtNf9rgrzGNwP64Tc4WyGKaSdcvDXTudITC8RoMZdENiU+E0w44e9r+AHw8
+         Batg==
+X-Gm-Message-State: AOAM530jZqWOLzyKRmhqLyo2oD7on3DyfhGbXyHq7tXsehM4AMupNstE
+	kHTGa/+pjNwDlzEjI+T75jtfQGZrC9DZ/1qAU68=
+X-Google-Smtp-Source: ABdhPJwY7bs8TNhMEt1VfnlS7rAuZPXxJ/yZd3zLnclwat/URZ2eOudrcF4RQZTQdbmVef29f+lv2uUeLeIZEfozNdA=
+X-Received: by 2002:ac8:57d1:: with SMTP id w17mr3665347qta.194.1603295668837;
+ Wed, 21 Oct 2020 08:54:28 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201020200945.3089-1-petr.vorel@gmail.com> <CAMKF1soztA23jZxjfmvU5Yc5BWAhYV4qen412ZcTdwjjkVDxyg@mail.gmail.com>
+ <20201021090015.GA4194@x230>
+In-Reply-To: <20201021090015.GA4194@x230>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 21 Oct 2020 08:53:43 -0700
+Message-ID: <CAMKF1sp9he=PVoU+R_33W_bB3BWft4vRX9kO6YoxiVVVCe=phA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/1] ltp: Update to 20200930
+To: Petr Vorel <petr.vorel@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Anuj Mittal <anuj.mittal@intel.com>, He Zhe <zhe.he@windriver.com>, 
+	Anders Roxell <anders.roxell@linaro.org>, Yi Zhao <yi.zhao@windriver.com>, 
+	=?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-10-21 at 12:11 +0200, Martin Jansa wrote:
-> There is typo in the commit summary and doesn't base.bbclass do this
-> automatically already?
-> 
-> See 
-> https://git.openembedded.org/openembedded-core/tree/meta/classes/base.bbclass#n396
+On Wed, Oct 21, 2020 at 2:00 AM Petr Vorel <petr.vorel@gmail.com> wrote:
+>
+> Hi Khem,
+>
+> > > Dropped patches (not applicable)
+> > > * 0001-sigwaitinfo-Do-not-run-invalid-undefined-test-cases.patch
+>
+> > these tests still hang on musl and seems to be incorrect. So I would
+> > suggest to keep this patch on until the tests are fixed.
+> Could you please rebase it to current master?
+> These tests have been completely rewritten and I have no time investigate it
+> further. Ideally please send a new patch to upstream (LTP mailing list).
+>
 
-I think the issue is because the recipe is setting:
+OK I think I should give it another shot on rpi4 and see if rewritten
+ones are better.
 
-S = ${WORKDIR}/${BPN}${PV}/unix
-
-but we want
-
-${WORKDIR}/${BPN}${PV}
-(no /unix suffix)
-
-in the ignored paths so that code won't help?
-
-Cheers,
-
-Richard
-
+> Kind regards,
+> Petr
