@@ -1,72 +1,109 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web10.13893.1603295669735450999
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.13987.1603295941810153517
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 08:54:29 -0700
+ Wed, 21 Oct 2020 08:59:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Nb6WAU3W;
- spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id c5so2504366qtw.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 08:54:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JuXNW2mH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id s9so3669005wro.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 08:59:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NfzsJ0i51cTP65W6pkjDGY9XyAwOMAQU9wZcPFDO7aU=;
-        b=Nb6WAU3WIMR1gGxdSNH66b/mwqTTIhT7WIqNCKPw7rJt4EgIJdFUK4g6A05PV8Mx34
-         ZW8NApYavnmGMkpzQXlhSgSPGcotaGhWdv3076r79xWNr1mflUXcuqKk/9AxZg3TDnHk
-         YSG3IVlRF43o32ryDoaZsK9ZM302/fth10EhXLVYLNuzefEXvzBKDkpU+s/fCWfAyVdF
-         JuSVpvPmFNhUpij1qpNc9VXkmg4yV3VfLkfxhjZd+QbH0qhVya1CDgBG//BLb5bUq2nz
-         1z/tZSSK5aGExbR79MEuu7w7LgrLjzd1DkuvgBlK0Co652z1NcFctBENfNAcryVnhiLa
-         87EQ==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GQMEAEW2Jn8lnU1BnJretsaFdeGdBcd2jHzSAeLSDb4=;
+        b=JuXNW2mHfJna2AQmojsiyJGaijR7SyVCifOatlpzbuq98jciIy+GN+48r6pN7kVXFp
+         3AaZuR+nOFFvua/NGkHAA3BD3Tdx3oAUhGrchQfYjnnzJ6aD0cNKW+1vKj4kmCuEO2qB
+         F+PQgUMpYGR6BhqDcaf2sIrw3W14C1nJTHJadGd4reeuptWLfK78bx77SCOK0MwY7IYV
+         9n2EzkEDTRD1KtAKLGRUaX5k+IMEfzhZQ/fVp3/jHM0cf/V7UkH6vHOjN13UUx/Tf8CL
+         rer1qEP/bWaqGKImOYOtYTD9839xCLQXQNHx7uEShhTw6nil/xJfxNAu1v+hf7Pl80G+
+         62NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NfzsJ0i51cTP65W6pkjDGY9XyAwOMAQU9wZcPFDO7aU=;
-        b=czOLNIo5Ue7REBg5cE9enU5gdcYxkJsB/HV7E0OGibVpPUCugZ/0d4uMOmvlzhn03w
-         /J4tY9ZAqstzmMC87e5+TgeuJ+Hf6RCFU0d2OBKDN+ASzPUzVvldMt9V5enpymGAB4bL
-         v77osrDmGY8OnZ2iLUTUx4MtMg64+a38A1Zwe34nAZMQIKh7Ay4xgcJxOGz7lrCMjj9g
-         QV3S8UxlYgX7QrEwioXqUx4jPPadgzkM8OHvyHOiNTWjCuJvggZiS5AgEHcNEerg6wqJ
-         A4pcYO2y9KtNf9rgrzGNwP64Tc4WyGKaSdcvDXTudITC8RoMZdENiU+E0w44e9r+AHw8
-         Batg==
-X-Gm-Message-State: AOAM530jZqWOLzyKRmhqLyo2oD7on3DyfhGbXyHq7tXsehM4AMupNstE
-	kHTGa/+pjNwDlzEjI+T75jtfQGZrC9DZ/1qAU68=
-X-Google-Smtp-Source: ABdhPJwY7bs8TNhMEt1VfnlS7rAuZPXxJ/yZd3zLnclwat/URZ2eOudrcF4RQZTQdbmVef29f+lv2uUeLeIZEfozNdA=
-X-Received: by 2002:ac8:57d1:: with SMTP id w17mr3665347qta.194.1603295668837;
- Wed, 21 Oct 2020 08:54:28 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=GQMEAEW2Jn8lnU1BnJretsaFdeGdBcd2jHzSAeLSDb4=;
+        b=q7r2i+CbWhBZUBvQ55CrtHkYsVCiSr8zvV9aU6+HuY8W8u5yO0TEQpcMiMTLSicKCu
+         Pnl88yJ5oOYK4Whni9TfqOrS0TDW8oeamTKiBbr+8HAvdpOkcvcQgKKDjpxUGMq0CLsW
+         kGImg96SE8IWpTRJVNPXBpswYIvUfq9QpKIyxMrTE3BEuuIi+G/3FLW77gyDUK0NyL2n
+         z10/Dzg8JBn+UDokbPAEOqFnJ8czzAIC/CrzwUyOauGYQegBL+hFDDUFVkVmM8raSr46
+         HWIzqeDZ+R0DRwSoCpN0eyS4Kf+0HGhxLQ2UQHP6lFy68d0rv5OGLDtDqEM+c8qBTy/C
+         52ww==
+X-Gm-Message-State: AOAM531PnWWnEXZFVfVE3bOysZWLPGMCmPgWPxsVRVC2ia/lGIN44M+A
+	CX51YbL+IoJhzzAEKixQfzKUJjqVX60ouA==
+X-Google-Smtp-Source: ABdhPJxnPH682f8ZM7FcsTEmRFe/AvOcnVkpdZeX+bTmzGINDyhYt1AMKaMHWXP2szqCmDTug4XgLg==
+X-Received: by 2002:adf:f643:: with SMTP id x3mr5835685wrp.180.1603295940146;
+        Wed, 21 Oct 2020 08:59:00 -0700 (PDT)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from localhost ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+        by smtp.gmail.com with ESMTPSA id i126sm4491595wmi.0.2020.10.21.08.58.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2020 08:58:59 -0700 (PDT)
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Add new recipe for squashfs-tools-ng
+Date: Wed, 21 Oct 2020 16:58:57 +0100
+Message-Id: <20201021155857.2841570-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201020200945.3089-1-petr.vorel@gmail.com> <CAMKF1soztA23jZxjfmvU5Yc5BWAhYV4qen412ZcTdwjjkVDxyg@mail.gmail.com>
- <20201021090015.GA4194@x230>
-In-Reply-To: <20201021090015.GA4194@x230>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 21 Oct 2020 08:53:43 -0700
-Message-ID: <CAMKF1sp9he=PVoU+R_33W_bB3BWft4vRX9kO6YoxiVVVCe=phA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] ltp: Update to 20200930
-To: Petr Vorel <petr.vorel@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Anuj Mittal <anuj.mittal@intel.com>, He Zhe <zhe.he@windriver.com>, 
-	Anders Roxell <anders.roxell@linaro.org>, Yi Zhao <yi.zhao@windriver.com>, 
-	=?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 21, 2020 at 2:00 AM Petr Vorel <petr.vorel@gmail.com> wrote:
->
-> Hi Khem,
->
-> > > Dropped patches (not applicable)
-> > > * 0001-sigwaitinfo-Do-not-run-invalid-undefined-test-cases.patch
->
-> > these tests still hang on musl and seems to be incorrect. So I would
-> > suggest to keep this patch on until the tests are fixed.
-> Could you please rebase it to current master?
-> These tests have been completely rewritten and I have no time investigate it
-> further. Ideally please send a new patch to upstream (LTP mailing list).
->
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-OK I think I should give it another shot on rpi4 and see if rewritten
-ones are better.
+The main difference with squashfs-tools is the availability
+of a shared library and a programmatic interface, rather
+than just command-line tools.
 
-> Kind regards,
-> Petr
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ .../squashfs-tools-ng_git.bb                  | 37 +++++++++++++++++++
+ 1 file changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
+
+diff --git a/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
+new file mode 100644
+index 0000000000..bbc5f86ae9
+--- /dev/null
++++ b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
+@@ -0,0 +1,37 @@
++SUMMARY = "New set of tools for working with SquashFS images"
++SECTION = "base"
++LICENSE = "GPLv3+ & LGPL-3.0+"
++LIC_FILES_CHKSUM = "file://COPYING.md;md5=c0de2c0aca56349dab98e97992316f7e \
++                    file://licenses/GPLv2.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://licenses/GPLv3.txt;md5=1ebbd3e34237af26da5dc08a4e440464 \
++                    file://licenses/hash_table.txt;md5=874823605326caeaabaa95bfbd0f9fb0 \
++                    file://licenses/LGPLv3.txt;md5=3000208d539ec061b899bce1d9ce9404 \
++                    file://licenses/LZ4.txt;md5=ebc2ea4814a64de7708f1571904b32cc \
++                    file://licenses/xxhash.txt;md5=f042a9be092bd6d7fe6f217d8d00f4ca \
++                    file://licenses/xz.txt;md5=1c389b9610ccfdb25f7abaea6a0bb5a4 \
++                    file://licenses/zlib.txt;md5=ae27c72096606131f760e5f59cf98b06 \
++                    file://licenses/zstd.txt;md5=8df8137b630239cbdd4c0674124cb0c8"
++
++PV = "1.0.2"
++SRCREV = "b96f0fc154feef531be76034bf6e38925636146f"
++SRC_URI = "git://github.com/AgentD/squashfs-tools-ng.git;protocol=https \
++"
++
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
++
++PACKAGECONFIG ??= "gzip xz lzo lz4 zstd ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
++PACKAGECONFIG[gzip] = "--with-gzip,--without-gzip,zlib"
++PACKAGECONFIG[xz] = "--with-xz,--without-xz,xz"
++PACKAGECONFIG[lzo] = "--with-lzo,--without-lzo,lzo"
++PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4"
++PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
++PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
++
++PACKAGES =+ "libsquashfs"
++FILES_libsquashfs = "${libdir}/libsquashfs*${SOLIBS}"
++
++BBCLASSEXTEND = "native nativesdk"
++
++CVE_PRODUCT = "squashfs"
+-- 
+2.20.1
+
