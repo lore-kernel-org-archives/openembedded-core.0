@@ -1,93 +1,100 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web09.641.1603314576576209009
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web09.688.1603314741874325145
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 14:09:36 -0700
+ Wed, 21 Oct 2020 14:12:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=C71seb/2;
- spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f193.google.com with SMTP id b26so2240384pff.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 14:09:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DIz2Q6gp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id d81so3543478wmc.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 14:12:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=g8fV/z8j8W8Va1kFcg6/0G+5WCPbUKBnPDN7MbyUxIU=;
-        b=C71seb/2qYQFo/6+XDJ+CPAYwuKaxu2mOKiF9l+YqtOGY5DJ3z9ntLRlX2+r8zVAaT
-         gIFO4nHi637qJ+F763Tx/T1aVBlfmHQuou+SrKplL1HEoXM+r3KWtlsZrsHRU5NfORfI
-         XE7E7W/JKpiaWELuw3bAUB6/3id0gj9SNDjwLYWMzZN27csqokC32/qkGBCapSWRQgcD
-         5tn5vJbV07gKQ5AJic8m2UkxEQlf2oDjTAlXBoizTotOdEQf/y3rByD9dO9ooTiLZvV2
-         oXXlH3zxL/uov+nniPOQZAr057QULSvcZLtfEimaGepno83xtZ88h2P5CKXsakNAH2iy
-         HQtA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=B+56ppcGSvBOp+in7NOiY2QElizb/lJwJ+h4wdZspQw=;
+        b=DIz2Q6gpmBBDJchTpv+RX9oMRYgs9VUPv0rt7TWY/q6DD5XstxD66HV2RwmyRdDoiT
+         w1hrcYe1eu5ZztOIXDPfBwMHBZ2JgHnh8XIYLkRJ4rKRbq4nEm+ovIiGs09DHgxupZB1
+         WI8IJq5IntbZVtz4esqY/XlFwxPDy+sjW/Q8c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=g8fV/z8j8W8Va1kFcg6/0G+5WCPbUKBnPDN7MbyUxIU=;
-        b=Ssv9w5mSEbWkCJDRXor9UOVloD2p84WtORiZT9yhqYWyINDK7oJJTRBTnZ9yVgkzj7
-         n8xKXuuLCSgDPD1nXg5SDoHMYzlZ0YJDv2g8CZFA8dZcRA5oWfbIPIHVBvC2yK+7KFYt
-         0WEGRURK8nA1zuGRVIdWX6+qsDOQg4mviGmcXwqOd9bV5E+EfO7ZHTbh16I0ndancB+d
-         ui4GQk8V2/yLSTYgE150a1Xlg2lFQh4fr5WpiYfXmXFPgSs3xT03qgETkcPGLL5yxMyb
-         21bcJnPTsslOZ+MFSID7czpT7hFUcYuv46JP+x8uHtsUsN8Gn6JSOwQS7nWyx23qE1Os
-         CJfQ==
-X-Gm-Message-State: AOAM533GyHEzbDtWgo3/yFZlE8T95TMZmKZsD7AXV7vYdIS9firpnpqm
-	s0WJjHsAWpQOvoGyBjuEXJmrlITh2BmgAg==
-X-Google-Smtp-Source: ABdhPJxodD3P77qjjVv+OFMFXQMksnu9gfJGBk7Eo1NPRb5EarHVgBR7fIQlPrrrATJtW6WIzI6guw==
-X-Received: by 2002:a63:f14:: with SMTP id e20mr5196010pgl.52.1603314575639;
-        Wed, 21 Oct 2020 14:09:35 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3958])
-        by smtp.gmail.com with ESMTPSA id y22sm3525588pgj.27.2020.10.21.14.09.34
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=B+56ppcGSvBOp+in7NOiY2QElizb/lJwJ+h4wdZspQw=;
+        b=XgL6hS81zsneSZ3AWWe7V2wC1ywa+IVeWUNzsCMEWDMAkmEwWvXx+m9j4bok5NsJ/8
+         qVMqFijYU064bTN7WEiG1mHPZrxpVx9wyETY9LU22Lqby6QYXkin3M7SolDx5wZ2uxdy
+         Na44ad+ld1GDLrbOEtkkM+SjpS0JiHHABey543m8JbVnbDNsrrEV6f443IiBEOZa3j8X
+         u3soh5fxaup6c9oaoXqthWcPxZRN+mFGg8nbp8zPwIEJGnX077Sp0ylR8U3lz2W4D+z/
+         ZSreQ0cKt3wQ+cBdcJsv7/LhGZoOL8uQATHIBkm8FmZk5WlzqBH45rt1uEUYtioTI/ld
+         qw2Q==
+X-Gm-Message-State: AOAM531bvBN9UsSw4xTN2M2q4gohDp4lReDETsekMwy7OVUt02pxPcdr
+	YZ/jMLbQxyP0zKaOMgWz1OaBnA==
+X-Google-Smtp-Source: ABdhPJy1zYhg5WaQrATTqmlJmAa/ECGRy/uH87SL/Qyl/Mx1XOKFktPI1w/im5UCpoxFEam9bWaO9w==
+X-Received: by 2002:a7b:c451:: with SMTP id l17mr5432117wmi.127.1603314740471;
+        Wed, 21 Oct 2020 14:12:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 1.4.2.6.b.f.7.8.7.6.9.2.8.f.1.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (1.4.2.6.b.f.7.8.7.6.9.2.8.f.1.f.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:f1f8:2967:87fb:6241])
+        by smtp.gmail.com with ESMTPSA id y7sm5257873wmg.40.2020.10.21.14.12.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 14:09:34 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] multilib_header.bbclass: Do not install the stubs for non-multilib case
-Date: Wed, 21 Oct 2020 14:09:32 -0700
-Message-Id: <20201021210932.984184-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.0
+        Wed, 21 Oct 2020 14:12:20 -0700 (PDT)
+Message-ID: <d5ea6aa20bab3286b4a372e01418a5cbddd79653.camel@linuxfoundation.org>
+Subject: Re: [OE-core][RFC][PATCH] buildstats-summary-native: add bbclass for tracking native sstate reuse
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 21 Oct 2020 22:12:18 +0100
+In-Reply-To: <20201021193009.3279776-1-trevor.gamblin@windriver.com>
+References: <20201021193009.3279776-1-trevor.gamblin@windriver.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We mark certain headers which are not usable in multilib case through
-this function, this however is a unnessary indirection when building
-distros without multilib feature. Additionally it also addresses a case
-where we compile baremetal software e.g. bootloaders or BPF binaries
-e.g. which are a different target effectively but can be built using
-same toolchain with some flags. This does not work when we always
-install the stubs since the stubs require a fixed wordsize definition
-and that may not be true for the BPF cases e.g. it will work fine when
-multilib is enabled since that would have provided the headers it needed
-say for 32bit multilib. Currently they go missing for a non-multilib
-case and we end up with errors like
+On Wed, 2020-10-21 at 15:30 -0400, Trevor Gamblin wrote:
+> buildstats-summary doesn't distinguish between native and non-native
+> sstate reuse, where native sstate reuse in particular may be useful to
+> track when sharing sstate caches across multiple target architectures.
+> We can tweak buildstats-summary and add a buildstats-summary-native
+> bbclass that is more explicit in reporting sstate reuse, as well as
+> making the output more readable for parsing by other scripts.
+> 
+> Note that (as far as my tests have gone, anyway) do_package* tasks
+> haven't had any native reuse at all, so that result should always
+> be zero unless something has gone horribly wrong.
+> 
+> An example, where core-image-full-cmdline has been built after the
+> sstate-cache has been filled by a core-image-minimal build:
+> 
+> NOTE: Build completion summary:
+> NOTE:   do_populate_sysroot: native from source 5 of 139 (96.4% sstate reuse), target from source 35 of 161 (78.3% sstate reuse), 300 total
+> NOTE:   do_deploy_source_date_epoch: native from source 5 of 139 (96.4% sstate reuse), target from source 36 of 162 (77.8% sstate reuse), 301 total
+> NOTE:   do_package_qa: native from source 0 of 0 (0% sstate reuse), target from source 37 of 159 (76.7% sstate reuse), 159 total
+> NOTE:   do_package: native from source 0 of 0 (0% sstate reuse), target from source 37 of 37 (0.0% sstate reuse), 37 total
+> NOTE:   do_packagedata: native from source 0 of 0 (0% sstate reuse), target from source 37 of 159 (76.7% sstate reuse), 159 total
+> NOTE:   do_package_write_rpm: native from source 0 of 0 (0% sstate reuse), target from source 37 of 159 (76.7% sstate reuse), 159 total
+> NOTE:   do_populate_lic: native from source 5 of 139 (96.4% sstate reuse), target from source 37 of 165 (77.6% sstate reuse), 304 total
+> 
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-recipe-sysroot/usr/include/bits/long-double.h:23:10: fatal error: 'bits/long-double-32.h' file
-not found
-| #include <bits/long-double-32.h>
+I'm probably ok with adding something like this but I don't think its
+generally usable for people and that will probably lead to confusion.
 
-Therefore lets install these stubs only when using
-multilib in distro
+Why? Its a wall of numbers which are useful when examining a particular
+problem you happen to be working closely with at the moment but which
+aren't particularly helpful under other circumstances.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/multilib_header.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Its also confusing as there is no mention of "already existed in the
+build directory" here for tasks which didn't need to rerun at all.
 
-diff --git a/meta/classes/multilib_header.bbclass b/meta/classes/multilib_header.bbclass
-index e03f5b13b2..9ccdf46be5 100644
---- a/meta/classes/multilib_header.bbclass
-+++ b/meta/classes/multilib_header.bbclass
-@@ -6,7 +6,9 @@ inherit siteinfo
- # all of the ABI variants for that given architecture.
- #
- oe_multilib_header() {
--
-+	if [ -z "${MULTILIB_VARIANTS}" ]; then
-+		return
-+	fi
- 	case ${HOST_OS} in
- 	*-musl*)
- 		return
--- 
-2.29.0
+The reason do_package* don't have native versions is that those tasks
+do not exist for native recipes. That does mean about 33% of the screen
+real estate you're using for the message is effectively useless :/.
+
+I could then be really awkward and ask how hash equivalence matching
+fits into this report? :) I ask that just to highlight there are a ton
+of numbers we could show, but knowing which information the user is
+looking for is actually really hard :(.
+
+Cheers,
+
+Richard
 
