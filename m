@@ -1,112 +1,110 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.74])
- by mx.groups.io with SMTP id smtpd.web11.1027.1603316262058567076
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web09.1267.1603316830648261507
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 14:37:42 -0700
+ Wed, 21 Oct 2020 14:47:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=hHBHjLVj;
- spf=pass (domain: windriver.com, ip: 40.107.223.74, mailfrom: trevor.gamblin@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gHbEuwodBF4eDwbfBb+XLrIsOJvmEhbbLggybTl854mz9e8Dlvil7eOf6mAUVGwgbeQAujhElg5+E6t2WVZoytKJYDkwtFBIf5l5fezmmitROpgqj6t+H7XGqid9kNKi8aAqeLU59a8SwcaCOY1ghGkeapKnPIZNrejoxWIPMMMi1Qug4rC1GzxkWAgAnRvgW/NtKKNRhwdOdWVu+0x0MrZEJR57BF4JZjNfNym9A2pwpETUU0FUv7dB6uIVn5AzQ9YFyp+8nEa9WNqV5F+b30SLVr3Vy8MWb5i+65YpuF2wAxNLIvtE/qdGRzpzW38jdfw4Bkhn8on3+d0Nxf7yxw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JXrr+Yprin1EKj4fAJFU9uMkuSwVCQKRcOamKExgsLI=;
- b=kHb7o2ugDUoBvgZP1OFiRZvoqpoQOzKjdnfNyeSIIxm4w6wF9I/XfaYve8VkuAjlPjboFXlEIlo0pYftN/5PhISdtAXl8TppyWc5Hws4wT9VXGrOfI+nRf987D14DhG0f5rBAVQWurJGyUQaiu8dNnHhmxQ97duiYZJGAaNCzlk2WTGihHf8drIUwxr/GjKPw0rYux16xmCQTx7fUJT0qObddRmpF1Ev75aylHtERS5oSxxkHoi95Nf4aibZx/v42wWd1P3kE+LHSrFklPFcUrdVQ081+ul6vpj/U45lwFjHpGYpX7zpc4FnWxFdHI/LeSnH3zgeUq4feA1Ftu7ndA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DkcsYFNw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id d78so3622516wmd.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 14:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JXrr+Yprin1EKj4fAJFU9uMkuSwVCQKRcOamKExgsLI=;
- b=hHBHjLVj+33GFo1pLk3yoedPTQ86vYsnvo4Z27dhAwZgS875LEMCpZb31iV30YwcxegrjN7ohuhlLAkgxPcBi3XsCXrfvcP+qRjEvGNyl1yTUq75NLWHFEtj71xCPKWLBVxca5DUKDhMdii5f7Jsham7qUNv6w/lavUOHvINkEQ=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
- by BY5PR11MB4101.namprd11.prod.outlook.com (2603:10b6:a03:18e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.25; Wed, 21 Oct
- 2020 21:37:39 +0000
-Received: from BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::7875:99b3:15ae:5df2]) by BY5PR11MB3909.namprd11.prod.outlook.com
- ([fe80::7875:99b3:15ae:5df2%7]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 21:37:39 +0000
-Subject: Re: [OE-core][RFC][PATCH] buildstats-summary-native: add bbclass for tracking native sstate reuse
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20201021193009.3279776-1-trevor.gamblin@windriver.com>
- <d5ea6aa20bab3286b4a372e01418a5cbddd79653.camel@linuxfoundation.org>
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
-Message-ID: <1ac98d1f-88dd-5267-c10c-bb78d302f8db@windriver.com>
-Date: Wed, 21 Oct 2020 17:37:37 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-In-Reply-To: <d5ea6aa20bab3286b4a372e01418a5cbddd79653.camel@linuxfoundation.org>
-X-Originating-IP: [174.115.236.231]
-X-ClientProxiedBy: BYAPR08CA0015.namprd08.prod.outlook.com
- (2603:10b6:a03:100::28) To BY5PR11MB3909.namprd11.prod.outlook.com
- (2603:10b6:a03:191::13)
-Return-Path: trevor.gamblin@windriver.com
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=IF7HyqUWRdJUWFY+hGmfYvgfMvWDQ5Fy2McXUocTrq4=;
+        b=DkcsYFNwPqED3KIild+9+ozbxjVQc2amXd+bZFQPmwkoDv8x3NQRCc7+kf4a6iZshN
+         6dI1nWze0WWKWE/s+VR3A6NbT+TIWwcW80uXsO46xAVKMt1Pqz1Q5pp2Rs5f+/XoMIZQ
+         SfexpWPwq8XHx5a2ObB0QgzfmuDs2zQFrGRdU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=IF7HyqUWRdJUWFY+hGmfYvgfMvWDQ5Fy2McXUocTrq4=;
+        b=NrrzUR1aeddxRvkgfJ8OrylCD3dazVkLJT2qfbVYQN0hmAAm3oM5Oq1lHLBZzOVXL3
+         scp8PuGXeYOr3josIDOxMOWDuXreqfecR8hWhcrzvB2BTRW3YkKhb1IyRwml6wk1pkuB
+         k8SkHDfLBb6YZO4CedHDbYq6UWAovb1s29/PW36d0QQf8ZZXZZDkdVdDhi5mGjFnmSYC
+         O1Oa5txjeOKwwW1QgY9z7MY3/XN8v5eVrhGFzmiNAVzbdUXB4PadvW/7kLI1hp8i2eDb
+         toIZM8iCrDJyLRF31WRiF64mhqAJahO6j21hKfK3YbfGL/JjvLQaQnFVPKi2WkFT96rR
+         EVwA==
+X-Gm-Message-State: AOAM532j7PdgOGKL1mNP8zd3gQB9VfXY7VXyckNOYu0ISn96TfbFJpMq
+	NyznzoRIwle+47noBSzP+SZ5Jg==
+X-Google-Smtp-Source: ABdhPJxwygLqUJ1oH6fIeeYnAZI59JtsXrObncpfQnedlDJpEacR52c6CQQroSvs2+icDxQO8/IyGQ==
+X-Received: by 2002:a1c:2581:: with SMTP id l123mr5350138wml.169.1603316828994;
+        Wed, 21 Oct 2020 14:47:08 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:5d2f:b755:7bf1:d36a])
+        by smtp.gmail.com with ESMTPSA id c130sm5580259wma.17.2020.10.21.14.47.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2020 14:47:08 -0700 (PDT)
+Message-ID: <d4a88c9df72243f4e334d3b408200062b6113b59.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] multilib_header.bbclass: Do not install the stubs for non-multilib case
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 21 Oct 2020 22:47:07 +0100
+In-Reply-To: <20201021210932.984184-1-raj.khem@gmail.com>
+References: <20201021210932.984184-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.55] (174.115.236.231) by BYAPR08CA0015.namprd08.prod.outlook.com (2603:10b6:a03:100::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 21:37:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dcdde6db-00ad-4a0a-9f6a-08d8760988b2
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4101:
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR11MB4101F8BBCB91D8579D37E49E9F1C0@BY5PR11MB4101.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	FIgoXXH5yAptRvt7Sf1eZQL6hSwGcVlo6fNn/ufYG+5xeJf/FwvDmukTV4os+QajybuBkVz1c57JP0oy+oW2+eoo9wOpUUAa05H0N1V9vj72HPG2oeiGRi0BoApg4Fi825bic/HiiPpXBofWfLMCVcoswnI2rglpWh4uc8EA0B+Jrl7OkS316wSm38Mh0vZ+xMxd5dbyMAX3P3qYmz2B8Va0RQ+3obXuJySmmjXFMrxaT+X80bLsxYLP4MSSs4pwW7w1wIhP/VSHqdhXWrvOp/0gItw1axgZ2Z3dwwK0gfj+1BD3IFrZ/c2+EDr/T1A9uFy8sDEE87me8E8EzUyns0MENnk37Zjd3rThuaUnIZq0URmVG3q4w37w2IsMR8kQ
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(366004)(39850400004)(376002)(346002)(66556008)(8676002)(66946007)(31696002)(86362001)(53546011)(31686004)(8936002)(6486002)(66476007)(26005)(52116002)(186003)(83380400001)(16526019)(44832011)(316002)(36756003)(478600001)(2906002)(2616005)(956004)(16576012)(5660300002)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	nyDht5qz0FLd7GfHzwIUeyaIEoySTk6CyNzD2UDS9c4ePpMD+Fhm/ARIG0szKEB7UlQIZ3996dVJuYOXACyUmyvuWY6kP53oGpI3e6WDHtsXviNLM2/LDDv+NViLJxWLhQ+uVcdJGT3RZvRIwp0bD2c1WKIdWH0HrmsPcM2ydT9mwJGuyK0XDhvJCg2vIGaUny2nXKH2aGDIWWouKJjGaTZ1Ru0zHMTz+oGfHXnWYMum66atD3gjr5t5RlAlQYWjKMsGTXv3m4A0/ysCrgOMtubQplAH4IxC5j9/QG3XhUlU3hUeDLnbFk18JvNrR9EgpPv0G7fMmFlH75JJ/Ab0QXkNS0tdjfI+4BNeh+tAT4Lj1ist+R3Clp0Gei60UiUW1oGnZYqvDxvDvXW76BirYnLQgT3LVC9BWPx6vby0PELvYY3aLBHDyslprXgJpIJcJ6n+gUQI77PJOB3c3z8Lqwh2XTAz8QPZDga+8chKqbg2y2OLlbellH+4K0e1V7l1k1P6DyJQXQVE5abhE/t3gvWm6h5K3CvtVzbc4mONsHn+4Iq5MBHqRkvenGAjyCXEcFyXyITTO8fm3bQl+2OaWpFNKe0BeeeaNN7HwSWkStk6bO7OxhbctZEnzGyu4/RS4P5IuG8Mq9NLqSEks7fvmw==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dcdde6db-00ad-4a0a-9f6a-08d8760988b2
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 21:37:39.5504
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kC9zu+9/UBaS2eNWVh/ryG31uYSEXgTi8LS1scancEaGQUL/oWtJ0KWO6fVuEfLEIxWBmJPdY1Ss0auMYPx6YwdsktTvlCyNEinz40smrLQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4101
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+
+On Wed, 2020-10-21 at 14:09 -0700, Khem Raj wrote:
+> We mark certain headers which are not usable in multilib case through
+> this function, this however is a unnessary indirection when building
+> distros without multilib feature. Additionally it also addresses a
+> case
+> where we compile baremetal software e.g. bootloaders or BPF binaries
+> e.g. which are a different target effectively but can be built using
+> same toolchain with some flags. This does not work when we always
+> install the stubs since the stubs require a fixed wordsize definition
+> and that may not be true for the BPF cases e.g. it will work fine
+> when
+> multilib is enabled since that would have provided the headers it
+> needed
+> say for 32bit multilib. Currently they go missing for a non-multilib
+> case and we end up with errors like
+> 
+> recipe-sysroot/usr/include/bits/long-double.h:23:10: fatal error:
+> 'bits/long-double-32.h' file
+> not found
+> > #include <bits/long-double-32.h>
+> 
+> Therefore lets install these stubs only when using
+> multilib in distro
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/multilib_header.bbclass | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/multilib_header.bbclass
+> b/meta/classes/multilib_header.bbclass
+> index e03f5b13b2..9ccdf46be5 100644
+> --- a/meta/classes/multilib_header.bbclass
+> +++ b/meta/classes/multilib_header.bbclass
+> @@ -6,7 +6,9 @@ inherit siteinfo
+>  # all of the ABI variants for that given architecture.
+>  #
+>  oe_multilib_header() {
+> -
+> +	if [ -z "${MULTILIB_VARIANTS}" ]; then
+> +		return
+> +	fi
+>  	case ${HOST_OS} in
+>  	*-musl*)
+>  		return
+
+I have a feeling this was written specifically not to touch that
+variable so that a multilib build can reuse components from a non-
+multilib build and share the sstate if you configure it that way. This
+change would force *all* multilibs to be stores as their own sstate and
+require their own namespace.
+
+We may therefore have to find a different control for this :/.
+
+Cheers,
+
+Richard
 
 
-On 10/21/20 5:12 PM, Richard Purdie wrote:
-> I'm probably ok with adding something like this but I don't think its
-> generally usable for people and that will probably lead to confusion.
->
-> Why? Its a wall of numbers which are useful when examining a particular
-> problem you happen to be working closely with at the moment but which
-> aren't particularly helpful under other circumstances.
->
-> Its also confusing as there is no mention of "already existed in the
-> build directory" here for tasks which didn't need to rerun at all.
->
-> The reason do_package* don't have native versions is that those tasks
-> do not exist for native recipes. That does mean about 33% of the screen
-> real estate you're using for the message is effectively useless :/.
->
-> I could then be really awkward and ask how hash equivalence matching
-> fits into this report?:)  I ask that just to highlight there are a ton
-> of numbers we could show, but knowing which information the user is
-> looking for is actually really hard:(.
 
-That all makes sense. Thanks for reviewing!
-
-Trevor
-
->
-> Cheers,
->
-> Richard
