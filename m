@@ -1,154 +1,194 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.92.73.35])
- by mx.groups.io with SMTP id smtpd.web09.16995.1603307331189403961
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.50])
+ by mx.groups.io with SMTP id smtpd.web10.17340.1603308628099366908
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 12:08:51 -0700
+ Wed, 21 Oct 2020 12:30:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=A6HIBdqd;
- spf=pass (domain: outlook.com, ip: 40.92.73.35, mailfrom: kweihmann@outlook.com)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=eZIFvBwX;
+ spf=pass (domain: windriver.com, ip: 40.107.243.50, mailfrom: trevor.gamblin@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oOlPm3J2fnSM5w69RxA/nX+Qwou5X+EYsYAw6wtL9iVeN9P6EHCfXBHBtJQOROnME0ZuPq1i6oZrHkRaCFHj6RY1DDc04sbQIbQu6eBiQ4afOlXbAIt80xc/G9y8VldhXKtH28CikYc6tVzPXN+ZpO2wpl+JswmB79rXdOTduF+L7tKIutg2OSAhlpG1sLHorSivt7I2SC6rspW7cAWo71od9VKWR9V/R2l101lN0cMWzSHoFxclj0QoHo85WiOlk8mvFPG9Bfob4mo2jYyBoH1d041I8M+tS9IBQSjggsIF7IIe016rtR+g2/SvaDO6WuzDKtsa4pJwK65OhWakOQ==
+ b=UDAph4r5fSslZSxkCazJ2QoA7WoL+cKLnHMwo9v9XzdJ2HM3cFg0YNibWaF+uOsxKkS0F20urU3GQwvcwJ/me4eKOXtvJHJgAGcef6EIXUstkQuA+dWrZLpawmxfpka34BUqxJ6AZ4AW1ocdE+u/lcGYQkgYovNkD4UMcml0KQ4o8VVAaOcKP/Z8Xo4/PHucB5OrdbhA+Blg4Vdhl532UAGHq5ssP9PnEvjtL6TcCfAMYeJTxqYV63zLG2dm50ROLJtb5Ay2l3QzLte7sA4lIY5oKHDj9j7s39YiXUTswc54h3coH+EWy/hRh/VM/SWyNUKfaXP8R9TBtEkImdPj3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1jdqaXf3oBtrbx1Z4tpxvby3HAjpVyK94vH8GRln0xM=;
- b=eDU465SKATt8GgIyK2dwYkR9yH6+QimuVFSv1LxWoGVEoYk3bVFRZX8EUbF3m+pCm2JAC0EcW0xXgXE9jauw6m089V5uE5zu6o/fIXObl165LS/Pzx2Jg6+OcSt7OjD6N4TF6+YYxCikyiZZ7N8TzcswHTVUt31VSU7Ok0ucCI94BMB9PXq2Uxa3DkojrGbEPE3eqY0h9rJCqyBb1eHkL47PW+HToLYaRer/85tcIojuopZNwHxHnzg3V8SvCn0R5bWJDSZGluzWxfmJ8hAgn0kDi3GnqLo1V/P72ViUYQFB+/B8uCQ41LCfIDc7LD83dspJQsgsa/7HbI4whg41Cg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
+ bh=ipg0jU7ou+9gTKMcM4sC7O9363XawDFCrzn5dXqXNgg=;
+ b=Z+u+v4s3ut24RT+PfKauazmsqD3iq2tNIqFINN1YQClntDwrW7F2fl14dvHZrtiN1eBRgizS2a5dxejhCIV3N3m+JlYbKC6gN5RVq0qcfBAXZm2QQuUB1Ds2UF7RURIWyqbeqXUdSJlu9reT06C9pL7bZ7VPIz3IKOreJeg2OH31eTwY4ZdrgYSAOiYhIfFtZ121jIrL+iIr28eVqZaVB/bVWVB3wi9Ai0F2AtKqao9qka5HkR/4Mvki3wkZe+zq0cNnu7TuzIdrnJY0YQAkz10gQfWM/Tyt1A/4zW6iBJSAJ4EzQBQeRmmPZX4fXyNWRfYJPY/bPC7zRhgTDZNJQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1jdqaXf3oBtrbx1Z4tpxvby3HAjpVyK94vH8GRln0xM=;
- b=A6HIBdqd/XYRvRHnPqUkx+3NVqdiQuWI3CuGIWuBGnHwNonKTYI8j0wTEbE3oJdparMbQLvX4q+ge94s4lZnpacUYt1nW+/6/Og0REqjRfCg+4DRaffolKlGiHwftF9DExIKRc56LysdZHO2L0rD6bICYaba7U7yJRb3oWFHZBkwGdT+mKaUq4ZQcSY92Khqdfx+g6u2PfFqLYoCZR5iUTJKL0kzzoT6sU+jbpIbxwgMtuKNYZarb1r2BwLTxuL7KqW/+OkTPAf+/uEF2FxJTrLpJLzwInEDzRoSvq6S/VJh5vKlrkxp4JOih9MhI9v16saNxDvquo9vBsK2BNg0bA==
-Received: from VI1EUR04FT060.eop-eur04.prod.protection.outlook.com
- (2a01:111:e400:7e0e::4e) by
- VI1EUR04HT149.eop-eur04.prod.protection.outlook.com (2a01:111:e400:7e0e::380)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 21 Oct
- 2020 19:08:48 +0000
-Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- (2a01:111:e400:7e0e::46) by VI1EUR04FT060.mail.protection.outlook.com
- (2a01:111:e400:7e0e::354) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
- Transport; Wed, 21 Oct 2020 19:08:47 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:E99AA7408ECBD90B73FC2F9C285E24DA2D8DC2E8E286448FE418FF4E41305576;UpperCasedChecksum:47C971FA46FB6586190545849B5021EF9E59CD51455BF57CA3C45C6A10F6503B;SizeAsReceived:8691;Count:47
-Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- ([fe80::a1a8:ed42:7e0f:10dc]) by VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- ([fe80::a1a8:ed42:7e0f:10dc%8]) with mapi id 15.20.3455.037; Wed, 21 Oct 2020
- 19:08:47 +0000
-Subject: Re: [OE-core] [PATCH] Add new recipe for squashfs-tools-ng
-To: openembedded-core@lists.openembedded.org, luca.boccassi@gmail.com
-References: <20201021155857.2841570-1-luca.boccassi@gmail.com>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <VI1PR01MB6462255CF43C3222C6DF6281A81C0@VI1PR01MB6462.eurprd01.prod.exchangelabs.com>
-Date: Wed, 21 Oct 2020 21:08:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201021155857.2841570-1-luca.boccassi@gmail.com>
-X-TMN: [2KyLeD3uhyFp7xrzp9sZDZnk4QIabPuQ]
-X-ClientProxiedBy: AM6P192CA0100.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:209:8d::41) To VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- (2603:10a6:800:154::12)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <4d0f2672-8c56-8e02-730e-8d08427a1fb6@outlook.com>
+ bh=ipg0jU7ou+9gTKMcM4sC7O9363XawDFCrzn5dXqXNgg=;
+ b=eZIFvBwXgL/Sa9YCIHDW30oFNmQZt3G9rfSk/dcrVaOnD6ci1exeKdpRqF4LK37SKk1JclEH8G8CMeYk2oi499mtCtrMafS8wmJPpOWYWS28LMKryIHyRQ3CLZrVQrg0As+PJPdV3Tn4/xOWFPzEkClfzVW6VKK2pwMXUdi2Uxw=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com (2603:10b6:a03:191::13)
+ by SJ0PR11MB4911.namprd11.prod.outlook.com (2603:10b6:a03:2ad::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 21 Oct
+ 2020 19:30:26 +0000
+Received: from BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::7875:99b3:15ae:5df2]) by BY5PR11MB3909.namprd11.prod.outlook.com
+ ([fe80::7875:99b3:15ae:5df2%7]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
+ 19:30:26 +0000
+From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][RFC][PATCH] buildstats-summary-native: add bbclass for tracking native sstate reuse
+Date: Wed, 21 Oct 2020 15:30:09 -0400
+Message-ID: <20201021193009.3279776-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [128.224.252.2]
+X-ClientProxiedBy: YT1PR01CA0087.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::26) To BY5PR11MB3909.namprd11.prod.outlook.com
+ (2603:10b6:a03:191::13)
+Return-Path: trevor.gamblin@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (87.141.91.234) by AM6P192CA0100.EURP192.PROD.OUTLOOK.COM (2603:10a6:209:8d::41) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 19:08:46 +0000
+Received: from yow-tgamblin-fedora2.wrs.com (128.224.252.2) by YT1PR01CA0087.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2d::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 19:30:25 +0000
 X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: e03b7720-16bc-4fba-d54d-08d875f4bcb7
-X-MS-TrafficTypeDiagnostic: VI1EUR04HT149:
+X-MS-Office365-Filtering-Correlation-Id: 873746cf-9eb1-477e-9164-08d875f7c2ae
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB4911:
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR11MB4911A423F5663C718D4E48CA9F1C0@SJ0PR11MB4911.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	lYHZGl09i6bcnb6kZa3zoLlRwvsL7x8psOArINV1oRbtIVO1lM0tIWJZ9PUdOaE4paXPSPe4M8xtenyxb6h/WBSs0gYSyRILPp/etTrqLVvj48IhFa6Oo0nK5PX/fid6+kt10/7e8glCriR1xkG50v78EFed8xs4troE94P40ygkupERhCFPi3Mzs4IuN4lpfqa0ROPbUP1vwYNXIJPgDCySh6FHAOpsIvIrLngawgNW8Xd/pjYvYfSdb1vY/YOf
+	hvUQf/MizglqbgO4qgpA6cQCDufOp0Y9Kp3YZ2vr4ctvWH5g4thBx+M8uq7kfX6pqZ0yFOZFkwWp6+qwGORaYGFz80YQucdkB2dDFdqIVK6PfYHcv6KNa++znIwqdcT6jmBWK8uG+ZRZSV4cbF2vmb01QjmOpvEM5fGD1PIJjD81Dv4PeYYKawMahDwXKgkPOfF78bGFgDCcQtKZ/wE7p1fnPqHHipbbSYhXXn3bHBPYgahSGOkhldpHxZ+9AlMWU78tKKFRmBjSSSFG8EthWrsvDW9pkK4PhdUbLwOlao6QMYLWF+Lzu0dqP/cPuMQPibvGq1+Ca/gWG4cDu+piMw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39850400004)(396003)(366004)(346002)(136003)(16526019)(478600001)(86362001)(5660300002)(186003)(2616005)(1076003)(956004)(52116002)(316002)(6506007)(2906002)(6486002)(66476007)(6666004)(26005)(6512007)(8676002)(6916009)(66556008)(66946007)(44832011)(36756003)(8936002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	1MjxaTeQFRncBKMsG1nYlRDf+6cSdYiwA+KVpBxvTflQ47bT6JMz8BUslr8V0+JSTvT9hDEWbBavsx1nPQ9TvE38bCWeGWnYz3HNPGSVebgFcnqSSDlc84I9caLPisHfpxUVpwzuGUcYAytQC6bDpw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e03b7720-16bc-4fba-d54d-08d875f4bcb7
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 19:08:47.8011
+	dpmXx1jY1lCd8CQQuOvWRiNdKcbzasFh46VQp8XcGJ4oKGGSesd2juisXBfFaBGRTBQoGpgbFZoqynywJxkFc+pTr/1B+McJEmWck8RJtVVley68Blo7XLWIdTDtoTp9SAkvvRfVH/0vqZXe7eEuW0wa1/F6HE1Q42/RKta7vnsd5Tmr4v922Giw0JzQpETtkNRhwdd1gd52X1tT9/pQ7YH6qm04GdBRHMu0SesJG/FAfbS66qzWOPIPsfXBxGGITGgVEY4StwQgxK9Cd0o6ynt8jUMmRmGVdrfhwHjQBMAonDOfhL7qa/L924x2S2i1Js0V4mObJxrAnjt5WuAY+1KnJ4BaQR1dBDPub94+thQDtM+TyxmqrO+g+j8nExk8ibOTNa6+eyc+dMRrHjEVAXVxe4iRyKmRKIZs4ojNOrm4nA/koh88UaoKJslpiIM7a06xcZz60k/pFjhFRNtNYJP2tXI0Me7xKWKv1bDWLM2J/ZOAh4TAADu4Ah1cvbPxC0/IfBPpASTEf1io6ZYy0vWriyZ2lU4ie1zzJraNYGgEHsueqxdTjw2cIpnXSBXVz3288DV9HRUrqJl14R+9bWrMoOSoFtqjN6TZjBcS31kifmV+2OEi8OkvXfRQ3aoHCAUAZmJdhXM1ndlp9PuDhA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 873746cf-9eb1-477e-9164-08d875f7c2ae
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB3909.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 19:30:25.8996
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VI1EUR04FT060.eop-eur04.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR04HT149
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dbnC8r51e0ppbMOonWxUX3jMsoRZLlMU+n9kUm7942XokOE2dxzHo4soBXMgSaaNCfdw2wTHu8bZnoz1lI+cxLsJD8ZFxYk4ewmMPgxGdew=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4911
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On 21.10.20 17:58, Luca Bocassi wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> The main difference with squashfs-tools is the availability
-> of a shared library and a programmatic interface, rather
-> than just command-line tools.
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
->   .../squashfs-tools-ng_git.bb                  | 37 +++++++++++++++++++
->   1 file changed, 37 insertions(+)
->   create mode 100644 meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
-> 
-> diff --git a/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
-> new file mode 100644
-> index 0000000000..bbc5f86ae9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
-> @@ -0,0 +1,37 @@
-> +SUMMARY = "New set of tools for working with SquashFS images"
-> +SECTION = "base"
-> +LICENSE = "GPLv3+ & LGPL-3.0+"
+buildstats-summary doesn't distinguish between native and non-native
+sstate reuse, where native sstate reuse in particular may be useful to
+track when sharing sstate caches across multiple target architectures.
+We can tweak buildstats-summary and add a buildstats-summary-native
+bbclass that is more explicit in reporting sstate reuse, as well as
+making the output more readable for parsing by other scripts.
 
-A bit of nitpick, but with all the license files mentioned below the 
-LICENSE setting looks wrong to me.
-I would at least expect some BSD and zLib SPDX identifiers here.
+Note that (as far as my tests have gone, anyway) do_package* tasks
+haven't had any native reuse at all, so that result should always
+be zero unless something has gone horribly wrong.
 
-To be super exact one would have to take the PACKAGECONFIG into account 
-to get the correct value
+An example, where core-image-full-cmdline has been built after the
+sstate-cache has been filled by a core-image-minimal build:
 
-> +LIC_FILES_CHKSUM = "file://COPYING.md;md5=c0de2c0aca56349dab98e97992316f7e \
-> +                    file://licenses/GPLv2.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-> +                    file://licenses/GPLv3.txt;md5=1ebbd3e34237af26da5dc08a4e440464 \
-> +                    file://licenses/hash_table.txt;md5=874823605326caeaabaa95bfbd0f9fb0 \
-> +                    file://licenses/LGPLv3.txt;md5=3000208d539ec061b899bce1d9ce9404 \
-> +                    file://licenses/LZ4.txt;md5=ebc2ea4814a64de7708f1571904b32cc \
-> +                    file://licenses/xxhash.txt;md5=f042a9be092bd6d7fe6f217d8d00f4ca \
-> +                    file://licenses/xz.txt;md5=1c389b9610ccfdb25f7abaea6a0bb5a4 \
-> +                    file://licenses/zlib.txt;md5=ae27c72096606131f760e5f59cf98b06 \
-> +                    file://licenses/zstd.txt;md5=8df8137b630239cbdd4c0674124cb0c8"
-> +
-> +PV = "1.0.2"
-> +SRCREV = "b96f0fc154feef531be76034bf6e38925636146f"
-> +SRC_URI = "git://github.com/AgentD/squashfs-tools-ng.git;protocol=https \
-> +"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit autotools pkgconfig
-> +
-> +PACKAGECONFIG ??= "gzip xz lzo lz4 zstd ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
-> +PACKAGECONFIG[gzip] = "--with-gzip,--without-gzip,zlib"
-> +PACKAGECONFIG[xz] = "--with-xz,--without-xz,xz"
-> +PACKAGECONFIG[lzo] = "--with-lzo,--without-lzo,lzo"
-> +PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4"
-> +PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
-> +PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
-> +
-> +PACKAGES =+ "libsquashfs"
-> +FILES_libsquashfs = "${libdir}/libsquashfs*${SOLIBS}"
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> +
-> +CVE_PRODUCT = "squashfs"
-> 
-> 
-> 
-> 
-> 
+NOTE: Build completion summary:
+NOTE:   do_populate_sysroot: native from source 5 of 139 (96.4% sstate reus=
+e), target from source 35 of 161 (78.3% sstate reuse), 300 total
+NOTE:   do_deploy_source_date_epoch: native from source 5 of 139 (96.4% sst=
+ate reuse), target from source 36 of 162 (77.8% sstate reuse), 301 total
+NOTE:   do_package_qa: native from source 0 of 0 (0% sstate reuse), target =
+from source 37 of 159 (76.7% sstate reuse), 159 total
+NOTE:   do_package: native from source 0 of 0 (0% sstate reuse), target fro=
+m source 37 of 37 (0.0% sstate reuse), 37 total
+NOTE:   do_packagedata: native from source 0 of 0 (0% sstate reuse), target=
+ from source 37 of 159 (76.7% sstate reuse), 159 total
+NOTE:   do_package_write_rpm: native from source 0 of 0 (0% sstate reuse), =
+target from source 37 of 159 (76.7% sstate reuse), 159 total
+NOTE:   do_populate_lic: native from source 5 of 139 (96.4% sstate reuse), =
+target from source 37 of 165 (77.6% sstate reuse), 304 total
+
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ .../classes/buildstats-summary-native.bbclass | 55 +++++++++++++++++++
+ 1 file changed, 55 insertions(+)
+ create mode 100644 meta/classes/buildstats-summary-native.bbclass
+
+diff --git a/meta/classes/buildstats-summary-native.bbclass b/meta/classes/=
+buildstats-summary-native.bbclass
+new file mode 100644
+index 0000000000..f8e502ca7d
+--- /dev/null
++++ b/meta/classes/buildstats-summary-native.bbclass
+@@ -0,0 +1,55 @@
++# Summarize sstate usage at the end of the build
++python buildstats_summary () {
++    import collections
++    import os.path
++
++    bsdir =3D e.data.expand("${BUILDSTATS_BASE}/${BUILDNAME}")
++    if not os.path.exists(bsdir):
++        return
++
++    sstatetasks =3D (e.data.getVar('SSTATETASKS') or '').split()
++    built =3D collections.defaultdict(lambda: [set(), set(), set(), set()]=
+)
++    for pf in os.listdir(bsdir):
++        taskdir =3D os.path.join(bsdir, pf)
++        bb.note(taskdir)
++        if not os.path.isdir(taskdir):
++            continue
++
++        tasks =3D os.listdir(taskdir)
++        for t in sstatetasks:
++            target_source, native_source, native_sstate, target_sstate =3D=
+ built[t]
++            if t in tasks and "-native" in pf:
++                native_source.add(pf)
++            elif t in tasks:
++                target_source.add(pf)
++            elif t + '_setscene' in tasks and "-native" in pf:
++                native_sstate.add(pf)
++            elif t + '_setscene' in tasks:
++                target_sstate.add(pf)
++
++    header_printed =3D False
++    for t in sstatetasks:
++        target_source, native_source, native_sstate, target_sstate =3D bui=
+lt[t]
++        if target_source | native_source | native_sstate | target_sstate:
++            if not header_printed:
++                header_printed =3D True
++                bb.note("Build completion summary:")
++
++            target_sstate_count =3D len(target_sstate)
++            native_sstate_count =3D len(native_sstate)
++            target_source_count =3D len(target_source)
++            native_source_count =3D len(native_source)
++            total_source_count =3D target_source_count + native_source_cou=
+nt
++            total_sstate_count =3D target_sstate_count + native_sstate_cou=
+nt
++            total_native_count =3D native_source_count + native_sstate_cou=
+nt
++            total_target_count =3D target_source_count + target_sstate_cou=
+nt
++            total_count =3D total_source_count + total_sstate_count
++
++            #do_package_qa, do_packagedata, and do_package_write_rpm won't=
+ have native sstate, so declare them as 0% reuse=20
++            if native_sstate_count =3D=3D 0:
++                bb.note("  {0}: native from source {1} of {2} (0% sstate r=
+euse), target from source {3} of {4} ({5:.1f}% sstate reuse), {6} total".fo=
+rmat(t, native_source_count, total_native_count, target_source_count, total=
+_target_count, round(100 * target_sstate_count / total_target_count, 1), to=
+tal_count))
++            else:
++                bb.note("  {0}: native from source {1} of {2} ({3:.1f}% ss=
+tate reuse), target from source {4} of {5} ({6:.1f}% sstate reuse), {7} tot=
+al".format(t, native_source_count, total_native_count, round(100 * native_s=
+state_count / total_native_count, 1), target_source_count, total_target_cou=
+nt, round(100 * target_sstate_count / total_target_count, 1), total_count))
++}
++addhandler buildstats_summary
++buildstats_summary[eventmask] =3D "bb.event.BuildCompleted"
+--=20
+2.26.2
+
