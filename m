@@ -1,113 +1,176 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.66])
- by mx.groups.io with SMTP id smtpd.web08.9108.1603272262190861185
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web08.9556.1603275113348022297
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 02:24:22 -0700
+ Wed, 21 Oct 2020 03:11:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=YsuzAxaB;
- spf=pass (domain: windriver.com, ip: 40.107.94.66, mailfrom: mingli.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ALnU/SfNWxdB8ZQRVM8Y777Xd0UV90FFXy4NT/87WRweLe+xamawfDyNIyNYX0Ubph3RbOGlubMUxmaOM72wyCNb0SkOMvYnMpmPDmBjrzqn3VLQfgCaaOY5SDW/LINlpRcGfK2bvt18iR0V1UpPxjEArFP3MjcIHcmgvKUzhhI185N05+KmHAHuBTCMRbsNS7aHB0jKfY6h5JmkF4oWnVS80inKB9beEsRpxYs+Fz6ZQRe4S9eiSt2DcVwd6llsjyX+PqrjlwtIccZldslXJVKLam0x8QgdaKJh01sOBeia+tzXtJLBlxiOHAPDvnAEUw2rd2RPNqvCsLMgiB7bXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jGPZj4SAf8ZeswXVOtGlfQbOwgyCmLotSnqg9tBjuEk=;
- b=nSD8Nu/8G7+zVcxGJox66zJI94TZ4eWolIwX6ebzKLg1Lg1iQuRCKW+mqIPgA76Qt+35J6bQmsIn9m+Q9mugqfPv/qi75Ps6e28FWmnT3bR1Btb7HqFl1Zn+BkxG4cycD3GT25JevfQJ/fJCD33jP9WL74Y98+2Ci3G6WLoKTS2nu/5DL1kcIwLrsVuDoFe0jUmcd4MlxX30E2EueinHMpkbuZYG38WYFcIkTrICFmt5+Q3fr2M58GDd9nvy9gtjOLQqT4wsPVUy6YYYC59aTn7VXYJeknb6J1GemA1riF/lbLhHfeCBAUSJLPjpiusHbcHwEMhqEAaO+HGCVJ3ugg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kBvb/u7O;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id e22so2379536ejr.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 03:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jGPZj4SAf8ZeswXVOtGlfQbOwgyCmLotSnqg9tBjuEk=;
- b=YsuzAxaBENXaRsEFoi2HerRyWbnZSVf3j3+IR+NX/nTHcu7piclVW3cHodRYG6AabYoEfzz2h7wB5A95t+CZsc/5daw4ILmOznZ2KOsAW1By2IAtQrfrdN5bRjFuNZGAB31m4yGYz1Mz/ALvVss5DzXoqz1DBinECNhcRSRLnZ0=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
- by BYAPR11MB3399.namprd11.prod.outlook.com (2603:10b6:a03:79::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Wed, 21 Oct
- 2020 09:24:19 +0000
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::c400:8b2e:c0f8:55bc]) by BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::c400:8b2e:c0f8:55bc%7]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 09:24:19 +0000
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] tcl: adapt to potential psuedo changes
-Date: Wed, 21 Oct 2020 17:24:01 +0800
-Message-Id: <20201021092401.41424-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR06CA0014.apcprd06.prod.outlook.com
- (2603:1096:202:2e::26) To BYAPR11MB2598.namprd11.prod.outlook.com
- (2603:10b6:a02:cb::17)
-Return-Path: mingli.yu@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HtVvEPDIT5O8z7Oqg24kzkv/9FQUhvRzEZzIDKYtmCc=;
+        b=kBvb/u7OboZRf71R92IdUgn9CdDGTSbRUTMyyJwgFRyG+Seb7x/r+JayGN6DEHeOwL
+         81t4lBSH7h4Rrk/hog9PyW+HgW5CQMcUBnh3jl8S6Oly//0T+HJHQDAl2sC1k8kQtwoC
+         ouBJolyA9uUjqfaZTj0BiUNwSZ2k0ULDUbB2eEmupkhJtP3gvUOEkc8b8NJlMwQDctcW
+         lrJRkbatrEVBT7OKC5hy2ktkgCy+tRcbLGG5QuGyZONIjD1OSrZgE9/Ns0UssJhIY10U
+         HWA1pwOd9NDP4b9AFcBY4nZvzGteBy65d27oEwZvOK9XZOdArAVt4iMs99SDpC+dzAaM
+         gDDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HtVvEPDIT5O8z7Oqg24kzkv/9FQUhvRzEZzIDKYtmCc=;
+        b=b61eMHy5pnRsNL8t0GWWFmLCJwFgTeb+Tbr2+kP7tXo2LaZaHy7oC7AbLmu/77ctXo
+         xcGJk6A2CUBSst3AOOjW1z7Nh5NbXEwNpUq8GLEO6qAB70YhUS6HE0bUJUrMWHcvQdte
+         DQqxuh0BmOO9844v3hHzzuZCnJJ2t2KlNj2BxAsV667IR78vXvAlVqdB1x347lJKyJzy
+         hoTNY78XYqW8GMPhtBul4e33epfO58j0EAglPbZOmAWEgtQ93EeQngSKLQ50rHAlG5C0
+         gU5CW858KdjDhipVeW3nurxJemyyvffNcZlsGJLGS+aPaqN5yzC5g4f6cXB9wMklxAnp
+         fBwQ==
+X-Gm-Message-State: AOAM5332b+nRtm/4zSi2QiLmtgd0tzTqtmXNZprC4z4FuF/5DqouBq8R
+	bC9rffdKBiot/BfSErtXAp/otgnu5OHGlSU3amU=
+X-Google-Smtp-Source: ABdhPJzz/mfQlc/M1dWrP+G4FtX1jxEd5z2lsfR/7LMtu+/3yqP3vpSZKtxdKgp4ZzrBuy11NpqSgNdynaLsHm7m1fM=
+X-Received: by 2002:a17:906:b285:: with SMTP id q5mr2773259ejz.470.1603275111374;
+ Wed, 21 Oct 2020 03:11:51 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by HK2PR06CA0014.apcprd06.prod.outlook.com (2603:1096:202:2e::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Wed, 21 Oct 2020 09:24:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 589a13d6-03d3-4507-dd59-08d875a3169e
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3399:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB3399C6D108C29D2CCA06B976F11C0@BYAPR11MB3399.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	GhpO+5yLWBGYjUm9Lt4Vc4KivVCSAJxkMy9yJFTMDmy0J1lUS7JjyPYrpWJfw521heFkaHSzL68w6TQArY2RjH+J5JmrgORmyGD1X2u8Txgfy+reMsZCaj6QU+oSqSDh5k22jDevTOBhQxejR8kd0/FoVxvda20xkm795hW4IM0KShydw3ERVi5xhyNAoa9r1Kl6bLv8vC7Dk6oNlqdQ+vfRAS4Mv9wilawM8Ex0zqc+BR5s5qa/k8SYyb80SP0nKmSF40m4M2eu0gQyuKotoQ6o6joKtwMlfiA47SbnmyoMgSkEE89DJXMFnvARL1+e9A0UFLwWpSzP4nrS0WCeCGX1bYvejUyTxDqbpBOvboz3b1MyrlHLEBL8tGXL6OF8MiMC/AWTC3gPTb23BwamAw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(366004)(136003)(376002)(39850400004)(966005)(316002)(6506007)(6666004)(16526019)(478600001)(36756003)(26005)(52116002)(6512007)(186003)(9686003)(2616005)(956004)(5660300002)(83380400001)(66556008)(66476007)(66946007)(1076003)(2906002)(6916009)(8936002)(6486002)(86362001)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	bO4SD0fW6AYYKKQddDYQxtYf8eQrPrLWfJ2QAQO4TVtJVGuaksh6Vy/hu6BsUglNnc/WTNb1t8v0KcbTk2vbJ/FHn+OgC+SzHjs+dzYU7ZaOSU3NyuYq1ItJ1KV/VgnS8al/1TKpe68+EZLXS5zG+VyHfExpx2k8DfTTW5+BM3OEIh99m4pzhNiZos0klfZp7kenajQyNtHdLwDyo/ba5dSfjn0ZsnZv/7oi/gs9QQiUdbuGscT+uKMhyNyzKJxS0AA+QA9v7So1sIrsAPCmrgmh3xmryYrU0kS8ZbZIuq/gKyF6S6B0jWoe+ZLwgD1747Y0hGGrmteP1yo3g+6FI52W2wO9HknrZFxR4FWhdBSa6Ar0a8PCVpD21+TotvCOkFaPdwtQcZ0Jah9dLwoJf0CESIsSG1h8XOuUpCvs+B9ODQIom39fpiOqCzTBNEUgG5xHZjzBEpwKUs2KfHHkQq+Cy+6vPZJBpH/Xh0fs3oiWR0N6e+90uWHnxMg6ihbKztGhR04OQ2DYdKjnVAC9JC+JpQ4Tm9C5z2f1OqhoyfPqElObViyYOzZmmVsu7rNPjacTYVvNxhK23+cj41kUeorlfuGIZHfdqFpsAwqVzFmRZ1LUKwYhFe2SxFwvkqZj/71ENbuVlRTnqDsq/nhk/A==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 589a13d6-03d3-4507-dd59-08d875a3169e
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB2598.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2020 09:24:19.6002
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WwFD3/32WdcI9RnhEtg1KSXV8XTPQnQ26yHBU0PugenL/wmszrvb0WdprmP3u0gQN8GqB3pj/AbbXKxXEuEGBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3399
-Content-Type: text/plain
+References: <20201021092401.41424-1-mingli.yu@windriver.com>
+In-Reply-To: <20201021092401.41424-1-mingli.yu@windriver.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Wed, 21 Oct 2020 12:11:40 +0200
+Message-ID: <CA+chaQdwgNY7j6xBzzgeYXGv+V=BqiAxuy1_OovZTN88Bc7wbQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] tcl: adapt to potential psuedo changes
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007da3a105b22b93fc"
 
-From: Mingli Yu <mingli.yu@windriver.com>
+--0000000000007da3a105b22b93fc
+Content-Type: text/plain; charset="UTF-8"
 
-It failed as below when rerun do_install for tcl:
- $ bitbake tcl
- $ bitbake tcl -f -cinstall
-[snip]
- | NOTE: make -j 72 DESTDIR=/build/tmp/work/core2-64-wrs-linux/tcl/8.6.10-r0/image install
- | abort()ing pseudo client by server request. See https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
- | /build/tmp/work/core2-64-wrs-linux/tcl/8.6.10-r0/temp/run.do_install.3490694: line 184: 3499214 Aborted                 (core dumped) make -j 72 "$@"
+There is typo in the commit summary and doesn't base.bbclass do this
+automatically already?
 
-Though unpack tcl source to ${WORKDIR}/${BPN}${PV}, but we set
-S as below:
- S = "${WORKDIR}/${BPN}${PV}/unix"
+See
+https://git.openembedded.org/openembedded-core/tree/meta/classes/base.bbclass#n396
 
-Exclude ${WORKDIR}/${BPN}${PV} from pseudo database to fix the
-above do_install failure.
+On Wed, Oct 21, 2020 at 11:24 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/recipes-devtools/tcltk/tcl_8.6.10.bb | 1 +
- 1 file changed, 1 insertion(+)
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> It failed as below when rerun do_install for tcl:
+>  $ bitbake tcl
+>  $ bitbake tcl -f -cinstall
+> [snip]
+>  | NOTE: make -j 72
+> DESTDIR=/build/tmp/work/core2-64-wrs-linux/tcl/8.6.10-r0/image install
+>  | abort()ing pseudo client by server request. See
+> https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
+>  |
+> /build/tmp/work/core2-64-wrs-linux/tcl/8.6.10-r0/temp/run.do_install.3490694:
+> line 184: 3499214 Aborted                 (core dumped) make -j 72 "$@"
+>
+> Though unpack tcl source to ${WORKDIR}/${BPN}${PV}, but we set
+> S as below:
+>  S = "${WORKDIR}/${BPN}${PV}/unix"
+>
+> Exclude ${WORKDIR}/${BPN}${PV} from pseudo database to fix the
+> above do_install failure.
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-devtools/tcltk/tcl_8.6.10.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
+> b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
+> index aedd96b021..e6feb25a7e 100644
+> --- a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
+> +++ b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
+> @@ -32,6 +32,7 @@ SRC_URI_class-native = "${BASE_SRC_URI}"
+>
+>  S = "${WORKDIR}/${BPN}${PV}/unix"
+>
+> +PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/${BPN}${PV}"
+>  VER = "${PV}"
+>
+>  inherit autotools ptest binconfig update-alternatives
+> --
+> 2.17.1
+>
+>
+> 
+>
+>
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-index aedd96b021..e6feb25a7e 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-@@ -32,6 +32,7 @@ SRC_URI_class-native = "${BASE_SRC_URI}"
- 
- S = "${WORKDIR}/${BPN}${PV}/unix"
- 
-+PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/${BPN}${PV}"
- VER = "${PV}"
- 
- inherit autotools ptest binconfig update-alternatives
--- 
-2.17.1
+--0000000000007da3a105b22b93fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">There is typo in the commit summary and doesn&#39;t base.b=
+bclass do this automatically already?<div><br></div><div>See=C2=A0<a href=
+=3D"https://git.openembedded.org/openembedded-core/tree/meta/classes/base.=
+bbclass#n396">https://git.openembedded.org/openembedded-core/tree/meta/clas=
+ses/base.bbclass#n396</a></div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Wed, Oct 21, 2020 at 11:24 AM Yu, Mingli =
+&lt;<a href=3D"mailto:mingli.yu@windriver.com">mingli.yu@windriver.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From:=
+ Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" target=3D"_blank"=
+>mingli.yu@windriver.com</a>&gt;<br>
+<br>
+It failed as below when rerun do_install for tcl:<br>
+=C2=A0$ bitbake tcl<br>
+=C2=A0$ bitbake tcl -f -cinstall<br>
+[snip]<br>
+=C2=A0| NOTE: make -j 72 DESTDIR=3D/build/tmp/work/core2-64-wrs-linux/tcl/=
+8.6.10-r0/image install<br>
+=C2=A0| abort()ing pseudo client by server request. See <a href=3D"https:/=
+/wiki.yoctoproject.org/wiki/Pseudo_Abort" rel=3D"noreferrer" target=3D"_bla=
+nk">https://wiki.yoctoproject.org/wiki/Pseudo_Abort</a> for more details on=
+ this.<br>
+=C2=A0| /build/tmp/work/core2-64-wrs-linux/tcl/8.6.10-r0/temp/run.do_insta=
+ll.3490694: line 184: 3499214 Aborted=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0(core dumped) make -j 72 &quot;$@&quot;<br>
+<br>
+Though unpack tcl source to ${WORKDIR}/${BPN}${PV}, but we set<br>
+S as below:<br>
+=C2=A0S =3D &quot;${WORKDIR}/${BPN}${PV}/unix&quot;<br>
+<br>
+Exclude ${WORKDIR}/${BPN}${PV} from pseudo database to fix the<br>
+above do_install failure.<br>
+<br>
+Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" ta=
+rget=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/tcltk/<a href=3D"http://tcl_8.6.10.bb" rel=3D"=
+noreferrer" target=3D"_blank">tcl_8.6.10.bb</a> | 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/meta/recipes-devtools/tcltk/<a href=3D"http://tcl_8.6.10.bb" =
+rel=3D"noreferrer" target=3D"_blank">tcl_8.6.10.bb</a> b/meta/recipes-devto=
+ols/tcltk/<a href=3D"http://tcl_8.6.10.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">tcl_8.6.10.bb</a><br>
+index aedd96b021..e6feb25a7e 100644<br>
+--- a/meta/recipes-devtools/tcltk/<a href=3D"http://tcl_8.6.10.bb" rel=3D"=
+noreferrer" target=3D"_blank">tcl_8.6.10.bb</a><br>
++++ b/meta/recipes-devtools/tcltk/<a href=3D"http://tcl_8.6.10.bb" rel=3D"=
+noreferrer" target=3D"_blank">tcl_8.6.10.bb</a><br>
+@@ -32,6 +32,7 @@ SRC_URI_class-native =3D &quot;${BASE_SRC_URI}&quot;<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/${BPN}${PV}/unix&quot;<br>
+<br>
++PSEUDO_IGNORE_PATHS .=3D &quot;,${WORKDIR}/${BPN}${PV}&quot;<br>
+=C2=A0VER =3D &quot;${PV}&quot;<br>
+<br>
+=C2=A0inherit autotools ptest binconfig update-alternatives<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000007da3a105b22b93fc--
