@@ -1,86 +1,74 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web10.8868.1603270534939102727
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web08.8911.1603270819196919188
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 01:55:35 -0700
+ Wed, 21 Oct 2020 02:00:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: 2nCvckLa1EW62UXQWfif88EP6lwSW0+cOwUNNpHzTY6hMNrMDjY3bDkFn0v3xwIkFhuKn9tZAV
- tAcKIrlwuQog==
-X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="166559818"
-X-IronPort-AV: E=Sophos;i="5.77,400,1596524400"; 
-   d="scan'208";a="166559818"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 01:55:30 -0700
-IronPort-SDR: PA/USzLFuJeJnrln3iF1X7XpUXhIIY+8c46DM53PkpTasthCThutXf/buM8OhB4gbZA+pu9YRb
- 3gYGjXphZNjw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,400,1596524400"; 
-   d="scan'208";a="320948993"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga006.jf.intel.com with ESMTP; 21 Oct 2020 01:55:29 -0700
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: khairul.rohaizzat.jamaluddin@intel.com
-Subject: [PATCH] imagefeatures: New test case, test_empty_image, added
-Date: Wed, 21 Oct 2020 16:55:28 +0800
-Message-Id: <1603270528-89286-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=e4/aodIQ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: petr.vorel@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id u8so2105218ejg.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 02:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6tLg4+F/bDK0lHr5bLI48RxHQ4pQp1B0nUTGeBGJJmM=;
+        b=e4/aodIQi6OQ3cgojirdmuZkua7dAhZXLPQypik2BSEpkX6exzhDy3qZt0x1fgqsbi
+         F40fhmAeOrwAGx2XiOhznf8Tk9kveWMg59JtJ9ufTsy9sGwFFcHI4DripWyCkTQumyWW
+         xgNLkdlTTTkmgcm1LeYMdq4cpxIE2FegUD8xjAMShmfQy6qYRqpLdQ/vc6xMAEbuBg9D
+         Wwk83RHrGorpUEJa3m94hzGhRMRwMzB1s4kGF14+nd7yh6q2B0I6fm6PfLqfkpEfyix7
+         QVByByGFKskZ5HFk4/3Tx44yGOvP9iwIGVqnkNFYAY3HyVa+DFg+lGuSd1B2W1QpEm5M
+         Vi8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=6tLg4+F/bDK0lHr5bLI48RxHQ4pQp1B0nUTGeBGJJmM=;
+        b=js6gAtRfq6SuidVG6/zHHvyPcthESuk1VCpZ3kVq7n29AvuVOMcfzDlj94I6gc/bo6
+         5NH7AYPhBa5+RE1BJtdvATALDK9j4QUI1GLAT77p03ZzufaoJelI8hrgCtUBP3hzRDQM
+         ESs79tekX8Fo1//bvjd2e8+w1xlDpbznMfbnN1wsGvDzqzWIzO2p0AHokXXk4z8IXNC8
+         k5P9SSsBgrC8GXQisLjZQOnyLeMX0JpD2pOeZmq6ZUrr48uBngmhCUtLMebkPBzNJiNW
+         y6AX9Nbjstf7HO58lr/YG727sceF1zCA+iQPwD0GjrQyRUOjSFHVrEqGKUYbLmqFxAfq
+         z1DQ==
+X-Gm-Message-State: AOAM531Wgu167C8IGgxQDKxwy+yRC1bRXOZi0vAnQPP/DVoj4WM77th+
+	IzpYLMFXCoAyk7+9hydvqJM=
+X-Google-Smtp-Source: ABdhPJzdJ/50kaGEf8/x1mIrYUcQ3v2h+TYgwpUMLKkIXmhYXB+7ipxRfloA3lEdBumTvj1XJugz6g==
+X-Received: by 2002:a17:906:6d0c:: with SMTP id m12mr2417115ejr.498.1603270817695;
+        Wed, 21 Oct 2020 02:00:17 -0700 (PDT)
+Return-Path: <petr.vorel@gmail.com>
+Received: from x230 ([62.201.25.198])
+        by smtp.gmail.com with ESMTPSA id ba6sm1685379edb.61.2020.10.21.02.00.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2020 02:00:17 -0700 (PDT)
+Date: Wed, 21 Oct 2020 11:00:15 +0200
+From: "Petr Vorel" <petr.vorel@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+	Anuj Mittal <anuj.mittal@intel.com>, He Zhe <zhe.he@windriver.com>,
+	Anders Roxell <anders.roxell@linaro.org>,
+	Yi Zhao <yi.zhao@windriver.com>,
+	Daniel =?iso-8859-2?Q?D=EDaz?= <daniel.diaz@linaro.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: Re: [PATCH v4 1/1] ltp: Update to 20200930
+Message-ID: <20201021090015.GA4194@x230>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20201020200945.3089-1-petr.vorel@gmail.com>
+ <CAMKF1soztA23jZxjfmvU5Yc5BWAhYV4qen412ZcTdwjjkVDxyg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1soztA23jZxjfmvU5Yc5BWAhYV4qen412ZcTdwjjkVDxyg@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+Hi Khem,
 
-An empty image build file exists under the meta-selftest folder, test-empty-image.bb,
-which builds an image with no additional packages. However, there were no further
-selftest created to verify its emptiness
+> > Dropped patches (not applicable)
+> > * 0001-sigwaitinfo-Do-not-run-invalid-undefined-test-cases.patch
 
-This change consists of the selftest related to the said image to verify its
-emptiness and the 'import glob' moved as global import instead of local import.
+> these tests still hang on musl and seems to be incorrect. So I would
+> suggest to keep this patch on until the tests are fixed.
+Could you please rebase it to current master?
+These tests have been completely rewritten and I have no time investigate it
+further. Ideally please send a new patch to upstream (LTP mailing list).
 
-The expected outcome of the test should be TRUE or 1 if the .manifest file content
-is empty.
-
-[YOCTO #8455]
-
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
----
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index f7a2533..415e031 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -5,6 +5,7 @@
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, runqemu
- from oeqa.utils.sshcontrol import SSHControl
-+import glob
- import os
- import json
- 
-@@ -347,7 +348,7 @@ UBOOT_ENTRYPOINT = "0x80080000"
-         Author:      Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-                      Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-         """
--        import glob
-+      
-         image_name = 'core-image-minimal'
-         features = 'IMAGE_GEN_DEBUGFS = "1"\n'
-         features += 'IMAGE_FSTYPES_DEBUGFS = "tar.bz2"\n'
-@@ -368,3 +369,12 @@ UBOOT_ENTRYPOINT = "0x80080000"
-         for t in dbg_symbols_targets:
-             result = runCmd('objdump --syms %s | grep debug' % t)
-             self.assertTrue("debug" in result.output, msg='Failed to find debug symbol: %s' % result.output)
-+
-+    def test_empty_image(self):
-+        """Test creation of image with no packages"""
-+        bitbake('test-empty-image')
-+        res_dir = get_bb_var('DEPLOY_DIR_IMAGE')
-+        images = os.path.join(res_dir, "test-empty-image-*.manifest")
-+        result = glob.glob(images)
-+        with open(result[1],"r") as f:
-+                self.assertEqual(len(f.read().strip()),0)
--- 
-2.7.4
-
+Kind regards,
+Petr
