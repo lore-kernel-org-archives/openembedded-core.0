@@ -1,80 +1,97 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web12.4364.1603333302102849951
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+ by mx.groups.io with SMTP id smtpd.web12.4614.1603334755628001428
  for <openembedded-core@lists.openembedded.org>;
- Wed, 21 Oct 2020 19:21:42 -0700
+ Wed, 21 Oct 2020 19:45:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nb1R0upZ;
- spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id c5so79394qtw.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 21 Oct 2020 19:21:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e+bQ1Y5t79721x++KTUiLlmgTeJgnOxSCQYqpefYuBM=;
-        b=nb1R0upZkv1p16XNszA85ppAJD4JXxvB9KdvOrgPsQKaepOJv0a5/UgIYEC6IkiGbD
-         rrAZVGk4qplOqvfjYyzbWFjz86vNBMWUvt4JP0YqaDC9VsCeNnlOEF6yGfitUDGd1xBZ
-         dW8GJhimTdvMYIcJSTykSn2p4oby0+Rl80bkAZLFUoRHPj1vazBUmz/XK1Lv1IeIYHgc
-         P1s5lRjxFgzqygp87uAaAmkRyxLmNuFSopCroAFFP7pS5BdoICu4+dLSAQ79LV3+L59l
-         DzBr4mkDcwg20ANKB/nhbIV0RCcQ/jHIheYbNVn9DuTpamCntos/kp9PVD2UmMCUAz8x
-         ZrsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e+bQ1Y5t79721x++KTUiLlmgTeJgnOxSCQYqpefYuBM=;
-        b=eyetvC1jhe3AdeMtuvkCNc5JIDlgEHnanoyexdxrTqvkrgg0S3iIrC1//ffguwZY2i
-         jVZNt5vzXoEpBZZJ0KjctVo0/bv+f+hE+3c/V/uo+BfjpVtNKDrvkkiRNQpirIS7HfWq
-         24xHb5fuoOBnCLHDxDhG8tyhvkx8pRW0/vuEqlI6sFyMB1xTpceB2Dy/Tjuk83bqrxSu
-         KM205xOoHJdtysZGz/825OwhHUSqOBMyrsKLDw8F+hylVnnX8Vlrebx+5O8WYGZNUr79
-         Db/6ArQRJGK4zYbDOVsKmTUg6LrB6zJRLIfTLczZ5bmaAyHxLhXORNkPb1PKi4tGmyCs
-         n5vw==
-X-Gm-Message-State: AOAM5304YsEgdStN77DI8QfYjvSF6ulCzHHmdwv5SF+7S34wHSZt6m+I
-	wDY19mUEWGD+vcvpcWhXcJ/kmarCghPzbt1d414=
-X-Google-Smtp-Source: ABdhPJwiERX4V9JtSymbAZTpz5u8Iv70wwkJBPscblVLxQF0Jx2H4Xva3xbYnfUW4fnDFnAjAZbqY7nBf2jIbk8muGQ=
-X-Received: by 2002:ac8:57d1:: with SMTP id w17mr129422qta.194.1603333301112;
- Wed, 21 Oct 2020 19:21:41 -0700 (PDT)
+ dkim=pass header.i=@alistair23.me header.s=fm2 header.b=zFmGldRP;
+ spf=none, err=permanent DNS error (domain: alistair23.me, ip: 64.147.123.25, mailfrom: alistair@alistair23.me)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 8F20C984;
+	Wed, 21 Oct 2020 22:45:54 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 21 Oct 2020 22:45:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+	 h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=mSilHLSvzNPw14Z2Ko9dmNmSaO
+	SUSLTpIZWve8le96c=; b=zFmGldRPT8783E1EzoTuAEW54s19EZ2EV0pLjfyDAe
+	xurkZ1qM2sEsiZefGIYdk7NqopCxFzY7rk6z0dVZ9K+911gP781weGOD0tJIFzs+
+	DRPKkImcspgcnH1OKD5Me3/hWK4c9j6RtnnzmzZ4II5S07meYUsdsXzvsaAT74Wi
+	dnlLxeRylvmLV2aoamkkzcBKIhgllf/ltWereYQo5m4u+cV6xMlmxm6QkYFJ48sC
+	J+kBAEoMIEuafqgxo8GPavkcIQF0kylcr/YgDij63Fadkc7bVkr/lbBnlDdcSLpA
+	iFtnkPcBXG+RlrCEelV1flWTQ8dxPLT0fxiCrVTVQ6rQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=mSilHLSvzNPw14Z2K
+	o9dmNmSaOSUSLTpIZWve8le96c=; b=f6XiZQNCcikknm2mBBiuZNtjcipChuRYy
+	RCpDiQ9lmwBh1frmqnHltO7LWrVUskCNcP/cNO0Vi/78hvqerzf0NV2yWkqYp9lR
+	ZTjFZO9VrxwNXQ8qVpsC4t7YJfGTjqapDb8/g1tr0W7L8SFKtOIC85RL5YqXXsZa
+	6zDQODnWOrU3Jv2YHReNPVevl9Z0ghYK933KVbOUIKhR0w9fpITyw0ll3sWX1Ahp
+	Avy624BpNd5KgG3uWdMGeK+lv3mLXyLHHd8AYBmGAtg8HVkOkMh8o3RjVfAfXBxL
+	F1noDAXn8xPUYjYmZoBm98fVBdUoTOOH9pAapzJ05b+jG1FLtK99A==
+X-ME-Sender: <xms:YfKQX7vSw7ubQcZwDLxLXsekKnJTJ424U_gKfD1T4IMeQfvGshIvIg>
+    <xme:YfKQX8fXDpi5pKsz-ITBBBEeAzR1sSaX6_hSyTbocdYQjCfGZdWarrazz6Af_-7qt
+    AoLIH_KF1fK9JVgqYY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeeigdeiudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+    dtnecuhfhrohhmpeetlhhishhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghirhes
+    rghlihhsthgrihhrvdefrdhmvgeqnecuggftrfgrthhtvghrnhepjeeliefhvdetgfdtte
+    fhtdegffdtiefffeejiefffeevueeljeehjeevhfffueeknecukfhppeejfedrleefrdek
+    gedrvddtkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvg
+X-ME-Proxy: <xmx:YfKQX-wBA4kIzPG3Cgfzrmwf3wcpYeEefiDQCDjb7faKO7DJv-Ip4Q>
+    <xmx:YfKQX6NFdbyJV5ahLYngvKGHIVrvVliE9xXuqR_QFIQKo1d_iU1fgQ>
+    <xmx:YfKQX7_cBmOiARCfQaEWjrvru2FKT9sDazP5ztAaVQfUmxeIQT32-A>
+    <xmx:YvKQX4KcdQqsx_rpSDUPH8WwX5wrT7rKrXL0zWLUkmLapfTDwJVTDQ>
+Received: from alistair-xps-14z.alistair23.me (c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 459133280064;
+	Wed, 21 Oct 2020 22:45:53 -0400 (EDT)
+From: "Alistair" <alistair@alistair23.me>
+To: openembedded-core@lists.openembedded.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair@alistair23.me>
+Subject: [PATCH] weston-init: Allow setting idle time to 0
+Date: Wed, 21 Oct 2020 19:45:49 -0700
+Message-Id: <20201022024549.1165227-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20201021155857.2841570-1-luca.boccassi@gmail.com> <5d383a0d9c3aa724fc1aaac4fcd6d75fe5f2dec2.camel@linuxfoundation.org>
-In-Reply-To: <5d383a0d9c3aa724fc1aaac4fcd6d75fe5f2dec2.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 21 Oct 2020 19:21:15 -0700
-Message-ID: <CAMKF1sqeeYnhu_677KdPLeSa_D3mMJO6oPADEpxS0hVsaLH_Nw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Add new recipe for squashfs-tools-ng
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Luca Bocassi <luca.boccassi@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 21, 2020 at 12:02 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2020-10-21 at 16:58 +0100, Luca Bocassi wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> >
-> > The main difference with squashfs-tools is the availability
-> > of a shared library and a programmatic interface, rather
-> > than just command-line tools.
-> >
-> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > ---
-> >  .../squashfs-tools-ng_git.bb                  | 37
-> > +++++++++++++++++++
-> >  1 file changed, 37 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/squashfs-tools-ng/squashfs-
-> > tools-ng_git.bb
->
-> Should we be switching over to squashfs-tools-ng and removing squashfs-
-> tools? I'm not sure we want to support both versions?
+Add a PACKAGECONFIG that can be used to set the idle-time to 0. This is
+useful for always on machine (such as kiosks) and for debugging.
 
-I am not sure if we want to switch to ng yet as on option its good to
-have. Perhaps in meta-oe or some other place.
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+---
+ meta/recipes-graphics/wayland/weston-init.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
->
-> Cheers,
->
-> Richard
->
->
-> 
->
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 07cec75fb3..b7a99be646 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -15,6 +15,10 @@ SRC_URI = "file://init \
+ 
+ S = "${WORKDIR}"
+ 
++PACKAGECONFIG ??= ""
++
++PACKAGECONFIG[no-idle-timeout] = ",,"
++
+ DEFAULTBACKEND ??= ""
+ DEFAULTBACKEND_qemuall ?= "fbdev"
+ DEFAULTBACKEND_qemuarm64 = "drm"
+@@ -45,6 +49,10 @@ do_install() {
+         if [ -n "${DEFAULTBACKEND}" ]; then
+ 		sed -i -e "/^\[core\]/a backend=${DEFAULTBACKEND}-backend.so" ${D}${sysconfdir}/xdg/weston/weston.ini
+ 	fi
++
++	if [ "${@bb.utils.contains('PACKAGECONFIG', 'no-idle-timeout', 'yes', 'no', d)}" = "yes" ]; then
++		echo "idle-time=0" >> ${D}${sysconfdir}/xdg/weston/weston.ini
++	fi
+ }
+ 
+ inherit update-rc.d features_check systemd
+-- 
+2.28.0
+
