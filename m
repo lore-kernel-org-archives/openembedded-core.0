@@ -1,117 +1,116 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.758.1603381930682510039
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web08.817.1603381940308449120
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 08:52:11 -0700
+ Thu, 22 Oct 2020 08:52:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jYUA0mM7;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id j7so1173987pgk.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:52:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=pz2L0Kbz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id e7so1372603pfn.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=HSUAGTp9suINJvsyO0E33OYedKDfYY+/RkXrdH66ew0=;
-        b=jYUA0mM7YvL8ZVmM8vmMxzpwGh1Xeky3P3trezH92nLcbniH4+xrRnkVJTNcOlfawx
-         v8Cc2fu2V7beLWIoOpKVT/k37h4UQXtFBtUdkLg22omcyj92R5je8flFgjyOfKDeXEpW
-         K1YobwMq8yvggbtg67AyuPxnwymbjqP0u/x5kJm1lCgbPLVCkPNrDIT/IdSQEZvy5FHt
-         csFdjjVhs4hsIWZsbBedu3fgKMx86ZlmFku+KoDwMacMiPOablb245Qu9Hn3JCFVUeRt
-         4FteUVBHdy1hHT4L4bpAq1OaLZN16HJRdnYp6iaqm61YA7YOZeSiO0IGQ+c5IQDGRoNG
-         1vuw==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=i9PTOteHcBa5krEVD2FfceEQAK9kNWED2NaZNhI9CFs=;
+        b=pz2L0KbzSQGEokyACBMouU1KYRMCSNgcmPWAeGG4dfvNoI1TGJpSWZHquQ5GL+STC2
+         PeFORWbAmv65o9EbXfP+2QR4KxJ1AOPJBRYZExTTCl6aYYe4qyrO0dv3ekuE78j5/g5i
+         y0ZSh9MOT0MYdb7vWY+4KHPQwotvHh0TX9LjhhjimQdr88DtcIUA6bGzWUzWrFmeXcul
+         /D3hNWh6ihleL+70RUorZaWLnP8KG/H0wXjO7LxR7Y9Tv3ajlnsLZO8Qh6Abkl7KMnbp
+         CrxMe9FFb8o0HogcC/2isS/WhPxerjAY6JhY+Ay3oURkHhbAbNvmZCtuMWJjr28codOr
+         9vKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=HSUAGTp9suINJvsyO0E33OYedKDfYY+/RkXrdH66ew0=;
-        b=Bt+AmZXZUm763c9sUNSiXMD2cEmzTuBXF9Rw88+QdH7YgT8mFQqj4yBFTqMJig8Dj2
-         4pAmgVxGJvllFH7EKszLki6eTTIp77/ArV7L2kjSC/5PqTwNGYx9LTgFLfZuJzYoNhXN
-         jPkieYK1SahUrLI5MwOYgJA43A9E9EHvTkV2zfsoIUUsoooR/WDD1bSePRWW5DwaNDvE
-         HdhJl50YTEs9WhPjmp4C1OxjtMoB0eoRbv/4qUGBvyuEZisy8BAsUb390o5VSJhIU+ue
-         jMwuuTywPWgeUL2mQ8Ik5VaZv3VKkNnSxjZ+wLlfGQa5S4H6i6WQEtpXMMpuhRwBqPgl
-         l5rg==
-X-Gm-Message-State: AOAM532PQ8w7+qRIEnq7OAlvDODFUce7bYfaJGjarCw+KTRlpt3WDiVQ
-	9toVFAeoz2i6jd3xTHwHgkTyJeEyu0IB0Ogi
-X-Google-Smtp-Source: ABdhPJwWAgnYwuQ3ztKnryb3WQuSuhywV67noRiVHc3001ab4skPp5FLf1kUI7vj27KlTzFA+qil6g==
-X-Received: by 2002:a63:fb48:: with SMTP id w8mr2746506pgj.218.1603381929544;
-        Thu, 22 Oct 2020 08:52:09 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=i9PTOteHcBa5krEVD2FfceEQAK9kNWED2NaZNhI9CFs=;
+        b=IlW9catwRTBsSXzBEkxFI2IKRFPcaW/fqinu21faYC6RaMhDl/8Fpr4GshbKqbV4Ib
+         YwAGsI0OUMD1hZlo0Qh0ESeVZ1qwlsrhmY7bjlrsN0BCgzx1fNWL6/j9n7cO18dkxtFZ
+         wtEVHTjN7/BXUu/jiMd5JaDQtREr8KnD/rqM7+nwY5iQI/9/2ZaUHJhJgnOMlzkQ+M3T
+         KkIb7hWmWSQc4xuPni5AQSGiL2+p+kjidgi13G9BJ2cK783+i9iLcnnEzwO3sgqDdjw4
+         xgxA6mUyLLNcbewdw9eEdAkcCyaB5k8XbpSoK0x7kno5HSXFrkG/XMQ6pyGdtWNdrMy6
+         rJMA==
+X-Gm-Message-State: AOAM530SpD0MCohMWM2LcboWJtl6757RpZikoQRPfETR4H9pIT8Dct6r
+	PvW5nIXWtfWylyAi4m33R0Ui57myizGNPvk4
+X-Google-Smtp-Source: ABdhPJwSMphjNoZZnQ0Uj3XKALFkvymjQmXuMZhcj0aI70p7PXdOs+W1MBITZFRptdOokfzGUcENRg==
+X-Received: by 2002:aa7:8d99:0:b029:155:36de:40fe with SMTP id i25-20020aa78d990000b029015536de40femr3159121pfr.33.1603381939115;
+        Thu, 22 Oct 2020 08:52:19 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.52.05
+        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.52.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 08:52:08 -0700 (PDT)
+        Thu, 22 Oct 2020 08:52:18 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/14] Patch review
-Date: Thu, 22 Oct 2020 05:51:33 -1000
-Message-Id: <cover.1603381704.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/14] arch-armv7a.inc: fix typo
+Date: Thu, 22 Oct 2020 05:51:34 -1000
+Message-Id: <96efcd0d1271d4f412bf7e59d048e84c0df9d46d.1603381705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1603381704.git.steve@sakoman.com>
+References: <cover.1603381704.git.steve@sakoman.com>
 
-Please review this next set of patches for dunfell and have comments back
-by end of day Monday.
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-Passed a-full on autobuilder:
+* broken since:
+  commit 594f8584268d5179c18512beada2bae4a21325de
+  Author: Phil Edworthy <phil.edworthy@renesas.com>
+  Date:   Wed Nov 28 10:09:57 2018 +0000
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1501
+    arch-armv7*.inc: Add Cortex vfpv4-d16 support
 
-The following changes since commit 3ee9590f96cb50e93864db768b254773e2ff9465:
+    Some ARM Cortex devices have the VFPv4-D16, but no NEON.
 
-  uninative: Fix typo in error message (2020-10-19 04:27:15 -1000)
+* fixes:
+  scripts/tune/log.fake-cortexa15.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa15) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa17.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa17) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa32.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa32) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa34.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa34) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa35.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa35) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa53.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa53) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa55.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa55) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa57.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa57) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa57-cortexa53.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa57_cortexa53) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa5.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa5) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa65ae.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa65ae) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa65.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa65) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa72.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa72) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa72-cortexa53.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa72_cortexa53) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa73.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa73) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa73-cortexa35.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa73_cortexa35) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa73-cortexa53.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa73_cortexa53) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa75.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa75) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa75-cortexa55.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa75_cortexa55) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa76ae.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa76ae) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa76.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa76) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa76-cortexa55.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa76_cortexa55) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa77.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa77) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa7.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa7) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa8.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa8) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-cortexa9.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_cortexa9) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-neoversee1.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_neoversee1) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-neoversen1.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_neoversen1) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
+  scripts/tune/log.fake-thunderx.armv7atb-vfpv4d16:    Error, the PACKAGE_ARCHS variable (all any noarch ${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16} fake_thunderx) for DEFAULTTUNE (armv7atb-vfpv4d16) does not contain TUNE_PKGARCH (armv7at2b-vfpv4d16).
 
-are available in the Git repository at:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1c01e2b1c68bad89c5c9bba5b731fd5da4435e5b)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/conf/machine/include/arm/arch-armv7a.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Alexander Kanavin (1):
-  selftest/virgl: drop the custom 30 sec timeout
-
-Changqing Li (1):
-  toolchain-shar-extract.sh: don't print useless info
-
-Khem Raj (1):
-  packagegroup-core-tools-debug: Disable for rv32/glibc as well
-
-Lee Chee Yang (3):
-  libproxy: fix CVE-2020-25219
-  python3: fix CVE-2020-26116
-  grub2: fix CVE-2020-10713
-
-Martin Jansa (7):
-  arch-armv7a.inc: fix typo
-  arch-mips.inc: remove duplicated mips64el-o32 from
-    PACKAGE_EXTRA_ARCHS_tune-mips64el-o32
-  tune-mips64r6.inc: fix typo in mipsisa64r6-nf
-  tune-ep9312.inc: add t suffix for thumb to
-    PACKAGE_EXTRA_ARCHS_tune-ep9312
-  tune-riscv.inc: use nf suffix also for TUNE_PKGARCH
-  siteinfo: Recognize 32bit PPC LE
-  siteinfo: Recognize bigendian sh3be and sh4be
-
-Victor Kamensky (1):
-  qemu: change TLBs number to 64 in 34Kf mips cpu model
-
- meta-selftest/lib/oeqa/runtime/cases/virgl.py |   2 +-
- meta/classes/siteinfo.bbclass                 |   5 +
- meta/conf/machine/include/arm/arch-armv7a.inc |   2 +-
- meta/conf/machine/include/mips/arch-mips.inc  |   2 +-
- .../conf/machine/include/riscv/tune-riscv.inc |   4 +-
- meta/conf/machine/include/tune-ep9312.inc     |   3 +-
- meta/conf/machine/include/tune-mips64r6.inc   |   2 +-
- meta/files/toolchain-shar-extract.sh          |   2 +-
- .../grub/files/CVE-2020-10713.patch           |  73 ++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   1 +
- .../packagegroup-core-tools-debug.bb          |   2 +-
- .../python/python3/CVE-2020-26116.patch       | 104 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- ...ease-number-of-TLB-entries-on-the-34.patch |  59 ++++++++++
- .../libproxy/libproxy/CVE-2020-25219.patch    |  61 ++++++++++
- .../libproxy/libproxy_0.4.15.bb               |   1 +
- 17 files changed, 315 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-10713.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-26116.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch
- create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch
-
+diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+index 199e63f98a..2bf3c89edc 100644
+--- a/meta/conf/machine/include/arm/arch-armv7a.inc
++++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+@@ -120,7 +120,7 @@ PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv3d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7
+ PACKAGE_EXTRA_ARCHS_tune-armv7ab-vfpv3       = "${PACKAGE_EXTRA_ARCHS_tune-armv7ab-vfpv3d16} armv7ab-vfpv3"
+ PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv3      = "${PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv3d16} armv7ab-vfpv3 armv7at2b-vfpv3"
+ PACKAGE_EXTRA_ARCHS_tune-armv7ab-vfpv4d16    = "${PACKAGE_EXTRA_ARCHS_tune-armv7ab} armv7ab-vfpv4d16"
+-PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfp43d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7atb} armv7ab-vfpv4d16 armv7at2b-vfpv4d16"
++PACKAGE_EXTRA_ARCHS_tune-armv7atb-vfpv4d16   = "${PACKAGE_EXTRA_ARCHS_tune-armv7atb} armv7ab-vfpv4d16 armv7at2b-vfpv4d16"
+ PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ab} armv7ab-neon"
+ PACKAGE_EXTRA_ARCHS_tune-armv7atb-neon       = "${PACKAGE_EXTRA_ARCHS_tune-armv7atb} armv7ab-neon armv7at2b-neon"
+ PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon-vfpv4  = "${PACKAGE_EXTRA_ARCHS_tune-armv7ab-neon} armv7ab-neon-vfpv4"
 -- 
 2.17.1
 
