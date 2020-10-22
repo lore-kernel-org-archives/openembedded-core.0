@@ -1,90 +1,91 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web09.739.1603381957057057684
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web09.742.1603381962819242520
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 08:52:37 -0700
+ Thu, 22 Oct 2020 08:52:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=oN5dOkNJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f41.google.com with SMTP id p21so1272226pju.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:52:37 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gTE3no6o;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id 144so1395132pfb.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=xPjoT1WAF1CKVitKgm/b5vk38TvTVfInNysd2T9h7rA=;
-        b=oN5dOkNJ86BlFCqJ5yi9dIk0OjT8QswCvKSpj+fkAAiOFt95wXqXxkO+pALfXoJxMN
-         L1sqNBcoczoqw+0j7ImlKpbo+plheimqos564vOKzsEovicrzsaoFv0Xq++JlltbDCa7
-         QdjKVYO523boSQ7XVGk8x9j+OMzKHd6RXL9XHLxSL2lcfNThgEZb0AEaYiO3eoEKr+NE
-         DDmJ+V5g2B0JX1uEw249lLkJwfm8zy1eVjGyfY1sY+hA2t1FtETkcKCR2ZaGbzRDGrzL
-         vxpO1LgP6SQl4gk6EQpdXl5LAR6ubuFFlk+eXe6jgGJOF91UykzYkFAe+zxoo3ic9lWU
-         Va5g==
+        bh=0dfx8l0x23TrvDKw/jCagCqfaERrIOvYODW77PRZ9Uk=;
+        b=gTE3no6ojFXODlIYzfQ2RebNK2rdMgLgkaZN78+4nwuzKn9L8l4DR0RMdqNLt7b8Iq
+         zC52bw5558eNtBC5sBEOEXjJXXS7roSgeUVUZoOHYRq5TY/z/se3BhMckPZ2vD+KC/bY
+         onjSjE7+wyl8Jt4aJYtMCG5Pv+QkLKum649Ek3V9qc3DjDuC8ARqVlmKmp+mV5yImbnM
+         u3LBUzcMO0LnBJe0gemgEgdYcI5q7bSmBjTPRaZXJaXOM4IRpUqQ8KrYM3Wo33x6aHWo
+         ck0DzCfi4ecABJcNDI9qsHsuLCCuVGt2DPNFy3ihMUgiklK21QCTKkTKWAVRSTs5OnA4
+         CkRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=xPjoT1WAF1CKVitKgm/b5vk38TvTVfInNysd2T9h7rA=;
-        b=ujRmT2LqIdfYep3EDAsbd95JEuDwlj5xdkypdtHveqfX0tLbFn8lpOmDKFusRuawnr
-         dpO0njKLC1JJOlLeQqEA1D0dFvD+k93G86/apToitQlXJ9TNhj1+xgFwvJwoGU9aXkmJ
-         lkwznOCZ0L6K8zscIBTdckBnCJUaJzOmBk5Cunu8gi5Lnd6bdvW+OUFYSO+asPx54V51
-         R2fnR78sxTZd39C68jRSbTLT3Iv4bhDQB62QRuNtbu130sMdtQYpQfmrKpuKAqYhRidY
-         23Pt/0x9JX2JTcFTOrZeUdedOYZdx0dCeMUiqmHTzWFUjo8rWYq4LeFtbDVtiytnOeHQ
-         QlUA==
-X-Gm-Message-State: AOAM533d4xPjr2IqjKTzbJP1vFkKF60fcmDZ5+hmGxdaTAsTIQnWJidq
-	LPgPPsEL2qZPuXJvDgpAUsCBegn6jvHKbOLb
-X-Google-Smtp-Source: ABdhPJyFajVi8cBAWFzH8WvaOb4z51gqOTsaAzVJdlI9vul52cHip4c6EkYcWR9U7+9DPPTtgdHFpg==
-X-Received: by 2002:a17:90a:248:: with SMTP id t8mr3212525pje.64.1603381956168;
-        Thu, 22 Oct 2020 08:52:36 -0700 (PDT)
+        bh=0dfx8l0x23TrvDKw/jCagCqfaERrIOvYODW77PRZ9Uk=;
+        b=FCFXQvBiSV8CEwJr7T1M/JE3k93faTNihtwQqeXXViRHceHJeeKkN8IFohbWmh3DN0
+         6FKHdgiL1AH8N2lGohPN+7cXRFO8nzT6z+JHCe63AlaGxDQ1LFjFThrpi2Lki5Ol36gT
+         jHBGzY3ancxigcgLwnaeWmtFVO+Q4aRQ/rixv7U33HxtJLpUe/ta8TAEw3k5n/bK2FbX
+         0YafIl2u+kNKuvbPc582LeZ4B7zDjKMMjNw6pH8g3hu/+LQUymvl3AZmR3FLdLdn4LN2
+         6kv2lOR5EVs2J8R2eteq3nNS0zgrKEX0w5wfehE+7P+gHRgNh848RuSDi7Y3YQS0y5pZ
+         FBmA==
+X-Gm-Message-State: AOAM531OXZSK7ydbyi19G0l6lpNBUxyKK1QFwX2jf6EQ8MwSreUDahbs
+	1KxZ4y1WuXeXtAL2pywuiu8S9QAKwMiynb4A
+X-Google-Smtp-Source: ABdhPJwRffZZNyatJQLrVIa01oBRF2QFpSCPxdIpSswapoxDD2StgcAxNa/a5piEb7+PovaOp3QGQA==
+X-Received: by 2002:a62:7cd4:0:b029:152:5198:3f19 with SMTP id x203-20020a627cd40000b029015251983f19mr3316756pfc.31.1603381961908;
+        Thu, 22 Oct 2020 08:52:41 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.52.32
+        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.52.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 08:52:35 -0700 (PDT)
+        Thu, 22 Oct 2020 08:52:41 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/14] tune-ep9312.inc: add t suffix for thumb to PACKAGE_EXTRA_ARCHS_tune-ep9312
-Date: Thu, 22 Oct 2020 05:51:37 -1000
-Message-Id: <6243df4e8daf78c7b5004f9e123894a2d4027392.1603381705.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/14] tune-riscv.inc: use nf suffix also for TUNE_PKGARCH
+Date: Thu, 22 Oct 2020 05:51:38 -1000
+Message-Id: <8d2702b7fe51474764c7392ef6386b8d199b88a6.1603381705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1603381704.git.steve@sakoman.com>
 References: <cover.1603381704.git.steve@sakoman.com>
 
 From: Martin Jansa <Martin.Jansa@gmail.com>
 
-* broken since:
-  commit 805dd4807d322dc70cef97edd68fdb3142b60fb1
-  Author: Andre McCurdy <armccurdy@gmail.com>
-  Date:   Fri Aug 23 13:51:36 2019 -0700
+* broken since introduction:
+  commit 5263b2ebc57fe289d64c74bfb10da39ed7c98828
+  Author: Alistair Francis <alistair.francis@wdc.com>
+  Date:   Thu Dec 19 13:24:10 2019 -0800
 
-    feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX
-
-* since this commit the 't' suffix is set ARM_THUMB_SUFFIX by
-  armv4 override (which does apply for ep9312 tune) instead of
-  armv4 in TUNE_FEATURES - so the comment in the file was no
-  longer correct and ep9312 wasn't usable
+    tune-riscv: Add support for no float
 
 * fixes:
-  scripts/tune/log.fake-ep9312:    Error, the PACKAGE_ARCHS variable (all any noarch arm armv4 armv4t ep9312 fake_ep9312) for DEFAULTTUNE (ep9312) does not contain TUNE_PKGARCH (ep9312t).
+  scripts/tune/log.fake-riscv.riscv32nf:    Error, the PACKAGE_ARCHS variable (all any noarch riscv32nf fake_riscv) for DEFAULTTUNE (riscv32nf) does not contain TUNE_PKGARCH (riscv32).
+  scripts/tune/log.fake-riscv.riscv64nf:    Error, the PACKAGE_ARCHS variable (all any noarch riscv64nf fake_riscv) for DEFAULTTUNE (riscv64nf) does not contain TUNE_PKGARCH (riscv64).
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f23c7f23c64cbd70d38a01dfda3a4d0809b33bdd)
+(cherry picked from commit 58088dce12775e325df8428b750e19616d264464)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/machine/include/tune-ep9312.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/conf/machine/include/riscv/tune-riscv.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
-index be20eb363b..3f0ba2ec12 100644
---- a/meta/conf/machine/include/tune-ep9312.inc
-+++ b/meta/conf/machine/include/tune-ep9312.inc
-@@ -8,6 +8,5 @@ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', 'armv4:', '
+diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
+index 741eeb34db..028548bf56 100644
+--- a/meta/conf/machine/include/riscv/tune-riscv.inc
++++ b/meta/conf/machine/include/riscv/tune-riscv.inc
+@@ -24,10 +24,10 @@ PACKAGE_EXTRA_ARCHS_tune-riscv32 = "riscv32"
+ # No float
+ TUNE_FEATURES_tune-riscv64nf = "${TUNE_FEATURES_tune-riscv64} riscv64nf"
+ TUNE_ARCH_tune-riscv64nf = "riscv64"
+-TUNE_PKGARCH_tune-riscv64nf = "riscv64"
++TUNE_PKGARCH_tune-riscv64nf = "riscv64nf"
+ PACKAGE_EXTRA_ARCHS_tune-riscv64nf = "riscv64nf"
  
- AVAILTUNES += "ep9312"
- ARMPKGARCH_tune-ep9312 = "ep9312"
--# this tune does not include TUNE_FEATURES_tune-armv4t, so there is no armv4 TUNE_FEATURES => no 't' in ARMPKGSFX_THUMB
- TUNE_FEATURES_tune-ep9312 = "thumb ep9312"
--PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} ep9312"
-+PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} ep9312t"
+ TUNE_FEATURES_tune-riscv32nf = "${TUNE_FEATURES_tune-riscv32} riscv32nf"
+ TUNE_ARCH_tune-riscv32nf = "riscv32"
+-TUNE_PKGARCH_tune-riscv32nf = "riscv32"
++TUNE_PKGARCH_tune-riscv32nf = "riscv32nf"
+ PACKAGE_EXTRA_ARCHS_tune-riscv32nf = "riscv32nf"
 -- 
 2.17.1
 
