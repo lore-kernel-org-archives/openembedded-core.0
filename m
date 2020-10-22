@@ -1,123 +1,199 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web11.1015.1603399331485414990
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web10.1429.1603400889476750738
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 13:42:11 -0700
+ Thu, 22 Oct 2020 14:08:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dLQLIWfX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id d78so4812078wmd.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 13:42:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KrpzhNn5;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id w27so4405212ejb.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 14:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=5UCuxOVxbjFXE729Ptw5g0s+9clgxNwGzcEMJntafmU=;
-        b=dLQLIWfXpnyETbRHGSaN5tghilrsEgxbjlN9H+9HHo9AkP2NtLDZyPd5H2zuRu/8Fu
-         VQEBmF6jC5YeOLuKAHlmA5ozQOYDJ/wIz0yQ2sgtWUJ9StsxcsqmUbPdWtksAlpUg7/E
-         Ln+gpq/wqkDwZserq4GzWNeM3arY7+WBHE/PU=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qS/zIbzoaIcJaCxyZuhisJkuZ0LYBpI6VISnoT1bE8Y=;
+        b=KrpzhNn5bdK+q0gVSWxxf9MLrkqQoMdMpawxPE3ijPddh7m+O516L9RQgZ4dqypVf7
+         D07S+5+6g+xy2g3hjGCdQCLY0l00wInQwJSz+SHStEowQLRLC3YoqHGKbFevq5UrdQkq
+         rnxlDUpvxygDb9LlbBi75Zc+aU1Dnr8ZBugu7eSUIYEEwRjg5EoHPU1HwXtgkCkoLole
+         vEKqwHJjad5xEVIC9Us05fWdWpeqjaiUueb09UcnD7vIOA75N9CtYgMQqRNeDB3FYwrB
+         3rsuHgj2+6+EPLu9KPqxyDXPXssZGYQ0blBG+ATF2vxdmTAoCgQ1ksC0HZ8gyEpDkK/A
+         3/LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=5UCuxOVxbjFXE729Ptw5g0s+9clgxNwGzcEMJntafmU=;
-        b=UR9u6EAlqCYT3I4Swj6cOZyYOUg41D7WreRsagftEX1huWxCakPu1CObtrHHSntatO
-         p0dM+plM1atS7FDgW1NQseNmzpQHrc01xELyeIrZmPgd/9oHjokEec8ML015T9Vut7pE
-         T0vX9g6wfdr+g6YlkcdJ0uFp3tFA1bfT7es/8CZN8jNqU8PjVsR6T2I4SrQR39+OTIET
-         PiNfqkKqIgRDDA9loPxy7a+srBzhvUizq1rGpHzJZ4eUN7F3A7MlDEducfzrTvGc3v4s
-         n04Dce53Ng2usPvY3dV+4+rbcLf0k7xYD9//CTzaQQVNrAdxv3/4i0oSrBO7vFExsoHW
-         mQlg==
-X-Gm-Message-State: AOAM533sWNpkCEBjXxsSAh/7p2f77JAzvpBTlM06hA7UEJTemoRbPPxt
-	hpTayriBJagSGnvSQqvlmrxUTg==
-X-Google-Smtp-Source: ABdhPJxBdF+J+vVUgVivlx990g4dXpL1TQjEmPJ1Zm1wcaMuqwdH4O0kRJxYNH18NrCOh673cpNGuw==
-X-Received: by 2002:a1c:9a93:: with SMTP id c141mr4485500wme.168.1603399329854;
-        Thu, 22 Oct 2020 13:42:09 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:5d2f:b755:7bf1:d36a])
-        by smtp.gmail.com with ESMTPSA id y5sm5745818wrw.52.2020.10.22.13.42.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 13:42:09 -0700 (PDT)
-Message-ID: <bac2b9ce03584fc50842e725ab695a2960c9d6f8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] multilib_header.bbclass: Do not install the stubs for non-multilib case
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2020 21:42:08 +0100
-In-Reply-To: <7ef77885-d26d-37a3-5ee3-4b2299b8909e@gmail.com>
-References: <20201021210932.984184-1-raj.khem@gmail.com>
-	 <d4a88c9df72243f4e334d3b408200062b6113b59.camel@linuxfoundation.org>
-	 <CAMKF1sp+iH=H3yTPWSr_6iSJK2F0yDGBHk59K_zq4_6JYLwwUQ@mail.gmail.com>
-	 <16daa853-ba5a-af7b-40f7-8b4e757848be@gmail.com>
-	 <0b8c63800f9b0c70e7949ec1244c5061efe2c746.camel@linuxfoundation.org>
-	 <7ef77885-d26d-37a3-5ee3-4b2299b8909e@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qS/zIbzoaIcJaCxyZuhisJkuZ0LYBpI6VISnoT1bE8Y=;
+        b=IxvkA7LWQX79Ug3U5G6Q7jSFQj9inBT8l7h7JURfCPXLSM+0UTLxOdUq7L7xPMgRMo
+         LBOREpJdJns/dUQv9w90c1nyZJITQ3ub2SVOi04+ofCHMw7ZrCERgoMkU9t29+KY3TY4
+         9ChPwEO1Fgg1mdRsDe0zFfgd39rEoo2BubussvjRXGd8HnxniM39UH35HFYHwFSZdM2o
+         cJtfN67rakeiz5zXGQImk/PetnDD8yOj4n2XQOr0Bl6UWRZb60gQjBj5DjTMfGts5Yf+
+         h2A42WoHOg7rwqAgQiOuMF7OJ8+hruPFU+mBV2qOykotBRDGcs/8VbQfFaKA81hRHC9m
+         d98Q==
+X-Gm-Message-State: AOAM533oWyfWR4o6XIaeqeIOa4AFc1HVYbv+QBHyw3L+8aKp1V3xzSWB
+	FiEfo9t4xE95OqtAWHEmy/PzbyFW7SsXCJoLIzM=
+X-Google-Smtp-Source: ABdhPJz/6X4hub6kfW+UzRVCXtyB045OZVoORuYXMVZQZCUKuuzBZagUdtCoBoAajhbiQM3EsNlnrMQ7toXnLXC0xd0=
+X-Received: by 2002:a17:906:ca54:: with SMTP id jx20mr4380918ejb.541.1603400887900;
+ Thu, 22 Oct 2020 14:08:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201016095531.140098-1-Martin.Jansa@gmail.com>
+ <20201016095531.140098-2-Martin.Jansa@gmail.com> <CAJ86T=WdocqoYgd_nZ0M8mn372ERZsDG_Lrh26HuWzSwtYfW3g@mail.gmail.com>
+In-Reply-To: <CAJ86T=WdocqoYgd_nZ0M8mn372ERZsDG_Lrh26HuWzSwtYfW3g@mail.gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Thu, 22 Oct 2020 23:07:56 +0200
+Message-ID: <CA+chaQd4MjKnzk=Po2UFwY=sB_2NgMbrQjvDEYsjuR4=EOea1g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] tune-ep9312.inc: add t suffix for thumb to PACKAGE_EXTRA_ARCHS_tune-ep9312
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005b201705b248dc84"
+
+--0000000000005b201705b248dc84
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-10-22 at 13:37 -0700, Khem Raj wrote:
-> 
-> On 10/22/20 1:11 PM, Richard Purdie wrote:
-> > On Thu, 2020-10-22 at 12:21 -0700, Khem Raj wrote:
-> > > I ran a few combination builds without this patch applied.
-> > > 
-> > > build core-image-minimal/qemux86-64
-> > > 
-> > > then add just following to local.conf
-> > > 
-> > > require conf/multilib.conf
-> > > MULTILIBS = "multilib:lib32"
-> > > DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-> > > 
-> > > and rebuild core-image-minimal
-> > > 
-> > > here is buildhistory-diff output ( before and after adding
-> > > multilib to
-> > > local.conf)
-> > > 
-> > > http://sprunge.us/oM7Fg3
-> > > 
-> > > It ends up rebuilding all target packages inclduing some cross
-> > > packages
-> > > e.g. libtool-cross, native sstate it still re-used and that
-> > > remains so
-> > > with above patch applied as well.
-> > > 
-> > > Therefore this patch does not make things any different than they
-> > > are
-> > > currently.
-> > > 
-> > > Let me know if I should be checking more things.
+I think you're reading it backwards (or I wrote it backwards?).
+
+"t" wasn't added before, because "armv4" isn't in TUNE_FEATURES.
+
+But since you have changed feature-arm-thumb.inc to use armv4 OVERRIDE, the
+"t" is added and tune-ep9212 got broken.
+
+See the removed comment in the tune file which explains why it wasn't using
+"t" suffix in PACKAGE_EXTRA_ARCHS_tune-ep9312 before.
+
+On Thu, Oct 22, 2020 at 9:26 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+
+> On Fri, Oct 16, 2020 at 2:55 AM Martin Jansa <Martin.Jansa@gmail.com>
+> wrote:
+> >
+> > * broken since:
+> >   commit 805dd4807d322dc70cef97edd68fdb3142b60fb1
+> >   Author: Andre McCurdy <armccurdy@gmail.com>
+> >   Date:   Fri Aug 23 13:51:36 2019 -0700
+> >
+> >     feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX
+> >
+> > * since this commit the 't' suffix is set ARM_THUMB_SUFFIX by
+> >   armv4 override (which does apply for ep9312 tune) instead of
+>
+> This doesn't sound right. The armv4 override is being added to
+> MACHINEOVERRIDES (it's even shown in the patch context below). Is that
+> somehow not working?
+>
+> >   armv4 in TUNE_FEATURES - so the comment in the file was no
+> >   longer correct and ep9312 wasn't usable
+> >
+> > * fixes:
+> >   scripts/tune/log.fake-ep9312:    Error, the PACKAGE_ARCHS variable
+> (all any noarch arm armv4 armv4t ep9312 fake_ep9312) for DEFAULTTUNE
+> (ep9312) does not contain TUNE_PKGARCH (ep9312t).
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  meta/conf/machine/include/tune-ep9312.inc | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/meta/conf/machine/include/tune-ep9312.inc
+> b/meta/conf/machine/include/tune-ep9312.inc
+> > index 11fd266ba0..5e1a0e5791 100644
+> > --- a/meta/conf/machine/include/tune-ep9312.inc
+> > +++ b/meta/conf/machine/include/tune-ep9312.inc
+> > @@ -8,6 +8,5 @@ MACHINEOVERRIDES =.
+> "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', 'armv4:', '
+> >
+> >  AVAILTUNES += "ep9312"
+> >  ARMPKGARCH_tune-ep9312 = "ep9312"
+> > -# this tune does not include TUNE_FEATURES_tune-armv4t, so there is no
+> armv4 TUNE_FEATURES => no 't' in ARMPKGSFX_THUMB
+> >  TUNE_FEATURES_tune-ep9312 = "thumb ep9312"
+> > -PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t}
+> ep9312"
+> > +PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t}
+> ep9312t"
+> > --
+> > 2.25.1
+> >
+> >
 > > 
-> > Imagine you configure 64 bit x86 to use /lib64 in all situations
-> > (which
-> > many do now, it probably should be the default).
-> 
-> interesting but its not default, and multilib is not default as well.
+> >
+>
 
-I thought it was the default on other distros? We only have it as the
-default for nodistro and poky for historical reasons and I've not
-wanted the pain of switching.
+--0000000000005b201705b248dc84
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Thirdly we are optimizing for a case where we want to switch distros 
-> between multilib and non-multilib case. 
+<div dir=3D"ltr">I think you&#39;re reading it backwards (or I wrote it bac=
+kwards?).<div><br></div><div>&quot;t&quot; wasn&#39;t added before, because=
+ &quot;armv4&quot; isn&#39;t in TUNE_FEATURES.</div><div><br></div><div>But=
+ since you have changed=C2=A0<span style=3D"color:rgb(80,0,80)">feature-arm=
+-thumb.inc to use armv4 OVERRIDE, the &quot;t&quot; is added and tune-ep921=
+2 got broken.</span></div><div><span style=3D"color:rgb(80,0,80)"><br></spa=
+n></div><div><span style=3D"color:rgb(80,0,80)">See the removed comment in =
+the tune file which explains why it wasn&#39;t using &quot;t&quot; suffix i=
+n=C2=A0</span><span style=3D"color:rgb(80,0,80)">PACKAGE_EXTRA_ARCHS_tune-e=
+p93</span><span style=3D"color:rgb(80,0,80)">12 before.</span></div></div><=
+br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu,=
+ Oct 22, 2020 at 9:26 PM Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmai=
+l.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">On Fri, Oct 16, 2020 at 2:55 AM Martin Jansa &lt;=
+<a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gm=
+ail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; * broken since:<br>
+&gt;=C2=A0 =C2=A0commit 805dd4807d322dc70cef97edd68fdb3142b60fb1<br>
+&gt;=C2=A0 =C2=A0Author: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gma=
+il.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A0Date:=C2=A0 =C2=A0Fri Aug 23 13:51:36 2019 -0700<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX<br>
+&gt;<br>
+&gt; * since this commit the &#39;t&#39; suffix is set ARM_THUMB_SUFFIX by=
+<br>
+&gt;=C2=A0 =C2=A0armv4 override (which does apply for ep9312 tune) instead=
+ of<br>
+<br>
+This doesn&#39;t sound right. The armv4 override is being added to<br>
+MACHINEOVERRIDES (it&#39;s even shown in the patch context below). Is that=
+<br>
+somehow not working?<br>
+<br>
+&gt;=C2=A0 =C2=A0armv4 in TUNE_FEATURES - so the comment in the file was n=
+o<br>
+&gt;=C2=A0 =C2=A0longer correct and ep9312 wasn&#39;t usable<br>
+&gt;<br>
+&gt; * fixes:<br>
+&gt;=C2=A0 =C2=A0scripts/tune/log.fake-ep9312:=C2=A0 =C2=A0 Error, the PAC=
+KAGE_ARCHS variable (all any noarch arm armv4 armv4t ep9312 fake_ep9312) fo=
+r DEFAULTTUNE (ep9312) does not contain TUNE_PKGARCH (ep9312t).<br>
+&gt;<br>
+&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.=
+com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/conf/machine/include/tune-ep9312.inc | 3 +--<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/ma=
+chine/include/tune-ep9312.inc<br>
+&gt; index 11fd266ba0..5e1a0e5791 100644<br>
+&gt; --- a/meta/conf/machine/include/tune-ep9312.inc<br>
+&gt; +++ b/meta/conf/machine/include/tune-ep9312.inc<br>
+&gt; @@ -8,6 +8,5 @@ MACHINEOVERRIDES =3D. &quot;${@bb.utils.contains(&#39=
+;TUNE_FEATURES&#39;, &#39;ep9312&#39;, &#39;armv4:&#39;, &#39;<br>
+&gt;<br>
+&gt;=C2=A0 AVAILTUNES +=3D &quot;ep9312&quot;<br>
+&gt;=C2=A0 ARMPKGARCH_tune-ep9312 =3D &quot;ep9312&quot;<br>
+&gt; -# this tune does not include TUNE_FEATURES_tune-armv4t, so there is =
+no armv4 TUNE_FEATURES =3D&gt; no &#39;t&#39; in ARMPKGSFX_THUMB<br>
+&gt;=C2=A0 TUNE_FEATURES_tune-ep9312 =3D &quot;thumb ep9312&quot;<br>
+&gt; -PACKAGE_EXTRA_ARCHS_tune-ep9312 =3D &quot;${PACKAGE_EXTRA_ARCHS_tune=
+-armv4t} ep9312&quot;<br>
+&gt; +PACKAGE_EXTRA_ARCHS_tune-ep9312 =3D &quot;${PACKAGE_EXTRA_ARCHS_tune=
+-armv4t} ep9312t&quot;<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+</blockquote></div>
 
-Ok, in 3.3, lets propose switching the default on 64 bit x86 and that
-in turn should let us optimise the autobuilder load to cut out a lot of
-these currently basically duplicated builds? If its not wanted for
-nodistro, I can propose we change poky.
-
-> are there practical usecases of  these three conditions? I think we
-> are optimizing for a relatively small  usecase here if there are any.
-
-See above, we can at the very least optimise the autobuilder. I'd
-actually thought it should be reusing now but it clearly isn't. We
-should fix that.
-
-I do think its a sensible optimization to have working. I know it means
-we need to be a bit more careful with that patch.
-
-Cheers,
-
-Richard
-
-
+--0000000000005b201705b248dc84--
