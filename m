@@ -1,161 +1,153 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web11.8591.1603364378099203678
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web08.8959.1603365059698830020
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 03:59:38 -0700
+ Thu, 22 Oct 2020 04:11:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HXTq6qsT;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id p5so1650102ejj.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 03:59:37 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=e7u1fk6A;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iNRPQJN9LH6BcKl867oYx7RItC9OPkDruBP612zB6tY=;
-        b=HXTq6qsTEoqHtmGHc7kdrJ/iXbZ70yBMrBKyf+HpEq2achDONj6mrt6x+aYaZUwPpm
-         7ipyb/+3X/5uvyypN9OjmK4yA5NoO5ZO5rAQdet7f4Oi977McS3DtEIaAfgGik4p3Lfz
-         tFrZhnWznlfs+dc+eHYkKNOOFTfyPQ1H0PowTDlHz80giYSJN//7Eqbk60E6nhnFeni6
-         L5UsmsI018TIhyTBMX8vz6Bg9Dq4MHFZKkMLkXi6pnQiiVW96WLlCyIkAV7xrZ4fNtDn
-         ZeSgZ3gNJlIz38XKG/97SNNbaaAu1/MlA10bkDH1nI+pa42s0aIMrPj9OW7FQ77RlkAB
-         p09Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iNRPQJN9LH6BcKl867oYx7RItC9OPkDruBP612zB6tY=;
-        b=lkl6JpwFjfXjDPzhht+FtDO8vUKuUQqUWEsOTN1VMCosojBJRqL3LJnrQlV6DhXG7K
-         HNtS1lR1LL93ZQtArguD26KfHIEP2oO64mMmMFLSZAXz4Ka6QYnESrd8tY6+igWcHRK/
-         PCyPjLsf5X7/wQJ3Pq74bkfbPl1UUDp52LIgp+DV9WnUVKxeXSGmVH8uLIdAkD6qUnYr
-         myb23H/1udIonGXMT9P4sV7TJUORdOOiz5JFp/jocydM5kbU0Hk9lTRyhp18ValfUt+J
-         e1IhWOM+yOj/f5/LWTw62fClNKwyz1/2QTBeE7kKH6Ow6Yx9SJMLPQwEDPuXNs/i6C4n
-         s20A==
-X-Gm-Message-State: AOAM533qvvVa4dHR+2pBeqfaltBkHL0AzrVU2qtZ97tiQmbhAEb/IBJt
-	jtP2tOzwaeKuMGAPNnd7hpieUCT38eIxVXJQkkw=
-X-Google-Smtp-Source: ABdhPJysYrjx9FRk5cpxQiYjpNpyUG450utKU7Ovp2+hS9xen8TMwoKwERaUSihk9kuIznq8nIJPt88wEZyumBenSYc=
-X-Received: by 2002:a17:906:ca54:: with SMTP id jx20mr1717186ejb.541.1603364376287;
- Thu, 22 Oct 2020 03:59:36 -0700 (PDT)
+  d=axis.com; l=3411; q=dns/txt; s=axis-central1;
+  t=1603365060; x=1634901060;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=XB96K2zYtttn96ZEvFlwMyIZiRhBJUTT2OCWqs3k5nM=;
+  b=e7u1fk6AF7nKyqCFqhPvB6elPWgkSkBLZYYIDynuIWzWMPs6h14t53vM
+   qEx0NED9SL4p1K3Wh11W3dgokOUEuLN5r8o31EowJjtp01qPNCuaIi4h9
+   w53k1EMtas2dCzRC49HF/jdjebujB4aR3Xt45mbaGo/H+V1hDe4gLk0zi
+   X7ob8BndeEN/xV3u/9Lu61WF8Slw5KLv7DPQN9X0JOundjyBDHR9JWEdU
+   nc93hQ0g4M5Grdzf8k+wiigwYAn2e7OTwcsu0Qinv/s9+pvaQPXqWlKso
+   8RVvJdYDL8qteOpEMNc9qanqsUxjW+/5u6bvJ0l7JKwSN/2lSC/iRI+kG
+   A==;
+IronPort-SDR: amk1UNmcoeI8i6G59VUU9MHZhs5Rt2Fi/r3rlBoY09Vv9j9F0Urwg/tMJxPPzFCJd5Ux5g/kX/
+ PNmo8JIHn6fCy59vUNpaPMumUJryT+Yjt7NW6aGRwOQFnpvgQY8ustROISxDj91uHN06Eo/LHn
+ kmzTnkQUmwajso/UaYP9Yo0ebp9SPJ4D14G56kdh0J4T7d0l6X1hjheb5mU3EG0ZSZsZ6UxCKi
+ nP1FNHnoPYpnTGQc1KXpZCmx72VcWe8X3TXts0OCz0mZmXHshXCv1rphRynhhKPaOKtST6x19A
+ 1Z0=
+X-IronPort-AV: E=Sophos;i="5.77,404,1596492000"; 
+   d="scan'208";a="13804055"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Luca Bocassi <luca.boccassi@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "kweihmann@outlook.com" <kweihmann@outlook.com>
+Subject: Re: [OE-core] [PATCH v2] Add new recipe for squashfs-tools-ng
+Thread-Topic: [OE-core] [PATCH v2] Add new recipe for squashfs-tools-ng
+Thread-Index: AQHWqFSPRaPfp/6H6kKVjenywzwP3qmjdTpQ
+Date: Thu, 22 Oct 2020 11:10:56 +0000
+Message-ID: <c746e94871f743bf81c38fdf18c9360d@XBOX03.axis.com>
+References: <20201021155857.2841570-1-luca.boccassi@gmail.com>
+ <20201022092000.2917248-1-luca.boccassi@gmail.com>
+In-Reply-To: <20201022092000.2917248-1-luca.boccassi@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.20.13.13]
 MIME-Version: 1.0
-References: <cover.1602771116.git.steve@sakoman.com> <163E30094343B958.12811@lists.openembedded.org>
- <CAOSpxdbZ9yKWyLkALJctu5BCP77AX=PSNWuBffNa8snxMOEgjw@mail.gmail.com> <c4b7539b1a57fb2b32bb68345aaaa8b807a7349d.camel@linuxfoundation.org>
-In-Reply-To: <c4b7539b1a57fb2b32bb68345aaaa8b807a7349d.camel@linuxfoundation.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 22 Oct 2020 12:59:25 +0200
-Message-ID: <CA+chaQdavEx8SgVLX2iVGKtHLJ3bYv2+g-vDxATTi6rP3mg4pw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 1/8] Revert "package: get_package_mapping: avoid dependency mapping if renamed package provides original name"
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Steve Sakoman <steve@sakoman.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000181e8405b2405c75"
-
---000000000000181e8405b2405c75
-Content-Type: text/plain; charset="UTF-8"
-
-Looks like it's caused by wireguard setting PKG variable as:
-PKG_${PN} = "kernel-module-${MODULE_NAME}-${KERNEL_VERSION}"
-
-as discussed in:
-https://github.com/openembedded/meta-openembedded/issues/285#issuecomment-714401682
-
-it was added in
-https://git.openembedded.org/meta-openembedded/commit/?id=ad0db129c7c8484520cd20cdfbb4670489125280
-but the explanation there doesn't make much sense to me.
-
-On Sat, Oct 17, 2020 at 9:55 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Fri, 2020-10-16 at 04:34 -1000, Steve Sakoman wrote:
-> > I've included this revert patch for comment because I have gotten
-> > several requests to revert and I'd like wider discussion of the
-> > issue.
-> >
-> > At the moment wireguard is the only known recipe that is failing and
-> > there are no proposed fixes.
-> >
-> > If you are aware of recipes in other layers that are affected, please
-> > let me know.
-> >
-> > And if someone would like to tackle fixing wireguard in
-> > meta-openembedded that would be much preferred to a revert.
->
-> It would also be good to know if the issue exists on master or not. I'm
-> worried we may have the issue there as well which is a reason I'd
-> favour looking into and understanding this rather than blindly
-> reverting. I've not seen anyone have a full understanding of what the
-> issue is as yet.
->
-> Cheers,
->
-> Richard
->
->
->
->
-> 
->
->
-
---000000000000181e8405b2405c75
-Content-Type: text/html; charset="UTF-8"
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Looks like it&#39;s caused by wireguard setting PKG variab=
-le as:<div><span style=3D"color:rgb(36,41,46);font-family:-apple-system,Bli=
-nkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
- Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;font-size:14px">PKG_${PN} =3D=
- &quot;kernel-module-${MODULE_NAME}-${KERNEL_VERSION}&quot;</span></div><di=
-v><font color=3D"#24292e" face=3D"-apple-system, BlinkMacSystemFont, Segoe =
-UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji"><span =
-style=3D"font-size:14px"><br></span></font></div><div><font color=3D"#24292=
-e" face=3D"-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, s=
-ans-serif, Apple Color Emoji, Segoe UI Emoji"><span style=3D"font-size:14px=
-">as discussed in:<br></span></font><div><a href=3D"https://github.com/open=
-embedded/meta-openembedded/issues/285#issuecomment-714401682">https://githu=
-b.com/openembedded/meta-openembedded/issues/285#issuecomment-714401682</a><=
-br></div></div><div><br></div><div>it was added in</div><div><a href=3D"htt=
-ps://git.openembedded.org/meta-openembedded/commit/?id=3Dad0db129c7c8484520=
-cd20cdfbb4670489125280">https://git.openembedded.org/meta-openembedded/comm=
-it/?id=3Dad0db129c7c8484520cd20cdfbb4670489125280</a><br></div><div>but the=
- explanation there doesn&#39;t make much sense to me.</div></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Oct 17, =
-2020 at 9:55 AM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2020-10-16 at 04:34=
- -1000, Steve Sakoman wrote:<br>
-&gt; I&#39;ve included this revert patch for comment because I have gotten=
-<br>
-&gt; several requests to revert and I&#39;d like wider discussion of the<b=
-r>
-&gt; issue.<br>
-&gt; <br>
-&gt; At the moment wireguard is the only known recipe that is failing and<=
-br>
-&gt; there are no proposed fixes.<br>
-&gt; <br>
-&gt; If you are aware of recipes in other layers that are affected, please=
-<br>
-&gt; let me know.<br>
-&gt; <br>
-&gt; And if someone would like to tackle fixing wireguard in<br>
-&gt; meta-openembedded that would be much preferred to a revert.<br>
-<br>
-It would also be good to know if the issue exists on master or not. I&#39;=
-m<br>
-worried we may have the issue there as well which is a reason I&#39;d<br>
-favour looking into and understanding this rather than blindly<br>
-reverting. I&#39;ve not seen anyone have a full understanding of what the<=
-br>
-issue is as yet.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Luca Bocassi
+> Sent: den 22 oktober 2020 11:20
+> To: openembedded-core@lists.openembedded.org
+> Cc: kweihmann@outlook.com
+> Subject: [OE-core] [PATCH v2] Add new recipe for squashfs-tools-ng
+>=20
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+>=20
+> The main difference with squashfs-tools is the availability
+> of a shared library and a programmatic interface, rather
+> than just command-line tools.
+>=20
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v2: added MIT, Zlib and BSD-2-Clause to LICENSE
+>=20
+>  .../squashfs-tools-ng_git.bb                  | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 meta/recipes-devtools/squashfs-tools-ng/squashfs-
+> tools-ng_git.bb
+>=20
+> diff --git a/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_gi=
+t.bb b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
+> new file mode 100644
+> index 0000000000..6479017ddb
+> --- /dev/null
+> +++ b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
+> @@ -0,0 +1,37 @@
+> +SUMMARY =3D "New set of tools for working with SquashFS images"
+> +SECTION =3D "base"
+> +LICENSE =3D "GPLv3+ & LGPL-3.0+ & MIT & BSD-2-Clause & Zlib"
 
---000000000000181e8405b2405c75--
+Change "GPLv3+" to "GPL-3.0+" for consistency.
+
+You have GPL-2.0 listed below too so it should probably be added=20
+above as well.
+
+> +LIC_FILES_CHKSUM =3D "file://COPYING.md;md5=3Dc0de2c0aca56349dab98e97992=
+316f7e \
+> +                    file://licenses/GPLv2.txt;md5=3Db234ee4d69f5fce4486a=
+80fdaf4a4263 \
+> +                    file://licenses/GPLv3.txt;md5=3D1ebbd3e34237af26da5d=
+c08a4e440464 \
+> +                    file://licenses/hash_table.txt;md5=3D874823605326cae=
+aabaa95bfbd0f9fb0 \
+> +                    file://licenses/LGPLv3.txt;md5=3D3000208d539ec061b89=
+9bce1d9ce9404 \
+> +                    file://licenses/LZ4.txt;md5=3Debc2ea4814a64de7708f15=
+71904b32cc \
+> +                    file://licenses/xxhash.txt;md5=3Df042a9be092bd6d7fe6=
+f217d8d00f4ca \
+> +                    file://licenses/xz.txt;md5=3D1c389b9610ccfdb25f7abae=
+a6a0bb5a4 \
+> +                    file://licenses/zlib.txt;md5=3Dae27c72096606131f760e=
+5f59cf98b06 \
+> +                    file://licenses/zstd.txt;md5=3D8df8137b630239cbdd4c0=
+674124cb0c8"
+> +
+> +PV =3D "1.0.2"
+
+Move the version to the file name.
+
+> +SRCREV =3D "b96f0fc154feef531be76034bf6e38925636146f"
+> +SRC_URI =3D "git://github.com/AgentD/squashfs-tools-ng.git;protocol=3Dht=
+tps \
+> +"
+
+I'd remove that backslash and keep it as one line.
+
+> +
+> +S =3D "${WORKDIR}/git"
+> +
+> +inherit autotools pkgconfig
+> +
+> +PACKAGECONFIG ??=3D "gzip xz lzo lz4 zstd ${@bb.utils.contains('DISTRO_F=
+EATURES', 'selinux', 'selinux', '', d)}"
+
+Change to:
+
+PACKAGECONFIG ??=3D "gzip xz lzo lz4 zstd ${@bb.utils.filter('DISTRO_FEATUR=
+ES', 'selinux', d)}"
+
+> +PACKAGECONFIG[gzip] =3D "--with-gzip,--without-gzip,zlib"
+> +PACKAGECONFIG[xz] =3D "--with-xz,--without-xz,xz"
+> +PACKAGECONFIG[lzo] =3D "--with-lzo,--without-lzo,lzo"
+> +PACKAGECONFIG[lz4] =3D "--with-lz4,--without-lz4,lz4"
+> +PACKAGECONFIG[zstd] =3D "--with-zstd,--without-zstd,zstd"
+> +PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux,libselinux"
+> +
+> +PACKAGES =3D+ "libsquashfs"
+> +FILES_libsquashfs =3D "${libdir}/libsquashfs*${SOLIBS}"
+> +
+> +BBCLASSEXTEND =3D "native nativesdk"
+> +
+> +CVE_PRODUCT =3D "squashfs"
+> --
+> 2.20.1
+
+//Peter
+
