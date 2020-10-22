@@ -1,49 +1,49 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.793.1603381985471108459
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.782.1603381991311776261
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 08:53:05 -0700
+ Thu, 22 Oct 2020 08:53:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=XgnFsZtt;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f193.google.com with SMTP id f38so882870pgm.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:53:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TSD8wIpS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id t22so1170709plr.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:53:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=BAvC6QTNXSknHfK0hfMGrzQD4hZvt4/Q9SLMsQsBGHQ=;
-        b=XgnFsZttMGvVszo1S6YV6TKnvDO4WfuT61FqADZSi0MYXjWB3nX/J1/NCQs60m879c
-         gdXnzUfQ4tDDe3VsuIqgKRwW+2panWVjdDephwoHKcLh0kXeT+Rz7/jMS0sPRMAIRnh6
-         4L6pESZPkkqSqQRMB3n6ERuXqdDv10Y234+nab+6iIkWHTZLYkRHg8P8Gr+zP9BSQVT2
-         DkG9VCmXcr6ig51zs5ljryvxS9pvwFjMsbdNfe89DJNLqDvc5MpofkSucz/C9rnTdpL+
-         mW5vnhW2tQNOhimqyKkjgKaRL/oUF6nEuZ9emKOl9rz9/YMJJ/2sDKIkj10ar7MZgT+i
-         CfoA==
+        bh=RP0s560xsrkdKKUa3gFuq0xxIarM/J9XWSwkgOWbA14=;
+        b=TSD8wIpSuGFAMgSlmfp4/HC9AjfHpcLRiBuG5JtqBB+Dda5l2Sdvh953EVcQR5JzeS
+         8CCycoux9mtNWoons85Ep6R1UvEjpTEL/TQIFhunvVu+fDRMyKf6NPPreiNSudCoJtzF
+         bkiOoGS+XMHGZXSjlO3xQIO7uwcI4KKfExxhaEhHjpjSFiEqxcjRdX1vXabPAzO4jnFE
+         Qj/dPmamtEe7MiSmcqUv2AHJ9wsH6Mt5TB5FYl9rZ+KjABwynLFmK0N1FaMIk3f6ZTTp
+         jqFNevLVSIblTbi5ak6JpBykoJW4IzM0vlQhygsDX/AWlYfHC7SfPLk5b+YFrWR4ZsEA
+         0Tkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=BAvC6QTNXSknHfK0hfMGrzQD4hZvt4/Q9SLMsQsBGHQ=;
-        b=Jb/YYAxQozT/dTr8Xg4H9AkUVl71i9cA3MGOP7UOBwWf1fdR+kqBRZabKdzOeuySXB
-         AUqxNlLet9QE+PQXeReMYB6T3gVNSI6wqO3jeVVOSumV6C4hHxNbQrFDdfhPb5ElRhIE
-         DteFzRACWpiJ3bsdAuncOM9NNUfNZS92iyN7EgLZw9nKeZNZEKv96YnmKYBD5qQUGfd4
-         HFMobwSUERxyJlUgp+8P+GyMAwhYRmV+FdjA9kM61p2C6lp4y67pflGxEA8Vnk8tNvI8
-         B/R5bXL/PBC/wVpmv71kscoLGbl63I4WpoOJTvgnpeuvQ17E2uoxpDYy6Ho/spZ12OOI
-         3OWQ==
-X-Gm-Message-State: AOAM530e8NSyUiQGfXMDvRZpkPHAGCtb6Smk2asWSWosFIdCRAoVvScX
-	j6IlvazOSeQgHCw/biMANH4cymjddUXmq8ue
-X-Google-Smtp-Source: ABdhPJyogq42nRDkIEk0prDT5mtHJlrpPnSELn0YMjpeJDTVDXyaQo3gGPD4NUPe1n9nYV5UE7F/GQ==
-X-Received: by 2002:a63:574a:: with SMTP id h10mr2718417pgm.209.1603381984453;
-        Thu, 22 Oct 2020 08:53:04 -0700 (PDT)
+        bh=RP0s560xsrkdKKUa3gFuq0xxIarM/J9XWSwkgOWbA14=;
+        b=XtpXRvskKScGylnD/SI8Ww4CQ8TyHRz+6e4W7IuxGZ+yGDe2iMseSms6hnODenCKEC
+         2IVURsEcl2baEvByL/0mfu6HIG5HHhKlLRPIpYhgLGRQdE8Deq0VH+Rvf+J0aejwq+qJ
+         GPi3l2IfyhCO7VXLO8PQvLWWO5GOD+FBkEgmbJ/S/rZxNhHk3SBqbCE6f9S8XB2mekzC
+         gOSafdO/ByUzhM4FzYj4MD+LWbQY/1IEhZXEgCkQQo/ts3Uh91JhUvqx3C4fGhvMrGHT
+         P/9qDhVDTu5Gw9f82OZXEdDBdM9JynHBzO3OrOvi7YQyWNCrA2EZQoplem5xpw27SnPK
+         U/1A==
+X-Gm-Message-State: AOAM530LRremIgSo9NpBaip+jrsbnTHixb9NLlxab6j+aA2HhYdGJ/fB
+	J0hO10zDP+IdZNQXFRTXhi72YUfn1OrFQf0U
+X-Google-Smtp-Source: ABdhPJwTvWlWsu8uNO5lDwh7NMxSKwEOIYmxXOZUYKw4YN/7JkFqKgIwGQxuCVCZPCcC+4zma0+71Q==
+X-Received: by 2002:a17:90b:4b08:: with SMTP id lx8mr2941568pjb.204.1603381990178;
+        Thu, 22 Oct 2020 08:53:10 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.53.00
+        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.53.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 08:53:03 -0700 (PDT)
+        Thu, 22 Oct 2020 08:53:09 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/14] libproxy: fix CVE-2020-25219
-Date: Thu, 22 Oct 2020 05:51:42 -1000
-Message-Id: <f2e07dcf2c8ced2efcb6b67db45b9c5dc5ca5309.1603381705.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/14] python3: fix CVE-2020-26116
+Date: Thu, 22 Oct 2020 05:51:43 -1000
+Message-Id: <2f607a61a820bfbc369f779c3161a339f088d04f.1603381705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1603381704.git.steve@sakoman.com>
 References: <cover.1603381704.git.steve@sakoman.com>
@@ -53,90 +53,133 @@ From: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libproxy/libproxy/CVE-2020-25219.patch    | 61 +++++++++++++++++++
- .../libproxy/libproxy_0.4.15.bb               |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch
+ .../python/python3/CVE-2020-26116.patch       | 104 ++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-26116.patch
 
-diff --git a/meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch b/meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2020-26116.patch b/meta/recipes-devtools/python/python3/CVE-2020-26116.patch
 new file mode 100644
-index 0000000000..3ef7f85451
+index 0000000000..c019db2a76
 --- /dev/null
-+++ b/meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch
-@@ -0,0 +1,61 @@
-+From a83dae404feac517695c23ff43ce1e116e2bfbe0 Mon Sep 17 00:00:00 2001
-+From: Michael Catanzaro <mcatanzaro@gnome.org>
-+Date: Wed, 9 Sep 2020 11:12:02 -0500
-+Subject: [PATCH] Rewrite url::recvline to be nonrecursive
++++ b/meta/recipes-devtools/python/python3/CVE-2020-26116.patch
+@@ -0,0 +1,104 @@
++From 668d321476d974c4f51476b33aaca870272523bf Mon Sep 17 00:00:00 2001
++From: "Miss Islington (bot)"
++ <31488909+miss-islington@users.noreply.github.com>
++Date: Sat, 18 Jul 2020 13:39:12 -0700
++Subject: [PATCH] bpo-39603: Prevent header injection in http methods
++ (GH-18485)
 +
-+This function processes network input. It's semi-trusted, because the
-+PAC ought to be trusted. But we still shouldn't allow it to control how
-+far we recurse. A malicious PAC can cause us to overflow the stack by
-+sending a sufficiently-long line without any '\n' character.
++reject control chars in http method in http.client.putrequest to prevent http header injection
++(cherry picked from commit 8ca8a2e8fb068863c1138f07e3098478ef8be12e)
 +
-+Also, this function failed to properly handle EINTR, so let's fix that
-+too, for good measure.
++Co-authored-by: AMIR <31338382+amiremohamadi@users.noreply.github.com>
 +
-+Fixes #134
-+
-+Upstream-Status: Backport [https://github.com/libproxy/libproxy/commit/836c10b60c65e947ff1e10eb02fbcc676d909ffa]
-+CVE: CVE-2020-25219
++Upstream-Status: Backport [https://github.com/python/cpython/commit/668d321476d974c4f51476b33aaca870272523bf]
++CVE: CVE-2020-26116
 +Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ libproxy/url.cpp | 28 ++++++++++++++++++----------
-+ 1 file changed, 18 insertions(+), 10 deletions(-)
 +
-+diff --git a/libproxy/url.cpp b/libproxy/url.cpp
-+index ee776b2..68d69cd 100644
-+--- a/libproxy/url.cpp
-++++ b/libproxy/url.cpp
-+@@ -388,16 +388,24 @@ string url::to_string() const {
-+ 	return m_orig;
-+ }
++---
++ Lib/http/client.py                            | 15 +++++++++++++
++ Lib/test/test_httplib.py                      | 22 +++++++++++++++++++
++ .../2020-02-12-14-17-39.bpo-39603.Gt3RSg.rst  |  2 ++
++ 3 files changed, 39 insertions(+)
++ create mode 100644 Misc/NEWS.d/next/Security/2020-02-12-14-17-39.bpo-39603.Gt3RSg.rst
++
++diff --git a/Lib/http/client.py b/Lib/http/client.py
++index 019380a720318..c2ad0471bfee5 100644
++--- a/Lib/http/client.py
+++++ b/Lib/http/client.py
++@@ -147,6 +147,10 @@
++ #  _is_allowed_url_pchars_re = re.compile(r"^[/!$&'()*+,;=:@%a-zA-Z0-9._~-]+$")
++ # We are more lenient for assumed real world compatibility purposes.
 + 
-+-static inline string recvline(int fd) {
-+-	// Read a character.
-+-	// If we don't get a character, return empty string.
-+-	// If we are at the end of the line, return empty string.
-+-	char c = '\0';
-+-	
-+-	if (recv(fd, &c, 1, 0) != 1 || c == '\n')
-+-		return "";
-+-
-+-	return string(1, c) + recvline(fd);
-++static string recvline(int fd) {
-++	string line;
-++	int ret;
+++# These characters are not allowed within HTTP method names
+++# to prevent http header injection.
+++_contains_disallowed_method_pchar_re = re.compile('[\x00-\x1f]')
 ++
-++	// Reserve arbitrary amount of space to avoid small memory reallocations.
-++	line.reserve(128);
-++
-++	do {
-++		char c;
-++		ret = recv(fd, &c, 1, 0);
-++		if (ret == 1) {
-++			if (c == '\n')
-++				return line;
-++			line += c;
-++		}
-++	} while (ret == 1 || (ret == -1 && errno == EINTR));
-++
-++	return line;
-+ }
++ # We always set the Content-Length header for these methods because some
++ # servers will otherwise respond with a 411
++ _METHODS_EXPECTING_BODY = {'PATCH', 'POST', 'PUT'}
++@@ -1087,6 +1091,8 @@ def putrequest(self, method, url, skip_host=False,
++         else:
++             raise CannotSendRequest(self.__state)
 + 
-+ char* url::get_pac() {
-diff --git a/meta/recipes-support/libproxy/libproxy_0.4.15.bb b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
-index 19dddebd44..a14c358cc2 100644
---- a/meta/recipes-support/libproxy/libproxy_0.4.15.bb
-+++ b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
-@@ -10,6 +10,7 @@ DEPENDS = "glib-2.0"
+++        self._validate_method(method)
+++
++         # Save the method for use later in the response phase
++         self._method = method
++ 
++@@ -1177,6 +1183,15 @@ def _encode_request(self, request):
++         # ASCII also helps prevent CVE-2019-9740.
++         return request.encode('ascii')
++ 
+++    def _validate_method(self, method):
+++        """Validate a method name for putrequest."""
+++        # prevent http header injection
+++        match = _contains_disallowed_method_pchar_re.search(method)
+++        if match:
+++            raise ValueError(
+++                    f"method can't contain control characters. {method!r} "
+++                    f"(found at least {match.group()!r})")
+++
++     def _validate_path(self, url):
++         """Validate a url for putrequest."""
++         # Prevent CVE-2019-9740.
++diff --git a/Lib/test/test_httplib.py b/Lib/test/test_httplib.py
++index 8f0e27a1fb836..5a5fcecbc9c15 100644
++--- a/Lib/test/test_httplib.py
+++++ b/Lib/test/test_httplib.py
++@@ -364,6 +364,28 @@ def test_headers_debuglevel(self):
++         self.assertEqual(lines[3], "header: Second: val2")
++ 
++ 
+++class HttpMethodTests(TestCase):
+++    def test_invalid_method_names(self):
+++        methods = (
+++            'GET\r',
+++            'POST\n',
+++            'PUT\n\r',
+++            'POST\nValue',
+++            'POST\nHOST:abc',
+++            'GET\nrHost:abc\n',
+++            'POST\rRemainder:\r',
+++            'GET\rHOST:\n',
+++            '\nPUT'
+++        )
+++
+++        for method in methods:
+++            with self.assertRaisesRegex(
+++                    ValueError, "method can't contain control characters"):
+++                conn = client.HTTPConnection('example.com')
+++                conn.sock = FakeSocket(None)
+++                conn.request(method=method, url="/")
+++
+++
++ class TransferEncodingTest(TestCase):
++     expected_body = b"It's just a flesh wound"
++ 
++diff --git a/Misc/NEWS.d/next/Security/2020-02-12-14-17-39.bpo-39603.Gt3RSg.rst b/Misc/NEWS.d/next/Security/2020-02-12-14-17-39.bpo-39603.Gt3RSg.rst
++new file mode 100644
++index 0000000000000..990affc3edd9d
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2020-02-12-14-17-39.bpo-39603.Gt3RSg.rst
++@@ -0,0 +1,2 @@
+++Prevent http header injection by rejecting control characters in
+++http.client.putrequest(...).
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index 99d9f6748f..169bc87988 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -34,6 +34,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
+            file://CVE-2020-14422.patch \
++           file://CVE-2020-26116.patch \
+            "
  
- SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz \
-            file://0001-get-pac-test-Fix-build-with-clang-libc.patch \
-+           file://CVE-2020-25219.patch \
-           "
- SRC_URI[md5sum] = "f6b1d2a1e17a99cd3debaae6d04ab152"
- SRC_URI[sha256sum] = "654db464120c9534654590b6683c7fa3887b3dad0ca1c4cd412af24fbfca6d4f"
+ SRC_URI_append_class-native = " \
 -- 
 2.17.1
 
