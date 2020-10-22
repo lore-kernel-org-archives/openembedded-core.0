@@ -1,101 +1,117 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.41])
- by mx.groups.io with SMTP id smtpd.web08.9221.1603366940979814116
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.758.1603381930682510039
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 04:42:21 -0700
+ Thu, 22 Oct 2020 08:52:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=njdfhB5y;
- spf=pass (domain: windriver.com, ip: 40.107.92.41, mailfrom: liezhi.yang@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nbItl5yLtoFHAlQnzjcySoCo3RK7+Dm7AnWYLPRXfAJMJwt4MWPLftc3yNaOHHhV+bKj36vM/0I5TaJyB2PGrLaT4ynbTw3PcPOB6Nidw68vPp745RAuV8F+YBmE9gvFn0lm6Z7RNmTt84GNc+zVFbrj1z30Wjx0shyCAoJOx9Z7YfZdcNVG7qCcwEkgsNPJ0t+j3vVSOaugDyu8HE8IKzk5W6YuGlQBpq+Slub+9sAX7hSpLzCj7yl+6utYlGaXdeDlsjZOIQ+kCJ3SstyJ0B2Q+007fpXYPv4Z+tSBYBr4/Sbn+Qho1XqQBHM7U5O7Z7X/yVYTBIREa5fRMA8IGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gpZWEMVGx0s5xRZmqKW0XYASOTnPJuCI1ne26f9txR0=;
- b=DZp3KC3ubi3d5dqNc1tFtnvGRayiSnpjpbVKt4UDXIAr/ZMNl1C/8UL1jTTaePNCsEKHmPHpPblIpNjg9qsdohSbzko1CGpvm0GIPR5iGODhhlb7R7UR7JI8ZarV5bnfQY7XMti2t5uLeD/HUbwSS5/DWYvneOGF2dPcO6gBqjwHx7QUT2LDxYJieuXZb5slE2Bjxeb/BDyJPJPXmE2cEpyLxs5Bt5IoL29g8JKD0JinbMzJ32jTvPXCcB9gyDva5b3qUzwH1ZGmBfvd86KYvinq4fGwiqqKP0cUCaNcmdQndTSx/wJTNfwyYJAZa5v/TLr+TueRrnrWoEzQLjLZJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jYUA0mM7;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id j7so1173987pgk.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gpZWEMVGx0s5xRZmqKW0XYASOTnPJuCI1ne26f9txR0=;
- b=njdfhB5y+s83VVLjxbdL5lzA2CfxT9VgzYLJla4zgfztdoRUd4hyKL1hHwCXtkUEygox3UVsRUTLy4Ssu2IS3kQsxJC7J9bjxYg+c9D6Ojy6GVVBHoQCqCYm3GVhwYPEk11A/rpX5fxPXH764YpxsfH2mQRCIcOTYCI5j9XyQb4=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com (2603:10b6:805:d5::13)
- by SN6PR11MB3117.namprd11.prod.outlook.com (2603:10b6:805:d7::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Thu, 22 Oct
- 2020 11:42:19 +0000
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::e0b3:8438:9d91:c16]) by SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::e0b3:8438:9d91:c16%7]) with mapi id 15.20.3477.029; Thu, 22 Oct 2020
- 11:42:19 +0000
-From: "Robert Yang" <liezhi.yang@windriver.com>
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=HSUAGTp9suINJvsyO0E33OYedKDfYY+/RkXrdH66ew0=;
+        b=jYUA0mM7YvL8ZVmM8vmMxzpwGh1Xeky3P3trezH92nLcbniH4+xrRnkVJTNcOlfawx
+         v8Cc2fu2V7beLWIoOpKVT/k37h4UQXtFBtUdkLg22omcyj92R5je8flFgjyOfKDeXEpW
+         K1YobwMq8yvggbtg67AyuPxnwymbjqP0u/x5kJm1lCgbPLVCkPNrDIT/IdSQEZvy5FHt
+         csFdjjVhs4hsIWZsbBedu3fgKMx86ZlmFku+KoDwMacMiPOablb245Qu9Hn3JCFVUeRt
+         4FteUVBHdy1hHT4L4bpAq1OaLZN16HJRdnYp6iaqm61YA7YOZeSiO0IGQ+c5IQDGRoNG
+         1vuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=HSUAGTp9suINJvsyO0E33OYedKDfYY+/RkXrdH66ew0=;
+        b=Bt+AmZXZUm763c9sUNSiXMD2cEmzTuBXF9Rw88+QdH7YgT8mFQqj4yBFTqMJig8Dj2
+         4pAmgVxGJvllFH7EKszLki6eTTIp77/ArV7L2kjSC/5PqTwNGYx9LTgFLfZuJzYoNhXN
+         jPkieYK1SahUrLI5MwOYgJA43A9E9EHvTkV2zfsoIUUsoooR/WDD1bSePRWW5DwaNDvE
+         HdhJl50YTEs9WhPjmp4C1OxjtMoB0eoRbv/4qUGBvyuEZisy8BAsUb390o5VSJhIU+ue
+         jMwuuTywPWgeUL2mQ8Ik5VaZv3VKkNnSxjZ+wLlfGQa5S4H6i6WQEtpXMMpuhRwBqPgl
+         l5rg==
+X-Gm-Message-State: AOAM532PQ8w7+qRIEnq7OAlvDODFUce7bYfaJGjarCw+KTRlpt3WDiVQ
+	9toVFAeoz2i6jd3xTHwHgkTyJeEyu0IB0Ogi
+X-Google-Smtp-Source: ABdhPJwWAgnYwuQ3ztKnryb3WQuSuhywV67noRiVHc3001ab4skPp5FLf1kUI7vj27KlTzFA+qil6g==
+X-Received: by 2002:a63:fb48:: with SMTP id w8mr2746506pgj.218.1603381929544;
+        Thu, 22 Oct 2020 08:52:09 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com ([99.197.43.113])
+        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.52.05
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2020 08:52:08 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] weston: Fix PACKAGECONFIG for remoting
-Date: Thu, 22 Oct 2020 19:58:41 +0800
-Message-Id: <83b4a9e791618f1f803a15fb8dd425b9e8aff2ac.1603367872.git.liezhi.yang@windriver.com>
+Subject: [OE-core][dunfell 00/14] Patch review
+Date: Thu, 22 Oct 2020 05:51:33 -1000
+Message-Id: <cover.1603381704.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1603367872.git.liezhi.yang@windriver.com>
-References: <cover.1603367872.git.liezhi.yang@windriver.com>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK0PR01CA0067.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::31) To SN6PR11MB2909.namprd11.prod.outlook.com
- (2603:10b6:805:d5::13)
-Return-Path: liezhi.yang@windriver.com
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core1.wrs.com (60.247.85.82) by HK0PR01CA0067.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28 via Frontend Transport; Thu, 22 Oct 2020 11:42:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7e85b5d6-4048-4816-7c5c-08d8767f87f2
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3117:
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB3117DD453E6963034A02E011FF1D0@SN6PR11MB3117.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:330;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	udT1xJnbx+JqwYYNtKpO7mt31WuOenUKH+0NADrpBpA+/ockROlk9TgbEKJ2nxqZiM05/SbTFzVVzuaaZqwvjW3/5CkYKuknK60fwGEccJC+qED4k28C+BuBhoQL2v5md4q1rKCI2/1vwtKmIngUXJMLIvBPYNuZZ2SCcQwvjhWDgBRTTpz5+fOIXrX/VQi4aJ/CsfufYJp6NAAJPWJuDHqAOcxB0tIQLyPRDn6ivafR88l1Z+C/h2hkpQ7Yszrjr450gjAjrumw1ypaUplyyBQCAApIw8K/qBVpKHlDUdHVzIEVxJqlBAr6Q4+lrzUf
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(346002)(376002)(366004)(396003)(136003)(8676002)(956004)(316002)(26005)(2906002)(6506007)(4744005)(16526019)(186003)(2616005)(478600001)(66556008)(6666004)(66946007)(36756003)(66476007)(83380400001)(6512007)(52116002)(8936002)(5660300002)(6486002)(6916009)(86362001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	2M2KpXAmTQnRBW25bmGxiKLXlhSPWF+Xqp5G0fn+VgJzgNfjQY3YjE5KJfGqSNx40fbHfpoQEfOkA73iXu+gR82o9RQMHfE3iEvPUYHupkN+vyHGQPoKCFcFUPZ05qOxWgLr0Qv4U7Nk38pkow35qwpKUqAOqQm6K5w8YkFY+kRZ1jypLtxhHwEr/Ltb6Cpx9ufGc7StrE7Z3fAkY5jcxYOjNbhpuQgfCHkPSigbLjse+8p63xgKy7Tes4cbWDkCeGqjPpNtlXUvoAMwMoFQCxICCp/86pJ6qCIrB66ZlhrOMxphg3t5X9sprVxViQ9MQmKb9YR0FGWQL7bPyY4cjucrsejz6rrDH0PxsRAdHV3hALvtWxlYaMbHAyHLvOa0FJ4w3JKnDEim0Wq8bnmM6QDpiYPQImatI/bcT9linUrMXl+wT+LGv85LUx0/bwRVPuCnzMjgsgi/4XtgRCIJXls9LvjverzU0K+G2+UpjbRzo0C1kG0TySrqqPUcV/+0IuH4FDbQM7dPx+VjewtpbtWZcU75de6G5DAitv7bMTJljhXFrvgMKSzH+byPVK2pCCFUI70liXIPxUnh75XQg6y/o2SvDFPurAUMU8gS6vGESVQjFwA3zNLvngeaVaxuogKWpZ8FV+KhpUa+kvokDg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e85b5d6-4048-4816-7c5c-08d8767f87f2
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2020 11:42:18.9983
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xne/DEG5U0rNqBa6aSK/Um+/K0GqaM2Y0uIYsgustgJp7sWzhFNH06owiBzl630N9Xe/nnKEPSGSG0+FOXoaCwTnfNdmT4euB4KCmzlk8Xo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3117
-Content-Type: text/plain
 
-Fix a typo: gstreamer-1.0 -> gstreamer1.0.
+Please review this next set of patches for dunfell and have comments back
+by end of day Monday.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-graphics/wayland/weston_9.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Passed a-full on autobuilder:
 
-diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-index 0b037a3770..75f9fb05fd 100644
---- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
-@@ -73,7 +73,7 @@ PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-color
- # Clients support
- PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
- # Virtual remote output with GStreamer on DRM backend
--PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
-+PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0"
- # Weston with PAM support
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
- # Weston with screen-share support
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1501
+
+The following changes since commit 3ee9590f96cb50e93864db768b254773e2ff9465:
+
+  uninative: Fix typo in error message (2020-10-19 04:27:15 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Alexander Kanavin (1):
+  selftest/virgl: drop the custom 30 sec timeout
+
+Changqing Li (1):
+  toolchain-shar-extract.sh: don't print useless info
+
+Khem Raj (1):
+  packagegroup-core-tools-debug: Disable for rv32/glibc as well
+
+Lee Chee Yang (3):
+  libproxy: fix CVE-2020-25219
+  python3: fix CVE-2020-26116
+  grub2: fix CVE-2020-10713
+
+Martin Jansa (7):
+  arch-armv7a.inc: fix typo
+  arch-mips.inc: remove duplicated mips64el-o32 from
+    PACKAGE_EXTRA_ARCHS_tune-mips64el-o32
+  tune-mips64r6.inc: fix typo in mipsisa64r6-nf
+  tune-ep9312.inc: add t suffix for thumb to
+    PACKAGE_EXTRA_ARCHS_tune-ep9312
+  tune-riscv.inc: use nf suffix also for TUNE_PKGARCH
+  siteinfo: Recognize 32bit PPC LE
+  siteinfo: Recognize bigendian sh3be and sh4be
+
+Victor Kamensky (1):
+  qemu: change TLBs number to 64 in 34Kf mips cpu model
+
+ meta-selftest/lib/oeqa/runtime/cases/virgl.py |   2 +-
+ meta/classes/siteinfo.bbclass                 |   5 +
+ meta/conf/machine/include/arm/arch-armv7a.inc |   2 +-
+ meta/conf/machine/include/mips/arch-mips.inc  |   2 +-
+ .../conf/machine/include/riscv/tune-riscv.inc |   4 +-
+ meta/conf/machine/include/tune-ep9312.inc     |   3 +-
+ meta/conf/machine/include/tune-mips64r6.inc   |   2 +-
+ meta/files/toolchain-shar-extract.sh          |   2 +-
+ .../grub/files/CVE-2020-10713.patch           |  73 ++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ .../packagegroup-core-tools-debug.bb          |   2 +-
+ .../python/python3/CVE-2020-26116.patch       | 104 ++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ ...ease-number-of-TLB-entries-on-the-34.patch |  59 ++++++++++
+ .../libproxy/libproxy/CVE-2020-25219.patch    |  61 ++++++++++
+ .../libproxy/libproxy_0.4.15.bb               |   1 +
+ 17 files changed, 315 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-10713.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-26116.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch
+ create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch
+
 -- 
 2.17.1
 
