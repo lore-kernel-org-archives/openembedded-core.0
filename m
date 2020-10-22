@@ -1,92 +1,91 @@
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com [209.85.221.194])
- by mx.groups.io with SMTP id smtpd.web10.1917.1603394808005249265
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web09.672.1603397464976128275
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 12:26:48 -0700
+ Thu, 22 Oct 2020 13:11:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DVIaTIu1;
- spf=pass (domain: gmail.com, ip: 209.85.221.194, mailfrom: armccurdy@gmail.com)
-Received: by mail-vk1-f194.google.com with SMTP id t67so640290vkb.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 12:26:47 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=APDQS8eU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id b8so4728801wrn.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 13:11:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yD/C2nzhIPPXoaIILxePU3Cxvob5eXZUYm9duqo9SAk=;
-        b=DVIaTIu1sSM8pDFNwpcrGAh9UhNV5uF4xklLDEyZiQ52XCICDs4JdgKTPo+qMesVKi
-         AwFhmPfS04IK7qKRoQVKbmtFnmiTX/AHM5JGC1muH0SvzrcjWuADwJiQqQEE6/TYEHUV
-         VfU33h07O61Ob38wpXT3NaCW18vZflFb7+lT2CiSze0I4jwUxj2K7VGjz6KnxrupSVxy
-         CN/BZJBZn+GWKufBfy/rlV+uvyV4AcIKAgV8SlKpcQ2R/cQx6xcLunUl983WCljhh83i
-         QwiiF4C9Y8Hz6cq1xxSXmYKPnUI36gDiBCXIIHky96AsrSW8rtid/PG5u6llAPyqHH3u
-         JWKA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=IwJOp1a89EHOAzwCJrXC/v0dhhzaSDXg+nwZvuf/QKk=;
+        b=APDQS8eU8lJXtyx4mpmDWGJ0UjPVqjFJnGFrigRSAASpraS4zKsoKIPP+YgHtyUzbp
+         gbfHoZgaLMn7gbM1P/voFzGw4SCvrKZHN93JlJ/h/teFCFPB15rzfGh+Kd8GvO5Lfs+G
+         wEI+S323pqbfSlkF8I6/pY1jluzIwgpyNHpBg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yD/C2nzhIPPXoaIILxePU3Cxvob5eXZUYm9duqo9SAk=;
-        b=CPmAzLtLfl9ilCEvV+ghki3ocycNyHGqONX9rpmucScerTSGXu4xzZRVywKk7Pa9Gr
-         CLuKRpUsw3CVnsFAjSUKeV7bdVMrDKVRYjtL/88xr0Whmlv1bCkgRU3y6KAQ4j4ZojdA
-         V0nkU79v3jkpZK2uu4zvxhvR/sa5nLjWOQ9D6mNbanMX3m1F77wQlmz13XF8x/4nmEI1
-         IPkUuC87K9Pv4Q8xnhr5IAm2bHOZDdxkm/S1xp5T3mKA4X7IDlteu+jVveVaObxyOlkI
-         fSXXpS5T5wkdQ6a22aN5Owtx3GJvZCy+8QK4VCi5PPqPknP456LN7PimXZLkHDbk99r4
-         Wf2A==
-X-Gm-Message-State: AOAM533WHv0J4naUruRxzmqzQ+J4b/gS7fOZPxcKh2GPfVMp1HbqsnnE
-	ZEk6pvN1Oy8p4B/s89WigpXQEz9TMXfnXC+HbNM=
-X-Google-Smtp-Source: ABdhPJyKhqrkbXBUFlLsq9H1NrCEIZgymrUlcG9Y9a9kRfLbF+lj5roP196S058AemMRoCIuPxN46kogb3m+zCaAbck=
-X-Received: by 2002:a1f:38cb:: with SMTP id f194mr3092156vka.22.1603394807004;
- Thu, 22 Oct 2020 12:26:47 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=IwJOp1a89EHOAzwCJrXC/v0dhhzaSDXg+nwZvuf/QKk=;
+        b=HcFRXyePry9ILEKoAofcBD5aM4RlYMXumLCKs/mUT84Qs+DqMt4ghSX8/1jwChA3Pn
+         4AGdtxfGwzrdLo8pmi89L3oi3pSAy7wdz2538dlwfjoq5m+ZPTLFwzI/cJqXiZBQqt0A
+         a4STBEDdVcjSz2tdS6m37wQUoewCZeLLe2NCwVtvj8AdG+jvxaVsFILPu1orajmC9NG5
+         kjxKqibiemZeTt+n4CIANrsM2qIi4puAA/NUJo2CHmP0Yhu3I+HDn7xZ8y1v7hRpg4HY
+         C1QDyRDuccITHA/FKzM9BriZfqw9kVUp6oJus2JOVpm0wEMGgvFnDeflRCD5cTSAz1C5
+         0zWQ==
+X-Gm-Message-State: AOAM532lsyuM3fUxhTCuo4vhs7vJlT0CdzKBki9n6fpgeT+8vubYdwVK
+	aQPc0dm/ucVFRoAt61/piKhz6g==
+X-Google-Smtp-Source: ABdhPJwuaKMFgd2MA3fODwtaiwXFjpwjPMkNwv2JyRWHt8whJnEnOPgauFYtzIGJTfBhKQb1qNBLeA==
+X-Received: by 2002:a5d:6506:: with SMTP id x6mr4766230wru.71.1603397463599;
+        Thu, 22 Oct 2020 13:11:03 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:5d2f:b755:7bf1:d36a])
+        by smtp.gmail.com with ESMTPSA id l1sm5990190wrb.1.2020.10.22.13.11.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2020 13:11:03 -0700 (PDT)
+Message-ID: <0b8c63800f9b0c70e7949ec1244c5061efe2c746.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] multilib_header.bbclass: Do not install the stubs for non-multilib case
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Oct 2020 21:11:02 +0100
+In-Reply-To: <16daa853-ba5a-af7b-40f7-8b4e757848be@gmail.com>
+References: <20201021210932.984184-1-raj.khem@gmail.com>
+	 <d4a88c9df72243f4e334d3b408200062b6113b59.camel@linuxfoundation.org>
+	 <CAMKF1sp+iH=H3yTPWSr_6iSJK2F0yDGBHk59K_zq4_6JYLwwUQ@mail.gmail.com>
+	 <16daa853-ba5a-af7b-40f7-8b4e757848be@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20201016095531.140098-1-Martin.Jansa@gmail.com> <20201016095531.140098-2-Martin.Jansa@gmail.com>
-In-Reply-To: <20201016095531.140098-2-Martin.Jansa@gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 22 Oct 2020 12:25:30 -0700
-Message-ID: <CAJ86T=WdocqoYgd_nZ0M8mn372ERZsDG_Lrh26HuWzSwtYfW3g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] tune-ep9312.inc: add t suffix for thumb to PACKAGE_EXTRA_ARCHS_tune-ep9312
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 16, 2020 at 2:55 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
->
-> * broken since:
->   commit 805dd4807d322dc70cef97edd68fdb3142b60fb1
->   Author: Andre McCurdy <armccurdy@gmail.com>
->   Date:   Fri Aug 23 13:51:36 2019 -0700
->
->     feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX
->
-> * since this commit the 't' suffix is set ARM_THUMB_SUFFIX by
->   armv4 override (which does apply for ep9312 tune) instead of
-
-This doesn't sound right. The armv4 override is being added to
-MACHINEOVERRIDES (it's even shown in the patch context below). Is that
-somehow not working?
-
->   armv4 in TUNE_FEATURES - so the comment in the file was no
->   longer correct and ep9312 wasn't usable
->
-> * fixes:
->   scripts/tune/log.fake-ep9312:    Error, the PACKAGE_ARCHS variable (all any noarch arm armv4 armv4t ep9312 fake_ep9312) for DEFAULTTUNE (ep9312) does not contain TUNE_PKGARCH (ep9312t).
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/conf/machine/include/tune-ep9312.inc | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
-> index 11fd266ba0..5e1a0e5791 100644
-> --- a/meta/conf/machine/include/tune-ep9312.inc
-> +++ b/meta/conf/machine/include/tune-ep9312.inc
-> @@ -8,6 +8,5 @@ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', 'armv4:', '
->
->  AVAILTUNES += "ep9312"
->  ARMPKGARCH_tune-ep9312 = "ep9312"
-> -# this tune does not include TUNE_FEATURES_tune-armv4t, so there is no armv4 TUNE_FEATURES => no 't' in ARMPKGSFX_THUMB
->  TUNE_FEATURES_tune-ep9312 = "thumb ep9312"
-> -PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} ep9312"
-> +PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} ep9312t"
-> --
-> 2.25.1
->
->
+On Thu, 2020-10-22 at 12:21 -0700, Khem Raj wrote:
+> I ran a few combination builds without this patch applied.
 > 
->
+> build core-image-minimal/qemux86-64
+> 
+> then add just following to local.conf
+> 
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> 
+> and rebuild core-image-minimal
+> 
+> here is buildhistory-diff output ( before and after adding multilib to 
+> local.conf)
+> 
+> http://sprunge.us/oM7Fg3
+> 
+> It ends up rebuilding all target packages inclduing some cross packages 
+> e.g. libtool-cross, native sstate it still re-used and that remains so 
+> with above patch applied as well.
+> 
+> Therefore this patch does not make things any different than they are 
+> currently.
+> 
+> Let me know if I should be checking more things.
+
+Imagine you configure 64 bit x86 to use /lib64 in all situations (which
+many do now, it probably should be the default).
+
+Then rerun that test. I doubt core2-64 will rebuild in that case but it
+will after your patch.
+
+Cheers,
+
+Richard
+
