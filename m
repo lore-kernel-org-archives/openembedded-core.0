@@ -1,96 +1,87 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.7976.1603358496226761076
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web09.8439.1603361810499305041
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 02:21:36 -0700
+ Thu, 22 Oct 2020 03:16:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VNi1DuBj;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id h5so1304975wrv.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 02:21:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gFDQGKdx;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id y12so1543433wrp.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 03:16:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=7TBX2U4h3L5csT3F7oSRq1deRZsnqLBNO8WCbX67nY8=;
-        b=VNi1DuBjrmQB8+JHH7t3bmZWNyEZZUWOHMENIQt/fh/rOcPc5QlLh1bk0unZbhnAnD
-         y8zGkrHFuISIIGtpFAfhNWnDhH2qBFSUSk16U70dKIi6IGuHUdkPCV+555DyV8kw+I2l
-         VaMW0JEqBCcaneUMkgQCLdQEE2cLl50vVZzj8RN0WK0L3lyFJ3w6iIjA4zsKctWnMnoh
-         oKjPIsvL22dth3WWuhWjCv49yPRe7pZxD1ype6+SJc109HGuF6TVVCvjdupYfhFYMHvy
-         Vn09CGnaU/MEaWCL9Mtyf40KlF82soJXpbMBgFtioAARImYoRmiUihY39BRkTgbxhPGh
-         HNpQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=UBusXDjVRgUADQCba+l2wMJS7TOq5uHBmWK/iHp2cTM=;
+        b=gFDQGKdxO3+fIZm9WfJEiFbV4EXyuV3FMSrCWip6c87Pc4cbT3SiwNez33MeetV7v+
+         HRvCQ6O7ItdGKHFfu0QpNGEXI8RMhP3A/Z04gzmej6SbRSTD0kIMI0TLxar7mLdRu97G
+         8tJYRSdRu8t++wGdjiNyAPQAXn0v8gv9l4Ncw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=7TBX2U4h3L5csT3F7oSRq1deRZsnqLBNO8WCbX67nY8=;
-        b=Aw92ECxNQFhwZK32ATpQ8e8ozin3qq1DooNkB7KP6PyfBVuXXu+iosJxRuZg8otmAO
-         tcCFdbmy4+sxfsDVx9lb6jTe00MbPtshF/+w7jqZ314L3wcWfQ1dDtvgwfKDW4yxahkM
-         4qAIFzsmyxOgJceaGuO3HegOQKgJpUHwOdnaDqne8ShtOFoEOAOjY8fUKiOvWbONTyHs
-         BtEStYkQ2jYUZOg77w4GIF4fD9roq+mM682yWZ6qBnq+LGrPCZzSPXbG0ln5JohklCph
-         sUzM9kMeaph6c4ACaEPNbwG4oMlowkE4KCoIUL9dfDFPA5PDTYZvfVpvv4oSeOzcambq
-         N7ng==
-X-Gm-Message-State: AOAM531UBC4hCBCugLd0E4/SC5NHJRgK4IdIRmnnWVPLwuz21U62pLGY
-	GqV0oj7D5eYAA97lJjN/c0M=
-X-Google-Smtp-Source: ABdhPJyYyz6mWCVK6I4L0NxCtsJotAFbpSE0YyomLTFKVLOgw9ulzah+l13CEfQI0NFKp8kHfLFMtA==
-X-Received: by 2002:a5d:54c8:: with SMTP id x8mr1601445wrv.286.1603358494834;
-        Thu, 22 Oct 2020 02:21:34 -0700 (PDT)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from bluca-lenovo ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id r3sm2638418wrm.51.2020.10.22.02.21.33
+        bh=UBusXDjVRgUADQCba+l2wMJS7TOq5uHBmWK/iHp2cTM=;
+        b=XVRE0CP33hUpqjnmo3jCvLekNLgd/xXd5DT8b/BjhscGogb0mOJvJR7RrE0jwAAvDD
+         aBe1iBZNKgmy+dc2qwDpp0AaHwTIDa5MW9PMKYTXjQ526orcoG4/kDExjXtCvkJ33RmO
+         91St0uYvccfl5DqBjv6vmSwmvs0zf+9R2ROAhT1HeH2d+1UzDw3B08vkKk06vGi4pV+7
+         ZiRn6MjwSsCQjmGSCrECYLT4JLZ77fg9e4FJOZd18zkVhO175CPL6/E0UqbQL+urk/hd
+         flOMEZEJQbGXSiOhkaWPTGJi6qYUwCNvuJSa/yi8sGwFLmqTzwbuft6m2+cBqujEP58B
+         qM0Q==
+X-Gm-Message-State: AOAM533e2L78aGohG6L9i16ok08MVS+9OlvrANR7VO5OiujEA0fichw1
+	2ex+3LcSC1Ug+pe/fVzhkFErhQ==
+X-Google-Smtp-Source: ABdhPJw2TeYemzdNwgVLqTwht1OZ6C53SpuDtqJXy4qYpBzsUdNfPX07Hoi3OQG7gGRq+EY39mo9iA==
+X-Received: by 2002:adf:eb04:: with SMTP id s4mr2024853wrn.81.1603361808988;
+        Thu, 22 Oct 2020 03:16:48 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:5d2f:b755:7bf1:d36a])
+        by smtp.gmail.com with ESMTPSA id q6sm2899795wma.0.2020.10.22.03.16.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 02:21:33 -0700 (PDT)
-Message-ID: <f331436c48d4109a69199ff247132fc684c94524.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH] Add new recipe for squashfs-tools-ng
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: Konrad Weihmann <kweihmann@outlook.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2020 10:21:33 +0100
-In-Reply-To: <VI1PR01MB6462255CF43C3222C6DF6281A81C0@VI1PR01MB6462.eurprd01.prod.exchangelabs.com>
-References: <20201021155857.2841570-1-luca.boccassi@gmail.com>
-	 <VI1PR01MB6462255CF43C3222C6DF6281A81C0@VI1PR01MB6462.eurprd01.prod.exchangelabs.com>
-User-Agent: Evolution 3.30.5-1.1 
+        Thu, 22 Oct 2020 03:16:48 -0700 (PDT)
+Message-ID: <63688d349ae0d710cf2f139c22df4dc76c3aac3b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Fix install path since S doesnt have a trailing slash
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>, Alejandro
+	Hernandez Samaniego <alejandro@enedino.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Oct 2020 11:16:46 +0100
+In-Reply-To: <20201022083612.kourjuijorkmw26a@qschulz>
+References: <20201022083222.1506844-1-alejandro@enedino.org>
+	 <20201022083612.kourjuijorkmw26a@qschulz>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-10-21 at 21:08 +0200, Konrad Weihmann wrote:
-> On 21.10.20 17:58, Luca Bocassi wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > 
-> > The main difference with squashfs-tools is the availability
-> > of a shared library and a programmatic interface, rather
-> > than just command-line tools.
-> > 
-> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > ---
-> >   .../squashfs-tools-ng_git.bb                  | 37 +++++++++++++++++++
-> >   1 file changed, 37 insertions(+)
-> >   create mode 100644 meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
-> > 
-> > diff --git a/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
-> > new file mode 100644
-> > index 0000000000..bbc5f86ae9
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_git.bb
-> > @@ -0,0 +1,37 @@
-> > +SUMMARY = "New set of tools for working with SquashFS images"
-> > +SECTION = "base"
-> > +LICENSE = "GPLv3+ & LGPL-3.0+"
+On Thu, 2020-10-22 at 10:36 +0200, Quentin Schulz wrote:
+> Hi Alejandro,
 > 
-> A bit of nitpick, but with all the license files mentioned below the 
-> LICENSE setting looks wrong to me.
-> I would at least expect some BSD and zLib SPDX identifiers here.
+> On Thu, Oct 22, 2020 at 02:32:22AM -0600, Alejandro Hernandez Samaniego wrote:
+> > Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+> > ---
+> >  .../baremetal-examples/baremetal-helloworld_git.bb            | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> > index 7a580bd885..946a12d0a5 100644
+> > --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> > +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+> > @@ -40,8 +40,8 @@ EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
+> >  # Install binaries on the proper location for baremetal-image to fetch and deploy
+> >  do_install(){
+> >      install -d ${D}/${base_libdir}/firmware
+> > -    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
+> > -    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
+> > +    install -m 755 ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
+> > +    install -m 755 ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
+> 
+> I'm almost certain do_install is being run under the ${B} directory by
+> default:
+> https://docs.yoctoproject.org/ref-manual/ref-tasks.html#do-install
+> 
+> So I'd actually just remove ${B} (or ${B}/) from the path?
 
-Added MIT, Zlib and BSD-2-Clause in v2.
+Personally, I think it makes it more obvious what is going on...
 
-> To be super exact one would have to take the PACKAGECONFIG into account 
-> to get the correct value
+Cheers,
 
-The binary is distributed under the terms of GPL3 regardless, so not
-sure it's worth the complications? Is it required/commonly done in
-other recipes?
-
--- 
-Kind regards,
-Luca Boccassi
+Richard
 
