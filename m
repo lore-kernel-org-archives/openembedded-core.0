@@ -1,160 +1,62 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web09.6707.1603350968999049214
+Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
+ by mx.groups.io with SMTP id smtpd.web08.7471.1603355547806845468
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 00:16:09 -0700
+ Thu, 22 Oct 2020 01:32:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,403,1596470400"; 
-   d="scan'208";a="100400975"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 22 Oct 2020 15:16:04 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id ADA544CE1504
-	for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 15:15:59 +0800 (CST)
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 22 Oct 2020 15:15:59 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77])
- by G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77%14]) with
- mapi id 15.00.1497.006; Thu, 22 Oct 2020 15:15:59 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: "Zang, Ruochen" <zangrc.fnst@cn.fujitsu.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] harfbuzz: Refresh patch
-Thread-Topic: [OE-core] [PATCH] harfbuzz: Refresh patch
-Thread-Index: AQHWlt79n9ia46P77kmzVqAOmaUg1amjWJjw
-Date: Thu, 22 Oct 2020 07:15:59 +0000
-Message-ID: <a7301fed8a294e5fae8f9aad9ea23b9b@G08CNEXMBPEKD04.g08.fujitsu.local>
-References: <1639740B89D6A722.21243@lists.openembedded.org>
-In-Reply-To: <1639740B89D6A722.21243@lists.openembedded.org>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.81]
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.161.66, mailfrom: aehs29@gmail.com)
+Received: by mail-oo1-f66.google.com with SMTP id x1so160324ooo.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 01:32:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OHqwgqHD7+t9240a/lK8xkwGH3UHLJp1eWJ/35HKAhk=;
+        b=bTu+ZN2dq0bpNF5sfHdh57N+gNroo4chVd/FGl3Eps+3nLeH3nwtKIXNPBRMPbctDQ
+         eA01aK2mPZXORhOgHhiKhtpQLJ3guN4gZRGlJAGPeL8fqAWDCHOAyZZGBuGQyeycgeAq
+         N2Fke3Gmr3Q2hkNAHNRPehrxV3T1FU031nK0k4MiF+kDPqNkBDKVIL7EDXSlmycLAdkm
+         nFS570ZmhAvftL4jAcADySnITAq/ib/6zqBrdnkddXIcEdVTtiFoY8okQq4KwIpHm1KV
+         JvuVU/yaH/3WQrQaO+idxkdppN70djtRkDBu+1M2DjWgclaI5qjREh39bT93jFcP1eAs
+         /zFw==
+X-Gm-Message-State: AOAM5328K2L/HPL6YhWKMHf6X9/hLp9WLhKr6VielfnF3S6CcYN1K5/j
+	WEyLM3uvCZc/XieBIvFgxx4MvvK9CrWjfQ==
+X-Google-Smtp-Source: ABdhPJxV2gkL+XkJwjQeLCWDbXPw/smPltcO7Fo3F+z3JV/rf0I+FCI3JnEikQKP9Zl4yU4QqRkFJQ==
+X-Received: by 2002:a4a:e93a:: with SMTP id a26mr1203776ooe.58.1603355546696;
+        Thu, 22 Oct 2020 01:32:26 -0700 (PDT)
+Return-Path: <aehs29@gmail.com>
+Received: from alsamon-xub.lan ([2605:6000:1306:9479:11c5:a222:ef1f:ef8d])
+        by smtp.gmail.com with ESMTPSA id e91sm254267ote.1.2020.10.22.01.32.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2020 01:32:26 -0700 (PDT)
+From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Subject: [PATCH] baremetal-helloworld: Fix install path since S doesnt have a trailing slash
+Date: Thu, 22 Oct 2020 02:32:22 -0600
+Message-Id: <20201022083222.1506844-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: ADA544CE1504.A7DAE
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-cGluZw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9w
-ZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBP
-biBCZWhhbGYgT2YgemFuZ3JjDQo+IFNlbnQ6IFdlZG5lc2RheSwgU2VwdGVt
-YmVyIDMwLCAyMDIwIDEyOjA1IFBNDQo+IFRvOiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFtPRS1jb3Jl
-XSBbUEFUQ0hdIGhhcmZidXp6OiBSZWZyZXNoIHBhdGNoDQo+IA0KPiBCZWNh
-dXNlIHR3byBtb2RpZmljYXRpb25zIGNvbmZsaWN0IGluIHRoZSBwYXRjaCwg
-ZG9fcGF0Y2ggd2lsbCBtYWtlIGFuIGVycm9yDQo+IHdoZW4gdXNpbmcgcGF0
-Y2ggYXMgYSBwYXRjaHRvb2wuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBaYW5n
-IFJ1b2NoZW4gPHphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29tPg0KPiAtLS0N
-Cj4gIC4uLi9oYXJmYnV6ei9oYXJmYnV6ei92ZXJzaW9uLXJhY2UucGF0Y2gg
-ICAgICB8IDc2ICsrKysrKystLS0tLS0tLS0tLS0NCj4gIDEgZmlsZSBjaGFu
-Z2VkLCAyNiBpbnNlcnRpb25zKCspLCA1MCBkZWxldGlvbnMoLSkNCj4gDQo+
-IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enov
-aGFyZmJ1enovdmVyc2lvbi1yYWNlLnBhdGNoDQo+IGIvbWV0YS9yZWNpcGVz
-LWdyYXBoaWNzL2hhcmZidXp6L2hhcmZidXp6L3ZlcnNpb24tcmFjZS5wYXRj
-aA0KPiBpbmRleCAyZDY5MmYzNmI1Li45MzRiZmI4NzM3IDEwMDY0NA0KPiAt
-LS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enov
-dmVyc2lvbi1yYWNlLnBhdGNoDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1ncmFw
-aGljcy9oYXJmYnV6ei9oYXJmYnV6ei92ZXJzaW9uLXJhY2UucGF0Y2gNCj4g
-QEAgLTEsMjQgKzEsMzUgQEANCj4gLVVwc3RyZWFtLVN0YXR1czogQmFja3Bv
-cnQNCj4gW2h0dHBzOi8vZ2l0aHViLmNvbS9oYXJmYnV6ei9oYXJmYnV6ei9j
-b21taXQvNWFmZjgzMTA0ZTAzZDZkMjYxNzk4Nw0KPiBkMjRhNTFlNDkwYWI3
-YTVjZDFdDQo+IC1TaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5i
-dXJ0b25AYXJtLmNvbT4NCj4gLQ0KPiAtRnJvbSBiYzFjOTNmYmUwNDQ1OWE0
-YjEyYzc2YzcxM2JhMWI3NTBkMmQ5MTA4IE1vbiBTZXAgMTcNCj4gMDA6MDA6
-MDAgMjAwMQ0KPiAtRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFy
-bS5jb20+DQo+IC1EYXRlOiBNb24sIDcgU2VwIDIwMjAgMTc6MTE6MTcgKzAx
-MDANCj4gLVN1YmplY3Q6IFtQQVRDSCAxLzJdIFtidWlsZF0gTm8gbmVlZCB0
-byBwYXNzIHNvdXJjZSBkaXJlY3RvcnkgdG8NCj4gLSBnZW4taGItdmVyc2lv
-bg0KPiArRnJvbSA2Y2NhZGVjMWZhZTZhNzM3NDliN2RmZTIzMTFmNzFkMGU2
-MTBlODEyIE1vbiBTZXAgMTcNCj4gMDA6MDA6MDAgMjAwMQ0KPiArRnJvbTog
-WmFuZyBSdW9jaGVuIDx6YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbT4NCj4g
-K0RhdGU6IFdlZCwgMzAgU2VwIDIwMjAgMTA6MzA6MDggKzA5MDANCj4gK1N1
-YmplY3Q6IFtQQVRDSF0gTm8gbmVlZCB0byBwYXNzIHNvdXJjZSBkaXJlY3Rv
-cnkgdG8gZ2VuLWhiLXZlcnNpb24NCj4gDQo+ICBUaGUgaW5wdXQgZmlsZSBp
-cyBieSBkZWZpbml0aW9uIGluIHRoZSBzb3VyY2UgZGlyZWN0b3J5LCBzbyBk
-aXJuYW1lKCkgIHRoYXQgaW5zdGVhZA0KPiBvZiBuZWVkaW5nIHRoZSBkaXJl
-Y3RvcnkgdG8gYmUgcGFzc2VkLg0KPiANCj4gIE5lZWRlZCBiZWNhdXNlIGEg
-Zm9sbG93LXVwIGNvbW1pdCB3aWxsIGNoYW5nZSB3aGVuIHRoaXMgaXMgY2Fs
-bGVkLCBhbmQgdGhlDQo+IHNvdXJjZSBkaXJlY3RvcnkgaXNuJ3QgdHJpdmlh
-bGx5IGF2YWlsYWJsZSBhdCB0aGF0IHBvaW50Lg0KPiArDQo+ICtnZW5lcmF0
-ZSBoYi12ZXJzaW9uLmggb25jZSBhdCBjb25maWd1cmUgdGltZSB3aXRoIE1l
-c29uDQo+ICsNCj4gK0N1cnJlbnRseSB3aXRoIE1lc29uIGhiLXZlcnNpb24u
-aCBpcyBnZW5lcmF0ZWQgZHVyaW5nIHRoZSBidWlsZCB3aXRob3V0DQo+ICth
-bnkgZXhwbGljaXQgZGVwZW5kZW5jaWVzIHdoaWNoIGNhbiByZXN1bHQgaW4g
-YnVpbGQgZmFpbHVyZXMgZHVlIHJhY2VzDQo+ICtvdmVyIHRoZSBmaWxlLg0K
-PiArDQo+ICtDaGFuZ2UgdGhpcyB0byBiZSBnZW5lcmF0ZWQgYXQgY29uZmln
-dXJlIHRpbWUsIHNvIHRoYXQgdGhlIGZpbGUgaXMNCj4gK2Fsd2F5cyBnZW5l
-cmF0ZWQgb25jZSBiZWZvcmUgdGhlIGJ1aWxkIGl0c2VsZi4NCj4gKw0KPiAr
-Q2xvc2VzICMyNjY3DQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3Bv
-cnQNCj4gK1todHRwczovL2dpdGh1Yi5jb20vaGFyZmJ1enovaGFyZmJ1enov
-Y29tbWl0LzVhZmY4MzEwNGUwM2Q2ZDI2MTc5OA0KPiA3ZDI0YQ0KPiArNTFl
-NDkwYWI3YTVjZDFdDQo+ICtTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8
-cm9zcy5idXJ0b25AYXJtLmNvbT4NCj4gK1NpZ25lZC1vZmYtYnk6IFphbmcg
-UnVvY2hlbiA8emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ICAtLS0N
-Cj4gLSBzcmMvZ2VuLWhiLXZlcnNpb24ucHkgfCA2ICsrKy0tLQ0KPiAtIHNy
-Yy9tZXNvbi5idWlsZCAgICAgICB8IDIgKy0NCj4gLSAyIGZpbGVzIGNoYW5n
-ZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4gKyBzcmMv
-Z2VuLWhiLXZlcnNpb24ucHkgfCAgNiArKystLS0NCj4gKyBzcmMvbWVzb24u
-YnVpbGQgICAgICAgfCAxNyArKysrKysrKy0tLS0tLS0tLQ0KPiArIDIgZmls
-ZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMTIgZGVsZXRpb25zKC0p
-DQo+IA0KPiAgZGlmZiAtLWdpdCBhL3NyYy9nZW4taGItdmVyc2lvbi5weSBi
-L3NyYy9nZW4taGItdmVyc2lvbi5weSAtaW5kZXgNCj4gMTVlNTZiOTMuLmJm
-MTZmODhhIDEwMDc1NQ0KPiAraW5kZXggMTVlNTZiOS4uYmYxNmY4OCAxMDA3
-NTUNCj4gIC0tLSBhL3NyYy9nZW4taGItdmVyc2lvbi5weQ0KPiAgKysrIGIv
-c3JjL2dlbi1oYi12ZXJzaW9uLnB5DQo+ICBAQCAtNCwxNSArNCwxNSBAQA0K
-PiBAQCAtNDEsNDIgKzUyLDcgQEAgaW5kZXggMTVlNTZiOTMuLmJmMTZmODhh
-IDEwMDc1NQ0KPiAgIHdpdGggb3BlbiAoSU5QVVQsICJyIiwgZW5jb2Rpbmc9
-J3V0Zi04JykgYXMgdGVtcGxhdGU6DQo+ICAgCXdpdGggb3BlbiAoT1VUUFVU
-LCAid2IiKSBhcyBvdXRwdXQ6DQo+ICBkaWZmIC0tZ2l0IGEvc3JjL21lc29u
-LmJ1aWxkIGIvc3JjL21lc29uLmJ1aWxkIC1pbmRleCA1ZDdjZDU3OC4uMmQ3
-OGM5OTINCj4gMTAwNjQ0DQo+IC0tLS0gYS9zcmMvbWVzb24uYnVpbGQNCj4g
-LSsrKyBiL3NyYy9tZXNvbi5idWlsZA0KPiAtQEAgLTI4Niw3ICsyODYsNyBA
-QCBjdXN0b21fdGFyZ2V0KCdoYi12ZXJzaW9uLmgnLA0KPiAtICAgaW5wdXQ6
-ICdoYi12ZXJzaW9uLmguaW4nLA0KPiAtICAgb3V0cHV0OiAnaGItdmVyc2lv
-bi5oJywNCj4gLSAgIGNvbW1hbmQ6IFtmaW5kX3Byb2dyYW0oJ2dlbi1oYi12
-ZXJzaW9uLnB5JyksIG1lc29uLnByb2plY3RfdmVyc2lvbigpLA0KPiAtLSAg
-ICAgICAgICAgICdAT1VUUFVUQCcsICdAQ1VSUkVOVF9TT1VSQ0VfRElSQCcs
-ICdASU5QVVRAJ10sDQo+IC0rICAgICAgICAgICAgJ0BPVVRQVVRAJywgJ0BJ
-TlBVVEAnXSwNCj4gLSApDQo+IC0NCj4gLSByYWdlbCA9IGZpbmRfcHJvZ3Jh
-bSgncmFnZWwnLCByZXF1aXJlZDogZmFsc2UpDQo+IC0tLQ0KPiAtMi4yOC4w
-DQo+IC0NCj4gLQ0KPiAtRnJvbSA1YWZmODMxMDRlMDNkNmQyNjE3OTg3ZDI0
-YTUxZTQ5MGFiN2E1Y2QxIE1vbiBTZXAgMTcNCj4gMDA6MDA6MDAgMjAwMQ0K
-PiAtRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+DQo+
-IC1EYXRlOiBNb24sIDcgU2VwIDIwMjAgMTA6NTU6MzMgKzAxMDANCj4gLVN1
-YmplY3Q6IFtQQVRDSCAyLzJdIFtidWlsZF0gZ2VuZXJhdGUgaGItdmVyc2lv
-bi5oIG9uY2UgYXQgY29uZmlndXJlIHRpbWUNCj4gd2l0aA0KPiAtIE1lc29u
-DQo+IC0NCj4gLUN1cnJlbnRseSB3aXRoIE1lc29uIGhiLXZlcnNpb24uaCBp
-cyBnZW5lcmF0ZWQgZHVyaW5nIHRoZSBidWlsZCB3aXRob3V0IC0NCj4gYW55
-IGV4cGxpY2l0IGRlcGVuZGVuY2llcyB3aGljaCBjYW4gcmVzdWx0IGluIGJ1
-aWxkIGZhaWx1cmVzIGR1ZSByYWNlcyAtb3ZlciB0aGUNCj4gZmlsZS4NCj4g
-LQ0KPiAtQ2hhbmdlIHRoaXMgdG8gYmUgZ2VuZXJhdGVkIGF0IGNvbmZpZ3Vy
-ZSB0aW1lLCBzbyB0aGF0IHRoZSBmaWxlIGlzIGFsd2F5cyAtDQo+IGdlbmVy
-YXRlZCBvbmNlIGJlZm9yZSB0aGUgYnVpbGQgaXRzZWxmLg0KPiAtDQo+IC1D
-bG9zZXMgIzI2NjcNCj4gLS0tLQ0KPiAtIHNyYy9tZXNvbi5idWlsZCB8IDE3
-ICsrKysrKysrLS0tLS0tLS0tDQo+IC0gMSBmaWxlIGNoYW5nZWQsIDggaW5z
-ZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkNCj4gLQ0KPiAtZGlmZiAtLWdp
-dCBhL3NyYy9tZXNvbi5idWlsZCBiL3NyYy9tZXNvbi5idWlsZCAtaW5kZXgg
-MmQ3OGM5OTIuLjE5MjkwMjQ1DQo+IDEwMDY0NA0KPiAraW5kZXggNWUxNzg3
-Yy4uNTZkOGFlMiAxMDA2NDQNCj4gIC0tLSBhL3NyYy9tZXNvbi5idWlsZA0K
-PiAgKysrIGIvc3JjL21lc29uLmJ1aWxkDQo+ICBAQCAtMSwzICsxLDEwIEBA
-DQo+IEBAIC0xMTAsMTIgKzg2LDEyIEBAIGluZGV4IDJkNzhjOTkyLi4xOTI5
-MDI0NSAxMDA2NDQNCj4gIC0gIGlucHV0OiAnaGItdmVyc2lvbi5oLmluJywN
-Cj4gIC0gIG91dHB1dDogJ2hiLXZlcnNpb24uaCcsDQo+ICAtICBjb21tYW5k
-OiBbZmluZF9wcm9ncmFtKCdnZW4taGItdmVyc2lvbi5weScpLCBtZXNvbi5w
-cm9qZWN0X3ZlcnNpb24oKSwNCj4gLS0gICAgICAgICAgICAnQE9VVFBVVEAn
-LCAnQElOUFVUQCddLA0KPiArLSAgICAgICAgICAgICdAT1VUUFVUQCcsICdA
-Q1VSUkVOVF9TT1VSQ0VfRElSQCcsICdASU5QVVRAJ10sDQo+ICAtKQ0KPiAg
-LQ0KPiAgIHJhZ2VsID0gZmluZF9wcm9ncmFtKCdyYWdlbCcsIHJlcXVpcmVk
-OiBmYWxzZSkNCj4gICBpZiBub3QgcmFnZWwuZm91bmQoKQ0KPiAgICAgd2Fy
-bmluZygnWW91IGhhdmUgdG8gaW5zdGFsbCByYWdlbCBpZiB5b3UgYXJlIGdv
-aW5nIHRvIGRldmVsb3AgSGFyZkJ1enogaXRzZWxmJykNCj4gIC0tDQo+IC0y
-LjI4LjANCj4gKzIuMjUuMQ0KPiANCj4gLS0NCj4gMi4yNS4xDQo+IA0KPiAN
-Cg0KCgo=
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+---
+ .../baremetal-examples/baremetal-helloworld_git.bb            | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+index 7a580bd885..946a12d0a5 100644
+--- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
++++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+@@ -40,8 +40,8 @@ EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
+ # Install binaries on the proper location for baremetal-image to fetch and deploy
+ do_install(){
+     install -d ${D}/${base_libdir}/firmware
+-    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
+-    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
++    install -m 755 ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
++    install -m 755 ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
+ }
+ 
+ FILES_${PN} += " \
+-- 
+2.25.1
+
