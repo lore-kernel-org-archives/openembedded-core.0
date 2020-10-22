@@ -1,87 +1,161 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web09.8439.1603361810499305041
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web11.8591.1603364378099203678
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 03:16:50 -0700
+ Thu, 22 Oct 2020 03:59:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gFDQGKdx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id y12so1543433wrp.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 03:16:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HXTq6qsT;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id p5so1650102ejj.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 03:59:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=UBusXDjVRgUADQCba+l2wMJS7TOq5uHBmWK/iHp2cTM=;
-        b=gFDQGKdxO3+fIZm9WfJEiFbV4EXyuV3FMSrCWip6c87Pc4cbT3SiwNez33MeetV7v+
-         HRvCQ6O7ItdGKHFfu0QpNGEXI8RMhP3A/Z04gzmej6SbRSTD0kIMI0TLxar7mLdRu97G
-         8tJYRSdRu8t++wGdjiNyAPQAXn0v8gv9l4Ncw=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iNRPQJN9LH6BcKl867oYx7RItC9OPkDruBP612zB6tY=;
+        b=HXTq6qsTEoqHtmGHc7kdrJ/iXbZ70yBMrBKyf+HpEq2achDONj6mrt6x+aYaZUwPpm
+         7ipyb/+3X/5uvyypN9OjmK4yA5NoO5ZO5rAQdet7f4Oi977McS3DtEIaAfgGik4p3Lfz
+         tFrZhnWznlfs+dc+eHYkKNOOFTfyPQ1H0PowTDlHz80giYSJN//7Eqbk60E6nhnFeni6
+         L5UsmsI018TIhyTBMX8vz6Bg9Dq4MHFZKkMLkXi6pnQiiVW96WLlCyIkAV7xrZ4fNtDn
+         ZeSgZ3gNJlIz38XKG/97SNNbaaAu1/MlA10bkDH1nI+pa42s0aIMrPj9OW7FQ77RlkAB
+         p09Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=UBusXDjVRgUADQCba+l2wMJS7TOq5uHBmWK/iHp2cTM=;
-        b=XVRE0CP33hUpqjnmo3jCvLekNLgd/xXd5DT8b/BjhscGogb0mOJvJR7RrE0jwAAvDD
-         aBe1iBZNKgmy+dc2qwDpp0AaHwTIDa5MW9PMKYTXjQ526orcoG4/kDExjXtCvkJ33RmO
-         91St0uYvccfl5DqBjv6vmSwmvs0zf+9R2ROAhT1HeH2d+1UzDw3B08vkKk06vGi4pV+7
-         ZiRn6MjwSsCQjmGSCrECYLT4JLZ77fg9e4FJOZd18zkVhO175CPL6/E0UqbQL+urk/hd
-         flOMEZEJQbGXSiOhkaWPTGJi6qYUwCNvuJSa/yi8sGwFLmqTzwbuft6m2+cBqujEP58B
-         qM0Q==
-X-Gm-Message-State: AOAM533e2L78aGohG6L9i16ok08MVS+9OlvrANR7VO5OiujEA0fichw1
-	2ex+3LcSC1Ug+pe/fVzhkFErhQ==
-X-Google-Smtp-Source: ABdhPJw2TeYemzdNwgVLqTwht1OZ6C53SpuDtqJXy4qYpBzsUdNfPX07Hoi3OQG7gGRq+EY39mo9iA==
-X-Received: by 2002:adf:eb04:: with SMTP id s4mr2024853wrn.81.1603361808988;
-        Thu, 22 Oct 2020 03:16:48 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (a.6.3.d.1.f.b.7.5.5.7.b.f.2.d.5.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:5d2f:b755:7bf1:d36a])
-        by smtp.gmail.com with ESMTPSA id q6sm2899795wma.0.2020.10.22.03.16.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 03:16:48 -0700 (PDT)
-Message-ID: <63688d349ae0d710cf2f139c22df4dc76c3aac3b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Fix install path since S doesnt have a trailing slash
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>, Alejandro
-	Hernandez Samaniego <alejandro@enedino.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Oct 2020 11:16:46 +0100
-In-Reply-To: <20201022083612.kourjuijorkmw26a@qschulz>
-References: <20201022083222.1506844-1-alejandro@enedino.org>
-	 <20201022083612.kourjuijorkmw26a@qschulz>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iNRPQJN9LH6BcKl867oYx7RItC9OPkDruBP612zB6tY=;
+        b=lkl6JpwFjfXjDPzhht+FtDO8vUKuUQqUWEsOTN1VMCosojBJRqL3LJnrQlV6DhXG7K
+         HNtS1lR1LL93ZQtArguD26KfHIEP2oO64mMmMFLSZAXz4Ka6QYnESrd8tY6+igWcHRK/
+         PCyPjLsf5X7/wQJ3Pq74bkfbPl1UUDp52LIgp+DV9WnUVKxeXSGmVH8uLIdAkD6qUnYr
+         myb23H/1udIonGXMT9P4sV7TJUORdOOiz5JFp/jocydM5kbU0Hk9lTRyhp18ValfUt+J
+         e1IhWOM+yOj/f5/LWTw62fClNKwyz1/2QTBeE7kKH6Ow6Yx9SJMLPQwEDPuXNs/i6C4n
+         s20A==
+X-Gm-Message-State: AOAM533qvvVa4dHR+2pBeqfaltBkHL0AzrVU2qtZ97tiQmbhAEb/IBJt
+	jtP2tOzwaeKuMGAPNnd7hpieUCT38eIxVXJQkkw=
+X-Google-Smtp-Source: ABdhPJysYrjx9FRk5cpxQiYjpNpyUG450utKU7Ovp2+hS9xen8TMwoKwERaUSihk9kuIznq8nIJPt88wEZyumBenSYc=
+X-Received: by 2002:a17:906:ca54:: with SMTP id jx20mr1717186ejb.541.1603364376287;
+ Thu, 22 Oct 2020 03:59:36 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1602771116.git.steve@sakoman.com> <163E30094343B958.12811@lists.openembedded.org>
+ <CAOSpxdbZ9yKWyLkALJctu5BCP77AX=PSNWuBffNa8snxMOEgjw@mail.gmail.com> <c4b7539b1a57fb2b32bb68345aaaa8b807a7349d.camel@linuxfoundation.org>
+In-Reply-To: <c4b7539b1a57fb2b32bb68345aaaa8b807a7349d.camel@linuxfoundation.org>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Thu, 22 Oct 2020 12:59:25 +0200
+Message-ID: <CA+chaQdavEx8SgVLX2iVGKtHLJ3bYv2+g-vDxATTi6rP3mg4pw@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 1/8] Revert "package: get_package_mapping: avoid dependency mapping if renamed package provides original name"
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Steve Sakoman <steve@sakoman.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000181e8405b2405c75"
+
+--000000000000181e8405b2405c75
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-10-22 at 10:36 +0200, Quentin Schulz wrote:
-> Hi Alejandro,
+Looks like it's caused by wireguard setting PKG variable as:
+PKG_${PN} = "kernel-module-${MODULE_NAME}-${KERNEL_VERSION}"
+
+as discussed in:
+https://github.com/openembedded/meta-openembedded/issues/285#issuecomment-714401682
+
+it was added in
+https://git.openembedded.org/meta-openembedded/commit/?id=ad0db129c7c8484520cd20cdfbb4670489125280
+but the explanation there doesn't make much sense to me.
+
+On Sat, Oct 17, 2020 at 9:55 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Fri, 2020-10-16 at 04:34 -1000, Steve Sakoman wrote:
+> > I've included this revert patch for comment because I have gotten
+> > several requests to revert and I'd like wider discussion of the
+> > issue.
+> >
+> > At the moment wireguard is the only known recipe that is failing and
+> > there are no proposed fixes.
+> >
+> > If you are aware of recipes in other layers that are affected, please
+> > let me know.
+> >
+> > And if someone would like to tackle fixing wireguard in
+> > meta-openembedded that would be much preferred to a revert.
+>
+> It would also be good to know if the issue exists on master or not. I'm
+> worried we may have the issue there as well which is a reason I'd
+> favour looking into and understanding this rather than blindly
+> reverting. I've not seen anyone have a full understanding of what the
+> issue is as yet.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 > 
-> On Thu, Oct 22, 2020 at 02:32:22AM -0600, Alejandro Hernandez Samaniego wrote:
-> > Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-> > ---
-> >  .../baremetal-examples/baremetal-helloworld_git.bb            | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> > index 7a580bd885..946a12d0a5 100644
-> > --- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> > +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
-> > @@ -40,8 +40,8 @@ EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
-> >  # Install binaries on the proper location for baremetal-image to fetch and deploy
-> >  do_install(){
-> >      install -d ${D}/${base_libdir}/firmware
-> > -    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
-> > -    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
-> > +    install -m 755 ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
-> > +    install -m 755 ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
-> 
-> I'm almost certain do_install is being run under the ${B} directory by
-> default:
-> https://docs.yoctoproject.org/ref-manual/ref-tasks.html#do-install
-> 
-> So I'd actually just remove ${B} (or ${B}/) from the path?
+>
+>
 
-Personally, I think it makes it more obvious what is going on...
+--000000000000181e8405b2405c75
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr">Looks like it&#39;s caused by wireguard setting PKG variab=
+le as:<div><span style=3D"color:rgb(36,41,46);font-family:-apple-system,Bli=
+nkMacSystemFont,&quot;Segoe UI&quot;,Helvetica,Arial,sans-serif,&quot;Apple=
+ Color Emoji&quot;,&quot;Segoe UI Emoji&quot;;font-size:14px">PKG_${PN} =3D=
+ &quot;kernel-module-${MODULE_NAME}-${KERNEL_VERSION}&quot;</span></div><di=
+v><font color=3D"#24292e" face=3D"-apple-system, BlinkMacSystemFont, Segoe =
+UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji"><span =
+style=3D"font-size:14px"><br></span></font></div><div><font color=3D"#24292=
+e" face=3D"-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, s=
+ans-serif, Apple Color Emoji, Segoe UI Emoji"><span style=3D"font-size:14px=
+">as discussed in:<br></span></font><div><a href=3D"https://github.com/open=
+embedded/meta-openembedded/issues/285#issuecomment-714401682">https://githu=
+b.com/openembedded/meta-openembedded/issues/285#issuecomment-714401682</a><=
+br></div></div><div><br></div><div>it was added in</div><div><a href=3D"htt=
+ps://git.openembedded.org/meta-openembedded/commit/?id=3Dad0db129c7c8484520=
+cd20cdfbb4670489125280">https://git.openembedded.org/meta-openembedded/comm=
+it/?id=3Dad0db129c7c8484520cd20cdfbb4670489125280</a><br></div><div>but the=
+ explanation there doesn&#39;t make much sense to me.</div></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Oct 17, =
+2020 at 9:55 AM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
+undation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 2020-10-16 at 04:34=
+ -1000, Steve Sakoman wrote:<br>
+&gt; I&#39;ve included this revert patch for comment because I have gotten=
+<br>
+&gt; several requests to revert and I&#39;d like wider discussion of the<b=
+r>
+&gt; issue.<br>
+&gt; <br>
+&gt; At the moment wireguard is the only known recipe that is failing and<=
+br>
+&gt; there are no proposed fixes.<br>
+&gt; <br>
+&gt; If you are aware of recipes in other layers that are affected, please=
+<br>
+&gt; let me know.<br>
+&gt; <br>
+&gt; And if someone would like to tackle fixing wireguard in<br>
+&gt; meta-openembedded that would be much preferred to a revert.<br>
+<br>
+It would also be good to know if the issue exists on master or not. I&#39;=
+m<br>
+worried we may have the issue there as well which is a reason I&#39;d<br>
+favour looking into and understanding this rather than blindly<br>
+reverting. I&#39;ve not seen anyone have a full understanding of what the<=
+br>
+issue is as yet.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-Richard
-
+--000000000000181e8405b2405c75--
