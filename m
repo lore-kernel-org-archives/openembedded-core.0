@@ -1,199 +1,150 @@
 Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web10.1429.1603400889476750738
+ by mx.groups.io with SMTP id smtpd.web10.20.1603402631766015167
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 14:08:09 -0700
+ Thu, 22 Oct 2020 14:37:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KrpzhNn5;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AD1OWGbM;
  spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id w27so4405212ejb.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 14:08:09 -0700 (PDT)
+Received: by mail-ej1-f68.google.com with SMTP id k3so4476439ejj.10;
+        Thu, 22 Oct 2020 14:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qS/zIbzoaIcJaCxyZuhisJkuZ0LYBpI6VISnoT1bE8Y=;
-        b=KrpzhNn5bdK+q0gVSWxxf9MLrkqQoMdMpawxPE3ijPddh7m+O516L9RQgZ4dqypVf7
-         D07S+5+6g+xy2g3hjGCdQCLY0l00wInQwJSz+SHStEowQLRLC3YoqHGKbFevq5UrdQkq
-         rnxlDUpvxygDb9LlbBi75Zc+aU1Dnr8ZBugu7eSUIYEEwRjg5EoHPU1HwXtgkCkoLole
-         vEKqwHJjad5xEVIC9Us05fWdWpeqjaiUueb09UcnD7vIOA75N9CtYgMQqRNeDB3FYwrB
-         3rsuHgj2+6+EPLu9KPqxyDXPXssZGYQ0blBG+ATF2vxdmTAoCgQ1ksC0HZ8gyEpDkK/A
-         3/LA==
+        bh=bIRfR1gc4T/RybYsh65SnZo+1zX3T7c/Dy8bUh8SVeo=;
+        b=AD1OWGbM/fbQH6CoKuY2zstraT9E+EKEx8dmpa17Q66y4V2QJoAHSqXT7H9Z7wgHQp
+         9kdNfN8AlwoYDJ1B/FMQwMKCA/AYTKE5ACSowWDz3hIi7cCUNpqzZuR8vN7nqQLWo0un
+         JlfkkPcGOWT5KaOAR8cZE+/uuLN8BQP6RbvUllRlacB0A4dZmWdCXkZZikArjWqWXxP1
+         Ji9kZMs+0g+tySWY58AFm5ZumHeOedY+v+xkDhneB6BTFseZorv7o/R2w3zAe5j3Qg5p
+         AC50cXfzy8RlWMtw0kqYw3NHVQHfLWfNhTqMwflPsA0MPk9sDSmmcrBOlHrjDTOVwTGC
+         AGTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qS/zIbzoaIcJaCxyZuhisJkuZ0LYBpI6VISnoT1bE8Y=;
-        b=IxvkA7LWQX79Ug3U5G6Q7jSFQj9inBT8l7h7JURfCPXLSM+0UTLxOdUq7L7xPMgRMo
-         LBOREpJdJns/dUQv9w90c1nyZJITQ3ub2SVOi04+ofCHMw7ZrCERgoMkU9t29+KY3TY4
-         9ChPwEO1Fgg1mdRsDe0zFfgd39rEoo2BubussvjRXGd8HnxniM39UH35HFYHwFSZdM2o
-         cJtfN67rakeiz5zXGQImk/PetnDD8yOj4n2XQOr0Bl6UWRZb60gQjBj5DjTMfGts5Yf+
-         h2A42WoHOg7rwqAgQiOuMF7OJ8+hruPFU+mBV2qOykotBRDGcs/8VbQfFaKA81hRHC9m
-         d98Q==
-X-Gm-Message-State: AOAM533oWyfWR4o6XIaeqeIOa4AFc1HVYbv+QBHyw3L+8aKp1V3xzSWB
-	FiEfo9t4xE95OqtAWHEmy/PzbyFW7SsXCJoLIzM=
-X-Google-Smtp-Source: ABdhPJz/6X4hub6kfW+UzRVCXtyB045OZVoORuYXMVZQZCUKuuzBZagUdtCoBoAajhbiQM3EsNlnrMQ7toXnLXC0xd0=
-X-Received: by 2002:a17:906:ca54:: with SMTP id jx20mr4380918ejb.541.1603400887900;
- Thu, 22 Oct 2020 14:08:07 -0700 (PDT)
+        bh=bIRfR1gc4T/RybYsh65SnZo+1zX3T7c/Dy8bUh8SVeo=;
+        b=XeQAmE/SfDnDB9Un5pVfurnCLVHjNhySghG+5KHtuB1pSkIYdPoS0tN3zf+d6GZQFD
+         SD7CezhHsKIGiLB/8aAnPly4I07r5gBd51rlDWmPjcP2smTBMsurL5ua3yHw4AJ/MXAv
+         xbwu9fZTd7aUFsqVcXIhJtT6Kmr9R2NFBIOFm3Sr1B8CAzNV1hc3nWIygOvSS/RqCoK1
+         Nb3My6X2FDaq5QcG/wbzciG9Mk1Rv1Vr2Yy9IH0qbChGukELqKv9oknlQw/D5zQEykDF
+         FYftl148sw0eTxzju6ieDPyYbktUNlUME9b7JcduK5yR29UespUZ/OEZZByN+tobuVT1
+         Yp+w==
+X-Gm-Message-State: AOAM5325l6WOHTOcFJ9ncxpRZvo4RwlIS+IfxUuJQdpf7bcrIhK4IeKH
+	KnuOoezmoMMr4lki+8rFHiUjw8Evb45ldnJ2zGc=
+X-Google-Smtp-Source: ABdhPJxW/VdRrYpDmGlJ9NrbYbv2Sjz9Y/SA6kPt/0P6tiOu2CVUisH8Kkmt+uhzH+T1tx6m+usmiLoUF+EOFgTyWDE=
+X-Received: by 2002:a17:906:a454:: with SMTP id cb20mr4433273ejb.137.1603402630145;
+ Thu, 22 Oct 2020 14:37:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201016095531.140098-1-Martin.Jansa@gmail.com>
- <20201016095531.140098-2-Martin.Jansa@gmail.com> <CAJ86T=WdocqoYgd_nZ0M8mn372ERZsDG_Lrh26HuWzSwtYfW3g@mail.gmail.com>
-In-Reply-To: <CAJ86T=WdocqoYgd_nZ0M8mn372ERZsDG_Lrh26HuWzSwtYfW3g@mail.gmail.com>
+References: <CANx9H-DFtcdnZwDqHEPg4t5ySyJe++KS8hO9QDFX5r31KLz3Ww@mail.gmail.com>
+In-Reply-To: <CANx9H-DFtcdnZwDqHEPg4t5ySyJe++KS8hO9QDFX5r31KLz3Ww@mail.gmail.com>
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 22 Oct 2020 23:07:56 +0200
-Message-ID: <CA+chaQd4MjKnzk=Po2UFwY=sB_2NgMbrQjvDEYsjuR4=EOea1g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] tune-ep9312.inc: add t suffix for thumb to PACKAGE_EXTRA_ARCHS_tune-ep9312
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000005b201705b248dc84"
+Date: Thu, 22 Oct 2020 23:36:59 +0200
+Message-ID: <CA+chaQfL9RtRiJYph7=yGxMrgoiOPRovdfJOPf524vXY-bD7aQ@mail.gmail.com>
+Subject: Re: [OE-core] Let me tell you how I really feel. Zero filter. If you need meta-python2, you need to become a maintainer. Immediately. Period.
+To: Tim Orling <ticotimo@gmail.com>
+Cc: Yocto-mailing-list <yocto@lists.yoctoproject.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org" <Openembedded-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000033ae5205b249441b"
 
---0000000000005b201705b248dc84
+--00000000000033ae5205b249441b
 Content-Type: text/plain; charset="UTF-8"
 
-I think you're reading it backwards (or I wrote it backwards?).
+There were only a few changes needed between dunfell and gatesgarth to keep
+it building and I feel guilty for sending half of them - and pinging you on
+FB :).
 
-"t" wasn't added before, because "armv4" isn't in TUNE_FEATURES.
+I don't have interest in python2, but it's still used by quite a few
+components included in other layers are care about (e.g. qtwebengine in
+meta-qt5, chromium in meta-browser -
+https://bugs.chromium.org/p/chromium/issues/detail?id=942720 is still quite
+far from finished) and at LGE we maintain meta-ros
+https://github.com/ros/meta-ros which contains support for ROS 1 Melodic
+which is usually used with python2 and support ends May 2023 (together with
+Ubuntu Bionic it's usually used with: http://wiki.ros.org/Distributions -
+just today I've separated meta-ros-python2 layer with python2 recipes which
+disappeared from oe-core in warrior and were never re-introduced in
+meta-python2 (like nose and numpy).
 
-But since you have changed feature-arm-thumb.inc to use armv4 OVERRIDE, the
-"t" is added and tune-ep9212 got broken.
+If you're looking for someone just keeping it buildable, then you can sign
+me up. If it gets more annoying to maintain in future we can also split it
+for pythonnative.bbclass and python recipe itself - to keep just the bare
+minimum of recipes which are actively being used without all the other junk.
 
-See the removed comment in the tune file which explains why it wasn't using
-"t" suffix in PACKAGE_EXTRA_ARCHS_tune-ep9312 before.
+Cheers,
 
-On Thu, Oct 22, 2020 at 9:26 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+On Wed, Oct 21, 2020 at 2:48 AM Tim Orling <ticotimo@gmail.com> wrote:
 
-> On Fri, Oct 16, 2020 at 2:55 AM Martin Jansa <Martin.Jansa@gmail.com>
-> wrote:
-> >
-> > * broken since:
-> >   commit 805dd4807d322dc70cef97edd68fdb3142b60fb1
-> >   Author: Andre McCurdy <armccurdy@gmail.com>
-> >   Date:   Fri Aug 23 13:51:36 2019 -0700
-> >
-> >     feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX
-> >
-> > * since this commit the 't' suffix is set ARM_THUMB_SUFFIX by
-> >   armv4 override (which does apply for ep9312 tune) instead of
+> I have absolutely no need for python2, I made this abundantly clear when I
+> created the meta-python2 layer.
 >
-> This doesn't sound right. The armv4 override is being added to
-> MACHINEOVERRIDES (it's even shown in the patch context below). Is that
-> somehow not working?
+> If you depend upon continuing support of python2 via the meta-python2
+> layer, this is your call to arms.
 >
-> >   armv4 in TUNE_FEATURES - so the comment in the file was no
-> >   longer correct and ep9312 wasn't usable
-> >
-> > * fixes:
-> >   scripts/tune/log.fake-ep9312:    Error, the PACKAGE_ARCHS variable
-> (all any noarch arm armv4 armv4t ep9312 fake_ep9312) for DEFAULTTUNE
-> (ep9312) does not contain TUNE_PKGARCH (ep9312t).
-> >
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/conf/machine/include/tune-ep9312.inc | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/meta/conf/machine/include/tune-ep9312.inc
-> b/meta/conf/machine/include/tune-ep9312.inc
-> > index 11fd266ba0..5e1a0e5791 100644
-> > --- a/meta/conf/machine/include/tune-ep9312.inc
-> > +++ b/meta/conf/machine/include/tune-ep9312.inc
-> > @@ -8,6 +8,5 @@ MACHINEOVERRIDES =.
-> "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', 'armv4:', '
-> >
-> >  AVAILTUNES += "ep9312"
-> >  ARMPKGARCH_tune-ep9312 = "ep9312"
-> > -# this tune does not include TUNE_FEATURES_tune-armv4t, so there is no
-> armv4 TUNE_FEATURES => no 't' in ARMPKGSFX_THUMB
-> >  TUNE_FEATURES_tune-ep9312 = "thumb ep9312"
-> > -PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t}
-> ep9312"
-> > +PACKAGE_EXTRA_ARCHS_tune-ep9312 = "${PACKAGE_EXTRA_ARCHS_tune-armv4t}
-> ep9312t"
-> > --
-> > 2.25.1
-> >
-> >
-> > 
-> >
+> I was originally intending to abdicate any support after the 3.1 "dunfell"
+> release, but managed to somehow continue supporting it into the crest of
+> the 3.2 "gatesgarth" release.
+>
+> I will stop all support and actively refuse lo respond to any emails and
+> this layer will be dead and I have zero care in the world that it stops
+> being useful. I do not use it. I do not depend upon it. You are not paying
+> me to do this. You cannot pay me enough to do this. Period. Support
+> yourself.
+>
+> If this is not clear enough, I am happy to have a virtual video call with
+> you that you will not like.
+>
+> --moto-timo
+>
+> 
+>
 >
 
---0000000000005b201705b248dc84
+--00000000000033ae5205b249441b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I think you&#39;re reading it backwards (or I wrote it bac=
-kwards?).<div><br></div><div>&quot;t&quot; wasn&#39;t added before, because=
- &quot;armv4&quot; isn&#39;t in TUNE_FEATURES.</div><div><br></div><div>But=
- since you have changed=C2=A0<span style=3D"color:rgb(80,0,80)">feature-arm=
--thumb.inc to use armv4 OVERRIDE, the &quot;t&quot; is added and tune-ep921=
-2 got broken.</span></div><div><span style=3D"color:rgb(80,0,80)"><br></spa=
-n></div><div><span style=3D"color:rgb(80,0,80)">See the removed comment in =
-the tune file which explains why it wasn&#39;t using &quot;t&quot; suffix i=
-n=C2=A0</span><span style=3D"color:rgb(80,0,80)">PACKAGE_EXTRA_ARCHS_tune-e=
-p93</span><span style=3D"color:rgb(80,0,80)">12 before.</span></div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu,=
- Oct 22, 2020 at 9:26 PM Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gmai=
-l.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Fri, Oct 16, 2020 at 2:55 AM Martin Jansa &lt;=
-<a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gm=
-ail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; * broken since:<br>
-&gt;=C2=A0 =C2=A0commit 805dd4807d322dc70cef97edd68fdb3142b60fb1<br>
-&gt;=C2=A0 =C2=A0Author: Andre McCurdy &lt;<a href=3D"mailto:armccurdy@gma=
-il.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0Date:=C2=A0 =C2=A0Fri Aug 23 13:51:36 2019 -0700<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0feature-arm-thumb.inc: fix ARM_THUMB_SUFFIX<br>
-&gt;<br>
-&gt; * since this commit the &#39;t&#39; suffix is set ARM_THUMB_SUFFIX by=
+<div dir=3D"ltr">There were only a few changes needed between dunfell and g=
+atesgarth to keep it building and I feel guilty for sending half of them - =
+and pinging you on FB :).<div><br></div><div>I don&#39;t have interest in p=
+ython2, but it&#39;s still used by quite a few components included in other=
+ layers are care about (e.g. qtwebengine in meta-qt5, chromium in meta-brow=
+ser -=C2=A0<a href=3D"https://bugs.chromium.org/p/chromium/issues/detail?id=
+=
+=3D942720">https://bugs.chromium.org/p/chromium/issues/detail?id=3D942720<=
+/a> is still quite far from finished) and at LGE we maintain meta-ros=C2=A0=
+<a href=3D"https://github.com/ros/meta-ros">https://github.com/ros/meta-ros=
+</a> which contains support for ROS 1 Melodic which is usually used with py=
+thon2 and support ends May 2023 (together with Ubuntu Bionic it&#39;s usual=
+ly used with: <a href=3D"http://wiki.ros.org/Distributions">http://wiki.ros=
+.org/Distributions</a> - just today I&#39;ve separated meta-ros-python2 lay=
+er with python2 recipes which disappeared from oe-core in warrior and were =
+never re-introduced in meta-python2 (like nose and numpy).</div><div><br></=
+div><div>If you&#39;re looking for someone just keeping it buildable, then =
+you can sign me up. If it gets more annoying to maintain in future we can a=
+lso split it for pythonnative.bbclass and python recipe itself - to keep ju=
+st the bare minimum of recipes which are actively being used without all th=
+e other junk.</div><div><br></div><div>Cheers,</div></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 21, 2020 at=
+ 2:48 AM Tim Orling &lt;<a href=3D"mailto:ticotimo@gmail.com">ticotimo@gmai=
+l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><div dir=3D"ltr">I have absolutely no need for python2, I made this ab=
+undantly clear when I created the meta-python2 layer.<div><br></div><div>If=
+ you depend upon continuing support of python2 via the meta-python2 layer, =
+this is your call to arms.</div><div><br></div><div>I was originally intend=
+ing to abdicate any support after the 3.1 &quot;dunfell&quot; release, but =
+managed to somehow continue supporting it into the crest of the 3.2 &quot;g=
+atesgarth&quot; release.</div><div><br></div><div>I will stop all support a=
+nd actively refuse lo respond to any emails and this layer will be dead and=
+ I have zero care in the world that it stops being useful. I do not use it.=
+ I do not depend upon it. You are not paying me to do this. You cannot pay =
+me enough to do this. Period. Support yourself.</div><div><br></div><div>If=
+ this is not clear enough, I am happy to have a virtual video call with you=
+ that you will not like.</div><div><br></div><div>--moto-timo</div></div>
 <br>
-&gt;=C2=A0 =C2=A0armv4 override (which does apply for ep9312 tune) instead=
- of<br>
 <br>
-This doesn&#39;t sound right. The armv4 override is being added to<br>
-MACHINEOVERRIDES (it&#39;s even shown in the patch context below). Is that=
 <br>
-somehow not working?<br>
-<br>
-&gt;=C2=A0 =C2=A0armv4 in TUNE_FEATURES - so the comment in the file was n=
-o<br>
-&gt;=C2=A0 =C2=A0longer correct and ep9312 wasn&#39;t usable<br>
-&gt;<br>
-&gt; * fixes:<br>
-&gt;=C2=A0 =C2=A0scripts/tune/log.fake-ep9312:=C2=A0 =C2=A0 Error, the PAC=
-KAGE_ARCHS variable (all any noarch arm armv4 armv4t ep9312 fake_ep9312) fo=
-r DEFAULTTUNE (ep9312) does not contain TUNE_PKGARCH (ep9312t).<br>
-&gt;<br>
-&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.=
-com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/conf/machine/include/tune-ep9312.inc | 3 +--<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/ma=
-chine/include/tune-ep9312.inc<br>
-&gt; index 11fd266ba0..5e1a0e5791 100644<br>
-&gt; --- a/meta/conf/machine/include/tune-ep9312.inc<br>
-&gt; +++ b/meta/conf/machine/include/tune-ep9312.inc<br>
-&gt; @@ -8,6 +8,5 @@ MACHINEOVERRIDES =3D. &quot;${@bb.utils.contains(&#39=
-;TUNE_FEATURES&#39;, &#39;ep9312&#39;, &#39;armv4:&#39;, &#39;<br>
-&gt;<br>
-&gt;=C2=A0 AVAILTUNES +=3D &quot;ep9312&quot;<br>
-&gt;=C2=A0 ARMPKGARCH_tune-ep9312 =3D &quot;ep9312&quot;<br>
-&gt; -# this tune does not include TUNE_FEATURES_tune-armv4t, so there is =
-no armv4 TUNE_FEATURES =3D&gt; no &#39;t&#39; in ARMPKGSFX_THUMB<br>
-&gt;=C2=A0 TUNE_FEATURES_tune-ep9312 =3D &quot;thumb ep9312&quot;<br>
-&gt; -PACKAGE_EXTRA_ARCHS_tune-ep9312 =3D &quot;${PACKAGE_EXTRA_ARCHS_tune=
--armv4t} ep9312&quot;<br>
-&gt; +PACKAGE_EXTRA_ARCHS_tune-ep9312 =3D &quot;${PACKAGE_EXTRA_ARCHS_tune=
--armv4t} ep9312t&quot;<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
 </blockquote></div>
 
---0000000000005b201705b248dc84--
+--00000000000033ae5205b249441b--
