@@ -1,94 +1,76 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web09.734.1603381946304931363
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.777.1603381951825811016
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 08:52:26 -0700
+ Thu, 22 Oct 2020 08:52:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=b1ZqitJ7;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id b19so1189929pld.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:52:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cO8DD+JY;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id 144so1394808pfb.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:52:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=0d4SvIyaHB/GGqU32z6W6NqUo7IFxd2Q8b6UqTqV7IQ=;
-        b=b1ZqitJ7P1dGmbmxV5zg7f6/4h1XxmbUl7lsi8fdgOs0QrY9GYI0Ss/eLO/I3XdT0e
-         piKpEv/SpEWbsxakzXbIGHjV8j0a3zx2xHbWlWshWzkTqtDvuZmJXZddJ7Mnha3idTwU
-         /BgVBATuhD9JZCmH0quJLwyLe14Xblc0k0NgTy5BRAF2811vcvau7b7Itid9RAyHP4Zw
-         kAQIidJxnB0uAqJc7UqYrWvv2/HL8IqE50ZVGMtTUbDBFB6gz+GOgz8KZvOgniHtMNEu
-         Z6P24pUVI7UBE4Vo6+bPPczNdv/Ya0i0CRLbW7yTsaspuBIP0zhGzH7nu4TzTtX5bIsB
-         AGRA==
+        bh=5wI3g4GppkNfGE9bWDxuw7bJWunM4wqpGD32ktr/phY=;
+        b=cO8DD+JYAJ4CKUw2ZeZk18AQQwv2QcMJ9qYAczgovDUZR5l4+BuLM1Yhg4PCBdAdv1
+         yFl95v/4DVDkW2aM6wZb5E38OVNtBr7FoproFWx8mgsnPW0oEwjPrPRXiK08JOQKzIiz
+         sMzQ6wCP8JTyuhjhy7FCyBQtCkipH2/VeMEBaTkAsEo0fKvsuc1HVYzFxnq0oakR7rsQ
+         3JEwtFCuml2+dF6z1iSaptnhQK7GIraW1S1Q2NEbICx3TRx4PJXu7EoSYZbqQg8NCPD7
+         Df34Gr8TkxD/Gpp8IZQ9SC5u0Ho3Q93kSPOZvWyDD9BFNiZQNm20XusoBPbzEgP5FeTS
+         W5Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=0d4SvIyaHB/GGqU32z6W6NqUo7IFxd2Q8b6UqTqV7IQ=;
-        b=j7rbnJpbgZqfbjdJlOuxGzLciT5q/Eqp3vWm9iI6iNN30bSLh7yqopnYRhru8RsBN9
-         1+0bKT3DSecF8LnwISGwnyUmgb+zRkSxe4y8dV5vUC8lvPQcS/v5u331Aod85QHss2As
-         rlU+JBn7ilWIPzR0VneUFnDr8ni44QJbqSkA+ZaCK68VaHU1xfX6qdzKC+F+sRFtoSur
-         9C+RfMUiImELF4spdI9HAKUrY+wCksGDfl1TS5O0ItbprZe9s9vvPIzIMJo5zsJfrOya
-         +W8IN2hD3O3OIrF8x4e6aa/VNt8uBjwjDmVF4lejSQzKf6GRWnnkBE2lI52/uXBeSOmV
-         YvPg==
-X-Gm-Message-State: AOAM531pV99uynBcbZNOVJ1WaYmx4aemU2rcTmY43cYmkLkWb72WKL1U
-	3Gp8qyjV8QXh0hErm3sl8PdjLCHIUlfdiNob
-X-Google-Smtp-Source: ABdhPJx1NrkrICr5d2mL7yKrMq/uXNQMVv6tu9TytWTricFe2VYaDySHkPtaepZdAYMeBQr2QVU43A==
-X-Received: by 2002:a17:90b:a0a:: with SMTP id gg10mr2693792pjb.1.1603381945248;
-        Thu, 22 Oct 2020 08:52:25 -0700 (PDT)
+        bh=5wI3g4GppkNfGE9bWDxuw7bJWunM4wqpGD32ktr/phY=;
+        b=rU9GuClOV7Q83Mer6fqaaREugQHJ7rC91wpYNMlUjBi/ZOfqxVjtVRby1ddu9xe7Ou
+         2MhCDjNEPZaFmjdJ4adyFs9iu7yPVSglYKgvot9DhIaEo8X+ml0tjBTZ4G+R3iXQlsoq
+         090X825P0bJTbLLDtiQPVj8njRBIJtUZjqhXC9JE9KNTnq4aIHhGA0dwxNZUDnvMQmlV
+         ubgTwEQk84EJ4iZyDNPvyXA2blBtcLawWeo8sYuCkmdtVq8WZhrMkMYJvCW5QrgQEe24
+         GYrDq6D/MkyjsQyH0NIkprf1iRQ8ByaitpgiTKR+89yBG9bxRpEGUZ6iOzkE+npuj5OH
+         qWCw==
+X-Gm-Message-State: AOAM532KWOF3pFZ0Ccz1mu6G27bIZ9e2ilqRcDWXBJKmSsRkm+xC8sJV
+	jsyQpOsqjXJB+k4xbrptG4x3KNSpQjvGDasF
+X-Google-Smtp-Source: ABdhPJyM3LXBCfzIf3g5sFBE+xoGUG09dNXcsZkWMAvhqZ7whzJGalNcN0HvCkU/vNKFXj55Z9C+8w==
+X-Received: by 2002:a62:6496:0:b029:155:b152:f0cf with SMTP id y144-20020a6264960000b0290155b152f0cfmr3095917pfb.75.1603381950786;
+        Thu, 22 Oct 2020 08:52:30 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.52.20
+        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.52.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 08:52:24 -0700 (PDT)
+        Thu, 22 Oct 2020 08:52:30 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/14] arch-mips.inc: remove duplicated mips64el-o32 from PACKAGE_EXTRA_ARCHS_tune-mips64el-o32
-Date: Thu, 22 Oct 2020 05:51:35 -1000
-Message-Id: <c1bc580dc4b4d0743c3939e3415e3c40d623b799.1603381705.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/14] tune-mips64r6.inc: fix typo in mipsisa64r6-nf
+Date: Thu, 22 Oct 2020 05:51:36 -1000
+Message-Id: <5a5abae29fb0538fe92b29b8f708d147f207d3b4.1603381705.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1603381704.git.steve@sakoman.com>
 References: <cover.1603381704.git.steve@sakoman.com>
 
 From: Martin Jansa <Martin.Jansa@gmail.com>
 
-* broken since:
-  commit ae5073c4abd8935c01d14d3e6395124f815bd10b
-  Author: Zubair Lutfullah Kakakhel <Zubair.Kakakhel@imgtec.com>
-  Date:   Fri Sep 23 15:28:08 2016 +0100
-
-    arch-mips: Add mips64-o32 tunes
-
-* fixes:
-  scripts/tune/log.fake-mips-24k.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips32.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips32r2.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips32r6.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips64.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips64r2.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips64r6.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-mips-74k.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-  scripts/tune/log.fake-octeon.mips64el-o32:    Error, the PACKAGE_ARCHS variable contains duplicates. The following archs are listed more than once: mips64el-o32
-
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f8f07d1249a9a86307c1121edd4df3b64162c61b)
+(cherry picked from commit 63cf38058283395eca1324a2c68701218a2a3768)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/machine/include/mips/arch-mips.inc | 2 +-
+ meta/conf/machine/include/tune-mips64r6.inc | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index 2f625119cb..451017f453 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -135,7 +135,7 @@ PACKAGE_EXTRA_ARCHS_tune-mips64-o32 = "mips mips64-o32"
- TUNE_FEATURES_tune-mips64el-o32 = "o32 fpu-hard"
- BASE_LIB_tune-mips64el-o32 = "lib"
- MIPSPKGSFX_VARIANT_tune-mips64el-o32 = "${TUNE_ARCH}"
--PACKAGE_EXTRA_ARCHS_tune-mips64el-o32 = "mipsel mips64el-o32 mips64el-o32"
-+PACKAGE_EXTRA_ARCHS_tune-mips64el-o32 = "mipsel mips64el-o32"
+diff --git a/meta/conf/machine/include/tune-mips64r6.inc b/meta/conf/machine/include/tune-mips64r6.inc
+index 4fe3eedf1b..e53239a38b 100644
+--- a/meta/conf/machine/include/tune-mips64r6.inc
++++ b/meta/conf/machine/include/tune-mips64r6.inc
+@@ -24,7 +24,7 @@ AVAILTUNES += "mipsisa64r6-nf mipsisa64r6el-nf"
+ TUNE_FEATURES_tune-mipsisa64r6-nf = "bigendian r6 n64 mipsisa64r6"
+ MIPSPKGSFX_VARIANT_tune-mipsisa64r6-nf = "${TUNE_ARCH}"
+ BASE_LIB_tune-mipsisa64r6-nf = "lib64"
+-PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6-nf = "mipsisa64r6"
++PACKAGE_EXTRA_ARCHS_tune-mipsisa64r6-nf = "mipsisa64r6-nf"
  
- # MIPS 64 o32 and Soft Float
- AVAILTUNES += "mips64-nf-o32 mips64el-nf-o32"
+ TUNE_FEATURES_tune-mipsisa64r6el-nf = "r6 n64 mipsisa64r6"
+ MIPSPKGSFX_VARIANT_tune-mipsisa64r6el-nf = "${TUNE_ARCH}"
 -- 
 2.17.1
 
