@@ -1,151 +1,195 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
- by mx.groups.io with SMTP id smtpd.web08.841.1603382014880455803
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web11.575.1603385266545446334
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 08:53:34 -0700
+ Thu, 22 Oct 2020 09:47:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=FLl7Q/9+;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.196, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f196.google.com with SMTP id bf6so1181799plb.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 08:53:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version:in-reply-to:references
-         :content-transfer-encoding;
-        bh=kysRyba4haAZn2plgsNTQH58EglPv1vHvZnuZ/rY1Tw=;
-        b=FLl7Q/9+3+9Yy3XZCw5gOzMm9oSnrQFs+d7HxPXxmUlfr5ccfzrxjjzARJM5xZXdg3
-         ubPPNkCqUKvoclxzaDwNJvL2faoy0XQyzbXmyOrchm/GpObTbePadWh6UHWUzrQEJY6w
-         gw5V7AC8WTYFRQRpRnoKns90hkuLotMgG0ROBD/uaPhSqDttbIS9qKMATCaR1YL1Blep
-         IZv35XEvEMVmv5zABo12zDaWKssM9Z0S/1cVvvp0W1nZJO/Lbzsjt7e6iZmzBHj165eb
-         lOelS7hCjeFhmhf4UPkgwQfhbLa/OKNdVzHKywWkfIaGys5o2rc9IoUAJ3XkklBtcGkP
-         wGwA==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: aehs29@gmail.com)
+Received: by mail-lj1-f193.google.com with SMTP id m20so2675087ljj.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 09:47:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :in-reply-to:references:content-transfer-encoding;
-        bh=kysRyba4haAZn2plgsNTQH58EglPv1vHvZnuZ/rY1Tw=;
-        b=iFgNjT4Zql4KbVEKeNw2ih0rCwOayvXHzq+rpVcScyUaXlbtMlDhCgyNFvzDvPxlwT
-         7pmJ0nfmpC2iTXpVDffme7ElEd4xmvGiDseVgB2Y61xSA8khkHJXc7sQJhou0grDuu+C
-         MoHVK/W2A7nJ/uGQjzolejRIwT8D/6DLfIvLx6UUJPXIzwN36ljRx2i13aFJ23iCVwe4
-         4a3RvnR5pLoTcb3xRKBmhQTM5SabctpbxrkpgkmFtHbTF7cgaGQNhS7R60Mh/YJM22iC
-         TKenKRNISQZbUUZWNFVJYsILXgTyoC3jkpOdRcJ8u/HJ5yUBCW6zIdKLxYYhKkD+d2q6
-         3I5g==
-X-Gm-Message-State: AOAM531gJIpZDymyY7jgjwT8VBaTc+lr7TxcPuB1tB1XEdPzCPb98ObL
-	MpeE3XPtCRt2GLGBWOAoQF0/C8n6jSfsDwGF
-X-Google-Smtp-Source: ABdhPJyk923Efgwsfrdk7ND4cLzR5TqUe1dvSIEvddwcTRFWxzvUnx0TU9AmdZW+/5AkIVupQSi1ow==
-X-Received: by 2002:a17:902:6ac4:b029:d5:edd9:43c with SMTP id i4-20020a1709026ac4b02900d5edd9043cmr3346795plt.16.1603382013938;
-        Thu, 22 Oct 2020 08:53:33 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id kc21sm2423558pjb.36.2020.10.22.08.53.29
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Wn3XJMTiYNpGxdRa+6+iCpUh9tSn62psRUvhxFn29RM=;
+        b=XiRTcZYiJ+qe55rGaMbiQea+fDvHE/y5GDI2d5k3+6pFsPlcxNtQ0eNg1W3aELcU5Z
+         F+VctcNmtt2+l3b06vH3NuNmhepZDOJB1oEC1afEr5Jxt7AEUa6tKJOpAgWcdUs4xEzp
+         VYbsHqbmrpqAWJTCWu73ctmGlFtFZmI1d759/C4PIWR0iNfpagmkB6evDVo1ap58MDee
+         D8/N1qNNj8SmkEHD2dNKkPAsQknlT//XnsehQximtBnEJsssOVLJYX8lql5cgfi9+isk
+         X2ZMQh/rcxZHvGuffqaeb6KTEL0Iv696borrINEOoOBAShut6xQSnNXhuPq7XMwdViWp
+         6eGA==
+X-Gm-Message-State: AOAM532MvW8iURoVdO3wLtLW6J4nPDdh8y5oF5QXt1SaTouANakDdp46
+	1g5TlvPDhhhcc/2dxX10dyDjinkvDkI=
+X-Google-Smtp-Source: ABdhPJy8OHolrh4/9kMSypskw3w84hd2/IHkvGk0Xsf5Amv8VqfL5KYaU0JrlGloFXeinm1tsM1rCw==
+X-Received: by 2002:a2e:81da:: with SMTP id s26mr1295591ljg.184.1603385264301;
+        Thu, 22 Oct 2020 09:47:44 -0700 (PDT)
+Return-Path: <aehs29@gmail.com>
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id 27sm331082lfy.109.2020.10.22.09.47.43
         for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 08:53:33 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/14] qemu: change TLBs number to 64 in 34Kf mips cpu model
-Date: Thu, 22 Oct 2020 05:51:47 -1000
-Message-Id: <89e6fc44a378cb3489376d7193672cdf94c504b6.1603381705.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 22 Oct 2020 09:47:44 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id r127so3064836lff.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 22 Oct 2020 09:47:43 -0700 (PDT)
+X-Received: by 2002:a19:593:: with SMTP id 141mr1082739lff.144.1603385263541;
+ Thu, 22 Oct 2020 09:47:43 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <cover.1603381704.git.steve@sakoman.com>
-References: <cover.1603381704.git.steve@sakoman.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20201022083222.1506844-1-alejandro@enedino.org>
+ <20201022083612.kourjuijorkmw26a@qschulz> <63688d349ae0d710cf2f139c22df4dc76c3aac3b.camel@linuxfoundation.org>
+In-Reply-To: <63688d349ae0d710cf2f139c22df4dc76c3aac3b.camel@linuxfoundation.org>
+From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
+Date: Thu, 22 Oct 2020 10:47:30 -0600
+X-Gmail-Original-Message-ID: <CAHMutrYrafDgye-CvTQskD3-_=v8u6YsxA5o8Bjgjtj_1dKebQ@mail.gmail.com>
+Message-ID: <CAHMutrYrafDgye-CvTQskD3-_=v8u6YsxA5o8Bjgjtj_1dKebQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] baremetal-helloworld: Fix install path since S doesnt have a trailing slash
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000012549205b24539cf"
 
-From: Victor Kamensky <kamensky@cisco.com>
+--00000000000012549205b24539cf
+Content-Type: text/plain; charset="UTF-8"
 
-Replace OE private qemu patch with one that got upstreamed
-and solves the same problem: increase qemumips CI performance
-by increasing number of TLBs in CPU model and reduce need to
-run software TLB refill code.
+Hey folks,
 
-Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a99dace7463d310688f4098a51316dc0743651e2)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...ease-number-of-TLB-entries-on-the-34.patch | 59 +++++++++++++++++++
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch
+On Thu, Oct 22, 2020, 4:16 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7ce89c0023..76f97eef35 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -48,6 +48,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2020-14364.patch \
- 	   file://CVE-2020-14415.patch \
- 	   file://CVE-2020-16092.patch \
-+	   file://0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch b/meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch
-new file mode 100644
-index 0000000000..5227b7cbd2
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch
-@@ -0,0 +1,59 @@
-+From 68fa519a6cb455005317bd61f95214b58b2f1e69 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-+Date: Fri, 16 Oct 2020 15:20:37 +0200
-+Subject: [PATCH] target/mips: Increase number of TLB entries on the 34Kf core
-+ (16 -> 64)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Per "MIPS32 34K Processor Core Family Software User's Manual,
-+Revision 01.13" page 8 in "Joint TLB (JTLB)" section:
-+
-+  "The JTLB is a fully associative TLB cache containing 16, 32,
-+   or 64-dual-entries mapping up to 128 virtual pages to their
-+   corresponding physical addresses."
-+
-+There is no particular reason to restrict the 34Kf core model to
-+16 TLB entries, so raise its config to 64.
-+
-+This is helpful for other projects, in particular the Yocto Project:
-+
-+  Yocto Project uses qemu-system-mips 34Kf cpu model, to run 32bit
-+  MIPS CI loop. It was observed that in this case CI test execution
-+  time was almost twice longer than 64bit MIPS variant that runs
-+  under MIPS64R2-generic model. It was investigated and concluded
-+  that the difference in number of TLBs 16 in 34Kf case vs 64 in
-+  MIPS64R2-generic is responsible for most of CI real time execution
-+  difference. Because with 16 TLBs linux user-land trashes TLB more
-+  and it needs to execute more instructions in TLB refill handler
-+  calls, as result it runs much longer.
-+
-+(https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03428.html)
-+
-+Buglink: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13992
-+Reported-by: Victor Kamensky <kamensky@cisco.com>
-+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-+Message-Id: <20201016133317.553068-1-f4bug@amsat.org>
-+
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/68fa519a6cb455005317bd61f95214b58b2f1e69]
-+Signed-off-by: Victor Kamensky <kamensky@cisco.com>
-+
-+---
-+ target/mips/translate_init.c.inc | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: qemu-5.1.0/target/mips/translate_init.inc.c
-+===================================================================
-+--- qemu-5.1.0.orig/target/mips/translate_init.inc.c
-++++ qemu-5.1.0/target/mips/translate_init.inc.c
-+@@ -254,7 +254,7 @@ const mips_def_t mips_defs[] =
-+         .CP0_PRid = 0x00019500,
-+         .CP0_Config0 = MIPS_CONFIG0 | (0x1 << CP0C0_AR) |
-+                        (MMU_TYPE_R4000 << CP0C0_MT),
-+-        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (15 << CP0C1_MMU) |
-++        .CP0_Config1 = MIPS_CONFIG1 | (1 << CP0C1_FP) | (63 << CP0C1_MMU) |
-+                        (0 << CP0C1_IS) | (3 << CP0C1_IL) | (1 << CP0C1_IA) |
-+                        (0 << CP0C1_DS) | (3 << CP0C1_DL) | (1 << CP0C1_DA) |
-+                        (1 << CP0C1_CA),
--- 
-2.17.1
+> On Thu, 2020-10-22 at 10:36 +0200, Quentin Schulz wrote:
+> > Hi Alejandro,
+> >
+> > On Thu, Oct 22, 2020 at 02:32:22AM -0600, Alejandro Hernandez Samaniego
+> wrote:
+> > > Signed-off-by: Alejandro Enedino Hernandez Samaniego <
+> alejandro@enedino.org>
+> > > ---
+> > >  .../baremetal-examples/baremetal-helloworld_git.bb            | 4
+> ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/
+> baremetal-helloworld_git.bb
+> b/meta-skeleton/recipes-baremetal/baremetal-examples/
+> baremetal-helloworld_git.bb
+> > > index 7a580bd885..946a12d0a5 100644
+> > > --- a/meta-skeleton/recipes-baremetal/baremetal-examples/
+> baremetal-helloworld_git.bb
+> > > +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/
+> baremetal-helloworld_git.bb
+> > > @@ -40,8 +40,8 @@ EXTRA_OEMAKE_append = "
+> QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
+> > >  # Install binaries on the proper location for baremetal-image to
+> fetch and deploy
+> > >  do_install(){
+> > >      install -d ${D}/${base_libdir}/firmware
+> > > -    install -m 755
+> ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin
+> ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
+> > > -    install -m 755
+> ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf
+> ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
+> > > +    install -m 755
+> ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin
+> ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin
+> > > +    install -m 755
+> ${B}/build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf
+> ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf
+> >
+> > I'm almost certain do_install is being run under the ${B} directory by
+> > default:
+> > https://docs.yoctoproject.org/ref-manual/ref-tasks.html#do-install
+> >
+> > So I'd actually just remove ${B} (or ${B}/) from the path?
+>
+> Personally, I think it makes it more obvious what is going on...
+>
 
+I think since this is in meta-skeleton and its meant to be instructive, I'd
+rather have it specifically call out what its doing.
+
+Alejandro
+
+
+> Cheers,
+>
+> Richard
+>
+>
+
+--00000000000012549205b24539cf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hey folks,<br><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Thu, Oct 22, 2020, 4:16 AM Richard Purdie=
+ &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@l=
+inuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">O=
+n Thu, 2020-10-22 at 10:36 +0200, Quentin Schulz wrote:<br>
+&gt; Hi Alejandro,<br>
+&gt; <br>
+&gt; On Thu, Oct 22, 2020 at 02:32:22AM -0600, Alejandro Hernandez Samanieg=
+o wrote:<br>
+&gt; &gt; Signed-off-by: Alejandro Enedino Hernandez Samaniego &lt;<a href=
+=3D"mailto:alejandro@enedino.org" target=3D"_blank" rel=3D"noreferrer">alej=
+andro@enedino.org</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 .../baremetal-examples/<a href=3D"http://baremetal-hellowor=
+ld_git.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">baremetal-hellow=
+orld_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
+&gt; &gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/<=
+a href=3D"http://baremetal-helloworld_git.bb" rel=3D"noreferrer noreferrer"=
+ target=3D"_blank">baremetal-helloworld_git.bb</a> b/meta-skeleton/recipes-=
+baremetal/baremetal-examples/<a href=3D"http://baremetal-helloworld_git.bb"=
+ rel=3D"noreferrer noreferrer" target=3D"_blank">baremetal-helloworld_git.b=
+b</a><br>
+&gt; &gt; index 7a580bd885..946a12d0a5 100644<br>
+&gt; &gt; --- a/meta-skeleton/recipes-baremetal/baremetal-examples/<a href=
+=3D"http://baremetal-helloworld_git.bb" rel=3D"noreferrer noreferrer" targe=
+t=3D"_blank">baremetal-helloworld_git.bb</a><br>
+&gt; &gt; +++ b/meta-skeleton/recipes-baremetal/baremetal-examples/<a href=
+=3D"http://baremetal-helloworld_git.bb" rel=3D"noreferrer noreferrer" targe=
+t=3D"_blank">baremetal-helloworld_git.bb</a><br>
+&gt; &gt; @@ -40,8 +40,8 @@ EXTRA_OEMAKE_append =3D &quot; QEMUARCH=3D${BAR=
+EMETAL_QEMUARCH} V=3D1&quot;<br>
+&gt; &gt;=C2=A0 # Install binaries on the proper location for baremetal-ima=
+ge to fetch and deploy<br>
+&gt; &gt;=C2=A0 do_install(){<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 install -d ${D}/${base_libdir}/firmware<br>
+&gt; &gt; -=C2=A0 =C2=A0 install -m 755 ${B}build/hello_baremetal_${BAREMET=
+AL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin<br>
+&gt; &gt; -=C2=A0 =C2=A0 install -m 755 ${B}build/hello_baremetal_${BAREMET=
+AL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf<br>
+&gt; &gt; +=C2=A0 =C2=A0 install -m 755 ${B}/build/hello_baremetal_${BAREME=
+TAL_QEMUARCH}.bin ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.bin<br>
+&gt; &gt; +=C2=A0 =C2=A0 install -m 755 ${B}/build/hello_baremetal_${BAREME=
+TAL_QEMUARCH}.elf ${D}/${base_libdir}/firmware/${BAREMETAL_BINNAME}.elf<br>
+&gt; <br>
+&gt; I&#39;m almost certain do_install is being run under the ${B} director=
+y by<br>
+&gt; default:<br>
+&gt; <a href=3D"https://docs.yoctoproject.org/ref-manual/ref-tasks.html#do-=
+install" rel=3D"noreferrer noreferrer" target=3D"_blank">https://docs.yocto=
+project.org/ref-manual/ref-tasks.html#do-install</a><br>
+&gt; <br>
+&gt; So I&#39;d actually just remove ${B} (or ${B}/) from the path?<br>
+<br>
+Personally, I think it makes it more obvious what is going on...<br></block=
+quote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"></blockquote></div></div><d=
+iv dir=3D"auto">I think since this is in meta-skeleton and its meant to be =
+instructive, I&#39;d rather have it specifically call out what its doing.</=
+div><div dir=3D"auto"><br></div><div dir=3D"auto">Alejandro</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000012549205b24539cf--
