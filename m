@@ -1,98 +1,137 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.6089.1603443434844373197
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.6948.1603449978411538972
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2020 01:57:15 -0700
+ Fri, 23 Oct 2020 03:46:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ME3vjnST;
- spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f68.google.com with SMTP id v5so645131wmh.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2020 01:57:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hPpnag8x;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id j7so1255669wrt.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2020 03:46:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=bI3lWfWCj59gl6NroO3/yfRDkvbNh2jEYsu+e2MoK+Q=;
-        b=ME3vjnST4kSb7rb12JrEslI15HpUKBHcJ4RLOru7tGNz0lL6ZqiwKNosFFXgHrHoI5
-         YFUyYo71DTRs6sNkdlfH0ki7mCwuh6DINE/ebYmuesvUtLqT7NDXZmT1xfjU52qJZkEO
-         XefZBasZEobmJJEogoJdnxmHk7WisR494VtCsRUqRDq1fC4w29CA/9VT9u1d5VAzDndM
-         cMYEax58yeceSRVTnPDGheOWetHoWfsLF/SaGQ52Dnt/w0WWGTJ49snNhZ3z7M6rxYX/
-         YOr/xdHTFgAHifaIb1HufS2bM0WSY1RdLfGYCMUCvCc/q31iqCGToUq/di6JkokQjE2h
-         fJoQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vsc9nZMepNgpPlm30ZeOmRH6xxQLwdr7qKm14po0I4I=;
+        b=hPpnag8xFz+jrqwTXUdedlm9Vtf8hjFV45Qfz++743NMpnON0Quj1wvPXkhT4Eq5yG
+         4U3R0CexNRB89P0INPPTbbcM1aSy5bni/9thQ3E2CYjzmtcXw0JXedNLyLKCBRX7VmLm
+         Q+O6TrYlHPd5RyVSAO6i80XIblSpqxgjLd+BU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=bI3lWfWCj59gl6NroO3/yfRDkvbNh2jEYsu+e2MoK+Q=;
-        b=K3RfkEMmSujjdccHEB8OPuqh/dS10x137FtGY8+YW+TtvRt7XIe9L3ODjbcy4pMzKi
-         0jEg5/2qe8n2GD1Dgu6x1EOwGq82kCZyleO/DiEpY00QdKs7MdlrCrMLBob/U3cTV1i+
-         /Lb+ANRDFL/fgvb25nTFX6imQw/Y+6h62HBXfc2qmXzjkpWPggANv8fzWXij6O5f0GJR
-         reMqjhVYHfidETxr3DHOnLSCPPj/W+LYLZPupxHgWRuGu3CvIRhiAowUuzGaRbfR9YHa
-         a5IyEVbVhS0wALAjiw2IV23L7lTlEynuEcSBnAwHg5e+bbqBz+K956xY2WSqCiDducSK
-         0D2w==
-X-Gm-Message-State: AOAM532hL2Oo0NYkH/y62muLDou0iekdN7oN67dt9CJhtPFot5kJaWat
-	WQH7SytBQLGNZpLDvgqHM8s=
-X-Google-Smtp-Source: ABdhPJxSIa4T6wMz93BfjReyu369+DR0+HoxQY6xC/Tgs3KdatdKv4X5eNwDr2iAgH9funk14sqjuw==
-X-Received: by 2002:a1c:4c05:: with SMTP id z5mr1210768wmf.122.1603443433224;
-        Fri, 23 Oct 2020 01:57:13 -0700 (PDT)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
-        by smtp.gmail.com with ESMTPSA id e25sm2095092wra.71.2020.10.23.01.57.11
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vsc9nZMepNgpPlm30ZeOmRH6xxQLwdr7qKm14po0I4I=;
+        b=bTzXbPFWmf+0aLgkeCkni2VVKfIXdETY2LxjMR02KUwHvrOE9Ir2yDIFjiOdABA23e
+         PHwlU07lbcJMNsnw/ampIRyi1c4RG52V5dpz4gyvC7orUCXWicM6kUqwYE37RCRZYq0u
+         +OP/K9XbyyKdXpj/bPTcphqD8UyCz2H2ezNl1GvuDle0gI3f3eQhh1MxWqaVr/Z2vvD3
+         ohyHHwCMQijOtpQrPZRNAq7fPZcoOP6+3sTA64XGT7nfY3LNt1dOXxffiHfp8BfHb1/3
+         ZSsAWlvRCYw20hDSe8axHwwf391ds4qKk4hsnV+nCIxwDgkK7MBguL6D7+l24VMo335A
+         p7lg==
+X-Gm-Message-State: AOAM531vW2eLslp5dfuC/UwgvhwnwO+QKcwtO9rXImHZVx6CmRXG6teN
+	KDIbXx/wqJV8J3IeJ8Ng/kzIrNNTxPBSCA==
+X-Google-Smtp-Source: ABdhPJwbsPUcb98PgSugBbI7ki8prX4bacQy0TmJUU+sM7nQAXjuT8vGk5DN+eQ0BQl1DP/s1rsVow==
+X-Received: by 2002:adf:fac4:: with SMTP id a4mr2108323wrs.172.1603449976616;
+        Fri, 23 Oct 2020 03:46:16 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5.1.7.e.7.d.c.f.2.b.a.5.8.0.5.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:508:5ab2:fcd7:e715])
+        by smtp.gmail.com with ESMTPSA id q2sm2614598wrw.40.2020.10.23.03.46.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2020 01:57:12 -0700 (PDT)
-Message-ID: <9acee59b73992f7e58c65c9c324ef28ffc528f03.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v3] Add new recipe for squashfs-tools-ng
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 23 Oct 2020 09:57:10 +0100
-In-Reply-To: <e5d55a34-2ec4-64d4-2d6d-8961b4bc6ba8@gmail.com>
-References: <20201022092000.2917248-1-luca.boccassi@gmail.com>
-	 <20201022113036.2938947-1-luca.boccassi@gmail.com>
-	 <e5d55a34-2ec4-64d4-2d6d-8961b4bc6ba8@gmail.com>
-User-Agent: Evolution 3.30.5-1.1 
+        Fri, 23 Oct 2020 03:46:16 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Eggleton <paul.eggleton@microsoft.com>
+Subject: [PATCH] Revert "classes/buildhistory: also save recipe info for native recipes"
+Date: Fri, 23 Oct 2020 11:46:15 +0100
+Message-Id: <20201023104615.19187-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-10-22 at 12:10 -0700, Khem Raj wrote:
-> 
-> On 10/22/20 4:30 AM, Luca Bocassi wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > 
-> > The main difference with squashfs-tools is the availability
-> > of a shared library and a programmatic interface, rather
-> > than just command-line tools.
-> 
-> Can you clarify which parts are under GPL-3.0+ & LGPL-3.0+ licenses.
-> is it possible to ship traditional functionality from squashfs-tools 
-> without using code under these licenses.
+This reverts commit d123606c4bef85c2436b40f51e47b602b7600c0b.
 
-It's all defined in COPYING.md - the library is under LGPL3+, the rest
-of the code (command-line tools) under GPL3+.
+This change contains races as it will start poking into do_package task
+directories from do_populate_sysroot. If we want to do this for native
+recipes, we need to add guards around the package code and only make
+this happen for native in populate_sysroot, not target in
+populate_sysroot too. Backtrace from an example problem below:
 
-# License of squashfs-tools-ng
+ERROR: openssl-1.1.1g-r0 do_populate_sysroot: Error executing a python function in exec_python_func() autogenerated:
 
-The `libsquashfs` library is released under the terms and conditions of the
-**GNU Lesser General Public License version 3 or later**. This applies to
-all source code in the directories `lib/sqfs`, `lib/util` and `include/sqfs`
-with the following exceptions:
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:buildhistory_emit_pkghistory(d)
+     0003:
+File: '/home/ross/Yocto/poky/meta/classes/buildhistory.bbclass', lineno: 319, function: buildhistory_emit_pkghistory
+     0315:
+     0316:        write_pkghistory(pkginfo, d)
+     0317:
+     0318:    # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
+ *** 0319:    bb.build.exec_func("buildhistory_list_pkg_files", d)
+     0320:}
+     0321:
+     0322:python buildhistory_emit_outputsigs() {
+     0323:    if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+File: '/home/ross/Yocto/poky/bitbake/lib/bb/build.py', lineno: 256, function: exec_func
+     0252:    with bb.utils.fileslocked(lockfiles):
+     0253:        if ispython:
+     0254:            exec_func_python(func, d, runfile, cwd=adir)
+     0255:        else:
+ *** 0256:            exec_func_shell(func, d, runfile, cwd=adir)
+     0257:
+     0258:    try:
+     0259:        curcwd = os.getcwd()
+     0260:    except:
+File: '/home/ross/Yocto/poky/bitbake/lib/bb/build.py', lineno: 503, function: exec_func_shell
+     0499:    with open(fifopath, 'r+b', buffering=0) as fifo:
+     0500:        try:
+     0501:            bb.debug(2, "Executing shell function %s" % func)
+     0502:            with open(os.devnull, 'r+') as stdin, logfile:
+ *** 0503:                bb.process.run(cmd, shell=False, stdin=stdin, log=logfile, extrafiles=[(fifo,readfifo)])
+     0504:        except bb.process.ExecutionError as exe:
+     0505:            # Find the backtrace that the shell trap generated
+     0506:            backtrace_marker_regex = re.compile(r"WARNING: Backtrace \(BB generated script\)")
+     0507:            stdout_lines = (exe.stdout or "").split("\n")
+File: '/home/ross/Yocto/poky/bitbake/lib/bb/process.py', lineno: 184, function: run
+     0180:        if not stderr is None:
+     0181:            stderr = stderr.decode("utf-8")
+     0182:
+     0183:    if pipe.returncode != 0:
+ *** 0184:        raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
+     0185:    return stdout, stderr
+Exception: bb.process.ExecutionError: Execution of '/yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/temp/run.buildhistory_list_pkg_files.4158804' failed with exit code 2:
+/yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/temp/run.buildhistory_list_pkg_files.4158804: 183: cd: can't cd to /yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/packages-split/openssl-engines
 
- - `lib/util/xxhash.c` contains a modified implementation of the xxhash32
-   algorithm. See `licenses/xxhash.txt` for copyright and licensing
-   information (2 clause BSD license).
- - `lib/lz4` contains files extracted from the LZ4 compression library.
-   See `lib/lz4/README` for details and `licenses/LZ4.txt` for copyright and
-   licensing information (2 clause BSD license).
- - `lib/zlib` contains files that have been extracted from the the zlib
-   compression library and modified. See `lib/zlib/README` for details
-   and `licenses/zlib.txt` for details.
- - `lib/util/hash_table.c`, `include/hash_table.h` and
-   `lib/util/fast_urem_by_const.h` contain a hash table implementation (MIT
-   license). See `licenses/hash_table.txt` for details.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/buildhistory.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-The rest of squashfs-tools-ng is released under the terms and conditions of
-the **GNU General Public License version 3 or later**.
-
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 6d04d8cfb9b..7d5e3eb8fd6 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -90,7 +90,8 @@ buildhistory_emit_sysroot() {
+ python buildhistory_emit_pkghistory() {
+     if d.getVar('BB_CURRENTTASK') in ['populate_sysroot', 'populate_sysroot_setscene']:
+         bb.build.exec_func("buildhistory_emit_sysroot", d)
+-    elif not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
++
++    if not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
+         return 0
+ 
+     if not "package" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+@@ -228,9 +229,8 @@ python buildhistory_emit_pkghistory() {
+                     break
+     except IOError as e:
+         if e.errno == errno.ENOENT:
+-            if not bb.data.inherits_class('native', d):
+-                # Probably a -cross recipe, just ignore
+-                return 0
++            # Probably a -cross recipe, just ignore
++            return 0
+         else:
+             raise
+ 
 -- 
-Kind regards,
-Luca Boccassi
+2.25.1
 
