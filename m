@@ -1,137 +1,147 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.6948.1603449978411538972
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+ by mx.groups.io with SMTP id smtpd.web12.7086.1603450072220641114
  for <openembedded-core@lists.openembedded.org>;
- Fri, 23 Oct 2020 03:46:18 -0700
+ Fri, 23 Oct 2020 03:47:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hPpnag8x;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id j7so1255669wrt.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2020 03:46:18 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=qPzaL/9H;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.68, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f68.google.com with SMTP id c141so1526250lfg.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2020 03:47:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vsc9nZMepNgpPlm30ZeOmRH6xxQLwdr7qKm14po0I4I=;
-        b=hPpnag8xFz+jrqwTXUdedlm9Vtf8hjFV45Qfz++743NMpnON0Quj1wvPXkhT4Eq5yG
-         4U3R0CexNRB89P0INPPTbbcM1aSy5bni/9thQ3E2CYjzmtcXw0JXedNLyLKCBRX7VmLm
-         Q+O6TrYlHPd5RyVSAO6i80XIblSpqxgjLd+BU=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3tTBNXCAG/udNxSzrQlBMWi0fl51SUnt8xM3YAV7+kk=;
+        b=qPzaL/9HWJf7heSGrtr2HqHONoBebIagaKDECanW0yNUitcC2Kc+aLeoTkQc4z1M6f
+         kFphMamrkvoZ1/jclvN4G1/PA8iIC7CVB+Q7yJJ8zkS/mNo3j41EpKBJMMFy0mEEyNpZ
+         4vCAGVwov52y+1MCbdECjMJ7MNOTXKW6sFB87Afp0n+eHhJQVOPsHIHVr6hfR4bApgOT
+         v+WNc557ZnZviVE1GvecAgEGh1IuqBYS8sP3CvVOkntNKBj2yBysPSNhraVLX0rtAqsX
+         ro+19oGfrBxv8DPsXlGFY3XhNP8fh9vKbfcJDQjiIJMa7BVl6mpsKqLeR8D+jQSCPm2X
+         8grw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vsc9nZMepNgpPlm30ZeOmRH6xxQLwdr7qKm14po0I4I=;
-        b=bTzXbPFWmf+0aLgkeCkni2VVKfIXdETY2LxjMR02KUwHvrOE9Ir2yDIFjiOdABA23e
-         PHwlU07lbcJMNsnw/ampIRyi1c4RG52V5dpz4gyvC7orUCXWicM6kUqwYE37RCRZYq0u
-         +OP/K9XbyyKdXpj/bPTcphqD8UyCz2H2ezNl1GvuDle0gI3f3eQhh1MxWqaVr/Z2vvD3
-         ohyHHwCMQijOtpQrPZRNAq7fPZcoOP6+3sTA64XGT7nfY3LNt1dOXxffiHfp8BfHb1/3
-         ZSsAWlvRCYw20hDSe8axHwwf391ds4qKk4hsnV+nCIxwDgkK7MBguL6D7+l24VMo335A
-         p7lg==
-X-Gm-Message-State: AOAM531vW2eLslp5dfuC/UwgvhwnwO+QKcwtO9rXImHZVx6CmRXG6teN
-	KDIbXx/wqJV8J3IeJ8Ng/kzIrNNTxPBSCA==
-X-Google-Smtp-Source: ABdhPJwbsPUcb98PgSugBbI7ki8prX4bacQy0TmJUU+sM7nQAXjuT8vGk5DN+eQ0BQl1DP/s1rsVow==
-X-Received: by 2002:adf:fac4:: with SMTP id a4mr2108323wrs.172.1603449976616;
-        Fri, 23 Oct 2020 03:46:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5.1.7.e.7.d.c.f.2.b.a.5.8.0.5.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:508:5ab2:fcd7:e715])
-        by smtp.gmail.com with ESMTPSA id q2sm2614598wrw.40.2020.10.23.03.46.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2020 03:46:16 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Eggleton <paul.eggleton@microsoft.com>
-Subject: [PATCH] Revert "classes/buildhistory: also save recipe info for native recipes"
-Date: Fri, 23 Oct 2020 11:46:15 +0100
-Message-Id: <20201023104615.19187-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3tTBNXCAG/udNxSzrQlBMWi0fl51SUnt8xM3YAV7+kk=;
+        b=XSMZYj0fTd7lJwf3qsvGX5fEVuu08Sd0EBvVHotCxApD+ifuY/+hzEVrKcrL4JBy4n
+         9efIuKtobgRxwVmEovNSZz23CHBLqOECExAnL9pSMGTlrVYI1eHfJgbK1sCmQdAT7250
+         Ah68KpZ3h++5MyuCJwoKY/SUCjvmQ1HzD1QhQbUBGumhQ3MmXnzsScdV80oTad36fPJ9
+         kbHuTaYK98IUNBVJ9tdRSijCWOSXPBm6VtdvWSPaBqLuoOf3oTeQ9qCKu29Zq3hajz73
+         K0Dw6opfRRVVVRjgC7N/XGC+mg6SzsNLYw/4Q20VEGOMEgWCDHThjXjfpkB5UBqwTgjh
+         p6lA==
+X-Gm-Message-State: AOAM53385DTt2A8Y1ha/FJjo6pgRNeFtk81uvqWuAVPCr1c/Q/FMpnsb
+	9V2HPsNGqYYWxJapZE0/oxlkm83x+nMggHBylL0/Pg==
+X-Google-Smtp-Source: ABdhPJxiINRPdXB40kDre5uDYfL7fkxjT7udz4kr68LuX5Z6GLtV3XLNAfzcQzJ3tqGyTHf+3R9BkEcCEY24V+73bjw=
+X-Received: by 2002:ac2:465a:: with SMTP id s26mr524352lfo.125.1603450069834;
+ Fri, 23 Oct 2020 03:47:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201023104615.19187-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20201023104615.19187-1-richard.purdie@linuxfoundation.org>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 23 Oct 2020 11:47:38 +0100
+Message-ID: <CAAnfSTvDNN3wLpovsuJa8iDDJk_A6jsE2Ff3Zc3W8KaGKWNHBQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] Revert "classes/buildhistory: also save recipe info for native recipes"
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Paul Eggleton <paul.eggleton@microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
 
-This reverts commit d123606c4bef85c2436b40f51e47b602b7600c0b.
+Verified this fixes my build failures.
 
-This change contains races as it will start poking into do_package task
-directories from do_populate_sysroot. If we want to do this for native
-recipes, we need to add guards around the package code and only make
-this happen for native in populate_sysroot, not target in
-populate_sysroot too. Backtrace from an example problem below:
+Ross
 
-ERROR: openssl-1.1.1g-r0 do_populate_sysroot: Error executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:buildhistory_emit_pkghistory(d)
-     0003:
-File: '/home/ross/Yocto/poky/meta/classes/buildhistory.bbclass', lineno: 319, function: buildhistory_emit_pkghistory
-     0315:
-     0316:        write_pkghistory(pkginfo, d)
-     0317:
-     0318:    # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
- *** 0319:    bb.build.exec_func("buildhistory_list_pkg_files", d)
-     0320:}
-     0321:
-     0322:python buildhistory_emit_outputsigs() {
-     0323:    if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
-File: '/home/ross/Yocto/poky/bitbake/lib/bb/build.py', lineno: 256, function: exec_func
-     0252:    with bb.utils.fileslocked(lockfiles):
-     0253:        if ispython:
-     0254:            exec_func_python(func, d, runfile, cwd=adir)
-     0255:        else:
- *** 0256:            exec_func_shell(func, d, runfile, cwd=adir)
-     0257:
-     0258:    try:
-     0259:        curcwd = os.getcwd()
-     0260:    except:
-File: '/home/ross/Yocto/poky/bitbake/lib/bb/build.py', lineno: 503, function: exec_func_shell
-     0499:    with open(fifopath, 'r+b', buffering=0) as fifo:
-     0500:        try:
-     0501:            bb.debug(2, "Executing shell function %s" % func)
-     0502:            with open(os.devnull, 'r+') as stdin, logfile:
- *** 0503:                bb.process.run(cmd, shell=False, stdin=stdin, log=logfile, extrafiles=[(fifo,readfifo)])
-     0504:        except bb.process.ExecutionError as exe:
-     0505:            # Find the backtrace that the shell trap generated
-     0506:            backtrace_marker_regex = re.compile(r"WARNING: Backtrace \(BB generated script\)")
-     0507:            stdout_lines = (exe.stdout or "").split("\n")
-File: '/home/ross/Yocto/poky/bitbake/lib/bb/process.py', lineno: 184, function: run
-     0180:        if not stderr is None:
-     0181:            stderr = stderr.decode("utf-8")
-     0182:
-     0183:    if pipe.returncode != 0:
- *** 0184:        raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
-     0185:    return stdout, stderr
-Exception: bb.process.ExecutionError: Execution of '/yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/temp/run.buildhistory_list_pkg_files.4158804' failed with exit code 2:
-/yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/temp/run.buildhistory_list_pkg_files.4158804: 183: cd: can't cd to /yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/packages-split/openssl-engines
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/buildhistory.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 6d04d8cfb9b..7d5e3eb8fd6 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -90,7 +90,8 @@ buildhistory_emit_sysroot() {
- python buildhistory_emit_pkghistory() {
-     if d.getVar('BB_CURRENTTASK') in ['populate_sysroot', 'populate_sysroot_setscene']:
-         bb.build.exec_func("buildhistory_emit_sysroot", d)
--    elif not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
-+
-+    if not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
-         return 0
- 
-     if not "package" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
-@@ -228,9 +229,8 @@ python buildhistory_emit_pkghistory() {
-                     break
-     except IOError as e:
-         if e.errno == errno.ENOENT:
--            if not bb.data.inherits_class('native', d):
--                # Probably a -cross recipe, just ignore
--                return 0
-+            # Probably a -cross recipe, just ignore
-+            return 0
-         else:
-             raise
- 
--- 
-2.25.1
-
+On Fri, 23 Oct 2020 at 11:46, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> This reverts commit d123606c4bef85c2436b40f51e47b602b7600c0b.
+>
+> This change contains races as it will start poking into do_package task
+> directories from do_populate_sysroot. If we want to do this for native
+> recipes, we need to add guards around the package code and only make
+> this happen for native in populate_sysroot, not target in
+> populate_sysroot too. Backtrace from an example problem below:
+>
+> ERROR: openssl-1.1.1g-r0 do_populate_sysroot: Error executing a python function in exec_python_func() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:buildhistory_emit_pkghistory(d)
+>      0003:
+> File: '/home/ross/Yocto/poky/meta/classes/buildhistory.bbclass', lineno: 319, function: buildhistory_emit_pkghistory
+>      0315:
+>      0316:        write_pkghistory(pkginfo, d)
+>      0317:
+>      0318:    # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
+>  *** 0319:    bb.build.exec_func("buildhistory_list_pkg_files", d)
+>      0320:}
+>      0321:
+>      0322:python buildhistory_emit_outputsigs() {
+>      0323:    if not "task" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+> File: '/home/ross/Yocto/poky/bitbake/lib/bb/build.py', lineno: 256, function: exec_func
+>      0252:    with bb.utils.fileslocked(lockfiles):
+>      0253:        if ispython:
+>      0254:            exec_func_python(func, d, runfile, cwd=adir)
+>      0255:        else:
+>  *** 0256:            exec_func_shell(func, d, runfile, cwd=adir)
+>      0257:
+>      0258:    try:
+>      0259:        curcwd = os.getcwd()
+>      0260:    except:
+> File: '/home/ross/Yocto/poky/bitbake/lib/bb/build.py', lineno: 503, function: exec_func_shell
+>      0499:    with open(fifopath, 'r+b', buffering=0) as fifo:
+>      0500:        try:
+>      0501:            bb.debug(2, "Executing shell function %s" % func)
+>      0502:            with open(os.devnull, 'r+') as stdin, logfile:
+>  *** 0503:                bb.process.run(cmd, shell=False, stdin=stdin, log=logfile, extrafiles=[(fifo,readfifo)])
+>      0504:        except bb.process.ExecutionError as exe:
+>      0505:            # Find the backtrace that the shell trap generated
+>      0506:            backtrace_marker_regex = re.compile(r"WARNING: Backtrace \(BB generated script\)")
+>      0507:            stdout_lines = (exe.stdout or "").split("\n")
+> File: '/home/ross/Yocto/poky/bitbake/lib/bb/process.py', lineno: 184, function: run
+>      0180:        if not stderr is None:
+>      0181:            stderr = stderr.decode("utf-8")
+>      0182:
+>      0183:    if pipe.returncode != 0:
+>  *** 0184:        raise ExecutionError(cmd, pipe.returncode, stdout, stderr)
+>      0185:    return stdout, stderr
+> Exception: bb.process.ExecutionError: Execution of '/yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/temp/run.buildhistory_list_pkg_files.4158804' failed with exit code 2:
+> /yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/temp/run.buildhistory_list_pkg_files.4158804: 183: cd: can't cd to /yocto/ross/build/tmp/work/neoversen1-poky-linux/openssl/1.1.1g-r0/packages-split/openssl-engines
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/buildhistory.bbclass | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+> index 6d04d8cfb9b..7d5e3eb8fd6 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -90,7 +90,8 @@ buildhistory_emit_sysroot() {
+>  python buildhistory_emit_pkghistory() {
+>      if d.getVar('BB_CURRENTTASK') in ['populate_sysroot', 'populate_sysroot_setscene']:
+>          bb.build.exec_func("buildhistory_emit_sysroot", d)
+> -    elif not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
+> +
+> +    if not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
+>          return 0
+>
+>      if not "package" in (d.getVar('BUILDHISTORY_FEATURES') or "").split():
+> @@ -228,9 +229,8 @@ python buildhistory_emit_pkghistory() {
+>                      break
+>      except IOError as e:
+>          if e.errno == errno.ENOENT:
+> -            if not bb.data.inherits_class('native', d):
+> -                # Probably a -cross recipe, just ignore
+> -                return 0
+> +            # Probably a -cross recipe, just ignore
+> +            return 0
+>          else:
+>              raise
+>
+> --
+> 2.25.1
+>
+>
+> 
+>
