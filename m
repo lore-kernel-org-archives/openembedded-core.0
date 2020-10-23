@@ -1,59 +1,56 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web10.3651.1603423886980937123
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.5747.1603441818220853953
  for <openembedded-core@lists.openembedded.org>;
- Thu, 22 Oct 2020 20:31:30 -0700
+ Fri, 23 Oct 2020 01:30:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,404,1596470400"; 
-   d="scan'208";a="100431609"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 23 Oct 2020 11:31:28 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 09B7348990E0
-	for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2020 11:31:28 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Fri, 23 Oct 2020 11:31:28 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libinput: upgrade 1.16.1 -> 1.16.2
-Date: Fri, 23 Oct 2020 11:31:26 +0800
-Message-ID: <1603423886-98145-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=dZosrHmU;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.42, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f42.google.com with SMTP id a7so1066688lfk.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 23 Oct 2020 01:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uolVLnZ5ALOpr5zvBwcfu4b3plF59FEIu2ANDIT74FU=;
+        b=dZosrHmUoI4BVjg7MF7kcgSkxOS6bLUmoHQC8D8B4do1K2JAm5MRVe8buapfBl2Fi1
+         l0ALfuJwdQyh7INVzoqERpoCr41Jupi+OTJM9YcVdujjJ9I004coyh1uQkXzKroa9pmh
+         xheLsRLpf2mC4Fbu6oAVTAA/T8CJne5vEEPEOGHR3F8G5P4K/2HvbXyHJpyaBokDNV6M
+         yb4+wtT5qeDTp8n0vwoYRm2VcOCZoscWfufgMufV8cl4QAxsXA7HxSVspIwCoJCRqJ+Z
+         eJX216iXUDLrNWSZusjM1s1+X9ZJnmZDsaNCcRdM9UqAKw5VGpIL15MPLprsdMhaWEsf
+         ZSUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uolVLnZ5ALOpr5zvBwcfu4b3plF59FEIu2ANDIT74FU=;
+        b=fjq/sAnDibMyV3WYHPG8bEwq1FR958Bk5cSQzEXrGy3cP9EjofBtziJtIZqyEHBnQX
+         vjNKo6Cuy3VQLdj1j0uJBL2JN+TQm6Nv7gZO+WTuiYpE7Bp7BmoNBO57iKRnAoAq81zX
+         PWIVDxChQCjEDIMo55nYjH3BJLEvKx6iOhJfj1C2Ju88uXp5vpJpBrXbJSDY5FcG1eZy
+         KFSDDQOS3x530RXi6C6AK7PAOouGrrBiy71TaNux7ArR2Deu7Sdq13y5msF2VSMV7miB
+         paKcQsJcawzEo32jBt0e4OpsIsVfeaCKluoG8Sr47+zwTu3a/ZQCCmkgLwIQgqAN8mXZ
+         uSfA==
+X-Gm-Message-State: AOAM53246T4LBhr05k6fOOdLaNBuYbkYCECzeUNoG5J0PmJ/Hw5sIFUm
+	ptf/+S25nO2r1fQlAasYklt4rVs9YQQ1JKihR910XQ==
+X-Google-Smtp-Source: ABdhPJxv6pLYOid7U9lsljmbMmdnla0wgQKemPOS1UUa2P5SjgxUn3rFHs713NQ2y0j4bVvdkvvldX4Jta4PXS4g0JE=
+X-Received: by 2002:a19:5cb:: with SMTP id 194mr363815lff.205.1603441816365;
+ Fri, 23 Oct 2020 01:30:16 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 09B7348990E0.A0415
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+References: <20201022180204.1012150-1-ross.burton@arm.com> <6e942a9a-d3ea-1640-eca7-29ae83bdadb5@gmail.com>
+ <d4e57f79-42ca-b669-2044-e5006399b4fb@gmail.com>
+In-Reply-To: <d4e57f79-42ca-b669-2044-e5006399b4fb@gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 23 Oct 2020 09:30:05 +0100
+Message-ID: <CAAnfSTttpqXTP1eqwh5mhbGqqeCTdkGbVPPW8UCRUr=XVtTk6Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][dunfell] gcc: mitigate the Straight-line Speculation attack
+To: akuster <akuster808@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../wayland/{libinput_1.16.1.bb => libinput_1.16.2.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.16.1.bb => libinput_1.16.2.bb} (95%)
+On Fri, 23 Oct 2020 at 00:04, akuster <akuster808@gmail.com> wrote:
+> Am I missing the CVE keyword in the patches themselves?
+>
+> Shouldn't they have CVE: CVE-2020-13844 too?
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.16.1.bb b/meta/recipes-graphics/wayland/libinput_1.16.2.bb
-similarity index 95%
-rename from meta/recipes-graphics/wayland/libinput_1.16.1.bb
-rename to meta/recipes-graphics/wayland/libinput_1.16.2.bb
-index 1497609183..f4b1b4ddc2 100644
---- a/meta/recipes-graphics/wayland/libinput_1.16.1.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.16.2.bb
-@@ -16,7 +16,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
-            file://run-ptest \
-            file://determinism.patch \
-            "
--SRC_URI[sha256sum] = "7ba7d1aeedd15168bb21d17e9e628aa1c27957963a423a3fea3938a501758539"
-+SRC_URI[sha256sum] = "fc3d8c50fe7abc4dc4406bc01262a3f8149864557f87279adcf300e523c160a9"
- 
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
- 
--- 
-2.25.1
+Don't you hate it when someone doesn't abide by the rules they helped set?
 
-
-
+Ross
