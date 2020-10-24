@@ -1,115 +1,217 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.11406.1603544332792888162
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com [209.85.222.68])
+ by mx.groups.io with SMTP id smtpd.web08.17317.1603570942827586022
  for <openembedded-core@lists.openembedded.org>;
- Sat, 24 Oct 2020 05:58:53 -0700
+ Sat, 24 Oct 2020 13:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RDvOMRPo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id c194so5161882wme.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 24 Oct 2020 05:58:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WAEYTS4P;
+ spf=pass (domain: gmail.com, ip: 209.85.222.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f68.google.com with SMTP id x11so1663913uav.1;
+        Sat, 24 Oct 2020 13:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=xXmj4KcbImVMRRbqzsf1tNPiXw42UMDvAZCd2vm57qg=;
-        b=RDvOMRPoHQmm995dKhW6Pn8OvI/R5kVX3piiipzEzsVVbA+dc8Ark6PEumNu14uUmC
-         KCM7VenJAnEhu2PwOa3gEY5zuvKH4THidlxwhxseUPcdNdl9YInzLlWNOofCcxpLB7yK
-         a8lUmrqX48hiD36BkHTxCY9u42+onMj8hh+Ps=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zXj+aCbeW7Oz3pnsElgHzpcmirexNOqC3yVTeCP3LPM=;
+        b=WAEYTS4PbLxZLSJf5Iv8708uc7wAmAIPPDIKFlL78Mdd2ghj4i3f522Y1aMl1zU6jC
+         XiOMUZl2LiglgMnuZxIlVgwhVaUwqefTggYnZDQ7gwO+rYxfLkUHW9flUBQaB2jkAMO+
+         NKfMAI+95FkFeAQrDTiTtPodQnSKLgyDpOOzJ/OzMmwmbafj1/qbQlYoNnt5i/LohrhZ
+         YROhf11aX0V+YTszxW/pGhw59iUD37M+/yk8AWDgJEYpiQ+3O6+gU+dj2WX6cE9xWclv
+         hFVub2DNUr22e0FV8H4nyjUK3iDwDq8oy6MDAv1yXMdo6G9jgmaz3Pc/OnisjvZApZr5
+         u1SQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=xXmj4KcbImVMRRbqzsf1tNPiXw42UMDvAZCd2vm57qg=;
-        b=eaeFRpJWSjMubWvxlsIWKPxdEnl0QgTqw5AG2j9ikKdF68Qk6BjmP8Y98vhwnMuVrb
-         4kU5ugZVtGviSUfqC2emT3mJYy+yR9Ej5TYZBhn89MyPpDMZDDibMkX1zJLlJG0vcNKP
-         D6qlWXLzQ3p1zylabSKLjtd17kNuYpUpvUeQ8RnvGrowpzTk2SU+B5EJdBV+Rre/dPoG
-         7qaT3TrJrd7sq7gsHf33crjCc6QKZYGwTdu86SouE1NAnjPdqi/GKjSJOd/IOJxo/XDw
-         zXPfj+TMpOFBsJxo0e8fgQh3MwD/C905YW4w02u1RKJOZngZSXFH+jw90lcxOj/TK+s5
-         4cPg==
-X-Gm-Message-State: AOAM530b55iXLdmlNu8eQDfS+4FhmBoKUvwC0l4h6jTPCWOfWeP8mGSL
-	qP7DNhC5Oo+0FZblFJ88adEUKw==
-X-Google-Smtp-Source: ABdhPJwymxz0w2CdJkYSTqkqnZ4oi79JpxDlbiDaiXM7h3HZq6BXkkCkLQcX39mqUkMJaFCw9etIXA==
-X-Received: by 2002:a1c:9cd8:: with SMTP id f207mr6688184wme.76.1603544331265;
-        Sat, 24 Oct 2020 05:58:51 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.f.3.3.a.5.1.9.5.6.b.0.0.2.c.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.f.3.3.a.5.1.9.5.6.b.0.0.2.c.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c20:b65:915a:33ff])
-        by smtp.gmail.com with ESMTPSA id f8sm10321080wrw.85.2020.10.24.05.58.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2020 05:58:50 -0700 (PDT)
-Message-ID: <6c5a1b204f52dc52c149b1056276c1acca5eae4d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] Add new recipe for squashfs-tools-ng
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Luca Bocassi <luca.boccassi@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: peter.kjellerstedt@axis.com
-Date: Sat, 24 Oct 2020 13:58:49 +0100
-In-Reply-To: <20201022113036.2938947-1-luca.boccassi@gmail.com>
-References: <20201022092000.2917248-1-luca.boccassi@gmail.com>
-	 <20201022113036.2938947-1-luca.boccassi@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zXj+aCbeW7Oz3pnsElgHzpcmirexNOqC3yVTeCP3LPM=;
+        b=pweGlNu6qBYv04+jk4YpvhfxNoou29QQFOsx57xIWnoWUmhfj1IRrV0zXNQeKW0n+s
+         QO+hujv6bBKsP1jjkuTEZm4ZfVRBUarl1jIkVRdawFbIBp5g+WfcvN3JK4A/hiPADzFT
+         VZyWhca+vSbMYNJBc5yqUDY04TwaBmOmCSyr9ZAiDF80ZrZ/opos4tQC4zopOYJous06
+         j9D5SO8rX2yUj4gbULJuG0Zmk+1wAiQae1ZQMplGxiM/LbnRy76ynf2I8t5yyqtmyzaz
+         /caD2ifrEsaQg49t7DLokHRgDAi6DlXOFHPu+EpVeJB+OHFg7TXFLVZoylVBRR36PI6M
+         W3YQ==
+X-Gm-Message-State: AOAM533ZgKe19xRNt4OOWdBVh79DWmpzp59BsB4AqSlA2nk1QzoLA8V8
+	1mzn6CALGH0LJMzF3AArtMjr7JtiagwFVUE2OY4=
+X-Google-Smtp-Source: ABdhPJxg4VP+SQPmo5lv8eUvERjtmPbqRcoj0r4zK5x7eTnjONAKAGuPNYqa+4aR7jhmBe4/1+M0UjQ4qAY9Qe9Jzzs=
+X-Received: by 2002:ab0:7143:: with SMTP id k3mr8450123uao.93.1603570942007;
+ Sat, 24 Oct 2020 13:22:22 -0700 (PDT)
 MIME-Version: 1.0
+References: <CANx9H-DFtcdnZwDqHEPg4t5ySyJe++KS8hO9QDFX5r31KLz3Ww@mail.gmail.com>
+ <1640E842B1461A14.10923@lists.yoctoproject.org> <CAGAf8LwEANwgRoXr39xJ1BP5t3XYb9B_8Sf2fYBx_-CfiRAB9Q@mail.gmail.com>
+In-Reply-To: <CAGAf8LwEANwgRoXr39xJ1BP5t3XYb9B_8Sf2fYBx_-CfiRAB9Q@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Sat, 24 Oct 2020 22:22:09 +0200
+Message-ID: <CANNYZj_g=0mt7d+f4Gu0HhmikgZ8M6gpGStZLtsDgRqSBXH+vQ@mail.gmail.com>
+Subject: Re: [yocto] Let me tell you how I really feel. Zero filter. If you need meta-python2, you need to become a maintainer. Immediately. Period.
+To: Zoran Stojsavljevic <zoran.stojsavljevic@gmail.com>
+Cc: Tim Orling <ticotimo@gmail.com>, yocto@lists.yoctoproject.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org" <Openembedded-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005ede9a05b270747a"
+
+--0000000000005ede9a05b270747a
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-10-22 at 12:30 +0100, Luca Bocassi wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> The main difference with squashfs-tools is the availability
-> of a shared library and a programmatic interface, rather
-> than just command-line tools.
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
-> v2: added MIT, Zlib and BSD-2-Clause to LICENSE
-> v3: fixed CPL-3.0+ tag, removed GPL2 from checksum (not used), changed
->     recipe to be versioned, use bb.utils.filter in PACKAGE_CONFIG
-> 
->  .../squashfs-tools-ng_1.0.2.bb                | 34 +++++++++++++++++++
->  1 file changed, 34 insertions(+)
->  create mode 100644 meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_1.0.2.bb
-> 
-> diff --git a/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_1.0.2.bb b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_1.0.2.bb
-> new file mode 100644
-> index 0000000000..293b31cd92
-> --- /dev/null
-> +++ b/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_1.0.2.bb
-> @@ -0,0 +1,34 @@
-> +SUMMARY = "New set of tools for working with SquashFS images"
-> +SECTION = "base"
-> +LICENSE = "GPL-3.0+ & LGPL-3.0+ & MIT & BSD-2-Clause & Zlib"
-> +LIC_FILES_CHKSUM = "file://COPYING.md;md5=c0de2c0aca56349dab98e97992316f7e \
-> +                    file://licenses/GPLv3.txt;md5=1ebbd3e34237af26da5dc08a4e440464 \
-> +                    file://licenses/hash_table.txt;md5=874823605326caeaabaa95bfbd0f9fb0 \
-> +                    file://licenses/LGPLv3.txt;md5=3000208d539ec061b899bce1d9ce9404 \
-> +                    file://licenses/LZ4.txt;md5=ebc2ea4814a64de7708f1571904b32cc \
-> +                    file://licenses/xxhash.txt;md5=f042a9be092bd6d7fe6f217d8d00f4ca \
-> +                    file://licenses/xz.txt;md5=1c389b9610ccfdb25f7abaea6a0bb5a4 \
-> +                    file://licenses/zlib.txt;md5=ae27c72096606131f760e5f59cf98b06 \
-> +                    file://licenses/zstd.txt;md5=8df8137b630239cbdd4c0674124cb0c8"
-> +
-> +SRCREV = "b96f0fc154feef531be76034bf6e38925636146f"
-> +SRC_URI = "git://github.com/AgentD/squashfs-tools-ng.git;protocol=https"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit autotools pkgconfig
-> +
-> +PACKAGECONFIG ??= "gzip xz lzo lz4 zstd ${@bb.utils.filter('DISTRO_FEATURES', 'selinux', d)}"
-> +PACKAGECONFIG[gzip] = "--with-gzip,--without-gzip,zlib"
-> +PACKAGECONFIG[xz] = "--with-xz,--without-xz,xz"
-> +PACKAGECONFIG[lzo] = "--with-lzo,--without-lzo,lzo"
-> +PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4"
-> +PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd"
+I am not complaining or bragging. I only want to set expectations, in
+public, and clearly. Otherwise some people will treat the project
+contributors as their unpaid contractors, and get upset when help is not
+given, or work is not done for them.
 
-Testing on the autobuilder showed up:
+Alex
 
-ERROR: Nothing PROVIDES 'zstd' (but /home/pokybuild/yocto-worker/check-layer/build/meta/recipes-devtools/squashfs-tools-ng/squashfs-tools-ng_1.0.2.bb DEPENDS on or otherwise requires it)
+On Sat, 24 Oct 2020 at 19:38, Zoran Stojsavljevic <
+zoran.stojsavljevic@gmail.com> wrote:
 
-(zstd isn't in OE-Core)
+> Alex,
+>
+> Either do it voluntarily, either do not.
+>
+> Do not complain, or brag about it.
+>
+> We all understand Open Source rules, or we do not, do we???
+>
+> Thank you,
+> Zoran Stojsavljevic
+> _______
+>
+>
+>
+>
+>
+> On Sat, Oct 24, 2020 at 12:54 PM Zoran via lists.yoctoproject.org
+> <zoran.stojsavljevic=gmail.com@lists.yoctoproject.org> wrote:
+> >
+> > > I have absolutely no need for python2, I made this abundantly
+> > > clear when I created the meta-python2 layer.
+> >
+> > WTH? Let me tell you how I really feel.
+> >
+> > I  have absolutely no need for python2, as well.
+> >
+> > > You are not paying me to do this. You cannot pay me enough
+> > > to do this. Period. Support yourself.
+> >
+> > What is the amount of cash for you, you'll consider it enough to
+> > do that???
+> >
+> > Better... What is the real message behind this/yours "announcement"?
+> >
+> > Thank you,
+> > Zoran
+> > _______
+> >
+> > On Wed, Oct 21, 2020 at 2:48 AM Tim Orling <ticotimo@gmail.com> wrote:
+> > >
+> > > I have absolutely no need for python2, I made this abundantly clear
+> when I created the meta-python2 layer.
+> > >
+> > > If you depend upon continuing support of python2 via the meta-python2
+> layer, this is your call to arms.
+> > >
+> > > I was originally intending to abdicate any support after the 3.1
+> "dunfell" release, but managed to somehow continue supporting it into the
+> crest of the 3.2 "gatesgarth" release.
+> > >
+> > > I will stop all support and actively refuse lo respond to any emails
+> and this layer will be dead and I have zero care in the world that it stops
+> being useful. I do not use it. I do not depend upon it. You are not paying
+> me to do this. You cannot pay me enough to do this. Period. Support
+> yourself.
+> > >
+> > > If this is not clear enough, I am happy to have a virtual video call
+> with you that you will not like.
+> > >
+> > > --moto-timo
+> > >
+> > >
+> >
+> > 
+> >
+>
 
-Cheers,
+--0000000000005ede9a05b270747a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div>I am not complaining or bragging. I only want to set =
+expectations, in public, and clearly. Otherwise some people will treat the =
+project contributors as their unpaid contractors, and get upset when help i=
+s not given, or work is not done for them.</div><div><br></div><div>Alex<br=
+></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Sat, 24 Oct 2020 at 19:38, Zoran Stojsavljevic &lt;<a href=3D"mai=
+lto:zoran.stojsavljevic@gmail.com">zoran.stojsavljevic@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Alex,<br>
+<br>
+Either do it voluntarily, either do not.<br>
+<br>
+Do not complain, or brag about it.<br>
+<br>
+We all understand Open Source rules, or we do not, do we???<br>
+<br>
+Thank you,<br>
+Zoran Stojsavljevic<br>
+_______<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+On Sat, Oct 24, 2020 at 12:54 PM Zoran via <a href=3D"http://lists.yoctopr=
+oject.org" rel=3D"noreferrer" target=3D"_blank">lists.yoctoproject.org</a><=
+br>
+&lt;zoran.stojsavljevic=3D<a href=3D"mailto:gmail.com@lists.yoctoproject.o=
+rg" target=3D"_blank">gmail.com@lists.yoctoproject.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; &gt; I have absolutely no need for python2, I made this abundantly<br=
+>
+&gt; &gt; clear when I created the meta-python2 layer.<br>
+&gt;<br>
+&gt; WTH? Let me tell you how I really feel.<br>
+&gt;<br>
+&gt; I=C2=A0 have absolutely no need for python2, as well.<br>
+&gt;<br>
+&gt; &gt; You are not paying me to do this. You cannot pay me enough<br>
+&gt; &gt; to do this. Period. Support yourself.<br>
+&gt;<br>
+&gt; What is the amount of cash for you, you&#39;ll consider it enough to<=
+br>
+&gt; do that???<br>
+&gt;<br>
+&gt; Better... What is the real message behind this/yours &quot;announceme=
+nt&quot;?<br>
+&gt;<br>
+&gt; Thank you,<br>
+&gt; Zoran<br>
+&gt; _______<br>
+&gt;<br>
+&gt; On Wed, Oct 21, 2020 at 2:48 AM Tim Orling &lt;<a href=3D"mailto:tico=
+timo@gmail.com" target=3D"_blank">ticotimo@gmail.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; I have absolutely no need for python2, I made this abundantly cl=
+ear when I created the meta-python2 layer.<br>
+&gt; &gt;<br>
+&gt; &gt; If you depend upon continuing support of python2 via the meta-py=
+thon2 layer, this is your call to arms.<br>
+&gt; &gt;<br>
+&gt; &gt; I was originally intending to abdicate any support after the 3.1=
+ &quot;dunfell&quot; release, but managed to somehow continue supporting it=
+ into the crest of the 3.2 &quot;gatesgarth&quot; release.<br>
+&gt; &gt;<br>
+&gt; &gt; I will stop all support and actively refuse lo respond to any em=
+ails and this layer will be dead and I have zero care in the world that it =
+stops being useful. I do not use it. I do not depend upon it. You are not p=
+aying me to do this. You cannot pay me enough to do this. Period. Support y=
+ourself.<br>
+&gt; &gt;<br>
+&gt; &gt; If this is not clear enough, I am happy to have a virtual video =
+call with you that you will not like.<br>
+&gt; &gt;<br>
+&gt; &gt; --moto-timo<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+</blockquote></div>
 
-
-
+--0000000000005ede9a05b270747a--
