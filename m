@@ -1,103 +1,142 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web09.42.1603642268892584473
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web11.921.1603646234103302525
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2020 09:11:09 -0700
+ Sun, 25 Oct 2020 10:17:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=THXeHFNW;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id dn5so6888926edb.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 09:11:08 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NwrC+1ss;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id o1so1860807pjt.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 10:17:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xwI/domsXAMzQhEyYq3/nLq4MBkjvgrB56ff9ELiAXw=;
-        b=THXeHFNWXW3r6ZLDSUybkoXjH8ihCgDIAIIuNmHxQ3ywOo8PRpYDtl1PxziD2K317T
-         rm+BEK3gznz74/k1hNCTtK0/hTzPbRwxO/Dr4W0tHJbP91ds3MBXSZ8wsOrxc8vzu/da
-         El5JFkYniPIDFNPjS2ErM9E1KR8WEixo8gPY+Jv6OWKasXOjI8GWhOALELmrLmFj3dza
-         buGK3PKRXeR4HbguF8pVYnhEf5iTMwgn2WmKnBQACTo8Ratu/T2iE1rJ/G9+c5WWrQ+W
-         5SCnHtxLWrKSrF4oFDIaUv7sFuQAKGvDReyNG0i7lB2gbGAOhdoI400tW0pXQdzj/M6Q
-         ildA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:from:to:message-id:date;
+        bh=SKrTldq4WX28B9buSN1rbSQFfihw/I7OWBZlDCfS7pM=;
+        b=NwrC+1ssNZB++Wx8B65F/oxyLF/Qz6LtZZCexsB+4AsTtVHuur/XkoBWN0R4gKZfbd
+         JrjbNWpSUwe0DCC4cmCgPoIe7jP6Q4WamSQ6KQz16nxoLCctBkFhh58s8CpDhXdiSIXE
+         j/q+oxlHuPHiquOKGMAP4ww1zzpYZZvAphpeeYdZahD+69y1QUlhFSNpbjaQ25oMRJC0
+         S30NhAOM0AEGEbQNCAowg6xc1k20MFJ1eZK4qcssKCsBKZZQC298KPj3sTGcHF53yxuS
+         mMJrzBQfHGj3RDCeyXXPVxkjVRZ0oYUQ+7BIvMwb160mqkHfvex0+m7eP4CoEnQE3bpE
+         M64w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xwI/domsXAMzQhEyYq3/nLq4MBkjvgrB56ff9ELiAXw=;
-        b=I+PB3WeqdTBxMKx2A36qfgiqC+si0OU7H3cHwR2IYHkNlJHgBjQwSboyNgKVHGCiKU
-         9MZ3RDP4CCICG5/g9ZX6dgUHY9W1HeL3J+cyRA12gPRV+LmEA/Bi/MXuKJ696g/SgzW+
-         h/YbpubVnm053ZX/X8PSIklpPmVPvSwVGU2KawB05kSFnP1Bu1m6yj0ceghfO2ISLWHu
-         B68bw1IJHAZlrqNu0N7FfSh1KJl5zQvQ+2E3JTITpocvo/Aaykm0ep4SwkuilYXEOg+U
-         hKyf9BQTzz/xWYHiaFoYy3o2PkMi5ZcIhiFXo75417mCGiyDL6JXdSYTs1K0HbYa92I8
-         i42Q==
-X-Gm-Message-State: AOAM530nH7VfeccfCUSvmT3vmNIVMRGqr9TmOLrFbix22eX/X33xq0HX
-	Ipqert5Li9snIK4S8VMjiLr1vk2iGTjUAAkVtSM=
-X-Google-Smtp-Source: ABdhPJxKt8kvJFaCImoBLui9397Xnc0xiDwcPm2Nab067vUjwwCHna3HL1zbvWQ4+l2aax0nCX+1EilivxQPweJa7aA=
-X-Received: by 2002:aa7:d597:: with SMTP id r23mr10487789edq.19.1603642267263;
- Sun, 25 Oct 2020 09:11:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201017142935.3605756-1-quaresma.jose@gmail.com> <436d7e8c6bb8f34052c59924eb8020145e413dfa.camel@linuxfoundation.org>
-In-Reply-To: <436d7e8c6bb8f34052c59924eb8020145e413dfa.camel@linuxfoundation.org>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Sun, 25 Oct 2020 16:11:02 +0000
-Message-ID: <CANPvuRkv-Jk8L7AhN7hYhHNA8ArU21PbE8egm9N2ZytsQEBGKw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 1/5] spirv-tools: import from meta-oe to OE core
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:subject:from:to:message-id:date;
+        bh=SKrTldq4WX28B9buSN1rbSQFfihw/I7OWBZlDCfS7pM=;
+        b=HNxVe5dPaelsaXHE4puegi2sHrKZIWDo3U0XIF6pVJpi12xdiN8WC7+vHHBWGQHjWU
+         wn/y7hp7quOvMR4/yhS10+wGoTqRwxDuBxAd6xLHOxrjYNpCTakk/KoOGFUtRrkwH3Ax
+         xvhnUG8shDrU1/MU7X/ldKOgihAbnIkZGAVbaegJc/3zWp9nPhBOJc/T8hZ967sA5GMS
+         M4WRvRV7mn2/atJcm11RT+AYG2xH6VD+4j3UnRD9CJtFcP66MwowQD41cEZYJ/fZJ1W+
+         QdVv5UusIZLxbGEefkYy73+On6uwlVGwPggwvqkOE/hWk01HE2dzYx5+X3XB9IeA+caB
+         q89A==
+X-Gm-Message-State: AOAM532AmU8sC3EKSm/f7wCF2ymDUOgPXIxCzw6zdz42C5o3dn7jlRA/
+	jqGRezVwb23dIub7J0jCUQsz7CY8gJznxMDd
+X-Google-Smtp-Source: ABdhPJziqx0KtCRG63fh+4Uy4sXmsGNom3Nq8BhLJuJDuF0Mt53ZtFIJ01w/MM5Jk1l6NJKwpaTXtg==
+X-Received: by 2002:a17:902:82c8:b029:d6:652:97e8 with SMTP id u8-20020a17090282c8b02900d6065297e8mr9960031plz.5.1603646233023;
+        Sun, 25 Oct 2020 10:17:13 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from nuc.router0800d9.com ([99.197.43.113])
+        by smtp.gmail.com with ESMTPSA id md11sm2590888pjb.18.2020.10.25.10.17.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2020 10:17:12 -0700 (PDT)
+Received: by nuc.router0800d9.com (Postfix, from userid 1000)
+	id C0A5E96026B; Sun, 25 Oct 2020 07:17:01 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 25 Oct 2020 07:15:01 AM HST
+From: "Steve Sakoman" <steve@sakoman.com>
+To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+X-Mailer: mail (GNU Mailutils 3.7)
+Message-Id: <20201025171701.C0A5E96026B@nuc.router0800d9.com>
+Date: Sun, 25 Oct 2020 07:17:01 -1000 (HST)
 
-Hi Richard,
+Branch: master
 
-The following recipes do not have a maintainer assigned to them.
-Please add an entry to meta/conf/distro/include/maintainers.inc file.
-glslang (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes=
--graphics/glslang/glslang_8.13.3559.bb)
-shaderc (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/recipes=
--graphics/shaderc/shaderc_2019.0.bb)
-spirv-tools (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/rec=
-ipes-graphics/spir/spirv-tools_git.bb)
+New this week:
+CVE-2020-25613: ruby https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25613 *
+CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
 
-spirv-tools comes from meta-oe, I can assign the same maintainer found
-in meta-oe or it is not possible?
+Removed this week:
+CVE-2013-6425: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6425 *
+CVE-2016-4952: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4952 *
+CVE-2016-5105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5105 *
+CVE-2016-5106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5106 *
+CVE-2016-5107: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5107 *
+CVE-2016-5238: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5238 *
+CVE-2016-6835: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6835 *
+CVE-2016-7994: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7994 *
+CVE-2016-8578: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8578 *
+CVE-2016-8667: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8667 *
+CVE-2016-8668: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8668 *
+CVE-2016-8909: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8909 *
+CVE-2016-8910: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8910 *
+CVE-2016-9104: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9104 *
+CVE-2017-6386: virglrenderer-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6386 *
+CVE-2018-1000205: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000205 *
+CVE-2018-10844: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10844 *
+CVE-2018-10845: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10845 *
+CVE-2018-10846: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10846 *
+CVE-2018-18073: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18073 *
+CVE-2020-10713: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
 
-glslang and shaderc don't exist in other layers and it is created by me.
-You are saying that I can be the mateiner or have to be someone else.
-
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-domingo, 25/10/2020 =C3=A0(s) 14:52:
->
-> On Sat, 2020-10-17 at 15:29 +0100, Jose Quaresma wrote:
-> > This receipe is needed to build the new shaderc
-> >
-> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > ---
-> >  ...0001-Avoid-pessimizing-std-move-3124.patch | 50 +++++++++++++++++++
-> >  ...STALL_LIBDIR-in-installed-CMake-file.patch | 35 +++++++++++++
-> >  meta/recipes-graphics/spir/spirv-tools_git.bb | 35 +++++++++++++
-> >  3 files changed, 120 insertions(+)
-> >  create mode 100644 meta/recipes-graphics/spir/files/0001-Avoid-pessimi=
-zing-std-move-3124.patch
-> >  create mode 100644 meta/recipes-graphics/spir/files/0001-Respect-CMAKE=
-_INSTALL_LIBDIR-in-installed-CMake-file.patch
-> >  create mode 100644 meta/recipes-graphics/spir/spirv-tools_git.bb
->
-> Hi,
->
-> I did run some brief tests on these, I noticed there is no maintainer
-> set for the new recipes. We need to set one for recipes in OE-Core,
-> see:
->
-> meta/conf/distro/include/maintainers.inc
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1490/st=
-eps/8/logs/step2d
->
-> Cheers,
->
-> Richard
->
-
-
---=20
-best regards,
-Jos=C3=A9 Quaresma
+Full list:  Found 64 unpatched CVEs
+CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
+CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
+CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
+CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
+CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-8166: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8166 *
+CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
+CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
+CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
+CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
+CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
+CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
+CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
+CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
+CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
+CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
+CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
+CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
+CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
+CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
+CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
+CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
+CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
+CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
+CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
+CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
+CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
+CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
+CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
+CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
+CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
+CVE-2020-14308: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+CVE-2020-14309: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-14311: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15706: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+CVE-2020-15707: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
+CVE-2020-25613: ruby https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25613 *
+CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
+CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
+CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
