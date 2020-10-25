@@ -1,80 +1,78 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web12.27303.1603635849463627984
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.27579.1603637523265668302
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2020 07:24:09 -0700
+ Sun, 25 Oct 2020 07:52:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hoNGP/gh;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id n6so9576448wrm.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 07:24:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KiqABJGs;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id t9so9616119wrq.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 07:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=w9bxmzwP7OU/v47c+qN3RhHCJUYP+lumftnnzTRw5Mw=;
-        b=hoNGP/ghyLcjXAr0d02x9JIxY27K60dGQ1OGnUKoTdptsXSdtI5UBTa35Dq4ZzObKJ
-         hQdCPsOyLUmBioNfBtOcD02mlI1s8zv/66dNMxrooUAUCZtYbRWoZTyVP8NbzThM4jYa
-         cw1g652O1Zj2y4JjYjmg85mq14NJuneXI1THUJf/cXlyAEIkYc8dVZe8HGoXChIvSQEP
-         0ykEApbaC4V9NzWDyFka6p9VavNdoX5pOa1/Ga1ao2AxlI/hTi/h/pSDfsQFhLUTsePZ
-         nuZUmJ6yVEi35L3c9HQk770aeeXQuE6SNNvi/Wn7N/hClpj0yPQ+GzxmWlmpIy9p+7Vn
-         Y0Kg==
+        bh=Jnphon4Focr46M6AonHKUsn1yY2R7N3NVhoVLKLiIiE=;
+        b=KiqABJGseyBcTpJ3jraZXzgnsS2hbqhzqHokhxJowfexDRSlAz4YfKo7y68HlMlg2r
+         F+r+/PEl65bXSmnBpYmd3b4+8sTmfCb0KHDBOsNTYms31IGKc+YVODLTwe//J1CMSoSR
+         S2lbLpsDNehL1DcMgT9tYw0ozrZhLlaQfa7XQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=w9bxmzwP7OU/v47c+qN3RhHCJUYP+lumftnnzTRw5Mw=;
-        b=YGRc89335i3HmhsHMI398gHOhzzBfL20aCvbNPuTKgXz9FMSnAgps2clmJvenXmdK3
-         EnnRq49gvhDDcmabRDBebeeJRMXKcEmu786aSWBXIdPumdq3kTmKZKuC2bpUc2jnsBy9
-         D1ZcJmuKa/zSf1Icw4x0wHpqh0pjprQo2tpwllfe0TLPhyr/r5Cne5TkhpeVHseuV79p
-         kwHZ1ozUGezYf6DX4Vxw4fb9Hl/rC+3SIxPaouY/6vs6rEESNOsu6oRpA//kbPE8zAOP
-         bY9d8v8Ava2i3ecO23HdmA2zsbWlpMUZqbpCgCBYtBO/FPmsJMtX6RiVU7NZK1eQsYCz
-         2YSQ==
-X-Gm-Message-State: AOAM531Kiy5evzFRo8HQgRl/pKw/V6b9qFDOLoEV/mqa8d9Eg2Y+3bDr
-	sMTburXX0LHDF6zRoeH/gUEXXXv1/9eFog==
-X-Google-Smtp-Source: ABdhPJzXO5fA0+ELQLqmOWB/jsqOTt62BJ8i481trwJ0v0LCIm6sSKDXs8dRLIdgcgvpQ4D6Vy/0nw==
-X-Received: by 2002:adf:e881:: with SMTP id d1mr13035697wrm.395.1603635847793;
-        Sun, 25 Oct 2020 07:24:07 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id f14sm18041731wrr.80.2020.10.25.07.24.06
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Jnphon4Focr46M6AonHKUsn1yY2R7N3NVhoVLKLiIiE=;
+        b=pGkp2g2HPCN4w9Px/dRT1OtQzEpxIwUZoNM4TTDlJ/EoBwNyjxk1v/Nq4jIKDFNIP8
+         friVX/gAIqP5+qVQkasdQkD4goU3Gs3bR/zLbeEWdpy3nX5d7TKO68d7C8HNxBVps4Bn
+         i4uoy3zpZ4LvqBgPjonKtGbBe6hYKUzKOUfwqbK0WCLcDBlFfvgFZqcC2/+dBj9TJ7+D
+         UuQYLbPevDSlaYsblS8Fsvys0CpxmoriNKvUgJkpWYXcXExBCIUqxLBmtXZ2Qu6FVT18
+         /SlF78Bj3wTipmXHnLPVImo+R4csQmb3g6eikoqZWgHqPDHRvdGpknuDQLC5JEtMNpbI
+         garg==
+X-Gm-Message-State: AOAM533h3vEgDihZauGOeH9WVp8URDNCFlyu3R5tIyD8C14rkJcLkdG1
+	dPBwJSH/+bDYsEPEtYDPEfPVGQ==
+X-Google-Smtp-Source: ABdhPJwmRqzVbxMgewlt+ir1NDwXsy3aXZFuFuZT7R/NUm5LJ9bgdx2YUjNyFHPXIp39lSWNk5c/dQ==
+X-Received: by 2002:adf:e4ca:: with SMTP id v10mr13935457wrm.53.1603637521662;
+        Sun, 25 Oct 2020 07:52:01 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from f.f.3.3.a.5.1.9.5.6.b.0.0.2.c.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.f.3.3.a.5.1.9.5.6.b.0.0.2.c.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c20:b65:915a:33ff])
+        by smtp.gmail.com with ESMTPSA id l26sm15560858wmi.41.2020.10.25.07.52.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 07:24:07 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH][dunfell 12/12] gst-validate: Update 1.16.2 -> Update 1.16.3
-Date: Sun, 25 Oct 2020 14:23:53 +0000
-Message-Id: <20201025142353.1929717-12-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201025142353.1929717-1-quaresma.jose@gmail.com>
-References: <20201025142353.1929717-1-quaresma.jose@gmail.com>
+        Sun, 25 Oct 2020 07:52:01 -0700 (PDT)
+Message-ID: <436d7e8c6bb8f34052c59924eb8020145e413dfa.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3 1/5] spirv-tools: import from meta-oe to OE core
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 25 Oct 2020 14:51:59 +0000
+In-Reply-To: <20201017142935.3605756-1-quaresma.jose@gmail.com>
+References: <20201017142935.3605756-1-quaresma.jose@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- .../{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb} (87%)
+On Sat, 2020-10-17 at 15:29 +0100, Jose Quaresma wrote:
+> This receipe is needed to build the new shaderc
+> 
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  ...0001-Avoid-pessimizing-std-move-3124.patch | 50 +++++++++++++++++++
+>  ...STALL_LIBDIR-in-installed-CMake-file.patch | 35 +++++++++++++
+>  meta/recipes-graphics/spir/spirv-tools_git.bb | 35 +++++++++++++
+>  3 files changed, 120 insertions(+)
+>  create mode 100644 meta/recipes-graphics/spir/files/0001-Avoid-pessimizing-std-move-3124.patch
+>  create mode 100644 meta/recipes-graphics/spir/files/0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
+>  create mode 100644 meta/recipes-graphics/spir/spirv-tools_git.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-similarity index 87%
-rename from meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-index 35492fe861..ef42abbdd7 100644
---- a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
- SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz \
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
--SRC_URI[md5sum] = "688f42c52d62e8c5e506df911553fb2c"
--SRC_URI[sha256sum] = "4861ccb9326200e74d98007e316b387d48dd49f072e0b78cb9d3303fdecfeeca"
-+SRC_URI[md5sum] = "740a436f5b9bf17ea7de0e62c92ec264"
-+SRC_URI[sha256sum] = "c2064e887324af6aa476ca669234936711f253b29042f617f1d9f2597c4bf92b"
- 
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS_${PN} = "git"
--- 
-2.29.0
+Hi,
+
+I did run some brief tests on these, I noticed there is no maintainer
+set for the new recipes. We need to set one for recipes in OE-Core,
+see:
+
+meta/conf/distro/include/maintainers.inc
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1490/steps/8/logs/step2d
+
+Cheers,
+
+Richard
 
