@@ -1,50 +1,50 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web08.27406.1603635848378848049
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web12.27303.1603635849463627984
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2020 07:24:08 -0700
+ Sun, 25 Oct 2020 07:24:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VV8DO78c;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id h5so9581121wrv.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 07:24:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hoNGP/gh;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id n6so9576448wrm.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 07:24:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gVTtXOAHlOtlcbM1aFZPHRAGd7FQsKSX4sy9WibPjjE=;
-        b=VV8DO78c6LZXk8tvMrceDesVEahjtpe8XIi498E3Nd9cXGUaQnyr9nTvkCvCE6x0+/
-         m+fRPQkT6fac0fHV4VRaP/m4THlF3tgZXfQOWEMm6CAYMWfHlszJWRdjskc18Tp3GCkV
-         dt7Wv0GDvJcrax2zTSZHBeb+ZrvEdOR0g4bSBJjlkf5WrTgc9SVic80OR2P4PdlvSq/g
-         Y6VU2g3LL7Ik9JNyIofMduTpXHFL+m5GmO67RyByGrxSegMeTlcNU+uXcRrQdjlu8hHR
-         B79sxnzATwf3LeIG401R4uqBnVAukSyhfBuLuJIv6VRGjYkEmWSi5bhIbNPQvQGrZ7Zk
-         2Qww==
+        bh=w9bxmzwP7OU/v47c+qN3RhHCJUYP+lumftnnzTRw5Mw=;
+        b=hoNGP/ghyLcjXAr0d02x9JIxY27K60dGQ1OGnUKoTdptsXSdtI5UBTa35Dq4ZzObKJ
+         hQdCPsOyLUmBioNfBtOcD02mlI1s8zv/66dNMxrooUAUCZtYbRWoZTyVP8NbzThM4jYa
+         cw1g652O1Zj2y4JjYjmg85mq14NJuneXI1THUJf/cXlyAEIkYc8dVZe8HGoXChIvSQEP
+         0ykEApbaC4V9NzWDyFka6p9VavNdoX5pOa1/Ga1ao2AxlI/hTi/h/pSDfsQFhLUTsePZ
+         nuZUmJ6yVEi35L3c9HQk770aeeXQuE6SNNvi/Wn7N/hClpj0yPQ+GzxmWlmpIy9p+7Vn
+         Y0Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gVTtXOAHlOtlcbM1aFZPHRAGd7FQsKSX4sy9WibPjjE=;
-        b=rqeNmVQPfGpvAF9kUrDXbg0LfigHoM+5k1B9CBqIFSTh9LLG4J+MMda1wIcQPIhzus
-         SHfUeouMgjLeP+0vsehvkuKE2hPsP4ydc/S/tzDDpmphzrlwnaYHguAOBsbyNUMVB3ML
-         4kT6vctaFD62KXnbriXXPwsxsqfqb7GjLC34B9CjLGnv+U0vAwWInfgj9wl2frntHK9L
-         myGWiveY8KN4VM2soDdGRzF+z0FsJwUfiSzDnQgrA0Ngho8VAVLzCfz5nzRwcj+uijUZ
-         TfGUA1XC9am4G9sX2Bj1+CAYSyVxZP3O1wSuNS8XQI/XTJrmj+UyXGOKud6lEOaOEMIh
-         eq0A==
-X-Gm-Message-State: AOAM531VJsxtm0TzMLpAmXAqPUK/xWnz5B+x8hpxd2Npp1Kzmj71s/6m
-	ZcrhUMniTLHDV253i1Ovb5qxjiHaQHeiHg==
-X-Google-Smtp-Source: ABdhPJzktYfr9to9AKrDJkYRRvA3OimftbbpdOKywwM3yklshubvi419yApOvy6HYhnNXgYlFGRTAQ==
-X-Received: by 2002:adf:a501:: with SMTP id i1mr12713343wrb.162.1603635846698;
-        Sun, 25 Oct 2020 07:24:06 -0700 (PDT)
+        bh=w9bxmzwP7OU/v47c+qN3RhHCJUYP+lumftnnzTRw5Mw=;
+        b=YGRc89335i3HmhsHMI398gHOhzzBfL20aCvbNPuTKgXz9FMSnAgps2clmJvenXmdK3
+         EnnRq49gvhDDcmabRDBebeeJRMXKcEmu786aSWBXIdPumdq3kTmKZKuC2bpUc2jnsBy9
+         D1ZcJmuKa/zSf1Icw4x0wHpqh0pjprQo2tpwllfe0TLPhyr/r5Cne5TkhpeVHseuV79p
+         kwHZ1ozUGezYf6DX4Vxw4fb9Hl/rC+3SIxPaouY/6vs6rEESNOsu6oRpA//kbPE8zAOP
+         bY9d8v8Ava2i3ecO23HdmA2zsbWlpMUZqbpCgCBYtBO/FPmsJMtX6RiVU7NZK1eQsYCz
+         2YSQ==
+X-Gm-Message-State: AOAM531Kiy5evzFRo8HQgRl/pKw/V6b9qFDOLoEV/mqa8d9Eg2Y+3bDr
+	sMTburXX0LHDF6zRoeH/gUEXXXv1/9eFog==
+X-Google-Smtp-Source: ABdhPJzXO5fA0+ELQLqmOWB/jsqOTt62BJ8i481trwJ0v0LCIm6sSKDXs8dRLIdgcgvpQ4D6Vy/0nw==
+X-Received: by 2002:adf:e881:: with SMTP id d1mr13035697wrm.395.1603635847793;
+        Sun, 25 Oct 2020 07:24:07 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id f14sm18041731wrr.80.2020.10.25.07.24.05
+        by smtp.gmail.com with ESMTPSA id f14sm18041731wrr.80.2020.10.25.07.24.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 07:24:06 -0700 (PDT)
+        Sun, 25 Oct 2020 07:24:07 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH][dunfell 11/12] gstreamer1.0-python: Update 1.16.2 -> Update 1.16.3
-Date: Sun, 25 Oct 2020 14:23:52 +0000
-Message-Id: <20201025142353.1929717-11-quaresma.jose@gmail.com>
+Subject: [PATCH][dunfell 12/12] gst-validate: Update 1.16.2 -> Update 1.16.3
+Date: Sun, 25 Oct 2020 14:23:53 +0000
+Message-Id: <20201025142353.1929717-12-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201025142353.1929717-1-quaresma.jose@gmail.com>
 References: <20201025142353.1929717-1-quaresma.jose@gmail.com>
@@ -53,64 +53,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...son.build-fix-builds-with-python-3.8.patch | 24 -------------------
- ....16.2.bb => gstreamer1.0-python_1.16.3.bb} |  8 +++----
- 2 files changed, 3 insertions(+), 29 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.2.bb => gstreamer1.0-python_1.16.3.bb} (80%)
+ .../{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb} (87%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
-deleted file mode 100644
-index 053108ad50..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From 61cfd1b49dc82baf14bb36d88b6c5be7b8c3d23a Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 2 Dec 2019 18:16:41 +0100
--Subject: [PATCH] meson.build: fix builds with python 3.8
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-python/merge_requests/14]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index 1da81d5..3e0db38 100644
----- a/meson.build
--+++ b/meson.build
--@@ -24,7 +24,7 @@ pygobject_dep = dependency('pygobject-3.0', fallback: ['pygobject', 'pygobject_d
-- 
-- pymod = import('python')
-- python = pymod.find_installation(get_option('python'))
---python_dep = python.dependency(required : true)
--+python_dep = dependency('python3-embed', required : true)
-- 
-- python_abi_flags = python.get_variable('ABIFLAGS', '')
-- pylib_loc = get_option('libpython-dir')
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.3.bb
-similarity index 80%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.3.bb
-index 9e024eb9f3..14b34a2808 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.3.bb
-@@ -5,11 +5,9 @@ SECTION = "multimedia"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
+similarity index 87%
+rename from meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
+rename to meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
+index 35492fe861..ef42abbdd7 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz \
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
+-SRC_URI[md5sum] = "688f42c52d62e8c5e506df911553fb2c"
+-SRC_URI[sha256sum] = "4861ccb9326200e74d98007e316b387d48dd49f072e0b78cb9d3303fdecfeeca"
++SRC_URI[md5sum] = "740a436f5b9bf17ea7de0e62c92ec264"
++SRC_URI[sha256sum] = "c2064e887324af6aa476ca669234936711f253b29042f617f1d9f2597c4bf92b"
  
--SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
--           file://0001-meson.build-fix-builds-with-python-3.8.patch \
--           "
--SRC_URI[md5sum] = "6ac709767334d8d0a71cb4e016f6abeb"
--SRC_URI[sha256sum] = "208df3148d73d9f416d016564737585d8ea763d91201732d44b5fe688c6288a8"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
-+SRC_URI[md5sum] = "326f4f4c23e2477bf3d5839c465a42ca"
-+SRC_URI[sha256sum] = "36a00a256c25ccaaa9b965a6f09d6158dfb77558145ab6b25809938732c7161f"
- 
- DEPENDS = "gstreamer1.0 python3-pygobject"
- RDEPENDS_${PN} += "gstreamer1.0 python3-pygobject"
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS_${PN} = "git"
 -- 
 2.29.0
 
