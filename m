@@ -1,50 +1,50 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web12.27302.1603635843920082987
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web08.27404.1603635845007807504
  for <openembedded-core@lists.openembedded.org>;
- Sun, 25 Oct 2020 07:24:04 -0700
+ Sun, 25 Oct 2020 07:24:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WMI0DZhU;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 13so9202303wmf.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 07:24:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=J/zjmvCP;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id n18so9593661wrs.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 25 Oct 2020 07:24:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4xXnf3XSmJujjkpGd+RkV86Guvc4BDTzDmye6aFLCZc=;
-        b=WMI0DZhUEXYGkgTeJ5+FFNayuuvQmzelFOhBBQzjObpHMea/YSWiH/luFGhy84Qr8p
-         L/EdhaAFCvdeiUZwsERLpbHoHF3Kl3SbES4ZjQOM+k4i562ncMZdczC5IK6jkLisz0lS
-         xE9NV4Eno/Wwn1GzKyw2eISh+Kwa3tURdTfyaS4bmD2CX2fGeZIgC7oZd16KX3CVDPKI
-         bdATXR3einwPdnDcvC3EmMHTx4QzOFbRVV6eY0HlgfydTi7R0+CCcuf0GcIO8UnH9RaT
-         mEUFtyLKcUFGVClVukpj15GI5VfBezTHgyxvwGAFfo2iVSnpH4Pc7FTWhBLDd4eMM97M
-         V+JQ==
+        bh=i9hxCs1i3ziLaPacISrn4do7mvvXrINbtK9NLvpNmXs=;
+        b=J/zjmvCPyBtGeJaCBo4pOihHz+hJUz3COZO+brLt+syYmi11Y5LWGljotfhbtV8rmp
+         ledm8opcApFVgOC33eaP0TOXOl9N+mpngE0aGZ+YIc3lAzuC08XX+viUxygpbrb1MCgJ
+         KwbxoKtilBKqob+/71uv1gsbh/GE3+9yqJc2DwUtl5nyajukEECHDIqRcBSnHC4NE4pq
+         5eAHxOMUbyFmZetOTTXrjMXBRMHz998sLMiRcGClvRYs35B5kBd0og8S/6P9SVbQZdS1
+         8kcYbhMTZwTpI1/OVuwTXr5D8Nzc8EpzdUEYms1nRtn14TpdEnCXGUxS5RXSIBtqZNfW
+         6n6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4xXnf3XSmJujjkpGd+RkV86Guvc4BDTzDmye6aFLCZc=;
-        b=hwiXM0gzzrqUB8lOmgeskew/SEZ05oNP/DXiXpD2cojOowJSwTLa6gbZFWalrX2X+1
-         5b8ZYBD7U+Vb82aXU/1WwR1DWsrRqEl4UHdtw7Vxe8C38bXwAv+gvtlSiQKNOXwhbaTI
-         0xpzEs2CRITPT5h9ocOpHIGOweLxt0sRcnnBmlKWz8jNmOKojmVko/jZFVPwuAEucQGF
-         h1Hh2b6zpby/x1TkMxAIodGgNYyfmtF6WeZumsfThrtPO41xHRIH7NgRXxPTCU59SEeH
-         GNKraUoFGD8iqo9KwVf1e90ClgdrZqY97Wqn1RazHczQZBlWijuID20q9fE0IBgRNcqc
-         Dv6w==
-X-Gm-Message-State: AOAM53219NdynVExqH8ec8TM9kr1v6eX5UoM0f17Qi+eVomjKdl6btQk
-	KnKL5EfkjSOQgu4v5BYDcN051nVCXMSqpA==
-X-Google-Smtp-Source: ABdhPJzXtIVdzTJRwGCctiLR3IHfKZ/ai4BOmQwF/GEKNzhc9o4OV+DepWOwnWp2NmFE18e7AcaZXQ==
-X-Received: by 2002:a1c:6546:: with SMTP id z67mr11421647wmb.98.1603635841715;
-        Sun, 25 Oct 2020 07:24:01 -0700 (PDT)
+        bh=i9hxCs1i3ziLaPacISrn4do7mvvXrINbtK9NLvpNmXs=;
+        b=NV8azLYdr0ry0U9zJY5E1HTeHXSdFxuTtEtzqTncmZt1dQwBgQBrmC/cMONJtvUt6l
+         LiD4fNCtUrbIySyrhQmTRDKCDmQXWivLH0wvZOxlcr6esqzbSF+6u1UmCR8mz32f165R
+         IYVK1grhYEyvxeOP9Sj2Sm6GGemWRNRC+5z9HpOM4+YH1S20OSEie0ELnUAuTrVLHG+W
+         TkJf3+wiWxCCIf0kWWRcJEIT4mHDj9XRvJ0S8M1rYao5Xvmyh3jRsZfzdqLvfZVHk470
+         O8Ea4HGocdk9HaxWk2TgWLitFqFSlfUyfHt030we9ZeODMiwCxAyfAaBfYDzHcZlQXCf
+         bO8g==
+X-Gm-Message-State: AOAM532DqQSx9RkXzupGJvp0yeO9+qhGZbKAqCf9zUD2ORLnUAGtP+yR
+	HcqdF0TgkM+wA/HGIBkNxSeeAYhRlRTb+Q==
+X-Google-Smtp-Source: ABdhPJxH76ubLXxWVHQTBdvWelgcTgTXXO7x3EbAk82UEmY9V0w0jgN5RsMDVGPJRE4EMcmIpoOG2A==
+X-Received: by 2002:a5d:6341:: with SMTP id b1mr12785139wrw.373.1603635843299;
+        Sun, 25 Oct 2020 07:24:03 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id f14sm18041731wrr.80.2020.10.25.07.24.00
+        by smtp.gmail.com with ESMTPSA id f14sm18041731wrr.80.2020.10.25.07.24.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 07:24:00 -0700 (PDT)
+        Sun, 25 Oct 2020 07:24:02 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH][dunfell 07/12] gstreamer1.0-libav: Update 1.16.2 -> Update 1.16.3
-Date: Sun, 25 Oct 2020 14:23:48 +0000
-Message-Id: <20201025142353.1929717-7-quaresma.jose@gmail.com>
+Subject: [PATCH][dunfell 08/12] gstreamer1.0-vaapi: Update 1.16.2 -> Update 1.16.3
+Date: Sun, 25 Oct 2020 14:23:49 +0000
+Message-Id: <20201025142353.1929717-8-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201025142353.1929717-1-quaresma.jose@gmail.com>
 References: <20201025142353.1929717-1-quaresma.jose@gmail.com>
@@ -53,28 +53,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- ...reamer1.0-libav_1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} | 4 ++--
+ ...reamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.3.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.3.bb
-index 2fdefc925e..98355a1b75 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.3.bb
-@@ -10,8 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.3.bb
+similarity index 93%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.3.bb
+index 1bedf25128..9d9b1b8757 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.3.bb
+@@ -12,8 +12,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.x
+            file://0001-vaapsink-downgrade-to-marginal.patch \
             "
--SRC_URI[md5sum] = "eacebd0136ede3a9bd3672eeb338806b"
--SRC_URI[sha256sum] = "c724f612700c15a933c7356fbeabb0bb9571fb5538f8b1b54d4d2d94188deef2"
-+SRC_URI[md5sum] = "d08fb5429f102d5a3f1eca3dee2a0add"
-+SRC_URI[sha256sum] = "d10c5eb1a00a91de97c85c0956c663aa6e99d268195cdec4534c179b831538ec"
  
- S = "${WORKDIR}/gst-libav-${PV}"
+-SRC_URI[md5sum] = "13f7cb6a64bde24e67f563377487dcce"
+-SRC_URI[sha256sum] = "191de7b0ab64a85dd0875c990721e7be95518f60e2a9106beca162004ed7c601"
++SRC_URI[md5sum] = "8c9b5a4d20afc04bc5e1536e81511f27"
++SRC_URI[sha256sum] = "77200b3c183fe97cd987deb5544e615873cff5e98ec87573583771e5f1fb9ebe"
  
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.29.0
 
