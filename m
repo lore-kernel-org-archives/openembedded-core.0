@@ -1,74 +1,139 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.10573.1603708152876324084
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web08.11032.1603710575406056083
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2020 03:29:13 -0700
+ Mon, 26 Oct 2020 04:09:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dZKcL8j2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id h5so11755137wrv.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 03:29:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BJFr2E9t;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id w27so12788615ejb.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 04:09:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=XIicvdX77JFXoR+q/BZxAUr1bM1QnSKI0pugqXS5WLM=;
-        b=dZKcL8j2TD/JZALiFmoX66hq6AShtpFCngRrOzjjSLHXq8BMPjKziEb7d6pJJVAFwd
-         Zb3cFQZ62cL53V9Z/Y3rZM3/19FGfMhW1s7BrAoHSnjaRH7KmIDzymDMi1j26xVHZaEN
-         qdROIMkaP8gOJwSO9xpmqXfX4bBhjxLXdaMqo=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Ztq6aoR6vRZuYtdT36t+MyC534QKIUoAi1XV+55P+Ic=;
+        b=BJFr2E9t32/FOwfcIgQBykuMGhbzb1qswlH2JbYt6/TbJxTCT8HuaGKlDdGXlHAkHw
+         I+dk64Pe0ZXysTCywTGYcTO15xcEMjoWfyU0hp0UyZ4OTCS9zoLVBmjrJNkLNNI3IIHq
+         n/sIBQs5Mhl+w6l5MtfiQl4ny5bj5Vv1f+2kqzNJ+Uc/bubRUT7lLFOOm08UCUy6d1qU
+         Qdd6zFHx18aO6MFWgprPVD894M6QsIHQbrZj3aefim/Me42nUvsdKx4lMrHVzXwynuYp
+         M8AvlkkJLxrTPpnsv50OZTZbJCakF1jGRJkZ34aV+e/hQ698LcHumc8gzlDxfbh2stgA
+         i2lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=XIicvdX77JFXoR+q/BZxAUr1bM1QnSKI0pugqXS5WLM=;
-        b=ilWBSTN32Jc2alTy717ddo6gjqH9x0MW8ZVFbIszz/aVSsXN4a3Mb0WicYwOcZRcv9
-         QuGulhWsyndUjXVH9Jja+53HZqyVoyw7G29txn5ZuyaUN+vFAllherGNJ7vaNcD9L34s
-         L/jVgfQO078HWb03G895dSzqULz8vOEetano9yV81idH4cXlu6pDwyp3DQQ+mQZJoOAE
-         2d8FLi6VHjB3eHv8T7ln/TF2pLOadXSoDwx1KcCNeCP17RJTHXUy4GeWYsTK9ADzMrDD
-         NsUEeV4zBrMRP1lZt20e5+SbvMc0rlOAhV/qaEstG1Bzp+rLowTGsgQSx2D+E9SfrHmU
-         srYw==
-X-Gm-Message-State: AOAM531UBGAoyfFNOLMG35IxSViqvmeCxKLpGum0G4TClhK8tjO/5bkr
-	PPJ/ZnWOvURA8fO1rEeurBzAFA==
-X-Google-Smtp-Source: ABdhPJxhGv7J3QcsDTXd6IM+wQEsClqzc4gOYJnfuNlBuT15rh0FFK0BkAld5MwDFY+vQ/zwlVOZVw==
-X-Received: by 2002:adf:e741:: with SMTP id c1mr17842848wrn.16.1603708151244;
-        Mon, 26 Oct 2020 03:29:11 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.f.3.3.a.5.1.9.5.6.b.0.0.2.c.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.f.3.3.a.5.1.9.5.6.b.0.0.2.c.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c20:b65:915a:33ff])
-        by smtp.gmail.com with ESMTPSA id n5sm21883900wrm.2.2020.10.26.03.29.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2020 03:29:10 -0700 (PDT)
-Message-ID: <2ad67eb9e783fa044d4d97f35f93a35014aa73e1.camel@linuxfoundation.org>
-Subject: Re: [PATCH v4] Add new recipe for squashfs-tools-ng
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
-Date: Mon, 26 Oct 2020 10:29:09 +0000
-In-Reply-To: <20201026100503.3200192-1-luca.boccassi@gmail.com>
-References: <20201022113036.2938947-1-luca.boccassi@gmail.com>
-	 <20201026100503.3200192-1-luca.boccassi@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ztq6aoR6vRZuYtdT36t+MyC534QKIUoAi1XV+55P+Ic=;
+        b=h1sXPpz2CRmw6bO/K1P9z5RAni9xsaJp/4rAbGJWHfh+7WPUeb2Eh9B076psxZMFk1
+         ID5ofI9HoMP6XVHEObQe2IOojghT4Ln+Koriar2PVphXcZ0QIR/iPzeV6mTc/552DAoC
+         6YvRuu6tL2aLsBcEIYEETxLD2WvMcTb4A+N2ZwYxPSZNLwpuyz30h9AmTpYwGyDERX2c
+         jG5I0yv/A1vWlWESrwNpBmS2S3DpV4aOFv8MLN+QEzGrt+pshMfBReZBL6GnbnaGCXHD
+         FztvMTGZ8zUt42+JFdbTzWLuhB1oxj+dD5onN5AtAsDhQxmkxnlwYFI+vJbpy2t5hXp8
+         0Spw==
+X-Gm-Message-State: AOAM532AZbNXjRx5+Ia6BE/TisI4oO9QzTLIePVeZSPyCAt70quioLXQ
+	C+MCOPy/2fhltFanZ/CXerNFUVpYauSHeyNycdo=
+X-Google-Smtp-Source: ABdhPJzDV6C3plgxsE83XudBm/z+3rLdhMO1xIHQtxfc9wT5LEyOvJnxl1T8ab+9mk/tWsWcrRPwxP507MQLiGbXIkU=
+X-Received: by 2002:a17:906:249a:: with SMTP id e26mr15036865ejb.484.1603710572073;
+ Mon, 26 Oct 2020 04:09:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201017142935.3605756-1-quaresma.jose@gmail.com>
+ <436d7e8c6bb8f34052c59924eb8020145e413dfa.camel@linuxfoundation.org>
+ <CANPvuRkv-Jk8L7AhN7hYhHNA8ArU21PbE8egm9N2ZytsQEBGKw@mail.gmail.com> <CANNYZj_o8zbiCP+2VPUkg5y_gMTLd4Ww6j6x=ywaCeCSZWNgWQ@mail.gmail.com>
+In-Reply-To: <CANNYZj_o8zbiCP+2VPUkg5y_gMTLd4Ww6j6x=ywaCeCSZWNgWQ@mail.gmail.com>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Mon, 26 Oct 2020 11:09:27 +0000
+Message-ID: <CANPvuR=9FEG5QuE=2uBbYNb21KatdCaFU05UNBRVyEhb0Wu2Jg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/5] spirv-tools: import from meta-oe to OE core
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2020-10-26 at 10:05 +0000, luca.boccassi@gmail.com wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> The main difference with squashfs-tools is the availability
-> of a shared library and a programmatic interface, rather
-> than just command-line tools.
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
-> v2: added MIT, Zlib and BSD-2-Clause to LICENSE
-> v3: fixed CPL-3.0+ tag, removed GPL2 from checksum (not used),
-> changed
->     recipe to be versioned, use bb.utils.filter in PACKAGE_CONFIG
-> v4: disable zstd support by default, dependency not available in oe-
-> core
+For now I will add myself as the maintainer of these three recipes if
+it is possible
+and send a new version of the series with this fixes for
+meta/conf/distro/include/maintainers.inc
 
-Sorry, there is one other issue. There is no maintainers entry for this
-recipe (see meta/conf/distro/include/maintainers.inc) which would cause
-oe-selftest to fail. Can you add an maintainers entry please?
+The author of the spirv-tools recipe on meta-oe was Ankit Navik
+<ankit.tarot@gmail.com>.
+I can try to contact him to know if he wants to be the maintainer of
+the spirv-tools on OE-core.
+if he accepts a will send a new patch for this.
 
-Thanks,
-Richard
+Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia domingo,
+25/10/2020 =C3=A0(s) 18:00:
+>
+> Almost always the person adding the recipes to core should be the mainta=
+iner for them as well - unless you can nominate someone else and they confi=
+rm.
+>
+> Alex
+>
+> On Sun, 25 Oct 2020 at 17:11, Jose Quaresma <quaresma.jose@gmail.com> wr=
+ote:
+>>
+>> Hi Richard,
+>>
+>> The following recipes do not have a maintainer assigned to them.
+>> Please add an entry to meta/conf/distro/include/maintainers.inc file.
+>> glslang (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/rec=
+ipes-graphics/glslang/glslang_8.13.3559.bb)
+>> shaderc (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/rec=
+ipes-graphics/shaderc/shaderc_2019.0.bb)
+>> spirv-tools (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta=
+/recipes-graphics/spir/spirv-tools_git.bb)
+>>
+>> spirv-tools comes from meta-oe, I can assign the same maintainer found
+>> in meta-oe or it is not possible?
+>>
+>> glslang and shaderc don't exist in other layers and it is created by me=
+.
+>> You are saying that I can be the mateiner or have to be someone else.
+>>
+>> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+>> domingo, 25/10/2020 =C3=A0(s) 14:52:
+>> >
+>> > On Sat, 2020-10-17 at 15:29 +0100, Jose Quaresma wrote:
+>> > > This receipe is needed to build the new shaderc
+>> > >
+>> > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+>> > > ---
+>> > >  ...0001-Avoid-pessimizing-std-move-3124.patch | 50 +++++++++++++++=
+++++
+>> > >  ...STALL_LIBDIR-in-installed-CMake-file.patch | 35 +++++++++++++
+>> > >  meta/recipes-graphics/spir/spirv-tools_git.bb | 35 +++++++++++++
+>> > >  3 files changed, 120 insertions(+)
+>> > >  create mode 100644 meta/recipes-graphics/spir/files/0001-Avoid-pes=
+simizing-std-move-3124.patch
+>> > >  create mode 100644 meta/recipes-graphics/spir/files/0001-Respect-C=
+MAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
+>> > >  create mode 100644 meta/recipes-graphics/spir/spirv-tools_git.bb
+>> >
+>> > Hi,
+>> >
+>> > I did run some brief tests on these, I noticed there is no maintainer
+>> > set for the new recipes. We need to set one for recipes in OE-Core,
+>> > see:
+>> >
+>> > meta/conf/distro/include/maintainers.inc
+>> >
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/149=
+0/steps/8/logs/step2d
+>> >
+>> > Cheers,
+>> >
+>> > Richard
+>> >
+>>
+>>
+>> --
+>> best regards,
+>> Jos=C3=A9 Quaresma
+>>
+>>=20
+>>
 
+
+--=20
+best regards,
+Jos=C3=A9 Quaresma
