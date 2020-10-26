@@ -1,179 +1,542 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web09.13181.1603721683642780856
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.1186.1603735270487467052
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2020 07:14:44 -0700
+ Mon, 26 Oct 2020 11:01:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=unLxlGWY;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.67, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f67.google.com with SMTP id h24so13763958ejg.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 07:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=p4t31/ivb3cocqSlGb6e+3T4Lb/8O57GBT/zfdPMM1A=;
-        b=unLxlGWY0aJm1cBjTR+y3YbsNwhg6sp1aB4flSR0xzA+MVzUzQHjXG1KJx8HbPU4l5
-         eIKFJuEEAtSWNlDqXBADr0Tkg4yjZSb8N5Vyu7iX9Bv6G5IkjCiQKQ/Cx+ftv69XwVbO
-         JbX2hebuGpk/rggQ2bZ3d0pl3VFK0BfyRBRB+3LOT2LH+uplb265WIlhiCj9sFiYEhU2
-         sK1KS6anaOwi4fmzFjwstNWGu7MAx8OufjDdYGUHVACGvaSl953reJGsPGxB0fTbbWCn
-         kbVkBLCi0f+90GRlhnKI7bvfALLtb3ByoamQvL+zN4Txv+3aZx6ul3tbwoxYw9lhEChs
-         tYHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p4t31/ivb3cocqSlGb6e+3T4Lb/8O57GBT/zfdPMM1A=;
-        b=fnYnueMNYYyeavyf9Fga3LS111frWYuymBvPjSpwGQU5XCHZI0bPwtb4DKwVrFgwW5
-         oiZUHax4uQ5XW1xdyDi4ETx35eqQ+zjARaAIteoN82hVpai0kNWInMUj/e8NoxlyiLa2
-         kCqoRoXbkKtyhpiw66yH8yeH/9vMrjt/PHPv+XDDJ6fTsAknNFUvh4us5x8rlK99YWV1
-         qfMDanjtLpT4UofyjgmFbo2EyARtDggdgZebHHyKrGlUspYXRoT4QOt6eZx/ujhfRrYQ
-         ROblss56Ga+OLymisrhhy2S5V1ASG+Tk1zvVQYgr+Eo2xgno8JJ/YoGoZ8JPWPFye/X6
-         A6hw==
-X-Gm-Message-State: AOAM533bciOR8HCFjcrAXQ4NSHI19C+Q36hscWqueUKGB0Bz3rUIpFP5
-	IXy8EK3OVzUZreSkDEoCA8cOKqhAHruLwf16UXyA9g==
-X-Google-Smtp-Source: ABdhPJw19VJPWHS+2rgrvs7DBsrX4dlgyqJy9HPIDkyBJeE4M2QVfjsQ0xe8b4YU95mSfxiPbiiWWFczDhWVlEAVAfo=
-X-Received: by 2002:a17:906:aec1:: with SMTP id me1mr16708009ejb.225.1603721682006;
- Mon, 26 Oct 2020 07:14:42 -0700 (PDT)
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2040A139F
+	for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 11:01:09 -0700 (PDT)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A42FC3F66E
+	for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 11:01:08 -0700 (PDT)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] glib-2.0: fix parsing of slim encoded tzdata
+Date: Mon, 26 Oct 2020 18:01:06 +0000
+Message-Id: <20201026180106.469886-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <16414C9DA3397229.13106@lists.openembedded.org>
-In-Reply-To: <16414C9DA3397229.13106@lists.openembedded.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 26 Oct 2020 04:14:30 -1000
-Message-ID: <CAOSpxdZ86m8+bACSeYpQMe=GgZ3qNj-+EWj_gU68xc0CqmjiOw@mail.gmail.com>
-Subject: Re: [OE-core] OE-core CVE metrics for dunfell on Sun 25 Oct 2020 07:30:01 AM HST
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	yocto-security@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Just for reference, we were at 193 CVE's on August 2, 2020 and are now at 93
+As of tzcode 2020b the timezone data is encoded using the 'slim' format
+instead of the previous 'fat'.  This exposes a number of bugs in GLib,
+so backport the fixes to improve the parser.
 
-On Sun, Oct 25, 2020 at 7:33 AM Steve Sakoman via
-lists.openembedded.org <steve=sakoman.com@lists.openembedded.org>
-wrote:
->
-> Branch: dunfell
->
-> New this week:
-> CVE-2020-25613: ruby https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25613 *
-> CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
->
-> Removed this week:
-> CVE-2013-6425: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6425 *
-> CVE-2016-4952: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4952 *
-> CVE-2016-5105: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5105 *
-> CVE-2016-5106: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5106 *
-> CVE-2016-5107: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5107 *
-> CVE-2016-5238: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-5238 *
-> CVE-2016-6835: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6835 *
-> CVE-2016-7994: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-7994 *
-> CVE-2016-8578: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8578 *
-> CVE-2016-8667: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8667 *
-> CVE-2016-8668: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8668 *
-> CVE-2016-8909: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8909 *
-> CVE-2016-8910: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-8910 *
-> CVE-2016-9104: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9104 *
-> CVE-2017-6386: virglrenderer https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-6386 *
-> CVE-2018-1000205: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000205 *
-> CVE-2018-10844: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10844 *
-> CVE-2018-10845: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10845 *
-> CVE-2018-10846: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-10846 *
-> CVE-2018-18073: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18073 *
->
-> Full list:  Found 93 unpatched CVEs
-> CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
-> CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
-> CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-> CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-> CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-> CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-> CVE-2014-8166: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-8166 *
-> CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
-> CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-> CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
-> CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
-> CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
-> CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
-> CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-> CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
-> CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
-> CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
-> CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
-> CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
-> CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
-> CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
-> CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
-> CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
-> CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
-> CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-> CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-> CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-> CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-> CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-> CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-> CVE-2018-12617: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12617 *
-> CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
-> CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
-> CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
-> CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
-> CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
-> CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-> CVE-2018-19665: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-19665 *
-> CVE-2018-21232: re2c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
-> CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
-> CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-> CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-> CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-> CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-> CVE-2019-14865: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-> CVE-2019-20175: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20175 *
-> CVE-2019-20334: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20334 *
-> CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
-> CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
-> CVE-2019-6290: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6290 *
-> CVE-2019-6291: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6291 *
-> CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-> CVE-2019-8343: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-8343 *
-> CVE-2020-10648: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10648 *
-> CVE-2020-10713: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10713 *
-> CVE-2020-11022: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11022 *
-> CVE-2020-11023: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11023 *
-> CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-> CVE-2020-12829: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
-> CVE-2020-13253: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
-> CVE-2020-13434: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13434 *
-> CVE-2020-13435: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13435 *
-> CVE-2020-13630: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13630 *
-> CVE-2020-13631: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13631 *
-> CVE-2020-13632: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13632 *
-> CVE-2020-13645: glib-networking https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13645 *
-> CVE-2020-13754: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
-> CVE-2020-13791: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
-> CVE-2020-14145: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14145 *
-> CVE-2020-14150: bison-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14150 *
-> CVE-2020-14308: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
-> CVE-2020-14309: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
-> CVE-2020-14310: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-> CVE-2020-14311: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
-> CVE-2020-15469: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
-> CVE-2020-15523: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15523 *
-> CVE-2020-15704: ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15704 *
-> CVE-2020-15705: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-> CVE-2020-15706: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
-> CVE-2020-15707: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
-> CVE-2020-15778: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15778 *
-> CVE-2020-15859: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
-> CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-> CVE-2020-24553: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24553 *
-> CVE-2020-25219: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25219 *
-> CVE-2020-25613: ruby https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25613 *
-> CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-> CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-> CVE-2020-26116: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26116 *
-> CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
-> CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
-> CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-> CVE-2020-8432: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8432 *
->
-> 
->
+[ YOCTO #14106 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../glib-2.0/glib-2.0/tzdata-update.patch     | 458 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb |   1 +
+ 2 files changed, 459 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.pat=
+ch
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch b/me=
+ta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
+new file mode 100644
+index 0000000000..0af036f8bd
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
+@@ -0,0 +1,458 @@
++Backport a number of patches from upstream to fix reading of the new 'sl=
+im'
++encoding for tzdata files.
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++commit 18cbd5e5a4812e9bd0b06a058322d2b44ed2ad92
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    Clarify memset in set_tz_name
++
++    * glib/gtimezone.c (set_tz_name): Use size, not NAME_SIZE,
++    to clear the buffer.  Suggested by Philip Withnall in:
++    https://gitlab.gnome.org/GNOME/glib/-/merge_requests/1533#note_86785=
+9
++
++commit 1ab3f927d6d09a8cf3349a3545f5351446f43d47
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: support footers in TZif files
++
++    Since tzcode95f (1995), TZif files have had a trailing
++    TZ string, used for timestamps after the last transition.
++    This string is specified in Internet RFC 8536 section 3.3.
++    init_zone_from_iana_info has ignored this string, causing it
++    to mishandle timestamps past the year 2038.  With zic's new -b
++    slim flag, init_zone_from_iana_info would even mishandle current
++    timestamps.  Fix this by parsing the trailing TZ string and adding
++    its transitions.
++
++    Closes #2129
++
++commit e8b763e35235a2c6b4bdd48a5099c00f72741059
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: add support for RFC 8536 time zone transitions
++
++    Time zone transition times can range from -167:59:59 through
++    +167:59:59, according to Internet RFC 8536 section 3.3.1;
++    this is an extension to POSIX.  It is needed for proper
++    support of TZif version 3 files.
++
++commit 1c65dd48b8ebd31af8bc9b2263f83c0c411f7519
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: allow hh to be 24, as per POSIX
++
++    POSIX allows hh to be 24; see
++    https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.=
+html#tag_08_03
++
++commit 368b65cb4cb17e29a4f55654149f554a14f48bc6
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: support POSIX 1003.1-2001 quoted TZ abbreviations
++
++    TZ strings like '<-03>3' were introduced in POSIX 1003.1-2001 and
++    are currently specified in:
++    https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.=
+html#tag_08_03
++
++commit fd528aaab6bb077c6d217e62f2228ec9fe3ed760
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: get 64-bit data from version-3 TZif files
++
++    Version 3 was introduced in tzdb 2013e (2013).
++    See Internet RFC 8536 section 3.1 under "ver(sion)".
++
++diff --git a/glib/gtimezone.c b/glib/gtimezone.c
++index 5a835dea9..f9eee1967 100644
++--- a/glib/gtimezone.c
+++++ b/glib/gtimezone.c
++@@ -142,9 +142,7 @@ typedef struct
++   gint     mday;
++   gint     wday;
++   gint     week;
++-  gint     hour;
++-  gint     min;
++-  gint     sec;
+++  gint32   offset;  /* hour*3600 + min*60 + sec; can be negative.  */
++ } TimeZoneDate;
++=20
++ /* POSIX Timezone abbreviations are typically 3 or 4 characters, but
++@@ -205,6 +203,10 @@ static GTimeZone *tz_local =3D NULL;
++                            there's no point in getting carried
++                            away. */
++=20
+++#ifdef G_OS_UNIX
+++static GTimeZone *parse_footertz (const gchar *, size_t);
+++#endif
+++
++ /**
++  * g_time_zone_unref:
++  * @tz: a #GTimeZone
++@@ -286,13 +288,20 @@ g_time_zone_ref (GTimeZone *tz)
++ /* fake zoneinfo creation (for RFC3339/ISO 8601 timezones) {{{1 */
++ /*
++  * parses strings of the form h or hh[[:]mm[[[:]ss]]] where:
++- *  - h[h] is 0 to 23
+++ *  - h[h] is 0 to 24
++  *  - mm is 00 to 59
++  *  - ss is 00 to 59
+++ * If RFC8536, TIME_ is a transition time sans sign,
+++ * so colons are required before mm and ss, and hh can be up to 167.
+++ * See Internet RFC 8536 section 3.3.1:
+++ * https://tools.ietf.org/html/rfc8536#section-3.3.1
+++ * and POSIX Base Definitions 8.3 TZ rule time:
+++ * https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.=
+html#tag_08_03
++  */
++ static gboolean
++ parse_time (const gchar *time_,
++-            gint32      *offset)
+++            gint32      *offset,
+++            gboolean    rfc8536)
++ {
++   if (*time_ < '0' || '9' < *time_)
++     return FALSE;
++@@ -310,7 +319,20 @@ parse_time (const gchar *time_,
++       *offset *=3D 10;
++       *offset +=3D 60 * 60 * (*time_++ - '0');
++=20
++-      if (*offset > 23 * 60 * 60)
+++      if (rfc8536)
+++        {
+++          /* Internet RFC 8536 section 3.3.1 and POSIX 8.3 TZ together =
+say
+++             that a transition time must be of the form [+-]hh[:mm[:ss]=
+] where
+++             the hours part can range from -167 to 167.  */
+++          if ('0' <=3D *time_ && *time_ <=3D '9')
+++            {
+++              *offset *=3D 10;
+++              *offset +=3D 60 * 60 * (*time_++ - '0');
+++            }
+++          if (*offset > 167 * 60 * 60)
+++            return FALSE;
+++        }
+++      else if (*offset > 24 * 60 * 60)
++         return FALSE;
++=20
++       if (*time_ =3D=3D '\0')
++@@ -319,6 +341,8 @@ parse_time (const gchar *time_,
++=20
++   if (*time_ =3D=3D ':')
++     time_++;
+++  else if (rfc8536)
+++    return FALSE;
++=20
++   if (*time_ < '0' || '5' < *time_)
++     return FALSE;
++@@ -335,6 +359,8 @@ parse_time (const gchar *time_,
++=20
++   if (*time_ =3D=3D ':')
++     time_++;
+++  else if (rfc8536)
+++    return FALSE;
++=20
++   if (*time_ < '0' || '5' < *time_)
++     return FALSE;
++@@ -351,28 +377,32 @@ parse_time (const gchar *time_,
++=20
++ static gboolean
++ parse_constant_offset (const gchar *name,
++-                       gint32      *offset)
+++                       gint32      *offset,
+++                       gboolean    rfc8536)
++ {
++-  if (g_strcmp0 (name, "UTC") =3D=3D 0)
+++  /* Internet RFC 8536 section 3.3.1 and POSIX 8.3 TZ together say
+++     that a transition time must be numeric.  */
+++  if (!rfc8536 && g_strcmp0 (name, "UTC") =3D=3D 0)
++     {
++       *offset =3D 0;
++       return TRUE;
++     }
++=20
++   if (*name >=3D '0' && '9' >=3D *name)
++-    return parse_time (name, offset);
+++    return parse_time (name, offset, rfc8536);
++=20
++   switch (*name++)
++     {
++     case 'Z':
++       *offset =3D 0;
++-      return !*name;
+++      /* Internet RFC 8536 section 3.3.1 requires a numeric zone.  */
+++      return !rfc8536 && !*name;
++=20
++     case '+':
++-      return parse_time (name, offset);
+++      return parse_time (name, offset, rfc8536);
++=20
++     case '-':
++-      if (parse_time (name, offset))
+++      if (parse_time (name, offset, rfc8536))
++         {
++           *offset =3D -*offset;
++           return TRUE;
++@@ -391,7 +421,7 @@ zone_for_constant_offset (GTimeZone *gtz, const gcha=
+r *name)
++   gint32 offset;
++   TransitionInfo info;
++=20
++-  if (name =3D=3D NULL || !parse_constant_offset (name, &offset))
+++  if (name =3D=3D NULL || !parse_constant_offset (name, &offset, FALSE)=
+)
++     return;
++=20
++   info.gmt_offset =3D offset;
++@@ -529,12 +559,17 @@ init_zone_from_iana_info (GTimeZone *gtz,
++   guint8 *tz_transitions, *tz_type_index, *tz_ttinfo;
++   guint8 *tz_abbrs;
++   gsize timesize =3D sizeof (gint32);
++-  const struct tzhead *header =3D g_bytes_get_data (zoneinfo, &size);
+++  gconstpointer header_data =3D g_bytes_get_data (zoneinfo, &size);
+++  const gchar *data =3D header_data;
+++  const struct tzhead *header =3D header_data;
+++  GTimeZone *footertz =3D NULL;
+++  guint extra_time_count =3D 0, extra_type_count =3D 0;
+++  gint64 last_explicit_transition_time;
++=20
++   g_return_if_fail (size >=3D sizeof (struct tzhead) &&
++                     memcmp (header, "TZif", 4) =3D=3D 0);
++=20
++-  if (header->tzh_version =3D=3D '2')
+++  if (header->tzh_version >=3D '2')
++       {
++         /* Skip ahead to the newer 64-bit data if it's available. */
++         header =3D (const struct tzhead *)
++@@ -550,6 +585,30 @@ init_zone_from_iana_info (GTimeZone *gtz,
++   time_count =3D guint32_from_be(header->tzh_timecnt);
++   type_count =3D guint32_from_be(header->tzh_typecnt);
++=20
+++  if (header->tzh_version >=3D '2')
+++    {
+++      const gchar *footer =3D (((const gchar *) (header + 1))
+++                             + guint32_from_be(header->tzh_ttisgmtcnt)
+++                             + guint32_from_be(header->tzh_ttisstdcnt)
+++                             + 12 * guint32_from_be(header->tzh_leapcnt=
+)
+++                             + 9 * time_count
+++                             + 6 * type_count
+++                             + guint32_from_be(header->tzh_charcnt));
+++      const gchar *footerlast;
+++      size_t footerlen;
+++      g_return_if_fail (footer <=3D data + size - 2 && footer[0] =3D=3D=
+ '\n');
+++      footerlast =3D memchr (footer + 1, '\n', data + size - (footer + =
+1));
+++      g_return_if_fail (footerlast);
+++      footerlen =3D footerlast + 1 - footer;
+++      if (footerlen !=3D 2)
+++        {
+++          footertz =3D parse_footertz (footer, footerlen);
+++          g_return_if_fail (footertz);
+++          extra_type_count =3D footertz->t_info->len;
+++          extra_time_count =3D footertz->transitions->len;
+++        }
+++    }
+++
++   tz_transitions =3D ((guint8 *) (header) + sizeof (*header));
++   tz_type_index =3D tz_transitions + timesize * time_count;
++   tz_ttinfo =3D tz_type_index + time_count;
++@@ -557,9 +616,9 @@ init_zone_from_iana_info (GTimeZone *gtz,
++=20
++   gtz->name =3D g_steal_pointer (&identifier);
++   gtz->t_info =3D g_array_sized_new (FALSE, TRUE, sizeof (TransitionInf=
+o),
++-                                   type_count);
+++                                   type_count + extra_type_count);
++   gtz->transitions =3D g_array_sized_new (FALSE, TRUE, sizeof (Transiti=
+on),
++-                                        time_count);
+++                                        time_count + extra_time_count);
++=20
++   for (index =3D 0; index < type_count; index++)
++     {
++@@ -574,15 +633,50 @@ init_zone_from_iana_info (GTimeZone *gtz,
++   for (index =3D 0; index < time_count; index++)
++     {
++       Transition trans;
++-      if (header->tzh_version =3D=3D '2')
+++      if (header->tzh_version >=3D '2')
++         trans.time =3D gint64_from_be (((gint64_be*)tz_transitions)[ind=
+ex]);
++       else
++         trans.time =3D gint32_from_be (((gint32_be*)tz_transitions)[ind=
+ex]);
+++      last_explicit_transition_time =3D trans.time;
++       trans.info_index =3D tz_type_index[index];
++       g_assert (trans.info_index >=3D 0);
++       g_assert ((guint) trans.info_index < gtz->t_info->len);
++       g_array_append_val (gtz->transitions, trans);
++     }
+++
+++  if (footertz)
+++    {
+++      /* Append footer time types.  Don't bother to coalesce
+++         duplicates with existing time types.  */
+++      for (index =3D 0; index < extra_type_count; index++)
+++        {
+++          TransitionInfo t_info;
+++          TransitionInfo *footer_t_info
+++            =3D &g_array_index (footertz->t_info, TransitionInfo, index=
+);
+++          t_info.gmt_offset =3D footer_t_info->gmt_offset;
+++          t_info.is_dst =3D footer_t_info->is_dst;
+++          t_info.abbrev =3D g_steal_pointer (&footer_t_info->abbrev);
+++          g_array_append_val (gtz->t_info, t_info);
+++        }
+++
+++      /* Append footer transitions that follow the last explicit
+++         transition.  */
+++      for (index =3D 0; index < extra_time_count; index++)
+++        {
+++          Transition *footer_transition
+++            =3D &g_array_index (footertz->transitions, Transition, inde=
+x);
+++          if (time_count <=3D 0
+++              || last_explicit_transition_time < footer_transition->tim=
+e)
+++            {
+++              Transition trans;
+++              trans.time =3D footer_transition->time;
+++              trans.info_index =3D type_count + footer_transition->info=
+_index;
+++              g_array_append_val (gtz->transitions, trans);
+++            }
+++        }
+++
+++      g_time_zone_unref (footertz);
+++    }
++ }
++=20
++ #elif defined (G_OS_WIN32)
++@@ -590,9 +684,8 @@ init_zone_from_iana_info (GTimeZone *gtz,
++ static void
++ copy_windows_systemtime (SYSTEMTIME *s_time, TimeZoneDate *tzdate)
++ {
++-  tzdate->sec =3D s_time->wSecond;
++-  tzdate->min =3D s_time->wMinute;
++-  tzdate->hour =3D s_time->wHour;
+++  tzdate->offset
+++    =3D s_time->wHour * 3600 + s_time->wMinute * 60 + s_time->wSecond;
++   tzdate->mon =3D s_time->wMonth;
++   tzdate->year =3D s_time->wYear;
++   tzdate->wday =3D s_time->wDayOfWeek ? s_time->wDayOfWeek : 7;
++@@ -979,7 +1072,7 @@ boundary_for_year (TimeZoneDate *boundary,
++   g_date_clear (&date, 1);
++   g_date_set_dmy (&date, buffer.mday, buffer.mon, buffer.year);
++   return ((g_date_get_julian (&date) - unix_epoch_start) * seconds_per_=
+day +
++-          buffer.hour * 3600 + buffer.min * 60 + buffer.sec - offset);
+++          buffer.offset - offset);
++ }
++=20
++ static void
++@@ -1156,7 +1249,7 @@ init_zone_from_rules (GTimeZone    *gtz,
++  * - N is 0 to 365
++  *
++  * time is either h or hh[[:]mm[[[:]ss]]]
++- *  - h[h] is 0 to 23
+++ *  - h[h] is 0 to 24
++  *  - mm is 00 to 59
++  *  - ss is 00 to 59
++  */
++@@ -1289,25 +1382,10 @@ parse_tz_boundary (const gchar  *identifier,
++   /* Time */
++=20
++   if (*pos =3D=3D '/')
++-    {
++-      gint32 offset;
++-
++-      if (!parse_time (++pos, &offset))
++-        return FALSE;
++-
++-      boundary->hour =3D offset / 3600;
++-      boundary->min =3D (offset / 60) % 60;
++-      boundary->sec =3D offset % 3600;
++-
++-      return TRUE;
++-    }
++-
+++    return parse_constant_offset (pos + 1, &boundary->offset, TRUE);
++   else
++     {
++-      boundary->hour =3D 2;
++-      boundary->min =3D 0;
++-      boundary->sec =3D 0;
++-
+++      boundary->offset =3D 2 * 60 * 60;
++       return *pos =3D=3D '\0';
++     }
++ }
++@@ -1341,7 +1419,7 @@ parse_offset (gchar **pos, gint32 *target)
++     ++(*pos);
++=20
++   buffer =3D g_strndup (target_pos, *pos - target_pos);
++-  ret =3D parse_constant_offset (buffer, target);
+++  ret =3D parse_constant_offset (buffer, target, FALSE);
++   g_free (buffer);
++=20
++   return ret;
++@@ -1366,21 +1444,32 @@ parse_identifier_boundary (gchar **pos, TimeZone=
+Date *target)
++ static gboolean
++ set_tz_name (gchar **pos, gchar *buffer, guint size)
++ {
+++  gboolean quoted =3D **pos =3D=3D '<';
++   gchar *name_pos =3D *pos;
++   guint len;
++=20
++-  /* Name is ASCII alpha (Is this necessarily true?) */
++-  while (g_ascii_isalpha (**pos))
++-    ++(*pos);
+++  if (quoted)
+++    {
+++      name_pos++;
+++      do
+++        ++(*pos);
+++      while (g_ascii_isalnum (**pos) || **pos =3D=3D '-' || **pos =3D=3D=
+ '+');
+++      if (**pos !=3D '>')
+++        return FALSE;
+++    }
+++  else
+++    while (g_ascii_isalpha (**pos))
+++      ++(*pos);
++=20
++-  /* Name should be three or more alphabetic characters */
+++  /* Name should be three or more characters */
++   if (*pos - name_pos < 3)
++     return FALSE;
++=20
++-  memset (buffer, 0, NAME_SIZE);
+++  memset (buffer, 0, size);
++   /* name_pos isn't 0-terminated, so we have to limit the length expres=
+sly */
++   len =3D *pos - name_pos > size - 1 ? size - 1 : *pos - name_pos;
++   strncpy (buffer, name_pos, len);
+++  *pos +=3D quoted;
++   return TRUE;
++ }
++=20
++@@ -1483,6 +1572,28 @@ rules_from_identifier (const gchar   *identifier,
++   return create_ruleset_from_rule (rules, &tzr);
++ }
++=20
+++#ifdef G_OS_UNIX
+++static GTimeZone *
+++parse_footertz (const gchar *footer, size_t footerlen)
+++{
+++  gchar *tzstring =3D g_strndup (footer + 1, footerlen - 2);
+++  GTimeZone *footertz =3D NULL;
+++  gchar *ident;
+++  TimeZoneRule *rules;
+++  guint rules_num =3D rules_from_identifier (tzstring, &ident, &rules);
+++  g_free (ident);
+++  g_free (tzstring);
+++  if (rules_num > 1)
+++    {
+++      footertz =3D g_slice_new0 (GTimeZone);
+++      init_zone_from_rules (footertz, rules, rules_num, NULL);
+++      footertz->ref_count++;
+++    }
+++  g_free (rules);
+++  return footertz;
+++}
+++#endif
+++
++ /* Construction {{{1 */
++ /**
++  * g_time_zone_new:
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.64.5.bb
+index a1233e6926..a30c5215be 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb
+@@ -16,6 +16,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
+}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-on=
+ly-.patch \
++           file://tzdata-update.patch \
+            "
+=20
+ SRC_URI_append_class-native =3D " file://relocate-modules.patch"
+--=20
+2.25.1
+
