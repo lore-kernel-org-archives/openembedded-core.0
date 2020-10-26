@@ -1,137 +1,155 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web08.11032.1603710575406056083
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web11.11024.1603712137167367707
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2020 04:09:35 -0700
+ Mon, 26 Oct 2020 04:35:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BJFr2E9t;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id w27so12788615ejb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 04:09:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nIUD1AfB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id l24so8878456edj.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 04:35:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=Ztq6aoR6vRZuYtdT36t+MyC534QKIUoAi1XV+55P+Ic=;
-        b=BJFr2E9t32/FOwfcIgQBykuMGhbzb1qswlH2JbYt6/TbJxTCT8HuaGKlDdGXlHAkHw
-         I+dk64Pe0ZXysTCywTGYcTO15xcEMjoWfyU0hp0UyZ4OTCS9zoLVBmjrJNkLNNI3IIHq
-         n/sIBQs5Mhl+w6l5MtfiQl4ny5bj5Vv1f+2kqzNJ+Uc/bubRUT7lLFOOm08UCUy6d1qU
-         Qdd6zFHx18aO6MFWgprPVD894M6QsIHQbrZj3aefim/Me42nUvsdKx4lMrHVzXwynuYp
-         M8AvlkkJLxrTPpnsv50OZTZbJCakF1jGRJkZ34aV+e/hQ698LcHumc8gzlDxfbh2stgA
-         i2lg==
+        bh=IZPY0c5FjkOHFRaZSW2ssJETIFjDus/Ul5FlLZ8TZl0=;
+        b=nIUD1AfBhawLcpTb1q7sQXbUA8HdkxKVQfVSiOcNF38LR5VtyYwQAKYdopxabXmpGe
+         iFvgCpaq94RpEhV7SEXoyw9dbNwpjflaDSvAYzJt/DQEzWXiWjo+uYVpZhEF46RZL55+
+         rxNp0EbKNzsf8L6NS37yqunXBXaDwywt25W37TVy9ZJj52g0FyFmWJ80OArkN6N3A2WS
+         h+aDigZPzi5r5SBxzSjuw9JJmJ66t7b+v1FTdMumGTgyDzRQQPr8DdBBV9rZVi+BOfGz
+         MHHddi+8TQwk5glbosvXQNmOYc9byyS7cr68INR5mxfIdj3SKNY4OUgJOyD4+qsOUz8P
+         hx5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Ztq6aoR6vRZuYtdT36t+MyC534QKIUoAi1XV+55P+Ic=;
-        b=h1sXPpz2CRmw6bO/K1P9z5RAni9xsaJp/4rAbGJWHfh+7WPUeb2Eh9B076psxZMFk1
-         ID5ofI9HoMP6XVHEObQe2IOojghT4Ln+Koriar2PVphXcZ0QIR/iPzeV6mTc/552DAoC
-         6YvRuu6tL2aLsBcEIYEETxLD2WvMcTb4A+N2ZwYxPSZNLwpuyz30h9AmTpYwGyDERX2c
-         jG5I0yv/A1vWlWESrwNpBmS2S3DpV4aOFv8MLN+QEzGrt+pshMfBReZBL6GnbnaGCXHD
-         FztvMTGZ8zUt42+JFdbTzWLuhB1oxj+dD5onN5AtAsDhQxmkxnlwYFI+vJbpy2t5hXp8
-         0Spw==
-X-Gm-Message-State: AOAM532AZbNXjRx5+Ia6BE/TisI4oO9QzTLIePVeZSPyCAt70quioLXQ
-	C+MCOPy/2fhltFanZ/CXerNFUVpYauSHeyNycdo=
-X-Google-Smtp-Source: ABdhPJzDV6C3plgxsE83XudBm/z+3rLdhMO1xIHQtxfc9wT5LEyOvJnxl1T8ab+9mk/tWsWcrRPwxP507MQLiGbXIkU=
-X-Received: by 2002:a17:906:249a:: with SMTP id e26mr15036865ejb.484.1603710572073;
- Mon, 26 Oct 2020 04:09:32 -0700 (PDT)
+        bh=IZPY0c5FjkOHFRaZSW2ssJETIFjDus/Ul5FlLZ8TZl0=;
+        b=lI5FK/Ui1K+77PCJvLWTB84lI2gJ02JzbMkzzGt2Nw30KuB98gYpVvAnLGTdpjvL3S
+         YHWkOxdKYZioAA4aDhHjXoV/XBRikcxuyGkCbgF06nb0gXfFhSbD+uEl6qC1FrpsLjew
+         TE+4nMGmmyo16aNlmes9NS5Q2eQWycIm8mKVnFtw5pTRwPbBeuTFat7knxwwavjeXM85
+         T0qqaKE3pfHS6J1jwxN9aoWOAJMfEAL6QVJNyzexpfl+uFv5kDYv5sZmNe/sE7hLElaQ
+         ODj4dSWb4z9wWVvxI/7HG8yvDBJ261iGlheBM9e9yYLXP+Mnp29vNP+soCvUawQBBxVM
+         0f0Q==
+X-Gm-Message-State: AOAM530cnArft0CcpNY72IByQHlFaD+p2Vt9F3E53ylyXGuqWM+SycM0
+	zfcyeqIBY6vIzwiXt7TTOYttskY0M9yfxkavq2E=
+X-Google-Smtp-Source: ABdhPJz1vCE5hS4w1V1gue1bq1CF83pDihaT1oM3FWuvssGgKJfmCSQSeTOvWvcCJclIwhKQhRaow57VNy1f0DTQrkw=
+X-Received: by 2002:a05:6402:2070:: with SMTP id bd16mr15098584edb.358.1603712135449;
+ Mon, 26 Oct 2020 04:35:35 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201017142935.3605756-1-quaresma.jose@gmail.com>
- <436d7e8c6bb8f34052c59924eb8020145e413dfa.camel@linuxfoundation.org>
- <CANPvuRkv-Jk8L7AhN7hYhHNA8ArU21PbE8egm9N2ZytsQEBGKw@mail.gmail.com> <CANNYZj_o8zbiCP+2VPUkg5y_gMTLd4Ww6j6x=ywaCeCSZWNgWQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_o8zbiCP+2VPUkg5y_gMTLd4Ww6j6x=ywaCeCSZWNgWQ@mail.gmail.com>
+ <20201017142935.3605756-5-quaresma.jose@gmail.com> <fd4eccc67f224c21b957742e33988bfd@XBOX03.axis.com>
+ <CANPvuR=gnBY5euwoXzvBLQ9dVoaiqwJt18oS1GW3d_rQOchQfg@mail.gmail.com>
+In-Reply-To: <CANPvuR=gnBY5euwoXzvBLQ9dVoaiqwJt18oS1GW3d_rQOchQfg@mail.gmail.com>
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Mon, 26 Oct 2020 11:09:27 +0000
-Message-ID: <CANPvuR=9FEG5QuE=2uBbYNb21KatdCaFU05UNBRVyEhb0Wu2Jg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3 1/5] spirv-tools: import from meta-oe to OE core
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Oct 2020 11:35:31 +0000
+Message-ID: <CANPvuR=U9ZGG2sbeCLPLY5sdtCikg3-+hO7GF-JjW0OLqaU2fw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 5/5] spirv-tools: fix identation
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-For now I will add myself as the maintainer of these three recipes if
-it is possible
-and send a new version of the series with this fixes for
-meta/conf/distro/include/maintainers.inc
+Hi Peter,
 
-The author of the spirv-tools recipe on meta-oe was Ankit Navik
-<ankit.tarot@gmail.com>.
-I can try to contact him to know if he wants to be the maintainer of
-the spirv-tools on OE-core.
-if he accepts a will send a new patch for this.
+This has been fixed on V4 with your suggestion.
+Thanks.
 
-Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia domingo,
-25/10/2020 =C3=A0(s) 18:00:
+Jose Quaresma <quaresma.jose@gmail.com> escreveu no dia segunda,
+19/10/2020 =C3=A0(s) 11:10:
 >
-> Almost always the person adding the recipes to core should be the mainta=
-iner for them as well - unless you can nominate someone else and they confi=
-rm.
+> This patch it's only a little fix in the identencion and it can be
+> dropped from the series.
+> This is not really necessary for now and I don't need a new revision
+> only to fix this patch.
 >
-> Alex
+> Peter Kjellerstedt <peter.kjellerstedt@axis.com> escreveu no dia
+> segunda, 19/10/2020 =C3=A0(s) 09:29:
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core@lists.openembedded.org <openembedded-
+> > > core@lists.openembedded.org> On Behalf Of Jose Quaresma
+> > > Sent: den 17 oktober 2020 16:30
+> > > To: openembedded-core@lists.openembedded.org
+> > > Cc: Jose Quaresma <quaresma.jose@gmail.com>
+> > > Subject: [OE-core] [PATCH v3 5/5] spirv-tools: fix identation
+> > >
+> > > replace tabs with spaces and remove extra spaces
+> > >
+> > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > > ---
+> > >  meta/recipes-graphics/spir/spirv-tools_git.bb | 20 +++++++++--------=
+--
+> > >  1 file changed, 10 insertions(+), 10 deletions(-)
+> > >
+> > > diff --git a/meta/recipes-graphics/spir/spirv-tools_git.bb b/meta/rec=
+ipes-graphics/spir/spirv-tools_git.bb
+> > > index d1c2436cd9..8c4d4299ed 100644
+> > > --- a/meta/recipes-graphics/spir/spirv-tools_git.bb
+> > > +++ b/meta/recipes-graphics/spir/spirv-tools_git.bb
+> > > @@ -9,12 +9,12 @@ SECTION =3D "graphics"
+> > >  S =3D "${WORKDIR}/git"
+> > >  DEST_DIR =3D "${S}/external"
+> > >  SRC_URI =3D "git://github.com/KhronosGroup/SPIRV-Tools.git;name=3Dsp=
+irv-tools \
+> > > -     git://github.com/KhronosGroup/SPIRV-Headers.git;name=3Dspirv-he=
+aders;destsuffix=3D${DEST_DIR}/spirv-headers \
+> > > -     git://github.com/google/effcee.git;name=3Deffcee;destsuffix=3D$=
+{DEST_DIR}/effcee \
+> > > -     git://github.com/google/re2.git;name=3Dre2;destsuffix=3D${DEST_=
+DIR}/re2 \
+> > > -     git://github.com/google/googletest.git;name=3Dgoogletest;destsu=
+ffix=3D${DEST_DIR}/googletest \
+> > > -        file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-=
+file.patch \
+> > > -        file://0001-Avoid-pessimizing-std-move-3124.patch \
+> > > +           git://github.com/KhronosGroup/SPIRV-Headers.git;name=3Dsp=
+irv-headers;destsuffix=3D${DEST_DIR}/spirv-headers \
+> > > +           git://github.com/google/effcee.git;name=3Deffcee;destsuff=
+ix=3D${DEST_DIR}/effcee \
+> > > +           git://github.com/google/re2.git;name=3Dre2;destsuffix=3D$=
+{DEST_DIR}/re2 \
+> > > +           git://github.com/google/googletest.git;name=3Dgoogletest;=
+destsuffix=3D${DEST_DIR}/googletest \
+> > > +           file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMa=
+ke-file.patch;destsuffix=3D${DEST_DIR}/effcee \
+> > > +           file://0001-Avoid-pessimizing-std-move-3124.patch \
+> > >  "
+> > >  SRCREV_spirv-tools =3D "c413b982c316b14e784f50d941814fc737b55b4a"
+> > >  SRCREV_spirv-headers =3D "af64a9e826bf5bb5fcd2434dd71be1e41e922563"
+> > > @@ -27,10 +27,10 @@ inherit cmake python3native
+> > >  EXTRA_OECMAKE +=3D "-DSPIRV_WERROR=3DOFF"
+> > >
+> > >  do_install_append() {
+> > > -     install -d ${D}/${includedir}/spirv
+> > > -     install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* $=
+{D}/${includedir}/spirv
+> > > -     install -d ${D}/${includedir}/spirv/unified1
+> > > -     install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified=
+1/* ${D}/${includedir}/spirv/unified1
+> > > +    install -d ${D}/${includedir}/spirv
+> > > +    install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${=
+D}/${includedir}/spirv
+> > > +    install -d ${D}/${includedir}/spirv/unified1
+> > > +    install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1=
+/* ${D}/${includedir}/spirv/unified1
+> >
+> > Shell code in OE-Core is actually expected to be indented using tabs,
+> > so this part should be reverted. However, while you are here, you
+> > should change "${D}/${includedir}" to "${D}${includedir}".
+> >
+> > >  }
+> > >
+> > >  FILES_SOLIBSDEV =3D ""
+> > > --
+> > > 2.28.0
+> >
+> > //Peter
+> >
 >
-> On Sun, 25 Oct 2020 at 17:11, Jose Quaresma <quaresma.jose@gmail.com> wr=
-ote:
->>
->> Hi Richard,
->>
->> The following recipes do not have a maintainer assigned to them.
->> Please add an entry to meta/conf/distro/include/maintainers.inc file.
->> glslang (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/rec=
-ipes-graphics/glslang/glslang_8.13.3559.bb)
->> shaderc (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/rec=
-ipes-graphics/shaderc/shaderc_2019.0.bb)
->> spirv-tools (/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta=
-/recipes-graphics/spir/spirv-tools_git.bb)
->>
->> spirv-tools comes from meta-oe, I can assign the same maintainer found
->> in meta-oe or it is not possible?
->>
->> glslang and shaderc don't exist in other layers and it is created by me=
-.
->> You are saying that I can be the mateiner or have to be someone else.
->>
->> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
->> domingo, 25/10/2020 =C3=A0(s) 14:52:
->> >
->> > On Sat, 2020-10-17 at 15:29 +0100, Jose Quaresma wrote:
->> > > This receipe is needed to build the new shaderc
->> > >
->> > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
->> > > ---
->> > >  ...0001-Avoid-pessimizing-std-move-3124.patch | 50 +++++++++++++++=
-++++
->> > >  ...STALL_LIBDIR-in-installed-CMake-file.patch | 35 +++++++++++++
->> > >  meta/recipes-graphics/spir/spirv-tools_git.bb | 35 +++++++++++++
->> > >  3 files changed, 120 insertions(+)
->> > >  create mode 100644 meta/recipes-graphics/spir/files/0001-Avoid-pes=
-simizing-std-move-3124.patch
->> > >  create mode 100644 meta/recipes-graphics/spir/files/0001-Respect-C=
-MAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch
->> > >  create mode 100644 meta/recipes-graphics/spir/spirv-tools_git.bb
->> >
->> > Hi,
->> >
->> > I did run some brief tests on these, I noticed there is no maintainer
->> > set for the new recipes. We need to set one for recipes in OE-Core,
->> > see:
->> >
->> > meta/conf/distro/include/maintainers.inc
->> >
->> > https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/149=
-0/steps/8/logs/step2d
->> >
->> > Cheers,
->> >
->> > Richard
->> >
->>
->>
->> --
->> best regards,
->> Jos=C3=A9 Quaresma
->>
->>=20
->>
+>
+> --
+> best regards,
+> Jos=C3=A9 Quaresma
+
 
 
 --=20
