@@ -1,95 +1,86 @@
 Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.11053.1603712361287909514
+ by mx.groups.io with SMTP id smtpd.web12.12304.1603717788247008007
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2020 04:39:21 -0700
+ Mon, 26 Oct 2020 06:09:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mLUJD2p7;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id n15so12072878wrq.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 04:39:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G3BJFqkl;
+ spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f66.google.com with SMTP id b8so12493744wrn.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 06:09:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=vsWCr1hM5fdLzppy11r8P21st/KsPTGapSWo32aIEWU=;
-        b=mLUJD2p7mXfQgOijhUnbnc/Nf8cyrqfnaFfxtPLKOvDdomhVZm10hcKnjkeFPeY3+6
-         qxCdqXIlIU6ZvB1PRqPOdGOpDbUm2kBEffuDuS2Bost5W4TIP4ZTsAWoq6m87Fx2JK8i
-         0wKXmBhic53+Su3mM1kRSOLaVVDd5ZGfJx066o7KZWdLNujSWsuvLHOFNoaBQQoP7E1M
-         eiwW+kcek83F4ZP48x2UIvbUPLuyuizRHehV1xzEpuHhSneYVBDF/xzOsJHJ7OUzbp+Z
-         LdMpiWnl28VfL3KXKvwxP5C5kab6Y7f9GhEBqzNAolh2DuCcXD0b0RgYMWBoF5ScDnbZ
-         6eyA==
+        bh=59hohI3Q5O6pYN7To5CWgyzfeHLnEIsUQx3zCGnViQI=;
+        b=G3BJFqkls8vfDUvtQsAXOSwnzZygt+NdOQ9R3zJDCQKSHTpbEN0Ben+pXPvxzmlDGy
+         UoMZGFcAKMlIhu2EeQjeADhYW7lMfjGrnLOkhod/3r0xzq2SmCwffZ8aOmZowwpeNRp5
+         HCh9aLdH+xCRE+ZFTbXVJjm569pUTiSvHLFfUZrkxU8GNuPU86OUQn1bT5L49vNrPuLs
+         RDB48J/3q9EYZGEN27hoikIMJsUV6bnA/leDgkq9sMAGmp1MvchWn8+bHfyuKulJ5QZs
+         hb2dF9lReUhNf999W+neljl8pUxL8j6N/uNCDQWRH047BDWpOSMM5d4VnxIgKCaiIdnJ
+         Q5sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vsWCr1hM5fdLzppy11r8P21st/KsPTGapSWo32aIEWU=;
-        b=LgcoKcgp+lt8llYlP3+g80o//I8AQ3VT2hCM3NvgDueNy0VNO7ax6WjL4GjLxMSQFh
-         FAjtEcMXxFFaRS1ZPIZfGd4veFmyti5q5ZNQVspESp80EjsM8Z8n7ojlai/o/DsyGrVW
-         MPNZRbGQ+OvxNdaJLdX17ZdHgdzmRYcleiAR8qPInHR3L2x8DPRLXMigizdKAi3KYT6u
-         wVnC3QPw9OyuZuopI+Ca99IGS2sJkKauDjxy5yAu94HjR3eUg5KRajUsOABSIo5vlmfW
-         LOjCTaIiXo/Rn56R38QjZG3NioXJX/DIO8OEZgDC+OapGHirHLkwVAIPDB3tIVZlnKM3
-         HhQg==
-X-Gm-Message-State: AOAM533hOv1tHDyk6tytnMwktTXGQ/9l6X+QxyywIFscTYicirZC3PCm
-	C9P0et7oyCOTDJy12hv9RL1J9YxcpFpwEVwa
-X-Google-Smtp-Source: ABdhPJxxAqyDnqD2rsDd+GqMscbG2Ijs5FVIse7ZTyCZgWJrn7JHFC8/RCo7FlnRBkgUue/igc5/TA==
-X-Received: by 2002:adf:cd0c:: with SMTP id w12mr16982026wrm.305.1603712359012;
-        Mon, 26 Oct 2020 04:39:19 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id d129sm20348493wmf.19.2020.10.26.04.39.17
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=59hohI3Q5O6pYN7To5CWgyzfeHLnEIsUQx3zCGnViQI=;
+        b=XD4CtG8J75ff3VOv0IGZini6arThPmMCfMmE4im+ClnfU7LxOgpxQF3ZSgtS92E4lj
+         sMogIny8ueBgIDmtghi39r+BVjILMKgLOWD48x7K7SM/C6mrUyGRF8ec/DcZANjObdFP
+         KOisShFjS3ZZMDcfzDcfXya3V+fl96qWAP+l9PTtvW9cyBPsxOr18EZMYLrKal47z+/q
+         bmjU4dmD4+RsJtiHIeF1U1XWFF3AfhZcVFceHfLAHW+YX4Tx6RbGXORmhQO4ZyPsfcs6
+         5zdfihh89ovjGkkVgkKCQctInDtIK01/NvRVPSORebFq0jXqW7hRB3vMd3sMHbQPp/uY
+         LDig==
+X-Gm-Message-State: AOAM531lxPDvpdE44SKGx9GfwQg1nzoTrsGC6LCC3T14bDvQlszTGoSV
+	atBUFnKJrPzqjpcd7qS3tzk=
+X-Google-Smtp-Source: ABdhPJze2EhuR9j7ZyKWWdw5pn0SNL6QrMnJwUaGyTAKnD5jrKjvNz3U8Hf/3JQ6CNFRcpphpC9s3Q==
+X-Received: by 2002:a5d:6110:: with SMTP id v16mr19178574wrt.219.1603717786746;
+        Mon, 26 Oct 2020 06:09:46 -0700 (PDT)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from bluca-lenovo ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id x64sm19693070wmg.33.2020.10.26.06.09.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2020 04:39:18 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v4 6/6] maintainers.inc: Add Jose Quaresma
-Date: Mon, 26 Oct 2020 11:39:06 +0000
-Message-Id: <20201026113906.2217226-6-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201026113906.2217226-1-quaresma.jose@gmail.com>
-References: <20201026113906.2217226-1-quaresma.jose@gmail.com>
+        Mon, 26 Oct 2020 06:09:45 -0700 (PDT)
+Message-ID: <f76c89f8255ef9ecf082439c910f37cef38c893f.camel@gmail.com>
+Subject: Re: [PATCH v4] Add new recipe for squashfs-tools-ng
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 26 Oct 2020 13:09:45 +0000
+In-Reply-To: <2ad67eb9e783fa044d4d97f35f93a35014aa73e1.camel@linuxfoundation.org>
+References: <20201022113036.2938947-1-luca.boccassi@gmail.com>
+	 <20201026100503.3200192-1-luca.boccassi@gmail.com>
+	 <2ad67eb9e783fa044d4d97f35f93a35014aa73e1.camel@linuxfoundation.org>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Jose Quaresma is responsible for the maintenance as follows:
+On Mon, 2020-10-26 at 10:29 +0000, Richard Purdie wrote:
+> On Mon, 2020-10-26 at 10:05 +0000, luca.boccassi@gmail.com wrote:
+> > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> > 
+> > The main difference with squashfs-tools is the availability
+> > of a shared library and a programmatic interface, rather
+> > than just command-line tools.
+> > 
+> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> > ---
+> > v2: added MIT, Zlib and BSD-2-Clause to LICENSE
+> > v3: fixed CPL-3.0+ tag, removed GPL2 from checksum (not used),
+> > changed
+> >     recipe to be versioned, use bb.utils.filter in PACKAGE_CONFIG
+> > v4: disable zstd support by default, dependency not available in oe-
+> > core
+> 
+> Sorry, there is one other issue. There is no maintainers entry for this
+> recipe (see meta/conf/distro/include/maintainers.inc) which would cause
+> oe-selftest to fail. Can you add an maintainers entry please?
+> 
+> Thanks,
+> Richard
 
-shaderc
-glslang
-spirv-tools
+Ok - who should be listed as maintainer?
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/conf/distro/include/maintainers.inc | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 7935f968c7..ff80ef687e 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -213,6 +213,7 @@ RECIPE_MAINTAINER_pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-gmp = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER_pn-glslang = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-gnome-desktop-testing = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-gnu-config = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-gnu-efi = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -641,6 +642,7 @@ RECIPE_MAINTAINER_pn-settings-daemon = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-shadow = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-shadow-securetty = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-shadow-sysroot = "Chen Qi <Qi.Chen@windriver.com>"
-+RECIPE_MAINTAINER_pn-shaderc = = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-shared-mime-info = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-shutdown-desktop = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-signing-keys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-@@ -648,6 +650,7 @@ RECIPE_MAINTAINER_pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-speex = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-speexdsp = "Tanu Kaskinen <tanuk@iki.fi>"
-+RECIPE_MAINTAINER_pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ssh-pregen-hostkeys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
 -- 
-2.29.0
+Kind regards,
+Luca Boccassi
 
