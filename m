@@ -1,127 +1,355 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.63])
- by mx.groups.io with SMTP id smtpd.web09.7616.1603762201443896093
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web08.8038.1603765427370675643
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2020 18:30:02 -0700
+ Mon, 26 Oct 2020 19:23:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=U6bDA6dm;
- spf=pass (domain: windriver.com, ip: 40.107.92.63, mailfrom: mingli.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ISG+GY8VPnwyScEcIMIAjnWS5hhzQRFRZ7ndzffgvfnal0jCd4PzEyEc9L89lWps+1n4NB+6/hsiFv1tu3BUTPD/T9TvrGILuk4W3xVCvjEaE2zFZcsOOaaYnV/NITx/ZjVXznZr4obcEt8zUlSZ0DP2rdHec0xuMfAFvWGJTI0uwIpDETXIXlW+poqnxjDrR/Cpx2rxwSXvOwXtqCnvtKfDaWl9bJoBvrVF//hJyuLYTGBo5mMOEVsICl335/yTK6oTQ3VTNJDPl9I9obQcbIQ6h2xlbmI++ML+sj2EFQZwvnpY480VznwYvB4pvEDEH/p7XV8OHI1j8IF4nKjntA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDxLiE5Meh2cOXCyg93yeZHX6TccUbKua0mh2by5kJg=;
- b=jHL9MbzILQNInttyVQwDZrgOQzrFC+vDLyJTtKACt0lkkCK97LJLDdRbVH6gnFnf50PlWeZS2UmMuSiOJaXjTncE6L8j8kfKeX7T+ADZRbJVXDRPDsEjK4CIL7zp2IKpTo+9Ht7wL0vm5LxUfD1MvmLSruLE00MrXXpHuPOBxjoKHRzqzDAZ3kgErjFikS/TCogZRyXKnwnpJb2xcxBoiz8gp1whe2RsB9lHtp2i9Q0Oq20B5//UghXSwSj08PP9xan5uh2RyXq4swJkhXSoa0wpmoPf69wm9gj3Kqc+FM3EmQllcR6xHIxQ6xd0AuVECp07bbLnf8M2hzoosBA4mg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jpunV+1P;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: maxime.roussinbelanger@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id a23so10414760qkg.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 19:23:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDxLiE5Meh2cOXCyg93yeZHX6TccUbKua0mh2by5kJg=;
- b=U6bDA6dmME9SgCbeWxJkjkMIcqfUFcLMPBYkFTkw84IMetxjMLNJJcCDS4KhrwynfIcSDzN/YclZE7cUh1CC6iZF5p8btxK3Go5LGD+L03hn7e/lya4GoTt4c6FeGWfXk0AkwQCuWJfWta0UUPHZ8SwM61Y9aupUx64NK0N8v78=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by MWHPR11MB1309.namprd11.prod.outlook.com (2603:10b6:300:20::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
- 2020 01:29:55 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::105b:9105:2a38:9e9f]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::105b:9105:2a38:9e9f%7]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
- 01:29:55 +0000
-From: "Yu, Mingli" <mingli.yu@windriver.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7yEV/j3kSWeSU0IG4yKzde5rvv7fS9L/8EWt+YxG0eU=;
+        b=jpunV+1PeskvyiIf/S2Al0rxqA3uWohZp7R86IXCKeuzP3bw8LjGwcpmQSF8YXpeQB
+         nr4G5yTIY9aZvm/yvL7jbnY3SDNAvxzgvnniTuzh8B32xF24fJvcQl88WerEsMs3NYPc
+         jqw+4NlY9akqc3xSVBBP3zeedKS2wJIrxZersrsy7quZq4LU6TcKd4Re9rUPwG1HC8WK
+         /HBEitkcDlztnmptUYAFjzTHZbFjjQSmfuRpI5zB+QsCVJtOhK/q6kV6cxIoX6Q1GJHe
+         k3Oys+RqYl7scTaH7OJY6G8uABty8RTU9CwDMzIKxyS6+F7UBJdUAVrcJnqGwwEbAsaS
+         te0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7yEV/j3kSWeSU0IG4yKzde5rvv7fS9L/8EWt+YxG0eU=;
+        b=S/v8btdcfgpHQ2UtzT2T+yGIenuEuNV0dvzKD3TkkOD8B1io71E1qeJ92/7qAgtPA8
+         4Ym2f+JwlPzPGC84w5SNRojAknK3shdd81Rq60HapSr/1EM9ZfY9+3c2DSzVKaeFYr27
+         hx1VreTAwyXhs+5IBQUpOdb3usj5EDmGsNNbJRc8BDFEARxHND+MEcpU5MaZeA4Vernz
+         uKXzCiStD0OM3o5FBaJ+1NZS70/DFDLupuw/Ek9a2gk9soEqh5oeoqjWBlCaozRPnREg
+         3vcs5aEmh1AfjMf0WtOeXoXTu2ak5Wk98b+djXV+w8h0n3mmoEvimenUQoeoQ4k4g6LL
+         Q/yA==
+X-Gm-Message-State: AOAM532LBZGmprTIt+/mVx3iF+MDA/V28gHyWHGVTl4UxCdIyHAwzJPJ
+	8KRgeb+z37D0pc/y2gq6luf88yv7QeM=
+X-Google-Smtp-Source: ABdhPJzxKFBe9hBkfYQNcAJKUqOyr7f81XhtHHTTc39iPF+Oe1ljCWBfkQhj/IKNYJxjm4df3iEABA==
+X-Received: by 2002:a05:620a:2107:: with SMTP id l7mr73386qkl.249.1603765425888;
+        Mon, 26 Oct 2020 19:23:45 -0700 (PDT)
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mbedesk.sonatest.net (ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca. [174.94.156.236])
+        by smtp.gmail.com with ESMTPSA id i64sm52343qtb.43.2020.10.26.19.23.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2020 19:23:45 -0700 (PDT)
+From: =?UTF-8?B?TWF4aW1lIFJvdXNzaW4tQsOpbGFuZ2Vy?= <maxime.roussinbelanger@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
-Date: Tue, 27 Oct 2020 09:29:39 +0800
-Message-ID: <20201027012939.45485-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.26.2
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: YT1PR01CA0067.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:2d::6) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
-Return-Path: mingli.yu@windriver.com
+Cc: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?= <maxime.roussinbelanger@gmail.com>
+Subject: [PATCH] meta: fix some unresponsive homepages and bugtracker links
+Date: Mon, 26 Oct 2020 22:21:36 -0400
+Message-Id: <20201027022136.30220-1-maxime.roussinbelanger@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by YT1PR01CA0067.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2d::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend Transport; Tue, 27 Oct 2020 01:29:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d5b8d5a0-7c70-4849-ec8a-08d87a17cf14
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1309:
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB13092F3B634429C26541BD2CF1160@MWHPR11MB1309.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	jr20VsWAPd6ca01HUwvZDrX00nNAR3YSNRDDCtj9dD8xfY7HwqV7jZkRii5d9CC/CEnolSbXVa2JDpF3/45zmzod/+vDxEIFc/qQmSTrWklMhAQWRgY88oP27MaMUQ5+eKdGgWUKpuXz1PPIh4Owe2KEZWjR55b9K34WEGBeEyUfgVFRzRdijaw2HpH2pslCrZFxBrmVVdKwepr2DWs5bVOxKggLmRx+tzuAdinfEbm4XPLbim0RY7LxBZpN1yezaVBqD54ez7TH5wm+/x5Xm2SDGtwUN5nLuozHSyiKlBXDvb9Ss4RFC9HawrbXZeWv/qx9a/dPNmoACYF+QZphpuA8uQVvwfELeN3kHs7KTYZM0pVLA42Y6uzwwOlWdjHVOEpOVbix10/iww0sr+hCnw+kKaqAgGS3jSemwOe3Ym4=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(39850400004)(366004)(136003)(6666004)(66476007)(66556008)(16526019)(8676002)(66946007)(83380400001)(52116002)(5660300002)(478600001)(86362001)(6486002)(9686003)(6512007)(6916009)(1076003)(26005)(186003)(36756003)(2616005)(316002)(6506007)(2906002)(8936002)(956004)(228453006)(130980200001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	Wnto+ku1r5PZHQBYHg/yOXbyqSbwU3+J5GyJwIFb7C1eCKRSolWFqz1aZWWbzW+ESrVfXaqj9gcIjdYN36xG4o4hoquvQxyqcZb1ZOLmw6OT4gl6VkyXh1Yz7IVWZfUn7h26Djh0YXRefwCi3vWeK8uxrpJVswqoCRK8kp8zzPDyMcQ8lRaECUWRaNmGJ+4beiA/wCcJtfl7HvBJ0DMPqsKny1CBTp0WFbt52YQKyjbg5vIPHJOBSj1FIN7Oapm5ZPWcR52NkguzfrJaQd+eQZz6uBgYNw/uZqFnISNF5pEmAve55g3asjKNvXJw3SM3u8lI0FIe+Pbe/34fs9tneBHyHrSQDCn18nCYv9G1z5s7k34qQ3JLDtiPWCbzNFSrAj8R5/J3Ss/A70aAlOZ/kgyiCNsKvF2rs9pT8NAwNfsWG+RZflO2dQDYh9leLP8MfW+r/Qu5/3KxyAqx4by+N0G7cwOvTelXV6gJunSxPhSoVVkHiILIHU9UjfNjhvdMGqoQoxNP71f3eFtLRAp9+DRrjvIKbDK1akQSsT95ZE9wM6/nQY92vSKpW3LWa/QTrNdzCf0hBlAzN0TsankjdQRRw1huReth57O+GSuyjdbRCt+n1ERckfA0wldPYf7uJbgkn4pfnWew39CDA7Q3UA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5b8d5a0-7c70-4849-ec8a-08d87a17cf14
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 01:29:55.3680
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /e8ltvwNWaABjrNvbf90BauPW3egPGIhrDktXGEkfszy4RE2Us9BGAcKefhi9CRz4i5lze52ba7G72gcHmtGfQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1309
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+remove some extra whitespaces
 
-When ccache enabled as below:
-INHERIT +=3D "ccache"
-CCACHE_DIR =3D "/path/build/ccache"
-
-There comes do_install failure for some recipes randomly, take
-linux-libc-headerswhen as example.
- $ cat /path/build/tmp/work/corei7-64-wrs-linux/linux-libc-headers/5.8-r0/p=
-seudo/pseudo.log
- [snip]
- path mismatch [1 link]: ino 243004209 db '/path/build/ccache/6/stats' req =
-'/path/build/ccache/7/stats.lock'.
- [snip]
-
-Exclude ${CCACHE_DIR} from pseudo database to fix the potential
-do_install failure.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb                         | 2 +-
+ meta/recipes-connectivity/bind/bind_9.16.7.bb                | 2 +-
+ meta/recipes-connectivity/iw/iw_5.8.bb                       | 2 +-
+ meta/recipes-core/readline/readline.inc                      | 2 +-
+ meta/recipes-core/util-linux/util-linux_2.36.bb              | 4 ++--
+ meta/recipes-devtools/chrpath/chrpath_0.16.bb                | 3 +--
+ meta/recipes-devtools/ninja/ninja_1.10.1.bb                  | 2 +-
+ meta/recipes-extended/lsb/lsb-release_1.4.bb                 | 2 +-
+ meta/recipes-extended/minicom/minicom_2.7.1.bb               | 2 +-
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb                | 2 +-
+ meta/recipes-extended/which/which_2.21.bb                    | 2 +-
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb                      | 2 +-
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb                   | 3 +--
+ meta/recipes-kernel/kmod/kmod.inc                            | 2 +-
+ .../wireless-regdb/wireless-regdb_2020.04.29.bb              | 2 +-
+ meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb         | 4 ++--
+ meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb   | 2 +-
+ meta/recipes-support/atk/atk_2.36.0.bb                       | 5 ++---
+ meta/recipes-support/bash-completion/bash-completion_2.11.bb | 4 ++--
+ meta/recipes-support/npth/npth_1.6.bb                        | 4 ++--
+ 20 files changed, 25 insertions(+), 28 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 6e2d3e544b..0705e53a6f 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -685,7 +685,7 @@ SRC_URI =3D ""
- PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sys=
-root,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstat=
-e-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/=
-sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-=
-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TM=
-PDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta"
-+PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sys=
-root,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstat=
-e-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/=
-sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-=
-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TM=
-PDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE=
-_DIR}"
-=20
- export PSEUDO_DISABLED =3D "1"
- #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
---=20
-2.26.2
+diff --git a/meta/recipes-bsp/v86d/v86d_0.1.10.bb b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+index 84e27d2007..a8df80fdd6 100644
+--- a/meta/recipes-bsp/v86d/v86d_0.1.10.bb
++++ b/meta/recipes-bsp/v86d/v86d_0.1.10.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "User support binary for the uvesafb kernel module"
+-HOMEPAGE = "http://dev.gentoo.org/~spock/projects/uvesafb/"
++HOMEPAGE = "https://tracker.debian.org/pkg/v86d"
+ 
+ # the copyright info is at the bottom of README, expect break
+ LICENSE = "GPLv2"
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.7.bb b/meta/recipes-connectivity/bind/bind_9.16.7.bb
+index 5fc2c1d3cd..fbe3de63cb 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.7.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.7.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "ISC Internet Domain Name Server"
+-HOMEPAGE = "http://www.isc.org/sw/bind/"
++HOMEPAGE = "https://www.isc.org/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "MPL-2.0"
+diff --git a/meta/recipes-connectivity/iw/iw_5.8.bb b/meta/recipes-connectivity/iw/iw_5.8.bb
+index 97ca66d66f..e0456fbf00 100644
+--- a/meta/recipes-connectivity/iw/iw_5.8.bb
++++ b/meta/recipes-connectivity/iw/iw_5.8.bb
+@@ -2,7 +2,7 @@ SUMMARY = "nl80211 based CLI configuration utility for wireless devices"
+ DESCRIPTION = "iw is a new nl80211 based CLI configuration utility for \
+ wireless devices. It supports almost all new drivers that have been added \
+ to the kernel recently. "
+-HOMEPAGE = "http://wireless.kernel.org/en/users/Documentation/iw"
++HOMEPAGE = "https://wireless.wiki.kernel.org/en/users/documentation/iw"
+ SECTION = "base"
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
+diff --git a/meta/recipes-core/readline/readline.inc b/meta/recipes-core/readline/readline.inc
+index 052e2d5f3d..039ffdee00 100644
+--- a/meta/recipes-core/readline/readline.inc
++++ b/meta/recipes-core/readline/readline.inc
+@@ -4,7 +4,7 @@ command lines as they are typed in. Both Emacs and vi editing modes are availabl
+ additional functions to maintain a list of previously-entered command lines, to recall and perhaps reedit those   \
+ lines, and perform csh-like history expansion on previous commands."
+ SECTION = "libs"
+-HOMEPAGE = "https://cnswww.cns.cwru.edu/php/chet/readline/rltop.html"
++HOMEPAGE = "https://tiswww.case.edu/php/chet/readline/rltop.html"
+ 
+ # GPLv2+ (< 6.0), GPLv3+ (>= 6.0)
+ LICENSE = "GPLv3+"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
+index 2ad00ff0a5..474f1e188c 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.36.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "A suite of basic system administration utilities"
+-HOMEPAGE = "http://userweb.kernel.org/~kzak/util-linux/"
++HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
+ DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
+ commonly found on most Linux systems.  Some of the more important utilities include \
+ disk partitioning, kernel message management, filesystem creation, and system login."
+@@ -129,7 +129,7 @@ EXTRA_OECONF_append = " --disable-hwclock-gplv3"
+ #
+ PACKAGECONFIG ?= "pcre2"
+ PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
+-# inherit manpages requires this to be present, however util-linux does not have 
++# inherit manpages requires this to be present, however util-linux does not have
+ # configuration options, and installs manpages always
+ PACKAGECONFIG[manpages] = ""
+ PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
+diff --git a/meta/recipes-devtools/chrpath/chrpath_0.16.bb b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
+index 8de8850576..f12366b4e8 100644
+--- a/meta/recipes-devtools/chrpath/chrpath_0.16.bb
++++ b/meta/recipes-devtools/chrpath/chrpath_0.16.bb
+@@ -2,8 +2,7 @@ SUMMARY = "Tool to edit rpath in ELF binaries"
+ DESCRIPTION = "chrpath allows you to change the rpath (where the \
+ application looks for libraries) in an application. It does not \
+ (yet) allow you to add an rpath if there isn't one already."
+-HOMEPAGE = "http://alioth.debian.org/projects/chrpath/"
+-BUGTRACKER = "http://alioth.debian.org/tracker/?atid=412807&group_id=31052"
++HOMEPAGE = "https://tracker.debian.org/pkg/chrpath"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ 
+diff --git a/meta/recipes-devtools/ninja/ninja_1.10.1.bb b/meta/recipes-devtools/ninja/ninja_1.10.1.bb
+index eefac4166a..ecb0566f37 100644
+--- a/meta/recipes-devtools/ninja/ninja_1.10.1.bb
++++ b/meta/recipes-devtools/ninja/ninja_1.10.1.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Ninja is a small build system with a focus on speed."
+-HOMEPAGE = "http://martine.github.com/ninja/"
++HOMEPAGE = "https://ninja-build.org/"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
+ 
+diff --git a/meta/recipes-extended/lsb/lsb-release_1.4.bb b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+index a06cbcf845..3e8f7a13ec 100644
+--- a/meta/recipes-extended/lsb/lsb-release_1.4.bb
++++ b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "lsb_release support for OpenEmbedded"
+ SECTION = "console/utils"
+-HOMEPAGE = "http://prdownloads.sourceforge.net/lsb"
++HOMEPAGE = "https://sourceforge.net/projects/lsb/files"
+ LICENSE = "GPLv2+"
+ 
+ # lsb_release needs getopt
+diff --git a/meta/recipes-extended/minicom/minicom_2.7.1.bb b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+index 03034864c8..c584b7589e 100644
+--- a/meta/recipes-extended/minicom/minicom_2.7.1.bb
++++ b/meta/recipes-extended/minicom/minicom_2.7.1.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Text-based modem control and terminal emulation program"
+-HOMEPAGE = "http://alioth.debian.org/projects/minicom/"
++HOMEPAGE = "https://salsa.debian.org/minicom-team/minicom"
+ DESCRIPTION = "Minicom is a text-based modem control and terminal emulation program for Unix-like operating systems"
+ SECTION = "console/network"
+ DEPENDS = "ncurses virtual/libiconv"
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+index d24035b677..ed21d81179 100644
+--- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "PBZIP2 is a parallel implementation of the bzip2 block-sorting \
+ file compressor that uses pthreads and achieves near-linear speedup on SMP \
+ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
+ newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
+-HOMEPAGE = "http://compression.ca/pbzip2/"
++HOMEPAGE = "https://launchpad.net/pbzip2/"
+ SECTION = "console/utils"
+ LICENSE = "bzip2-1.0.6"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
+diff --git a/meta/recipes-extended/which/which_2.21.bb b/meta/recipes-extended/which/which_2.21.bb
+index fac0fd3944..fc9185061b 100644
+--- a/meta/recipes-extended/which/which_2.21.bb
++++ b/meta/recipes-extended/which/which_2.21.bb
+@@ -4,7 +4,7 @@ executables that bash(1) would execute when the passed \
+ program names would have been entered on the shell prompt. \
+ It does this by using the exact same algorithm as bash."
+ SECTION = "libs"
+-HOMEPAGE = "http://carlo17.home.xs4all.nl/which/"
++HOMEPAGE = "https://carlowood.github.io/which/"
+ 
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+index ff365551df..ade93644ec 100644
+--- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
++++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "GConf is a system for storing application preferences. \
+ It is intended for user preferences; not configuration of something like \
+ Apache, or arbitrary data storage."
+ SECTION = "x11/gnome"
+-HOMEPAGE = "https://projects.gnome.org/gconf/"
++HOMEPAGE = "https://gitlab.gnome.org/Archive/gconf"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+ 
+diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb
+index 1eaf370ab0..d7312817f3 100644
+--- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb
++++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Documentation generator for glib-based software"
+ DESCRIPTION = "Gtk-doc is a set of scripts that extract specially formatted comments \
+                from glib-based software and produce a set of html documentation files from them"
+-HOMEPAGE = "http://www.gtk.org/gtk-doc/"
++HOMEPAGE = "https://www.gtk.org/docs/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+ 
+@@ -59,4 +59,3 @@ gtkdoc_makefiles_sysroot_preprocess() {
+            -e "s|GTKDOC_RUN =.*|GTKDOC_RUN = \$(top_builddir)/gtkdoc-qemuwrapper|" \
+            ${SYSROOT_DESTDIR}${datadir}/gtk-doc/data/gtk-doc*make
+ }
+-
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index 646dff9a97..dabda2d57e 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -4,7 +4,7 @@
+ SUMMARY = "Tools for managing Linux kernel modules"
+ DESCRIPTION = "kmod is a set of tools to handle common tasks with Linux kernel modules like \
+                insert, remove, list, check properties, resolve dependencies and aliases."
+-HOMEPAGE = "http://packages.profusion.mobi/kmod/"
++HOMEPAGE = "http://kernel.org/pub/linux/utils/kernel/kmod/"
+ LICENSE = "GPL-2.0+ & LGPL-2.1+"
+ LICENSE_libkmod = "LGPL-2.1+"
+ SECTION = "base"
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
+index a5827b9ef0..30d4cb523f 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Wireless Central Regulatory Domain Database"
+-HOMEPAGE = "http://wireless.kernel.org/en/developers/Regulatory/CRDA"
++HOMEPAGE = "https://wireless.wiki.kernel.org/en/developers/regulatory/crda"
+ SECTION = "net"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
+index c5c10348c6..023bce0abe 100644
+--- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
++++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb
+@@ -2,8 +2,8 @@ SUMMARY = "Ogg Vorbis Audio Codec"
+ DESCRIPTION = "Ogg Vorbis is a high-quality lossy audio codec \
+ that is free of intellectual property restrictions. libvorbis \
+ is the main vorbis codec library."
+-HOMEPAGE = "http://www.vorbis.com/"
+-BUGTRACKER = "https://trac.xiph.org"
++HOMEPAGE = "https://xiph.org/vorbis/"
++BUGTRACKER = "https://gitlab.xiph.org/xiph/vorbis/-/issues"
+ SECTION = "libs"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=73d9c8942c60b846c3bad13cc6c2e520 \
+diff --git a/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
+index 227fd54b79..d01177f9b9 100644
+--- a/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
++++ b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Provides a bridge between gconf and xsettings"
+-HOMEPAGE = "http://svn.o-hand.com/view/matchbox/trunk/settings-daemon/"
++HOMEPAGE = "https://git.yoctoproject.org/cgit/cgit.cgi/xsettings-daemon/"
+ BUGTRACKER = "http://bugzilla.yoctoproject.org/"
+ LICENSE = "MIT-style"
+ LIC_FILES_CHKSUM = "file://xsettings-manager.h;endline=22;md5=7cfac9d2d4dc3694cc7eb605cf32a69b \
+diff --git a/meta/recipes-support/atk/atk_2.36.0.bb b/meta/recipes-support/atk/atk_2.36.0.bb
+index 0786eeebe8..c45da3088b 100644
+--- a/meta/recipes-support/atk/atk_2.36.0.bb
++++ b/meta/recipes-support/atk/atk_2.36.0.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Accessibility toolkit for GNOME"
+-HOMEPAGE = "http://live.gnome.org/GAP/"
+-BUGTRACKER = "https://bugzilla.gnome.org/"
++HOMEPAGE = "https://wiki.gnome.org/Accessibility"
++BUGTRACKER = "https://gitlab.gnome.org/GNOME/atk/-/issues"
+ SECTION = "x11/libs"
+ 
+ LICENSE = "GPLv2+ & LGPLv2+"
+@@ -18,4 +18,3 @@ SRC_URI[archive.md5sum] = "01aa5ec5138f5f8c9b3a4e3196ed2900"
+ SRC_URI[archive.sha256sum] = "fb76247e369402be23f1f5c65d38a9639c1164d934e40f6a9cf3c9e96b652788"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-
+diff --git a/meta/recipes-support/bash-completion/bash-completion_2.11.bb b/meta/recipes-support/bash-completion/bash-completion_2.11.bb
+index da0baa7afc..bab8a018ce 100644
+--- a/meta/recipes-support/bash-completion/bash-completion_2.11.bb
++++ b/meta/recipes-support/bash-completion/bash-completion_2.11.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "Programmable Completion for Bash 4"
+-HOMEPAGE = "http://bash-completion.alioth.debian.org/"
+-BUGTRACKER = "https://alioth.debian.org/projects/bash-completion/"
++HOMEPAGE = "https://github.com/scop/bash-completion"
++BUGTRACKER = "https://github.com/scop/bash-completion/issues"
+ 
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/recipes-support/npth/npth_1.6.bb b/meta/recipes-support/npth/npth_1.6.bb
+index 233e0dc4a4..88484acec3 100644
+--- a/meta/recipes-support/npth/npth_1.6.bb
++++ b/meta/recipes-support/npth/npth_1.6.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "New GNU Portable Threads library"
+-HOMEPAGE = "http://www.gnupg.org/software/pth/"
++HOMEPAGE = "https://www.gnu.org/software/pth/"
+ SECTION = "libs"
+ LICENSE = "LGPLv2+"
+ LIC_FILES_CHKSUM = "\
+@@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "1393abd9adcf0762d34798dc34fdcf4d0d22a8410721e76f1e3afcd1da
+ 
+ BINCONFIG = "${bindir}/npth-config"
+ 
+-inherit autotools binconfig-disabled multilib_header 
++inherit autotools binconfig-disabled multilib_header
+ 
+ FILES_${PN} = "${libdir}/libnpth.so.*"
+ FILES_${PN}-dev += "${bindir}/npth-config"
+-- 
+2.28.0
 
