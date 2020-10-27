@@ -1,107 +1,97 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web08.1660.1603817317916132865
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+ by mx.groups.io with SMTP id smtpd.web12.889.1603821521552032588
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 09:48:38 -0700
+ Tue, 27 Oct 2020 10:58:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZpTjOG+Y;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: yann.morin.1998@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id e17so2656253wru.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 09:48:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lnUW63Fe;
+ spf=pass (domain: gmail.com, ip: 209.85.210.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f194.google.com with SMTP id 10so1363431pfp.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 10:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=fe27zZeRhaFf13E3mjEw+5OqsILmZ5bX7d/P+hvaF6c=;
-        b=ZpTjOG+YtfF3+Rxg71f7k9TJYSa5Xjaq2BZGmkiNJCukk5/ORzeMNby5fB89XhXN3O
-         meykRbO0F1YfMz4ZYvEGyQVJHFOd8ZGwL/E+jvjcLvwuegGyYFt3O7W8+fPdpeHROia2
-         hjrFJChMXzkmZYBbK5GJbBQt/63ALiq/9UxMiVnir0+ODlUTQJG6UyDiXAKdbFR3mzLX
-         2Ar3+CsWut3DNdmdbL/I2CVlDYfZubq4g6Ssux5Ab0KY7lyiy5p3i2iqT+R3mZ0vc8QT
-         utWN62kPQHakv4HWPc/2SNYSyy+cHmk9Kx387JJ+9XwSUaTcd+6OW9r073aQbCSxyCX0
-         ptBQ==
+        bh=bHjRA32SxNGycdTccQXJv8BQIIPqHxM0vV70larwozA=;
+        b=lnUW63FeUpejdWdKfZbhUkWLZxtLZEsjWnNW4WVH06kAEQZo5ssNJwL99j5YZ2SKMC
+         VRQwI8KeuvrbKSDF68I1hONlJUADlIzX3KleDzr9n+ncu/Ytgc82OeAYgyWCqyfpN6M0
+         MlnK6VCWhUlib6TVn6ciy5Bn0Kymi86m6F5AAzvuFgLopycdXQGDzrEmu9VTp18AIoiN
+         Z/kfley6OVunGNw2v8gQoS63aJ319fsTQOkPuShUwtSKzJbWlQKNaHKxlaOY5z8nyNa+
+         81gkzVmV1B+ykhRqHfmtKXPrzDDbaTP9Hta5blXAqKn+A6eNEXDMCJ1vK4Mma3PiE24L
+         mN2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=fe27zZeRhaFf13E3mjEw+5OqsILmZ5bX7d/P+hvaF6c=;
-        b=A/kK9IbPaV7qlUF8EUeFXxNtdQFxuQC3WA6wzCKAlAjy5Cq6pghRCBFXxZZC1pT0tc
-         2rbvizr1E/h4utVS6NBTQku7QaxWdJh088GgU1VooGLDnxsAsRCxQGMDyZC/5enbcyW/
-         gsMcjR4ZvEiIJc7oT0AY5eJ/0cOcYBEe2Eo+x2n1uPon+Of/ikv51eSSB5vrQ3zsFEMk
-         huWPbWn4b4rnyKNX934qt9kjYsCa3bY8CmDRXRMwY4j/WwgHlPh67oLIDE0F58JlTWUT
-         a2fInInY/GQC+6wLa8hCwV8gjYMaJLybgq60BoqdzY+fH74/TWKOIESdJrwXdNw+SBYp
-         KUSA==
-X-Gm-Message-State: AOAM5318TOqVKfAZrx1JGIQuSRGu2Bf5wngNsGEdnsLjgtwD3Y6BC6fD
-	Vg0VaQUZcu9v17pu28XHaWHb81/0smQ=
-X-Google-Smtp-Source: ABdhPJyzm24O4uJGMzo/kqgBmlDSUYSgZIuVzg7LgUYQSE7n8d7UHLUt2zBHtaI2R6/TIFjCSL9CWg==
-X-Received: by 2002:a5d:654d:: with SMTP id z13mr3951955wrv.6.1603817316056;
-        Tue, 27 Oct 2020 09:48:36 -0700 (PDT)
-Return-Path: <yann.morin.1998@gmail.com>
-Received: from localhost.localdomain ([2a01:cb19:8b51:cb00:7188:385:c7b6:319])
-        by smtp.gmail.com with ESMTPSA id v9sm2441972wmh.23.2020.10.27.09.48.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bHjRA32SxNGycdTccQXJv8BQIIPqHxM0vV70larwozA=;
+        b=Bu6edK4HTFaNXHSQvQ7qgW8c/d9TE24NRG11xvK50gG28JZg5g+Q8NJ5wAmK7uIUTI
+         R4/nlnmKu0i7xrDIqRnNIdw3HJTP30LEip4saZRH2mf9P/nQQswMcqWF6oRw1jayg53J
+         7PC8dQ6/vEEcXFpic1BnuB6yVuE6MMntSXsKLy2oMT/ZhTBRe6PjsNAvmppEiAZUT1ZT
+         XDUF9HO/lp6m5euKs9naVIduSTV/U6a699nhhjRde3pbAC1X0aL4+yv3+NN2nE+riEDY
+         Nlan67ZxWNh8Fmg+3x7lq0zq75bCUFmToqPI27VsngTAkIn8VWA1D6rIVPFXmqEMpFXP
+         ilcQ==
+X-Gm-Message-State: AOAM531l6pbqwPGqX5fH0sFDuK/xtjFBg2PV5Jr9MPyNOn1I4+s4KLCK
+	aNIrVB1VYYr0dnrgq/VEIo/qeI2poj7vag==
+X-Google-Smtp-Source: ABdhPJzIcVR7mdBmXABbc+xO+gQjEM0scUE0mEIKgHNtdcV3b76bouKjNk2UZtDvbETwSOA75MiFcg==
+X-Received: by 2002:aa7:82ce:0:b029:142:2501:35cb with SMTP id f14-20020aa782ce0000b0290142250135cbmr3409019pfn.43.1603821520666;
+        Tue, 27 Oct 2020 10:58:40 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::bc1e])
+        by smtp.gmail.com with ESMTPSA id c10sm2873485pfc.196.2020.10.27.10.58.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 09:48:35 -0700 (PDT)
-Sender: "Yann E. MORIN" <yann.morin.1998@gmail.com>
-From: "Yann E. MORIN" <yann.morin.1998@free.fr>
+        Tue, 27 Oct 2020 10:58:40 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: "Yann E. MORIN" <yann.morin.1998@free.fr>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexandre BELLONI <alexandre.belloni@bootlin.com>
-Subject: [PATCH] recipes-core/busybox: fixup licensing information
-Date: Tue, 27 Oct 2020 17:48:31 +0100
-Message-Id: <20201027164831.3297010-1-yann.morin.1998@free.fr>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] musl: Update to latest master
+Date: Tue, 27 Oct 2020 10:58:37 -0700
+Message-Id: <20201027175837.832068-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 7d32417b4d (busybox: Correct the name of the bzip2 license)
-changes the licesne from 'bzip2' to 'bzip2-1.0.6' on the rationale
-that the 'bzip2 license was renamed from "bzip2" to "bzip2-1.0.6"
-[...] to match the official SPDX identifier.'
+Changes in this revision bump are
+* 0b87551b (upstream/master) lift sigaction abort locking to fix posix_spawn child deadlock
+* 99d5098a update crypt_blowfish to support $2b$ prefix
+* 957c2763 remove unused weak definition of __tl_sync in membarrier.c
+* 55767360 move aio implementation details to a proper internal header
+* 37337660 remove long-unused struct __timer from pthread_impl.h
+* 85e16aec drop use of pthread_once in timer_create
+* 6ae2568b remove unused SIGTIMER handler in timer_create
+* 47baa030 remove incorrect fflush from assert failure handler
+* da845d52 fix getgrouplist when nscd reports an empty list
+* b7bc9665 fix posix_spawn interaction with fork and abort by taking lock
+* 25ea9f71 fix unintended observability of SIGABRT disposition reset via sigaction
+* bd153422 implement _Fork and refactor fork using it
+* e1e98d86 rename fork source file
+* 50716702 ldso: use pthread_t rather than kernel tid to track ctor visitor
+* 1efc8eb2 fix stale lock when allocation of ctor queue fails during dlopen
+* 69a1b390 drop use of pthread_once in mutexattr kernel support tests
+* b115bee4 fix missing synchronization of fork with abort
+* 3cd3de61 move __abort_lock to its own file and drop pointless weak_alias trick
+* 34904d83 fix fork of processes with active async io contexts
 
-Though the above is true for the bzip2 and pbzip2 packages, the bzip2
-code bundled in busybox is a copy from the bzip2 1.0.4 version, not the
-1.0.6 version.
+Details are here [1]
 
-As such, using bzip2-1.0.6 is wrong.
+[1] https://git.musl-libc.org/cgit/musl/log/?qt=range&q=a5aff1972c9e3981566414b09a28e331ccd2be5d..0b87551bdfb74ac411caa335d8ad0b89a7f139c6
 
-Unfortunately, there is no official SPDX license identifier for this
-bzip2 1.0.4 version, so we just mimick the existing ones (bzip2-1.0.5
-and bzip2-1.0.6) by using bzip2-1.0.4.
-
-Also, there is a license file attached to that, so we add it to the
-list.
-
-Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Respin, as I was not yet subscribed to the list...
-Sorry for any duplicates...
----
- meta/recipes-core/busybox/busybox.inc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 45aaa2b41c..e0522be729 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -5,10 +5,11 @@ BUGTRACKER = "https://bugs.busybox.net/"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 9c0818cfa5..897e56e10f 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
  
- DEPENDS += "kern-tools-native virtual/crypt"
+-SRCREV = "a5aff1972c9e3981566414b09a28e331ccd2be5d"
++SRCREV = "0b87551bdfb74ac411caa335d8ad0b89a7f139c6"
  
--# bzip2 applet in busybox is based on lightly-modified bzip2 source
-+# bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
- # the GPL is version 2 only
--LICENSE = "GPLv2 & bzip2-1.0.6"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
-+LICENSE = "GPLv2 & bzip2-1.0.4"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
-+                    file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
- 
- SECTION = "base"
+ BASEVER = "1.2.1"
  
 -- 
-2.25.1
+2.29.1
 
