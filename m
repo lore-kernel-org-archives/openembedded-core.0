@@ -1,105 +1,110 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web08.5349.1603751790686881328
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.7356.1603761060809849400
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2020 15:36:31 -0700
+ Mon, 26 Oct 2020 18:11:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=H0wuF0r7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id h22so2993784wmb.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 15:36:30 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KWnNzZ2a;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id i26so6730868pgl.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 18:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Kp7l0654Ikr+jrkDKDXuHlXzaNAMBi5wxeh8ny6DRTM=;
-        b=H0wuF0r7oZfbDCwPgbKkT+KNaQMQJtLAP5/2McTZGVu4O2/RHvkQC6cEnLZD74UWK4
-         y+ZRmjcTcadigEjslbfYPrHQvfZBLcnopsb0Dp5CAGh6cjRiz5WlcSzMHAZsFsUPQWTQ
-         ZvEyYUegFCvBL+KLyKXLjmhX+MoWmevBiJmXg=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=ywi0nuv4tgSEU+JebC00CCNLglhQzffGQoe7CGVOMVM=;
+        b=KWnNzZ2aV+XlGto53eqgbf3tnevcIXMnOH1uhupjsD2SRkNkF3mmTppz42APPMwy+x
+         6nEkX65W3S7xDIwz0VIRC7U7UvAD4gqJcf+34oCkMq/b3gfMXrM9D1qomOM782gXBawi
+         vb2h80ruZxvRYugcYR2OXYbCj9+XRiVw22NwCNuj4LlxVbV2KJ+m4/+AaS8H+CvS/9Ru
+         r2hl2Vyez6RGJ5TCbXEOLINyJVuzMkNKMSjcmy3FSB5+SelGxMvtH8oNTN3rmBXiqyZI
+         TEdCYxLaPzy4R5ybc0CiFXZvAYtWPyEjAbMS/e5ChwjhIo4nlsUtJ806cXmATsCkylBA
+         cyEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Kp7l0654Ikr+jrkDKDXuHlXzaNAMBi5wxeh8ny6DRTM=;
-        b=EkqoOs1SzIPs0NTVHw57PDCAHSF2l36w9XR/5otrKMVYCIQgUNX+5bGXHDUZ1aFKwh
-         7IXr0aRFitUZRC7Ch4f1yEwI4UONrTSFaYULWPWiV6BQDmAUrHS9Y3aBEzZ6XjcQgaaW
-         2d9m7NtTgosfnnI8Ruh7Oq7ReyIEwdQb5a1ksrx7r6DNDwPWPaNr0xkp46vci348SQMA
-         95bFR+aU/Cjz6DAboMT9G/jt55n+IJkSdpqz3J3lRLux+MevRC1b1+KCxPJ8d0hO7jjw
-         6iuAULwIUBicMpQSl/wg+z2A/fpIKMZORVc2z8TdFY/XiMNYmJv+OWxMVGtrpHF/LP5N
-         Tt1w==
-X-Gm-Message-State: AOAM531w7w05OSQcDSzIPwfVUnZLUJ+bw/Gjfjd68djT8Tlie8Q459Xn
-	toc/YWZ6Z+shv7YqemnBZhEqVA==
-X-Google-Smtp-Source: ABdhPJwjhxykCXXpys9jESjawToYPmXTqVH6ZNWswHoQ2bsi3s8Zpdug/FosOr3pf4Ej7LqV83r4fw==
-X-Received: by 2002:a1c:e303:: with SMTP id a3mr13932203wmh.50.1603751789156;
-        Mon, 26 Oct 2020 15:36:29 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1867:cb67:a1a2:320d])
-        by smtp.gmail.com with ESMTPSA id p21sm22377301wmc.28.2020.10.26.15.36.28
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=ywi0nuv4tgSEU+JebC00CCNLglhQzffGQoe7CGVOMVM=;
+        b=PU3E+JHF1oPR0aAhZiEZF5A0MDFQ0sSmVATs+SmMswXK07XboprqHI6jypVLEPQbQN
+         GTiAUwQTKhDQBkYFltzs5NsUleZMh9CJkODGQ7UVCXweWBqqIAteF0chQvdX3bWCDEke
+         WHQdkMCdAS7iwasHTvYQv2N9OUmDOK1Xg4MPnBoGBiPylbHnPBslXAZJmVbVBiYFEWzp
+         ByPlN8k9ucn/1TCRjKBxVyGr7lHfuLwIXOmqCysx761Btr43wVylsDkYhVhuGXduSAtK
+         LrVpVZmk2wCtEBAgzztl1Oglnk6ARtKuiYrZnhN7wL4EwArrV2PFu5g83238iXkswmiN
+         X3NA==
+X-Gm-Message-State: AOAM533GFRsyi+mKXAHrB2hzGphCaaLPN2/+AJhiUzcLrOA5GpiyaYXI
+	eeUjyEUzEyeHdXBx9xnsZ+Xf52upnEcYdifu
+X-Google-Smtp-Source: ABdhPJyPhHTuG0TJltgMvKcl5nJHrSvCRQJzTZia9vBmKkxBi+VTPRD2Vjgujrd6JMdiDylaJNldaw==
+X-Received: by 2002:a62:7fd4:0:b029:15c:dea2:4f67 with SMTP id a203-20020a627fd40000b029015cdea24f67mr391689pfd.51.1603761059655;
+        Mon, 26 Oct 2020 18:10:59 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id c12sm12781492pgi.14.2020.10.26.18.10.58
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2020 15:36:28 -0700 (PDT)
-Message-ID: <6bc8b75acf70346af53db04dbb84284e4571ee8a.camel@linuxfoundation.org>
-Subject: Re: [yocto] QA notification for completed autobuilder build (yocto-3.2.rc1)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Jain, Sangeeta" <sangeeta.jain@intel.com>, 
-	"yocto@lists.yoctoproject.org"
-	 <yocto@lists.yoctoproject.org>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>
-Cc: "otavio@ossystems.com.br" <otavio@ossystems.com.br>, 
- "yi.zhao@windriver.com" <yi.zhao@windriver.com>, "Sangal, Apoorv"
- <apoorv.sangal@intel.com>, "Chan, Aaron Chun Yew"
- <aaron.chun.yew.chan@intel.com>, "akuster808@gmail.com"
- <akuster808@gmail.com>,  "sjolley.yp.pm@gmail.com"
- <sjolley.yp.pm@gmail.com>, "Tummalapalli, Vineela"
- <vineela.tummalapalli@intel.com>, "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-Date: Mon, 26 Oct 2020 22:36:26 +0000
-In-Reply-To: <BYAPR11MB3624C502B36E80A6A1BBCB41E3190@BYAPR11MB3624.namprd11.prod.outlook.com>
-References: <20201020163538.0C38244D07F@centos7-ty-4.yocto.io>
-	 <BYAPR11MB3624C502B36E80A6A1BBCB41E3190@BYAPR11MB3624.namprd11.prod.outlook.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+        Mon, 26 Oct 2020 18:10:58 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/14] Pull request (cover letter only)
+Date: Mon, 26 Oct 2020 15:10:48 -1000
+Message-Id: <cover.1603760941.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, 2020-10-26 at 07:06 +0000, Jain, Sangeeta wrote:
-> Hello all,
-> 
-> This is the full report for yocto-3.2.rc1:  
-> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?h=intel-yocto-testresults
-> 
-> ======= Summary ========
-> No new defects are found.
-> No high milestone defects.
-> 
-> glib-2.0 ptest failed (BUG id:14106)
->   
-> Bugs verified:
-> 
-> BUG id:14050 - [QA 3.2 M3 RC1] failure in ptest : parted component
->    Verified Fixed.
-> 
-> Existing bugs observed in this release:
-> 
-> valgrind ptest failed (BUG id:14051)
->    Updated with 2 ptests passed and 3 new failures.
->   
-> ======= Bugs ========
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14106
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14050
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14051
+The following changes since commit 3ee9590f96cb50e93864db768b254773e2ff9465:
 
-Thanks for this Sangeeta and team!
+  uninative: Fix typo in error message (2020-10-19 04:27:15 -1000)
 
-Since this is final 3.2 we're keen to ensure we sort out the issues we
-can. There was a buildhistory issue that became apparent in the last
-few days. Adding in the above two ptest issues and we probably can't
-release rc1.
+are available in the Git repository at:
 
-I've merged fixes for the buildhistory issue and both the glib-2.0 and
-valgrind ptest issues along with some other small tweaks and have
-triggered a build of rc2.
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Cheers,
+Alexander Kanavin (1):
+  selftest/virgl: drop the custom 30 sec timeout
 
-Richard
+Changqing Li (1):
+  toolchain-shar-extract.sh: don't print useless info
 
+Khem Raj (1):
+  packagegroup-core-tools-debug: Disable for rv32/glibc as well
 
+Lee Chee Yang (3):
+  libproxy: fix CVE-2020-25219
+  python3: fix CVE-2020-26116
+  grub2: fix CVE-2020-10713
+
+Martin Jansa (7):
+  arch-armv7a.inc: fix typo
+  arch-mips.inc: remove duplicated mips64el-o32 from
+    PACKAGE_EXTRA_ARCHS_tune-mips64el-o32
+  tune-mips64r6.inc: fix typo in mipsisa64r6-nf
+  tune-ep9312.inc: add t suffix for thumb to
+    PACKAGE_EXTRA_ARCHS_tune-ep9312
+  tune-riscv.inc: use nf suffix also for TUNE_PKGARCH
+  siteinfo: Recognize 32bit PPC LE
+  siteinfo: Recognize bigendian sh3be and sh4be
+
+Victor Kamensky (1):
+  qemu: change TLBs number to 64 in 34Kf mips cpu model
+
+ meta-selftest/lib/oeqa/runtime/cases/virgl.py |   2 +-
+ meta/classes/siteinfo.bbclass                 |   5 +
+ meta/conf/machine/include/arm/arch-armv7a.inc |   2 +-
+ meta/conf/machine/include/mips/arch-mips.inc  |   2 +-
+ .../conf/machine/include/riscv/tune-riscv.inc |   4 +-
+ meta/conf/machine/include/tune-ep9312.inc     |   3 +-
+ meta/conf/machine/include/tune-mips64r6.inc   |   2 +-
+ meta/files/toolchain-shar-extract.sh          |   2 +-
+ .../grub/files/CVE-2020-10713.patch           |  73 ++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ .../packagegroup-core-tools-debug.bb          |   2 +-
+ .../python/python3/CVE-2020-26116.patch       | 104 ++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ ...ease-number-of-TLB-entries-on-the-34.patch |  59 ++++++++++
+ .../libproxy/libproxy/CVE-2020-25219.patch    |  61 ++++++++++
+ .../libproxy/libproxy_0.4.15.bb               |   1 +
+ 17 files changed, 315 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-10713.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-26116.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch
+ create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch
+
+-- 
+2.17.1
 
