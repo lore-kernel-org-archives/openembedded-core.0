@@ -1,97 +1,98 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web12.889.1603821521552032588
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web09.2544.1603827694250387793
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 10:58:41 -0700
+ Tue, 27 Oct 2020 12:41:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lnUW63Fe;
- spf=pass (domain: gmail.com, ip: 209.85.210.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f194.google.com with SMTP id 10so1363431pfp.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 10:58:41 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I2CerRPJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id n18so3244382wrs.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 12:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bHjRA32SxNGycdTccQXJv8BQIIPqHxM0vV70larwozA=;
-        b=lnUW63FeUpejdWdKfZbhUkWLZxtLZEsjWnNW4WVH06kAEQZo5ssNJwL99j5YZ2SKMC
-         VRQwI8KeuvrbKSDF68I1hONlJUADlIzX3KleDzr9n+ncu/Ytgc82OeAYgyWCqyfpN6M0
-         MlnK6VCWhUlib6TVn6ciy5Bn0Kymi86m6F5AAzvuFgLopycdXQGDzrEmu9VTp18AIoiN
-         Z/kfley6OVunGNw2v8gQoS63aJ319fsTQOkPuShUwtSKzJbWlQKNaHKxlaOY5z8nyNa+
-         81gkzVmV1B+ykhRqHfmtKXPrzDDbaTP9Hta5blXAqKn+A6eNEXDMCJ1vK4Mma3PiE24L
-         mN2g==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=EtMFpZBy5lgJiuwlQG9a8ooeblYosBESUsZ7ZYqCr+g=;
+        b=I2CerRPJRwok2UAaj+OzqoDHtHKwAxLDzHRnOXFGtpP894E31O/AdDlzmAfUevezT3
+         kFAzxCF0exA/auQglJ4XP0rtfD6qbEmPEt7cjJlj0mHBd42cAoQzx1E+jxLGzUNw406L
+         qRiNzyMM1cP5z7toXMuKUKuAWbft+/HuNRB6g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bHjRA32SxNGycdTccQXJv8BQIIPqHxM0vV70larwozA=;
-        b=Bu6edK4HTFaNXHSQvQ7qgW8c/d9TE24NRG11xvK50gG28JZg5g+Q8NJ5wAmK7uIUTI
-         R4/nlnmKu0i7xrDIqRnNIdw3HJTP30LEip4saZRH2mf9P/nQQswMcqWF6oRw1jayg53J
-         7PC8dQ6/vEEcXFpic1BnuB6yVuE6MMntSXsKLy2oMT/ZhTBRe6PjsNAvmppEiAZUT1ZT
-         XDUF9HO/lp6m5euKs9naVIduSTV/U6a699nhhjRde3pbAC1X0aL4+yv3+NN2nE+riEDY
-         Nlan67ZxWNh8Fmg+3x7lq0zq75bCUFmToqPI27VsngTAkIn8VWA1D6rIVPFXmqEMpFXP
-         ilcQ==
-X-Gm-Message-State: AOAM531l6pbqwPGqX5fH0sFDuK/xtjFBg2PV5Jr9MPyNOn1I4+s4KLCK
-	aNIrVB1VYYr0dnrgq/VEIo/qeI2poj7vag==
-X-Google-Smtp-Source: ABdhPJzIcVR7mdBmXABbc+xO+gQjEM0scUE0mEIKgHNtdcV3b76bouKjNk2UZtDvbETwSOA75MiFcg==
-X-Received: by 2002:aa7:82ce:0:b029:142:2501:35cb with SMTP id f14-20020aa782ce0000b0290142250135cbmr3409019pfn.43.1603821520666;
-        Tue, 27 Oct 2020 10:58:40 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::bc1e])
-        by smtp.gmail.com with ESMTPSA id c10sm2873485pfc.196.2020.10.27.10.58.39
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EtMFpZBy5lgJiuwlQG9a8ooeblYosBESUsZ7ZYqCr+g=;
+        b=RgFz3XtXBzMX8PHshuUfIQmbmFMRDbAe0ANk8HZEhzt0KgTOUl2X5AJTr/yWt3rh5Q
+         bwYYLtyi9ZCgwIWN4EpyLZwOlM3OSb0DUj5IXKbWtYGBeNEdt0CQhXw+ewCmgRbw8yM6
+         fcW2iB06OU4TwuMMzsWF5b8NSoaH2wiIHqsSyd0Xiy6ksSZBlgpSs3v4OKtkZx1OjLgH
+         Dh736y1L2IZ701KBZxQ32OLFMZar/4HtrwtKyeM2JGuRSj7wnApECEt3viJfAVi+IfAP
+         s1bcH9pGzCvmadsn5K0WKQKN5aMcO3rEUpIz9PQ7luu2E+GyewKixkwTOBMbrKdh7Ti1
+         z9Wg==
+X-Gm-Message-State: AOAM530CWAIIJxVO6veWHJF0gA7lqWI8U3HxP+3vC8U95efDASLhzWck
+	J7aC6UBjrsSNkLX7bue6YUFMsg==
+X-Google-Smtp-Source: ABdhPJzq95PZtH03oolffMY2iaoHIqpGbpd7JcdSBc8Os9ZDvRM7PG7ViBdZ0fpTWx0BExFp9/mORA==
+X-Received: by 2002:a5d:414f:: with SMTP id c15mr4747288wrq.59.1603827692625;
+        Tue, 27 Oct 2020 12:41:32 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1867:cb67:a1a2:320d])
+        by smtp.gmail.com with ESMTPSA id l8sm3409997wrn.28.2020.10.27.12.41.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 10:58:40 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] musl: Update to latest master
-Date: Tue, 27 Oct 2020 10:58:37 -0700
-Message-Id: <20201027175837.832068-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.1
+        Tue, 27 Oct 2020 12:41:32 -0700 (PDT)
+Message-ID: <f154c498c88dfc436d4b9547b889e3aa8436fc41.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] add new extrausers command passwd-expire
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Joseph Reynolds <jrey@linux.ibm.com>, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 27 Oct 2020 19:41:29 +0000
+In-Reply-To: <978bccd7-a2f4-9aa0-9c77-9c10c81e068f@linux.ibm.com>
+References: <978bccd7-a2f4-9aa0-9c77-9c10c81e068f@linux.ibm.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Changes in this revision bump are
-* 0b87551b (upstream/master) lift sigaction abort locking to fix posix_spawn child deadlock
-* 99d5098a update crypt_blowfish to support $2b$ prefix
-* 957c2763 remove unused weak definition of __tl_sync in membarrier.c
-* 55767360 move aio implementation details to a proper internal header
-* 37337660 remove long-unused struct __timer from pthread_impl.h
-* 85e16aec drop use of pthread_once in timer_create
-* 6ae2568b remove unused SIGTIMER handler in timer_create
-* 47baa030 remove incorrect fflush from assert failure handler
-* da845d52 fix getgrouplist when nscd reports an empty list
-* b7bc9665 fix posix_spawn interaction with fork and abort by taking lock
-* 25ea9f71 fix unintended observability of SIGABRT disposition reset via sigaction
-* bd153422 implement _Fork and refactor fork using it
-* e1e98d86 rename fork source file
-* 50716702 ldso: use pthread_t rather than kernel tid to track ctor visitor
-* 1efc8eb2 fix stale lock when allocation of ctor queue fails during dlopen
-* 69a1b390 drop use of pthread_once in mutexattr kernel support tests
-* b115bee4 fix missing synchronization of fork with abort
-* 3cd3de61 move __abort_lock to its own file and drop pointless weak_alias trick
-* 34904d83 fix fork of processes with active async io contexts
+Hi Joseph,
 
-Details are here [1]
+On Mon, 2020-10-26 at 15:41 -0500, Joseph Reynolds wrote:
+> This enhances extrausers with a new passwd-expire command that causes
+> a local user's password to be expired as if the `passwd --expire`
+> command was run, so the password needs to be changed on initial
+> login.
+> 
+> Example: EXTRA_USERS_PARAMS += " useradd ... sofia; passwd-expire
+> sofia;"
+> 
+> Tested: on useradd accounts
+> When configured with Linux-PAM, console login prompts for and can
+> successfully change the password.  OpenSSH server works.  Dropbear
+> SSH server notes the password must be changed but does not offer a
+> password change dialog and rejects the login request.
+> 
+> Signed-off-by: Joseph Reynolds <joseph-reynolds@charter.net>
+> ---
+>   meta/classes/extrausers.bbclass   |  3 +++
+>   meta/classes/useradd_base.bbclass | 18 ++++++++++++++++++
+>   2 files changed, 21 insertions(+)
+> 
+> diff --git a/meta/classes/extrausers.bbclass 
+> b/meta/classes/extrausers.bbclass
+> index 32569e9..90811bf 100644
+> --- a/meta/classes/extrausers.bbclass
+> +++ b/meta/classes/extrausers.bbclass
+> @@ -46,6 +46,9 @@ set_user_group () {
+>               usermod)
+>                   perform_usermod "${IMAGE_ROOTFS}" "-R
+> ${IMAGE_ROOTFS} 
+> $opts"
 
-[1] https://git.musl-libc.org/cgit/musl/log/?qt=range&q=a5aff1972c9e3981566414b09a28e331ccd2be5d..0b87551bdfb74ac411caa335d8ad0b89a7f139c6
+Unfortunately this patch is coming through line wrapped which makes it
+hard to apply. Can you resend it without the line wrapping, or point at
+a git tree with the patch in please?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I do remember the patch from the last time around and I think this was
+the issue last time as well, I couldn't get it to apply. It does seem
+like a reasonable addition and it would be good to work with openBMC on
+common issues like this!
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 9c0818cfa5..897e56e10f 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "a5aff1972c9e3981566414b09a28e331ccd2be5d"
-+SRCREV = "0b87551bdfb74ac411caa335d8ad0b89a7f139c6"
- 
- BASEVER = "1.2.1"
- 
--- 
-2.29.1
+Cheers,
+
+Richard
 
