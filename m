@@ -1,133 +1,165 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web09.91.1603837771180330497
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web08.86.1603837773595116587
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 15:29:31 -0700
+ Tue, 27 Oct 2020 15:29:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HAeqxzpL;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id j5so1512674plk.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 15:29:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xudO/Htw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id r10so1518317plx.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 15:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=aC/EqAeZV/qsH+rhTvyzCcUVywcTlWT7Kl22jPgCOwc=;
-        b=HAeqxzpLNTidwqzBCQ0qaL2AeV4Z46GrIhG8MIDA9mA4YXVhWnuV6oUe7Dmnv+O553
-         4V9cEVT2qjOOAV/nPQ+6v6b9wkVC10VFeinjhRxpXrp1LrOopoR9JY2leZj545cOmeir
-         pWXze6ah20yLXBV5YFsgzNO5DnCwQOABq69+bVJwE15d/k0mJHzdc++eRlJUBhxf6RfC
-         Z28VR4JjZ+O0GXdn3hH6+qITVBeWg92zm/1yNlZsNKXBWq1U19p4NVi1Bw/vQfw2rJwj
-         coAUb4sbztRV5v4tLZr54LIpwRcD2LuaENZyMgmbC/fC2cQV8UyDSbyVNGEUsAp/7bD8
-         IrJA==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=oRY8kz06KgxJg+jXVvW0dWC4vqI7Qua7Ct4vtbisIvg=;
+        b=xudO/HtwEHakkqLxLeMeV5YOWa4ya3vNU6uAE5duX+RqFptreBU5KzZ5bQ8BmpOawY
+         Cc8KxpZ2cGKEWFaEoHSHYYpxR4T5V4wrHzki34vQFy08QKU4OepX+DMv7uHXsSwRhZw2
+         uSUGtJ9WgGN2JnF2yCnWZrfm3vhRrtbhquvEh4LWdHdcqngxdci+n6AjDMBOOxbFJiEC
+         IBx2nlvl2zLQbDKRkKFOgmEO9vxpeX1h+K3uUisirTMk7NP6kA6lye+3FjutLY2/FNc6
+         UcaOCCgV22TvpaHKoWzvQ6KgBKlK2ePH7PG6yZh9s6rsP6c9JHyHqD8ppEX1hQYxs9Bf
+         IcdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=aC/EqAeZV/qsH+rhTvyzCcUVywcTlWT7Kl22jPgCOwc=;
-        b=SrtUn2RnprD7bKaEujs907NWrKCQkLxKUppT8beRwQi/b7Bk8BVZgccRPEJzAiJbX5
-         7bNWav/geXoD/FOOtBVIAmBTY72QdqpGua1Ee97BYQHacNcpIhF4Ixhx0FDE1I4wFt1m
-         jOgT3W/vdTe2TcQPjdQqeOL21u73A+O3IhdXa/ksBKtmqu1Tx1IinhGQvgYSwZqkgM8B
-         p4F57nW7fw7aSr0KAS0NK9d5SRwg4HQWAG24h7WcWqGnx7NYr+n7IGWONSLR8GU2ZKcF
-         qvpAOG5EZ34J7ROp3IdNWn/RfOIaz6TA1bF1WN/OPjqq6mHQ1sy8stQPMIVAzUbm5dYV
-         MEDw==
-X-Gm-Message-State: AOAM5325rMEl7aUSd0anRN8CRmQPWCcdS8etg6CpgUvp3O6wOBJlZdOz
-	Z2z7O7L6i2oa3kG96qXCrjxCdvY9X5razZEF
-X-Google-Smtp-Source: ABdhPJx3TZrHqlPCxKBfjBQGE19qxB32spZAG211xlRCX4kOz32Vy2NVwQCltEEhqDZhJsm5a3sDoQ==
-X-Received: by 2002:a17:902:b789:b029:d3:f9aa:7f27 with SMTP id e9-20020a170902b789b02900d3f9aa7f27mr4719285pls.47.1603837769983;
-        Tue, 27 Oct 2020 15:29:29 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=oRY8kz06KgxJg+jXVvW0dWC4vqI7Qua7Ct4vtbisIvg=;
+        b=nQxTHL9a3zum/mNqwffX6VwAARGg321GFjud4zU62SOMmPcyXotNTQPWBN99gqUhyN
+         F2xD5h8OcTC7fxm6tdEeEw2toND+ewkMR2FKuxRLjg3yXpdmnOK0VT7kSA26N6+sTSGq
+         SOVa4CJG5mtmTXJqb3PbmJ8LwT/tO9Few+JqLJLQxC92xJzuWYsxgAqFzOFt6HR6r1dW
+         pXEhmmAbqYtJBPq5jtI5jI2Tdq6ys8E57wLd/v3Q6H66kToM7qeQBs/F7itLKlfhVTS3
+         xLxCYqgG9DLwlEWLdOdJhb2xPMhe54o/jjDJ9PEojI3m87FGuuIpN6aW1UkVff1gpzZx
+         oP3w==
+X-Gm-Message-State: AOAM530l+lpDKECMvsxca5jhgsT1EnvBX4921ofQQmKZNx49FaW+D1Tz
+	kOf9H7f5Fhi94N5V2moNpOBLOi4QGBZ5aFYP
+X-Google-Smtp-Source: ABdhPJypqi8nkJHG8Znh9Ate6pPUkZijXrA45mFG+w2+7jnRcAEwOdyjooihmzSaK1j3jhPoEICQ8Q==
+X-Received: by 2002:a17:902:7fc5:b029:d3:f0da:ade with SMTP id t5-20020a1709027fc5b02900d3f0da0ademr4463906plb.63.1603837772631;
+        Tue, 27 Oct 2020 15:29:32 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id b7sm3699000pfr.171.2020.10.27.15.29.28
+        by smtp.gmail.com with ESMTPSA id b7sm3699000pfr.171.2020.10.27.15.29.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 15:29:29 -0700 (PDT)
+        Tue, 27 Oct 2020 15:29:32 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/16] Patch review
-Date: Tue, 27 Oct 2020 12:29:04 -1000
-Message-Id: <cover.1603837524.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/16] oeqa: Add sync call to command execution
+Date: Tue, 27 Oct 2020 12:29:05 -1000
+Message-Id: <ed912771ea98c42f61bf927b1ca708650b0bed4c.1603837524.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1603837524.git.steve@sakoman.com>
+References: <cover.1603837524.git.steve@sakoman.com>
 
-Please review this next set of patches for dunfell and have changes back
-by end of day Thursday.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Passed a-full on autobuilder:
+We previously put a sync call into devtool to try and combat the bitbake
+timeout issues on the autobuilder. It isn't enough as the timeouts occur
+mid test. They are also occurring on non-devtool tests.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1514
+Add in sync calls around command execution instead.
 
-The following changes since commit 89e6fc44a378cb3489376d7193672cdf94c504b6:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ceca5ed121e2b54415a7ab3a217882e4ea86923a)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/lib/oeqa/selftest/cases/runcmd.py | 16 ++++++++--------
+ meta/lib/oeqa/utils/commands.py        |  8 +++++++-
+ 2 files changed, 15 insertions(+), 9 deletions(-)
 
-  qemu: change TLBs number to 64 in 34Kf mips cpu model (2020-10-21 04:42:42 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Jose Quaresma (12):
-  gstreamer1.0: Fix reproducibility issue around libcap
-  gstreamer1.0: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-plugins-base: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-plugins-good: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-plugins-bad: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-plugins-ugly: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-libav: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-vaapi: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-rtsp-server: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-omx: Update 1.16.2 -> Update 1.16.3
-  gstreamer1.0-python: Update 1.16.2 -> Update 1.16.3
-  gst-validate: Update 1.16.2 -> Update 1.16.3
-
-Lee Chee Yang (1):
-  ffmpeg: fix CVE-2020-12284
-
-Richard Purdie (1):
-  oeqa: Add sync call to command execution
-
-Ross Burton (2):
-  gcc: mitigate the Straight-line Speculation attack
-  glib-2.0: fix parsing of slim encoded tzdata
-
- meta/lib/oeqa/selftest/cases/runcmd.py        |  16 +-
- meta/lib/oeqa/utils/commands.py               |   8 +-
- .../glib-2.0/glib-2.0/tzdata-update.patch     | 458 ++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |   1 +
- meta/recipes-devtools/gcc/gcc-9.3.inc         |   3 +
- ...ight-Line-Speculation-SLS-mitigation.patch | 204 ++++++
- ...e-SLS-mitigation-for-RET-and-BR-inst.patch | 600 ++++++++++++++++
- ...h64-Mitigate-SLS-for-BLR-instruction.patch | 659 ++++++++++++++++++
- .../ffmpeg/ffmpeg/CVE-2020-12284.patch        |  36 +
- .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |   1 +
- ...idate_1.16.2.bb => gst-validate_1.16.3.bb} |   4 +-
- ...1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} |   4 +-
- ...x_1.16.2.bb => gstreamer1.0-omx_1.16.3.bb} |   4 +-
- ....bb => gstreamer1.0-plugins-bad_1.16.3.bb} |   4 +-
- ...bb => gstreamer1.0-plugins-base_1.16.3.bb} |   4 +-
- ...bb => gstreamer1.0-plugins-good_1.16.3.bb} |   4 +-
- ...bb => gstreamer1.0-plugins-ugly_1.16.3.bb} |   4 +-
- ...son.build-fix-builds-with-python-3.8.patch |  24 -
- ....16.2.bb => gstreamer1.0-python_1.16.3.bb} |   8 +-
- ....bb => gstreamer1.0-rtsp-server_1.16.3.bb} |   4 +-
- ...1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} |   4 +-
- .../gstreamer/gstreamer1.0/capfix.patch       |  37 -
- ...er1.0_1.16.2.bb => gstreamer1.0_1.16.3.bb} |   9 +-
- 23 files changed, 2002 insertions(+), 98 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-12284.patch
- rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb} (87%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.16.2.bb => gstreamer1.0-omx_1.16.3.bb} (92%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.16.2.bb => gstreamer1.0-plugins-bad_1.16.3.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16.2.bb => gstreamer1.0-plugins-base_1.16.3.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.2.bb => gstreamer1.0-plugins-good_1.16.3.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.16.2.bb => gstreamer1.0-plugins-ugly_1.16.3.bb} (90%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.2.bb => gstreamer1.0-python_1.16.3.bb} (80%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.16.2.bb => gstreamer1.0-rtsp-server_1.16.3.bb} (86%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} (93%)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.2.bb => gstreamer1.0_1.16.3.bb} (90%)
-
+diff --git a/meta/lib/oeqa/selftest/cases/runcmd.py b/meta/lib/oeqa/selftest/cases/runcmd.py
+index a5ef1ea95f..fa6113d7fa 100644
+--- a/meta/lib/oeqa/selftest/cases/runcmd.py
++++ b/meta/lib/oeqa/selftest/cases/runcmd.py
+@@ -64,12 +64,12 @@ class RunCmdTests(OESelftestTestCase):
+                                 runCmd, "echo foobar >&2; false", shell=True, assert_error=False)
+ 
+     def test_output(self):
+-        result = runCmd("echo stdout; echo stderr >&2", shell=True)
++        result = runCmd("echo stdout; echo stderr >&2", shell=True, sync=False)
+         self.assertEqual("stdout\nstderr", result.output)
+         self.assertEqual("", result.error)
+ 
+     def test_output_split(self):
+-        result = runCmd("echo stdout; echo stderr >&2", shell=True, stderr=subprocess.PIPE)
++        result = runCmd("echo stdout; echo stderr >&2", shell=True, stderr=subprocess.PIPE, sync=False)
+         self.assertEqual("stdout", result.output)
+         self.assertEqual("stderr", result.error)
+ 
+@@ -77,7 +77,7 @@ class RunCmdTests(OESelftestTestCase):
+         numthreads = threading.active_count()
+         start = time.time()
+         # Killing a hanging process only works when not using a shell?!
+-        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True)
++        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True, sync=False)
+         self.assertEqual(result.status, -signal.SIGTERM)
+         end = time.time()
+         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
+@@ -87,7 +87,7 @@ class RunCmdTests(OESelftestTestCase):
+         numthreads = threading.active_count()
+         start = time.time()
+         # Killing a hanging process only works when not using a shell?!
+-        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True, stderr=subprocess.PIPE)
++        result = runCmd(['sleep', '60'], timeout=self.TIMEOUT, ignore_status=True, stderr=subprocess.PIPE, sync=False)
+         self.assertEqual(result.status, -signal.SIGTERM)
+         end = time.time()
+         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
+@@ -95,7 +95,7 @@ class RunCmdTests(OESelftestTestCase):
+ 
+     def test_stdin(self):
+         numthreads = threading.active_count()
+-        result = runCmd("cat", data=b"hello world", timeout=self.TIMEOUT)
++        result = runCmd("cat", data=b"hello world", timeout=self.TIMEOUT, sync=False)
+         self.assertEqual("hello world", result.output)
+         self.assertEqual(numthreads, threading.active_count(), msg="Thread counts were not equal before (%s) and after (%s), active threads: %s" % (numthreads, threading.active_count(), threading.enumerate()))
+         self.assertEqual(numthreads, 1)
+@@ -103,7 +103,7 @@ class RunCmdTests(OESelftestTestCase):
+     def test_stdin_timeout(self):
+         numthreads = threading.active_count()
+         start = time.time()
+-        result = runCmd(['sleep', '60'], data=b"hello world", timeout=self.TIMEOUT, ignore_status=True)
++        result = runCmd(['sleep', '60'], data=b"hello world", timeout=self.TIMEOUT, ignore_status=True, sync=False)
+         self.assertEqual(result.status, -signal.SIGTERM)
+         end = time.time()
+         self.assertLess(end - start, self.TIMEOUT + self.DELTA)
+@@ -111,12 +111,12 @@ class RunCmdTests(OESelftestTestCase):
+ 
+     def test_log(self):
+         log = MemLogger()
+-        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log)
++        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log, sync=False)
+         self.assertEqual(["Running: echo stdout; echo stderr >&2", "stdout", "stderr"], log.info_msgs)
+         self.assertEqual([], log.error_msgs)
+ 
+     def test_log_split(self):
+         log = MemLogger()
+-        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log, stderr=subprocess.PIPE)
++        result = runCmd("echo stdout; echo stderr >&2", shell=True, output_log=log, stderr=subprocess.PIPE, sync=False)
+         self.assertEqual(["Running: echo stdout; echo stderr >&2", "stdout"], log.info_msgs)
+         self.assertEqual(["stderr"], log.error_msgs)
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index f7f8c16bf0..8059cbce3e 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -167,7 +167,7 @@ class Result(object):
+     pass
+ 
+ 
+-def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
++def runCmd(command, ignore_status=False, timeout=None, assert_error=True, sync=True,
+           native_sysroot=None, limit_exc_output=0, output_log=None, **options):
+     result = Result()
+ 
+@@ -184,6 +184,12 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True,
+     cmd = Command(command, timeout=timeout, output_log=output_log, **options)
+     cmd.run()
+ 
++    # tests can be heavy on IO and if bitbake can't write out its caches, we see timeouts.
++    # call sync around the tests to ensure the IO queue doesn't get too large, taking any IO
++    # hit here rather than in bitbake shutdown.
++    if sync:
++        os.system("sync")
++
+     result.command = command
+     result.status = cmd.status
+     result.output = cmd.output
 -- 
 2.17.1
 
