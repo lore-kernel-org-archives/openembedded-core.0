@@ -1,79 +1,545 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web12.111.1603837807015138576
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web08.99.1603837809940579081
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 15:30:07 -0700
+ Tue, 27 Oct 2020 15:30:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hNGvMwFr;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id r3so1523583plo.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 15:30:06 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rxvcpCzu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id c20so1744862pfr.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 15:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=XbfOFI2XWhxa1VwNWiMvODYcdaua9dfrYck64SjoHgY=;
-        b=hNGvMwFrZbXuN73FYg8NiudxOteOlgoTTaGt/jIMJ71GqQeKJM/NvZ2OK7PN2p7yrW
-         tEO028lAOV0by9+GBd7+y90WVJKd83wVdsWOCcHkGJWtr8m2Brm3LjFoPb3W3ggTDTCg
-         xpcj0v2XkmNptialTXUjWRo9DUPr4etDY6RFEWgwERVPUtxX20QtVykdTHcfD776EVO8
-         Yr+jP24445P8q4Yuf4CKuJiq3hhtMIRS7G7zkQqR0KYFET7Btat36kmlTGeAX83LEeKK
-         Arb9e9nsXiPkV9eB8JJUrhmDYtJ1zacuflSHUkfvko6ZaSqy3OAVK9wzJwcTYxP4LzE7
-         glzQ==
+        bh=Hp9HBnIf/LpCeq+kXhM127mNQEQxvijfeVjkOBK+bzk=;
+        b=rxvcpCzuRfdrl+HRJ+LrY5oO7aguequPbpApuvDzil+98pMx6oouvUuhmIBPSN++y5
+         oKVDR9ypvuBPblJZoe3Smye3boPwj4vanlYs+iwClwboF9Hft2hTVELFPPXdD54ufYql
+         rHHxE0LoNnXuytYfLqsM5q7QMV8YsM0MSCYd2A9UMuvx2MPxAxgkm+gvChKe/i3qrAHc
+         f+T+N8Yp025oNy6RTV17CTIA+9dmSfqsYo8v71tAyK+3LjAAy9jy82D9/QmjYFyKei9Z
+         jRKG8gFO2iqvmdezjSIBXSb5KKEiJRdBkV6soBvkqw75dGOZoCjNoYI9t3XExbJ2IJ7i
+         G1ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=XbfOFI2XWhxa1VwNWiMvODYcdaua9dfrYck64SjoHgY=;
-        b=JvJhCOy8wbg0824qKpx+Bwf2jMm2eJGghUXfnahNFviA2V47x+3fLFICbYmeCvp/nk
-         XB6Yjc0z560OPW3TJO5ZksMlVomHR8RyRIKoGk0WF0ZDO8AaZdRJRG6s3YFcOkzcs1WM
-         bqkT3umygsoz6jv166gLQj6dSShXlTZ36lpUMXT1f/lsDfKm6KIUEva6z7kpkuGoX9kG
-         cjgJkOgM5uIv3Kygr+x06LuXE1o15fpzxKztdtcCCnwWt8e+rgljdQrCWfqw+0KuCy9G
-         uHVHKj0b88gk8OhBtZdyAvnoisaqB72TbAZcyl2qr7NI7ExPqny0Iz4i0h5BVatdKNR0
-         5V4Q==
-X-Gm-Message-State: AOAM531LcNQ2oOEOZgN4Pj8/ozfCbDZrkUMv4CLeUwVsN+ID3ntteuy2
-	WJ5jCGrJ21bZof5nBK4KSML0wrBFePLr9Pfl
-X-Google-Smtp-Source: ABdhPJz93S69uZa7xl30cIP9E2G3fMx595BHuvWIChu5hz8izQfPD6Cqk9SKDNKEuu9UbwvvXFT68g==
-X-Received: by 2002:a17:90b:14e:: with SMTP id em14mr3998698pjb.186.1603837806190;
-        Tue, 27 Oct 2020 15:30:06 -0700 (PDT)
+        bh=Hp9HBnIf/LpCeq+kXhM127mNQEQxvijfeVjkOBK+bzk=;
+        b=g+byxVGbqrgBBSecnJiK3Ip/cofc+b4wGVHHQddUYpdhOsFJwmQwW7o5EBQrv0n+wR
+         p6IW/jPXSqpVj19DbHP2y5EUvf1PDDN1xKtbFXk+Msw/Km0L2vWgOS/oWza5auvfwiOl
+         2TbJmCMdJziIAcTqKPBxRMsBeNgsq8OjJLMdHyeRc7H5u6Ysh6hvQeRg0ZDIsH1Ax4N2
+         7IghBpqCLrp/O6SMKQ4/ReRyB6frV3iIpeLH5CRVdNxURDjBDUQ3LTOe7sb9rvA15e3M
+         M6mqeYh44wDOxK1KJbJi6lGSTjkPG+2SdYxMED9noQ8e2nXvm/c6psPzOEIzgKWoIOtn
+         HZLg==
+X-Gm-Message-State: AOAM532o+FSMzvwftKEUK8tIfqbQJKRV94oCsx/TLMJz/jUGaVfB/p6d
+	FixCPw5LY4+IT1vAPxOOec9Tv2zrkyb2XQ86
+X-Google-Smtp-Source: ABdhPJzq+KrmH05sbBSf7goKy/xlVQAdsbldAxBtiI9fXnRwp08xm845b9rlclSmSu0hIAbZrv/Y4g==
+X-Received: by 2002:aa7:8b17:0:b029:15b:c0ba:f2f4 with SMTP id f23-20020aa78b170000b029015bc0baf2f4mr4388386pfd.22.1603837808680;
+        Tue, 27 Oct 2020 15:30:08 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id b7sm3699000pfr.171.2020.10.27.15.30.04
+        by smtp.gmail.com with ESMTPSA id b7sm3699000pfr.171.2020.10.27.15.30.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 15:30:05 -0700 (PDT)
+        Tue, 27 Oct 2020 15:30:08 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/16] gst-validate: Update 1.16.2 -> Update 1.16.3
-Date: Tue, 27 Oct 2020 12:29:19 -1000
-Message-Id: <d0dd153b0ab3da27985a47db8cdb4e26f94b893d.1603837524.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/16] glib-2.0: fix parsing of slim encoded tzdata
+Date: Tue, 27 Oct 2020 12:29:20 -1000
+Message-Id: <8a367cbbf092339a8c82c680a2565567b594b6c6.1603837524.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1603837524.git.steve@sakoman.com>
 References: <cover.1603837524.git.steve@sakoman.com>
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Ross Burton <ross@burtonini.com>
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+As of tzcode 2020b the timezone data is encoded using the 'slim' format
+instead of the previous 'fat'.  This exposes a number of bugs in GLib,
+so backport the fixes to improve the parser.
+
+[ YOCTO #14106 ]
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb} (87%)
+ .../glib-2.0/glib-2.0/tzdata-update.patch     | 458 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |   1 +
+ 2 files changed, 459 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-similarity index 87%
-rename from meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-index 35492fe861..ef42abbdd7 100644
---- a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
- SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz \
-            file://0001-connect-has-a-different-signature-on-musl.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch b/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
+new file mode 100644
+index 0000000000..0af036f8bd
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
+@@ -0,0 +1,458 @@
++Backport a number of patches from upstream to fix reading of the new 'slim'
++encoding for tzdata files.
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++
++commit 18cbd5e5a4812e9bd0b06a058322d2b44ed2ad92
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    Clarify memset in set_tz_name
++
++    * glib/gtimezone.c (set_tz_name): Use size, not NAME_SIZE,
++    to clear the buffer.  Suggested by Philip Withnall in:
++    https://gitlab.gnome.org/GNOME/glib/-/merge_requests/1533#note_867859
++
++commit 1ab3f927d6d09a8cf3349a3545f5351446f43d47
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: support footers in TZif files
++
++    Since tzcode95f (1995), TZif files have had a trailing
++    TZ string, used for timestamps after the last transition.
++    This string is specified in Internet RFC 8536 section 3.3.
++    init_zone_from_iana_info has ignored this string, causing it
++    to mishandle timestamps past the year 2038.  With zic's new -b
++    slim flag, init_zone_from_iana_info would even mishandle current
++    timestamps.  Fix this by parsing the trailing TZ string and adding
++    its transitions.
++
++    Closes #2129
++
++commit e8b763e35235a2c6b4bdd48a5099c00f72741059
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: add support for RFC 8536 time zone transitions
++
++    Time zone transition times can range from -167:59:59 through
++    +167:59:59, according to Internet RFC 8536 section 3.3.1;
++    this is an extension to POSIX.  It is needed for proper
++    support of TZif version 3 files.
++
++commit 1c65dd48b8ebd31af8bc9b2263f83c0c411f7519
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: allow hh to be 24, as per POSIX
++
++    POSIX allows hh to be 24; see
++    https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03
++
++commit 368b65cb4cb17e29a4f55654149f554a14f48bc6
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: support POSIX 1003.1-2001 quoted TZ abbreviations
++
++    TZ strings like '<-03>3' were introduced in POSIX 1003.1-2001 and
++    are currently specified in:
++    https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03
++
++commit fd528aaab6bb077c6d217e62f2228ec9fe3ed760
++Author: Paul Eggert <eggert@cs.ucla.edu>
++Date:   Thu Jul 16 12:41:49 2020 -0700
++
++    gtimezone: get 64-bit data from version-3 TZif files
++
++    Version 3 was introduced in tzdb 2013e (2013).
++    See Internet RFC 8536 section 3.1 under "ver(sion)".
++
++diff --git a/glib/gtimezone.c b/glib/gtimezone.c
++index 5a835dea9..f9eee1967 100644
++--- a/glib/gtimezone.c
+++++ b/glib/gtimezone.c
++@@ -142,9 +142,7 @@ typedef struct
++   gint     mday;
++   gint     wday;
++   gint     week;
++-  gint     hour;
++-  gint     min;
++-  gint     sec;
+++  gint32   offset;  /* hour*3600 + min*60 + sec; can be negative.  */
++ } TimeZoneDate;
++ 
++ /* POSIX Timezone abbreviations are typically 3 or 4 characters, but
++@@ -205,6 +203,10 @@ static GTimeZone *tz_local = NULL;
++                            there's no point in getting carried
++                            away. */
++ 
+++#ifdef G_OS_UNIX
+++static GTimeZone *parse_footertz (const gchar *, size_t);
+++#endif
+++
++ /**
++  * g_time_zone_unref:
++  * @tz: a #GTimeZone
++@@ -286,13 +288,20 @@ g_time_zone_ref (GTimeZone *tz)
++ /* fake zoneinfo creation (for RFC3339/ISO 8601 timezones) {{{1 */
++ /*
++  * parses strings of the form h or hh[[:]mm[[[:]ss]]] where:
++- *  - h[h] is 0 to 23
+++ *  - h[h] is 0 to 24
++  *  - mm is 00 to 59
++  *  - ss is 00 to 59
+++ * If RFC8536, TIME_ is a transition time sans sign,
+++ * so colons are required before mm and ss, and hh can be up to 167.
+++ * See Internet RFC 8536 section 3.3.1:
+++ * https://tools.ietf.org/html/rfc8536#section-3.3.1
+++ * and POSIX Base Definitions 8.3 TZ rule time:
+++ * https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03
++  */
++ static gboolean
++ parse_time (const gchar *time_,
++-            gint32      *offset)
+++            gint32      *offset,
+++            gboolean    rfc8536)
++ {
++   if (*time_ < '0' || '9' < *time_)
++     return FALSE;
++@@ -310,7 +319,20 @@ parse_time (const gchar *time_,
++       *offset *= 10;
++       *offset += 60 * 60 * (*time_++ - '0');
++ 
++-      if (*offset > 23 * 60 * 60)
+++      if (rfc8536)
+++        {
+++          /* Internet RFC 8536 section 3.3.1 and POSIX 8.3 TZ together say
+++             that a transition time must be of the form [+-]hh[:mm[:ss]] where
+++             the hours part can range from -167 to 167.  */
+++          if ('0' <= *time_ && *time_ <= '9')
+++            {
+++              *offset *= 10;
+++              *offset += 60 * 60 * (*time_++ - '0');
+++            }
+++          if (*offset > 167 * 60 * 60)
+++            return FALSE;
+++        }
+++      else if (*offset > 24 * 60 * 60)
++         return FALSE;
++ 
++       if (*time_ == '\0')
++@@ -319,6 +341,8 @@ parse_time (const gchar *time_,
++ 
++   if (*time_ == ':')
++     time_++;
+++  else if (rfc8536)
+++    return FALSE;
++ 
++   if (*time_ < '0' || '5' < *time_)
++     return FALSE;
++@@ -335,6 +359,8 @@ parse_time (const gchar *time_,
++ 
++   if (*time_ == ':')
++     time_++;
+++  else if (rfc8536)
+++    return FALSE;
++ 
++   if (*time_ < '0' || '5' < *time_)
++     return FALSE;
++@@ -351,28 +377,32 @@ parse_time (const gchar *time_,
++ 
++ static gboolean
++ parse_constant_offset (const gchar *name,
++-                       gint32      *offset)
+++                       gint32      *offset,
+++                       gboolean    rfc8536)
++ {
++-  if (g_strcmp0 (name, "UTC") == 0)
+++  /* Internet RFC 8536 section 3.3.1 and POSIX 8.3 TZ together say
+++     that a transition time must be numeric.  */
+++  if (!rfc8536 && g_strcmp0 (name, "UTC") == 0)
++     {
++       *offset = 0;
++       return TRUE;
++     }
++ 
++   if (*name >= '0' && '9' >= *name)
++-    return parse_time (name, offset);
+++    return parse_time (name, offset, rfc8536);
++ 
++   switch (*name++)
++     {
++     case 'Z':
++       *offset = 0;
++-      return !*name;
+++      /* Internet RFC 8536 section 3.3.1 requires a numeric zone.  */
+++      return !rfc8536 && !*name;
++ 
++     case '+':
++-      return parse_time (name, offset);
+++      return parse_time (name, offset, rfc8536);
++ 
++     case '-':
++-      if (parse_time (name, offset))
+++      if (parse_time (name, offset, rfc8536))
++         {
++           *offset = -*offset;
++           return TRUE;
++@@ -391,7 +421,7 @@ zone_for_constant_offset (GTimeZone *gtz, const gchar *name)
++   gint32 offset;
++   TransitionInfo info;
++ 
++-  if (name == NULL || !parse_constant_offset (name, &offset))
+++  if (name == NULL || !parse_constant_offset (name, &offset, FALSE))
++     return;
++ 
++   info.gmt_offset = offset;
++@@ -529,12 +559,17 @@ init_zone_from_iana_info (GTimeZone *gtz,
++   guint8 *tz_transitions, *tz_type_index, *tz_ttinfo;
++   guint8 *tz_abbrs;
++   gsize timesize = sizeof (gint32);
++-  const struct tzhead *header = g_bytes_get_data (zoneinfo, &size);
+++  gconstpointer header_data = g_bytes_get_data (zoneinfo, &size);
+++  const gchar *data = header_data;
+++  const struct tzhead *header = header_data;
+++  GTimeZone *footertz = NULL;
+++  guint extra_time_count = 0, extra_type_count = 0;
+++  gint64 last_explicit_transition_time;
++ 
++   g_return_if_fail (size >= sizeof (struct tzhead) &&
++                     memcmp (header, "TZif", 4) == 0);
++ 
++-  if (header->tzh_version == '2')
+++  if (header->tzh_version >= '2')
++       {
++         /* Skip ahead to the newer 64-bit data if it's available. */
++         header = (const struct tzhead *)
++@@ -550,6 +585,30 @@ init_zone_from_iana_info (GTimeZone *gtz,
++   time_count = guint32_from_be(header->tzh_timecnt);
++   type_count = guint32_from_be(header->tzh_typecnt);
++ 
+++  if (header->tzh_version >= '2')
+++    {
+++      const gchar *footer = (((const gchar *) (header + 1))
+++                             + guint32_from_be(header->tzh_ttisgmtcnt)
+++                             + guint32_from_be(header->tzh_ttisstdcnt)
+++                             + 12 * guint32_from_be(header->tzh_leapcnt)
+++                             + 9 * time_count
+++                             + 6 * type_count
+++                             + guint32_from_be(header->tzh_charcnt));
+++      const gchar *footerlast;
+++      size_t footerlen;
+++      g_return_if_fail (footer <= data + size - 2 && footer[0] == '\n');
+++      footerlast = memchr (footer + 1, '\n', data + size - (footer + 1));
+++      g_return_if_fail (footerlast);
+++      footerlen = footerlast + 1 - footer;
+++      if (footerlen != 2)
+++        {
+++          footertz = parse_footertz (footer, footerlen);
+++          g_return_if_fail (footertz);
+++          extra_type_count = footertz->t_info->len;
+++          extra_time_count = footertz->transitions->len;
+++        }
+++    }
+++
++   tz_transitions = ((guint8 *) (header) + sizeof (*header));
++   tz_type_index = tz_transitions + timesize * time_count;
++   tz_ttinfo = tz_type_index + time_count;
++@@ -557,9 +616,9 @@ init_zone_from_iana_info (GTimeZone *gtz,
++ 
++   gtz->name = g_steal_pointer (&identifier);
++   gtz->t_info = g_array_sized_new (FALSE, TRUE, sizeof (TransitionInfo),
++-                                   type_count);
+++                                   type_count + extra_type_count);
++   gtz->transitions = g_array_sized_new (FALSE, TRUE, sizeof (Transition),
++-                                        time_count);
+++                                        time_count + extra_time_count);
++ 
++   for (index = 0; index < type_count; index++)
++     {
++@@ -574,15 +633,50 @@ init_zone_from_iana_info (GTimeZone *gtz,
++   for (index = 0; index < time_count; index++)
++     {
++       Transition trans;
++-      if (header->tzh_version == '2')
+++      if (header->tzh_version >= '2')
++         trans.time = gint64_from_be (((gint64_be*)tz_transitions)[index]);
++       else
++         trans.time = gint32_from_be (((gint32_be*)tz_transitions)[index]);
+++      last_explicit_transition_time = trans.time;
++       trans.info_index = tz_type_index[index];
++       g_assert (trans.info_index >= 0);
++       g_assert ((guint) trans.info_index < gtz->t_info->len);
++       g_array_append_val (gtz->transitions, trans);
++     }
+++
+++  if (footertz)
+++    {
+++      /* Append footer time types.  Don't bother to coalesce
+++         duplicates with existing time types.  */
+++      for (index = 0; index < extra_type_count; index++)
+++        {
+++          TransitionInfo t_info;
+++          TransitionInfo *footer_t_info
+++            = &g_array_index (footertz->t_info, TransitionInfo, index);
+++          t_info.gmt_offset = footer_t_info->gmt_offset;
+++          t_info.is_dst = footer_t_info->is_dst;
+++          t_info.abbrev = g_steal_pointer (&footer_t_info->abbrev);
+++          g_array_append_val (gtz->t_info, t_info);
+++        }
+++
+++      /* Append footer transitions that follow the last explicit
+++         transition.  */
+++      for (index = 0; index < extra_time_count; index++)
+++        {
+++          Transition *footer_transition
+++            = &g_array_index (footertz->transitions, Transition, index);
+++          if (time_count <= 0
+++              || last_explicit_transition_time < footer_transition->time)
+++            {
+++              Transition trans;
+++              trans.time = footer_transition->time;
+++              trans.info_index = type_count + footer_transition->info_index;
+++              g_array_append_val (gtz->transitions, trans);
+++            }
+++        }
+++
+++      g_time_zone_unref (footertz);
+++    }
++ }
++ 
++ #elif defined (G_OS_WIN32)
++@@ -590,9 +684,8 @@ init_zone_from_iana_info (GTimeZone *gtz,
++ static void
++ copy_windows_systemtime (SYSTEMTIME *s_time, TimeZoneDate *tzdate)
++ {
++-  tzdate->sec = s_time->wSecond;
++-  tzdate->min = s_time->wMinute;
++-  tzdate->hour = s_time->wHour;
+++  tzdate->offset
+++    = s_time->wHour * 3600 + s_time->wMinute * 60 + s_time->wSecond;
++   tzdate->mon = s_time->wMonth;
++   tzdate->year = s_time->wYear;
++   tzdate->wday = s_time->wDayOfWeek ? s_time->wDayOfWeek : 7;
++@@ -979,7 +1072,7 @@ boundary_for_year (TimeZoneDate *boundary,
++   g_date_clear (&date, 1);
++   g_date_set_dmy (&date, buffer.mday, buffer.mon, buffer.year);
++   return ((g_date_get_julian (&date) - unix_epoch_start) * seconds_per_day +
++-          buffer.hour * 3600 + buffer.min * 60 + buffer.sec - offset);
+++          buffer.offset - offset);
++ }
++ 
++ static void
++@@ -1156,7 +1249,7 @@ init_zone_from_rules (GTimeZone    *gtz,
++  * - N is 0 to 365
++  *
++  * time is either h or hh[[:]mm[[[:]ss]]]
++- *  - h[h] is 0 to 23
+++ *  - h[h] is 0 to 24
++  *  - mm is 00 to 59
++  *  - ss is 00 to 59
++  */
++@@ -1289,25 +1382,10 @@ parse_tz_boundary (const gchar  *identifier,
++   /* Time */
++ 
++   if (*pos == '/')
++-    {
++-      gint32 offset;
++-
++-      if (!parse_time (++pos, &offset))
++-        return FALSE;
++-
++-      boundary->hour = offset / 3600;
++-      boundary->min = (offset / 60) % 60;
++-      boundary->sec = offset % 3600;
++-
++-      return TRUE;
++-    }
++-
+++    return parse_constant_offset (pos + 1, &boundary->offset, TRUE);
++   else
++     {
++-      boundary->hour = 2;
++-      boundary->min = 0;
++-      boundary->sec = 0;
++-
+++      boundary->offset = 2 * 60 * 60;
++       return *pos == '\0';
++     }
++ }
++@@ -1341,7 +1419,7 @@ parse_offset (gchar **pos, gint32 *target)
++     ++(*pos);
++ 
++   buffer = g_strndup (target_pos, *pos - target_pos);
++-  ret = parse_constant_offset (buffer, target);
+++  ret = parse_constant_offset (buffer, target, FALSE);
++   g_free (buffer);
++ 
++   return ret;
++@@ -1366,21 +1444,32 @@ parse_identifier_boundary (gchar **pos, TimeZoneDate *target)
++ static gboolean
++ set_tz_name (gchar **pos, gchar *buffer, guint size)
++ {
+++  gboolean quoted = **pos == '<';
++   gchar *name_pos = *pos;
++   guint len;
++ 
++-  /* Name is ASCII alpha (Is this necessarily true?) */
++-  while (g_ascii_isalpha (**pos))
++-    ++(*pos);
+++  if (quoted)
+++    {
+++      name_pos++;
+++      do
+++        ++(*pos);
+++      while (g_ascii_isalnum (**pos) || **pos == '-' || **pos == '+');
+++      if (**pos != '>')
+++        return FALSE;
+++    }
+++  else
+++    while (g_ascii_isalpha (**pos))
+++      ++(*pos);
++ 
++-  /* Name should be three or more alphabetic characters */
+++  /* Name should be three or more characters */
++   if (*pos - name_pos < 3)
++     return FALSE;
++ 
++-  memset (buffer, 0, NAME_SIZE);
+++  memset (buffer, 0, size);
++   /* name_pos isn't 0-terminated, so we have to limit the length expressly */
++   len = *pos - name_pos > size - 1 ? size - 1 : *pos - name_pos;
++   strncpy (buffer, name_pos, len);
+++  *pos += quoted;
++   return TRUE;
++ }
++ 
++@@ -1483,6 +1572,28 @@ rules_from_identifier (const gchar   *identifier,
++   return create_ruleset_from_rule (rules, &tzr);
++ }
++ 
+++#ifdef G_OS_UNIX
+++static GTimeZone *
+++parse_footertz (const gchar *footer, size_t footerlen)
+++{
+++  gchar *tzstring = g_strndup (footer + 1, footerlen - 2);
+++  GTimeZone *footertz = NULL;
+++  gchar *ident;
+++  TimeZoneRule *rules;
+++  guint rules_num = rules_from_identifier (tzstring, &ident, &rules);
+++  g_free (ident);
+++  g_free (tzstring);
+++  if (rules_num > 1)
+++    {
+++      footertz = g_slice_new0 (GTimeZone);
+++      init_zone_from_rules (footertz, rules, rules_num, NULL);
+++      footertz->ref_count++;
+++    }
+++  g_free (rules);
+++  return footertz;
+++}
+++#endif
+++
++ /* Construction {{{1 */
++ /**
++  * g_time_zone_new:
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
+index 911152ddaa..09d253fbfb 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
++           file://tzdata-update.patch \
             "
--SRC_URI[md5sum] = "688f42c52d62e8c5e506df911553fb2c"
--SRC_URI[sha256sum] = "4861ccb9326200e74d98007e316b387d48dd49f072e0b78cb9d3303fdecfeeca"
-+SRC_URI[md5sum] = "740a436f5b9bf17ea7de0e62c92ec264"
-+SRC_URI[sha256sum] = "c2064e887324af6aa476ca669234936711f253b29042f617f1d9f2597c4bf92b"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS_${PN} = "git"
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
 -- 
 2.17.1
 
