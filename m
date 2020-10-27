@@ -1,110 +1,127 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.7356.1603761060809849400
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.63])
+ by mx.groups.io with SMTP id smtpd.web09.7616.1603762201443896093
  for <openembedded-core@lists.openembedded.org>;
- Mon, 26 Oct 2020 18:11:01 -0700
+ Mon, 26 Oct 2020 18:30:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KWnNzZ2a;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id i26so6730868pgl.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 26 Oct 2020 18:11:00 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=U6bDA6dm;
+ spf=pass (domain: windriver.com, ip: 40.107.92.63, mailfrom: mingli.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ISG+GY8VPnwyScEcIMIAjnWS5hhzQRFRZ7ndzffgvfnal0jCd4PzEyEc9L89lWps+1n4NB+6/hsiFv1tu3BUTPD/T9TvrGILuk4W3xVCvjEaE2zFZcsOOaaYnV/NITx/ZjVXznZr4obcEt8zUlSZ0DP2rdHec0xuMfAFvWGJTI0uwIpDETXIXlW+poqnxjDrR/Cpx2rxwSXvOwXtqCnvtKfDaWl9bJoBvrVF//hJyuLYTGBo5mMOEVsICl335/yTK6oTQ3VTNJDPl9I9obQcbIQ6h2xlbmI++ML+sj2EFQZwvnpY480VznwYvB4pvEDEH/p7XV8OHI1j8IF4nKjntA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZDxLiE5Meh2cOXCyg93yeZHX6TccUbKua0mh2by5kJg=;
+ b=jHL9MbzILQNInttyVQwDZrgOQzrFC+vDLyJTtKACt0lkkCK97LJLDdRbVH6gnFnf50PlWeZS2UmMuSiOJaXjTncE6L8j8kfKeX7T+ADZRbJVXDRPDsEjK4CIL7zp2IKpTo+9Ht7wL0vm5LxUfD1MvmLSruLE00MrXXpHuPOBxjoKHRzqzDAZ3kgErjFikS/TCogZRyXKnwnpJb2xcxBoiz8gp1whe2RsB9lHtp2i9Q0Oq20B5//UghXSwSj08PP9xan5uh2RyXq4swJkhXSoa0wpmoPf69wm9gj3Kqc+FM3EmQllcR6xHIxQ6xd0AuVECp07bbLnf8M2hzoosBA4mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=ywi0nuv4tgSEU+JebC00CCNLglhQzffGQoe7CGVOMVM=;
-        b=KWnNzZ2aV+XlGto53eqgbf3tnevcIXMnOH1uhupjsD2SRkNkF3mmTppz42APPMwy+x
-         6nEkX65W3S7xDIwz0VIRC7U7UvAD4gqJcf+34oCkMq/b3gfMXrM9D1qomOM782gXBawi
-         vb2h80ruZxvRYugcYR2OXYbCj9+XRiVw22NwCNuj4LlxVbV2KJ+m4/+AaS8H+CvS/9Ru
-         r2hl2Vyez6RGJ5TCbXEOLINyJVuzMkNKMSjcmy3FSB5+SelGxMvtH8oNTN3rmBXiqyZI
-         TEdCYxLaPzy4R5ybc0CiFXZvAYtWPyEjAbMS/e5ChwjhIo4nlsUtJ806cXmATsCkylBA
-         cyEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=ywi0nuv4tgSEU+JebC00CCNLglhQzffGQoe7CGVOMVM=;
-        b=PU3E+JHF1oPR0aAhZiEZF5A0MDFQ0sSmVATs+SmMswXK07XboprqHI6jypVLEPQbQN
-         GTiAUwQTKhDQBkYFltzs5NsUleZMh9CJkODGQ7UVCXweWBqqIAteF0chQvdX3bWCDEke
-         WHQdkMCdAS7iwasHTvYQv2N9OUmDOK1Xg4MPnBoGBiPylbHnPBslXAZJmVbVBiYFEWzp
-         ByPlN8k9ucn/1TCRjKBxVyGr7lHfuLwIXOmqCysx761Btr43wVylsDkYhVhuGXduSAtK
-         LrVpVZmk2wCtEBAgzztl1Oglnk6ARtKuiYrZnhN7wL4EwArrV2PFu5g83238iXkswmiN
-         X3NA==
-X-Gm-Message-State: AOAM533GFRsyi+mKXAHrB2hzGphCaaLPN2/+AJhiUzcLrOA5GpiyaYXI
-	eeUjyEUzEyeHdXBx9xnsZ+Xf52upnEcYdifu
-X-Google-Smtp-Source: ABdhPJyPhHTuG0TJltgMvKcl5nJHrSvCRQJzTZia9vBmKkxBi+VTPRD2Vjgujrd6JMdiDylaJNldaw==
-X-Received: by 2002:a62:7fd4:0:b029:15c:dea2:4f67 with SMTP id a203-20020a627fd40000b029015cdea24f67mr391689pfd.51.1603761059655;
-        Mon, 26 Oct 2020 18:10:59 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id c12sm12781492pgi.14.2020.10.26.18.10.58
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2020 18:10:58 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZDxLiE5Meh2cOXCyg93yeZHX6TccUbKua0mh2by5kJg=;
+ b=U6bDA6dmME9SgCbeWxJkjkMIcqfUFcLMPBYkFTkw84IMetxjMLNJJcCDS4KhrwynfIcSDzN/YclZE7cUh1CC6iZF5p8btxK3Go5LGD+L03hn7e/lya4GoTt4c6FeGWfXk0AkwQCuWJfWta0UUPHZ8SwM61Y9aupUx64NK0N8v78=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by MWHPR11MB1309.namprd11.prod.outlook.com (2603:10b6:300:20::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
+ 2020 01:29:55 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::105b:9105:2a38:9e9f]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::105b:9105:2a38:9e9f%7]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
+ 01:29:55 +0000
+From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/14] Pull request (cover letter only)
-Date: Mon, 26 Oct 2020 15:10:48 -1000
-Message-Id: <cover.1603760941.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
+Date: Tue, 27 Oct 2020 09:29:39 +0800
+Message-ID: <20201027012939.45485-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: YT1PR01CA0067.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2d::6) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
+Return-Path: mingli.yu@windriver.com
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by YT1PR01CA0067.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2d::6) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend Transport; Tue, 27 Oct 2020 01:29:54 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d5b8d5a0-7c70-4849-ec8a-08d87a17cf14
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1309:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB13092F3B634429C26541BD2CF1160@MWHPR11MB1309.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	jr20VsWAPd6ca01HUwvZDrX00nNAR3YSNRDDCtj9dD8xfY7HwqV7jZkRii5d9CC/CEnolSbXVa2JDpF3/45zmzod/+vDxEIFc/qQmSTrWklMhAQWRgY88oP27MaMUQ5+eKdGgWUKpuXz1PPIh4Owe2KEZWjR55b9K34WEGBeEyUfgVFRzRdijaw2HpH2pslCrZFxBrmVVdKwepr2DWs5bVOxKggLmRx+tzuAdinfEbm4XPLbim0RY7LxBZpN1yezaVBqD54ez7TH5wm+/x5Xm2SDGtwUN5nLuozHSyiKlBXDvb9Ss4RFC9HawrbXZeWv/qx9a/dPNmoACYF+QZphpuA8uQVvwfELeN3kHs7KTYZM0pVLA42Y6uzwwOlWdjHVOEpOVbix10/iww0sr+hCnw+kKaqAgGS3jSemwOe3Ym4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(39850400004)(366004)(136003)(6666004)(66476007)(66556008)(16526019)(8676002)(66946007)(83380400001)(52116002)(5660300002)(478600001)(86362001)(6486002)(9686003)(6512007)(6916009)(1076003)(26005)(186003)(36756003)(2616005)(316002)(6506007)(2906002)(8936002)(956004)(228453006)(130980200001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	Wnto+ku1r5PZHQBYHg/yOXbyqSbwU3+J5GyJwIFb7C1eCKRSolWFqz1aZWWbzW+ESrVfXaqj9gcIjdYN36xG4o4hoquvQxyqcZb1ZOLmw6OT4gl6VkyXh1Yz7IVWZfUn7h26Djh0YXRefwCi3vWeK8uxrpJVswqoCRK8kp8zzPDyMcQ8lRaECUWRaNmGJ+4beiA/wCcJtfl7HvBJ0DMPqsKny1CBTp0WFbt52YQKyjbg5vIPHJOBSj1FIN7Oapm5ZPWcR52NkguzfrJaQd+eQZz6uBgYNw/uZqFnISNF5pEmAve55g3asjKNvXJw3SM3u8lI0FIe+Pbe/34fs9tneBHyHrSQDCn18nCYv9G1z5s7k34qQ3JLDtiPWCbzNFSrAj8R5/J3Ss/A70aAlOZ/kgyiCNsKvF2rs9pT8NAwNfsWG+RZflO2dQDYh9leLP8MfW+r/Qu5/3KxyAqx4by+N0G7cwOvTelXV6gJunSxPhSoVVkHiILIHU9UjfNjhvdMGqoQoxNP71f3eFtLRAp9+DRrjvIKbDK1akQSsT95ZE9wM6/nQY92vSKpW3LWa/QTrNdzCf0hBlAzN0TsankjdQRRw1huReth57O+GSuyjdbRCt+n1ERckfA0wldPYf7uJbgkn4pfnWew39CDA7Q3UA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5b8d5a0-7c70-4849-ec8a-08d87a17cf14
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 01:29:55.3680
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /e8ltvwNWaABjrNvbf90BauPW3egPGIhrDktXGEkfszy4RE2Us9BGAcKefhi9CRz4i5lze52ba7G72gcHmtGfQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1309
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-The following changes since commit 3ee9590f96cb50e93864db768b254773e2ff9465:
+From: Mingli Yu <mingli.yu@windriver.com>
 
-  uninative: Fix typo in error message (2020-10-19 04:27:15 -1000)
+When ccache enabled as below:
+INHERIT +=3D "ccache"
+CCACHE_DIR =3D "/path/build/ccache"
 
-are available in the Git repository at:
+There comes do_install failure for some recipes randomly, take
+linux-libc-headerswhen as example.
+ $ cat /path/build/tmp/work/corei7-64-wrs-linux/linux-libc-headers/5.8-r0/p=
+seudo/pseudo.log
+ [snip]
+ path mismatch [1 link]: ino 243004209 db '/path/build/ccache/6/stats' req =
+'/path/build/ccache/7/stats.lock'.
+ [snip]
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+Exclude ${CCACHE_DIR} from pseudo database to fix the potential
+do_install failure.
 
-Alexander Kanavin (1):
-  selftest/virgl: drop the custom 30 sec timeout
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Changqing Li (1):
-  toolchain-shar-extract.sh: don't print useless info
-
-Khem Raj (1):
-  packagegroup-core-tools-debug: Disable for rv32/glibc as well
-
-Lee Chee Yang (3):
-  libproxy: fix CVE-2020-25219
-  python3: fix CVE-2020-26116
-  grub2: fix CVE-2020-10713
-
-Martin Jansa (7):
-  arch-armv7a.inc: fix typo
-  arch-mips.inc: remove duplicated mips64el-o32 from
-    PACKAGE_EXTRA_ARCHS_tune-mips64el-o32
-  tune-mips64r6.inc: fix typo in mipsisa64r6-nf
-  tune-ep9312.inc: add t suffix for thumb to
-    PACKAGE_EXTRA_ARCHS_tune-ep9312
-  tune-riscv.inc: use nf suffix also for TUNE_PKGARCH
-  siteinfo: Recognize 32bit PPC LE
-  siteinfo: Recognize bigendian sh3be and sh4be
-
-Victor Kamensky (1):
-  qemu: change TLBs number to 64 in 34Kf mips cpu model
-
- meta-selftest/lib/oeqa/runtime/cases/virgl.py |   2 +-
- meta/classes/siteinfo.bbclass                 |   5 +
- meta/conf/machine/include/arm/arch-armv7a.inc |   2 +-
- meta/conf/machine/include/mips/arch-mips.inc  |   2 +-
- .../conf/machine/include/riscv/tune-riscv.inc |   4 +-
- meta/conf/machine/include/tune-ep9312.inc     |   3 +-
- meta/conf/machine/include/tune-mips64r6.inc   |   2 +-
- meta/files/toolchain-shar-extract.sh          |   2 +-
- .../grub/files/CVE-2020-10713.patch           |  73 ++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   1 +
- .../packagegroup-core-tools-debug.bb          |   2 +-
- .../python/python3/CVE-2020-26116.patch       | 104 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- ...ease-number-of-TLB-entries-on-the-34.patch |  59 ++++++++++
- .../libproxy/libproxy/CVE-2020-25219.patch    |  61 ++++++++++
- .../libproxy/libproxy_0.4.15.bb               |   1 +
- 17 files changed, 315 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-10713.patch
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-26116.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch
- create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-25219.patch
-
--- 
-2.17.1
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 6e2d3e544b..0705e53a6f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -685,7 +685,7 @@ SRC_URI =3D ""
+ PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sys=
+root,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstat=
+e-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/=
+sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-=
+build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TM=
+PDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta"
++PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sys=
+root,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstat=
+e-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/=
+sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-=
+build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TM=
+PDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE=
+_DIR}"
+=20
+ export PSEUDO_DISABLED =3D "1"
+ #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
+--=20
+2.26.2
 
