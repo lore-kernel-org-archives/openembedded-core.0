@@ -1,129 +1,133 @@
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
- by mx.groups.io with SMTP id smtpd.web09.3498.1603831862007430268
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web09.91.1603837771180330497
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 13:51:02 -0700
+ Tue, 27 Oct 2020 15:29:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: free.fr, ip: 212.27.42.2, mailfrom: yann.morin.1998@free.fr)
-Received: from ymorin.is-a-geek.org (unknown [IPv6:2a01:cb19:8b51:cb00:7188:385:c7b6:319])
-	(Authenticated sender: yann.morin.1998)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 375172003EF;
-	Tue, 27 Oct 2020 21:50:49 +0100 (CET)
-Received: by ymorin.is-a-geek.org (sSMTP sendmail emulation); Tue, 27 Oct 2020 21:50:48 +0100
-Date: Tue, 27 Oct 2020 21:50:48 +0100
-From: "Yann E. MORIN" <yann.morin.1998@free.fr>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexandre BELLONI <alexandre.belloni@bootlin.com>
-Subject: Re: [OE-core] [PATCH] recipes-core/busybox: fixup licensing information
-Message-ID: <20201027205048.GH2805@scaer>
-References: <20201027164831.3297010-1-yann.morin.1998@free.fr>
- <ee39bffd-e43b-69a6-98e2-b3f4963e346f@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <ee39bffd-e43b-69a6-98e2-b3f4963e346f@gmail.com>
-User-Agent: Mutt/1.5.22 (2013-10-16)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HAeqxzpL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id j5so1512674plk.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 15:29:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=aC/EqAeZV/qsH+rhTvyzCcUVywcTlWT7Kl22jPgCOwc=;
+        b=HAeqxzpLNTidwqzBCQ0qaL2AeV4Z46GrIhG8MIDA9mA4YXVhWnuV6oUe7Dmnv+O553
+         4V9cEVT2qjOOAV/nPQ+6v6b9wkVC10VFeinjhRxpXrp1LrOopoR9JY2leZj545cOmeir
+         pWXze6ah20yLXBV5YFsgzNO5DnCwQOABq69+bVJwE15d/k0mJHzdc++eRlJUBhxf6RfC
+         Z28VR4JjZ+O0GXdn3hH6+qITVBeWg92zm/1yNlZsNKXBWq1U19p4NVi1Bw/vQfw2rJwj
+         coAUb4sbztRV5v4tLZr54LIpwRcD2LuaENZyMgmbC/fC2cQV8UyDSbyVNGEUsAp/7bD8
+         IrJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=aC/EqAeZV/qsH+rhTvyzCcUVywcTlWT7Kl22jPgCOwc=;
+        b=SrtUn2RnprD7bKaEujs907NWrKCQkLxKUppT8beRwQi/b7Bk8BVZgccRPEJzAiJbX5
+         7bNWav/geXoD/FOOtBVIAmBTY72QdqpGua1Ee97BYQHacNcpIhF4Ixhx0FDE1I4wFt1m
+         jOgT3W/vdTe2TcQPjdQqeOL21u73A+O3IhdXa/ksBKtmqu1Tx1IinhGQvgYSwZqkgM8B
+         p4F57nW7fw7aSr0KAS0NK9d5SRwg4HQWAG24h7WcWqGnx7NYr+n7IGWONSLR8GU2ZKcF
+         qvpAOG5EZ34J7ROp3IdNWn/RfOIaz6TA1bF1WN/OPjqq6mHQ1sy8stQPMIVAzUbm5dYV
+         MEDw==
+X-Gm-Message-State: AOAM5325rMEl7aUSd0anRN8CRmQPWCcdS8etg6CpgUvp3O6wOBJlZdOz
+	Z2z7O7L6i2oa3kG96qXCrjxCdvY9X5razZEF
+X-Google-Smtp-Source: ABdhPJx3TZrHqlPCxKBfjBQGE19qxB32spZAG211xlRCX4kOz32Vy2NVwQCltEEhqDZhJsm5a3sDoQ==
+X-Received: by 2002:a17:902:b789:b029:d3:f9aa:7f27 with SMTP id e9-20020a170902b789b02900d3f9aa7f27mr4719285pls.47.1603837769983;
+        Tue, 27 Oct 2020 15:29:29 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id b7sm3699000pfr.171.2020.10.27.15.29.28
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2020 15:29:29 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/16] Patch review
+Date: Tue, 27 Oct 2020 12:29:04 -1000
+Message-Id: <cover.1603837524.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-Khem, All,
+Please review this next set of patches for dunfell and have changes back
+by end of day Thursday.
 
-Thanks for the feedback; see more questions below...
+Passed a-full on autobuilder:
 
-On 2020-10-27 13:25 -0700, Khem Raj spake thusly:
-> On 10/27/20 9:48 AM, Yann E. MORIN wrote:
-> >Commit 7d32417b4d (busybox: Correct the name of the bzip2 license)
-> >changes the licesne from 'bzip2' to 'bzip2-1.0.6' on the rationale
-> >that the 'bzip2 license was renamed from "bzip2" to "bzip2-1.0.6"
-> >[...] to match the official SPDX identifier.'
-> >
-> >Though the above is true for the bzip2 and pbzip2 packages, the bzip2
-> >code bundled in busybox is a copy from the bzip2 1.0.4 version, not the
-> >1.0.6 version.
-> >
-> >As such, using bzip2-1.0.6 is wrong.
-> >
-> >Unfortunately, there is no official SPDX license identifier for this
-> >bzip2 1.0.4 version, so we just mimick the existing ones (bzip2-1.0.5
-> >and bzip2-1.0.6) by using bzip2-1.0.4.
-> >
-> >Also, there is a license file attached to that, so we add it to the
-> >list.
-> >
-> we also need a text file for this license in meta/files/common-licenses
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1514
 
-Should this be the official LICENSE file from the upstream bzip2-1.0.4
-version, or should that be the LICENSE file carried by busybox?
+The following changes since commit 89e6fc44a378cb3489376d7193672cdf94c504b6:
 
-Note that the LICENSE file carried by busybox is slightly different than
-the upstream one:
+  qemu: change TLBs number to 64 in 34Kf mips cpu model (2020-10-21 04:42:42 -1000)
 
-  - The bzip2 LICENSE file in busybox has a blurb added at the beginning:
-        bzip2 applet in busybox is based on lightly-modified source
-        of bzip2 version 1.0.4. bzip2 source is distributed
-        under the following conditions (copied verbatim from LICENSE file)
-    However this is wrong, because:
+are available in the Git repository at:
 
-  - the bzip2 LICENSE file in busybox dropped the trailing spaces at the
-    end of a few lines.
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
-But techincally, this is tecnically the same license.
+Jose Quaresma (12):
+  gstreamer1.0: Fix reproducibility issue around libcap
+  gstreamer1.0: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-base: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-good: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-bad: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-ugly: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-libav: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-vaapi: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-rtsp-server: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-omx: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-python: Update 1.16.2 -> Update 1.16.3
+  gst-validate: Update 1.16.2 -> Update 1.16.3
 
-> perhaps a symlink to bzip2-1.0.6 might be ok.
+Lee Chee Yang (1):
+  ffmpeg: fix CVE-2020-12284
 
-The bzip2-1.0.4 license is not exactly the same as the 1.0.6. The deltas
-are:
+Richard Purdie (1):
+  oeqa: Add sync call to command execution
 
-  - copyright year
-  - author identification (physical address dropped)
-  - release version
-  - release date
+Ross Burton (2):
+  gcc: mitigate the Straight-line Speculation attack
+  glib-2.0: fix parsing of slim encoded tzdata
 
-So I don't think a symlink would be appropriate, and a specific file
-will be needed.
-
-So, which one should I add: the upstream one, of the busybox one?
-
-Regards,
-Yann E. MORIN.
-
-> >Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
-> >Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> >Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>
-> >
-> >---
-> >Respin, as I was not yet subscribed to the list...
-> >Sorry for any duplicates...
-> >---
-> >  meta/recipes-core/busybox/busybox.inc | 7 ++++---
-> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> >
-> >diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-> >index 45aaa2b41c..e0522be729 100644
-> >--- a/meta/recipes-core/busybox/busybox.inc
-> >+++ b/meta/recipes-core/busybox/busybox.inc
-> >@@ -5,10 +5,11 @@ BUGTRACKER = "https://bugs.busybox.net/"
-> >  DEPENDS += "kern-tools-native virtual/crypt"
-> >-# bzip2 applet in busybox is based on lightly-modified bzip2 source
-> >+# bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
-> >  # the GPL is version 2 only
-> >-LICENSE = "GPLv2 & bzip2-1.0.6"
-> >-LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
-> >+LICENSE = "GPLv2 & bzip2-1.0.4"
-> >+LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
-> >+                    file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
-> >  SECTION = "base"
-> >
-> >
-> >
-> >
-> >
+ meta/lib/oeqa/selftest/cases/runcmd.py        |  16 +-
+ meta/lib/oeqa/utils/commands.py               |   8 +-
+ .../glib-2.0/glib-2.0/tzdata-update.patch     | 458 ++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |   1 +
+ meta/recipes-devtools/gcc/gcc-9.3.inc         |   3 +
+ ...ight-Line-Speculation-SLS-mitigation.patch | 204 ++++++
+ ...e-SLS-mitigation-for-RET-and-BR-inst.patch | 600 ++++++++++++++++
+ ...h64-Mitigate-SLS-for-BLR-instruction.patch | 659 ++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2020-12284.patch        |  36 +
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |   1 +
+ ...idate_1.16.2.bb => gst-validate_1.16.3.bb} |   4 +-
+ ...1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} |   4 +-
+ ...x_1.16.2.bb => gstreamer1.0-omx_1.16.3.bb} |   4 +-
+ ....bb => gstreamer1.0-plugins-bad_1.16.3.bb} |   4 +-
+ ...bb => gstreamer1.0-plugins-base_1.16.3.bb} |   4 +-
+ ...bb => gstreamer1.0-plugins-good_1.16.3.bb} |   4 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.16.3.bb} |   4 +-
+ ...son.build-fix-builds-with-python-3.8.patch |  24 -
+ ....16.2.bb => gstreamer1.0-python_1.16.3.bb} |   8 +-
+ ....bb => gstreamer1.0-rtsp-server_1.16.3.bb} |   4 +-
+ ...1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} |   4 +-
+ .../gstreamer/gstreamer1.0/capfix.patch       |  37 -
+ ...er1.0_1.16.2.bb => gstreamer1.0_1.16.3.bb} |   9 +-
+ 23 files changed, 2002 insertions(+), 98 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0001-aarch64-New-Straight-Line-Speculation-SLS-mitigation.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-12284.patch
+ rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb} (87%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.16.2.bb => gstreamer1.0-omx_1.16.3.bb} (92%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.16.2.bb => gstreamer1.0-plugins-bad_1.16.3.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16.2.bb => gstreamer1.0-plugins-base_1.16.3.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.2.bb => gstreamer1.0-plugins-good_1.16.3.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.16.2.bb => gstreamer1.0-plugins-ugly_1.16.3.bb} (90%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.2.bb => gstreamer1.0-python_1.16.3.bb} (80%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.16.2.bb => gstreamer1.0-rtsp-server_1.16.3.bb} (86%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} (93%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.2.bb => gstreamer1.0_1.16.3.bb} (90%)
 
 -- 
-.-----------------.--------------------.------------------.--------------------.
-|  Yann E. MORIN  | Real-Time Embedded | /"\ ASCII RIBBON | Erics' conspiracy: |
-| +33 662 376 056 | Software  Designer | \ / CAMPAIGN     |  ___               |
-| +33 561 099 427 `------------.-------:  X  AGAINST      |  \e/  There is no  |
-| http://ymorin.is-a-geek.org/ | _/*\_ | / \ HTML MAIL    |   v   conspiracy.  |
-'------------------------------^-------^------------------^--------------------'
+2.17.1
+
