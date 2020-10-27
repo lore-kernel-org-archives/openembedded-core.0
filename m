@@ -1,545 +1,125 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web08.99.1603837809940579081
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+ by mx.groups.io with SMTP id smtpd.web08.752.1603840798748997351
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 15:30:10 -0700
+ Tue, 27 Oct 2020 16:19:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rxvcpCzu;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id c20so1744862pfr.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 15:30:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Hp9HBnIf/LpCeq+kXhM127mNQEQxvijfeVjkOBK+bzk=;
-        b=rxvcpCzuRfdrl+HRJ+LrY5oO7aguequPbpApuvDzil+98pMx6oouvUuhmIBPSN++y5
-         oKVDR9ypvuBPblJZoe3Smye3boPwj4vanlYs+iwClwboF9Hft2hTVELFPPXdD54ufYql
-         rHHxE0LoNnXuytYfLqsM5q7QMV8YsM0MSCYd2A9UMuvx2MPxAxgkm+gvChKe/i3qrAHc
-         f+T+N8Yp025oNy6RTV17CTIA+9dmSfqsYo8v71tAyK+3LjAAy9jy82D9/QmjYFyKei9Z
-         jRKG8gFO2iqvmdezjSIBXSb5KKEiJRdBkV6soBvkqw75dGOZoCjNoYI9t3XExbJ2IJ7i
-         G1ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=Hp9HBnIf/LpCeq+kXhM127mNQEQxvijfeVjkOBK+bzk=;
-        b=g+byxVGbqrgBBSecnJiK3Ip/cofc+b4wGVHHQddUYpdhOsFJwmQwW7o5EBQrv0n+wR
-         p6IW/jPXSqpVj19DbHP2y5EUvf1PDDN1xKtbFXk+Msw/Km0L2vWgOS/oWza5auvfwiOl
-         2TbJmCMdJziIAcTqKPBxRMsBeNgsq8OjJLMdHyeRc7H5u6Ysh6hvQeRg0ZDIsH1Ax4N2
-         7IghBpqCLrp/O6SMKQ4/ReRyB6frV3iIpeLH5CRVdNxURDjBDUQ3LTOe7sb9rvA15e3M
-         M6mqeYh44wDOxK1KJbJi6lGSTjkPG+2SdYxMED9noQ8e2nXvm/c6psPzOEIzgKWoIOtn
-         HZLg==
-X-Gm-Message-State: AOAM532o+FSMzvwftKEUK8tIfqbQJKRV94oCsx/TLMJz/jUGaVfB/p6d
-	FixCPw5LY4+IT1vAPxOOec9Tv2zrkyb2XQ86
-X-Google-Smtp-Source: ABdhPJzq+KrmH05sbBSf7goKy/xlVQAdsbldAxBtiI9fXnRwp08xm845b9rlclSmSu0hIAbZrv/Y4g==
-X-Received: by 2002:aa7:8b17:0:b029:15b:c0ba:f2f4 with SMTP id f23-20020aa78b170000b029015bc0baf2f4mr4388386pfd.22.1603837808680;
-        Tue, 27 Oct 2020 15:30:08 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id b7sm3699000pfr.171.2020.10.27.15.30.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 15:30:08 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 16/16] glib-2.0: fix parsing of slim encoded tzdata
-Date: Tue, 27 Oct 2020 12:29:20 -1000
-Message-Id: <8a367cbbf092339a8c82c680a2565567b594b6c6.1603837524.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1603837524.git.steve@sakoman.com>
-References: <cover.1603837524.git.steve@sakoman.com>
+ dkim=fail reason="body hash did not verify" header.i=@ibm.com header.s=pp1 header.b=GHixTIVJ;
+ spf=pass (domain: linux.ibm.com, ip: 148.163.156.1, mailfrom: jrey@linux.ibm.com)
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09RN3ZCU128182;
+	Tue, 27 Oct 2020 19:19:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=py8S7+GkS3sRO6XqVTpit9pDkna18RBpOUkpBRsmBGM=;
+ b=GHixTIVJ6gd31gPC+EeGYm7ORllRqpdZLmliL2PtrO5v/epZeV6z9sald/RPG/rZFohj
+ DqWHMJAZSHc3TL7Yg1eX9ZFq2Y+P0CMgKigC9Ui/r+3GkVX+ybnWBgDyuE4adQkd8S6T
+ ldcI83+13yXNekhmwzhtQ5QvBaJ/PjT90t7OWSQU4M4pNDzo5yKC6ytNMRedaWGy0jDY
+ YeKqacT6N3jQ7MDgMrYuryyZ7cBmGIMCpVUN3+aaCuTBQclIRgtn9+OAMJ5z2UJR+aNo
+ 77P1xZyfN/0EAD0q8OceHkDGcUaJwcxvHMDeeUWiFOZKQ95N66oU+MFG0Bn8azQu32E5 uQ== 
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 34e4jwssgm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Oct 2020 19:19:57 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+	by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09RNCJh3028102;
+	Tue, 27 Oct 2020 23:19:56 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+	by ppma04dal.us.ibm.com with ESMTP id 34cbw9ajmp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 27 Oct 2020 23:19:56 +0000
+Received: from b03ledav002.gho.boulder.ibm.com (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+	by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 09RNJlaO38404494
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 27 Oct 2020 23:19:47 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8211D136061;
+	Tue, 27 Oct 2020 23:19:55 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 23356136053;
+	Tue, 27 Oct 2020 23:19:54 +0000 (GMT)
+Received: from [9.85.157.1] (unknown [9.85.157.1])
+	by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTPS;
+	Tue, 27 Oct 2020 23:19:54 +0000 (GMT)
+Subject: Re: [OE-core] [PATCH] add new extrausers command passwd-expire - moved to PR 63
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        OE-core <openembedded-core@lists.openembedded.org>
+References: <978bccd7-a2f4-9aa0-9c77-9c10c81e068f@linux.ibm.com>
+ <f154c498c88dfc436d4b9547b889e3aa8436fc41.camel@linuxfoundation.org>
+From: "Joseph Reynolds" <jrey@linux.ibm.com>
+Message-ID: <4fb6f623-c811-0593-dc89-877f128439a3@linux.ibm.com>
+Date: Tue, 27 Oct 2020 18:19:53 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
+MIME-Version: 1.0
+In-Reply-To: <f154c498c88dfc436d4b9547b889e3aa8436fc41.camel@linuxfoundation.org>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-10-27_15:2020-10-26,2020-10-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 adultscore=0 bulkscore=0 phishscore=0 malwarescore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010270129
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-001b2d01.pphosted.com id 09RN3ZCU128182
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-From: Ross Burton <ross@burtonini.com>
+On 10/27/20 2:41 PM, Richard Purdie wrote:
+> Hi Joseph,
+>
+> On Mon, 2020-10-26 at 15:41 -0500, Joseph Reynolds wrote:
+>> This enhances extrausers with a new passwd-expire command that causes
+>> a local user's password to be expired as if the `passwd --expire`
+>> command was run, so the password needs to be changed on initial
+>> login.
+>>
+>> Example: EXTRA_USERS_PARAMS +=3D " useradd ... sofia; passwd-expire
+>> sofia;"
+>>
+>> Tested: on useradd accounts
+>> When configured with Linux-PAM, console login prompts for and can
+>> successfully change the password.  OpenSSH server works.  Dropbear
+>> SSH server notes the password must be changed but does not offer a
+>> password change dialog and rejects the login request.
+>>
+>> Signed-off-by: Joseph Reynolds <joseph-reynolds@charter.net>
+>> ---
+>>    meta/classes/extrausers.bbclass   |  3 +++
+>>    meta/classes/useradd_base.bbclass | 18 ++++++++++++++++++
+>>    2 files changed, 21 insertions(+)
+>>
+>> diff --git a/meta/classes/extrausers.bbclass
+>> b/meta/classes/extrausers.bbclass
+>> index 32569e9..90811bf 100644
+>> --- a/meta/classes/extrausers.bbclass
+>> +++ b/meta/classes/extrausers.bbclass
+>> @@ -46,6 +46,9 @@ set_user_group () {
+>>                usermod)
+>>                    perform_usermod "${IMAGE_ROOTFS}" "-R
+>> ${IMAGE_ROOTFS}
+>> $opts"
+> Unfortunately this patch is coming through line wrapped which makes it
+> hard to apply. Can you resend it without the line wrapping, or point at
+> a git tree with the patch in please?
 
-As of tzcode 2020b the timezone data is encoded using the 'slim' format
-instead of the previous 'fat'.  This exposes a number of bugs in GLib,
-so backport the fixes to improve the parser.
+Thanks.=C2=A0 The PR work flow is much easier for me.=C2=A0 I didn't real=
+ize OE=20
+was on github.com.
+I hereby withdraw & abandon my email patch request and replace it with:
+https://github.com/openembedded/openembedded-core/pull/63
 
-[ YOCTO #14106 ]
+- Joseph
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../glib-2.0/glib-2.0/tzdata-update.patch     | 458 ++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |   1 +
- 2 files changed, 459 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch b/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
-new file mode 100644
-index 0000000000..0af036f8bd
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/tzdata-update.patch
-@@ -0,0 +1,458 @@
-+Backport a number of patches from upstream to fix reading of the new 'slim'
-+encoding for tzdata files.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+commit 18cbd5e5a4812e9bd0b06a058322d2b44ed2ad92
-+Author: Paul Eggert <eggert@cs.ucla.edu>
-+Date:   Thu Jul 16 12:41:49 2020 -0700
-+
-+    Clarify memset in set_tz_name
-+
-+    * glib/gtimezone.c (set_tz_name): Use size, not NAME_SIZE,
-+    to clear the buffer.  Suggested by Philip Withnall in:
-+    https://gitlab.gnome.org/GNOME/glib/-/merge_requests/1533#note_867859
-+
-+commit 1ab3f927d6d09a8cf3349a3545f5351446f43d47
-+Author: Paul Eggert <eggert@cs.ucla.edu>
-+Date:   Thu Jul 16 12:41:49 2020 -0700
-+
-+    gtimezone: support footers in TZif files
-+
-+    Since tzcode95f (1995), TZif files have had a trailing
-+    TZ string, used for timestamps after the last transition.
-+    This string is specified in Internet RFC 8536 section 3.3.
-+    init_zone_from_iana_info has ignored this string, causing it
-+    to mishandle timestamps past the year 2038.  With zic's new -b
-+    slim flag, init_zone_from_iana_info would even mishandle current
-+    timestamps.  Fix this by parsing the trailing TZ string and adding
-+    its transitions.
-+
-+    Closes #2129
-+
-+commit e8b763e35235a2c6b4bdd48a5099c00f72741059
-+Author: Paul Eggert <eggert@cs.ucla.edu>
-+Date:   Thu Jul 16 12:41:49 2020 -0700
-+
-+    gtimezone: add support for RFC 8536 time zone transitions
-+
-+    Time zone transition times can range from -167:59:59 through
-+    +167:59:59, according to Internet RFC 8536 section 3.3.1;
-+    this is an extension to POSIX.  It is needed for proper
-+    support of TZif version 3 files.
-+
-+commit 1c65dd48b8ebd31af8bc9b2263f83c0c411f7519
-+Author: Paul Eggert <eggert@cs.ucla.edu>
-+Date:   Thu Jul 16 12:41:49 2020 -0700
-+
-+    gtimezone: allow hh to be 24, as per POSIX
-+
-+    POSIX allows hh to be 24; see
-+    https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03
-+
-+commit 368b65cb4cb17e29a4f55654149f554a14f48bc6
-+Author: Paul Eggert <eggert@cs.ucla.edu>
-+Date:   Thu Jul 16 12:41:49 2020 -0700
-+
-+    gtimezone: support POSIX 1003.1-2001 quoted TZ abbreviations
-+
-+    TZ strings like '<-03>3' were introduced in POSIX 1003.1-2001 and
-+    are currently specified in:
-+    https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03
-+
-+commit fd528aaab6bb077c6d217e62f2228ec9fe3ed760
-+Author: Paul Eggert <eggert@cs.ucla.edu>
-+Date:   Thu Jul 16 12:41:49 2020 -0700
-+
-+    gtimezone: get 64-bit data from version-3 TZif files
-+
-+    Version 3 was introduced in tzdb 2013e (2013).
-+    See Internet RFC 8536 section 3.1 under "ver(sion)".
-+
-+diff --git a/glib/gtimezone.c b/glib/gtimezone.c
-+index 5a835dea9..f9eee1967 100644
-+--- a/glib/gtimezone.c
-++++ b/glib/gtimezone.c
-+@@ -142,9 +142,7 @@ typedef struct
-+   gint     mday;
-+   gint     wday;
-+   gint     week;
-+-  gint     hour;
-+-  gint     min;
-+-  gint     sec;
-++  gint32   offset;  /* hour*3600 + min*60 + sec; can be negative.  */
-+ } TimeZoneDate;
-+ 
-+ /* POSIX Timezone abbreviations are typically 3 or 4 characters, but
-+@@ -205,6 +203,10 @@ static GTimeZone *tz_local = NULL;
-+                            there's no point in getting carried
-+                            away. */
-+ 
-++#ifdef G_OS_UNIX
-++static GTimeZone *parse_footertz (const gchar *, size_t);
-++#endif
-++
-+ /**
-+  * g_time_zone_unref:
-+  * @tz: a #GTimeZone
-+@@ -286,13 +288,20 @@ g_time_zone_ref (GTimeZone *tz)
-+ /* fake zoneinfo creation (for RFC3339/ISO 8601 timezones) {{{1 */
-+ /*
-+  * parses strings of the form h or hh[[:]mm[[[:]ss]]] where:
-+- *  - h[h] is 0 to 23
-++ *  - h[h] is 0 to 24
-+  *  - mm is 00 to 59
-+  *  - ss is 00 to 59
-++ * If RFC8536, TIME_ is a transition time sans sign,
-++ * so colons are required before mm and ss, and hh can be up to 167.
-++ * See Internet RFC 8536 section 3.3.1:
-++ * https://tools.ietf.org/html/rfc8536#section-3.3.1
-++ * and POSIX Base Definitions 8.3 TZ rule time:
-++ * https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap08.html#tag_08_03
-+  */
-+ static gboolean
-+ parse_time (const gchar *time_,
-+-            gint32      *offset)
-++            gint32      *offset,
-++            gboolean    rfc8536)
-+ {
-+   if (*time_ < '0' || '9' < *time_)
-+     return FALSE;
-+@@ -310,7 +319,20 @@ parse_time (const gchar *time_,
-+       *offset *= 10;
-+       *offset += 60 * 60 * (*time_++ - '0');
-+ 
-+-      if (*offset > 23 * 60 * 60)
-++      if (rfc8536)
-++        {
-++          /* Internet RFC 8536 section 3.3.1 and POSIX 8.3 TZ together say
-++             that a transition time must be of the form [+-]hh[:mm[:ss]] where
-++             the hours part can range from -167 to 167.  */
-++          if ('0' <= *time_ && *time_ <= '9')
-++            {
-++              *offset *= 10;
-++              *offset += 60 * 60 * (*time_++ - '0');
-++            }
-++          if (*offset > 167 * 60 * 60)
-++            return FALSE;
-++        }
-++      else if (*offset > 24 * 60 * 60)
-+         return FALSE;
-+ 
-+       if (*time_ == '\0')
-+@@ -319,6 +341,8 @@ parse_time (const gchar *time_,
-+ 
-+   if (*time_ == ':')
-+     time_++;
-++  else if (rfc8536)
-++    return FALSE;
-+ 
-+   if (*time_ < '0' || '5' < *time_)
-+     return FALSE;
-+@@ -335,6 +359,8 @@ parse_time (const gchar *time_,
-+ 
-+   if (*time_ == ':')
-+     time_++;
-++  else if (rfc8536)
-++    return FALSE;
-+ 
-+   if (*time_ < '0' || '5' < *time_)
-+     return FALSE;
-+@@ -351,28 +377,32 @@ parse_time (const gchar *time_,
-+ 
-+ static gboolean
-+ parse_constant_offset (const gchar *name,
-+-                       gint32      *offset)
-++                       gint32      *offset,
-++                       gboolean    rfc8536)
-+ {
-+-  if (g_strcmp0 (name, "UTC") == 0)
-++  /* Internet RFC 8536 section 3.3.1 and POSIX 8.3 TZ together say
-++     that a transition time must be numeric.  */
-++  if (!rfc8536 && g_strcmp0 (name, "UTC") == 0)
-+     {
-+       *offset = 0;
-+       return TRUE;
-+     }
-+ 
-+   if (*name >= '0' && '9' >= *name)
-+-    return parse_time (name, offset);
-++    return parse_time (name, offset, rfc8536);
-+ 
-+   switch (*name++)
-+     {
-+     case 'Z':
-+       *offset = 0;
-+-      return !*name;
-++      /* Internet RFC 8536 section 3.3.1 requires a numeric zone.  */
-++      return !rfc8536 && !*name;
-+ 
-+     case '+':
-+-      return parse_time (name, offset);
-++      return parse_time (name, offset, rfc8536);
-+ 
-+     case '-':
-+-      if (parse_time (name, offset))
-++      if (parse_time (name, offset, rfc8536))
-+         {
-+           *offset = -*offset;
-+           return TRUE;
-+@@ -391,7 +421,7 @@ zone_for_constant_offset (GTimeZone *gtz, const gchar *name)
-+   gint32 offset;
-+   TransitionInfo info;
-+ 
-+-  if (name == NULL || !parse_constant_offset (name, &offset))
-++  if (name == NULL || !parse_constant_offset (name, &offset, FALSE))
-+     return;
-+ 
-+   info.gmt_offset = offset;
-+@@ -529,12 +559,17 @@ init_zone_from_iana_info (GTimeZone *gtz,
-+   guint8 *tz_transitions, *tz_type_index, *tz_ttinfo;
-+   guint8 *tz_abbrs;
-+   gsize timesize = sizeof (gint32);
-+-  const struct tzhead *header = g_bytes_get_data (zoneinfo, &size);
-++  gconstpointer header_data = g_bytes_get_data (zoneinfo, &size);
-++  const gchar *data = header_data;
-++  const struct tzhead *header = header_data;
-++  GTimeZone *footertz = NULL;
-++  guint extra_time_count = 0, extra_type_count = 0;
-++  gint64 last_explicit_transition_time;
-+ 
-+   g_return_if_fail (size >= sizeof (struct tzhead) &&
-+                     memcmp (header, "TZif", 4) == 0);
-+ 
-+-  if (header->tzh_version == '2')
-++  if (header->tzh_version >= '2')
-+       {
-+         /* Skip ahead to the newer 64-bit data if it's available. */
-+         header = (const struct tzhead *)
-+@@ -550,6 +585,30 @@ init_zone_from_iana_info (GTimeZone *gtz,
-+   time_count = guint32_from_be(header->tzh_timecnt);
-+   type_count = guint32_from_be(header->tzh_typecnt);
-+ 
-++  if (header->tzh_version >= '2')
-++    {
-++      const gchar *footer = (((const gchar *) (header + 1))
-++                             + guint32_from_be(header->tzh_ttisgmtcnt)
-++                             + guint32_from_be(header->tzh_ttisstdcnt)
-++                             + 12 * guint32_from_be(header->tzh_leapcnt)
-++                             + 9 * time_count
-++                             + 6 * type_count
-++                             + guint32_from_be(header->tzh_charcnt));
-++      const gchar *footerlast;
-++      size_t footerlen;
-++      g_return_if_fail (footer <= data + size - 2 && footer[0] == '\n');
-++      footerlast = memchr (footer + 1, '\n', data + size - (footer + 1));
-++      g_return_if_fail (footerlast);
-++      footerlen = footerlast + 1 - footer;
-++      if (footerlen != 2)
-++        {
-++          footertz = parse_footertz (footer, footerlen);
-++          g_return_if_fail (footertz);
-++          extra_type_count = footertz->t_info->len;
-++          extra_time_count = footertz->transitions->len;
-++        }
-++    }
-++
-+   tz_transitions = ((guint8 *) (header) + sizeof (*header));
-+   tz_type_index = tz_transitions + timesize * time_count;
-+   tz_ttinfo = tz_type_index + time_count;
-+@@ -557,9 +616,9 @@ init_zone_from_iana_info (GTimeZone *gtz,
-+ 
-+   gtz->name = g_steal_pointer (&identifier);
-+   gtz->t_info = g_array_sized_new (FALSE, TRUE, sizeof (TransitionInfo),
-+-                                   type_count);
-++                                   type_count + extra_type_count);
-+   gtz->transitions = g_array_sized_new (FALSE, TRUE, sizeof (Transition),
-+-                                        time_count);
-++                                        time_count + extra_time_count);
-+ 
-+   for (index = 0; index < type_count; index++)
-+     {
-+@@ -574,15 +633,50 @@ init_zone_from_iana_info (GTimeZone *gtz,
-+   for (index = 0; index < time_count; index++)
-+     {
-+       Transition trans;
-+-      if (header->tzh_version == '2')
-++      if (header->tzh_version >= '2')
-+         trans.time = gint64_from_be (((gint64_be*)tz_transitions)[index]);
-+       else
-+         trans.time = gint32_from_be (((gint32_be*)tz_transitions)[index]);
-++      last_explicit_transition_time = trans.time;
-+       trans.info_index = tz_type_index[index];
-+       g_assert (trans.info_index >= 0);
-+       g_assert ((guint) trans.info_index < gtz->t_info->len);
-+       g_array_append_val (gtz->transitions, trans);
-+     }
-++
-++  if (footertz)
-++    {
-++      /* Append footer time types.  Don't bother to coalesce
-++         duplicates with existing time types.  */
-++      for (index = 0; index < extra_type_count; index++)
-++        {
-++          TransitionInfo t_info;
-++          TransitionInfo *footer_t_info
-++            = &g_array_index (footertz->t_info, TransitionInfo, index);
-++          t_info.gmt_offset = footer_t_info->gmt_offset;
-++          t_info.is_dst = footer_t_info->is_dst;
-++          t_info.abbrev = g_steal_pointer (&footer_t_info->abbrev);
-++          g_array_append_val (gtz->t_info, t_info);
-++        }
-++
-++      /* Append footer transitions that follow the last explicit
-++         transition.  */
-++      for (index = 0; index < extra_time_count; index++)
-++        {
-++          Transition *footer_transition
-++            = &g_array_index (footertz->transitions, Transition, index);
-++          if (time_count <= 0
-++              || last_explicit_transition_time < footer_transition->time)
-++            {
-++              Transition trans;
-++              trans.time = footer_transition->time;
-++              trans.info_index = type_count + footer_transition->info_index;
-++              g_array_append_val (gtz->transitions, trans);
-++            }
-++        }
-++
-++      g_time_zone_unref (footertz);
-++    }
-+ }
-+ 
-+ #elif defined (G_OS_WIN32)
-+@@ -590,9 +684,8 @@ init_zone_from_iana_info (GTimeZone *gtz,
-+ static void
-+ copy_windows_systemtime (SYSTEMTIME *s_time, TimeZoneDate *tzdate)
-+ {
-+-  tzdate->sec = s_time->wSecond;
-+-  tzdate->min = s_time->wMinute;
-+-  tzdate->hour = s_time->wHour;
-++  tzdate->offset
-++    = s_time->wHour * 3600 + s_time->wMinute * 60 + s_time->wSecond;
-+   tzdate->mon = s_time->wMonth;
-+   tzdate->year = s_time->wYear;
-+   tzdate->wday = s_time->wDayOfWeek ? s_time->wDayOfWeek : 7;
-+@@ -979,7 +1072,7 @@ boundary_for_year (TimeZoneDate *boundary,
-+   g_date_clear (&date, 1);
-+   g_date_set_dmy (&date, buffer.mday, buffer.mon, buffer.year);
-+   return ((g_date_get_julian (&date) - unix_epoch_start) * seconds_per_day +
-+-          buffer.hour * 3600 + buffer.min * 60 + buffer.sec - offset);
-++          buffer.offset - offset);
-+ }
-+ 
-+ static void
-+@@ -1156,7 +1249,7 @@ init_zone_from_rules (GTimeZone    *gtz,
-+  * - N is 0 to 365
-+  *
-+  * time is either h or hh[[:]mm[[[:]ss]]]
-+- *  - h[h] is 0 to 23
-++ *  - h[h] is 0 to 24
-+  *  - mm is 00 to 59
-+  *  - ss is 00 to 59
-+  */
-+@@ -1289,25 +1382,10 @@ parse_tz_boundary (const gchar  *identifier,
-+   /* Time */
-+ 
-+   if (*pos == '/')
-+-    {
-+-      gint32 offset;
-+-
-+-      if (!parse_time (++pos, &offset))
-+-        return FALSE;
-+-
-+-      boundary->hour = offset / 3600;
-+-      boundary->min = (offset / 60) % 60;
-+-      boundary->sec = offset % 3600;
-+-
-+-      return TRUE;
-+-    }
-+-
-++    return parse_constant_offset (pos + 1, &boundary->offset, TRUE);
-+   else
-+     {
-+-      boundary->hour = 2;
-+-      boundary->min = 0;
-+-      boundary->sec = 0;
-+-
-++      boundary->offset = 2 * 60 * 60;
-+       return *pos == '\0';
-+     }
-+ }
-+@@ -1341,7 +1419,7 @@ parse_offset (gchar **pos, gint32 *target)
-+     ++(*pos);
-+ 
-+   buffer = g_strndup (target_pos, *pos - target_pos);
-+-  ret = parse_constant_offset (buffer, target);
-++  ret = parse_constant_offset (buffer, target, FALSE);
-+   g_free (buffer);
-+ 
-+   return ret;
-+@@ -1366,21 +1444,32 @@ parse_identifier_boundary (gchar **pos, TimeZoneDate *target)
-+ static gboolean
-+ set_tz_name (gchar **pos, gchar *buffer, guint size)
-+ {
-++  gboolean quoted = **pos == '<';
-+   gchar *name_pos = *pos;
-+   guint len;
-+ 
-+-  /* Name is ASCII alpha (Is this necessarily true?) */
-+-  while (g_ascii_isalpha (**pos))
-+-    ++(*pos);
-++  if (quoted)
-++    {
-++      name_pos++;
-++      do
-++        ++(*pos);
-++      while (g_ascii_isalnum (**pos) || **pos == '-' || **pos == '+');
-++      if (**pos != '>')
-++        return FALSE;
-++    }
-++  else
-++    while (g_ascii_isalpha (**pos))
-++      ++(*pos);
-+ 
-+-  /* Name should be three or more alphabetic characters */
-++  /* Name should be three or more characters */
-+   if (*pos - name_pos < 3)
-+     return FALSE;
-+ 
-+-  memset (buffer, 0, NAME_SIZE);
-++  memset (buffer, 0, size);
-+   /* name_pos isn't 0-terminated, so we have to limit the length expressly */
-+   len = *pos - name_pos > size - 1 ? size - 1 : *pos - name_pos;
-+   strncpy (buffer, name_pos, len);
-++  *pos += quoted;
-+   return TRUE;
-+ }
-+ 
-+@@ -1483,6 +1572,28 @@ rules_from_identifier (const gchar   *identifier,
-+   return create_ruleset_from_rule (rules, &tzr);
-+ }
-+ 
-++#ifdef G_OS_UNIX
-++static GTimeZone *
-++parse_footertz (const gchar *footer, size_t footerlen)
-++{
-++  gchar *tzstring = g_strndup (footer + 1, footerlen - 2);
-++  GTimeZone *footertz = NULL;
-++  gchar *ident;
-++  TimeZoneRule *rules;
-++  guint rules_num = rules_from_identifier (tzstring, &ident, &rules);
-++  g_free (ident);
-++  g_free (tzstring);
-++  if (rules_num > 1)
-++    {
-++      footertz = g_slice_new0 (GTimeZone);
-++      init_zone_from_rules (footertz, rules, rules_num, NULL);
-++      footertz->ref_count++;
-++    }
-++  g_free (rules);
-++  return footertz;
-++}
-++#endif
-++
-+ /* Construction {{{1 */
-+ /**
-+  * g_time_zone_new:
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
-index 911152ddaa..09d253fbfb 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-+           file://tzdata-update.patch \
-            "
- 
- SRC_URI_append_class-native = " file://relocate-modules.patch"
--- 
-2.17.1
+>
+> I do remember the patch from the last time around and I think this was
+> the issue last time as well, I couldn't get it to apply. It does seem
+> like a reasonable addition and it would be good to work with openBMC on
+> common issues like this!
+>
+> Cheers,
+>
+> Richard
+>
 
