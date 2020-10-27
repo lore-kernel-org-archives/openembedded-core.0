@@ -1,98 +1,123 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web09.2544.1603827694250387793
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
+ by mx.groups.io with SMTP id smtpd.web11.3104.1603830362143318339
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 12:41:34 -0700
+ Tue, 27 Oct 2020 13:26:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=I2CerRPJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id n18so3244382wrs.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 12:41:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mV9OE6ON;
+ spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f66.google.com with SMTP id gi3so1330428pjb.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 13:26:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=EtMFpZBy5lgJiuwlQG9a8ooeblYosBESUsZ7ZYqCr+g=;
-        b=I2CerRPJRwok2UAaj+OzqoDHtHKwAxLDzHRnOXFGtpP894E31O/AdDlzmAfUevezT3
-         kFAzxCF0exA/auQglJ4XP0rtfD6qbEmPEt7cjJlj0mHBd42cAoQzx1E+jxLGzUNw406L
-         qRiNzyMM1cP5z7toXMuKUKuAWbft+/HuNRB6g=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RuwOUnHBbt1alDrRVMzHGl0mGpK//MbvHTCpuTjLlhI=;
+        b=mV9OE6ONSEUaQfubMZ46+3XybqLeicmme/E6w2lHcZgph1iUDCqewr/UUKJDKwN7EX
+         Z7Q3fs6ikRwpTNapmol478I+ghTTci/9Qgocz2Jv3s4odFOjN6QNXN1qMcAFGxSVLZes
+         hMBiDOmuzcRfuFmzelf7NaIeIkHxhXlssXlhyCVa7cm//9t3KA7viBSEBcMNCB+zcgZ7
+         sA1MwXwa854NcIWYS9YCZJR9wBFX0zfB1epQFN34xSpy5hvymO8asmCJgXEoWm4Wxvut
+         0G9yB7S9RVbz2+JRnJAxM/MyWbwS5sMzlcmOrqpJXLcO3kJGE7JcysnPB20VywWQfz/W
+         Lkmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EtMFpZBy5lgJiuwlQG9a8ooeblYosBESUsZ7ZYqCr+g=;
-        b=RgFz3XtXBzMX8PHshuUfIQmbmFMRDbAe0ANk8HZEhzt0KgTOUl2X5AJTr/yWt3rh5Q
-         bwYYLtyi9ZCgwIWN4EpyLZwOlM3OSb0DUj5IXKbWtYGBeNEdt0CQhXw+ewCmgRbw8yM6
-         fcW2iB06OU4TwuMMzsWF5b8NSoaH2wiIHqsSyd0Xiy6ksSZBlgpSs3v4OKtkZx1OjLgH
-         Dh736y1L2IZ701KBZxQ32OLFMZar/4HtrwtKyeM2JGuRSj7wnApECEt3viJfAVi+IfAP
-         s1bcH9pGzCvmadsn5K0WKQKN5aMcO3rEUpIz9PQ7luu2E+GyewKixkwTOBMbrKdh7Ti1
-         z9Wg==
-X-Gm-Message-State: AOAM530CWAIIJxVO6veWHJF0gA7lqWI8U3HxP+3vC8U95efDASLhzWck
-	J7aC6UBjrsSNkLX7bue6YUFMsg==
-X-Google-Smtp-Source: ABdhPJzq95PZtH03oolffMY2iaoHIqpGbpd7JcdSBc8Os9ZDvRM7PG7ViBdZ0fpTWx0BExFp9/mORA==
-X-Received: by 2002:a5d:414f:: with SMTP id c15mr4747288wrq.59.1603827692625;
-        Tue, 27 Oct 2020 12:41:32 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1867:cb67:a1a2:320d])
-        by smtp.gmail.com with ESMTPSA id l8sm3409997wrn.28.2020.10.27.12.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 12:41:32 -0700 (PDT)
-Message-ID: <f154c498c88dfc436d4b9547b889e3aa8436fc41.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] add new extrausers command passwd-expire
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joseph Reynolds <jrey@linux.ibm.com>, OE-core
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Oct 2020 19:41:29 +0000
-In-Reply-To: <978bccd7-a2f4-9aa0-9c77-9c10c81e068f@linux.ibm.com>
-References: <978bccd7-a2f4-9aa0-9c77-9c10c81e068f@linux.ibm.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=RuwOUnHBbt1alDrRVMzHGl0mGpK//MbvHTCpuTjLlhI=;
+        b=J2fkTcnKtCkKlIE8AFn3jl6JyNWYW1X5FW8/zkDmpQA10Macxv/wVN5TsAa2v5g/uj
+         iaTcP9EiVoWvoAcZEA6DhTvIa0UZ8+kKXyzFBQJCjZm83bcW0t9Q72UI37z7/D31/W3v
+         AySegwmNOJxgc6t9iPQSlDgJwRkYREQBTZVKh9R+Eh55+BT3jng/F96GP4gCfqVQ/uan
+         h4E7XQugjuog97RYoQ8qPCJe33YDrm4E3DqWogoocKyLKbYA0YdGCtPGqfYPTmRJLMxm
+         3X8Lht9ImHHf6qIXpYNz7+0P7V6eTiAyutrGcna9UIYcPDFcmJbr6Y+20K9aL6Yz3bDO
+         t9ZA==
+X-Gm-Message-State: AOAM533OcFSwfqE4/Fckm0lEvZlchr1jNYMcd39Gvh5xkAfJwV05iC2+
+	9T4BDt6NG57/Vk8Qx8e31zo=
+X-Google-Smtp-Source: ABdhPJw4wWTdiS8DhaSutUAae7ubq7swWuJEg49/f+HQR4A3hoMTB9Ba1R1v61epjV4nKb0LWGypwg==
+X-Received: by 2002:a17:90a:4b87:: with SMTP id i7mr3646269pjh.68.1603830361499;
+        Tue, 27 Oct 2020 13:26:01 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0:34ed:fa30:8661:dbd2? ([2601:646:9200:4e0:34ed:fa30:8661:dbd2])
+        by smtp.gmail.com with ESMTPSA id ch21sm2777806pjb.24.2020.10.27.13.26.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2020 13:26:00 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] recipes-core/busybox: fixup licensing information
+To: "Yann E. MORIN" <yann.morin.1998@free.fr>,
+ openembedded-core@lists.openembedded.org
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Alexandre BELLONI <alexandre.belloni@bootlin.com>
+References: <20201027164831.3297010-1-yann.morin.1998@free.fr>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <ee39bffd-e43b-69a6-98e2-b3f4963e346f@gmail.com>
+Date: Tue, 27 Oct 2020 13:25:59 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201027164831.3297010-1-yann.morin.1998@free.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-Hi Joseph,
 
-On Mon, 2020-10-26 at 15:41 -0500, Joseph Reynolds wrote:
-> This enhances extrausers with a new passwd-expire command that causes
-> a local user's password to be expired as if the `passwd --expire`
-> command was run, so the password needs to be changed on initial
-> login.
+
+On 10/27/20 9:48 AM, Yann E. MORIN wrote:
+> Commit 7d32417b4d (busybox: Correct the name of the bzip2 license)
+> changes the licesne from 'bzip2' to 'bzip2-1.0.6' on the rationale
+> that the 'bzip2 license was renamed from "bzip2" to "bzip2-1.0.6"
+> [...] to match the official SPDX identifier.'
 > 
-> Example: EXTRA_USERS_PARAMS += " useradd ... sofia; passwd-expire
-> sofia;"
+> Though the above is true for the bzip2 and pbzip2 packages, the bzip2
+> code bundled in busybox is a copy from the bzip2 1.0.4 version, not the
+> 1.0.6 version.
 > 
-> Tested: on useradd accounts
-> When configured with Linux-PAM, console login prompts for and can
-> successfully change the password.  OpenSSH server works.  Dropbear
-> SSH server notes the password must be changed but does not offer a
-> password change dialog and rejects the login request.
+> As such, using bzip2-1.0.6 is wrong.
 > 
-> Signed-off-by: Joseph Reynolds <joseph-reynolds@charter.net>
+> Unfortunately, there is no official SPDX license identifier for this
+> bzip2 1.0.4 version, so we just mimick the existing ones (bzip2-1.0.5
+> and bzip2-1.0.6) by using bzip2-1.0.4.
+> 
+> Also, there is a license file attached to that, so we add it to the
+> list.
+> 
+
+we also need a text file for this license in meta/files/common-licenses 
+perhaps a symlink to bzip2-1.0.6 might be ok.
+
+> Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
+> Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>
+> 
 > ---
->   meta/classes/extrausers.bbclass   |  3 +++
->   meta/classes/useradd_base.bbclass | 18 ++++++++++++++++++
->   2 files changed, 21 insertions(+)
+> Respin, as I was not yet subscribed to the list...
+> Sorry for any duplicates...
+> ---
+>   meta/recipes-core/busybox/busybox.inc | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/meta/classes/extrausers.bbclass 
-> b/meta/classes/extrausers.bbclass
-> index 32569e9..90811bf 100644
-> --- a/meta/classes/extrausers.bbclass
-> +++ b/meta/classes/extrausers.bbclass
-> @@ -46,6 +46,9 @@ set_user_group () {
->               usermod)
->                   perform_usermod "${IMAGE_ROOTFS}" "-R
-> ${IMAGE_ROOTFS} 
-> $opts"
-
-Unfortunately this patch is coming through line wrapped which makes it
-hard to apply. Can you resend it without the line wrapping, or point at
-a git tree with the patch in please?
-
-I do remember the patch from the last time around and I think this was
-the issue last time as well, I couldn't get it to apply. It does seem
-like a reasonable addition and it would be good to work with openBMC on
-common issues like this!
-
-Cheers,
-
-Richard
-
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+> index 45aaa2b41c..e0522be729 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -5,10 +5,11 @@ BUGTRACKER = "https://bugs.busybox.net/"
+>   
+>   DEPENDS += "kern-tools-native virtual/crypt"
+>   
+> -# bzip2 applet in busybox is based on lightly-modified bzip2 source
+> +# bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
+>   # the GPL is version 2 only
+> -LICENSE = "GPLv2 & bzip2-1.0.6"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
+> +LICENSE = "GPLv2 & bzip2-1.0.4"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
+> +                    file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
+>   
+>   SECTION = "base"
+>   
+> 
+> 
+> 
+> 
+> 
