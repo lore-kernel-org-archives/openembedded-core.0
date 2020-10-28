@@ -1,391 +1,236 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web10.3759.1603919177762870767
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web11.3903.1603919178240778481
  for <openembedded-core@lists.openembedded.org>;
  Wed, 28 Oct 2020 14:06:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J/AFbd8E;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id o18so969222edq.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KY7wGU31;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id t11so888457edj.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=G5FRravAoGZq2BDcriLJ+ucNImZmGTEnAi5la7gugqc=;
-        b=J/AFbd8E/+WQYmksuaUHnGSwpxgjq64ZVPNJwyDEhpDXW7EAlnOeKF+AFA89Qv3qUn
-         T26Tzro+Zwz3ZHdtF0gamNn+rIOkdVDprDJhUkIUAl8Kv6YjIULy3BLTFFI5ow3KbXRF
-         opObhRPpaRvGOBiPn/ZucNtPjQYoRQlpHcOfa8lb5SRQv1Pl+NRGZQUSBkXTq1CqQI/I
-         f7N2tENYVEEEVavvy17BB9mUK3dbofik1w5pb0jGOesdFtiLeo2EFLd+oAAW/5wMGzLo
-         y7pwdR57QF6cqxs4LQNMOGSdS4U/SVxPDVxCL0dtVwmIOnO8I0IfKqHkNLfc/t8d1mNT
-         SA/w==
+        bh=hHGBbDJznE+1+13LTC/slRI2w8dmVPg0sE0Suv8zWrc=;
+        b=KY7wGU31297K2lu22PBIzgQa0YB/OBfp+mD87ADMCb/K1vlRLqi9GI/jpuwXnRZr2u
+         lbdbVCypi+junz+H8x/IoI+1tiJ/igw12sFp0aqhbiRNIhPfXhkdQGX6WmKlPuG5R7p2
+         doo/dszxRdCGVHYw+ATxZvWM4jNmJ7v3ulIKFaYRRg+kKDyQN8ZeUalSNFESJ4rWJ0RV
+         /8r2zJmtxyJ/+HP2V8N84WlVnUQocrrh3lztFxiLXVnzVnI8niMqs1NIkAFvefv9aa79
+         e5Ag5mFy5U+w5OkhzvEgXlea41DCoTrjFLSS63jJ6tkWMB7azA2rTOPqel/oJgs/vK74
+         VHoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=G5FRravAoGZq2BDcriLJ+ucNImZmGTEnAi5la7gugqc=;
-        b=PNpHYJQVFs2qKBXm5bitEFzF/SHFskkQaJuPHcFjolTamGrUmUOJxrUyGTaYe3zqYh
-         w05+obwyKkYDydUptOl5NEr989mmsvyIE0/MLng/9zUPiC/ExVXZtSLTAwxPVy1LKUM4
-         ZvZRPtNRjiRxGz28yQymkLcL1glLH31BT/VqIkEb2t+PzQHNeqZBw052b3kcoJv76EB9
-         qV1E3BD4VInAo6u4NPtUPr3yuA7KB+3yok4nApwo9yQemiXSNU5/1J6ddIiTXNsXUhnr
-         sSrWcDWmO1gtwYHyJJxMNYne9lfW1tPSl/gLIyO9fcf/dBAqAmI/WZYbLpVcwO34CxD3
-         kreA==
-X-Gm-Message-State: AOAM530v//t+NnLE1JU/GkLDz/2bs1TwgJknJmUpMDQbvH4ZzyUlaPes
-	/PG+dR/8aiHfKvdED2I6n+jbHJJdqWhP0w==
-X-Google-Smtp-Source: ABdhPJzU5LI4MhP15o8//SRBViPrsWW8IC9cVlIoXM3GO67XkMQwld/i+L2kBinraaC/nKRVtgtkZA==
-X-Received: by 2002:a05:6402:1298:: with SMTP id w24mr807525edv.280.1603919175770;
-        Wed, 28 Oct 2020 14:06:15 -0700 (PDT)
+        bh=hHGBbDJznE+1+13LTC/slRI2w8dmVPg0sE0Suv8zWrc=;
+        b=MXOgBELRH/2AZzVL2GomTD3zdM9NAkcWYk4MFsL0ri0DJMPCczG5aAuA+nEQlGNzzv
+         Pxg3FdZq4lOYPIEroodsdzr0gVFWDau47dhr6G+rz/rbMDZ6bpjwWhkW7qlzjGHYWmn1
+         HarpLfWZ/MVsikdKmN/dcRq6XtC1Mz0h7J2Vbi4UVKXx27yCV7jMU5opLE6dl5CgkQKR
+         KBPukZ8cEKUpTIYv/JoMNvWESKwuoAwvn+cH0eIDXRW+AAgfiFBAk1DW7l8cVML+lKyy
+         1PycwS0G9HxD+TdcCLO1WJgTimv30t+K0Qf8+Pq+soyd5ZXL5CvVLwClAKIhyv10dYdD
+         7+Zg==
+X-Gm-Message-State: AOAM533UB1tdf3Lk4+D7mJ3etrgEF8A3Vt9Ii6KVCEa2JuzZcjucLigd
+	UCGB+APh5H+oZtOc3+j4Tu9BwsiFpY037g==
+X-Google-Smtp-Source: ABdhPJxYkfLWlmPYlvoLlYTCGxtATZaz1HY8usJSmhAvrh9zO5BIIj5K9mrb4XNRphmfWpI3Rmv+lQ==
+X-Received: by 2002:aa7:d54f:: with SMTP id u15mr821396edr.239.1603919176542;
+        Wed, 28 Oct 2020 14:06:16 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 14:06:15 -0700 (PDT)
+        Wed, 28 Oct 2020 14:06:16 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/33] rpm: update 4.15.1 -> 4.16.0
-Date: Wed, 28 Oct 2020 22:05:36 +0100
-Message-Id: <20201028210558.21070-11-alex.kanavin@gmail.com>
+Subject: [PATCH 12/33] elfutils: update 0.180 -> 0.181
+Date: Wed, 28 Oct 2020 22:05:37 +0100
+Message-Id: <20201028210558.21070-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201028210558.21070-1-alex.kanavin@gmail.com>
 References: <20201028210558.21070-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop backports.
-Drop 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch as
-enabling compression support in libmagic finally allows us to use
-parallel file classification.
+Add a config option for client debuginfod library.
 
-Add a backported patch that fixes musl builds.
-
-License-Update: formatting
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...he-limit-of-signature-header-to-64MB.patch | 62 ------------------
- ...lib-rpm-as-the-installation-path-for.patch | 14 ++--
- .../0001-rpmdb.c-add-a-missing-include.patch  | 25 +++++++
- ...-run-file-classification-in-parallel.patch | 65 -------------------
- ...lugins.c-call-dlerror-prior-to-dlsym.patch | 29 ---------
- .../rpm/{rpm_4.15.1.bb => rpm_4.16.0.bb}      | 16 +++--
- 6 files changed, 42 insertions(+), 169 deletions(-)
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-Bump-up-the-limit-of-signature-header-to-64MB.patch
- create mode 100644 meta/recipes-devtools/rpm/files/0001-rpmdb.c-add-a-missing-include.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
- delete mode 100644 meta/recipes-devtools/rpm/files/0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch
- rename meta/recipes-devtools/rpm/{rpm_4.15.1.bb => rpm_4.16.0.bb} (94%)
+ .../elfutils/{elfutils_0.180.bb => elfutils_0.181.bb} | 10 +++++++++-
+ .../elfutils/files/0001-musl-obstack-fts.patch        |  4 ++--
+ ...kefile.am-compile-test_nlist-with-standard-C.patch | 11 ++++++-----
+ .../elfutils/files/0002-musl-libs.patch               |  2 +-
+ .../elfutils/files/0003-musl-utils.patch              |  6 +++---
+ .../elfutils/files/0004-Fix-error-on-musl.patch       |  2 +-
+ .../files/0015-config-eu.am-do-not-use-Werror.patch   |  3 ++-
+ 7 files changed, 24 insertions(+), 14 deletions(-)
+ rename meta/recipes-devtools/elfutils/{elfutils_0.180.bb => elfutils_0.181.bb} (90%)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Bump-up-the-limit-of-signature-header-to-64MB.patch b/meta/recipes-devtools/rpm/files/0001-Bump-up-the-limit-of-signature-header-to-64MB.patch
-deleted file mode 100644
-index 0a19c12a7a..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-Bump-up-the-limit-of-signature-header-to-64MB.patch
-+++ /dev/null
-@@ -1,62 +0,0 @@
--From e8bf0eba7143abb6e69db82ee747a0c6790dd00a Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Wed, 3 Jun 2020 10:25:24 +0800
--Subject: [PATCH] Bump up the limit of signature header to 64MB
--
--Since commits [Place file signatures into the signature header where they
--belong][1] applied, run `rpm -Kv **.rpm' failed if signature header
--is larger than 64KB. Here are steps:
--
--1) A unsigned rpm package, the size is 227560 bytes
--$ ls -al xz-src-5.2.5-r0.corei7_64.rpm
---rw-------. 1 mockbuild 1000 227560 Jun  3 09:59
--
--2) Sign the rpm package
--$ rpmsign --addsign ... xz-src-5.2.5-r0.corei7_64.rpm
--
--3) The size of signed rpm is 312208 bytes
--$ ls -al xz-src-5.2.5-r0.corei7_64.rpm
---rw-------. 1 mockbuild 1000 312208 Jun  3 09:48
--
--4) Run `rpm -Kv' failed with signature hdr data out of range
--$ rpm -Kv xz-src-5.2.5-r0.corei7_64.rpm
--xz-src-5.2.5-r0.corei7_64.rpm:
--error: xz-src-5.2.5-r0.corei7_64.rpm: signature hdr data: BAD, no. of
--bytes(88864) out of range
--
--From 1) and 3), the size of signed rpm package increased
--312208 - 227560 = 84648, so the check of dl_max (64KB,65536)
--is not enough.
--
--As [1] said:
--
--    This also means the signature header can be MUCH bigger than ever
--    before,so bump up the limit (to 64MB, arbitrary something for now)
--
--So [1] missed to multiply by 1024.
--
--[1] https://github.com/rpm-software-management/rpm/commit/f558e886050c4e98f6cdde391df679a411b3f62c
--
--Upstream-Status: Backport [https://github.com/rpm-software-management/rpm/commit/486579912381ede82172dc6d0ff3941a6d0536b5]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- lib/header.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/header.c b/lib/header.c
--index 9ec7ed0..cbf6890 100644
----- a/lib/header.c
--+++ b/lib/header.c
--@@ -1906,7 +1906,7 @@ rpmRC hdrblobRead(FD_t fd, int magic, int exact_size, rpmTagVal regionTag, hdrbl
-- 
--     if (regionTag == RPMTAG_HEADERSIGNATURES) {
-- 	il_max = 32;
---	dl_max = 64 * 1024;
--+	dl_max = 64 * 1024 * 1024;
--     }
-- 
--     memset(block, 0, sizeof(block));
---- 
--2.25.4
--
-diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-index 52440d6818..30975faeaf 100644
---- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.180.bb b/meta/recipes-devtools/elfutils/elfutils_0.181.bb
+similarity index 90%
+rename from meta/recipes-devtools/elfutils/elfutils_0.180.bb
+rename to meta/recipes-devtools/elfutils/elfutils_0.181.bb
+index 61e46a4ed7..6c49a5fc26 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.180.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.181.bb
+@@ -28,7 +28,7 @@ SRC_URI_append_libc-musl = " \
+            file://0004-Fix-error-on-musl.patch \
+            file://0015-config-eu.am-do-not-use-Werror.patch \
+            "
+-SRC_URI[sha256sum] = "b827b6e35c59d188ba97d7cf148fa8dc6f5c68eb6c5981888dfdbb758c0b569d"
++SRC_URI[sha256sum] = "29a6ad7421ec2acfee489bb4a699908281ead2cb63a20a027ce8804a165f0eb3"
+ 
+ inherit autotools gettext ptest pkgconfig
+ 
+@@ -40,6 +40,7 @@ DEPENDS_BZIP2_class-target = "bzip2"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
+ PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
++PACKAGECONFIG[libdebuginfod] = "--enable-libdebuginfod,--disable-libdebuginfod,curl"
+ 
+ RDEPENDS_${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils"
+ 
+@@ -59,6 +60,8 @@ do_install_ptest() {
+ 		install -d -m 755                       ${D}${PTEST_PATH}/src
+ 		install -d -m 755                       ${D}${PTEST_PATH}/libelf
+ 		install -d -m 755                       ${D}${PTEST_PATH}/libdw
++		install -d -m 755                       ${D}${PTEST_PATH}/libdwfl
++		install -d -m 755                       ${D}${PTEST_PATH}/libdwelf
+ 		install -d -m 755                       ${D}${PTEST_PATH}/libasm
+ 		for test_file in ${TEST_FILES}; do
+ 			if [ -f ${B}/src/${test_file} ]; then
+@@ -68,6 +71,11 @@ do_install_ptest() {
+ 		cp ${D}${libdir}/libelf-${PV}.so ${D}${PTEST_PATH}/libelf/libelf.so
+ 		cp ${D}${libdir}/libdw-${PV}.so ${D}${PTEST_PATH}/libdw/libdw.so
+ 		cp ${D}${libdir}/libasm-${PV}.so ${D}${PTEST_PATH}/libasm/libasm.so
++		cp ${S}/libelf/*.h             ${D}${PTEST_PATH}/libelf/
++		cp ${S}/libdw/*.h              ${D}${PTEST_PATH}/libdw/
++		cp ${S}/libdwfl/*.h            ${D}${PTEST_PATH}/libdwfl/
++		cp ${S}/libdwelf/*.h           ${D}${PTEST_PATH}/libdwelf/
++		cp ${S}/libasm/*.h             ${D}${PTEST_PATH}/libasm/
+ 		cp -r ${S}/tests/                       ${D}${PTEST_PATH}
+ 		cp -r ${B}/tests/*                      ${D}${PTEST_PATH}/tests
+ 		cp -r ${B}/config.h                     ${D}${PTEST_PATH}
+diff --git a/meta/recipes-devtools/elfutils/files/0001-musl-obstack-fts.patch b/meta/recipes-devtools/elfutils/files/0001-musl-obstack-fts.patch
+index 2450b0d6b8..67d4703c80 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-musl-obstack-fts.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-musl-obstack-fts.patch
 @@ -1,4 +1,4 @@
--From 2f3d1619b6510bc131c4375827caf912559f0fa2 Mon Sep 17 00:00:00 2001
-+From 4fd37bc9d8d0777aa038777dd81a76b64f536efd Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 27 Feb 2017 09:43:30 +0200
- Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  3 files changed, 4 insertions(+), 4 deletions(-)
+-From 1ec7b2208803e0fbdcbe6c07b849e7dc4d9fa8a2 Mon Sep 17 00:00:00 2001
++From 1a62bb8e8f2cb0f180c749946a48114e8f391b55 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 23 Aug 2019 10:17:25 +0800
+ Subject: [PATCH] musl-obstack-fts
+@@ -20,7 +20,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  3 files changed, 58 insertions(+), 4 deletions(-)
  
  diff --git a/configure.ac b/configure.ac
--index d3aeab86e..1a1f3f91f 100644
-+index 186e4aeec..5df252085 100644
+-index e9649c2..03643c8 100644
++index ab9c751..b057d86 100644
  --- a/configure.ac
  +++ b/configure.ac
--@@ -1086,7 +1086,7 @@ else
-+@@ -944,7 +944,7 @@ else
-      usrprefix=$prefix
-  fi
+ @@ -538,6 +538,60 @@ else
+diff --git a/meta/recipes-devtools/elfutils/files/0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch b/meta/recipes-devtools/elfutils/files/0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch
+index 481b912387..d7b382fd94 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch
+@@ -1,4 +1,4 @@
+-From 1ca86294ee5454592c9ad855e13080509d8a92d3 Mon Sep 17 00:00:00 2001
++From fa265ff686cb60e19aa607bda3752b6b2ee87a14 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 23 Jun 2020 07:49:35 +0000
+ Subject: [PATCH] tests/Makefile.am: compile test_nlist with standard CFLAGS
+@@ -8,20 +8,21 @@ be reproducible.
+ 
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  tests/Makefile.am | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/tests/Makefile.am b/tests/Makefile.am
+-index 8048b69..d2b28a4 100644
++index 05fc9b4..11de0fc 100644
+ --- a/tests/Makefile.am
+ +++ b/tests/Makefile.am
+-@@ -86,7 +86,7 @@ backtrace-child-biarch$(EXEEXT): backtrace-child.c
++@@ -92,7 +92,7 @@ endif
+  test-nlist$(EXEEXT): test-nlist.c
+  	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
+  	  $(AM_CPPFLAGS) $(CPPFLAGS) \
+--	  $(test_nlist_CFLAGS) $(test_nlist_LDADD) -o $@ $<
+-+	  $(CFLAGS) $(test_nlist_LDADD) -o $@ $<
++-	  $(test_nlist_CFLAGS) $(GCOV_FLAGS) -o $@ $< $(test_nlist_LDADD)
+++	  $(CFLAGS) $(GCOV_FLAGS) -o $@ $< $(test_nlist_LDADD)
   
-@@ -27,10 +27,10 @@ index d3aeab86e..1a1f3f91f 100644
+  TESTS = run-arextract.sh run-arsymtest.sh run-ar.sh newfile test-nlist \
+  	update1 update2 update3 update4 \
+diff --git a/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch b/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch
+index d5ec0ec9e5..894e46c3c4 100644
+--- a/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch
++++ b/meta/recipes-devtools/elfutils/files/0002-musl-libs.patch
+@@ -1,4 +1,4 @@
+-From 9a57efb0f826a70ae360aa55504ee2de656b92b6 Mon Sep 17 00:00:00 2001
++From 2e1f8ca0b67c1d1991c14d509938c347e09bae94 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 23 Aug 2019 10:18:47 +0800
+ Subject: [PATCH] musl-libs
+diff --git a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
+index 4f28d9d027..2a21cd37ce 100644
+--- a/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
++++ b/meta/recipes-devtools/elfutils/files/0003-musl-utils.patch
+@@ -1,4 +1,4 @@
+-From 6923400b777d4ba6f040c4006413bf997326460f Mon Sep 17 00:00:00 2001
++From 9b237f19f82d5ab1e0702637fece1866b1ef6681 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Fri, 23 Aug 2019 10:19:48 +0800
+ Subject: [PATCH] musl-utils
+@@ -58,7 +58,7 @@ index 6ba6af4..0c7674b 100644
+  ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
   
-  AC_SUBST(OBJDUMP)
- diff --git a/macros.in b/macros.in
--index fe9803aad..d128675bf 100644
-+index 35c8cf9df..9d8b2825c 100644
- --- a/macros.in
- +++ b/macros.in
--@@ -985,7 +985,7 @@ package or when debugging this package.\
-+@@ -996,7 +996,7 @@ package or when debugging this package.\
-  %_sharedstatedir	%{_prefix}/com
-  %_localstatedir		%{_prefix}/var
-  %_lib			lib
-@@ -40,7 +40,7 @@ index fe9803aad..d128675bf 100644
-  %_infodir		%{_datadir}/info
-  %_mandir		%{_datadir}/man
- diff --git a/rpm.am b/rpm.am
--index 40b4ec55f..3139ce8f6 100644
-+index b46c6b7da..02d5c7a0a 100644
- --- a/rpm.am
- +++ b/rpm.am
- @@ -1,10 +1,10 @@
-@@ -55,4 +55,4 @@ index 40b4ec55f..3139ce8f6 100644
- +rpmconfigdir = $(libdir)/rpm
+ diff --git a/src/readelf.c b/src/readelf.c
+-index 5994615..f3cc071 100644
++index 685d0b1..a842b10 100644
+ --- a/src/readelf.c
+ +++ b/src/readelf.c
+ @@ -4829,10 +4829,11 @@ listptr_base (struct listptr *p)
+@@ -124,7 +124,7 @@ index 5994615..f3cc071 100644
   
-  # Libtool version (current-revision-age) for all our libraries
-- rpm_version_info = 9:1:0
-+ rpm_version_info = 10:0:1
-diff --git a/meta/recipes-devtools/rpm/files/0001-rpmdb.c-add-a-missing-include.patch b/meta/recipes-devtools/rpm/files/0001-rpmdb.c-add-a-missing-include.patch
-new file mode 100644
-index 0000000000..c7ae158f8d
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-rpmdb.c-add-a-missing-include.patch
-@@ -0,0 +1,25 @@
-+From 9de15c7e1f4ca23a10edb9a3b657f06b2b13e841 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 20 Oct 2020 22:16:39 +0200
-+Subject: [PATCH] rpmdb.c: add a missing include
+  static bool
+ diff --git a/src/strip.c b/src/strip.c
+-index 4054c2a..d2d2176 100644
++index 48792a7..198a2e4 100644
+ --- a/src/strip.c
+ +++ b/src/strip.c
+ @@ -46,6 +46,13 @@
+diff --git a/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch b/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch
+index 481e4b38eb..c79c737c62 100644
+--- a/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch
++++ b/meta/recipes-devtools/elfutils/files/0004-Fix-error-on-musl.patch
+@@ -1,4 +1,4 @@
+-From 48b769ab692c8f02c1ae467229fe3404f662098a Mon Sep 17 00:00:00 2001
++From d3dc5f98f653342af97ebfbdf3479ee1f0d0cf38 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Wed, 1 May 2019 22:15:03 +0100
+ Subject: [PATCH] Fix error on musl:
+diff --git a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+index c3ae357265..48fd4d41f3 100644
+--- a/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
++++ b/meta/recipes-devtools/elfutils/files/0015-config-eu.am-do-not-use-Werror.patch
+@@ -1,4 +1,4 @@
+-From dce2187dd8f592316357b200ebbe8dbed9ee65cb Mon Sep 17 00:00:00 2001
++From 9b7554a3e21ccb455b3661a6b4e767636c2c5cf3 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jun 2020 21:35:16 +0000
+ Subject: [PATCH] config/eu.am: do not use -Werror
+@@ -10,6 +10,7 @@ Werror.
+ 
+ Upstream-Status: Inappropriate [oe core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +
-+This addressed build failures on non-glibc systems.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ lib/rpmdb.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/lib/rpmdb.c b/lib/rpmdb.c
-+index 4c101569f..73187630b 100644
-+--- a/lib/rpmdb.c
-++++ b/lib/rpmdb.c
-+@@ -8,6 +8,7 @@
-+ #include <utime.h>
-+ #include <errno.h>
-+ #include <dirent.h>
-++#include <fcntl.h>
-+ 
-+ #ifndef	DYING	/* XXX already in "system.h" */
-+ #include <fnmatch.h>
-diff --git a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-deleted file mode 100644
-index d8d338792d..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--From 93c3c7f043f62e96941274e957c4ad9432032af1 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 18 Nov 2019 16:22:56 +0100
--Subject: [PATCH] rpmfc.c: do not run file classification in parallel
--
--This is causing freezes with libmagic when the file in question is compressed:
--https://github.com/rpm-software-management/rpm/issues/756
--
--Upstream-Status: Inappropriate [upstream wants a proper fix]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- build/rpmfc.c | 8 --------
-- 1 file changed, 8 deletions(-)
--
--diff --git a/build/rpmfc.c b/build/rpmfc.c
--index 3db7a9352..17afdd57a 100644
----- a/build/rpmfc.c
--+++ b/build/rpmfc.c
--@@ -680,7 +680,6 @@ static void rpmfcAttributes(rpmfc fc, int ix, const char *ftype, const char *ful
-- 	/* Add attributes on libmagic type & path pattern matches */
-- 	if (matches(&(*attr)->incl, ftype, path, is_executable)) {
-- 	    argvAddTokens(&fc->fattrs[ix], (*attr)->name);
---	    #pragma omp critical(fahash)
-- 	    fattrHashAddEntry(fc->fahash, attr-fc->atypes, ix);
-- 	}
--     }
--@@ -1105,7 +1104,6 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
--     /* Build (sorted) file class dictionary. */
--     fc->cdict = rpmstrPoolCreate();
-- 
---    #pragma omp parallel
--     {
--     /* libmagic is not thread-safe, each thread needs to a private handle */
--     magic_t ms = magic_open(msflags);
--@@ -1113,15 +1111,12 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
--     if (ms == NULL) {
-- 	rpmlog(RPMLOG_ERR, _("magic_open(0x%x) failed: %s\n"),
-- 		msflags, strerror(errno));
---	#pragma omp cancel parallel
--     }
-- 
--     if (magic_load(ms, NULL) == -1) {
-- 	rpmlog(RPMLOG_ERR, _("magic_load failed: %s\n"), magic_error(ms));
---	#pragma omp cancel parallel
--     }
-- 
---    #pragma omp for ordered reduction(+:nerrors)
--     for (int ix = 0; ix < fc->nfiles; ix++) {
-- 	rpmsid ftypeId;
-- 	const char * ftype;
--@@ -1185,14 +1180,11 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
-- 	fc->fcolor[ix] = fcolor;
-- 
-- 	/* Add to file class dictionary and index array */
---	#pragma omp ordered
-- 	if (fcolor != RPMFC_WHITE && (fcolor & RPMFC_INCLUDE)) {
-- 	    ftypeId = rpmstrPoolId(fc->cdict, ftype, 1);
---	    #pragma omp atomic
-- 	    fc->fknown++;
-- 	} else {
-- 	    ftypeId = rpmstrPoolId(fc->cdict, "", 1);
---	    #pragma omp atomic
-- 	    fc->fwhite++;
-- 	}
-- 	/* Pool id's start from 1, for headers we want it from 0 */
-diff --git a/meta/recipes-devtools/rpm/files/0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch b/meta/recipes-devtools/rpm/files/0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch
-deleted file mode 100644
-index 8842e3ebd7..0000000000
---- a/meta/recipes-devtools/rpm/files/0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 6878a83f9bac015c64d83cee42530a20a264cc5a Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 7 Jan 2020 12:02:06 +0100
--Subject: [PATCH] rpmplugins.c: call dlerror() prior to dlsym()
--
--This is the recommended way in the manpage; if there is
--a lingering error from an unrelated dl*() call that was
--never obtained via dlerror(), it needs to be cleared
--prior to calling dlsym().
--
--Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/998]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- lib/rpmplugins.c | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/lib/rpmplugins.c b/lib/rpmplugins.c
--index 65e684e84..b950f85cf 100644
----- a/lib/rpmplugins.c
--+++ b/lib/rpmplugins.c
--@@ -68,6 +68,8 @@ static rpmPlugin rpmPluginNew(const char *name, const char *path,
-- 
--     /* make sure the plugin has the supported hooks flag */
--     hooks_name = rstrscat(NULL, name, "_hooks", NULL);
--+    /* clear out any old errors that weren't fetched */
--+    dlerror();
--     hooks = dlsym(handle, hooks_name);
--     if ((error = dlerror()) != NULL) {
-- 	rpmlog(RPMLOG_ERR, _("Failed to resolve symbol %s: %s\n"),
-diff --git a/meta/recipes-devtools/rpm/rpm_4.15.1.bb b/meta/recipes-devtools/rpm/rpm_4.16.0.bb
-similarity index 94%
-rename from meta/recipes-devtools/rpm/rpm_4.15.1.bb
-rename to meta/recipes-devtools/rpm/rpm_4.16.0.bb
-index a1c5205554..f01874fe38 100644
---- a/meta/recipes-devtools/rpm/rpm_4.15.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.0.bb
-@@ -22,9 +22,9 @@ HOMEPAGE = "http://www.rpm.org"
- 
- # libraries are also LGPL - how to express this?
- LICENSE = "GPL-2.0"
--LIC_FILES_CHKSUM = "file://COPYING;md5=c0bf017c0fd1920e6158a333acabfd4a"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c4eec0c20c6034b9407a09945b48a43f"
- 
--SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.15.x \
-+SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-            file://environment.d-rpm.sh \
-            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
-            file://0001-Do-not-read-config-files-from-HOME.patch \
-@@ -38,14 +38,12 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.15.x \
-            file://0001-perl-disable-auto-reqs.patch \
-            file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
--           file://0001-rpmplugins.c-call-dlerror-prior-to-dlsym.patch \
--           file://0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch \
-            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
--           file://0001-Bump-up-the-limit-of-signature-header-to-64MB.patch \
-+           file://0001-rpmdb.c-add-a-missing-include.patch \
-            "
- 
- PE = "1"
--SRCREV = "ab2179452c5be276a6b96c591afded485c7e58c3"
-+SRCREV = "cd7f9303ef1070f027493cad7d00bc66935af2a0"
- 
- S = "${WORKDIR}/git"
- 
-@@ -55,6 +53,8 @@ DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native
- inherit autotools gettext pkgconfig python3native
- export PYTHON_ABI
- 
-+AUTOTOOLS_AUXDIR = "${S}/build-aux"
-+
- # OE-core patches autoreconf to additionally run gnu-configize, which fails with this recipe
- EXTRA_AUTORECONF_append = " --exclude=gnu-configize"
- 
-@@ -97,6 +97,10 @@ WRAPPER_TOOLS = " \
-    ${libdir}/rpm/rpmdeps \
- "
- 
-+do_configure_prepend() {
-+        mkdir -p ${S}/build-aux
-+}
-+
- do_install_append_class-native() {
-         for tool in ${WRAPPER_TOOLS}; do
-                 test -x ${D}$tool && create_wrapper ${D}$tool \
+ ---
+  config/eu.am | 2 --
+  1 file changed, 2 deletions(-)
 -- 
 2.29.0
 
