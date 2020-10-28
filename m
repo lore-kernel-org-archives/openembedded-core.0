@@ -1,108 +1,67 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web09.1460.1603909898512651914
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web08.3854.1603919168770859766
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 11:31:38 -0700
+ Wed, 28 Oct 2020 14:06:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cToed7Ih;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.66, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f66.google.com with SMTP id j24so226446ejc.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 11:31:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PDwCrDKY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f66.google.com with SMTP id k9so957264edo.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=IMFLSfwrGISjz+MFeBRszoSqClUp8ilKq7hAISD86Eg=;
-        b=cToed7IhgK8xNvKS9xu30Tb9X4ZbuAh7dwARyOAVk4z+Uz8OxiyvOgnitMdjWWjUOC
-         vKt7n1uoitK6anz6nNOBe70evTyuIzbOw4tiAsb7W5p2h9jBstsOs3yaqJvIOCiuAEX/
-         BjMBEuqT7nQCxU6qOqpHLe2AArwv9UacXtkzBKfmrq4WOoZTs1XsA6LH/l+OXwhB92GG
-         y49PydDX9I655rcvStLT71ShQGn2Fh64mZDoD1SSw9ndpnjHqRTf44daaGAqJiWELNI+
-         GfiyBl88BVwkYZC9g5igjGad99poDxv+UcN9+HuxLnCj3TigGs09PcSNgWuDACABvKsY
-         Fr6g==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3xxwvAmjODxetpdEKjwFlZO6ajNue1Qj3wEXZI6J0X8=;
+        b=PDwCrDKYSfF6fxl1o9zRNjKFIdTBtPrkP2XtkRLT/K0ASnSl6Zjv5ID3Hst0k3YCq+
+         3mlHFEZ9xvdqfXq6yDoIk2kztIqG9cPSicH2vwBklpEKANjusV07H9jetTZeacNu/7mN
+         pDwesrMrDtJTEDaratv/deFzbAhiRa3RCd4yut5MpVNxi6OPKs0Cv9cifjgUeU2B8zQx
+         MAZQpf10qRa3Rz9wl1sN7Hx9ASfx1vmAbedZDpjx6RC849AitKdI8GW1tZULzbe+Py34
+         VlBcek2BfyT8HxOvqDjneikDtuP4Q29okNXB4LlkbCpZfHvfFGomo28oGQhysqh7mLu5
+         Ib4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=IMFLSfwrGISjz+MFeBRszoSqClUp8ilKq7hAISD86Eg=;
-        b=c3x5DYUc/PclJNTHhwDqJktrRCEm0YwZKoHbFOP6ibLquZyycDUs4xhpUr9npzwdST
-         czAWQu7Ws5x/Z8fK5pdx8Q1wcSReiSI+jEjR8BFz7OBqHeNC2WirUtwYWpjZY2M0Lfgr
-         TTC/vzzRmHkW9T0pcLpXa+78VzHFpf6v6BjIG+s9n0dIpCqr59KW+oqBZGe4M07KmBH0
-         QSFhpK6cFyFwUjN0PpJC+IS70yTgHRnZ+KBx4rS3ACvXa/bHsro7FB/dRQbjErOJ5i6k
-         Tj4BhscYPMXJG6cnkTjPKlrGFfARgvGsaDcNPl5eKtjDXEJeVC8hA1F7TQjXM9A1Gw4t
-         +bzA==
-X-Gm-Message-State: AOAM5329MeX+RqTSfGJD1AfUGCqyQeErZcl8hvIl7+Q2TObTWnVPt6dW
-	DSjlcbK+tkLLNrz7Q+vtt0ruUGZwZvhJjSIZiR+h+Q==
-X-Google-Smtp-Source: ABdhPJzdcF+iDT4GtZDICK7B6Py+nLWjuJEFmAYR35m6aXVVkigL7nhhUeFSd8wsZgOHoxEw4PxcWs54qmUOi7T9Ah4=
-X-Received: by 2002:a17:906:f6d8:: with SMTP id jo24mr396953ejb.173.1603909896813;
- Wed, 28 Oct 2020 11:31:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3xxwvAmjODxetpdEKjwFlZO6ajNue1Qj3wEXZI6J0X8=;
+        b=TbKg0NjJn8zDMr++Lmq3FM3Ql0x0kaFUKl5FX30LLS/5v2JXk42kZhG40vq58zRJT1
+         qRPzFZXpPpIPRDxfRGgnEZHDqDNb6eEcA+sIJI83x0xTYLHpsMryptOc/kZyUrm41bG6
+         DU2zP1WeTuoS9M8Z9UtAYbCOSROpNkae/rX3xhBon6hHmb3ljr9mLzj21dK0W8AxSml3
+         nidiP8fdyc30G6ekYbVeSaZoM+8Hm4XX5EIHnnJxvLycpZbWrrFc3YxCBUJOMsgPv2Ev
+         K1PnT0Ir7Reiq8n6CzVZeltbUEaVYD7FSkMSUrlb99yghL2I2YViDnaXQ2xqyopwtMUK
+         Fdow==
+X-Gm-Message-State: AOAM532TCKGih43zXBUMiF1XModauCh0ek4lbSVAeCsndxOouwWU2S3X
+	nqTlSBY1b+pU38yRAK1pc0Kxi2wbiN0HPQ==
+X-Google-Smtp-Source: ABdhPJyK80PrJ4qeGuolFkn5hlGuJu92wmH6CYMxXSCn0oe4QaF4n9EMWFzEJZfqFU3vC1ZeHH7Ixw==
+X-Received: by 2002:a05:6402:1d2c:: with SMTP id dh12mr821020edb.256.1603919166995;
+        Wed, 28 Oct 2020 14:06:06 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
+        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2020 14:06:06 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/33] systemd-boot: upgrade 246.2 -> 246.6
+Date: Wed, 28 Oct 2020 22:05:26 +0100
+Message-Id: <20201028210558.21070-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-References: <1603906894-22742-1-git-send-email-Saloni.Jain@kpit.com>
-In-Reply-To: <1603906894-22742-1-git-send-email-Saloni.Jain@kpit.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 28 Oct 2020 08:31:25 -1000
-Message-ID: <CAOSpxdb3BRD7Q_7i5kjaO85V0aBSYiwzWo2fe-NWnSHCXWLmmg@mail.gmail.com>
-Subject: Re: [OE-core] [poky][master][PATCH] libxml2: Whitelisted CVE patches
-To: saloni <saloni.jain@kpit.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	nisha.parrakat@kpit.com, anuj.chougule@kpit.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Again in cases like this I'd prefer to update the database rather than
-whitelist.
+As systemd-boot shares SRCREV with the main systemd recipe, the version
+should be kept in sync with it.
 
-Let's chat off list to coordinate this!
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../systemd/{systemd-boot_246.2.bb => systemd-boot_246.6.bb}      | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_246.2.bb => systemd-boot_246.6.bb} (100%)
 
-Steve
+diff --git a/meta/recipes-core/systemd/systemd-boot_246.2.bb b/meta/recipes-core/systemd/systemd-boot_246.6.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_246.2.bb
+rename to meta/recipes-core/systemd/systemd-boot_246.6.bb
+-- 
+2.29.0
 
-On Wed, Oct 28, 2020 at 7:41 AM saloni <saloni.jain@kpit.com> wrote:
->
-> From: Saloni Jain <Saloni.Jain@kpit.com>
->
-> Below CVE patches are whitelisted as changes
-> are already present in source code:
-> 1.CVE-2016-9596 (Duplicate of CVE-2016-3627)
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1408302
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1319829
->
-> 2.CVE-2016-9598 (Duplicate of CVE-2016-4483)
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1408306
-> Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1332820
->
-> Signed-off-by: Saloni.Jain <Saloni.Jain@kpit.com>
-> ---
->  meta/recipes-core/libxml/libxml2_2.9.10.bb | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-c=
-ore/libxml/libxml2_2.9.10.bb
-> index 90890ff..4950beb 100644
-> --- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-> +++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-> @@ -24,6 +24,11 @@ SRC_URI =3D "http://www.xmlsoft.org/sources/libxml2-$=
-{PV}.tar.gz;name=3Dlibtar \
->             file://CVE-2019-20388.patch \
->             file://CVE-2020-24977.patch \
->             "
-> +#Changes are already present in source-code, hence whitelisted.
-> +CVE_CHECK_WHITELIST +=3D "\
-> +    CVE-2016-9596 \
-> +    CVE-2016-9598 \
-> +"
->
->  SRC_URI[libtar.md5sum] =3D "10942a1dc23137a8aa07f0639cbfece5"
->  SRC_URI[libtar.sha256sum] =3D "aafee193ffb8fe0c82d4afef6ef91972cbaf5fee=
-a100edc2f262750611b4be1f"
-> --
-> 2.7.4
->
-> This message contains information that may be privileged or confidential=
- and is the property of the KPIT Technologies Ltd. It is intended only for =
-the person to whom it is addressed. If you are not the intended recipient, =
-you are not authorized to read, print, retain copy, disseminate, distribute=
-, or use this message or any part thereof. If you receive this message in e=
-rror, please notify the sender immediately and delete all copies of this me=
-ssage. KPIT Technologies Ltd. does not accept any liability for virus infec=
-ted mails.
->
->=20
->
