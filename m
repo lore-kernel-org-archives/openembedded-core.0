@@ -1,81 +1,81 @@
-Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.83])
- by mx.groups.io with SMTP id smtpd.web09.264.1603905634288789340
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.87])
+ by mx.groups.io with SMTP id smtpd.web09.634.1603906908593027401
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 10:20:34 -0700
+ Wed, 28 Oct 2020 10:41:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=Pe81oNGv;
- spf=pass (domain: kpit.com, ip: 40.107.138.83, mailfrom: saloni.jain@kpit.com)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=eRtqUABY;
+ spf=pass (domain: kpit.com, ip: 40.107.138.87, mailfrom: saloni.jain@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pi75l5x/8I6NYlU4ZTp3aMoqkBpWvGtAwO1LQry/n7tcSlZ/cpXLEncAjLGDjEh4vw9E/KyMLRTS4Wxxp7xq35b4+Nsf/1I6PPZVXqtAWgHMSRPnQ6jOovPD2uIYRS6vWLukZKzVsEgkXXm1AD72itVRJLwTE8/R0xHmk8scbeAY2xPnzxRczk4c5uQ9gmM4bi4jprSW9n0avDpGa+mHn7Ahr0gOtherTG87Y/bL4NO+YFWYsklou5vMlbkHM0FK4t30ydezNcqvqWB19vBMHaL5S6ZizRWx7R3cbi1qbSToVjkOUd8nyGHNHWvjdH1+Zpycf95xJ6E3sHTORoMCUg==
+ b=kc1NGk1Dhy9LQ5CFXIsm+t4m58MUtWV/X4xQDw/A3t/c8Hs/U/8RIMrFZK1MIVig/8O353uq9zbeCDoUpFakgV81X4sd4kK08jCvnREneOLWaXP7MBU8As8YcbuX/vaHJYDgicKHCm4sWh9fpon6LVLQuppseBv4r3ANExRVfQGtsEY5sB6u9VtEwCQw6rYl0GIMPTCD3OydT1+P6u2vZ2SHQqlYsXBrBpPNLly2FvFRM5b+HvJZRu2/h18uncHH70K3g66ICPyt1iJ44p2DOeJk4Vyt0uor+xjVMgTJQqz+J/SLNRIF4LOpjaRilV298da6sSLQiIDIreAMm4/aow==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3QbsIE5LIEwv9xg6eKqf3ecwhLZ84mwGGTG/guEmCjg=;
- b=Q5VKoUD/DIQsgnAMEM2Tsbm3UgRpF2adW/HbYOrCJwZVyftUtvgAOsdYHtF+GxZEYvR7oM+hMae5sEULogwHofyHmU4DSxvbICy+LMZSRXCZf7HTtJc8be5IcjNrZyjzIADYsn6Phl79wSmKPyjQOPFahZiCWah3H8uwuLuXHPV4rQMEuHm7NS1SexNFB4DZS/l/ni8BCLwBiH3aylcJA5shejbQiLwcNeHWTTcvT7g4LLJbki8rcBUbKzqGnI//SatQ2lp0/vIKi74os74pstMtmpmhmVkMojEPWQvDIafr7LUIQqzDTAKBXAVI7iuHT3r787G8v40XQ/t7luNBgA==
+ bh=aq0DSRev90bQcalyerLekGOcpMuRYjxZ2t00zIwae9Q=;
+ b=jQ4kWMJE5JINF5ldPOixsE+azBK/ryeEcpr2zRdeumIIzN1QkScDDYuzgTRaiLfl0LCDRIZ9tESJqPSpXoNTSKlMORwyHndwWMcn2L44ABmN/lqqKqnRqDTxvBecv7ARKdibGvM4TY/fDHsHwY+iMXyFHJRxiYkgrk7Cre3nOEVsF6whHAM4P6WqOU9l3jARE3YvIOfaS8+/BOZkDBBvqWC/pmY0r2N6QF7i2CRXWdjp70sX5cFVmtd8bzw+o1+mVRyRIYvcWB444PGmzetaCu8+kKOFLaUHh1wOU3B2YzjLAyp4NCByqjZD1nAcBn+pxp62TAbwG5H5iXT497YMAA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
  dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3QbsIE5LIEwv9xg6eKqf3ecwhLZ84mwGGTG/guEmCjg=;
- b=Pe81oNGvV1SrwgUdsnsC0g1y7eVWJPDfxzgpi+c1FkeYsV2+3xGW4Y2s9HUIG7dS0u5teSXUHna8MotcirYRxtfI03D5QNv4RL800yGLuzOgYjI9KGqd7PJmY5HEQ8LuAtgUsEFuvwRJZiJ48WFwQXvCTgsmixhEpADO78BBIk4=
+ bh=aq0DSRev90bQcalyerLekGOcpMuRYjxZ2t00zIwae9Q=;
+ b=eRtqUABYJpMYAYECatPtLJ3P2e3kKtXNkFb49e3ag/XqIhdVe1y6UbRFnQ47f7OqFl6ffdBQjKFJXU9p5snB4BFrJ5l6N8UdejKxM//LyVOQph/FKK8t9UVs/sKWenzDknNY99XnVOX9Tv7mOUJGreyGLgmjDv0ny9cpqErw1Ho=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=kpit.com;
 Received: from BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:74::20)
- by BMXPR01MB3797.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:5f::12) with
+ by BM1PR01MB2434.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:41::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Wed, 28 Oct
- 2020 17:20:30 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 28 Oct
+ 2020 17:41:43 +0000
 Received: from BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::200c:7e58:5a42:f5f3]) by BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::200c:7e58:5a42:f5f3%7]) with mapi id 15.20.3477.028; Wed, 28 Oct 2020
- 17:20:30 +0000
+ 17:41:43 +0000
 From: "saloni" <saloni.jain@kpit.com>
 To: openembedded-core@lists.openembedded.org,
 	raj.khem@gmail.com
 Cc: nisha.parrakat@kpit.com,
 	anuj.chougule@kpit.com,
 	Saloni Jain <Saloni.Jain@kpit.com>
-Subject: [poky][dunfell][PATCH] gnutls: Whitelisted CVE patches
-Date: Wed, 28 Oct 2020 22:50:21 +0530
-Message-Id: <1603905621-21388-1-git-send-email-Saloni.Jain@kpit.com>
+Subject: [poky][master][PATCH] libxml2: Whitelisted CVE patches
+Date: Wed, 28 Oct 2020 23:11:34 +0530
+Message-Id: <1603906894-22742-1-git-send-email-Saloni.Jain@kpit.com>
 X-Mailer: git-send-email 2.7.4
 X-Originating-IP: [2409:4043:215:ea7d:104f:98c0:299:6b11]
-X-ClientProxiedBy: BMXPR01CA0054.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:2c::18) To BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BM1PR01CA0149.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:68::19) To BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:b00:74::20)
 Return-Path: Saloni.Jain@kpit.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2409:4043:215:ea7d:104f:98c0:299:6b11) by BMXPR01CA0054.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:2c::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3499.18 via Frontend Transport; Wed, 28 Oct 2020 17:20:30 +0000
+Received: from localhost.localdomain (2409:4043:215:ea7d:104f:98c0:299:6b11) by BM1PR01CA0149.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:68::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3499.19 via Frontend Transport; Wed, 28 Oct 2020 17:41:43 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 5ebf613c-3580-45fc-1c8a-08d87b65c54e
-X-MS-TrafficTypeDiagnostic: BMXPR01MB3797:
+X-MS-Office365-Filtering-Correlation-Id: 9a1d19cb-da66-4795-4210-08d87b68bc17
+X-MS-TrafficTypeDiagnostic: BM1PR01MB2434:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<BMXPR01MB37972F4F6964AC765B85270F87170@BMXPR01MB3797.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:309;
+	<BM1PR01MB24347508CAE9C1FB9649D50D87170@BM1PR01MB2434.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:826;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	guFDrUhafTFrP80emg1CISVjEifLIPffMtk2BtIjOWrn7kJ2TFupXkfrIqPlLyL2YZRUybOQkOwY26OnMwRKneJnX22SYGB7vlpoMo6Aw+GzkMsB1vYLMj9Ir1xpz+BhfCDYbzoUGkMNyaOWl43JCTgc7u1hI+L6Sjl8WNjfx5ikbOA4EryZYzSyYpNncYcJcDkNFMMGMAPrWqSNt72kT4KYGcyzXn2WvGRoL+D3ArXfwikWgSTG+S99wS3vU8nyoX/S5E99EWVb3S7rVv0QtqaUNXzibW/EZ+O4RR6i0zOmJuM0BUrI3DXNrjnbjcQbtcm/KROrTYMSHvORbb9xBW4Oh0NVot/sLySAuNrY7My7UJ+Drv0Q2RS4DC7N8bGQVD667qNpLvnBaiVV6Scko1eA/r1cOFzlmLyzlJhYoDr0/kc+ZmqQ0jTIrUH7ShxVTzKfYtDnhQqZ4lLE2tqW6g==
+	bXf3PfsEUEIhvv8Kcfb+mmgYpwfMCl8hoM4w/GEyEefYvRDnGIBUynRFnRGAL5/k3iv4j+BQpI4Hn25wAR3ln1SRRKffdjb8DERo3yIf7/24zjVojt4Kz442/AtnhuM5Hv0VdHe2J+6MwArAHk0/2IGmCjzIO2Zyk0jb+w9gfJZ6gq1r5O8d0NrIZ3Cy/FxPDwoShi3zE36Csvd6/Ae/LzJvXcXb2wkDiCJie+pSZCH8UHfRsmn4SoSBiLexlXfwmz7uzRnVbr4EZHvMl1/PTtIIeLka3kpdHPtMAeehGdW/Ufo3HDfCLR//6KCSMPg+JMJJL2ybpapRjWZ2N5LaEyKczx0ERrPv0cIynuwJMYcR7wKjGtJ7hcg4q9nX7cg1JAdyoochHBSbTQtaUiGRlCoIhD2JhDCvppwgG+vcfv13QhzNO3dJPYA20NJjZuCSkQns7LTcwJwZdTLM2qyEVQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(376002)(396003)(39850400004)(136003)(107886003)(66556008)(66476007)(4326008)(5660300002)(36756003)(86362001)(8676002)(66574015)(69590400008)(83380400001)(316002)(6506007)(6666004)(2616005)(966005)(16526019)(186003)(6486002)(52116002)(8936002)(2906002)(66946007)(478600001)(6512007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(39850400004)(136003)(376002)(346002)(6506007)(66574015)(66946007)(83380400001)(16526019)(4326008)(8676002)(6666004)(186003)(52116002)(8936002)(86362001)(107886003)(2616005)(2906002)(316002)(36756003)(69590400008)(5660300002)(966005)(6512007)(66476007)(66556008)(6486002)(478600001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	AfEhaphkOMfOLXsUH9AtKqIrfcx9EPuy3MkQkabxZjcCkF6DH3iv2y8/8kLbG89ITiv4vEFAUJg98A9+FqWtUF897pqsdP4kzQkTIuNpbxefArjcd6Ud0s+QyH03dD3DjUqWroRdtHOTy1JbWMlPfY1xi9SpgatbUJvz8vvs5LHEMOb3YFk7LaOZm5GC/TNqX/PfGmd4KGdHix5JPK1x6JUXoELmaIr0eCi3BcTcs9FqMAvhn2LrLOQAFc5u0nY7HFMji67rHf5EdJCwl36rcsszjFqyEJM9v9zYj+pMx2fjX/O+QvCKWBQVv5B/Xkrla3psbqegoLJuFWB5z9/t5/M5NwaTYlPKNB2hQBHOQiNbg7Bn/LaACZJsYhRa3Ic3vpDXdV+0N55O7hTlNhnDOvMBYuv+Y0YvItYWmfkKefRjExZsQYL1iv6sVkuMxs7KVhB43pv6UGx/cmBd9OGtpdkR0vGIqPH23IfjPGfS8KC3WIdvz3CedbVjud7P/0DIphNsbRcJSpkRF/dPlSCXmL2/OvR0Yod2RHsEnYyPim+l2rJUsa2o7ln0Pq8PMN6ffrhVtPpzty+mSP6gut4QzLxG7GYiko0sRN8GjurWyRaTLinifqHHCpnBMPr/CPBFrRahBKbhwSft1UPjE/dHawCNrZuF1+pwc6kP8VZa8z1W788exdd6I7D4LrLBaYkdQC1siTn4i+0MXXFXq3Ypbg==
+	D75dwRgmFUnXt9STLoNZXsD4KLWHDX4VytDfvR296Eb9LwTZVh8x1Ixo+6ro1w5n+5iWjKPtTxCzriHyN2QPlKutesvx3E97d1BecVdP4uEvZYwWGRnwp0LreyKSq+6y6a0w0cTshlEA/wpEbqmnFlB6ByTmo1GKnNKaMWN2LYMipWUPoS9iOB6bp6thJoEyoR/kZRaNO3DMtrFX5GTVPE6+Lw188Mj/peuF6F08xK2+dMHwahXgY5lpPJCzjpZvOKmXI7cKVrlm6gVDkNN94jCBt4D6kbSnlyPSU6H4v3upGI0MybuyaNe2y2geZihgl0Ct7M3/rJAqC1EMkz19kUgyAgjwLTQixiK9gIcuf5VfM3LiKJHVErUJ2xHvjBTc4Ni3cju3JfUsd/NZ3sy4VSfouwHyVJViFiJY4ZwSYrUM/QlSdFTKvLyetPQQtDfvGs27JXS9ZfnHL5V8N9XOHfzX7r9TDuqgzcReE+5BjCwtCWQPJZaPppub9wu2OcPZBg7hdPWv2/63QIe10q8wwDn7yVHSPLAWjdadKehSq7zewQrkG7whXim+cIg/y2KJUDHXcvHPAv0fYIvUBiLqcRlvF+/8ivUT2FJSTw2jaIIdWqoU+Q5ydjK3MwbBMPzX7+RfAMngssASGHf0xJe2Pa6MU9jhpC9Kti5/T2XG8DYa7bSJwwa2sPW0f9LkMmz4yaDrL2kA9L2Qp6s18vEBZQ==
 X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ebf613c-3580-45fc-1c8a-08d87b65c54e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a1d19cb-da66-4795-4210-08d87b68bc17
 X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 17:20:30.7817
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 17:41:43.7530
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mHlXG8LW3YJeoSzLzieysF8NkE6ZqAE+Mzl5PL0SMM+gBMUlBM284eveGw4xuRmAbpmjV77ZhuQt6lLpc1142g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BMXPR01MB3797
+X-MS-Exchange-CrossTenant-UserPrincipalName: z80V+phxzT5FXAb6kyfHYlSjdgoU5p0RiV1VN1lkFlB49sMjtjO9kjJrvDLt2c79WELv3li0GuSU9KjGPugabQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB2434
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
@@ -83,47 +83,38 @@ From: Saloni Jain <Saloni.Jain@kpit.com>
 
 Below CVE patches are whitelisted as changes
 are already present in source code:
-1. CVE-2018-10844
-Link: https://security-tracker.debian.org/tracker/CVE-2018-10844
-Link: https://gitlab.com/gnutls/gnutls/commit/c32a8690f9f9b05994078fe9d2e7a=
-41b18da5b09
-2. CVE-2018-10845
-Link: https://security-tracker.debian.org/tracker/CVE-2018-10845
-Link: https://gitlab.com/gnutls/gnutls/commit/cc14ec5ece856cb083d64e6a5a865=
-7323da661cb
-3. CVE-2018-10846
-Link: https://security-tracker.debian.org/tracker/CVE-2018-10846
-Link: https://gitlab.com/gnutls/gnutls/commit/ce671a6db9e47006cff152d485091=
-141b1569f39
-4. CVE-2018-16868
-Link: https://gitlab.com/gnutls/gnutls/-/merge_requests/832
-Link: https://gitlab.com/gnutls/gnutls/-/commit/4804febddc2ed958e5ae774de2a=
-8f85edeeff538
+1.CVE-2016-9596 (Duplicate of CVE-2016-3627)
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1408302
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1319829
+
+2.CVE-2016-9598 (Duplicate of CVE-2016-4483)
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1408306
+Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1332820
 
 Signed-off-by: Saloni.Jain <Saloni.Jain@kpit.com>
 ---
- meta/recipes-support/gnutls/gnutls_3.6.14.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/libxml/libxml2_2.9.10.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.14.bb b/meta/recipes-su=
-pport/gnutls/gnutls_3.6.14.bb
-index 51578b4..727a12f 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-@@ -17,6 +17,9 @@ DEPENDS_append_libc-musl =3D " argp-standalone"
-
- SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.'=
-)[1]}"
-
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core=
+/libxml/libxml2_2.9.10.bb
+index 90890ff..4950beb 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -24,6 +24,11 @@ SRC_URI =3D "http://www.xmlsoft.org/sources/libxml2-${PV=
+}.tar.gz;name=3Dlibtar \
+            file://CVE-2019-20388.patch \
+            file://CVE-2020-24977.patch \
+            "
 +#Changes are already present in source-code, hence whitelisted.
-+CVE_CHECK_WHITELIST +=3D "CVE-2018-16868 CVE-2018-10844 CVE-2018-10845 CVE=
--2018-10845"
-+
- SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-$=
-{PV}.tar.xz \
-            file://arm_eabi.patch \
-            file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-=
-f.patch \
++CVE_CHECK_WHITELIST +=3D "\
++    CVE-2016-9596 \
++    CVE-2016-9598 \
++"
+
+ SRC_URI[libtar.md5sum] =3D "10942a1dc23137a8aa07f0639cbfece5"
+ SRC_URI[libtar.sha256sum] =3D "aafee193ffb8fe0c82d4afef6ef91972cbaf5feea10=
+0edc2f262750611b4be1f"
 --
 2.7.4
 
