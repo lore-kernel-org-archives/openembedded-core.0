@@ -1,74 +1,95 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.3853.1603858151116069859
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web12.3830.1603858249900592068
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 21:09:11 -0700
+ Tue, 27 Oct 2020 21:10:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Sr04niIb;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id h6so2014790pgk.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 21:09:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mg/iMroT;
+ spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id 188so3427178qkk.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 21:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dH99n9kgK/t8cwzMBSww5ZeSXYbTrp6HzcsU+I8R7gc=;
-        b=Sr04niIby2Lya/pBJ9JQ8LdA3SDYlcQQZ4PNsHPT4lp74M3FRUEJJINkh7y/x1CJ5J
-         bfjcVb7lRueG10nfNnde2og93VFYT4WruTwx0hxeE/HJ8Uh0vSerUK8T1Kb7gNjO9a+7
-         sjavZJD1UmJ1UvAupa9wv714P8w8k0tjiw0WxH74UZtIwdG/0xDG6LAlEfquWi0K9gbN
-         kgme+pGailS5+8YTUYn4uUJcsA4b11/LmmvhINgAYcIRYOUvl+GmHTVSaM5eKNUAUU/i
-         nIECINPONOn54zrVgvqsQfNDoWu8ndDzIAvBIptcXKm5+T0wtjHEj3meD4v8455IWZ6E
-         Gi8w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=NKCb7/uu8l0AhGKmAUrheRGIzxxKIFsQ+kdHBnXlWtc=;
+        b=mg/iMroTOQb7T3BVauwTOkk+dEm5OtdNhKaiBa74VnFeiERz796WFOKJN7e7XzsbTv
+         RXeKffvS8oE5jR0N0M30cUDNgcowuaQp+kIiA0OBI5F0RpfDXyL96O7utXtaUKCxT8N7
+         Etk7gINDTVNykTW8WugqrJmjlKN3VTY+p60sPa4qCrXnvjGG9lFc+C0c62kCouZ8ZNWk
+         2Rn8qhjz6Mo2RAO4r+/lIS+JrhwumqKsXpQPWyEydpMbynnYtEUo6OlrSgsXGEXsw///
+         6VwZ9833PtYnGfeNQKUFS5d+gL6MsFG8HGbLH7wnD7O7CGYj3G8IfzO68ZVUZI0BSGD1
+         kPDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dH99n9kgK/t8cwzMBSww5ZeSXYbTrp6HzcsU+I8R7gc=;
-        b=W2HmucfrXuvbF6GMSQnLlKWFbWUqftiTo1fpMTSdTo7sO/kmfSZ2e2Lq3z6YTvXJJS
-         pWdwbp+ZqUDdNQLvpiuvx+BuVK+z92tSwXCgVZ9y7VmpBER5+O6H3Lhz8jknI814/V18
-         iSSDTbXineQCsGRxg2gueJ9Rp6UeCbOAlhAGcE83JMsnEk+yuOLH6+HM93N2Ru9w4mOq
-         LaWU3MaGpwGELVMGemLIKN9gX46v6JzwwgRXiD/ckKBDLCvp17HYdTKe0qJrCU/kS9n1
-         TR3+ki79G0BATj3tpWaX2fCtjidUSLGqElFZABsmYHn6LrdSwAgMI8/EjMYE6sjJI0SX
-         9I3Q==
-X-Gm-Message-State: AOAM532wF/30X4iaEVkT5CXUsaETbrUXmjg8cAvkBQhg+dGiaPDV5ssN
-	yU4KNV9HNSfqQcQvQH6O3i1380CQs0EAPw==
-X-Google-Smtp-Source: ABdhPJwL1iOjrRqraTEs5KRWDNWCKwXwCiQ+N+tgjhe1cTBXeDQmXP9vknArtMOOPISwozS75Uy58Q==
-X-Received: by 2002:a62:75c4:0:b029:163:e95e:f52e with SMTP id q187-20020a6275c40000b0290163e95ef52emr5584034pfc.52.1603858150403;
-        Tue, 27 Oct 2020 21:09:10 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::bc1e])
-        by smtp.gmail.com with ESMTPSA id c1sm4133410pfo.207.2020.10.27.21.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 21:09:09 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] qemuboot.bbclass: Fix a typo
-Date: Tue, 27 Oct 2020 21:09:04 -0700
-Message-Id: <20201028040904.3446105-4-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201028040904.3446105-1-raj.khem@gmail.com>
-References: <20201028040904.3446105-1-raj.khem@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=NKCb7/uu8l0AhGKmAUrheRGIzxxKIFsQ+kdHBnXlWtc=;
+        b=OKVsLekxtm9/N9mybj2euCDjOMpsBkTByXhrCYiFKEC0kiXZj7b9E/zUEQebZOL+/K
+         U0OBjSWKoVe/pP64wxLcPEjeCY8UPO3wwnfI8bnWsQfhiH69fUbrLAvRelmW/F7EzvjC
+         DG0ew2Mq+7E6vXBgks91hyhsCO7S5oP+dR5cN0vPRSPIXDZD9ZPT9g09L5hkF9DKTaJ2
+         n0AGdUhs3AqCkTLXLHCQj60nr9ZFUkd5zJ43HdPRzYcpLdEKXQxQ2dH79kNBEWzqCrRu
+         YcTantALrXgei9RU38rz7kUnIv8yFBkAweWVhD0Wuyrudlv/3fh1eZCfA3pZ04A8D7ut
+         vN9A==
+X-Gm-Message-State: AOAM531D+LVqzZ6SDw0vXhfmAhPBbYAuwU0NbaCxCMvNWGhOCpmHbKs2
+	GJVNtmVLOCZuG0j9I0oipEN9EX8ZRxOqVKrd8KL1kyaQ9tw=
+X-Google-Smtp-Source: ABdhPJztgjjw5PDYZGEGXjKI38ljT8KIGGC+shs66I5uA1yt3MmRSXrDaeGNT4JiKeuqSHCsmE1aU8TzzuS0IvYpSeQ=
+X-Received: by 2002:a05:620a:1187:: with SMTP id b7mr5649470qkk.212.1603858248636;
+ Tue, 27 Oct 2020 21:10:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201028040904.3446105-1-raj.khem@gmail.com> <20201028040904.3446105-2-raj.khem@gmail.com>
+In-Reply-To: <20201028040904.3446105-2-raj.khem@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 27 Oct 2020 21:10:22 -0700
+Message-ID: <CAMKF1spw4-U+snX_OeBvtk_ZvFDY4Z+HHKJteAM7iBSm6OToww@mail.gmail.com>
+Subject: Re: [PATCH] musl: Update to latest master
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/qemuboot.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ignore this one. an exact patch is already sent earlier today
 
-diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-index 824676216e..4b7532b304 100644
---- a/meta/classes/qemuboot.bbclass
-+++ b/meta/classes/qemuboot.bbclass
-@@ -43,7 +43,7 @@
- #                          QB_NETWORK_DEVICE_prepend might be used, since Qemu enumerates the eth*
- #                          devices in reverse order to -device arguments.
- #
--# QB_TAP_OPT: netowrk option for 'tap' mode, e.g.,
-+# QB_TAP_OPT: network option for 'tap' mode, e.g.,
- #             "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
- #              Note, runqemu will replace "@TAP@" with the one which is used, such as tap0, tap1 ...
- #
--- 
-2.28.0
-
+On Tue, Oct 27, 2020 at 9:09 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Changes in this revision bump are
+> * 0b87551b (upstream/master) lift sigaction abort locking to fix posix_spawn child deadlock
+> * 99d5098a update crypt_blowfish to support $2b$ prefix
+> * 957c2763 remove unused weak definition of __tl_sync in membarrier.c
+> * 55767360 move aio implementation details to a proper internal header
+> * 37337660 remove long-unused struct __timer from pthread_impl.h
+> * 85e16aec drop use of pthread_once in timer_create
+> * 6ae2568b remove unused SIGTIMER handler in timer_create
+> * 47baa030 remove incorrect fflush from assert failure handler
+> * da845d52 fix getgrouplist when nscd reports an empty list
+> * b7bc9665 fix posix_spawn interaction with fork and abort by taking lock
+> * 25ea9f71 fix unintended observability of SIGABRT disposition reset via sigaction
+> * bd153422 implement _Fork and refactor fork using it
+> * e1e98d86 rename fork source file
+> * 50716702 ldso: use pthread_t rather than kernel tid to track ctor visitor
+> * 1efc8eb2 fix stale lock when allocation of ctor queue fails during dlopen
+> * 69a1b390 drop use of pthread_once in mutexattr kernel support tests
+> * b115bee4 fix missing synchronization of fork with abort
+> * 3cd3de61 move __abort_lock to its own file and drop pointless weak_alias trick
+> * 34904d83 fix fork of processes with active async io contexts
+>
+> Details are here [1]
+>
+> [1] https://git.musl-libc.org/cgit/musl/log/?qt=range&q=a5aff1972c9e3981566414b09a28e331ccd2be5d..0b87551bdfb74ac411caa335d8ad0b89a7f139c6
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+> index 9c0818cfa5..897e56e10f 100644
+> --- a/meta/recipes-core/musl/musl_git.bb
+> +++ b/meta/recipes-core/musl/musl_git.bb
+> @@ -4,7 +4,7 @@
+>  require musl.inc
+>  inherit linuxloader
+>
+> -SRCREV = "a5aff1972c9e3981566414b09a28e331ccd2be5d"
+> +SRCREV = "0b87551bdfb74ac411caa335d8ad0b89a7f139c6"
+>
+>  BASEVER = "1.2.1"
+>
+> --
+> 2.29.1
+>
