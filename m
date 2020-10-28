@@ -1,105 +1,81 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.43])
- by mx.groups.io with SMTP id smtpd.web09.5873.1603874697618879069
+Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
+ by mx.groups.io with SMTP id smtpd.web08.6234.1603878247538238047
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 01:44:57 -0700
+ Wed, 28 Oct 2020 02:44:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=UkdW/tqj;
- spf=pass (domain: windriver.com, ip: 40.107.243.43, mailfrom: changqing.li@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LUVRR6rQvUL3IGuEQIQ9h6YL1Jc2Bc6tUyIU0/LwgQBXrhuS8hQOOTnbVb1GkqrSMg57z1xVaora9f9cyYpUI44vXwnW3CPMRYTylC7gAdNHFwaTc3Mxfqehh7klNlJT6uZYaCnYACSSNZ7tkrTL4rZP1hE9Kj5JMrrpd9zG/wVGxaZKBWWPqFWqM7/1Pj6qBKIL15lr0zn1EH9U5AEnqQASI1Bh+TWgrnmutoPzix4sSqg1/aY8OCoSXr2u77HQ4MaQ8++JGcFREyJ5+Tqsbvrnb7L1TNpmtPoJ2XhV9HGVPPbf+PdTpxIRNB51FvP9YLxfU+vR87YvgO1vPUioMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YdiMRb8PpRrQalbRjrX/6P0FJiu2c1BKZERD4hS+MHA=;
- b=eZRk8g44OyuxOKR+UQSUA8Wi8+gPGup6h284scNzBA4LNpvzYt21XfmkQXSDZwLjxIXVEmzGVdh9bi/wqJ5a5S4C3Ia1qK6a2aWlb4GD07dp+vFtkeAIMomTb7E9kdQltUovjjGiX7X+ZLcH3HCIt+2SbSTJO02Szmn0Ymr6ZZOU7uOtPupLxbB2dmf1gktMYZK2Y9858vFGMBIYMzo96BRYj8t8s2u/BXbBvR+CfEPjgkwZ91+09v0LcAfs2yuWxx8mLThPSOrCqxX3WmkoMIp1wGef6oAIAyG0DVV+CQ8dAuTk2/HTxecQcAgU9L4XcyiWcpb18KrajEkm+w/Uug==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YdiMRb8PpRrQalbRjrX/6P0FJiu2c1BKZERD4hS+MHA=;
- b=UkdW/tqjrYkCYxGdFl8pT1vB/H2Tdi8lJBMs3yNhfyJx7uhihz+7PDlzcYPHowZ+gkQr3gSHGfotDZOevWgsQF5m0exjNIOpXwGYOSmUXvAbOISEToLkR0AwsFBiCVA1N1WZMkH4P2yxVbKeta9coODAfsKIQr+35wrhvrGfgCE=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
- by SN6PR11MB3213.namprd11.prod.outlook.com (2603:10b6:805:be::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 28 Oct
- 2020 08:44:56 +0000
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::7dc6:b76a:9576:a252]) by SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::7dc6:b76a:9576:a252%6]) with mapi id 15.20.3499.019; Wed, 28 Oct 2020
- 08:44:56 +0000
-From: "Changqing Li" <changqing.li@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] timezone: upgrade to 2020d
-Date: Wed, 28 Oct 2020 16:42:48 +0800
-Message-Id: <20201028084248.24199-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HKAPR03CA0021.apcprd03.prod.outlook.com
- (2603:1096:203:c9::8) To SN6PR11MB2557.namprd11.prod.outlook.com
- (2603:10b6:805:56::33)
-Return-Path: changqing.li@windriver.com
+ dkim=fail reason="signature has expired" header.i=@skidata.com header.s=selector1 header.b=cjYyCDt7;
+ spf=pass (domain: skidata.com, ip: 91.230.2.91, mailfrom: prvs=563aae168=richard.leitner@skidata.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+  t=1603878247; x=1635414247;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hH6XvOvni5KaFHeqpAo3mNGMnZyR+ZlIl/TM9ehRZUA=;
+  b=cjYyCDt7xOAFPJEh9gBslczzEN7B0yMBAGzsTaxXkgtVAHYauIlbwImW
+   28wm9LibHZb/2fBS7BoLuTIgkfzmkdWYXbG+2pjVKi7+fmvaDBD9+uTT2
+   YfPMXYhg2oWX/DUqhCEtC0ih9v5qOblumoTfD0fHMYEi9pOxlZ8ctdrkp
+   NTyyoZN3vW1AFR6hqP3cjhduOue4oITfufpJTmRQBA8wkyGKKN5uS3xam
+   XrawlqAA1TyxqhtaCAQhp7k/yOAntgAEozlkSMQHHsm91J0y2gAlMYFJ7
+   Ja4SufSL42AjCddiR/keMxcWc+GyCvDFTVkwQDVE9DlDqw61H5zwZ2od0
+   Q==;
+IronPort-SDR: 1zIdiru+rRq7afCarZsKuFwwZRx0+768in10oq3DbeQXDsYbaIqj/O4/reVD8hiIVT9Drn8CLo
+ r2RSAYl0RD4CQR95Eg4FSGJdkCDuxtuQ6Xn3Ni+mvonjg+SzdWkP6fnzIV35HCVJqe2OiZ21dw
+ /uB2lOaWFplIMexJlo2ugoAImj8NdaC3Ay1ZaQjo+Ieu5MvxeGIqrB7/v8ZWmG2VKdt8dYBwQl
+ 358Bn4O8PoAAWx7fcwk0iu5ThjtWnTlXqIeUjsVzSQCrAoQdkg0JYjqR93mKp5osVDYT1y8EQM
+ wo0=
+X-IronPort-AV: E=Sophos;i="5.77,426,1596492000"; 
+   d="scan'208";a="2691194"
+From: "Richard Leitner" <richard.leitner@skidata.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Richard Leitner <richard.leitner@skidata.com>
+Subject: [PATCH] xcb-proto: update to 1.14.1
+Date: Wed, 28 Oct 2020 10:43:21 +0100
+Message-ID: <20201028094321.556239-1-richard.leitner@skidata.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by HKAPR03CA0021.apcprd03.prod.outlook.com (2603:1096:203:c9::8) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.4 via Frontend Transport; Wed, 28 Oct 2020 08:44:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 78fe4a34-d78a-4aa9-0927-08d87b1dbec3
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3213:
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB3213324B7078AA57377EC2E882170@SN6PR11MB3213.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:296;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+W6gB/KunFnXSNsuMb7J3I8rKVg5eUr1P+ePm5hfFCmngHxmrF93ypNPilhHYF7ev6ohcjLJHVm7Q+0mnrjiOuCAoon9vgdHD2JkgXe03v3SGvhJ16LOuzU24edRSoPyPeYmfhbTcOaAbYuZwsvpm+HwkwFSDZO1w9hinQRki7wAwf5pXTlRBGoDotWLFzFR3eaTTmWi+cS1mPf7KVUxo/eN3GJYpM7YXAjbcDlJQvHIM8N7ljcEYt7ikiq4/Zpvd/yxkz7PDi3vAqvBHuOoIdtCizsyWZSXt0gjFQLcLapYe2rvsw2wGEIQixZUarNx43ckr+oVu07BKF+xMWRx9a9YgS/ZXGRSzC/h1ZIwO/BZpargbIqfh9NAajJH6lhut9VHKFJnVJVncpGMq3/Rpg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(39850400004)(346002)(136003)(366004)(8676002)(966005)(8936002)(44832011)(478600001)(6666004)(36756003)(186003)(5660300002)(66946007)(2616005)(16526019)(66476007)(66556008)(956004)(86362001)(6506007)(6916009)(1076003)(6486002)(26005)(52116002)(2906002)(83380400001)(316002)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	iLKjVJJium24EkIZ5KCk3IrpN1YkyZyqLxKGmSbpSobYSIdEHNU3vMBCQ7WXieM7mcF5svHZfAa/jKc9Z29PSFA1MJLUOMZJq3m+Fezk3tW7AuEkU32XV93GzSFwqsWgyWHpTRawX+zDC3QXpcPUsQ+T/0/JcV0ANFI0mmuBQx3S87Hb/P7QySFajT453SR4euSyt1/IJYnHJncBcqfeYh0bmgtfa2o1/AvQ0AHWU6f90TXta+yMyK8zeqTAvXGEK1acBrMnGosMktfzWct1XnPwcfEPGYlMXodJ6e2rFbIuGWo1403hojQEq2VqAEGc0gZuXeQ11+MQgAKKpEc7FI5xw+6yjoi52bSyNnFRnczB2S4/mEiBkVjPoM/+Gp4VaBTqz3df3t5pygT6lXYDVDxKHNQQ+qqUgdOlZ526b6XdjdQ8vD7KTzhloDKdUxdao/cHHSPd6y8fu0qNFGRiA7FDyenza56OBKf1EcNKr4d+vL8w/0ROhAdkRdh+cwmQaUFs2WIkXhaL8807qjvujzDxp7Y9bzrzVUJVYY3T2i70DEn2s6oNJlbOiVEMcJKz1PdK6EPKZNPUu+S8d+3KVA6vlWZf8EKUujTN6B9S2DumdZ3AgFxxvstezLE622FuQNkd1unLA2zrueunAOyd1w==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78fe4a34-d78a-4aa9-0927-08d87b1dbec3
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2020 08:44:56.1903
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mjRO8QLTdf5DTPrftlaIFdmrzRz7Ep25hZaXJS9/49QgePSUVi/2F6ctb0O/9eMqKBrsefmr6/ENUpUnktS7/p+8FJxbPJuusgMjQguk37c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3213
+Return-Path: richard.leitner@skidata.com
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex4srv.skidata.net (192.168.111.82) To
+ sdex4srv.skidata.net (192.168.111.82)
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This fixes [1] the following build error for nativesdk on Fedora 33
+which is caused by the removal of fractions.gcd() in favor of math.gcd()
+in python 3.9 [2]:
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 8eb17c5eaf..5368464f30 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python3.9/fractions.py)
+
+Furthermore the SRC_URI is adapted as the old one doesn't provide the
+1.14.1 archive.
+
+[1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512
+[2] https://bugs.python.org/issue39350
+
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+---
+ .../xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb}     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.14.bb => xcb-proto_1.14.1.bb} (84%)
+
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+similarity index 84%
+rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
+rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+index 6de30098d6..52e474a2e9 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb
+@@ -11,8 +11,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
  
--PV = "2020b"
-+PV = "2020d"
+-SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "186a3ceb26f9b4a015f5a44dcc814c93033a5fc39684f36f1ecc79834416a605"
++SRC_URI = "https://xorg.freedesktop.org/archive/individual/proto/${BP}.tar.xz"
++SRC_URI[sha256sum] = "f04add9a972ac334ea11d9d7eb4fc7f8883835da3e4859c9afa971efdf57fcc3"
  
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
-@@ -14,5 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ inherit autotools pkgconfig python3native
  
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "47eff8944de4a64f7629b851e4a32338ab12c9b73edd62063795167ff1fe43da"
--SRC_URI[tzdata.sha256sum] = "9b053f951d245ce89d850b96ee4711d82d833559b1fc96ba19f90bc4d745e809"
-+SRC_URI[tzcode.sha256sum] = "6cf050ba28e8053029d3f32d71341d11a794c6b5dd51a77fc769d6dae364fad5"
-+SRC_URI[tzdata.sha256sum] = "8d813957de363387696f05af8a8889afa282ab5016a764c701a20758d39cbaf3"
 -- 
-2.17.1
+2.28.0
 
