@@ -1,77 +1,96 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web08.3864.1603919189614754472
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web08.3866.1603919190761889239
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 14:06:29 -0700
+ Wed, 28 Oct 2020 14:06:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=m+nHyTtC;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id t11so888932edj.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q/FNnF2y;
+ spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f43.google.com with SMTP id v4so1000056edi.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+//hB2UR0hZxjZiQt9y3KUo38W7PmSmEku4lCh6R3M4=;
-        b=m+nHyTtCVHZnvHA1MxrRqJZ+7R5vDQUFOrvTB1JJ2LPbfWWB107sqmF+VrsIUYRsUI
-         zIX6cnE2SbTwmNjSSrEQubJLhtoUFS8cRfxnyMZV7whVtpFplxa3NpvW65RwUNhp0F9k
-         uIw2gNyja9WN5J2Nz7NlevfKURN/vu+7/VU9DBECYEVP0s24fm1VDuwux4yuAy560fDe
-         J+tlsfWnChpBH2UIrXzoBkrK55Ek+ebP1DwJcEq10S0tGsSBApopiSzvrlU2iohdTyGl
-         Z5Ht8yjnAakMYWTu5hjdSb1OkcdWw9SH9TwtwuARieNZT/qg0ItplbZRwuHysccZwFYg
-         K9gA==
+        bh=j5YFMVbR5Pc3OxHNnzstuCug2vCFIu3RoCF3rLPUf5s=;
+        b=Q/FNnF2yUEr2YEKNllFgGUwHbAcPyrFRQL8e5dT0zvd3hfmk7hv45t/Ra28qmP9YWW
+         SNX1Jlulu/cWzBnQrBCLc3uBgl22xLE+v182+7fZ4WMEkFKUOaBIZcTggb91STfAM3OY
+         M84ub0BEu1OHpVFoFmsfoRnvK7FT9FIryv5futD0NHUM85dp7jekQCEYAMvGZdgDh/Gs
+         DfpC0Ta6Xi0nLd+OKjxywA729DPpZ09F6u+ji6kUqj81QMld4oeGA4HwfBecfNDrdH+t
+         dUtSmomxYuk+Jj2ayH5WZnDdmPz3Cr5IX49oYdy/DPw9IjI7FDFcg01NBHlPwvAGTpDn
+         bZpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+//hB2UR0hZxjZiQt9y3KUo38W7PmSmEku4lCh6R3M4=;
-        b=hPFmeYD+CNzqy5VON+7OcgaFFaKbjJCpOMzCBOUSfto1DS2Ai0zx4Df/PK+ljpRTtx
-         2rfl24cUMTs9rEkGpPrxA+Qo4I8t++b55n9lqGLcH0q98apTxZQui+l2FJ/xABhTfben
-         YI6Yuu1H6lf+LzOcReRQ+wAlkbHi5m5AHi7Wf6iH0QcGsR2LB82HXP6kD5yYT5vAeRdb
-         XcwtYXoCr6yB5ARjau7+Jpeqo2nJUpjOL5G9M97s5Jru7+Fy6TbrHFVtOpJ2ECQGQjks
-         7TkOVsnURMJufqIPwXy0/tCpp0W0Ijs0QJJlQ05bk4K615YRuz3QJnx+Az/nGZndV2kH
-         QiDA==
-X-Gm-Message-State: AOAM530Uez6B+kkg5bRKGMKw8sjA7u/cA/zadEHPaH56JhThfFTwO3mD
-	KdEPNHIUqm+8ymVqP8Yb8932SLX7PJFzHw==
-X-Google-Smtp-Source: ABdhPJwg0lR5ip3T9Y3Xex1ywvaZ5zMJhFY2WCg+e5kUATDaTzI++YwGG+45fZ5EaReQO54vgRXSJQ==
-X-Received: by 2002:aa7:c6cd:: with SMTP id b13mr920582eds.32.1603919188054;
-        Wed, 28 Oct 2020 14:06:28 -0700 (PDT)
+        bh=j5YFMVbR5Pc3OxHNnzstuCug2vCFIu3RoCF3rLPUf5s=;
+        b=AmwXSw2YKnrG7r/GuTpaSz2E/1bKamb6YaeBjLdDIsuNCEwuJil9ACCuGXLY1n1NNz
+         a1ZXBS1AdYZCiqwbF1AmDKc1i7s1H+TCAmPHOyJBJvY7HWyi5jCPY5hZWHqh/yp9YyFU
+         atwhQAj1dKTppbqO/NfhTcmI5bg8ZA5jlKXRFE9R+HcEGiWBBTeNizkb2hrvzVyGtuUD
+         aGzzz3W6yJLPPDPqtzCRV+PlQJmtU+APPfrE6Dm+5x6iVqTaolxl/fRenoRbiBMG25ZB
+         L6pvyZYphS72O2d3p1gCXQUroOsOQcyvZHbs+ZBi9YtJ0/bfy0FnysnnfU/d1Plo5SX4
+         n9xQ==
+X-Gm-Message-State: AOAM533y4awFXha8fGxXnagVRQFa6Zf2ph3Ol+s7rqWaR1hj8d4+rZaT
+	2dM8j/uK56AtgZRNeDGPrjQZN8Jd4EneLA==
+X-Google-Smtp-Source: ABdhPJwYFFRJsEjtrZANUuAeHHLYDJh1VhvoaCVxDh5ka8qMhq8aj8ZSsOsI0izkQj3mTCRt9q0Nww==
+X-Received: by 2002:a05:6402:1d87:: with SMTP id dk7mr850147edb.222.1603919189116;
+        Wed, 28 Oct 2020 14:06:29 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.27
+        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 14:06:27 -0700 (PDT)
+        Wed, 28 Oct 2020 14:06:28 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 25/33] libhandy: upgrade 0.0.13 -> 1.0.0
-Date: Wed, 28 Oct 2020 22:05:50 +0100
-Message-Id: <20201028210558.21070-25-alex.kanavin@gmail.com>
+Subject: [PATCH 26/33] libportal: add a recipe
+Date: Wed, 28 Oct 2020 22:05:51 +0100
+Message-Id: <20201028210558.21070-26-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201028210558.21070-1-alex.kanavin@gmail.com>
 References: <20201028210558.21070-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+This is a new build requirement of epiphany browser.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-gnome/libhandy/libhandy_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ meta/recipes-gnome/libportal/libportal_0.3.bb | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 meta/recipes-gnome/libportal/libportal_0.3.bb
 
-diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb b/meta/recipes-gnome/libhandy/libhandy_git.bb
-index 9f74014640..01b932a528 100644
---- a/meta/recipes-gnome/libhandy/libhandy_git.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_git.bb
-@@ -3,9 +3,9 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
--SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
-+SRCREV = "94313c206258860b2428712e7ece1d02c5177857"
- S = "${WORKDIR}/git"
--PV = "0.0.13"
-+PV = "1.0.0"
- 
- GIR_MESON_ENABLE_FLAG = 'enabled'
- GIR_MESON_DISABLE_FLAG = 'disabled'
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 7935f968c7..6458829662 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -367,6 +367,7 @@ RECIPE_MAINTAINER_pn-libpcre = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-libpcre2 = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libpipeline = "Wang Mingyu <wangmy@cn.fujitsu.com>"
+ RECIPE_MAINTAINER_pn-libpng = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-libportal = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libproxy = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libpsl = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-gnome/libportal/libportal_0.3.bb b/meta/recipes-gnome/libportal/libportal_0.3.bb
+new file mode 100644
+index 0000000000..022628b1ac
+--- /dev/null
++++ b/meta/recipes-gnome/libportal/libportal_0.3.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "libportal provides GIO-style async APIs for most Flatpak portals."
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
++
++SRC_URI = "git://github.com/flatpak/${BPN}.git;protocol=https"
++SRCREV = "a609e06d0c4adc5c510cf9ac7b060db3d368e78f"
++S = "${WORKDIR}/git"
++
++GTKDOC_MESON_OPTION = 'gtk_doc'
++
++inherit meson gtk-doc
++
++DEPENDS += "glib-2.0 glib-2.0-native"
 -- 
 2.29.0
 
