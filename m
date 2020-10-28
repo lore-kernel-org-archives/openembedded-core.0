@@ -1,239 +1,74 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web10.3852.1603858150296061616
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web10.3853.1603858151116069859
  for <openembedded-core@lists.openembedded.org>;
- Tue, 27 Oct 2020 21:09:10 -0700
+ Tue, 27 Oct 2020 21:09:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aNEF+afo;
- spf=pass (domain: gmail.com, ip: 209.85.214.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f195.google.com with SMTP id f21so1851806plr.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 21:09:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Sr04niIb;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id h6so2014790pgk.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 27 Oct 2020 21:09:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2Oft5r+hlLppmoF+W38K4FEIcTxVvnkG42ljP8YnJBA=;
-        b=aNEF+afo6QymFNYPuk0pAnB05JFm1eH/Ta5aTU3/R+S+2KrHgD44opbbsydKyJtlAg
-         IXouV1h4qQCMnFJ4TY1kFazMnOWmaKzI28FgLBihqJbAwabYVNfhY8IBLTqK63v9pPxa
-         Wf9wXgGz/g6lkLY9OmGfGfuKEc2wCubbHUmvJWbNpxeW4VnFw4VN3glaNnvm4u4Tvapo
-         W7X2Ca2Hg34uLFLvyTJFEVue3GvWSYncnNYMjm00O03qvqaEcJybfbjSjeSvC9Yg5Kkc
-         xm+s4ORJ/xdO2uKHGFRriw0ggl607TofgSGPmW8tmatk2LGHDLNPxt3AEGNPYa2Zo2aY
-         Ga0w==
+        bh=dH99n9kgK/t8cwzMBSww5ZeSXYbTrp6HzcsU+I8R7gc=;
+        b=Sr04niIby2Lya/pBJ9JQ8LdA3SDYlcQQZ4PNsHPT4lp74M3FRUEJJINkh7y/x1CJ5J
+         bfjcVb7lRueG10nfNnde2og93VFYT4WruTwx0hxeE/HJ8Uh0vSerUK8T1Kb7gNjO9a+7
+         sjavZJD1UmJ1UvAupa9wv714P8w8k0tjiw0WxH74UZtIwdG/0xDG6LAlEfquWi0K9gbN
+         kgme+pGailS5+8YTUYn4uUJcsA4b11/LmmvhINgAYcIRYOUvl+GmHTVSaM5eKNUAUU/i
+         nIECINPONOn54zrVgvqsQfNDoWu8ndDzIAvBIptcXKm5+T0wtjHEj3meD4v8455IWZ6E
+         Gi8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2Oft5r+hlLppmoF+W38K4FEIcTxVvnkG42ljP8YnJBA=;
-        b=tAHj/lRHeT1dnJp1Xf+kr9Z2W4UVRwQVVFqUwcgN/ZRFhAHldb1DbWVpS6rZuikMFR
-         No9CV4qHaNOYk55B9z7hSoEoNgYrYCjAh0ABRz0fQMeg1tu0KMRn/EYFfdY1Q4Uwjuy+
-         KhVn2LqVLze2fjq/Qk5XXXEqqRVeeOw9Emms/Rsbfrskg5K0ya8BpgyHRj7ta2UhQavC
-         QoU9kgtajHJhpAXDnaZt7ja2NcgqsTpIqZ0biHJ+24cV4VSJya2C8X1TU7/aYviasE0b
-         BoIPpT9xXxOXs00ZrJXs67iXpUqTNzDVXnwbm5JEIB2usgmOj/KXVSGmGkMj5hoHyyvW
-         2d0w==
-X-Gm-Message-State: AOAM533x2fdN3gQfb4jX3VGZeL7CUg87a9iVG85RlktfKbcTO73O9vrx
-	94wkYhnhdXCqQdSQT0dHmacUH5k8JtECug==
-X-Google-Smtp-Source: ABdhPJzlwW7cmJV9GPAajSqRha0BthywfTqT56zZjgKSEGqr2NeIhrOTvWZj1QeD3Dbdtp5tx57uYQ==
-X-Received: by 2002:a17:90a:6b08:: with SMTP id v8mr4959455pjj.126.1603858149484;
-        Tue, 27 Oct 2020 21:09:09 -0700 (PDT)
+        bh=dH99n9kgK/t8cwzMBSww5ZeSXYbTrp6HzcsU+I8R7gc=;
+        b=W2HmucfrXuvbF6GMSQnLlKWFbWUqftiTo1fpMTSdTo7sO/kmfSZ2e2Lq3z6YTvXJJS
+         pWdwbp+ZqUDdNQLvpiuvx+BuVK+z92tSwXCgVZ9y7VmpBER5+O6H3Lhz8jknI814/V18
+         iSSDTbXineQCsGRxg2gueJ9Rp6UeCbOAlhAGcE83JMsnEk+yuOLH6+HM93N2Ru9w4mOq
+         LaWU3MaGpwGELVMGemLIKN9gX46v6JzwwgRXiD/ckKBDLCvp17HYdTKe0qJrCU/kS9n1
+         TR3+ki79G0BATj3tpWaX2fCtjidUSLGqElFZABsmYHn6LrdSwAgMI8/EjMYE6sjJI0SX
+         9I3Q==
+X-Gm-Message-State: AOAM532wF/30X4iaEVkT5CXUsaETbrUXmjg8cAvkBQhg+dGiaPDV5ssN
+	yU4KNV9HNSfqQcQvQH6O3i1380CQs0EAPw==
+X-Google-Smtp-Source: ABdhPJwL1iOjrRqraTEs5KRWDNWCKwXwCiQ+N+tgjhe1cTBXeDQmXP9vknArtMOOPISwozS75Uy58Q==
+X-Received: by 2002:a62:75c4:0:b029:163:e95e:f52e with SMTP id q187-20020a6275c40000b0290163e95ef52emr5584034pfc.52.1603858150403;
+        Tue, 27 Oct 2020 21:09:10 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::bc1e])
-        by smtp.gmail.com with ESMTPSA id c1sm4133410pfo.207.2020.10.27.21.09.08
+        by smtp.gmail.com with ESMTPSA id c1sm4133410pfo.207.2020.10.27.21.09.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 21:09:08 -0700 (PDT)
+        Tue, 27 Oct 2020 21:09:09 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/3] init-ifupdown: Merge all interface files for differnet qemus
-Date: Tue, 27 Oct 2020 21:09:03 -0700
-Message-Id: <20201028040904.3446105-3-raj.khem@gmail.com>
+Subject: [PATCH 3/3] qemuboot.bbclass: Fix a typo
+Date: Tue, 27 Oct 2020 21:09:04 -0700
+Message-Id: <20201028040904.3446105-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201028040904.3446105-1-raj.khem@gmail.com>
 References: <20201028040904.3446105-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-all these were exact copies, therefore just use qemuall to house this
-file as it will be same across all qemu machines
-
-Additionally, it can support out of tree qemu definitions better eg.
-qemuppc64
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../init-ifupdown-1.0/{qemuarm => qemuall}/interfaces     | 0
- .../init-ifupdown/init-ifupdown-1.0/qemuarm64/interfaces  | 5 -----
- .../init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces  | 5 -----
- .../init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces  | 5 -----
- .../init-ifupdown/init-ifupdown-1.0/qemumips/interfaces   | 8 --------
- .../init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces | 8 --------
- .../init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces    | 8 --------
- .../init-ifupdown-1.0/qemuriscv32/interfaces              | 8 --------
- .../init-ifupdown-1.0/qemuriscv64/interfaces              | 8 --------
- .../init-ifupdown/init-ifupdown-1.0/qemush4/interfaces    | 8 --------
- .../init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces | 8 --------
- .../init-ifupdown/init-ifupdown-1.0/qemux86/interfaces    | 8 --------
- 12 files changed, 79 deletions(-)
- rename meta/recipes-core/init-ifupdown/init-ifupdown-1.0/{qemuarm => qemuall}/interfaces (100%)
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm64/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv32/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv64/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces
- delete mode 100644 meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces
+ meta/classes/qemuboot.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuall/interfaces
-similarity index 100%
-rename from meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm/interfaces
-rename to meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuall/interfaces
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm64/interfaces
-deleted file mode 100644
-index 16967763e5..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarm64/interfaces
-+++ /dev/null
-@@ -1,5 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces
-deleted file mode 100644
-index 16967763e5..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv6/interfaces
-+++ /dev/null
-@@ -1,5 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces
-deleted file mode 100644
-index 16967763e5..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuarmv7/interfaces
-+++ /dev/null
-@@ -1,5 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemumips64/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuppc/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv32/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv32/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv32/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv64/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemuriscv64/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemush4/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86-64/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces
-deleted file mode 100644
-index f62b9a897d..0000000000
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/qemux86/interfaces
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
-- 
--# The loopback interface
--auto lo
--iface lo inet loopback
--
--
--
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 824676216e..4b7532b304 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -43,7 +43,7 @@
+ #                          QB_NETWORK_DEVICE_prepend might be used, since Qemu enumerates the eth*
+ #                          devices in reverse order to -device arguments.
+ #
+-# QB_TAP_OPT: netowrk option for 'tap' mode, e.g.,
++# QB_TAP_OPT: network option for 'tap' mode, e.g.,
+ #             "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+ #              Note, runqemu will replace "@TAP@" with the one which is used, such as tap0, tap1 ...
+ #
 -- 
 2.28.0
 
