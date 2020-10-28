@@ -1,129 +1,109 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.10970.1603900079366893223
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web09.11072.1603900080221818679
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 08:47:59 -0700
+ Wed, 28 Oct 2020 08:48:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZSZuyrtx;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: yann.morin.1998@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id k18so9508wmj.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 08:47:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WdjME0/H;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: yann.morin.1998@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id h22so39719wmb.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 08:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K9BQ3sz/w0YktOeP1ZDXrTy8YbjDlfA3PJYLkQiaKtU=;
-        b=ZSZuyrtxfrHe2gKJn91XJcUXEnDNwYc3yFdjTWdlCyiUGtseOPLsV6/AG2ipHbsxba
-         9KceeMHnYidpQmVrsUYiquJlfjFbV6IkqY2dIM2phX9K581MZft0XcnBeiQtcfZ2STNh
-         OQsdrWB8B9qxgw34PdYlTIxGE8bEI4HSRh/yeGQN5/9E3CebR8K6p5wnIJULik5F72HQ
-         LD8gZh2nntJkp4pxm9xuYVIDdMRncRCm4/mD5mA0OAlhwkmYyE1F3g681zCn9Mj7a58c
-         4N2FjD5fGv7x2XuI7kleujD2VqwhKwmkLg+Ll6TGPKHdlRnTi0o6Bs2g/qTVRsm4XYNJ
-         3oeQ==
+        bh=krqbFjOt5cUzazx9qFKAVjXhgle9NVXr+NcOWCjE074=;
+        b=WdjME0/HO6K1V/DkSnljs1ByxzemExlbfDDaA8F3GQbzTc+9MeAwg/gnJeHoHMzedK
+         nYH16VwnsJgrsyYk9AMaVb3dHziuYBiGAWUJ/RG+vdIUynz9FML6dNiSdSOvjRkTApxs
+         kMTngPlg8+WUprCe7hVcdaKgXfMwBgv+worhZGhUbb9zrtVjSMl+PEFUwrHYxK1X/hq8
+         gMjHzr+Egg/uQ6ihgidsJcwGLGXvuen50CmO15B/fbKwAx1AvtMFi679xQaHk428Um+W
+         0U683CSd8/OwHUa2WivND9aj2kds0lTa34SEflUkzCtXwnyiVw1xes5IRm6vLXLw9njZ
+         0JMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=K9BQ3sz/w0YktOeP1ZDXrTy8YbjDlfA3PJYLkQiaKtU=;
-        b=aJo3pjmYJpUvmZBZGrS4UjfWUhKQnQ0nxQ721Ku3HF8Hcz+8f/qlqtCPDrVf0Fm5dU
-         sOzDfUqy3ggh/IenaPqJegLvYfdrK5k6A1WMhS3lgZQdR3UHgBChANJsOBC0KVfUwsTU
-         L6Q1mBGYEYOuMGce1rfVK3Iki6459b1JBpQpmgBHx1zxpwFM5GsEY7WCDxKnuTD6gpZZ
-         J/CCzWLyIN24+owKA/gazNc1WiGwK0j4xe+/guaVMppFd3TTQdr3CGNiEltPdQiRuerl
-         XxQv37SXmCWppLLfZMvUXjAHIqwofotNtPtzNukbq+nwdGQ3Mx1hggxETtIn9DcWtYtW
-         lkxQ==
-X-Gm-Message-State: AOAM530T/382YPoqcMtCWkqszhfILYK9RV4Sd/irZSXXmsslWZSw22Zf
-	47S1rPMQLG0RGA+05r6CqmRzHaci/Xk=
-X-Google-Smtp-Source: ABdhPJw0zLPD6uY6cB6+UsgP+cCmmi6lIHcWK85YAVFyq09KtNk40reOg7au1l9GBDAqIRiOZn+/vw==
-X-Received: by 2002:a1c:bc55:: with SMTP id m82mr8736215wmf.159.1603900077754;
-        Wed, 28 Oct 2020 08:47:57 -0700 (PDT)
+        bh=krqbFjOt5cUzazx9qFKAVjXhgle9NVXr+NcOWCjE074=;
+        b=oY4J18qsO/ZqNz+PdiZCSZUXUwJFdYHCBvr+j2jWIj09YJwlKQ31kQLSSOghZX/LNT
+         W7ZACFfxjdSYi8i4zEGC+KFMVpddzNE/YntFE9v5JE8BObVv0L80eAAulTpN59Hz6HV9
+         cKtxnM6H7iC/OqjYTP44F86PMHBTr5gTKWyOFfAfw4fpEY6EqYzaeSRdBV93ZxQ/DUkp
+         DjUZzFj6c6PoQKpWEWhpNqmMkwisBQbjEnJK5xlqUDn5O6cb7lJzgREcOm7KVMQGJsYu
+         bvUVZBeOb4PABhOpgmwIEuviKHtRdXfw/GSacHZViqdfylFOBM165a5RZehCoQkSRk3t
+         LLdA==
+X-Gm-Message-State: AOAM531Qrbf0hpTkGymLnxq/jc2M0nMArETgqD+OwgW28PMcZleTOLI6
+	Wl8tsWKJZy4WEtVV+AqIDkoFcFjNlNM=
+X-Google-Smtp-Source: ABdhPJx1FHcclk+Yvxxmayld3WcrOxTuIaA6Bkk2kn8waKFp9fGdY85jl59eoxxeL2yjwAUA9xtxTQ==
+X-Received: by 2002:a1c:c30a:: with SMTP id t10mr3557882wmf.183.1603900078679;
+        Wed, 28 Oct 2020 08:47:58 -0700 (PDT)
 Return-Path: <yann.morin.1998@gmail.com>
 Received: from localhost.localdomain ([2a01:cb19:8b51:cb00:d91a:f1f4:94c3:a2ef])
-        by smtp.gmail.com with ESMTPSA id k18sm7270848wrx.96.2020.10.28.08.47.56
+        by smtp.gmail.com with ESMTPSA id k18sm7270848wrx.96.2020.10.28.08.47.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 08:47:57 -0700 (PDT)
+        Wed, 28 Oct 2020 08:47:58 -0700 (PDT)
 Sender: "Yann E. MORIN" <yann.morin.1998@gmail.com>
 From: "Yann E. MORIN" <yann.morin.1998@free.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: "Yann E. MORIN" <yann.morin.1998@free.fr>,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH 1/2 v2] common-licenses: add bzip2-1.0.4
-Date: Wed, 28 Oct 2020 16:47:55 +0100
-Message-Id: <c5636229c58912094413e4dd8667bc2bb7e8352c.1603900066.git.yann.morin.1998@free.fr>
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Alexandre BELLONI <alexandre.belloni@bootlin.com>
+Subject: [PATCH 2/2 v2] recipes-core/busybox: fixup licensing information
+Date: Wed, 28 Oct 2020 16:47:56 +0100
+Message-Id: <cf08c92cb2bdd9958c9caca644b59a88142b4d53.1603900066.git.yann.morin.1998@free.fr>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1603900066.git.yann.morin.1998@free.fr>
 References: <cover.1603900066.git.yann.morin.1998@free.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The bzip2 license changes with each version; the changes are subtle, but
-that makes it a different license everytime:
-  - copyright year
-  - authorship identification and address
-  - version of the release
-  - date of the release
+Commit 7d32417b4d (busybox: Correct the name of the bzip2 license)
+changes the licesne from 'bzip2' to 'bzip2-1.0.6' on the rationale
+that the 'bzip2 license was renamed from "bzip2" to "bzip2-1.0.6"
+[...] to match the official SPDX identifier.'
 
-Although we currently only have bzip2 and pbzip2 packages, we're going
-to need this license for busybox, which uses code from bzip2-1.0.4.
+Though the above is true for the bzip2 and pbzip2 packages, the bzip2
+code bundled in busybox is a copy from the bzip2 1.0.4 version, not the
+1.0.6 version.
 
-Add it, as copied from the upstream bzip2 git tree at tag 'bzip2-1.0.4'
-(commit f10a33538e9bab6deb61779b3d8aae168824ef48).
+As such, using bzip2-1.0.6 is wrong.
+
+Unfortunately, there is no official SPDX license identifier for this
+bzip2 1.0.4 version, so we just mimick the existing ones (bzip2-1.0.5
+and bzip2-1.0.6) by using bzip2-1.0.4.
+
+Also, there is a license file attached to that, so we add it to the
+list.
 
 Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
-Cc: Khem Raj <raj.khem@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/files/common-licenses/bzip2-1.0.4 | 43 ++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 meta/files/common-licenses/bzip2-1.0.4
+Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>
 
-diff --git a/meta/files/common-licenses/bzip2-1.0.4 b/meta/files/common-licenses/bzip2-1.0.4
-new file mode 100644
-index 0000000000..4458e35bb5
---- /dev/null
-+++ b/meta/files/common-licenses/bzip2-1.0.4
-@@ -0,0 +1,43 @@
-+
-+--------------------------------------------------------------------------
-+
-+This program, "bzip2", the associated library "libbzip2", and all
-+documentation, are copyright (C) 1996-2006 Julian R Seward.  All
-+rights reserved.
-+
-+Redistribution and use in source and binary forms, with or without
-+modification, are permitted provided that the following conditions
-+are met:
-+
-+1. Redistributions of source code must retain the above copyright
-+   notice, this list of conditions and the following disclaimer.
-+
-+2. The origin of this software must not be misrepresented; you must 
-+   not claim that you wrote the original software.  If you use this 
-+   software in a product, an acknowledgment in the product 
-+   documentation would be appreciated but is not required.
-+
-+3. Altered source versions must be plainly marked as such, and must
-+   not be misrepresented as being the original software.
-+
-+4. The name of the author may not be used to endorse or promote 
-+   products derived from this software without specific prior written 
-+   permission.
-+
-+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
-+OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-+ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
-+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
-+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
-+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
-+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+
-+Julian Seward, Cambridge, UK.
-+jseward@bzip.org
-+bzip2/libbzip2 version 1.0.4 of 20 December 2006
-+
-+--------------------------------------------------------------------------
+---
+Changes v1 -> v2;
+  - none, but the bzip2-1.0.4 license is now in common-licenses
+---
+ meta/recipes-core/busybox/busybox.inc | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 45aaa2b41c..e0522be729 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -5,10 +5,11 @@ BUGTRACKER = "https://bugs.busybox.net/"
+ 
+ DEPENDS += "kern-tools-native virtual/crypt"
+ 
+-# bzip2 applet in busybox is based on lightly-modified bzip2 source
++# bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
+ # the GPL is version 2 only
+-LICENSE = "GPLv2 & bzip2-1.0.6"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
++LICENSE = "GPLv2 & bzip2-1.0.4"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
++                    file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
+ 
+ SECTION = "base"
+ 
 -- 
 2.25.1
 
