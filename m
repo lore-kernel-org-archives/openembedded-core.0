@@ -1,109 +1,147 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web09.11072.1603900080221818679
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web11.11075.1603900460600231746
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 08:48:00 -0700
+ Wed, 28 Oct 2020 08:54:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WdjME0/H;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: yann.morin.1998@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id h22so39719wmb.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 08:48:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rDyY+36p;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id f93so3861052qtb.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 08:54:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=krqbFjOt5cUzazx9qFKAVjXhgle9NVXr+NcOWCjE074=;
-        b=WdjME0/HO6K1V/DkSnljs1ByxzemExlbfDDaA8F3GQbzTc+9MeAwg/gnJeHoHMzedK
-         nYH16VwnsJgrsyYk9AMaVb3dHziuYBiGAWUJ/RG+vdIUynz9FML6dNiSdSOvjRkTApxs
-         kMTngPlg8+WUprCe7hVcdaKgXfMwBgv+worhZGhUbb9zrtVjSMl+PEFUwrHYxK1X/hq8
-         gMjHzr+Egg/uQ6ihgidsJcwGLGXvuen50CmO15B/fbKwAx1AvtMFi679xQaHk428Um+W
-         0U683CSd8/OwHUa2WivND9aj2kds0lTa34SEflUkzCtXwnyiVw1xes5IRm6vLXLw9njZ
-         0JMA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bJFzXoExnqml6kVvCezauAmLsFwalvlDR/XcGqOYAmk=;
+        b=rDyY+36piZ6Q2TUSvdNpYDe7vT/PczXv/L1oeQZzf0YXSfzKGCMfewUQW4HEXPcnnP
+         YQUJCnf/V9U7qZmV8T/xMpXLCizTr6Ofcq+NBHHqYLbpern1JgVdFE2M0NoA9CnfoCPZ
+         8OqyCpXZBi/BTwP3JSXXV7tWCI5EXoaCRFjOKWiM0S+u+Kr7bETnbTTXVbiOpRtLYAOc
+         2E8JAYJmzD6dDeJgjuGREG+mIOTvcoueipq34cSJQWXnF13WOboZlLTXrkzChBBv4yqi
+         j5F4o3rMJ4zzXqJDjmQLlLud71IX0R+elQxFHP3XwKz6W9tHdcBNxbwRmcJZ9EdmXLyr
+         LsAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=krqbFjOt5cUzazx9qFKAVjXhgle9NVXr+NcOWCjE074=;
-        b=oY4J18qsO/ZqNz+PdiZCSZUXUwJFdYHCBvr+j2jWIj09YJwlKQ31kQLSSOghZX/LNT
-         W7ZACFfxjdSYi8i4zEGC+KFMVpddzNE/YntFE9v5JE8BObVv0L80eAAulTpN59Hz6HV9
-         cKtxnM6H7iC/OqjYTP44F86PMHBTr5gTKWyOFfAfw4fpEY6EqYzaeSRdBV93ZxQ/DUkp
-         DjUZzFj6c6PoQKpWEWhpNqmMkwisBQbjEnJK5xlqUDn5O6cb7lJzgREcOm7KVMQGJsYu
-         bvUVZBeOb4PABhOpgmwIEuviKHtRdXfw/GSacHZViqdfylFOBM165a5RZehCoQkSRk3t
-         LLdA==
-X-Gm-Message-State: AOAM531Qrbf0hpTkGymLnxq/jc2M0nMArETgqD+OwgW28PMcZleTOLI6
-	Wl8tsWKJZy4WEtVV+AqIDkoFcFjNlNM=
-X-Google-Smtp-Source: ABdhPJx1FHcclk+Yvxxmayld3WcrOxTuIaA6Bkk2kn8waKFp9fGdY85jl59eoxxeL2yjwAUA9xtxTQ==
-X-Received: by 2002:a1c:c30a:: with SMTP id t10mr3557882wmf.183.1603900078679;
-        Wed, 28 Oct 2020 08:47:58 -0700 (PDT)
-Return-Path: <yann.morin.1998@gmail.com>
-Received: from localhost.localdomain ([2a01:cb19:8b51:cb00:d91a:f1f4:94c3:a2ef])
-        by smtp.gmail.com with ESMTPSA id k18sm7270848wrx.96.2020.10.28.08.47.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 08:47:58 -0700 (PDT)
-Sender: "Yann E. MORIN" <yann.morin.1998@gmail.com>
-From: "Yann E. MORIN" <yann.morin.1998@free.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: "Yann E. MORIN" <yann.morin.1998@free.fr>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexandre BELLONI <alexandre.belloni@bootlin.com>
-Subject: [PATCH 2/2 v2] recipes-core/busybox: fixup licensing information
-Date: Wed, 28 Oct 2020 16:47:56 +0100
-Message-Id: <cf08c92cb2bdd9958c9caca644b59a88142b4d53.1603900066.git.yann.morin.1998@free.fr>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1603900066.git.yann.morin.1998@free.fr>
-References: <cover.1603900066.git.yann.morin.1998@free.fr>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bJFzXoExnqml6kVvCezauAmLsFwalvlDR/XcGqOYAmk=;
+        b=Y04pS6Gsuw8Ku2++elFj2jTsAFjsUEbQFnJYLHBBlipFF1CRuPYUKL1pNyAXBOpalb
+         gw11A/dgOnRli8i31GsXg6gSPsKye6EVbe6vGM1VhUwtZvYVwIBP9tYpTZ29y/8UTddy
+         1JIr3jFNtSSXiTqxegVTWKYWO9HE5brE5hyZ5OMCNfnxUGT0uOuiR4E5w65lchrCMXKP
+         5HtOOc0pGIrT/eoRCfccRrCq7OASC/G+8yT2bwXuwS0fccESdSFbfC/YWjTP9hYNFCRZ
+         oShZbKU6cB8EZMoYB8B9x70zCATtEYX6605hJmcvEirnw2Pd9uaiIT7o08R2TIsqo7mX
+         fY4g==
+X-Gm-Message-State: AOAM5301euqrHKwey3m7wg0r0btSLK0y8ebYNKNqzT7HIYvajBtPhROp
+	X7v9NN9g3KG2CZqPnpana6nc8Se6QQrVh2h38yQ=
+X-Google-Smtp-Source: ABdhPJwcb6v35w8Afp3OYy0IWGX+ifzOdB1SFrNCoyqs5cYX/yJ4bwPhxTRTtCOSuYpGbh4xdZFgrYUyWD4nHEchgT4=
+X-Received: by 2002:ac8:5985:: with SMTP id e5mr7708895qte.88.1603900459390;
+ Wed, 28 Oct 2020 08:54:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1603898660-15302-1-git-send-email-Saloni.Jain@kpit.com>
+In-Reply-To: <1603898660-15302-1-git-send-email-Saloni.Jain@kpit.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 28 Oct 2020 08:53:53 -0700
+Message-ID: <CAMKF1sr2NZyQzTaGK4mi2nntcnPq_DNrUE2aYavrgkWUfK29LA@mail.gmail.com>
+Subject: Re: [poky][master][PATCH] glibc: Added and whitelisted CVE patches
+To: "Saloni.Jain" <Saloni.Jain@kpit.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Nisha Parrakat <nisha.parrakat@kpit.com>, Anuj Chougule <anuj.chougule@kpit.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Commit 7d32417b4d (busybox: Correct the name of the bzip2 license)
-changes the licesne from 'bzip2' to 'bzip2-1.0.6' on the rationale
-that the 'bzip2 license was renamed from "bzip2" to "bzip2-1.0.6"
-[...] to match the official SPDX identifier.'
+On Wed, Oct 28, 2020 at 8:24 AM Saloni.Jain <Saloni.Jain@kpit.com> wrote:
+>
+> From: Saloni Jain <Saloni.Jain@kpit.com>
+>
+> Below CVE patches are whitelisted as not considered
+> as security threats by Upstream Community:
+> 1. CVE-2019-1010022
+> Link: https://security-tracker.debian.org/tracker/CVE-2019-1010022
+> 2. CVE-2019-1010023
+> Link: https://security-tracker.debian.org/tracker/CVE-2019-1010023
+> 3. CVE-2019-1010024
+> Link: https://security-tracker.debian.org/tracker/CVE-2019-1010024
+> 4. CVE-2019-1010025
+> Link: https://security-tracker.debian.org/tracker/CVE-2019-1010025
+>
+> Below CVE patches are whitelisted as the changes are
+> already present in the source-code:
+> 1. CVE-2020-1751
+> Link: https://security-tracker.debian.org/tracker/CVE-2020-1751
+> 2. CVE-2020-1752
+> Link: https://security-tracker.debian.org/tracker/CVE-2020-1752
+> 3. CVE-2020-6096
+> Link: https://security-tracker.debian.org/tracker/CVE-2020-6096
+> Link: https://bugzilla.redhat.com/show_bug.cgi?id=3D1820331
+> 4. CVE-2015-8985
+> Link: https://security-tracker.debian.org/tracker/CVE-2015-8985
+> Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3Deb04c21373e=
+2a2885f3d52ff192b0499afe3c672
+> 5. CVE-2016-10739
+> Link: https://security-tracker.debian.org/tracker/CVE-2016-10739
+> Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3D108bc4049f8=
+ae82710aec26a92ffdb4b439c83fd
+> 6. CVE-2020-10029
+> Link: https://security-tracker.debian.org/tracker/CVE-2020-10029
+> Link: https://sourceware.org/git/?p=3Dglibc.git;a=3Dpatch;h=3D9333498794c=
+de1d5cca518badf79533a24114b6f
+> 7. CVE-2009-5155
+> Link: https://security-tracker.debian.org/tracker/CVE-2009-5155
+> Link: https://sourceware.org/git/gitweb.cgi?p=3Dglibc.git;h=3Deb04c21373e=
+2a2885f3d52ff192b0499afe3c672
+>
 
-Though the above is true for the bzip2 and pbzip2 packages, the bzip2
-code bundled in busybox is a copy from the bzip2 1.0.4 version, not the
-1.0.6 version.
+Thanks for doing this. Looks ok to me.
 
-As such, using bzip2-1.0.6 is wrong.
+> Upstream-Status: Pending
 
-Unfortunately, there is no official SPDX license identifier for this
-bzip2 1.0.4 version, so we just mimick the existing ones (bzip2-1.0.5
-and bzip2-1.0.6) by using bzip2-1.0.4.
+we do not need upstream status to metadata patches but to actual
+components which needs to be tracked for upstream submission etc.
+so please remove it here.
 
-Also, there is a license file attached to that, so we add it to the
-list.
-
-Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>
-
----
-Changes v1 -> v2;
-  - none, but the bzip2-1.0.4 license is now in common-licenses
----
- meta/recipes-core/busybox/busybox.inc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 45aaa2b41c..e0522be729 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -5,10 +5,11 @@ BUGTRACKER = "https://bugs.busybox.net/"
- 
- DEPENDS += "kern-tools-native virtual/crypt"
- 
--# bzip2 applet in busybox is based on lightly-modified bzip2 source
-+# bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
- # the GPL is version 2 only
--LICENSE = "GPLv2 & bzip2-1.0.6"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
-+LICENSE = "GPLv2 & bzip2-1.0.4"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
-+                    file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
- 
- SECTION = "base"
- 
--- 
-2.25.1
-
+> Signed-off-by: Saloni.Jain <Saloni.Jain@kpit.com>
+> ---
+>  meta/recipes-core/glibc/glibc_2.32.bb | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc_2.32.bb b/meta/recipes-core/gl=
+ibc/glibc_2.32.bb
+> index 2a0e464..7c56f6b 100644
+> --- a/meta/recipes-core/glibc/glibc_2.32.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.32.bb
+> @@ -1,7 +1,24 @@
+>  require glibc.inc
+>  require glibc-version.inc
+>
+> -CVE_CHECK_WHITELIST +=3D "CVE-2020-10029"
+> +#As confirmed by Upstream Community below patches are not considered sec=
+urity threats, hence whitelisted.
+> +CVE_CHECK_WHITELIST +=3D "\
+> +    CVE-2019-1010022 \
+> +    CVE-2019-1010023 \
+> +    CVE-2019-1010024 \
+> +    CVE-2019-1010025 \
+> +"
+> +#Changes are already present in source-code, hence whitelisted.
+> +CVE_CHECK_WHITELIST +=3D "\
+> +    CVE-2009-5155 \
+> +    CVE-2016-10739 \
+> +    CVE-2020-10029 \
+> +    CVE-2015-8985 \
+> +    CVE-2020-6096 \
+> +    CVE-2016-10228 \
+> +    CVE-2020-1751 \
+> +    CVE-2020-1752 \
+> +"
+>
+>  DEPENDS +=3D "gperf-native bison-native make-native"
+>
+> --
+> 2.7.4
+>
+> This message contains information that may be privileged or confidential =
+and is the property of the KPIT Technologies Ltd. It is intended only for t=
+he person to whom it is addressed. If you are not the intended recipient, y=
+ou are not authorized to read, print, retain copy, disseminate, distribute,=
+ or use this message or any part thereof. If you receive this message in er=
+ror, please notify the sender immediately and delete all copies of this mes=
+sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
+ed mails.
