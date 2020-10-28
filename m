@@ -1,123 +1,180 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.9762.1603895232886529924
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.9844.1603895498021782689
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 07:27:13 -0700
+ Wed, 28 Oct 2020 07:31:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ItevXip+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id w23so4749687wmi.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 07:27:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kU3U7mlj;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id dn5so5340466edb.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 07:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=XsxQMwQZpOMNT2vNLdRDqkihf71OmeUgynRwO23B4rg=;
-        b=ItevXip+6YuuYYo/Okz46r9BpzTiRiTPCoyrIZszwpz+YjyiHya1SrCtddIR0BEQis
-         kavfRLmOnGcDCNfNinTsDHH+qeKpOHQybPv5eLlpR3JL9EFN2mib1WG4pHr42gXUIvCC
-         B9OKakYKv4Yu8iokzMV4cRm3uZECw2OZ4nCMs=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=H2SH+TcVLGqw+jrC06hWVwrBZxod5SyCONl6SebewKA=;
+        b=kU3U7mljfdBFWEkXXmTuyX/1gfZ+IHemJSMKn+fm9lD5lfXZjjUJYzcMaAWP3Y0its
+         AaNcCSLF40ySPa6eG9x1V/sjq7SppCqS/FhNeygmfTNrHeB11sz3yfWreNMbKSCKiQ8B
+         zIsrNRTnMJMOtNLVieknMWYytE1Oz2XG5bsTzrIaEH2Z+3r3AOBIZGUy7tgF8kUJ7mbZ
+         1d+V1ccYUazngb39EZ6Rj4bEKh3TgS8IA3Ovg2A97c35bnETqoQg220Oi4TJ/C693HWE
+         Syx1UIQ6sGHhnvNqEJ/J3XodQZJP2kNgLjh2I9AVcvHVa0c162LOiCMtq2+9lLy16ZES
+         79Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=XsxQMwQZpOMNT2vNLdRDqkihf71OmeUgynRwO23B4rg=;
-        b=kpGeGFRIA0CRX1IPUOFKlzrJWbspEcAOya0QDU60Wj7OYVANRLOZxIX5olZMk3gUWs
-         HEbGVrYQCCzNOEr3Bdeaoh9pgNRu/ESAjb7ZuZRwFvZxvyBHKUMLcXGNLvHqzQX6idG5
-         +Dy3SHfGiNXIaqau66uOD6SrbjP9/tK9F1vhE+8fKsDlxPn0MPzzJVcraHW4KCmaEj8M
-         l65L1TbmcKWWgTELj8OCnrblqaioNqVhpCyFtS+J8MIhYANvtw9g8Jyz7mletapPSITp
-         5m2clfillZCfLC5l+LkXyA3xyN4em0GI1Vzn5LeEL8HW2GfP53l1zsH9B5eKKszmVZKb
-         e1+Q==
-X-Gm-Message-State: AOAM530eBvmCoiTJLbrtmtnG+SXHx8mwAT+cgf7V80KcJchUTxrymS1g
-	/JujDOhK519ThqLTDBvAs9yGiQ==
-X-Google-Smtp-Source: ABdhPJzvB0HFQzZeTm6ZIyj1W1tN+cFaAF2ga41uxwJt5VsR2MKm+AFMlMjvjVdX2UzY3LwFprdtlg==
-X-Received: by 2002:a1c:5f44:: with SMTP id t65mr1515607wmb.47.1603895231265;
-        Wed, 28 Oct 2020 07:27:11 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.0.2.3.2.a.1.a.7.6.b.c.7.6.8.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:1867:cb67:a1a2:320d])
-        by smtp.gmail.com with ESMTPSA id c18sm6302750wmk.36.2020.10.28.07.27.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 07:27:10 -0700 (PDT)
-Message-ID: <55f50d628a5e8082685873fcafdaaf645e152dec.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] buildstats.bbclass: add functionality to collect build system stats
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Sakib Sajal <sakib.sajal@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 28 Oct 2020 14:27:09 +0000
-In-Reply-To: <20201023165648.5515-2-sakib.sajal@windriver.com>
-References: <20201023165648.5515-1-sakib.sajal@windriver.com>
-	 <20201023165648.5515-2-sakib.sajal@windriver.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=H2SH+TcVLGqw+jrC06hWVwrBZxod5SyCONl6SebewKA=;
+        b=qcgH5E4jgdTMhT0704NikIKN2OhuO1RdKIKEUOVbjcrKEadkMJtZ05wGb5k3dF5lM1
+         sm5HRizZv4iXycukdd8uC1Usp0aRjvQHjPsIWNHnkydgkRbYMr+vSK3RofokqYq1SV2O
+         zLRqQGu9z67Bz8dk3Ceo8nhObBg+/nccR3Brv0CAYyxFZz4mEjFvpB6dRw7P8iKenOdI
+         qU6OzEv/OSqD24lTEuCiejUy2Qbk3zuYs3K+4wPHOmNZRPwxmD50sxYP3RyQJ8QYdsoy
+         X3miUBNycCQl2NLwRUYhJHspPv+YCR+1fg9peaKvRZZeSSYJDbf4lab6vgYcb5YazDFY
+         DAig==
+X-Gm-Message-State: AOAM5326SoQkUI5RYzbS+mlvzx6fBAVHmC70FKDbx5rfv50y+glWm+oi
+	ke4b4Q9JWkT/svY4CkNv76ak/mziSXuLoWnLbUc=
+X-Google-Smtp-Source: ABdhPJx8Yw+ye3Wr9V1tc2V241vswqLIg6x1Xtl52RdWsLbx0NfewfKuP+6vogz7WBfYYf891aBMxXOO+yv0NyNuqvQ=
+X-Received: by 2002:a05:6402:1457:: with SMTP id d23mr7802962edx.311.1603895496498;
+ Wed, 28 Oct 2020 07:31:36 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1603760941.git.steve@sakoman.com> <20201027092433.mtsr6bucqhzitixf@jama>
+ <CAOSpxdYOG8USSc3s4gwMpAbPHff+pXbzLOR_qVf71inXg5A7=A@mail.gmail.com> <CA+chaQfvFbARW_qpspY7pLiV8Y6ZkU7_Q=OOvC+iJBp+Dbv+rg@mail.gmail.com>
+In-Reply-To: <CA+chaQfvFbARW_qpspY7pLiV8Y6ZkU7_Q=OOvC+iJBp+Dbv+rg@mail.gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Wed, 28 Oct 2020 15:31:25 +0100
+Message-ID: <CA+chaQc0Yzwh2ruRWAe1Y9UQbm8YjWp-Etb9ntLDKvpmnqyD4Q@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/14] Pull request (cover letter only)
+To: Steve Sakoman <steve@sakoman.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005362ba05b2bc054a"
+
+--0000000000005362ba05b2bc054a
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-10-23 at 12:56 -0400, Sakib Sajal wrote:
-> There are a number of timeout and hang defects where
-> it would be useful to collect statistics about what
-> is running on a build host when that condition occurs.
-> 
-> This adds functionality to collect build system stats
-> on a regular interval and/or on task failure. Both
-> features are disabled by default.
-> 
-> To enable logging on a regular interval, set:
-> BB_HEARTBEAT_EVENT = "<interval>"
-> Logs are stored in ${BUILDSTATS_BASE}/<build_name>/host_stats
-> 
-> To enable logging on a task failure, set:
-> BB_LOG_HOST_STAT_ON_FAILURE = "1"
-> Logs are stored in ${BUILDSTATS_BASE}/<build_name>/build_stats
-> 
-> The list of commands, along with the desired options, need
-> to be specified in the BB_LOG_HOST_STAT_CMDS variable
-> delimited by ; as such:
-> BB_LOG_HOST_STAT_CMDS = "/<absolute>/<path>/<executable> <options> ; ... ;"
-> 
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> ---
->  meta/classes/buildstats.bbclass | 32 +++++++++++++++++++++++++++++---
->  1 file changed, 29 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-> index 6f87187233..c68d7bb8a2 100644
-> --- a/meta/classes/buildstats.bbclass
-> +++ b/meta/classes/buildstats.bbclass
-> @@ -104,14 +104,38 @@ def write_task_data(status, logfile, e, d):
->              f.write("Status: FAILED \n")
->          f.write("Ended: %0.2f \n" % e.time)
->  
-> +def write_host_data(logfile, e, d):
-> +    import subprocess, os, datetime
-> +    cmds = d.getVar('BB_LOG_HOST_STAT_CMDS').split(";")
-> +    with open(logfile, "a") as f:
-> +        f.write("Event Time: %f\nDate: %s\n" % (e.time, datetime.datetime.now()))
-> +        for cmd in cmds:
-> +            if len(cmd) == 0:
-> +                continue
-> +            c = cmd.split()
-> +            if os.path.isfile(c[0]) and os.access(c[0], os.X_OK):
-> +                try:
-> +                    output = subprocess.check_output(c, stderr=subprocess.STDOUT).decode('utf-8')
-> +                except subprocess.CalledProcessError as err:
-> +                    output = "Error running command: %s\n%s" % (cmd, err)
-> +                f.write("%s\n%s\n" % (cmd, output))
-> +            else:
-> +                f.write("Error running command: '%s': %s is not an executable.\n" % (cmd, c[0]))
-> +
+The script just finished, I've uploaded the results here:
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=jansa/tune-test-dunfell&id=c87f58e4235fc5c2fe31037917fd999bf4142dca
 
+There is a lot of changes compared to master, but mostly because I didn't
+have ARM_INSTRUCTION_SET set to thumb in this run.
 
-I am a little worried about this for some of the reasons Chris
-mentions. I worry that not all distros will have a standard location
-for some of the tools we want to run.
+That helped to reveal one issue in
+meta/conf/machine/include/tune-arm9tdmi.inc
+which most likely exists in master as well (wasn't detected before just
+because ARM_INSTRUCTION_SET).
+https://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune/log.fake-arm9tdmi.arm9tdmi?h=jansa/tune-test-dunfell&id=c87f58e4235fc5c2fe31037917fd999bf4142dca
 
-One trick you could try is to use something like: 
+And the meta/conf/machine/include/tune-supersparc.inc is failing like it
+did in master before removal in:
+https://git.openembedded.org/openembedded-core/commit/?id=861519337b6e5e986c3c4b8ba253e8339caf0805
+which you probably intentionally didn't backport to dunfell.
+https://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune/log.fake-supersparc?h=jansa/tune-test-dunfell&id=c87f58e4235fc5c2fe31037917fd999bf4142dca
 
-path = d.getVar("PATH") + ":" + d.getVar("BB_ORIGENV", False).getVar("PATH")
-
-which means we'd add back in the original search PATH for the tools as
-well as our own directories.
+I'll trigger it once more with thumb enabled to better show what's the
+difference from master.
 
 Cheers,
 
-Richard
+On Tue, Oct 27, 2020 at 4:34 PM Martin Jansa <martin.jansa@gmail.com> wrote:
 
+> Hi Steve,
+>
+> it's from this branch:
+>
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune-test
+>
+> I've already started it on top of dunfell with these fixes backported,
+> will report back when it's finished (will take at least rest of today to
+> finish).
+>
+> Cheers,
+>
+> On Tue, Oct 27, 2020 at 3:03 PM Steve Sakoman <steve@sakoman.com> wrote:
+>
+>> Hi Martin,
+>>
+>> On Mon, Oct 26, 2020 at 11:24 PM Martin Jansa <martin.jansa@gmail.com>
+>> wrote:
+>>
+>> > Did you run tune/test.sh script with these on dunfell or do you want me
+>> to?
+>>
+>> No, I didn't.  I'm not familiar with that script.  Can you point me in
+>> the right direction?
+>>
+>> > It looks OK, but would be good to confirm that it fixes all issues
+>> > currently in dunfell.
+>>
+>> Agreed!
+>>
+>> Steve
+>>
+>
 
+--0000000000005362ba05b2bc054a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The script just finished, I&#39;ve uploaded the results he=
+re:<div><a href=3D"https://git.openembedded.org/openembedded-core-contrib/c=
+ommit/?h=3Djansa/tune-test-dunfell&amp;id=3Dc87f58e4235fc5c2fe31037917fd999=
+bf4142dca">https://git.openembedded.org/openembedded-core-contrib/commit/?h=
+=3Djansa/tune-test-dunfell&amp;id=3Dc87f58e4235fc5c2fe31037917fd999bf4142dc=
+a</a><br></div><div><br></div><div>There is a lot of changes compared to ma=
+ster, but mostly because I didn&#39;t have ARM_INSTRUCTION_SET set to thumb=
+ in this run.</div><div><br></div><div>That helped to reveal one issue in</=
+div><div>meta/conf/machine/include/tune-arm9tdmi.inc<br></div><div>which mo=
+st likely exists in master as well (wasn&#39;t detected before just because=
+ ARM_INSTRUCTION_SET).</div><div><a href=3D"https://git.openembedded.org/op=
+enembedded-core-contrib/diff/scripts/tune/log.fake-arm9tdmi.arm9tdmi?h=3Dja=
+nsa/tune-test-dunfell&amp;id=3Dc87f58e4235fc5c2fe31037917fd999bf4142dca">ht=
+tps://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune/log.=
+fake-arm9tdmi.arm9tdmi?h=3Djansa/tune-test-dunfell&amp;id=3Dc87f58e4235fc5c=
+2fe31037917fd999bf4142dca</a><br></div><div><br></div><div>And the=C2=A0met=
+a/conf/machine/include/tune-supersparc.inc is failing like it did in master=
+ before removal in:</div><div><a href=3D"https://git.openembedded.org/opene=
+mbedded-core/commit/?id=3D861519337b6e5e986c3c4b8ba253e8339caf0805">https:/=
+/git.openembedded.org/openembedded-core/commit/?id=3D861519337b6e5e986c3c4b=
+8ba253e8339caf0805</a><br></div><div>which you probably intentionally didn&=
+#39;t backport to dunfell.</div><div><a href=3D"https://git.openembedded.or=
+g/openembedded-core-contrib/diff/scripts/tune/log.fake-supersparc?h=3Djansa=
+/tune-test-dunfell&amp;id=3Dc87f58e4235fc5c2fe31037917fd999bf4142dca">https=
+://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune/log.fak=
+e-supersparc?h=3Djansa/tune-test-dunfell&amp;id=3Dc87f58e4235fc5c2fe3103791=
+7fd999bf4142dca</a><br></div><div><br></div><div>I&#39;ll trigger it once m=
+ore with thumb enabled to better show what&#39;s the difference from master=
+.</div><div><br></div><div>Cheers,</div></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 27, 2020 at 4:34 PM Mar=
+tin Jansa &lt;<a href=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div dir=3D"ltr">Hi Steve,<div><br></div><div>it&#39;s from this branch:=
+</div><div><a href=3D"https://git.openembedded.org/openembedded-core-contri=
+b/log/?h=3Djansa/tune-test" target=3D"_blank">https://git.openembedded.org/=
+openembedded-core-contrib/log/?h=3Djansa/tune-test</a><br></div><div><br></=
+div><div>I&#39;ve already started it on top of dunfell with these fixes bac=
+kported, will report back when it&#39;s finished (will take at least rest o=
+f today to finish).</div><div><br></div><div>Cheers,</div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 27, 2=
+020 at 3:03 PM Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" targe=
+t=3D"_blank">steve@sakoman.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">Hi Martin,<br>
+<br>
+On Mon, Oct 26, 2020 at 11:24 PM Martin Jansa &lt;<a href=3D"mailto:martin.=
+jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br=
+>
+<br>
+&gt; Did you run tune/test.sh script with these on dunfell or do you want m=
+e to?<br>
+<br>
+No, I didn&#39;t.=C2=A0 I&#39;m not familiar with that script.=C2=A0 Can yo=
+u point me in<br>
+the right direction?<br>
+<br>
+&gt; It looks OK, but would be good to confirm that it fixes all issues<br>
+&gt; currently in dunfell.<br>
+<br>
+Agreed!<br>
+<br>
+Steve<br>
+</blockquote></div>
+</blockquote></div>
+
+--0000000000005362ba05b2bc054a--
