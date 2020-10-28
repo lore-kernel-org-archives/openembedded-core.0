@@ -1,122 +1,228 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web09.3888.1603919180808084648
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.3906.1603919181935385190
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 14:06:21 -0700
+ Wed, 28 Oct 2020 14:06:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YbWWxvvi;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id l24so930804edj.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cWfxV0oa;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id dg9so899505edb.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=O/GYLEkEFGVkz6gPaLD5SOvBg/wEy1+oK7huhrLqcNE=;
-        b=YbWWxvvimG00a3EzvLI+b76fk+IOV7lRZJeP/7ITswTm5EX1Hi8EEBf98yfnUiYcs7
-         HLcG6/yMpRH+cUY4eR9bU25dh/DV73/pVdalVHJrlQgHlUtojDWPS3CfEsdylauiJOOQ
-         LJpJUhI2Li2Nuk8PmEGFweGatxgZ/vFDTxmBHOFXaSzLpXhnJKNPidGLyHIG6Sm3TSo+
-         SDAMPRD+JieC2/z2WEePb1EtfJJDyUcx3b5ovxElCbDeESAtLFavNIe2t3mAMxTISnOr
-         r80byKRoev466OK7OX5TojHzsdPLLUpfdXYomIwYyPrdWKfud8ssRbsPgxHXW5pPfRy3
-         YOCw==
+        bh=ZxIMw0Xq4l+BABO9HrqWftIad43+bsAqtxqt3Ck789o=;
+        b=cWfxV0oaUXo7cY4EHX6jZZ4IJ08kymFYxXs5h2t2a7Gz/HHXoxS1+6Ax72J0ZzBMhM
+         JqcJZKhZcresH9aly5JZ01PmaJVQ9hWg8Ipk83RDqR1QmuhIqfdDo0y1K7IWzQhIDDvz
+         yMjHcrz59ZP1foFnOvyL60VnuU5oLLJ5LTgaP6ix2jYWNTFy6a263zAg6t/5mI8f7QEP
+         /afVSui6G6yU4ZHVwW2Nfg7pbxJHE+zRSuforarazHRAHhKfrxBqzPPz9LOSJqNKn+/Q
+         gzN6++K9g9Z+EFPMgtHRoF4Le1jm2vyMwn4QS2CUJIn+oLZVrD1UlsG7BwMPaSMkLbIh
+         V2Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=O/GYLEkEFGVkz6gPaLD5SOvBg/wEy1+oK7huhrLqcNE=;
-        b=TDfefdBuNWqQGULdfu5OnkrWBCHdB6VCb8JQS/V6s/3tYipuLmJgwWnFkfl0A6rls5
-         8vXpJVMBvzSzjpS5+lGSSGGlkaDQ0nn+0yrCMNKH398+Dz8Ni+NQguBsGdhY1ohKYjnZ
-         jsw/1E0OEA8q2kDL4TWYRMdaKU+kiZCwdFSKML0mB6JS4vjzdCxP7y+fQKxAbkv7T9VJ
-         aTvQyGH5zAtN9HtYmP37CeJeGedctjiBS9Xb6CA/TPn34gQ/QoI9zn0dvInujRXDWW+h
-         swfBFIvcWZd+mOe35NvarjaLN8I1p8arSHBq6jioZJSkxJh3asaibOieXC4uO8CyhgTB
-         92AQ==
-X-Gm-Message-State: AOAM532TNPLsBZ0gjLFpkgl97ml9gL5kblixvG1jdc9RXFWekvEaQCPp
-	YLXP1XHppsVHiUGIrOcG4MYwHTnNmcFLnA==
-X-Google-Smtp-Source: ABdhPJwe98e1fg2JNZeG22IqMDDpnc7H7oOoWQJlbfFE8XaqAlI+J4cNt1pgRRAkRz3UZ2Q94VMLUw==
-X-Received: by 2002:a50:dec5:: with SMTP id d5mr860401edl.362.1603919179142;
-        Wed, 28 Oct 2020 14:06:19 -0700 (PDT)
+        bh=ZxIMw0Xq4l+BABO9HrqWftIad43+bsAqtxqt3Ck789o=;
+        b=UZAlgwVShoHZml0XcrbMw8EoJ0+mtWrJxb8rL8mgKmHBtuM6Kjj7ejloDxafnnAZHT
+         1Q//PYKgEMN6S3huz7ZJi2X0wCi0E/zCyAvI6uYY6bvy0nJ8rBJmeDICnkg2tLOYo2FV
+         piv7XG7Hmc5xfBOysUC1amt8N6NHxim0Rp09t+P0+lAynIiMQ/8cgBw2bFKTPshirhe4
+         UvK4PYPUa9qKwhwJlliKAOrzZfstxU8vCA7FC7yfPJEg+zEVt+paHIkTD6vzOzIk8XgK
+         Ng4BNi49kRAqnP9D1cgVh26HkwRertmC0HFkMKdc9Owe0aFyj1Ih13WWNllZhbblP7fr
+         j36w==
+X-Gm-Message-State: AOAM530MW5bkP24HCYBCmAE/38tKwCz5cMrfnH20+uPQfXhRGnPEu8O+
+	9Jr9OHcRY4Er74p+bPd1YhHpnDINsNtWKQ==
+X-Google-Smtp-Source: ABdhPJw1PqNnTm2fyVUtXjbIqbGG5DjIEAdwj6FlFioYxVzgxIzySIBAEF+iqO4BGUabcg05UH0x3A==
+X-Received: by 2002:aa7:c58f:: with SMTP id g15mr802480edq.99.1603919180160;
+        Wed, 28 Oct 2020 14:06:20 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.18
+        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 14:06:18 -0700 (PDT)
+        Wed, 28 Oct 2020 14:06:19 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 15/33] gsettings-desktop-schemas: update 3.36.1 -> 3.38.0
-Date: Wed, 28 Oct 2020 22:05:40 +0100
-Message-Id: <20201028210558.21070-15-alex.kanavin@gmail.com>
+Subject: [PATCH 16/33] libsecret: update 0.20.3 -> 0.20.4
+Date: Wed, 28 Oct 2020 22:05:41 +0100
+Message-Id: <20201028210558.21070-16-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201028210558.21070-1-alex.kanavin@gmail.com>
 References: <20201028210558.21070-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Drop 0001-Do-not-skip-gir-installation-for-cross-compiling.patch as
-upstream has done the same change.
+Drop the patch as it is merged upstream.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...gir-installation-for-cross-compiling.patch | 33 -------------------
- ...bb => gsettings-desktop-schemas_3.38.0.bb} |  4 +--
- 2 files changed, 1 insertion(+), 36 deletions(-)
- delete mode 100644 meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas/0001-Do-not-skip-gir-installation-for-cross-compiling.patch
- rename meta/recipes-gnome/gsettings-desktop-schemas/{gsettings-desktop-schemas_3.36.1.bb => gsettings-desktop-schemas_3.38.0.bb} (70%)
+ .../0001-meson-add-option-introspection.patch | 137 ------------------
+ ...ibsecret_0.20.3.bb => libsecret_0.20.4.bb} |   5 +-
+ 2 files changed, 1 insertion(+), 141 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch
+ rename meta/recipes-gnome/libsecret/{libsecret_0.20.3.bb => libsecret_0.20.4.bb} (81%)
 
-diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas/0001-Do-not-skip-gir-installation-for-cross-compiling.patch b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas/0001-Do-not-skip-gir-installation-for-cross-compiling.patch
+diff --git a/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch b/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch
 deleted file mode 100644
-index c481b18f1c..0000000000
---- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas/0001-Do-not-skip-gir-installation-for-cross-compiling.patch
+index 51ee66f42b..0000000000
+--- a/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch
 +++ /dev/null
-@@ -1,33 +0,0 @@
--From 42e58c4c3e95a4a78ee8294f9b3901726bbbabe4 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
--Date: Sat, 11 May 2019 00:21:11 +0200
--Subject: [PATCH] Do not skip gir installation for cross compiling
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
+@@ -1,137 +0,0 @@
+-meson: add option introspection
 -
--We are cool and can handle cross gobject-introspection.
+-Add an option 'introspection' for meson which could control whether
+-build GIR files or not.
 -
--Upstream-Status: Inappropriate [OE specific]
+-Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libsecret/-/merge_requests/53]
 -
--Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ----
-- headers/meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- libsecret/meson.build | 86 ++++++++++++++++++++++---------------------
+- meson.build           |  1 +
+- meson_options.txt     |  1 +
+- 3 files changed, 46 insertions(+), 42 deletions(-)
 -
--diff --git a/headers/meson.build b/headers/meson.build
--index 3ce8b61..1132695 100644
----- a/headers/meson.build
--+++ b/headers/meson.build
--@@ -19,7 +19,7 @@ enums_xml = custom_target(
--   install: true,
--   install_dir: schemasdir)
+-diff --git a/libsecret/meson.build b/libsecret/meson.build
+-index 759b5ef..2ee8850 100644
+---- a/libsecret/meson.build
+-+++ b/libsecret/meson.build
+-@@ -104,50 +104,52 @@ libsecret_dep = declare_dependency(
+- )
 - 
---if not meson.is_cross_build() and get_option('introspection')
--+if get_option('introspection')
--   noinst_lib = shared_library('noinst',
--                               headers,
--                               install: false)
+- # GObject Introspection
+--libsecret_gir_sources = [
+--  'secret-attributes.c',
+--  'secret-attributes.h',
+--  'secret-backend.c',
+--  'secret-backend.h',
+--  'secret-collection.c',
+--  'secret-collection.h',
+--  'secret-item.c',
+--  'secret-item.h',
+--  'secret-methods.c',
+--  'secret-password.c',
+--  'secret-password.h',
+--  'secret-paths.c',
+--  'secret-paths.h',
+--  'secret-prompt.c',
+--  'secret-prompt.h',
+--  'secret-retrievable.c',
+--  'secret-retrievable.h',
+--  'secret-schema.c',
+--  'secret-schema.h',
+--  'secret-schemas.c',
+--  'secret-schemas.h',
+--  'secret-service.c',
+--  'secret-service.h',
+--  'secret-types.h',
+--  'secret-value.c',
+--  'secret-value.h',
+--]
+--libsecret_gir_sources += version_h
+--libsecret_gir_sources += _enums_generated
+--
+--libsecret_gir = gnome.generate_gir(libsecret,
+--  sources: libsecret_gir_sources,
+--  namespace: 'Secret',
+--  nsversion: api_version_major,
+--  export_packages: 'libsecret-@0@'.format(api_version_major),
+--  includes: [ 'GObject-2.0', 'Gio-2.0' ],
+--  header: 'libsecret/secret.h',
+--  extra_args: [ '-D SECRET_COMPILATION'],
+--  install: true,
+--)
+-+if with_gir
+-+  libsecret_gir_sources = [
+-+    'secret-attributes.c',
+-+    'secret-attributes.h',
+-+    'secret-backend.c',
+-+    'secret-backend.h',
+-+    'secret-collection.c',
+-+    'secret-collection.h',
+-+    'secret-item.c',
+-+    'secret-item.h',
+-+    'secret-methods.c',
+-+    'secret-password.c',
+-+    'secret-password.h',
+-+    'secret-paths.c',
+-+    'secret-paths.h',
+-+    'secret-prompt.c',
+-+    'secret-prompt.h',
+-+    'secret-retrievable.c',
+-+    'secret-retrievable.h',
+-+    'secret-schema.c',
+-+    'secret-schema.h',
+-+    'secret-schemas.c',
+-+    'secret-schemas.h',
+-+    'secret-service.c',
+-+    'secret-service.h',
+-+    'secret-types.h',
+-+    'secret-value.c',
+-+    'secret-value.h',
+-+  ]
+-+  libsecret_gir_sources += version_h
+-+  libsecret_gir_sources += _enums_generated
+-+
+-+  libsecret_gir = gnome.generate_gir(libsecret,
+-+    sources: libsecret_gir_sources,
+-+    namespace: 'Secret',
+-+    nsversion: api_version_major,
+-+    export_packages: 'libsecret-@0@'.format(api_version_major),
+-+    includes: [ 'GObject-2.0', 'Gio-2.0' ],
+-+    header: 'libsecret/secret.h',
+-+    extra_args: [ '-D SECRET_COMPILATION'],
+-+    install: true,
+-+  )
+-+endif
+- 
+- # Vapi
+--if with_vapi
+-+if with_vapi and with_gir
+-   libsecret_vapi = gnome.generate_vapi('libsecret-@0@'.format(api_version_major),
+-     sources: libsecret_gir[0],
+-     metadata_dirs: meson.source_root() / 'libsecret',
+-diff --git a/meson.build b/meson.build
+-index a26d046..d22e008 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -22,6 +22,7 @@ with_gcrypt = get_option('gcrypt')
+- enable_debug = get_option('debugging')
+- with_vapi = get_option('vapi')
+- with_gtkdoc = get_option('gtk_doc')
+-+with_gir = get_option('introspection')
+- 
+- # Some variables
+- config_h_dir = include_directories('.')
+-diff --git a/meson_options.txt b/meson_options.txt
+-index c1fda5d..445aeb0 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -3,3 +3,4 @@ option('gcrypt', type: 'boolean', value: true, description: 'With gcrypt and tra
+- option('debugging', type: 'boolean', value: false, description: 'Turn debugging on/off')
+- option('vapi', type: 'boolean', value: true, description: 'Create VAPI file.')
+- option('gtk_doc', type: 'boolean', value: true, description: 'Build reference documentation using gtk-doc')
+-+option('introspection', type: 'boolean', value: true, description: 'Create GIR file.')
 --- 
--2.20.1
+-2.17.1
 -
-diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.36.1.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.38.0.bb
-similarity index 70%
-rename from meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.36.1.bb
-rename to meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.38.0.bb
-index f54b242e73..34681197d8 100644
---- a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.36.1.bb
-+++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.38.0.bb
-@@ -13,6 +13,4 @@ GNOMEBASEBUILDCLASS = "meson"
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb b/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
+similarity index 81%
+rename from meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
+rename to meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
+index 533015a1e4..96f6460181 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.20.4.bb
+@@ -13,10 +13,7 @@ inherit gnomebase gtk-doc vala gobject-introspection manpages
  
- inherit gnomebase gsettings gobject-introspection gettext upstream-version-is-even
+ DEPENDS += "glib-2.0 libgcrypt gettext-native"
  
--SRC_URI[archive.md5sum] = "708ddd8dec388ebda5539667604197c3"
--SRC_URI[archive.sha256sum] = "004bdbe43cf8290f2de7d8537e14d8957610ca479a4fa368e34dbd03f03ec9d9"
--SRC_URI += "file://0001-Do-not-skip-gir-installation-for-cross-compiling.patch"
-+SRC_URI[archive.sha256sum] = "5704c8266004b296036671f223c705dc046aa694a1b1abb87c67e7d2747a8c67"
+-SRC_URI += "file://0001-meson-add-option-introspection.patch"
+-
+-SRC_URI[archive.md5sum] = "47c3fdfeb111a87b509ad271e4a6f496"
+-SRC_URI[archive.sha256sum] = "4fcb3c56f8ac4ab9c75b66901fb0104ec7f22aa9a012315a14c0d6dffa5290e4"
++SRC_URI[archive.sha256sum] = "325a4c54db320c406711bf2b55e5cb5b6c29823426aa82596a907595abb39d28"
+ 
+ GTKDOC_MESON_OPTION = 'gtk_doc'
+ 
 -- 
 2.29.0
 
