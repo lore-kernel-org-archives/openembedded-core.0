@@ -1,46 +1,46 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web08.4580.1603922223944303409
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web09.4801.1603922981399894281
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 14:57:04 -0700
+ Wed, 28 Oct 2020 15:09:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z7TIYyZ3;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id h19so673485qtq.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:57:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XxpDgiJj;
+ spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id c6so458380qkg.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 15:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5JzFLFVcXnX/Tm5Bk/LWJ4CH84XHCD6uByN5YSvruLI=;
-        b=Z7TIYyZ3Mc1UsqvNb99azOCc/gVB8lAUPxTj7K/rnPBek8NW/POJfVlb9cF7nQaF0B
-         gwdqFzCthJASlL2xuOxPAPZSf8+yqD2jYI8dYQLthpt80PHNEl+M/9k2Xc/azkLCw1S3
-         Unp9/x39U/FJZJkGMt3k7EbulS8S2fpBb8bzq2b4pv/Swmna9bo/cokqKfzj54rjl4T3
-         t65HZz6iyYgWKtcuub1fjP1sl8HA94vGWSjsjKOmuQAikbHNT21UcVKmJeLeBsKTjlS+
-         a5Nlq6eINkWqVc4mg02Mn6d3LnFdZXGx27Ld+z0D3fgfAizpE3C+4skasb6qslhG67OW
-         GLaw==
+        bh=QgjUJiejHQnAgQhahxG6wXBR6BaXd2NM9pgrOuGB4NI=;
+        b=XxpDgiJjHV9YZStdrCEJQRUlK4ySMjsX7KZGPaHb2rUUR9x3MqeNAoP4lLufcY7jr1
+         iKgFIbdMO7OzkvFstKUCzp6d6ojEmJttuqiEPHvOAu5lXJGe6ZKuAKgxj7mktKrZT6ZC
+         2stLDIZVyDjRcRh+B/HOmEhoacJN31So5OzlIj1HrE61LfJ5s9NiKy+1Nqo2D7qGhPCI
+         1ABH4nGYz96aavPSEic74x9tMsIE5J/aVACxfsYCb1HmxGwtFnPsHEOgbdUirRsMxscb
+         p2637WWRYGlnfno9r7M5QegEYjRckNElRc3HEt0nKEf98zEf2rm5VaPEerhgAmyrfz77
+         ofeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5JzFLFVcXnX/Tm5Bk/LWJ4CH84XHCD6uByN5YSvruLI=;
-        b=nLhe2vAJosJ/Eg9vd/BKbPtfZM26TZZEbKy1hbn5mvLwXeNxc915fFjMgxIu0t+ElX
-         Rrk8OLtuoxFDH6uawQohA/ymgnnuJTFD0y0qnTkRr3UZOxq0yXAsiCbpr8P26okSCX6j
-         ZJXUcnfufZDLuZ2/z3302fZTn7sBKZyPdtdUmSWsrDXGd2k2rex4f8K2l0xK/LLdGLXx
-         ktDwACfiP4pGeDufkv2tjMOZhBfzcj3bqOuBgj8qGT9HgePstGJvoR3/+IO5CsdPhr4N
-         CxTUSbgYz4JtsBFlbeWbgccpKhuygQh8Hkm+pg7HVvtifO/Jf9QLTixTP+3Cg3Jv1mAO
-         dgdg==
-X-Gm-Message-State: AOAM533hGIAAwEU+Y5XDWA4c2D8SacLIAb7S9U0KHgWD6LFMKSV6S1VT
-	XBOPSrlWihAO5i93gzFMn8xOYv3XvL1deTXYWm4=
-X-Google-Smtp-Source: ABdhPJybVDS0OvGCloLk5es7XoO/DZhCWCcKCWAZaGZ3VbYkW5HnaLPhPY9XPNXVReDgIP7ZxN5521YIbv3uYmob9XI=
-X-Received: by 2002:ac8:5985:: with SMTP id e5mr1005280qte.88.1603922222992;
- Wed, 28 Oct 2020 14:57:02 -0700 (PDT)
+        bh=QgjUJiejHQnAgQhahxG6wXBR6BaXd2NM9pgrOuGB4NI=;
+        b=V6jAPrL3sMdN6lAtS7bN5Yd21buIJVSh87IM3CotL1W/oLOEzvUOIQwCAgmBO+OinC
+         hKMWUX2FVBCFEmFm9Pc1+GSqrukU7hWVD1J/bSLVTt8DCpIxS5tfJhEghZEJqRsK83Ki
+         wY5CkVNrGP2U4pGMGGN2Ux5AN1Nhmeh8yAQpedGGbyTKFTDPSIFeibwzGvAS0SIWS1zQ
+         QeraT/IGz/Xi3UpgJfrOVwS4OuBx7G54lbzXoKB25KQ/KcYsQhWHWyVzO/vBo7/mzr2x
+         MOHlMg4IoVxbjDo/CXND0703K3Cdl0r8yjdUDkd15kNzbzQ9yxKVyUM1mYhispxiEDOY
+         5kkQ==
+X-Gm-Message-State: AOAM530DocIEd5hKqO0cm1v2SVPwRVnBRlrmhkzR0qQxfQtJHawZ/RHL
+	lO4LgvMhbjglc9omJmJ+W+BAu/eRo1xnbZisgRU=
+X-Google-Smtp-Source: ABdhPJz3a3031ZyJeGANLkDxtrtB/p2+s8geHV0c55M+S1Ii5oKAMZZtDznio/C7niNLFa6x7xQNITOedbQTSc/MFHQ=
+X-Received: by 2002:a05:620a:1187:: with SMTP id b7mr1014983qkk.212.1603922980397;
+ Wed, 28 Oct 2020 15:09:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201028210558.21070-1-alex.kanavin@gmail.com> <20201028210558.21070-4-alex.kanavin@gmail.com>
-In-Reply-To: <20201028210558.21070-4-alex.kanavin@gmail.com>
+References: <20201028210558.21070-1-alex.kanavin@gmail.com> <20201028210558.21070-25-alex.kanavin@gmail.com>
+In-Reply-To: <20201028210558.21070-25-alex.kanavin@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 28 Oct 2020 14:56:37 -0700
-Message-ID: <CAMKF1sr1mHEyzgDaYGYK8Hk56ALN0HMqoPWu3KhKibe6UVAYuw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/33] python3-pygobject: upgrade 3.36.1 -> 3.38.0
+Date: Wed, 28 Oct 2020 15:09:14 -0700
+Message-ID: <CAMKF1srtg4ML0FUCCqkQEZdz4xgvtd+9M0S5P1N6=eang+8Aow@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 25/33] libhandy: upgrade 0.0.13 -> 1.0.0
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -50,39 +50,28 @@ On Wed, Oct 28, 2020 at 2:06 PM Alexander Kanavin
 >
 > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->  ...thon3-pygobject_3.36.1.bb => python3-pygobject_3.38.0.bb} | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->  rename meta/recipes-devtools/python/{python3-pygobject_3.36.1.bb => python3-pygobject_3.38.0.bb} (78%)
->
-> diff --git a/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
-> similarity index 78%
-> rename from meta/recipes-devtools/python/python3-pygobject_3.36.1.bb
-> rename to meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
-> index 0a34d4373f..b4427050f5 100644
-> --- a/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb
-> +++ b/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
-> @@ -14,8 +14,7 @@ SRC_URI = " \
->      http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
->      file://0001-Do-not-build-tests.patch \
->  "
-> -SRC_URI[md5sum] = "ebfebc4533856572281add29f08412bf"
-> -SRC_URI[sha256sum] = "d1bf42802d1cec113b5adaa0e7bf7f3745b44521dc2163588d276d5cd61d718f"
-> +SRC_URI[sha256sum] = "0372d1bb9122fc19f500a249b1f38c2bb67485000f5887497b4b205b3e7084d5"
->
->  UNKNOWN_CONFIGURE_WHITELIST = "introspection"
->
-> @@ -27,7 +26,7 @@ RDEPENDS_${PN} += "python3-pkgutil"
->
->  # python3-pycairo is checked on configuration -> DEPENDS
->  # we don't link against python3-pycairo -> RDEPENDS
-> -PACKAGECONFIG[cairo] = "-Dpycairo=true,-Dpycairo=false, cairo python3-pycairo, python3-pycairo"
-> +PACKAGECONFIG[cairo] = "-Dpycairo=enabled,-Dpycairo=disabled, cairo python3-pycairo, python3-pycairo"
->
+>  meta/recipes-gnome/libhandy/libhandy_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-is this a bug fix ? or a new change
+perhaps rename the recipe to libhandy_1.0.0.bb and drop setting PV in recipe ?
 
->  BBCLASSEXTEND = "native"
->  PACKAGECONFIG_class-native = ""
+>
+> diff --git a/meta/recipes-gnome/libhandy/libhandy_git.bb b/meta/recipes-gnome/libhandy/libhandy_git.bb
+> index 9f74014640..01b932a528 100644
+> --- a/meta/recipes-gnome/libhandy/libhandy_git.bb
+> +++ b/meta/recipes-gnome/libhandy/libhandy_git.bb
+> @@ -3,9 +3,9 @@ LICENSE = "LGPLv2.1"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+>
+>  SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
+> -SRCREV = "7a193d7692c9c76a1a94f17c4d30b585f77d177c"
+> +SRCREV = "94313c206258860b2428712e7ece1d02c5177857"
+>  S = "${WORKDIR}/git"
+> -PV = "0.0.13"
+> +PV = "1.0.0"
+>
+>  GIR_MESON_ENABLE_FLAG = 'enabled'
+>  GIR_MESON_DISABLE_FLAG = 'disabled'
 > --
 > 2.29.0
 >
