@@ -1,177 +1,157 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web12.3926.1603919188126514554
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web11.3910.1603919188874930971
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 14:06:28 -0700
+ Wed, 28 Oct 2020 14:06:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Df7AJzAN;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id p93so942755edd.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OhoUn0s+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f41.google.com with SMTP id v19so926915edx.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hMQiuYlk/wvky7n6MWFda4bmm8vW2gPJVsPFiorzZlg=;
-        b=Df7AJzANANdlerchYS45QdgD1Tf4Cy4C4dcBWcWqHOl1cSIyLV3fCU5hyH4EayQjnl
-         rR2ST8KjRBDrL1QfjvEiRstuwKfv+xK3HKiLpU4EMHwBnvNXurq5pyvHHcuha80hFMxj
-         fi+Tqq4xmr1mwcNUZXJhzJK/Yfb6nCi5H/KzGI0TF7uxSH2BHOS05z8tDqrD/cJXsmPX
-         tMW2FwR7LaVIOoDSZyiMvw5YdsD+USED8SUSBVW07PXoa4O3+JrAYawicj7Q+NcnNWa+
-         Hqnj0Yd9Xo4IEpIxnW8vgU01lhrAHtTJIeNlZT6OcXhrcJauilSacvaFPto687b9UoNd
-         Ol4A==
+        bh=n/9li04OLrd7XY4rhq4iOe+sM/t9rCWEosMhD2VSjYI=;
+        b=OhoUn0s+S07FMPR/RNnMJVSV14/Kpi7jb8wt3EFdkoA+B5CTUZP9WIjJszgSkrFemL
+         BAIvhK4Y2M2yn0z9ww313uPDBAlU8VB2TOOG9daixoDj/mWrsqUQZVs9WMoB/FcvtjL4
+         qQyIsE5NJf9CVG0s3YIAtqRu8mvxn0IsLXqWU9vk53bebtkwWbc3brjUFIM4Qpmx2iY0
+         fc0S1bOBSI1rqT44qJBXGJV+5RWUvPBwK1kNkE6ZwnDaIVGq8xY0fFGSs9wQYKpJ7V0l
+         RoG0s1MlqBXnLpWQ1oFzI+1vltNkIuKR0LYVedEQKuhwew3YKbQTOF2LeQz11uDukP5P
+         WwLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hMQiuYlk/wvky7n6MWFda4bmm8vW2gPJVsPFiorzZlg=;
-        b=nL9NFu0kZM7CpI48xqgvb1FV8+w+KVYwPDWrrB8UsgTIpiu9Yvj3nDcE3QkWScoVCn
-         470aiGGQMTVro306XirH89zY4JUK1VLnybTH1+hlNXs3zpFZBJGRCdWswaP3jEp1SkMG
-         QLh9OWh0wb+EUXrirhxazuHZigrFJBlcScVoFCVOtRFJLyqwXrYQRY3SvEDtvDwVlkrq
-         oHbKNFeZPI85t5k/t/hqO38to5jqTZwbJJkRVZCy2YzCJkaI/KLqYbi7e27llCeqCcvB
-         DQv70jgv6UycCjBOWMuBw2YpWV5eDZ2eIik4BZzfQl+x9RdY4KHGv1EdWfOcVLpJXG/k
-         USiw==
-X-Gm-Message-State: AOAM533JiheWa6cP0Kwdx2jwHTm8lq0QLh8tv+GG4xpqTYPI9nb24FhM
-	RkxJ3LWMQ+gzCci5gr1umTzZzeeV35XFig==
-X-Google-Smtp-Source: ABdhPJxiL6M9Gxg0TtT0NhCHzUXdaprQDj0AnQduwk6y9KmRizSz2fq+0Dh6QGjUU99xj8xZIt8h9g==
-X-Received: by 2002:aa7:c683:: with SMTP id n3mr845770edq.146.1603919186440;
-        Wed, 28 Oct 2020 14:06:26 -0700 (PDT)
+        bh=n/9li04OLrd7XY4rhq4iOe+sM/t9rCWEosMhD2VSjYI=;
+        b=eksDyWvXWDpJArXDfxqKq3C4Y4BFnBv8UcunVpxHfsPCEc4c+y+lCg6mfLdUydLRzf
+         DkS0gj5a5G6tv8/dMy9se5Emki28a2OZc8GK8qsSlGN0ARdWpK6hMGpTPe1K+NTxfqme
+         2JBdlDkMU44qCfWl9kGPAie5N9tUlCJdmpQzsuwqVn+ttFRkFAX7dAN3dsQwcX3P1eY2
+         QhC009yzS9vQ0Eg1OyEOhAoom6M9q94bFHw5n7C3bLZrCMYZdvs1PRDHDDQNbfq5ki4Q
+         /nJPGzRW176dcWFMMWmB7e6kKmqAC/VvARWX9WpF62ZRZq5/1o0/TEMtf2oDM9K5nRA2
+         PczQ==
+X-Gm-Message-State: AOAM532YBsoLc/qjAQwYQaFxj5skIGyqVh/xbPYIcWr4Z7ZbnoxfuLc0
+	TaOjhYHfrEaIM+giQEVhEBl8WtvjiyBRyw==
+X-Google-Smtp-Source: ABdhPJyQmyP5egEmyZ5TQdnVeuoVeXHpgPlK1cacSJEpO/dCR6XR5j/ipjF7Fat5sEpFOkoABWsj5w==
+X-Received: by 2002:a50:d59c:: with SMTP id v28mr791983edi.241.1603919187244;
+        Wed, 28 Oct 2020 14:06:27 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.25
+        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 14:06:25 -0700 (PDT)
+        Wed, 28 Oct 2020 14:06:26 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 23/33] libcap: update 2.43 -> 2.44
-Date: Wed, 28 Oct 2020 22:05:48 +0100
-Message-Id: <20201028210558.21070-23-alex.kanavin@gmail.com>
+Subject: [PATCH 24/33] vte: update 0.60.3 -> 0.62.1
+Date: Wed, 28 Oct 2020 22:05:49 +0100
+Message-Id: <20201028210558.21070-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201028210558.21070-1-alex.kanavin@gmail.com>
 References: <20201028210558.21070-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-
-Rebase the patches.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-tests-do-not-statically-link-a-test.patch | 38 +++++++------------
- ...-tests-do-not-run-target-executables.patch | 14 +++----
- .../libcap/{libcap_2.43.bb => libcap_2.44.bb} |  2 +-
- 3 files changed, 22 insertions(+), 32 deletions(-)
- rename meta/recipes-support/libcap/{libcap_2.43.bb => libcap_2.44.bb} (96%)
+ ...EXITCODE-macro-for-non-glibc-systems.patch | 46 ++++++-------------
+ .../vte/{vte_0.60.3.bb => vte_0.62.1.bb}      |  3 +-
+ 2 files changed, 16 insertions(+), 33 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.60.3.bb => vte_0.62.1.bb} (92%)
 
-diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-index 81fdd2a15c..d9fd48a9db 100644
---- a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-+++ b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-@@ -1,4 +1,4 @@
--From e4fe6890e07821d60f01f000a95f7944f3d68139 Mon Sep 17 00:00:00 2001
-+From 03e925f0d68bc51e1acf1ac2014a9c2452c664bf Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 15 Jan 2020 17:16:28 +0100
- Subject: [PATCH] tests: do not statically link a test
-@@ -9,35 +9,25 @@ Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+diff --git a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+index 0ffd92b4ba..a1d2e7ff27 100644
+--- a/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
++++ b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+@@ -1,7 +1,10 @@
+-From f78988d3bb5929c857e788a86c7919d6a4ffacc9 Mon Sep 17 00:00:00 2001
++From de9639baac792327c701e509258b8a13f6959e82 Mon Sep 17 00:00:00 2001
+ From: Danilo Spinella <danyspin97@protonmail.com>
+ Date: Thu, 21 Mar 2019 14:19:26 +0100
+ Subject: [PATCH] Add W_EXITCODE macro for non-glibc systems
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
+ 
+ Upstream-Status: Submitted [1]
+ 
+@@ -10,40 +13,24 @@ Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+ [1] https://gitlab.gnome.org/GNOME/vte/issues/72
  
  ---
-- tests/Makefile | 8 ++++----
-- 1 file changed, 4 insertions(+), 4 deletions(-)
-+ tests/Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
+- src/missing.hh | 21 +++++++++++++++++++++
+- src/widget.cc  |  1 +
+- 2 files changed, 22 insertions(+)
+- create mode 100644 src/missing.hh
++ src/missing.hh | 4 ++++
++ src/widget.cc  | 1 +
++ 2 files changed, 5 insertions(+)
  
- diff --git a/tests/Makefile b/tests/Makefile
--index 876a8b9..93a0e3a 100644
-+index d569650..f5ca377 100644
- --- a/tests/Makefile
- +++ b/tests/Makefile
--@@ -26,23 +26,23 @@ psx_test: psx_test.c $(DEPS)
-- run_libcap_psx_test: libcap_psx_test
-+@@ -11,7 +11,7 @@ ifeq ($(DYNAMIC),yes)
-+ LDPATH = LD_LIBRARY_PATH=../libcap
-+ DEPSBUILD = all
-+ else
-+-LDFLAGS += --static
-++LDFLAGS += 
-+ DEPSBUILD = libcap.a libpsx.a
-+ endif
+ diff --git a/src/missing.hh b/src/missing.hh
+-new file mode 100644
+-index 00000000..1baa993d
+---- /dev/null
++index 0742270..30ede62 100644
++--- a/src/missing.hh
+ +++ b/src/missing.hh
+-@@ -0,0 +1,21 @@
+-+/* Copyright 2019 Danilo Spinella
+-+ *
+-+ * This library is free software; you can redistribute it and/or
+-+ * modify it under the terms of the GNU Lesser General Public
+-+ * License as published by the Free Software Foundation; either
+-+ * version 3 of the License, or (at your option) any later version.
+-+ *
+-+ * This library is distributed in the hope that it will be useful,
+-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+ * Lesser General Public License for more details.
+-+ *
+-+ * You should have received a copy of the GNU Lesser General Public
+-+ * License along with this library; if not, write to the Free Software
+-+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-+ */
++@@ -33,3 +33,7 @@ int fdwalk(int (*cb)(void* data, int fd),
++ char* strchrnul(char const* s,
++                 int c);
++ #endif
+ +
+ +#ifndef W_EXITCODE
+ +#define W_EXITCODE(ret, sig) ((ret) << 8 | (sig))
+ +#endif
+-+
+ diff --git a/src/widget.cc b/src/widget.cc
+-index 331ddba9..555a4adf 100644
++index 44a2271..0668735 100644
+ --- a/src/widget.cc
+ +++ b/src/widget.cc
+ @@ -21,6 +21,7 @@
+@@ -52,8 +39,5 @@ index 331ddba9..555a4adf 100644
+  #include <sys/wait.h> // for W_EXITCODE
+ +#include "missing.hh" // for W_EXITCODE on non-glibc systems
   
-- libcap_psx_test: libcap_psx_test.c $(DEPS)
---	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
--+	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create
-- 
-- run_libcap_launch_test: libcap_launch_test libcap_psx_launch_test noop
-- 	sudo ./libcap_launch_test
-- 	sudo ./libcap_psx_launch_test
-- 
-- libcap_launch_test: libcap_launch_test.c $(DEPS)
---	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) --static
--+	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB)
-- 
-- # this varies only slightly from the above insofar as it currently
-- # only links in the pthreads fork support. TODO() we need to change
-- # the source to do something interesting with pthreads.
-- libcap_psx_launch_test: libcap_launch_test.c $(DEPS)
---	$(CC) $(CFLAGS) $(IPATH) -DWITH_PTHREADS $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
--+	$(CC) $(CFLAGS) $(IPATH) -DWITH_PTHREADS $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create
-+@@ -51,7 +51,7 @@ libcap_psx_launch_test: libcap_launch_test.c $(DEPS)
-  
-+ # This one runs in a chroot with no shared library files.
-  noop: noop.c
- -	$(CC) $(CFLAGS) $< -o $@ --static
- +	$(CC) $(CFLAGS) $< -o $@
-diff --git a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-index e8f1df98c1..bfce8e0547 100644
---- a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-+++ b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-@@ -1,4 +1,4 @@
--From 5583b48c04d5bf50b56473d88d990c3f0bc45c14 Mon Sep 17 00:00:00 2001
-+From 7744c1f678f5226a151bc6b2a254a56835229d91 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 20 Dec 2019 16:54:05 +0100
- Subject: [PATCH] tests: do not run target executables
-@@ -11,20 +11,20 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
++ #include <exception>
+  #include <new>
+- #include <string>
+--- 
+-2.21.0
+-
+diff --git a/meta/recipes-support/vte/vte_0.60.3.bb b/meta/recipes-support/vte/vte_0.62.1.bb
+similarity index 92%
+rename from meta/recipes-support/vte/vte_0.60.3.bb
+rename to meta/recipes-support/vte/vte_0.62.1.bb
+index 02a886bce0..1a8e21dec4 100644
+--- a/meta/recipes-support/vte/vte_0.60.3.bb
++++ b/meta/recipes-support/vte/vte_0.62.1.bb
+@@ -18,8 +18,7 @@ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-intros
  
- diff --git a/tests/Makefile b/tests/Makefile
--index bfedbc2..876a8b9 100644
-+index 8956d5d..d569650 100644
- --- a/tests/Makefile
- +++ b/tests/Makefile
--@@ -19,13 +19,11 @@ sudotest: test run_libcap_launch_test run_libcap_launch_test
-+@@ -27,13 +27,11 @@ sudotest: test run_libcap_launch_test run_libcap_launch_test
-  install: all
-  
-  run_psx_test: psx_test
---	./psx_test
-+-	$(LDPATH) ./psx_test
-  
-  psx_test: psx_test.c $(DEPS)
-- 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBPSXLIB) -Wl,-wrap,pthread_create
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBPSXLIB)
-  
-  run_libcap_psx_test: libcap_psx_test
---	./libcap_psx_test
-+-	$(LDPATH) ./libcap_psx_test
-  
-  libcap_psx_test: libcap_psx_test.c $(DEPS)
-- 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) $(LDFLAGS)
-diff --git a/meta/recipes-support/libcap/libcap_2.43.bb b/meta/recipes-support/libcap/libcap_2.44.bb
-similarity index 96%
-rename from meta/recipes-support/libcap/libcap_2.43.bb
-rename to meta/recipes-support/libcap/libcap_2.44.bb
-index c712c25947..79875522d6 100644
---- a/meta/recipes-support/libcap/libcap_2.43.bb
-+++ b/meta/recipes-support/libcap/libcap_2.44.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
-            file://0002-tests-do-not-run-target-executables.patch \
-            file://0001-tests-do-not-statically-link-a-test.patch \
-            "
--SRC_URI[sha256sum] = "512a0e5fc4c1e06d472a20da26aa96a9b9bf2a26b23f094f77f1b8da56cc427f"
-+SRC_URI[sha256sum] = "92188359cd5be86e8e5bd3f6483ac6ce582264f912398937ef763def2205c8e1"
+ # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+-SRC_URI[archive.md5sum] = "4214712ecab2d50e2a3a07897c3ada49"
+-SRC_URI[archive.sha256sum] = "feb76e1181a357d86112d447a08d127e2081438df76ece83243b18609dd9822a"
++SRC_URI[archive.sha256sum] = "c369e87c0c8284e09109d0a9aac821f543558f51c0cb9c7acfff3df64153308d"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
  
 -- 
 2.29.0
