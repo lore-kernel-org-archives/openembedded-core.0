@@ -1,96 +1,114 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web08.3866.1603919190761889239
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web11.3911.1603919191431341587
  for <openembedded-core@lists.openembedded.org>;
  Wed, 28 Oct 2020 14:06:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q/FNnF2y;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id v4so1000056edi.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i+RlzTvs;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id g25so134416edm.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 14:06:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=j5YFMVbR5Pc3OxHNnzstuCug2vCFIu3RoCF3rLPUf5s=;
-        b=Q/FNnF2yUEr2YEKNllFgGUwHbAcPyrFRQL8e5dT0zvd3hfmk7hv45t/Ra28qmP9YWW
-         SNX1Jlulu/cWzBnQrBCLc3uBgl22xLE+v182+7fZ4WMEkFKUOaBIZcTggb91STfAM3OY
-         M84ub0BEu1OHpVFoFmsfoRnvK7FT9FIryv5futD0NHUM85dp7jekQCEYAMvGZdgDh/Gs
-         DfpC0Ta6Xi0nLd+OKjxywA729DPpZ09F6u+ji6kUqj81QMld4oeGA4HwfBecfNDrdH+t
-         dUtSmomxYuk+Jj2ayH5WZnDdmPz3Cr5IX49oYdy/DPw9IjI7FDFcg01NBHlPwvAGTpDn
-         bZpw==
+        bh=unxPs7RJjSUJq08Ct5v1lQ5TCPN+XWMh0Gw+A6JtyR4=;
+        b=i+RlzTvscE90HpcSriMPsYaPw76DFKB9m5glzfAnv/BDJuKvM9L7ZCHDpKkjiI9z7k
+         p8sX7jTYURwF5//LhtTB9Abq59JpVD9zKkbrj0nx5kQ7phglHQHrRdt3m4DrgjBlqFAP
+         yyE+asaU6Pg92Y3Vtqf93zohBjxKT7L9cs/SsSaZuwzs7ftHguOTBAzRv2qmnffHzqfv
+         GRCDedexOI3EAMA47eCstAgJkDmqB1yadAWFvpDxUrjyQx9Gt/ICQ9F9d9ATvMS8ftK8
+         L24RR7Japl9rZLf21dr8vAF9/u3Ybkb2scRhtPZksq2ydlLIVSFM5mYDagVc+vVN310r
+         iTiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=j5YFMVbR5Pc3OxHNnzstuCug2vCFIu3RoCF3rLPUf5s=;
-        b=AmwXSw2YKnrG7r/GuTpaSz2E/1bKamb6YaeBjLdDIsuNCEwuJil9ACCuGXLY1n1NNz
-         a1ZXBS1AdYZCiqwbF1AmDKc1i7s1H+TCAmPHOyJBJvY7HWyi5jCPY5hZWHqh/yp9YyFU
-         atwhQAj1dKTppbqO/NfhTcmI5bg8ZA5jlKXRFE9R+HcEGiWBBTeNizkb2hrvzVyGtuUD
-         aGzzz3W6yJLPPDPqtzCRV+PlQJmtU+APPfrE6Dm+5x6iVqTaolxl/fRenoRbiBMG25ZB
-         L6pvyZYphS72O2d3p1gCXQUroOsOQcyvZHbs+ZBi9YtJ0/bfy0FnysnnfU/d1Plo5SX4
-         n9xQ==
-X-Gm-Message-State: AOAM533y4awFXha8fGxXnagVRQFa6Zf2ph3Ol+s7rqWaR1hj8d4+rZaT
-	2dM8j/uK56AtgZRNeDGPrjQZN8Jd4EneLA==
-X-Google-Smtp-Source: ABdhPJwYFFRJsEjtrZANUuAeHHLYDJh1VhvoaCVxDh5ka8qMhq8aj8ZSsOsI0izkQj3mTCRt9q0Nww==
-X-Received: by 2002:a05:6402:1d87:: with SMTP id dk7mr850147edb.222.1603919189116;
+        bh=unxPs7RJjSUJq08Ct5v1lQ5TCPN+XWMh0Gw+A6JtyR4=;
+        b=KMrqbbOnDARlMyCuzY4P9ZBdRUV69j/d9ftOcQYB3eq6nhcWbESg8FGZbzrnP1MJ33
+         T+iEkAZH94wy33u8T2aEC8tSR1ml38ujn69u7dj7l0DmZ031azbUrdSzpw7HodtYK4Ek
+         q8d7gMkdzZtzKEQMfHa3hf/YwjWrdTMzcexsHdcsgfcXIYXd8P46qzV2iN62RYNiOsYr
+         VIrsBHRBZ7tq3kedKDCuWixKNaOpVOUIU8QPVjnZE13T4lYp693Fi7lFNVsuU0OCp0Fz
+         MHc3lWISEVUuVERqAr3UAxa5gpSW3BM1vXZpE6ukIE+FwqghA3fNetxt0SCeGNoY/12G
+         7gSA==
+X-Gm-Message-State: AOAM531ucUbsuZZaQ1mxx28yCzFlBkzp5fIdxeBX+KT8z9GMCUBOn1gr
+	uEd8q0SCaRN+unNpQFkFB/WvK+OaRU6ZAg==
+X-Google-Smtp-Source: ABdhPJw+0pOw6hQHHPp+xpTr1xRF3iYjDOHf/iZ5tICP+qJfPvkGWE5qka4UoGv7bGauYTzMAijlRA==
+X-Received: by 2002:aa7:c2d9:: with SMTP id m25mr877371edp.226.1603919189828;
         Wed, 28 Oct 2020 14:06:29 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.28
+        by smtp.gmail.com with ESMTPSA id q25sm352434eja.86.2020.10.28.14.06.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 14:06:28 -0700 (PDT)
+        Wed, 28 Oct 2020 14:06:29 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 26/33] libportal: add a recipe
-Date: Wed, 28 Oct 2020 22:05:51 +0100
-Message-Id: <20201028210558.21070-26-alex.kanavin@gmail.com>
+Subject: [PATCH 27/33] epiphany: upgrade 3.36.4 -> 3.38.1
+Date: Wed, 28 Oct 2020 22:05:52 +0100
+Message-Id: <20201028210558.21070-27-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201028210558.21070-1-alex.kanavin@gmail.com>
 References: <20201028210558.21070-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a new build requirement of epiphany browser.
+libportal is a new hard dependency.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- meta/recipes-gnome/libportal/libportal_0.3.bb | 13 +++++++++++++
- 2 files changed, 14 insertions(+)
- create mode 100644 meta/recipes-gnome/libportal/libportal_0.3.bb
+ .../epiphany/{epiphany_3.36.4.bb => epiphany_3.38.1.bb}     | 4 ++--
+ .../0002-help-meson.build-disable-the-use-of-yelp.patch     | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.36.4.bb => epiphany_3.38.1.bb} (83%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 7935f968c7..6458829662 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -367,6 +367,7 @@ RECIPE_MAINTAINER_pn-libpcre = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-libpcre2 = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-libpipeline = "Wang Mingyu <wangmy@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-libpng = "Anuj Mittal <anuj.mittal@intel.com>"
-+RECIPE_MAINTAINER_pn-libportal = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libproxy = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-libpsl = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-gnome/libportal/libportal_0.3.bb b/meta/recipes-gnome/libportal/libportal_0.3.bb
-new file mode 100644
-index 0000000000..022628b1ac
---- /dev/null
-+++ b/meta/recipes-gnome/libportal/libportal_0.3.bb
-@@ -0,0 +1,13 @@
-+SUMMARY = "libportal provides GIO-style async APIs for most Flatpak portals."
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
-+
-+SRC_URI = "git://github.com/flatpak/${BPN}.git;protocol=https"
-+SRCREV = "a609e06d0c4adc5c510cf9ac7b060db3d368e78f"
-+S = "${WORKDIR}/git"
-+
-+GTKDOC_MESON_OPTION = 'gtk_doc'
-+
-+inherit meson gtk-doc
-+
-+DEPENDS += "glib-2.0 glib-2.0-native"
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
+similarity index 83%
+rename from meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
+rename to meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
+index 4c3b18331a..f9daa8bfe2 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.36.4.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
+ 	   gsettings-desktop-schemas libxml2-native \
+-	   glib-2.0 glib-2.0-native json-glib libdazzle libhandy"
++	   glib-2.0 glib-2.0-native json-glib libdazzle libhandy libportal"
+ 
+ GNOMEBASEBUILDCLASS = "meson"
+ inherit gnomebase gsettings features_check upstream-version-is-even gettext mime-xdg
+@@ -14,7 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
+            "
+-SRC_URI[archive.sha256sum] = "588a75b1588f5a509c33cf0be6a38a0f4fc1748eeb499a51d991ddef485242bf"
++SRC_URI[archive.sha256sum] = "59b7576acb11fbb52eaca6dbf6fce28664de5c915ca2580c47f0b08ba83d2843"
+ 
+ FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+ RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+index d4f3cc1d35..118b5d1825 100644
+--- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
++++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+@@ -1,4 +1,4 @@
+-From 0048ae2d225d25cc58f378718ca6f9ddb1a228f9 Mon Sep 17 00:00:00 2001
++From 3725c254f1d1d8204fa299e71c1e2bfd0ff6a634 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Jan 2018 15:50:38 +0200
+ Subject: [PATCH] help/meson.build: disable the use of yelp
+@@ -13,11 +13,11 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/help/meson.build b/help/meson.build
+-index fddcf4c..f7d76c6 100644
++index 484860c..d9b2e80 100644
+ --- a/help/meson.build
+ +++ b/help/meson.build
+ @@ -32,7 +32,7 @@ help_media = [
+-   'media/web-browser.png'
++   'media/epiphany-private-3-36.png'
+  ]
+  
+ -gnome.yelp(meson.project_name(),
 -- 
 2.29.0
 
