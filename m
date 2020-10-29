@@ -1,82 +1,118 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web09.8661.1603978099246183488
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web08.9261.1603980092219963867
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 06:28:19 -0700
+ Thu, 29 Oct 2020 07:01:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=A16njvLZ;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id za3so3818145ejb.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 06:28:19 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=HoGmpzcb;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.196, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f196.google.com with SMTP id t13so3162390ljk.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 07:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=sk+z/l9cORTD7Kn8bpS9+VA9pVksMP/70321HzYDRDk=;
-        b=A16njvLZ1UKByU0V1kQ8NYWd+9dDe9hluHYvEJugJBlnyWT6q9/wn3sRsoJ3eGWocH
-         Q5/+5DbI/88zrQ7hIq/ZTdLxZoS6K4kKoaH09MEgJg9AS1OAG1MAj+8H5EqzKikgj7c8
-         G5w+PkoGWbDWDvrECexNEJs2M87F0MG0g3b57jKfO1THRVNArwjAJjIGKaXWMxvlUIPi
-         EJfyomp5pPWnGpHK9RNju4oDDJHoBlX0uUNO4OaKH9AeJLWBjtjz5ukfTv2QDEGkmigt
-         z+6SUROSV0hBna33ioa4YSTt0pWLOWDbF7e7xK0oPjOSS3I4kwkfI+NALWi4+2e1F6Mz
-         3SYg==
+        bh=y1CYpspl7L8N8WrTgiNwtpOTdbd5fZuzFbAdogimTmk=;
+        b=HoGmpzcbJWwr98/oALp7vn8mV67RBbaVLXTH+sLqTsK0W62Y3VS2wuJFMWSnTnZ5qb
+         scHR7s2ITKOTmO8wg1gVcH3U8NNVzj9Qg4Bx4briwx0W/e1HpEpZ9WsXRRwNixkQVi53
+         PQSt7kYKae5Kd1PB852429eByNwJOb8tzkf0YmZf0ewrZK0+MEeOckN9apTlm6QWwGoo
+         S+ZUJtTZk/UPqPeaBV7I5U6IzIoQy7GqcmLlEeyfz975ZAk1WxWyPu7tgVCjHF+9a4jI
+         1YoGgKaoy1XJ2BL5pvbHltRCBUa71WSf7z8fSDppUzU58vZ1G+cZEJHdP7ShJ2aoWAKa
+         LscA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=sk+z/l9cORTD7Kn8bpS9+VA9pVksMP/70321HzYDRDk=;
-        b=fQp9ULMA4qWQEZ4Mm4+b39bKEJ1J/SZPVsJYDqi5o+rnA9uBEHEmHSPZ09kWYVKwMK
-         ESjs2u/spaCS3riKJE69s4GtA3qt9/pBbdAXciulqK5elmqmexswb//w9uZ1Lz6S0aJo
-         Kp+sPXHHUiG1Xpk/wlC+erMflpAmke/5xsUa0aTw+jkJx1V6bY5AkmvTi8yUgSQsFbOg
-         akD3sCkCft/mzq+TauGtRSTg+AGCj2bZ0LYB/NkY/kuiLyY9LJQijGBNIGnudLekXsFO
-         zAPThmmXndkx6fWYXB2cm2AD0zw4uGfcj2Vk/3PjVA12WOCr9O4C34pJm5pq+1xqzVmz
-         QZpg==
-X-Gm-Message-State: AOAM531mgP9Yc2HrU5l+nJkPPVoLNHZ6pMNr9N1RcGwp7KN+zTWL3M1g
-	1wotrgSbyKtBkqVItxiN9DH9nwxs1oyN4ZL0p7o=
-X-Google-Smtp-Source: ABdhPJx4+cNJ+lx+QNbDGJBDbTfMCKSDw44CPxvX9cs0ri3EHqh9bqz/HVzM8xR5P37fhJPf+yvbMf+unDPFOgSbbT0=
-X-Received: by 2002:a17:907:1102:: with SMTP id qu2mr4074635ejb.300.1603978097746;
- Thu, 29 Oct 2020 06:28:17 -0700 (PDT)
+        bh=y1CYpspl7L8N8WrTgiNwtpOTdbd5fZuzFbAdogimTmk=;
+        b=i6yUYzQMjylgNCWmff+NGhCRVG4Z8vJW1StRB1QFo38OaBbWLNg4159zwBvSbkVv7E
+         jYjHEgRY4FpL4OJ2MeYBbZZ3/xVs+NhOEzTy/nrkPiw5b60sxZW62q5wFAJGAH9uGcAe
+         nfsZhMjnrGiHnaTOGL8Oczc13zJTmmNxvFuhSMAFvK36E+EApgjbRjL2k+HbvPlEET8C
+         S0Jhd6naEfR85yJQfoTAMTaoEzz8gXfFMuon6ARY4dOA/GsYZNig9Gi2/EHEW+fX2AeI
+         6BiaaOw4F1lfr2I441h7YANe4GO4fbVwypQj2Zf6eZJRtN5Fi+VApKj7tK0Hr+HUAv/p
+         uuuw==
+X-Gm-Message-State: AOAM530wZQqRMsmVL18+Sal5wclW/YaNq7KJp0zR+XuRJ9YSYVc4+RBB
+	wQYu8bUuF4Z0xyCnJKMUmhc9uvZuPBXLxjxte/7ccA==
+X-Google-Smtp-Source: ABdhPJy5Cf62HmLyi/oJsJ5HqmV8CgrvJhMYOLgT838JbG8yrONy9/PoPWbTizW+0beQyWtBhO5k7nY2wNUq8UjVaZs=
+X-Received: by 2002:a2e:97c5:: with SMTP id m5mr2098391ljj.22.1603980090166;
+ Thu, 29 Oct 2020 07:01:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201023184132.3208737-1-quaresma.jose@gmail.com>
- <6c5cc7223aec5587143b1d7e165346494a4ab77d.camel@linuxfoundation.org>
- <CANPvuRkMioP_k1f6=xj3Gn==wQq-JUtzqcux=sCV98CibvKFrA@mail.gmail.com>
- <CANNYZj9x+mWxJ6NnUarwF3Q1YjoqmDYq83ZwFc8aQY2fyQjtuQ@mail.gmail.com>
- <2002eb09317f295e090792f561e8ff33a67b8e96.camel@linuxfoundation.org>
- <CANPvuRk13xJMo=AoTc29=BwCTqcgB56bNsQ4DuSNC2SnhuGwAg@mail.gmail.com>
- <CANNYZj8Yzap6Np9_RndKXDEEJU1pYUFdbQcAQk5j+u-q_wxM1w@mail.gmail.com>
- <CANPvuRnJPi06YBz1uL8tc39DGszd0Q3UGX9rAMaQg2xDtHjD6g@mail.gmail.com> <b15be544910d17ec6b22af8a5ea50dc1958c97d0.camel@linuxfoundation.org>
-In-Reply-To: <b15be544910d17ec6b22af8a5ea50dc1958c97d0.camel@linuxfoundation.org>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Thu, 29 Oct 2020 13:28:16 +0000
-Message-ID: <CANPvuR=5u9GXGu8L5KsFuA9fBxhhtSJTmv+2a=MXriME6cLusQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v4 00/21] Updates the gstreamer to version 1.18.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+References: <1603905435-21094-1-git-send-email-Saloni.Jain@kpit.com>
+In-Reply-To: <1603905435-21094-1-git-send-email-Saloni.Jain@kpit.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Thu, 29 Oct 2020 14:01:19 +0000
+Message-ID: <CAAnfSTv=q44jBC3W9GRYLhoRZrh1NUJSnQk+5mAbbky5Dn8Ztw@mail.gmail.com>
+Subject: Re: [OE-core] [poky][master][PATCH] gnutls: Whitelisted CVE patches
+To: saloni <saloni.jain@kpit.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	nisha.parrakat@kpit.com, anuj.chougule@kpit.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-quinta, 29/10/2020 =C3=A0(s) 13:17:
->
-> On Thu, 2020-10-29 at 13:10 +0000, Jose Quaresma wrote:
-> > It is dropped because the all the code is now LGPL-2.1+
-> > I have reference this on the commit
-> > The LICENSE_FLAGS =3D "commercial" is there on 1.16 because the copy of
-> > the ffmpeg on the archive
->
-> I think if libav needs ffmpeg, it will need that line (with a comment
-> explaining its due to the dependency). I'm assuming libav without
-> ffmpeg doesn't make sense/work?
+Echoing what Steve says: where this is due to incorrect information in
+the CVE database we should definitely fix the CVE database instead of
+working around this in the recipes.  The only reason to whitelist in
+the recipe is if the vulnerability is based on the build configuration
+or we've decided that it's not relevant.
 
-Yes it true
-I will add a V2 with this fixed
+Ross
 
+On Wed, 28 Oct 2020 at 17:17, saloni <saloni.jain@kpit.com> wrote:
 >
-> Cheers,
+> From: Saloni Jain <Saloni.Jain@kpit.com>
 >
-> Richard
+> Below CVE patches are whitelisted as changes
+> are already present in source code:
+> 1. CVE-2018-10844
+> Link: https://security-tracker.debian.org/tracker/CVE-2018-10844
+> Link: https://gitlab.com/gnutls/gnutls/commit/c32a8690f9f9b05994078fe9d2=
+e7a41b18da5b09
+> 2. CVE-2018-10845
+> Link: https://security-tracker.debian.org/tracker/CVE-2018-10845
+> Link: https://gitlab.com/gnutls/gnutls/commit/cc14ec5ece856cb083d64e6a5a=
+8657323da661cb
+> 3. CVE-2018-10846
+> Link: https://security-tracker.debian.org/tracker/CVE-2018-10846
+> Link: https://gitlab.com/gnutls/gnutls/commit/ce671a6db9e47006cff152d485=
+091141b1569f39
+> 4. CVE-2018-16868
+> Link: https://gitlab.com/gnutls/gnutls/-/merge_requests/832
+> Link: https://gitlab.com/gnutls/gnutls/-/commit/4804febddc2ed958e5ae774d=
+e2a8f85edeeff538
 >
-
-
---=20
-best regards,
-Jos=C3=A9 Quaresma
+> Signed-off-by: Saloni.Jain <Saloni.Jain@kpit.com>
+> ---
+>  meta/recipes-support/gnutls/gnutls_3.6.14.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.6.14.bb b/meta/recipes=
+-support/gnutls/gnutls_3.6.14.bb
+> index 51578b4..727a12f 100644
+> --- a/meta/recipes-support/gnutls/gnutls_3.6.14.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
+> @@ -17,6 +17,9 @@ DEPENDS_append_libc-musl =3D " argp-standalone"
+>
+>  SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split(=
+'.')[1]}"
+>
+> +#Changes are already present in source-code, hence whitelisted.
+> +CVE_CHECK_WHITELIST +=3D "CVE-2018-16868 CVE-2018-10844 CVE-2018-10845 =
+CVE-2018-10845"
+> +
+>  SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutl=
+s-${PV}.tar.xz \
+>             file://arm_eabi.patch \
+>             file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICEN=
+SE-f.patch \
+> --
+> 2.7.4
+>
+> This message contains information that may be privileged or confidential=
+ and is the property of the KPIT Technologies Ltd. It is intended only for =
+the person to whom it is addressed. If you are not the intended recipient, =
+you are not authorized to read, print, retain copy, disseminate, distribute=
+, or use this message or any part thereof. If you receive this message in e=
+rror, please notify the sender immediately and delete all copies of this me=
+ssage. KPIT Technologies Ltd. does not accept any liability for virus infec=
+ted mails.
+>
+>=20
+>
