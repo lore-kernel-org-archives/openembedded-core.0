@@ -1,141 +1,99 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web08.5792.1603960854498726680
+Received: from esa6.hc324-48.eu.iphmx.com (esa6.hc324-48.eu.iphmx.com [207.54.71.69])
+ by mx.groups.io with SMTP id smtpd.web12.6029.1603963130058201064
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 01:40:55 -0700
+ Thu, 29 Oct 2020 02:18:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=VNUpGRaZ;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=l/oUxhpm;
+ spf=pass (domain: bmw.de, ip: 207.54.71.69, mailfrom: prvs=56492ee7e=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=7346; q=dns/txt; s=axis-central1;
-  t=1603960854; x=1635496854;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1603963130; x=1635499130;
   h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=UMQ8JugxRuSe7gBMgWrQtRZ/hmtzwDnP4ZzjaENwobE=;
-  b=VNUpGRaZxHtmcDoACMHGryyhauuHXjwAWChTVBWQuL8afFcZp/Bmq3e8
-   LneMuuhpMchKiWR10wpW+9+MKi3AnqAt8C4UYbcMT3FF/4XRgpXuxqRDd
-   d3zRozGXmEXhBukIZaqHukstLvxvQwvNX5pKuvxzxI0z7i9kRsrDO46PH
-   V9uoXTjwcb9CvyExjEqedMj+tNgEce/9SwHL/as5l9fJxMG072dZMzD9U
-   ViJJaJYdvN508Hi5WP4WWyjiLxMLmp+jbawPyKITzS/hH07pc73dF1GXC
-   +XL5CyB4N83p40vHjqNH0M0pMlpzgBCuP7wrUK1YS51bctkL36fzyVu28
-   Q==;
-IronPort-SDR: OOuM6to+zxUnwVsMFuhdZeDwfvUv3XalYIhaIbnW9kxhAK+mXz+SdrqPQheIayh1XMy/YJ/NNZ
- cyJ7SINRng7BDL+yA7pBLyn0OTH2tP1GlKbL7gBUdZnJBkzcz+FFdDhKLqr8PpXQ/446RCuvO7
- lsSkPSpYmhF3WogPqEqeh4I7mjHNYYhkyDde2oWAU9tACwBb498g4/wHG6JYQaKNrNVnLbOO7G
- VLy1OQpbtHlVkUUoOPbKuAiCAo6nZTNLXBObZZKfd/bTLdsOOSjhVc+XdP3IpnNpP+gMQAhhDb
- 8UA=
-X-IronPort-AV: E=Sophos;i="5.77,429,1596492000"; 
-   d="scan'208";a="14543215"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: "Yann E. MORIN" <yann.morin.1998@free.fr>, Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Alexandre BELLONI
-	<alexandre.belloni@bootlin.com>
-Subject: Re: [OE-core] [PATCH] recipes-core/busybox: fixup licensing information
-Thread-Topic: [OE-core] [PATCH] recipes-core/busybox: fixup licensing
- information
-Thread-Index: AQHWrIEEDMGokJ3n7UW7HjvwmP1v/amr1P2AgAAG7wCAAmck0A==
-Date: Thu, 29 Oct 2020 08:40:51 +0000
-Message-ID: <7034929ceb7b40a9adbb49f6cd7fdc2e@XBOX03.axis.com>
-References: <20201027164831.3297010-1-yann.morin.1998@free.fr>
- <ee39bffd-e43b-69a6-98e2-b3f4963e346f@gmail.com>
- <20201027205048.GH2805@scaer>
-In-Reply-To: <20201027205048.GH2805@scaer>
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=CX346wpTGLf9j+LHFHptUXI7fa0nvOU8UqL+JrsEoTs=;
+  b=l/oUxhpmfT4z38mOzMVXHWiedfkPMVssfxzQKU5b4jszr3Tq6fSydes2
+   zZ6ETFjY+KzLoDhgtM0mGGzXR3OsEr3QwlGcl2Eoy+Jg7HcfTnStdWYvU
+   hBZb1uj9ogWdyurN+DttUI+Drjb+WT15ZctIdYCgq8pUmHkxt/K5UJVoI
+   Q=;
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa6.hc324-48.eu.iphmx.com with ESMTP/TLS; 29 Oct 2020 10:18:46 +0100
+Received: from esabb3.muc ([160.50.100.30])  by esagw2.muc with ESMTP/TLS;
+ 29 Oct 2020 10:18:46 +0100
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp) ([160.48.96.47])
+ by esabb3.muc with ESMTP/TLS; 29 Oct 2020 10:18:46 +0100
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by smucm10k.europe.bmw.corp
+ (160.48.96.47) with Microsoft SMTP Server (TLS;
+ Thu, 29 Oct 2020 10:18:45 +0100
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+ smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1497.007; Thu,
+ 29 Oct 2020 10:18:45 +0100
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <richard.purdie@linuxfoundation.org>
+CC: <paul.eggleton@linux.microsoft.com>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [RFC PATCH 1/2] classes/buildhistory: record SRC_URI
+Thread-Topic: [OE-core] [RFC PATCH 1/2] classes/buildhistory: record SRC_URI
+Thread-Index: AQHWpc0GZ1VeehB1PkSsWRA8i3caAampah+AgAOkuwCAAT3IgA==
+Date: Thu, 29 Oct 2020 09:18:45 +0000
+Message-ID: <20201029091845.GM1246345@korppu>
+References: <cover.1603080016.git.paul.eggleton@linux.microsoft.com>
+ <e83e7133cc7affdc013455744f1bc31d83503757.1603080016.git.paul.eggleton@linux.microsoft.com>
+ <20201026064259.GT2040@korppu>
+ <f3c0e0b9ce68c2377148e85c522d9f5003a580bc.camel@linuxfoundation.org>
+In-Reply-To: <f3c0e0b9ce68c2377148e85c522d9f5003a580bc.camel@linuxfoundation.org>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.20.13.13]
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <D6C9901A6E69244D944C38BC31F2082B@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBZYW5uIEUuIE1PUklOIDx5YW5u
-Lm1vcmluLjE5OThAZnJlZS5mcj4NCj4gU2VudDogZGVuIDI3IG9rdG9iZXIgMjAyMCAyMTo1MQ0K
-PiBUbzogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7IFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIu
-a2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgUmljaGFyZCBQdXJkaWUNCj4gPHJpY2hhcmQucHVyZGll
-QGxpbnV4Zm91bmRhdGlvbi5vcmc+OyBBbGV4YW5kcmUgQkVMTE9OSQ0KPiA8YWxleGFuZHJlLmJl
-bGxvbmlAYm9vdGxpbi5jb20+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSByZWNp
-cGVzLWNvcmUvYnVzeWJveDogZml4dXAgbGljZW5zaW5nDQo+IGluZm9ybWF0aW9uDQo+IA0KPiBL
-aGVtLCBBbGwsDQo+IA0KPiBUaGFua3MgZm9yIHRoZSBmZWVkYmFjazsgc2VlIG1vcmUgcXVlc3Rp
-b25zIGJlbG93Li4uDQo+IA0KPiBPbiAyMDIwLTEwLTI3IDEzOjI1IC0wNzAwLCBLaGVtIFJhaiBz
-cGFrZSB0aHVzbHk6DQo+ID4gT24gMTAvMjcvMjAgOTo0OCBBTSwgWWFubiBFLiBNT1JJTiB3cm90
-ZToNCj4gPiA+Q29tbWl0IDdkMzI0MTdiNGQgKGJ1c3lib3g6IENvcnJlY3QgdGhlIG5hbWUgb2Yg
-dGhlIGJ6aXAyIGxpY2Vuc2UpDQo+ID4gPmNoYW5nZXMgdGhlIGxpY2VzbmUgZnJvbSAnYnppcDIn
-IHRvICdiemlwMi0xLjAuNicgb24gdGhlIHJhdGlvbmFsZQ0KPiA+ID50aGF0IHRoZSAnYnppcDIg
-bGljZW5zZSB3YXMgcmVuYW1lZCBmcm9tICJiemlwMiIgdG8gImJ6aXAyLTEuMC42Ig0KPiA+ID5b
-Li4uXSB0byBtYXRjaCB0aGUgb2ZmaWNpYWwgU1BEWCBpZGVudGlmaWVyLicNCj4gPiA+DQo+ID4g
-PlRob3VnaCB0aGUgYWJvdmUgaXMgdHJ1ZSBmb3IgdGhlIGJ6aXAyIGFuZCBwYnppcDIgcGFja2Fn
-ZXMsIHRoZSBiemlwMg0KPiA+ID5jb2RlIGJ1bmRsZWQgaW4gYnVzeWJveCBpcyBhIGNvcHkgZnJv
-bSB0aGUgYnppcDIgMS4wLjQgdmVyc2lvbiwgbm90DQo+IHRoZQ0KPiA+ID4xLjAuNiB2ZXJzaW9u
-Lg0KPiA+ID4NCj4gPiA+QXMgc3VjaCwgdXNpbmcgYnppcDItMS4wLjYgaXMgd3JvbmcuDQo+ID4g
-Pg0KPiA+ID5VbmZvcnR1bmF0ZWx5LCB0aGVyZSBpcyBubyBvZmZpY2lhbCBTUERYIGxpY2Vuc2Ug
-aWRlbnRpZmllciBmb3IgdGhpcw0KPiA+ID5iemlwMiAxLjAuNCB2ZXJzaW9uLCBzbyB3ZSBqdXN0
-IG1pbWljayB0aGUgZXhpc3Rpbmcgb25lcyAoYnppcDItMS4wLjUNCj4gPiA+YW5kIGJ6aXAyLTEu
-MC42KSBieSB1c2luZyBiemlwMi0xLjAuNC4NCj4gPiA+DQo+ID4gPkFsc28sIHRoZXJlIGlzIGEg
-bGljZW5zZSBmaWxlIGF0dGFjaGVkIHRvIHRoYXQsIHNvIHdlIGFkZCBpdCB0byB0aGUNCj4gPiA+
-bGlzdC4NCj4gPiA+DQo+ID4gd2UgYWxzbyBuZWVkIGEgdGV4dCBmaWxlIGZvciB0aGlzIGxpY2Vu
-c2UgaW4gbWV0YS9maWxlcy9jb21tb24tbGljZW5zZXMNCj4gDQo+IFNob3VsZCB0aGlzIGJlIHRo
-ZSBvZmZpY2lhbCBMSUNFTlNFIGZpbGUgZnJvbSB0aGUgdXBzdHJlYW0gYnppcDItMS4wLjQNCj4g
-dmVyc2lvbiwgb3Igc2hvdWxkIHRoYXQgYmUgdGhlIExJQ0VOU0UgZmlsZSBjYXJyaWVkIGJ5IGJ1
-c3lib3g/DQo+IA0KPiBOb3RlIHRoYXQgdGhlIExJQ0VOU0UgZmlsZSBjYXJyaWVkIGJ5IGJ1c3li
-b3ggaXMgc2xpZ2h0bHkgZGlmZmVyZW50IHRoYW4NCj4gdGhlIHVwc3RyZWFtIG9uZToNCj4gDQo+
-ICAgLSBUaGUgYnppcDIgTElDRU5TRSBmaWxlIGluIGJ1c3lib3ggaGFzIGEgYmx1cmIgYWRkZWQg
-YXQgdGhlIGJlZ2lubmluZzoNCj4gICAgICAgICBiemlwMiBhcHBsZXQgaW4gYnVzeWJveCBpcyBi
-YXNlZCBvbiBsaWdodGx5LW1vZGlmaWVkIHNvdXJjZQ0KPiAgICAgICAgIG9mIGJ6aXAyIHZlcnNp
-b24gMS4wLjQuIGJ6aXAyIHNvdXJjZSBpcyBkaXN0cmlidXRlZA0KPiAgICAgICAgIHVuZGVyIHRo
-ZSBmb2xsb3dpbmcgY29uZGl0aW9ucyAoY29waWVkIHZlcmJhdGltIGZyb20gTElDRU5TRQ0KPiBm
-aWxlKQ0KPiAgICAgSG93ZXZlciB0aGlzIGlzIHdyb25nLCBiZWNhdXNlOg0KPiANCj4gICAtIHRo
-ZSBiemlwMiBMSUNFTlNFIGZpbGUgaW4gYnVzeWJveCBkcm9wcGVkIHRoZSB0cmFpbGluZyBzcGFj
-ZXMgYXQgdGhlDQo+ICAgICBlbmQgb2YgYSBmZXcgbGluZXMuDQo+IA0KPiBCdXQgdGVjaGluY2Fs
-bHksIHRoaXMgaXMgdGVjbmljYWxseSB0aGUgc2FtZSBsaWNlbnNlLg0KPiANCj4gPiBwZXJoYXBz
-IGEgc3ltbGluayB0byBiemlwMi0xLjAuNiBtaWdodCBiZSBvay4NCj4gDQo+IFRoZSBiemlwMi0x
-LjAuNCBsaWNlbnNlIGlzIG5vdCBleGFjdGx5IHRoZSBzYW1lIGFzIHRoZSAxLjAuNi4gVGhlIGRl
-bHRhcw0KPiBhcmU6DQo+IA0KPiAgIC0gY29weXJpZ2h0IHllYXINCj4gICAtIGF1dGhvciBpZGVu
-dGlmaWNhdGlvbiAocGh5c2ljYWwgYWRkcmVzcyBkcm9wcGVkKQ0KPiAgIC0gcmVsZWFzZSB2ZXJz
-aW9uDQo+ICAgLSByZWxlYXNlIGRhdGUNCj4gDQo+IFNvIEkgZG9uJ3QgdGhpbmsgYSBzeW1saW5r
-IHdvdWxkIGJlIGFwcHJvcHJpYXRlLCBhbmQgYSBzcGVjaWZpYyBmaWxlDQo+IHdpbGwgYmUgbmVl
-ZGVkLg0KPiANCj4gU28sIHdoaWNoIG9uZSBzaG91bGQgSSBhZGQ6IHRoZSB1cHN0cmVhbSBvbmUs
-IG9mIHRoZSBidXN5Ym94IG9uZT8NCg0KSSB3b3VsZCBnbyB3aXRoIHRoZSB1cHN0cmVhbSBvbmUg
-YXMgdGhlIGV4dHJhIGluZm9ybWF0aW9uIGluIHRoZSANCkJ1c3lib3ggZmlsZSByZWxhdGVzIHRv
-IEJ1c3lib3gnIHVzZSBvZiB0aGUgY29kZS4gSG93ZXZlciwgSSBhbHNvDQpiZWxpZXZlIHRoYXQg
-ImFyY2hpdmFsL2xpYmFyY2hpdmUvYnovTElDRU5TRSIgc2hvdWxkIGJlIGFkZGVkIHRvIA0KTElD
-X0ZJTEVTX0NIS1NVTS4NCg0KPiBSZWdhcmRzLA0KPiBZYW5uIEUuIE1PUklOLg0KPiANCj4gPiA+
-U2lnbmVkLW9mZi1ieTogWWFubiBFLiBNT1JJTiA8eWFubi5tb3Jpbi4xOTk4QGZyZWUuZnI+DQo+
-ID4gPkNjOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4N
-Cj4gPiA+Q2M6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24u
-b3JnPg0KPiA+ID5DYzogQWxleGFuZHJlIEJFTExPTkkgPGFsZXhhbmRyZS5iZWxsb25pQGJvb3Rs
-aW4uY29tPg0KPiA+ID4NCj4gPiA+LS0tDQo+ID4gPlJlc3BpbiwgYXMgSSB3YXMgbm90IHlldCBz
-dWJzY3JpYmVkIHRvIHRoZSBsaXN0Li4uDQo+ID4gPlNvcnJ5IGZvciBhbnkgZHVwbGljYXRlcy4u
-Lg0KPiA+ID4tLS0NCj4gPiA+ICBtZXRhL3JlY2lwZXMtY29yZS9idXN5Ym94L2J1c3lib3guaW5j
-IHwgNyArKysrLS0tDQo+ID4gPiAgMSBmaWxlIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgMyBk
-ZWxldGlvbnMoLSkNCj4gPiA+DQo+ID4gPmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9i
-dXN5Ym94L2J1c3lib3guaW5jIGIvbWV0YS9yZWNpcGVzLQ0KPiBjb3JlL2J1c3lib3gvYnVzeWJv
-eC5pbmMNCj4gPiA+aW5kZXggNDVhYWEyYjQxYy4uZTA1MjJiZTcyOSAxMDA2NDQNCj4gPiA+LS0t
-IGEvbWV0YS9yZWNpcGVzLWNvcmUvYnVzeWJveC9idXN5Ym94LmluYw0KPiA+ID4rKysgYi9tZXRh
-L3JlY2lwZXMtY29yZS9idXN5Ym94L2J1c3lib3guaW5jDQo+ID4gPkBAIC01LDEwICs1LDExIEBA
-IEJVR1RSQUNLRVIgPSAiaHR0cHM6Ly9idWdzLmJ1c3lib3gubmV0LyINCj4gPiA+ICBERVBFTkRT
-ICs9ICJrZXJuLXRvb2xzLW5hdGl2ZSB2aXJ0dWFsL2NyeXB0Ig0KPiA+ID4tIyBiemlwMiBhcHBs
-ZXQgaW4gYnVzeWJveCBpcyBiYXNlZCBvbiBsaWdodGx5LW1vZGlmaWVkIGJ6aXAyIHNvdXJjZQ0K
-PiA+ID4rIyBiemlwMiBhcHBsZXQgaW4gYnVzeWJveCBpcyBiYXNlZCBvbiBsaWdodGx5LW1vZGlm
-aWVkIGJ6aXAyLTEuMC40DQo+IHNvdXJjZQ0KPiA+ID4gICMgdGhlIEdQTCBpcyB2ZXJzaW9uIDIg
-b25seQ0KPiA+ID4tTElDRU5TRSA9ICJHUEx2MiAmIGJ6aXAyLTEuMC42Ig0KPiA+ID4tTElDX0ZJ
-TEVTX0NIS1NVTSA9DQo+ICJmaWxlOi8vTElDRU5TRTttZDU9ZGUxMGRlNDg2NDJhYjc0MzE4ZTg5
-M2E2MTEwNWFmYmIiDQo+ID4gPitMSUNFTlNFID0gIkdQTHYyICYgYnppcDItMS4wLjQiDQo+ID4g
-PitMSUNfRklMRVNfQ0hLU1VNID0NCj4gImZpbGU6Ly9MSUNFTlNFO21kNT1kZTEwZGU0ODY0MmFi
-NzQzMThlODkzYTYxMTA1YWZiYiBcDQo+ID4gPisNCj4gZmlsZTovL2FyY2hpdmFsL2xpYmFyY2hp
-dmUvYnovTElDRU5TRTttZDU9MjhlMzMwMWVhZTk4N2U4Y2ZlMTk5ODhlOTgzODNkYQ0KPiBlIg0K
-PiA+ID4gIFNFQ1RJT04gPSAiYmFzZSINCj4gPiA+DQo+ID4gPg0KPiA+ID4NCj4gPiA+DQo+ID4g
-Pg0KPiANCj4gLS0NCj4gLi0tLS0tLS0tLS0tLS0tLS0tLi0tLS0tLS0tLS0tLS0tLS0tLS0tLi0t
-LS0tLS0tLS0tLS0tLS0tLS4tLS0tLS0tLS0tLS0tLQ0KPiAtLS0tLS0uDQo+IHwgIFlhbm4gRS4g
-TU9SSU4gIHwgUmVhbC1UaW1lIEVtYmVkZGVkIHwgLyJcIEFTQ0lJIFJJQkJPTiB8IEVyaWNzJw0K
-PiBjb25zcGlyYWN5OiB8DQo+IHwgKzMzIDY2MiAzNzYgMDU2IHwgU29mdHdhcmUgIERlc2lnbmVy
-IHwgXCAvIENBTVBBSUdOICAgICB8ICBfX18NCj4gfA0KPiB8ICszMyA1NjEgMDk5IDQyNyBgLS0t
-LS0tLS0tLS0tLi0tLS0tLS06ICBYICBBR0FJTlNUICAgICAgfCAgXGUvICBUaGVyZQ0KPiBpcyBu
-byAgfA0KPiB8IGh0dHA6Ly95bW9yaW4uaXMtYS1nZWVrLm9yZy8gfCBfLypcXyB8IC8gXCBIVE1M
-IE1BSUwgICAgfCAgIHYNCj4gY29uc3BpcmFjeS4gIHwNCj4gJy0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLV4tLS0tLS0tXi0tLS0tLS0tLS0tLS0tLS0tLV4tLS0tLS0tLS0tLS0tLQ0KPiAt
-LS0tLS0nDQo=
+On Wed, Oct 28, 2020 at 02:21:22PM +0000, Richard Purdie wrote:
+> On Mon, 2020-10-26 at 06:43 +0000, Mikko Rapeli wrote:
+> > On Sun, Oct 18, 2020 at 09:03:56PM -0700, Paul Eggleton wrote:
+> > > From: Paul Eggleton <paul.eggleton@microsoft.com>
+> > >=20
+> > > It can be useful to record SRC_URI into buildhistory for the
+> > > purposes of
+> > > tracking exactly which sources got built (we already have SRCREV)
+> > > as
+> > > well as getting an indication when changes to the SRC_URI relate to
+> > > changes in the output.
+> > >=20
+> > > Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+> >=20
+> > I have similar patch in our poky trees. Also have patches
+> > to export LICENSE and CVE_PRODUCT to buildhistory. These are used
+> > by some post-build QA check scripts.
+> >=20
+> > Acked-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+>=20
+> I'm actually fairly against some of these kinds of changes.
+> Buildhistory is meant to be there to highlight changes in the output
+> over time. Using it to create manifests and for license checking
+> purposes is not what it was designed for.
+>=20
+> I just feel if the original author of the class thinks its a good idea
+> I need to give up :/.
+
+Surely changes in LICENSE and SRC_URI over time are important for an overvi=
+ew
+of changes?
+
+At least to me they are pretty much essential. I'm using buildhistory diffs=
+ to
+see what changes in major yocto updates for example once builds are passing=
+.
+
+Cheers,
+
+-Mikko
+
+>=20
+> Cheers,
+>=20
+> Richard=
