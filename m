@@ -1,110 +1,137 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web08.10743.1603985545604821899
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.10728.1603985751459132037
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 08:32:25 -0700
+ Thu, 29 Oct 2020 08:35:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X7iz5Ko0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id i1so3280227wro.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 08:32:25 -0700 (PDT)
+ dkim=pass header.i=@google.com header.s=20161025 header.b=h0c+myKO;
+ spf=pass (domain: google.com, ip: 209.85.167.47, mailfrom: foremans@google.com)
+Received: by mail-lf1-f47.google.com with SMTP id 141so3872905lfn.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 08:35:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=FPiIE74ySHCEURhpmMpeswM2DYPQR3zblTeZMa2BFEI=;
-        b=X7iz5Ko0Aed3SnrS8tZABdHk70F/u4iOa2mjnkGrNmiV6d3V/8e8wrow9R5QaQ/lqT
-         WpxYVUKYJoBEmYLN6nCSByl9LSB+22FnC5pUWjeeEqsNQqLPdvqoK8OFeDMadYzvJqNE
-         UF8gEYdwj8RHNgunFQ576RqdPs4pKB+k676+Q=
+        d=google.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=jsTnKhKiGsZKxkqdg2g+RJAj2Ix/m/3q3Odr2CVoQxo=;
+        b=h0c+myKO2m19dkiJXpKTxU/4ViE545T1caJfppUmTPFYRcH1yTzyaYCD/e5wKdpx3C
+         krHrJqzKZuiVFG4O2F2zMzXAsb9sPSrDlp5iGXa49VDFiNjeze4fDbdxuIU+D3qsTzo0
+         6Y1X2yN8j2RhNtdFFJvgty9tK4o0R2kjSsp4Vh3DxYpwKGXEHHYJGbN3ATsZ/GF8HzJf
+         vC0Y7YtmIXui/eYlZYP3sEXluKN9gFtQrIaKerG+/Oh6ErrlFMqXfcfGPK9d6WOJ1SDE
+         UJBHugaqTEk1idwn0Gq4Vs4hfPa87bpH4J79oWXjRX+OmmdQkhgqyUgth6eSiibkKeGa
+         XNqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=FPiIE74ySHCEURhpmMpeswM2DYPQR3zblTeZMa2BFEI=;
-        b=rQzcMUwDPJdiG22URD+Bcr8RUyiIWpXYWXMQIZGN5kUCTYIOOn5msBQ7CoFeL2Eo48
-         VMREQ/T1IbRwSkI4PkjkSI3MvZ4pGM+Uu8fWeDQ7eBC6mwAnZGlsKBvWmXW7IcBGmE5G
-         mZ3q58XV3t3Cs9xPTLKi3R/HpsYerk3d8LbjCDpV956BXsbwkoAuIm48IwMtk+MTGsCN
-         tPyoWj93YJPEzydSePTV+W7yRrAcsfFB15j6zCvJ2Kr+Iw21jYBaCJ+7lOHLqQ47uI4f
-         WZK9xbB783H43iGQy+IgpPMKB0RVEqlGr1k/HHhbuHuxCiVQ1p4zBUQAsiSomJlDZ0Ww
-         ujuA==
-X-Gm-Message-State: AOAM531kaz6AJqM3sexfDguvYzuZKrhXujv6c+/2qPyzRNMR8WPlRr7e
-	9y/FhyWZfHEWFopBvYryDaI+Lg==
-X-Google-Smtp-Source: ABdhPJzhnEyyuu14qsAt3JbBEkfqVXVrOve8yUySRNOlXpg6ZfnMV+1N0kzQW0EP0dG8gIjeBXT7dw==
-X-Received: by 2002:a5d:660a:: with SMTP id n10mr2888398wru.59.1603985543929;
-        Thu, 29 Oct 2020 08:32:23 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 7.7.e.c.f.b.4.b.6.c.1.d.5.8.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.7.e.c.f.b.4.b.6.c.1.d.5.8.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b185:d1c6:b4bf:ce77])
-        by smtp.gmail.com with ESMTPSA id r18sm6314981wrj.50.2020.10.29.08.32.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 08:32:23 -0700 (PDT)
-Message-ID: <7ff661d33eefed532bff3a1509f23fa26cc289a9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v5 01/22] gstreamer1.0: Fix reproducibility issue around libcap
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 29 Oct 2020 15:32:19 +0000
-In-Reply-To: <20201029142806.1830504-2-quaresma.jose@gmail.com>
-References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
-	 <20201029142806.1830504-2-quaresma.jose@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=jsTnKhKiGsZKxkqdg2g+RJAj2Ix/m/3q3Odr2CVoQxo=;
+        b=gZS/yhqltAYyX6ccX2VyxE7cSOHPCi83TPZGAa3v/hZuKdM+UtNHN+Zokg/Py6lHlG
+         3ioQ16YroF75JBJBJoPrKiOoD4ZiupKoD4DNY/87OFB90hyXGpmr5/l9IPT2iAQQKqdA
+         6GOZ6pkxgyQIQmiltEAVFTEkKz7rb+aE/X2C4NOJMxTTXVpeqm+iG9G6j553+oVSNhY6
+         QwIi4WdBvMPuPLrQNfhxY03GshmnTQcQphYCutTEZC1bWHGKPQ6zecoXSCleBUQVHV6K
+         tpm1a26hO0UtmK3Zr6rJtyjcYAT43OdY9E0uh6e729QnI5n0msA0x5o65Gsdlq6dosZM
+         NXFA==
+X-Gm-Message-State: AOAM532lTExJPxp/y7RF2Y2HaHZq7drZq9V7BhKusbtY+fChN5ydJwnd
+	WDIXYRNkRBmtsbtFyVa+Fb5JW4Z9vnN4Y2ydb+buNbKGGoraiw==
+X-Google-Smtp-Source: ABdhPJwIiUAbfOrKmC2/hD781JhUmaUFJ0P7/a1cpox8672WzDvFmCXf8GkoMBUsmhOlo97456Onr5H0XJNpcCsPk4Y=
+X-Received: by 2002:ac2:5294:: with SMTP id q20mr1958969lfm.538.1603985748992;
+ Thu, 29 Oct 2020 08:35:48 -0700 (PDT)
 MIME-Version: 1.0
+From: "Steve Foreman" <foremans@google.com>
+Date: Thu, 29 Oct 2020 08:35:37 -0700
+Message-ID: <CAAOsEjUKH61YhBDiS7xzhT6kYYeW2Qbr_4GF2ZsM18z4xRGS-Q@mail.gmail.com>
+Subject: [PATCH] Fix a build error about missing '_sysconfigdata'
+To: openembedded-core@lists.openembedded.org
+Cc: Josh Lehan <krellan@google.com>
+Content-Type: multipart/alternative; boundary="000000000000cb9eda05b2d108fe"
+
+--000000000000cb9eda05b2d108fe
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-10-29 at 14:27 +0000, Jose Quaresma wrote:
-> Currently gstreamer configuration depends libcap and on whether
-> setcap is found on the host system.
-> 
-> Removing libcap from DEPENDS and only use it when the 'setcap' is enabled.
-> 
->     * capfix.patch
->       Removed as the same goals can be achieved only with the PACKAGECONFIG 'setcap'
-> 
-> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> ---
->  .../gstreamer/gstreamer1.0/capfix.patch       | 37 -------------------
->  .../gstreamer/gstreamer1.0_1.16.2.bb          |  5 +--
->  2 files changed, 2 insertions(+), 40 deletions(-)
->  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
-> 
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
-> deleted file mode 100644
-> index 7ca3d5ad4a..0000000000
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -Currently gstreamer configuration depends on whether setcap is found on the host
-> -system. Turn this into a configure option to make builds deterinistic.
-> -
-> -RP 2020/2/19
-> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -Upstream-Status: Pending
-> -
-> -Index: gstreamer-1.16.1/libs/gst/helpers/meson.build
-> -===================================================================
-> ---- gstreamer-1.16.1.orig/libs/gst/helpers/meson.build
-> -+++ gstreamer-1.16.1/libs/gst/helpers/meson.build
-> -@@ -73,7 +73,12 @@ if have_ptp
-> -     endif
-> -   endif
-> - 
-> --  setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
-> -+  setcap_feature = get_option('setcap')
-> -+  if setcap_feature.disabled()
-> -+    setcap = find_program('dontexist', required : false)
-> -+  else
-> -+    setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
-> -+  endif
-> -
+This error is generated because of internal build environment is leaking
+and pulling in host libraries:
 
-I did have a question about this. I think the problem this patch was
-fixing was that <PATH>/setcap was being coded into the headers and
-hence the output regardless of whether setcap was enabled or disabled.
-Since its looking directly at /usr/sbin/ and /sbin/, this made it
-depend on the host system it was built on.
+Exception: ModuleNotFoundError: No module named '_sysconfigdata'
 
-Are you saying that is no longer encoded in the output?
+In this case, xmlprc.server is pulling in pydoc which ultimately hits
+the error.
 
-Cheers,
+Signed-off-by: Steve Foreman <foremans@google.com>
+---
+ poky/bitbake/lib/prserv/serv.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Richard
+diff --git a/poky/bitbake/lib/prserv/serv.py
+b/poky/bitbake/lib/prserv/serv.py
+index 25dcf8a0e..f462f3dcc 100644
+--- a/poky/bitbake/lib/prserv/serv.py
++++ b/poky/bitbake/lib/prserv/serv.py
+@@ -4,6 +4,11 @@
 
+ import os,sys,logging
+ import signal, time
++
++# Otherwise this fails when called from recipes which e.g. inherit
+python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
++# No module named '_sysconfigdata'
++if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
++    del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
+ from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
+ import threading
+ import queue
+--
+2.29.1.341.ge80a0c044ae-goog
+
+--000000000000cb9eda05b2d108fe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">This error is generated because of internal build environm=
+ent is leaking<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,He=
+lvetica,Arial,sans-serif">and pulling in host libraries:<br style=3D"font-f=
+amily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br sty=
+le=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
+rif">Exception: ModuleNotFoundError: No module named &#39;_sysconfigdata&#3=
+9;<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
+l,sans-serif"><br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,He=
+lvetica,Arial,sans-serif">In this case, xmlprc.server is pulling in pydoc w=
+hich ultimately hits<br style=3D"font-family:Roboto,&quot;Helvetica Neue&qu=
+ot;,Helvetica,Arial,sans-serif">the error.<br style=3D"font-family:Roboto,&=
+quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br style=3D"font-fam=
+ily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">Signed-of=
+f-by: Steve Foreman &lt;<a href=3D"mailto:foremans@google.com" target=3D"_b=
+lank" style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
+l,sans-serif">foremans@google.com</a>&gt;<br style=3D"font-family:Roboto,&q=
+uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">---<br style=3D"font-f=
+amily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0p=
+oky/bitbake/lib/prserv/serv.py | 5 +++++<br style=3D"font-family:Roboto,&qu=
+ot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A01 file changed, 5=
+ insertions(+)<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,He=
+lvetica,Arial,sans-serif"><br style=3D"font-family:Roboto,&quot;Helvetica N=
+eue&quot;,Helvetica,Arial,sans-serif">diff --git a/poky/bitbake/lib/prserv/=
+serv.py b/poky/bitbake/lib/prserv/serv.py<br style=3D"font-family:Roboto,&q=
+uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">index 25dcf8a0e..f462f=
+3dcc 100644<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helve=
+tica,Arial,sans-serif">--- a/poky/bitbake/lib/prserv/serv.py<br style=3D"fo=
+nt-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+++=
+ b/poky/bitbake/lib/prserv/serv.py<br style=3D"font-family:Roboto,&quot;Hel=
+vetica Neue&quot;,Helvetica,Arial,sans-serif">@@ -4,6 +4,11 @@<br style=3D"=
+font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><=
+br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,s=
+ans-serif">=C2=A0import os,sys,logging<br style=3D"font-family:Roboto,&quot=
+;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import signal, time=
+<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,=
+sans-serif">+<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Hel=
+vetica,Arial,sans-serif">+# Otherwise this fails when called from recipes w=
+hich e.g. inherit python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) wit=
+h:<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
+l,sans-serif">+# No module named &#39;_sysconfigdata&#39;<br style=3D"font-=
+family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+if &#=
+39;_PYTHON_SYSCONFIGDATA_NAME&#39; in os.environ:<br style=3D"font-family:R=
+oboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+=C2=A0 =C2=A0=
+ del os.environ[&#39;_PYTHON_SYSCONFIGDATA_NAME&#39;]<br style=3D"font-fami=
+ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0from=
+ xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler<br sty=
+le=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
+rif">=C2=A0import threading<br style=3D"font-family:Roboto,&quot;Helvetica =
+Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import queue<font color=3D"#88=
+8888" style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
+l,sans-serif"><br>--<br>2.29.1.341.ge80a0c044ae-goog</font><br></div>
+
+--000000000000cb9eda05b2d108fe--
