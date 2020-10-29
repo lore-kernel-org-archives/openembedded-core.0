@@ -1,95 +1,197 @@
-Received: from relay.dream-property.net (relay.dream-property.net [178.19.67.222])
- by mx.groups.io with SMTP id smtpd.web09.6281.1603964892719000514
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+ by mx.groups.io with SMTP id smtpd.web11.6402.1603964965578665846
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 02:48:13 -0700
+ Thu, 29 Oct 2020 02:49:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail, err=bad algorithm. Only rsa-sha1 or rsa-sha256 are permitted;
- spf=pass (domain: opendreambox.org, ip: 178.19.67.222, mailfrom: obi@opendreambox.org)
-Received: from mail.dream-property.net (mail.dream-property.net [82.149.226.172])
-	by relay.dream-property.net (Postfix) with ESMTPS id 6077310095A0A;
-	Thu, 29 Oct 2020 09:48:15 +0000 (UTC)
-Received: from localhost (ip-88-152-32-15.hsi03.unitymediagroup.de [88.152.32.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 55C793147709;
-	Thu, 29 Oct 2020 10:48:09 +0100 (CET)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=opendreambox.org;
-	s=dkim; t=1603964894;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5+jAUXDO8Rja8fQNOEmK75D5bqL5VOp7ABJv7wo0MuQ=;
-	b=KQF4NCOcWkiNtjQOpgVvdtorps6+RDPAAnLI2FrLSSOh5LSglqWw+17vrP2tuMYu8X9RBR
-	4ct3aPm1wcN5hFDw==
-Date: Thu, 29 Oct 2020 10:48:04 +0100
-From: "Andreas Oberritter" <obi@opendreambox.org>
-To: "kai" <kai.kang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/1] systemd.bbclass: check whether systemctl works in post scripts
-Message-ID: <20201029104804.4b6795ec@opendreambox.org>
-In-Reply-To: <20201029092650.34868-2-kai.kang@windriver.com>
-References: <20201029092650.34868-1-kai.kang@windriver.com>
-	<20201029092650.34868-2-kai.kang@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=L+jaJHIR;
+ spf=pass (domain: gmail.com, ip: 209.85.221.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f172.google.com with SMTP id d125so551306vkh.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 02:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OQBUYibx2L3Vkxl0z1QuimFXWXIpAZlbvmw3ntr51DQ=;
+        b=L+jaJHIR7+CKYrxHzaJ+FnaUUYVa/VewTQ0IL/lksHa/35AAlvH8QN/lL4urdoe4z2
+         yw8uV6voShGi6ACeYh0kgbP2OI6rlMhkGDQvfFRa/cFxO8mPlErxrKLITfFuJMAQbDuu
+         EfxAZlRn9qiPslxRQSpK4nbwkPKMOtDOriAqQbbUx1UAyjbmf7YXM711eiF/Ygs6qXTd
+         LJMf+cKN2qxwjIEu/U/2itx15nKoRBOLwdAn6Bz8IaVW+JdYctK0T54luZedEXhWx441
+         TjyOd641EahGcyce6mYhflBTFZXqTVi1zUOkXQLYskdgJe9Do5dSSjO33xFHvuRW6RhI
+         I7nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OQBUYibx2L3Vkxl0z1QuimFXWXIpAZlbvmw3ntr51DQ=;
+        b=eIAVjJT5+akuBvJeSyUlyq5J8p3utxbOQ4tT56onV+nd8fwGd/zVV/z0l6w9Ai3ddw
+         lJJQaUukPhohtlH1ddCMNE3NxlHC7f5wsPX5xNNYRWFpP+q0lIAwk5zWZBCfu7pAx9qi
+         F/DURFmEBLyZpHLfXiWUiGXeWa4089Xm5xFMLtUMvCUD22fAJbn0XllpHM1gajJSQd0i
+         fSIBziLD/VPWBZEKk/nufRgVDaV78sxAhea4BsMynFa9PDh9Vqe4ws4VS1pRrjvIviM7
+         moh4CItEytICeZq27EQjL9PNFKRPzgve1xZZuunzOf/ixgpBzLUrOeNnBXM+h691FGyx
+         h3xA==
+X-Gm-Message-State: AOAM53259Kj/BdmYg9yFgRKizPv5UjY8X2fXDYtg7noLUqqITEiu5ZJu
+	29GYRsMeUe62Q/2MYovPj4uhfx3NHqrphzAy8VM=
+X-Google-Smtp-Source: ABdhPJwMc7GY3T89I10vVdQdE0dsRa/qTV3fu6KqxCoEPdHGxu+cRbv53QNIxaG1w7g7TaBog/O82H0PHFTzuJZzdMI=
+X-Received: by 2002:a1f:a4cf:: with SMTP id n198mr2392289vke.0.1603964964679;
+ Thu, 29 Oct 2020 02:49:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20201028210558.21070-1-alex.kanavin@gmail.com>
+ <20201028210558.21070-4-alex.kanavin@gmail.com> <CAMKF1sr1mHEyzgDaYGYK8Hk56ALN0HMqoPWu3KhKibe6UVAYuw@mail.gmail.com>
+In-Reply-To: <CAMKF1sr1mHEyzgDaYGYK8Hk56ALN0HMqoPWu3KhKibe6UVAYuw@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 29 Oct 2020 10:49:13 +0100
+Message-ID: <CANNYZj8DC9qQde+jwanJhMYyurmFh4ft0SQFWs9v=tGdjEj+zg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/33] python3-pygobject: upgrade 3.36.1 -> 3.38.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f3b36c05b2cc3183"
 
-Hello Kai,
+--000000000000f3b36c05b2cc3183
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 29 Oct 2020 17:26:50 +0800
-"kai" <kai.kang@windriver.com> wrote:
+Upstream has changed the meson option type from boolean (true/false) to
+feature (enabled/disabled/auto) in the new release.
 
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> When use a core image tarball as a docker image with 'docker import', it
-> fails to install/remove package which calls systemctl in post scripts.
-> Because it fais to run systemctl in a container:
-> 
-> bash-5.0# systemctl
-> System has not been booted with systemd as init system (PID 1). Can't operate.
-> Failed to connect to bus: Host is down
-> 
-> Replace 'type systemctl' with 'systemctl list-machines' in package post
-> scripts to check whether systemctl work rather than existence.
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/classes/systemd.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-> index 9e8a82c9f1..9938425e2d 100644
-> --- a/meta/classes/systemd.bbclass
-> +++ b/meta/classes/systemd.bbclass
-> @@ -23,7 +23,7 @@ python __anonymous() {
->  }
->  
->  systemd_postinst() {
-> -if type systemctl >/dev/null 2>/dev/null; then
-> +if systemctl list-machines >/dev/null 2>/dev/null; then
->  	OPTS=""
->  
->  	if [ -n "$D" ]; then
+Alex
 
-Shouldn't this already have been run during image construction?
+On Wed, 28 Oct 2020 at 22:57, Khem Raj <raj.khem@gmail.com> wrote:
 
-Doesn't this break our systemctl emulation (meta/recipes-core/systemd/systemd-systemctl/systemctl)?
+> On Wed, Oct 28, 2020 at 2:06 PM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  ...thon3-pygobject_3.36.1.bb => python3-pygobject_3.38.0.bb} | 5 ++---
+> >  1 file changed, 2 insertions(+), 3 deletions(-)
+> >  rename meta/recipes-devtools/python/{python3-pygobject_3.36.1.bb =>
+> python3-pygobject_3.38.0.bb} (78%)
+> >
+> > diff --git a/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb
+> b/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
+> > similarity index 78%
+> > rename from meta/recipes-devtools/python/python3-pygobject_3.36.1.bb
+> > rename to meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
+> > index 0a34d4373f..b4427050f5 100644
+> > --- a/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb
+> > +++ b/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
+> > @@ -14,8 +14,7 @@ SRC_URI = " \
+> >      http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz
+> \
+> >      file://0001-Do-not-build-tests.patch \
+> >  "
+> > -SRC_URI[md5sum] = "ebfebc4533856572281add29f08412bf"
+> > -SRC_URI[sha256sum] =
+> "d1bf42802d1cec113b5adaa0e7bf7f3745b44521dc2163588d276d5cd61d718f"
+> > +SRC_URI[sha256sum] =
+> "0372d1bb9122fc19f500a249b1f38c2bb67485000f5887497b4b205b3e7084d5"
+> >
+> >  UNKNOWN_CONFIGURE_WHITELIST = "introspection"
+> >
+> > @@ -27,7 +26,7 @@ RDEPENDS_${PN} += "python3-pkgutil"
+> >
+> >  # python3-pycairo is checked on configuration -> DEPENDS
+> >  # we don't link against python3-pycairo -> RDEPENDS
+> > -PACKAGECONFIG[cairo] = "-Dpycairo=true,-Dpycairo=false, cairo
+> python3-pycairo, python3-pycairo"
+> > +PACKAGECONFIG[cairo] = "-Dpycairo=enabled,-Dpycairo=disabled, cairo
+> python3-pycairo, python3-pycairo"
+> >
+>
+> is this a bug fix ? or a new change
+>
+> >  BBCLASSEXTEND = "native"
+> >  PACKAGECONFIG_class-native = ""
+> > --
+> > 2.29.0
+> >
+> >
+> > 
+> >
+>
 
-> @@ -48,7 +48,7 @@ fi
->  }
->  
->  systemd_prerm() {
-> -if type systemctl >/dev/null 2>/dev/null; then
-> +if systemctl list-machines >/dev/null 2>/dev/null; then
->  	if [ -z "$D" ]; then
->  		systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
->  
+--000000000000f3b36c05b2cc3183
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-You're running the prerm hook inside a docker container?
+<div dir=3D"ltr"><div>Upstream has changed the meson option type from boole=
+an (true/false) to feature (enabled/disabled/auto) in the new release.</div=
+><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><di=
+v dir=3D"ltr" class=3D"gmail_attr">On Wed, 28 Oct 2020 at 22:57, Khem Raj &=
+lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Oct 28, =
+2020 at 2:06 PM Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanav=
+in@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
+mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 ...<a href=3D"http://thon3-pygobject_3.36.1.bb" rel=3D"noreferr=
+er" target=3D"_blank">thon3-pygobject_3.36.1.bb</a> =3D&gt; <a href=3D"http=
+://python3-pygobject_3.38.0.bb" rel=3D"noreferrer" target=3D"_blank">python=
+3-pygobject_3.38.0.bb</a>} | 5 ++---<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 3 deletions(-)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/python/{<a href=3D"http://python3-=
+pygobject_3.36.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygobject=
+_3.36.1.bb</a> =3D&gt; <a href=3D"http://python3-pygobject_3.38.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-pygobject_3.38.0.bb</a>} (78%)<b=
+r>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-p=
+ygobject_3.36.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygobject_=
+3.36.1.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-pygo=
+bject_3.38.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygobject_3.3=
+8.0.bb</a><br>
+&gt; similarity index 78%<br>
+&gt; rename from meta/recipes-devtools/python/<a href=3D"http://python3-py=
+gobject_3.36.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygobject_3=
+.36.1.bb</a><br>
+&gt; rename to meta/recipes-devtools/python/<a href=3D"http://python3-pygo=
+bject_3.38.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygobject_3.3=
+8.0.bb</a><br>
+&gt; index 0a34d4373f..b4427050f5 100644<br>
+&gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-pygobjec=
+t_3.36.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygobject_3.36.1.=
+bb</a><br>
+&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3-pygobjec=
+t_3.38.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-pygobject_3.38.0.=
+bb</a><br>
+&gt; @@ -14,8 +14,7 @@ SRC_URI =3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 <a href=3D"http://ftp.gnome.org/pub/GNOME/sources=
+/$%7BSRCNAME%7D/$%7B@gnome_verdir(" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir(</a>&quot;$=
+{PV}&quot;)}/${SRCNAME}-${PV}.tar.xz \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 file://0001-Do-not-build-tests.patch \<br>
+&gt;=C2=A0 &quot;<br>
+&gt; -SRC_URI[md5sum] =3D &quot;ebfebc4533856572281add29f08412bf&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;d1bf42802d1cec113b5adaa0e7bf7f3745b4452=
+1dc2163588d276d5cd61d718f&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;0372d1bb9122fc19f500a249b1f38c2bb674850=
+00f5887497b4b205b3e7084d5&quot;<br>
+&gt;<br>
+&gt;=C2=A0 UNKNOWN_CONFIGURE_WHITELIST =3D &quot;introspection&quot;<br>
+&gt;<br>
+&gt; @@ -27,7 +26,7 @@ RDEPENDS_${PN} +=3D &quot;python3-pkgutil&quot;<br>
+&gt;<br>
+&gt;=C2=A0 # python3-pycairo is checked on configuration -&gt; DEPENDS<br>
+&gt;=C2=A0 # we don&#39;t link against python3-pycairo -&gt; RDEPENDS<br>
+&gt; -PACKAGECONFIG[cairo] =3D &quot;-Dpycairo=3Dtrue,-Dpycairo=3Dfalse, c=
+airo python3-pycairo, python3-pycairo&quot;<br>
+&gt; +PACKAGECONFIG[cairo] =3D &quot;-Dpycairo=3Denabled,-Dpycairo=3Ddisab=
+led, cairo python3-pycairo, python3-pycairo&quot;<br>
+&gt;<br>
+<br>
+is this a bug fix ? or a new change<br>
+<br>
+&gt;=C2=A0 BBCLASSEXTEND =3D &quot;native&quot;<br>
+&gt;=C2=A0 PACKAGECONFIG_class-native =3D &quot;&quot;<br>
+&gt; --<br>
+&gt; 2.29.0<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+</blockquote></div>
 
-Wouldn't it be more appropriate to remove the systemd DISTRO_FEATURE for a use-case like this?
-
-Best regards,
-Andreas
+--000000000000f3b36c05b2cc3183--
