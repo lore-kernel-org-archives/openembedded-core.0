@@ -1,99 +1,95 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.3075.1604001817667990530
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web09.2992.1604001818699419079
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 13:03:38 -0700
+ Thu, 29 Oct 2020 13:03:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sXXnDlh2;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id m13so4114057wrj.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 13:03:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tLOOAark;
+ spf=pass (domain: gmail.com, ip: 209.85.128.65, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f65.google.com with SMTP id k125so1152080wmf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 13:03:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=As/A/NimAzUb/Am5BVa6wR90IV5K2PNPaHD7aKdaSJQ=;
-        b=sXXnDlh2m2yvfoQCLiQFELl20J7kzOsYWpoDnx7mP5t7GFaEM9SHdGfSmYUeLTVWO+
-         n6eGkffxnYEan6UiXjur2En5hfhC7vsJIXTI0NMNc8mETjPGmwQHdTriF0xh2iZaZP9D
-         8AApBKx4mR6vu3X0MBPENiv4DG5l0AXo65SvmqJ3Dy2MdV+d4tY55WgUoril4Zf1cACs
-         bPJy0d++GYhdJJ9hJQx2n5ZhkvF8iDaCfUnuPao1EdnguDiLNEs91MS3Y6XwB/WzdVXB
-         nUf9/zNlc/S7JHu/6/rFr0dL/EIO00srciIuTvuXx+K/bJjUcJaJ3DVOYMFF7YKnPO+j
-         EY8w==
+        bh=FuoAs4Mh59Mn5Pmn8O43smisWydb/Z0bD18AuBDKbdQ=;
+        b=tLOOAarkaKGCy1ZCwLu1eFCDfzuyq7+OnPM4gxW3S/YlScLFn/6uq15iY3Bw10VgH/
+         wWq89MCFt6x4vz8nfkqfPUHuT6S5/swMF61Dbmu2DdiPlpJencanWpB0MwT87xdQA1AM
+         FU/C9l5jE23me/PzTcbsOMhJjmEIqPQ0ezi97g+BhOX24zi1ihqlpIRt5uGkhny59kCz
+         F+6UjEXYEt8xMTZ6DeTxYaamggRfEwfuA+k6GZqcccplPJyVw5LL0Df0veBg4jWIekS6
+         qX0/f8U7AKda78KAJIcbrrWOfd57U2EXsZGD28u0z7yQSVsZdXXJ6EVxvhus2KBlJeh3
+         DdKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=As/A/NimAzUb/Am5BVa6wR90IV5K2PNPaHD7aKdaSJQ=;
-        b=NTfxWRDONY9zh5jULRoiRGM4skV/k7rN2sxjQ+3FjcRnO1pZxyQuDV9XF+erC8fFHd
-         NQbWIlf1EjcFbJ5w125BrDV4qeOX2MIw2G21Y7C9KcvGB910ecJ2zwhUPQjSrGZ79fxk
-         dKE2AftHSAtjCq+tYrZagZuEcHBeNEIy8lg7Gkh/unm2HSEXtj3Iuw8WtVmo+d9uQ+cT
-         O9Ge9KAA8QtzF24cURFAFg/57hOvQaft8kIbOWqVbSu9ydqXIt3kstUF2ecvsse8KMm1
-         rfDrFaUZVutDZQY1D/P7hjzvTC7u4YSQW4IkLAyp7N23Ii3+DQ5cgiRkskX5EodbLANk
-         I7XQ==
-X-Gm-Message-State: AOAM532OqOS+b5xbVejBz89CNZwNjCbXwm9bHDatpgShWEVqngZq3kbb
-	+AoTl1aN90CKRJvKDXzXxVJa7nk04MsGlg==
-X-Google-Smtp-Source: ABdhPJyIOLu7mwt35GSN00nYx83UsonCDkswrwNnVYYal+vippgm+DN5JklLcMEmTBzfNMMz6zoxtQ==
-X-Received: by 2002:adf:8462:: with SMTP id 89mr7714794wrf.389.1604001816078;
-        Thu, 29 Oct 2020 13:03:36 -0700 (PDT)
+        bh=FuoAs4Mh59Mn5Pmn8O43smisWydb/Z0bD18AuBDKbdQ=;
+        b=qnCOzMlHFycN/BseOTK0ExPfpZ4O1fVzCZ+hHLSrqsM3CAHx3sIvPlOMIzxXJPb7x0
+         Da5TsgO299TmaAx0/zbS5GhL1ga5md4Z4pzjDSZtuSywhgxjRto39no/EtSOlH1ugMRK
+         +H+qr2qLmXxVp8AWgybeh3V94fQpC87YxEoV9n7Ascbv7ct/UDnle06bTKFNf6uQicnO
+         GHhWIMRIVgzdRa1/DBrqwoGi/NO8wuXSuLWPSi71q3brMQoTYbbGilAcE1WpIAC4zt76
+         gOi0NkjEX7XtS0C76Z0kgKmOlTrZYEPwetRsggJKfr70y2FDTZKASzvgk8dtXBXbUpnn
+         cf/A==
+X-Gm-Message-State: AOAM530FN2YVWePjfiSHfk9bgHkr/PK1wktNBc3BqRu7Jd/I/ood9fun
+	Jf/S/w5ihbswdYcErosnqfiC+2V5tjgxwQ==
+X-Google-Smtp-Source: ABdhPJy5b51U0MqiHIEXdERVSpzqZZ6cflFZdC1ZTne/ciOI9s7vbh7+5CpfQZX7DFB1XT24mv4dog==
+X-Received: by 2002:a1c:5f46:: with SMTP id t67mr870853wmb.173.1604001817122;
+        Thu, 29 Oct 2020 13:03:37 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id b63sm1519422wme.9.2020.10.29.13.03.35
+        by smtp.gmail.com with ESMTPSA id b63sm1519422wme.9.2020.10.29.13.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 13:03:35 -0700 (PDT)
+        Thu, 29 Oct 2020 13:03:36 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v5 5/6] spirv-tools: fix identation and cleanup install append
-Date: Thu, 29 Oct 2020 20:03:20 +0000
-Message-Id: <20201029200321.1886511-5-quaresma.jose@gmail.com>
+Subject: [PATCH v5 6/6] maintainers.inc: Add Jose Quaresma
+Date: Thu, 29 Oct 2020 20:03:21 +0000
+Message-Id: <20201029200321.1886511-6-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201029200321.1886511-1-quaresma.jose@gmail.com>
 References: <20201029200321.1886511-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-- replace tabs with spaces and remove extra spaces
-- remove extra slash from '${D}/' on install append
+Jose Quaresma is responsible for the maintenance as follows:
+
+shaderc
+glslang
+spirv-tools
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/recipes-graphics/spir/spirv-tools_git.bb | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ meta/conf/distro/include/maintainers.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_git.bb b/meta/recipes-graphics/spir/spirv-tools_git.bb
-index d1c2436cd9..0b54706974 100644
---- a/meta/recipes-graphics/spir/spirv-tools_git.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_git.bb
-@@ -9,12 +9,12 @@ SECTION = "graphics"
- S = "${WORKDIR}/git"
- DEST_DIR = "${S}/external" 
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;name=spirv-tools \
--	git://github.com/KhronosGroup/SPIRV-Headers.git;name=spirv-headers;destsuffix=${DEST_DIR}/spirv-headers \
--	git://github.com/google/effcee.git;name=effcee;destsuffix=${DEST_DIR}/effcee \
--	git://github.com/google/re2.git;name=re2;destsuffix=${DEST_DIR}/re2 \
--	git://github.com/google/googletest.git;name=googletest;destsuffix=${DEST_DIR}/googletest \
--        file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch \
--        file://0001-Avoid-pessimizing-std-move-3124.patch \
-+           git://github.com/KhronosGroup/SPIRV-Headers.git;name=spirv-headers;destsuffix=${DEST_DIR}/spirv-headers \
-+           git://github.com/google/effcee.git;name=effcee;destsuffix=${DEST_DIR}/effcee \
-+           git://github.com/google/re2.git;name=re2;destsuffix=${DEST_DIR}/re2 \
-+           git://github.com/google/googletest.git;name=googletest;destsuffix=${DEST_DIR}/googletest \
-+           file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch;destsuffix=${DEST_DIR}/effcee \
-+           file://0001-Avoid-pessimizing-std-move-3124.patch \
- "
- SRCREV_spirv-tools = "c413b982c316b14e784f50d941814fc737b55b4a"
- SRCREV_spirv-headers = "af64a9e826bf5bb5fcd2434dd71be1e41e922563"
-@@ -28,9 +28,9 @@ EXTRA_OECMAKE += "-DSPIRV_WERROR=OFF"
- 
- do_install_append() {
- 	install -d ${D}/${includedir}/spirv
--	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}/${includedir}/spirv	
-+	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}${includedir}/spirv
- 	install -d ${D}/${includedir}/spirv/unified1
--	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/* ${D}/${includedir}/spirv/unified1
-+	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/* ${D}${includedir}/spirv/unified1
- }
- 
- FILES_SOLIBSDEV = ""
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 7935f968c7..158835c024 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -213,6 +213,7 @@ RECIPE_MAINTAINER_pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER_pn-gmp = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER_pn-glslang = "Jose Quaresma <quaresma.jose@gmail.com>"
+ RECIPE_MAINTAINER_pn-gnome-desktop-testing = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-gnu-config = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-gnu-efi = "Yi Zhao <yi.zhao@windriver.com>"
+@@ -641,6 +642,7 @@ RECIPE_MAINTAINER_pn-settings-daemon = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-shadow = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-shadow-securetty = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-shadow-sysroot = "Chen Qi <Qi.Chen@windriver.com>"
++RECIPE_MAINTAINER_pn-shaderc = "Jose Quaresma <quaresma.jose@gmail.com>"
+ RECIPE_MAINTAINER_pn-shared-mime-info = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-shutdown-desktop = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-signing-keys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+@@ -648,6 +650,7 @@ RECIPE_MAINTAINER_pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-speex = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-speexdsp = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
+ RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ssh-pregen-hostkeys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
 -- 
 2.29.1
 
