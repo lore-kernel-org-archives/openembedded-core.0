@@ -1,175 +1,118 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web11.3784.1603943523646476663
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.62])
+ by mx.groups.io with SMTP id smtpd.web11.4942.1603953087491137084
  for <openembedded-core@lists.openembedded.org>;
- Wed, 28 Oct 2020 20:52:03 -0700
+ Wed, 28 Oct 2020 23:31:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=av9nkjPn;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id z33so1063175qth.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 28 Oct 2020 20:52:03 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=mb2AXSjn;
+ spf=pass (domain: windriver.com, ip: 40.107.92.62, mailfrom: mingli.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ShQMqcuPXaGOPCcarZbPpme5gR9iDZs+HjGBetGT6TWI7SlknYQDrAufrl6kZkiWPE0d+UpLSqk0IlR7iX30MjBYi5g+1Nn9osvCJw+bkBy0q1a1WqXjCTjydA9+jk0dyBV0u9eT+b6C1MrFpxQzCtb38doSVzIjCFYAo/fTVoxhXfacw8oozsnpgMbsUQSESGg3bOS7Pi7WYlPTNe88D3Dpk9p6CzPrGOz/PPn9mZwOwpuxu3zPVbRaLwBKDz7GSdcDEfg2Adw78wEeJwAir1cK2MDRVAqhHXfvY6NnCZNYFYhDPcdSv5qtNOspagzav7VB9LzR463oToY01ZEstg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uMTBshuZr+COQirGxC1wRhysiugIbkMvseVg8mAysB4=;
+ b=hNDS5Xg6W5BMMmui1w1y1qoC35LbgqWny7L3d+rvHTPFg4n/QUgKP/WF8aaWWuqr3TCb4W8bt3ndYDO4i4wVAp6Xmk9NS/l6RauXHsdUnSpX5J5elMcZVXkwkx3WqPzVaUrejKIVGgkpPaWv8BmDQL3lKo1jllWT2JpyASdyKdd3FjJyG8MoC8IWXUgnQFvnxhEawFVtT30vVaOTQKKHjQw3GkoTQYy26TSNKGJa3pgmOEopGnEQo/tN1gX1o0Nc3/s3XycHCkrCIEFzu28PWZ1EpzvV7N2qwTyX8Xvv9vgjxHwrXIstl5vIQ1WFLFABD8EZSlbQP41Xvq0lcX4dwg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iQXq5VXdYpZOPI1cHwywHLW8jz92QenJ/uiSIXNrlOY=;
-        b=av9nkjPnVANKzMaf4j4PBTWppSCXOhaLS4Z7RpmcF9/hbydwO4R95Top1ilOtmwY2H
-         +EvwUXrslhs61/05Z6zB5hZT9zu81AAMpi7tjCpiUJIoD3/puYiZzvEra9X/b4Wr6CM4
-         So6aDbL2ievRQ/72A9sJ6yY56Km/WI5PdrOJJethku1hn1mYWHoQ/e4ir8kJWShCAqkt
-         XFT3QInK8NKubg8jKwugKFeW7mQajWTCjOt42Z6J2HZBrCSzNIpEIjh9ecOpEH+GPKOB
-         7jVl+sZR+OQ3yQwVipHqjJuD+keEyA0oDb9bWETLgBBMMZj3y/9EoPIxCW/U9n3pLIKA
-         p+Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iQXq5VXdYpZOPI1cHwywHLW8jz92QenJ/uiSIXNrlOY=;
-        b=CJuo55oOpipjCoEZLLcdppvN8Cjr7Zz53b3qotmeeHLVdqdYR8csnPtYt7GecUcf67
-         C/CNSRSH8mDNcl0fGuxG+NrhmxE5f1XgyHD3TH8zRSgGZVMYvcQOaIOIkOVTjc8UtB+7
-         ZFcxGRmINnZNn6yWRCwNWYmB2Y/4wiSh7vjKcRyWajglzV6TQRo1NescJr8LykQ8NxrE
-         q0gZ13qnSgUDOPBbdh6mv1/6Gz/UwN9beVcVIuW9/0lsqL8G2jCQSDulxYM++2BznUq8
-         6zL/PwYts2yU/vGllOz03NtPbyag2RH9BD+m4Z68Rtpc4VhT70UYllBCdJi6LHADuaQk
-         nj5w==
-X-Gm-Message-State: AOAM532Ocviaq8x7m2UhJDHbm7Yjnb8FKCcMYwVjb4UnuOBZRfqq0xhd
-	MBwBXbnQKIvs1ueajoxLXdeAsEBFH0g5I9AYGCU=
-X-Google-Smtp-Source: ABdhPJwGTw7dpqcBoQjXekRDGpg5XRXLxU/LYdwe57isqhamQ3V7lxKqlPPMaBzGjZTpDrqLv34YLz0QYHmsRgKgQs8=
-X-Received: by 2002:a05:622a:1cb:: with SMTP id t11mr458242qtw.378.1603943522641;
- Wed, 28 Oct 2020 20:52:02 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uMTBshuZr+COQirGxC1wRhysiugIbkMvseVg8mAysB4=;
+ b=mb2AXSjnGUYgmYA0x9kji93nXCvNEr2jsRSM6AVkZTy05CqTPXc5eLMWHUv6vPeXNu7d8kZox0kIJOal0U1MbBxsxfMVVDQulGqi7ZzDhQ6H4RmfHA6/hIFVkTI8UkXzpnrvwmfnphoYjGQiqhOsSZQ0PPPyrzzgf8qa0fJWcug=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by MWHPR11MB1264.namprd11.prod.outlook.com (2603:10b6:300:27::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Thu, 29 Oct
+ 2020 06:31:25 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::105b:9105:2a38:9e9f]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::105b:9105:2a38:9e9f%7]) with mapi id 15.20.3499.027; Thu, 29 Oct 2020
+ 06:31:24 +0000
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] update_udev_hwdb: clean hwdb.bin
+Date: Thu, 29 Oct 2020 14:31:08 +0800
+Message-Id: <20201029063108.34921-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: YT1PR01CA0120.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::29) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
-References: <20201028210558.21070-1-alex.kanavin@gmail.com> <20201028210558.21070-2-alex.kanavin@gmail.com>
-In-Reply-To: <20201028210558.21070-2-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 28 Oct 2020 20:51:36 -0700
-Message-ID: <CAMKF1srczW3hZ1_4eof7WnPPvGF=8Ukh-sJAQJPZGNn1Md8Amw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 02/33] glib-2.0: upgrade 2.64.5 -> 2.66.1
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by YT1PR01CA0120.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Thu, 29 Oct 2020 06:31:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e27b2ea8-9283-4d08-b9af-08d87bd441e9
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1264:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB126492C14294835AD8DD9FFFF1140@MWHPR11MB1264.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	VSLa+3xyesTS9lwrEVCH7E/iFFhtP7GkkV4vSF6Air1RTBSivDUTHefTijq9QUkklm9thpGAOJxMLl/tWBWQ66nCLQE1PU9xdsD4XG7cfbmAsiev1ZwoLBshRWcoeb9AbgdT7CBzOtYnR1yTikAiYMwUmmAnf8aD4IEIQYM3M/lm3tRDgXhXEeSuw70PvRUEzCNCC+Xj5xyRWtFYuKTtvNts+GQu7e07uN6sQxUUKAGIgatB48WtxaaCtNbWOvrywmII3CqvfCWGQcmgnUEiwF7fuhW5fDqTRbyAXHwVJaCN5SxfLiXu1VGOo/I71QlUppGkNESjVmngmyYqxd8JZQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(376002)(39850400004)(366004)(8936002)(186003)(16526019)(478600001)(6666004)(26005)(83380400001)(66946007)(2616005)(66556008)(66476007)(956004)(86362001)(6506007)(52116002)(316002)(9686003)(6512007)(1076003)(8676002)(36756003)(6486002)(2906002)(15650500001)(5660300002)(6916009);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	sRVdxYkj+cRs+wHEP0HKbd9stCJsOZOBuTwqPze6ZrWlro+QlCWewtSqKW2LXGQhnc8jyMnHuW3A3rOqxIpN7jkNX5sEP6dXwoI85RFxK85pzmpVgE6Jo/kiXCeMmnTiap4zLHkztfgQOc8Y3n0wRQDGTjsiIQ8IcHxGCSYztXzMzje90h5akleCRif1NnLrAnQZpsZK8VL8YvO/dLp2fKGtCebKISJgnABTyyfZGSNfI2u3dF0ivr98Jx70dEe5URwOREYUh2mgLKCdcunlB7s1KsUExSS3hBHZZe/0LnOtDfA53TUf6nj3A3zkSXSa04j0AsnSJqZylfFSduVKRJtn3nUmAg5B5SaQS5x0X5F3y9fHg+9NglWWg+7cKpMQlczTjISRTPC4CQnuQW3VHwAfaMAYhkblAt9RYe2LRvkDJf6IRkbmwcKvL2czt70Iv2272SrV/STM7g1ePzwseC377M9lHt/gwqFNTsXBgPNtEhLUsoJWsfkMtg5ZPg3KilbqKWyu2qgk2LL33Lt2bwNxL++MrZu3tHqMdUcTtf3nPa/frY9da9QiQajCCP4gHgJ+6xYqE7eWyMdyTBPhEF3pFeSqhDkN/G7hD1enA/5nBor5dXoirRoGn4D+qf369lqosY1/txcXIaipXmNkOw==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e27b2ea8-9283-4d08-b9af-08d87bd441e9
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2020 06:31:24.7022
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pnWOhtXtYKX3Ev4Ml4KdeuVGSBPr7iK5IpLQrCegMgqMCz4fP90z0IdXokfjBlflgRJB8Bd4fDj4uTOZbzpADw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1264
+Content-Type: text/plain
 
-I think this needs to accommodate/delete patch added by
-https://lists.openembedded.org/g/openembedded-core/message/143792?p=,,,20,0,0,0::Created,,glib-2.0,20,2,0,77821523
+From: Mingli Yu <mingli.yu@windriver.com>
 
-since we are needing it on dunfell, I would say reverting it along
-with this upgrade on master is preferred.
+Steps to reproduce:
+echo "IMAGE_INSTALL_append = \" udev-hwdb lib32-udev-hwdb\"" >> conf/local.conf
 
-On Wed, Oct 28, 2020 at 2:06 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  ...-correctly-when-building-with-mingw3.patch | 20 +++++++++----------
->  .../glib-2.0/glib-2.0/relocate-modules.patch  |  2 +-
->  ...{glib-2.0_2.64.5.bb => glib-2.0_2.66.1.bb} |  2 +-
->  3 files changed, 12 insertions(+), 12 deletions(-)
->  rename meta/recipes-core/glib-2.0/{glib-2.0_2.64.5.bb => glib-2.0_2.66.1.bb} (95%)
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-> index d075cd3f23..d6765b163b 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Set-host_machine-correctly-when-building-with-mingw3.patch
-> @@ -1,4 +1,4 @@
-> -From d3334e83ae0da9ca184eb9c8daf0854544ece023 Mon Sep 17 00:00:00 2001
-> +From 333809ded70ad4e3470b7134e3fac1a42ff48e61 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Wed, 13 Feb 2019 15:32:05 +0100
->  Subject: [PATCH] Set host_machine correctly when building with mingw32
-> @@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   4 files changed, 9 insertions(+), 6 deletions(-)
->
->  diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-> -index dab65d2..e8bb2ee 100644
-> +index 3a19c82..b762835 100644
->  --- a/gio/tests/meson.build
->  +++ b/gio/tests/meson.build
->  @@ -12,7 +12,7 @@ test_c_args = [
-> @@ -26,7 +26,7 @@ index dab65d2..e8bb2ee 100644
->     common_gio_tests_deps += [iphlpapi_dep, winsock2, cc.find_library ('secur32')]
->   endif
->
-> -@@ -132,7 +132,7 @@ else
-> +@@ -133,7 +133,7 @@ else
->   endif
->
->   #  Test programs buildable on UNIX only
-> @@ -35,7 +35,7 @@ index dab65d2..e8bb2ee 100644
->     gio_tests += {
->       'file' : {},
->       'gdbus-peer' : {
-> -@@ -384,7 +384,7 @@ if host_machine.system() != 'windows'
-> +@@ -385,7 +385,7 @@ if host_machine.system() != 'windows'
->   endif # unix
->
->   #  Test programs buildable on Windows only
-> @@ -44,7 +44,7 @@ index dab65d2..e8bb2ee 100644
->     gio_tests += {'win32-streams' : {}}
->   endif
->
-> -@@ -454,7 +454,7 @@ if cc.get_id() != 'msvc' and cc.get_id() != 'clang-cl'
-> +@@ -455,7 +455,7 @@ if cc.get_id() != 'msvc' and cc.get_id() != 'clang-cl'
->     }
->   endif
->
-> @@ -54,10 +54,10 @@ index dab65d2..e8bb2ee 100644
->       'gdbus-example-unix-fd-client' : {
->         'install' : false,
->  diff --git a/glib/tests/meson.build b/glib/tests/meson.build
-> -index 3dedafc..94605e6 100644
-> +index 6eb23e8..36eb919 100644
->  --- a/glib/tests/meson.build
->  +++ b/glib/tests/meson.build
-> -@@ -134,7 +134,7 @@ if glib_conf.has('HAVE_EVENTFD')
-> +@@ -137,7 +137,7 @@ if glib_conf.has('HAVE_EVENTFD')
->     }
->   endif
->
-> @@ -67,7 +67,7 @@ index 3dedafc..94605e6 100644
->       glib_tests += {
->         'gpoll' : {
->  diff --git a/meson.build b/meson.build
-> -index e1b4b79..afb6eaa 100644
-> +index 47f3a5c..7ea7ad1 100644
->  --- a/meson.build
->  +++ b/meson.build
->  @@ -32,6 +32,9 @@ else
-> @@ -78,8 +78,8 @@ index e1b4b79..afb6eaa 100644
->  +  host_system = 'windows'
->  +endif
->
-> - glib_version = meson.project_version()
-> - glib_api_version = '2.0'
-> + if host_system == 'darwin'
-> +   ios_test_code = '''#include <TargetConditionals.h>
->  diff --git a/tests/meson.build b/tests/meson.build
->  index 6741f8f..12fdc90 100644
->  --- a/tests/meson.build
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-> index fe87482ae2..07e37acf7d 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-> @@ -1,4 +1,4 @@
-> -From 2a715765c6ceb2e8b4cc42e060aee75016111d1a Mon Sep 17 00:00:00 2001
-> +From 75c0423e1dc34fa20de70bc9932625fd0de4a912 Mon Sep 17 00:00:00 2001
->  From: Ross Burton <ross.burton@intel.com>
->  Date: Fri, 11 Mar 2016 15:35:55 +0000
->  Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.66.1.bb
-> similarity index 95%
-> rename from meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb
-> rename to meta/recipes-core/glib-2.0/glib-2.0_2.66.1.bb
-> index a30c5215be..52c7e42fbd 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.1.bb
-> @@ -21,7 +21,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
->
->  SRC_URI_append_class-native = " file://relocate-modules.patch"
->
-> -SRC_URI[sha256sum] = "9cbd5bd2715ead1c28d53c46f7b7b6ff6166f5887b772c1a9e3bf2910cfecc11"
-> +SRC_URI[sha256sum] = "a269ffe69fbcc3a21ff1acb1b6146b2a5723499d6e2de33ae16ccb6d2438ef60"
->
->  # Find any meson cross files in FILESPATH that are relevant for the current
->  # build (using siteinfo) and add them to EXTRA_OEMESON.
-> --
-> 2.29.0
->
->
-> 
->
+When install both udev-hwdb and lib32-udev-hwdb as above,
+there comes below do_populate_sdk error:
+ $ bitbake core-image-sato  -c populate_sdk
+ ERROR: Task (/path/core-image-sato.bb:do_populate_sdk) failed with exit code '134'
+ NOTE: Tasks Summary: Attempted 5554 tasks of which 0 didn't need to be rerun and 1 failed.
+
+ $ cat /path/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r5/pseudo/pseudo.log
+ [snip]
+ inode mismatch: '/path/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r5/sdk/image/usr/local/oecore-x86_64/sysroots/core2-64-poky-linux/lib/udev/hwdb.bin' ino 427383040 in db, 427383042 in request.
+ [snip]
+
+It is because both udev-hwdb and lib32-udev-hwdb will generate
+${SDK_OUTPUT}/${SDKTARGETSYSROOT}/lib/udev/hwdb.bin during do_populate_sdk
+and it triggers pseudo error.
+
+So clean hwdb.bin before generate hwdb.bin to avoid conflict to
+fix the above do_populate_sdk error.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ scripts/postinst-intercepts/update_udev_hwdb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postinst-intercepts/update_udev_hwdb
+index 102e99b947..cf06977c10 100644
+--- a/scripts/postinst-intercepts/update_udev_hwdb
++++ b/scripts/postinst-intercepts/update_udev_hwdb
+@@ -17,5 +17,6 @@ case "${PREFERRED_PROVIDER_udev}" in
+ 		;;
+ esac
+ 
++rm -rf $D${UDEVLIBDIR}/udev/hwdb.bin
+ PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D ${UDEV_EXTRA_ARGS}
+ chown root:root $D${UDEVLIBDIR}/udev/hwdb.bin
+-- 
+2.17.1
+
