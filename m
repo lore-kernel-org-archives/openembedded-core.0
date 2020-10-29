@@ -1,75 +1,223 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web12.9540.1603981694999927105
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.9659.1603981696160881215
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 07:28:15 -0700
+ Thu, 29 Oct 2020 07:28:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=X7ASwT/c;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id v5so63394wmh.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 07:28:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OYq9Gvg2;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id p22so51692wmg.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 07:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jSR8H9kG/J9taCfBfr+Knn9g9XCb99d/N7SiYvVEzQA=;
-        b=X7ASwT/cUWLeVHVTuTmTN89F89wHjVo1Y8jVkw2ioIq+LsQeHpsWfaHXY4SOLgqKCG
-         D2NfNyEECx8YJzWx6V9zze0/49NyOrqE/f+50TX2IFyGJObIV0pQp0Q0nFJlanUqNBov
-         qVyAigrkh41SieboIdagBbFuZG5mkL6pYcPjjCtLd0qm6xy1gjY9UmHPemvKUAFDVTiH
-         18LhZwJnHhdrf4Ka5dwimMo7hF+GRQOE+PqAkhhJQCSPpEYF5w9F44VBeWtDy45I2yfb
-         AL6EbUP8LaDWPvkbtFftS9Dqsjm9KKc3Ht2LMF4UUjP3aTix8WNF59msqrh7bQMhdVUT
-         X/6g==
+        bh=dKjqX2MVj1YrdCg8sGlwRZAto+z/1YG+vnS8lV/voZE=;
+        b=OYq9Gvg2zUTd4oU6Eh24AlceHM5Z7HGgQeEJlv2539YDvAZv2pbLhZMUGXQalEdiqm
+         734gKrRJ1gmDMd3tBy5/dGmAVItQFTl2hAntpulqmH0qtLbJYLbPalTh6LV9ZFaX9TOi
+         J7URsmYEpWH5p/Q7HGQUdUT1g6kn/Cyvj5vS6CTWY7tIddkKDYG915n3zHe1gXciCYfq
+         ck+6lhNOpC3RiZyB89XZuCJAxzZVMWVD0mq4VZ1Mr4xUU2PXyUJAs57lZQgg3a2TmdFr
+         PkuBg4FolI9WBsYy7RQFT3x0WsSTXCy5t3UFRVeMvesNex860ckI3i94uMexwANw6m2J
+         rMeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jSR8H9kG/J9taCfBfr+Knn9g9XCb99d/N7SiYvVEzQA=;
-        b=pIfcyrk9KssuS+wdsagE0wX1eB3Jys2dN4krV1y9clPvSQzSDXTg93qmQHGTxf1rpc
-         rkT4CIhWPLUZLlYb8QF8dpnquCQWTu0wna7VXCdOohgjZMhx0n743INc5ha/Sqekif8L
-         s5ZQu8pD5jxi7NJMT0Ja2rxexOv3q1qVPGWO1sF1gDd2r9IX84cFhnDh+veG83MZGVgz
-         a2Pxz/Twarx1XOtJKBnLdoMr0NoRsHIH0HCHRsfFaTS5hqW1z94+KBc8uz9OGs9maRMA
-         DOYHvKo74qrT53JGWuVXqjesIR9M5o8J8a5Rg6yAmBYY3bTlRB9DL8rE4B6o0Csi7kVq
-         JRXg==
-X-Gm-Message-State: AOAM531KI+f3k1OxKmh8swRYfo078Ku9bXpXnhW6FMCQeIT9tlN3rokc
-	lgqKAjFjQOJhsAMt7s0TbKR4XzhF4w6tDg==
-X-Google-Smtp-Source: ABdhPJwJtsYOQyJ9lhN08jRmxxwnYM6V515wWhHQfkPStZiy0kR9hP9dc2NmMCr06EcddHzCX7d9VA==
-X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr67246wmk.91.1603981693304;
-        Thu, 29 Oct 2020 07:28:13 -0700 (PDT)
+        bh=dKjqX2MVj1YrdCg8sGlwRZAto+z/1YG+vnS8lV/voZE=;
+        b=bSE5Px0WnFeLdGa1EsHCkPttFipwlWObIjEv4Zu+N2ZUOdhbkEVioTIHizFoL5dsi+
+         wKMBxoeW7u68I4SfCuFS8ImGdkcBivBshkB1SL+kGxLp8A0UMl093T04vw4QkKSEyvFd
+         A5Jh4/KP7LIM+m1PDshYQ49rvGyV9zoW3Vx9LTt/Ph8yWt8f138bgHpSKGmWT42KLnyl
+         aVKSk2hu5YAqETl0DlDlKrrDkrFi8JQ7cn/+Rdfym9bYn9Ln/9AxghKbGYf57WF2iAsX
+         kytXlcRUIQLBFxfAWqKo8UbF2hAQx2lcil15BZSlovr6QrOWZlLJvLumVVt0MUP/0zOL
+         PY5Q==
+X-Gm-Message-State: AOAM531Dxqpbag1Oc71aTxOyEcQU0U40bd2V+Zb5SvYQvKaGwmtfxch7
+	+t5wXsi99qpE/BSCuoYaHGkFrd9dAHqIAA==
+X-Google-Smtp-Source: ABdhPJy9p2mg/VfhFPWgXT7WAO+WIXHW7iBnINJo9YTkw5CCAxotdZCslFaTyrp9O27yk+YPeJfgNw==
+X-Received: by 2002:a1c:9d94:: with SMTP id g142mr131189wme.66.1603981694413;
+        Thu, 29 Oct 2020 07:28:14 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id y4sm5404803wrp.74.2020.10.29.07.28.12
+        by smtp.gmail.com with ESMTPSA id y4sm5404803wrp.74.2020.10.29.07.28.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 07:28:12 -0700 (PDT)
+        Thu, 29 Oct 2020 07:28:13 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v5 04/22] gstreamer1.0-plugins-base: add new meson option as PACKAGECONFIG
-Date: Thu, 29 Oct 2020 14:27:48 +0000
-Message-Id: <20201029142806.1830504-5-quaresma.jose@gmail.com>
+Subject: [PATCH v5 05/22] gstreamer1.0-plugins-good: upgrade to version 1.18.0
+Date: Thu, 29 Oct 2020 14:27:49 +0000
+Message-Id: <20201029142806.1830504-6-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201029142806.1830504-1-quaresma.jose@gmail.com>
 References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-- gl_winsys have a new meson option to set egl
+    * 0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
+      Removed since these are included in 1.18.0
+
+License-Update: remove file://common/coverage/coverage-report.pl
+Upstream dont have it any more.
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-base_1.18.0.bb                | 1 +
- 1 file changed, 1 insertion(+)
+ ...defines-GLsync-to-fix-compile-on-som.patch | 70 -------------------
+ ...t-gstqtgl.h-instead-of-gst-gl-gstglf.patch |  8 +--
+ ...bb => gstreamer1.0-plugins-good_1.18.0.bb} | 14 ++--
+ 3 files changed, 10 insertions(+), 82 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.2.bb => gstreamer1.0-plugins-good_1.18.0.bb} (84%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
-index 7fe5a480d4..a04af186f6 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
-@@ -68,6 +68,7 @@ OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', ' x11', '',
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'gbm', ' gbm', '', d)}"
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'wayland', ' wayland', '', d)}"
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'dispmanx', ' dispmanx', '', d)}"
-+OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'egl', ' egl', '', d)}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
+deleted file mode 100644
+index 136848763b..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From 3e0d5577444b32579bdf5b69d720a322322ff7bc Mon Sep 17 00:00:00 2001
+-From: Milian Wolff <milian.wolff@kdab.com>
+-Date: Tue, 26 Nov 2019 15:08:20 +0100
+-Subject: [PATCH] qmlgl: ensure Qt defines GLsync to fix compile on some platforms
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-By explictly including QtGui/qopengl.h we force the code path that
+-defines GLsync in the Qt-specific way. Without that, some platforms
+-failed to compile the qmlgl plugin, since neither Qt nor gstreamer
+-defined GLsync then, leading to e.g.:
+-
+-```
+-make[4]: Entering directory '/.../gst-plugins-good-1.16.1/ext/qt'
+-  CXX      libgstqmlgl_la-qtitem.lo
+-In file included from gstqtgl.h:32,
+-                 from qtitem.h:27,
+-                 from qtitem.cc:28:
+-/.../usr/include/gstreamer-1.0/
+-gst/gl/gstglfuncs.h:93:17: error: expected identifier before ‘*’ token
+-   ret (GSTGLAPI *name) args;
+-                 ^
+-/.../usr/include/gstreamer-1.0/
+-gst/gl/glprototypes/sync.h:27:1: note: in expansion of macro
+-‘GST_GL_EXT_FUNCTION’
+- GST_GL_EXT_FUNCTION (GLsync, FenceSync,
+- ^~~~~~~~~~~~~~~~~~~
+-```
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/commit/3e0d5577444b32579bdf5b69d720a322322ff7bc]
+----
+- ext/qt/gstqtgl.h | 18 +++++++++++-------
+- 1 file changed, 11 insertions(+), 7 deletions(-)
+-
+---- a/ext/qt/gstqtgl.h
+-+++ b/ext/qt/gstqtgl.h
+-@@ -22,14 +22,7 @@
+- #include <QtGui/qtgui-config.h>
+- #endif
+- 
+--/* qt uses the same trick as us to typedef GLsync on GLES2 but to a different
+-- * type which confuses the preprocessor. Instead of trying to reconcile the
+-- * two, we instead use the GLsync definition from Qt from above, and ensure
+-- * that we don't typedef GLsync in gstglfuncs.h */
+- #include <gst/gl/gstglconfig.h>
+--#undef GST_GL_HAVE_GLSYNC
+--#define GST_GL_HAVE_GLSYNC 1
+--#include <gst/gl/gstglfuncs.h>
+- 
+- /* The glext.h guard was renamed in 2018, but some software which
+-  * includes their own copy of the GL headers (such as qt) might have
+-@@ -46,6 +39,17 @@
+- #endif
+- #endif
+- 
+-+/* pulls in GLsync, see below */
+-+#include <QtGui/qopengl.h>
+-+
+-+/* qt uses the same trick as us to typedef GLsync on GLES2 but to a different
+-+ * type which confuses the preprocessor. Instead of trying to reconcile the
+-+ * two, we instead use the GLsync definition from Qt from above, and ensure
+-+ * that we don't typedef GLsync in gstglfuncs.h */
+-+#undef GST_GL_HAVE_GLSYNC
+-+#define GST_GL_HAVE_GLSYNC 1
+-+#include <gst/gl/gstglfuncs.h>
+-+
+- #if defined(QT_OPENGL_ES_2)
+- #include <QtGui/QOpenGLContext>
+- #include <QtGui/QOpenGLFunctions>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
+index 3d423154e0..788d752058 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
+@@ -1,4 +1,4 @@
+-From d08234a659bec1fd5c984fedefbeb8192af07839 Mon Sep 17 00:00:00 2001
++From bf8b2fa0f6870589d036f0f33c140a3f85b530a0 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Tue, 31 Mar 2020 21:23:28 -0700
+ Subject: [PATCH] qt: include ext/qt/gstqtgl.h instead of gst/gl/gstglfuncs.h
+@@ -26,7 +26,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  2 files changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/ext/qt/gstqsgtexture.cc b/ext/qt/gstqsgtexture.cc
+-index 2b314e0..12b15dd 100644
++index a05d26e..4cc9fc6 100644
+ --- a/ext/qt/gstqsgtexture.cc
+ +++ b/ext/qt/gstqsgtexture.cc
+ @@ -27,7 +27,7 @@
+@@ -39,7 +39,7 @@ index 2b314e0..12b15dd 100644
+  
+  #define GST_CAT_DEFAULT gst_qsg_texture_debug
+ diff --git a/ext/qt/qtwindow.cc b/ext/qt/qtwindow.cc
+-index 62d26b6..bf68ebb 100644
++index 9360c33..0dfd3f1 100644
+ --- a/ext/qt/qtwindow.cc
+ +++ b/ext/qt/qtwindow.cc
+ @@ -25,7 +25,7 @@
+@@ -52,5 +52,5 @@ index 62d26b6..bf68ebb 100644
+  #include "gstqsgtexture.h"
+  #include "gstqtglutility.h"
+ -- 
+-2.26.0
++2.28.0
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0.bb
+similarity index 84%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0.bb
+index 17c9421394..c112f336b2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.0.bb
+@@ -1,19 +1,16 @@
+ require gstreamer1.0-plugins-common.inc
+ 
+-SRC_URI = " \
+-            https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
+-            file://0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch \
+-            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+-            "
++SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
++           file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
++           "
+ 
+-SRC_URI[md5sum] = "bd025f8f14974f94b75ac69a9d1b9c93"
+-SRC_URI[sha256sum] = "40bb3bafda25c0b739c8fc36e48380fccf61c4d3f83747e97ac3f9b0171b1319"
++SRC_URI[md5sum] = "c437bf42bf830bc0f482c7d088fb37a5"
++SRC_URI[sha256sum] = "6329bc377a3afea5cf1ab329a91cc4a906f075781780d1edc59e8bea8c1a8bac"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
+ LICENSE = "GPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+-                    file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607 \
+                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
+ 
+ DEPENDS += "gstreamer1.0-plugins-base libcap zlib"
+@@ -54,6 +51,7 @@ PACKAGECONFIG[wavpack]    = "-Dwavpack=enabled,-Dwavpack=disabled,wavpack"
+ PACKAGECONFIG[x11]        = "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
  
  EXTRA_OEMESON += " \
-     -Ddoc=disabled \
++    -Ddoc=disabled \
+     -Daalib=disabled \
+     -Ddirectsound=disabled \
+     -Ddv=disabled \
 -- 
 2.29.1
 
