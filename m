@@ -1,111 +1,145 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.7970.1603974615601413058
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.8025.1603974726981443792
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 05:30:15 -0700
+ Thu, 29 Oct 2020 05:32:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ah4qrXJK;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id dn5so2804459edb.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 05:30:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mq9KIaOs;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id t25so3503327ejd.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 05:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ikk1y86nMMbaZNncZjl836+IuXMUqCd4wqKnm+c5AHo=;
-        b=ah4qrXJK1Xx+TRfrdALDNaoi7AJ/Rsu2uS/MSRFrjY5tRT/7BvAjsj33d9jEASP1Qc
-         PVAj3kUX+3ReyQid9R/FifiYhUfn/+kHxdCMWEryR2JUhKDnKaAOZMLLLCGab+xw59Yb
-         elR+qeo41dwg7Bc+5ibsMbCaDMQMh3r4wBIvRCsXTn1QwGA5yfsxp3qxNpHbCDPza2rB
-         OAb+ORELqfszjXkNUBV7hutlyZ4kHlcoDwjUPpC8O59apvBcAolI0KTLUxyWqSJgRE1y
-         rUrPiE1oWebc+v5dnmsyGPzDbgJCKttuMTJNsWuvQVH2R3aQh08MioAhXKUYVwef6zlu
-         MAbQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kEhnES/GXJ6FO0Y29+0TLK8y17rYnDbHPuBL8oL8bUk=;
+        b=mq9KIaOsvOYMxy5ekRsnagB83WH7dkIEGsG31lrWNRCk5r8R9p3GR0TKuHjH+1CIpn
+         Ve8zhLsXEKbI07fWniL8cEiUlRxUOilziPna9GdRky/o+hQZK1seJp8Bm6HR5WAsHBuQ
+         Q5Vui70efBE4AyQC+RCe7nZeIvoLzxIitOKWuHVquOiux+B5AhVah4eEKxIXcaTY+r2U
+         v3if83jM/i3lbIMEQNZn5b0n3tyb/Lu1+xoLIpyzqnDdjMT+nu0fhaOC/9/Zs6+F2fDl
+         W+rCAX/hly67lhSMsq8rcgJc26IX7U9IxjdGOlECJ+l0LXfNn+a2tm2UUsJXXeDIFwZ3
+         ALNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ikk1y86nMMbaZNncZjl836+IuXMUqCd4wqKnm+c5AHo=;
-        b=En3MfF864ukGEq+vK61IL3pmEg5JLtsryRTvmNzBpnp9Zpz1p2aMcXhxsWOHtS5reo
-         Erxj2O6b5qXe5SmBaZwxCNqDJ3RKiUqihJ0DgUvQ8ULEdXoGLMLdeb/LXAmoF8x8bYXi
-         yQBd9beOH3kRkWV19V1bwu23BfRyLe5XFcqBK6ROKRpT2s0s1JDzhZsMsGKXuDNDBFko
-         Luq7IOQtpcbzFvYwIMuUNLI6ED3LEq1xhJ6xzPlBCpgz3K/R6vaSZhQXcbV9waOAM38v
-         csZ6nPjmKgwaphh9aVBCKXPnyzUqK/Pgs16zPMaO1JjzKgatNFGhrDya+ScRPb9/Obt4
-         5GNA==
-X-Gm-Message-State: AOAM531QWKKai5bC5Ka5Xm452X1CBVeyZT5KXvjsSaBwMUkdBRKqsPHO
-	mGFlhohfkpaGZlM2Mz+/kkhW99aXGYDO8Q==
-X-Google-Smtp-Source: ABdhPJwduSOhnpYzfEMg/miovyG5qwpGJcDGOYhsinWX6uGaVIAInTbdfSPmc80Cj6wzRGfbwvYZIA==
-X-Received: by 2002:aa7:ce04:: with SMTP id d4mr3641192edv.18.1603974613679;
-        Thu, 29 Oct 2020 05:30:13 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id l20sm1412229edr.56.2020.10.29.05.30.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 05:30:13 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 3/3] glib-2.0: update 2.66.1 -> 2.66.2
-Date: Thu, 29 Oct 2020 13:30:00 +0100
-Message-Id: <20201029123000.21044-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201029123000.21044-1-alex.kanavin@gmail.com>
-References: <20201029123000.21044-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kEhnES/GXJ6FO0Y29+0TLK8y17rYnDbHPuBL8oL8bUk=;
+        b=SFnibWL23lpGrx2K6j0CYJOWr7DMpXY/35dNx5PW//Qx1TkrgkjskobtA/ynV/LFa8
+         UjL5a30/gLWY5muBeB4pW7DZAvHloYW/PjWej/bSnDOyeBwbn5S/BgQOYxNDfYr6lXCW
+         8s2/yfWq2hw+k6cuNftnEB0BR2G96+QhugZKoFtJn9ArPkvd59Wvjka6QdIXDhqJ4qEf
+         Mtlwo5zhJAd1S8NR2AG4/rdkW+HIBf2zAovbTbuVEc+X0SJ8v+IwV3AdBKV2D5Q5K91B
+         eMMFJoJBc1dWRwRybDtygYwaJdU3Kllf//knM4W9bhD3myH3rrV/CO6aLUsfcgMCRkSe
+         Sdfw==
+X-Gm-Message-State: AOAM532EZsth85CHNTMRdCo0BqaSaTPy9p1UgKHwuzTj443oFlIEV/Pd
+	ZLig6fqNwWRqqUDFVZL/F+hFnfBrWpXdtqAQFl8=
+X-Google-Smtp-Source: ABdhPJySxDBI5JsA3pWwO40O4XKMKKg44MTu+/yPI3Mpim8fVEtiy3/JS0EBMZYRC9rgZR0WR4xDPVq+tP4PcFLx8eY=
+X-Received: by 2002:a17:906:a119:: with SMTP id t25mr4082394ejy.67.1603974725438;
+ Thu, 29 Oct 2020 05:32:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201023184132.3208737-1-quaresma.jose@gmail.com>
+ <6c5cc7223aec5587143b1d7e165346494a4ab77d.camel@linuxfoundation.org>
+ <CANPvuRkMioP_k1f6=xj3Gn==wQq-JUtzqcux=sCV98CibvKFrA@mail.gmail.com> <CANNYZj9x+mWxJ6NnUarwF3Q1YjoqmDYq83ZwFc8aQY2fyQjtuQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9x+mWxJ6NnUarwF3Q1YjoqmDYq83ZwFc8aQY2fyQjtuQ@mail.gmail.com>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Thu, 29 Oct 2020 12:32:04 +0000
+Message-ID: <CANPvuRkqQtnCN0O5Y8tcF8-WGE0rq+s7ZSqS=Xh4M9PWoN4tdg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 00/21] Updates the gstreamer to version 1.18.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../recipes-core/glib-2.0/glib-2.0/relocate-modules.patch | 8 ++++----
- .../glib-2.0/{glib-2.0_2.66.1.bb => glib-2.0_2.66.2.bb}   | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-core/glib-2.0/{glib-2.0_2.66.1.bb => glib-2.0_2.66.2.bb} (95%)
+Hi Alexander,
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-index 07e37acf7d..2b8e930511 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
-@@ -1,4 +1,4 @@
--From 75c0423e1dc34fa20de70bc9932625fd0de4a912 Mon Sep 17 00:00:00 2001
-+From 85931fbb981b5aae38f1c1370d5d3c091cb862b8 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Fri, 11 Mar 2016 15:35:55 +0000
- Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
-@@ -19,10 +19,10 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 11 insertions(+), 1 deletion(-)
- 
- diff --git a/gio/giomodule.c b/gio/giomodule.c
--index c420260..a023745 100644
-+index dc4d6d3..da46906 100644
- --- a/gio/giomodule.c
- +++ b/gio/giomodule.c
--@@ -47,6 +47,8 @@
-+@@ -49,6 +49,8 @@
-  #include "gmemorymonitordbus.h"
-  #ifdef G_OS_WIN32
-  #include "gregistrysettingsbackend.h"
-@@ -31,7 +31,7 @@ index c420260..a023745 100644
-  #endif
-  #include <glib/gstdio.h>
-  
--@@ -1158,7 +1160,15 @@ get_gio_module_dir (void)
-+@@ -1163,7 +1165,15 @@ get_gio_module_dir (void)
-                                       NULL);
-        g_free (install_dir);
-  #else
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb
-similarity index 95%
-rename from meta/recipes-core/glib-2.0/glib-2.0_2.66.1.bb
-rename to meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb
-index c803dbcf90..1f83660856 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb
-@@ -20,7 +20,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
- 
- SRC_URI_append_class-native = " file://relocate-modules.patch"
- 
--SRC_URI[sha256sum] = "a269ffe69fbcc3a21ff1acb1b6146b2a5723499d6e2de33ae16ccb6d2438ef60"
-+SRC_URI[sha256sum] = "ec390bed4e8dd0f89e918f385e8d4cfd7470b1ef7c1ce93ec5c4fc6e3c6a17c4"
- 
- # Find any meson cross files in FILESPATH that are relevant for the current
- # build (using siteinfo) and add them to EXTRA_OEMESON.
--- 
-2.29.0
+You are right,
+The current version of the recipe in master has: delete_unused_libav_copy(=
+)
+and with this it already uses the ffmpeg present in OE-core.
 
+I need to review this patch.
+
+Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia quinta,
+29/10/2020 =C3=A0(s) 12:20:
+>
+> Wait, ffmpeg has been available in oe-core for a long time:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-multime=
+dia/ffmpeg
+>
+> So the issue is not the absence of ffmpeg.
+>
+> Alex
+>
+> On Thu, 29 Oct 2020 at 13:01, Jose Quaresma <quaresma.jose@gmail.com> wr=
+ote:
+>>
+>> Hi Richard,
+>>
+>> Starting with 1.17, gstreamer1.0-libav will not ship a copy of FFmpeg.
+>> ffmpeg is on meta-oe and because this recipe needs to be moved to
+>> meta-oe as well.
+>> I think [gstreamer1.0-libav: upgrade to version 1.18.0] can dropped fro=
+m OE-core
+>> and I will submit it to meta-oe.
+>>
+>> Sorry for this. I have built all the recipes in the series but I have
+>> meta-oe present in my layers.
+>>
+>> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+>> quinta, 29/10/2020 =C3=A0(s) 11:18:
+>> >
+>> > On Fri, 2020-10-23 at 19:41 +0100, Jose Quaresma wrote:
+>> > > V2:
+>> > > - Fixes the build of vulkan plugin
+>> > > - Fixes pacth headers
+>> > > - Upgrade orc 0.4.31 -> 0.4.32
+>> > >
+>> > > V3:
+>> > > - gstreamer1.0: Fix reproducibility issue around libcap
+>> > > - gstreamer1.0-python: install append is not need any more
+>> > > - gstreamer1.0-plugins-[good/bad]: disable new meson options
+>> > > - gstreamer1.0-plugins-[base/good/bad]: add new meson option as
+>> > > PACKAGECONFIG
+>> > > - Update pacth headers
+>> > >
+>> > > V4:
+>> > >
+>> > > - gstreamer1.0-plugins-good: on wayland qt5 needs qtwayland
+>> >
+>> > Thanks for these, I've tried running some tests in master-next with t=
+he
+>> > patchset. There was an issue on no-x11 builds:
+>> >
+>> > step1b: ERROR: Nothing PROVIDES 'ffmpeg' (but /home/pokybuild/yocto-w=
+orker/no-x11/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.1=
+8.0.bb DEPENDS on or otherwise requires it)
+>> > step1b: ERROR: Nothing RPROVIDES 'gstreamer1.0-libav-dev' (but /home/=
+pokybuild/yocto-worker/no-x11/build/meta/recipes-multimedia/gstreamer/gstre=
+amer1.0-libav_1.18.0.bb RDEPENDS on or otherwise requires it)
+>> > step1b: ERROR: Nothing RPROVIDES 'gstreamer1.0-libav' (but /home/poky=
+build/yocto-worker/no-x11/build/meta/recipes-multimedia/gstreamer/gstreamer=
+1.0-libav_1.18.0.bb RDEPENDS on or otherwise requires it)
+>> >
+>> > in the build:
+>> >
+>> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/262=
+9
+>> >
+>> > Would you be able to help sort that out?
+>> >
+>> > Cheers,
+>> >
+>> > Richard
+>> >
+>>
+>>
+>> --
+>> best regards,
+>> Jos=C3=A9 Quaresma
+>>
+>>=20
+>>
+
+
+--=20
+best regards,
+Jos=C3=A9 Quaresma
