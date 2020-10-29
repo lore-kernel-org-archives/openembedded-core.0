@@ -1,142 +1,84 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web10.11331.1603988019037215986
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.11769.1603989839520294811
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 09:13:39 -0700
+ Thu, 29 Oct 2020 09:43:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r8sj/BBJ;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id v19so3598463edx.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 09:13:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HORn+6ab;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id n18so3509667wrs.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 09:43:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PrVKh8XWaoM1X7PInZSy3QMqlZaOogRiRI2sStbT7v8=;
-        b=r8sj/BBJunwIHtFw+G79IhZXq9ajIBATQkCa5tgIIdztNuNsbRZwLBMAgvzJXoucRf
-         mGIB85Dnkbe/ev/TPHjtZqO0Kt2C14/QObLVpdxC39HmA3ELDOfCA3hgyw64KA82t3CR
-         jNKPGPD4925k80XyFZZs4I4k22JBDwW5TQKmIkNhFBlOk0CHEWqqDFL1mDmhuLrwVILl
-         grZZSUdRmAu/MmWspyy/OHNALD3XQCvZDeqzm3G6n6t25fhr9kmwqV1O6PK14dLo/74D
-         iJivd/NrMXJf7B2wyZZi76aX14CG2fbQkg4q2eqyN7XpNmaAUwcsvNbRFQGdW9oGR3Eh
-         RR1Q==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=ay05jhsoyyZGxnMvfuELeBlEPVZ5nVfA+2L3ItjYrFk=;
+        b=HORn+6abNdgI5IIwd3gcyURanKhMNy4PVMqxidQzUGaNjVI1OJVmKrkOz0UIog0stK
+         PJepILAqMhIQoB3umlxgv05m4tt4zuUmSxbnBWGSTsikrYl2QwtCEUjxR1kOapm6tByc
+         zgzKWpRx/b89nazWsSy5AozXKtZgXDVKV0lms=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PrVKh8XWaoM1X7PInZSy3QMqlZaOogRiRI2sStbT7v8=;
-        b=nVqcT7fAykfEELqsj28TiHv7Ift/a4Bl8jMhfGg/y0c27lsvjk4w3mvYFS+Uzk3Io8
-         HqsWXtqJek6oUe0I4pdeuEj3w9NbKEPXr+3wy8f5EXMY1MRb5S8TJPEbpjUqp+mCD9lS
-         FaKKEjRp4dBdVzfVrHGoOiOUlnyI1qEVq2MIEixKaqMaCz2qM6EV9pVG7tIw16S9oztF
-         q0Kr6qZcJRQdw6lk8lYlWWi6W1Ti9vze+DYkRk7e1GWhf65LZZRBHMPWbiLtwFucrbfk
-         5Tu8MqVGkXNNzf9SDdrCAtc+rAWMLUnoWy6qkF/7gdK7ftuHO6b8+3Vrllg8dbEm0/my
-         uiNw==
-X-Gm-Message-State: AOAM532IYOSeIe4uk4HrWorIJPBi1SI+5RRE2an0uW+X8zi8UJY+kZcq
-	hMllOvrOfOCw67r2b3S4DNkEwVtYfdaiVEHkMtE=
-X-Google-Smtp-Source: ABdhPJyNqINuwUegSZmr4VLbTZ/lsFENs3/9SdjtmB8rUlH6RH9DQps+ecX98n2VsRi68mBioXeAsPdnfdlOhFgG5jE=
-X-Received: by 2002:a50:99c3:: with SMTP id n3mr4763706edb.213.1603988017447;
- Thu, 29 Oct 2020 09:13:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
- <20201029142806.1830504-2-quaresma.jose@gmail.com> <7ff661d33eefed532bff3a1509f23fa26cc289a9.camel@linuxfoundation.org>
-In-Reply-To: <7ff661d33eefed532bff3a1509f23fa26cc289a9.camel@linuxfoundation.org>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Thu, 29 Oct 2020 16:13:37 +0000
-Message-ID: <CANPvuRmmJ_kcFWErPue-Ub-N_F_8YM=MAO7n1s2DoYhuU9fwVw@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ay05jhsoyyZGxnMvfuELeBlEPVZ5nVfA+2L3ItjYrFk=;
+        b=b6OC53kYQZpjV+vejqA2Q/fpCvEXzTOGqdVBUqPkwwXCYYTh/IOC69TtjFkslSVPeb
+         +E3IKB6rCwBSP6UPx3Tdn20Jbn4a+mk6lEXs+/6dFzWIVBUMA8oOtKTE1GTUFSx4g7bt
+         w7z+/kZwMvYHzahXt8rQxWg7amDs0tMf767tXWBpkr9OztpVMXtmy3ZwbU1A5JXDx2NF
+         Jd/5ob5LCK7lGZve/nm+NfTh1Af8Bj4VqDgSBI1JU4SxaAViNtHpg+1N2uLguUQC8qsO
+         JGdKEdHy9NG1ChDcgbQoJpvWdjaNipiZnFJ3jy/VkG5KtOGEj2fvazwuDurNS15SQGTZ
+         8bmw==
+X-Gm-Message-State: AOAM531c6fy2f58UZ/Bo5zEknQDW/vsSEYfvCyqIUPBYNcFkl7V7AD2t
+	frJGzpFU3my0+kWGVQjlgIg1vA==
+X-Google-Smtp-Source: ABdhPJwCoNYpjoyjxcsUDAEtr93Ao7S2nKVxn58zTyNgZq77Aw2SJdcaigCms8HKLAcHoEc5a3NDFw==
+X-Received: by 2002:adf:f841:: with SMTP id d1mr6781503wrq.297.1603989837985;
+        Thu, 29 Oct 2020 09:43:57 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 7.7.e.c.f.b.4.b.6.c.1.d.5.8.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.7.e.c.f.b.4.b.6.c.1.d.5.8.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b185:d1c6:b4bf:ce77])
+        by smtp.gmail.com with ESMTPSA id a17sm6185340wra.29.2020.10.29.09.43.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2020 09:43:57 -0700 (PDT)
+Message-ID: <968b3010cd55cd630332e3f5b43014cd3c8c0a5a.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v5 01/22] gstreamer1.0: Fix reproducibility issue around libcap
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Oct 2020 16:43:55 +0000
+In-Reply-To: <CANPvuRmmJ_kcFWErPue-Ub-N_F_8YM=MAO7n1s2DoYhuU9fwVw@mail.gmail.com>
+References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
+	 <20201029142806.1830504-2-quaresma.jose@gmail.com>
+	 <7ff661d33eefed532bff3a1509f23fa26cc289a9.camel@linuxfoundation.org>
+	 <CANPvuRmmJ_kcFWErPue-Ub-N_F_8YM=MAO7n1s2DoYhuU9fwVw@mail.gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-It looks for setcap in /usr/sbin and /sbin but needs libcap as wheel.
-when we have libcaps on DEPENDS as with version 1.16 and the host
-system has setcap binary, it introduces a dependency on the host
-system.
-The patch fixes this situation.
+On Thu, 2020-10-29 at 16:13 +0000, Jose Quaresma wrote:
+> It looks for setcap in /usr/sbin and /sbin but needs libcap as wheel.
+> when we have libcaps on DEPENDS as with version 1.16 and the host
+> system has setcap binary, it introduces a dependency on the host
+> system.
+> The patch fixes this situation.
+> 
+> But libcap is only needed if we need to use the setcap
+> So remove libcap from DEPENDS will fail to use
+> 'ptp-helper-permissions=capabilities' even if setcap is found on the
+> host.
+> 
+> In my opinion this a better description can be used in this
+> PACKAGECONFIG, something like this:
+> 
+> -PACKAGECONFIG[setcap] = ",,libcap libcap-native"
+> +PACKAGECONFIG[capabilities] =
+> "-Dptp-helper-permissions=capabilities,,libcap libcap-native"
 
-But libcap is only needed if we need to use the setcap
-So remove libcap from DEPENDS will fail to use
-'ptp-helper-permissions=3Dcapabilities' even if setcap is found on the
-host.
+So you're saying that as long as setcap isn't in DEPENDS, we're ok?
+That means your patchset as it stands should be ok?
 
-In my opinion this a better description can be used in this
-PACKAGECONFIG, something like this:
+If the user enables capabilities, it won't find setcap from libcap-
+native though will it? That is a potential problem even if its not the
+default?
 
--PACKAGECONFIG[setcap] =3D ",,libcap libcap-native"
-+PACKAGECONFIG[capabilities] =3D
-"-Dptp-helper-permissions=3Dcapabilities,,libcap libcap-native"
+Cheers,
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-quinta, 29/10/2020 =C3=A0(s) 15:32:
->
-> On Thu, 2020-10-29 at 14:27 +0000, Jose Quaresma wrote:
-> > Currently gstreamer configuration depends libcap and on whether
-> > setcap is found on the host system.
-> >
-> > Removing libcap from DEPENDS and only use it when the 'setcap' is enabl=
-ed.
-> >
-> >     * capfix.patch
-> >       Removed as the same goals can be achieved only with the PACKAGECO=
-NFIG 'setcap'
-> >
-> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > ---
-> >  .../gstreamer/gstreamer1.0/capfix.patch       | 37 -------------------
-> >  .../gstreamer/gstreamer1.0_1.16.2.bb          |  5 +--
-> >  2 files changed, 2 insertions(+), 40 deletions(-)
-> >  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capf=
-ix.patch
-> >
-> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patc=
-h b/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
-> > deleted file mode 100644
-> > index 7ca3d5ad4a..0000000000
-> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
-> > +++ /dev/null
-> > @@ -1,37 +0,0 @@
-> > -Currently gstreamer configuration depends on whether setcap is found o=
-n the host
-> > -system. Turn this into a configure option to make builds deterinistic.
-> > -
-> > -RP 2020/2/19
-> > -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > -Upstream-Status: Pending
-> > -
-> > -Index: gstreamer-1.16.1/libs/gst/helpers/meson.build
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > ---- gstreamer-1.16.1.orig/libs/gst/helpers/meson.build
-> > -+++ gstreamer-1.16.1/libs/gst/helpers/meson.build
-> > -@@ -73,7 +73,12 @@ if have_ptp
-> > -     endif
-> > -   endif
-> > -
-> > --  setcap =3D find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap=
-', required : false)
-> > -+  setcap_feature =3D get_option('setcap')
-> > -+  if setcap_feature.disabled()
-> > -+    setcap =3D find_program('dontexist', required : false)
-> > -+  else
-> > -+    setcap =3D find_program('setcap', '/usr/sbin/setcap', '/sbin/setc=
-ap', required : false)
-> > -+  endif
-> > -
->
-> I did have a question about this. I think the problem this patch was
-> fixing was that <PATH>/setcap was being coded into the headers and
-> hence the output regardless of whether setcap was enabled or disabled.
-> Since its looking directly at /usr/sbin/ and /sbin/, this made it
-> depend on the host system it was built on.
->
-> Are you saying that is no longer encoded in the output?
->
-> Cheers,
->
-> Richard
->
+Richard
 
-
---=20
-best regards,
-Jos=C3=A9 Quaresma
