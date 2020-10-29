@@ -1,137 +1,83 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.10728.1603985751459132037
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web10.11228.1603987607395145566
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 08:35:51 -0700
+ Thu, 29 Oct 2020 09:06:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=h0c+myKO;
- spf=pass (domain: google.com, ip: 209.85.167.47, mailfrom: foremans@google.com)
-Received: by mail-lf1-f47.google.com with SMTP id 141so3872905lfn.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 08:35:51 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d/cporyW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id p22so354031wmg.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 09:06:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=jsTnKhKiGsZKxkqdg2g+RJAj2Ix/m/3q3Odr2CVoQxo=;
-        b=h0c+myKO2m19dkiJXpKTxU/4ViE545T1caJfppUmTPFYRcH1yTzyaYCD/e5wKdpx3C
-         krHrJqzKZuiVFG4O2F2zMzXAsb9sPSrDlp5iGXa49VDFiNjeze4fDbdxuIU+D3qsTzo0
-         6Y1X2yN8j2RhNtdFFJvgty9tK4o0R2kjSsp4Vh3DxYpwKGXEHHYJGbN3ATsZ/GF8HzJf
-         vC0Y7YtmIXui/eYlZYP3sEXluKN9gFtQrIaKerG+/Oh6ErrlFMqXfcfGPK9d6WOJ1SDE
-         UJBHugaqTEk1idwn0Gq4Vs4hfPa87bpH4J79oWXjRX+OmmdQkhgqyUgth6eSiibkKeGa
-         XNqA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=uRJ/GRMqiMfG00r9xdnlYOtXAS7kHEtmpOcKU0Hf9BQ=;
+        b=d/cporyWgq2shECwcHpYehZ/d/h/RnXbDXuPXqPBKeaCRADsS62opRrNC8vQsSgC66
+         O3jlKWEtltNBuWbPrZMNMElaVIB8SwkDayaGxUHXH6lI7DcNIDGtji7T5eao6SfWuqu5
+         in4Ulbl6fSvXN/o84t9Rt2FBGmDofe/iomVcI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=jsTnKhKiGsZKxkqdg2g+RJAj2Ix/m/3q3Odr2CVoQxo=;
-        b=gZS/yhqltAYyX6ccX2VyxE7cSOHPCi83TPZGAa3v/hZuKdM+UtNHN+Zokg/Py6lHlG
-         3ioQ16YroF75JBJBJoPrKiOoD4ZiupKoD4DNY/87OFB90hyXGpmr5/l9IPT2iAQQKqdA
-         6GOZ6pkxgyQIQmiltEAVFTEkKz7rb+aE/X2C4NOJMxTTXVpeqm+iG9G6j553+oVSNhY6
-         QwIi4WdBvMPuPLrQNfhxY03GshmnTQcQphYCutTEZC1bWHGKPQ6zecoXSCleBUQVHV6K
-         tpm1a26hO0UtmK3Zr6rJtyjcYAT43OdY9E0uh6e729QnI5n0msA0x5o65Gsdlq6dosZM
-         NXFA==
-X-Gm-Message-State: AOAM532lTExJPxp/y7RF2Y2HaHZq7drZq9V7BhKusbtY+fChN5ydJwnd
-	WDIXYRNkRBmtsbtFyVa+Fb5JW4Z9vnN4Y2ydb+buNbKGGoraiw==
-X-Google-Smtp-Source: ABdhPJwIiUAbfOrKmC2/hD781JhUmaUFJ0P7/a1cpox8672WzDvFmCXf8GkoMBUsmhOlo97456Onr5H0XJNpcCsPk4Y=
-X-Received: by 2002:ac2:5294:: with SMTP id q20mr1958969lfm.538.1603985748992;
- Thu, 29 Oct 2020 08:35:48 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=uRJ/GRMqiMfG00r9xdnlYOtXAS7kHEtmpOcKU0Hf9BQ=;
+        b=tgrkA1sndaO9rfeBWv4CLGs+bod4XhvdsIr825DnK4t6GJu0Sz3m9hirBZvFj74K7F
+         BPxjUm0/xv2UjdJq19vjC5v+fkJ40tzON8z75w8G6yCwXKfOscGYh6x4ooPJQcwKvFHW
+         Fw0LiW6gsFJGp+HSJAg2DC9VivkH+Qt47KapHJqAZ2BJD4HOVDNfQF3Gbu2FwE4R4ol4
+         jDNclyMif6rj6TroNYUYniKAeB1LcDxRaHrciMuqL1j3V7xGlcPWrKtF6DV73ngo4dV8
+         w4SFNOLu8DpYRuLEsN1IN7DYOXaCtRYixIjtRHsrsIAaKqJan3l8haRc9OCgINcb1tPO
+         AZxQ==
+X-Gm-Message-State: AOAM530W2XnNp2ocqZ7PJ/poKQ7K2Urlv/nrtZhVjgUBatW01+G8AMPz
+	DNKUktUMPeaYHZuoDShs2buO5g==
+X-Google-Smtp-Source: ABdhPJzSYPXhJeDHWD8jlEIxejcG8TCX8d5mHRQzQ6YRHf/apOKaKANucGJAvpuTVomCHpszF5xM8A==
+X-Received: by 2002:a7b:cf25:: with SMTP id m5mr581337wmg.124.1603987605653;
+        Thu, 29 Oct 2020 09:06:45 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 7.7.e.c.f.b.4.b.6.c.1.d.5.8.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.7.e.c.f.b.4.b.6.c.1.d.5.8.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b185:d1c6:b4bf:ce77])
+        by smtp.gmail.com with ESMTPSA id r28sm6246391wrr.81.2020.10.29.09.06.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2020 09:06:45 -0700 (PDT)
+Message-ID: <88cd1831e021c2384219da4223981fa004551498.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v5 05/22] gstreamer1.0-plugins-good: upgrade to version 1.18.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 29 Oct 2020 16:06:44 +0000
+In-Reply-To: <20201029142806.1830504-6-quaresma.jose@gmail.com>
+References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
+	 <20201029142806.1830504-6-quaresma.jose@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-From: "Steve Foreman" <foremans@google.com>
-Date: Thu, 29 Oct 2020 08:35:37 -0700
-Message-ID: <CAAOsEjUKH61YhBDiS7xzhT6kYYeW2Qbr_4GF2ZsM18z4xRGS-Q@mail.gmail.com>
-Subject: [PATCH] Fix a build error about missing '_sysconfigdata'
-To: openembedded-core@lists.openembedded.org
-Cc: Josh Lehan <krellan@google.com>
-Content-Type: multipart/alternative; boundary="000000000000cb9eda05b2d108fe"
-
---000000000000cb9eda05b2d108fe
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This error is generated because of internal build environment is leaking
-and pulling in host libraries:
+On Thu, 2020-10-29 at 14:27 +0000, Jose Quaresma wrote:
+>     * 0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
+>       Removed since these are included in 1.18.0
+> 
+> License-Update: remove file://common/coverage/coverage-report.pl
+> Upstream dont have it any more.
+> 
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  ...defines-GLsync-to-fix-compile-on-som.patch | 70 ---------------
+> ----
+>  ...t-gstqtgl.h-instead-of-gst-gl-gstglf.patch |  8 +--
+>  ...bb => gstreamer1.0-plugins-good_1.18.0.bb} | 14 ++--
+>  3 files changed, 10 insertions(+), 82 deletions(-)
+>  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-
+> som.patch
+>  rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-
+> good_1.16.2.bb => gstreamer1.0-plugins-good_1.18.0.bb} (84%)
 
-Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+Thanks for the updated series, I put it in for testing and this time
+we're seeing:
 
-In this case, xmlprc.server is pulling in pydoc which ultimately hits
-the error.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/1305
 
-Signed-off-by: Steve Foreman <foremans@google.com>
----
- poky/bitbake/lib/prserv/serv.py | 5 +++++
- 1 file changed, 5 insertions(+)
+nasm seems to be needed by plugins-good but is missing?
 
-diff --git a/poky/bitbake/lib/prserv/serv.py
-b/poky/bitbake/lib/prserv/serv.py
-index 25dcf8a0e..f462f3dcc 100644
---- a/poky/bitbake/lib/prserv/serv.py
-+++ b/poky/bitbake/lib/prserv/serv.py
-@@ -4,6 +4,11 @@
+Cheers,
 
- import os,sys,logging
- import signal, time
-+
-+# Otherwise this fails when called from recipes which e.g. inherit
-python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
-+# No module named '_sysconfigdata'
-+if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
-+    del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
- from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
- import threading
- import queue
---
-2.29.1.341.ge80a0c044ae-goog
+Richard
 
---000000000000cb9eda05b2d108fe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This error is generated because of internal build environm=
-ent is leaking<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,He=
-lvetica,Arial,sans-serif">and pulling in host libraries:<br style=3D"font-f=
-amily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br sty=
-le=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
-rif">Exception: ModuleNotFoundError: No module named &#39;_sysconfigdata&#3=
-9;<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
-l,sans-serif"><br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,He=
-lvetica,Arial,sans-serif">In this case, xmlprc.server is pulling in pydoc w=
-hich ultimately hits<br style=3D"font-family:Roboto,&quot;Helvetica Neue&qu=
-ot;,Helvetica,Arial,sans-serif">the error.<br style=3D"font-family:Roboto,&=
-quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br style=3D"font-fam=
-ily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">Signed-of=
-f-by: Steve Foreman &lt;<a href=3D"mailto:foremans@google.com" target=3D"_b=
-lank" style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
-l,sans-serif">foremans@google.com</a>&gt;<br style=3D"font-family:Roboto,&q=
-uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">---<br style=3D"font-f=
-amily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0p=
-oky/bitbake/lib/prserv/serv.py | 5 +++++<br style=3D"font-family:Roboto,&qu=
-ot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A01 file changed, 5=
- insertions(+)<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,He=
-lvetica,Arial,sans-serif"><br style=3D"font-family:Roboto,&quot;Helvetica N=
-eue&quot;,Helvetica,Arial,sans-serif">diff --git a/poky/bitbake/lib/prserv/=
-serv.py b/poky/bitbake/lib/prserv/serv.py<br style=3D"font-family:Roboto,&q=
-uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">index 25dcf8a0e..f462f=
-3dcc 100644<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helve=
-tica,Arial,sans-serif">--- a/poky/bitbake/lib/prserv/serv.py<br style=3D"fo=
-nt-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+++=
- b/poky/bitbake/lib/prserv/serv.py<br style=3D"font-family:Roboto,&quot;Hel=
-vetica Neue&quot;,Helvetica,Arial,sans-serif">@@ -4,6 +4,11 @@<br style=3D"=
-font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><=
-br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,s=
-ans-serif">=C2=A0import os,sys,logging<br style=3D"font-family:Roboto,&quot=
-;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import signal, time=
-<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,=
-sans-serif">+<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Hel=
-vetica,Arial,sans-serif">+# Otherwise this fails when called from recipes w=
-hich e.g. inherit python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) wit=
-h:<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
-l,sans-serif">+# No module named &#39;_sysconfigdata&#39;<br style=3D"font-=
-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+if &#=
-39;_PYTHON_SYSCONFIGDATA_NAME&#39; in os.environ:<br style=3D"font-family:R=
-oboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+=C2=A0 =C2=A0=
- del os.environ[&#39;_PYTHON_SYSCONFIGDATA_NAME&#39;]<br style=3D"font-fami=
-ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0from=
- xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler<br sty=
-le=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
-rif">=C2=A0import threading<br style=3D"font-family:Roboto,&quot;Helvetica =
-Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import queue<font color=3D"#88=
-8888" style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Aria=
-l,sans-serif"><br>--<br>2.29.1.341.ge80a0c044ae-goog</font><br></div>
-
---000000000000cb9eda05b2d108fe--
