@@ -1,79 +1,138 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web08.9686.1603981713494766474
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.9546.1603981714066890428
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 07:28:33 -0700
+ Thu, 29 Oct 2020 07:28:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OAG3Dll7;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id p22so52370wmg.3
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ePPQY/tk;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id p22so52394wmg.3
         for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 07:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tyIVU2Z69UUkH8LYb7gp44hD4qz/cz6QvTqoo0pw3Wc=;
-        b=OAG3Dll7/OBcU4jol1oZkBqifJPaIRP6k49O3QVlAB79/MZIs1bp0OAgZlx8LiVgCP
-         HIPLBJPpljpWgiMa7veUMWhOrSMEfFjCCaB6QOx/+HBbBS+xaVuT/4XnTb60x5kw0+v2
-         +r4JJ0gtJUximCBGcgT75fnMZo9APDMZ26t95PNxk9uawtumqLzFdDEormhkpnX17TJX
-         YzDC/7l2yKJT/gEbQIbhLearTBTgFiFNgWHc88oUQx4dmnYoX9tBf/HcQxcrqntgO8Yq
-         ZFACxXjAFGW9wJ3SylPOPs2KzCZr2rSnTqzWVW1xUMM8HPmMFljm86fPHTzZTw6nN6mt
-         IAbw==
+        bh=/Ay3fbopZG+pEBElVjMAHfuu+p9LQarnrMPXnMBSeyw=;
+        b=ePPQY/tkDXaTzqhskFwVty/ppHohzr6zjVrhrHIV+2M8zlaVo39aFo4E+PYRlfUqXi
+         DnNoT30ukxREEL76gbb4+FYY515MHe2jN1pyQp//sgk3vrT+gc/ADqXULIaJ/I9WbFov
+         aHyRdOzf/VUB+aOFhF4qyT1KPv6dXc1TIT6jLs5QgA1Q83GyAe2PSsIn4R4BF0qEnA0L
+         SBtW0OZzXGrUjBN/PgDpIsvUIlRQAUyhZuIugfD2Q4AR2stWJH0OboSn8h14Z6aKmW8/
+         ge4j0ntSwFzMvr2aXWDzLIgZv5WTlo+i065TgUy+67BNefJ1lBp7/hNoH04RBwDSNeYL
+         1faw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=tyIVU2Z69UUkH8LYb7gp44hD4qz/cz6QvTqoo0pw3Wc=;
-        b=tQcHiO3V5tHFI6G+ZiTT+AJbIcQL2NmILK7/d0+QDGbcXAk7w5Ib+s0YzaZ1Avtpx+
-         VWPvWEorFmicm1IxlE22SX9g9EQHMWcePVmZ0ZW20CWAvc1vYcXHSGWUrh1CXZCKMOHg
-         3MLkLmXpeageeCz9Mo/+74zr+0Jx2rfc3mn8qEtnxAYNixsR4jelncYcw+Wj74KMx51p
-         hR49xX02TPCcxnCY/Ov/2+jW1Ugf401Ij3ydfpRrcb3ZCreEflbdUVJHROHxKZsvhGOG
-         kAxtxhcFCfJPdrYgzEAeFuUIXlVTMVV8hgDueREJgk7uX/9Wtk+5lHanWKEZtuVaMe0I
-         PBOQ==
-X-Gm-Message-State: AOAM530ZJwEmb8Izy12ZNTp0ZGR9W6oZkrK3L6pCkYBBRj7+OobDX9aZ
-	S5N9/o9sD2zv/e6HYAmC9w/A+UY5me+ERA==
-X-Google-Smtp-Source: ABdhPJwu2jTV4aGcH+7rU02LkTUSVhBUH7ZDrham06126U+YQVGA3jqQzuklPHtCxxeL4XccoVwtgw==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr72999wmk.65.1603981711569;
-        Thu, 29 Oct 2020 07:28:31 -0700 (PDT)
+        bh=/Ay3fbopZG+pEBElVjMAHfuu+p9LQarnrMPXnMBSeyw=;
+        b=ipHCJzIhwz5yGUUHYSbfrc8F278xG3ANUMLTKOKNb+ggDU8NQJGBv6wOrJl7X3Sii/
+         1saVooQUkoPoo0Qfhk+1creITtJ4cosXqOaKTeXxDmVy5GSd7dInnsizYbRfnfBtgdak
+         TkaZ1M7oZQxOj6E0MOtFv65TPhnZHFw8tOj1G/jCiNmBDpF4cXpDU9yQuy2/IJxQSAUm
+         vOhA0kpGnh8qvpsi7pwPXD0yDs0TMYtpJy5ob2EEwfQha4GJgHhlFsJLnj+ejH3XSCvo
+         CdmbWQIIj1dHHlHT4afTEtsMfT6dIKOqcjeou4Lwi93Sf5U7Cqz83ih7jBhcMR+B/+b9
+         xEMA==
+X-Gm-Message-State: AOAM533tRnq8icOqphKrI9H7eRORnT/zha1SQD3B3OFN3E9qLAOPqBnT
+	NUrjm5/1+w9p55G1+PfgjaYmNwMMjBKCow==
+X-Google-Smtp-Source: ABdhPJzNz23Wm4HxWPz12zm8oWo97O1i01Psur3o82FE0WR1ZP7o5BKsXbTcJeRU6VBhJUFniPO2oA==
+X-Received: by 2002:a7b:c401:: with SMTP id k1mr105854wmi.120.1603981709321;
+        Thu, 29 Oct 2020 07:28:29 -0700 (PDT)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id y4sm5404803wrp.74.2020.10.29.07.28.30
+        by smtp.gmail.com with ESMTPSA id y4sm5404803wrp.74.2020.10.29.07.28.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 07:28:31 -0700 (PDT)
+        Thu, 29 Oct 2020 07:28:28 -0700 (PDT)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v5 20/22] orc: Upgrade 0.4.31 -> 0.4.32
-Date: Thu, 29 Oct 2020 14:28:04 +0000
-Message-Id: <20201029142806.1830504-21-quaresma.jose@gmail.com>
+Subject: [PATCH v5 18/22] gstreamer1.0-libav: upgrade to version 1.18.0
+Date: Thu, 29 Oct 2020 14:28:02 +0000
+Message-Id: <20201029142806.1830504-19-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201029142806.1830504-1-quaresma.jose@gmail.com>
 References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+License-Update: All code is now LGPL-2.1+
+
+Starting with 1.17, we will not ship a copy of FFmpeg in our release
+tarballs, and all the remaining code is LGPL2.
+https://gitlab.freedesktop.org/gstreamer/gst-libav/-/commit/c437e175ad9c82732ac46e36ccc398ad041bf13b
+
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/recipes-devtools/orc/{orc_0.4.31.bb => orc_0.4.32.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/orc/{orc_0.4.31.bb => orc_0.4.32.bb} (86%)
+ .../gstreamer/gstreamer1.0-libav_1.16.2.bb    | 35 -------------------
+ .../gstreamer/gstreamer1.0-libav_1.18.0.bb    | 21 +++++++++++
+ 2 files changed, 21 insertions(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.0.bb
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.31.bb b/meta/recipes-devtools/orc/orc_0.4.32.bb
-similarity index 86%
-rename from meta/recipes-devtools/orc/orc_0.4.31.bb
-rename to meta/recipes-devtools/orc/orc_0.4.32.bb
-index cd4dc31d70..a55b43b8ef 100644
---- a/meta/recipes-devtools/orc/orc_0.4.31.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.32.bb
-@@ -4,8 +4,7 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
--SRC_URI[md5sum] = "b6b95a47eff713e91873e2c2b1a5b3ad"
--SRC_URI[sha256sum] = "a0ab5f10a6a9ae7c3a6b4218246564c3bf00d657cbdf587e6d34ec3ef0616075"
-+SRC_URI[sha256sum] = "a66e3d8f2b7e65178d786a01ef61f2a0a0b4d0b8370de7ce134ba73da4af18f0"
- 
- inherit meson pkgconfig gtk-doc
- 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb
+deleted file mode 100644
+index 2fdefc925e..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.2.bb
++++ /dev/null
+@@ -1,35 +0,0 @@
+-SUMMARY = "Libav-based GStreamer 1.x plugin"
+-HOMEPAGE = "http://gstreamer.freedesktop.org/"
+-SECTION = "multimedia"
+-
+-LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
+-LICENSE_FLAGS = "commercial"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://COPYING.LIB;md5=6762ed442b3822387a51c92d928ead0d \
+-                    file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c"
+-
+-SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
+-           "
+-SRC_URI[md5sum] = "eacebd0136ede3a9bd3672eeb338806b"
+-SRC_URI[sha256sum] = "c724f612700c15a933c7356fbeabb0bb9571fb5538f8b1b54d4d2d94188deef2"
+-
+-S = "${WORKDIR}/gst-libav-${PV}"
+-
+-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base ffmpeg"
+-
+-inherit meson pkgconfig upstream-version-is-even
+-
+-FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
+-FILES_${PN}-staticdev += "${libdir}/gstreamer-1.0/*.a"
+-
+-delete_unused_libav_copy() {
+-        # When building with meson, the internal libav copy is not used.
+-        # It is only present for legacy autotools based builds. In future
+-        # GStreamer versions, the autotools scripts will be gone, and so
+-        # will this internal copy. Until then, it will be present. In order
+-        # to make sure this copy is not included in the -src package, just
+-        # manually delete the copy.
+-        rm -rf "${S}/gst-libs/ext/libav/"
+-}
+-
+-do_unpack[postfuncs] += " delete_unused_libav_copy"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.0.bb
+new file mode 100644
+index 0000000000..a50f65e981
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.0.bb
+@@ -0,0 +1,21 @@
++SUMMARY = "Libav-based GStreamer 1.x plugin"
++HOMEPAGE = "http://gstreamer.freedesktop.org/"
++SECTION = "multimedia"
++
++LICENSE = "LGPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
++                    file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
++                    "
++
++SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
++SRC_URI[md5sum] = "fe2f07356fa37445837cdde274027117"
++SRC_URI[sha256sum] = "42f93f5ce9a3fc22051e5f783a4574b56ebf213f331f75dcbc3552459bd3a06a"
++
++S = "${WORKDIR}/gst-libav-${PV}"
++
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base ffmpeg"
++
++inherit meson pkgconfig upstream-version-is-even
++
++FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
++FILES_${PN}-staticdev += "${libdir}/gstreamer-1.0/*.a"
 -- 
 2.29.1
 
