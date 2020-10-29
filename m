@@ -1,95 +1,105 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web09.2992.1604001818699419079
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.web09.3137.1604002386187605790
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 13:03:39 -0700
+ Thu, 29 Oct 2020 13:13:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tLOOAark;
- spf=pass (domain: gmail.com, ip: 209.85.128.65, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f65.google.com with SMTP id k125so1152080wmf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 13:03:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iaQ+ilhG;
+ spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f66.google.com with SMTP id w9so1905897qvj.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 13:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FuoAs4Mh59Mn5Pmn8O43smisWydb/Z0bD18AuBDKbdQ=;
-        b=tLOOAarkaKGCy1ZCwLu1eFCDfzuyq7+OnPM4gxW3S/YlScLFn/6uq15iY3Bw10VgH/
-         wWq89MCFt6x4vz8nfkqfPUHuT6S5/swMF61Dbmu2DdiPlpJencanWpB0MwT87xdQA1AM
-         FU/C9l5jE23me/PzTcbsOMhJjmEIqPQ0ezi97g+BhOX24zi1ihqlpIRt5uGkhny59kCz
-         F+6UjEXYEt8xMTZ6DeTxYaamggRfEwfuA+k6GZqcccplPJyVw5LL0Df0veBg4jWIekS6
-         qX0/f8U7AKda78KAJIcbrrWOfd57U2EXsZGD28u0z7yQSVsZdXXJ6EVxvhus2KBlJeh3
-         DdKA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UVaaGzte7cb6jQc8rliR4VMCvWJh8kZM2wmbeEWmDSc=;
+        b=iaQ+ilhGfl3C7PDNq47g9sZjJRtknwObrcqfwr8ROkLiNc6teuETmYdDK2I485vhTt
+         hH7AgDTwgSg09lGq2tP1wHm0irVjVDZ5CjxABCCSbGkxz8x8zw46iafYFhLq2B5CixGf
+         QQeT54WLgf4gp4SIw9BjZ9uwm6t1FeL5HFrorzQpXeDqSBTnUlhjmuVdkUc+6WeZsNVk
+         r2IrfngKa8HuKv5lNWlVBab26hJbVjBBkvwT3kAhZqj559HvYQfD5Cn3oeYVL75FvfT9
+         a9//xfYWtR/l/gcUyyAaZNS+GID8+sHecYs4upMLPh+ThOCpDMdX5nFqhGBgUtyN4A6U
+         PBpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FuoAs4Mh59Mn5Pmn8O43smisWydb/Z0bD18AuBDKbdQ=;
-        b=qnCOzMlHFycN/BseOTK0ExPfpZ4O1fVzCZ+hHLSrqsM3CAHx3sIvPlOMIzxXJPb7x0
-         Da5TsgO299TmaAx0/zbS5GhL1ga5md4Z4pzjDSZtuSywhgxjRto39no/EtSOlH1ugMRK
-         +H+qr2qLmXxVp8AWgybeh3V94fQpC87YxEoV9n7Ascbv7ct/UDnle06bTKFNf6uQicnO
-         GHhWIMRIVgzdRa1/DBrqwoGi/NO8wuXSuLWPSi71q3brMQoTYbbGilAcE1WpIAC4zt76
-         gOi0NkjEX7XtS0C76Z0kgKmOlTrZYEPwetRsggJKfr70y2FDTZKASzvgk8dtXBXbUpnn
-         cf/A==
-X-Gm-Message-State: AOAM530FN2YVWePjfiSHfk9bgHkr/PK1wktNBc3BqRu7Jd/I/ood9fun
-	Jf/S/w5ihbswdYcErosnqfiC+2V5tjgxwQ==
-X-Google-Smtp-Source: ABdhPJy5b51U0MqiHIEXdERVSpzqZZ6cflFZdC1ZTne/ciOI9s7vbh7+5CpfQZX7DFB1XT24mv4dog==
-X-Received: by 2002:a1c:5f46:: with SMTP id t67mr870853wmb.173.1604001817122;
-        Thu, 29 Oct 2020 13:03:37 -0700 (PDT)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id b63sm1519422wme.9.2020.10.29.13.03.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 13:03:36 -0700 (PDT)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v5 6/6] maintainers.inc: Add Jose Quaresma
-Date: Thu, 29 Oct 2020 20:03:21 +0000
-Message-Id: <20201029200321.1886511-6-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201029200321.1886511-1-quaresma.jose@gmail.com>
-References: <20201029200321.1886511-1-quaresma.jose@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UVaaGzte7cb6jQc8rliR4VMCvWJh8kZM2wmbeEWmDSc=;
+        b=n8pj7PuBlnt0reXYdLXxCljKWBR0vTmwz+XhuRnitUqjGjVehmf8R7/Q8omffrFdMU
+         NDYRGBIg4ypbWQ2v3Wa9Fq+oq8xRnUPFTNYguZqNjnbiEfxTKfiIwoS250uh18FzhoWR
+         VJwwueVB8qleyIVGkK1K/42ZkFUDbAdHflx3HLqMzlPuLyzmsmNE3VpPaBbgL6Jm+2HN
+         OgvfOeTPoJkqsINYjSZ9l9aehhyPeu94ck+FKbEi/pCK8rZQUTXyII//ewQVyKi8WZea
+         K86vNlJrilAJ0YMP0l1caHKMs8/oiAeBvwZcRbTWpcj/0il1/UHmTgT3hsCLiBCpIb/s
+         QtTg==
+X-Gm-Message-State: AOAM532PVezcRDsUQi6xhX+rpkuQZXgL7npq10ykfy/UXoQ6Ck1ca4vA
+	78m602pltoFeY3AIHwzx1ri+UMLLs14CCpAONkE=
+X-Google-Smtp-Source: ABdhPJx+9LzZV7Euuus1u9OqIaqCl/fi7nZMzvtw8jHScliEqHLA6YN8VwcwQsAjXJx3K1NRiK47frqGHHXNBWdQJno=
+X-Received: by 2002:a05:6214:16d0:: with SMTP id d16mr5957676qvz.38.1604002385282;
+ Thu, 29 Oct 2020 13:13:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201028210558.21070-1-alex.kanavin@gmail.com>
+ <20201028210558.21070-4-alex.kanavin@gmail.com> <CAMKF1sr1mHEyzgDaYGYK8Hk56ALN0HMqoPWu3KhKibe6UVAYuw@mail.gmail.com>
+ <CANNYZj8DC9qQde+jwanJhMYyurmFh4ft0SQFWs9v=tGdjEj+zg@mail.gmail.com>
+In-Reply-To: <CANNYZj8DC9qQde+jwanJhMYyurmFh4ft0SQFWs9v=tGdjEj+zg@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 29 Oct 2020 13:12:39 -0700
+Message-ID: <CAMKF1sqJFBi09-c2S6r-UZfzWdfYTNurh3PpVN82KyS_SO1cnA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/33] python3-pygobject: upgrade 3.36.1 -> 3.38.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Jose Quaresma is responsible for the maintenance as follows:
+On Thu, Oct 29, 2020 at 2:49 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Upstream has changed the meson option type from boolean (true/false) to feature (enabled/disabled/auto) in the new release.
+>
 
-shaderc
-glslang
-spirv-tools
+ok thanks, I think having this mentioned in commit log would help users.
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/conf/distro/include/maintainers.inc | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 7935f968c7..158835c024 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -213,6 +213,7 @@ RECIPE_MAINTAINER_pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER_pn-gmp = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER_pn-glslang = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-gnome-desktop-testing = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-gnu-config = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-gnu-efi = "Yi Zhao <yi.zhao@windriver.com>"
-@@ -641,6 +642,7 @@ RECIPE_MAINTAINER_pn-settings-daemon = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-shadow = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-shadow-securetty = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-shadow-sysroot = "Chen Qi <Qi.Chen@windriver.com>"
-+RECIPE_MAINTAINER_pn-shaderc = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-shared-mime-info = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-shutdown-desktop = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-signing-keys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-@@ -648,6 +650,7 @@ RECIPE_MAINTAINER_pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-speex = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-speexdsp = "Tanu Kaskinen <tanuk@iki.fi>"
-+RECIPE_MAINTAINER_pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-ssh-pregen-hostkeys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--- 
-2.29.1
-
+> Alex
+>
+> On Wed, 28 Oct 2020 at 22:57, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Wed, Oct 28, 2020 at 2:06 PM Alexander Kanavin
+>> <alex.kanavin@gmail.com> wrote:
+>> >
+>> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> > ---
+>> >  ...thon3-pygobject_3.36.1.bb => python3-pygobject_3.38.0.bb} | 5 ++---
+>> >  1 file changed, 2 insertions(+), 3 deletions(-)
+>> >  rename meta/recipes-devtools/python/{python3-pygobject_3.36.1.bb => python3-pygobject_3.38.0.bb} (78%)
+>> >
+>> > diff --git a/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb b/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
+>> > similarity index 78%
+>> > rename from meta/recipes-devtools/python/python3-pygobject_3.36.1.bb
+>> > rename to meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
+>> > index 0a34d4373f..b4427050f5 100644
+>> > --- a/meta/recipes-devtools/python/python3-pygobject_3.36.1.bb
+>> > +++ b/meta/recipes-devtools/python/python3-pygobject_3.38.0.bb
+>> > @@ -14,8 +14,7 @@ SRC_URI = " \
+>> >      http://ftp.gnome.org/pub/GNOME/sources/${SRCNAME}/${@gnome_verdir("${PV}")}/${SRCNAME}-${PV}.tar.xz \
+>> >      file://0001-Do-not-build-tests.patch \
+>> >  "
+>> > -SRC_URI[md5sum] = "ebfebc4533856572281add29f08412bf"
+>> > -SRC_URI[sha256sum] = "d1bf42802d1cec113b5adaa0e7bf7f3745b44521dc2163588d276d5cd61d718f"
+>> > +SRC_URI[sha256sum] = "0372d1bb9122fc19f500a249b1f38c2bb67485000f5887497b4b205b3e7084d5"
+>> >
+>> >  UNKNOWN_CONFIGURE_WHITELIST = "introspection"
+>> >
+>> > @@ -27,7 +26,7 @@ RDEPENDS_${PN} += "python3-pkgutil"
+>> >
+>> >  # python3-pycairo is checked on configuration -> DEPENDS
+>> >  # we don't link against python3-pycairo -> RDEPENDS
+>> > -PACKAGECONFIG[cairo] = "-Dpycairo=true,-Dpycairo=false, cairo python3-pycairo, python3-pycairo"
+>> > +PACKAGECONFIG[cairo] = "-Dpycairo=enabled,-Dpycairo=disabled, cairo python3-pycairo, python3-pycairo"
+>> >
+>>
+>> is this a bug fix ? or a new change
+>>
+>> >  BBCLASSEXTEND = "native"
+>> >  PACKAGECONFIG_class-native = ""
+>> > --
+>> > 2.29.0
+>> >
+>> >
+>> > 
+>> >
