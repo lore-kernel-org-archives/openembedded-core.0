@@ -1,64 +1,116 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web11.2587.1604097886190317581
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web08.2980.1604100140317682003
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 15:44:46 -0700
+ Fri, 30 Oct 2020 16:22:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=buck1LgY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id 13so4223672wmf.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 15:44:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XWEnNYGu;
+ spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f50.google.com with SMTP id n18so8134505wrs.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 16:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=k3hSv/MWtLpKpokPlmwji5XTkoAgruv2oC8YSr9UnWU=;
-        b=buck1LgYxb16UfNBPEnwqdevlBdJUvac3zzMx0yi0uUT5zX2J1FPjHW6Qtnntnz3j8
-         O2OBcwXLzycZtcMDE2aIdiGlkQuI/p8WCD8saZhwGIRLT4SCob2DUhp9eEu9E+nmY1GV
-         w3hGzte07v5OK5S4i0sDFSpRzDzx41WwtwBps=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eIzEOg2PghuH5AbEzLINkj+7a7jYgdUV7dU39c58kY8=;
+        b=XWEnNYGuaiSnyn/i5jtePd/YsGC0ih3G7OguOiZ4bVXDYP6divB9zNRZvQshqD0OnF
+         5tDUQ/vt/amI7meN+40PvpnJkBMnMV+oU1MoplFV98G/eGQKVJ96FPXAD0p7j6SL15Te
+         d9u5JC8+l4P+3z4sF62swYMHpQz/8n7glYAoXCYpbo7079ki0OfRkgOzYpI+b5dPnlTB
+         DFrfkDl9HMM0aYf41fePcc44iLiV1CNausntdPrzoZCwg1ge9LJ5+DwTnHi0udRYnaAO
+         ov9ZVuSjoIfHNXbQ26Ot4NabyQdOpl47IqGwsA/Tab1POh2jocBN1gi2fAiIjQFuxsns
+         Knmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=k3hSv/MWtLpKpokPlmwji5XTkoAgruv2oC8YSr9UnWU=;
-        b=P9zFisV7jRh5k5q4X+lNh/t0U/MfpkvDxHxSXd7YGl2t5vGXjpvGLq1qWoNUXXl1Wk
-         RTCCZ5HHCe/MoffV6VHcmf04d/JaYYGGgIMlxaqLJBXpaqpDtLBU+z0/9TsqQ+F0JIKm
-         hseAAkx7bydcWnxCLDdcS4oQwJF6w570jywZoC2clC679udsXldPaUAFxMI7qtDqCzRg
-         Eeh0Rt7OqDJiNhW+KHOkdHJvJGi4u0uXVQxhNdbeL3olT6XB6PKrD3oWIAk0Z6IP1Zvb
-         rxJrVsCjiuLoGVKs7FdUsL8tM+Iq0EfhdbrTiPKcMbGexi3kM26k5gUwDYARkyLfLYOb
-         unxQ==
-X-Gm-Message-State: AOAM5332dFZzVp78I4W+81LaGqDCYUCkQqC0SLClku316h9sLSThWpKh
-	9tyH4GYgOV2wo9KZsua8VMVA7w==
-X-Google-Smtp-Source: ABdhPJwXkFW30NMeOHry7wvjUk0M0DEmeZQMxGBxeKBcwp3qdRO8rhrZQpgM/Pv4pawTN4+TpTbr0g==
-X-Received: by 2002:a1c:6302:: with SMTP id x2mr5424820wmb.121.1604097884543;
-        Fri, 30 Oct 2020 15:44:44 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:11ab:804e:534c:cf3d])
-        by smtp.gmail.com with ESMTPSA id o7sm12344220wrp.23.2020.10.30.15.44.44
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eIzEOg2PghuH5AbEzLINkj+7a7jYgdUV7dU39c58kY8=;
+        b=oyKiUZIKrDtFjNBcKBYlVdqdHh12F6KbDKiPNIsFKmXDfZYLvllgWfxRpQdKl6Z3Y6
+         cGexDlcb5F9JN6VUvtBrkL9gRtgbDjyVmbTEvyr8jtMZSCPC/qBLAiqhcYhQ6Qm0Vt+r
+         1a/6eHqAovZ2DzccJ1Es2SdldHqVI6IqsVb6+qR+6dIZW2+FwMmUNsIP7cJ9oaIxAX0Q
+         OUXsgPMUjLAEhsVJNmjKS+yppldACw84YfjgV0rfZdKMUXwYT0STcWKwkGrmYBLLYLKJ
+         28d1XuhoHMDjLAu18xkJ94MhAJUtFyJTBgedJvn+/eisPelg1gj/JrIVYS+HInRgQSU+
+         ziYg==
+X-Gm-Message-State: AOAM531awkSCCduBtls3mLB8v6MNrz05BgaZXt8a/jgvn4zLhVQ5DSNC
+	jyL7b8xs4quYERmT0RodKH7YJKBA7Y3CphoF
+X-Google-Smtp-Source: ABdhPJwWkWXk3bpAP3PMorPPEfWKvbdL5w6saVGCVBSGIIWd0eSh3CDtrQyrjQ7mO5fNFc6/UO/dVA==
+X-Received: by 2002:adf:e28c:: with SMTP id v12mr5941697wri.230.1604100138582;
+        Fri, 30 Oct 2020 16:22:18 -0700 (PDT)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id v24sm12611590wrv.80.2020.10.30.16.22.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 15:44:44 -0700 (PDT)
-Message-ID: <395078c7524717b4fee84f188889ad7644edf7e2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gdb: Update to 10.x release
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 30 Oct 2020 22:44:43 +0000
-In-Reply-To: <20201030201433.1776776-1-raj.khem@gmail.com>
-References: <20201030201433.1776776-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Fri, 30 Oct 2020 16:22:17 -0700 (PDT)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH] gstreamer1.0: drop 0004-capfix.patch
+Date: Fri, 30 Oct 2020 23:22:09 +0000
+Message-Id: <20201030232209.624184-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-10-30 at 13:14 -0700, Khem Raj wrote:
-> here is announcement [1]
-> [1] https://www.gnu.org/software/gdb/download/ANNOUNCEMENT
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+In the update for 1.18 it added by mistake
 
-Failed on genericx86:
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ .../gstreamer/gstreamer1.0/0004-capfix.patch  | 48 -------------------
+ 1 file changed, 48 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/1538
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch
+deleted file mode 100644
+index 32e9610cff..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-capfix.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 9607e9858d681f5ad2e1677f5dbbb1fb61bd8846 Mon Sep 17 00:00:00 2001
+-From: Jose Quaresma <quaresma.jose@gmail.com>
+-Date: Sun, 18 Oct 2020 10:40:59 +0100
+-Subject: [PATCH 4/4] Currently gstreamer configuration depends on whether
+- setcap is found on the host system. Turn this into a configure option to make
+- builds deterinistic.
+-
+-RP 2020/2/19
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+-Upstream-Status: Pending
+----
+- libs/gst/helpers/meson.build | 7 ++++++-
+- meson_options.txt            | 1 +
+- 2 files changed, 7 insertions(+), 1 deletion(-)
+-
+-diff --git a/libs/gst/helpers/meson.build b/libs/gst/helpers/meson.build
+-index 9e5a4ae..c2e540f 100644
+---- a/libs/gst/helpers/meson.build
+-+++ b/libs/gst/helpers/meson.build
+-@@ -66,7 +66,12 @@ if have_ptp
+-       description : 'getifaddrs() and AF_LINK is available')
+-   endif
+- 
+--  setcap_prog = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
+-+  setcap_feature = get_option('setcap')
+-+  if setcap_feature.disabled()
+-+    setcap_prog = find_program('dontexist', required : false)
+-+  else
+-+    setcap_prog = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
+-+  endif
+-   cap_dep = dependency('libcap', required: false)
+- 
+-   # user/group to change to in gst-ptp-helper
+-diff --git a/meson_options.txt b/meson_options.txt
+-index 346c423..03338ad 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -25,6 +25,7 @@ option('libdw', type : 'feature', value : 'auto', description : 'Use libdw to ge
+- option('dbghelp', type : 'feature', value : 'auto', description : 'Use dbghelp to generate backtraces')
+- option('bash-completion', type : 'feature', value : 'auto', description : 'Install bash completion files')
+- option('coretracers', type : 'feature', value : 'auto', description : 'Build coretracers plugin')
+-+option('setcap', type : 'feature', value : 'auto', description : 'Use setcap')
+- 
+- # Common feature options
+- option('examples', type : 'feature', value : 'auto', yield : true)
+--- 
+-2.28.0
+-
+-- 
+2.29.2
 
