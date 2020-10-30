@@ -1,308 +1,384 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.66])
- by mx.groups.io with SMTP id smtpd.web11.9429.1604036672658071308
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web11.9452.1604036828138359165
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 22:44:33 -0700
+ Thu, 29 Oct 2020 22:47:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=O0P6zRb2;
- spf=pass (domain: windriver.com, ip: 40.107.243.66, mailfrom: kai.kang@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=egHckya5mNE3Pj9kyfJgaZyg7wmL5ziFvPcBwx90RmW1G7wDPSpirlNgx2sKTYnUPL/pXcj+OEGtJAa3MIA8Fbq+NJy9dSkv1P8BxTHLZvtIBqssya2XdVistPWyNUkfyeIa4PG6Ycb4r7YUzbeGQl4wVhBEJIDotqkqD0tBJkV0MJQ2UGcqlfQD5TMlrYOycZKuF8NAp4dF7scU+M2R1aHv7ja24Fc/fwdFwQS/kUFAdWihs6w726HPdgU7r9DSjhqipXaLQOOwJYT0udYbp7vr3UxEBVXFRlTFmjyLDiVs68LgX7tM0wJnNOsxnvkrYQSGuWE2UBiesSF6KCk4jQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SzEgIvBAu8LuvRNxFxWd3M4LZtvul7ujBPOKLqJULIs=;
- b=bWO+oYThkNrlXzBKA5IJMLNk/dWdwljUAu2AHumMhARH2vX/FliZuWDxDJHSKFETRUUe/QgKHik34itlR8UJ5Hujy0UnUOEG7D4vs6h4jvUasnaE2br3vfStqrrvwvWKSl1r5iLWq8TPpkC5PJOO9xLAuUJgU0iF13Lx6nERg4CDP5o8JOU5ge36cZHO8SFcwOCfJRj5OjbF3I+u9JiM1OjCbuO4mJ8u1tll9KhfxpyqyEzfFOfhOEzoQEMR5VtwhlXecG8Ynx6qBWZC2p/VxaNRiQ4TOqrCPz2JA9asVItA1lT+W4xx88OoeyvE6SXd5UTVovRZs7Fbs1wwnYmuFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CnjLpkmr;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id i7so2351486pgh.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 22:47:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SzEgIvBAu8LuvRNxFxWd3M4LZtvul7ujBPOKLqJULIs=;
- b=O0P6zRb2c8rDvtX1EOrnixBwk9xTwrrKFCvoBaU+sozXkftUznogAN40HZG/6fI+7Y7PxIgd70RWNAmpXEIm4R9TvUJhTulChlNsZJykxnENp4jLkw5VN8pQaJIL+4aIR8mOaVqCt1CzXF72hFVQBnPtceBl+I+CwijE69YuuwI=
-Received: from SN6PR11MB3294.namprd11.prod.outlook.com (2603:10b6:805:c4::33)
- by SA2PR11MB5210.namprd11.prod.outlook.com (2603:10b6:806:fa::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Fri, 30 Oct
- 2020 05:44:30 +0000
-Received: from SN6PR11MB3294.namprd11.prod.outlook.com
- ([fe80::34d3:7c3f:9259:d3c5]) by SN6PR11MB3294.namprd11.prod.outlook.com
- ([fe80::34d3:7c3f:9259:d3c5%7]) with mapi id 15.20.3477.028; Fri, 30 Oct 2020
- 05:44:30 +0000
-From: "kai" <kai.kang@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "obi@opendreambox.org"
-	<obi@opendreambox.org>
-Subject: =?UTF-8?B?5Zue5aSNOiBbUEFUQ0ggMS8xXSBzeXN0ZW1kLmJiY2xhc3M6IGNoZWNrIHdoZXRoZXIgc3lzdGVtY3RsIHdvcmtzIGluIHBvc3Qgc2NyaXB0cw==?=
-Thread-Topic: [PATCH 1/1] systemd.bbclass: check whether systemctl works in
- post scripts
-Thread-Index: AQHWrdWw6Y/QH7OD/0i2LN6quXbSo6mvotwu
-Date: Fri, 30 Oct 2020 05:44:30 +0000
-Message-ID: 
- <SN6PR11MB32949BC7A32C382634D011B295150@SN6PR11MB3294.namprd11.prod.outlook.com>
-References: 
- <20201029092650.34868-1-kai.kang@windriver.com>,<20201029092650.34868-2-kai.kang@windriver.com>
-In-Reply-To: <20201029092650.34868-2-kai.kang@windriver.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-x-originating-ip: [60.247.85.82]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9f81c077-5bdd-435e-f347-08d87c96df39
-x-ms-traffictypediagnostic: SA2PR11MB5210:
-x-microsoft-antispam-prvs: 
- <SA2PR11MB5210B1AF82E01B3A7FE4DF0595150@SA2PR11MB5210.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- ycM8zu+COGLoy0M5TyuPtm6HROxjuFBAL91RdH5CrfLK60S6c8Stg0FW9xAylVdmin1kRz/LZQDwigZizAJkO8MLUz2lJmEdHemjabGhkef3PsOt1yEIsRsL4Wbzcl66z1E6+d9GggmkXY1cZknTbCWQ6am4Pvj+v+EcnZNrnbT0GceEQPzwrfN5wZzPZrHoxNHU+37eVliEloasbwAYPLF+pzLicJ6fL3P7CbiUfwW2fIyywXP1L+a7MYqdpUtBc2RZ1xSVgxnzf6ZwITHXPK5tduBHKSnopEdSCcIEQNpojGDxBMDzlxWmUV8zAqP4mBKg/wfl7it0GL3m7lyRcA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3294.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(39850400004)(346002)(136003)(7696005)(316002)(86362001)(55016002)(19627405001)(224303003)(6506007)(33656002)(110136005)(8936002)(478600001)(83380400001)(26005)(91956017)(66946007)(76116006)(186003)(71200400001)(9686003)(2906002)(52536014)(5660300002)(64756008)(66476007)(66556008)(66446008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- jP6axK+93RJ3YGOk89ZRxuKjT0FA/YbqHkR9xjvmLDtLl6L8MNkg9hrXmuW6+5ervx6LaXlk1zrIAt79yTQlg/EMbvl+9z3rmjzVhajQU8SW5dBABvaqAfx/jmkVMNp4i0lHdFuPr68nMb+AMwDebyhhcfDX+Y3wRq4OsmkGkmJw1bj9VcHQ6XYA3iPksGliPhIZI0mGCi9xk2vgKBe1ug4pGf/sPrfpTAMw3A4Ya6o99EQOXvmBtq6HohUSs/FuGztaxWeWxIx+Rq0208OywlFcu63Ci6q8jV1vQza+kEKesFJvNk1LnhX8KHaL1Ix8L60yJnKNVeqn6uAalpt33NYjsH+tyc1AK+IPc1r4cmFGj0w5Iz7yy2ZTkymlXzWWInWdiBpQDyTAlpdDpcYnH8mipdljJOmz9ACAUaGpbMcIC1RiICUQkg1ah/Qv28BHBU9gReqp6fefy9Gk5ovJFfcVPqaQroKWm6VK5WYOryOI3z7/76HkGbkP57Epezk8YnKVUNRF526XwpDB2DxVm2C6uxmgutLUtLMqDCaUYKeilaFRPqV/pDYyBGlQ21Tg+FMFvGyHTJwTXh0WKrLl078Ko96rdsKL779uv+++2gAjw8pV4cf24r9qsUu41bsNKHFkEqMZqePElZAVC+vr8Q==
-x-ms-exchange-transport-forked: True
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OFlLi+S966NoYy027IhF8cYtT5p2Km64gMilvraxOqk=;
+        b=CnjLpkmrCN6vRNX3XucxZrB9aDb1pQyTQfNAFy8HC93Rsh6nrgYiLR3bLTg5ERf8ca
+         0jJ6ynEhFpoQtrtgZXDIrqKF4xAcfzI7Obx2dObmz0ovvYfqZxbxk+B3eQrXNPg95CeM
+         b87gMhgmJAJn44Xb1Aq2qVgzZXGRPOwCkm9Jav3GPEkBY3ERDANOC7JY4mIQI6mvFpRx
+         YNlAWJTsQRDr4gTIOeR8PeogHXT/8pdAT5PxObosCwYTh8C+aRZ4yDRNOUteswJga0Ia
+         yRbFutyHBBVS2/C4x/dDiXZWODE5Dlmas7E4o0FYKrMOdYlOGdXOVI18LIOmtv6QsTJo
+         Ye7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OFlLi+S966NoYy027IhF8cYtT5p2Km64gMilvraxOqk=;
+        b=WqK2sbZToPe8YHb2Okuc4KNuo5FpJX6HbI/801tk7mgC/oTdskrkgKjDlP0fMDqTJl
+         etr7/w6DLaR7074xkqTZW2Ytjjqn5Sn4RLnT4w7/+KHDjkCHCaQsf8Y/hwpgeGOhykfd
+         zP/Bei+df2/9zbfjL5CvaAZ8IhRY5msrrH7l63rbJ1ho57RyKm9NbBelu7yispdKMR/H
+         OP6qmLX4ie2bfDiBgNMs3X4zlZPjpqZx07UMTmuJ3r9QUkeaK5GOigi+5408a9bUwfvk
+         yySbjYNFm8SgNMZOMKjxK5W/aJex6AjQZ0iBoAtu56+R4sIzytGooTtS34kDfXcpjtmh
+         +XvQ==
+X-Gm-Message-State: AOAM532sUx9TOTa68Vbo4E/PzDjfX/2qfwBnvrk+E2UXuKFyY7ZCQKs3
+	LCPiJHD54iWP/A1n+irHUMICaT+gLcZtWw==
+X-Google-Smtp-Source: ABdhPJz7yHQxZGukiZe5n9NvSOADqjmqxfceMQUobZkU7vS3AZDB7/K0I7C/uzfsxyXjao7G+J1ycw==
+X-Received: by 2002:a63:65c5:: with SMTP id z188mr784907pgb.139.1604036827293;
+        Thu, 29 Oct 2020 22:47:07 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4874])
+        by smtp.gmail.com with ESMTPSA id m11sm4720343pfa.69.2020.10.29.22.47.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2020 22:47:06 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Andrei Gherzan <andrei@gherzan.ro>
+Subject: [PATCH] musl: Add .file directive in crt assembly files
+Date: Thu, 29 Oct 2020 22:47:03 -0700
+Message-Id: <20201030054703.422319-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3294.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f81c077-5bdd-435e-f347-08d87c96df39
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 05:44:30.3851
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dU3qYfwDtaaoUBZqpISKOU0KPfXnzsMfEAh1C4wRryqyXQl4XDV9QIB4dqzTPOU0H1/W++QB1A1xAZEzjhaChQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5210
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_"
+Content-Transfer-Encoding: 8bit
 
---_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+This helps linker to noot emit absolute paths into .debug_line sections
+of liked binaries and libraries and therefore make them reproducible
 
-SGkgQW5kcmVhcywNCg0KSSBhbSBzb3JyeSB0aGF0IG15IGVtYWlsIGNsaWVudCBnb2VzIHdyb25n
-LiBTbyBJIGhhdmUgdG8gcmVwbHkgdGhpcyB3YXkuDQoNCj4+ICBzeXN0ZW1kX3Bvc3RpbnN0KCkg
-ew0KPj4gLWlmIHR5cGUgc3lzdGVtY3RsID4vZGV2L251bGwgMj4vZGV2L251bGw7IHRoZW4NCj4+
-ICtpZiBzeXN0ZW1jdGwgbGlzdC1tYWNoaW5lcyA+L2Rldi9udWxsIDI+L2Rldi9udWxsOyB0aGVu
-DQo+PiAgICAgIE9QVFM9IiINCj4+DQo+PiAgICAgIGlmIFsgLW4gIiREIiBdOyB0aGVuDQo+DQo+
-IFNob3VsZG4ndCB0aGlzIGFscmVhZHkgaGF2ZSBiZWVuIHJ1biBkdXJpbmcgaW1hZ2UgY29uc3Ry
-dWN0aW9uPw0KPg0KPiBEb2Vzbid0IHRoaXMgYnJlYWsgb3VyIHN5c3RlbWN0bCBlbXVsYXRpb24g
-KG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1zeXN0ZW1jdGwvc3lzdGVtY3RsKT8N
-Cg0KVGhlIHVzZSBjYXNlIGlzIHNpbWlsYXIgd2l0aCBGZWRvcmEgb3IgRGViaWFuIHRoYXQgbW9k
-aWZ5IGltYWdlIHdpdGgNCmNvbW1hbmQgZG5mLCBib3RoIG9uIHRoZSByZWFsIGJzcCBvciBjb250
-YWluZXIuDQoNCkl0IGJyZWFrcyB0aGUgc3lzdGVtZC1zeXN0ZW1jdGwtbmF0aXZlIGluZGVlZC4g
-VGhlIHJlYXNvbiB0byBydW4NCnN5c3RlbWN0bCB0byBjaGVjayB3aGV0aGVyIGl0IHJlYWxseSB3
-b3JrcyBiZWNhdXNlIGl0IGZhaWxzIGluIGNvbnRhaW5lci4NCkFuZCBJIHN1cHBvc2UgJ3N5c3Rl
-bWN0bCBsaXN0LW1hY2hpbmVzJyBpcyB0aGUgbW9zdCBxdWljayBzdWJjb21tYW5kIG9mDQpzeXN0
-ZW1jdGwuIEhvdyBhYm91dCBhZGQgYSBzdHViIGZ1bmN0aW9uIHRvIHByb3ZpZGUgc3ViLWNvbW1v
-bg0KbGlzdC1tYWNoaW5lcyBmb3Igc3lzdGVtZC1zeXN0ZW1jdGwtbmF0aXZlPw0KDQo+DQo+DQo+
-PiBAQCAtNDgsNyArNDgsNyBAQCBmaQ0KPj4gIH0NCj4+DQo+PiAgc3lzdGVtZF9wcmVybSgpIHsN
-Cj4+IC1pZiB0eXBlIHN5c3RlbWN0bCA+L2Rldi9udWxsIDI+L2Rldi9udWxsOyB0aGVuDQo+PiAr
-aWYgc3lzdGVtY3RsIGxpc3QtbWFjaGluZXMgPi9kZXYvbnVsbCAyPi9kZXYvbnVsbDsgdGhlbg0K
-Pj4gICAgICBpZiBbIC16ICIkRCIgXTsgdGhlbg0KPj4gICAgICAgICAgc3lzdGVtY3RsIHN0b3Ag
-JHtTWVNURU1EX1NFUlZJQ0VfRVNDQVBFRH0NCj4+DQo+DQo+IFlvdSdyZSBydW5uaW5nIHRoZSBw
-cmVybSBob29rIGluc2lkZSBhIGRvY2tlciBjb250YWluZXI/DQo+DQo+IFdvdWxkbid0IGl0IGJl
-IG1vcmUgYXBwcm9wcmlhdGUgdG8gcmVtb3ZlIHRoZSBzeXN0ZW1kIERJU1RST19GRUFUVVJFIGZv
-ciBhIHVzZS1jYXNlIGxpa2UgdGhpcz8NCg0KVGhlcmUgd2lsbCAgYWx3YXlzIGhhcyBhbiBpbml0
-IG1hbmFnZXIgdGhlcmUgZm9yIG9lLWNvcmUuIEl0IHNob3VsZCB3b3JrDQpmb3IgYm90aCBzeXN2
-aW5pdCBhbmQgc3lzdGVtZCB3aXRob3V0IGV4dHJhIGNvbmZpZ3VyZSB0byB1c2UgYXMgYSBkb2Nr
-ZXINCmltYWdlLg0KDQpUaGFua3MgZm9yIHlvdXIgY29tbWVudC4NCg0KS2FpDQoNCl9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fDQq3orz+yMs6IEthbmcsIEthaSA8a2FpLmthbmdAd2lu
-ZHJpdmVyLmNvbT4NCreiy83KsbzkOiAyMDIwxOoxMNTCMjnI1SAxNzoyNw0KytW8/sjLOiBvcGVu
-ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K1vfM4jogW1BBVENIIDEvMV0gc3lzdGVtZC5iYmNsYXNz
-OiBjaGVjayB3aGV0aGVyIHN5c3RlbWN0bCB3b3JrcyBpbiBwb3N0IHNjcmlwdHMNCg0KRnJvbTog
-S2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+DQoNCldoZW4gdXNlIGEgY29yZSBpbWFn
-ZSB0YXJiYWxsIGFzIGEgZG9ja2VyIGltYWdlIHdpdGggJ2RvY2tlciBpbXBvcnQnLCBpdA0KZmFp
-bHMgdG8gaW5zdGFsbC9yZW1vdmUgcGFja2FnZSB3aGljaCBjYWxscyBzeXN0ZW1jdGwgaW4gcG9z
-dCBzY3JpcHRzLg0KQmVjYXVzZSBpdCBmYWlzIHRvIHJ1biBzeXN0ZW1jdGwgaW4gYSBjb250YWlu
-ZXI6DQoNCmJhc2gtNS4wIyBzeXN0ZW1jdGwNClN5c3RlbSBoYXMgbm90IGJlZW4gYm9vdGVkIHdp
-dGggc3lzdGVtZCBhcyBpbml0IHN5c3RlbSAoUElEIDEpLiBDYW4ndCBvcGVyYXRlLg0KRmFpbGVk
-IHRvIGNvbm5lY3QgdG8gYnVzOiBIb3N0IGlzIGRvd24NCg0KUmVwbGFjZSAndHlwZSBzeXN0ZW1j
-dGwnIHdpdGggJ3N5c3RlbWN0bCBsaXN0LW1hY2hpbmVzJyBpbiBwYWNrYWdlIHBvc3QNCnNjcmlw
-dHMgdG8gY2hlY2sgd2hldGhlciBzeXN0ZW1jdGwgd29yayByYXRoZXIgdGhhbiBleGlzdGVuY2Uu
-DQoNClNpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPg0KLS0t
-DQogbWV0YS9jbGFzc2VzL3N5c3RlbWQuYmJjbGFzcyB8IDQgKystLQ0KIDEgZmlsZSBjaGFuZ2Vk
-LCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9tZXRhL2Ns
-YXNzZXMvc3lzdGVtZC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3N5c3RlbWQuYmJjbGFzcw0KaW5k
-ZXggOWU4YTgyYzlmMS4uOTkzODQyNWUyZCAxMDA2NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9zeXN0
-ZW1kLmJiY2xhc3MNCisrKyBiL21ldGEvY2xhc3Nlcy9zeXN0ZW1kLmJiY2xhc3MNCkBAIC0yMyw3
-ICsyMyw3IEBAIHB5dGhvbiBfX2Fub255bW91cygpIHsNCiB9DQoNCiBzeXN0ZW1kX3Bvc3RpbnN0
-KCkgew0KLWlmIHR5cGUgc3lzdGVtY3RsID4vZGV2L251bGwgMj4vZGV2L251bGw7IHRoZW4NCitp
-ZiBzeXN0ZW1jdGwgbGlzdC1tYWNoaW5lcyA+L2Rldi9udWxsIDI+L2Rldi9udWxsOyB0aGVuDQog
-ICAgICAgICBPUFRTPSIiDQoNCiAgICAgICAgIGlmIFsgLW4gIiREIiBdOyB0aGVuDQpAQCAtNDgs
-NyArNDgsNyBAQCBmaQ0KIH0NCg0KIHN5c3RlbWRfcHJlcm0oKSB7DQotaWYgdHlwZSBzeXN0ZW1j
-dGwgPi9kZXYvbnVsbCAyPi9kZXYvbnVsbDsgdGhlbg0KK2lmIHN5c3RlbWN0bCBsaXN0LW1hY2hp
-bmVzID4vZGV2L251bGwgMj4vZGV2L251bGw7IHRoZW4NCiAgICAgICAgIGlmIFsgLXogIiREIiBd
-OyB0aGVuDQogICAgICAgICAgICAgICAgIHN5c3RlbWN0bCBzdG9wICR7U1lTVEVNRF9TRVJWSUNF
-X0VTQ0FQRUR9DQoNCi0tDQoyLjE3LjENCg0K
+Reported-by: Andrei Gherzan <andrei@gherzan.ro>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../musl/0001-crt-Add-.file-directive.patch   | 300 ++++++++++++++++++
+ meta/recipes-core/musl/musl_git.bb            |   1 +
+ 2 files changed, 301 insertions(+)
+ create mode 100644 meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
 
---_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch b/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
+new file mode 100644
+index 0000000000..d2bd587e39
+--- /dev/null
++++ b/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
+@@ -0,0 +1,300 @@
++From b0124f3c4f2a353506621d387135ebea6b8c6609 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 29 Oct 2020 22:40:53 -0700
++Subject: [PATCH] crt: Add .file directive
++
++Musl linked binaries come out to be not reproducible because
++absolute build path is seen in debug info of crti.o and crtn.o
++This is due to the fact that these objects are built from assembly
++source files and they are missing .file directive
++if we add .file <filename>.s in them then debug info encodes this
++value instead of absolute path in debug_line section
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ crt/aarch64/crti.s    | 1 +
++ crt/aarch64/crtn.s    | 1 +
++ crt/arm/crti.s        | 1 +
++ crt/arm/crtn.s        | 1 +
++ crt/i386/crti.s       | 1 +
++ crt/i386/crtn.s       | 1 +
++ crt/microblaze/crti.s | 1 +
++ crt/microblaze/crtn.s | 1 +
++ crt/mips/crti.s       | 1 +
++ crt/mips/crtn.s       | 1 +
++ crt/mips64/crti.s     | 1 +
++ crt/mips64/crtn.s     | 1 +
++ crt/mipsn32/crti.s    | 1 +
++ crt/mipsn32/crtn.s    | 1 +
++ crt/or1k/crti.s       | 1 +
++ crt/or1k/crtn.s       | 1 +
++ crt/powerpc/crti.s    | 1 +
++ crt/powerpc/crtn.s    | 1 +
++ crt/powerpc64/crti.s  | 1 +
++ crt/powerpc64/crtn.s  | 1 +
++ crt/s390x/crti.s      | 1 +
++ crt/s390x/crtn.s      | 1 +
++ crt/sh/crti.s         | 1 +
++ crt/sh/crtn.s         | 1 +
++ crt/x32/crti.s        | 1 +
++ crt/x32/crtn.s        | 1 +
++ crt/x86_64/crti.s     | 1 +
++ crt/x86_64/crtn.s     | 1 +
++ 28 files changed, 28 insertions(+)
++
++diff --git a/crt/aarch64/crti.s b/crt/aarch64/crti.s
++index 775df0ac..0f7c23a9 100644
++--- a/crt/aarch64/crti.s
+++++ b/crt/aarch64/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .global _init
++ .type _init,%function
++diff --git a/crt/aarch64/crtn.s b/crt/aarch64/crtn.s
++index 73cab692..d62fc129 100644
++--- a/crt/aarch64/crtn.s
+++++ b/crt/aarch64/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ 	ldp x29,x30,[sp],#16
++ 	ret
++diff --git a/crt/arm/crti.s b/crt/arm/crti.s
++index 18dc1e41..8df72979 100644
++--- a/crt/arm/crti.s
+++++ b/crt/arm/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .syntax unified
++ 
++ .section .init
++diff --git a/crt/arm/crtn.s b/crt/arm/crtn.s
++index dc020f92..7451355b 100644
++--- a/crt/arm/crtn.s
+++++ b/crt/arm/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .syntax unified
++ 
++ .section .init
++diff --git a/crt/i386/crti.s b/crt/i386/crti.s
++index d2682a20..2823fc3b 100644
++--- a/crt/i386/crti.s
+++++ b/crt/i386/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .global _init
++ _init:
++diff --git a/crt/i386/crtn.s b/crt/i386/crtn.s
++index f3b61e01..04fb1646 100644
++--- a/crt/i386/crtn.s
+++++ b/crt/i386/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ 	add $12,%esp
++ 	ret
++diff --git a/crt/microblaze/crti.s b/crt/microblaze/crti.s
++index ed1c2fa4..29ee4733 100644
++--- a/crt/microblaze/crti.s
+++++ b/crt/microblaze/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .global _init
++ .align 2
++diff --git a/crt/microblaze/crtn.s b/crt/microblaze/crtn.s
++index 1e02c984..c2083749 100644
++--- a/crt/microblaze/crtn.s
+++++ b/crt/microblaze/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ 	lwi r15, r1, 0
++ 	rtsd r15, 8
++diff --git a/crt/mips/crti.s b/crt/mips/crti.s
++index 39dee380..0211764e 100644
++--- a/crt/mips/crti.s
+++++ b/crt/mips/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .set noreorder
++ 
++ .section .init
++diff --git a/crt/mips/crtn.s b/crt/mips/crtn.s
++index 506a04b7..606490cf 100644
++--- a/crt/mips/crtn.s
+++++ b/crt/mips/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .set noreorder
++ 
++ .section .init
++diff --git a/crt/mips64/crti.s b/crt/mips64/crti.s
++index c962dd09..f2c19cdd 100644
++--- a/crt/mips64/crti.s
+++++ b/crt/mips64/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .set noreorder
++ 
++ .section .init
++diff --git a/crt/mips64/crtn.s b/crt/mips64/crtn.s
++index f3930b24..68903ffa 100644
++--- a/crt/mips64/crtn.s
+++++ b/crt/mips64/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .set noreorder
++ 
++ .section .init
++diff --git a/crt/mipsn32/crti.s b/crt/mipsn32/crti.s
++index 14fa28d9..a35387d3 100644
++--- a/crt/mipsn32/crti.s
+++++ b/crt/mipsn32/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .set	noreorder
++ .section	.init
++ .global	_init
++diff --git a/crt/mipsn32/crtn.s b/crt/mipsn32/crtn.s
++index dccd7e89..bdb6e561 100644
++--- a/crt/mipsn32/crtn.s
+++++ b/crt/mipsn32/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .set	noreorder
++ .section	.init
++ 	ld	$gp, 16($sp)
++diff --git a/crt/or1k/crti.s b/crt/or1k/crti.s
++index 7e741459..919369ca 100644
++--- a/crt/or1k/crti.s
+++++ b/crt/or1k/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .global _init
++ _init:
++diff --git a/crt/or1k/crtn.s b/crt/or1k/crtn.s
++index 4185a027..d670b327 100644
++--- a/crt/or1k/crtn.s
+++++ b/crt/or1k/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ 	l.lwz	r9,0(r1)
++ 	l.jr	r9
++diff --git a/crt/powerpc/crti.s b/crt/powerpc/crti.s
++index 60461ca4..b748ca48 100644
++--- a/crt/powerpc/crti.s
+++++ b/crt/powerpc/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .align 2
++ .global _init
++diff --git a/crt/powerpc/crtn.s b/crt/powerpc/crtn.s
++index 2d14a6f0..d989e36f 100644
++--- a/crt/powerpc/crtn.s
+++++ b/crt/powerpc/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ .align 2
++ 	lwz 0,36(1)
++diff --git a/crt/powerpc64/crti.s b/crt/powerpc64/crti.s
++index 9f712f0e..d3323a67 100644
++--- a/crt/powerpc64/crti.s
+++++ b/crt/powerpc64/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .align 2
++ .global _init
++diff --git a/crt/powerpc64/crtn.s b/crt/powerpc64/crtn.s
++index a7a9f4a0..5e71ae66 100644
++--- a/crt/powerpc64/crtn.s
+++++ b/crt/powerpc64/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ .align 2
++ 	addi 1, 1, 32
++diff --git a/crt/s390x/crti.s b/crt/s390x/crti.s
++index f453205b..3da3c5e1 100644
++--- a/crt/s390x/crti.s
+++++ b/crt/s390x/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .align 2
++ .global _init
++diff --git a/crt/s390x/crtn.s b/crt/s390x/crtn.s
++index 06066dc9..bfd55caf 100644
++--- a/crt/s390x/crtn.s
+++++ b/crt/s390x/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ .align 2
++ 	lmg  %r14, %r15, 272(%r15)
++diff --git a/crt/sh/crti.s b/crt/sh/crti.s
++index d99bfd5c..77d61c51 100644
++--- a/crt/sh/crti.s
+++++ b/crt/sh/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .global  _init
++ .type    _init, @function
++diff --git a/crt/sh/crtn.s b/crt/sh/crtn.s
++index 958ce951..29deb5be 100644
++--- a/crt/sh/crtn.s
+++++ b/crt/sh/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ 	lds.l @r15+, pr
++ 	mov.l @r15+, r14
++diff --git a/crt/x32/crti.s b/crt/x32/crti.s
++index 4788968b..8668b7c7 100644
++--- a/crt/x32/crti.s
+++++ b/crt/x32/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .global _init
++ _init:
++diff --git a/crt/x32/crtn.s b/crt/x32/crtn.s
++index 29198b77..ef73d295 100644
++--- a/crt/x32/crtn.s
+++++ b/crt/x32/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ 	pop %rax
++ 	ret
++diff --git a/crt/x86_64/crti.s b/crt/x86_64/crti.s
++index 4788968b..8668b7c7 100644
++--- a/crt/x86_64/crti.s
+++++ b/crt/x86_64/crti.s
++@@ -1,3 +1,4 @@
+++.file "crti.s"
++ .section .init
++ .global _init
++ _init:
++diff --git a/crt/x86_64/crtn.s b/crt/x86_64/crtn.s
++index 29198b77..ef73d295 100644
++--- a/crt/x86_64/crtn.s
+++++ b/crt/x86_64/crtn.s
++@@ -1,3 +1,4 @@
+++.file "crtn.s"
++ .section .init
++ 	pop %rax
++ 	ret
++-- 
++2.29.1
++
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 897e56e10f..504fdfe019 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -15,6 +15,7 @@ PV = "${BASEVER}+git${SRCPV}"
+ SRC_URI = "git://git.musl-libc.org/musl \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
++           file://0001-crt-Add-.file-directive.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.29.1
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Hi Andreas,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-I am sorry that my email client goes wrong. So I have to reply this way.</d=
-iv>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-&gt;&gt; &nbsp;systemd_postinst() {
-<div>&gt;&gt; -if type systemctl &gt;/dev/null 2&gt;/dev/null; then </div>
-<div>&gt;&gt; +if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; the=
-n </div>
-<div>&gt;&gt; &nbsp; &nbsp; &nbsp;OPTS=3D&quot;&quot;</div>
-<div>&gt;&gt; &nbsp;</div>
-<div>&gt;&gt; &nbsp; &nbsp; &nbsp;if [ -n &quot;$D&quot; ]; then </div>
-<div>&gt;</div>
-<div>&gt; Shouldn't this already have been run during image construction?</=
-div>
-<div>&gt;</div>
-<div>&gt; Doesn't this break our systemctl emulation (meta/recipes-core/sys=
-temd/systemd-systemctl/systemctl)?</div>
-<div><br>
-</div>
-<div></div>
-<div>The use case is similar with Fedora or Debian that modify image with<b=
-r>
-</div>
-<div>command dnf, both on the real bsp or container.</div>
-<div><br>
-</div>
-<div>It breaks the systemd-systemctl-native indeed. The reason to run</div>
-<div>systemctl to check whether it really works because it fails in contain=
-er.</div>
-<div>And I suppose 'systemctl list-machines' is the most quick subcommand o=
-f</div>
-<div>systemctl. How about add a stub function to provide sub-common</div>
-<div>list-machines for systemd-systemctl-native?</div>
-<br>
-&gt;
-<div>&gt;</div>
-<div>&gt;&gt; @@ -48,7 +48,7 @@ fi</div>
-<div>&gt;&gt; &nbsp;}</div>
-<div>&gt;&gt; &nbsp;</div>
-<div>&gt;&gt; &nbsp;systemd_prerm() {</div>
-<div>&gt;&gt; -if type systemctl &gt;/dev/null 2&gt;/dev/null; then</div>
-<div>&gt;&gt; +if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; the=
-n</div>
-<div>&gt;&gt; &nbsp; &nbsp; &nbsp;if [ -z &quot;$D&quot; ]; then</div>
-<div>&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;systemctl stop ${SYSTEMD_SE=
-RVICE_ESCAPED}</div>
-<div>&gt;&gt; &nbsp;</div>
-<div>&gt;</div>
-<div>&gt; You're running the prerm hook inside a docker container?</div>
-<div>&gt;</div>
-<div>&gt; Wouldn't it be more appropriate to remove the systemd DISTRO_FEAT=
-URE for a use-case like this?</div>
-<div><br>
-</div>
-<div>There will &nbsp;always has an init manager there for oe-core. It shou=
-ld work</div>
-<div>for both sysvinit and systemd without extra configure to use as a dock=
-er</div>
-<div>image.</div>
-<div><br>
-</div>
-<div>Thanks for your comment.</div>
-<div><br>
-</div>
-Kai<br>
-</div>
-<div id=3D"appendonsend"></div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
-lor=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Kang, K=
-ai &lt;kai.kang@windriver.com&gt;<br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2020=C4=EA10=D4=C229=C8=D5 17:27<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> openembedded-core@lists.openembedded.org &lt;ope=
-nembedded-core@lists.openembedded.org&gt;<br>
-<b>=D6=F7=CC=E2:</b> [PATCH 1/1] systemd.bbclass: check whether systemctl w=
-orks in post scripts</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
->
-<div class=3D"PlainText">From: Kai Kang &lt;kai.kang@windriver.com&gt;<br>
-<br>
-When use a core image tarball as a docker image with 'docker import', it<br=
->
-fails to install/remove package which calls systemctl in post scripts.<br>
-Because it fais to run systemctl in a container:<br>
-<br>
-bash-5.0# systemctl<br>
-System has not been booted with systemd as init system (PID 1). Can't opera=
-te.<br>
-Failed to connect to bus: Host is down<br>
-<br>
-Replace 'type systemctl' with 'systemctl list-machines' in package post<br>
-scripts to check whether systemctl work rather than existence.<br>
-<br>
-Signed-off-by: Kai Kang &lt;kai.kang@windriver.com&gt;<br>
----<br>
-&nbsp;meta/classes/systemd.bbclass | 4 ++--<br>
-&nbsp;1 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass<br=
->
-index 9e8a82c9f1..9938425e2d 100644<br>
---- a/meta/classes/systemd.bbclass<br>
-+++ b/meta/classes/systemd.bbclass<br>
-@@ -23,7 +23,7 @@ python __anonymous() {<br>
-&nbsp;}<br>
-&nbsp;<br>
-&nbsp;systemd_postinst() {<br>
--if type systemctl &gt;/dev/null 2&gt;/dev/null; then<br>
-+if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; then<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPTS=3D&quot;&quot;<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -n &quot;$D&quot; ]; =
-then<br>
-@@ -48,7 +48,7 @@ fi<br>
-&nbsp;}<br>
-&nbsp;<br>
-&nbsp;systemd_prerm() {<br>
--if type systemctl &gt;/dev/null 2&gt;/dev/null; then<br>
-+if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; then<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -z &quot;$D&quot; ]; =
-then<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; systemctl stop ${SYSTEMD_SERVICE_ESCAPED}<br>
-&nbsp;<br>
--- <br>
-2.17.1<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_--
