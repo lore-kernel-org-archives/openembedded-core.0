@@ -1,171 +1,74 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web09.14707.1604068910021675145
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web08.14540.1604068924389005186
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 07:41:50 -0700
+ Fri, 30 Oct 2020 07:42:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=L4fb8py7;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id t25so8885367ejd.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 07:41:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ldlr7kRu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: raj.khem@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id o9so6878447ejg.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 07:42:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=WkX1ATW2UkqZ/niAFEtAw+OljjXzBSjrF7wik/VzVIo=;
-        b=L4fb8py7J+Zi87sbiHHoEZTBRkKQ2hJX5lkBcMY33FhwylF+gGF3s4f4a32X6gCrRr
-         Z35GaaUoJj7fNVrrlmN0XG7hfRhLyEBsI60LAA9WiOB2NVTsRbsHxMyq1tWJw0S8a7nf
-         XReTZEoW2gcoRQxqvTlYSltpFN+5hNw+dvxfbc15Dx8U62zvj5TBI9buajn7y0nB+gnJ
-         43QHSXxhK5kZrPFtf4mF/nmHn3JpT6YaCZ5djkXKqSQDGQUd0ENGLGh18xWQsQ7xVL3p
-         NKop+7QMRGGB+hZdfdS4diBfK1kcHAggKM/tcHb6SeYxVAYppfF2qNOTlETG+VQ7gf3Z
-         mGOQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4CCNJLGC6f/7cWVEneTsiPZZ1oi9b6JWU8Ysr1jEBYQ=;
+        b=Ldlr7kRuIsoxORf+k5Llv0OYjNhRpCtQRezhqr6uKuPCtUm72+xsppqL343O02QlVn
+         gFRSTeNuRmr4E6HRZxN6YaH1t05EXkBO1sBwc3Mcbovp+mzQeQ4uLgWjftQZ0Jm3WZRf
+         lIxcK6jSSODgBOK9tc6aHrEDlFK9Kden/84JA2Ld4fM9OcB6vJ26AbBun58YragkrzQZ
+         O1SxbpmpH8yRRFgAeMzKa9YKB61R2pZpo5MioEnWZnkE/NVolGs3qet6Hmymy74+t5jN
+         tRbTOpKM4XUfBMal3kNfrfV0aQGsY0fi4O9tIDPtLHLBwWll5LA9bNQ/cxmoGDcPxiRt
+         GMvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=WkX1ATW2UkqZ/niAFEtAw+OljjXzBSjrF7wik/VzVIo=;
-        b=pHvS4H7O9NcM+SCmAcXWRyxVLanj0jNduq+FkbDqLVnbMCksOuswcH++jfgPYepcI4
-         3ehnybq+mhLUKdXSudEtBIWXZ2VsirX2FcYVaNAjjSkkzO3XFMo50iiN4HHSMD/v36YG
-         6V6MlECYTaSNoIwu8RhiT2di9GeE8yLnwY0gk/7rFAUXB7yxETjP19hfaVzaxFB5VWPR
-         DoxX0kzBoOqepOtjBSwRgwTQGCYBCBKHjSwK3mLnxVJIWOuLCH049JZiIJnUlAqJNvPA
-         wrjtbZhLu8CrUCa3uFz7IoBEAXPWFjkULTFSRWdwCDotjc5otZsF8r9w+YU1u/4NsDFJ
-         hdHQ==
-X-Gm-Message-State: AOAM533TPHszH3g3CeIBVJqLg9FQlIjJ6VR0EchRiobNygYtjjmn9uFn
-	xiTZFM5Bv1/8YXR5J0hOL0E=
-X-Google-Smtp-Source: ABdhPJyq9ikCfgPKpdgWW2WRxkaB0pZvEYorKJ27qmBA5CNOHVVb1xdkS7KRaKoC/rjD48CJsD7jQw==
-X-Received: by 2002:a17:906:a4b:: with SMTP id x11mr2898464ejf.11.1604068908501;
-        Fri, 30 Oct 2020 07:41:48 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id bk13sm3054165ejb.58.2020.10.30.07.41.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 07:41:47 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 30 Oct 2020 15:41:47 +0100
-To: Steve Sakoman <steve@sakoman.com>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][dunfell 00/14] Pull request (cover letter only)
-Message-ID: <20201030144147.twjh5a7czbr6pezy@jama>
-References: <cover.1603760941.git.steve@sakoman.com>
- <20201027092433.mtsr6bucqhzitixf@jama>
- <CAOSpxdYOG8USSc3s4gwMpAbPHff+pXbzLOR_qVf71inXg5A7=A@mail.gmail.com>
- <CA+chaQfvFbARW_qpspY7pLiV8Y6ZkU7_Q=OOvC+iJBp+Dbv+rg@mail.gmail.com>
- <16422E7547289A57.31237@lists.openembedded.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4CCNJLGC6f/7cWVEneTsiPZZ1oi9b6JWU8Ysr1jEBYQ=;
+        b=qSqpCmAsmKDbwLET/Wp6zciifsg93NT+fM7iwRv8iZxSw/AOl0m4CX93myG7jQnl/m
+         VUfm5xVN0mfecLTdFLVbBZmGJjdZ1RTtUM6NAh5Rd2B3K4RsRHCSaOTga9JUp7MvtBgR
+         EBHoqD0D2tEllYDN6mSzLFAEqgg8rLpaEblAldnfSmtX5fOaTXs72Zkyg5x+f4kE7P7K
+         e362RuEzHPcXUFGujELxspWn0B6wqd+pUGzuzc7sMJvWA4OcziaK/VNHrNl9ANz5cJx+
+         K7xdcy646vmFFU8d0J4k97FbWiiQexNwRQX0GyJcUoXMGF++zvfR19xCcfpVHwh+r26p
+         p3VQ==
+X-Gm-Message-State: AOAM531kcxs6htbilElCW8oiQEnZKo+5DWcR6daKPs6psN59hkHM2+Da
+	6/yN+FDgnYL7y+PxPUGprlgXEdkk1np/vOFuvd7wkwB9gRI=
+X-Google-Smtp-Source: ABdhPJxw5nTK71W3Ve6oSiyVchwSr1hbMstCvHZIgy1f8ly7H04MabEoQuTe0AnE03GDgYyjs/4+ui4yFHBNzOn8wHg=
+X-Received: by 2002:a17:906:7e0b:: with SMTP id e11mr2936636ejr.217.1604068922919;
+ Fri, 30 Oct 2020 07:42:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <16422E7547289A57.31237@lists.openembedded.org>
-X-Groupsio-MsgNum: 144003
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="675q3gio4jko6qr3"
-Content-Disposition: inline
+References: <20201030054703.422319-1-raj.khem@gmail.com> <CAK18fxHc0AObD7MFbvrY6teGr5VqoFkTck=NBfCbj2V47dZYxg@mail.gmail.com>
+In-Reply-To: <CAK18fxHc0AObD7MFbvrY6teGr5VqoFkTck=NBfCbj2V47dZYxg@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 30 Oct 2020 07:41:36 -0700
+Message-ID: <CAMKF1so-90wzS36YHJhzhdCBVtf=Uz3m9BxzmRghi_6EV0sksw@mail.gmail.com>
+Subject: Re: [PATCH] musl: Add .file directive in crt assembly files
+To: Andrei Gherzan <andrei@gherzan.ro>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
---675q3gio4jko6qr3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Oct 28, 2020 at 03:31:25PM +0100, Martin Jansa via lists.openembedd=
-ed.org wrote:
-> The script just finished, I've uploaded the results here:
-> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa=
-/tune-test-dunfell&id=3Dc87f58e4235fc5c2fe31037917fd999bf4142dca
->=20
-> There is a lot of changes compared to master, but mostly because I didn'=
-t
-> have ARM_INSTRUCTION_SET set to thumb in this run.
->=20
-> That helped to reveal one issue in
-> meta/conf/machine/include/tune-arm9tdmi.inc
-> which most likely exists in master as well (wasn't detected before just
-> because ARM_INSTRUCTION_SET).
-> https://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune=
-/log.fake-arm9tdmi.arm9tdmi?h=3Djansa/tune-test-dunfell&id=3Dc87f58e4235fc5=
-c2fe31037917fd999bf4142dca
->=20
-> And the meta/conf/machine/include/tune-supersparc.inc is failing like it
-> did in master before removal in:
-> https://git.openembedded.org/openembedded-core/commit/?id=3D861519337b6e=
-5e986c3c4b8ba253e8339caf0805
-> which you probably intentionally didn't backport to dunfell.
-> https://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune=
-/log.fake-supersparc?h=3Djansa/tune-test-dunfell&id=3Dc87f58e4235fc5c2fe310=
-37917fd999bf4142dca
->=20
-> I'll trigger it once more with thumb enabled to better show what's the
-> difference from master.
-
-test with thumb enabled finished and looks OK
-https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/t=
-une-test-dunfell&id=3Dc8a0a19b8585661c39e1ba7e16d061d0ae2afc74
-
-There is a lot of changes compared to results from master, but those are
-expected.
-
-The arm9tdmi issue I mentioned before is reproducible in master as well,
-I've sent fix for master:
-https://lists.openembedded.org/g/openembedded-core/message/144002
-it could be backported later.
-
-Cheers,
-
->=20
-> Cheers,
->=20
-> On Tue, Oct 27, 2020 at 4:34 PM Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
->=20
-> > Hi Steve,
-> >
-> > it's from this branch:
-> >
-> > https://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/=
-tune-test
-> >
-> > I've already started it on top of dunfell with these fixes backported,
-> > will report back when it's finished (will take at least rest of today =
-to
-> > finish).
-> >
-> > Cheers,
-> >
-> > On Tue, Oct 27, 2020 at 3:03 PM Steve Sakoman <steve@sakoman.com> wrot=
-e:
-> >
-> >> Hi Martin,
-> >>
-> >> On Mon, Oct 26, 2020 at 11:24 PM Martin Jansa <martin.jansa@gmail.com=
+On Fri, Oct 30, 2020 at 5:07 AM Andrei Gherzan <andrei@gherzan.ro> wrote:
 >
-> >> wrote:
-> >>
-> >> > Did you run tune/test.sh script with these on dunfell or do you wan=
-t me
-> >> to?
-> >>
-> >> No, I didn't.  I'm not familiar with that script.  Can you point me i=
-n
-> >> the right direction?
-> >>
-> >> > It looks OK, but would be good to confirm that it fixes all issues
-> >> > currently in dunfell.
-> >>
-> >> Agreed!
-> >>
-> >> Steve
-> >>
-> >
+>
+> On Fri, Oct 30, 2020 at 5:47 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> This helps linker to noot emit absolute paths into .debug_line sections
+>> of liked binaries and libraries and therefore make them reproducible
+>>
+>> Reported-by: Andrei Gherzan <andrei@gherzan.ro>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  .../musl/0001-crt-Add-.file-directive.patch   | 300 ++++++++++++++++++
+>>  meta/recipes-core/musl/musl_git.bb            |   1 +
+>>  2 files changed, 301 insertions(+)
+>>  create mode 100644 meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
+>
+>
+> Tested - works as expected. One small NIT to maintain consistency with the Glibc fix: ".S" vs ".s".
+>
 
->=20
->=20
->=20
+.file directive is to specify the name of the file so it should match
+it. In glibc the files are called .S because they are preprocessed
+through gcc
+where as the musl files are pure asm files.
 
-
---675q3gio4jko6qr3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCX5wmKQAKCRA3VSO3ZXaA
-HAEnAJ925FS01qpoC2jWvH0xejUTGVVlwwCgsD4q/m5c3qD3oDJpUWIgGPmkmTI=
-=y8bI
------END PGP SIGNATURE-----
-
---675q3gio4jko6qr3--
+> --
+> Andrei Gherzan
