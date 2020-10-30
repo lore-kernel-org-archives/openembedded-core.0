@@ -1,91 +1,124 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.17899.1604080653714650569
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web12.18258.1604082195355710444
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 10:57:34 -0700
+ Fri, 30 Oct 2020 11:23:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XxqoPRKe;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id w25so7585797edx.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 10:57:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l0kPCTug;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id p93so7614536edd.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 11:23:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=lvRE7YWwoeHt3zkFfwMtLImSoo3bd6KwAyGclisrasg=;
-        b=XxqoPRKeHM1p/4BTYAf5b5FG/krpsBzCxwAGB7byFwjOSKLYf8f/iq9Ho1bgXLmoD6
-         Gmb5mCAIC4SYTgT3RHD7Cj8NJvMz+ecsLPUN8wOhW56VbomcbuHkMR1aD7XDe8zYJD2J
-         +y5WSlmIXAs/iXmNbXsz6eqbQnkmbFFktOmvuEwjMPv24SsQ9zmf/+6A7W+Vq622Xnov
-         lpabXgasxemEW7PTkuv/XTjO15i5K9uBJqLWdtiu6NmuSIH6+CmaZxjAVSxyf39LgBCb
-         ob1slu19KygxhfEr/tSTZrhhl8vJboSgHRV6GRpo/NaGjzrQWkxDgmH5VirOnm0IH7lz
-         QcmA==
+        bh=Zac7yCZGUKhXOqDnRb41CS+12GEXmm2c1MwP6oPnXuw=;
+        b=l0kPCTugLkmqhp7dk5MW7D1TltmN+XIpk9DqyW/zyoBSRCfzK+yJFhrXUk3MIEd2VB
+         51NRIm+AsfnVe0gxlSqjdNLdOuPxLARSWQvnIaKLzKtWlt29V8n9PLA1huReUarG0LS2
+         Jmycuv1GCCozuKuLcY15jWqW1xNDKb6wkdIZqTpb6weYaC25ox+RtAFvmRW3p/M5nY50
+         lvdFnf52d6pGx0YQ/6DzjvL04itJcktyJnBP621pZ9X3ZxGhbrGPLV/0NhvGVQliXgmY
+         xh8sT5nedlSjdKWoycViGeStPY7lC788/u8YYK2ZxC74so2Eal97Co5ffKUruA/t5vJ/
+         djaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=lvRE7YWwoeHt3zkFfwMtLImSoo3bd6KwAyGclisrasg=;
-        b=Hbt02cuv1GtVuz7ls3mhC4TLEP9V9ePT/qsH9pN1Tep6yaxkh9dZAL35v28ROc0bbk
-         7qtx2pJaGk4XwOPtCCoAXl7b+huKPXobFqL2A7Tn1pFMs1SbjcUfTF1c2T+TK6aCK6/Q
-         cWb7ZJG/9ztm6eOcbkdEhA+E81Gyb2Qnv90aZVvRSk/G/MA5q3VJwFtNxJMZGG1wCyVO
-         iPr+knVqbac1eH3QUTgeGcWBosElmpPCLIxrxlN5gxSbVspz7uIP6ueZLVxd4AQFDQad
-         oZoywdakvBgXrFcZZ6giElqBuIBIFTd4nQ9BLRowacozrZPg7iVtt2JK9DvKjorI2GBW
-         U1/g==
-X-Gm-Message-State: AOAM531l1JxdVR/rslIzsKskvcdBGqKPEMfUN3FMThXXMOruVH/mKo9u
-	5QTYxM+vWWj5DpHU1UDkyWfGnAywTqk53hZ26GM=
-X-Google-Smtp-Source: ABdhPJwpMa27nfjoenzrui7OZwxICaaip96ThrqDj6sxhAtaQwxTpHkCxyz7Rf8av7+FQSMkDlV825fUUbwJr8bFwXI=
-X-Received: by 2002:aa7:dc50:: with SMTP id g16mr3680610edu.95.1604080652111;
- Fri, 30 Oct 2020 10:57:32 -0700 (PDT)
+        bh=Zac7yCZGUKhXOqDnRb41CS+12GEXmm2c1MwP6oPnXuw=;
+        b=Uo+1hXPt3DpQimnilroV/RUepdmSeLtwE4VTZoEIBXIPd9l3XujVO/50FgoeQ4yteZ
+         xQciSL4eHBPyBerGwrcf2iCESsNfsVyf5euMIldUYsstoNcm1td0UgpkzrwvDsBkhHvz
+         V4rlsJ+jm/DE3iMIRbTsFB3nEXw6wduFS9spWjaRKWrFHFDOMp0GM90uOjxIS0Gv+rOR
+         4TvhzopQCS52o3TC/x8E/1yFeCWan59Qgvr+Rh7pvuVi06VL1to0hGSQ+85G41yWHFYu
+         i4w0pgaU1rba2pj2M+41ih0KVlHmJ5EUEumddD9bNLeebfDxi1eGUp9vI3GeYj6GOGfR
+         sU1A==
+X-Gm-Message-State: AOAM532Q4aCrFICp6ABXa1WjSmPX2m3JIKAUOMBhLcwARJwz9jU4wplT
+	Zcc7g95rXHjqJwVXQIjoGWq1i4NiIEXppI0v8zw=
+X-Google-Smtp-Source: ABdhPJyiYBtcualBHxyqEY5dcIb6+L23YWGPoc4X7DXhSzyXVNBdySKxnK01KD7JwQ1XY10bDIlANSpr3XLt9OI7iTo=
+X-Received: by 2002:aa7:d597:: with SMTP id r23mr3745833edq.19.1604082193793;
+ Fri, 30 Oct 2020 11:23:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
  <20201029142806.1830504-6-quaresma.jose@gmail.com> <88cd1831e021c2384219da4223981fa004551498.camel@linuxfoundation.org>
  <1642964F5C513D13.27950@lists.openembedded.org> <1642987B07D196A5.27950@lists.openembedded.org>
- <CANPvuRkKDPM8h5d8wjzdvQ95vY_kYHXkxvW0Uvqw8rTYj0yWCQ@mail.gmail.com> <f5f3fe375a9174e401c283431de0fca1634539a1.camel@linuxfoundation.org>
-In-Reply-To: <f5f3fe375a9174e401c283431de0fca1634539a1.camel@linuxfoundation.org>
+ <CANPvuRkKDPM8h5d8wjzdvQ95vY_kYHXkxvW0Uvqw8rTYj0yWCQ@mail.gmail.com>
+ <f5f3fe375a9174e401c283431de0fca1634539a1.camel@linuxfoundation.org> <1642D6DB2EF0C3ED.10902@lists.openembedded.org>
+In-Reply-To: <1642D6DB2EF0C3ED.10902@lists.openembedded.org>
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Fri, 30 Oct 2020 17:57:32 +0000
-Message-ID: <CANPvuR=h84EFTsLy_6TM7OoDRfrvT-AaU3EkWP7v6X=Bu0JuhA@mail.gmail.com>
+Date: Fri, 30 Oct 2020 18:23:13 +0000
+Message-ID: <CANPvuRnjYPZabjLDTW7rttaaH6qUW7sV_ZEyS31bGZHsZHjXsQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v5 05/22] gstreamer1.0-plugins-good: upgrade to version 1.18.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-sexta, 30/10/2020 =C3=A0(s) 17:45:
->
-> On Fri, 2020-10-30 at 16:47 +0000, Jose Quaresma wrote:
-> > nasm is present on sysroot
-> >
-> > The build log
-> > https://errors.yoctoproject.org/Errors/Details/510826/
-> >
-> > Countain:
-> >
-> > NOTE: Direct dependencies are:
-> > '/home/pokybuild/yocto-worker/qemux86-64-ltp/build/meta/recipes-
-> > devtools/nasm/nasm_2.15.05.bb:do_populate_sysroot'
-> >
-> > NOTE: Skipping as already exists in sysroot:
-> > 'nasm'
-> >
-> > I don't have a build it on qemux86-64 and only build on arm
-> > and on arm it is builded without nasm because -Dasm=3Ddisabled
-> > Otherwise I think everything is correct with this patch
->
-> I was able to reproduce by building qemux86-64, it readily fails. The
-> issue is that it needs nasm-native. If I add nasm-native to the
-> dependency line it seems to build fine.
+Hi Richard,
 
-Big mistake and I don't see it, of course it was the native nasm that
-is needed to build.
-Sorry for that and thanks for looking into this.
+I see your fix:
 
+-PACKAGECONFIG[asm] =3D "-Dasm=3Denabled,-Dasm=3Ddisabled,nasm"
++PACKAGECONFIG[asm] =3D "-Dasm=3Denabled,-Dasm=3Ddisabled,nasm nasm-native=
+"
+
+and only nasm-native is needed,
+because nasm is not needed on target and it's only needed at build time.
+
+I can fix it and send v6 series and I have another fix for this series
+that remove
+0004-capfix.patc in gstreamer1.0: upgrade to version 1.18.0
+What do you think?
+
+I hope this is the last version and I will be more careful next time I
+submit a big patch series.
+
+Jose Quaresma via lists.openembedded.org
+<quaresma.jose=3Dgmail.com@lists.openembedded.org> escreveu no dia
+sexta, 30/10/2020 =C3=A0(s) 17:57:
 >
-> I'll add that and retest on the autobuilder. If that works I'll squash
-> it in.
+> Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+> sexta, 30/10/2020 =C3=A0(s) 17:45:
+> >
+> > On Fri, 2020-10-30 at 16:47 +0000, Jose Quaresma wrote:
+> > > nasm is present on sysroot
+> > >
+> > > The build log
+> > > https://errors.yoctoproject.org/Errors/Details/510826/
+> > >
+> > > Countain:
+> > >
+> > > NOTE: Direct dependencies are:
+> > > '/home/pokybuild/yocto-worker/qemux86-64-ltp/build/meta/recipes-
+> > > devtools/nasm/nasm_2.15.05.bb:do_populate_sysroot'
+> > >
+> > > NOTE: Skipping as already exists in sysroot:
+> > > 'nasm'
+> > >
+> > > I don't have a build it on qemux86-64 and only build on arm
+> > > and on arm it is builded without nasm because -Dasm=3Ddisabled
+> > > Otherwise I think everything is correct with this patch
+> >
+> > I was able to reproduce by building qemux86-64, it readily fails. The
+> > issue is that it needs nasm-native. If I add nasm-native to the
+> > dependency line it seems to build fine.
 >
-> Cheers,
+> Big mistake and I don't see it, of course it was the native nasm that
+> is needed to build.
+> Sorry for that and thanks for looking into this.
 >
-> Richard
+> >
+> > I'll add that and retest on the autobuilder. If that works I'll squash
+> > it in.
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+>
+> --
+> best regards,
+> Jos=C3=A9 Quaresma
+>
+>=20
 >
 
 
