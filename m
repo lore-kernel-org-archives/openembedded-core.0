@@ -1,384 +1,101 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web11.9452.1604036828138359165
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.45])
+ by mx.groups.io with SMTP id smtpd.web08.10669.1604048350851108568
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 22:47:08 -0700
+ Fri, 30 Oct 2020 01:59:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CnjLpkmr;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id i7so2351486pgh.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 29 Oct 2020 22:47:08 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=IIFJPB6p;
+ spf=pass (domain: windriver.com, ip: 40.107.94.45, mailfrom: yi.zhao@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kkt8cK7XOMkL6BwuVZ5Hj49qQ0iOlBS9nkjUU0XBT5fMkaU0bP0KUqiaSiDqfCeeq4FZUJCr+aKDlEOHlFsKRWrUOJaUGP7I5UotYLVOahJj1nJY2azGW/Q4F1sVvQOkjeG+d18OO7qy6rWIt985wGf7DarxzHxbM2zVyMiaX9qBIvKP4y9vJLbRgaGhmTo7ce4HObmX6XAUjss/E+w9b9KG87dBWlp8rpve0uYLv0g52WCTfXwrYmkq836vVLRz1S4R6r1EN2YK6eKsX71jeRKOyl4nziBIMxPDVtcq4ST9cH6/UqSOrJcztNBwLlG3NMQQgcrFardCLn2t2N8YCw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K+ufQXBSV8u0+/4/E2xKHNFoRp55KTbDnK1WYZ+mX0M=;
+ b=ij2BuWW/AzFcw5Mizdo2fjKCPzHu/9SBIG7tdbV8t0INW1RovNNS64GUPdW4wyH68Mc6pVtivW937bDaq61WZQVGlJUb1q7cyfZPqPHMR7ykwdk3gS2ShPxFXkYDGnOQAWi+JDQp9beSZP3aojM+EjQQmPRmZrC0S6lH/J/4IKcp5TOPbAKqCbF9llzl5m+JSd3ggqkNOJz+V16DOsRZ/SI6htG8pZqttanj9BDx6Qf8w2nnLyIiAqr1fZ7JaHS+DYjK1jE5rcq3IXlNI+V9ZXcv7i0qgRpmiqc9EBLxhjtSN/wJCvf1HdOjU8OdWnE565GQEn1ph7Po+DyKcJ6WGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OFlLi+S966NoYy027IhF8cYtT5p2Km64gMilvraxOqk=;
-        b=CnjLpkmrCN6vRNX3XucxZrB9aDb1pQyTQfNAFy8HC93Rsh6nrgYiLR3bLTg5ERf8ca
-         0jJ6ynEhFpoQtrtgZXDIrqKF4xAcfzI7Obx2dObmz0ovvYfqZxbxk+B3eQrXNPg95CeM
-         b87gMhgmJAJn44Xb1Aq2qVgzZXGRPOwCkm9Jav3GPEkBY3ERDANOC7JY4mIQI6mvFpRx
-         YNlAWJTsQRDr4gTIOeR8PeogHXT/8pdAT5PxObosCwYTh8C+aRZ4yDRNOUteswJga0Ia
-         yRbFutyHBBVS2/C4x/dDiXZWODE5Dlmas7E4o0FYKrMOdYlOGdXOVI18LIOmtv6QsTJo
-         Ye7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OFlLi+S966NoYy027IhF8cYtT5p2Km64gMilvraxOqk=;
-        b=WqK2sbZToPe8YHb2Okuc4KNuo5FpJX6HbI/801tk7mgC/oTdskrkgKjDlP0fMDqTJl
-         etr7/w6DLaR7074xkqTZW2Ytjjqn5Sn4RLnT4w7/+KHDjkCHCaQsf8Y/hwpgeGOhykfd
-         zP/Bei+df2/9zbfjL5CvaAZ8IhRY5msrrH7l63rbJ1ho57RyKm9NbBelu7yispdKMR/H
-         OP6qmLX4ie2bfDiBgNMs3X4zlZPjpqZx07UMTmuJ3r9QUkeaK5GOigi+5408a9bUwfvk
-         yySbjYNFm8SgNMZOMKjxK5W/aJex6AjQZ0iBoAtu56+R4sIzytGooTtS34kDfXcpjtmh
-         +XvQ==
-X-Gm-Message-State: AOAM532sUx9TOTa68Vbo4E/PzDjfX/2qfwBnvrk+E2UXuKFyY7ZCQKs3
-	LCPiJHD54iWP/A1n+irHUMICaT+gLcZtWw==
-X-Google-Smtp-Source: ABdhPJz7yHQxZGukiZe5n9NvSOADqjmqxfceMQUobZkU7vS3AZDB7/K0I7C/uzfsxyXjao7G+J1ycw==
-X-Received: by 2002:a63:65c5:: with SMTP id z188mr784907pgb.139.1604036827293;
-        Thu, 29 Oct 2020 22:47:07 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4874])
-        by smtp.gmail.com with ESMTPSA id m11sm4720343pfa.69.2020.10.29.22.47.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2020 22:47:06 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K+ufQXBSV8u0+/4/E2xKHNFoRp55KTbDnK1WYZ+mX0M=;
+ b=IIFJPB6pX79tayxzd5ttVelTw92RsAWzWrURwFUzq3T2IHKKto/wChxSjGfvY2VZVP9P9y5AXkBM6m5ti3e/dlPLw8ma/05Nj6FYp5aoQdNBK3MqMsXFSnoWfFbgNFDg+P/Jb7X8SzC/QxzH1vdIQ007B63GcxKMy7mxfHNo/So=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SA2PR11MB4875.namprd11.prod.outlook.com (2603:10b6:806:11a::6)
+ by SN6PR11MB3309.namprd11.prod.outlook.com (2603:10b6:805:bd::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Fri, 30 Oct
+ 2020 08:59:09 +0000
+Received: from SA2PR11MB4875.namprd11.prod.outlook.com
+ ([fe80::5113:e350:fc5b:6b19]) by SA2PR11MB4875.namprd11.prod.outlook.com
+ ([fe80::5113:e350:fc5b:6b19%6]) with mapi id 15.20.3499.029; Fri, 30 Oct 2020
+ 08:59:09 +0000
+From: "Yi Zhao" <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Andrei Gherzan <andrei@gherzan.ro>
-Subject: [PATCH] musl: Add .file directive in crt assembly files
-Date: Thu, 29 Oct 2020 22:47:03 -0700
-Message-Id: <20201030054703.422319-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.1
+Subject: [PATCH] resolvconf: do not install dhclient hooks
+Date: Fri, 30 Oct 2020 16:58:52 +0800
+Message-Id: <20201030085852.18227-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR0302CA0023.apcprd03.prod.outlook.com
+ (2603:1096:202::33) To SA2PR11MB4875.namprd11.prod.outlook.com
+ (2603:10b6:806:11a::6)
+Return-Path: yi.zhao@windriver.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-yzhao1-d1.wrs.com (60.247.85.82) by HK2PR0302CA0023.apcprd03.prod.outlook.com (2603:1096:202::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.10 via Frontend Transport; Fri, 30 Oct 2020 08:59:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 24fc361a-9190-47e3-08cb-08d87cb21031
+X-MS-TrafficTypeDiagnostic: SN6PR11MB3309:
+X-Microsoft-Antispam-PRVS: 
+	<SN6PR11MB330986BFA50D2D09000D96AFF9150@SN6PR11MB3309.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1201;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	lxqGoNocKptk1nT8ppR1YWttfeCP4KclDRR2Zp1eL659YEWdYTjROm2K/hfZRCjvkdExAvoGY+A1qq8s+su34HEXfMAeEEToCa5TZVEsJ8NQp/ehUnBe5BG+Mm5qiD15VLSfQBYAho0ZHxAhOKpP1sbozTNLLg+L5Ti/9D3RozENkb2f0/yZkSFgEcaTmONy1mG9fPELXff/QzTn8NqJTowt4gfAqXfDD4E80n45yWSmRuo6h8aAECk/ldvGLEmqEzZL0U66fyGz/E/vUmIKoiHhS5xXNf5ImQr3UHdtg3NhZAWw/lRAkr3Ai4spZZQycOrAzjpPrDhXtEvWGrl6zw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA2PR11MB4875.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(39850400004)(376002)(366004)(396003)(956004)(186003)(16526019)(316002)(6666004)(2616005)(36756003)(6486002)(44832011)(6512007)(2906002)(1076003)(478600001)(8936002)(66556008)(66946007)(83380400001)(6506007)(66476007)(86362001)(52116002)(8676002)(6916009)(5660300002)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	dvKP1s6iDVs+tbP0j4R4jdxSguvCPKfk9Xxbk7CAmq4dzEZm6blyugKuQlSXAhApzib9nXaeuJSZBGKzSJYQnRvfnB0kyMHDVZiYafQo5eAxIDjrvHHlZL8qTvy3TWv9Lx5XqmdxMqar4PXnQDqQDf1p/r9N5wc015rTIbWB/jDuK7+CzjPKE8Ge320Tl5VhPX9j34ymQ6mvtomtBOqCUds9y4mOH0JjZ1O2GNLOQtVGU5hWYRW+3o4y54ChU/2BrflCRllVCep8BUp0iXd/bpH7FTOGcgK+Xz3I1Lk5BOUkIEkdp0ofnAoxK91TQy4p4GZROZCjc3qY7zLZvJeat+Tuysnld6XlfWsfxHzz1pWzRQBAAG7KQ8T+vimBo2rqtq7EMBQVRmY6WFeB6IPOGoWJbA52yQIjZcu962FO+OiiQ7Grgc8xFsd029d7pcgmZoq1gTpdo3cKGBGDTCYYykXY8ObsTBQ6WeeOLyDeeJ4s5RogxrGaI42cdzyI80TvUio501dGaP16mxvfUNYPwflMP39mQx5pDM2BAaC6Yh73jN2OHyBguQQu1n165TaLbfW9slqKZO8ljtVOMesB0NEwMZMWrjrcLOcWXfYfaA3pt+dJvJctT2Gmd8wsxvTjhI1WnsvwFld2Uk2kmSVZSQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24fc361a-9190-47e3-08cb-08d87cb21031
+X-MS-Exchange-CrossTenant-AuthSource: SA2PR11MB4875.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2020 08:59:09.3643
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U/A2v+BHpoyx+iRRJQk5jUqhHlTIp2S/XXPZJuc2s8gbe1HuaF6PerlVo8hP8A8OHVAlODCSrv1691PkFlbpLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3309
+Content-Type: text/plain
 
-This helps linker to noot emit absolute paths into .debug_line sections
-of liked binaries and libraries and therefore make them reproducible
+Do not install the dhclient hooks
+/etc/dhcp/dhclient-enter-hooks.d/resolvconf because the dhclient has
+been removed from oe-core.
 
-Reported-by: Andrei Gherzan <andrei@gherzan.ro>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- .../musl/0001-crt-Add-.file-directive.patch   | 300 ++++++++++++++++++
- meta/recipes-core/musl/musl_git.bb            |   1 +
- 2 files changed, 301 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
+ meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch b/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
-new file mode 100644
-index 0000000000..d2bd587e39
---- /dev/null
-+++ b/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
-@@ -0,0 +1,300 @@
-+From b0124f3c4f2a353506621d387135ebea6b8c6609 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 29 Oct 2020 22:40:53 -0700
-+Subject: [PATCH] crt: Add .file directive
-+
-+Musl linked binaries come out to be not reproducible because
-+absolute build path is seen in debug info of crti.o and crtn.o
-+This is due to the fact that these objects are built from assembly
-+source files and they are missing .file directive
-+if we add .file <filename>.s in them then debug info encodes this
-+value instead of absolute path in debug_line section
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ crt/aarch64/crti.s    | 1 +
-+ crt/aarch64/crtn.s    | 1 +
-+ crt/arm/crti.s        | 1 +
-+ crt/arm/crtn.s        | 1 +
-+ crt/i386/crti.s       | 1 +
-+ crt/i386/crtn.s       | 1 +
-+ crt/microblaze/crti.s | 1 +
-+ crt/microblaze/crtn.s | 1 +
-+ crt/mips/crti.s       | 1 +
-+ crt/mips/crtn.s       | 1 +
-+ crt/mips64/crti.s     | 1 +
-+ crt/mips64/crtn.s     | 1 +
-+ crt/mipsn32/crti.s    | 1 +
-+ crt/mipsn32/crtn.s    | 1 +
-+ crt/or1k/crti.s       | 1 +
-+ crt/or1k/crtn.s       | 1 +
-+ crt/powerpc/crti.s    | 1 +
-+ crt/powerpc/crtn.s    | 1 +
-+ crt/powerpc64/crti.s  | 1 +
-+ crt/powerpc64/crtn.s  | 1 +
-+ crt/s390x/crti.s      | 1 +
-+ crt/s390x/crtn.s      | 1 +
-+ crt/sh/crti.s         | 1 +
-+ crt/sh/crtn.s         | 1 +
-+ crt/x32/crti.s        | 1 +
-+ crt/x32/crtn.s        | 1 +
-+ crt/x86_64/crti.s     | 1 +
-+ crt/x86_64/crtn.s     | 1 +
-+ 28 files changed, 28 insertions(+)
-+
-+diff --git a/crt/aarch64/crti.s b/crt/aarch64/crti.s
-+index 775df0ac..0f7c23a9 100644
-+--- a/crt/aarch64/crti.s
-++++ b/crt/aarch64/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .global _init
-+ .type _init,%function
-+diff --git a/crt/aarch64/crtn.s b/crt/aarch64/crtn.s
-+index 73cab692..d62fc129 100644
-+--- a/crt/aarch64/crtn.s
-++++ b/crt/aarch64/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ 	ldp x29,x30,[sp],#16
-+ 	ret
-+diff --git a/crt/arm/crti.s b/crt/arm/crti.s
-+index 18dc1e41..8df72979 100644
-+--- a/crt/arm/crti.s
-++++ b/crt/arm/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .syntax unified
-+ 
-+ .section .init
-+diff --git a/crt/arm/crtn.s b/crt/arm/crtn.s
-+index dc020f92..7451355b 100644
-+--- a/crt/arm/crtn.s
-++++ b/crt/arm/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .syntax unified
-+ 
-+ .section .init
-+diff --git a/crt/i386/crti.s b/crt/i386/crti.s
-+index d2682a20..2823fc3b 100644
-+--- a/crt/i386/crti.s
-++++ b/crt/i386/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .global _init
-+ _init:
-+diff --git a/crt/i386/crtn.s b/crt/i386/crtn.s
-+index f3b61e01..04fb1646 100644
-+--- a/crt/i386/crtn.s
-++++ b/crt/i386/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ 	add $12,%esp
-+ 	ret
-+diff --git a/crt/microblaze/crti.s b/crt/microblaze/crti.s
-+index ed1c2fa4..29ee4733 100644
-+--- a/crt/microblaze/crti.s
-++++ b/crt/microblaze/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .global _init
-+ .align 2
-+diff --git a/crt/microblaze/crtn.s b/crt/microblaze/crtn.s
-+index 1e02c984..c2083749 100644
-+--- a/crt/microblaze/crtn.s
-++++ b/crt/microblaze/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ 	lwi r15, r1, 0
-+ 	rtsd r15, 8
-+diff --git a/crt/mips/crti.s b/crt/mips/crti.s
-+index 39dee380..0211764e 100644
-+--- a/crt/mips/crti.s
-++++ b/crt/mips/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .set noreorder
-+ 
-+ .section .init
-+diff --git a/crt/mips/crtn.s b/crt/mips/crtn.s
-+index 506a04b7..606490cf 100644
-+--- a/crt/mips/crtn.s
-++++ b/crt/mips/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .set noreorder
-+ 
-+ .section .init
-+diff --git a/crt/mips64/crti.s b/crt/mips64/crti.s
-+index c962dd09..f2c19cdd 100644
-+--- a/crt/mips64/crti.s
-++++ b/crt/mips64/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .set noreorder
-+ 
-+ .section .init
-+diff --git a/crt/mips64/crtn.s b/crt/mips64/crtn.s
-+index f3930b24..68903ffa 100644
-+--- a/crt/mips64/crtn.s
-++++ b/crt/mips64/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .set noreorder
-+ 
-+ .section .init
-+diff --git a/crt/mipsn32/crti.s b/crt/mipsn32/crti.s
-+index 14fa28d9..a35387d3 100644
-+--- a/crt/mipsn32/crti.s
-++++ b/crt/mipsn32/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .set	noreorder
-+ .section	.init
-+ .global	_init
-+diff --git a/crt/mipsn32/crtn.s b/crt/mipsn32/crtn.s
-+index dccd7e89..bdb6e561 100644
-+--- a/crt/mipsn32/crtn.s
-++++ b/crt/mipsn32/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .set	noreorder
-+ .section	.init
-+ 	ld	$gp, 16($sp)
-+diff --git a/crt/or1k/crti.s b/crt/or1k/crti.s
-+index 7e741459..919369ca 100644
-+--- a/crt/or1k/crti.s
-++++ b/crt/or1k/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .global _init
-+ _init:
-+diff --git a/crt/or1k/crtn.s b/crt/or1k/crtn.s
-+index 4185a027..d670b327 100644
-+--- a/crt/or1k/crtn.s
-++++ b/crt/or1k/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ 	l.lwz	r9,0(r1)
-+ 	l.jr	r9
-+diff --git a/crt/powerpc/crti.s b/crt/powerpc/crti.s
-+index 60461ca4..b748ca48 100644
-+--- a/crt/powerpc/crti.s
-++++ b/crt/powerpc/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .align 2
-+ .global _init
-+diff --git a/crt/powerpc/crtn.s b/crt/powerpc/crtn.s
-+index 2d14a6f0..d989e36f 100644
-+--- a/crt/powerpc/crtn.s
-++++ b/crt/powerpc/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ .align 2
-+ 	lwz 0,36(1)
-+diff --git a/crt/powerpc64/crti.s b/crt/powerpc64/crti.s
-+index 9f712f0e..d3323a67 100644
-+--- a/crt/powerpc64/crti.s
-++++ b/crt/powerpc64/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .align 2
-+ .global _init
-+diff --git a/crt/powerpc64/crtn.s b/crt/powerpc64/crtn.s
-+index a7a9f4a0..5e71ae66 100644
-+--- a/crt/powerpc64/crtn.s
-++++ b/crt/powerpc64/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ .align 2
-+ 	addi 1, 1, 32
-+diff --git a/crt/s390x/crti.s b/crt/s390x/crti.s
-+index f453205b..3da3c5e1 100644
-+--- a/crt/s390x/crti.s
-++++ b/crt/s390x/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .align 2
-+ .global _init
-+diff --git a/crt/s390x/crtn.s b/crt/s390x/crtn.s
-+index 06066dc9..bfd55caf 100644
-+--- a/crt/s390x/crtn.s
-++++ b/crt/s390x/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ .align 2
-+ 	lmg  %r14, %r15, 272(%r15)
-+diff --git a/crt/sh/crti.s b/crt/sh/crti.s
-+index d99bfd5c..77d61c51 100644
-+--- a/crt/sh/crti.s
-++++ b/crt/sh/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .global  _init
-+ .type    _init, @function
-+diff --git a/crt/sh/crtn.s b/crt/sh/crtn.s
-+index 958ce951..29deb5be 100644
-+--- a/crt/sh/crtn.s
-++++ b/crt/sh/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ 	lds.l @r15+, pr
-+ 	mov.l @r15+, r14
-+diff --git a/crt/x32/crti.s b/crt/x32/crti.s
-+index 4788968b..8668b7c7 100644
-+--- a/crt/x32/crti.s
-++++ b/crt/x32/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .global _init
-+ _init:
-+diff --git a/crt/x32/crtn.s b/crt/x32/crtn.s
-+index 29198b77..ef73d295 100644
-+--- a/crt/x32/crtn.s
-++++ b/crt/x32/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ 	pop %rax
-+ 	ret
-+diff --git a/crt/x86_64/crti.s b/crt/x86_64/crti.s
-+index 4788968b..8668b7c7 100644
-+--- a/crt/x86_64/crti.s
-++++ b/crt/x86_64/crti.s
-+@@ -1,3 +1,4 @@
-++.file "crti.s"
-+ .section .init
-+ .global _init
-+ _init:
-+diff --git a/crt/x86_64/crtn.s b/crt/x86_64/crtn.s
-+index 29198b77..ef73d295 100644
-+--- a/crt/x86_64/crtn.s
-++++ b/crt/x86_64/crtn.s
-+@@ -1,3 +1,4 @@
-++.file "crtn.s"
-+ .section .init
-+ 	pop %rax
-+ 	ret
-+-- 
-+2.29.1
-+
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 897e56e10f..504fdfe019 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,6 +15,7 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-+           file://0001-crt-Add-.file-directive.patch \
-           "
- 
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+index f0ffc82241..33ee553d19 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+@@ -43,7 +43,7 @@ do_install () {
+ 	ln -snf ${localstatedir}/run/${BPN} ${D}${sysconfdir}/${BPN}/run
+ 	install -d ${D}${sysconfdir} ${D}${base_sbindir}
+ 	install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
+-	cp -pPR etc/* ${D}${sysconfdir}/
++	cp -pPR etc/resolvconf ${D}${sysconfdir}/
+ 	chown -R root:root ${D}${sysconfdir}/
+ 	install -m 0755 bin/resolvconf ${D}${base_sbindir}/
+ 	install -m 0755 bin/list-records ${D}${base_libdir}/${BPN}
 -- 
-2.29.1
+2.17.1
 
