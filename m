@@ -1,80 +1,171 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web09.14629.1604068609591766537
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web09.14707.1604068910021675145
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 07:36:49 -0700
+ Fri, 30 Oct 2020 07:41:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=q8fEGjJx;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id k9so6910217edo.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 07:36:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=L4fb8py7;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id t25so8885367ejd.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 07:41:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gl+Gfce7pcET38c8uHhhrjHSbZKocwovD7/+a3RinQk=;
-        b=q8fEGjJxfUnDm7s8Zla1okFfNA8Gpalmgl8iarINFaCtO4Zi+BuljgYUK8W+Ukpjww
-         09PQindnW6KYv2Q6cbU8AQ7qBWaX7CWCJG0PdYLF2AjvLkbtXzySxpynisz+lnCRfvDu
-         SGYOrofmvaKsgV70n6DnkQny6ejxRmXJYMSFrZtEJXY9pj6T4KoefQAGLnGtYp+xGJD+
-         fkH/q9H195dXDvIrgTZCCY4UvPzg6l3ISV4WJpdaratMC2kw9EU9DNfSfwyO8IUKFRBm
-         8nhZb4BX1MPqQLL+VVIyOGAr6cNxoNX/E5DKLIXfJ+gTsONBuCc8NrTS8y55pBHphzss
-         MJKg==
+        h=from:date:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WkX1ATW2UkqZ/niAFEtAw+OljjXzBSjrF7wik/VzVIo=;
+        b=L4fb8py7J+Zi87sbiHHoEZTBRkKQ2hJX5lkBcMY33FhwylF+gGF3s4f4a32X6gCrRr
+         Z35GaaUoJj7fNVrrlmN0XG7hfRhLyEBsI60LAA9WiOB2NVTsRbsHxMyq1tWJw0S8a7nf
+         XReTZEoW2gcoRQxqvTlYSltpFN+5hNw+dvxfbc15Dx8U62zvj5TBI9buajn7y0nB+gnJ
+         43QHSXxhK5kZrPFtf4mF/nmHn3JpT6YaCZ5djkXKqSQDGQUd0ENGLGh18xWQsQ7xVL3p
+         NKop+7QMRGGB+hZdfdS4diBfK1kcHAggKM/tcHb6SeYxVAYppfF2qNOTlETG+VQ7gf3Z
+         mGOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gl+Gfce7pcET38c8uHhhrjHSbZKocwovD7/+a3RinQk=;
-        b=WD9DgY8aEquEcGnbH4NS8jgKrJrlHL2ipTXDqMTcJ0iye3qaOTVaQUxpsHxxuZ38zt
-         8oS1bTq5V99LtfjiUUABGtgF1PhiQNBdtnJcsxciRflo3BVNZPbZP/isfOywemqcr9C6
-         MHQvw9emyRSd+MrAMc/5lDD3SMVANkeO95LsKcNpHXWNIdFbpm2MK5kau6txLBHYOniS
-         SpdHxaM+pJl9hktrkBbe1LcD8fZIjt9Iq2zftl3hjREfTiyXxG6a4Pno5ntP+xx9bu8p
-         Px4iWwWw6Rp2DY31DpLtSmVVLG0LA0t4GL4jprm9MLFcZuATd76KUtMHnXnh32iBcvrk
-         lTRA==
-X-Gm-Message-State: AOAM532B6/TUUJq38bSy/9oeUn0Fxcj/l/hH5rvbCyvb4v6HoDWbrk9f
-	KtAYaKsLTyrQrCsORpkfDvqWCDe2BvU=
-X-Google-Smtp-Source: ABdhPJx2sHeyj1r47whT4VT9eTjQ2LI8MT26yHK4rH9e7SOdEYQQJNk4DhWW2/tCzETE4LSHrPOmMA==
-X-Received: by 2002:a05:6402:6ca:: with SMTP id n10mr2735856edy.314.1604068607849;
-        Fri, 30 Oct 2020 07:36:47 -0700 (PDT)
+        h=x-gm-message-state:from:date:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WkX1ATW2UkqZ/niAFEtAw+OljjXzBSjrF7wik/VzVIo=;
+        b=pHvS4H7O9NcM+SCmAcXWRyxVLanj0jNduq+FkbDqLVnbMCksOuswcH++jfgPYepcI4
+         3ehnybq+mhLUKdXSudEtBIWXZ2VsirX2FcYVaNAjjSkkzO3XFMo50iiN4HHSMD/v36YG
+         6V6MlECYTaSNoIwu8RhiT2di9GeE8yLnwY0gk/7rFAUXB7yxETjP19hfaVzaxFB5VWPR
+         DoxX0kzBoOqepOtjBSwRgwTQGCYBCBKHjSwK3mLnxVJIWOuLCH049JZiIJnUlAqJNvPA
+         wrjtbZhLu8CrUCa3uFz7IoBEAXPWFjkULTFSRWdwCDotjc5otZsF8r9w+YU1u/4NsDFJ
+         hdHQ==
+X-Gm-Message-State: AOAM533TPHszH3g3CeIBVJqLg9FQlIjJ6VR0EchRiobNygYtjjmn9uFn
+	xiTZFM5Bv1/8YXR5J0hOL0E=
+X-Google-Smtp-Source: ABdhPJyq9ikCfgPKpdgWW2WRxkaB0pZvEYorKJ27qmBA5CNOHVVb1xdkS7KRaKoC/rjD48CJsD7jQw==
+X-Received: by 2002:a17:906:a4b:: with SMTP id x11mr2898464ejf.11.1604068908501;
+        Fri, 30 Oct 2020 07:41:48 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id dp1sm3025420ejc.74.2020.10.30.07.36.47
+        by smtp.gmail.com with ESMTPSA id bk13sm3054165ejb.58.2020.10.30.07.41.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 07:36:47 -0700 (PDT)
+        Fri, 30 Oct 2020 07:41:47 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] tune-arm9tdmi.inc: include arm9tdmi in PACKAGE_ARCHS
-Date: Fri, 30 Oct 2020 15:36:44 +0100
-Message-Id: <20201030143644.64539-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.27.0
+Date: Fri, 30 Oct 2020 15:41:47 +0100
+To: Steve Sakoman <steve@sakoman.com>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][dunfell 00/14] Pull request (cover letter only)
+Message-ID: <20201030144147.twjh5a7czbr6pezy@jama>
+References: <cover.1603760941.git.steve@sakoman.com>
+ <20201027092433.mtsr6bucqhzitixf@jama>
+ <CAOSpxdYOG8USSc3s4gwMpAbPHff+pXbzLOR_qVf71inXg5A7=A@mail.gmail.com>
+ <CA+chaQfvFbARW_qpspY7pLiV8Y6ZkU7_Q=OOvC+iJBp+Dbv+rg@mail.gmail.com>
+ <16422E7547289A57.31237@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <16422E7547289A57.31237@lists.openembedded.org>
+X-Groupsio-MsgNum: 144003
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="675q3gio4jko6qr3"
+Content-Disposition: inline
 
-* when ARM_INSTRUCTION_SET isn't set to thumb, the tune-arm9tdmi.inc isn't
-  usable and fails with:
-  ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-    Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
-    Following is the list of potential problems / advisories:
+--675q3gio4jko6qr3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    Error, the PACKAGE_ARCHS variable (all any noarch arm armv4 armv4t arm9tdmit fake_arm9tdmi) for DEFAULTTUNE (arm9tdmi) does not contain TUNE_PKGARCH (arm9tdmi).
+On Wed, Oct 28, 2020 at 03:31:25PM +0100, Martin Jansa via lists.openembedd=
+ed.org wrote:
+> The script just finished, I've uploaded the results here:
+> https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa=
+/tune-test-dunfell&id=3Dc87f58e4235fc5c2fe31037917fd999bf4142dca
+>=20
+> There is a lot of changes compared to master, but mostly because I didn'=
+t
+> have ARM_INSTRUCTION_SET set to thumb in this run.
+>=20
+> That helped to reveal one issue in
+> meta/conf/machine/include/tune-arm9tdmi.inc
+> which most likely exists in master as well (wasn't detected before just
+> because ARM_INSTRUCTION_SET).
+> https://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune=
+/log.fake-arm9tdmi.arm9tdmi?h=3Djansa/tune-test-dunfell&id=3Dc87f58e4235fc5=
+c2fe31037917fd999bf4142dca
+>=20
+> And the meta/conf/machine/include/tune-supersparc.inc is failing like it
+> did in master before removal in:
+> https://git.openembedded.org/openembedded-core/commit/?id=3D861519337b6e=
+5e986c3c4b8ba253e8339caf0805
+> which you probably intentionally didn't backport to dunfell.
+> https://git.openembedded.org/openembedded-core-contrib/diff/scripts/tune=
+/log.fake-supersparc?h=3Djansa/tune-test-dunfell&id=3Dc87f58e4235fc5c2fe310=
+37917fd999bf4142dca
+>=20
+> I'll trigger it once more with thumb enabled to better show what's the
+> difference from master.
 
-  Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+test with thumb enabled finished and looks OK
+https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/t=
+une-test-dunfell&id=3Dc8a0a19b8585661c39e1ba7e16d061d0ae2afc74
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/tune-arm9tdmi.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There is a lot of changes compared to results from master, but those are
+expected.
 
-diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
-index 6160664fd0..8a46f8e5df 100644
---- a/meta/conf/machine/include/tune-arm9tdmi.inc
-+++ b/meta/conf/machine/include/tune-arm9tdmi.inc
-@@ -10,4 +10,4 @@ AVAILTUNES += "arm9tdmi"
- ARMPKGARCH_tune-arm9tdmi = "arm9tdmi"
- # mcpu is used so don't use armv4t as we don't want march
- TUNE_FEATURES_tune-arm9tdmi = "arm thumb arm9tdmi"
--PACKAGE_EXTRA_ARCHS_tune-arm9tdmi = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} arm9tdmit"
-+PACKAGE_EXTRA_ARCHS_tune-arm9tdmi = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} arm9tdmi arm9tdmit"
--- 
-2.27.0
+The arm9tdmi issue I mentioned before is reproducible in master as well,
+I've sent fix for master:
+https://lists.openembedded.org/g/openembedded-core/message/144002
+it could be backported later.
 
+Cheers,
+
+>=20
+> Cheers,
+>=20
+> On Tue, Oct 27, 2020 at 4:34 PM Martin Jansa <martin.jansa@gmail.com> wr=
+ote:
+>=20
+> > Hi Steve,
+> >
+> > it's from this branch:
+> >
+> > https://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/=
+tune-test
+> >
+> > I've already started it on top of dunfell with these fixes backported,
+> > will report back when it's finished (will take at least rest of today =
+to
+> > finish).
+> >
+> > Cheers,
+> >
+> > On Tue, Oct 27, 2020 at 3:03 PM Steve Sakoman <steve@sakoman.com> wrot=
+e:
+> >
+> >> Hi Martin,
+> >>
+> >> On Mon, Oct 26, 2020 at 11:24 PM Martin Jansa <martin.jansa@gmail.com=
+>
+> >> wrote:
+> >>
+> >> > Did you run tune/test.sh script with these on dunfell or do you wan=
+t me
+> >> to?
+> >>
+> >> No, I didn't.  I'm not familiar with that script.  Can you point me i=
+n
+> >> the right direction?
+> >>
+> >> > It looks OK, but would be good to confirm that it fixes all issues
+> >> > currently in dunfell.
+> >>
+> >> Agreed!
+> >>
+> >> Steve
+> >>
+> >
+
+>=20
+>=20
+>=20
+
+
+--675q3gio4jko6qr3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCX5wmKQAKCRA3VSO3ZXaA
+HAEnAJ925FS01qpoC2jWvH0xejUTGVVlwwCgsD4q/m5c3qD3oDJpUWIgGPmkmTI=
+=y8bI
+-----END PGP SIGNATURE-----
+
+--675q3gio4jko6qr3--
