@@ -1,477 +1,308 @@
-Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.42])
- by mx.groups.io with SMTP id smtpd.web08.9229.1604036263122784306
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.66])
+ by mx.groups.io with SMTP id smtpd.web11.9429.1604036672658071308
  for <openembedded-core@lists.openembedded.org>;
- Thu, 29 Oct 2020 22:37:44 -0700
+ Thu, 29 Oct 2020 22:44:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=INIXnCVU;
- spf=pass (domain: kpit.com, ip: 40.107.138.42, mailfrom: saloni.jain@kpit.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=O0P6zRb2;
+ spf=pass (domain: windriver.com, ip: 40.107.243.66, mailfrom: kai.kang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kTSoL7W8dTq3H4iael/j8oJxODmZorH2cRryHlJrBme69+HuCQNeF5U8G0Cq5br5q8A5J1FZQ8yphD38A1GV1d4lbbf+2jdtMvcLYFfHrh71ytt7oVTl5C/CYUXVCZ6QIP9dFLIc7Jf1ykNBbZR7byrN7Nr4wLHmGE1QJ+gs3Xsawpv6V7OKTcSd3MpQm09HRNeJhz6d2SLgLw8j5PuR6vt92vvpP69QX1Pym9IaXmvdny6iMwCw9MtoJfI594d+QBtzn44TjxozbPsSXabCgDJPVWg+eyk5APpi4ypaDGAPIyVGQ257bvU18BrrVYEDUyxLIBzmFSBrRBdVccX7rQ==
+ b=egHckya5mNE3Pj9kyfJgaZyg7wmL5ziFvPcBwx90RmW1G7wDPSpirlNgx2sKTYnUPL/pXcj+OEGtJAa3MIA8Fbq+NJy9dSkv1P8BxTHLZvtIBqssya2XdVistPWyNUkfyeIa4PG6Ycb4r7YUzbeGQl4wVhBEJIDotqkqD0tBJkV0MJQ2UGcqlfQD5TMlrYOycZKuF8NAp4dF7scU+M2R1aHv7ja24Fc/fwdFwQS/kUFAdWihs6w726HPdgU7r9DSjhqipXaLQOOwJYT0udYbp7vr3UxEBVXFRlTFmjyLDiVs68LgX7tM0wJnNOsxnvkrYQSGuWE2UBiesSF6KCk4jQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ayv5o2iIMV6Am/l+GVn1trJbUSpucCbEjwHXYFTTlQY=;
- b=RGypCjbLprDtF78i8Xm/uJ0baTL6Cx0LiHOHSsHZiY4tcg2Pc6GIMBtPVNtqRpWIQf4SQSVl1FGOII41GCSis0uCXuHboEKOwbBjKIJvY1J4Y8fb0foZql19sIMXjhOQWZ618j9tn3TrDVHh9PDHQzijXgCg8b4byEMuEpSSqV7PcGmBxLlX143u4hYFbBld4jGxA9qf04bx1SZJSNXih3ZBChw2HyVaO87CRzFEdzMOx7+LzWf49NV+byHtS8pyRo8AEkRps/dyGYA7y+9wNs7T2FSp//6qNSCIEzCpn/CKeBpJ2umtwkx65EtNjpxUVFtCfFddT6lbwv0XM4wRwg==
+ bh=SzEgIvBAu8LuvRNxFxWd3M4LZtvul7ujBPOKLqJULIs=;
+ b=bWO+oYThkNrlXzBKA5IJMLNk/dWdwljUAu2AHumMhARH2vX/FliZuWDxDJHSKFETRUUe/QgKHik34itlR8UJ5Hujy0UnUOEG7D4vs6h4jvUasnaE2br3vfStqrrvwvWKSl1r5iLWq8TPpkC5PJOO9xLAuUJgU0iF13Lx6nERg4CDP5o8JOU5ge36cZHO8SFcwOCfJRj5OjbF3I+u9JiM1OjCbuO4mJ8u1tll9KhfxpyqyEzfFOfhOEzoQEMR5VtwhlXecG8Ynx6qBWZC2p/VxaNRiQ4TOqrCPz2JA9asVItA1lT+W4xx88OoeyvE6SXd5UTVovRZs7Fbs1wwnYmuFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ayv5o2iIMV6Am/l+GVn1trJbUSpucCbEjwHXYFTTlQY=;
- b=INIXnCVUu9UJDk1gBnb6Sclvt12U0D5BTxd6fjJiolXCHy4MAov2QPH4y15G3VJfo3Zy0ctWHWeq0cdbeD2fXSHSNDN4M9/SZpS9KRSU8K3ieB6uuawugvWlcD4IfDZb9s3VkdsJ2JGJWV+fYCEaDkvKOQA72CiKr3ONk9HbxFM=
-Received: from BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:74::20)
- by BM1PR0101MB1986.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:27::17) with
+ bh=SzEgIvBAu8LuvRNxFxWd3M4LZtvul7ujBPOKLqJULIs=;
+ b=O0P6zRb2c8rDvtX1EOrnixBwk9xTwrrKFCvoBaU+sozXkftUznogAN40HZG/6fI+7Y7PxIgd70RWNAmpXEIm4R9TvUJhTulChlNsZJykxnENp4jLkw5VN8pQaJIL+4aIR8mOaVqCt1CzXF72hFVQBnPtceBl+I+CwijE69YuuwI=
+Received: from SN6PR11MB3294.namprd11.prod.outlook.com (2603:10b6:805:c4::33)
+ by SA2PR11MB5210.namprd11.prod.outlook.com (2603:10b6:806:fa::23) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Fri, 30 Oct
- 2020 05:37:34 +0000
-Received: from BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::200c:7e58:5a42:f5f3]) by BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::200c:7e58:5a42:f5f3%7]) with mapi id 15.20.3477.028; Fri, 30 Oct 2020
- 05:37:33 +0000
-From: "saloni" <saloni.jain@kpit.com>
-To: Ross Burton <ross@burtonini.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>, Khem Raj
-	<raj.khem@gmail.com>, Nisha Parrakat <Nisha.Parrakat@kpit.com>, Anuj Chougule
-	<Anuj.Chougule@kpit.com>
-Subject: Re: [OE-core] [poky][master][PATCH] gnutls: Whitelisted CVE patches
-Thread-Topic: [OE-core] [poky][master][PATCH] gnutls: Whitelisted CVE patches
-Thread-Index: AQHWrU4zCGyFePm4l0S+Vf/Nw1Jx46munVaAgAEEqPY=
-Date: Fri, 30 Oct 2020 05:37:33 +0000
+ 2020 05:44:30 +0000
+Received: from SN6PR11MB3294.namprd11.prod.outlook.com
+ ([fe80::34d3:7c3f:9259:d3c5]) by SN6PR11MB3294.namprd11.prod.outlook.com
+ ([fe80::34d3:7c3f:9259:d3c5%7]) with mapi id 15.20.3477.028; Fri, 30 Oct 2020
+ 05:44:30 +0000
+From: "kai" <kai.kang@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "obi@opendreambox.org"
+	<obi@opendreambox.org>
+Subject: =?UTF-8?B?5Zue5aSNOiBbUEFUQ0ggMS8xXSBzeXN0ZW1kLmJiY2xhc3M6IGNoZWNrIHdoZXRoZXIgc3lzdGVtY3RsIHdvcmtzIGluIHBvc3Qgc2NyaXB0cw==?=
+Thread-Topic: [PATCH 1/1] systemd.bbclass: check whether systemctl works in
+ post scripts
+Thread-Index: AQHWrdWw6Y/QH7OD/0i2LN6quXbSo6mvotwu
+Date: Fri, 30 Oct 2020 05:44:30 +0000
 Message-ID: 
- <BM1PR01MB401957465B5F861601F9C40D87150@BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM>
+ <SN6PR11MB32949BC7A32C382634D011B295150@SN6PR11MB3294.namprd11.prod.outlook.com>
 References: 
- <1603905435-21094-1-git-send-email-Saloni.Jain@kpit.com>,<CAAnfSTv=q44jBC3W9GRYLhoRZrh1NUJSnQk+5mAbbky5Dn8Ztw@mail.gmail.com>
-In-Reply-To: 
- <CAAnfSTv=q44jBC3W9GRYLhoRZrh1NUJSnQk+5mAbbky5Dn8Ztw@mail.gmail.com>
-Accept-Language: en-US
+ <20201029092650.34868-1-kai.kang@windriver.com>,<20201029092650.34868-2-kai.kang@windriver.com>
+In-Reply-To: <20201029092650.34868-2-kai.kang@windriver.com>
+Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: burtonini.com; dkim=none (message not signed)
- header.d=none;burtonini.com; dmarc=none action=none header.from=kpit.com;
-x-originating-ip: [2409:4064:99e:6236:d806:3d95:4d13:ba9a]
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+x-originating-ip: [60.247.85.82]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 8b88b2ba-6261-4dcf-0bc9-08d87c95e6d9
-x-ms-traffictypediagnostic: BM1PR0101MB1986:
-x-ms-exchange-transport-forked: True
+x-ms-office365-filtering-correlation-id: 9f81c077-5bdd-435e-f347-08d87c96df39
+x-ms-traffictypediagnostic: SA2PR11MB5210:
 x-microsoft-antispam-prvs: 
- <BM1PR0101MB1986CE24F9BD20DAD24A916287150@BM1PR0101MB1986.INDPRD01.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+ <SA2PR11MB5210B1AF82E01B3A7FE4DF0595150@SA2PR11MB5210.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
 x-microsoft-antispam-message-info: 
- eTHZYvcQEQbs+ZV4MC4CalIuYXkRRPSsDNv7zHKchzEZ6xce9DvpQQz8a/w1YV7UGKnQVGyL4csR6D6pXhYo8M+9yGPQpcUill/cOgGoiyF7PBzr0yCfk1HTohMvUajj9Jg989ZKEUrHdWEAp3D2ZR0J0TnpUudFW70RUdxS13lUwFm71krD2+Tq+h+NushuvS7xTfTJ3Nj8BVGuVI4mGG7svfyxbKR+dSV/DiVif/+SYf+hYpXBIauJ9xrVV4GM24pH9pZ3vkZWeIEwTTIOGSPFtJ6loHG0J3RzxFEio3OICoEQaZkrgOu0Xl73RmdZ+mtixVuH8yP8hyk07g/LqzHzmkmKDGS6F+A1d27BItg+4ng1KpHt2s6YiaLz+FPcn55JALOseB/Txj5zFLpmxvtGqTkquk94j3XQ13SBMorao7e16OFEJeMZJxN7z04YoUfF1u4xq7uGQdCmMCWL1w==
+ ycM8zu+COGLoy0M5TyuPtm6HROxjuFBAL91RdH5CrfLK60S6c8Stg0FW9xAylVdmin1kRz/LZQDwigZizAJkO8MLUz2lJmEdHemjabGhkef3PsOt1yEIsRsL4Wbzcl66z1E6+d9GggmkXY1cZknTbCWQ6am4Pvj+v+EcnZNrnbT0GceEQPzwrfN5wZzPZrHoxNHU+37eVliEloasbwAYPLF+pzLicJ6fL3P7CbiUfwW2fIyywXP1L+a7MYqdpUtBc2RZ1xSVgxnzf6ZwITHXPK5tduBHKSnopEdSCcIEQNpojGDxBMDzlxWmUV8zAqP4mBKg/wfl7it0GL3m7lyRcA==
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(376002)(396003)(39850400004)(66446008)(66946007)(66556008)(76116006)(64756008)(66476007)(53546011)(5660300002)(33656002)(966005)(6916009)(45080400002)(478600001)(166002)(71200400001)(7696005)(55016002)(83380400001)(8936002)(107886003)(6506007)(18265965003)(2906002)(316002)(54906003)(8676002)(86362001)(19627405001)(66574015)(186003)(52536014)(4326008)(9686003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3294.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(39850400004)(346002)(136003)(7696005)(316002)(86362001)(55016002)(19627405001)(224303003)(6506007)(33656002)(110136005)(8936002)(478600001)(83380400001)(26005)(91956017)(66946007)(76116006)(186003)(71200400001)(9686003)(2906002)(52536014)(5660300002)(64756008)(66476007)(66556008)(66446008);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata: 
- FY0pVDJNrqzKcY3YNDWGNNHgc7iqIGgv+Uq2mH4qpCWc0EDC9ye8D/8jlvMmOgjg2PR4HgNA1BAp3dFT1qE43NkZvq0Y/KWUu8kY1lJVrhP/8Lv881IurB4BUOpgC2JcLlgYSHi63aC/nWcmh/FUswCqa7faaQBvQRVd03H9XgsReaAfTatlQmZFQ8rJmx2QfwXtS/45buP7K1Z1QAP/+au6beHjvKvSuUN62Ij8MMByEjtjTH8AUY8MmoK8nlMoCfy4d7i8aFFNtBpfQ/FLuabd9Hx4XNSz+ipR6kuk6gNHNZNRBtDIrtK9I4nSDvKQY6NTIfq8QagSm9RDJIb6C8IBXIOO+9Q1K//GRwm9hJ+Tnxxhq/T13sWsjYFpVjWwV/SjbU4I8L0k53Gw+ehwudOYZBHDafzk4vLJSPADliw67exLo12bsl6b6l/MZdo7pOs0hARnO4lsYi1x64jor24/jINbTa1epShqcMX/g2EyOS/KgGXdR1kxDqih7ZVxAPkOjoJ2gtyuO/YFYOZb4EoAhWasI86PI1/EakkfMP8y4JSKuaBVJI+ultkZADQ0KBPVEkNH4Xi/NVk84wu24BovRTcwPAPg1l1J7BfnWPNYCfoHHCHZza/cpUttW01KZp03af8GpAAVgCza3G83vAkdd8fOtPtQCgkSUVu9wqweFJSWZjPw0SZiCfQtsnUxlGKRdRJYqPcA22oFWZm4dw==
+ jP6axK+93RJ3YGOk89ZRxuKjT0FA/YbqHkR9xjvmLDtLl6L8MNkg9hrXmuW6+5ervx6LaXlk1zrIAt79yTQlg/EMbvl+9z3rmjzVhajQU8SW5dBABvaqAfx/jmkVMNp4i0lHdFuPr68nMb+AMwDebyhhcfDX+Y3wRq4OsmkGkmJw1bj9VcHQ6XYA3iPksGliPhIZI0mGCi9xk2vgKBe1ug4pGf/sPrfpTAMw3A4Ya6o99EQOXvmBtq6HohUSs/FuGztaxWeWxIx+Rq0208OywlFcu63Ci6q8jV1vQza+kEKesFJvNk1LnhX8KHaL1Ix8L60yJnKNVeqn6uAalpt33NYjsH+tyc1AK+IPc1r4cmFGj0w5Iz7yy2ZTkymlXzWWInWdiBpQDyTAlpdDpcYnH8mipdljJOmz9ACAUaGpbMcIC1RiICUQkg1ah/Qv28BHBU9gReqp6fefy9Gk5ovJFfcVPqaQroKWm6VK5WYOryOI3z7/76HkGbkP57Epezk8YnKVUNRF526XwpDB2DxVm2C6uxmgutLUtLMqDCaUYKeilaFRPqV/pDYyBGlQ21Tg+FMFvGyHTJwTXh0WKrLl078Ko96rdsKL779uv+++2gAjw8pV4cf24r9qsUu41bsNKHFkEqMZqePElZAVC+vr8Q==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-OriginatorOrg: kpit.com
+X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB4019.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b88b2ba-6261-4dcf-0bc9-08d87c95e6d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 05:37:33.2653
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3294.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f81c077-5bdd-435e-f347-08d87c96df39
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Oct 2020 05:44:30.3851
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ffYu0yfgd+n+plDrOm6ZfAYtVHwowGJa+pvmJbu2Fof8x/d3CnRH1CVIY7mxuHNogBvZ6ZR5HWXCWN/msIbQ9w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR0101MB1986
-Content-Language: en-US
+X-MS-Exchange-CrossTenant-userprincipalname: dU3qYfwDtaaoUBZqpISKOU0KPfXnzsMfEAh1C4wRryqyXQl4XDV9QIB4dqzTPOU0H1/W++QB1A1xAZEzjhaChQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5210
+Content-Language: zh-CN
 Content-Type: multipart/alternative;
-	boundary="_000_BM1PR01MB401957465B5F861601F9C40D87150BM1PR01MB4019INDP_"
+	boundary="_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_"
 
---_000_BM1PR01MB401957465B5F861601F9C40D87150BM1PR01MB4019INDP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+--_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Hello Ross,
+SGkgQW5kcmVhcywNCg0KSSBhbSBzb3JyeSB0aGF0IG15IGVtYWlsIGNsaWVudCBnb2VzIHdyb25n
+LiBTbyBJIGhhdmUgdG8gcmVwbHkgdGhpcyB3YXkuDQoNCj4+ICBzeXN0ZW1kX3Bvc3RpbnN0KCkg
+ew0KPj4gLWlmIHR5cGUgc3lzdGVtY3RsID4vZGV2L251bGwgMj4vZGV2L251bGw7IHRoZW4NCj4+
+ICtpZiBzeXN0ZW1jdGwgbGlzdC1tYWNoaW5lcyA+L2Rldi9udWxsIDI+L2Rldi9udWxsOyB0aGVu
+DQo+PiAgICAgIE9QVFM9IiINCj4+DQo+PiAgICAgIGlmIFsgLW4gIiREIiBdOyB0aGVuDQo+DQo+
+IFNob3VsZG4ndCB0aGlzIGFscmVhZHkgaGF2ZSBiZWVuIHJ1biBkdXJpbmcgaW1hZ2UgY29uc3Ry
+dWN0aW9uPw0KPg0KPiBEb2Vzbid0IHRoaXMgYnJlYWsgb3VyIHN5c3RlbWN0bCBlbXVsYXRpb24g
+KG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1zeXN0ZW1jdGwvc3lzdGVtY3RsKT8N
+Cg0KVGhlIHVzZSBjYXNlIGlzIHNpbWlsYXIgd2l0aCBGZWRvcmEgb3IgRGViaWFuIHRoYXQgbW9k
+aWZ5IGltYWdlIHdpdGgNCmNvbW1hbmQgZG5mLCBib3RoIG9uIHRoZSByZWFsIGJzcCBvciBjb250
+YWluZXIuDQoNCkl0IGJyZWFrcyB0aGUgc3lzdGVtZC1zeXN0ZW1jdGwtbmF0aXZlIGluZGVlZC4g
+VGhlIHJlYXNvbiB0byBydW4NCnN5c3RlbWN0bCB0byBjaGVjayB3aGV0aGVyIGl0IHJlYWxseSB3
+b3JrcyBiZWNhdXNlIGl0IGZhaWxzIGluIGNvbnRhaW5lci4NCkFuZCBJIHN1cHBvc2UgJ3N5c3Rl
+bWN0bCBsaXN0LW1hY2hpbmVzJyBpcyB0aGUgbW9zdCBxdWljayBzdWJjb21tYW5kIG9mDQpzeXN0
+ZW1jdGwuIEhvdyBhYm91dCBhZGQgYSBzdHViIGZ1bmN0aW9uIHRvIHByb3ZpZGUgc3ViLWNvbW1v
+bg0KbGlzdC1tYWNoaW5lcyBmb3Igc3lzdGVtZC1zeXN0ZW1jdGwtbmF0aXZlPw0KDQo+DQo+DQo+
+PiBAQCAtNDgsNyArNDgsNyBAQCBmaQ0KPj4gIH0NCj4+DQo+PiAgc3lzdGVtZF9wcmVybSgpIHsN
+Cj4+IC1pZiB0eXBlIHN5c3RlbWN0bCA+L2Rldi9udWxsIDI+L2Rldi9udWxsOyB0aGVuDQo+PiAr
+aWYgc3lzdGVtY3RsIGxpc3QtbWFjaGluZXMgPi9kZXYvbnVsbCAyPi9kZXYvbnVsbDsgdGhlbg0K
+Pj4gICAgICBpZiBbIC16ICIkRCIgXTsgdGhlbg0KPj4gICAgICAgICAgc3lzdGVtY3RsIHN0b3Ag
+JHtTWVNURU1EX1NFUlZJQ0VfRVNDQVBFRH0NCj4+DQo+DQo+IFlvdSdyZSBydW5uaW5nIHRoZSBw
+cmVybSBob29rIGluc2lkZSBhIGRvY2tlciBjb250YWluZXI/DQo+DQo+IFdvdWxkbid0IGl0IGJl
+IG1vcmUgYXBwcm9wcmlhdGUgdG8gcmVtb3ZlIHRoZSBzeXN0ZW1kIERJU1RST19GRUFUVVJFIGZv
+ciBhIHVzZS1jYXNlIGxpa2UgdGhpcz8NCg0KVGhlcmUgd2lsbCAgYWx3YXlzIGhhcyBhbiBpbml0
+IG1hbmFnZXIgdGhlcmUgZm9yIG9lLWNvcmUuIEl0IHNob3VsZCB3b3JrDQpmb3IgYm90aCBzeXN2
+aW5pdCBhbmQgc3lzdGVtZCB3aXRob3V0IGV4dHJhIGNvbmZpZ3VyZSB0byB1c2UgYXMgYSBkb2Nr
+ZXINCmltYWdlLg0KDQpUaGFua3MgZm9yIHlvdXIgY29tbWVudC4NCg0KS2FpDQoNCl9fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fDQq3orz+yMs6IEthbmcsIEthaSA8a2FpLmthbmdAd2lu
+ZHJpdmVyLmNvbT4NCreiy83KsbzkOiAyMDIwxOoxMNTCMjnI1SAxNzoyNw0KytW8/sjLOiBvcGVu
+ZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnPg0K1vfM4jogW1BBVENIIDEvMV0gc3lzdGVtZC5iYmNsYXNz
+OiBjaGVjayB3aGV0aGVyIHN5c3RlbWN0bCB3b3JrcyBpbiBwb3N0IHNjcmlwdHMNCg0KRnJvbTog
+S2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+DQoNCldoZW4gdXNlIGEgY29yZSBpbWFn
+ZSB0YXJiYWxsIGFzIGEgZG9ja2VyIGltYWdlIHdpdGggJ2RvY2tlciBpbXBvcnQnLCBpdA0KZmFp
+bHMgdG8gaW5zdGFsbC9yZW1vdmUgcGFja2FnZSB3aGljaCBjYWxscyBzeXN0ZW1jdGwgaW4gcG9z
+dCBzY3JpcHRzLg0KQmVjYXVzZSBpdCBmYWlzIHRvIHJ1biBzeXN0ZW1jdGwgaW4gYSBjb250YWlu
+ZXI6DQoNCmJhc2gtNS4wIyBzeXN0ZW1jdGwNClN5c3RlbSBoYXMgbm90IGJlZW4gYm9vdGVkIHdp
+dGggc3lzdGVtZCBhcyBpbml0IHN5c3RlbSAoUElEIDEpLiBDYW4ndCBvcGVyYXRlLg0KRmFpbGVk
+IHRvIGNvbm5lY3QgdG8gYnVzOiBIb3N0IGlzIGRvd24NCg0KUmVwbGFjZSAndHlwZSBzeXN0ZW1j
+dGwnIHdpdGggJ3N5c3RlbWN0bCBsaXN0LW1hY2hpbmVzJyBpbiBwYWNrYWdlIHBvc3QNCnNjcmlw
+dHMgdG8gY2hlY2sgd2hldGhlciBzeXN0ZW1jdGwgd29yayByYXRoZXIgdGhhbiBleGlzdGVuY2Uu
+DQoNClNpZ25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPg0KLS0t
+DQogbWV0YS9jbGFzc2VzL3N5c3RlbWQuYmJjbGFzcyB8IDQgKystLQ0KIDEgZmlsZSBjaGFuZ2Vk
+LCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQoNCmRpZmYgLS1naXQgYS9tZXRhL2Ns
+YXNzZXMvc3lzdGVtZC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3N5c3RlbWQuYmJjbGFzcw0KaW5k
+ZXggOWU4YTgyYzlmMS4uOTkzODQyNWUyZCAxMDA2NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9zeXN0
+ZW1kLmJiY2xhc3MNCisrKyBiL21ldGEvY2xhc3Nlcy9zeXN0ZW1kLmJiY2xhc3MNCkBAIC0yMyw3
+ICsyMyw3IEBAIHB5dGhvbiBfX2Fub255bW91cygpIHsNCiB9DQoNCiBzeXN0ZW1kX3Bvc3RpbnN0
+KCkgew0KLWlmIHR5cGUgc3lzdGVtY3RsID4vZGV2L251bGwgMj4vZGV2L251bGw7IHRoZW4NCitp
+ZiBzeXN0ZW1jdGwgbGlzdC1tYWNoaW5lcyA+L2Rldi9udWxsIDI+L2Rldi9udWxsOyB0aGVuDQog
+ICAgICAgICBPUFRTPSIiDQoNCiAgICAgICAgIGlmIFsgLW4gIiREIiBdOyB0aGVuDQpAQCAtNDgs
+NyArNDgsNyBAQCBmaQ0KIH0NCg0KIHN5c3RlbWRfcHJlcm0oKSB7DQotaWYgdHlwZSBzeXN0ZW1j
+dGwgPi9kZXYvbnVsbCAyPi9kZXYvbnVsbDsgdGhlbg0KK2lmIHN5c3RlbWN0bCBsaXN0LW1hY2hp
+bmVzID4vZGV2L251bGwgMj4vZGV2L251bGw7IHRoZW4NCiAgICAgICAgIGlmIFsgLXogIiREIiBd
+OyB0aGVuDQogICAgICAgICAgICAgICAgIHN5c3RlbWN0bCBzdG9wICR7U1lTVEVNRF9TRVJWSUNF
+X0VTQ0FQRUR9DQoNCi0tDQoyLjE3LjENCg0K
 
-Understood, I also had a discussion with Steve and doing a complete check =
-for all the reported CVEs, and after gathering all the relevant information=
-, will send request for Database Update.
-
-Thanks & Regards,
-Saloni
-________________________________
-From: Ross Burton <ross@burtonini.com>
-Sent: Thursday, October 29, 2020 7:31 PM
-To: Saloni Jain <Saloni.Jain@kpit.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>; Khem Raj <raj.khem=
-@gmail.com>; Nisha Parrakat <Nisha.Parrakat@kpit.com>; Anuj Chougule <Anuj.=
-Chougule@kpit.com>
-Subject: Re: [OE-core] [poky][master][PATCH] gnutls: Whitelisted CVE patch=
-es
-
-Echoing what Steve says: where this is due to incorrect information in
-the CVE database we should definitely fix the CVE database instead of
-working around this in the recipes.  The only reason to whitelist in
-the recipe is if the vulnerability is based on the build configuration
-or we've decided that it's not relevant.
-
-Ross
-
-On Wed, 28 Oct 2020 at 17:17, saloni <saloni.jain@kpit.com> wrote:
->
-> From: Saloni Jain <Saloni.Jain@kpit.com>
->
-> Below CVE patches are whitelisted as changes
-> are already present in source code:
-> 1. CVE-2018-10844
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fsecurity-tracker.debian.org%2Ftracker%2FCVE-2018-10844&amp;data=3D04%7C01=
-%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e=
-4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8e=
-yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&am=
-p;sdata=3DIUHjGTABdWyfm21S2JYnDcBJ1JVhDBWIYOL8%2BHqOJLo%3D&amp;reserved=3D0
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fgitlab.com%2Fgnutls%2Fgnutls%2Fcommit%2Fc32a8690f9f9b05994078fe9d2e7a41b1=
-8da5b09&amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e70=
-8d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223=
-%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
-wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DbczWLVL1zm%2FnJKurrv50LqIbWhg3F%2FKIRzV=
-Ef5DUKcE%3D&amp;reserved=3D0
-> 2. CVE-2018-10845
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fsecurity-tracker.debian.org%2Ftracker%2FCVE-2018-10845&amp;data=3D04%7C01=
-%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e=
-4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8e=
-yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&am=
-p;sdata=3DMfb7lzixlhq2StFfp3jWUzyP6Kf6%2BmYmzE5e7iGyskQ%3D&amp;reserved=3D0
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fgitlab.com%2Fgnutls%2Fgnutls%2Fcommit%2Fcc14ec5ece856cb083d64e6a5a8657323=
-da661cb&amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e70=
-8d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223=
-%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
-wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D19eJZsU4QHOmrXYRRTHRs1SYMD3n3VBk9wIQDly=
-kTI0%3D&amp;reserved=3D0
-> 3. CVE-2018-10846
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fsecurity-tracker.debian.org%2Ftracker%2FCVE-2018-10846&amp;data=3D04%7C01=
-%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e=
-4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8e=
-yJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&am=
-p;sdata=3DeKamkR%2BOMPhaZmHERj4PbQDeAwjX2ePXPUvw%2FwxDgcE%3D&amp;reserved=
-=3D0
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fgitlab.com%2Fgnutls%2Fgnutls%2Fcommit%2Fce671a6db9e47006cff152d485091141b=
-1569f39&amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e70=
-8d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223=
-%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
-wiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3DyivTKPgkmU1yzUYE4llzyiBt935ittt3uufrAOm=
-H3G4%3D&amp;reserved=3D0
-> 4. CVE-2018-16868
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fgitlab.com%2Fgnutls%2Fgnutls%2F-%2Fmerge_requests%2F832&amp;data=3D04%7C0=
-1%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46=
-e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8=
-eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&a=
-mp;sdata=3DQ5RNFxjmUTFIvcIVFidJvArRKVGv271QDlNyINu7rA4%3D&amp;reserved=3D0
-> Link: https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%=
-2Fgitlab.com%2Fgnutls%2Fgnutls%2F-%2Fcommit%2F4804febddc2ed958e5ae774de2a8f=
-85edeeff538&amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb06=
-4e708d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C63739576895682=
-8223%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik=
-1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3D39gGszLFMIbOCtI5V47gbThBh5sGSt%2FeF=
-79PSpIYG9M%3D&amp;reserved=3D0
->
-> Signed-off-by: Saloni.Jain <Saloni.Jain@kpit.com>
-> ---
->  meta/recipes-support/gnutls/gnutls_3.6.14.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-support/gnutls/gnutls_3.6.14.bb b/meta/recipes=
--support/gnutls/gnutls_3.6.14.bb
-> index 51578b4..727a12f 100644
-> --- a/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-> +++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb
-> @@ -17,6 +17,9 @@ DEPENDS_append_libc-musl =3D " argp-standalone"
->
->  SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split(=
-'.')[1]}"
->
-> +#Changes are already present in source-code, hence whitelisted.
-> +CVE_CHECK_WHITELIST +=3D "CVE-2018-16868 CVE-2018-10844 CVE-2018-10845 =
-CVE-2018-10845"
-> +
->  SRC_URI =3D "https://apc01.safelinks.protection.outlook.com/?url=3Dhttp=
-s%3A%2F%2Fwww.gnupg.org%2Fftp%2Fgcrypt%2Fgnutls%2Fv%24&amp;data=3D04%7C01%7=
-Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e4a=
-26a242ff61502855c7%7C0%7C0%7C637395768956838179%7CUnknown%7CTWFpbGZsb3d8eyJ=
-WIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;=
-sdata=3D%2BX0mUSC%2BOoWUD3TS4YNXDQrU6thiS642N1jHs3sOBQc%3D&amp;reserved=3D0=
-{SHRT_VER}/gnutls-${PV}.tar.xz \
->             file://arm_eabi.patch \
->             file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICEN=
-SE-f.patch \
-> --
-> 2.7.4
->
-> This message contains information that may be privileged or confidential=
- and is the property of the KPIT Technologies Ltd. It is intended only for =
-the person to whom it is addressed. If you are not the intended recipient, =
-you are not authorized to read, print, retain copy, disseminate, distribute=
-, or use this message or any part thereof. If you receive this message in e=
-rror, please notify the sender immediately and delete all copies of this me=
-ssage. KPIT Technologies Ltd. does not accept any liability for virus infec=
-ted mails.
->
->=20
->
-This message contains information that may be privileged or confidential a=
-nd is the property of the KPIT Technologies Ltd. It is intended only for th=
-e person to whom it is addressed. If you are not the intended recipient, yo=
-u are not authorized to read, print, retain copy, disseminate, distribute, =
-or use this message or any part thereof. If you receive this message in err=
-or, please notify the sender immediately and delete all copies of this mess=
-age. KPIT Technologies Ltd. does not accept any liability for virus infecte=
-d mails.
-
---_000_BM1PR01MB401957465B5F861601F9C40D87150BM1PR01MB4019INDP_
-Content-Type: text/html; charset="us-ascii"
+--_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_
+Content-Type: text/html; charset="gb2312"
 Content-Transfer-Encoding: quoted-printable
 
 <html>
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii=
-">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-b=
-ottom:0;} </style>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
-<div>Hello Ross,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Hi Andreas,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+I am sorry that my email client goes wrong. So I have to reply this way.</d=
+iv>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+&gt;&gt; &nbsp;systemd_postinst() {
+<div>&gt;&gt; -if type systemctl &gt;/dev/null 2&gt;/dev/null; then </div>
+<div>&gt;&gt; +if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; the=
+n </div>
+<div>&gt;&gt; &nbsp; &nbsp; &nbsp;OPTS=3D&quot;&quot;</div>
+<div>&gt;&gt; &nbsp;</div>
+<div>&gt;&gt; &nbsp; &nbsp; &nbsp;if [ -n &quot;$D&quot; ]; then </div>
+<div>&gt;</div>
+<div>&gt; Shouldn't this already have been run during image construction?</=
+div>
+<div>&gt;</div>
+<div>&gt; Doesn't this break our systemctl emulation (meta/recipes-core/sys=
+temd/systemd-systemctl/systemctl)?</div>
 <div><br>
 </div>
-<div>Understood, I also had a discussion with Steve and doing a complete c=
-heck for all the reported CVEs, and after gathering all the relevant inform=
-ation, will send request for Database Update.<br>
-<div id=3D"Signature">
-<div>
-<div name=3D"divtagdefaultwrapper" style=3D"font-family:Calibri,Arial,Helv=
-etica,sans-serif; font-size:; margin:0">
+<div></div>
+<div>The use case is similar with Fedora or Debian that modify image with<b=
+r>
+</div>
+<div>command dnf, both on the real bsp or container.</div>
 <div><br>
 </div>
-<div>Thanks &amp; Regards,</div>
-<div>Saloni <br>
+<div>It breaks the systemd-systemctl-native indeed. The reason to run</div>
+<div>systemctl to check whether it really works because it fails in contain=
+er.</div>
+<div>And I suppose 'systemctl list-machines' is the most quick subcommand o=
+f</div>
+<div>systemctl. How about add a stub function to provide sub-common</div>
+<div>list-machines for systemd-systemctl-native?</div>
+<br>
+&gt;
+<div>&gt;</div>
+<div>&gt;&gt; @@ -48,7 +48,7 @@ fi</div>
+<div>&gt;&gt; &nbsp;}</div>
+<div>&gt;&gt; &nbsp;</div>
+<div>&gt;&gt; &nbsp;systemd_prerm() {</div>
+<div>&gt;&gt; -if type systemctl &gt;/dev/null 2&gt;/dev/null; then</div>
+<div>&gt;&gt; +if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; the=
+n</div>
+<div>&gt;&gt; &nbsp; &nbsp; &nbsp;if [ -z &quot;$D&quot; ]; then</div>
+<div>&gt;&gt; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;systemctl stop ${SYSTEMD_SE=
+RVICE_ESCAPED}</div>
+<div>&gt;&gt; &nbsp;</div>
+<div>&gt;</div>
+<div>&gt; You're running the prerm hook inside a docker container?</div>
+<div>&gt;</div>
+<div>&gt; Wouldn't it be more appropriate to remove the systemd DISTRO_FEAT=
+URE for a use-case like this?</div>
+<div><br>
 </div>
+<div>There will &nbsp;always has an init manager there for oe-core. It shou=
+ld work</div>
+<div>for both sysvinit and systemd without extra configure to use as a dock=
+er</div>
+<div>image.</div>
+<div><br>
 </div>
+<div>Thanks for your comment.</div>
+<div><br>
 </div>
-</div>
+Kai<br>
 </div>
 <div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" s=
-tyle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Ross Burton &lt;ross=
-@burtonini.com&gt;<br>
-<b>Sent:</b> Thursday, October 29, 2020 7:31 PM<br>
-<b>To:</b> Saloni Jain &lt;Saloni.Jain@kpit.com&gt;<br>
-<b>Cc:</b> OE-core &lt;openembedded-core@lists.openembedded.org&gt;; Khem =
-Raj &lt;raj.khem@gmail.com&gt;; Nisha Parrakat &lt;Nisha.Parrakat@kpit.com&=
-gt;; Anuj Chougule &lt;Anuj.Chougule@kpit.com&gt;<br>
-<b>Subject:</b> Re: [OE-core] [poky][master][PATCH] gnutls: Whitelisted CV=
-E patches</font>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" co=
+lor=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b> Kang, K=
+ai &lt;kai.kang@windriver.com&gt;<br>
+<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2020=C4=EA10=D4=C229=C8=D5 17:27<br>
+<b>=CA=D5=BC=FE=C8=CB:</b> openembedded-core@lists.openembedded.org &lt;ope=
+nembedded-core@lists.openembedded.org&gt;<br>
+<b>=D6=F7=CC=E2:</b> [PATCH 1/1] systemd.bbclass: check whether systemctl w=
+orks in post scripts</font>
 <div>&nbsp;</div>
 </div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt=
-;">
-<div class=3D"PlainText">Echoing what Steve says: where this is due to inc=
-orrect information in<br>
-the CVE database we should definitely fix the CVE database instead of<br>
-working around this in the recipes.&nbsp; The only reason to whitelist in<=
-br>
-the recipe is if the vulnerability is based on the build configuration<br>
-or we've decided that it's not relevant.<br>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText">From: Kai Kang &lt;kai.kang@windriver.com&gt;<br>
 <br>
-Ross<br>
+When use a core image tarball as a docker image with 'docker import', it<br=
+>
+fails to install/remove package which calls systemctl in post scripts.<br>
+Because it fais to run systemctl in a container:<br>
 <br>
-On Wed, 28 Oct 2020 at 17:17, saloni &lt;saloni.jain@kpit.com&gt; wrote:<b=
-r>
-&gt;<br>
-&gt; From: Saloni Jain &lt;Saloni.Jain@kpit.com&gt;<br>
-&gt;<br>
-&gt; Below CVE patches are whitelisted as changes<br>
-&gt; are already present in source code:<br>
-&gt; 1. CVE-2018-10844<br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fsecurity-tracker.debian.org%2Ftracker%2FCVE-2018-10844&am=
-p;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c1=
-32472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnk=
-nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJX=
-VCI6Mn0%3D%7C1000&amp;amp;sdata=3DIUHjGTABdWyfm21S2JYnDcBJ1JVhDBWIYOL8%2BHq=
-OJLo%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fsecuri=
-ty-tracker.debian.org%2Ftracker%2FCVE-2018-10844&amp;amp;data=3D04%7C01%7Cs=
-aloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e4a26=
-a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJWI=
-joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;am=
-p;sdata=3DIUHjGTABdWyfm21S2JYnDcBJ1JVhDBWIYOL8%2BHqOJLo%3D&amp;amp;reserved=
-=
-=3D0</a><br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fgitlab.com%2Fgnutls%2Fgnutls%2Fcommit%2Fc32a8690f9f9b0599=
-4078fe9d2e7a41b18da5b09&amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C7=
-8f127dc11024eb064e708d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%=
-7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2=
-luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3DbczWLVL1zm%2FnJ=
-Kurrv50LqIbWhg3F%2FKIRzVEf5DUKcE%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitlab=
-.com%2Fgnutls%2Fgnutls%2Fcommit%2Fc32a8690f9f9b05994078fe9d2e7a41b18da5b09&=
-amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87=
-c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CU=
-nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC=
-JXVCI6Mn0%3D%7C1000&amp;amp;sdata=3DbczWLVL1zm%2FnJKurrv50LqIbWhg3F%2FKIRzV=
-Ef5DUKcE%3D&amp;amp;reserved=3D0</a><br>
-&gt; 2. CVE-2018-10845<br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fsecurity-tracker.debian.org%2Ftracker%2FCVE-2018-10845&am=
-p;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c1=
-32472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnk=
-nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJX=
-VCI6Mn0%3D%7C1000&amp;amp;sdata=3DMfb7lzixlhq2StFfp3jWUzyP6Kf6%2BmYmzE5e7iG=
-yskQ%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fsecuri=
-ty-tracker.debian.org%2Ftracker%2FCVE-2018-10845&amp;amp;data=3D04%7C01%7Cs=
-aloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e4a26=
-a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJWI=
-joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;am=
-p;sdata=3DMfb7lzixlhq2StFfp3jWUzyP6Kf6%2BmYmzE5e7iGyskQ%3D&amp;amp;reserved=
-=
-=3D0</a><br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fgitlab.com%2Fgnutls%2Fgnutls%2Fcommit%2Fcc14ec5ece856cb08=
-3d64e6a5a8657323da661cb&amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C7=
-8f127dc11024eb064e708d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%=
-7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2=
-luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D19eJZsU4QHOmrXY=
-RRTHRs1SYMD3n3VBk9wIQDlykTI0%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitlab=
-.com%2Fgnutls%2Fgnutls%2Fcommit%2Fcc14ec5ece856cb083d64e6a5a8657323da661cb&=
-amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87=
-c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CU=
-nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC=
-JXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D19eJZsU4QHOmrXYRRTHRs1SYMD3n3VBk9wIQDly=
-kTI0%3D&amp;amp;reserved=3D0</a><br>
-&gt; 3. CVE-2018-10846<br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fsecurity-tracker.debian.org%2Ftracker%2FCVE-2018-10846&am=
-p;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c1=
-32472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnk=
-nown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJX=
-VCI6Mn0%3D%7C1000&amp;amp;sdata=3DeKamkR%2BOMPhaZmHERj4PbQDeAwjX2ePXPUvw%2F=
-wxDgcE%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fsecuri=
-ty-tracker.debian.org%2Ftracker%2FCVE-2018-10846&amp;amp;data=3D04%7C01%7Cs=
-aloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e4a26=
-a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJWI=
-joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;am=
-p;sdata=3DeKamkR%2BOMPhaZmHERj4PbQDeAwjX2ePXPUvw%2FwxDgcE%3D&amp;amp;reserv=
-ed=3D0</a><br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fgitlab.com%2Fgnutls%2Fgnutls%2Fcommit%2Fce671a6db9e47006c=
-ff152d485091141b1569f39&amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C7=
-8f127dc11024eb064e708d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%=
-7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2=
-luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3DyivTKPgkmU1yzUY=
-E4llzyiBt935ittt3uufrAOmH3G4%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitlab=
-.com%2Fgnutls%2Fgnutls%2Fcommit%2Fce671a6db9e47006cff152d485091141b1569f39&=
-amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87=
-c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CU=
-nknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC=
-JXVCI6Mn0%3D%7C1000&amp;amp;sdata=3DyivTKPgkmU1yzUYE4llzyiBt935ittt3uufrAOm=
-H3G4%3D&amp;amp;reserved=3D0</a><br>
-&gt; 4. CVE-2018-16868<br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fgitlab.com%2Fgnutls%2Fgnutls%2F-%2Fmerge_requests%2F832&a=
-mp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c=
-132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUn=
-known%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJ=
-XVCI6Mn0%3D%7C1000&amp;amp;sdata=3DQ5RNFxjmUTFIvcIVFidJvArRKVGv271QDlNyINu7=
-rA4%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitlab=
-.com%2Fgnutls%2Fgnutls%2F-%2Fmerge_requests%2F832&amp;amp;data=3D04%7C01%7C=
-saloni.jain%40kpit.com%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e4a2=
-6a242ff61502855c7%7C0%7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJW=
-IjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;a=
-mp;sdata=3DQ5RNFxjmUTFIvcIVFidJvArRKVGv271QDlNyINu7rA4%3D&amp;amp;reserved=
-=3D0</a><br>
-&gt; Link: <a href=3D"https://apc01.safelinks.protection.outlook.com/?url=
-=3Dhttps%3A%2F%2Fgitlab.com%2Fgnutls%2Fgnutls%2F-%2Fcommit%2F4804febddc2ed=
-958e5ae774de2a8f85edeeff538&amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com=
-%7C78f127dc11024eb064e708d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%=
-7C0%7C637395768956828223%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIj=
-oiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D39gGszLFMIb=
-OCtI5V47gbThBh5sGSt%2FeF79PSpIYG9M%3D&amp;amp;reserved=3D0">
-https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitlab=
-.com%2Fgnutls%2Fgnutls%2F-%2Fcommit%2F4804febddc2ed958e5ae774de2a8f85edeeff=
-538&amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb064e70=
-8d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956828223=
-%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haW=
-wiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D39gGszLFMIbOCtI5V47gbThBh5sGSt%2FeF=
-79PSpIYG9M%3D&amp;amp;reserved=3D0</a><br>
-&gt;<br>
-&gt; Signed-off-by: Saloni.Jain &lt;Saloni.Jain@kpit.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; meta/recipes-support/gnutls/gnutls_3.6.14.bb | 3 +++<br>
-&gt;&nbsp; 1 file changed, 3 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/gnutls/gnutls_3.6.14.bb b/meta/reci=
-pes-support/gnutls/gnutls_3.6.14.bb<br>
-&gt; index 51578b4..727a12f 100644<br>
-&gt; --- a/meta/recipes-support/gnutls/gnutls_3.6.14.bb<br>
-&gt; +++ b/meta/recipes-support/gnutls/gnutls_3.6.14.bb<br>
-&gt; @@ -17,6 +17,9 @@ DEPENDS_append_libc-musl =3D &quot; argp-standalone=
-&quot;<br>
-&gt;<br>
-&gt;&nbsp; SHRT_VER =3D &quot;${@d.getVar('PV').split('.')[0]}.${@d.getVar=
-('PV').split('.')[1]}&quot;<br>
-&gt;<br>
-&gt; +#Changes are already present in source-code, hence whitelisted.<br>
-&gt; +CVE_CHECK_WHITELIST +=3D &quot;CVE-2018-16868 CVE-2018-10844 CVE-201=
-8-10845 CVE-2018-10845&quot;<br>
-&gt; +<br>
-&gt;&nbsp; SRC_URI =3D &quot;<a href=3D""></a>https://apc01.safelinks.prot=
-ection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.gnupg.org%2Fftp%2Fgcrypt%2Fgnut=
-ls%2Fv%24&amp;amp;data=3D04%7C01%7Csaloni.jain%40kpit.com%7C78f127dc11024eb=
-064e708d87c132472%7C3539451eb46e4a26a242ff61502855c7%7C0%7C0%7C637395768956=
-838179%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6=
-Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;amp;sdata=3D%2BX0mUSC%2BOoWUD3TS4YNXDQrU6=
-thiS642N1jHs3sOBQc%3D&amp;amp;reserved=3D0{SHRT_VER}/gnutls-${PV}.tar.xz
- \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p; <a href=3D"file://arm_eabi.patch">file://arm_eabi.patch</a> \<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p; <a href=3D"file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENS=
-E-f.patch">
-file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch</a>=
- \<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-&gt;<br>
-&gt; This message contains information that may be privileged or confident=
-ial and is the property of the KPIT Technologies Ltd. It is intended only f=
-or the person to whom it is addressed. If you are not the intended recipien=
-t, you are not authorized to read, print,
- retain copy, disseminate, distribute, or use this message or any part the=
-reof. If you receive this message in error, please notify the sender immedi=
-ately and delete all copies of this message. KPIT Technologies Ltd. does no=
-t accept any liability for virus
- infected mails.<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
+bash-5.0# systemctl<br>
+System has not been booted with systemd as init system (PID 1). Can't opera=
+te.<br>
+Failed to connect to bus: Host is down<br>
+<br>
+Replace 'type systemctl' with 'systemctl list-machines' in package post<br>
+scripts to check whether systemctl work rather than existence.<br>
+<br>
+Signed-off-by: Kai Kang &lt;kai.kang@windriver.com&gt;<br>
+---<br>
+&nbsp;meta/classes/systemd.bbclass | 4 ++--<br>
+&nbsp;1 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass<br=
+>
+index 9e8a82c9f1..9938425e2d 100644<br>
+--- a/meta/classes/systemd.bbclass<br>
++++ b/meta/classes/systemd.bbclass<br>
+@@ -23,7 +23,7 @@ python __anonymous() {<br>
+&nbsp;}<br>
+&nbsp;<br>
+&nbsp;systemd_postinst() {<br>
+-if type systemctl &gt;/dev/null 2&gt;/dev/null; then<br>
++if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPTS=3D&quot;&quot;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -n &quot;$D&quot; ]; =
+then<br>
+@@ -48,7 +48,7 @@ fi<br>
+&nbsp;}<br>
+&nbsp;<br>
+&nbsp;systemd_prerm() {<br>
+-if type systemctl &gt;/dev/null 2&gt;/dev/null; then<br>
++if systemctl list-machines &gt;/dev/null 2&gt;/dev/null; then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if [ -z &quot;$D&quot; ]; =
+then<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; systemctl stop ${SYSTEMD_SERVICE_ESCAPED}<br>
+&nbsp;<br>
+-- <br>
+2.17.1<br>
+<br>
 </div>
 </span></font></div>
-This message contains information that may be privileged or confidential a=
-nd is the property of the KPIT Technologies Ltd. It is intended only for th=
-e person to whom it is addressed. If you are not the intended recipient, yo=
-u are not authorized to read, print,
- retain copy, disseminate, distribute, or use this message or any part the=
-reof. If you receive this message in error, please notify the sender immedi=
-ately and delete all copies of this message. KPIT Technologies Ltd. does no=
-t accept any liability for virus
- infected mails.
 </body>
 </html>
 
---_000_BM1PR01MB401957465B5F861601F9C40D87150BM1PR01MB4019INDP_--
+--_000_SN6PR11MB32949BC7A32C382634D011B295150SN6PR11MB3294namp_--
