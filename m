@@ -1,116 +1,131 @@
-Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
- by mx.groups.io with SMTP id smtpd.web11.12790.1604061032117202571
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web11.12885.1604061526504315218
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 05:30:32 -0700
+ Fri, 30 Oct 2020 05:38:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=aEZQDnl3;
- spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: dzagorui@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1844; q=dns/txt; s=iport;
-  t=1604061032; x=1605270632;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=he7gE6XXK0PowMXdJAtCmLi/2oRqVBghPW19LwrontI=;
-  b=aEZQDnl3VG2p0Da2vESFtcWzw6LHMTTggisPfgG8kMAwXK2et5XKG1mv
-   Or1u8bLFe2aUXkPay09VB0H+dSF/Vrav5gMSxg1MeyQgtGJ+f8qvItCPE
-   lG5+8DoTALfuie3iur+wAWF26fot8tVkeiI/pgtJ46V1elAQiOUXjEEV9
-   s=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BxCQAjB5xf/5pdJa1iHgEBCxIMQIN?=
- =?us-ascii?q?5cFkvLgqVS4EEmyQLAQEBDQEBHw4CBAEBhEoCggcCJTgTAgMBAQsBAQUBAQE?=
- =?us-ascii?q?CAQYEcYVhDIVzAQQBeRACAQghJQ8jJQIEDgWDJ4JcIK4xdIE0hVeFCIE4jTo?=
- =?us-ascii?q?bgUE/gRGBFIFJNT6EPoV2BJw1m2gKIIJMiQiRfSKhZrQGAhEVgTM4I4FXcBW?=
- =?us-ascii?q?DJAlHFwINkGuLfXQ4AgYKAQEDCXyMOwGBEAEB?=
-X-IronPort-AV: E=Sophos;i="5.77,433,1596499200"; 
-   d="scan'208";a="612628002"
-Received: from rcdn-core-3.cisco.com ([173.37.93.154])
-  by alln-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 30 Oct 2020 12:30:31 +0000
-Received: from XCH-RCD-002.cisco.com (xch-rcd-002.cisco.com [173.37.102.12])
-	by rcdn-core-3.cisco.com (8.15.2/8.15.2) with ESMTPS id 09UCUUUa008880
-	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 30 Oct 2020 12:30:31 GMT
-Received: from xch-aln-004.cisco.com (173.36.7.14) by XCH-RCD-002.cisco.com
- (173.37.102.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 30 Oct
- 2020 07:30:30 -0500
-Received: from xch-aln-004.cisco.com ([173.36.7.14]) by XCH-ALN-004.cisco.com
- ([173.36.7.14]) with mapi id 15.00.1497.000; Fri, 30 Oct 2020 07:30:30 -0500
-From: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for arm64
-Thread-Topic: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for
- arm64
-Thread-Index: AQHWrejRVNz5C+744kaUUDNWNcIlOamwE3Fk
-Date: Fri, 30 Oct 2020 12:30:30 +0000
-Message-ID: <1604061028970.9082@cisco.com>
-References: <20201029114052.23141-1-dzagorui@cisco.com>,<CADkTA4OGBOtnMD=t1xppe-5quLow8uPf99ZHknrSnPLAQKkoDA@mail.gmail.com>
-In-Reply-To: <CADkTA4OGBOtnMD=t1xppe-5quLow8uPf99ZHknrSnPLAQKkoDA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [173.38.209.14]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YbqbrQEH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: vvavrychuk@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id w25so6509835edx.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 05:38:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5DIHrdSBTLTkYtCd+sHXRYqPh9pehaVU6oyac/E1hac=;
+        b=YbqbrQEHCw37XYvgh7P0jA6M/6vglWU5bQ4+zrMSGjLci0TkbhpgWZRbYkz0pgTNEM
+         L4TgR8u9dmy982QYU75N1WG/8duX7iu0tAzpzL+zXR+phh0C8H7j614sgh1w4qFr9Ajm
+         DH8190xb8fvAdxAgd9q7/KqQxdlvF+ng1bvF3c2p6V2x1luRQBv7hgQ43SBBEGSFUBh2
+         XCimTJAmechIqBWp8ij8M/QjO3kjplmLLK+mZ1lsKi2er5cDIhPWuFFyggyDC7cqqUXx
+         JeL3qmJ14+6jK9qwMcy78p57hI57iD8WIJcYLyZ99xBGHZgPYG3/Uq84fBEbL/UhRghT
+         Yx8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5DIHrdSBTLTkYtCd+sHXRYqPh9pehaVU6oyac/E1hac=;
+        b=Q7VtjiwgN+aFAqYxoJS6KKNrbgwWuawM1OpPA2EzEP1WIwygTYAwxE/4GRxINEXHGu
+         gclqrHZsQ2Sn1mZ0iggs97xydSgU9cpdOkEHAa5OgbSSfUFbw9IRjULTd5f4a8fmVYch
+         1s7wG9O/MOY/rBcsFCa0nJ+L94iN3KymrH0wZTrUFKW0+OIl+4swnwWOBKlMc8w6UCAH
+         O4612J7KurPfo71Wjllwv3/BUVljVtci91oSmYMHmLUZjq4PbnwAyjCEIDx4rSR1dysp
+         6vCMszHGnLhkeR1rzDTQAwf4dWnpWk8r3aInM3H6bJC2ACrbgHOFFLFXQUSvxJUTcw63
+         7ErQ==
+X-Gm-Message-State: AOAM533e21bRyxU0Y7nRBpR5nU2WGDHXjcUsXyw6JU4o60EWmg+r/FJk
+	2jZgnD+zXj/xePuhi+3ezoUDOj16yqPfSm7JvPY=
+X-Google-Smtp-Source: ABdhPJwPK9e/yuaj6Tf4xJhJnbrSFPF6u44HTCf9Ie1/PW5DIFNoSwR6/Ap8rh+YD+G0zunrkdz76U19nn4bC6c25b8=
+X-Received: by 2002:a05:6402:104d:: with SMTP id e13mr2043845edu.322.1604061524977;
+ Fri, 30 Oct 2020 05:38:44 -0700 (PDT)
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 173.37.102.12, xch-rcd-002.cisco.com
-X-Outbound-Node: rcdn-core-3.cisco.com
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+References: <20200830201522.23701-1-vvavrychuk@gmail.com> <CANNYZj-fw2YVGczSP+c7gjor6eKhYsjDgM1w-1AYD6MpDHQscA@mail.gmail.com>
+In-Reply-To: <CANNYZj-fw2YVGczSP+c7gjor6eKhYsjDgM1w-1AYD6MpDHQscA@mail.gmail.com>
+From: "Vasyl Vavrychuk" <vvavrychuk@gmail.com>
+Date: Fri, 30 Oct 2020 14:38:33 +0200
+Message-ID: <CAGj4m+5pTiiiqmncAU500S6AnGmBuxdFyE3t0btJzcj7wibhpg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] runqemu: Change virtio-vga to virtio-gpu.
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-> > .vdso-offsets.h.cmd contains command that was used to produce vdso-offs=
-ets.h.=0A=
-> > It breaks reproducibility because it has an absolute path in it. There =
-is no=0A=
-> > any value to package such files so it can be dropped.=0A=
-> >=0A=
-> =0A=
-> Have you confirmed that an on-target 'make scripts prepare' property=0A=
-> regenerates the file without triggering and oldconfig ?=0A=
-> =0A=
-> Otherwise, the change looks fine to me.=0A=
-> =0A=
-> Bruce=0A=
-=0A=
-Yes, confirmed that oldconfig wont be triggered.=0A=
-=0A=
-Thanks,=0A=
-Denys=0A=
-=0A=
-> =0A=
-> > Signed-off-by: Denys Zagorui <dzagorui@cisco.com>=0A=
-> > ---=0A=
-> > meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++++=0A=
-> >  1 file changed, 4 insertions(+)=0A=
-> >=0A=
-> > diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-=
-kernel/linux/kernel-devsrc.bb=0A=
-> > index aa8e162f4f..f8c750beaa 100644=0A=
-> > --- a/meta/recipes-kernel/linux/kernel-devsrc.bb=0A=
-> > +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb=0A=
-> > @@ -113,6 +113,10 @@ do_install() {=0A=
-> >         # but without this file, we get a forced syncconfig run in v5.8=
-+, which prompts and=0A=
-> >         # breaks workflows.=0A=
-> >         cp -a --parents include/generated/autoconf.h $kerneldir/build 2=
->/dev/null || :=0A=
-> > +=0A=
-> > +       if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ]; the=
-n=0A=
-> > +           rm $kerneldir/include/generated/.vdso-offsets.h.cmd=0A=
-> > +       fi=0A=
-> >      )=0A=
-> >=0A=
-> >      # now grab the chunks from the source tree that we need=0A=
-> > --=0A=
-> > 2.19.0.dirty=0A=
-> >=0A=
-> >=0A=
-> >=0A=
-> >=0A=
-=0A=
-=0A=
---=0A=
-- Thou shalt not follow the NULL pointer, for chaos and madness await=0A=
-thee at its end=0A=
-- "Use the force Harry" - Gandalf, Star Trek II=0A=
+Hi, Alexander,
+
+I am trying to run oe-selftest.
+
+I have one question. Is there a way to run oe-selftest incrementally?
+
+Because for now, if I run oe-selftest second time I get
+
+  oe-selftest - ERROR - Build directory ... already exists, aborting
+
+Then, I should remove build-st, and only after that oe-selftest can
+run second time. But it take a lot of time.
+
+Could you please help me?
+
+Thanks,
+Vasyl
+
+On Sun, Aug 30, 2020 at 11:44 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Do the virgl selftests still pass with this change? Please run
+>
+> oe-selftest -r runtime_test.TestImage.test_testimage_virgl_gtk_sdl
+>
+> and
+>
+> oe-selftest -r runtime_test.TestImage.test_testimage_virgl_headless
+>
+> Alex
+>
+>
+> On Sun, 30 Aug 2020 at 22:15, Vasyl Vavrychuk <vvavrychuk@gmail.com> wrote:
+>>
+>> virtio-vga is available in QEMU only for hppa, i386, and ppc
+>> architectures. On the other hand, virtio-gpu is available for all
+>> architectures.
+>>
+>> Signed-off-by: Vasyl Vavrychuk <vvavrychuk@gmail.com>
+>> ---
+>>  scripts/runqemu | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index 7fb5f7db57..5d6b35ffe4 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -461,19 +461,19 @@ class BaseConfig(object):
+>>              elif arg == 'sdl':
+>>                  if 'gl' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=on,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display sdl,gl=on,show-cursor=on'
+>>                  elif 'gl-es' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=es,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display sdl,gl=es,show-cursor=on'
+>>                  else:
+>>                      self.qemu_opt_script += ' -display sdl,show-cursor=on'
+>>              elif arg == 'gtk':
+>>                  if 'gl' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=on,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display gtk,gl=on,show-cursor=on'
+>>                  elif 'gl-es' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=es,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display gtk,gl=es,show-cursor=on'
+>>                  else:
+>>                      self.qemu_opt_script += ' -display gtk,show-cursor=on'
+>>              elif arg == 'gl' or arg == 'gl-es':
+>> @@ -482,7 +482,7 @@ class BaseConfig(object):
+>>                      raise RunQemuError('Option %s also needs gtk or sdl option.' % (arg))
+>>              elif arg == 'egl-headless':
+>>                  self.set_dri_path()
+>> -                self.qemu_opt_script += ' -vga virtio -display egl-headless,show-cursor=on'
+>> +                self.qemu_opt_script += ' -device virtio-gpu -display egl-headless,show-cursor=on'
+>>              elif arg == 'serial':
+>>                  self.kernel_cmdline_script += ' console=ttyS0'
+>>                  self.serialconsole = True
+>> --
+>> 2.23.0
+>>
+>> 
