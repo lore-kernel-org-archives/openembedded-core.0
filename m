@@ -1,113 +1,80 @@
-Received: from mail.bubus.at (mail.bubus.at [81.19.156.191])
- by mx.groups.io with SMTP id smtpd.web11.13838.1604065581839551156
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web09.14629.1604068609591766537
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 06:46:22 -0700
+ Fri, 30 Oct 2020 07:36:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: bubus.at, ip: 81.19.156.191, mailfrom: dev@bubus.at)
-Received: from brokenbit.skidata.net (83-215-125-121.lhau.dyn.salzburg-online.at [83.215.125.121])
-	by mail.bubus.at (Postfix) with ESMTPSA id 7F4C36C20001;
-	Fri, 30 Oct 2020 14:46:15 +0100 (CET)
-From: "Richard Leitner" <richard.leitner@skidata.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=q8fEGjJx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id k9so6910217edo.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 07:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gl+Gfce7pcET38c8uHhhrjHSbZKocwovD7/+a3RinQk=;
+        b=q8fEGjJxfUnDm7s8Zla1okFfNA8Gpalmgl8iarINFaCtO4Zi+BuljgYUK8W+Ukpjww
+         09PQindnW6KYv2Q6cbU8AQ7qBWaX7CWCJG0PdYLF2AjvLkbtXzySxpynisz+lnCRfvDu
+         SGYOrofmvaKsgV70n6DnkQny6ejxRmXJYMSFrZtEJXY9pj6T4KoefQAGLnGtYp+xGJD+
+         fkH/q9H195dXDvIrgTZCCY4UvPzg6l3ISV4WJpdaratMC2kw9EU9DNfSfwyO8IUKFRBm
+         8nhZb4BX1MPqQLL+VVIyOGAr6cNxoNX/E5DKLIXfJ+gTsONBuCc8NrTS8y55pBHphzss
+         MJKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gl+Gfce7pcET38c8uHhhrjHSbZKocwovD7/+a3RinQk=;
+        b=WD9DgY8aEquEcGnbH4NS8jgKrJrlHL2ipTXDqMTcJ0iye3qaOTVaQUxpsHxxuZ38zt
+         8oS1bTq5V99LtfjiUUABGtgF1PhiQNBdtnJcsxciRflo3BVNZPbZP/isfOywemqcr9C6
+         MHQvw9emyRSd+MrAMc/5lDD3SMVANkeO95LsKcNpHXWNIdFbpm2MK5kau6txLBHYOniS
+         SpdHxaM+pJl9hktrkBbe1LcD8fZIjt9Iq2zftl3hjREfTiyXxG6a4Pno5ntP+xx9bu8p
+         Px4iWwWw6Rp2DY31DpLtSmVVLG0LA0t4GL4jprm9MLFcZuATd76KUtMHnXnh32iBcvrk
+         lTRA==
+X-Gm-Message-State: AOAM532B6/TUUJq38bSy/9oeUn0Fxcj/l/hH5rvbCyvb4v6HoDWbrk9f
+	KtAYaKsLTyrQrCsORpkfDvqWCDe2BvU=
+X-Google-Smtp-Source: ABdhPJx2sHeyj1r47whT4VT9eTjQ2LI8MT26yHK4rH9e7SOdEYQQJNk4DhWW2/tCzETE4LSHrPOmMA==
+X-Received: by 2002:a05:6402:6ca:: with SMTP id n10mr2735856edy.314.1604068607849;
+        Fri, 30 Oct 2020 07:36:47 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id dp1sm3025420ejc.74.2020.10.30.07.36.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 07:36:47 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Richard Leitner <richard.leitner@skidata.com>
-Subject: [dunfell][PATCH] xcb-proto: backport fix for python gcd function
-Date: Fri, 30 Oct 2020 14:45:51 +0100
-Message-Id: <20201030134551.44013-1-dev@bubus.at>
-X-Mailer: git-send-email 2.28.0
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] tune-arm9tdmi.inc: include arm9tdmi in PACKAGE_ARCHS
+Date: Fri, 30 Oct 2020 15:36:44 +0100
+Message-Id: <20201030143644.64539-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Richard Leitner <richard.leitner@skidata.com>
+* when ARM_INSTRUCTION_SET isn't set to thumb, the tune-arm9tdmi.inc isn't
+  usable and fails with:
+  ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+    Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+    Following is the list of potential problems / advisories:
 
-This backports the fix [1] for the following build error for nativesdk on
-Fedora 33 which is caused by the removal of fractions.gcd() in favor of
-math.gcd() in python 3.9 [2]:
+    Error, the PACKAGE_ARCHS variable (all any noarch arm armv4 armv4t arm9tdmit fake_arm9tdmi) for DEFAULTTUNE (arm9tdmi) does not contain TUNE_PKGARCH (arm9tdmi).
 
-ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python=
-3.9/fractions.py)
+  Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
-[1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35be=
-e1fa0fdb8b5120b1dcd20cee6e34512
-[2] https://bugs.python.org/issue39350
-
-Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ...1-xcbgen-use-math-gcd-for-python-3-5.patch | 40 +++++++++++++++++++
- .../xorg-proto/xcb-proto_1.13.bb              |  3 +-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbge=
-n-use-math-gcd-for-python-3-5.patch
+ meta/conf/machine/include/tune-arm9tdmi.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-m=
-ath-gcd-for-python-3-5.patch b/meta/recipes-graphics/xorg-proto/xcb-proto=
-/0001-xcbgen-use-math-gcd-for-python-3-5.patch
-new file mode 100644
-index 0000000000..f9f4424da5
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-gcd=
--for-python-3-5.patch
-@@ -0,0 +1,40 @@
-+From 426ae35bee1fa0fdb8b5120b1dcd20cee6e34512 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Bj=3DC3=3DB6rn=3D20Esser?=3D <besser82@fedoraproject.o=
-rg>
-+Date: Mon, 1 Jun 2020 12:24:16 +0200
-+Subject: [PATCH] xcbgen: Use math.gcd() for Python >=3D 3.5.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+fractions.gcd() has been deprecated since Python 3.5, and
-+was finally dropped in Python 3.9.  It is recommended to
-+use math.gcd() instead.
-+
-+Signed-off-by: Bj=C3=B6rn Esser <besser82@fedoraproject.org>
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/proto/xcb=
-proto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512]
-+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-+---
-+ xcbgen/align.py | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/xcbgen/align.py b/xcbgen/align.py
-+index d4c12ee..5c4f517 100644
-+--- a/xcbgen/align.py
-++++ b/xcbgen/align.py
-+@@ -2,7 +2,12 @@
-+ This module contains helper classes for alignment arithmetic and checks
-+ '''
-+=20
-+-from fractions import gcd
-++from sys import version_info
-++
-++if version_info[:2] >=3D (3, 5):
-++    from math import gcd
-++else:
-++    from fractions import gcd
-+=20
-+ class Alignment(object):
-+=20
-+--=20
-+GitLab
-+
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb b/meta/re=
-cipes-graphics/xorg-proto/xcb-proto_1.13.bb
-index 7467090920..1f41821302 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-@@ -11,7 +11,8 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd763b081cb10c223435b01e00dc0a=
-ba7 \
-                     file://src/dri2.xml;beginline=3D2;endline=3D28;md5=3D=
-f8763b13ff432e8597e0d610cf598e65"
-=20
--SRC_URI =3D "http://xcb.freedesktop.org/dist/${BP}.tar.bz2"
-+SRC_URI =3D "http://xcb.freedesktop.org/dist/${BP}.tar.bz2 \
-+           file://0001-xcbgen-use-math-gcd-for-python-3-5.patch"
- SRC_URI[md5sum] =3D "abe9aa4886138150bbc04ae4f29b90e3"
- SRC_URI[sha256sum] =3D "7b98721e669be80284e9bbfeab02d2d0d54cd11172b72271=
-e47a2fe875e2bde1"
-=20
---=20
-2.28.0
+diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
+index 6160664fd0..8a46f8e5df 100644
+--- a/meta/conf/machine/include/tune-arm9tdmi.inc
++++ b/meta/conf/machine/include/tune-arm9tdmi.inc
+@@ -10,4 +10,4 @@ AVAILTUNES += "arm9tdmi"
+ ARMPKGARCH_tune-arm9tdmi = "arm9tdmi"
+ # mcpu is used so don't use armv4t as we don't want march
+ TUNE_FEATURES_tune-arm9tdmi = "arm thumb arm9tdmi"
+-PACKAGE_EXTRA_ARCHS_tune-arm9tdmi = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} arm9tdmit"
++PACKAGE_EXTRA_ARCHS_tune-arm9tdmi = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} arm9tdmi arm9tdmit"
+-- 
+2.27.0
 
