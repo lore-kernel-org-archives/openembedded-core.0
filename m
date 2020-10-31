@@ -1,103 +1,111 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web08.3923.1604104874644388267
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web08.3993.1604105354161370750
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 17:41:14 -0700
+ Fri, 30 Oct 2020 17:49:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GnDk69Nl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id v5so4343903wmh.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 17:41:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bOBq6GSA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id l8so4395250wmg.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 17:49:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=RvJL0HBERyNGH9ruDmK8b2+RAHqs5jyP71WkRL6C8dE=;
-        b=GnDk69NlCm4mFxKA0kopEyA7K7i7m2A/oRI/KzptpzRxciBosxifIJbPv2k/CeCoW2
-         SHEb22PHNLPmooH0ESaoW7GSt8j60RsyQzz5yFtAKMecrdyGtrUcd1KxdFx9B1CTvKQZ
-         ZtyyzAsZG81lAs2IXIoZQY5bhttE7xA8X/AYQ=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=gxF8eBCZ5xN5Mj9chCpms4esKIVPVuhyZOVghVqvcxw=;
+        b=bOBq6GSAhdZmZUOx3eE3I7/6/gBQGY+WSC/K4SCNlKxbm5PCZWo7zH/FqO3PXMKExU
+         GqVcOCejORVHF4WGexfK4FxcsIaHRpnwcCxhq4nvH3ooOZC/Q1OOl0ArWem0N1tbugLz
+         HAah/tmt9DIFgXJopTYFZPDqMc0/BLm9pJr0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=RvJL0HBERyNGH9ruDmK8b2+RAHqs5jyP71WkRL6C8dE=;
-        b=TbVQZz/RYrC4nZxP+jFZhSk/64oNu6Lc7li3ZsxznoIuKSzXDlpS/UmhEHDXCw63Qy
-         OoyX6xv0+ZOv2rQsQ4Mmay7Biv0AOeWLHBtxERFvgRMoKb78fRVpW5gkhUAUFsAroBdP
-         rOkAVu281A8vrykXhlrvRFMWtkcbVharLaTuW8Wk2baObSaHBb02kfSzDYWzG6w+53OI
-         xH2X/am5Pwjc8XFIx0bGNLU2LWdiMkRaAi0hNv4FeEz8FxV24uw7+cAIrS32mhXj786M
-         okizA5f0k6JH88s6f2LzjnaJh/c4Ah8WNacJXAyfo/+r3BgDWkRwNtO4pJnZISU33lDN
-         5xSw==
-X-Gm-Message-State: AOAM5309bdHrHqtvQkhPX5Op+br3oWFxqnCr7GqETBUzdAaPEKMLsoV9
-	GN09g2KZPJdTeegbZW8GZYs2WQ==
-X-Google-Smtp-Source: ABdhPJxZEd02v0XW1FeErtmiVjGB5n/EY3bVZWj4/NtOdXpXD7IOQ1wiW3tECSAHcLiCixDvzXHMKg==
-X-Received: by 2002:a7b:cc0e:: with SMTP id f14mr1686364wmh.92.1604104872830;
-        Fri, 30 Oct 2020 17:41:12 -0700 (PDT)
+        bh=gxF8eBCZ5xN5Mj9chCpms4esKIVPVuhyZOVghVqvcxw=;
+        b=rDu8Z9pkO5fEztWMkQJAJwyHi7GYwAzM1sDUFLm6LVE0jBjOlq2Xp5RdEk27g4LZJi
+         pXfwqPoh3OdzPjOnLe2RksRBFKXkdQcbka/+xQF4ejev7N+101eQ3IdP/Jr97lXM4yh0
+         nHn1P7FgkrnX4760gkowGgBYQqdrH5XBDQW6wCo0dabspM6Rcze4JT6HXo2BtbWE998E
+         E5fob75xqqqKlohkXj+fWn15iArSFutx2gONnXexWexMFsu/TG8TuLN8+TSysOXC371M
+         KDxtXZE5hJA3DTUntbs16cOer8+XS4W8Hp6ee72PMr1Sk/c6OKReE2ol7vQasDtUW5eJ
+         8l2Q==
+X-Gm-Message-State: AOAM533DExLUZlHZ90xUZGYmxWiABmkqxtFeL13kn/OsFEKWNs1SSGyE
+	5G3ht9uBlumudZjybnMc4UfrUA==
+X-Google-Smtp-Source: ABdhPJzk/Yk0ZaLyMqzZcduVegqJ6CQ188bjLoij3FxjuQz6JVse1J/LLWyLgOIy2zFdV2MhHEF4bg==
+X-Received: by 2002:a1c:6355:: with SMTP id x82mr5834019wmb.177.1604105352534;
+        Fri, 30 Oct 2020 17:49:12 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:11ab:804e:534c:cf3d])
-        by smtp.gmail.com with ESMTPSA id c8sm11687535wrv.26.2020.10.30.17.41.12
+        by smtp.gmail.com with ESMTPSA id a17sm12612118wra.29.2020.10.30.17.49.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 17:41:12 -0700 (PDT)
-Message-ID: <a658cccc9893a80ca5c0508898b183470800c158.camel@linuxfoundation.org>
-Subject: Re: [OE-core] openssl: Proposal to stop creating /etc/ssl/certs
+        Fri, 30 Oct 2020 17:49:11 -0700 (PDT)
+Message-ID: <b298f53a7fceab3d51ec69ab1b9356269074e712.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v5 05/22] gstreamer1.0-plugins-good: upgrade to version 1.18.0
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: nate.karstens@garmin.com, openembedded-core@lists.openembedded.org
-Date: Sat, 31 Oct 2020 00:41:11 +0000
-In-Reply-To: <xP9d.1604078731359224154.jFZQ@lists.openembedded.org>
-References: <xP9d.1604078731359224154.jFZQ@lists.openembedded.org>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexander Kanavin
+	 <alex.kanavin@gmail.com>
+Date: Sat, 31 Oct 2020 00:49:10 +0000
+In-Reply-To: <3b12ced1f6625fe0a9bdeb9e5c0cd5a7ca004d50.camel@linuxfoundation.org>
+References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
+	 <20201029142806.1830504-6-quaresma.jose@gmail.com>
+	 <88cd1831e021c2384219da4223981fa004551498.camel@linuxfoundation.org>
+	 <1642964F5C513D13.27950@lists.openembedded.org>
+	 <1642987B07D196A5.27950@lists.openembedded.org>
+	 <CANPvuRkKDPM8h5d8wjzdvQ95vY_kYHXkxvW0Uvqw8rTYj0yWCQ@mail.gmail.com>
+	 <f5f3fe375a9174e401c283431de0fca1634539a1.camel@linuxfoundation.org>
+	 <1642D6DB2EF0C3ED.10902@lists.openembedded.org>
+	 <CANPvuRnjYPZabjLDTW7rttaaH6qUW7sV_ZEyS31bGZHsZHjXsQ@mail.gmail.com>
+	 <3b12ced1f6625fe0a9bdeb9e5c0cd5a7ca004d50.camel@linuxfoundation.org>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-10-30 at 10:25 -0700, nate.karstens via
-lists.openembedded.org wrote:
-> Greetings,
+On Fri, 2020-10-30 at 19:23 +0000, Richard Purdie wrote:
+> On Fri, 2020-10-30 at 18:23 +0000, Jose Quaresma wrote:
+> > Hi Richard,
+> > 
+> > I see your fix:
+> > 
+> > -PACKAGECONFIG[asm] = "-Dasm=enabled,-Dasm=disabled,nasm"
+> > +PACKAGECONFIG[asm] = "-Dasm=enabled,-Dasm=disabled,nasm nasm-
+> > native"
+> > 
+> > and only nasm-native is needed,
+> > because nasm is not needed on target and it's only needed at build
+> > time.
 > 
-> The openssl recipe installs an empty folder /etc/ssl/certs. This is
-> eventually where other recipes like ca-certificates can copy CA
-> certificates for the system. We are working on a tool that can hot-
-> swap those certificates at runtime. The only way to have this
-> transition be seamless and atomic is to make /etc/ssl/certs a symlink
-> to another folder that contains the actual certificates; to update
-> the certificates we just replace the symlink.
+> I was thinking about that after I sent the email. I've tweaked it
+> again
+> in master-next and squashed it into the series since it was easiest
+> to
+> do that.
 > 
-> Our recipe for this tool conflicts with the empty folder in the
-> openssl package. We were wondering if it made sense to change the
-> openssl recipe to no longer create this folder, the idea being that
-> recipes that populate the folder (like ca-certificates) would be
-> responsible for creating it.
+> > I can fix it and send v6 series and I have another fix for this
+> > series that remove 0004-capfix.patc in gstreamer1.0: upgrade to
+> > version 1.18.0 What do you think?
 > 
-> Here is a link to the recipe:
+> We can make this one a follow up to the series.
 > 
-> https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+> > I hope this is the last version and I will be more careful next
+> > time
+> > I submit a big patch series.
 > 
-> Line 135 does contain a note that Debian sets up the SSL structure.
-> Creating a placeholder for where CA certificates would eventually go
-> makes sense with certain systems. There could be desktop distros that
-> rely on the user to manually install the certs they need for their
-> organization and providing a location for this would be helpful. I
-> don’t think this makes sense for the typical embedded system where
-> this folder is on a read-only filesystem.
+> No problem, thanks for doing the work in creating it! The end result
+> should be good and its nice to stay close to upstream releases. I'm
+> think we're just about there now.
 
-If that folder is empty, I don't see why we can't rely on the
-certificate providers to create it.
+Just to follow up, you renamed gst->validate -> gst-devtool but didn't
+update the maintainers entry. I've added that. We also found that a
+dependency you added, json-glib had reproducibility failures[1] as it
+wasn't being tested previously. I spotted a previous similar issue we
+fixed like this and Alex was kind enough to send a patch.
 
-> I've just been testing locally with a bbappend that uses rmdir to
-> remove the folder, but unless there are objections I will submit a
-> patch that removes lines 137 (moving the 'mv' to the next line) and
-> 144. I think line 152 can remain in case the variable is useful to
-> anyone.
+[1] e.g. https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201030-ld3_vz4a/packages/diff-html/
 
-If you remove 152, it will break things as we do need the wrapped tool
-to be able to find the certificates. I'm also wondering what is using
-the link created by 144, it could be openssl itself. I suspect you may
-want to leave it as a dangling symlink and just let the certificate
-provider create the directory it points to?
-
-Warnings about the dangling symlink may be why an empty directory is
-being created?
+I'm running another test build, hopefully this one will be better!
 
 Cheers,
 
 Richard
+
 
 
