@@ -1,67 +1,100 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.web10.6340.1604121738658626989
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web12.9122.1604144436127036159
  for <openembedded-core@lists.openembedded.org>;
- Fri, 30 Oct 2020 22:22:18 -0700
+ Sat, 31 Oct 2020 04:40:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jGzwrP4Z;
- spf=pass (domain: gmail.com, ip: 209.85.219.65, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f65.google.com with SMTP id e5so171980qvr.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 30 Oct 2020 22:22:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mpiPeAXP;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id v4so9389797edi.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2020 04:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lIdg2XdQdi4okxuN6vAE9OoBXrrAcLmgGb4Tnjw2+/w=;
-        b=jGzwrP4ZlFcghBCsoXX6gpF9srbOezVnuzzFb/L3NlncVIjeXKgIB3bagN96ZXLLz7
-         zaKKd5+H7RFeXK8QS/wQ8Lf98YrBgItJGtxFVeQCfTd+3QiUBaFxkyxegq86M2ILAJDi
-         Yy7iaLW0UaD4c10ixfUaxPFBxrnmutHzIie8SC9V9c90k+90Kf3f1LewFTUCByvj93tu
-         DEenRkiyVF3rJ9Z+x/2CnaC9QphV2tPOjhsQ+9dusWsEZ2bKVzGFh2K7Cxw6/EcvxY4N
-         iAZ1oZh+cJKAcAlnATy13r9UtbCmCen3hPbBj7we42TZSqxIxktssWYtRMcrqRD4SngN
-         852A==
+         :cc:content-transfer-encoding;
+        bh=hYUCxqA0pUFCbCn9Nn4glUmwwL28E+3J9YTpfazrYf8=;
+        b=mpiPeAXPNUbxKQz3PhTdd+yi14QE/KgMPr+3eBarcC7lM7LNahjkKnWUSDQ4JpepTm
+         ry0EqVbTx+32S4ejWOPm2X3JQDUsYXq507DYdbj/NtZmGO/ncU9HQ4BPwI9B7WRs2wzZ
+         tYA9z1FxY4BAsFiks1/OLHj5PfwNYjQj6yXblQxZXaQvRQRloWQEqJ1YY85UVaRsJZ7Q
+         uxQIBtOtHxoiUA/qVpwDwBr9EEiDYn+yZLeohu1jPmRhx3384onlue6+iAg7sLd+8rtz
+         K5Ncu6txi/V/Ky6FQ4UfHBXCpCwI5ylbAvjQY4jC9zHcrWUj5+/uygjWNWA/MXUGwmtU
+         B1dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lIdg2XdQdi4okxuN6vAE9OoBXrrAcLmgGb4Tnjw2+/w=;
-        b=C0JgE4cpXu1jfzIF+U0uoA+mE2qt8BfP46NmDmm6YAgIfE+oGY0ICxyO2pTL/Nkn6N
-         uYdsxD0Vo9IPMsZAtgjuoGNpCgLSTln8myauPQ4CwX8MIof/GVZONSGjhABmM4XDMwxX
-         7mCKzV78EFv0VNAw7QgXLwM+vOvt/qc/aNdDc1smIOfca4KUzs57WUrOr1koWrRCt4DK
-         FitoBeMKL6C/mOUBpTdHAtzgL2rD7jqkVOrTD3PjNnWRFKfYoEx4fyZZGgHETi7km7PX
-         3Q9ELL7aHdhdOFl5jsgf/NZlRO1DT0soOaRW2uGytaOpu2lRG8Q+MfOp33FP96l1mhQk
-         uxqA==
-X-Gm-Message-State: AOAM530iIj1u52efcRcRYmo1n8cZI1+7Af754HqDarsiezVDHAGY5Cgs
-	klOZoTwQ3F7dz87+AatThA1esoE9677VHeNC3zU=
-X-Google-Smtp-Source: ABdhPJz0XPDQjVwrb+LWUYu6PfQ2LnK5lT/t1cl5r8cZPpklXk/0qb8Pirz/Mo6oLJCByPOQPzKHxc9R+wIauDq5JuU=
-X-Received: by 2002:a0c:e387:: with SMTP id a7mr12836469qvl.21.1604121737540;
- Fri, 30 Oct 2020 22:22:17 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hYUCxqA0pUFCbCn9Nn4glUmwwL28E+3J9YTpfazrYf8=;
+        b=anH0MjB1BdoPyFWTSngYnNypolTEgQtP2PLWNPO9TJqdCI92MG3+tiwgdRsaUkAnUX
+         MmMmpoAGKfQ3bNSaEnZLfFXbaT/zooa2FBgjncfZhaPzoKS0+jKBnRY6/DKZGSrJmkmN
+         dG+NVBtpYQHwO6aehK7vWjyxPjQHPMdmWNiLzBr/tDNkRB93b4Va5IaX2EOmdDrLu01o
+         Za7xU6MGZHm1wP2ht2wwZfrlS4SbWKWkQdpb8Wzdm6AlPMyBLw2bWGypxDnhmbfTcgeF
+         UqQxuSv8TyqMxrYl72L6eitIgzKIIOYEjZbiaBG/qizE0VOn/T3+A4n2hcgc34qkkzpZ
+         uSww==
+X-Gm-Message-State: AOAM5308xVDfDAYxTRHj5z0970xNE5APq14GZ2ZJny93QGuVpjDClF0e
+	d1LifUb56OzQ/koeTbZAoCbSzMcRZdASwwM0WD4=
+X-Google-Smtp-Source: ABdhPJwsO4K0SzL66rCOz0IB4Jyg3ddt5bM92uHiTF+ZAK7qUPnlRvzlsjja+8BPXSgwrhjJG4+labMiTyRWPDZGKgY=
+X-Received: by 2002:a05:6402:17ac:: with SMTP id j12mr7090552edy.31.1604144434473;
+ Sat, 31 Oct 2020 04:40:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201030201433.1776776-1-raj.khem@gmail.com> <395078c7524717b4fee84f188889ad7644edf7e2.camel@linuxfoundation.org>
-In-Reply-To: <395078c7524717b4fee84f188889ad7644edf7e2.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 30 Oct 2020 22:21:50 -0700
-Message-ID: <CAMKF1sqkwV8V30q4pNq7jmXvno69PqFEv7Jy0n=LKxBANQRnRw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gdb: Update to 10.x release
+References: <20201030232256.624297-1-quaresma.jose@gmail.com> <aa090613e34863ee936811011d3019eafba3db81.camel@linuxfoundation.org>
+In-Reply-To: <aa090613e34863ee936811011d3019eafba3db81.camel@linuxfoundation.org>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Sat, 31 Oct 2020 11:40:36 +0000
+Message-ID: <CANPvuRk3P=9Ho7w=PzdUVKQpVgoechnSX0cTY3TaTdcOaqiHHw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer: use git to fetch the sources
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 30, 2020 at 3:44 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+s=C3=A1bado, 31/10/2020 =C3=A0(s) 00:32:
 >
-> On Fri, 2020-10-30 at 13:14 -0700, Khem Raj wrote:
-> > here is announcement [1]
-> > [1] https://www.gnu.org/software/gdb/download/ANNOUNCEMENT
+> On Fri, 2020-10-30 at 23:22 +0000, Jose Quaresma wrote:
+> > gstreamer has the code hosted on [1] and this repo as tags.
+> > manage code with git its more convenient than with tarball archives.
 > >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > [1] - https://gitlab.freedesktop.org/gstreamer
+> >
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 >
-> Failed on genericx86:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/1538
->
+> I'm not 100% sure about this. Tarballs tend to be less overhead for
+> fetching and make for easier source archiving. The git repos are easier
+> for day to day dev work but tend to be harder for the AUH to handle and
+> slower to fetch for the users taking up more space to download and
+> unpack. I'm therefore torn. I know where we have used git for other
+> core components it has caused performance issues.
 
-yeah needed to enable static libctf , check out v2
+I have the same opinion that tarballs have less overhead, It's much smaller=
+.
+In this specific case the git repos are very big because the gstreamer proj=
+ect
+started a long time ago and it contains the full evolution of the project.
 
+However I sent this patch because I think it is easy managing patches with
+git but with the devtool we can achieve a very similar workflow.
+With the difference that more steps are needed, to do a backport for exampl=
+e.
+
+>
+> We do also have the option of the devupstream class although I know
+> that doesn't quite work for the native cases yet sadly.
+
+I don't understand this sentence. What is the opinion of devupstream class?
+
+>
 > Cheers,
 >
 > Richard
 >
+>
+>
+
+Someone on the mailing list has suggested that git is preferred over the ar=
+chive
+but now I understand that this is only for github and it's mainly
+because of the inconsistency
+of the archives that they generate.
+
+--=20
+best regards,
+Jos=C3=A9 Quaresma
