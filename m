@@ -1,87 +1,119 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web12.7957.1604187940416097169
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web10.7934.1604187941414970693
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Oct 2020 16:45:40 -0700
+ Sat, 31 Oct 2020 16:45:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SiO+8R+4;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id k3so13555503ejj.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2020 16:45:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PNNEjSbR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id a15so1649235edy.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2020 16:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LoaBNGZoeQkFyLVFdtESEAmuHSEWSNelkoOTbXW/NTk=;
-        b=SiO+8R+4FOeS4DYrR8gWZBolHX/H+vu2LfGgUNOc84YfQWyeF7jUxBo81LImL2ppJw
-         Qd8eMN6L2iGPH+KKerHMhGe+cD1dWQiQNK/bI9F69OtB2Ex2jSufjWx1Kn8I39Y3GJp2
-         evd579Xi1P4HzVmucjQvYJqsxeAx98uhFIphgeTbu/znTXseEahy73xSrAxKmmzGcZqs
-         IAktT9SK6DMSN1UCwY61tA/XRgnZZYAdYBdt4OKO2j84FSgLKmxUNbE3NrQRtbB3tHOc
-         HWUDN6trA/hQFS3jMUTlXiMupvwq5TNLa/41ziAqA9tSTNgJ3nZDg1Ima+8EdWVGEVbh
-         mWHw==
+        bh=Cg5THHSe9DnQLfJb98IF1xSq1QekzizofsuLO8xfE2A=;
+        b=PNNEjSbRE4l0yXoErrJPwe+4ijsg+J/x1kk820XL0nqK+NOmjgOOkE4uUNK2La4+TP
+         lYdp/Yuaz39vrePsbVCaBweToVvIJ3qVX0kI0TjCnwDpngQ+SJZBZZCWe/BX9jp0PDll
+         MJntXSSHF+TcZlAbP7CENcFEh5fpyZQZLg1mswRn1/s2UgT9N8OVKK+Ls+tHaQz1yG7p
+         TQ/23aLZR3+oYSZUiHLjcRxoCha1VR+L0KDz3nOZAMaRjwRzhcwRnN/nL+aWaI+Im+AB
+         DzP8QkQtZVcSi20ac2HntlaCc6ig4PXNI/KeHEHJu5O5nOznNVpc1ViUyRFSdJci+rTv
+         fB1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LoaBNGZoeQkFyLVFdtESEAmuHSEWSNelkoOTbXW/NTk=;
-        b=mxcnX3VKCASgQhuwHGxKQXetityA8FNsoI9dCH0QjFHQu6R2eGKlbFLkyfbfSrRFNy
-         RQFUdQLeIncJkTv/BRZtqIz3wmyyySfa9fkiybuIOlJwZaKolZMvcfRg98TFKzMFqcOQ
-         dr2fFWmzQs5lfZTjrq7VeRXqyjUnU89X40/TTvjwdPCot5xCd9Sh/5HTNv/Quz5Btpto
-         gqCC/XB7YTqcTzEh2sy+mLDT0yhpAjs6/9UIzqXn/CKPqxiu7pq6HIfRkjge3tcBsc1W
-         j2iNvPG+jEGHPD43jeKctOze4mQRpGLD/Gts1xuEaDbH7A0dB+rLyrETYL3VgY4Z0Lg2
-         TQlg==
-X-Gm-Message-State: AOAM53167UmR4ZpQxGN9xicsEmhCJcisjh499vYvl1VcrOhnhPHVdQcA
-	LRbwp/+y7YEqBn5pOpB54ddDPUD6ih0=
-X-Google-Smtp-Source: ABdhPJyww+CKGc/WFonk/3DtEt4qy2KYOp4xQezV1yoVVY7+HHNGfdQpxRRgt4MlPdTixjZ/8SWY1Q==
-X-Received: by 2002:a17:906:c149:: with SMTP id dp9mr9464679ejc.88.1604187938640;
-        Sat, 31 Oct 2020 16:45:38 -0700 (PDT)
+        bh=Cg5THHSe9DnQLfJb98IF1xSq1QekzizofsuLO8xfE2A=;
+        b=VL1c3i278jw5xCigS1m229ZWnPHqrbbQIfv8stY6J6gY2qAN7BtzYRkOSGysmXrtLO
+         5NP5UgKVe2JQu8IaouPGrTV0XhSlnjivKu9qLqIJFmLbQAg9MR2WWNyv/phUXRbfT58y
+         Kf5ictpdJw/458UbJHQCh7M5J1YFgbJMOG8reEesn4wkUIUrkNQY+pITPO4rCzQgGCdO
+         xHohx2KIWIwL0PsanKKFViZLLNsXKRwoE66AHFMQYtQci5ui6HHrwHeNTl8f0ikaiGkF
+         cmiCj6QRAkM0ctFIb1fJLSxxs2CGQBzEHU4Tum0LHxCrLab2E8G09lQ3SpcHp9lkize1
+         UhOQ==
+X-Gm-Message-State: AOAM533k96EE5AgaaE56bhkOl81B+Y2UvAK2bPFtCg5I0B4N5DWFPO6A
+	nqaykiwnZO3iyWBvgEZpbHR8s68W+4s=
+X-Google-Smtp-Source: ABdhPJyJugA26UB6oD7T96p+I3UTJ2ttN6sQpFMaS2IsCsOli6omzhk2S3pXJu58eRSUro/JJmb0OA==
+X-Received: by 2002:a50:8acf:: with SMTP id k15mr9694812edk.351.1604187939713;
+        Sat, 31 Oct 2020 16:45:39 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id v14sm6001507ejh.6.2020.10.31.16.45.37
+        by smtp.gmail.com with ESMTPSA id y3sm6096931ejk.92.2020.10.31.16.45.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2020 16:45:38 -0700 (PDT)
+        Sat, 31 Oct 2020 16:45:39 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Martin Jansa <Martin.Jansa@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 2/3] lib/oe/patch: GitApplyTree: save 1 echo in commit-msg hook
-Date: Sun,  1 Nov 2020 00:45:32 +0100
-Message-Id: <20201031234533.4017117-2-Martin.Jansa@gmail.com>
+Subject: [dunfell][PATCH 3/3] Revert "lib/oe/patch: fix handling of patches with no header"
+Date: Sun,  1 Nov 2020 00:45:33 +0100
+Message-Id: <20201031234533.4017117-3-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201031234533.4017117-1-Martin.Jansa@gmail.com>
 References: <20201031234533.4017117-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* also remove the extra blank lines which is often added to patches
-  when refreshed with devtool (GitApplyTree.patch_line_prefix lines
-  are ignored when refreshing .patch files, but newly added blank
-  lines aren't - the leading blank line wasneeded for patches with
-  just the subject line (to prevent the GitApplyTree.patch_line_prefix
-  line ending appended to the commit summary), but we can add it
-  in prepareCommit instead
+* This reverts commit d9971f5dc8eb7de551fd6f5e058fd24770ef5d78.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+* With the missing Subject line fixed in GitApplyTree.prepareCommit()
+  we should be able to revert, the fix which was trying to help it by
+  parsing GitApplyTree.patch_line_prefix ("%% original patch:") also
+  from Subject line, now GitApplyTree.patch_line_prefix should always
+  end on separate line which is then skipped when copying the lines to
+  resulting patch, see original commit message from Paul:
+
+    lib/oe/patch: fix handling of patches with no header
+
+    If a patch applied by a recipe has no header and we turn the recipe's
+    source into a git tree (when PATCHTOOL = "git" or when using devtool
+    extract / modify / upgrade), the commit message ends up consisting only
+    of the original filename marker ("%% original patch: filename.patch").
+    When we come to do turn the commits back into a set of patches in
+    extractPatches(), this first line ends up in the "Subject: " part of
+    the file, but we were ignoring it because the line didn't start with the
+    marker text. The end result was we weren't able to get the original
+    patch name. Strip off any "Subject [PATCH x/y]" part before looking for
+    the marker text to fix.
+
+    This caused "devtool modify openssl" followed by "devtool update-recipe
+    openssl" (without any changes in-between) to remove version-script.patch
+    because that patch has no header and we weren't able to determine the
+    original filename.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/patch.py | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/lib/oe/patch.py | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index fa92abe248..bb1c40aa1e 100644
+index bb1c40aa1e..7ca2e28b1f 100644
 --- a/meta/lib/oe/patch.py
 +++ b/meta/lib/oe/patch.py
-@@ -508,8 +508,7 @@ class GitApplyTree(PatchTree):
-         with open(commithook, 'w') as f:
-             # NOTE: the formatting here is significant; if you change it you'll also need to
-             # change other places which read it back
--            f.write('echo >> $1\n')
--            f.write('echo "%s: $PATCHFILE" >> $1\n' % GitApplyTree.patch_line_prefix)
-+            f.write('echo "\n%s: $PATCHFILE" >> $1' % GitApplyTree.patch_line_prefix)
-         os.chmod(commithook, 0o755)
-         shutil.copy2(commithook, applyhook)
+@@ -439,7 +439,6 @@ class GitApplyTree(PatchTree):
+     def extractPatches(tree, startcommit, outdir, paths=None):
+         import tempfile
+         import shutil
+-        import re
+         tempdir = tempfile.mkdtemp(prefix='oepatch')
          try:
+             shellcmd = ["git", "format-patch", "--no-signature", "--no-numbered", startcommit, "-o", tempdir]
+@@ -455,13 +454,10 @@ class GitApplyTree(PatchTree):
+                         try:
+                             with open(srcfile, 'r', encoding=encoding) as f:
+                                 for line in f:
+-                                    checkline = line
+-                                    if checkline.startswith('Subject: '):
+-                                        checkline = re.sub(r'\[.+?\]\s*', '', checkline[9:])
+-                                    if checkline.startswith(GitApplyTree.patch_line_prefix):
++                                    if line.startswith(GitApplyTree.patch_line_prefix):
+                                         outfile = line.split()[-1].strip()
+                                         continue
+-                                    if checkline.startswith(GitApplyTree.ignore_commit_prefix):
++                                    if line.startswith(GitApplyTree.ignore_commit_prefix):
+                                         continue
+                                     patchlines.append(line)
+                         except UnicodeDecodeError:
 -- 
 2.27.0
 
