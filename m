@@ -1,83 +1,246 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web12.8589.1604191478717921315
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web09.10902.1604208104974038237
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Oct 2020 17:44:39 -0700
+ Sat, 31 Oct 2020 22:21:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AiWXDQCG;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id k9so10538626edo.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2020 17:44:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ECcFMvSv;
+ spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f181.google.com with SMTP id 133so8342512pfx.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2020 22:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=a1A2Mp8Q/ZXqhKterB2gadly6ke+Da3qlIO3SfJRwyg=;
-        b=AiWXDQCG9y69CA/msdVPxLpgzDnT7IldTLf5X3hI/kTmYTdXesfc8Ff30+UIUhbUtx
-         tOX+QS7WPwaQ/0n1JE4w+kMGZxslHiNRWYasIeDoRQOv7elYIurlDKB4tjVbHtcXobZ8
-         suXJq19yTCEg3oqKj+/c7pFNxixgsPdoABLTdiDxSXKEVy2BveKG5qLUCY9t9qT6Q2ie
-         fK6tWsT9pMDZTuFipNvyteMBnXmDuB9IE7DkdDL8Kcvu5zjbeGABmvEXJKfW5M3bonFP
-         QdpPCcjYmSyhJMLHRqdm0Q+KPeeAA+NrRxZ+45L+bA8n5Il+1RcUBu0WJNaoN/dfIjjf
-         UKoA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i+K/EjAZYQtYAkrGSqhCvvoE3n5I/bkQ0cGOIXWEr7I=;
+        b=ECcFMvSvcDFWMph9UsdOBKDrZsafGJQbzb0mvCSmlO/KYUh9bARE9XKECzDUb3De5E
+         pJGqG+DgYT58on+8RiS0rEJdLARry+su2eFuTJ7WeCZF4ctX+gPYgbUOhhdKJCpUuyI3
+         BbgrRHjJNUui+3Ix3RgcbyjVzfhVDsEsAhfLtusp0w8AZSF9hjk0OgYDqixI2z37CikU
+         kqQgDZPXzsUoYMUPtcTUXiQT5zoxJDs29Uk/u1i99P7wXFXyQfNdMtb+X72UZplaVyPT
+         urG5bWzFgUa6L2e82fjoL4lglEUNnhrBYznA8eubTWc6/eTh9rggWgtfdr36VSR2DCf3
+         p5RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=a1A2Mp8Q/ZXqhKterB2gadly6ke+Da3qlIO3SfJRwyg=;
-        b=sS48ZhmNlB/ITxoc/3aKh0wHK3L8K7+4HVREYpzNh2jZiXBejjJvWu9f6JADsi52qT
-         mcY/zD73Y2TXbl0TnVrIK1hlixVHoAmi7FYOZXs2YX3CwTw49CGs29hGQhRtEDq5yFAI
-         I7nJb+DROte6Ke/4sRTV27Ujp/x2cfVbdVfBBevRmZVeOp1OAdwWBpuym9C49Jsz43ay
-         FkWqeVOJXZRy/cu6JOP0ImAmzW1e6V7YpwrCLczr1d3eNrYssfmqkz3bXl6BggKF5Oww
-         kSL2Cq6OXjELywPdwO6eLYuPKkd7YHiJK/X2k+e43SnyVYglo3MngFR6JlyXjvohR8a4
-         i+3Q==
-X-Gm-Message-State: AOAM531ylkOjzdFyITbBcM5gFxiqgWGUSPEGee+bZHzk2pkBqE0hSCcc
-	8tUzsI+DulO6woNElBS3A2tJMZGPt5E=
-X-Google-Smtp-Source: ABdhPJxTKk1jruGcdw0OjdfKGlkjkcFMZtFFkAnlt2JmmLUy5LP5BluyHKx+boZSuhPpYKdNtiKmuA==
-X-Received: by 2002:a50:decd:: with SMTP id d13mr10023033edl.202.1604191477125;
-        Sat, 31 Oct 2020 17:44:37 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id q9sm6076754ejr.115.2020.10.31.17.44.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=i+K/EjAZYQtYAkrGSqhCvvoE3n5I/bkQ0cGOIXWEr7I=;
+        b=IYFxt8MavwhtCNeKTmluy/gI9d3V+HP0O8JoGRD6HcjtqOjNlYmtS8Tyfh9b2ohbUK
+         79xFFTM0xCOgJ1pnllLWflzFBlUj3HlWkJYX3M1BhnajIPm1epNJFVDE9nuLKEqHp9xy
+         IeEymMAHsc0s0G5dgurmcHsGA3SJWmrIyhgJriETsMgIo/IyGAkqqx9uf0IpE+i2INNQ
+         sJ1ZZ7MzIQ7wBYFY5ZKWZJwQjYlsScLaVlTZElW0W3d6yJA0CP7tnHnIMtAHNkCpv4Gv
+         xkh/xVvZmPe56rGTOS2Ly+TR9mjnr4fp+4cURS9WVbMWxIYHyoy6t7EwXmx2Q8hozLBJ
+         zxvA==
+X-Gm-Message-State: AOAM532PaIPcstxy02VgMl94YN6iFBYL1SdSNRgp81iQp1aW/Wq+ar4u
+	uk6u2w9EDNarXu/cHerMxU1m5/l6aXKE4A==
+X-Google-Smtp-Source: ABdhPJyH2m5NkhUWqkuXZLnnViBpj17RQuFXX+EB38lbAYso51WGZTEsWyGozkEjKur581To68l2wA==
+X-Received: by 2002:a63:c55:: with SMTP id 21mr8178929pgm.392.1604208103967;
+        Sat, 31 Oct 2020 22:21:43 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4874])
+        by smtp.gmail.com with ESMTPSA id z3sm9106643pgl.73.2020.10.31.22.21.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2020 17:44:36 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Sat, 31 Oct 2020 22:21:43 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [gastesgarth][PATCH 12/12] gst-validate: Update 1.16.2 -> Update 1.16.3
-Date: Sun,  1 Nov 2020 01:43:40 +0100
-Message-Id: <20201101004340.4019257-12-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201101004340.4019257-1-Martin.Jansa@gmail.com>
-References: <20201101004340.4019257-1-Martin.Jansa@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] rpm: Fix error.h handing properly on musl
+Date: Sat, 31 Oct 2020 22:21:40 -0700
+Message-Id: <20201101052140.3867813-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+Ignoring configure fragments when error.h does not exist on system
+leaves eflutils half configured, which is seen when gold linker is
+enabled because librpm does not have proper dependencies added,
+therefore add error.h for non-glibc case and include it when glibc is
+not used.
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb} (87%)
+ .../0001-Fix-build-with-musl-C-library.patch  |  26 ----
+ ...tools-Add-error.h-for-non-glibc-case.patch | 118 ++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_4.16.0.bb       |   1 +
+ 3 files changed, 119 insertions(+), 26 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-similarity index 87%
-rename from meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
-rename to meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-index 35492fe861..ef42abbdd7 100644
---- a/meta/recipes-multimedia/gstreamer/gst-validate_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-validate_1.16.3.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343"
- SRC_URI = "https://gstreamer.freedesktop.org/src/${BPN}/${BP}.tar.xz \
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
--SRC_URI[md5sum] = "688f42c52d62e8c5e506df911553fb2c"
--SRC_URI[sha256sum] = "4861ccb9326200e74d98007e316b387d48dd49f072e0b78cb9d3303fdecfeeca"
-+SRC_URI[md5sum] = "740a436f5b9bf17ea7de0e62c92ec264"
-+SRC_URI[sha256sum] = "c2064e887324af6aa476ca669234936711f253b29042f617f1d9f2597c4bf92b"
+diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
+index 0b1d6298a9..b960da6c31 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
+@@ -11,29 +11,6 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  rpmio/digest_nss.c | 1 +
+  2 files changed, 3 insertions(+), 1 deletion(-)
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS_${PN} = "git"
+-diff --git a/configure.ac b/configure.ac
+-index c04a2e8d1..c9d9ac16d 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -255,6 +255,7 @@ AC_SEARCH_LIBS(dlopen, [dl])
+- # Check for libelf library. Prefer external, otherwise none.
+- WITH_LIBELF_LIB=
+- AC_CHECK_HEADER([libelf.h])
+-+AC_CHECK_HEADERS([error.h], [WITH_ERROR_H=yes])
+- AC_CHECK_HEADERS([gelf.h], [
+- 	AC_CHECK_LIB(elf, gelf_getvernaux, [
+- 	    AC_DEFINE(HAVE_LIBELF, 1, [Define to 1 if you have the 'elf' library (-lelf).])
+-@@ -263,7 +264,7 @@ AC_CHECK_HEADERS([gelf.h], [
+- 	])
+- ])
+- AC_SUBST(WITH_LIBELF_LIB)
+--AM_CONDITIONAL(LIBELF,[test "$WITH_LIBELF" = yes])
+-+AM_CONDITIONAL(LIBELF,[test "$WITH_LIBELF" = yes && test "$WITH_ERROR_H" = yes])
+- 
+- AC_CHECK_HEADERS([dwarf.h], [
+-   WITH_LIBDWARF=yes
+-diff --git a/rpmio/digest_nss.c b/rpmio/digest_nss.c
+-index 992d9acf6..e11920e3e 100644
+ --- a/rpmio/digest_nss.c
+ +++ b/rpmio/digest_nss.c
+ @@ -1,5 +1,6 @@
+@@ -43,6 +20,3 @@ index 992d9acf6..e11920e3e 100644
+  #include <pthread.h>
+  #include <nss.h>
+  #include <sechash.h>
+--- 
+-2.14.2
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+new file mode 100644
+index 0000000000..e78514b814
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
+@@ -0,0 +1,118 @@
++From b3952bd5e28f2a4d86c7377de239db8fa7237e14 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 31 Oct 2020 22:14:05 -0700
++Subject: [PATCH] tools: Add error.h for non-glibc case
++
++error is glibc specific API, so this patch will mostly not accepted
++upstream given that elfutils has been closely tied to glibc
++
++Upstream-Status: Inappropriate [workaround for musl]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ tools/debugedit.c      |  6 +++++-
++ tools/elfdeps.c        |  6 +++++-
++ tools/error.h          | 27 +++++++++++++++++++++++++++
++ tools/sepdebugcrcfix.c |  6 +++++-
++ 4 files changed, 42 insertions(+), 3 deletions(-)
++ create mode 100644 tools/error.h
++
++diff --git a/tools/debugedit.c b/tools/debugedit.c
++index 9f8dcd0fb..852f46073 100644
++--- a/tools/debugedit.c
+++++ b/tools/debugedit.c
++@@ -26,7 +26,6 @@
++ #include <byteswap.h>
++ #include <endian.h>
++ #include <errno.h>
++-#include <error.h>
++ #include <limits.h>
++ #include <string.h>
++ #include <stdlib.h>
++@@ -40,6 +39,11 @@
++ 
++ #include <gelf.h>
++ #include <dwarf.h>
+++#ifdef __GLIBC__
+++#include <error.h>
+++#else
+++#include "error.h"
+++#endif
++ 
++ 
++ /* Unfortunately strtab manipulation functions were only officially added
++diff --git a/tools/elfdeps.c b/tools/elfdeps.c
++index 6d9094874..f69e60997 100644
++--- a/tools/elfdeps.c
+++++ b/tools/elfdeps.c
++@@ -5,10 +5,14 @@
++ #include <unistd.h>
++ #include <stdlib.h>
++ #include <fcntl.h>
++-#include <error.h>
++ #include <errno.h>
++ #include <popt.h>
++ #include <gelf.h>
+++#ifdef __GLIBC__
+++#include <error.h>
+++#else
+++#include "error.h"
+++#endif
++ 
++ #include <rpm/rpmstring.h>
++ #include <rpm/argv.h>
++diff --git a/tools/error.h b/tools/error.h
++new file mode 100644
++index 000000000..ef06827a0
++--- /dev/null
+++++ b/tools/error.h
++@@ -0,0 +1,27 @@
+++#ifndef _ERROR_H_
+++#define _ERROR_H_
+++
+++#include <stdarg.h>
+++#include <stdio.h>
+++#include <stdlib.h>
+++#include <string.h>
+++#include <errno.h>
+++
+++static unsigned int error_message_count = 0;
+++
+++static inline void error(int status, int errnum, const char* format, ...)
+++{
+++	va_list ap;
+++	fprintf(stderr, "%s: ", program_invocation_name);
+++	va_start(ap, format);
+++	vfprintf(stderr, format, ap);
+++	va_end(ap);
+++	if (errnum)
+++		fprintf(stderr, ": %s", strerror(errnum));
+++	fprintf(stderr, "\n");
+++	error_message_count++;
+++	if (status)
+++		exit(status);
+++}
+++
+++#endif	/* _ERROR_H_ */
++diff --git a/tools/sepdebugcrcfix.c b/tools/sepdebugcrcfix.c
++index fba460014..2be9c1fd8 100644
++--- a/tools/sepdebugcrcfix.c
+++++ b/tools/sepdebugcrcfix.c
++@@ -29,9 +29,13 @@
++ #include <endian.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++-#include <error.h>
++ #include <libelf.h>
++ #include <gelf.h>
+++#ifdef __GLIBC__
+++#include <error.h>
+++#else
+++#include "error.h"
+++#endif
++ 
++ #ifndef _
++ #define _(x) x
++-- 
++2.29.2
++
+diff --git a/meta/recipes-devtools/rpm/rpm_4.16.0.bb b/meta/recipes-devtools/rpm/rpm_4.16.0.bb
+index f01874fe38..a578cf3cbd 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.16.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.16.0.bb
+@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
+            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
+            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
+            file://0001-rpmdb.c-add-a-missing-include.patch \
++           file://0001-tools-Add-error.h-for-non-glibc-case.patch \
+            "
+ 
+ PE = "1"
 -- 
-2.27.0
+2.29.2
 
