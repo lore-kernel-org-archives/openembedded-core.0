@@ -1,246 +1,147 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web09.10902.1604208104974038237
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.web08.11060.1604209305936548728
  for <openembedded-core@lists.openembedded.org>;
- Sat, 31 Oct 2020 22:21:45 -0700
+ Sat, 31 Oct 2020 22:41:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ECcFMvSv;
- spf=pass (domain: gmail.com, ip: 209.85.210.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f181.google.com with SMTP id 133so8342512pfx.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2020 22:21:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NSZ8k+Vz;
+ spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f194.google.com with SMTP id w11so5136541pll.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 31 Oct 2020 22:41:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i+K/EjAZYQtYAkrGSqhCvvoE3n5I/bkQ0cGOIXWEr7I=;
-        b=ECcFMvSvcDFWMph9UsdOBKDrZsafGJQbzb0mvCSmlO/KYUh9bARE9XKECzDUb3De5E
-         pJGqG+DgYT58on+8RiS0rEJdLARry+su2eFuTJ7WeCZF4ctX+gPYgbUOhhdKJCpUuyI3
-         BbgrRHjJNUui+3Ix3RgcbyjVzfhVDsEsAhfLtusp0w8AZSF9hjk0OgYDqixI2z37CikU
-         kqQgDZPXzsUoYMUPtcTUXiQT5zoxJDs29Uk/u1i99P7wXFXyQfNdMtb+X72UZplaVyPT
-         urG5bWzFgUa6L2e82fjoL4lglEUNnhrBYznA8eubTWc6/eTh9rggWgtfdr36VSR2DCf3
-         p5RQ==
+        h=subject:to:references:from:organization:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language;
+        bh=eP2ltq+Gj85c6n5yKfqEORdT6Mp8OFlo6ed8JEmT8Lc=;
+        b=NSZ8k+VznJrgMQv8THWDm7RIGYfzcXbSSnbQWphL9tUFcq4+VjjJGTYaMFTUveofli
+         1dCeAp8EwwWsZdh5+d83AUEJQrq+WthxYQvtTk8noLTq4Mhw/os0Jl+A7gYzLpVawX86
+         i/bSXhxXw4E7kx60ma3LX3lBYaWqtxOjTBswBSv9QW+nPBVDGESII0AZi70JY6JG4Jm3
+         Z5QUnVY0SWRdxqCh4z/hmYDJsjOTSCgC+7tIJpDBfu0/2NlcuOWqqOwLPGlA/MeaBAYp
+         H2zuWELggQ8TxKRSt+0gKNCCe/SEj8WMyApTY2/bh3eJoMnl3AIB9c02fNv7LvDskkmr
+         Yhuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=i+K/EjAZYQtYAkrGSqhCvvoE3n5I/bkQ0cGOIXWEr7I=;
-        b=IYFxt8MavwhtCNeKTmluy/gI9d3V+HP0O8JoGRD6HcjtqOjNlYmtS8Tyfh9b2ohbUK
-         79xFFTM0xCOgJ1pnllLWflzFBlUj3HlWkJYX3M1BhnajIPm1epNJFVDE9nuLKEqHp9xy
-         IeEymMAHsc0s0G5dgurmcHsGA3SJWmrIyhgJriETsMgIo/IyGAkqqx9uf0IpE+i2INNQ
-         sJ1ZZ7MzIQ7wBYFY5ZKWZJwQjYlsScLaVlTZElW0W3d6yJA0CP7tnHnIMtAHNkCpv4Gv
-         xkh/xVvZmPe56rGTOS2Ly+TR9mjnr4fp+4cURS9WVbMWxIYHyoy6t7EwXmx2Q8hozLBJ
-         zxvA==
-X-Gm-Message-State: AOAM532PaIPcstxy02VgMl94YN6iFBYL1SdSNRgp81iQp1aW/Wq+ar4u
-	uk6u2w9EDNarXu/cHerMxU1m5/l6aXKE4A==
-X-Google-Smtp-Source: ABdhPJyH2m5NkhUWqkuXZLnnViBpj17RQuFXX+EB38lbAYso51WGZTEsWyGozkEjKur581To68l2wA==
-X-Received: by 2002:a63:c55:: with SMTP id 21mr8178929pgm.392.1604208103967;
-        Sat, 31 Oct 2020 22:21:43 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language;
+        bh=eP2ltq+Gj85c6n5yKfqEORdT6Mp8OFlo6ed8JEmT8Lc=;
+        b=jkLNnvpOEqGYaozIAnM2ECU/UDb7Vf4A+sO2+Nab7lUQamEbju0fEjG9ZN+I5JD1y6
+         d9TX9nehm4Wl9O2f9gge6x+0DqF3ybfzwGtbOUWCv+HMO3JgmHupVx5MqortDTnllZXJ
+         jvqi5ke76177WNAkTERrprjqduCJe/L8Nkt472fwY4LCrVJKriU9RPo7K/AsTSuZYXdC
+         VLLEhJHvGlbDsqPFPFOGieiTS/sKh1y3e5ONMMwvfE7JKp3GAtPilcGtCunYevZDDJoi
+         Ugg3m5gzM7s7oJlp1dPbExJ/PJYh4If4ynxZlB6oGF3li/HGZfLEVVUJ2VwQeEB+bJ1m
+         WK0A==
+X-Gm-Message-State: AOAM530MDnSak+TOab5JZzBbhhs02z3Z1V/c371nacQeiEMqQCZ1HOjt
+	2GbKvM9F/k4a8QPcPbA+Sqdb+ftkHbjUYw==
+X-Google-Smtp-Source: ABdhPJzYPITqY6j23fSHKcoizFzOgll7M4MStWigq4mEfoy0AXgcPLYrCcPSXY4kQdj+gUxUXD64Xg==
+X-Received: by 2002:a17:902:a40e:b029:d3:c6fa:2650 with SMTP id p14-20020a170902a40eb02900d3c6fa2650mr15487836plq.29.1604209305023;
+        Sat, 31 Oct 2020 22:41:45 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4874])
-        by smtp.gmail.com with ESMTPSA id z3sm9106643pgl.73.2020.10.31.22.21.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2020 22:21:43 -0700 (PDT)
+Received: from ?IPv6:2601:646:9200:4e0::221d? ([2601:646:9200:4e0::221d])
+        by smtp.gmail.com with ESMTPSA id m2sm9982480pfh.44.2020.10.31.22.41.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 31 Oct 2020 22:41:44 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] resolvconf: do not install dhclient hooks
+To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
+References: <20201030085852.18227-1-yi.zhao@windriver.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] rpm: Fix error.h handing properly on musl
-Date: Sat, 31 Oct 2020 22:21:40 -0700
-Message-Id: <20201101052140.3867813-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.2
+X-Pep-Version: 2.0
+Organization: HIMVIS LLC
+Message-ID: <ca22dfdd-33da-f448-f21b-854c255561b4@gmail.com>
+Date: Sat, 31 Oct 2020 22:41:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201030085852.18227-1-yi.zhao@windriver.com>
+X-Groupsio-MsgNum: 144061
+Content-Type: multipart/mixed;
+ boundary="------------91EBA2BEC268C0578B885716"
+Content-Language: en-US
 
-Ignoring configure fragments when error.h does not exist on system
-leaves eflutils half configured, which is seen when gold linker is
-enabled because librpm does not have proper dependencies added,
-therefore add error.h for non-glibc case and include it when glibc is
-not used.
+--------------91EBA2BEC268C0578B885716
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-Fix-build-with-musl-C-library.patch  |  26 ----
- ...tools-Add-error.h-for-non-glibc-case.patch | 118 ++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.16.0.bb       |   1 +
- 3 files changed, 119 insertions(+), 26 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-index 0b1d6298a9..b960da6c31 100644
---- a/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-Fix-build-with-musl-C-library.patch
-@@ -11,29 +11,6 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  rpmio/digest_nss.c | 1 +
-  2 files changed, 3 insertions(+), 1 deletion(-)
- 
--diff --git a/configure.ac b/configure.ac
--index c04a2e8d1..c9d9ac16d 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -255,6 +255,7 @@ AC_SEARCH_LIBS(dlopen, [dl])
-- # Check for libelf library. Prefer external, otherwise none.
-- WITH_LIBELF_LIB=
-- AC_CHECK_HEADER([libelf.h])
--+AC_CHECK_HEADERS([error.h], [WITH_ERROR_H=yes])
-- AC_CHECK_HEADERS([gelf.h], [
-- 	AC_CHECK_LIB(elf, gelf_getvernaux, [
-- 	    AC_DEFINE(HAVE_LIBELF, 1, [Define to 1 if you have the 'elf' library (-lelf).])
--@@ -263,7 +264,7 @@ AC_CHECK_HEADERS([gelf.h], [
-- 	])
-- ])
-- AC_SUBST(WITH_LIBELF_LIB)
---AM_CONDITIONAL(LIBELF,[test "$WITH_LIBELF" = yes])
--+AM_CONDITIONAL(LIBELF,[test "$WITH_LIBELF" = yes && test "$WITH_ERROR_H" = yes])
-- 
-- AC_CHECK_HEADERS([dwarf.h], [
--   WITH_LIBDWARF=yes
--diff --git a/rpmio/digest_nss.c b/rpmio/digest_nss.c
--index 992d9acf6..e11920e3e 100644
- --- a/rpmio/digest_nss.c
- +++ b/rpmio/digest_nss.c
- @@ -1,5 +1,6 @@
-@@ -43,6 +20,3 @@ index 992d9acf6..e11920e3e 100644
-  #include <pthread.h>
-  #include <nss.h>
-  #include <sechash.h>
---- 
--2.14.2
--
-diff --git a/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
-new file mode 100644
-index 0000000000..e78514b814
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-tools-Add-error.h-for-non-glibc-case.patch
-@@ -0,0 +1,118 @@
-+From b3952bd5e28f2a4d86c7377de239db8fa7237e14 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 31 Oct 2020 22:14:05 -0700
-+Subject: [PATCH] tools: Add error.h for non-glibc case
-+
-+error is glibc specific API, so this patch will mostly not accepted
-+upstream given that elfutils has been closely tied to glibc
-+
-+Upstream-Status: Inappropriate [workaround for musl]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ tools/debugedit.c      |  6 +++++-
-+ tools/elfdeps.c        |  6 +++++-
-+ tools/error.h          | 27 +++++++++++++++++++++++++++
-+ tools/sepdebugcrcfix.c |  6 +++++-
-+ 4 files changed, 42 insertions(+), 3 deletions(-)
-+ create mode 100644 tools/error.h
-+
-+diff --git a/tools/debugedit.c b/tools/debugedit.c
-+index 9f8dcd0fb..852f46073 100644
-+--- a/tools/debugedit.c
-++++ b/tools/debugedit.c
-+@@ -26,7 +26,6 @@
-+ #include <byteswap.h>
-+ #include <endian.h>
-+ #include <errno.h>
-+-#include <error.h>
-+ #include <limits.h>
-+ #include <string.h>
-+ #include <stdlib.h>
-+@@ -40,6 +39,11 @@
-+ 
-+ #include <gelf.h>
-+ #include <dwarf.h>
-++#ifdef __GLIBC__
-++#include <error.h>
-++#else
-++#include "error.h"
-++#endif
-+ 
-+ 
-+ /* Unfortunately strtab manipulation functions were only officially added
-+diff --git a/tools/elfdeps.c b/tools/elfdeps.c
-+index 6d9094874..f69e60997 100644
-+--- a/tools/elfdeps.c
-++++ b/tools/elfdeps.c
-+@@ -5,10 +5,14 @@
-+ #include <unistd.h>
-+ #include <stdlib.h>
-+ #include <fcntl.h>
-+-#include <error.h>
-+ #include <errno.h>
-+ #include <popt.h>
-+ #include <gelf.h>
-++#ifdef __GLIBC__
-++#include <error.h>
-++#else
-++#include "error.h"
-++#endif
-+ 
-+ #include <rpm/rpmstring.h>
-+ #include <rpm/argv.h>
-+diff --git a/tools/error.h b/tools/error.h
-+new file mode 100644
-+index 000000000..ef06827a0
-+--- /dev/null
-++++ b/tools/error.h
-+@@ -0,0 +1,27 @@
-++#ifndef _ERROR_H_
-++#define _ERROR_H_
-++
-++#include <stdarg.h>
-++#include <stdio.h>
-++#include <stdlib.h>
-++#include <string.h>
-++#include <errno.h>
-++
-++static unsigned int error_message_count = 0;
-++
-++static inline void error(int status, int errnum, const char* format, ...)
-++{
-++	va_list ap;
-++	fprintf(stderr, "%s: ", program_invocation_name);
-++	va_start(ap, format);
-++	vfprintf(stderr, format, ap);
-++	va_end(ap);
-++	if (errnum)
-++		fprintf(stderr, ": %s", strerror(errnum));
-++	fprintf(stderr, "\n");
-++	error_message_count++;
-++	if (status)
-++		exit(status);
-++}
-++
-++#endif	/* _ERROR_H_ */
-+diff --git a/tools/sepdebugcrcfix.c b/tools/sepdebugcrcfix.c
-+index fba460014..2be9c1fd8 100644
-+--- a/tools/sepdebugcrcfix.c
-++++ b/tools/sepdebugcrcfix.c
-+@@ -29,9 +29,13 @@
-+ #include <endian.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+-#include <error.h>
-+ #include <libelf.h>
-+ #include <gelf.h>
-++#ifdef __GLIBC__
-++#include <error.h>
-++#else
-++#include "error.h"
-++#endif
-+ 
-+ #ifndef _
-+ #define _(x) x
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_4.16.0.bb b/meta/recipes-devtools/rpm/rpm_4.16.0.bb
-index f01874fe38..a578cf3cbd 100644
---- a/meta/recipes-devtools/rpm/rpm_4.16.0.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.16.0.bb
-@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.16.x \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-            file://0001-lib-transaction.c-fix-file-conflicts-for-MIPS64-N32.patch \
-            file://0001-rpmdb.c-add-a-missing-include.patch \
-+           file://0001-tools-Add-error.h-for-non-glibc-case.patch \
-            "
- 
- PE = "1"
--- 
-2.29.2
 
+On 10/30/20 1:58 AM, Yi Zhao wrote:
+> Do not install the dhclient hooks
+> /etc/dhcp/dhclient-enter-hooks.d/resolvconf because the dhclient has
+> been removed from oe-core.
+>=20
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb b/m=
+eta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+> index f0ffc82241..33ee553d19 100644
+> --- a/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+> +++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.83.bb
+> @@ -43,7 +43,7 @@ do_install () {
+>  	ln -snf ${localstatedir}/run/${BPN} ${D}${sysconfdir}/${BPN}/run
+>  	install -d ${D}${sysconfdir} ${D}${base_sbindir}
+>  	install -d ${D}${mandir}/man8 ${D}${docdir}/${P}
+> -	cp -pPR etc/* ${D}${sysconfdir}/
+> +	cp -pPR etc/resolvconf ${D}${sysconfdir}/
+
+is this the only dir left to copy if we ignore dhcp/dhclient-enter-hooks.d=
+ ?
+
+>  	chown -R root:root ${D}${sysconfdir}/
+>  	install -m 0755 bin/resolvconf ${D}${base_sbindir}/
+>  	install -m 0755 bin/list-records ${D}${base_libdir}/${BPN}
+>=20
+>=20
+>=20
+>=20
+>=20
+
+--------------91EBA2BEC268C0578B885716
+Content-Type: application/pgp-keys;
+ name="pEpkey.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="pEpkey.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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
+=3Dsj8j
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------91EBA2BEC268C0578B885716--
