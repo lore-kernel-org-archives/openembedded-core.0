@@ -1,121 +1,224 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web12.14345.1604235185670673350
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web10.14350.1604235186590187321
  for <openembedded-core@lists.openembedded.org>;
  Sun, 01 Nov 2020 04:53:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PBfsuuXq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id s9so11411394wro.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2020 04:53:05 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Cyo9BLOt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id k18so6879093wmj.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2020 04:53:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=frlPpoIViN/BU6AHyK5Vj/cl5bQzOJantvyFbL39HfE=;
-        b=PBfsuuXqLDFQqBA4YrwlZqcJMQnyQYtuoE8KfJpLMJqUjrkvKeUVBQcINrYVfckHyU
-         eTVQysRYJF97EWl+Qp+bmXqDdEkRhGlPUbhnzm6vlu675au2HHDYBH4lO57Ozl38poVI
-         QL6uyysrvNdrAe/UDo29dH+1anw1BxlikkGZM=
+        bh=tFdVtwjNEq3dHsgoYbUEPFQADAgfcyeIo17Pz56Ijl0=;
+        b=Cyo9BLOtZw3MRAKCpJQrduDCoHYGXQj7Se0lIVOGDGiLxbQC+X0rY7WIn6UStB4jeE
+         j9RzADhoGtSleK1teZoPw4nbI9pijz6SNYFtpdbf/ggiCXsBEzLi7gME2PQwgvW5AK27
+         rh6lX6pWuWuM0iBGKO05unoc8ah3ysA8mltzs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=frlPpoIViN/BU6AHyK5Vj/cl5bQzOJantvyFbL39HfE=;
-        b=O8IALdB3YSyN0x4dfB+5qwA0lM75r4pY8zpv/71xFVsHPkCy4mdTqTOyxcN8Q6X6wS
-         PEKbNnCrJB+56lLxleJDJC3i9TDWXOH1W96YJTsRVrzwXotjbMBIg85j6fGyfHFA/pR/
-         HzZKFEprlcENm9ckxVWsg0P51knsVaWk+ph3gcOCSY9qKMEkMwark3hSu05RhCYmERFQ
-         r1yAHOXYOwN1LFIrr2mayYIAim6SU6BT43/NQzxF5d68exbB0EzwrfVJVt6meaRZ5bn6
-         IQp2b19rAyY2HFofzuIMFrqR8UnLfJfKrePQ72eZkpVe5r38KTK79NgUA1s+S5NSx9KG
-         AIlA==
-X-Gm-Message-State: AOAM531oHduTftPCVb1PHq5CkkL1nNVlU+vDb9Pzm2ubXK38K+om+LU4
-	OSvKQypBGGi/cdqDuadO4Vq50Te4ID937w==
-X-Google-Smtp-Source: ABdhPJzhcjFtHU+w1lsX8Uuv8E/ylhatp3DKk3GklEjP/SArW+cKCdA9UXBnhw3u5WapxGu/RZpElg==
-X-Received: by 2002:adf:e681:: with SMTP id r1mr13996687wrm.181.1604235184214;
+        bh=tFdVtwjNEq3dHsgoYbUEPFQADAgfcyeIo17Pz56Ijl0=;
+        b=GLeSFxmV8OS4KdmoH/y+OwfrfQOZH5fzpe4D8g4TQHZ6uAgH7CBsYS1pvw4IY7P6CS
+         90PJxoaz1PnqwyguHG4R04vtZ05QNNJswjIMb4e9aIB+N7Y7jHpLRh0tjUAfk5usFW7U
+         5inaBWzqYtiob24gAmfz+jq5pkJyLOeNFjz1SvZx+4Ky20z1+grkEpkNFhNsQ3ucmroz
+         gKKOY4yapypDcUhD5709/cTPpd5YP/5j0w+C8PdHl7Gstljw3ejfza7WQeLgqVJ41q2j
+         XXOuMB22PFVnU/WhwwZWdd0RCiw8pd1oVGt7bQtWRGRU9kEPhMoaP93vXZR7dvsbcsrT
+         JXEA==
+X-Gm-Message-State: AOAM530RbrDT00QriS73YDV3/yW2IvnVLMGIWZ4Gp+Dxq51fRYla0i8h
+	ZcmA8rtEfZEj4NJA+JiGK5g8fK/oszsvtQ==
+X-Google-Smtp-Source: ABdhPJzaJDdu/jtCix1tB5vQnuftvDJvfRKa1LhXSv3nAEHc5PK2i2Hqaw42XIyYK2lBtpYDdO0AqQ==
+X-Received: by 2002:a1c:a7ce:: with SMTP id q197mr2348815wme.138.1604235184822;
         Sun, 01 Nov 2020 04:53:04 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:11ab:804e:534c:cf3d])
-        by smtp.gmail.com with ESMTPSA id v123sm11806735wme.7.2020.11.01.04.53.03
+        by smtp.gmail.com with ESMTPSA id v123sm11806735wme.7.2020.11.01.04.53.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2020 04:53:03 -0800 (PST)
+        Sun, 01 Nov 2020 04:53:04 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
 	Viswanath Kraleti <vkraleti@codeaurora.org>
-Subject: [PATCH 1/2] sstate: Promote do_install to an sstate test
-Date: Sun,  1 Nov 2020 12:53:01 +0000
-Message-Id: <20201101125302.350160-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] selftest: Add binaryonly example and selftest
+Date: Sun,  1 Nov 2020 12:53:02 +0000
+Message-Id: <20201101125302.350160-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201101125302.350160-1-richard.purdie@linuxfoundation.org>
 References: <20201101125302.350160-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow sstate to be generated for do_install tasks.
+This patch adds a selftest showing how locked sstate can be used to handle
+a binary only delivery of some output.
 
-FIXME: Needs sstatesig rule mappings to be added for do_install as builds
-from sstate currently install *everything* and shouldn't. do_install
-rules are missing.
+xz is used as an example with a special "binary only" variant of the recipe
+which is basically the standard one with some small tweaks so it has its own
+recipe and package namespaces.
+
+The test creates its own local sstate directory for the test so it doesn't write
+to any main sstate store.
+
+If the xz-binaryonly recipe is built with "binaryonly-secretsource" in BBPATH,
+it functions as a normal recipe. The xz-binaryonly-src include file contains
+the "secret" recipe build instructions such as where to get the source from
+and how to configure it. There is a binaryonly-src bbclass which at the end
+of do_install, writes out a locked sstate signatures file showing how to lock
+the build to this specific binary sstate object.
+
+If the xz-binaryonly recipe is built without any BBPATH additions but the sstate
+signature lock include file is included, the build will look for and use the sstate
+object specified and not run any of the configure/compile tasks.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/base.bbclass    | 10 ++++++++++
- meta/classes/staging.bbclass |  2 +-
- meta/lib/oe/sstatesig.py     |  2 +-
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ .../xz-binaryonly-src.inc                     | 16 +++++++++
+ meta-selftest/classes/binaryonly-src.bbclass  |  9 +++++
+ meta-selftest/classes/binaryonly.bbclass      |  9 +++++
+ .../xz-binaryonly/xz-binaryonly_5.2.5.bb      | 36 +++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/binaryonly.py    | 34 ++++++++++++++++++
+ 5 files changed, 104 insertions(+)
+ create mode 100644 meta-selftest/binaryonly-secretsource/xz-binaryonly-src.inc
+ create mode 100644 meta-selftest/classes/binaryonly-src.bbclass
+ create mode 100644 meta-selftest/classes/binaryonly.bbclass
+ create mode 100644 meta-selftest/recipes-binaryonly/xz-binaryonly/xz-binaryonly_5.2.5.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/binaryonly.py
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 5a0b0c6b3e2..cb854ed6601 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -339,6 +339,14 @@ base_do_install() {
- 	:
- }
- 
-+SSTATETASKS += "do_install"
-+do_install[sstate-plaindirs] = "${D}"
+diff --git a/meta-selftest/binaryonly-secretsource/xz-binaryonly-src.inc b/meta-selftest/binaryonly-secretsource/xz-binaryonly-src.inc
+new file mode 100644
+index 00000000000..cd2294ba90e
+--- /dev/null
++++ b/meta-selftest/binaryonly-secretsource/xz-binaryonly-src.inc
+@@ -0,0 +1,16 @@
++LIC_FILES_CHKSUM = "file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a \
++                    file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
++                    file://COPYING.LGPLv2.1;md5=4fbd65380cdd255951079008b364516c \
++                    file://lib/getopt.c;endline=23;md5=2069b0ee710572c03bb3114e4532cd84 \
++                    "
 +
-+python do_install_setscene () {
-+    sstate_setscene(d)
++SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
++SRC_URI[md5sum] = "0d270c997aff29708c74d53f599ef717"
++SRC_URI[sha256sum] = "f6f4910fd033078738bd82bfba4f49219d03b17eb0794eb91efbae419f4aba10"
++UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
++
++CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
++
++inherit binaryonly-src
++
+diff --git a/meta-selftest/classes/binaryonly-src.bbclass b/meta-selftest/classes/binaryonly-src.bbclass
+new file mode 100644
+index 00000000000..75bc5e2ca7b
+--- /dev/null
++++ b/meta-selftest/classes/binaryonly-src.bbclass
+@@ -0,0 +1,9 @@
++do_install[postfuncs] += "write_binaryonly_lockedsig"
++
++python write_binaryonly_lockedsig () {
++    outputfile = d.expand("${TOPDIR}/binaryonly-lockedsigs-demo.inc")
++
++    with open(outputfile, "a+") as f:
++        f.write('SIGGEN_LOCKEDSIGS_t-%s += "%s:do_install:%s"\n' % (d.getVar("PACKAGE_ARCH"), d.getVar("PN"), d.getVar("BB_TASKHASH")))
++        f.write('SIGGEN_LOCKEDSIGS_TYPES_%s = "t-%s"\n' % (d.getVar("MACHINE"), d.getVar("PACKAGE_ARCH")))
 +}
-+addtask do_install_setscene
+diff --git a/meta-selftest/classes/binaryonly.bbclass b/meta-selftest/classes/binaryonly.bbclass
+new file mode 100644
+index 00000000000..4903c7cd934
+--- /dev/null
++++ b/meta-selftest/classes/binaryonly.bbclass
+@@ -0,0 +1,9 @@
++python () {
++    if not bb.data.inherits_class('binaryonly-src', d):
++        bb.build.deltask("do_fetch", d)
++        bb.build.deltask("do_unpack", d)
++        bb.build.deltask("do_patch", d)
++        #bb.build.deltask("do_prepare_recipe_sysroot", d)
++        #bb.build.deltask("do_configure", d)
++        #bb.build.deltask("do_compile", d)
++}
+\ No newline at end of file
+diff --git a/meta-selftest/recipes-binaryonly/xz-binaryonly/xz-binaryonly_5.2.5.bb b/meta-selftest/recipes-binaryonly/xz-binaryonly/xz-binaryonly_5.2.5.bb
+new file mode 100644
+index 00000000000..366c6e9751c
+--- /dev/null
++++ b/meta-selftest/recipes-binaryonly/xz-binaryonly/xz-binaryonly_5.2.5.bb
+@@ -0,0 +1,36 @@
++SUMMARY = "Utilities for managing LZMA compressed files"
++HOMEPAGE = "https://tukaani.org/xz/"
++SECTION = "base"
 +
- base_do_package() {
- 	:
- }
-@@ -511,6 +519,8 @@ python () {
-         d.appendVarFlag('do_install', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
-         d.setVarFlag('do_install', 'fakeroot', '1')
-         d.setVarFlag('do_install', 'umask', '022')
-+        d.setVarFlag('do_install_setscene', 'fakeroot', '1')
-+        d.appendVarFlag('do_install_setscene', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
-         d.appendVarFlag('do_package', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
-         d.setVarFlag('do_package', 'fakeroot', '1')
-         d.setVarFlag('do_package', 'umask', '022')
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index f0a619b35bd..11eadf18062 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -326,7 +326,7 @@ python extend_recipe_sysroot() {
-     # Create collapsed do_populate_sysroot -> do_populate_sysroot tree
-     for dep in taskdepdata:
-         data = setscenedeps[dep]
--        if data[1] not in sstatetasks:
-+        if data[1] not in sstatetasks or data[1] == "do_install":
-             for dep2 in setscenedeps:
-                 data2 = setscenedeps[dep2]
-                 if dep in data2[3]:
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 4ea29cbdfc3..15391255b83 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -480,7 +480,7 @@ def OEOuthashBasic(path, sigfile, task, d):
-     if "package_write_" in task or task == "package_qa":
-         include_owners = False
-     include_timestamps = False
--    if task == "package":
-+    if task == "package" or task == "install":
-         include_timestamps = d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1'
-     extra_content = d.getVar('HASHEQUIV_HASH_VERSION')
- 
++BPN = "xz"
++
++# The source includes bits of PD, GPLv2, GPLv3, LGPLv2.1+, but the only file
++# which is GPLv3 is an m4 macro which isn't shipped in any of our packages,
++# and the LGPL bits are under lib/, which appears to be used for libgnu, which
++# appears to be used for DOS builds. So we're left with GPLv2+ and PD.
++LICENSE = "GPLv2+ & GPL-3.0-with-autoconf-exception & LGPLv2.1+ & PD"
++LICENSE_${PN} = "GPLv2+"
++LICENSE_${PN}-dev = "GPLv2+"
++LICENSE_${PN}-staticdev = "GPLv2+"
++LICENSE_${PN}-doc = "GPLv2+"
++LICENSE_${PN}-dbg = "GPLv2+"
++LICENSE_${PN}-locale = "GPLv2+"
++LICENSE_liblzma-bin = "PD"
++
++# We try to include the secret source but don't fail if we can't
++include xz-binaryonly-src.inc
++
++inherit binaryonly
++
++inherit autotools gettext
++
++PACKAGES =+ "liblzma-bin"
++DEBIAN_NOAUTONAME_liblzma-bin = "1"
++FILES_liblzma-bin = "${libdir}/liblzma*${SOLIBS}"
++
++inherit update-alternatives
++ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_${PN} = "xz xzcat unxz \
++                     lzma lzcat unlzma"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/lib/oeqa/selftest/cases/binaryonly.py b/meta/lib/oeqa/selftest/cases/binaryonly.py
+new file mode 100644
+index 00000000000..3901d41db0b
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/binaryonly.py
+@@ -0,0 +1,34 @@
++#
++# SPDX-License-Identifier: MIT
++#
++# Author: Richard Purdie <richard.purdie@linuxfoundation.org>
++#
++
++import shutil
++import tempfile
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, get_bb_var, get_test_layer
++
++class BinaryOnly(OESelftestTestCase):
++    def test_binaryonly(self):
++        # We need to create our own local sstate directory but use the main sstate as a mirror for speed
++        tempdir = tempfile.mkdtemp(prefix='sstate_binaryonly')
++        testlayer = get_test_layer()
++        sstate_path = get_bb_var("SSTATE_DIR")
++        topdir = get_bb_var("TOPDIR")
++        self.append_config("SSTATE_DIR = \"%s\"" % tempdir)
++        self.append_config("SIGGEN_LOCKEDSIGS_TASKSIG_CHECK = 'warn'")
++        self.track_for_cleanup(tempdir)
++        self.append_config("SSTATE_MIRRORS += \"file://.* file:///%s/PATH\"" % sstate_path)
++
++        enable_source = "BBPATH .= ':%s/binaryonly-secretsource'" % testlayer
++        self.append_config(enable_source)
++        bitbake("xz-binaryonly -c clean")
++        bitbake("xz-binaryonly")
++        bitbake("xz-binaryonly -c clean")
++
++        enable_lockfile = "require ${TOPDIR}/binaryonly-lockedsigs-demo.inc"
++
++        self.remove_config(enable_source)
++        self.append_config(enable_lockfile)
++        bitbake("xz-binaryonly")
 -- 
 2.25.1
 
