@@ -1,76 +1,116 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web09.13948.1604233955884654429
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.14345.1604235185368014649
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Nov 2020 04:32:36 -0800
+ Sun, 01 Nov 2020 04:53:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PeY0MR32;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id e2so6865351wme.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2020 04:32:35 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a/5xqrA5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id b8so11456936wrn.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2020 04:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=F1yE0RzamLO7mjtMafPuMfa2fznet9CRAd8KVsnx/qc=;
-        b=PeY0MR32uch9uHFytSwiiGKQyDiWqpeEMyGuUCSzGNWYnQxb8r3nqYBggba1NM09gn
-         DRpls0nVf19o+HMNxIQfNDlBppkP0xVurmf5bp8XFi7JkEbv7yWEKcYiYkv2FOUK+53u
-         x/67myHfcKfk2mfLNps6M7DN/bfv0cXDTjC5o=
+        bh=VJXNJJ6WuTAcPmOfxS6eODGdPncHoi846cZ6grPvJlo=;
+        b=a/5xqrA51atJSLE3GPSKlPlFFOCytx5Ve5nfTQ7nFs1VvYuVyqaUPw7ycRmZyUbWTt
+         tcJ5OE3AtZEe/vqeXBkyWUFdpeXcOTPIfyocZHb5UqmKfpyGbYPkEUBC91XGl9zpbY9+
+         zup18caV0+5kBWh/Os4JiItdVyNV0uPTv1lHU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=F1yE0RzamLO7mjtMafPuMfa2fznet9CRAd8KVsnx/qc=;
-        b=DB7+svOPVVhmIo7kaTpYgW/Mw6OMmhoosvD2r7rF8xxWYGshAtZ2ISIVPjfQ7G6vM9
-         O+dQB/M+8OVu1HEM1b9B+varOF7lyt8zgdfUtKPy9HO2eFTgDoy0HVyr8nkXmOmP2bOd
-         H/+VPnhBFxECtyfUbpwsCpBtkKPtx9RzwFFb57m40tukrIY3b4jShNO+cE3e6zvt5bgX
-         znXs1twNjXOe0mrKZv2IRATlJP0V0lOdiLwpf/VHJckz9aZbPf6O+yKTeLmJFUjh9y2h
-         SQoDqozsT8JbC5KH1CP6RLq58ZQnzrX6bCLW0ZQ7QLZz9lh+AZ1Fget9jdFGyJcLskOW
-         c2WA==
-X-Gm-Message-State: AOAM532wZHfE+lN51Rni+G+IMYJ+gLWi+OkIw+3JIWf4O23mMgPuESJL
-	gwSko8UwqH03KZJPVMWz6OT+bpCytRExbg==
-X-Google-Smtp-Source: ABdhPJwRirWt6wajxdFqPTUsP7EIzm7pPKqqMRf5WyhNZRBHdtIrEZY8gqCd3zGN20de4gML0z3zpg==
-X-Received: by 2002:a1c:b1d7:: with SMTP id a206mr13196685wmf.117.1604233954060;
-        Sun, 01 Nov 2020 04:32:34 -0800 (PST)
+        bh=VJXNJJ6WuTAcPmOfxS6eODGdPncHoi846cZ6grPvJlo=;
+        b=E7vJQNbZ/WDDp/lHXZHF3MyT6IA80bClRBLcFI44CnSYwwungdSAL+DbhuibFcBJYQ
+         NRTphwh4VGefGjgLMz23HukbHJ/3bxS+iKkdI3i3Ou45BFXUdqwsUzvAvgFB0k7zYHzr
+         35dNyqHGl89ZLTdc7yF6p6bN5lTNrfpAEJt3OByZXT/7Y6EqmvkpGXwPF26s4DUKx3x4
+         lncj5rHalMAXcbfU32GMzDSQZcxKAQPwSLDTEVPOyR+4J9F/3rYHZewkcFntb7yyJxG3
+         ASLL1GVBFsCQq81TEikEIrTj+sENChiUXrA7Tu0jx30OolEYeq0L5KlHjxrlLcW3D7Oh
+         b20g==
+X-Gm-Message-State: AOAM531mMWc5lJky3Doyw/kpVbnnfpRYg6fmdP1IbceV4Y+8o62k41GC
+	cgMen9AUIwKNz0blSC9UlScWfSFjKU5TUA==
+X-Google-Smtp-Source: ABdhPJzE/p2sRU8YnsbZB3nO0etzIzMmyrB6I4KNY1ksPZ82S0j/2BmM1aa6gUl7uwpSihFIV5KARw==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr14574590wro.202.1604235183630;
+        Sun, 01 Nov 2020 04:53:03 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:11ab:804e:534c:cf3d])
-        by smtp.gmail.com with ESMTPSA id y201sm12305164wmd.27.2020.11.01.04.32.33
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id v123sm11806735wme.7.2020.11.01.04.53.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2020 04:32:33 -0800 (PST)
+        Sun, 01 Nov 2020 04:53:03 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libxcb: Fix install file owner/group
-Date: Sun,  1 Nov 2020 12:32:33 +0000
-Message-Id: <20201101123233.349497-1-richard.purdie@linuxfoundation.org>
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>,
+	Viswanath Kraleti <vkraleti@codeaurora.org>
+Subject: [PATCH 0/2] Example of how prebuilt binaries and locked sstate could work
+Date: Sun,  1 Nov 2020 12:53:00 +0000
+Message-Id: <20201101125302.350160-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The makefile uses cp -P behind the scenes for installing the tutorial files
-and this preserves the build user identity. Fix this to the correct
-owner/group. Usually do_package fixes and hides this but it can be seen
-in do_install.
+At the Yocto Project Summit, there was some talk about how prebuilt binaries could
+be better supported. There was some discussion about how "locked sstate" could 
+actually handle this quite neatly. I thought I'd have a look at that and came up 
+with a few patches to illustrate what I was talking about.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-graphics/xorg-lib/libxcb_1.14.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Rather than talk about this in abstract terms, I've written this up as an oeqa
+selftest, you can run it as "oe-selftest -r binaryonly". The selftest patch commit
+message contains information about the example "binaryonly" implementation.
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
-index f27c5daa617..e9f6051b6e1 100644
---- a/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
-@@ -30,6 +30,10 @@ REQUIRED_DISTRO_FEATURES = "x11"
- 
- export PYTHON = "python3"
- 
-+do_install_append () {
-+	chown root.root ${D}${datadir}/doc/${BPN}/tutorial -R
-+}
-+
- python populate_packages_prepend () {
-     do_split_packages(d, '${libdir}', r'^libxcb-(.*)\.so\..*$', 'libxcb-%s', 'XCB library module for %s', allow_links=True)
- }
+This series is a proof of concept and there are a list of known issues:
+
+This patch series depends upon:
+ * the libxcb owner/group fix I sent out
+ * a bitbake patch to siggen in bitbake master-next to remove what I think is a 
+   misfunctioning optimisation to get_unihash
+ * a fix to sstatesig in OE-Core master-next to adapt to the above bitbake fix
+
+This series contains a patch to enable sstate for do_install globally. As noted
+in the patch, whilst it builds, there are some rules missing to make it work 
+optimially.
+
+There is a bug in the way locked hashes were being handled by dependent tasks. The
+two patches in master-next mentioned above are attempts to try and fix that, they 
+certainly make this selftest work but I have concerns they may break something else.
+I'm therefore performing wider autobuilder testing to see if that shows any issues.
+
+The proof of concept here isn't 100% complete. In particular:
+
+* We need a more generic/usable way to lock/unlock specific tasks in recipes,
+  the test just generates a file of the right format for now to show how it works.
+* A warning is shown for the locked recipe. We need a way to specify not to warn
+  for a specific list of recipes.
+* If the sstate object the recipe is locked to is unavailable it will currently
+  fail the build obtusely. We need to write some kind of user readable error.
+* There is no mechanism to ship specific sstate within a layer, we'd probably
+  need one for this. The existing mirror syntax will probably help/work.
+* The source date epoch and populate_lic tasks need to be properly handled, I've
+  just ignored them in this demo.
+
+I'd note that the BBPATH trick to enable/disable the source build could be done
+as separate layers, I just didn't want to add multiple layers to OE-Core just for
+this. The reason for this trick is that in many cases, the URLs and build process
+for the source needs to be kept separate and not disclosed. That source inc is 
+therefore designed to be seperable.
+
+Richard Purdie (2):
+  sstate: Promote do_install to an sstate test
+  selftest: Add binaryonly example and selftest
+
+ .../xz-binaryonly-src.inc                     | 16 +++++++++
+ meta-selftest/classes/binaryonly-src.bbclass  |  9 +++++
+ meta-selftest/classes/binaryonly.bbclass      |  9 +++++
+ .../xz-binaryonly/xz-binaryonly_5.2.5.bb      | 36 +++++++++++++++++++
+ meta/classes/base.bbclass                     | 10 ++++++
+ meta/classes/staging.bbclass                  |  2 +-
+ meta/lib/oe/sstatesig.py                      |  2 +-
+ meta/lib/oeqa/selftest/cases/binaryonly.py    | 34 ++++++++++++++++++
+ 8 files changed, 116 insertions(+), 2 deletions(-)
+ create mode 100644 meta-selftest/binaryonly-secretsource/xz-binaryonly-src.inc
+ create mode 100644 meta-selftest/classes/binaryonly-src.bbclass
+ create mode 100644 meta-selftest/classes/binaryonly.bbclass
+ create mode 100644 meta-selftest/recipes-binaryonly/xz-binaryonly/xz-binaryonly_5.2.5.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/binaryonly.py
+
 -- 
 2.25.1
 
