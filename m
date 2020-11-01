@@ -1,95 +1,88 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web10.21418.1604264950887390238
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web10.21504.1604265407914955866
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Nov 2020 13:09:11 -0800
+ Sun, 01 Nov 2020 13:16:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CUpOfjD7;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id cw8so2458018ejb.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2020 13:09:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lPqEEHwy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id s25so2132537ejy.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 01 Nov 2020 13:16:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=Wr5zHiWDSB1QZLmCfjmfskAiHpJkA9F3Xtby5srr/PQ=;
-        b=CUpOfjD7mCW+vSUNdthwFqS1CnEPk5l3rcEES8d9xA5n95Q7ALg88nGb8+WMfYUOAn
-         75qM2D0E7XkRiAfsDrTTI8nC8XUb58ScqjBR3fwmkbIT6AV57mNetbA2rAtYU4hOS8b8
-         jR2ny5DQlzG+VB/MG2jkcR4NHWnheymspcdEfaZGzOBf2JqEkwIwiZVh6jkBCx6HIWFK
-         M/oGW5vvqds2CP4Z2Yu9buUxbgZ0eyjhxFFxrzTooGBCfmTGG3XXwO1XTz/zEEYEtdRS
-         o5NeIYEbXgFO3ofAENIy7aTPZEJk8w643TG46jAXmNFeTuywn+oqtPZvPhw7UqkxpG5o
-         4daQ==
+        bh=fOLX7eBWeDGqEz/3FFc/uCHaB5II+tn0olA1mgSR/eE=;
+        b=lPqEEHwyKiuTJG8riLumbzAer+vyqqIkmGqQnS4q+I475IuF9ejUhRxr2xkQCJADYB
+         fBRhoH+M2Bumcu/VqNH8N1i4cKIMUp5b16zTDGCjtcKzhZrbt+zFHAqGRC6GHXU3Rf3g
+         JJtbhYJ2FAI/8qtG/T8UnKF6zk3x3pZ4S+JrvS5jq/LWeGppBb7C+CSwPTTqGAsoVvq/
+         3m6JFlvGYi7yY3fIUDF/H/4mCS8cEIQzK3gTcIvmYVm9N30hu76VjzMpK1Nivtt/bXV7
+         69DV3ig2rZo/mY3sgVnyBzrtqeyH4aYO6wY2LKINWYcjAdcGu+yLjLNXdhrMRrsPnVjx
+         mkXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Wr5zHiWDSB1QZLmCfjmfskAiHpJkA9F3Xtby5srr/PQ=;
-        b=dLgKOXglrrYXsj2a+MeclAXeqoVQGWJhO/gtwBw5RFmAJAWS0VLJeOYWEoCcz82fQ/
-         nvr66p2+L/wJK/mhP8S5Ptp6Bav7vNJC9M2y31/d91RGMoQhTc8+30S5PPE8pKullvDv
-         FnGrwTkQ1/jrfH6nknrAvdier19kV7Bbw7WTSg+UY0Mdl2GtytoaNWIB0GxjK7Bc8QmF
-         FGqfrjkVWO7+hUhddWVDaSoGk6ySoBHtu5Naf5mk90DdLsjyaCzyOBvrgyijnttazSwd
-         TuoU+IvQId0fQbrwLscNpYZvfZpEbkha3oR9P3ZdXmThPFJYwbyMWOw1dhmgXmI6f/UU
-         D2fg==
-X-Gm-Message-State: AOAM532KnC7y047IGkf1EWSXxVWYHBAHV/DlN1hBE3YePDHdj0YKmfZ1
-	3be6VWRh2od5mxXmuyJGA0zbY28bXq89We63pI4=
-X-Google-Smtp-Source: ABdhPJxXAQOq+W7sJQh1BWmRhwmufL0IZC6qNqt1cd6VCstjnP364ZwIu9Rf53ROUAq+YPZUwry18csP72NR9qCZ6q8=
-X-Received: by 2002:a17:906:a119:: with SMTP id t25mr13159192ejy.67.1604264949334;
- Sun, 01 Nov 2020 13:09:09 -0800 (PST)
+        bh=fOLX7eBWeDGqEz/3FFc/uCHaB5II+tn0olA1mgSR/eE=;
+        b=LhrYaBNX8g17PFmMUlJVX2jDJXNk3hcTLCgswe6EwWHmNTMrDodwHcf/VMI/kAe1bl
+         nqTC1tpKg0ZTqSiz26WGCPN47BF4ZtD+BuOL5slGf/4TlMQaWg25uiCdMKPy0wYblIrT
+         cjCdSsZ/OChZDMaDkEiyAFgcW6KByX70ZerCNVdEeDJKgUoq/5K3BEtjjuli0QueTv0C
+         bjMWi18vLcLNBeK36b/Wgab3LCY97KE9wBErxs82hiaCbEDuoJ0jYKZHxZl78ydrPLzP
+         B6mdeu+M7jrD/Id+Qo1eCY6N7rfa08y2TOaIIzsTJOzjm28p2kTNaNHGEz8vQeRfda0b
+         wSPA==
+X-Gm-Message-State: AOAM533Ry15loPXtup3z8pLv5nl5WkoLLL4RBqantqymjvlWqCqErHG4
+	1tEoNitZiveNDLw9E5w1dCXwZQQx9ur1rPtNwrk=
+X-Google-Smtp-Source: ABdhPJwi5zl0J94q4NijYQtCT7Ojm1cbqjauJcaz0Fj86HUSm/7TflddMtM2PfeiGWyEKZ7dKkaA68bdA8dN/qO7pzc=
+X-Received: by 2002:a17:906:16c6:: with SMTP id t6mr12338790ejd.453.1604265406320;
+ Sun, 01 Nov 2020 13:16:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20201029142806.1830504-1-quaresma.jose@gmail.com>
- <20201029142806.1830504-6-quaresma.jose@gmail.com> <88cd1831e021c2384219da4223981fa004551498.camel@linuxfoundation.org>
- <1642964F5C513D13.27950@lists.openembedded.org> <1642987B07D196A5.27950@lists.openembedded.org>
- <CANPvuRkKDPM8h5d8wjzdvQ95vY_kYHXkxvW0Uvqw8rTYj0yWCQ@mail.gmail.com>
- <f5f3fe375a9174e401c283431de0fca1634539a1.camel@linuxfoundation.org>
- <1642D6DB2EF0C3ED.10902@lists.openembedded.org> <CANPvuRnjYPZabjLDTW7rttaaH6qUW7sV_ZEyS31bGZHsZHjXsQ@mail.gmail.com>
- <3b12ced1f6625fe0a9bdeb9e5c0cd5a7ca004d50.camel@linuxfoundation.org>
- <b298f53a7fceab3d51ec69ab1b9356269074e712.camel@linuxfoundation.org>
- <CANPvuRn+ZOcnS+Mg_y5dcX+D1QJH__APYqLECGrBt8KVx0fU1Q@mail.gmail.com>
- <CANNYZj9VosotbYD_xF3u8qqiwKBkcN06f7itUasenXtbriONOA@mail.gmail.com> <CANNYZj8ZE4wXmyGbK7JZoY0V4K4xgdu-ePhUdJiDxxLV0+pzwg@mail.gmail.com>
-In-Reply-To: <CANNYZj8ZE4wXmyGbK7JZoY0V4K4xgdu-ePhUdJiDxxLV0+pzwg@mail.gmail.com>
+References: <20201030232256.624297-1-quaresma.jose@gmail.com>
+ <aa090613e34863ee936811011d3019eafba3db81.camel@linuxfoundation.org> <CAP9ODKp5US_QbOxB_GQiCjnh9zPfpLeqNeSdD5hPgVxupJS97w@mail.gmail.com>
+In-Reply-To: <CAP9ODKp5US_QbOxB_GQiCjnh9zPfpLeqNeSdD5hPgVxupJS97w@mail.gmail.com>
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Sun, 1 Nov 2020 21:08:57 +0000
-Message-ID: <CANPvuRmzr4F-cwLf7uJRAtk23yRR2AvTM-D9KmkGpyD04TddJw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v5 05/22] gstreamer1.0-plugins-good: upgrade to version 1.18.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 1 Nov 2020 21:16:34 +0000
+Message-ID: <CANPvuRmR1=tNVRzLDB3teoKz+k3OFAf4KvJ03mFemgYQyPSDEw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gstreamer: use git to fetch the sources
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Alexander Kanavin <alex.kanavin@gmail.com> escreveu no dia s=C3=A1bado,
-31/10/2020 =C3=A0(s) 18:56:
+Otavio Salvador <otavio.salvador@ossystems.com.br> escreveu no dia
+s=C3=A1bado, 31/10/2020 =C3=A0(s) 20:30:
 >
-> On Sat, 31 Oct 2020 at 19:54, Alexander Kanavin <alex.kanavin@gmail.com> =
-wrote:
->>
->> On Sat, 31 Oct 2020 at 12:49, Jose Quaresma <quaresma.jose@gmail.com> wr=
-ote:
->>>
->>> There are great tools on the OE core to check this type of problems.
->>> Congratulations for the autobuilder infrastructure. I will try to
->>> setup it in near future
->>> because they are very useful.
->>
->>
->> I think there's also a ptest regression for gstreamer:
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/1472
->>
->> It's not a failure, and doesn't prevent merging version updates, but sti=
-ll should be addressed.
+> Em sex., 30 de out. de 2020 =C3=A0s 21:32, Richard Purdie
+> <richard.purdie@linuxfoundation.org> escreveu:
+> > On Fri, 2020-10-30 at 23:22 +0000, Jose Quaresma wrote:
+> > > gstreamer has the code hosted on [1] and this repo as tags.
+> > > manage code with git its more convenient than with tarball archives.
+> > >
+> > > [1] - https://gitlab.freedesktop.org/gstreamer
+> > >
+> > > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> >
+> > I'm not 100% sure about this. Tarballs tend to be less overhead for
+> > fetching and make for easier source archiving. The git repos are easier
+> > for day to day dev work but tend to be harder for the AUH to handle and
+> > slower to fetch for the users taking up more space to download and
+> > unpack. I'm therefore torn. I know where we have used git for other
+> > core components it has caused performance issues.
 >
->
-> Here specifically:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/1472/st=
-eps/8/logs/step1c
->
-> Alex
+> We could tune the git fetcher to not download whole history, we it'd
+> be  a win win case no?
 
-I will look at this when I have some time.
-But I need to deepen my knowledge first about the OE ptest.
+I don't know if it is possible to use something like: git clone =E2=80=93de=
+pth 1
+but with a solution like this we reduce the download overhead to
+values close to the file archive.
 
-I think it can be very useful to run the gstreamer meson test infrastructur=
-e.
-I don't know why but I will try to do it.
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+
+
 
 --=20
 best regards,
