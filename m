@@ -1,50 +1,50 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.1219.1604335797616130667
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web12.1183.1604335798379318970
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:57 -0800
+ Mon, 02 Nov 2020 08:49:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WpaCZ0xO;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id o21so12768749ejb.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VQT5A+1t;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id e18so3871412edy.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WDSk07dPfaB3/QvRXTtWelcqt/ojYX/1GiR57M+kANE=;
-        b=WpaCZ0xORB6hSAjxzChIDuOMULhNeH7Qj5PYq64N5XlneKH2tlwoE8lxplO06+4I/b
-         yyuVKqFgoeUs3BFOocKawWdiIUyByhU9OKbG5io5p7nLd6XGsTbb1h4KaCvDEKmKlKat
-         3+5jXgqYaT9eDFfPAF+8maNFhn/JVs7NMnrizGCTPpwWUDIcIk2WE5c1M1drNn5YGSr4
-         +c24Mli9/8u28/cvR1FmwIFIcmRdHLD2WWxyIBMlo1WChENYaIUc0QzlFtL6NZjxRdaw
-         0NqZokalBNmU0AULnR03XPzHR/MVGJRzNcmA631a2y4ei3Blxt07uM1/S4MMpTacJn6n
-         Vkxw==
+        bh=dYgx/9hlSYpXYORslKgpZvHPWEyQ9wwSBgfhF49AhmA=;
+        b=VQT5A+1tPySNH+N2HXvpDbyDMcjJdmlNrGmXWQ35Y2bJWCWpR0jqd4dkec1NNWT21K
+         fxN/gM0y1LGVLw+5MQmcE8zq6Seyya4FmN0ySWpEmpm+llalfW9M8W3XtdyUe2aK4aT6
+         I9eSQ2blutAKAvchNZrCymQDpwFlJPlyG36bWr33taAG7B+9SdQ+E1T8pKXzd51pZ9x9
+         zVtV+eT+1IZyvcO/XHHDKGyV6d5cBY06PnwkGL+XcSnyoLJMeGQg1USwtm+HQkhV2jKe
+         rG++KizJgn7w1mQtJR8gu2O0OtOKtxEjv3jjbL8Wn8HKPHdnGyu8a2p1Xr7I9D7mjp4j
+         evpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WDSk07dPfaB3/QvRXTtWelcqt/ojYX/1GiR57M+kANE=;
-        b=AiZEDxvZlLHwie7jO7vicDfpzWOdNab/V6+J87hMrK2hy3+rkJQVkqBG/yAhIIeceL
-         I/pP85tVb6CNQganC1UTNEos8Mvlb7F4xbkUsuuYDiVjq3uhC4eFdQr+/I0Se3dg39DM
-         33sTrziQLndzfBNUyGeU//QogLEBBbJZftiyM01YepiljHKHkXUJoEqxEChVmw0YTZRd
-         gek9vp0r0I9jBOeYASBpxuw21QzxAiRawZLt+xdiYMdmNpYN+3WupstYLYFxw9n3UOaI
-         VjdxZwdY6hyFgfUnXqBGdJgukQxHaRmI8ZbG9WZYtJDw2N9EXBUVgP/SaMeXwEAb+YDL
-         16Yg==
-X-Gm-Message-State: AOAM531d0sruK53Wsr5x26vpbresKfOdjciYyhcU+QPXqMmKPLjVWu+P
-	5YOcDABxUI9Ukc3qfZkmtkRE0gl5pHTfcQ==
-X-Google-Smtp-Source: ABdhPJyP6juresiyC7jIbr2qDCs7yP/2dUMwKDyWyjzPo5H1p2JLXzQyRMP3A5pRsgg2vkQnXQxSlg==
-X-Received: by 2002:a17:906:ec9:: with SMTP id u9mr16172499eji.400.1604335795980;
-        Mon, 02 Nov 2020 08:49:55 -0800 (PST)
+        bh=dYgx/9hlSYpXYORslKgpZvHPWEyQ9wwSBgfhF49AhmA=;
+        b=lRK/mv1NCoEyw/VEQgqZSdZQkN4QK3q3C7J2Jy910uF3lRw1PzuwK5VjG1dr4F67IL
+         hAVoumqEaHcr5OUK0YfzAVvZch08krewlZyvkhuakP+ZdBTWT5oXcE16SAuB6f0Qwp7j
+         dcRV5jc9ynqLmCiaFp78i4mctXhqsM2415YnG2A+GMdRGrkCYG4V9yDsMi9pBnf4efF3
+         +1QcfmRBJ2KG3vg/LtrzMAq6ZjY/P+XH6oQ+LsS91eyE2+psKYmMaQnk0Y5rz4VMKdeM
+         vCh04oRjSzIQvcAjjAKDp+loJMaiQGTVVlhMXkxjaIhLbZ9HXSgcoI403tX5S0NFvr5g
+         xKPA==
+X-Gm-Message-State: AOAM530oz6syNUuJBthohGjvWNP+Fu1oY/o+IY6NDHRqZMMZ60faZGge
+	/uBey7X9hklcPyKJ9OZZjZPxP5Y9WVjzqA==
+X-Google-Smtp-Source: ABdhPJy2SdVMLN7BJyupdca1Be8+DnciyKk9m8oaUBeO3tw6NVv7Za3Dn86ppUnlqgRRYixtWr/WwQ==
+X-Received: by 2002:a50:f104:: with SMTP id w4mr7162091edl.381.1604335796718;
+        Mon, 02 Nov 2020 08:49:56 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.55
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:55 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:56 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 43/80] vala: upgrade 0.48.9 -> 0.50.1
-Date: Mon,  2 Nov 2020 17:48:30 +0100
-Message-Id: <20201102164907.27572-43-alex.kanavin@gmail.com>
+Subject: [PATCH 44/80] wpebackend-fdo: upgrade 1.7.1 -> 1.8.0
+Date: Mon,  2 Nov 2020 17:48:31 +0100
+Message-Id: <20201102164907.27572-44-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,23 +53,24 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/vala/{vala_0.48.9.bb => vala_0.50.1.bb} | 2 +-
+ .../webkit/{wpebackend-fdo_1.7.1.bb => wpebackend-fdo_1.8.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/vala/{vala_0.48.9.bb => vala_0.50.1.bb} (50%)
+ rename meta/recipes-sato/webkit/{wpebackend-fdo_1.7.1.bb => wpebackend-fdo_1.8.0.bb} (85%)
 
-diff --git a/meta/recipes-devtools/vala/vala_0.48.9.bb b/meta/recipes-devtools/vala/vala_0.50.1.bb
-similarity index 50%
-rename from meta/recipes-devtools/vala/vala_0.48.9.bb
-rename to meta/recipes-devtools/vala/vala_0.50.1.bb
-index 09bfcd6474..cca7eef523 100644
---- a/meta/recipes-devtools/vala/vala_0.48.9.bb
-+++ b/meta/recipes-devtools/vala/vala_0.50.1.bb
-@@ -2,4 +2,4 @@ require ${BPN}.inc
+diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.0.bb
+similarity index 85%
+rename from meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
+rename to meta/recipes-sato/webkit/wpebackend-fdo_1.8.0.bb
+index 519762d125..69d6098d36 100644
+--- a/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
++++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.0.bb
+@@ -13,5 +13,5 @@ inherit meson features_check
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
- SRC_URI += " file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch"
+ SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "9b980a73ea4e3762266c48f81ded56d9dcad4acf32bad9bd05d0dffdd454c6f5"
++SRC_URI[sha256sum] = "9652a99c75fe1c6eab0585b6395f4e104b2427e4d1f42969f1f77df29920d253"
  
--SRC_URI[sha256sum] = "9cea16d3bb3daddbfe0556b99fbfa08146230db7651e1e674cd08b4df5cefea9"
-+SRC_URI[sha256sum] = "958d9f06c9c3d7d1b2145512a9bc2a7c6aefbbf0416a04c7a0ecf463f7138f6c"
 -- 
 2.29.0
 
