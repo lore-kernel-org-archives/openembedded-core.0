@@ -1,50 +1,50 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.1149.1604335769870526254
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web12.1173.1604335770663375851
  for <openembedded-core@lists.openembedded.org>;
  Mon, 02 Nov 2020 08:49:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bRbwn6f4;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id k9so15052144edo.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uzIOKSVN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id a71so9658633edf.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TOW1fNKzWKsPtOhTc5cbG+0hp3fPVGAqyY5+4QZ9OiQ=;
-        b=bRbwn6f46ywmKh9V4SbynQtjAujcFfTFzFOR5o0xzKtZQQANiNLvPsOYnSz+hcitg1
-         yCwcJsK/5lYpE8l9hKX+e3NIyaO2tcQyjc+YGEKllzz4iJ5SXrmZlsTbuaKlmg717LOF
-         tlUHDHmvjxdV82dBwyR1sme0uJat4wjb9SIsFaonM3NZW1gCDUBhhYcttIRGrBCx1B2W
-         DAemfR1p6txDEIu6G4pMXZc6yZdFQ82FK1OLvwTo0oZTbXh81T4Qqqy5ZXRJeHK3LZk7
-         Q97P6v/RBtGyDEloxe84JCCAif3E26jCqfcnSDr8jyi0NBe+hZiCM22cV0HruzVQY/Od
-         4avQ==
+        bh=Eo9A9Ky03zXJFA4QAEMLzs4+QBSsJynxOVAwwOjXmvE=;
+        b=uzIOKSVNOhQ4IUYuEfLIPej5O823k8wjG20f+i6TqWoQjmAf9eDH52Lwm3PL47fxSy
+         tHRW6FxNoxwUmU7eNO9XtgFQs9HXnKgdSsaSxcu63umDWYkehiBrcTzXjdV+bysUzu7P
+         +gAqZ6ndvoSL6toz+yyfXqFNJ7ryJ/+XEtMCRuAW2kfSojU7sr7prbsfyVKALalMs6EK
+         dacrnnXQzmpQn7Y3qrmKDg3ZsSkVGOTb2edyhqW3k4VQAjKzdmkoJRclSrEiJW1XgGKI
+         NgAJf9ZpdOGBJRgW9ga4Wn9zsrXEJszIxLNZWrTk23Ys2WN95zjLuw9gEcs0mGSQfNZv
+         XRLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TOW1fNKzWKsPtOhTc5cbG+0hp3fPVGAqyY5+4QZ9OiQ=;
-        b=UdUGRJT2JKoUPoG7j9x4t+DiYlr2bdckp2rOiZvRCn6BTEscARM1G3mhtOYxeOyDLr
-         puUPKul14DpC6Ey/KnXUQsnfBBJpRqeZlXJYtuMVR4X2mpuv1U1/e8BwikD7Ir9RPEyN
-         glQmb5HY8SJd78zl6T9/UACqu+KraP9bopu9BGtr16gIG84t9YdxCpRCDwp/SKSq9Fsk
-         EuEUzglDeXOh9Emx9QyujG1ViEoGpNxSxC2DkWUGVM4E+0H2TtwiqbzO9L/fZBVE2jg1
-         z2aOtA0xAbbwrJz9gtQSH/Cf5G5SJxJk/xxylkiU/QtiDRzM8MlLcQtKZU6qZsh+gRmU
-         DkbQ==
-X-Gm-Message-State: AOAM5330kKV9nK0dJw4YAIJb2Qe2jBaM8rXEP52ynbwO2uxJV9N++Fhm
-	+p3Yn3pVIXI6x8NoyqwisTQh4S1F/JousQ==
-X-Google-Smtp-Source: ABdhPJzDY9CeJE0uRhzr9mSsyfANhSuK2x9pjsQlIPDrkppDWnR/NUkO0nTWxTqgr2qOHTFb0XNKGA==
-X-Received: by 2002:a05:6402:21c7:: with SMTP id bi7mr2298152edb.54.1604335768184;
-        Mon, 02 Nov 2020 08:49:28 -0800 (PST)
+        bh=Eo9A9Ky03zXJFA4QAEMLzs4+QBSsJynxOVAwwOjXmvE=;
+        b=UxB+vVBuli/GVs7DfquhtGyC1a0B8dbupb1ailHAGRWGZemMIu+9gXl0YjI3pkvrjl
+         rDzGiO2oUSrI6gwBmXXbLUrOiQI4srwbzUsD6UU363AyIwAMdH/FMPCFsXfdXKy5mKKa
+         YWcNwuXt2WxROFRPuOYYPDn9bZFro35Fxb+balISHBXxiplNdsBpF/axoNutSE/6fjgq
+         /bGEUFanLKcfIrZT1gJd+wTLnVZ40loVJiRPxfjqAOs/dqt9VhHIAXbdtVwtAi7BuhJh
+         evGmkElIdlQReqlz/ApWlR+Uk7QC06G8iMds2SP3VA8W2cZLpQjc9t8tf2UCFaNJSVi3
+         FSow==
+X-Gm-Message-State: AOAM531rutQaDRSZ5VmaPoqx2DWuDv2SZPAR7QjXB/EQiDZI2g6U7Q8R
+	mr5cMvffTi0xxXaIBfSSxjfI49WVom2TwA==
+X-Google-Smtp-Source: ABdhPJzyq/9McSyDdpDh82EHJ3zEFPvowhOHf2tXoVD1eWqww3KjVCHh7Xd0A9iBIC9Y2unR3GNnXQ==
+X-Received: by 2002:aa7:d9c2:: with SMTP id v2mr1031096eds.95.1604335769029;
+        Mon, 02 Nov 2020 08:49:29 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.27
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:27 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:28 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 12/80] at-spi2-atk: upgrade 2.34.2 -> 2.38.0
-Date: Mon,  2 Nov 2020 17:47:59 +0100
-Message-Id: <20201102164907.27572-12-alex.kanavin@gmail.com>
+Subject: [PATCH 13/80] at-spi2-core: upgrade 2.36.1 -> 2.38.0
+Date: Mon,  2 Nov 2020 17:48:00 +0100
+Message-Id: <20201102164907.27572-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../atk/{at-spi2-atk_2.34.2.bb => at-spi2-atk_2.38.0.bb}       | 3 +--
+ .../atk/{at-spi2-core_2.36.1.bb => at-spi2-core_2.38.0.bb}     | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/atk/{at-spi2-atk_2.34.2.bb => at-spi2-atk_2.38.0.bb} (77%)
+ rename meta/recipes-support/atk/{at-spi2-core_2.36.1.bb => at-spi2-core_2.38.0.bb} (89%)
 
-diff --git a/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb b/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb
-similarity index 77%
-rename from meta/recipes-support/atk/at-spi2-atk_2.34.2.bb
-rename to meta/recipes-support/atk/at-spi2-atk_2.38.0.bb
-index 02a4d4712c..fce14eecf3 100644
---- a/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb
-+++ b/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb
-@@ -3,8 +3,7 @@ HOMEPAGE = "https://wiki.linuxfoundation.org/accessibility/d-bus"
- LICENSE = "LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.36.1.bb b/meta/recipes-support/atk/at-spi2-core_2.38.0.bb
+similarity index 89%
+rename from meta/recipes-support/atk/at-spi2-core_2.36.1.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.38.0.bb
+index 218af6afa7..88add83dd1 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.36.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.38.0.bb
+@@ -7,8 +7,7 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
--SRC_URI[archive.md5sum] = "58cd278574e101363b18d9a8b7053d67"
--SRC_URI[archive.sha256sum] = "901323cee0eef05c01ec4dee06c701aeeca81a314a7d60216fa363005e27f4f0"
-+SRC_URI[archive.sha256sum] = "cfa008a5af822b36ae6287f18182c40c91dd699c55faa38605881ed175ca464f"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
  
- DEPENDS = "dbus glib-2.0 glib-2.0-native atk at-spi2-core libxml2"
+-SRC_URI[md5sum] = "d01e5326b4eb15ac3c27eed73ecf26f1"
+-SRC_URI[sha256sum] = "97417b909dbbf000e7b21062a13b2f1fd52a336f5a53925bb26d27b65ace6c54"
++SRC_URI[sha256sum] = "84e36c3fe66862133f5fe229772b76aa2526e10de5014a3778f2fa46ce550da5"
+ 
+ X11DEPENDS = "virtual/libx11 libxi libxtst"
  
 -- 
 2.29.0
