@@ -1,178 +1,173 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web10.29066.1604310464340320164
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web12.29087.1604311064939940033
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 01:47:44 -0800
+ Mon, 02 Nov 2020 01:57:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mJPDDoQ0;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id b9so3487309edu.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 01:47:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gpfKf5qo;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id w13so4565257eju.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 01:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=9AdoO/VQf0R45t6W8Kin481KV+Q7ggqeh760D/w/36g=;
-        b=mJPDDoQ0PyS6pBzUUb/M+f38KMB/FXwWkCsyxTtMHgyLkhQIJ02iHU3MB898Odjw9Q
-         Y93XQRn/SsyATbUqczRCgwq9o+5CY03HBoGLsJYqDFE5u7qKIwfXNoBLQqrb9Bd6LAH1
-         cnTGsvmXH+VElGSfix7EQ4XhyD7haqswF/N2J2ynzp1U7f7B2E0LfEX9yj/ZVdOIp9l6
-         HMKJIFk9vsuedKhaMXrwjrQ+VLCR57sipwhYGTE/TGZ73WHc32Wt73G8jQ7WyOAawZJL
-         cFJ1nwJ6YA9zLdFYR9vQquvPCdLQksHtYb2LDD4AjvXp1awRtq6jgHAGbrfzCDCFgwz6
-         QvZw==
+        bh=5gRp81zHMRze1PksCx51sFDs+Tm70wMCH/gK1X/1EHE=;
+        b=gpfKf5qonuuwtYTb6UpxswwHRpE64/+rjEhO1iPclgAc67eYFQqHXBAgW8AeqgWQxx
+         YkQX1BJWCPH/9diCjg1ga6wjPVsLvkNfkdgCOdSyh2x8sQJyHoTuahNX5Yfr9DFQCqrb
+         jt2iJQifEm8WcyHxbeR85Y3s53wEVpDBQcU8z+KcmB/ASTNnM7/xrnu3ZfOapklVKBY5
+         RuutJVdPiVgK9uhmDONe8kpUhLxXMCQEvG5sY3srOthQHUny0Sxym8W6gJG8XwePWL0G
+         S4anex7syacZUsKjf2lCPQRiDoL7YNQSvpNY+dJ1bu/T45rpRdpw+4/9Leypw7/5tqUX
+         Zh/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9AdoO/VQf0R45t6W8Kin481KV+Q7ggqeh760D/w/36g=;
-        b=XfV3ToEB5I+8Sua6/V+ZeSBde0et02DIzaD5v3v9KtRmJWXltMb8wqOgiy5T9Os3dS
-         OvK92gy4b9Hojq1EARa5hih828IGetHFu1KDvS7s29wOVFdKFc3S9mNdUyRVGR8DkYZB
-         +h/lDgPF3AerTLmTAXPzHe16PqKIo0iPUe3WHrggxGpZ4tkaACINQBjJMMPl3YffqVKu
-         tIdqYXOXIg3Ng5JasyFvPsI/o7UMde7KSO/+kCw2/UgezSY35nZNrYynE6/M/U6lWWLh
-         veVEFI+Myb8b+NbxxSiD96QQz9YNtx2vWArvht8C8T285C/7P3vAg64ZBh3TN/Oh6XxC
-         KmpQ==
-X-Gm-Message-State: AOAM53099YWcScSu6vEBVE5eX2uAuvGNLm3QV8a7jAvG5zBY1WM39zah
-	5z2lApb9Sczb8BumqbkMY6wmvK41PTL/anY9gSRVVhbofVqkuv7C
-X-Google-Smtp-Source: ABdhPJxP1oPVW+MECAvZXsXuXmedn7AKeE0gMbAaxQPUllRX9WFb0YJit4attUQmNxwd62J6vPuV0jxnnnEKAchRaHA=
-X-Received: by 2002:a05:6402:16d5:: with SMTP id r21mr5904338edx.358.1604310462844;
- Mon, 02 Nov 2020 01:47:42 -0800 (PST)
+        bh=5gRp81zHMRze1PksCx51sFDs+Tm70wMCH/gK1X/1EHE=;
+        b=QZW7RkzfegeeA8nrs7tV57SMdtX4hf2s2CS5DWtuVqNCbutsXJggXsA+KKbMEIIcj/
+         WC7TUlEC0MVVW7HwwZbKz51YLkO6a5bizj0qRgYT6hIaSMWbxffj8bEqZh5E2CBbWU2n
+         96iIT1LopKV+JH1cwrirkB1TYkbz450+BnDG12f4NETH4Jf+3pG2bq/it0p9cZASUcQj
+         NoDSuIdSYdbj6bbhBwMW6vuvtEgMskB98lZ3Wj3hdbXzzgpiRRRJaqTTUD+Ociv/9xE4
+         vlvwnXwrdN89bjt+H8OMGXiRAD4+KjfDeRvWcHmVsz6aB17MHqPgZsgaFWCZtnRBagCe
+         tMUg==
+X-Gm-Message-State: AOAM533iNodw6nC1eJEyvm4vKCE6hZ4aI5TQ2x4LvTZR2owplQZpw6kh
+	avtrPWNCqMMRDrnupwkWY6Pe0Ce9vTt/0lc1v48=
+X-Google-Smtp-Source: ABdhPJxJgtp2FbdGPkuKcNH15uj7LKfVSLjxdDQcMMI3Y6bg5oTo4+5re4z/7fMe9wG891pVZrVD3+XmVm4rVUbQyMc=
+X-Received: by 2002:a17:906:249a:: with SMTP id e26mr14312869ejb.484.1604311063265;
+ Mon, 02 Nov 2020 01:57:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20201102083440.28814-1-toertel@gmail.com> <1643A784CED48DC0.21604@lists.openembedded.org>
-In-Reply-To: <1643A784CED48DC0.21604@lists.openembedded.org>
+References: <20201101004340.4019257-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20201101004340.4019257-1-Martin.Jansa@gmail.com>
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Mon, 2 Nov 2020 09:47:31 +0000
-Message-ID: <CANPvuRk2zJaCA4cjGEEy38Bsvfp0jDBS-Nz=Yt4EfHTgD1gCeg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libsdl2: Fix directfb syntax error
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Mark Jonas <toertel@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Nov 2020 09:57:32 +0000
+Message-ID: <CANPvuRmmZoqHZP7pbNqHtPBqBo0VqTrftmBhh+nK7iTE_gF=wA@mail.gmail.com>
+Subject: Re: [gastesgarth][PATCH 01/12] gstreamer1.0: Fix reproducibility issue around libcap
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Jose Quaresma via lists.openembedded.org
-<quaresma.jose=3Dgmail.com@lists.openembedded.org> escreveu no dia
-segunda, 2/11/2020 =C3=A0(s) 09:41:
->
-> Mark Jonas <toertel@gmail.com> escreveu no dia segunda, 2/11/2020 =C3=A0=
-(s) 08:45:
-> >
-> > Build of libsdl2 with directfb is broken due to a spurious '}' and a
-> > missing 'E' since version 2.0.12. The upstream is already fixed.
->
-> This needs Upstream-Status:
-> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_=
-Header_Recommendations:_Upstream-Status
->
-> >
-> > Signed-off-by: Mark Jonas <toertel@gmail.com>
-> > ---
-> >  ...ectfb-spurious-curly-brace-missing-e.patch | 49 ++++++++++++++++++=
-+
-> >  .../libsdl2/libsdl2_2.0.12.bb                 |  1 +
-> >  2 files changed, 50 insertions(+)
-> >  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-spu=
-rious-curly-brace-missing-e.patch
-> >
-> > diff --git a/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-c=
-urly-brace-missing-e.patch b/meta/recipes-graphics/libsdl2/libsdl2/directfb=
--spurious-curly-brace-missing-e.patch
-> > new file mode 100644
-> > index 0000000000..aa351a89ba
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-br=
-ace-missing-e.patch
-> > @@ -0,0 +1,49 @@
-> > +# HG changeset patch
-> > +# User Fabrice Fontaine <fontaine.fabrice@gmail.com>
-> > +# Date 1585069551 25200
-> > +# Node ID 769f800952179633ec6c3e6bc1bc1d40e401750a
-> > +# Parent  63387e8920f58f608288f247824ec5f4c286691f
-> > +src/video/directfb/SDL_DirectFB_render.c: fix build
-> > +Build with directfb is broken due to a spurious '}' and a missing 'E'
-> > +since version 2.0.12 and https://hg.libsdl.org/SDL/rev/2d5b5a5ccbfb:
-> > +
-> > +/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/s=
-rc/video/directfb/SDL_DirectFB_render.c: In function 'SetBlendMode':
-> > +/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/s=
-rc/video/directfb/SDL_DirectFB_render.c:202:9: error: case label not within=
- a switch statement
-> > +  202 |         case SDL_BLENDMODE_MUL:
-> > +      |         ^~~~
-> > +
-> > +/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/s=
-rc/video/directfb/SDL_DirectFB_render.c:205:67: error: 'DSBF_DSTCOLOR' unde=
-clared (first use in this function); did you mean 'DSBF_DESTCOLOR'?
-> > +  205 |             SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(dests=
-urf, DSBF_DSTCOLOR));
-> > +      |                                                              =
-     ^~~~~~~~~~~~~
-> > +
-> > +Fixes:
-> > + - http://autobuild.buildroot.org/results/83ccefee68c2800c0544e6f40fa=
-8bc8ee6b67b77
-> > +
-> > +Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-> > +
-> > +--
-> > +
-> > +The patch was imported from the libsdl Mercurial repository
-> > +(https://hg.libsdl.org/SDL) as of changeset id 769f80095217.
-> > +
-> > +Upstream-Status: Backport
+I think I already know the answer but Is there any possibility to use
+gstreamer 1.18 on gastesgarth ?
 
-Sorry for that!
-Upstream-Status is present
-
-> > +
-> > +Signed-off-by: Mark Jonas <toertel@gmail.com>
-> > +
-> > +
-> > +diff -r 63387e8920f5 -r 769f80095217 src/video/directfb/SDL_DirectFB_=
-render.c
-> > +--- a/src/video/directfb/SDL_DirectFB_render.c Mon Mar 23 14:10:25 20=
-20 -0700
-> > ++++ b/src/video/directfb/SDL_DirectFB_render.c Tue Mar 24 10:05:51 20=
-20 -0700
-> > +@@ -198,11 +198,10 @@
-> > +             SDL_DFB_CHECK(destsurf->SetDstBlendFunction(destsurf, DS=
-BF_SRCCOLOR));
-> > +
-> > +             break;
-> > +-        }
-> > +         case SDL_BLENDMODE_MUL:
-> > +             data->blitFlags =3D DSBLIT_BLEND_ALPHACHANNEL;
-> > +             data->drawFlags =3D DSDRAW_BLEND;
-> > +-            SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsurf, DS=
-BF_DSTCOLOR));
-> > ++            SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsurf, DS=
-BF_DESTCOLOR));
-> > +             SDL_DFB_CHECK(destsurf->SetDstBlendFunction(destsurf, DS=
-BF_INVSRCALPHA));
-> > +
-> > +             break;
-> > diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/re=
-cipes-graphics/libsdl2/libsdl2_2.0.12.bb
-> > index 83dce86801..8ecf161f69 100644
-> > --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-> > +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-> > @@ -18,6 +18,7 @@ PROVIDES =3D "virtual/libsdl2"
-> >
-> >  SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-> >             file://more-gen-depends.patch \
-> > +           file://directfb-spurious-curly-brace-missing-e.patch \
-> >  "
-> >
-> >  S =3D "${WORKDIR}/SDL2-${PV}"
-> > --
-> > 2.25.1
-> >
-> >
-> >
-> >
+Martin Jansa <martin.jansa@gmail.com> escreveu no dia domingo,
+1/11/2020 =C3=A0(s) 00:44:
 >
+> From: Jose Quaresma <quaresma.jose@gmail.com>
 >
+> Currently gstreamer configuration depends libcap and on whether
+> setcap is found on the host system.
+>
+> Removing libcap from DEPENDS and only use it when the 'setcap' is enabled=
+.
+>
+>     * 0004-capfix.patch
+>       Removed as the same goals can be achieved only with the PACKAGECONF=
+IG 'setcap'
+>
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  .../gstreamer/gstreamer1.0/capfix.patch       | 37 -------------------
+>  .../gstreamer/gstreamer1.0_1.16.2.bb          |  5 +--
+>  2 files changed, 2 insertions(+), 40 deletions(-)
+>  delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix=
+.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch =
+b/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+> deleted file mode 100644
+> index 7ca3d5ad4a..0000000000
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+> +++ /dev/null
+> @@ -1,37 +0,0 @@
+> -Currently gstreamer configuration depends on whether setcap is found on =
+the host
+> -system. Turn this into a configure option to make builds deterinistic.
+> -
+> -RP 2020/2/19
+> -Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> -Upstream-Status: Pending
+> -
+> -Index: gstreamer-1.16.1/libs/gst/helpers/meson.build
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- gstreamer-1.16.1.orig/libs/gst/helpers/meson.build
+> -+++ gstreamer-1.16.1/libs/gst/helpers/meson.build
+> -@@ -73,7 +73,12 @@ if have_ptp
+> -     endif
+> -   endif
+> -
+> --  setcap =3D find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap',=
+ required : false)
+> -+  setcap_feature =3D get_option('setcap')
+> -+  if setcap_feature.disabled()
+> -+    setcap =3D find_program('dontexist', required : false)
+> -+  else
+> -+    setcap =3D find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap=
+', required : false)
+> -+  endif
+> -
+> -   # user/group to change to in gst-ptp-helper
+> -   ptp_helper_setuid_user =3D get_option('ptp-helper-setuid-user')
+> -Index: gstreamer-1.16.1/meson_options.txt
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- gstreamer-1.16.1.orig/meson_options.txt
+> -+++ gstreamer-1.16.1/meson_options.txt
+> -@@ -26,6 +26,7 @@ option('libunwind', type : 'feature', va
+> - option('libdw', type : 'feature', value : 'auto', description : 'Use li=
+bdw to generate better backtraces from libunwind')
+> - option('dbghelp', type : 'feature', value : 'auto', description : 'Use =
+dbghelp to generate backtraces')
+> - option('bash-completion', type : 'feature', value : 'auto', description=
+ : 'Install bash completion files')
+> -+option('setcap', type : 'feature', value : 'auto', description : 'Use s=
+etcap')
+> -
+> - # Common feature options
+> - option('examples', type : 'feature', value : 'auto', yield : true)
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb b/m=
+eta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
+> index 50a872e292..9d92fe1439 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.2.bb
+> @@ -6,7 +6,7 @@ BUGTRACKER =3D "https://bugzilla.gnome.org/enter_bug.cgi?=
+product=3DGstreamer"
+>  SECTION =3D "multimedia"
+>  LICENSE =3D "LGPLv2+"
+>
+> -DEPENDS =3D "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-n=
+ative"
+> +DEPENDS =3D "glib-2.0 glib-2.0-native libxml2 bison-native flex-native"
+>
+>  inherit meson pkgconfig gettext upstream-version-is-even gobject-introsp=
+ection gtk-doc
+>
+> @@ -21,7 +21,6 @@ SRC_URI =3D " \
+>      file://0002-meson-build-gir-even-when-cross-compiling-if-introsp.pat=
+ch \
+>      file://0003-meson-Add-valgrind-feature.patch \
+>      file://0004-meson-Add-option-for-installed-tests.patch \
+> -    file://capfix.patch \
+>  "
+>  SRC_URI[md5sum] =3D "0e661ed5bdf1d8996e430228d022628e"
+>  SRC_URI[sha256sum] =3D "e3f044246783fd685439647373fa13ba14f7ab0b346eadd0=
+6437092f8419e94e"
+> @@ -40,7 +39,7 @@ PACKAGECONFIG[unwind] =3D "-Dlibunwind=3Denabled,-Dlibu=
+nwind=3Ddisabled,libunwind"
+>  PACKAGECONFIG[dw] =3D "-Dlibdw=3Denabled,-Dlibdw=3Ddisabled,elfutils"
+>  PACKAGECONFIG[bash-completion] =3D "-Dbash-completion=3Denabled,-Dbash-c=
+ompletion=3Ddisabled,bash-completion"
+>  PACKAGECONFIG[tools] =3D "-Dtools=3Denabled,-Dtools=3Ddisabled"
+> -PACKAGECONFIG[setcap] =3D "-Dsetcap=3Denabled,-Dsetcap=3Ddisabled,libcap=
+ libcap-native"
+> +PACKAGECONFIG[setcap] =3D ",,libcap libcap-native"
+>
+>  # TODO: put this in a gettext.bbclass patch
+>  def gettext_oemeson(d):
 > --
-> best regards,
-> Jos=C3=A9 Quaresma
->
->=20
+> 2.27.0
 >
 
 
