@@ -1,50 +1,50 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web12.1182.1604335795431695919
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web08.1163.1604335796650919103
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:55 -0800
+ Mon, 02 Nov 2020 08:49:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=egjOEgM0;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id 7so19846014ejm.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TeREBGc4;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id dk16so19220314ejb.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=7ua48f0K+Rge8L6HqRpCRgMFbB+J0V0XsAbZDDCfjIs=;
-        b=egjOEgM0BKC1EP5idanSIVQ3VksFIjEja8NPeGuc2vpf095nLqOZDjv7qtHc+HjqOV
-         LyGXOLR/9NnLzbHWsIMKKTIxdgsZvFVcZt9kTXm5Qrj9PHcngo8EyEsYKy9pBWHVlVG0
-         GFwWzTDOsAicBDPBogk6AlB6uaPrl0iUhoj3zNHYJ1XQS77odbxgrVOksEJRsfNw0jHh
-         b2X5UQ4MDKrpjozk0TLSnY2RTP+C98B+voYH0KKLwLWGhh0sP8YR8U+dUQRf4XwFOC5S
-         mbbRUsAld+jUi+X0DF7dXsg8qlTGMdDD7AHn6glfGvcj9vUwSiLy3ybWI8lIqNOHTmtp
-         4acw==
+        bh=rtuTtJJRofy1RojJxEDdJKjPtjEkkpeacAIwBPiq+jE=;
+        b=TeREBGc4jr18vcfNAGR/T9yiFQQSv7wYjyGWiAH3EDRBg1VGs7The58v8TIlGfRwSU
+         ODOcpFHK9MzZB5SjteORSdn5m2xZ+vUp28wU1QaxEvpsvk32XQm8rXc8BYVAvvBSfzag
+         sLKzZAAqJ5xwiRouuV/zJTiCInT8nhhLE0XXZFOzZSGfc2bgI8iOh/omPJWbJUrXYzz+
+         UWDa0MizL+ufyeLu44IjVYq5VuaG/yayzLgk7BbDdkzFToQFuQNSRQNyTdISOML2fCps
+         nNLHuk120ZNuJuiY1Gwvrm9lagWxTpWKpp7DzQyZhDMXs14dtmT+McGdYemdVJHhQoNb
+         ruzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7ua48f0K+Rge8L6HqRpCRgMFbB+J0V0XsAbZDDCfjIs=;
-        b=YWpc1HMnc+wTsc9qg2ibySptumrNq5zUyq53xTiXh/7KvMtIRCvuxBaHDgMsgZHjX1
-         sOd9jlCT1kXej5he2iRcl9jkPBHEKasIXGhqXRfug7X4Qt5BrUP69LO4HzCV0H5jYGUB
-         5hAOxgghng3Tl0gyEP9KQhWfIeP8CmqJo9BBlGjb6+oidmxDuXKAoUmTppGaS1WWG5nP
-         c6JuHuKV1Uuf/cFqKWTpZcQAG3gwbyj1qF7Uz9GKr+eOr/5H5MjJPCR/MdethA1v2t1Q
-         nZMNavUylt4zdcLQkJe5aSc7VlxQbmsPJEHKjXD6/LcgMrQjtKhmZn24rt9aA/sQ1GdS
-         4zXQ==
-X-Gm-Message-State: AOAM531zRA0hwKowOAdnzcFz+uTHzVeDBB7ehM06OrBSJZw6wzd2yIwj
-	ctlM+UggQrQhmOfu4CYunji0AolKCsPUUA==
-X-Google-Smtp-Source: ABdhPJzxVcUUDoj9rZqwbTsTgnte9Q1yWREWHRhmJiOot3iidmbOfUZ/bnVCvoO/0rQ580OvuYvczQ==
-X-Received: by 2002:a17:906:4803:: with SMTP id w3mr15616935ejq.406.1604335793792;
-        Mon, 02 Nov 2020 08:49:53 -0800 (PST)
+        bh=rtuTtJJRofy1RojJxEDdJKjPtjEkkpeacAIwBPiq+jE=;
+        b=D9GnCP5RUU2qnvmnwQLfrU7zkJqJydPjn0dtpOGFWWkDq8ZlBMkObfIQ1LWoM3TEfH
+         zWQXqho0N1UaZ6gB3IK3o6HlxsSFCQVtTtoaHgNkz+Z4mdOkMrqEVmb0KKkNggCgik9u
+         WTV2QHrepfzO2cjhweQDiGqey3c1jHMxtCpzPqAG36q0uVFDxE/3uE6od4VZfm1Xt2at
+         x34ldhf9f9nngcvJg4S/U1zjMCeojJLJzBfhViYBL47bjBaVhlUmuik49dkEvKs2m+yc
+         Ah63pn4C/DrLXtiwl/ttODWA4s53tCloKjdK+nqpi09HwHUrLqRL+fj2DNsBx4mkguxu
+         mdRQ==
+X-Gm-Message-State: AOAM53166coLERUlol7F+9pQYRT7MX+Ii+A+A80PJjiBHvgBMbD/ZAJw
+	FJUy7ubMDcu1GgeSibTTRFhBbo0sUdSDjw==
+X-Google-Smtp-Source: ABdhPJz4yXHaZ5QaYlfLlvqv4AV6Sx72e9JagfSbhOcVp3kS66rAa+8ykn+JUyuqCOeTmyiqZqd/3w==
+X-Received: by 2002:a17:906:c18c:: with SMTP id g12mr2351053ejz.334.1604335795044;
+        Mon, 02 Nov 2020 08:49:55 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:53 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:54 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 41/80] strace: upgrade 5.8 -> 5.9
-Date: Mon,  2 Nov 2020 17:48:28 +0100
-Message-Id: <20201102164907.27572-41-alex.kanavin@gmail.com>
+Subject: [PATCH 42/80] sudo: upgrade 1.9.3 -> 1.9.3p1
+Date: Mon,  2 Nov 2020 17:48:29 +0100
+Message-Id: <20201102164907.27572-42-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/strace/{strace_5.8.bb => strace_5.9.bb} | 2 +-
+ meta/recipes-extended/sudo/{sudo_1.9.3.bb => sudo_1.9.3p1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/strace/{strace_5.8.bb => strace_5.9.bb} (95%)
+ rename meta/recipes-extended/sudo/{sudo_1.9.3.bb => sudo_1.9.3p1.bb} (95%)
 
-diff --git a/meta/recipes-devtools/strace/strace_5.8.bb b/meta/recipes-devtools/strace/strace_5.9.bb
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.3.bb b/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
 similarity index 95%
-rename from meta/recipes-devtools/strace/strace_5.8.bb
-rename to meta/recipes-devtools/strace/strace_5.9.bb
-index 0415588b97..bee2616a44 100644
---- a/meta/recipes-devtools/strace/strace_5.8.bb
-+++ b/meta/recipes-devtools/strace/strace_5.9.bb
-@@ -16,7 +16,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://0001-strace-fix-reproducibilty-issues.patch \
-            file://0001-xlat-Mark-IPPROTO_MAX-last-in-IPPROTO_-constants.patch \
-            "
--SRC_URI[sha256sum] = "df4a669f7fff9cc302784085bd4b72fab216a426a3f72c892b28a537b71e7aa9"
-+SRC_URI[sha256sum] = "39473eb8465546c3e940fb663cb381eba5613160c7302794699d194a4d5d66d9"
+rename from meta/recipes-extended/sudo/sudo_1.9.3.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.3p1.bb
+index 270625ebe8..08a0fa03a3 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.3.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
+@@ -6,7 +6,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
  
- inherit autotools ptest
+ PAM_SRC_URI = "file://sudo.pam"
  
+-SRC_URI[sha256sum] = "1d9889cc3b3b15ed8c2c7c3de3aa392a3a726838d020815067c080525c3f5837"
++SRC_URI[sha256sum] = "dcb9de53e45e1c39042074b847f5e0d8ae1890725dd6a9d9101a81569e6eb49e"
+ 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.29.0
 
