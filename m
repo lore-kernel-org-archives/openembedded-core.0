@@ -1,153 +1,140 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web11.3652.1604344734241930700
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com (EUR02-HE1-obe.outbound.protection.outlook.com [40.92.68.99])
+ by mx.groups.io with SMTP id smtpd.web08.3665.1604344929758390074
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 11:18:54 -0800
+ Mon, 02 Nov 2020 11:22:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vW8w4ZB0;
- spf=pass (domain: gmail.com, ip: 209.85.128.65, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f65.google.com with SMTP id v5so10491535wmh.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 11:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=DwdGotuARqdQxTI1FFy5S50B5lDZvZco3H6Cfrx2IRQ=;
-        b=vW8w4ZB0GrnnSETD4cY4Q8J1jvmAeRsmWyQLcWx1qIfu6iCB2PUQPTu3yOiiRhMe2U
-         bz0O4SAERpcyKHgTfEMeLLRjElUA4DoLIBX/AMHDssV0GLdLGhxwfU3ZCOwG4PG0fUpZ
-         V2BkdUCmTHvJUZ3q7eGOlFxxki5iUKYTxAloBwLIQ+NOvCOe8CgSoH22cSFAWdDC5u7C
-         njDrekXGPPz7OX+F2i4EZbctpgEZZdvhjUQJC3xxfJSwXT2rKladsfr3xdSSdY+Q4VK3
-         KXD27DI54Us1QqwfjyBXLS8BAgInkptrexIqlT10FH1ONiLpGd6HvCTl3Ux9F2jcVjte
-         TAVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DwdGotuARqdQxTI1FFy5S50B5lDZvZco3H6Cfrx2IRQ=;
-        b=rtDuZYUW23qaVYsvWIqamaEqsJnopakQd+h45p9UJVgzKJzb/XvQq8qub1qQBFMFPs
-         dS19q2lgQk3ytcbLgNP7bcTrDds5UpTSZgrwyxmSH9ZxJKi1Jjm2m8GTWIT15Y0f9Gz0
-         t5G3uUal1EfZhqYQE4ECrSDEG+oL+gV/W+O0tB4FnRGLs1g1I6WjmI0tkUvSTBBp3nNA
-         TL9b5+6DyGn3/iDwekpdl5xvIXKIsRIGXRpDepttxBdUImiD89VoI233I2D9pdVqFTqb
-         SRUXTVSUBxawK/znx6z+iGLDKSSWfr10hLcQYA/IPZX13CuJAOO6bOfPbJs+l1/WplUi
-         XaJg==
-X-Gm-Message-State: AOAM531T15C1ry2aLV6/oSn+CW8J9yFdUX2IWngmsMqOoffYH7gf2IaP
-	HMWGba+eUJ/ypKY1ggUwYKPk3Q+lq06diA==
-X-Google-Smtp-Source: ABdhPJyZfX2SZmWZi84Zi7lphMtcWZq3uzABFWJHWpthrXF7eWVme7i6W2ZOP1rnOkw2c5DoglkfaA==
-X-Received: by 2002:a1c:4054:: with SMTP id n81mr14190268wma.48.1604344732116;
-        Mon, 02 Nov 2020 11:18:52 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id g5sm421198wmi.4.2020.11.02.11.18.50
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 11:18:51 -0800 (PST)
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=K/X3kygb;
+ spf=pass (domain: outlook.com, ip: 40.92.68.99, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LlSKB5tJs8FmpoUS+5jN3v3zR23119AumEdHSwEwl/2vAXtxuYie1++Iom3L5PU/tjzYAd6EZPX0wmH7GKejCcFEI4p+HrVGEjTd/NAl5M+KHo3F8iDVdebzywfBuPPkTaN/mwTsZB1dcsfFy3GIFhDSRJA1RAyMEV2vxQgkNcsRRsRHZ3BByxoC2bcmb+TNwslgrmYAcdTIL1u9Age/doz36Ni+ssp1mjwBu1iKosOWKcZdE1VBChq8EXj+m9Gtfxuf7PeEPPhArRGMVLjzROCu8mjztBps1GqF4RX3RTQakQKoC3PL6PCEvpqifRWkFdHWdROEZR/MyIKcFaptGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CPukPP5MDbJOwTUK+WS7dxBNNRXWXSRvUtNjV/w2LnA=;
+ b=g4XXCH/NEj6xH1WbgaiUXJ/xTTKzLbPUqt7xenJEUsbZtxaxrqC+R+mzQOlV/eLMOkdXJzo6sIm677t0CNZ1yG8KXaAu0D7L0TUKVa2K22sVz8xqEUgz/QH+4VH7FQnCbOWqCUUI/Ip1WeXPfemg4PVU6rs8ED/9kKwPlzvwnr4158G6Xx/LVXsNLbFYVOB1obWlv6bB9SAZsHx66jjRjPjXw5YL11gi07KNfQmf0GUoyzjYO270r1X1oFqNYfBKrlCkaOWYGTecrKFQpV+TakZ3GFejR3P5fGTdPjDqEj9JUEq/FjMgDImS1MWzz0NiPxqKgKOlJtcH1Dt93AQPNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CPukPP5MDbJOwTUK+WS7dxBNNRXWXSRvUtNjV/w2LnA=;
+ b=K/X3kygbB2NSqZVRNkHTOw4+dnl0ZVap5poxZNMUPrB4f/kGLit3qDZdkfJ3HIyeCzsSx+voiycKzzHiF4DEk5+OOD7Pnf/4j2BGB50PMAB0HSoRlwv6QXi49pNzU+KCDoOxFADm3V+JUmCxhzNM9PGutjdzYTH8Qcsbh8Q3l+S78q0XjwvucIHnBv5xcfoG5+DrjHrAdgihGrUQKFfrT65ejrVX1H/yEZORbwNtiwCytmeoI+dwWyYwObYu7B+vwIrnfMO7wZU9c2ig4lQ9eXfpA6sKP2wl8y7OJgHAvQ0sZQmn8JZtf8eVQnC8LMoMDivE0zEUh6KiH+ZXj7YdqQ==
+Received: from HE1EUR02FT032.eop-EUR02.prod.protection.outlook.com
+ (2a01:111:e400:7e1d::47) by
+ HE1EUR02HT080.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1d::343)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3520.15; Mon, 2 Nov
+ 2020 19:22:07 +0000
+Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ (2a01:111:e400:7e1d::48) by HE1EUR02FT032.mail.protection.outlook.com
+ (2a01:111:e400:7e1d::135) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3520.15 via Frontend
+ Transport; Mon, 2 Nov 2020 19:22:07 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:AD95B770E75E1E6AF0E05AB4D5409C543ECEF809469BD5DCF1E54145AEDBAD66;UpperCasedChecksum:E8F551899BCE5965614EB3C0B531605365E18B0B00AF51B82B3445574CA84C86;SizeAsReceived:8761;Count:48
+Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ ([fe80::a1a8:ed42:7e0f:10dc]) by VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ ([fe80::a1a8:ed42:7e0f:10dc%8]) with mapi id 15.20.3455.040; Mon, 2 Nov 2020
+ 19:22:06 +0000
+Subject: Re: [OE-core] [PATCH 2/2] systemd-serialgetty: Switch to TERM=linux
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] dbus: split -common and -tools out of main package
-Date: Mon,  2 Nov 2020 19:18:48 +0000
-Message-Id: <20201102191848.1799747-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201102180559.1177417-1-luca.boccassi@gmail.com>
-References: <20201102180559.1177417-1-luca.boccassi@gmail.com>
+References: <20201102185921.65148-1-jason.wessel@windriver.com>
+ <20201102185921.65148-2-jason.wessel@windriver.com>
+Cc: jason.wessel@windriver.com
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <VI1PR01MB6462DFFAC980A40F8A084D6EA8100@VI1PR01MB6462.eurprd01.prod.exchangelabs.com>
+Date: Mon, 2 Nov 2020 20:22:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201102185921.65148-2-jason.wessel@windriver.com>
+X-TMN: [ajZ2JM2OL9iPTCY9Use21m77zRiqwvsX]
+X-ClientProxiedBy: AM6P193CA0073.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:209:88::14) To VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ (2603:10a6:800:154::12)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <9dcf3d3f-c9bf-6af9-2999-0653883ebc03@outlook.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.23] (87.141.92.169) by AM6P193CA0073.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:88::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Mon, 2 Nov 2020 19:22:06 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 0d3f8f7f-2d05-4cd1-c002-08d87f649633
+X-MS-TrafficTypeDiagnostic: HE1EUR02HT080:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	1Mx8tx0zlk3P8tc6ftzncghK9KktUSMd37wqyQegr/tznCctamKGMd1iNNkkmi/ujOh5f76QBuTAUmZf3eRZTnhtSUOTRggMMY/qVTbRntTggcqYN7khII5LVP4eMyCWmZxMOlm3mh6P/Sji3PyssHlbI2eG0EiJewKfcWufA6vXUZPdph58QkihBvyVFJNJI9OCMCJCw5Xl0ut8Qy0Lq7gbBepAWf1+YRXVu1/1eWcQcSCj3DqXHKeLSuqI+nxQ
+X-MS-Exchange-AntiSpam-MessageData: 
+	KHV6gbC09e65iuf4HApKv+vPgUXXuBwfxnell14hQ08Sb5spgb2pYuLkn+lCsKRYTdiMlmOP94ZYdCKZ1HW9vM0evT+3CyCn6sJX/EgkcnFWj8E1iAOv8WDlbGZurR7xSAboKtu8P9kxd1+cW7ufOw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d3f8f7f-2d05-4cd1-c002-08d87f649633
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 19:22:06.9283
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	HE1EUR02FT032.eop-EUR02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR02HT080
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+Why not have it configurable as already done with BAUDRATE?
+Especially as it doesn't change the behavior for user without the 
+mentioned prerequisites
 
-Certain config files and units are shared between dbus-daemon and
-dbus-broker (available in meta-openembedded), so split them out to
-allow installing dbus-broker without pulling in dbus-daemon and its
-dependencies.
-Stand-alone command line tools can also be used regardless of whether
-the buses are provided by dbus-daemon or dbus-broker, so split them
-out into dbus-tools.
-Finally, move the XML schema files out of the main package and into
-the development package.
-
-All these changes follow the same pattern used by Fedora, which was
-one of the first distro to switch to dbus-broker by default:
-
-https://src.fedoraproject.org/rpms/dbus/blob/master/f/dbus.spec
-
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-v2: fix FILES_ regex to correctly include all units but the sockets
-    in the main package
-
- meta/recipes-core/dbus/dbus_1.12.20.bb | 35 +++++++++++++++-----------
- 1 file changed, 21 insertions(+), 14 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus_1.12.20.bb b/meta/recipes-core/dbus/dbus_1.12.20.bb
-index cf6f7dc0ef..400c7a1401 100644
---- a/meta/recipes-core/dbus/dbus_1.12.20.bb
-+++ b/meta/recipes-core/dbus/dbus_1.12.20.bb
-@@ -11,6 +11,7 @@ RDEPENDS_dbus_class-nativesdk = ""
- PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
- ALLOW_EMPTY_dbus-ptest = "1"
- RDEPENDS_dbus-ptest_class-target = "dbus-test-ptest"
-+RDEPENDS_${PN} += "${PN}-common ${PN}-tools"
- 
- inherit useradd update-rc.d
- 
-@@ -31,7 +32,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
- 
- DEBIANNAME_${PN} = "dbus-1"
- 
--PACKAGES =+ "${PN}-lib"
-+PACKAGES =+ "${PN}-lib ${PN}-common ${PN}-tools"
- 
- OLDPKGNAME = "dbus-x11"
- OLDPKGNAME_class-nativesdk = ""
-@@ -41,31 +42,37 @@ RPROVIDES_${PN} = "${OLDPKGNAME}"
- RREPLACES_${PN} += "${OLDPKGNAME}"
- 
- FILES_${PN} = "${bindir}/dbus-daemon* \
--               ${bindir}/dbus-uuidgen \
-                ${bindir}/dbus-cleanup-sockets \
--               ${bindir}/dbus-send \
--               ${bindir}/dbus-monitor \
-                ${bindir}/dbus-launch \
-                ${bindir}/dbus-run-session \
--               ${bindir}/dbus-update-activation-environment \
-                ${libexecdir}/dbus* \
-                ${sysconfdir} \
-                ${localstatedir} \
--               ${datadir}/dbus-1/services \
--               ${datadir}/dbus-1/system-services \
--               ${datadir}/dbus-1/session.d \
--               ${datadir}/dbus-1/session.conf \
--               ${datadir}/dbus-1/system.d \
--               ${datadir}/dbus-1/system.conf \
--               ${datadir}/xml/dbus-1 \
-                ${systemd_system_unitdir} \
-                ${systemd_user_unitdir} \
--               ${nonarch_libdir}/sysusers.d/dbus.conf \
-                ${nonarch_libdir}/tmpfiles.d/dbus.conf \
- "
-+FILES_${PN}-common = "${sysconfdir}/dbus-1 \
-+                      ${datadir}/dbus-1/services \
-+                      ${datadir}/dbus-1/system-services \
-+                      ${datadir}/dbus-1/session.d \
-+                      ${datadir}/dbus-1/session.conf \
-+                      ${datadir}/dbus-1/system.d \
-+                      ${datadir}/dbus-1/system.conf \
-+                      ${systemd_system_unitdir}/dbus.socket \
-+                      ${systemd_system_unitdir}/sockets.target.wants \
-+                      ${systemd_user_unitdir}/dbus.socket \
-+                      ${systemd_user_unitdir}/sockets.target.wants \
-+                      ${nonarch_libdir}/sysusers.d/dbus.conf \
-+"
-+FILES_${PN}-tools = "${bindir}/dbus-uuidgen \
-+                     ${bindir}/dbus-send \
-+                     ${bindir}/dbus-monitor \
-+                     ${bindir}/dbus-update-activation-environment \
-+"
- FILES_${PN}-lib = "${libdir}/lib*.so.*"
- RRECOMMENDS_${PN}-lib = "${PN}"
--FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${libdir}/cmake/DBus1 ${bindir}/dbus-test-tool"
-+FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${libdir}/cmake/DBus1 ${bindir}/dbus-test-tool ${datadir}/xml/dbus-1"
- 
- PACKAGE_WRITE_DEPS += "${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','systemd-systemctl-native','',d)}"
- pkg_postinst_dbus() {
--- 
-2.20.1
-
+On 02.11.20 19:59, Jason Wessel wrote:
+> Long ago in commit 473ff65c2f69de4ece3204fadfae7c5cb992149a
+> (serial-getty service: Add xterm as default TERM), the xterm
+> became the default for the serial port terminal.
+> 
+> Using the version of vim.tiny in oe-core master with the
+> serial port connected in xterm version 322 (which is one
+> of the most widely deployed versions at the current time)
+> causes artifacts and missed characters.
+> 
+> The example sequence is the following:
+>    * Start vim
+>    * Press "i" to enter input mode
+>    * Type "123"
+>    * Press Escape to enter command mode
+>    * Press "a" to enter append mode
+>    * Type "456"
+> 
+> At this point if you are using xterm less than version 535 you will
+> see on your screen "12456" instead of "123456".
+> 
+> Changing the TERM variable to "linux" will still allow you to have all
+> the same functionality with colorization, ansi character escapes
+> etc..., but will avoid the extra xterm specific escape sequence that
+> only exists in the most recent versions of xterm.
+> 
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> ---
+>   .../systemd/systemd-serialgetty/serial-getty@.service           | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+> index 549d566009..f2290639a6 100644
+> --- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+> +++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+> @@ -29,7 +29,7 @@ Conflicts=rescue.service
+>   Before=rescue.service
+>   
+>   [Service]
+> -Environment="TERM=xterm"
+> +Environment="TERM=linux"
+>   ExecStart=-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
+>   Type=idle
+>   Restart=always
+> 
+> 
+> 
+> 
+> 
