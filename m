@@ -1,50 +1,50 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web12.1187.1604335809270193930
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web09.1223.1604335810044247477
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:50:09 -0800
+ Mon, 02 Nov 2020 08:50:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uHzDqyz3;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id e18so3872047edy.6
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kASLB71U;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id v4so15067117edi.0
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:50:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HifhT8MY8HEFZ2HtoCIJJ33AEJ4UyyKIz0QBYZXsrG8=;
-        b=uHzDqyz3wWjakx/Bp8GjXONW8m4Xe2UWGae/tKTOgbW/pn2iOaUfbW0OTAjRK9qx74
-         m9xbMdioAssHyc94tACwEHwLcXtcFUPueKbl5JIWrAnXRc/ps2ZCiE3/Dq7D232jeWtG
-         7aYes7FBiiieF8LU4L2tPT0DLX9L03YaDv39AlTvPC4plxREmXy4n3QHKDDMjqfoxp5H
-         qvDkDv3Fl45APaE0UgJX4P1pEFj6OKUejdXr3RSFyO1UUoam9jB6NqaS7SsIluuD5XHQ
-         vP7jyINt0fMInw5FueV9tzccTpFhW2oNonYnW3XNOYFEBHvgbpsVEhkmRzK56RLtf4LI
-         3llQ==
+        bh=IdeiNtAUbhQivOtNkUe8gdSw/+yrTrJE0HdUQWaEswA=;
+        b=kASLB71UIG+ToUOl3bURVjCOubtDetcGvJmG1PT69qM8gI0QxEdkmRST9A9J5N0EyO
+         lrAbmlxDKaKr2KOfjCpN35N1bx40Ey1QJquGMyTFmlRix29Dy7EI0B292X2fI5nBwpNy
+         OKqpCpDOEazjcJ8rcAGOxqBvFMQaO1AZaGUhE34QBRBBguHnRXGRnYlXnjdry2fe0AQX
+         W3F9Jyk77muWPF9bfs9WY9TZJLo85R8JpdZXazytqjj0sbX2FEQ+n3YABYbGm6E31JCf
+         cj5QvCO3hZ7EdNu88wV9xGsEJOSsn/wzKPydZ0P1nBxV8u/fcPsI/Q+5wSjQyPKhBj4+
+         8Opg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HifhT8MY8HEFZ2HtoCIJJ33AEJ4UyyKIz0QBYZXsrG8=;
-        b=uExKkfmVqaBTaBIk0j/AoaLUgtMOUzEK0A3nA2NHhvujQjnw/9NrZRGLHgdr5mOjNY
-         31F9R0hSldYbC/fCkS14+0Lo3VnMuCQ7SSb5YTioCw7lRmXzWsM+OcfNwhI81TLKds4t
-         rFDWpj82dNm+TSiCW+cEDylRibFm8RP9D2gWa3iaOp4pMDrkF4saOyc/f6+GtPNpf7Z6
-         XKC7snw/RWjn8EubEcFCfvJYdSx/noxKCKWt2U0VxqxmQJ6gBnCWVxhR0KU6zU3jzVZv
-         QIthFzLXq8fGlmvgCYoo23GUFSEqgJHlI0VbKn9CWJtg/XzMz1q+zhK3x2Ah5lHdz71T
-         47rA==
-X-Gm-Message-State: AOAM532NWmBDnpUvBE7jUUPLlt/0RvBykearbf6x57ckGxCS5ylvgGSd
-	2sQa55+lznZXjf8RC6s07IK+MPnyLX77CQ==
-X-Google-Smtp-Source: ABdhPJySpuqne3QOYTv5J01YNjGXImoBR99tRJIB6NJq0t6G/2/QhsExVfcQCtMFw5KcG46pSAOXow==
-X-Received: by 2002:a05:6402:6d8:: with SMTP id n24mr17561176edy.168.1604335807655;
-        Mon, 02 Nov 2020 08:50:07 -0800 (PST)
+        bh=IdeiNtAUbhQivOtNkUe8gdSw/+yrTrJE0HdUQWaEswA=;
+        b=kHveLfqCFrgScs8E7rO5reRqtNA8/UMf2pqXNVs9CiP2UUg5es6BsiHTujoQEfWOmO
+         /dVZC5NcZh5rTrliUAaqv+2lm6RNMdw6mHRIbOIadJKkUn/ZsVgsgsvvSdlR+bWWRBx0
+         3wHr25ypGvHcB2ncuT8GbtWIL871PVrxTUl6666Y5BbnziSKjR+HG+JlYg9bzOgrSdWg
+         Cf38CH/GfyuLM2WtrSzeI49B4YqGuxCT5ILnQm61t0fbWX+wevawH9A7FOVIHAxMKfR3
+         DDZ2iz1oqtzFHw66DqmDB7TcE/5/czO/OA85AJiX5fLSqCgtsTrb6HNbsUjYmNcZpMlJ
+         LslA==
+X-Gm-Message-State: AOAM5309msXS3FR+LROWhlm+pcJqouyBQiG6+AP9AYHaQv32ew9v1eeM
+	Vql3Va4pwq3/ueIiV8bkzJjF46G9gVoB6A==
+X-Google-Smtp-Source: ABdhPJy89sKMJmLhwMmxNSf4kvzl+FSNudEtqJgjOh7AGU85FbUZJdDhxbKneHxdTHjhMcvCooK95Q==
+X-Received: by 2002:a05:6402:150:: with SMTP id s16mr16826828edu.304.1604335808385;
+        Mon, 02 Nov 2020 08:50:08 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.50.06
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.50.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 02 Nov 2020 08:50:07 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 56/80] python3-git: upgrade 3.1.7 -> 3.1.11
-Date: Mon,  2 Nov 2020 17:48:43 +0100
-Message-Id: <20201102164907.27572-56-alex.kanavin@gmail.com>
+Subject: [PATCH 57/80] python3-pyelftools: upgrade 0.26 -> 0.27
+Date: Mon,  2 Nov 2020 17:48:44 +0100
+Message-Id: <20201102164907.27572-57-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,25 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../python/{python3-git_3.1.7.bb => python3-git_3.1.11.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-git_3.1.7.bb => python3-git_3.1.11.bb} (92%)
+ .../{python3-pyelftools_0.26.bb => python3-pyelftools_0.27.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pyelftools_0.26.bb => python3-pyelftools_0.27.bb} (72%)
 
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.7.bb b/meta/recipes-devtools/python/python3-git_3.1.11.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-git_3.1.7.bb
-rename to meta/recipes-devtools/python/python3-git_3.1.11.bb
-index 6d1fc4b653..7c636572f3 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.7.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.11.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "GitPython"
+diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.26.bb b/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
+similarity index 72%
+rename from meta/recipes-devtools/python/python3-pyelftools_0.26.bb
+rename to meta/recipes-devtools/python/python3-pyelftools_0.27.bb
+index 575dfc4dc9..0cfd99504b 100644
+--- a/meta/recipes-devtools/python/python3-pyelftools_0.26.bb
++++ b/meta/recipes-devtools/python/python3-pyelftools_0.27.bb
+@@ -4,8 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5ce2a2b07fca326bc7c146d10105ccfc"
  
- inherit pypi setuptools3
+-SRC_URI[md5sum] = "0ba0de4b47127249c4d632ae299cb0e8"
+-SRC_URI[sha256sum] = "86ac6cee19f6c945e8dedf78c6ee74f1112bd14da5a658d8c9d4103aed5756a2"
++SRC_URI[sha256sum] = "cde854e662774c5457d688ca41615f6594187ba7067af101232df889a6b7a66b"
  
--SRC_URI[sha256sum] = "2db287d71a284e22e5c2846042d0602465c7434d910406990d5b74df4afb0858"
-+SRC_URI[sha256sum] = "befa4d101f91bad1b632df4308ec64555db684c360bd7d2130b4807d49ce86b8"
- 
- DEPENDS += " ${PYTHON_PN}-gitdb"
+ PYPI_PACKAGE = "pyelftools"
  
 -- 
 2.29.0
