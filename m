@@ -1,50 +1,50 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web11.1214.1604335788352378337
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web12.1179.1604335789069313266
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:48 -0800
+ Mon, 02 Nov 2020 08:49:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=na6udDO1;
- spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f54.google.com with SMTP id dg9so14986725edb.12
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Jr/CpHcy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id dk16so19219703ejb.12
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Bpcu0vIwtLSpBs3s0lAR9aDlkxk6qMTbU4nOR9owA44=;
-        b=na6udDO1SoQ2OZXdFbUHDHOZE9M8gTiAONJd/Yazc0G4CM5AhOpvqP29gAg3s/omjv
-         +mnDkN6w3KBvrSMFfildn0oO7XYStezcxBnzWQhZfyqXLvB92LW4ldklwEyPcK+KQc/V
-         u2hnxrZWN+PdRbWCGoLWRihGWosSQH7sJsa/TC+i39NriV3csmnPjQnfCRvQg1GoM6ZG
-         W2bEtrygJped+Kt4YRYGX3FJrNg08YCVSFvCbB2Te5TBuk0W6+yZy16T3p6PoZBGCU8E
-         j1lrT3bK155UuOgx/zhy7S0joXgz0hV445L7lg0ajffbD16HLGw/MN56pWKD/9p9AQ80
-         /IXQ==
+        bh=7mPH5fBQoJkryTiuRBAB1G5oWoy62fMP/t/VdymIGmM=;
+        b=Jr/CpHcyZyW3FPueVLagTfRKFvz+klKEiGrZNLQgP6HGnjNGUmsHvHAm1VWLWnoUBG
+         ksQNja5MkqVV+rGLx1TQZu4MYPV5wZ/hPxnhzrHWwXYKM8TouNOp6bXtvtWtzLDpWWNC
+         j9tvwU2AfitwRIW5lWzKx2cHRLodJlNHiXxfRclYZpHoqXF/e6FfFSUnEpRly8YLAxwB
+         H/ZLsy0E6JQnlSsGv+plLjdZw5VLBpR3dq5OfRI9QGKQFR3HxtK5FNFPQPWy0XLsouLh
+         KNAqygrWMtvUW3HKc3uXnELJHk45rEqlsJTs9EVP3JuKDmJzizW76M+1rTmCxxITTFXN
+         7P4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Bpcu0vIwtLSpBs3s0lAR9aDlkxk6qMTbU4nOR9owA44=;
-        b=AJli0yQqIK/IX4gVNE2y0N89u2p7CDwaIgWahJcuLOvcY5Mjceft3ZB9DgTwiwtxPc
-         YCtc644Qf36mEfIAzTttCiG/t2MgFpeEggY4HO6TS3k3spTz7uqypVv3ueFsNxLRiGUX
-         CVxQj/eVcgwigLcVIDh+FNpvd5IFrrL51127pdeGxlCB/cDPejA8b5KZQ5Y12alhZnDM
-         uXxDxD0YPLzoFK1F5Nk0P//B7eLde6roO8QAmTIbxRbm0d7C4gr3E02ZhwKzCh1jUgL4
-         cqF1NZsirSp5EAsEUJ3XbWOcJEKo/E2no7xoQhJ4Cr4sVFrYKMFr8hguQqrSyQp0E+lU
-         fbtw==
-X-Gm-Message-State: AOAM530cWwgeltOc+iTakKAQBFcitV0ISlvljB5uYnoG7om3Qq6+OQ+X
-	Ac42Y7z/Iow241aU25HAoo+n8NaE10ZF6A==
-X-Google-Smtp-Source: ABdhPJx9rJeb8AlvjmxODjcCBZKXfPNQDpKLm8zS5m4U1/PRLLeshi4EpHdke6CTsuWk/ijt+E81BQ==
-X-Received: by 2002:a50:a6d0:: with SMTP id f16mr16905332edc.135.1604335786675;
-        Mon, 02 Nov 2020 08:49:46 -0800 (PST)
+        bh=7mPH5fBQoJkryTiuRBAB1G5oWoy62fMP/t/VdymIGmM=;
+        b=ojfTVT9YOAQ4TGCPKjvwB+a3CD9Ejh/u97hSMXaNVT1pVOyCyKjygSI/cltMnnoFqr
+         DmQHhrws0g0+3OXCL/vgQJeTal9yVHbEsK4P4Rpjqm+uNAIHhbTYIZbH4Rn2Me3gcXSx
+         EMTGrHAY3FBN13sVSIaKYhIQlQ2OBMKqAIRio/AuMTi2ExDYnw/dkTqKMj9dDiH8usyO
+         wmCYc825y3HOf0AOmueuc55PqxT5tHOG2pfXQ2EhGUt0+XE64rnzSAC/wf+fXVg1wIon
+         FGckDenTNWoPJ3XjDBxwcXjqJYxeQAtAq45dyaGUOO1erOcryOX8AEIHTv1+zYMQARlh
+         bN+w==
+X-Gm-Message-State: AOAM531vdm5GiOxoJ801JaEGA+vD/fJAVbjNQ4zLfByReAQnM+0Wrjd4
+	zslrCNT3vhRNupz4VPFWXnfSa94NHq/MXA==
+X-Google-Smtp-Source: ABdhPJzN2LJO3VaV6Dbmc3ESuREaDNVCTzIe4UV22KEO3r1pQvAZNpcpSVsmC+TN4eTqonLK972Yrg==
+X-Received: by 2002:a17:906:d1ce:: with SMTP id bs14mr15730558ejb.548.1604335787462;
+        Mon, 02 Nov 2020 08:49:47 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.45
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:46 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:47 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 33/80] libinput: upgrade 1.16.1 -> 1.16.2
-Date: Mon,  2 Nov 2020 17:48:20 +0100
-Message-Id: <20201102164907.27572-33-alex.kanavin@gmail.com>
+Subject: [PATCH 34/80] libuv: upgrade 1.39.0 -> 1.40.0
+Date: Mon,  2 Nov 2020 17:48:21 +0100
+Message-Id: <20201102164907.27572-34-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../wayland/{libinput_1.16.1.bb => libinput_1.16.2.bb}          | 2 +-
+ .../libuv/{libuv_1.39.0.bb => libuv_1.40.0.bb}                  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.16.1.bb => libinput_1.16.2.bb} (95%)
+ rename meta/recipes-connectivity/libuv/{libuv_1.39.0.bb => libuv_1.40.0.bb} (90%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.16.1.bb b/meta/recipes-graphics/wayland/libinput_1.16.2.bb
-similarity index 95%
-rename from meta/recipes-graphics/wayland/libinput_1.16.1.bb
-rename to meta/recipes-graphics/wayland/libinput_1.16.2.bb
-index 1497609183..f4b1b4ddc2 100644
---- a/meta/recipes-graphics/wayland/libinput_1.16.1.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.16.2.bb
-@@ -16,7 +16,7 @@ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
-            file://run-ptest \
-            file://determinism.patch \
-            "
--SRC_URI[sha256sum] = "7ba7d1aeedd15168bb21d17e9e628aa1c27957963a423a3fea3938a501758539"
-+SRC_URI[sha256sum] = "fc3d8c50fe7abc4dc4406bc01262a3f8149864557f87279adcf300e523c160a9"
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.39.0.bb b/meta/recipes-connectivity/libuv/libuv_1.40.0.bb
+similarity index 90%
+rename from meta/recipes-connectivity/libuv/libuv_1.39.0.bb
+rename to meta/recipes-connectivity/libuv/libuv_1.40.0.bb
+index b6ce4757fd..f793db09be 100644
+--- a/meta/recipes-connectivity/libuv/libuv_1.39.0.bb
++++ b/meta/recipes-connectivity/libuv/libuv_1.40.0.bb
+@@ -4,7 +4,7 @@ BUGTRACKER = "https://github.com/libuv/libuv/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+-SRCREV = "25f4b8b8a3c0f934158cd37a37b0525d75ca488e"
++SRCREV = "4e69e333252693bd82d6338d6124f0416538dbfc"
+ SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
  
+ S = "${WORKDIR}/git"
 -- 
 2.29.0
 
