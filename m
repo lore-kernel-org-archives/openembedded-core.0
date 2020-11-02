@@ -1,50 +1,50 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web10.1255.1604335822396340834
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web12.1199.1604335823185093004
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:50:22 -0800
+ Mon, 02 Nov 2020 08:50:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HsbtgKlh;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id k3so19761582ejj.10
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ac5cKSxV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id a71so9661560edf.9
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:50:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=P5GY38K4qpx6hwUzTUbXl5ZuZlXXn4SkRN7UKN/23WI=;
-        b=HsbtgKlhx/cmEUXA22yqlgNs0LfWv/PA6zjaCrl6NDDUNL9gp+2cBNHsQFqM6QDuqB
-         tcqU2D2oapgwUTiIoRIrQmwQEQqi6gPTTakM4/gT+3oz2lnwUF4tFfLJjF9duIo8Qtzl
-         DC1sHkEaUDqv82Q1AAwW2XJENyFRZl/JcQmunJf87fHlSgu8We9pypsRgVU38SUPOEEr
-         h0HmKEICVKbHqFA2bpqflQGoG6OfBLyuHdtpnYtGqvQddJE7O3hveJvM/OVSCsUKeb9e
-         /OZZB1UlajHxNbL+HQXtzYM3LAy7mf/QuXoBYm3rdyrDcKAduTghf/+WqSIJqNGixFBW
-         ypkA==
+        bh=7gtwEHa+vDIlzuuEd5gawUiYxlaZ0U392zhh8TE3cvs=;
+        b=Ac5cKSxV0unLgFz0OhRhIIYGXDUAiPNxez7ZyVL4hiJdmWpCc61WQTm89J7nZ5A8FL
+         JVXfcyZFEtWtM2nti3Mb86h/dGRhZo0uoF3jLM+5jOE/NE2lVB8LpRz9VwvzYY3Mf3ad
+         28GSchKRC0Ob2GSaMyw+PPLq0x9ri0g8pPxPij7Ed4bra3c6xUXn0OrvN2q3bd0HcWkz
+         SXtxaPOBaXsBrSZFIIz//AvFHQnEmcZHZAFOAt5uYCSSYRs7Ro4DDI2lQhi0nrPYId2j
+         8/skBfax9bXXX7sYdMOEbW8ZFpWF5ThsU3CeXAC0v8/+eehutW9XL7hVdCIMLZo3nA9O
+         lUSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=P5GY38K4qpx6hwUzTUbXl5ZuZlXXn4SkRN7UKN/23WI=;
-        b=uXM4VeQ8iQbjn7yA4AVwqoSw7rjU2g/7FbKDQtYTPM6ui4fPhHwhKsYjyo66yFKg0a
-         K/dl/5lvy1+ouyV2UgwFP8sjEwlgZ3mQgx2LYmf9v6WIPtj+3ilP5IBSvoAK7ktUzGiP
-         vbzILEMcBE/Zg9x8aFRpmryCZgL92eoSE0wpkpkPNnMeuFWw3CDUvSyBdQrV6yLAQtPB
-         8SJ7vO9VzuHFqO8hUXANYtpyJ+C9xJZZsXtnXORiAJ5P+M2BBp8c64bwmjJA7FuUZcn9
-         rWAlB4lEWJaykk/qyEkrBzp7R+Yll9O8yRSsu0qNBx+9HIYE2m2PxV6POG1KF5O4y7aT
-         XN5g==
-X-Gm-Message-State: AOAM531LKS9I9zNH9BMdDckY9eBkQv0PVYTHB62r7uUbxDmnC9iopT1K
-	mvlNN8iWdOYfPB+ufvrMH+rn1aYtBsSAkg==
-X-Google-Smtp-Source: ABdhPJxzoQBbAStYoTKa1ojDTtF94y8aGDQsG0GmGB6CWz0nu8zVRihVVqU5ewsqv/xCe9GW4z0/6Q==
-X-Received: by 2002:a17:906:e10e:: with SMTP id gj14mr17080610ejb.134.1604335820785;
-        Mon, 02 Nov 2020 08:50:20 -0800 (PST)
+        bh=7gtwEHa+vDIlzuuEd5gawUiYxlaZ0U392zhh8TE3cvs=;
+        b=VZ8f6zPF5HAl5yquxaOZ90NmYC8GE29iuhpmFt9BKjuXouwNKB+/oMNno4g5F1fI5I
+         eGnhmyzp1b/OvEs2vlVQQiojaq/4BGudAxNAyKJKgYylBtvhgK1HNDgwFPmWHzkkVCrj
+         8QSbvVVm9eLRSxkHIagCcQb5GlBLKC1kuiqyKxHDmd7eV6etHXqtSs8/JKGdQgCtW9eK
+         SrqPUmu2q+U/J2hhFEAK/t6hM4wqJckewLVoN1NB54qL++4STInObNCgARwDzLiEXpp+
+         HpSUoQQ/bcW6oBS9OMOSkBfozWbwaeK8m0+xBVhPsu2f4UuxkjLRY9PArp1dd1li0ouY
+         5FBg==
+X-Gm-Message-State: AOAM532N/3NY9rac7GFFoio+2iKTJ3invB3FKnUFXb4ZI8xP1n/GO2av
+	ka6aEhbd8Tmp93Qq71eq7h0Ct/oQzGEUjw==
+X-Google-Smtp-Source: ABdhPJy465TADmI1d3pgTYjQXR9D0exqmKtuekaDeGqwGlIqwAvSVhXwqxYcMn4QCJnXSarfo7zYvQ==
+X-Received: by 2002:aa7:c9cb:: with SMTP id i11mr7331381edt.100.1604335821546;
+        Mon, 02 Nov 2020 08:50:21 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.50.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:50:20 -0800 (PST)
+        Mon, 02 Nov 2020 08:50:21 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 71/80] webkitgtk: upgrade 2.30.1 -> 2.30.2
-Date: Mon,  2 Nov 2020 17:48:58 +0100
-Message-Id: <20201102164907.27572-71-alex.kanavin@gmail.com>
+Subject: [PATCH 72/80] diffoscope: upgrade 160 -> 161
+Date: Mon,  2 Nov 2020 17:48:59 +0100
+Message-Id: <20201102164907.27572-72-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,25 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../webkit/{webkitgtk_2.30.1.bb => webkitgtk_2.30.2.bb}         | 2 +-
+ .../diffoscope/{diffoscope_160.bb => diffoscope_161.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.30.1.bb => webkitgtk_2.30.2.bb} (98%)
+ rename meta/recipes-support/diffoscope/{diffoscope_160.bb => diffoscope_161.bb} (83%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
-similarity index 98%
-rename from meta/recipes-sato/webkit/webkitgtk_2.30.1.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
-index 7689266304..1acba6be1d 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.30.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
-@@ -18,7 +18,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-build-with-musl.patch \
-            file://include_array.patch \
-            "
--SRC_URI[sha256sum] = "17c59dfdadb7377192e9b59bc56c8a029c9fad4f38ed732b652bf33d0bd5d6b1"
-+SRC_URI[sha256sum] = "c467e0bc2bc610c2570928e3fd63cedaadc4719cbf9b04aa99f79dd71ad5682a"
+diff --git a/meta/recipes-support/diffoscope/diffoscope_160.bb b/meta/recipes-support/diffoscope/diffoscope_161.bb
+similarity index 83%
+rename from meta/recipes-support/diffoscope/diffoscope_160.bb
+rename to meta/recipes-support/diffoscope/diffoscope_161.bb
+index 2c3da3bbda..0f566a3ec7 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_160.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_161.bb
+@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
  
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "f164b5e74cc11f6238ad8d62c92d3a819fa4c8b618683fc0533e04f21acae6b2"
++SRC_URI[sha256sum] = "9c27d60a7bf3984b53c8af3fee86eb3d3e2292c4ddb9449c38b6cba068b8e22c"
+ 
+ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
  
 -- 
 2.29.0
