@@ -1,50 +1,50 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web08.1152.1604335774406228524
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web09.1205.1604335775091896018
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:34 -0800
+ Mon, 02 Nov 2020 08:49:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Yu+2FCNL;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id a71so9658829edf.9
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gK5Nh++7;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id za3so19791680ejb.5
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rNFhlNW2zJqPj4j4Vb1MEzrbnXPAG43ZxAAb6JphyPI=;
-        b=Yu+2FCNLOVQpchgH0ounO5zHmQNYwS5VkIycq9YHRHG5nUPJkUm9rrIi6JwItStGAU
-         gf90kLwHA8YMpL7B4FeCpPU5iWP//I4q8mGru2+eQbNxK0PmkEkoph/jJQqb+N5T4aoC
-         RTyaO+iRaOgzzRT0genZ5Zs8LfHQ5UryrfjxA8jtIgEcRNsdf7NPG6MB4DYLXXxQsYQ4
-         nG87La5ZoASPDR2uGc1U6JAx5Nag1nNowaC0J2NvvRKoWXeM06Yck2smr0+fGTyewIRS
-         RFHzAbi9ylGnwt9ry8r4rx2E0Yrb0fFlr2N1ttVJAECqqnOIx6RUzaDFWJqaORUkK2ws
-         /q9Q==
+        bh=SvuL+sIhLHy/BXXOSCxGQ8c2nB3kmXtIsrZKFxkpHXA=;
+        b=gK5Nh++79qLy0ueq6mogHVaSII4GWUfMsCWxjgBzSyi44SF1cRHSqM2rbR/GsMzcsz
+         shSDaJnRTTS6jytx3GIrJ9P3lxnZw9A1mFbYYIx3ZLLxO0CPND1QfJuvyMr5LJ4oeDwQ
+         XpDsVL6tfxtUBmn/MweD5G/xewdPX8yRnFXzg8GTRo1WjvXp+nidY8aRWlECNanH+bJv
+         NuULhUgqGAY1re8qKysSNBrtu55vyCklpEHKXevF81nY8sfAhHL7et7mHHlg5cDsHTVS
+         A2qs2PgtBKCoJRe/Sir5+/PoDmdph5Gtci60fanp7TT+1/LA1KCBJG+Q+BnW3TLDsa8X
+         iNGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rNFhlNW2zJqPj4j4Vb1MEzrbnXPAG43ZxAAb6JphyPI=;
-        b=EhGQCPuHVoJmwNl1RmLI7FtJyxtNvJGtzyMaBn7OWyzr+LsvNRLTMZ6JDRGoM8g3y0
-         vgjvaS5eiV53LHzySmFALKFg9YmTtGbQA6wCCkfFxOeGm1OlPTOy9vkRNZh7DORoEpnF
-         Y3b1GVvNj3Aea7zn+m9kv3ekF/zxOLi45R9k0E1D70ABlsddbqbjKv/mMIkQpzgV53ud
-         CrjJlxPh2hXarUA9xR97qlsirnjUX4ra27csbj3TdgjGAsbVDdrCLbcDHZUe2yRKke7B
-         PW4BBMXNnXa4qMYWYb/uZaM1/+8zp6KKX0VNtamXnqbdWUfKNlZ4/O3sVNmvbDLO86z6
-         G6Og==
-X-Gm-Message-State: AOAM533+nq7CSPPmfI5SPWZksGPvTzz+KdpFbNoAdVeZXNXu0j9TnZH1
-	R8BJ8zWjQ2x9OzW67dWPzAV9v5nEa3q/1w==
-X-Google-Smtp-Source: ABdhPJxEJgc0ePIvMv+9FNXi1mqaLFYwWd/EPZf1ivbhTfI087guR38wMHiD+7fZXuc5XCL+OG4pgg==
-X-Received: by 2002:a05:6402:150:: with SMTP id s16mr16824701edu.304.1604335772745;
-        Mon, 02 Nov 2020 08:49:32 -0800 (PST)
+        bh=SvuL+sIhLHy/BXXOSCxGQ8c2nB3kmXtIsrZKFxkpHXA=;
+        b=nm6cYvG07DaWbIIYCkKlSYWv1y8pEmSmNITgNnRTxsUpq3UhkQi4UDhYTI99mXKWat
+         kWETEX8z1yxq4mtKxA/5aehV0A5ArVtd/C3Xi3Im4wanvwkPXMxpUvZ3V+m/0GIWfdeM
+         y6n9lv/E4X4IoQMK2BG8qU0Ty8BWNJp94Up/so0PYxKHCZs6xyFLfIzrLpKLTqfKY0K4
+         uFumnpVvoAjc5SEaQI+STXQeZMAcre+iTT9iZBsL2wnjYL7Upfyv+A8xWg9GUG1IlV6/
+         J7xioi9K4kZpY+bNIHZ23SA0jH2DYWwv7KFfVd6MkEvsBQLy5DpTxWr/oMt3epu4f/iW
+         Y8Vw==
+X-Gm-Message-State: AOAM531PauN5w37bGhsuDXy1/SXXNYxn70EWhjBs3+6Fn9d/8L2jraRt
+	ccgJZUxvsHzYsW8FQ52Pa/cc25L+qPbhJQ==
+X-Google-Smtp-Source: ABdhPJx1wX5CgVhDI5NzPmclLFMILUxymqm9gyfDgurAe0Kix31maFTlbb68GPLgst3fHJmiHDZpmA==
+X-Received: by 2002:a17:906:4803:: with SMTP id w3mr15615802ejq.406.1604335773491;
+        Mon, 02 Nov 2020 08:49:33 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.31
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:32 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:33 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 17/80] debianutils: upgrade 4.11.1 -> 4.11.2
-Date: Mon,  2 Nov 2020 17:48:04 +0100
-Message-Id: <20201102164907.27572-17-alex.kanavin@gmail.com>
+Subject: [PATCH 18/80] dhcpcd: upgrade 9.2.0 -> 9.3.1
+Date: Mon,  2 Nov 2020 17:48:05 +0100
+Message-Id: <20201102164907.27572-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,30 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{debianutils_4.11.1.bb => debianutils_4.11.2.bb}           | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
- rename meta/recipes-support/debianutils/{debianutils_4.11.1.bb => debianutils_4.11.2.bb} (94%)
+ .../dhcpcd/{dhcpcd_9.2.0.bb => dhcpcd_9.3.1.bb}                 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_9.2.0.bb => dhcpcd_9.3.1.bb} (95%)
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.11.1.bb b/meta/recipes-support/debianutils/debianutils_4.11.2.bb
-similarity index 94%
-rename from meta/recipes-support/debianutils/debianutils_4.11.1.bb
-rename to meta/recipes-support/debianutils/debianutils_4.11.2.bb
-index 3b1767e5ed..0eeb2954f7 100644
---- a/meta/recipes-support/debianutils/debianutils_4.11.1.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.11.2.bb
-@@ -8,10 +8,11 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20200929T025235Z/pool/main/
- # so we check the latest upstream from a directory that does get updated
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb
+similarity index 95%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb
+index 13467189b4..e520115f71 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.2.0.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb
+@@ -17,7 +17,7 @@ SRC_URI = "https://roy.marples.name/downloads/${BPN}/${BPN}-${PV}.tar.xz \
+            file://dhcpcd@.service \
+            "
  
--SRC_URI[sha256sum] = "8be869f19c55c18d53d9f0414b68bb966a068b2154e9fbbfc6193827d6af983c"
-+SRC_URI[sha256sum] = "3b680e81709b740387335fac8f8806d71611dcf60874e1a792e862e48a1650de"
+-SRC_URI[sha256sum] = "fcb2d19672d445bbfd38678fdee4f556ef967a3ea6bd81092d10545df2cb9666"
++SRC_URI[sha256sum] = "a0843233fdaecee971c38ceda53ad1450bb7b83aefbf1fa9642213224a9c415e"
  
- inherit autotools update-alternatives
+ inherit pkgconfig autotools-brokensep systemd useradd
  
-+S = "${WORKDIR}/debianutils"
- do_configure_prepend() {
-     sed -i -e 's:tempfile.1 which.1:which.1:g' ${S}/Makefile.am
- }
 -- 
 2.29.0
 
