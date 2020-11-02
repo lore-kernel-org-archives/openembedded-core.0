@@ -1,50 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web08.1150.1604335772261165611
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web10.1230.1604335772964509477
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:32 -0800
+ Mon, 02 Nov 2020 08:49:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Gkfwwt/Q;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id a15so6208387edy.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ccyd4VZO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id o18so15055931edq.4
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=I/a9J3oJlp7ZeLt0K5IiP7UnyAsQWJz/rRYtMKnO1yM=;
-        b=Gkfwwt/QMS7t3WpbZ0Qg3mtOdW0ktMxxbJtijPXuaV3ioXwrXAY4lGTo34D/TqS9ga
-         HFJDlpeifnmRIUrJwS/eN2tJXy7LWNAYrD3R81pGVxd/JKCb6cAxiWG+88NaA3J5onJN
-         M/PpL+x2AnlbHcHcDC1PL+N4W6cWdwGWvB7g+vabhvzNE2IU4uxQ0BisqJ/FovyNTB3q
-         8irAyN/FH1alwUUD7ckpB7/hmOKFQ7lVkCESjMq0BBLXLADGGSeViK+W1vysA1TjvLYC
-         obaNTgobo2qrosTGEosP4Zw69uiZO6lFFrva7ITqBB2/kZx0PqmooAY9CsYaA9d4XVTO
-         6V6w==
+        bh=5vhROiWdl3fwN5TDyiJHjWCEMYs+uggKClrJ6QiM+8g=;
+        b=ccyd4VZON5ia/EVbUOt9sqlS8rbHHp+rUuDnESK2AQ5vtVJN65wxZ1llSzmN9mh3Bq
+         oCfeetyq43t1wAUFzunN20g6Vg0zCmsGBu6FFIU9G3HA6xn1OrXRw+VzKjQBOX6swW1e
+         NfDOkgWJxbjixV9ZfQfaCMGAbfNc1k5VYxAfiihV04EkIXV2dRyxDZeKB8owU7DIhWTw
+         VjZ27Z6I0HD1yPGiFsGWExdVXJload9IcjOcLljn69+pnNVSE8g2sdIvO2CgPA3BzQ5h
+         fF/bMk/eiFDYt/OZXosjTjXoUSF/q2niFVkC+NlMzdy5psEgVwRSEwJ+OCMchKrkfcnG
+         8Ovg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=I/a9J3oJlp7ZeLt0K5IiP7UnyAsQWJz/rRYtMKnO1yM=;
-        b=J8rjrnDjyLWpEEyu6Ut2lO6tKfW/Swx3CpGX31wuMYot3pPs61RNzDbXheax9GBKTy
-         PIwprOCHoapDa/xpWsq3L64EmHfQQopyzj0Wc1QRf2Y+GMDNuqW1Reb0L3ZCfnm2WqWO
-         LeLx4iTV07xjkBDGNBiL3JNm+4Tvkqdk1WhL2Yw8XaUotSaxF9n9HpNO7CnOhM35eN8+
-         Y+8KMf1kMwjOBkixZmUbrb7X7sBzWjuaZJmPydblvOkVprIF0GWXp1xe1KIv4mmtJhV/
-         UikHoiikioOfqveia4lG+ic485UdfBi5Qom2HSWNSur+zHkW2BqDKDGSdupFPLILLdTy
-         ROGA==
-X-Gm-Message-State: AOAM533Q06mYGk+oHrVCbl3wUIvFo/sMftIny4Yl19evwByzSLAddkat
-	Kepixthd+PmfLLuR5PSXg4cjZY7kMfiLgA==
-X-Google-Smtp-Source: ABdhPJzOEZMdfePCQ3yL0w0kUwN2Ilio5SEHA/Hu7ouAS45yUbbS3C0j7hjmi8/XzI+RGvUfOAQgNA==
-X-Received: by 2002:aa7:c955:: with SMTP id h21mr17780367edt.315.1604335770584;
-        Mon, 02 Nov 2020 08:49:30 -0800 (PST)
+        bh=5vhROiWdl3fwN5TDyiJHjWCEMYs+uggKClrJ6QiM+8g=;
+        b=j4KEDWS7Pkx4Fn2O7M+PMTogt0LwyEUxCPiN5I+Z6wBkW6XMLAUTLz5H5cEB0Nz5fE
+         EG4g5H+uzjz00JkuVP34o7RuolZ3wcKEeGxf0pJLZXwQudELmANHKCN7iVaSIgqASE6k
+         lPz8NZocV/1jpKVr+Z3v15ZUX//B6xT0+KJmTWQFvvWZwyiUCadfW2q/i9WgRfPTZhBi
+         ISMpbwun2J3QLwkshxGHMFoAufNXEZ+ZK4a6TUGJ17vlcC8Uc+21Wv7Byv1+2SunmUW2
+         3RjFpiWbJzhhKmMQHaF0GhTZ/RLQLf02v/Wb8XIXx17hkqgF+QeYIXVmNxfsI6/KV11U
+         quRA==
+X-Gm-Message-State: AOAM5319PsqrvWD8HfYq+iAjXGOTsoEMcEvWt+oZJ70nnqFrFzJEHQ+o
+	Ll7qv+s46IeMR8GqQGpQ9AQKa38MxNy0GQ==
+X-Google-Smtp-Source: ABdhPJxqgVmJJ8ZcBAK7YxJUtwiha9ReamnOSd23PcZx8Bg938e9t6PfLMTt9lfPLn5YAcsJnxdxJw==
+X-Received: by 2002:a05:6402:6d8:: with SMTP id n24mr17558883edy.168.1604335771371;
+        Mon, 02 Nov 2020 08:49:31 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.29
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 02 Nov 2020 08:49:30 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 15/80] createrepo-c: upgrade 0.16.0 -> 0.16.1
-Date: Mon,  2 Nov 2020 17:48:02 +0100
-Message-Id: <20201102164907.27572-15-alex.kanavin@gmail.com>
+Subject: [PATCH 16/80] curl: upgrade 7.72.0 -> 7.73.0
+Date: Mon,  2 Nov 2020 17:48:03 +0100
+Message-Id: <20201102164907.27572-16-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{createrepo-c_0.16.0.bb => createrepo-c_0.16.1.bb}          | 2 +-
+ meta/recipes-support/curl/{curl_7.72.0.bb => curl_7.73.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.16.0.bb => createrepo-c_0.16.1.bb} (95%)
+ rename meta/recipes-support/curl/{curl_7.72.0.bb => curl_7.73.0.bb} (97%)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.0.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.1.bb
-similarity index 95%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.16.0.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.16.1.bb
-index c6d8963072..942741023f 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.0.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.1.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
+diff --git a/meta/recipes-support/curl/curl_7.72.0.bb b/meta/recipes-support/curl/curl_7.73.0.bb
+similarity index 97%
+rename from meta/recipes-support/curl/curl_7.72.0.bb
+rename to meta/recipes-support/curl/curl_7.73.0.bb
+index 7d0268253d..0f26b0f1af 100644
+--- a/meta/recipes-support/curl/curl_7.72.0.bb
++++ b/meta/recipes-support/curl/curl_7.73.0.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
  
--SRCREV = "bac48ace91c51abe37792415e75452bbabd44d93"
-+SRCREV = "634141eaefe0cc87466dfb91b07b64facce4384b"
+-SRC_URI[sha256sum] = "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef"
++SRC_URI[sha256sum] = "cf34fe0b07b800f1c01a499a6e8b2af548f6d0e044dca4a29d88a4bee146d131"
  
- S = "${WORKDIR}/git"
- 
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
 2.29.0
 
