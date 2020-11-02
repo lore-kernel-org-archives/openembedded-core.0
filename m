@@ -1,50 +1,50 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web08.1176.1604335824634744215
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web12.1201.1604335825561453477
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:50:24 -0800
+ Mon, 02 Nov 2020 08:50:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NvkaYmRu;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id v4so15067909edi.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:50:24 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RfKGzht4;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id ay21so1656238edb.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:50:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=BLxuw/yxEq/qH2kmbd40dgfVslkycA5i5PzM28JZxmM=;
-        b=NvkaYmRuKUyCGmXDU75BJ1wW1Y8KgtkqCKSAIN8mn0NCa9Hfkf1rv25CXv1atJb5dr
-         1gxfXieBRMEuzmgeFbWtr1/0vCFcnNmA0bk6fzTPzY/JbSxXOGCJiLlWeOp/Zmw/BpqS
-         3sCztjzTBxhjLXTxsILPjmb10FMj5/sLHzkAEN4UvqdLDxMxYvbVYDnqBRBRWxikA4Dr
-         EWq2YGypGocMAFia1zGWYBWoTjHamEUSxD07KBQb5dthIf1Bhm0BXsupNV8KfQosX1NF
-         +WBPwT/gW8fzFL43TEihc2Dp2Yn8IPiWGdxKmdDUh6uzJI0Mmg40PIzFiuYvWSeBnjRq
-         /HUA==
+        bh=5NNx0iE73+wgrCngDspa+rOy7ctkdHlSFEDqo6iFBwo=;
+        b=RfKGzht4RPTlIkEJU8kgeEt0w6S08Ep2y9O2pb1+zAkwFE+HRyjQNhmw8SsIwh6o2M
+         hdMoxs02UaryK5UmbMUdiIduUingopuWWNpw+xDlz0pLml0p2WX7wy/NJnGu2JyJFhc0
+         LBvVCLB4jIOqI2OmGuILompjXxvNVTQkfCnkLpSY4nKYCfrirS4fJj7Tl3i6oO13hHp5
+         2JeHEAtFVoECIztRu0X9PenrAEhnQFfQOSBbBamXeoFe2wZ2VVPHt9qOtiW3TXGGln6w
+         7opl3uVjIEycP4Q5v9BXcUBjabraz589FlsCXx/eR9KUs3MFeadLtgBttik8hXmTLkcp
+         1r4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BLxuw/yxEq/qH2kmbd40dgfVslkycA5i5PzM28JZxmM=;
-        b=gfqtr3p8ygfRhMQfQceiBph0lVJO6KrQOHJ5m+RbG0lTvRs0Yb8mrhhk4UlN9taF1Y
-         nte71B2wJIPOdRx4M/lviFxjUXSh8j6my8/n4M0XbbTdstyrMffrEApnFHf9IM3quJkZ
-         DN1nPPMrP6HYNF6TOAO0bhZnA4BaRjM5pi1TTdBrJKKvondjfqusCm7jcyxlZiK1pU30
-         AblzW7G4E40hdtH0DyaABoq9viVQpCSC1OTQU5xwp/xq78GTyY+WlNXM2tQ05IwOiOBZ
-         VVhcT4xXFgXgyKfnOpGTI+EdsZ6sQNVqNQnxrT9gyA1UZI2hM4aZnkfBjsivltQCa+7u
-         JoYQ==
-X-Gm-Message-State: AOAM532PGjyZoOiAFhyCKlbxgV+q3biJcVEkhuc3uCU6Z/Sc1Ud9zX1D
-	ZdQpnuPQ9PM92nUUnSHomfY36wbX5zU/MQ==
-X-Google-Smtp-Source: ABdhPJy6FanCh5dxShLJwcX6MP2fPFkPI/ahemT8JOzaQn4+4+pSYjhNaFffme3p/QYVcfO2ZwDQ9Q==
-X-Received: by 2002:a05:6402:1b19:: with SMTP id by25mr12730475edb.108.1604335823049;
+        bh=5NNx0iE73+wgrCngDspa+rOy7ctkdHlSFEDqo6iFBwo=;
+        b=qmUsTZOaBw2oQvt2FAfKs2CjfDEmxJxWV2mtZJGeS8MH65p1Pm4jP+XSnX9eAnB5EH
+         JNlOVzgbMW8q6PqCSfZU2GzjpCAsAdPukNUGuU0dxKO/55jaCTmg/KB/4UoNoDrvs/Fv
+         K/mhjn1I6R6Lm+lgfbbcpBeWK7Bbq4SJKM8jgtkurcV2rtFHfWlE1zom7oomzGT8gU1P
+         aBncnEmJAaON/ltj7O03VeWWiplcjrt6LSrpxo5D9cL2vrYDXYRZ9rYiO3DUh+4QN48i
+         UsCJnYumSOdvXWK8dJrR2vldRtmRMSbZFT/VRkxPS8dlaPyhA8II+WLZdcb0HyDVWk+t
+         L+Gg==
+X-Gm-Message-State: AOAM533eE5KJAFu0bu3SAmq94Ky39fC1J+xZQ6s7M1Hfwpmw3kPJSHoa
+	lRnbxYvF9P/BI6xNFjeROtlkLTQwS/JuFQ==
+X-Google-Smtp-Source: ABdhPJz5PbPXwqCRyt1K0+fS7TNWdFGh+m4VcfZHMumJMY1tX9Ba+gW+2VfDtY5Nl5DXlxQPAvY0HA==
+X-Received: by 2002:a05:6402:1691:: with SMTP id a17mr17055363edv.264.1604335823991;
         Mon, 02 Nov 2020 08:50:23 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.50.22
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.50.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:50:22 -0800 (PST)
+        Mon, 02 Nov 2020 08:50:23 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 74/80] libassuan: upgrade 2.5.3 -> 2.5.4
-Date: Mon,  2 Nov 2020 17:49:01 +0100
-Message-Id: <20201102164907.27572-74-alex.kanavin@gmail.com>
+Subject: [PATCH 75/80] libcap-ng: upgrade 0.7.11 -> 0.8
+Date: Mon,  2 Nov 2020 17:49:02 +0100
+Message-Id: <20201102164907.27572-75-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,27 +53,34 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libassuan/{libassuan_2.5.3.bb => libassuan_2.5.4.bb}       | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/libassuan/{libassuan_2.5.3.bb => libassuan_2.5.4.bb} (88%)
+ .../{libcap-ng-python_0.7.11.bb => libcap-ng-python_0.8.bb}    | 0
+ meta/recipes-support/libcap-ng/libcap-ng.inc                   | 3 +--
+ .../libcap-ng/{libcap-ng_0.7.11.bb => libcap-ng_0.8.bb}        | 0
+ 3 files changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python_0.7.11.bb => libcap-ng-python_0.8.bb} (100%)
+ rename meta/recipes-support/libcap-ng/{libcap-ng_0.7.11.bb => libcap-ng_0.8.bb} (100%)
 
-diff --git a/meta/recipes-support/libassuan/libassuan_2.5.3.bb b/meta/recipes-support/libassuan/libassuan_2.5.4.bb
-similarity index 88%
-rename from meta/recipes-support/libassuan/libassuan_2.5.3.bb
-rename to meta/recipes-support/libassuan/libassuan_2.5.4.bb
-index 52b4c0f1b9..e83f571183 100644
---- a/meta/recipes-support/libassuan/libassuan_2.5.3.bb
-+++ b/meta/recipes-support/libassuan/libassuan_2.5.4.bb
-@@ -17,8 +17,7 @@ SRC_URI = "${GNUPG_MIRROR}/libassuan/libassuan-${PV}.tar.bz2 \
-            file://libassuan-add-pkgconfig-support.patch \
-           "
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.7.11.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.8.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng-python_0.7.11.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng-python_0.8.bb
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index 6d6fa644aa..3d25b4cbd9 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -11,7 +11,6 @@ SRC_URI = "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
+            file://python.patch \
+ "
  
--SRC_URI[md5sum] = "226c504ea78a232224bf3b6846b3adb9"
--SRC_URI[sha256sum] = "91bcb0403866b4e7c4bc1cc52ed4c364a9b5414b3994f718c70303f7f765e702"
-+SRC_URI[sha256sum] = "c080ee96b3bd519edd696cfcebdecf19a3952189178db9887be713ccbcb5fbf0"
+-SRC_URI[md5sum] = "5883ed10b621c87e29a05cff36d2928e"
+-SRC_URI[sha256sum] = "85815c711862d01a440db471f12fba462c9949e923966f5859607e652d9c0ae9"
++SRC_URI[sha256sum] = "f14d23b60ae1465b032e4e8cbd4112006572c69a6017d55d5d3c6aad622a9e21"
  
- BINCONFIG = "${bindir}/libassuan-config"
- 
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.11.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng_0.7.11.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng_0.8.bb
 -- 
 2.29.0
 
