@@ -1,274 +1,167 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.1542.1604355670161459057
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.42])
+ by mx.groups.io with SMTP id smtpd.web09.1682.1604356144448492204
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 14:21:10 -0800
+ Mon, 02 Nov 2020 14:29:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=J/F+/IyF;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id g11so1048641pll.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 14:21:10 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=O6YtLw42;
+ spf=pass (domain: windriver.com, ip: 40.107.237.42, mailfrom: jason.wessel@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uak5NRbHSHmSvSn3VuxWabXiv1trgRQeuvcAO5hAdNWmbkQuaxeSDIcXZmtz2QatxYLqnARuUHAqFPSt9Teb//8eljQxnEwnCCIL4USFZpnaGnEx3oEgqXA3IBr6KLbpaYkzq+KZgLUswoAd0L526esVwIhWfyIWyMw+G35oDxcVzVSVu7ea58cUZ5BQQGI6I/k3sbSZ1c+OHh0xC3o9WQEUqLgyNmzxPsfR2tZkrEHoZiTDcDnQZv7fiSFZ2fAHnKwqq5YcDKHroC3WOJy5/NQWUwbuAkHs05Kxr3nHEiFBAz3NiskgP6e6IQKmzMcU0U4f+x2aqctHwotm3aL1QA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w4/nynAV96jDLMp1Tl3ik5d0XB3qebO40P1rBC+A9NA=;
+ b=QJQZPH91u8vcHrcrRBXMSdKeL3Brdbd4SG/XWuRMQVP1mxIP2nk9TNZTiBl/0nw9ahjyzpoJtXgm5VxA2VukrAzRRuEOmFFpiXu3pMDLojUvtEr4+wACGpGDM+kEL2qtx1b+5yMS3T5vdTKVb5vGgQwJtoClMEc9XIbKC7qdX3AMUzzWTLABcxnoA+ieNx7/hDH6sGvi8BUeYtwcOQyRqHfRJ8HpeTQchiEP2ECtG/wXa4Alba8doZoHr9xibIgRQXD2vgHgCzC2LUbCklml0hNKGUCL+3DT4UhV7dnWfHtKHddSSPf5AuI7h74K2VSBbkcQqq37bCTABDsL8CfixA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=mpsWKzSERumBBZCqaTLTFb9OhCUxdmwpLrdDftxlfcU=;
-        b=J/F+/IyFwRGhgJQCPFVPZWzsqNyqrLI+Ej4Q1u0Lj59tO20wI0IWtIDsKBk0txHyIa
-         k0P6mX74iN6xa74r91kUHEXdUBd+qbl0gJsltF/iGTrX96GkXPKP4AKisBpJwDWw5kQJ
-         p4O3WnFGYB0MPWPQtKdYF3ln0EmVJzFWlJ8uBMc/UXWCnEJ+2e/n0GKf4B9RlkN3aOz6
-         FB0FE53ElOTVvAP+xf2/H8465ugF6cLQf/JRM/55LQX9saFV10aMUgU13QoWIWFzxUxn
-         4XgIwX6nwx8766Qdf1ksUz/5Gf/RHHmgUkWwhELlPGOryLPOsgjuWv8r6yg+AUZtQsFP
-         bsrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=mpsWKzSERumBBZCqaTLTFb9OhCUxdmwpLrdDftxlfcU=;
-        b=hPFAGizx519v1vDNKuZBhInlPoe8hOX7iFAI0Xo5tI5bsLgycoUoo8niQpw8oPNh4I
-         sg2GXy7Hcs/W8QB7MerGkAd0KDmuc3enAQJioapB+ndCqqjoflzLzKPwRZKLVnf9pVn1
-         eVpCXYhnOcLRXbpYqaXoGzqGZT8MPKVmIZasNlsya9IxfGdb5/V6LbmCo6CstqPrJn8G
-         r8NKDtzKfNhHJxpphgtk+8zNuLRdCuVgfJrDFq89w3GqmjvhLdaRdoHcpLPHF6qsQ7eS
-         IbJ6ubZFQqK7iVhh2/BCedXldbJ60sDe5dUXupISPzEuWgthQzQ8Hy2XxVYhspntDg8i
-         C7fw==
-X-Gm-Message-State: AOAM533C8S1vVM8+Nefchf4wlnW5MLdwxoUXpp7+zeX4DdXBK4wuHtEr
-	IW9I/MU/MWfMQ6BifDqN930=
-X-Google-Smtp-Source: ABdhPJwywpTikwgQ2Kpu0L7Crf7dXTDskgk8KFkmb1eHkgtf05SQsvhYJ365P4lTFPtRAan3SGZILQ==
-X-Received: by 2002:a17:902:eed3:b029:d6:db13:6679 with SMTP id h19-20020a170902eed3b02900d6db136679mr2670963plb.47.1604355669701;
-        Mon, 02 Nov 2020 14:21:09 -0800 (PST)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id bs21sm461478pjb.36.2020.11.02.14.21.08
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 02 Nov 2020 14:21:09 -0800 (PST)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 2 Nov 2020 14:21:08 -0800
-Message-ID: <12e901d6b166$76df6220$649e2660$@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w4/nynAV96jDLMp1Tl3ik5d0XB3qebO40P1rBC+A9NA=;
+ b=O6YtLw421eTkHacGqBSDk5EB8XXfgainsTVa1WIhU9goEHX+szOQ2PwDN9IES10fJ6PzVkteCOOdg66gnCyiHY6XwxoK3BBCK5i6q6RRrYfAJfhbIHLSncfolTuQt3phwbnsV8vZ6f7Eo+PtRT3JfKNtX4KXXphgf+WUFo89juw=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3514.namprd11.prod.outlook.com (2603:10b6:5:61::26) by
+ DM6PR11MB3594.namprd11.prod.outlook.com (2603:10b6:5:13b::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18; Mon, 2 Nov 2020 22:29:03 +0000
+Received: from DM6PR11MB3514.namprd11.prod.outlook.com
+ ([fe80::9945:c647:8f02:4a97]) by DM6PR11MB3514.namprd11.prod.outlook.com
+ ([fe80::9945:c647:8f02:4a97%2]) with mapi id 15.20.3499.030; Mon, 2 Nov 2020
+ 22:29:03 +0000
+From: "Jason Wessel" <jason.wessel@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/2] base-files/profile: Add universal resize function
+Date: Mon,  2 Nov 2020 14:28:51 -0800
+Message-Id: <20201102222852.38452-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [147.11.105.123]
+X-ClientProxiedBy: SJ0PR13CA0106.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::21) To DM6PR11MB3514.namprd11.prod.outlook.com
+ (2603:10b6:5:61::26)
+Return-Path: jason.wessel@windriver.com
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQLMBIw+FhtNFiRB25RG39D5oTuE4A==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_12EA_01D6B123.68BD3390"
-Content-Language: en-us
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by SJ0PR13CA0106.namprd13.prod.outlook.com (2603:10b6:a03:2c5::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.10 via Frontend Transport; Mon, 2 Nov 2020 22:29:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 89b3e337-733b-436c-48b1-08d87f7eb390
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3594:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB35949C9FBB89242F264A928E97100@DM6PR11MB3594.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	oTkkPnZi37ITLwX2lrXykuU1dmuWZF2XalMu9aASWmMYGqKOe4Cgqu2zRXS8hYx0G9y1CCCLMVK9Sk9v2REGgGqllNF89GWB9fWk17x+1aXAkk9MOjaJeQjbTQAJ33RNk2tfIH5vNOZ/XPRwYKJa8eyLpXveCvBY1SHCVnG6RcJlySPyO3TZ6RHyT9ddLj9wU5rt04zIfwSdFEM23IjpJle2m22AXAzkZYvDZyQ0J3wRMvIGIrL7l5nnvJZgtj4dcgWjo6SW7XTZSGyeWHrYsbBDVVGnzY4Wh5FRs+dv9Z/c/uV9RwxjQNwO6VacUIPeoM9ZW1oXhlUo6ZS4D2ivRg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3514.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39850400004)(376002)(366004)(346002)(2616005)(86362001)(44832011)(6512007)(52116002)(36756003)(1076003)(83380400001)(26005)(6506007)(956004)(316002)(6486002)(186003)(16526019)(478600001)(5660300002)(2906002)(6666004)(8676002)(66476007)(66556008)(6916009)(66946007)(8936002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	2QidRm2hO0MZFBFe0bHjxVR+KxUQ4U8ahn4I2kwp3iIQH1ESHyGu6z9pgZHZv/JR7KV+7L+cHt3Bv1IW+h7YMQKvGM08V1oWfDEz64MDaNOdzKtC7ldaobi7Cc+ArE7a4srhp0vt076QHJBZQEOUvMAub8s4841B6P5JBUszrTaW5ZgpugR9Q4jrweI8eutQXlV/2izt1gDFcNgSLGmrxe/ScvxPWBIjpyXKQRYon4WoC1skA8XCpog/sh9FG3fGqP2D3YHSiBVJuVnZeiZoy6qoSfNVFMqem6WxVRqpXgWOyCQKTTz4drHTW+ZyFK1P/bjS9xJpvX2Ve+zx8aReM4hYMHltyIWa4KXygLJ2EwYV1YY2KDUnYT5sDUXn4V84CvibgijZ8lLa2evZsSNYBbldyleUTqK/r3is0SfQqDaDKcrNACXZkahCNRzZbmBsHyuPdvZ/5/iTfgHgRiUcFgMvg/biwqg9f0xkoSyuZcLLKPq1ZKwSfyFt0Pofg2UHIgkHlihln0zFt1OKSJIDPZxwZtVpVSHnIon4d40QJiyJUg8WRPZnnuOJBHRjdfNRNKbRejwzuYexa2nPXX7nSdXo5na0n9DTygup7d5NMrXBMb0oC3coe0F7040gigZSym1MvpbPrdik8vzyW8OPXg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 89b3e337-733b-436c-48b1-08d87f7eb390
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3514.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 22:29:02.9728
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wHjHI/DSaEfnFYM/nW1/OOrD++/XGSzbsmCLe9Wtr1KaXBmeCnpP5LHsF561VGuSsWmu3vjZoUjEYORmCe9/dgIWlO5T4ULBpXTXYh6o5b4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3594
+Content-Type: text/plain
 
-------=_NextPart_000_12EA_01D6B123.68BD3390
-Content-Type: text/plain;
-	charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+Using an editor or any kind of command line that wraps beyond the
+column width of the session on a serial port is quite problematic
+unless you are using an 80x24 session.
 
-All,
+The original /etc/profile tried to use the resize binary if it was
+available.  The problem is that you only get the resize binary if
+xterm, or busybox is installed.
 
+This updated /etc/profile will add a resize function available to the
+shell when no xterm or busybox resize binary is found.  More care is
+taken in this new version to test that terminal is interactive.  The
+EDITOR and SHLVL environment variables are checked to prevent resize
+from running necessarily.
+
+The function definitions are not indented intentionally to keep them
+to the 80 column width.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ .../base-files/base-files/profile             | 48 ++++++++++++++++---
+ 1 file changed, 41 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+index 9e4283e0c7..cc37e1ba77 100644
+--- a/meta/recipes-core/base-files/base-files/profile
++++ b/meta/recipes-core/base-files/base-files/profile
+@@ -2,7 +2,6 @@
+ # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
+ PATH="/usr/local/bin:/usr/bin:/bin"
+-EDITOR="vi"			# needed for packages like cron, git-commit
+ [ "$TERM" ] || TERM="vt100"	# Basic terminal capab. For screen etc.
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 325
-unassigned or newcomer bugs.
-
+ # Add /sbin & co to $PATH for the root user
+@@ -20,13 +19,48 @@ if [ -d /etc/profile.d ]; then
+ 	unset i
+ fi
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
+-# Make sure we are on a serial console (i.e. the device used starts with
+-# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
+-# use ssh
+-case $(tty 2>/dev/null) in
+-	/dev/tty[A-z]*) [ -x @BINDIR@/resize ] && @BINDIR@/resize >/dev/null;;
+-esac
++if [ -t 0 -a $# -eq 0 ]; then
++	if [ ! -x @BINDIR@/resize ] ; then
++		if [ -n "$BASH_VERSION" ] ; then
++# Optimized resize funciton for bash
++resize() {
++	local x y
++	IFS='[;' read -t 2 -p $(printf '\e7\e[r\e[999;999H\e[6n\e8') -sd R _ y x _
++	[ -n "$y" ] && \
++	echo -e "COLUMNS=$x;\nLINES=$y;\nexport COLUMNS LINES;" && \
++	stty cols $x rows $y
++}
++		else
++# Portable resize function for ash/bash/dash/ksh
++# with subshell to avoid local variables
++resize() {
++	(o=$(stty -g)
++	stty -echo raw min 0 time 2
++	printf '\0337\033[r\033[999;999H\033[6n\0338'
++	if echo R | read -d R x 2> /dev/null; then
++		IFS='[;R' read -t 2 -d R -r z y x _
++	else
++		IFS='[;R' read -r _ y x _
++	fi
++	stty "$o"
++	[ -z "$y" ] && y=${z##*[}&&x=${y##*;}&&y=${y%%;*}
++	[ -n "$y" ] && \
++	echo "COLUMNS=$x;"&&echo "LINES=$y;"&&echo "export COLUMNS LINES;"&& \
++	stty cols $x rows $y)
++}
++		fi
++	fi
++	# Use the EDITOR not being set as a trigger to call resize
++	# and only do this for /dev/tty[A-z] which are typically
++	# serial ports
++	if [ -z "$EDITOR" -a "$SHLVL" = 1 ] ; then
++		case $(tty 2>/dev/null) in
++			/dev/tty[A-z]*) resize >/dev/null;;
++		esac
++	fi
++fi
  
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
++EDITOR="vi"			# needed for packages like cron, git-commit
+ export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
  
+ umask 022
+-- 
+2.17.1
 
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_12EA_01D6B123.68BD3390
-Content-Type: text/html;
-	boundary="----=_NextPart_000_08CE_01D6ABA7.0304C260";
-	charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 325 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_12EA_01D6B123.68BD3390--
