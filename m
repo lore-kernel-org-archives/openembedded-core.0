@@ -1,76 +1,90 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web12.1183.1604335798379318970
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.1221.1604335799134694472
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:58 -0800
+ Mon, 02 Nov 2020 08:49:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VQT5A+1t;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id e18so3871412edy.6
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vUwKZaFR;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id dk16so19220475ejb.12
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dYgx/9hlSYpXYORslKgpZvHPWEyQ9wwSBgfhF49AhmA=;
-        b=VQT5A+1tPySNH+N2HXvpDbyDMcjJdmlNrGmXWQ35Y2bJWCWpR0jqd4dkec1NNWT21K
-         fxN/gM0y1LGVLw+5MQmcE8zq6Seyya4FmN0ySWpEmpm+llalfW9M8W3XtdyUe2aK4aT6
-         I9eSQ2blutAKAvchNZrCymQDpwFlJPlyG36bWr33taAG7B+9SdQ+E1T8pKXzd51pZ9x9
-         zVtV+eT+1IZyvcO/XHHDKGyV6d5cBY06PnwkGL+XcSnyoLJMeGQg1USwtm+HQkhV2jKe
-         rG++KizJgn7w1mQtJR8gu2O0OtOKtxEjv3jjbL8Wn8HKPHdnGyu8a2p1Xr7I9D7mjp4j
-         evpA==
+        bh=p6mqrCtJYLPaZvoJpfvXxMlhnZmRY0PGMZqQK3VTdeg=;
+        b=vUwKZaFRTi7fNaVVoPcF8J6mc4csLqdA6ad7WpTPecuosm6FcPf+Bn41M/HlVhU8xd
+         dOkw/AhyINNP0q/Y3bTJKTZ9+b9vUu+h6/fqycOar2mhghSvXMbdGAh8cUks75AOsxqo
+         7iXxABnjAlN8AwcY9bC2zwOp6mc4dQ1uLW6LUHh8nrM0fYzWbzeOnl+4h6NQlZVEFdkm
+         G/YvV+B281vbzrA2fny2BIMemP6Fer1oCjQpFSKhtbSTKPHywO/Hw7pUwBxnBaFNKoFq
+         XMl+6Css9jJhu4UAxQLoaxVIt9nt/F+K1Q5ku4q5CKM5Fl77vtF7voSi/2epmlrBQWFp
+         wh5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dYgx/9hlSYpXYORslKgpZvHPWEyQ9wwSBgfhF49AhmA=;
-        b=lRK/mv1NCoEyw/VEQgqZSdZQkN4QK3q3C7J2Jy910uF3lRw1PzuwK5VjG1dr4F67IL
-         hAVoumqEaHcr5OUK0YfzAVvZch08krewlZyvkhuakP+ZdBTWT5oXcE16SAuB6f0Qwp7j
-         dcRV5jc9ynqLmCiaFp78i4mctXhqsM2415YnG2A+GMdRGrkCYG4V9yDsMi9pBnf4efF3
-         +1QcfmRBJ2KG3vg/LtrzMAq6ZjY/P+XH6oQ+LsS91eyE2+psKYmMaQnk0Y5rz4VMKdeM
-         vCh04oRjSzIQvcAjjAKDp+loJMaiQGTVVlhMXkxjaIhLbZ9HXSgcoI403tX5S0NFvr5g
-         xKPA==
-X-Gm-Message-State: AOAM530oz6syNUuJBthohGjvWNP+Fu1oY/o+IY6NDHRqZMMZ60faZGge
-	/uBey7X9hklcPyKJ9OZZjZPxP5Y9WVjzqA==
-X-Google-Smtp-Source: ABdhPJy2SdVMLN7BJyupdca1Be8+DnciyKk9m8oaUBeO3tw6NVv7Za3Dn86ppUnlqgRRYixtWr/WwQ==
-X-Received: by 2002:a50:f104:: with SMTP id w4mr7162091edl.381.1604335796718;
-        Mon, 02 Nov 2020 08:49:56 -0800 (PST)
+        bh=p6mqrCtJYLPaZvoJpfvXxMlhnZmRY0PGMZqQK3VTdeg=;
+        b=Sn6b08rRe7BMh+CC/YCCLLdi2CzJN/tsbgc1iviUsA1NsdXfk2IuA/kWPVk36eisSc
+         xSl81bCcmqFZJVgiR0Tut6OvD2+/6QQI9btbQn5Asa9Zc8OZcOs+/FNQeYnVJ3thtckp
+         1QsNYFPr2zGyc7jLC7dk3pVOTNLdaj3slDJAHPKhCGQyJd3Qu1VfringlpFtwivyYDuG
+         JnpQ6R1SAmgW3KW+HE7vmPEj21SgMJKh2GGgkiM5eDdUHkpAMctrMw7u5pK8x1azH5ef
+         tEZVbHcyhwrvRhv7jTp8CQe+c7fxK6E53G0lm712d0ZXAYpHlFj1CPRnRrH/RPQ1H9hx
+         leUA==
+X-Gm-Message-State: AOAM532FDVKb+uk7ztVnyN9y2r9Be27BjtYgRCDOVtnHdVR1nSniDxPE
+	vjpo4b06hZ+Y/O3Jwz4xol1f7iayVNsK9Q==
+X-Google-Smtp-Source: ABdhPJxaBQzhQvPeRar5thpCTMOgioveMtjn//J0kiqxJPtHpjr1FhY2DN4ZnJX5jIrTSg0cyAHPAw==
+X-Received: by 2002:a17:906:3650:: with SMTP id r16mr15860777ejb.419.1604335797487;
+        Mon, 02 Nov 2020 08:49:57 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:56 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:57 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 44/80] wpebackend-fdo: upgrade 1.7.1 -> 1.8.0
-Date: Mon,  2 Nov 2020 17:48:31 +0100
-Message-Id: <20201102164907.27572-44-alex.kanavin@gmail.com>
+Subject: [PATCH 45/80] xkeyboard-config: upgrade 2.30 -> 2.31
+Date: Mon,  2 Nov 2020 17:48:32 +0100
+Message-Id: <20201102164907.27572-45-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Add python3native, as at least python 3.6 is needed during build, and not
+all hosts have that.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../webkit/{wpebackend-fdo_1.7.1.bb => wpebackend-fdo_1.8.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.7.1.bb => wpebackend-fdo_1.8.0.bb} (85%)
+ .../{xkeyboard-config_2.30.bb => xkeyboard-config_2.31.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.30.bb => xkeyboard-config_2.31.bb} (87%)
 
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.0.bb
-similarity index 85%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.8.0.bb
-index 519762d125..69d6098d36 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.7.1.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.8.0.bb
-@@ -13,5 +13,5 @@ inherit meson features_check
- REQUIRED_DISTRO_FEATURES = "opengl"
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.30.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.31.bb
+similarity index 87%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.30.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.31.bb
+index a4d67cd2ce..ad150544e1 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.30.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.31.bb
+@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
  
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "9b980a73ea4e3762266c48f81ded56d9dcad4acf32bad9bd05d0dffdd454c6f5"
-+SRC_URI[sha256sum] = "9652a99c75fe1c6eab0585b6395f4e104b2427e4d1f42969f1f77df29920d253"
+ SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "095a524f7b633ed257617202d06c9c71fe020c8897b106cf0dcdd0c6e8b797d4"
++SRC_URI[sha256sum] = "da44181f2c8828789c720decf7d13acb3c3950e2a040af5132f50f04bb6aada3"
  
+ SECTION = "x11/libs"
+ DEPENDS = "util-macros libxslt-native"
+@@ -22,7 +22,7 @@ EXTRA_OECONF = "--with-xkb-rules-symlink=xorg --disable-runtime-deps"
+ 
+ FILES_${PN} += "${datadir}/X11/xkb"
+ 
+-inherit autotools pkgconfig gettext
++inherit autotools pkgconfig gettext python3native
+ 
+ do_install_append () {
+     install -d ${D}${datadir}/X11/xkb/compiled
 -- 
 2.29.0
 
