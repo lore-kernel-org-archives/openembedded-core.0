@@ -1,204 +1,150 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web09.2038.1604338605768943973
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.2494.1604340366182469577
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 09:36:46 -0800
+ Mon, 02 Nov 2020 10:06:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=taRKY3rW;
- spf=pass (domain: google.com, ip: 209.85.167.50, mailfrom: foremans@google.com)
-Received: by mail-lf1-f50.google.com with SMTP id j30so18505842lfp.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 09:36:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TYZxwHz7;
+ spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f66.google.com with SMTP id n15so15734798wrq.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 10:06:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QIuC4X36gJxgn+HlAhMNYoYjTde1y7Lgv1e3RA9GacE=;
-        b=taRKY3rWpFynx5SW1uYrjvxriZcVqp4A878j0rvSy9k71bgvyUdf20VpbEfVNvCOYp
-         /DNzenduF8iGzt+4XJo7DyBu9+qC1Y6B6pCpgualmV6Pb3OgMAHmIyl91ODgWUTJcz5C
-         NfIvEfWzkqJ/wInBG0n1PSkjQB6SeLu3XN6qX9hHeSbQMjGMMRL38O7aErMalFb1xz7q
-         WMKvs1/IxJStAPjoVJt2gl1WIeelqwPL4lEc4LxjS3/hS6zUUK/3vbKBWNyzb69qmo2f
-         Q1+XyMU0mmYbSxRZRtVrYHQTP0a54FkAsc8trY4bHKMn+GUhvOJGHwwAxFjB0LBJDBlu
-         21tA==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oadp9aRJeRlkwquF19EibIA9UMLvE4hCNwH1hn+FqK8=;
+        b=TYZxwHz7gMBs2T+j52a6hsBP7YK1jWcYzs09PcNwD/0/K7le9tJ6bQHOTMQsY+FSy7
+         6kg49WkxCP0kta/UyMHh9rlUgHoz90ZprfQldPQUbePKcmtgo7hYQh2bJBqgpNj5MKtz
+         Bpuw3V+g5YucOC6S0py22QIlI+D2yM30htA8R5TBEN1tc0K3eDT5mIWEhMvUaD5nHtwP
+         QOatuQk9RU1j2LuUHiukRRrMEmm54eGrwQU1k035H6xwFwAUxRseSpIwFFF/Lo85MY42
+         eLY1Rxfw9k8y+orKGyTfEBe0ZXk9BZjnJE17JtNpuDf9wV20iqG81deQMmKZP19hwTx2
+         bUBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QIuC4X36gJxgn+HlAhMNYoYjTde1y7Lgv1e3RA9GacE=;
-        b=Zw8SdzNjNg4rpUzlSnpYQgbjm07kdcMmYN7Uf0Vd3Fyf/frZfXonyfK9Sx5zX572oJ
-         znyjWt+OV8hVbK0sZDn2JrSBtiVkiA9ABVEeiG0ZsifRoUgxncHEMgTjR8Gm5KaPTAUe
-         K1KqAKKPnUYo2tLFjKVHfdH/7zvVi456BHWZFeUQO6SDvL1EkYfWjXJ9B7cYPVfAHj8Z
-         psO71NZva/exwHNT2gknGv+2lLyEu9W88cQA16pLzPHjT7qlDlsYDgTXo1eVtBHBQmH8
-         Qs6CVCR4ByZASVsUWKk+CJvHpAAVFbzA9/tWRTjY/9r+NznBYWVRHPjQELmv1F4zmtk8
-         w1uw==
-X-Gm-Message-State: AOAM530q207i+8AJv7NWjjSiQ92N+6hrnz4g43PgyMnGcxUS00yzagtD
-	XseuESLgF/40AtjW/Kg01h1IPYvp1RGh8bHhRfwR6Q==
-X-Google-Smtp-Source: ABdhPJw/inok0dFE/MEcXS2LWjlEBu3G148bOATKRCiIxNhNvWy+KnuP8LbekuMo5vkacRBqRc6fQ3nOqlJdMW38mvQ=
-X-Received: by 2002:a19:87:: with SMTP id 129mr5736705lfa.164.1604338603850;
- Mon, 02 Nov 2020 09:36:43 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oadp9aRJeRlkwquF19EibIA9UMLvE4hCNwH1hn+FqK8=;
+        b=YbnvnoTiNpca7lb9Dx7DyaqqkyaGdHZwI0YwO7mn02q5wOujb4pdUk7ChCpcjSTOFo
+         7vx+qIcsme/S1OXytEvsX6yxwJzX/tfeY2fhZ8E/Fw7x/uAfuc2lzDdT3TD3b3mYOOBJ
+         Lt1UjhpbcZAgmNEB6Zm4vxk+T+zvJpN+pLnpy43dpv7pbh/sDf44kd9cT8ENV40hvYBf
+         vypS16h0GNbMW2oKeQHySIj5ifKAEAjMOuGsvnvrISjBGuJRGJO8DLark8SbUM2Eux4y
+         pYRO8wBD8nYTCuJ6hoL1KQcj4Po/kZAhtpYhmAJewWy2eNB6x8lfNhSHlNta+PpxrhEZ
+         yU7g==
+X-Gm-Message-State: AOAM5329jlDBhnPd3ix4SmgROJisJpflTB77T3nlIExjYrT2yKwslafJ
+	0C1yEF9YCBQ+xWSfZrPWWpTrAhYMHTIAew==
+X-Google-Smtp-Source: ABdhPJwcwFf0N5EjlRB8l5AoOVbtQgTk5a0QOei96KG60KKRUbrjHEBad4VPPjSw4Xx1k/cUq0UY4A==
+X-Received: by 2002:a5d:494c:: with SMTP id r12mr21213226wrs.406.1604340364293;
+        Mon, 02 Nov 2020 10:06:04 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from localhost ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id y200sm266250wmc.23.2020.11.02.10.06.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2020 10:06:03 -0800 (PST)
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] dbus: split -common and -tools out of main package
+Date: Mon,  2 Nov 2020 18:05:59 +0000
+Message-Id: <20201102180559.1177417-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CAAOsEjUKH61YhBDiS7xzhT6kYYeW2Qbr_4GF2ZsM18z4xRGS-Q@mail.gmail.com>
- <CANNYZj8TBSHhTguu0g2zkpX7k9LObs6Xzw4C0PUCzEY18gLHeQ@mail.gmail.com>
-In-Reply-To: <CANNYZj8TBSHhTguu0g2zkpX7k9LObs6Xzw4C0PUCzEY18gLHeQ@mail.gmail.com>
-From: "Steve Foreman" <foremans@google.com>
-Date: Mon, 2 Nov 2020 09:36:32 -0800
-Message-ID: <CAAOsEjUoW-gOttYRdn-ko5s48RyG_-Byxb9Qjw3Y1RXNaZmNMg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] Fix a build error about missing '_sysconfigdata'
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Josh Lehan <krellan@google.com>
-Content-Type: multipart/alternative; boundary="00000000000095580505b32330d8"
+Content-Transfer-Encoding: 8bit
 
---00000000000095580505b32330d8
-Content-Type: text/plain; charset="UTF-8"
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-I'm not sure how to reproduce it without using our internal configs, so I
-don't have specific useful instructions to reproduce it, unfortunately.
+Certain config files and units are shared between dbus-daemon and
+dbus-broker (available in meta-openembedded), so split them out to
+allow installing dbus-broker without pulling in dbus-daemon and its
+dependencies.
+Stand-alone command line tools can also be used regardless of whether
+the buses are provided by dbus-daemon or dbus-broker, so split them
+out into dbus-tools.
+Finally, move the XML schema files out of the main package and into
+the development package.
 
-The basic steps are simply:
+All these changes follow the same pattern used by Fedora, which was
+one of the first distro to switch to dbus-broker by default:
 
-1. Download fresh repo
-2. Source setup script & bitbake obmc-phosphor-image as usual
-3. Once the build is complete, devtool modify phosphor-ipmi-host
+https://src.fedoraproject.org/rpms/dbus/blob/master/f/dbus.spec
 
-The error is generated during the devtool modify step
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-core/dbus/dbus_1.12.20.bb | 39 +++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
 
-I have not tried these steps with other meta/configs, so it might not
-reproduce on all of them.
+diff --git a/meta/recipes-core/dbus/dbus_1.12.20.bb b/meta/recipes-core/dbus/dbus_1.12.20.bb
+index cf6f7dc0ef..f0b44207d6 100644
+--- a/meta/recipes-core/dbus/dbus_1.12.20.bb
++++ b/meta/recipes-core/dbus/dbus_1.12.20.bb
+@@ -11,6 +11,7 @@ RDEPENDS_dbus_class-nativesdk = ""
+ PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
+ ALLOW_EMPTY_dbus-ptest = "1"
+ RDEPENDS_dbus-ptest_class-target = "dbus-test-ptest"
++RDEPENDS_${PN} += "${PN}-common ${PN}-tools"
+ 
+ inherit useradd update-rc.d
+ 
+@@ -31,7 +32,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib"
++PACKAGES =+ "${PN}-lib ${PN}-common ${PN}-tools"
+ 
+ OLDPKGNAME = "dbus-x11"
+ OLDPKGNAME_class-nativesdk = ""
+@@ -41,31 +42,37 @@ RPROVIDES_${PN} = "${OLDPKGNAME}"
+ RREPLACES_${PN} += "${OLDPKGNAME}"
+ 
+ FILES_${PN} = "${bindir}/dbus-daemon* \
+-               ${bindir}/dbus-uuidgen \
+                ${bindir}/dbus-cleanup-sockets \
+-               ${bindir}/dbus-send \
+-               ${bindir}/dbus-monitor \
+                ${bindir}/dbus-launch \
+                ${bindir}/dbus-run-session \
+-               ${bindir}/dbus-update-activation-environment \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
+-               ${datadir}/dbus-1/services \
+-               ${datadir}/dbus-1/system-services \
+-               ${datadir}/dbus-1/session.d \
+-               ${datadir}/dbus-1/session.conf \
+-               ${datadir}/dbus-1/system.d \
+-               ${datadir}/dbus-1/system.conf \
+-               ${datadir}/xml/dbus-1 \
+-               ${systemd_system_unitdir} \
+-               ${systemd_user_unitdir} \
+-               ${nonarch_libdir}/sysusers.d/dbus.conf \
++               ${systemd_system_unitdir}/dbus.service \
++               ${systemd_user_unitdir}/dbus.service \
+                ${nonarch_libdir}/tmpfiles.d/dbus.conf \
+ "
++FILES_${PN}-common = "${sysconfdir}/dbus-1 \
++                      ${datadir}/dbus-1/services \
++                      ${datadir}/dbus-1/system-services \
++                      ${datadir}/dbus-1/session.d \
++                      ${datadir}/dbus-1/session.conf \
++                      ${datadir}/dbus-1/system.d \
++                      ${datadir}/dbus-1/system.conf \
++                      ${systemd_system_unitdir}/dbus.socket \
++                      ${systemd_system_unitdir}/sockets.target.wants \
++                      ${systemd_user_unitdir}/dbus.socket \
++                      ${systemd_user_unitdir}/sockets.target.wants \
++                      ${nonarch_libdir}/sysusers.d/dbus.conf \
++"
++FILES_${PN}-tools = "${bindir}/dbus-uuidgen \
++                     ${bindir}/dbus-send \
++                     ${bindir}/dbus-monitor \
++                     ${bindir}/dbus-update-activation-environment \
++"
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
+-FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${libdir}/cmake/DBus1 ${bindir}/dbus-test-tool"
++FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${libdir}/cmake/DBus1 ${bindir}/dbus-test-tool ${datadir}/xml/dbus-1"
+ 
+ PACKAGE_WRITE_DEPS += "${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','systemd-systemctl-native','',d)}"
+ pkg_postinst_dbus() {
+-- 
+2.20.1
 
-On Thu, Oct 29, 2020 at 9:10 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> Unfortunately, this doesn't fix the actual issue: why is the build
-> environment leaking? A few patches similar to this one have been shot down
-> before.
->
-> If you can provide steps to reproduce, I can try to take a look.
->
-> Alex
->
-> On Thu, 29 Oct 2020 at 16:35, Steve Foreman via lists.openembedded.org
-> <foremans=google.com@lists.openembedded.org> wrote:
->
->> This error is generated because of internal build environment is leaking
->> and pulling in host libraries:
->>
->> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
->>
->> In this case, xmlprc.server is pulling in pydoc which ultimately hits
->> the error.
->>
->> Signed-off-by: Steve Foreman <foremans@google.com>
->> ---
->>  poky/bitbake/lib/prserv/serv.py | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/poky/bitbake/lib/prserv/serv.py
->> b/poky/bitbake/lib/prserv/serv.py
->> index 25dcf8a0e..f462f3dcc 100644
->> --- a/poky/bitbake/lib/prserv/serv.py
->> +++ b/poky/bitbake/lib/prserv/serv.py
->> @@ -4,6 +4,11 @@
->>
->>  import os,sys,logging
->>  import signal, time
->> +
->> +# Otherwise this fails when called from recipes which e.g. inherit
->> python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
->> +# No module named '_sysconfigdata'
->> +if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
->> +    del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
->>  from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
->>  import threading
->>  import queue
->> --
->> 2.29.1.341.ge80a0c044ae-goog
->>
->> 
->>
->>
-
---00000000000095580505b32330d8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I&#39;m not sure how to reproduce it without using our int=
-ernal configs, so I don&#39;t have specific useful instructions to reproduc=
-e it, unfortunately.<div><br></div><div>The basic steps are simply:</div><d=
-iv><br></div><div>1. Download fresh repo</div><div>2. Source setup script &=
-amp; bitbake obmc-phosphor-image as usual=C2=A0</div><div>3. Once the build=
- is complete, devtool modify phosphor-ipmi-host</div><div><br></div><div>Th=
-e=C2=A0error is generated during the devtool modify step</div><div><br></di=
-v><div>I have not tried these steps with other meta/configs, so it might no=
-t reproduce on all of them.</div></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 29, 2020 at 9:10 AM Alexander =
-Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
-><div dir=3D"ltr"><div>Unfortunately, this doesn&#39;t fix the actual issue=
-: why is the build environment leaking? A few patches similar to this one h=
-ave been shot down before.</div><div><br></div><div>If you can provide step=
-s to reproduce, I can try to take a look.<br></div><div><br></div><div>Alex=
-<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Thu, 29 Oct 2020 at 16:35, Steve Foreman via <a href=3D"http:/=
-/lists.openembedded.org" target=3D"_blank">lists.openembedded.org</a> &lt;f=
-oremans=3D<a href=3D"mailto:google.com@lists.openembedded.org" target=3D"_b=
-lank">google.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">This error is gener=
-ated because of internal build environment is leaking<br style=3D"font-fami=
-ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">and pullin=
-g in host libraries:<br style=3D"font-family:Roboto,&quot;Helvetica Neue&qu=
-ot;,Helvetica,Arial,sans-serif"><br style=3D"font-family:Roboto,&quot;Helve=
-tica Neue&quot;,Helvetica,Arial,sans-serif">Exception: ModuleNotFoundError:=
- No module named &#39;_sysconfigdata&#39;<br style=3D"font-family:Roboto,&q=
-uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br style=3D"font-fami=
-ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">In this ca=
-se, xmlprc.server is pulling in pydoc which ultimately hits<br style=3D"fon=
-t-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">the =
-error.<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,=
-Arial,sans-serif"><br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot=
-;,Helvetica,Arial,sans-serif">Signed-off-by: Steve Foreman &lt;<a href=3D"m=
-ailto:foremans@google.com" style=3D"font-family:Roboto,&quot;Helvetica Neue=
-&quot;,Helvetica,Arial,sans-serif" target=3D"_blank">foremans@google.com</a=
->&gt;<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,A=
-rial,sans-serif">---<br style=3D"font-family:Roboto,&quot;Helvetica Neue&qu=
-ot;,Helvetica,Arial,sans-serif">=C2=A0poky/bitbake/lib/prserv/serv.py | 5 +=
-++++<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Ar=
-ial,sans-serif">=C2=A01 file changed, 5 insertions(+)<br style=3D"font-fami=
-ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br style=
-=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-ser=
-if">diff --git a/poky/bitbake/lib/prserv/serv.py b/poky/bitbake/lib/prserv/=
-serv.py<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica=
-,Arial,sans-serif">index 25dcf8a0e..f462f3dcc 100644<br style=3D"font-famil=
-y:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">--- a/poky/=
-bitbake/lib/prserv/serv.py<br style=3D"font-family:Roboto,&quot;Helvetica N=
-eue&quot;,Helvetica,Arial,sans-serif">+++ b/poky/bitbake/lib/prserv/serv.py=
-<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,=
-sans-serif">@@ -4,6 +4,11 @@<br style=3D"font-family:Roboto,&quot;Helvetica=
- Neue&quot;,Helvetica,Arial,sans-serif"><br style=3D"font-family:Roboto,&qu=
-ot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import os,sys,log=
-ging<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Ar=
-ial,sans-serif">=C2=A0import signal, time<br style=3D"font-family:Roboto,&q=
-uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+<br style=3D"font-fam=
-ily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+# Otherw=
-ise this fails when called from recipes which e.g. inherit python3native (w=
-hich sets _PYTHON_SYSCONFIGDATA_NAME) with:<br style=3D"font-family:Roboto,=
-&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+# No module named &=
-#39;_sysconfigdata&#39;<br style=3D"font-family:Roboto,&quot;Helvetica Neue=
-&quot;,Helvetica,Arial,sans-serif">+if &#39;_PYTHON_SYSCONFIGDATA_NAME&#39;=
- in os.environ:<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,H=
-elvetica,Arial,sans-serif">+=C2=A0 =C2=A0 del os.environ[&#39;_PYTHON_SYSCO=
-NFIGDATA_NAME&#39;]<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quo=
-t;,Helvetica,Arial,sans-serif">=C2=A0from xmlrpc.server import SimpleXMLRPC=
-Server, SimpleXMLRPCRequestHandler<br style=3D"font-family:Roboto,&quot;Hel=
-vetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import threading<br sty=
-le=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
-rif">=C2=A0import queue<font style=3D"font-family:Roboto,&quot;Helvetica Ne=
-ue&quot;,Helvetica,Arial,sans-serif" color=3D"#888888"><br>--<br>2.29.1.341=
-.ge80a0c044ae-goog</font><br></div>
-<br>
-<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000095580505b32330d8--
