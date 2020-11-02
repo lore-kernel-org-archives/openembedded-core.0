@@ -1,197 +1,136 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web12.1204.1604335829898965895
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web09.1742.1604337559313843518
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:50:30 -0800
+ Mon, 02 Nov 2020 09:19:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dcQcj/3i;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id p5so19843829ejj.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:50:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=R0/UbkCv;
+ spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: akuster808@gmail.com)
+Received: by mail-oi1-f177.google.com with SMTP id s21so15444413oij.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 09:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jDeKDhHxguO2VzJQuTzEu9f6P8SKJmC8OY4n2wRBtqM=;
-        b=dcQcj/3iTb1V0qphlzhq4xium2ZcUyCvhXse0e/rfeLecXCTBxt1l/WMnL3FlSKM32
-         4e/3+roWAjLHEX11I2Q43D4tqY6ngBkQgiNIPtuavU9bDSQpMtxtHpOT8lmqOnJkHcu4
-         mLvqOA7ziCPRFuEMWdS7pljVPLVvpWlhxOnKTMxQ8X6ISWG0WXckrHr49/7uEN9DJ3Vj
-         Y9AZ2IrdCc1r+BJZWC4XONLUyIHUcIiQ20qILMM0vHUgo+w1RvFn4q5+POokBtcq8ln/
-         qB/iz6SSaQVVwm+dlLYl0Ns+hcaN8SLvoUdiayOPX2i7Mi0NezouQW3R2WNQBlG4ko+T
-         GrHw==
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=L7F/IuA+S02K1d7RJKJSzl3E5P1JNGhjC/Emz96PyxY=;
+        b=R0/UbkCv5ie0wqRgJWOipemS4HeykS/ozos19DCg7LMc+W5xmjYAhtLD5UVBM2g19T
+         d0xn9Kn31GCrp2Tw99Bej8AzyChMUqwq1HivQkuqMfA7/MQ6qz3JiQfb+9qw8z4dvmlY
+         hq1oIAoQdEg9nq3iL+oV9Wg9CJbtRJJUKR6QeGeYdZY6pQQugKiw4FeqZ8lzc7tBvZy+
+         aOXI+M4mKoMXVS+NyoGZciv0svfU+enpu81YnOG4zTuaVBIpclZTh/6unYfTLt1c1Ha3
+         AqdmLGJHdT1NB7KwxRsVCbmgnnjX2j9+zHXqz7awHPshygDKKhaLfoVczeyjhnXn12u1
+         OqCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jDeKDhHxguO2VzJQuTzEu9f6P8SKJmC8OY4n2wRBtqM=;
-        b=AeoWGBBUjEdwlYR8h3JDTWghh2mZGxxVaLbhqLpev1eNKcR33LP/pwcvu6nKTUIwVK
-         ODW6VHmsq6Jta80Qcn7PBHEFKKSKjkqNMl3hJdB1Q0HkdWW27T0212ccn3TpQMjPqMbI
-         rtyaGS0J4Nkxdc6hF7FTbjJwEgVbG3GOzxCTBiu86PFIdwAvrzCrvkWweu6l31NSFUCQ
-         5F45OZRqAc9gYZNqDH2SXgtzQIDU+wXERDg+4fuffm3xHnshY/k/fazWJNBsBNykY9DC
-         6DwGva/mwN7pA/M1L9sOfBBMdM8WB3mIp5uJXlzr10AGRFwaIRXnxhhKR/qC/9zUe6hW
-         nhlg==
-X-Gm-Message-State: AOAM533ItOriGqQOtTNYOLf7jTPDEelILen48kylOkPU/mCekyoOI6I5
-	q50CdvdO/ArJLqnDqCYS7TFeHVOv4BRIYQ==
-X-Google-Smtp-Source: ABdhPJyDi6WdY4bHy8VcG/YDniOrFOgUtkjh29PbHk7Fz7kvDiGMiYUFpHlOF4FgNTFLFXW0wSahpQ==
-X-Received: by 2002:a17:906:a891:: with SMTP id ha17mr1508686ejb.116.1604335828046;
-        Mon, 02 Nov 2020 08:50:28 -0800 (PST)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.50.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:50:27 -0800 (PST)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 80/80] numactl: upgrade 2.0.13 -> 2.0.14
-Date: Mon,  2 Nov 2020 17:49:07 +0100
-Message-Id: <20201102164907.27572-80-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=L7F/IuA+S02K1d7RJKJSzl3E5P1JNGhjC/Emz96PyxY=;
+        b=ikxAp1O2HJYwX3GYtBpj1ha9EOMEk6aDziN+PX7smt9WsIy/PwXEfig2VsfSNwx3z9
+         5o20jxFzhchYZDWykeuqWhG70Ntyol1RfH9eM2VChz/Qz0GsJYQdb85Mv14fR1RY5PTR
+         BL36cTqQDpZuouSf4KYhG7/wBg0ZrCjhcz5ANCRQ19VeomZZJZtQFjnrr9+RgZjxQqlF
+         2T0N144drkqu9pQ40V89DRJ9r81zsvaSF7U6S8KL7do3vhzcqM54eR+LC5SJZ0PZjcva
+         gq9KdIH5j9yHY/wMgBp+dzb3SMY6iJmZvUS0bvvcI0Yu+ahdH6IPlgpCxv5SQ9J3U7id
+         Dp8Q==
+X-Gm-Message-State: AOAM532wwOEShTXAlapihW/5sMvA+giVu49j44sdx44/Nzj2DgRHL/Y/
+	HlZn6q86hhuDlXBQctuDh3hNezY6D6o=
+X-Google-Smtp-Source: ABdhPJzw7cFWhh7wF6OilBwkrc96Fm/5ox1uVKZF/CqOEeP48hzxBbM7Wdic2VQ74K8m7NGYiQBaCA==
+X-Received: by 2002:aca:1803:: with SMTP id h3mr10420351oih.148.1604337558416;
+        Mon, 02 Nov 2020 09:19:18 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:2c84:880c:a42b:4489? ([2601:202:4180:a5c0:2c84:880c:a42b:4489])
+        by smtp.gmail.com with ESMTPSA id s189sm3616313oig.46.2020.11.02.09.19.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Nov 2020 09:19:18 -0800 (PST)
+Subject: Re: [OE-core] [PATCH 48/80] kea: upgrade 1.7.10 -> 1.9.1
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
+ <20201102164907.27572-48-alex.kanavin@gmail.com>
+From: "akuster" <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ 8CS2NxU=
+Message-ID: <3f8aa9dc-ef61-e498-2e3a-1c3efddad253@gmail.com>
+Date: Mon, 2 Nov 2020 09:19:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201102164907.27572-48-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...1-numademo-fix-error-on-32bit-system.patch | 100 ------------------
- meta/recipes-support/numactl/numactl_git.bb   |  15 ++-
- 2 files changed, 7 insertions(+), 108 deletions(-)
- delete mode 100644 meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
 
-diff --git a/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch b/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
-deleted file mode 100644
-index 506101711a..0000000000
---- a/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
-+++ /dev/null
-@@ -1,100 +0,0 @@
--From 68485f8516884377e54c623b0deff73f97321d96 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Thu, 19 Sep 2019 04:32:31 -0400
--Subject: [PATCH] numademo: fix error on 32bit system
--
--Error Info on 32bit:
--root@intel-x86:~# numademo -t -e 1M
--Configured Nodes does not match available memory nodes
--
--That's because sizeof(long)=4Word, but sizeof(long long)=8Word
--on 32bit. So (long long) assigning to (long) maybe cause overflow.
--
--long numa_node_size(int node, long *freep)
--{
--    ...
--    long sz = numa_node_size64_int(node, &f2);
--    ~^^~
--    return sz;
--    ...
--}
--long long numa_node_size64(int node, long long *freep)
--~^^   ^^~
--{
--    ...
--}
--
--Unify the return type of above functions.
--
--Upstream-Status: Accepted [next version is after 2.0.13 or 2.0.14]
--[https://github.com/numactl/numactl/commit/a7c4bc790a191d3e42b63850b409c1a72b75a4e1]
--                 Submitted [https://github.com/numactl/numactl/pull/79]
--[The first patch was merged but has a error, then the second fix it.]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- libnuma.c         | 4 ++--
-- numa.h            | 2 +-
-- numademo.c        | 2 +-
-- test/move_pages.c | 2 +-
-- 4 files changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/libnuma.c b/libnuma.c
--index cac8851..8b5c6aa 100644
----- a/libnuma.c
--+++ b/libnuma.c
--@@ -791,10 +791,10 @@ long long numa_node_size64(int node, long long *freep)
-- 
-- make_internal_alias(numa_node_size64);
-- 
---long numa_node_size(int node, long *freep)
--+long long numa_node_size(int node, long long *freep)
-- {
-- 	long long f2;
---	long sz = numa_node_size64_int(node, &f2);
--+	long long sz = numa_node_size64_int(node, &f2);
-- 	if (freep)
-- 		*freep = f2;
-- 	return sz;
--diff --git a/numa.h b/numa.h
--index 3a8c543..268fb1d 100644
----- a/numa.h
--+++ b/numa.h
--@@ -143,7 +143,7 @@ int numa_preferred(void);
-- 
-- /* Return node size and free memory */
-- long long numa_node_size64(int node, long long *freep);
---long numa_node_size(int node, long *freep);
--+long long numa_node_size(int node, long long *freep);
-- 
-- int numa_pagesize(void);
-- 
--diff --git a/numademo.c b/numademo.c
--index a720db0..8c56da8 100644
----- a/numademo.c
--+++ b/numademo.c
--@@ -301,7 +301,7 @@ int max_node, numnodes;
-- int get_node_list(void)
-- {
--         int a, got_nodes = 0;
---        long free_node_sizes;
--+        long long free_node_sizes;
-- 
--         numnodes = numa_num_configured_nodes();
--         node_to_use = (int *)malloc(numnodes * sizeof(int));
--diff --git a/test/move_pages.c b/test/move_pages.c
--index d1d8436..f8ff25d 100644
----- a/test/move_pages.c
--+++ b/test/move_pages.c
--@@ -26,7 +26,7 @@ int *node_to_use;
-- int get_node_list()
-- {
--         int a, got_nodes = 0, max_node, numnodes;
---        long free_node_sizes;
--+        long long free_node_sizes;
-- 
--         numnodes = numa_num_configured_nodes();
--         node_to_use = (int *)malloc(numnodes * sizeof(int));
---- 
--2.23.0
--
-diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
-index e45afe9ee8..5640173aa9 100644
---- a/meta/recipes-support/numactl/numactl_git.bb
-+++ b/meta/recipes-support/numactl/numactl_git.bb
-@@ -10,16 +10,15 @@ inherit autotools-brokensep ptest
- 
- LIC_FILES_CHKSUM = "file://README.md;beginline=19;endline=32;md5=f8ff2391624f28e481299f3f677b21bb"
- 
--SRCREV = "5d9f16722e3df49dc618a9f361bd482559695db7"
--PV = "2.0.13+git${SRCPV}"
-+SRCREV = "dd6de072c92c892a86e18c0fd0dfa1ba57a9a05d"
-+PV = "2.0.14"
- 
- SRC_URI = "git://github.com/numactl/numactl \
--    file://Fix-the-test-output-format.patch \
--    file://Makefile \
--    file://run-ptest \
--    file://0001-define-run-test-target.patch \
--    file://0001-numademo-fix-error-on-32bit-system.patch \
--"
-+           file://Fix-the-test-output-format.patch \
-+           file://Makefile \
-+           file://run-ptest \
-+           file://0001-define-run-test-target.patch \
-+           "
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.29.0
+
+On 11/2/20 8:48 AM, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.9.1.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.9.1.bb} (96%)
+
+do we care if we have a stable version or development version in core?
+
+1.8 EOL's in 2022 Q1
+
+-armin
+>
+> diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.9.1.bb
+> similarity index 96%
+> rename from meta/recipes-connectivity/kea/kea_1.7.10.bb
+> rename to meta/recipes-connectivity/kea/kea_1.9.1.bb
+> index c9a5819e47..9e7c08e792 100644
+> --- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
+> +++ b/meta/recipes-connectivity/kea/kea_1.9.1.bb
+> @@ -19,7 +19,7 @@ SRC_URI = "\
+>      file://fix-multilib-conflict.patch \
+>      file://fix_pid_keactrl.patch \
+>  "
+> -SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
+> +SRC_URI[sha256sum] = "ece8cc10fafa2aa8bf5cc18f95f4bfb05bd52f8ee6a152d1ee8b53c28a526999"
+>  
+>  inherit autotools systemd update-rc.d
+>  
+>
+> 
+>
 
