@@ -1,17 +1,17 @@
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (NAM04-SN1-obe.outbound.protection.outlook.com [])
- by mx.groups.io with SMTP id smtpd.web09.24997.1604283501854373519
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com (NAM04-SN1-obe.outbound.protection.outlook.com [40.107.70.70])
+ by mx.groups.io with SMTP id smtpd.web08.25046.1604283505806681755
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Nov 2020 18:18:22 -0800
+ Sun, 01 Nov 2020 18:18:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=B/0LXXLX;
- spf=softfail (domain: windriver.com, ip: <nil>, mailfrom: kai.kang@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=BOBy8M2j;
+ spf=pass (domain: windriver.com, ip: 40.107.70.70, mailfrom: kai.kang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UpLKBgz+3iPmh2M4iRFcoOTWDekhAkNfC+fyB66gn4y39a7pIyZnKAsKw5oZ1psWGofZBKmqn10og4h6TTta4j8zX2YkIuh0JoMqVU4LNxby6yj2jfe7gYzE9vikIQmyqhnvLr5LLDFWVFvhXV5ZbpvwfqkEQecplnn0+xEZ+jXkNXiO8kkGB1an+OEtba2Yj5xarTMxTTVBROgc/6UimSr7VOIPt18dkiHtAbp5DaolgAWBvyYjYBXfZPZH17TYjVGq8nOpVgFxd0Kt3oeScPfxnAYAryuVF72CTdIFWOlQhGAK/wR/LUsLw09QZPxVUpzPhTNdT0LevWsZCI6eaQ==
+ b=CMYyzqbv4EqwEk2MrT7GuyznOivzxn+oh4AB/QIklOhg+bTAzjMGTHSsZXDj1WPdDkmEbEYU487d+o/JNuD0zEBt6hHSQmZSaggr3D/+r6kXEiComdVHj+F0tfsj8z8yXtcRZbI83GZZyIWw72CBn7GcRJK+7QpJs6H5nl1k+HhzyW6iUSU/9Dg/b+B38LlAkkS84M5mWIYsYc+h0MU9yONx+5nACgy2xUyOgiVCdyATECsdsaM3IXI02+vhia3JHcFgRfZ9aCJATaPXTKj6WRIOFoCPDSKZuunyJBI9CDoh/FF4SLF4ZqoLyMarvMGVua1aDlGZZcrl6YZ/WawTOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vnWPqnR1OVmTK6sFPk4+Pm86v8qWHaxrg4wmOR2QLeg=;
- b=dWCeGMjhoSY7LbcCDnEaRbZvAGVWwld9Rjknchk3gI90XCzHaqRvBCZoHcLh3yjhQFaz4t+iV/aPYukqb2eTMMX1aVRdY9qxRiJstOqYc7ZFw+gMFauc4BWYDIdX9XRSTEVt+gi7a/U0gJXAOU2ybYoPHYOJ/x4nuJCUd2l2mAAtoCYb4yew0STUylVjPwYWnmz0RCEHBzxUaDSCutDZsIn3iOYpBZyKdgm/filU8pSrv/yrHtGknOOrbwcjrMaa4X24KBA8aD16Oc6p4usxCXYQ4cKXS9byRNANwwgGto9QvKxwoGVcWh6P5BesmHYj4VTqPQ2hG6w56j72Near8Q==
+ bh=kpLlvVB3vr9OkV4w+sANL3GjKJbhu7ctXVMHXaThLU0=;
+ b=mFuyoXCHQLRRqXIVW1WJCG5Ly/4Jb+I09w1urBNSY6lD6qEflZUaVQSCgy1LQb1sQEX9CqhxTvNzaHHPoRDx0zupO1MRGxSvEJFGrnKfqWRv3kRQ5g0nyfKoM+XhFBrb1wWGJ+PotqIRCBYKldxKVowu/FtNsIEow3YQIoK9gRlZYf+dkAySKi1BnmDDLTLekjoyUP6oITY9OonYleYFFF44Vuq762zkX3YJ++Cy+cRiJPpKIGZHlek7b6H/69eS+plHdthas66L1mLl3tFFU6+lNVL/jGgL+Tty7VLfa5YmIxAAkAsqnRks1DLJoOpcGrBOAQ5Lqv2nE92T50nJ5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,8 +19,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vnWPqnR1OVmTK6sFPk4+Pm86v8qWHaxrg4wmOR2QLeg=;
- b=B/0LXXLXqSbydRRRK77wDeXQogtgbS9aUnZOoO88mVEc4OC2WW1QP5zew4xEAlZk6CIyhv0jOnzdf+0XkeOKzUOkePZyZjNBIDgqAnNHaC/J2FI9w5DfOpk/UJpsElJuWfVHxgfv8lrXSinYNH+qlzNPt78pYxX58rb2JV9WcFk=
+ bh=kpLlvVB3vr9OkV4w+sANL3GjKJbhu7ctXVMHXaThLU0=;
+ b=BOBy8M2j88gFRSuqZ2z4802xIFMA3hJiKHJszzKw61ZxElRlP3wDKOQRgh/OLJyelyXh6Hz5bQ/gHYyXYLnJsguZriNooPBgvN12QvSQR734JYOATQ62EcqFR1cg8QzU+OGNjAPG/oDSPoeeyZQ4ik7Al8BxmabgHUKnmcDY9D4=
 Authentication-Results: opendreambox.org; dkim=none (message not signed)
  header.d=none;opendreambox.org; dmarc=none action=none
  header.from=windriver.com;
@@ -28,17 +28,17 @@ Received: from SN6PR11MB3294.namprd11.prod.outlook.com (2603:10b6:805:c4::33)
  by SN6PR11MB3485.namprd11.prod.outlook.com (2603:10b6:805:b7::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.28; Mon, 2 Nov
- 2020 02:18:21 +0000
+ 2020 02:18:23 +0000
 Received: from SN6PR11MB3294.namprd11.prod.outlook.com
  ([fe80::b49d:2c09:ddcc:f5e2]) by SN6PR11MB3294.namprd11.prod.outlook.com
  ([fe80::b49d:2c09:ddcc:f5e2%5]) with mapi id 15.20.3499.030; Mon, 2 Nov 2020
- 02:18:21 +0000
+ 02:18:23 +0000
 From: "kai" <kai.kang@windriver.com>
 To: obi@opendreambox.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] systemd-systemctl: capable to call without argument
-Date: Mon,  2 Nov 2020 10:17:56 +0800
-Message-Id: <20201102021757.32532-2-kai.kang@windriver.com>
+Subject: [PATCH 2/2] systemd.bbclass: check whether systemctl works in post scripts
+Date: Mon,  2 Nov 2020 10:17:57 +0800
+Message-Id: <20201102021757.32532-3-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201102021757.32532-1-kai.kang@windriver.com>
 References: <20201102021757.32532-1-kai.kang@windriver.com>
@@ -49,81 +49,74 @@ X-ClientProxiedBy: HK0PR03CA0112.apcprd03.prod.outlook.com
 Return-Path: kai.kang@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HK0PR03CA0112.apcprd03.prod.outlook.com (2603:1096:203:b0::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Mon, 2 Nov 2020 02:18:19 +0000
+Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HK0PR03CA0112.apcprd03.prod.outlook.com (2603:1096:203:b0::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Mon, 2 Nov 2020 02:18:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f3ff6014-6b27-4f60-e863-08d87ed5919d
+X-MS-Office365-Filtering-Correlation-Id: ebce30e0-fa4c-45a5-aaf3-08d87ed592a4
 X-MS-TrafficTypeDiagnostic: SN6PR11MB3485:
 X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB3485A514B833F66332DBB75495100@SN6PR11MB3485.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+	<SN6PR11MB348530E7D58735230138472795100@SN6PR11MB3485.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	xVJS+c60PeX73mvNR1G9WaGUZyVX+jHKqzMpOEhdYpJhpuK/yJ32VRDmXfqjUYDvoBvC0yzLw4j/2jP7z5lJpWYMZPI82HdVLVFPTRsVHLXZiPGcRTv5kpsupFpFMW7oLs+LoweN1ms2SQAM7eG/XG/q8476IGNeSA4ZcGn8eXc5ff1fGRYdTHrD02N8/msbzMELjqJYpF+9hpi+76Wm0Slbx2QeEowiSyniuHBBNJcDnhN7Bo1AzRh78qOavJt/fG2roYlsPRnRei0ImmIEcfunRRzD/1eNZiUDCwcFs4e2icGzbk/CRtWcYT6pj8fH2mwJSmacGl3dquYiarcNLg==
+	vuj5RC2JvbQg+a8lUqN2JtW4duz9oYk0ycdhjWTI+18ej16Kk1uCSlMc0LkUVTru0RXRK3enWQyK8akgLi7qtAprUDAu57qYP2O7YCPrWeUKRCqVeiwh+v4NkOO39myk1/FtgVifb5QpdzOcMGSkn4nOyIpScThihAnDyiomDxFhW8M8cOhznb+FdpsXHeG3CPKJLqf/V3HrxsNrpctgRpfGocLl4wUw7JLKQuEusugdfZPTJjBHJycVpc//RSchvD47xQI8p71Ii4slGFD0IGlpIX2Au3eqFH/XiN8XjdcA+nqGWgT2qik4AKzdLPKWLiyGF/AhM/KEmxTgqXfjxw==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3294.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39840400004)(366004)(376002)(396003)(136003)(2616005)(4326008)(956004)(86362001)(8676002)(52116002)(66476007)(8936002)(66556008)(6486002)(66946007)(186003)(16526019)(6512007)(6916009)(316002)(6666004)(1076003)(6506007)(36756003)(478600001)(83380400001)(9686003)(2906002)(26005)(5660300002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	jv0Zosq4wVcZnAqC9ZZcW7QuFLmLGSCyxenwRqsQvnMeu7ZdTpj9rlkuRYuo35beeihXzSkaUustEKOgDpoWNVs1zA978lbAkvtOUOidOjovO5IpEE0SL/NNi1c7XzXKZrTN/4lSc54A9G516/cJ0ztoFGD+AQ2s4pbHYsF8DfVn0xQWpBxPme3+RIgmTFoYU2pLPpHH6+fsKQ4DTzFB4QHnA1shH3GDimI/6AHQFWOE+Ih0hUlWaks10wubFEr6OJmpbkwDGBfUzImNkbPJhmG0lBk7tfp32aiiBpcpWWhLKkIlTAhkc+nVsMNruvKx2kycpAhJFjXpMuYQ8AU4/h9oLe6HNk5Rwvp7ePYHqDLAGuWkMTkNRp6ptV65X7vZxf7/4smovHb2lE/fH3EhcQqqRDJofmbpT6RQYiz03RMrlHBq59nbw0KNnQt5rxEfS2OKxudnc805AsJ+f3wER6IDu6orLA4Wp+LX6vLNNTIa+mMLwwWUX58nbvB07erPimPuX/L8UU2jp25MoEmwH6Sc04DZb9JfzJNPLfAvuZDROG9E36Oj8Mx6N4DmxCQAMhqhnAq73BQ51wMipM5Y67FdjTE3vMjvcsFTdlSJ1tSYQSMOci48PUijvEY+1KvGEpdi248H9c/c4uxbIn3vtA==
+	R8q2tsQBQicPHT2RvqqZC0Cm15L59eqEHLRXYBdy3EIldT4zTz6WrFDbvbbmzrtVnUqvaKA36DVq052WjjSzhR5NN/JjB/QoEtnBPfC3rCgvv+5jCXSHiR3S+XK6dWhV/tpMR61xg5nyBm5xObIWTfw38LDPBHfRAzMTen7hV0qsGRVdiklsAPHqkRDIGQvs3IeVOShKoUmxYB53Id8R+R2ZWwa4vewmRGkXrG/q0b3HzKpYRaCKOTJClUjYA0ZUx7nf1LjBF0FMWurKXOw5wjpQQjAwFNGs0gLlL6K5jADzV2gfilgcsSX35ssrO5Q9Pp/FBkviKPCknUw7q8kb2qDATD7MvJy78TCyYIobYfik6JK/lK6thRXx8PGt9N03dTGQnUUPeCR+qK3NCpm8zz2/KtCLTuM504pv0rWz988w8UFsSPQTeSIe2wEBHrMm/0pZp2Kyy1IuLq8qE75+V5+0hfFYTBriKaZe69JnURq4FTyHTmuZb0zu6EJS+Zhla0Dm5Sa1AwscADaU7f3GsWMI1xkUND24EhxIrTFU+9jGaNAuUe/mzSVcl4xE+Zq9ndUd9qMDh0xZDGriDIIHKjnARzgXEH4MjKG+sy8510ieQylhOjX8QslCEdu22NJBmAD2sM4ax1wdPRgoWREAWw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f3ff6014-6b27-4f60-e863-08d87ed5919d
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebce30e0-fa4c-45a5-aaf3-08d87ed592a4
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3294.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 02:18:21.2482
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 02:18:23.0471
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6BG/aaXkDNDjwdIVzmH4mbYYa/GLqQcRw1+sXAjW5DBfg78mIuuasDhmUFj7kqYzjd+FEB3c2bHJQ1q7FP7Peg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8WL8+feDY6E7tcjQnvfSHOJc7sgWSSVPS7UPlmuC9IT+MgbEVb4SBUUvzPXjcbh0T8tbK39vv3+vDhgBkhj8VA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3485
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Make systemctl prints help mesages if run without any argument. It helps
-to judge whether systemctl works in postscripts in systemd.bbclass.
+When use a core image tarball as a docker image with 'docker import', it
+fails to install/remove package which calls systemctl in post scripts
+that it fails to run systemctl in a container:
 
-Remove trailing white spaces as well.
+bash-5.0# systemctl
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+
+Replace 'type systemctl' with call 'systemctl' directly in package post
+scripts to check whether systemctl works rather than existence.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-core/systemd/systemd-systemctl/systemctl | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/classes/systemd.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-index 990de1ab39..c692b65920 100755
---- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-+++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-@@ -30,7 +30,7 @@ class SystemdFile():
-         self._parse(root, path)
-         dirname = os.path.basename(path.name) + ".d"
-         for location in locations:
--            for path2 in sorted((root / location / "system" / dirname).glob("*.conf")):                
-+            for path2 in sorted((root / location / "system" / dirname).glob("*.conf")):
-                 self._parse(root, path2)
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 9e8a82c9f1..9ec465c759 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -23,7 +23,7 @@ python __anonymous() {
+ }
  
-     def _parse(self, root, path):
-@@ -282,7 +282,7 @@ def main():
-         sys.exit("Python 3.4 or greater is required")
+ systemd_postinst() {
+-if type systemctl >/dev/null 2>/dev/null; then
++if systemctl >/dev/null 2>/dev/null; then
+ 	OPTS=""
  
-     parser = argparse.ArgumentParser()
--    parser.add_argument('command', nargs=1, choices=['enable', 'mask',
-+    parser.add_argument('command', nargs='?', choices=['enable', 'mask',
-                                                      'preset-all'])
-     parser.add_argument('service', nargs=argparse.REMAINDER)
-     parser.add_argument('--root')
-@@ -300,7 +300,11 @@ def main():
-         locations.append(BASE_LIBDIR / "systemd")
-     locations.append(LIBDIR / "systemd")
+ 	if [ -n "$D" ]; then
+@@ -48,7 +48,7 @@ fi
+ }
  
--    command = args.command[0]
-+    command = args.command
-+    if not command:
-+        parser.print_help()
-+        return 0
-+
-     if command == "mask":
-         for service in args.service:
-             SystemdUnit(root, service).mask()
+ systemd_prerm() {
+-if type systemctl >/dev/null 2>/dev/null; then
++if systemctl >/dev/null 2>/dev/null; then
+ 	if [ -z "$D" ]; then
+ 		systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
+ 
 -- 
 2.17.1
 
