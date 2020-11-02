@@ -1,50 +1,50 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web12.1181.1604335790230572812
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web10.1241.1604335791011998221
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:50 -0800
+ Mon, 02 Nov 2020 08:49:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vChqJaLJ;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id gn41so2500368ejc.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YpEoHmVW;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id oq3so17944388ejb.7
         for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=RJ6hRkIAevSEJ2SsiYHRFOl8Y/8FoSKw1McVKqUMD8A=;
-        b=vChqJaLJTaOpiPv1pGP6s/ga48jrUFjKlk1Wgw0uqC0HqbNrzq4K8qaQuq8gZmSeNp
-         YtqyaNZbpemp6hpkUqyl4TcYxd2ZGUmwdmOTszy20DIJ47EUOaY37G3rr+78LolG3yY7
-         KuwyqGpAR1DqBijBq3QRgxJRVjDKV+WjkRiHGrssUp39ETOs7oyaEOmR8o5BCZjAi3zm
-         cVspRKEaBCI8g8FLYaP77wZXPbpVCuoBBdGokihmGSSL+ttxOcsKh805tIH2E0ERJiEH
-         3m0J6l9IEudpV5oPzpv2aG1eOapfJbbh+i1mxssY7j0Q2fxPTo8EnyZEgZw+vVWABrnP
-         DI6Q==
+        bh=TvVsfk31dWoEM3gJ9+ZvZTA7yvzadUtn7xOq1o14gJw=;
+        b=YpEoHmVWG4ag49XvnKukAulZGTZd4TwLUn7mqaLH7Xo+TXZBBkGTsLOlH7jYMFq7MR
+         bFr0JflyW/E6ltwkpJG8i73j+l/ztZLXQp/axVRTuRa9Kxr6MeeQpe6gpoiFxmtNRJ9z
+         sRF7cBGtnutPATVPMbUFSElbVbXZJnU7fiwI6hfy56J0F0hrRcRtWuaSTLvEVLTuJAjq
+         ECzhx5httmbHP2irfrX09WzPlO3+2CIZQMomtXv8Vyfue5/xYTck9Y64U6oJZy7itSrl
+         yVX+D/sH+Ib3q++k+q+fPEPSTghkQlB7Bw5Z4qLHeZZcjUfHy5Ci/qoKNFIMhWzo+bVC
+         V8cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RJ6hRkIAevSEJ2SsiYHRFOl8Y/8FoSKw1McVKqUMD8A=;
-        b=Wcs+4I4hi+SeMl5Pl428Sd6jNTrX+sak8X+QA5KrCALfNhmEvywAO7RNk++UIOc4u4
-         rkuGOAXG0vC1dS2k0BA941OTm8WlPxstpQkvcqVEApFs86Bs7TLHGqodoutldJI546HN
-         mxMoSuIj+7IvSc2Q/WjChk+9HLO6qIFxODojtwSPjNJInbuifZ+7fGEuRq++yJaFaKD6
-         9DWlYi3MkSUPWDXR/OKB+9YGmavgC1jdJIW86KPz2FWvMqFbI2MJAFgLdc7IjvLKbLkM
-         PxHFwZMvUyaPgKbYvAQPGldKhcM0s58Qx36mOAznjknX8F3ekIihjf6m121GWcJCtXv7
-         TWCg==
-X-Gm-Message-State: AOAM531AZ56PTJTws04JoPy3lGMnCnUR+0GaePVP9FWUIBmy3YEJMhPl
-	RJY5G9HQ2ttmCG2yjBRJOt3XsVDFVUxkTQ==
-X-Google-Smtp-Source: ABdhPJwxoCJJKcS2LmXkyGx7M5jurND5npz3pcPpODUW52iz7/bFUY6Oprwy2vGDEyfSoLFcLA7Lxw==
-X-Received: by 2002:a17:906:c041:: with SMTP id bm1mr15891043ejb.202.1604335788500;
-        Mon, 02 Nov 2020 08:49:48 -0800 (PST)
+        bh=TvVsfk31dWoEM3gJ9+ZvZTA7yvzadUtn7xOq1o14gJw=;
+        b=FAT9ed3vKTxCHWHl9YL11qsZq0H/znGzsCrlXzcUi2QkcaeJCxl8QMR97z+RZtEK+o
+         PLBje0X+CEwor05arMzPn7CouZe4W9oCsyCMgqSM7xiD/JiLupQbgET8ezXoeEd/LQ4a
+         LGGQd2ytG3+BtMBoyXxoICWb7tEkYf1vBP46wlODx23uJCN5tITPGQzXxYARD/5bVnis
+         TK27oMS4K3YdTVi8++GtcGg7MltgXj6gQEce+dCmKAws1At0FEl+721DUW/NjWg+lkYj
+         NjbvCeDE5yAotlqxuMUx5WWunj7RFD+88vFxy+rOT7sAR4iuwgf+fPduhTa7ajxAhEv+
+         QcpQ==
+X-Gm-Message-State: AOAM531CUo8fjoKq3iSPzQYhToe9njj1vrbyJIEdLb72OmyUMj98o7h1
+	Y0msWZWJLFatn2wDxXBfTW0ytaCeLIaqjw==
+X-Google-Smtp-Source: ABdhPJwAZmltyJucYV01kj+Ifpy/jKTdGbkmeOYrZtDRRJkUGQSbuslSPd/iEXKJZFd3uMgd6do9dA==
+X-Received: by 2002:a17:906:2b83:: with SMTP id m3mr16076448ejg.456.1604335789259;
+        Mon, 02 Nov 2020 08:49:49 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.47
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:47 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:48 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 35/80] libva: upgrade 2.8.0 -> 2.9.0
-Date: Mon,  2 Nov 2020 17:48:22 +0100
-Message-Id: <20201102164907.27572-35-alex.kanavin@gmail.com>
+Subject: [PATCH 36/80] libva-utils: update 2.8.0 -> 2.9.1
+Date: Mon,  2 Nov 2020 17:48:23 +0100
+Message-Id: <20201102164907.27572-36-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,69 +53,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-graphics/libva/libva-initial_2.8.0.bb        | 8 --------
- meta/recipes-graphics/libva/libva-initial_2.9.0.bb        | 5 +++++
- meta/recipes-graphics/libva/libva.inc                     | 2 ++
- .../libva/{libva_2.8.0.bb => libva_2.9.0.bb}              | 3 ---
- 4 files changed, 7 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-graphics/libva/libva-initial_2.8.0.bb
- create mode 100644 meta/recipes-graphics/libva/libva-initial_2.9.0.bb
- rename meta/recipes-graphics/libva/{libva_2.8.0.bb => libva_2.9.0.bb} (81%)
+ .../libva/{libva-utils_2.8.0.bb => libva-utils_2.9.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libva/{libva-utils_2.8.0.bb => libva-utils_2.9.1.bb} (90%)
 
-diff --git a/meta/recipes-graphics/libva/libva-initial_2.8.0.bb b/meta/recipes-graphics/libva/libva-initial_2.8.0.bb
-deleted file mode 100644
-index f90bb510c4..0000000000
---- a/meta/recipes-graphics/libva/libva-initial_2.8.0.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require libva.inc
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
--SRC_URI[sha256sum] = "adbb1244d278908f89ccfcf254a442de6d71934565a492cb6f03caf2ed4d1ec3"
--
--do_install_append () {
--	rm -f ${D}${libdir}/*.so*
--}
-diff --git a/meta/recipes-graphics/libva/libva-initial_2.9.0.bb b/meta/recipes-graphics/libva/libva-initial_2.9.0.bb
-new file mode 100644
-index 0000000000..5c6abeafe6
---- /dev/null
-+++ b/meta/recipes-graphics/libva/libva-initial_2.9.0.bb
-@@ -0,0 +1,5 @@
-+require libva.inc
-+
-+do_install_append () {
-+	rm -f ${D}${libdir}/*.so*
-+}
-diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
-index e7bec80c14..7b6f11674d 100644
---- a/meta/recipes-graphics/libva/libva.inc
-+++ b/meta/recipes-graphics/libva/libva.inc
-@@ -17,6 +17,8 @@ SECTION = "x11"
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.8.0.bb b/meta/recipes-graphics/libva/libva-utils_2.9.1.bb
+similarity index 90%
+rename from meta/recipes-graphics/libva/libva-utils_2.8.0.bb
+rename to meta/recipes-graphics/libva/libva-utils_2.9.1.bb
+index 78e3805339..feb9ce1662 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.8.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.9.1.bb
+@@ -14,8 +14,8 @@ SECTION = "x11"
  LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
  
- SRC_URI = "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
-+SRC_URI[sha256sum] = "e344c1392dde92696c9ffd9cb3c7277d0a3b912236eb4e0fdedf7f375434584b"
+-SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.8-branch"
+-SRCREV = "af101a46d24c3f71a12b9f1ddb0c63626b19b3d8"
++SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.9-branch"
++SRCREV = "50c7f19d65e2535940e31c6711352b36d6d64fd7"
+ S = "${WORKDIR}/git"
  
- S = "${WORKDIR}/libva-${PV}"
- 
-diff --git a/meta/recipes-graphics/libva/libva_2.8.0.bb b/meta/recipes-graphics/libva/libva_2.9.0.bb
-similarity index 81%
-rename from meta/recipes-graphics/libva/libva_2.8.0.bb
-rename to meta/recipes-graphics/libva/libva_2.9.0.bb
-index 621ceea86c..4d3fa50963 100644
---- a/meta/recipes-graphics/libva/libva_2.8.0.bb
-+++ b/meta/recipes-graphics/libva/libva_2.9.0.bb
-@@ -1,8 +1,5 @@
- require libva.inc
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
--SRC_URI[sha256sum] = "adbb1244d278908f89ccfcf254a442de6d71934565a492cb6f03caf2ed4d1ec3"
--
- PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)} \
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))$"
 -- 
 2.29.0
 
