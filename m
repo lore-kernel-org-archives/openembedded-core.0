@@ -1,50 +1,50 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.web12.1172.1604335769131415979
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web08.1149.1604335769870526254
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:29 -0800
+ Mon, 02 Nov 2020 08:49:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gwjqzyez;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id oq3so17942796ejb.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bRbwn6f4;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id k9so15052144edo.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=2lWdWaVxFp1Ux7ROWdETRrGo7QgmdlNSYHd5RX+gQfc=;
-        b=gwjqzyezNiEfwm+ETlwry6iwK5H571rdjXrIJzVJHjVjcYeWkqeQYGNZBIS0GaTU8U
-         9QYcuCFqzCp4T1WoyeqGQpOC2H8vZTlJlqamGxZM55aHYv5PqGk3+KK7Kq3nCMDuoXrW
-         zp87v5m8Z8CbZS4/NHhuxXD7Un7COPje0m65SbcV6mYml2dlJ2qwPccHxupAyP4m2QN4
-         UPyntJ+ys+UQtqM69Dy3Ed3T/tozS5b2mFDqtjjCIyo1TVpA2TD7SEsYut7mjsPZy5Vf
-         fQTFF0oF+Km5Uq6KiCe8zQF5B7dei9fEoPINBMWTtqlzo1nkdMbLqcnlX5WzoEya8Vcw
-         rkHA==
+        bh=TOW1fNKzWKsPtOhTc5cbG+0hp3fPVGAqyY5+4QZ9OiQ=;
+        b=bRbwn6f46ywmKh9V4SbynQtjAujcFfTFzFOR5o0xzKtZQQANiNLvPsOYnSz+hcitg1
+         yCwcJsK/5lYpE8l9hKX+e3NIyaO2tcQyjc+YGEKllzz4iJ5SXrmZlsTbuaKlmg717LOF
+         tlUHDHmvjxdV82dBwyR1sme0uJat4wjb9SIsFaonM3NZW1gCDUBhhYcttIRGrBCx1B2W
+         DAemfR1p6txDEIu6G4pMXZc6yZdFQ82FK1OLvwTo0oZTbXh81T4Qqqy5ZXRJeHK3LZk7
+         Q97P6v/RBtGyDEloxe84JCCAif3E26jCqfcnSDr8jyi0NBe+hZiCM22cV0HruzVQY/Od
+         4avQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=2lWdWaVxFp1Ux7ROWdETRrGo7QgmdlNSYHd5RX+gQfc=;
-        b=BRTayWjZ9VZewsuKrUWYTcbvOE+buB/oEiGzeg1Sz0XlZzJ9vjn+8l5F1pszTb1vtg
-         DJBxELWU46H7xTyeZTKpzuhFjeBkAo44+UEf+JGQWHjQurfZ0ncqkQP+1sTvFsX5qOmL
-         82TFNvsFTdEMqFXBqi6+8YZDTtScyaeuswfFoWkZzyp+X+5l1yj2TNrCVTSvRVlsXhT6
-         L2QbiIQQCxljK5z5bCsg72TYcY9VGzEZ1GfAghgVc65jv00XY58JC5M+h3Y7et/uGpSJ
-         G8mP2Ywhol5V3GcbDyeZK/O6oKmMrd8SP+92k6y8op2GgDu/AcXez7t+phettSEZk/qc
-         h+Zw==
-X-Gm-Message-State: AOAM530Auwl7bHoZLFSxx5RWf1hE37Z14/wUaCIrYzNm9/qcJ6+vSNwQ
-	fqsLzbkZfCysOLcVHaa/a9XTlIhmshzCiQ==
-X-Google-Smtp-Source: ABdhPJy4Qb7ttNSscP+csObFftQHzjHLQOM8Ej5LsieQEpMSLhUoSsXzUqeYn6vDxpJnBm0wM+frww==
-X-Received: by 2002:a17:906:d20a:: with SMTP id w10mr14326197ejz.3.1604335767408;
-        Mon, 02 Nov 2020 08:49:27 -0800 (PST)
+        bh=TOW1fNKzWKsPtOhTc5cbG+0hp3fPVGAqyY5+4QZ9OiQ=;
+        b=UdUGRJT2JKoUPoG7j9x4t+DiYlr2bdckp2rOiZvRCn6BTEscARM1G3mhtOYxeOyDLr
+         puUPKul14DpC6Ey/KnXUQsnfBBJpRqeZlXJYtuMVR4X2mpuv1U1/e8BwikD7Ir9RPEyN
+         glQmb5HY8SJd78zl6T9/UACqu+KraP9bopu9BGtr16gIG84t9YdxCpRCDwp/SKSq9Fsk
+         EuEUzglDeXOh9Emx9QyujG1ViEoGpNxSxC2DkWUGVM4E+0H2TtwiqbzO9L/fZBVE2jg1
+         z2aOtA0xAbbwrJz9gtQSH/Cf5G5SJxJk/xxylkiU/QtiDRzM8MlLcQtKZU6qZsh+gRmU
+         DkbQ==
+X-Gm-Message-State: AOAM5330kKV9nK0dJw4YAIJb2Qe2jBaM8rXEP52ynbwO2uxJV9N++Fhm
+	+p3Yn3pVIXI6x8NoyqwisTQh4S1F/JousQ==
+X-Google-Smtp-Source: ABdhPJzDY9CeJE0uRhzr9mSsyfANhSuK2x9pjsQlIPDrkppDWnR/NUkO0nTWxTqgr2qOHTFb0XNKGA==
+X-Received: by 2002:a05:6402:21c7:: with SMTP id bi7mr2298152edb.54.1604335768184;
+        Mon, 02 Nov 2020 08:49:28 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.26
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:26 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:27 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/80] adwaita-icon-theme: upgrade 3.36.1 -> 3.38.0
-Date: Mon,  2 Nov 2020 17:47:58 +0100
-Message-Id: <20201102164907.27572-11-alex.kanavin@gmail.com>
+Subject: [PATCH 12/80] at-spi2-atk: upgrade 2.34.2 -> 2.38.0
+Date: Mon,  2 Nov 2020 17:47:59 +0100
+Message-Id: <20201102164907.27572-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,52 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-Don-t-use-AC_CANONICAL_HOST.patch                  | 6 +++---
- ...ta-icon-theme_3.36.1.bb => adwaita-icon-theme_3.38.0.bb} | 3 +--
- 2 files changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.36.1.bb => adwaita-icon-theme_3.38.0.bb} (93%)
+ .../atk/{at-spi2-atk_2.34.2.bb => at-spi2-atk_2.38.0.bb}       | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/atk/{at-spi2-atk_2.34.2.bb => at-spi2-atk_2.38.0.bb} (77%)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-index 5da3fbf6d8..c8c70c4b58 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-@@ -1,4 +1,4 @@
--From 0a867caa8803a78f7cf3a204c4c358bc63daaf28 Mon Sep 17 00:00:00 2001
-+From 8b3b153b6b95662316528ef083365b46cf5f7841 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 30 May 2017 14:55:49 +0300
- Subject: [PATCH] Don't use AC_CANONICAL_HOST
-@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 1 deletion(-)
+diff --git a/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb b/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb
+similarity index 77%
+rename from meta/recipes-support/atk/at-spi2-atk_2.34.2.bb
+rename to meta/recipes-support/atk/at-spi2-atk_2.38.0.bb
+index 02a4d4712c..fce14eecf3 100644
+--- a/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb
++++ b/meta/recipes-support/atk/at-spi2-atk_2.38.0.bb
+@@ -3,8 +3,7 @@ HOMEPAGE = "https://wiki.linuxfoundation.org/accessibility/d-bus"
+ LICENSE = "LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
- diff --git a/configure.ac b/configure.ac
--index e749112..58790e8 100644
-+index 449865d..888649e 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
-  
-- AC_INIT([adwaita-icon-theme], [3.36.1],
-+ AC_INIT([adwaita-icon-theme], [3.38.0],
-          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
- -AC_CANONICAL_HOST
-  AC_CONFIG_MACRO_DIR([m4])
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
-similarity index 93%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
-index 2d78bea2c8..ff557978dc 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.38.0.bb
-@@ -16,8 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-Run-installation-commands-as-shell-jobs.patch \
-            "
+-SRC_URI[archive.md5sum] = "58cd278574e101363b18d9a8b7053d67"
+-SRC_URI[archive.sha256sum] = "901323cee0eef05c01ec4dee06c701aeeca81a314a7d60216fa363005e27f4f0"
++SRC_URI[archive.sha256sum] = "cfa008a5af822b36ae6287f18182c40c91dd699c55faa38605881ed175ca464f"
  
--SRC_URI[md5sum] = "c61ca9d6b3ce70a9ab66dcff945923ff"
--SRC_URI[sha256sum] = "e498518627044dfd7db7d79a5b3d437848caf1991ef4ef036a2d3a2ac2c1f14d"
-+SRC_URI[sha256sum] = "6683a1aaf2430ccd9ea638dd4bfe1002bc92b412050c3dba20e480f979faaf97"
- 
- DEPENDS += "librsvg-native"
+ DEPENDS = "dbus glib-2.0 glib-2.0-native atk at-spi2-core libxml2"
  
 -- 
 2.29.0
