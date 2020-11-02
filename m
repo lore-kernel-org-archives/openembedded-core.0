@@ -1,102 +1,88 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.1206.1604335777636754928
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web11.1208.1604335778340481311
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:37 -0800
+ Mon, 02 Nov 2020 08:49:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=A0P1nRiA;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id k9so15052576edo.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ChaQIFN2;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id e18so3870240edy.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wO2sJqNvbsnYbKi2PnPBVzpP3daAKQZPuFvifNdenFk=;
-        b=A0P1nRiADFnSbwoSllQqWqqKOjn0skJeTh2pBUVqS72Za3tCEm2MKFVE8fOzDqrfPh
-         X3g2ULuco59BG69o6ayVQoljxIsqNddWnrsQvWeazZT95536DiyOhMmtGXT82hF+7GhE
-         Ff50lx4bKf2iaU4kJUrAiOPqDpmfKQ8Wgb8LHPZXpy6jslv3lCPaX2Mxw16XpVuQ5n1/
-         55bDis1X7rLPVf7Kqmth2ORJXtoi2/ysGQhT9L8lICBySN3vT5U4FYxBCrzSWeRlIuy9
-         GlpLB4wsw3E5d/00C+kVxXq8S2W0JBes9Sosa5R7v9CHS2NxBpUXuYwW2TDIYhTsl+01
-         MIIw==
+        bh=dGkvsT2tfbWwvjWKkLS9YxqHAwB01KDRFq+kh2WoISo=;
+        b=ChaQIFN2t+9vz1EnFj/4PedeatHtMRzEgveUBGQR3rV5F8N3OcXUALAzqiyp6iXuxX
+         hnD4jS4p+HrmRMwEfZ9GxS31HWDY5P1+nl4Sdq+5ifbgUeuV1GdOgAh5JMuRZQj3qVf6
+         jhMlvd8RN3e6zTHVSYLW3UEIRtZ+oxveTPdXNpiBBe7FrY+iD9tTr2D3ZT5n11xONdHL
+         PUPMSZCR3+Y3fFSM/V0hswAKHFVfsgj6o2Q7wZ50kPIKX+V+0H63B2NXRcP/VkdaQwoR
+         4iYBE00wrGSeJHYGiOFA1vrpSI1T0UWpaLrm93rIH2jjlnHNckcGdapRytc6npj0MY0B
+         iTvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wO2sJqNvbsnYbKi2PnPBVzpP3daAKQZPuFvifNdenFk=;
-        b=jP4j+Gu3xB/EFwX66Jmv2aQ2Xrzh9R2QcnZiCsfFBZ2O3F78OIVf78FwvWYpP2Q8mJ
-         c5q1eJYvY+V0wNSKku2PCoigiHu23R9T+R7IXCVzf+RMgJ4XhqK/Mu0QrYwOvJSWlG7L
-         NbcP6sW5ruhCoY1IVYt8ufbZgYdeyEwP0TnXgcYOVjr4dXuJgI1QuyZ2/IHdPhF7JaPn
-         HRYbD9mBOqK1tkWSNovUeXQvB/qcpDDMDqT0RmnjJsFXaoGfZduW+X9D1NoTqo9Ufcgi
-         Q60zeWCxrvG9jydEd+LiH4ZI/3wC7yixhNi4kuETyCOCPCLHkjzJ/S7KSUfmd0wbuNyg
-         E6zA==
-X-Gm-Message-State: AOAM532+ug3Y8zezgX50Zwl8ihhRLujShIw4yM/IJMesgxQx26ysd7AM
-	ZuVG0UG9iLhCcy8oO59qJe8DSQ/Py5jQcw==
-X-Google-Smtp-Source: ABdhPJx3Umi2UuTQwdoKJTPjAPFoT+4B7J2WNMzKRyzsSCfHiZaLgcQrj9u1RL0WtOrl097ZVtOd/A==
-X-Received: by 2002:a50:ab0e:: with SMTP id s14mr11788794edc.172.1604335775860;
-        Mon, 02 Nov 2020 08:49:35 -0800 (PST)
+        bh=dGkvsT2tfbWwvjWKkLS9YxqHAwB01KDRFq+kh2WoISo=;
+        b=A+cxAtyZo4bGa6Ry5ZicPlKV834dcXkPHsZOATzNw/sqgXtWkw7lu3BbZ0jOZoAekg
+         H4sTgfr8tSkO437eVyOQTRd93kueMgw6/8PBCrUGLo1v6HLSGgavaZFv3akBIGtzZ5UJ
+         71q7SiuIznhNuvEKr2OTItVeXG2RKAail0KcRYEdQVuW8Ro/3W+h9gOYlKmsaq0Y5iul
+         bqU+scBMMZADykMuqrp7CrQZxrJsVSO1LeZyHVmDtPUoUS4WJBZkx7UHW3Eg+p16vQpO
+         1nISk8J5iJp0V0wWb4Pft82wjO254eBbrhMJv8rJq/rrqHMh06TCnyridgJxaOxOocN0
+         KYuA==
+X-Gm-Message-State: AOAM532uM5BucfKfBbOaD0ACRDpnF7TLqElbsdbYd6ZXkgzghp+b739u
+	s7+ycrQTJNUh79TEbpATa73gFgjefYfQOQ==
+X-Google-Smtp-Source: ABdhPJwYWcpKG3NExhlKZjt44jBE82FoR9I8LOd72C3kUJ6ay7PzoUUxAG2QgY9GAXmZisK+gZghsw==
+X-Received: by 2002:a50:8245:: with SMTP id 63mr17651930edf.133.1604335776754;
+        Mon, 02 Nov 2020 08:49:36 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:35 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:36 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 21/80] ethtool: upgrade 5.8 -> 5.9
-Date: Mon,  2 Nov 2020 17:48:08 +0100
-Message-Id: <20201102164907.27572-21-alex.kanavin@gmail.com>
+Subject: [PATCH 22/80] expat: upgrade 2.2.9 -> 2.2.10
+Date: Mon,  2 Nov 2020 17:48:09 +0100
+Message-Id: <20201102164907.27572-22-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
- .../ethtool/{ethtool_5.8.bb => ethtool_5.9.bb}              | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_5.8.bb => ethtool_5.9.bb} (93%)
+ meta/recipes-core/expat/{expat_2.2.9.bb => expat_2.2.10.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-core/expat/{expat_2.2.9.bb => expat_2.2.10.bb} (77%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 75a3841f2d..673b35033f 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From afecc8791f904dc1893858d68a642b491356c74b Mon Sep 17 00:00:00 2001
-+From 538bd5ec36d88f17803cb848cbbfe62ad51fc2f4 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.10.bb
+similarity index 77%
+rename from meta/recipes-core/expat/expat_2.2.9.bb
+rename to meta/recipes-core/expat/expat_2.2.10.bb
+index f477f99baf..fa263775b3 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.10.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "http://expat.sourceforge.net/"
+ SECTION = "libs"
+ LICENSE = "MIT"
  
- diff --git a/configure.ac b/configure.ac
--index 19223f7..8a58d15 100644
-+index 0162155..6866e72 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 5.8, netdev@vger.kernel.org)
-+ AC_INIT(ethtool, 5.9, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_SRCDIR([ethtool.c])
- -AM_INIT_AUTOMAKE([gnu subdir-objects])
-diff --git a/meta/recipes-extended/ethtool/ethtool_5.8.bb b/meta/recipes-extended/ethtool/ethtool_5.9.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_5.8.bb
-rename to meta/recipes-extended/ethtool/ethtool_5.9.bb
-index 0403f0e3a9..2d2f9b77f0 100644
---- a/meta/recipes-extended/ethtool/ethtool_5.8.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_5.9.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
++LIC_FILES_CHKSUM = "file://COPYING;md5=9e2ce3b3c4c0f2670883a23bbd7c37a9"
  
--SRC_URI[sha256sum] = "91e8bbda48a7fd5d374efacca542364ceb3a6c1f286f024b64ec40ccc799e125"
-+SRC_URI[sha256sum] = "f934a830554c46d7d60b1a9147f4cab15589b7e09344c4b79b1948b740f0a725"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://libtool-tag.patch \
+@@ -12,8 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+ 	   file://0001-Add-output-of-tests-result.patch \
+ 	  "
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+-SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+-SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
++SRC_URI[sha256sum] = "b2c160f1b60e92da69de8e12333096aeb0c3bf692d41c60794de278af72135a5"
+ 
+ EXTRA_OECMAKE_class-native += "-DEXPAT_BUILD_DOCS=OFF"
  
 -- 
 2.29.0
