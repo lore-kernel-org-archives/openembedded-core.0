@@ -1,149 +1,88 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.78])
- by mx.groups.io with SMTP id smtpd.web12.1686.1604356145205829203
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web09.1798.1604356487334542850
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 14:29:05 -0800
+ Mon, 02 Nov 2020 14:34:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Uf3J98zU;
- spf=pass (domain: windriver.com, ip: 40.107.223.78, mailfrom: jason.wessel@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BmhqHkqho3HB4wKjraL2Vl9JgQuWhwf5RNJnNKxMVYpNygLz3im0+qbhM9Y498CyVZk/pTL7rJnfMWRhEJUCKHV4ggCoYrocjnaZDcW0Pes+hG+7S4zQF0ABOFN8WbjpLCpfuW0+PnAStQAoPTOtphmXzHx14UNmpuX3SRoFKzxyhMlKLF46nrRFU6iq0RfYeLas5Syvfn69BEFHNnUQYbCVfZC91jbHSzC1/U5Dfd8miawpN1T+OIg+CaaTHmAt9UvRt3RWdGQIhkrHiRBguXUVbk0tT3VHUV1Ckt9q75Q6lRjAUSl88utTxdqHwDQ4HgfVhdaynWDs5VmcOYbfrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tAAa1g5SR1ijpyC1TyGMJLhXIZolapY+xHnvgd3cOg=;
- b=NSKJrdtehqr3BWup1YSnObA1xRPrtLXJRQTedIbrfVywPASo3E1IhREy9G8PmMiXa7mQov99JEFC8E0CLXt4BRNab+Xrt+Z6XLsdT2Fbq+CNjvb3fttwHeeCODnLrb8pncZIb+GmBji1at90ifBrpdKdVInIwojQqfo4h9X5XunvkjemNgQ45QHtKYRV3BBHlwP0mimW6eERGVa3WTPr8TO+yb9ZAjljjxGhBLE7XixCVUIbTF9/ws+TEs4ps1VPMMrwTQ1xvlzocdRKQDN29/gWQbxgvLqeZwGOEUkHFZt6IqTQTjyroCzkcMv40/WaoHgcb3HZ86SM0SwMWy9n4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@foundries.io header.s=google header.b=O2g0tDNV;
+ spf=pass (domain: foundries.io, ip: 209.85.160.175, mailfrom: ricardo@foundries.io)
+Received: by mail-qt1-f175.google.com with SMTP id h12so10421755qtu.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 14:34:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3tAAa1g5SR1ijpyC1TyGMJLhXIZolapY+xHnvgd3cOg=;
- b=Uf3J98zUVc+b1vbmU60EJ/s5lPlCp7rqt/YBxAPz/8IatccIQhkl1DTACVvJotKbmV2DQ0eJ/Wso6Sp+BUrRaZBWI5ZvcYVLByNJos6fH0QTKNtNZ9esnjL+8AhjfLkeg8Vo0o4K48xTL1Fyx3q3VGxdv2C76hnIscTH2XSlDpo=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB3514.namprd11.prod.outlook.com (2603:10b6:5:61::26) by
- DM6PR11MB2810.namprd11.prod.outlook.com (2603:10b6:5:ce::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.28; Mon, 2 Nov 2020 22:29:03 +0000
-Received: from DM6PR11MB3514.namprd11.prod.outlook.com
- ([fe80::9945:c647:8f02:4a97]) by DM6PR11MB3514.namprd11.prod.outlook.com
- ([fe80::9945:c647:8f02:4a97%2]) with mapi id 15.20.3499.030; Mon, 2 Nov 2020
- 22:29:03 +0000
-From: "Jason Wessel" <jason.wessel@windriver.com>
+        d=foundries.io; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7CXe6bemsVCFvlBPLKmUkRcM0lldonkxbFZlXs3gvec=;
+        b=O2g0tDNVWTFEVA5D8zQlQp7rKfKXKUVlS+Vk5o63uZ2egoPPJHZUseiwG9qkJUmXq2
+         3exCpOG/s/qXdfF/YKY6sNr970Nm5Qha+zLab4W//oNBc+f5YVimisdWvMzsNmLdDT7q
+         VJU6L/zBvG+KArJSeTgcO+0GlljOCCFLX/c6DaOWJ32c76FLsfHXs1z2oUG3JX5FWtqa
+         TVxkbXiwaSQlfgrdrXN/JSyCw2zqw4mSoNxtWQNTIh7jki4bkMlSeGIyJRzvjkvwGCa1
+         0TvuYFziVSFNd+j8vd4TC6yfAx5fpYJoFhnFMyyhrFMax7zFoYPrgqXcI3r3VFtPJ+Ff
+         GQEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7CXe6bemsVCFvlBPLKmUkRcM0lldonkxbFZlXs3gvec=;
+        b=Iku6XrX3b0ASroP4TP2s1MndW/PcZXDHc/DKhhcLoPXxV1vLnffcOF8JOos5x/REmg
+         aPuzNYvD0VWufsy4HRLD1inr7O8OU7BWjqjFXS/ZcF7S4c3+35k7Sm3magdXYP4e5bYG
+         lHn7eS+TcNZfjDLCRds1No5RArh2A6L43pf3F4BqVTEAbgQsN7s/Mc3vQoCdvCV3u8nS
+         w6NYxZ7T4Tb8AxxuO26onOKSJHD1AaFcKkcgrfTGMlnUENznC4Ekv1m0eL+byzoUKzlj
+         h+lMjpnduW8NuAZgAEeaFU73qckRmYvqkpK77Y1JSsGi6bj8QWtzy9j2XVcLwKiKIYfM
+         o0Rg==
+X-Gm-Message-State: AOAM533GQRKdjMegqzSGbULVNZIEN3Q7lRUMQiM5daKSqzPUCpQDc9jO
+	j6dcazuKQjkC66hp1mS820doIn5J5/yt
+X-Google-Smtp-Source: ABdhPJzh7KUcxi3D307ZgcgNQNM1nLrkL1zoshZtKOVTMtdjU3EU6b7whscdwNVIM4PzDg5FpYe9kg==
+X-Received: by 2002:ac8:7391:: with SMTP id t17mr15809281qtp.289.1604356485977;
+        Mon, 02 Nov 2020 14:34:45 -0800 (PST)
+Return-Path: <ricardo@foundries.io>
+Received: from localhost.localdomain ([2804:7f5:f480:c7b5:49db:70d7:2f40:1936])
+        by smtp.gmail.com with ESMTPSA id p13sm9059635qti.58.2020.11.02.14.34.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2020 14:34:45 -0800 (PST)
+From: "Ricardo Salveti" <ricardo@foundries.io>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] systemd-serialgetty: Switch to TERM=linux
-Date: Mon,  2 Nov 2020 14:28:52 -0800
-Message-Id: <20201102222852.38452-2-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201102222852.38452-1-jason.wessel@windriver.com>
-References: <20201102222852.38452-1-jason.wessel@windriver.com>
-X-Originating-IP: [147.11.105.123]
-X-ClientProxiedBy: SJ0PR13CA0106.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::21) To DM6PR11MB3514.namprd11.prod.outlook.com
- (2603:10b6:5:61::26)
-Return-Path: jason.wessel@windriver.com
+Subject: [PATCH v2] dosfstools: add mkfs.vfat to ALTERNATIVE
+Date: Mon,  2 Nov 2020 19:34:29 -0300
+Message-Id: <20201102223429.9234-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by SJ0PR13CA0106.namprd13.prod.outlook.com (2603:10b6:a03:2c5::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.10 via Frontend Transport; Mon, 2 Nov 2020 22:29:03 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 33ea92fe-d82f-414a-9579-08d87f7eb3df
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2810:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB28105081B89B3DC05771763097100@DM6PR11MB2810.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:169;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	fkUJde+MQKMmeF2mgU9HU3V155gzMVBEa8LQ4qc8ETVOEgxxRN6YFAaNP5sX3vD33n4255W7Vne7AZhf7aR6l4SGI38HIks8nE/luJvzNfISYLKmhiQDHOE222PTsqnc8VnwoegvLQDvlpalrSr3Lz0W4LJ9ZmnOZr1Vr9Fx5c2gbm5okDRFnnvyXjfa4WofHz0UqfNm5j+KqD2jmHrdpZfZbj1erbc6z9Tp4rYkMxggILZWL3AqpcCx6Cqw42T1JYI1L92jo/tVxDCBZAo/VXsQq6MBt/ZieD5LIFNko1/Bq5mgzCnhOfew41K3pFO8tEB5zeYL5LLiZlXVxRBxLA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3514.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(376002)(396003)(346002)(136003)(6506007)(956004)(66476007)(52116002)(66556008)(66946007)(2616005)(6512007)(26005)(186003)(16526019)(83380400001)(5660300002)(1076003)(6666004)(36756003)(8676002)(44832011)(6486002)(316002)(86362001)(2906002)(8936002)(478600001)(6916009);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	afr6Clex5wL86K6/IVFsLMtbFH40mlRYen03FVNnlT6AOhaMHoXBn7XO9cdbldTCc3+vbuc03T2wdZ5jdi3D+RoV3ugzGTJVEdghQH4AvLPu1hONvxJnuZ8Y9Phk7zXOPSeAAX7eEVNg58skVIDBCZuE91yrhuUIhsYvd7uyd1Fz0wNIFqIWAHW1aJlEnGcmVrr8zT51NYXbiw88FMimqWKcypIJUQcmMfwPdQi7Son45vHrE7B61KKsmT6ODfG63SI4UysAnyA0hXMBNx91axUhAySRFWMxzganxUGfpjQCG5yoCIEi7EhdWCEGIMVBHkiNq+VvQdcmlf1caIfyn/LZmcpBAbXHFK88wEqQholbQ4CEOwKyFMe/IQUqkWdXAN2mE8Neqh8+9kNmNgVUsMVNnsfSaaAj+9wuTIduzEEDYYpRBQQRcMKuoW+iJQy5dKt8FxtEcZcGa+S6l/AfSb87Uzr3cVurBZguyOAEQVwDl2nsSXkGUwLRnwpvB1wPyqvLko47DDzUrW/un/lQ2q9tBiGvfJs0El0/FVKPydlYKNzwFPJfII+mBeboPYJIk4PHyHiwTrcAI26BHP/zKVBDLpe/pci+Z93EHpBj509PyVPkCeyCuV9jCPe+JABzbJoHLt6dFrJD74vBWNvUuA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33ea92fe-d82f-414a-9579-08d87f7eb3df
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3514.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 22:29:03.5255
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +pYpgTv+PRG4F/7KRKCsYof0QOVsfCoB4JIukaM6HddFVU6ST/6Zo6KG7IfHfYXbyZOj9L6loPaJxEapdeBvIrdQRBXxnxfopvmWYCcxz6w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2810
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Long ago in commit 473ff65c2f69de4ece3204fadfae7c5cb992149a
-(serial-getty service: Add xterm as default TERM), the xterm
-became the default for the serial port terminal.
+The mkfs.vfat tool can also be provided by busybox via the CONFIG_MKFS_VFAT
+configuration (not enabled by default in OE but can be enabled on
+systems avoiding components based on GPLv3).
 
-Using the version of vim.tiny in oe-core master with the
-serial port connected in xterm version 322 (which is one
-of the most widely deployed versions at the current time)
-causes artifacts and missed characters.
-
-The example sequence is the following:
-  * Start vim
-  * Press "i" to enter input mode
-  * Type "123"
-  * Press Escape to enter command mode
-  * Press "a" to enter append mode
-  * Type "456"
-
-At this point if you are using xterm less than version 535 you will
-see on your screen "12456" instead of "123456".
-
-Changing the TERM variable to "linux" will still allow you to have all
-the same functionality with colorization, ansi character escapes
-etc..., but will avoid the extra xterm specific escape sequence that
-only exists in the most recent versions of xterm.
-
-This patch allows the end user to set the serial terminal type to
-something other than the new default of "linux" by changing the
-SERIAL_TERM variable in local.conf.  For example:
-    SERIAL_TERM = "xterm"
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
 ---
- meta/recipes-core/systemd/systemd-serialgetty.bb                | 2 ++
- .../systemd/systemd-serialgetty/serial-getty@.service           | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 0cc0dc8c79..d142b30f7e 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
- PR = "r5"
+v2:
+- changed base_sbindir to sbindir
+
+ meta/recipes-devtools/dosfstools/dosfstools_4.1.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb b/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
+index 97ce449954..4bd4aef099 100644
+--- a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
++++ b/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
+@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "e6b2aca70ccc3fe3687365009dd94a2e18e82b688ed4e260e04b741247
  
- SERIAL_CONSOLES ?= "115200;ttyS0"
-+SERIAL_TERM ?= "linux"
+ UPSTREAM_CHECK_URI = "https://github.com/dosfstools/dosfstools/releases"
  
- SRC_URI = "file://serial-getty@.service"
+-inherit autotools pkgconfig
++inherit autotools pkgconfig update-alternatives
  
-@@ -22,6 +23,7 @@ do_install() {
- 		install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
- 		install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unitdir}/system/
- 		sed -i -e "s/\@BAUDRATE\@/$default_baudrate/g" ${D}${systemd_unitdir}/system/serial-getty@.service
-+		sed -i -e "s/\@TERM\@/${SERIAL_TERM}/g" ${D}${systemd_unitdir}/system/serial-getty@.service
+ EXTRA_OECONF = "--without-udev --enable-compat-symlinks"
  
- 		tmp="${SERIAL_CONSOLES}"
- 		for entry in $tmp ; do
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-index 549d566009..b16fe1188e 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-+++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
-@@ -29,7 +29,7 @@ Conflicts=rescue.service
- Before=rescue.service
+@@ -26,3 +26,7 @@ BBCLASSEXTEND = "native nativesdk"
  
- [Service]
--Environment="TERM=xterm"
-+Environment="TERM=@TERM@"
- ExecStart=-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
- Type=idle
- Restart=always
+ # Add codepage437 to avoid error from `dosfsck -l`
+ RRECOMMENDS_${PN}_append_libc-glibc = " glibc-gconv-ibm437"
++
++ALTERNATIVE_PRIORITY = "100"
++ALTERNATIVE_${PN} = "mkfs.vfat"
++ALTERNATIVE_LINK_NAME[mkfs.vfat] = "${sbindir}/mkfs.vfat"
 -- 
-2.17.1
+2.29.2
 
