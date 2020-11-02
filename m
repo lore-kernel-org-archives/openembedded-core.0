@@ -1,105 +1,204 @@
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
- by mx.groups.io with SMTP id smtpd.web10.1856.1604337879934297473
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web09.2038.1604338605768943973
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 09:24:40 -0800
+ Mon, 02 Nov 2020 09:36:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qOn9WGT9;
- spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f66.google.com with SMTP id u7so7865531vsq.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 09:24:39 -0800 (PST)
+ dkim=pass header.i=@google.com header.s=20161025 header.b=taRKY3rW;
+ spf=pass (domain: google.com, ip: 209.85.167.50, mailfrom: foremans@google.com)
+Received: by mail-lf1-f50.google.com with SMTP id j30so18505842lfp.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 09:36:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AfIecI7XvKGsydOJfxmXr0ZXgO75eAaw1sbdBApqRcs=;
-        b=qOn9WGT9rqVd0I0igQG+nJJ8JmHovV3Dhlud0JwjFHf6sImnS4jJOXW6qVHAGtD34z
-         FWUwZIg9/rI6c+hpY9N2sJoRYr9KLTrGRQBtGcI0duOj54GhUhAOv2/aJBfLuIkFG190
-         fw7yiC+7edhD0HEpBSREG3lzP1Aa82V39u3TW3651UHKzUXsdTxMZJ76iD6aCDESne5g
-         2zYFw1EEn7SCGq3K18GR+Qu9rhi08NgVA+SAOswJJBGSSqz/a7wiQbugtvBRSjDk3nM1
-         9hNItireMd6hHEIurrHbkllzOBohcXOKT//Yndq7EfvYfy20f1+0oEIIrsTEsLxGMTop
-         Njgg==
+        bh=QIuC4X36gJxgn+HlAhMNYoYjTde1y7Lgv1e3RA9GacE=;
+        b=taRKY3rWpFynx5SW1uYrjvxriZcVqp4A878j0rvSy9k71bgvyUdf20VpbEfVNvCOYp
+         /DNzenduF8iGzt+4XJo7DyBu9+qC1Y6B6pCpgualmV6Pb3OgMAHmIyl91ODgWUTJcz5C
+         NfIvEfWzkqJ/wInBG0n1PSkjQB6SeLu3XN6qX9hHeSbQMjGMMRL38O7aErMalFb1xz7q
+         WMKvs1/IxJStAPjoVJt2gl1WIeelqwPL4lEc4LxjS3/hS6zUUK/3vbKBWNyzb69qmo2f
+         Q1+XyMU0mmYbSxRZRtVrYHQTP0a54FkAsc8trY4bHKMn+GUhvOJGHwwAxFjB0LBJDBlu
+         21tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AfIecI7XvKGsydOJfxmXr0ZXgO75eAaw1sbdBApqRcs=;
-        b=UPtvFPHz6aBfbvsa6KDK6ciV0scmP/ls1pYB3ZmcwTEzsCoVckvNgBkWjYz5BIE/ZQ
-         vUUiwykl6a2yLFC1JmuBHTxTpurdFP5KtgLv2uiBIGcqbEZCypVyUkvGdXZa+lTUITmP
-         s2ni3dSbTFDHnZr+OqZinATdmppvbN3tfxjqN2y+nZUcoIkl4Sd4dr4vSfe2y7ellSV8
-         QFwlcuI07V4CVzxPsoaODmYiTh+8HuTVE0n6CVwCLEOHJggGFcJYneQPS8xlUWGit1rz
-         pg4AeUGi2dkG8zHIi2id0bcfccjju4Q9QSJAcbw0xAx8SQvGZbebE9SFUJZN7t7NFKIZ
-         BO7Q==
-X-Gm-Message-State: AOAM532aXvoEf0I+Fzye03HKuBaISJOB26U/qWcJNNKtBTlud7fLwRDY
-	SyXb7Z4WzVmI+acQh176DLpXc0rHA/FaNPhVZao=
-X-Google-Smtp-Source: ABdhPJyaqMfSEPA2oDNjLI34scYRKyT4VK9DkAuMIb2lfwLz3YmjHhGzZUiEM01UOPv7XAoCeGid21wWiPrDq9gMvgg=
-X-Received: by 2002:a67:1087:: with SMTP id 129mr15387162vsq.41.1604337879171;
- Mon, 02 Nov 2020 09:24:39 -0800 (PST)
+        bh=QIuC4X36gJxgn+HlAhMNYoYjTde1y7Lgv1e3RA9GacE=;
+        b=Zw8SdzNjNg4rpUzlSnpYQgbjm07kdcMmYN7Uf0Vd3Fyf/frZfXonyfK9Sx5zX572oJ
+         znyjWt+OV8hVbK0sZDn2JrSBtiVkiA9ABVEeiG0ZsifRoUgxncHEMgTjR8Gm5KaPTAUe
+         K1KqAKKPnUYo2tLFjKVHfdH/7zvVi456BHWZFeUQO6SDvL1EkYfWjXJ9B7cYPVfAHj8Z
+         psO71NZva/exwHNT2gknGv+2lLyEu9W88cQA16pLzPHjT7qlDlsYDgTXo1eVtBHBQmH8
+         Qs6CVCR4ByZASVsUWKk+CJvHpAAVFbzA9/tWRTjY/9r+NznBYWVRHPjQELmv1F4zmtk8
+         w1uw==
+X-Gm-Message-State: AOAM530q207i+8AJv7NWjjSiQ92N+6hrnz4g43PgyMnGcxUS00yzagtD
+	XseuESLgF/40AtjW/Kg01h1IPYvp1RGh8bHhRfwR6Q==
+X-Google-Smtp-Source: ABdhPJw/inok0dFE/MEcXS2LWjlEBu3G148bOATKRCiIxNhNvWy+KnuP8LbekuMo5vkacRBqRc6fQ3nOqlJdMW38mvQ=
+X-Received: by 2002:a19:87:: with SMTP id 129mr5736705lfa.164.1604338603850;
+ Mon, 02 Nov 2020 09:36:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20201102164907.27572-1-alex.kanavin@gmail.com>
- <20201102164907.27572-48-alex.kanavin@gmail.com> <3f8aa9dc-ef61-e498-2e3a-1c3efddad253@gmail.com>
-In-Reply-To: <3f8aa9dc-ef61-e498-2e3a-1c3efddad253@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 2 Nov 2020 18:24:27 +0100
-Message-ID: <CANNYZj8dfikRckpgfogbysKdZU_5n3jRqPJh3eH2ijFx7d2O+A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 48/80] kea: upgrade 1.7.10 -> 1.9.1
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000006347bc05b323058f"
+References: <CAAOsEjUKH61YhBDiS7xzhT6kYYeW2Qbr_4GF2ZsM18z4xRGS-Q@mail.gmail.com>
+ <CANNYZj8TBSHhTguu0g2zkpX7k9LObs6Xzw4C0PUCzEY18gLHeQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8TBSHhTguu0g2zkpX7k9LObs6Xzw4C0PUCzEY18gLHeQ@mail.gmail.com>
+From: "Steve Foreman" <foremans@google.com>
+Date: Mon, 2 Nov 2020 09:36:32 -0800
+Message-ID: <CAAOsEjUoW-gOttYRdn-ko5s48RyG_-Byxb9Qjw3Y1RXNaZmNMg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] Fix a build error about missing '_sysconfigdata'
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Josh Lehan <krellan@google.com>
+Content-Type: multipart/alternative; boundary="00000000000095580505b32330d8"
 
---0000000000006347bc05b323058f
+--00000000000095580505b32330d8
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2 Nov 2020 at 18:19, akuster808 <akuster808@gmail.com> wrote:
+I'm not sure how to reproduce it without using our internal configs, so I
+don't have specific useful instructions to reproduce it, unfortunately.
 
-> On 11/2/20 8:48 AM, Alexander Kanavin wrote:
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.9.1.bb} | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  rename meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.9.1.bb}
-> (96%)
+The basic steps are simply:
+
+1. Download fresh repo
+2. Source setup script & bitbake obmc-phosphor-image as usual
+3. Once the build is complete, devtool modify phosphor-ipmi-host
+
+The error is generated during the devtool modify step
+
+I have not tried these steps with other meta/configs, so it might not
+reproduce on all of them.
+
+On Thu, Oct 29, 2020 at 9:10 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> Unfortunately, this doesn't fix the actual issue: why is the build
+> environment leaking? A few patches similar to this one have been shot down
+> before.
 >
-> do we care if we have a stable version or development version in core?
+> If you can provide steps to reproduce, I can try to take a look.
 >
-> 1.8 EOL's in 2022 Q1
+> Alex
 >
+> On Thu, 29 Oct 2020 at 16:35, Steve Foreman via lists.openembedded.org
+> <foremans=google.com@lists.openembedded.org> wrote:
+>
+>> This error is generated because of internal build environment is leaking
+>> and pulling in host libraries:
+>>
+>> Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+>>
+>> In this case, xmlprc.server is pulling in pydoc which ultimately hits
+>> the error.
+>>
+>> Signed-off-by: Steve Foreman <foremans@google.com>
+>> ---
+>>  poky/bitbake/lib/prserv/serv.py | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/poky/bitbake/lib/prserv/serv.py
+>> b/poky/bitbake/lib/prserv/serv.py
+>> index 25dcf8a0e..f462f3dcc 100644
+>> --- a/poky/bitbake/lib/prserv/serv.py
+>> +++ b/poky/bitbake/lib/prserv/serv.py
+>> @@ -4,6 +4,11 @@
+>>
+>>  import os,sys,logging
+>>  import signal, time
+>> +
+>> +# Otherwise this fails when called from recipes which e.g. inherit
+>> python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
+>> +# No module named '_sysconfigdata'
+>> +if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
+>> +    del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
+>>  from xmlrpc.server import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
+>>  import threading
+>>  import queue
+>> --
+>> 2.29.1.341.ge80a0c044ae-goog
+>>
+>> 
+>>
+>>
 
-I guess we do, which means the recipe should inherit upstream-version is
-even, to avoid erroneous updates to development series.
-
-This patch can be dropped then, to be replaced later by 1.8 update.
-
-Alex
-
---0000000000006347bc05b323058f
+--00000000000095580505b32330d8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 2 Nov 2020 at 18:19, akuster808 &=
-lt;<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wro=
-te:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
-On 11/2/20 8:48 AM, Alexander Kanavin wrote:<br>
-&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
-ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-connectivity/kea/{<a href=3D"http://kea_1.7.10.bb" =
-rel=3D"noreferrer" target=3D"_blank">kea_1.7.10.bb</a> =3D&gt; <a href=3D"h=
-ttp://kea_1.9.1.bb" rel=3D"noreferrer" target=3D"_blank">kea_1.9.1.bb</a>} =
-| 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;=C2=A0 rename meta/recipes-connectivity/kea/{<a href=3D"http://kea_1.7.=
-10.bb" rel=3D"noreferrer" target=3D"_blank">kea_1.7.10.bb</a> =3D&gt; <a hr=
-ef=3D"http://kea_1.9.1.bb" rel=3D"noreferrer" target=3D"_blank">kea_1.9.1.b=
-b</a>} (96%)<br>
+<div dir=3D"ltr">I&#39;m not sure how to reproduce it without using our int=
+ernal configs, so I don&#39;t have specific useful instructions to reproduc=
+e it, unfortunately.<div><br></div><div>The basic steps are simply:</div><d=
+iv><br></div><div>1. Download fresh repo</div><div>2. Source setup script &=
+amp; bitbake obmc-phosphor-image as usual=C2=A0</div><div>3. Once the build=
+ is complete, devtool modify phosphor-ipmi-host</div><div><br></div><div>Th=
+e=C2=A0error is generated during the devtool modify step</div><div><br></di=
+v><div>I have not tried these steps with other meta/configs, so it might no=
+t reproduce on all of them.</div></div><br><div class=3D"gmail_quote"><div =
+dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 29, 2020 at 9:10 AM Alexander =
+Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+><div dir=3D"ltr"><div>Unfortunately, this doesn&#39;t fix the actual issue=
+: why is the build environment leaking? A few patches similar to this one h=
+ave been shot down before.</div><div><br></div><div>If you can provide step=
+s to reproduce, I can try to take a look.<br></div><div><br></div><div>Alex=
+<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Thu, 29 Oct 2020 at 16:35, Steve Foreman via <a href=3D"http:/=
+/lists.openembedded.org" target=3D"_blank">lists.openembedded.org</a> &lt;f=
+oremans=3D<a href=3D"mailto:google.com@lists.openembedded.org" target=3D"_b=
+lank">google.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">This error is gener=
+ated because of internal build environment is leaking<br style=3D"font-fami=
+ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">and pullin=
+g in host libraries:<br style=3D"font-family:Roboto,&quot;Helvetica Neue&qu=
+ot;,Helvetica,Arial,sans-serif"><br style=3D"font-family:Roboto,&quot;Helve=
+tica Neue&quot;,Helvetica,Arial,sans-serif">Exception: ModuleNotFoundError:=
+ No module named &#39;_sysconfigdata&#39;<br style=3D"font-family:Roboto,&q=
+uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br style=3D"font-fami=
+ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">In this ca=
+se, xmlprc.server is pulling in pydoc which ultimately hits<br style=3D"fon=
+t-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">the =
+error.<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,=
+Arial,sans-serif"><br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot=
+;,Helvetica,Arial,sans-serif">Signed-off-by: Steve Foreman &lt;<a href=3D"m=
+ailto:foremans@google.com" style=3D"font-family:Roboto,&quot;Helvetica Neue=
+&quot;,Helvetica,Arial,sans-serif" target=3D"_blank">foremans@google.com</a=
+>&gt;<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,A=
+rial,sans-serif">---<br style=3D"font-family:Roboto,&quot;Helvetica Neue&qu=
+ot;,Helvetica,Arial,sans-serif">=C2=A0poky/bitbake/lib/prserv/serv.py | 5 +=
+++++<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Ar=
+ial,sans-serif">=C2=A01 file changed, 5 insertions(+)<br style=3D"font-fami=
+ly:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif"><br style=
+=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-ser=
+if">diff --git a/poky/bitbake/lib/prserv/serv.py b/poky/bitbake/lib/prserv/=
+serv.py<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica=
+,Arial,sans-serif">index 25dcf8a0e..f462f3dcc 100644<br style=3D"font-famil=
+y:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">--- a/poky/=
+bitbake/lib/prserv/serv.py<br style=3D"font-family:Roboto,&quot;Helvetica N=
+eue&quot;,Helvetica,Arial,sans-serif">+++ b/poky/bitbake/lib/prserv/serv.py=
+<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,=
+sans-serif">@@ -4,6 +4,11 @@<br style=3D"font-family:Roboto,&quot;Helvetica=
+ Neue&quot;,Helvetica,Arial,sans-serif"><br style=3D"font-family:Roboto,&qu=
+ot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import os,sys,log=
+ging<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Ar=
+ial,sans-serif">=C2=A0import signal, time<br style=3D"font-family:Roboto,&q=
+uot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+<br style=3D"font-fam=
+ily:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+# Otherw=
+ise this fails when called from recipes which e.g. inherit python3native (w=
+hich sets _PYTHON_SYSCONFIGDATA_NAME) with:<br style=3D"font-family:Roboto,=
+&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif">+# No module named &=
+#39;_sysconfigdata&#39;<br style=3D"font-family:Roboto,&quot;Helvetica Neue=
+&quot;,Helvetica,Arial,sans-serif">+if &#39;_PYTHON_SYSCONFIGDATA_NAME&#39;=
+ in os.environ:<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,H=
+elvetica,Arial,sans-serif">+=C2=A0 =C2=A0 del os.environ[&#39;_PYTHON_SYSCO=
+NFIGDATA_NAME&#39;]<br style=3D"font-family:Roboto,&quot;Helvetica Neue&quo=
+t;,Helvetica,Arial,sans-serif">=C2=A0from xmlrpc.server import SimpleXMLRPC=
+Server, SimpleXMLRPCRequestHandler<br style=3D"font-family:Roboto,&quot;Hel=
+vetica Neue&quot;,Helvetica,Arial,sans-serif">=C2=A0import threading<br sty=
+le=3D"font-family:Roboto,&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-se=
+rif">=C2=A0import queue<font style=3D"font-family:Roboto,&quot;Helvetica Ne=
+ue&quot;,Helvetica,Arial,sans-serif" color=3D"#888888"><br>--<br>2.29.1.341=
+.ge80a0c044ae-goog</font><br></div>
 <br>
-do we care if we have a stable version or development version in core?<br>
 <br>
-1.8 EOL&#39;s in 2022 Q1<br></blockquote><div><br></div><div>I guess we do,=
- which means the recipe should inherit upstream-version is even, to avoid e=
-rroneous updates to development series.</div><div><br></div><div>This patch=
- can be dropped then, to be replaced later by 1.8 update.<br></div><div><br=
-></div><div>Alex<br></div></div></div>
+<br>
+</blockquote></div>
+</blockquote></div>
 
---0000000000006347bc05b323058f--
+--00000000000095580505b32330d8--
