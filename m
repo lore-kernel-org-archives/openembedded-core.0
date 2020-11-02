@@ -1,72 +1,86 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web08.524.1604348256722034146
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+ by mx.groups.io with SMTP id smtpd.web09.555.1604348358637545783
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 12:17:37 -0800
+ Mon, 02 Nov 2020 12:19:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pNVbcOHD;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id l16so15667442eds.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 12:17:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vUzGJySW;
+ spf=pass (domain: gmail.com, ip: 209.85.222.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f41.google.com with SMTP id x26so4321697uau.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 12:19:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MezL3t5yUoNFuRdsVyF5r6h0EGc0AemIWd9K/P60g2E=;
-        b=pNVbcOHDJEEBPIzpzJ0MTZoEFx9SN2g36kggWmFFPpatETHr1MsRuv1YjICAWOSNd+
-         Ai/dPpecnmPb6vEBWHejDnkYzlU7krqb2MyfKByvgZc+GdSQwsXKoNCLVcF/v2oYzs+O
-         ecFyGDTkzpquOB9wJ7NjJijg1B0RC9Du6RDvOLcfoMX5vuRXSQHp4MVxDpeUtkpOxX3+
-         w1b64d6tIG6r0Gx+fUj01lnAKB9aYFKuPFH3k0wgYTjSojGwGI+ZSDkMkcg/o8FXqheJ
-         Xw70IpEJBl1t//QSMk/LRNXiQ+mPjHzp22wYy6s6/vd8DvcedaOVSidgOk+wo1akFlpl
-         uW1w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N9ZPg1ZSZRhIHcv23dHorxQFPQeDFnqHTkdeDVAsWew=;
+        b=vUzGJySWgLLE1Z3WhjwWONeGMAE7IKnka6MG6+nVv1eDaz/rBNUufGRuQRQqCOL0G3
+         0EoI5FifJPmydwGAIWldxN7f7+RZfLFllyT5ZcuxqILasIsJxHEp9qWrqaZjU7WIa5Ff
+         IMGkinIa44GbyqNqvLrIjYRjU7P4mDdCCFFrqtlLwhChQHJErGjn+bilRMR+DHO26ITb
+         7ocT0FA7qreyFGlya61VrALQGobAPFvODDy3MwchQ9AFvVwGwPoFDG7gObtxYmuiOWpQ
+         a7Xc2pOXxoiWXjV4RClILSLa9kz8Zipz9Rn6uZd9NjaRmTOTe0bA4Wz22RJGksJs5rv2
+         VqsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MezL3t5yUoNFuRdsVyF5r6h0EGc0AemIWd9K/P60g2E=;
-        b=PRxvE8V5xWJ7WkDsCb9hy5qsGgTP1C/OA451Eh2Y5CE8f5I0hiVyK8N2vlmpvshpHJ
-         usHRwtIKp2eeLQJ/zUyqWW2JqGw1jzlHA5jnQqWBnhD5AdxTLSidsQwLAGQBsMoXWz/R
-         fsmGuKBI5+AeK18P9T+UjEENC7fB3sFhNJqeFTxl9oKwINV7zOKOSKk/12CbWpUzQaBa
-         LIAz2/VbApLLkWQqxcJRrMP0Jg22tRTwEozcmBkiU8lZWJZ0zB0FNBaBn0L0uvPMOGFT
-         QvHk7yJ7YvGL9ucVEM97mxCq8o+qSR+jBrL5LsPBJIVYlavtMgy/mLxHnGLU2ykMRVOh
-         VRBQ==
-X-Gm-Message-State: AOAM53278jgkqIYEyEE7bMwAP31QTRx499P7MOcwYhXt8qQs45de9Cs2
-	ouSCdmj3u/9JVPlpyBGBtPBBbz4KjS0t1Q==
-X-Google-Smtp-Source: ABdhPJzp2xRXmRPbWrWcL9ezXE+XIcIHuyaG6bwrVbz1t76s3YsIBNFD2GyolCRY1mYSoGU2H+0ezw==
-X-Received: by 2002:a05:6402:1590:: with SMTP id c16mr18779010edv.359.1604348254961;
-        Mon, 02 Nov 2020 12:17:34 -0800 (PST)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id j20sm10788117edt.4.2020.11.02.12.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 12:17:34 -0800 (PST)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] kea: use odd-even version scheme for updates
-Date: Mon,  2 Nov 2020 21:17:27 +0100
-Message-Id: <20201102201727.29963-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N9ZPg1ZSZRhIHcv23dHorxQFPQeDFnqHTkdeDVAsWew=;
+        b=FHMxwI0ycE90Lr4wPKc/pXUkUrhnaBFdqQKMOT+X6c83vUjqXd2eY4Wl0+1hHPhaGT
+         JkNf3UCDdINWFrH6OeXdz+y4+dfES1t17obkCssjA80N7YIY84kuw7VIRi9KoRyOXHgU
+         5l58iDCK76CMZVQuIwUyLXi9au307OhFsIe+5G3riWps2F/SidO3WpWOxTj7RC2TMEL8
+         Yz4f0abQh5sQtJrG9VqOjvcoj3AIh+hBNXNpngz1JVglFE/XR1aEtBAw/PmfR7SM2wDR
+         /RyX1H8PH1EJXQzCX5fM4nY5ff24opSri/CajqGlfOZ0rwIDiS6btTEZWZnKuStjerv3
+         PuCA==
+X-Gm-Message-State: AOAM531IrKRGi3HbPl8lmcLxrhtFR6zCIVRpqzUNFb/ueolWQcL6fc6b
+	LLWZjFdXAtM8+0ugyIX1+5uYAsd2mrpYCdQiODk=
+X-Google-Smtp-Source: ABdhPJwZXAwf44ZWBS6WrGjOa15fE4ku9IhZBlPMfDmvKZnRSOnqGE+DODQM8/LolgFa4abIYGUQBGZrtK8BlFtee4k=
+X-Received: by 2002:ab0:23cc:: with SMTP id c12mr4643444uan.89.1604348357843;
+ Mon, 02 Nov 2020 12:19:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201102164907.27572-1-alex.kanavin@gmail.com>
+ <20201102164907.27572-48-alex.kanavin@gmail.com> <3f8aa9dc-ef61-e498-2e3a-1c3efddad253@gmail.com>
+ <1643C0CD4D3FE498.21917@lists.openembedded.org>
+In-Reply-To: <1643C0CD4D3FE498.21917@lists.openembedded.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 2 Nov 2020 21:19:06 +0100
+Message-ID: <CANNYZj9bGNCJZKWg9d0rViSuCmOMVr+8jssPRXWKfWy84NKxmA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 48/80] kea: upgrade 1.7.10 -> 1.9.1
+To: akuster808 <akuster808@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="000000000000f7221405b3257553"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-connectivity/kea/kea_1.7.10.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--000000000000f7221405b3257553
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-index c9a5819e47..1d011ace78 100644
---- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-@@ -21,7 +21,7 @@ SRC_URI = "\
- "
- SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
- 
--inherit autotools systemd update-rc.d
-+inherit autotools systemd update-rc.d upstream-version-is-even
- 
- INITSCRIPT_NAME = "kea-dhcp4-server"
- INITSCRIPT_PARAMS = "defaults 30"
--- 
-2.29.0
+On Mon, 2 Nov 2020 at 18:24, Alexander Kanavin via lists.openembedded.org
+<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
 
+> I guess we do, which means the recipe should inherit upstream-version is
+> even, to avoid erroneous updates to development series.
+>
+> This patch can be dropped then, to be replaced later by 1.8 update.
+>
+
+I sent a replacement patch to use only even versions. Then AUH should re-do
+the update to 1.8.x in a couple weeks.
+
+Alex
+
+--000000000000f7221405b3257553
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Mon, 2 Nov 2020 at 18:24, Alexander Kanavin via <a href=3D"http:/=
+/lists.openembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a h=
+ref=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedde=
+d.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><div dir=3D"ltr">I guess we do, which means the recipe should inherit =
+upstream-version is even, to avoid erroneous updates to development series.=
+<div class=3D"gmail_quote"><div><br></div><div>This patch can be dropped th=
+en, to be replaced later by 1.8 update.<br></div></div></div></blockquote><=
+div><br></div><div>I sent a replacement patch to use only even versions. Th=
+en AUH should re-do the update to 1.8.x in a couple weeks.</div><div><br></=
+div><div>Alex<br></div></div></div>
+
+--000000000000f7221405b3257553--
