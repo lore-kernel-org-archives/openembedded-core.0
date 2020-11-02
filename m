@@ -1,50 +1,50 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web10.1241.1604335791011998221
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.1242.1604335791780258877
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:51 -0800
+ Mon, 02 Nov 2020 08:49:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YpEoHmVW;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id oq3so17944388ejb.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CzccWEIe;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id oq3so17944441ejb.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TvVsfk31dWoEM3gJ9+ZvZTA7yvzadUtn7xOq1o14gJw=;
-        b=YpEoHmVWG4ag49XvnKukAulZGTZd4TwLUn7mqaLH7Xo+TXZBBkGTsLOlH7jYMFq7MR
-         bFr0JflyW/E6ltwkpJG8i73j+l/ztZLXQp/axVRTuRa9Kxr6MeeQpe6gpoiFxmtNRJ9z
-         sRF7cBGtnutPATVPMbUFSElbVbXZJnU7fiwI6hfy56J0F0hrRcRtWuaSTLvEVLTuJAjq
-         ECzhx5httmbHP2irfrX09WzPlO3+2CIZQMomtXv8Vyfue5/xYTck9Y64U6oJZy7itSrl
-         yVX+D/sH+Ib3q++k+q+fPEPSTghkQlB7Bw5Z4qLHeZZcjUfHy5Ci/qoKNFIMhWzo+bVC
-         V8cw==
+        bh=aCtOxMc1wuvIlY7S1t8t8YtO4pL7HsUVVR5K0E8foCE=;
+        b=CzccWEIeSAoZqD1SgfnRJdzoxgM27khikmU0P132f0eeXuqci5Lteopko4mr4Y/X0v
+         7O2SOjQBmQRzaSh9hz4GlyIp4FGle10NNeMBv95ccIDp98B/whD07HyuxM0PofFuY6O3
+         SP+kRM5zbTE88Qdp8l+sw/kZAMvghXwkOKK9ma12NiGiQbZ9CCQ/vPyEPBKsXU7/+kpf
+         mvryQXsOMw3Y03Ci+2lZf553ext11pTvtskdHJ9S9An08Kkri5ElNJyMZy6JV9V0XfGl
+         8WW2JEBSAy3c7UeVjAcOzVuqqlgIm5VMgiMjYmLeExqJ02HZYoaCcEvdh1d51x8bXZB2
+         UITg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TvVsfk31dWoEM3gJ9+ZvZTA7yvzadUtn7xOq1o14gJw=;
-        b=FAT9ed3vKTxCHWHl9YL11qsZq0H/znGzsCrlXzcUi2QkcaeJCxl8QMR97z+RZtEK+o
-         PLBje0X+CEwor05arMzPn7CouZe4W9oCsyCMgqSM7xiD/JiLupQbgET8ezXoeEd/LQ4a
-         LGGQd2ytG3+BtMBoyXxoICWb7tEkYf1vBP46wlODx23uJCN5tITPGQzXxYARD/5bVnis
-         TK27oMS4K3YdTVi8++GtcGg7MltgXj6gQEce+dCmKAws1At0FEl+721DUW/NjWg+lkYj
-         NjbvCeDE5yAotlqxuMUx5WWunj7RFD+88vFxy+rOT7sAR4iuwgf+fPduhTa7ajxAhEv+
-         QcpQ==
-X-Gm-Message-State: AOAM531CUo8fjoKq3iSPzQYhToe9njj1vrbyJIEdLb72OmyUMj98o7h1
-	Y0msWZWJLFatn2wDxXBfTW0ytaCeLIaqjw==
-X-Google-Smtp-Source: ABdhPJwAZmltyJucYV01kj+Ifpy/jKTdGbkmeOYrZtDRRJkUGQSbuslSPd/iEXKJZFd3uMgd6do9dA==
-X-Received: by 2002:a17:906:2b83:: with SMTP id m3mr16076448ejg.456.1604335789259;
-        Mon, 02 Nov 2020 08:49:49 -0800 (PST)
+        bh=aCtOxMc1wuvIlY7S1t8t8YtO4pL7HsUVVR5K0E8foCE=;
+        b=JroZKqanjCz650DK7vLrzIadu0KEWy8jp1tcKJSTh5Ux1uvjswJspUTQrv6DX6noN6
+         b87IzdUJ9BqKrL/TUcZLqFMpB7k0QAgJJ/Z67dKE7LvTKzhIWTyhikpS87+BlAC62GWX
+         Vo9khtO0CZCbYzrhAnTT6matJKjdwdFdrhCITF8btfzpYy1WDNsIJ7O38BTFD+b9q1yM
+         bm0MwozmxuOrRL4aSXyOBpSMEDGveVieaaFISJJdYn550LQ5zQrnwKKtsEyG63OlKyjy
+         AFhHIpPD/yLWfMZyxO/CGHU9qjUdy8vNJYtr362Gy9RAwvfYFny0wnjMJqZhzzDRFJDb
+         Imlg==
+X-Gm-Message-State: AOAM531FCnPnlePirAyu0KnKi8m82NCYnpvssDFfbP2R7bqLF21hYPS4
+	hhTLvEEW3oA0mVHHaYsLTYuNdfCVs7ga/Q==
+X-Google-Smtp-Source: ABdhPJxRHj+M3R+k5TbsGnC+gV2ZKP/JhLyaaGVaKCmOnC4oNdt4B4VsXdFCFv5YgmUFgJD1dk1fww==
+X-Received: by 2002:a17:906:6805:: with SMTP id k5mr16763190ejr.79.1604335790093;
+        Mon, 02 Nov 2020 08:49:50 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.48
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:48 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:49 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 36/80] libva-utils: update 2.8.0 -> 2.9.1
-Date: Mon,  2 Nov 2020 17:48:23 +0100
-Message-Id: <20201102164907.27572-36-alex.kanavin@gmail.com>
+Subject: [PATCH 37/80] libwpe: upgrade 1.7.1 -> 1.8.0
+Date: Mon,  2 Nov 2020 17:48:24 +0100
+Message-Id: <20201102164907.27572-37-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,28 +53,23 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libva/{libva-utils_2.8.0.bb => libva-utils_2.9.1.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/libva/{libva-utils_2.8.0.bb => libva-utils_2.9.1.bb} (90%)
+ meta/recipes-sato/webkit/{libwpe_1.7.1.bb => libwpe_1.8.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-sato/webkit/{libwpe_1.7.1.bb => libwpe_1.8.0.bb} (88%)
 
-diff --git a/meta/recipes-graphics/libva/libva-utils_2.8.0.bb b/meta/recipes-graphics/libva/libva-utils_2.9.1.bb
-similarity index 90%
-rename from meta/recipes-graphics/libva/libva-utils_2.8.0.bb
-rename to meta/recipes-graphics/libva/libva-utils_2.9.1.bb
-index 78e3805339..feb9ce1662 100644
---- a/meta/recipes-graphics/libva/libva-utils_2.8.0.bb
-+++ b/meta/recipes-graphics/libva/libva-utils_2.9.1.bb
-@@ -14,8 +14,8 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
+diff --git a/meta/recipes-sato/webkit/libwpe_1.7.1.bb b/meta/recipes-sato/webkit/libwpe_1.8.0.bb
+similarity index 88%
+rename from meta/recipes-sato/webkit/libwpe_1.7.1.bb
+rename to meta/recipes-sato/webkit/libwpe_1.8.0.bb
+index e25d9404a0..a81e6960b2 100644
+--- a/meta/recipes-sato/webkit/libwpe_1.7.1.bb
++++ b/meta/recipes-sato/webkit/libwpe_1.8.0.bb
+@@ -14,4 +14,4 @@ inherit cmake features_check
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
--SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.8-branch"
--SRCREV = "af101a46d24c3f71a12b9f1ddb0c63626b19b3d8"
-+SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.9-branch"
-+SRCREV = "50c7f19d65e2535940e31c6711352b36d6d64fd7"
- S = "${WORKDIR}/git"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))$"
+ SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "a784b7fa0c658b28071100f6f6749b0d85bbcddd82de028e07672ce13982d340"
++SRC_URI[sha256sum] = "a6f00a7d091cbd4db57fe7ee3b4c12c6350921d654ed79812800a26c888481d2"
 -- 
 2.29.0
 
