@@ -1,50 +1,50 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web08.1159.1604335785713580542
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web11.1212.1604335786514830934
  for <openembedded-core@lists.openembedded.org>;
  Mon, 02 Nov 2020 08:49:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RpKAOe8V;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id gn41so2500054ejc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jvGHVeBw;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id l24so15011460edj.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uyYjawMifDvvvFtRHaFepzHm/J7kzaILWEAEEhoiGgI=;
-        b=RpKAOe8VlDYz/BU+5+tpfGWeJW27/M+2TJB2IwZq22Y9bAGwgTeZ+OPFbTrjVh1u2N
-         gl6Ls/eoFW9k9ece2dpYo6lbhXki0kOVN2xRyGmt5rREkDjbDvsWx7SDFQCfqPEeJo5Z
-         wX4/P+BUw8yiW5o5vmX8YW7dif5syPpnUE9v4vlxflcSU6LMa/EGwQTNqbm3ZTfz2IGA
-         K4Kp65NWV9Ejp/HTU9Bs9rVkTMFcyyuTLem0EgweaseOzwvc0/S6bC0x82+N6t2PiaJd
-         qjV12O25emMVzMOmEVjws1Uq6vEqANi0Ckox6cY7lSFTK8fRCP8aI/QLG/OuZGyAZO3F
-         Eiwg==
+        bh=TshHhws/igemFSAYKkUSc4sx0ixnNbtJOTQEPzZ7zSE=;
+        b=jvGHVeBw6eHjuQHksVQSBEKwa38nZEOlqRpQMAe1aG6G5Yr1m38GVIsaZ6vumRpHTh
+         ZWPQMstr7in+HGYeb/ovgUhjdq1Txb8H/2dneOPcSUmK2go/ZNc4dLtwlZMDYKcy66mG
+         p6mVyBtR4s9KVJOrAv1bg6lVVzGdX1c88blYuMFCuaju+teteHRQ+F8THiOkGESXob6E
+         am6WqgxYaB2Qlg+m3kvGL64jT7LkebaEYqVfdZ+x0k5fUAgJyUG+3+LO8pHba4MxFzl7
+         HRICTdiZl29uI3D401OlEhLoeNfppsYc8aQKesvPXwrAXpP4KvgFNWKLGgqpkJ3RJZpN
+         tCDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uyYjawMifDvvvFtRHaFepzHm/J7kzaILWEAEEhoiGgI=;
-        b=rdQNseZr7YteNc+EY0e9+9t2ElJySCtMipaAB+cI2HczVXicDA0ESZFKMU9OiyJXbe
-         TcV7wWKEdlJlo9/zifdATUvkoJ3WwcZtJaK5Znb6pRxp2KFwTw+rKwKXxgCMGSPd+lGJ
-         PoyU2GSMT8GSV3CmfCdY46kSQZasLASTNJ/eQItPI1j/0c+DwobnxQyrxqVmf0xLBVxn
-         Z/YnhO1K289w0D4UKUtK6Bj5zhKt2V9WbACvKTaHjsX0cAbu5A2oeMbryJBt03QTN5vm
-         IhDGUNcWBKtkge8PKcsPemJQ80bsxHDjJJEJqCatpYHc9sUIglOuOZL85QFFUzRgmz0G
-         ajGQ==
-X-Gm-Message-State: AOAM530vACAoWT9UTQn+en8+GgZnAdFVnbZXEd1CyCOXfJ2+uhqELEqf
-	c+j2EgkQTukEPPYO597C/wjT5ZwHrkwmxw==
-X-Google-Smtp-Source: ABdhPJzr4O7kjjWHW6G0framBb7P3ZrTG5j1Y6dI6OJR0v4Kd1K46yqQbpBTqjieLr6vwXnyfspcng==
-X-Received: by 2002:a17:906:2850:: with SMTP id s16mr16722678ejc.276.1604335784015;
+        bh=TshHhws/igemFSAYKkUSc4sx0ixnNbtJOTQEPzZ7zSE=;
+        b=EdU0GEnM6iEjBwg03IzOAqgj7Aqm/DoR75WZHDVHlASfr0IlUfHOBppj0xVqdToe8h
+         9s7D0azopyOv0u3QLzMLL6TSFYcqeDWNHh0aVVhw498orluL81I8R9mzwYKAhcCF3o3E
+         mrob8qdeDNI7l6FY5r6C+bopkozbx+4cdGQgMrjHzX4kyK1Oa22PWqjbQeCSKYlo+uWn
+         DXu4uY8PMN1tb1e5Btdbo7WB1ruyG4/0f35G1Eh8iZlRPT5s1IPLxov5oVTMeXb+2u7J
+         bNB2JpWHeVmHXk2huIGgFdg20QLR8d21yDZC47Ok7jg8kNNizWm2UMe5VFJ7KKR8SBf9
+         73gQ==
+X-Gm-Message-State: AOAM532ClOF9/d7xW/LgS3vWpgWst6p/wqbs337XcVoPVCpu1IOZlzFk
+	Ee9SR8bmi/DJ1G0Kir9yA6bQGE26gotO/w==
+X-Google-Smtp-Source: ABdhPJzbC+6MZ3MoojrhrlOOVbuoOkzs0RP/7hw59ZFO/2Bd+T7cuUSpNaYrqpSVuf02Z8XYlOgWEQ==
+X-Received: by 2002:a50:baea:: with SMTP id x97mr17559619ede.81.1604335784784;
         Mon, 02 Nov 2020 08:49:44 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.43
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:43 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:44 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 30/80] less: upgrade 562 -> 563
-Date: Mon,  2 Nov 2020 17:48:17 +0100
-Message-Id: <20201102164907.27572-30-alex.kanavin@gmail.com>
+Subject: [PATCH 31/80] libdnf: upgrade 0.48.0 -> 0.54.2
+Date: Mon,  2 Nov 2020 17:48:18 +0100
+Message-Id: <20201102164907.27572-31-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,27 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/less/{less_562.bb => less_563.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-extended/less/{less_562.bb => less_563.bb} (89%)
+ .../libdnf/{libdnf_0.48.0.bb => libdnf_0.54.2.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/libdnf/{libdnf_0.48.0.bb => libdnf_0.54.2.bb} (96%)
 
-diff --git a/meta/recipes-extended/less/less_562.bb b/meta/recipes-extended/less/less_563.bb
-similarity index 89%
-rename from meta/recipes-extended/less/less_562.bb
-rename to meta/recipes-extended/less/less_563.bb
-index c900574674..123522b5dc 100644
---- a/meta/recipes-extended/less/less_562.bb
-+++ b/meta/recipes-extended/less/less_563.bb
-@@ -28,8 +28,7 @@ DEPENDS = "ncurses"
- SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
- 	  "
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.48.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
+similarity index 96%
+rename from meta/recipes-devtools/libdnf/libdnf_0.48.0.bb
+rename to meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
+index 37991e6d80..2a05b9f534 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.48.0.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
+@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
+            file://enable_test_data_dir_set.patch \
+            "
  
--SRC_URI[md5sum] = "0371a9678cb42f37b9bf9b86e8aa7903"
--SRC_URI[sha256sum] = "eab470c7c928132441541aa49b1352c0fc699c30f762dfaeb3bf88e6f0fd701b"
-+SRC_URI[sha256sum] = "ce5b6d2b9fc4442d7a07c93ab128d2dff2ce09a1d4f2d055b95cf28dd0dc9a9a"
+-SRCREV = "46a28d0cf09277fffc11392e5e362a2eda0d53a8"
++SRCREV = "c5f20d4f306f4d0f9d479be228bdc474968c8b60"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
- UPSTREAM_CHECK_URI = "http://www.greenwoodsoftware.com/less/download.html"
- 
+ S = "${WORKDIR}/git"
 -- 
 2.29.0
 
