@@ -1,46 +1,46 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web09.28721.1604310080623646268
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.28915.1604310106017669962
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 01:41:20 -0800
+ Mon, 02 Nov 2020 01:41:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TQmkYofP;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id k3so17944001ejj.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 01:41:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kLTwHJO9;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id o9so15911233ejg.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 01:41:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=CIB2cFYTL8noO0Wf91t0cwzZtqxxW/aiP/Ct+QsuqvQ=;
-        b=TQmkYofPHDwzlJmyQHAwQZYl6t4CcYN6Apx2E8HeGv0Cu+WelUsbFEoQySXxsJgBV4
-         O5NN3wUSl7+CugqDq6OD502SClbpnY8d/Se+6U0TO0/paihRcgKd7OsEgCzWK4G+RqAQ
-         BsWE+ph7MWiR9A1cGrgmtWYbqdC6JDYFQMcWMeTkhvjky3cnIXk9h1DDWoKgD8weVw9K
-         NkRfpBZpW58c6mMLMsEe0tFD2MgPuulmK9s7h+qJrL3brGMOVPCfQ7mxzB/+X1qv0UUu
-         I7ja/YsWnSN8EVcaVtqQWsO8qC/ZOo/wAvDGTUagyitOdVqqpiT6bi1x2PecCGUmoI6+
-         diZw==
+        bh=4XKQip0dkI/6dNfPzGUGvjEMkuQv/tC2HbCgv1hOzns=;
+        b=kLTwHJO90I1+aMhcYuhUrMwMObYI8P5UWQRP9aZl0p58QoxN4f40ZspQFYHUTCj2vT
+         jeDv/QElarrIePrQMlr+QcsB29U761BendI9Qg3Zp45BlUpXgc+nX9ydbxZEeurg8GA9
+         Ua3+MEgcfy/z6ErHqNZy60x48IIQcsdtQ6GC92P7w0SZq7ABzmFCg+47HoU42+ZyY3ln
+         /fSxdwySV43f79dKctlfZw89TGlDhAFd72r4mCf6Pa43YmZnM26S8f/RhApWR4CEadNW
+         zF1GOfs4mUXv0c5f7lLyJUIjThEpW4lTpJTye7IhL7tifrxLBh2rttATO3ypIdxXIWPM
+         tqWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CIB2cFYTL8noO0Wf91t0cwzZtqxxW/aiP/Ct+QsuqvQ=;
-        b=EfQX7kDr4FJTJgd/9EPeARxAJjrB+MAbkuc3LtY8wa7CwWGsT6IIvt8oyAxvkgdyi6
-         0kgLt8DqZdfDf93pg72zQfg04bCZenl4MjdWELYQkFWSEm87L8WMDCZJvTlNNfFHKmXJ
-         k622ixRUhB0Ws3p+W8I7MVSj5HjdFDAIoAWOGxltRcx7K/xM686MfuC3fBkeGLTpMIAK
-         iRcYYZv9DRP28rdG64grxbFdy96POQGwc0njYplOmT6i4pjEuKaTawR8pCMvPukR7iF+
-         +4m9loRuViS+AbX+acbPBiUyKANz6KS3PDNbcyAJprOkuUZjU6Gzs3Z1sS/iiIaaldSe
-         l7wQ==
-X-Gm-Message-State: AOAM5310bxVtazc07FswGlNPbeuP6gzMkLtJLjBO5Egp/AMVM+JHz0xh
-	FBukwQ/AuauOcKBeGkf1DW+1m3U554GSF7LXg7k=
-X-Google-Smtp-Source: ABdhPJyCu6xe2m2PFS2E/JPjjCPCppz5EwMp65VuEgZOYPcSyuMX2byMAYlEsa3nfPp95wBC1eyNONx5NvS/JOT9rUY=
-X-Received: by 2002:a17:907:1102:: with SMTP id qu2mr14508100ejb.300.1604310078854;
- Mon, 02 Nov 2020 01:41:18 -0800 (PST)
+        bh=4XKQip0dkI/6dNfPzGUGvjEMkuQv/tC2HbCgv1hOzns=;
+        b=BuBip7gEVD3sqOrkrGFcNcVLE5r4ubbtKnGKdFNzwfd9H1ZAkqZk5d85Qb1UfmohR8
+         5iTstUYVibDLDQ43RC8SCqEsNYEo/PvFqhNw+pbt+LBGBQxoLSbMoUpmGHoTK8tWrXBJ
+         8Pxr0V/0P6U6vPZP/Nqc8zCV3lWnBSy+bTgZZhlEZHmZpZDR2dsvMmbbIIxKSxm5MHcY
+         ktQkCYORDFhX9am5eqIDsjgXppCiWDrOd1CH7QiNlDUvojRZpCPHy9MyJunJMjBaJsFA
+         01K3HY3oBXgcML75yZxcYrl9z+R1yQ86lE0Mb5xUf2buidfBgjvVY/jN9jC1mB0ft2Py
+         wwYA==
+X-Gm-Message-State: AOAM532qB0ud7mW7ZfggLDzgmkvMUL3B8jZ52b/ISeXC8TbCj7Z2CkDF
+	X1Jg4c6Rnqtgp6mUWq1GfmYPWbLFnmFXgZ136RI=
+X-Google-Smtp-Source: ABdhPJwr7KD/mVy5Xe30NdkteydVupLKZraXGyYcWN2T2MDdNAlFUIaCW9OiQkcw45lVT2/Gsa6FlGUmrYrPjL+Eeic=
+X-Received: by 2002:a17:906:249a:: with SMTP id e26mr14268062ejb.484.1604310104520;
+ Mon, 02 Nov 2020 01:41:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20201102083440.28814-1-toertel@gmail.com>
-In-Reply-To: <20201102083440.28814-1-toertel@gmail.com>
+References: <20201102083440.28814-1-toertel@gmail.com> <20201102083440.28814-2-toertel@gmail.com>
+In-Reply-To: <20201102083440.28814-2-toertel@gmail.com>
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Mon, 2 Nov 2020 09:41:07 +0000
-Message-ID: <CANPvuRmB=9PbeQ51KPbGhqsLwXvikoQVYm1Dh54JD4q_=Uwzqw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libsdl2: Fix directfb syntax error
+Date: Mon, 2 Nov 2020 09:41:29 +0000
+Message-ID: <CANPvuRm-gZoGoi6dgXBroZa7b_Y0mqGhE5vBjx8K84hQM_wBEw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] libsdl2: Fix directfb SDL_RenderFillRect
 To: Mark Jonas <toertel@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -49,8 +49,8 @@ Content-Transfer-Encoding: quoted-printable
 Mark Jonas <toertel@gmail.com> escreveu no dia segunda, 2/11/2020 =C3=A0(s)=
  08:45:
 >
-> Build of libsdl2 with directfb is broken due to a spurious '}' and a
-> missing 'E' since version 2.0.12. The upstream is already fixed.
+> Refactoring of SDL2 internal API has broken SDL_RenderFillRect for
+> DirectFB. The problem has already been fixed upstream.
 
 This needs Upstream-Status:
 https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_He=
@@ -59,95 +59,70 @@ ader_Recommendations:_Upstream-Status
 >
 > Signed-off-by: Mark Jonas <toertel@gmail.com>
 > ---
->  ...ectfb-spurious-curly-brace-missing-e.patch | 49 +++++++++++++++++++
+>  .../libsdl2/directfb-renderfillrect-fix.patch | 33 +++++++++++++++++++
 >  .../libsdl2/libsdl2_2.0.12.bb                 |  1 +
->  2 files changed, 50 insertions(+)
->  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-spuri=
-ous-curly-brace-missing-e.patch
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-rende=
+rfillrect-fix.patch
 >
-> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-cur=
-ly-brace-missing-e.patch b/meta/recipes-graphics/libsdl2/libsdl2/directfb-s=
-purious-curly-brace-missing-e.patch
+> diff --git a/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillre=
+ct-fix.patch b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrec=
+t-fix.patch
 > new file mode 100644
-> index 0000000000..aa351a89ba
+> index 0000000000..83d4f4b1ec
 > --- /dev/null
-> +++ b/meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brac=
-e-missing-e.patch
-> @@ -0,0 +1,49 @@
+> +++ b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.=
+patch
+> @@ -0,0 +1,33 @@
 > +# HG changeset patch
-> +# User Fabrice Fontaine <fontaine.fabrice@gmail.com>
-> +# Date 1585069551 25200
-> +# Node ID 769f800952179633ec6c3e6bc1bc1d40e401750a
-> +# Parent  63387e8920f58f608288f247824ec5f4c286691f
-> +src/video/directfb/SDL_DirectFB_render.c: fix build
-> +Build with directfb is broken due to a spurious '}' and a missing 'E'
-> +since version 2.0.12 and https://hg.libsdl.org/SDL/rev/2d5b5a5ccbfb:
+> +# User Sam Lantinga <slouken@libsdl.org>
+> +# Date 1590793369 25200
+> +# Node ID a90089f75990e8b07a1dcf931c5f8a580ae343bf
+> +# Parent  a9b4bd264f3cbedc4f3287b3ec6b32311370ba85
+> +Fixed bug 5146 - SDL_RenderFillRect doesn't work in DirectFB
 > +
-> +/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/src=
-/video/directfb/SDL_DirectFB_render.c: In function 'SetBlendMode':
-> +/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/src=
-/video/directfb/SDL_DirectFB_render.c:202:9: error: case label not within a=
- switch statement
-> +  202 |         case SDL_BLENDMODE_MUL:
-> +      |         ^~~~
+> +Lacky
 > +
-> +/home/buildroot/autobuild/run/instance-2/output-1/build/sdl2-2.0.12/src=
-/video/directfb/SDL_DirectFB_render.c:205:67: error: 'DSBF_DSTCOLOR' undecl=
-ared (first use in this function); did you mean 'DSBF_DESTCOLOR'?
-> +  205 |             SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsur=
-f, DSBF_DSTCOLOR));
-> +      |                                                                =
-   ^~~~~~~~~~~~~
+> +It looks like refactoring of SDL2 internal API has broken SDL_RenderFil=
+lRect for DirectFB. In new version function SDL_RenderFillRect returns 0, b=
+ut rectangle is not visible.
 > +
-> +Fixes:
-> + - http://autobuild.buildroot.org/results/83ccefee68c2800c0544e6f40fa8b=
-c8ee6b67b77
-> +
-> +Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
+> +Replacing "count" with "len" in the argument list for SDL_memcpy in Dir=
+ectFB_QueueFillRects fixes problem.
 > +
 > +--
 > +
 > +The patch was imported from the libsdl Mercurial repository
-> +(https://hg.libsdl.org/SDL) as of changeset id 769f80095217.
+> +(https://hg.libsdl.org/SDL) as of changeset id a90089f75990.
 > +
 > +Upstream-Status: Backport
 > +
 > +Signed-off-by: Mark Jonas <toertel@gmail.com>
 > +
-> +
-> +diff -r 63387e8920f5 -r 769f80095217 src/video/directfb/SDL_DirectFB_re=
+> +diff -r a9b4bd264f3c -r a90089f75990 src/video/directfb/SDL_DirectFB_re=
 nder.c
-> +--- a/src/video/directfb/SDL_DirectFB_render.c Mon Mar 23 14:10:25 2020=
+> +--- a/src/video/directfb/SDL_DirectFB_render.c Thu May 21 00:06:09 2020=
+ -0400
+> ++++ b/src/video/directfb/SDL_DirectFB_render.c Fri May 29 16:02:49 2020=
  -0700
-> ++++ b/src/video/directfb/SDL_DirectFB_render.c Tue Mar 24 10:05:51 2020=
- -0700
-> +@@ -198,11 +198,10 @@
-> +             SDL_DFB_CHECK(destsurf->SetDstBlendFunction(destsurf, DSBF=
-_SRCCOLOR));
+> +@@ -626,7 +626,7 @@
+> +     }
 > +
-> +             break;
-> +-        }
-> +         case SDL_BLENDMODE_MUL:
-> +             data->blitFlags =3D DSBLIT_BLEND_ALPHACHANNEL;
-> +             data->drawFlags =3D DSDRAW_BLEND;
-> +-            SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsurf, DSBF=
-_DSTCOLOR));
-> ++            SDL_DFB_CHECK(destsurf->SetSrcBlendFunction(destsurf, DSBF=
-_DESTCOLOR));
-> +             SDL_DFB_CHECK(destsurf->SetDstBlendFunction(destsurf, DSBF=
-_INVSRCALPHA));
-> +
-> +             break;
+> +     cmd->data.draw.count =3D count;
+> +-    SDL_memcpy(verts, rects, count);
+> ++    SDL_memcpy(verts, rects, len);
+> +     return 0;
+> + }
 > diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/reci=
 pes-graphics/libsdl2/libsdl2_2.0.12.bb
-> index 83dce86801..8ecf161f69 100644
+> index 8ecf161f69..0b75eb0c1d 100644
 > --- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
 > +++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-> @@ -18,6 +18,7 @@ PROVIDES =3D "virtual/libsdl2"
->
+> @@ -19,6 +19,7 @@ PROVIDES =3D "virtual/libsdl2"
 >  SRC_URI =3D "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
 >             file://more-gen-depends.patch \
-> +           file://directfb-spurious-curly-brace-missing-e.patch \
+>             file://directfb-spurious-curly-brace-missing-e.patch \
+> +           file://directfb-renderfillrect-fix.patch \
 >  "
 >
 >  S =3D "${WORKDIR}/SDL2-${PV}"
