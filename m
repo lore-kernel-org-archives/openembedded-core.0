@@ -1,50 +1,50 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web12.1202.1604335826514520504
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web09.1229.1604335827307581415
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:50:26 -0800
+ Mon, 02 Nov 2020 08:50:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YffsfEF4;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id w1so13906794edv.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:50:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DX0vtliL;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id k3so19761953ejj.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:50:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FC8ujCrCqyXqcZ5AO2qB7B82fCx61yTv21U4cMzSWOM=;
-        b=YffsfEF46bIRKcDiLaJ/YILsFuazJhaWOSLlM53hUMTBLfynvpuTzsQXL8Vj7L/XyL
-         ZsH0+QU4YNA8orvXIUxlVt3y04EvFTLUMQ1zeso+svw4JOGhh6JlQUx0UZzMFyOGx5f9
-         WBr11XCZsJmibN5q5jw4SGLHT5XleCp2MxavYQxyv7Fxjo6L5Ne4DSMRtPrmMJIktAQI
-         Y5iSOJSGo3awgtcyuA9t//vAsEEvZhM9iGzf3m8wwWl5b1Yq07PxrKQW0uleSxY1MqbU
-         vtszkBPq2PS8GYBMbQdSxMA3vkCwkGxZV3WnT/17ku1Z3V2CK0rdFhC8k6StsEMRpskl
-         Ypew==
+        bh=1uqD1Q8wBTKOd+x5CkaP5q/Z/U3KpejB2xZBIO6Act8=;
+        b=DX0vtliLDSJYnKoNtBzkq/4jJYjkF3E+8q0I7WrzdM767aRcjHxMAkIjL3qD9pu4wW
+         o6HPDBPRiV4IbY1t/WsVqvWiN8qYob9RmmdNlzSWYc5cj6UP4YxrsHMiVQRAxaL1Wuw0
+         E/q9afKQ8sO/UA44qIQImV87CzjfcLvLusxefiURBdUirY0XUO/TxgeZH72Qvjb0QIic
+         YKxv58ezqg69ohKZDSL1OqeA6AP7SYVpD64d2rKpMhPJoH24ZGUwp5axQUoGEqN4BsQ7
+         xagZMDc0Ha5JRDBRWo4WutXNMsB51c0JpH52hJHJgjRpBVq1dGnIZ3wPyfHJTBVcY/4j
+         zmIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FC8ujCrCqyXqcZ5AO2qB7B82fCx61yTv21U4cMzSWOM=;
-        b=jIQ/X1NbCxMfXrfu4BiJ+2oYE5Xe6LjhfUgfe2xbxIAwSlJPkj9k/dyRNEVXRpI2a5
-         giracHyU7N6YotwYPP2gcGxhL6lrOb+uONaISYRaNFXbAVLPFroaXwaiEEzkIayoWDAC
-         cHxOGrSjfTcidP4rMcMiAQiWU1Kp5c8yM+HHzUOzB9g21lSsubM3UKV6OtrE5PADjwl6
-         rMNLRXn8kUC9kb17E7K1aaWGPuaZX8Jpoma2To6HH/z5svPkEfzg5wY35PXRxkVl8seA
-         uRIk9QNuL18w8DnTVzBOmuP2SAJ06EouFrrACSe9+AyhUDIpk6+ABZEuCpfg0JKrDGw4
-         1WAA==
-X-Gm-Message-State: AOAM5303IMEKBYEJSZK83EflEplIxtqBSdP6FoqN4ZVzw8XyAaFueo08
-	S/mvsgBmxrIvhm0zXMWXcxNJ4FqCMliadg==
-X-Google-Smtp-Source: ABdhPJx9BWLX0h5Kfi7XIz5cl0Yg/E+aU9lHL2YiTt+i1hzMYftMQXdy5lwEHlFefBqn5KXV+VSekg==
-X-Received: by 2002:a50:ee97:: with SMTP id f23mr10679867edr.333.1604335824890;
-        Mon, 02 Nov 2020 08:50:24 -0800 (PST)
+        bh=1uqD1Q8wBTKOd+x5CkaP5q/Z/U3KpejB2xZBIO6Act8=;
+        b=WA9HJRMVHyWAqonvt4bfvjN2g/uzUoKaCQHRP0d/CmujICrsJ8d8H+jkwhVp/VuNT+
+         8ey3IbGaiUvv/KtuchPFJpO/ft7b9JF8sDEse/CB2johRH2/A4bA6Ttw9vyd4oMXzODa
+         mk26fxTlK87rH47kZnixGGID1LIywhu630KZv3oluvppf5x/3HCf+oRFTjzDukRmAQ2t
+         bayBqSz/Pml58zSGKxGg1XwUPhstH4zDraa98TqwL+m0APzLEmvsrGqenijPcWcTfLyq
+         KCA7GUhliZLE1DemBJRVjOXOQeVP8Pes6gpRxfkmtccIKb0PI2tQ7w8oJlUE9qWfiqmP
+         krYw==
+X-Gm-Message-State: AOAM530yORKOhf/tpxWrZrgFO6j9TAaWpH7+wlFhDL6WO0Mzxb+T9XSJ
+	KYdHSzEfzs5BwlMY1n2rmDJNItlRqOQTUg==
+X-Google-Smtp-Source: ABdhPJxlpUML6pfsTUhptp87GhexJkS6B34gJMM4PY85wVwApesgUqyQQ9b+N1L//EPA6rFszTc0OQ==
+X-Received: by 2002:a17:906:6702:: with SMTP id a2mr15738206ejp.309.1604335825639;
+        Mon, 02 Nov 2020 08:50:25 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.50.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:50:24 -0800 (PST)
+        Mon, 02 Nov 2020 08:50:25 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 76/80] libevdev: upgrade 1.9.1 -> 1.10.0
-Date: Mon,  2 Nov 2020 17:49:03 +0100
-Message-Id: <20201102164907.27572-76-alex.kanavin@gmail.com>
+Subject: [PATCH 77/80] libgcrypt: upgrade 1.8.6 -> 1.8.7
+Date: Mon,  2 Nov 2020 17:49:04 +0100
+Message-Id: <20201102164907.27572-77-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,26 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libevdev/{libevdev_1.9.1.bb => libevdev_1.10.0.bb}         | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/libevdev/{libevdev_1.9.1.bb => libevdev_1.10.0.bb} (78%)
+ .../libgcrypt/{libgcrypt_1.8.6.bb => libgcrypt_1.8.7.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libgcrypt/{libgcrypt_1.8.6.bb => libgcrypt_1.8.7.bb} (96%)
 
-diff --git a/meta/recipes-support/libevdev/libevdev_1.9.1.bb b/meta/recipes-support/libevdev/libevdev_1.10.0.bb
-similarity index 78%
-rename from meta/recipes-support/libevdev/libevdev_1.9.1.bb
-rename to meta/recipes-support/libevdev/libevdev_1.10.0.bb
-index 633e0af995..2620cbe9f7 100644
---- a/meta/recipes-support/libevdev/libevdev_1.9.1.bb
-+++ b/meta/recipes-support/libevdev/libevdev_1.10.0.bb
-@@ -8,8 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.6.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.7.bb
+similarity index 96%
+rename from meta/recipes-support/libgcrypt/libgcrypt_1.8.6.bb
+rename to meta/recipes-support/libgcrypt/libgcrypt_1.8.7.bb
+index ac09417e89..0cad41dfa9 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.6.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.7.bb
+@@ -26,7 +26,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
+            file://0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch \
+            file://determinism.patch \
+ "
+-SRC_URI[sha256sum] = "0cba2700617b99fc33864a0c16b1fa7fdf9781d9ed3509f5d767178e5fd7b975"
++SRC_URI[sha256sum] = "03b70f028299561b7034b8966d7dd77ef16ed139c43440925fe8782561974748"
  
- SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz \
-            file://determinism.patch"
--SRC_URI[md5sum] = "58286a834ae14536caf9cab8633419cf"
--SRC_URI[sha256sum] = "f5603c48c5afd76b14df7a5124e0a94a102f8da0d45826192325069d1bbc7acb"
-+SRC_URI[sha256sum] = "3522c26e2c148be0ad68ce26fbced408a4185dea90bfe8079dc82b8ace962d4a"
- 
- inherit autotools pkgconfig
+ BINCONFIG = "${bindir}/libgcrypt-config"
  
 -- 
 2.29.0
