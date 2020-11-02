@@ -1,50 +1,50 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web12.1175.1604335779878758984
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web09.1209.1604335780560898466
  for <openembedded-core@lists.openembedded.org>;
  Mon, 02 Nov 2020 08:49:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=s8GCyw4M;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id za3so19792010ejb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qr3ljkxF;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id j24so19752258ejc.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=JPGxORar1VM4fW4KwClSLYK3ofHwdOdO+m4wPJB2tnI=;
-        b=s8GCyw4Msd7WZDcccIoJtBccqvm1g4l2GQJClJOy5iQeqNBPX0n9kv+I+fI6GSse7a
-         QAFE4XQECMcE7LPG9QdP9eAFCT+YXZfOd2bVWjfApg329ggOVF0pDNwhkGJAZ4nynKHj
-         GyWqO40KmEqlZGs7t7GZOzFHJWSrb94+Bi957EMJikSiAwNVmcUSedvNt7NlHZnrapT8
-         jgVDSbGbzP3MoFP/UOmSBM3R64mGWkzfRbRdr7iQMcd5TSsT6vEOd4gnCAdKC9nekhZq
-         yY2pGK5e9liNTqZ5IgRz+kfYrmoPnL1u9ck+x8Yvaef1HjM67uMbxlLcYLxgdijnSlxn
-         wKng==
+        bh=xir2y6n/BMjG9CiPaDgeC4c6gASu1VnfgTIQjis8/HY=;
+        b=qr3ljkxFKP1cttxSBmZxfoNnBPKZ8xWz2hqacXTL9o0fRj69Tn+q7VHzzARnEm9RQs
+         1i1W/yZUpdtJ7At54LvlSXFwLRhsWwjKwJAnZbjKd+pKVqna+W9TY314iwvqjkhPfO+I
+         TvTRtdCrm9Z33qi0N1bVY4ESYopbZmMIiX+Jti6cYEr2UMfjqy/Sa6G+H1J+ZoEq2UnJ
+         iQEHTmmVN/k+M8b6ZANZj7rzdF0PI129e/aaUzo6E1Q2OzwD20u8RNAu++erIA5217+Y
+         DFLqJXnjOjFpmjAuknTTXiiFf57RSMMS0kILTWth7eK/h+9T7iKiIUvUyWdMRwr7Udgz
+         H1HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=JPGxORar1VM4fW4KwClSLYK3ofHwdOdO+m4wPJB2tnI=;
-        b=QCVvspd7clvQgBoFYS/moSmmt4e60aKKu7qcHdNNnsfCEzwzjegs5j2RI9FPvfXggI
-         KB8OH6H7cCy9H9mP7oadvYm6HteIvUvmtQDJh8QWZqE6LvFgFHj6Z4TsweTkyBQBfXsv
-         imgTCdm6PqUDldxH2dyrCJihEpzuBeEllYl37qaidoCivj37ZEJESpACjITbOjiKG9zx
-         87vlE7F5BpIyW4+ErkeZ5j3V0iNxmL4jsBuFRtcScKMEKpnSZFS4z0MGWtT+pi9M8Yto
-         Hr9q7Uzw0SWmlh4n15+crAra7YdMzE9qo10F8KkipMp8L86yXzrrTjmN4ewZtB1P0ce3
-         r7bw==
-X-Gm-Message-State: AOAM533HtfpNzsnT87YoLYnca+wywDCny9xjFRmqtmLOXVDAhrXrQf5n
-	Rp3szAD2K3AuqVU8QF2e+cigU9M8UPydIA==
-X-Google-Smtp-Source: ABdhPJy6L6ba4G1vcN3754JwBlXbcjHfHjRbGDuGRdzAb9Y+MxnNBHB6xcLe1l7ng0L0aa18HfhRZg==
-X-Received: by 2002:a17:906:e10e:: with SMTP id gj14mr17077893ejb.134.1604335778064;
+        bh=xir2y6n/BMjG9CiPaDgeC4c6gASu1VnfgTIQjis8/HY=;
+        b=OVIZ50drtvV3XVJyUIvj2hJt0xb49ryVqxWdBll+hm9wZH2t2ElEjlbI9o/zi7+elU
+         WmIg33weETSQQ4b6/878ajCloI41eRxLxpD8/UNLSkROd9f1fzWFq8DbmmgBiW6Yg9WT
+         m0+IhZab5Z0t3YBLyMj8W/Zsp6zPUMoNi9u43k2XxIlkQoSkEnVPFt355X1DNxnDdBzq
+         p9bQkkJA6SU0n0jhJa6H8jWuhKrb+U87Tka/OBz8OUFwXj51uq0oaPpbYuUaodBXUeu/
+         5rEujraxeFr6yHOs9Vu3UweMe9VNavBCu7687k6+9sLKjZVc3XRifsT0Z40I20l33msy
+         UaqQ==
+X-Gm-Message-State: AOAM532f/B3oRCkpul7AGfFyanG2xb+Ny8VTDkNZiystKp2On/PbD/Wz
+	21lN+bUp523bOZLLLIVSrmi/W0uH8jZCEg==
+X-Google-Smtp-Source: ABdhPJxL0FHnC86ssTP+GubGjqravSlTztquqqMUcIPh5QVdNX3vuOHGGKxL8ih5ehFuheDGZiJJNQ==
+X-Received: by 2002:a17:906:3650:: with SMTP id r16mr15859748ejb.419.1604335778900;
         Mon, 02 Nov 2020 08:49:38 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.36
+        by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:37 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:38 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 23/80] gcr: upgrade 3.36.0 -> 3.38.0
-Date: Mon,  2 Nov 2020 17:48:10 +0100
-Message-Id: <20201102164907.27572-23-alex.kanavin@gmail.com>
+Subject: [PATCH 24/80] glib-networking: upgrade 2.64.3 -> 2.66.0
+Date: Mon,  2 Nov 2020 17:48:11 +0100
+Message-Id: <20201102164907.27572-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,127 +53,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-meson-Make-sure-gcr-oids.h-is-built.patch | 36 ---------------
- ...ectly-set-internal-vapi-dependencies.patch | 45 -------------------
- .../gcr/{gcr_3.36.0.bb => gcr_3.38.0.bb}      |  6 +--
- 3 files changed, 1 insertion(+), 86 deletions(-)
- delete mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
- delete mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch
- rename meta/recipes-gnome/gcr/{gcr_3.36.0.bb => gcr_3.38.0.bb} (77%)
+ .../{glib-networking_2.64.3.bb => glib-networking_2.66.0.bb}   | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.64.3.bb => glib-networking_2.66.0.bb} (89%)
 
-diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch b/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
-deleted file mode 100644
-index 4bf5bfba94..0000000000
---- a/meta/recipes-gnome/gcr/gcr/0001-meson-Make-sure-gcr-oids.h-is-built.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 9fca6ae0aa7355c27d0922c561b9fbe18dde5b3d Mon Sep 17 00:00:00 2001
--From: Niels De Graef <nielsdegraef@gmail.com>
--Date: Fri, 19 Jun 2020 22:37:31 +0200
--Subject: [PATCH 1/1] meson: Make sure gcr-oids.h is built
--
--Fixes https://gitlab.gnome.org/GNOME/gcr/-/issues/48
-----
-- gcr/meson.build | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
----- end of original header ---
--
--Upstream-Status: Backport  [https://github.com/GNOME/gcr.git]
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--
-----
--diff --git a/gcr/meson.build b/gcr/meson.build
--index 199452f..06c3a63 100644
----- a/gcr/meson.build
--+++ b/gcr/meson.build
--@@ -178,7 +178,10 @@ endif
-- gcr_base_dep = declare_dependency(
--   link_with: gcr_base_lib,
--   include_directories: include_directories('..'),
---  sources: gcr_enums_gen[1], # Make sure gcr-enum-types-base.h can be included
--+  sources: [
--+    gcr_enums_gen[1],
--+    gcr_oids[1],
--+  ],
-- )
-- 
-- if get_option('introspection')
---- 
--2.7.4
--
-diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch
-deleted file mode 100644
-index b484a1b222..0000000000
---- a/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--From ebb77dad4563b882b449cbc5e882f36ac8c2de71 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Mon, 11 May 2020 22:19:16 +0000
--Subject: [PATCH] meson.build: correctly set internal vapi dependencies
--
--If they are set as strings, meson will supply the right
--arguments to vapigen, but will not set the ninja dependencies
--to ensure they get built first, and so races will occur:
--https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1881/steps/8/logs/step1b
--
--Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/55]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- gcr/meson.build | 2 +-
-- ui/meson.build  | 4 ++--
-- 2 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/gcr/meson.build b/gcr/meson.build
--index 254a933..199452f 100644
----- a/gcr/meson.build
--+++ b/gcr/meson.build
--@@ -203,7 +203,7 @@ if get_option('introspection')
-- 
--   gcr_vapi = gnome.generate_vapi('gcr-@0@'.format(gcr_major_version),
--     sources: gcr_gir[0],
---    packages: [ 'glib-2.0', 'gio-2.0', 'gck-@0@'.format(gck_major_version) ],
--+    packages: [ 'glib-2.0', 'gio-2.0', gck_vapi ],
--     metadata_dirs: meson.current_source_dir(),
--     vapi_dirs: [
--       build_root / 'gck',
--diff --git a/ui/meson.build b/ui/meson.build
--index 5ca3753..477412d 100644
----- a/ui/meson.build
--+++ b/ui/meson.build
--@@ -174,8 +174,8 @@ if get_option('introspection')
--     packages: [
--       'glib-2.0',
--       'gio-2.0',
---      'gck-@0@'.format(gck_major_version),
---      'gcr-@0@'.format(gcr_major_version),
--+      gck_vapi,
--+      gcr_vapi,
--       'gtk+-3.0'
--     ],
--     metadata_dirs: meson.current_source_dir(),
-diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb b/meta/recipes-gnome/gcr/gcr_3.38.0.bb
-similarity index 77%
-rename from meta/recipes-gnome/gcr/gcr_3.36.0.bb
-rename to meta/recipes-gnome/gcr/gcr_3.38.0.bb
-index ff455a68ec..49e8f1848b 100644
---- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.38.0.bb
-@@ -17,11 +17,7 @@ inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even
- # depends on gtk+3, but also x11 through gtk+-x11
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb b/meta/recipes-core/glib-networking/glib-networking_2.66.0.bb
+similarity index 89%
+rename from meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.66.0.bb
+index 074389f552..230932daf0 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.66.0.bb
+@@ -9,8 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ SECTION = "libs"
+ DEPENDS = "glib-2.0"
  
--SRC_URI += " file://0001-meson.build-correctly-set-internal-vapi-dependencies.patch"
--SRC_URI += " file://0001-meson-Make-sure-gcr-oids.h-is-built.patch"
--
--SRC_URI[archive.md5sum] = "adc65563b6b458507b9a578a8b68fb61"
--SRC_URI[archive.sha256sum] = "aaf9bed017a2263c6145c89a1a84178f9f40f238426463e4ae486694ef5f6601"
-+SRC_URI[archive.sha256sum] = "a64cc7b65757fc2cd16de1708d132a16d05cd1f62c6eba436d56fe45d4ba27e1"
+-SRC_URI[archive.md5sum] = "eb382907ec941fe2fb1a9676b75acf7a"
+-SRC_URI[archive.sha256sum] = "937a06b124052813bfc0b0b86bff42016ff01067582e1aca65bb6dbe0845a168"
++SRC_URI[archive.sha256sum] = "c5d7be2437fdd196eebfb70c4517b96d3ba7ec13bd496318b8f02dea383e0099"
  
- FILES_${PN} += " \
-     ${datadir}/dbus-1 \
+ PACKAGECONFIG ??= "gnutls ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+ 
 -- 
 2.29.0
 
