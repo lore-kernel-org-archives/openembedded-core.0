@@ -1,17 +1,17 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.42])
- by mx.groups.io with SMTP id smtpd.web09.1682.1604356144448492204
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.78])
+ by mx.groups.io with SMTP id smtpd.web12.1686.1604356145205829203
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 14:29:04 -0800
+ Mon, 02 Nov 2020 14:29:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=O6YtLw42;
- spf=pass (domain: windriver.com, ip: 40.107.237.42, mailfrom: jason.wessel@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Uf3J98zU;
+ spf=pass (domain: windriver.com, ip: 40.107.223.78, mailfrom: jason.wessel@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Uak5NRbHSHmSvSn3VuxWabXiv1trgRQeuvcAO5hAdNWmbkQuaxeSDIcXZmtz2QatxYLqnARuUHAqFPSt9Teb//8eljQxnEwnCCIL4USFZpnaGnEx3oEgqXA3IBr6KLbpaYkzq+KZgLUswoAd0L526esVwIhWfyIWyMw+G35oDxcVzVSVu7ea58cUZ5BQQGI6I/k3sbSZ1c+OHh0xC3o9WQEUqLgyNmzxPsfR2tZkrEHoZiTDcDnQZv7fiSFZ2fAHnKwqq5YcDKHroC3WOJy5/NQWUwbuAkHs05Kxr3nHEiFBAz3NiskgP6e6IQKmzMcU0U4f+x2aqctHwotm3aL1QA==
+ b=BmhqHkqho3HB4wKjraL2Vl9JgQuWhwf5RNJnNKxMVYpNygLz3im0+qbhM9Y498CyVZk/pTL7rJnfMWRhEJUCKHV4ggCoYrocjnaZDcW0Pes+hG+7S4zQF0ABOFN8WbjpLCpfuW0+PnAStQAoPTOtphmXzHx14UNmpuX3SRoFKzxyhMlKLF46nrRFU6iq0RfYeLas5Syvfn69BEFHNnUQYbCVfZC91jbHSzC1/U5Dfd8miawpN1T+OIg+CaaTHmAt9UvRt3RWdGQIhkrHiRBguXUVbk0tT3VHUV1Ckt9q75Q6lRjAUSl88utTxdqHwDQ4HgfVhdaynWDs5VmcOYbfrA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w4/nynAV96jDLMp1Tl3ik5d0XB3qebO40P1rBC+A9NA=;
- b=QJQZPH91u8vcHrcrRBXMSdKeL3Brdbd4SG/XWuRMQVP1mxIP2nk9TNZTiBl/0nw9ahjyzpoJtXgm5VxA2VukrAzRRuEOmFFpiXu3pMDLojUvtEr4+wACGpGDM+kEL2qtx1b+5yMS3T5vdTKVb5vGgQwJtoClMEc9XIbKC7qdX3AMUzzWTLABcxnoA+ieNx7/hDH6sGvi8BUeYtwcOQyRqHfRJ8HpeTQchiEP2ECtG/wXa4Alba8doZoHr9xibIgRQXD2vgHgCzC2LUbCklml0hNKGUCL+3DT4UhV7dnWfHtKHddSSPf5AuI7h74K2VSBbkcQqq37bCTABDsL8CfixA==
+ bh=3tAAa1g5SR1ijpyC1TyGMJLhXIZolapY+xHnvgd3cOg=;
+ b=NSKJrdtehqr3BWup1YSnObA1xRPrtLXJRQTedIbrfVywPASo3E1IhREy9G8PmMiXa7mQov99JEFC8E0CLXt4BRNab+Xrt+Z6XLsdT2Fbq+CNjvb3fttwHeeCODnLrb8pncZIb+GmBji1at90ifBrpdKdVInIwojQqfo4h9X5XunvkjemNgQ45QHtKYRV3BBHlwP0mimW6eERGVa3WTPr8TO+yb9ZAjljjxGhBLE7XixCVUIbTF9/ws+TEs4ps1VPMMrwTQ1xvlzocdRKQDN29/gWQbxgvLqeZwGOEUkHFZt6IqTQTjyroCzkcMv40/WaoHgcb3HZ86SM0SwMWy9n4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,25 +19,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=w4/nynAV96jDLMp1Tl3ik5d0XB3qebO40P1rBC+A9NA=;
- b=O6YtLw421eTkHacGqBSDk5EB8XXfgainsTVa1WIhU9goEHX+szOQ2PwDN9IES10fJ6PzVkteCOOdg66gnCyiHY6XwxoK3BBCK5i6q6RRrYfAJfhbIHLSncfolTuQt3phwbnsV8vZ6f7Eo+PtRT3JfKNtX4KXXphgf+WUFo89juw=
+ bh=3tAAa1g5SR1ijpyC1TyGMJLhXIZolapY+xHnvgd3cOg=;
+ b=Uf3J98zUVc+b1vbmU60EJ/s5lPlCp7rqt/YBxAPz/8IatccIQhkl1DTACVvJotKbmV2DQ0eJ/Wso6Sp+BUrRaZBWI5ZvcYVLByNJos6fH0QTKNtNZ9esnjL+8AhjfLkeg8Vo0o4K48xTL1Fyx3q3VGxdv2C76hnIscTH2XSlDpo=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from DM6PR11MB3514.namprd11.prod.outlook.com (2603:10b6:5:61::26) by
- DM6PR11MB3594.namprd11.prod.outlook.com (2603:10b6:5:13b::24) with Microsoft
+ DM6PR11MB2810.namprd11.prod.outlook.com (2603:10b6:5:ce::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18; Mon, 2 Nov 2020 22:29:03 +0000
+ 15.20.3499.28; Mon, 2 Nov 2020 22:29:03 +0000
 Received: from DM6PR11MB3514.namprd11.prod.outlook.com
  ([fe80::9945:c647:8f02:4a97]) by DM6PR11MB3514.namprd11.prod.outlook.com
  ([fe80::9945:c647:8f02:4a97%2]) with mapi id 15.20.3499.030; Mon, 2 Nov 2020
  22:29:03 +0000
 From: "Jason Wessel" <jason.wessel@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] base-files/profile: Add universal resize function
-Date: Mon,  2 Nov 2020 14:28:51 -0800
-Message-Id: <20201102222852.38452-1-jason.wessel@windriver.com>
+Subject: [PATCH v2 2/2] systemd-serialgetty: Switch to TERM=linux
+Date: Mon,  2 Nov 2020 14:28:52 -0800
+Message-Id: <20201102222852.38452-2-jason.wessel@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201102222852.38452-1-jason.wessel@windriver.com>
+References: <20201102222852.38452-1-jason.wessel@windriver.com>
 X-Originating-IP: [147.11.105.123]
 X-ClientProxiedBy: SJ0PR13CA0106.namprd13.prod.outlook.com
  (2603:10b6:a03:2c5::21) To DM6PR11MB3514.namprd11.prod.outlook.com
@@ -45,123 +47,103 @@ X-ClientProxiedBy: SJ0PR13CA0106.namprd13.prod.outlook.com
 Return-Path: jason.wessel@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by SJ0PR13CA0106.namprd13.prod.outlook.com (2603:10b6:a03:2c5::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.10 via Frontend Transport; Mon, 2 Nov 2020 22:29:02 +0000
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by SJ0PR13CA0106.namprd13.prod.outlook.com (2603:10b6:a03:2c5::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.10 via Frontend Transport; Mon, 2 Nov 2020 22:29:03 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 89b3e337-733b-436c-48b1-08d87f7eb390
-X-MS-TrafficTypeDiagnostic: DM6PR11MB3594:
+X-MS-Office365-Filtering-Correlation-Id: 33ea92fe-d82f-414a-9579-08d87f7eb3df
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2810:
 X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB35949C9FBB89242F264A928E97100@DM6PR11MB3594.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
+	<DM6PR11MB28105081B89B3DC05771763097100@DM6PR11MB2810.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:169;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	oTkkPnZi37ITLwX2lrXykuU1dmuWZF2XalMu9aASWmMYGqKOe4Cgqu2zRXS8hYx0G9y1CCCLMVK9Sk9v2REGgGqllNF89GWB9fWk17x+1aXAkk9MOjaJeQjbTQAJ33RNk2tfIH5vNOZ/XPRwYKJa8eyLpXveCvBY1SHCVnG6RcJlySPyO3TZ6RHyT9ddLj9wU5rt04zIfwSdFEM23IjpJle2m22AXAzkZYvDZyQ0J3wRMvIGIrL7l5nnvJZgtj4dcgWjo6SW7XTZSGyeWHrYsbBDVVGnzY4Wh5FRs+dv9Z/c/uV9RwxjQNwO6VacUIPeoM9ZW1oXhlUo6ZS4D2ivRg==
+	fkUJde+MQKMmeF2mgU9HU3V155gzMVBEa8LQ4qc8ETVOEgxxRN6YFAaNP5sX3vD33n4255W7Vne7AZhf7aR6l4SGI38HIks8nE/luJvzNfISYLKmhiQDHOE222PTsqnc8VnwoegvLQDvlpalrSr3Lz0W4LJ9ZmnOZr1Vr9Fx5c2gbm5okDRFnnvyXjfa4WofHz0UqfNm5j+KqD2jmHrdpZfZbj1erbc6z9Tp4rYkMxggILZWL3AqpcCx6Cqw42T1JYI1L92jo/tVxDCBZAo/VXsQq6MBt/ZieD5LIFNko1/Bq5mgzCnhOfew41K3pFO8tEB5zeYL5LLiZlXVxRBxLA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3514.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39850400004)(376002)(366004)(346002)(2616005)(86362001)(44832011)(6512007)(52116002)(36756003)(1076003)(83380400001)(26005)(6506007)(956004)(316002)(6486002)(186003)(16526019)(478600001)(5660300002)(2906002)(6666004)(8676002)(66476007)(66556008)(6916009)(66946007)(8936002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3514.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(376002)(396003)(346002)(136003)(6506007)(956004)(66476007)(52116002)(66556008)(66946007)(2616005)(6512007)(26005)(186003)(16526019)(83380400001)(5660300002)(1076003)(6666004)(36756003)(8676002)(44832011)(6486002)(316002)(86362001)(2906002)(8936002)(478600001)(6916009);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	2QidRm2hO0MZFBFe0bHjxVR+KxUQ4U8ahn4I2kwp3iIQH1ESHyGu6z9pgZHZv/JR7KV+7L+cHt3Bv1IW+h7YMQKvGM08V1oWfDEz64MDaNOdzKtC7ldaobi7Cc+ArE7a4srhp0vt076QHJBZQEOUvMAub8s4841B6P5JBUszrTaW5ZgpugR9Q4jrweI8eutQXlV/2izt1gDFcNgSLGmrxe/ScvxPWBIjpyXKQRYon4WoC1skA8XCpog/sh9FG3fGqP2D3YHSiBVJuVnZeiZoy6qoSfNVFMqem6WxVRqpXgWOyCQKTTz4drHTW+ZyFK1P/bjS9xJpvX2Ve+zx8aReM4hYMHltyIWa4KXygLJ2EwYV1YY2KDUnYT5sDUXn4V84CvibgijZ8lLa2evZsSNYBbldyleUTqK/r3is0SfQqDaDKcrNACXZkahCNRzZbmBsHyuPdvZ/5/iTfgHgRiUcFgMvg/biwqg9f0xkoSyuZcLLKPq1ZKwSfyFt0Pofg2UHIgkHlihln0zFt1OKSJIDPZxwZtVpVSHnIon4d40QJiyJUg8WRPZnnuOJBHRjdfNRNKbRejwzuYexa2nPXX7nSdXo5na0n9DTygup7d5NMrXBMb0oC3coe0F7040gigZSym1MvpbPrdik8vzyW8OPXg==
+	afr6Clex5wL86K6/IVFsLMtbFH40mlRYen03FVNnlT6AOhaMHoXBn7XO9cdbldTCc3+vbuc03T2wdZ5jdi3D+RoV3ugzGTJVEdghQH4AvLPu1hONvxJnuZ8Y9Phk7zXOPSeAAX7eEVNg58skVIDBCZuE91yrhuUIhsYvd7uyd1Fz0wNIFqIWAHW1aJlEnGcmVrr8zT51NYXbiw88FMimqWKcypIJUQcmMfwPdQi7Son45vHrE7B61KKsmT6ODfG63SI4UysAnyA0hXMBNx91axUhAySRFWMxzganxUGfpjQCG5yoCIEi7EhdWCEGIMVBHkiNq+VvQdcmlf1caIfyn/LZmcpBAbXHFK88wEqQholbQ4CEOwKyFMe/IQUqkWdXAN2mE8Neqh8+9kNmNgVUsMVNnsfSaaAj+9wuTIduzEEDYYpRBQQRcMKuoW+iJQy5dKt8FxtEcZcGa+S6l/AfSb87Uzr3cVurBZguyOAEQVwDl2nsSXkGUwLRnwpvB1wPyqvLko47DDzUrW/un/lQ2q9tBiGvfJs0El0/FVKPydlYKNzwFPJfII+mBeboPYJIk4PHyHiwTrcAI26BHP/zKVBDLpe/pci+Z93EHpBj509PyVPkCeyCuV9jCPe+JABzbJoHLt6dFrJD74vBWNvUuA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89b3e337-733b-436c-48b1-08d87f7eb390
+X-MS-Exchange-CrossTenant-Network-Message-Id: 33ea92fe-d82f-414a-9579-08d87f7eb3df
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3514.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 22:29:02.9728
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Nov 2020 22:29:03.5255
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wHjHI/DSaEfnFYM/nW1/OOrD++/XGSzbsmCLe9Wtr1KaXBmeCnpP5LHsF561VGuSsWmu3vjZoUjEYORmCe9/dgIWlO5T4ULBpXTXYh6o5b4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3594
+X-MS-Exchange-CrossTenant-UserPrincipalName: +pYpgTv+PRG4F/7KRKCsYof0QOVsfCoB4JIukaM6HddFVU6ST/6Zo6KG7IfHfYXbyZOj9L6loPaJxEapdeBvIrdQRBXxnxfopvmWYCcxz6w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2810
 Content-Type: text/plain
 
-Using an editor or any kind of command line that wraps beyond the
-column width of the session on a serial port is quite problematic
-unless you are using an 80x24 session.
+Long ago in commit 473ff65c2f69de4ece3204fadfae7c5cb992149a
+(serial-getty service: Add xterm as default TERM), the xterm
+became the default for the serial port terminal.
 
-The original /etc/profile tried to use the resize binary if it was
-available.  The problem is that you only get the resize binary if
-xterm, or busybox is installed.
+Using the version of vim.tiny in oe-core master with the
+serial port connected in xterm version 322 (which is one
+of the most widely deployed versions at the current time)
+causes artifacts and missed characters.
 
-This updated /etc/profile will add a resize function available to the
-shell when no xterm or busybox resize binary is found.  More care is
-taken in this new version to test that terminal is interactive.  The
-EDITOR and SHLVL environment variables are checked to prevent resize
-from running necessarily.
+The example sequence is the following:
+  * Start vim
+  * Press "i" to enter input mode
+  * Type "123"
+  * Press Escape to enter command mode
+  * Press "a" to enter append mode
+  * Type "456"
 
-The function definitions are not indented intentionally to keep them
-to the 80 column width.
+At this point if you are using xterm less than version 535 you will
+see on your screen "12456" instead of "123456".
+
+Changing the TERM variable to "linux" will still allow you to have all
+the same functionality with colorization, ansi character escapes
+etc..., but will avoid the extra xterm specific escape sequence that
+only exists in the most recent versions of xterm.
+
+This patch allows the end user to set the serial terminal type to
+something other than the new default of "linux" by changing the
+SERIAL_TERM variable in local.conf.  For example:
+    SERIAL_TERM = "xterm"
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- .../base-files/base-files/profile             | 48 ++++++++++++++++---
- 1 file changed, 41 insertions(+), 7 deletions(-)
+ meta/recipes-core/systemd/systemd-serialgetty.bb                | 2 ++
+ .../systemd/systemd-serialgetty/serial-getty@.service           | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
-index 9e4283e0c7..cc37e1ba77 100644
---- a/meta/recipes-core/base-files/base-files/profile
-+++ b/meta/recipes-core/base-files/base-files/profile
-@@ -2,7 +2,6 @@
- # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index 0cc0dc8c79..d142b30f7e 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
+ PR = "r5"
  
- PATH="/usr/local/bin:/usr/bin:/bin"
--EDITOR="vi"			# needed for packages like cron, git-commit
- [ "$TERM" ] || TERM="vt100"	# Basic terminal capab. For screen etc.
+ SERIAL_CONSOLES ?= "115200;ttyS0"
++SERIAL_TERM ?= "linux"
  
- # Add /sbin & co to $PATH for the root user
-@@ -20,13 +19,48 @@ if [ -d /etc/profile.d ]; then
- 	unset i
- fi
+ SRC_URI = "file://serial-getty@.service"
  
--# Make sure we are on a serial console (i.e. the device used starts with
--# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
--# use ssh
--case $(tty 2>/dev/null) in
--	/dev/tty[A-z]*) [ -x @BINDIR@/resize ] && @BINDIR@/resize >/dev/null;;
--esac
-+if [ -t 0 -a $# -eq 0 ]; then
-+	if [ ! -x @BINDIR@/resize ] ; then
-+		if [ -n "$BASH_VERSION" ] ; then
-+# Optimized resize funciton for bash
-+resize() {
-+	local x y
-+	IFS='[;' read -t 2 -p $(printf '\e7\e[r\e[999;999H\e[6n\e8') -sd R _ y x _
-+	[ -n "$y" ] && \
-+	echo -e "COLUMNS=$x;\nLINES=$y;\nexport COLUMNS LINES;" && \
-+	stty cols $x rows $y
-+}
-+		else
-+# Portable resize function for ash/bash/dash/ksh
-+# with subshell to avoid local variables
-+resize() {
-+	(o=$(stty -g)
-+	stty -echo raw min 0 time 2
-+	printf '\0337\033[r\033[999;999H\033[6n\0338'
-+	if echo R | read -d R x 2> /dev/null; then
-+		IFS='[;R' read -t 2 -d R -r z y x _
-+	else
-+		IFS='[;R' read -r _ y x _
-+	fi
-+	stty "$o"
-+	[ -z "$y" ] && y=${z##*[}&&x=${y##*;}&&y=${y%%;*}
-+	[ -n "$y" ] && \
-+	echo "COLUMNS=$x;"&&echo "LINES=$y;"&&echo "export COLUMNS LINES;"&& \
-+	stty cols $x rows $y)
-+}
-+		fi
-+	fi
-+	# Use the EDITOR not being set as a trigger to call resize
-+	# and only do this for /dev/tty[A-z] which are typically
-+	# serial ports
-+	if [ -z "$EDITOR" -a "$SHLVL" = 1 ] ; then
-+		case $(tty 2>/dev/null) in
-+			/dev/tty[A-z]*) resize >/dev/null;;
-+		esac
-+	fi
-+fi
+@@ -22,6 +23,7 @@ do_install() {
+ 		install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
+ 		install -m 0644 ${WORKDIR}/serial-getty@.service ${D}${systemd_unitdir}/system/
+ 		sed -i -e "s/\@BAUDRATE\@/$default_baudrate/g" ${D}${systemd_unitdir}/system/serial-getty@.service
++		sed -i -e "s/\@TERM\@/${SERIAL_TERM}/g" ${D}${systemd_unitdir}/system/serial-getty@.service
  
-+EDITOR="vi"			# needed for packages like cron, git-commit
- export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+ 		tmp="${SERIAL_CONSOLES}"
+ 		for entry in $tmp ; do
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+index 549d566009..b16fe1188e 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
++++ b/meta/recipes-core/systemd/systemd-serialgetty/serial-getty@.service
+@@ -29,7 +29,7 @@ Conflicts=rescue.service
+ Before=rescue.service
  
- umask 022
+ [Service]
+-Environment="TERM=xterm"
++Environment="TERM=@TERM@"
+ ExecStart=-/sbin/agetty -8 -L %I @BAUDRATE@ $TERM
+ Type=idle
+ Restart=always
 -- 
 2.17.1
 
