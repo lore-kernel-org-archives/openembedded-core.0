@@ -1,50 +1,50 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.1212.1604335786514830934
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web08.1160.1604335787436368377
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Nov 2020 08:49:46 -0800
+ Mon, 02 Nov 2020 08:49:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jvGHVeBw;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id l24so15011460edj.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bkMl5fm0;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id o9so17728934ejg.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Nov 2020 08:49:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TshHhws/igemFSAYKkUSc4sx0ixnNbtJOTQEPzZ7zSE=;
-        b=jvGHVeBw6eHjuQHksVQSBEKwa38nZEOlqRpQMAe1aG6G5Yr1m38GVIsaZ6vumRpHTh
-         ZWPQMstr7in+HGYeb/ovgUhjdq1Txb8H/2dneOPcSUmK2go/ZNc4dLtwlZMDYKcy66mG
-         p6mVyBtR4s9KVJOrAv1bg6lVVzGdX1c88blYuMFCuaju+teteHRQ+F8THiOkGESXob6E
-         am6WqgxYaB2Qlg+m3kvGL64jT7LkebaEYqVfdZ+x0k5fUAgJyUG+3+LO8pHba4MxFzl7
-         HRICTdiZl29uI3D401OlEhLoeNfppsYc8aQKesvPXwrAXpP4KvgFNWKLGgqpkJ3RJZpN
-         tCDQ==
+        bh=MTSDpb6+KFbU/0XHKvI8KOiwfmD90YjN+Z5/vPTRTQo=;
+        b=bkMl5fm0ziK6UVN+0SXBQzO7lG4WaFD9OGzhNf8kAJTv65GCmqt0fUPvRrr3Zzn5XY
+         Q6oCqtxPUd8lQAJrWqPI8s49yZNeMeUP5cTE7NJRrsEVCHM4vuyfRfhOsd3wKPTMH+CB
+         6b3OJxVK0gue6Rcm4QJ8z9BJWLJk1hSVvqIWmThipIKGn6M+m6hPARXcdOkXt+6bpEwS
+         L6IHzfS3Gy1pJv+Jh1hZewAhNB/MMsFG1K5cyUNGsa2jyiGpe9lGv+OxIiXPGtK8CSN3
+         BUCNzYvklGcpp1oGTY/yHoQt1MCeVJcTAvcFovHDIvgdlTEzNFPRaRJgxEG7HYM4ARDi
+         jv/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TshHhws/igemFSAYKkUSc4sx0ixnNbtJOTQEPzZ7zSE=;
-        b=EdU0GEnM6iEjBwg03IzOAqgj7Aqm/DoR75WZHDVHlASfr0IlUfHOBppj0xVqdToe8h
-         9s7D0azopyOv0u3QLzMLL6TSFYcqeDWNHh0aVVhw498orluL81I8R9mzwYKAhcCF3o3E
-         mrob8qdeDNI7l6FY5r6C+bopkozbx+4cdGQgMrjHzX4kyK1Oa22PWqjbQeCSKYlo+uWn
-         DXu4uY8PMN1tb1e5Btdbo7WB1ruyG4/0f35G1Eh8iZlRPT5s1IPLxov5oVTMeXb+2u7J
-         bNB2JpWHeVmHXk2huIGgFdg20QLR8d21yDZC47Ok7jg8kNNizWm2UMe5VFJ7KKR8SBf9
-         73gQ==
-X-Gm-Message-State: AOAM532ClOF9/d7xW/LgS3vWpgWst6p/wqbs337XcVoPVCpu1IOZlzFk
-	Ee9SR8bmi/DJ1G0Kir9yA6bQGE26gotO/w==
-X-Google-Smtp-Source: ABdhPJzbC+6MZ3MoojrhrlOOVbuoOkzs0RP/7hw59ZFO/2Bd+T7cuUSpNaYrqpSVuf02Z8XYlOgWEQ==
-X-Received: by 2002:a50:baea:: with SMTP id x97mr17559619ede.81.1604335784784;
-        Mon, 02 Nov 2020 08:49:44 -0800 (PST)
+        bh=MTSDpb6+KFbU/0XHKvI8KOiwfmD90YjN+Z5/vPTRTQo=;
+        b=s2oxY/FDI/X0/AeB/Wh12b8r55LFkSUcdR1K5PHOaaFWsB42m+FozLmzo0e2RoNxh7
+         jUUKJTSavzGQ58VAetRO/i5jCbeRRWziEYbzNXeY3qVsdLlQCgmDqvYrONRxedNFSmK+
+         dfraqGhKrhnCneEEb18u6A3zkIoVGx3KQqmpFGUL4FV+9LkF3ZHUQn7tcboaR+x1wF7R
+         6xVuVUg/tEYb+smJvIS6q8+6B5+o0qWwNuMODoARl5A1bZh+pTiDWmME2otzkTjy0gf7
+         F6Mw3ApJ9ZpP0nAhlBHPKK9fyHUkguHLnMBTzhDGxj84DJXCHAjamcWizPXbyWAANEnh
+         pwiw==
+X-Gm-Message-State: AOAM532mYxVDKHGQ7RQ1NTD3+78Zv4r+Lz9x/rZAGKu3iiYAhaNdkmwO
+	dp1ZJykotQiKDjIgW03O3FoY0emK9CkhCQ==
+X-Google-Smtp-Source: ABdhPJz0HmdQxhNFk8gfynqAEDO6KjVCQAOkzKHWGrTQt/HYaZ0uMrRY+ECShX1qjxZ/DzzvDCWNgA==
+X-Received: by 2002:a17:906:660f:: with SMTP id b15mr16773611ejp.333.1604335785829;
+        Mon, 02 Nov 2020 08:49:45 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id us11sm9864781ejb.91.2020.11.02.08.49.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 08:49:44 -0800 (PST)
+        Mon, 02 Nov 2020 08:49:45 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 31/80] libdnf: upgrade 0.48.0 -> 0.54.2
-Date: Mon,  2 Nov 2020 17:48:18 +0100
-Message-Id: <20201102164907.27572-31-alex.kanavin@gmail.com>
+Subject: [PATCH 32/80] libgudev: upgrade 233 -> 234
+Date: Mon,  2 Nov 2020 17:48:19 +0100
+Message-Id: <20201102164907.27572-32-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.0
 In-Reply-To: <20201102164907.27572-1-alex.kanavin@gmail.com>
 References: <20201102164907.27572-1-alex.kanavin@gmail.com>
@@ -53,26 +53,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libdnf/{libdnf_0.48.0.bb => libdnf_0.54.2.bb}               | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/libdnf/{libdnf_0.48.0.bb => libdnf_0.54.2.bb} (96%)
+ .../libgudev/{libgudev_233.bb => libgudev_234.bb}              | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-gnome/libgudev/{libgudev_233.bb => libgudev_234.bb} (83%)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.48.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/libdnf/libdnf_0.48.0.bb
-rename to meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
-index 37991e6d80..2a05b9f534 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.48.0.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
-@@ -11,7 +11,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
-            file://enable_test_data_dir_set.patch \
-            "
+diff --git a/meta/recipes-gnome/libgudev/libgudev_233.bb b/meta/recipes-gnome/libgudev/libgudev_234.bb
+similarity index 83%
+rename from meta/recipes-gnome/libgudev/libgudev_233.bb
+rename to meta/recipes-gnome/libgudev/libgudev_234.bb
+index 8bc379ff62..9cea36df5b 100644
+--- a/meta/recipes-gnome/libgudev/libgudev_233.bb
++++ b/meta/recipes-gnome/libgudev/libgudev_234.bb
+@@ -5,8 +5,7 @@ other programming languages, such as Javascript, because of GObject \
+ introspection support."
+ HOMEPAGE = "https://wiki.gnome.org/Projects/libgudev"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libgudev/issues"
+-SRC_URI[archive.sha256sum] = "587c4970eb23f4e2deee2cb1fb7838c94a78c578f41ce12cac0a3f4a80dabb03"
+-SRC_URI[archive.md5sum] = "d59a317a40aaa02a2226056c0bb4d3e1"
++SRC_URI[archive.sha256sum] = "1baeacacf0db42fa073ad5183d1decce9317857416a2b0f82ce3370d711a2e37"
  
--SRCREV = "46a28d0cf09277fffc11392e5e362a2eda0d53a8"
-+SRCREV = "c5f20d4f306f4d0f9d479be228bdc474968c8b60"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ DEPENDS = "glib-2.0 udev"
  
- S = "${WORKDIR}/git"
 -- 
 2.29.0
 
