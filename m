@@ -1,184 +1,159 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.49])
- by mx.groups.io with SMTP id smtpd.web09.1699.1604394489998965033
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web11.3814.1604409315902071805
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2020 01:08:11 -0800
+ Tue, 03 Nov 2020 05:15:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@skidata.onmicrosoft.com header.s=selector2-skidata-onmicrosoft-com header.b=Yx7Rqlfu;
- spf=pass (domain: skidata.com, ip: 40.107.22.49, mailfrom: richard.leitner@skidata.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DRaCv/+vcQv1MlfnkEke/UoBub64Hmph94KJKj+K2701puYerNi38u7FVeA0FgHStxuXihf/SIY4YZY44towwVXnf1RnKR7dLcf0lUjbZfAqwcnUf95UMD2KRkkdMY+4UrAK7GKFXSSHForFFPC25JbzvV8O1JMWg3o8LY/ht2jrxcws9HJmZvMjLd/7IqNVwD/9vZoBI6STUfi4f9HnfOj2a9v0HmtP2T5wsN/LTSn1HdaBSoAXbhdT6Q9rx1yOwPhCJmQvdmLJAR3eSsQsrr91grgxtVvf6cKXh5GthhKDHRXrnGXVcTIxC/fNkkrd1g7d592wEU/WB607zg9q1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jCeDZjbo/PVfknoBzwxjPYYojdeTY+9lYfhhsYexOlU=;
- b=WI1ZfZcPB7dCsJ0eXKYbp+lGZ0cM2NNjGsNLBaQ2BSZVYSpOSdCwzimz1fqE7cbLM3PYOTPJWkGnrC65hxBnEQW4BrOU/sC6CkAwC6SlVrXO1yNd+fuiSxcHg0cSb+QsG8xc/cwVhQYiTKOR9hb2aSIqK4sy6maD60p3/LJh45xcCg6ADkF2PrhpXH8/nJY7b9VB3hiem/v4sHEW6voZIynTY3MSge2Ih/EZ6E1ROdMFm1owP+dhw1Ye182z9jnnw+4XzM0/PVgiyYhRA4rDz36RPsW0XPldOr42w2b7/wpo8J5xF5fqSBZxaz3tsy8dsF9kK4CQNhCOHyq6gYL3hg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=skidata.com; dmarc=pass action=none header.from=skidata.com;
- dkim=pass header.d=skidata.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i5+Wew6F;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id ay21so4833798edb.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 05:15:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=skidata.onmicrosoft.com; s=selector2-skidata-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jCeDZjbo/PVfknoBzwxjPYYojdeTY+9lYfhhsYexOlU=;
- b=Yx7RqlfuB8pEhZPgwysG1Ir4Uh3cF0+K2u8g5ILLPdtYkg5fF4RZFqEhawmT84c94zyQEPOA5tcYR/5l7aTJQXfpPs73kut09fpmghnAdvZZpFKpjCNO4KHF3EgNpvitLlRQgxZKAJESQQH6R9a6UHDeWQrIlhZweC0stlupeKw=
-Authentication-Results: sakoman.com; dkim=none (message not signed)
- header.d=none;sakoman.com; dmarc=none action=none header.from=skidata.com;
-Received: from VI1PR01MB5007.eurprd01.prod.exchangelabs.com
- (2603:10a6:803:9d::19) by VI1PR01MB6989.eurprd01.prod.exchangelabs.com
- (2603:10a6:800:198::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 3 Nov
- 2020 09:08:07 +0000
-Received: from VI1PR01MB5007.eurprd01.prod.exchangelabs.com
- ([fe80::a162:c96a:232:50ec]) by VI1PR01MB5007.eurprd01.prod.exchangelabs.com
- ([fe80::a162:c96a:232:50ec%3]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 09:08:07 +0000
-Date: Tue, 3 Nov 2020 10:07:59 +0100
-From: "Richard Leitner" <richard.leitner@skidata.com>
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Re: [dunfell][PATCH] xcb-proto: backport fix for python gcd function
-Message-ID: <20201103090536.GA6121@brokenbit>
-References: <20201030134551.44013-1-dev@bubus.at>
-In-Reply-To: <20201030134551.44013-1-dev@bubus.at>
-X-Originating-IP: [83.215.125.121]
-X-ClientProxiedBy: AM0PR04CA0122.eurprd04.prod.outlook.com
- (2603:10a6:208:55::27) To VI1PR01MB5007.eurprd01.prod.exchangelabs.com
- (2603:10a6:803:9d::19)
-Return-Path: richard.leitner@skidata.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JzZAqU0dNjjg17VCQjzYhSTwR3JpT2K1bLG2rtf1f6A=;
+        b=i5+Wew6F5C/1fIIN8CXXGh4SVIgFvxz6XdsT+Bvh55WP9oamXyhwctfsezTcyjy4rn
+         9SXuR+XHOP/HdJ18g2o0DWZBfTDLi7dPl6k2XNDtgYiJbq4yRDwU5gVec+kC8Hg1qiGQ
+         hmcrZSSur01vnjnrul7JqLBoKyilj5eZlwoxLlq8Q6r725U5bZH0YR8pnMGTunGEI/ln
+         uhVezuLjzLvgkjm+C81DIpX3Vx8RGkIk4oxVYz8Iv8di5ORnLEhibzZs1hBr5ok0exbd
+         bobQY0S8fM6Lw3cUlTLzA60Hc58j2fO2bYjIezNdEA860Br9ABTWqehW1vd4RL+HdG5g
+         lThA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JzZAqU0dNjjg17VCQjzYhSTwR3JpT2K1bLG2rtf1f6A=;
+        b=ddL4UgT9/HEdqo1tNDR7sy2v5KNj5eJ5/lpYWZ8PBqAyXfwVpPp+//mRyVj7gcRyhB
+         Bl7LmStQsD0ZXzEOlG5WydzLPdShQCVBq4PFDP7U6E+vUkoAlV/rur5SF3ud1GbPleHg
+         DqmKbFD+P6ds7N8s6DJqglnT9h1psnDo+bQOKvAQXL/fEiSAlO0Tg0ORH0HPUQwBLA55
+         3sRPEpuILzJ1llarPUZdvpUFkbaTebhBcg9PMvp0bGiXuBY9L5PmbohPjUG8LquuttyJ
+         GWJ9WsJF8oMnmepKgi4mqnYIFwxZvUIf5L8y6aaBHJp0VJl/5YfSHEvlnh3635RwP6k7
+         uf8g==
+X-Gm-Message-State: AOAM531Hpys7dSfv1HLCyesxirTA1ZQoKWG6Y4PJgQ41+ted4gcXrv9P
+	Oh+SeorvVViqvqTpXSx/R5B05YvdFufe/jQh+gk=
+X-Google-Smtp-Source: ABdhPJyxTgi4VZyEZnr1M3uxXD1bXIKNrsWqy1E+5QTucJjUoA5Dt6XSwIK7Gj0b/3ts1dQPlrA4SfHH/MJm1qd4RaI=
+X-Received: by 2002:aa7:d407:: with SMTP id z7mr18410673edq.234.1604409314282;
+ Tue, 03 Nov 2020 05:15:14 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from brokenbit (83.215.125.121) by AM0PR04CA0122.eurprd04.prod.outlook.com (2603:10a6:208:55::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 09:08:06 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 610a818f-3ad6-43e9-8596-08d87fd7fa67
-X-MS-TrafficTypeDiagnostic: VI1PR01MB6989:
-X-Microsoft-Antispam-PRVS: 
-	<VI1PR01MB6989A53271F01E45DBAD0254F0110@VI1PR01MB6989.eurprd01.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	9k+6nhtoh5VCcg9Nkky1hbSH/gj5r8sNzS7LqaiTHoeugJzZjQGBbhsmPHlp5Hij60S64+uSRmSKNcVQKiUMR+jcJALp/HpfTV9SAfRivY4HzPaiSx/oqcjlAQg2kdGJ5XNVLU3/EcdMbClhElIBra49OaS2GA2b3hy15tYmUmZOkPbpj0A5Y7uQnG3Eat+oPfilpw5o+09w2bl58RMvM621XT2/AIzlKH3oHnTDnn7DLTEZKzdttKnuXCV8QyS5BWH/KYPMy5cPmZPlOd1XoUybvfPRHr0Youkk8/ex8Q9l+9p91jkmBYbNH6sxEEUJmDjRvgHA5bjaBtHNl7iZ7JwKbZ6Mr0KM3+etfpWmHksCpv7r4tWbSK9niDrvh1+jFYkSwOzWnR/+nF8aLe3CtA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR01MB5007.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(39850400004)(136003)(396003)(346002)(376002)(366004)(16526019)(6666004)(26005)(5660300002)(6916009)(4001150100001)(186003)(2906002)(52116002)(8676002)(9576002)(1076003)(44832011)(8936002)(86362001)(6496006)(9686003)(4326008)(33716001)(66574015)(316002)(66556008)(66946007)(478600001)(956004)(33656002)(966005)(55016002)(66476007)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	LWGp8yMN3KkhM2WKOwf4h1ccpamRnLPL8h7Zp3+kdKF3XIZwhjNF9MmXXYztTWroyXoEN0Jv29jcMQE8rm8zEWew2W+jdOM/cFls6wEvj8sPF/4xIlvPX+7eyyYqwP1NH2o+W43PmWKYH7NsC8g4EvK9Naa5e1jKddXeP4J+4OL/IUsngt8JK92Uc4mZzs4jzpYlq1MY4AZAaDrj2eWFYby9VBXqU/HJEhGVzYr7D8yqp3UW4lah5kfBAoxfue8Q3s+ILe3pmwNHlRcrIO/9FSxk0kkEdSoQZZDUUqnYjK51HE1e/BTlBFxULwF92ZQUsg2B4EF9zmLFtSgPtW95sLiLw7wGcuOjcxEkFodKZua0sfsPg0aotsnUddr32hcwoLepYIWW+oNmAA7K6/zIqpjng0itz+uzXgCUA7W2f5+k8gZRHbUfLRlGawiDVFkEvOhT41B3ddYyCQr4qgOT/QwZ6QSI7O+PiS+BzRrAgPFHNx0qmbCMBluJQWcvG/h0nF2xM1XfLFgjI5tP8mS008qxn9tGIS07qpuXJowOuByqsTGFbflynXhVLkGDyd+lu9HaNz9Wzh5mNpNB5yPeAQj0TucbrQTT4vydv1CdyJySqOgJm/ydLuN+4pTB2og1u+53ojoYmyfPHOO7KYbzrQ==
-X-OriginatorOrg: skidata.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 610a818f-3ad6-43e9-8596-08d87fd7fa67
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR01MB5007.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 09:08:07.1868
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3d52ce8f-cef6-4b27-bace-cf9989cf3973
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bGt1fuxAwq2RjjfFab4auPuDG8z5+vHoKtNNx0SsJPhiA+mA8wUs2yQj5LMYyaCRrY3RY93NZMl73gmiUHyiNF4cTJJwEKLec2ZVJoIGFHk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR01MB6989
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+References: <20201102222852.38452-1-jason.wessel@windriver.com>
+In-Reply-To: <20201102222852.38452-1-jason.wessel@windriver.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 3 Nov 2020 08:15:02 -0500
+Message-ID: <CADkTA4PuAX+p96ogha6vRcpz_-3DSOYRTZ4hOZ6id6acVGgAJg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] base-files/profile: Add universal resize function
+To: Jason Wessel <jason.wessel@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Steve,
-friendly reminder for this patch as the initial fix was merged to master
-a few days ago as commit 1476d40d3e (xcb-proto: update to 1.14.1, 2020-10-2=
-8).
-
-Is backporting the patch fine for dunfell or should xcb-proto be
-updated?
-
-Thanks!
-
-regards;rl
-
-On Fri, Oct 30, 2020 at 02:45:51PM +0100, Richard Leitner wrote:
-> From: Richard Leitner <richard.leitner@skidata.com>
->=20
-> This backports the fix [1] for the following build error for nativesdk on
-> Fedora 33 which is caused by the removal of fractions.gcd() in favor of
-> math.gcd() in python 3.9 [2]:
->=20
-> ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python=
-3.9/fractions.py)
->=20
-> [1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35be=
-e1fa0fdb8b5120b1dcd20cee6e34512
-> [2] https://bugs.python.org/issue39350
->=20
-> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+On Mon, Nov 2, 2020 at 5:29 PM Jason Wessel <jason.wessel@windriver.com> wrote:
+>
+> Using an editor or any kind of command line that wraps beyond the
+> column width of the session on a serial port is quite problematic
+> unless you are using an 80x24 session.
+>
+> The original /etc/profile tried to use the resize binary if it was
+> available.  The problem is that you only get the resize binary if
+> xterm, or busybox is installed.
+>
+> This updated /etc/profile will add a resize function available to the
+> shell when no xterm or busybox resize binary is found.  More care is
+> taken in this new version to test that terminal is interactive.  The
+> EDITOR and SHLVL environment variables are checked to prevent resize
+> from running necessarily.
+>
+> The function definitions are not indented intentionally to keep them
+> to the 80 column width.
+>
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 > ---
->  ...1-xcbgen-use-math-gcd-for-python-3-5.patch | 40 +++++++++++++++++++
->  .../xorg-proto/xcb-proto_1.13.bb              |  3 +-
->  2 files changed, 42 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbge=
-n-use-math-gcd-for-python-3-5.patch
->=20
-> diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-m=
-ath-gcd-for-python-3-5.patch b/meta/recipes-graphics/xorg-proto/xcb-proto/0=
-001-xcbgen-use-math-gcd-for-python-3-5.patch
-> new file mode 100644
-> index 0000000000..f9f4424da5
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-gcd=
--for-python-3-5.patch
-> @@ -0,0 +1,40 @@
-> +From 426ae35bee1fa0fdb8b5120b1dcd20cee6e34512 Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Bj=3DC3=3DB6rn=3D20Esser?=3D <besser82@fedoraproject.o=
-rg>
-> +Date: Mon, 1 Jun 2020 12:24:16 +0200
-> +Subject: [PATCH] xcbgen: Use math.gcd() for Python >=3D 3.5.
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +fractions.gcd() has been deprecated since Python 3.5, and
-> +was finally dropped in Python 3.9.  It is recommended to
-> +use math.gcd() instead.
-> +
-> +Signed-off-by: Bj=F6rn Esser <besser82@fedoraproject.org>
-> +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/proto/xcb=
-proto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512]
-> +Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-> +---
-> + xcbgen/align.py | 7 ++++++-
-> + 1 file changed, 6 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/xcbgen/align.py b/xcbgen/align.py
-> +index d4c12ee..5c4f517 100644
-> +--- a/xcbgen/align.py
-> ++++ b/xcbgen/align.py
-> +@@ -2,7 +2,12 @@
-> + This module contains helper classes for alignment arithmetic and checks
-> + '''
-> +=20
-> +-from fractions import gcd
-> ++from sys import version_info
-> ++
-> ++if version_info[:2] >=3D (3, 5):
-> ++    from math import gcd
-> ++else:
-> ++    from fractions import gcd
-> +=20
-> + class Alignment(object):
-> +=20
-> +--=20
-> +GitLab
-> +
-> diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb b/meta/re=
-cipes-graphics/xorg-proto/xcb-proto_1.13.bb
-> index 7467090920..1f41821302 100644
-> --- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-> +++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-> @@ -11,7 +11,8 @@ LICENSE =3D "MIT"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd763b081cb10c223435b01e00dc0a=
-ba7 \
->                      file://src/dri2.xml;beginline=3D2;endline=3D28;md5=
-=3Df8763b13ff432e8597e0d610cf598e65"
-> =20
-> -SRC_URI =3D "http://xcb.freedesktop.org/dist/${BP}.tar.bz2"
-> +SRC_URI =3D "http://xcb.freedesktop.org/dist/${BP}.tar.bz2 \
-> +           file://0001-xcbgen-use-math-gcd-for-python-3-5.patch"
->  SRC_URI[md5sum] =3D "abe9aa4886138150bbc04ae4f29b90e3"
->  SRC_URI[sha256sum] =3D "7b98721e669be80284e9bbfeab02d2d0d54cd11172b72271=
-e47a2fe875e2bde1"
-> =20
-> --=20
-> 2.28.0
->=20
+>  .../base-files/base-files/profile             | 48 ++++++++++++++++---
+>  1 file changed, 41 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+> index 9e4283e0c7..cc37e1ba77 100644
+> --- a/meta/recipes-core/base-files/base-files/profile
+> +++ b/meta/recipes-core/base-files/base-files/profile
+> @@ -2,7 +2,6 @@
+>  # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+>
+>  PATH="/usr/local/bin:/usr/bin:/bin"
+> -EDITOR="vi"                    # needed for packages like cron, git-commit
+>  [ "$TERM" ] || TERM="vt100"    # Basic terminal capab. For screen etc.
+>
+>  # Add /sbin & co to $PATH for the root user
+> @@ -20,13 +19,48 @@ if [ -d /etc/profile.d ]; then
+>         unset i
+>  fi
+>
+> -# Make sure we are on a serial console (i.e. the device used starts with
+> -# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
+> -# use ssh
+> -case $(tty 2>/dev/null) in
+> -       /dev/tty[A-z]*) [ -x @BINDIR@/resize ] && @BINDIR@/resize >/dev/null;;
+> -esac
+> +if [ -t 0 -a $# -eq 0 ]; then
+> +       if [ ! -x @BINDIR@/resize ] ; then
+> +               if [ -n "$BASH_VERSION" ] ; then
+> +# Optimized resize funciton for bash
+> +resize() {
+> +       local x y
+> +       IFS='[;' read -t 2 -p $(printf '\e7\e[r\e[999;999H\e[6n\e8') -sd R _ y x _
+> +       [ -n "$y" ] && \
+> +       echo -e "COLUMNS=$x;\nLINES=$y;\nexport COLUMNS LINES;" && \
+> +       stty cols $x rows $y
+> +}
+> +               else
+> +# Portable resize function for ash/bash/dash/ksh
+> +# with subshell to avoid local variables
+> +resize() {
+> +       (o=$(stty -g)
+> +       stty -echo raw min 0 time 2
+> +       printf '\0337\033[r\033[999;999H\033[6n\0338'
+> +       if echo R | read -d R x 2> /dev/null; then
+> +               IFS='[;R' read -t 2 -d R -r z y x _
+> +       else
+> +               IFS='[;R' read -r _ y x _
+> +       fi
+> +       stty "$o"
+> +       [ -z "$y" ] && y=${z##*[}&&x=${y##*;}&&y=${y%%;*}
+> +       [ -n "$y" ] && \
+> +       echo "COLUMNS=$x;"&&echo "LINES=$y;"&&echo "export COLUMNS LINES;"&& \
+> +       stty cols $x rows $y)
+> +}
+> +               fi
+> +       fi
+> +       # Use the EDITOR not being set as a trigger to call resize
+> +       # and only do this for /dev/tty[A-z] which are typically
+> +       # serial ports
+> +       if [ -z "$EDITOR" -a "$SHLVL" = 1 ] ; then
+> +               case $(tty 2>/dev/null) in
+> +                       /dev/tty[A-z]*) resize >/dev/null;;
+> +               esac
+> +       fi
+> +fi
+>
+> +EDITOR="vi"                    # needed for packages like cron, git-commit
+
+If we set vi as the default, should it be in the RDEPENDS for base-files ?
+
+It's a bit of a grey area, since base-files has some special
+dependency tweaks, and you actually need to trigger some functionality
+for this to be used .. hence it isn't a hard rdepends.
+
+Bruce
+
+>  export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+>
+>  umask 022
+> --
+> 2.17.1
+>
+>
+> 
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
