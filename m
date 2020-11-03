@@ -1,36 +1,36 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web10.4203.1604410958432346057
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web09.4223.1604410959096762401
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2020 05:42:38 -0800
+ Tue, 03 Nov 2020 05:42:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KRiwyyka;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id c18so12801148wme.2
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bjj7436I;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id a9so18584627wrg.12
         for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 05:42:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=e39qAXFnFBuK6p8LFsUAlBiHq9iMxEh/QdcRxNbRFrc=;
-        b=KRiwyykacw9yKctCijqo15xtys8Aqds7UpwvJXCLGJb+JQrl83nW6cpeAIlutL2r8s
-         KGmo0zXZSFzICKo7ocSH66yvXr109q5/Si4xEeMlkTGMqG6DM/2UfX9wDm7cGb6duNo3
-         /jau0i0sTdsPkfeXYLGnpZsPo/CeFrICMaf1c=
+        bh=YOVTGKZDPw2ZzrWefWUDx0YdgKLNMWlk6XJ1W9kF/uQ=;
+        b=bjj7436IO6x0Db6wTPi6Le+5dAgWggnHoAfPLOU0Tf60QZb2m351LBAFXVl+SAD5qD
+         4Lw0HpFb9FHGAC2QOH+4FyAg3CCdQSAtV6xxWxZDpXeFCo9NNfLXWBkS0z2BmUw1i1fa
+         atLNInGYEhs/GESRyGYACPc/h18pvhTfkNoys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=e39qAXFnFBuK6p8LFsUAlBiHq9iMxEh/QdcRxNbRFrc=;
-        b=lJChmW2x9e9Zl+rSvKRuv4nuP0iw4Aj5CAfXPrAoUEg0SWwIoOmTAkVl50G6RbqjVL
-         dtVm0jgX6DL83xnMennmYcTAJ1jw1Be7dfaTz5ZdntU0hLE5jWJKl1bVrKv0xZQ9s+bt
-         yxS5VSwoG9L3AHE05BOGNwjM7CuvjnOGKL0jcrRJOdANrFT3UPW7RxJ/3T7jRqHkvQr+
-         Dp2FlSh/M+jnXggxETzEs4hjSVANBmxdx7Ow+tPddvkHQJU3CSA1fSuL1DVFK/xoYC6p
-         /en9pj37n4QILU+ryhaMHB12GLJlMIaCMDHfLqarz47lJEO97xUmjfHpE3VPnvXDEuC8
-         gS1Q==
-X-Gm-Message-State: AOAM532s4uoHulWXtwGXUINqB4z3sn6pLDEKDHUz6VdlgXsy8vVonf89
-	Dc8KnaYtJt+oiiEGdDcGi+Z6P6VG5I5RcQ==
-X-Google-Smtp-Source: ABdhPJyTH+y0h75slKEviU+2gzh1TxANwh52vlCZycCbPfCTB5gR3+2KanophA4DwOu2EyUSt7VASQ==
-X-Received: by 2002:a7b:c0d7:: with SMTP id s23mr3945811wmh.54.1604410956685;
-        Tue, 03 Nov 2020 05:42:36 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=YOVTGKZDPw2ZzrWefWUDx0YdgKLNMWlk6XJ1W9kF/uQ=;
+        b=nAtNwgfEnCW4NNQryffYD+YafpCD4AUKGmuwIi0YBAUpYVKCaZtDlkdnyb7OCQy5sB
+         MQZSfhQzqIA0V3o/n9FM9Np5DNAVwEUiTw4aN5ozBuQQTKothhJVJ3vV4QubqEwInWqC
+         9vwiNtXqAFM2p/LVKJeZnTTfQ1tWNDD9NNAeGefciYi7a9CVkRUGvQvExVr4xQyR2H2q
+         6oLTXilxbHcgWyB+kqokp6pin00iQ/WqFH5ZdBewxocBbW1BjsRXl8i3U/DNz/JdGNAg
+         cDrqYMtRZE+4pBBUMCuZi1+BtXpb+TtUFOVNz3RWB1+2cifEgIgLTDgqqgz6FaSM3wdu
+         m18Q==
+X-Gm-Message-State: AOAM533OVZZGm++x+uQpCksaXW5VepLifhavQRfaq2V4m9bCJi/fSJFb
+	ytIVFx+eT5W8XHhCo25Pl82awulPrrq27A==
+X-Google-Smtp-Source: ABdhPJyreHlIaILvKpfYPEShO+9b8cVkz9J3F+E1/zHys32Rux6aGvjD9yCov17CSwzVgsBpCvAoIQ==
+X-Received: by 2002:adf:f810:: with SMTP id s16mr25455731wrp.424.1604410957182;
+        Tue, 03 Nov 2020 05:42:37 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:11ab:804e:534c:cf3d])
         by smtp.gmail.com with ESMTPSA id e3sm26426089wrn.32.2020.11.03.05.42.36
@@ -39,10 +39,12 @@ Received: from hex.int.rpsys.net (d.3.f.c.c.4.3.5.e.4.0.8.b.a.1.1.c.3.f.5.a.b.a.
         Tue, 03 Nov 2020 05:42:36 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] ptest-runner: Fix license as it contains 'or later' clause
-Date: Tue,  3 Nov 2020 13:42:33 +0000
-Message-Id: <20201103134235.423940-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/3] libdnf: Fix license as it contains 'or later' clause
+Date: Tue,  3 Nov 2020 13:42:34 +0000
+Message-Id: <20201103134235.423940-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201103134235.423940-1-richard.purdie@linuxfoundation.org>
+References: <20201103134235.423940-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
@@ -51,22 +53,20 @@ to match.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb | 2 +-
+ meta/recipes-devtools/libdnf/libdnf_0.54.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-index 10b4c5b6a40..8b9938f572b 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-@@ -4,7 +4,7 @@ program which loops through all installed ptest test suites and \
- runs them in sequence."
- HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
+index 2a05b9f5342..39d80a08215 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.54.2.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Library providing simplified C and Python API to libsolv"
+-LICENSE = "LGPLv2.1"
++LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--LICENSE = "GPLv2"
-+LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
- 
- SRCREV = "834670317bd3f6e427e1ac461c07ada6b8936dfd"
+ SRC_URI = "git://github.com/rpm-software-management/libdnf;branch=dnf-4-master \
 -- 
 2.25.1
 
