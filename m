@@ -1,83 +1,79 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.4337.1604440371943139688
- for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2020 13:52:52 -0800
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com [148.163.156.75])
+ by mx.groups.io with SMTP id smtpd.web10.4769.1604441437831510839
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 03 Nov 2020 14:10:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YcgBC9o/;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id gn41so9326593ejc.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 13:52:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hwkfsHBeSP4YGniz5U5O94hUNNJbn61yIK+Wa1qqs7A=;
-        b=YcgBC9o/b5FTZcFKMI+rMNfpUKiOu+90Lm9TnzRZCsteGc/LBMNQK1/y/mibhBc7Le
-         BJ4ezH6MXh6VrCLVaLLovnVoRlc1J/OWIIEPam2Sca7xAvZA08DUWqW2AQPSCXsEzJOT
-         O9lrXd2Dbd0Q4iF1QAAmOKHBlS/CDM8wtr4VgMvr0vPzqPOuLY6+MR7jRpi7WJDcrWDn
-         xN8z7IRVbd+ItFrpcThWkMgt5dLvTiBunJ84zzZcwHOFbPo0ZJgD3nVwfWAVN9sHjRZ/
-         HretEW0HwyGwAxu4I+xqnWchkPIMtBJJ8+4G/POlkeSvWP7nXBT9rZJQ0u58v/0U80W9
-         ql5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hwkfsHBeSP4YGniz5U5O94hUNNJbn61yIK+Wa1qqs7A=;
-        b=jycDk8OoG9S+acnGIfUQfRkhhvTBI3sdLhW3+0+6/dvVAU7kD1rPE39fv/2eU1+6qN
-         0hKduYhvkLTOEWb9J0xjciqjT5JAp25ROAtumaXXi8U/et6HuXEWX0mk917/MR/u5a7E
-         IOaanaCWBrcOYEg4LJ+UhxklkpGIDvKqd5tggiBQbeCtL9NuoVfDZYIhUWvRlk1aoqfn
-         +cELn4XaugomhbsLG7OHjZ7ejuR53iM2ZJG4g3EzZucFQEs0cgUXz9t8E42Ic96zef3U
-         +yd5EQGmMcP7ji+Lb7mqzg5A2+ub6TJzJjasrOE33CZ8UFbMzi+4dcl0kiYrT2lYnLqi
-         Oi2g==
-X-Gm-Message-State: AOAM533g2hjQtg864gWwH5Vubj1Jw9Q4ES+Ymw4IfMetAYLqmbWbGsSV
-	N/j7QFJHZypJ2YyEOc5UVw4wmjqF82o=
-X-Google-Smtp-Source: ABdhPJztZfXnLQns1ivdaoLmE16/bdyHBWeVDRubKPzioLvXp/bHyxE/HMGIfVSIWTURMwpQGLRoOg==
-X-Received: by 2002:a17:906:6156:: with SMTP id p22mr21163014ejl.64.1604440370004;
-        Tue, 03 Nov 2020 13:52:50 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id d23sm82135edp.36.2020.11.03.13.52.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2020 13:52:49 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] libxkbcommon: add missing dependency on libxml2
-Date: Tue,  3 Nov 2020 22:52:44 +0100
-Message-Id: <20201103215244.857384-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <164419F41027C9D2.7719@lists.openembedded.org>
-References: <164419F41027C9D2.7719@lists.openembedded.org>
+ dkim=missing; spf=pass (domain: ni.com, ip: 148.163.156.75, mailfrom: prvs=457682e720=chaitanya.vadrevu@ni.com)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0A3Lr8B8010331
+	for <Openembedded-core@lists.openembedded.org>; Tue, 3 Nov 2020 16:10:37 -0600
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 34h5esgknj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <Openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 16:10:37 -0600
+Received: from us-aus-exch1.ni.corp.natinst.com (us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod3.natinst.com (8.16.0.43/8.16.0.43) with ESMTPS id 0A3MAaCc030011
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <Openembedded-core@lists.openembedded.org>; Tue, 3 Nov 2020 16:10:36 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+ us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP Server
+ (TLS) id 15.0.1395.4; Tue, 3 Nov 2020 16:10:36 -0600
+Received: from cvadrevu-linux.amer.corp.natinst.com (172.18.68.32) by
+ us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP Server
+ id 15.0.1395.4 via Frontend Transport; Tue, 3 Nov 2020 16:10:36 -0600
+From: "Chaitanya Vadrevu" <chaitanya.vadrevu@ni.com>
+To: <Openembedded-core@lists.openembedded.org>
+CC: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
+Subject: [PATCH] isoimage-isohybrid.py: Support adding files/dirs
+Date: Tue, 3 Nov 2020 16:10:32 -0600
+Message-ID: <20201103221032.19129-1-chaitanya.vadrevu@ni.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-03_16:2020-11-03,2020-11-03 signatures=0
+X-Proofpoint-Spam-Reason: orgsafe
+Content-Type: text/plain
 
-* it was introduced with xkbregistry support in:
-  https://github.com/xkbcommon/libxkbcommon/commit/afb26e7df9090a0b765eb294b6efff448f763b6f
-  and as xkbregistry is enabled by default libxkbcommon
-  is failing since the upgrade to 1.0.1 in builds where
-  libxml2 wasn't included in RSS (e.g. when wayland
-  isn't in DISTRO_FEATURES -> in PACKAGECONFIG)
+Add "payload_dir" parameter so user can add other files/dirs
+to the ISO.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Chaitanya Vadrevu <chaitanya.vadrevu@ni.com>
 ---
- meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../lib/wic/plugins/source/isoimage-isohybrid.py   | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
-index 4ef20b0721..353856e1c4 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://www.xkbcommon.org"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=e525ed9809e1f8a07cf4bce8b09e8b87"
- LICENSE = "MIT & MIT-style"
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+index 11326a274b..afc9ea0f8f 100644
+--- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -216,6 +216,18 @@ class IsoImagePlugin(SourcePlugin):
+             creator.name = source_params['image_name'].strip()
+             logger.debug("The name of the image is: %s", creator.name)
  
--DEPENDS = "util-macros flex-native bison-native"
-+DEPENDS = "util-macros flex-native bison-native libxml2"
++    @staticmethod
++    def _install_payload(source_params, iso_dir):
++        """
++        Copies contents of payload directory (as specified in 'payload_dir' param) into iso_dir
++        """
++
++        if source_params.get('payload_dir'):
++            payload_dir = source_params['payload_dir']
++
++            logger.debug("Payload directory: %s", payload_dir)
++            shutil.copytree(payload_dir, iso_dir, symlinks=True, dirs_exist_ok=True)
++
+     @classmethod
+     def do_prepare_partition(cls, part, source_params, creator, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+@@ -228,6 +240,8 @@ class IsoImagePlugin(SourcePlugin):
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+         isodir = "%s/ISO" % cr_workdir
  
++        cls._install_payload(source_params, isodir)
++
+         if part.rootfs_dir is None:
+             if not 'ROOTFS_DIR' in rootfs_dir:
+                 raise WicError("Couldn't find --rootfs-dir, exiting.")
 -- 
-2.27.0
+2.17.1
 
