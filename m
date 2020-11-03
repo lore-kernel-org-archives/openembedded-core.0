@@ -1,166 +1,175 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web11.4323.1604411976517121868
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web09.4476.1604412215377568647
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2020 05:59:37 -0800
+ Tue, 03 Nov 2020 06:03:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=SUpOP3XH;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.67, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f67.google.com with SMTP id cw8so10670129ejb.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 05:59:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=J1ZmVNv1;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id gn41so6959663ejc.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 06:03:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=t2dBn+Iz6zTv5Ztlqt68aupe5DRoO54JAXS8BmUIgT0=;
-        b=SUpOP3XHXU6YMbvwfJ0OweQKqfmIWD/SGRcKu9l5ABzV34NCamgVu4wW9qtYjWYjPp
-         YNHhL0C9nP4ShMQIpBbZDPnYOq5/1QXV9+3+sAGfuy0v0UpBumBsAT3W2iF+i+NBXHLi
-         ZhskvGc8Rl90/xnORJrfL7chsjKQGzq6rKkt56EOPpKG/bYL9e6z0/nFP+JOLytPlrF6
-         FIKCeVXDuuiODlOMzG76uHZ7+SJeTDivGEiDjiqBSJoCWjqlMWiaeheoaE8EQ5XpMVBu
-         k49H8/V1TaRtyC0WV4s2nOOjzXVN/kjALnItP/sGSBeCJbuw3SYtj4qRaYI6x+w/62hZ
-         kCTQ==
+         :cc;
+        bh=KSPLk30KtSK3lvThWXlkHqaa5NYcLdCDku9DaWb0T2M=;
+        b=J1ZmVNv1SzLJPpDnRYul2FQszS0Tx3S7C42/nbtpGZMS4m+kwHG2K7INlwGULrr5zd
+         w6HMy3n03g6tHsUyoeBUJSUImR9A2LqCAH6zGInOnjY5OGCNK4ghyaz8LvFBe9w9dTEm
+         rr/ojJSrg8OzIX/Wx+yquaWvcUqJFt/MPjnxceMk0u5/Ye9xLZ26iK2SjPHEaIMuRFBK
+         pVNRsKtLxajNPxePCNkEg7oK8LuC2r65/8KsJWMpO1XRxq9DMDFDmp1ZDii0qYNjRTun
+         2xpSGZNfAjUStL1RDhUq93JQOp/DKWFHADDqSG/dAwO7X4j8v+aUjaBX5eU6rS85AkVb
+         SeqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=t2dBn+Iz6zTv5Ztlqt68aupe5DRoO54JAXS8BmUIgT0=;
-        b=qSCwFXTdAV59mWLBj9uAiCVGD4zJHxTI3keSwwgpqqdnTYuoRwZysCqOn19WewbDCF
-         Cc4S2kJkqjOlMjREFXSN9Nlkkgt1o+laDrxoVvZLcbOXYXh7S+x1lAA/w9Omc2GLyQ4R
-         X7TO8s3LuVuln34oroxIB56nbkd0Nrhp3RjaOGd5YdddVoqlGUbfrTkUCoEttHDa4H5c
-         FkZV+cziz5OTpOdZkKuXoYYvl3yqodVV7JsUzpKjC5FX3CeH9SAHKawWyyYJ03knLsDZ
-         QNyDgrRCRabFgsvulFs+NdsZlotongGhP7/MYhGSrILe3VFfSzsYPplyVBS1SY72epGW
-         7vIg==
-X-Gm-Message-State: AOAM532iYxmxB77BeCJy5vu281ArxIucnHzoF0DjXFD7SPoTlNQaMAMK
-	0elUbnlOZiRxLT5DldDJ2eV7XZEL6mRIQtqyyMDNWA==
-X-Google-Smtp-Source: ABdhPJwTGoE1fnVqTKZLpf8tFyy/Tffe6U3fHuFsOgQx6e3cTWzNKUF2dN92TeVu9a2TB2qj68irhY+dkLcfaRMZ/kQ=
-X-Received: by 2002:a17:906:b0d6:: with SMTP id bk22mr19934333ejb.153.1604411974945;
- Tue, 03 Nov 2020 05:59:34 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=KSPLk30KtSK3lvThWXlkHqaa5NYcLdCDku9DaWb0T2M=;
+        b=V35kgqysaJHntESvaXNNqYuv+1ZSv9dfQptcxPbp+uLBt1f9KRnO3Sw9xO8+ghYSAE
+         ypixdF2g/lIBNjwTpZgwEwelxFzx229ylxUjXbVCi8RZgsQu87cpXi/Sy4OWD80cMvyC
+         I40P3pAybScWifEg2/sVmVoclV4eeYHbFb3EeVgdkGlIYsz1tMBvdwIktahV6VnGC374
+         2qpjkWYxjUw0iO9yOzFjsiXIZ1h8gnUglPOjuy3991gGc4s6tSfDrxjCtF1CjdNk7AYk
+         5djobcac1yWDbfdSepV8poUtGkS2kPj6xvRwtv9NGHVPhDoWnEyuWSUlYR+8PmVn6JVb
+         6hNg==
+X-Gm-Message-State: AOAM5337H2awd/4p2lwWTew+EUVvw0VG5cTNyVvJLxZXW8DeA+AJxkyH
+	mhzi6DyE9RQQCnNGHXMwLXKbOgfljzxAW2f451w=
+X-Google-Smtp-Source: ABdhPJzrv8xXvi3asHja5rQXJaRCT2fNJal9c5xfEzbez/wttSTD5VLAInFzLnhH8HKjPoA562XrS9Knf4O9wpZfS3g=
+X-Received: by 2002:a17:906:8496:: with SMTP id m22mr7447328ejx.298.1604412213804;
+ Tue, 03 Nov 2020 06:03:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20201030134551.44013-1-dev@bubus.at> <20201103090536.GA6121@brokenbit>
-In-Reply-To: <20201103090536.GA6121@brokenbit>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 3 Nov 2020 03:59:23 -1000
-Message-ID: <CAOSpxdaFA8+XhZMS4V83G+YOcaDBLXHLgD-nSRhRN1kpVS74Lw@mail.gmail.com>
-Subject: Re: [dunfell][PATCH] xcb-proto: backport fix for python gcd function
-To: Richard Leitner <richard.leitner@skidata.com>
+References: <20201102222852.38452-1-jason.wessel@windriver.com>
+ <CADkTA4PuAX+p96ogha6vRcpz_-3DSOYRTZ4hOZ6id6acVGgAJg@mail.gmail.com> <fe6de5d5-c79a-2432-b9bc-9efbf99265f4@windriver.com>
+In-Reply-To: <fe6de5d5-c79a-2432-b9bc-9efbf99265f4@windriver.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 3 Nov 2020 09:03:22 -0500
+Message-ID: <CADkTA4P3bbWq+ZneQ18hLijEXQ+3+h3Wnd4WaMp4vd0COxef=g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] base-files/profile: Add universal resize function
+To: Jason Wessel <jason.wessel@windriver.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+On Tue, Nov 3, 2020 at 8:25 AM Jason Wessel <jason.wessel@windriver.com> wrote:
+>
+>
+>
+> On 11/3/20 7:15 AM, Bruce Ashfield wrote:
+> > On Mon, Nov 2, 2020 at 5:29 PM Jason Wessel <jason.wessel@windriver.com> wrote:
+> >>
+> >> Using an editor or any kind of command line that wraps beyond the
+> >> column width of the session on a serial port is quite problematic
+> >> unless you are using an 80x24 session.
+> >>
+> >> The original /etc/profile tried to use the resize binary if it was
+> >> available.  The problem is that you only get the resize binary if
+> >> xterm, or busybox is installed.
+> >>
+> >> This updated /etc/profile will add a resize function available to the
+> >> shell when no xterm or busybox resize binary is found.  More care is
+> >> taken in this new version to test that terminal is interactive.  The
+> >> EDITOR and SHLVL environment variables are checked to prevent resize
+> >> from running necessarily.
+> >>
+> >> The function definitions are not indented intentionally to keep them
+> >> to the 80 column width.
+> >>
+> >> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> >> ---
+> >>  .../base-files/base-files/profile             | 48 ++++++++++++++++---
+> >>  1 file changed, 41 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-core/base-files/base-files/profile b/meta/recipes-core/base-files/base-files/profile
+> >> index 9e4283e0c7..cc37e1ba77 100644
+> >> --- a/meta/recipes-core/base-files/base-files/profile
+> >> +++ b/meta/recipes-core/base-files/base-files/profile
+> >> @@ -2,7 +2,6 @@
+> >>  # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+> >>
+> >>  PATH="/usr/local/bin:/usr/bin:/bin"
+> >> -EDITOR="vi"                    # needed for packages like cron, git-commit
+> >>  [ "$TERM" ] || TERM="vt100"    # Basic terminal capab. For screen etc.
+> >>
+> >>  # Add /sbin & co to $PATH for the root user
+> >> @@ -20,13 +19,48 @@ if [ -d /etc/profile.d ]; then
+> >>         unset i
+> >>  fi
+> >>
+> >> -# Make sure we are on a serial console (i.e. the device used starts with
+> >> -# /dev/tty[A-z]), otherwise we confuse e.g. the eclipse launcher which tries do
+> >> -# use ssh
+> >> -case $(tty 2>/dev/null) in
+> >> -       /dev/tty[A-z]*) [ -x @BINDIR@/resize ] && @BINDIR@/resize >/dev/null;;
+> >> -esac
+> >> +if [ -t 0 -a $# -eq 0 ]; then
+> >> +       if [ ! -x @BINDIR@/resize ] ; then
+> >> +               if [ -n "$BASH_VERSION" ] ; then
+> >> +# Optimized resize funciton for bash
+> >> +resize() {
+> >> +       local x y
+> >> +       IFS='[;' read -t 2 -p $(printf '\e7\e[r\e[999;999H\e[6n\e8') -sd R _ y x _
+> >> +       [ -n "$y" ] && \
+> >> +       echo -e "COLUMNS=$x;\nLINES=$y;\nexport COLUMNS LINES;" && \
+> >> +       stty cols $x rows $y
+> >> +}
+> >> +               else
+> >> +# Portable resize function for ash/bash/dash/ksh
+> >> +# with subshell to avoid local variables
+> >> +resize() {
+> >> +       (o=$(stty -g)
+> >> +       stty -echo raw min 0 time 2
+> >> +       printf '\0337\033[r\033[999;999H\033[6n\0338'
+> >> +       if echo R | read -d R x 2> /dev/null; then
+> >> +               IFS='[;R' read -t 2 -d R -r z y x _
+> >> +       else
+> >> +               IFS='[;R' read -r _ y x _
+> >> +       fi
+> >> +       stty "$o"
+> >> +       [ -z "$y" ] && y=${z##*[}&&x=${y##*;}&&y=${y%%;*}
+> >> +       [ -n "$y" ] && \
+> >> +       echo "COLUMNS=$x;"&&echo "LINES=$y;"&&echo "export COLUMNS LINES;"&& \
+> >> +       stty cols $x rows $y)
+> >> +}
+> >> +               fi
+> >> +       fi
+> >> +       # Use the EDITOR not being set as a trigger to call resize
+> >> +       # and only do this for /dev/tty[A-z] which are typically
+> >> +       # serial ports
+> >> +       if [ -z "$EDITOR" -a "$SHLVL" = 1 ] ; then
+> >> +               case $(tty 2>/dev/null) in
+> >> +                       /dev/tty[A-z]*) resize >/dev/null;;
+> >> +               esac
+> >> +       fi
+> >> +fi
+> >>
+> >> +EDITOR="vi"                    # needed for packages like cron, git-commit
+> >
+> > If we set vi as the default, should it be in the RDEPENDS for base-files ?
+> >
+> > It's a bit of a grey area, since base-files has some special
+> > dependency tweaks, and you actually need to trigger some functionality
+> > for this to be used .. hence it isn't a hard rdepends.
+>
+>
+> The issue you are pointing out has nothing to do with the problem the patch
+> is solving.  As far as I can tell the EDITOR=vi variable has been set
+> for the entire existence oe-core.  I just moved it as an extra safety
+> check for not continuing to run resize in subshells, which does happen
+> today.
+>
 
-This patch is in the set I am currently testing on the autobuilder, so
-if all goes well it should be merged to dunfell soon.
+It just shows up as an addition in the patch at hand, so I was reacting to that.
 
-Steve
+I didn't look into the history at all, but now that I scan up the
+patch, I see that it is just relocated to where it stands now .. so
+yah, nothing to see here. Leave it as-is.
 
-On Mon, Nov 2, 2020 at 11:08 PM Richard Leitner
-<richard.leitner@skidata.com> wrote:
+Bruce
+
+> If that part is controversial for some reason, I'll revert that part
+> and just check SHLVL.
 >
-> Hi Steve,
-> friendly reminder for this patch as the initial fix was merged to master
-> a few days ago as commit 1476d40d3e (xcb-proto: update to 1.14.1, 2020-10=
--28).
->
-> Is backporting the patch fine for dunfell or should xcb-proto be
-> updated?
->
-> Thanks!
->
-> regards;rl
->
-> On Fri, Oct 30, 2020 at 02:45:51PM +0100, Richard Leitner wrote:
-> > From: Richard Leitner <richard.leitner@skidata.com>
-> >
-> > This backports the fix [1] for the following build error for nativesdk =
-on
-> > Fedora 33 which is caused by the removal of fractions.gcd() in favor of
-> > math.gcd() in python 3.9 [2]:
-> >
-> > ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/pyth=
-on3.9/fractions.py)
-> >
-> > [1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35=
-bee1fa0fdb8b5120b1dcd20cee6e34512
-> > [2] https://bugs.python.org/issue39350
-> >
-> > Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-> > ---
-> >  ...1-xcbgen-use-math-gcd-for-python-3-5.patch | 40 +++++++++++++++++++
-> >  .../xorg-proto/xcb-proto_1.13.bb              |  3 +-
-> >  2 files changed, 42 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcb=
-gen-use-math-gcd-for-python-3-5.patch
-> >
-> > diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use=
--math-gcd-for-python-3-5.patch b/meta/recipes-graphics/xorg-proto/xcb-proto=
-/0001-xcbgen-use-math-gcd-for-python-3-5.patch
-> > new file mode 100644
-> > index 0000000000..f9f4424da5
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-g=
-cd-for-python-3-5.patch
-> > @@ -0,0 +1,40 @@
-> > +From 426ae35bee1fa0fdb8b5120b1dcd20cee6e34512 Mon Sep 17 00:00:00 2001
-> > +From: =3D?UTF-8?q?Bj=3DC3=3DB6rn=3D20Esser?=3D <besser82@fedoraproject=
-.org>
-> > +Date: Mon, 1 Jun 2020 12:24:16 +0200
-> > +Subject: [PATCH] xcbgen: Use math.gcd() for Python >=3D 3.5.
-> > +MIME-Version: 1.0
-> > +Content-Type: text/plain; charset=3DUTF-8
-> > +Content-Transfer-Encoding: 8bit
-> > +
-> > +fractions.gcd() has been deprecated since Python 3.5, and
-> > +was finally dropped in Python 3.9.  It is recommended to
-> > +use math.gcd() instead.
-> > +
-> > +Signed-off-by: Bj=C3=B6rn Esser <besser82@fedoraproject.org>
-> > +Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/proto/x=
-cbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512]
-> > +Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-> > +---
-> > + xcbgen/align.py | 7 ++++++-
-> > + 1 file changed, 6 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/xcbgen/align.py b/xcbgen/align.py
-> > +index d4c12ee..5c4f517 100644
-> > +--- a/xcbgen/align.py
-> > ++++ b/xcbgen/align.py
-> > +@@ -2,7 +2,12 @@
-> > + This module contains helper classes for alignment arithmetic and chec=
-ks
-> > + '''
-> > +
-> > +-from fractions import gcd
-> > ++from sys import version_info
-> > ++
-> > ++if version_info[:2] >=3D (3, 5):
-> > ++    from math import gcd
-> > ++else:
-> > ++    from fractions import gcd
-> > +
-> > + class Alignment(object):
-> > +
-> > +--
-> > +GitLab
-> > +
-> > diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb b/meta/=
-recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-> > index 7467090920..1f41821302 100644
-> > --- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-> > +++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-> > @@ -11,7 +11,8 @@ LICENSE =3D "MIT"
-> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd763b081cb10c223435b01e00dc=
-0aba7 \
-> >                      file://src/dri2.xml;beginline=3D2;endline=3D28;md5=
-=3Df8763b13ff432e8597e0d610cf598e65"
-> >
-> > -SRC_URI =3D "http://xcb.freedesktop.org/dist/${BP}.tar.bz2"
-> > +SRC_URI =3D "http://xcb.freedesktop.org/dist/${BP}.tar.bz2 \
-> > +           file://0001-xcbgen-use-math-gcd-for-python-3-5.patch"
-> >  SRC_URI[md5sum] =3D "abe9aa4886138150bbc04ae4f29b90e3"
-> >  SRC_URI[sha256sum] =3D "7b98721e669be80284e9bbfeab02d2d0d54cd11172b722=
-71e47a2fe875e2bde1"
-> >
-> > --
-> > 2.28.0
-> >
+> Jason.
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
