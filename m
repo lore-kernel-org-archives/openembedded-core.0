@@ -1,163 +1,210 @@
-Received: from mx0b-000eb902.pphosted.com (mx0b-000eb902.pphosted.com [205.220.177.212])
- by mx.groups.io with SMTP id smtpd.web10.4266.1604411285941970375
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.95])
+ by mx.groups.io with SMTP id smtpd.web09.4358.1604411662026396625
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2020 05:48:06 -0800
+ Tue, 03 Nov 2020 05:54:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@garmin.com header.s=pps1 header.b=MuRW88jf;
- spf=permerror, err=parse error for token &{10 18 _spf4.garmin.com}: limit exceeded (domain: garmin.com, ip: 205.220.177.212, mailfrom: nate.karstens@garmin.com)
-Received: from pps.filterd (m0220299.ppops.net [127.0.0.1])
-	by mx0a-000eb902.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A3Dd4Iw020840
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Nov 2020 07:48:04 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com; h=from : to : subject :
- date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pps1;
- bh=6jRYi6shWCwUPCnKqef+ppht8XIsPC/E0HIonUyOEJU=;
- b=MuRW88jfeoWvJfaIZd8LrZ6SJJNETaNZMaweVg6iE93urNELvGs6+cs02arKKP0Ji+Dj
- c1lPDqMs+dwgL6sH/o0ZyLH5+oJ3yTOjGpy6Jx8Ewde+2vj5ogjxYoiKxzYxTmu8bZ/O
- OK/meSUPE/xLPwonNWk7Cr5OeizklWVG3WTdHnaCyYtQVb5qFoCarhKSsbraZEgvb1P6
- bUswWt4HfYKK2AxG87hWoj/8cRo2xQe1hDks2N+TO+YKUE+u6xWQnfM4lsir/ZgtXA6H
- +38azbz9KMVZMgbD2INI4ewc86QQ4J0XC73PDP8jXeMdUGkMrUyaHNquX/6SDCcAn2Pw uQ== 
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
-	by mx0a-000eb902.pphosted.com with ESMTP id 34h3xh3ype-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 07:48:04 -0600
+ dkim=pass header.i=@l2task.onmicrosoft.com header.s=selector1-l2task-onmicrosoft-com header.b=agNzSV+4;
+ spf=pass (domain: aerq.com, ip: 40.107.8.95, mailfrom: alban.bedel@aerq.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dN8xSSshBTPYi80PM8xW8XxmB+3S9/4FSwDKUxJtigs=;
+ b=agNzSV+4F1MnE6gbgQDVaQlUXiC14PqIIIrd0RQQ+Id+JJVFlVq4LNpHbgL0MdfJSWwTAjjCgzEAX28vaqElyNVX4eIu7tX7YbAKTjaPGaqcxbunRn2HaQjRZv1dRyYHLJKWT7uPQ9LKAj7VbI+i0s18BGktq0g+Xledd7aFxJo=
+Received: from DB9PR02CA0022.eurprd02.prod.outlook.com (2603:10a6:10:1d9::27)
+ by AM9PR10MB3990.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:1cf::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19; Tue, 3 Nov
+ 2020 13:54:19 +0000
+Received: from DB5EUR03FT018.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:1d9:cafe::8c) by DB9PR02CA0022.outlook.office365.com
+ (2603:10a6:10:1d9::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
+ Transport; Tue, 3 Nov 2020 13:54:19 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 104.40.229.156)
+ smtp.mailfrom=aerq.com; lists.openembedded.org; dkim=fail (body hash did not
+ verify) header.d=l2task.onmicrosoft.com;lists.openembedded.org; dmarc=none
+ action=none header.from=aerq.com;
+Received-SPF: Fail (protection.outlook.com: domain of aerq.com does not
+ designate 104.40.229.156 as permitted sender)
+ receiver=protection.outlook.com; client-ip=104.40.229.156;
+ helo=eu1.smtp.exclaimer.net;
+Received: from eu1.smtp.exclaimer.net (104.40.229.156) by
+ DB5EUR03FT018.mail.protection.outlook.com (10.152.20.69) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3520.15 via Frontend Transport; Tue, 3 Nov 2020 13:54:17 +0000
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (104.47.14.50)
+	 by eu1.smtp.exclaimer.net (104.40.229.156) with Exclaimer Signature Manager
+	 ESMTP Proxy eu1.smtp.exclaimer.net (tlsversion=TLS12,
+	 tlscipher=TLS_ECDHE_WITH_AES256_SHA384); Tue, 3 Nov 2020 13:54:18 +0000
+X-ExclaimerHostedSignatures-MessageProcessed: true
+X-ExclaimerProxyLatency: 35276062
+X-ExclaimerImprintLatency: 5085176
+X-ExclaimerImprintAction: efa131d06d144949bcd52a44fda66310
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XJsa4h1oZidfTcJaFjaNvsnKREvHWi6DiPPlekOv2y/Hl93pTI5ckjN2WTbgA5yqwHld3vrX/UC4fpdaiZTUu8KtTkamFQQFJUqLl0obmDMXSgRDMsxdCgLksB3ix8S2wIgQnWOZaA8DgFEAZYU0C/tXDnVe4IhEA67zsjaalaMyk1uTNVmZX+PGgJ+J1Ov3TAbQj2s4pNGRSCuJ1VAVowzrafkHjTqKcmPRVoEcyVtDvQsVb6BgN4mSXJDspk/qBn1BwpBHhXTeJHfGap2flzTEGl5Pf7GQ4z9gwOPvhG9BlUwUf4rnjr2hdRx2NjN1JQdk89QEiOL9RGV5PqMOqw==
+ b=YLyhoz6xhYhnPhmaSjHmX2fIb/dN1WHVyA5RwaxCHwonzgWvsMDUWE9f3zlU1MMrKhzzqVzZwMUSVqktJYogNVcJit+XBusa6mtaQt8i9/CP0ebi5gQdipA4/GrdxILTbxu7uvNdRUK/wN0MzUTJWsnA4H/iZ8wIbZ+CMIaKVQ/fvZ/YgiljM1Zc3qNujkLVAOXt/1mvd5MMbufFQorh+k9tWSlx5MQ4AB5Jb1MFT9YhbIidYkT01nOMxFo8WSVCiUfnVvQ5fAOOTtl2QSVoYOwebTC8R5nBNjALLP/jwMCB7SUqB0HUB5X/CYscg+5mRc9hLX+D+JH+A03BUZP53g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6jRYi6shWCwUPCnKqef+ppht8XIsPC/E0HIonUyOEJU=;
- b=PofLa/Yn3NQg0XgQI8B7OCAyXTY6BLz46nJ6shrCponcHPX5qyw6FaP/GIJdU0pGd8BR/5Rf2iHe+4KTfDgOuqyh9SfkDhZkS73WVg2saahzlm98gwBoHb6bdVePW0M3L7/v0zDXFZ1GtwDPRHd2hwjAaGJMQN6+N1R3omGaoHjz7aZsFJ+t/BEu8tNVr3+D3ytYZ2oZ04ujuufZNIRiocrcNHL1mN4kcOoGMYsiO8FHxLFtQnJSahhjMfE/JcAT6TZZzCBcD02HA+kt+QGdn1ghtwqubPfZArTirIiM82/dAcjRjvJNcz2Zdoq49TJNxJfTWfy4MtR8BdmkExF+3A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 204.77.163.244) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=garmin.com; dmarc=pass (p=quarantine sp=quarantine pct=100)
- action=none header.from=garmin.com; dkim=none (message not signed); arc=none
+ bh=u4fLCPK+k2jcgBxxD168ECHA6EtXehK5JfLcApmv0cM=;
+ b=mnMZ9E9G/ZSFgN/ySHhUAzm8ie9FXbnn3rraL/MvcbndyYLG7jTtvNvX5plAF1udgnHAM32ZGTdyXhihl7kQKYt6AZ6XVZqES2wB9LjutcG1tin8xBqekR5eOKKvPCO4UZ8REASqglTyiVH0SzZli/dpPNiGIsjUAI0kXvbxThbYJvlkVjcyLjbde6BLTR7DD37OIX8gfZ6GSB3AOEDevLymgqu6sEWCYvolhX+3dnkJ5XaLw4rUEPr1pUig76Ad0NIZLOUKY7ttPuYhYsUtBeUgSS99RXTd8kHtKI+dnSlZODqsZg3xeiBITxARabbyGZ/e6VsqdhGfzkDhmc4ATg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aerq.com; dmarc=pass action=none header.from=aerq.com;
+ dkim=pass header.d=aerq.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=garmin.onmicrosoft.com; s=selector1-garmin-onmicrosoft-com;
+ d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6jRYi6shWCwUPCnKqef+ppht8XIsPC/E0HIonUyOEJU=;
- b=oXx8CltdZjTxEHtqZjiQzWqxNWWeMzibY8j5XfM7gZlShro0//jmBHilpsqjZ6+aEDSLvgEVAnGhX+dKmDYEvS0MVoAeuhU7wPOG56CY3W1mULbW9i7+LoC+njTlwV1DgiQUmqJL+9UJ/Q5OthQgtCit0gJMvbprcZS3dqhioBtLZDsZFb/FWaFi6yY9WFm/w3pzBf/RUZ3+twuQQeEsP7p0oXf5a9azLXTB9+xtsyNAo0onYUcdZPwlpqd6Hdn47YhsgN1YtcirIWXaHQKL06jQTpvUsKJ3o91udQphQzYTEzP84Tefvn/jKsFpKEmKwjwuGuEHw34677+8++/kUw==
-Received: from MWHPR12CA0057.namprd12.prod.outlook.com (2603:10b6:300:103::19)
- by PH0PR04MB7176.namprd04.prod.outlook.com (2603:10b6:510:c::6) with
+ bh=u4fLCPK+k2jcgBxxD168ECHA6EtXehK5JfLcApmv0cM=;
+ b=uHrMNsJoOBq2OM/i/LDnP9XsHJMPfvwCx8XSPhg1gYeS5s/r8FTJhgyHQxDV9QIGaodftSn/wMzNzzA8Y58ZAh/a8QXN7Oe+BiIUIxzJZ7w5xEJGE/zLhzBYV59jqVPlgJ8WBaI0eEDXARLPRmL2NpDyDckwDRMCpKfvPFSy7DE=
+Authentication-Results-Original: lists.openembedded.org; dkim=none (message
+ not signed) header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=aerq.com;
+Received: from DB8PR10MB3434.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:e4::19)
+ by DB7PR10MB2444.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:41::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
- 2020 13:48:00 +0000
-Received: from MW2NAM10FT010.eop-nam10.prod.protection.outlook.com
- (2603:10b6:300:103:cafe::e6) by MWHPR12CA0057.outlook.office365.com
- (2603:10b6:300:103::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
- Transport; Tue, 3 Nov 2020 13:47:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
- smtp.mailfrom=garmin.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
- header.from=garmin.com;
-Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
- 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
- client-ip=204.77.163.244; helo=edgetransport.garmin.com;
-Received: from edgetransport.garmin.com (204.77.163.244) by
- MW2NAM10FT010.mail.protection.outlook.com (10.13.155.135) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3520.17 via Frontend Transport; Tue, 3 Nov 2020 13:47:57 +0000
-Received: from OLAWPA-EXMB3.ad.garmin.com (10.5.144.15) by
- olawpa-edge4.garmin.com (10.60.4.228) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2106.2; Tue, 3 Nov 2020 07:47:55 -0600
-Received: from OLAWPA-EXMB7.ad.garmin.com (10.5.144.21) by
- OLAWPA-EXMB3.ad.garmin.com (10.5.144.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Tue, 3 Nov 2020 07:47:54 -0600
-Received: from OLAWPA-EXMB7.ad.garmin.com ([fe80::68cc:dab9:e96a:c89]) by
- OLAWPA-EXMB7.ad.garmin.com ([fe80::68cc:dab9:e96a:c89%23]) with mapi id
- 15.01.2106.003; Tue, 3 Nov 2020 07:47:54 -0600
-From: "Nate Karstens" <nate.karstens@garmin.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][PATCH] openssl: Do not create /etc/ssl/certs
-Thread-Topic: [OE-core][PATCH] openssl: Do not create /etc/ssl/certs
-Thread-Index: AQHWseeQ3QOfqdzmJ0qQa4+WXV07jKm2a7oA
-Date: Tue, 3 Nov 2020 13:47:54 +0000
-Message-ID: <bad3d7c4bfe9407fa32d6ceccf520d63@garmin.com>
-References: <20201103134411.118217-1-nate.karstens@garmin.com>
- <20201103134411.118217-2-nate.karstens@garmin.com>
-In-Reply-To: <20201103134411.118217-2-nate.karstens@garmin.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.50.4.6]
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 3 Nov
+ 2020 13:54:13 +0000
+Received: from DB8PR10MB3434.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b075:2cf7:67ef:c6f5]) by DB8PR10MB3434.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::b075:2cf7:67ef:c6f5%6]) with mapi id 15.20.3499.032; Tue, 3 Nov 2020
+ 13:54:13 +0000
+From: "Alban Bedel" <alban.bedel@aerq.com>
+To: openembedded-core@lists.openembedded.org
+CC: Alban Bedel <alban.bedel@aerq.com>
+Subject: [PATCH] rootfs-postcommands: Add a few debug tweaks for systemd
+Date: Tue,  3 Nov 2020 14:53:51 +0100
+Message-ID: <20201103135351.1581925-1-alban.bedel@aerq.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [87.123.201.111]
+X-ClientProxiedBy: AM4PR0902CA0011.eurprd09.prod.outlook.com
+ (2603:10a6:200:9b::21) To DB8PR10MB3434.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:10:e4::19)
+Return-Path: alban.bedel@aerq.com
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from aerq-nb-1030.dotsec.gv (87.123.201.111) by AM4PR0902CA0011.eurprd09.prod.outlook.com (2603:10a6:200:9b::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Tue, 3 Nov 2020 13:54:12 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 77965fda-aef3-4b73-3a0a-08d87fff12b7
-X-MS-TrafficTypeDiagnostic: PH0PR04MB7176:
+X-MS-Office365-Filtering-Correlation-Id: a72d8a1a-a0fd-4829-3d4b-08d87ffff577
+X-MS-TrafficTypeDiagnostic: DB7PR10MB2444:|AM9PR10MB3990:
+X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<PH0PR04MB717623C817CAD10228B79F1F9C110@PH0PR04MB7176.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+	<AM9PR10MB3990821D41786F5CC8A3448D96110@AM9PR10MB3990.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ M5CIzYmrfTLRYjGHTBAMp8s7HIfDoMA9K4F48T9xpwX+EC3N/hXtixekWmlPFWe5JMrQrOtIRfzQrP1oXc5528ojidqjtQH69eFZBW581WFnHEh5ytJiTkqSMJBtVq6PTnJGDz5ahJYOiEyMCRmFe2gEVtZg5fwOId5ftoqyoW6QUhrQVzGWb5RVRiWDungiRETfJjREwoMg0sRGr9GvTiU9YfetvUp006CmrtAbnf1TdeOj8YvjKwTaQZ5+4gfQ8fnbDSEsVs1noL1kF3z8wDKKUB6NT6pevvu9Uck+pmsa+pb22Q2uCxFi3CLZtwVidhkTZ+8fFK+fRnqhegHDbQ==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3434.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(396003)(39830400003)(376002)(366004)(136003)(346002)(26005)(186003)(107886003)(16526019)(36756003)(2906002)(44832011)(478600001)(6512007)(6506007)(6486002)(6666004)(5660300002)(52116002)(6916009)(8676002)(86362001)(66946007)(8936002)(66556008)(66476007)(956004)(4326008)(83380400001)(2616005)(1076003)(316002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: 
+ xeVwb49gAkDGLpZJmQ5yARb9IFe9tnj9fV51LV3D3eQoyUlynL4GpTskp1KwFqn4g/rxhP805Cee9zUE7REUxuh21t85HMfKOum4vZeLVfO6pLZFmxi+Fw+gqXRICrexVkiAaJVXgYepcLzMI3OLGkij54goPQIAlRUVc/BSBAQy1Mm6hfMtHGYkWZnWUe0gbjZFTrtK0LQGbBQxr3WX81pfmE6W1juE4FJKJFEl7WXDuNnXn0lt40QgP6kWR+1AuP1jUhrmsZearx2GW6/jLyik1UYkYNA/DIbw/4e0v01Mnwrk6R/e6u/9Dd2l96tEnpnCyBWnJDLF0iLNrFkHCCo/tFm+tKXzoUzpaeLEnL2xXsZ3ck7NnD8a/oOudDZ1tPfnqkShcRcUy+zppx8lNp6L9dCa2HRI1Pifvf/gqABbVtefU068ys2HxJt3Gym4E7tkvYGmpjki6e/AeX4lAgyDsAqGZHrM+rT8Xfut+McsobaosVpHk83bnHB8aeCbql8e+3QmmnIW1t7tnKIucrL9RfiX7ppRf1BC/N0Txb/1qo3xZn+dvHIDy82Po2YfxN1xS4Rvoi7wkMBoQwHZ7neSB0/NgSnBSyBci9XymYfEnI3teicagLxk+e8X4dTqao+/rmIn0fH6aU/aem4BWQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR10MB2444
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5EUR03FT018.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	af716a56-7291-47c7-414d-08d87ffff202
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	U5DdiysE6H8HFnFn2XxMeH14qnPERkdoZQPraz6633yqk2s/TW3xMEyn1OZpKEj+WebP/GA8HtqCVVpnQLuOu4gNiJt2vhlpAnCNs1B0RdbnW3NcdZInu1s6ZVWEjAGbRtFa1YiinsM9h8rwWq3gyyH/PNq73y2LaeUzRR5cR/JhCR9JrDldN6LnfLrqkWwwpD+69PbSLPztwgd9f3WitQ3c7coGraPBQDoo2r7vQmmQ1M49mD4YpWHnqzVoFe6N4KwgL83Q54++sfpIlZxpJ0CwhTxOXEF3A/TZUUHdfgo2+IhkTvXVqrCdBJYnmflNN4oBA7oXZ+p+lfjoVblH4glsP6O4+zX6/tb+92x2j9lRQVaVZ3Tm7zP6+rqL0YPyT3HUkdJsuiGE9yYNYn3xMt147MOqleok27BKOXZTbWRC37tipBEAA97I00qxCUMIcTMhecKPTeAK3m1G3l1KZqphR8JkreSXfijSdgOLRiI=
+	I++dAU9TAl1/iXsBxB8m9To3k/YjGjY2NQe79ix7+AklHJzIXz7xyMw6e1OxBpZ0u3nxWl0H+Yx6ck3faPckErZICU1CsxP/JB/C497o40VgP6xX1G9C7bdFu+cEOIRwl/0ks2o4U0/01e3TsX25Cm/Ff7PDIx72zSQ2ZdP9KlnRDmdijJHK9zoDCWh3Rgi8he9uKYYwO/5OJK7bvmrg2bCLhfZAwC/oBivIITWjJZ8ecxZDfEjk1Ox9TO+OX3BrCkQ6Jo7wS+9Y7wVdkNx8uT757Kb9l9zAQEXUF2leaCJaG8/OVomuvKLefrRwrWeFKmWpw7IudvnkP2nWqKf1HAhvjH3YWflUm57YysEk0dvWKwIU7aSRfGT1a5v+blGLF9ZiG2a5BpbO0r37N5Mnvuh2ZLDIOEEdOvLCe0NjDZuiBXSwK9vbfWeiypmwoETu
 X-Forefront-Antispam-Report: 
-	CIP:204.77.163.244;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:edgetransport.garmin.com;PTR:extedge.garmin.com;CAT:NONE;SFS:(136003)(376002)(39860400002)(346002)(396003)(46966005)(2906002)(2616005)(6916009)(86362001)(36756003)(336012)(8676002)(24736004)(26005)(186003)(8936002)(70586007)(478600001)(5660300002)(53546011)(966005)(426003)(108616005)(70206006)(7696005)(47076004)(316002)(83380400001)(82310400003)(82740400003)(7636003)(356005);DIR:OUT;SFP:1102;
-X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 13:47:57.8911
+	CIP:104.40.229.156;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu1.smtp.exclaimer.net;PTR:eu1.smtp.exclaimer.net;CAT:NONE;SFS:(396003)(136003)(346002)(376002)(39830400003)(46966005)(6486002)(2906002)(6506007)(86362001)(956004)(2616005)(186003)(16526019)(44832011)(336012)(107886003)(478600001)(4326008)(26005)(6916009)(316002)(7596003)(8936002)(356005)(33310700002)(7636003)(82310400003)(83380400001)(1076003)(8676002)(70586007)(70206006)(47076004)(5660300002)(6512007)(6666004)(36756003);DIR:OUT;SFP:1102;
+X-OriginatorOrg: aerq.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 13:54:17.8248
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77965fda-aef3-4b73-3a0a-08d87fff12b7
-X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;Ip=[204.77.163.244];Helo=[edgetransport.garmin.com]
+X-MS-Exchange-CrossTenant-Network-Message-Id: a72d8a1a-a0fd-4829-3d4b-08d87ffff577
+X-MS-Exchange-CrossTenant-Id: bf24ff3e-ad0a-4c79-a44a-df7092489e22
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bf24ff3e-ad0a-4c79-a44a-df7092489e22;Ip=[104.40.229.156];Helo=[eu1.smtp.exclaimer.net]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	MW2NAM10FT010.eop-nam10.prod.protection.outlook.com
+	DB5EUR03FT018.eop-EUR03.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB7176
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-03_08:2020-11-03,2020-11-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
- phishscore=0 spamscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
- malwarescore=0 impostorscore=0 lowpriorityscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011030094
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR10MB3990
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-TXkgaW50cm9kdWN0b3J5IG1lc3NhZ2Ugc2VlbXMgdG8gaGF2ZSBiZWVuIGRlbGV0ZWQuDQoNClRo
-aXMgd2FzIGluIHJlcGx5IHRvIGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5l
-bWJlZGRlZC1jb3JlL3RvcGljLzc3OTE3NDkyIzE0NDAyNiBhbmQgd2FzIHRlc3RlZCB3aXRoIGNv
-cmUtaW1hZ2Utc2F0byBidWlsZCB1c2luZyBPcGVuU1NMIDEuMS4xZy4NCg0KTmF0ZQ0KDQotLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogS2Fyc3RlbnMsIE5hdGUgPE5hdGUuS2Fyc3Rl
-bnNAZ2FybWluLmNvbT4gDQpTZW50OiBUdWVzZGF5LCBOb3ZlbWJlciAwMywgMjAyMCAwNzo0NA0K
-VG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCkNjOiBLYXJzdGVu
-cywgTmF0ZSA8TmF0ZS5LYXJzdGVuc0BnYXJtaW4uY29tPg0KU3ViamVjdDogW09FLWNvcmVdW1BB
-VENIXSBvcGVuc3NsOiBEbyBub3QgY3JlYXRlIC9ldGMvc3NsL2NlcnRzDQoNClRoZSBvcGVuc3Ns
-IHBhY2thZ2UgcHJldmlvdXNseSBjcmVhdGVkIGFuIGVtcHR5IGZvbGRlciBmb3IgQ0EgY2VydGlm
-aWNhdGVzIGF0IC9ldGMvc3NsL2NlcnRzLiBPdGhlciBwYWNrYWdlcywgbGlrZSBjYS1jZXJ0aWZp
-Y2F0ZXMsIHdvdWxkIHRoZW4gcG9wdWxhdGUgdGhpcyBmb2xkZXIuDQoNCkNlcnRhaW4gc3lzdGVt
-cyBuZWVkIG1vcmUgZmxleGliaWxpdHkgd2l0aCBob3cgdGhpcyBmb2xkZXIgaXMgY3JlYXRlZCBh
-bmQgcG9wdWxhdGVkIChlLmcuLCBhIHN5bWxpbmsgaXMgbmVlZGVkKS4gVG8gYWNjb21tb2RhdGUg
-dGhpcywgdGhlIG9wZW5zc2wgcmVjaXBlIG5vIGxvbmdlciBjcmVhdGVzIHRoZSBlbXB0eSBmb2xk
-ZXIuIEluc3RlYWQsIHRoZSBmb2xkZXIgd2lsbCBvbmx5IGJlIGNyZWF0ZWQgYnkgcGFja2FnZXMg
-dGhhdCBwb3B1bGF0ZSBpdC4NCg0KU2lnbmVkLW9mZi1ieTogTmF0ZSBLYXJzdGVucyA8bmF0ZS5r
-YXJzdGVuc0BnYXJtaW4uY29tPg0KLS0tDQogbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVu
-c3NsL29wZW5zc2xfMS4xLjFoLmJiIHwgNCArLS0tDQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAzIGRlbGV0aW9ucygtKQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5l
-Y3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMS4xLjFoLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rp
-dml0eS9vcGVuc3NsL29wZW5zc2xfMS4xLjFoLmJiDQppbmRleCBlYjExZmUzOTYwLi41NzIzZDE5
-ZGJmIDEwMDY0NA0KLS0tIGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5z
-c2xfMS4xLjFoLmJiDQorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3Bl
-bnNzbF8xLjEuMWguYmINCkBAIC0xMzQsMTQgKzEzNCwxMiBAQCBkb19pbnN0YWxsICgpIHsNCiAJ
-IyBDcmVhdGUgU1NMIHN0cnVjdHVyZSBmb3IgcGFja2FnZXMgc3VjaCBhcyBjYS1jZXJ0aWZpY2F0
-ZXMgd2hpY2gNCiAJIyBjb250YWluIGhhcmQtY29kZWQgcGF0aHMgdG8gL2V0Yy9zc2wuIERlYmlh
-biBkb2VzIHRoZSBzYW1lLg0KIAlpbnN0YWxsIC1kICR7RH0ke3N5c2NvbmZkaXJ9L3NzbA0KLQlt
-diAke0R9JHtsaWJkaXJ9L3NzbC0xLjEvY2VydHMgXA0KLQkgICAke0R9JHtsaWJkaXJ9L3NzbC0x
-LjEvcHJpdmF0ZSBcDQorCW12ICR7RH0ke2xpYmRpcn0vc3NsLTEuMS9wcml2YXRlIFwNCiAJICAg
-JHtEfSR7bGliZGlyfS9zc2wtMS4xL29wZW5zc2wuY25mIFwNCiAJICAgJHtEfSR7c3lzY29uZmRp
-cn0vc3NsLw0KIA0KIAkjIEFsdGhvdWdoIGFic29sdXRlIHN5bWxpbmtzIHdvdWxkIGJlIE9LIGZv
-ciB0aGUgdGFyZ2V0LCB0aGV5IGJlY29tZQ0KIAkjIGludmFsaWQgaWYgbmF0aXZlIG9yIG5hdGl2
-ZXNkayBhcmUgcmVsb2NhdGVkIGZyb20gc3N0YXRlLg0KLQlsbiAtc2YgJHtAb2UucGF0aC5yZWxh
-dGl2ZSgnJHtsaWJkaXJ9L3NzbC0xLjEnLCAnJHtzeXNjb25mZGlyfS9zc2wvY2VydHMnKX0gJHtE
-fSR7bGliZGlyfS9zc2wtMS4xL2NlcnRzDQogCWxuIC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCck
-e2xpYmRpcn0vc3NsLTEuMScsICcke3N5c2NvbmZkaXJ9L3NzbC9wcml2YXRlJyl9ICR7RH0ke2xp
-YmRpcn0vc3NsLTEuMS9wcml2YXRlDQogCWxuIC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCcke2xp
-YmRpcn0vc3NsLTEuMScsICcke3N5c2NvbmZkaXJ9L3NzbC9vcGVuc3NsLmNuZicpfSAke0R9JHts
-aWJkaXJ9L3NzbC0xLjEvb3BlbnNzbC5jbmYgIH0NCi0tDQoyLjI4LjANCg0K
+Configure the systemd emergency service to not ask for a password when
+the debug-tweaks or empty-root-password image feature are enabled.
+Also enable all the sysrq commands when debug-tweaks is set as systemd
+only allow the sync command per default.
+
+To avoid the need for over complex expressions when adding systemd
+specific tweak a new variable called SYSTEMD_ROOTFS_POSTPROCESS_COMMAND,
+is introduced to collect the systemd specific post commands.
+
+Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
+---
+ meta/classes/rootfs-postcommands.bbclass | 31 ++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs=
+-postcommands.bbclass
+index 1f27a3d07a..3b4e600d3c 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -17,6 +17,15 @@ ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_update_timestamp=
+; "
+ # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is =
+enabled
+ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", "r=
+ead-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+=20
++# Disable password in systemd emergency mode if debug-tweaks or empty-root=
+-password is enabled
++SYSTEMD_ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_any("IMAGE_F=
+EATURES", [ 'debug-tweaks', 'empty-root-password' ], "systemd_emergency_no_=
+password; ", "",d)}'
++
++# Enable sysrq on systemd distro if debug-tweaks is enabled
++SYSTEMD_ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATU=
+RES", 'debug-tweaks', "systemd_enable_sysrq; ", "",d)}'
++
++# Add the systemd specific post process commands
++ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("DISTRO_FEATURES", "=
+systemd", "${SYSTEMD_ROOTFS_POSTPROCESS_COMMAND}", "",d)}'
++
+ # We also need to do the same for the kernel boot parameters,
+ # otherwise kernel or initramfs end up mounting the rootfs read/write
+ # (the default) if supported by the underlying storage.
+@@ -153,6 +162,17 @@ zap_empty_root_password () {
+ 	fi
+ }
+=20
++#
++# Add a systemd config fragment to disable password for the emergency mode
++#
++systemd_emergency_no_password () {
++	mkdir -p ${IMAGE_ROOTFS}${systemd_unitdir}/system/emergency.service.d
++	cat > ${IMAGE_ROOTFS}${systemd_unitdir}/system/emergency.service.d/no-pas=
+sword.conf <<EOF
++[Service]
++Environment=3DSYSTEMD_SULOGIN_FORCE=3D1
++EOF
++}
++
+ #
+ # allow dropbear/openssh to accept logins from accounts with an empty pass=
+word string
+ #
+@@ -221,6 +241,17 @@ set_systemd_default_target () {
+ 	fi
+ }
+=20
++#
++# Enable sysrq on systemd distro
++#
++systemd_enable_sysrq () {
++	mkdir -p ${IMAGE_ROOTFS}${libdir}/sysctl.d
++	cat > ${IMAGE_ROOTFS}${libdir}/sysctl.d/90-enable-sysrq.conf <<EOF
++# Allow all sysrq when debugging is enabled
++kernel.sysrq =3D 1
++EOF
++}
++
+ # If /var/volatile is not empty, we have seen problems where programs such=
+ as the
+ # journal make assumptions based on the contents of /var/volatile. The jou=
+rnal
+ # would then write to /var/volatile before it was mounted, thus hiding the
+--=20
+2.25.1
+
