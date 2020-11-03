@@ -1,119 +1,129 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web12.6930.1604421658343194289
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.1825.1604429014846350387
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2020 08:40:58 -0800
+ Tue, 03 Nov 2020 10:43:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ukhz6Xz5;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: toertel@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id s25so11173895ejy.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 08:40:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=COB7T5hb;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id p4so1656975plr.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 10:43:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kaJN/QNhNO1clX850Pqp51fGIEAqsbqIKYmIpMqfMaQ=;
-        b=Ukhz6Xz5Tai5r45YcZ6Y/z9jIWlLeCH1nENCYoAUcAqQyLzBzoZbWyeld+wT2QYNjv
-         sNphpRV0qUTk4NPDXZ2FAcdEOI0GcOj5mQOnHzbPrNdnA38HA3zgy6lNIWNarbgVkrYY
-         8JlYyC7oHXsGfOOByh9OKlpDWXHxHCg9iyVqlyj0Sk8CVe+EHx3EybMgRGrlux552ka3
-         uBsdj/zU4eK/RPdgU3RL+YD0K7Y/Tel7Vtb6m0OxHiQpTulUZCywrEHBCf5t0IL7a9Ox
-         BZ8iS6kVgyA9ZYDGaukqY6VVxm7j2LCp1a+lm8hONN3xPKPjziM3TRRK3F/JKD/eN18+
-         P1yA==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=RaLzc10qIs/R1r5/1tSicamIHqmqEksLrjgVrFKgaQI=;
+        b=COB7T5hbBSLYwesbsNALS3OupCyA7FZTzvQuWxWLJP8/OsUJjoz1d1+Ggz1jC5jJb3
+         DsYV0SmcdOBcRPAoOlS+iGW2WTaSbBgR+g3RHT5WPspLj+p96gtMnzlBdaEtC7DF6IMH
+         wbHe7SYvugGiVe9v5YVcWOMKRRxPLRuahuXHMMbIc/AJjeFOkGtXWN/oNOo4LUmYW52S
+         Hx3dz5XHqjUtoiBJN2vJGsR6iiZbQC5OK+hgvYHsR1Wy990HxKyyAShQSTAghIm1zKby
+         9Z68V+qdEc3QdKP+z/S4uoXWzI0KKufprtCu4AQBQA31yvSPz3xcTTUaqBC6oci74HeJ
+         WboA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kaJN/QNhNO1clX850Pqp51fGIEAqsbqIKYmIpMqfMaQ=;
-        b=GQNKnJddntPAvrD7gOoawaG8UKCaEGyUK8//zom9sSW5jra6IkmTczCkIaQJgm2L30
-         9iZ8+ueASTpfJl6ujOD4+dFy7kQRtjMrz9hkRyIMMaKRk8pz7otYry3/RH3/ka3PpqjJ
-         Uy8QQ7qE8paGEPAVWBzy9LpDenPvveGA9P19gEs/P2GZbGuKTKEYHE14+mTx8NXxhPcf
-         EJ79NybTMzHxr4U9+R6PiGfrZfIUEfD+t8D2Alli5XtZW9O53hDJHM6qtikZbAog9jP1
-         EbRlxflPY8Z5qNL88H8XG5p97VgvylxnmKZCIpLfibvZTY6neu710pl7Tp6mG1s9j2Co
-         8epA==
-X-Gm-Message-State: AOAM530y5n87TpDxdmQ1haZBGyVDamWuxqlQ0y5ZPrGvzLaHy9yIx2UC
-	hRTX5z7r7wmmMJQ4GYQv0KvGMQ2WUQCA7w==
-X-Google-Smtp-Source: ABdhPJwnuv2NlZ2VblSzjd7QUZYCrVmQhpbnY42h9hOq9vXTwZB/Bz6ec+YY++bTqoQ0gArSnOXrAw==
-X-Received: by 2002:a17:906:2798:: with SMTP id j24mr20545318ejc.109.1604421656622;
-        Tue, 03 Nov 2020 08:40:56 -0800 (PST)
-Return-Path: <toertel@gmail.com>
-Received: from gigabyte.fritz.box (p200300cfaf1974008871fa142a03af31.dip0.t-ipconnect.de. [2003:cf:af19:7400:8871:fa14:2a03:af31])
-        by smtp.gmail.com with ESMTPSA id t8sm11152179ejc.45.2020.11.03.08.40.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2020 08:40:56 -0800 (PST)
-From: "Mark Jonas" <toertel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mark Jonas <toertel@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [gatesgarth][PATCH 2/2] libsdl2: Fix directfb SDL_RenderFillRect
-Date: Tue,  3 Nov 2020 17:40:51 +0100
-Message-Id: <20201103164051.444684-2-toertel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201103164051.444684-1-toertel@gmail.com>
-References: <20201103164051.444684-1-toertel@gmail.com>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=RaLzc10qIs/R1r5/1tSicamIHqmqEksLrjgVrFKgaQI=;
+        b=HcwY64FKz1f3wCIOOkstS7tTyczt+a//ivYac56SmAVZku5mlSZkYSDUuGQpKlZi0w
+         CjC/YDMJe0jiHFzeYrCpx7XisKPcRU7jAA/oHBz1XguUfly9rvakvgl06ocqv04Zokf2
+         akKysS/5eg+LGbAFFV3audxYis8n9mBUcr9eSPe35OB4rLbxdxnXUMSTCKimk+DY4Dle
+         DtE/3zIcYH0sgOiWieaQp5NVw5cA+BOF7/rUvMzye9YHWdJ4Yo8Jzz18J58aiwUbd1wQ
+         r0vDM+ai3zV7pVKCLk1tCzfQ9MNWwFJx/3/nscXZRvqPSJhjAOplz4IXBf6mDVvxSmCT
+         VT4Q==
+X-Gm-Message-State: AOAM532HoBKyYZHaGK7bUvVSBtfjUbJ0FHesL1yRA+9HxqM/fSie8UdH
+	idIMwXSrXPKKR+tp3KKUEi3iaxkte6ydTw==
+X-Google-Smtp-Source: ABdhPJz6xNn6S/+1zicB9ZS4jcj4bj2wYt70swjga7g2Kih6xeqhgHuCd34BplfqSup1OsmdwTuvQQ==
+X-Received: by 2002:a17:902:7882:b029:d6:38a2:8dee with SMTP id q2-20020a1709027882b02900d638a28deemr25615597pll.58.1604429013860;
+        Tue, 03 Nov 2020 10:43:33 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0::4b05? ([2601:646:9200:4e0::4b05])
+        by smtp.gmail.com with ESMTPSA id s9sm4122206pjz.24.2020.11.03.10.43.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2020 10:43:33 -0800 (PST)
+Subject: Re: [OE-core] [PATCH 70/80] rt-tests/hwlatdetect: upgrade 1.8 -> 1.9
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20201102164907.27572-1-alex.kanavin@gmail.com>
+ <20201102164907.27572-70-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Message-ID: <f878d465-f694-1bf9-4db7-1b2476a8199e@gmail.com>
+Date: Tue, 3 Nov 2020 10:43:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201102164907.27572-70-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Refactoring of SDL2 internal API has broken SDL_RenderFillRect for
-DirectFB. The problem has already been fixed upstream.
+rt-tests now have added code which only works for x86/x86_64/ppc64 in 
+src/oslat/oslat.c, so either that will need fixing for other arches or 
+limit this recipe to above said arches. see a failure here e.g.
 
-Signed-off-by: Mark Jonas <toertel@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../libsdl2/directfb-renderfillrect-fix.patch | 33 +++++++++++++++++++
- .../libsdl2/libsdl2_2.0.12.bb                 |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
+https://errors.yoctoproject.org/Errors/Details/511500/
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
-new file mode 100644
-index 0000000000..83d4f4b1ec
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
-@@ -0,0 +1,33 @@
-+# HG changeset patch
-+# User Sam Lantinga <slouken@libsdl.org>
-+# Date 1590793369 25200
-+# Node ID a90089f75990e8b07a1dcf931c5f8a580ae343bf
-+# Parent  a9b4bd264f3cbedc4f3287b3ec6b32311370ba85
-+Fixed bug 5146 - SDL_RenderFillRect doesn't work in DirectFB
-+
-+Lacky
-+
-+It looks like refactoring of SDL2 internal API has broken SDL_RenderFillRect for DirectFB. In new version function SDL_RenderFillRect returns 0, but rectangle is not visible.
-+
-+Replacing "count" with "len" in the argument list for SDL_memcpy in DirectFB_QueueFillRects fixes problem.
-+
-+--
-+
-+The patch was imported from the libsdl Mercurial repository
-+(https://hg.libsdl.org/SDL) as of changeset id a90089f75990.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Mark Jonas <toertel@gmail.com>
-+
-+diff -r a9b4bd264f3c -r a90089f75990 src/video/directfb/SDL_DirectFB_render.c
-+--- a/src/video/directfb/SDL_DirectFB_render.c	Thu May 21 00:06:09 2020 -0400
-++++ b/src/video/directfb/SDL_DirectFB_render.c	Fri May 29 16:02:49 2020 -0700
-+@@ -626,7 +626,7 @@
-+     }
-+
-+     cmd->data.draw.count = count;
-+-    SDL_memcpy(verts, rects, count);
-++    SDL_memcpy(verts, rects, len);
-+     return 0;
-+ }
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-index 8ecf161f69..0b75eb0c1d 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-@@ -19,6 +19,7 @@ PROVIDES = "virtual/libsdl2"
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
-            file://directfb-spurious-curly-brace-missing-e.patch \
-+           file://directfb-renderfillrect-fix.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
--- 
-2.25.1
-
+On 11/2/20 8:48 AM, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   ...001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch | 7 ++++---
+>   .../rt-tests/{hwlatdetect_1.8.bb => hwlatdetect_1.9.bb}    | 0
+>   meta/recipes-rt/rt-tests/rt-tests.inc                      | 2 +-
+>   .../rt-tests/{rt-tests_1.8.bb => rt-tests_1.9.bb}          | 0
+>   4 files changed, 5 insertions(+), 4 deletions(-)
+>   rename meta/recipes-rt/rt-tests/{hwlatdetect_1.8.bb => hwlatdetect_1.9.bb} (100%)
+>   rename meta/recipes-rt/rt-tests/{rt-tests_1.8.bb => rt-tests_1.9.bb} (100%)
+> 
+> diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+> index c18928ed02..8fd94b176c 100644
+> --- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+> +++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
+> @@ -1,4 +1,4 @@
+> -From caaa142826504ad0375f9d21c558f10f31305cdb Mon Sep 17 00:00:00 2001
+> +From f89d6d6d23e0dacfd0008f686a457d536edc406a Mon Sep 17 00:00:00 2001
+>   From: Randy Witt <randy.e.witt@intel.com>
+>   Date: Fri, 16 Oct 2020 16:54:30 -0700
+>   Subject: [PATCH] Makefile: Allow for CC and AR to be overridden
+> @@ -9,16 +9,17 @@ commit 7763cf316d7896fa05b816a46998f0827ab6e6eb.
+>   Signed-off-by: Randy Witt <randy.e.witt@intel.com>
+>   
+>   Upstream-Status: Inappropriate [other]
+> +
+>   ---
+>    Makefile | 4 ++--
+>    1 file changed, 2 insertions(+), 2 deletions(-)
+>   
+>   diff --git a/Makefile b/Makefile
+> -index 05fc5ed..7a289c8 100644
+> +index c3ebbd7..2176835 100644
+>   --- a/Makefile
+>   +++ b/Makefile
+>   @@ -1,6 +1,6 @@
+> - VERSION = 1.8
+> + VERSION = 1.9
+>   -CC = $(CROSS_COMPILE)gcc
+>   -AR = $(CROSS_COMPILE)ar
+>   +CC ?= $(CROSS_COMPILE)gcc
+> diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_1.8.bb b/meta/recipes-rt/rt-tests/hwlatdetect_1.9.bb
+> similarity index 100%
+> rename from meta/recipes-rt/rt-tests/hwlatdetect_1.8.bb
+> rename to meta/recipes-rt/rt-tests/hwlatdetect_1.9.bb
+> diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+> index 5d28c7e63e..2dd890cf95 100644
+> --- a/meta/recipes-rt/rt-tests/rt-tests.inc
+> +++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+> @@ -1,5 +1,5 @@
+>   # Version 1.8
+> -SRCREV = "9f78b91f057e63b0c241012ce36b57168133eefb"
+> +SRCREV = "21c1df7d2ee199ac619cbb1806a38d15e7e95c09"
+>   PE = "1"
+>   
+>   SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=unstable/devel/latest"
+> diff --git a/meta/recipes-rt/rt-tests/rt-tests_1.8.bb b/meta/recipes-rt/rt-tests/rt-tests_1.9.bb
+> similarity index 100%
+> rename from meta/recipes-rt/rt-tests/rt-tests_1.8.bb
+> rename to meta/recipes-rt/rt-tests/rt-tests_1.9.bb
+> 
+> 
+> 
+> 
+> 
