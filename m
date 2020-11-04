@@ -1,52 +1,62 @@
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
- by mx.groups.io with SMTP id smtpd.web08.12873.1604496965850838270
+Received: from mail.bubus.at (mail.bubus.at [81.19.156.191])
+ by mx.groups.io with SMTP id smtpd.web11.13290.1604499963041186506
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2020 05:36:06 -0800
+ Wed, 04 Nov 2020 06:26:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 0A4Da2bU025827
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Nov 2020 14:36:03 +0100
-Received: from dev.vm6.ccp.siemens.com ([167.87.49.155])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id 0A4Da2Ed003207;
-	Wed, 4 Nov 2020 14:36:02 +0100
-Received: from mail2.siemens.de (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id AB74F950AAA;
-	Wed,  4 Nov 2020 14:36:01 +0100 (CET)
-From: "Andrej Valek" <andrej.valek@siemens.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: bubus.at, ip: 81.19.156.191, mailfrom: dev@bubus.at)
+Received: from brokenbit.skidata.net (83-215-125-121.lhau.dyn.salzburg-online.at [83.215.125.121])
+	by mail.bubus.at (Postfix) with ESMTPSA id CFE6F6C20001;
+	Wed,  4 Nov 2020 15:25:59 +0100 (CET)
+From: "Richard Leitner" <richard.leitner@skidata.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Andrej Valek <andrej.valek@siemens.com>,
-        Andrej Kozemcak <andrej.kozemcak@siemens.com>
-Subject: [OE-core][PATCH] autotools: CONFIG_SHELL defaults
-Date: Wed,  4 Nov 2020 14:35:33 +0100
-Message-Id: <20201104133533.18730-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
+Cc: Richard Leitner <richard.leitner@skidata.com>
+Subject: [PATCH] weston-init: introduce WESTON_GROUP
+Date: Wed,  4 Nov 2020 15:25:32 +0100
+Message-Id: <20201104142532.73949-1-dev@bubus.at>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-Do not hard-code default shell to /bin/bash even if CONFIG_SHELL is already
-set to other shell, but keep /bin/bash as a default. This will fix a shadow
-issue, where CONFIG_SHELL is exported to /bin/sh, but /bin/bash is used
-even if it's not installed.
+From: Richard Leitner <richard.leitner@skidata.com>
 
-Signed-off-by: Andrej Kozemcak <andrej.kozemcak@siemens.com>
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Currently the WESTON_USER variable is used as user and group name for
+chown'ing XDG_RUNTIME_DIR. If WESTON_USER has no group with the same
+name this fails.
+
+Therefore add a new WESTON_GROUP variable which is set to WESTON_USER if
+not specified to ensure backwards compatibility.
+
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 ---
- meta/classes/autotools.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/wayland/weston-init/weston-start | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 70804b82b4..2ceb790b5c 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -90,7 +90,7 @@ oe_runconf () {
- 	cfgscript=`python3 -c "import os; print(os.path.relpath(os.path.dirname('${CONFIGURE_SCRIPT}'), '.'))"`/$cfgscript_name
- 	if [ -x "$cfgscript" ] ; then
- 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
--		if ! CONFIG_SHELL=/bin/bash ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
-+		if ! CONFIG_SHELL=${CONFIG_SHELL-/bin/bash} ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
- 			bbnote "The following config.log files may provide further information."
- 			bbnote `find ${B} -ignore_readdir_race -type f -name config.log`
- 			bbfatal_log "configure failed"
--- 
-2.11.0
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/met=
+a/recipes-graphics/wayland/weston-init/weston-start
+index ccc7093425..0b93dc964a 100755
+--- a/meta/recipes-graphics/wayland/weston-init/weston-start
++++ b/meta/recipes-graphics/wayland/weston-init/weston-start
+@@ -33,6 +33,10 @@ if [ -n "$WESTON_USER" ]; then
+ 		echo "ERROR: If you have WESTON_USER variable set, you also need WESTO=
+N_TTY."
+ 		exit 1
+ 	fi
++	if [ -z "$WESTON_GROUP" ]; then
++		# no explicit WESTON_GROUP given, therefore use WESTON_USER
++		export WESTON_GROUP=3D"${WESTON_USER}"
++	fi
+ 	weston_args_user=3D"-u $WESTON_USER -t $WESTON_TTY"
+ fi
+=20
+@@ -75,7 +79,7 @@ if test -z "$XDG_RUNTIME_DIR"; then
+ 	fi
+ 	if [ -n "$WESTON_USER" ]
+ 	then
+-		chown $WESTON_USER:$WESTON_USER $XDG_RUNTIME_DIR
++		chown $WESTON_USER:$WESTON_GROUP $XDG_RUNTIME_DIR
+ 	fi
+ fi
+=20
+--=20
+2.28.0
 
