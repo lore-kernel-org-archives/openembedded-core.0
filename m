@@ -1,119 +1,61 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web08.9716.1604473704095170521
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web08.10222.1604478435440752476
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Nov 2020 23:08:24 -0800
+ Wed, 04 Nov 2020 00:27:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vQiq91iT;
- spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f181.google.com with SMTP id f38so15807641pgm.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Nov 2020 23:08:24 -0800 (PST)
+ dkim=pass header.i=@balena-io.20150623.gappssmtp.com header.s=20150623 header.b=u7eDWxxa;
+ spf=pass (domain: balena.io, ip: 209.85.218.51, mailfrom: florin@balena.io)
+Received: by mail-ej1-f51.google.com with SMTP id i19so17523818ejx.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2020 00:27:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k214nCcQOt/SOPUWYu04K21xI23c+GEhMKMV1PMPjCo=;
-        b=vQiq91iT4/rBpgm6SklpqFF/eVXKS2f0PSy18dTN0VBUdS0ewwTqQ/PqgyClOAcEQN
-         +82ITupm3P04/ZyU74sGqQ6jlDQVeM1b1+v3Y2UlGn3iRbQecs6eQEsVeflXZQMbgyMS
-         KcHuG8vCvTFElFEE2mwCGjxhjRWO0td+KA8RME3BmMSml30uKN0bbIci0YirXHd9xErW
-         WYsHytnUUHg9GFb5R+m8eJiO+zvqNmEtj91MRughDs8HvNHZzpmLeriK7kLQWDQhOTLc
-         3jtz6mIzs4/qoCSU05JdITBkpzhPM6tgWRbnqZMW15tbaUPnhitJKpNPmA1uBHZQhRTp
-         WLPg==
+        d=balena-io.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=QxPByu3mtKzccaHRLvHPZqG24ftRC6vzYJIZEkcNyZw=;
+        b=u7eDWxxax3X+iH0gxoYe104JJBQVgqg9xjf0jB73yd7v6VCMcpfG1cbSjoCp9b2/wI
+         WztMuOu/KszaEeotNf0vcD1tpY0G15gPZOXg+PAs9K7VcWgofd2YyvywR3VmFwz5mRqW
+         ktgOwEBLGhMYaFAh+Zv4ITcjZ2WR+5qAtmEQUzZESoKMkGTgEcFFEUnnxBrrs34FqqC1
+         4j4HSD4zzvBxuQS2zVDMFJBUYtsrJ0gF6mt1KaxCNSHrjDCt/rSF9v3zIbKBM2kwDWb6
+         /vpdLPk1WJbQ8Bf5r+rAT6NYAnmktvnf++VfV/XOWo3g/AjL9OK1GP9ZhlC+CLi+lzc2
+         rVtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k214nCcQOt/SOPUWYu04K21xI23c+GEhMKMV1PMPjCo=;
-        b=T+EteBB17hBFf9gyM2OUNttUVM8hkcC/+G4n7QS+pCzZClViJ6ozQNgAKkcs3VVCyP
-         imLsi4tBSqBWRdrRqRyJ5w1syBCLSxyluEaIFCHoEnAScxHR3ERmXaM0qYWdCgHlMA39
-         mhVOPUZDoukviSvyqLjyhaQe/SQa1ioNvAn3FuxrJboI13gX88rTqtv9D7vR2qNmgB2e
-         aqh2Hv7j2CvBTOnQNioCWeCt3ywFwjJRn1yTXd8p/GHrXVyFQ1zoDotWv/yixu+AXXCN
-         Zs655NloNfXMFQVQ4+DW9BpfZSH4Q9A1XSDpQZBqOc445Ch8fUFbQEIl8PTIaMZWxZTO
-         lQ/w==
-X-Gm-Message-State: AOAM530kHBQyaNnKoYVvQyLQqlOKXwlxf56bwIU02cM0o9xAZRWvpUL6
-	wPrBVDoyUsAoH280YwrkKCh47ALFOuy1qw==
-X-Google-Smtp-Source: ABdhPJxLkIV4wkoznc+8F+ZCqmdwBX+LMq12CcQIrpVFbhBr0nJ7yiSiV21yoNF88unGSkFUPG7YsQ==
-X-Received: by 2002:a63:2022:: with SMTP id g34mr20525042pgg.144.1604473703377;
-        Tue, 03 Nov 2020 23:08:23 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4b05])
-        by smtp.gmail.com with ESMTPSA id i130sm1187314pgc.7.2020.11.03.23.08.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2020 23:08:22 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gstreamer: Fix build on 32bit arches with 64bit time_t
-Date: Tue,  3 Nov 2020 23:08:20 -0800
-Message-Id: <20201104070820.1802206-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=QxPByu3mtKzccaHRLvHPZqG24ftRC6vzYJIZEkcNyZw=;
+        b=KiX9FMCA3+k6AJTKIuRWY90oRA1GmtbsHdmoXBOOLeB6YuED5RCIchaiedBRJI1pf9
+         nTY62Uu9Syx7XcSkqCB+433UPmDVW7ZyRqlplVpk653lYgsYO6okGgsLf1kCnlU1vd53
+         VqDG2RJ74o6DNRREu1KzazdOeMPmgWX2harMO2alymY2W8XoK+PZR0EGOWGqhcsDF7zP
+         tSRRdwptqxCmvwMnLVBKt6bJPRfOCERUK8QGacpnPjveMoQo/uZfgm3E338kzVdRg6Hf
+         gqi9knI7bC3TI+6RT4TTTYiFop3V5TD2s+n/ivqPUiXaKjnimxznI46Z18c72z2bxolC
+         ZQeA==
+X-Gm-Message-State: AOAM532UAxrnrxttXBwOc19ycA23/KMWq/b5ipf5gRDzFm5xAfUM7ggZ
+	tVzYWbXKEjOIq1u4lgFIcR9o0DMzzXXApAqeSzwWbXbklaHhUUWT
+X-Google-Smtp-Source: ABdhPJzWtlXrrCZlEvlK3fjUHYMwZWuKGB1VF/edR0mQS1WgzwkyvxV8xmH/f71R+QOa/4YAF1AnwIaewS+J6gXyh14=
+X-Received: by 2002:a17:906:3a97:: with SMTP id y23mr23908699ejd.250.1604478433387;
+ Wed, 04 Nov 2020 00:27:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: florin@balena.io
+Date: Wed, 4 Nov 2020 10:27:02 +0200
+Message-ID: <CAGHO4hUyy=XL-iKKty+qLBG7cOoh97Yy1eFspoB_mQvnqySajA@mail.gmail.com>
+Subject: Backport 05043a26cc297ed9834055678ac699e20e2f16d5 to warrior
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000012838205b343bf84"
 
-Fixes
+--00000000000012838205b343bf84
+Content-Type: text/plain; charset="UTF-8"
 
-| ../gstreamer-1.18.1/gst/gstsystemclock.c:330:1: error: static_assert failed due to requirement 'size
-of(struct _GstClockEntryPThread) <= sizeof(struct _GstClockEntryImpl)' "Expression evaluates to false"
-| G_STATIC_ASSERT (sizeof (GstClockEntryImpl) <=                                                      | ^                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hi, we'd need 05043a26cc297ed9834055678ac699e20e2f16d5 to be backported to
+warrior.
+When this is backported, will this result in a new release tag? Or does
+this typically get merged first to warrior or warrior-next and a release
+tag follows only later on?
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...crese-padding-in-struct-_GstClockEnt.patch | 34 +++++++++++++++++++
- .../gstreamer/gstreamer1.0_1.18.1.bb          |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch
+--00000000000012838205b343bf84
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch
-new file mode 100644
-index 0000000000..a2d215d72d
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch
-@@ -0,0 +1,34 @@
-+From 4449246a8d788e71dfe4679fba95955cec5894c1 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 3 Nov 2020 22:58:26 -0800
-+Subject: [PATCH] gst_private.h: increse padding in struct _GstClockEntryImpl
-+
-+When compiling for 32bit architectures with 64bit time_t e.g. riscv32,
-+the static assert that the GstClockEntryImpl smaller or
-+equal to the struct _GstClockEntryImpl triggered.
-+(they were 12bytes off).
-+
-+To fix this, the padding is increased by 8 bytes (on 32bit).
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/694]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gst/gst_private.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gst/gst_private.h b/gst/gst_private.h
-+index a8897e1..8252ede 100644
-+--- a/gst/gst_private.h
-++++ b/gst/gst_private.h
-+@@ -522,7 +522,7 @@ struct _GstClockEntryImpl
-+   GstClockEntry entry;
-+   GWeakRef clock;
-+   GDestroyNotify destroy_entry;
-+-  gpointer padding[19];                 /* padding for allowing e.g. systemclock
-++  gpointer padding[21];                 /* padding for allowing e.g. systemclock
-+                                          * to add data in lieu of overridable
-+                                          * virtual functions on the clock */
-+ };
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.1.bb
-index d989eefd97..d55b2871e7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.1.bb
-@@ -19,6 +19,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
-            file://0002-Remove-unused-valgrind-detection.patch \
-            file://0003-meson-Add-option-for-installed-tests.patch \
-+           file://0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch \
-            "
- SRC_URI[sha256sum] = "79df8de21f284a105a5c1568527f8c559c583c85c0f2bd7bdb5b0372b8beecba"
- 
--- 
-2.29.2
+<div dir=3D"ltr">Hi, we&#39;d need=C2=A005043a26cc297ed9834055678ac699e20e2=
+f16d5 to be backported to warrior.<div>When this is backported, will this r=
+esult in a new release tag? Or does this typically get merged first to warr=
+ior or warrior-next and a release tag follows only later on?</div></div>
 
+--00000000000012838205b343bf84--
