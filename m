@@ -1,49 +1,58 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.11629.1604491375520668457
+ by mx.groups.io with SMTP id smtpd.web10.11832.1604491941228576502
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2020 04:02:55 -0800
+ Wed, 04 Nov 2020 04:12:21 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3E3961474
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Nov 2020 04:02:54 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC24D1474
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Nov 2020 04:12:20 -0800 (PST)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A82E53F719
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Nov 2020 04:02:53 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 574F93F719
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Nov 2020 04:12:20 -0800 (PST)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] syslinux: add link to upstream discussion in patch
-Date: Wed,  4 Nov 2020 12:02:50 +0000
-Message-Id: <20201104120250.4010676-1-ross.burton@arm.com>
+Subject: [PATCH 1/3] json-glib: use PACKAGECONFIG for tests
+Date: Wed,  4 Nov 2020 12:12:15 +0000
+Message-Id: <20201104121217.4013924-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+json-glib 1.6 has an option to enable or disable the tests, so use that
+instead of a do_install_append.
+
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../syslinux/0001-linux-syslinux-support-ext2-3-4-device.patch  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-gnome/json-glib/json-glib_1.6.0.bb | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux/0001-linux-syslinux-=
-support-ext2-3-4-device.patch b/meta/recipes-devtools/syslinux/syslinux/0=
-001-linux-syslinux-support-ext2-3-4-device.patch
-index 3ab78752746..47a8dac10ea 100644
---- a/meta/recipes-devtools/syslinux/syslinux/0001-linux-syslinux-support=
--ext2-3-4-device.patch
-+++ b/meta/recipes-devtools/syslinux/syslinux/0001-linux-syslinux-support=
--ext2-3-4-device.patch
-@@ -10,7 +10,7 @@ Subject: [PATCH 1/9] linux/syslinux: support ext2/3/4 d=
-evice
- * The ext2/3/4 support doesn't require root privileges since it doesn't =
-need
-   mount (but write permission is required).
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb b/meta/recip=
+es-gnome/json-glib/json-glib_1.6.0.bb
+index 82f983f3c5b..59b0609900b 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.6.0.bb
+@@ -23,13 +23,9 @@ SRC_URI +=3D "file://run-ptest \
+             file://0001-json-glib-json-enum-types.c.in-fix-build-reprodu=
+cibi.patch"
+ SRC_URI[archive.sha256sum] =3D "0d7c67602c4161ea7070fab6c5823afd9bd7f7bc=
+955f652a50d3753b08494e73"
 =20
--Upstream-Status: Submitted
-+Upstream-Status: Submitted [https://www.syslinux.org/archives/2015-Janua=
-ry/023039.html]
++PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',=
+ '', d)}"
+ PACKAGECONFIG[manpages] =3D "-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native x=
+mlto-native"
+-
+-do_install_append() {
+-	if ! ${@bb.utils.contains('PTEST_ENABLED', '1', 'true', 'false', d)}; t=
+hen
+-		rm -rf ${D}${datadir}/installed-tests ${D}${libexecdir}
+-	fi
+-}
++PACKAGECONFIG[tests] =3D "-Dtests=3Dtrue,-Dtests=3Dfalse"
 =20
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
- Tested-by: Du Dolpher <dolpher.du@intel.com>
+ BBCLASSEXTEND =3D "native nativesdk"
+=20
 --=20
 2.25.1
 
