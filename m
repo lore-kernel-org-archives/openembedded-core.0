@@ -1,143 +1,118 @@
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.69])
- by mx.groups.io with SMTP id smtpd.web09.2313.1604608736524001028
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com [148.163.158.57])
+ by mx.groups.io with SMTP id smtpd.web12.2968.1604612406519915180
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 12:38:57 -0800
+ Thu, 05 Nov 2020 13:40:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nxp.com header.s=selector2 header.b=X8KQdnQd;
- spf=pass (domain: nxp.com, ip: 40.107.3.69, mailfrom: tom.hochstein@nxp.com)
+ dkim=pass header.i=@nio365.onmicrosoft.com header.s=selector2-nio365-onmicrosoft-com header.b=OO1LDDfQ;
+ spf=pass (domain: ni.com, ip: 148.163.158.57, mailfrom: prvs=45781c860f=gratian.crisan@ni.com)
+Received: from pps.filterd (m0098779.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0A5LWtXX014421
+	for <openembedded-core@lists.openembedded.org>; Thu, 5 Nov 2020 15:40:04 -0600
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2175.outbound.protection.outlook.com [104.47.56.175])
+	by mx0b-00010702.pphosted.com with ESMTP id 34h5r5e3fh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 15:40:04 -0600
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HwZ+X+wi3zS72DSqox7c98ZIMpCHOmQHge7uwLMJc9CFgKI+BuFk4Sb25PzhLsyzd1MZLJwMCWrFfrP63dWbnqYlAXE7GpVd1Xa9EoGcBFnWI7RAbv4I+5ETh86OA15MZOcZ4pL2IV8PdFtFAENE/s/lBI1c8xQ35hogD5OScQVwRVrqHWZFQZIFqLPAI6re/n0vuDW1MO1fjDGI6VjXIYDpQ7Zzaw+KwR4M1NspFJCs+tBkDDD2WYRd7KQ5k8CsNX6cWXVGtYFsdJNPrqd4apCzR2dxWGUMAmOFyWH6b41buAJVVr1+T+XmEbDnzfCSOL11JnqEqJUa5L7eJPSPeQ==
+ b=XcqvpxQTuWRBhwhDoeXI4x+vBlonhKpqBcdm5xv918YvwkwRVNBiExnhHOWy7rPkQkzFNpZ45oR0+C+R/+8P7hUvuwzSsqJjNJbtR8OQS0WNU8KYI+LpsGMLy+ir7rpZSdppDGAlGnHPUuJ2SELiTtsJ/JDOsQsxOdSGH8fT8XB42CsDP71j1Gvya1xdRiaJHQSGOaEjY4b8n0ksKpsQYbGr2mUAjQQME7Ir8q+t1Lmoho0VmjCjF+SofB3gYQh4I6FJiqkuue91mM6YAmgXMjmqtLjtEMrob7n9ly3m3452abqhx6CQtnbS6tR1IRGjWRnXIPcaQ7QgGYUMq8aOOg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lmrn1RPpL/EOzeyhByGBDnxU0bWnA311XK+PH7wEaOM=;
- b=OZyfRiTGD+gXaI7AniPE3xlSAXHzDL2+qVTCpxGVGaNA3qctNcaO5oZGUgz0VuHM6zHhcJ7il46/pRlzejqgYcAcyOLfpmZYe8mwl1A8tL2o8ipKzc1VZKLnmFtQDE4onUa3k8vq/flEVBt9VEhS339gqevcyM/YU5yyqjJvaW98fC2gelFB7C9iK9TTN2JwfcFbvQgEMqLtXFYhNnQ8wnorUaV/jDcx0hyWK5MYauAQYC/hw2J4IkjyVUaPORsEDCN4EWZiRVGZlCsG899qTvF/hBxIl6YYBeYeIdLQ3E2ZLNmk644KaNXzeQ8170V25baqd52/eSn16gyMMgTqVg==
+ bh=b0bd0ens5ydMx8ePNksgTRAV+8wkQuAuSNZSfBua20w=;
+ b=GdLjp8ek3YCqLuWKIbbKi+t0IXa7dS6T4+BA8Aj9C5ihK9vDFwBNjPScNVUScjPrlPLR/XRIkxy9VToOvHBGGc6BPQU31hIcSPboP70jG3mL2JQJETR8MxlRBVO3B1XnSy7uiQwLRe0NdeQmjsC6Lv1qVP8KJ9lu3+NqjD4HZFbenMmT3MhN1ICHS5UPpi80QyUMvWxl0Lam40mpLvBERJ/3wNKZmQ4duZ2VZdjCnDtg8y9CrTtlfLeEzHWIcgunOqmk1slEKhmhQivZpJk0brhotSsjNQtVP/wQoVOhmhcsZCIggg8KIwsvyFg5YS33unL5qVuD8vsSpS6L8MGuqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
+ header.d=ni.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lmrn1RPpL/EOzeyhByGBDnxU0bWnA311XK+PH7wEaOM=;
- b=X8KQdnQdU50cFH8HcbfRpZmzN+KAI3wrRLtlgHJPt5GbjtfWXGPQrFbppVsyubfokECBD3r6m3yFr9/59J13V3bORYyXDs4Ir5xc3SGmP/R3LkljOXflxvJ1WdVKR8+aTmoGf4/UUz+9Jf00tFTi94AXoKLFcOBD90BaWqd+ZZ0=
+ bh=b0bd0ens5ydMx8ePNksgTRAV+8wkQuAuSNZSfBua20w=;
+ b=OO1LDDfQZXbtcN9twkKHpF8V+jLN/H2yIOUzyTVkJprlcivclLH1l3SASKeiq+gcproPyFKARizNXn6F1RvI8VVZu+D3/rOv1AXTOD+dpGDtq96Mta937ZqEROJdH6lYr3MwZQ9h1qCBsBc6H9X+DhbGrzXMFjJDM3YD3Gi0mXg=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=nxp.com;
-Received: from VE1PR04MB6621.eurprd04.prod.outlook.com (2603:10a6:803:124::21)
- by VI1PR0401MB2431.eurprd04.prod.outlook.com (2603:10a6:800:2a::24) with
+ header.from=ni.com;
+Received: from SN6PR04MB4496.namprd04.prod.outlook.com (2603:10b6:805:a3::23)
+ by SN6PR04MB4894.namprd04.prod.outlook.com (2603:10b6:805:95::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Thu, 5 Nov
- 2020 20:38:54 +0000
-Received: from VE1PR04MB6621.eurprd04.prod.outlook.com
- ([fe80::88a6:6d6e:dae:385c]) by VE1PR04MB6621.eurprd04.prod.outlook.com
- ([fe80::88a6:6d6e:dae:385c%6]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
- 20:38:54 +0000
-From: "Tom Hochstein" <tom.hochstein@nxp.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Thu, 5 Nov
+ 2020 21:40:01 +0000
+Received: from SN6PR04MB4496.namprd04.prod.outlook.com
+ ([fe80::cc42:669f:a4f2:c1]) by SN6PR04MB4496.namprd04.prod.outlook.com
+ ([fe80::cc42:669f:a4f2:c1%5]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
+ 21:40:01 +0000
+User-agent: mu4e 1.3.2; emacs 27.1
+From: "Gratian Crisan" <gratian.crisan@ni.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tom Hochstein <tom.hochstein@nxp.com>
-Subject: [PATCH] mesa: Add xcb-fixes to loader when using x11 and dri3
-Date: Thu,  5 Nov 2020 14:38:20 -0600
-Message-Id: <20201105203820.19558-1-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [64.157.242.222]
-X-ClientProxiedBy: SJ0PR03CA0080.namprd03.prod.outlook.com
- (2603:10b6:a03:331::25) To VE1PR04MB6621.eurprd04.prod.outlook.com
- (2603:10a6:803:124::21)
-Return-Path: tom.hochstein@nxp.com
+Subject: [OE-core][PATCH] kernel-module-split.bbclass: identify kernel modconf files as configuration files
+Date: Thu, 05 Nov 2020 15:39:56 -0600
+Message-ID: <875z6jxz2r.fsf@ni.com>
+X-Originating-IP: [130.164.62.38]
+X-ClientProxiedBy: DM5PR19CA0035.namprd19.prod.outlook.com
+ (2603:10b6:3:9a::21) To SN6PR04MB4496.namprd04.prod.outlook.com
+ (2603:10b6:805:a3::23)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from tx30imx-01.am.freescale.net (64.157.242.222) by SJ0PR03CA0080.namprd03.prod.outlook.com (2603:10b6:a03:331::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend Transport; Thu, 5 Nov 2020 20:38:52 +0000
+Received: from quark (130.164.62.38) by DM5PR19CA0035.namprd19.prod.outlook.com (2603:10b6:3:9a::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Thu, 5 Nov 2020 21:40:00 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0db75d8e-a01b-4cf7-c20e-08d881cacf88
-X-MS-TrafficTypeDiagnostic: VI1PR0401MB2431:
-X-MS-Exchange-Transport-Forked: True
+X-MS-Office365-Filtering-Correlation-Id: dc69092d-541e-45ab-8f86-08d881d35917
+X-MS-TrafficTypeDiagnostic: SN6PR04MB4894:
 X-Microsoft-Antispam-PRVS: 
-	<VI1PR0401MB243173CC874CD9CA26ADBFC7E2EE0@VI1PR0401MB2431.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+	<SN6PR04MB4894F136512656F7F7DA0EB1FEEE0@SN6PR04MB4894.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1169;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	a2Im/FFmBzG0r8JUS/Rd/5heBXosQLPUJRT/y3Q0Xsm+TzrBbp24iq5Mzcx7TK5Ma+Dc0up1TCTqk6A+TMMTnkU1ErV4SmSvYztESNOvjPr/RpVZEqFx+U4+fYRXs7NTwOJyzeXBMIiZ93dS9WAC1QX33I6WKwEMKTnJPARd5DhfmKKEWf3z8Kiuin76mdxH/Grs/SJVUcUvHaVWuqbrr6vxKUTWtyXL3UZ5zbBggbGWRaEs5hdx/nPwmshOSg+29KhITApXyPZgupbIvEF1kGbvVCsfd6EMN04rUzZzJtvVcI6gBLflYQ7MVxSn4d+Lcaix65p5/qCfyizHdg8Cvji3QEt2n9FmGuHeoazVPPg=
+	BuX6CvskYMQfFeeop9AUZlBjvfl2HMPbXtMxu7emQbFRs66FIHZ1nwCU32cs+B3myc9W1dShoRmq+23zSRjnGahHAp0yhZNfeC6TQdHrQIMD/9R26w9BGirnnh3jPLWZGKoIGDqm09JKsUlb/SpGzcqSsC5QVVUHyrBp3kahLwd5Qj7uP1E8S/PsAiINjoaVpIBCFA7D3mWD45BBsXV+kLCFU+kTiKQZBCcrPefJISyj0Q9e/Bee+yunAkfNjxFKBzYBqHEdelvdSuqKQLZKWc4kCCmfzzYDMrrmnZKiFG35YcX8FiRHoxxjeSUtYq2D0I3TrUvqhedWObJ2YD44uQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(366004)(346002)(376002)(136003)(2616005)(66946007)(8936002)(44832011)(6486002)(86362001)(66556008)(36756003)(956004)(4326008)(478600001)(8676002)(6512007)(5660300002)(66476007)(186003)(16526019)(2906002)(52116002)(6506007)(26005)(1076003)(83380400001)(6916009)(316002)(6666004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4496.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(396003)(366004)(346002)(376002)(39860400002)(66476007)(2906002)(16526019)(6496006)(66556008)(5660300002)(6666004)(6916009)(52116002)(956004)(66946007)(6486002)(478600001)(44832011)(2616005)(8676002)(8936002)(316002)(186003)(26005)(36756003)(86362001);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData: 
-	w3Wmpi97VixG80H7Weol3ZitB94j/hw8SyFEUdHwK7Ugy9LxaDGtDB1yyb03Qgh1lt+XZDHgXvbNQB9JU5Vp1s55XS64NvCaeDXmrbL7Xe8PEyKGo4FtOMCGyW87tTrhAfBr23Kvh4kc82FIlsRth7H27Pl/CyCmIFUQOJkdlZs4h/kypdHmngxWqdmnyu2pMUXzRyvcUcRLhNEuNoE2YJ2CsLMkAwcIBbXHARgxTqfVThPbRNp3R8S3BxQCDmlexSzJYB2mfPNR8orEFzQWEVG5J1UfZda5Ivy4GzockdR/AyOAXcfuPiIFp9db93iT1HdpxiY7x6EgMQRlnwUVntPADUD43BLJn8ylCCltzEclbb8B1jisEvzFlWxreQyO7ZaSUkKeByrJ1cdrDF7fuyGEEFcujVhJKpbZR/CJQrFAmHKOkuULdIn9JYiyiJ237ZDpcEM+YVFXxeMy/emQb5Pn6Ei5FWEjB7CL9MhdpfIu/WkQYjJrQWdOTm4DrEJiMEf0q6rnt0R/EliaJ38eJIcVeMsFnuUiMBGlkcVotlzU/KWRuqHyvyV7ghIp8rn/iOPnvGxEuFS/ZuH+j7pxsgMzJC76n2UVUxpVQINxbLu5ngNrWDuoDFkNrcdJExXdmeXn+Xclvg0gY0nssQbdzA==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0db75d8e-a01b-4cf7-c20e-08d881cacf88
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6621.eurprd04.prod.outlook.com
+	QiKMkBDQ20lMQTadOBkBTVgu3IYCRfNH5pyqL7Y/Ka64/zKff+kLiggD9buZQ3FfPCi6zSvy9Z0KYb8Zm1bbdnEoaBovM/eO5tc/TWMSUDboBmsCy/cfPSBwK83F1mxDGOwSy0Mpw32Mo2GYKa8nzkvuoVtsGzVQE9/cZgqA1Obh830S8PsbnpeUWGnujDNMqGiC7fpd8/uOx0tErHfqEVbP1Aje17j/MNCNeP9XCwYn7NyB34b1SxqSulClLPlZdFZGLr+8U+ViPUQeCkfqQkGz/hth9ec2dAebzAZ85gA4ZeSXC1At/TzwVVXVh6VAUzbHyCaPKg/rAsjMJ7W2jJUVUMVswicByGaePO7E08kJA8hp4yUYQEj/8plt6AdilZ4JZ/aLQOIcohKtVEnrBztfwoc9/N1NKosCYKaZsO9G5K9jGbjvKYAfmkOU0NSPGFGzHguajxWJFjr299l9w0L8yuLPgES1ssTXL2H5DZtv7YAKvcZmHpmwtxNRb/tDfxW1Qhks2mj+xjbiJ94GfWZmPEdggTUSx6lNrgg6MY8O9f0ehPNSjlBFaUYPzD0GOpLT7PCNLmr6WZGVN+XGqprNHDA486ANVyXlG+VLni7Sae4k3tDEvIwEfBffKtHvqBuUp8OXr9ZfF9F958TxLQ==
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc69092d-541e-45ab-8f86-08d881d35917
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB4496.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 20:38:54.2286
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 21:40:00.9706
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XEcjS4BtOdBY7lXybAy09zVBAbgDydsIVPRwABsVG5GDoD8WsYVgrDdCmS4CEkYL0i60zNIj0b2GhdfTYl2rPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0401MB2431
+X-MS-Exchange-CrossTenant-UserPrincipalName: p+ht9wg1VfCxx/wOIm3yeI+J56kw02F5dBldwWJ9OuXNyI03D+IsVX4NdtLOx7td6a3wVexQDe04VtX5OJ+vkA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB4894
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-05_15:2020-11-05,2020-11-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy score=30 spamscore=0
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 suspectscore=1
+ clxscore=1011 mlxscore=0 adultscore=0 priorityscore=1501 phishscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=30 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2011050139
 Content-Type: text/plain
 
-Backport fix for undefined symbol for xcb_xfixes_create_region in loader_dri3_helper.c.
+Currently the modconf fragments representing the configuration for
+kernel modules are written out to appropriate .conf files and added to
+the FILES variable. However they are not identified as 'configuration
+files' and installing a new version of a kernel module results in a
+conflict and a failed installed because the respective .conf file is
+already in place from a previous install.
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Add the generated .conf files to the CONFFILES variable denoting their
+true nature.
+
+Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
 ---
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- ...xes-to-loader-when-using-x11-and-dri.patch | 36 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/mesa/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
+ meta/classes/kernel-module-split.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 15f54c5acd..246ed936e7 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,6 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-+           file://0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch \
-            "
+diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
+index 221022b7bc..c8ede26996 100644
+--- a/meta/classes/kernel-module-split.bbclass
++++ b/meta/classes/kernel-module-split.bbclass
+@@ -120,6 +120,7 @@ python split_kernel_module_packages () {
+         files = d.getVar('FILES_%s' % pkg)
+         files = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename)
+         d.setVar('FILES_%s' % pkg, files)
++        d.setVar('CONFFILES_%s' % pkg, files)
  
- SRC_URI[sha256sum] = "d1a46d9a3f291bc0e0374600bdcb59844fa3eafaa50398e472a36fc65fd0244a"
-diff --git a/meta/recipes-graphics/mesa/mesa/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch b/meta/recipes-graphics/mesa/mesa/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-new file mode 100644
-index 0000000000..9ee72880a2
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-@@ -0,0 +1,36 @@
-+From cf17d6251653f4a98e7c4f904ea2f0bc0ecedd5c Mon Sep 17 00:00:00 2001
-+From: Duncan Hopkins <duncan@duncanhopkins.me.uk>
-+Date: Thu, 15 Oct 2020 12:14:57 +0100
-+Subject: [PATCH] meson: Add xcb-fixes to loader when using x11 and dri3. Fixes
-+ undefined symbol for xcb_xfixes_create_region in loader_dri3_helper.c
-+
-+loader_dr3_helper.c uses xcb_xfixes_create_region() that requires dep_xcb_xfixes to link. This is dependent on with_platform_x11 and with_dri3.
-+But the source meson file does not set this up dependent on with_dri3.
-+The build was initialsed using platforms=x11 and gallium-drivers=zink,swrast.
-+
-+Reviewed-by: Eric Anholt <eric@anholt.net>
-+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/7164>
-+
-+Upstream-Status: Backport [cf17d6251653f4a98e7c4f904ea2f0bc0ecedd5c]
-+
-+---
-+ meson.build | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index cfe02fa6373..3cb3c904927 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -1782,7 +1782,8 @@ if with_platform_x11
-+       dep_xxf86vm = dependency('xxf86vm')
-+     endif
-+   endif
-+-  if (with_egl or (
-++  if (with_egl or 
-++      with_dri3 or (
-+       with_gallium_vdpau or with_gallium_xvmc or with_gallium_xa or
-+       with_gallium_omx != 'disabled'))
-+     dep_xcb_xfixes = dependency('xcb-xfixes')
-+-- 
-+2.17.1
-+
+         if "description" in vals:
+             old_desc = d.getVar('DESCRIPTION_' + pkg) or ""
 -- 
-2.17.1
+2.28.0
 
