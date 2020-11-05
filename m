@@ -1,86 +1,102 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.20384.1604530075543178142
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.1546.1604539830311283102
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2020 14:47:55 -0800
+ Wed, 04 Nov 2020 17:30:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@meraki.net header.s=google header.b=F9xSShtj;
- spf=pass (domain: meraki.net, ip: 209.85.215.178, mailfrom: william.hauser@meraki.net)
-Received: by mail-pg1-f178.google.com with SMTP id r186so116845pgr.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2020 14:47:55 -0800 (PST)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=Ehi6VBmb;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.221.68, mailfrom: nathan@nathanrossi.com)
+Received: by mail-wr1-f68.google.com with SMTP id n18so501267wrs.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Nov 2020 17:30:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=meraki.net; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=uyNfTWJa0Q7thtvW2Tj/yy3931+zu2O6D1MKMx915wo=;
-        b=F9xSShtjrEOjXS4YxDi29IdhZBjQsGlEjd3ue2GmFVkbZhIao69tEiJoPXn8j/EQdA
-         fvPDNSPmXUEJsKjTFAEPwm7H++HgEUPuW7jsIsB56CI0QXL/AeEvlwm8axZK+I3/iHXJ
-         rUC5Nzc3crvx+k3sVXL5dW78Rxt8D5p/3h4os=
+        d=nathanrossi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VwtQ57PH9ah686nl0iMHKb+g27jnqf2Fb3Q/YLfESuI=;
+        b=Ehi6VBmbM7c06G3IBUBHpoF+3xljDfTtTNcH6jkwFEu5b8O0SfFI8dgj2SSe19+797
+         6UflfOkFEA8EmchHJYlF1jHUsabF3qeromswSbprUSF6xuiooLg+vybzXju6xCiklOsv
+         Ls0QsjG5c57HkAX6jHhkFMe2Kal2gGzAeOIoxPw8F9lgp2mJOUqDc2LeZxGJpBSD0S6t
+         xipcrwGX7m3+KnS8YlO6G631/4k4CXwkPdzNZVL+6h3JBeIzpmbP8rkA3XxJKSBW5dC7
+         bVv0csgIJK29Ae8mSLVrZKgON0WxFUWI8TSi/G0zj84pTlWodkIhlW0iu8UORHBf+Llb
+         KO+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=uyNfTWJa0Q7thtvW2Tj/yy3931+zu2O6D1MKMx915wo=;
-        b=jYNLbL1caqu9NLQWHvt7mVxnIR9/gJIsknjCsV7qz5toyaVBTYw8e5y7c4EPBiQ89q
-         vwoKChWEh7gCDjIwOszfgQe+0kjJ2XH1Z8UbTSwmqL+ogUnU1XR6HYj+fZyzWKaYBg0H
-         dVgwlBwMz2WH2C0pNi8gfFrAeWdYQ7F9YOF8WWenkal5nV8cNI1DpA5b1GpSJ1g9wz1Z
-         XV241t+08tv/Vv2yxS5v38BGEd3zyV0e3aEMSujV0WqvrXmfpxJ+2Dz7YpsPh6Dzhxyk
-         AS7ZgRvLXI6I9Ccsf65LfCbfZAmzjj+P5GO/7jDZ6izeAunVy+cQv2nZ/1oX2Fokahh6
-         vxFg==
-X-Gm-Message-State: AOAM531R102naSX72PbqVU4tlY0sSKU1AG6ydGWI1kOz3ZzLqsirJgkk
-	pFCyDuwX3GihEcUo4/Lb3atTOVJtBX89XA==
-X-Google-Smtp-Source: ABdhPJxUk97nbxlK0mz+YLyOC1EoBtJPNFXJsC96dK2vlgVYR1qqryceFYhdz70Jux+k06jgJB9G2w==
-X-Received: by 2002:a63:381:: with SMTP id 123mr231839pgd.112.1604530074597;
-        Wed, 04 Nov 2020 14:47:54 -0800 (PST)
-Return-Path: <william.hauser@meraki.net>
-Received: from localhost.localdomain (192-195-83-200.static.monkeybrains.net. [192.195.83.200])
-        by smtp.gmail.com with ESMTPSA id w63sm3663899pfw.0.2020.11.04.14.47.53
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Nov 2020 14:47:53 -0800 (PST)
-From: "William Hauser" <william.hauser@meraki.net>
-X-Google-Original-From: William Hauser <whauser@meraki.com>
-To: openembedded-core@lists.openembedded.org
-Cc: William Hauser <whauser@meraki.com>,
-	William Hauser <william.hauser@meraki.com>
-Subject: [PATCH] package.bbclass: fix image_debugfs symlinks
-Date: Wed,  4 Nov 2020 14:47:43 -0800
-Message-Id: <20201104224743.74488-1-whauser@meraki.com>
-X-Mailer: git-send-email 2.15.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VwtQ57PH9ah686nl0iMHKb+g27jnqf2Fb3Q/YLfESuI=;
+        b=TtGqSLUbGVI+Yv64omI8QajvUDf1vprlpDxhi02xX6bZDiwUlr6c6N493UBZNxFVfs
+         pxNgLqkrGZaJaq8y6bs+S1nKTZOWNUUZVMTYlhpIwxtB45FNZXBRqq0yxcycZt6tWUlH
+         TVouxXlyeh3BcMAR2fteo5+3q+xl5joSgtC42+r3ju2jQa0VRFtS88olPCvWN7we7aHp
+         RMlcWI5EJHko+8FmeDdT5oGD7G5y8nAi72uvTC7l+yyAfRDsYrIzCueH2PmBer+/Bpc7
+         ptEPl9PNgHmx9OJnAm16b1Cq5gUhOeGYOETyzP6KjbEzT+N0BinGxRWi7lihf8LACZo6
+         ymBw==
+X-Gm-Message-State: AOAM5330/+Y8fsdaUq1picAB36w6H4VChT8G2y1Zkg5qirm7KB4fY6Ep
+	5dS8lvuMLuF4Z2ollF/VDs2ucyM6PDHXQThEoY9jrw==
+X-Google-Smtp-Source: ABdhPJxhMFdZovZQU89FxtahrLzfag05aUc7/j4pkf8rfB+lsvkX3znT6Z8nm9HC10t6Zm1US3EKA41+ksgW7qylynI=
+X-Received: by 2002:adf:fdcf:: with SMTP id i15mr882387wrs.16.1604539828819;
+ Wed, 04 Nov 2020 17:30:28 -0800 (PST)
+MIME-Version: 1.0
+References: <20201104131745.397780-1-nathan@nathanrossi.com> <574f594f-cdbf-0465-dc5e-5ca1033df19a@pengutronix.de>
+In-Reply-To: <574f594f-cdbf-0465-dc5e-5ca1033df19a@pengutronix.de>
+From: "Nathan Rossi" <nathan@nathanrossi.com>
+Date: Thu, 5 Nov 2020 11:30:17 +1000
+Message-ID: <CA+aJhH1BM+PmLEKPyQnUYLX8MLkh9gNFKa5oewsZY-bmpgxGfg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] vim: add nativesdk to BBCLASSEXTEND
+To: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 
-Allow symlinks to be made in the debugfs by removing an incorrect check that
-would always prevent symlinks from being transferred over.
+On Wed, 4 Nov 2020 at 23:32, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>
+> Hello Nathan,
+>
+> On 11/4/20 2:17 PM, Nathan Rossi wrote:
+> > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> > ---
+> >  meta/recipes-support/vim/vim_8.2.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-support/vim/vim_8.2.bb b/meta/recipes-support/vim/vim_8.2.bb
+> > index 709b6ddb55..7e4654e472 100644
+> > --- a/meta/recipes-support/vim/vim_8.2.bb
+> > +++ b/meta/recipes-support/vim/vim_8.2.bb
+> > @@ -3,7 +3,7 @@ require vim.inc
+> >  PROVIDES = "xxd"
+> >
+> >  PACKAGECONFIG_class-native = ""
+> > -BBCLASSEXTEND = "native"
+> > +BBCLASSEXTEND = "native nativesdk"
+>
+> Apologies if this is self-evident, but why should nativesdk be added here?
 
-The comment in this code indicates that the code is meant to ensure symlinks
-are only copied to the debugfs if their target has already been copied, but
-instead checks for the existence of the symlink that has yet to be created.
-As a result this check always fails.
+It should be added so that vim can be included as part of a
+buildtools-tarball/sdk. It is useful to be able to provide an editor
+in a relatocable form, for when hosts do not provide an editor. It is
+also useful for the xxd tool.
 
-This check is safe to get rid of since we will only attempt to copy a
-symlink to the debugfs if it's original target exists and is an ELF. It
-is, however, still possible for a dead symlink to end up in the debugfs
-if its original target was stripped.
+> A commit message explaining the why would be quite helpful.
 
-Signed-off-by: William Hauser <william.hauser@meraki.com>
----
- meta/classes/package.bbclass | 8 --------
- 1 file changed, 8 deletions(-)
+Sorry, I've made quite a few of these mechanical add nativesdk patches
+recently, and in the past. The reason for the change is almost always
+for sdk/buildtools-tarball. I can add the above description if that
+explanation is sufficient?
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index e6236c0bb2..47f3df2e13 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1258,14 +1258,6 @@ python split_and_strip_files () {
-             src = file[len(dvar):]
-             dest = debuglibdir + os.path.dirname(src) + debugdir + "/" + os.path.basename(src) + debugappend
-             fpath = dvar + dest
--            # Skip it if the target doesn't exist
--            try:
--                s = os.stat(fpath)
--            except OSError as e:
--                (err, strerror) = e.args
--                if err != errno.ENOENT:
--                    raise
--                continue
- 
-             ltarget = symlinks[file]
-             lpath = os.path.dirname(ltarget)
--- 
-2.15.1
+Regards,
+Nathan
 
+>
+> >
+> >  ALTERNATIVE_${PN}_append = " xxd"
+> >  ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
+> > ---
+> > 2.28.0
+> >
+> >
+> >
+> > 
+> >
+>
+> --
+> Pengutronix e.K.                           |                             |
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
