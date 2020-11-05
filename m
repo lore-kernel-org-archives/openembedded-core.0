@@ -1,101 +1,124 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web08.6088.1604574986799617834
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web10.6502.1604578044096370450
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 03:16:27 -0800
+ Thu, 05 Nov 2020 04:07:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=i6vp4QDC;
- spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: andrey.z@gmail.com)
-Received: by mail-lj1-f193.google.com with SMTP id k25so1143400lji.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 03:16:26 -0800 (PST)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=dXfk5L6f;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.128.68, mailfrom: nathan@nathanrossi.com)
+Received: by mail-wm1-f68.google.com with SMTP id h22so1372141wmb.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 04:07:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=nathanrossi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zs2oNVH9kovn6p64+oQS/fDul6xCCPmWzGEBx9CGR0s=;
-        b=i6vp4QDC+Xps1XIZ3C6rSWNboA5AuiptqzEun+EN6o3fvx816TVItOGtEeeVUFHnZi
-         6uJocpE6+/SqQeCibaoL8+mwpkz+4Phnlx3KTjO8zdtR/f8SvN4B8e83Kgqv1IXwipRI
-         8n3k3JKizKafco3r3LJu8MV4PQ+R0z4zjGpgZzFrxwSxOSDdpSt1gL3B1N50XxP/Zpnb
-         BYDHHgbWFf+lvnJ10MJb+0S8uocGysXsa0lH+wTjeSjOe/oRmwRagSxKcNLe4wcQ/jZi
-         Ltz1jJMHck0QWyZJ9w1npJxQHYQnd3CkJfMIiMuJdglZ2+/C5mxuv+srpHULbeFczDyS
-         urVw==
+        bh=XfwIEBIYfZJeVvuVyl/zr+/9d9bbQnqQV5mtp+sQyEo=;
+        b=dXfk5L6fibn4MteOZU4LmvC7hZwaZdVehNgDH8DXzEqpuUaNpwdmq0EWnPR884R081
+         oeCKecLIGY0YWZ16WWV2P4vTF87stlcpXCcVPBTGPAJlsk4f+tGS5+5dY4BWnaDxhHck
+         cvAIw+uiv7v3VxDos2LIRvC9HvX2OlXvmhoud6+QmKGcd883keMPVuIE+HsB9S9MauXs
+         71NPfHN7CHbVgH+Qq4hCI28Xpht2GJ/eYc7fvOeGdkx4TrrNrnKeJmFIrn188ipsKgPO
+         /1YkW3WaPIQpWvjYIm1DZkUxzxIpXHR0+AO/ohy5MopS63fO6Z22vh1rsJdCrzBZBHwk
+         VOtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zs2oNVH9kovn6p64+oQS/fDul6xCCPmWzGEBx9CGR0s=;
-        b=PXn+X38eoO5gFA4CxKYmtKx+//Tt4Lnw2dNzh9fuj76E4sa3HtEcZMYnpz0lGBNkDm
-         Wa/CWJ9F2psb7FO/8aKpAs9LSnKSuz8I+ncTbsYcTZrqmeBGbL3y4BXhLWRqDAXqmOxe
-         ogZIbLsdXdGX1tl5IR9ijaMFy949QnoKstGTkJglcWA403ZdLFqt07Eop7oZ+KPLXsSl
-         agjVfvS3qmPr+J9M0+j3FqBg+/yUG8d+ngLrSlnh+Ab85nzj8mLi8n/MEPAnpLA6XmCH
-         X96A0kllxCLuZHfT9PfPzylBw9SfCLCp1SbvF3vqgqCFdZ2mF7v6MycuKFOzN/B9CaN+
-         chpw==
-X-Gm-Message-State: AOAM5300xptY3X0c2Wu1nAuS8JoDHUceKLBW1Ow64c8PLoKLSIQ45PTn
-	NBKhHdsc1M47cuPdu1+R/JLVNOC6n864HRinICg=
-X-Google-Smtp-Source: ABdhPJwjSkDtjFtu0k4z7wWPj1wDHlStLDhVg/9uAiMPKg4vFenAsQ9SwSU/PCDQibhZKtb3fhhyr9+oKt3YMlQViv0=
-X-Received: by 2002:a2e:6a07:: with SMTP id f7mr760092ljc.221.1604574984969;
- Thu, 05 Nov 2020 03:16:24 -0800 (PST)
+        bh=XfwIEBIYfZJeVvuVyl/zr+/9d9bbQnqQV5mtp+sQyEo=;
+        b=gAOHjt+q3OWVqkKL+xP5Wvtx3QH9IUXOXmz0/XnnRn/eNg/E65C6TSB9F6maxugL0w
+         W7OH0+e1p/8L3gI7Ral7Sc3/CUzthlqfCtr7t1ZmulaXl0QKsk5heSvtutmFoP779Q58
+         6oIKzPDsCWmFQ2eHRgtOBRrbxrcs1jEWvE777xdTSf5f/dotTGRSiXy2++UGAsAT+doE
+         TLEk24lkyj3AsadB6cw6hmcdgqfl9zPSvsG+DEm9yhu+XQIublXmVgRN+r5H2BVongI3
+         UNJ3oT5G8fTY4Y4Ks01cNb+jmzwZ6O3w5hehBOQmi/evv7g6DwOdcKwH7RxKdjTpAg+x
+         SbYw==
+X-Gm-Message-State: AOAM533FN284mMtLvWIAgWjZLl7B1oeHCdM08YbdSGo3P21V1DtaPomD
+	apPqDmQ9sGZo9uKxKJmrE+aI8i5IW/5YY3uyIoSKww==
+X-Google-Smtp-Source: ABdhPJydArPMUlO6CqmIiPz2HlWos1N+qO1orSR/q9nfpKOKik69HCdYhU5gJEa8R/lq7Oa7T6WAbbcBs8+56vGRK+M=
+X-Received: by 2002:a1c:9804:: with SMTP id a4mr2130059wme.158.1604578042478;
+ Thu, 05 Nov 2020 04:07:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20201105110247.417380-1-nathan@nathanrossi.com>
-In-Reply-To: <20201105110247.417380-1-nathan@nathanrossi.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Thu, 5 Nov 2020 12:16:13 +0100
-Message-ID: <CAHtQpK5JHsZ7H-y521+Bfaf0L6kz9ixMm_b7hCsdHinoWAG1sQ@mail.gmail.com>
+References: <20201105110247.417380-1-nathan@nathanrossi.com> <CAHtQpK5JHsZ7H-y521+Bfaf0L6kz9ixMm_b7hCsdHinoWAG1sQ@mail.gmail.com>
+In-Reply-To: <CAHtQpK5JHsZ7H-y521+Bfaf0L6kz9ixMm_b7hCsdHinoWAG1sQ@mail.gmail.com>
+From: "Nathan Rossi" <nathan@nathanrossi.com>
+Date: Thu, 5 Nov 2020 22:07:10 +1000
+Message-ID: <CA+aJhH1BAoM7A=JJcpRnTuGOOhc4Rx1H4UO9oCH1v0Etsr5J9A@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v2] vim: add nativesdk to BBCLASSEXTEND
-To: Nathan Rossi <nathan@nathanrossi.com>
+To: Andrey Zhizhikin <andrey.z@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 5, 2020 at 12:02 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+On Thu, 5 Nov 2020 at 21:16, Andrey Zhizhikin <andrey.z@gmail.com> wrote:
 >
-> Enable nativesdk build support in order to be able to include vim in
-> nativesdk targets (e.g. buildtools-tarball/sdk). It is useful to be able
-> to provide an editor in a relocatable form for when hosts do not provide
-> an editor.
+> On Thu, Nov 5, 2020 at 12:02 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+> >
+> > Enable nativesdk build support in order to be able to include vim in
+> > nativesdk targets (e.g. buildtools-tarball/sdk). It is useful to be able
+> > to provide an editor in a relocatable form for when hosts do not provide
+> > an editor.
+>
+> Is there any reason why a preference is given to vim in favor of all
+> other available editors? Why cannot a user install any editor of
+> choice on the host system or inside a container?
+>
+> AFAIK, editor is not an integral part of the build system and is not
+> considered a build tool, therefore does it really make sense to pull
+> it into buildtools-tarball/sdk?
+> Maybe I'm just missing a use case here...
 
-Is there any reason why a preference is given to vim in favor of all
-other available editors? Why cannot a user install any editor of
-choice on the host system or inside a container?
+So this change here is not about including it in buildtools itself.
+This is just enabling nativesdk for vim such that it can be included
+in a nativesdk target.
 
-AFAIK, editor is not an integral part of the build system and is not
-considered a build tool, therefore does it really make sense to pull
-it into buildtools-tarball/sdk?
-Maybe I'm just missing a use case here...
-
-> Additionally the vim recipe provides the xxd tool.
-
-This is a "hidden" dependency that would be pulled via this recipe...
-I'm not sure this is a good solution, especially when somebody would
-opt-out from vim package.
+Just a couple of use cases for including vim in a nativesdk
+"buildtools-tarball" like relocatable installer:
+- xxd bundled with other microcontroller/etc. programming/debug tools
+- vim (and/or other editors) shipped with an expanded
+buildtools-tarball to avoid host dependencies on build machines that
+have heavily restrictive policies
 
 >
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
-> Changes in v2:
-> - Add detail to commit message
-> ---
->  meta/recipes-support/vim/vim_8.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > Additionally the vim recipe provides the xxd tool.
 >
-> diff --git a/meta/recipes-support/vim/vim_8.2.bb b/meta/recipes-support/vim/vim_8.2.bb
-> index 709b6ddb55..7e4654e472 100644
-> --- a/meta/recipes-support/vim/vim_8.2.bb
-> +++ b/meta/recipes-support/vim/vim_8.2.bb
-> @@ -3,7 +3,7 @@ require vim.inc
->  PROVIDES = "xxd"
->
->  PACKAGECONFIG_class-native = ""
-> -BBCLASSEXTEND = "native"
-> +BBCLASSEXTEND = "native nativesdk"
->
->  ALTERNATIVE_${PN}_append = " xxd"
->  ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
-> ---
-> 2.28.0
->
-> 
->
+> This is a "hidden" dependency that would be pulled via this recipe...
+> I'm not sure this is a good solution, especially when somebody would
+> opt-out from vim package.
 
+Not sure what you are referring to here. This comment in the commit
+message is just to point out that this change is not just about the
+vim editor, but also in order to be able to include the xxd tool (that
+is part of the vim source) as a nativesdk package.
 
--- 
 Regards,
-Andrey.
+Nathan
+
+>
+> >
+> > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> > ---
+> > Changes in v2:
+> > - Add detail to commit message
+> > ---
+> >  meta/recipes-support/vim/vim_8.2.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-support/vim/vim_8.2.bb b/meta/recipes-support/vim/vim_8.2.bb
+> > index 709b6ddb55..7e4654e472 100644
+> > --- a/meta/recipes-support/vim/vim_8.2.bb
+> > +++ b/meta/recipes-support/vim/vim_8.2.bb
+> > @@ -3,7 +3,7 @@ require vim.inc
+> >  PROVIDES = "xxd"
+> >
+> >  PACKAGECONFIG_class-native = ""
+> > -BBCLASSEXTEND = "native"
+> > +BBCLASSEXTEND = "native nativesdk"
+> >
+> >  ALTERNATIVE_${PN}_append = " xxd"
+> >  ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
+> > ---
+> > 2.28.0
+> >
+> > 
+> >
+>
+>
+> --
+> Regards,
+> Andrey.
