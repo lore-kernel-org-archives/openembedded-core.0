@@ -1,111 +1,132 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web09.45.1604599049912633060
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web09.65.1604599123721548952
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 09:57:30 -0800
+ Thu, 05 Nov 2020 09:58:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=I6cCAwlP;
- spf=pass (domain: linaro.org, ip: 209.85.128.47, mailfrom: anibal.limon@linaro.org)
-Received: by mail-wm1-f47.google.com with SMTP id h2so2471552wmm.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 09:57:29 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=KrznPZ85;
+ spf=pass (domain: linaro.org, ip: 209.85.221.54, mailfrom: anibal.limon@linaro.org)
+Received: by mail-wr1-f54.google.com with SMTP id x7so2822482wrl.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 09:58:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=UxHH4eNJGOGAZdaoPoNoKrFqBcar7Vu8ijo/eX3ekPA=;
-        b=I6cCAwlPWRVWP77BnbNo33O1RtxpvAA0Z4X2zlASkIZFsq1X8Q7Y1u2BuoKgoKC0ou
-         HUG6llOoy4U4h5tqU7q3s3vu2sFkNlxNH4ESCYCet605GOGI5+pQ792ZHNNy+L+ma0mY
-         nw0x24SAAwrpQSaT9HIybOyRSf1bFtga6nI0QLeoTNmlDl3DEeHlSlVwSm4chEEhWWhs
-         NlUJoUZE+U47eZip2oKw48R6akRpQlwJFcBfHH3Hhd1XH3XrVq6eDHKAbN/4Xlk8zKLc
-         xT8kahTMVBED0yfKQm6JfEu+aUmRS5IcesZVOBJQ7rkyqr+CfI9tojVoAsqlwBbSrvCF
-         dKlg==
+        bh=4E3dYXjL/d0PkC8ehKchf9AXP+3DVLvcp1sfivygUo8=;
+        b=KrznPZ85QPhnC5M7zgIwaPz1e9KaEfTQ24PE9RzBt6KC7PsEbP3pwKjiooOMbnoD3v
+         0mN65mXLoltm+U52w697p/WnYqpA0IZEL8C6/sES5QkPuCtLmYRo9CqXwQLpG9kBT6WI
+         XTCR+4xs4mZbkQDsAxt7CKxYEiBqV93Z9DH9vjWoazF6bV0EcbKh0CLnV9mEXYfWlCvb
+         uMUEIVDX+itsIpvgUCfOgPWEy/Acl8oSQXxk+swjBoOrBPjTm0Sbv3EliF7ktBL9Ph3U
+         /R8cRnVR0tlR2OiFirpXUpAqWiEYD0OLMZbt0iYMqJ6IaANWtg24AWy6EYHT6fsuKL9x
+         idaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UxHH4eNJGOGAZdaoPoNoKrFqBcar7Vu8ijo/eX3ekPA=;
-        b=oCQy/NJfafJtlPmbF5YBALA1iaY3K1LDQlZcyoB3daJMOL2mxBAHm1y36YXz6/rwjR
-         8jhNThko+WWzx8Yx4nMg0yHOxfN7Qm1Q3v8/dD/WZay07AHWZMci8t01HEhg/r8ivIyV
-         9VXC7m25dN82hMjj3+8wurd4/FoZFs8l3EdUdoVLHnrucUHstRtzSEie6PcqREAA38HA
-         5D6x0+cLyhNc0oU1UyeLndVx7B1Uz9aiqs0sOZE64jHVDsBmhVdPJ4wSG1BSkD6ExPRr
-         y+K2biC5nFnXoDvPF4HdvYPwvspHLz+XKSAIovuyrH/gUIwYaesdk8oJKG923NpGWQ3t
-         9QfQ==
-X-Gm-Message-State: AOAM533OkWZZx8xH8LQa8xIKBgE3NPpCQvGfMBvNIRNx2krZCYhV3315
-	wLQvvAQ1SHmlXNGMJexEFIzNsAnPhi3nDegaTnEVjQ==
-X-Google-Smtp-Source: ABdhPJwSQmuoM7Fb6gOqnXDVIKeLpoYjALMyIIYATULVrrR5YfRUPDv7uGq+XjvBwDobrCaUZsLJRz+upH42pkNlc60=
-X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr3829418wmc.114.1604599048276;
- Thu, 05 Nov 2020 09:57:28 -0800 (PST)
+        bh=4E3dYXjL/d0PkC8ehKchf9AXP+3DVLvcp1sfivygUo8=;
+        b=mWXDE0QK2DdSTzELo6p/lXiy9KROZ8W+PhDt6iJ3B78QVfeI2xz8GViYdW6hp0+gAJ
+         yBw476JFdn3bfxziqcGO5gxOwRF0KZQueGTN7f4W3WMe76/MqazxAq36x7uqA55SiyIY
+         gz/J/kO6bFJfhOSJFYmMUWxIf8HN69bQR+R0qV+KOZ8M54uBVI2bCqif3BsYXMvQ23e0
+         AYRHpALqzA257YJ2xy0MjRKJCKRUQicfsyCymRivPgtXGEdy9WVXb9DpLQPxcIgHQv1A
+         HddUST4ATf499kC1MmdWh5eqxIsE93zn/othG6zq3+qeGD1qusC/t7vWHx0S1hiK2SFO
+         XgmA==
+X-Gm-Message-State: AOAM533cULhQ/awl5eIAWCEmwCea2G6e6rqSU7I5dBhxZDMKAjDT2O/i
+	7xgsWyx4Mz+c0vpxdtlvdf8/auTAk040mofl5Yx24w==
+X-Google-Smtp-Source: ABdhPJz8JO9iGi8F8rQol6frSUxQRvpuC4ayaz1eGLepwzuX1oMuLShTh9uGKOpzzSBAt7cgqgt0nmd8HSHMSgO3vM4=
+X-Received: by 2002:adf:e447:: with SMTP id t7mr4325466wrm.384.1604599122202;
+ Thu, 05 Nov 2020 09:58:42 -0800 (PST)
 MIME-Version: 1.0
 References: <164419F41027C9D2.7719@lists.openembedded.org> <20201103215244.857384-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20201103215244.857384-1-Martin.Jansa@gmail.com>
+ <CA+_Aqiuge4Tpf0XsHbWLLRpjXS8sUu7-uAgqRZ+vMuc8V9Qc+w@mail.gmail.com>
+In-Reply-To: <CA+_Aqiuge4Tpf0XsHbWLLRpjXS8sUu7-uAgqRZ+vMuc8V9Qc+w@mail.gmail.com>
 From: "Anibal Limon" <anibal.limon@linaro.org>
-Date: Thu, 5 Nov 2020 11:57:17 -0600
-Message-ID: <CA+_Aqiuge4Tpf0XsHbWLLRpjXS8sUu7-uAgqRZ+vMuc8V9Qc+w@mail.gmail.com>
+Date: Thu, 5 Nov 2020 11:58:31 -0600
+Message-ID: <CA+_AqitT4Okk2NJx1LMFFhVttahR8RxHD_1YSCy072p14cMwpQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] libxkbcommon: add missing dependency on libxml2
 To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>, 
 	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: multipart/alternative; boundary="00000000000047a65805b35fd4e9"
+Content-Type: multipart/alternative; boundary="000000000000afa6b505b35fd800"
 
---00000000000047a65805b35fd4e9
+--000000000000afa6b505b35fd800
 Content-Type: text/plain; charset="UTF-8"
 
-I have the same issue, looking at libxkbcommon [1], it suggest to package
-the libxkbregistry separately and since the libxml2 adds a lot
-of dependencies may be is better to disable by default via
--Denable-xkbregistry=false and add another recipe to build it if needed.
+On Thu, 5 Nov 2020 at 11:57, Anibal Limon <anibal.limon@linaro.org> wrote:
 
-Regards,
-Anibal
-
-On Tue, 3 Nov 2020 at 15:52, Martin Jansa <Martin.Jansa@gmail.com> wrote:
-
-> * it was introduced with xkbregistry support in:
->
-> https://github.com/xkbcommon/libxkbcommon/commit/afb26e7df9090a0b765eb294b6efff448f763b6f
->   and as xkbregistry is enabled by default libxkbcommon
->   is failing since the upgrade to 1.0.1 in builds where
->   libxml2 wasn't included in RSS (e.g. when wayland
->   isn't in DISTRO_FEATURES -> in PACKAGECONFIG)
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
-> b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
-> index 4ef20b0721..353856e1c4 100644
-> --- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
-> +++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
-> @@ -5,7 +5,7 @@ HOMEPAGE = "http://www.xkbcommon.org"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=e525ed9809e1f8a07cf4bce8b09e8b87"
->  LICENSE = "MIT & MIT-style"
->
-> -DEPENDS = "util-macros flex-native bison-native"
-> +DEPENDS = "util-macros flex-native bison-native libxml2"
->
->  SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
->
-> --
-> 2.27.0
->
->
-> 
->
+> I have the same issue, looking at libxkbcommon [1], it suggest to package
+> the libxkbregistry separately and since the libxml2 adds a lot
+> of dependencies may be is better to disable by default via
+> -Denable-xkbregistry=false and add another recipe to build it if needed.
 >
 
---00000000000047a65805b35fd4e9
+Forget the link,
+
+[1] https://github.com/xkbcommon/libxkbcommon/blob/master/PACKAGING#L74
+
+
+>
+> Regards,
+> Anibal
+>
+> On Tue, 3 Nov 2020 at 15:52, Martin Jansa <Martin.Jansa@gmail.com> wrote:
+>
+>> * it was introduced with xkbregistry support in:
+>>
+>> https://github.com/xkbcommon/libxkbcommon/commit/afb26e7df9090a0b765eb294b6efff448f763b6f
+>>   and as xkbregistry is enabled by default libxkbcommon
+>>   is failing since the upgrade to 1.0.1 in builds where
+>>   libxml2 wasn't included in RSS (e.g. when wayland
+>>   isn't in DISTRO_FEATURES -> in PACKAGECONFIG)
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>  meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+>> b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+>> index 4ef20b0721..353856e1c4 100644
+>> --- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+>> +++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+>> @@ -5,7 +5,7 @@ HOMEPAGE = "http://www.xkbcommon.org"
+>>  LIC_FILES_CHKSUM = "file://LICENSE;md5=e525ed9809e1f8a07cf4bce8b09e8b87"
+>>  LICENSE = "MIT & MIT-style"
+>>
+>> -DEPENDS = "util-macros flex-native bison-native"
+>> +DEPENDS = "util-macros flex-native bison-native libxml2"
+>>
+>>  SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+>>
+>> --
+>> 2.27.0
+>>
+>>
+>> 
+>>
+>>
+
+--000000000000afa6b505b35fd800
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 5 Nov 2020 at 11:57, Anibal L=
+imon &lt;<a href=3D"mailto:anibal.limon@linaro.org">anibal.limon@linaro.org=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
 <div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"></div>I have the same is=
 sue, looking at libxkbcommon [1], it suggest to package the libxkbregistry =
 separately and since the libxml2 adds a lot<div>of dependencies may be is b=
 etter to disable by default via -Denable-xkbregistry=3Dfalse and add anothe=
-r recipe to build it if needed.</div><div><br></div><div>Regards,</div><div=
->Anibal<br><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
-ail_attr">On Tue, 3 Nov 2020 at 15:52, Martin Jansa &lt;<a href=3D"mailto:M=
-artin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt; wrote:<br></div><bloc=
+r recipe to build it if needed.</div></div></div></blockquote><div><br></di=
+v><div>Forget the link,</div><div><br></div><div>[1]=C2=A0<a href=3D"https:=
+//github.com/xkbcommon/libxkbcommon/blob/master/PACKAGING#L74">https://gith=
+ub.com/xkbcommon/libxkbcommon/blob/master/PACKAGING#L74</a></div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr=
+"><div dir=3D"ltr"><div><br></div><div>Regards,</div><div>Anibal<br><div><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, =
+3 Nov 2020 at 15:52, Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.=
+com" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt; wrote:<br></div><bloc=
 kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
 1px solid rgb(204,204,204);padding-left:1ex">* it was introduced with xkbre=
 gistry support in:<br>
@@ -155,5 +176,6 @@ rg/download/${BPN}-${PV}.tar.xz</a>&quot;<br>
 <br>
 <br>
 </blockquote></div></div></div></div></div>
+</blockquote></div></div>
 
---00000000000047a65805b35fd4e9--
+--000000000000afa6b505b35fd800--
