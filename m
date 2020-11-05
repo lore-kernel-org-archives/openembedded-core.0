@@ -1,100 +1,121 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web09.5328.1604569927206668634
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web10.5353.1604569949592809084
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 01:52:07 -0800
+ Thu, 05 Nov 2020 01:52:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VVF5VU9J;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id gn41so1705628ejc.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 01:52:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WNyhJlyN;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: vvavrychuk@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id o23so735056ejn.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 01:52:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mkpmO1qQZsN2/RGtAnlo+plBWWw+8V2Ohh5xeM8IxFk=;
-        b=VVF5VU9J4R4dX+OPvmswqUa+0E4ZHXjHDGcbTjPzZIrlbNwFkfRNJPC1LkW7QoT41F
-         0WWBwXFoapF3ZNjCC/xFISWDf7VYx6F9eeZ/6sBb2EzoN+SYvlfWIM6TmpZI9oKtcYcZ
-         3fujJqrf9DChXDbGdQxboLf2M9NpvG4Bt4N0v0buqrkWdoIrUHfUjq1VLVuYbK437GbD
-         XnONkCGcdRVGAzc4r8kwQaE2zOsvLgjfBMAB25pNV3NFTuQFi3hQXb0zcZX8OZZ7TuBn
-         QqbSz3xxDh0R0rEHhOU7ms1Ws5cqDMrJaMNGIhqxdNz5tuF0aTnvof/nGL6D33gc7q2A
-         vp3Q==
+         :cc;
+        bh=WLrmjobzKTJ009jIcJ6gE2mOgBalwMMrwxIwylTWgfs=;
+        b=WNyhJlyN45TI9Eg3aE7cWg8Hev1e7U1Ln07WyV6mGxjqKbuCTrE5h84nmcf1LxOsmP
+         NOu7F3qFkNjzpdWXQ4ICjtm8JocP0os+fn2fkncZQ+Bg2zDVyy0sWpgN4w6432WEKMLO
+         K9q4t4eSBWr2d+CXgmm4IRyVF8sQLaJ+QGwHjWZnI/U+DOHdZhL5mTT97jZPuKGQel/0
+         EnAi+GjgabUPjrI38/KLZejFZtXOILkpoOUxVKMXjcCyKimRKz1tt4LhyR0wbfqUscSR
+         v1spynNVzZpC2rP2eDAYQGvxJhynKzm1D2UNzck8yRKzoNXQeJdI6N7vv5lswgKvxLt6
+         VOiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mkpmO1qQZsN2/RGtAnlo+plBWWw+8V2Ohh5xeM8IxFk=;
-        b=FQJO7C1HmJV5ZuGIb+l1Gxhv3gqgkX2opAHqBwuh5L69DS2eqotLOe72eq6Yg0j592
-         ZM/67SaOOKWk3kq1zEY0hdXNJUnHxlnb9Hw3Kv2wr2gUKSs6IZZvvmgOWwJMW5rGW2Wh
-         cwlifWCU7V0oUCEwSOojAYVFV8OOUCW4glS8gwvTI1HRa8liPzoAznDlCNFBikj/vinU
-         Fr/O+XtunM4gMosoX/SVE6jnRtH4pdW2P6iGZ0GzKULEu/TR/VKKHpM8sKCG4229O0Pp
-         zl2DzYzLGHPlrPeI2ZV7WKm1r5IfOeRFrnuIpHveFi2biZuKhVt4IuPHC0GuYkitK0t5
-         ENPw==
-X-Gm-Message-State: AOAM532jzPxK4Q5pD0seFTsjplrE8JmyKCG9lRUmD0fHd61G6ssnUwQJ
-	hJOvKLa6ey0WDYd5oLz8VTjxDLKSrHnKLsTVJJE=
-X-Google-Smtp-Source: ABdhPJx1u8eFJ2478cxu1gCgCeU4D38YE6zHEWdH4eF6p7eRrmsU/XP44SbTO71bj592q3oC+DBH9XFr4KYzbSI8ZSU=
-X-Received: by 2002:a17:906:1497:: with SMTP id x23mr1405541ejc.453.1604569925699;
- Thu, 05 Nov 2020 01:52:05 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=WLrmjobzKTJ009jIcJ6gE2mOgBalwMMrwxIwylTWgfs=;
+        b=WXlSLkBouVoWtrB+volaSKTJktRa4w65hzo9CNUXBTwAC668c6quMDKNBiYnrIkQw4
+         TDbq/zWb6/chaoYNnnfDR+Ovd2DdRxw0LsnJkopzJapcRmOnhKR+/ETQ1jTaxo2L26/Q
+         TnnTFKU/K0xsAeXS0Dhd2m/DKQiEtWqsXAbsvN0iO+1cgq4tGDMc4EwIgNepR8X8f+Fn
+         3qdQLwaqOcIzV8+NABjHaC7ZQcCP8apt7eMq+6GKFXlw0P1VLKeWQKgYBje0LpQX4FVS
+         Um4v9DdDt33cp+F199Q2sk+vDsZzORyL4emEflYuTQqzEoVTmaJJesDS7wct7udNJrQW
+         KVsQ==
+X-Gm-Message-State: AOAM530v9XDq2ZMNWsfNqLIlEARZhG71FpGKXskyw2d6Vlo8OsiyWvfi
+	jqMmKyP6YS64mVUwkS9KZJEJGGYcxLu8aCIssrbu2K70tQJuoA==
+X-Google-Smtp-Source: ABdhPJz0rOLKAerNRzLKcrjTCKbYdhLHrezUuB2PHnAG8ynAB6sUgt7yhPLFnyfJTtzCsYv5nuVeiL5Z5Uxvjr9TUVU=
+X-Received: by 2002:a17:906:1246:: with SMTP id u6mr1452878eja.432.1604569948080;
+ Thu, 05 Nov 2020 01:52:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20201101004340.4019257-1-Martin.Jansa@gmail.com>
- <CANPvuRmmZoqHZP7pbNqHtPBqBo0VqTrftmBhh+nK7iTE_gF=wA@mail.gmail.com>
- <b72d77dbd65970a8aa40798545eed309957b121f.camel@linuxfoundation.org> <CA+chaQd5LzwrHzcKVEPhD-PVXgp=9ZRGmGbJXyupfmsY5x_Ndw@mail.gmail.com>
-In-Reply-To: <CA+chaQd5LzwrHzcKVEPhD-PVXgp=9ZRGmGbJXyupfmsY5x_Ndw@mail.gmail.com>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Thu, 5 Nov 2020 09:51:54 +0000
-Message-ID: <CANPvuRmQHT4PSSSnFfOG7F5S7FG+odPyTXkeOKUC9cZip+-t2Q@mail.gmail.com>
-Subject: Re: [OE-core] [gastesgarth][PATCH 01/12] gstreamer1.0: Fix reproducibility issue around libcap
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
+References: <20200830201522.23701-1-vvavrychuk@gmail.com> <CANNYZj-fw2YVGczSP+c7gjor6eKhYsjDgM1w-1AYD6MpDHQscA@mail.gmail.com>
+In-Reply-To: <CANNYZj-fw2YVGczSP+c7gjor6eKhYsjDgM1w-1AYD6MpDHQscA@mail.gmail.com>
+From: "Vasyl Vavrychuk" <vvavrychuk@gmail.com>
+Date: Thu, 5 Nov 2020 11:52:17 +0200
+Message-ID: <CAGj4m+5EuBics6xTxo1PeKnwTR8ChBwm-ZEtP1j3eQR6VwcdVA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] runqemu: Change virtio-vga to virtio-gpu.
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Martin Jansa <martin.jansa@gmail.com> escreveu no dia segunda,
-2/11/2020 =C3=A0(s) 11:47:
+Which MACHINE do you want me to test? _Without_ may changes test
+
+oe-selftest -r runtime_test.TestImage.test_testimage_virgl_gtk_sdl
+
+fails for qemuarm64 MACHINE with
+
+qemu-system-aarch64: Virtio VGA not available
+
+On Sun, Aug 30, 2020 at 11:44 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> FWIW: I've sent this 1.16.3 upgrade for gatesgarth only because it was re=
-cently merged to dunfell and going backwards for something as significant a=
-s gstreamer might be complicated, even when we should probably start gettin=
-g used to this as dunfell is LTS and will receive minor upgrades long after=
- gatesgarth is dead completely.
+> Do the virgl selftests still pass with this change? Please run
 >
-> After updating some patches to apply on 1.16.3 and disabling hls support =
-in plugins-bad (because it now requires GPLv3 nette >=3D 3 after https://gi=
-tlab.freedesktop.org/gstreamer/gst-plugins-bad/-/commit/a9c115adebeaa4f35f2=
-7953b1cb94881912e5c00 ) I just didn't want to undo these 2 changes in gates=
-garth branch.
+> oe-selftest -r runtime_test.TestImage.test_testimage_virgl_gtk_sdl
 >
-> I'm fine with 1.16 in oe-core, people who need 1.18 in gatesgarth (or eve=
-n dunfell) should do it in separate layer like you already prepared in http=
-s://github.com/OSSystems/meta-gstreamer1.0/
-
-Thanks for the explanation,
-I have nothing against it and I have the same opinion.
-
+> and
 >
-> On Mon, Nov 2, 2020 at 12:16 PM Richard Purdie <richard.purdie@linuxfound=
-ation.org> wrote:
+> oe-selftest -r runtime_test.TestImage.test_testimage_virgl_headless
+>
+> Alex
+>
+>
+> On Sun, 30 Aug 2020 at 22:15, Vasyl Vavrychuk <vvavrychuk@gmail.com> wrote:
 >>
->> On Mon, 2020-11-02 at 09:57 +0000, Jose Quaresma wrote:
->> > I think I already know the answer but Is there any possibility to use
->> > gstreamer 1.18 on gastesgarth ?
+>> virtio-vga is available in QEMU only for hppa, i386, and ppc
+>> architectures. On the other hand, virtio-gpu is available for all
+>> architectures.
 >>
->> Not really, we can't do version upgrades on releases in their
->> maintenance cycle unless there is a really pressing reasons to take
->> those risks. gatesgarth whilst not released yet, is imminently due to
->> release (I hope!).
-
-Thanks for the explanation,
-This was the answer I expected. I understand the risk involved in an
-update of this type.
-
+>> Signed-off-by: Vasyl Vavrychuk <vvavrychuk@gmail.com>
+>> ---
+>>  scripts/runqemu | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
 >>
->> Cheers,
+>> diff --git a/scripts/runqemu b/scripts/runqemu
+>> index 7fb5f7db57..5d6b35ffe4 100755
+>> --- a/scripts/runqemu
+>> +++ b/scripts/runqemu
+>> @@ -461,19 +461,19 @@ class BaseConfig(object):
+>>              elif arg == 'sdl':
+>>                  if 'gl' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=on,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display sdl,gl=on,show-cursor=on'
+>>                  elif 'gl-es' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display sdl,gl=es,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display sdl,gl=es,show-cursor=on'
+>>                  else:
+>>                      self.qemu_opt_script += ' -display sdl,show-cursor=on'
+>>              elif arg == 'gtk':
+>>                  if 'gl' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=on,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display gtk,gl=on,show-cursor=on'
+>>                  elif 'gl-es' in sys.argv[1:]:
+>>                      self.set_dri_path()
+>> -                    self.qemu_opt_script += ' -vga virtio -display gtk,gl=es,show-cursor=on'
+>> +                    self.qemu_opt_script += ' -device virtio-gpu -display gtk,gl=es,show-cursor=on'
+>>                  else:
+>>                      self.qemu_opt_script += ' -display gtk,show-cursor=on'
+>>              elif arg == 'gl' or arg == 'gl-es':
+>> @@ -482,7 +482,7 @@ class BaseConfig(object):
+>>                      raise RunQemuError('Option %s also needs gtk or sdl option.' % (arg))
+>>              elif arg == 'egl-headless':
+>>                  self.set_dri_path()
+>> -                self.qemu_opt_script += ' -vga virtio -display egl-headless,show-cursor=on'
+>> +                self.qemu_opt_script += ' -device virtio-gpu -display egl-headless,show-cursor=on'
+>>              elif arg == 'serial':
+>>                  self.kernel_cmdline_script += ' console=ttyS0'
+>>                  self.serialconsole = True
+>> --
+>> 2.23.0
 >>
->> Richard
->>
-
-
---=20
-best regards,
-Jos=C3=A9 Quaresma
+>> 
