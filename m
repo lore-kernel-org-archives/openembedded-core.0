@@ -1,179 +1,117 @@
-Received: from mga05.intel.com (mga05.intel.com [])
- by mx.groups.io with SMTP id smtpd.web10.3755.1604555570970083275
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.68])
+ by mx.groups.io with SMTP id smtpd.web09.4552.1604563578325642493
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Nov 2020 21:52:51 -0800
+ Thu, 05 Nov 2020 00:06:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: rebecca.swee.fun.chang@intel.com)
-IronPort-SDR: C43DFCLDdPYfy11W56FjSKJ/b2wn3tVGidb1biqTL1h0ZylyQOYfuOTx6zkdRtrVjIMZrCppYg
- 4y6lYNOODP6Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="254039306"
-X-IronPort-AV: E=Sophos;i="5.77,452,1596524400"; 
-   d="scan'208";a="254039306"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 21:52:49 -0800
-IronPort-SDR: XP7wnPP3MWowHekjXbWWwrdrn0i3N/y05BQEIeWu3x8bBC8kmj1/FIhkLPqjecOGTAd7qlKZvZ
- 5ajmWmL6k9aw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,452,1596524400"; 
-   d="scan'208";a="358316321"
-Received: from unknown (HELO pg-gsrd-build.png.intel.com) ([10.226.216.131])
-  by fmsmga002.fm.intel.com with ESMTP; 04 Nov 2020 21:52:49 -0800
-From: "Rebecca Chang Swee Fun" <rebecca.swee.fun.chang@intel.com>
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=M2Qr5yg8;
+ spf=pass (domain: windriver.com, ip: 40.107.237.68, mailfrom: yi.zhao@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GpMeFSFAqPwNGcbRONRV6zhlRy7pXPDZ92OvxZN8nNv1b6TVcpTzw49poUe9Wt1oR0hXBlood8VCvdnUNL6/1XfVtxbhIBAjh+0inngzhhHxCvjX6wYIXtx/2nZaBCXUUFfpNfh4W1HSTByeL8IIHes/k07pWg5rPRGyOZ+II9Yu/rZHnoKqWC/vwO6CjzluvBCDewjDGWUigF+uvENn4Vdjn5oHRJ0Zc6AoW7r682eDhw3NGeJJ4DlZ7EFv1pQiJ/T8BpoBTGe0HzAZUHL/GAH062KH+aHGJv1VpGFuB5Dom7do2T3AZOrPy5ldcGkcH3chGjCmeRkUwm6As5U1uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0nqAV7nk9ExyC+lNCc/AvwWpTztfD4eoiDhIAk27nlE=;
+ b=AqNrcLjU0jnvjLn2oTf7GJvZy2cbWkxkzkyXb7AaPgLa7icF0g2EYSvJ3yTCWN3EanWsA2mLqVJlPK5lv9oxTdNQrfyD0IrqRgfvxNLjKxTtYc3v4slc43uh7KSHkeaL7NH7gt+3rDVhhCvfBZCjeo6PbkU2ub4H1IaA747D3g2RWRUffjjdjp1ooHC87zG/JvLV292MxOr2uw5VovDZjoc2wEhZAqyb27hczA3PmrfuWJ++x8rZHR/9qKXikgExEJNWP1PQu21C/EbqJznsudKOy2iVbgOF/FgRk8GIctnAKz75kltRM9Qa4P07g3cAky+DUnttF0cxnUoxmbxPHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0nqAV7nk9ExyC+lNCc/AvwWpTztfD4eoiDhIAk27nlE=;
+ b=M2Qr5yg84ArnN5L1qBEQ6SFcaJHKriHjar9dQU7/6SylowH2qspTQVGec4qENTanEXT3kCDnRuwIZI2YlzK3gFYh5EHc6t0adHsbgS4pHhHxQZUlmcn9d8LmO3u5NFc7bdx8qIXg2UqjXkiA0azPnVTQvDezez/+dvxMH06E9Fs=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
+ by MWHPR1101MB2192.namprd11.prod.outlook.com (2603:10b6:301:59::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Thu, 5 Nov
+ 2020 08:06:16 +0000
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::d844:ac89:6b05:ed98]) by CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::d844:ac89:6b05:ed98%6]) with mapi id 15.20.3499.032; Thu, 5 Nov 2020
+ 08:06:16 +0000
+From: "Yi Zhao" <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 4/4] numactl: upgrade 2.0.13 -> 2.0.14
-Date: Thu,  5 Nov 2020 13:39:54 +0000
-Message-Id: <20201105133954.144390-4-rebecca.swee.fun.chang@intel.com>
+Subject: [PATCH V2] pulseaudio: unify volatiles file name
+Date: Thu,  5 Nov 2020 16:05:54 +0800
+Message-Id: <20201105080554.10210-1-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201105133954.144390-1-rebecca.swee.fun.chang@intel.com>
-References: <20201105133954.144390-1-rebecca.swee.fun.chang@intel.com>
+In-Reply-To: <1643A66260CD2871.18368@lists.openembedded.org>
+References: <1643A66260CD2871.18368@lists.openembedded.org>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR02CA0163.apcprd02.prod.outlook.com
+ (2603:1096:201:1f::23) To CO1PR11MB4867.namprd11.prod.outlook.com
+ (2603:10b6:303:9a::13)
+Return-Path: yi.zhao@windriver.com
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-yzhao1-d1.wrs.com (60.247.85.82) by HK2PR02CA0163.apcprd02.prod.outlook.com (2603:1096:201:1f::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Thu, 5 Nov 2020 08:06:16 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0aec3729-2af8-4510-b92b-08d88161abd0
+X-MS-TrafficTypeDiagnostic: MWHPR1101MB2192:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR1101MB219225E05F5D27E8180C08DBF9EE0@MWHPR1101MB2192.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	gx2Zt36D1FQxjvjiL2jFaA0IhsMqw2Wh24wAWnu7flV1AObfMly3sWCMAXfRMZ6zaBdeVUGqg+qo7ZwpnyEsU5PsCteYscRhRdXbrf/S0npOIzt+ei19uB1onGOkLbynIuiFZZuy1tFbpotg/L+iFPtF1+i4QVqAHRNq0kwjUyjqAH3HAmPX82Zq0axuN7xzXKHFf+5rh79k47PZ6pvvUS/RajybDgF6/91yogKc6Da1OlTQ9RwrP88fctGPcTxP1i/vGvZH15hQ84Yv8RdbLsxPzLzzBssN3h2MLwwAwg6/GFbpa7qJ+rf99XsZx2qktjWb3hBnFEinT7O3s01QHw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39850400004)(396003)(136003)(366004)(83380400001)(86362001)(36756003)(6486002)(8676002)(2906002)(6916009)(8936002)(6666004)(186003)(16526019)(44832011)(52116002)(478600001)(5660300002)(316002)(6506007)(66556008)(66476007)(26005)(956004)(2616005)(6512007)(66946007)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	8EO9ZuqcY3/Gxq2/OQQSO1V6L06LIghaRoa/vQ3s4BSDjlyFDTpDydLwhR3X8af4MIiqjCp+QsZYCdATC9uHOckdS1uR/vA143zB6ANDEuJgtLRKn+Qk0G1GZsblub4E+HslGm7vcqrD6siUhIFEqvQqxZJTiJVLgmk6cYjlH7FR5IuHDHBe8pHQmO5+cAMf6JFpgX/QqDIQUwwOm6HDJf0MY8rg5gy/yqfE7pvo+nasMcGOMuCine4S9wYEPeY6HC1FFVjl1NM7SBp5SC1xy1YjnlxYuzZe+zb+RW+5/bs+df6X3Im6Tt6wx60n5sqP/q8fst9jg3jDAJGUz7Bso3JYrfKuLQnd1CQLKTcyrMrQNbLy/gxO+6Us+mSCizMaxbaWQtW/BNqObhy0OlFRxsbB0TYF01nJG4QJFpREA93x+5y/cmfhm9L4NhkjoVZu+e3U7jUnrNdd9LeGfAPT1mtUKhC8Hxcr1SEUWqV/90Hvy6ZJtfjhx518MbjeOLXous2ilj2vp/pVOekgWrrXytux8r3hC1ZhP3ifox8PQ/23JFPUX/ruL9J+i05e0dBwZHx5KnBGcfq4L4/lviI2MluwXHLrw4F77o7MeMJoHysG5aGzDS6nFx5UEx+uSXSja0lc4MOQtckNaB8lgLOp5w==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0aec3729-2af8-4510-b92b-08d88161abd0
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2020 08:06:16.8881
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gasxb4nMRjKRUaV9ghIxHE13LW7FwFtevxazm9QxcdzUSiU6vmsBdg8BbbYjLVOAkmBSrY0AqrH13lvQXcsFIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2192
+Content-Type: text/plain
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+Make the volatiles file name start with a numeric value to unified
+volatiles file naming. I searched in oe-core, only pluseaudio volatiles
+file name is not start with number.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a59c246be05ca284fa27df87b5db09a70f527cc2)
-Signed-off-by: Chang Rebecca Swee Fun <rebecca.swee.fun.chang@intel.com>
+On a default sato-sdk image:
+$ ls /etc/default/volatiles/
+00_core 01_bootlogd 99_dbus 99_sshd 99_wpa_supplicant volatiles.04_pulse
+
+This is just a name change and will not affect the functionality.
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- ...1-numademo-fix-error-on-32bit-system.patch | 100 ------------------
- meta/recipes-support/numactl/numactl_git.bb   |  15 ++-
- 2 files changed, 7 insertions(+), 108 deletions(-)
- delete mode 100644 meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch b/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
-deleted file mode 100644
-index 506101711a..0000000000
---- a/meta/recipes-support/numactl/numactl/0001-numademo-fix-error-on-32bit-system.patch
-+++ /dev/null
-@@ -1,100 +0,0 @@
--From 68485f8516884377e54c623b0deff73f97321d96 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Thu, 19 Sep 2019 04:32:31 -0400
--Subject: [PATCH] numademo: fix error on 32bit system
--
--Error Info on 32bit:
--root@intel-x86:~# numademo -t -e 1M
--Configured Nodes does not match available memory nodes
--
--That's because sizeof(long)=4Word, but sizeof(long long)=8Word
--on 32bit. So (long long) assigning to (long) maybe cause overflow.
--
--long numa_node_size(int node, long *freep)
--{
--    ...
--    long sz = numa_node_size64_int(node, &f2);
--    ~^^~
--    return sz;
--    ...
--}
--long long numa_node_size64(int node, long long *freep)
--~^^   ^^~
--{
--    ...
--}
--
--Unify the return type of above functions.
--
--Upstream-Status: Accepted [next version is after 2.0.13 or 2.0.14]
--[https://github.com/numactl/numactl/commit/a7c4bc790a191d3e42b63850b409c1a72b75a4e1]
--                 Submitted [https://github.com/numactl/numactl/pull/79]
--[The first patch was merged but has a error, then the second fix it.]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- libnuma.c         | 4 ++--
-- numa.h            | 2 +-
-- numademo.c        | 2 +-
-- test/move_pages.c | 2 +-
-- 4 files changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/libnuma.c b/libnuma.c
--index cac8851..8b5c6aa 100644
----- a/libnuma.c
--+++ b/libnuma.c
--@@ -791,10 +791,10 @@ long long numa_node_size64(int node, long long *freep)
-- 
-- make_internal_alias(numa_node_size64);
-- 
---long numa_node_size(int node, long *freep)
--+long long numa_node_size(int node, long long *freep)
-- {
-- 	long long f2;
---	long sz = numa_node_size64_int(node, &f2);
--+	long long sz = numa_node_size64_int(node, &f2);
-- 	if (freep)
-- 		*freep = f2;
-- 	return sz;
--diff --git a/numa.h b/numa.h
--index 3a8c543..268fb1d 100644
----- a/numa.h
--+++ b/numa.h
--@@ -143,7 +143,7 @@ int numa_preferred(void);
-- 
-- /* Return node size and free memory */
-- long long numa_node_size64(int node, long long *freep);
---long numa_node_size(int node, long *freep);
--+long long numa_node_size(int node, long long *freep);
-- 
-- int numa_pagesize(void);
-- 
--diff --git a/numademo.c b/numademo.c
--index a720db0..8c56da8 100644
----- a/numademo.c
--+++ b/numademo.c
--@@ -301,7 +301,7 @@ int max_node, numnodes;
-- int get_node_list(void)
-- {
--         int a, got_nodes = 0;
---        long free_node_sizes;
--+        long long free_node_sizes;
-- 
--         numnodes = numa_num_configured_nodes();
--         node_to_use = (int *)malloc(numnodes * sizeof(int));
--diff --git a/test/move_pages.c b/test/move_pages.c
--index d1d8436..f8ff25d 100644
----- a/test/move_pages.c
--+++ b/test/move_pages.c
--@@ -26,7 +26,7 @@ int *node_to_use;
-- int get_node_list()
-- {
--         int a, got_nodes = 0, max_node, numnodes;
---        long free_node_sizes;
--+        long long free_node_sizes;
-- 
--         numnodes = numa_num_configured_nodes();
--         node_to_use = (int *)malloc(numnodes * sizeof(int));
---- 
--2.23.0
--
-diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
-index e45afe9ee8..5640173aa9 100644
---- a/meta/recipes-support/numactl/numactl_git.bb
-+++ b/meta/recipes-support/numactl/numactl_git.bb
-@@ -10,16 +10,15 @@ inherit autotools-brokensep ptest
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 4e32b27087..3a26cb59dd 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -149,7 +149,7 @@ do_compile_append () {
  
- LIC_FILES_CHKSUM = "file://README.md;beginline=19;endline=32;md5=f8ff2391624f28e481299f3f677b21bb"
+ do_install_append() {
+ 	install -d ${D}${sysconfdir}/default/volatiles
+-	install -m 0644 ${WORKDIR}/volatiles.04_pulse  ${D}${sysconfdir}/default/volatiles/volatiles.04_pulse
++	install -m 0644 ${WORKDIR}/volatiles.04_pulse  ${D}${sysconfdir}/default/volatiles/04_pulse
+ }
  
--SRCREV = "5d9f16722e3df49dc618a9f361bd482559695db7"
--PV = "2.0.13+git${SRCPV}"
-+SRCREV = "dd6de072c92c892a86e18c0fd0dfa1ba57a9a05d"
-+PV = "2.0.14"
+ USERADD_PACKAGES = "pulseaudio-server"
+@@ -192,7 +192,7 @@ FILES_libpulse-mainloop-glib = "${libdir}/libpulse-mainloop-glib.so.*"
  
- SRC_URI = "git://github.com/numactl/numactl \
--    file://Fix-the-test-output-format.patch \
--    file://Makefile \
--    file://run-ptest \
--    file://0001-define-run-test-target.patch \
--    file://0001-numademo-fix-error-on-32bit-system.patch \
--"
-+           file://Fix-the-test-output-format.patch \
-+           file://Makefile \
-+           file://run-ptest \
-+           file://0001-define-run-test-target.patch \
-+           "
- 
- S = "${WORKDIR}/git"
+ FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala ${libdir}/cmake"   
+ FILES_${PN}-conf = "${sysconfdir}"
+-FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
++FILES_${PN}-bin += "${sysconfdir}/default/volatiles/04_pulse"
+ FILES_${PN}-pa-info = "${bindir}/pa-info"
+ FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
  
 -- 
 2.17.1
