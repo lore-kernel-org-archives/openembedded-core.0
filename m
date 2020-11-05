@@ -1,234 +1,159 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web09.8443.1604587684393640579
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web09.45.1604599049912633060
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 06:48:05 -0800
+ Thu, 05 Nov 2020 09:57:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zdbX6VWR;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.66, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f66.google.com with SMTP id v4so1831201edi.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 06:48:04 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=I6cCAwlP;
+ spf=pass (domain: linaro.org, ip: 209.85.128.47, mailfrom: anibal.limon@linaro.org)
+Received: by mail-wm1-f47.google.com with SMTP id h2so2471552wmm.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 09:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5AxOJu3OcA5ekwqUjkZ9qlbstj3A6KUdiwvqZIwi0Cw=;
-        b=zdbX6VWRIvO1OAm0x+o09xIcYmx0W9wWIXzGuxoSSNMdiQtMXlkD9IsMxi70lroq+K
-         2sNtLhQky2TeNThRaHXe5C3lHTiS7WVwLuQJqvQWEo6N1HNi3B2gbf53FFf2JliEIDpr
-         P4PYJXdXicVRbZJXQX7OhdiM1QZFx9Zr5JNVAvb3AsTfJPafsCrqZ9GvHvcIZWgpvLkw
-         ZaYaJTFOc2QobYSqB6gORoVDuyQhyNok/KGipaAV3uLOx9NLekY4OfqLdqiCubG/x5WC
-         g5ZneQriNUMJx7q7sR+eY5wW3sViKn01Vc1nIGILEq5/vljFPgkc1KVlwXwiegHnXLBQ
-         jgTA==
+        bh=UxHH4eNJGOGAZdaoPoNoKrFqBcar7Vu8ijo/eX3ekPA=;
+        b=I6cCAwlPWRVWP77BnbNo33O1RtxpvAA0Z4X2zlASkIZFsq1X8Q7Y1u2BuoKgoKC0ou
+         HUG6llOoy4U4h5tqU7q3s3vu2sFkNlxNH4ESCYCet605GOGI5+pQ792ZHNNy+L+ma0mY
+         nw0x24SAAwrpQSaT9HIybOyRSf1bFtga6nI0QLeoTNmlDl3DEeHlSlVwSm4chEEhWWhs
+         NlUJoUZE+U47eZip2oKw48R6akRpQlwJFcBfHH3Hhd1XH3XrVq6eDHKAbN/4Xlk8zKLc
+         xT8kahTMVBED0yfKQm6JfEu+aUmRS5IcesZVOBJQ7rkyqr+CfI9tojVoAsqlwBbSrvCF
+         dKlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5AxOJu3OcA5ekwqUjkZ9qlbstj3A6KUdiwvqZIwi0Cw=;
-        b=H1MAHBdpdq+YaQANVpcG2qeLW95ECUvfJmgw4eOED7QSGVT1T6nxaSP+MDrwcdB24z
-         qwQp313+uwRP7vTCXbEM9iSGlPdKacSWwHKsO4jbdSQCgIoVf3njUDmGVOmEWWf3uL+3
-         kxlEanGuyJ8HleXat4YvF+I7gIRrCxt5WXxeKl9LjKZEYV/ES+qHPlhX2OfDAdsEKYuc
-         m+S6YDsdzK+aoMNlwd/5CUdePWRTLSXudh6SKhxCMs2QR2Y5DSzfAmGBi1msGa9vsOQl
-         b/G7oG3h5cpY2XP4oWeIQmRXGOGUoFtJsSRg0qUw8m+wDBZ5acbWxQsthD7rOAfBzvq/
-         nt3Q==
-X-Gm-Message-State: AOAM533A8+Rw54MjS+Fo9+3DZ3XZ10M3Q2FA3xH5Yw+xZLv1yBptuIRR
-	KgrZm1VP6aBmt6DRwPLAQ+KSnqvl7/0rGwepm4/kFA==
-X-Google-Smtp-Source: ABdhPJxt4HmnsvP2ubowoneXGvSVz7rYrsy7fr6TBcJvi+19TjZLpk2nwRZBuKe/+YXm2BkogqR5lth9DVw+Hs5ocUE=
-X-Received: by 2002:a05:6402:154b:: with SMTP id p11mr2956907edx.217.1604587682707;
- Thu, 05 Nov 2020 06:48:02 -0800 (PST)
+        bh=UxHH4eNJGOGAZdaoPoNoKrFqBcar7Vu8ijo/eX3ekPA=;
+        b=oCQy/NJfafJtlPmbF5YBALA1iaY3K1LDQlZcyoB3daJMOL2mxBAHm1y36YXz6/rwjR
+         8jhNThko+WWzx8Yx4nMg0yHOxfN7Qm1Q3v8/dD/WZay07AHWZMci8t01HEhg/r8ivIyV
+         9VXC7m25dN82hMjj3+8wurd4/FoZFs8l3EdUdoVLHnrucUHstRtzSEie6PcqREAA38HA
+         5D6x0+cLyhNc0oU1UyeLndVx7B1Uz9aiqs0sOZE64jHVDsBmhVdPJ4wSG1BSkD6ExPRr
+         y+K2biC5nFnXoDvPF4HdvYPwvspHLz+XKSAIovuyrH/gUIwYaesdk8oJKG923NpGWQ3t
+         9QfQ==
+X-Gm-Message-State: AOAM533OkWZZx8xH8LQa8xIKBgE3NPpCQvGfMBvNIRNx2krZCYhV3315
+	wLQvvAQ1SHmlXNGMJexEFIzNsAnPhi3nDegaTnEVjQ==
+X-Google-Smtp-Source: ABdhPJwSQmuoM7Fb6gOqnXDVIKeLpoYjALMyIIYATULVrrR5YfRUPDv7uGq+XjvBwDobrCaUZsLJRz+upH42pkNlc60=
+X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr3829418wmc.114.1604599048276;
+ Thu, 05 Nov 2020 09:57:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20201104004333.41367-1-yongxin.liu@windriver.com>
-In-Reply-To: <20201104004333.41367-1-yongxin.liu@windriver.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Thu, 5 Nov 2020 04:47:51 -1000
-Message-ID: <CAOSpxdY0bzhu-h_FhbTRdv6WZHjegxafTtk_-nTPWtx+vxiEfg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] grub: clean up CVE patches
-To: Yongxin Liu <yongxin.liu@windriver.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"Mittal, Anuj" <anuj.mittal@intel.com>, "MacLeod, Randy" <Randy.MacLeod@windriver.com>
+References: <164419F41027C9D2.7719@lists.openembedded.org> <20201103215244.857384-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20201103215244.857384-1-Martin.Jansa@gmail.com>
+From: "Anibal Limon" <anibal.limon@linaro.org>
+Date: Thu, 5 Nov 2020 11:57:17 -0600
+Message-ID: <CA+_Aqiuge4Tpf0XsHbWLLRpjXS8sUu7-uAgqRZ+vMuc8V9Qc+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libxkbcommon: add missing dependency on libxml2
+To: Martin Jansa <Martin.Jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000047a65805b35fd4e9"
+
+--00000000000047a65805b35fd4e9
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 3, 2020 at 2:47 PM Yongxin Liu <yongxin.liu@windriver.com> wrote:
+I have the same issue, looking at libxkbcommon [1], it suggest to package
+the libxkbregistry separately and since the libxml2 adds a lot
+of dependencies may be is better to disable by default via
+-Denable-xkbregistry=false and add another recipe to build it if needed.
+
+Regards,
+Anibal
+
+On Tue, 3 Nov 2020 at 15:52, Martin Jansa <Martin.Jansa@gmail.com> wrote:
+
+> * it was introduced with xkbregistry support in:
 >
-> Clean up several patches introduced in commit 6732918498 ("grub:fix
-> several CVEs in grub 2.04").
+> https://github.com/xkbcommon/libxkbcommon/commit/afb26e7df9090a0b765eb294b6efff448f763b6f
+>   and as xkbregistry is enabled by default libxkbcommon
+>   is failing since the upgrade to 1.0.1 in builds where
+>   libxml2 wasn't included in RSS (e.g. when wayland
+>   isn't in DISTRO_FEATURES -> in PACKAGECONFIG)
 >
-> 1) Add CVE tags to individual patches.
-> 2) Rename upstream patches and prefix them with CVE tags.
-> 3) Add description of reference to upstream patch.
-
-Looks good to me.  Thanks!
-
-Steve
-
-> Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  ...VE-2020-14308-calloc-Use-calloc-at-most-places.patch} | 10 +++++++---
->  ...-Use-overflow-checking-primitives-where-we-do-.patch} | 10 +++++++---
->  ...-Avoid-a-use-after-free-when-redefining-a-func.patch} | 10 +++++++---
->  ...-Fix-integer-overflows-in-initrd-size-handling.patch} | 10 +++++++---
->  ...-Make-sure-we-always-have-an-overflow-checking.patch} |  0
->  ...h => lvm-Add-LVM-cache-logical-volume-handling.patch} |  0
->  ...th-Add-some-arithmetic-primitives-that-check-f.patch} |  0
->  ...-Remove-unused-fields-from-grub_script_functio.patch} |  0
->  meta/recipes-bsp/grub/grub2.inc                          | 16 ++++++++--------
->  9 files changed, 36 insertions(+), 20 deletions(-)
->  rename meta/recipes-bsp/grub/files/{0003-calloc-Use-calloc-at-most-places.patch => CVE-2020-14308-calloc-Use-calloc-at-most-places.patch} (99%)
->  rename meta/recipes-bsp/grub/files/{0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch => CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch} (99%)
->  rename meta/recipes-bsp/grub/files/{0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch => CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch} (95%)
->  rename meta/recipes-bsp/grub/files/{0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch => CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch} (96%)
->  rename meta/recipes-bsp/grub/files/{0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch => calloc-Make-sure-we-always-have-an-overflow-checking.patch} (100%)
->  rename meta/recipes-bsp/grub/files/{0002-lvm-Add-LVM-cache-logical-volume-handling.patch => lvm-Add-LVM-cache-logical-volume-handling.patch} (100%)
->  rename meta/recipes-bsp/grub/files/{0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch => safemath-Add-some-arithmetic-primitives-that-check-f.patch} (100%)
->  rename meta/recipes-bsp/grub/files/{0006-script-Remove-unused-fields-from-grub_script_functio.patch => script-Remove-unused-fields-from-grub_script_functio.patch} (100%)
+>  meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch b/meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
-> similarity index 99%
-> rename from meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch
-> rename to meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
-> index eb3e42c3af..637e368cb0 100644
-> --- a/meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch
-> +++ b/meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
-> @@ -19,11 +19,15 @@ Among other issues, this fixes:
+> diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+> b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+> index 4ef20b0721..353856e1c4 100644
+> --- a/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+> +++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.1.bb
+> @@ -5,7 +5,7 @@ HOMEPAGE = "http://www.xkbcommon.org"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=e525ed9809e1f8a07cf4bce8b09e8b87"
+>  LICENSE = "MIT & MIT-style"
 >
->  Fixes: CVE-2020-14308
+> -DEPENDS = "util-macros flex-native bison-native"
+> +DEPENDS = "util-macros flex-native bison-native libxml2"
 >
-> -Upstream-Status: Backport [commit f725fa7cb2ece547c5af01eeeecfe8d95802ed41
-> -from https://git.savannah.gnu.org/git/grub.git]
-> -
->  Signed-off-by: Peter Jones <pjones@redhat.com>
->  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2020-14308
-> +
-> +Reference to upstream patch:
-> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=f725fa7cb2ece547c5af01eeeecfe8d95802ed41
-> +
->  [YL: don't patch on grub-core/lib/json/json.c, which is not existing in grub 2.04]
->  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
->  ---
-> diff --git a/meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-> similarity index 99%
-> rename from meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-> rename to meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-> index 146602cd3e..896a2145d4 100644
-> --- a/meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-> +++ b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-> @@ -26,11 +26,15 @@ Among other issues, this fixes:
+>  SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
 >
->  Fixes: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
->
-> -Upstream-Status: Backport [commit 3f05d693d1274965ffbe4ba99080dc2c570944c6
-> -from https://git.savannah.gnu.org/git/grub.git]
-> -
->  Signed-off-by: Peter Jones <pjones@redhat.com>
->  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
-> +
-> +Reference to upstream patch:
-> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=3f05d693d1274965ffbe4ba99080dc2c570944c6
-> +
->  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
->  ---
->   grub-core/commands/legacycfg.c | 29 +++++++++++++++++++-----
-> diff --git a/meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch b/meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
-> similarity index 95%
-> rename from meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch
-> rename to meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
-> index fedfc5d203..329e554a68 100644
-> --- a/meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch
-> +++ b/meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
-> @@ -19,11 +19,15 @@ dependent on the current behaviour without being broken.
->
->  Fixes: CVE-2020-15706
->
-> -Upstream-Status: Backport [commit 426f57383d647406ae9c628c472059c27cd6e040
-> -from https://git.savannah.gnu.org/git/grub.git]
-> -
->  Signed-off-by: Chris Coulson <chris.coulson@canonical.com>
->  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2020-15706
-> +
-> +Reference to upstream patch:
-> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=426f57383d647406ae9c628c472059c27cd6e040
-> +
->  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
->  ---
->   grub-core/script/execute.c  |  2 ++
-> diff --git a/meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch b/meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
-> similarity index 96%
-> rename from meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch
-> rename to meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
-> index 0731f0ec53..d4f9300c0a 100644
-> --- a/meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch
-> +++ b/meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
-> @@ -7,12 +7,16 @@ These could be triggered by a crafted filesystem with very large files.
->
->  Fixes: CVE-2020-15707
->
-> -Upstream-Status: Backport [commit e7b8856f8be3292afdb38d2e8c70ad8d62a61e10
-> -from https://git.savannah.gnu.org/git/grub.git]
-> -
->  Signed-off-by: Colin Watson <cjwatson@debian.org>
->  Reviewed-by: Jan Setje-Eilers <jan.setjeeilers@oracle.com>
->  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
-> +
-> +Upstream-Status: Backport
-> +CVE: CVE-2020-15707
-> +
-> +Reference to upstream patch:
-> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=e7b8856f8be3292afdb38d2e8c70ad8d62a61e10
-> +
->  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
->  ---
->   grub-core/loader/linux.c | 74 +++++++++++++++++++++++++++++++++++-------------
-> diff --git a/meta/recipes-bsp/grub/files/0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch b/meta/recipes-bsp/grub/files/calloc-Make-sure-we-always-have-an-overflow-checking.patch
-> similarity index 100%
-> rename from meta/recipes-bsp/grub/files/0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch
-> rename to meta/recipes-bsp/grub/files/calloc-Make-sure-we-always-have-an-overflow-checking.patch
-> diff --git a/meta/recipes-bsp/grub/files/0002-lvm-Add-LVM-cache-logical-volume-handling.patch b/meta/recipes-bsp/grub/files/lvm-Add-LVM-cache-logical-volume-handling.patch
-> similarity index 100%
-> rename from meta/recipes-bsp/grub/files/0002-lvm-Add-LVM-cache-logical-volume-handling.patch
-> rename to meta/recipes-bsp/grub/files/lvm-Add-LVM-cache-logical-volume-handling.patch
-> diff --git a/meta/recipes-bsp/grub/files/0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch b/meta/recipes-bsp/grub/files/safemath-Add-some-arithmetic-primitives-that-check-f.patch
-> similarity index 100%
-> rename from meta/recipes-bsp/grub/files/0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch
-> rename to meta/recipes-bsp/grub/files/safemath-Add-some-arithmetic-primitives-that-check-f.patch
-> diff --git a/meta/recipes-bsp/grub/files/0006-script-Remove-unused-fields-from-grub_script_functio.patch b/meta/recipes-bsp/grub/files/script-Remove-unused-fields-from-grub_script_functio.patch
-> similarity index 100%
-> rename from meta/recipes-bsp/grub/files/0006-script-Remove-unused-fields-from-grub_script_functio.patch
-> rename to meta/recipes-bsp/grub/files/script-Remove-unused-fields-from-grub_script_functio.patch
-> diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-> index 7c53193ebd..ff17dbe8b7 100644
-> --- a/meta/recipes-bsp/grub/grub2.inc
-> +++ b/meta/recipes-bsp/grub/grub2.inc
-> @@ -19,14 +19,14 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
->             file://grub-module-explicitly-keeps-symbole-.module_license.patch \
->             file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
->             file://CVE-2020-10713.patch \
-> -           file://0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch \
-> -           file://0002-lvm-Add-LVM-cache-logical-volume-handling.patch \
-> -           file://0003-calloc-Use-calloc-at-most-places.patch \
-> -           file://0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch \
-> -           file://0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch \
-> -           file://0006-script-Remove-unused-fields-from-grub_script_functio.patch \
-> -           file://0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
-> -           file://0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
-> +           file://calloc-Make-sure-we-always-have-an-overflow-checking.patch \
-> +           file://lvm-Add-LVM-cache-logical-volume-handling.patch \
-> +           file://CVE-2020-14308-calloc-Use-calloc-at-most-places.patch \
-> +           file://safemath-Add-some-arithmetic-primitives-that-check-f.patch \
-> +           file://CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch \
-> +           file://script-Remove-unused-fields-from-grub_script_functio.patch \
-> +           file://CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
-> +           file://CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
->  "
->  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
->  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
 > --
-> 2.14.4
+> 2.27.0
 >
+>
+> 
+>
+>
+
+--00000000000047a65805b35fd4e9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"></div>I have the same is=
+sue, looking at libxkbcommon [1], it suggest to package the libxkbregistry =
+separately and since the libxml2 adds a lot<div>of dependencies may be is b=
+etter to disable by default via -Denable-xkbregistry=3Dfalse and add anothe=
+r recipe to build it if needed.</div><div><br></div><div>Regards,</div><div=
+>Anibal<br><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Tue, 3 Nov 2020 at 15:52, Martin Jansa &lt;<a href=3D"mailto:M=
+artin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">* it was introduced with xkbre=
+gistry support in:<br>
+=C2=A0 <a href=3D"https://github.com/xkbcommon/libxkbcommon/commit/afb26e7=
+df9090a0b765eb294b6efff448f763b6f" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://github.com/xkbcommon/libxkbcommon/commit/afb26e7df9090a0b765eb294b6eff=
+f448f763b6f</a><br>
+=C2=A0 and as xkbregistry is enabled by default libxkbcommon<br>
+=C2=A0 is failing since the upgrade to 1.0.1 in builds where<br>
+=C2=A0 libxml2 wasn&#39;t included in RSS (e.g. when wayland<br>
+=C2=A0 isn&#39;t in DISTRO_FEATURES -&gt; in PACKAGECONFIG)<br>
+<br>
+Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
+target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/xorg-lib/<a href=3D"http://libxkbcommon_1.0.1.=
+bb" rel=3D"noreferrer" target=3D"_blank">libxkbcommon_1.0.1.bb</a> | 2 +-<b=
+r>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-graphics/xorg-lib/<a href=3D"http://libxkbcommon=
+_1.0.1.bb" rel=3D"noreferrer" target=3D"_blank">libxkbcommon_1.0.1.bb</a> b=
+/meta/recipes-graphics/xorg-lib/<a href=3D"http://libxkbcommon_1.0.1.bb" re=
+l=3D"noreferrer" target=3D"_blank">libxkbcommon_1.0.1.bb</a><br>
+index 4ef20b0721..353856e1c4 100644<br>
+--- a/meta/recipes-graphics/xorg-lib/<a href=3D"http://libxkbcommon_1.0.1.=
+bb" rel=3D"noreferrer" target=3D"_blank">libxkbcommon_1.0.1.bb</a><br>
++++ b/meta/recipes-graphics/xorg-lib/<a href=3D"http://libxkbcommon_1.0.1.=
+bb" rel=3D"noreferrer" target=3D"_blank">libxkbcommon_1.0.1.bb</a><br>
+@@ -5,7 +5,7 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.xkbcommon.org" re=
+l=3D"noreferrer" target=3D"_blank">http://www.xkbcommon.org</a>&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3De525ed9809e1f8a07cf4=
+bce8b09e8b87&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT &amp; MIT-style&quot;<br>
+<br>
+-DEPENDS =3D &quot;util-macros flex-native bison-native&quot;<br>
++DEPENDS =3D &quot;util-macros flex-native bison-native libxml2&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"http://xkbcommon.org/download/$%7BBPN%7=
+D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://xkbcommon.o=
+rg/download/${BPN}-${PV}.tar.xz</a>&quot;<br>
+<br>
+-- <br>
+2.27.0<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div></div></div></div>
+
+--00000000000047a65805b35fd4e9--
