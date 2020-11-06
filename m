@@ -1,242 +1,237 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web12.12839.1604675587962103212
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web12.12868.1604675700900971484
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2020 07:13:08 -0800
+ Fri, 06 Nov 2020 07:15:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=B/oD2zMv;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.66, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f66.google.com with SMTP id j20so1609441edt.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 07:13:07 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Y4Lt7gCF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.65, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f65.google.com with SMTP id ay21so1634752edb.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 07:15:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wqXLI72HSS5bzTf4QUzPO/iY2AXGDzocN8CKURj8tRc=;
-        b=B/oD2zMvgacayVSj0KKLeQSv3VVqo658LcZiwWe8mMrWHJghqnZfx8n18kfgsO508u
-         HJM+NMrDcphMcKrvZ1vdzN6QH83wkLRsOeCc7/3l9SIMMZfLz1BZFVi0G1ez1/VKSx24
-         xbuHT5ln4s6eMtToectzqtkAM8lGpHPN0AbYPPG793a2jLkA+Lf6ISU1VpTAIh66A1di
-         49UbU7dAm8aZp3bopI++VgRp/5FJSqC4lolpE0wndnHEInjiFhQhdnDHsVqh4n/brWWs
-         gTn/LnYbvegTMULve0TXPmWlUR/Jr+XuawxaPQFk0kf7Ky+Rp1x7UnbASTmd73IHKAs4
-         FvpA==
+        bh=aIq/7oRP9QEXz49vOnzB4jwt/EnVfSZ6kQvEZa0M448=;
+        b=Y4Lt7gCFLR5BH+Ka9aqoI0oErwm83WNzo2rMAUKgbtKOvPvRGwx8RkV+aRA17PIXY6
+         7FjJ/LlNnHQVhPpL7bCLUIzowxdPk0sE7yi4mRibivCrgQ72bB5AxXk175zVZCPGu/nb
+         hotHR2xuKchbgebVgzOKgkwxqOJ/XhmKfaIFqYKzuxE92KvzLzzVqt3BglFmmQX1Q1KU
+         QYBSNffyXjiX01npnjNGZWjWpe6hkBvA0TViyShTi4M/77TaX7Ft38eAbPxpeIa+Kbdi
+         rvAZnRF5MHejrmzf2AuWOv6cZwn6AJ51oc7dklBthR/Txtns8op5U6EgX8yRrpkTilrx
+         UhkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wqXLI72HSS5bzTf4QUzPO/iY2AXGDzocN8CKURj8tRc=;
-        b=rcjWK5HBhFZe9j4BK9+efmyjH6V4yx+JIWI1o+l5wsitSDG77YVaMHWuKHMcbDZ/N5
-         z1RAvp4IXZQ5I0R3oPoTNNZANVaszt7RU+b6Am9UbxN9hBxtpJpjOh4mVQYuKK6ZFPEx
-         k3u8Z/zLv8RcAHjMsyC7hGBbeOhwN+x8zMqRpTxNNDueECvPf/udTDYTEQfQRZ/Umcv0
-         OAMmN+jS++ugxZ90go7Glo6AvK+Rh35CD4qY9RX5Jl5vQ0qxiA8Qay/g2w4+Z/7CdHz3
-         HXyQifF4epyH023lamWeSzEmSf0cSWE3cz93wofU4gapf/DE8Nc47dqkA8kflnoFgW25
-         0uQg==
-X-Gm-Message-State: AOAM531X8GImb5iKBVQVtYvFRgkwEHLIwdFya+DQnqq4nGMzTJVI5ZRo
-	8yxzoHOpgc3CfPV1IvcC1cqyqkgBQBihQVf5hXVB8Q==
-X-Google-Smtp-Source: ABdhPJw8T21X0DFoodoQOmRXey5dfBRWm0qNjdo/hKVjq/rSchC0VbCPMELDqY1kdOER1hUMN2L5cWKouPyflFMoasY=
-X-Received: by 2002:a50:951e:: with SMTP id u30mr2547448eda.197.1604675586290;
- Fri, 06 Nov 2020 07:13:06 -0800 (PST)
+        bh=aIq/7oRP9QEXz49vOnzB4jwt/EnVfSZ6kQvEZa0M448=;
+        b=SmBOYZZmR/b6I5F3W9021npgaL87/qoqlIVyXBAGMoeZJCe7t/2c/Mzb41XypCmCHI
+         nO530TmCZB4Jh8cuttVhNXK2LN0IURMmrNPbx4QyJfugAvfC/nUulmQy0SmTK/2PiB5X
+         9J7kfKWVNnEszj1cL/GoLb+mWL2345LkRjr4FrqsWg/FYgkKvbRtt+j/dvHzqAheARD/
+         hoybiyG47mUewWsuKH+oY/4Ufa8tqIl9UT+kBdWt13Slaae0gYEAwwhT5LlNlujcqro5
+         DWLeajbrJrDvwcNeB+/Ck19IW4iQyjJrtCBwDLyVoaMe2tLzy9aff5hprF+jW2XGcFFV
+         KTEg==
+X-Gm-Message-State: AOAM531z57TjOHqcGk0irGU5BigyY0VnkydKSlUhbia2s6T1A1nO7EyF
+	fogzuI9G5DHMLeb8GUCC30zcEe/ontvLXipq5ipa5A==
+X-Google-Smtp-Source: ABdhPJxf7olAG6gq7qkY69J6CGlFPI1k/zpEeDnTffFwzLA4Z3TMWQAdn0q49F4nhU9S0cplGAXslahAiWe1CI+MrB8=
+X-Received: by 2002:a05:6402:3d9:: with SMTP id t25mr2537964edw.338.1604675699248;
+ Fri, 06 Nov 2020 07:14:59 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1604643684.git.anuj.mittal@intel.com> <4b50d20e15bb0fb9ff83730931ee35cf772f93d7.1604643684.git.anuj.mittal@intel.com>
-In-Reply-To: <4b50d20e15bb0fb9ff83730931ee35cf772f93d7.1604643684.git.anuj.mittal@intel.com>
+References: <cover.1604643684.git.anuj.mittal@intel.com> <dfbeace839cf80d428725cb94de0887e59872bd9.1604643684.git.anuj.mittal@intel.com>
+In-Reply-To: <dfbeace839cf80d428725cb94de0887e59872bd9.1604643684.git.anuj.mittal@intel.com>
 From: "Steve Sakoman" <steve@sakoman.com>
-Date: Fri, 6 Nov 2020 05:12:55 -1000
-Message-ID: <CAOSpxdZrsQFLz6SC2YdmE6QhU3wqMJx9tYxi=kuXORkePmStrQ@mail.gmail.com>
-Subject: Re: [OE-core] [gatesgarth][PATCH 13/22] bluez5: fix CVE-2020-27153
+Date: Fri, 6 Nov 2020 05:14:48 -1000
+Message-ID: <CAOSpxdaGhv8StEKo3GowBfHO6AFgdi82TVUGp5r1dnOCto4bXg@mail.gmail.com>
+Subject: Re: [OE-core] [gatesgarth][PATCH 17/22] grub: clean up CVE patches
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-This morning I also submitted a patch to fix CVE-2020-27153 in dunfell
-(bluez5: update to 5.55 to fix CVE-2020-27153):
+On Thu, Nov 5, 2020 at 8:28 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
+>
+> From: Yongxin Liu <yongxin.liu@windriver.com>
+>
+> Clean up several patches introduced in commit 6732918498 ("grub:fix
+> several CVEs in grub 2.04").
+>
+> 1) Add CVE tags to individual patches.
+> 2) Rename upstream patches and prefix them with CVE tags.
+> 3) Add description of reference to upstream patch.
+>
+> Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 
-https://lists.openembedded.org/g/openembedded-core/message/144343
-
-5.55 seems to be a security/bug fix release so it seemed appropriate:
-
-https://github.com/bluez/bluez/commit/5a180f2ec9edfacafd95e5fed20d36fe8e077f07
-
-We should do the same fix in dunfell/gatesgarth, so I'd love to get
-some feedback from the community on the preferred approach.
+This hasn't hit master yet.  Do we have the same "master first" policy
+for gatesgarth as we do for dunfell?
 
 Steve
 
-On Thu, Nov 5, 2020 at 8:28 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
->
-> From: Chee Yang Lee <chee.yang.lee@intel.com>
->
-> (From OE-Core rev: 4b0688bb8abb2fb8a620541207d40e90e4bf16f9)
->
-> Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  .../bluez5/bluez5/CVE-2020-27153.patch        | 146 ++++++++++++++++++
->  .../bluez5/bluez5_5.54.bb                     |   2 +
->  2 files changed, 148 insertions(+)
->  create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-27153.patch
+>  ...14308-calloc-Use-calloc-at-most-places.patch} | 10 +++++++---
+>  ...rflow-checking-primitives-where-we-do-.patch} | 10 +++++++---
+>  ...-use-after-free-when-redefining-a-func.patch} | 10 +++++++---
+>  ...eger-overflows-in-initrd-size-handling.patch} | 10 +++++++---
+>  ...re-we-always-have-an-overflow-checking.patch} |  0
+>  ...-Add-LVM-cache-logical-volume-handling.patch} |  0
+>  ...ome-arithmetic-primitives-that-check-f.patch} |  0
+>  ...unused-fields-from-grub_script_functio.patch} |  0
+>  meta/recipes-bsp/grub/grub2.inc                  | 16 ++++++++--------
+>  9 files changed, 36 insertions(+), 20 deletions(-)
+>  rename meta/recipes-bsp/grub/files/{0003-calloc-Use-calloc-at-most-places.patch => CVE-2020-14308-calloc-Use-calloc-at-most-places.patch} (99%)
+>  rename meta/recipes-bsp/grub/files/{0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch => CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch} (99%)
+>  rename meta/recipes-bsp/grub/files/{0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch => CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch} (95%)
+>  rename meta/recipes-bsp/grub/files/{0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch => CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch} (96%)
+>  rename meta/recipes-bsp/grub/files/{0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch => calloc-Make-sure-we-always-have-an-overflow-checking.patch} (100%)
+>  rename meta/recipes-bsp/grub/files/{0002-lvm-Add-LVM-cache-logical-volume-handling.patch => lvm-Add-LVM-cache-logical-volume-handling.patch} (100%)
+>  rename meta/recipes-bsp/grub/files/{0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch => safemath-Add-some-arithmetic-primitives-that-check-f.patch} (100%)
+>  rename meta/recipes-bsp/grub/files/{0006-script-Remove-unused-fields-from-grub_script_functio.patch => script-Remove-unused-fields-from-grub_script_functio.patch} (100%)
 >
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-27153.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-27153.patch
-> new file mode 100644
-> index 0000000000..7b06dd2071
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-27153.patch
-> @@ -0,0 +1,146 @@
-> +From 1cd644db8c23a2f530ddb93cebed7dacc5f5721a Mon Sep 17 00:00:00 2001
-> +From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
-> +Date: Wed, 15 Jul 2020 18:25:37 -0700
-> +Subject: [PATCH] shared/att: Fix possible crash on disconnect
-> +
-> +If there are pending request while disconnecting they would be notified
-> +but clients may endup being freed in the proccess which will then be
-> +calling bt_att_cancel to cancal its requests causing the following
-> +trace:
-> +
-> +Invalid read of size 4
-> +   at 0x1D894C: enable_ccc_callback (gatt-client.c:1627)
-> +   by 0x1D247B: disc_att_send_op (att.c:417)
-> +   by 0x1CCC17: queue_remove_all (queue.c:354)
-> +   by 0x1D47B7: disconnect_cb (att.c:635)
-> +   by 0x1E0707: watch_callback (io-glib.c:170)
-> +   by 0x48E963B: g_main_context_dispatch (in /usr/lib/libglib-2.0.so.0.6400.4)
-> +   by 0x48E9AC7: ??? (in /usr/lib/libglib-2.0.so.0.6400.4)
-> +   by 0x48E9ECF: g_main_loop_run (in /usr/lib/libglib-2.0.so.0.6400.4)
-> +   by 0x1E0E97: mainloop_run (mainloop-glib.c:79)
-> +   by 0x1E13B3: mainloop_run_with_signal (mainloop-notify.c:201)
-> +   by 0x12BC3B: main (main.c:770)
-> + Address 0x7d40a28 is 24 bytes inside a block of size 32 free'd
-> +   at 0x484A2E0: free (vg_replace_malloc.c:540)
-> +   by 0x1CCC17: queue_remove_all (queue.c:354)
-> +   by 0x1CCC83: queue_destroy (queue.c:73)
-> +   by 0x1D7DD7: bt_gatt_client_free (gatt-client.c:2209)
-> +   by 0x16497B: batt_free (battery.c:77)
-> +   by 0x16497B: batt_remove (battery.c:286)
-> +   by 0x1A0013: service_remove (service.c:176)
-> +   by 0x1A9B7B: device_remove_gatt_service (device.c:3691)
-> +   by 0x1A9B7B: gatt_service_removed (device.c:3805)
-> +   by 0x1CC90B: queue_foreach (queue.c:220)
-> +   by 0x1DE27B: notify_service_changed.isra.0.part.0 (gatt-db.c:369)
-> +   by 0x1DE387: notify_service_changed (gatt-db.c:361)
-> +   by 0x1DE387: gatt_db_service_destroy (gatt-db.c:385)
-> +   by 0x1DE3EF: gatt_db_remove_service (gatt-db.c:519)
-> +   by 0x1D674F: discovery_op_complete (gatt-client.c:388)
-> +   by 0x1D6877: discover_primary_cb (gatt-client.c:1260)
-> +   by 0x1E220B: discovery_op_complete (gatt-helpers.c:628)
-> +   by 0x1E249B: read_by_grp_type_cb (gatt-helpers.c:730)
-> +   by 0x1D247B: disc_att_send_op (att.c:417)
-> +   by 0x1CCC17: queue_remove_all (queue.c:354)
-> +   by 0x1D47B7: disconnect_cb (att.c:635)
+> diff --git a/meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch b/meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
+> similarity index 99%
+> rename from meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch
+> rename to meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
+> index eb3e42c3af..637e368cb0 100644
+> --- a/meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch
+> +++ b/meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
+> @@ -19,11 +19,15 @@ Among other issues, this fixes:
+>
+>  Fixes: CVE-2020-14308
+>
+> -Upstream-Status: Backport [commit f725fa7cb2ece547c5af01eeeecfe8d95802ed41
+> -from https://git.savannah.gnu.org/git/grub.git]
+> -
+>  Signed-off-by: Peter Jones <pjones@redhat.com>
+>  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 > +
 > +Upstream-Status: Backport
-> +[https://github.com/bluez/bluez/commit/1cd644db8c23a2f530ddb93cebed7dacc5f5721a]
-> +CVE: CVE-2020-27153
-> +Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-> +---
-> + src/shared/att.c | 46 ++++++++++++++++++++++++++++++++++++++++------
-> + 1 file changed, 40 insertions(+), 6 deletions(-)
+> +CVE: CVE-2020-14308
 > +
-> +diff --git a/src/shared/att.c b/src/shared/att.c
-> +index ed3af2920..58f23dfcb 100644
-> +--- a/src/shared/att.c
-> ++++ b/src/shared/att.c
-> +@@ -84,6 +84,7 @@ struct bt_att {
-> +       struct queue *req_queue;        /* Queued ATT protocol requests */
-> +       struct queue *ind_queue;        /* Queued ATT protocol indications */
-> +       struct queue *write_queue;      /* Queue of PDUs ready to send */
-> ++      bool in_disc;                   /* Cleanup queues on disconnect_cb */
+> +Reference to upstream patch:
+> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=f725fa7cb2ece547c5af01eeeecfe8d95802ed41
 > +
-> +       bt_att_timeout_func_t timeout_callback;
-> +       bt_att_destroy_func_t timeout_destroy;
-> +@@ -222,8 +223,10 @@ static void destroy_att_send_op(void *data)
-> +       free(op);
-> + }
-> +
-> +-static void cancel_att_send_op(struct att_send_op *op)
-> ++static void cancel_att_send_op(void *data)
-> + {
-> ++      struct att_send_op *op = data;
-> ++
-> +       if (op->destroy)
-> +               op->destroy(op->user_data);
-> +
-> +@@ -631,11 +634,6 @@ static bool disconnect_cb(struct io *io, void *user_data)
-> +       /* Dettach channel */
-> +       queue_remove(att->chans, chan);
-> +
-> +-      /* Notify request callbacks */
-> +-      queue_remove_all(att->req_queue, NULL, NULL, disc_att_send_op);
-> +-      queue_remove_all(att->ind_queue, NULL, NULL, disc_att_send_op);
-> +-      queue_remove_all(att->write_queue, NULL, NULL, disc_att_send_op);
-> +-
-> +       if (chan->pending_req) {
-> +               disc_att_send_op(chan->pending_req);
-> +               chan->pending_req = NULL;
-> +@@ -654,6 +652,15 @@ static bool disconnect_cb(struct io *io, void *user_data)
-> +
-> +       bt_att_ref(att);
-> +
-> ++      att->in_disc = true;
-> ++
-> ++      /* Notify request callbacks */
-> ++      queue_remove_all(att->req_queue, NULL, NULL, disc_att_send_op);
-> ++      queue_remove_all(att->ind_queue, NULL, NULL, disc_att_send_op);
-> ++      queue_remove_all(att->write_queue, NULL, NULL, disc_att_send_op);
-> ++
-> ++      att->in_disc = false;
-> ++
-> +       queue_foreach(att->disconn_list, disconn_handler, INT_TO_PTR(err));
-> +
-> +       bt_att_unregister_all(att);
-> +@@ -1574,6 +1581,30 @@ bool bt_att_chan_cancel(struct bt_att_chan *chan, unsigned int id)
-> +       return true;
-> + }
-> +
-> ++static bool bt_att_disc_cancel(struct bt_att *att, unsigned int id)
-> ++{
-> ++      struct att_send_op *op;
-> ++
-> ++      op = queue_find(att->req_queue, match_op_id, UINT_TO_PTR(id));
-> ++      if (op)
-> ++              goto done;
-> ++
-> ++      op = queue_find(att->ind_queue, match_op_id, UINT_TO_PTR(id));
-> ++      if (op)
-> ++              goto done;
-> ++
-> ++      op = queue_find(att->write_queue, match_op_id, UINT_TO_PTR(id));
-> ++
-> ++done:
-> ++      if (!op)
-> ++              return false;
-> ++
-> ++      /* Just cancel since disconnect_cb will be cleaning up */
-> ++      cancel_att_send_op(op);
-> ++
-> ++      return true;
-> ++}
-> ++
-> + bool bt_att_cancel(struct bt_att *att, unsigned int id)
-> + {
-> +       const struct queue_entry *entry;
-> +@@ -1591,6 +1622,9 @@ bool bt_att_cancel(struct bt_att *att, unsigned int id)
-> +                       return true;
-> +       }
-> +
-> ++      if (att->in_disc)
-> ++              return bt_att_disc_cancel(att, id);
-> ++
-> +       op = queue_remove_if(att->req_queue, match_op_id, UINT_TO_PTR(id));
-> +       if (op)
-> +               goto done;
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.54.bb b/meta/recipes-connectivity/bluez5/bluez5_5.54.bb
-> index 260eee1402..9a21f14fae 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5_5.54.bb
-> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.54.bb
-> @@ -1,5 +1,7 @@
->  require bluez5.inc
+>  [YL: don't patch on grub-core/lib/json/json.c, which is not existing in grub 2.04]
+>  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+>  ---
+> diff --git a/meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+> similarity index 99%
+> rename from meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+> rename to meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+> index 146602cd3e..896a2145d4 100644
+> --- a/meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+> +++ b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+> @@ -26,11 +26,15 @@ Among other issues, this fixes:
 >
-> +SRC_URI += " file://CVE-2020-27153.patch"
-> +
->  SRC_URI[md5sum] = "e637feb2dbb7582bbbff1708367a847c"
->  SRC_URI[sha256sum] = "68cdab9e63e8832b130d5979dc8c96fdb087b31278f342874d992af3e56656dc"
+>  Fixes: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
 >
+> -Upstream-Status: Backport [commit 3f05d693d1274965ffbe4ba99080dc2c570944c6
+> -from https://git.savannah.gnu.org/git/grub.git]
+> -
+>  Signed-off-by: Peter Jones <pjones@redhat.com>
+>  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
+> +
+> +Reference to upstream patch:
+> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=3f05d693d1274965ffbe4ba99080dc2c570944c6
+> +
+>  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+>  ---
+>   grub-core/commands/legacycfg.c | 29 +++++++++++++++++++-----
+> diff --git a/meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch b/meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+> similarity index 95%
+> rename from meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+> rename to meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+> index fedfc5d203..329e554a68 100644
+> --- a/meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+> +++ b/meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+> @@ -19,11 +19,15 @@ dependent on the current behaviour without being broken.
+>
+>  Fixes: CVE-2020-15706
+>
+> -Upstream-Status: Backport [commit 426f57383d647406ae9c628c472059c27cd6e040
+> -from https://git.savannah.gnu.org/git/grub.git]
+> -
+>  Signed-off-by: Chris Coulson <chris.coulson@canonical.com>
+>  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2020-15706
+> +
+> +Reference to upstream patch:
+> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=426f57383d647406ae9c628c472059c27cd6e040
+> +
+>  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+>  ---
+>   grub-core/script/execute.c  |  2 ++
+> diff --git a/meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch b/meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+> similarity index 96%
+> rename from meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+> rename to meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+> index 0731f0ec53..d4f9300c0a 100644
+> --- a/meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+> +++ b/meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+> @@ -7,12 +7,16 @@ These could be triggered by a crafted filesystem with very large files.
+>
+>  Fixes: CVE-2020-15707
+>
+> -Upstream-Status: Backport [commit e7b8856f8be3292afdb38d2e8c70ad8d62a61e10
+> -from https://git.savannah.gnu.org/git/grub.git]
+> -
+>  Signed-off-by: Colin Watson <cjwatson@debian.org>
+>  Reviewed-by: Jan Setje-Eilers <jan.setjeeilers@oracle.com>
+>  Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2020-15707
+> +
+> +Reference to upstream patch:
+> +https://git.savannah.gnu.org/cgit/grub.git/commit/?id=e7b8856f8be3292afdb38d2e8c70ad8d62a61e10
+> +
+>  Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+>  ---
+>   grub-core/loader/linux.c | 74 +++++++++++++++++++++++++++++++++++-------------
+> diff --git a/meta/recipes-bsp/grub/files/0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch b/meta/recipes-bsp/grub/files/calloc-Make-sure-we-always-have-an-overflow-checking.patch
+> similarity index 100%
+> rename from meta/recipes-bsp/grub/files/0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch
+> rename to meta/recipes-bsp/grub/files/calloc-Make-sure-we-always-have-an-overflow-checking.patch
+> diff --git a/meta/recipes-bsp/grub/files/0002-lvm-Add-LVM-cache-logical-volume-handling.patch b/meta/recipes-bsp/grub/files/lvm-Add-LVM-cache-logical-volume-handling.patch
+> similarity index 100%
+> rename from meta/recipes-bsp/grub/files/0002-lvm-Add-LVM-cache-logical-volume-handling.patch
+> rename to meta/recipes-bsp/grub/files/lvm-Add-LVM-cache-logical-volume-handling.patch
+> diff --git a/meta/recipes-bsp/grub/files/0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch b/meta/recipes-bsp/grub/files/safemath-Add-some-arithmetic-primitives-that-check-f.patch
+> similarity index 100%
+> rename from meta/recipes-bsp/grub/files/0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch
+> rename to meta/recipes-bsp/grub/files/safemath-Add-some-arithmetic-primitives-that-check-f.patch
+> diff --git a/meta/recipes-bsp/grub/files/0006-script-Remove-unused-fields-from-grub_script_functio.patch b/meta/recipes-bsp/grub/files/script-Remove-unused-fields-from-grub_script_functio.patch
+> similarity index 100%
+> rename from meta/recipes-bsp/grub/files/0006-script-Remove-unused-fields-from-grub_script_functio.patch
+> rename to meta/recipes-bsp/grub/files/script-Remove-unused-fields-from-grub_script_functio.patch
+> diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+> index 7c53193ebd..ff17dbe8b7 100644
+> --- a/meta/recipes-bsp/grub/grub2.inc
+> +++ b/meta/recipes-bsp/grub/grub2.inc
+> @@ -19,14 +19,14 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+>             file://grub-module-explicitly-keeps-symbole-.module_license.patch \
+>             file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
+>             file://CVE-2020-10713.patch \
+> -           file://0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch \
+> -           file://0002-lvm-Add-LVM-cache-logical-volume-handling.patch \
+> -           file://0003-calloc-Use-calloc-at-most-places.patch \
+> -           file://0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch \
+> -           file://0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch \
+> -           file://0006-script-Remove-unused-fields-from-grub_script_functio.patch \
+> -           file://0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
+> -           file://0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
+> +           file://calloc-Make-sure-we-always-have-an-overflow-checking.patch \
+> +           file://lvm-Add-LVM-cache-logical-volume-handling.patch \
+> +           file://CVE-2020-14308-calloc-Use-calloc-at-most-places.patch \
+> +           file://safemath-Add-some-arithmetic-primitives-that-check-f.patch \
+> +           file://CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch \
+> +           file://script-Remove-unused-fields-from-grub_script_functio.patch \
+> +           file://CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
+> +           file://CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
+>  "
+>  SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
+>  SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
 > --
 > 2.28.0
 >
