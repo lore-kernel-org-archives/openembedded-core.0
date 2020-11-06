@@ -1,84 +1,128 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web11.12506.1604673396712386341
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.12507.1604673399504070099
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2020 06:36:36 -0800
+ Fri, 06 Nov 2020 06:36:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IlpGd1R3;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id 13so1506390pfy.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:36:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sYTapUn8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id t18so747454plo.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:36:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=HwU0Dn8gEq0RpWtSJXNTHMF8JPVx33gEH64eBvXDYJ8=;
-        b=IlpGd1R3MmCXwVDSd/x/CskfisASKL20wjhEbU+ZOPyPtmsY5G9jn/Ul9J6C30wdeJ
-         upYbiumXGG4Cv11IXOw4yV+VfpgCF5e3j9Asu3XVkzRlG2Sa8DFpGeBUE0GpDGE/RoxU
-         JrPbHwDZCweL+ihrrIWe8fH0XTxOFTO8eFOHOeLU9mqNn9YB8jqcwDEjyX9qOJX/TbSd
-         D1I/JFqLVcXma/xBawO2cz2j6zpyQzn7piSCDAEG7EH2G6hQ5cfbYJPgZ41l1evsj5vF
-         Sklb8ND0jtcgCyufFbOojrC/r+Q2UV+8T5K+OgXMxjq7elbjEad2pGmPgl8ljuztEJ2J
-         +YXw==
+        bh=qGAVFtTemLZWXvx/VDzFqPFqiGCCAUxNRCLWDIJD8IQ=;
+        b=sYTapUn8TukKabv9wC6CGs/fH12M7NePLJ3eASM9Nkf8plFRXGxRnVsIWaqCY0a7VW
+         dxWF/m/lT9Mnb5PCZbW3MbPHLbTlDI0+xlJ67IOWe+FPD0j781kqgzOBx6MBguAwPh1e
+         IEF0Jm9HZFeoPKIFok/J+ol+udrqf9GoQtqCsfZhcQ/b+X0S86lupMQ2UcUoGwkAtFDA
+         SRLfUVjsX9t26YTKU6Ri8LTvGxuYPcBzmMbqALgoeFMj9qfMPvHOTWgrsnhZi8/ORCBc
+         Ozxm6ce8NvU+533hkWzSatuL1hgH2oq7c1tKtwPqyfNYo4uDPWh4W12T+BAVsdc3lBJ7
+         odhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=HwU0Dn8gEq0RpWtSJXNTHMF8JPVx33gEH64eBvXDYJ8=;
-        b=sXZtiROuCEV2O8Z5Hn6boZUCnLyAhAtKbnNwrcW5qoe37A9jf4Ad93W++ZwCg882lf
-         4bHM92WSl0AtfmqX4DYY233No6eID4aA5t2ZVpbd33frGTqmKhfaSG9Q6vilO3VyuvHU
-         EYMOy8CweaitFvRx0u2kzA4Tq3nK6EBoCUzyE2LceRqBYW4g/a21nj23uQcjSq5h+q+s
-         nJinwQEJccA7p0BLF/rfzP/BZ6lSygkTCtVKS95uD3EtG6vuqvqBgKw6uKyNQkFHV+8M
-         HLMSlPemrLZEO0lYNGpiwZN4YGL1QRkS3tB/6L+ep5Z9K9wmnNTrKIwiOenQToZ0csQ/
-         Co2w==
-X-Gm-Message-State: AOAM531xrbZpO/PGkZt3prwi0XFLMazlBbt1q0ZP3XZx/75slORx8Uh/
-	JZJI4ocb8qlixDO2E7Zw1juSjHD6JDlFPZfb
-X-Google-Smtp-Source: ABdhPJyyzsat5S7hSpjL7LIh7EoAjSby0L+Vrlej2LqYLL7yfXVTKv5ClFMToislnVbt0SggsSE74w==
-X-Received: by 2002:a62:17c8:0:b029:18b:5a97:a8d1 with SMTP id 191-20020a6217c80000b029018b5a97a8d1mr2149455pfx.15.1604673395817;
-        Fri, 06 Nov 2020 06:36:35 -0800 (PST)
+        bh=qGAVFtTemLZWXvx/VDzFqPFqiGCCAUxNRCLWDIJD8IQ=;
+        b=DdteIZZNqum+KW4RChS9yQAax9eb7E2nskwC2raNbyndlPy2pgqIIY+20KnslzemmT
+         6FyptmdI08wnYyTuUpccB2WP1lN44ovMVzUCNqzrOWWTD7BduNSVDAnEUpEJstIVa/+Z
+         LnKDmiZlueFya8xNcg3oOJqP1M5KptZ58h9PHT7JFN51tYunD15lC9rA4RNfU76TcD4G
+         VJnj8jAHZk56nBYTS2iPx7TBIQXmp8g9hF072qPjsnthmDE1XSpdKF1EAjz0etpfmB//
+         P5auo5IEYP1WRHDCYVgDbYHimMaY+YNDwUSf0qpzhO+0FPIRy+GTwC0LQrypM5u5CaZr
+         UA8A==
+X-Gm-Message-State: AOAM533bjmIodV5cK1hKvrFGcPCoLo+Rsr5mF4Meey4jYVHWTN2B5bHe
+	w9BsLAfAONI9D8EJ6xoBIwj4GUFOp+xaNppP
+X-Google-Smtp-Source: ABdhPJw3q81BnRTehTAmfAzzV9wc43nDF/CqXtod1Q8aoAtRUPL7Bn6YMRlMe546rl8V6X2CmbgxNw==
+X-Received: by 2002:a17:902:9a89:b029:d6:c37c:7c69 with SMTP id w9-20020a1709029a89b02900d6c37c7c69mr1971952plp.11.1604673398498;
+        Fri, 06 Nov 2020 06:36:38 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.36.34
+        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.36.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 06:36:35 -0800 (PST)
+        Fri, 06 Nov 2020 06:36:37 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/20] timezone: upgrade to 2020d
-Date: Fri,  6 Nov 2020 04:35:21 -1000
-Message-Id: <e40068578ec403df84527cd4ac7acd336cce6a08.1604672839.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 07/20] common-licenses: add bzip2-1.0.4
+Date: Fri,  6 Nov 2020 04:35:22 -1000
+Message-Id: <d395630a026c16f47541082c8e1279492cfd95be.1604672839.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1604672838.git.steve@sakoman.com>
 References: <cover.1604672838.git.steve@sakoman.com>
 
-From: Changqing Li <changqing.li@windriver.com>
+From: "Yann E. MORIN" <yann.morin.1998@free.fr>
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+The bzip2 license changes with each version; the changes are subtle, but
+that makes it a different license everytime:
+  - copyright year
+  - authorship identification and address
+  - version of the release
+  - date of the release
+
+Although we currently only have bzip2 and pbzip2 packages, we're going
+to need this license for busybox, which uses code from bzip2-1.0.4.
+
+Add it, as copied from the upstream bzip2 git tree at tag 'bzip2-1.0.4'
+(commit f10a33538e9bab6deb61779b3d8aae168824ef48).
+
+Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
+Cc: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 365787658cffc3b2dedb88db311a33012be9d70d)
+(cherry picked from commit f303c31b813f371737c9a9d7a93e9f920f84e75a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/files/common-licenses/bzip2-1.0.4 | 43 ++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/files/common-licenses/bzip2-1.0.4
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 8eb17c5eaf..5368464f30 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
--PV = "2020b"
-+PV = "2020d"
- 
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
-@@ -14,5 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
- 
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "47eff8944de4a64f7629b851e4a32338ab12c9b73edd62063795167ff1fe43da"
--SRC_URI[tzdata.sha256sum] = "9b053f951d245ce89d850b96ee4711d82d833559b1fc96ba19f90bc4d745e809"
-+SRC_URI[tzcode.sha256sum] = "6cf050ba28e8053029d3f32d71341d11a794c6b5dd51a77fc769d6dae364fad5"
-+SRC_URI[tzdata.sha256sum] = "8d813957de363387696f05af8a8889afa282ab5016a764c701a20758d39cbaf3"
+diff --git a/meta/files/common-licenses/bzip2-1.0.4 b/meta/files/common-licenses/bzip2-1.0.4
+new file mode 100644
+index 0000000000..4458e35bb5
+--- /dev/null
++++ b/meta/files/common-licenses/bzip2-1.0.4
+@@ -0,0 +1,43 @@
++
++--------------------------------------------------------------------------
++
++This program, "bzip2", the associated library "libbzip2", and all
++documentation, are copyright (C) 1996-2006 Julian R Seward.  All
++rights reserved.
++
++Redistribution and use in source and binary forms, with or without
++modification, are permitted provided that the following conditions
++are met:
++
++1. Redistributions of source code must retain the above copyright
++   notice, this list of conditions and the following disclaimer.
++
++2. The origin of this software must not be misrepresented; you must 
++   not claim that you wrote the original software.  If you use this 
++   software in a product, an acknowledgment in the product 
++   documentation would be appreciated but is not required.
++
++3. Altered source versions must be plainly marked as such, and must
++   not be misrepresented as being the original software.
++
++4. The name of the author may not be used to endorse or promote 
++   products derived from this software without specific prior written 
++   permission.
++
++THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS
++OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
++WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
++ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
++DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
++DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
++GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
++INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
++WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
++NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
++SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++Julian Seward, Cambridge, UK.
++jseward@bzip.org
++bzip2/libbzip2 version 1.0.4 of 20 December 2006
++
++--------------------------------------------------------------------------
 -- 
 2.17.1
 
