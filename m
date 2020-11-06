@@ -1,148 +1,136 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.12536.1604673379134504135
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web08.12310.1604673383306051459
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2020 06:36:19 -0800
+ Fri, 06 Nov 2020 06:36:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=waEbXeU8;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id z3so1483659pfb.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:36:19 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MFo2FYad;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id a18so1312285pfl.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:36:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=61L81cdiYMM8GJ/p7SuZaL0mXbJjWe6ddQ0BjNhTMVg=;
-        b=waEbXeU89Z3cgP+e3mPgquw7s5eOR34e9vmlYbvd/clIvyXUWm8uLBqPoXBk60D0yW
-         dP62i0QvEmDhiWgkizvUNKlVBm4n66ViqOBFsbSv32CG31B5W9GAcjvcnwQ85F6CV1T6
-         gdFMKVxqgjjm8ejvh5cBiGwa17mD5SdWKGpmxuczFmLcRLK/iGDxGySsm49J0fuWA0jX
-         NUaZ05AOLGBNEC2Hl85rGsCcR9JKKxPhPDz+hoBU2OvIYiNBAuihWMPIueZprz96Ucir
-         0FtZwzbIEn1a4/9Mel/0p1ctluKEADuwe04TFAb05jt0ItCFVYV7bPAy8cRPmJOdQxCj
-         Dlrw==
+        h=from:to:subject:date:message-id:mime-version:in-reply-to:references
+         :content-transfer-encoding;
+        bh=XIZa50ZPJ+0bhFb/FoQ42AID3caQziy+UEchhV269Q0=;
+        b=MFo2FYadxZlFKtGgNCKlQKvvxlIaB7sCs4vLleSINsc5att5spMATiXuOBJwHC0LoZ
+         g3L5i7YwaB4S1rPB1G0WtPVQnbNlrsjT2B3KBP5WzYeNyWV+bOsPgwEDJKPpojkWLLYq
+         Kl0MOTuvS535ebuY1/G7Cg9lIgNMYWdCr0ZpEk2jEznEQjB5e+GqZsnvRe+mrveS1O2M
+         K3c93+6vDqayyoMfOzhCgVEzuKKF6SOSV2G2R+vtoe+9GTvSdMc6pj6JhFD6LVKsJe2E
+         7tHa7af2XYIChd797Kg15DgTIJztPsRa9jwkFOeSx5Xra5HxKEWI9nYhMHxf8ts0Xm2a
+         2DCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=61L81cdiYMM8GJ/p7SuZaL0mXbJjWe6ddQ0BjNhTMVg=;
-        b=rHm4sKg8+Ri7GOxNAZfwB4KgDcDaU0gzdg34GNo6r1J9rOVT8xZuV6X8dS0g219tAd
-         W0RTibpPrjsVfWNEbql8h5NWdN8g2O3Y+JIL46kfWFBvwBwWgEW+to2+9xevZYgwdHXr
-         O6v79QlaNnDERvitS3KT0ytVJRoalrbcl9911Km1IUUrtSLwD077zMi1ALbUN6xMFIxj
-         NXCjVfJDyJdyREvgU8nLAFY9t3RlkpUrnOzCsHqdCGlGs85qvQuBgSrAnLdCuakyQcE5
-         SAM+MKU10ERkGTBFdTPNF9FmQGkhG0rd4C/tD1SPJOpsAO2RRNZg0AOsduZ2PN5fRLOM
-         3ryQ==
-X-Gm-Message-State: AOAM530v1nlA8fMkQOmXNXzaVcaIh67hz0ttcGwiQu2MdYnErwCYZS3l
-	/z5SNwINCum0pGXL4uQE2RQEGAb1S3RvuNHC
-X-Google-Smtp-Source: ABdhPJzF5LhpIlb6ur3ysGJAtq4L85k7m6xTaUXpdtQC2u4g1B/wjTMJp98YcJe+yBgK5zo2/64ppg==
-X-Received: by 2002:a62:19c6:0:b029:18b:5c6a:2ae6 with SMTP id 189-20020a6219c60000b029018b5c6a2ae6mr2316277pfz.14.1604673377925;
-        Fri, 06 Nov 2020 06:36:17 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :in-reply-to:references:content-transfer-encoding;
+        bh=XIZa50ZPJ+0bhFb/FoQ42AID3caQziy+UEchhV269Q0=;
+        b=dsqJ0RLwtBIhajGGlmubEGbvOiNtK7eVQCpUGxSIouQAwH0PFpd6yCgzzZEYjRZtT5
+         pMpyZm0VqpdFhD9V0yOIwwVCUpmO4nWIcB5yaWi7vsHUGV0YeBnpHuxGQmDyeHG9mGCH
+         V6TX1b1YfuM0NIRTrRlXOfvEN18K5rQ0GHpCAqGe+mR/yI258NNZ9Pq2u4KKJ1scEq0f
+         MNeDO6IB1wC/DdMxMYw34n87KLgwcb6aR+eHA+rsyzTOsxXpmyuDHWIV/WbrlmJFDE2t
+         LNIGFFUfTcKjbKKDAtNvJXsHV8wpkna9I/EBrIEuv9vxxdu+TUTNwxCb8GKSzWmuoNzP
+         NWqA==
+X-Gm-Message-State: AOAM531W1jEfCLgIxLfD21vKrR7AwPm2SS4zstEAcyQAYGBXiJB6ALkc
+	de9lXTvSCFoU8Cc0dnK6ZGO7eGaQ3Dacj6ri
+X-Google-Smtp-Source: ABdhPJyI+CNSRi6MdxPn+1q4LBOClF+C5RFI2gQX6g6c8c7QP/tM2fYi8JtWrOYe5hHtEgNniF78FA==
+X-Received: by 2002:a63:6386:: with SMTP id x128mr1943943pgb.148.1604673382358;
+        Fri, 06 Nov 2020 06:36:22 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.36.16
+        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.36.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 06:36:17 -0800 (PST)
+        Fri, 06 Nov 2020 06:36:21 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/20] Patch review
-Date: Fri,  6 Nov 2020 04:35:15 -1000
-Message-Id: <cover.1604672838.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/20] xcb-proto: backport fix for python gcd function
+Date: Fri,  6 Nov 2020 04:35:16 -1000
+Message-Id: <0f688c1419b1e2dfddff3c985f89a3f1949fc9fb.1604672839.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+In-Reply-To: <cover.1604672838.git.steve@sakoman.com>
+References: <cover.1604672838.git.steve@sakoman.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Please review this next set of patches for dunfell and have comments back
-by end of day Tuesday.
+From: Richard Leitner <richard.leitner@skidata.com>
 
-Passed a-full on autobuilder with exception of known intermittent failure on
-oe-selftest-centos (Unable to start bitbake server)
+This backports the fix [1] for the following build error for nativesdk on
+Fedora 33 which is caused by the removal of fractions.gcd() in favor of
+math.gcd() in python 3.9 [2]:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1547
+ImportError: cannot import name 'gcd' from 'fractions' (/usr/lib64/python3.9/fractions.py)
 
-Passed on susequent oe-selftest-centos build:
+[1] https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512
+[2] https://bugs.python.org/issue39350
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1532
-
-The following changes since commit 5f644082fc3c2bbd89b898d5ca7cd4414cda4a64:
-
-  nasm: update 2.14.02 -> 2.15.03 for CVE fixes (2020-11-02 04:05:13 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-Andrey Zhizhikin (1):
-  insane: add GitLab /archive/ tests
-
-Changqing Li (1):
-  timezone: upgrade to 2020d
-
-Chee Yang Lee (1):
-  bluez5: update to 5.55 to fix CVE-2020-27153
-
-Joshua Watt (1):
-  jquery: Upgrade 3.4.1 -> 3.5.0 to fix CVE-2020-11022 and
-    CVE-2020-11023
-
-Mark Jonas (4):
-  Add license text for PSF-2.0
-  Map license names PSF and PSFv2 to PSF-2.0
-  libsdl2: Fix directfb syntax error
-  libsdl2: Fix directfb SDL_RenderFillRect
-
-Martin Jansa (3):
-  lib/oe/patch: prevent applying patches without any subject
-  lib/oe/patch: GitApplyTree: save 1 echo in commit-msg hook
-  Revert "lib/oe/patch: fix handling of patches with no header"
-
-Richard Leitner (1):
-  xcb-proto: backport fix for python gcd function
-
-Richard Purdie (1):
-  sstatesig: Log timestamps for hashequiv in reprodubile builds for
-    do_package
-
-Steve Sakoman (5):
-  sqlite3: fix CVE-2020-13434
-  sqlite3: fix CVE-2020-13435
-  sqlite3: fix CVE-2020-13630
-  sqlite3: fix CVE-2020-13631
-  sqlite3: fix CVE-2020-13632
-
-Yann E. MORIN (2):
-  common-licenses: add bzip2-1.0.4
-  recipes-core/busybox: fixup licensing information
-
- meta/classes/insane.bbclass                   |   4 +-
- meta/conf/licenses.conf                       |   6 +-
- meta/files/common-licenses/PSF-2.0            |  49 ++++
- meta/files/common-licenses/bzip2-1.0.4        |  43 ++++
- meta/lib/oe/patch.py                          |  13 +-
- meta/lib/oe/sstatesig.py                      |   6 +
- .../bluez5/{bluez5_5.54.bb => bluez5_5.55.bb} |   4 +-
- meta/recipes-core/busybox/busybox.inc         |   7 +-
- .../{jquery_3.4.1.bb => jquery_3.5.0.bb}      |   8 +-
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- .../libsdl2/directfb-renderfillrect-fix.patch |  33 +++
- ...ectfb-spurious-curly-brace-missing-e.patch |  49 ++++
- .../libsdl2/libsdl2_2.0.12.bb                 |   2 +
- ...1-xcbgen-use-math-gcd-for-python-3-5.patch |  40 ++++
- .../xorg-proto/xcb-proto_1.13.bb              |   3 +-
- .../sqlite/files/CVE-2020-13434.patch         |  48 ++++
- .../sqlite/files/CVE-2020-13435.patch         | 219 ++++++++++++++++++
- .../sqlite/files/CVE-2020-13630.patch         |  32 +++
- .../sqlite/files/CVE-2020-13631.patch         |  99 ++++++++
- .../sqlite/files/CVE-2020-13632.patch         |  34 +++
- meta/recipes-support/sqlite/sqlite3_3.31.1.bb |   5 +
- 21 files changed, 684 insertions(+), 26 deletions(-)
- create mode 100644 meta/files/common-licenses/PSF-2.0
- create mode 100644 meta/files/common-licenses/bzip2-1.0.4
- rename meta/recipes-connectivity/bluez5/{bluez5_5.54.bb => bluez5_5.55.bb} (91%)
- rename meta/recipes-devtools/jquery/{jquery_3.4.1.bb => jquery_3.5.0.bb} (73%)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brace-missing-e.patch
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ ...1-xcbgen-use-math-gcd-for-python-3-5.patch | 40 +++++++++++++++++++
+ .../xorg-proto/xcb-proto_1.13.bb              |  3 +-
+ 2 files changed, 42 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-gcd-for-python-3-5.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13434.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13435.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13630.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13631.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13632.patch
 
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-gcd-for-python-3-5.patch b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-gcd-for-python-3-5.patch
+new file mode 100644
+index 0000000000..f9f4424da5
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-gcd-for-python-3-5.patch
+@@ -0,0 +1,40 @@
++From 426ae35bee1fa0fdb8b5120b1dcd20cee6e34512 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Bj=C3=B6rn=20Esser?= <besser82@fedoraproject.org>
++Date: Mon, 1 Jun 2020 12:24:16 +0200
++Subject: [PATCH] xcbgen: Use math.gcd() for Python >= 3.5.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++fractions.gcd() has been deprecated since Python 3.5, and
++was finally dropped in Python 3.9.  It is recommended to
++use math.gcd() instead.
++
++Signed-off-by: Björn Esser <besser82@fedoraproject.org>
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/proto/xcbproto/-/commit/426ae35bee1fa0fdb8b5120b1dcd20cee6e34512]
++Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
++---
++ xcbgen/align.py | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/xcbgen/align.py b/xcbgen/align.py
++index d4c12ee..5c4f517 100644
++--- a/xcbgen/align.py
+++++ b/xcbgen/align.py
++@@ -2,7 +2,12 @@
++ This module contains helper classes for alignment arithmetic and checks
++ '''
++ 
++-from fractions import gcd
+++from sys import version_info
+++
+++if version_info[:2] >= (3, 5):
+++    from math import gcd
+++else:
+++    from fractions import gcd
++ 
++ class Alignment(object):
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
+index 7467090920..1f41821302 100644
+--- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
++++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
+@@ -11,7 +11,8 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
+                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
+ 
+-SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.bz2"
++SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.bz2 \
++           file://0001-xcbgen-use-math-gcd-for-python-3-5.patch"
+ SRC_URI[md5sum] = "abe9aa4886138150bbc04ae4f29b90e3"
+ SRC_URI[sha256sum] = "7b98721e669be80284e9bbfeab02d2d0d54cd11172b72271e47a2fe875e2bde1"
+ 
 -- 
 2.17.1
 
