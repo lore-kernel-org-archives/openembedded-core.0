@@ -1,90 +1,130 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web12.12294.1604673420425359276
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web09.12497.1604673423206593797
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2020 06:37:00 -0800
+ Fri, 06 Nov 2020 06:37:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=exrXLlmq;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id i7so1079812pgh.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:37:00 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jnOu3yzG;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 62so1055780pgg.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:37:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=A/DY8QSJBFNq4a3Yc+55E+PAZTn82eEEVx9MrvrzRjA=;
-        b=exrXLlmqJLNV14rhi8skm8d/Nqet4+r8JmOjRhjqQOQB0/oqwO5r92j2Je68oiHXEh
-         4gNIFqkgotwfGY+hqfOFuikLYZV50ZxcVdBA7M3tmtIG0SoQUt6zx2tSD2MfOhV9Yzfo
-         CCu7VjCI8wBxI+XzTCwBg1B314MzZ42OIXn8UkkogaehNzT395Thq6ktksLCuszEkWeh
-         iWJcq90ghEMdi67rATGScjgVK9QIIjyrkoV6wKHgIQRIRj2Mto6lbJPWlMVfb1Kc8BP4
-         LgqzOfaRzTPSpm6fyzoNCWzS/1OA+jivnfbztkKSjI++B7Q0NXQVPa/A9Dnt23gfVkXd
-         ME2g==
+        bh=U8B/OtwCY4pSGRL8vFzNW0NoG+qLjG732nuykt2eT+Y=;
+        b=jnOu3yzGBLdl16cKhazgpLqAAB0Laio6rRzQH6d7Z6oQN4Et1DKrGQxajACC/lhvMd
+         rxb53e3z1LnusBUa7aBVsrLR3h7j5hzHcNb+mBPU+/XI+adKzS/w+2p6Tv6GuhtXSOoE
+         wYDnjbMcL+QNn0xdbJi3lpb4e8/Ljq6/kj/JJX6rs+nK6wr1fa2qZXafaQQx2RywI2D/
+         LrSE9CsOxrkTx+2GPaL+7Y1c+f15BBsiGSLwrXAWpko26IKt3/Nf3K8rmgNd707d4+r1
+         QFIOruRMs5RAbUS0mhQ/H3mDwctnTSpH/mOpiRaoqWJa38NfvMeLSPzysQe9i131DkP2
+         2OcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=A/DY8QSJBFNq4a3Yc+55E+PAZTn82eEEVx9MrvrzRjA=;
-        b=MA2uA1WYg3UGa29Jyg6C9z9VnTeXfbSVXRKOOY4kQKZ9CCGwlHxc8kQDNqG7fcFu1t
-         hOPpR/5fd+o58AhaVoLRip/5nLxU8LVR4z7LH9BoB6BJATYxg8OjWi8l9B9Rs98X/G/Q
-         U++3tOiYSpUpJUnCcwkcaTggNd36cBYsSFmmP6uwVUIhLQxPvQQYNCQLRswukGG+TSKa
-         3iNSuUCNXW93ExeFDKU22DoVavy+sUbqyuFuihlg7/RFrmXSTjDYoHqjC1f1ZIQz8Krv
-         0h4NnZ2zhkdtMCtQgm2FhJ4pD+uTpdHc0C7aAyI8EqWCi/EFuNLsmUm7yVaJqtdHAAaT
-         dQUw==
-X-Gm-Message-State: AOAM530bjA4qh4xrxVZPrXu9zoHvW9HH/SE7ITecIGcHCy47zj72XnLB
-	uoARlgPbFgUGVSr84u/Ebvp1X82V2LIQ8tVN
-X-Google-Smtp-Source: ABdhPJxUln5IpJspZGQX+1aEIBNsjCZYtjtYyYjRN2ZQIdv4FAzuDfzmb86krQx+9bYHLxNj1DQRcw==
-X-Received: by 2002:a63:d40f:: with SMTP id a15mr1928225pgh.143.1604673419586;
-        Fri, 06 Nov 2020 06:36:59 -0800 (PST)
+        bh=U8B/OtwCY4pSGRL8vFzNW0NoG+qLjG732nuykt2eT+Y=;
+        b=B65uDtAIBqa9to+c+90vU8O3V26yjdZcYCLgrqiyJBqG/UMWzcsKpavuZX46BRbH9Q
+         2ag9gJCzJ7gUOTY4Lg3SYrvpo2As57EU2LB0rrdaaF2UbbAdGgeSrLCgn+heUCzMTOnK
+         oxKbjNrpl8lLuhMJjidGNn8yAX6IUugKzUr47afrJQibZ0vxOzhhFwU4f968ubaRzrWF
+         vozcFoMAVMtnUH34TqH71xv5F7v9bqNH/4NdUlUy2WOwSCD2rdhfRC5/xVTFarikwtrE
+         fUTuh50nhr0UcLfXlX6OYusluNJ1YEi/stA3ap7dXuVPYkVbSovlJCU0goUE+tky0rFX
+         mBWA==
+X-Gm-Message-State: AOAM533RMsncXCSCsPSUUiXAFTTkWkVNydg1jBOZiD+w2UpFsOnpB4c2
+	FL3idmEDSa5/yEGlv9hrZ5UzmWx/55up9bZu
+X-Google-Smtp-Source: ABdhPJzFSsrdpSHG1r4NM/+nh2KxxCOyY+G5wK/DtIC+svr0ePUBRF1ERFC1Of8WKuTzzYftA6U/Fw==
+X-Received: by 2002:aa7:9ece:0:b029:18b:ac4c:ac94 with SMTP id r14-20020aa79ece0000b029018bac4cac94mr2236166pfq.5.1604673422223;
+        Fri, 06 Nov 2020 06:37:02 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.36.58
+        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.37.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 06:36:58 -0800 (PST)
+        Fri, 06 Nov 2020 06:37:01 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/20] bluez5: update to 5.55 to fix CVE-2020-27153
-Date: Fri,  6 Nov 2020 04:35:30 -1000
-Message-Id: <698c0cbf77ebce6b336f823f826aaece0cc9ca32.1604672839.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/20] sqlite3: fix CVE-2020-13434
+Date: Fri,  6 Nov 2020 04:35:31 -1000
+Message-Id: <0338c2eb099532eb3b9a9de038f6b1a757348513.1604672839.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1604672838.git.steve@sakoman.com>
 References: <cover.1604672838.git.steve@sakoman.com>
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+CVE: CVE-2020-13434
 
-Version 5.55 is a security/bug fix release
+Reference: https://nvd.nist.gov/vuln/detail/CVE-2020-13434
 
-Release note:
-https://github.com/bluez/bluez/commit/5a180f2ec9edfacafd95e5fed20d36fe8e077f07
-
-CVE reference:
-
-https://nvd.nist.gov/vuln/detail/CVE-2020-27153
-
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c2895e3e4eabca64cbcc8682e72d25026df5e5f0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../bluez5/{bluez5_5.54.bb => bluez5_5.55.bb}                 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.54.bb => bluez5_5.55.bb} (91%)
+ .../sqlite/files/CVE-2020-13434.patch         | 48 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.31.1.bb |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13434.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.54.bb b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-similarity index 91%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.54.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-index 260eee1402..8190924562 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.54.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-@@ -1,7 +1,7 @@
- require bluez5.inc
- 
--SRC_URI[md5sum] = "e637feb2dbb7582bbbff1708367a847c"
--SRC_URI[sha256sum] = "68cdab9e63e8832b130d5979dc8c96fdb087b31278f342874d992af3e56656dc"
-+SRC_URI[md5sum] = "94972b8bc7ade60c72b0ffa6ccff2c0a"
-+SRC_URI[sha256sum] = "8863717113c4897e2ad3271fc808ea245319e6fd95eed2e934fae8e0894e9b88"
- 
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
+diff --git a/meta/recipes-support/sqlite/files/CVE-2020-13434.patch b/meta/recipes-support/sqlite/files/CVE-2020-13434.patch
+new file mode 100644
+index 0000000000..40c5e6f2ce
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/CVE-2020-13434.patch
+@@ -0,0 +1,48 @@
++From dd6c33d372f3b83f4fe57904c2bd5ebba5c38018 Mon Sep 17 00:00:00 2001
++From: drh <drh@noemail.net>
++Date: Sat, 23 May 2020 19:58:07 +0000
++Subject: [PATCH] Limit the "precision" of floating-point to text conversions
++ in the printf() function to 100,000,000.  Fix for ticket [23439ea582241138].
++
++FossilOrigin-Name: d08d3405878d394e08e5d3af281246edfbd81ca74cc8d16458808591512fb93d
++
++Upstream-Status: Backport
++CVE: CVE-2020-13434
++
++Reference to upstream patch:
++https://github.com/sqlite/sqlite/commit/dd6c33d372f3b83f4fe57904c2bd5ebba5c38018
++
++Patch converted to amalgamation format
++
++Signed-off-by: Steve Sakoman <steve@sakoman.com>
++---
++diff --git a/sqlite3.c b/sqlite3.c
++index 55dc686..5ff2c14 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -28147,6 +28147,13 @@ static char *printfTempBuf(sqlite3_str *pAccum, sqlite3_int64 n){
++ #endif
++ #define etBUFSIZE SQLITE_PRINT_BUF_SIZE  /* Size of the output buffer */
++ 
+++/*
+++** Hard limit on the precision of floating-point conversions.
+++*/
+++#ifndef SQLITE_PRINTF_PRECISION_LIMIT
+++# define SQLITE_FP_PRECISION_LIMIT 100000000
+++#endif
+++
++ /*
++ ** Render a string given by "fmt" into the StrAccum object.
++ */
++@@ -28468,6 +28475,11 @@ SQLITE_API void sqlite3_str_vappendf(
++         length = 0;
++ #else
++         if( precision<0 ) precision = 6;         /* Set default precision */
+++#ifdef SQLITE_FP_PRECISION_LIMIT
+++        if( precision>SQLITE_FP_PRECISION_LIMIT ){
+++          precision = SQLITE_FP_PRECISION_LIMIT;
+++        }
+++#endif
++         if( realvalue<0.0 ){
++           realvalue = -realvalue;
++           prefix = '-';
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+index e5071b48bb..c8225fff15 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+@@ -8,6 +8,7 @@ SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2020-11656.patch \
+            file://CVE-2020-11655.patch \
+            file://CVE-2020-15358.patch \
++           file://CVE-2020-13434.patch \
+            "
+ SRC_URI[md5sum] = "2d0a553534c521504e3ac3ad3b90f125"
+ SRC_URI[sha256sum] = "62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae"
 -- 
 2.17.1
 
