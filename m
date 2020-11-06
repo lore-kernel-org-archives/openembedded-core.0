@@ -1,103 +1,214 @@
 Received: from mga01.intel.com (mga01.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.8284.1604644110706190146
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 22:28:52 -0800
+ Thu, 05 Nov 2020 22:28:54 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: igAR4ENlNyzkC5cncGsQv+r0O8lAaVzJxf1TIP/YIi2mtX6jLwL3dENPL71OIIjbjfYVPyWk+/
- xSz6iQieSgUg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="187428897"
+IronPort-SDR: gHCYFvVtj7hufDESmFeIbKYYPEOmL4CPm94BcG4s+Pudpk6nKFK/BVhJjLd4J3n1XUBHn9m8TJ
+ 7bS2p2rRDtmQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="187428908"
 X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="187428897"
+   d="scan'208";a="187428908"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:52 -0800
-IronPort-SDR: 6uGj3UBj0DWIFOjPGgZmr/uKcMO6PizqznF+oYRpZQlpnvvaaedL5jrGSJiUs9YLEur/X9Pv2p
- Hg7n16UKDt+A==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:54 -0800
+IronPort-SDR: o3eyXbh8QnDE2mm3U4QKlQodG3UFiuh/wsjBphTX5mi+Wehsct53YkTXh8Kk26umx6zPf3sRfU
+ gOpybYyQh6FQ==
 X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="321490086"
+   d="scan'208";a="321490102"
 Received: from gcquah-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.35.239])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:51 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:52 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 16/22] libsdl2: Fix directfb SDL_RenderFillRect
-Date: Fri,  6 Nov 2020 14:28:14 +0800
-Message-Id: <0f1436793b0db18a77f2c4f06b85e78162441b8d.1604643684.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 17/22] grub: clean up CVE patches
+Date: Fri,  6 Nov 2020 14:28:15 +0800
+Message-Id: <dfbeace839cf80d428725cb94de0887e59872bd9.1604643684.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1604643684.git.anuj.mittal@intel.com>
 References: <cover.1604643684.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mark Jonas <toertel@gmail.com>
+From: Yongxin Liu <yongxin.liu@windriver.com>
 
-Refactoring of SDL2 internal API has broken SDL_RenderFillRect for
-DirectFB. The problem has already been fixed upstream.
+Clean up several patches introduced in commit 6732918498 ("grub:fix
+several CVEs in grub 2.04").
 
-(From OE-Core rev: a7c8dfc1f9beebeb9da7f61b323d85fba82ec1cb)
+1) Add CVE tags to individual patches.
+2) Rename upstream patches and prefix them with CVE tags.
+3) Add description of reference to upstream patch.
 
-Signed-off-by: Mark Jonas <toertel@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e9565315265d4c5a17a27317d721ce5598523efc)
+Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../libsdl2/directfb-renderfillrect-fix.patch | 33 +++++++++++++++++++
- .../libsdl2/libsdl2_2.0.12.bb                 |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
+ ...14308-calloc-Use-calloc-at-most-places.patch} | 10 +++++++---
+ ...rflow-checking-primitives-where-we-do-.patch} | 10 +++++++---
+ ...-use-after-free-when-redefining-a-func.patch} | 10 +++++++---
+ ...eger-overflows-in-initrd-size-handling.patch} | 10 +++++++---
+ ...re-we-always-have-an-overflow-checking.patch} |  0
+ ...-Add-LVM-cache-logical-volume-handling.patch} |  0
+ ...ome-arithmetic-primitives-that-check-f.patch} |  0
+ ...unused-fields-from-grub_script_functio.patch} |  0
+ meta/recipes-bsp/grub/grub2.inc                  | 16 ++++++++--------
+ 9 files changed, 36 insertions(+), 20 deletions(-)
+ rename meta/recipes-bsp/grub/files/{0003-calloc-Use-calloc-at-most-places.patch => CVE-2020-14308-calloc-Use-calloc-at-most-places.patch} (99%)
+ rename meta/recipes-bsp/grub/files/{0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch => CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch} (99%)
+ rename meta/recipes-bsp/grub/files/{0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch => CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch} (95%)
+ rename meta/recipes-bsp/grub/files/{0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch => CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch} (96%)
+ rename meta/recipes-bsp/grub/files/{0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch => calloc-Make-sure-we-always-have-an-overflow-checking.patch} (100%)
+ rename meta/recipes-bsp/grub/files/{0002-lvm-Add-LVM-cache-logical-volume-handling.patch => lvm-Add-LVM-cache-logical-volume-handling.patch} (100%)
+ rename meta/recipes-bsp/grub/files/{0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch => safemath-Add-some-arithmetic-primitives-that-check-f.patch} (100%)
+ rename meta/recipes-bsp/grub/files/{0006-script-Remove-unused-fields-from-grub_script_functio.patch => script-Remove-unused-fields-from-grub_script_functio.patch} (100%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
-new file mode 100644
-index 0000000000..83d4f4b1ec
---- /dev/null
-+++ b/meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
-@@ -0,0 +1,33 @@
-+# HG changeset patch
-+# User Sam Lantinga <slouken@libsdl.org>
-+# Date 1590793369 25200
-+# Node ID a90089f75990e8b07a1dcf931c5f8a580ae343bf
-+# Parent  a9b4bd264f3cbedc4f3287b3ec6b32311370ba85
-+Fixed bug 5146 - SDL_RenderFillRect doesn't work in DirectFB
-+
-+Lacky
-+
-+It looks like refactoring of SDL2 internal API has broken SDL_RenderFillRect for DirectFB. In new version function SDL_RenderFillRect returns 0, but rectangle is not visible.
-+
-+Replacing "count" with "len" in the argument list for SDL_memcpy in DirectFB_QueueFillRects fixes problem.
-+
-+--
-+
-+The patch was imported from the libsdl Mercurial repository
-+(https://hg.libsdl.org/SDL) as of changeset id a90089f75990.
+diff --git a/meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch b/meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
+similarity index 99%
+rename from meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch
+rename to meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
+index eb3e42c3af..637e368cb0 100644
+--- a/meta/recipes-bsp/grub/files/0003-calloc-Use-calloc-at-most-places.patch
++++ b/meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
+@@ -19,11 +19,15 @@ Among other issues, this fixes:
+ 
+ Fixes: CVE-2020-14308
+ 
+-Upstream-Status: Backport [commit f725fa7cb2ece547c5af01eeeecfe8d95802ed41
+-from https://git.savannah.gnu.org/git/grub.git]
+-
+ Signed-off-by: Peter Jones <pjones@redhat.com>
+ Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
 +
 +Upstream-Status: Backport
++CVE: CVE-2020-14308
 +
-+Signed-off-by: Mark Jonas <toertel@gmail.com>
++Reference to upstream patch:
++https://git.savannah.gnu.org/cgit/grub.git/commit/?id=f725fa7cb2ece547c5af01eeeecfe8d95802ed41
 +
-+diff -r a9b4bd264f3c -r a90089f75990 src/video/directfb/SDL_DirectFB_render.c
-+--- a/src/video/directfb/SDL_DirectFB_render.c	Thu May 21 00:06:09 2020 -0400
-++++ b/src/video/directfb/SDL_DirectFB_render.c	Fri May 29 16:02:49 2020 -0700
-+@@ -626,7 +626,7 @@
-+     }
-+
-+     cmd->data.draw.count = count;
-+-    SDL_memcpy(verts, rects, count);
-++    SDL_memcpy(verts, rects, len);
-+     return 0;
-+ }
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-index 8ecf161f69..0b75eb0c1d 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-@@ -19,6 +19,7 @@ PROVIDES = "virtual/libsdl2"
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
-            file://directfb-spurious-curly-brace-missing-e.patch \
-+           file://directfb-renderfillrect-fix.patch \
- "
+ [YL: don't patch on grub-core/lib/json/json.c, which is not existing in grub 2.04]
+ Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+ ---
+diff --git a/meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+similarity index 99%
+rename from meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+rename to meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+index 146602cd3e..896a2145d4 100644
+--- a/meta/recipes-bsp/grub/files/0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch
++++ b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+@@ -26,11 +26,15 @@ Among other issues, this fixes:
  
- S = "${WORKDIR}/SDL2-${PV}"
+ Fixes: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
+ 
+-Upstream-Status: Backport [commit 3f05d693d1274965ffbe4ba99080dc2c570944c6
+-from https://git.savannah.gnu.org/git/grub.git]
+-
+ Signed-off-by: Peter Jones <pjones@redhat.com>
+ Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
++
++Reference to upstream patch:
++https://git.savannah.gnu.org/cgit/grub.git/commit/?id=3f05d693d1274965ffbe4ba99080dc2c570944c6
++
+ Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+ ---
+  grub-core/commands/legacycfg.c | 29 +++++++++++++++++++-----
+diff --git a/meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch b/meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+similarity index 95%
+rename from meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+rename to meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+index fedfc5d203..329e554a68 100644
+--- a/meta/recipes-bsp/grub/files/0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch
++++ b/meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+@@ -19,11 +19,15 @@ dependent on the current behaviour without being broken.
+ 
+ Fixes: CVE-2020-15706
+ 
+-Upstream-Status: Backport [commit 426f57383d647406ae9c628c472059c27cd6e040
+-from https://git.savannah.gnu.org/git/grub.git]
+-
+ Signed-off-by: Chris Coulson <chris.coulson@canonical.com>
+ Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-15706
++
++Reference to upstream patch:
++https://git.savannah.gnu.org/cgit/grub.git/commit/?id=426f57383d647406ae9c628c472059c27cd6e040
++
+ Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+ ---
+  grub-core/script/execute.c  |  2 ++
+diff --git a/meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch b/meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+similarity index 96%
+rename from meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+rename to meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+index 0731f0ec53..d4f9300c0a 100644
+--- a/meta/recipes-bsp/grub/files/0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch
++++ b/meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+@@ -7,12 +7,16 @@ These could be triggered by a crafted filesystem with very large files.
+ 
+ Fixes: CVE-2020-15707
+ 
+-Upstream-Status: Backport [commit e7b8856f8be3292afdb38d2e8c70ad8d62a61e10
+-from https://git.savannah.gnu.org/git/grub.git]
+-
+ Signed-off-by: Colin Watson <cjwatson@debian.org>
+ Reviewed-by: Jan Setje-Eilers <jan.setjeeilers@oracle.com>
+ Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-15707
++
++Reference to upstream patch:
++https://git.savannah.gnu.org/cgit/grub.git/commit/?id=e7b8856f8be3292afdb38d2e8c70ad8d62a61e10
++
+ Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+ ---
+  grub-core/loader/linux.c | 74 +++++++++++++++++++++++++++++++++++-------------
+diff --git a/meta/recipes-bsp/grub/files/0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch b/meta/recipes-bsp/grub/files/calloc-Make-sure-we-always-have-an-overflow-checking.patch
+similarity index 100%
+rename from meta/recipes-bsp/grub/files/0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch
+rename to meta/recipes-bsp/grub/files/calloc-Make-sure-we-always-have-an-overflow-checking.patch
+diff --git a/meta/recipes-bsp/grub/files/0002-lvm-Add-LVM-cache-logical-volume-handling.patch b/meta/recipes-bsp/grub/files/lvm-Add-LVM-cache-logical-volume-handling.patch
+similarity index 100%
+rename from meta/recipes-bsp/grub/files/0002-lvm-Add-LVM-cache-logical-volume-handling.patch
+rename to meta/recipes-bsp/grub/files/lvm-Add-LVM-cache-logical-volume-handling.patch
+diff --git a/meta/recipes-bsp/grub/files/0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch b/meta/recipes-bsp/grub/files/safemath-Add-some-arithmetic-primitives-that-check-f.patch
+similarity index 100%
+rename from meta/recipes-bsp/grub/files/0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch
+rename to meta/recipes-bsp/grub/files/safemath-Add-some-arithmetic-primitives-that-check-f.patch
+diff --git a/meta/recipes-bsp/grub/files/0006-script-Remove-unused-fields-from-grub_script_functio.patch b/meta/recipes-bsp/grub/files/script-Remove-unused-fields-from-grub_script_functio.patch
+similarity index 100%
+rename from meta/recipes-bsp/grub/files/0006-script-Remove-unused-fields-from-grub_script_functio.patch
+rename to meta/recipes-bsp/grub/files/script-Remove-unused-fields-from-grub_script_functio.patch
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 7c53193ebd..ff17dbe8b7 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -19,14 +19,14 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
+            file://grub-module-explicitly-keeps-symbole-.module_license.patch \
+            file://0001-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
+            file://CVE-2020-10713.patch \
+-           file://0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch \
+-           file://0002-lvm-Add-LVM-cache-logical-volume-handling.patch \
+-           file://0003-calloc-Use-calloc-at-most-places.patch \
+-           file://0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch \
+-           file://0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch \
+-           file://0006-script-Remove-unused-fields-from-grub_script_functio.patch \
+-           file://0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
+-           file://0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
++           file://calloc-Make-sure-we-always-have-an-overflow-checking.patch \
++           file://lvm-Add-LVM-cache-logical-volume-handling.patch \
++           file://CVE-2020-14308-calloc-Use-calloc-at-most-places.patch \
++           file://safemath-Add-some-arithmetic-primitives-that-check-f.patch \
++           file://CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch \
++           file://script-Remove-unused-fields-from-grub_script_functio.patch \
++           file://CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
++           file://CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
+ "
+ SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
+ SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
 -- 
 2.28.0
 
