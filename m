@@ -1,87 +1,140 @@
 Received: from mga01.intel.com (mga01.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.8284.1604644110706190146
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 22:28:58 -0800
+ Thu, 05 Nov 2020 22:29:00 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: HTWQXJJoxOxhXvDa93oAxA/hWI40jb8RXavEthJvn/6VX6Lg/Lbb+MJ4Tz6oncw11pJ+00g0Bw
- rBqGpW0NAXMg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="187428919"
+IronPort-SDR: FeXTi//F3AAzk4wQhm/MUQsyCr6KBv2TTjgwF8NQIU/+tPTyZQTQcEvFu5Jn4zVpsQddW2jc+l
+ QVbwEnCmJ93w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="187428921"
 X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="187428919"
+   d="scan'208";a="187428921"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:58 -0800
-IronPort-SDR: uw4MJ/cQf04ePFRUYBN4MPa6b79rARxOvwAL9NYtd8dr+AOIAVItzQNHWJ1wuvmHQAX7LVEpHR
- Y9ut5T/gxb5Q==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:59 -0800
+IronPort-SDR: cReqB0ab1Zevw3Rp5WmEeNABKT92U6jNQWMWmqgYiA2KadIINthCt96LAk0DAdjIBytiD0OvoN
+ +quqpv/Y8GDw==
 X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="321490135"
+   d="scan'208";a="321490138"
 Received: from gcquah-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.35.239])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:57 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:28:58 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 20/22] recipes-core/busybox: fixup licensing information
-Date: Fri,  6 Nov 2020 14:28:18 +0800
-Message-Id: <003550eddbce261f3d6294602552cc433a0689c5.1604643684.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 21/22] apt: remove host contamination with gtest
+Date: Fri,  6 Nov 2020 14:28:19 +0800
+Message-Id: <111178b8f26345679432cf7bbf3cd0d20097c125.1604643684.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1604643684.git.anuj.mittal@intel.com>
 References: <cover.1604643684.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Yann E. MORIN" <yann.morin.1998@free.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Commit 7d32417b4d (busybox: Correct the name of the bzip2 license)
-changes the licesne from 'bzip2' to 'bzip2-1.0.6' on the rationale
-that the 'bzip2 license was renamed from "bzip2" to "bzip2-1.0.6"
-[...] to match the official SPDX identifier.'
+(From OE-Core rev: 41aa60cdb1e26617e1eeac95a6ffcdd6561c539f)
 
-Though the above is true for the bzip2 and pbzip2 packages, the bzip2
-code bundled in busybox is a copy from the bzip2 1.0.4 version, not the
-1.0.6 version.
-
-As such, using bzip2-1.0.6 is wrong.
-
-Unfortunately, there is no official SPDX license identifier for this
-bzip2 1.0.4 version, so we just mimick the existing ones (bzip2-1.0.5
-and bzip2-1.0.6) by using bzip2-1.0.4.
-
-Also, there is a license file attached to that, so we add it to the
-list.
-
-(From OE-Core rev: 6238ee3ecd385cbadd8e75eb8b22a96d9cb13639)
-
-Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0776bf6600c42cec2961d3f6d33c8c9c09cbb1ce)
+(cherry picked from commit 600cb136cd3ed474f3e890297f4768071358fc13)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ ...t-configure-packages-on-installation.patch |  2 +-
+ ...-init-tables-from-dpkg-configuration.patch |  2 +-
+ ...n-dpkg-configure-a-at-the-end-of-our.patch |  2 +-
+ ...ibapt-do-not-use-gtest-from-the-host.patch | 40 +++++++++++++++++++
+ meta/recipes-devtools/apt/apt_1.8.2.1.bb      |  1 +
+ 5 files changed, 44 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 45aaa2b41c..e0522be729 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -5,10 +5,11 @@ BUGTRACKER = "https://bugs.busybox.net/"
- 
- DEPENDS += "kern-tools-native virtual/crypt"
- 
--# bzip2 applet in busybox is based on lightly-modified bzip2 source
-+# bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
- # the GPL is version 2 only
--LICENSE = "GPLv2 & bzip2-1.0.6"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
-+LICENSE = "GPLv2 & bzip2-1.0.4"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
-+                    file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
- 
- SECTION = "base"
- 
+diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch
+index 2322bd8e78..81b328a2ee 100644
+--- a/meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch
++++ b/meta/recipes-devtools/apt/apt/0001-Do-not-configure-packages-on-installation.patch
+@@ -1,4 +1,4 @@
+-From 1ad21140787a6b8b0f774f75b50444d2c30a56f6 Mon Sep 17 00:00:00 2001
++From 96d23fc57d1ff9c851d563d6d6a6c4752dc4f1b6 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 21 May 2020 20:28:12 +0000
+ Subject: [PATCH] Do not configure packages on installation
+diff --git a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
+index d3d3ab026d..1417153e81 100644
+--- a/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
++++ b/meta/recipes-devtools/apt/apt/0001-Do-not-init-tables-from-dpkg-configuration.patch
+@@ -1,4 +1,4 @@
+-From b18d7aa7d71b53b86bac21cd1d8c3accabb28f2b Mon Sep 17 00:00:00 2001
++From bf45c314867e5fb12141803fba06f3e45679d628 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 10 May 2019 16:47:38 +0200
+ Subject: [PATCH] Do not init tables from dpkg configuration
+diff --git a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+index 8c4cc04503..37f969690c 100644
+--- a/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
++++ b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
+@@ -1,4 +1,4 @@
+-From 742fbb243f99e940c3e6b31296f7f416f550a57a Mon Sep 17 00:00:00 2001
++From 34700bebc52659e7e3eecd252f65bd36e669eee8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Thu, 21 May 2020 20:13:25 +0000
+ Subject: [PATCH] Revert "always run 'dpkg --configure -a' at the end of our
+diff --git a/meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch b/meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch
+new file mode 100644
+index 0000000000..503b5a5c0b
+--- /dev/null
++++ b/meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch
+@@ -0,0 +1,40 @@
++From 28e389a0d1275e7693df84a7d4a58b28364be1a9 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 22 Oct 2020 17:33:38 +0200
++Subject: [PATCH] test/libapt: do not use gtest from the host
++
++This really does not work when cross-compiling.
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ test/libapt/CMakeLists.txt | 16 ----------------
++ 1 file changed, 16 deletions(-)
++
++diff --git a/test/libapt/CMakeLists.txt b/test/libapt/CMakeLists.txt
++index 035ff07..280b83c 100644
++--- a/test/libapt/CMakeLists.txt
+++++ b/test/libapt/CMakeLists.txt
++@@ -6,22 +6,6 @@ find_path(GTEST_ROOT src/gtest.cc
++ find_package(GTest)
++ set(GTEST_DEPENDENCIES)
++ 
++-if(NOT GTEST_FOUND AND EXISTS ${GTEST_ROOT})
++-   include(ExternalProject)
++-   ExternalProject_Add(gtest PREFIX ./gtest
++-                             SOURCE_DIR ${GTEST_ROOT}
++-                             INSTALL_COMMAND true)
++-
++-   link_directories(${CMAKE_CURRENT_BINARY_DIR}/gtest/src/gtest-build)
++-
++-   set(GTEST_LIBRARIES "-lgtest")
++-   set(GTEST_DEPENDENCIES "gtest")
++-   set(GTEST_FOUND TRUE)
++-   find_path(GTEST_INCLUDE_DIRS NAMES gtest/gtest.h PATHS ${GTEST_ROOT}/include)
++-
++-   message(STATUS "Found GTest at ${GTEST_ROOT}, headers at ${GTEST_INCLUDE_DIRS}")
++-endif()
++-
++ if(GTEST_FOUND)
++    # gtest produces some warnings with the set of warnings we activate,
++    # so disable the offending warnings while compiling tests for now
+diff --git a/meta/recipes-devtools/apt/apt_1.8.2.1.bb b/meta/recipes-devtools/apt/apt_1.8.2.1.bb
+index bd1f4f39c3..de0e150a2e 100644
+--- a/meta/recipes-devtools/apt/apt_1.8.2.1.bb
++++ b/meta/recipes-devtools/apt/apt_1.8.2.1.bb
+@@ -8,6 +8,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/a/apt/${BPN}_${PV}.tar.xz \
+            file://0001-Disable-documentation-directory-altogether.patch \
+            file://0001-Fix-musl-build.patch \
+            file://0001-CMakeLists.txt-avoid-changing-install-paths-based-on.patch \
++           file://0001-test-libapt-do-not-use-gtest-from-the-host.patch \
+            "
+      
+ SRC_URI_append_class-native = " \
 -- 
 2.28.0
 
