@@ -1,76 +1,112 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web12.9579.1604656931455190265
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+ by mx.groups.io with SMTP id smtpd.web11.10056.1604658517146902125
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2020 02:02:11 -0800
+ Fri, 06 Nov 2020 02:28:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RqzApX96;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id x7so681535wrl.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 02:02:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=EI+Tu/yW0HAcwRz5MnMM5WprQxXRtO+fKtrIShebw8E=;
-        b=RqzApX96KAuYoA4v5E8hYuUtlPh5+cpx68yntHiRRaeA4aF4o8yxNERQjJZAieKWa0
-         z3+7wYzpvpo9CYwfldbeVKC5126AHujaBvIsawGL6wuf4Z+LwugXKDI+mfbsb85p1vcJ
-         faXbpWfIIbOfOYiUFbX3bOqU6c1S8lQg9Ymp8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=EI+Tu/yW0HAcwRz5MnMM5WprQxXRtO+fKtrIShebw8E=;
-        b=LQuh/7mLqq4pnlrOruVDpNb7ZqlSptvZqZKynkflRuVa0MVxJOxCorCN3cx0h9wFbg
-         txNp8UbwKCqw4wbq0m4lN+PgZMXoY+wrcrQ7c/X2Qq8/mXIB+m54bN+Exp/D3IJk1pqD
-         rMPNsUC3r1Nv7Z6A8OTUJ6EF4fT8BzW7KE5NOE5OtpsqoSG+P2kAXVJKwuYHazmJBKE6
-         x3lGpqfKexP372qnqTDUg3Eoeh7IRU/RtGZOwcSFU+IJXtXYc2JYtuTnK+fdnDkGn/bZ
-         H66aUXDLOHtYGImeBn7DZBVJSR9fDiRq4VBHt8nsK4+tqPEX8Lq3bOaBIxm+PL6TTuAo
-         24tw==
-X-Gm-Message-State: AOAM533WpTDsTyz7OaNrjp2XIJ7oN1VeR4oKwlhijg+s6zcwnkDNx6oF
-	yUZDDr2kjWZwKqCjqDFdGA1b1g==
-X-Google-Smtp-Source: ABdhPJyau1dYDwqyBFqNcpyPytuukbZ9N6BcbR1Am0SGcoKyqpP1FSsObcIC59sftekXaZy1aE5G/A==
-X-Received: by 2002:a5d:6652:: with SMTP id f18mr1667356wrw.186.1604656929891;
-        Fri, 06 Nov 2020 02:02:09 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 8.b.5.4.f.1.8.b.1.d.2.1.c.c.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (8.b.5.4.f.1.8.b.1.d.2.1.c.c.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:90cc:12d1:b81f:45b8])
-        by smtp.gmail.com with ESMTPSA id k18sm1318383wrx.96.2020.11.06.02.02.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 02:02:09 -0800 (PST)
-Message-ID: <f75a25804d34913e592233c06a9dfdafe6be0830.camel@linuxfoundation.org>
-Subject: Re: [RESEND for ML] wic: imager/direct: passno is set to 0 for all entries in the fstab
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Claudius Heine <ch@denx.de>, openembedded-core@lists.openembedded.org, 
- Henning Schild <henning.schild@siemens.com>, Tom Zanussi
- <tom.zanussi@linux.intel.com>
-Date: Fri, 06 Nov 2020 10:02:05 +0000
-In-Reply-To: <d99177cb-0258-dc14-6f39-8b00e2b64415@denx.de>
-References: <d99177cb-0258-dc14-6f39-8b00e2b64415@denx.de>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: ch@denx.de)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 4CSGnb2jYLz1rwbT;
+	Fri,  6 Nov 2020 11:28:35 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 4CSGnb24qZz1qsXb;
+	Fri,  6 Nov 2020 11:28:35 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+	with ESMTP id CuNfJ324fAjO; Fri,  6 Nov 2020 11:28:34 +0100 (CET)
+X-Auth-Info: wzEBde7Up3vvzjhedR2kkN6MBlTfHpU8rZ7ru8SPQr4=
+Received: from localhost (dslb-088-074-220-167.088.074.pools.vodafone-ip.de [88.74.220.167])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Fri,  6 Nov 2020 11:28:34 +0100 (CET)
+From: "Claudius Heine" <ch@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org,
+	Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Henning Schild <henning.schild@siemens.com>,
+	Claudius Heine <ch@denx.de>
+Subject: [PATCH] wic: added fspassno parameter to partition
+Date: Fri,  6 Nov 2020 11:27:22 +0100
+Message-Id: <20201106102722.3674813-1-ch@denx.de>
+X-Mailer: git-send-email 2.29.1
+In-Reply-To: <f75a25804d34913e592233c06a9dfdafe6be0830.camel@linuxfoundation.org>
+References: <f75a25804d34913e592233c06a9dfdafe6be0830.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2020-11-06 at 10:07 +0100, Claudius Heine wrote:
-> I looked into periodic file system checks for ext* partitions, in
-> order to increase robustness for systems that use those file systems
-> and was  surprised that the fstab that wic generates that `0` hard
-> coded as the  passno parameter [1]. This prevents for instance
-> systemd-fsck@(8) [2]  from running checks on those file systems.
-> 
-> It seems that wic/mic generated a fstab with passno=0 from the
-> beginning 
-> [3]. What is the reason for that? Was it a conscious decision to do 
-> that, or just copy&paste for a different project?
-> 
-> How would a way forward look like? Should a patch that changes passno
-> from 0 to 2 be enough, or do we rather have this parameter
-> configurable somehow?
+The `fspassno` parameter allows to overwrite the value of the last
+column (`fs_passno`) in the /etc/fstab of the target root file system.
+This allows to have periodic file system checks.
 
-I suspect changing things so fsck was run at every boot would upset
-existing use cases, particularly on ext2/3 systems without a journal.
-The only option would therefore me to make it configurable.
+Signed-off-by: Claudius Heine <ch@denx.de>
+---
+ scripts/lib/wic/help.py                  | 6 ++++++
+ scripts/lib/wic/ksparser.py              | 1 +
+ scripts/lib/wic/partition.py             | 1 +
+ scripts/lib/wic/plugins/imager/direct.py | 3 ++-
+ 4 files changed, 10 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index bd3a2b97df..dd0a02fc12 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -939,6 +939,12 @@ DESCRIPTION
+                       quotes.  If not specified, the default string is
+                       "defaults".
+=20
++         --fspassno: Specifies the order in which filesystem checks are =
+done
++                     at boot time by fsck.  See fs_passno parameter of
++                     fstab(5).  This parameter will be copied into the
++                     /etc/fstab file of the installed system.  If not
++                     specified the default value of "0" will be used.
++
+          --label label: Specifies the label to give to the filesystem
+                         to be made on the partition. If the given
+                         label is already in use by another filesystem,
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 913e3283dc..b1ade01ed4 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -155,6 +155,7 @@ class KickStart():
+         part.add_argument('--change-directory')
+         part.add_argument("--extra-space", type=3Dsizetype("M"))
+         part.add_argument('--fsoptions', dest=3D'fsopts')
++        part.add_argument('--fspassno', dest=3D'fspassno')
+         part.add_argument('--fstype', default=3D'vfat',
+                           choices=3D('ext2', 'ext3', 'ext4', 'btrfs',
+                                    'squashfs', 'vfat', 'msdos', 'swap'))
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index ebe250b00d..44b17b5bd7 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -33,6 +33,7 @@ class Partition():
+         self.include_path =3D args.include_path
+         self.change_directory =3D args.change_directory
+         self.fsopts =3D args.fsopts
++        self.fspassno =3D args.fspassno
+         self.fstype =3D args.fstype
+         self.label =3D args.label
+         self.use_label =3D args.use_label
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/p=
+lugins/imager/direct.py
+index 55db826e93..c2225ba067 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -138,8 +138,9 @@ class DirectPlugin(ImagerPlugin):
+                 device_name =3D "/dev/%s%s%d" % (part.disk, prefix, part=
+.realnum)
+=20
+             opts =3D part.fsopts if part.fsopts else "defaults"
++            passno =3D part.fspassno if part.fspassno else "0"
+             line =3D "\t".join([device_name, part.mountpoint, part.fstyp=
+e,
+-                              opts, "0", "0"]) + "\n"
++                              opts, "0", passno]) + "\n"
+=20
+             fstab_lines.append(line)
+             updated =3D True
+--=20
+2.20.1
 
