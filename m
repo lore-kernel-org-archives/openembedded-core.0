@@ -1,103 +1,87 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web08.12317.1604673402222487768
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web12.12287.1604673404640902124
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Nov 2020 06:36:42 -0800
+ Fri, 06 Nov 2020 06:36:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=d0/Rmd1e;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id r186so1095589pgr.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:36:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qqsgzBSD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id v12so1479025pfm.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Nov 2020 06:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=pZ3YVNBFr1ZhiTjAAIHhlWFCSroRqzNIMvEXL0vwKGk=;
-        b=d0/Rmd1edYi437iELbMtwy6VPNivOcZRnXuputmztRnWcevex4bXjjFj/0F1vJoFuC
-         SM9gvRTCEO5IhU75XftC42jOy5mnjn8Xs0gQlJspr4Di6DYd6BxBhfF0/HxDCPF1frOG
-         1o//uzv3KnaH+R03fXWxv7rmGtjta+57aD9I4qmfLozXS8AKAbQaBFRM/sN4D548fmxP
-         EuOGWH9b70j6A4TsXb4TJGSnswUTO6pmFNquduRx0lAbZ8E11V+HqwSfbttZ9g7xNEig
-         LZB+LiosA81y+69gxdGxYPIRdD/GfQTTI9SsY84SfVNzMtS5kPyLBPxCLA/NLJzyEDt9
-         jBig==
+        bh=C4Ax1rOnERYD2jsAYGPVvNRVL22N5lwEUc5t0qzfFa4=;
+        b=qqsgzBSDZRyzH/MxEs3bnNZv+1u3wp1BlYMqjzys5jzx1zbaROU7/wpL9u9bTVECR0
+         91G9teJ9tDoYKJKOGvCcKtsUfywlAI/5t0YdmExSB889zYOnOrc9vRXclup10XPC3k8B
+         uygUY2fn2V43kbiZB2XZmvJTe/yMaZyTrsyhmSa4gSfjRo38JTpXSfEwfMCz+91iKRFj
+         PalaIwq0s0VaE0vXDNAz752vPwky+qrErRAtDS/cijCKpc+LQV//w77060qh+09Rimnu
+         nKAY1FOlk06d2e9B76/iWXHqsn7BhqV1dke2aASh0NeeF1CpFxooD0Dr4Yru2YvJ3/Aj
+         4o3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=pZ3YVNBFr1ZhiTjAAIHhlWFCSroRqzNIMvEXL0vwKGk=;
-        b=DOzCB8UxilU1iC9BApcieDw0cetRmqPXKwsUF1s/0f5jTdHRTWYm472Kl5j97EBGhj
-         nGszKmXNH6BAOZnSaFAFL7MxUAb3J3AJ84Aub/kgpE60y9nZgTd5iNwWhoWJTakiAjig
-         rg2GCmyrUZVwwtqFcMdmVYP4XWFFBYV2SagxcfWzc0a30Ajxi4Uj3wQw5tgueH6VQ9N1
-         kQMR1Jeuw3RFAiPN0GKF6HbQ534roEHekADOviLl9mZqBeh55wMk94qSn5gQNBRdSVKp
-         Ph0WDcFVka13PXLZy6/EdaSTVCaptfF28E+qb9NfKDqVWRw6oXznFP4H4pjOfm0GW366
-         y2+w==
-X-Gm-Message-State: AOAM532nwUpeJhNCt3aq4fFnT+UBncAwrcMOkOHhp5PlMiMc/Ot6MsFS
-	g/b/BlAZjgeDWRHKIUF4Sy2EsxqSIFoDHK2V
-X-Google-Smtp-Source: ABdhPJzVcsXir9FDC4CMhVwKxc9XtxPRho6QahKhJX5j0Bglr4ZKIgAY/dnajyQ4z2oBAWjG/WpJcg==
-X-Received: by 2002:a17:90a:d18c:: with SMTP id fu12mr2762925pjb.7.1604673401233;
-        Fri, 06 Nov 2020 06:36:41 -0800 (PST)
+        bh=C4Ax1rOnERYD2jsAYGPVvNRVL22N5lwEUc5t0qzfFa4=;
+        b=JT/UhYhtW/n5Aqr1n6TnuLST0Aa6QNcf17+nvmhjB6pBtk0G+1vsY99b3Ems9uTvJI
+         g3d98eN7IoCn4vtWrWSyBYdt6foDZEwroFIk4+5GYPMXkju+8JuWsahJ/1NvPjmXMYVG
+         EC5HK/OaXvy2T/maw8x0/sUolubvmRzHcA7riMdMKKrzc5QDY3D9pl4XdP9UWQhFsNdp
+         26wAA2aat5EaJYTCnNXiYrqAzd+a2jhwoKYrNMfY6vnO16qPGRUY6WFvi2uD4VkGIC9c
+         TFlrOfouSuI3++m9pJx2NU9N9fQ2omIaPeThyxZBvANdC4Jrn3cNK7E9Ew2udfGLJI4B
+         JRTg==
+X-Gm-Message-State: AOAM533Sm64uZ2UuuM+5NWLylCkTdFyXt0RkH9vzc5wZ36u1Dk9vy9Fg
+	aMIwrZSQZa5Uc6MIIAwUqevXXMymM2KEIVX7
+X-Google-Smtp-Source: ABdhPJzdl3FQOEO1NPhjqyN7aZW1PchKEWXFPpgKj8iBRKg7Xdu8swUqWleiJesLWp4DcUCMW5r/lQ==
+X-Received: by 2002:a62:6107:0:b029:18b:8e8d:917b with SMTP id v7-20020a6261070000b029018b8e8d917bmr2135666pfb.70.1604673403739;
+        Fri, 06 Nov 2020 06:36:43 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.36.39
+        by smtp.gmail.com with ESMTPSA id jy19sm2765166pjb.9.2020.11.06.06.36.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 06:36:40 -0800 (PST)
+        Fri, 06 Nov 2020 06:36:43 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/20] recipes-core/busybox: fixup licensing information
-Date: Fri,  6 Nov 2020 04:35:23 -1000
-Message-Id: <61959632cb1ba4f20e6ecf1077e4d95ac1df26c1.1604672839.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/20] insane: add GitLab /archive/ tests
+Date: Fri,  6 Nov 2020 04:35:24 -1000
+Message-Id: <72f2c45880afbba1745e5e0cbd841d7fd666f374.1604672839.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1604672838.git.steve@sakoman.com>
 References: <cover.1604672838.git.steve@sakoman.com>
 
-From: "Yann E. MORIN" <yann.morin.1998@free.fr>
+From: Andrey Zhizhikin <andrey.z@gmail.com>
 
-Commit 7d32417b4d (busybox: Correct the name of the bzip2 license)
-changes the licesne from 'bzip2' to 'bzip2-1.0.6' on the rationale
-that the 'bzip2 license was renamed from "bzip2" to "bzip2-1.0.6"
-[...] to match the official SPDX identifier.'
+Archives produced by GitLab should be avoided in the same way as those
+produced by GitHub.
 
-Though the above is true for the bzip2 and pbzip2 packages, the bzip2
-code bundled in busybox is a copy from the bzip2 1.0.4 version, not the
-1.0.6 version.
+Extend SRC_URI check to include GitLab and inform user that recipe
+should be converted to use git protocol.
 
-As such, using bzip2-1.0.6 is wrong.
-
-Unfortunately, there is no official SPDX license identifier for this
-bzip2 1.0.4 version, so we just mimick the existing ones (bzip2-1.0.5
-and bzip2-1.0.6) by using bzip2-1.0.4.
-
-Also, there is a license file attached to that, so we add it to the
-list.
-
-Signed-off-by: Yann E. MORIN <yann.morin.1998@free.fr>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Alexandre BELLONI <alexandre.belloni@bootlin.com>
+Link: https://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg73109.html
+Link: https://lists.openembedded.org/g/openembedded-core/message/144035
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6238ee3ecd385cbadd8e75eb8b22a96d9cb13639)
+(cherry picked from commit d76b33c6a8489378a1f5500554367127199ae19d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/classes/insane.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 45aaa2b41c..e0522be729 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -5,10 +5,11 @@ BUGTRACKER = "https://bugs.busybox.net/"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 601b6b65bf..b5c6b2186f 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -975,8 +975,8 @@ def package_qa_check_src_uri(pn, d, messages):
+         package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
  
- DEPENDS += "kern-tools-native virtual/crypt"
+     for url in d.getVar("SRC_URI").split():
+-        if re.search(r"github\.com/.+/.+/archive/.+", url):
+-            package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub archives" % pn, d)
++        if re.search(r"git(hu|la)b\.com/.+/.+/archive/.+", url):
++            package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub/GitLab archives, convert recipe to use git protocol" % pn, d)
  
--# bzip2 applet in busybox is based on lightly-modified bzip2 source
-+# bzip2 applet in busybox is based on lightly-modified bzip2-1.0.4 source
- # the GPL is version 2 only
--LICENSE = "GPLv2 & bzip2-1.0.6"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
-+LICENSE = "GPLv2 & bzip2-1.0.4"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb \
-+                    file://archival/libarchive/bz/LICENSE;md5=28e3301eae987e8cfe19988e98383dae"
- 
- SECTION = "base"
- 
+ QARECIPETEST[unhandled-features-check] = "package_qa_check_unhandled_features_check"
+ def package_qa_check_unhandled_features_check(pn, d, messages):
 -- 
 2.17.1
 
