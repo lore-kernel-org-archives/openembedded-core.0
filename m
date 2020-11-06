@@ -1,88 +1,130 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web08.6395.1604630580228148402
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.76])
+ by mx.groups.io with SMTP id smtpd.web09.6648.1604631292742821418
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Nov 2020 18:43:00 -0800
+ Thu, 05 Nov 2020 18:54:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=t+Ix/hNl;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id n18so3972124wrs.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Nov 2020 18:43:00 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=VZNLsIE2;
+ spf=pass (domain: windriver.com, ip: 40.107.223.76, mailfrom: yi.zhao@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OKwAFM9X2zlsDLq60xwZzX+Q6sFa8D3eaGwiGXEUDPIqVNOcw7muH5TlcgClsJsUm6H5DKcuIqR6zxJ+fX5M87xDgzwlWDysF4iHvd0shH2tS9keLk6A7ZM9r0PYQKIUWI7bBaOzvA4F8HoaXxq4uDEUWXnnAPAIA8qE32BS7huRqhxCTFoCUgQFLdrRsQF1i8I9px2tH8feJe9WJicdDMdBMzb2aHvp8jaJwu9Jr12K/Ww0uZZ/SRFyCbysmLJfd3At6HTP4hPTzi9ugCTq4U3O0FbUzkCBpkKjCeuQ7VVmoeuf9Ofq6XojIcuZ0syQ4ka6wxQmRrHUdI/XkMX/Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZgXT9lPp9qTdcQfA/cbJUTgWCzL+RUe37jM2NiRfGXg=;
+ b=b9WWYVYdWE+eiN+3lJTOyeIMW6aWZFzkeo1LeVNXrKsX3oSJZyPEOBpZBxIUfIULUL3cDKaRP0U27m6SJAgiLaMsYFfsFdE+rkDDfvCeUc/o15GcVfYW4iXhVkklHujP0hRibYrOo0NdImvK33Rq1jMBklLt+fdKL05mWWnQHBkpKzDLTjpz7AO4KMrYx0oDp+R0zjPzUL8fuVDuD55EHDJyNqfvZh5H0ZTBArO5Ii4bJpn3sOWNGMK3xy5ROyQnCOgqlXwv1nbjrW1kN6c3KI4AAiI326vsP3JDFRHKsJlHbJiWWlcm7sLE8TFA9zDp0RKiL7w7ywVPVO1kmfsb6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KUfB5/6N0t1l5/QleELvhnc/mXQ02AqewnCwa5pk9v4=;
-        b=t+Ix/hNlGqjMKsC9IYcQLt0+9JcIWTj2eihEGmDft5SduoYCtIHKlhwTaMlm/6DO79
-         oYGjrsJO9mzBN2JonpMeNtVhvMQFcBziz4S78QyLSZGHxIHLF2Y/5S+0RYJQITDfnBK3
-         JvBAMwnunKsjoRqBbC5M/hFZ8ZMSCT8RRHi9wknFYoW4GQ4UsZ7m1A8HY2uixw232sNP
-         +dwruNYgR/pDbza0qkzfrvG/DxBPyix2lB9XRhJ+6z34VZnoIwIXg7JuAIp2ZkRPeayq
-         eJqQJld71t4dOd5YkqPXza2ZboXv9WpeqipMdn4umek4p3tafkiHAf1AkuVCfgXmvWVO
-         at7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KUfB5/6N0t1l5/QleELvhnc/mXQ02AqewnCwa5pk9v4=;
-        b=BaBEzWkI1GPc6oNMBEMY9iVH09KbNVjROKrIWagXoR7gdh+XklCQql6Uziedk7f1dT
-         G0X1Oy2Ms/40+lbmrXsNx77k2qQO+pRrG8WILR6qacEto8LzBdFSSPYtq90uln2XvstW
-         tfTQzMQpBavBUCR8JhW/kPjd/npCfyU2bXCjGHeHkqQtDlBy0OYVlQkZLzrFeZm7Pusv
-         a0b3a1V424fdUu6NPh8TrK5sTdZVTWs9Fcuo+0nHMfsfGS7Pyq3Qn64SJ4SCc8WATj1Z
-         fCe1fYWLnQqUQiqRJpBEDBiXj2me6Jh5kbRst16aCaUE2eyCDgCL2uWo52rx2ARA2XUd
-         NBig==
-X-Gm-Message-State: AOAM5302uJvbF+3RD+bkWS01Hm8Uqzds8m8BvLnnxSVgG7UYvMajPR0h
-	N/T/YOIm1MXba8a8qZer98ojWFMO7Gs=
-X-Google-Smtp-Source: ABdhPJyjZ1jyad26mlFFdjHFwfGxt7nJjz3w2NmYS6YlKREYue1I/9ozQp5Kz6G2lg3jyDsfRkDo1w==
-X-Received: by 2002:adf:dd51:: with SMTP id u17mr29434wrm.139.1604630578378;
-        Thu, 05 Nov 2020 18:42:58 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id u202sm35750wmu.23.2020.11.05.18.42.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 18:42:57 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZgXT9lPp9qTdcQfA/cbJUTgWCzL+RUe37jM2NiRfGXg=;
+ b=VZNLsIE26bpFrJgtHScL0rtdj8uMeSxJeJ7YhmJJa1kt2UJMBY3OcFUUGjhM0BsunRVgU8ymptqdtbBWc51H2mrDvqWwsj75HsrSaA/5g3JO83naI651JhsoTqy3UI+UYcK4Vow9J2iMadX1wbmKwpWG3OSioh2vQ2Z+Y8SyEw4=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
+ by MWHPR11MB0047.namprd11.prod.outlook.com (2603:10b6:301:68::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.30; Fri, 6 Nov
+ 2020 02:54:51 +0000
+Received: from CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::d844:ac89:6b05:ed98]) by CO1PR11MB4867.namprd11.prod.outlook.com
+ ([fe80::d844:ac89:6b05:ed98%6]) with mapi id 15.20.3499.032; Fri, 6 Nov 2020
+ 02:54:51 +0000
+From: "Yi Zhao" <yi.zhao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: alex.kanavin@gmail.com,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] webkitgtk: fix opengl PACKAGECONFIG
-Date: Fri,  6 Nov 2020 03:42:52 +0100
-Message-Id: <20201106024252.112148-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201028210558.21070-20-alex.kanavin@gmail.com>
-References: <20201028210558.21070-20-alex.kanavin@gmail.com>
+Subject: [PATCH 1/2] dhcpcd: install dhcpcd to /sbin rather than /usr/sbin
+Date: Fri,  6 Nov 2020 10:54:26 +0800
+Message-Id: <20201106025427.7269-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR06CA0017.apcprd06.prod.outlook.com
+ (2603:1096:202:2e::29) To CO1PR11MB4867.namprd11.prod.outlook.com
+ (2603:10b6:303:9a::13)
+Return-Path: yi.zhao@windriver.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-yzhao1-d1.wrs.com (60.247.85.82) by HK2PR06CA0017.apcprd06.prod.outlook.com (2603:1096:202:2e::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Fri, 6 Nov 2020 02:54:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 422a732d-ecfb-4e3d-9510-08d881ff54df
+X-MS-TrafficTypeDiagnostic: MWHPR11MB0047:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB00471C5A16D150D13768F4C9F9ED0@MWHPR11MB0047.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	/LEfjSZljaZptLF/YzkpHCoj1oBY3JWlLPfPiF4joNmNDJmZ19FGYVEnG7n4q+/C/lnoulNu4dbT8gNUxuReT1poHR8pAV9QAu6C1MsifVWQyEP2GxB5o0Ou6tgkk4baBtzniYOpBsVLTDBf+Ftbez9vrOaVfA+bpB6EHH28gwRkSzoSBPiXePMi5fRSq7XMBGJi6KA4Qw20p6+qzOKb3oTacQsjVJXlpm5JmbwK2p/9JA9dK1cVBizV33oAByuzNFj3hgMV5+3r0ecOmyjhauBtpCMG5TjTGc71jKQVV4PQBTZgLrq4sTUl9uc/U37AmEYdqM/Uggqw2Q4mRAodaQ/SCtfDCwDRxgJQKUVmFdRbPpvLG1quPqp8qBRzt1Oc
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(396003)(366004)(39850400004)(376002)(8676002)(186003)(6666004)(6916009)(6506007)(83380400001)(86362001)(16526019)(478600001)(2906002)(52116002)(2616005)(956004)(6486002)(44832011)(8936002)(1076003)(66476007)(5660300002)(66556008)(316002)(6512007)(26005)(36756003)(66946007)(40753002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	P6ENDiZ+UHpdauclce0KzP2qXtXnQtFJGa7ipgRi+uVDQtIvLd81P+Bd4znhr6tT+dSWTCPj6bk+e0+e5w51vwgiHWC36xsuIS2uMe+d4L7AYZNyic4d+tFluAoENtEzXNchFymnhRPTuXzpSELdaMgubjJBN56USvNu9uaPB9Mb3c5/HxdBNDHrAFZQM6lwtwTXwtAM9amXSLKGwJ2/IYO5FxMg2CaO9KLJTKzdu9TlEfKm7mVX16Bqc/eaNY3FrS3NS+nYAzdDpxjBPgGuA60kG/71CjqpNlRbIaBf2xjxf1mr1Lr8ewNsvi3AfzebqPunTMxJQTYCB/jTrpr+WXHOig20FmBOnrue3q+YAepUabOBT5gBLEpIUTlfEHID/IKNCKPAPnj4J7+E+1nzzhoP7ATj0h0fYIZ+Pe3LtdYf2ZdEn5srW1i0VS+tAxacRmpjXoQ/7HMvoaqjiuqCQCB/nrNGJvV09A0I3X470ztrAQ37wchvZuPx3vyBzIEtkM/G2jfz7Lq1ohoeyJyyMR7wnmizj+4hlcaBKFK4I3O4orZYseBOURRK1sBlx4rj/rjrNYUdVu9Hj7gXSRAt7LBnVnYsdpIoDLiUIcp6Bt7asKB076pNpsu9kaXURXqfFRdiQX2b6JsuUxB4bEpswg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 422a732d-ecfb-4e3d-9510-08d881ff54df
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 02:54:51.5080
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XAajeO66ywrfrSUQqFDisz1CjlxVD2LzUDRm4Xe06zBrMaBPWUklr7lsZ/rPMaWZQIoYntyJkbDSQwcEkkK9Eg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB0047
+Content-Type: text/plain
 
-* ENABLE(OPENGL) was renamed to ENABLE(GRAPHICS_CONTEXT_GL) in r254064:
-  https://github.com/WebKit/webkit/commit/92f9916b4a0d799c3f7be10b69aa53f40a149a2d
-  and
-  https://github.com/WebKit/webkit/commit/b3cb3ba4fa713e23ae27b2a79c14c6735d40d671
-  but AUH doesn't notice that and builds without opengl in DISTRO_FEATURES are now
-  failing with:
-  | CMake Error at Source/cmake/OptionsGTK.cmake:323 (message):
-  |   Either OpenGL or OpenGLES2 is needed for ENABLE_GRAPHICS_CONTEXT_GL.
-  | Call Stack (most recent call first):
-  |   Source/cmake/WebKitCommon.cmake:58 (include)
-  |   CMakeLists.txt:173 (include)
+The dhcpcd path is hardcoded to /sbin in ifupdown package. Move dhcpcd
+from /usr/sbin to /sbin to make sure ifup/ifdown can find it when dhcpcd
+as the dhcp client backend.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.30.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb       | 1 +
+ meta/recipes-connectivity/dhcpcd/files/dhcpcd.service  | 2 +-
+ meta/recipes-connectivity/dhcpcd/files/dhcpcd@.service | 4 ++--
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
-index 1acba6be1d..56cd1eb9d4 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
-@@ -48,7 +48,7 @@ PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geocl
- PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
- PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
- PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
--PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
-+PACKAGECONFIG[opengl] = "-DENABLE_GRAPHICS_CONTEXT_GL=ON,-DENABLE_GRAPHICS_CONTEXT_GL=OFF,virtual/libgl"
- PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
- PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
- PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb
+index e520115f71..c572868c7e 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_9.3.1.bb
+@@ -34,6 +34,7 @@ PACKAGECONFIG[ypbind] = "--with-eghook=yp, , ,ypbind-mt"
+ 
+ EXTRA_OECONF = "--enable-ipv4 \
+                 --dbdir=${localstatedir}/lib/${BPN} \
++                --sbindir=${base_sbindir} \
+                 --runstatedir=/run \
+                 --enable-privsep \
+                 --privsepuser=dhcpcd \
+diff --git a/meta/recipes-connectivity/dhcpcd/files/dhcpcd.service b/meta/recipes-connectivity/dhcpcd/files/dhcpcd.service
+index bbed6d85c4..6c967ddaf0 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/dhcpcd.service
++++ b/meta/recipes-connectivity/dhcpcd/files/dhcpcd.service
+@@ -5,7 +5,7 @@ Before=network.target
+ Conflicts=connman.service
+ 
+ [Service]
+-ExecStart=/usr/sbin/dhcpcd -q --nobackground
++ExecStart=/sbin/dhcpcd -q --nobackground
+ 
+ [Install]
+ WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/dhcpcd/files/dhcpcd@.service b/meta/recipes-connectivity/dhcpcd/files/dhcpcd@.service
+index 389b076c38..845b83b9e5 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/dhcpcd@.service
++++ b/meta/recipes-connectivity/dhcpcd/files/dhcpcd@.service
+@@ -9,8 +9,8 @@ Conflicts=connman.service
+ [Service]
+ Type=forking
+ PIDFile=/run/dhcpcd/%I.pid
+-ExecStart=/usr/sbin/dhcpcd -q %I
+-ExecStop=/usr/sbin/dhcpcd -x %I
++ExecStart=/sbin/dhcpcd -q %I
++ExecStop=/sbin/dhcpcd -x %I
+ 
+ [Install]
+ WantedBy=multi-user.target
 -- 
-2.27.0
+2.17.1
 
