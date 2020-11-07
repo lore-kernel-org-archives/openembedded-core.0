@@ -1,82 +1,229 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web09.7741.1604774486777182451
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web08.7954.1604774944685608317
  for <openembedded-core@lists.openembedded.org>;
- Sat, 07 Nov 2020 10:41:26 -0800
+ Sat, 07 Nov 2020 10:49:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NgMBWIBt;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id q5so1533602pfk.6
-        for <openembedded-core@lists.openembedded.org>; Sat, 07 Nov 2020 10:41:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ld2wKwDu;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id o20so4611178eds.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 07 Nov 2020 10:49:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=z89pQr0FM24Mkt1bXPxb/muR5uJ084/wAJi3mRLhdHc=;
-        b=NgMBWIBtD+wnKqP4TkftOS0UZZMc5Stst7Zi7aaXJYjToVct7Wlti25pX9OuEYhQ3H
-         6sOsD6TuDM/2vHYPMIY1TRdejz4amSsfrHYlA8cQwZt57CQe+po2SmrhqBNVcErfn3ap
-         xOrg2xEowZpd1SD6aeJPVlHpRfuXBW5j/U00/4+/ZddKDMqJ623e9Jqzbrgb03FSefb4
-         6YpIkzRmYMFzF5q/BmYKqGKifh585hvQ/EDZiQG9aC8BtTQBLbpTEJuUyv9Bx/0BYxTj
-         IZpSlXPwXeELRolmLF4KVcxbHGLuJAqD2bc/16TKL0tASxmk6phx+tsmNoEHvJ7NzqD4
-         /KYQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E3ucEW9JVDKOsVhC4YaLZU5CxzMs4uGhHNNY7RvULaA=;
+        b=ld2wKwDuHUaysPMBvWzg5i09qqVBrhBiurA2uZ6l3OohSB0NA3MAgCTlfPpKMX28zt
+         RSridBDXFoEVGkl7hc9WcLFmaFNY9V4ABZw19j0QGaWyE7+fTtO/WetfZoKyjn9aka4J
+         UqXTkWab3Ms+/JYG2HEsNjX+WH0eWFLwftoBB9VNz8TnBURkA/ks/Y/n5cjKYJKcBtFO
+         gn+5RSQMilAthRfCF2uhjQUs9am83ODmq8sfzgxO5/Xj3a3eWDyeqBvCLIY5zDaUFwxJ
+         jARTkXk7RraKeq+uYILq/1+fnmj+r3XjZzffwirvjRF9x1nTVyMQbBf81AV9Ffr6f7L1
+         5wIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=z89pQr0FM24Mkt1bXPxb/muR5uJ084/wAJi3mRLhdHc=;
-        b=c0gQhCJnWtx9kt49YoCkWBuo7u9jdwH5mIqCcZEDJdmjn+CJNZjRgiBKl73VwBLEp5
-         O84d0ZqPGTKytGHxGFiICImKSZqhQlLelMuzHEnVPneKWC/SWEVOPZ9fEkpUHHP5hq4P
-         5JBIF+0aPUsBjY+I5pxqiP0kbrZrQBqAf17xZy0p1Dssfkm/usZBFyJ/ondcoXfvrh/y
-         CiELUzJYsc8fBeXaHjDCe4K0BG/Pdb+d4IbKJibTV0eV50eNDpiAQxjSVn5OGSV0i604
-         EqYazKTIMWrTiDP4jW8l8PqnYGLXDktD7x3MDu9moMk6rUk1XqkUlYmUGUiMQ555qGIi
-         aGVg==
-X-Gm-Message-State: AOAM532+0FqWPv1PbaYwxmj5FXydy6xQ+stF/XYgb4yvfkLDQaBvJ85A
-	bRVHIz4hVqOGuHvIKbevCr4AQHjNsHgXew==
-X-Google-Smtp-Source: ABdhPJxQZ1Ig6VURDccFhNJbdqicWjYu1q0H8UFuLo0EOXu58aEi1sJ9K8/49lrQtS8N1SbIcPcHVQ==
-X-Received: by 2002:a63:f242:: with SMTP id d2mr6386388pgk.44.1604774486075;
-        Sat, 07 Nov 2020 10:41:26 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::740e])
-        by smtp.gmail.com with ESMTPSA id c12sm6218955pgi.14.2020.11.07.10.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2020 10:41:25 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 2/2] python3: Enable lto if its in DISTRO_FEATURES
-Date: Sat,  7 Nov 2020 10:41:19 -0800
-Message-Id: <20201107184119.3033956-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201107184119.3033956-1-raj.khem@gmail.com>
-References: <20201107184119.3033956-1-raj.khem@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E3ucEW9JVDKOsVhC4YaLZU5CxzMs4uGhHNNY7RvULaA=;
+        b=NjLWX2s+DrjbrvDXkmmIRL54tzkm8FcYt8o2KjBhqRZIqSj86FrZqAmfai2Iw1kRak
+         +ZMsvUxP5lgXO8X8QICXwk+ezEEKrgZbjkfm9tYnEY0r/2OSUvy874EjSpipKF8sbN1J
+         AiHjPmweDlaRaHPwkmc4nR+laVdliv/XDfhAWfGXLNeRK37fcXTId4xPpWPq1ghiKHh4
+         H+I6b3h65IL0VVTZ76NFq0QiPinNp30sf/Z00ZVby4JtdHdpuSMzf2qai/2IiE4EVzcr
+         IPqK9lxcjQjXHfZJRGDpm9SnMoIsGtF23fVMnKE0FC6BcYTsZB0LxEwUrzbQo7+y7mb2
+         k8Gg==
+X-Gm-Message-State: AOAM533uiqBiGVuapnzxOD4GuaoYieXDi/4mQu3fUXtKVU7jXyKqvbtE
+	VYLyeY5v+U9roIWOkMOyOkgLGodq4YloUT+R0YE=
+X-Google-Smtp-Source: ABdhPJw+wkYIXlfaOZB0DV0choDm5QGWdnhUHlMOJFBrlTvZXb0zGLZbYErEUC13Fgdd397RNMaUwD12ifx6rVccZg0=
+X-Received: by 2002:a50:d751:: with SMTP id i17mr7961891edj.337.1604774943013;
+ Sat, 07 Nov 2020 10:49:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201107184119.3033956-1-raj.khem@gmail.com>
+In-Reply-To: <20201107184119.3033956-1-raj.khem@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Sat, 7 Nov 2020 19:48:52 +0100
+Message-ID: <CA+chaQemfW9vKrGvzpA1kKpvYhuv_5JqSOKupiT+AHwqwBSHiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V2 1/2] lto: Add global LTO distro policy file
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006c3e8105b388c860"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/python/python3_3.9.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+--0000000000006c3e8105b388c860
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-devtools/python/python3_3.9.0.bb b/meta/recipes-devtools/python/python3_3.9.0.bb
-index 6402760a1b..7080312ccf 100644
---- a/meta/recipes-devtools/python/python3_3.9.0.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.0.bb
-@@ -88,7 +88,7 @@ def possibly_include_pgo(d):
-     
-     return ''
- 
--PACKAGECONFIG_class-target ??= "readline ${@possibly_include_pgo(d)} gdbm"
-+PACKAGECONFIG_class-target ??= "readline ${@possibly_include_pgo(d)} gdbm ${@bb.utils.filter('DISTRO_FEATURES', 'lto', d)}"
- PACKAGECONFIG_class-native ??= "readline gdbm"
- PACKAGECONFIG_class-nativesdk ??= "readline gdbm"
- PACKAGECONFIG[readline] = ",,readline"
-@@ -96,6 +96,7 @@ PACKAGECONFIG[readline] = ",,readline"
- PACKAGECONFIG[pgo] = "--enable-optimizations,,qemu-native"
- PACKAGECONFIG[tk] = ",,tk"
- PACKAGECONFIG[gdbm] = ",,gdbm"
-+PACKAGECONFIG[lto] = "--enable-lto,,"
- 
- do_configure_prepend () {
-     mkdir -p ${B}/Modules
--- 
-2.29.2
+Does this actually work (I don't see lto added to OVERRIDES) and why is
+this needed?
 
+PACKAGE_DEBUG_SPLIT_STYLE_lto = "debug-without-src"
+
+On Sat, Nov 7, 2020 at 7:41 PM Khem Raj <raj.khem@gmail.com> wrote:
+
+> Distros which want to enable LTO can utilize this file, it only covers
+> packages from OE-Core, other layers should include there own exclusion
+> list for recipe which dont work with LTO
+>
+> Document the needed changes in local.conf.extended
+>
+> debug file generator does  not generate debugsrc packages when lto is
+> enabled therefore disable it
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Include feeedback for adding DISTRO_FEATURE knob
+>
+>  meta/conf/distro/include/lto.inc     | 30 ++++++++++++++++++++++++++++
+>  meta/conf/local.conf.sample.extended |  4 ++++
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 meta/conf/distro/include/lto.inc
+>
+> diff --git a/meta/conf/distro/include/lto.inc
+> b/meta/conf/distro/include/lto.inc
+> new file mode 100644
+> index 0000000000..1f76ec7c16
+> --- /dev/null
+> +++ b/meta/conf/distro/include/lto.inc
+> @@ -0,0 +1,30 @@
+> +# To enable LTO, add following in local.conf
+> +# require conf/distro/include/lto.inc
+> +# DISTRO_FEATURES_append = " lto"
+> +#
+> +
+> +# Disable LTO for following packages
+> +LTO_pn-glibc = ""
+> +LTO_pn-gcc-runtime = ""
+> +LTO_pn-libgcc-initial = ""
+> +LTO_pn-libgcc = ""
+> +LTO_pn-libpam = ""
+> +LTO_pn-elfutils = ""
+> +LTO_pn-perl = ""
+> +LTO_pn-busybox = ""
+> +LTO_pn-libxcrypt = ""
+> +LTO_pn-curl = ""
+> +LTO_pn-libcap = ""
+> +LTO_pn-libproxy = ""
+> +LTO_pn-libbsd = ""
+> +
+> +# Override it for additional or different options if needed e.g.
+> +# with clang thin-lto might be better for compile speed
+> +LTO ?= "-flto"
+> +
+> +SELECTED_OPTIMIZATION_append = "${@bb.utils.contains('DISTRO_FEATURES',
+> 'lto', ' ${LTO}', '', d)}"
+> +TARGET_LDFLAGS_append_class-target =
+> "${@bb.utils.contains('DISTRO_FEATURES', 'lto', ' ${LTO}', '', d)}"
+> +
+> +SELECTED_OPTIMIZATION[vardeps] += "LTO"
+> +
+> +PACKAGE_DEBUG_SPLIT_STYLE_lto = "debug-without-src"
+> diff --git a/meta/conf/local.conf.sample.extended
+> b/meta/conf/local.conf.sample.extended
+> index 9aa226a2d0..2c4b8ad8cb 100644
+> --- a/meta/conf/local.conf.sample.extended
+> +++ b/meta/conf/local.conf.sample.extended
+> @@ -417,3 +417,7 @@
+>  # ERR_REPORT_UPLOAD_ALL = "1"
+>  #
+>  # INHERIT += "report-error"
+> +
+> +# Enable LTO Distro-wide
+> +# require conf/distro/include/lto.inc
+> +# DISTRO_FEATURES_append = " lto"
+> --
+> 2.29.2
+>
+>
+> 
+>
+>
+
+--0000000000006c3e8105b388c860
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Does this actually work (I don&#39;t see lto added to OVER=
+RIDES) and why is this needed?<div><br></div><div>PACKAGE_DEBUG_SPLIT_STYLE=
+_lto =3D &quot;debug-without-src&quot;<br></div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Nov 7, 2020 at 7:41=
+ PM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Di=
+stros which want to enable LTO can utilize this file, it only covers<br>
+packages from OE-Core, other layers should include there own exclusion<br>
+list for recipe which dont work with LTO<br>
+<br>
+Document the needed changes in local.conf.extended<br>
+<br>
+debug file generator does=C2=A0 not generate debugsrc packages when lto is=
+<br>
+enabled therefore disable it<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+---<br>
+v2: Include feeedback for adding DISTRO_FEATURE knob<br>
+<br>
+=C2=A0meta/conf/distro/include/lto.inc=C2=A0 =C2=A0 =C2=A0| 30 +++++++++++=
++++++++++++++++++<br>
+=C2=A0meta/conf/local.conf.sample.extended |=C2=A0 4 ++++<br>
+=C2=A02 files changed, 34 insertions(+)<br>
+=C2=A0create mode 100644 meta/conf/distro/include/lto.inc<br>
+<br>
+diff --git a/meta/conf/distro/include/lto.inc b/meta/conf/distro/include/l=
+to.inc<br>
+new file mode 100644<br>
+index 0000000000..1f76ec7c16<br>
+--- /dev/null<br>
++++ b/meta/conf/distro/include/lto.inc<br>
+@@ -0,0 +1,30 @@<br>
++# To enable LTO, add following in local.conf<br>
++# require conf/distro/include/lto.inc<br>
++# DISTRO_FEATURES_append =3D &quot; lto&quot;<br>
++#<br>
++<br>
++# Disable LTO for following packages<br>
++LTO_pn-glibc =3D &quot;&quot;<br>
++LTO_pn-gcc-runtime =3D &quot;&quot;<br>
++LTO_pn-libgcc-initial =3D &quot;&quot;<br>
++LTO_pn-libgcc =3D &quot;&quot;<br>
++LTO_pn-libpam =3D &quot;&quot;<br>
++LTO_pn-elfutils =3D &quot;&quot;<br>
++LTO_pn-perl =3D &quot;&quot;<br>
++LTO_pn-busybox =3D &quot;&quot;<br>
++LTO_pn-libxcrypt =3D &quot;&quot;<br>
++LTO_pn-curl =3D &quot;&quot;<br>
++LTO_pn-libcap =3D &quot;&quot;<br>
++LTO_pn-libproxy =3D &quot;&quot;<br>
++LTO_pn-libbsd =3D &quot;&quot;<br>
++<br>
++# Override it for additional or different options if needed e.g.<br>
++# with clang thin-lto might be better for compile speed<br>
++LTO ?=3D &quot;-flto&quot;<br>
++<br>
++SELECTED_OPTIMIZATION_append =3D &quot;${@bb.utils.contains(&#39;DISTRO_F=
+EATURES&#39;, &#39;lto&#39;, &#39; ${LTO}&#39;, &#39;&#39;, d)}&quot;<br>
++TARGET_LDFLAGS_append_class-target =3D &quot;${@bb.utils.contains(&#39;DI=
+STRO_FEATURES&#39;, &#39;lto&#39;, &#39; ${LTO}&#39;, &#39;&#39;, d)}&quot;=
+<br>
++<br>
++SELECTED_OPTIMIZATION[vardeps] +=3D &quot;LTO&quot;<br>
++<br>
++PACKAGE_DEBUG_SPLIT_STYLE_lto =3D &quot;debug-without-src&quot;<br>
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.s=
+ample.extended<br>
+index 9aa226a2d0..2c4b8ad8cb 100644<br>
+--- a/meta/conf/local.conf.sample.extended<br>
++++ b/meta/conf/local.conf.sample.extended<br>
+@@ -417,3 +417,7 @@<br>
+=C2=A0# ERR_REPORT_UPLOAD_ALL =3D &quot;1&quot;<br>
+=C2=A0#<br>
+=C2=A0# INHERIT +=3D &quot;report-error&quot;<br>
++<br>
++# Enable LTO Distro-wide<br>
++# require conf/distro/include/lto.inc<br>
++# DISTRO_FEATURES_append =3D &quot; lto&quot;<br>
+-- <br>
+2.29.2<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000006c3e8105b388c860--
