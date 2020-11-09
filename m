@@ -1,75 +1,78 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web09.4522.1604880146321318744
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web12.4532.1604880147330654058
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2020 16:02:26 -0800
+ Sun, 08 Nov 2020 16:02:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f0jZndk1;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id f18so837932pgi.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2020 16:02:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ogzJ3s0P;
+ spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f195.google.com with SMTP id i26so5323523pgl.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2020 16:02:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=S/3bG4DAijzJHHlxg/CBU3rmjmt/rGN1qemauurASMU=;
-        b=f0jZndk157T+eUJRwuvqHgXMW6J4sc5LRQd+aV2QFApBHnlO8IgdNAJ96UtuVo3QYY
-         aQHGU+7a8yiIiA6iwy89l76j/F/rLrV3VzxirsZM7vs2Oj4KOi+iRifamhVjfqqjF8FH
-         DmJnvl+R3Q+EaOuOm8aYtVJ9SDeAdtmNamyjRDoJYkMEQ0INrrzCt3XolTB0K5qCZD69
-         sIc0BAov1JXzyeK5ua18glcqv0GKBgkxepuBh5m/XL2yc3d1xzYwCEG35LR4psxB3Tm3
-         dyhdKWRXT7Q7QVUxMbCcpFpYWzIW2AI9kePulspXP9F4zqVOhY/OckUwfVsn4O8BPtXX
-         mbPw==
+        bh=4QSTBsTGPBJfxZS3s9s/SSuCrqi2GwBLI9mdSJdUmkQ=;
+        b=ogzJ3s0PDRL3gAWK3ergaOvA+jk9pLDBDj2IbkyKa7715AIVK2VeLSzL/Rkp80DrQB
+         pXLfiIrsJM/IV8f/r/A+yhteRmKBmOabzxG6/Nc0PrCJMzMRd75fA4qWd6265j4DJOPF
+         p03wt/f6Jrfqt6ZVhpMV+sc+Prhc7lspFsaHaE6T8BOavgoWkPEm35nTlQ7U0tuT2Com
+         HiY+WtjlYqmwM3SMnRXFvYzZ9qGoiQPSavX8kJzyct5QlwzxoJVAnfpOyBsCCp47IDBc
+         1drRwq909b/Wccbm/KO1GzKZ4osVdgNAtU40ihEYV3u/LQ3Imi4jQWem45KXSolsd9Y3
+         mySQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=S/3bG4DAijzJHHlxg/CBU3rmjmt/rGN1qemauurASMU=;
-        b=hmxa/bfDB03z7OJWV598EnfvemXglrKXo+1ui8y0rbpX4hUq/USHGU9EVVEn5Nrlec
-         kxGW1/ylEbza57hQwCWS+0W2DGpxeJmXOLIA1R5VJgL8qDm6+Ge1UjDi2ryGnR051lLA
-         2o2cIyjAhrhjlAXQcVYdrMK0rPzFIWz1ESopj+/ExjoW9kVEHPSHoqiGZV5lH1m+Z7bv
-         6bMh3B+opWUjD1UVNHdyuLkGYB/zWhji+qSzCg4icCUbY+vQpFhHZcYA6nWAzX4AvHJm
-         zMYmQ1j0R14iHbGlzIL6x51aIOESeVb7cKyqtlkDtgYEPS6qhPf+EwykipI/Acr/+kho
-         kiRQ==
-X-Gm-Message-State: AOAM532w0hWd6xpRqv4HtP3GI8O9ICeSkAmH+/+rEyuPzxy6lft+KYaR
-	uFKQZXL2S20AMWDu/i+Ynyi3saA8zzPhoQ==
-X-Google-Smtp-Source: ABdhPJw5XFKQNlB6UWBKKs//8nPqztEq68IQjAePBbupb4cXj68gP0oxFLbIHcL2cGti03Pdsjm91w==
-X-Received: by 2002:a17:90a:de94:: with SMTP id n20mr10160449pjv.217.1604880145632;
-        Sun, 08 Nov 2020 16:02:25 -0800 (PST)
+        bh=4QSTBsTGPBJfxZS3s9s/SSuCrqi2GwBLI9mdSJdUmkQ=;
+        b=dDwg2xRnYQpN4Y6vMZICIh/uh1VDelmmi40JHVZNksvMxS5ug3qVC9udD87YYhFDgF
+         t8/MUDAXnsr2LlXwCHW+Y+O9Qu84JPi/T2yacvo5cVLdPSQwsBiRgkooogtKcp9M2zMg
+         DTV6+3TACBE7aR3MHsQOxpSQNNpUX4a0/NZugNdLpZ4fqbgsghH+k0a3J+gIQBher/6G
+         VnKybZJ8sDv4ZyymT1I796/JRq79zZ+cLo2KHRRcCjhbHLfik5q8hY7mhSldG7niTS/A
+         9GKHG5zDDpl44E28Bh3SNtCsbnLUkmO+Ll3H6Ky4ig4kXm06Bb7sDIs9elIy1ysb1jCw
+         tF5g==
+X-Gm-Message-State: AOAM532AuZbnksJ+vC1MIM5J4z6XBYiSkLAwdemSzPUORg+ZQi7t/VSB
+	j4QJtKkti+9N6URNfJ05037SzsrYWmzm6g==
+X-Google-Smtp-Source: ABdhPJy7R3Ely3XQnixtwjwykdRjmBH5JEpOBK+KE2126z5THd/DZI3rrXDuqcCMa+Gryxadv6DiXw==
+X-Received: by 2002:a63:7e09:: with SMTP id z9mr10716777pgc.150.1604880146701;
+        Sun, 08 Nov 2020 16:02:26 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::740e])
-        by smtp.gmail.com with ESMTPSA id c2sm8825227pfb.196.2020.11.08.16.02.24
+        by smtp.gmail.com with ESMTPSA id c2sm8825227pfb.196.2020.11.08.16.02.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2020 16:02:25 -0800 (PST)
+        Sun, 08 Nov 2020 16:02:26 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v5 05/11] libaio: Disable LTO
-Date: Sun,  8 Nov 2020 16:02:11 -0800
-Message-Id: <20201109000217.3008448-5-raj.khem@gmail.com>
+Subject: [PATCH v5 06/11] weston: Fix linking with LTO
+Date: Sun,  8 Nov 2020 16:02:12 -0800
+Message-Id: <20201109000217.3008448-6-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201109000217.3008448-1-raj.khem@gmail.com>
 References: <20201109000217.3008448-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Libaio uses ASMs to implement symbol versioning which does not work with LTO
+weston uses --no-undefined option during linking which does not work
+with LTO therefore override it with -z undefs when lto is enabled in
+distro
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/lto.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-graphics/wayland/weston_9.0.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/conf/distro/include/lto.inc b/meta/conf/distro/include/lto.inc
-index eb36b892ca..9c4e0ef507 100644
---- a/meta/conf/distro/include/lto.inc
-+++ b/meta/conf/distro/include/lto.inc
-@@ -8,6 +8,7 @@ LTO_pn-glibc = ""
- LTO_pn-gcc-runtime = ""
- LTO_pn-libgcc-initial = ""
- LTO_pn-libgcc = ""
-+LTO_pn-libaio = ""
- LTO_pn-libpam = ""
- LTO_pn-elfutils = ""
- LTO_pn-perl = ""
+diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+index 75f9fb05fd..051fd85941 100644
+--- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+@@ -26,6 +26,8 @@ REQUIRED_DISTRO_FEATURES = "opengl"
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0"
+ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
+ 
++LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'lto', '-Wl,-z,undefs', '', d)}"
++
+ WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+ 
+ EXTRA_OEMESON += "-Dbackend-default=auto -Dbackend-rdp=false -Dpipewire=false"
 -- 
 2.29.2
 
