@@ -1,75 +1,61 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web12.8722.1604910616928896524
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web09.8719.1604910646862953185
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2020 00:30:17 -0800
+ Mon, 09 Nov 2020 00:30:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: jay.shen.teoh@intel.com)
-IronPort-SDR: zXLFYW1q+oiLa40Bzvm+hNNIcBPNREIZoZyBQOmV7Br8pIUmlnNRucH0rJuKDo3ov5Uf0Hi+w6
- BXE+wqWL8y4w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9799"; a="231400136"
-X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; 
-   d="scan'208";a="231400136"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 00:30:15 -0800
-IronPort-SDR: 5PaD1vdeb2FC5HYfFFQLU0jY1xrfrQPUZB8x+UDQM8Yz+9N3Hp2QSTk2+G3mGACjSG6PUa2laF
- hBuXIemgZhMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; 
-   d="scan'208";a="530617217"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga005.fm.intel.com with ESMTP; 09 Nov 2020 00:30:12 -0800
-From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/terminal : rework the logic
-Date: Mon,  9 Nov 2020 16:30:10 +0800
-Message-Id: <1604910610-68620-1-git-send-email-jay.shen.teoh@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kNJ5IhQ7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-pl1-f196.google.com with SMTP id t18so4377758plo.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2020 00:30:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Yr9uKIpaQetTDlkuGqGdNyXO8ZhtSq0ej5UzZFRFRBc=;
+        b=kNJ5IhQ72LOFG6ffuqqdLIR+5dIPDADP62at66VCnUrckDhQ4sZcVsfDI7F5/L1sAE
+         FxvigAczy9MYOgSxbukpyokBb1im927Wm70h3bIsZV7QCa7M4kdp4FudRTsFhaCTW5f5
+         f1yT2aAkEwWmRa6FfCA9Kd4Jx5g7vulvJ6SmU70pj1TWEc+fWfY1plIaMn+oFwZWQ22+
+         2OMBeF11LIAX/wqLutT6sAwWS/ftSRCeNWnISDTLEJhDGh3W+JuUuDg3R7DmB+fL8RNb
+         qdQ2R2dvRpF7HLjA7+y10Evhq7Mj5BG7u8e+9L59cYWb4/Cd4jEPZCV552fI3WG0ZdkS
+         7LQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Yr9uKIpaQetTDlkuGqGdNyXO8ZhtSq0ej5UzZFRFRBc=;
+        b=VvyuufrM81sX4quGEc/2HfF1FUFoE9chmYyTL0TREATHAgd90G+thJMkXdpgbFpccz
+         54VpwyLgaO/aVjrdJHWCl1nJJsN77B/2eKtp9dxCTIFNcvR1JwaRu/xyp72e1XpMmXPA
+         ch0aFKLlzIZ5aVWmvwHp8HuSrJpf3sxNilvxezPJgS/so4pLtfXRIROq8izUPn1vGYmZ
+         8i8a5vTCX89csrJrBaGN3kpryw8QQdBUCBLgII1QjfR7gvHrJgfSQD4BP7IWC/0bnlsb
+         XIpN5jNyekjLFKhP0iZdLOp2GhtCXVQ0553zVX0KkFWFSSMtdAOhHZT9YfHeGkjka3W8
+         5Hww==
+X-Gm-Message-State: AOAM531KKtbt6m8XB6IQAddJu90WomH+D0kBwM9dU+sdhtqR1dU6CZP/
+	3r3X/PRaC5RdLywKi/KTj1s+QHsK7f6alW1OSko=
+X-Google-Smtp-Source: ABdhPJypdMK5P1WGDjvgL8h7rXmBHXEvQTXXzrCN07zNMk4KkWU0Jo7uAXQ6UL5zgOABJLJJx0074rwPvjvtRGoImAk=
+X-Received: by 2002:a17:902:e983:b029:d5:f465:55d5 with SMTP id
+ f3-20020a170902e983b02900d5f46555d5mr11752807plb.60.1604910646368; Mon, 09
+ Nov 2020 00:30:46 -0800 (PST)
+MIME-Version: 1.0
+References: <20201109000217.3008448-1-raj.khem@gmail.com>
+In-Reply-To: <20201109000217.3008448-1-raj.khem@gmail.com>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Mon, 9 Nov 2020 09:30:35 +0100
+Message-ID: <CALbNGRRuWJb5OXhh6vbM+BoBw1zk2THMJYju8_GWCbGpu+UWxg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 01/11] lto: Add global LTO distro policy file
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Teoh Jay Shen <jay.shen.teoh@intel.com>
+On Mon, Nov 9, 2020 at 1:02 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Distros which want to enable LTO can utilize this file, it only covers
+> packages from OE-Core, other layers should include there own exclusion
+> list for recipe which dont work with LTO
+>
+> Document the needed changes in local.conf.extended
+>
+Maybe I missed something but I haven't seen a word why I should want
+link time optimization. And from the patches I see here it seems we
+are about to create another contributor's burden.
 
-Rework this test case to fulfill the requirements of replacing the click_terminal_icon_on_X_desktop manual test case from oeqa/manual/bsp-hw :
-1) code added to verify that the terminal window is working without problem
-2) code added to verify that there's only 1 terminal window is launched
-
-Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
----
- meta/lib/oeqa/runtime/cases/terminal.py | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/terminal.py b/meta/lib/oeqa/runtime/cases/terminal.py
-index a268f26..8a079a5 100644
---- a/meta/lib/oeqa/runtime/cases/terminal.py
-+++ b/meta/lib/oeqa/runtime/cases/terminal.py
-@@ -2,17 +2,22 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.runtime.decorator.package import OEHasPackage
- 
--import threading
--import time
-+import re
- 
- class TerminalTest(OERuntimeTestCase):
- 
-     @OEHasPackage(['matchbox-terminal'])
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     def test_terminal_running(self):
--        t_thread = threading.Thread(target=self.target.run, args=('export DISPLAY=:0 && matchbox-terminal',))
--        t_thread.start()
--        time.sleep(2)
-+        
-+        status, output = self.target.run("export DISPLAY=:0 && matchbox-terminal",)
-+        check_terminal = re.search("Process killed - no output for 300 seconds.", output)
-+        self.assertTrue(check_terminal, msg='Terminal window should be launched without any problem')  
-+        
-+        status, output = self.target.run('pidof matchbox-terminal | wc -w')
-+        output = int(output)
-+        self.assertEqual(output, 1, 'There should be only one terminal window being launched. Terminal window launched : %s' % output)
-+      
-         status, output = self.target.run('pidof matchbox-terminal')
-         self.target.run('kill -9 %s' % output)
-         self.assertEqual(status, 0, msg='Not able to find process that runs terminal.')   
--- 
-2.7.4
-
+Andreas
