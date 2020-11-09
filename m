@@ -1,113 +1,98 @@
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
- by mx.groups.io with SMTP id smtpd.web11.4530.1604880142101771492
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web09.4519.1604880142935425591
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2020 16:02:22 -0800
+ Sun, 08 Nov 2020 16:02:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eJMGcFVd;
- spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f194.google.com with SMTP id h6so5330134pgk.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ramBDzIW;
+ spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f196.google.com with SMTP id e21so5307073pgr.11
         for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2020 16:02:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2vQhRrJZiHEqk04jobms8Ipc52TqCysWURD0Fcop8K8=;
-        b=eJMGcFVdDuTSIqurCHhRlj7zLvNqJbBcNA6g5w+A1/u+f+HL1xVChATazOoKfBKfFj
-         2u8Kuvvhuq1kI0/fKLobbcW1FvCTpG0HwVPqwD5EJ6/NV8YIG2DEaGj88phAw8cfYYAl
-         LfWiFieUaJ2JVHZIn8yM8vtH4uEcknQz0Ddmh7aqWZS767IeEPgrxNSU/s0twomr/6LF
-         BDw38e96eSw8SaGXzxkRGUs4pInpBMxlKXevuueVET9EIZmG2tAZm8DSCil1yIt2ID2v
-         K9H4ZnC8FcgWwvEm2z0SYVBl7zeikGl8jXhF7ZCqpzjiPyUx2+AWfvGVFT3LvuINnxFn
-         eypw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=s4+DdXtXcOkfd3syIfCgyJ8C87e+Q7xoExs/gSrlgz0=;
+        b=ramBDzIWY1MX3QT7tMskzEl4dMLZpC3qdeU7lH5tYvzjlTKZ/vedoUt9aFv76MF22N
+         t3625ev71HOnitzVxFQnAfeMmU0JjkidU9kXLB3B5g8ckkw+5UkJxVgCB3WxKrDZV/fF
+         5KtZBG8UAb6CI8y8nPN1ehjfD37EYuYaFJL9PiuZTHVmZJkFZX2E1xdbUdQB4JNS5Dj6
+         v3wG05rG12QH/TXIjWU5HLrxdWQudTHmGWNEQxrpJcAJCnmu3p+nuAWbBL9CPD3NjnV1
+         PpeibKKdGJN6XptatT5UHQH3yamwtIbSN8BZPv423GdULYiqnM08TeSpu74biGsE2DbP
+         Qc4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2vQhRrJZiHEqk04jobms8Ipc52TqCysWURD0Fcop8K8=;
-        b=hbLwR595xIb+W91lErHrpW/jdWcgGJ1xWeC3x97U6LoMI5/JR9ZtaewW+KQzQg29mf
-         M0n33QGSC3kiSJaUIgpFuTKT51ZFtM6zZwHPzp4NOwMBNCsAhS+umoojMm3Sc2ZeLXMj
-         CpHHXwnGw1bs6h5zYI9SyrP3GvvbIuA8w5d4BrGrOhicALVy5LJcN4KlbhGQCwXqr3GF
-         GhNMDUME8YxFh3vKq6tyAs+sFbV8sukw5nMc3SFfdlE+28yrStndYdKbjy4zTErVV7IX
-         +3AOonvaNr6geUdmthFFDWVg4Z9S3KpSkbAplPzTQSJB7++ELjDVlTJwhU12uTEYIPRh
-         pMyw==
-X-Gm-Message-State: AOAM5327uKBssBPEORUwpgmepWQwnYAqYCzPzcBmaNc6SRllMafmsqFY
-	eABsNnPPyFSKmiFyuz5Bv/iLeLpY2VRg+w==
-X-Google-Smtp-Source: ABdhPJy1rgI3fBQkXbvSOsKcq1HfIo0OB9D6jftL651ybmWoJdrYZhK+FN+2JerDcBTLbPEoPkwHFg==
-X-Received: by 2002:aa7:92c3:0:b029:163:d2d6:8db1 with SMTP id k3-20020aa792c30000b0290163d2d68db1mr11621243pfa.17.1604880141191;
-        Sun, 08 Nov 2020 16:02:21 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=s4+DdXtXcOkfd3syIfCgyJ8C87e+Q7xoExs/gSrlgz0=;
+        b=VyKJid1Gsx/PTJpUbACbitqDMA+uDtZj/5m3AH6qfCbZ8iR7GTXh1LE7oYxV8zR0Zs
+         /JaWm2XcFXu1sqy4gl4xs3L593zXgi6lb64FfWlX1HBg+foprJTjbLywseMcdPKW0isg
+         zv22DqvFe3xDXKxyIjSeCixZvXGc75e8Yx6OFJ0iia0agB8z4Y5t/lNheD/frFjs03LU
+         NbEZ6GU39dnSYJfa4eDz70j/godXChhcoOSv1HxWQU3+y7pqrR4ZE/VBU98QGOlb07YQ
+         0jfPfYX5vUUQww2wBFyH0TnM7D2IHnx1JCJUtixRFzn2KVklbVmFaVVu5tr4HfEjfs9v
+         q33g==
+X-Gm-Message-State: AOAM532VC/IcSLSJGSSc56hMC0e0VLYA690aG5NYahuyDTpAEMetqOZC
+	tY10YpmnH8yXh2mWnAZNx3J2bn+ZyP9NnA==
+X-Google-Smtp-Source: ABdhPJwssPXBf2kRftF7IqksTmNCTCtUZR/Bka+Y6edk8ropYJ04Rl81azt0+Jex9P0gHhjAOfQhcQ==
+X-Received: by 2002:a17:90b:80e:: with SMTP id bk14mr10211434pjb.109.1604880142201;
+        Sun, 08 Nov 2020 16:02:22 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::740e])
-        by smtp.gmail.com with ESMTPSA id c2sm8825227pfb.196.2020.11.08.16.02.19
+        by smtp.gmail.com with ESMTPSA id c2sm8825227pfb.196.2020.11.08.16.02.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2020 16:02:20 -0800 (PST)
+        Sun, 08 Nov 2020 16:02:21 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v5 01/11] lto: Add global LTO distro policy file
-Date: Sun,  8 Nov 2020 16:02:07 -0800
-Message-Id: <20201109000217.3008448-1-raj.khem@gmail.com>
+Subject: [PATCH v5 02/11] python3: Enable lto if its in DISTRO_FEATURES
+Date: Sun,  8 Nov 2020 16:02:08 -0800
+Message-Id: <20201109000217.3008448-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201109000217.3008448-1-raj.khem@gmail.com>
+References: <20201109000217.3008448-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Distros which want to enable LTO can utilize this file, it only covers
-packages from OE-Core, other layers should include there own exclusion
-list for recipe which dont work with LTO
-
-Document the needed changes in local.conf.extended
+python3 configure compiles on object file and then greps for strings in
+it for endianness for target ,when using LTO the .o files are not nomal
+ELF onjects so this test fails, since we are using --enable-lto to
+enable this here we dont need to inject extra paths via bitbake anyway
+therefore reset LTO variable for target
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/distro/include/lto.inc     | 28 ++++++++++++++++++++++++++++
- meta/conf/local.conf.sample.extended |  4 ++++
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/conf/distro/include/lto.inc
+ meta/recipes-devtools/python/python3_3.9.0.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/lto.inc b/meta/conf/distro/include/lto.inc
-new file mode 100644
-index 0000000000..fe0f6c9f44
---- /dev/null
-+++ b/meta/conf/distro/include/lto.inc
-@@ -0,0 +1,28 @@
-+# To enable LTO, add following in local.conf
-+# require conf/distro/include/lto.inc
-+# DISTRO_FEATURES_append = " lto"
-+#
+diff --git a/meta/recipes-devtools/python/python3_3.9.0.bb b/meta/recipes-devtools/python/python3_3.9.0.bb
+index 6402760a1b..8fe60ea016 100644
+--- a/meta/recipes-devtools/python/python3_3.9.0.bb
++++ b/meta/recipes-devtools/python/python3_3.9.0.bb
+@@ -74,6 +74,9 @@ export CROSSPYTHONPATH="${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynl
+ 
+ EXTRANATIVEPATH += "python3-native"
+ 
++# LTO will be enabled via packageconfig depending upong distro features
++LTO_class-target = ""
 +
-+# Disable LTO for following packages
-+LTO_pn-glibc = ""
-+LTO_pn-gcc-runtime = ""
-+LTO_pn-libgcc-initial = ""
-+LTO_pn-libgcc = ""
-+LTO_pn-libpam = ""
-+LTO_pn-elfutils = ""
-+LTO_pn-perl = ""
-+LTO_pn-busybox = ""
-+LTO_pn-libxcrypt = ""
-+LTO_pn-curl = ""
-+LTO_pn-libcap = ""
-+LTO_pn-libproxy = ""
-+LTO_pn-libbsd = ""
-+
-+# Override it for additional or different options if needed e.g.
-+# with clang thin-lto might be better for compile speed
-+LTO ?= "-flto"
-+
-+SELECTED_OPTIMIZATION_append = "${@bb.utils.contains('DISTRO_FEATURES', 'lto', ' ${LTO}', '', d)}"
-+TARGET_LDFLAGS_append_class-target = "${@bb.utils.contains('DISTRO_FEATURES', 'lto', ' ${LTO}', '', d)}"
-+
-+SELECTED_OPTIMIZATION[vardeps] += "LTO"
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index 9aa226a2d0..2c4b8ad8cb 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -417,3 +417,7 @@
- # ERR_REPORT_UPLOAD_ALL = "1"
- #
- # INHERIT += "report-error"
-+
-+# Enable LTO Distro-wide
-+# require conf/distro/include/lto.inc
-+# DISTRO_FEATURES_append = " lto"
+ CACHED_CONFIGUREVARS = " \
+                 ac_cv_file__dev_ptmx=yes \
+                 ac_cv_file__dev_ptc=no \
+@@ -88,7 +91,7 @@ def possibly_include_pgo(d):
+     
+     return ''
+ 
+-PACKAGECONFIG_class-target ??= "readline ${@possibly_include_pgo(d)} gdbm"
++PACKAGECONFIG_class-target ??= "readline ${@possibly_include_pgo(d)} gdbm ${@bb.utils.filter('DISTRO_FEATURES', 'lto', d)}"
+ PACKAGECONFIG_class-native ??= "readline gdbm"
+ PACKAGECONFIG_class-nativesdk ??= "readline gdbm"
+ PACKAGECONFIG[readline] = ",,readline"
+@@ -96,6 +99,7 @@ PACKAGECONFIG[readline] = ",,readline"
+ PACKAGECONFIG[pgo] = "--enable-optimizations,,qemu-native"
+ PACKAGECONFIG[tk] = ",,tk"
+ PACKAGECONFIG[gdbm] = ",,gdbm"
++PACKAGECONFIG[lto] = "--with-lto,,"
+ 
+ do_configure_prepend () {
+     mkdir -p ${B}/Modules
 -- 
 2.29.2
 
