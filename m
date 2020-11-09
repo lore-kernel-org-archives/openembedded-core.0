@@ -1,90 +1,101 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web08.6324.1604890630598729145
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web09.6323.1604890633015422076
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2020 18:57:10 -0800
+ Sun, 08 Nov 2020 18:57:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=y+Ku0N2d;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id w14so4073293pfd.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2020 18:57:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xeMhYwEm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id q10so6709769pfn.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2020 18:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=nnvdsGjAtie/YtYdBSKys1F0b27TKSO64rAoTa/GpJs=;
-        b=y+Ku0N2dn2kjWZLiIUi7VqQGxFra0/0hBkMNhQbfp1jGllfpVj03aba0UJPmUz/aAA
-         iA9Qy1miNue21ve0E6fCyTQKpkq2rJV6+LjmM+ChRJMNgFuCqBaXQFwqReDX1OIPVNeg
-         pBb8x6/J5uLd0VbEeW6C8cxxf/Cw5aEzf5xLOV7EcGj+IHmewR6XBx+4N20Oe4S8FLRz
-         07EDzRzfnzAEWZcE9Y3cLcjfw0NJNsQVRJ7MhhZtk9WdyylJ6mnoy0yffFAC5zAXTpU3
-         vq4PGRlEZxEgkC6CEUWCJCXekJJ0u/GPVEwiBbo6YKhlOzQVjfRdbMBwn2Y1Y207nhs5
-         eF5g==
+        bh=0onr0cEs2Y7jWJyoxP3UCtMDQNQmjQUMqUz/QpsUWNQ=;
+        b=xeMhYwEm4E5BpMXNUzeodRjdyu6a2h+0WRfVgqBedHOSvx1YW4bsLVKvwmkJyVsP9V
+         hIczlvVhwwqnSRT09htDBTd/9r7uIsCRMiDh8W80/1J9ULYAR44eaWwQttmgIDKAx4Gj
+         dBo0C/9oCyGvrO3/0brNU6gccVm+BVdNsNgkdXiQPW2LuL2BB4NkJ0AkRsD3B/H+hpnm
+         hYnXbaA5hCsjbPX6P8YejhokWyNMVNuMkr/MvYu4XR+iyOZlO98NL4X49Vw+KTRTRBtX
+         oDSlPQvKJSgcb/7PsUYqF6XnKjrwW4TfzzlLKEcBQluCZn11sKO8teElPb9KtwEjqBGn
+         sJKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=nnvdsGjAtie/YtYdBSKys1F0b27TKSO64rAoTa/GpJs=;
-        b=Z+TYRLswwXtxHRKknfUB0Ey2PjWfqBW6O0uH8czf9oOGH5Fh+Ol4y6iM3HSg9p3i+J
-         sH5jZ1mIxMA5jBBfP9NUjUhHO8P5azo/IDM8kdGGYiLpIzMDDHuD4jlfXMfA1rZLMSW8
-         zBc7hTPJxMKyyxwXJQB9tpF2r37xjU5+WJnrfoPGg47xmv8Sk5o7cOEv4OoPV6j210OD
-         swRtN/UrID8olE9vU9/qUC6u+djyjZuiN3BYSwDy4oaPfhC8NWw/GnF62oLbez8uHNpO
-         zSyyTT+oBnD+PdV2j8jIh4t4+l7MYsqs8Clluc5O1qtGVLZM7D0ARM86E6ft715/xWOR
-         LYlw==
-X-Gm-Message-State: AOAM531NHIVFwyDSKpDjTbDIXXVjvT8zEszuUf+5JoqL3kjvpN+0KSBv
-	QliXYINA9YDtzQ6S+YTAQfYY10Eiidz53Rvy
-X-Google-Smtp-Source: ABdhPJzeXLMNy9XzIJ/RM5TPpKDjRQNWQBTRwinWkSUWoGzedk0X71ivIGGQ455Ll71DOcqY7iS5yQ==
-X-Received: by 2002:a62:8f82:0:b029:18b:2db7:41d9 with SMTP id n124-20020a628f820000b029018b2db741d9mr11971131pfd.66.1604890629743;
-        Sun, 08 Nov 2020 18:57:09 -0800 (PST)
+        bh=0onr0cEs2Y7jWJyoxP3UCtMDQNQmjQUMqUz/QpsUWNQ=;
+        b=RKEA+FcJZr62Jtj9XPJ9xYQzrjE4Lx9pybHGnU+77dqNrAoUC6UVMX9r7Srsfq2Jzo
+         z/iHjEkFNj4zYMnhC4U9S0BpV/j3BDQDikgZBIdEYW2q7WDtzWk1ZZHM86lyyQXkbB/g
+         o3aoXnZrFW0tVR589c2GOdhi+AR0cU+5M5yWL2rObFgwvb5nduAhYG3JxdEsLUo0HxIe
+         wDuzx+wrjx+GfNseORiR3DDYrDCm9YqBVLhmwwv8EI7x87P4LCp2P8P30YbRNN71Zdh0
+         FeYKAZ4v9z+XacGFrrCibVUXrsqDVgS9CJWyH0JLqTpKOphNC931rG3JpBKm1f2GFYD5
+         XIYQ==
+X-Gm-Message-State: AOAM531VFEvIBOh3VKVQDAK4kgLOLsGtyBNKU+TCuFRcO9oObPfRppHR
+	ll1Tc2fQ+V6wW5FuTCz2GiFkItK9NlObRmMO
+X-Google-Smtp-Source: ABdhPJx0MsbvWo+WlT8m10ORRJG98PjqOUjp/ZGZs8KM2wsZLe938+fAJIm0tfwtYl1vxoIQ7Rnn6w==
+X-Received: by 2002:aa7:9501:0:b029:155:3b11:d5c4 with SMTP id b1-20020aa795010000b02901553b11d5c4mr12293935pfp.76.1604890632139;
+        Sun, 08 Nov 2020 18:57:12 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s4sm9107037pjp.17.2020.11.08.18.57.08
+        by smtp.gmail.com with ESMTPSA id s4sm9107037pjp.17.2020.11.08.18.57.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2020 18:57:09 -0800 (PST)
+        Sun, 08 Nov 2020 18:57:11 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 07/12] linux-firmware: upgrade 20200817 -> 20201022
-Date: Sun,  8 Nov 2020 16:56:14 -1000
-Message-Id: <6d53fe9a67f3d6736e66ef00a01be80aa18b1612.1604890441.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 08/12] netbase: update SRC_URI to reflect new file name
+Date: Sun,  8 Nov 2020 16:56:15 -1000
+Message-Id: <ba9a77477a3f278afd8ac8615fb19d187a799dd0.1604890441.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1604890441.git.steve@sakoman.com>
 References: <cover.1604890441.git.steve@sakoman.com>
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+The netbase_6.1.tar.xz file was removed and replaced with
+netbase_6.1_bpo10+1.tar.xz.  File contents are identical except
+for the changelog:
 
-License-Update: WHENCE file names updates
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+$ diff -rup netbase-6.1 netbase-6.1~bpo10+1/
+ diff -rup netbase-6.1/debian/changelog netbase-6.1~bpo10+1/debian/changelog
+ --- netbase-6.1/debian/changelog	2020-02-16 13:22:04.000000000 -1000
+ +++ netbase-6.1~bpo10+1/debian/changelog	2020-08-26 23:10:59.000000000 -1000
+ @@ -1,3 +1,9 @@
+ +netbase (6.1~bpo10+1) buster-backports; urgency=medium
+ +
+ +  * Rebuild for buster-backports. (Closes: #969058)
+ +
+ + -- Arturo Borrero Gonzalez <arturo@debian.org>  Thu, 27 Aug 2020 11:10:59 +0200
+ +
+  netbase (6.1) unstable; urgency=medium
+
+    * services: added isakmp (500/udp) which was removed by mistake in
+
+[YOCTO #14084]
+
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit bca259699d79bb16a6f07afa80f2768f9c62ceec)
+(cherry picked from commit d8a09c2fcf2f8c91b7e3fea16f5c484e56187bbf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...{linux-firmware_20200817.bb => linux-firmware_20201022.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200817.bb => linux-firmware_20201022.bb} (99%)
+ meta/recipes-core/netbase/netbase_6.1.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
-index 0abd28c9fa..045f2647e0 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
-@@ -126,7 +126,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=4d229f79f8770b5b2c4aac655b9fabef \
-+                    file://WHENCE;md5=daf28db5d6353de0a886f08106cffa22 \
-                     "
+diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.1.bb
+index bc0049c020..0153746a90 100644
+--- a/meta/recipes-core/netbase/netbase_6.1.bb
++++ b/meta/recipes-core/netbase/netbase_6.1.bb
+@@ -6,10 +6,11 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+ PE = "1"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -198,7 +198,7 @@ PE = "1"
+-SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}~bpo10+1.tar.xz"
++S = "${WORKDIR}/${BPN}-${PV}~bpo10+1"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
+-SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
++SRC_URI[md5sum] = "4fa7517285b4045ac0dc8dbf6730dd7a"
++SRC_URI[sha256sum] = "4e9c3082dff8896cb6b6bea9bb2200d82fb0d7c8d8c8fc9b18704fe553316237"
  
--SRC_URI[sha256sum] = "76d05d5f1eff268d3b80675245fa596f557bd55ee2e16ddd54d18ffeae943887"
-+SRC_URI[sha256sum] = "bf586e0beb4c65f22bf0a79811f259aa0a5a7cc9f70eebecb260525b6914cef7"
- 
- inherit allarch
- 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+ do_install () {
 -- 
 2.17.1
 
