@@ -1,95 +1,98 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web11.6383.1604890620023629683
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web09.6320.1604890622564524893
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Nov 2020 18:57:00 -0800
+ Sun, 08 Nov 2020 18:57:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WAXws1zl;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id 10so6697500pfp.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2020 18:56:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vXnOi+Aa;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id c20so6687700pfr.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Nov 2020 18:57:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=W95tK1yVq9vZcARyro7BXlUiK5CeI/30BLDNfpXFnic=;
-        b=WAXws1zlWKda85D4dYZM/da9a1s8P0WIIIORgOv5aBm2T6+aj7lSB6R6wd3Cbn1L/p
-         6aWVy9heS6hsAHapysbYGUyPmYOoibmqkckuM/5ULLdrhSgoPIwg1tV8Jh/+A6VqyKFo
-         40AbeF45JrmPUxTKPbrBIR9BFqT6176bl0PCYHikSsYXS1Viyb3vnXFN+dW5x9o1DprG
-         Ck5FJNG8G/aOZUnSnUfHsd/vNN9UJhj6kSGjZ1egoFxRc90LKZXuThj3ubjWnrhjENmc
-         +DcqM0e2pBHOcbQ1VrTXxfs6ZlVdrdp36io/Op2PO0WTHg/XdVxh0FZfmhTjNeUoDPQp
-         B8rQ==
+        bh=ID9qxOLMXK/2theo1WHT6rirfG1BwK+zk2PGsBoRFTY=;
+        b=vXnOi+AanMRgL9gL3i2jfFqvppobKsYgoNVjtmbEjKg0AwoDAFbSopziLRXBcaEFOb
+         7KItsONvD3gr26xDtKOp4Mf2Xn7vRkG/CE9Sim6i9vjFtK4Gt03CfZbSsuJdX/NpsaB5
+         C9rQc+qBOy/uu6hWuN8IqScTJPZzB+QGBS+4/iCpYzu58ZbXEgJlXe+Q+9jfKanj/qS1
+         r+e/vw8x/f568oJlU6NYPJ+xu603vhyA4rLiJ/vaPA3q7l0IIMap7L0SqiLizDu6/JLC
+         LV7y8zOx3sfW78DF4OGhLc7kVwcn/RB4uezX3JxaCFZ1sDiJHk1J0W1FtsHqT4KDfcCi
+         Zeyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=W95tK1yVq9vZcARyro7BXlUiK5CeI/30BLDNfpXFnic=;
-        b=YNw1DFNJCtfznV0rH2O+SnRkflXcCjAAUmlZybRtq+BqNpjhyMuSlyRrjNI221Mlbl
-         RSyuapjYK2MSSJLWv8gvgkmDl4eywQnESJpVuX+ZoUDEEwiZ+aJZMinXiYSkZp8Q/EjH
-         j/fmrYyNwcjUa9qqI254yE12+pLOE2XTyY+RBJ2nIRwVw+SaYxwJe2t1mJoBcltFJCvi
-         dDqyNQkB/bdpe0kzs7BXLQXFHx/Wpdp2mvWvjCvKb8dQovlAFasvlQs8EKsBjz68e6yc
-         YValdcPqB30Qu3R5gSjAPIvtca6mufhiSb6ycML5rbK78rOBCgvnnFnhOYxjonoh3aco
-         HK/A==
-X-Gm-Message-State: AOAM530mB6NTiLRhgbr1N8/RIf8hkASQoPc2iBdC2sdYSEEdO4MRgLrE
-	hjxzw000Owlzl/UbW0fDl+ohibmBRVd43nWc
-X-Google-Smtp-Source: ABdhPJwrI0jFgWNkLHKlME1RVFmvhSxXiGBLtfUAegkNiujgE8cXgtzdqnEuVxQZ08J1vgHQ15IKoQ==
-X-Received: by 2002:a62:8709:0:b029:18b:23db:7712 with SMTP id i9-20020a6287090000b029018b23db7712mr11896774pfe.66.1604890619081;
-        Sun, 08 Nov 2020 18:56:59 -0800 (PST)
+        bh=ID9qxOLMXK/2theo1WHT6rirfG1BwK+zk2PGsBoRFTY=;
+        b=JLmfXWNUXbZw44PqG23uOxrBycbkdnMBSAHzJCDYNgy96vPs6lCfj5/2G0kOirbIHM
+         yvFQm7ukVkMM4POF5SqbCR1uiaIeVcMD/tbIAULcpsUXfv6v4trV9eHbDxLPNL/jjYUu
+         IsXTHPCMQNjC7RscAouIAWc8XynfSWKTIHoFdYgsYTlTXT6HxFGEDdcrGawwZMJHLsjg
+         6dftQDz2x69fX+F1hYVNNSk3TrmHtTtaxWSCJJJ3zmUN8+pbBwHawnzRUFpfPbttgN1y
+         fh4yf6x7eW5sK/vq3OOn2kKaZ+kFOHOin7GTLBHF7CNQr/GBNmo44IanfCc4TWttW9tt
+         QQbw==
+X-Gm-Message-State: AOAM532Il7iqIJOYvhZhvpUuCoxUqJbsIiXvJif7YwKwvy0Kcxqq090/
+	4x2T0d0eVloPDpJV4mUvgeyA7Rddnocg12cn
+X-Google-Smtp-Source: ABdhPJyLHlu+EVbzpTiQo3JcllSfAOujpPIzc8HR2H2zUP56yp5Cri5v9O5Sdi/DDq/0QJJ+oWaa+Q==
+X-Received: by 2002:a63:42c2:: with SMTP id p185mr11058516pga.245.1604890621728;
+        Sun, 08 Nov 2020 18:57:01 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s4sm9107037pjp.17.2020.11.08.18.56.57
+        by smtp.gmail.com with ESMTPSA id s4sm9107037pjp.17.2020.11.08.18.57.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2020 18:56:58 -0800 (PST)
+        Sun, 08 Nov 2020 18:57:01 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/12] update_udev_hwdb: clean hwdb.bin
-Date: Sun,  8 Nov 2020 16:56:10 -1000
-Message-Id: <10413cf013ae5a92ef12f33dab8e67f0bfb0ae25.1604890441.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/12] linux-firmware: add Amlogic VDEC firmware package
+Date: Sun,  8 Nov 2020 16:56:11 -1000
+Message-Id: <9d30f3ff95ba3461f473903a79a1ca5a334c9a07.1604890441.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1604890441.git.steve@sakoman.com>
 References: <cover.1604890441.git.steve@sakoman.com>
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
 
-Steps to reproduce:
-echo "IMAGE_INSTALL_append = \" udev-hwdb lib32-udev-hwdb\"" >> conf/local.conf
+Add package for the Amlogic VDEC firmwares.
 
-When install both udev-hwdb and lib32-udev-hwdb as above,
-there comes below do_populate_sdk error:
- $ bitbake core-image-sato  -c populate_sdk
- ERROR: Task (/path/core-image-sato.bb:do_populate_sdk) failed with exit code '134'
- NOTE: Tasks Summary: Attempted 5554 tasks of which 0 didn't need to be rerun and 1 failed.
-
- $ cat /path/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r5/pseudo/pseudo.log
- [snip]
- inode mismatch: '/path/tmp/work/qemux86_64-poky-linux/core-image-sato/1.0-r5/sdk/image/usr/local/oecore-x86_64/sysroots/core2-64-poky-linux/lib/udev/hwdb.bin' ino 427383040 in db, 427383042 in request.
- [snip]
-
-It is because both udev-hwdb and lib32-udev-hwdb will generate
-${SDK_OUTPUT}/${SDKTARGETSYSROOT}/lib/udev/hwdb.bin during do_populate_sdk
-and it triggers pseudo error.
-
-So clean hwdb.bin before generate hwdb.bin to avoid conflict to
-fix the above do_populate_sdk error.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c7472925feb53ce92c1799feba2b7a9104e3f38f)
+(cherry picked from commit aeb014b50433f254ced275711bee940cde9c1c8a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/postinst-intercepts/update_udev_hwdb | 1 +
- 1 file changed, 1 insertion(+)
+ .../linux-firmware/linux-firmware_20200817.bb             | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/postinst-intercepts/update_udev_hwdb
-index 102e99b947..8076b8ae6f 100644
---- a/scripts/postinst-intercepts/update_udev_hwdb
-+++ b/scripts/postinst-intercepts/update_udev_hwdb
-@@ -17,5 +17,6 @@ case "${PREFERRED_PROVIDER_udev}" in
- 		;;
- esac
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
+index ffeb8e6926..5c9d4c3e04 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200817.bb
+@@ -294,6 +294,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 ${PN}-qcom-venus-5.2 ${PN}-qcom-venus-5.4 \
+              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
+              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
++             ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+              ${PN}-whence-license \
+              ${PN}-license \
+              "
+@@ -881,6 +882,12 @@ RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
  
-+rm -f $D${UDEVLIBDIR}/udev/hwdb.bin
- PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D ${UDEV_EXTRA_ARGS}
- chown root:root $D${UDEVLIBDIR}/udev/hwdb.bin
+ FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
+ 
++# For Amlogic VDEC
++LICENSE_${PN}-amlogic-vdec = "Firmware-amlogic_vdec"
++FILES_${PN}-amlogic-vdec-license = "${nonarch_base_libdir}/firmware/LICENSE.amlogic_vdec"
++FILES_${PN}-amlogic-vdec = "${nonarch_base_libdir}/firmware/meson/vdec/*"
++RDEPENDS_${PN}-amlogic-vdec = "${PN}-amlogic-vdec-license"
++
+ # For other firmwares
+ # Maybe split out to separate packages when needed.
+ LICENSE_${PN} = "\
+@@ -888,6 +895,7 @@ LICENSE_${PN} = "\
+     & Firmware-agere \
+     & Firmware-amdgpu \
+     & Firmware-amd-ucode \
++    & Firmware-amlogic_vdec \
+     & Firmware-atmel \
+     & Firmware-ca0132 \
+     & Firmware-cavium \
 -- 
 2.17.1
 
