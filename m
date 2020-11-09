@@ -1,121 +1,122 @@
-Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
- by mx.groups.io with SMTP id smtpd.web11.9335.1604915614685764133
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web10.14643.1604942173864890918
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2020 01:53:37 -0800
+ Mon, 09 Nov 2020 09:16:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=CzrI0hOI;
- spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: dzagorui@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1978; q=dns/txt; s=iport;
-  t=1604915614; x=1606125214;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=64GREgLsu1AGU5uBRmTj0EyJyjasa3H8YyGYGqz2xR0=;
-  b=CzrI0hOIi0d8U/YkcSwnGI5HUgvBIh4G/we1AnekRBfNl5fGSS6XXHoU
-   lY2XVecvdlELvitVl9Uvpq892eIgnfUZGP1NIUKAcL+V9eoceX1/dFtGC
-   zLbUd06wlCOrXRE+n5QnRJZGvLcBRgoMxtnVP3YCYLr0ZTxYcg3XWsHn8
-   0=;
-X-IPAS-Result: =?us-ascii?q?A0CsCAC0EKlffYMNJK1iHgEBCxIMQIRtWS8uCpZZmyYLA?=
- =?us-ascii?q?QEBDQEBHw4CBAEBhEoCghICJTgTAgMBAQEDAgMBAQEBBQEBAQIBBgQUAQGGP?=
- =?us-ascii?q?AyFcwMDeRACAQghJQ8jJQIEDgWDJ4MGrEh0gTSFV4RxgTiNPxuBQT+BEYEUg?=
- =?us-ascii?q?Uk1PoQ+hXYEnD2baQoggk2JDZIAIqFwtBQCERWBMzghgVlwFYMkCUcXAg2Qa?=
- =?us-ascii?q?4t9dDgCBgoBAQMJfIw7AYEQAQE?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="5.77,463,1596499200"; 
-   d="scan'208";a="621117143"
-Received: from alln-core-1.cisco.com ([173.36.13.131])
-  by alln-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 09 Nov 2020 09:53:33 +0000
-Received: from XCH-RCD-003.cisco.com (xch-rcd-003.cisco.com [173.37.102.13])
-	by alln-core-1.cisco.com (8.15.2/8.15.2) with ESMTPS id 0A99rXLP028690
-	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 9 Nov 2020 09:53:33 GMT
-Received: from xch-aln-004.cisco.com (173.36.7.14) by XCH-RCD-003.cisco.com
- (173.37.102.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 9 Nov
- 2020 03:53:32 -0600
-Received: from xch-aln-004.cisco.com ([173.36.7.14]) by XCH-ALN-004.cisco.com
- ([173.36.7.14]) with mapi id 15.00.1497.000; Mon, 9 Nov 2020 03:53:32 -0600
-From: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for arm64
-Thread-Topic: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for
- arm64
-Thread-Index: AQHWrejRVNz5C+744kaUUDNWNcIlOamwE3FkgA+MDTQ=
-Date: Mon, 9 Nov 2020 09:53:32 +0000
-Message-ID: <1604915612657.49318@cisco.com>
-References: <20201029114052.23141-1-dzagorui@cisco.com>,<CADkTA4OGBOtnMD=t1xppe-5quLow8uPf99ZHknrSnPLAQKkoDA@mail.gmail.com>,<1642C502B17F26A6.28917@lists.openembedded.org>
-In-Reply-To: <1642C502B17F26A6.28917@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [173.38.209.9]
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ENHC+6Lv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id a65so123153wme.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2020 09:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=FceBHlHfnyzAqYqRSCePqBhWzwCEpl1x7oxSc4tagxA=;
+        b=ENHC+6LvBGxpx+lyhJK7YeGV6lmyNdwL/0xAGa01wJ9MprUyJBDcjeh1CsUleE7pvV
+         +Gge/u2JdNjFeCT3A7HSxpvnJ1jAXX3wcVLyzmzcNJopajGbK185yochx79qXN0ZpkUX
+         Z2fPpRQhDXV9dyf+upXwDq02MzB1959OByh3U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=FceBHlHfnyzAqYqRSCePqBhWzwCEpl1x7oxSc4tagxA=;
+        b=YlF79fyIfDkxei4HxpONEn5m/lqrKWq9+W3rmbdU7sV+42FczMLZUX+m0psSIKorSJ
+         A2S/PHHQ6+s5vWfI1wk7KTZ4+p3f58WRHw3jguJotiBBNgEtiQqot/wjFEMHIbdGv5Pi
+         4PbgpFR8/On5fex6S4BLeP6Oxd/c+aUHFQ9fi0rhRh/rWMcGwoTzox4G9sV+PGlUqh5X
+         9n4ipXIZDIjfdWfrtt1ahxFwUkzPIdNuFuVKCwGVNGjaD3+wPgOJvksUP00nmWM2dpA5
+         wMpdGMLb0GUVX4KENwjdHBH0YjdB4IkavGZDP13wOU8pc11kVPGSzENVKxApg3SXmemm
+         j0CA==
+X-Gm-Message-State: AOAM531LI46x69kw0tgjAO0pl74Xo0Q9QT5upbWKOOpuDROWLCf63uuA
+	I564blbFalhg/EtFk2P51fdp0A==
+X-Google-Smtp-Source: ABdhPJxwvUGBTUhbUZ2lBJBnjWMJRMDur8l+KXblcqSsKhj+nDOOaq+v3x/UMd+LcHNND16H2WoFHA==
+X-Received: by 2002:a1c:7418:: with SMTP id p24mr201095wmc.36.1604942172525;
+        Mon, 09 Nov 2020 09:16:12 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 2.f.3.d.1.3.3.a.9.f.d.f.a.e.5.a.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (2.f.3.d.1.3.3.a.9.f.d.f.a.e.5.a.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:a5ea:fdf9:a331:d3f2])
+        by smtp.gmail.com with ESMTPSA id h128sm57026wme.38.2020.11.09.09.16.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2020 09:16:12 -0800 (PST)
+Message-ID: <d94ba0eebc39fa15b9324e74c7c7ef18bf09e1ce.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH 02/12] oeqa/buildperf: use weston image instead of sato
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 09 Nov 2020 17:16:10 +0000
+In-Reply-To: <20201109083133.16503-2-alex.kanavin@gmail.com>
+References: <20201109083133.16503-1-alex.kanavin@gmail.com>
+	 <20201109083133.16503-2-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 173.37.102.13, xch-rcd-003.cisco.com
-X-Outbound-Node: alln-core-1.cisco.com
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> > > .vdso-offsets.h.cmd contains command that was used to produce vdso-of=
-fsets.h.=0A=
-> > > It breaks reproducibility because it has an absolute path in it. Ther=
-e is no=0A=
-> > > any value to package such files so it can be dropped.=0A=
-> > >=0A=
-> >=0A=
-> > Have you confirmed that an on-target 'make scripts prepare' property=0A=
-> > regenerates the file without triggering and oldconfig ?=0A=
-> >=0A=
-> > Otherwise, the change looks fine to me.=0A=
-> >=0A=
-> > Bruce=0A=
->=0A=
-> Yes, confirmed that oldconfig wont be triggered.=0A=
->=0A=
-> Thanks,=0A=
-> Denys=0A=
-=0A=
-ping=0A=
-=0A=
->=0A=
-> >=0A=
-> > > Signed-off-by: Denys Zagorui <dzagorui@cisco.com>=0A=
-> > > ---=0A=
-> > > meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++++=0A=
-> > >  1 file changed, 4 insertions(+)=0A=
-> > >=0A=
-> > > diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipe=
-s-kernel/linux/kernel-devsrc.bb=0A=
-> > > index aa8e162f4f..f8c750beaa 100644=0A=
-> > > --- a/meta/recipes-kernel/linux/kernel-devsrc.bb=0A=
-> > > +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb=0A=
-> > > @@ -113,6 +113,10 @@ do_install() {=0A=
-> > >         # but without this file, we get a forced syncconfig run in v5=
-.8+, which prompts and=0A=
-> > >         # breaks workflows.=0A=
-> > >         cp -a --parents include/generated/autoconf.h $kerneldir/build=
- 2>/dev/null || :=0A=
-> > > +=0A=
-> > > +       if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ]; t=
-hen=0A=
-> > > +           rm $kerneldir/include/generated/.vdso-offsets.h.cmd=0A=
-> > > +       fi=0A=
-> > >      )=0A=
-> > >=0A=
-> > >      # now grab the chunks from the source tree that we need=0A=
-> > > --=0A=
-> > > 2.19.0.dirty=0A=
-> > >=0A=
-> > >=0A=
-> > >=0A=
-> > >=0A=
-> >=0A=
-> >=0A=
-> > --=0A=
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await=
-=0A=
-> > thee at its end=0A=
-> > - "Use the force Harry" - Gandalf, Star Trek II=0A=
-> >=
+On Mon, 2020-11-09 at 09:31 +0100, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/lib/oeqa/buildperf/test_basic.py | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/buildperf/test_basic.py
+> b/meta/lib/oeqa/buildperf/test_basic.py
+> index 2104617ba3..0fe7d3c8dc 100644
+> --- a/meta/lib/oeqa/buildperf/test_basic.py
+> +++ b/meta/lib/oeqa/buildperf/test_basic.py
+> @@ -11,10 +11,10 @@ from oeqa.buildperf import BuildPerfTestCase
+>  from oeqa.utils.commands import get_bb_var, get_bb_vars
+>  
+>  class Test1P1(BuildPerfTestCase):
+> -    build_target = 'core-image-sato'
+> +    build_target = 'core-image-weston'
+>  
+>      def test1(self):
+> -        """Build core-image-sato"""
+> +        """Build core-image-weston"""
+>          self.rm_tmp()
+>          self.rm_sstate()
+>          self.rm_cache()
+> @@ -40,10 +40,10 @@ class Test1P2(BuildPerfTestCase):
+>  
+>  
+>  class Test1P3(BuildPerfTestCase):
+> -    build_target = 'core-image-sato'
+> +    build_target = 'core-image-weston'
+>  
+>      def test13(self):
+> -        """Build core-image-sato with rm_work enabled"""
+> +        """Build core-image-weston with rm_work enabled"""
+>          postfile = os.path.join(self.tmp_dir, 'postfile.conf')
+>          with open(postfile, 'w') as fobj:
+>              fobj.write('INHERIT += "rm_work"\n')
+> @@ -60,10 +60,10 @@ class Test1P3(BuildPerfTestCase):
+>  
+>  
+>  class Test2(BuildPerfTestCase):
+> -    build_target = 'core-image-sato'
+> +    build_target = 'core-image-weston'
+>  
+>      def test2(self):
+> -        """Run core-image-sato do_rootfs with sstate"""
+> +        """Run core-image-weston do_rootfs with sstate"""
+>          # Build once in order to populate sstate cache
+>          self.run_cmd(['bitbake', self.build_target])
+>  
+> @@ -93,7 +93,7 @@ class Test3(BuildPerfTestCase):
+>  
+>  
+>  class Test4(BuildPerfTestCase):
+> -    build_target = 'core-image-sato'
+> +    build_target = 'core-image-weston'
+>  
+>      def test4(self):
+>          """eSDK metrics"""
+
+This change is a big deal since it means numbers are no longer
+comparable and we have quite the history of these build numbers. Not
+quite sure how I feel about that...
+
+Cheers,
+
+Richard
+
+
+
