@@ -1,198 +1,121 @@
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
- by mx.groups.io with SMTP id smtpd.web10.8672.1604910879592490639
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.web11.9335.1604915614685764133
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2020 00:34:39 -0800
+ Mon, 09 Nov 2020 01:53:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SzTq8zBc;
- spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f66.google.com with SMTP id t8so4505133vsr.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 09 Nov 2020 00:34:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oxc/uyz1A+Aip9HFxbkhmtrAEOJ6Wt19E0b/OYY59Fo=;
-        b=SzTq8zBc2jOHIhTVEAOl89nWmhTwmeWCLp/QNjHEs8sVXiyYrraFqnR6LFEffAN6GQ
-         zwU1AjVnQj3XyPRESaqvlGdTgY+yUOXpGFKRlUYZ5ViDL7MHeDEPYRjVAvzyoMVFMmFQ
-         FWgMsoOq0W2eIpJ778o49/Xuj9Dp5LPYdtE2BrBvblvHIXpwTSiROpRiSiyb/MWGIeHF
-         LxWZh/aPXS1D9uZDCtkgJGbRDz8B6A3mIOBQuDrYm6fc3tLh2mEJLsc/xQjmuoB1J230
-         FfXn5P3coFuoGSsPwIUFOruyWrEeN1imeKlRgfm+6qrPMOcvf7GmCVTgLxwanfvPQJi9
-         VYmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oxc/uyz1A+Aip9HFxbkhmtrAEOJ6Wt19E0b/OYY59Fo=;
-        b=c14zutoV3qHQsOSHwttMnf1kKIy7h1EBmVRHjvCViz1Nq1zFl0E/daxidMYBimvBEx
-         0M3KDpcE1yDttFan22o1gdoiaQ/d8TV/EkbJ/0WqC3xOaN5YA1ADSJwD6v0cbomTZRMr
-         rEyKPH/brzKee8YJA2Xj+IR0foOmtHQHR7jj/tlUn7JithDHNzg4dYw27Ku/Sbrp8bT4
-         ti85BGbgYEauWK8jZAJsOGXQb6OYWW1SRgZghb+u5xPJtHDvvisgQ9FuBQ0rJy1V+J9b
-         zdoawV8rqWnlcD6moTDXw9VYFEygt9zqfjRA1wrrNTjhO4ksPvgPa0LzZt4L/LysZ9G+
-         NWMw==
-X-Gm-Message-State: AOAM5333K83qYzx5OynKPFwn3EF24aj8dLmWcJBVgC87wfodW4GZvFkf
-	GyVooND1WD2h4r3x8E56P/t8RGdqWIecf/gbkCI=
-X-Google-Smtp-Source: ABdhPJyF6XfggevRV67I5tm58gx0lUjmS6tHLHKbPeXw+ONSmXgN5iJyTXXSnPQh+fK6F7kserncUz5dxRhAZ6GU9is=
-X-Received: by 2002:a05:6102:215:: with SMTP id z21mr6481441vsp.51.1604910878751;
- Mon, 09 Nov 2020 00:34:38 -0800 (PST)
+ dkim=pass header.i=@cisco.com header.s=iport header.b=CzrI0hOI;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: dzagorui@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=1978; q=dns/txt; s=iport;
+  t=1604915614; x=1606125214;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=64GREgLsu1AGU5uBRmTj0EyJyjasa3H8YyGYGqz2xR0=;
+  b=CzrI0hOIi0d8U/YkcSwnGI5HUgvBIh4G/we1AnekRBfNl5fGSS6XXHoU
+   lY2XVecvdlELvitVl9Uvpq892eIgnfUZGP1NIUKAcL+V9eoceX1/dFtGC
+   zLbUd06wlCOrXRE+n5QnRJZGvLcBRgoMxtnVP3YCYLr0ZTxYcg3XWsHn8
+   0=;
+X-IPAS-Result: =?us-ascii?q?A0CsCAC0EKlffYMNJK1iHgEBCxIMQIRtWS8uCpZZmyYLA?=
+ =?us-ascii?q?QEBDQEBHw4CBAEBhEoCghICJTgTAgMBAQEDAgMBAQEBBQEBAQIBBgQUAQGGP?=
+ =?us-ascii?q?AyFcwMDeRACAQghJQ8jJQIEDgWDJ4MGrEh0gTSFV4RxgTiNPxuBQT+BEYEUg?=
+ =?us-ascii?q?Uk1PoQ+hXYEnD2baQoggk2JDZIAIqFwtBQCERWBMzghgVlwFYMkCUcXAg2Qa?=
+ =?us-ascii?q?4t9dDgCBgoBAQMJfIw7AYEQAQE?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.77,463,1596499200"; 
+   d="scan'208";a="621117143"
+Received: from alln-core-1.cisco.com ([173.36.13.131])
+  by alln-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 09 Nov 2020 09:53:33 +0000
+Received: from XCH-RCD-003.cisco.com (xch-rcd-003.cisco.com [173.37.102.13])
+	by alln-core-1.cisco.com (8.15.2/8.15.2) with ESMTPS id 0A99rXLP028690
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 9 Nov 2020 09:53:33 GMT
+Received: from xch-aln-004.cisco.com (173.36.7.14) by XCH-RCD-003.cisco.com
+ (173.37.102.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 9 Nov
+ 2020 03:53:32 -0600
+Received: from xch-aln-004.cisco.com ([173.36.7.14]) by XCH-ALN-004.cisco.com
+ ([173.36.7.14]) with mapi id 15.00.1497.000; Mon, 9 Nov 2020 03:53:32 -0600
+From: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for arm64
+Thread-Topic: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for
+ arm64
+Thread-Index: AQHWrejRVNz5C+744kaUUDNWNcIlOamwE3FkgA+MDTQ=
+Date: Mon, 9 Nov 2020 09:53:32 +0000
+Message-ID: <1604915612657.49318@cisco.com>
+References: <20201029114052.23141-1-dzagorui@cisco.com>,<CADkTA4OGBOtnMD=t1xppe-5quLow8uPf99ZHknrSnPLAQKkoDA@mail.gmail.com>,<1642C502B17F26A6.28917@lists.openembedded.org>
+In-Reply-To: <1642C502B17F26A6.28917@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [173.38.209.9]
 MIME-Version: 1.0
-References: <1604910610-68620-1-git-send-email-jay.shen.teoh@intel.com>
-In-Reply-To: <1604910610-68620-1-git-send-email-jay.shen.teoh@intel.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 9 Nov 2020 09:34:27 +0100
-Message-ID: <CANNYZj9MWZt3=-K_qCN3VJR=uiSLja8X=HbitOwXPRDP_vcKQA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] oeqa/terminal : rework the logic
-To: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d3001c05b3a86ea2"
-
---000000000000d3001c05b3a86ea2
-Content-Type: text/plain; charset="UTF-8"
-
-Does this test take 5 minutes to complete? This is too much, it should only
-be a few seconds.
-
-Alex
-
-On Mon, 9 Nov 2020 at 09:30, Teoh, Jay Shen <jay.shen.teoh@intel.com> wrote:
-
-> From: Teoh Jay Shen <jay.shen.teoh@intel.com>
->
-> Rework this test case to fulfill the requirements of replacing the
-> click_terminal_icon_on_X_desktop manual test case from oeqa/manual/bsp-hw :
-> 1) code added to verify that the terminal window is working without problem
-> 2) code added to verify that there's only 1 terminal window is launched
->
-> Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
-> ---
->  meta/lib/oeqa/runtime/cases/terminal.py | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/lib/oeqa/runtime/cases/terminal.py
-> b/meta/lib/oeqa/runtime/cases/terminal.py
-> index a268f26..8a079a5 100644
-> --- a/meta/lib/oeqa/runtime/cases/terminal.py
-> +++ b/meta/lib/oeqa/runtime/cases/terminal.py
-> @@ -2,17 +2,22 @@ from oeqa.runtime.case import OERuntimeTestCase
->  from oeqa.core.decorator.depends import OETestDepends
->  from oeqa.runtime.decorator.package import OEHasPackage
->
-> -import threading
-> -import time
-> +import re
->
->  class TerminalTest(OERuntimeTestCase):
->
->      @OEHasPackage(['matchbox-terminal'])
->      @OETestDepends(['ssh.SSHTest.test_ssh'])
->      def test_terminal_running(self):
-> -        t_thread = threading.Thread(target=self.target.run, args=('export
-> DISPLAY=:0 && matchbox-terminal',))
-> -        t_thread.start()
-> -        time.sleep(2)
-> +
-> +        status, output = self.target.run("export DISPLAY=:0 &&
-> matchbox-terminal",)
-> +        check_terminal = re.search("Process killed - no output for 300
-> seconds.", output)
-> +        self.assertTrue(check_terminal, msg='Terminal window should be
-> launched without any problem')
-> +
-> +        status, output = self.target.run('pidof matchbox-terminal | wc
-> -w')
-> +        output = int(output)
-> +        self.assertEqual(output, 1, 'There should be only one terminal
-> window being launched. Terminal window launched : %s' % output)
-> +
->          status, output = self.target.run('pidof matchbox-terminal')
->          self.target.run('kill -9 %s' % output)
->          self.assertEqual(status, 0, msg='Not able to find process that
-> runs terminal.')
-> --
-> 2.7.4
->
->
-> 
->
->
-
---000000000000d3001c05b3a86ea2
-Content-Type: text/html; charset="UTF-8"
+X-Outbound-SMTP-Client: 173.37.102.13, xch-rcd-003.cisco.com
+X-Outbound-Node: alln-core-1.cisco.com
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Does this test take 5 minutes to complete? This is to=
-o much, it should only be a few seconds.</div><div><br></div><div>Alex<br><=
-/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Mon, 9 Nov 2020 at 09:30, Teoh, Jay Shen &lt;<a href=3D"mailto:jay.=
-shen.teoh@intel.com">jay.shen.teoh@intel.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">From: Teoh Jay Shen &lt;<a href=
-=
-=3D"mailto:jay.shen.teoh@intel.com" target=3D"_blank">jay.shen.teoh@intel.=
-com</a>&gt;<br>
-<br>
-Rework this test case to fulfill the requirements of replacing the click_t=
-erminal_icon_on_X_desktop manual test case from oeqa/manual/bsp-hw :<br>
-1) code added to verify that the terminal window is working without proble=
-m<br>
-2) code added to verify that there&#39;s only 1 terminal window is launche=
-d<br>
-<br>
-Signed-off-by: Teoh Jay Shen &lt;<a href=3D"mailto:jay.shen.teoh@intel.com=
-" target=3D"_blank">jay.shen.teoh@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oeqa/runtime/cases/terminal.py | 15 ++++++++++-----<br>
-=C2=A01 file changed, 10 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/meta/lib/oeqa/runtime/cases/terminal.py b/meta/lib/oeqa/runti=
-me/cases/terminal.py<br>
-index a268f26..8a079a5 100644<br>
---- a/meta/lib/oeqa/runtime/cases/terminal.py<br>
-+++ b/meta/lib/oeqa/runtime/cases/terminal.py<br>
-@@ -2,17 +2,22 @@ from oeqa.runtime.case import OERuntimeTestCase<br>
-=C2=A0from oeqa.core.decorator.depends import OETestDepends<br>
-=C2=A0from oeqa.runtime.decorator.package import OEHasPackage<br>
-<br>
--import threading<br>
--import time<br>
-+import re<br>
-<br>
-=C2=A0class TerminalTest(OERuntimeTestCase):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0@OEHasPackage([&#39;matchbox-terminal&#39;])<br>
-=C2=A0 =C2=A0 =C2=A0@OETestDepends([&#39;ssh.SSHTest.test_ssh&#39;])<br>
-=C2=A0 =C2=A0 =C2=A0def test_terminal_running(self):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 t_thread =3D threading.Thread(target=3Dself.t=
-arget.run, args=3D(&#39;export DISPLAY=3D:0 &amp;&amp; matchbox-terminal&#3=
-9;,))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 t_thread.start()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 time.sleep(2)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =3D self.target.run(&quot;expo=
-rt DISPLAY=3D:0 &amp;&amp; matchbox-terminal&quot;,)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 check_terminal =3D re.search(&quot;Process ki=
-lled - no output for 300 seconds.&quot;, output)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertTrue(check_terminal, msg=3D&#39;Te=
-rminal window should be launched without any problem&#39;)=C2=A0 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 status, output =3D self.target.run(&#39;pidof=
- matchbox-terminal | wc -w&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 output =3D int(output)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(output, 1, &#39;There should=
- be only one terminal window being launched. Terminal window launched : %s&=
-#39; % output)<br>
-+=C2=A0 =C2=A0 =C2=A0 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0status, output =3D self.target.run(&#39;=
-pidof matchbox-terminal&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.target.run(&#39;kill -9 %s&#39; % o=
-utput)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(status, 0, msg=3D&#39;N=
-ot able to find process that runs terminal.&#39;)=C2=A0 =C2=A0<br>
--- <br>
-2.7.4<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000d3001c05b3a86ea2--
+> > > .vdso-offsets.h.cmd contains command that was used to produce vdso-of=
+fsets.h.=0A=
+> > > It breaks reproducibility because it has an absolute path in it. Ther=
+e is no=0A=
+> > > any value to package such files so it can be dropped.=0A=
+> > >=0A=
+> >=0A=
+> > Have you confirmed that an on-target 'make scripts prepare' property=0A=
+> > regenerates the file without triggering and oldconfig ?=0A=
+> >=0A=
+> > Otherwise, the change looks fine to me.=0A=
+> >=0A=
+> > Bruce=0A=
+>=0A=
+> Yes, confirmed that oldconfig wont be triggered.=0A=
+>=0A=
+> Thanks,=0A=
+> Denys=0A=
+=0A=
+ping=0A=
+=0A=
+>=0A=
+> >=0A=
+> > > Signed-off-by: Denys Zagorui <dzagorui@cisco.com>=0A=
+> > > ---=0A=
+> > > meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++++=0A=
+> > >  1 file changed, 4 insertions(+)=0A=
+> > >=0A=
+> > > diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipe=
+s-kernel/linux/kernel-devsrc.bb=0A=
+> > > index aa8e162f4f..f8c750beaa 100644=0A=
+> > > --- a/meta/recipes-kernel/linux/kernel-devsrc.bb=0A=
+> > > +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb=0A=
+> > > @@ -113,6 +113,10 @@ do_install() {=0A=
+> > >         # but without this file, we get a forced syncconfig run in v5=
+.8+, which prompts and=0A=
+> > >         # breaks workflows.=0A=
+> > >         cp -a --parents include/generated/autoconf.h $kerneldir/build=
+ 2>/dev/null || :=0A=
+> > > +=0A=
+> > > +       if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ]; t=
+hen=0A=
+> > > +           rm $kerneldir/include/generated/.vdso-offsets.h.cmd=0A=
+> > > +       fi=0A=
+> > >      )=0A=
+> > >=0A=
+> > >      # now grab the chunks from the source tree that we need=0A=
+> > > --=0A=
+> > > 2.19.0.dirty=0A=
+> > >=0A=
+> > >=0A=
+> > >=0A=
+> > >=0A=
+> >=0A=
+> >=0A=
+> > --=0A=
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await=
+=0A=
+> > thee at its end=0A=
+> > - "Use the force Harry" - Gandalf, Star Trek II=0A=
+> >=
