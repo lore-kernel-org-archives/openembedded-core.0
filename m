@@ -1,233 +1,185 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web11.34996.1605046134189986416
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.53])
+ by mx.groups.io with SMTP id smtpd.web09.678.1605049680392692260
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 14:08:54 -0800
+ Tue, 10 Nov 2020 15:08:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=S35YuzPL;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id n63so9816931qte.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2020 14:08:54 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=hiiV5pq7;
+ spf=pass (domain: windriver.com, ip: 40.107.237.53, mailfrom: sakib.sajal@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=K/sZj6mhwv+PwWeWxsQTReeFxXg0YQ81M9GIcMCa8U5GVIla2JWh1SrJtE5w8qjtAl+7Uk95awV7xwvk653exHe+tI2KX3sXb05ZM7rT4LTG+SKI8UpTgzqAiOrmocUcgnGYYJZHQBhMdCefnjvNxEaRzE0MkaYcSvpCny/zGoROfu9c0vgcKIR0y5plxDbZtZb+nYwSmmg27FpxuNaAWmIAlKLwo9NGgDnOJJMSvomtfRQKPAnO7MBLFythKgqxzK8HeNhP8307aVicLs+1cM8qKWgNfnwd6TELHF8mwuirbDnALV7PgpjKtqAUWjKyWGRH05/o4boB6wlvoFTjag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3R+N4m4BqbHvuQEwU/RIIfDsCipq2BBi4qJ2cMWtVtM=;
+ b=Xv1f23cOeSD9bp96qwyLOAfCgLBlrS6u1N7CESpRENdqDYMlVVDamynJ8ZUnFhsLJTKhL8U35Qmv++8zGNMDvDQ5QGHtcc5EfnLzfcXTszo9s6fLQB2Dq4RlleX+KyEwEnexN3f/+QI0M2l4HK2Dm0MWFnMk4HvN0p+10DDf+1xG+UewtDCGOK1hZW/ZJuC6WJz9gmiuNn51cHbPBrE6vuCeG1rt8HPtAWK+VWjYM+Hh9nCQlg3jvSZVe+72j9ZCW1GpoR7G56b1VNwWr2eVrDuO5ZLo5B2+PrAiqYKX6hOGyzv8Zuef/aYizO7SCuECrUS9sH7kAnX4CruY9d0Peg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mHC7aKj5rJsdpjJjYJ1r9m2uoIYQbnXKvrk9mlAvK5g=;
-        b=S35YuzPLFb4ldRluQO4eTpW1W3e78Nz9D9fG2QWbom2roXUTdOP/KPICpzSX3EVOsD
-         m6jGmvD4Y4dPyzhdruy4jor6DcZEdArMcTwopNRlgDFkfQt9nGLWiBfG36Q6liPRmWav
-         3VzaTmdoeDf/8DsGveVmKzWH7l5//JfUru5C+dUUAjXuO2vUaEP7pC/VaNq0cl9z7i3Z
-         YQ0r/PmcwnuoaIAjrgbGpAsdEpATZMCARRQDtnoKJVZEv9qvjXaq/ByeJqo4KR3v1BJX
-         tlDK+NaFoZ4bTYW5m4lNlqXKRrRm42whuS5Lw6nfhDG4m+x9QXxU07yMpMimBE7KO1No
-         64Rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mHC7aKj5rJsdpjJjYJ1r9m2uoIYQbnXKvrk9mlAvK5g=;
-        b=rJMNcD9XJHE532IX+/znp/Eq3+pI/4eeJRDpci97blla9RTWHSBo5mjGznooiKJRro
-         gia1V9abQOI7xV8DoDp+pwcVML+Kg52HR9CXJzaHzu/EeOVe5KL+g6hvC0/Kiw3YSo7k
-         mXMHJEGRsD/Ny+UK8GkoVPSfxpPiCIDVtFLhj1QGrJrm84k+HVb81KL/zJsm3wDkTqTC
-         ID6JmXP9JC0ygoCSskqRsVwP/+B0cJvywMUzby2tcDq/qX4t3IULYgXV/1VRrwH5xfVF
-         K2C8cXvs4WtEr6BFCSNeEBIFJpGuuQIKm004MRNe9z2/TvBzb7shM/A4ROliQB9xuyCd
-         aKsw==
-X-Gm-Message-State: AOAM530ymeZP6nzsM37+i/Vm1LUyDp0QcHei7gEMCC4ByvLL4llmvQ6Q
-	I8p8HEQaVfHKFoyYWQZSDuKQVA6BE8gIUTL59Fc=
-X-Google-Smtp-Source: ABdhPJwcoXMHrR7NwcYPM80KAW/wuEf13ZoSRnqDUGuYV9KllgjDAmCWVtbYWQnXGtcxYWBtTX5oVbqZ+iHR14E0TBo=
-X-Received: by 2002:ac8:584b:: with SMTP id h11mr1627833qth.378.1605046133050;
- Tue, 10 Nov 2020 14:08:53 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3R+N4m4BqbHvuQEwU/RIIfDsCipq2BBi4qJ2cMWtVtM=;
+ b=hiiV5pq7pWI9hBwCHZRsd+PTw0ogeQATNTK2nqZ6bsCg0E9yShsG7+h22pJ4o5n3A/lLoamM6h/pCd/bq6AsE7h4XGk3SYvjYFK//Km9CdshVQqGZIWjRCS8t/tMxG8eO34aHj2mjR+7DsdPq1vJ9g0Ujab0rkdYLdmeB3Tci0g=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
+ DM6PR11MB4202.namprd11.prod.outlook.com (2603:10b6:5:1df::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21; Tue, 10 Nov 2020 23:07:58 +0000
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::7126:4988:387b:a741]) by DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::7126:4988:387b:a741%2]) with mapi id 15.20.3541.025; Tue, 10 Nov 2020
+ 23:07:58 +0000
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] buildstats.bbclass: add functionality to collect build system stats
+Date: Tue, 10 Nov 2020 18:07:44 -0500
+Message-ID: <20201110230744.30544-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.29.2
+X-Originating-IP: [128.224.252.2]
+X-ClientProxiedBy: YT1PR01CA0025.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::38)
+ To DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20)
+Return-Path: sakib.sajal@windriver.com
 MIME-Version: 1.0
-References: <20201107020156.351764-1-alhe@linux.microsoft.com>
- <CAMKF1spGkOh9nXmDXxTihdV_JGM7qvqQkdYF6JnP=5wd2mTd3Q@mail.gmail.com>
- <CAMKF1spLO5w6eb5RiNUPoaQwh0KF0ymX+D7Bk14zOMGvhAoPNA@mail.gmail.com> <CAHMutrYSJkyYZv00_cJUsPJui5+uT6bCsV=zab3pOh+XD+cvVg@mail.gmail.com>
-In-Reply-To: <CAHMutrYSJkyYZv00_cJUsPJui5+uT6bCsV=zab3pOh+XD+cvVg@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 10 Nov 2020 14:08:26 -0800
-Message-ID: <CAMKF1soqD+kprmZd0Fdq3iSYk3zTbANZK0Eq_aGGWb-K18G97w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3: Update manifest
-To: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yow-lpggp3.wrs.com (128.224.252.2) by YT1PR01CA0025.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Tue, 10 Nov 2020 23:07:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9e620c8d-398b-4fea-fe6d-08d885cd76ea
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4202:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB420240B825DC0A97883E20FCF2E90@DM6PR11MB4202.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	XEzO3vFrQ8a49ThEDOwlFn85NkdAQfLoPfSjqv9hhzQxHiGzSb8P4HjVCIdSR3xGcxLNvH4ONgwW6E/LADuDZvCi3ZPVTzSLbiWNgbaoCivWHOZBBwCmJurmP5zRYE/xu6aSsvCuD/miq7Xl3MFrC5cO5IZPHg2+ZtfKhCBFAaVoBWK8UuaV/mqmRZ+lhWcCuTXuNbHrdET8mThvu6ZnVhenZVg3V+ttNZ68jtZdFn9COAkjRQf6vim6v0jUqHNiEsGvjWmGUUBJozboNlkWNYsYZWUh3dxFlXPIQR6PVyRZgJnHMX/taQq5cvytMDiuVnZtwlbTAaoL3zQ/BNcSUA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(346002)(136003)(39840400004)(376002)(478600001)(316002)(44832011)(66476007)(1076003)(6916009)(6512007)(66946007)(66556008)(5660300002)(6486002)(52116002)(6666004)(186003)(8936002)(2616005)(956004)(2906002)(8676002)(83380400001)(6506007)(36756003)(26005)(86362001)(16526019);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	JCShRz5WVs70p6rjm5d/nHECpuxmsh7nb4kYCGXZQ0ZIUUorkF7hUn9SCobxMVWFFX81rg+ZGk3bL0WbtYB5BoFc+5fCRo/CzGGh81KcLLjddLh/w6WgM9xWwAmxUZeATieT1iDhjkkWOy0fsvW2wRE3iAj6q1CHYHtWin9pIYmmwsV+mRW1qg/57ZA6EPThRPaugCa1bEFDXOJ3NQyvYtwYKVXjVb4uvVp96batDOIldg6btNg3n1H/wATht04drWx35mvGXu6H9oaKZBFBtw6wkS2ihG1GHE/4IWGLz3D6tN0KL2L75nJDwq5XUEs7N7CvEHctnfSaAzF+Fl+LWy9wnrpPDWCavnlLWtNlmzxwZh1kxk1iKn4prmmhXhvvvjmPET2cYASRnv0MRruWzQtFTCnw3Epp1IEWrfjMT9/WtkWheAbw9Alh0jXJqEWDjn/jWw9ZWJVgk5TvZu/R5TuZMrhg75jAMWJTE2kX+10qUaTs4jCd/a5P/nOTHsDPWGfG3I+cYdD/bD3qoslsyWJnaCCrxZjo9xU4qLk84XUV/PPIM1kDlaXGxH54FVe/qdBpTs+IdlWv+vl8tOFm9jbqBMN1m9DyluUO4Mud4ymfkrDGOlw8wAX4m79riMZHZAct4XDgrE9vtb4TV5blfzbs62Y4+8NS5srXtqA0CZZNlreifj6eqZLerqiSQsBFN14YFK+xK29HTG8G/jNE7e+c171AUgLU2g72fLnGp+Voz95yyw2ScDy0Z+8KdI7UR8IwqO2yziJdxx8FZsUxPVMXWsYihZzEoRbqKmjFu4OTDeMA77L59GlG4Dcbk8+SBhD0+qJmQaO2q7PDW0Gp2+dIXl3aribvqmZTqZl6K8b1bHREbQ2Bhpd6pzub+B+Y7OdjDdI+OOrraQlk+3KuAg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e620c8d-398b-4fea-fe6d-08d885cd76ea
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2020 23:07:58.4056
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2GZnUpqW0Q4WGm8WIt3bFLmlvBKNEaXqpIQ3OfesU0FGWS5IEk9bZd6LdxK0AYfLKgII64n4PQyP4wdt9Oy9ncOqYlS0wA7odSkPOUq+duE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4202
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Nov 10, 2020 at 12:16 PM Alejandro Enedino Hernandez Samaniego
-<alejandro@enedino.org> wrote:
->
-> Hey Khem,
->
-> I see, since the typing module is now required for python3-core to work properly,
-> it will now be there by default, it seems that the right solution is to fix RDEPENDS
-> in other places, deleting the typing module, it looks like meta-python has some issues,
-> I didn't find any instances on oe-core but I can take a look at other layers that might
-> run into this, we can also put this on the release migration notes
->
+There are a number of timeout and hang defects where
+it would be useful to collect statistics about what
+is running on a build host when that condition occurs.
 
-yes removing it from RDEPENDS is the way here but wanted to raise the
-visibility of such changes which
-are enforced in other layers due to this change.
+This adds functionality to collect build system stats
+on a regular interval and/or on task failure. Both
+features are disabled by default.
 
-> Alejandro
->
-> On Tue, 10 Nov 2020 at 12:33, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> I have a potential patch to meta-oe but other layers might have similar issues
->>
->> On Tue, Nov 10, 2020 at 11:26 AM Khem Raj <raj.khem@gmail.com> wrote:
->> >
->> > This has some consequences for recipes which depend on python3-typing
->> > see parse logs
->> >
->> > http://jenkins.nas-admin.org/view/OE/job/oe_world_qemux86-64/1962/consoleFull
->> >
->> > On Fri, Nov 6, 2020 at 6:02 PM Alejandro Hernandez Samaniego
->> > <alejandro@enedino.org> wrote:
->> > >
->> > > Update the python3-manifest to match the files installed by the
->> > > new version of python3.
->> > > - Kept tkinter the way it was although tk isnt part of OE-Core
->> > > - Made typing part of python3-core
->> > > - Update other packages with new dependencies such as filecmp and dataclasses.
->> > >
->> > > Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
->> > > ---
->> > >  .../python/python3/python3-manifest.json      | 35 +++++--------------
->> > >  1 file changed, 9 insertions(+), 26 deletions(-)
->> > >
->> > > diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
->> > > index 69aecb7004..615dc3a5e5 100644
->> > > --- a/meta/recipes-devtools/python/python3/python3-manifest.json
->> > > +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
->> > > @@ -122,8 +122,7 @@
->> > >              "logging",
->> > >              "netclient",
->> > >              "numbers",
->> > > -            "stringold",
->> > > -            "typing"
->> > > +            "stringold"
->> > >          ],
->> > >          "files": [
->> > >              "${libdir}/python${PYTHON_MAJMIN}/asyncio",
->> > > @@ -173,10 +172,12 @@
->> > >          ],
->> > >          "files": [
->> > >              "${libdir}/python${PYTHON_MAJMIN}/compileall.py",
->> > > +            "${libdir}/python${PYTHON_MAJMIN}/filecmp.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/py_compile.py"
->> > >          ],
->> > >          "cached": [
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/compileall.*.pyc",
->> > > +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/filecmp.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/py_compile.*.pyc"
->> > >          ]
->> > >      },
->> > > @@ -313,6 +314,7 @@
->> > >              "${libdir}/python${PYTHON_MAJMIN}/tokenize.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/traceback.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/types.py",
->> > > +            "${libdir}/python${PYTHON_MAJMIN}/typing.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/urllib",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/urllib/parse.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/warnings.py",
->> > > @@ -388,6 +390,7 @@
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc",
->> > > +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/weakref.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/collections/__pycache__",
->> > > @@ -557,18 +560,12 @@
->> > >      "doctest": {
->> > >          "summary": "Python framework for running examples in docstrings",
->> > >          "rdepends": [
->> > > -            "asyncio",
->> > >              "core",
->> > >              "debugger",
->> > >              "difflib",
->> > > -            "io",
->> > > -            "logging",
->> > > -            "netclient",
->> > > -            "numbers",
->> > >              "pprint",
->> > >              "shell",
->> > >              "stringold",
->> > > -            "typing",
->> > >              "unittest"
->> > >          ],
->> > >          "files": [
->> > > @@ -822,7 +819,6 @@
->> > >              "terminal",
->> > >              "threading",
->> > >              "tkinter",
->> > > -            "typing",
->> > >              "unittest",
->> > >              "unixadmin",
->> > >              "venv",
->> > > @@ -999,12 +995,14 @@
->> > >          ],
->> > >          "files": [
->> > >              "${libdir}/python${PYTHON_MAJMIN}/cProfile.py",
->> > > +            "${libdir}/python${PYTHON_MAJMIN}/dataclasses.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_lsprof.*.so",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/profile.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/pstats.py"
->> > >          ],
->> > >          "cached": [
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/cProfile.*.pyc",
->> > > +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/dataclasses.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/profile.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pstats.*.pyc"
->> > >          ]
->> > > @@ -1130,13 +1128,11 @@
->> > >              "core"
->> > >          ],
->> > >          "files": [
->> > > -            "${libdir}/python${PYTHON_MAJMIN}/_dummy_thread.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/_threading_local.py",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_queue.*.so",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/queue.py"
->> > >          ],
->> > >          "cached": [
->> > > -            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_dummy_thread.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_threading_local.*.pyc",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/queue.*.pyc"
->> > >          ]
->> > > @@ -1147,23 +1143,11 @@
->> > >              "core"
->> > >          ],
->> > >          "files": [
->> > > -            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
->> > > +           "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
->> > >              "${libdir}/python${PYTHON_MAJMIN}/tkinter"
->> > >          ],
->> > >          "cached": []
->> > >      },
->> > > -    "typing": {
->> > > -        "summary": "Python typing support",
->> > > -        "rdepends": [
->> > > -            "core"
->> > > -        ],
->> > > -        "files": [
->> > > -            "${libdir}/python${PYTHON_MAJMIN}/typing.py"
->> > > -        ],
->> > > -        "cached": [
->> > > -            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.pyc"
->> > > -        ]
->> > > -    },
->> > >      "unittest": {
->> > >          "summary": "Python unit testing framework",
->> > >          "rdepends": [
->> > > @@ -1175,8 +1159,7 @@
->> > >              "netclient",
->> > >              "numbers",
->> > >              "pprint",
->> > > -            "stringold",
->> > > -            "typing"
->> > > +            "stringold"
->> > >          ],
->> > >          "files": [
->> > >              "${libdir}/python${PYTHON_MAJMIN}/unittest",
->> > > --
->> > > 2.25.1
->> > >
->> > >
->> > > 
->> > >
+To enable logging on a regular interval, set:
+BB_HEARTBEAT_EVENT =3D "<interval>"
+BB_LOG_HOST_STAT_ON_INTERVAL =3D <boolean>
+Logs are stored in ${BUILDSTATS_BASE}/<build_name>/host_stats
+
+To enable logging on a task failure, set:
+BB_LOG_HOST_STAT_ON_FAILURE =3D "<boolean>"
+Logs are stored in ${BUILDSTATS_BASE}/<build_name>/build_stats
+
+The list of commands, along with the desired options, need
+to be specified in the BB_LOG_HOST_STAT_CMDS variable
+delimited by ; as such:
+BB_LOG_HOST_STAT_CMDS =3D "command1 ; command2 ;... ;"
+
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ meta/classes/buildstats.bbclass | 40 ++++++++++++++++++++++++++++++---
+ 1 file changed, 37 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbcl=
+ass
+index 6f87187233..a8ee6e69a6 100644
+--- a/meta/classes/buildstats.bbclass
++++ b/meta/classes/buildstats.bbclass
+@@ -104,14 +104,46 @@ def write_task_data(status, logfile, e, d):
+             f.write("Status: FAILED \n")
+         f.write("Ended: %0.2f \n" % e.time)
+=20
++def write_host_data(logfile, e, d):
++    import subprocess, os, datetime
++    cmds =3D d.getVar('BB_LOG_HOST_STAT_CMDS')
++    if cmds is None:
++        d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
++        d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
++        bb.warn("buildstats: Collecting host data failed. Set BB_LOG_HOST_=
+STAT_CMDS=3D\"command1 ; command2 ; ... \" in conf\/local.conf\n")
++        return
++    path =3D d.getVar("PATH")
++    opath =3D d.getVar("BB_ORIGENV", False).getVar("PATH")
++    ospath =3D os.environ['PATH']
++    os.environ['PATH'] =3D path + ":" + opath + ":" + ospath
++    with open(logfile, "a") as f:
++        f.write("Event Time: %f\nDate: %s\n" % (e.time, datetime.datetime.=
+now()))
++        for cmd in cmds.split(";"):
++            if len(cmd) =3D=3D 0:
++                continue
++            try:
++                output =3D subprocess.check_output(cmd.split(), stderr=3Ds=
+ubprocess.STDOUT, timeout=3D1).decode('utf-8')
++            except (subprocess.CalledProcessError, subprocess.TimeoutExpir=
+ed, FileNotFoundError) as err:
++                output =3D "Error running command: %s\n%s\n" % (cmd, err)
++            f.write("%s\n%s\n" % (cmd, output))
++    os.environ['PATH'] =3D ospath
++
+ python run_buildstats () {
+     import bb.build
+     import bb.event
+     import time, subprocess, platform
+=20
+     bn =3D d.getVar('BUILDNAME')
+-    bsdir =3D os.path.join(d.getVar('BUILDSTATS_BASE'), bn)
+-    taskdir =3D os.path.join(bsdir, d.getVar('PF'))
++    ######################################################################=
+##
++    # bitbake fires HeartbeatEvent even before a build has been
++    # triggered, causing BUILDNAME to be None
++    ######################################################################=
+##
++    if bn is not None:
++        bsdir =3D os.path.join(d.getVar('BUILDSTATS_BASE'), bn)
++        taskdir =3D os.path.join(bsdir, d.getVar('PF'))
++        if isinstance(e, bb.event.HeartbeatEvent) and bb.utils.to_boolean(=
+d.getVar("BB_LOG_HOST_STAT_ON_INTERVAL")):
++            bb.utils.mkdirhier(bsdir)
++            write_host_data(os.path.join(bsdir, "host_stats"), e, d)
+=20
+     if isinstance(e, bb.event.BuildStarted):
+         ##################################################################=
+######
+@@ -186,10 +218,12 @@ python run_buildstats () {
+         build_status =3D os.path.join(bsdir, "build_stats")
+         with open(build_status, "a") as f:
+             f.write(d.expand("Failed at: ${PF} at task: %s \n" % e.task))
++            if bb.utils.to_boolean(d.getVar("BB_LOG_HOST_STAT_ON_FAILURE")=
+):
++                write_host_data(build_status, e, d)
+ }
+=20
+ addhandler run_buildstats
+-run_buildstats[eventmask] =3D "bb.event.BuildStarted bb.event.BuildComplet=
+ed bb.build.TaskStarted bb.build.TaskSucceeded bb.build.TaskFailed"
++run_buildstats[eventmask] =3D "bb.event.BuildStarted bb.event.BuildComplet=
+ed bb.event.HeartbeatEvent bb.build.TaskStarted bb.build.TaskSucceeded bb.b=
+uild.TaskFailed"
+=20
+ python runqueue_stats () {
+     import buildstats
+--=20
+2.29.2
+
