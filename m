@@ -1,145 +1,135 @@
-Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.85])
- by mx.groups.io with SMTP id smtpd.web08.24233.1604990673830894161
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web11.25498.1605000423022959512
  for <openembedded-core@lists.openembedded.org>;
- Mon, 09 Nov 2020 22:44:34 -0800
+ Tue, 10 Nov 2020 01:27:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=rJeCAoma;
- spf=pass (domain: kpit.com, ip: 40.107.139.85, mailfrom: akash.hadke@kpit.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Oc8lPVnvkHfylHYB7m4J0FuRhq4JruwwMo1nJYzgsyDdVx6mZovXOcTucjHu7OMdiCptC6ekiM0Rr88HC2U6cVvtB1zqclW9TtI5UCTH1/gQqHVydlVWlvZe3USSW3LT2nmZGH85cUrWdP29aHxhuwOYbs453mjThhUOBhD7iRxtETseZIBVxY/oes+MqA5BFeqV9Z5zrsoA3TOxSwADjHYO+RGMTN0yYsmWP3ehguOQwcCx57tw2HV6X3GWkOzsW3SzHs4/vCzf4oHlJiHZNUjPtpg0YhtOcnpaZsb567L7Wulwbv8rP7Q8LGhSSorAbYh7M2GlMlCMIXEHsAWfeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NB+vmhZLVkOu1sUoPyzBdex2eU9xOOC1y8VfvG35SHA=;
- b=oIClMSqpXMFUCJmHBI15BYbCAVyQW48dsulLQglB4gVBG+psxkl81gRi8Ka8HNNZu9Mr57yvX/5XUIJ2yjnC5Az0clV6z0aM4Qd5CUeXdMsPq5lWnBNvgYFuPhmyNYfD8GzyODU/35r/ztvyfr+ME0XC7kV4ofL2T3gqo5HWe7jTfBUINpyR47xpHWDYD/r/89Fp3V/GrRAEvC90wZe8Mjky+rVltBepMi7Lb4IiS9sqrSPl70GZV6oulWzifOEwUqSopP5Anc1td9inwsonjdbgfoeKY3Xa6L/G322zFfT0RT/QiMN4L2NYGKvrBXoFdkg/hFuBtSWv8it7Tqyrmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
- dkim=pass header.d=kpit.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NB+vmhZLVkOu1sUoPyzBdex2eU9xOOC1y8VfvG35SHA=;
- b=rJeCAomacvm/LqcCoyMrqECerQVHTvgh4taiErhNWVbuMX0KCzHLCSosXNioxOTcmmtYE2tF9bclcRxdYuM7dAJluf8+adZ1DDmfPXgvB4cOIJid8VWHIKzpRNWKViyWeHndgFgKpX6iO1ycaucWEFxKGXsw1E4Or4netJJ1Q/8=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=kpit.com;
-Received: from BM1PR01MB3089.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:45::20)
- by BM1PR01MB0659.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:4::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.24; Tue, 10 Nov
- 2020 06:44:23 +0000
-Received: from BM1PR01MB3089.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::e4a1:7a45:f267:6e56]) by BM1PR01MB3089.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::e4a1:7a45:f267:6e56%5]) with mapi id 15.20.3541.025; Tue, 10 Nov 2020
- 06:44:23 +0000
-From: "akash hadke" <akash.hadke@kpit.com>
-To: openembedded-core@lists.openembedded.org,
-	raj.khem@gmail.com
-Cc: nisha.parrakat@kpit.com,
-	anuj.chougule@kpit.com,
-	aditya.tayade@kpit.com
-Subject: [poky][dunfell][PATCH] systemd: udev SECLABEL{selinux} crash fix
-Date: Tue, 10 Nov 2020 12:13:55 +0530
-Message-Id: <1604990635-15289-1-git-send-email-akash.hadke@kpit.com>
-X-Mailer: git-send-email 2.7.4
-X-Originating-IP: [103.207.8.108]
-X-ClientProxiedBy: BM1PR01CA0071.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:1::11) To BM1PR01MB3089.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:45::20)
-Return-Path: akash.hadke@kpit.com
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=hRFyjSSY;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.175, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f175.google.com with SMTP id y25so12961966lja.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2020 01:27:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YE6/F9UOLMWUQS9yyZZPjCgmcAeZMg0lt+EL3FdPmOU=;
+        b=hRFyjSSYxl84hKL74bJoRyCMdXOWLecDxqOADNizIu/0CFzxIJOFiGm0+p+IeIsG6o
+         hOcZaHCWWEYJ9l3Ss5Acyx7zYEg9PeDOUuKxKgG3vJIeUQhuamT+2ZTAy7Yx77Sk4DoC
+         xeK62ad76YRj/+RqX45PGFtr7drtxGE77X9QXx9vC4EpzT0H4CUSfO1Ql76WCzmVsvW8
+         2l3ZQoO20A3Prz/xFnyDH4Af7kbYu+I/EHPRj8nNkP2M1Hqo5CRxOLOCBrGgfdT+QZSr
+         NJ99r/o+HajvaO1qSbm7xWxpVCu1+7P8ZghfJy9MlmqODFOBH03Dr7mPbkoOB15IVYWo
+         O6Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YE6/F9UOLMWUQS9yyZZPjCgmcAeZMg0lt+EL3FdPmOU=;
+        b=A3c0oAvX4UXdSJxYNvoYQE7/MyZ5eQIOjd8ehMSGYVaD9PlusW3s2hV34LigOthb1U
+         cNPfSPeQtBmmaPR3nZofmxcz2+3XteKiKxCQUVeFTSOI8hVGgE7aip6xkJQ2DXkmzXiW
+         MmzVbvFOI+i7RUpAO0OefiaSkTsY5djCbnDhtMyFK0YSWvG02yDfSz5HiYZS7LRmCgMb
+         r2dcGwOUxUXiZX48+K7hKLHDPaGNfAvi8lizTpngZQ6svPTvK7SSiY/LzOSdXL9T+KDp
+         TReBUcO4cQX8EOxDP/Wu2hES4tannyfjEVSaLttbHU6Vg3K9DMmeU6drOwnfvJoMTNPA
+         YJAw==
+X-Gm-Message-State: AOAM531wDlKb9dBSER0fJFic1pGJDDAp8XjeChtiVH7mjzHGFsLm7QWt
+	wgzuXbLpTx3naXO2cYXmYWPB8gN81P3wZBvyAuT21Q==
+X-Google-Smtp-Source: ABdhPJz0LrAC0l2Dh+M2s5tP5zs/fSCq8qTxOpTLZ0ljoqE56E+TftFJehgaq87yWoM9BIWGHgsuZHxseex/h0HiFKI=
+X-Received: by 2002:a2e:3604:: with SMTP id d4mr3628947lja.340.1605000420941;
+ Tue, 10 Nov 2020 01:27:00 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (103.207.8.108) by BM1PR01CA0071.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:1::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3541.21 via Frontend Transport; Tue, 10 Nov 2020 06:44:22 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 600e5861-b685-4005-544e-08d885440ed5
-X-MS-TrafficTypeDiagnostic: BM1PR01MB0659:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<BM1PR01MB065942145E7216236EC689878EE90@BM1PR01MB0659.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:568;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	DWrbs744+zSpUJ1i2Vix6vXwZi6EpszeYLdHCh3wMsga/rj+0v2qHARVY3/IN/IM0G6UiQ+8zEuVGFgsw8TalhS6AEy9miRCnlyNAlLbtji4qLLgLoF1BvGmcVoP5ko76gz7uoJcTYyPsEmOmLxcfpicS3TsO3mWk5Q90MUejd1U8vwCQLFtOOTaFmFpTaLC3FdEcnFVAktpiCbNQYOIEzU7SaDEgjSaz0XdFdaWmyYdA+c6mnWJmnFR78t81VaOCbAXNc9xxiIkd3JEgHxbgBgL4l7KmrNOpNtnxqmArgUt6LMOfGzm2cmKciRa3J5qofObK5i6YVUS0UnfhHZ+BRHvtLX3Mlic39o/5r362gpiv+eZ7r/wq4rWes5cYrVSFYs+GwCaVSEDEP7sAHectCIR/Fhi25pnsgeQzAQgYi1HMpKvglMHLrmw4WhTX3fUVRCmjthWqZWeoNSS6k4Zgw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BM1PR01MB3089.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(396003)(346002)(376002)(136003)(4326008)(26005)(6486002)(956004)(5660300002)(8936002)(69590400008)(6666004)(2616005)(478600001)(36756003)(2906002)(86362001)(83380400001)(186003)(966005)(8676002)(52116002)(16526019)(66476007)(107886003)(6506007)(66946007)(66556008)(6512007)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	ZWb8p0WDDV3ymrFqf9px01ZGOSXk22wubRv6CUQjpNGFtY6Ofp9YFtxkLh5K+/R9zmOdfWxuPxi5Xu9kyqkqD94SQwhiFxAVtuPN7aWwfCP7Jzuc/9afpTWH9ueud7NSliDyGVNdewhARukwMhtERkvsGLGU3ahM9wD1wAe4BQW10VHDgsWOauGYvfY7HNDaRUq2xY6R4Hg7wdyl6Ww0bXJfCX6Kbt6ffPTMni7U2DGmiVlzbA6kQzS4aPf1x6+GzYZiEXlwfdJbkiIe1XGIAOUIDmhxae02LhHPQdLttwRrDX5IhfTbIssXAppOFq+8sGzyLsf/qSxJkWHaNqXrIpcq2DmyBOOQ3hXM7pnB1v5BwgVuAC/0NdhgvfDdUaXxjbWMbA+QWPAtxLcRmiYao12ninsAiVpp8UpOIuBYLA0fc+I2cXpt+B1s98MD95qQQlEH13fDzUJcw0G7/N8S/s/Gk6Sx9A8A3asb6HjTYhT5UVon/8eArSX/8qnTyqOK0h9nzJT6rR86nM+4C5NYwCR4ZFugLg95RmPajNilYgEHiIbiXAwNJQGYH50ctWk6DPVZYmxU1Ybk4tVSY6Uc0SuD4Oe0bmGOS972AuAs/T+I2WaaBIm/drQlZ//RUgNjBi6SzN4yluCwCuNBGMRYpaqA3sby+D6DFCNVpsTn12smXKpFmTpy0yD1BuoruFPtRhTVzie85Lb4WRsCudeDnZk1CtowURElu3ry/m2F53OpjnLPmfdULd/0SWfnmrM1D5Ey0TFtf2c1pIwwEkFSnuZ0wJ1JUJ8tYw8JvbWrgZ3bnk25xilVKZWHPyt8CgSD34jHa9r/oFMelN0UE6ALv6rM9f6UHqBg7B7I/wqxyE8RZotv+NsaVUHSiVGtsKHZZO0gtYU7fygiX7rVNbA6gQ==
-X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 600e5861-b685-4005-544e-08d885440ed5
-X-MS-Exchange-CrossTenant-AuthSource: BM1PR01MB3089.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2020 06:44:22.9715
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bOdp2LOLUR4JeyUTuAuosRCDNcMqYlNuiwEY+T2VNoxV3iLtmJljhbkzztQeot58AzVYPsTnSsFCH/54IcVbzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB0659
-Content-Type: text/plain
+References: <20201110005956.2972007-1-raj.khem@gmail.com>
+In-Reply-To: <20201110005956.2972007-1-raj.khem@gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Tue, 10 Nov 2020 09:26:49 +0000
+Message-ID: <CAAnfSTtprq2pOLkiOH4q4JDJc-oYgWDNi0m3h9ur9ExmZqMfBw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] libical: Fix build with icu-68
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Adding SECLABEL{selinux}="some value" causes systemd-udev
-to crash.
-So applied below available patch to fix the issue.
+Can you resend this using the upstream fix:
 
-systemd-udev-seclabel-options-crash-fix.patch
+https://github.com/libical/libical/commit/a3308a23912bba2db654a8c456165c31888cc897
 
-Link: https://github.com/systemd/systemd/commit/0335d110afc08baf47d76b7011ce02510dfdd524.patch
-Signed-off-by: akash hadke <akash.hadke@kpit.com>
----
- .../systemd-udev-seclabel-options-crash-fix.patch  | 30 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_244.3.bb         |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/systemd-udev-seclabel-options-crash-fix.patch
+Thanks,
+Ross
 
-diff --git a/meta/recipes-core/systemd/systemd/systemd-udev-seclabel-options-crash-fix.patch b/meta/recipes-core/systemd/systemd/systemd-udev-seclabel-options-crash-fix.patch
-new file mode 100644
-index 0000000..27b2b60
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/systemd-udev-seclabel-options-crash-fix.patch
-@@ -0,0 +1,30 @@
-+From 0335d110afc08baf47d76b7011ce02510dfdd524 Mon Sep 17 00:00:00 2001
-+From: Valery0xff <valery.chernous@gmail.com>
-+Date: Wed, 11 Mar 2020 02:20:36 +0200
-+Subject: [PATCH] udev: fix SECLABEL{selinux} issue (#15064)
-+
-+Add SECLABEL{selinux}="some value" cause udevadm crash
-+systemd-udevd[x]: Worker [x] terminated by signal 11 (SEGV)
-+ 
-+It happens since 25de7aa7b90 (Yu Watanabe 2019-04-25 01:21:11 +0200)
-+when udev rules processing changed to token model. Yu forgot store
-+attr to SECLABEL token so fix it.
-+---
-+ src/udev/udev-rules.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/0335d110afc08baf47d76b7011ce02510dfdd524.patch]
-+---
-+diff --git a/src/udev/udev-rules.c b/src/udev/udev-rules.c
-+index b9b350d1ef..b990f68e93 100644
-+--- a/src/udev/udev-rules.c
-++++ b/src/udev/udev-rules.c
-+@@ -921,7 +921,7 @@ static int parse_token(UdevRules *rules, const char *key, char *attr, UdevRuleOp
-+                         op = OP_ASSIGN;
-+                 }
-+ 
-+-                r = rule_line_add_token(rule_line, TK_A_SECLABEL, op, value, NULL);
-++                r = rule_line_add_token(rule_line, TK_A_SECLABEL, op, value, attr);
-+         } else if (streq(key, "RUN")) {
-+                 if (is_match || op == OP_REMOVE)
-+                         return log_token_invalid_op(rules, key);
-diff --git a/meta/recipes-core/systemd/systemd_244.3.bb b/meta/recipes-core/systemd/systemd_244.3.bb
-index 850d64e..64e3b18 100644
---- a/meta/recipes-core/systemd/systemd_244.3.bb
-+++ b/meta/recipes-core/systemd/systemd_244.3.bb
-@@ -21,6 +21,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://CVE-2020-13776.patch \
-+           file://systemd-udev-seclabel-options-crash-fix.patch \
-            "
- 
- # patches needed by musl
--- 
-2.7.4
-
+On Tue, 10 Nov 2020 at 01:00, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> icu-68.1 removed TRUE and FALSE public macro definitions
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../0001-Fix-build-with-icu-68.1.patch        | 46 +++++++++++++++++++
+>  meta/recipes-support/libical/libical_3.0.8.bb |  1 +
+>  2 files changed, 47 insertions(+)
+>  create mode 100644 meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
+>
+> diff --git a/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch b/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
+> new file mode 100644
+> index 0000000000..8f3a6e1563
+> --- /dev/null
+> +++ b/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
+> @@ -0,0 +1,46 @@
+> +From 6fa716bb11d16a7b073f35a36651c6ef23a7fdac Mon Sep 17 00:00:00 2001
+> +From: Lars Wendler <polynomial-c@gentoo.org>
+> +Date: Fri, 30 Oct 2020 11:24:34 +0100
+> +Subject: [PATCH] Fix build with icu-68.1
+> +
+> +icu-68.1 removed public macro definitions for TRUE and FALSE
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Lars Wendler <polynomial-c@gentoo.org>
+> +---
+> + src/libical/icalrecur.c | 5 +++--
+> + 1 file changed, 3 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/src/libical/icalrecur.c b/src/libical/icalrecur.c
+> +index 7317845..bd1046f 100644
+> +--- a/src/libical/icalrecur.c
+> ++++ b/src/libical/icalrecur.c
+> +@@ -143,6 +143,7 @@
+> + #include <stdlib.h>
+> +
+> + #if defined(HAVE_LIBICU)
+> ++#include <stdbool.h>
+> + #include <unicode/ucal.h>
+> + #include <unicode/ustring.h>
+> + #define RSCALE_IS_SUPPORTED 1
+> +@@ -1018,7 +1019,7 @@ icalarray *icalrecurrencetype_rscale_supported_calendars(void)
+> +
+> +     calendars = icalarray_new(sizeof(const char **), 20);
+> +
+> +-    en = ucal_getKeywordValuesForLocale("calendar", NULL, FALSE, &status);
+> ++    en = ucal_getKeywordValuesForLocale("calendar", NULL, false, &status);
+> +     while ((cal = uenum_next(en, NULL, &status))) {
+> +         cal = icalmemory_tmp_copy(cal);
+> +         icalarray_append(calendars, &cal);
+> +@@ -1411,7 +1412,7 @@ static int initialize_rscale(icalrecur_iterator *impl)
+> +         }
+> +
+> +         /* Check if specified calendar is supported */
+> +-        en = ucal_getKeywordValuesForLocale("calendar", NULL, FALSE, &status);
+> ++        en = ucal_getKeywordValuesForLocale("calendar", NULL, false, &status);
+> +         while ((cal = uenum_next(en, NULL, &status))) {
+> +             if (!strcmp(cal, rule.rscale)) {
+> +                 is_hebrew = !strcmp(rule.rscale, "hebrew");
+> +--
+> +2.29.2
+> +
+> diff --git a/meta/recipes-support/libical/libical_3.0.8.bb b/meta/recipes-support/libical/libical_3.0.8.bb
+> index efb9433412..6230f09eca 100644
+> --- a/meta/recipes-support/libical/libical_3.0.8.bb
+> +++ b/meta/recipes-support/libical/libical_3.0.8.bb
+> @@ -11,6 +11,7 @@ SECTION = "libs"
+>  SRC_URI = " \
+>      https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+>      file://0001-Use-our-hand-build-native-src-generator.patch \
+> +    file://0001-Fix-build-with-icu-68.1.patch \
+>  "
+>  SRC_URI[md5sum] = "41bd1f1fcdcb4779cea478bb55cf07bf"
+>  SRC_URI[sha256sum] = "09fecacaf75ba5a242159e3a9758a5446b5ce4d0ab684f98a7040864e1d1286f"
+> --
+> 2.29.2
+>
+>
+> 
+>
