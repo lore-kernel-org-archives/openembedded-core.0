@@ -1,135 +1,109 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
- by mx.groups.io with SMTP id smtpd.web08.32056.1605034056388964150
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.92.90.103])
+ by mx.groups.io with SMTP id smtpd.web10.32742.1605036046895224837
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 10:47:36 -0800
+ Tue, 10 Nov 2020 11:20:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bbea4p//;
- spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f182.google.com with SMTP id p12so9337204qtp.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2020 10:47:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=J9N6q1ZVIPrFjYQRI7/9tLMu8IRbmDNDREmCKqBTSXY=;
-        b=bbea4p///CGy3HSJIkd1VIAm0i4OO3clgCDiJidZe0wGZ07OpmwnNxtFaf/UsVTThX
-         ChHO1DmAlXCccDO6h1ZSon+MN5p0Vitt1vs+aF88Dk4mIekRLFCYT8xbtig8bElpDCkr
-         rFPv1D/vWFPcQ2ZHAuISJ+EW0fLLgThHMjMd7uZmsoFeh72Et8reC5JW896krqcRX571
-         ec2xKdA96RyyzsZPw81j2NV+9+S6NlF7/0FvVYeSrs2qd9x5Aip6G81QGgqOEjS4QENf
-         IpdkVkr9eGdpqHbntHimqxWi4wdkwYvQK6wGYGJymiJdEFasjsdGE5QBTRNbW45bzk0V
-         jdVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=J9N6q1ZVIPrFjYQRI7/9tLMu8IRbmDNDREmCKqBTSXY=;
-        b=ksHHqHplijLc+L/JPEWaEJrfP177oPwaQCOVMTIabn/+IZfGLCRETJ8fDyuSY8f64s
-         z1JVcpyuct0ps4gJZGlmhsanIAlkP4BDOALnsp6F08TKnOW6VQtNHZUeS6Eq+uo3KZgg
-         3R/LStoYFTxwriHspznj8X86rQ2Hm+Q9l8TgcOAB7rjpNgI/Z11wtzMwGTsg8ElXX2r7
-         JgciFETNbg6wxCEUHh6hr/IwzgGDnDtkcbKvX3+j95235NITQNfbO2LpXX2hzoCehNUR
-         AWt4n2lbPDduJNplTvWFFrlxe6ZIVeAqaFO2r/4zgM+jsc97HX1mrGJ/b55VPBd4xkUO
-         ZyuQ==
-X-Gm-Message-State: AOAM531JL/ZKCJ8rPQvI3errVe2t38oZDZLuBCdor30jcBTAQdfBTXyw
-	cLGPM1RXPhbLCcyhhFL1WpIWXrq3ye5q3kcI/TE=
-X-Google-Smtp-Source: ABdhPJwZNYf3Kxq9gB830c1y+5cnpf4aXwBSMf4qzuAtke8IMK0FYDQCs2mG9h/bJyBa6mQs2ZDN/npVeVOfIInRDNk=
-X-Received: by 2002:ac8:3805:: with SMTP id q5mr19927826qtb.53.1605034055339;
- Tue, 10 Nov 2020 10:47:35 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=u4ti6UQ9;
+ spf=pass (domain: outlook.com, ip: 40.92.90.103, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jrpFdGEjY5xEW/bYRsiGcSZXJe2v6EVj5CoselokvHmAbNITEFjnL9sHaV5VG1tr39lydVln2YUL2Yrkgg3iytCCaEFJqtPjlNgfQ7s+af25Xutnruqyh5AAbZr9V0LO6T7F7hLCMHVnZI5d7sAwon2MLpRFCphdGiWIJfcPMVYhsycecN3dtLbdj1Ek9jtZdMQZ/Paa+AB4bEh6KPTwr6N/pKcNNlIg6che4DR8pJT0j+X3PeG8Hxjp7w8cWfLGa2sG8t4Ti+FOpuTTFMSKqyiBQxxQog5chwN3+RX3ufrYQiJNxmUkjhsAXfXw77dlbYHaTD8vHYBFukanYelbEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MHBUO8dWL6aMeQGIlVR6abhuQSSDxfaA19+4VRx7dCY=;
+ b=GL6f+Dn931VRvYSqIekVQFot//hgm0wB/GOxSUwHpGavRI5MgmwTiL+oXqqRRXwHmFUFDNv8CkTsJIe5t/w8WItzeS58QLo+VpIBar9583pYrEj53ovFFOzCdL8dRWZapZodQDTMoXv3b/A+5EgM9YWf3kb7+Vffvrq15up/+piifTkuSvPS9AsTsOSSLRK1Y6juL6SoLeoYhPHzYNLeS/Ia2cYTWA2Q2qhtU3Y60BpSRb7VUtoovhf2+Pl/BgW+JytJ+rSOGVKoXqcI6KkHByleYDw86Ja5aO0aJVCKRAV+IRjqvzGGcCr6r6ngC5SkC/JaDB6HEm+KLGWg8BUfYg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MHBUO8dWL6aMeQGIlVR6abhuQSSDxfaA19+4VRx7dCY=;
+ b=u4ti6UQ9T3Mplao5+T6f5+OMLn/ps8/qg2/nAuaLJh7VOI4vLkbyerO1QXWVqTsTRO4POCn+kzz7TqOkGkqmJgaAnBHNtZnuvk1VnzyelyzBmKaerSS0rCxwDm/eFJA013vcLUcrQrYjRaGZSpWs0fTAAFDlt/z+7xZc6aH9ZE1tnKJuSyEVWvUw/zZoNCm3jVHaxpsrnPcsdS6NZAQL4Ey634wgch6efjGD6JazOW+RXq7R7C7Q8f4D+EtPXVl6IDGtxDmi3hpUeTdEv4GIX8nNOs12ucHSyJLyrfEJQXqNct9qSjDfuziZKxIR+eEqezq22tfFm1uGNqw4bUspVg==
+Received: from AM6EUR05FT030.eop-eur05.prod.protection.outlook.com
+ (2a01:111:e400:fc11::42) by
+ AM6EUR05HT085.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::341)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.17; Tue, 10 Nov
+ 2020 19:20:44 +0000
+Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ (2a01:111:e400:fc11::52) by AM6EUR05FT030.mail.protection.outlook.com
+ (2a01:111:e400:fc11::61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.17 via Frontend
+ Transport; Tue, 10 Nov 2020 19:20:44 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:52AE21EC1C632FF6504CBC347D897FD51EA85FD78F4DC81A6925C0D83D2620BB;UpperCasedChecksum:E3E4FA6E532274B6C7B0C7D7808F1FFE24B2CF7740332987F31B5C2DA088C86F;SizeAsReceived:7341;Count:45
+Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ ([fe80::10f9:f756:6d75:96c3]) by VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ ([fe80::10f9:f756:6d75:96c3%6]) with mapi id 15.20.3541.025; Tue, 10 Nov 2020
+ 19:20:44 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH 1/3] oeqa/core/context: expose results as variable
+Date: Tue, 10 Nov 2020 20:20:14 +0100
+Message-ID: <VI1PR01MB6462599E65E1F7DB274D3491A8E90@VI1PR01MB6462.eurprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [TFgqGP9t1g4GY46VR6caCfkh+vFM5nm2]
+X-ClientProxiedBy: AM0PR04CA0083.eurprd04.prod.outlook.com
+ (2603:10a6:208:be::24) To VI1PR01MB6462.eurprd01.prod.exchangelabs.com
+ (2603:10a6:800:154::12)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20201110192016.2458528-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-References: <1605032052-91580-1-git-send-email-dzagorui@cisco.com>
-In-Reply-To: <1605032052-91580-1-git-send-email-dzagorui@cisco.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 10 Nov 2020 10:47:09 -0800
-Message-ID: <CAMKF1sqMhUQRY7riVpBqZdmZ4qZpZCMcpsdVeismjO-x39Y0VQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] binutils: reproducibility: reuse debug-prefix-map for stabs
-To: dzagorui@cisco.com
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (87.141.92.139) by AM0PR04CA0083.eurprd04.prod.outlook.com (2603:10a6:208:be::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Tue, 10 Nov 2020 19:20:43 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 568f9511-49bd-45b3-60fd-08d885adb822
+X-MS-Exchange-SLBlob-MailProps: 
+	NS9Gj58uCj3YwmJACMyfymIZI54ViH9OlUGlApSPm62km08jdyJ2LPqm5YaNtxBl+0IKvUs7wqmkZFffez8syg96bPvpicViFt0cFZKInxtEGAEZJ3EqbeCQIeE/dxm2cw4QyNAIR0OUAARuYMgeaBOwku+zSX1HfyUD/iVAp6xlJPl+k3xgInKgwLjAi5pdXGQpoKphkxLoqo+3JxwGQPuP/xb5s72EWH+CvT7piijXdNRr7t89Bss+JmOtgTFm5z80OuZpT31IzjJ1I4ySMn0hVDYfI5Vc7ysehEZzl1XmdwRnv1trkqOx23Jm0pFMCtY4lo2vx645UW+GkngGra3dg35Rs25a/nuCMD3+xGT0SWyPg9ITQ5c5TaXm46NxYIyyMeLl01tZsVLdOacZngjqOQADqsXugr/s7NTmoqo8ZYUDcM7v57XqEiaUYq1dBcNo1PzXlbjVjbhnedwzcsasqR0Q+MIE5az9VZe+T+eyHA/aq4Aev2fo6qSjGnbZ8mne0QuZeB5/snzy39+z1a7GWddwtTBqTyv54kPLCpMc6MXvlxZ3Epc181tHcOa9YZkiK6MWFBYbUc7Qdo3O0HltTv+PZI7Vq769o++8p2x34TBolvlqJXJEIo369Bh22BEIAqoF2tw4HEOIiEDVmEs+WCJJlAl5eT0SXe/N7iQ28sYatQkhxKlqbvHNtTpOQbG2en+YAZRmZtEB8R9shw==
+X-MS-TrafficTypeDiagnostic: AM6EUR05HT085:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	UAdCbazr729ukQjLxce3VfrAMqJILgrB8iryjdmN9tKUybDct/bXr6BYCnN15aryYyNC0gLexGHFW3EN9zuNujoUvCsfw4OMN7SHOt1iMI9Wm56KmJ1E7YbsoUAmW+r25QD8fsaYs1ayiXRXpkQdUhrqUU+SfSiiccNJ2USDvZwX9soLYgTvC9kPn+XqwVDcigqQOqhgG1uPiloR3uJTbw==
+X-MS-Exchange-AntiSpam-MessageData: 
+	jqdiywNjhhBAYoJwq1vR+KFgj2MJ/NVx8bsGzKshwwUSC3uVXIariOdbKrOssf6UW3IgGiPcAVGf8765m35/YfJHsHhYhDO1ahWUgm6y3ofkpwX67a2FW3BWqgnVZgj/BA+m1ZCHVICkFANwIfjRWw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 568f9511-49bd-45b3-60fd-08d885adb822
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2020 19:20:44.4673
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM6EUR05FT030.eop-eur05.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT085
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-This looks good. Can you also propose it for dunfell?
+register an unittest handler for testresults and expose it as
+variable result.
+With this even partial results from an interrupted test suite run
+can be made available
 
-On Tue, Nov 10, 2020 at 10:14 AM Denys Zagorui -X (dzagorui -
-GLOBALLOGIC INC@Cisco) via lists.openembedded.org
-<dzagorui=cisco.com@lists.openembedded.org> wrote:
->
-> powerpc 32bit Linux Kernel widely uses .stabs pseudo-op to
-> produce debugging information in stabs format. Faced an issue
-> that during Linux Kernel build with Yocto build system for 32bit
-> powerpc platform resulting vmlinux contains absolute path in
-> .stabstr section that cannot be remapped with -fdebug-prefix-map
-> option.
->
-> Yocto uses scripts/mkmakefile Linux Kernel build approach that
-> allows to store all generated files outside of kernel source
-> tree. With this approach each compilier invocation is performed
-> with an absolute path to a file that will be compiled and this
-> absolute path is recorded in init stab. There is no way to remap
-> this path.
->
-> Reuse remap_debug_filename api to make -fdebug-prefix-map flag
-> aplicable for init stab.
->
-> Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
-> ---
->  meta/recipes-devtools/binutils/binutils-2.35.inc   |  1 +
->  ...-reproducibility-for-stabs-debugging-data.patch | 35 ++++++++++++++++++++++
->  2 files changed, 36 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.35.inc b/meta/recipes-devtools/binutils/binutils-2.35.inc
-> index 5ae9ec4..bc9107b 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.35.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.35.inc
-> @@ -41,5 +41,6 @@ SRC_URI = "\
->       file://0014-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
->       file://0015-sync-with-OE-libtool-changes.patch \
->       file://0016-Check-for-clang-before-checking-gcc-version.patch \
-> +     file://0017-gas-improve-reproducibility-for-stabs-debugging-data.patch \
->  "
->  S  = "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch b/meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
-> new file mode 100644
-> index 0000000..42e0c1c
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
-> @@ -0,0 +1,35 @@
-> +From aa6586e80fc6fcd739aa959a71e4cf064cdef072 Mon Sep 17 00:00:00 2001
-> +From: Denys Zagorui <dzagorui@cisco.com>
-> +Date: Mon, 9 Nov 2020 15:39:10 +0000
-> +Subject: [PATCH] gas: improve reproducibility for stabs debugging data format
-> +
-> +       * config/obj-elf (obj_elf_init_stab_section): Improve
-> +       reproducibility for stabs debugging data format
-> +
-> +Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=0541201782c006c09d029d18a45c6e743cfea906]
-> +---
-> + gas/config/obj-elf.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/gas/config/obj-elf.c b/gas/config/obj-elf.c
-> +index de22b5a1da..2025df8542 100644
-> +--- a/gas/config/obj-elf.c
-> ++++ b/gas/config/obj-elf.c
-> +@@ -2374,12 +2374,13 @@ obj_elf_init_stab_section (segT seg)
-> +   p = frag_more (12);
-> +   /* Zero it out.  */
-> +   memset (p, 0, 12);
-> +-  file = as_where (NULL);
-> ++  file = remap_debug_filename (as_where (NULL));
-> +   stabstr_name = concat (segment_name (seg), "str", (char *) NULL);
-> +   stroff = get_stab_string_offset (file, stabstr_name, TRUE);
-> +   know (stroff == 1 || (stroff == 0 && file[0] == '\0'));
-> +   md_number_to_chars (p, stroff, 4);
-> +   seg_info (seg)->stabu.p = p;
-> ++  xfree ((char *) file);
-> + }
-> +
-> + #endif
-> +--
-> +2.20.1
-> +
-> --
-> 2.7.4
->
->
-> 
->
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/lib/oeqa/core/context.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index 7d3fa3b84a..84b43a93e1 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -31,6 +31,9 @@ class OETestContext(object):
+         self._registry =3D {}
+         self._registry['cases'] =3D collections.OrderedDict()
+=20
++        self.results =3D unittest.TestResult()
++        unittest.registerResult(self.results)
++
+     def _read_modules_from_manifest(self, manifest):
+         if not os.path.exists(manifest):
+             raise OEQAMissingManifest("Manifest does not exist on %s" % ma=
+nifest)
+--=20
+2.25.1
+
