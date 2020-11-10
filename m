@@ -1,171 +1,120 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web11.31374.1605030390183869531
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+ by mx.groups.io with SMTP id smtpd.web10.31826.1605032054657341006
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 09:46:30 -0800
+ Tue, 10 Nov 2020 10:14:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AMF/wts6;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id e21so10828343pgr.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2020 09:46:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=6LTlGSXH7rmDNkTtsL/GNQ5Oo0T0L9A7VXkPvrGcFRA=;
-        b=AMF/wts62mrRFG76XIIa04+DsgEfg8sZS8zFAIyqSD8FUtQVG+kOBDZMVn9YZmQ7/5
-         ph3A89VqLM2dUpJIKmQI8/WwarTSz9NSDZjX8TnM2N19K7wRFRXV42orrJmZPzUyBu3y
-         0srtT7VNY+dhNOfmDVlx8V0BsmCdVbcLXVFBe0gh1WRiLURnKN8SxL5pk+kvQ9MmoE+y
-         iygPezp3q9yCq7A76bOKoFi7ROvV7sfCMGU+9oH1ZWw/Fh9Sqh7TySK3y/3aGYvYGaqx
-         aNpeEf33ITNmZd7Na0aplWdqhqobkXpheA3xUkh3s50mO+w5iO7ufYmByycW3m+qExJk
-         /SOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=6LTlGSXH7rmDNkTtsL/GNQ5Oo0T0L9A7VXkPvrGcFRA=;
-        b=ER2BTbosAkgFMG2tsj2ihSuHfqI1uBGqJWwACQpe0G7vGgFRqB+czUA9hvE4vpwh4g
-         VuA3DEaFjOX0hPZ7uev8DpyhYhgGCLJ50zmZ3BtsAsNz8UbwTYoAmh9cqtFyo2P+F2nA
-         H7SLFv4w11SOPEQaHEkFucQEZur2EULAiYwoWy7GtkCIudPYZLNOuRQ2cC/sn8lwhn7Q
-         FbTfBtxbsNI2VxHzQN5e4KAHgZii3XrtCXnybsuPwEISn64WrvQU0rAXt2rKgYPGLIz5
-         zmeNc8DTLVErCUtI/oDyyYZ+pmBZwj4jNw0x33hr7pTS2+jAzlV8FQTZ6938QBT9kF0a
-         XUHw==
-X-Gm-Message-State: AOAM5308QYjFuFiG80S9Pn44o/rfY7xMuITEr1zRVSAYDIX11WSBEnFg
-	CwrR1D7zJJzHAVnsYbF7WB8LAAeJP4zdTw==
-X-Google-Smtp-Source: ABdhPJzbyRSJ6dnnGQ17+N5SznBIIeZra8COwf00DCm8/g9H3J8aujP5d0nZG5CKe498+pbuVRPi1w==
-X-Received: by 2002:a17:90a:c401:: with SMTP id i1mr234836pjt.184.1605030389239;
-        Tue, 10 Nov 2020 09:46:29 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0::740e? ([2601:646:9200:4e0::740e])
-        by smtp.gmail.com with ESMTPSA id e8sm13979334pfn.175.2020.11.10.09.46.28
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 09:46:28 -0800 (PST)
-Subject: Re: [OE-core] [PATCH] libical: backport a patch to fix build with ICU 68.1
+ dkim=fail reason="signature has expired" header.i=@cisco.com header.s=iport header.b=YfyevQop;
+ spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: dzagorui@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=3415; q=dns/txt; s=iport;
+  t=1605032054; x=1606241654;
+  h=from:to:subject:date:message-id;
+  bh=DsFFQLPH6qUCQVhV9aF/JOy+zyzAsVeBuJt8HE0UPNU=;
+  b=YfyevQop5YnyjT9qwfyDEUGoiziuH78Fd2InFCX/Fh9jQGbTgcq7HbNd
+   Yzciz08CbLdSVKOUA0tYfdSX2CfoNUjyPbG/iEe1QfIlj/fbhnaX3bdf8
+   oa+rV842zNuBJms7Oiucg+AzYC546MxIyq2NgHJeAu9hOcSHhmk4vEkKd
+   4=;
+X-IPAS-Result: =?us-ascii?q?A0BIEQCY16pffZJdJa1iHAEBATwBAQQEAQECAQEHAQGBZ?=
+ =?us-ascii?q?oE8AoFeVQEyLrILCwEBAQ0BASUKBAEBhmACJTgTAgMBAQEDAgMBAQEBBQEBA?=
+ =?us-ascii?q?QIBBgQUAQGGPAyFcgEtfgMBAlsjIYMmAYMGD64ggXUzhFBDRIMrgTwGgTYCA?=
+ =?us-ascii?q?QGIPYUAG4FBP4ERg1CCXQQXgQ2GLwS4KYJ3iQ2SAwIgoXMBnkuVTwIEBgUCF?=
+ =?us-ascii?q?YFrIYFZMxoIGxWDJFAZDVaWToVEQQMwCy0CBgoBAQMJjAKCRgEB?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.77,467,1596499200"; 
+   d="scan'208";a="604584540"
+Received: from rcdn-core-10.cisco.com ([173.37.93.146])
+  by alln-iport-8.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 10 Nov 2020 18:14:13 +0000
+Received: from sjc-ads-9103.cisco.com (sjc-ads-9103.cisco.com [10.30.208.113])
+	by rcdn-core-10.cisco.com (8.15.2/8.15.2) with ESMTPS id 0AAIECVu013073
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2020 18:14:13 GMT
+Received: by sjc-ads-9103.cisco.com (Postfix, from userid 487941)
+	id 4298ACC1251; Tue, 10 Nov 2020 10:14:12 -0800 (PST)
+From: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>
 To: openembedded-core@lists.openembedded.org
-References: <20201110104753.250322-1-ross.burton@arm.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <e29a42c1-68e7-ce55-6323-01676a95e0de@gmail.com>
-Date: Tue, 10 Nov 2020 09:46:27 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201110104753.250322-1-ross.burton@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH] binutils: reproducibility: reuse debug-prefix-map for stabs
+Date: Tue, 10 Nov 2020 18:14:12 +0000
+Message-Id: <1605032052-91580-1-git-send-email-dzagorui@cisco.com>
+X-Mailer: git-send-email 2.7.4
+X-Outbound-SMTP-Client: 10.30.208.113, sjc-ads-9103.cisco.com
+X-Outbound-Node: rcdn-core-10.cisco.com
 
-thanks this is better.
+powerpc 32bit Linux Kernel widely uses .stabs pseudo-op to
+produce debugging information in stabs format. Faced an issue
+that during Linux Kernel build with Yocto build system for 32bit
+powerpc platform resulting vmlinux contains absolute path in
+.stabstr section that cannot be remapped with -fdebug-prefix-map
+option.
 
-On 11/10/20 2:47 AM, Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->   .../0001-Fix-build-with-icu-68.1.patch        | 81 +++++++++++++++++++
->   meta/recipes-support/libical/libical_3.0.8.bb |  1 +
->   2 files changed, 82 insertions(+)
->   create mode 100644 meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
-> 
-> diff --git a/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch b/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
-> new file mode 100644
-> index 00000000000..79e1475c6c5
-> --- /dev/null
-> +++ b/meta/recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
-> @@ -0,0 +1,81 @@
-> +Upstream-Status: Backport
-> +Signed-off-by: Ross Burton <ross.burton@arm.com>
-> +
-> +From 52d603212173d4502800bf746436a93f806a8898 Mon Sep 17 00:00:00 2001
-> +From: Allen Winter <allen.winter@kdab.com>
-> +Date: Sat, 31 Oct 2020 17:38:01 -0400
-> +Subject: [PATCH] Fix build with icu-68.1
-> +
-> +Use stdbool.h to define true and false when possible
-> +
-> +Issue#448
-> +---
-> + ConfigureChecks.cmake   |  1 +
-> + config.h.cmake          |  3 +++
-> + src/libical/icalrecur.c | 10 ++++++++--
-> + 3 files changed, 12 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/ConfigureChecks.cmake b/ConfigureChecks.cmake
-> +index e4d0e2ec..bba33fa9 100644
-> +--- a/ConfigureChecks.cmake
-> ++++ b/ConfigureChecks.cmake
-> +@@ -10,6 +10,7 @@ check_include_files(sys/utsname.h HAVE_SYS_UTSNAME_H)
-> + check_include_files(fcntl.h HAVE_FCNTL_H)
-> + check_include_files(unistd.h HAVE_UNISTD_H)
-> + check_include_files(wctype.h HAVE_WCTYPE_H)
-> ++check_include_files(stdbool.h HAVE_STDBOOL_H)
-> +
-> + include(CheckFunctionExists)
-> + if(WIN32 AND MSVC)
-> +diff --git a/config.h.cmake b/config.h.cmake
-> +index 8fd3421b..c8008692 100644
-> +--- a/config.h.cmake
-> ++++ b/config.h.cmake
-> +@@ -39,6 +39,9 @@
-> + /* Define to 1 if you have the <dirent.h> header file. */
-> + #cmakedefine HAVE_DIRENT_H 1
-> +
-> ++/* Define to 1 if you have the <stdbool.h> header file. */
-> ++#cmakedefine HAVE_STDBOOL_H 1
-> ++
-> + /* Define if we have pthread. */
-> + #cmakedefine HAVE_PTHREAD_ATTR_GET_NP 1
-> + #cmakedefine HAVE_PTHREAD_GETATTR_NP 1
-> +diff --git a/src/libical/icalrecur.c b/src/libical/icalrecur.c
-> +index 73178450..b3f054b8 100644
-> +--- a/src/libical/icalrecur.c
-> ++++ b/src/libical/icalrecur.c
-> +@@ -145,6 +145,12 @@
-> + #if defined(HAVE_LIBICU)
-> + #include <unicode/ucal.h>
-> + #include <unicode/ustring.h>
-> ++#if defined(HAVE_STDBOOL_H)
-> ++#include <stdbool.h>
-> ++#else
-> ++#define false 0
-> ++#define true 1
-> ++#endif
-> + #define RSCALE_IS_SUPPORTED 1
-> + #else
-> + #define RSCALE_IS_SUPPORTED 0
-> +@@ -1018,7 +1024,7 @@ icalarray *icalrecurrencetype_rscale_supported_calendars(void)
-> +
-> +     calendars = icalarray_new(sizeof(const char **), 20);
-> +
-> +-    en = ucal_getKeywordValuesForLocale("calendar", NULL, FALSE, &status);
-> ++    en = ucal_getKeywordValuesForLocale("calendar", NULL, false, &status);
-> +     while ((cal = uenum_next(en, NULL, &status))) {
-> +         cal = icalmemory_tmp_copy(cal);
-> +         icalarray_append(calendars, &cal);
-> +@@ -1411,7 +1417,7 @@ static int initialize_rscale(icalrecur_iterator *impl)
-> +         }
-> +
-> +         /* Check if specified calendar is supported */
-> +-        en = ucal_getKeywordValuesForLocale("calendar", NULL, FALSE, &status);
-> ++        en = ucal_getKeywordValuesForLocale("calendar", NULL, false, &status);
-> +         while ((cal = uenum_next(en, NULL, &status))) {
-> +             if (!strcmp(cal, rule.rscale)) {
-> +                 is_hebrew = !strcmp(rule.rscale, "hebrew");
-> +--
-> +2.25.1
-> +
-> diff --git a/meta/recipes-support/libical/libical_3.0.8.bb b/meta/recipes-support/libical/libical_3.0.8.bb
-> index efb9433412f..6230f09eca1 100644
-> --- a/meta/recipes-support/libical/libical_3.0.8.bb
-> +++ b/meta/recipes-support/libical/libical_3.0.8.bb
-> @@ -11,6 +11,7 @@ SECTION = "libs"
->   SRC_URI = " \
->       https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
->       file://0001-Use-our-hand-build-native-src-generator.patch \
-> +    file://0001-Fix-build-with-icu-68.1.patch \
->   "
->   SRC_URI[md5sum] = "41bd1f1fcdcb4779cea478bb55cf07bf"
->   SRC_URI[sha256sum] = "09fecacaf75ba5a242159e3a9758a5446b5ce4d0ab684f98a7040864e1d1286f"
-> 
-> 
-> 
-> 
-> 
+Yocto uses scripts/mkmakefile Linux Kernel build approach that
+allows to store all generated files outside of kernel source
+tree. With this approach each compilier invocation is performed
+with an absolute path to a file that will be compiled and this
+absolute path is recorded in init stab. There is no way to remap
+this path.
+
+Reuse remap_debug_filename api to make -fdebug-prefix-map flag
+aplicable for init stab.
+
+Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.35.inc   |  1 +
+ ...-reproducibility-for-stabs-debugging-data.patch | 35 ++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils-2.35.inc b/meta/recipes-devtools/binutils/binutils-2.35.inc
+index 5ae9ec4..bc9107b 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.35.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.35.inc
+@@ -41,5 +41,6 @@ SRC_URI = "\
+      file://0014-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
+      file://0016-Check-for-clang-before-checking-gcc-version.patch \
++     file://0017-gas-improve-reproducibility-for-stabs-debugging-data.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch b/meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
+new file mode 100644
+index 0000000..42e0c1c
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
+@@ -0,0 +1,35 @@
++From aa6586e80fc6fcd739aa959a71e4cf064cdef072 Mon Sep 17 00:00:00 2001
++From: Denys Zagorui <dzagorui@cisco.com>
++Date: Mon, 9 Nov 2020 15:39:10 +0000
++Subject: [PATCH] gas: improve reproducibility for stabs debugging data format
++
++	* config/obj-elf (obj_elf_init_stab_section): Improve
++	reproducibility for stabs debugging data format
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=0541201782c006c09d029d18a45c6e743cfea906]
++---
++ gas/config/obj-elf.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/gas/config/obj-elf.c b/gas/config/obj-elf.c
++index de22b5a1da..2025df8542 100644
++--- a/gas/config/obj-elf.c
+++++ b/gas/config/obj-elf.c
++@@ -2374,12 +2374,13 @@ obj_elf_init_stab_section (segT seg)
++   p = frag_more (12);
++   /* Zero it out.  */
++   memset (p, 0, 12);
++-  file = as_where (NULL);
+++  file = remap_debug_filename (as_where (NULL));
++   stabstr_name = concat (segment_name (seg), "str", (char *) NULL);
++   stroff = get_stab_string_offset (file, stabstr_name, TRUE);
++   know (stroff == 1 || (stroff == 0 && file[0] == '\0'));
++   md_number_to_chars (p, stroff, 4);
++   seg_info (seg)->stabu.p = p;
+++  xfree ((char *) file);
++ }
++ 
++ #endif
++-- 
++2.20.1
++
+-- 
+2.7.4
+
