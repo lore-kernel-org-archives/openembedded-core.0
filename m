@@ -1,211 +1,167 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web08.32774.1605036800826765114
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.web09.33616.1605038919005898443
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 11:33:21 -0800
+ Tue, 10 Nov 2020 12:08:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=o6DAIJzm;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id u4so9920057qkk.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2020 11:33:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LeG1M7Wr/QV+rCMc5nqVKAAKQXIdBcjENhj0Ku6ArTg=;
-        b=o6DAIJzmyzJHfpi33Iy7v0yI2PErHYrt1+4FgDcX0tUNtBXBcRHD5TjmmjSpqSWmM/
-         pqYHmF5vyQOFzBs1qaFGmwHQRo3GJqm3J2yFtY1W8IDww7wCF40UsGE4Y0MmVExn8usA
-         m14sAZpc1kX4Z0P6PbbZ2yhhzC5RGbOsOLuvex9zpuHThxjm4mpbR2ouBFHlcGw2ViyA
-         93mwFZ3GGt6AwomXBKQay61v1qcXDUIP6KUb2LY5IXQ1+Q5q4CiXAHHuwFaJXt0XP4Jf
-         7fp54XN7Z9BhKRWPwDnKwzCszUEBRdyiaxBDqaD4lmbXOluBdfnWaHD7rcCoYw+7AmQu
-         6N6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LeG1M7Wr/QV+rCMc5nqVKAAKQXIdBcjENhj0Ku6ArTg=;
-        b=e2W9Bdln652YH88Z+Vtu6Dt0sKNmmok1r6swwMZOcSvedTorfmfCOIYc/f6Kre9OPB
-         lMeea66D4dNpkj6UBIKiGewHZ8rbuiyhYVxl83X69jPCeKvsd2A1+qL1Jj1X3H2NsF2x
-         iQ46+uUgWShXuOXYooBQnxnmruIf4WhPqYk2gfH/fbqaK1fjvMjei54NdztfBrUbSR5K
-         dMvfVZLnA1Z+B3/ITF3cTR1i990RbY73AmthDALU0QE2/wLH82u2C+lGc4n+d0h+tikF
-         g0snNw3e3AEE7hCGSXmI6/yb7xKf/Ew0gbf+lOy0o8XCIcKYOULcPpp3W0JSVxq/vK7E
-         Y73Q==
-X-Gm-Message-State: AOAM5333CYlYp3+ZD/2KFWOlFztxoFFCCTl4bUAMV0akoUWvkvRpCE3c
-	2v6C89KiT83/HMZvKm3URXCGp1qGpXLDP4kvLV0=
-X-Google-Smtp-Source: ABdhPJyrnYpBmu3RAlMpKQ2Ztyrzr9vXNM54BAHqWoaS/ne1/ay3h6cD6hie5NTJLkPDYKE0O1p/8wqRETT51eez0hg=
-X-Received: by 2002:a37:9441:: with SMTP id w62mr21209167qkd.474.1605036799820;
- Tue, 10 Nov 2020 11:33:19 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@cisco.com header.s=iport header.b=AkHOi2NJ;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: dzagorui@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=5149; q=dns/txt; s=iport;
+  t=1605038917; x=1606248517;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=cBWek+nK9rHrY8q39K/iMSuj4gJhljhHCGiKuYn25n8=;
+  b=AkHOi2NJ5q8KPBpIcs3pGtZS/8d1aQb99++pbM2s/8qQ1kfoiOm35YYy
+   fx0OchsjALk07xzB7osZ4UUI6Nama4L5V/ipQ2bKyjwpTFDRqwPBI4GLF
+   PPVSTXfB76G8+7YkTj+ekgsZS6IkcWjB7HBuLNyxkO6YW7VIb81IC2I+a
+   Q=;
+X-IPAS-Result: =?us-ascii?q?A0DPCADs8qpffZldJa1iHgEBCxIMQIRtWS8uCpVWihWSF?=
+ =?us-ascii?q?wsBAQENAQEYDQgCBAEBhEoCghQCJTgTAgMBAQEDAgMBAQEBBQEBAQIBBgQUA?=
+ =?us-ascii?q?QGGPAyFcgEBAQEDASYnKxACAQgRAwEBAQEJJQ8SBwkBHQgCBA4FHQSDBoJVA?=
+ =?us-ascii?q?y4Prj50gQEzhD4BCwEFQ0SCRg2CJIE4hluGZBuBQT+BEYMSPoIbQgQBFoENO?=
+ =?us-ascii?q?YV2BJw+mxdUCiCCTYkNix2BVIUTIoRCnTKeToJukmECERWBMzghgVlwFYMkC?=
+ =?us-ascii?q?UcXAg1WjgCIToVEdAIJLQIGCgEBAwl8iwaBNQGBEAEB?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.77,467,1596499200"; 
+   d="scan'208";a="622814035"
+Received: from rcdn-core-2.cisco.com ([173.37.93.153])
+  by alln-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 10 Nov 2020 20:08:36 +0000
+Received: from XCH-ALN-001.cisco.com (xch-aln-001.cisco.com [173.36.7.11])
+	by rcdn-core-2.cisco.com (8.15.2/8.15.2) with ESMTPS id 0AAK8bmF008868
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 10 Nov 2020 20:08:37 GMT
+Received: from xch-aln-004.cisco.com (173.36.7.14) by XCH-ALN-001.cisco.com
+ (173.36.7.11) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 10 Nov
+ 2020 14:08:37 -0600
+Received: from xch-aln-004.cisco.com ([173.36.7.14]) by XCH-ALN-004.cisco.com
+ ([173.36.7.14]) with mapi id 15.00.1497.000; Tue, 10 Nov 2020 14:08:37 -0600
+From: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>
+To: Khem Raj <raj.khem@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] binutils: reproducibility: reuse debug-prefix-map for stabs
+Thread-Topic: [OE-core] [PATCH] binutils: reproducibility: reuse
+ debug-prefix-map for stabs
+Thread-Index: AQHWt5HkpPvCVEruYkqqJpbjbAEgB6nBy0d+
+Date: Tue, 10 Nov 2020 20:08:37 +0000
+Message-ID: <1605038916765.89270@cisco.com>
+References: <1605032052-91580-1-git-send-email-dzagorui@cisco.com>,<CAMKF1sqMhUQRY7riVpBqZdmZ4qZpZCMcpsdVeismjO-x39Y0VQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqMhUQRY7riVpBqZdmZ4qZpZCMcpsdVeismjO-x39Y0VQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [173.38.209.10]
 MIME-Version: 1.0
-References: <20201107020156.351764-1-alhe@linux.microsoft.com> <CAMKF1spGkOh9nXmDXxTihdV_JGM7qvqQkdYF6JnP=5wd2mTd3Q@mail.gmail.com>
-In-Reply-To: <CAMKF1spGkOh9nXmDXxTihdV_JGM7qvqQkdYF6JnP=5wd2mTd3Q@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 10 Nov 2020 11:32:53 -0800
-Message-ID: <CAMKF1spLO5w6eb5RiNUPoaQwh0KF0ymX+D7Bk14zOMGvhAoPNA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3: Update manifest
-To: Alejandro Hernandez Samaniego <alejandro@enedino.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Outbound-SMTP-Client: 173.36.7.11, xch-aln-001.cisco.com
+X-Outbound-Node: rcdn-core-2.cisco.com
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-I have a potential patch to meta-oe but other layers might have similar issues
+Yes, i'll propose it for dunfell also
+________________________________________
+From: Khem Raj <raj.khem@gmail.com>
+Sent: Tuesday, November 10, 2020 8:47 PM
+To: Denys Zagorui -X (dzagorui - GLOBALLOGIC INC at Cisco)
+Cc: Patches and discussions about the oe-core layer
+Subject: Re: [OE-core] [PATCH] binutils: reproducibility: reuse debug-pref=
+ix-map for stabs
 
-On Tue, Nov 10, 2020 at 11:26 AM Khem Raj <raj.khem@gmail.com> wrote:
+This looks good. Can you also propose it for dunfell?
+
+On Tue, Nov 10, 2020 at 10:14 AM Denys Zagorui -X (dzagorui -
+GLOBALLOGIC INC@Cisco) via lists.openembedded.org
+<dzagorui=3Dcisco.com@lists.openembedded.org> wrote:
 >
-> This has some consequences for recipes which depend on python3-typing
-> see parse logs
+> powerpc 32bit Linux Kernel widely uses .stabs pseudo-op to
+> produce debugging information in stabs format. Faced an issue
+> that during Linux Kernel build with Yocto build system for 32bit
+> powerpc platform resulting vmlinux contains absolute path in
+> .stabstr section that cannot be remapped with -fdebug-prefix-map
+> option.
 >
-> http://jenkins.nas-admin.org/view/OE/job/oe_world_qemux86-64/1962/consoleFull
+> Yocto uses scripts/mkmakefile Linux Kernel build approach that
+> allows to store all generated files outside of kernel source
+> tree. With this approach each compilier invocation is performed
+> with an absolute path to a file that will be compiled and this
+> absolute path is recorded in init stab. There is no way to remap
+> this path.
 >
-> On Fri, Nov 6, 2020 at 6:02 PM Alejandro Hernandez Samaniego
-> <alejandro@enedino.org> wrote:
-> >
-> > Update the python3-manifest to match the files installed by the
-> > new version of python3.
-> > - Kept tkinter the way it was although tk isnt part of OE-Core
-> > - Made typing part of python3-core
-> > - Update other packages with new dependencies such as filecmp and dataclasses.
-> >
-> > Signed-off-by: Alejandro Enedino Hernandez Samaniego <alhe@linux.microsoft.com>
-> > ---
-> >  .../python/python3/python3-manifest.json      | 35 +++++--------------
-> >  1 file changed, 9 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-> > index 69aecb7004..615dc3a5e5 100644
-> > --- a/meta/recipes-devtools/python/python3/python3-manifest.json
-> > +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-> > @@ -122,8 +122,7 @@
-> >              "logging",
-> >              "netclient",
-> >              "numbers",
-> > -            "stringold",
-> > -            "typing"
-> > +            "stringold"
-> >          ],
-> >          "files": [
-> >              "${libdir}/python${PYTHON_MAJMIN}/asyncio",
-> > @@ -173,10 +172,12 @@
-> >          ],
-> >          "files": [
-> >              "${libdir}/python${PYTHON_MAJMIN}/compileall.py",
-> > +            "${libdir}/python${PYTHON_MAJMIN}/filecmp.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/py_compile.py"
-> >          ],
-> >          "cached": [
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/compileall.*.pyc",
-> > +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/filecmp.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/py_compile.*.pyc"
-> >          ]
-> >      },
-> > @@ -313,6 +314,7 @@
-> >              "${libdir}/python${PYTHON_MAJMIN}/tokenize.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/traceback.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/types.py",
-> > +            "${libdir}/python${PYTHON_MAJMIN}/typing.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/urllib",
-> >              "${libdir}/python${PYTHON_MAJMIN}/urllib/parse.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/warnings.py",
-> > @@ -388,6 +390,7 @@
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tokenize.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/traceback.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/types.*.pyc",
-> > +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/warnings.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/weakref.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/collections/__pycache__",
-> > @@ -557,18 +560,12 @@
-> >      "doctest": {
-> >          "summary": "Python framework for running examples in docstrings",
-> >          "rdepends": [
-> > -            "asyncio",
-> >              "core",
-> >              "debugger",
-> >              "difflib",
-> > -            "io",
-> > -            "logging",
-> > -            "netclient",
-> > -            "numbers",
-> >              "pprint",
-> >              "shell",
-> >              "stringold",
-> > -            "typing",
-> >              "unittest"
-> >          ],
-> >          "files": [
-> > @@ -822,7 +819,6 @@
-> >              "terminal",
-> >              "threading",
-> >              "tkinter",
-> > -            "typing",
-> >              "unittest",
-> >              "unixadmin",
-> >              "venv",
-> > @@ -999,12 +995,14 @@
-> >          ],
-> >          "files": [
-> >              "${libdir}/python${PYTHON_MAJMIN}/cProfile.py",
-> > +            "${libdir}/python${PYTHON_MAJMIN}/dataclasses.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_lsprof.*.so",
-> >              "${libdir}/python${PYTHON_MAJMIN}/profile.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/pstats.py"
-> >          ],
-> >          "cached": [
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/cProfile.*.pyc",
-> > +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/dataclasses.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/profile.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pstats.*.pyc"
-> >          ]
-> > @@ -1130,13 +1128,11 @@
-> >              "core"
-> >          ],
-> >          "files": [
-> > -            "${libdir}/python${PYTHON_MAJMIN}/_dummy_thread.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/_threading_local.py",
-> >              "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_queue.*.so",
-> >              "${libdir}/python${PYTHON_MAJMIN}/queue.py"
-> >          ],
-> >          "cached": [
-> > -            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_dummy_thread.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_threading_local.*.pyc",
-> >              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/queue.*.pyc"
-> >          ]
-> > @@ -1147,23 +1143,11 @@
-> >              "core"
-> >          ],
-> >          "files": [
-> > -            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
-> > +           "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
-> >              "${libdir}/python${PYTHON_MAJMIN}/tkinter"
-> >          ],
-> >          "cached": []
-> >      },
-> > -    "typing": {
-> > -        "summary": "Python typing support",
-> > -        "rdepends": [
-> > -            "core"
-> > -        ],
-> > -        "files": [
-> > -            "${libdir}/python${PYTHON_MAJMIN}/typing.py"
-> > -        ],
-> > -        "cached": [
-> > -            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/typing.*.pyc"
-> > -        ]
-> > -    },
-> >      "unittest": {
-> >          "summary": "Python unit testing framework",
-> >          "rdepends": [
-> > @@ -1175,8 +1159,7 @@
-> >              "netclient",
-> >              "numbers",
-> >              "pprint",
-> > -            "stringold",
-> > -            "typing"
-> > +            "stringold"
-> >          ],
-> >          "files": [
-> >              "${libdir}/python${PYTHON_MAJMIN}/unittest",
-> > --
-> > 2.25.1
-> >
-> >
-> > 
-> >
+> Reuse remap_debug_filename api to make -fdebug-prefix-map flag
+> aplicable for init stab.
+>
+> Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils-2.35.inc   |  1 +
+>  ...-reproducibility-for-stabs-debugging-data.patch | 35 +++++++++++++++=
++++++++
+>  2 files changed, 36 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0017-gas-imp=
+rove-reproducibility-for-stabs-debugging-data.patch
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.35.inc b/meta/rec=
+ipes-devtools/binutils/binutils-2.35.inc
+> index 5ae9ec4..bc9107b 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.35.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.35.inc
+> @@ -41,5 +41,6 @@ SRC_URI =3D "\
+>       file://0014-Fix-rpath-in-libtool-when-sysroot-is-enabled.patch \
+>       file://0015-sync-with-OE-libtool-changes.patch \
+>       file://0016-Check-for-clang-before-checking-gcc-version.patch \
+> +     file://0017-gas-improve-reproducibility-for-stabs-debugging-data.p=
+atch \
+>  "
+>  S  =3D "${WORKDIR}/git"
+> diff --git a/meta/recipes-devtools/binutils/binutils/0017-gas-improve-re=
+producibility-for-stabs-debugging-data.patch b/meta/recipes-devtools/binuti=
+ls/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
+> new file mode 100644
+> index 0000000..42e0c1c
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproduci=
+bility-for-stabs-debugging-data.patch
+> @@ -0,0 +1,35 @@
+> +From aa6586e80fc6fcd739aa959a71e4cf064cdef072 Mon Sep 17 00:00:00 2001
+> +From: Denys Zagorui <dzagorui@cisco.com>
+> +Date: Mon, 9 Nov 2020 15:39:10 +0000
+> +Subject: [PATCH] gas: improve reproducibility for stabs debugging data =
+format
+> +
+> +       * config/obj-elf (obj_elf_init_stab_section): Improve
+> +       reproducibility for stabs debugging data format
+> +
+> +Upstream-Status: Backport [https://sourceware.org/git/?p=3Dbinutils-gdb=
+.git;a=3Dcommit;h=3D0541201782c006c09d029d18a45c6e743cfea906]
+> +---
+> + gas/config/obj-elf.c | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/gas/config/obj-elf.c b/gas/config/obj-elf.c
+> +index de22b5a1da..2025df8542 100644
+> +--- a/gas/config/obj-elf.c
+> ++++ b/gas/config/obj-elf.c
+> +@@ -2374,12 +2374,13 @@ obj_elf_init_stab_section (segT seg)
+> +   p =3D frag_more (12);
+> +   /* Zero it out.  */
+> +   memset (p, 0, 12);
+> +-  file =3D as_where (NULL);
+> ++  file =3D remap_debug_filename (as_where (NULL));
+> +   stabstr_name =3D concat (segment_name (seg), "str", (char *) NULL);
+> +   stroff =3D get_stab_string_offset (file, stabstr_name, TRUE);
+> +   know (stroff =3D=3D 1 || (stroff =3D=3D 0 && file[0] =3D=3D '\0'));
+> +   md_number_to_chars (p, stroff, 4);
+> +   seg_info (seg)->stabu.p =3D p;
+> ++  xfree ((char *) file);
+> + }
+> +
+> + #endif
+> +--
+> +2.20.1
+> +
+> --
+> 2.7.4
+>
+>
+>=20
+>
