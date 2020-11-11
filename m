@@ -1,165 +1,57 @@
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.134])
- by mx.groups.io with SMTP id smtpd.web09.4850.1605090749742420820
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.5185.1605091576261173379
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2020 02:32:30 -0800
+ Wed, 11 Nov 2020 02:46:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@microsoft.com header.s=selector2 header.b=i1BPAnnd;
- spf=pass (domain: microsoft.com, ip: 40.107.13.134, mailfrom: luca.boccassi@microsoft.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hlJnaJBe5ocs8o31RmaghLSXUvFgVfPaR59ESF8Wxph/PO2E/8iZiW3VUBiTDBHiNHrxUJKqrztregQPhM0c2jR1u3HQdGXzlpc+r5yv6isuOj0sA+9l8G4M4HC6Y/W+CPj+0FkyQN2TfcHoIKhtDlRsRKNvkrBJjmnNGJpX+1dKNZwtBmZoJblzLNs2S2EdcQ4JVlxZnk4SUjVkfOer7imhWFPpvsV8z1MndNlRhV9Si0f0WOGFS9zPLGv+XYE2mQNP8KetbMBK1Cbn4U+mfWhMM59RsBB2gRMm5/ZI6tbQZkcjxQpoWDe8S4oj0mXeL9ebaP8smXeqVjplgMSlNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NQSvV/44Ql3GFJlVEVSafPH0q5gnl3e/ALiKMH3Hlyc=;
- b=d3thCnzJGWThoZV+3vUaDIdstE3j3eZSBcezD/KnCl+kuEHOpcB4rR4jy10J7a0F5rFW0PLRlc6uwGncLygY1Wl/Fm4neUb9aBmgcgJb81O7FMu5IxCWQC0MNK7iVNFZ5I7rNthmXOm/CX4/lwbNPCv0EfuH8hriViTKPXYlEFCxEWt0UpQkuTyA1IzT+jdNdIBY7oZ8A51q5vN2sS8dqetHa8BiVOy+Q1XwxDoKXkTqjJ9S+3UsIsYGzq0wc78F3XmOBcSfmXRRQHC3JPJe/hZQJ/ynwBiI2R5KsembXDtvmS8Xdj1V8D4LneMb1VyqYhBohm6D7BUqty53DHNNKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NQSvV/44Ql3GFJlVEVSafPH0q5gnl3e/ALiKMH3Hlyc=;
- b=i1BPAnndsgKx8Hbcg/2Ae5Np5dCgP54pe82LfPYYnEh607sNEFt71nKPfEkOhXH3OP6+6M3WpfIPcJRbSDYKoxJTlfy6P+M0TMiS1c6tmh+YCcpsMhAmUm/IzpCEKfq4scVIUpENwz6N6os7Brby1E5aq7vVTLkig4OIGArW5LE=
-Received: from AM5PR83MB0178.EURPRD83.prod.outlook.com (2603:10a6:206:25::31)
- by AM5PR83MB0210.EURPRD83.prod.outlook.com (2603:10a6:224:e::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.11; Wed, 11 Nov
- 2020 10:32:26 +0000
-Received: from AM5PR83MB0178.EURPRD83.prod.outlook.com
- ([fe80::4d52:e5fc:2aa7:95d0]) by AM5PR83MB0178.EURPRD83.prod.outlook.com
- ([fe80::4d52:e5fc:2aa7:95d0%7]) with mapi id 15.20.3564.024; Wed, 11 Nov 2020
- 10:32:26 +0000
-From: "Luca Boccassi" <luca.boccassi@microsoft.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] dbus: split -common and -tools out of main package
-Thread-Topic: [PATCH v2] dbus: split -common and -tools out of main package
-Thread-Index: AQHWuBXzOQFplD0Mi0ujBr2se2fwcw==
-Date: Wed, 11 Nov 2020 10:32:26 +0000
-Message-ID: <559b1476122a22e7cd34d95a3cab88c0fef6cdae.camel@microsoft.com>
-References: <20201102180559.1177417-1-luca.boccassi@gmail.com>
-	 <20201102191848.1799747-1-luca.boccassi@gmail.com>
-In-Reply-To: <20201102191848.1799747-1-luca.boccassi@gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.30.5-1.1 
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=microsoft.com;
-x-originating-ip: [88.98.246.218]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c4ae3f9c-8a36-4ee1-81da-08d8862d15ac
-x-ms-traffictypediagnostic: AM5PR83MB0210:
-x-microsoft-antispam-prvs: 
- <AM5PR83MB0210503B944ECEF29E10C918F1E80@AM5PR83MB0210.EURPRD83.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- H5HgRTV5zVSMHf1tmHtUlEqjDwgdnZJ/y2i5KUc9Jhw0+kXgaeuloudGNm07l/q6uwTTfMhGgjYPNP0UY/klc96F0VuoaGKKzZRzYKc1cSID8ryMpuQTZVa+PWvN8g3ZSizCNIk4kU86TXBeDr/6zWTUeuaUzCbe7xzCjbqqt+34LlIeQQZIl6MA9l4+k4InmRmtpOtLhMczMf4Y0QXDs0UtRi1GsqzWTuGKuRwhA7vhzH2pckNQL4e705k217LbhiZSLHVT7yEfVPM0hYZLcjxedWiEQwtVWbkELoQbXqT4Z15V0NW1obvQAtin+THhevwCdZ5aYFZe6cJskboyQDk1I9DxeKLdBP1+sNX8/S88YXQq+iLzu/GirUcTYsd9wjbGdwTciJfovTE9sN2udw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR83MB0178.EURPRD83.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(39860400002)(396003)(346002)(366004)(6506007)(10290500003)(478600001)(316002)(2906002)(66946007)(966005)(8936002)(8676002)(86362001)(6512007)(36756003)(2616005)(82960400001)(82950400001)(6486002)(5660300002)(83380400001)(6916009)(186003)(64756008)(66476007)(26005)(76116006)(71200400001)(66446008)(66556008);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 
- mc+SQ/nny34ipSbv+H9OZmXtEW5ay9LMA27A9axkIUu1DuB7TLIZofCkWpfV5gj+glVMf/tGas0xsjEJMu4UHKDvpa98pPs6mbzM2DnS4ignEGu9TBKScIjUMw9MQzlKx8eaAOlL5/RD7LU7PCd72zrdgd5q0kKVhSE6PnfuTcJMJKQQbiXifkMDIhhkehYWL7/6jfDhmYDhkRniduz7+WEJgjchYP+VISV2HKX1VXqURbmmWe3RsBP3Yj+gLxwV84eE0WpAKqtOhFZK+573ntfK/1CC3I2okKafZ737oDdBZQDKFhrOVXXhsdmLEnWs6ET3QQxd4Cg1KsyS7adyrQPQGoESenookJHJlMX26wDH4A1V0+OTEFAnOGREeOL6+1RRy0H3A7ZD5JloPtqhRFqyJK67r6SDRgwHZ+xkM8AAJw0gSKggoYyAoqgOk9WVQaZHEKebg3M+qAvYRKKobGC6m2MxuiNit/nwc2rpGiIa/DFwcSLCiZmctRN1M/4dVOeZdtP56su4UvpZZEgrQS3P2T3tCMzJZ41UUdCMRl5E24QxI+P8+ypipEwJ7UQVS7G+21KJEGHw0v7ZGR8DYaEQllF8DAY84ixVYQrR9q19m5rI5m863cBQ3sD5GRa6CqJ2wNxXnLnzgfjLxcRlk9WZqon0eNnS7DaMveAlUGTv64tVQLfvWDAlcKbAEwyZ6qDzNMS3GI54bW4s3p5Jixzgr683oSP+thY27CSZTC1VIjXTyKhfK3bqTO5k5tmC/xrMV47wxBjyfg91a2iogpnPpdBThyd5pr7KfqGCz1dd+l77hMYBbChHoAaT37JtLjmek8rEWjU+IFUno7swvZLIujtrUjGk4Im70pihQHVjJp3RcHWiQB91vXgrnwp+cF+oP0fa3Xq7Sd4fnwxmiQ==
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=BfJsdb1Y;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.46, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f46.google.com with SMTP id z21so2484001lfe.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2020 02:46:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hqaQdmpq2vjtr/iszXLoJs6lE6ACvlajb2yn0eVo4Pg=;
+        b=BfJsdb1YxZ+cXbFQyVxfWRblp9DdgW/bVKxJkmZxi/YXxC67iqSugmx3zrPd7jfwBc
+         FBn6p9ndatNZX9UnfKnqN6xisc/xyRkkqe81IYBF7qhL8zCW6H90+L0X7Nr7ciswOXSe
+         cA4v7f91r2Q22fWRG19dm8b/YYy87MMgKZOLf27jV8teguEdAAkfNGbWs1w2PlpDOIq0
+         XRsXEXLYG0M1kXD+6BsC8G9tj15OfLsrM5ZQnlqwrKNpVPzA+OEdy8uXT+I2nKxURSAv
+         hX+Qkj0S23k48T5jZwDTRcXbRejrwUtSObrXBvfL/SW9B92ekdzvi/MJ3jJXsoQ5KOwF
+         B6SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hqaQdmpq2vjtr/iszXLoJs6lE6ACvlajb2yn0eVo4Pg=;
+        b=rbwjx5ZATDHA19KybHc6Id1CkvhQila8eEQvkBw3qXolq3CDCz5ff3jKlwPn2ppUuV
+         3uwjy8wOROMiLluawGhmzrHScsfCloiJt22zmBhVAN1eqUkoo5W+OkbRDqEiVMaMNdas
+         DDbPzA09lZ4f37Aws3Nul/WDs9e7ED/muExF3zagLSR7Y+topOohFHtuwvhe8QlvHGP7
+         qbfAvud5YHGIil9wHjj7UAodONAZrTeqUl8wr6Vq+R3memEk6pYOek7UjSJHgUxPugqO
+         E0UXRTJl2rDzUqty52watbafCZ2jids9HwUIcEH731suM68DYBXinovygfEVKBZr1NDv
+         HCEA==
+X-Gm-Message-State: AOAM531zyJVbndTV/hk3IAQn41f46vMgQa0M+ZsUH7P8aWdxbURnTHUu
+	my+tSHoUA2H8Q5vN9tCpzE8kQc5tx3CkcilpaIVIQA==
+X-Google-Smtp-Source: ABdhPJzZOFHJVY4f24cu+dXgllVTYHg0QhMi/jzGggc77LO253Kq78jlY5ctUoWrDJI7uOkdpN2a0XdqTpVr6w8WXks=
+X-Received: by 2002:a19:4a41:: with SMTP id x62mr8868284lfa.398.1605091574193;
+ Wed, 11 Nov 2020 02:46:14 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM5PR83MB0178.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4ae3f9c-8a36-4ee1-81da-08d8862d15ac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2020 10:32:26.6193
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aiEGP1LrWpaloD5sHPYiFE389OeBUMWSiQouIr10+xiGZN/7LEYlshAtSPSUnr/A+guyXQBzeFt7UL1+YpdWIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR83MB0210
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9016FD50ADC0A54CAA043360BC2C6E23@EURPRD83.prod.outlook.com>
-Content-Transfer-Encoding: base64
+References: <DB6PR0102MB2630314CC44CCB6400F59C4E88E80@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
+In-Reply-To: <DB6PR0102MB2630314CC44CCB6400F59C4E88E80@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Wed, 11 Nov 2020 10:46:03 +0000
+Message-ID: <CAAnfSTtqCwkWbVYiD5614NW3Z4ch+Xh1KEdPvwAvVCH3SmPUmA@mail.gmail.com>
+Subject: Re: [OE-core] FreeType CVE-2020-15999
+To: diego.santacruz@spinetix.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-T24gTW9uLCAyMDIwLTExLTAyIGF0IDE5OjE4ICswMDAwLCBsdWNhLmJvY2Nhc3NpQGdtYWlsLmNv
-bSB3cm90ZToNCj4gRnJvbTogTHVjYSBCb2NjYXNzaSA8bHVjYS5ib2NjYXNzaUBtaWNyb3NvZnQu
-Y29tPg0KPiANCj4gQ2VydGFpbiBjb25maWcgZmlsZXMgYW5kIHVuaXRzIGFyZSBzaGFyZWQgYmV0
-d2VlbiBkYnVzLWRhZW1vbiBhbmQNCj4gZGJ1cy1icm9rZXIgKGF2YWlsYWJsZSBpbiBtZXRhLW9w
-ZW5lbWJlZGRlZCksIHNvIHNwbGl0IHRoZW0gb3V0IHRvDQo+IGFsbG93IGluc3RhbGxpbmcgZGJ1
-cy1icm9rZXIgd2l0aG91dCBwdWxsaW5nIGluIGRidXMtZGFlbW9uIGFuZCBpdHMNCj4gZGVwZW5k
-ZW5jaWVzLg0KPiBTdGFuZC1hbG9uZSBjb21tYW5kIGxpbmUgdG9vbHMgY2FuIGFsc28gYmUgdXNl
-ZCByZWdhcmRsZXNzIG9mIHdoZXRoZXINCj4gdGhlIGJ1c2VzIGFyZSBwcm92aWRlZCBieSBkYnVz
-LWRhZW1vbiBvciBkYnVzLWJyb2tlciwgc28gc3BsaXQgdGhlbQ0KPiBvdXQgaW50byBkYnVzLXRv
-b2xzLg0KPiBGaW5hbGx5LCBtb3ZlIHRoZSBYTUwgc2NoZW1hIGZpbGVzIG91dCBvZiB0aGUgbWFp
-biBwYWNrYWdlIGFuZCBpbnRvDQo+IHRoZSBkZXZlbG9wbWVudCBwYWNrYWdlLg0KPiANCj4gQWxs
-IHRoZXNlIGNoYW5nZXMgZm9sbG93IHRoZSBzYW1lIHBhdHRlcm4gdXNlZCBieSBGZWRvcmEsIHdo
-aWNoIHdhcw0KPiBvbmUgb2YgdGhlIGZpcnN0IGRpc3RybyB0byBzd2l0Y2ggdG8gZGJ1cy1icm9r
-ZXIgYnkgZGVmYXVsdDoNCj4gDQo+IGh0dHBzOi8vc3JjLmZlZG9yYXByb2plY3Qub3JnL3JwbXMv
-ZGJ1cy9ibG9iL21hc3Rlci9mL2RidXMuc3BlYw0KPiANCj4gU2lnbmVkLW9mZi1ieTogTHVjYSBC
-b2NjYXNzaSA8bHVjYS5ib2NjYXNzaUBtaWNyb3NvZnQuY29tPg0KPiAtLS0NCj4gdjI6IGZpeCBG
-SUxFU18gcmVnZXggdG8gY29ycmVjdGx5IGluY2x1ZGUgYWxsIHVuaXRzIGJ1dCB0aGUgc29ja2V0
-cw0KPiAgICAgaW4gdGhlIG1haW4gcGFja2FnZQ0KPiANCj4gIG1ldGEvcmVjaXBlcy1jb3JlL2Ri
-dXMvZGJ1c18xLjEyLjIwLmJiIHwgMzUgKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0NCj4gIDEg
-ZmlsZSBjaGFuZ2VkLCAyMSBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkNCj4gDQo+IGRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXNfMS4xMi4yMC5iYiBiL21ldGEv
-cmVjaXBlcy1jb3JlL2RidXMvZGJ1c18xLjEyLjIwLmJiDQo+IGluZGV4IGNmNmY3ZGMwZWYuLjQw
-MGM3YTE0MDEgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1c18xLjEy
-LjIwLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1c18xLjEyLjIwLmJiDQo+
-IEBAIC0xMSw2ICsxMSw3IEBAIFJERVBFTkRTX2RidXNfY2xhc3MtbmF0aXZlc2RrID0gIiINCj4g
-IFBBQ0tBR0VTICs9ICIke0BiYi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3B0
-ZXN0JywgJyR7UE59LXB0ZXN0JywgJycsIGQpfSINCj4gIEFMTE9XX0VNUFRZX2RidXMtcHRlc3Qg
-PSAiMSINCj4gIFJERVBFTkRTX2RidXMtcHRlc3RfY2xhc3MtdGFyZ2V0ID0gImRidXMtdGVzdC1w
-dGVzdCINCj4gK1JERVBFTkRTXyR7UE59ICs9ICIke1BOfS1jb21tb24gJHtQTn0tdG9vbHMiDQo+
-ICANCj4gIGluaGVyaXQgdXNlcmFkZCB1cGRhdGUtcmMuZA0KPiAgDQo+IEBAIC0zMSw3ICszMiw3
-IEBAIENPTkZGSUxFU18ke1BOfSA9ICIke3N5c2NvbmZkaXJ9L2RidXMtMS9zeXN0ZW0uY29uZiAk
-e3N5c2NvbmZkaXJ9L2RidXMtMS9zZXNzaW9uDQo+ICANCj4gIERFQklBTk5BTUVfJHtQTn0gPSAi
-ZGJ1cy0xIg0KPiAgDQo+IC1QQUNLQUdFUyA9KyAiJHtQTn0tbGliIg0KPiArUEFDS0FHRVMgPSsg
-IiR7UE59LWxpYiAke1BOfS1jb21tb24gJHtQTn0tdG9vbHMiDQo+ICANCj4gIE9MRFBLR05BTUUg
-PSAiZGJ1cy14MTEiDQo+ICBPTERQS0dOQU1FX2NsYXNzLW5hdGl2ZXNkayA9ICIiDQo+IEBAIC00
-MSwzMSArNDIsMzcgQEAgUlBST1ZJREVTXyR7UE59ID0gIiR7T0xEUEtHTkFNRX0iDQo+ICBSUkVQ
-TEFDRVNfJHtQTn0gKz0gIiR7T0xEUEtHTkFNRX0iDQo+ICANCj4gIEZJTEVTXyR7UE59ID0gIiR7
-YmluZGlyfS9kYnVzLWRhZW1vbiogXA0KPiAtICAgICAgICAgICAgICAgJHtiaW5kaXJ9L2RidXMt
-dXVpZGdlbiBcDQo+ICAgICAgICAgICAgICAgICAke2JpbmRpcn0vZGJ1cy1jbGVhbnVwLXNvY2tl
-dHMgXA0KPiAtICAgICAgICAgICAgICAgJHtiaW5kaXJ9L2RidXMtc2VuZCBcDQo+IC0gICAgICAg
-ICAgICAgICAke2JpbmRpcn0vZGJ1cy1tb25pdG9yIFwNCj4gICAgICAgICAgICAgICAgICR7Ymlu
-ZGlyfS9kYnVzLWxhdW5jaCBcDQo+ICAgICAgICAgICAgICAgICAke2JpbmRpcn0vZGJ1cy1ydW4t
-c2Vzc2lvbiBcDQo+IC0gICAgICAgICAgICAgICAke2JpbmRpcn0vZGJ1cy11cGRhdGUtYWN0aXZh
-dGlvbi1lbnZpcm9ubWVudCBcDQo+ICAgICAgICAgICAgICAgICAke2xpYmV4ZWNkaXJ9L2RidXMq
-IFwNCj4gICAgICAgICAgICAgICAgICR7c3lzY29uZmRpcn0gXA0KPiAgICAgICAgICAgICAgICAg
-JHtsb2NhbHN0YXRlZGlyfSBcDQo+IC0gICAgICAgICAgICAgICAke2RhdGFkaXJ9L2RidXMtMS9z
-ZXJ2aWNlcyBcDQo+IC0gICAgICAgICAgICAgICAke2RhdGFkaXJ9L2RidXMtMS9zeXN0ZW0tc2Vy
-dmljZXMgXA0KPiAtICAgICAgICAgICAgICAgJHtkYXRhZGlyfS9kYnVzLTEvc2Vzc2lvbi5kIFwN
-Cj4gLSAgICAgICAgICAgICAgICR7ZGF0YWRpcn0vZGJ1cy0xL3Nlc3Npb24uY29uZiBcDQo+IC0g
-ICAgICAgICAgICAgICAke2RhdGFkaXJ9L2RidXMtMS9zeXN0ZW0uZCBcDQo+IC0gICAgICAgICAg
-ICAgICAke2RhdGFkaXJ9L2RidXMtMS9zeXN0ZW0uY29uZiBcDQo+IC0gICAgICAgICAgICAgICAk
-e2RhdGFkaXJ9L3htbC9kYnVzLTEgXA0KPiAgICAgICAgICAgICAgICAgJHtzeXN0ZW1kX3N5c3Rl
-bV91bml0ZGlyfSBcDQo+ICAgICAgICAgICAgICAgICAke3N5c3RlbWRfdXNlcl91bml0ZGlyfSBc
-DQo+IC0gICAgICAgICAgICAgICAke25vbmFyY2hfbGliZGlyfS9zeXN1c2Vycy5kL2RidXMuY29u
-ZiBcDQo+ICAgICAgICAgICAgICAgICAke25vbmFyY2hfbGliZGlyfS90bXBmaWxlcy5kL2RidXMu
-Y29uZiBcDQo+ICAiDQo+ICtGSUxFU18ke1BOfS1jb21tb24gPSAiJHtzeXNjb25mZGlyfS9kYnVz
-LTEgXA0KPiArICAgICAgICAgICAgICAgICAgICAgICR7ZGF0YWRpcn0vZGJ1cy0xL3NlcnZpY2Vz
-IFwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAke2RhdGFkaXJ9L2RidXMtMS9zeXN0ZW0tc2Vy
-dmljZXMgXA0KPiArICAgICAgICAgICAgICAgICAgICAgICR7ZGF0YWRpcn0vZGJ1cy0xL3Nlc3Np
-b24uZCBcDQo+ICsgICAgICAgICAgICAgICAgICAgICAgJHtkYXRhZGlyfS9kYnVzLTEvc2Vzc2lv
-bi5jb25mIFwNCj4gKyAgICAgICAgICAgICAgICAgICAgICAke2RhdGFkaXJ9L2RidXMtMS9zeXN0
-ZW0uZCBcDQo+ICsgICAgICAgICAgICAgICAgICAgICAgJHtkYXRhZGlyfS9kYnVzLTEvc3lzdGVt
-LmNvbmYgXA0KPiArICAgICAgICAgICAgICAgICAgICAgICR7c3lzdGVtZF9zeXN0ZW1fdW5pdGRp
-cn0vZGJ1cy5zb2NrZXQgXA0KPiArICAgICAgICAgICAgICAgICAgICAgICR7c3lzdGVtZF9zeXN0
-ZW1fdW5pdGRpcn0vc29ja2V0cy50YXJnZXQud2FudHMgXA0KPiArICAgICAgICAgICAgICAgICAg
-ICAgICR7c3lzdGVtZF91c2VyX3VuaXRkaXJ9L2RidXMuc29ja2V0IFwNCj4gKyAgICAgICAgICAg
-ICAgICAgICAgICAke3N5c3RlbWRfdXNlcl91bml0ZGlyfS9zb2NrZXRzLnRhcmdldC53YW50cyBc
-DQo+ICsgICAgICAgICAgICAgICAgICAgICAgJHtub25hcmNoX2xpYmRpcn0vc3lzdXNlcnMuZC9k
-YnVzLmNvbmYgXA0KPiArIg0KPiArRklMRVNfJHtQTn0tdG9vbHMgPSAiJHtiaW5kaXJ9L2RidXMt
-dXVpZGdlbiBcDQo+ICsgICAgICAgICAgICAgICAgICAgICAke2JpbmRpcn0vZGJ1cy1zZW5kIFwN
-Cj4gKyAgICAgICAgICAgICAgICAgICAgICR7YmluZGlyfS9kYnVzLW1vbml0b3IgXA0KPiArICAg
-ICAgICAgICAgICAgICAgICAgJHtiaW5kaXJ9L2RidXMtdXBkYXRlLWFjdGl2YXRpb24tZW52aXJv
-bm1lbnQgXA0KPiArIg0KPiAgRklMRVNfJHtQTn0tbGliID0gIiR7bGliZGlyfS9saWIqLnNvLioi
-DQo+ICBSUkVDT01NRU5EU18ke1BOfS1saWIgPSAiJHtQTn0iDQo+IC1GSUxFU18ke1BOfS1kZXYg
-Kz0gIiR7bGliZGlyfS9kYnVzLTEuMC9pbmNsdWRlICR7bGliZGlyfS9jbWFrZS9EQnVzMSAke2Jp
-bmRpcn0vZGJ1cy10ZXN0LXRvb2wiDQo+ICtGSUxFU18ke1BOfS1kZXYgKz0gIiR7bGliZGlyfS9k
-YnVzLTEuMC9pbmNsdWRlICR7bGliZGlyfS9jbWFrZS9EQnVzMSAke2JpbmRpcn0vZGJ1cy10ZXN0
-LXRvb2wgJHtkYXRhZGlyfS94bWwvZGJ1cy0xIg0KPiAgDQo+ICBQQUNLQUdFX1dSSVRFX0RFUFMg
-Kz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCdzeXN0ZW1kIHN5c3Zp
-bml0Jywnc3lzdGVtZC1zeXN0ZW1jdGwtbmF0aXZlJywnJyxkKX0iDQo+ICBwa2dfcG9zdGluc3Rf
-ZGJ1cygpIHsNCg0KUGluZy4gQW55IGNoYW5jZSBmb3IgYSByZXZpZXc/IFRoYW5rcy4NCg0KLS0g
-DQpLaW5kIHJlZ2FyZHMsDQpMdWNhIEJvY2Nhc3NpDQo=
+On Wed, 11 Nov 2020 at 08:06, Diego Santa Cruz via
+lists.openembedded.org
+<diego.santacruz=spinetix.com@lists.openembedded.org> wrote:
+> Also, how should one report problems in the NVD database?
+
+Email cpe_dictionary <cpe_dictionary@nist.gov> and explain the
+situation, matching the CPE vendor/product to existing freetype CVEs
+and including the version information.
+
+Ross
