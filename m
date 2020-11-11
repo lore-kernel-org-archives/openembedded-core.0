@@ -1,17 +1,17 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.46])
- by mx.groups.io with SMTP id smtpd.web09.1615.1605062976529275026
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.73])
+ by mx.groups.io with SMTP id smtpd.web09.2286.1605067829997589833
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 18:49:36 -0800
+ Tue, 10 Nov 2020 20:10:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=BVdQneax;
- spf=pass (domain: windriver.com, ip: 40.107.244.46, mailfrom: li.wang@windriver.com)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=PKKZARbu;
+ spf=pass (domain: windriver.com, ip: 40.107.94.73, mailfrom: saul.wold@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WstBSFFJSpeDbFHeMhsiW0HAoia3CzSEbBP/lN6XbZIO/bQM3cx5w979zLHxhH2ZWp4nB6Kae+W4HBORsAnBUaeryR1mI6MVuizg4eTWMpoEWKOg0twSJH7PAYeONsbT3NV9Fxy3FMoepJFOJjZUaj4xjSyzbSo7JFB74qte0rOfF5EL30uRV13KCVDAudQHMnnMHty6iP1WU9ozI+LLd1uGieXhJBQuITWTFBhPdn+dh0rvI/QVabvpC0ZuEMuJ+OHnUoqnGEiK2XtgxK55ogL8mmlxdpi9r70H4K55SO4coe7Ezqf5eAad9U+hLxVSv2uHS5+z50Xi38MfhfcTmA==
+ b=Fyg5AawhovHZHIAhcyx7ycxl2LHYf2GVOADFd/H3zDF2BmBug2bME/m2HPb5YrqHAm2ipSJomTsLLasJpW5GUBDXNVXN/9nU3J3KxJE6Lv4X0f4IeNUr6VsCeOUUrJDT/Dvr7DvZ9vgtzOIVnamoEup/+fDIjmW83yYtLVlNQDc7whWBVp1ISVVp4tso6aqe1iiuuNvhIDviuD6bLL5ymaO8Fz+QFqVBVQieWSOPvFEmlSjae6JRhdZSpEs089nUUs6OwHS6PUTje7hyU/YfGPrkmzhifiJM+iMMT7l0rEvTQmmWt9mbyYWxr2tJGW3jR86YSKgMneBJbkWMMC7LAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kkL7TMDbVBhS8B+cS3fdouDd1kx+IKaHDDM2fH4JumY=;
- b=HN5bq+penwMvdGDusCeXlq2wptDzYfQtvttjU9X5JlDT3XjDa6ZvYbydm6i7Q3G1+DPX7knzuCOrS66Dpsg5iZFUdZTPEMr0e8O/FYKB5nK6zh9uDJ7T679NFOmN48U2oiAnkKoYPO9zuinMCst6E8gqXaoNtOH4gIlRSMMsP4x5r3XWUPvpVl+OpXmsljgzLJ16DqsK4mUfVkfQ7aL4JXej4TmXTGxLaSyQMMkxiRo9IlHSuDTwbWBh4ki/t6maUX5Zy0Ky1xkwGh1mpjK3P9fQE3FWglqD3RsWUP2WKV95/92rJPwJr5BuQwggbHttSo6/gAR4rX4rMu2Ur8+evQ==
+ bh=2Zfth9DzfZqG/1WpNBsJNiI3tge+vWzU/118MBSDg78=;
+ b=fgeDezELwyt7F/NVNp+Mw1uTE7tmM7wNXiZBrDitGmYsR+THWaD8MNOm0nW9IpQuyS3pRlGqlcDYIutJl+L0K5uOdQZ6xYqo5QiRyUeZOONdvr9qbJGyHu9b32vfXSKM9DHAXXKdQkGEgV8dmQv/M9Kvv2pAGkrGXBEsY0QEfw0aQsTyfWNkQ7DZjhjU0aKtmq4EMEh4TCrTUxXUBJxKAcFsQoGyrHlnhFcd1cZdbRmIyswZW4yRv9fmMZO/UYxJrzHYIDySXSNbYfhbFB4Z3uN3IwKmmLm9UUkyTeHdyqYi206v9Gi2h6HzXp0JE2iAq+eokalsTxjco/6FG4Tt5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,142 +19,115 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kkL7TMDbVBhS8B+cS3fdouDd1kx+IKaHDDM2fH4JumY=;
- b=BVdQneaxLgMQztRZ6fl0Nz3yGQE7VPI86UTzDLBXO0yY2kQ6e4s8Td/kH50C7rw/gWPoepcbZUdFMOc+RpQdzzXoZZTRd9qzVXdDcRcG9qZP9BaqJVkKmbcsR1LQ2lATVj1hpeOzb/XRX68bV89kv5qpKzNv3M62SCrOmukt/Xw=
+ bh=2Zfth9DzfZqG/1WpNBsJNiI3tge+vWzU/118MBSDg78=;
+ b=PKKZARbuaWuhyugn0+PRvNwPk31+J7xuPeHADh5VyUdle0fAF7FegqBthqNwb6LfeYlMc4bpqovsnt5IyXb6l2j/7ut09WNtNQJgNJtTRY4IrgSnHN9WjLMYZhT6Q8OGDjsOc4Jz1m65nvfZBTeToi8wjD4MC2/riR9bPs+FMfE=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
-Received: from DM6PR11MB3595.namprd11.prod.outlook.com (2603:10b6:5:142::16)
- by DM6PR11MB2715.namprd11.prod.outlook.com (2603:10b6:5:be::18) with
+Received: from BN6PR11MB1873.namprd11.prod.outlook.com (2603:10b6:404:106::19)
+ by BN7PR11MB2546.namprd11.prod.outlook.com (2603:10b6:406:ad::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Wed, 11 Nov
- 2020 02:49:35 +0000
-Received: from DM6PR11MB3595.namprd11.prod.outlook.com
- ([fe80::54c6:c8e4:c594:eada]) by DM6PR11MB3595.namprd11.prod.outlook.com
- ([fe80::54c6:c8e4:c594:eada%6]) with mapi id 15.20.3499.032; Wed, 11 Nov 2020
- 02:49:35 +0000
-From: "Li Wang" <li.wang@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.22; Wed, 11 Nov
+ 2020 04:10:27 +0000
+Received: from BN6PR11MB1873.namprd11.prod.outlook.com
+ ([fe80::9c14:1cd3:1db:46e5]) by BN6PR11MB1873.namprd11.prod.outlook.com
+ ([fe80::9c14:1cd3:1db:46e5%8]) with mapi id 15.20.3541.023; Wed, 11 Nov 2020
+ 04:10:27 +0000
+From: "Saul Wold" <Saul.Wold@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][zeus][PATCH] qemu: CVE-2020-27616
-Date: Wed, 11 Nov 2020 02:45:56 +0000
-Message-Id: <20201111024556.11183-1-li.wang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK0PR03CA0116.apcprd03.prod.outlook.com
- (2603:1096:203:b0::32) To DM6PR11MB3595.namprd11.prod.outlook.com
- (2603:10b6:5:142::16)
-Return-Path: li.wang@windriver.com
+Subject: [WIP v2 0/1] Add Qemu Monitor Support
+Date: Tue, 10 Nov 2020 20:10:00 -0800
+Message-ID: <20201111041003.864509-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [71.238.119.71]
+X-ClientProxiedBy: BYAPR06CA0041.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::18) To BN6PR11MB1873.namprd11.prod.outlook.com
+ (2603:10b6:404:106::19)
+Return-Path: saul.wold@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from bfbf5eb70dd2.wrs.com (60.247.85.82) by HK0PR03CA0116.apcprd03.prod.outlook.com (2603:1096:203:b0::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Wed, 11 Nov 2020 02:49:34 +0000
+Received: from yocto-hs.bigsur.com.localdomain (71.238.119.71) by BYAPR06CA0041.namprd06.prod.outlook.com (2603:10b6:a03:14b::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Wed, 11 Nov 2020 04:10:26 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: db067ab2-7ec2-402e-83bc-08d885ec6c62
-X-MS-TrafficTypeDiagnostic: DM6PR11MB2715:
+X-MS-Office365-Filtering-Correlation-Id: 1821bcf3-00f9-43bf-30d4-08d885f7b83a
+X-MS-TrafficTypeDiagnostic: BN7PR11MB2546:
 X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB271591FA142AE31894DBBB3AEFE80@DM6PR11MB2715.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:127;
+	<BN7PR11MB2546B4B9BFE7CACE0C90C0B5EEE80@BN7PR11MB2546.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	XXNHqKv9IOR65iKl0soY8VLCzciK/aFHIWGpB7e+rEzhJ6gzHmPKUAk0/HfxZ7gdffX/x5RDOFwmvy0ODIBymgMA+yeTC9/Sg6LMko8U1rVLJ2yrrF+Kjnlr5K6Eu/TQdiCAqp3dIgK7KqhzvjDI2/9e60fSXPp3HTzeFlKw38soxJIJq0qwPDkI1WgRo5228f+9vpriTyoWyOZfDDMNDd2P/sigMm5nVLBJIkDQHe0ORk78TLUKAcDCg1tVTVNbtF0JTMPMsH6S9vAi3zdMf0KBxfOsAtU+OqrW3xP2YvM9YIPskcpW64m3w9V2Wr86yCwZpSSS8PFGRzncO3nKC5nbX3p9TZ7WUCHDquGj14z7cZ2cqOIw8IivStxqqnVAKRRWe0Q3CujsDPs5s28v6g==
+	Y6lB+CJ188ML/6HieLW9vImT44srY4vySB/jHrYjGsFGsJ+wxKixhANDMGmhYLsaYS+aifqzWvtedx4M3kdm6eLFf8D+hXotRjlTzhNOnzJ0a1J6dqe22vtjo4DF0JhWM5m72vQbYlAhvfWzhQIUuxYtX1nBHnG+TepGt5U+UPzJUEijSoRCZBSukD8WvP6kIJObcFgKAkjDlUynQHXRBQf5v/1BI7te/2+ibOH2lkkNsLcJLymD4tlQzWudDGh8BiDZelTK79HKtKxH8IC3Sp5ok3ds1y0QQqwEzIe5EMHfNf3VmoRK98pspT6mx27PEF+XfF74PD0yb6IDv8wJ6Q==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3595.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(376002)(136003)(39850400004)(396003)(26005)(83380400001)(8936002)(44832011)(66476007)(2616005)(8676002)(66556008)(52116002)(6512007)(966005)(16526019)(6506007)(956004)(6916009)(186003)(66946007)(6486002)(36756003)(316002)(478600001)(2906002)(1076003)(86362001)(5660300002)(6666004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1873.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39830400003)(376002)(396003)(366004)(346002)(83380400001)(66946007)(6512007)(5660300002)(2906002)(86362001)(44832011)(16526019)(186003)(26005)(6506007)(1076003)(6486002)(8936002)(8676002)(66556008)(52116002)(66476007)(316002)(36756003)(478600001)(2616005)(6916009)(956004)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	jOFEFQlysq/rKGPjUqpohBiVq4Xvz/yObpCJ477k1XE60nubh279VrYym3KeXW3+coRx+M7zumNR3wcSxXAXdePCA4wnWhDhNjrEu/+EJ1u13v/hd5/zhDDnB13+ym2WJDoYCl406Ow4JzER5gR98/Uej0nM0pUsNDr/93eYF7sz18KvZgymPwU0w2ygRUDF+RcxSlVneSXZQfxoOTDRbWeEO/DdW2c/67Lel/RtTDW3dEyaBNA8GcGPsRjIUxcne1CPDZAwSziXhDNtFymReqctBw1v/7rs5sNBl5JFYCAmCzy91804C1F/T2Glh3lLa0sef0gGN6hAbLbj/Xt0JkmrG1XNLET0kSnmFj9LdCDnChaX+uNKSFtaQFL5IxQ7z84ov+vFaD8N5+H4GxgwWPoeY+Oz0YkFWxSRItWwZm1B2J1eip1+FkRw2/qwoakDOJaXCDZ5psofiWCngPXtRQQWQ/GiUlmawCG2qFDytM2hsVN7F1ZVbXHZDN9NzEswbksmWNPGHUI8Zoa49OPyImg4Bz32U7MGa6JLaQrJUofgqizjHOr2RwnC6+L9qSfo/oSOqwCA2o50oPAujE2fP8qu9fSGoGa1ZpHG7IQDhWHiJouCIbHzBwLnBLS0q1wyhpxk2uFhwayMr5kbV/THog==
+	W3Co/6KBJhK2boqAQBtVaELs6yqzAHE6cGIMjATTvMA8ncykqvfMuTDQ0Wbk2/VN+nGlGlw7QuguoQP4Q2Lz+PZDEhDA867iVvKUntb/InNk3exY6/biCCiMgcHkX/giOUhGsq0FJLWMkEA2aZQCJha+iljd7R6ZHaO8mP75efD8bReQ/DtYKetYZrcp2HWrvmn4PXpzJWvbKhY864uigH6K9yEul9Ze3MWzM0h52WoORcJvJXtNWqSKPse7ctFvjXqcRwj+/Xu1khGITTYseke+4faiHLkvA6n0w3gkyZj7zNIyZ4pVf1fRpT7izlW/u7Wj1bd31mCJLsdBmvJeqxkQsKjx/F+QHfwt8r1o3W7znYM/aGpeIrnUfC6wHACSPbKuXQcp/fIPDX5KWYQYMocfJdBEjDC5c5vdfe92MWRPRrnr0eyxyys3bByKAABO2afFR+DLkLsTZZJ1ag/nkfcTUwJClNAQR1OWfmwO3yACoRwX2giSV8zz+KwBsf3NUu7Uo2AwTBHhDmd05uYOLwLym1ZVyGFR5AWCCUPcYA5Sg0jInKlXlKH12UuniKHGel540n8UXjm/4Ol5XlCmvQbLwT+ebY4wphzf/n+nabLCWnXcPKInwpNzhAT2/OwVRC2A3bpbpm1HI2roxT6S/A==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db067ab2-7ec2-402e-83bc-08d885ec6c62
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3595.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1821bcf3-00f9-43bf-30d4-08d885f7b83a
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB1873.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 02:49:35.2325
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 04:10:26.9371
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1Il5SFV2t5SonbfUhGICh74l94MXb+2DQkeROne32juyBZqo13TWnmFsgON1bpxwAiFisdPgN5/9JNQdg2IK/Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2715
+X-MS-Exchange-CrossTenant-UserPrincipalName: L77wEMXywjUlMnTIcEC2QoE91X5O3E5IvrwBkddBsxg2pfwhfs2hG8g2db4gkLzFjpo1ylZFvXjgypFWcgfZ5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2546
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 
-backport patch from:
-https://git.qemu.org/?p=qemu.git;a=commit;h=ca1f9cbfdce4d63b10d57de80fef89a89d92a540
+Version 2!
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-27616.patch            | 53 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-27616.patch
+I figured out that I was saving the monitor_dumper in the wrong
+class, so moved where it's saved into the OESSHTarget code, it still
+needs to be created in the OEQemuTarget since that's where the runner
+is available.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8f2d9e824b..0d20f0ccd7 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -47,6 +47,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-25084-1.patch \
-            file://CVE-2020-25084-2.patch \
-            file://CVE-2020-25625.patch \
-+           file://CVE-2020-27616.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-27616.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-27616.patch
-new file mode 100644
-index 0000000000..76c2271aee
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-27616.patch
-@@ -0,0 +1,53 @@
-+From ca1f9cbfdce4d63b10d57de80fef89a89d92a540 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Wed, 21 Oct 2020 16:08:18 +0530
-+Subject: [PATCH] ati: check x y display parameter values
-+
-+The source and destination x,y display parameters in ati_2d_blt()
-+may run off the vga limits if either of s->regs.[src|dst]_[xy] is
-+zero. Check the parameter values to avoid potential crash.
-+
-+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-id: 20201021103818.1704030-1-ppandit@redhat.com
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport
-+CVE: CVE-2020-27616
-+[https://git.qemu.org/?p=qemu.git;a=commit;h=ca1f9cbfdce4d63b10d57de80fef89a89d92a540]
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ hw/display/ati_2d.c | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-+index 23a8ae0..4dc10ea 100644
-+--- a/hw/display/ati_2d.c
-++++ b/hw/display/ati_2d.c
-+@@ -75,8 +75,9 @@ void ati_2d_blt(ATIVGAState *s)
-+         dst_stride *= bpp;
-+     }
-+     uint8_t *end = s->vga.vram_ptr + s->vga.vram_size;
-+-    if (dst_bits >= end || dst_bits + dst_x + (dst_y + s->regs.dst_height) *
-+-        dst_stride >= end) {
-++    if (dst_x > 0x3fff || dst_y > 0x3fff || dst_bits >= end
-++        || dst_bits + dst_x
-++         + (dst_y + s->regs.dst_height) * dst_stride >= end) {
-+         qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-+         return;
-+     }
-+@@ -107,8 +108,9 @@ void ati_2d_blt(ATIVGAState *s)
-+             src_bits += s->regs.crtc_offset & 0x07ffffff;
-+             src_stride *= bpp;
-+         }
-+-        if (src_bits >= end || src_bits + src_x +
-+-            (src_y + s->regs.dst_height) * src_stride >= end) {
-++        if (src_x > 0x3fff || src_y > 0x3fff || src_bits >= end
-++            || src_bits + src_x
-++             + (src_y + s->regs.dst_height) * src_stride >= end) {
-+             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-+             return;
-+         }
-+-- 
-+2.17.1
-+
--- 
-2.17.1
+Currently we interact with the JSON (which is new to me) interface of
+qmp and right now the write/read is just raw with no JSON dump, that
+might be why I am seeing the erros after the first one.  I did try an
+empty run_monitor("") between commands, but that did not help. The=20
+run_monitor() may need to be reworked to deal with JSON.
+
+Also, I still have the static port of 4444 for the telnet/cli version=20
+of the monitor and the possible race for the generated port as I have=20
+not found a solution for that yet.
+
+Sau!
+
+The output goes into files as follows:
+::::::::::::::
+tmp/log/runtime-hostdump/202011101608_qmp/unknown_00_qemu_monitor
+::::::::::::::=20
+'{"execute":"status"}\n'
+{"timestamp": {"seconds": 1605053296, "microseconds": 645339}, "event": "NI=
+C_RX_FILTER
+_CHANGED", "data": {"path": "/machine/peripheral-anon/device[0]/virtio-back=
+end"}}
+::::::::::::::
+tmp/log/runtime-hostdump/202011101608_qmp/unknown_01_qemu_monitor
+::::::::::::::
+'{"execute":"query-status"}\n'
+{"error": {"class": "GenericError", "desc": "QMP input must be a JSON objec=
+t"}}
+::::::::::::::
+tmp/log/runtime-hostdump/202011101608_qmp/unknown_02_qemu_monitor
+::::::::::::::
+'{"execute":"query-block"}\n'
+{"error": {"class": "GenericError", "desc": "QMP input must be a JSON objec=
+t"}}
+
+
+Saul Wold (1):
+  qemurunner: add support for qmp cmds
+
+ meta/classes/testimage.bbclass    |  7 ++++
+ meta/lib/oeqa/core/target/qemu.py |  6 +++
+ meta/lib/oeqa/core/target/ssh.py  | 22 ++++++++--
+ meta/lib/oeqa/targetcontrol.py    |  5 +++
+ meta/lib/oeqa/utils/dump.py       | 20 +++++++++
+ meta/lib/oeqa/utils/qemurunner.py | 70 ++++++++++++++++++++++++++++++-
+ 6 files changed, 126 insertions(+), 4 deletions(-)
+
+--=20
+2.25.1
 
