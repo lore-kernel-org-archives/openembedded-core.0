@@ -1,220 +1,115 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web11.3629.1605078386494854935
+Received: from esa4.hc324-48.eu.iphmx.com (esa4.hc324-48.eu.iphmx.com [207.54.71.48])
+ by mx.groups.io with SMTP id smtpd.web10.3701.1605079480570242342
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 23:06:26 -0800
+ Tue, 10 Nov 2020 23:24:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: xibeNz2YKF4+nHCfr2WQLPVTmAfPWQSUEr4ncs3SbSJYTM+x5EbS0hRBD7hfW72AsqVIMSyMbj
- WeZPjwcSXaEQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="188083698"
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
-   d="scan'208";a="188083698"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 23:06:25 -0800
-IronPort-SDR: H9W4kaKfpfn4thKAwe6sHkPt4mYs872mYvEZ3FoxKXWoc+oWq7cgVBrTApFFFEEwPKbGiZo9d2
- Cq6kClEo4Rfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
-   d="scan'208";a="327991358"
-Received: from kmsmsx602.gar.corp.intel.com ([172.21.219.142])
-  by orsmga006.jf.intel.com with ESMTP; 10 Nov 2020 23:06:24 -0800
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- kmsmsx602.gar.corp.intel.com (172.21.219.142) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 11 Nov 2020 15:06:23 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
- Wed, 11 Nov 2020 15:06:23 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "steve@sakoman.com" <steve@sakoman.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [gatesgarth][PATCH 13/22] bluez5: fix CVE-2020-27153
-Thread-Topic: [OE-core] [gatesgarth][PATCH 13/22] bluez5: fix CVE-2020-27153
-Thread-Index: AQHWtE9NrZUCoir5qESnzaVT83/5gKnCA5iA
-Date: Wed, 11 Nov 2020 07:06:23 +0000
-Message-ID: <85a1ebdaa71b3acde7a6828e73806fdff217a525.camel@intel.com>
-References: <cover.1604643684.git.anuj.mittal@intel.com>
-	 <4b50d20e15bb0fb9ff83730931ee35cf772f93d7.1604643684.git.anuj.mittal@intel.com>
-	 <CAOSpxdZrsQFLz6SC2YdmE6QhU3wqMJx9tYxi=kuXORkePmStrQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdZrsQFLz6SC2YdmE6QhU3wqMJx9tYxi=kuXORkePmStrQ@mail.gmail.com>
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=MrU5y0jm;
+ spf=pass (domain: bmw.de, ip: 207.54.71.48, mailfrom: prvs=577f07fd8=mikko.rapeli@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1605079480; x=1636615480;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=yEpoYnUuEmPmpmliIff9VK4zKrePzEbQhIOdoD4z42c=;
+  b=MrU5y0jmbAxl9N6QIMhLQAPs/CSBYC49laJ5X7zQt8x9+sy/I5j/qaZ6
+   s6LaFgRZySb72yApSNaxhDFv2v1R/HZDqj5GQBmwk1Rp9C0YjSiyH4weT
+   uQV0DV4dNiGX3XBtNbCCW8PCW50q5JDV+e8QSerinZDYYhGvi9YAmZVse
+   I=;
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+ esa4.hc324-48.eu.iphmx.com with ESMTP/TLS; 11 Nov 2020 08:24:38 +0100
+Received: from esabb3.muc ([160.50.100.30])  by esagw6.muc with ESMTP/TLS;
+ 11 Nov 2020 08:24:38 +0100
+Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp) ([160.48.96.46])
+ by esabb3.muc with ESMTP/TLS; 11 Nov 2020 08:24:38 +0100
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by smucm10j.europe.bmw.corp
+ (160.48.96.46) with Microsoft SMTP Server (TLS;
+ Wed, 11 Nov 2020 08:24:37 +0100
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+ smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1497.007; Wed,
+ 11 Nov 2020 08:24:37 +0100
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <sakib.sajal@windriver.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] buildstats.bbclass: add functionality to collect build system stats
+Thread-Topic: [OE-core] [PATCH v2] buildstats.bbclass: add functionality to
+ collect build system stats
+Thread-Index: AQHWt7ZmICDkRpCicEOYvYmE+NobXanCdzoA
+Date: Wed, 11 Nov 2020 07:24:37 +0000
+Message-ID: <20201111072436.GN1246345@korppu>
+References: <20201110230744.30544-1-sakib.sajal@windriver.com>
+In-Reply-To: <20201110230744.30544-1-sakib.sajal@windriver.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <93B4291E582BAE428350B81296E2D474@intel.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <8385A655C1BD2F44BBC2AB0DD22A435F@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-T24gRnJpLCAyMDIwLTExLTA2IGF0IDA1OjEyIC0xMDAwLCBTdGV2ZSBTYWtvbWFuIHdyb3RlOg0K
-PiBUaGlzIG1vcm5pbmcgSSBhbHNvIHN1Ym1pdHRlZCBhIHBhdGNoIHRvIGZpeCBDVkUtMjAyMC0y
-NzE1MyBpbg0KPiBkdW5mZWxsDQo+IChibHVlejU6IHVwZGF0ZSB0byA1LjU1IHRvIGZpeCBDVkUt
-MjAyMC0yNzE1Myk6DQo+IA0KPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVu
-ZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE0NDM0Mw0KPiANCj4gNS41NSBzZWVtcyB0byBiZSBhIHNl
-Y3VyaXR5L2J1ZyBmaXggcmVsZWFzZSBzbyBpdCBzZWVtZWQgYXBwcm9wcmlhdGU6DQo+IA0KPiBo
-dHRwczovL2dpdGh1Yi5jb20vYmx1ZXovYmx1ZXovY29tbWl0LzVhMTgwZjJlYzllZGZhY2FmZDk1
-ZTVmZWQyMGQzNmZlOGUwNzdmMDcNCj4gDQo+IFdlIHNob3VsZCBkbyB0aGUgc2FtZSBmaXggaW4g
-ZHVuZmVsbC9nYXRlc2dhcnRoLCBzbyBJJ2QgbG92ZSB0byBnZXQNCj4gc29tZSBmZWVkYmFjayBm
-cm9tIHRoZSBjb21tdW5pdHkgb24gdGhlIHByZWZlcnJlZCBhcHByb2FjaC4NCg0KSSB3aWxsIGRy
-b3AgdGhlIENWRSBwYXRjaCBmcm9tIG15IHJlcXVlc3QgYW5kIHRha2UgdGhlIHZlcnNpb24gdXBn
-cmFkZQ0KdG9vLiBJIHRoaW5rIHdlIGRvbid0IHVzdWFsbHkgdXBncmFkZSBibHVleiBpbiBzdGFi
-bGUgYnJhbmNoIGFuZCBvdGhlcg0KTFRTIGRpc3Ryb3MgaGF2ZSB0aGUgc2FtZSBwb2xpY3kuwqBF
-dmVuIHRob3VnaCB0aGlzIHZlcnNpb24gaGFzIG1vcmUNCnRoYW4gMzUwIGNvbW1pdHMsIGl0IGRv
-ZXMgc2VlbSB0byBiZSBhIGJ1ZyBmaXggcmVsZWFzZSBzbyBzaG91bGQgYmUNCm9rYXkgSSBndWVz
-cyAuLi4NCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gDQo+IFN0ZXZlDQo+IA0KPiBPbiBUaHUsIE5v
-diA1LCAyMDIwIGF0IDg6MjggUE0gQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4N
-Cj4gd3JvdGU6DQo+ID4gDQo+ID4gRnJvbTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55YW5nLmxlZUBp
-bnRlbC5jb20+DQo+ID4gDQo+ID4gKEZyb20gT0UtQ29yZSByZXY6IDRiMDY4OGJiOGFiYjJmYjhh
-NjIwNTQxMjA3ZDQwZTkwZTRiZjE2ZjkpDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogQ2hlZSBZ
-YW5nIExlZSA8Y2hlZS55YW5nLmxlZUBpbnRlbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogUmlj
-aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+ID4gLS0t
-DQo+ID4gwqAuLi4vYmx1ZXo1L2JsdWV6NS9DVkUtMjAyMC0yNzE1My5wYXRjaMKgwqDCoMKgwqDC
-oMKgIHwgMTQ2DQo+ID4gKysrKysrKysrKysrKysrKysrDQo+ID4gwqAuLi4vYmx1ZXo1L2JsdWV6
-NV81LjU0LmJiwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAy
-ICsNCj4gPiDCoDIgZmlsZXMgY2hhbmdlZCwgMTQ4IGluc2VydGlvbnMoKykNCj4gPiDCoGNyZWF0
-ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvQ1ZF
-LQ0KPiA+IDIwMjAtMjcxNTMucGF0Y2gNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1L0NWRS0yMDIwLQ0KPiA+IDI3MTUzLnBhdGNo
-IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1L0NWRS0yMDIwLQ0KPiA+
-IDI3MTUzLnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAw
-MDAwLi43YjA2ZGQyMDcxDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEvcmVjaXBl
-cy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS9DVkUtMjAyMC0yNzE1My5wYXRjaA0KPiA+IEBA
-IC0wLDAgKzEsMTQ2IEBADQo+ID4gK0Zyb20gMWNkNjQ0ZGI4YzIzYTJmNTMwZGRiOTNjZWJlZDdk
-YWNjNWY1NzIxYSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+ID4gMjAwMQ0KPiA+ICtGcm9tOiBMdWl6
-IEF1Z3VzdG8gdm9uIERlbnR6IDxsdWl6LnZvbi5kZW50ekBpbnRlbC5jb20+DQo+ID4gK0RhdGU6
-IFdlZCwgMTUgSnVsIDIwMjAgMTg6MjU6MzcgLTA3MDANCj4gPiArU3ViamVjdDogW1BBVENIXSBz
-aGFyZWQvYXR0OiBGaXggcG9zc2libGUgY3Jhc2ggb24gZGlzY29ubmVjdA0KPiA+ICsNCj4gPiAr
-SWYgdGhlcmUgYXJlIHBlbmRpbmcgcmVxdWVzdCB3aGlsZSBkaXNjb25uZWN0aW5nIHRoZXkgd291
-bGQgYmUNCj4gPiBub3RpZmllZA0KPiA+ICtidXQgY2xpZW50cyBtYXkgZW5kdXAgYmVpbmcgZnJl
-ZWQgaW4gdGhlIHByb2NjZXNzIHdoaWNoIHdpbGwgdGhlbg0KPiA+IGJlDQo+ID4gK2NhbGxpbmcg
-YnRfYXR0X2NhbmNlbCB0byBjYW5jYWwgaXRzIHJlcXVlc3RzIGNhdXNpbmcgdGhlIGZvbGxvd2lu
-Zw0KPiA+ICt0cmFjZToNCj4gPiArDQo+ID4gK0ludmFsaWQgcmVhZCBvZiBzaXplIDQNCj4gPiAr
-wqDCoCBhdCAweDFEODk0QzogZW5hYmxlX2NjY19jYWxsYmFjayAoZ2F0dC1jbGllbnQuYzoxNjI3
-KQ0KPiA+ICvCoMKgIGJ5IDB4MUQyNDdCOiBkaXNjX2F0dF9zZW5kX29wIChhdHQuYzo0MTcpDQo+
-ID4gK8KgwqAgYnkgMHgxQ0NDMTc6IHF1ZXVlX3JlbW92ZV9hbGwgKHF1ZXVlLmM6MzU0KQ0KPiA+
-ICvCoMKgIGJ5IDB4MUQ0N0I3OiBkaXNjb25uZWN0X2NiIChhdHQuYzo2MzUpDQo+ID4gK8KgwqAg
-YnkgMHgxRTA3MDc6IHdhdGNoX2NhbGxiYWNrIChpby1nbGliLmM6MTcwKQ0KPiA+ICvCoMKgIGJ5
-IDB4NDhFOTYzQjogZ19tYWluX2NvbnRleHRfZGlzcGF0Y2ggKGluIC91c3IvbGliL2xpYmdsaWIt
-DQo+ID4gMi4wLnNvLjAuNjQwMC40KQ0KPiA+ICvCoMKgIGJ5IDB4NDhFOUFDNzogPz8/IChpbiAv
-dXNyL2xpYi9saWJnbGliLTIuMC5zby4wLjY0MDAuNCkNCj4gPiArwqDCoCBieSAweDQ4RTlFQ0Y6
-IGdfbWFpbl9sb29wX3J1biAoaW4gL3Vzci9saWIvbGliZ2xpYi0NCj4gPiAyLjAuc28uMC42NDAw
-LjQpDQo+ID4gK8KgwqAgYnkgMHgxRTBFOTc6IG1haW5sb29wX3J1biAobWFpbmxvb3AtZ2xpYi5j
-Ojc5KQ0KPiA+ICvCoMKgIGJ5IDB4MUUxM0IzOiBtYWlubG9vcF9ydW5fd2l0aF9zaWduYWwgKG1h
-aW5sb29wLW5vdGlmeS5jOjIwMSkNCj4gPiArwqDCoCBieSAweDEyQkMzQjogbWFpbiAobWFpbi5j
-Ojc3MCkNCj4gPiArIEFkZHJlc3MgMHg3ZDQwYTI4IGlzIDI0IGJ5dGVzIGluc2lkZSBhIGJsb2Nr
-IG9mIHNpemUgMzIgZnJlZSdkDQo+ID4gK8KgwqAgYXQgMHg0ODRBMkUwOiBmcmVlICh2Z19yZXBs
-YWNlX21hbGxvYy5jOjU0MCkNCj4gPiArwqDCoCBieSAweDFDQ0MxNzogcXVldWVfcmVtb3ZlX2Fs
-bCAocXVldWUuYzozNTQpDQo+ID4gK8KgwqAgYnkgMHgxQ0NDODM6IHF1ZXVlX2Rlc3Ryb3kgKHF1
-ZXVlLmM6NzMpDQo+ID4gK8KgwqAgYnkgMHgxRDdERDc6IGJ0X2dhdHRfY2xpZW50X2ZyZWUgKGdh
-dHQtY2xpZW50LmM6MjIwOSkNCj4gPiArwqDCoCBieSAweDE2NDk3QjogYmF0dF9mcmVlIChiYXR0
-ZXJ5LmM6NzcpDQo+ID4gK8KgwqAgYnkgMHgxNjQ5N0I6IGJhdHRfcmVtb3ZlIChiYXR0ZXJ5LmM6
-Mjg2KQ0KPiA+ICvCoMKgIGJ5IDB4MUEwMDEzOiBzZXJ2aWNlX3JlbW92ZSAoc2VydmljZS5jOjE3
-NikNCj4gPiArwqDCoCBieSAweDFBOUI3QjogZGV2aWNlX3JlbW92ZV9nYXR0X3NlcnZpY2UgKGRl
-dmljZS5jOjM2OTEpDQo+ID4gK8KgwqAgYnkgMHgxQTlCN0I6IGdhdHRfc2VydmljZV9yZW1vdmVk
-IChkZXZpY2UuYzozODA1KQ0KPiA+ICvCoMKgIGJ5IDB4MUNDOTBCOiBxdWV1ZV9mb3JlYWNoIChx
-dWV1ZS5jOjIyMCkNCj4gPiArwqDCoCBieSAweDFERTI3Qjogbm90aWZ5X3NlcnZpY2VfY2hhbmdl
-ZC5pc3JhLjAucGFydC4wIChnYXR0LQ0KPiA+IGRiLmM6MzY5KQ0KPiA+ICvCoMKgIGJ5IDB4MURF
-Mzg3OiBub3RpZnlfc2VydmljZV9jaGFuZ2VkIChnYXR0LWRiLmM6MzYxKQ0KPiA+ICvCoMKgIGJ5
-IDB4MURFMzg3OiBnYXR0X2RiX3NlcnZpY2VfZGVzdHJveSAoZ2F0dC1kYi5jOjM4NSkNCj4gPiAr
-wqDCoCBieSAweDFERTNFRjogZ2F0dF9kYl9yZW1vdmVfc2VydmljZSAoZ2F0dC1kYi5jOjUxOSkN
-Cj4gPiArwqDCoCBieSAweDFENjc0RjogZGlzY292ZXJ5X29wX2NvbXBsZXRlIChnYXR0LWNsaWVu
-dC5jOjM4OCkNCj4gPiArwqDCoCBieSAweDFENjg3NzogZGlzY292ZXJfcHJpbWFyeV9jYiAoZ2F0
-dC1jbGllbnQuYzoxMjYwKQ0KPiA+ICvCoMKgIGJ5IDB4MUUyMjBCOiBkaXNjb3Zlcnlfb3BfY29t
-cGxldGUgKGdhdHQtaGVscGVycy5jOjYyOCkNCj4gPiArwqDCoCBieSAweDFFMjQ5QjogcmVhZF9i
-eV9ncnBfdHlwZV9jYiAoZ2F0dC1oZWxwZXJzLmM6NzMwKQ0KPiA+ICvCoMKgIGJ5IDB4MUQyNDdC
-OiBkaXNjX2F0dF9zZW5kX29wIChhdHQuYzo0MTcpDQo+ID4gK8KgwqAgYnkgMHgxQ0NDMTc6IHF1
-ZXVlX3JlbW92ZV9hbGwgKHF1ZXVlLmM6MzU0KQ0KPiA+ICvCoMKgIGJ5IDB4MUQ0N0I3OiBkaXNj
-b25uZWN0X2NiIChhdHQuYzo2MzUpDQo+ID4gKw0KPiA+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2tw
-b3J0DQo+ID4gK1sNCj4gPiBodHRwczovL2dpdGh1Yi5jb20vYmx1ZXovYmx1ZXovY29tbWl0LzFj
-ZDY0NGRiOGMyM2EyZjUzMGRkYjkzY2ViZWQ3ZGFjYzVmNTcyMWENCj4gPiBdDQo+ID4gK0NWRTog
-Q1ZFLTIwMjAtMjcxNTMNCj4gPiArU2lnbmVkLW9mZi1ieTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55
-YW5nLmxlZUBpbnRlbC5jb20+DQo+ID4gKy0tLQ0KPiA+ICsgc3JjL3NoYXJlZC9hdHQuYyB8IDQ2
-ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0NCj4gPiAtLS0NCj4g
-PiArIDEgZmlsZSBjaGFuZ2VkLCA0MCBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0KPiA+
-ICsNCj4gPiArZGlmZiAtLWdpdCBhL3NyYy9zaGFyZWQvYXR0LmMgYi9zcmMvc2hhcmVkL2F0dC5j
-DQo+ID4gK2luZGV4IGVkM2FmMjkyMC4uNThmMjNkZmNiIDEwMDY0NA0KPiA+ICstLS0gYS9zcmMv
-c2hhcmVkL2F0dC5jDQo+ID4gKysrKyBiL3NyYy9zaGFyZWQvYXR0LmMNCj4gPiArQEAgLTg0LDYg
-Kzg0LDcgQEAgc3RydWN0IGJ0X2F0dCB7DQo+ID4gK8KgwqDCoMKgwqDCoCBzdHJ1Y3QgcXVldWUg
-KnJlcV9xdWV1ZTvCoMKgwqDCoMKgwqDCoCAvKiBRdWV1ZWQgQVRUIHByb3RvY29sDQo+ID4gcmVx
-dWVzdHMgKi8NCj4gPiArwqDCoMKgwqDCoMKgIHN0cnVjdCBxdWV1ZSAqaW5kX3F1ZXVlO8KgwqDC
-oMKgwqDCoMKgIC8qIFF1ZXVlZCBBVFQgcHJvdG9jb2wNCj4gPiBpbmRpY2F0aW9ucyAqLw0KPiA+
-ICvCoMKgwqDCoMKgwqAgc3RydWN0IHF1ZXVlICp3cml0ZV9xdWV1ZTvCoMKgwqDCoMKgIC8qIFF1
-ZXVlIG9mIFBEVXMgcmVhZHkgdG8NCj4gPiBzZW5kICovDQo+ID4gKyvCoMKgwqDCoMKgIGJvb2wg
-aW5fZGlzYzvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogQ2xlYW51cCBx
-dWV1ZXMgb24NCj4gPiBkaXNjb25uZWN0X2NiICovDQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqAg
-YnRfYXR0X3RpbWVvdXRfZnVuY190IHRpbWVvdXRfY2FsbGJhY2s7DQo+ID4gK8KgwqDCoMKgwqDC
-oCBidF9hdHRfZGVzdHJveV9mdW5jX3QgdGltZW91dF9kZXN0cm95Ow0KPiA+ICtAQCAtMjIyLDgg
-KzIyMywxMCBAQCBzdGF0aWMgdm9pZCBkZXN0cm95X2F0dF9zZW5kX29wKHZvaWQgKmRhdGEpDQo+
-ID4gK8KgwqDCoMKgwqDCoCBmcmVlKG9wKTsNCj4gPiArIH0NCj4gPiArDQo+ID4gKy1zdGF0aWMg
-dm9pZCBjYW5jZWxfYXR0X3NlbmRfb3Aoc3RydWN0IGF0dF9zZW5kX29wICpvcCkNCj4gPiArK3N0
-YXRpYyB2b2lkIGNhbmNlbF9hdHRfc2VuZF9vcCh2b2lkICpkYXRhKQ0KPiA+ICsgew0KPiA+ICsr
-wqDCoMKgwqDCoCBzdHJ1Y3QgYXR0X3NlbmRfb3AgKm9wID0gZGF0YTsNCj4gPiArKw0KPiA+ICvC
-oMKgwqDCoMKgwqAgaWYgKG9wLT5kZXN0cm95KQ0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIG9wLT5kZXN0cm95KG9wLT51c2VyX2RhdGEpOw0KPiA+ICsNCj4gPiArQEAgLTYzMSwx
-MSArNjM0LDYgQEAgc3RhdGljIGJvb2wgZGlzY29ubmVjdF9jYihzdHJ1Y3QgaW8gKmlvLCB2b2lk
-DQo+ID4gKnVzZXJfZGF0YSkNCj4gPiArwqDCoMKgwqDCoMKgIC8qIERldHRhY2ggY2hhbm5lbCAq
-Lw0KPiA+ICvCoMKgwqDCoMKgwqAgcXVldWVfcmVtb3ZlKGF0dC0+Y2hhbnMsIGNoYW4pOw0KPiA+
-ICsNCj4gPiArLcKgwqDCoMKgwqAgLyogTm90aWZ5IHJlcXVlc3QgY2FsbGJhY2tzICovDQo+ID4g
-Ky3CoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT5yZXFfcXVldWUsIE5VTEwsIE5VTEws
-DQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+ID4gKy3CoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9h
-bGwoYXR0LT5pbmRfcXVldWUsIE5VTEwsIE5VTEwsDQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+
-ID4gKy3CoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT53cml0ZV9xdWV1ZSwgTlVMTCwg
-TlVMTCwNCj4gPiBkaXNjX2F0dF9zZW5kX29wKTsNCj4gPiArLQ0KPiA+ICvCoMKgwqDCoMKgwqAg
-aWYgKGNoYW4tPnBlbmRpbmdfcmVxKSB7DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgZGlzY19hdHRfc2VuZF9vcChjaGFuLT5wZW5kaW5nX3JlcSk7DQo+ID4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgY2hhbi0+cGVuZGluZ19yZXEgPSBOVUxMOw0KPiA+ICtAQCAtNjU0
-LDYgKzY1MiwxNSBAQCBzdGF0aWMgYm9vbCBkaXNjb25uZWN0X2NiKHN0cnVjdCBpbyAqaW8sIHZv
-aWQNCj4gPiAqdXNlcl9kYXRhKQ0KPiA+ICsNCj4gPiArwqDCoMKgwqDCoMKgIGJ0X2F0dF9yZWYo
-YXR0KTsNCj4gPiArDQo+ID4gKyvCoMKgwqDCoMKgIGF0dC0+aW5fZGlzYyA9IHRydWU7DQo+ID4g
-KysNCj4gPiArK8KgwqDCoMKgwqAgLyogTm90aWZ5IHJlcXVlc3QgY2FsbGJhY2tzICovDQo+ID4g
-KyvCoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT5yZXFfcXVldWUsIE5VTEwsIE5VTEws
-DQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+ID4gKyvCoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9h
-bGwoYXR0LT5pbmRfcXVldWUsIE5VTEwsIE5VTEwsDQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+
-ID4gKyvCoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT53cml0ZV9xdWV1ZSwgTlVMTCwg
-TlVMTCwNCj4gPiBkaXNjX2F0dF9zZW5kX29wKTsNCj4gPiArKw0KPiA+ICsrwqDCoMKgwqDCoCBh
-dHQtPmluX2Rpc2MgPSBmYWxzZTsNCj4gPiArKw0KPiA+ICvCoMKgwqDCoMKgwqAgcXVldWVfZm9y
-ZWFjaChhdHQtPmRpc2Nvbm5fbGlzdCwgZGlzY29ubl9oYW5kbGVyLA0KPiA+IElOVF9UT19QVFIo
-ZXJyKSk7DQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqAgYnRfYXR0X3VucmVnaXN0ZXJfYWxsKGF0
-dCk7DQo+ID4gK0BAIC0xNTc0LDYgKzE1ODEsMzAgQEAgYm9vbCBidF9hdHRfY2hhbl9jYW5jZWwo
-c3RydWN0IGJ0X2F0dF9jaGFuDQo+ID4gKmNoYW4sIHVuc2lnbmVkIGludCBpZCkNCj4gPiArwqDC
-oMKgwqDCoMKgIHJldHVybiB0cnVlOw0KPiA+ICsgfQ0KPiA+ICsNCj4gPiArK3N0YXRpYyBib29s
-IGJ0X2F0dF9kaXNjX2NhbmNlbChzdHJ1Y3QgYnRfYXR0ICphdHQsIHVuc2lnbmVkIGludA0KPiA+
-IGlkKQ0KPiA+ICsrew0KPiA+ICsrwqDCoMKgwqDCoCBzdHJ1Y3QgYXR0X3NlbmRfb3AgKm9wOw0K
-PiA+ICsrDQo+ID4gKyvCoMKgwqDCoMKgIG9wID0gcXVldWVfZmluZChhdHQtPnJlcV9xdWV1ZSwg
-bWF0Y2hfb3BfaWQsDQo+ID4gVUlOVF9UT19QVFIoaWQpKTsNCj4gPiArK8KgwqDCoMKgwqAgaWYg
-KG9wKQ0KPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBkb25lOw0KPiA+ICsr
-DQo+ID4gKyvCoMKgwqDCoMKgIG9wID0gcXVldWVfZmluZChhdHQtPmluZF9xdWV1ZSwgbWF0Y2hf
-b3BfaWQsDQo+ID4gVUlOVF9UT19QVFIoaWQpKTsNCj4gPiArK8KgwqDCoMKgwqAgaWYgKG9wKQ0K
-PiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBkb25lOw0KPiA+ICsrDQo+ID4g
-KyvCoMKgwqDCoMKgIG9wID0gcXVldWVfZmluZChhdHQtPndyaXRlX3F1ZXVlLCBtYXRjaF9vcF9p
-ZCwNCj4gPiBVSU5UX1RPX1BUUihpZCkpOw0KPiA+ICsrDQo+ID4gKytkb25lOg0KPiA+ICsrwqDC
-oMKgwqDCoCBpZiAoIW9wKQ0KPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJu
-IGZhbHNlOw0KPiA+ICsrDQo+ID4gKyvCoMKgwqDCoMKgIC8qIEp1c3QgY2FuY2VsIHNpbmNlIGRp
-c2Nvbm5lY3RfY2Igd2lsbCBiZSBjbGVhbmluZyB1cCAqLw0KPiA+ICsrwqDCoMKgwqDCoCBjYW5j
-ZWxfYXR0X3NlbmRfb3Aob3ApOw0KPiA+ICsrDQo+ID4gKyvCoMKgwqDCoMKgIHJldHVybiB0cnVl
-Ow0KPiA+ICsrfQ0KPiA+ICsrDQo+ID4gKyBib29sIGJ0X2F0dF9jYW5jZWwoc3RydWN0IGJ0X2F0
-dCAqYXR0LCB1bnNpZ25lZCBpbnQgaWQpDQo+ID4gKyB7DQo+ID4gK8KgwqDCoMKgwqDCoCBjb25z
-dCBzdHJ1Y3QgcXVldWVfZW50cnkgKmVudHJ5Ow0KPiA+ICtAQCAtMTU5MSw2ICsxNjIyLDkgQEAg
-Ym9vbCBidF9hdHRfY2FuY2VsKHN0cnVjdCBidF9hdHQgKmF0dCwNCj4gPiB1bnNpZ25lZCBpbnQg
-aWQpDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
-dHVybiB0cnVlOw0KPiA+ICvCoMKgwqDCoMKgwqAgfQ0KPiA+ICsNCj4gPiArK8KgwqDCoMKgwqAg
-aWYgKGF0dC0+aW5fZGlzYykNCj4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVy
-biBidF9hdHRfZGlzY19jYW5jZWwoYXR0LCBpZCk7DQo+ID4gKysNCj4gPiArwqDCoMKgwqDCoMKg
-IG9wID0gcXVldWVfcmVtb3ZlX2lmKGF0dC0+cmVxX3F1ZXVlLCBtYXRjaF9vcF9pZCwNCj4gPiBV
-SU5UX1RPX1BUUihpZCkpOw0KPiA+ICvCoMKgwqDCoMKgwqAgaWYgKG9wKQ0KPiA+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZG9uZTsNCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9y
-ZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNTQuYmINCj4gPiBiL21ldGEvcmVj
-aXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjU0LmJiDQo+ID4gaW5kZXggMjYwZWVl
-MTQwMi4uOWEyMWYxNGZhZSAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L2JsdWV6NS9ibHVlejVfNS41NC5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0
-aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjU0LmJiDQo+ID4gQEAgLTEsNSArMSw3IEBADQo+ID4gwqBy
-ZXF1aXJlIGJsdWV6NS5pbmMNCj4gPiANCj4gPiArU1JDX1VSSSArPSAiIGZpbGU6Ly9DVkUtMjAy
-MC0yNzE1My5wYXRjaCINCj4gPiArDQo+ID4gwqBTUkNfVVJJW21kNXN1bV0gPSAiZTYzN2ZlYjJk
-YmI3NTgyYmJiZmYxNzA4MzY3YTg0N2MiDQo+ID4gwqBTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiA+
-ICI2OGNkYWI5ZTYzZTg4MzJiMTMwZDU5NzlkYzhjOTZmZGIwODdiMzEyNzhmMzQyODc0ZDk5MmFm
-M2U1NjY1NmRjIg0KPiA+IA0KPiA+IC0tDQo+ID4gMi4yOC4wDQo+ID4gDQo+ID4gDQo+ID4gDQo+
-ID4gDQoNCg==
+Hi,
+
+On Tue, Nov 10, 2020 at 06:07:44PM -0500, Sakib Sajal wrote:
+> There are a number of timeout and hang defects where
+> it would be useful to collect statistics about what
+> is running on a build host when that condition occurs.
+>=20
+> This adds functionality to collect build system stats
+> on a regular interval and/or on task failure. Both
+> features are disabled by default.
+>=20
+> To enable logging on a regular interval, set:
+> BB_HEARTBEAT_EVENT =3D "<interval>"
+> BB_LOG_HOST_STAT_ON_INTERVAL =3D <boolean>
+> Logs are stored in ${BUILDSTATS_BASE}/<build_name>/host_stats
+>=20
+> To enable logging on a task failure, set:
+> BB_LOG_HOST_STAT_ON_FAILURE =3D "<boolean>"
+> Logs are stored in ${BUILDSTATS_BASE}/<build_name>/build_stats
+>=20
+> The list of commands, along with the desired options, need
+> to be specified in the BB_LOG_HOST_STAT_CMDS variable
+> delimited by ; as such:
+> BB_LOG_HOST_STAT_CMDS =3D "command1 ; command2 ;... ;"
+
+I can understand why and have been debugging crashing and hanging build mac=
+hines,
+but I would not have found this change useful. Do you have more concrete ex=
+amples
+how this could be used?
+
+Instead, I found that normal Linux server admin practices were best:
+
+ * collect build machine kernel, journald and syslogs to remote host, e.g. =
+rsyslog
+ * monitor CPU, memory, IO, network etc performance, also to a remote host,=
+ e.g.
+   pcp.io tooling or collectd
+ * collect bitbake build logs with system timestamps to remote host, e.g. d=
+on't trust
+   jenkins and its timestamps
+
+With those, I have been able to find problems in Linux kernels, bugs
+in VMWare cloud storage stack triggering IO hangs, stalls and eventually ke=
+rnel
+crashes, broken HW like memory. And of course basic things like full disks,=
+ full /tmp,
+kernel oom killer kicking in when build slaves ran out of RAM during bitbak=
+e build
+which results in either build machine changes or tuning of parallel build f=
+lags to
+account also physical RAM.
+
+Wihtout full remote logging infrastructure, I could not have solved anythin=
+g. Running
+individual commands is not enough when only full kernel dmesg of affected m=
+achine
+can tell that IO stack has a hang or an Oops or that disk had been mounted =
+read-only
+due to errors.
+
+Cheers,
+
+-Mikko=
