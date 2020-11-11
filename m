@@ -1,44 +1,44 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web08.7412.1605105316666374875
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web10.7737.1605106499754695209
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2020 06:35:16 -0800
+ Wed, 11 Nov 2020 06:54:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZRI9zu6K;
- spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f176.google.com with SMTP id w188so2393916oib.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2020 06:35:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CqLesJEW;
+ spf=pass (domain: gmail.com, ip: 209.85.210.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f43.google.com with SMTP id n11so2396680ota.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2020 06:54:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:subject:to:references:message-id:date:user-agent:mime-version
          :in-reply-to:content-language;
-        bh=gz10zFvrYYK6CXLKTv4+LtxOqKO3Wqww1nrZFGB/KLE=;
-        b=ZRI9zu6KeO3SnIqdcBC71D1dJmFc9B+BuvPCFlChRiQSMJ7kkEK0Gp0wfRObxh2Whq
-         qTzSdOKPZi2CO+zeFtDxdETb9AHw7XOYD8M9LAFdOiS/MDHhQLnotqNKA1z5Sij0HN8B
-         qAzl4GMeTG8T1c7aILIlW8BdY5VfOJ10RkfdwoR+PobEACD2P653ga+uw2SqLVsRypyJ
-         dvdeDypKO94ByB7/q3Vt+gkIz86jbDHKH+SGX4k3IyoSEyUa4YCkB1iyawP7yPWisAGx
-         8jG61Av83eklEiBBptQRcWFJeuo2Hosd3Ip6TANZJZFkOCFqn2rPrB0+CV44+8F+f4UW
-         CUUg==
+        bh=IfHORWttyVSjsle5oMZ/7sPWNUUqNIZZfUnyUIJbxZ4=;
+        b=CqLesJEWE5zwFSZ7ZmBBiME1LlT5htqthey83HSys0mn01GocckTzosicr3ZXqOhnj
+         9/amuepXDuN/IJ3OhjqkCu9lXanlsoh0N8QE6Ug4K7qQzUSlFqFYtnJffysWBvlvZ5Xg
+         H4Uxz9B5UjOGpwkKiCFar2Pceo2ENHcoMWZjC97CEK5x9wXXNp4UepTms6A+8zRi9bQ+
+         aBJr+zHmdBf+XCxcDkZKkZcrJOymbM3RwEhlhauJxTj8ZpuAAcwjVmOAq1+HbalVsRft
+         llxXPeCle+pdEi9cVcEpIlTJ+Z/C3+/RO2KlhBPFwPMCOS3fb/xoPrCiZYrMFmBgYWWU
+         O3vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:subject:to:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language;
-        bh=gz10zFvrYYK6CXLKTv4+LtxOqKO3Wqww1nrZFGB/KLE=;
-        b=jB4qw8ZgWmMMDB5yntZTGqvAlU+3/aDAj43SIxVKYAD4PWI9VWd3yyZkyJRIyab4IU
-         TifjOVuYGFogui0AZwGOJoo20LHaYuF10Lu8JFTMXUaMKUxibGzJw0Fe4QyuSeJN3Alx
-         Ji+dr2Op5wrODFLUO2C5PxTOSKj9P2jHfc6tRK9rfHBUAzmokQXNCFv4tRiZCntmIrMG
-         RJ2lMKkEilHyzIxmGwrsutrjAlxmaDVWyWUq79YqXMdzMRS3u6Vsn2ZXdruvEZmjZGMA
-         pz/9WemXZso0cdXBPQ9KmUOZAaSqxJ9lGjGlGXB53Gjo33OaoyB7ADXaQ30f1iklDUna
-         LJVQ==
-X-Gm-Message-State: AOAM53251wAIcx+Hu80cFZ+wJygRnzxiZfGtW3yuZyEe9CHyJ0FwBdmU
-	o5F5Mr4KMTixcJF9qJRD6ZGX/r8LTo4S3w==
-X-Google-Smtp-Source: ABdhPJyRdR2wEbpI/rOVUJH1/YEsMv3WskDx2L3hV0zeBBkHXd7V8c4uqiD5NbHKkEXB22yamLMpag==
-X-Received: by 2002:aca:c3d6:: with SMTP id t205mr2410884oif.10.1605105315404;
-        Wed, 11 Nov 2020 06:35:15 -0800 (PST)
+        bh=IfHORWttyVSjsle5oMZ/7sPWNUUqNIZZfUnyUIJbxZ4=;
+        b=ShThwCMMA4RuXcNxI6zvKYtZA2rnIuWkyP1LxfsT+ef9AEx7tpCaVErlmKUNMal7vR
+         l14kiveUCD6VIblmx8WsCR10GoSCRkD4YpNEk74BHCqdd0tQjSUIwcFNMRWdFnRuggDI
+         86Sz+JTQLDsQH4LMJQj+AhWVFDTV8L+GCn2vq91rltY78zKUUevOmYFRC/+ZMmvqk3p+
+         SkeI7G7/FfoK2mcdR3j7yWOZAo1JkdINe0vGuqRR3/PdERQivo9Pxw4Q5lA3hQYLJ0uC
+         h6JmbrETdJlKF36CyMgXNFlT09i9XNDOzVH9WBxiTLWypY9C2iUtiAX9ZNetZ1vGAWYS
+         fq5w==
+X-Gm-Message-State: AOAM530E2xDZF7h3+FQzBZpYyaeXtYN9JUXRzUN7FThgkbFCotzbxx5j
+	gH9XNz7N6QESUWqIIwStGoyHQqjeqdG9eA==
+X-Google-Smtp-Source: ABdhPJzH2eJmrQ13GtiMYWVebUj5cIitcgZ8mtuWQnLXWMu733DQmVdDONEoaOa4rI5pkyBZIEubxw==
+X-Received: by 2002:a9d:5382:: with SMTP id w2mr18440584otg.195.1605106498226;
+        Wed, 11 Nov 2020 06:54:58 -0800 (PST)
 Return-Path: <jpewhacker@gmail.com>
 Received: from ?IPv6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id t25sm528721otj.13.2020.11.11.06.35.14
+        by smtp.gmail.com with ESMTPSA id q18sm531240otf.46.2020.11.11.06.54.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2020 06:35:14 -0800 (PST)
+        Wed, 11 Nov 2020 06:54:57 -0800 (PST)
 From: "Joshua Watt" <JPEWhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 Subject: Re: [OE-core] [WIP v2 1/1] qemurunner: add support for qmp cmds
@@ -46,17 +46,17 @@ To: Saul Wold <Saul.Wold@windriver.com>,
  openembedded-core@lists.openembedded.org
 References: <20201111041003.864509-1-saul.wold@windriver.com>
  <20201111041003.864509-2-saul.wold@windriver.com>
-Message-ID: <e9accf72-281e-96cd-152f-290e72c9f7f3@gmail.com>
-Date: Wed, 11 Nov 2020 08:35:13 -0600
+Message-ID: <63b1f4e4-6dac-2176-7a3b-d7ddd466d461@gmail.com>
+Date: Wed, 11 Nov 2020 08:54:56 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
 In-Reply-To: <20201111041003.864509-2-saul.wold@windriver.com>
 Content-Type: multipart/alternative;
- boundary="------------685B658B20A991153E3F57BE"
+ boundary="------------B6C107FCF7773A2937B73AC9"
 Content-Language: en-US
 
---------------685B658B20A991153E3F57BE
+--------------B6C107FCF7773A2937B73AC9
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
@@ -82,18 +82,6 @@ On 11/10/20 10:10 PM, Saul Wold wrote:
 > seem to fail. I think it's something to do with JSON and quoting. I
 > think the next step is to try and use JSON (which I am not super
 > familiare with).
-
-One thing that might help with that is letting python encode the strings 
-for you (JSON is *really* picky about syntax):
-
-  import json
-
-  s = json.dumps({"execute": "status"}) + "\n"
-
-This effectively lets you write the commands in python dictionaries 
-(which will by syntax checked by the interpreter) and know they will be 
-encoded into correct JSON.
-
 >
 > [0] https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt
 >
@@ -287,6 +275,10 @@ encoded into correct JSON.
 > +        monitor_cmds['cont'] = '{"execute":"cont"}\n'
 > +        monitor_cmds['quit'] = '{"execute":"quit"}\n'
 > +        monitor_cmds['preconfig'] = '{"execute":"x-exit-preconfig"}\n'
+
+It's not quit clear to me the purpose of pre-encoding these messages?
+
+
 > +        self.monitor_cmds = monitor_cmds
 >   
 >           # Only override patterns that were set e.g. login user TESTIMAGE_BOOT_PATTERNS[send_login_user] = "webserver\n"
@@ -379,6 +371,29 @@ encoded into correct JSON.
 >           return False
 >   
 > +    def run_monitor(self, command, timeout=60):
+
+ From an API perspective, I would probably make this function take in a 
+python object (not a string) and then do:
+
+  self.monitor_socket.sendall((json.dumps(command) + "\n")).encode("utf-8"))
+
+  ...
+
+  return json.loads(data.decode("utf-8"))
+
+
+If you want to be *extra* convenient, you could even do something like:
+
+  def run_monitor(self, command, arguments, id=None, timeout=60):
+
+     c = {"execute": command, "arguments": arguments}
+
+     if id is not None:
+
+         c["id"] = id
+
+     self.monitor_socket.sendall((json.dumps(c) + "\n")).encode("utf-8"))
+
 > +        data = ''
 > +        self.monitor_socket.sendall(command.encode('utf-8'))
 > +        start = time.time()
@@ -397,6 +412,12 @@ encoded into correct JSON.
 > +                if answer:
 > +                    data += answer.decode('utf-8')
 > +                    if data.rfind('\r\n') != -1:
+
+It's possible you will miss events or get a partial invalid response if 
+you get more than one message from the server, since `data` doesn't 
+persist beyond the execution of this function.
+
+
 > +                        break;
 > +                else:
 > +                    raise Exception("No data on monitor socket")
@@ -411,7 +432,7 @@ encoded into correct JSON.
 > 
 >
 
---------------685B658B20A991153E3F57BE
+--------------B6C107FCF7773A2937B73AC9
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
@@ -445,20 +466,7 @@ TMPDIR/log/runtime-hostdump/&lt;date&gt;_qmp/unknown_&lt;seq&gt;_qemu_monitor
 Current Issue, the first command succeeds, but the following commands
 seem to fail. I think it's something to do with JSON and quoting. I
 think the next step is to try and use JSON (which I am not super
-familiare with).</pre>
-    </blockquote>
-    <p>One thing that might help with that is letting python encode the
-      strings for you (JSON is *really* picky about syntax):</p>
-    <p> import json</p>
-    <p> s = json.dumps({"execute": "status"}) + "\n"<br>
-    </p>
-    <p>This effectively lets you write the commands in python
-      dictionaries (which will by syntax checked by the interpreter) and
-      know they will be encoded into correct JSON.<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:20201111041003.864509-2-saul.wold@windriver.com">
-      <pre class="moz-quote-pre" wrap="">
+familiare with).
 
 [0] <a class="moz-txt-link-freetext" href="https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt">https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt</a>
 
@@ -651,7 +659,16 @@ index 77ec939ad7..0ca0d78470 100644
 +        monitor_cmds['qmp_cap'] = '{"execute":"qmp_capabilities","arguments":{"enable":["oob"]}}\n'
 +        monitor_cmds['cont'] = '{"execute":"cont"}\n'
 +        monitor_cmds['quit'] = '{"execute":"quit"}\n'
-+        monitor_cmds['preconfig'] = '{"execute":"x-exit-preconfig"}\n'
++        monitor_cmds['preconfig'] = '{"execute":"x-exit-preconfig"}\n'</pre>
+    </blockquote>
+    <p>It's not quit clear to me the purpose of pre-encoding these
+      messages?<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:20201111041003.864509-2-saul.wold@windriver.com">
+      <pre class="moz-quote-pre" wrap="">
 +        self.monitor_cmds = monitor_cmds
  
          # Only override patterns that were set e.g. login user TESTIMAGE_BOOT_PATTERNS[send_login_user] = "webserver\n"
@@ -743,7 +760,27 @@ index 77ec939ad7..0ca0d78470 100644
                          return True
          return False
  
-+    def run_monitor(self, command, timeout=60):
++    def run_monitor(self, command, timeout=60):</pre>
+    </blockquote>
+    <p>From an API perspective, I would probably make this function take
+      in a python object (not a string) and then do:</p>
+    <p> self.monitor_socket.sendall((json.dumps(command) +
+      "\n")).encode("utf-8"))</p>
+    <p> ...</p>
+    <p> return json.loads(data.decode("utf-8"))</p>
+    <p><br>
+    </p>
+    <p>If you want to be *extra* convenient, you could even do something
+      like:</p>
+    <p> def run_monitor(self, command, arguments, id=None, timeout=60):</p>
+    <p>    c = {"execute": command, "arguments": arguments}</p>
+    <p>    if id is not None:</p>
+    <p>        c["id"] = id</p>
+    <p>    self.monitor_socket.sendall((json.dumps(c) +
+      "\n")).encode("utf-8"))</p>
+    <blockquote type="cite"
+      cite="mid:20201111041003.864509-2-saul.wold@windriver.com">
+      <pre class="moz-quote-pre" wrap="">
 +        data = ''
 +        self.monitor_socket.sendall(command.encode('utf-8'))
 +        start = time.time()
@@ -761,7 +798,17 @@ index 77ec939ad7..0ca0d78470 100644
 +                answer = self.monitor_socket.recv(1024)
 +                if answer:
 +                    data += answer.decode('utf-8')
-+                    if data.rfind('\r\n') != -1:
++                    if data.rfind('\r\n') != -1:</pre>
+    </blockquote>
+    <p>It's possible you will miss events or get a partial invalid
+      response if you get more than one message from the server, since
+      `data` doesn't persist beyond the execution of this function.<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:20201111041003.864509-2-saul.wold@windriver.com">
+      <pre class="moz-quote-pre" wrap="">
 +                        break;
 +                else:
 +                    raise Exception("No data on monitor socket")
@@ -783,4 +830,4 @@ index 77ec939ad7..0ca0d78470 100644
   </body>
 </html>
 
---------------685B658B20A991153E3F57BE--
+--------------B6C107FCF7773A2937B73AC9--
