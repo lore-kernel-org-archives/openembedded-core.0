@@ -1,185 +1,212 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.53])
- by mx.groups.io with SMTP id smtpd.web09.678.1605049680392692260
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web12.188.1605054750641787929
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 15:08:00 -0800
+ Tue, 10 Nov 2020 16:32:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=hiiV5pq7;
- spf=pass (domain: windriver.com, ip: 40.107.237.53, mailfrom: sakib.sajal@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K/sZj6mhwv+PwWeWxsQTReeFxXg0YQ81M9GIcMCa8U5GVIla2JWh1SrJtE5w8qjtAl+7Uk95awV7xwvk653exHe+tI2KX3sXb05ZM7rT4LTG+SKI8UpTgzqAiOrmocUcgnGYYJZHQBhMdCefnjvNxEaRzE0MkaYcSvpCny/zGoROfu9c0vgcKIR0y5plxDbZtZb+nYwSmmg27FpxuNaAWmIAlKLwo9NGgDnOJJMSvomtfRQKPAnO7MBLFythKgqxzK8HeNhP8307aVicLs+1cM8qKWgNfnwd6TELHF8mwuirbDnALV7PgpjKtqAUWjKyWGRH05/o4boB6wlvoFTjag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3R+N4m4BqbHvuQEwU/RIIfDsCipq2BBi4qJ2cMWtVtM=;
- b=Xv1f23cOeSD9bp96qwyLOAfCgLBlrS6u1N7CESpRENdqDYMlVVDamynJ8ZUnFhsLJTKhL8U35Qmv++8zGNMDvDQ5QGHtcc5EfnLzfcXTszo9s6fLQB2Dq4RlleX+KyEwEnexN3f/+QI0M2l4HK2Dm0MWFnMk4HvN0p+10DDf+1xG+UewtDCGOK1hZW/ZJuC6WJz9gmiuNn51cHbPBrE6vuCeG1rt8HPtAWK+VWjYM+Hh9nCQlg3jvSZVe+72j9ZCW1GpoR7G56b1VNwWr2eVrDuO5ZLo5B2+PrAiqYKX6hOGyzv8Zuef/aYizO7SCuECrUS9sH7kAnX4CruY9d0Peg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=AbrFV4LL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id e7so400302pfn.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 10 Nov 2020 16:32:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3R+N4m4BqbHvuQEwU/RIIfDsCipq2BBi4qJ2cMWtVtM=;
- b=hiiV5pq7pWI9hBwCHZRsd+PTw0ogeQATNTK2nqZ6bsCg0E9yShsG7+h22pJ4o5n3A/lLoamM6h/pCd/bq6AsE7h4XGk3SYvjYFK//Km9CdshVQqGZIWjRCS8t/tMxG8eO34aHj2mjR+7DsdPq1vJ9g0Ujab0rkdYLdmeB3Tci0g=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
- DM6PR11MB4202.namprd11.prod.outlook.com (2603:10b6:5:1df::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.21; Tue, 10 Nov 2020 23:07:58 +0000
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::7126:4988:387b:a741]) by DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::7126:4988:387b:a741%2]) with mapi id 15.20.3541.025; Tue, 10 Nov 2020
- 23:07:58 +0000
-From: "Sakib Sajal" <sakib.sajal@windriver.com>
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DKZmBFsdW7wm8aii+46yurv4QzoHd0ZQyf7Y5B3ea0Y=;
+        b=AbrFV4LLeC9Um9HvQunAlAU7smIOkZOf6DgoTIdOTgb9/a0DjjaIIGuNrzUFCRWjoR
+         YQ1fdmGKqoHGZ+M7EyUSS8wqkiwn4YQGut6YPsDuIY/SskhZduJptRj7Z9ga46AielAU
+         o5QB7/i0yGNJfQryMpdWUf7vv1SHMHgp2s1KqTW0r57TSM/got96eY4gf1I1QAJRTRtD
+         lzEY+59iZxEQAZH21YMRl0nQ2aIymRvjaIz5Yetv+hYVMsc2g+n3UbXi7gNSV5vbJDuo
+         D3auASowfzDBkx+pfXOq5Bc7k6CqN9zoQcIyKiBpMlSTiQShwIkD5zZJddDq0p1JUm1a
+         F+9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DKZmBFsdW7wm8aii+46yurv4QzoHd0ZQyf7Y5B3ea0Y=;
+        b=kemL/Nuv1XxC4Od+DxaVk8lrkwYaVNX7PLXRbK7OlEv84lwCKtzJ7xRAZbLIsAg/9X
+         /mCZmOW2lYLst0jC4OzTU3kuMRR/ZfxpTFtCtRuTFSIoyOt+UmnYweFRjjiY8+igqaFw
+         JaIZ2nyYm/Ey/AfGxQZ9SXbaEODRKlc4N1rfgRbEEO/8crv8b9H/4xxqnZZSlEmrGGeL
+         r9ercEK20DULDkMyes6FeXK9zsR5Zgtc5tvJnEYH5NjuplcKMKR+/gPcrXIY63/LHA2H
+         xl6cEU46+Ga+VXi0WxxbidjPYeF4fuGdkArMY/SGsRPrIxN2NpvI6DY02x9xl78DxSGi
+         vAXA==
+X-Gm-Message-State: AOAM5326r0bKB1lklKbTv5ksQHyMyJsF5rsO9SkrwsM2y3hdh7FQ1coz
+	bpvGuC2hy1AnjZlTDjTeO2nJrEbtEegwfA5V
+X-Google-Smtp-Source: ABdhPJwz5XVI5bPZaQb9Xh40bEXOyEi3vQa/t3zm8KFKPwCRbGTV+C/557JfRrUBo72VPNYA5XGepg==
+X-Received: by 2002:a17:90a:5d11:: with SMTP id s17mr865441pji.107.1605054749345;
+        Tue, 10 Nov 2020 16:32:29 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id q16sm282342pff.114.2020.11.10.16.32.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2020 16:32:28 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] buildstats.bbclass: add functionality to collect build system stats
-Date: Tue, 10 Nov 2020 18:07:44 -0500
-Message-ID: <20201110230744.30544-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.29.2
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YT1PR01CA0025.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::38)
- To DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20)
-Return-Path: sakib.sajal@windriver.com
+Subject: [OE-core][dunfell 00/32] Pull request (cover letter only)
+Date: Tue, 10 Nov 2020 14:32:19 -1000
+Message-Id: <cover.1605054618.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-lpggp3.wrs.com (128.224.252.2) by YT1PR01CA0025.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Tue, 10 Nov 2020 23:07:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9e620c8d-398b-4fea-fe6d-08d885cd76ea
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4202:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB420240B825DC0A97883E20FCF2E90@DM6PR11MB4202.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	XEzO3vFrQ8a49ThEDOwlFn85NkdAQfLoPfSjqv9hhzQxHiGzSb8P4HjVCIdSR3xGcxLNvH4ONgwW6E/LADuDZvCi3ZPVTzSLbiWNgbaoCivWHOZBBwCmJurmP5zRYE/xu6aSsvCuD/miq7Xl3MFrC5cO5IZPHg2+ZtfKhCBFAaVoBWK8UuaV/mqmRZ+lhWcCuTXuNbHrdET8mThvu6ZnVhenZVg3V+ttNZ68jtZdFn9COAkjRQf6vim6v0jUqHNiEsGvjWmGUUBJozboNlkWNYsYZWUh3dxFlXPIQR6PVyRZgJnHMX/taQq5cvytMDiuVnZtwlbTAaoL3zQ/BNcSUA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(346002)(136003)(39840400004)(376002)(478600001)(316002)(44832011)(66476007)(1076003)(6916009)(6512007)(66946007)(66556008)(5660300002)(6486002)(52116002)(6666004)(186003)(8936002)(2616005)(956004)(2906002)(8676002)(83380400001)(6506007)(36756003)(26005)(86362001)(16526019);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	JCShRz5WVs70p6rjm5d/nHECpuxmsh7nb4kYCGXZQ0ZIUUorkF7hUn9SCobxMVWFFX81rg+ZGk3bL0WbtYB5BoFc+5fCRo/CzGGh81KcLLjddLh/w6WgM9xWwAmxUZeATieT1iDhjkkWOy0fsvW2wRE3iAj6q1CHYHtWin9pIYmmwsV+mRW1qg/57ZA6EPThRPaugCa1bEFDXOJ3NQyvYtwYKVXjVb4uvVp96batDOIldg6btNg3n1H/wATht04drWx35mvGXu6H9oaKZBFBtw6wkS2ihG1GHE/4IWGLz3D6tN0KL2L75nJDwq5XUEs7N7CvEHctnfSaAzF+Fl+LWy9wnrpPDWCavnlLWtNlmzxwZh1kxk1iKn4prmmhXhvvvjmPET2cYASRnv0MRruWzQtFTCnw3Epp1IEWrfjMT9/WtkWheAbw9Alh0jXJqEWDjn/jWw9ZWJVgk5TvZu/R5TuZMrhg75jAMWJTE2kX+10qUaTs4jCd/a5P/nOTHsDPWGfG3I+cYdD/bD3qoslsyWJnaCCrxZjo9xU4qLk84XUV/PPIM1kDlaXGxH54FVe/qdBpTs+IdlWv+vl8tOFm9jbqBMN1m9DyluUO4Mud4ymfkrDGOlw8wAX4m79riMZHZAct4XDgrE9vtb4TV5blfzbs62Y4+8NS5srXtqA0CZZNlreifj6eqZLerqiSQsBFN14YFK+xK29HTG8G/jNE7e+c171AUgLU2g72fLnGp+Voz95yyw2ScDy0Z+8KdI7UR8IwqO2yziJdxx8FZsUxPVMXWsYihZzEoRbqKmjFu4OTDeMA77L59GlG4Dcbk8+SBhD0+qJmQaO2q7PDW0Gp2+dIXl3aribvqmZTqZl6K8b1bHREbQ2Bhpd6pzub+B+Y7OdjDdI+OOrraQlk+3KuAg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9e620c8d-398b-4fea-fe6d-08d885cd76ea
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2020 23:07:58.4056
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2GZnUpqW0Q4WGm8WIt3bFLmlvBKNEaXqpIQ3OfesU0FGWS5IEk9bZd6LdxK0AYfLKgII64n4PQyP4wdt9Oy9ncOqYlS0wA7odSkPOUq+duE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4202
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-There are a number of timeout and hang defects where
-it would be useful to collect statistics about what
-is running on a build host when that condition occurs.
+The following changes since commit 5f644082fc3c2bbd89b898d5ca7cd4414cda4a64:
 
-This adds functionality to collect build system stats
-on a regular interval and/or on task failure. Both
-features are disabled by default.
+  nasm: update 2.14.02 -> 2.15.03 for CVE fixes (2020-11-02 04:05:13 -1000)
 
-To enable logging on a regular interval, set:
-BB_HEARTBEAT_EVENT =3D "<interval>"
-BB_LOG_HOST_STAT_ON_INTERVAL =3D <boolean>
-Logs are stored in ${BUILDSTATS_BASE}/<build_name>/host_stats
+are available in the Git repository at:
 
-To enable logging on a task failure, set:
-BB_LOG_HOST_STAT_ON_FAILURE =3D "<boolean>"
-Logs are stored in ${BUILDSTATS_BASE}/<build_name>/build_stats
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-The list of commands, along with the desired options, need
-to be specified in the BB_LOG_HOST_STAT_CMDS variable
-delimited by ; as such:
-BB_LOG_HOST_STAT_CMDS =3D "command1 ; command2 ;... ;"
+Alexander Kanavin (1):
+  linux-firmware: upgrade 20200817 -> 20201022
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- meta/classes/buildstats.bbclass | 40 ++++++++++++++++++++++++++++++---
- 1 file changed, 37 insertions(+), 3 deletions(-)
+Andrey Zhizhikin (1):
+  insane: add GitLab /archive/ tests
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbcl=
-ass
-index 6f87187233..a8ee6e69a6 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -104,14 +104,46 @@ def write_task_data(status, logfile, e, d):
-             f.write("Status: FAILED \n")
-         f.write("Ended: %0.2f \n" % e.time)
-=20
-+def write_host_data(logfile, e, d):
-+    import subprocess, os, datetime
-+    cmds =3D d.getVar('BB_LOG_HOST_STAT_CMDS')
-+    if cmds is None:
-+        d.setVar("BB_LOG_HOST_STAT_ON_INTERVAL", "0")
-+        d.setVar("BB_LOG_HOST_STAT_ON_FAILURE", "0")
-+        bb.warn("buildstats: Collecting host data failed. Set BB_LOG_HOST_=
-STAT_CMDS=3D\"command1 ; command2 ; ... \" in conf\/local.conf\n")
-+        return
-+    path =3D d.getVar("PATH")
-+    opath =3D d.getVar("BB_ORIGENV", False).getVar("PATH")
-+    ospath =3D os.environ['PATH']
-+    os.environ['PATH'] =3D path + ":" + opath + ":" + ospath
-+    with open(logfile, "a") as f:
-+        f.write("Event Time: %f\nDate: %s\n" % (e.time, datetime.datetime.=
-now()))
-+        for cmd in cmds.split(";"):
-+            if len(cmd) =3D=3D 0:
-+                continue
-+            try:
-+                output =3D subprocess.check_output(cmd.split(), stderr=3Ds=
-ubprocess.STDOUT, timeout=3D1).decode('utf-8')
-+            except (subprocess.CalledProcessError, subprocess.TimeoutExpir=
-ed, FileNotFoundError) as err:
-+                output =3D "Error running command: %s\n%s\n" % (cmd, err)
-+            f.write("%s\n%s\n" % (cmd, output))
-+    os.environ['PATH'] =3D ospath
-+
- python run_buildstats () {
-     import bb.build
-     import bb.event
-     import time, subprocess, platform
-=20
-     bn =3D d.getVar('BUILDNAME')
--    bsdir =3D os.path.join(d.getVar('BUILDSTATS_BASE'), bn)
--    taskdir =3D os.path.join(bsdir, d.getVar('PF'))
-+    ######################################################################=
-##
-+    # bitbake fires HeartbeatEvent even before a build has been
-+    # triggered, causing BUILDNAME to be None
-+    ######################################################################=
-##
-+    if bn is not None:
-+        bsdir =3D os.path.join(d.getVar('BUILDSTATS_BASE'), bn)
-+        taskdir =3D os.path.join(bsdir, d.getVar('PF'))
-+        if isinstance(e, bb.event.HeartbeatEvent) and bb.utils.to_boolean(=
-d.getVar("BB_LOG_HOST_STAT_ON_INTERVAL")):
-+            bb.utils.mkdirhier(bsdir)
-+            write_host_data(os.path.join(bsdir, "host_stats"), e, d)
-=20
-     if isinstance(e, bb.event.BuildStarted):
-         ##################################################################=
-######
-@@ -186,10 +218,12 @@ python run_buildstats () {
-         build_status =3D os.path.join(bsdir, "build_stats")
-         with open(build_status, "a") as f:
-             f.write(d.expand("Failed at: ${PF} at task: %s \n" % e.task))
-+            if bb.utils.to_boolean(d.getVar("BB_LOG_HOST_STAT_ON_FAILURE")=
-):
-+                write_host_data(build_status, e, d)
- }
-=20
- addhandler run_buildstats
--run_buildstats[eventmask] =3D "bb.event.BuildStarted bb.event.BuildComplet=
-ed bb.build.TaskStarted bb.build.TaskSucceeded bb.build.TaskFailed"
-+run_buildstats[eventmask] =3D "bb.event.BuildStarted bb.event.BuildComplet=
-ed bb.event.HeartbeatEvent bb.build.TaskStarted bb.build.TaskSucceeded bb.b=
-uild.TaskFailed"
-=20
- python runqueue_stats () {
-     import buildstats
---=20
-2.29.2
+Changqing Li (1):
+  timezone: upgrade to 2020d
+
+Chee Yang Lee (2):
+  bluez5: update to 5.55 to fix CVE-2020-27153
+  ruby: fix CVE-2020-25613
+
+Joshua Watt (1):
+  jquery: Upgrade 3.4.1 -> 3.5.0 to fix CVE-2020-11022 and
+    CVE-2020-11023
+
+Khem Raj (1):
+  qemuboot.bbclass: Fix a typo
+
+Mark Jonas (4):
+  Add license text for PSF-2.0
+  Map license names PSF and PSFv2 to PSF-2.0
+  libsdl2: Fix directfb syntax error
+  libsdl2: Fix directfb SDL_RenderFillRect
+
+Martin Jansa (3):
+  lib/oe/patch: prevent applying patches without any subject
+  lib/oe/patch: GitApplyTree: save 1 echo in commit-msg hook
+  Revert "lib/oe/patch: fix handling of patches with no header"
+
+Max Krummenacher (2):
+  linux-firmware: package marvel sdio 8997 firmware
+  linux-firmware: package nvidia firmware
+
+Maxime Roussin-Bélanger (1):
+  meta: fix some unresponsive homepages and bugtracker links
+
+Mingli Yu (1):
+  update_udev_hwdb: clean hwdb.bin
+
+Neil Armstrong (1):
+  linux-firmware: add Amlogic VDEC firmware package
+
+Richard Leitner (1):
+  xcb-proto: backport fix for python gcd function
+
+Richard Purdie (1):
+  sstatesig: Log timestamps for hashequiv in reprodubile builds for
+    do_package
+
+Steve Sakoman (7):
+  sqlite3: fix CVE-2020-13434
+  sqlite3: fix CVE-2020-13435
+  sqlite3: fix CVE-2020-13630
+  sqlite3: fix CVE-2020-13631
+  sqlite3: fix CVE-2020-13632
+  netbase: update SRC_URI to reflect new file name
+  netbase: bump PE to purge bogus hash equivalence from autobuilder
+
+Yann E. MORIN (2):
+  common-licenses: add bzip2-1.0.4
+  recipes-core/busybox: fixup licensing information
+
+Yongxin Liu (2):
+  grub: fix several CVEs in grub 2.04
+  grub: clean up CVE patches
+
+ meta/classes/insane.bbclass                   |    4 +-
+ meta/classes/qemuboot.bbclass                 |    2 +-
+ meta/conf/licenses.conf                       |    6 +-
+ meta/files/common-licenses/PSF-2.0            |   49 +
+ meta/files/common-licenses/bzip2-1.0.4        |   43 +
+ meta/lib/oe/patch.py                          |   13 +-
+ meta/lib/oe/sstatesig.py                      |    6 +
+ ...308-calloc-Use-calloc-at-most-places.patch | 1863 +++++++++++++++++
+ ...low-checking-primitives-where-we-do-.patch | 1330 ++++++++++++
+ ...se-after-free-when-redefining-a-func.patch |  117 ++
+ ...er-overflows-in-initrd-size-handling.patch |  177 ++
+ ...-we-always-have-an-overflow-checking.patch |  246 +++
+ ...dd-LVM-cache-logical-volume-handling.patch |  287 +++
+ ...e-arithmetic-primitives-that-check-f.patch |   94 +
+ ...used-fields-from-grub_script_functio.patch |   37 +
+ meta/recipes-bsp/grub/grub2.inc               |    8 +
+ meta/recipes-bsp/v86d/v86d_0.1.10.bb          |    2 +-
+ .../recipes-connectivity/bind/bind_9.11.22.bb |    2 +-
+ .../bluez5/{bluez5_5.54.bb => bluez5_5.55.bb} |    4 +-
+ meta/recipes-connectivity/iw/iw_5.4.bb        |    2 +-
+ meta/recipes-core/busybox/busybox.inc         |    7 +-
+ meta/recipes-core/netbase/netbase_6.1.bb      |    9 +-
+ meta/recipes-core/readline/readline.inc       |    2 +-
+ meta/recipes-core/util-linux/util-linux.inc   |    4 +-
+ meta/recipes-devtools/chrpath/chrpath_0.16.bb |    3 +-
+ .../{jquery_3.4.1.bb => jquery_3.5.0.bb}      |    8 +-
+ meta/recipes-devtools/ninja/ninja_1.10.0.bb   |    2 +-
+ .../ruby/ruby/CVE-2020-25613.patch            |   40 +
+ meta/recipes-devtools/ruby/ruby_2.7.1.bb      |    1 +
+ meta/recipes-extended/lsb/lsb-release_1.4.bb  |    2 +-
+ .../recipes-extended/minicom/minicom_2.7.1.bb |    2 +-
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |    2 +-
+ meta/recipes-extended/timezone/timezone.inc   |    6 +-
+ meta/recipes-extended/which/which_2.21.bb     |    2 +-
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb       |    2 +-
+ meta/recipes-gnome/gtk-doc/gtk-doc_1.32.bb    |    3 +-
+ .../libsdl2/directfb-renderfillrect-fix.patch |   33 +
+ ...ectfb-spurious-curly-brace-missing-e.patch |   49 +
+ .../libsdl2/libsdl2_2.0.12.bb                 |    2 +
+ ...1-xcbgen-use-math-gcd-for-python-3-5.patch |   40 +
+ .../xorg-proto/xcb-proto_1.13.bb              |    3 +-
+ meta/recipes-kernel/kmod/kmod.inc             |    2 +-
+ ...20200817.bb => linux-firmware_20201022.bb} |   51 +-
+ .../wireless-regdb_2020.04.29.bb              |    2 +-
+ .../libvorbis/libvorbis_1.3.6.bb              |    4 +-
+ .../settings-daemon/settings-daemon_0.0.2.bb  |    2 +-
+ meta/recipes-support/atk/atk_2.34.1.bb        |    5 +-
+ .../bash-completion/bash-completion_2.10.bb   |    4 +-
+ meta/recipes-support/npth/npth_1.6.bb         |    4 +-
+ .../sqlite/files/CVE-2020-13434.patch         |   48 +
+ .../sqlite/files/CVE-2020-13435.patch         |  219 ++
+ .../sqlite/files/CVE-2020-13630.patch         |   32 +
+ .../sqlite/files/CVE-2020-13631.patch         |   99 +
+ .../sqlite/files/CVE-2020-13632.patch         |   34 +
+ meta/recipes-support/sqlite/sqlite3_3.31.1.bb |    5 +
+ scripts/postinst-intercepts/update_udev_hwdb  |    1 +
+ 56 files changed, 4963 insertions(+), 63 deletions(-)
+ create mode 100644 meta/files/common-licenses/PSF-2.0
+ create mode 100644 meta/files/common-licenses/bzip2-1.0.4
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14308-calloc-Use-calloc-at-most-places.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch
+ create mode 100644 meta/recipes-bsp/grub/files/CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch
+ create mode 100644 meta/recipes-bsp/grub/files/calloc-Make-sure-we-always-have-an-overflow-checking.patch
+ create mode 100644 meta/recipes-bsp/grub/files/lvm-Add-LVM-cache-logical-volume-handling.patch
+ create mode 100644 meta/recipes-bsp/grub/files/safemath-Add-some-arithmetic-primitives-that-check-f.patch
+ create mode 100644 meta/recipes-bsp/grub/files/script-Remove-unused-fields-from-grub_script_functio.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.54.bb => bluez5_5.55.bb} (91%)
+ rename meta/recipes-devtools/jquery/{jquery_3.4.1.bb => jquery_3.5.0.bb} (73%)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brace-missing-e.patch
+ create mode 100644 meta/recipes-graphics/xorg-proto/xcb-proto/0001-xcbgen-use-math-gcd-for-python-3-5.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200817.bb => linux-firmware_20201022.bb} (95%)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13434.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13435.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13630.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13631.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2020-13632.patch
+
+-- 
+2.17.1
 
