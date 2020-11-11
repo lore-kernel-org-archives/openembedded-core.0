@@ -1,387 +1,220 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.77.71])
- by mx.groups.io with SMTP id smtpd.web09.2378.1605068397980897557
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web11.3629.1605078386494854935
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 20:19:58 -0800
+ Tue, 10 Nov 2020 23:06:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=d4MlfCut;
- spf=pass (domain: windriver.com, ip: 40.107.77.71, mailfrom: saul.wold@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VP0tKgjyHtshqUnxW9IpW1LERnryXWM0PDOUd2cuzZD1bm7xSjN8NA/Pu7gaPTehiuxf28aykozgxeN6ymSMhB61j3zSssZ3cOCpDAWoFjzgirp+ZK+PSQ12pnOudPHGZWhCVibHVYqtHSjuDRvZNbdg/VpqKyfMx8DUwoewKHeRA5mlhC+76hXNoV9xDQUYWuKCUdT/YbCYjFW+22j8AfLGmLNdmTp657l9VbjtDe2efTI/l20HEhZ/vsPtdNVP1ChRMyeyd4ZGyW2dPIfS90nve4vRjXBarn2NP3NcNc5wUF1OWbV3cDYB4nxMiKGMonMcM4II76YBeFsfviwfsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fVzd7BS32MsDytd4bxnTaMH1acMKY+i7Ue+fke2zp4Q=;
- b=HM6WTeTkmVneAG6cg1bbNQo99YJbkRJNwOzcvne8zXHxoulaXf0TcxA5B+tegELz18Fz6IGI2cGOt+7RD5wNqvlaMGVHziOBN5XMDhh2f+pwE09CikO8ubcgQMtd90de6FnwxTiF97d1XynhDbr99zUc6ZWx1EWRCCvckPSW3okhFG1i46rvkBz5F8SFSx+USmwbTrY2T+Sq3XgACSejCL6q+my8T7xY0LYL7thYThQHgxkKV0IkMXb1ZaxcBZ7L+4dpkFaM+opeqF5fiX3TgQApF9tCIxgWue9jCo3bszPAQpe64/vwt1xaZ8+/0Kf5kv01Y+EG3h4YQg8mrH43WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fVzd7BS32MsDytd4bxnTaMH1acMKY+i7Ue+fke2zp4Q=;
- b=d4MlfCut3zDy1eeWpHB7UcMfkokstbIbMfBC1S3kvPTloRbmemmq4cpJsG1bGdav32Tyd5LINpMLnKSNGHBkYdAHoHmNNA9zULvxjAFUrGWSPIH4PYEf0Ux1kzO/lieZ+L4iX7ykYPF7aswRUg+8BJ2eTvW4vZMBGAH0Q7MqcsU=
-Authentication-Results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none
- header.from=windriver.com;
-Received: from BN6PR11MB1873.namprd11.prod.outlook.com (2603:10b6:404:106::19)
- by BN7PR11MB2769.namprd11.prod.outlook.com (2603:10b6:406:b3::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Wed, 11 Nov
- 2020 04:19:56 +0000
-Received: from BN6PR11MB1873.namprd11.prod.outlook.com
- ([fe80::9c14:1cd3:1db:46e5]) by BN6PR11MB1873.namprd11.prod.outlook.com
- ([fe80::9c14:1cd3:1db:46e5%8]) with mapi id 15.20.3541.023; Wed, 11 Nov 2020
- 04:19:56 +0000
-Subject: Re: [OE-core] [PATCH] [WIP] qemurunner.py: qemu as client
-From: "Saul Wold" <Saul.Wold@windriver.com>
-To: openembedded-core@lists.openembedded.org
-References: <20201111041003.864509-1-saul.wold@windriver.com>
- <164658B07603FC62.32470@lists.openembedded.org>
-Message-ID: <426872d7-910b-eca0-9fbe-b4be69d1ba59@windriver.com>
-Date: Tue, 10 Nov 2020 20:19:53 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <164658B07603FC62.32470@lists.openembedded.org>
-X-Originating-IP: [71.238.119.71]
-X-ClientProxiedBy: MWHPR15CA0057.namprd15.prod.outlook.com
- (2603:10b6:301:4c::19) To BN6PR11MB1873.namprd11.prod.outlook.com
- (2603:10b6:404:106::19)
-Return-Path: Saul.Wold@windriver.com
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: xibeNz2YKF4+nHCfr2WQLPVTmAfPWQSUEr4ncs3SbSJYTM+x5EbS0hRBD7hfW72AsqVIMSyMbj
+ WeZPjwcSXaEQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="188083698"
+X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
+   d="scan'208";a="188083698"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 23:06:25 -0800
+IronPort-SDR: H9W4kaKfpfn4thKAwe6sHkPt4mYs872mYvEZ3FoxKXWoc+oWq7cgVBrTApFFFEEwPKbGiZo9d2
+ Cq6kClEo4Rfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
+   d="scan'208";a="327991358"
+Received: from kmsmsx602.gar.corp.intel.com ([172.21.219.142])
+  by orsmga006.jf.intel.com with ESMTP; 10 Nov 2020 23:06:24 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ kmsmsx602.gar.corp.intel.com (172.21.219.142) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 11 Nov 2020 15:06:23 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Wed, 11 Nov 2020 15:06:23 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "steve@sakoman.com" <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [gatesgarth][PATCH 13/22] bluez5: fix CVE-2020-27153
+Thread-Topic: [OE-core] [gatesgarth][PATCH 13/22] bluez5: fix CVE-2020-27153
+Thread-Index: AQHWtE9NrZUCoir5qESnzaVT83/5gKnCA5iA
+Date: Wed, 11 Nov 2020 07:06:23 +0000
+Message-ID: <85a1ebdaa71b3acde7a6828e73806fdff217a525.camel@intel.com>
+References: <cover.1604643684.git.anuj.mittal@intel.com>
+	 <4b50d20e15bb0fb9ff83730931ee35cf772f93d7.1604643684.git.anuj.mittal@intel.com>
+	 <CAOSpxdZrsQFLz6SC2YdmE6QhU3wqMJx9tYxi=kuXORkePmStrQ@mail.gmail.com>
+In-Reply-To: <CAOSpxdZrsQFLz6SC2YdmE6QhU3wqMJx9tYxi=kuXORkePmStrQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.23.90.211] (71.238.119.71) by MWHPR15CA0057.namprd15.prod.outlook.com (2603:10b6:301:4c::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25 via Frontend Transport; Wed, 11 Nov 2020 04:19:55 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 55817c74-6fc7-4fc6-2998-08d885f90b91
-X-MS-TrafficTypeDiagnostic: BN7PR11MB2769:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<BN7PR11MB2769D3BE0EB63376C572B309EEE80@BN7PR11MB2769.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:605;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	chkubeKJpjxJxdVLcyKzoFwkkB1WVD8NyWbzdPdep2ZWVFV8zf6XMLFJNIdfSXda7StQEom6QQSETqiugLFa+9k6xdsUCA+QXIV0FVaGrW5rc8kKc1T1VM7/jDhK+gVsheAQyMPplj9zEZzFVKqwzUZU0UZhZYqWHZNfl7Q7mwCE6ICKVFm4BOMUujg+MS2W8rxSqK02W+2hqF6wlwmr9MHoulJBR161ZFGe2ACE9xqn8umUlB25vTgSB2J36brBglyKERRTJBrkOOLXddZhs0+SxTIjD6N5UXIwOt6heEA0jHKJUvbol5TSnED6YORF+njI4ZUmzdCypJyX79YizZoqYpU7tXX7SgA9TBK+3ajtuNgZAa8FsC4Ylat90IbDarik8UFDOADbAJM05/z9jpjMSXs0sSN1PFNJoeZizbfg3fkVciBUmv0H9kwtrk1a0TRiuXaXvD51Kb+DX3dsew==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1873.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(376002)(39830400003)(136003)(396003)(31696002)(966005)(2616005)(52116002)(66476007)(86362001)(6486002)(478600001)(16576012)(956004)(30864003)(83380400001)(8936002)(8676002)(31686004)(66946007)(2906002)(5660300002)(66556008)(36756003)(53546011)(6916009)(186003)(16526019)(316002)(26005)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	7IbbAkqm06qMOdQR48e4A4kKSQ2N2+CQrwYobj3Ju0QWzGnW4iVzR6q+VO9PqSd52eVibIiwUISEhgF4tipxM19XKyIYXuIerPxcq4dcgKNmu66+IaOPrF28ylYD6RcJ0ocxlz1OAc+ZY0vLUu1+Qsbu+1Nl59VJa7w6mjf605+kRT0O2AavSl/b2vgmrvdFAx6T9eCY/7H/2xcojqgaqxpfn5kwLuJdOgaCQf0nwHITxztbxtBiup+ALmY5We3qrPoHDIPXoHR6ukPEE2/g13ltU8idjqQiY1I9DlZXw8NX7jyBhC1Sp+Lv6hbxfFf4M8oGYnfAFdjVfO8geXt87n3XkrRuFYpKPZd62kJvImwvNM9919MLQdL1nOH6KATePE5grcUEQIg2UcKOhABsoon8bv5HzlLfRgQ1dAci4LhzfkJLpisp+fqGgyKBf0PIFgriWY99roq4zphMF+/9oUvM4+8/9zxLaEn5pxWzUlnHjrspkm6+KukkZnB4CHmLD6S72ahmohLwkC1ASKsQdkfjTHiywuwm2nKJMJ4sH+YACua42GJ0tjmup22teCOpoHxbnbpRNMjuGLWEWp1U6iB7NPi6Fhxov3H6nyIhwGBsuPGG8x6AupIcEfmHOfQt494s+0sDBfjfQnI+lwovSQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 55817c74-6fc7-4fc6-2998-08d885f90b91
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB1873.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 04:19:56.3197
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UHw+W/hzxRBd474teaVtV/GP+ZSguIvB7xsinSTYNQtowmzuu35Pnj8pubbYjsQ75sG33bq+nJdO9NRxDCnZLA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2769
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <93B4291E582BAE428350B81296E2D474@intel.com>
+Content-Transfer-Encoding: base64
 
-Oops, need to double check what 000* is going to actual send, please 
-ignore this and the following older qemu_runner patch.
-
-Sau!
-
-On 11/10/20 8:10 PM, Saul Wold wrote:
-> Signed-off-by: Saul Wold <saul.wold@windriver.com>
-> ---
->   meta/lib/oeqa/core/target/ssh.py       |  9 ++--
->   meta/lib/oeqa/runtime/cases/network.py | 28 +++++++++++
->   meta/lib/oeqa/runtime/files/kill_net   |  5 ++
->   meta/lib/oeqa/targetcontrol.py         |  3 ++
->   meta/lib/oeqa/utils/dump.py            | 22 ++++++++
->   meta/lib/oeqa/utils/qemurunner.py      | 70 +++++++++++++++++++++++++-
->   6 files changed, 133 insertions(+), 4 deletions(-)
->   create mode 100644 meta/lib/oeqa/runtime/cases/network.py
->   create mode 100644 meta/lib/oeqa/runtime/files/kill_net
-> 
-> diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-> index 461448dbc5..c744b90719 100644
-> --- a/meta/lib/oeqa/core/target/ssh.py
-> +++ b/meta/lib/oeqa/core/target/ssh.py
-> @@ -54,7 +54,7 @@ class OESSHTarget(OETarget):
->           """
->               Runs command in target using SSHProcess.
->           """
-> -        self.logger.debug("[Running]$ %s" % " ".join(command))
-> +        self.logger.debug("sgw-[Running]$ %s" % " ".join(command))
->   
->           starttime = time.time()
->           status, output = SSHCall(command, self.logger, timeout)
-> @@ -77,6 +77,7 @@ class OESSHTarget(OETarget):
->                           0:          No timeout, runs until return.
->           """
->           targetCmd = 'export PATH=/usr/sbin:/sbin:/usr/bin:/bin; %s' % command
-> +        self.ip = "192.168.7.5"
->           sshCmd = self.ssh + [self.ip, targetCmd]
->   
->           if timeout:
-> @@ -87,8 +88,10 @@ class OESSHTarget(OETarget):
->               processTimeout = self.timeout
->   
->           status, output = self._run(sshCmd, processTimeout, True)
-> -        self.logger.debug('Command: %s\nOutput:  %s\n' % (command, output))
-> -        if (status == 255) and (('No route to host') in output):
-> +        self.logger.debug('Command: %s\nStatus: %d Output:  %s\n' % (command, status, output))
-> +#        if (status == 255) and (('No route to host') in output):
-> +        if status == 255:
-> +            self.target_dumper.dump_target()
->               self.target_dumper.dump_target()
->           return (status, output)
->   
-> diff --git a/meta/lib/oeqa/runtime/cases/network.py b/meta/lib/oeqa/runtime/cases/network.py
-> new file mode 100644
-> index 0000000000..49fcac133a
-> --- /dev/null
-> +++ b/meta/lib/oeqa/runtime/cases/network.py
-> @@ -0,0 +1,28 @@
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +from oeqa.runtime.case import OERuntimeTestCase
-> +from oeqa.core.decorator.depends import OETestDepends
-> +from oeqa.runtime.decorator.package import OEHasPackage
-> +
-> +class NetworkTest(OERuntimeTestCase):
-> +
-> +    @classmethod
-> +    def setUp(cls):
-> +        src = os.path.join(cls.tc.runtime_files_dir, 'kill_net')
-> +        dst = '/home/root/kill_net'
-> +        cls.tc.target.copyTo(src, dst)
-> +
-> +
-> +    @OETestDepends(['ssh.SSHTest.test_ssh'])
-> +    def test_network_check(self):
-> +        (status, output) = self.target.run('/sbin/ip a')
-> +        msg = 'Failed to run "ip a". Output: %s' % output
-> +        self.assertEqual(status, 0, msg=msg)
-> +
-> +    @OETestDepends(['network.NetworkTest.test_network_check'])
-> +    def test_run_kill_net(self):
-> +        (status, output) = self.target.run('/bin/bash /home/root/kill_net > results 2>&1 &')
-> +        msg = 'Failed to run "kill_net". Output: %s' % output
-> +        self.assertEqual(status, 0, msg=msg)
-> diff --git a/meta/lib/oeqa/runtime/files/kill_net b/meta/lib/oeqa/runtime/files/kill_net
-> new file mode 100644
-> index 0000000000..981eec816d
-> --- /dev/null
-> +++ b/meta/lib/oeqa/runtime/files/kill_net
-> @@ -0,0 +1,5 @@
-> +#!/bin/bash
-> +
-> +ip a
-> +sleep 1
-> +ip link set eth0 down
-> diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-> index 19f5a4ea7e..8cdd984179 100644
-> --- a/meta/lib/oeqa/targetcontrol.py
-> +++ b/meta/lib/oeqa/targetcontrol.py
-> @@ -17,6 +17,7 @@ from oeqa.utils.sshcontrol import SSHControl
->   from oeqa.utils.qemurunner import QemuRunner
->   from oeqa.utils.qemutinyrunner import QemuTinyRunner
->   from oeqa.utils.dump import TargetDumper
-> +from oeqa.utils.dump import MonitorDumper
->   from oeqa.controllers.testtargetloader import TestTargetLoader
->   from abc import ABCMeta, abstractmethod
->   
-> @@ -108,6 +109,7 @@ class QemuTarget(BaseTarget):
->           self.qemulog = os.path.join(self.testdir, "qemu_boot_log.%s" % self.datetime)
->           dump_target_cmds = d.getVar("testimage_dump_target")
->           dump_host_cmds = d.getVar("testimage_dump_host")
-> +        dump_monitor_cmds = ['{"execute":"query-status"}\n', '{"execute":"query-status"}\n']
->           dump_dir = d.getVar("TESTIMAGE_DUMP_DIR")
->           if not dump_dir:
->               dump_dir = os.path.join(d.getVar('LOG_DIR'), 'runtime-hostdump')
-> @@ -147,6 +149,7 @@ class QemuTarget(BaseTarget):
->                               serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
->   
->           self.target_dumper = TargetDumper(dump_target_cmds, dump_dir, self.runner)
-> +        self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
->   
->       def deploy(self):
->           bb.utils.mkdirhier(self.testdir)
-> diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
-> index 09a44329e0..058d1e46b1 100644
-> --- a/meta/lib/oeqa/utils/dump.py
-> +++ b/meta/lib/oeqa/utils/dump.py
-> @@ -96,3 +96,25 @@ class TargetDumper(BaseDumper):
->               except:
->                   print("Tried to dump info from target but "
->                           "serial console failed")
-> +                print("Failed CMD: %s" % (cmd))
-> +
-> +class MonitorDumper(BaseDumper):
-> +    """ Class to get dumps via the Qemu Monitor, it only works with QemuRunner """
-> +
-> +    def __init__(self, cmds, parent_dir, runner):
-> +        super(MonitorDumper, self).__init__(cmds, parent_dir)
-> +        self.runner = runner
-> +
-> +    def dump_monitor(self, dump_dir=""):
-> +        if dump_dir:
-> +            self.dump_dir = dump_dir
-> +        for cmd in self.cmds:
-> +            try:
-> +                print("dump_target: %s" % cmd)
-> +                output = self.runner.run_monitor(cmd)
-> +                print("result: %s" % (output))
-> +                self._write_dump(cmd.split()[0], output)
-> +            except:
-> +                print("Failed to dump montor data")
-> +                print("Failed CMD: %s" % (cmd))
-> +
-> diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-> index 77ec939ad7..0ca0d78470 100644
-> --- a/meta/lib/oeqa/utils/qemurunner.py
-> +++ b/meta/lib/oeqa/utils/qemurunner.py
-> @@ -20,6 +20,7 @@ import string
->   import threading
->   import codecs
->   import logging
-> +from contextlib import closing
->   from oeqa.utils.dump import HostDumper
->   from collections import defaultdict
->   
-> @@ -84,6 +85,12 @@ class QemuRunner:
->           default_boot_patterns['send_login_user'] = 'root\n'
->           default_boot_patterns['search_login_succeeded'] = r"root@[a-zA-Z0-9\-]+:~#"
->           default_boot_patterns['search_cmd_finished'] = r"[a-zA-Z0-9]+@[a-zA-Z0-9\-]+:~#"
-> +        monitor_cmds = defaultdict(str)
-> +        monitor_cmds['qmp_cap'] = '{"execute":"qmp_capabilities","arguments":{"enable":["oob"]}}\n'
-> +        monitor_cmds['cont'] = '{"execute":"cont"}\n'
-> +        monitor_cmds['quit'] = '{"execute":"quit"}\n'
-> +        monitor_cmds['preconfig'] = '{"execute":"x-exit-preconfig"}\n'
-> +        self.monitor_cmds = monitor_cmds
->   
->           # Only override patterns that were set e.g. login user TESTIMAGE_BOOT_PATTERNS[send_login_user] = "webserver\n"
->           for pattern in accepted_patterns:
-> @@ -168,10 +175,17 @@ class QemuRunner:
->           return self.launch(launch_cmd, qemuparams=qemuparams, get_ip=get_ip, extra_bootparams=extra_bootparams, env=env)
->   
->       def launch(self, launch_cmd, get_ip = True, qemuparams = None, extra_bootparams = None, env = None):
-> +        # Find a free socket port that can be used by the QEMU Monitor console
-> +        with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
-> +            s.bind(('', 0))
-> +            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-> +            qmp_port = s.getsockname()[1]
-> +
->           try:
->               if self.serial_ports >= 2:
->                   self.threadsock, threadport = self.create_socket()
->               self.server_socket, self.serverport = self.create_socket()
-> +
->           except socket.error as msg:
->               self.logger.error("Failed to create listening socket: %s" % msg[1])
->               return False
-> @@ -185,6 +199,9 @@ class QemuRunner:
->           if os.path.exists(self.qemu_pidfile):
->               os.remove(self.qemu_pidfile)
->           self.qemuparams = 'bootparams="{0}" qemuparams="-pidfile {1}"'.format(bootparams, self.qemu_pidfile)
-> +        qemuparams += ' -S -qmp tcp:localhost:%s,server,wait' % (qmp_port)
-> +        qemuparams += ' -monitor tcp:localhost:4444,server,nowait'
-> +
->           if qemuparams:
->               self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
->   
-> @@ -250,6 +267,28 @@ class QemuRunner:
->   
->           if self.runqemu_exited:
->               return False
-> +
-> +        # Create the client socket for the QEMU Monitor Control Socket
-> +        # This will allow us to read status from Qemu if the the process
-> +        # is still alive
-> +        try:
-> +            self.monitor_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-> +            self.monitor_socket.connect(("127.0.0.1", qmp_port))
-> +            self.monitor_socket.setblocking(False)
-> +
-> +        except socket.error as msg:
-> +            self.logger.error("Failed to connect qemu monitor socket: %s" % msg[1])
-> +            return False
-> +
-> +        # Run an empty command to get the initial connection details, then
-> +        # send the qmp_capabilities command, this is required to initialize
-> +        # the monitor console
-> +        mon_output = self.run_monitor("")
-> +        self.logger.debug("Monitor: %s" % mon_output)
-> +        mon_output = self.run_monitor(self.monitor_cmds['qmp_cap'], timeout=120)
-> +        self.logger.debug("Monitor: %s" % mon_output)
-> +        mon_output = self.run_monitor(self.monitor_cmds['cont'], timeout=120)
-> +        self.logger.debug("Monitor: %s" % mon_output)
->   
->           if not self.is_alive():
->               self.logger.error("Qemu pid didn't appear in %s seconds (%s)" %
-> @@ -338,6 +377,7 @@ class QemuRunner:
->           reachedlogin = False
->           stopread = False
->           qemusock = None
-> +        monsock = None
->           bootlog = b''
->           data = b''
->           while time.time() < endtime and not stopread:
-> @@ -376,7 +416,6 @@ class QemuRunner:
->                           sock.close()
->                           stopread = True
->   
-> -
->           if not reachedlogin:
->               if time.time() >= endtime:
->                   self.logger.warning("Target didn't reach login banner in %d seconds (%s)" %
-> @@ -437,6 +476,9 @@ class QemuRunner:
->               self.runqemu.stdout.close()
->               self.runqemu_exited = True
->   
-> +        if hasattr(self, 'monitor_socket') and self.monitor_socket:
-> +            self.monitor_socket.close()
-> +            self.monitor_socket = None
->           if hasattr(self, 'server_socket') and self.server_socket:
->               self.server_socket.close()
->               self.server_socket = None
-> @@ -495,6 +537,32 @@ class QemuRunner:
->                           return True
->           return False
->   
-> +    def run_monitor(self, command, timeout=60):
-> +        data = ''
-> +        self.monitor_socket.sendall(command.encode('utf-8'))
-> +        start = time.time()
-> +        end = start + timeout
-> +        while True:
-> +            now = time.time()
-> +            if now >= end:
-> +                data += "<<< run_monitor(): command timed out after %d seconds without output >>>\r\n\r\n" % timeout
-> +                break
-> +            try:
-> +                sread, _, _ = select.select([self.monitor_socket],[],[], end - now)
-> +            except InterruptedError:
-> +                continue
-> +            if sread:
-> +                answer = self.monitor_socket.recv(1024)
-> +                if answer:
-> +                    data += answer.decode('utf-8')
-> +                    if data.rfind('\r\n') != -1:
-> +                        break;
-> +                else:
-> +                    raise Exception("No data on monitor socket")
-> +
-> +        if data:
-> +            return (str(data))
-> +
->       def run_serial(self, command, raw=False, timeout=60):
->           # We assume target system have echo to get command status
->           if not raw:
-> 
-> 
-> 
-> 
-> 
-
--- 
-Sau!
+T24gRnJpLCAyMDIwLTExLTA2IGF0IDA1OjEyIC0xMDAwLCBTdGV2ZSBTYWtvbWFuIHdyb3RlOg0K
+PiBUaGlzIG1vcm5pbmcgSSBhbHNvIHN1Ym1pdHRlZCBhIHBhdGNoIHRvIGZpeCBDVkUtMjAyMC0y
+NzE1MyBpbg0KPiBkdW5mZWxsDQo+IChibHVlejU6IHVwZGF0ZSB0byA1LjU1IHRvIGZpeCBDVkUt
+MjAyMC0yNzE1Myk6DQo+IA0KPiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVu
+ZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE0NDM0Mw0KPiANCj4gNS41NSBzZWVtcyB0byBiZSBhIHNl
+Y3VyaXR5L2J1ZyBmaXggcmVsZWFzZSBzbyBpdCBzZWVtZWQgYXBwcm9wcmlhdGU6DQo+IA0KPiBo
+dHRwczovL2dpdGh1Yi5jb20vYmx1ZXovYmx1ZXovY29tbWl0LzVhMTgwZjJlYzllZGZhY2FmZDk1
+ZTVmZWQyMGQzNmZlOGUwNzdmMDcNCj4gDQo+IFdlIHNob3VsZCBkbyB0aGUgc2FtZSBmaXggaW4g
+ZHVuZmVsbC9nYXRlc2dhcnRoLCBzbyBJJ2QgbG92ZSB0byBnZXQNCj4gc29tZSBmZWVkYmFjayBm
+cm9tIHRoZSBjb21tdW5pdHkgb24gdGhlIHByZWZlcnJlZCBhcHByb2FjaC4NCg0KSSB3aWxsIGRy
+b3AgdGhlIENWRSBwYXRjaCBmcm9tIG15IHJlcXVlc3QgYW5kIHRha2UgdGhlIHZlcnNpb24gdXBn
+cmFkZQ0KdG9vLiBJIHRoaW5rIHdlIGRvbid0IHVzdWFsbHkgdXBncmFkZSBibHVleiBpbiBzdGFi
+bGUgYnJhbmNoIGFuZCBvdGhlcg0KTFRTIGRpc3Ryb3MgaGF2ZSB0aGUgc2FtZSBwb2xpY3kuwqBF
+dmVuIHRob3VnaCB0aGlzIHZlcnNpb24gaGFzIG1vcmUNCnRoYW4gMzUwIGNvbW1pdHMsIGl0IGRv
+ZXMgc2VlbSB0byBiZSBhIGJ1ZyBmaXggcmVsZWFzZSBzbyBzaG91bGQgYmUNCm9rYXkgSSBndWVz
+cyAuLi4NCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gDQo+IFN0ZXZlDQo+IA0KPiBPbiBUaHUsIE5v
+diA1LCAyMDIwIGF0IDg6MjggUE0gQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4N
+Cj4gd3JvdGU6DQo+ID4gDQo+ID4gRnJvbTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55YW5nLmxlZUBp
+bnRlbC5jb20+DQo+ID4gDQo+ID4gKEZyb20gT0UtQ29yZSByZXY6IDRiMDY4OGJiOGFiYjJmYjhh
+NjIwNTQxMjA3ZDQwZTkwZTRiZjE2ZjkpDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogQ2hlZSBZ
+YW5nIExlZSA8Y2hlZS55YW5nLmxlZUBpbnRlbC5jb20+DQo+ID4gU2lnbmVkLW9mZi1ieTogUmlj
+aGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQo+ID4gLS0t
+DQo+ID4gwqAuLi4vYmx1ZXo1L2JsdWV6NS9DVkUtMjAyMC0yNzE1My5wYXRjaMKgwqDCoMKgwqDC
+oMKgIHwgMTQ2DQo+ID4gKysrKysrKysrKysrKysrKysrDQo+ID4gwqAuLi4vYmx1ZXo1L2JsdWV6
+NV81LjU0LmJiwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCAy
+ICsNCj4gPiDCoDIgZmlsZXMgY2hhbmdlZCwgMTQ4IGluc2VydGlvbnMoKykNCj4gPiDCoGNyZWF0
+ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L2JsdWV6NS9ibHVlejUvQ1ZF
+LQ0KPiA+IDIwMjAtMjcxNTMucGF0Y2gNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1L0NWRS0yMDIwLQ0KPiA+IDI3MTUzLnBhdGNo
+IGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1L0NWRS0yMDIwLQ0KPiA+
+IDI3MTUzLnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAw
+MDAwLi43YjA2ZGQyMDcxDQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEvcmVjaXBl
+cy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NS9DVkUtMjAyMC0yNzE1My5wYXRjaA0KPiA+IEBA
+IC0wLDAgKzEsMTQ2IEBADQo+ID4gK0Zyb20gMWNkNjQ0ZGI4YzIzYTJmNTMwZGRiOTNjZWJlZDdk
+YWNjNWY1NzIxYSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+ID4gMjAwMQ0KPiA+ICtGcm9tOiBMdWl6
+IEF1Z3VzdG8gdm9uIERlbnR6IDxsdWl6LnZvbi5kZW50ekBpbnRlbC5jb20+DQo+ID4gK0RhdGU6
+IFdlZCwgMTUgSnVsIDIwMjAgMTg6MjU6MzcgLTA3MDANCj4gPiArU3ViamVjdDogW1BBVENIXSBz
+aGFyZWQvYXR0OiBGaXggcG9zc2libGUgY3Jhc2ggb24gZGlzY29ubmVjdA0KPiA+ICsNCj4gPiAr
+SWYgdGhlcmUgYXJlIHBlbmRpbmcgcmVxdWVzdCB3aGlsZSBkaXNjb25uZWN0aW5nIHRoZXkgd291
+bGQgYmUNCj4gPiBub3RpZmllZA0KPiA+ICtidXQgY2xpZW50cyBtYXkgZW5kdXAgYmVpbmcgZnJl
+ZWQgaW4gdGhlIHByb2NjZXNzIHdoaWNoIHdpbGwgdGhlbg0KPiA+IGJlDQo+ID4gK2NhbGxpbmcg
+YnRfYXR0X2NhbmNlbCB0byBjYW5jYWwgaXRzIHJlcXVlc3RzIGNhdXNpbmcgdGhlIGZvbGxvd2lu
+Zw0KPiA+ICt0cmFjZToNCj4gPiArDQo+ID4gK0ludmFsaWQgcmVhZCBvZiBzaXplIDQNCj4gPiAr
+wqDCoCBhdCAweDFEODk0QzogZW5hYmxlX2NjY19jYWxsYmFjayAoZ2F0dC1jbGllbnQuYzoxNjI3
+KQ0KPiA+ICvCoMKgIGJ5IDB4MUQyNDdCOiBkaXNjX2F0dF9zZW5kX29wIChhdHQuYzo0MTcpDQo+
+ID4gK8KgwqAgYnkgMHgxQ0NDMTc6IHF1ZXVlX3JlbW92ZV9hbGwgKHF1ZXVlLmM6MzU0KQ0KPiA+
+ICvCoMKgIGJ5IDB4MUQ0N0I3OiBkaXNjb25uZWN0X2NiIChhdHQuYzo2MzUpDQo+ID4gK8KgwqAg
+YnkgMHgxRTA3MDc6IHdhdGNoX2NhbGxiYWNrIChpby1nbGliLmM6MTcwKQ0KPiA+ICvCoMKgIGJ5
+IDB4NDhFOTYzQjogZ19tYWluX2NvbnRleHRfZGlzcGF0Y2ggKGluIC91c3IvbGliL2xpYmdsaWIt
+DQo+ID4gMi4wLnNvLjAuNjQwMC40KQ0KPiA+ICvCoMKgIGJ5IDB4NDhFOUFDNzogPz8/IChpbiAv
+dXNyL2xpYi9saWJnbGliLTIuMC5zby4wLjY0MDAuNCkNCj4gPiArwqDCoCBieSAweDQ4RTlFQ0Y6
+IGdfbWFpbl9sb29wX3J1biAoaW4gL3Vzci9saWIvbGliZ2xpYi0NCj4gPiAyLjAuc28uMC42NDAw
+LjQpDQo+ID4gK8KgwqAgYnkgMHgxRTBFOTc6IG1haW5sb29wX3J1biAobWFpbmxvb3AtZ2xpYi5j
+Ojc5KQ0KPiA+ICvCoMKgIGJ5IDB4MUUxM0IzOiBtYWlubG9vcF9ydW5fd2l0aF9zaWduYWwgKG1h
+aW5sb29wLW5vdGlmeS5jOjIwMSkNCj4gPiArwqDCoCBieSAweDEyQkMzQjogbWFpbiAobWFpbi5j
+Ojc3MCkNCj4gPiArIEFkZHJlc3MgMHg3ZDQwYTI4IGlzIDI0IGJ5dGVzIGluc2lkZSBhIGJsb2Nr
+IG9mIHNpemUgMzIgZnJlZSdkDQo+ID4gK8KgwqAgYXQgMHg0ODRBMkUwOiBmcmVlICh2Z19yZXBs
+YWNlX21hbGxvYy5jOjU0MCkNCj4gPiArwqDCoCBieSAweDFDQ0MxNzogcXVldWVfcmVtb3ZlX2Fs
+bCAocXVldWUuYzozNTQpDQo+ID4gK8KgwqAgYnkgMHgxQ0NDODM6IHF1ZXVlX2Rlc3Ryb3kgKHF1
+ZXVlLmM6NzMpDQo+ID4gK8KgwqAgYnkgMHgxRDdERDc6IGJ0X2dhdHRfY2xpZW50X2ZyZWUgKGdh
+dHQtY2xpZW50LmM6MjIwOSkNCj4gPiArwqDCoCBieSAweDE2NDk3QjogYmF0dF9mcmVlIChiYXR0
+ZXJ5LmM6NzcpDQo+ID4gK8KgwqAgYnkgMHgxNjQ5N0I6IGJhdHRfcmVtb3ZlIChiYXR0ZXJ5LmM6
+Mjg2KQ0KPiA+ICvCoMKgIGJ5IDB4MUEwMDEzOiBzZXJ2aWNlX3JlbW92ZSAoc2VydmljZS5jOjE3
+NikNCj4gPiArwqDCoCBieSAweDFBOUI3QjogZGV2aWNlX3JlbW92ZV9nYXR0X3NlcnZpY2UgKGRl
+dmljZS5jOjM2OTEpDQo+ID4gK8KgwqAgYnkgMHgxQTlCN0I6IGdhdHRfc2VydmljZV9yZW1vdmVk
+IChkZXZpY2UuYzozODA1KQ0KPiA+ICvCoMKgIGJ5IDB4MUNDOTBCOiBxdWV1ZV9mb3JlYWNoIChx
+dWV1ZS5jOjIyMCkNCj4gPiArwqDCoCBieSAweDFERTI3Qjogbm90aWZ5X3NlcnZpY2VfY2hhbmdl
+ZC5pc3JhLjAucGFydC4wIChnYXR0LQ0KPiA+IGRiLmM6MzY5KQ0KPiA+ICvCoMKgIGJ5IDB4MURF
+Mzg3OiBub3RpZnlfc2VydmljZV9jaGFuZ2VkIChnYXR0LWRiLmM6MzYxKQ0KPiA+ICvCoMKgIGJ5
+IDB4MURFMzg3OiBnYXR0X2RiX3NlcnZpY2VfZGVzdHJveSAoZ2F0dC1kYi5jOjM4NSkNCj4gPiAr
+wqDCoCBieSAweDFERTNFRjogZ2F0dF9kYl9yZW1vdmVfc2VydmljZSAoZ2F0dC1kYi5jOjUxOSkN
+Cj4gPiArwqDCoCBieSAweDFENjc0RjogZGlzY292ZXJ5X29wX2NvbXBsZXRlIChnYXR0LWNsaWVu
+dC5jOjM4OCkNCj4gPiArwqDCoCBieSAweDFENjg3NzogZGlzY292ZXJfcHJpbWFyeV9jYiAoZ2F0
+dC1jbGllbnQuYzoxMjYwKQ0KPiA+ICvCoMKgIGJ5IDB4MUUyMjBCOiBkaXNjb3Zlcnlfb3BfY29t
+cGxldGUgKGdhdHQtaGVscGVycy5jOjYyOCkNCj4gPiArwqDCoCBieSAweDFFMjQ5QjogcmVhZF9i
+eV9ncnBfdHlwZV9jYiAoZ2F0dC1oZWxwZXJzLmM6NzMwKQ0KPiA+ICvCoMKgIGJ5IDB4MUQyNDdC
+OiBkaXNjX2F0dF9zZW5kX29wIChhdHQuYzo0MTcpDQo+ID4gK8KgwqAgYnkgMHgxQ0NDMTc6IHF1
+ZXVlX3JlbW92ZV9hbGwgKHF1ZXVlLmM6MzU0KQ0KPiA+ICvCoMKgIGJ5IDB4MUQ0N0I3OiBkaXNj
+b25uZWN0X2NiIChhdHQuYzo2MzUpDQo+ID4gKw0KPiA+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2tw
+b3J0DQo+ID4gK1sNCj4gPiBodHRwczovL2dpdGh1Yi5jb20vYmx1ZXovYmx1ZXovY29tbWl0LzFj
+ZDY0NGRiOGMyM2EyZjUzMGRkYjkzY2ViZWQ3ZGFjYzVmNTcyMWENCj4gPiBdDQo+ID4gK0NWRTog
+Q1ZFLTIwMjAtMjcxNTMNCj4gPiArU2lnbmVkLW9mZi1ieTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55
+YW5nLmxlZUBpbnRlbC5jb20+DQo+ID4gKy0tLQ0KPiA+ICsgc3JjL3NoYXJlZC9hdHQuYyB8IDQ2
+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKystLS0NCj4gPiAtLS0NCj4g
+PiArIDEgZmlsZSBjaGFuZ2VkLCA0MCBpbnNlcnRpb25zKCspLCA2IGRlbGV0aW9ucygtKQ0KPiA+
+ICsNCj4gPiArZGlmZiAtLWdpdCBhL3NyYy9zaGFyZWQvYXR0LmMgYi9zcmMvc2hhcmVkL2F0dC5j
+DQo+ID4gK2luZGV4IGVkM2FmMjkyMC4uNThmMjNkZmNiIDEwMDY0NA0KPiA+ICstLS0gYS9zcmMv
+c2hhcmVkL2F0dC5jDQo+ID4gKysrKyBiL3NyYy9zaGFyZWQvYXR0LmMNCj4gPiArQEAgLTg0LDYg
+Kzg0LDcgQEAgc3RydWN0IGJ0X2F0dCB7DQo+ID4gK8KgwqDCoMKgwqDCoCBzdHJ1Y3QgcXVldWUg
+KnJlcV9xdWV1ZTvCoMKgwqDCoMKgwqDCoCAvKiBRdWV1ZWQgQVRUIHByb3RvY29sDQo+ID4gcmVx
+dWVzdHMgKi8NCj4gPiArwqDCoMKgwqDCoMKgIHN0cnVjdCBxdWV1ZSAqaW5kX3F1ZXVlO8KgwqDC
+oMKgwqDCoMKgIC8qIFF1ZXVlZCBBVFQgcHJvdG9jb2wNCj4gPiBpbmRpY2F0aW9ucyAqLw0KPiA+
+ICvCoMKgwqDCoMKgwqAgc3RydWN0IHF1ZXVlICp3cml0ZV9xdWV1ZTvCoMKgwqDCoMKgIC8qIFF1
+ZXVlIG9mIFBEVXMgcmVhZHkgdG8NCj4gPiBzZW5kICovDQo+ID4gKyvCoMKgwqDCoMKgIGJvb2wg
+aW5fZGlzYzvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLyogQ2xlYW51cCBx
+dWV1ZXMgb24NCj4gPiBkaXNjb25uZWN0X2NiICovDQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqAg
+YnRfYXR0X3RpbWVvdXRfZnVuY190IHRpbWVvdXRfY2FsbGJhY2s7DQo+ID4gK8KgwqDCoMKgwqDC
+oCBidF9hdHRfZGVzdHJveV9mdW5jX3QgdGltZW91dF9kZXN0cm95Ow0KPiA+ICtAQCAtMjIyLDgg
+KzIyMywxMCBAQCBzdGF0aWMgdm9pZCBkZXN0cm95X2F0dF9zZW5kX29wKHZvaWQgKmRhdGEpDQo+
+ID4gK8KgwqDCoMKgwqDCoCBmcmVlKG9wKTsNCj4gPiArIH0NCj4gPiArDQo+ID4gKy1zdGF0aWMg
+dm9pZCBjYW5jZWxfYXR0X3NlbmRfb3Aoc3RydWN0IGF0dF9zZW5kX29wICpvcCkNCj4gPiArK3N0
+YXRpYyB2b2lkIGNhbmNlbF9hdHRfc2VuZF9vcCh2b2lkICpkYXRhKQ0KPiA+ICsgew0KPiA+ICsr
+wqDCoMKgwqDCoCBzdHJ1Y3QgYXR0X3NlbmRfb3AgKm9wID0gZGF0YTsNCj4gPiArKw0KPiA+ICvC
+oMKgwqDCoMKgwqAgaWYgKG9wLT5kZXN0cm95KQ0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIG9wLT5kZXN0cm95KG9wLT51c2VyX2RhdGEpOw0KPiA+ICsNCj4gPiArQEAgLTYzMSwx
+MSArNjM0LDYgQEAgc3RhdGljIGJvb2wgZGlzY29ubmVjdF9jYihzdHJ1Y3QgaW8gKmlvLCB2b2lk
+DQo+ID4gKnVzZXJfZGF0YSkNCj4gPiArwqDCoMKgwqDCoMKgIC8qIERldHRhY2ggY2hhbm5lbCAq
+Lw0KPiA+ICvCoMKgwqDCoMKgwqAgcXVldWVfcmVtb3ZlKGF0dC0+Y2hhbnMsIGNoYW4pOw0KPiA+
+ICsNCj4gPiArLcKgwqDCoMKgwqAgLyogTm90aWZ5IHJlcXVlc3QgY2FsbGJhY2tzICovDQo+ID4g
+Ky3CoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT5yZXFfcXVldWUsIE5VTEwsIE5VTEws
+DQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+ID4gKy3CoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9h
+bGwoYXR0LT5pbmRfcXVldWUsIE5VTEwsIE5VTEwsDQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+
+ID4gKy3CoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT53cml0ZV9xdWV1ZSwgTlVMTCwg
+TlVMTCwNCj4gPiBkaXNjX2F0dF9zZW5kX29wKTsNCj4gPiArLQ0KPiA+ICvCoMKgwqDCoMKgwqAg
+aWYgKGNoYW4tPnBlbmRpbmdfcmVxKSB7DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgZGlzY19hdHRfc2VuZF9vcChjaGFuLT5wZW5kaW5nX3JlcSk7DQo+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgY2hhbi0+cGVuZGluZ19yZXEgPSBOVUxMOw0KPiA+ICtAQCAtNjU0
+LDYgKzY1MiwxNSBAQCBzdGF0aWMgYm9vbCBkaXNjb25uZWN0X2NiKHN0cnVjdCBpbyAqaW8sIHZv
+aWQNCj4gPiAqdXNlcl9kYXRhKQ0KPiA+ICsNCj4gPiArwqDCoMKgwqDCoMKgIGJ0X2F0dF9yZWYo
+YXR0KTsNCj4gPiArDQo+ID4gKyvCoMKgwqDCoMKgIGF0dC0+aW5fZGlzYyA9IHRydWU7DQo+ID4g
+KysNCj4gPiArK8KgwqDCoMKgwqAgLyogTm90aWZ5IHJlcXVlc3QgY2FsbGJhY2tzICovDQo+ID4g
+KyvCoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT5yZXFfcXVldWUsIE5VTEwsIE5VTEws
+DQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+ID4gKyvCoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9h
+bGwoYXR0LT5pbmRfcXVldWUsIE5VTEwsIE5VTEwsDQo+ID4gZGlzY19hdHRfc2VuZF9vcCk7DQo+
+ID4gKyvCoMKgwqDCoMKgIHF1ZXVlX3JlbW92ZV9hbGwoYXR0LT53cml0ZV9xdWV1ZSwgTlVMTCwg
+TlVMTCwNCj4gPiBkaXNjX2F0dF9zZW5kX29wKTsNCj4gPiArKw0KPiA+ICsrwqDCoMKgwqDCoCBh
+dHQtPmluX2Rpc2MgPSBmYWxzZTsNCj4gPiArKw0KPiA+ICvCoMKgwqDCoMKgwqAgcXVldWVfZm9y
+ZWFjaChhdHQtPmRpc2Nvbm5fbGlzdCwgZGlzY29ubl9oYW5kbGVyLA0KPiA+IElOVF9UT19QVFIo
+ZXJyKSk7DQo+ID4gKw0KPiA+ICvCoMKgwqDCoMKgwqAgYnRfYXR0X3VucmVnaXN0ZXJfYWxsKGF0
+dCk7DQo+ID4gK0BAIC0xNTc0LDYgKzE1ODEsMzAgQEAgYm9vbCBidF9hdHRfY2hhbl9jYW5jZWwo
+c3RydWN0IGJ0X2F0dF9jaGFuDQo+ID4gKmNoYW4sIHVuc2lnbmVkIGludCBpZCkNCj4gPiArwqDC
+oMKgwqDCoMKgIHJldHVybiB0cnVlOw0KPiA+ICsgfQ0KPiA+ICsNCj4gPiArK3N0YXRpYyBib29s
+IGJ0X2F0dF9kaXNjX2NhbmNlbChzdHJ1Y3QgYnRfYXR0ICphdHQsIHVuc2lnbmVkIGludA0KPiA+
+IGlkKQ0KPiA+ICsrew0KPiA+ICsrwqDCoMKgwqDCoCBzdHJ1Y3QgYXR0X3NlbmRfb3AgKm9wOw0K
+PiA+ICsrDQo+ID4gKyvCoMKgwqDCoMKgIG9wID0gcXVldWVfZmluZChhdHQtPnJlcV9xdWV1ZSwg
+bWF0Y2hfb3BfaWQsDQo+ID4gVUlOVF9UT19QVFIoaWQpKTsNCj4gPiArK8KgwqDCoMKgwqAgaWYg
+KG9wKQ0KPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBkb25lOw0KPiA+ICsr
+DQo+ID4gKyvCoMKgwqDCoMKgIG9wID0gcXVldWVfZmluZChhdHQtPmluZF9xdWV1ZSwgbWF0Y2hf
+b3BfaWQsDQo+ID4gVUlOVF9UT19QVFIoaWQpKTsNCj4gPiArK8KgwqDCoMKgwqAgaWYgKG9wKQ0K
+PiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBkb25lOw0KPiA+ICsrDQo+ID4g
+KyvCoMKgwqDCoMKgIG9wID0gcXVldWVfZmluZChhdHQtPndyaXRlX3F1ZXVlLCBtYXRjaF9vcF9p
+ZCwNCj4gPiBVSU5UX1RPX1BUUihpZCkpOw0KPiA+ICsrDQo+ID4gKytkb25lOg0KPiA+ICsrwqDC
+oMKgwqDCoCBpZiAoIW9wKQ0KPiA+ICsrwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJu
+IGZhbHNlOw0KPiA+ICsrDQo+ID4gKyvCoMKgwqDCoMKgIC8qIEp1c3QgY2FuY2VsIHNpbmNlIGRp
+c2Nvbm5lY3RfY2Igd2lsbCBiZSBjbGVhbmluZyB1cCAqLw0KPiA+ICsrwqDCoMKgwqDCoCBjYW5j
+ZWxfYXR0X3NlbmRfb3Aob3ApOw0KPiA+ICsrDQo+ID4gKyvCoMKgwqDCoMKgIHJldHVybiB0cnVl
+Ow0KPiA+ICsrfQ0KPiA+ICsrDQo+ID4gKyBib29sIGJ0X2F0dF9jYW5jZWwoc3RydWN0IGJ0X2F0
+dCAqYXR0LCB1bnNpZ25lZCBpbnQgaWQpDQo+ID4gKyB7DQo+ID4gK8KgwqDCoMKgwqDCoCBjb25z
+dCBzdHJ1Y3QgcXVldWVfZW50cnkgKmVudHJ5Ow0KPiA+ICtAQCAtMTU5MSw2ICsxNjIyLDkgQEAg
+Ym9vbCBidF9hdHRfY2FuY2VsKHN0cnVjdCBidF9hdHQgKmF0dCwNCj4gPiB1bnNpZ25lZCBpbnQg
+aWQpDQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
+dHVybiB0cnVlOw0KPiA+ICvCoMKgwqDCoMKgwqAgfQ0KPiA+ICsNCj4gPiArK8KgwqDCoMKgwqAg
+aWYgKGF0dC0+aW5fZGlzYykNCj4gPiArK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVy
+biBidF9hdHRfZGlzY19jYW5jZWwoYXR0LCBpZCk7DQo+ID4gKysNCj4gPiArwqDCoMKgwqDCoMKg
+IG9wID0gcXVldWVfcmVtb3ZlX2lmKGF0dC0+cmVxX3F1ZXVlLCBtYXRjaF9vcF9pZCwNCj4gPiBV
+SU5UX1RPX1BUUihpZCkpOw0KPiA+ICvCoMKgwqDCoMKgwqAgaWYgKG9wKQ0KPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdvdG8gZG9uZTsNCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWNvbm5lY3Rpdml0eS9ibHVlejUvYmx1ZXo1XzUuNTQuYmINCj4gPiBiL21ldGEvcmVj
+aXBlcy1jb25uZWN0aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjU0LmJiDQo+ID4gaW5kZXggMjYwZWVl
+MTQwMi4uOWEyMWYxNGZhZSAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L2JsdWV6NS9ibHVlejVfNS41NC5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvYmx1ZXo1L2JsdWV6NV81LjU0LmJiDQo+ID4gQEAgLTEsNSArMSw3IEBADQo+ID4gwqBy
+ZXF1aXJlIGJsdWV6NS5pbmMNCj4gPiANCj4gPiArU1JDX1VSSSArPSAiIGZpbGU6Ly9DVkUtMjAy
+MC0yNzE1My5wYXRjaCINCj4gPiArDQo+ID4gwqBTUkNfVVJJW21kNXN1bV0gPSAiZTYzN2ZlYjJk
+YmI3NTgyYmJiZmYxNzA4MzY3YTg0N2MiDQo+ID4gwqBTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiA+
+ICI2OGNkYWI5ZTYzZTg4MzJiMTMwZDU5NzlkYzhjOTZmZGIwODdiMzEyNzhmMzQyODc0ZDk5MmFm
+M2U1NjY1NmRjIg0KPiA+IA0KPiA+IC0tDQo+ID4gMi4yOC4wDQo+ID4gDQo+ID4gDQo+ID4gDQo+
+ID4gDQoNCg==
