@@ -1,17 +1,17 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [])
- by mx.groups.io with SMTP id smtpd.web09.2286.1605067829997589833
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.46])
+ by mx.groups.io with SMTP id smtpd.web11.2413.1605067831709175760
  for <openembedded-core@lists.openembedded.org>;
- Tue, 10 Nov 2020 20:10:30 -0800
+ Tue, 10 Nov 2020 20:10:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=PcisP2t8;
- spf=softfail (domain: windriver.com, ip: <nil>, mailfrom: saul.wold@windriver.com)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=g1lXxRHv;
+ spf=pass (domain: windriver.com, ip: 40.107.94.46, mailfrom: saul.wold@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZUU+aupT3Ha21IrUbadjYdOtE6SyePfI7xWvnD0cOdjn0gBGlS8Nz5BqZRiMvLeam6Vt6DEoaFP5EVC55Ju1x04L3O/3hg4DWuDy05ekpHmTP/9BoZ0pJhhBJPSLibHI/qLg+2LCgyvt8OoSvgbdluEkx6MHSpF/mqdv3ohlirm3nTYFe+KBZ+3syX1fY1rEoEeFq6l8F6BZe7WcDaGUBdlkYgxQn6rd0bueZ5dRWnhX3ciDevHngaOiP7Ic+ERN1IohSDsbPb07pbDemLjufqghk3xjJKhuyGIhbK3yj1auowa1L0HX/AKd4pN6w/lnApM6rMt4cfzJfrlZJMcS/Q==
+ b=eyhRQ5s1iRttTElsGtCWb0+Y9fAjj6nLrsMLvQZPF5avnK4PzirfWA9BXCPRpET7sd5p4NQg1gNM23gCB1a5xtwuYjrwNOQFiT2h0ID/xVUCz3mk1UYJwTGtFserO3nDLLYJDrQ+VMGiCjtcmrxAMaCtwfO58uA0AXIyFn1PBWP/8/LBuhAyT1ze31FMOvYTWWE7NZdP2MO6uO0gwNq6PoXZHgosm424Z1hGKhfYTl14hvxw1Ur2HF20/xF6yGjaWnwg2baFz0vXirjOLumEUO93MY44gZL5zMb3Hl6di7NuieQcPisLvyTimHqAGaq+i85tV4QIgC6o29UT1o19Ug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WerGaHzy5dTXpis+LWvONND9Vxmbl4/BMLTwYq7fD8k=;
- b=i6iiJSiEarB0Hukl6vaWIXTFYK9o8K75nhXGj851iSE9u2ai6xjpv6jVB7D7jFMRpBoMgYIXFXi3yRb5E/17uZ43eeNtCLwpmKxfGRkk1gYhCDlp9Z2PGegX4LlYsESl0Gc+wndyXlkzEGETvqIwpniFYxdtzFAtPderBEaFqrny42S61BjIflKmBdb4dVhfKjHRdpW8afsx0+8aLZQ8wd2ifLdU1tFBIV3at9mKrEKdMsHCKe2BQuEs2FAsVxx8y/YZPGzQ5vkccz//+31uKsGQaQlHhMNnVaGpYkHatLcvzXf02rd9OV+Lbq1oFTHl/s66Q+cXqhxRJc2k500jSg==
+ bh=PpgzBR6Y+5/aexsfZ0PDgmkRYWZNMsJuHG/H9JsDxgI=;
+ b=LyJXuaFIidfbU3+4tq1jpdYKmfPh+VNIb3wx5mNB8emoNogld+AmV/Cft2aFulRamUNkkLyMQsjbSHDvV/qHmf4L3prswG3EiPLr83D5vXv0vSfeZRmjhtxY4VH6Sy02megmV4LIMdZyhirODN1ysjJOsWvPO+6dWFUTA+xH8l8FdFab1cYTfLgwM5j7WZeZkE8RTLLz/ESwOQYlQRhEon5eDwNZMnMuG8lnzpORDleGPJ6yzrFfQSF84tHvB6km/Loew4mn5HParQhFRDwb8AyCUt2llV+HxWPZV9Cu6KpSn98AVK/cjPwLrw8TdWSvT89JE0/8RQkwoRjEF35DBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,8 +19,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WerGaHzy5dTXpis+LWvONND9Vxmbl4/BMLTwYq7fD8k=;
- b=PcisP2t8IF348T12mxAOlgtUAdisSrllIrZs0/UcJmY/XSUKIRozBfPCo2kJKSI7zRx5XhHDFbtZdz708T0pzcyETldORcuPDEPdTpkCGoAXXfIWiDT8r7az8yCwH7Zo1U6upil0XQCrYUtsLRIe+ZZKlfGQw0Ciwz5UGenFotU=
+ bh=PpgzBR6Y+5/aexsfZ0PDgmkRYWZNMsJuHG/H9JsDxgI=;
+ b=g1lXxRHvM5Srm/0ILywcVtMv8Sko+ifmjolDmixeDwVbVZ5JNA+qQGFDEpgUBeIgR1pW6QiiDQRWQHM+bIIwV18Y6j6zu1GVrhiGnRZ2UQhLrPNZPaZwGJRQ/8weqwjD4M2iarIUpNF1u+FVI7mqphBbGcOKKfxORr7f5mUljsI=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
@@ -35,9 +35,9 @@ Received: from BN6PR11MB1873.namprd11.prod.outlook.com
  04:10:28 +0000
 From: "Saul Wold" <Saul.Wold@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [WIP v2 1/1] qemurunner: add support for qmp cmds
-Date: Tue, 10 Nov 2020 20:10:01 -0800
-Message-ID: <20201111041003.864509-2-saul.wold@windriver.com>
+Subject: [PATCH] [WIP] qemurunner.py: qemu as client
+Date: Tue, 10 Nov 2020 20:10:02 -0800
+Message-ID: <20201111041003.864509-3-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201111041003.864509-1-saul.wold@windriver.com>
 References: <20201111041003.864509-1-saul.wold@windriver.com>
@@ -48,155 +48,53 @@ X-ClientProxiedBy: BYAPR06CA0041.namprd06.prod.outlook.com
 Return-Path: saul.wold@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yocto-hs.bigsur.com.localdomain (71.238.119.71) by BYAPR06CA0041.namprd06.prod.outlook.com (2603:10b6:a03:14b::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Wed, 11 Nov 2020 04:10:27 +0000
+Received: from yocto-hs.bigsur.com.localdomain (71.238.119.71) by BYAPR06CA0041.namprd06.prod.outlook.com (2603:10b6:a03:14b::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Wed, 11 Nov 2020 04:10:28 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0419bd72-5362-4867-9c9f-08d885f7b8ba
+X-MS-Office365-Filtering-Correlation-Id: 9806e6d8-972c-4c6f-f665-08d885f7b94b
 X-MS-TrafficTypeDiagnostic: BN7PR11MB2546:
 X-Microsoft-Antispam-PRVS: 
-	<BN7PR11MB2546FECB822A47B54191A02FEEE80@BN7PR11MB2546.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
+	<BN7PR11MB2546A4DFA89C734613812C4CEEE80@BN7PR11MB2546.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:475;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	PoN0SZ4FOsOrNBiXEXC9hcIG5Aa9jxfSfux6WyGtYsBcwsHtbheJvjXoIb0o7WCpl6XQJ9yUpa0YEJnX96Vihru0EQmYX1sFNf3Lnh6iV1fzgU3u3rZfXIBVGOu4kzNgYS+PoFvGy/2ZecocIgnRzlN3V365nh+9xpYnIZgthL1eqjQGvNQYF/GG+iZ6BybfJQEqvliPDQzm41RBPQ1ORqD4GNh5ZYzbfsRVZbnP8VdS/wAkSivv9eOLbw+tJRHmZilqQUpKN0p1n7ce24rb0HQI/aRKEM/WCVtRBg72l4JJ5d8kxjcHZt+OspILaaT8UphK8PyWGnUyWQm+VFrAgD9+RtE53WMoHVxRQXMU9rdqHwrtbklmdmMrZ6+e/uoqfY3BgfcwiC8CcOotorEy7Q==
+	dFSnrl2zE3kxINmyvHxkOVtpdv2dc1EU/gcQoKtLMXMgN0o+KYM86UHnYUkdXu3SnqebgtsASvZ2dxgCDWRv6gt/dkau8gBovRB3OuLBWJHfY+dHSQokS+Di5QdgCyqlufebmB8awyFiK3Aa3c2bTvtXG/48ZbTawN7Kl3OxMIiCbsVVMxExDbZeyUSxjS2o00BbaHRvVejZr4EXGv5PgR1b2TWpXcZsHuE9vCO7X00rGV342+hbFaelynEaGmq1UMwtw/8yaygsC7kLqeiArhAZ5L52/v9uMwPftxNfqQnF0KJ4NDQY4i0V8SSq+KiSXanl6JTritMoND8zLe2epw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1873.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39830400003)(376002)(396003)(366004)(346002)(83380400001)(66946007)(6512007)(5660300002)(2906002)(30864003)(86362001)(44832011)(16526019)(186003)(26005)(6506007)(1076003)(6486002)(8936002)(8676002)(966005)(66556008)(52116002)(66476007)(316002)(36756003)(478600001)(2616005)(6916009)(956004)(6666004);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1873.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39830400003)(376002)(396003)(366004)(346002)(83380400001)(66946007)(6512007)(5660300002)(2906002)(30864003)(86362001)(44832011)(16526019)(186003)(26005)(6506007)(1076003)(6486002)(8936002)(8676002)(66556008)(52116002)(66476007)(316002)(36756003)(478600001)(2616005)(6916009)(956004)(6666004);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	MrBIYWbNC7q/05dZoH7gdPHygBHQs5F5LKoIUfLQWupQoTlm2w/xPUtaoigdiunsqczxQtFVqiOk0LHr83NYr0kd9Z7Qros0C+oEBBO1DpZY57K9QIHmbT37ES7fhGwA2rgGQUnaX4diNU5We/P0ydLaIlX+LQ1XjU4UpQBRC3Uwg2S6EOe4INJlmw6T07KxJMwE8j/isGbolid5+iIPMyiiqJI3ufrEOFqlB3ddrY9FiZmqbRUNbMllBWgKfYcgjVhULPrOK2X3XuFqv7760aBt+xhFufFARaWc4VwAIVa8+S6Zm1SoFhc611+CiF55K2XRCrZlmlpTxZfeykR55QykNBi9obL9xQrlc5EfYXQUSVoUPM1yuACGuK/X2Mf4zbF16ByUA7OVZWLi3jWsRBXTWPIUE4VmhROlE5fhMMxjpFgTBeMbLyKW0D6SuCkjyGYhXr9Og+sgfmZz/VeRa57T5qz3gS94s3KJCAEz8atjJWru5Aqlx8QKW6n3NhJj98Bi7sYiIrI8XLe2Qo+tG/eS51tEW5uB/7QCfvZYDGolYlNPLM7FFtsKJhtyu55sMUbQzfUrRFFPOfUoO6FPdW0vjx9wr7b7Q0jsBGYCihuPLT+3+58lTCCKzxbZJRjsppIyu6s2nMOBOge224nr0Q==
+	yJEPN7aft4bTZSB9cDRZPQoqkbdOWZSzvX9VCz5nrfDcVX54zzSV3IPzEk6F+XrqLKpSkHSRWEJoRY3MmDsMAzdN/yWgc7qmY77jSzTdK/HILnNPXEzd9NH1vqS5VelLFxBWhHotaIGGYzJr0wC6PJG1NOKh84BFlD7/+ZxVFn7OdFCKM2gOk2BbsspDpn9w234KwMJZMSsDZ1Pmz9i4Qvta10PP3RfalN3QQC633CKKTAcsxFk2DrIR8I+i4x3gppVD7L4WOVAhoGVZs9YJ/9QtCuqrUHFWxGaH3/QKmyn4fUoIAuXDHjJhAlp9Q6bE+U14GZ/L/mSPHuw/LKa92e53eHGHvGVm4Mfs/m/Du8p7cGUhVWEOhU6EF3ieNUOniFsjwVkf4gqsh3oF4Dm5exsJAvTfz/MbFQF3YqySxmSwA7BMd47zmdm1sTQRPeL94MFMylTE6XnS4xmH50/yX18oGkhICO7LnF1lqzQa/B5ah/gXH/nvr07ecgQflBNeZV+YGFwS+XLf2eewzqPb7fRCCkkZmyqvINLNPSMStpEirqBPhs9Z5Vf6CtdP1xWjGRLf87y5m9g7umJXG/ygFVg4EVhD00a8Xel/IBkRb6GbtrzSpcq/qwHOO0gAquew9NDjU4Ap/TINPzzMtYvm+Q==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0419bd72-5362-4867-9c9f-08d885f7b8ba
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9806e6d8-972c-4c6f-f665-08d885f7b94b
 X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB1873.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 04:10:27.9657
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 04:10:28.7553
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yBZHDozXXS3toG2e6ou8kpIA9cjD96e2HHoeAALRCyzHA7U+EkZzgJDD6vGyFCZ9hbFIxhSkvjRcxx96R6X7xQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: tKCe4kLWIkTPov4Mj1jTuG5OUf25sXWNGI4Gr2DYWKGZ5QFaxeepjmxW8+xpjMwhopC03/yb0oYCyDIUmZ+vmw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR11MB2546
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 
-This adds support for the Qemu Machine Protocol [0] extending
-the current dump process for Host and Target. The commands are
-added in the testimage.bbclass.
-
-Currently, we setup qemu to stall until qmp gets connected and
-sends the initialization and continue commands, this works
-correctly.
-
-With this version, the monitor_dumper is created in OEQemuTarget
-but then set in OESSHTarget as that's where we get the SSH failure
-happens. Python's @property is used to create a setter/getter type
-of setup in OESSHTarget to get overridden by OEQemuTarget.
-
-By default the data is currently dumped to files for each command in
-TMPDIR/log/runtime-hostdump/<date>_qmp/unknown_<seq>_qemu_monitor
-
-Current Issue, the first command succeeds, but the following commands
-seem to fail. I think it's something to do with JSON and quoting. I
-think the next step is to try and use JSON (which I am not super
-familiare with).
-
-[0] https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt
-
 Signed-off-by: Saul Wold <saul.wold@windriver.com>
 ---
- meta/classes/testimage.bbclass    |  7 ++++
- meta/lib/oeqa/core/target/qemu.py |  6 +++
- meta/lib/oeqa/core/target/ssh.py  | 22 ++++++++--
- meta/lib/oeqa/targetcontrol.py    |  5 +++
- meta/lib/oeqa/utils/dump.py       | 20 +++++++++
- meta/lib/oeqa/utils/qemurunner.py | 70 ++++++++++++++++++++++++++++++-
- 6 files changed, 126 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/core/target/ssh.py       |  9 ++--
+ meta/lib/oeqa/runtime/cases/network.py | 28 +++++++++++
+ meta/lib/oeqa/runtime/files/kill_net   |  5 ++
+ meta/lib/oeqa/targetcontrol.py         |  3 ++
+ meta/lib/oeqa/utils/dump.py            | 22 ++++++++
+ meta/lib/oeqa/utils/qemurunner.py      | 70 +++++++++++++++++++++++++-
+ 6 files changed, 133 insertions(+), 4 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/cases/network.py
+ create mode 100644 meta/lib/oeqa/runtime/files/kill_net
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclas=
-s
-index e3feef02f8..a274865955 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -127,6 +127,12 @@ testimage_dump_host () {
-     netstat -an
- }
-=20
-+testimage_dump_monitor () {
-+    '{"execute":"status"}\n'
-+    '{"execute":"query-status"}\n'
-+    '{"execute":"query-block"}\n'=20
-+}
-+
- python do_testimage() {
-     testimage_main(d)
- }
-@@ -319,6 +325,7 @@ def testimage_main(d):
-     target_kwargs['powercontrol_extra_args'] =3D d.getVar("TEST_POWERCONTR=
-OL_EXTRA_ARGS") or ""
-     target_kwargs['serialcontrol_cmd'] =3D d.getVar("TEST_SERIALCONTROL_CM=
-D") or None
-     target_kwargs['serialcontrol_extra_args'] =3D d.getVar("TEST_SERIALCON=
-TROL_EXTRA_ARGS") or ""
-+    target_kwargs['testimage_dump_monitor'] =3D d.getVar("testimage_dump_m=
-onitor") or ""
-     target_kwargs['testimage_dump_target'] =3D d.getVar("testimage_dump_ta=
-rget") or ""
-=20
-     def export_ssh_agent(d):
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/=
-qemu.py
-index 0f29414df5..a73d82d9af 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/core/target/qemu.py
-@@ -12,6 +12,7 @@ from collections import defaultdict
-=20
- from .ssh import OESSHTarget
- from oeqa.utils.qemurunner import QemuRunner
-+from oeqa.utils.dump import MonitorDumper
- from oeqa.utils.dump import TargetDumper
-=20
- supported_fstypes =3D ['ext3', 'ext4', 'cpio.gz', 'wic']
-@@ -43,6 +44,11 @@ class OEQemuTarget(OESSHTarget):
-                                  dump_host_cmds=3Ddump_host_cmds, logger=
-=3Dlogger,
-                                  serial_ports=3Dserial_ports, boot_pattern=
-s =3D boot_patterns,=20
-                                  use_ovmf=3Dovmf)
-+        dump_monitor_cmds =3D kwargs.get("testimage_dump_monitor")
-+        self.monitor_dumper =3D MonitorDumper(dump_monitor_cmds, dump_dir,=
- self.runner)
-+        if self.monitor_dumper:
-+            self.monitor_dumper.create_dir("qmp")
-+
-         dump_target_cmds =3D kwargs.get("testimage_dump_target")
-         self.target_dumper =3D TargetDumper(dump_target_cmds, dump_dir, se=
-lf.runner)
-         self.target_dumper.create_dir("qemu")
 diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/s=
 sh.py
-index 461448dbc5..faffc8acdf 100644
+index 461448dbc5..c744b90719 100644
 --- a/meta/lib/oeqa/core/target/ssh.py
 +++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -43,6 +43,7 @@ class OESSHTarget(OETarget):
-         if port:
-             self.ssh =3D self.ssh + [ '-p', port ]
-             self.scp =3D self.scp + [ '-P', port ]
-+        self._monitor_dumper =3D None
-=20
-     def start(self, **kwargs):
-         pass
-@@ -50,11 +51,20 @@ class OESSHTarget(OETarget):
-     def stop(self, **kwargs):
-         pass
-=20
-+    @property
-+    def monitor_dumper(self):
-+        return self._monitor_dumper
-+
-+    @monitor_dumper.setter
-+    def monitor_dumper(self, dumper):
-+        self._monitor_dumper =3D dumper
-+        self.monitor_dumper.dump_monitor()
-+
-     def _run(self, command, timeout=3DNone, ignore_status=3DTrue):
+@@ -54,7 +54,7 @@ class OESSHTarget(OETarget):
          """
              Runs command in target using SSHProcess.
          """
@@ -205,7 +103,16 @@ index 461448dbc5..faffc8acdf 100644
 =20
          starttime =3D time.time()
          status, output =3D SSHCall(command, self.logger, timeout)
-@@ -87,9 +97,15 @@ class OESSHTarget(OETarget):
+@@ -77,6 +77,7 @@ class OESSHTarget(OETarget):
+                         0:          No timeout, runs until return.
+         """
+         targetCmd =3D 'export PATH=3D/usr/sbin:/sbin:/usr/bin:/bin; %s' % =
+command
++        self.ip =3D "192.168.7.5"
+         sshCmd =3D self.ssh + [self.ip, targetCmd]
+=20
+         if timeout:
+@@ -87,8 +88,10 @@ class OESSHTarget(OETarget):
              processTimeout =3D self.timeout
 =20
          status, output =3D self._run(sshCmd, processTimeout, True)
@@ -215,19 +122,62 @@ index 461448dbc5..faffc8acdf 100644
 +        self.logger.debug('Command: %s\nStatus: %d Output:  %s\n' % (comma=
 nd, status, output))
 +#        if (status =3D=3D 255) and (('No route to host') in output):
-+        # for testing right now
-+        if self.monitor_dumper:
-+            self.monitor_dumper.dump_monitor()
 +        if status =3D=3D 255:
++            self.target_dumper.dump_target()
              self.target_dumper.dump_target()
-+            if self.monitor_dumper:
-+                self.monitor_dumper.dump_monitor()
          return (status, output)
 =20
-     def copyTo(self, localSrc, remoteDst):
+diff --git a/meta/lib/oeqa/runtime/cases/network.py b/meta/lib/oeqa/runtime=
+/cases/network.py
+new file mode 100644
+index 0000000000..49fcac133a
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/network.py
+@@ -0,0 +1,28 @@
++#
++# SPDX-License-Identifier: MIT
++#
++
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.runtime.decorator.package import OEHasPackage
++
++class NetworkTest(OERuntimeTestCase):
++
++    @classmethod
++    def setUp(cls):
++        src =3D os.path.join(cls.tc.runtime_files_dir, 'kill_net')
++        dst =3D '/home/root/kill_net'
++        cls.tc.target.copyTo(src, dst)
++
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_network_check(self):
++        (status, output) =3D self.target.run('/sbin/ip a')
++        msg =3D 'Failed to run "ip a". Output: %s' % output
++        self.assertEqual(status, 0, msg=3Dmsg)
++
++    @OETestDepends(['network.NetworkTest.test_network_check'])
++    def test_run_kill_net(self):
++        (status, output) =3D self.target.run('/bin/bash /home/root/kill_ne=
+t > results 2>&1 &')
++        msg =3D 'Failed to run "kill_net". Output: %s' % output
++        self.assertEqual(status, 0, msg=3Dmsg)
+diff --git a/meta/lib/oeqa/runtime/files/kill_net b/meta/lib/oeqa/runtime/f=
+iles/kill_net
+new file mode 100644
+index 0000000000..981eec816d
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/files/kill_net
+@@ -0,0 +1,5 @@
++#!/bin/bash
++
++ip a
++sleep 1
++ip link set eth0 down
 diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.p=
 y
-index 19f5a4ea7e..0d070531c3 100644
+index 19f5a4ea7e..8cdd984179 100644
 --- a/meta/lib/oeqa/targetcontrol.py
 +++ b/meta/lib/oeqa/targetcontrol.py
 @@ -17,6 +17,7 @@ from oeqa.utils.sshcontrol import SSHControl
@@ -243,12 +193,13 @@ index 19f5a4ea7e..0d070531c3 100644
 elf.datetime)
          dump_target_cmds =3D d.getVar("testimage_dump_target")
          dump_host_cmds =3D d.getVar("testimage_dump_host")
-+        dump_monitor_cmds =3D d.getVar("testimage_dump_monitor")
++        dump_monitor_cmds =3D ['{"execute":"query-status"}\n', '{"execute"=
+:"query-status"}\n']
          dump_dir =3D d.getVar("TESTIMAGE_DUMP_DIR")
          if not dump_dir:
              dump_dir =3D os.path.join(d.getVar('LOG_DIR'), 'runtime-hostdu=
 mp')
-@@ -147,6 +149,9 @@ class QemuTarget(BaseTarget):
+@@ -147,6 +149,7 @@ class QemuTarget(BaseTarget):
                              serial_ports =3D len(d.getVar("SERIAL_CONSOLES=
 ").split()))
 =20
@@ -256,16 +207,14 @@ mp')
 lf.runner)
 +        self.monitor_dumper =3D MonitorDumper(dump_monitor_cmds, dump_dir,=
  self.runner)
-+        self.logger.debug("sgw monitor: %s" %  self.monitor_dumper)
-+       =20
 =20
      def deploy(self):
          bb.utils.mkdirhier(self.testdir)
 diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
-index 09a44329e0..4d0357a155 100644
+index 09a44329e0..058d1e46b1 100644
 --- a/meta/lib/oeqa/utils/dump.py
 +++ b/meta/lib/oeqa/utils/dump.py
-@@ -96,3 +96,23 @@ class TargetDumper(BaseDumper):
+@@ -96,3 +96,25 @@ class TargetDumper(BaseDumper):
              except:
                  print("Tried to dump info from target but "
                          "serial console failed")
@@ -284,8 +233,10 @@ nner """
 +            self.dump_dir =3D dump_dir
 +        for cmd in self.cmds:
 +            try:
++                print("dump_target: %s" % cmd)
 +                output =3D self.runner.run_monitor(cmd)
-+                self._write_dump("qemu_monitor", (cmd + "\n" + output))
++                print("result: %s" % (output))
++                self._write_dump(cmd.split()[0], output)
 +            except:
 +                print("Failed to dump montor data")
 +                print("Failed CMD: %s" % (cmd))
