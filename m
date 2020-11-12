@@ -1,99 +1,92 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
- by mx.groups.io with SMTP id smtpd.web12.2950.1605181109737763711
+Received: from relay.dream-property.net (relay.dream-property.net [178.19.67.222])
+ by mx.groups.io with SMTP id smtpd.web11.3055.1605181658706089819
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 03:38:29 -0800
+ Thu, 12 Nov 2020 03:47:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=C7GaW6pV;
- spf=pass (domain: gmail.com, ip: 209.85.221.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f174.google.com with SMTP id w123so1245474vka.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 03:38:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NNM7CF35HHuoFrTUcgqWJ0GKsLJTG08b7ZZLfJZLY0U=;
-        b=C7GaW6pVn5HL8CDHIjwecf0rSbNPklT9sYb6tPWH4mZ8rBpty1AR7WI6rJqjKydeIx
-         FbCtGGz7MFRm36Gjxtt2vsVyEo3qU2PbKevqfvhSzZtAY+95xigjhSGvJ/PHJxf+jU7w
-         TiapsDKlFAv8gvhDcxpgtbVll4S8Mo2yAN1XIQGTTHqL/TtXho3CTYAVWjsIi22KzXz0
-         6MePG0Jy9L81P3nFL3AEiEvHf1z0WoMRvGbBSHYoRSm0LZ3XKkX9gd5FoUiIRBN20K/O
-         MBvxo2QFNGy5f8zIImOA6RA9R/kHEcyX1IiplN6idPKDD5Ly4KLfwAR50bZbztcYDoO6
-         MHlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NNM7CF35HHuoFrTUcgqWJ0GKsLJTG08b7ZZLfJZLY0U=;
-        b=itBNki87r8gfj9Xg5YvOcuVoRZcQl5vI8wz+2s5GzqIc/oye/AS8TtzI1QPYkDueCq
-         AxBXSzK5mGjJER+8pSlRI1t0tzMEHJ/wdpE5VFsCDfyu6dPiC+qGaiTqn76jkbJdAYeY
-         PB5G+wgAay7RMI9kMfoG/m8WKlEHmzNdPQCJsy0N/fz7QTgZDxGQTYEpDh0XnI6keLC1
-         VEymxXQN3paxqLC92EfDQYW1/QwbtZ8hD4musxV3D3b1+oHnPbjrtHxYNavSEAYePYOt
-         st2mD2VSmuIA6i22fIjOZN+4HAr3acPA4zDnXfbAAJEgv7o/nERTLBPzV2qniTwb50ro
-         VbNw==
-X-Gm-Message-State: AOAM531jyvSiRW9kpt8wjLb4Dmhd36n2dasa5MQXOmPGWAzoNlf2H0XE
-	ob2mlTym6jbQR9mr9MzYClYOY9cVdfbHrxuyokCaObZQd8w=
-X-Google-Smtp-Source: ABdhPJzA6k+IIhDpmh7w6A2Y5vQfQSXCNFuFQaexTNTz+obdcZLUfm5+79jc6Krvpn2KbI2E52r/jPeTeZOD0dI0G38=
-X-Received: by 2002:a1f:5e0b:: with SMTP id s11mr3940165vkb.8.1605181108801;
- Thu, 12 Nov 2020 03:38:28 -0800 (PST)
+ dkim=fail, err=bad algorithm. Only rsa-sha1 or rsa-sha256 are permitted;
+ spf=pass (domain: opendreambox.org, ip: 178.19.67.222, mailfrom: obi@opendreambox.org)
+Received: from mail.dream-property.net (mail.dream-property.net [82.149.226.172])
+	by relay.dream-property.net (Postfix) with ESMTPS id 9E17D10095A0A;
+	Thu, 12 Nov 2020 11:47:44 +0000 (UTC)
+Received: from localhost (ip-88-152-32-15.hsi03.unitymediagroup.de [88.152.32.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id ECE5B31479B4;
+	Thu, 12 Nov 2020 12:47:35 +0100 (CET)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=opendreambox.org;
+	s=dkim; t=1605181664;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XYFlXG4eSXUW4UqzGjOI9MtR0AhVytCecwzxjnPZqK8=;
+	b=dJiiE1UkNHB4/EagYoj2jNYe5eWdYiZwVRs2as4Ncv6xTeTfjAV7kvhiNA2qWHH/T2yNWQ
+	AyjeWNTJ+g/Cr0Bg==
+Date: Thu, 12 Nov 2020 12:47:30 +0100
+From: "Andreas Oberritter" <obi@opendreambox.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/1] oe-buildenv-internal: Support extra settings
+Message-ID: <20201112124730.6bc38ee2@opendreambox.org>
+In-Reply-To: <2aaa45a7-a835-98a6-d49a-09c56e875721@windriver.com>
+References: <cover.1605180304.git.liezhi.yang@windriver.com>
+	<9d68429be743586fd36b8f76f086fea16968054f.1605180304.git.liezhi.yang@windriver.com>
+	<20201112122412.3dfaaf80@opendreambox.org>
+	<2aaa45a7-a835-98a6-d49a-09c56e875721@windriver.com>
 MIME-Version: 1.0
-References: <76c7c436-29d1-1687-1889-72e883697a75@berginkonsult.se> <29322.1605179238305301621@lists.openembedded.org>
-In-Reply-To: <29322.1605179238305301621@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 12 Nov 2020 12:38:17 +0100
-Message-ID: <CANNYZj_d6uefKzNP1YQ=zGNuG2z0xRs=37Zv1vz3XFvL4i3KPA@mail.gmail.com>
-Subject: Re: [OE-core] devtool modify - ModuleNotFoundError: No module named '_sysconfigdata'
-To: ernst.sjostrand@lists.verisure.com, Peter Bergin <peter@berginkonsult.se>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ca565d05b3e75914"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
---000000000000ca565d05b3e75914
-Content-Type: text/plain; charset="UTF-8"
+On Thu, 12 Nov 2020 19:32:59 +0800
+Robert Yang <liezhi.yang@windriver.com> wrote:
 
-If you can provide exact steps to reproduce (the recipe is not available in
-oe-core), I can take a look. It's been reported plenty of times, but always
-with something not in core and not easily available.
-
-Alex
-
-On Thu, 12 Nov 2020 at 12:07, <ernst.sjostrand@lists.verisure.com> wrote:
-
-> Here are two other threads on the same topic. I've also run into this.
->
-> https://lists.yoctoproject.org/g/yocto/topic/74637733#51189
->
-> and
->
->
-> https://lists.yoctoproject.org/g/yocto/message/50856?p=,,,20,0,0,0::Created,,devtool,20,2,0,77178360
->
-> Regards
-> //Ernst
+> Hi Andreas,
 > 
->
->
+> On 11/12/20 7:24 PM, Andreas Oberritter wrote:
+> > Dear Robert,
+> > 
+> > On Thu, 12 Nov 2020 19:25:49 +0800
+> > "Robert Yang" <liezhi.yang@windriver.com> wrote:
+> > 
+> >> This can make it possible to do extra settings such as PATH for other layers,
+> >> for exampole, other layers may also have scripts directories as oe-core, we
+> >> have to run them with path since they are not in PATH, for example, there is a
+> >> tool meta-browser/scripts/firefox-gen-l10n-recipes, we have to use
+> >> /path/to/meta-browser/scripts to run it. Make oe-buildenv-internal check and
+> >> enable $OEROOT/extrasettings, and set a line like the following can fix the
+> >> problem:
+> >>
+> >> PATH=/relative/to/$OEROOT/meta-browser/scripts:$PATH
+> >>
+> >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> >> ---
+> >>   scripts/oe-buildenv-internal | 4 ++++
+> >>   1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+> >> index ba0a9b44d6..bf84003d72 100755
+> >> --- a/scripts/oe-buildenv-internal
+> >> +++ b/scripts/oe-buildenv-internal
+> >> @@ -98,6 +98,10 @@ for newpath in "$BITBAKEDIR/bin" "$OEROOT/scripts"; do
+> >>   done
+> >>   unset BITBAKEDIR newpath
+> >>   
+> >> +if [ -e $OEROOT/extrasettings ]; then
+> >> +. $OEROOT/extrasettings
+> >> +fi
+> > 
+> > I think this filename isn't very descriptive, and people finding this file might wonder what it is about.
+> 
+> There is no such a file by default, the file should be created by other layers
+> or people out of oe-core.
+> 
+> > 
+> > How about sourcing all files (maybe with a given suffix like .sh) in $OEROOT/scripts/oe-buildenv-internal.d/ in lexical order?
+> 
+> If we do this, people need to patch oe-core/scripts/oe-buildenv-internal.d/ to
+> add their own settings, and oe-core can't accept such customization patches,
+> then it would make their oe-core repo non-fastword because of the local patches,
+> so I'm afraid that we can't do this.
 
---000000000000ca565d05b3e75914
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>If you can provide exact steps to reproduce (the reci=
-pe is not available in oe-core), I can take a look. It&#39;s been reported =
-plenty of times, but always with something not in core and not easily avail=
-able.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_=
-quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 12 Nov 2020 at 12:07, =
-&lt;<a href=3D"mailto:ernst.sjostrand@lists.verisure.com">ernst.sjostrand@l=
-ists.verisure.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">Here are two other threads on the same topic. I&#39;ve als=
-o run into this.<br>=C2=A0<br><a href=3D"https://lists.yoctoproject.org/g/y=
-octo/topic/74637733#51189" target=3D"_blank">https://lists.yoctoproject.org=
-/g/yocto/topic/74637733#51189</a> <br>=C2=A0<br>and <br>=C2=A0<br><a href=
-=3D"https://lists.yoctoproject.org/g/yocto/message/50856?p=3D,,,20,0,0,0::=
-Created,,devtool,20,2,0,77178360" target=3D"_blank">https://lists.yoctoproj=
-ect.org/g/yocto/message/50856?p=3D,,,20,0,0,0::Created,,devtool,20,2,0,7717=
-8360</a> <br>=C2=A0<br>Regards <br>//Ernst
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000ca565d05b3e75914--
+The same restrictions apply to $OEROOT/extrasettings.
