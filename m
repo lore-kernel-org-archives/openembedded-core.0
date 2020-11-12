@@ -1,114 +1,427 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web08.1858.1605173193917988847
+Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.70])
+ by mx.groups.io with SMTP id smtpd.web09.1944.1605173611174684066
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 01:26:34 -0800
+ Thu, 12 Nov 2020 01:33:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,471,1596470400"; 
-   d="scan'208";a="101281431"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 12 Nov 2020 17:26:13 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id F3F8C4CE3B74;
-	Thu, 12 Nov 2020 17:26:08 +0800 (CST)
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 12 Nov 2020 17:26:08 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77])
- by G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77%14]) with
- mapi id 15.00.1497.006; Thu, 12 Nov 2020 17:26:08 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] icu: upgrade 67.1 -> 68.1
-Thread-Topic: [OE-core] [PATCH] icu: upgrade 67.1 -> 68.1
-Thread-Index: AQHWuBhE2wGeBp7H1Ei2qrutyg/uVqnDy3nA//+S/QCAANrq0A==
-Date: Thu, 12 Nov 2020 09:26:08 +0000
-Message-ID: <a36d536b01e846c8be579d7f0b55cdfa@G08CNEXMBPEKD04.g08.fujitsu.local>
-References: <1604893131-60530-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <CAAnfSTvGf5YJaXF=sPrf_3HH1EoxznD+2F-==jaPrJVUJ1xV4g@mail.gmail.com>
- <bbdb2694c9f04c0481ca6b9c77a0cd11@G08CNEXMBPEKD04.g08.fujitsu.local>
- <6f631420-d617-2a76-f2c1-9ff7633180d6@gmail.com>
-In-Reply-To: <6f631420-d617-2a76-f2c1-9ff7633180d6@gmail.com>
-Accept-Language: zh-CN, en-US
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=gWn/Qg/S;
+ spf=pass (domain: kpit.com, ip: 40.107.138.70, mailfrom: purushottam.choudhary@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Z7Ht0p9/NDJOUHgeEHHWx67ieie+bP1POrlSXsy4+tL4ewCftDngrK1isZuQ8vNOXadvTyAwVf34IyTJRpm6Fso2aAl+RRWY9X2gx6l1JhxxHPsr7Fd6UxbqWUmhgjMCuHv+vAL6qug99ZpbbE2BauCbBw5ZrQXqr5P/udX8H6VzITXk18dBGPQsGFiAkm8wGy3aBPxHfol2ZBmkJAvAWmMx4i7ghRcSuB+mNJiuceiOXMTHDKWiisUNLbggSwZZH2WCQDWYF0AF/YgkTX5cThgGIvvahBILqmKW33m2N7RjjA3tnkNMQJat6RIDcDRNQcAMgwy9v2iCWrXHXmyNsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zUjZIz7iIKy78ACurnYItRBveR5BV0Oz/u90tkGClGk=;
+ b=k+zHY/YnPqgSz0LmlwQBQlYYwg2uoqOTLgiTfth7WlkgKNF01Z/vfOkjaByGXnkcLSxihkKJx92xb6xUvMxgXw9EFZb6tCBoufoKD4E+/1IJ0pOgCRsHSyC2IkJe8UqVm3wPu/BcE66HMLWI0igqyZsD4oRe4GAkRg1bkCd+Ev6aftEr48hcTSOFLq00yUPGkLXLG3kQhtqj2jg6o8Ihf4CRh+Ig/WsHgQJ4X6w4x+epeqK6q3bB0YRNDBaA1J4eTfmgYh64z67g1a2I2UT8zeMtBYEIOZwPnvklmSPqiJTrqsxdnWhF8KwGf1i1nClfUwqf+HGohALFXTH+oDqzlA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zUjZIz7iIKy78ACurnYItRBveR5BV0Oz/u90tkGClGk=;
+ b=gWn/Qg/SZgQqWJ54i9J/Qjjf8RtIgpjdDO0KzSlASK/+XJRIXbm5rGH6U0V7+PemooGLgX3QOaPlc0bK0+WTHTRpwHFPD+UJGIvzs6AMQMzDk4RZrn5sQttX+cfK5Ap8q0+A7uR+Bhv+A6i04Ov+mSchIUkkNG8xkxnh9otjuck=
+Received: from PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1c::9)
+ by PNZPR01MB4303.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.22; Thu, 12 Nov
+ 2020 09:33:19 +0000
+Received: from PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::801c:f051:cabd:84e5]) by PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::801c:f051:cabd:84e5%5]) with mapi id 15.20.3541.025; Thu, 12 Nov 2020
+ 09:33:19 +0000
+From: "Purushottam choudhary" <purushottam.choudhary@kpit.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	<raj.khem@gmail.com>
+CC: Nisha Parrakat <Nisha.Parrakat@kpit.com>, Anuj Chougule
+	<Anuj.Chougule@kpit.com>, Aditya Tayade <Aditya.Tayade@kpit.com>
+Subject: Re: [poky][master][PATCH] systemd: selinux hook handling to enumerate nexthop
+Thread-Topic: [poky][master][PATCH] systemd: selinux hook handling to
+ enumerate nexthop
+Thread-Index: AQHWspYLFulx/cSO6k6ndoF5cbD6AKnER8Nn
+Date: Thu, 12 Nov 2020 09:33:19 +0000
+Message-ID: 
+ <PNZPR01MB4224736DEB01CC746747D6D390E70@PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM>
+References: <1604486040-26986-1-git-send-email-purushottam.choudhary@kpit.com>
+In-Reply-To: 
+ <1604486040-26986-1-git-send-email-purushottam.choudhary@kpit.com>
+Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.81]
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=kpit.com;
+x-originating-ip: [103.51.148.95]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 6913bb4e-8cc7-42e6-6303-08d886edfdeb
+x-ms-traffictypediagnostic: PNZPR01MB4303:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: 
+ <PNZPR01MB4303DBA38185A811BEEF7A7C90E70@PNZPR01MB4303.INDPRD01.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ nDW6jASKZ6kBsPyC1S4PsOz4rFjuOIAGOVBSZzYdkheeaDdS+Fwli/Q4DAp62fmfvwW9+sIHKkIjg5X8FoUIK3/nTejRBDEMamWz1nIGjDplqy41/Ru2ueELZfOnYGW/MAxkI3WRMjLpFbz1nTcprX6A8FYogdyWbiS8Z5qW+DZcpdsOvRt+3nVc4u/Ektbo4dQhjinZVdRBt08iUmBPypAzXUsnD4vnfaFlknCBzq4l2C/VnRHGD/8L3dg+lDPFP4nsd1t6pejfA6xWUicb/Xabt187z29zd+/wQJt3Nm4ymCLs5Qz4+gfwr5wBxi2F/czQ8tYsvGAn8kBuq96b2h+eNK88ESOWSo5k1RoDQ+pPf2LAW5okYqOv64TBYpwrXKZam5bytbYfB4MkpALQPyhZa+0IUSLr/GXrrplXGyI2BQq1v7OPabtbdtfIlMnJk6S/bocPtI2/erMjkByEgQ==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(396003)(136003)(376002)(346002)(366004)(9686003)(53546011)(316002)(18265965003)(66574015)(110136005)(54906003)(52536014)(26005)(5660300002)(478600001)(86362001)(55016002)(186003)(66476007)(64756008)(66446008)(76116006)(91956017)(7696005)(66946007)(66556008)(8676002)(83380400001)(4326008)(8936002)(71200400001)(33656002)(19627405001)(107886003)(2906002)(6506007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ yNIRfGzq3MT4PbV9LsTJV4FjrCXHNBaZ5aTMZQzMXd0BDOhsDGGNdeO1Sif+IOE9SBPV1W6OG7tFCobMRp83tV122ulVRnnhQh1LcUQ7NsKHXQjgahnrhNZFTXxQ/QFdx8dwnBhifEMxiqvuVLvVXy5RuXkvJGkEBXbazhec+iuImbfpIYxLt8YcXJ2eCfrnYTsuYr/i5qp7069zFowV3gEb3YRuLZxGPzNVzvBtdSB3TlAlO0FZ7D4DrI33X0iudrlIuhFbL0tTVhvapEhTwo0xcHMTAubm8w6bN0uqgP3d42CwI4PTR62+MlKynNrgHUlbPEhRFN2YudFfyxhVqEBtxURp35qFApIUoPkY2xH/02IfLiM3BS2f+dHRvC8mOLvmlzFB4fLUb0sqXW5iThwiDlg+hu/EUouNRrpUiIitW3Gy+F40rrjxm5I4I0BNFjki8GkP1k557yXp687KdAEybakNFl6QtjKPD6+6vRxzXaHVbsU305fGetA+JvCZgUdO1ZUWhzPULL6Yn5n/ftLQQk6Q1p8GrOSvZtkyZWvvTikrBoZtDv3xgAFhZ/Kd3WBOxdI0AVlbp7nNQWynlIooDEidyvafLJZfdPTYZ7sR0ILxvxI6jw2nnkfcaFMC0TaeSdlFsZDXoFfTWrkKVA==
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: F3F8C4CE3B74.ABB66
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6913bb4e-8cc7-42e6-6303-08d886edfdeb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2020 09:33:19.6277
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rhiPu5yqKFoRrjmfSQWkgkVgOd12sOKR6b5pY0wico7m5phKU1DuJPlWBIlgFYHdjPCPJ43iSE4wu1VZcK7bWQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNZPR01MB4303
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_PNZPR01MB4224736DEB01CC746747D6D390E70PNZPR01MB4224INDP_"
 
-VGhhbmsgeW91IHZlcnkgbXVjaCwgdGhpcyBpcyBpbmRlZWQgYSB3YXksIGJ1dCB0aGUgc3RvcmFn
-ZSBzcGFjZSBvZiBvdXIgdGVzdCBlbnZpcm9ubWVudCBpcyBsaW1pdGVkLCBub3QgZW5vdWdoIHRv
-IHN1cHBvcnQgYml0YmFrZSB3b3JsZCBvbiBtdWx0aXBsZSBwbGF0Zm9ybXMuIElzIHRoZXJlIGFu
-eSBvdGhlciB3YXk/DQoNClphbmcgUnVvY2hlbg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQo+IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+IFNlbnQ6IFRodXJz
-ZGF5LCBOb3ZlbWJlciAxMiwgMjAyMCAxMjoxNSBQTQ0KPiBUbzogWmFuZywgUnVvY2hlbi/oh6cg
-6Iul5bCYIDx6YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbT47IFJvc3MgQnVydG9uDQo+IDxyb3Nz
-QGJ1cnRvbmluaS5jb20+DQo+IENjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gaWN1OiB1
-cGdyYWRlIDY3LjEgLT4gNjguMQ0KPiANCj4gDQo+IA0KPiBPbiAxMS8xMS8yMCA2OjQ1IFBNLCB6
-YW5ncmMgd3JvdGU6DQo+ID4gU29ycnksIHdlIHdpbGwgaW1wcm92ZSBpbiB0aGUgZnV0dXJlLCBi
-dXQgd2UgZG9u4oCZdCBrbm93IGhvdyB0byBkZXRlcm1pbmUNCj4gd2hpY2ggcmVjaXBlcyBuZWVk
-IHRvIGJlIHRlc3RlZCBkdXJpbmcgdGhlIHVwZ3JhZGUuIElzIHRoZXJlIGFueSB3YXkgeW91IGNh
-bg0KPiBwcm92aWRlIHVzPw0KPiA+DQo+IA0KPiBvbmUgd2F5IHdvdWxkIGJlIHRvIGRvIGJpdGJh
-a2UgLWsgd29ybGQsDQo+IA0KPiA+IFphbmcgUnVvY2hlbg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IFJvc3MgQnVydG9uIDxyb3NzQGJ1cnRvbmluaS5j
-b20+DQo+ID4+IFNlbnQ6IFdlZG5lc2RheSwgTm92ZW1iZXIgMTEsIDIwMjAgNjo0OSBQTQ0KPiA+
-PiBUbzogWmFuZywgUnVvY2hlbi/oh6cg6Iul5bCYIDx6YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNv
-bT4NCj4gPj4gQ2M6IE9FLWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc+DQo+ID4+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBpY3U6IHVwZ3JhZGUg
-NjcuMSAtPiA2OC4xDQo+ID4+DQo+ID4+IFBsZWFzZSByZW1lbWJlciB0byBidWlsZCBtb3JlIHRo
-YW4ganVzdCBhIHNpbmdsZSByZWNpcGUgd2hlbiB0ZXN0aW5nLA0KPiA+PiBpbiBwYXJ0aWN1bGFy
-IGRlcGVuZGVudHMuICBUaGlzIHVwZ3JhZGUgYnJva2UgbGliaWNhbCBhbmQgd2Via2l0Z3RrLA0K
-PiA+PiB3aGljaCByZXN1bHRlZCBpbiB0aHJlZSBpdGVyYXRpb25zIHRob3VnaCB0aGUgYXV0b2J1
-aWxkZXIgYW5kIG1lDQo+ID4+IGZpbmRpbmcvYmFja3BvcnRpbmcgZml4ZXMgYXMgYXBwcm9wcmlh
-dGUuDQo+ID4+DQo+ID4+IFJvc3MNCj4gPj4NCj4gPj4gT24gTW9uLCA5IE5vdiAyMDIwIGF0IDAz
-OjM5LCB6YW5ncmMgPHphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29tPiB3cm90ZToNCj4gPj4+DQo+
-ID4+PiAtTGljZW5zZS1VcGRhdGU6VGhlIGFkZHJlc3MgY2hhbmdlcyBhcmUgYXMgZm9sbG93czoN
-Cj4gPj4+ICAgIyBQcm9qZWN0OiBodHRwOi8vY29kZS5nb29nbGUuY29tL3AvbGFvLWRpY3Rpb25h
-cnkvDQo+ID4+PiAgICMgRGljdGlvbmFyeTogaHR0cDovL2xhby1kaWN0aW9uYXJ5Lmdvb2dsZWNv
-ZGUuY29tL2dpdC9MYW8tRGljdGlvbmFyeS50eHQNCj4gPj4+ICAgIyBMaWNlbnNlOg0KPiA+Pj4g
-aHR0cDovL2xhby1kaWN0aW9uYXJ5Lmdvb2dsZWNvZGUuY29tL2dpdC9MYW8tRGljdGlvbmFyeS1M
-SUNFTlNFLnR4dA0KPiA+Pj4NCj4gPj4+IFNpZ25lZC1vZmYtYnk6IFphbmcgUnVvY2hlbiA8emFu
-Z3JjLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ID4+PiAtLS0NCj4gPj4+ICBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9pY3Uve2ljdV82Ny4xLmJiID0+IGljdV82OC4xLmJifSB8IDYgKysrLS0tDQo+ID4+
-PiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkgIHJlbmFt
-ZQ0KPiA+Pj4gbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L3tpY3VfNjcuMS5iYiA9PiBpY3VfNjgu
-MS5iYn0gKDk1JSkNCj4gPj4+DQo+ID4+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvaWN1L2ljdV82Ny4xLmJiDQo+ID4+PiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3Vf
-NjguMS5iYg0KPiA+Pj4gc2ltaWxhcml0eSBpbmRleCA5NSUNCj4gPj4+IHJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNjcuMS5iYg0KPiA+Pj4gcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNjguMS5iYg0KPiA+Pj4gaW5kZXggOWU4MDkxYmEwMS4u
-OThhYTZiN2JlNiAxMDA2NDQNCj4gPj4+IC0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9p
-Y3VfNjcuMS5iYg0KPiA+Pj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV82OC4x
-LmJiDQo+ID4+PiBAQCAtODMsNyArODMsNyBAQCBGSUxFU19saWJpY3VpbyA9ICIke2xpYmRpcn0v
-bGliaWN1aW8uc28uKiINCj4gPj4+DQo+ID4+PiAgQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0
-aXZlc2RrIg0KPiA+Pj4NCj4gPj4+IC1MSUNfRklMRVNfQ0hLU1VNID0NCj4gPj4gImZpbGU6Ly8u
-Li9MSUNFTlNFO21kNT1hMzgwOGE1YjcwMDcxYjA3Zjg3ZmYyMjA1ZTRkNzVhMCINCj4gPj4+ICtM
-SUNfRklMRVNfQ0hLU1VNID0NCj4gPj4gImZpbGU6Ly8uLi9MSUNFTlNFO21kNT0wMDJkMmZkYzMy
-ZDE3ZjBlYzA2ZTlhNDdmMmMwYzhkMCINCj4gPj4+DQo+ID4+PiAgZGVmIGljdV9kb3dubG9hZF92
-ZXJzaW9uKGQpOg0KPiA+Pj4gICAgICBwdnNwbGl0ID0gZC5nZXRWYXIoJ1BWJykuc3BsaXQoJy4n
-KSBAQCAtMTEyLDggKzExMiw4IEBAIFNSQ19VUkkNCj4gPj4+ID0gIiR7QkFTRV9TUkNfVVJJfTtu
-YW1lPWNvZGUgXCAgU1JDX1VSSV9hcHBlbmRfY2xhc3MtdGFyZ2V0ID0gIlwNCj4gPj4+ICAgICAg
-ICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUtTERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBc
-DQo+ID4+PiAgICAgICAgICAgICINCj4gPj4+IC1TUkNfVVJJW2NvZGUuc2hhMjU2c3VtXSA9DQo+
-ID4+DQo+ICI5NGE4MGNkNmYyNTFhNTNiZDJhOTk3ZjZmMWI1YWM2NjUzZmU3OTFkZmFiNjZlMWVi
-MDIyNzc0MGZiODZkNQ0KPiA+PiBkYyINCj4gPj4+IC1TUkNfVVJJW2RhdGEuc2hhMjU2c3VtXSA9
-DQo+ID4+DQo+ICI3YzE2YTU5Y2M4YzA2MTI4YjdlY2MxZGM0ZmMwNTZiMzZiMTczNDkzMTI4Mjli
-MTc0MDhiOWU2N2IwNWM0DQo+ID4+IGE3ZSINCj4gPj4+ICtTUkNfVVJJW2NvZGUuc2hhMjU2c3Vt
-XSA9DQo+ID4+DQo+ICJhOWYyZTNkOGI0NDM0YjhlNTM4NzhiNDMwOGJkMWU2ZWU1MWM5YzcwNDJl
-MmIxYTM3NmFiZWZiNmZiYjINCj4gPj4gOWYyZCINCj4gPj4+ICtTUkNfVVJJW2RhdGEuc2hhMjU2
-c3VtXSA9DQo+ID4+DQo+ICIwM2VhOGI0Njk0MTU1NjIwNTQ4YzhjMGJhMjA0NDRmMWU3ZGIyNDZj
-Yzc5ZTNiOWM0ZmM3YTk2MGIxNjBkDQo+ID4+IDUxMCINCj4gPj4+DQo+ID4+PiAgVVBTVFJFQU1f
-Q0hFQ0tfUkVHRVggPSAiaWN1NGMtKD9QPHB2ZXI+XGQrKF9cZCspKyktc3JjIg0KPiA+Pj4gIFVQ
-U1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vdW5pY29kZS0NCj4gb3JnL2lj
-dS9yZWxlYXNlcyINCj4gPj4+IC0tDQo+ID4+PiAyLjI1LjENCj4gPj4+DQo+ID4+Pg0KPiA+Pj4N
-Cj4gPj4+DQo+ID4+Pg0KPiA+Pj4NCj4gPj4NCj4gPg0KPiA+DQo+ID4NCj4gPg0KPiA+DQo+ID4g
-DQo+ID4NCj4gDQoNCgoK
+--_000_PNZPR01MB4224736DEB01CC746747D6D390E70PNZPR01MB4224INDP_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Openembedded/Khem,
+
+Is there any update on this patch?
+
+Could you please let me know?
+
+Thanks & Regards,
+Purushottam
+
+________________________________
+From: Purushottam Choudhary <purushottam.choudhary@kpit.com>
+Sent: Wednesday, November 4, 2020 4:04 PM
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>; raj.khem@gmail.com <raj.khem@gmail.com>
+Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>; Anuj Chougule <Anuj.Chougule@=
+kpit.com>; Aditya Tayade <Aditya.Tayade@kpit.com>
+Subject: [poky][master][PATCH] systemd: selinux hook handling to enumerate =
+nexthop
+
+When selinux is enabled, the call of
+manager_rtnl_enumerate_nexthop() fails.
+This fix is to facilitate selinux hook handling
+for enumerating nexthop.
+
+In manager_rtnl_enumerate_nexthop() there is a check
+if "Not supported" is returned by the send_netlink() call.
+This check expects that -EOPNOTSUPP is returned,
+the selinux hook seems to return -EINVAL instead.
+This happens in kernel older than 5.3
+(more specificallytorvalds/linux@65ee00a) as it does not support
+nexthop handling through netlink.
+And if SELinux is enforced in the order kernel, callingRTM_GETNEXTHOP
+returns -EINVAL.
+
+Thus adding a call in the manager_rtnl_enumerate_nexthop for the
+extra return -EINVAL.
+
+Note: systemd version is different in yocto project (v246.6) and
+systemd master(v247) and In systemd verison(246.6)
+mac_selinux_enforcing() function is not declared and defined.
+
+Signed-off-by: Purushottam choudhary <purushottam.choudhary@kpit.com>
+---
+ ...elinux-hook-handling-to-enumerate-nexthop.patch | 46 ++++++++++++++++++=
+++++
+ meta/recipes-core/systemd/systemd_246.6.bb         |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/selinux-hook-handling=
+-to-enumerate-nexthop.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/selinux-hook-handling-to-enu=
+merate-nexthop.patch b/meta/recipes-core/systemd/systemd/selinux-hook-handl=
+ing-to-enumerate-nexthop.patch
+new file mode 100644
+index 0000000..b1c92ed
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/selinux-hook-handling-to-enumerate-=
+nexthop.patch
+@@ -0,0 +1,46 @@
++From 92b555aaabf710e0a672a7244e8c0e3963075133 Mon Sep 17 00:00:00 2001
++From: Purushottam choudhary <purushottam.choudhary@kpit.com>
++Date: Wed, 28 Oct 2020 22:11:49 +0530
++Subject: [PATCH] network: selinux hook handling to enumerate nexthop
++
++When selinux is enabled, the call of
++manager_rtnl_enumerate_nexthop() fails.
++
++This fix is to facilitate selinux hook handling for enumerating
++nexthop.
++
++In manager_rtnl_enumerate_nexthop() there is a check
++if "Not supported" is returned by the send_netlink() call.
++
++This check expects that -EOPNOTSUPP is returned,
++the selinux hook seems to return -EINVAL instead.
++
++This happens in kernel older than 5.3
++(more specificallytorvalds/linux@65ee00a) as it does not support
++nexthop handling through netlink.
++
++And if SELinux is enforced in the order kernel, callingRTM_GETNEXTHOP
++returns -EINVAL.
++
++Thus adding a call in the manager_rtnl_enumerate_nexthop for the
++extra return -EINVAL.
++
++Upstream-Status: Backport
++https://github.com/systemd/systemd/commit/92b555aaabf710e0a672a7244e8c0e39=
+63075133
++---
++ src/network/networkd-manager.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/network/networkd-manager.c b/src/network/networkd-manager=
+.c
++index a6c1a39..2a9be85 100644
++--- a/src/network/networkd-manager.c
+++++ b/src/network/networkd-manager.c
++@@ -2121,7 +2121,7 @@ int manager_rtnl_enumerate_nexthop(Manager *m) {
++
++         r =3D sd_netlink_call(m->rtnl, req, 0, &reply);
++         if (r < 0) {
++-                if (r =3D=3D -EOPNOTSUPP) {
+++                if (r =3D=3D -EOPNOTSUPP || r =3D=3D -EINVAL) {
++                         log_debug("Nexthop are not supported by the kerne=
+l. Ignoring.");
++                         return 0;
++                 }
+diff --git a/meta/recipes-core/systemd/systemd_246.6.bb b/meta/recipes-core=
+/systemd/systemd_246.6.bb
+index 9215adf..78990f4 100644
+--- a/meta/recipes-core/systemd/systemd_246.6.bb
++++ b/meta/recipes-core/systemd/systemd_246.6.bb
+@@ -21,6 +21,7 @@ SRC_URI +=3D "file://touchscreen.rules \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
+m.patch \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash=
+.patch \
++           file://selinux-hook-handling-to-enumerate-nexthop.patch \
+            "
+
+ # patches needed by musl
+--
+2.7.4
+
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
+
+--_000_PNZPR01MB4224736DEB01CC746747D6D390E70PNZPR01MB4224INDP_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Hi Openembedded/Khem,<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+Is there any update on this patch?<br>
+<br>
+Could you please let me know?<br>
+</div>
+<div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div id=3D"Signature">
+<div>
+<div name=3D"divtagdefaultwrapper" style=3D"font-family:Calibri,Arial,Helve=
+tica,sans-serif; font-size:; margin:0">
+<div>Thanks &amp; Regards,</div>
+<div>Purushottam<br>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id=3D"appendonsend"></div>
+<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
+t; color:rgb(0,0,0)">
+<br>
+</div>
+<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" face=
+=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> Purushottam Choudha=
+ry &lt;purushottam.choudhary@kpit.com&gt;<br>
+<b>Sent:</b> Wednesday, November 4, 2020 4:04 PM<br>
+<b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;; raj.khem@gmail.com &lt;raj.khem@gmail.com&gt;<br=
+>
+<b>Cc:</b> Nisha Parrakat &lt;Nisha.Parrakat@kpit.com&gt;; Anuj Chougule &l=
+t;Anuj.Chougule@kpit.com&gt;; Aditya Tayade &lt;Aditya.Tayade@kpit.com&gt;<=
+br>
+<b>Subject:</b> [poky][master][PATCH] systemd: selinux hook handling to enu=
+merate nexthop</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt"=
+>
+<div class=3D"PlainText">When selinux is enabled, the call of<br>
+manager_rtnl_enumerate_nexthop() fails.<br>
+This fix is to facilitate selinux hook handling<br>
+for enumerating nexthop.<br>
+<br>
+In manager_rtnl_enumerate_nexthop() there is a check<br>
+if &quot;Not supported&quot; is returned by the send_netlink() call.<br>
+This check expects that -EOPNOTSUPP is returned,<br>
+the selinux hook seems to return -EINVAL instead.<br>
+This happens in kernel older than 5.3<br>
+(more specificallytorvalds/linux@65ee00a) as it does not support<br>
+nexthop handling through netlink.<br>
+And if SELinux is enforced in the order kernel, callingRTM_GETNEXTHOP<br>
+returns -EINVAL.<br>
+<br>
+Thus adding a call in the manager_rtnl_enumerate_nexthop for the<br>
+extra return -EINVAL.<br>
+<br>
+Note: systemd version is different in yocto project (v246.6) and<br>
+systemd master(v247) and In systemd verison(246.6)<br>
+mac_selinux_enforcing() function is not declared and defined.<br>
+<br>
+Signed-off-by: Purushottam choudhary &lt;purushottam.choudhary@kpit.com&gt;=
+<br>
+---<br>
+&nbsp;...elinux-hook-handling-to-enumerate-nexthop.patch | 46 +++++++++++++=
++++++++++<br>
+&nbsp;meta/recipes-core/systemd/systemd_246.6.bb&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +<br>
+&nbsp;2 files changed, 47 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-core/systemd/systemd/selinux-hook-han=
+dling-to-enumerate-nexthop.patch<br>
+<br>
+diff --git a/meta/recipes-core/systemd/systemd/selinux-hook-handling-to-enu=
+merate-nexthop.patch b/meta/recipes-core/systemd/systemd/selinux-hook-handl=
+ing-to-enumerate-nexthop.patch<br>
+new file mode 100644<br>
+index 0000000..b1c92ed<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/systemd/systemd/selinux-hook-handling-to-enumerate-=
+nexthop.patch<br>
+@@ -0,0 +1,46 @@<br>
++From 92b555aaabf710e0a672a7244e8c0e3963075133 Mon Sep 17 00:00:00 2001<br>
++From: Purushottam choudhary &lt;purushottam.choudhary@kpit.com&gt;<br>
++Date: Wed, 28 Oct 2020 22:11:49 +0530<br>
++Subject: [PATCH] network: selinux hook handling to enumerate nexthop<br>
++<br>
++When selinux is enabled, the call of<br>
++manager_rtnl_enumerate_nexthop() fails.<br>
++<br>
++This fix is to facilitate selinux hook handling for enumerating<br>
++nexthop.<br>
++<br>
++In manager_rtnl_enumerate_nexthop() there is a check<br>
++if &quot;Not supported&quot; is returned by the send_netlink() call.<br>
++<br>
++This check expects that -EOPNOTSUPP is returned,<br>
++the selinux hook seems to return -EINVAL instead.<br>
++<br>
++This happens in kernel older than 5.3<br>
++(more specificallytorvalds/linux@65ee00a) as it does not support<br>
++nexthop handling through netlink.<br>
++<br>
++And if SELinux is enforced in the order kernel, callingRTM_GETNEXTHOP<br>
++returns -EINVAL.<br>
++<br>
++Thus adding a call in the manager_rtnl_enumerate_nexthop for the<br>
++extra return -EINVAL.<br>
++<br>
++Upstream-Status: Backport<br>
++https://github.com/systemd/systemd/commit/92b555aaabf710e0a672a7244e8c0e39=
+63075133<br>
++---<br>
++ src/network/networkd-manager.c | 3 ++-<br>
++ 1 file changed, 2 insertions(+), 1 deletion(-)<br>
++<br>
++diff --git a/src/network/networkd-manager.c b/src/network/networkd-manager=
+.c<br>
++index a6c1a39..2a9be85 100644<br>
++--- a/src/network/networkd-manager.c<br>
+++++ b/src/network/networkd-manager.c<br>
++@@ -2121,7 +2121,7 @@ int manager_rtnl_enumerate_nexthop(Manager *m) {<br>
++<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r =3D sd_netlink_call(m-&=
+gt;rtnl, req, 0, &amp;reply);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (r &lt; 0) {<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; if (r =3D=3D -EOPNOTSUPP) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; if (r =3D=3D -EOPNOTSUPP || r =3D=3D -EINVAL) {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; log_=
+debug(&quot;Nexthop are not supported by the kernel. Ignoring.&quot;);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; retu=
+rn 0;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp; }<br>
+diff --git a/meta/recipes-core/systemd/systemd_246.6.bb b/meta/recipes-core=
+/systemd/systemd_246.6.bb<br>
+index 9215adf..78990f4 100644<br>
+--- a/meta/recipes-core/systemd/systemd_246.6.bb<br>
++++ b/meta/recipes-core/systemd/systemd_246.6.bb<br>
+@@ -21,6 +21,7 @@ SRC_URI +=3D &quot;<a href=3D""></a>file://touchscreen.ru=
+les \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch"=
+>
+file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch</a> =
+\<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://0003-implment-systemd-sysv-install-for-OE.patch">file://0003-imp=
+lment-systemd-sysv-install-for-OE.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch">
+file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch</a> \=
+<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://selinux-hook-handling-to-enumerate-nexthop.patch">file://selinux-hook-=
+handling-to-enumerate-nexthop.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
+r>
+&nbsp;<br>
+&nbsp;# patches needed by musl<br>
+-- <br>
+2.7.4<br>
+<br>
+</div>
+</span></font></div>
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print,
+ retain copy, disseminate, distribute, or use this message or any part ther=
+eof. If you receive this message in error, please notify the sender immedia=
+tely and delete all copies of this message. KPIT Technologies Ltd. does not=
+ accept any liability for virus
+ infected mails.
+</body>
+</html>
+
+--_000_PNZPR01MB4224736DEB01CC746747D6D390E70PNZPR01MB4224INDP_--
