@@ -1,129 +1,117 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
- by mx.groups.io with SMTP id smtpd.web09.735.1605162551671494353
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web08.893.1605164550336510677
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2020 22:29:11 -0800
+ Wed, 11 Nov 2020 23:02:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=L9yXGPwV;
- spf=pass (domain: gmail.com, ip: 209.85.222.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f176.google.com with SMTP id h15so4323572qkl.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2020 22:29:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gsqOIJQf;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id f38so3405406pgm.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 11 Nov 2020 23:02:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=k3bU/AAiuyqUTG/LgoCafDVftR1RoN7EKANSdIL5pb4=;
-        b=L9yXGPwVNylzNxnNPf5Ltp+0ITnjdQHicPsw7EeTVN1vidrUnssPqO987cArXoOYF0
-         16Bh3PPs5NAd+NZAKEG8II3ghT7PCg3XdVc4tNyqMHhQ4mi7frxrYiQC4M6JcLpDkd2F
-         fAwq9Dj/cI9d0br+/JF7kzAofF3alWYR8EuORajmsJ3jSLaUBXBwwvW6rpq5kWRCCiii
-         XlUtrQay0IJ5YXIhLRZu3ebxmBl4Qi7PYkeU+2aubloNyI5y2WeCaRSNWdZIhWHHlPxZ
-         Ph+e4BBLE0YlcfIBPTijPrXbbRXiSmnVflLhQ1e6BLsNGz7ioKS12trCefiMPPcrOf5E
-         KRnQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ptf2hrKy3HHfFbta02Wd3j0ZsOnmDiz627m+YxltBgY=;
+        b=gsqOIJQfnrDqR54lj2UdrjvZJmdXvGhmPvDVbId5Rba6nOaLkav9cb57aVNQHAidfO
+         FED0NFcf6jRvGBvIb4co6OgB7lEwNLhk/5FCvAxl8UOp6S0S7LKe7ZnEjXhBud2Vy5Ll
+         irzbZNu1zy7k+7Zk98UMdlF+oxVkrT3odzjz5Wc7AZhx9Rv0WW/mKp1L7bqiwcVUXppe
+         W6dYEDHwP3OfKivbPbv0Eg1wAMewzpDuysFdhpNOsikkGgOHyx0cF3I9Np1Rl/BlFI3A
+         QJpBQZZNhrKMmMMF4DeMp0jS4wI2Snt+4Z9m+Fu/9rd/PvD3tyUPT7hl3l8NbtXi1v5d
+         86+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k3bU/AAiuyqUTG/LgoCafDVftR1RoN7EKANSdIL5pb4=;
-        b=q5EGgkznx0gX1kL+2VAlTvoMGIlh9OlLWPu9F8DAjofi36HQ636Y2mwSO1icbnqY+v
-         WO6mfsIQdqqYK/W7WIsv2i1hAz3KhxoPkU/VL//FsaiX5JDGq1PnDrbdwKEte4R8uGX8
-         cCSbH01C+5WcPvCYAT1PJaGMfCodm6B5yjVk21Ar0VDesWGa8SiuMgXRnCJNepfYn+sP
-         ppX2K/QmWOdLPH58l1ZMfpUCZaT8XksdIE2QSYF3xsfI8y+hkyznV8J8r8ZbpLualbHc
-         p2Sv4hvkLMuU+vqwbdmkRwlVgK3nzZth+zMOngXNi0cJZ/NiC1gDoywYirbJ+h/WbrTr
-         xcUg==
-X-Gm-Message-State: AOAM531Ifu0GykJPkXVsToKSeDtjxLGa1z6DsOEU7aPhv7aeul0iSL/f
-	xmzSRocDSio7EZoed0LzKbt/TK5buuVRRI2rtFs=
-X-Google-Smtp-Source: ABdhPJyZSQba1tyUVIgiVhZ1oDjHbJGvVB5ArshbpgQDFvP8MSR2eoNjnOe/RvRtK2cX3S4KXyubDm8B+v4Nm8eHJ/0=
-X-Received: by 2002:a37:a70e:: with SMTP id q14mr2043449qke.337.1605162550501;
- Wed, 11 Nov 2020 22:29:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20201112060217.7282-1-changqing.li@windriver.com>
-In-Reply-To: <20201112060217.7282-1-changqing.li@windriver.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ptf2hrKy3HHfFbta02Wd3j0ZsOnmDiz627m+YxltBgY=;
+        b=cSIfELilT6OOncHF++9BF4QEYqGHV113HeESQ4doIeOAV49LyEpkWMQitW7NLSqUxK
+         ztcKcMc3lU5BXz9InkS9/YBnP+n3UUT0+uupC1nJfXfh2OcoQQ/JUxwW1EnE+Wg0nvkA
+         KnqjcSSOtEyev0Ye/1sHbRGcTv2d6JsU7OE8tLdE7tCNzr/qrHu68bkp4Rrq71LitHfy
+         Zb7c0zTwq6EkCNrDOw8C1sI+GbV4YUJvI9s/QVclpzh5a1pDWSkR/TYOGpEZE69i7BZP
+         9jQ+KG7HE//J+7Xz0YNqQtNj5Kv91+eUkk9PKNo1OQNY9XUMPJ8o+sMnTfsHOoSj8QaT
+         1jxg==
+X-Gm-Message-State: AOAM5338HIwYxzmhnhiyaoNXFTfOmPOz5zokMBTeYyiKZZtoD0VlBy5S
+	zRxwqgEUB1Go/d9w/HrRUmaLg3NM32nwVA==
+X-Google-Smtp-Source: ABdhPJxuJVjJzQT6/w0Bn8RLixf4yRixPeBfdy8XipL8D479GOVPazxW1eKypwPBMjTqD0fY/na9Yw==
+X-Received: by 2002:a17:90a:d584:: with SMTP id v4mr8298503pju.194.1605164549198;
+        Wed, 11 Nov 2020 23:02:29 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::740e])
+        by smtp.gmail.com with ESMTPSA id v6sm4902554pff.83.2020.11.11.23.02.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2020 23:02:27 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 11 Nov 2020 22:28:43 -0800
-Message-ID: <CAMKF1soGpv1nGchjBs5j5bnyv=7TPUQ_ixNd8i+s6T+ZPDzJTQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] vulkan-samples: fix do_compile failure
-To: Changqing Li <changqing.li@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] lrzsz: Use Cross AR during compile
+Date: Wed, 11 Nov 2020 23:02:25 -0800
+Message-Id: <20201112070225.3712508-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 11, 2020 at 10:02 PM Changqing Li
-<changqing.li@windriver.com> wrote:
->
-> fix error:
-> | framework/lib/ppc/libframework.a(device.cpp.o): in function `std::__atomic_base<unsigned long long>::load(std::memory_order) const':
-> | /usr/include/c++/10.2.0/bits/atomic_base.h:426: undefined reference to `__atomic_load_8'
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  ...ts.txt-link-atomic-for-arch-ppc-mips.patch | 33 +++++++++++++++++++
->  .../vulkan/vulkan-samples_git.bb              |  3 ++
->  2 files changed, 36 insertions(+)
->  create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/0001-CMakeLists.txt-link-atomic-for-arch-ppc-mips.patch
->
-> diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/0001-CMakeLists.txt-link-atomic-for-arch-ppc-mips.patch b/meta/recipes-graphics/vulkan/vulkan-samples/0001-CMakeLists.txt-link-atomic-for-arch-ppc-mips.patch
-> new file mode 100644
-> index 0000000000..54bd90c610
-> --- /dev/null
-> +++ b/meta/recipes-graphics/vulkan/vulkan-samples/0001-CMakeLists.txt-link-atomic-for-arch-ppc-mips.patch
-> @@ -0,0 +1,33 @@
-> +From e7cccf6626e9a7e20f963f8bbbffc9dae3863ce8 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Thu, 12 Nov 2020 08:10:51 +0800
-> +Subject: [PATCH] CMakeLists.txt: link atomic for arch ppc/mips
-> +
-> +fix error:
-> +| framework/lib/ppc/libframework.a(device.cpp.o): in function `std::__atomic_base<unsigned long long>::load(std::memory_order) const':
-> +| /usr/include/c++/10.2.0/bits/atomic_base.h:426: undefined reference to `__atomic_load_8'
-> +
-> +Upstream-Status: oe-specific
-> +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +---
-> + framework/CMakeLists.txt | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/framework/CMakeLists.txt b/framework/CMakeLists.txt
-> +index bf26786..4d8c594 100644
-> +--- a/framework/CMakeLists.txt
-> ++++ b/framework/CMakeLists.txt
-> +@@ -410,7 +410,8 @@ target_link_libraries(${PROJECT_NAME}
-> +     glslang-default-resource-limits
-> +     spdlog
-> +     ctpl
-> +-    docopt)
-> ++    docopt
-> ++    atomic)
-> +
+Current code hardcodes archiver to be 'ar' from build host
 
-I wonder if there was a way to check for relevat atomic and decide if
-its from libaromic or compiler intrinsics
-see https://github.com/llvm-mirror/llvm/blob/master/cmake/modules/CheckAtomic.cmake
-for some guidelines
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...mpilation-using-autoconf-detected-AR.patch | 36 +++++++++++++++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
 
-> + # Link platform specific libraries
-> + if(ANDROID)
-> +--
-> +2.17.1
-> +
-> diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-> index 241a313a7b..f9d6c9b1de 100644
-> --- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-> +++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-> @@ -6,6 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
->  SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git \
->             file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
->             "
-> +SRC_URI_append_mipsarch = "file://0001-CMakeLists.txt-link-atomic-for-arch-ppc-mips.patch"
-> +SRC_URI_append_powerpc = "file://0001-CMakeLists.txt-link-atomic-for-arch-ppc-mips.patch"
-> +
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
+new file mode 100644
+index 0000000000..47c7ec4170
+--- /dev/null
++++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
+@@ -0,0 +1,36 @@
++From ecdcf0df6c28c65ca6d1e5638726e13e373c76c5 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 11 Nov 2020 22:58:55 -0800
++Subject: [PATCH] Fix cross compilation using autoconf detected AR
++
++currently its using 'ar' program from build host, which is not expected,
++we need to respect AR passed in environment
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.in | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/configure.in b/configure.in
++index 4ddbe8b..b7c3c31 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -84,6 +84,13 @@ AC_ARG_ENABLE(syslog,
++ 	  ])
++ 
++ dnl Checks for programs.
+++m4_ifndef([AC_PROG_AR],[dnl
+++  AN_MAKEVAR([AR], [AC_PROG_AR])
+++  AN_PROGRAM([ar], [AC_PROG_AR])
+++  AC_DEFUN([AC_PROG_AR],
+++  [AC_CHECK_TOOL(AR, ar, :)])
+++])
+++AC_PROG_AR
++ AC_PROG_CC
++ AC_PROG_GCC_TRADITIONAL
++ dnl AC_PROG_INSTALL  included in AM_INIT_AUTOMAKE
++-- 
++2.29.2
++
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+index 4129237c59..54c431eeb3 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
++++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+@@ -19,6 +19,7 @@ SRC_URI = "http://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
+            file://lrzsz-check-locale.h.patch \
+            file://cve-2018-10195.patch \
+            file://include.patch \
++           file://0001-Fix-cross-compilation-using-autoconf-detected-AR.patch \
+            "
+ 
+ SRC_URI[md5sum] = "b5ce6a74abc9b9eb2af94dffdfd372a4"
+-- 
+2.29.2
 
-its missing space after first "
-
->  UPSTREAM_CHECK_COMMITS = "1"
->  SRCREV = "f52361d3cd6ac8c30fc3365a464b4e220c32cfd6"
->
-> --
-> 2.26.2
->
->
-> 
->
