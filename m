@@ -1,236 +1,427 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
- by mx.groups.io with SMTP id smtpd.web11.2133.1605174738653913715
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+ by mx.groups.io with SMTP id smtpd.web12.2211.1605175400700204866
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 01:52:18 -0800
+ Thu, 12 Nov 2020 02:03:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JW9k9BIP;
- spf=pass (domain: gmail.com, ip: 209.85.222.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f52.google.com with SMTP id v16so1673118uat.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 01:52:18 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uCA9OZTO;
+ spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f41.google.com with SMTP id r14so2871991vsa.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 02:03:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BZrqBu0+gGi4iZy5lufyafP+HSGwWSlYTKjhoIkoQo0=;
-        b=JW9k9BIP/1AkPsNCKQAs7wMlaa+jJ4GsixeItksQTW5O0oH8c9Y5JNNo5741U4e4Pb
-         OjhJ+VacGi8nX0WGlRQrq1DpS66rHA8qoXkgfDdgAlVqz3Vi8RoWxMh6mu8wdYiQz+wb
-         oIrayz9SAV5bHaecXy8mtWIWu3khxYTawmMUpMzCMVWDeeTeORMBqygzMV9xSgHZnOju
-         jhaUO7l8TPcOjOKlAEzECcfXjV3AtGnPQFHS8p9lpl9Eo4jpUZhG5FCgtu3e1nrzt5Fz
-         xf3+Bu8CUDpS5tLdpVQSQbpsqYvnP8PlXvGHzOKo02BWW8gUwQoI0CwMddH4jh8CrQ/2
-         SwhQ==
+        bh=vW5qFtwXuHnJIHTkQMkWMytxUaHzJ0U2cANGKE61reQ=;
+        b=uCA9OZTOsmvuTG3D8SX0vdC6nJZTsk2XZvqDQSbLOUX0DnQq1lHRE3eV1RncO8hX3/
+         kYVOkSjhV6nV7obLXV46Ax0Qz0iOvozaNp49S9E09ipudykIKCBZOonfbkFtz1KB9y5C
+         dJIw8pdbTFSDjExsk5YQ7c+rf3tEM/mEKycq34IajS0g9bdZkwwSKmsj5dtjVwYiIm/T
+         aOqv/HXUQD1j1FAiby+yzxzON4cDS5EVpzI2sGAZa0ZYAnLTeCk1oax/jAF0KL/hF5ZG
+         ZQAmLNepyYR1uPTMeKqHvhlMpMOEZmOI2F//626qzZ1JV0aGfUcxMtfubeqaZ2J48rnT
+         Yk8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BZrqBu0+gGi4iZy5lufyafP+HSGwWSlYTKjhoIkoQo0=;
-        b=ioi5gx5WKgJ0IitSADEvFAOpzvCzIEfDykwE+2f30/gVdJsK/P3NHhYRcHjUHeWW/k
-         MoLeUBx2IxqOcMbnlYnG/Fb3mpu9dIYkxFd68zoTmnUKhP5O/YzTZTfxtXdRcmHh6Q6t
-         4dm3VQclC0aVoKpZV5t54gV2xHFlgIlFzb3R+SMUxhHLc1cCCVNyL+GwEaRpOcGZ3IXU
-         C8/SDB6RPuI4o9cApKud2oeSmvDN5imBbZ7ruCT0xi2d7+xwNGxG4fww65yoEV1vYswv
-         Jp9df+jlCOu3hmR87bXYO+bVakXtareWtTyiDoGo099N/7MYoxG1bY2EBfBZOt2m7B9F
-         +L8A==
-X-Gm-Message-State: AOAM530FaGkrRkHKtgiLxTa4rBFC0gkfUVsTTozSdDbJSf9XItcQNQGX
-	AvMqDapKBQtdkaN1rHJFQxMirvdY0k7MSc64xnvRSd0Zz9w=
-X-Google-Smtp-Source: ABdhPJzbn12xOVzVFwQShT5pKywXVFKizalklItxdsKEKE8uHp/F9ZdKB0oWi3uElDTnxpM5QN79V4Wtvbhge7ORWJs=
-X-Received: by 2002:ab0:7103:: with SMTP id x3mr11203844uan.100.1605174737819;
- Thu, 12 Nov 2020 01:52:17 -0800 (PST)
+        bh=vW5qFtwXuHnJIHTkQMkWMytxUaHzJ0U2cANGKE61reQ=;
+        b=p1Ey8sXoLvZdO+vFPCihUidrt4bpQGUntAjDf2UVVNwQHi7pfnzJCUOyN6Pru99hv0
+         ey7Lz09T/eT+cvKLh1v4pBBUqc7x9t7lGXRnZWhq7jewn1/YpQDXqAwMXHlwb6hyXb7s
+         jGwd2Tr8gey/o13JDP65Bwo6VHmAoATVOxkPvURU/k5GTSQ04btvo2lI8WE8q+qzX67d
+         SmiW1pd1LWHR3Oeo5AMeJg86JHloze6mxJ0rX/Tk5hZUSjZmYYgsw3mB74rapwQtDLXx
+         Ukb9C+yLshBy+6AmJGQY1bVnlDXdjQUyVGPWvNIWTZ5Q3b6ojgw8gPmgAT8TF87lFdOL
+         bQqw==
+X-Gm-Message-State: AOAM533zBBlhgM+yhtd4G6y7hXm/I03wQzMBlDSekNh1Pg2+ryBWU8eP
+	GyUuNPpyJzoyHXhC+iRBFfXNTbH4r5UyOiniUuQ=
+X-Google-Smtp-Source: ABdhPJxwEtP2JFbO0B42fH8mZEwIv2sG8YMRg220J4k7ARaNrOcra94XYyEz//6jtwpXNY4oCciUA/W+v8KQuG5HYy4=
+X-Received: by 2002:a05:6102:4a6:: with SMTP id r6mr12317969vsa.41.1605175399847;
+ Thu, 12 Nov 2020 02:03:19 -0800 (PST)
 MIME-Version: 1.0
-References: <CAGvkhOK+dMYYW2NegYOYWOzNbHRczjJ7Wdb8bwFFxRXVrda+Vw@mail.gmail.com>
- <CANNYZj9JdPhyyTyj9rwRKHNpKdAaK6QiwnbE5_a1AuXyE1zk0w@mail.gmail.com>
-In-Reply-To: <CANNYZj9JdPhyyTyj9rwRKHNpKdAaK6QiwnbE5_a1AuXyE1zk0w@mail.gmail.com>
+References: <1604893131-60530-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+ <CAAnfSTvGf5YJaXF=sPrf_3HH1EoxznD+2F-==jaPrJVUJ1xV4g@mail.gmail.com>
+ <bbdb2694c9f04c0481ca6b9c77a0cd11@G08CNEXMBPEKD04.g08.fujitsu.local>
+ <6f631420-d617-2a76-f2c1-9ff7633180d6@gmail.com> <a36d536b01e846c8be579d7f0b55cdfa@G08CNEXMBPEKD04.g08.fujitsu.local>
+In-Reply-To: <a36d536b01e846c8be579d7f0b55cdfa@G08CNEXMBPEKD04.g08.fujitsu.local>
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 12 Nov 2020 10:52:06 +0100
-Message-ID: <CANNYZj-v01JoQuXWg5-erikr3zBzVHwy00nRk2YLWGtX8w6ONw@mail.gmail.com>
-Subject: Re: [OE-core] python3-native sysconfig failing to load in dunfell
-To: gstroz@uber.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000cdaed05b3e5dec1"
+Date: Thu, 12 Nov 2020 11:03:08 +0100
+Message-ID: <CANNYZj9adi=AMTZphvGN4mvjR5T_4cTqDVizc7BOurwMcszy9Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] icu: upgrade 67.1 -> 68.1
+To: zangrc <zangrc.fnst@cn.fujitsu.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross@burtonini.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000008298dd05b3e605fb"
 
---0000000000000cdaed05b3e5dec1
+--0000000000008298dd05b3e605fb
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-A quick fix may be to add a target python3 dependency to your recipe, yes
-ugly, but I can't figure out how to provide target python configuration to
-native python used in the context of building target recipes otherwise.
+There are several ways to find out what depends on a recipe: you can for
+example do it with a simple grep:
+
+ak@linux-f9zs:~/development/poky/meta> grep -ilr "\Wicu\W" *
+classes/rm_work.bbclass
+conf/distro/include/maintainers.inc
+recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb
+recipes-sato/webkit/webkitgtk/0001-ICU-68.1-no-longer-exposes-FALSE-and-TR=
+UE-macros-by-.patch
+
+recipes-sato/webkit/webkitgtk_2.30.2.bb
+recipes-support/boost/boost.inc
+recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
+recipes-support/icu/icu/fix-install-manx.patch
+recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+recipes-support/icu/icu_68.1.bb
+recipes-support/vte/vte_0.62.1.bb
+recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
+recipes-support/libical/libical_3.0.8.bb
+
+
 
 Alex
 
 
-On Thu, 12 Nov 2020 at 10:49, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
 
-> On Thu, 12 Nov 2020 at 02:23, Glenn Stroz via lists.openembedded.org
-> <gstroz=uber.com@lists.openembedded.org> wrote:
+On Thu, 12 Nov 2020 at 10:26, zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
+
+> Thank you very much, this is indeed a way, but the storage space of our
+> test environment is limited, not enough to support bitbake world on
+> multiple platforms. Is there any other way?
 >
->> We've been upgrading our work to Dunfell and have encountered an issue
->> with python3-native.
->>
->> One of our python3-native scripts uses pydoc and that in turn eventually
->> pulls in python's sysconfig. However, this is failing to import with the
->> following stack trace:
->>
->> ```
->>     import pydoc
->>   File
->> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/pydoc.py",
->> line 366, in <module>
->>     class Doc:
->>   File
->> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/pydoc.py",
->> line 396, in Doc
->>     def getdocloc(self, object, basedir=sysconfig.get_path('stdlib')):
->>   File
->> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
->> line 519, in get_path
->>     return get_paths(scheme, vars, expand)[name]
->>   File
->> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
->> line 509, in get_paths
->>     return _expand_vars(scheme, vars)
->>   File
->> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
->> line 172, in _expand_vars
->>     _extend_dict(vars, get_config_vars())
->>   File
->> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
->> line 558, in get_config_vars
->>     _init_posix(_CONFIG_VARS)
->>   File
->> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
->> line 428, in _init_posix
->>     _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
->> ModuleNotFoundError: No module named '_sysconfigdata'
->> ```
->>
->> I did a little digging and the following commit seems to reference
->> related work:
->>
->>
->> https://github.com/openembedded/openembedded-core/commit/02714c105426b0d687620913c1a7401b386428b6
->>
->> I see that there is a patch added which adds the following to
->> `sysconfig.py`:
->>
->> ```
->>   if 'STAGING_LIBDIR' in os.environ:
->>
->> sys.path.append(os.environ['STAGING_LIBDIR']+'/python-sysconfigdata')
->> ```
->>
->> However, STAGING_LIBDIR does not contain this path:
->>
->> ```
->> ls
->> /home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot/usr/lib/python-sysconfigdata
->>
->> ls: cannot access
->> '/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot/usr/lib/python-sysconfigdata':
->> No such file or directory
->> ```
->>
->> It appears as if this should really be pointing to STAGING_LIBDIR_NATIVE
->> which does exist:
->>
->> ```
->> ls
->> /home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python-sysconfigdata
->> _sysconfigdata.py
->> ```
->>
->> The referenced commit made efforts to combine the native and cross
->> python3 bbclass files into one. However, I think this may be something that
->> needs to be treated differently.
->>
->> Anyone have any thoughts on how to proceed?
->>
+> Zang Ruochen
 >
-> Can you share the exact context where this is happening? Is your script
-> coming from a recipe and can you show that recipe?
+> > -----Original Message-----
+> > From: Khem Raj <raj.khem@gmail.com>
+> > Sent: Thursday, November 12, 2020 12:15 PM
+> > To: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98 <zangrc.fnst@cn.fujitsu=
+.com>; Ross Burton
+> > <ross@burtonini.com>
+> > Cc: OE-core <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core] [PATCH] icu: upgrade 67.1 -> 68.1
+> >
+> >
+> >
+> > On 11/11/20 6:45 PM, zangrc wrote:
+> > > Sorry, we will improve in the future, but we don=E2=80=99t know how =
+to
+> determine
+> > which recipes need to be tested during the upgrade. Is there any way y=
+ou
+> can
+> > provide us?
+> > >
+> >
+> > one way would be to do bitbake -k world,
+> >
+> > > Zang Ruochen
+> > >
+> > >> -----Original Message-----
+> > >> From: Ross Burton <ross@burtonini.com>
+> > >> Sent: Wednesday, November 11, 2020 6:49 PM
+> > >> To: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98 <zangrc.fnst@cn.fuji=
+tsu.com>
+> > >> Cc: OE-core <openembedded-core@lists.openembedded.org>
+> > >> Subject: Re: [OE-core] [PATCH] icu: upgrade 67.1 -> 68.1
+> > >>
+> > >> Please remember to build more than just a single recipe when testin=
+g,
+> > >> in particular dependents.  This upgrade broke libical and webkitgtk=
+,
+> > >> which resulted in three iterations though the autobuilder and me
+> > >> finding/backporting fixes as appropriate.
+> > >>
+> > >> Ross
+> > >>
+> > >> On Mon, 9 Nov 2020 at 03:39, zangrc <zangrc.fnst@cn.fujitsu.com>
+> wrote:
+> > >>>
+> > >>> -License-Update:The address changes are as follows:
+> > >>>   # Project: http://code.google.com/p/lao-dictionary/
+> > >>>   # Dictionary:
+> http://lao-dictionary.googlecode.com/git/Lao-Dictionary.txt
+> > >>>   # License:
+> > >>> http://lao-dictionary.googlecode.com/git/Lao-Dictionary-LICENSE.tx=
+t
+> > >>>
+> > >>> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> > >>> ---
+> > >>>  meta/recipes-support/icu/{icu_67.1.bb =3D> icu_68.1.bb} | 6 +++--=
+-
+> > >>>  1 file changed, 3 insertions(+), 3 deletions(-)  rename
+> > >>> meta/recipes-support/icu/{icu_67.1.bb =3D> icu_68.1.bb} (95%)
+> > >>>
+> > >>> diff --git a/meta/recipes-support/icu/icu_67.1.bb
+> > >>> b/meta/recipes-support/icu/icu_68.1.bb
+> > >>> similarity index 95%
+> > >>> rename from meta/recipes-support/icu/icu_67.1.bb
+> > >>> rename to meta/recipes-support/icu/icu_68.1.bb
+> > >>> index 9e8091ba01..98aa6b7be6 100644
+> > >>> --- a/meta/recipes-support/icu/icu_67.1.bb
+> > >>> +++ b/meta/recipes-support/icu/icu_68.1.bb
+> > >>> @@ -83,7 +83,7 @@ FILES_libicuio =3D "${libdir}/libicuio.so.*"
+> > >>>
+> > >>>  BBCLASSEXTEND =3D "native nativesdk"
+> > >>>
+> > >>> -LIC_FILES_CHKSUM =3D
+> > >> "file://../LICENSE;md5=3Da3808a5b70071b07f87ff2205e4d75a0"
+> > >>> +LIC_FILES_CHKSUM =3D
+> > >> "file://../LICENSE;md5=3D002d2fdc32d17f0ec06e9a47f2c0c8d0"
+> > >>>
+> > >>>  def icu_download_version(d):
+> > >>>      pvsplit =3D d.getVar('PV').split('.') @@ -112,8 +112,8 @@ SRC=
+_URI
+> > >>> =3D "${BASE_SRC_URI};name=3Dcode \  SRC_URI_append_class-target =
+=3D "\
+> > >>>             file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+> > >>>            "
+> > >>> -SRC_URI[code.sha256sum] =3D
+> > >>
+> > "94a80cd6f251a53bd2a997f6f1b5ac6653fe791dfab66e1eb0227740fb86d5
+> > >> dc"
+> > >>> -SRC_URI[data.sha256sum] =3D
+> > >>
+> > "7c16a59cc8c06128b7ecc1dc4fc056b36b17349312829b17408b9e67b05c4
+> > >> a7e"
+> > >>> +SRC_URI[code.sha256sum] =3D
+> > >>
+> > "a9f2e3d8b4434b8e53878b4308bd1e6ee51c9c7042e2b1a376abefb6fbb2
+> > >> 9f2d"
+> > >>> +SRC_URI[data.sha256sum] =3D
+> > >>
+> > "03ea8b4694155620548c8c0ba20444f1e7db246cc79e3b9c4fc7a960b160d
+> > >> 510"
+> > >>>
+> > >>>  UPSTREAM_CHECK_REGEX =3D "icu4c-(?P<pver>\d+(_\d+)+)-src"
+> > >>>  UPSTREAM_CHECK_URI =3D "https://github.com/unicode-
+> > org/icu/releases"
+> > >>> --
+> > >>> 2.25.1
+> > >>>
+> > >>>
+> > >>>
+> > >>>
+> > >>>
+> > >>>
+> > >>
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> > >
+> >
 >
-> Alex
+>
+>
+>
+>=20
 >
 >
 
---0000000000000cdaed05b3e5dec1
+--0000000000008298dd05b3e605fb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>A quick fix may be to add a target python3 dependency=
- to your recipe, yes ugly, but I can&#39;t figure out how to provide target=
- python configuration to native python used in the context of building targ=
-et recipes otherwise.</div><div><br></div><div>Alex<br></div><br></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 12=
- Nov 2020 at 10:49, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
-ail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Thu, =
-12 Nov 2020 at 02:23, Glenn Stroz via <a href=3D"http://lists.openembedded.=
-org" target=3D"_blank">lists.openembedded.org</a> &lt;gstroz=3D<a href=3D"m=
-ailto:uber.com@lists.openembedded.org" target=3D"_blank">uber.com@lists.ope=
-nembedded.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">We&#39;ve been upg=
-rading our work to Dunfell and have encountered an issue with python3-nativ=
-e.=C2=A0<div><br></div><div>One of our python3-native scripts uses pydoc an=
-d that in turn eventually pulls in python&#39;s sysconfig. However, this is=
- failing to import with the following stack trace:</div><div><br></div><div=
->```</div><div>=C2=A0 =C2=A0 import pydoc<br>=C2=A0 File &quot;/home/gstroz=
-/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-=
-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/py=
-doc.py&quot;, line 366, in &lt;module&gt;<br>=C2=A0 =C2=A0 class Doc:<br>=
-=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/=
-build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysro=
-ot-native/usr/lib/python3.8/pydoc.py&quot;, line 396, in Doc<br>=C2=A0 =C2=
-=A0 def getdocloc(self, object, basedir=3Dsysconfig.get_path(&#39;stdlib&#3=
-9;)):<br>=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto=
--dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/rec=
-ipe-sysroot-native/usr/lib/python3.8/sysconfig.py&quot;, line 519, in get_p=
-ath<br>=C2=A0 =C2=A0 return get_paths(scheme, vars, expand)[name]<br>=C2=A0=
- File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/=
-tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-nat=
-ive/usr/lib/python3.8/sysconfig.py&quot;, line 509, in get_paths<br>=C2=A0 =
-=C2=A0 return _expand_vars(scheme, vars)<br>=C2=A0 File &quot;/home/gstroz/=
-.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-l=
-inux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sys=
-config.py&quot;, line 172, in _expand_vars<br>=C2=A0 =C2=A0 _extend_dict(va=
-rs, get_config_vars())<br>=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_=
-gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2=
-020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py&quot;, l=
-ine 558, in get_config_vars<br>=C2=A0 =C2=A0 _init_posix(_CONFIG_VARS)<br>=
-=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/=
-build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysro=
-ot-native/usr/lib/python3.8/sysconfig.py&quot;, line 428, in _init_posix<br=
->=C2=A0 =C2=A0 _temp =3D __import__(name, globals(), locals(), [&#39;build_=
-time_vars&#39;], 0)<br>ModuleNotFoundError: No module named &#39;_sysconfig=
-data&#39;<br></div><div>```</div><div><br></div><div>I did a little digging=
- and the following commit seems to reference related work:</div><div><br></=
-div><div><a href=3D"https://github.com/openembedded/openembedded-core/commi=
-t/02714c105426b0d687620913c1a7401b386428b6" target=3D"_blank">https://githu=
-b.com/openembedded/openembedded-core/commit/02714c105426b0d687620913c1a7401=
-b386428b6</a></div><div><br></div><div>I see that there is a patch added wh=
-ich adds the following to `sysconfig.py`:</div><div><br></div><div>```</div=
-><div>=C2=A0 if &#39;STAGING_LIBDIR&#39; in os.environ:<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 sys.path.append(os.environ[&#39;STAGING_LIBDIR&#39;]+&#39;/py=
-thon-sysconfigdata&#39;)<br></div><div>```</div><div><br></div><div>However=
-, STAGING_LIBDIR does not contain this path:</div><div><br></div><div>```</=
-div><div>ls /home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/=
-tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot/usr=
-/lib/python-sysconfigdata <br>ls: cannot access &#39;/home/gstroz/.cache/av=
-os/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf=
--daemon/2020.282.17-r0/recipe-sysroot/usr/lib/python-sysconfigdata&#39;: No=
- such file or directory<br></div><div>```</div><div><br></div><div>It appea=
-rs as if this should really be pointing to=C2=A0STAGING_LIBDIR_NATIVE which=
- does exist:</div><div><br></div><div>```<br></div><div>ls /home/gstroz/.ca=
-che/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linu=
-x/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python-sysconfig=
-data</div>_sysconfigdata.py<br><div>```</div><div><br></div><div>The refere=
-nced commit made efforts to combine the native and cross python3 bbclass fi=
-les into one. However, I think this may be something that needs to be treat=
-ed differently.</div><div><br></div><div>Anyone have any thoughts on how to=
- proceed?=C2=A0</div></div></blockquote><div><br></div><div>Can you share t=
-he exact context where this is happening? Is your script coming from a reci=
-pe and can you show that recipe?</div><div><br></div><div>Alex<br></div><di=
-v>=C2=A0</div></div></div>
+<div dir=3D"ltr"><div>There are several ways to find out what depends on a =
+recipe: you can for example do it with a simple grep:</div><div><br></div><=
+div><span style=3D"font-family:monospace"><span style=3D"color:rgb(0,0,0);b=
+ackground-color:rgb(255,255,255)">ak@linux-f9zs:~/development/poky/meta&gt;=
+ grep -ilr &quot;\Wicu\W&quot; *
+</span><br>classes/rm_work.bbclass
+<br>conf/distro/include/maintainers.inc
+<br>recipes-graphics/harfbuzz/<a href=3D"http://harfbuzz_2.7.2.bb">harfbuz=
+z_2.7.2.bb</a>
+<br>recipes-sato/webkit/webkitgtk/0001-ICU-68.1-no-longer-exposes-FALSE-an=
+d-TRUE-macros-by-.patch
+<br>recipes-sato/webkit/<a href=3D"http://webkitgtk_2.30.2.bb">webkitgtk_2=
+.30.2.bb</a>
+<br>recipes-support/boost/boost.inc
+<br>recipes-support/icu/icu/0001-Disable-LDFLAGSICUDT-for-Linux.patch
+<br>recipes-support/icu/icu/fix-install-manx.patch
+<br>recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+<br>recipes-support/icu/<a href=3D"http://icu_68.1.bb">icu_68.1.bb</a>
+<br>recipes-support/vte/<a href=3D"http://vte_0.62.1.bb">vte_0.62.1.bb</a>
+<br>recipes-support/libical/libical/0001-Fix-build-with-icu-68.1.patch
+<br>recipes-support/libical/<a href=3D"http://libical_3.0.8.bb">libical_3.=
+0.8.bb</a><br>
+<br><br></span></div><div><br></div><div>Alex<br></div><div><br></div><div=
+><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Thu, 12 Nov 2020 at 10:26, zangrc &lt;<a href=3D"mailto:zangr=
+c.fnst@cn.fujitsu.com">zangrc.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex">Thank you very much, this =
+is indeed a way, but the storage space of our test environment is limited, =
+not enough to support bitbake world on multiple platforms. Is there any oth=
+er way?<br>
+<br>
+Zang Ruochen<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_b=
+lank">raj.khem@gmail.com</a>&gt;<br>
+&gt; Sent: Thursday, November 12, 2020 12:15 PM<br>
+&gt; To: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98 &lt;<a href=3D"mailto:=
+zangrc.fnst@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a=
+>&gt;; Ross Burton<br>
+&gt; &lt;<a href=3D"mailto:ross@burtonini.com" target=3D"_blank">ross@burt=
+onini.com</a>&gt;<br>
+&gt; Cc: OE-core &lt;<a href=3D"mailto:openembedded-core@lists.openembedde=
+d.org" target=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt;<b=
+r>
+&gt; Subject: Re: [OE-core] [PATCH] icu: upgrade 67.1 -&gt; 68.1<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; On 11/11/20 6:45 PM, zangrc wrote:<br>
+&gt; &gt; Sorry, we will improve in the future, but we don=E2=80=99t know =
+how to determine<br>
+&gt; which recipes need to be tested during the upgrade. Is there any way =
+you can<br>
+&gt; provide us?<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; one way would be to do bitbake -k world,<br>
+&gt; <br>
+&gt; &gt; Zang Ruochen<br>
+&gt; &gt;<br>
+&gt; &gt;&gt; -----Original Message-----<br>
+&gt; &gt;&gt; From: Ross Burton &lt;<a href=3D"mailto:ross@burtonini.com" =
+target=3D"_blank">ross@burtonini.com</a>&gt;<br>
+&gt; &gt;&gt; Sent: Wednesday, November 11, 2020 6:49 PM<br>
+&gt; &gt;&gt; To: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98 &lt;<a href=
+=3D"mailto:zangrc.fnst@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn.fu=
+jitsu.com</a>&gt;<br>
+&gt; &gt;&gt; Cc: OE-core &lt;<a href=3D"mailto:openembedded-core@lists.op=
+enembedded.org" target=3D"_blank">openembedded-core@lists.openembedded.org<=
+/a>&gt;<br>
+&gt; &gt;&gt; Subject: Re: [OE-core] [PATCH] icu: upgrade 67.1 -&gt; 68.1<=
+br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Please remember to build more than just a single recipe when=
+ testing,<br>
+&gt; &gt;&gt; in particular dependents.=C2=A0 This upgrade broke libical a=
+nd webkitgtk,<br>
+&gt; &gt;&gt; which resulted in three iterations though the autobuilder an=
+d me<br>
+&gt; &gt;&gt; finding/backporting fixes as appropriate.<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Ross<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; On Mon, 9 Nov 2020 at 03:39, zangrc &lt;<a href=3D"mailto:za=
+ngrc.fnst@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&=
+gt; wrote:<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; -License-Update:The address changes are as follows:<br>
+&gt; &gt;&gt;&gt;=C2=A0 =C2=A0# Project: <a href=3D"http://code.google.com=
+/p/lao-dictionary/" rel=3D"noreferrer" target=3D"_blank">http://code.google=
+.com/p/lao-dictionary/</a><br>
+&gt; &gt;&gt;&gt;=C2=A0 =C2=A0# Dictionary: <a href=3D"http://lao-dictiona=
+ry.googlecode.com/git/Lao-Dictionary.txt" rel=3D"noreferrer" target=3D"_bla=
+nk">http://lao-dictionary.googlecode.com/git/Lao-Dictionary.txt</a><br>
+&gt; &gt;&gt;&gt;=C2=A0 =C2=A0# License:<br>
+&gt; &gt;&gt;&gt; <a href=3D"http://lao-dictionary.googlecode.com/git/Lao-=
+Dictionary-LICENSE.txt" rel=3D"noreferrer" target=3D"_blank">http://lao-dic=
+tionary.googlecode.com/git/Lao-Dictionary-LICENSE.txt</a><br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; Signed-off-by: Zang Ruochen &lt;<a href=3D"mailto:zangrc=
+.fnst@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&gt;<=
+br>
+&gt; &gt;&gt;&gt; ---<br>
+&gt; &gt;&gt;&gt;=C2=A0 meta/recipes-support/icu/{<a href=3D"http://icu_67=
+.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a> =3D&gt; <a href=
+=
+=3D"http://icu_68.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_68.1.bb</=
+a>} | 6 +++---<br>
+&gt; &gt;&gt;&gt;=C2=A0 1 file changed, 3 insertions(+), 3 deletions(-)=C2=
+=
+=A0 rename<br>
+&gt; &gt;&gt;&gt; meta/recipes-support/icu/{<a href=3D"http://icu_67.1.bb"=
+ rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a> =3D&gt; <a href=3D"ht=
+tp://icu_68.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_68.1.bb</a>} (95=
+%)<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; diff --git a/meta/recipes-support/icu/<a href=3D"http://=
+icu_67.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a><br>
+&gt; &gt;&gt;&gt; b/meta/recipes-support/icu/<a href=3D"http://icu_68.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">icu_68.1.bb</a><br>
+&gt; &gt;&gt;&gt; similarity index 95%<br>
+&gt; &gt;&gt;&gt; rename from meta/recipes-support/icu/<a href=3D"http://i=
+cu_67.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a><br>
+&gt; &gt;&gt;&gt; rename to meta/recipes-support/icu/<a href=3D"http://icu=
+_68.1.bb" rel=3D"noreferrer" target=3D"_blank">icu_68.1.bb</a><br>
+&gt; &gt;&gt;&gt; index 9e8091ba01..98aa6b7be6 100644<br>
+&gt; &gt;&gt;&gt; --- a/meta/recipes-support/icu/<a href=3D"http://icu_67.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">icu_67.1.bb</a><br>
+&gt; &gt;&gt;&gt; +++ b/meta/recipes-support/icu/<a href=3D"http://icu_68.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">icu_68.1.bb</a><br>
+&gt; &gt;&gt;&gt; @@ -83,7 +83,7 @@ FILES_libicuio =3D &quot;${libdir}/lib=
+icuio.so.*&quot;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;=C2=A0 BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt; -LIC_FILES_CHKSUM =3D<br>
+&gt; &gt;&gt; &quot;file://../LICENSE;md5=3Da3808a5b70071b07f87ff2205e4d75=
+a0&quot;<br>
+&gt; &gt;&gt;&gt; +LIC_FILES_CHKSUM =3D<br>
+&gt; &gt;&gt; &quot;file://../LICENSE;md5=3D002d2fdc32d17f0ec06e9a47f2c0c8=
+d0&quot;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;=C2=A0 def icu_download_version(d):<br>
+&gt; &gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 pvsplit =3D d.getVar(&#39;PV&#39;).s=
+plit(&#39;.&#39;) @@ -112,8 +112,8 @@ SRC_URI<br>
+&gt; &gt;&gt;&gt; =3D &quot;${BASE_SRC_URI};name=3Dcode \=C2=A0 SRC_URI_ap=
+pend_class-target =3D &quot;\<br>
+&gt; &gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://00=
+01-Disable-LDFLAGSICUDT-for-Linux.patch \<br>
+&gt; &gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt; &gt;&gt;&gt; -SRC_URI[code.sha256sum] =3D<br>
+&gt; &gt;&gt;<br>
+&gt; &quot;94a80cd6f251a53bd2a997f6f1b5ac6653fe791dfab66e1eb0227740fb86d5<=
+br>
+&gt; &gt;&gt; dc&quot;<br>
+&gt; &gt;&gt;&gt; -SRC_URI[data.sha256sum] =3D<br>
+&gt; &gt;&gt;<br>
+&gt; &quot;7c16a59cc8c06128b7ecc1dc4fc056b36b17349312829b17408b9e67b05c4<b=
+r>
+&gt; &gt;&gt; a7e&quot;<br>
+&gt; &gt;&gt;&gt; +SRC_URI[code.sha256sum] =3D<br>
+&gt; &gt;&gt;<br>
+&gt; &quot;a9f2e3d8b4434b8e53878b4308bd1e6ee51c9c7042e2b1a376abefb6fbb2<br=
+>
+&gt; &gt;&gt; 9f2d&quot;<br>
+&gt; &gt;&gt;&gt; +SRC_URI[data.sha256sum] =3D<br>
+&gt; &gt;&gt;<br>
+&gt; &quot;03ea8b4694155620548c8c0ba20444f1e7db246cc79e3b9c4fc7a960b160d<b=
+r>
+&gt; &gt;&gt; 510&quot;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;=C2=A0 UPSTREAM_CHECK_REGEX =3D &quot;icu4c-(?P&lt;pver&g=
+t;\d+(_\d+)+)-src&quot;<br>
+&gt; &gt;&gt;&gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://gi=
+thub.com/unicode-" rel=3D"noreferrer" target=3D"_blank">https://github.com/=
+unicode-</a><br>
+&gt; org/icu/releases&quot;<br>
+&gt; &gt;&gt;&gt; --<br>
+&gt; &gt;&gt;&gt; 2.25.1<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;&gt;<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; <br>
+&gt; &gt;<br>
+&gt; <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 </blockquote></div>
 
---0000000000000cdaed05b3e5dec1--
+--0000000000008298dd05b3e605fb--
