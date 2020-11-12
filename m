@@ -1,251 +1,78 @@
-Received: from mailrelay4-2.pub.mailoutpod1-cph3.one.com (mailrelay4-2.pub.mailoutpod1-cph3.one.com [46.30.212.3])
- by mx.groups.io with SMTP id smtpd.web12.3739.1605185999054761957
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+ by mx.groups.io with SMTP id smtpd.web12.5339.1605192792642899370
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 05:00:00 -0800
+ Thu, 12 Nov 2020 06:53:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@berginkonsult.se header.s=20191106 header.b=gruh6/qp;
- spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.3, mailfrom: peter@berginkonsult.se)
+ dkim=pass header.i=@madison-systems.20150623.gappssmtp.com header.s=20150623 header.b=KWoyGMp9;
+ spf=none, err=SPF record not found (domain: madison.systems, ip: 209.85.210.195, mailfrom: matt@madison.systems)
+Received: by mail-pf1-f195.google.com with SMTP id v12so4713243pfm.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 06:53:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=20191106;
-	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-	 message-id:from:references:cc:to:subject:from;
-	bh=HZR38EXfQ28o/eqvty5+RbcTJ1z23Pu++VQXneXm4Ic=;
-	b=gruh6/qpuJ1mqOIV/ZBjElC4j6DhZGPKuqCdPZT9zqUN+hNRO43FFR/R6vWiLFjTWMeBPEg7l3w7l
-	 4t70PKO0NDVw8rcN6ueGxMIBOLHrDARekAh/f/zpQTGawhO62R1zl3Ec0OtxGGt+h7bjeMv/4KyLBa
-	 3QK+tYt80scd2qOWa9DnTPY8X52JiqRrzcPG6BHLOsFBW2+72q3tzEh9DJZsFcI++b2MzIkdZjxtFj
-	 YDb+trmIkbOWHy4kbghAJ3QGLbKII8CExYZKoOuEGSvUORwGjyT1vQqFmnHYU+tbxuoTMkUH1Mjqx9
-	 WjweXc6W7rz5+QZCxydP4UBX48yFe6w==
-X-HalOne-Cookie: 33b9ed3ecc365268bf98be8bcd379e08884e1df8
-X-HalOne-ID: f62a2d8a-24e6-11eb-bb82-d0431ea8bb10
-Received: from [10.11.12.212] (unknown [83.218.73.98])
-	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id f62a2d8a-24e6-11eb-bb82-d0431ea8bb10;
-	Thu, 12 Nov 2020 12:59:56 +0000 (UTC)
-Subject: Re: [OE-core] devtool modify - ModuleNotFoundError: No module named '_sysconfigdata'
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: ernst.sjostrand@lists.verisure.com,
- OE-core <openembedded-core@lists.openembedded.org>
-References: <76c7c436-29d1-1687-1889-72e883697a75@berginkonsult.se>
- <29322.1605179238305301621@lists.openembedded.org>
- <CANNYZj_d6uefKzNP1YQ=zGNuG2z0xRs=37Zv1vz3XFvL4i3KPA@mail.gmail.com>
-From: "Peter Bergin" <peter@berginkonsult.se>
-Message-ID: <d3a9efbd-e980-65e8-4bc0-15247a8966a1@berginkonsult.se>
-Date: Thu, 12 Nov 2020 13:59:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        d=madison-systems.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/0Dbl8sYWNDmSbdPq+8jqPBxLVzL7YWZ4ijlUQgl/zs=;
+        b=KWoyGMp9fuJYFkcVZHszMFKY1VYd5FpGx1+E1MJfjKBwrRJqfjw2dxF7JkZuA7PSse
+         yweUcp3cCV/ygWWGgYbB9LobVbgxha+xMaE5i7xnqSA+k8TEx7sxpwAqNtxgrIgqDALX
+         r3slXbyo22eeRJUc1XwFUeHyGLBo7xDVAEU93U6DCNIj3I+uAM2QPjJ3d0APFX8erNIo
+         R3880tXOkjdukOCYb9GSXn86qptE6YnwQ5C342pU7UgjA6MNvNeoLvmcGWikh9ZB079B
+         ca3IjzgTXEQCU0+q+ka8SclT09OTmV2ruefa3FfQ89zKdvziXHQXT+idjITymKtK1hyi
+         jYng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/0Dbl8sYWNDmSbdPq+8jqPBxLVzL7YWZ4ijlUQgl/zs=;
+        b=rnIlnZcrYutL8P+T7ZuABoFXFlcRcJ3MzqSZfMd3ftfCVVRFNZW//Zrvxdp/xiERVu
+         mbqVuCkj251VJeryD8Pu1u0/gqQ/QQCDou7r1LMrfJTSz09awuiNxTlXgvAKGLINxJzF
+         nx1JcqmUxU3Y1jabYSLpf3fOoMsR28ve4wqnMMCgqSuQHmBLSfYyNvdIOn8m6VHbHTCB
+         dhYrI1HciEZNOICMKktDEI8G7B0PAZh2QE4n/yCpJxXviJ4t/NZJM1n3xKdwrynPcRSj
+         MrC1oLwS/s8ur4SfEklQhtTQuMgVjT3HBHDMWWHI46mkbjJwZSaUQkiKy88v1TOVXlRr
+         bhCw==
+X-Gm-Message-State: AOAM533KKjVasL8z10Rm+oGCHYmC4NXl9CrLJMkNFd3kTTwSJR+Cq5Ec
+	MTvXht2O+qjHQncs3b36N3G6qZJuCo3LEw==
+X-Google-Smtp-Source: ABdhPJyIE6qyuV2HQekfdeCKVQhIieqrdaBKk4j5FdeU+bwgvCeIIL5WsQTwfMaLMut43fZywPGCcA==
+X-Received: by 2002:a63:354c:: with SMTP id c73mr27594120pga.315.1605192791515;
+        Thu, 12 Nov 2020 06:53:11 -0800 (PST)
+Return-Path: <matt@madison.systems>
+Received: from legion.athrat.org ([2600:1700:87f0:9cff:a0dc:1ce5:7ffe:3079])
+        by smtp.gmail.com with ESMTPSA id q16sm6879936pfj.117.2020.11.12.06.53.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2020 06:53:10 -0800 (PST)
+From: "Matt Madison" <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Cc: Matt Madison <matt@madison.systems>
+Subject: [PATCH] layer.conf: fix syntax error in PATH setting
+Date: Thu, 12 Nov 2020 06:51:41 -0800
+Message-Id: <20201112145141.699659-1-matt@madison.systems>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_d6uefKzNP1YQ=zGNuG2z0xRs=37Zv1vz3XFvL4i3KPA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-Hi Alex,
+Commit 05a87be51b44608ce4f77ac332df90a3cd2445ef introduced
+a Python conditional expression when updating PATH that
+generates syntax warnings in bitbake-cookerdaemon.log:
 
-On 2020-11-12 12:38, Alexander Kanavin wrote:
-> If you can provide exact steps to reproduce (the recipe is not 
-> available in oe-core), I can take a look. It's been reported plenty of 
-> times, but always with something not in core and not easily available.
+  Var <PATH[:=]>:1: SyntaxWarning: "is not" with a literal. Did you mean "!="?
 
-here are the steps to reproduce with only poky. I hope it can help you 
-find the root cause:
+Fix this by using the more appropriate '!=' comparison
+operator.
 
-     $ git clone https://git.yoctoproject.org/git/poky sources/poky
-     $ . ./sources/poky/oe-init-build-env
-     $ echo 'MACHINE = "qemuarm64"' >> conf/auto.conf
-     $ devtool modify u-boot
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ meta/conf/layer.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-And here is the output on my machine:
-
-     Build Configuration:
-     BB_VERSION           = "1.49.0"
-     BUILD_SYS            = "x86_64-linux"
-     NATIVELSBSTRING      = "ubuntu-20.04"
-     TARGET_SYS           = "aarch64-poky-linux"
-     MACHINE              = "qemuarm64"
-     DISTRO               = "poky"
-     DISTRO_VERSION       = "3.2+snapshot-20201112"
-     TUNE_FEATURES        = "aarch64 armv8a crc cortexa57"
-     TARGET_FPU           = ""
-     meta
-     meta-poky
-     meta-yocto-bsp       = 
-"master:e949e76d0f6897ec5d4feaa47afd2b049b32707f"
-     workspace            = "<unknown>:<unknown>"
-
-     Initialising tasks: 100% 
-|###########################################################| Time: 0:00:00
-     Sstate summary: Wanted 20 Found 20 Missed 0 Current 0 (100% match, 
-0% complete)
-     NOTE: Executing Tasks
-     ERROR: Error executing a python function in exec_python_func() 
-autogenerated:
-
-     The stack trace of python calls that resulted in this 
-exception/failure was:
-     File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-          0001:
-      *** 0002:devtool_post_unpack(d)
-          0003:
-     File: 
-'/work/yocto/devtool-reproduce2/sources/poky/meta/classes/devtool-source.bbclass', 
-lineno: 68, function: devtool_post_unpack
-          0064:}
-          0065:
-          0066:
-          0067:python devtool_post_unpack() {
-      *** 0068:    import oe.recipeutils
-          0069:    import shutil
-          0070:    sys.path.insert(0, os.path.join(d.getVar('COREBASE'), 
-'scripts', 'lib'))
-          0071:    import scriptutils
-          0072:    from devtool import setup_git_repo
-     File: 
-'/work/yocto/devtool-reproduce2/sources/poky/meta/lib/oe/recipeutils.py', 
-lineno: 21, function: <module>
-          0017:import shutil
-          0018:import re
-          0019:import fnmatch
-          0020:import glob
-      *** 0021:import bb.tinfoil
-          0022:
-          0023:from collections import OrderedDict, defaultdict
-          0024:from bb.utils import vercmp_string
-          0025:
-     File: 
-'/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/bb/tinfoil.py', 
-lineno: 19, function: <module>
-          0015:from collections import OrderedDict, defaultdict
-          0016:from functools import partial
-          0017:
-          0018:import bb.cache
-      *** 0019:import bb.cooker
-          0020:import bb.providers
-          0021:import bb.taskdata
-          0022:import bb.utils
-          0023:import bb.command
-     File: 
-'/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/bb/cooker.py', 
-lineno: 25, function: <module>
-          0021:import bb, bb.exceptions, bb.command
-          0022:from bb import utils, data, parse, event, cache, 
-providers, taskdata, runqueue, build
-          0023:import queue
-          0024:import signal
-      *** 0025:import prserv.serv
-          0026:import pyinotify
-          0027:import json
-          0028:import pickle
-          0029:import codecs
-     File: 
-'/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/prserv/serv.py', 
-lineno: 7, function: <module>
-          0003:#
-          0004:
-          0005:import os,sys,logging
-          0006:import signal, time
-      *** 0007:from xmlrpc.server import SimpleXMLRPCServer, 
-SimpleXMLRPCRequestHandler
-          0008:import threading
-          0009:import queue
-          0010:import socket
-          0011:import io
-     File: '/usr/lib/python3.8/xmlrpc/server.py', lineno: 117, function: 
-<module>
-          0113:import socketserver
-          0114:import sys
-          0115:import os
-          0116:import re
-      *** 0117:import pydoc
-          0118:import traceback
-          0119:try:
-          0120:    import fcntl
-          0121:except ImportError:
-     File: '/usr/lib/python3.8/pydoc.py', lineno: 370, function: <module>
-          0366:    return module
-          0367:
-          0368:# ---------------------------------------------------- 
-formatter base class
-          0369:
-      *** 0370:class Doc:
-          0371:
-          0372:    PYTHONDOCS = os.environ.get("PYTHONDOCS",
-          0373: "https://docs.python.org/%d.%d/library"
-          0374:                                % sys.version_info[:2])
-     File: '/usr/lib/python3.8/pydoc.py', lineno: 400, function: Doc
-          0396:        raise TypeError(message)
-          0397:
-          0398:    docmodule = docclass = docroutine = docother = 
-docproperty = docdata = fail
-          0399:
-      *** 0400:    def getdocloc(self, object, 
-basedir=sysconfig.get_path('stdlib')):
-          0401:        """Return the location of module docs or None"""
-          0402:
-          0403:        try:
-          0404:            file = inspect.getabsfile(object)
-     File: '/usr/lib/python3.8/sysconfig.py', lineno: 512, function: 
-get_path
-          0508:    """Return a path corresponding to the scheme.
-          0509:
-          0510:    ``scheme`` is the install scheme name.
-          0511:    """
-      *** 0512:    return get_paths(scheme, vars, expand)[name]
-          0513:
-          0514:
-          0515:def get_config_vars(*args):
-          0516:    """With no arguments, return a dictionary of all 
-configuration
-     File: '/usr/lib/python3.8/sysconfig.py', lineno: 502, function: 
-get_paths
-          0498:    ``scheme`` is the install scheme name. If not 
-provided, it will
-          0499:    return the default scheme for the current platform.
-          0500:    """
-          0501:    if expand:
-      *** 0502:        return _expand_vars(scheme, vars)
-          0503:    else:
-          0504:        return _INSTALL_SCHEMES[scheme]
-          0505:
-          0506:
-     File: '/usr/lib/python3.8/sysconfig.py', lineno: 172, function: 
-_expand_vars
-          0168:def _expand_vars(scheme, vars):
-          0169:    res = {}
-          0170:    if vars is None:
-          0171:        vars = {}
-      *** 0172:    _extend_dict(vars, get_config_vars())
-          0173:
-          0174:    for key, value in _INSTALL_SCHEMES[scheme].items():
-          0175:        if os.name in ('posix', 'nt'):
-          0176:            value = os.path.expanduser(value)
-     File: '/usr/lib/python3.8/sysconfig.py', lineno: 550, function: 
-get_config_vars
-          0546:
-          0547:        if os.name == 'nt':
-          0548:            _init_non_posix(_CONFIG_VARS)
-          0549:        if os.name == 'posix':
-      *** 0550:            _init_posix(_CONFIG_VARS)
-          0551:        # For backward compatibility, see issue19555
-          0552:        SO = _CONFIG_VARS.get('EXT_SUFFIX')
-          0553:        if SO is not None:
-          0554:            _CONFIG_VARS['SO'] = SO
-     File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function: 
-_init_posix
-          0417:def _init_posix(vars):
-          0418:    """Initialize the module as appropriate for POSIX 
-systems."""
-          0419:    # _sysconfigdata is generated at build time, see 
-_generate_posix_vars()
-          0420:    name = _get_sysconfigdata_name()
-      *** 0421:    _temp = __import__(name, globals(), locals(), 
-['build_time_vars'], 0)
-          0422:    build_time_vars = _temp.build_time_vars
-          0423:    vars.update(build_time_vars)
-          0424:
-          0425:def _init_non_posix(vars):
-     Exception: ModuleNotFoundError: No module named '_sysconfigdata'
-
-
-Thanks,
-/Peter
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 2d9cd05695..cda37c33b4 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -104,4 +104,4 @@ SSTATE_EXCLUDEDEPS_SYSROOT += ".*->autoconf-archive-native"
+ # We need to keep bitbake tools in PATH
+ # Avoid empty path entries
+ BITBAKEPATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
+-PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' is not '' else ''}${HOSTTOOLS_DIR}"
++PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' != '' else ''}${HOSTTOOLS_DIR}"
+-- 
+2.25.1
 
