@@ -1,490 +1,248 @@
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
- by mx.groups.io with SMTP id smtpd.web11.6409.1605197004275517464
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.77.59])
+ by mx.groups.io with SMTP id smtpd.web10.7210.1605199756676206566
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 08:03:24 -0800
+ Thu, 12 Nov 2020 08:49:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AwRKh2TZ;
- spf=pass (domain: gmail.com, ip: 209.85.222.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f42.google.com with SMTP id t15so2017072ual.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 08:03:24 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=GZBi6f6M;
+ spf=pass (domain: windriver.com, ip: 40.107.77.59, mailfrom: sakib.sajal@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bcY6hZg9wtV5FnIyOaFWzMfgyyB5trzLSDtZEyzgnBZSCKVXFoTY7ZPKeMr9O0sqJlLLYHX1oa+cX/WHm4VZgdrpxRnTYdXikTct90qBNQVQ2COYwj9ch0OPDXhC9elvg3tac+5mp9VvPJHjE8quRipE6XYsSDXph1Dh2UJIfKaMdYTa5waCrfc26dm9uP9tdLXelmavU5J82NzmGfNlvSmvb/kMNreE1ebYjUykz2QoyXBmHZmy+uwN1ELoHgc72ut/Ifa8wILP67SimolxeVnVPuYv/XooKeIYQIem9OoIdSKhjLrZ/iWOPHe+cMwdE0FDxcYbSZIK3enwc1T7Pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=11l18Zq1TD9W+ymza2xnIuD4JhD/3Y+xoLIcu9SKv/s=;
+ b=mz4jIr+ulMJFCjZTtY51KlLTlfFVuUAwF9WM6MJtKqPivwXqnqLutOVDlDZshOJgCIy1uVx2Xw7e5RosKYi73kYB9WHgMQA1cHnQAZTk12FJfNUhCbkodJc/1OiMAFZp2+WagIZ5LWQ+hovQcfJmSPgQokd+GvGMDdKX/FDNE9FM3jz3M07jYsgL5lfpzRwkOQeTJrd4K1eglbrnawV74q0pfn6vaNCwTlkQkvdYxnvtndL5IJAUDCIJJHTPolertWg4NyTciEcZlfpZcQ0S33oTeXeCl4scHRuMjBUaPJBq59qNGxwA6SyqOK4nT+l8UG8MjfK2ILmhG5lftVec+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=W6jOrbqdqrQfXNnvpu4o905WvjYNiUcxkqGG0H6D6Tw=;
-        b=AwRKh2TZNG6vShJysVYc+QrrmzPfViFzrsL58mbhXJ6Au/Ep++UPlrrxFq9CblLYo8
-         qMsU7yyR7Bzx4HROS9gsodFWJDr2pXXXIYVBdce+jASe7QuqScJvqKTHW6tfZZJXvxNL
-         XcmzKOHXJiw97azyqFcHvEGHk2pY2+/tPe16c+G0TskCfgMP5qmtOeYhjtoMyRUK92B1
-         wyhbfzwkumY8agaGlk7Ie4MZccI2V4WhaRvYoUyzto5oHpoycK9eOJnOZfbUttX8Tn6L
-         kRMG5Dj8hQm4uQDMx+taeFF+Una3iPNI5rnDkllXV/pknR1cAOh75k7RlEKV4c5siJtp
-         8pKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=W6jOrbqdqrQfXNnvpu4o905WvjYNiUcxkqGG0H6D6Tw=;
-        b=k/qHclKqs6r0muJI81wvs0a9pMpf6mlA9oabiQ2Cv1zZ4Oe+ItGLWyumEzazHcJMGR
-         JAUrBQ+q/T9nHt51xJKXAy+m7j9UBxotUKYVOO4q3UAHN6sn240iL2hR37mx4wf6r1re
-         82lXMgyWu+M5NCtCHoLyTHxGY1ZmO9uG/8brTABvU9tEAVNRMLvXAgtuYFVs/K9hUc3w
-         ZhzIONl1pWRcod+GJjJMbGiMCPAkAJF7FO0n/PK8NFc0nwXkg29mX0duQM7MyLgSTYT0
-         zrzl9NtYI5pbmq9j2MBGzd+6NkCCMBuFaUMY5L1OG7Kcuk2IkndVGJykf1NEgBz6VzE/
-         RhHA==
-X-Gm-Message-State: AOAM53013OL3LUrIn0B9iG+87gGQEuTqcH/3I5oMpSqtwBRB0rciJa/Z
-	xTmdf/bpGICb5LJhzhD+Msv09Z9nsOFYQl5ecv0=
-X-Google-Smtp-Source: ABdhPJxrpdqzyuowGITYxQzvdX9zO07ZzYIRbg6D6Iv1eV6s1Wj7sgWD3E+QpHVjXKxpN/0q8drEbmoXPZBW2InF8F8=
-X-Received: by 2002:ab0:7103:: with SMTP id x3mr63668uan.100.1605197003360;
- Thu, 12 Nov 2020 08:03:23 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=11l18Zq1TD9W+ymza2xnIuD4JhD/3Y+xoLIcu9SKv/s=;
+ b=GZBi6f6M01M/kyxOUP6sLNUv/moYSylvzuO+33Z930aomwjEOm0AC4/Jb61to+yYAy/ayL7Zj5PwnICVdJXJE3MOEs2KFYZW081Q24M1Ii0dZ97i6a1V3k2pl8bs1jmYrzNSIyVhMFpT+fcLqJ5Ycsn7V/IalVxvtsat7brgFRo=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
+ DM5PR11MB1578.namprd11.prod.outlook.com (2603:10b6:4:e::23) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21; Thu, 12 Nov 2020 16:49:15 +0000
+Received: from DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::7126:4988:387b:a741]) by DM6PR11MB2538.namprd11.prod.outlook.com
+ ([fe80::7126:4988:387b:a741%2]) with mapi id 15.20.3541.025; Thu, 12 Nov 2020
+ 16:49:15 +0000
+Subject: Re: [OE-core] OE-core CVE metrics for dunfell on Sun 08 Nov 2020 07:30:01 AM HST
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20201108173417.B6D3C960213@nuc.router0800d9.com>
+ <e4aa0ed3-53ca-fad4-2168-2395d2855c27@windriver.com>
+ <CAOSpxdadGrW2ntYVbVXSbvDcSZXB1bpiWZbz3XfPcrC2rGbx_w@mail.gmail.com>
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+Message-ID: <afb354cc-5ee6-6e06-66a9-88f7af538a98@windriver.com>
+Date: Thu, 12 Nov 2020 11:49:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <CAOSpxdadGrW2ntYVbVXSbvDcSZXB1bpiWZbz3XfPcrC2rGbx_w@mail.gmail.com>
+X-Originating-IP: [128.224.252.2]
+X-ClientProxiedBy: YTXPR0101CA0062.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::39) To DM6PR11MB2538.namprd11.prod.outlook.com
+ (2603:10b6:5:be::20)
+Return-Path: sakib.sajal@windriver.com
 MIME-Version: 1.0
-References: <76c7c436-29d1-1687-1889-72e883697a75@berginkonsult.se>
- <29322.1605179238305301621@lists.openembedded.org> <CANNYZj_d6uefKzNP1YQ=zGNuG2z0xRs=37Zv1vz3XFvL4i3KPA@mail.gmail.com>
- <d3a9efbd-e980-65e8-4bc0-15247a8966a1@berginkonsult.se>
-In-Reply-To: <d3a9efbd-e980-65e8-4bc0-15247a8966a1@berginkonsult.se>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 12 Nov 2020 17:03:11 +0100
-Message-ID: <CANNYZj81DeuAWh5oPsg3dMQPr9iH4m24SpjjvaBNfiEGjdOKZw@mail.gmail.com>
-Subject: Re: [OE-core] devtool modify - ModuleNotFoundError: No module named '_sysconfigdata'
-To: Peter Bergin <peter@berginkonsult.se>
-Cc: ernst.sjostrand@lists.verisure.com, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Martin Jansa <martin.jansa@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000002e0cd305b3eb0d10"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.133.31] (128.224.252.2) by YTXPR0101CA0062.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::39) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Thu, 12 Nov 2020 16:49:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 60210ed3-47f3-4bf1-d971-08d8872ae37b
+X-MS-TrafficTypeDiagnostic: DM5PR11MB1578:
+X-Microsoft-Antispam-PRVS: 
+	<DM5PR11MB157856FA9191CBAA92988626F2E70@DM5PR11MB1578.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Trs8ECC00bJGVnK3PhAVNeLj9EnKqfZBk/TCD7F5UOJAV0xTU4weOtWxlhFnu61V4q+trhAEEIL55UZS2WUwO1SBdwSZwsQanSnjk3BZ8ccRLOXtKyNSE+T/KyhoEp+BsBsR1/9/xxE9ISQ+/1XjKzBjjYgp/o2YklJZ83aaSAS+rl9Z199Nz96+628kaRjBzTxj4jIdg+YlqDD0pVMoSdrLePsqWM6qSSbJTeD5COQihc4USWZyMjzcU39l4hNVcfrRQCejCCKjKrCGIwsYLRaE3iNQcz1AgQjoBH+ZrzX+2O0uYBDF5dbOpzg1u4t5znj51Y4QZMuEzXxlyhOtoPJVpJVj1dVCEJqdQeGmkadeCWEYN3CD71DZ9GIwKbB6Sft+lKLA5yU3H8ONuCgKew3eEtGi9HGugT66QWOKdT8a4lgwgvkD6RF8Q21HRHv9kK1teRBnCQGnCfzkfBplYtTokenHr5+OgwdmZruSpKqC1oXIwbM9I66qODTI+Agr4460YCIW/RVrFtYV/FeS1g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39850400004)(366004)(346002)(396003)(376002)(66556008)(66946007)(26005)(36756003)(52116002)(53546011)(16526019)(83380400001)(4326008)(31686004)(8936002)(316002)(186003)(8676002)(86362001)(6486002)(16576012)(66476007)(6666004)(478600001)(6706004)(6916009)(966005)(5660300002)(30864003)(2616005)(2906002)(44832011)(31696002)(956004)(83080400002)(78286007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	jXiQO8Zrg64kJPTOF022i60XQNwaaKjCX7an3rowipG4VhDJHuc8nbvN9T8r9r2J+DVVxCsJEih5CgmrLZHkvvAcO7f0jDKwlV3ffIcbLYuJzXXDgVX7seyAida7x4UVU5Aoy02wUjSU7d6mNRWdxNrQxGxN8pGaGNuojD4Q0KxkOAQZn4kUP9JMXdBht/nIFCC3LUgJJgHnrdLjZOZ+UQDZ0tAewK24wW9GXFsxTsrTUQIexTx/fEOW02ZbXtudW0ZUDXhvDUwcG4BapGNrLLO4PKHSOs/uDBwewcYmZMH7q9A/K91i32O6ikjbEZNNbI9PAiy4xHcl4tpI4NgQ7daKlo57RXktJpuMMUdt1h6p6DfYCXkbhgwRejvUFb1LFuwLGL+HDid2KTCzxUzDef6jlp6XlFv/3Dv/ntKbEXAFCK6IRFWV5Y3iwmhoAmCK/Opr4dtgfKrOhlRoiJHA6DOMa1xZWJvwOrL/BtUdWILGyeRJMPco9bv5VuGzdq96hIXVtZzjD25H1bjUyM0HwQHuc/EvUOR8wRjoNjaOYrpqyrkG/kv29wH0UiWH2ehHgyTvGq3MIpuvrLwxkzwmupCdhLhwRxpwsqSNYSyHLEYQu30IxBA9jZfmp7O9iCi2vYGvXzuQXs0YvfgwXY8257aMl9u4sU78QMxKFLG+IcSCyNhGOBFWe20ckyVavaZziBzIc6U/+rA++cWDYy8rbf6K5PoPqIuUfYE7fAfCypUMm+5tkjQrEC+MAfLQub0zNuFHYHp78A26NiUZEezlgEiTG6y5z2qTAilx/Y3UnNKHtyFFdpLGtPfJY/O81ISsBUKVdT2NALFR7/02sJQLuopiCvLoS/fUuJ7gTOqxMT/GIb3X5q5DHNrDZXFRckSm4TuysFR3Z5KpQcA8pp0EpA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60210ed3-47f3-4bf1-d971-08d8872ae37b
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2020 16:49:14.9554
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Hjou/oOqFw6dHLOTNYiRMedsaS+aEeovonsZc5u/uIztUTnlpOKgfLaSObt/JW2ygjmFPq5UCqoSEvAZfXZqZgLknCEAE3aQvZTk5xl6H0g=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1578
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---0000000000002e0cd305b3eb0d10
-Content-Type: text/plain; charset="UTF-8"
 
-I have just seen it first-hand for the first time. It happens on Ubuntu
-20.04, but not on for example OpenSuse tumbleweed. So something in Ubuntu
-causes the native python environment to leak into the host python
-environment. Will investigate.
+On 2020-11-09 2:57 p.m., Steve Sakoman wrote:
+> [Please note this e-mail is from an EXTERNAL e-mail address]
+>
+> On Mon, Nov 9, 2020 at 8:36 AM Sakib Sajal <sakib.sajal@windriver.com> wrote:
+>>
+>> On 2020-11-08 12:34 p.m., Steve Sakoman wrote:
+>>
+>> [Please note this e-mail is from an EXTERNAL e-mail address]
+>>
+>> Branch: dunfell
+>>
+>> New this week:
+>> CVE-2020-27619: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27619 *
+>>
+>> Removed this week:
+>> CVE-2019-20175: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20175 *
+>> CVE-2019-20334: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20334 *
+>> CVE-2019-6290: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6290 *
+>> CVE-2019-6291: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6291 *
+>> CVE-2019-8343: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-8343 *
+>>
+>> Full list:  Found 86 unpatched CVEs
+>>
+>> I will look after the qemu CVE's from CVE-2015-8345 and onwards.
+> Thanks Sakib.  I appreciate all the help I can get!
+>
+> Note that many of these are matching due to the CPE wildcard entry
+> matching all versions.
+>
+> So the CVEs may be fixed in recent qemu versions and all that is
+> required is a request to the CPE maintainer to update the wildcard.
+>
+> But some research will be required to see if this is the case.  If so
+> an email to the maintainer can get this corrected.
+>
+> I've already done many where the fixes were somewhat easy to locate.
+> The remaining ones will require varying levels of effort.
+>
+> If you haven't sent database update requests before let me know and
+> I'll send you some examples.
+>
+> Steve
 
-Alex
+I've triaged the qemu CVE's mentioned below, summary as follows:
 
-On Thu, 12 Nov 2020 at 13:59, Peter Bergin <peter@berginkonsult.se> wrote:
+CVE-2015-8345 - CVE-2017-5957 all have fixes that are in qemu 4.2 used 
+by dunfell.
 
-> Hi Alex,
->
-> On 2020-11-12 12:38, Alexander Kanavin wrote:
-> > If you can provide exact steps to reproduce (the recipe is not
-> > available in oe-core), I can take a look. It's been reported plenty of
-> > times, but always with something not in core and not easily available.
->
-> here are the steps to reproduce with only poky. I hope it can help you
-> find the root cause:
->
->      $ git clone https://git.yoctoproject.org/git/poky sources/poky
->      $ . ./sources/poky/oe-init-build-env
->      $ echo 'MACHINE = "qemuarm64"' >> conf/auto.conf
->      $ devtool modify u-boot
->
-> And here is the output on my machine:
->
->      Build Configuration:
->      BB_VERSION           = "1.49.0"
->      BUILD_SYS            = "x86_64-linux"
->      NATIVELSBSTRING      = "ubuntu-20.04"
->      TARGET_SYS           = "aarch64-poky-linux"
->      MACHINE              = "qemuarm64"
->      DISTRO               = "poky"
->      DISTRO_VERSION       = "3.2+snapshot-20201112"
->      TUNE_FEATURES        = "aarch64 armv8a crc cortexa57"
->      TARGET_FPU           = ""
->      meta
->      meta-poky
->      meta-yocto-bsp       =
-> "master:e949e76d0f6897ec5d4feaa47afd2b049b32707f"
->      workspace            = "<unknown>:<unknown>"
->
->      Initialising tasks: 100%
-> |###########################################################| Time: 0:00:00
->      Sstate summary: Wanted 20 Found 20 Missed 0 Current 0 (100% match,
-> 0% complete)
->      NOTE: Executing Tasks
->      ERROR: Error executing a python function in exec_python_func()
-> autogenerated:
->
->      The stack trace of python calls that resulted in this
-> exception/failure was:
->      File: 'exec_python_func() autogenerated', lineno: 2, function:
-> <module>
->           0001:
->       *** 0002:devtool_post_unpack(d)
->           0003:
->      File:
-> '/work/yocto/devtool-reproduce2/sources/poky/meta/classes/devtool-source.bbclass',
->
-> lineno: 68, function: devtool_post_unpack
->           0064:}
->           0065:
->           0066:
->           0067:python devtool_post_unpack() {
->       *** 0068:    import oe.recipeutils
->           0069:    import shutil
->           0070:    sys.path.insert(0, os.path.join(d.getVar('COREBASE'),
-> 'scripts', 'lib'))
->           0071:    import scriptutils
->           0072:    from devtool import setup_git_repo
->      File:
-> '/work/yocto/devtool-reproduce2/sources/poky/meta/lib/oe/recipeutils.py',
-> lineno: 21, function: <module>
->           0017:import shutil
->           0018:import re
->           0019:import fnmatch
->           0020:import glob
->       *** 0021:import bb.tinfoil
->           0022:
->           0023:from collections import OrderedDict, defaultdict
->           0024:from bb.utils import vercmp_string
->           0025:
->      File:
-> '/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/bb/tinfoil.py',
-> lineno: 19, function: <module>
->           0015:from collections import OrderedDict, defaultdict
->           0016:from functools import partial
->           0017:
->           0018:import bb.cache
->       *** 0019:import bb.cooker
->           0020:import bb.providers
->           0021:import bb.taskdata
->           0022:import bb.utils
->           0023:import bb.command
->      File:
-> '/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/bb/cooker.py',
-> lineno: 25, function: <module>
->           0021:import bb, bb.exceptions, bb.command
->           0022:from bb import utils, data, parse, event, cache,
-> providers, taskdata, runqueue, build
->           0023:import queue
->           0024:import signal
->       *** 0025:import prserv.serv
->           0026:import pyinotify
->           0027:import json
->           0028:import pickle
->           0029:import codecs
->      File:
-> '/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/prserv/serv.py',
-> lineno: 7, function: <module>
->           0003:#
->           0004:
->           0005:import os,sys,logging
->           0006:import signal, time
->       *** 0007:from xmlrpc.server import SimpleXMLRPCServer,
-> SimpleXMLRPCRequestHandler
->           0008:import threading
->           0009:import queue
->           0010:import socket
->           0011:import io
->      File: '/usr/lib/python3.8/xmlrpc/server.py', lineno: 117, function:
-> <module>
->           0113:import socketserver
->           0114:import sys
->           0115:import os
->           0116:import re
->       *** 0117:import pydoc
->           0118:import traceback
->           0119:try:
->           0120:    import fcntl
->           0121:except ImportError:
->      File: '/usr/lib/python3.8/pydoc.py', lineno: 370, function: <module>
->           0366:    return module
->           0367:
->           0368:# ----------------------------------------------------
-> formatter base class
->           0369:
->       *** 0370:class Doc:
->           0371:
->           0372:    PYTHONDOCS = os.environ.get("PYTHONDOCS",
->           0373: "https://docs.python.org/%d.%d/library"
->           0374:                                % sys.version_info[:2])
->      File: '/usr/lib/python3.8/pydoc.py', lineno: 400, function: Doc
->           0396:        raise TypeError(message)
->           0397:
->           0398:    docmodule = docclass = docroutine = docother =
-> docproperty = docdata = fail
->           0399:
->       *** 0400:    def getdocloc(self, object,
-> basedir=sysconfig.get_path('stdlib')):
->           0401:        """Return the location of module docs or None"""
->           0402:
->           0403:        try:
->           0404:            file = inspect.getabsfile(object)
->      File: '/usr/lib/python3.8/sysconfig.py', lineno: 512, function:
-> get_path
->           0508:    """Return a path corresponding to the scheme.
->           0509:
->           0510:    ``scheme`` is the install scheme name.
->           0511:    """
->       *** 0512:    return get_paths(scheme, vars, expand)[name]
->           0513:
->           0514:
->           0515:def get_config_vars(*args):
->           0516:    """With no arguments, return a dictionary of all
-> configuration
->      File: '/usr/lib/python3.8/sysconfig.py', lineno: 502, function:
-> get_paths
->           0498:    ``scheme`` is the install scheme name. If not
-> provided, it will
->           0499:    return the default scheme for the current platform.
->           0500:    """
->           0501:    if expand:
->       *** 0502:        return _expand_vars(scheme, vars)
->           0503:    else:
->           0504:        return _INSTALL_SCHEMES[scheme]
->           0505:
->           0506:
->      File: '/usr/lib/python3.8/sysconfig.py', lineno: 172, function:
-> _expand_vars
->           0168:def _expand_vars(scheme, vars):
->           0169:    res = {}
->           0170:    if vars is None:
->           0171:        vars = {}
->       *** 0172:    _extend_dict(vars, get_config_vars())
->           0173:
->           0174:    for key, value in _INSTALL_SCHEMES[scheme].items():
->           0175:        if os.name in ('posix', 'nt'):
->           0176:            value = os.path.expanduser(value)
->      File: '/usr/lib/python3.8/sysconfig.py', lineno: 550, function:
-> get_config_vars
->           0546:
->           0547:        if os.name == 'nt':
->           0548:            _init_non_posix(_CONFIG_VARS)
->           0549:        if os.name == 'posix':
->       *** 0550:            _init_posix(_CONFIG_VARS)
->           0551:        # For backward compatibility, see issue19555
->           0552:        SO = _CONFIG_VARS.get('EXT_SUFFIX')
->           0553:        if SO is not None:
->           0554:            _CONFIG_VARS['SO'] = SO
->      File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function:
-> _init_posix
->           0417:def _init_posix(vars):
->           0418:    """Initialize the module as appropriate for POSIX
-> systems."""
->           0419:    # _sysconfigdata is generated at build time, see
-> _generate_posix_vars()
->           0420:    name = _get_sysconfigdata_name()
->       *** 0421:    _temp = __import__(name, globals(), locals(),
-> ['build_time_vars'], 0)
->           0422:    build_time_vars = _temp.build_time_vars
->           0423:    vars.update(build_time_vars)
->           0424:
->           0425:def _init_non_posix(vars):
->      Exception: ModuleNotFoundError: No module named '_sysconfigdata'
->
->
-> Thanks,
-> /Peter
->
->
+CVE-2018-12617 onwards have fixes but are introduced in qemu 5.[0 | 1]
 
---0000000000002e0cd305b3eb0d10
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: base64
+CVE's with proposed fixes are as follows:
 
-PGRpdiBkaXI9Imx0ciI+PGRpdj5JIGhhdmUganVzdCBzZWVuIGl0IGZpcnN0LWhhbmQgZm9yIHRo
-ZSBmaXJzdCB0aW1lLiBJdCBoYXBwZW5zIG9uIFVidW50dSAyMC4wNCwgYnV0IG5vdCBvbiBmb3Ig
-ZXhhbXBsZSBPcGVuU3VzZSB0dW1ibGV3ZWVkLiBTbyBzb21ldGhpbmcgaW4gVWJ1bnR1IGNhdXNl
-cyB0aGUgbmF0aXZlIHB5dGhvbiBlbnZpcm9ubWVudCB0byBsZWFrIGludG8gdGhlIGhvc3QgcHl0
-aG9uIGVudmlyb25tZW50LiBXaWxsIGludmVzdGlnYXRlLjwvZGl2PjxkaXY+PGJyPjwvZGl2Pjxk
-aXY+QWxleDxicj48L2Rpdj48L2Rpdj48YnI+PGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPjxkaXYg
-ZGlyPSJsdHIiIGNsYXNzPSJnbWFpbF9hdHRyIj5PbiBUaHUsIDEyIE5vdiAyMDIwIGF0IDEzOjU5
-LCBQZXRlciBCZXJnaW4gJmx0OzxhIGhyZWY9Im1haWx0bzpwZXRlckBiZXJnaW5rb25zdWx0LnNl
-Ij5wZXRlckBiZXJnaW5rb25zdWx0LnNlPC9hPiZndDsgd3JvdGU6PGJyPjwvZGl2PjxibG9ja3F1
-b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1hcmdpbjowcHggMHB4IDBweCAwLjhleDti
-b3JkZXItbGVmdDoxcHggc29saWQgcmdiKDIwNCwyMDQsMjA0KTtwYWRkaW5nLWxlZnQ6MWV4Ij5I
-aSBBbGV4LDxicj4NCjxicj4NCk9uIDIwMjAtMTEtMTIgMTI6MzgsIEFsZXhhbmRlciBLYW5hdmlu
-IHdyb3RlOjxicj4NCiZndDsgSWYgeW91IGNhbiBwcm92aWRlIGV4YWN0IHN0ZXBzIHRvIHJlcHJv
-ZHVjZSAodGhlIHJlY2lwZSBpcyBub3QgPGJyPg0KJmd0OyBhdmFpbGFibGUgaW4gb2UtY29yZSks
-IEkgY2FuIHRha2UgYSBsb29rLiBJdCYjMzk7cyBiZWVuIHJlcG9ydGVkIHBsZW50eSBvZiA8YnI+
-DQomZ3Q7IHRpbWVzLCBidXQgYWx3YXlzIHdpdGggc29tZXRoaW5nIG5vdCBpbiBjb3JlIGFuZCBu
-b3QgZWFzaWx5IGF2YWlsYWJsZS48YnI+DQo8YnI+DQpoZXJlIGFyZSB0aGUgc3RlcHMgdG8gcmVw
-cm9kdWNlIHdpdGggb25seSBwb2t5LiBJIGhvcGUgaXQgY2FuIGhlbHAgeW91IDxicj4NCmZpbmQg
-dGhlIHJvb3QgY2F1c2U6PGJyPg0KPGJyPg0KwqDCoMKgwqAgJCBnaXQgY2xvbmUgPGEgaHJlZj0i
-aHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9naXQvcG9reSIgcmVsPSJub3JlZmVycmVyIiB0
-YXJnZXQ9Il9ibGFuayI+aHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9naXQvcG9reTwvYT4g
-c291cmNlcy9wb2t5PGJyPg0KwqDCoMKgwqAgJCAuIC4vc291cmNlcy9wb2t5L29lLWluaXQtYnVp
-bGQtZW52PGJyPg0KwqDCoMKgwqAgJCBlY2hvICYjMzk7TUFDSElORSA9ICZxdW90O3FlbXVhcm02
-NCZxdW90OyYjMzk7ICZndDsmZ3Q7IGNvbmYvYXV0by5jb25mPGJyPg0KwqDCoMKgwqAgJCBkZXZ0
-b29sIG1vZGlmeSB1LWJvb3Q8YnI+DQo8YnI+DQpBbmQgaGVyZSBpcyB0aGUgb3V0cHV0IG9uIG15
-IG1hY2hpbmU6PGJyPg0KPGJyPg0KwqDCoMKgwqAgQnVpbGQgQ29uZmlndXJhdGlvbjo8YnI+DQrC
-oMKgwqDCoCBCQl9WRVJTSU9OwqDCoMKgwqDCoMKgwqDCoMKgwqAgPSAmcXVvdDsxLjQ5LjAmcXVv
-dDs8YnI+DQrCoMKgwqDCoCBCVUlMRF9TWVPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgID0gJnF1b3Q7
-eDg2XzY0LWxpbnV4JnF1b3Q7PGJyPg0KwqDCoMKgwqAgTkFUSVZFTFNCU1RSSU5HwqDCoMKgwqDC
-oCA9ICZxdW90O3VidW50dS0yMC4wNCZxdW90Ozxicj4NCsKgwqDCoMKgIFRBUkdFVF9TWVPCoMKg
-wqDCoMKgwqDCoMKgwqDCoCA9ICZxdW90O2FhcmNoNjQtcG9reS1saW51eCZxdW90Ozxicj4NCsKg
-wqDCoMKgIE1BQ0hJTkXCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCA9ICZxdW90O3FlbXVhcm02
-NCZxdW90Ozxicj4NCsKgwqDCoMKgIERJU1RST8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-PSAmcXVvdDtwb2t5JnF1b3Q7PGJyPg0KwqDCoMKgwqAgRElTVFJPX1ZFUlNJT07CoMKgwqDCoMKg
-wqAgPSAmcXVvdDszLjIrc25hcHNob3QtMjAyMDExMTImcXVvdDs8YnI+DQrCoMKgwqDCoCBUVU5F
-X0ZFQVRVUkVTwqDCoMKgwqDCoMKgwqAgPSAmcXVvdDthYXJjaDY0IGFybXY4YSBjcmMgY29ydGV4
-YTU3JnF1b3Q7PGJyPg0KwqDCoMKgwqAgVEFSR0VUX0ZQVcKgwqDCoMKgwqDCoMKgwqDCoMKgID0g
-JnF1b3Q7JnF1b3Q7PGJyPg0KwqDCoMKgwqAgbWV0YTxicj4NCsKgwqDCoMKgIG1ldGEtcG9reTxi
-cj4NCsKgwqDCoMKgIG1ldGEteW9jdG8tYnNwwqDCoMKgwqDCoMKgID0gPGJyPg0KJnF1b3Q7bWFz
-dGVyOmU5NDllNzZkMGY2ODk3ZWM1ZDRmZWFhNDdhZmQyYjA0OWIzMjcwN2YmcXVvdDs8YnI+DQrC
-oMKgwqDCoCB3b3Jrc3BhY2XCoMKgwqDCoMKgwqDCoMKgwqDCoMKgID0gJnF1b3Q7Jmx0O3Vua25v
-d24mZ3Q7OiZsdDt1bmtub3duJmd0OyZxdW90Ozxicj4NCjxicj4NCsKgwqDCoMKgIEluaXRpYWxp
-c2luZyB0YXNrczogMTAwJSA8YnI+DQp8IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
-IyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyN8IFRpbWU6IDA6MDA6MDA8YnI+DQrCoMKgwqDCoCBT
-c3RhdGUgc3VtbWFyeTogV2FudGVkIDIwIEZvdW5kIDIwIE1pc3NlZCAwIEN1cnJlbnQgMCAoMTAw
-JSBtYXRjaCwgPGJyPg0KMCUgY29tcGxldGUpPGJyPg0KwqDCoMKgwqAgTk9URTogRXhlY3V0aW5n
-IFRhc2tzPGJyPg0KwqDCoMKgwqAgRVJST1I6IEVycm9yIGV4ZWN1dGluZyBhIHB5dGhvbiBmdW5j
-dGlvbiBpbiBleGVjX3B5dGhvbl9mdW5jKCkgPGJyPg0KYXV0b2dlbmVyYXRlZDo8YnI+DQo8YnI+
-DQrCoMKgwqDCoCBUaGUgc3RhY2sgdHJhY2Ugb2YgcHl0aG9uIGNhbGxzIHRoYXQgcmVzdWx0ZWQg
-aW4gdGhpcyA8YnI+DQpleGNlcHRpb24vZmFpbHVyZSB3YXM6PGJyPg0KwqDCoMKgwqAgRmlsZTog
-JiMzOTtleGVjX3B5dGhvbl9mdW5jKCkgYXV0b2dlbmVyYXRlZCYjMzk7LCBsaW5lbm86IDIsIGZ1
-bmN0aW9uOiAmbHQ7bW9kdWxlJmd0Ozxicj4NCsKgwqDCoMKgIMKgwqDCoMKgIDAwMDE6PGJyPg0K
-wqDCoMKgwqDCoCAqKiogMDAwMjpkZXZ0b29sX3Bvc3RfdW5wYWNrKGQpPGJyPg0KwqDCoMKgIMKg
-wqDCoCDCoCAwMDAzOjxicj4NCsKgwqDCoMKgIEZpbGU6IDxicj4NCiYjMzk7L3dvcmsveW9jdG8v
-ZGV2dG9vbC1yZXByb2R1Y2UyL3NvdXJjZXMvcG9reS9tZXRhL2NsYXNzZXMvZGV2dG9vbC1zb3Vy
-Y2UuYmJjbGFzcyYjMzk7LCA8YnI+DQpsaW5lbm86IDY4LCBmdW5jdGlvbjogZGV2dG9vbF9wb3N0
-X3VucGFjazxicj4NCsKgwqDCoMKgIMKgwqDCoMKgIDAwNjQ6fTxicj4NCsKgwqDCoCDCoMKgwqAg
-wqAgMDA2NTo8YnI+DQrCoMKgwqDCoCDCoMKgIMKgIDAwNjY6PGJyPg0KwqDCoMKgwqAgwqDCoCDC
-oCAwMDY3OnB5dGhvbiBkZXZ0b29sX3Bvc3RfdW5wYWNrKCkgezxicj4NCsKgwqDCoMKgwqAgKioq
-IDAwNjg6wqDCoMKgIGltcG9ydCBvZS5yZWNpcGV1dGlsczxicj4NCsKgwqDCoCDCoMKgwqAgwqAg
-MDA2OTrCoMKgwqAgaW1wb3J0IHNodXRpbDxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDA3MDrCoMKg
-wqAgc3lzLnBhdGguaW5zZXJ0KDAsIG9zLnBhdGguam9pbihkLmdldFZhcigmIzM5O0NPUkVCQVNF
-JiMzOTspLCA8YnI+DQomIzM5O3NjcmlwdHMmIzM5OywgJiMzOTtsaWImIzM5OykpPGJyPg0KwqDC
-oMKgIMKgwqDCoCDCoCAwMDcxOsKgwqDCoCBpbXBvcnQgc2NyaXB0dXRpbHM8YnI+DQrCoMKgwqDC
-oCDCoMKgIMKgIDAwNzI6wqDCoMKgIGZyb20gZGV2dG9vbCBpbXBvcnQgc2V0dXBfZ2l0X3JlcG88
-YnI+DQrCoMKgwqDCoCBGaWxlOiA8YnI+DQomIzM5Oy93b3JrL3lvY3RvL2RldnRvb2wtcmVwcm9k
-dWNlMi9zb3VyY2VzL3Bva3kvbWV0YS9saWIvb2UvcmVjaXBldXRpbHMucHkmIzM5OywgPGJyPg0K
-bGluZW5vOiAyMSwgZnVuY3Rpb246ICZsdDttb2R1bGUmZ3Q7PGJyPg0KwqDCoCDCoMKgIMKgIMKg
-IDAwMTc6aW1wb3J0IHNodXRpbDxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMDE4OmltcG9ydCByZTxi
-cj4NCsKgwqAgwqDCoCDCoCDCoCAwMDE5OmltcG9ydCBmbm1hdGNoPGJyPg0KwqDCoCDCoMKgIMKg
-IMKgIDAwMjA6aW1wb3J0IGdsb2I8YnI+DQrCoMKgwqDCoMKgICoqKiAwMDIxOmltcG9ydCBiYi50
-aW5mb2lsPGJyPg0KwqDCoCDCoMKgIMKgIMKgIDAwMjI6PGJyPg0KwqDCoCDCoMKgIMKgIMKgIDAw
-MjM6ZnJvbSBjb2xsZWN0aW9ucyBpbXBvcnQgT3JkZXJlZERpY3QsIGRlZmF1bHRkaWN0PGJyPg0K
-wqDCoCDCoMKgIMKgIMKgIDAwMjQ6ZnJvbSBiYi51dGlscyBpbXBvcnQgdmVyY21wX3N0cmluZzxi
-cj4NCsKgwqAgwqDCoCDCoCDCoCAwMDI1Ojxicj4NCsKgwqDCoMKgIEZpbGU6IDxicj4NCiYjMzk7
-L3dvcmsveW9jdG8vZGV2dG9vbC1yZXByb2R1Y2UyL3NvdXJjZXMvcG9reS9iaXRiYWtlL2xpYi9i
-Yi90aW5mb2lsLnB5JiMzOTssIDxicj4NCmxpbmVubzogMTksIGZ1bmN0aW9uOiAmbHQ7bW9kdWxl
-Jmd0Ozxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMDE1OmZyb20gY29sbGVjdGlvbnMgaW1wb3J0IE9y
-ZGVyZWREaWN0LCBkZWZhdWx0ZGljdDxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMDE2OmZyb20gZnVu
-Y3Rvb2xzIGltcG9ydCBwYXJ0aWFsPGJyPg0KwqDCoCDCoMKgIMKgIMKgIDAwMTc6PGJyPg0KwqDC
-oMKgIMKgwqDCoCDCoCAwMDE4OmltcG9ydCBiYi5jYWNoZTxicj4NCsKgwqDCoMKgwqAgKioqIDAw
-MTk6aW1wb3J0IGJiLmNvb2tlcjxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDAyMDppbXBvcnQgYmIu
-cHJvdmlkZXJzPGJyPg0KwqDCoMKgwqAgwqDCoCDCoCAwMDIxOmltcG9ydCBiYi50YXNrZGF0YTxi
-cj4NCsKgwqDCoCDCoMKgwqAgwqAgMDAyMjppbXBvcnQgYmIudXRpbHM8YnI+DQrCoMKgwqDCoCDC
-oMKgIMKgIDAwMjM6aW1wb3J0IGJiLmNvbW1hbmQ8YnI+DQrCoMKgwqDCoCBGaWxlOiA8YnI+DQom
-IzM5Oy93b3JrL3lvY3RvL2RldnRvb2wtcmVwcm9kdWNlMi9zb3VyY2VzL3Bva3kvYml0YmFrZS9s
-aWIvYmIvY29va2VyLnB5JiMzOTssIDxicj4NCmxpbmVubzogMjUsIGZ1bmN0aW9uOiAmbHQ7bW9k
-dWxlJmd0Ozxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMDIxOmltcG9ydCBiYiwgYmIuZXhjZXB0aW9u
-cywgYmIuY29tbWFuZDxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDAyMjpmcm9tIGJiIGltcG9ydCB1
-dGlscywgZGF0YSwgcGFyc2UsIGV2ZW50LCBjYWNoZSwgPGJyPg0KcHJvdmlkZXJzLCB0YXNrZGF0
-YSwgcnVucXVldWUsIGJ1aWxkPGJyPg0KwqDCoMKgwqAgwqDCoCDCoCAwMDIzOmltcG9ydCBxdWV1
-ZTxicj4NCsKgwqDCoMKgIMKgwqAgwqAgMDAyNDppbXBvcnQgc2lnbmFsPGJyPg0KwqDCoMKgwqDC
-oCAqKiogMDAyNTppbXBvcnQgcHJzZXJ2LnNlcnY8YnI+DQrCoMKgwqAgwqDCoMKgIMKgIDAwMjY6
-aW1wb3J0IHB5aW5vdGlmeTxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDAyNzppbXBvcnQganNvbjxi
-cj4NCsKgwqDCoCDCoMKgwqAgwqAgMDAyODppbXBvcnQgcGlja2xlPGJyPg0KwqDCoMKgIMKgwqDC
-oCDCoCAwMDI5OmltcG9ydCBjb2RlY3M8YnI+DQrCoMKgwqDCoCBGaWxlOiA8YnI+DQomIzM5Oy93
-b3JrL3lvY3RvL2RldnRvb2wtcmVwcm9kdWNlMi9zb3VyY2VzL3Bva3kvYml0YmFrZS9saWIvcHJz
-ZXJ2L3NlcnYucHkmIzM5OywgPGJyPg0KbGluZW5vOiA3LCBmdW5jdGlvbjogJmx0O21vZHVsZSZn
-dDs8YnI+DQrCoMKgwqDCoCDCoCDCoMKgIDAwMDM6Izxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMDA0
-Ojxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMDA1OmltcG9ydCBvcyxzeXMsbG9nZ2luZzxicj4NCsKg
-wqAgwqDCoCDCoCDCoCAwMDA2OmltcG9ydCBzaWduYWwsIHRpbWU8YnI+DQrCoMKgwqDCoMKgICoq
-KiAwMDA3OmZyb20geG1scnBjLnNlcnZlciBpbXBvcnQgU2ltcGxlWE1MUlBDU2VydmVyLCA8YnI+
-DQpTaW1wbGVYTUxSUENSZXF1ZXN0SGFuZGxlcjxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDAwODpp
-bXBvcnQgdGhyZWFkaW5nPGJyPg0KwqDCoMKgIMKgwqDCoCDCoCAwMDA5OmltcG9ydCBxdWV1ZTxi
-cj4NCsKgwqDCoMKgIMKgwqAgwqAgMDAxMDppbXBvcnQgc29ja2V0PGJyPg0KwqDCoMKgIMKgwqDC
-oCDCoCAwMDExOmltcG9ydCBpbzxicj4NCsKgwqDCoMKgIEZpbGU6ICYjMzk7L3Vzci9saWIvcHl0
-aG9uMy44L3htbHJwYy9zZXJ2ZXIucHkmIzM5OywgbGluZW5vOiAxMTcsIGZ1bmN0aW9uOiA8YnI+
-DQombHQ7bW9kdWxlJmd0Ozxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMTEzOmltcG9ydCBzb2NrZXRz
-ZXJ2ZXI8YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDExNDppbXBvcnQgc3lzPGJyPg0KwqDCoCDCoMKg
-IMKgIMKgIDAxMTU6aW1wb3J0IG9zPGJyPg0KwqDCoCDCoMKgIMKgIMKgIDAxMTY6aW1wb3J0IHJl
-PGJyPg0KwqDCoMKgwqDCoCAqKiogMDExNzppbXBvcnQgcHlkb2M8YnI+DQrCoMKgwqAgwqDCoMKg
-IMKgIDAxMTg6aW1wb3J0IHRyYWNlYmFjazxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDExOTp0cnk6
-PGJyPg0KwqDCoMKgIMKgwqDCoCDCoCAwMTIwOsKgwqDCoCBpbXBvcnQgZmNudGw8YnI+DQrCoMKg
-wqDCoCDCoMKgIMKgIDAxMjE6ZXhjZXB0IEltcG9ydEVycm9yOjxicj4NCsKgwqDCoMKgIEZpbGU6
-ICYjMzk7L3Vzci9saWIvcHl0aG9uMy44L3B5ZG9jLnB5JiMzOTssIGxpbmVubzogMzcwLCBmdW5j
-dGlvbjogJmx0O21vZHVsZSZndDs8YnI+DQrCoMKgwqDCoCDCoCDCoMKgIDAzNjY6wqDCoMKgIHJl
-dHVybiBtb2R1bGU8YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDM2Nzo8YnI+DQrCoMKgIMKgwqAgwqAg
-wqAgMDM2ODojIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0gPGJyPg0KZm9ybWF0dGVyIGJhc2UgY2xhc3M8YnI+DQrCoMKgwqAgwqDCoMKgIMKgIDAz
-Njk6PGJyPg0KwqDCoMKgwqDCoCAqKiogMDM3MDpjbGFzcyBEb2M6PGJyPg0KwqDCoCDCoMKgIMKg
-IMKgIDAzNzE6PGJyPg0KwqDCoCDCoMKgIMKgIMKgIDAzNzI6wqDCoMKgIFBZVEhPTkRPQ1MgPSBv
-cy5lbnZpcm9uLmdldCgmcXVvdDtQWVRIT05ET0NTJnF1b3Q7LDxicj4NCsKgwqAgwqDCoCDCoCDC
-oCAwMzczOiAmcXVvdDs8YSBocmVmPSJodHRwczovL2RvY3MucHl0aG9uLm9yZy8lZC4lZC9saWJy
-YXJ5IiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5rIj5odHRwczovL2RvY3MucHl0aG9u
-Lm9yZy8lZC4lZC9saWJyYXJ5PC9hPiZxdW90Ozxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDM3NDrC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAlIHN5cy52ZXJzaW9uX2luZm9bOjJdKTxicj4NCsKgwqDCoMKgIEZpbGU6ICYjMzk7L3Vz
-ci9saWIvcHl0aG9uMy44L3B5ZG9jLnB5JiMzOTssIGxpbmVubzogNDAwLCBmdW5jdGlvbjogRG9j
-PGJyPg0KwqDCoMKgwqAgwqAgwqDCoCAwMzk2OsKgwqDCoMKgwqDCoMKgIHJhaXNlIFR5cGVFcnJv
-cihtZXNzYWdlKTxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDM5Nzo8YnI+DQrCoMKgwqAgwqDCoMKg
-IMKgIDAzOTg6wqDCoMKgIGRvY21vZHVsZSA9IGRvY2NsYXNzID0gZG9jcm91dGluZSA9IGRvY290
-aGVyID0gPGJyPg0KZG9jcHJvcGVydHkgPSBkb2NkYXRhID0gZmFpbDxicj4NCsKgwqDCoCDCoMKg
-wqAgwqAgMDM5OTo8YnI+DQrCoMKgwqDCoMKgICoqKiAwNDAwOsKgwqDCoCBkZWYgZ2V0ZG9jbG9j
-KHNlbGYsIG9iamVjdCwgPGJyPg0KYmFzZWRpcj1zeXNjb25maWcuZ2V0X3BhdGgoJiMzOTtzdGRs
-aWImIzM5OykpOjxicj4NCsKgwqAgwqDCoCDCoCDCoCAwNDAxOsKgwqDCoMKgwqDCoMKgICZxdW90
-OyZxdW90OyZxdW90O1JldHVybiB0aGUgbG9jYXRpb24gb2YgbW9kdWxlIGRvY3Mgb3IgTm9uZSZx
-dW90OyZxdW90OyZxdW90Ozxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDQwMjo8YnI+DQrCoMKgwqDC
-oCDCoMKgIMKgIDA0MDM6wqDCoMKgwqDCoMKgwqAgdHJ5Ojxicj4NCsKgwqDCoCDCoMKgwqAgwqAg
-MDQwNDrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGZpbGUgPSBpbnNwZWN0LmdldGFic2ZpbGUob2Jq
-ZWN0KTxicj4NCsKgwqDCoMKgIEZpbGU6ICYjMzk7L3Vzci9saWIvcHl0aG9uMy44L3N5c2NvbmZp
-Zy5weSYjMzk7LCBsaW5lbm86IDUxMiwgZnVuY3Rpb246IDxicj4NCmdldF9wYXRoPGJyPg0KwqDC
-oCDCoMKgIMKgIMKgIDA1MDg6wqDCoMKgICZxdW90OyZxdW90OyZxdW90O1JldHVybiBhIHBhdGgg
-Y29ycmVzcG9uZGluZyB0byB0aGUgc2NoZW1lLjxicj4NCsKgwqAgwqDCoCDCoCDCoCAwNTA5Ojxi
-cj4NCsKgwqAgwqDCoCDCoCDCoCAwNTEwOsKgwqDCoCBgYHNjaGVtZWBgIGlzIHRoZSBpbnN0YWxs
-IHNjaGVtZSBuYW1lLjxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDUxMTrCoMKgwqAgJnF1b3Q7JnF1
-b3Q7JnF1b3Q7PGJyPg0KwqDCoMKgwqDCoCAqKiogMDUxMjrCoMKgwqAgcmV0dXJuIGdldF9wYXRo
-cyhzY2hlbWUsIHZhcnMsIGV4cGFuZClbbmFtZV08YnI+DQrCoMKgwqAgwqDCoMKgIMKgIDA1MTM6
-PGJyPg0KwqDCoMKgwqAgwqDCoCDCoCAwNTE0Ojxicj4NCsKgwqDCoMKgIMKgwqAgwqAgMDUxNTpk
-ZWYgZ2V0X2NvbmZpZ192YXJzKCphcmdzKTo8YnI+DQrCoMKgwqDCoCDCoMKgIMKgIDA1MTY6wqDC
-oMKgICZxdW90OyZxdW90OyZxdW90O1dpdGggbm8gYXJndW1lbnRzLCByZXR1cm4gYSBkaWN0aW9u
-YXJ5IG9mIGFsbCA8YnI+DQpjb25maWd1cmF0aW9uPGJyPg0KwqDCoMKgwqAgRmlsZTogJiMzOTsv
-dXNyL2xpYi9weXRob24zLjgvc3lzY29uZmlnLnB5JiMzOTssIGxpbmVubzogNTAyLCBmdW5jdGlv
-bjogPGJyPg0KZ2V0X3BhdGhzPGJyPg0KwqDCoCDCoMKgIMKgIMKgIDA0OTg6wqDCoMKgIGBgc2No
-ZW1lYGAgaXMgdGhlIGluc3RhbGwgc2NoZW1lIG5hbWUuIElmIG5vdCA8YnI+DQpwcm92aWRlZCwg
-aXQgd2lsbDxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDQ5OTrCoMKgwqAgcmV0dXJuIHRoZSBkZWZh
-dWx0IHNjaGVtZSBmb3IgdGhlIGN1cnJlbnQgcGxhdGZvcm0uPGJyPg0KwqDCoMKgwqAgwqDCoCDC
-oCAwNTAwOsKgwqDCoCAmcXVvdDsmcXVvdDsmcXVvdDs8YnI+DQrCoMKgwqDCoCDCoMKgIMKgIDA1
-MDE6wqDCoMKgIGlmIGV4cGFuZDo8YnI+DQrCoMKgwqDCoMKgICoqKiAwNTAyOsKgwqDCoMKgwqDC
-oMKgIHJldHVybiBfZXhwYW5kX3ZhcnMoc2NoZW1lLCB2YXJzKTxicj4NCsKgwqDCoCDCoMKgwqAg
-wqAgMDUwMzrCoMKgwqAgZWxzZTo8YnI+DQrCoMKgwqAgwqDCoMKgIMKgIDA1MDQ6wqDCoMKgwqDC
-oMKgwqAgcmV0dXJuIF9JTlNUQUxMX1NDSEVNRVNbc2NoZW1lXTxicj4NCsKgwqDCoCDCoMKgwqAg
-wqAgMDUwNTo8YnI+DQrCoMKgwqAgwqDCoMKgIMKgIDA1MDY6PGJyPg0KwqDCoMKgwqAgRmlsZTog
-JiMzOTsvdXNyL2xpYi9weXRob24zLjgvc3lzY29uZmlnLnB5JiMzOTssIGxpbmVubzogMTcyLCBm
-dW5jdGlvbjogPGJyPg0KX2V4cGFuZF92YXJzPGJyPg0KwqDCoMKgwqAgwqAgwqDCoCAwMTY4OmRl
-ZiBfZXhwYW5kX3ZhcnMoc2NoZW1lLCB2YXJzKTo8YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDE2OTrC
-oMKgwqAgcmVzID0ge308YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDE3MDrCoMKgwqAgaWYgdmFycyBp
-cyBOb25lOjxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMTcxOsKgwqDCoMKgwqDCoMKgIHZhcnMgPSB7
-fTxicj4NCsKgwqDCoMKgwqAgKioqIDAxNzI6wqDCoMKgIF9leHRlbmRfZGljdCh2YXJzLCBnZXRf
-Y29uZmlnX3ZhcnMoKSk8YnI+DQrCoMKgwqDCoCDCoCDCoMKgIDAxNzM6PGJyPg0KwqDCoCDCoMKg
-IMKgIMKgIDAxNzQ6wqDCoMKgIGZvciBrZXksIHZhbHVlIGluIF9JTlNUQUxMX1NDSEVNRVNbc2No
-ZW1lXS5pdGVtcygpOjxicj4NCsKgwqAgwqDCoCDCoCDCoCAwMTc1OsKgwqDCoMKgwqDCoMKgIGlm
-IDxhIGhyZWY9Imh0dHA6Ly9vcy5uYW1lIiByZWw9Im5vcmVmZXJyZXIiIHRhcmdldD0iX2JsYW5r
-Ij5vcy5uYW1lPC9hPiBpbiAoJiMzOTtwb3NpeCYjMzk7LCAmIzM5O250JiMzOTspOjxicj4NCsKg
-wqAgwqDCoCDCoCDCoCAwMTc2OsKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdmFsdWUgPSBvcy5wYXRo
-LmV4cGFuZHVzZXIodmFsdWUpPGJyPg0KwqDCoMKgwqAgRmlsZTogJiMzOTsvdXNyL2xpYi9weXRo
-b24zLjgvc3lzY29uZmlnLnB5JiMzOTssIGxpbmVubzogNTUwLCBmdW5jdGlvbjogPGJyPg0KZ2V0
-X2NvbmZpZ192YXJzPGJyPg0KwqDCoMKgwqAgwqAgwqDCoCAwNTQ2Ojxicj4NCsKgwqDCoCDCoMKg
-wqAgwqAgMDU0NzrCoMKgwqDCoMKgwqDCoCBpZiA8YSBocmVmPSJodHRwOi8vb3MubmFtZSIgcmVs
-PSJub3JlZmVycmVyIiB0YXJnZXQ9Il9ibGFuayI+b3MubmFtZTwvYT4gPT0gJiMzOTtudCYjMzk7
-Ojxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDU0ODrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9pbml0
-X25vbl9wb3NpeChfQ09ORklHX1ZBUlMpPGJyPg0KwqDCoMKgIMKgwqDCoCDCoCAwNTQ5OsKgwqDC
-oMKgwqDCoMKgIGlmIDxhIGhyZWY9Imh0dHA6Ly9vcy5uYW1lIiByZWw9Im5vcmVmZXJyZXIiIHRh
-cmdldD0iX2JsYW5rIj5vcy5uYW1lPC9hPiA9PSAmIzM5O3Bvc2l4JiMzOTs6PGJyPg0KwqDCoMKg
-wqDCoCAqKiogMDU1MDrCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIF9pbml0X3Bvc2l4KF9DT05GSUdf
-VkFSUyk8YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDU1MTrCoMKgwqDCoMKgwqDCoCAjIEZvciBiYWNr
-d2FyZCBjb21wYXRpYmlsaXR5LCBzZWUgaXNzdWUxOTU1NTxicj4NCsKgwqAgwqDCoCDCoCDCoCAw
-NTUyOsKgwqDCoMKgwqDCoMKgIFNPID0gX0NPTkZJR19WQVJTLmdldCgmIzM5O0VYVF9TVUZGSVgm
-IzM5Oyk8YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDU1MzrCoMKgwqDCoMKgwqDCoCBpZiBTTyBpcyBu
-b3QgTm9uZTo8YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDU1NDrCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IF9DT05GSUdfVkFSU1smIzM5O1NPJiMzOTtdID0gU088YnI+DQrCoMKgwqDCoCBGaWxlOiAmIzM5
-Oy91c3IvbGliL3B5dGhvbjMuOC9zeXNjb25maWcucHkmIzM5OywgbGluZW5vOiA0MjEsIGZ1bmN0
-aW9uOiA8YnI+DQpfaW5pdF9wb3NpeDxicj4NCsKgwqAgwqDCoCDCoCDCoCAwNDE3OmRlZiBfaW5p
-dF9wb3NpeCh2YXJzKTo8YnI+DQrCoMKgIMKgwqAgwqAgwqAgMDQxODrCoMKgwqAgJnF1b3Q7JnF1
-b3Q7JnF1b3Q7SW5pdGlhbGl6ZSB0aGUgbW9kdWxlIGFzIGFwcHJvcHJpYXRlIGZvciBQT1NJWCA8
-YnI+DQpzeXN0ZW1zLiZxdW90OyZxdW90OyZxdW90Ozxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDQx
-OTrCoMKgwqAgIyBfc3lzY29uZmlnZGF0YSBpcyBnZW5lcmF0ZWQgYXQgYnVpbGQgdGltZSwgc2Vl
-IDxicj4NCl9nZW5lcmF0ZV9wb3NpeF92YXJzKCk8YnI+DQrCoMKgwqAgwqDCoMKgIMKgIDA0MjA6
-wqDCoMKgIG5hbWUgPSBfZ2V0X3N5c2NvbmZpZ2RhdGFfbmFtZSgpPGJyPg0KwqDCoMKgwqDCoCAq
-KiogMDQyMTrCoMKgwqAgX3RlbXAgPSBfX2ltcG9ydF9fKG5hbWUsIGdsb2JhbHMoKSwgbG9jYWxz
-KCksIDxicj4NClsmIzM5O2J1aWxkX3RpbWVfdmFycyYjMzk7XSwgMCk8YnI+DQrCoMKgwqAgwqDC
-oMKgIMKgIDA0MjI6wqDCoMKgIGJ1aWxkX3RpbWVfdmFycyA9IF90ZW1wLmJ1aWxkX3RpbWVfdmFy
-czxicj4NCsKgwqDCoCDCoMKgwqAgwqAgMDQyMzrCoMKgwqAgdmFycy51cGRhdGUoYnVpbGRfdGlt
-ZV92YXJzKTxicj4NCsKgwqDCoMKgIMKgwqAgwqAgMDQyNDo8YnI+DQrCoMKgwqAgwqDCoMKgIMKg
-IDA0MjU6ZGVmIF9pbml0X25vbl9wb3NpeCh2YXJzKTo8YnI+DQrCoMKgwqDCoCBFeGNlcHRpb246
-IE1vZHVsZU5vdEZvdW5kRXJyb3I6IE5vIG1vZHVsZSBuYW1lZCAmIzM5O19zeXNjb25maWdkYXRh
-JiMzOTs8YnI+DQo8YnI+DQo8YnI+DQpUaGFua3MsPGJyPg0KL1BldGVyPGJyPg0KPGJyPg0KPC9i
-bG9ja3F1b3RlPjwvZGl2Pg0K
+https://nvd.nist.gov/vuln/detail/CVE-2018-18438
+v1: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02294.html
+v2: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02396.html
 
---0000000000002e0cd305b3eb0d10--
+https://nvd.nist.gov/vuln/detail/CVE-2020-15859
+https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05304.html
+https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05341.html
+
+https://nvd.nist.gov/vuln/detail/CVE-2020-25742
+https://nvd.nist.gov/vuln/detail/CVE-2020-25743
+https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg07779.html
+https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg01568.html
+
+I have never sent database update requests, some examples will 
+definitely be helpful.
+
+Sakib
+
+>> CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
+>> CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
+>> CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+>> CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
+>> CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+>> CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+>> CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
+>> CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+>> CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
+>> CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
+>> CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
+>> CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
+>> CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+>> CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
+>> CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
+>> CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
+>> CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
+>> CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
+>> CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
+>> CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
+>> CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
+>> CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
+>> CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
+>> CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+>> CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+>> CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+>> CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+>> CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
+>> CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+>> CVE-2018-12617: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12617 *
+>> CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
+>> CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
+>> CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
+>> CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
+>> CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
+>> CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+>> CVE-2018-19665: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-19665 *
+>> CVE-2018-21232: re2c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
+>> CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
+>> CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+>> CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+>> CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+>> CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+>> CVE-2019-14865: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+>> CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
+>> CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
+>> CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+>> CVE-2020-10648: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10648 *
+>> CVE-2020-11022: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11022 *
+>> CVE-2020-11023: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11023 *
+>> CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
+>> CVE-2020-12829: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
+>> CVE-2020-13253: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
+>> CVE-2020-13434: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13434 *
+>> CVE-2020-13435: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13435 *
+>> CVE-2020-13630: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13630 *
+>> CVE-2020-13631: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13631 *
+>> CVE-2020-13632: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13632 *
+>> CVE-2020-13645: glib-networking https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13645 *
+>> CVE-2020-13754: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
+>> CVE-2020-13791: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
+>> CVE-2020-14145: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14145 *
+>> CVE-2020-14150: bison-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14150 *
+>> CVE-2020-14308: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+>> CVE-2020-14309: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+>> CVE-2020-14310: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+>> CVE-2020-14311: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+>> CVE-2020-15469: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
+>> CVE-2020-15523: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15523 *
+>> CVE-2020-15704: ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15704 *
+>> CVE-2020-15705: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+>> CVE-2020-15706: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+>> CVE-2020-15707: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+>> CVE-2020-15778: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15778 *
+>> CVE-2020-15859: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
+>> CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+>> CVE-2020-24352: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24352 *
+>> CVE-2020-24553: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24553 *
+>> CVE-2020-25613: ruby https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25613 *
+>> CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+>> CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+>> CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
+>> CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
+>> CVE-2020-27619: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27619 *
+>> CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+>> CVE-2020-8432: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8432 *
+>>
+>>
+>>
+>>
+>>
+>> 
+>>
