@@ -1,143 +1,89 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.53])
- by mx.groups.io with SMTP id smtpd.web12.11622.1605217094521572566
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.40])
+ by mx.groups.io with SMTP id smtpd.web12.11729.1605217568232259884
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 13:38:15 -0800
+ Thu, 12 Nov 2020 13:46:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nxp.com header.s=selector2 header.b=q0c6abFp;
- spf=pass (domain: nxp.com, ip: 40.107.21.53, mailfrom: tom.hochstein@nxp.com)
+ dkim=pass header.i=@nxp.com header.s=selector2 header.b=okUf+dNm;
+ spf=pass (domain: nxp.com, ip: 40.107.8.40, mailfrom: tom.hochstein@nxp.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gOZ1as/NH5CS1JrmeN9l8ih8tk3NxPQwJojLIyFxLjdAa5xC3WcM69iLIPdFAyyOu8GbbvzZzIe0krvSkOkcRBZe5FX27whw97zWUFBjDpfX6fVrYYjSrALSYRk6c3uxWEs0HW13OiVZyZ/dTYieViFktnFTbO46Pu/u/2wz9AGQGlg3fq6J80XYyesIUzz5dhSra/ZBdw5pJ9Uod5jZUo8Kn9tgZtOc3xhKWdOCMYLUd0WVG8adv4UO53csH+c+CR4JqfQptcf6B7UUSpXmkLeUh2AlCLpV53zIFgWMqz1q7qYkKqvJODvsPVit+sQBva1eYQcFkWIWAgiaEivHWg==
+ b=VC5Z274d8pAMM9U8Yw5TXbrteJyf9L5zPuI339tleHafPmyLKf/uyxcMQLm9cQwj+OYqgPonGHn7JttwVfVBajNfZyRNO/wMlwPoUiYNr9u40a4FmZYdRXXw0EfFP1toQqL7dQ0g9RIEOO68qX77TDnZb02xuo7d9j5SYpvHaHAiJoV/7eauJ6bLHHmAupv3SFBh2humCzY3aimNPXjKzd2Dcdwi5VYLevKqFdXXR8Onco7CdGYFE+L4KdTYayA8ROIcPCFan+Jsjak/ZsJAr8SR/k4EIytMM3rnOgj1R5WUuS2tXIZXj+8ghMe0nHf8aO6+W7h8RlouyTqdd+Xp9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iyApmIOY1UG38SZrPlq2/Ml/YXjMwE74FtDPaoTGB2k=;
- b=jmj88Nw5RbSxozrB7MXtdIiXYucepnx16yQ+LzRDbVj8HWCK+6XC35TetmsGO8kQ7cvOTntSXGglv9vHELFEZou+RvQNVS+49j9QNBXWBrtEKshuej/muTMKGWWRBQAs1ZL2USZQncceWnN9oGpr/wmQ0lCuB59Ed3v+ldMCo898X3uH5v4clkH2iEaYIvb8IAXbLZa5eo5e3Z8I2V3Kow31XfgIHL4WDA2Uf/48mcwHTVWA2kxsLVZWdsOi2uRNH6Dk3Oq6CJVClGTdO5s0bKoD4MSVzhXfA0NHG0HCjkPtSnFf4vpgqGV/8WDYS0fEHbzA6ggJWRgBoZm1S8jXjA==
+ bh=Zg5wtjM+tP4cIHGLGdvs0xhWktfVavsS9LvNECmf8oA=;
+ b=ELTLkWy9H4V3JqdQ049vGEFJ9/8swmh6INJu79Cmtnz/wyThRhYqnXy8rehsnxHk/+Y8cpN3Vw0PjjhBYOaCD5ifW07flvZra2rMvXT4sBcgBnHnjIzG35xm/S/gL8YdbpGvqLmVuDFNzRHtU2bUl60rki/EBBYIKH3ZWPWYkSWIppd8P46N4oab77zgFvmo2S3Qsu6v9/P4f7oQlOiYYk4UUleXfnxCm7EPTOUXjzSJUmX5Ou0dtuENiJtsTYz8eXBMDGlZgLsr6kuQ+gELqOiAW+4Xe10yxIlKvux2XQpVA/emytrYqKBYb2ATVjLagpMx62Ec8g3nkco43D8LVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iyApmIOY1UG38SZrPlq2/Ml/YXjMwE74FtDPaoTGB2k=;
- b=q0c6abFpf6NrgOyfUPm1HEx/ssxuc+9jNZgxQo6Raz4O8litB6jaMAg2XW19BmDvTTEtwRqIuE0sMdOWpUtAr5Weep5185hytGhNgVoJGwgJOP6t4J/20GuTigEJ0FGYQhl3wq4AoyYfYb+ddv0KPr2YR8OmUfaYzUsSnm8ATgM=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=nxp.com;
+ bh=Zg5wtjM+tP4cIHGLGdvs0xhWktfVavsS9LvNECmf8oA=;
+ b=okUf+dNmwXbb38KocTcXnCIrJsY7Kac1E4W1IggMqzL+rC1eLHfZBDS87I32GPsyB1rjrY3IrE/0hX99/Mn/bQm2uA2Hap1bZShu6MSaMVYiZzkqU6YRwDuDIBHok1lFvgvUs6gWqseE8O6/zMEqr9R0MDDq4zsqo3Y7qp2MMhI=
 Received: from VE1PR04MB6621.eurprd04.prod.outlook.com (2603:10a6:803:124::21)
  by VI1PR0402MB3453.eurprd04.prod.outlook.com (2603:10a6:803:6::33) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Thu, 12 Nov
- 2020 21:38:11 +0000
+ 2020 21:46:05 +0000
 Received: from VE1PR04MB6621.eurprd04.prod.outlook.com
  ([fe80::7dd5:534a:a183:dc71]) by VE1PR04MB6621.eurprd04.prod.outlook.com
  ([fe80::7dd5:534a:a183:dc71%6]) with mapi id 15.20.3541.025; Thu, 12 Nov 2020
- 21:38:11 +0000
+ 21:46:05 +0000
 From: "Tom Hochstein" <tom.hochstein@nxp.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tom Hochstein <tom.hochstein@nxp.com>
-Subject: [PATCH v2] mesa: Add xcb-fixes to loader when using x11 and dri3
-Date: Thu, 12 Nov 2020 15:37:46 -0600
-Message-Id: <20201112213746.12863-1-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [64.157.242.222]
-X-ClientProxiedBy: BY5PR03CA0015.namprd03.prod.outlook.com
- (2603:10b6:a03:1e0::25) To VE1PR04MB6621.eurprd04.prod.outlook.com
- (2603:10a6:803:124::21)
-Return-Path: tom.hochstein@nxp.com
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+CC: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] mesa: Add xcb-fixes to loader when using x11 and dri3
+Thread-Topic: [OE-core] [PATCH] mesa: Add xcb-fixes to loader when using x11
+ and dri3
+Thread-Index: AQHWs7OtRmXTO0U1LUmC9/m2DFGJ5qnFDIKAgAAF2vA=
+Date: Thu, 12 Nov 2020 21:46:05 +0000
+Message-ID: 
+ <VE1PR04MB66218F050F87B8091197D2EEE2E70@VE1PR04MB6621.eurprd04.prod.outlook.com>
+References: <20201105203820.19558-1-tom.hochstein@nxp.com>
+ <CAHtQpK5zznC3PsgUey+pL0sn+WoYuhgng4-uhWg+RYT20_QYKw@mail.gmail.com>
+In-Reply-To: 
+ <CAHtQpK5zznC3PsgUey+pL0sn+WoYuhgng4-uhWg+RYT20_QYKw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=nxp.com;
+x-originating-ip: [24.28.102.84]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 7d0527b5-b721-4d15-2330-08d887545bb8
+x-ms-traffictypediagnostic: VI1PR0402MB3453:
+x-microsoft-antispam-prvs: 
+ <VI1PR0402MB34538620ECF3AD37E02B7419E2E70@VI1PR0402MB3453.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3968;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 5CGMcyP+WIW8r2akSeqGWwM6QONhOQYhKIFcRUJt76B+H/1W6QUmd9Y9XuggQgeKj37u5F69OmbtF3UMpaEKyzqSzJlK13MAAeVXGOF5kz6+6J6EaUftlpCbl/mTT47NziiF4+KQQF3hGa5OfrNNbhRRCeA+aKVOFjRqEkXoNpeB+mS2sziScdnf3T5ulV9Z7f+sESWDA+nCKCRjjnqRqYTzLockS3f/Bfw3nuBryZYuLQTzzYy9KJuP/GMIu55qbVIDDU/+8oc9OZUC638ntUptSazBGcctsstPUZHAPsrk5a06DrrxyH3twe0BxHYbUhJaUjbGi/Uc7RqQ+urC7Q==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(136003)(396003)(366004)(376002)(346002)(55016002)(83380400001)(66946007)(316002)(7696005)(6916009)(6506007)(64756008)(4744005)(66476007)(76116006)(52536014)(4326008)(5660300002)(2906002)(8676002)(478600001)(9686003)(86362001)(33656002)(8936002)(26005)(66556008)(44832011)(186003)(71200400001)(66446008);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ so+gnmbBXPVZ2J7PX/slBIoMQVD1nCaS45Yo07MMv54OOQ56HP2Y+TnpCpdIRf6D4cki1nZzII2zRIZ8DuIDBPpl23EOCbGDZiWlnZWS4ilWbn8vX0u93VkUdjuSCkoo1muY2/Wy3RcRmhlUqFNaoSJzIJ9fwrNAQYHxHXbJBF08cvsWVNZHES4oKzwl3wA7oMJ6RWUT4ec322IkdvnefK30m4AptH62xHQtqzjzy0iDQznsAtM/cunsMH4mDEYlMZjmqrKCFaGYWJk24S7nrr1ugtwvR67+1LlwBCS2hodSH/UqraJg9sDiFuyDPZaDK22oXg0sk3C94bcu+j6BcyN+VZJBa3FsGaji0EpXjXWiCllW+YNCedemtn3MaOo0bWgXlOkcKBnngrqtx9uKF9a4Qvjtabu+jw+mKC9a/kqCC/ZnYC0FCkKAzHntk8oEg2CQqluUWxCeqI0Nc1G07s+QKm+V+Flculbq7jIDeMwsPhTsvGdw1a59CUEx8lLkuBTMr7LSkOrat5fPTtNkrF4XYw0wT37DfXoF8w3r004EwYTSY3iBWa1mnJHoLqynkLkhwxT0i21IBwi6dWBXhWwCi/uH/NMRKv7BFgs8O8RIGd5p+kUiZwD4wVb0XTyKPzRSdA2FlfEvZ8ouUZm31g==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from tx30imx-01.am.freescale.net (64.157.242.222) by BY5PR03CA0015.namprd03.prod.outlook.com (2603:10b6:a03:1e0::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25 via Frontend Transport; Thu, 12 Nov 2020 21:38:10 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 01a93fe3-e13e-4f91-f728-08d8875340bc
-X-MS-TrafficTypeDiagnostic: VI1PR0402MB3453:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<VI1PR0402MB34533F293EBFE1D3E128460EE2E70@VI1PR0402MB3453.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	yrEouBCE35UY4PgOeb3IC5/3f1XsZM+aZCRmBLkwc3Jfg06V4embsFdsCG6Ge2tkN6E76hl3XMIZFzAV59t3dsCwVvDpXo6ik1galmErlwIGX/mV8FQ23mt7OtgawOL3oyGQh+m2YxHq1JJWFYMFq1W2L33Bj5aDK/xrU0m/De+5eqTgA6s/A7W+216Jk6mi3ddjZx/u02sBkPPKn9iUnlQlRfXdxmWYcg8iTIM7RDDzXjBeRE7LrlzRZh5lQT5D+teFkSBILiZ5WFGb0SDrqCbZ7X55C+55sggLIevVA7GhX6Sfo2hwYRN3aAKSo92If4nypZPNtl1lXF1nC1/xf1jbMzraIPDndlLXJouOfE4=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VE1PR04MB6621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(136003)(39860400002)(366004)(26005)(44832011)(66556008)(956004)(8936002)(186003)(1076003)(6666004)(6506007)(6916009)(4326008)(36756003)(5660300002)(66476007)(52116002)(83380400001)(316002)(16526019)(66946007)(86362001)(6486002)(6512007)(478600001)(2906002)(8676002)(2616005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	pnWCyIWsq+ufgvFJYLHhtR6mCtyEc3tIHofKWIdwJ59ZN+aU15KNuq1QFy7eaHqk3Ovxd7uAr82L0RLwtJge0shk8Fx4U6r892QAJiPnSCBHiJI2JadJfaubUryTTBxenYIVIu6HyOiYewOLhdbEsu7ht3JERrWO7wpVoyo2kT6GhwRqGbezdjbV84XMk4m5DfRtiJBxTdEdH08JEAlDQJoHHRxJ/RmDhl6n2ImKzE1Vh4Vq8vLaKPSIEHBj3GOkvBgonnUmx3BA8izopnxn+uDmQTG2jGrIddSWPsNRRycXC81iCvZ8TfyxdX/P3v7nFDbn4CmyQMvKezGwjI9FocxAC/yFFolmRKMjv/JCpFDJEx+FMrd0ZfQePS4LxLcUWSfpUpZEhqMuQgbNrehp3782z1cE7MLfTpJzCUmGjuwnuCNpkrtAVDuZ3m96ngEPXoxYnzVVy03ESeflHgCS+rKJIMEgX3zHBNM3WhRX9d8o8YnKGbsUO66lgKE81DUFzjTsPPkgxn4KWCXYecdM37uVnXF+qfWYzTHHF9MC1P82WUQL/XCDMYZWCxLt9ITZroGFMXQQ+EhiwOOrtyT3A8OPL8FhLG3kzjF21oI4a9DN3IY+f46eWlmAxDf5wN2zHQI5RrzYFtwKvXLVLYiuJQ==
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 01a93fe3-e13e-4f91-f728-08d8875340bc
-X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6621.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2020 21:38:11.3914
+X-MS-Exchange-CrossTenant-AuthSource: VE1PR04MB6621.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d0527b5-b721-4d15-2330-08d887545bb8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2020 21:46:05.7922
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t2ibjnVQQ/lVrB7TsZ6V7xMYhjkNnPSXonjTbSvOkZ6euaAZKbN3DocZsgJca71WRNq+2lXekHkGLcVQajvZAA==
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0qIldPfOJdavKuKPKxtVNudVEVAKDw1wH6TwO5WJ6BuEEHHe0tjNkVuo7KikQWZaOHfuJsIVz2dWaLJhwcq5Zg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3453
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Backport fix for undefined symbol for xcb_xfixes_create_region in loader_dri3_helper.c.
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
----
- ...xes-to-loader-when-using-x11-and-dri.patch | 36 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch b/meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-new file mode 100644
-index 0000000000..9ee72880a2
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-@@ -0,0 +1,36 @@
-+From cf17d6251653f4a98e7c4f904ea2f0bc0ecedd5c Mon Sep 17 00:00:00 2001
-+From: Duncan Hopkins <duncan@duncanhopkins.me.uk>
-+Date: Thu, 15 Oct 2020 12:14:57 +0100
-+Subject: [PATCH] meson: Add xcb-fixes to loader when using x11 and dri3. Fixes
-+ undefined symbol for xcb_xfixes_create_region in loader_dri3_helper.c
-+
-+loader_dr3_helper.c uses xcb_xfixes_create_region() that requires dep_xcb_xfixes to link. This is dependent on with_platform_x11 and with_dri3.
-+But the source meson file does not set this up dependent on with_dri3.
-+The build was initialsed using platforms=x11 and gallium-drivers=zink,swrast.
-+
-+Reviewed-by: Eric Anholt <eric@anholt.net>
-+Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/7164>
-+
-+Upstream-Status: Backport [cf17d6251653f4a98e7c4f904ea2f0bc0ecedd5c]
-+
-+---
-+ meson.build | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index cfe02fa6373..3cb3c904927 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -1782,7 +1782,8 @@ if with_platform_x11
-+       dep_xxf86vm = dependency('xxf86vm')
-+     endif
-+   endif
-+-  if (with_egl or (
-++  if (with_egl or 
-++      with_dri3 or (
-+       with_gallium_vdpau or with_gallium_xvmc or with_gallium_xa or
-+       with_gallium_omx != 'disabled'))
-+     dep_xcb_xfixes = dependency('xcb-xfixes')
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 5a6caf2662..ca593b8b1f 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,6 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            file://0001-anv-fix-a-build-race-between-generating-a-header-and.patch \
-+           file://0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch \
-            "
- 
- SRC_URI[sha256sum] = "d1a46d9a3f291bc0e0374600bdcb59844fa3eafaa50398e472a36fc65fd0244a"
--- 
-2.17.1
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbmRyZXkgWmhpemhpa2luIDxh
+bmRyZXkuekBnbWFpbC5jb20+DQo+IFNlbnQ6IFRodXJzZGF5LCBOb3ZlbWJlciAxMiwgMjAyMCAz
+OjIzIFBNDQo+IA0KPiBJIGJlbGlldmUgYWxsIHBhdGNoIGZpbGVzIGFyZSBsb2NhdGVkIGluIGBm
+aWxlc2AgZm9sZGVyLCB3aGlsZSB0aGlzDQo+IHBhdGNoIHRyaWVzIHRvIHB1dCBpdCBpbnRvIGBt
+ZXNhYCBmb2xkZXIgd2hpY2ggZG9lcyBub3QgZXhpc3QgeWV0PyBJcw0KPiBpdCBpbnRlbmRlZCBo
+ZXJlPw0KPiANCg0KSXQgd2FzIGEgbWlzdGFrZSwgdGhhbmtzIGZvciBjYXRjaGluZyBpdC4gVjIg
+c3VibWl0dGVkLg0KDQpUb20NCg==
