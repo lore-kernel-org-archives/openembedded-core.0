@@ -1,323 +1,183 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
- by mx.groups.io with SMTP id smtpd.web11.7415.1605200521138462883
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web08.7555.1605200817724891429
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 09:02:01 -0800
+ Thu, 12 Nov 2020 09:06:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=iR1NWXiT;
- spf=pass (domain: blade-group.com, ip: 209.85.167.178, mailfrom: yann.dirson@blade-group.com)
-Received: by mail-oi1-f178.google.com with SMTP id m17so7155470oie.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 09:02:01 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tS8Kcgzs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.54, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f54.google.com with SMTP id 7so8948469ejm.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 09:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blade-group.com; s=google;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SOlfEtVM5ORmpkw3rs1EW2v1YxCbeH7eQjGWk919vJA=;
-        b=iR1NWXiTMLcCnvE1s+sgt2Eh1tZBNS0Jb7FTZjQPG7YslSSBE3jwjdhmXEHMVUNRH3
-         7CTTpyHkWc4RbDYMkS0E0OL7yC8ngVMbGhSbPcCvIQ/E5Mjo34pUajvdi6sVOI2JnD1d
-         mfvPmwYs9bV/g2YksFfyASd0+hcpgYwHmHNyPsNpngpVeB2JnxY0gWSMNTiZzQ+aHQt2
-         lUFiLEHvin2Nz5LrE97mkXFkCH9EkxONxtuKYA2UQNTDW30f7o0GpeZUEjh0pEsfbW5p
-         CSrjWO1Rkig5zZ7l8G0s40Hhc222vFGjwfxE13FVYwVRsBXO3Q3HqUggldB77UQ1eFES
-         HMhA==
+        bh=yCZbGiAVLaTr0sC+CRfddnKmpTCSe+ZK8gHLLkr41L8=;
+        b=tS8Kcgzshis89IFpzrhACkO5hoxMGTE3bfPwOGMRX8J2nKVHU89TojQ/KXA635Ci3r
+         AKCLVm4MGdg19C1aEep2vDcKWHQYCLKQYBU2MYBb//yKUikGp5KybpsGS/GlbeQdskPb
+         tkpgFqA5xnSJNL9nyL5gtEMleYYXu0S2tXf7DF82nTN8VGl9Ck9hADx1wdaoPoXwX5q2
+         8Imi5KnGx242o9RPyQcduA1yJWNuVgVAi3abWelo8dL7XFKJZ0biMfCo6mxSbZoi9GdO
+         wdeDbb6nKI5fz06bIwfksWdffBSf4dW356BIG3tbyFhLiIQqJfxXRQUnN6Cd6RUHotNc
+         1oqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SOlfEtVM5ORmpkw3rs1EW2v1YxCbeH7eQjGWk919vJA=;
-        b=tUOnyUujWvIvelvKQwcWKp64fqce3YAal/I412Z9cBz8gkZMxcfZDEoJQVDRM7Ls0r
-         ozJbS1EL/O+J+6H98gAZtkCorfHN7yRmVNLUnigBtLIU2nCOcU8WOhJjxkP/Bieauqow
-         o8ZTzHMgmJcTU9czDmYuOX1X61RihbVv5zVgE1MgBtnAiS2kMSLtHfi8nJBZVQ7Z2bS5
-         H5ObmVtlQFX9WEJu6cC7Jgn2B0Ttm1nw7X+6aCdLuV2vlkHMfKhb9yBvqrWPr2cFNSdj
-         hWtpOmDr0hJj9NgA3VVxIj0rv4LOyMD0sNu746lAkKbcELmOabDaDwLqA9YBEbXoDmrC
-         OqXw==
-X-Gm-Message-State: AOAM530S1M2WIbGSaRso28TMWMHkh5jtNtDUpCFfZpcHJT6dsc99ab8l
-	OCDMWiSTrcqZ2wxjs0dvpnd4a+1vv5jPe/54hJriGA==
-X-Google-Smtp-Source: ABdhPJwlRJAd/E984sid7acNatfgqYcbXss/BQDR4opjGgDo5C01Ua5P4PZPuDBy9ewe2Ud7HWT8yRvXZiPJEn9YA9Y=
-X-Received: by 2002:aca:420a:: with SMTP id p10mr381654oia.117.1605200520373;
- Thu, 12 Nov 2020 09:02:00 -0800 (PST)
+        bh=yCZbGiAVLaTr0sC+CRfddnKmpTCSe+ZK8gHLLkr41L8=;
+        b=Pk2Z7WpGtumhPPcHFz6od9eHVKwInCt7fc5XyyLmIoS2A4B0YPD9XhgZj67qJOXY7o
+         ilmA1mN9sXIk0nkwbvUrAxFtFteC4D/GufV3S6la1VA+/abDrtnSMSMkjVnxpdib6JBe
+         kTvtJO0/cLS4shz/zSCGYyi0fs4UrCaFkuBwoJbPfH6PEPe2/Vsx6MTKAYTm22zv4quF
+         p1JXSahB3KO7ekA3uWGJBefr7cfqVTC/jlW8y3083V64VLV6PsmQn9gdrdqP49TncnDy
+         kjav/k+5YdA+ATEg98tIkSNlsM2P8GsRSCCxYRknxQHWwFxMgaUfO7nOCQTjVATzPrYO
+         8uqg==
+X-Gm-Message-State: AOAM533tOhyPjfhqgLCWcwO0xkDWSPSEjViUNIGK9mU1jG8iVV5/b3pI
+	zEn/ohsrxPIJGKKESMihQrj+9J8/IJ7oBJys3SPZ1g==
+X-Google-Smtp-Source: ABdhPJzq21ez2tyL4qc+rkcBoWGDiGZnQHu1OLkw7NxSrbmkdf/JNNCh9zPSru7jOOc0LmZqUg/CyI4a27ozoaBChgg=
+X-Received: by 2002:a17:906:cb0f:: with SMTP id lk15mr188929ejb.431.1605200815815;
+ Thu, 12 Nov 2020 09:06:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20200921141544.3145189-1-yann@blade-group.com>
- <20200921141544.3145189-9-yann@blade-group.com> <1c41fc0d0f0928baeacb628812cafd66de745b75.camel@linuxfoundation.org>
- <CA+4=imb9n8r-taOxj68JagEVJkisUFk3vHVbKOru8Td24kLHdg@mail.gmail.com>
- <581392d58d402cf3b79f8bd36f8d5d5f7fa4c1bd.camel@linuxfoundation.org> <CADkTA4M4nAke3L=GPseCHGT=rmqVnKbNWGd8QEyzz_saeKt3pQ@mail.gmail.com>
-In-Reply-To: <CADkTA4M4nAke3L=GPseCHGT=rmqVnKbNWGd8QEyzz_saeKt3pQ@mail.gmail.com>
-From: "Yann Dirson" <yann.dirson@blade-group.com>
-Date: Thu, 12 Nov 2020 18:01:48 +0100
-Message-ID: <CA+4=imbn07uhvLje-M_U1x4yPA57sTFPa3L0YLnhhfPV_skrqw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 8/8] New systemtap.bb class, and systemtap-demo.bb to illustrate it.
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Yann Dirson <yann@blade-group.com>
-Content-Type: multipart/alternative; boundary="000000000000cf943105b3ebde05"
-
---000000000000cf943105b3ebde05
+References: <20201108173417.B6D3C960213@nuc.router0800d9.com>
+ <e4aa0ed3-53ca-fad4-2168-2395d2855c27@windriver.com> <CAOSpxdadGrW2ntYVbVXSbvDcSZXB1bpiWZbz3XfPcrC2rGbx_w@mail.gmail.com>
+ <afb354cc-5ee6-6e06-66a9-88f7af538a98@windriver.com>
+In-Reply-To: <afb354cc-5ee6-6e06-66a9-88f7af538a98@windriver.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Thu, 12 Nov 2020 07:06:44 -1000
+Message-ID: <CAOSpxdYhe9JjG98XVDFMdOjcoeZycP1p6Bc-bgObpg=bjT88AA@mail.gmail.com>
+Subject: Re: [OE-core] OE-core CVE metrics for dunfell on Sun 08 Nov 2020 07:30:01 AM HST
+To: Sakib Sajal <sakib.sajal@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Le mar. 22 sept. 2020 =C3=A0 02:41, Bruce Ashfield <bruce.ashfield@gmail.co=
-m> a
-=C3=A9crit :
+On Thu, Nov 12, 2020 at 6:49 AM Sakib Sajal <sakib.sajal@windriver.com> wrote:
 
-> On Mon, Sep 21, 2020 at 6:51 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Mon, 2020-09-21 at 23:23 +0200, Yann Dirson wrote:
-> > >
-> > >
-> > > Le lun. 21 sept. 2020 =C3=A0 21:46, Richard Purdie <
-> > > richard.purdie@linuxfoundation.org> a =C3=A9crit :
-> > > > On Mon, 2020-09-21 at 16:15 +0200, Yann Dirson wrote:
-> > > > > From: Yann Dirson <yann@blade-group.com>
-> > > > >
-> > > > > ---
-> > > > >  meta/classes/systemtap.bbclass                | 74
-> > > > +++++++++++++++++++
-> > > > >  .../systemtap/systemtap-demo_git.bb           | 71
-> > > > ++++++++++++++++++
-> > > > >  2 files changed, 145 insertions(+)
-> > > > >  create mode 100644 meta/classes/systemtap.bbclass
-> > > > >  create mode 100644 meta/recipes-kernel/systemtap/systemtap-
-> > > > demo_git.bb
-> > > >
-> > > > I'm afraid this patch is going to throw warnings all over the
-> > > > autobuilder, e.g.:
-> > > >
-> > > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2488
-> > > >
-> > > > (and there will be more).
-> > > >
-> > > > We are trying to ensure all warnings are solved so that any that d=
-o
-> > > > show are real issues and this patch would significantly distract
-> > > > from
-> > > > that.
-> > >
-> > > OK, we could default to built just the handful of probes that should
-> > > always build, and give instructions for those willing to use the
-> > > current behaviour.
-> >
-> > I think that is going to be safer and we could grow into more examples
-> > if/as/when we van build them.
+> I've triaged the qemu CVE's mentioned below, summary as follows:
 >
-> Also, as the person that usually picks up systemtap breakage first
-> on our new kernel versions .. we need to make sure that the reworked
-> recipe and class pass the oe-selftest for stap.
+> CVE-2015-8345 - CVE-2017-5957 all have fixes that are in qemu 4.2 used
+> by dunfell.
 >
+> CVE-2018-12617 onwards have fixes but are introduced in qemu 5.[0 | 1]
 
-AFAICT, if we exclude this last patch, the only impact on tests is that
-those
-testing modules with crosstap (which I only learnt about when looking for
-those tests)
-and pulling the full systemtap package should be changed to pull
-systemtap-runtime
-instead.
+Good to hear!  So a database update request for these CVE's would be
+the next step.
 
-Now adding tests for the modules built with systemtap.class is a different
-thing.
+I'll forward some sample update request emails off-list since you
+haven't done this before.
 
-It is doing on target compilation, so ideally, that test should be expande=
-d
-> to test bot the cross and on-target variants.
+> CVE's with proposed fixes are as follows:
 >
-
-The on-target compilation is already tested by
-meta/lib/oeqa/runtime/cases/stap.py,
-and there are crosstap tests in
-meta/lib/oeqa/selftest/cases/runtime_test.py.
-
-I have started to look at adding a test for modules cross-built by
-systemtap.bbclass,
-but as it takes ages to run those tests it seems it would make sense to
-move this last
-patch into a series of its own.
-
-
-
+> https://nvd.nist.gov/vuln/detail/CVE-2018-18438
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02294.html
+> v2: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02396.html
 >
-> Cheers,
+> https://nvd.nist.gov/vuln/detail/CVE-2020-15859
+> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05304.html
+> https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg05341.html
 >
-> Bruce
+> https://nvd.nist.gov/vuln/detail/CVE-2020-25742
+> https://nvd.nist.gov/vuln/detail/CVE-2020-25743
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg07779.html
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-09/msg01568.html
+
+Thanks for tracking down these fixes.  Do you plan to submit patches for them?
+
+Thanks again for helping with CVE reduction!  I really appreciate the help.
+
+Steve
+
+> I have never sent database update requests, some examples will
+> definitely be helpful.
 >
-> >
-> > >
-> > > > I'm also wary that we're now in feature freeze for release so
-> > > > perhaps
-> > > > these changes should wait until 3.3?
-> > >
-> > > OK, I can reroll a series with just the fixes.
-> >
-> > That would be great.
-> >
-> > > For the rest should I just wait for the gatesgarth branch to be
-> > > created and resubmit then ?
-> >
-> > Once we start taking new work on master, yes.
-> >
-> > Also, for a new recipe like this we need a maintainers entry, else we
-> > see:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1377
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> >
-> >=20
-> >
+> Sakib
 >
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
-
-
---=20
-Yann Dirson <yann@blade-group.com>
-Blade / Shadow -- http://shadow.tech
-
---000000000000cf943105b3ebde05
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 22 sept. 2020 =C3=A0=C2=
-=A002:41, Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">b=
-ruce.ashfield@gmail.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">On Mon, Sep 21, 2020 at 6:51 PM Richard=
- Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
-">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Mon, 2020-09-21 at 23:23 +0200, Yann Dirson wrote:<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Le lun. 21 sept. 2020 =C3=A0 21:46, Richard Purdie &lt;<br>
-&gt; &gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"=
-_blank">richard.purdie@linuxfoundation.org</a>&gt; a =C3=A9crit :<br>
-&gt; &gt; &gt; On Mon, 2020-09-21 at 16:15 +0200, Yann Dirson wrote:<br>
-&gt; &gt; &gt; &gt; From: Yann Dirson &lt;<a href=3D"mailto:yann@blade-gro=
-up.com" target=3D"_blank">yann@blade-group.com</a>&gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; ---<br>
-&gt; &gt; &gt; &gt;=C2=A0 meta/classes/systemtap.bbclass=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 74<br>
-&gt; &gt; &gt; +++++++++++++++++++<br>
-&gt; &gt; &gt; &gt;=C2=A0 .../systemtap/<a href=3D"http://systemtap-demo_g=
-it.bb" rel=3D"noreferrer" target=3D"_blank">systemtap-demo_git.bb</a>=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 71<br>
-&gt; &gt; &gt; ++++++++++++++++++<br>
-&gt; &gt; &gt; &gt;=C2=A0 2 files changed, 145 insertions(+)<br>
-&gt; &gt; &gt; &gt;=C2=A0 create mode 100644 meta/classes/systemtap.bbclas=
-s<br>
-&gt; &gt; &gt; &gt;=C2=A0 create mode 100644 meta/recipes-kernel/systemtap=
-/systemtap-<br>
-&gt; &gt; &gt; <a href=3D"http://demo_git.bb" rel=3D"noreferrer" target=3D=
-"_blank">demo_git.bb</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; I&#39;m afraid this patch is going to throw warnings all ov=
-er the<br>
-&gt; &gt; &gt; autobuilder, e.g.:<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/b=
-uilders/40/builds/2488" rel=3D"noreferrer" target=3D"_blank">https://autobu=
-ilder.yoctoproject.org/typhoon/#/builders/40/builds/2488</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; (and there will be more).<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; We are trying to ensure all warnings are solved so that any=
- that do<br>
-&gt; &gt; &gt; show are real issues and this patch would significantly dis=
-tract<br>
-&gt; &gt; &gt; from<br>
-&gt; &gt; &gt; that.<br>
-&gt; &gt;<br>
-&gt; &gt; OK, we could default to built just the handful of probes that sh=
-ould<br>
-&gt; &gt; always build, and give instructions for those willing to use the=
-<br>
-&gt; &gt; current behaviour.<br>
-&gt;<br>
-&gt; I think that is going to be safer and we could grow into more example=
-s<br>
-&gt; if/as/when we van build them.<br>
-<br>
-Also, as the person that usually picks up systemtap breakage first<br>
-on our new kernel versions .. we need to make sure that the reworked<br>
-recipe and class pass the oe-selftest for stap.<br></blockquote><div><br><=
-/div><div>AFAICT, if we exclude this last patch, the only impact on tests i=
-s that those</div><div>testing modules with crosstap (which I only learnt a=
-bout when looking for those tests)</div><div>and pulling the full systemtap=
- package should be changed to pull systemtap-runtime</div><div>instead.</di=
-v><div><br></div><div>Now adding tests for the modules built with systemtap=
-.class is a different thing.<br></div><div><br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
-
-It is doing on target compilation, so ideally, that test should be expande=
-d<br>
-to test bot the cross and on-target variants.<br></blockquote><div><br></d=
-iv><div>The on-target compilation is already tested by meta/lib/oeqa/runtim=
-e/cases/stap.py,</div><div>and there are crosstap tests in meta/lib/oeqa/se=
-lftest/cases/runtime_test.py.</div><div><br></div><div>I have started to lo=
-ok at adding a test for modules cross-built by systemtap.bbclass,</div><div=
->but as it takes ages to run those tests it seems it would make sense to mo=
-ve this last</div><div>patch into a series of its own.<br></div><div><br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Bruce<br>
-<br>
-&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; I&#39;m also wary that we&#39;re now in feature freeze for =
-release so<br>
-&gt; &gt; &gt; perhaps<br>
-&gt; &gt; &gt; these changes should wait until 3.3?<br>
-&gt; &gt;<br>
-&gt; &gt; OK, I can reroll a series with just the fixes.<br>
-&gt;<br>
-&gt; That would be great.<br>
-&gt;<br>
-&gt; &gt; For the rest should I just wait for the gatesgarth branch to be<=
-br>
-&gt; &gt; created and resubmit then ?<br>
-&gt;<br>
-&gt; Once we start taking new work on master, yes.<br>
-&gt;<br>
-&gt; Also, for a new recipe like this we need a maintainers entry, else we=
-<br>
-&gt; see:<br>
-&gt;<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/80=
-/builds/1377" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoct=
-oproject.org/typhoon/#/builders/80/builds/1377</a><br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-&gt;<br>
-<br>
-<br>
--- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
-gmail_signature">Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" ta=
-rget=3D"_blank">yann@blade-group.com</a>&gt;<br>Blade / Shadow -- <a href=
-=3D"http://shadow.tech" target=3D"_blank">http://shadow.tech</a><br><br></=
-div></div>
-
---000000000000cf943105b3ebde05--
+> >> CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
+> >> CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
+> >> CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+> >> CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
+> >> CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
+> >> CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+> >> CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
+> >> CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
+> >> CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
+> >> CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
+> >> CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
+> >> CVE-2016-4614: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4614 *
+> >> CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
+> >> CVE-2016-6489: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6489 *
+> >> CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
+> >> CVE-2016-9596: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9596 *
+> >> CVE-2016-9598: libxml2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9598 *
+> >> CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
+> >> CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
+> >> CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
+> >> CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
+> >> CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
+> >> CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
+> >> CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
+> >> CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
+> >> CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
+> >> CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
+> >> CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
+> >> CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+> >> CVE-2018-12617: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12617 *
+> >> CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
+> >> CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
+> >> CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
+> >> CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
+> >> CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
+> >> CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+> >> CVE-2018-19665: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-19665 *
+> >> CVE-2018-21232: re2c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
+> >> CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
+> >> CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
+> >> CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
+> >> CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
+> >> CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
+> >> CVE-2019-14865: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+> >> CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
+> >> CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
+> >> CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
+> >> CVE-2020-10648: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10648 *
+> >> CVE-2020-11022: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11022 *
+> >> CVE-2020-11023: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11023 *
+> >> CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
+> >> CVE-2020-12829: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
+> >> CVE-2020-13253: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
+> >> CVE-2020-13434: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13434 *
+> >> CVE-2020-13435: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13435 *
+> >> CVE-2020-13630: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13630 *
+> >> CVE-2020-13631: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13631 *
+> >> CVE-2020-13632: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13632 *
+> >> CVE-2020-13645: glib-networking https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13645 *
+> >> CVE-2020-13754: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
+> >> CVE-2020-13791: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
+> >> CVE-2020-14145: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14145 *
+> >> CVE-2020-14150: bison-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14150 *
+> >> CVE-2020-14308: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+> >> CVE-2020-14309: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+> >> CVE-2020-14310: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+> >> CVE-2020-14311: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+> >> CVE-2020-15469: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
+> >> CVE-2020-15523: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15523 *
+> >> CVE-2020-15704: ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15704 *
+> >> CVE-2020-15705: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+> >> CVE-2020-15706: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+> >> CVE-2020-15707: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+> >> CVE-2020-15778: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15778 *
+> >> CVE-2020-15859: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
+> >> CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
+> >> CVE-2020-24352: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24352 *
+> >> CVE-2020-24553: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24553 *
+> >> CVE-2020-25613: ruby https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25613 *
+> >> CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
+> >> CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
+> >> CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
+> >> CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
+> >> CVE-2020-27619: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27619 *
+> >> CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+> >> CVE-2020-8432: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8432 *
+> >>
+> >>
+> >>
+> >>
+> >>
+> >> 
+> >>
