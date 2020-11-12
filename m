@@ -1,96 +1,149 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.17020.1605149158083406059
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web11.18077.1605153606613485322
  for <openembedded-core@lists.openembedded.org>;
- Wed, 11 Nov 2020 18:45:58 -0800
+ Wed, 11 Nov 2020 20:00:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,471,1596470400"; 
-   d="scan'208";a="101259922"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 12 Nov 2020 10:45:53 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 64C204CE4BBE;
-	Thu, 12 Nov 2020 10:45:53 +0800 (CST)
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 12 Nov 2020 10:45:52 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77])
- by G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77%14]) with
- mapi id 15.00.1497.006; Thu, 12 Nov 2020 10:45:53 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: Ross Burton <ross@burtonini.com>
-CC: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] icu: upgrade 67.1 -> 68.1
-Thread-Topic: [OE-core] [PATCH] icu: upgrade 67.1 -> 68.1
-Thread-Index: AQHWuBhE2wGeBp7H1Ei2qrutyg/uVqnDy3nA
-Date: Thu, 12 Nov 2020 02:45:53 +0000
-Message-ID: <bbdb2694c9f04c0481ca6b9c77a0cd11@G08CNEXMBPEKD04.g08.fujitsu.local>
-References: <1604893131-60530-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <CAAnfSTvGf5YJaXF=sPrf_3HH1EoxznD+2F-==jaPrJVUJ1xV4g@mail.gmail.com>
-In-Reply-To: <CAAnfSTvGf5YJaXF=sPrf_3HH1EoxznD+2F-==jaPrJVUJ1xV4g@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.81]
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: hEgDZciB+aoYtewXX9oNBQ3JFi9dR2W2C+e5JsMcmt2T6tn6e0xArs5euYIin88DEkCFepfUdg
+ qKWAck5YUaaQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9802"; a="254963362"
+X-IronPort-AV: E=Sophos;i="5.77,471,1596524400"; 
+   d="scan'208";a="254963362"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 20:00:05 -0800
+IronPort-SDR: r8x+oVk5HXOtLnvre+czYSJreJIhtw2viiAn9ea33prHqGITShAFoHnaMNrP2uqVkIK/yODuVB
+ P2InB9LGewGQ==
+X-IronPort-AV: E=Sophos;i="5.77,471,1596524400"; 
+   d="scan'208";a="308700247"
+Received: from mazlanmu-mobl2.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.134.59])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 20:00:04 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/21] pull request (cover letter only)
+Date: Thu, 12 Nov 2020 11:59:54 +0800
+Message-Id: <cover.1605153374.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 64C204CE4BBE.A803B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-U29ycnksIHdlIHdpbGwgaW1wcm92ZSBpbiB0aGUgZnV0dXJlLCBidXQgd2UgZG9u4oCZdCBrbm93
-IGhvdyB0byBkZXRlcm1pbmUgd2hpY2ggcmVjaXBlcyBuZWVkIHRvIGJlIHRlc3RlZCBkdXJpbmcg
-dGhlIHVwZ3JhZGUuIElzIHRoZXJlIGFueSB3YXkgeW91IGNhbiBwcm92aWRlIHVzPw0KDQpaYW5n
-IFJ1b2NoZW4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb3NzIEJ1
-cnRvbiA8cm9zc0BidXJ0b25pbmkuY29tPg0KPiBTZW50OiBXZWRuZXNkYXksIE5vdmVtYmVyIDEx
-LCAyMDIwIDY6NDkgUE0NCj4gVG86IFphbmcsIFJ1b2NoZW4v6IenIOiLpeWwmCA8emFuZ3JjLmZu
-c3RAY24uZnVqaXRzdS5jb20+DQo+IENjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gaWN1
-OiB1cGdyYWRlIDY3LjEgLT4gNjguMQ0KPiANCj4gUGxlYXNlIHJlbWVtYmVyIHRvIGJ1aWxkIG1v
-cmUgdGhhbiBqdXN0IGEgc2luZ2xlIHJlY2lwZSB3aGVuIHRlc3RpbmcsIGluDQo+IHBhcnRpY3Vs
-YXIgZGVwZW5kZW50cy4gIFRoaXMgdXBncmFkZSBicm9rZSBsaWJpY2FsIGFuZCB3ZWJraXRndGss
-IHdoaWNoDQo+IHJlc3VsdGVkIGluIHRocmVlIGl0ZXJhdGlvbnMgdGhvdWdoIHRoZSBhdXRvYnVp
-bGRlciBhbmQgbWUNCj4gZmluZGluZy9iYWNrcG9ydGluZyBmaXhlcyBhcyBhcHByb3ByaWF0ZS4N
-Cj4gDQo+IFJvc3MNCj4gDQo+IE9uIE1vbiwgOSBOb3YgMjAyMCBhdCAwMzozOSwgemFuZ3JjIDx6
-YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbT4gd3JvdGU6DQo+ID4NCj4gPiAtTGljZW5zZS1VcGRh
-dGU6VGhlIGFkZHJlc3MgY2hhbmdlcyBhcmUgYXMgZm9sbG93czoNCj4gPiAgICMgUHJvamVjdDog
-aHR0cDovL2NvZGUuZ29vZ2xlLmNvbS9wL2xhby1kaWN0aW9uYXJ5Lw0KPiA+ICAgIyBEaWN0aW9u
-YXJ5OiBodHRwOi8vbGFvLWRpY3Rpb25hcnkuZ29vZ2xlY29kZS5jb20vZ2l0L0xhby1EaWN0aW9u
-YXJ5LnR4dA0KPiA+ICAgIyBMaWNlbnNlOg0KPiA+IGh0dHA6Ly9sYW8tZGljdGlvbmFyeS5nb29n
-bGVjb2RlLmNvbS9naXQvTGFvLURpY3Rpb25hcnktTElDRU5TRS50eHQNCj4gPg0KPiA+IFNpZ25l
-ZC1vZmYtYnk6IFphbmcgUnVvY2hlbiA8emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ID4g
-LS0tDQo+ID4gIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS97aWN1XzY3LjEuYmIgPT4gaWN1XzY4
-LjEuYmJ9IHwgNiArKystLS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwg
-MyBkZWxldGlvbnMoLSkgIHJlbmFtZQ0KPiA+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS97aWN1
-XzY3LjEuYmIgPT4gaWN1XzY4LjEuYmJ9ICg5NSUpDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvaWN1L2ljdV82Ny4xLmJiDQo+ID4gYi9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9pY3UvaWN1XzY4LjEuYmINCj4gPiBzaW1pbGFyaXR5IGluZGV4IDk1JQ0KPiA+IHJlbmFt
-ZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNjcuMS5iYg0KPiA+IHJlbmFtZSB0
-byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9pY3UvaWN1XzY4LjEuYmINCj4gPiBpbmRleCA5ZTgwOTFi
-YTAxLi45OGFhNmI3YmU2IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2lj
-dS9pY3VfNjcuMS5iYg0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ljdS9pY3VfNjgu
-MS5iYg0KPiA+IEBAIC04Myw3ICs4Myw3IEBAIEZJTEVTX2xpYmljdWlvID0gIiR7bGliZGlyfS9s
-aWJpY3Vpby5zby4qIg0KPiA+DQo+ID4gIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNk
-ayINCj4gPg0KPiA+IC1MSUNfRklMRVNfQ0hLU1VNID0NCj4gImZpbGU6Ly8uLi9MSUNFTlNFO21k
-NT1hMzgwOGE1YjcwMDcxYjA3Zjg3ZmYyMjA1ZTRkNzVhMCINCj4gPiArTElDX0ZJTEVTX0NIS1NV
-TSA9DQo+ICJmaWxlOi8vLi4vTElDRU5TRTttZDU9MDAyZDJmZGMzMmQxN2YwZWMwNmU5YTQ3ZjJj
-MGM4ZDAiDQo+ID4NCj4gPiAgZGVmIGljdV9kb3dubG9hZF92ZXJzaW9uKGQpOg0KPiA+ICAgICAg
-cHZzcGxpdCA9IGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcuJykgQEAgLTExMiw4ICsxMTIsOCBAQCBT
-UkNfVVJJID0NCj4gPiAiJHtCQVNFX1NSQ19VUkl9O25hbWU9Y29kZSBcICBTUkNfVVJJX2FwcGVu
-ZF9jbGFzcy10YXJnZXQgPSAiXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLURpc2FibGUt
-TERGTEFHU0lDVURULWZvci1MaW51eC5wYXRjaCBcDQo+ID4gICAgICAgICAgICAiDQo+ID4gLVNS
-Q19VUklbY29kZS5zaGEyNTZzdW1dID0NCj4gIjk0YTgwY2Q2ZjI1MWE1M2JkMmE5OTdmNmYxYjVh
-YzY2NTNmZTc5MWRmYWI2NmUxZWIwMjI3NzQwZmI4NmQ1DQo+IGRjIg0KPiA+IC1TUkNfVVJJW2Rh
-dGEuc2hhMjU2c3VtXSA9DQo+ICI3YzE2YTU5Y2M4YzA2MTI4YjdlY2MxZGM0ZmMwNTZiMzZiMTcz
-NDkzMTI4MjliMTc0MDhiOWU2N2IwNWM0DQo+IGE3ZSINCj4gPiArU1JDX1VSSVtjb2RlLnNoYTI1
-NnN1bV0gPQ0KPiAiYTlmMmUzZDhiNDQzNGI4ZTUzODc4YjQzMDhiZDFlNmVlNTFjOWM3MDQyZTJi
-MWEzNzZhYmVmYjZmYmIyDQo+IDlmMmQiDQo+ID4gK1NSQ19VUklbZGF0YS5zaGEyNTZzdW1dID0N
-Cj4gIjAzZWE4YjQ2OTQxNTU2MjA1NDhjOGMwYmEyMDQ0NGYxZTdkYjI0NmNjNzllM2I5YzRmYzdh
-OTYwYjE2MGQNCj4gNTEwIg0KPiA+DQo+ID4gIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImljdTRj
-LSg/UDxwdmVyPlxkKyhfXGQrKSspLXNyYyINCj4gPiAgVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0
-dHBzOi8vZ2l0aHViLmNvbS91bmljb2RlLW9yZy9pY3UvcmVsZWFzZXMiDQo+ID4gLS0NCj4gPiAy
-LjI1LjENCj4gPg0KPiA+DQo+ID4NCj4gPg0KPiA+IA0KPiA+DQo+IA0KDQoKCg==
+Please merge these changes in gatesgarth.
+
+Thanks,
+
+Anuj
+
+The following changes since commit b1eb390bbcb995c0da70478e17f9170721c75341:
+
+  scripts/buildhistory_analysis: Avoid tracebacks from file comparision code (2020-10-30 12:37:53 +0000)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Alexander Kanavin (1):
+  apt: remove host contamination with gtest
+
+Chee Yang Lee (1):
+  ruby: fix CVE-2020-25613
+
+Jose Quaresma (12):
+  gstreamer1.0: Fix reproducibility issue around libcap
+  gstreamer1.0: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-base: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-good: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-bad: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-plugins-ugly: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-libav: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-vaapi: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-rtsp-server: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-omx: Update 1.16.2 -> Update 1.16.3
+  gstreamer1.0-python: Update 1.16.2 -> Update 1.16.3
+  gst-validate: Update 1.16.2 -> Update 1.16.3
+
+Khem Raj (1):
+  qemuboot.bbclass: Fix a typo
+
+Mark Jonas (2):
+  libsdl2: Fix directfb syntax error
+  libsdl2: Fix directfb SDL_RenderFillRect
+
+Mingli Yu (1):
+  update_udev_hwdb: clean hwdb.bin
+
+Yann E. MORIN (2):
+  common-licenses: add bzip2-1.0.4
+  recipes-core/busybox: fixup licensing information
+
+Yongxin Liu (1):
+  grub: clean up CVE patches
+
+ meta/classes/qemuboot.bbclass                 |  2 +-
+ meta/files/common-licenses/bzip2-1.0.4        | 43 ++++++++++++++++
+ ...08-calloc-Use-calloc-at-most-places.patch} | 10 ++--
+ ...ow-checking-primitives-where-we-do-.patch} | 10 ++--
+ ...e-after-free-when-redefining-a-func.patch} | 10 ++--
+ ...r-overflows-in-initrd-size-handling.patch} | 10 ++--
+ ...we-always-have-an-overflow-checking.patch} |  0
+ ...d-LVM-cache-logical-volume-handling.patch} |  0
+ ...-arithmetic-primitives-that-check-f.patch} |  0
+ ...sed-fields-from-grub_script_functio.patch} |  0
+ meta/recipes-bsp/grub/grub2.inc               | 16 +++---
+ meta/recipes-core/busybox/busybox.inc         |  7 +--
+ ...t-configure-packages-on-installation.patch |  2 +-
+ ...-init-tables-from-dpkg-configuration.patch |  2 +-
+ ...n-dpkg-configure-a-at-the-end-of-our.patch |  2 +-
+ ...ibapt-do-not-use-gtest-from-the-host.patch | 40 +++++++++++++++
+ meta/recipes-devtools/apt/apt_1.8.2.1.bb      |  1 +
+ .../ruby/ruby/CVE-2020-25613.patch            | 40 +++++++++++++++
+ meta/recipes-devtools/ruby/ruby_2.7.1.bb      |  1 +
+ .../libsdl2/directfb-renderfillrect-fix.patch | 33 +++++++++++++
+ ...ectfb-spurious-curly-brace-missing-e.patch | 49 +++++++++++++++++++
+ .../libsdl2/libsdl2_2.0.12.bb                 |  2 +
+ ...idate_1.16.2.bb => gst-validate_1.16.3.bb} |  4 +-
+ ...1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} |  4 +-
+ ...x_1.16.2.bb => gstreamer1.0-omx_1.16.3.bb} |  4 +-
+ ....bb => gstreamer1.0-plugins-bad_1.16.3.bb} |  4 +-
+ ...bb => gstreamer1.0-plugins-base_1.16.3.bb} |  4 +-
+ ...bb => gstreamer1.0-plugins-good_1.16.3.bb} |  4 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.16.3.bb} |  4 +-
+ ...son.build-fix-builds-with-python-3.8.patch | 24 ---------
+ ....16.2.bb => gstreamer1.0-python_1.16.3.bb} |  8 ++-
+ ....bb => gstreamer1.0-rtsp-server_1.16.3.bb} |  4 +-
+ ...1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} |  4 +-
+ .../gstreamer/gstreamer1.0/capfix.patch       | 37 --------------
+ ...er1.0_1.16.2.bb => gstreamer1.0_1.16.3.bb} |  9 ++--
+ scripts/postinst-intercepts/update_udev_hwdb  |  1 +
+ 36 files changed, 279 insertions(+), 116 deletions(-)
+ create mode 100644 meta/files/common-licenses/bzip2-1.0.4
+ rename meta/recipes-bsp/grub/files/{0003-calloc-Use-calloc-at-most-places.patch => CVE-2020-14308-calloc-Use-calloc-at-most-places.patch} (99%)
+ rename meta/recipes-bsp/grub/files/{0005-malloc-Use-overflow-checking-primitives-where-we-do-.patch => CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch} (99%)
+ rename meta/recipes-bsp/grub/files/{0007-script-Avoid-a-use-after-free-when-redefining-a-func.patch => CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch} (95%)
+ rename meta/recipes-bsp/grub/files/{0008-linux-Fix-integer-overflows-in-initrd-size-handling.patch => CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch} (96%)
+ rename meta/recipes-bsp/grub/files/{0001-calloc-Make-sure-we-always-have-an-overflow-checking.patch => calloc-Make-sure-we-always-have-an-overflow-checking.patch} (100%)
+ rename meta/recipes-bsp/grub/files/{0002-lvm-Add-LVM-cache-logical-volume-handling.patch => lvm-Add-LVM-cache-logical-volume-handling.patch} (100%)
+ rename meta/recipes-bsp/grub/files/{0004-safemath-Add-some-arithmetic-primitives-that-check-f.patch => safemath-Add-some-arithmetic-primitives-that-check-f.patch} (100%)
+ rename meta/recipes-bsp/grub/files/{0006-script-Remove-unused-fields-from-grub_script_functio.patch => script-Remove-unused-fields-from-grub_script_functio.patch} (100%)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-test-libapt-do-not-use-gtest-from-the-host.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2020-25613.patch
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-renderfillrect-fix.patch
+ create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/directfb-spurious-curly-brace-missing-e.patch
+ rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.2.bb => gst-validate_1.16.3.bb} (87%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.16.2.bb => gstreamer1.0-libav_1.16.3.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.16.2.bb => gstreamer1.0-omx_1.16.3.bb} (92%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.16.2.bb => gstreamer1.0-plugins-bad_1.16.3.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16.2.bb => gstreamer1.0-plugins-base_1.16.3.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.2.bb => gstreamer1.0-plugins-good_1.16.3.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.16.2.bb => gstreamer1.0-plugins-ugly_1.16.3.bb} (90%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.2.bb => gstreamer1.0-python_1.16.3.bb} (80%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.16.2.bb => gstreamer1.0-rtsp-server_1.16.3.bb} (86%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.2.bb => gstreamer1.0-vaapi_1.16.3.bb} (93%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.2.bb => gstreamer1.0_1.16.3.bb} (90%)
+
+-- 
+2.28.0
+
