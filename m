@@ -1,72 +1,251 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web08.3607.1605185784307743263
+Received: from mailrelay4-2.pub.mailoutpod1-cph3.one.com (mailrelay4-2.pub.mailoutpod1-cph3.one.com [46.30.212.3])
+ by mx.groups.io with SMTP id smtpd.web12.3739.1605185999054761957
  for <openembedded-core@lists.openembedded.org>;
- Thu, 12 Nov 2020 04:56:24 -0800
+ Thu, 12 Nov 2020 05:00:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QYe/VRkk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id d142so5170230wmd.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 12 Nov 2020 04:56:24 -0800 (PST)
+ dkim=pass header.i=@berginkonsult.se header.s=20191106 header.b=gruh6/qp;
+ spf=none, err=permanent DNS error (domain: berginkonsult.se, ip: 46.30.212.3, mailfrom: peter@berginkonsult.se)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=KMNsai7kR9GbdkA8q50tz7d8G6KBLWh8Ow5ST+43i8U=;
-        b=QYe/VRkkJqnfAA9QM23yuoJ0IoQ4nEVvmsIoBs0rI1lar3NsskHUa2P5gCYUfsLVg4
-         pzz31W2bGQPkqEleyitpEKc3oeSuMhiQVkO+s3sqlzoJKdlvfyZAuAbPqVUAOtUPEeu3
-         W6Uf2C7pUDCmi2qB0URn4Frapq4QaVpSfnlrE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=KMNsai7kR9GbdkA8q50tz7d8G6KBLWh8Ow5ST+43i8U=;
-        b=AQ7NDIalTLQKX8n8a1kS8Ke1ZqdvuR7KPeBULPllDPR5eWitHWVCUPLRXXQHHWpaE/
-         aO6aOjWyunTp5AsBp9So8naQT1LuuDe2b0k7uSbJAk3yi58KlNFGis8bnbvuVlRF/ODM
-         L4O+qv1OPodDPiVprsVRCyTqX0gt9KMuhHvAQgQu2rNBxH1ACd+goZw3PQO3Mj9Av1a+
-         JlEvgPpxIBdWSFTfwdHUZgcGMowPjUPA9SSDRMSA7c8yxjNeYaSmq0FJbOTNdW3zReAs
-         pp0nOoe2PICSxeW9lcRGIJdoHDUJphAWS019xTK4Ku3dvVZh5Q7z1vbTy784n/4Kk9z4
-         LjHg==
-X-Gm-Message-State: AOAM533rNt9IA5pJS4a91Ge8RhCVZJQhtZvGQkwKJyNScNjeDZtxfdjD
-	HG2Ub8WQ5vnwBVhz9hmd9+Q4sA==
-X-Google-Smtp-Source: ABdhPJyyXdlNNDJTzRBNDnNbEyOipds+9Hguu/fd5pby9O46afP6Iu1QgCW04++PjAlWrgiPvBT1LQ==
-X-Received: by 2002:a1c:7213:: with SMTP id n19mr9287220wmc.36.1605185782708;
-        Thu, 12 Nov 2020 04:56:22 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from e.3.a.b.8.4.f.3.4.e.5.7.b.c.8.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (e.3.a.b.8.4.f.3.4.e.5.7.b.c.8.4.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:48cb:75e4:3f48:ba3e])
-        by smtp.gmail.com with ESMTPSA id v16sm6672913wml.33.2020.11.12.04.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 04:56:21 -0800 (PST)
-Message-ID: <dc807a64da8af13163c15acaf346d5f1298fc3fe.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky][master][PATCH] systemd: selinux hook handling to enumerate nexthop
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Purushottam choudhary <purushottam.choudhary@kpit.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
-	 <raj.khem@gmail.com>
-Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>, Anuj Chougule
-	 <Anuj.Chougule@kpit.com>, Aditya Tayade <Aditya.Tayade@kpit.com>
-Date: Thu, 12 Nov 2020 12:56:18 +0000
-In-Reply-To: <PNZPR01MB4224736DEB01CC746747D6D390E70@PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM>
-References: 
-	<1604486040-26986-1-git-send-email-purushottam.choudhary@kpit.com>
-	 <PNZPR01MB4224736DEB01CC746747D6D390E70@PNZPR01MB4224.INDPRD01.PROD.OUTLOOK.COM>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+	d=berginkonsult.se; s=20191106;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	 message-id:from:references:cc:to:subject:from;
+	bh=HZR38EXfQ28o/eqvty5+RbcTJ1z23Pu++VQXneXm4Ic=;
+	b=gruh6/qpuJ1mqOIV/ZBjElC4j6DhZGPKuqCdPZT9zqUN+hNRO43FFR/R6vWiLFjTWMeBPEg7l3w7l
+	 4t70PKO0NDVw8rcN6ueGxMIBOLHrDARekAh/f/zpQTGawhO62R1zl3Ec0OtxGGt+h7bjeMv/4KyLBa
+	 3QK+tYt80scd2qOWa9DnTPY8X52JiqRrzcPG6BHLOsFBW2+72q3tzEh9DJZsFcI++b2MzIkdZjxtFj
+	 YDb+trmIkbOWHy4kbghAJ3QGLbKII8CExYZKoOuEGSvUORwGjyT1vQqFmnHYU+tbxuoTMkUH1Mjqx9
+	 WjweXc6W7rz5+QZCxydP4UBX48yFe6w==
+X-HalOne-Cookie: 33b9ed3ecc365268bf98be8bcd379e08884e1df8
+X-HalOne-ID: f62a2d8a-24e6-11eb-bb82-d0431ea8bb10
+Received: from [10.11.12.212] (unknown [83.218.73.98])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id f62a2d8a-24e6-11eb-bb82-d0431ea8bb10;
+	Thu, 12 Nov 2020 12:59:56 +0000 (UTC)
+Subject: Re: [OE-core] devtool modify - ModuleNotFoundError: No module named '_sysconfigdata'
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: ernst.sjostrand@lists.verisure.com,
+ OE-core <openembedded-core@lists.openembedded.org>
+References: <76c7c436-29d1-1687-1889-72e883697a75@berginkonsult.se>
+ <29322.1605179238305301621@lists.openembedded.org>
+ <CANNYZj_d6uefKzNP1YQ=zGNuG2z0xRs=37Zv1vz3XFvL4i3KPA@mail.gmail.com>
+From: "Peter Bergin" <peter@berginkonsult.se>
+Message-ID: <d3a9efbd-e980-65e8-4bc0-15247a8966a1@berginkonsult.se>
+Date: Thu, 12 Nov 2020 13:59:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CANNYZj_d6uefKzNP1YQ=zGNuG2z0xRs=37Zv1vz3XFvL4i3KPA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Thu, 2020-11-12 at 09:33 +0000, Purushottam choudhary wrote:
-> Hi Openembedded/Khem,
-> 
-> Is there any update on this patch?
-> 
-> Could you please let me know?
+Hi Alex,
 
-Its merged in master?
+On 2020-11-12 12:38, Alexander Kanavin wrote:
+> If you can provide exact steps to reproduce (the recipe is not 
+> available in oe-core), I can take a look. It's been reported plenty of 
+> times, but always with something not in core and not easily available.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ec37a2be661bbaa494455a5417db148495920039
+here are the steps to reproduce with only poky. I hope it can help you 
+find the root cause:
 
-Cheers,
+     $ git clone https://git.yoctoproject.org/git/poky sources/poky
+     $ . ./sources/poky/oe-init-build-env
+     $ echo 'MACHINE = "qemuarm64"' >> conf/auto.conf
+     $ devtool modify u-boot
 
-Richard
+And here is the output on my machine:
+
+     Build Configuration:
+     BB_VERSION           = "1.49.0"
+     BUILD_SYS            = "x86_64-linux"
+     NATIVELSBSTRING      = "ubuntu-20.04"
+     TARGET_SYS           = "aarch64-poky-linux"
+     MACHINE              = "qemuarm64"
+     DISTRO               = "poky"
+     DISTRO_VERSION       = "3.2+snapshot-20201112"
+     TUNE_FEATURES        = "aarch64 armv8a crc cortexa57"
+     TARGET_FPU           = ""
+     meta
+     meta-poky
+     meta-yocto-bsp       = 
+"master:e949e76d0f6897ec5d4feaa47afd2b049b32707f"
+     workspace            = "<unknown>:<unknown>"
+
+     Initialising tasks: 100% 
+|###########################################################| Time: 0:00:00
+     Sstate summary: Wanted 20 Found 20 Missed 0 Current 0 (100% match, 
+0% complete)
+     NOTE: Executing Tasks
+     ERROR: Error executing a python function in exec_python_func() 
+autogenerated:
+
+     The stack trace of python calls that resulted in this 
+exception/failure was:
+     File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+          0001:
+      *** 0002:devtool_post_unpack(d)
+          0003:
+     File: 
+'/work/yocto/devtool-reproduce2/sources/poky/meta/classes/devtool-source.bbclass', 
+lineno: 68, function: devtool_post_unpack
+          0064:}
+          0065:
+          0066:
+          0067:python devtool_post_unpack() {
+      *** 0068:    import oe.recipeutils
+          0069:    import shutil
+          0070:    sys.path.insert(0, os.path.join(d.getVar('COREBASE'), 
+'scripts', 'lib'))
+          0071:    import scriptutils
+          0072:    from devtool import setup_git_repo
+     File: 
+'/work/yocto/devtool-reproduce2/sources/poky/meta/lib/oe/recipeutils.py', 
+lineno: 21, function: <module>
+          0017:import shutil
+          0018:import re
+          0019:import fnmatch
+          0020:import glob
+      *** 0021:import bb.tinfoil
+          0022:
+          0023:from collections import OrderedDict, defaultdict
+          0024:from bb.utils import vercmp_string
+          0025:
+     File: 
+'/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/bb/tinfoil.py', 
+lineno: 19, function: <module>
+          0015:from collections import OrderedDict, defaultdict
+          0016:from functools import partial
+          0017:
+          0018:import bb.cache
+      *** 0019:import bb.cooker
+          0020:import bb.providers
+          0021:import bb.taskdata
+          0022:import bb.utils
+          0023:import bb.command
+     File: 
+'/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/bb/cooker.py', 
+lineno: 25, function: <module>
+          0021:import bb, bb.exceptions, bb.command
+          0022:from bb import utils, data, parse, event, cache, 
+providers, taskdata, runqueue, build
+          0023:import queue
+          0024:import signal
+      *** 0025:import prserv.serv
+          0026:import pyinotify
+          0027:import json
+          0028:import pickle
+          0029:import codecs
+     File: 
+'/work/yocto/devtool-reproduce2/sources/poky/bitbake/lib/prserv/serv.py', 
+lineno: 7, function: <module>
+          0003:#
+          0004:
+          0005:import os,sys,logging
+          0006:import signal, time
+      *** 0007:from xmlrpc.server import SimpleXMLRPCServer, 
+SimpleXMLRPCRequestHandler
+          0008:import threading
+          0009:import queue
+          0010:import socket
+          0011:import io
+     File: '/usr/lib/python3.8/xmlrpc/server.py', lineno: 117, function: 
+<module>
+          0113:import socketserver
+          0114:import sys
+          0115:import os
+          0116:import re
+      *** 0117:import pydoc
+          0118:import traceback
+          0119:try:
+          0120:    import fcntl
+          0121:except ImportError:
+     File: '/usr/lib/python3.8/pydoc.py', lineno: 370, function: <module>
+          0366:    return module
+          0367:
+          0368:# ---------------------------------------------------- 
+formatter base class
+          0369:
+      *** 0370:class Doc:
+          0371:
+          0372:    PYTHONDOCS = os.environ.get("PYTHONDOCS",
+          0373: "https://docs.python.org/%d.%d/library"
+          0374:                                % sys.version_info[:2])
+     File: '/usr/lib/python3.8/pydoc.py', lineno: 400, function: Doc
+          0396:        raise TypeError(message)
+          0397:
+          0398:    docmodule = docclass = docroutine = docother = 
+docproperty = docdata = fail
+          0399:
+      *** 0400:    def getdocloc(self, object, 
+basedir=sysconfig.get_path('stdlib')):
+          0401:        """Return the location of module docs or None"""
+          0402:
+          0403:        try:
+          0404:            file = inspect.getabsfile(object)
+     File: '/usr/lib/python3.8/sysconfig.py', lineno: 512, function: 
+get_path
+          0508:    """Return a path corresponding to the scheme.
+          0509:
+          0510:    ``scheme`` is the install scheme name.
+          0511:    """
+      *** 0512:    return get_paths(scheme, vars, expand)[name]
+          0513:
+          0514:
+          0515:def get_config_vars(*args):
+          0516:    """With no arguments, return a dictionary of all 
+configuration
+     File: '/usr/lib/python3.8/sysconfig.py', lineno: 502, function: 
+get_paths
+          0498:    ``scheme`` is the install scheme name. If not 
+provided, it will
+          0499:    return the default scheme for the current platform.
+          0500:    """
+          0501:    if expand:
+      *** 0502:        return _expand_vars(scheme, vars)
+          0503:    else:
+          0504:        return _INSTALL_SCHEMES[scheme]
+          0505:
+          0506:
+     File: '/usr/lib/python3.8/sysconfig.py', lineno: 172, function: 
+_expand_vars
+          0168:def _expand_vars(scheme, vars):
+          0169:    res = {}
+          0170:    if vars is None:
+          0171:        vars = {}
+      *** 0172:    _extend_dict(vars, get_config_vars())
+          0173:
+          0174:    for key, value in _INSTALL_SCHEMES[scheme].items():
+          0175:        if os.name in ('posix', 'nt'):
+          0176:            value = os.path.expanduser(value)
+     File: '/usr/lib/python3.8/sysconfig.py', lineno: 550, function: 
+get_config_vars
+          0546:
+          0547:        if os.name == 'nt':
+          0548:            _init_non_posix(_CONFIG_VARS)
+          0549:        if os.name == 'posix':
+      *** 0550:            _init_posix(_CONFIG_VARS)
+          0551:        # For backward compatibility, see issue19555
+          0552:        SO = _CONFIG_VARS.get('EXT_SUFFIX')
+          0553:        if SO is not None:
+          0554:            _CONFIG_VARS['SO'] = SO
+     File: '/usr/lib/python3.8/sysconfig.py', lineno: 421, function: 
+_init_posix
+          0417:def _init_posix(vars):
+          0418:    """Initialize the module as appropriate for POSIX 
+systems."""
+          0419:    # _sysconfigdata is generated at build time, see 
+_generate_posix_vars()
+          0420:    name = _get_sysconfigdata_name()
+      *** 0421:    _temp = __import__(name, globals(), locals(), 
+['build_time_vars'], 0)
+          0422:    build_time_vars = _temp.build_time_vars
+          0423:    vars.update(build_time_vars)
+          0424:
+          0425:def _init_non_posix(vars):
+     Exception: ModuleNotFoundError: No module named '_sysconfigdata'
+
+
+Thanks,
+/Peter
 
