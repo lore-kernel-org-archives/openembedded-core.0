@@ -1,49 +1,49 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.5346.1605279162383058613
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.5226.1605279164715683857
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2020 06:52:42 -0800
+ Fri, 13 Nov 2020 06:52:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wnYtaNcI;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id f18so7238996pgi.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 06:52:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=isemW/Uk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id q5so7804141pfk.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 06:52:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=8pU07i8DgfCuTurRVfScRN7UvtmE1TQ7w42op26GKTQ=;
-        b=wnYtaNcIR/LlRdNXRXCv4wXvh6HVcfjVFzjPmts2epbXXGkXXuVigedp0jMXrcTQLF
-         bEnQLwBg4o2J02NPHEUusZorg9yCk1kQ6Hcuqk6gY4/07B/XB5GktE/haMqUjEdAP8QV
-         T9xbyMHSFt/BiulmhiX+U50YUAe46/S0MA1YjR0OugAIDyUZfsEsY7iJjKxhfg+Dvr7N
-         VlLr3hyslx8MzgsXeqAbTx1GGynn8eDuQbsSX3b4JgOIJq9FH99+ewxhQ94P41TCvGJK
-         96pV915gsNJEtk+SMJtPpTX9HCXfqPQX8PA747EGwnUaQTXHQjl7nANzPIFNEV6P9Qdf
-         yiWw==
+        bh=ybEMqhZ6Q2lyetDIRHX/6dBZ5FxugH7zxsmECVKvALU=;
+        b=isemW/UkHGjLRbNkOhITcgagPXGKEqQ8k2XVFMpPjU96brjqxAAil62b6mE6Sole1J
+         AfteoNHDv/gAN0Z8H+XT4PBpi0rPhWyDDXS0sb4kgl2Hwu7vDpj9cxWmJrs3c3/flt+0
+         4GDJOhRCuxNs6uHOZPIQ9ksK29m4pme7ej7nsedumk6JMGU71zovUe+v99VxeBPEFfif
+         Jhp63pZLH1alOSnLT9KyzqA/HcIlnIAQK4LOUg5v/ncVsYEu40Esnc/xP6CRFmveRsn3
+         EhDCAg+VufMrjaUPhCX8F8XJUexeYaIqjisWriZzwUxnT5vRYqb/SKFpwxCh642fqgvt
+         bLkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=8pU07i8DgfCuTurRVfScRN7UvtmE1TQ7w42op26GKTQ=;
-        b=FjaROFNlKNjdn335BsmJ33oTtAYiyT/c1sQWfvAPoyAxABd3QmODkZj/Fy8IISV63P
-         7+zfn4ZCthmG6gZnchyhbnjUdZ5cehWlex9xqRSFIClXAtC1ZPQLSUMbncsCXQVYfKNe
-         7MPX6OiLyb+T5KkyC6fpUkpu3oOsOLxaiX2RCNxeMhaIc3Sa5Vt8/RBrVhHZCs//bG/j
-         Kz4sPy4+OTVHSIry944S50k+jEVKh6bcWIVDngdOUxJTyrDhbFOZMsfPGbkX0jIUNzW/
-         sysZcHvCEn/TiJFMNVramP0jJsUb1i9oxF56tifR/IVi5AhH3gAOI1nHI6JFQGkNMCsv
-         Ueug==
-X-Gm-Message-State: AOAM531GZWL+1WMZbkeEpRIOfdov5SAe1opXUIOfTpD/7anthMje2Jfq
-	ejuUBaiqeXitPeC6TahsVJ+xnI2kng5fVMu6
-X-Google-Smtp-Source: ABdhPJzGv4OLhd4ng7KSHR53aebAgDuqyzui7D7CAnYRWLGh4IjgCAoHa7mFIATV9hkIGnnfXflshA==
-X-Received: by 2002:aa7:8a01:0:b029:18c:a1fa:8599 with SMTP id m1-20020aa78a010000b029018ca1fa8599mr2551654pfa.12.1605279161419;
-        Fri, 13 Nov 2020 06:52:41 -0800 (PST)
+        bh=ybEMqhZ6Q2lyetDIRHX/6dBZ5FxugH7zxsmECVKvALU=;
+        b=UfaeMX3tWwCwj2lhC7/VocixgKHZeUl6IsIKpk5/8tjC5LTsFcLReSFXRvt/zFNf7F
+         wyoGJscCnKLexJIFCN3jQcESzQ7AcLsRKdJMBk3iz6vUAA0Eqz/x36v8cQ3qG2gBmx57
+         MDfCI6xbIJ2a89jZla2CS9y3xKjPy/WFOEHEetUbBMRl0i6ChsLMrBF6uYlw9VxY9Enf
+         I4niKLMrSr1DsegnZjDM7y4p8nxHtBizIxEl4bIAlyut957ywdojJfEFNeYC9Iw+EI40
+         7TyTN2oQicM3ghyaKR+eR3uVQcbCWlKchG3u3e8oiB7G2ZeVU3dFgmpplG4568nr0zLB
+         6VWQ==
+X-Gm-Message-State: AOAM533hIVrfug5UmjjbBcV3DVWuFxx72XL43SFGmnIRhez3Mf6k7ThL
+	hjeEyZunBLsLp5HzxKypfSV7q5uav2NZlRpU
+X-Google-Smtp-Source: ABdhPJzfbuGHc3uxL5oRmJI/6PcVUPzvfpkNCVW7S5ognNQAxAVbWGwIu/Zty/rDE1CEKd+sHWKpZA==
+X-Received: by 2002:aa7:82d0:0:b029:18b:d594:9dc5 with SMTP id f16-20020aa782d00000b029018bd5949dc5mr2263106pfn.63.1605279163699;
+        Fri, 13 Nov 2020 06:52:43 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id r134sm10370694pfc.145.2020.11.13.06.52.40
+        by smtp.gmail.com with ESMTPSA id r134sm10370694pfc.145.2020.11.13.06.52.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 06:52:40 -0800 (PST)
+        Fri, 13 Nov 2020 06:52:43 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/18] ptest-runner: Fix license as it contains 'or later' clause
-Date: Fri, 13 Nov 2020 04:52:06 -1000
-Message-Id: <c0d1eb1efad160b7832abd87a168ca547c296d94.1605278902.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/18] libdnf: Fix license as it contains 'or later' clause
+Date: Fri, 13 Nov 2020 04:52:07 -1000
+Message-Id: <f46aac0fb7c4f1777a19720b05cf0eb83f4dd988.1605278902.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1605278902.git.steve@sakoman.com>
 References: <cover.1605278902.git.steve@sakoman.com>
@@ -54,25 +54,23 @@ The license headers are clear that the code is "or later", fix LICENSE
 to match.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5f0b5cdfcb104ac50222a47652e090ad8770e49f)
+(cherry picked from commit e565e0b908c71ad5106d1c6c73d269b819787e55)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb | 2 +-
+ meta/recipes-devtools/libdnf/libdnf_0.28.1.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
-index 187f22df04..3a0dbf84fd 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
-@@ -4,7 +4,7 @@ program which loops through all installed ptest test suites and \
- runs them in sequence."
- HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+index cc2ceb8816..43de06e7f9 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "Library providing simplified C and Python API to libsolv"
+-LICENSE = "LGPLv2.1"
++LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--LICENSE = "GPLv2"
-+LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
- 
- SRCREV = "7015e9199ce748c0717addeebe7a8c47448bab03"
+ SRC_URI = "git://github.com/rpm-software-management/libdnf \
 -- 
 2.17.1
 
