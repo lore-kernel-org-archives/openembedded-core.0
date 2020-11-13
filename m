@@ -1,76 +1,80 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web10.5226.1605279164715683857
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+ by mx.groups.io with SMTP id smtpd.web12.5324.1605279167314507803
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2020 06:52:44 -0800
+ Fri, 13 Nov 2020 06:52:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=isemW/Uk;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id q5so7804141pfk.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 06:52:44 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rJJN1i9C;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f170.google.com with SMTP id z3so7792141pfb.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 06:52:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=ybEMqhZ6Q2lyetDIRHX/6dBZ5FxugH7zxsmECVKvALU=;
-        b=isemW/UkHGjLRbNkOhITcgagPXGKEqQ8k2XVFMpPjU96brjqxAAil62b6mE6Sole1J
-         AfteoNHDv/gAN0Z8H+XT4PBpi0rPhWyDDXS0sb4kgl2Hwu7vDpj9cxWmJrs3c3/flt+0
-         4GDJOhRCuxNs6uHOZPIQ9ksK29m4pme7ej7nsedumk6JMGU71zovUe+v99VxeBPEFfif
-         Jhp63pZLH1alOSnLT9KyzqA/HcIlnIAQK4LOUg5v/ncVsYEu40Esnc/xP6CRFmveRsn3
-         EhDCAg+VufMrjaUPhCX8F8XJUexeYaIqjisWriZzwUxnT5vRYqb/SKFpwxCh642fqgvt
-         bLkQ==
+        bh=2om/8/ojjd5hvWv1RTodDt1QWR8CCmjVsOfdbnTMfiM=;
+        b=rJJN1i9CEhC/OtNl+AewWoZse7VAkyO95erljAdwq+KAJJ62A4XwqmnbrCLKsghehR
+         t0J3lpTaPOMNG2pC6Lh/M3k5rRCIcgGkn8wi/bIa9ZAkbI8efeoDRrEHGqaYGV3GrH4J
+         wzWA64RnAzr9HtqstsCfOd4R/91rV96E2vsOf0RTYI4IS+OeaFMaqUXfvTTAjPryj3dv
+         BKWivpbKXA3hGzgQ1eHcUHt/LgGZabkPjasg0U4qF4NCdAVlKVi51f68Fh7MYmSuhsf0
+         PasDDBKdOEccPsGdkAssNW3xiiYs6jPtWALVVazy61cj1hzsxEZxLLAqJMFzU/qMRQ/u
+         eg4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=ybEMqhZ6Q2lyetDIRHX/6dBZ5FxugH7zxsmECVKvALU=;
-        b=UfaeMX3tWwCwj2lhC7/VocixgKHZeUl6IsIKpk5/8tjC5LTsFcLReSFXRvt/zFNf7F
-         wyoGJscCnKLexJIFCN3jQcESzQ7AcLsRKdJMBk3iz6vUAA0Eqz/x36v8cQ3qG2gBmx57
-         MDfCI6xbIJ2a89jZla2CS9y3xKjPy/WFOEHEetUbBMRl0i6ChsLMrBF6uYlw9VxY9Enf
-         I4niKLMrSr1DsegnZjDM7y4p8nxHtBizIxEl4bIAlyut957ywdojJfEFNeYC9Iw+EI40
-         7TyTN2oQicM3ghyaKR+eR3uVQcbCWlKchG3u3e8oiB7G2ZeVU3dFgmpplG4568nr0zLB
-         6VWQ==
-X-Gm-Message-State: AOAM533hIVrfug5UmjjbBcV3DVWuFxx72XL43SFGmnIRhez3Mf6k7ThL
-	hjeEyZunBLsLp5HzxKypfSV7q5uav2NZlRpU
-X-Google-Smtp-Source: ABdhPJzfbuGHc3uxL5oRmJI/6PcVUPzvfpkNCVW7S5ognNQAxAVbWGwIu/Zty/rDE1CEKd+sHWKpZA==
-X-Received: by 2002:aa7:82d0:0:b029:18b:d594:9dc5 with SMTP id f16-20020aa782d00000b029018bd5949dc5mr2263106pfn.63.1605279163699;
-        Fri, 13 Nov 2020 06:52:43 -0800 (PST)
+        bh=2om/8/ojjd5hvWv1RTodDt1QWR8CCmjVsOfdbnTMfiM=;
+        b=Rv+Jl2CSUA5z1LUoYIHZ0sJjgE96GtF8Q5oOjvju3R3V9SCt/W5NMUzjLRwgjVsWgr
+         dtMrAzS6V9y1X3O7K5jnQ6PhD0c8GPXzqpKpTbF1ebNAxwLHDbUTa1PL9R8mPzcZPcgB
+         +o3t7j7xgdrdw85nsKLqemnGxGHdQD3W4HpOwC0jQ5FxUbTc1f5oc/LchLbAwFLZSNmI
+         jvWhkX9dQpU/FZT/ydmXXWSRwChXtBABJonx8w2qUhXS4+c4TGEe7dxPIE3Tpoqq5oh4
+         lTTWfZHdLfbjTBMllm+K2NwdFgdv3oZMUuUixsgxB2R1sH+ppDge+O2NzqSUTC/UaESV
+         0wZg==
+X-Gm-Message-State: AOAM5324N2d4at941ap31S89wxhKi+1qZCFq5tok9RNH0XjJu1qrSYYL
+	DZ0APlnIqJX2brFFrJXoYawYwJDmCbaY2p6K
+X-Google-Smtp-Source: ABdhPJwtEl3nmsyeQIuJiXVXgo3In8BWrwG28EbSRL64ZvEnxCASPj5rYu8kS/jKltBtqa+6kTSNow==
+X-Received: by 2002:a17:90b:f07:: with SMTP id br7mr3619238pjb.178.1605279166417;
+        Fri, 13 Nov 2020 06:52:46 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id r134sm10370694pfc.145.2020.11.13.06.52.42
+        by smtp.gmail.com with ESMTPSA id r134sm10370694pfc.145.2020.11.13.06.52.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 06:52:43 -0800 (PST)
+        Fri, 13 Nov 2020 06:52:45 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/18] libdnf: Fix license as it contains 'or later' clause
-Date: Fri, 13 Nov 2020 04:52:07 -1000
-Message-Id: <f46aac0fb7c4f1777a19720b05cf0eb83f4dd988.1605278902.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/18] alsa-utils: Fix license to GPLv2 only
+Date: Fri, 13 Nov 2020 04:52:08 -1000
+Message-Id: <23f482ba5e6f2b0ab093ad73c4b22978f4bde543.1605278902.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1605278902.git.steve@sakoman.com>
 References: <cover.1605278902.git.steve@sakoman.com>
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The license headers are clear that the code is "or later", fix LICENSE
-to match.
+Parts of alsa-utils are v2 only, parts are v2 or later. The effect is
+the end result is GPLv2 and there seems little value in marking everything
+as being a mixture of both. Fix LICENSE to match reality.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e565e0b908c71ad5106d1c6c73d269b819787e55)
+(cherry picked from commit a9a17a991174b732597e21045763ea851f486a01)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/libdnf/libdnf_0.28.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
-index cc2ceb8816..43de06e7f9 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
-@@ -1,5 +1,5 @@
- SUMMARY = "Library providing simplified C and Python API to libsolv"
--LICENSE = "LGPLv2.1"
-+LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
- SRC_URI = "git://github.com/rpm-software-management/libdnf \
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
+index 9144af628a..1dc30f377b 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
+@@ -2,7 +2,8 @@ SUMMARY = "ALSA sound utilities"
+ HOMEPAGE = "http://www.alsa-project.org"
+ BUGTRACKER = "http://alsa-project.org/main/index.php/Bug_Tracking"
+ SECTION = "console/utils"
+-LICENSE = "GPLv2+"
++# Some parts are GPLv2+, some are only GPLv2 (e.g. axfer, alsactl) so result is GPLv2
++LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://alsactl/utils.c;beginline=3;endline=18;md5=96cc06a4cebe5eb7975688ffb0e65642"
+ DEPENDS = "alsa-lib ncurses libsamplerate0"
 -- 
 2.17.1
 
