@@ -1,155 +1,434 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web09.2546.1605264481061896778
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.web10.4799.1605277381038673472
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2020 02:48:01 -0800
+ Fri, 13 Nov 2020 06:23:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eCPeMHH9;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id d12so9223882wrr.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 02:48:00 -0800 (PST)
+ dkim=pass header.i=@uber.com header.s=google header.b=eBDhSaWF;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: uber.com, ip: 209.85.208.52, mailfrom: gstroz@uber.com)
+Received: by mail-ed1-f52.google.com with SMTP id v22so10876294edt.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 06:23:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1/zSWfxAQKeY1e/jh08I3q+PYmz0R4ioq8xaTx7Cr6k=;
-        b=eCPeMHH99WpsimVozvRRYrWGII5cihQVGclRLH2G0Uv61WtGQV7hMk1Pm5mXQMDdm2
-         GosOHGeONYuY9A2v3WsvdRr88O02jNy6kZml7DHDJ4QPJYBfNV0zNrBDuaVhJGqbTR6x
-         w4DBZ7u33R1o1VHPAOsag96McgsR25PzskB5ifWUhnImER6HcMX5U+OhENIkUhKXlW4v
-         /Tzy9THV60qd54O8W5MslnfkXlk0+FcInKUK/CHCnWJnnKoI6pecdFJWJ2nS3mOHbV5G
-         YPotDFE9TvxqKMd6VflLuNpcoWwtT0C332zhmSVmFFugwpQua2NMlP6YgheXGtMmsKl2
-         B+xw==
+        d=uber.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h1fMmbgYjrm/vfEAWNSHqTzd9UaJyt4Hs9Y9yh7uWm4=;
+        b=eBDhSaWFd9JyduO3NRawXl5Ih+dh2dzfOcjoon8cBZbuvxRXaloy7xT6aeC7ETvkOt
+         AfnZYqRuvhpioucrWQf7CzJzK0vNz+wEOnlgmQA+H1fpVYrkdjed7bkHzt9Pu9JILrWz
+         D5r6lH8p0NxSiMpGQH5IjW0Fhf0VZ+39ZtGbk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1/zSWfxAQKeY1e/jh08I3q+PYmz0R4ioq8xaTx7Cr6k=;
-        b=QLdvyyrgCNBeT9oAr5Xew3Zpd4JH8E39eaivDb54A2CiLC7n+Ubo7BCJjFgMDpLyl/
-         0H5kh9a86ZegW8UIe8fvWtfm6BLXTPE9z0yuEys3gNTnh/FfW/YWz36g+xciFMAoGtyN
-         ys2t8kTp+8+nI6egILrPpk8ysV2Bt/41PB5xVwi2X7A50IUM3n+TobuE0q2RHP7iHjuz
-         clquiOgpa2rKYQx6iF+F5Z4/J55U5jKQRn4iVd0Lg2kre5DO9BxGRNpaOzYaf5l17mKM
-         CqA8RpSXHbrHzMOArNGEM86Iu0B05mcHiCWFnAZFFCGIyFszjeNe5JKV/FbKKjZJ1oHv
-         CfKw==
-X-Gm-Message-State: AOAM533KYdHY7NnhyF9vwDkXkyCe0oJ2duDrMlOz/J9Y9kbwmBT3BDsT
-	98Weh/m89iPDQqmZEkaezTtMhuSkxFGtWg==
-X-Google-Smtp-Source: ABdhPJyqANRcTzDhP9WYMfwgjJGbRz2wiNhT/9cEbxAfqQ6N9BqbcDfulbV+vkJIgVx+Aw4czcNUew==
-X-Received: by 2002:a5d:5752:: with SMTP id q18mr2600847wrw.176.1605264479152;
-        Fri, 13 Nov 2020 02:47:59 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id t136sm6472530wmt.18.2020.11.13.02.47.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 02:47:58 -0800 (PST)
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org
-Subject: [PATCH v3] dbus: split -common and -tools out of main package
-Date: Fri, 13 Nov 2020 10:47:55 +0000
-Message-Id: <20201113104755.1073202-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201102180559.1177417-1-luca.boccassi@gmail.com>
-References: <20201102180559.1177417-1-luca.boccassi@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h1fMmbgYjrm/vfEAWNSHqTzd9UaJyt4Hs9Y9yh7uWm4=;
+        b=gnNuU8CTb4i26+LJli4Sig68neOQG0A2NxP0GI/eQTVbzB8md38HEtPaSRFqjv9nhh
+         0DBWVnLk120bl+6DgkboetVkasGTeCRSvLdtMxPMZisf0rL8hN/2HjBxazDYTmuxke0Q
+         D86vdgoTN52R8ZQLY2ttOHZMEP6JaaX8dchen54VnlfgvFVqReHPQTljyZexRMezJR13
+         5ZMaSC14UAe54uSq4vAmQUG13vtjjwXhK6psJnrZY7D51qpUC7qrHsmGPJ/wh332sB+r
+         TLDeN+rTXXYazK07OFO26/tdGIsr3YO/nq5vfPD00q+zzXJ4s/6+EnYTYVetE1jpwPVZ
+         zb0g==
+X-Gm-Message-State: AOAM532rQwrGy0P2msIKwdGiyA/tkfaQhL3XSZeWoWavNbdk5DukzfUh
+	fI5QBAoOYvWBuXUfp5WhV24tCSAcNgx/GoBexoTVvw==
+X-Google-Smtp-Source: ABdhPJy2tfteuoOmlJLHSQ3UWmcycuuZ4Q09qHHHTjvyfjqdX4V9yDSkWvnmY+LKW/0+gAGSubTuB7pEnZaU8BubE+k=
+X-Received: by 2002:aa7:d54b:: with SMTP id u11mr2777552edr.341.1605277379249;
+ Fri, 13 Nov 2020 06:22:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAGvkhOK+dMYYW2NegYOYWOzNbHRczjJ7Wdb8bwFFxRXVrda+Vw@mail.gmail.com>
+ <CANNYZj9JdPhyyTyj9rwRKHNpKdAaK6QiwnbE5_a1AuXyE1zk0w@mail.gmail.com>
+ <CANNYZj-v01JoQuXWg5-erikr3zBzVHwy00nRk2YLWGtX8w6ONw@mail.gmail.com>
+ <CAGvkhOJQVz+p=tczxnXWfCGkiG8pLQBr149Pfu0-mBMa07y5yg@mail.gmail.com>
+ <CANNYZj_YxwZXjTctmjORX8enxMTJWrs-1FpiJP+MOLE63k9b+w@mail.gmail.com>
+ <CA+chaQdce+rk3RMqqbPntG-eCWjkDpMMBQyMHYgEQh5pQz40kw@mail.gmail.com>
+ <1646DB3807FF110F.29274@lists.openembedded.org> <CANNYZj886=_PnV6AhyPbMmLek_-1KsNfB0py4FLLx8QoFRuZGw@mail.gmail.com>
+In-Reply-To: <CANNYZj886=_PnV6AhyPbMmLek_-1KsNfB0py4FLLx8QoFRuZGw@mail.gmail.com>
+From: "Glenn Stroz" <gstroz@uber.com>
+Date: Fri, 13 Nov 2020 09:22:47 -0500
+Message-ID: <CAGvkhOJROZdRuKt+tz1ub031hjSkRALJ8CROgJXQ4LhdMTn1QA@mail.gmail.com>
+Subject: Re: [OE-core] python3-native sysconfig failing to load in dunfell
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f5656805b3fdc38e"
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+--000000000000f5656805b3fdc38e
+Content-Type: text/plain; charset="UTF-8"
 
-Certain config files and units are shared between dbus-daemon and
-dbus-broker (available in meta-openembedded), so split them out to
-allow installing dbus-broker without pulling in dbus-daemon and its
-dependencies.
-Stand-alone command line tools can also be used regardless of whether
-the buses are provided by dbus-daemon or dbus-broker, so split them
-out into dbus-tools.
-Finally, move the XML schema files out of the main package and into
-the development package.
+Jumping in to note that the python3native patch mentioned above worked for
+us (removing the env var). We did not test any target packages.
 
-All these changes follow the same pattern used by Fedora, which was
-one of the first distro to switch to dbus-broker by default:
+-Glenn
 
-https://src.fedoraproject.org/rpms/dbus/blob/master/f/dbus.spec
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-v2: fix FILES_ regex to correctly include all units but the sockets
-    in the main package
-v3: do not use ${PN} in RDEPENDS, as bitbake expansion is broken and
-    generates wrong values (eg: dbus-native-common-native)
+On Fri, Nov 13, 2020 at 5:45 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
- meta/recipes-core/dbus/dbus_1.12.20.bb | 35 +++++++++++++++-----------
- 1 file changed, 21 insertions(+), 14 deletions(-)
+> I think I have to go back to my original patch. Using a wrapper for native
+> python is problematic for two reasons:
+> - thwarts target python build as target python needs native python, but
+> *without* the environment variable set
+> - adds an unconditional dependency on target python to a few items, even
+> if those items only want to run some scripts
+>
+> I think we're better off separating the two classes: python3native for
+> those who need native python, python3targetconfig for those
+> who also want to use target python config.
+>
+> Alex
+>
+> On Thu, 12 Nov 2020 at 21:02, Alexander Kanavin via lists.openembedded.org
+> <alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+>
+>> Right, I think this is better too. The only problematic bit is that
+>> situations where target _sysconfigdata is needed can produce really
+>> unhelpful errors (e.g. meson hides this behind a generic 'python is not
+>> working' message), and it is not obvious that these errors can be resolved
+>> by adding a target python dependency.
+>>
+>> Alex
+>>
+>> On Thu, 12 Nov 2020 at 20:39, Martin Jansa <martin.jansa@gmail.com>
+>> wrote:
+>>
+>>> Do you remember kergoth's take on this? From "[RFC PATCH] devtool:
+>>> remove _PYTHON_SYSCONFIGDATA_NAME to fix do_unpack" thread and
+>>> https://lists.yoctoproject.org/g/yocto/topic/74637733#49571
+>>>
+>>>
+>>> https://github.com/openembedded/openembedded-core/compare/master...kergoth:python-sysconfig
+>>>
+>>> I think wrapper is a bit better, because it will also catch cases where
+>>> host python3 is being called from e.g. do_compile (e.g. by full path -
+>>> after debugging ROS catkin in last few days, some components are really
+>>> creative how to find their preferred python) even when python3native is
+>>> inherited. And also doesn't need another bbclass to be inherited in cases
+>>> where target _sysconfigdata is really needed.
+>>>
+>>> On Thu, Nov 12, 2020 at 8:26 PM Alexander Kanavin <
+>>> alex.kanavin@gmail.com> wrote:
+>>>
+>>>> Thanks - I have a preliminary fix here (needs thorough testing):
+>>>>
+>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates&id=d6b6a6f67cc967c0ead6dbab3c95435b7ca85246
+>>>>
+>>>> Alex
+>>>>
+>>>> On Thu, 12 Nov 2020 at 19:46, Glenn Stroz <gstroz@uber.com> wrote:
+>>>>
+>>>>> Hi Alex,
+>>>>>
+>>>>> We have a custom fetcher implemented as a bbclass that calls out to a
+>>>>> python script.  That is why we see these issues with native. Here's a
+>>>>> sample bbclass and recipe that reproduces the issue:
+>>>>>
+>>>>> impfail.bbclass
+>>>>> ```
+>>>>> inherit python3native
+>>>>>
+>>>>> do_unpack[noexec] = "1"
+>>>>> do_patch[noexec] = "1"
+>>>>> do_install[noexec] = "1"
+>>>>>
+>>>>> do_fetch() {
+>>>>>     python3 -c "import pydoc"
+>>>>> }
+>>>>> ```
+>>>>>
+>>>>> classrunner_0.0.1.bb
+>>>>> ```
+>>>>> SUMMARY = "Python runner"
+>>>>> LICENSE = "CLOSED"
+>>>>> inherit impfail
+>>>>> ```
+>>>>>
+>>>>> -Glenn
+>>>>>
+>>>>>
+>>>>> On Thu, Nov 12, 2020 at 4:52 AM Alexander Kanavin <
+>>>>> alex.kanavin@gmail.com> wrote:
+>>>>>
+>>>>>> A quick fix may be to add a target python3 dependency to your recipe,
+>>>>>> yes ugly, but I can't figure out how to provide target python configuration
+>>>>>> to native python used in the context of building target recipes otherwise.
+>>>>>>
+>>>>>> Alex
+>>>>>>
+>>>>>>
+>>>>>> On Thu, 12 Nov 2020 at 10:49, Alexander Kanavin <
+>>>>>> alex.kanavin@gmail.com> wrote:
+>>>>>>
+>>>>>>> On Thu, 12 Nov 2020 at 02:23, Glenn Stroz via lists.openembedded.org
+>>>>>>> <gstroz=uber.com@lists.openembedded.org> wrote:
+>>>>>>>
+>>>>>>>> We've been upgrading our work to Dunfell and have encountered an
+>>>>>>>> issue with python3-native.
+>>>>>>>>
+>>>>>>>> One of our python3-native scripts uses pydoc and that in turn
+>>>>>>>> eventually pulls in python's sysconfig. However, this is failing to import
+>>>>>>>> with the following stack trace:
+>>>>>>>>
+>>>>>>>> ```
+>>>>>>>>     import pydoc
+>>>>>>>>   File
+>>>>>>>> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/pydoc.py",
+>>>>>>>> line 366, in <module>
+>>>>>>>>     class Doc:
+>>>>>>>>   File
+>>>>>>>> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/pydoc.py",
+>>>>>>>> line 396, in Doc
+>>>>>>>>     def getdocloc(self, object,
+>>>>>>>> basedir=sysconfig.get_path('stdlib')):
+>>>>>>>>   File
+>>>>>>>> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
+>>>>>>>> line 519, in get_path
+>>>>>>>>     return get_paths(scheme, vars, expand)[name]
+>>>>>>>>   File
+>>>>>>>> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
+>>>>>>>> line 509, in get_paths
+>>>>>>>>     return _expand_vars(scheme, vars)
+>>>>>>>>   File
+>>>>>>>> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
+>>>>>>>> line 172, in _expand_vars
+>>>>>>>>     _extend_dict(vars, get_config_vars())
+>>>>>>>>   File
+>>>>>>>> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
+>>>>>>>> line 558, in get_config_vars
+>>>>>>>>     _init_posix(_CONFIG_VARS)
+>>>>>>>>   File
+>>>>>>>> "/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py",
+>>>>>>>> line 428, in _init_posix
+>>>>>>>>     _temp = __import__(name, globals(), locals(),
+>>>>>>>> ['build_time_vars'], 0)
+>>>>>>>> ModuleNotFoundError: No module named '_sysconfigdata'
+>>>>>>>> ```
+>>>>>>>>
+>>>>>>>> I did a little digging and the following commit seems to reference
+>>>>>>>> related work:
+>>>>>>>>
+>>>>>>>>
+>>>>>>>> https://github.com/openembedded/openembedded-core/commit/02714c105426b0d687620913c1a7401b386428b6
+>>>>>>>>
+>>>>>>>> I see that there is a patch added which adds the following to
+>>>>>>>> `sysconfig.py`:
+>>>>>>>>
+>>>>>>>> ```
+>>>>>>>>   if 'STAGING_LIBDIR' in os.environ:
+>>>>>>>>
+>>>>>>>> sys.path.append(os.environ['STAGING_LIBDIR']+'/python-sysconfigdata')
+>>>>>>>> ```
+>>>>>>>>
+>>>>>>>> However, STAGING_LIBDIR does not contain this path:
+>>>>>>>>
+>>>>>>>> ```
+>>>>>>>> ls
+>>>>>>>> /home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot/usr/lib/python-sysconfigdata
+>>>>>>>>
+>>>>>>>> ls: cannot access
+>>>>>>>> '/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot/usr/lib/python-sysconfigdata':
+>>>>>>>> No such file or directory
+>>>>>>>> ```
+>>>>>>>>
+>>>>>>>> It appears as if this should really be pointing
+>>>>>>>> to STAGING_LIBDIR_NATIVE which does exist:
+>>>>>>>>
+>>>>>>>> ```
+>>>>>>>> ls
+>>>>>>>> /home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python-sysconfigdata
+>>>>>>>> _sysconfigdata.py
+>>>>>>>> ```
+>>>>>>>>
+>>>>>>>> The referenced commit made efforts to combine the native and cross
+>>>>>>>> python3 bbclass files into one. However, I think this may be something that
+>>>>>>>> needs to be treated differently.
+>>>>>>>>
+>>>>>>>> Anyone have any thoughts on how to proceed?
+>>>>>>>>
+>>>>>>>
+>>>>>>> Can you share the exact context where this is happening? Is your
+>>>>>>> script coming from a recipe and can you show that recipe?
+>>>>>>>
+>>>>>>> Alex
+>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>
+>>>>
+>>>>
+>> 
+>>
+>>
 
-diff --git a/meta/recipes-core/dbus/dbus_1.12.20.bb b/meta/recipes-core/dbus/dbus_1.12.20.bb
-index cf6f7dc0ef..16342fc6f2 100644
---- a/meta/recipes-core/dbus/dbus_1.12.20.bb
-+++ b/meta/recipes-core/dbus/dbus_1.12.20.bb
-@@ -11,6 +11,7 @@ RDEPENDS_dbus_class-nativesdk = ""
- PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
- ALLOW_EMPTY_dbus-ptest = "1"
- RDEPENDS_dbus-ptest_class-target = "dbus-test-ptest"
-+RDEPENDS_${PN} += "dbus-common dbus-tools"
- 
- inherit useradd update-rc.d
- 
-@@ -31,7 +32,7 @@ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session
- 
- DEBIANNAME_${PN} = "dbus-1"
- 
--PACKAGES =+ "${PN}-lib"
-+PACKAGES =+ "${PN}-lib ${PN}-common ${PN}-tools"
- 
- OLDPKGNAME = "dbus-x11"
- OLDPKGNAME_class-nativesdk = ""
-@@ -41,31 +42,37 @@ RPROVIDES_${PN} = "${OLDPKGNAME}"
- RREPLACES_${PN} += "${OLDPKGNAME}"
- 
- FILES_${PN} = "${bindir}/dbus-daemon* \
--               ${bindir}/dbus-uuidgen \
-                ${bindir}/dbus-cleanup-sockets \
--               ${bindir}/dbus-send \
--               ${bindir}/dbus-monitor \
-                ${bindir}/dbus-launch \
-                ${bindir}/dbus-run-session \
--               ${bindir}/dbus-update-activation-environment \
-                ${libexecdir}/dbus* \
-                ${sysconfdir} \
-                ${localstatedir} \
--               ${datadir}/dbus-1/services \
--               ${datadir}/dbus-1/system-services \
--               ${datadir}/dbus-1/session.d \
--               ${datadir}/dbus-1/session.conf \
--               ${datadir}/dbus-1/system.d \
--               ${datadir}/dbus-1/system.conf \
--               ${datadir}/xml/dbus-1 \
-                ${systemd_system_unitdir} \
-                ${systemd_user_unitdir} \
--               ${nonarch_libdir}/sysusers.d/dbus.conf \
-                ${nonarch_libdir}/tmpfiles.d/dbus.conf \
- "
-+FILES_${PN}-common = "${sysconfdir}/dbus-1 \
-+                      ${datadir}/dbus-1/services \
-+                      ${datadir}/dbus-1/system-services \
-+                      ${datadir}/dbus-1/session.d \
-+                      ${datadir}/dbus-1/session.conf \
-+                      ${datadir}/dbus-1/system.d \
-+                      ${datadir}/dbus-1/system.conf \
-+                      ${systemd_system_unitdir}/dbus.socket \
-+                      ${systemd_system_unitdir}/sockets.target.wants \
-+                      ${systemd_user_unitdir}/dbus.socket \
-+                      ${systemd_user_unitdir}/sockets.target.wants \
-+                      ${nonarch_libdir}/sysusers.d/dbus.conf \
-+"
-+FILES_${PN}-tools = "${bindir}/dbus-uuidgen \
-+                     ${bindir}/dbus-send \
-+                     ${bindir}/dbus-monitor \
-+                     ${bindir}/dbus-update-activation-environment \
-+"
- FILES_${PN}-lib = "${libdir}/lib*.so.*"
- RRECOMMENDS_${PN}-lib = "${PN}"
--FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${libdir}/cmake/DBus1 ${bindir}/dbus-test-tool"
-+FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${libdir}/cmake/DBus1 ${bindir}/dbus-test-tool ${datadir}/xml/dbus-1"
- 
- PACKAGE_WRITE_DEPS += "${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','systemd-systemctl-native','',d)}"
- pkg_postinst_dbus() {
--- 
-2.27.0
+--000000000000f5656805b3fdc38e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Jumping in to note that the python3native patch mentioned =
+above worked for us (removing the env var). We did not test any target pack=
+ages.<div><br clear=3D"all"><div><div dir=3D"ltr" class=3D"gmail_signature"=
+ data-smartmail=3D"gmail_signature"><div dir=3D"ltr">-Glenn</div></div></di=
+v><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Fri, Nov 13, 2020 at 5:45 AM Alexander Kanavin &lt;<a href=
+=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
+<div>I think I have to go back to my original patch. Using a wrapper for na=
+tive python is problematic for two reasons:</div><div>- thwarts target pyth=
+on build as target python needs native python, but *without* the environmen=
+t variable set</div><div>- adds an unconditional dependency on target pytho=
+n to a few items, even if those items only want to run some scripts</div><d=
+iv><br></div><div>I think we&#39;re better off separating the two classes: =
+python3native for those who need native python, python3targetconfig for tho=
+se</div><div>who also want to use target python config.</div><div><br></div=
+><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Thu, 12 Nov 2020 at 21:02, Alexander Kanavin via <a =
+href=3D"http://lists.openembedded.org" target=3D"_blank">lists.openembedded=
+.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.com@lists.openembedded.=
+org" target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><di=
+v>Right, I think this is better too. The only problematic bit is that situa=
+tions where target _sysconfigdata is needed can produce really unhelpful er=
+rors (e.g. meson hides this behind a generic &#39;python is not working&#39=
+; message), and it is not obvious that these errors can be resolved by addi=
+ng a target python dependency. <br></div><div><br></div><div>Alex<br></div>=
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Thu, 12 Nov 2020 at 20:39, Martin Jansa &lt;<a href=3D"mailto:martin.jan=
+sa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br></=
+div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Do y=
+ou remember kergoth&#39;s take on this? From &quot;[RFC PATCH] devtool: rem=
+ove _PYTHON_SYSCONFIGDATA_NAME to fix do_unpack&quot; thread and <a href=3D=
+"https://lists.yoctoproject.org/g/yocto/topic/74637733#49571" target=3D"_bl=
+ank">https://lists.yoctoproject.org/g/yocto/topic/74637733#49571</a><div><b=
+r></div><div><a href=3D"https://github.com/openembedded/openembedded-core/c=
+ompare/master...kergoth:python-sysconfig" target=3D"_blank">https://github.=
+com/openembedded/openembedded-core/compare/master...kergoth:python-sysconfi=
+g</a><br></div><div><br></div><div>I think wrapper is a bit better, because=
+ it will also catch cases where host python3 is being called from e.g. do_c=
+ompile (e.g. by full path - after debugging ROS catkin in last few days, so=
+me components are really creative how to find their preferred python) even =
+when python3native is inherited. And also doesn&#39;t need another bbclass =
+to be inherited in cases where target _sysconfigdata is really needed.</div=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Thu, Nov 12, 2020 at 8:26 PM Alexander Kanavin &lt;<a href=3D"mailto:al=
+ex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div>Thanks - I have a preliminary fix here (needs thorough testing):</=
+div><div><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/=
+commit/?h=3Dakanavin/package-version-updates&amp;id=3Dd6b6a6f67cc967c0ead6d=
+bab3c95435b7ca85246" target=3D"_blank">http://git.yoctoproject.org/cgit/cgi=
+t.cgi/poky-contrib/commit/?h=3Dakanavin/package-version-updates&amp;id=3Dd6=
+b6a6f67cc967c0ead6dbab3c95435b7ca85246</a></div><div><br></div><div>Alex<br=
+></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 12 Nov 2020 at 19:46, Glenn Stroz &lt;<a href=3D"mailto:gstr=
+oz@uber.com" target=3D"_blank">gstroz@uber.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi Alex,<div=
+><br></div><div>We have a custom fetcher implemented as a bbclass that call=
+s out to a python script.=C2=A0 That is why we see these issues with native=
+. Here&#39;s a sample bbclass and recipe that reproduces the issue:</div><d=
+iv><br></div><div>impfail.bbclass<br>```<br>inherit python3native<br><br>do=
+_unpack[noexec] =3D &quot;1&quot;<br>do_patch[noexec] =3D &quot;1&quot;<br>=
+do_install[noexec] =3D &quot;1&quot;<br><br>do_fetch() {<br>=C2=A0 =C2=A0 p=
+ython3 -c &quot;import pydoc&quot;<br>}<br><div>```</div><div><br></div><di=
+v><a href=3D"http://classrunner_0.0.1.bb" target=3D"_blank">classrunner_0.0=
+.1.bb</a> <br>```</div><div>SUMMARY =3D &quot;Python runner&quot;<br>LICENS=
+E =3D &quot;CLOSED&quot;<br>inherit impfail</div><div>```</div><div><br><di=
+v><div dir=3D"ltr"><div dir=3D"ltr">-Glenn</div></div></div><br></div></div=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Thu, Nov 12, 2020 at 4:52 AM Alexander Kanavin &lt;<a href=3D"mailto:al=
+ex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"l=
+tr"><div>A quick fix may be to add a target python3 dependency to your reci=
+pe, yes ugly, but I can&#39;t figure out how to provide target python confi=
+guration to native python used in the context of building target recipes ot=
+herwise.</div><div><br></div><div>Alex<br></div><br></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 12 Nov 2020 at =
+10:49, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" targ=
+et=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Th=
+u, 12 Nov 2020 at 02:23, Glenn Stroz via <a href=3D"http://lists.openembedd=
+ed.org" target=3D"_blank">lists.openembedded.org</a> &lt;gstroz=3D<a href=
+=3D"mailto:uber.com@lists.openembedded.org" target=3D"_blank">uber.com@lis=
+ts.openembedded.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">We&#39;ve be=
+en upgrading our work to Dunfell and have encountered an issue with python3=
+-native.=C2=A0<div><br></div><div>One of our python3-native scripts uses py=
+doc and that in turn eventually pulls in python&#39;s sysconfig. However, t=
+his is failing to import with the following stack trace:</div><div><br></di=
+v><div>```</div><div>=C2=A0 =C2=A0 import pydoc<br>=C2=A0 File &quot;/home/=
+gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64=
+-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python=
+3.8/pydoc.py&quot;, line 366, in &lt;module&gt;<br>=C2=A0 =C2=A0 class Doc:=
+<br>=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunf=
+ell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-s=
+ysroot-native/usr/lib/python3.8/pydoc.py&quot;, line 396, in Doc<br>=C2=A0 =
+=
+=C2=A0 def getdocloc(self, object, basedir=3Dsysconfig.get_path(&#39;stdli=
+b&#39;)):<br>=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/y=
+octo-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0=
+/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py&quot;, line 519, in g=
+et_path<br>=C2=A0 =C2=A0 return get_paths(scheme, vars, expand)[name]<br>=
+=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell=
+/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysr=
+oot-native/usr/lib/python3.8/sysconfig.py&quot;, line 509, in get_paths<br>=
+=
+=C2=A0 =C2=A0 return _expand_vars(scheme, vars)<br>=C2=A0 File &quot;/home=
+/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-6=
+4-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/pytho=
+n3.8/sysconfig.py&quot;, line 172, in _expand_vars<br>=C2=A0 =C2=A0 _extend=
+_dict(vars, get_config_vars())<br>=C2=A0 File &quot;/home/gstroz/.cache/avo=
+s/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-linux/ebpf-=
+daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python3.8/sysconfig.py&=
+quot;, line 558, in get_config_vars<br>=C2=A0 =C2=A0 _init_posix(_CONFIG_VA=
+RS)<br>=C2=A0 File &quot;/home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-d=
+unfell/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recip=
+e-sysroot-native/usr/lib/python3.8/sysconfig.py&quot;, line 428, in _init_p=
+osix<br>=C2=A0 =C2=A0 _temp =3D __import__(name, globals(), locals(), [&#39=
+;build_time_vars&#39;], 0)<br>ModuleNotFoundError: No module named &#39;_sy=
+sconfigdata&#39;<br></div><div>```</div><div><br></div><div>I did a little =
+digging and the following commit seems to reference related work:</div><div=
+><br></div><div><a href=3D"https://github.com/openembedded/openembedded-cor=
+e/commit/02714c105426b0d687620913c1a7401b386428b6" target=3D"_blank">https:=
+//github.com/openembedded/openembedded-core/commit/02714c105426b0d687620913=
+c1a7401b386428b6</a></div><div><br></div><div>I see that there is a patch a=
+dded which adds the following to `sysconfig.py`:</div><div><br></div><div>`=
+``</div><div>=C2=A0 if &#39;STAGING_LIBDIR&#39; in os.environ:<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 sys.path.append(os.environ[&#39;STAGING_LIBDIR&#39;]+=
+&#39;/python-sysconfigdata&#39;)<br></div><div>```</div><div><br></div><div=
+>However, STAGING_LIBDIR does not contain this path:</div><div><br></div><d=
+iv>```</div><div>ls /home/gstroz/.cache/avos/_avos_gstroz/avos/yocto-dunfel=
+l/build/tmp/work/corei7-64-poky-linux/ebpf-daemon/2020.282.17-r0/recipe-sys=
+root/usr/lib/python-sysconfigdata <br>ls: cannot access &#39;/home/gstroz/.=
+cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-poky-li=
+nux/ebpf-daemon/2020.282.17-r0/recipe-sysroot/usr/lib/python-sysconfigdata&=
+#39;: No such file or directory<br></div><div>```</div><div><br></div><div>=
+It appears as if this should really be pointing to=C2=A0STAGING_LIBDIR_NATI=
+VE which does exist:</div><div><br></div><div>```<br></div><div>ls /home/gs=
+troz/.cache/avos/_avos_gstroz/avos/yocto-dunfell/build/tmp/work/corei7-64-p=
+oky-linux/ebpf-daemon/2020.282.17-r0/recipe-sysroot-native/usr/lib/python-s=
+ysconfigdata</div>_sysconfigdata.py<br><div>```</div><div><br></div><div>Th=
+e referenced commit made efforts to combine the native and cross python3 bb=
+class files into one. However, I think this may be something that needs to =
+be treated differently.</div><div><br></div><div>Anyone have any thoughts o=
+n how to proceed?=C2=A0</div></div></blockquote><div><br></div><div>Can you=
+ share the exact context where this is happening? Is your script coming fro=
+m a recipe and can you show that recipe?</div><div><br></div><div>Alex<br><=
+/div><div>=C2=A0</div></div></div>
+</blockquote></div>
+</blockquote></div>
+</blockquote></div>
+<br>
+<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+<br>
+<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+
+--000000000000f5656805b3fdc38e--
