@@ -1,50 +1,50 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web12.638.1605296944680773585
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web11.609.1605296945898879516
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2020 11:49:05 -0800
+ Fri, 13 Nov 2020 11:49:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BShgpYL3;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id v4so12123121edi.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 11:49:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qa6pP9Gq;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id o9so15316825ejg.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 11:49:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ZarnkX/sNXnWrKwx5GQF225/UzXVhCFldsOwKzf0T8E=;
-        b=BShgpYL3PIEu8l7RBleXm8XQOR93gWoCFzj+RC6l2wvq9huJrIIo3+nox6WIeZxQZD
-         mv/8tuPwPWqjUnWDHRWiiCR201UzVGYOr1bVUnmKoyIkuqynsNtINyfIsT8515rDMVFi
-         2y+Jshn7RHAYU79uN9celZRmDEOsZ9VoUvu+Ckz613ATkShIeD3h7gppBdqeZWyJkuV7
-         gxbcImGVBjTWRw44Su4EqoZKvuJVg2jRu0DmtfwqrG1/Ea0yEkAjjWL2HnaWIZ4s5uan
-         0489sifyfh26T0eAfdGgCJgMe0AIc7JHaVlZY+Bkq7KJg0ZUP3I+21aGmIsrWQU72QBh
-         G7zA==
+        bh=RSXUOSTIo9c1q7xPYNddUNSx2GE8YjVHaDO6o50jHqY=;
+        b=Qa6pP9GqQG6w6QZDruYDMBaKlrkwNuZS9ROXbC2fFGZ9Rx3WKSTnYrwIJNYjFhlKZm
+         AA8tRthFQgqR8NvznrNtIxovafvJyWWkLxHjKrzgSbJyu0HWakfeohl4U1Je2SqIUJsQ
+         5/9458zoW0hqAuw1iPelbj2Pw2pZ7CwzDszrHrv0UG0oBqxMI5E+gxQ+1yveC2bOHhPy
+         LUWMSiYX6jiv04uFbjvbX2QLClxD8ZEVVIsCl+hxMfmHC2rEOXtg+QToQTBU+qLGS9w6
+         ns9DlKepQh9b9xaDMWqRBVhzYyhqx9NYwTuxElrgssIDAZsXzdbtHIInM7KPzhs/PrTa
+         vPzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZarnkX/sNXnWrKwx5GQF225/UzXVhCFldsOwKzf0T8E=;
-        b=WcrSZn2WLQH2uV11YJt0n2axXM+mUKpcC9kK1Ng31wJ2IKhw3wtjgS4DwiMITXmUow
-         zeWmR9PpEMocSqUzCGX9Au0/DEZe+XcHij+MjQwGf8+OpxiLkr124CT6mdfhhYfuvP5P
-         o2CZ9WVDlo3J3oR8F5CYDqx14rKh2zkm61DkvKKRuzroTlovyV6zc2ApeO+ZX0HDnFSX
-         VCkd3oZA8o/yyB4NzoVXuRv0GvPHs++wrQIEdkzUvMY5Be0yFSY/xdpIOTDqn9mPEuh/
-         6YG8BWg2NNAMNb1HWWIcjqwnmg7ygzh3RgELSynW7I+wnpEhCcHRcnFW9hCB5vBgpGYA
-         dxCw==
-X-Gm-Message-State: AOAM533ke8h8KORSLe4+Zq1OrBfl+dEyQnC1zcPSOUb5jUMyy4v6Qy9l
-	xb5gFTnfj+dtlOMbp6mzovhONAg7yCP7aw==
-X-Google-Smtp-Source: ABdhPJwir4AvunbjGyZZj7oUJ+SmfItL2odqlEhkH4/n1qj2lEgC+tHsgYi8SjazAnRvv5+HCPotGg==
-X-Received: by 2002:a50:99d6:: with SMTP id n22mr4260685edb.261.1605296943024;
+        bh=RSXUOSTIo9c1q7xPYNddUNSx2GE8YjVHaDO6o50jHqY=;
+        b=Lxlun396cISnBDyDeZyigpEd06HAy1+hVClmjorMblWmfml7G+yR7MDTqumuoLieng
+         LI02SWlZGDEGJoGBJ36GAFsAmcFV15f41+LCaUQJ9KTzACg2Q9YCoZJnpUW+YSLGtclG
+         d//MuwvLpL/qoKWNSBobUBKkRpaeb2FY4B0UnRKRA6PF7ZkhyXE20MwyXcMlGamYPg6t
+         3ZZH+7qhlIf1W+PGclg4twecY0ii6OxDt6r4anp15iOqc+Jw9iOwhX1gbSaRaFaUsY5f
+         nID3MD8sV82Wu8sHtsktA5kPy/XQkroqYw1OSyzQLXSKTCrKLsWQ1Xi0+peldQb+VuiE
+         RteQ==
+X-Gm-Message-State: AOAM532zuqlnb/TxjZeM4JZJRgXrImzQk14ik4ecHyeHYonVYE0bGAi6
+	UIUUyRi3QHx0xM1AYHSrlIHlGrvEh+E1lQ==
+X-Google-Smtp-Source: ABdhPJyJ7se//oYkBuXTshboVZ82wKHxGlXUrKNZTbC1QRSNZyczflJY7CGseD67CJQnr/kSdU3nSw==
+X-Received: by 2002:a17:906:8496:: with SMTP id m22mr3398659ejx.298.1605296943987;
         Fri, 13 Nov 2020 11:49:03 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id lz27sm4499287ejb.39.2020.11.13.11.49.02
+        by smtp.gmail.com with ESMTPSA id lz27sm4499287ejb.39.2020.11.13.11.49.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 11:49:02 -0800 (PST)
+        Fri, 13 Nov 2020 11:49:03 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 3/5] distutils3-base.bbclass: use python3targetconfig
-Date: Fri, 13 Nov 2020 20:48:52 +0100
-Message-Id: <20201113194854.21266-3-alex.kanavin@gmail.com>
+Subject: [PATCH 4/5] meta: drop _PYTHON_SYSCONFIGDATA_NAME hacks
+Date: Fri, 13 Nov 2020 20:48:53 +0100
+Message-Id: <20201113194854.21266-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201113194854.21266-1-alex.kanavin@gmail.com>
 References: <20201113194854.21266-1-alex.kanavin@gmail.com>
@@ -53,20 +53,84 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/distutils3-base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/scons.bbclass          | 3 ---
+ meta/lib/oe/prservice.py            | 4 ----
+ meta/recipes-core/glib-2.0/glib.inc | 4 ----
+ meta/recipes-graphics/mesa/mesa.inc | 5 -----
+ 4 files changed, 16 deletions(-)
 
-diff --git a/meta/classes/distutils3-base.bbclass b/meta/classes/distutils3-base.bbclass
-index 7dbf07ac4b..a277d1c7bc 100644
---- a/meta/classes/distutils3-base.bbclass
-+++ b/meta/classes/distutils3-base.bbclass
-@@ -1,5 +1,5 @@
- DEPENDS  += "${@["${PYTHON_PN}-native ${PYTHON_PN}", ""][(d.getVar('PACKAGES') == '')]}"
- RDEPENDS_${PN} += "${@['', '${PYTHON_PN}-core']['${CLASSOVERRIDE}' == 'class-target']}"
+diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
+index 6b171ca8df..4f3ae502ef 100644
+--- a/meta/classes/scons.bbclass
++++ b/meta/classes/scons.bbclass
+@@ -5,7 +5,6 @@ DEPENDS += "python3-scons-native"
+ EXTRA_OESCONS ?= ""
  
--inherit distutils-common-base python3native
-+inherit distutils-common-base python3native python3targetconfig
+ do_configure() {
+-	unset _PYTHON_SYSCONFIGDATA_NAME
+ 	if [ -n "${CONFIGURESTAMPFILE}" ]; then
+ 		if [ -e "${CONFIGURESTAMPFILE}" -a "`cat ${CONFIGURESTAMPFILE}`" != "${BB_TASKHASH}" -a "${CLEANBROKEN}" != "1" ]; then
+ 			${STAGING_BINDIR_NATIVE}/scons --clean PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS}
+@@ -17,13 +16,11 @@ do_configure() {
+ }
  
+ scons_do_compile() {
+-	unset _PYTHON_SYSCONFIGDATA_NAME
+ 	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} || \
+ 	die "scons build execution failed."
+ }
+ 
+ scons_do_install() {
+-	unset _PYTHON_SYSCONFIGDATA_NAME
+ 	${STAGING_BINDIR_NATIVE}/scons install_root=${D}${prefix} PREFIX=${prefix} prefix=${prefix} ${EXTRA_OESCONS} install || \
+ 	die "scons install execution failed."
+ }
+diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
+index 2d3c9c7e50..fcdbe66c19 100644
+--- a/meta/lib/oe/prservice.py
++++ b/meta/lib/oe/prservice.py
+@@ -3,10 +3,6 @@
+ #
+ 
+ def prserv_make_conn(d, check = False):
+-    # Otherwise this fails when called from recipes which e.g. inherit python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
+-    # No module named '_sysconfigdata'
+-    if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
+-        del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
+     import prserv.serv
+     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
+     try:
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index a0055d81b0..06f4ae137e 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -34,10 +34,6 @@ DEPENDS_append_class-target = "${@' gtk-doc' if d.getVar('GTKDOC_ENABLED') == 'T
+ 
+ GTKDOC_MESON_OPTION = "gtk_doc"
+ 
+-# This avoids the need to depend on target python3, which in case of mingw is not even possible.
+-# meson's python configuration pokes into python3 configuration, so this provides the native config to it.
+-unset _PYTHON_SYSCONFIGDATA_NAME
+-
+ S = "${WORKDIR}/glib-${PV}"
+ 
+ PACKAGECONFIG ??= "system-pcre libmount \
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index ca593b8b1f..a6652b0ddb 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -49,11 +49,6 @@ PROVIDES = " \
+ 
+ inherit meson pkgconfig python3native gettext features_check
+ 
+-# Unset these to stop python trying to report the target Python setup
+-_PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
+-STAGING_INCDIR[unexport] = "1"
+-STAGING_LIBDIR[unexport] = "1"
+-
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan"
 -- 
 2.29.2
 
