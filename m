@@ -1,115 +1,88 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
- by mx.groups.io with SMTP id smtpd.web08.8562.1605372796355074879
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.9476.1605376763402575506
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Nov 2020 08:53:16 -0800
+ Sat, 14 Nov 2020 09:59:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PRN01Ow+;
- spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: alistair23@gmail.com)
-Received: by mail-il1-f169.google.com with SMTP id l12so11343955ilo.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2020 08:53:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Du0HwJfi;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id 33so13890253wrl.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2020 09:59:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=j1n8Av/ivW8aWPqDRQ2W8QvVTp13o/QIIq6a6N3DLXw=;
-        b=PRN01Ow+JrekV+4QAsYcie9iFjxmjk0uvqn5SXaP9qs86PE4CZXVWpGF7mXPqSaq4G
-         B2L0i9rZReIo3v76LL9fNbabk8V6LVY2Y+q/D2Fo/hAxytxLDXWcrnaQ1Uz8YTzAoHoL
-         7XVW07SUfJh3VMaXQsamAb7akcU5t/FNyIxelo9J85akd96hOwEzgAHQdp/7GxDYhdVc
-         g8R48f+Z8HnUut4qLcDGeg0YIMUOjumnIl3/sr4elVr8P57Zoo2Sy5hSqDMr2ZAbexNe
-         CQQ01X7cvekr6Om7vWaxbcDinVEelxEZu3RhOhPOCdEUB/GosspUV6sQrzKVFCJ12T6G
-         2CyQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iDAyMD8L/MwvOEkKvcHhA4lmxxFElL9yXbJHTvW6dHo=;
+        b=Du0HwJfiqJGES/SWqwjUHwgkUYvwx7LnEkFUF2GVcL6mt+DbYo5HNy6BEOGcBZvFy1
+         sr1+ibNjWdZpwA94YxzU+8vC97g1BosGxHkGqWG8RValea+BQLa4L5Ynn/R9NrQ+nGvL
+         kdcf71ldE8+yz5q+Gn/+K6DgrqEggTVRSbX7wytjeFqco6EJSGHKHRedocjYcFhjNEe/
+         KNSBluROd+4NwyMcwba4OizWl/cSO4PiTChf/R6vs9EM50mI0navC/U24pekq0aFuoya
+         tuTSnA2Ww9LUeJ21SlVcs9pGLVnh/xBV31mU5MWxca+zenVjRRQEB70w5T19tAWR4EK8
+         CDcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=j1n8Av/ivW8aWPqDRQ2W8QvVTp13o/QIIq6a6N3DLXw=;
-        b=lDTliKxLBBobadGVvbTxMJ5szEBGbu3eFBHAez0S+uASSiK6fsQ3BqosC7yXS9sO15
-         +eh48SuLc8Jsi8gqg4QLHuO+J9pgNW8mJqkxTSD27qfPZ9lEeYYJTKMbZ5Ogc2egC1sh
-         Wg4e1HH56e1Lyhfo1kWAbjFwgz+bswNjoBtCa2NZoLpu4G4DdYJ+rkM1ylajjj3q+WDZ
-         Q9gm0dBJdbKS4HX7mrf8eCp/N27RgJ5yX3aDTnY/z7et9/EUdXazUQdfgkm11cDE48gH
-         6n16aayIdbvSUOnsJx/+2UZyjzDBFXGMfN+NA/aG1o/a8/QETEVFBq6pihNsQceBi3H/
-         k4mg==
-X-Gm-Message-State: AOAM530RJsSp2Up4wdQoJrADsvZcEMDk1SCVsoAXEk9G8GjKIDaJijAL
-	SviYwaeJwW4MpxLrWfeFjJJqbJP1Ylnvnej/GI0=
-X-Google-Smtp-Source: ABdhPJw1viTHlkoGaaY7Z539htrx7+0cp4CTO1ty+lxEE+fnIYRh96eHBueDPG3L1eg0h+p8vALCJlaZQrrlGw4/rAU=
-X-Received: by 2002:a92:d446:: with SMTP id r6mr3807911ilm.267.1605372795789;
- Sat, 14 Nov 2020 08:53:15 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iDAyMD8L/MwvOEkKvcHhA4lmxxFElL9yXbJHTvW6dHo=;
+        b=YuzFSYM8ZZu5n8GIKVNAPyP64xijA8vlKugoyiKM6STq4yR8rw+opcmzJO77JXDaiz
+         uUNs7oVu8Vxp3b2emVPeHkAN4ihRGebwePFPyU+8EOQPXJSQf1h6vtmqLjTII0b/PSpv
+         LvpgAJlgSf+xz9ZCEz45+QeWdd9GyCJ4cKWqqLVQj+Ms9lS4c35tvuYxKPMhqD2w9xUp
+         jXN4qLwmCLhNzobKc/RLahbxIR71j7BeUkCX69dKfLAG/3O9MIfvWadvtF62dVn8tiOh
+         G+I2MzbNVjIF6yC1XjfjAxyQeCtV6KaF3FZtiyPHHDzTkW++2Fqz/ZXGJHHO4b1T+z0m
+         +NlA==
+X-Gm-Message-State: AOAM532putIjHr5o/0rS1gHbLD3O0aZ66AOD0ZNY/9iAOVSBfrdGteJE
+	gGeQiDcgKRu3qIKE/n4xF3svVyrMMMazxg==
+X-Google-Smtp-Source: ABdhPJwOLD9Q0yFqTI+8SVqKvI924z8SDdOUAnjdRT9SLneZM3z+u8b9vA/PmRHEZsN91yVctEaW9A==
+X-Received: by 2002:adf:f40a:: with SMTP id g10mr11289056wro.58.1605376761686;
+        Sat, 14 Nov 2020 09:59:21 -0800 (PST)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id n23sm14083802wmk.24.2020.11.14.09.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2020 09:59:21 -0800 (PST)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH 1/2] gstreamer1.0-plugins-bad: add srt package config knob
+Date: Sat, 14 Nov 2020 17:45:01 +0000
+Message-Id: <20201114174502.2899787-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201113194854.21266-1-alex.kanavin@gmail.com>
-In-Reply-To: <20201113194854.21266-1-alex.kanavin@gmail.com>
-From: "Alistair Francis" <alistair23@gmail.com>
-Date: Sat, 14 Nov 2020 08:41:06 -0800
-Message-ID: <CAKmqyKOw+zE5WQr3yv9cPOuZPux6aEjjpjs+_V1C1No=ZOpwvw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] python3: split python target configuration into own class
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 13, 2020 at 11:49 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Setting _PYTHON_SYSCONFIGDATA_NAME in python3native class globally was
-> problematic as it was leaking into host python environment, which
-> was causing tracebacks depending on host distro and action
-> (typically anything involving importing sysconfig module).
->
-> The new class sets the variable only in specific tasks where it is needed,
-> and should be inherited explicitly:
-> - use python3native to run scripts with native python
-> - use python3targetconfig to run scripts with native python
-> if those scripts need to access target config data (such
-> as correct installation directories). This also adds a dependency
-> on target python, so should be used carefully to avoid lengthening builds.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ .../gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This fixes the devtool modify u-boot failure for me on Arch.
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb
+index 100875dfb7..ebd8c5a27d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb
+@@ -67,6 +67,7 @@ PACKAGECONFIG[sbc]             = "-Dsbc=enabled,-Dsbc=disabled,sbc"
+ PACKAGECONFIG[sctp]            = "-Dsctp=enabled,-Dsctp=disabled,usrsctp"
+ PACKAGECONFIG[smoothstreaming] = "-Dsmoothstreaming=enabled,-Dsmoothstreaming=disabled,libxml2"
+ PACKAGECONFIG[sndfile]         = "-Dsndfile=enabled,-Dsndfile=disabled,libsndfile1"
++PACKAGECONFIG[srt]             = "-Dsrt=enabled,-Dsrt=disabled,srt"
+ PACKAGECONFIG[srtp]            = "-Dsrtp=enabled,-Dsrtp=disabled,libsrtp"
+ PACKAGECONFIG[tinyalsa]        = "-Dtinyalsa=enabled,-Dtinyalsa=disabled,tinyalsa"
+ PACKAGECONFIG[ttml]            = "-Dttml=enabled,-Dttml=disabled,libxml2 pango cairo"
+@@ -86,7 +87,7 @@ PACKAGECONFIG[v4l2codecs]      = "-D-Dv4l2codecs=enabled,-Dv4l2codecs=disabled,l
+ #   aom androidmedia applemedia bs2b chromaprint d3dvideosink
+ #   directsound dts fdkaac gme gsm iq kate ladspa lv2 mpeg2enc
+ #   mplex musepack nvdec nvenc ofa openexr openni2 opensles
+-#   soundtouch spandsp srt teletext wasapi wildmidi winks
++#   soundtouch spandsp teletext wasapi wildmidi winks
+ #   winscreencap wpe x265
+ 
+ EXTRA_OEMESON += " \
+@@ -128,7 +129,6 @@ EXTRA_OEMESON += " \
+     -Dopensles=disabled \
+     -Dsoundtouch=disabled \
+     -Dspandsp=disabled \
+-    -Dsrt=disabled \
+     -Dsvthevcenc=disabled \
+     -Dteletext=disabled \
+     -Dwasapi=disabled \
+-- 
+2.29.2
 
-Alistair
-
-> ---
->  meta/classes/python3native.bbclass       |  2 --
->  meta/classes/python3targetconfig.bbclass | 15 +++++++++++++++
->  2 files changed, 15 insertions(+), 2 deletions(-)
->  create mode 100644 meta/classes/python3targetconfig.bbclass
->
-> diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
-> index d98fb4c758..2e3a88c126 100644
-> --- a/meta/classes/python3native.bbclass
-> +++ b/meta/classes/python3native.bbclass
-> @@ -17,8 +17,6 @@ export STAGING_LIBDIR
->  export PYTHON_LIBRARY="${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so"
->  export PYTHON_INCLUDE_DIR="${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
->
-> -export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
-> -
->  # suppress host user's site-packages dirs.
->  export PYTHONNOUSERSITE = "1"
->
-> diff --git a/meta/classes/python3targetconfig.bbclass b/meta/classes/python3targetconfig.bbclass
-> new file mode 100644
-> index 0000000000..640d0c97b6
-> --- /dev/null
-> +++ b/meta/classes/python3targetconfig.bbclass
-> @@ -0,0 +1,15 @@
-> +inherit python3native
-> +
-> +DEPENDS_append = " python3"
-> +
-> +do_configure_prepend() {
-> +        export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
-> +}
-> +
-> +do_compile_prepend() {
-> +        export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
-> +}
-> +
-> +do_install_prepend() {
-> +        export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
-> +}
-> --
-> 2.29.2
->
->
-> 
->
