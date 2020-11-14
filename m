@@ -1,134 +1,316 @@
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
- by mx.groups.io with SMTP id smtpd.web09.2676.1605331625266879553
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web10.3781.1605343616718146692
  for <openembedded-core@lists.openembedded.org>;
- Fri, 13 Nov 2020 21:27:05 -0800
+ Sat, 14 Nov 2020 00:46:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=m9iOZ1oX;
- spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-io1-f67.google.com with SMTP id m13so11972325ioq.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 13 Nov 2020 21:27:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=njX0r8Ua;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id f20so17300082ejz.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2020 00:46:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y+twl7k7XFOuxZHC6DO0Uux8Yg4tGA0K0q/CG4SwPWI=;
-        b=m9iOZ1oXFndDP9U/Q396tmRNdTdoHlxoD7MZw0GL3+aqPc/LrQBkMrnI6WGnJZHpKC
-         v/BSUT6M33zvNpBLqLV9b63eWE2WnX9PWkxCItMGgDTd9Mo9fyC+B6ShzhQ5MJHuYdbH
-         3T1ChuOUnBNwgXqasXCc6agd40LDUx5O5y6HOSqBat7hOBTRcZS9kuwp37h7Dgm6Xo1m
-         SZvXArzPkCuUMWgtJhRIFgg11BjKcGc3kQGJUOyFeFJH3ukK86RjTxaEvJY3Hu8HTTa2
-         D+k33bM6E7DYnvne7RwcUV0EjnPAx/7Zquj5xnK+m5XRVFly7M2WYVZVQNqxrcZ6mXBo
-         T0rw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Y9vmpDF+vPJxbbwZQiF9v+YQWWeEl1/6ykmOSpdlAeI=;
+        b=njX0r8UaNHo0cwpXyzERZLnbNSsBlG+ztuapQRcmu7PIvC1aL/S/6vVrLTmY5NI0z4
+         PFNppiihkNdzzOpXsWVJeJluGg/bjoWmsBgxBXHzDqVomx06w0D37I2b0urUKYtEbONy
+         4PHas1nDdWtCJ9geYLhF52ASian0XU36/O5F10oj7Ly2X8w5WKjzd7zwoVe1kU85L2dA
+         PpLuWyEQxPDZrBecR5wS15b2yi9WDunrz4fI2lFzcdu4elOrmkQB6QzKCVgzNyI1j4Vb
+         m8mWA1gqYJs1v06fWcxy8JnKjvIhDgPZMCLG8D9o29OMC6L44P7zvA2ZwAYIlj7tFPfY
+         oXnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y+twl7k7XFOuxZHC6DO0Uux8Yg4tGA0K0q/CG4SwPWI=;
-        b=breL99rYsqXb0PtE6DQSdOd3fhygBXvYgoH8jTTsj0RMvTSqDNgLSj67gJ4nUXHOX+
-         bEMj1j0+EuEye8beuY4ESPEmL2NzT1jYC8+QQ1FVljJuwNYcB42n1avHShIztjaaUF1T
-         drsOuqCuysibnjH9Hlz3zEOFSzP0nPsyr2Khxb2vd7efrmSJa0COdV3XXRs4ukrpytwu
-         INpHYPv33jem4U//bT+ME8oXXsgy4UHZBWmbRCMwqyw5hV8brdg2RCbxnOWUw/LuSBfW
-         nwPwvorWeKSaDjJ1eFPz6YFl/+fwTQT4lfQnqn4Xkd/Y46Q05FsQnyWxm5oHg+aQRD+P
-         PVog==
-X-Gm-Message-State: AOAM531hgwzS9T3opq2g5OcGQf/899m9SbmtC2caGweIpERK+G1UF11G
-	NsgzEP6MYrmi0xUe9uZGlxY=
-X-Google-Smtp-Source: ABdhPJzhnN+PJje0a8ucqXJcOsNd4/9sT6YPZ3bg4x2TvBhaOZWjNOFPbCLTUo194LKapuABwp9INA==
-X-Received: by 2002:a05:6602:2407:: with SMTP id s7mr2225873ioa.79.1605331624565;
-        Fri, 13 Nov 2020 21:27:04 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id i201sm6192128ild.12.2020.11.13.21.27.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2020 21:27:03 -0800 (PST)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: lili.li@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] kernel: provide module.lds for out of tree builds in v5.10+
-Date: Sat, 14 Nov 2020 00:27:01 -0500
-Message-Id: <20201114052701.8880-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Y9vmpDF+vPJxbbwZQiF9v+YQWWeEl1/6ykmOSpdlAeI=;
+        b=bOcREnD4u3kMxkLDiaT9MRvJrAJipLIyQMGt8IxWF+cL70PH0980V9iD7GCdZNORBo
+         VBDSXTgMNR7VgCYq+vpmbMv0hIx/N9itBYyRBab6alNyQEOu8kvtm1pFqwljxeEHEtVw
+         UsqsKR2MEUmgocOtuXECuput4WEVRSKGgg0icbzEEUX68a7cSc8tYvbqw1sZMa5VWUpB
+         eaoOTGLbB8zqlNSMphzr0BADJgnHnSw3YYfddeTs4eI11ipFZW4z0DC+3CtbMV/J0WTp
+         TnZSQWBocFTGcKDEJoPrh4PE9hdA4M9VyluZ2GrPUVpysyGAT6hZUu5IpN3FCHGe0/rF
+         6A5g==
+X-Gm-Message-State: AOAM532e+8ZkqJNeATGFWcTp+WPd7rDN+vCE3KeyAmZUYSVtswoRHZ4f
+	N0wFy8g///TWXxIPHCMoQdPLglL/dV2UuTFXVLE=
+X-Google-Smtp-Source: ABdhPJxBkXNO8VEdDaQwBWGe9LeyfuSXdKPV6RghIKr3zEmTRF+3js32XbckMtDoG7Ur8KfMsJ4DbziD+rm1DasjxNk=
+X-Received: by 2002:a17:906:4dd4:: with SMTP id f20mr5789719ejw.94.1605343615054;
+ Sat, 14 Nov 2020 00:46:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201109083133.16503-1-alex.kanavin@gmail.com> <20201109083133.16503-8-alex.kanavin@gmail.com>
+In-Reply-To: <20201109083133.16503-8-alex.kanavin@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Sat, 14 Nov 2020 09:46:43 +0100
+Message-ID: <CA+chaQdco334CL3Yzvf_d05DiY7=ksSDe1WxMGW08mHTsYKyfg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH 08/12] weston-init: correctly start under systemd
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000eaf78305b40d2fc8"
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+--000000000000eaf78305b40d2fc8
+Content-Type: text/plain; charset="UTF-8"
 
-The upstream commit 596b0474d3d [kbuild: preprocess module linker
-script], adds a dependency on module.lds for external module
-building.
+weston rdepends on weston-init, so it needs
+${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'pam',
+'', d)} as well now, will send patch shortly.
 
-Since module.lds is generated as part of 'modules_prepare', we
-must make it available with the other kernel artifacts in the
-kernel shared workdir, otherwise out of tree builds fail.
-
-This fixes errors like:
-
-    | make[4]: *** No rule to make target 'scripts/module.lds', needed by
-        'build/tmp/work/qemuarm64-poky-linux/cryptodev-module/1.11-r0/git/cryptodev.ko'.
-        Stop.
-    | make[4]: *** Waiting for unfinished jobs....
-
-We also ensure that kernel-devsrc has a copy to support on
-target module builds that are often prepared with 'make scripts
-prepare'. Those targets won't regenerate it, so the build fails.
-If 'make modules_prepare' is used, the file will be regenerated
-and overwrite our copy (as expected).
-
-Signed-off-by: Pan, Kris <kris.pan@intel.com>
-Signed-off-by: Lili Li <lili.li@intel.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
-
-v2:
-  - I was right that we really only should be copying this in one
-    location, but it wasn't clear that the main kernel build no
-    longer runs modules_prepare so the do_shared_workdir task will
-    *never* fine module.lds on a clean run.
-
-    So we just need the single copy after we've build our modules
-    to ensure that the file is available.
-
-    Tested against a clean kernel and module build, just building
-    the module. Dependencies are correct and the file is copied
-    for the module to build.
-
-    We could do the same thing for Module.symvers, but historically
-    it was generated during the main kernel build .. so we can leave
-    it there for old kernel support.
+ERROR: Nothing RPROVIDES 'weston-init' (but
+openembedded-core/meta/recipes-graphics/wayland/weston_9.0.0.bb
+RDEPENDS on or otherwise requires it)
+weston-init was skipped: missing required distro feature 'pam' (not in
+DISTRO_FEATURES)
+NOTE: Runtime target 'weston-init' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['weston-init']
+ERROR: Nothing RPROVIDES 'weston-dev' (but
+openembedded-core/meta/recipes-graphics/wayland/weston_9.0.0.bb
+RDEPENDS on or otherwise requires it)
+No eligible RPROVIDERs exist for 'weston-dev'
+NOTE: Runtime target 'weston-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['weston-dev']
+ERROR: Nothing RPROVIDES 'weston' (but
+openembedded-core/meta/recipes-graphics/wayland/weston_9.0.0.bb
+RDEPENDS on or otherwise requires it)
+No eligible RPROVIDERs exist for 'weston'
+NOTE: Runtime target 'weston' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['weston']
 
 
- meta/classes/kernel.bbclass                | 1 +
- meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
- 2 files changed, 7 insertions(+)
+On Mon, Nov 9, 2020 at 9:32 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index be93a258f6..af4c891de4 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -391,6 +391,7 @@ do_compile_kernelmodules() {
- 		# other kernel modules and will look at this
- 		# file to do symbol lookups
- 		cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
-+		[ -e ${B}/scripts/module.lds ] && install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
- 	else
- 		bbnote "no modules to compile"
- 	fi
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 81b1e36041..5f0dedbdf7 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -100,6 +100,12 @@ do_install() {
- 	# be dealt with.
- 	# cp -a scripts $kerneldir/build
- 
-+	# although module.lds can be regenerated on target via 'make modules_prepare'
-+	# there are several places where 'makes scripts prepare' is done, and that won't
-+	# regenerate the file. So we copy it onto the target as a migration to using
-+	# modules_prepare
-+	cp -a --parents scripts/module.lds $kerneldir/build/ 2>/dev/null || :
-+
-         if [ -d arch/${ARCH}/scripts ]; then
- 	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
- 	fi
--- 
-2.19.1
+> Several issues are addressed:
+> 1. weston requires pam when starting under systemd
+> 2. systemd was attempting to launch weston twice (from
+> sysvinit script and from systemd unit file) which caused confusion
+> and errors.
+> 3. runtime test should stop/start weston via systemd only if systemd
+> actually controls system startup, not merely when systemd is present.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/lib/oeqa/runtime/cases/weston.py        | 4 ++--
+>  meta/recipes-graphics/wayland/weston-init.bb | 9 +++++++--
+>  2 files changed, 9 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/weston.py
+> b/meta/lib/oeqa/runtime/cases/weston.py
+> index 36b4f9e375..d3fbf8ba92 100644
+> --- a/meta/lib/oeqa/runtime/cases/weston.py
+> +++ b/meta/lib/oeqa/runtime/cases/weston.py
+> @@ -34,7 +34,7 @@ class WestonTest(OERuntimeTestCase):
+>          return 'export XDG_RUNTIME_DIR=/run/user/0; export
+> WAYLAND_DISPLAY=wayland-0; %s' % cmd
+>
+>      def run_weston_init(self):
+> -        if 'systemd' in self.tc.td['DISTRO_FEATURES']:
+> +        if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
+>              self.target.run('systemd-run --collect
+> --unit=weston-ptest.service --uid=0 -p PAMName=login -p TTYPath=/dev/tty6
+> -E XDG_RUNTIME_DIR=/tmp -E WAYLAND_DISPLAY=wayland-0 /usr/bin/weston
+> --socket=wayland-1 --log=%s' % self.weston_log_file)
+>          else:
+>              self.target.run(self.get_weston_command('openvt -- weston
+> --socket=wayland-1 --log=%s' % self.weston_log_file))
+> @@ -66,7 +66,7 @@ class WestonTest(OERuntimeTestCase):
+>          new_wl_processes, try_cnt =
+> self.get_new_wayland_processes(existing_wl_processes)
+>          existing_and_new_weston_processes =
+> self.get_processes_of('weston', 'existing and new')
+>          new_weston_processes = [x for x in
+> existing_and_new_weston_processes if x not in existing_weston_processes]
+> -        if 'systemd' in self.tc.td['DISTRO_FEATURES']:
+> +        if 'systemd' in self.tc.td['VIRTUAL-RUNTIME_init_manager']:
+>              self.target.run('systemctl stop weston-ptest.service')
+>          else:
+>              for w in new_weston_processes:
+> diff --git a/meta/recipes-graphics/wayland/weston-init.bb
+> b/meta/recipes-graphics/wayland/weston-init.bb
+> index b7a99be646..4b2a6ca983 100644
+> --- a/meta/recipes-graphics/wayland/weston-init.bb
+> +++ b/meta/recipes-graphics/wayland/weston-init.bb
+> @@ -26,7 +26,9 @@ DEFAULTBACKEND_qemux86 = "drm"
+>  DEFAULTBACKEND_qemux86-64 = "drm"
+>
+>  do_install() {
+> -       install -Dm755 ${WORKDIR}/init ${D}/${sysconfdir}/init.d/weston
+> +        if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
+> +               install -Dm755 ${WORKDIR}/init
+> ${D}/${sysconfdir}/init.d/weston
+> +        fi
+>         install -D -p -m0644 ${WORKDIR}/weston.ini
+> ${D}${sysconfdir}/xdg/weston/weston.ini
+>         install -Dm644 ${WORKDIR}/weston.env
+> ${D}${sysconfdir}/default/weston
+>
+> @@ -55,10 +57,13 @@ do_install() {
+>         fi
+>  }
+>
+> +INHIBIT_UPDATERCD_BBCLASS =
+> "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1',
+> '', d)}"
+> +
+>  inherit update-rc.d features_check systemd
+>
+>  # rdepends on weston which depends on virtual/egl
+> -REQUIRED_DISTRO_FEATURES = "opengl"
+> +# requires pam enabled if started via systemd
+> +REQUIRED_DISTRO_FEATURES = "opengl
+> ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'pam',
+> '', d)}"
+>
+>  RDEPENDS_${PN} = "weston kbd"
+>
+> --
+> 2.29.1
+>
+>
+> 
+>
+>
 
+--000000000000eaf78305b40d2fc8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">weston rdepends on weston-init, so it needs ${@oe.utils.co=
+nditional(&#39;VIRTUAL-RUNTIME_init_manager&#39;, &#39;systemd&#39;, &#39;<=
+span class=3D"gmail-il">pam</span>&#39;, &#39;&#39;, d)} as well now, will =
+send patch shortly.<div><br></div><div><pre class=3D"gmail-console-output" =
+style=3D"box-sizing:inherit;white-space:pre-wrap;margin-top:0px;margin-bott=
+om:0px;color:rgb(51,51,51)">ERROR: Nothing RPROVIDES &#39;weston-init&#39; =
+(but openembedded-core/meta/recipes-graphics/wayland/<a href=3D"http://west=
+on_9.0.0.bb">weston_9.0.0.bb</a> RDEPENDS on or otherwise requires it)
+weston-init was skipped: missing required distro feature &#39;pam&#39; (no=
+t in DISTRO_FEATURES)
+NOTE: Runtime target &#39;weston-init&#39; is unbuildable, removing...
+Missing or unbuildable dependency chain was: [&#39;weston-init&#39;]
+ERROR: Nothing RPROVIDES &#39;weston-dev&#39; (but openembedded-core/meta/=
+recipes-graphics/wayland/<a href=3D"http://weston_9.0.0.bb">weston_9.0.0.bb=
+</a> RDEPENDS on or otherwise requires it)
+No eligible RPROVIDERs exist for &#39;weston-dev&#39;
+NOTE: Runtime target &#39;weston-dev&#39; is unbuildable, removing...
+Missing or unbuildable dependency chain was: [&#39;weston-dev&#39;]
+ERROR: Nothing RPROVIDES &#39;weston&#39; (but openembedded-core/meta/reci=
+pes-graphics/wayland/<a href=3D"http://weston_9.0.0.bb">weston_9.0.0.bb</a>=
+ RDEPENDS on or otherwise requires it)
+No eligible RPROVIDERs exist for &#39;weston&#39;
+NOTE: Runtime target &#39;weston&#39; is unbuildable, removing...
+Missing or unbuildable dependency chain was: [&#39;weston&#39;]</pre></div=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Mon, Nov 9, 2020 at 9:32 AM Alexander Kanavin &lt;<a href=3D"mailto:ale=
+x.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Several issues are addressed:<br=
+>
+1. weston requires pam when starting under systemd<br>
+2. systemd was attempting to launch weston twice (from<br>
+sysvinit script and from systemd unit file) which caused confusion<br>
+and errors.<br>
+3. runtime test should stop/start weston via systemd only if systemd<br>
+actually controls system startup, not merely when systemd is present.<br>
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.=
+com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oeqa/runtime/cases/weston.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4=
+ ++--<br>
+=C2=A0meta/recipes-graphics/wayland/<a href=3D"http://weston-init.bb" rel=
+=3D"noreferrer" target=3D"_blank">weston-init.bb</a> | 9 +++++++--<br>
+=C2=A02 files changed, 9 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oeqa/runtime/cases/weston.py b/meta/lib/oeqa/runtime=
+/cases/weston.py<br>
+index 36b4f9e375..d3fbf8ba92 100644<br>
+--- a/meta/lib/oeqa/runtime/cases/weston.py<br>
++++ b/meta/lib/oeqa/runtime/cases/weston.py<br>
+@@ -34,7 +34,7 @@ class WestonTest(OERuntimeTestCase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &#39;export XDG_RUNTIME_DIR=3D/ru=
+n/user/0; export WAYLAND_DISPLAY=3Dwayland-0; %s&#39; % cmd<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0def run_weston_init(self):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;systemd&#39; in <a href=3D"http://sel=
+f.tc.td" rel=3D"noreferrer" target=3D"_blank">self.tc.td</a>[&#39;DISTRO_FE=
+ATURES&#39;]:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;systemd&#39; in <a href=3D"http://sel=
+f.tc.td" rel=3D"noreferrer" target=3D"_blank">self.tc.td</a>[&#39;VIRTUAL-R=
+UNTIME_init_manager&#39;]:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.target.run(&#39;syste=
+md-run --collect --unit=3Dweston-ptest.service --uid=3D0 -p PAMName=3Dlogin=
+ -p TTYPath=3D/dev/tty6 -E XDG_RUNTIME_DIR=3D/tmp -E WAYLAND_DISPLAY=3Dwayl=
+and-0 /usr/bin/weston --socket=3Dwayland-1 --log=3D%s&#39; % self.weston_lo=
+g_file)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.target.run(self.get_w=
+eston_command(&#39;openvt -- weston --socket=3Dwayland-1 --log=3D%s&#39; % =
+self.weston_log_file))<br>
+@@ -66,7 +66,7 @@ class WestonTest(OERuntimeTestCase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0new_wl_processes, try_cnt =3D self.get_n=
+ew_wayland_processes(existing_wl_processes)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0existing_and_new_weston_processes =3D se=
+lf.get_processes_of(&#39;weston&#39;, &#39;existing and new&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0new_weston_processes =3D [x for x in exi=
+sting_and_new_weston_processes if x not in existing_weston_processes]<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;systemd&#39; in <a href=3D"http://sel=
+f.tc.td" rel=3D"noreferrer" target=3D"_blank">self.tc.td</a>[&#39;DISTRO_FE=
+ATURES&#39;]:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if &#39;systemd&#39; in <a href=3D"http://sel=
+f.tc.td" rel=3D"noreferrer" target=3D"_blank">self.tc.td</a>[&#39;VIRTUAL-R=
+UNTIME_init_manager&#39;]:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.target.run(&#39;syste=
+mctl stop weston-ptest.service&#39;)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for w in new_weston_proces=
+ses:<br>
+diff --git a/meta/recipes-graphics/wayland/<a href=3D"http://weston-init.b=
+b" rel=3D"noreferrer" target=3D"_blank">weston-init.bb</a> b/meta/recipes-g=
+raphics/wayland/<a href=3D"http://weston-init.bb" rel=3D"noreferrer" target=
+=
+=3D"_blank">weston-init.bb</a><br>
+index b7a99be646..4b2a6ca983 100644<br>
+--- a/meta/recipes-graphics/wayland/<a href=3D"http://weston-init.bb" rel=
+=3D"noreferrer" target=3D"_blank">weston-init.bb</a><br>
++++ b/meta/recipes-graphics/wayland/<a href=3D"http://weston-init.bb" rel=
+=3D"noreferrer" target=3D"_blank">weston-init.bb</a><br>
+@@ -26,7 +26,9 @@ DEFAULTBACKEND_qemux86 =3D &quot;drm&quot;<br>
+=C2=A0DEFAULTBACKEND_qemux86-64 =3D &quot;drm&quot;<br>
+<br>
+=C2=A0do_install() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0install -Dm755 ${WORKDIR}/init ${D}/${sysconfd=
+ir}/init.d/weston<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${VIRTUAL-RUNTIME_init_manager}&qu=
+ot; !=3D &quot;systemd&quot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -Dm755 ${W=
+ORKDIR}/init ${D}/${sysconfdir}/init.d/weston<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -D -p -m0644 ${WORKDIR}/weston.ini ${D=
+}${sysconfdir}/xdg/weston/weston.ini<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -Dm644 ${WORKDIR}/weston.env ${D}${sys=
+confdir}/default/weston<br>
+<br>
+@@ -55,10 +57,13 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0}<br>
+<br>
++INHIBIT_UPDATERCD_BBCLASS =3D &quot;${@oe.utils.conditional(&#39;VIRTUAL-=
+RUNTIME_init_manager&#39;, &#39;systemd&#39;, &#39;1&#39;, &#39;&#39;, d)}&=
+quot;<br>
++<br>
+=C2=A0inherit update-rc.d features_check systemd<br>
+<br>
+=C2=A0# rdepends on weston which depends on virtual/egl<br>
+-REQUIRED_DISTRO_FEATURES =3D &quot;opengl&quot;<br>
++# requires pam enabled if started via systemd<br>
++REQUIRED_DISTRO_FEATURES =3D &quot;opengl ${@oe.utils.conditional(&#39;VI=
+RTUAL-RUNTIME_init_manager&#39;, &#39;systemd&#39;, &#39;pam&#39;, &#39;&#3=
+9;, d)}&quot;<br>
+<br>
+=C2=A0RDEPENDS_${PN} =3D &quot;weston kbd&quot;<br>
+<br>
+-- <br>
+2.29.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000eaf78305b40d2fc8--
