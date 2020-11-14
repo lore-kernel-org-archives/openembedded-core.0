@@ -1,70 +1,90 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web08.4149.1605347777725407178
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.4302.1605348580487520947
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Nov 2020 01:56:18 -0800
+ Sat, 14 Nov 2020 02:09:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QwQsolpD;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id w13so17384380eju.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2020 01:56:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=m+4q0M/K;
+ spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f43.google.com with SMTP id a3so17889238wmb.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2020 02:09:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:user-agent:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=ze/4NER/ZhrVdpUOfR4EzQXvsx+Kr2w5TjOMB6GIknA=;
-        b=QwQsolpDRnMUjqOCdH0jvaB9xO2PgDhaYb+OqsSv6+KYGLZPAuTJtK6lRSPwIbWaTw
-         YmYIzCQvFkIhIlPGxsMd5mO8ECmlJrgd8k0VqEGuKJRFTG7WHIhhSzaq3drVJD8O821/
-         2xyN4yUV4BPOpR3Dl2+GeC2bmpp6xILZ3qfoTQNYcESBopsVI1l7K7f6CQG8WD0apgXh
-         EQFvXbP9qmQYh0Lo08UC70XO7a2mEfP17YL6kdy6GKM/IkfCtwSLnV8BFAcGEw+WPFkn
-         RIqxZvlZaWyfCAkFGGk1+wa7LqliI97bRYzPFbaV81LwHtp7iaBzHckOJJzv1EVt8tdM
-         K8Kw==
+        bh=iAuaOaTpStlLGfsYY9QvvCoSOGO3uJTrE5f0LepgH5k=;
+        b=m+4q0M/K8K9kJWqIYQrxkS1vZrLfs6kVkXBuLnis4kbt1DkFQ9cE6lV/dIKgo3m3ZA
+         wrYEyVEtXH/l6CnQndOyqsIpU0cZDMIBko+XmUIU87Pe5ohXvVfGUQEulqv0iWZ3EA46
+         z8ekxL1LRuWDk5hAfwScvYpbG7hV8+p9PbRy48vgZ5zy5OjLQwkait1owR3EHrcaLPp9
+         X1Is3ltjGcPfDsWTFlwrsVwxA1b3iNvFlVaB4a4k2gFY9WS6mUU1dfiQ+lR5LGt4O7LN
+         VRpF0uQ4V+g23RZ6R64MO/8TBSaQu6iliJFN51RGg6QvjTkvt2RXo7E9ponyY6ytBZiC
+         wpOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ze/4NER/ZhrVdpUOfR4EzQXvsx+Kr2w5TjOMB6GIknA=;
-        b=cm9Q5zdik1Zjt2rhGiztocajLsAWc5gbPuZdeh6gVPfpDZmTzg6uzTyb2qmL3yJ4cI
-         o9r4+pXufc23CvEhUZ/MlXdvYSKpKH7gWrxvvvbtgL6hpy6avu7EYuuTG4LmQb//FbAF
-         5620e1XHDcrXSRKMM9+jl0QOZAGluZU+LYBeNmbMI7SKk9g8SlIZk7oIDobVMjPJuhxz
-         WWyOe7n3EDFo8R6Stmfep2KQjf/3tJG25aRkwqeFE0zaOVlRH+TtXxI3sSmPu0RRIiHW
-         GjraG4eOB04+I8zvUm8EGUxqWr14gNR/DN/BvHiKYVZlBbfB9TGZeMjr2x93sVH+TO8l
-         NJpA==
-X-Gm-Message-State: AOAM531XLvlyfctwD4zswxG0EFdL6E1NgXrMaxniYfU+2MQBLWxAAGZr
-	XRl3toU0mT0s1tFp8GcNy0PCM0NZwkw=
-X-Google-Smtp-Source: ABdhPJzEJoxzHNfxtpKiELHjtWnCxOiXoQzKcj+mGxthQtTws6fq6E4apubba/knQb73oRUjr3yKLw==
-X-Received: by 2002:a17:906:f286:: with SMTP id gu6mr6218277ejb.182.1605347775951;
-        Sat, 14 Nov 2020 01:56:15 -0800 (PST)
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from md2ramxc.ad001.siemens.net (c-93-184-20-132.customer.ggaweb.ch. [93.184.20.132])
-        by smtp.gmail.com with ESMTPSA id k2sm6013051ejp.6.2020.11.14.01.56.15
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iAuaOaTpStlLGfsYY9QvvCoSOGO3uJTrE5f0LepgH5k=;
+        b=acd6flnTe2/txUZu72nOJKMQvjCiZc27XUtxhzTNvBvEm29EzMyvHh689O65JREgdF
+         sbUFXvJ4ySQagE15Lk1qbg8/K7c9Nje+AtoVIciny8mGWU+gpRJa94oVOSBUY9GHIeNv
+         /SXQ1nwd651t9Cd8dLO/UYVZ1iGD1IqQ3gArahvFMKHm8Qj40cMCRFONJaRnqIDWcuS0
+         WovtlrD5w0TWLZGrN+CUh0tcOArpYdznfPYzutIqvNAk3fnlini4nb+ifNl14RBJOMIn
+         ImzOKmAF0rn9VeXiPjRIndM7QNftg854CR4g9cRLe2Fry543wDVkjK3ktASwhPqrvYJD
+         cSVw==
+X-Gm-Message-State: AOAM532N10Cfkex9C73yR2rEEPt2jOIuj+Wk1THZ9trcuVz1EMlyh2lJ
+	SBWPuxmFX1y08IHHZZt4Vk8sb2IilqU=
+X-Google-Smtp-Source: ABdhPJw2aWase79LPw+EOU4GQUa3M8WUfGFPMVq+GrAH5yYaU+kPGIFfPokSh6xsPuc78VmXLqwEpA==
+X-Received: by 2002:a1c:e3c1:: with SMTP id a184mr6498653wmh.88.1605348578452;
+        Sat, 14 Nov 2020 02:09:38 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id b14sm13800895wrq.47.2020.11.14.02.09.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2020 01:56:15 -0800 (PST)
-Message-ID: <cc5225a182325f116b5028e26027d3e6cef1f6a8.camel@gmail.com>
-Subject: dunfell update reproducible_build.bbclass
-From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
-To: openembedded-core@lists.openembedded.org, steve@sakoman.com
-Date: Sat, 14 Nov 2020 10:56:14 +0100
-User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
+        Sat, 14 Nov 2020 02:09:37 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] weston: add pam to REQUIRED_DISTRO_FEATURES
+Date: Sat, 14 Nov 2020 11:09:35 +0100
+Message-Id: <20201114100935.218002-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Steve
+* it was added to weston-init in 72dd74c5d384dbe641cc7c02ecf766ff8d5f555f now world
+  builds are failing with:
 
-We are on Dunfell LTS branch and have a small problem with reproducible
-builds. The problem is already solved for gatesgarth. So it would help
-us if the following three patches were picked to dunfell. They apply
-straight forward and update the reproducible_build.bbclass to paritiy
-with gatesgarth.
+  ERROR: Nothing RPROVIDES 'weston-init' (but openembedded-core/meta/recipes-graphics/wayland/weston_9.0.0.bb RDEPENDS on or otherwise requires it)
+  weston-init was skipped: missing required distro feature 'pam' (not in DISTRO_FEATURES)
+  NOTE: Runtime target 'weston-init' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['weston-init']
+  ERROR: Nothing RPROVIDES 'weston-dev' (but openembedded-core/meta/recipes-graphics/wayland/weston_9.0.0.bb RDEPENDS on or otherwise requires it)
+  No eligible RPROVIDERs exist for 'weston-dev'
+  NOTE: Runtime target 'weston-dev' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['weston-dev']
+  ERROR: Nothing RPROVIDES 'weston' (but openembedded-core/meta/recipes-graphics/wayland/weston_9.0.0.bb RDEPENDS on or otherwise requires it)
+  No eligible RPROVIDERs exist for 'weston'
+  NOTE: Runtime target 'weston' is unbuildable, removing...
+  Missing or unbuildable dependency chain was: ['weston']
 
-- classes/reproducible: Move to library code
-  371dcc688c3b7ec4493669226bc3dd75877c9db2  
-- lib/oe/reproducible: Fix error when no git HEAD
-  3acfd33fa9c56ac69423af8f222a13be365fb29b
-- lib/oe/reproducible.py: Fix git HEAD check
-  ada41f184961fa62f2e87cbba82b446373faf4ac
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-graphics/wayland/weston_9.0.0.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thank you.
-Regards,
-Adrian
+diff --git a/meta/recipes-graphics/wayland/weston_9.0.0.bb b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+index 051fd85941..8cb105c785 100644
+--- a/meta/recipes-graphics/wayland/weston_9.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_9.0.0.bb
+@@ -21,7 +21,8 @@ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
+ inherit meson pkgconfig useradd features_check
+ # depends on virtual/egl
+-REQUIRED_DISTRO_FEATURES = "opengl"
++# weston-init requires pam enabled if started via systemd
++REQUIRED_DISTRO_FEATURES = "opengl ${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', 'pam', '', d)}"
+ 
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0"
+ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
+-- 
+2.27.0
 
