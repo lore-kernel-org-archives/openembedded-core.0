@@ -1,67 +1,81 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web12.22479.1605460690321855677
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+ by mx.groups.io with SMTP id smtpd.web11.22868.1605461589584589694
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Nov 2020 09:18:10 -0800
+ Sun, 15 Nov 2020 09:33:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PTBMZ6ql;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id t21so4319047pgl.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2020 09:18:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yYNaykcR;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f169.google.com with SMTP id 5so163090plj.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2020 09:33:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=subject:from:to:message-id:date;
-        bh=vtrbEIdyP5JBe5PhoToOz5gtKBHiCb3HZYYgm78NbjI=;
-        b=PTBMZ6ql40togk2zngIBCOUqXrTLU+C/5oR+CdxxqHIsBpeHBCpsp/+cvgyEYJOU04
-         2kyngq0BCe8auUc8Q07lz7duA95H4IPmilbFhGYjCdIF27vHfjqxdTsUnhQOJCEz9w68
-         NOi5MH8RBnbuYyj3+Jcfvd1OvUGgxZdgBdH85rGccaK3rzNFQpdRg+UiSBck7HXJf9Z0
-         CfMsc706DJFPKJHl8lOTP01bWZHIKsrlpFQ8pp0eyXU3po9k9ZB4iBsIdPe4ZoEgKyEJ
-         4mO5J3GusWjwjpGqMV+VtvWq9H4G+ksw9bVBY0uc0+ewEdHDHX+ysH1EiM2ZAEKQMnYn
-         tsfA==
+        bh=9KgKis8oSXHwHZrckbDueDjeIJu5WXULIAayzu4Wm/Y=;
+        b=yYNaykcRW5exjziKpE8TLQoYIx/SQWx3zU50ekjz8tHdmVjkFokIJIGXVS9EZjyifD
+         Yh+UhQrBRpgT9vcCpCBlnAbbaZkO2DCxm+zI5UReRFEH4OoPm840FffzyFLp2FVCsmsW
+         vKlOHRBoB0TTjx6+stieRfzXPtY9KN6aJstdT7zoQryLEbxC+vZSlavHoV4KJdzA7vXN
+         IYRQlR+QLtckK0qQTrupKYeu8gt7l1N9ZfO93Wrjtj1Ccnw0fnOpASpI2tp+CHv8JDnT
+         LJVBHdXrqlOcuDCv9XHYb7sxtZN5S6QzGyGX4JUoQNUL7F+4LFU3MQhSC3JYmYdCsS5w
+         fBtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=vtrbEIdyP5JBe5PhoToOz5gtKBHiCb3HZYYgm78NbjI=;
-        b=K6mG+HWkYVlPlbdTCzxi9eShE+vE5u9pIaEXYXpKZdpOzAyUOL/9RbV1n/phscOWIH
-         bq5gUkGB7/4WOBJbciEw+CBxqsWouxJ1Zy0+s223kK16A6oaHmkH7WrYLGNrlR9RpSnX
-         2dTOkP18n3v1X5hCQrn7J57e9siF6fAnMXImTtLMzLuRzVw81HoE4otFoyJEQIS3Wk1R
-         58Wtf5yZgvOejysUfG/Je+Lx2pC50XHmmSexbve6GV5GO5kRPRPR3qrr0Qy8blRskq4J
-         jQ7pA0YmdKdr2s6KgPMcmvQH6hp0y+Ekreysskhxx2mbv7d3UPOQ6cBvEgQt1TC7t8ek
-         kU6Q==
-X-Gm-Message-State: AOAM533ZJR8fflS14f0SZiKaxsWLaI9G97l0RJyKsA8Dc59vepWaP2/C
-	QN/faHXeyaTItu+OADeuJqNNmHW0nb51nhxS
-X-Google-Smtp-Source: ABdhPJwpW2nl67mdVE18LTzkjRNv8TtAqFRhutYzWAa9zddbzINIqFjmgWU/bI8HYPbgUoTiO3vgag==
-X-Received: by 2002:aa7:95a6:0:b029:155:336c:3494 with SMTP id a6-20020aa795a60000b0290155336c3494mr10234107pfk.17.1605460689294;
-        Sun, 15 Nov 2020 09:18:09 -0800 (PST)
+        bh=9KgKis8oSXHwHZrckbDueDjeIJu5WXULIAayzu4Wm/Y=;
+        b=qXRI9geHPdOTKVm0xD0qsA/N9Z3vSHYgeuRXAt9rlk5P3njKZmbTZQD2sKEuKAhwLJ
+         qz5SIUPgI1DE/FVaumDkjMensRqmI617Zb4g7ekUnPdk6x+1O0T4cIR9sFeEMyhL6M93
+         uoy/2BvPQITW4Ym898hVI9H/tgUk0OVOfYuwsmf2Qchos5ZoHwr2kDJwlkZVMLspSEfr
+         La5h7N60NCN2HNqKLIHgLho8vDtxilHH+L1gCYugpnUVeMQoDlfWf7qBiIlRiRUhXsN6
+         VZYKBEJIS9RqXhqS4tHGKKlN4FnPM8eoS07iXRekJ/Ij4aiDowu9vDIXQSQ0/OkZn0Ie
+         9Iww==
+X-Gm-Message-State: AOAM532B3DvCKYb7lFareOJMPPwlcX+TR0qz+waYwA0m5NiRjc0elHQa
+	sfx60geSAnRI9eD2TvQPExAeF51XmiTekJWl
+X-Google-Smtp-Source: ABdhPJyj5Gq8TKnKkUHn9trJueb4zotnO1EQUXXZan0JK/Ak63oO3Uv2FnKTO3V3xc/cGTY0M20tGQ==
+X-Received: by 2002:a17:90a:8542:: with SMTP id a2mr11976578pjw.101.1605461588230;
+        Sun, 15 Nov 2020 09:33:08 -0800 (PST)
 Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id w13sm15873367pfd.49.2020.11.15.09.18.06
+Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id d68sm17256889pfc.135.2020.11.15.09.33.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2020 09:18:08 -0800 (PST)
+        Sun, 15 Nov 2020 09:33:07 -0800 (PST)
 Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id D3F58960317; Sun, 15 Nov 2020 07:17:57 -1000 (HST)
-Subject: OE-core CVE metrics for master on Sun 15 Nov 2020 07:15:01 AM HST
+	id 51FE4960317; Sun, 15 Nov 2020 07:33:05 -1000 (HST)
+Subject: OE-core CVE metrics for dunfell on Sun 15 Nov 2020 07:30:01 AM HST
 From: "Steve Sakoman" <steve@sakoman.com>
 To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
 X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20201115171757.D3F58960317@nuc.router0800d9.com>
-Date: Sun, 15 Nov 2020 07:17:57 -1000 (HST)
+Message-Id: <20201115173305.51FE4960317@nuc.router0800d9.com>
+Date: Sun, 15 Nov 2020 07:33:05 -1000 (HST)
 
-Branch: master
+Branch: dunfell
 
 New this week:
+CVE-2020-14352: librepo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14352 *
 
 Removed this week:
 CVE-2012-4564: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-4564 *
-CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
 CVE-2018-16517: nasm-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16517 *
+CVE-2020-11022: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11022 *
+CVE-2020-11023: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-11023 *
+CVE-2020-13434: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13434 *
+CVE-2020-13435: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13435 *
+CVE-2020-13630: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13630 *
+CVE-2020-13631: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13631 *
+CVE-2020-13632: sqlite3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13632 *
+CVE-2020-14308: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14308 *
+CVE-2020-14309: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14309 *
+CVE-2020-14311: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14311 *
+CVE-2020-15706: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15706 *
+CVE-2020-15707: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15707 *
+CVE-2020-25613: ruby https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25613 *
+CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
 
-Full list:  Found 55 unpatched CVEs
+Full list:  Found 71 unpatched CVEs
 CVE-2012-6094: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-6094 *
 CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
 CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
 CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
 CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
+CVE-2014-9278: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-9278 *
 CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
 CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
 CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
@@ -84,30 +98,46 @@ CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2
 CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
 CVE-2018-12437: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
 CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
+CVE-2018-12617: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12617 *
 CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
 CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
 CVE-2018-16868: gnutls https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16868 *
 CVE-2018-16869: nettle https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-16869 *
 CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
+CVE-2018-19665: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-19665 *
+CVE-2018-21232: re2c https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-21232 *
 CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
 CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
 CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
 CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
 CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
+CVE-2019-14865: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
 CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
 CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
 CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
+CVE-2020-10648: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-10648 *
 CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-12829: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12829 *
+CVE-2020-13253: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13253 *
+CVE-2020-13645: glib-networking https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13645 *
+CVE-2020-13754: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13754 *
+CVE-2020-13791: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-13791 *
+CVE-2020-14145: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14145 *
+CVE-2020-14150: bison-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14150 *
+CVE-2020-14310: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
+CVE-2020-14352: librepo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14352 *
+CVE-2020-15469: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15469 *
 CVE-2020-15523: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15523 *
-CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
-CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
+CVE-2020-15704: ppp https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15704 *
+CVE-2020-15705: grub-efi-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
+CVE-2020-15778: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15778 *
+CVE-2020-15859: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15859 *
+CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
 CVE-2020-24352: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24352 *
+CVE-2020-24553: go-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24553 *
 CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
 CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
 CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
 CVE-2020-27619: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27619 *
 CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+CVE-2020-8432: u-boot https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8432 *
