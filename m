@@ -1,68 +1,74 @@
-Received: from mail-40131.protonmail.ch (mail-40131.protonmail.ch [185.70.40.131])
- by mx.groups.io with SMTP id smtpd.web10.16952.1605424799796329622
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web09.19196.1605445567712804155
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Nov 2020 23:20:00 -0800
+ Sun, 15 Nov 2020 05:06:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pm.me header.s=protonmail header.b=a63FFi/B;
- spf=pass (domain: pm.me, ip: 185.70.40.131, mailfrom: jc.begue@pm.me)
-Date: Sun, 15 Nov 2020 07:19:54 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me; s=protonmail;
-	t=1605424797; bh=Y29jK3pOKGY7mz7wwnlmoVD+OamGRp29OW3agRNPcn4=;
-	h=Date:To:From:Reply-To:Subject:From;
-	b=a63FFi/BvhF6ayrkMiHdcbQStCur56tAVmIOORmKjJf0G0cJ3ESgFrXxjhGRy50db
-	 /tbMitNQ0jyKOT4DiBgzFesPaCF1xGNFYPmmkZn/UFIH17rMlX20p2nPO3nInSdB76
-	 7js0yUdKJe0+HihrI1lbTa4QWkLxSycvlD9L4qLtBxowlu7T42p9eBCzdk81J9+hcj
-	 wUmU5LDIpTDY4+e92I3TO0Ed1Fc1qE24306smJDFtNqzuOrkQm+FD2WM8PpuuGjSbn
-	 H41xyUnBNdSCpsFwNVRPqcxdtzjM2+aJxEQyGTTotswikn4gt3EKXEvTR+qMr6RlBJ
-	 BedT6E12aKZ6A==
-To: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-From: jc.begue@pm.me
-Reply-To: Jean-Christophe BEGUE <jc.begue@pm.me>
-Subject: Using OE's native bzip2
-Message-ID: <N8dTusv8HRYbXICsENrr0Xs8dy2xw-8TOU515yBu6Jg1TzOcH3ccglVEvtqNUlRIW-bOM29tttjs6vI6lcldLoX6bmYsRbDBaJAWqY8RTIY=@pm.me>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qr39MIzL;
+ spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: max.oss.09@gmail.com)
+Received: by mail-wm1-f68.google.com with SMTP id h2so21294500wmm.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2020 05:06:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3VqrNSi27MuarEN6IDfWkhZN1TybxYP2KTCQSPo36oI=;
+        b=qr39MIzLD5L4+OPHtBBsUPrUXA2RXLKIFP+oMOfj7qJcYtZeE0T5UEnLPeRmoRK6tP
+         k213a/hG8DCtw9z3x7elVvmpRR/Mb6d399ibD2v6eLKqjOOJVl0gKSBNC4SIWt7JUMf5
+         0nzipdLZ7RjurQhfWJ3WgC6wGFw03am8IH5wSmZeqHMM2da6Abd+6t2N6HRrYJ+TFz0F
+         E4oZOXcIdDhN28fQIsZ8JkysaL9HXX3ySBMBQR1hfnDZSm9B9BHpzsNuoUZgrzXUTq5g
+         5ZxvkHQzR93jDQgKCtPeJgeXJ6ZJFzYJL35fA4uY5kH0dOTSUmB8BT0Xtktc01s1mgkF
+         0fkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3VqrNSi27MuarEN6IDfWkhZN1TybxYP2KTCQSPo36oI=;
+        b=mZK8h9yS4XH4ePIsEcshe8dhdiVICC5lCga/cEKqhEo7/K0Z5y7dZ8lRoiyN9lHqtu
+         m4tfD/nfG7j4dGY518sSvRDoWYCfczJHsX+DJohli5mLkUhSWfae5EqGuYxI7wUlSwM7
+         UYxoZelA4zeQacgrD4xQSKL7A7VWE6JUessPtwmV0Tup2nTlIgL5/zcQHnJRdry/wfyV
+         FsjTaUdsEIPMk65dGy/esYTSFNKISaz7A9/qqD9gJtczsfZyPlNhs0GMU5sUcgT/DkyD
+         eGclVoMPjGAtrNXY1YfNqHsBGYH9krC+g02Dk8rgjU7UlPzhu4PXTPXbsK5JbaLTVpFL
+         vHeA==
+X-Gm-Message-State: AOAM5319dLm8KvbOj/Wn+6+b+21s9ZFhYdAqhOCGFB2M98RhQMhKfVnQ
+	OkKm3aZayXBpLhKHgrqCpsemhOlaChY=
+X-Google-Smtp-Source: ABdhPJw46VLSe8UJ4ft1wLV/dR9U3v+9XJuVIvIMJ1ZGLEOzMRwGeAlE9Qg4LtXC8irFzDpm2HgJQQ==
+X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr10739290wmk.65.1605445565874;
+        Sun, 15 Nov 2020 05:06:05 -0800 (PST)
+Return-Path: <max.oss.09@gmail.com>
+Received: from linuxdev2.toradex.int (31-10-206-124.static.upc.ch. [31.10.206.124])
+        by smtp.gmail.com with ESMTPSA id a17sm19866159wra.61.2020.11.15.05.06.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2020 05:06:05 -0800 (PST)
+From: "Max Krummenacher" <max.oss.09@gmail.com>
+X-Google-Original-From: Max Krummenacher <max.krummenacher@toradex.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Max Krummenacher <max.krummenacher@toradex.com>
+Subject: [OE-core][PATCH] linux-firmware: rdepend on license for all nvidia packages
+Date: Sun, 15 Nov 2020 14:03:54 +0100
+Message-Id: <20201115130354.43190-1-max.krummenacher@toradex.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
-	autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	mailout.protonmail.ch
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello everyone,
+Fixes commit 0671d04978 ("linux-firmware: package nvidia firmware")
 
-I'm trying to build a native bzip2 version because my system's one isn't co=
-mpatible with some archives.
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-To achieve that, I remove bzip2-native from ASSUME_PROVIDED:
-
-ASSUME_PROVIDED_remove =3D "bzip2-native"
-
-But then I get lots of circular dependencies, running bitbake bzip2-native:
-
-[...]
-Task /home/jc/code/yocto/oe-core/meta/recipes-devtools/libtool/libtool-nati=
-ve_2.4.6.bb:do_compile (dependent Tasks ['libtool-native_2.4.6.bb:do_config=
-ure'])
-  Task /home/jc/code/yocto/oe-core/meta/recipes-devtools/libtool/libtool-na=
-tive_2.4.6.bb:do_install (dependent Tasks ['libtool-native_2.4.6.bb:do_comp=
-ile'])
-  Task /home/jc/code/yocto/oe-core/meta/recipes-devtools/libtool/libtool-na=
-tive_2.4.6.bb:do_populate_sysroot (dependent Tasks ['libtool-native_2.4.6.b=
-b:do_install'])
-  Task virtual:native:/home/jc/code/yocto/oe-core/meta/recipes-extended/bzi=
-p2/bzip2_1.0.8.bb:do_prepare_recipe_sysroot (dependent Tasks ['automake_1.1=
-6.2.bb:do_populate_sysroot', 'gnu-config_git.bb:do_populate_sysroot', 'bzip=
-2_1.0.8.bb:do_fetch', 'libtool-native_2.4.6.bb:do_populate_sysroot', 'autoc=
-onf_2.69.bb:do_populate_sysroot'])
-  Task virtual:native:/home/jc/code/yocto/oe-core/meta/recipes-extended/bzi=
-p2/bzip2_1.0.8.bb:do_configure (dependent Tasks ['bzip2_1.0.8.bb:do_prepare=
-_recipe_sysroot', 'bzip2_1.0.8.bb:do_patch'])
-[...]
-
-Is there a hope I could achieve this or should I look for another solution =
-?
-
-Jean-Christophe BEGUE
-
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
+index 045f2647e0..93b9d5308a 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
+@@ -501,6 +501,7 @@ FILES_${PN}-nvidia-license = "${nonarch_base_libdir}/firmware/LICENCE.nvidia"
+ 
+ RDEPENDS_${PN}-nvidia-gpu += "${PN}-nvidia-license"
+ RDEPENDS_${PN}-nvidia-tegra += "${PN}-nvidia-license"
++RDEPENDS_${PN}-nvidia-tegra-k1 += "${PN}-nvidia-license"
+ 
+ # For rtl
+ LICENSE_${PN}-rtl8188 = "Firmware-rtlwifi_firmware"
+-- 
+2.20.1
 
