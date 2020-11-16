@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.39175.1605551304394215499
+ by mx.groups.io with SMTP id smtpd.web09.39235.1605551304141925008
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Nov 2020 10:28:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8EA2538C13D7
+	by mail.yoctoproject.org (Postfix) with ESMTP id 53E7738C13AC
 	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 18:28:23 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Victor Kamensky <kamensky@cisco.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemtap-uprobes: upgrading to 4.4 SUCCEEDED
-Message-ID: <MADEUP.16481067A6C59C7F.17549@lists.openembedded.org>
-X-Groupsio-MsgNum: 144648
-Content-Type: multipart/mixed; boundary="===============7829439135011443353=="
+Subject: [AUH] stress-ng: upgrading to 0.11.24 SUCCEEDED
+Message-ID: <MADEUP.1648106797DC7032.12355@lists.openembedded.org>
+X-Groupsio-MsgNum: 144649
+Content-Type: multipart/mixed; boundary="===============6491087324121825971=="
 
---===============7829439135011443353==
+--===============6491087324121825971==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemtap-uprobes* to *4.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *stress-ng* to *0.11.24* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-systemtap-uprobes-upgrade-4.3-4.4.patch
+    - apply the patch: git am 0001-stress-ng-upgrade-0.11.23-0.11.24.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,178 +44,70 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============7829439135011443353==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/systemtap (sysroot):
-  /usr/share/systemtap/examples/general/floatingpoint.meta was added
-  /usr/share/systemtap/examples/general/floatingpoint.stp was added
-  /usr/share/systemtap/examples/general/floatingpoint.txt was added
-  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
-  /usr/share/systemtap/runtime/linux/stp_tls.h was added
-  /usr/share/systemtap/runtime/softfloat was added
-  /usr/share/systemtap/runtime/softfloat.c was added
-  /usr/share/systemtap/runtime/softfloat.h was added
-  /usr/share/systemtap/runtime/softfloat/internals.h was added
-  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
-  /usr/share/systemtap/runtime/softfloat/platform.h was added
-  /usr/share/systemtap/runtime/softfloat/primitives.h was added
-  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
-  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
-  /usr/share/systemtap/runtime/softfloat/specialize.h was added
-  /usr/share/systemtap/tapset/floatingpoint.stp was added
-  /usr/share/systemtap/tapset/linux/errno.stpm was added
-  /usr/share/systemtap/tapset/linux/tls.stp was added
-  /usr/share/systemtap/tapset/sreg_arch.stpm was added
-  /usr/share/systemtap/runtime/transport/relayfs.c was removed
-  /usr/share/systemtap/runtime/transport/relayfs.h was removed
-  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
-
---===============7829439135011443353==
+--===============6491087324121825971==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-systemtap-uprobes-upgrade-4.3-4.4.patch"
+ filename="0001-stress-ng-upgrade-0.11.23-0.11.24.patch"
 
-From 34e2269d10ae009c576f2773b26ffa8e88ec3c9e Mon Sep 17 00:00:00 2001
+From 77b6ce1181fbe3bd857c88c67cf7402a204e773b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 16 Nov 2020 17:25:56 +0000
-Subject: [PATCH] systemtap-uprobes: upgrade 4.3 -> 4.4
+Date: Mon, 16 Nov 2020 15:09:29 +0000
+Subject: [PATCH] stress-ng: upgrade 0.11.23 -> 0.11.24
 
 ---
- meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../stress-ng/{stress-ng_0.11.23.bb => stress-ng_0.11.24.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.11.23.bb => stress-ng_0.11.24.bb} (90%)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 56fa51d61e..ae735025b7 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,7 +1,7 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
--PV = "4.3"
-+SRCREV = "988f439af39a359b4387963ca4633649866d8275"
-+PV = "4.4"
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.23.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.24.bb
+similarity index 90%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.11.23.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.11.24.bb
+index f09bb24737..3516c15451 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.11.23.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.24.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            file://no_daddr_t.patch \
+            "
+-SRC_URI[sha256sum] = "c0a76147a02f4c31af1fb4b9b7e0b90ac8bbd8590ccb54264d5cbe046c769cd2"
++SRC_URI[sha256sum] = "5b3a724a85eed48743dedf37eab851b617ecf921b7fff427c6d0bbf405534671"
  
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
+ DEPENDS = "coreutils-native"
+ 
 -- 
 2.20.1
 
 
---===============7829439135011443353==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 1409 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 791 .bb files complete (787 cached, 4 parsed). 1372 targets, 46 skipped, 0 masked, 0 errors.
-Removing 109 recipes from the core2-32 sysroot...done.
-Removing 113 recipes from the qemux86 sysroot...done.
-ERROR: Nothing PROVIDES 'systemtap-uprobes'
-systemtap-uprobes was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============7829439135011443353==
+--===============6491087324121825971==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap: PV changed from "4.3" to "4.4"
-Changes to packages/core2-32-poky-linux/systemtap (sysroot):
-  /usr/share/systemtap/examples/general/floatingpoint.meta was added
-  /usr/share/systemtap/examples/general/floatingpoint.stp was added
-  /usr/share/systemtap/examples/general/floatingpoint.txt was added
-  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
-  /usr/share/systemtap/runtime/linux/stp_tls.h was added
-  /usr/share/systemtap/runtime/softfloat was added
-  /usr/share/systemtap/runtime/softfloat.c was added
-  /usr/share/systemtap/runtime/softfloat.h was added
-  /usr/share/systemtap/runtime/softfloat/internals.h was added
-  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
-  /usr/share/systemtap/runtime/softfloat/platform.h was added
-  /usr/share/systemtap/runtime/softfloat/primitives.h was added
-  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
-  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
-  /usr/share/systemtap/runtime/softfloat/specialize.h was added
-  /usr/share/systemtap/tapset/floatingpoint.stp was added
-  /usr/share/systemtap/tapset/linux/errno.stpm was added
-  /usr/share/systemtap/tapset/linux/tls.stp was added
-  /usr/share/systemtap/tapset/sreg_arch.stpm was added
-  /usr/share/systemtap/runtime/transport/relayfs.c was removed
-  /usr/share/systemtap/runtime/transport/relayfs.h was removed
-  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGSIZE changed from 64079464 to 64266432 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-dev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-dev: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGSIZE changed from 462049 to 465784 (+1%)
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGSIZE changed from 1481625 to 1486917 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-exporter: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-exporter: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGSIZE changed from 85480 to 85339 (-0%)
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-python: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-python: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGSIZE changed from 293256 to 280968 (-4%)
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-src: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-src: PKGSIZE changed from 2860603 to 2867440 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-src: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap: PKGSIZE changed from 8561494 to 8864480 (+4%)
-packages/core2-32-poky-linux/systemtap/systemtap: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/stress-ng: SRC_URI changed from "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.11.23.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch" to "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.11.24.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch"
+packages/core2-32-poky-linux/stress-ng: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 5598668 to 5618672 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 2716457 to 2733182 (+1%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.11.23" to "0.11.24"
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.11.23 [default] to 0.11.24 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 4073352 to 4081544 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.11.23" to "0.11.24"
 
---===============7829439135011443353==--
+--===============6491087324121825971==--
