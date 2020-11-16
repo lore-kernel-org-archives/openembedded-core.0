@@ -1,140 +1,128 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web11.36448.1605540232677066295
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.web11.36524.1605540558857939207
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2020 07:23:53 -0800
+ Mon, 16 Nov 2020 07:29:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uOk/ycrm;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id cw8so24939999ejb.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 07:23:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RuQYbp30IyUauAIcG2G/YO5Z2cXorBBIyz311TIX54U=;
-        b=uOk/ycrmCOLgEiliC2bHFAEQhPDtgaIiiK6XnpJtgA81I3qwgJntGYJOPvlIMjHsk+
-         CU/0OAa2FodLxguFSDAoIZcLHYSWuZkxz2kS+Ntw58dMXbaL13Ffo1qJ7tXRVDmRAKEx
-         CI+9DKTVo80TPpFjhZBUezFtHwKZtojdRjNW7OitDQ8sXr5rNLvJHmwvkf7phbVsm9eO
-         2Z1pjceao1XQCt/dDBaFDYPp37FkZ0YyyraQvvS6pv2mclxDxxDsKLbsrVG1LL83n+x9
-         2Pt6DomG/Urvq7hB+4p5bc+XPCLAkIftbMQBPWxzv21VZKyYqP/vs4OVt6nTRpLUnn0S
-         ezIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RuQYbp30IyUauAIcG2G/YO5Z2cXorBBIyz311TIX54U=;
-        b=paDF/cmrW8LtfonKrUFe95ohKVQanYgrbQoXRJJkqwJbKWCq+t4hZXB+BqZR6E9FsQ
-         HgZfAksJiKOl7Rl8pdAK3PNesDbo5pd8u0nd+5RmtmNPvMt6mJ8nEspEhRd6Ff1vFDi1
-         4TrS/O2tCj7dNYBBjTN36HV4ua7pREJEC6RPsT6PaTV8TRR3VXD6yThS+hShfV8gkac0
-         12oDHb3bAka5Vwurrfta0vKVoszQ/4EO3ydGTqz75zVK1QEFn9gGoHa9U88IMMfP9EHb
-         kzebw5fvSayKnLalGj/HQB1sJxb89bqqPgP+mnKgvbQ+dQgeBZ12AqdTPCPc87F/dIFL
-         qrKQ==
-X-Gm-Message-State: AOAM530Ipta314zvOjtq7UeCsgDmfNiHuOZ9hJfkJNy8YT+0/TZ5zRqe
-	z9c9oIzAY0KRUmu4P32+vE/13q8OgATEP+rjywQ=
-X-Google-Smtp-Source: ABdhPJzj5ggoEXoMtPYBe4vOS5fQI+sxN+yP0R6MR6aKIjM4ynLFKjkjIuJZrUOdnOLD34SbOwHr6pWasSmFXpnk30k=
-X-Received: by 2002:a17:906:3644:: with SMTP id r4mr15130825ejb.517.1605540230668;
- Mon, 16 Nov 2020 07:23:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20201029114052.23141-1-dzagorui@cisco.com> <CADkTA4OGBOtnMD=t1xppe-5quLow8uPf99ZHknrSnPLAQKkoDA@mail.gmail.com>
- <1642C502B17F26A6.28917@lists.openembedded.org> <1645CE4049F0E4CD.31324@lists.openembedded.org>
- <1605539690406.1214@cisco.com>
-In-Reply-To: <1605539690406.1214@cisco.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 16 Nov 2020 10:23:39 -0500
-Message-ID: <CADkTA4PFtRR0sT+U1SRdwr-p266rgNj=Y1uF=R4Z9qoLuyaKoQ@mail.gmail.com>
+ dkim=fail reason="signature has expired" header.i=@cisco.com header.s=iport header.b=Runx9yw+;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: dzagorui@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=1918; q=dns/txt; s=iport;
+  t=1605540558; x=1606750158;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=GFhOCK+LCefsj7WQtymBHP4uQp7RCUGcqMNRM7aMLNU=;
+  b=Runx9yw+6wwecM6OouWz0eUoPE8ll4XaJDYaul8XpgH0SNDFXSwUlD0I
+   IkTFYk2XOfYk6b8MxiVihCzaHWgpH4IQ1u42xrB0FKlWjZezAF/ZuWJss
+   E2N5/wCfkFfnBno304EZFejHE06vabHrfPjMaCcMxQ9/xSzd3wHMhjQRx
+   4=;
+X-IPAS-Result: =?us-ascii?q?A0CuCAAKmbJffZRdJa1iHgEBCxIMQIJyglQvOJVVlBSIG?=
+ =?us-ascii?q?QsBAQENAQEtAgQBAYRKAoIeAiU4EwIDAQEBAwIDAQEBAQUBAQECAQYEFAEBh?=
+ =?us-ascii?q?kiFcwEEAXkFCwIBCAQBHCUPIyUCBA6FKlIWIK9IdIE0hVeEaIE4jUAbgUE/h?=
+ =?us-ascii?q?CM+ijQEl1qDKIFAm2wKIIJNmxUioXm0JQIRFYEzOCGBWXAVgyVPFwINnGiBK?=
+ =?us-ascii?q?wIGCgEBAwl8iwYHgS4BgRABAQ?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="5.77,482,1596499200"; 
+   d="scan'208,217";a="606295780"
+Received: from rcdn-core-12.cisco.com ([173.37.93.148])
+  by alln-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 16 Nov 2020 15:29:15 +0000
+Received: from XCH-RCD-001.cisco.com (xch-rcd-001.cisco.com [173.37.102.11])
+	by rcdn-core-12.cisco.com (8.15.2/8.15.2) with ESMTPS id 0AGFTFZ5031288
+	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 16 Nov 2020 15:29:15 GMT
+Received: from xch-aln-004.cisco.com (173.36.7.14) by XCH-RCD-001.cisco.com
+ (173.37.102.11) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 16 Nov
+ 2020 09:29:15 -0600
+Received: from xch-aln-004.cisco.com ([173.36.7.14]) by XCH-ALN-004.cisco.com
+ ([173.36.7.14]) with mapi id 15.00.1497.000; Mon, 16 Nov 2020 09:29:14 -0600
+From: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC@Cisco)" <dzagorui@cisco.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for arm64
-To: "Denys Zagorui -X (dzagorui - GLOBALLOGIC INC at Cisco)" <dzagorui@cisco.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001f2b6b05b43af73d"
+Thread-Topic: [OE-core] [PATCH] kernel-devsrc: improve reproducibility for
+ arm64
+Thread-Index: AQHWrejRVNz5C+744kaUUDNWNcIlOamwE3FkgA+MDTSAC1rm0YAAZ0qA//+ciY8=
+Date: Mon, 16 Nov 2020 15:29:14 +0000
+Message-ID: <1605540554704.91032@cisco.com>
+References: <20201029114052.23141-1-dzagorui@cisco.com>
+ <CADkTA4OGBOtnMD=t1xppe-5quLow8uPf99ZHknrSnPLAQKkoDA@mail.gmail.com>
+ <1642C502B17F26A6.28917@lists.openembedded.org>
+ <1645CE4049F0E4CD.31324@lists.openembedded.org>
+ <1605539690406.1214@cisco.com>,<CADkTA4PFtRR0sT+U1SRdwr-p266rgNj=Y1uF=R4Z9qoLuyaKoQ@mail.gmail.com>
+In-Reply-To: <CADkTA4PFtRR0sT+U1SRdwr-p266rgNj=Y1uF=R4Z9qoLuyaKoQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [173.38.209.7]
+MIME-Version: 1.0
+X-Outbound-SMTP-Client: 173.37.102.11, xch-rcd-001.cisco.com
+X-Outbound-Node: rcdn-core-12.cisco.com
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_160554055470491032ciscocom_"
 
---0000000000001f2b6b05b43af73d
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Nov 16, 2020 at 10:14 AM Denys Zagorui -X (dzagorui - GLOBALLOGIC
-INC at Cisco) <dzagorui@cisco.com> wrote:
-
->
-> > > > .vdso-offsets.h.cmd contains command that was used to produce
-> vdso-offsets.h.
-> > > > It breaks reproducibility because it has an absolute path in it.
-> There is no
-> > > > any value to package such files so it can be dropped.
-> > > >
-> > >
-> > > Have you confirmed that an on-target 'make scripts prepare' property
-> > > regenerates the file without triggering and oldconfig ?
-> > >
-> > > Otherwise, the change looks fine to me.
-> > >
-> > > Bruce
-> >
-> > Yes, confirmed that oldconfig wont be triggered.
-> >
-> > Thanks,
-> > Denys
->
-> ping
->
-I expected that this would have been picked up after I acked it, but there
-was a release to do in the middle of it being submitted and now .. so
-things have been a bit slower.
-
-I'll put it in my local queue, that way if it doesn't get picked up, I'll
-send it with my next pull request.
-
-Bruce
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000001f2b6b05b43af73d
-Content-Type: text/html; charset="UTF-8"
+--_000_160554055470491032ciscocom_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Mon, Nov 16, 2020 at 10:14 AM Denys Zagorui -X (=
-dzagorui - GLOBALLOGIC INC at Cisco) &lt;<a href=3D"mailto:dzagorui@cisco.c=
-om">dzagorui@cisco.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex"><br>
-&gt; &gt; &gt; .vdso-offsets.h.cmd contains command that was used to produc=
-e vdso-offsets.h.<br>
-&gt; &gt; &gt; It breaks reproducibility because it has an absolute path in=
- it. There is no<br>
-&gt; &gt; &gt; any value to package such files so it can be dropped.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; &gt; Have you confirmed that an on-target &#39;make scripts prepare&#3=
-9; property<br>
-&gt; &gt; regenerates the file without triggering and oldconfig ?<br>
-&gt; &gt;<br>
-&gt; &gt; Otherwise, the change looks fine to me.<br>
-&gt; &gt;<br>
-&gt; &gt; Bruce<br>
-&gt;<br>
-&gt; Yes, confirmed that oldconfig wont be triggered.<br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; Denys<br>
-<br>
-ping<br>
-</blockquote></div><div class=3D"gmail_default" style=3D"font-size:small"><=
-/div><div class=3D"gmail_default" style=3D"font-size:small">I expected that=
- this would have been picked up after I acked it, but there was a release t=
-o do in the middle of it being submitted and now .. so things have been a b=
-it slower.</div><div class=3D"gmail_default" style=3D"font-size:small"><br>=
-</div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;ll put i=
-t in my local queue, that way if it doesn&#39;t get picked up, I&#39;ll sen=
-d it with my next pull request.</div><div class=3D"gmail_default" style=3D"=
-font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:=
-small">Bruce</div><div><br></div><br clear=3D"all"><div><br></div>-- <br><d=
-iv dir=3D"ltr" class=3D"gmail_signature">- Thou shalt not follow the NULL p=
-ointer, for chaos and madness await thee at its end<br>- &quot;Use the forc=
-e Harry&quot; - Gandalf, Star Trek II<br><br></div></div>
+> I expected that this would have been picked up after I acked it, but ther=
+e was a release to do in the middle of it being submitted and now .. so thi=
+ngs have been a bit slower.
+>
+> I'll put it in my local queue, that way if it doesn't get picked up, I'll=
+ send it with my next pull request.
+>
+> Bruce
 
---0000000000001f2b6b05b43af73d--
+I see
+
+Thanks,
+Denys
+
+
+--_000_160554055470491032ciscocom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!-- p { margin-top: 0px; m=
+argin-bottom: 0px; }--></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
+FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
+<div style=3D"color: rgb(33, 33, 33);">
+<div>
+<div dir=3D"ltr">&gt;&nbsp;<span style=3D"font-size: small;">I expected tha=
+t this would have been picked up after I acked it, but there was a release =
+to do in the middle of it being submitted and now .. so things have been a =
+bit slower.</span>
+<div class=3D"gmail_default" style=3D"font-size:small">&gt; </div>
+<div class=3D"gmail_default" style=3D"font-size:small">&gt;&nbsp;I'll put i=
+t in my local queue, that way if it doesn't get picked up, I'll send it wit=
+h my next pull request.</div>
+<div class=3D"gmail_default" style=3D"font-size:small">&gt; </div>
+<div class=3D"gmail_default" style=3D"font-size:small">&gt;&nbsp;Bruce</div=
+>
+<div><br>
+</div>
+<div>I see<br>
+</div>
+<div><br>
+</div>
+<div>Thanks,<br>
+</div>
+<div>Denys<br>
+</div>
+<div dir=3D"ltr" class=3D"gmail_signature"><br>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_160554055470491032ciscocom_--
