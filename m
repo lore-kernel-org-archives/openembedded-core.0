@@ -1,154 +1,322 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web08.34547.1605533407602033639
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+ by mx.groups.io with SMTP id smtpd.web08.35504.1605537514015555674
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2020 05:30:07 -0800
+ Mon, 16 Nov 2020 06:38:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kecVy6Fl;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id a15so18720940edy.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 05:30:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=S72TGvEj;
+ spf=pass (domain: gmail.com, ip: 209.85.210.51, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f51.google.com with SMTP id n89so16189144otn.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 06:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hwSpeaXdLHTchfEjx9KLZnJiKDDSc5LTa0WBD62LxJ4=;
-        b=kecVy6Fl0TRV2f8gP5MwKgO54aKVUxYL+Ytg+3Bj6WcaWQOaEKu7qjGuEsRk/9bL8X
-         L4J7rThvj1Q8qUgYwHJwaof4tGKhARWu08DXXy6zjryLxhSnyIi5J/A8l1gvrF110Mol
-         /WNUR7He7iMyTt6XWnKyDUz6X6gcZ9KJSgrqmos+m+izltqlo/YgcS154CtB9eVFrNnM
-         ZWSe3KTkjkJyVfVz9XYLn39m070XT622ycj1OOlzDpRrZpzyfs5nSGiq9uhV5NGBWSv1
-         2okB/hivA9evhja8dah5glFKijpfKGbHkB24+O5KemtPPTpYxcJ/Yjm+2Eie4UzPywY4
-         YD4A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=O3yvKXHSxAyllVbMz2usvz0+mb32ZctPiSWOnT8PIeE=;
+        b=S72TGvEjgZYuVMbr4cbRfMXz7czZEHkpl6oZb782a9ux6uDqxaBThImc8QZxHeRgi4
+         K/x4d6QwYe6gyFaybV6qb2mT+ZsUq31C9Q3tuyvAkM8dpZbUWJ6+PSLAIUW+AnlA9Lpm
+         5bll7pgsqFdWCXOcteEvzB0nDpk5nPTR+OPFkMdKJOxgGrhJL0gESi8jaSUzktoyw9bp
+         gt5ftxr5Dv83BnsVic3P+iRnFIzPAyBWLo/AiVLH0jGm5oIAjhJvMqHG9c1iyTVaibEK
+         ShIwPSjbe3gZUp7Ew6laXuYUZDQRB9dOoEv5dR8ICtFSONszFGlBQQ1Dtb7gDUVNL9tI
+         PvoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hwSpeaXdLHTchfEjx9KLZnJiKDDSc5LTa0WBD62LxJ4=;
-        b=cG/Tu6OJhfNZ7ZNJbNZ6KSwsIe7wuEDKVrfGWoVVslH00geh0hJpmEr1+RkzJGNNGE
-         4GlYnRzZ42RP+ocfmvO/NVrFujpCXuZu+uwkmqt92Vkqtn7W+IcImr1iHJsfmGS4Xz3i
-         engba9Umwce4PF0VgW4hYK+nCXOK3TTu/Rlt8DLrkvk2FqnltXdiX7NtdoLEdLouJHcm
-         xI5kPIeuQhpSUvmH0hD50+SYZYkps3FBkQAnBZALuXmdUTyUd8jJ8oMfiKzJXo3XuOgy
-         AQ9SVkWxljOZkbf1EFNbb10x8ZMa4dR7110wwlL41jCqHsXQPQ5LzHSwcBicY2tUmPzg
-         tvOA==
-X-Gm-Message-State: AOAM530o1t+Ki1OMhyviyv0KLM+Su35IXnenmx74gpZ18GbEqCa/Q4Hu
-	EJSCGXeehVF4dhqjqGOv30v2J83ceLtPBlRv6qw=
-X-Google-Smtp-Source: ABdhPJwePPAR2cPcId7BVRxpABuAZ25+3oQq0aj7A6ZJttmWgIoABHiyiMs+9/ybxDgsTLDpdWr4McUcOBSW3UfxSIk=
-X-Received: by 2002:aa7:c886:: with SMTP id p6mr15247076eds.352.1605533406090;
- Mon, 16 Nov 2020 05:30:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=O3yvKXHSxAyllVbMz2usvz0+mb32ZctPiSWOnT8PIeE=;
+        b=V2z6hE3wEeu93+iu6spli257eapRnjCwE9dffY1x5SlkJjnJ48NbEU4JcKm0d43Udk
+         DLNfdjU8a1Y7vKfY93FmmSMnZX6fWTqwZ54IrrV/bYfG/XiTI48U65kB2/R9dQA7XpcR
+         9JawSoV2ursc1G9u2Qa44dX4FDS7aEsRDB1KygurLCz/uyBEiwiEJzd0XAX06JUGoZKD
+         scam2TgHvHCqNhP5c1piq5WYTRRzKKxRg63Bw3+wkhrivYmksLrIk1+gPXN6WuWYMtkf
+         Wf6K4uQofiJyK/usRoYox41bwqH4jfbQVuC3/rAXdD1KM93wU6VqPdovMFOscuLSGa5s
+         7CXQ==
+X-Gm-Message-State: AOAM531ueLuau2EPVZCOz7pJfSgW3UKnlsqF9afFgCnZGNeYkyJ+KTa1
+	YtZkeWmlG17PielyDdrbAhtX2wADH5jA8Q==
+X-Google-Smtp-Source: ABdhPJz4up9jS9bvfHgqNRDXi09uK4lN9vyV/A3eN+TI0GkUe3R315oacFiUnJD5ilwQot/Kr6Sl/w==
+X-Received: by 2002:a9d:6c99:: with SMTP id c25mr11430670otr.327.1605537512615;
+        Mon, 16 Nov 2020 06:38:32 -0800 (PST)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id j6sm4675293ots.32.2020.11.16.06.38.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2020 06:38:32 -0800 (PST)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v2] systemd: Re-enable chvt as non-root user without polkit
+Date: Mon, 16 Nov 2020 08:38:26 -0600
+Message-Id: <20201116143826.26521-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201113211143.30425-1-JPEWhacker@gmail.com>
+References: <20201113211143.30425-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-References: <1605548543-88442-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <1605548543-88442-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 16 Nov 2020 08:29:55 -0500
-Message-ID: <CADkTA4OJ325xQKJ+HjA8Yx05XQjGnbXF8tT_mdaCe-U7h7WBKA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemtap: upgrade 4.3 -> 4.4
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000585b1f05b439602a"
+Content-Transfer-Encoding: 8bit
 
---000000000000585b1f05b439602a
-Content-Type: text/plain; charset="UTF-8"
+systemd 245 introduced a regression in behavior where they removed
+support for non-root users to chvt from a service file. This prevents
+running compositors (e.g. weston) as any user other than root. The
+intention is for polkit to be used to allow this (and in fact the
+default polkit rules that ship with systemd allow this). However, polkit
+is a huge dependency to bring in for an embedded system, and isn't
+support by OE-core.
 
-systemtap is one of the packages that gives us trouble on upgrades
-and on kernel upgrades.
+The patch has been proposed upstream to restore the previous behavior of
+allowing a non-root user to chvt to unbreak the regression without
+requiring polkit.
 
-There's an oe-selftest available for this, can you add the logs of having
-run it into this commit ?
+Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/17494]
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ ...chvt-as-non-root-user-without-polkit.patch | 227 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_246.6.bb    |   1 +
+ 2 files changed, 228 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
 
-Bruce
-
-On Mon, Nov 16, 2020 at 12:43 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
-
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc
-> b/meta/recipes-kernel/systemtap/systemtap_git.inc
-> index 56fa51d61e..ae735025b7 100644
-> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-> @@ -1,7 +1,7 @@
->  LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> -SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
-> -PV = "4.3"
-> +SRCREV = "988f439af39a359b4387963ca4633649866d8275"
-> +PV = "4.4"
->
->  SRC_URI = "git://sourceware.org/git/systemtap.git \
->
-> file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-> --
-> 2.25.1
->
->
->
->
-> 
->
->
-
+diff --git a/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
+new file mode 100644
+index 0000000000..89ef39bc3e
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
+@@ -0,0 +1,227 @@
++From 150d9cade6d475570395cb418b824524dead9577 Mon Sep 17 00:00:00 2001
++From: Joshua Watt <JPEWhacker@gmail.com>
++Date: Fri, 30 Oct 2020 08:15:43 -0500
++Subject: [PATCH] logind: Restore chvt as non-root user without polkit
++
++4acf0cfd2f ("logind: check PolicyKit before allowing VT switch") broke
++the ability to write user sessions that run graphical sessions (e.g.
++weston/X11). This was partially amended in 19bb87fbfa ("login: allow
++non-console sessions to change vt") by changing the default PolicyKit
++policy so that non-root users are again allowed to switch the VT. This
++makes the policy when PolKit is not enabled (as on many embedded
++systems) match the default PolKit policy and allows launching graphical
++sessions as a non-root user.
++
++Closes #17473
++---
++ src/login/logind-dbus.c         | 11 ++-------
++ src/login/logind-polkit.c       | 26 +++++++++++++++++++++
++ src/login/logind-polkit.h       | 10 ++++++++
++ src/login/logind-seat-dbus.c    | 41 ++++-----------------------------
++ src/login/logind-session-dbus.c | 11 ++-------
++ src/login/meson.build           |  1 +
++ 6 files changed, 46 insertions(+), 54 deletions(-)
++ create mode 100644 src/login/logind-polkit.c
++ create mode 100644 src/login/logind-polkit.h
++
++diff --git a/src/login/logind-dbus.c b/src/login/logind-dbus.c
++index 0f83ed99bc..a3765d88ba 100644
++--- a/src/login/logind-dbus.c
+++++ b/src/login/logind-dbus.c
++@@ -30,6 +30,7 @@
++ #include "format-util.h"
++ #include "fs-util.h"
++ #include "logind-dbus.h"
+++#include "logind-polkit.h"
++ #include "logind-seat-dbus.h"
++ #include "logind-session-dbus.h"
++ #include "logind-user-dbus.h"
++@@ -1047,15 +1048,7 @@ static int method_activate_session_on_seat(sd_bus_message *message, void *userda
++                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT,
++                                          "Session %s not on seat %s", session_name, seat_name);
++ 
++-        r = bus_verify_polkit_async(
++-                        message,
++-                        CAP_SYS_ADMIN,
++-                        "org.freedesktop.login1.chvt",
++-                        NULL,
++-                        false,
++-                        UID_INVALID,
++-                        &m->polkit_registry,
++-                        error);
+++        r = check_polkit_chvt(message, m, error);
++         if (r < 0)
++                 return r;
++         if (r == 0)
++diff --git a/src/login/logind-polkit.c b/src/login/logind-polkit.c
++new file mode 100644
++index 0000000000..9072570cc6
++--- /dev/null
+++++ b/src/login/logind-polkit.c
++@@ -0,0 +1,26 @@
+++/* SPDX-License-Identifier: LGPL-2.1+ */
+++
+++#include "bus-polkit.h"
+++#include "logind-polkit.h"
+++#include "missing_capability.h"
+++#include "user-util.h"
+++
+++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error) {
+++#if ENABLE_POLKIT
+++        return bus_verify_polkit_async(
+++                        message,
+++                        CAP_SYS_ADMIN,
+++                        "org.freedesktop.login1.chvt",
+++                        NULL,
+++                        false,
+++                        UID_INVALID,
+++                        &manager->polkit_registry,
+++                        error);
+++#else
+++        /* Allow chvt when polkit is not present. This allows a service to start a graphical session as a
+++         * non-root user when polkit is not compiled in, matching the default polkit policy */
+++        return 1;
+++#endif
+++}
+++
+++
++diff --git a/src/login/logind-polkit.h b/src/login/logind-polkit.h
++new file mode 100644
++index 0000000000..476c077a8a
++--- /dev/null
+++++ b/src/login/logind-polkit.h
++@@ -0,0 +1,10 @@
+++/* SPDX-License-Identifier: LGPL-2.1+ */
+++#pragma once
+++
+++#include "sd-bus.h"
+++
+++#include "bus-object.h"
+++#include "logind.h"
+++
+++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error);
+++
++diff --git a/src/login/logind-seat-dbus.c b/src/login/logind-seat-dbus.c
++index a945132284..f22e9e2734 100644
++--- a/src/login/logind-seat-dbus.c
+++++ b/src/login/logind-seat-dbus.c
++@@ -9,6 +9,7 @@
++ #include "bus-polkit.h"
++ #include "bus-util.h"
++ #include "logind-dbus.h"
+++#include "logind-polkit.h"
++ #include "logind-seat-dbus.h"
++ #include "logind-seat.h"
++ #include "logind-session-dbus.h"
++@@ -179,15 +180,7 @@ static int method_activate_session(sd_bus_message *message, void *userdata, sd_b
++         if (session->seat != s)
++                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT, "Session %s not on seat %s", name, s->id);
++ 
++-        r = bus_verify_polkit_async(
++-                        message,
++-                        CAP_SYS_ADMIN,
++-                        "org.freedesktop.login1.chvt",
++-                        NULL,
++-                        false,
++-                        UID_INVALID,
++-                        &s->manager->polkit_registry,
++-                        error);
+++        r = check_polkit_chvt(message, s->manager, error);
++         if (r < 0)
++                 return r;
++         if (r == 0)
++@@ -215,15 +208,7 @@ static int method_switch_to(sd_bus_message *message, void *userdata, sd_bus_erro
++         if (to <= 0)
++                 return sd_bus_error_setf(error, SD_BUS_ERROR_INVALID_ARGS, "Invalid virtual terminal");
++ 
++-        r = bus_verify_polkit_async(
++-                        message,
++-                        CAP_SYS_ADMIN,
++-                        "org.freedesktop.login1.chvt",
++-                        NULL,
++-                        false,
++-                        UID_INVALID,
++-                        &s->manager->polkit_registry,
++-                        error);
+++        r = check_polkit_chvt(message, s->manager, error);
++         if (r < 0)
++                 return r;
++         if (r == 0)
++@@ -243,15 +228,7 @@ static int method_switch_to_next(sd_bus_message *message, void *userdata, sd_bus
++         assert(message);
++         assert(s);
++ 
++-        r = bus_verify_polkit_async(
++-                        message,
++-                        CAP_SYS_ADMIN,
++-                        "org.freedesktop.login1.chvt",
++-                        NULL,
++-                        false,
++-                        UID_INVALID,
++-                        &s->manager->polkit_registry,
++-                        error);
+++        r = check_polkit_chvt(message, s->manager, error);
++         if (r < 0)
++                 return r;
++         if (r == 0)
++@@ -271,15 +248,7 @@ static int method_switch_to_previous(sd_bus_message *message, void *userdata, sd
++         assert(message);
++         assert(s);
++ 
++-        r = bus_verify_polkit_async(
++-                        message,
++-                        CAP_SYS_ADMIN,
++-                        "org.freedesktop.login1.chvt",
++-                        NULL,
++-                        false,
++-                        UID_INVALID,
++-                        &s->manager->polkit_registry,
++-                        error);
+++        r = check_polkit_chvt(message, s->manager, error);
++         if (r < 0)
++                 return r;
++         if (r == 0)
++diff --git a/src/login/logind-session-dbus.c b/src/login/logind-session-dbus.c
++index ccc5ac8df2..57c8a4e900 100644
++--- a/src/login/logind-session-dbus.c
+++++ b/src/login/logind-session-dbus.c
++@@ -11,6 +11,7 @@
++ #include "fd-util.h"
++ #include "logind-brightness.h"
++ #include "logind-dbus.h"
+++#include "logind-polkit.h"
++ #include "logind-seat-dbus.h"
++ #include "logind-session-dbus.h"
++ #include "logind-session-device.h"
++@@ -192,15 +193,7 @@ int bus_session_method_activate(sd_bus_message *message, void *userdata, sd_bus_
++         assert(message);
++         assert(s);
++ 
++-        r = bus_verify_polkit_async(
++-                        message,
++-                        CAP_SYS_ADMIN,
++-                        "org.freedesktop.login1.chvt",
++-                        NULL,
++-                        false,
++-                        UID_INVALID,
++-                        &s->manager->polkit_registry,
++-                        error);
+++        r = check_polkit_chvt(message, s->manager, error);
++         if (r < 0)
++                 return r;
++         if (r == 0)
++diff --git a/src/login/meson.build b/src/login/meson.build
++index 0a7d3d5440..7e46be2add 100644
++--- a/src/login/meson.build
+++++ b/src/login/meson.build
++@@ -26,6 +26,7 @@ liblogind_core_sources = files('''
++         logind-device.h
++         logind-inhibit.c
++         logind-inhibit.h
+++        logind-polkit.c
++         logind-seat-dbus.c
++         logind-seat-dbus.h
++         logind-seat.c
++-- 
++2.28.0
++
+diff --git a/meta/recipes-core/systemd/systemd_246.6.bb b/meta/recipes-core/systemd/systemd_246.6.bb
+index 1d1ff34d89..d9e7b1a00c 100644
+--- a/meta/recipes-core/systemd/systemd_246.6.bb
++++ b/meta/recipes-core/systemd/systemd_246.6.bb
+@@ -23,6 +23,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
+            file://selinux-hook-handling-to-enumerate-nexthop.patch \
++           file://0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch \
+            "
+ 
+ # patches needed by musl
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.29.2
 
---000000000000585b1f05b439602a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">systemtap is one of the packages that gives us trouble on upg=
-rades</div><div class=3D"gmail_default" style=3D"font-size:small">and on ke=
-rnel upgrades.</div><div class=3D"gmail_default" style=3D"font-size:small">=
-<br></div><div class=3D"gmail_default" style=3D"font-size:small">There&#39;=
-s an oe-selftest available=C2=A0for this, can you add the logs of having</d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">run it into this =
-commit ?</div><div class=3D"gmail_default" style=3D"font-size:small"><br></=
-div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div=
-><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mo=
-n, Nov 16, 2020 at 12:43 AM zangrc &lt;<a href=3D"mailto:zangrc.fnst@cn.fuj=
-itsu.com">zangrc.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">Signed-off-by: Zang Ruochen &lt;<a href=
-=
-=3D"mailto:zangrc.fnst@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn.fu=
-jitsu.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipe=
-s-kernel/systemtap/systemtap_git.inc<br>
-index 56fa51d61e..ae735025b7 100644<br>
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc<br>
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc<br>
-@@ -1,7 +1,7 @@<br>
-=C2=A0LICENSE =3D &quot;GPLv2&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db234ee4d69f5fce4486a=
-80fdaf4a4263&quot;<br>
--SRCREV =3D &quot;82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd&quot;<br>
--PV =3D &quot;4.3&quot;<br>
-+SRCREV =3D &quot;988f439af39a359b4387963ca4633649866d8275&quot;<br>
-+PV =3D &quot;4.4&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://sourceware.org/git/systemt=
-ap.git" rel=3D"noreferrer" target=3D"_blank">sourceware.org/git/systemtap.g=
-it</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Do-not-let-configure=
--write-a-python-location-into-th.patch \<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
-haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
- - Gandalf, Star Trek II<br><br></div></div>
-
---000000000000585b1f05b439602a--
