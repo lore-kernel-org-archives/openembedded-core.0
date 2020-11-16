@@ -1,161 +1,109 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web11.32622.1605520581789789203
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.32637.1605522811788188855
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2020 01:56:22 -0800
+ Mon, 16 Nov 2020 02:33:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,482,1596470400"; 
-   d="scan'208";a="101416965"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 16 Nov 2020 17:55:59 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 15BA44CE4BC3
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 17:55:57 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 16 Nov 2020 17:55:58 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH v2] libdrm: upgrade 2.4.102 -> 2.4.103
-Date: Tue, 17 Nov 2020 05:55:56 +0800
-Message-ID: <1605563756-91985-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=ShlYIwmx;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.221.66, mailfrom: nathan@nathanrossi.com)
+Received: by mail-wr1-f66.google.com with SMTP id d12so18064848wrr.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 02:33:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nathanrossi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ii5nLVvoCskVI/ky3GrUA9HAONU4E+dkrz/+gvuE0gE=;
+        b=ShlYIwmxZI44hdjeNeFXVXlGYGVao3oHt2+WgP6vyCjr0kne9blBgRx86EfY+alEd1
+         NX3ZV5kpiqQ0fJoivPAVOC+NjsYBWXefMXdKI6QUvMLNeNNP7BnhxZdb8itzyTz+eZjN
+         hj09I02MO5MTgclndXQBzkLGulFY8G/uhWjn4LZzuVN/rkF/W/33xWIpe6gs1s9UwBJQ
+         wqN5wdot6TJRDnMwyk+nWvhC7xybhD8ncJzviRhLRUSqyhRJxLrdsWLQoKDE2XgA6aeE
+         E/phcbI1ji3Sub+8Mr+bluuKxX5vc1uCEczai8YbNP4IICOfGvotN/9RCvLdDBYtL/4Q
+         Lahw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ii5nLVvoCskVI/ky3GrUA9HAONU4E+dkrz/+gvuE0gE=;
+        b=pKiUQ/hjTFe1UJcg44LshqWGGxFfzuAb5wUWjZxQAL+yYPtz8UwP3Hy3s766fPq9pV
+         nKsARgb7wgc6cR3I5ZjpQNcl6Q9I3O+amjuWZt6k19lE57Vq5GPt1yWGT0ODw0hrBJP7
+         wMENmCGumpwCtwGkY0BoZVsHqgEhc/ZER+9+Dnxe3pS7qTEuN0IyFn6qn0LlN9ZMrPcD
+         C0gkGHaCMDFvJq757tJdgK6z7VcgNlzFgZwCy/yIlYXOySlEkodhTLqf/ajr4iEErJBi
+         WyIe63GHBT3dAhK8/iTnotOnrieDoVUg/7k5m7dr4EUVyVyjEFV+uhCpkHopgVDv31zO
+         X3MA==
+X-Gm-Message-State: AOAM532C5QnoMgpqVxMiQKyCoCozN8KaAoFQZlqpWPpE4t+/B/mk37k6
+	W3Qdw3lcWVcBtP6dVeMHGOu5p9yQ8vw6uXxv/fOf2A==
+X-Google-Smtp-Source: ABdhPJwM9fH1CELAu8CC5mLAPJRiiNdE23TtK0CsxiuK7DkNIa963W4oC2t9zXeowoOLCoeR28tghJN/4jaPlWpBOT0=
+X-Received: by 2002:adf:b74d:: with SMTP id n13mr1458300wre.101.1605522810222;
+ Mon, 16 Nov 2020 02:33:30 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 15BA44CE4BC3.A374B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+References: <20201116094542.4688-1-wonmin82@gmail.com>
+In-Reply-To: <20201116094542.4688-1-wonmin82@gmail.com>
+From: "Nathan Rossi" <nathan@nathanrossi.com>
+Date: Mon, 16 Nov 2020 20:33:18 +1000
+Message-ID: <CA+aJhH0gFx118Ync4w5Gie+4YxMPELOo3DGSHNOsNKQDtYZUMA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cml1: Set proper LD while during kernel menuconfig
+To: Wonmin Jung <wonmin82@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 
-files/0001-xf86drm.c-fix-build-failure.patch
-Removed since this is included in 2.4.103.
+On Mon, 16 Nov 2020 at 19:46, Wonmin Jung <wonmin82@gmail.com> wrote:
+>
+> With 'ld-is-gold' and linux kernel 5.4 or later, menuconfig
+> task for kernel recipes will fail with:
+>
+> $ bitbake -c menuconfig virtual/kernel
+> ...
+> scripts/kconfig/mconf  Kconfig
+> scripts/Kconfig.include:43:  gold linker 'x86_64-poky-linux-ld' not supported
+> /OE/build/tmp/work-shared/qemux86-64/kernel-source/scripts/kconfig/Makefile:29:
+>  recipe for target 'menuconfig' failed
+> make[2]: *** [menuconfig] Error 1
+> /OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:606:
+>  recipe for target 'menuconfig' failed
+> make[1]: *** [menuconfig] Error 2
+> /OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:185:
+>  recipe for target '__sub-make' failed
+> make: *** [__sub-make] Error 2
+> Command failed.
+>
+> This is because that the KERNEL_LD variable already set in
+> kernel-arch.bbclass isn't used by do_menuconfig function of
+> cml1.bbclass.
+>
+> To fix this issue specify LD variable while calling the kernel
+> menuconfig command.
+>
+> Signed-off-by: Wonmin Jung <wonmin82@gmail.com>
+> ---
+>  meta/classes/cml1.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+> index d319d66ab2..02cd058fc5 100644
+> --- a/meta/classes/cml1.bbclass
+> +++ b/meta/classes/cml1.bbclass
+> @@ -48,7 +48,7 @@ python do_menuconfig() {
+>      # ensure that environment variables are overwritten with this tasks 'd' values
+>      d.appendVar("OE_TERMINAL_EXPORTS", " PKG_CONFIG_DIR PKG_CONFIG_PATH PKG_CONFIG_LIBDIR PKG_CONFIG_SYSROOT_DIR")
+>
+> -    oe_terminal("sh -c \"make %s; if [ \\$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+> +    oe_terminal("sh -c \"make LD=${KERNEL_LD} %s; if [ \\$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to continue... '; read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../0001-xf86drm.c-fix-build-failure.patch    | 87 -------------------
- .../{libdrm_2.4.102.bb => libdrm_2.4.103.bb}  |  5 +-
- 2 files changed, 2 insertions(+), 90 deletions(-)
- delete mode 100644 meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
- rename meta/recipes-graphics/drm/{libdrm_2.4.102.bb => libdrm_2.4.103.bb} (93%)
+I don't think this is the right place to be setting this, since cml1
+is not only for the kernel. I think a better place to set this would
+be in kernel.bbclass, alongside the existing HOSTLDFLAGS setting
+through KCONFIG_CONFIG_COMMAND.
+(https://git.openembedded.org/openembedded-core/tree/meta/classes/kernel.bbclass#n589)
 
-diff --git a/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch b/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
-deleted file mode 100644
-index 60c996ca85..0000000000
---- a/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
-+++ /dev/null
-@@ -1,87 +0,0 @@
--From c7d89412884de2dbfa543720d185027377e62f21 Mon Sep 17 00:00:00 2001
--From: Heiko Thiery <heiko.thiery@gmail.com>
--Date: Fri, 5 Jun 2020 23:46:52 +0200
--Subject: [PATCH] xf86drm.c: fix build failure
--
--./xf86drm.c: In function 'drmNodeIsDRM':
--../xf86drm.c:2825:7: error: "__FreeBSD__" is not defined [-Werror=undef]
-- #elif __FreeBSD__
--       ^
--../xf86drm.c: In function 'drmGetMinorNameForFD':
--../xf86drm.c:2938:7: error: "__FreeBSD__" is not defined [-Werror=undef]
-- #elif __FreeBSD__
--       ^
--../xf86drm.c: In function 'drmParsePciBusInfo':
--../xf86drm.c:3258:7: error: "__FreeBSD__" is not defined [-Werror=undef]
-- #elif __FreeBSD__
--       ^
--../xf86drm.c: In function 'drmParsePciDeviceInfo':
--../xf86drm.c:3427:7: error: "__FreeBSD__" is not defined [-Werror=undef]
-- #elif __FreeBSD__
--       ^
--../xf86drm.c: In function 'drmGetDeviceNameFromFd2':
--../xf86drm.c:4305:7: error: "__FreeBSD__" is not defined [-Werror=undef]
-- #elif __FreeBSD__
--       ^
--
--Signed-off-by: Heiko Thiery <heiko.thiery@gmail.com>
--
--Upstream-Status: Backport
--Signed-off-by: Armin Kuster <akuster@mvista.com>
--
-----
-- xf86drm.c | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/xf86drm.c b/xf86drm.c
--index 07a18c4..50a6f09 100644
----- a/xf86drm.c
--+++ b/xf86drm.c
--@@ -2822,7 +2822,7 @@ static bool drmNodeIsDRM(int maj, int min)
--     snprintf(path, sizeof(path), "/sys/dev/char/%d:%d/device/drm",
--              maj, min);
--     return stat(path, &sbuf) == 0;
---#elif __FreeBSD__
--+#elif defined(__FreeBSD__)
--     char name[SPECNAMELEN];
-- 
--     if (!devname_r(makedev(maj, min), S_IFCHR, name, sizeof(name)))
--@@ -2935,7 +2935,7 @@ static char *drmGetMinorNameForFD(int fd, int type)
-- 
--     closedir(sysdir);
--     return NULL;
---#elif __FreeBSD__
--+#elif defined(__FreeBSD__)
--     struct stat sbuf;
--     char dname[SPECNAMELEN];
--     const char *mname;
--@@ -3255,7 +3255,7 @@ static int drmParsePciBusInfo(int maj, int min, drmPciBusInfoPtr info)
--     info->func = pinfo.func;
-- 
--     return 0;
---#elif __FreeBSD__
--+#elif defined(__FreeBSD__)
--     return get_sysctl_pci_bus_info(maj, min, info);
-- #else
-- #warning "Missing implementation of drmParsePciBusInfo"
--@@ -3424,7 +3424,7 @@ static int drmParsePciDeviceInfo(int maj, int min,
--     device->subdevice_id = pinfo.subdevice_id;
-- 
--     return 0;
---#elif __FreeBSD__
--+#elif defined(__FreeBSD__)
--     drmPciBusInfo info;
--     struct pci_conf_io pc;
--     struct pci_match_conf patterns[1];
--@@ -4302,7 +4302,7 @@ drm_public char *drmGetDeviceNameFromFd2(int fd)
--     free(value);
-- 
--     return strdup(path);
---#elif __FreeBSD__
--+#elif defined(__FreeBSD__)
--     return drmGetDeviceNameFromFd(fd);
-- #else
--     struct stat      sbuf;
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.102.bb b/meta/recipes-graphics/drm/libdrm_2.4.103.bb
-similarity index 93%
-rename from meta/recipes-graphics/drm/libdrm_2.4.102.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.103.bb
-index ad512d14a9..1028d618ae 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.102.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.103.bb
-@@ -10,10 +10,9 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
- PROVIDES = "drm"
- DEPENDS = "libpthread-stubs"
- 
--SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \ 
--           file://0001-xf86drm.c-fix-build-failure.patch "
-+SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz"
- 
--SRC_URI[sha256sum] = "8bcbf9336c28e393d76c1f16d7e79e394a7fce8a2e929d52d3ad7ad8525ba05b"
-+SRC_URI[sha256sum] = "3fe0affdba6460166a7323290c18cf68e9b59edcb520722826cb244e9cb50222"
- 
- inherit meson pkgconfig manpages
- 
--- 
-2.25.1
+Regards,
+Nathan
 
 
-
+>                  d.getVar('PN') + ' Configuration', d)
+>
+>      # FIXME this check can be removed when the minimum bitbake version has been bumped
+> --
+> 2.29.2
+>
+>
+> 
+>
