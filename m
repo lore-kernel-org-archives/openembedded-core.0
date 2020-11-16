@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.39204.1605551303664222218
+ by mx.groups.io with SMTP id smtpd.web12.39170.1605551303643781911
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Nov 2020 10:28:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2BA5738C1283
+	by mail.yoctoproject.org (Postfix) with ESMTP id 228C138C11DE
 	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 18:28:23 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pycryptodome: upgrading to 3.9.9 SUCCEEDED
-Message-ID: <MADEUP.164810678FE3D7F5.12355@lists.openembedded.org>
-X-Groupsio-MsgNum: 144640
-Content-Type: multipart/mixed; boundary="===============5919062897321956135=="
+Subject: [AUH] meson: upgrading to 0.56.0 FAILED
+Message-ID: <MADEUP.1648106790159B81.25243@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============2372054267336479285=="
 
---===============5919062897321956135==
+--===============2372054267336479285==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,106 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-pycryptodome* to *3.9.9* has Succeeded.
+that the automatic attempt to upgrade the recipe *meson* to *0.56.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-pycryptodome-upgrade-3.9.8-3.9.9.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe meson failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1394 entries from dependency cache.
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-20201116"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:44f5e8796921a78d0c7047e35cbc7477893d0c2e"
+workspace            = "master:aaf6aa3e530deb4a8d818a55a37b9029980b0b0d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://github.com/mesonbuild/meson/releases/download/0.56.0/meson-0.56.0.tar.gz...
+Loading cache...done.
+Loaded 1394 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 792 .bb files complete (790 cached, 2 parsed). 1373 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-20201116"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:44f5e8796921a78d0c7047e35cbc7477893d0c2e"
+workspace            = "master:aaf6aa3e530deb4a8d818a55a37b9029980b0b0d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  20% |#######                             | ETA:  0:00:00
+Adding changed files:  41% |##############                      | ETA:  0:00:00
+Adding changed files:  61% |######################              | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase c14d13a9f5213dbe3fba42bd76e5075eec18b1e8' failed:
+First, rewinding head to replay your work on top of it...
+Applying: gtkdoc: fix issues that arise when cross-compiling
+Applying: native_bindir
+Using index info to reconstruct a base tree...
+M	mesonbuild/dependencies/base.py
+M	mesonbuild/dependencies/ui.py
+Falling back to patching base and 3-way merge...
+Auto-merging mesonbuild/dependencies/ui.py
+Auto-merging mesonbuild/dependencies/base.py
+CONFLICT (content): Merge conflict in mesonbuild/dependencies/base.py
+error: Failed to merge in the changes.
+hint: Use 'git am --show-current-patch' to see the failed patch
+Patch failed at 0002 native_bindir
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/meson
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/meson/meson_0.56.0.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,78 +130,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5919062897321956135==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-pycryptodome (sysroot):
-  /usr/lib/python3.9/site-packages/pycryptodome-3.9.8-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/pycryptodome-3.9.9-py3.9.egg-info
-
---===============5919062897321956135==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-python3-pycryptodome-upgrade-3.9.8-3.9.9.patch"
-
-From 85cd1a7cdd13fd5ccfb2ffe18b0ce0c6dbb73d73 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 16 Nov 2020 14:35:11 +0000
-Subject: [PATCH] python3-pycryptodome: upgrade 3.9.8 -> 3.9.9
-
----
- ...hon3-pycryptodome_3.9.8.bb => python3-pycryptodome_3.9.9.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pycryptodome_3.9.8.bb => python3-pycryptodome_3.9.9.bb} (38%)
-
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.9.8.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb
-similarity index 38%
-rename from meta/recipes-devtools/python/python3-pycryptodome_3.9.8.bb
-rename to meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb
-index 46e122072e..1e84ce4df7 100644
---- a/meta/recipes-devtools/python/python3-pycryptodome_3.9.8.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodome_3.9.9.bb
-@@ -1,5 +1,5 @@
- require python-pycryptodome.inc
- inherit setuptools3
- 
--SRC_URI[sha256sum] = "0e24171cf01021bc5dc17d6a9d4f33a048f09d62cc3f62541e95ef104588bda4"
-+SRC_URI[sha256sum] = "910e202a557e1131b1c1b3f17a63914d57aac55cf9fb9b51644962841c3995c4"
- 
--- 
-2.20.1
-
-
---===============5919062897321956135==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-pycryptodome: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pycryptodome/pycryptodome-3.9.8.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pycryptodome/pycryptodome-3.9.9.tar.gz"
-packages/core2-32-poky-linux/python3-pycryptodome: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dbg: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dbg: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dev: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-dev: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-doc: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-doc: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-locale: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-locale: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-src: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-src: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-staticdev: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-staticdev: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-tests: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-tests: PKGSIZE changed from 34081877 to 34081965 (+0%)
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome-tests: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome: PV changed from "3.9.8" to "3.9.9"
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome: PKGSIZE changed from 3050676 to 3051079 (+0%)
-packages/core2-32-poky-linux/python3-pycryptodome/python3-pycryptodome: PKGV changed from 3.9.8 [default] to 3.9.9 [default]
-Changes to packages/core2-32-poky-linux/python3-pycryptodome (sysroot):
-  /usr/lib/python3.9/site-packages/pycryptodome-3.9.8-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/pycryptodome-3.9.9-py3.9.egg-info
-
---===============5919062897321956135==--
+--===============2372054267336479285==--
