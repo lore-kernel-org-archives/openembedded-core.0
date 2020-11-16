@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.38948.1605551303469649819
+ by mx.groups.io with SMTP id smtpd.web12.39170.1605551303643781911
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Nov 2020 10:28:23 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id E068C38C062F
+	by mail.yoctoproject.org (Postfix) with ESMTP id F163A38C08A4
 	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 18:28:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Armin Kuster <akuster808@gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] kea: upgrading to 1.8.1 SUCCEEDED
-Message-ID: <MADEUP.164810676FA441A1.27635@lists.openembedded.org>
-X-Groupsio-MsgNum: 144629
-Content-Type: multipart/mixed; boundary="===============9025883493018928538=="
+Subject: [AUH] ccache: upgrading to 4.0 FAILED
+Message-ID: <MADEUP.164810677B0CF75A.17549@lists.openembedded.org>
+X-Groupsio-MsgNum: 144630
+Content-Type: multipart/mixed; boundary="===============7500014297986006419=="
 
---===============9025883493018928538==
+--===============7500014297986006419==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *kea* to *1.8.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *ccache* to *4.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-kea-upgrade-1.7.10-1.8.1.patch
+    - apply the patch: git am 0001-ccache-upgrade-3.7.11-4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,197 +50,1211 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============9025883493018928538==
-Content-Type: text/plain; charset="us-ascii"
+--===============7500014297986006419==
+Content-Type: text/x-diff; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-asiodns.so.1.0.0", added "/usr/lib/libkea-util.so.16 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9.0.0 
- /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-http.so.7 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-database.so.6 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-exceptions.so.0.2.1"
-packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-asiodns.so.1.0.0", added "/usr/lib/libkea-util.so.16 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9.0.0 
- /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-http.so.7 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-database.so.6 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-exceptions.so.0.2.1"
-packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-asiodns.so.1.0.0", added "/usr/lib/libkea-util.so.16 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9.0
- .0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-http.so.7 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-database.so.6 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-exceptions.so.0.2.1"
-packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-asiodns.so.1.0.0", added "/usr/lib/libkea-util.so.16 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.
- 9.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-http.so.7 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-database.so.6 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-exceptions.so.0.2.1"
-packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-asiodns.so.1.0.0", added "/usr/lib/libkea-util.so.16 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9.0.0 /usr
- /lib/libkea-hooks.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-http.so.7 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-database.so.6 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-exceptions.so.0.2.1"
-Changes to packages/core2-32-poky-linux/kea (sysroot):
-  /usr/lib/libkea-asiodns.so.1 changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
-  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
-  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.7.1.0 to libkea-asiolink.so.9.0.0
-  /usr/lib/libkea-cc.so.8 changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
-  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
-  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.9.0.0 to libkea-cfgclient.so.10.0.0
-  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.5.1.0 to libkea-database.so.6.1.0
-  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.2.0.1 to libkea-dhcp_ddns.so.3.0.0
-  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.18.0.0 to libkea-dhcp++.so.19.0.0
-  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.26.0.0 to libkea-dhcpsrv.so.28.0.0
-  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.4.0.0 to libkea-dns++.so.5.0.0
-  /usr/lib/libkea-exceptions.so.0 changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
-  /usr/lib/libkea-exceptions.so changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
-  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.15.0.0 to libkea-hooks.so.16.0.0
-  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.6.1.2 to libkea-http.so.7.1.0
-  /usr/lib/libkea-log.so.6 changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
-  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
-  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.10.0.0 to libkea-process.so.11.0.0
-  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.15.0.0 to libkea-util.so.16.0.0
-  /usr/lib/libkea-asiodns.so.1.0.0 moved to /usr/lib/libkea-asiodns.so.1.0.1
-  /usr/lib/libkea-asiolink.so.7.1.0 moved to /usr/lib/libkea-asiolink.so.9.0.0
-  /usr/lib/libkea-asiolink.so.7 moved to /usr/lib/libkea-asiolink.so.9
-  /usr/lib/libkea-cc.so.8.1.4 moved to /usr/lib/libkea-cc.so.8.1.5
-  /usr/lib/libkea-database.so.5.1.0 moved to /usr/lib/libkea-database.so.6.1.0
-  /usr/lib/libkea-database.so.5 moved to /usr/lib/libkea-database.so.6
-  /usr/lib/libkea-dhcp_ddns.so.2.0.1 moved to /usr/lib/libkea-dhcp_ddns.so.3.0.0
-  /usr/lib/libkea-dhcp_ddns.so.2 moved to /usr/lib/libkea-dhcp_ddns.so.3
-  /usr/lib/libkea-dhcp++.so.18.0.0 moved to /usr/lib/libkea-dhcp++.so.19.0.0
-  /usr/lib/libkea-dhcp++.so.18 moved to /usr/lib/libkea-dhcp++.so.19
-  /usr/lib/libkea-dhcpsrv.so.26.0.0 moved to /usr/lib/libkea-dhcpsrv.so.28.0.0
-  /usr/lib/libkea-dhcpsrv.so.26 moved to /usr/lib/libkea-dhcpsrv.so.28
-  /usr/lib/libkea-dns++.so.4.0.0 moved to /usr/lib/libkea-dns++.so.5.0.0
-  /usr/lib/libkea-dns++.so.4 moved to /usr/lib/libkea-dns++.so.5
-  /usr/lib/libkea-exceptions.so.0.2.0 moved to /usr/lib/libkea-exceptions.so.0.2.1
-  /usr/lib/libkea-hooks.so.15.0.0 moved to /usr/lib/libkea-hooks.so.16.0.0
-  /usr/lib/libkea-hooks.so.15 moved to /usr/lib/libkea-hooks.so.16
-  /usr/lib/libkea-http.so.6.1.2 moved to /usr/lib/libkea-http.so.7.1.0
-  /usr/lib/libkea-http.so.6 moved to /usr/lib/libkea-http.so.7
-  /usr/lib/libkea-log.so.6.0.0 moved to /usr/lib/libkea-log.so.6.0.1
-  /usr/lib/libkea-process.so.10.0.0 moved to /usr/lib/libkea-process.so.11.0.0
-  /usr/lib/libkea-process.so.10 moved to /usr/lib/libkea-process.so.11
-  /usr/lib/libkea-util.so.15.0.0 moved to /usr/lib/libkea-util.so.16.0.0
-  /usr/lib/libkea-util.so.15 moved to /usr/lib/libkea-util.so.16
-  /usr/lib/libkea-cfgclient.so.10.0.0 was added
-  /usr/lib/libkea-cfgclient.so.10 was added
-  /usr/lib/libkea-cfgclient.so.9.0.0 was removed
-  /usr/lib/libkea-cfgclient.so.9 was removed
-
---===============9025883493018928538==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-kea-upgrade-1.7.10-1.8.1.patch"
+ filename="0001-ccache-upgrade-3.7.11-4.0.patch"
 
-From 31782a0d90cce05e76f16f89ff167db8f408b5fb Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 16 Nov 2020 12:21:13 +0000
-Subject: [PATCH] kea: upgrade 1.7.10 -> 1.8.1
+RnJvbSAyZTgzZDZlNjhlN2FmMWFhYmIxZTRhNzY5MmZhNDI0NGYxOGUxYWRiIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQGF1aC55b2N0b3Byb2plY3Qu
+b3JnPgpEYXRlOiBNb24sIDE2IE5vdiAyMDIwIDEyOjU5OjIwICswMDAwClN1YmplY3Q6IFtQQVRD
+SF0gY2NhY2hlOiB1cGdyYWRlIDMuNy4xMSAtPiA0LjAKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2NjYWNoZS9jY2FjaGVfMy43LjExLmJiIHwgICAzMiAtCiBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvY2NhY2hlL2NjYWNoZV80LjAuYmIgICAgfCAxMTM3ICsrKysrKysrKysrKysrKysrCiAyIGZp
+bGVzIGNoYW5nZWQsIDExMzcgaW5zZXJ0aW9ucygrKSwgMzIgZGVsZXRpb25zKC0pCiBkZWxldGUg
+bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfMy43LjExLmJi
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVf
+NC4wLmJiCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVf
+My43LjExLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NjYWNoZS9jY2FjaGVfMy43LjExLmJi
+CmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBmZDAwNGY0YzliLi4wMDAwMDAwMDAwCi0t
+LSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzMuNy4xMS5iYgorKysgL2Rl
+di9udWxsCkBAIC0xLDMyICswLDAgQEAKLVNVTU1BUlkgPSAiYSBmYXN0IEMvQysrIGNvbXBpbGVy
+IGNhY2hlIgotREVTQ1JJUFRJT04gPSAiY2NhY2hlIGlzIGEgY29tcGlsZXIgY2FjaGUuIEl0IHNw
+ZWVkcyB1cCByZWNvbXBpbGF0aW9uIFwKLWJ5IGNhY2hpbmcgdGhlIHJlc3VsdCBvZiBwcmV2aW91
+cyBjb21waWxhdGlvbnMgYW5kIGRldGVjdGluZyB3aGVuIHRoZSBcCi1zYW1lIGNvbXBpbGF0aW9u
+IGlzIGJlaW5nIGRvbmUgYWdhaW4uIFN1cHBvcnRlZCBsYW5ndWFnZXMgYXJlIEMsIENcK1wrLCBc
+Ci1PYmplY3RpdmUtQyBhbmQgT2JqZWN0aXZlLUMrKy4iCi1IT01FUEFHRSA9ICJodHRwOi8vY2Nh
+Y2hlLnNhbWJhLm9yZyIKLVNFQ1RJT04gPSAiZGV2ZWwiCi0KLUxJQ0VOU0UgPSAiR1BMdjMrIgot
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRS5hZG9jO21kNT0yMmQ1MTRkYmMwMWZk
+ZjlhOTc4NDMzNGI2YjU5NDE3YSIKLQotREVQRU5EUyA9ICJ6bGliIgotCi1TUkNfVVJJID0gImh0
+dHBzOi8vZ2l0aHViLmNvbS9jY2FjaGUvY2NhY2hlL3JlbGVhc2VzL2Rvd25sb2FkL3Yke1BWfS8k
+e0JQfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQzMDlhNTlkNGI2YjZiMzM3NTYz
+NjZhYTlkMzE0NGE0NjU1NTg3YmU5ZjkxNDQ3NmI0YzBlMmQzNjM2NWYwMSIKLQotVVBTVFJFQU1f
+Q0hFQ0tfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9jY2FjaGUvY2NhY2hlL3JlbGVhc2VzLyIK
+LQotaW5oZXJpdCBhdXRvdG9vbHMKLQotIyBSZW1vdmUgY2NhY2hlLW5hdGl2ZSdzIGRlcGVuZGVu
+Y2llcywgc28gdGhhdCBpdCBjYW4gYmUgdXNlZCB3aWRlbHkgYnkKLSMgb3RoZXIgbmF0aXZlIHJl
+Y2lwZXMuCi1ERVBFTkRTX2NsYXNzLW5hdGl2ZSA9ICIiCi1FWFRSQV9PRUNPTkZfY2xhc3MtbmF0
+aXZlID0gIi0td2l0aC1idW5kbGVkLXpsaWIiCi1JTkhJQklUX0FVVE9UT09MU19ERVBTX2NsYXNz
+LW5hdGl2ZSA9ICIxIgotUEFUQ0hUT09MID0gInBhdGNoIgotCi1CQkNMQVNTRVhURU5EID0gIm5h
+dGl2ZSIKLQotZG9fY29uZmlndXJlX2NsYXNzLW5hdGl2ZSgpIHsKLSAgICBvZV9ydW5jb25mCi19
+CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY2NhY2hlL2NjYWNoZV80LjAuYmIKbmV3IGZpbGUgbW9k
+ZSAxMDA2NDQKaW5kZXggMDAwMDAwMDAwMC4uOTA5NGM3NDVmMwotLS0gL2Rldi9udWxsCisrKyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jY2FjaGUvY2NhY2hlXzQuMC5iYgpAQCAtMCwwICsxLDEx
+MzcgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4gdXBk
+YXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlmZmVy
+ZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVhc2Ug
+dXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUgY2hh
+bmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRhZy4K
+KyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQuJykK
+KyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTlNFLmFkb2MKKyMgKysrIExJQ0VOU0Uu
+YWRvYworIyBAQCAtMSw0ICsxLDQgQEAKKyMgLWNjYWNoZSBjb3B5cmlnaHQgYW5kIGxpY2Vuc2UK
+KyMgK0NjYWNoZSBjb3B5cmlnaHQgYW5kIGxpY2Vuc2UKKyMgID09PT09PT09PT09PT09PT09PT09
+PT09PT09PT0KKyMgIAorIyAgT3ZlcmFsbCBsaWNlbnNlCisjIEBAIC03LDI4ICs3LDI4IEBACisj
+ICBUaGUgbGljZW5zZSBmb3IgY2NhY2hlIGFzIGEgd2hvbGUgaXMgYXMgZm9sbG93czoKKyMgIAor
+IyAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAtICBUaGlzIHByb2dyYW0gaXMgZnJlZSBzb2Z0
+d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yIG1vZGlmeSBpdCB1bmRlcgorIyAt
+ICB0aGUgdGVybXMgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFzIHB1Ymxpc2hl
+ZCBieSB0aGUgRnJlZSBTb2Z0d2FyZQorIyAtICBGb3VuZGF0aW9uOyBlaXRoZXIgdmVyc2lvbiAz
+IG9mIHRoZSBMaWNlbnNlLCBvciAoYXQgeW91ciBvcHRpb24pIGFueSBsYXRlcgorIyAtICB2ZXJz
+aW9uLgorIyAtCisjIC0gIFRoaXMgcHJvZ3JhbSBpcyBkaXN0cmlidXRlZCBpbiB0aGUgaG9wZSB0
+aGF0IGl0IHdpbGwgYmUgdXNlZnVsLCBidXQgV0lUSE9VVCBBTlkKKyMgLSAgV0FSUkFOVFk7IHdp
+dGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3YXJyYW50eSBvZiBNRVJDSEFOVEFCSUxJVFkgb3IgRklU
+TkVTUyBGT1IgQQorIyAtICBQQVJUSUNVTEFSIFBVUlBPU0UuIFNlZSB0aGUgR05VIEdlbmVyYWwg
+UHVibGljIExpY2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KKyMgLQorIyAtICBZb3Ugc2hvdWxkIGhh
+dmUgcmVjZWl2ZWQgYSBjb3B5IG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBhbG9u
+ZyB3aXRoCisjIC0gIHRoaXMgcHJvZ3JhbTsgaWYgbm90LCB3cml0ZSB0byB0aGUgRnJlZSBTb2Z0
+d2FyZSBGb3VuZGF0aW9uLCBJbmMuLCA1MSBGcmFua2xpbgorIyAtICBTdHJlZXQsIEZpZnRoIEZs
+b29yLCBCb3N0b24sIE1BIDAyMTEwLTEzMDEgVVNBCisjICtUaGlzIHByb2dyYW0gaXMgZnJlZSBz
+b2Z0d2FyZTsgeW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yIG1vZGlmeSBpdCB1bmRlcgor
+IyArdGhlIHRlcm1zIG9mIHRoZSBHTlUgR2VuZXJhbCBQdWJsaWMgTGljZW5zZSBhcyBwdWJsaXNo
+ZWQgYnkgdGhlIEZyZWUgU29mdHdhcmUKKyMgK0ZvdW5kYXRpb247IGVpdGhlciB2ZXJzaW9uIDMg
+b2YgdGhlIExpY2Vuc2UsIG9yIChhdCB5b3VyIG9wdGlvbikgYW55IGxhdGVyCisjICt2ZXJzaW9u
+LgorIyArCisjICtUaGlzIHByb2dyYW0gaXMgZGlzdHJpYnV0ZWQgaW4gdGhlIGhvcGUgdGhhdCBp
+dCB3aWxsIGJlIHVzZWZ1bCwgYnV0IFdJVEhPVVQgQU5ZCisjICtXQVJSQU5UWTsgd2l0aG91dCBl
+dmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mIE1FUkNIQU5UQUJJTElUWSBvciBGSVRORVNTIEZP
+UiBBCisjICtQQVJUSUNVTEFSIFBVUlBPU0UuIFNlZSB0aGUgR05VIEdlbmVyYWwgUHVibGljIExp
+Y2Vuc2UgZm9yIG1vcmUgZGV0YWlscy4KKyMgKworIyArWW91IHNob3VsZCBoYXZlIHJlY2VpdmVk
+IGEgY29weSBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgYWxvbmcgd2l0aAorIyAr
+dGhpcyBwcm9ncmFtOyBpZiBub3QsIHdyaXRlIHRvIHRoZSBGcmVlIFNvZnR3YXJlIEZvdW5kYXRp
+b24sIEluYy4sIDUxIEZyYW5rbGluCisjICtTdHJlZXQsIEZpZnRoIEZsb29yLCBCb3N0b24sIE1B
+IDAyMTEwLTEzMDEgVVNBCisjICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICAKKyMgIFRoZSBm
+dWxsIGxpY2Vuc2UgdGV4dCBjYW4gYmUgZm91bmQgaW4gR1BMLTMuMC50eHQgYW5kIGF0CisjIC1o
+dHRwOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvZ3BsLTMuMC5odG1sLgorIyAraHR0cHM6Ly93d3cu
+Z251Lm9yZy9saWNlbnNlcy9ncGwtMy4wLmh0bWwuCisjICAKKyMgIAorIyAgQ29weXJpZ2h0IGFu
+ZCBhdXRob3JzCisjICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgIAorIyAtY2NhY2hlIGlzIGEg
+Y29sbGVjdGl2ZSB3b3JrIHdpdGggY29udHJpYnV0aW9ucyBmcm9tIG1hbnkgcGVvcGxlLCBsaXN0
+ZWQgaW4KKyMgK0NjYWNoZSBpcyBhIGNvbGxlY3RpdmUgd29yayB3aXRoIGNvbnRyaWJ1dGlvbnMg
+ZnJvbSBtYW55IHBlb3BsZSwgbGlzdGVkIGluCisjICBBVVRIT1JTLmFkb2MgYW5kIGF0IGh0dHBz
+Oi8vY2NhY2hlLmRldi9jcmVkaXRzLmh0bWwuIFN1YnNlcXVlbnQgYWRkaXRpb25zIGJ5CisjICBj
+b250cmlidXRpbmcgYXV0aG9ycyBhcmUgaW1wbGljaXRseSBsaWNlbnNlZCB0byB0aGUgcHVibGlj
+IHVuZGVyIHRoZSBzYW1lIHRlcm1zCisjICAoR05VIEdQTCB2ZXJzaW9uIDMgb3IgbGF0ZXIpLCBi
+dXQgdGhlIGNvbnRyaWJ1dGluZyBhdXRob3JzIHJldGFpbiBjb3B5cmlnaHRzIG9uCisjIEBAIC0z
+Nyw4ICszNyw4IEBACisjICBUaGUgY29weXJpZ2h0IGZvciBjY2FjaGUgYXMgYSB3aG9sZSBpcyBh
+cyBmb2xsb3dzOgorIyAgCisjICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjIC0gIENvcHlyaWdo
+dCAoQykgMjAwMi0yMDA3IEFuZHJldyBUcmlkZ2VsbAorIyAtICBDb3B5cmlnaHQgKEMpIDIwMDkt
+MjAyMCBKb2VsIFJvc2RhaGwKKyMgK0NvcHlyaWdodCAoQykgMjAwMi0yMDA3IEFuZHJldyBUcmlk
+Z2VsbAorIyArQ29weXJpZ2h0IChDKSAyMDA5LTIwMjAgSm9lbCBSb3NkYWhsIGFuZCBvdGhlciBj
+b250cmlidXRvcnMKKyMgIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgIAorIyAgCisjIEBAIC01
+MiwzODQgKzUyLDM4MSBAQAorIyAgdW5kZXIgbGVzcyByZXN0cmljdGl2ZSB0ZXJtcy4KKyMgIAor
+IyAgCisjIC1zcmMvZ2V0b3B0X2xvbmcuW2hjXQorIyAtfn5+fn5+fn5+fn5+fn5+fn5+fn4KKyMg
+LQorIyAtVGhpcyBpbXBsZW1lbnRhdGlvbiBvZiBgZ2V0b3B0X2xvbmcoKWAgd2FzIGNvcGllZCBm
+cm9tCisjIC1odHRwOi8vd3d3LnBvc3RncmVzcWwub3JnW1Bvc3RncmVTUUxdIGFuZCBoYXMgdGhl
+IGZvbGxvd2luZyBsaWNlbnNlIHRleHQ6CisjIC0KKyMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0K
+KyMgLSAgUG9ydGlvbnMgQ29weXJpZ2h0IChjKSAxOTg3LCAxOTkzLCAxOTk0CisjIC0gIFRoZSBS
+ZWdlbnRzIG9mIHRoZSBVbml2ZXJzaXR5IG9mIENhbGlmb3JuaWEuICBBbGwgcmlnaHRzIHJlc2Vy
+dmVkLgorIyAtCisjIC0gIFBvcnRpb25zIENvcHlyaWdodCAoYykgMjAwMworIyAtICBQb3N0Z3Jl
+U1FMIEdsb2JhbCBEZXZlbG9wbWVudCBHcm91cAorIyAtCisjIC0gIFJlZGlzdHJpYnV0aW9uIGFu
+ZCB1c2UgaW4gc291cmNlIGFuZCBiaW5hcnkgZm9ybXMsIHdpdGggb3Igd2l0aG91dAorIyAtICBt
+b2RpZmljYXRpb24sIGFyZSBwZXJtaXR0ZWQgcHJvdmlkZWQgdGhhdCB0aGUgZm9sbG93aW5nIGNv
+bmRpdGlvbnMKKyMgLSAgYXJlIG1ldDoKKyMgLSAgMS4gUmVkaXN0cmlidXRpb25zIG9mIHNvdXJj
+ZSBjb2RlIG11c3QgcmV0YWluIHRoZSBhYm92ZSBjb3B5cmlnaHQKKyMgLSAgICAgbm90aWNlLCB0
+aGlzIGxpc3Qgb2YgY29uZGl0aW9ucyBhbmQgdGhlIGZvbGxvd2luZyBkaXNjbGFpbWVyLgorIyAt
+ICAyLiBSZWRpc3RyaWJ1dGlvbnMgaW4gYmluYXJ5IGZvcm0gbXVzdCByZXByb2R1Y2UgdGhlIGFi
+b3ZlIGNvcHlyaWdodAorIyAtICAgICBub3RpY2UsIHRoaXMgbGlzdCBvZiBjb25kaXRpb25zIGFu
+ZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIgaW4gdGhlCisjIC0gICAgIGRvY3VtZW50YXRpb24g
+YW5kL29yIG90aGVyIG1hdGVyaWFscyBwcm92aWRlZCB3aXRoIHRoZSBkaXN0cmlidXRpb24uCisj
+IC0gIDMuIE5laXRoZXIgdGhlIG5hbWUgb2YgdGhlIFVuaXZlcnNpdHkgbm9yIHRoZSBuYW1lcyBv
+ZiBpdHMgY29udHJpYnV0b3JzCisjIC0gICAgIG1heSBiZSB1c2VkIHRvIGVuZG9yc2Ugb3IgcHJv
+bW90ZSBwcm9kdWN0cyBkZXJpdmVkIGZyb20gdGhpcyBzb2Z0d2FyZQorIyAtICAgICB3aXRob3V0
+IHNwZWNpZmljIHByaW9yIHdyaXR0ZW4gcGVybWlzc2lvbi4KKyMgLQorIyAtICBUSElTIFNPRlRX
+QVJFIElTIFBST1ZJREVEIEJZIFRIRSBSRUdFTlRTIEFORCBDT05UUklCVVRPUlMgYGBBUyBJUycn
+IEFORAorIyAtICBBTlkgRVhQUkVTUyBPUiBJTVBMSUVEIFdBUlJBTlRJRVMsIElOQ0xVRElORywg
+QlVUIE5PVCBMSU1JVEVEIFRPLCBUSEUKKyMgLSAgSU1QTElFRCBXQVJSQU5USUVTIE9GIE1FUkNI
+QU5UQUJJTElUWSBBTkQgRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0UKKyMgLSAgQVJF
+IERJU0NMQUlNRUQuICBJTiBOTyBFVkVOVCBTSEFMTCBUSEUgUkVHRU5UUyBPUiBDT05UUklCVVRP
+UlMgQkUgTElBQkxFCisjIC0gIEZPUiBBTlkgRElSRUNULCBJTkRJUkVDVCwgSU5DSURFTlRBTCwg
+U1BFQ0lBTCwgRVhFTVBMQVJZLCBPUiBDT05TRVFVRU5USUFMCisjIC0gIERBTUFHRVMgKElOQ0xV
+RElORywgQlVUIE5PVCBMSU1JVEVEIFRPLCBQUk9DVVJFTUVOVCBPRiBTVUJTVElUVVRFIEdPT0RT
+CisjIC0gIE9SIFNFUlZJQ0VTOyBMT1NTIE9GIFVTRSwgREFUQSwgT1IgUFJPRklUUzsgT1IgQlVT
+SU5FU1MgSU5URVJSVVBUSU9OKQorIyAtICBIT1dFVkVSIENBVVNFRCBBTkQgT04gQU5ZIFRIRU9S
+WSBPRiBMSUFCSUxJVFksIFdIRVRIRVIgSU4gQ09OVFJBQ1QsIFNUUklDVAorIyAtICBMSUFCSUxJ
+VFksIE9SIFRPUlQgKElOQ0xVRElORyBORUdMSUdFTkNFIE9SIE9USEVSV0lTRSkgQVJJU0lORyBJ
+TiBBTlkgV0FZCisjIC0gIE9VVCBPRiBUSEUgVVNFIE9GIFRISVMgU09GVFdBUkUsIEVWRU4gSUYg
+QURWSVNFRCBPRiBUSEUgUE9TU0lCSUxJVFkgT0YKKyMgLSAgU1VDSCBEQU1BR0UuCisjIC0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tCisjIC0KKyMgLQorIyAtc3JjL2hhc2h0YWJsZSouW2hjXQorIyAt
+fn5+fn5+fn5+fn5+fn5+fn5+fgorIyAtCisjIC1UaGlzIGNvZGUgY29tZXMgZnJvbSBodHRwOi8v
+d3d3LmNsLmNhbS5hYy51ay9+Y3djMjIvaGFzaHRhYmxlLyB3aXRoIHRoZQorIyAtZm9sbG93aW5n
+IGxpY2Vuc2U6CisjIC0KKyMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgLSAgQ29weXJpZ2h0
+IChjKSAyMDAyLCAyMDA0LCBDaHJpc3RvcGhlciBDbGFyaworIyAtICBBbGwgcmlnaHRzIHJlc2Vy
+dmVkLgorIyAtCisjIC0gIFJlZGlzdHJpYnV0aW9uIGFuZCB1c2UgaW4gc291cmNlIGFuZCBiaW5h
+cnkgZm9ybXMsIHdpdGggb3Igd2l0aG91dAorIyAtICBtb2RpZmljYXRpb24sIGFyZSBwZXJtaXR0
+ZWQgcHJvdmlkZWQgdGhhdCB0aGUgZm9sbG93aW5nIGNvbmRpdGlvbnMgYXJlIG1ldDoKKyMgLQor
+IyAtICAgICogUmVkaXN0cmlidXRpb25zIG9mIHNvdXJjZSBjb2RlIG11c3QgcmV0YWluIHRoZSBh
+Ym92ZSBjb3B5cmlnaHQgbm90aWNlLAorIyAtICAgICAgdGhpcyBsaXN0IG9mIGNvbmRpdGlvbnMg
+YW5kIHRoZSBmb2xsb3dpbmcgZGlzY2xhaW1lci4KKyMgLQorIyAtICAgICogUmVkaXN0cmlidXRp
+b25zIGluIGJpbmFyeSBmb3JtIG11c3QgcmVwcm9kdWNlIHRoZSBhYm92ZSBjb3B5cmlnaHQgbm90
+aWNlLAorIyAtICAgICAgdGhpcyBsaXN0IG9mIGNvbmRpdGlvbnMgYW5kIHRoZSBmb2xsb3dpbmcg
+ZGlzY2xhaW1lciBpbiB0aGUgZG9jdW1lbnRhdGlvbgorIyAtICAgICAgYW5kL29yIG90aGVyIG1h
+dGVyaWFscyBwcm92aWRlZCB3aXRoIHRoZSBkaXN0cmlidXRpb24uCisjIC0KKyMgLSAgICAqIE5l
+aXRoZXIgdGhlIG5hbWUgb2YgdGhlIG9yaWdpbmFsIGF1dGhvcjsgbm9yIHRoZSBuYW1lcyBvZiBh
+bnkKKyMgLSAgICAgIGNvbnRyaWJ1dG9ycyBtYXkgYmUgdXNlZCB0byBlbmRvcnNlIG9yIHByb21v
+dGUgcHJvZHVjdHMgZGVyaXZlZCBmcm9tIHRoaXMKKyMgLSAgICAgIHNvZnR3YXJlIHdpdGhvdXQg
+c3BlY2lmaWMgcHJpb3Igd3JpdHRlbiBwZXJtaXNzaW9uLgorIyAtCisjIC0gIFRISVMgU09GVFdB
+UkUgSVMgUFJPVklERUQgQlkgVEhFIENPUFlSSUdIVCBIT0xERVJTIEFORCBDT05UUklCVVRPUlMg
+IkFTIElTIgorIyAtICBBTkQgQU5ZIEVYUFJFU1MgT1IgSU1QTElFRCBXQVJSQU5USUVTLCBJTkNM
+VURJTkcsIEJVVCBOT1QgTElNSVRFRCBUTywgVEhFCisjIC0gIElNUExJRUQgV0FSUkFOVElFUyBP
+RiBNRVJDSEFOVEFCSUxJVFkgQU5EIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFCisj
+IC0gIEFSRSBESVNDTEFJTUVELiBJTiBOTyBFVkVOVCBTSEFMTCBUSEUgQ09QWVJJR0hUIE9XTkVS
+IE9SIENPTlRSSUJVVE9SUyBCRQorIyAtICBMSUFCTEUgRk9SIEFOWSBESVJFQ1QsIElORElSRUNU
+LCBJTkNJREVOVEFMLCBTUEVDSUFMLCBFWEVNUExBUlksIE9SCisjIC0gIENPTlNFUVVFTlRJQUwg
+REFNQUdFUyAoSU5DTFVESU5HLCBCVVQgTk9UIExJTUlURUQgVE8sIFBST0NVUkVNRU5UIE9GCisj
+IC0gIFNVQlNUSVRVVEUgR09PRFMgT1IgU0VSVklDRVM7IExPU1MgT0YgVVNFLCBEQVRBLCBPUiBQ
+Uk9GSVRTOyBPUiBCVVNJTkVTUworIyAtICBJTlRFUlJVUFRJT04pIEhPV0VWRVIgQ0FVU0VEIEFO
+RCBPTiBBTlkgVEhFT1JZIE9GIExJQUJJTElUWSwgV0hFVEhFUiBJTgorIyAtICBDT05UUkFDVCwg
+U1RSSUNUIExJQUJJTElUWSwgT1IgVE9SVCAoSU5DTFVESU5HIE5FR0xJR0VOQ0UgT1IgT1RIRVJX
+SVNFKQorIyAtICBBUklTSU5HIElOIEFOWSBXQVkgT1VUIE9GIFRIRSBVU0UgT0YgVEhJUyBTT0ZU
+V0FSRSwgRVZFTiBJRiBBRFZJU0VEIE9GIFRIRQorIyAtICBQT1NTSUJJTElUWSBPRiBTVUNIIERB
+TUFHRS4KKyMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgLQorIyAtCisjIC1tNC9mZWF0dXJl
+X21hY3Jvcy5tNAorIyAtfn5+fn5+fn5+fn5+fn5+fn5+fn4KKyMgLQorIyAtVGhpcyBBdXRvY29u
+ZiBNNCBzbmlwcGV0IGNvbWVzIGZyb20gaHR0cDovL3d3dy5weXRob24ub3JnW1B5dGhvbl0gMi42
+J3MKKyMgLWBjb25maWd1cmUuaW5gIHdpdGggdGhlIGZvbGxvd2luZyBsaWNlbnNlOgorIyAtCisj
+IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjIC0gIEEuIEhJU1RPUlkgT0YgVEhFIFNPRlRXQVJF
+CisjIC0gID09PT09PT09PT09PT09PT09PT09PT09PT09CisjIC0KKyMgLSAgUHl0aG9uIHdhcyBj
+cmVhdGVkIGluIHRoZSBlYXJseSAxOTkwcyBieSBHdWlkbyB2YW4gUm9zc3VtIGF0IFN0aWNodGlu
+ZworIyAtICBNYXRoZW1hdGlzY2ggQ2VudHJ1bSAoQ1dJLCBzZWUgaHR0cDovL3d3dy5jd2kubmwp
+IGluIHRoZSBOZXRoZXJsYW5kcworIyAtICBhcyBhIHN1Y2Nlc3NvciBvZiBhIGxhbmd1YWdlIGNh
+bGxlZCBBQkMuICBHdWlkbyByZW1haW5zIFB5dGhvbidzCisjIC0gIHByaW5jaXBhbCBhdXRob3Is
+IGFsdGhvdWdoIGl0IGluY2x1ZGVzIG1hbnkgY29udHJpYnV0aW9ucyBmcm9tIG90aGVycy4KKyMg
+LQorIyAtICBJbiAxOTk1LCBHdWlkbyBjb250aW51ZWQgaGlzIHdvcmsgb24gUHl0aG9uIGF0IHRo
+ZSBDb3Jwb3JhdGlvbiBmb3IKKyMgLSAgTmF0aW9uYWwgUmVzZWFyY2ggSW5pdGlhdGl2ZXMgKENO
+UkksIHNlZSBodHRwOi8vd3d3LmNucmkucmVzdG9uLnZhLnVzKQorIyAtICBpbiBSZXN0b24sIFZp
+cmdpbmlhIHdoZXJlIGhlIHJlbGVhc2VkIHNldmVyYWwgdmVyc2lvbnMgb2YgdGhlCisjIC0gIHNv
+ZnR3YXJlLgorIyAtCisjIC0gIEluIE1heSAyMDAwLCBHdWlkbyBhbmQgdGhlIFB5dGhvbiBjb3Jl
+IGRldmVsb3BtZW50IHRlYW0gbW92ZWQgdG8KKyMgLSAgQmVPcGVuLmNvbSB0byBmb3JtIHRoZSBC
+ZU9wZW4gUHl0aG9uTGFicyB0ZWFtLiAgSW4gT2N0b2JlciBvZiB0aGUgc2FtZQorIyAtICB5ZWFy
+LCB0aGUgUHl0aG9uTGFicyB0ZWFtIG1vdmVkIHRvIERpZ2l0YWwgQ3JlYXRpb25zIChub3cgWm9w
+ZQorIyAtICBDb3Jwb3JhdGlvbiwgc2VlIGh0dHA6Ly93d3cuem9wZS5jb20pLiAgSW4gMjAwMSwg
+dGhlIFB5dGhvbiBTb2Z0d2FyZQorIyAtICBGb3VuZGF0aW9uIChQU0YsIHNlZSBodHRwOi8vd3d3
+LnB5dGhvbi5vcmcvcHNmLykgd2FzIGZvcm1lZCwgYQorIyAtICBub24tcHJvZml0IG9yZ2FuaXph
+dGlvbiBjcmVhdGVkIHNwZWNpZmljYWxseSB0byBvd24gUHl0aG9uLXJlbGF0ZWQKKyMgLSAgSW50
+ZWxsZWN0dWFsIFByb3BlcnR5LiAgWm9wZSBDb3Jwb3JhdGlvbiBpcyBhIHNwb25zb3JpbmcgbWVt
+YmVyIG9mCisjIC0gIHRoZSBQU0YuCisjIC0KKyMgLSAgQWxsIFB5dGhvbiByZWxlYXNlcyBhcmUg
+T3BlbiBTb3VyY2UgKHNlZSBodHRwOi8vd3d3Lm9wZW5zb3VyY2Uub3JnIGZvcgorIyAtICB0aGUg
+T3BlbiBTb3VyY2UgRGVmaW5pdGlvbikuICBIaXN0b3JpY2FsbHksIG1vc3QsIGJ1dCBub3QgYWxs
+LCBQeXRob24KKyMgLSAgcmVsZWFzZXMgaGF2ZSBhbHNvIGJlZW4gR1BMLWNvbXBhdGlibGU7IHRo
+ZSB0YWJsZSBiZWxvdyBzdW1tYXJpemVzCisjIC0gIHRoZSB2YXJpb3VzIHJlbGVhc2VzLgorIyAt
+CisjIC0gICAgICBSZWxlYXNlICAgICAgICAgRGVyaXZlZCAgICAgWWVhciAgICAgICAgT3duZXIg
+ICAgICAgR1BMLQorIyAtICAgICAgICAgICAgICAgICAgICAgIGZyb20gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIGNvbXBhdGlibGU/ICgxKQorIyAtCisjIC0gICAgICAwLjkuMCB0aHJ1
+IDEuMiAgICAgICAgICAgICAgMTk5MS0xOTk1ICAgQ1dJICAgICAgICAgeWVzCisjIC0gICAgICAx
+LjMgdGhydSAxLjUuMiAgMS4yICAgICAgICAgMTk5NS0xOTk5ICAgQ05SSSAgICAgICAgeWVzCisj
+IC0gICAgICAxLjYgICAgICAgICAgICAgMS41LjIgICAgICAgMjAwMCAgICAgICAgQ05SSSAgICAg
+ICAgbm8KKyMgLSAgICAgIDIuMCAgICAgICAgICAgICAxLjYgICAgICAgICAyMDAwICAgICAgICBC
+ZU9wZW4uY29tICBubworIyAtICAgICAgMS42LjEgICAgICAgICAgIDEuNiAgICAgICAgIDIwMDEg
+ICAgICAgIENOUkkgICAgICAgIHllcyAoMikKKyMgLSAgICAgIDIuMSAgICAgICAgICAgICAyLjAr
+MS42LjEgICAyMDAxICAgICAgICBQU0YgICAgICAgICBubworIyAtICAgICAgMi4wLjEgICAgICAg
+ICAgIDIuMCsxLjYuMSAgIDIwMDEgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi4x
+LjEgICAgICAgICAgIDIuMSsyLjAuMSAgIDIwMDEgICAgICAgIFBTRiAgICAgICAgIHllcworIyAt
+ICAgICAgMi4yICAgICAgICAgICAgIDIuMS4xICAgICAgIDIwMDEgICAgICAgIFBTRiAgICAgICAg
+IHllcworIyAtICAgICAgMi4xLjIgICAgICAgICAgIDIuMS4xICAgICAgIDIwMDIgICAgICAgIFBT
+RiAgICAgICAgIHllcworIyAtICAgICAgMi4xLjMgICAgICAgICAgIDIuMS4yICAgICAgIDIwMDIg
+ICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi4yLjEgICAgICAgICAgIDIuMiAgICAg
+ICAgIDIwMDIgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi4yLjIgICAgICAgICAg
+IDIuMi4xICAgICAgIDIwMDIgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi4yLjMg
+ICAgICAgICAgIDIuMi4yICAgICAgIDIwMDMgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAg
+ICAgMi4zICAgICAgICAgICAgIDIuMi4yICAgICAgIDIwMDItMjAwMyAgIFBTRiAgICAgICAgIHll
+cworIyAtICAgICAgMi4zLjEgICAgICAgICAgIDIuMyAgICAgICAgIDIwMDItMjAwMyAgIFBTRiAg
+ICAgICAgIHllcworIyAtICAgICAgMi4zLjIgICAgICAgICAgIDIuMy4xICAgICAgIDIwMDItMjAw
+MyAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi4zLjMgICAgICAgICAgIDIuMy4yICAgICAg
+IDIwMDItMjAwMyAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi4zLjQgICAgICAgICAgIDIu
+My4zICAgICAgIDIwMDQgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi4zLjUgICAg
+ICAgICAgIDIuMy40ICAgICAgIDIwMDUgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAg
+Mi40ICAgICAgICAgICAgIDIuMyAgICAgICAgIDIwMDQgICAgICAgIFBTRiAgICAgICAgIHllcwor
+IyAtICAgICAgMi40LjEgICAgICAgICAgIDIuNCAgICAgICAgIDIwMDUgICAgICAgIFBTRiAgICAg
+ICAgIHllcworIyAtICAgICAgMi40LjIgICAgICAgICAgIDIuNC4xICAgICAgIDIwMDUgICAgICAg
+IFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi40LjMgICAgICAgICAgIDIuNC4yICAgICAgIDIw
+MDYgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi40LjQgICAgICAgICAgIDIuNC4z
+ICAgICAgIDIwMDYgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi41ICAgICAgICAg
+ICAgIDIuNCAgICAgICAgIDIwMDYgICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi41
+LjEgICAgICAgICAgIDIuNSAgICAgICAgIDIwMDcgICAgICAgIFBTRiAgICAgICAgIHllcworIyAt
+ICAgICAgMi41LjIgICAgICAgICAgIDIuNS4xICAgICAgIDIwMDggICAgICAgIFBTRiAgICAgICAg
+IHllcworIyAtICAgICAgMi41LjMgICAgICAgICAgIDIuNS4yICAgICAgIDIwMDggICAgICAgIFBT
+RiAgICAgICAgIHllcworIyAtICAgICAgMi42ICAgICAgICAgICAgIDIuNSAgICAgICAgIDIwMDgg
+ICAgICAgIFBTRiAgICAgICAgIHllcworIyAtICAgICAgMi42LjEgICAgICAgICAgIDIuNiAgICAg
+ICAgIDIwMDggICAgICAgIFBTRiAgICAgICAgIHllcworIyAtCisjIC0gIEZvb3Rub3RlczoKKyMg
+LQorIyAtICAoMSkgR1BMLWNvbXBhdGlibGUgZG9lc24ndCBtZWFuIHRoYXQgd2UncmUgZGlzdHJp
+YnV0aW5nIFB5dGhvbiB1bmRlcgorIyAtICAgICAgdGhlIEdQTC4gIEFsbCBQeXRob24gbGljZW5z
+ZXMsIHVubGlrZSB0aGUgR1BMLCBsZXQgeW91IGRpc3RyaWJ1dGUKKyMgLSAgICAgIGEgbW9kaWZp
+ZWQgdmVyc2lvbiB3aXRob3V0IG1ha2luZyB5b3VyIGNoYW5nZXMgb3BlbiBzb3VyY2UuICBUaGUK
+KyMgLSAgICAgIEdQTC1jb21wYXRpYmxlIGxpY2Vuc2VzIG1ha2UgaXQgcG9zc2libGUgdG8gY29t
+YmluZSBQeXRob24gd2l0aAorIyAtICAgICAgb3RoZXIgc29mdHdhcmUgdGhhdCBpcyByZWxlYXNl
+ZCB1bmRlciB0aGUgR1BMOyB0aGUgb3RoZXJzIGRvbid0LgorIyAtCisjIC0gICgyKSBBY2NvcmRp
+bmcgdG8gUmljaGFyZCBTdGFsbG1hbiwgMS42LjEgaXMgbm90IEdQTC1jb21wYXRpYmxlLAorIyAt
+ICAgICAgYmVjYXVzZSBpdHMgbGljZW5zZSBoYXMgYSBjaG9pY2Ugb2YgbGF3IGNsYXVzZS4gIEFj
+Y29yZGluZyB0bworIyAtICAgICAgQ05SSSwgaG93ZXZlciwgU3RhbGxtYW4ncyBsYXd5ZXIgaGFz
+IHRvbGQgQ05SSSdzIGxhd3llciB0aGF0IDEuNi4xCisjIC0gICAgICBpcyAibm90IGluY29tcGF0
+aWJsZSIgd2l0aCB0aGUgR1BMLgorIyAtCisjIC0gIFRoYW5rcyB0byB0aGUgbWFueSBvdXRzaWRl
+IHZvbHVudGVlcnMgd2hvIGhhdmUgd29ya2VkIHVuZGVyIEd1aWRvJ3MKKyMgLSAgZGlyZWN0aW9u
+IHRvIG1ha2UgdGhlc2UgcmVsZWFzZXMgcG9zc2libGUuCisjIC0KKyMgLQorIyAtICBCLiBURVJN
+UyBBTkQgQ09ORElUSU9OUyBGT1IgQUNDRVNTSU5HIE9SIE9USEVSV0lTRSBVU0lORyBQWVRIT04K
+KyMgLSAgPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09CisjIC0KKyMgLSAgUFlUSE9OIFNPRlRXQVJFIEZPVU5EQVRJT04gTElDRU5T
+RSBWRVJTSU9OIDIKKyMgLSAgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0KKyMgLQorIyAtICAxLiBUaGlzIExJQ0VOU0UgQUdSRUVNRU5UIGlzIGJldHdlZW4gdGhl
+IFB5dGhvbiBTb2Z0d2FyZSBGb3VuZGF0aW9uCisjIC0gICgiUFNGIiksIGFuZCB0aGUgSW5kaXZp
+ZHVhbCBvciBPcmdhbml6YXRpb24gKCJMaWNlbnNlZSIpIGFjY2Vzc2luZyBhbmQKKyMgLSAgb3Ro
+ZXJ3aXNlIHVzaW5nIHRoaXMgc29mdHdhcmUgKCJQeXRob24iKSBpbiBzb3VyY2Ugb3IgYmluYXJ5
+IGZvcm0gYW5kCisjIC0gIGl0cyBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24uCisjIC0KKyMgLSAg
+Mi4gU3ViamVjdCB0byB0aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMgb2YgdGhpcyBMaWNlbnNlIEFn
+cmVlbWVudCwgUFNGIGhlcmVieQorIyAtICBncmFudHMgTGljZW5zZWUgYSBub25leGNsdXNpdmUs
+IHJveWFsdHktZnJlZSwgd29ybGQtd2lkZSBsaWNlbnNlIHRvIHJlcHJvZHVjZSwKKyMgLSAgYW5h
+bHl6ZSwgdGVzdCwgcGVyZm9ybSBhbmQvb3IgZGlzcGxheSBwdWJsaWNseSwgcHJlcGFyZSBkZXJp
+dmF0aXZlIHdvcmtzLAorIyAtICBkaXN0cmlidXRlLCBhbmQgb3RoZXJ3aXNlIHVzZSBQeXRob24g
+YWxvbmUgb3IgaW4gYW55IGRlcml2YXRpdmUgdmVyc2lvbiwKKyMgLSAgcHJvdmlkZWQsIGhvd2V2
+ZXIsIHRoYXQgUFNGJ3MgTGljZW5zZSBBZ3JlZW1lbnQgYW5kIFBTRidzIG5vdGljZSBvZiBjb3B5
+cmlnaHQsCisjIC0gIGkuZS4sICJDb3B5cmlnaHQgKGMpIDIwMDEsIDIwMDIsIDIwMDMsIDIwMDQs
+IDIwMDUsIDIwMDYsIDIwMDcsIDIwMDgsIDIwMDkgUHl0aG9uCisjIC0gIFNvZnR3YXJlIEZvdW5k
+YXRpb247IEFsbCBSaWdodHMgUmVzZXJ2ZWQiIGFyZSByZXRhaW5lZCBpbiBQeXRob24gYWxvbmUg
+b3IgaW4gYW55CisjIC0gIGRlcml2YXRpdmUgdmVyc2lvbiBwcmVwYXJlZCBieSBMaWNlbnNlZS4K
+KyMgLQorIyAtICAzLiBJbiB0aGUgZXZlbnQgTGljZW5zZWUgcHJlcGFyZXMgYSBkZXJpdmF0aXZl
+IHdvcmsgdGhhdCBpcyBiYXNlZCBvbgorIyAtICBvciBpbmNvcnBvcmF0ZXMgUHl0aG9uIG9yIGFu
+eSBwYXJ0IHRoZXJlb2YsIGFuZCB3YW50cyB0byBtYWtlCisjIC0gIHRoZSBkZXJpdmF0aXZlIHdv
+cmsgYXZhaWxhYmxlIHRvIG90aGVycyBhcyBwcm92aWRlZCBoZXJlaW4sIHRoZW4KKyMgLSAgTGlj
+ZW5zZWUgaGVyZWJ5IGFncmVlcyB0byBpbmNsdWRlIGluIGFueSBzdWNoIHdvcmsgYSBicmllZiBz
+dW1tYXJ5IG9mCisjIC0gIHRoZSBjaGFuZ2VzIG1hZGUgdG8gUHl0aG9uLgorIyAtCisjIC0gIDQu
+IFBTRiBpcyBtYWtpbmcgUHl0aG9uIGF2YWlsYWJsZSB0byBMaWNlbnNlZSBvbiBhbiAiQVMgSVMi
+CisjIC0gIGJhc2lzLiAgUFNGIE1BS0VTIE5PIFJFUFJFU0VOVEFUSU9OUyBPUiBXQVJSQU5USUVT
+LCBFWFBSRVNTIE9SCisjIC0gIElNUExJRUQuICBCWSBXQVkgT0YgRVhBTVBMRSwgQlVUIE5PVCBM
+SU1JVEFUSU9OLCBQU0YgTUFLRVMgTk8gQU5ECisjIC0gIERJU0NMQUlNUyBBTlkgUkVQUkVTRU5U
+QVRJT04gT1IgV0FSUkFOVFkgT0YgTUVSQ0hBTlRBQklMSVRZIE9SIEZJVE5FU1MKKyMgLSAgRk9S
+IEFOWSBQQVJUSUNVTEFSIFBVUlBPU0UgT1IgVEhBVCBUSEUgVVNFIE9GIFBZVEhPTiBXSUxMIE5P
+VAorIyAtICBJTkZSSU5HRSBBTlkgVEhJUkQgUEFSVFkgUklHSFRTLgorIyAtCisjIC0gIDUuIFBT
+RiBTSEFMTCBOT1QgQkUgTElBQkxFIFRPIExJQ0VOU0VFIE9SIEFOWSBPVEhFUiBVU0VSUyBPRiBQ
+WVRIT04KKyMgLSAgRk9SIEFOWSBJTkNJREVOVEFMLCBTUEVDSUFMLCBPUiBDT05TRVFVRU5USUFM
+IERBTUFHRVMgT1IgTE9TUyBBUworIyAtICBBIFJFU1VMVCBPRiBNT0RJRllJTkcsIERJU1RSSUJV
+VElORywgT1IgT1RIRVJXSVNFIFVTSU5HIFBZVEhPTiwKKyMgLSAgT1IgQU5ZIERFUklWQVRJVkUg
+VEhFUkVPRiwgRVZFTiBJRiBBRFZJU0VEIE9GIFRIRSBQT1NTSUJJTElUWSBUSEVSRU9GLgorIyAt
+CisjIC0gIDYuIFRoaXMgTGljZW5zZSBBZ3JlZW1lbnQgd2lsbCBhdXRvbWF0aWNhbGx5IHRlcm1p
+bmF0ZSB1cG9uIGEgbWF0ZXJpYWwKKyMgLSAgYnJlYWNoIG9mIGl0cyB0ZXJtcyBhbmQgY29uZGl0
+aW9ucy4KKyMgLQorIyAtICA3LiBOb3RoaW5nIGluIHRoaXMgTGljZW5zZSBBZ3JlZW1lbnQgc2hh
+bGwgYmUgZGVlbWVkIHRvIGNyZWF0ZSBhbnkKKyMgLSAgcmVsYXRpb25zaGlwIG9mIGFnZW5jeSwg
+cGFydG5lcnNoaXAsIG9yIGpvaW50IHZlbnR1cmUgYmV0d2VlbiBQU0YgYW5kCisjIC0gIExpY2Vu
+c2VlLiAgVGhpcyBMaWNlbnNlIEFncmVlbWVudCBkb2VzIG5vdCBncmFudCBwZXJtaXNzaW9uIHRv
+IHVzZSBQU0YKKyMgLSAgdHJhZGVtYXJrcyBvciB0cmFkZSBuYW1lIGluIGEgdHJhZGVtYXJrIHNl
+bnNlIHRvIGVuZG9yc2Ugb3IgcHJvbW90ZQorIyAtICBwcm9kdWN0cyBvciBzZXJ2aWNlcyBvZiBM
+aWNlbnNlZSwgb3IgYW55IHRoaXJkIHBhcnR5LgorIyAtCisjIC0gIDguIEJ5IGNvcHlpbmcsIGlu
+c3RhbGxpbmcgb3Igb3RoZXJ3aXNlIHVzaW5nIFB5dGhvbiwgTGljZW5zZWUKKyMgLSAgYWdyZWVz
+IHRvIGJlIGJvdW5kIGJ5IHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBvZiB0aGlzIExpY2Vuc2UK
+KyMgLSAgQWdyZWVtZW50LgorIyAtCisjIC0KKyMgLSAgQkVPUEVOLkNPTSBMSUNFTlNFIEFHUkVF
+TUVOVCBGT1IgUFlUSE9OIDIuMAorIyAtICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tCisjIC0KKyMgLSAgQkVPUEVOIFBZVEhPTiBPUEVOIFNPVVJDRSBMSUNFTlNF
+IEFHUkVFTUVOVCBWRVJTSU9OIDEKKyMgLQorIyAtICAxLiBUaGlzIExJQ0VOU0UgQUdSRUVNRU5U
+IGlzIGJldHdlZW4gQmVPcGVuLmNvbSAoIkJlT3BlbiIpLCBoYXZpbmcgYW4KKyMgLSAgb2ZmaWNl
+IGF0IDE2MCBTYXJhdG9nYSBBdmVudWUsIFNhbnRhIENsYXJhLCBDQSA5NTA1MSwgYW5kIHRoZQor
+IyAtICBJbmRpdmlkdWFsIG9yIE9yZ2FuaXphdGlvbiAoIkxpY2Vuc2VlIikgYWNjZXNzaW5nIGFu
+ZCBvdGhlcndpc2UgdXNpbmcKKyMgLSAgdGhpcyBzb2Z0d2FyZSBpbiBzb3VyY2Ugb3IgYmluYXJ5
+IGZvcm0gYW5kIGl0cyBhc3NvY2lhdGVkCisjIC0gIGRvY3VtZW50YXRpb24gKCJ0aGUgU29mdHdh
+cmUiKS4KKyMgLQorIyAtICAyLiBTdWJqZWN0IHRvIHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBv
+ZiB0aGlzIEJlT3BlbiBQeXRob24gTGljZW5zZQorIyAtICBBZ3JlZW1lbnQsIEJlT3BlbiBoZXJl
+YnkgZ3JhbnRzIExpY2Vuc2VlIGEgbm9uLWV4Y2x1c2l2ZSwKKyMgLSAgcm95YWx0eS1mcmVlLCB3
+b3JsZC13aWRlIGxpY2Vuc2UgdG8gcmVwcm9kdWNlLCBhbmFseXplLCB0ZXN0LCBwZXJmb3JtCisj
+IC0gIGFuZC9vciBkaXNwbGF5IHB1YmxpY2x5LCBwcmVwYXJlIGRlcml2YXRpdmUgd29ya3MsIGRp
+c3RyaWJ1dGUsIGFuZAorIyAtICBvdGhlcndpc2UgdXNlIHRoZSBTb2Z0d2FyZSBhbG9uZSBvciBp
+biBhbnkgZGVyaXZhdGl2ZSB2ZXJzaW9uLAorIyAtICBwcm92aWRlZCwgaG93ZXZlciwgdGhhdCB0
+aGUgQmVPcGVuIFB5dGhvbiBMaWNlbnNlIGlzIHJldGFpbmVkIGluIHRoZQorIyAtICBTb2Z0d2Fy
+ZSwgYWxvbmUgb3IgaW4gYW55IGRlcml2YXRpdmUgdmVyc2lvbiBwcmVwYXJlZCBieSBMaWNlbnNl
+ZS4KKyMgLQorIyAtICAzLiBCZU9wZW4gaXMgbWFraW5nIHRoZSBTb2Z0d2FyZSBhdmFpbGFibGUg
+dG8gTGljZW5zZWUgb24gYW4gIkFTIElTIgorIyAtICBiYXNpcy4gIEJFT1BFTiBNQUtFUyBOTyBS
+RVBSRVNFTlRBVElPTlMgT1IgV0FSUkFOVElFUywgRVhQUkVTUyBPUgorIyAtICBJTVBMSUVELiAg
+QlkgV0FZIE9GIEVYQU1QTEUsIEJVVCBOT1QgTElNSVRBVElPTiwgQkVPUEVOIE1BS0VTIE5PIEFO
+RAorIyAtICBESVNDTEFJTVMgQU5ZIFJFUFJFU0VOVEFUSU9OIE9SIFdBUlJBTlRZIE9GIE1FUkNI
+QU5UQUJJTElUWSBPUiBGSVRORVNTCisjIC0gIEZPUiBBTlkgUEFSVElDVUxBUiBQVVJQT1NFIE9S
+IFRIQVQgVEhFIFVTRSBPRiBUSEUgU09GVFdBUkUgV0lMTCBOT1QKKyMgLSAgSU5GUklOR0UgQU5Z
+IFRISVJEIFBBUlRZIFJJR0hUUy4KKyMgLQorIyAtICA0LiBCRU9QRU4gU0hBTEwgTk9UIEJFIExJ
+QUJMRSBUTyBMSUNFTlNFRSBPUiBBTlkgT1RIRVIgVVNFUlMgT0YgVEhFCisjIC0gIFNPRlRXQVJF
+IEZPUiBBTlkgSU5DSURFTlRBTCwgU1BFQ0lBTCwgT1IgQ09OU0VRVUVOVElBTCBEQU1BR0VTIE9S
+IExPU1MKKyMgLSAgQVMgQSBSRVNVTFQgT0YgVVNJTkcsIE1PRElGWUlORyBPUiBESVNUUklCVVRJ
+TkcgVEhFIFNPRlRXQVJFLCBPUiBBTlkKKyMgLSAgREVSSVZBVElWRSBUSEVSRU9GLCBFVkVOIElG
+IEFEVklTRUQgT0YgVEhFIFBPU1NJQklMSVRZIFRIRVJFT0YuCisjIC0KKyMgLSAgNS4gVGhpcyBM
+aWNlbnNlIEFncmVlbWVudCB3aWxsIGF1dG9tYXRpY2FsbHkgdGVybWluYXRlIHVwb24gYSBtYXRl
+cmlhbAorIyAtICBicmVhY2ggb2YgaXRzIHRlcm1zIGFuZCBjb25kaXRpb25zLgorIyAtCisjIC0g
+IDYuIFRoaXMgTGljZW5zZSBBZ3JlZW1lbnQgc2hhbGwgYmUgZ292ZXJuZWQgYnkgYW5kIGludGVy
+cHJldGVkIGluIGFsbAorIyAtICByZXNwZWN0cyBieSB0aGUgbGF3IG9mIHRoZSBTdGF0ZSBvZiBD
+YWxpZm9ybmlhLCBleGNsdWRpbmcgY29uZmxpY3Qgb2YKKyMgLSAgbGF3IHByb3Zpc2lvbnMuICBO
+b3RoaW5nIGluIHRoaXMgTGljZW5zZSBBZ3JlZW1lbnQgc2hhbGwgYmUgZGVlbWVkIHRvCisjIC0g
+IGNyZWF0ZSBhbnkgcmVsYXRpb25zaGlwIG9mIGFnZW5jeSwgcGFydG5lcnNoaXAsIG9yIGpvaW50
+IHZlbnR1cmUKKyMgLSAgYmV0d2VlbiBCZU9wZW4gYW5kIExpY2Vuc2VlLiAgVGhpcyBMaWNlbnNl
+IEFncmVlbWVudCBkb2VzIG5vdCBncmFudAorIyAtICBwZXJtaXNzaW9uIHRvIHVzZSBCZU9wZW4g
+dHJhZGVtYXJrcyBvciB0cmFkZSBuYW1lcyBpbiBhIHRyYWRlbWFyaworIyAtICBzZW5zZSB0byBl
+bmRvcnNlIG9yIHByb21vdGUgcHJvZHVjdHMgb3Igc2VydmljZXMgb2YgTGljZW5zZWUsIG9yIGFu
+eQorIyAtICB0aGlyZCBwYXJ0eS4gIEFzIGFuIGV4Y2VwdGlvbiwgdGhlICJCZU9wZW4gUHl0aG9u
+IiBsb2dvcyBhdmFpbGFibGUgYXQKKyMgLSAgaHR0cDovL3d3dy5weXRob25sYWJzLmNvbS9sb2dv
+cy5odG1sIG1heSBiZSB1c2VkIGFjY29yZGluZyB0byB0aGUKKyMgLSAgcGVybWlzc2lvbnMgZ3Jh
+bnRlZCBvbiB0aGF0IHdlYiBwYWdlLgorIyAtCisjIC0gIDcuIEJ5IGNvcHlpbmcsIGluc3RhbGxp
+bmcgb3Igb3RoZXJ3aXNlIHVzaW5nIHRoZSBzb2Z0d2FyZSwgTGljZW5zZWUKKyMgLSAgYWdyZWVz
+IHRvIGJlIGJvdW5kIGJ5IHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBvZiB0aGlzIExpY2Vuc2UK
+KyMgLSAgQWdyZWVtZW50LgorIyAtCisjIC0KKyMgLSAgQ05SSSBMSUNFTlNFIEFHUkVFTUVOVCBG
+T1IgUFlUSE9OIDEuNi4xCisjIC0gIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQorIyAtCisjIC0gIDEuIFRoaXMgTElDRU5TRSBBR1JFRU1FTlQgaXMgYmV0d2VlbiB0aGUg
+Q29ycG9yYXRpb24gZm9yIE5hdGlvbmFsCisjIC0gIFJlc2VhcmNoIEluaXRpYXRpdmVzLCBoYXZp
+bmcgYW4gb2ZmaWNlIGF0IDE4OTUgUHJlc3RvbiBXaGl0ZSBEcml2ZSwKKyMgLSAgUmVzdG9uLCBW
+QSAyMDE5MSAoIkNOUkkiKSwgYW5kIHRoZSBJbmRpdmlkdWFsIG9yIE9yZ2FuaXphdGlvbgorIyAt
+ICAoIkxpY2Vuc2VlIikgYWNjZXNzaW5nIGFuZCBvdGhlcndpc2UgdXNpbmcgUHl0aG9uIDEuNi4x
+IHNvZnR3YXJlIGluCisjIC0gIHNvdXJjZSBvciBiaW5hcnkgZm9ybSBhbmQgaXRzIGFzc29jaWF0
+ZWQgZG9jdW1lbnRhdGlvbi4KKyMgLQorIyAtICAyLiBTdWJqZWN0IHRvIHRoZSB0ZXJtcyBhbmQg
+Y29uZGl0aW9ucyBvZiB0aGlzIExpY2Vuc2UgQWdyZWVtZW50LCBDTlJJCisjIC0gIGhlcmVieSBn
+cmFudHMgTGljZW5zZWUgYSBub25leGNsdXNpdmUsIHJveWFsdHktZnJlZSwgd29ybGQtd2lkZQor
+IyAtICBsaWNlbnNlIHRvIHJlcHJvZHVjZSwgYW5hbHl6ZSwgdGVzdCwgcGVyZm9ybSBhbmQvb3Ig
+ZGlzcGxheSBwdWJsaWNseSwKKyMgLSAgcHJlcGFyZSBkZXJpdmF0aXZlIHdvcmtzLCBkaXN0cmli
+dXRlLCBhbmQgb3RoZXJ3aXNlIHVzZSBQeXRob24gMS42LjEKKyMgLSAgYWxvbmUgb3IgaW4gYW55
+IGRlcml2YXRpdmUgdmVyc2lvbiwgcHJvdmlkZWQsIGhvd2V2ZXIsIHRoYXQgQ05SSSdzCisjIC0g
+IExpY2Vuc2UgQWdyZWVtZW50IGFuZCBDTlJJJ3Mgbm90aWNlIG9mIGNvcHlyaWdodCwgaS5lLiwg
+IkNvcHlyaWdodCAoYykKKyMgLSAgMTk5NS0yMDAxIENvcnBvcmF0aW9uIGZvciBOYXRpb25hbCBS
+ZXNlYXJjaCBJbml0aWF0aXZlczsgQWxsIFJpZ2h0cworIyAtICBSZXNlcnZlZCIgYXJlIHJldGFp
+bmVkIGluIFB5dGhvbiAxLjYuMSBhbG9uZSBvciBpbiBhbnkgZGVyaXZhdGl2ZQorIyAtICB2ZXJz
+aW9uIHByZXBhcmVkIGJ5IExpY2Vuc2VlLiAgQWx0ZXJuYXRlbHksIGluIGxpZXUgb2YgQ05SSSdz
+IExpY2Vuc2UKKyMgLSAgQWdyZWVtZW50LCBMaWNlbnNlZSBtYXkgc3Vic3RpdHV0ZSB0aGUgZm9s
+bG93aW5nIHRleHQgKG9taXR0aW5nIHRoZQorIyAtICBxdW90ZXMpOiAiUHl0aG9uIDEuNi4xIGlz
+IG1hZGUgYXZhaWxhYmxlIHN1YmplY3QgdG8gdGhlIHRlcm1zIGFuZAorIyAtICBjb25kaXRpb25z
+IGluIENOUkkncyBMaWNlbnNlIEFncmVlbWVudC4gIFRoaXMgQWdyZWVtZW50IHRvZ2V0aGVyIHdp
+dGgKKyMgLSAgUHl0aG9uIDEuNi4xIG1heSBiZSBsb2NhdGVkIG9uIHRoZSBJbnRlcm5ldCB1c2lu
+ZyB0aGUgZm9sbG93aW5nCisjIC0gIHVuaXF1ZSwgcGVyc2lzdGVudCBpZGVudGlmaWVyIChrbm93
+biBhcyBhIGhhbmRsZSk6IDE4OTUuMjIvMTAxMy4gIFRoaXMKKyMgLSAgQWdyZWVtZW50IG1heSBh
+bHNvIGJlIG9idGFpbmVkIGZyb20gYSBwcm94eSBzZXJ2ZXIgb24gdGhlIEludGVybmV0CisjIC0g
+IHVzaW5nIHRoZSBmb2xsb3dpbmcgVVJMOiBodHRwOi8vaGRsLmhhbmRsZS5uZXQvMTg5NS4yMi8x
+MDEzIi4KKyMgLQorIyAtICAzLiBJbiB0aGUgZXZlbnQgTGljZW5zZWUgcHJlcGFyZXMgYSBkZXJp
+dmF0aXZlIHdvcmsgdGhhdCBpcyBiYXNlZCBvbgorIyAtICBvciBpbmNvcnBvcmF0ZXMgUHl0aG9u
+IDEuNi4xIG9yIGFueSBwYXJ0IHRoZXJlb2YsIGFuZCB3YW50cyB0byBtYWtlCisjIC0gIHRoZSBk
+ZXJpdmF0aXZlIHdvcmsgYXZhaWxhYmxlIHRvIG90aGVycyBhcyBwcm92aWRlZCBoZXJlaW4sIHRo
+ZW4KKyMgLSAgTGljZW5zZWUgaGVyZWJ5IGFncmVlcyB0byBpbmNsdWRlIGluIGFueSBzdWNoIHdv
+cmsgYSBicmllZiBzdW1tYXJ5IG9mCisjIC0gIHRoZSBjaGFuZ2VzIG1hZGUgdG8gUHl0aG9uIDEu
+Ni4xLgorIyAtCisjIC0gIDQuIENOUkkgaXMgbWFraW5nIFB5dGhvbiAxLjYuMSBhdmFpbGFibGUg
+dG8gTGljZW5zZWUgb24gYW4gIkFTIElTIgorIyAtICBiYXNpcy4gIENOUkkgTUFLRVMgTk8gUkVQ
+UkVTRU5UQVRJT05TIE9SIFdBUlJBTlRJRVMsIEVYUFJFU1MgT1IKKyMgLSAgSU1QTElFRC4gIEJZ
+IFdBWSBPRiBFWEFNUExFLCBCVVQgTk9UIExJTUlUQVRJT04sIENOUkkgTUFLRVMgTk8gQU5ECisj
+IC0gIERJU0NMQUlNUyBBTlkgUkVQUkVTRU5UQVRJT04gT1IgV0FSUkFOVFkgT0YgTUVSQ0hBTlRB
+QklMSVRZIE9SIEZJVE5FU1MKKyMgLSAgRk9SIEFOWSBQQVJUSUNVTEFSIFBVUlBPU0UgT1IgVEhB
+VCBUSEUgVVNFIE9GIFBZVEhPTiAxLjYuMSBXSUxMIE5PVAorIyAtICBJTkZSSU5HRSBBTlkgVEhJ
+UkQgUEFSVFkgUklHSFRTLgorIyAtCisjIC0gIDUuIENOUkkgU0hBTEwgTk9UIEJFIExJQUJMRSBU
+TyBMSUNFTlNFRSBPUiBBTlkgT1RIRVIgVVNFUlMgT0YgUFlUSE9OCisjIC0gIDEuNi4xIEZPUiBB
+TlkgSU5DSURFTlRBTCwgU1BFQ0lBTCwgT1IgQ09OU0VRVUVOVElBTCBEQU1BR0VTIE9SIExPU1Mg
+QVMKKyMgLSAgQSBSRVNVTFQgT0YgTU9ESUZZSU5HLCBESVNUUklCVVRJTkcsIE9SIE9USEVSV0lT
+RSBVU0lORyBQWVRIT04gMS42LjEsCisjIC0gIE9SIEFOWSBERVJJVkFUSVZFIFRIRVJFT0YsIEVW
+RU4gSUYgQURWSVNFRCBPRiBUSEUgUE9TU0lCSUxJVFkgVEhFUkVPRi4KKyMgLQorIyAtICA2LiBU
+aGlzIExpY2Vuc2UgQWdyZWVtZW50IHdpbGwgYXV0b21hdGljYWxseSB0ZXJtaW5hdGUgdXBvbiBh
+IG1hdGVyaWFsCisjIC0gIGJyZWFjaCBvZiBpdHMgdGVybXMgYW5kIGNvbmRpdGlvbnMuCisjIC0K
+KyMgLSAgNy4gVGhpcyBMaWNlbnNlIEFncmVlbWVudCBzaGFsbCBiZSBnb3Zlcm5lZCBieSB0aGUg
+ZmVkZXJhbAorIyAtICBpbnRlbGxlY3R1YWwgcHJvcGVydHkgbGF3IG9mIHRoZSBVbml0ZWQgU3Rh
+dGVzLCBpbmNsdWRpbmcgd2l0aG91dAorIyAtICBsaW1pdGF0aW9uIHRoZSBmZWRlcmFsIGNvcHly
+aWdodCBsYXcsIGFuZCwgdG8gdGhlIGV4dGVudCBzdWNoCisjIC0gIFUuUy4gZmVkZXJhbCBsYXcg
+ZG9lcyBub3QgYXBwbHksIGJ5IHRoZSBsYXcgb2YgdGhlIENvbW1vbndlYWx0aCBvZgorIyAtICBW
+aXJnaW5pYSwgZXhjbHVkaW5nIFZpcmdpbmlhJ3MgY29uZmxpY3Qgb2YgbGF3IHByb3Zpc2lvbnMu
+CisjIC0gIE5vdHdpdGhzdGFuZGluZyB0aGUgZm9yZWdvaW5nLCB3aXRoIHJlZ2FyZCB0byBkZXJp
+dmF0aXZlIHdvcmtzIGJhc2VkCisjIC0gIG9uIFB5dGhvbiAxLjYuMSB0aGF0IGluY29ycG9yYXRl
+IG5vbi1zZXBhcmFibGUgbWF0ZXJpYWwgdGhhdCB3YXMKKyMgLSAgcHJldmlvdXNseSBkaXN0cmli
+dXRlZCB1bmRlciB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgKEdQTCksIHRoZQorIyAt
+ICBsYXcgb2YgdGhlIENvbW1vbndlYWx0aCBvZiBWaXJnaW5pYSBzaGFsbCBnb3Zlcm4gdGhpcyBM
+aWNlbnNlCisjIC0gIEFncmVlbWVudCBvbmx5IGFzIHRvIGlzc3VlcyBhcmlzaW5nIHVuZGVyIG9y
+IHdpdGggcmVzcGVjdCB0bworIyAtICBQYXJhZ3JhcGhzIDQsIDUsIGFuZCA3IG9mIHRoaXMgTGlj
+ZW5zZSBBZ3JlZW1lbnQuICBOb3RoaW5nIGluIHRoaXMKKyMgLSAgTGljZW5zZSBBZ3JlZW1lbnQg
+c2hhbGwgYmUgZGVlbWVkIHRvIGNyZWF0ZSBhbnkgcmVsYXRpb25zaGlwIG9mCisjIC0gIGFnZW5j
+eSwgcGFydG5lcnNoaXAsIG9yIGpvaW50IHZlbnR1cmUgYmV0d2VlbiBDTlJJIGFuZCBMaWNlbnNl
+ZS4gIFRoaXMKKyMgLSAgTGljZW5zZSBBZ3JlZW1lbnQgZG9lcyBub3QgZ3JhbnQgcGVybWlzc2lv
+biB0byB1c2UgQ05SSSB0cmFkZW1hcmtzIG9yCisjIC0gIHRyYWRlIG5hbWUgaW4gYSB0cmFkZW1h
+cmsgc2Vuc2UgdG8gZW5kb3JzZSBvciBwcm9tb3RlIHByb2R1Y3RzIG9yCisjIC0gIHNlcnZpY2Vz
+IG9mIExpY2Vuc2VlLCBvciBhbnkgdGhpcmQgcGFydHkuCisjIC0KKyMgLSAgOC4gQnkgY2xpY2tp
+bmcgb24gdGhlICJBQ0NFUFQiIGJ1dHRvbiB3aGVyZSBpbmRpY2F0ZWQsIG9yIGJ5IGNvcHlpbmcs
+CisjIC0gIGluc3RhbGxpbmcgb3Igb3RoZXJ3aXNlIHVzaW5nIFB5dGhvbiAxLjYuMSwgTGljZW5z
+ZWUgYWdyZWVzIHRvIGJlCisjIC0gIGJvdW5kIGJ5IHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBv
+ZiB0aGlzIExpY2Vuc2UgQWdyZWVtZW50LgorIyAtCisjIC0gICAgICAgICAgQUNDRVBUCisjIC0K
+KyMgLQorIyAtICBDV0kgTElDRU5TRSBBR1JFRU1FTlQgRk9SIFBZVEhPTiAwLjkuMCBUSFJPVUdI
+IDEuMgorIyAtICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQorIyAtCisjIC0gIENvcHlyaWdodCAoYykgMTk5MSAtIDE5OTUsIFN0aWNodGluZyBNYXRo
+ZW1hdGlzY2ggQ2VudHJ1bSBBbXN0ZXJkYW0sCisjIC0gIFRoZSBOZXRoZXJsYW5kcy4gIEFsbCBy
+aWdodHMgcmVzZXJ2ZWQuCisjIC0KKyMgLSAgUGVybWlzc2lvbiB0byB1c2UsIGNvcHksIG1vZGlm
+eSwgYW5kIGRpc3RyaWJ1dGUgdGhpcyBzb2Z0d2FyZSBhbmQgaXRzCisjIC0gIGRvY3VtZW50YXRp
+b24gZm9yIGFueSBwdXJwb3NlIGFuZCB3aXRob3V0IGZlZSBpcyBoZXJlYnkgZ3JhbnRlZCwKKyMg
+LSAgcHJvdmlkZWQgdGhhdCB0aGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhcHBlYXIgaW4gYWxs
+IGNvcGllcyBhbmQgdGhhdAorIyAtICBib3RoIHRoYXQgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhp
+cyBwZXJtaXNzaW9uIG5vdGljZSBhcHBlYXIgaW4KKyMgLSAgc3VwcG9ydGluZyBkb2N1bWVudGF0
+aW9uLCBhbmQgdGhhdCB0aGUgbmFtZSBvZiBTdGljaHRpbmcgTWF0aGVtYXRpc2NoCisjIC0gIENl
+bnRydW0gb3IgQ1dJIG5vdCBiZSB1c2VkIGluIGFkdmVydGlzaW5nIG9yIHB1YmxpY2l0eSBwZXJ0
+YWluaW5nIHRvCisjIC0gIGRpc3RyaWJ1dGlvbiBvZiB0aGUgc29mdHdhcmUgd2l0aG91dCBzcGVj
+aWZpYywgd3JpdHRlbiBwcmlvcgorIyAtICBwZXJtaXNzaW9uLgorIyAtCisjIC0gIFNUSUNIVElO
+RyBNQVRIRU1BVElTQ0ggQ0VOVFJVTSBESVNDTEFJTVMgQUxMIFdBUlJBTlRJRVMgV0lUSCBSRUdB
+UkQgVE8KKyMgLSAgVEhJUyBTT0ZUV0FSRSwgSU5DTFVESU5HIEFMTCBJTVBMSUVEIFdBUlJBTlRJ
+RVMgT0YgTUVSQ0hBTlRBQklMSVRZIEFORAorIyAtICBGSVRORVNTLCBJTiBOTyBFVkVOVCBTSEFM
+TCBTVElDSFRJTkcgTUFUSEVNQVRJU0NIIENFTlRSVU0gQkUgTElBQkxFCisjIC0gIEZPUiBBTlkg
+U1BFQ0lBTCwgSU5ESVJFQ1QgT1IgQ09OU0VRVUVOVElBTCBEQU1BR0VTIE9SIEFOWSBEQU1BR0VT
+CisjIC0gIFdIQVRTT0VWRVIgUkVTVUxUSU5HIEZST00gTE9TUyBPRiBVU0UsIERBVEEgT1IgUFJP
+RklUUywgV0hFVEhFUiBJTiBBTgorIyAtICBBQ1RJT04gT0YgQ09OVFJBQ1QsIE5FR0xJR0VOQ0Ug
+T1IgT1RIRVIgVE9SVElPVVMgQUNUSU9OLCBBUklTSU5HIE9VVAorIyAtICBPRiBPUiBJTiBDT05O
+RUNUSU9OIFdJVEggVEhFIFVTRSBPUiBQRVJGT1JNQU5DRSBPRiBUSElTIFNPRlRXQVJFLgorIyAt
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAtCisjIC0KKyMgLXNyYy9tdXJtdXJoYXNobmV1dHJh
+bDIuW2hjXQorIyAtfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CisjIC0KKyMgLVRoaXMgZmFz
+dCBoYXNoIGltcGxlbWVudGF0aW9uIGlzIHJlbGVhc2VkIHRvIHRoZSBwdWJsaWMgZG9tYWluIGJ5
+IEF1c3RpbgorIyAtQXBwbGVieS4gU2VlIGh0dHA6Ly9tdXJtdXJoYXNoLmdvb2dsZXBhZ2VzLmNv
+bS4KKyMgLQorIyAtCisjIC1zcmMvbWluaXRyYWNlLltoY10KKyMgLX5+fn5+fn5+fn5+fn5+fn5+
+fgorIyAtCisjIC1BIGxpYnJhcnkgZm9yIHByb2R1Y2luZyBKU09OIHRyYWNlcyBzdWl0YWJsZSBm
+b3IgQ2hyb21lJ3MgYnVpbHQtaW4gdHJhY2Ugdmlld2VyCisjIC0oY2hyb21lOi8vdHJhY2luZyku
+IERvd25sb2FkZWQgZnJvbSA8aHR0cHM6Ly9naXRodWIuY29tL2hyeWRnYXJkL21pbml0cmFjZT4u
+CisjICtzcmMvdGhpcmRfcGFydHkvYmFzZTMyaGV4LltoY10KKyMgK35+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fgorIyArCisjICtUaGlzIGJhc2UzMmhleCBpbXBsZW1lbnRhdGlvbiBjb21l
+cyBmcm9tCisjICs8aHR0cHM6Ly9naXRodWIuY29tL3BtY29ucmFkL3RpbnlkbnNzZWM+LgorIyAr
+CisjICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICsoQykgMjAxMiBQZXRlciBDb25yYWQgPGNv
+bnJhZEBxdWlzcXVpcy5kZT4KKyMgKworIyArVGhpcyBwcm9ncmFtIGlzIGZyZWUgc29mdHdhcmU6
+IHlvdSBjYW4gcmVkaXN0cmlidXRlIGl0IGFuZC9vciBtb2RpZnkKKyMgK2l0IHVuZGVyIHRoZSB0
+ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgdmVyc2lvbiAzIGFzCisjICtw
+dWJsaXNoZWQgYnkgdGhlIEZyZWUgU29mdHdhcmUgRm91bmRhdGlvbi4KKyMgKworIyArVGhpcyBw
+cm9ncmFtIGlzIGRpc3RyaWJ1dGVkIGluIHRoZSBob3BlIHRoYXQgaXQgd2lsbCBiZSB1c2VmdWws
+CisjICtidXQgV0lUSE9VVCBBTlkgV0FSUkFOVFk7IHdpdGhvdXQgZXZlbiB0aGUgaW1wbGllZCB3
+YXJyYW50eSBvZgorIyArTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxB
+UiBQVVJQT1NFLiAgU2VlIHRoZQorIyArR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgZm9yIG1v
+cmUgZGV0YWlscy4KKyMgKworIyArWW91IHNob3VsZCBoYXZlIHJlY2VpdmVkIGEgY29weSBvZiB0
+aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UKKyMgK2Fsb25nIHdpdGggdGhpcyBwcm9ncmFt
+LiAgSWYgbm90LCBzZWUgPGh0dHA6Ly93d3cuZ251Lm9yZy9saWNlbnNlcy8+LgorIyArLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQorIyArCisjICsKKyMgK3NyYy90aGlyZF9wYXJ0eS9ibGFrZTMvKi5b
+aGNTXQorIyArfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CisjICsKKyMgK1RoaXMgaXMg
+YSBzdWJzZXQgb2YgaHR0cHM6Ly9naXRodWIuY29tL0JMQUtFMy10ZWFtL0JMQUtFM1tCTEFLRTNd
+IDAuMy43IHdpdGgKKyMgK3RoZSBmb2xsb3dpbmcgbGljZW5zZToKKyMgKworIyArLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQorIyArVGhpcyB3b3JrIGlzIHJlbGVhc2VkIGludG8gdGhlIHB1YmxpYyBk
+b21haW4gd2l0aCBDQzAgMS4wLiBBbHRlcm5hdGl2ZWx5LCBpdCBpcworIyArbGljZW5zZWQgdW5k
+ZXIgdGhlIEFwYWNoZSBMaWNlbnNlIDIuMC4KKyMgKworIyArLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LQorIyArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyArCisjICtDcmVhdGl2ZSBDb21tb25zIExl
+Z2FsIENvZGUKKyMgKworIyArQ0MwIDEuMCBVbml2ZXJzYWwKKyMgKworIyArICAgIENSRUFUSVZF
+IENPTU1PTlMgQ09SUE9SQVRJT04gSVMgTk9UIEEgTEFXIEZJUk0gQU5EIERPRVMgTk9UIFBST1ZJ
+REUKKyMgKyAgICBMRUdBTCBTRVJWSUNFUy4gRElTVFJJQlVUSU9OIE9GIFRISVMgRE9DVU1FTlQg
+RE9FUyBOT1QgQ1JFQVRFIEFOCisjICsgICAgQVRUT1JORVktQ0xJRU5UIFJFTEFUSU9OU0hJUC4g
+Q1JFQVRJVkUgQ09NTU9OUyBQUk9WSURFUyBUSElTCisjICsgICAgSU5GT1JNQVRJT04gT04gQU4g
+IkFTLUlTIiBCQVNJUy4gQ1JFQVRJVkUgQ09NTU9OUyBNQUtFUyBOTyBXQVJSQU5USUVTCisjICsg
+ICAgUkVHQVJESU5HIFRIRSBVU0UgT0YgVEhJUyBET0NVTUVOVCBPUiBUSEUgSU5GT1JNQVRJT04g
+T1IgV09SS1MKKyMgKyAgICBQUk9WSURFRCBIRVJFVU5ERVIsIEFORCBESVNDTEFJTVMgTElBQklM
+SVRZIEZPUiBEQU1BR0VTIFJFU1VMVElORyBGUk9NCisjICsgICAgVEhFIFVTRSBPRiBUSElTIERP
+Q1VNRU5UIE9SIFRIRSBJTkZPUk1BVElPTiBPUiBXT1JLUyBQUk9WSURFRAorIyArICAgIEhFUkVV
+TkRFUi4KKyMgKworIyArU3RhdGVtZW50IG9mIFB1cnBvc2UKKyMgKworIyArVGhlIGxhd3Mgb2Yg
+bW9zdCBqdXJpc2RpY3Rpb25zIHRocm91Z2hvdXQgdGhlIHdvcmxkIGF1dG9tYXRpY2FsbHkgY29u
+ZmVyCisjICtleGNsdXNpdmUgQ29weXJpZ2h0IGFuZCBSZWxhdGVkIFJpZ2h0cyAoZGVmaW5lZCBi
+ZWxvdykgdXBvbiB0aGUgY3JlYXRvcgorIyArYW5kIHN1YnNlcXVlbnQgb3duZXIocykgKGVhY2gg
+YW5kIGFsbCwgYW4gIm93bmVyIikgb2YgYW4gb3JpZ2luYWwgd29yayBvZgorIyArYXV0aG9yc2hp
+cCBhbmQvb3IgYSBkYXRhYmFzZSAoZWFjaCwgYSAiV29yayIpLgorIyArCisjICtDZXJ0YWluIG93
+bmVycyB3aXNoIHRvIHBlcm1hbmVudGx5IHJlbGlucXVpc2ggdGhvc2UgcmlnaHRzIHRvIGEgV29y
+ayBmb3IKKyMgK3RoZSBwdXJwb3NlIG9mIGNvbnRyaWJ1dGluZyB0byBhIGNvbW1vbnMgb2YgY3Jl
+YXRpdmUsIGN1bHR1cmFsIGFuZAorIyArc2NpZW50aWZpYyB3b3JrcyAoIkNvbW1vbnMiKSB0aGF0
+IHRoZSBwdWJsaWMgY2FuIHJlbGlhYmx5IGFuZCB3aXRob3V0IGZlYXIKKyMgK29mIGxhdGVyIGNs
+YWltcyBvZiBpbmZyaW5nZW1lbnQgYnVpbGQgdXBvbiwgbW9kaWZ5LCBpbmNvcnBvcmF0ZSBpbiBv
+dGhlcgorIyArd29ya3MsIHJldXNlIGFuZCByZWRpc3RyaWJ1dGUgYXMgZnJlZWx5IGFzIHBvc3Np
+YmxlIGluIGFueSBmb3JtIHdoYXRzb2V2ZXIKKyMgK2FuZCBmb3IgYW55IHB1cnBvc2VzLCBpbmNs
+dWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIGNvbW1lcmNpYWwgcHVycG9zZXMuCisjICtUaGVzZSBv
+d25lcnMgbWF5IGNvbnRyaWJ1dGUgdG8gdGhlIENvbW1vbnMgdG8gcHJvbW90ZSB0aGUgaWRlYWwg
+b2YgYSBmcmVlCisjICtjdWx0dXJlIGFuZCB0aGUgZnVydGhlciBwcm9kdWN0aW9uIG9mIGNyZWF0
+aXZlLCBjdWx0dXJhbCBhbmQgc2NpZW50aWZpYworIyArd29ya3MsIG9yIHRvIGdhaW4gcmVwdXRh
+dGlvbiBvciBncmVhdGVyIGRpc3RyaWJ1dGlvbiBmb3IgdGhlaXIgV29yayBpbgorIyArcGFydCB0
+aHJvdWdoIHRoZSB1c2UgYW5kIGVmZm9ydHMgb2Ygb3RoZXJzLgorIyArCisjICtGb3IgdGhlc2Ug
+YW5kL29yIG90aGVyIHB1cnBvc2VzIGFuZCBtb3RpdmF0aW9ucywgYW5kIHdpdGhvdXQgYW55Cisj
+ICtleHBlY3RhdGlvbiBvZiBhZGRpdGlvbmFsIGNvbnNpZGVyYXRpb24gb3IgY29tcGVuc2F0aW9u
+LCB0aGUgcGVyc29uCisjICthc3NvY2lhdGluZyBDQzAgd2l0aCBhIFdvcmsgKHRoZSAiQWZmaXJt
+ZXIiKSwgdG8gdGhlIGV4dGVudCB0aGF0IGhlIG9yIHNoZQorIyAraXMgYW4gb3duZXIgb2YgQ29w
+eXJpZ2h0IGFuZCBSZWxhdGVkIFJpZ2h0cyBpbiB0aGUgV29yaywgdm9sdW50YXJpbHkKKyMgK2Vs
+ZWN0cyB0byBhcHBseSBDQzAgdG8gdGhlIFdvcmsgYW5kIHB1YmxpY2x5IGRpc3RyaWJ1dGUgdGhl
+IFdvcmsgdW5kZXIgaXRzCisjICt0ZXJtcywgd2l0aCBrbm93bGVkZ2Ugb2YgaGlzIG9yIGhlciBD
+b3B5cmlnaHQgYW5kIFJlbGF0ZWQgUmlnaHRzIGluIHRoZQorIyArV29yayBhbmQgdGhlIG1lYW5p
+bmcgYW5kIGludGVuZGVkIGxlZ2FsIGVmZmVjdCBvZiBDQzAgb24gdGhvc2UgcmlnaHRzLgorIyAr
+CisjICsxLiBDb3B5cmlnaHQgYW5kIFJlbGF0ZWQgUmlnaHRzLiBBIFdvcmsgbWFkZSBhdmFpbGFi
+bGUgdW5kZXIgQ0MwIG1heSBiZQorIyArcHJvdGVjdGVkIGJ5IGNvcHlyaWdodCBhbmQgcmVsYXRl
+ZCBvciBuZWlnaGJvcmluZyByaWdodHMgKCJDb3B5cmlnaHQgYW5kCisjICtSZWxhdGVkIFJpZ2h0
+cyIpLiBDb3B5cmlnaHQgYW5kIFJlbGF0ZWQgUmlnaHRzIGluY2x1ZGUsIGJ1dCBhcmUgbm90Cisj
+ICtsaW1pdGVkIHRvLCB0aGUgZm9sbG93aW5nOgorIyArCisjICsgIGkuIHRoZSByaWdodCB0byBy
+ZXByb2R1Y2UsIGFkYXB0LCBkaXN0cmlidXRlLCBwZXJmb3JtLCBkaXNwbGF5LAorIyArICAgICBj
+b21tdW5pY2F0ZSwgYW5kIHRyYW5zbGF0ZSBhIFdvcms7CisjICsgaWkuIG1vcmFsIHJpZ2h0cyBy
+ZXRhaW5lZCBieSB0aGUgb3JpZ2luYWwgYXV0aG9yKHMpIGFuZC9vciBwZXJmb3JtZXIocyk7Cisj
+ICtpaWkuIHB1YmxpY2l0eSBhbmQgcHJpdmFjeSByaWdodHMgcGVydGFpbmluZyB0byBhIHBlcnNv
+bidzIGltYWdlIG9yCisjICsgICAgIGxpa2VuZXNzIGRlcGljdGVkIGluIGEgV29yazsKKyMgKyBp
+di4gcmlnaHRzIHByb3RlY3RpbmcgYWdhaW5zdCB1bmZhaXIgY29tcGV0aXRpb24gaW4gcmVnYXJk
+cyB0byBhIFdvcmssCisjICsgICAgIHN1YmplY3QgdG8gdGhlIGxpbWl0YXRpb25zIGluIHBhcmFn
+cmFwaCA0KGEpLCBiZWxvdzsKKyMgKyAgdi4gcmlnaHRzIHByb3RlY3RpbmcgdGhlIGV4dHJhY3Rp
+b24sIGRpc3NlbWluYXRpb24sIHVzZSBhbmQgcmV1c2Ugb2YgZGF0YQorIyArICAgICBpbiBhIFdv
+cms7CisjICsgdmkuIGRhdGFiYXNlIHJpZ2h0cyAoc3VjaCBhcyB0aG9zZSBhcmlzaW5nIHVuZGVy
+IERpcmVjdGl2ZSA5Ni85L0VDIG9mIHRoZQorIyArICAgICBFdXJvcGVhbiBQYXJsaWFtZW50IGFu
+ZCBvZiB0aGUgQ291bmNpbCBvZiAxMSBNYXJjaCAxOTk2IG9uIHRoZSBsZWdhbAorIyArICAgICBw
+cm90ZWN0aW9uIG9mIGRhdGFiYXNlcywgYW5kIHVuZGVyIGFueSBuYXRpb25hbCBpbXBsZW1lbnRh
+dGlvbgorIyArICAgICB0aGVyZW9mLCBpbmNsdWRpbmcgYW55IGFtZW5kZWQgb3Igc3VjY2Vzc29y
+IHZlcnNpb24gb2Ygc3VjaAorIyArICAgICBkaXJlY3RpdmUpOyBhbmQKKyMgK3ZpaS4gb3RoZXIg
+c2ltaWxhciwgZXF1aXZhbGVudCBvciBjb3JyZXNwb25kaW5nIHJpZ2h0cyB0aHJvdWdob3V0IHRo
+ZQorIyArICAgICB3b3JsZCBiYXNlZCBvbiBhcHBsaWNhYmxlIGxhdyBvciB0cmVhdHksIGFuZCBh
+bnkgbmF0aW9uYWwKKyMgKyAgICAgaW1wbGVtZW50YXRpb25zIHRoZXJlb2YuCisjICsKKyMgKzIu
+IFdhaXZlci4gVG8gdGhlIGdyZWF0ZXN0IGV4dGVudCBwZXJtaXR0ZWQgYnksIGJ1dCBub3QgaW4g
+Y29udHJhdmVudGlvbgorIyArb2YsIGFwcGxpY2FibGUgbGF3LCBBZmZpcm1lciBoZXJlYnkgb3Zl
+cnRseSwgZnVsbHksIHBlcm1hbmVudGx5LAorIyAraXJyZXZvY2FibHkgYW5kIHVuY29uZGl0aW9u
+YWxseSB3YWl2ZXMsIGFiYW5kb25zLCBhbmQgc3VycmVuZGVycyBhbGwgb2YKKyMgK0FmZmlybWVy
+J3MgQ29weXJpZ2h0IGFuZCBSZWxhdGVkIFJpZ2h0cyBhbmQgYXNzb2NpYXRlZCBjbGFpbXMgYW5k
+IGNhdXNlcworIyArb2YgYWN0aW9uLCB3aGV0aGVyIG5vdyBrbm93biBvciB1bmtub3duIChpbmNs
+dWRpbmcgZXhpc3RpbmcgYXMgd2VsbCBhcworIyArZnV0dXJlIGNsYWltcyBhbmQgY2F1c2VzIG9m
+IGFjdGlvbiksIGluIHRoZSBXb3JrIChpKSBpbiBhbGwgdGVycml0b3JpZXMKKyMgK3dvcmxkd2lk
+ZSwgKGlpKSBmb3IgdGhlIG1heGltdW0gZHVyYXRpb24gcHJvdmlkZWQgYnkgYXBwbGljYWJsZSBs
+YXcgb3IKKyMgK3RyZWF0eSAoaW5jbHVkaW5nIGZ1dHVyZSB0aW1lIGV4dGVuc2lvbnMpLCAoaWlp
+KSBpbiBhbnkgY3VycmVudCBvciBmdXR1cmUKKyMgK21lZGl1bSBhbmQgZm9yIGFueSBudW1iZXIg
+b2YgY29waWVzLCBhbmQgKGl2KSBmb3IgYW55IHB1cnBvc2Ugd2hhdHNvZXZlciwKKyMgK2luY2x1
+ZGluZyB3aXRob3V0IGxpbWl0YXRpb24gY29tbWVyY2lhbCwgYWR2ZXJ0aXNpbmcgb3IgcHJvbW90
+aW9uYWwKKyMgK3B1cnBvc2VzICh0aGUgIldhaXZlciIpLiBBZmZpcm1lciBtYWtlcyB0aGUgV2Fp
+dmVyIGZvciB0aGUgYmVuZWZpdCBvZiBlYWNoCisjICttZW1iZXIgb2YgdGhlIHB1YmxpYyBhdCBs
+YXJnZSBhbmQgdG8gdGhlIGRldHJpbWVudCBvZiBBZmZpcm1lcidzIGhlaXJzIGFuZAorIyArc3Vj
+Y2Vzc29ycywgZnVsbHkgaW50ZW5kaW5nIHRoYXQgc3VjaCBXYWl2ZXIgc2hhbGwgbm90IGJlIHN1
+YmplY3QgdG8KKyMgK3Jldm9jYXRpb24sIHJlc2Npc3Npb24sIGNhbmNlbGxhdGlvbiwgdGVybWlu
+YXRpb24sIG9yIGFueSBvdGhlciBsZWdhbCBvcgorIyArZXF1aXRhYmxlIGFjdGlvbiB0byBkaXNy
+dXB0IHRoZSBxdWlldCBlbmpveW1lbnQgb2YgdGhlIFdvcmsgYnkgdGhlIHB1YmxpYworIyArYXMg
+Y29udGVtcGxhdGVkIGJ5IEFmZmlybWVyJ3MgZXhwcmVzcyBTdGF0ZW1lbnQgb2YgUHVycG9zZS4K
+KyMgKworIyArMy4gUHVibGljIExpY2Vuc2UgRmFsbGJhY2suIFNob3VsZCBhbnkgcGFydCBvZiB0
+aGUgV2FpdmVyIGZvciBhbnkgcmVhc29uCisjICtiZSBqdWRnZWQgbGVnYWxseSBpbnZhbGlkIG9y
+IGluZWZmZWN0aXZlIHVuZGVyIGFwcGxpY2FibGUgbGF3LCB0aGVuIHRoZQorIyArV2FpdmVyIHNo
+YWxsIGJlIHByZXNlcnZlZCB0byB0aGUgbWF4aW11bSBleHRlbnQgcGVybWl0dGVkIHRha2luZyBp
+bnRvCisjICthY2NvdW50IEFmZmlybWVyJ3MgZXhwcmVzcyBTdGF0ZW1lbnQgb2YgUHVycG9zZS4g
+SW4gYWRkaXRpb24sIHRvIHRoZQorIyArZXh0ZW50IHRoZSBXYWl2ZXIgaXMgc28ganVkZ2VkIEFm
+ZmlybWVyIGhlcmVieSBncmFudHMgdG8gZWFjaCBhZmZlY3RlZAorIyArcGVyc29uIGEgcm95YWx0
+eS1mcmVlLCBub24gdHJhbnNmZXJhYmxlLCBub24gc3VibGljZW5zYWJsZSwgbm9uIGV4Y2x1c2l2
+ZSwKKyMgK2lycmV2b2NhYmxlIGFuZCB1bmNvbmRpdGlvbmFsIGxpY2Vuc2UgdG8gZXhlcmNpc2Ug
+QWZmaXJtZXIncyBDb3B5cmlnaHQgYW5kCisjICtSZWxhdGVkIFJpZ2h0cyBpbiB0aGUgV29yayAo
+aSkgaW4gYWxsIHRlcnJpdG9yaWVzIHdvcmxkd2lkZSwgKGlpKSBmb3IgdGhlCisjICttYXhpbXVt
+IGR1cmF0aW9uIHByb3ZpZGVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIHRyZWF0eSAoaW5jbHVkaW5n
+IGZ1dHVyZQorIyArdGltZSBleHRlbnNpb25zKSwgKGlpaSkgaW4gYW55IGN1cnJlbnQgb3IgZnV0
+dXJlIG1lZGl1bSBhbmQgZm9yIGFueSBudW1iZXIKKyMgK29mIGNvcGllcywgYW5kIChpdikgZm9y
+IGFueSBwdXJwb3NlIHdoYXRzb2V2ZXIsIGluY2x1ZGluZyB3aXRob3V0CisjICtsaW1pdGF0aW9u
+IGNvbW1lcmNpYWwsIGFkdmVydGlzaW5nIG9yIHByb21vdGlvbmFsIHB1cnBvc2VzICh0aGUKKyMg
+KyJMaWNlbnNlIikuIFRoZSBMaWNlbnNlIHNoYWxsIGJlIGRlZW1lZCBlZmZlY3RpdmUgYXMgb2Yg
+dGhlIGRhdGUgQ0MwIHdhcworIyArYXBwbGllZCBieSBBZmZpcm1lciB0byB0aGUgV29yay4gU2hv
+dWxkIGFueSBwYXJ0IG9mIHRoZSBMaWNlbnNlIGZvciBhbnkKKyMgK3JlYXNvbiBiZSBqdWRnZWQg
+bGVnYWxseSBpbnZhbGlkIG9yIGluZWZmZWN0aXZlIHVuZGVyIGFwcGxpY2FibGUgbGF3LCBzdWNo
+CisjICtwYXJ0aWFsIGludmFsaWRpdHkgb3IgaW5lZmZlY3RpdmVuZXNzIHNoYWxsIG5vdCBpbnZh
+bGlkYXRlIHRoZSByZW1haW5kZXIKKyMgK29mIHRoZSBMaWNlbnNlLCBhbmQgaW4gc3VjaCBjYXNl
+IEFmZmlybWVyIGhlcmVieSBhZmZpcm1zIHRoYXQgaGUgb3Igc2hlCisjICt3aWxsIG5vdCAoaSkg
+ZXhlcmNpc2UgYW55IG9mIGhpcyBvciBoZXIgcmVtYWluaW5nIENvcHlyaWdodCBhbmQgUmVsYXRl
+ZAorIyArUmlnaHRzIGluIHRoZSBXb3JrIG9yIChpaSkgYXNzZXJ0IGFueSBhc3NvY2lhdGVkIGNs
+YWltcyBhbmQgY2F1c2VzIG9mCisjICthY3Rpb24gd2l0aCByZXNwZWN0IHRvIHRoZSBXb3JrLCBp
+biBlaXRoZXIgY2FzZSBjb250cmFyeSB0byBBZmZpcm1lcidzCisjICtleHByZXNzIFN0YXRlbWVu
+dCBvZiBQdXJwb3NlLgorIyArCisjICs0LiBMaW1pdGF0aW9ucyBhbmQgRGlzY2xhaW1lcnMuCisj
+ICsKKyMgKyBhLiBObyB0cmFkZW1hcmsgb3IgcGF0ZW50IHJpZ2h0cyBoZWxkIGJ5IEFmZmlybWVy
+IGFyZSB3YWl2ZWQsIGFiYW5kb25lZCwKKyMgKyAgICBzdXJyZW5kZXJlZCwgbGljZW5zZWQgb3Ig
+b3RoZXJ3aXNlIGFmZmVjdGVkIGJ5IHRoaXMgZG9jdW1lbnQuCisjICsgYi4gQWZmaXJtZXIgb2Zm
+ZXJzIHRoZSBXb3JrIGFzLWlzIGFuZCBtYWtlcyBubyByZXByZXNlbnRhdGlvbnMgb3IKKyMgKyAg
+ICB3YXJyYW50aWVzIG9mIGFueSBraW5kIGNvbmNlcm5pbmcgdGhlIFdvcmssIGV4cHJlc3MsIGlt
+cGxpZWQsCisjICsgICAgc3RhdHV0b3J5IG9yIG90aGVyd2lzZSwgaW5jbHVkaW5nIHdpdGhvdXQg
+bGltaXRhdGlvbiB3YXJyYW50aWVzIG9mCisjICsgICAgdGl0bGUsIG1lcmNoYW50YWJpbGl0eSwg
+Zml0bmVzcyBmb3IgYSBwYXJ0aWN1bGFyIHB1cnBvc2UsIG5vbgorIyArICAgIGluZnJpbmdlbWVu
+dCwgb3IgdGhlIGFic2VuY2Ugb2YgbGF0ZW50IG9yIG90aGVyIGRlZmVjdHMsIGFjY3VyYWN5LCBv
+cgorIyArICAgIHRoZSBwcmVzZW50IG9yIGFic2VuY2Ugb2YgZXJyb3JzLCB3aGV0aGVyIG9yIG5v
+dCBkaXNjb3ZlcmFibGUsIGFsbCB0bworIyArICAgIHRoZSBncmVhdGVzdCBleHRlbnQgcGVybWlz
+c2libGUgdW5kZXIgYXBwbGljYWJsZSBsYXcuCisjICsgYy4gQWZmaXJtZXIgZGlzY2xhaW1zIHJl
+c3BvbnNpYmlsaXR5IGZvciBjbGVhcmluZyByaWdodHMgb2Ygb3RoZXIgcGVyc29ucworIyArICAg
+IHRoYXQgbWF5IGFwcGx5IHRvIHRoZSBXb3JrIG9yIGFueSB1c2UgdGhlcmVvZiwgaW5jbHVkaW5n
+IHdpdGhvdXQKKyMgKyAgICBsaW1pdGF0aW9uIGFueSBwZXJzb24ncyBDb3B5cmlnaHQgYW5kIFJl
+bGF0ZWQgUmlnaHRzIGluIHRoZSBXb3JrLgorIyArICAgIEZ1cnRoZXIsIEFmZmlybWVyIGRpc2Ns
+YWltcyByZXNwb25zaWJpbGl0eSBmb3Igb2J0YWluaW5nIGFueSBuZWNlc3NhcnkKKyMgKyAgICBj
+b25zZW50cywgcGVybWlzc2lvbnMgb3Igb3RoZXIgcmlnaHRzIHJlcXVpcmVkIGZvciBhbnkgdXNl
+IG9mIHRoZQorIyArICAgIFdvcmsuCisjICsgZC4gQWZmaXJtZXIgdW5kZXJzdGFuZHMgYW5kIGFj
+a25vd2xlZGdlcyB0aGF0IENyZWF0aXZlIENvbW1vbnMgaXMgbm90IGEKKyMgKyAgICBwYXJ0eSB0
+byB0aGlzIGRvY3VtZW50IGFuZCBoYXMgbm8gZHV0eSBvciBvYmxpZ2F0aW9uIHdpdGggcmVzcGVj
+dCB0bworIyArICAgIHRoaXMgQ0MwIG9yIHVzZSBvZiB0aGUgV29yay4KKyMgKworIyArLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQorIyArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyArCisjICsgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICBBcGFjaGUgTGljZW5zZQorIyArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgVmVyc2lvbiAyLjAsIEphbnVhcnkgMjAwNAorIyArICAgICAgICAg
+ICAgICAgICAgICAgICAgaHR0cDovL3d3dy5hcGFjaGUub3JnL2xpY2Vuc2VzLworIyArCisjICsg
+ICBURVJNUyBBTkQgQ09ORElUSU9OUyBGT1IgVVNFLCBSRVBST0RVQ1RJT04sIEFORCBESVNUUklC
+VVRJT04KKyMgKworIyArICAgMS4gRGVmaW5pdGlvbnMuCisjICsKKyMgKyAgICAgICJMaWNlbnNl
+IiBzaGFsbCBtZWFuIHRoZSB0ZXJtcyBhbmQgY29uZGl0aW9ucyBmb3IgdXNlLCByZXByb2R1Y3Rp
+b24sCisjICsgICAgICBhbmQgZGlzdHJpYnV0aW9uIGFzIGRlZmluZWQgYnkgU2VjdGlvbnMgMSB0
+aHJvdWdoIDkgb2YgdGhpcyBkb2N1bWVudC4KKyMgKworIyArICAgICAgIkxpY2Vuc29yIiBzaGFs
+bCBtZWFuIHRoZSBjb3B5cmlnaHQgb3duZXIgb3IgZW50aXR5IGF1dGhvcml6ZWQgYnkKKyMgKyAg
+ICAgIHRoZSBjb3B5cmlnaHQgb3duZXIgdGhhdCBpcyBncmFudGluZyB0aGUgTGljZW5zZS4KKyMg
+KworIyArICAgICAgIkxlZ2FsIEVudGl0eSIgc2hhbGwgbWVhbiB0aGUgdW5pb24gb2YgdGhlIGFj
+dGluZyBlbnRpdHkgYW5kIGFsbAorIyArICAgICAgb3RoZXIgZW50aXRpZXMgdGhhdCBjb250cm9s
+LCBhcmUgY29udHJvbGxlZCBieSwgb3IgYXJlIHVuZGVyIGNvbW1vbgorIyArICAgICAgY29udHJv
+bCB3aXRoIHRoYXQgZW50aXR5LiBGb3IgdGhlIHB1cnBvc2VzIG9mIHRoaXMgZGVmaW5pdGlvbiwK
+KyMgKyAgICAgICJjb250cm9sIiBtZWFucyAoaSkgdGhlIHBvd2VyLCBkaXJlY3Qgb3IgaW5kaXJl
+Y3QsIHRvIGNhdXNlIHRoZQorIyArICAgICAgZGlyZWN0aW9uIG9yIG1hbmFnZW1lbnQgb2Ygc3Vj
+aCBlbnRpdHksIHdoZXRoZXIgYnkgY29udHJhY3Qgb3IKKyMgKyAgICAgIG90aGVyd2lzZSwgb3Ig
+KGlpKSBvd25lcnNoaXAgb2YgZmlmdHkgcGVyY2VudCAoNTAlKSBvciBtb3JlIG9mIHRoZQorIyAr
+ICAgICAgb3V0c3RhbmRpbmcgc2hhcmVzLCBvciAoaWlpKSBiZW5lZmljaWFsIG93bmVyc2hpcCBv
+ZiBzdWNoIGVudGl0eS4KKyMgKworIyArICAgICAgIllvdSIgKG9yICJZb3VyIikgc2hhbGwgbWVh
+biBhbiBpbmRpdmlkdWFsIG9yIExlZ2FsIEVudGl0eQorIyArICAgICAgZXhlcmNpc2luZyBwZXJt
+aXNzaW9ucyBncmFudGVkIGJ5IHRoaXMgTGljZW5zZS4KKyMgKworIyArICAgICAgIlNvdXJjZSIg
+Zm9ybSBzaGFsbCBtZWFuIHRoZSBwcmVmZXJyZWQgZm9ybSBmb3IgbWFraW5nIG1vZGlmaWNhdGlv
+bnMsCisjICsgICAgICBpbmNsdWRpbmcgYnV0IG5vdCBsaW1pdGVkIHRvIHNvZnR3YXJlIHNvdXJj
+ZSBjb2RlLCBkb2N1bWVudGF0aW9uCisjICsgICAgICBzb3VyY2UsIGFuZCBjb25maWd1cmF0aW9u
+IGZpbGVzLgorIyArCisjICsgICAgICAiT2JqZWN0IiBmb3JtIHNoYWxsIG1lYW4gYW55IGZvcm0g
+cmVzdWx0aW5nIGZyb20gbWVjaGFuaWNhbAorIyArICAgICAgdHJhbnNmb3JtYXRpb24gb3IgdHJh
+bnNsYXRpb24gb2YgYSBTb3VyY2UgZm9ybSwgaW5jbHVkaW5nIGJ1dAorIyArICAgICAgbm90IGxp
+bWl0ZWQgdG8gY29tcGlsZWQgb2JqZWN0IGNvZGUsIGdlbmVyYXRlZCBkb2N1bWVudGF0aW9uLAor
+IyArICAgICAgYW5kIGNvbnZlcnNpb25zIHRvIG90aGVyIG1lZGlhIHR5cGVzLgorIyArCisjICsg
+ICAgICAiV29yayIgc2hhbGwgbWVhbiB0aGUgd29yayBvZiBhdXRob3JzaGlwLCB3aGV0aGVyIGlu
+IFNvdXJjZSBvcgorIyArICAgICAgT2JqZWN0IGZvcm0sIG1hZGUgYXZhaWxhYmxlIHVuZGVyIHRo
+ZSBMaWNlbnNlLCBhcyBpbmRpY2F0ZWQgYnkgYQorIyArICAgICAgY29weXJpZ2h0IG5vdGljZSB0
+aGF0IGlzIGluY2x1ZGVkIGluIG9yIGF0dGFjaGVkIHRvIHRoZSB3b3JrCisjICsgICAgICAoYW4g
+ZXhhbXBsZSBpcyBwcm92aWRlZCBpbiB0aGUgQXBwZW5kaXggYmVsb3cpLgorIyArCisjICsgICAg
+ICAiRGVyaXZhdGl2ZSBXb3JrcyIgc2hhbGwgbWVhbiBhbnkgd29yaywgd2hldGhlciBpbiBTb3Vy
+Y2Ugb3IgT2JqZWN0CisjICsgICAgICBmb3JtLCB0aGF0IGlzIGJhc2VkIG9uIChvciBkZXJpdmVk
+IGZyb20pIHRoZSBXb3JrIGFuZCBmb3Igd2hpY2ggdGhlCisjICsgICAgICBlZGl0b3JpYWwgcmV2
+aXNpb25zLCBhbm5vdGF0aW9ucywgZWxhYm9yYXRpb25zLCBvciBvdGhlciBtb2RpZmljYXRpb25z
+CisjICsgICAgICByZXByZXNlbnQsIGFzIGEgd2hvbGUsIGFuIG9yaWdpbmFsIHdvcmsgb2YgYXV0
+aG9yc2hpcC4gRm9yIHRoZSBwdXJwb3NlcworIyArICAgICAgb2YgdGhpcyBMaWNlbnNlLCBEZXJp
+dmF0aXZlIFdvcmtzIHNoYWxsIG5vdCBpbmNsdWRlIHdvcmtzIHRoYXQgcmVtYWluCisjICsgICAg
+ICBzZXBhcmFibGUgZnJvbSwgb3IgbWVyZWx5IGxpbmsgKG9yIGJpbmQgYnkgbmFtZSkgdG8gdGhl
+IGludGVyZmFjZXMgb2YsCisjICsgICAgICB0aGUgV29yayBhbmQgRGVyaXZhdGl2ZSBXb3JrcyB0
+aGVyZW9mLgorIyArCisjICsgICAgICAiQ29udHJpYnV0aW9uIiBzaGFsbCBtZWFuIGFueSB3b3Jr
+IG9mIGF1dGhvcnNoaXAsIGluY2x1ZGluZworIyArICAgICAgdGhlIG9yaWdpbmFsIHZlcnNpb24g
+b2YgdGhlIFdvcmsgYW5kIGFueSBtb2RpZmljYXRpb25zIG9yIGFkZGl0aW9ucworIyArICAgICAg
+dG8gdGhhdCBXb3JrIG9yIERlcml2YXRpdmUgV29ya3MgdGhlcmVvZiwgdGhhdCBpcyBpbnRlbnRp
+b25hbGx5CisjICsgICAgICBzdWJtaXR0ZWQgdG8gTGljZW5zb3IgZm9yIGluY2x1c2lvbiBpbiB0
+aGUgV29yayBieSB0aGUgY29weXJpZ2h0IG93bmVyCisjICsgICAgICBvciBieSBhbiBpbmRpdmlk
+dWFsIG9yIExlZ2FsIEVudGl0eSBhdXRob3JpemVkIHRvIHN1Ym1pdCBvbiBiZWhhbGYgb2YKKyMg
+KyAgICAgIHRoZSBjb3B5cmlnaHQgb3duZXIuIEZvciB0aGUgcHVycG9zZXMgb2YgdGhpcyBkZWZp
+bml0aW9uLCAic3VibWl0dGVkIgorIyArICAgICAgbWVhbnMgYW55IGZvcm0gb2YgZWxlY3Ryb25p
+YywgdmVyYmFsLCBvciB3cml0dGVuIGNvbW11bmljYXRpb24gc2VudAorIyArICAgICAgdG8gdGhl
+IExpY2Vuc29yIG9yIGl0cyByZXByZXNlbnRhdGl2ZXMsIGluY2x1ZGluZyBidXQgbm90IGxpbWl0
+ZWQgdG8KKyMgKyAgICAgIGNvbW11bmljYXRpb24gb24gZWxlY3Ryb25pYyBtYWlsaW5nIGxpc3Rz
+LCBzb3VyY2UgY29kZSBjb250cm9sIHN5c3RlbXMsCisjICsgICAgICBhbmQgaXNzdWUgdHJhY2tp
+bmcgc3lzdGVtcyB0aGF0IGFyZSBtYW5hZ2VkIGJ5LCBvciBvbiBiZWhhbGYgb2YsIHRoZQorIyAr
+ICAgICAgTGljZW5zb3IgZm9yIHRoZSBwdXJwb3NlIG9mIGRpc2N1c3NpbmcgYW5kIGltcHJvdmlu
+ZyB0aGUgV29yaywgYnV0CisjICsgICAgICBleGNsdWRpbmcgY29tbXVuaWNhdGlvbiB0aGF0IGlz
+IGNvbnNwaWN1b3VzbHkgbWFya2VkIG9yIG90aGVyd2lzZQorIyArICAgICAgZGVzaWduYXRlZCBp
+biB3cml0aW5nIGJ5IHRoZSBjb3B5cmlnaHQgb3duZXIgYXMgIk5vdCBhIENvbnRyaWJ1dGlvbi4i
+CisjICsKKyMgKyAgICAgICJDb250cmlidXRvciIgc2hhbGwgbWVhbiBMaWNlbnNvciBhbmQgYW55
+IGluZGl2aWR1YWwgb3IgTGVnYWwgRW50aXR5CisjICsgICAgICBvbiBiZWhhbGYgb2Ygd2hvbSBh
+IENvbnRyaWJ1dGlvbiBoYXMgYmVlbiByZWNlaXZlZCBieSBMaWNlbnNvciBhbmQKKyMgKyAgICAg
+IHN1YnNlcXVlbnRseSBpbmNvcnBvcmF0ZWQgd2l0aGluIHRoZSBXb3JrLgorIyArCisjICsgICAy
+LiBHcmFudCBvZiBDb3B5cmlnaHQgTGljZW5zZS4gU3ViamVjdCB0byB0aGUgdGVybXMgYW5kIGNv
+bmRpdGlvbnMgb2YKKyMgKyAgICAgIHRoaXMgTGljZW5zZSwgZWFjaCBDb250cmlidXRvciBoZXJl
+YnkgZ3JhbnRzIHRvIFlvdSBhIHBlcnBldHVhbCwKKyMgKyAgICAgIHdvcmxkd2lkZSwgbm9uLWV4
+Y2x1c2l2ZSwgbm8tY2hhcmdlLCByb3lhbHR5LWZyZWUsIGlycmV2b2NhYmxlCisjICsgICAgICBj
+b3B5cmlnaHQgbGljZW5zZSB0byByZXByb2R1Y2UsIHByZXBhcmUgRGVyaXZhdGl2ZSBXb3JrcyBv
+ZiwKKyMgKyAgICAgIHB1YmxpY2x5IGRpc3BsYXksIHB1YmxpY2x5IHBlcmZvcm0sIHN1YmxpY2Vu
+c2UsIGFuZCBkaXN0cmlidXRlIHRoZQorIyArICAgICAgV29yayBhbmQgc3VjaCBEZXJpdmF0aXZl
+IFdvcmtzIGluIFNvdXJjZSBvciBPYmplY3QgZm9ybS4KKyMgKworIyArICAgMy4gR3JhbnQgb2Yg
+UGF0ZW50IExpY2Vuc2UuIFN1YmplY3QgdG8gdGhlIHRlcm1zIGFuZCBjb25kaXRpb25zIG9mCisj
+ICsgICAgICB0aGlzIExpY2Vuc2UsIGVhY2ggQ29udHJpYnV0b3IgaGVyZWJ5IGdyYW50cyB0byBZ
+b3UgYSBwZXJwZXR1YWwsCisjICsgICAgICB3b3JsZHdpZGUsIG5vbi1leGNsdXNpdmUsIG5vLWNo
+YXJnZSwgcm95YWx0eS1mcmVlLCBpcnJldm9jYWJsZQorIyArICAgICAgKGV4Y2VwdCBhcyBzdGF0
+ZWQgaW4gdGhpcyBzZWN0aW9uKSBwYXRlbnQgbGljZW5zZSB0byBtYWtlLCBoYXZlIG1hZGUsCisj
+ICsgICAgICB1c2UsIG9mZmVyIHRvIHNlbGwsIHNlbGwsIGltcG9ydCwgYW5kIG90aGVyd2lzZSB0
+cmFuc2ZlciB0aGUgV29yaywKKyMgKyAgICAgIHdoZXJlIHN1Y2ggbGljZW5zZSBhcHBsaWVzIG9u
+bHkgdG8gdGhvc2UgcGF0ZW50IGNsYWltcyBsaWNlbnNhYmxlCisjICsgICAgICBieSBzdWNoIENv
+bnRyaWJ1dG9yIHRoYXQgYXJlIG5lY2Vzc2FyaWx5IGluZnJpbmdlZCBieSB0aGVpcgorIyArICAg
+ICAgQ29udHJpYnV0aW9uKHMpIGFsb25lIG9yIGJ5IGNvbWJpbmF0aW9uIG9mIHRoZWlyIENvbnRy
+aWJ1dGlvbihzKQorIyArICAgICAgd2l0aCB0aGUgV29yayB0byB3aGljaCBzdWNoIENvbnRyaWJ1
+dGlvbihzKSB3YXMgc3VibWl0dGVkLiBJZiBZb3UKKyMgKyAgICAgIGluc3RpdHV0ZSBwYXRlbnQg
+bGl0aWdhdGlvbiBhZ2FpbnN0IGFueSBlbnRpdHkgKGluY2x1ZGluZyBhCisjICsgICAgICBjcm9z
+cy1jbGFpbSBvciBjb3VudGVyY2xhaW0gaW4gYSBsYXdzdWl0KSBhbGxlZ2luZyB0aGF0IHRoZSBX
+b3JrCisjICsgICAgICBvciBhIENvbnRyaWJ1dGlvbiBpbmNvcnBvcmF0ZWQgd2l0aGluIHRoZSBX
+b3JrIGNvbnN0aXR1dGVzIGRpcmVjdAorIyArICAgICAgb3IgY29udHJpYnV0b3J5IHBhdGVudCBp
+bmZyaW5nZW1lbnQsIHRoZW4gYW55IHBhdGVudCBsaWNlbnNlcworIyArICAgICAgZ3JhbnRlZCB0
+byBZb3UgdW5kZXIgdGhpcyBMaWNlbnNlIGZvciB0aGF0IFdvcmsgc2hhbGwgdGVybWluYXRlCisj
+ICsgICAgICBhcyBvZiB0aGUgZGF0ZSBzdWNoIGxpdGlnYXRpb24gaXMgZmlsZWQuCisjICsKKyMg
+KyAgIDQuIFJlZGlzdHJpYnV0aW9uLiBZb3UgbWF5IHJlcHJvZHVjZSBhbmQgZGlzdHJpYnV0ZSBj
+b3BpZXMgb2YgdGhlCisjICsgICAgICBXb3JrIG9yIERlcml2YXRpdmUgV29ya3MgdGhlcmVvZiBp
+biBhbnkgbWVkaXVtLCB3aXRoIG9yIHdpdGhvdXQKKyMgKyAgICAgIG1vZGlmaWNhdGlvbnMsIGFu
+ZCBpbiBTb3VyY2Ugb3IgT2JqZWN0IGZvcm0sIHByb3ZpZGVkIHRoYXQgWW91CisjICsgICAgICBt
+ZWV0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMgKworIyArICAgICAgKGEpIFlvdSBtdXN0
+IGdpdmUgYW55IG90aGVyIHJlY2lwaWVudHMgb2YgdGhlIFdvcmsgb3IKKyMgKyAgICAgICAgICBE
+ZXJpdmF0aXZlIFdvcmtzIGEgY29weSBvZiB0aGlzIExpY2Vuc2U7IGFuZAorIyArCisjICsgICAg
+ICAoYikgWW91IG11c3QgY2F1c2UgYW55IG1vZGlmaWVkIGZpbGVzIHRvIGNhcnJ5IHByb21pbmVu
+dCBub3RpY2VzCisjICsgICAgICAgICAgc3RhdGluZyB0aGF0IFlvdSBjaGFuZ2VkIHRoZSBmaWxl
+czsgYW5kCisjICsKKyMgKyAgICAgIChjKSBZb3UgbXVzdCByZXRhaW4sIGluIHRoZSBTb3VyY2Ug
+Zm9ybSBvZiBhbnkgRGVyaXZhdGl2ZSBXb3JrcworIyArICAgICAgICAgIHRoYXQgWW91IGRpc3Ry
+aWJ1dGUsIGFsbCBjb3B5cmlnaHQsIHBhdGVudCwgdHJhZGVtYXJrLCBhbmQKKyMgKyAgICAgICAg
+ICBhdHRyaWJ1dGlvbiBub3RpY2VzIGZyb20gdGhlIFNvdXJjZSBmb3JtIG9mIHRoZSBXb3JrLAor
+IyArICAgICAgICAgIGV4Y2x1ZGluZyB0aG9zZSBub3RpY2VzIHRoYXQgZG8gbm90IHBlcnRhaW4g
+dG8gYW55IHBhcnQgb2YKKyMgKyAgICAgICAgICB0aGUgRGVyaXZhdGl2ZSBXb3JrczsgYW5kCisj
+ICsKKyMgKyAgICAgIChkKSBJZiB0aGUgV29yayBpbmNsdWRlcyBhICJOT1RJQ0UiIHRleHQgZmls
+ZSBhcyBwYXJ0IG9mIGl0cworIyArICAgICAgICAgIGRpc3RyaWJ1dGlvbiwgdGhlbiBhbnkgRGVy
+aXZhdGl2ZSBXb3JrcyB0aGF0IFlvdSBkaXN0cmlidXRlIG11c3QKKyMgKyAgICAgICAgICBpbmNs
+dWRlIGEgcmVhZGFibGUgY29weSBvZiB0aGUgYXR0cmlidXRpb24gbm90aWNlcyBjb250YWluZWQK
+KyMgKyAgICAgICAgICB3aXRoaW4gc3VjaCBOT1RJQ0UgZmlsZSwgZXhjbHVkaW5nIHRob3NlIG5v
+dGljZXMgdGhhdCBkbyBub3QKKyMgKyAgICAgICAgICBwZXJ0YWluIHRvIGFueSBwYXJ0IG9mIHRo
+ZSBEZXJpdmF0aXZlIFdvcmtzLCBpbiBhdCBsZWFzdCBvbmUKKyMgKyAgICAgICAgICBvZiB0aGUg
+Zm9sbG93aW5nIHBsYWNlczogd2l0aGluIGEgTk9USUNFIHRleHQgZmlsZSBkaXN0cmlidXRlZAor
+IyArICAgICAgICAgIGFzIHBhcnQgb2YgdGhlIERlcml2YXRpdmUgV29ya3M7IHdpdGhpbiB0aGUg
+U291cmNlIGZvcm0gb3IKKyMgKyAgICAgICAgICBkb2N1bWVudGF0aW9uLCBpZiBwcm92aWRlZCBh
+bG9uZyB3aXRoIHRoZSBEZXJpdmF0aXZlIFdvcmtzOyBvciwKKyMgKyAgICAgICAgICB3aXRoaW4g
+YSBkaXNwbGF5IGdlbmVyYXRlZCBieSB0aGUgRGVyaXZhdGl2ZSBXb3JrcywgaWYgYW5kCisjICsg
+ICAgICAgICAgd2hlcmV2ZXIgc3VjaCB0aGlyZC1wYXJ0eSBub3RpY2VzIG5vcm1hbGx5IGFwcGVh
+ci4gVGhlIGNvbnRlbnRzCisjICsgICAgICAgICAgb2YgdGhlIE5PVElDRSBmaWxlIGFyZSBmb3Ig
+aW5mb3JtYXRpb25hbCBwdXJwb3NlcyBvbmx5IGFuZAorIyArICAgICAgICAgIGRvIG5vdCBtb2Rp
+ZnkgdGhlIExpY2Vuc2UuIFlvdSBtYXkgYWRkIFlvdXIgb3duIGF0dHJpYnV0aW9uCisjICsgICAg
+ICAgICAgbm90aWNlcyB3aXRoaW4gRGVyaXZhdGl2ZSBXb3JrcyB0aGF0IFlvdSBkaXN0cmlidXRl
+LCBhbG9uZ3NpZGUKKyMgKyAgICAgICAgICBvciBhcyBhbiBhZGRlbmR1bSB0byB0aGUgTk9USUNF
+IHRleHQgZnJvbSB0aGUgV29yaywgcHJvdmlkZWQKKyMgKyAgICAgICAgICB0aGF0IHN1Y2ggYWRk
+aXRpb25hbCBhdHRyaWJ1dGlvbiBub3RpY2VzIGNhbm5vdCBiZSBjb25zdHJ1ZWQKKyMgKyAgICAg
+ICAgICBhcyBtb2RpZnlpbmcgdGhlIExpY2Vuc2UuCisjICsKKyMgKyAgICAgIFlvdSBtYXkgYWRk
+IFlvdXIgb3duIGNvcHlyaWdodCBzdGF0ZW1lbnQgdG8gWW91ciBtb2RpZmljYXRpb25zIGFuZAor
+IyArICAgICAgbWF5IHByb3ZpZGUgYWRkaXRpb25hbCBvciBkaWZmZXJlbnQgbGljZW5zZSB0ZXJt
+cyBhbmQgY29uZGl0aW9ucworIyArICAgICAgZm9yIHVzZSwgcmVwcm9kdWN0aW9uLCBvciBkaXN0
+cmlidXRpb24gb2YgWW91ciBtb2RpZmljYXRpb25zLCBvcgorIyArICAgICAgZm9yIGFueSBzdWNo
+IERlcml2YXRpdmUgV29ya3MgYXMgYSB3aG9sZSwgcHJvdmlkZWQgWW91ciB1c2UsCisjICsgICAg
+ICByZXByb2R1Y3Rpb24sIGFuZCBkaXN0cmlidXRpb24gb2YgdGhlIFdvcmsgb3RoZXJ3aXNlIGNv
+bXBsaWVzIHdpdGgKKyMgKyAgICAgIHRoZSBjb25kaXRpb25zIHN0YXRlZCBpbiB0aGlzIExpY2Vu
+c2UuCisjICsKKyMgKyAgIDUuIFN1Ym1pc3Npb24gb2YgQ29udHJpYnV0aW9ucy4gVW5sZXNzIFlv
+dSBleHBsaWNpdGx5IHN0YXRlIG90aGVyd2lzZSwKKyMgKyAgICAgIGFueSBDb250cmlidXRpb24g
+aW50ZW50aW9uYWxseSBzdWJtaXR0ZWQgZm9yIGluY2x1c2lvbiBpbiB0aGUgV29yaworIyArICAg
+ICAgYnkgWW91IHRvIHRoZSBMaWNlbnNvciBzaGFsbCBiZSB1bmRlciB0aGUgdGVybXMgYW5kIGNv
+bmRpdGlvbnMgb2YKKyMgKyAgICAgIHRoaXMgTGljZW5zZSwgd2l0aG91dCBhbnkgYWRkaXRpb25h
+bCB0ZXJtcyBvciBjb25kaXRpb25zLgorIyArICAgICAgTm90d2l0aHN0YW5kaW5nIHRoZSBhYm92
+ZSwgbm90aGluZyBoZXJlaW4gc2hhbGwgc3VwZXJzZWRlIG9yIG1vZGlmeQorIyArICAgICAgdGhl
+IHRlcm1zIG9mIGFueSBzZXBhcmF0ZSBsaWNlbnNlIGFncmVlbWVudCB5b3UgbWF5IGhhdmUgZXhl
+Y3V0ZWQKKyMgKyAgICAgIHdpdGggTGljZW5zb3IgcmVnYXJkaW5nIHN1Y2ggQ29udHJpYnV0aW9u
+cy4KKyMgKworIyArICAgNi4gVHJhZGVtYXJrcy4gVGhpcyBMaWNlbnNlIGRvZXMgbm90IGdyYW50
+IHBlcm1pc3Npb24gdG8gdXNlIHRoZSB0cmFkZQorIyArICAgICAgbmFtZXMsIHRyYWRlbWFya3Ms
+IHNlcnZpY2UgbWFya3MsIG9yIHByb2R1Y3QgbmFtZXMgb2YgdGhlIExpY2Vuc29yLAorIyArICAg
+ICAgZXhjZXB0IGFzIHJlcXVpcmVkIGZvciByZWFzb25hYmxlIGFuZCBjdXN0b21hcnkgdXNlIGlu
+IGRlc2NyaWJpbmcgdGhlCisjICsgICAgICBvcmlnaW4gb2YgdGhlIFdvcmsgYW5kIHJlcHJvZHVj
+aW5nIHRoZSBjb250ZW50IG9mIHRoZSBOT1RJQ0UgZmlsZS4KKyMgKworIyArICAgNy4gRGlzY2xh
+aW1lciBvZiBXYXJyYW50eS4gVW5sZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yCisj
+ICsgICAgICBhZ3JlZWQgdG8gaW4gd3JpdGluZywgTGljZW5zb3IgcHJvdmlkZXMgdGhlIFdvcmsg
+KGFuZCBlYWNoCisjICsgICAgICBDb250cmlidXRvciBwcm92aWRlcyBpdHMgQ29udHJpYnV0aW9u
+cykgb24gYW4gIkFTIElTIiBCQVNJUywKKyMgKyAgICAgIFdJVEhPVVQgV0FSUkFOVElFUyBPUiBD
+T05ESVRJT05TIE9GIEFOWSBLSU5ELCBlaXRoZXIgZXhwcmVzcyBvcgorIyArICAgICAgaW1wbGll
+ZCwgaW5jbHVkaW5nLCB3aXRob3V0IGxpbWl0YXRpb24sIGFueSB3YXJyYW50aWVzIG9yIGNvbmRp
+dGlvbnMKKyMgKyAgICAgIG9mIFRJVExFLCBOT04tSU5GUklOR0VNRU5ULCBNRVJDSEFOVEFCSUxJ
+VFksIG9yIEZJVE5FU1MgRk9SIEEKKyMgKyAgICAgIFBBUlRJQ1VMQVIgUFVSUE9TRS4gWW91IGFy
+ZSBzb2xlbHkgcmVzcG9uc2libGUgZm9yIGRldGVybWluaW5nIHRoZQorIyArICAgICAgYXBwcm9w
+cmlhdGVuZXNzIG9mIHVzaW5nIG9yIHJlZGlzdHJpYnV0aW5nIHRoZSBXb3JrIGFuZCBhc3N1bWUg
+YW55CisjICsgICAgICByaXNrcyBhc3NvY2lhdGVkIHdpdGggWW91ciBleGVyY2lzZSBvZiBwZXJt
+aXNzaW9ucyB1bmRlciB0aGlzIExpY2Vuc2UuCisjICsKKyMgKyAgIDguIExpbWl0YXRpb24gb2Yg
+TGlhYmlsaXR5LiBJbiBubyBldmVudCBhbmQgdW5kZXIgbm8gbGVnYWwgdGhlb3J5LAorIyArICAg
+ICAgd2hldGhlciBpbiB0b3J0IChpbmNsdWRpbmcgbmVnbGlnZW5jZSksIGNvbnRyYWN0LCBvciBv
+dGhlcndpc2UsCisjICsgICAgICB1bmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcgKHN1
+Y2ggYXMgZGVsaWJlcmF0ZSBhbmQgZ3Jvc3NseQorIyArICAgICAgbmVnbGlnZW50IGFjdHMpIG9y
+IGFncmVlZCB0byBpbiB3cml0aW5nLCBzaGFsbCBhbnkgQ29udHJpYnV0b3IgYmUKKyMgKyAgICAg
+IGxpYWJsZSB0byBZb3UgZm9yIGRhbWFnZXMsIGluY2x1ZGluZyBhbnkgZGlyZWN0LCBpbmRpcmVj
+dCwgc3BlY2lhbCwKKyMgKyAgICAgIGluY2lkZW50YWwsIG9yIGNvbnNlcXVlbnRpYWwgZGFtYWdl
+cyBvZiBhbnkgY2hhcmFjdGVyIGFyaXNpbmcgYXMgYQorIyArICAgICAgcmVzdWx0IG9mIHRoaXMg
+TGljZW5zZSBvciBvdXQgb2YgdGhlIHVzZSBvciBpbmFiaWxpdHkgdG8gdXNlIHRoZQorIyArICAg
+ICAgV29yayAoaW5jbHVkaW5nIGJ1dCBub3QgbGltaXRlZCB0byBkYW1hZ2VzIGZvciBsb3NzIG9m
+IGdvb2R3aWxsLAorIyArICAgICAgd29yayBzdG9wcGFnZSwgY29tcHV0ZXIgZmFpbHVyZSBvciBt
+YWxmdW5jdGlvbiwgb3IgYW55IGFuZCBhbGwKKyMgKyAgICAgIG90aGVyIGNvbW1lcmNpYWwgZGFt
+YWdlcyBvciBsb3NzZXMpLCBldmVuIGlmIHN1Y2ggQ29udHJpYnV0b3IKKyMgKyAgICAgIGhhcyBi
+ZWVuIGFkdmlzZWQgb2YgdGhlIHBvc3NpYmlsaXR5IG9mIHN1Y2ggZGFtYWdlcy4KKyMgKworIyAr
+ICAgOS4gQWNjZXB0aW5nIFdhcnJhbnR5IG9yIEFkZGl0aW9uYWwgTGlhYmlsaXR5LiBXaGlsZSBy
+ZWRpc3RyaWJ1dGluZworIyArICAgICAgdGhlIFdvcmsgb3IgRGVyaXZhdGl2ZSBXb3JrcyB0aGVy
+ZW9mLCBZb3UgbWF5IGNob29zZSB0byBvZmZlciwKKyMgKyAgICAgIGFuZCBjaGFyZ2UgYSBmZWUg
+Zm9yLCBhY2NlcHRhbmNlIG9mIHN1cHBvcnQsIHdhcnJhbnR5LCBpbmRlbW5pdHksCisjICsgICAg
+ICBvciBvdGhlciBsaWFiaWxpdHkgb2JsaWdhdGlvbnMgYW5kL29yIHJpZ2h0cyBjb25zaXN0ZW50
+IHdpdGggdGhpcworIyArICAgICAgTGljZW5zZS4gSG93ZXZlciwgaW4gYWNjZXB0aW5nIHN1Y2gg
+b2JsaWdhdGlvbnMsIFlvdSBtYXkgYWN0IG9ubHkKKyMgKyAgICAgIG9uIFlvdXIgb3duIGJlaGFs
+ZiBhbmQgb24gWW91ciBzb2xlIHJlc3BvbnNpYmlsaXR5LCBub3Qgb24gYmVoYWxmCisjICsgICAg
+ICBvZiBhbnkgb3RoZXIgQ29udHJpYnV0b3IsIGFuZCBvbmx5IGlmIFlvdSBhZ3JlZSB0byBpbmRl
+bW5pZnksCisjICsgICAgICBkZWZlbmQsIGFuZCBob2xkIGVhY2ggQ29udHJpYnV0b3IgaGFybWxl
+c3MgZm9yIGFueSBsaWFiaWxpdHkKKyMgKyAgICAgIGluY3VycmVkIGJ5LCBvciBjbGFpbXMgYXNz
+ZXJ0ZWQgYWdhaW5zdCwgc3VjaCBDb250cmlidXRvciBieSByZWFzb24KKyMgKyAgICAgIG9mIHlv
+dXIgYWNjZXB0aW5nIGFueSBzdWNoIHdhcnJhbnR5IG9yIGFkZGl0aW9uYWwgbGlhYmlsaXR5Lgor
+IyArCisjICsgICBFTkQgT0YgVEVSTVMgQU5EIENPTkRJVElPTlMKKyMgKworIyArICAgQVBQRU5E
+SVg6IEhvdyB0byBhcHBseSB0aGUgQXBhY2hlIExpY2Vuc2UgdG8geW91ciB3b3JrLgorIyArCisj
+ICsgICAgICBUbyBhcHBseSB0aGUgQXBhY2hlIExpY2Vuc2UgdG8geW91ciB3b3JrLCBhdHRhY2gg
+dGhlIGZvbGxvd2luZworIyArICAgICAgYm9pbGVycGxhdGUgbm90aWNlLCB3aXRoIHRoZSBmaWVs
+ZHMgZW5jbG9zZWQgYnkgYnJhY2tldHMgIltdIgorIyArICAgICAgcmVwbGFjZWQgd2l0aCB5b3Vy
+IG93biBpZGVudGlmeWluZyBpbmZvcm1hdGlvbi4gKERvbid0IGluY2x1ZGUKKyMgKyAgICAgIHRo
+ZSBicmFja2V0cyEpICBUaGUgdGV4dCBzaG91bGQgYmUgZW5jbG9zZWQgaW4gdGhlIGFwcHJvcHJp
+YXRlCisjICsgICAgICBjb21tZW50IHN5bnRheCBmb3IgdGhlIGZpbGUgZm9ybWF0LiBXZSBhbHNv
+IHJlY29tbWVuZCB0aGF0IGEKKyMgKyAgICAgIGZpbGUgb3IgY2xhc3MgbmFtZSBhbmQgZGVzY3Jp
+cHRpb24gb2YgcHVycG9zZSBiZSBpbmNsdWRlZCBvbiB0aGUKKyMgKyAgICAgIHNhbWUgInByaW50
+ZWQgcGFnZSIgYXMgdGhlIGNvcHlyaWdodCBub3RpY2UgZm9yIGVhc2llcgorIyArICAgICAgaWRl
+bnRpZmljYXRpb24gd2l0aGluIHRoaXJkLXBhcnR5IGFyY2hpdmVzLgorIyArCisjICsgICBDb3B5
+cmlnaHQgMjAxOSBKYWNrIE8nQ29ubm9yIGFuZCBTYW11ZWwgTmV2ZXMKKyMgKworIyArICAgTGlj
+ZW5zZWQgdW5kZXIgdGhlIEFwYWNoZSBMaWNlbnNlLCBWZXJzaW9uIDIuMCAodGhlICJMaWNlbnNl
+Iik7CisjICsgICB5b3UgbWF5IG5vdCB1c2UgdGhpcyBmaWxlIGV4Y2VwdCBpbiBjb21wbGlhbmNl
+IHdpdGggdGhlIExpY2Vuc2UuCisjICsgICBZb3UgbWF5IG9idGFpbiBhIGNvcHkgb2YgdGhlIExp
+Y2Vuc2UgYXQKKyMgKworIyArICAgICAgIGh0dHA6Ly93d3cuYXBhY2hlLm9yZy9saWNlbnNlcy9M
+SUNFTlNFLTIuMAorIyArCisjICsgICBVbmxlc3MgcmVxdWlyZWQgYnkgYXBwbGljYWJsZSBsYXcg
+b3IgYWdyZWVkIHRvIGluIHdyaXRpbmcsIHNvZnR3YXJlCisjICsgICBkaXN0cmlidXRlZCB1bmRl
+ciB0aGUgTGljZW5zZSBpcyBkaXN0cmlidXRlZCBvbiBhbiAiQVMgSVMiIEJBU0lTLAorIyArICAg
+V0lUSE9VVCBXQVJSQU5USUVTIE9SIENPTkRJVElPTlMgT0YgQU5ZIEtJTkQsIGVpdGhlciBleHBy
+ZXNzIG9yIGltcGxpZWQuCisjICsgICBTZWUgdGhlIExpY2Vuc2UgZm9yIHRoZSBzcGVjaWZpYyBs
+YW5ndWFnZSBnb3Zlcm5pbmcgcGVybWlzc2lvbnMgYW5kCisjICsgICBsaW1pdGF0aW9ucyB1bmRl
+ciB0aGUgTGljZW5zZS4KKyMgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgKworIyArCisjICtz
+cmMvdGhpcmRfcGFydHkvZG9jdGVzdC5oCisjICt+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+Cisj
+ICsKKyMgK1RoaXMgaXMgdGhlIHNpbmdsZSBoZWFkZXIgdmVyc2lvbiBvZiBodHRwczovL2dpdGh1
+Yi5jb20vb25xdGFtL2RvY3Rlc3RbZG9jdGVzdF0KKyMgKzIuNC4wIHdpdGggdGhlIGZvbGxvd2lu
+ZyBsaWNlbnNlOgorIyAgCisjICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICBUaGUgTUlUIExp
+Y2Vuc2UgKE1JVCkKKyMgIAorIyAtQ29weXJpZ2h0IChjKSAyMDE0IEhlbnJpayBSeWRnw6VyZAor
+IyArQ29weXJpZ2h0IChjKSAyMDE2LTIwMTkgVmlrdG9yIEtpcmlsb3YKKyMgIAorIyAgUGVybWlz
+c2lvbiBpcyBoZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0
+YWluaW5nIGEgY29weQorIyAgb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVu
+dGF0aW9uIGZpbGVzICh0aGUgIlNvZnR3YXJlIiksIHRvIGRlYWwKKyMgQEAgLTQ1MCw1NSArNDQ3
+LDIyNSBAQAorIyAgU09GVFdBUkUuCisjICAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICAKKyMg
+LXNyYy9zbnByaW50Zi5jIGFuZCBtNC9zbnByaW50Zi5tNAorIyArCisjICtzcmMvdGhpcmRfcGFy
+dHkvZm10LyouaCBhbmQgc3JjL3RoaXJkX3BhcnR5L2Zvcm1hdC5jcHAKKyMgK35+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgorIyArCisjICtUaGlz
+IGlzIGEgc3Vic2V0IG9mIGh0dHBzOi8vZm10LmRldltmbXRdIDcuMC4zIHdpdGggdGhlIGZvbGxv
+d2luZyBsaWNlbnNlOgorIyArCisjICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICtGb3JtYXR0
+aW5nIGxpYnJhcnkgZm9yIEMrKworIyArCisjICtDb3B5cmlnaHQgKGMpIDIwMTIgLSBwcmVzZW50
+LCBWaWN0b3IgWnZlcm92aWNoCisjICsKKyMgK1Blcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQs
+IGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhIGNvcHkKKyMgK29mIHRo
+aXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlICJTb2Z0
+d2FyZSIpLCB0byBkZWFsCisjICtpbiB0aGUgU29mdHdhcmUgd2l0aG91dCByZXN0cmljdGlvbiwg
+aW5jbHVkaW5nIHdpdGhvdXQgbGltaXRhdGlvbiB0aGUgcmlnaHRzCisjICt0byB1c2UsIGNvcHks
+IG1vZGlmeSwgbWVyZ2UsIHB1Ymxpc2gsIGRpc3RyaWJ1dGUsIHN1YmxpY2Vuc2UsIGFuZC9vciBz
+ZWxsCisjICtjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHBlcnNvbnMgdG8g
+d2hvbSB0aGUgU29mdHdhcmUgaXMgZnVybmlzaGVkCisjICt0byBkbyBzbywgc3ViamVjdCB0byB0
+aGUgZm9sbG93aW5nIGNvbmRpdGlvbnM6CisjICsKKyMgK1RoZSBhYm92ZSBjb3B5cmlnaHQgbm90
+aWNlIGFuZCB0aGlzIHBlcm1pc3Npb24gbm90aWNlIHNoYWxsIGJlIGluY2x1ZGVkIGluCisjICth
+bGwgY29waWVzIG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZSBTb2Z0d2FyZS4KKyMgKwor
+IyArVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0Yg
+QU5ZIEtJTkQsIEVYUFJFU1MgT1IKKyMgK0lNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJTUlU
+RUQgVE8gVEhFIFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZLAorIyArRklUTkVTUyBGT1Ig
+QSBQQVJUSUNVTEFSIFBVUlBPU0UgQU5EIE5PTklORlJJTkdFTUVOVC4gSU4gTk8gRVZFTlQgU0hB
+TEwgVEhFCisjICtBVVRIT1JTIE9SIENPUFlSSUdIVCBIT0xERVJTIEJFIExJQUJMRSBGT1IgQU5Z
+IENMQUlNLCBEQU1BR0VTIE9SIE9USEVSCisjICtMSUFCSUxJVFksIFdIRVRIRVIgSU4gQU4gQUNU
+SU9OIE9GIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwgQVJJU0lORyBGUk9NLAorIyArT1VU
+IE9GIE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhF
+UiBERUFMSU5HUyBJTiBUSEUKKyMgK1NPRlRXQVJFLgorIyArCisjICstLS0gT3B0aW9uYWwgZXhj
+ZXB0aW9uIHRvIHRoZSBsaWNlbnNlIC0tLQorIyArCisjICtBcyBhbiBleGNlcHRpb24sIGlmLCBh
+cyBhIHJlc3VsdCBvZiB5b3VyIGNvbXBpbGluZyB5b3VyIHNvdXJjZSBjb2RlLCBwb3J0aW9ucwor
+IyArb2YgdGhpcyBTb2Z0d2FyZSBhcmUgZW1iZWRkZWQgaW50byBhIG1hY2hpbmUtZXhlY3V0YWJs
+ZSBvYmplY3QgZm9ybSBvZiBzdWNoCisjICtzb3VyY2UgY29kZSwgeW91IG1heSByZWRpc3RyaWJ1
+dGUgc3VjaCBlbWJlZGRlZCBwb3J0aW9ucyBpbiBzdWNoIG9iamVjdCBmb3JtCisjICt3aXRob3V0
+IGluY2x1ZGluZyB0aGUgYWJvdmUgY29weXJpZ2h0IGFuZCBwZXJtaXNzaW9uIG5vdGljZXMuCisj
+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICsKKyMgKworIyArc3JjL3RoaXJkX3BhcnR5L2dl
+dG9wdF9sb25nLltoY10KKyMgK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CisjICsK
+KyMgK1RoaXMgaW1wbGVtZW50YXRpb24gb2YgYGdldG9wdF9sb25nKClgIHdhcyBjb3BpZWQgZnJv
+bQorIyAraHR0cHM6Ly93d3cucG9zdGdyZXNxbC5vcmdbUG9zdGdyZVNRTF0gYW5kIGhhcyB0aGUg
+Zm9sbG93aW5nIGxpY2Vuc2UgdGV4dDoKKyMgKworIyArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQor
+IyArUG9ydGlvbnMgQ29weXJpZ2h0IChjKSAxOTg3LCAxOTkzLCAxOTk0CisjICtUaGUgUmVnZW50
+cyBvZiB0aGUgVW5pdmVyc2l0eSBvZiBDYWxpZm9ybmlhLiAgQWxsIHJpZ2h0cyByZXNlcnZlZC4K
+KyMgKworIyArUG9ydGlvbnMgQ29weXJpZ2h0IChjKSAyMDAzCisjICtQb3N0Z3JlU1FMIEdsb2Jh
+bCBEZXZlbG9wbWVudCBHcm91cAorIyArCisjICtSZWRpc3RyaWJ1dGlvbiBhbmQgdXNlIGluIHNv
+dXJjZSBhbmQgYmluYXJ5IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKKyMgK21vZGlmaWNhdGlvbiwg
+YXJlIHBlcm1pdHRlZCBwcm92aWRlZCB0aGF0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9ucworIyAr
+YXJlIG1ldDoKKyMgKzEuIFJlZGlzdHJpYnV0aW9ucyBvZiBzb3VyY2UgY29kZSBtdXN0IHJldGFp
+biB0aGUgYWJvdmUgY29weXJpZ2h0CisjICsgICBub3RpY2UsIHRoaXMgbGlzdCBvZiBjb25kaXRp
+b25zIGFuZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIuCisjICsyLiBSZWRpc3RyaWJ1dGlvbnMg
+aW4gYmluYXJ5IGZvcm0gbXVzdCByZXByb2R1Y2UgdGhlIGFib3ZlIGNvcHlyaWdodAorIyArICAg
+bm90aWNlLCB0aGlzIGxpc3Qgb2YgY29uZGl0aW9ucyBhbmQgdGhlIGZvbGxvd2luZyBkaXNjbGFp
+bWVyIGluIHRoZQorIyArICAgZG9jdW1lbnRhdGlvbiBhbmQvb3Igb3RoZXIgbWF0ZXJpYWxzIHBy
+b3ZpZGVkIHdpdGggdGhlIGRpc3RyaWJ1dGlvbi4KKyMgKzMuIE5laXRoZXIgdGhlIG5hbWUgb2Yg
+dGhlIFVuaXZlcnNpdHkgbm9yIHRoZSBuYW1lcyBvZiBpdHMgY29udHJpYnV0b3JzCisjICsgICBt
+YXkgYmUgdXNlZCB0byBlbmRvcnNlIG9yIHByb21vdGUgcHJvZHVjdHMgZGVyaXZlZCBmcm9tIHRo
+aXMgc29mdHdhcmUKKyMgKyAgIHdpdGhvdXQgc3BlY2lmaWMgcHJpb3Igd3JpdHRlbiBwZXJtaXNz
+aW9uLgorIyArCisjICtUSElTIFNPRlRXQVJFIElTIFBST1ZJREVEIEJZIFRIRSBSRUdFTlRTIEFO
+RCBDT05UUklCVVRPUlMgYGBBUyBJUycnIEFORAorIyArQU5ZIEVYUFJFU1MgT1IgSU1QTElFRCBX
+QVJSQU5USUVTLCBJTkNMVURJTkcsIEJVVCBOT1QgTElNSVRFRCBUTywgVEhFCisjICtJTVBMSUVE
+IFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZIEFORCBGSVRORVNTIEZPUiBBIFBBUlRJQ1VM
+QVIgUFVSUE9TRQorIyArQVJFIERJU0NMQUlNRUQuICBJTiBOTyBFVkVOVCBTSEFMTCBUSEUgUkVH
+RU5UUyBPUiBDT05UUklCVVRPUlMgQkUgTElBQkxFCisjICtGT1IgQU5ZIERJUkVDVCwgSU5ESVJF
+Q1QsIElOQ0lERU5UQUwsIFNQRUNJQUwsIEVYRU1QTEFSWSwgT1IgQ09OU0VRVUVOVElBTAorIyAr
+REFNQUdFUyAoSU5DTFVESU5HLCBCVVQgTk9UIExJTUlURUQgVE8sIFBST0NVUkVNRU5UIE9GIFNV
+QlNUSVRVVEUgR09PRFMKKyMgK09SIFNFUlZJQ0VTOyBMT1NTIE9GIFVTRSwgREFUQSwgT1IgUFJP
+RklUUzsgT1IgQlVTSU5FU1MgSU5URVJSVVBUSU9OKQorIyArSE9XRVZFUiBDQVVTRUQgQU5EIE9O
+IEFOWSBUSEVPUlkgT0YgTElBQklMSVRZLCBXSEVUSEVSIElOIENPTlRSQUNULCBTVFJJQ1QKKyMg
+K0xJQUJJTElUWSwgT1IgVE9SVCAoSU5DTFVESU5HIE5FR0xJR0VOQ0UgT1IgT1RIRVJXSVNFKSBB
+UklTSU5HIElOIEFOWSBXQVkKKyMgK09VVCBPRiBUSEUgVVNFIE9GIFRISVMgU09GVFdBUkUsIEVW
+RU4gSUYgQURWSVNFRCBPRiBUSEUgUE9TU0lCSUxJVFkgT0YKKyMgK1NVQ0ggREFNQUdFLgorIyAr
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyArCisjICsKKyMgK3NyYy90aGlyZF9wYXJ0eS9taW5p
+dHJhY2UuW2hjXQorIyArfn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CisjICsKKyMgK0Eg
+bGlicmFyeSBmb3IgcHJvZHVjaW5nIEpTT04gdHJhY2VzIHN1aXRhYmxlIGZvciBDaHJvbWUncyBi
+dWlsdC1pbiB0cmFjZSB2aWV3ZXIKKyMgKyhjaHJvbWU6Ly90cmFjaW5nKS4gRG93bmxvYWRlZCBm
+cm9tIDxodHRwczovL2dpdGh1Yi5jb20vaHJ5ZGdhcmQvbWluaXRyYWNlPi4KKyMgKworIyArLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQorIyArVGhlIE1JVCBMaWNlbnNlIChNSVQpCisjICsKKyMgK0Nv
+cHlyaWdodCAoYykgMjAxNCBIZW5yaWsgUnlkZ8OlcmQKKyMgKworIyArUGVybWlzc2lvbiBpcyBo
+ZXJlYnkgZ3JhbnRlZCwgZnJlZSBvZiBjaGFyZ2UsIHRvIGFueSBwZXJzb24gb2J0YWluaW5nIGEg
+Y29weQorIyArb2YgdGhpcyBzb2Z0d2FyZSBhbmQgYXNzb2NpYXRlZCBkb2N1bWVudGF0aW9uIGZp
+bGVzICh0aGUgIlNvZnR3YXJlIiksIHRvIGRlYWwKKyMgK2luIHRoZSBTb2Z0d2FyZSB3aXRob3V0
+IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHMKKyMg
+K3RvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGlj
+ZW5zZSwgYW5kL29yIHNlbGwKKyMgK2NvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJt
+aXQgcGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpcworIyArZnVybmlzaGVkIHRvIGRvIHNv
+LCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczoKKyMgKworIyArVGhlIGFib3Zl
+IGNvcHlyaWdodCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwgYmUgaW5j
+bHVkZWQgaW4gYWxsCisjICtjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNv
+ZnR3YXJlLgorIyArCisjICtUSEUgU09GVFdBUkUgSVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9V
+VCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUgorIyArSU1QTElFRCwgSU5DTFVESU5H
+IEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCisj
+ICtGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiBJ
+TiBOTyBFVkVOVCBTSEFMTCBUSEUKKyMgK0FVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUg
+TElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IgT1RIRVIKKyMgK0xJQUJJTElUWSwgV0hF
+VEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5H
+IEZST00sCisjICtPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBU
+SEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElOIFRIRQorIyArU09GVFdBUkUuCisjICstLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tCisjICsKKyMgKworIyArc3JjL3RoaXJkX3BhcnR5L25vbnN0ZC9vcHRp
+b25hbC5ocHAKKyMgK35+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CisjICsKKyMg
+K1RoaXMgYWx0ZXJuYXRpdmUgaW1wbGVtZW50YXRpb24gb2YgYHN0ZDo6b3B0aW9uYWxgIHdhcyBk
+b3dubG9hZGVkIGZyb20KKyMgKzxodHRwczovL2dpdGh1Yi5jb20vbWFydGlubW9lbmUvb3B0aW9u
+YWwtbGl0ZT4gYW5kIGhhcyB0aGUgZm9sbG93aW5nIGxpY2Vuc2UKKyMgK3RleHQ6CisjICsKKyMg
+Ky0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgK0Jvb3N0IFNvZnR3YXJlIExpY2Vuc2UgLSBWZXJz
+aW9uIDEuMCAtIEF1Z3VzdCAxN3RoLCAyMDAzCisjICsKKyMgK1Blcm1pc3Npb24gaXMgaGVyZWJ5
+IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9yIG9yZ2FuaXphdGlvbgor
+IyArb2J0YWluaW5nIGEgY29weSBvZiB0aGUgc29mdHdhcmUgYW5kIGFjY29tcGFueWluZyBkb2N1
+bWVudGF0aW9uIGNvdmVyZWQgYnkKKyMgK3RoaXMgbGljZW5zZSAodGhlICJTb2Z0d2FyZSIpIHRv
+IHVzZSwgcmVwcm9kdWNlLCBkaXNwbGF5LCBkaXN0cmlidXRlLAorIyArZXhlY3V0ZSwgYW5kIHRy
+YW5zbWl0IHRoZSBTb2Z0d2FyZSwgYW5kIHRvIHByZXBhcmUgZGVyaXZhdGl2ZSB3b3JrcyBvZiB0
+aGUKKyMgK1NvZnR3YXJlLCBhbmQgdG8gcGVybWl0IHRoaXJkLXBhcnRpZXMgdG8gd2hvbSB0aGUg
+U29mdHdhcmUgaXMgZnVybmlzaGVkIHRvCisjICtkbyBzbywgYWxsIHN1YmplY3QgdG8gdGhlIGZv
+bGxvd2luZzoKKyMgKworIyArVGhlIGNvcHlyaWdodCBub3RpY2VzIGluIHRoZSBTb2Z0d2FyZSBh
+bmQgdGhpcyBlbnRpcmUgc3RhdGVtZW50LCBpbmNsdWRpbmcKKyMgK3RoZSBhYm92ZSBsaWNlbnNl
+IGdyYW50LCB0aGlzIHJlc3RyaWN0aW9uIGFuZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIsCisj
+ICttdXN0IGJlIGluY2x1ZGVkIGluIGFsbCBjb3BpZXMgb2YgdGhlIFNvZnR3YXJlLCBpbiB3aG9s
+ZSBvciBpbiBwYXJ0LCBhbmQKKyMgK2FsbCBkZXJpdmF0aXZlIHdvcmtzIG9mIHRoZSBTb2Z0d2Fy
+ZSwgdW5sZXNzIHN1Y2ggY29waWVzIG9yIGRlcml2YXRpdmUKKyMgK3dvcmtzIGFyZSBzb2xlbHkg
+aW4gdGhlIGZvcm0gb2YgbWFjaGluZS1leGVjdXRhYmxlIG9iamVjdCBjb2RlIGdlbmVyYXRlZCBi
+eQorIyArYSBzb3VyY2UgbGFuZ3VhZ2UgcHJvY2Vzc29yLgorIyArCisjICtUSEUgU09GVFdBUkUg
+SVMgUFJPVklERUQgIkFTIElTIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVT
+UyBPUgorIyArSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFO
+VElFUyBPRiBNRVJDSEFOVEFCSUxJVFksCisjICtGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVS
+UE9TRSwgVElUTEUgQU5EIE5PTi1JTkZSSU5HRU1FTlQuIElOIE5PIEVWRU5UCisjICtTSEFMTCBU
+SEUgQ09QWVJJR0hUIEhPTERFUlMgT1IgQU5ZT05FIERJU1RSSUJVVElORyBUSEUgU09GVFdBUkUg
+QkUgTElBQkxFCisjICtGT1IgQU5ZIERBTUFHRVMgT1IgT1RIRVIgTElBQklMSVRZLCBXSEVUSEVS
+IElOIENPTlRSQUNULCBUT1JUIE9SIE9USEVSV0lTRSwKKyMgK0FSSVNJTkcgRlJPTSwgT1VUIE9G
+IE9SIElOIENPTk5FQ1RJT04gV0lUSCBUSEUgU09GVFdBUkUgT1IgVEhFIFVTRSBPUiBPVEhFUgor
+IyArREVBTElOR1MgSU4gVEhFIFNPRlRXQVJFLgorIyArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQor
+IyArCisjICsKKyMgK3NyYy90aGlyZF9wYXJ0eS9ub25zdGQvc3RyaW5nX3ZpZXcuaHBwCisjICt+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgorIyArCisjICtUaGlzIGFsdGVy
+bmF0aXZlIGltcGxlbWVudGF0aW9uIG9mIGBzdGQ6OnN0cmluZ192aWV3YCB3YXMgZG93bmxvYWRl
+ZCBmcm9tCisjICs8aHR0cHM6Ly9naXRodWIuY29tL21hcnRpbm1vZW5lL3N0cmluZy12aWV3LWxp
+dGU+IGFuZCBoYXMgdGhlIGZvbGxvd2luZyBsaWNlbnNlCisjICt0ZXh0OgorIyArCisjICstLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tCisjICtCb29zdCBTb2Z0d2FyZSBMaWNlbnNlIC0gVmVyc2lvbiAx
+LjAgLSBBdWd1c3QgMTd0aCwgMjAwMworIyArCisjICtQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFu
+dGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbiBvciBvcmdhbml6YXRpb24KKyMgK29i
+dGFpbmluZyBhIGNvcHkgb2YgdGhlIHNvZnR3YXJlIGFuZCBhY2NvbXBhbnlpbmcgZG9jdW1lbnRh
+dGlvbiBjb3ZlcmVkIGJ5CisjICt0aGlzIGxpY2Vuc2UgKHRoZSAiU29mdHdhcmUiKSB0byB1c2Us
+IHJlcHJvZHVjZSwgZGlzcGxheSwgZGlzdHJpYnV0ZSwKKyMgK2V4ZWN1dGUsIGFuZCB0cmFuc21p
+dCB0aGUgU29mdHdhcmUsIGFuZCB0byBwcmVwYXJlIGRlcml2YXRpdmUgd29ya3Mgb2YgdGhlCisj
+ICtTb2Z0d2FyZSwgYW5kIHRvIHBlcm1pdCB0aGlyZC1wYXJ0aWVzIHRvIHdob20gdGhlIFNvZnR3
+YXJlIGlzIGZ1cm5pc2hlZCB0bworIyArZG8gc28sIGFsbCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dp
+bmc6CisjICsKKyMgK1RoZSBjb3B5cmlnaHQgbm90aWNlcyBpbiB0aGUgU29mdHdhcmUgYW5kIHRo
+aXMgZW50aXJlIHN0YXRlbWVudCwgaW5jbHVkaW5nCisjICt0aGUgYWJvdmUgbGljZW5zZSBncmFu
+dCwgdGhpcyByZXN0cmljdGlvbiBhbmQgdGhlIGZvbGxvd2luZyBkaXNjbGFpbWVyLAorIyArbXVz
+dCBiZSBpbmNsdWRlZCBpbiBhbGwgY29waWVzIG9mIHRoZSBTb2Z0d2FyZSwgaW4gd2hvbGUgb3Ig
+aW4gcGFydCwgYW5kCisjICthbGwgZGVyaXZhdGl2ZSB3b3JrcyBvZiB0aGUgU29mdHdhcmUsIHVu
+bGVzcyBzdWNoIGNvcGllcyBvciBkZXJpdmF0aXZlCisjICt3b3JrcyBhcmUgc29sZWx5IGluIHRo
+ZSBmb3JtIG9mIG1hY2hpbmUtZXhlY3V0YWJsZSBvYmplY3QgY29kZSBnZW5lcmF0ZWQgYnkKKyMg
+K2Egc291cmNlIGxhbmd1YWdlIHByb2Nlc3Nvci4KKyMgKworIyArVEhFIFNPRlRXQVJFIElTIFBS
+T1ZJREVEICJBUyBJUyIsIFdJVEhPVVQgV0FSUkFOVFkgT0YgQU5ZIEtJTkQsIEVYUFJFU1MgT1IK
+KyMgK0lNUExJRUQsIElOQ0xVRElORyBCVVQgTk9UIExJTUlURUQgVE8gVEhFIFdBUlJBTlRJRVMg
+T0YgTUVSQ0hBTlRBQklMSVRZLAorIyArRklUTkVTUyBGT1IgQSBQQVJUSUNVTEFSIFBVUlBPU0Us
+IFRJVExFIEFORCBOT04tSU5GUklOR0VNRU5ULiBJTiBOTyBFVkVOVAorIyArU0hBTEwgVEhFIENP
+UFlSSUdIVCBIT0xERVJTIE9SIEFOWU9ORSBESVNUUklCVVRJTkcgVEhFIFNPRlRXQVJFIEJFIExJ
+QUJMRQorIyArRk9SIEFOWSBEQU1BR0VTIE9SIE9USEVSIExJQUJJTElUWSwgV0hFVEhFUiBJTiBD
+T05UUkFDVCwgVE9SVCBPUiBPVEhFUldJU0UsCisjICtBUklTSU5HIEZST00sIE9VVCBPRiBPUiBJ
+TiBDT05ORUNUSU9OIFdJVEggVEhFIFNPRlRXQVJFIE9SIFRIRSBVU0UgT1IgT1RIRVIKKyMgK0RF
+QUxJTkdTIElOIFRIRSBTT0ZUV0FSRS4KKyMgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgKwor
+IyArCisjICtzcmMvdGhpcmRfcGFydHkvd2luMzIvZ2V0b3B0LltoY10KKyMgIH5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fgorIyAgCisjIC1UaGlzIGltcGxlbWVudGF0aW9uIG9mIGBz
+bnByaW50ZigpYCBhbmQgc2ltaWxhciBmdW5jdGlvbnMgd2FzIGRvd25sb2FkZWQgZnJvbQorIyAt
+aHR0cDovL3d3dy5qaHdlaXNzLmRlL3NvZnR3YXJlL3NucHJpbnRmLmh0bWwgYW5kIGhhcyB0aGUg
+Zm9sbG93aW5nIGxpY2Vuc2U6CisjIC0KKyMgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMgLSAg
+Q29weXJpZ2h0IChjKSAxOTk1IFBhdHJpY2sgUG93ZWxsLgorIyAtCisjIC0gIFRoaXMgY29kZSBp
+cyBiYXNlZCBvbiBjb2RlIHdyaXR0ZW4gYnkgUGF0cmljayBQb3dlbGwgPHBhcG93ZWxsQGFzdGFy
+dC5jb20+LgorIyAtICBJdCBtYXkgYmUgdXNlZCBmb3IgYW55IHB1cnBvc2UgYXMgbG9uZyBhcyB0
+aGlzIG5vdGljZSByZW1haW5zIGludGFjdCBvbiBhbGwKKyMgLSAgc291cmNlIGNvZGUgZGlzdHJp
+YnV0aW9ucy4KKyMgLQorIyAtICBDb3B5cmlnaHQgKGMpIDIwMDggSG9sZ2VyIFdlaXNzLgorIyAt
+CisjIC0gIFRoaXMgdmVyc2lvbiBvZiB0aGUgY29kZSBpcyBtYWludGFpbmVkIGJ5IEhvbGdlciBX
+ZWlzcyA8aG9sZ2VyQGpod2Vpc3MuZGU+LgorIyAtICBNeSBjaGFuZ2VzIHRvIHRoZSBjb2RlIG1h
+eSBmcmVlbHkgYmUgdXNlZCwgbW9kaWZpZWQgYW5kL29yIHJlZGlzdHJpYnV0ZWQgZm9yCisjIC0g
+IGFueSBwdXJwb3NlLiBJdCB3b3VsZCBiZSBuaWNlIGlmIGFkZGl0aW9ucyBhbmQgZml4ZXMgdG8g
+dGhpcyBmaWxlIChpbmNsdWRpbmcKKyMgLSAgdHJpdmlhbCBjb2RlIGNsZWFudXBzKSB3b3VsZCBi
+ZSBzZW50IGJhY2sgaW4gb3JkZXIgdG8gbGV0IG1lIGluY2x1ZGUgdGhlbSBpbgorIyAtICB0aGUg
+dmVyc2lvbiBhdmFpbGFibGUgYXQgPGh0dHA6Ly93d3cuamh3ZWlzcy5kZS9zb2Z0d2FyZS9zbnBy
+aW50Zi5odG1sPi4KKyMgLSAgSG93ZXZlciwgdGhpcyBpcyBub3QgYSByZXF1aXJlbWVudCBmb3Ig
+dXNpbmcgb3IgcmVkaXN0cmlidXRpbmcgKHBvc3NpYmx5CisjIC0gIG1vZGlmaWVkKSB2ZXJzaW9u
+cyBvZiB0aGlzIGZpbGUsIG5vciBpcyBsZWF2aW5nIHRoaXMgbm90aWNlIGludGFjdCBtYW5kYXRv
+cnkuCisjIC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjIC0KKyMgLXNyYy96bGliLyouW2hjXQor
+IyAtfn5+fn5+fn5+fn5+fn5+CisjIC0KKyMgLVRoaXMgaXMgYSBidW5kbGVkIHN1YnNldCBvZiB6
+bGliIDEuMi4xMSBmcm9tIDxodHRwOi8vemxpYi5uZXQ+IHdpdGggdGhlCisjIC1mb2xsb3dpbmcg
+bGljZW5zZToKKyMgLQorIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQorIyAtICBDb3B5cmlnaHQg
+KEMpIDE5OTUtMjAxNyBKZWFuLWxvdXAgR2FpbGx5IGFuZCBNYXJrIEFkbGVyCisjIC0KKyMgLSAg
+VGhpcyBzb2Z0d2FyZSBpcyBwcm92aWRlZCAnYXMtaXMnLCB3aXRob3V0IGFueSBleHByZXNzIG9y
+IGltcGxpZWQKKyMgLSAgd2FycmFudHkuICBJbiBubyBldmVudCB3aWxsIHRoZSBhdXRob3JzIGJl
+IGhlbGQgbGlhYmxlIGZvciBhbnkgZGFtYWdlcworIyAtICBhcmlzaW5nIGZyb20gdGhlIHVzZSBv
+ZiB0aGlzIHNvZnR3YXJlLgorIyAtCisjIC0gIFBlcm1pc3Npb24gaXMgZ3JhbnRlZCB0byBhbnlv
+bmUgdG8gdXNlIHRoaXMgc29mdHdhcmUgZm9yIGFueSBwdXJwb3NlLAorIyAtICBpbmNsdWRpbmcg
+Y29tbWVyY2lhbCBhcHBsaWNhdGlvbnMsIGFuZCB0byBhbHRlciBpdCBhbmQgcmVkaXN0cmlidXRl
+IGl0CisjIC0gIGZyZWVseSwgc3ViamVjdCB0byB0aGUgZm9sbG93aW5nIHJlc3RyaWN0aW9uczoK
+KyMgLQorIyAtICAxLiBUaGUgb3JpZ2luIG9mIHRoaXMgc29mdHdhcmUgbXVzdCBub3QgYmUgbWlz
+cmVwcmVzZW50ZWQ7IHlvdSBtdXN0IG5vdAorIyAtICAgICBjbGFpbSB0aGF0IHlvdSB3cm90ZSB0
+aGUgb3JpZ2luYWwgc29mdHdhcmUuIElmIHlvdSB1c2UgdGhpcyBzb2Z0d2FyZQorIyAtICAgICBp
+biBhIHByb2R1Y3QsIGFuIGFja25vd2xlZGdtZW50IGluIHRoZSBwcm9kdWN0IGRvY3VtZW50YXRp
+b24gd291bGQgYmUKKyMgLSAgICAgYXBwcmVjaWF0ZWQgYnV0IGlzIG5vdCByZXF1aXJlZC4KKyMg
+LSAgMi4gQWx0ZXJlZCBzb3VyY2UgdmVyc2lvbnMgbXVzdCBiZSBwbGFpbmx5IG1hcmtlZCBhcyBz
+dWNoLCBhbmQgbXVzdCBub3QgYmUKKyMgLSAgICAgbWlzcmVwcmVzZW50ZWQgYXMgYmVpbmcgdGhl
+IG9yaWdpbmFsIHNvZnR3YXJlLgorIyAtICAzLiBUaGlzIG5vdGljZSBtYXkgbm90IGJlIHJlbW92
+ZWQgb3IgYWx0ZXJlZCBmcm9tIGFueSBzb3VyY2UgZGlzdHJpYnV0aW9uLgorIyAtCisjIC0gIEpl
+YW4tbG91cCBHYWlsbHkgICAgICAgIE1hcmsgQWRsZXIKKyMgLSAgamxvdXBAZ3ppcC5vcmcgICAg
+ICAgICAgbWFkbGVyQGFsdW1uaS5jYWx0ZWNoLmVkdQorIyAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LQorIyArVGhpcyBpbXBsZW1lbnRhdGlvbiBvZiBgZ2V0b3B0X2xvbmcoKWAgZm9yIFdpbjMyIHdh
+cyB0YWtlbiBmcm9tCisjICtodHRwczovL3d3dy5jb2RlcHJvamVjdC5jb20vQXJ0aWNsZXMvMTU3
+MDAxL0Z1bGwtZ2V0b3B0LVBvcnQtZm9yLVVuaWNvZGUtYW5kLU11bHRpYnl0ZS1NaWNyb3NvCisj
+ICthbmQgaXMgbGljZW5zZWQgdW5kZXIgdGhlIExHUEwuCisjICsKKyMgK1RoZSBmdWxsIGxpY2Vu
+c2UgdGV4dCBjYW4gYmUgZm91bmQgaW4gTEdQTC0zLjAudHh0IGFuZCBhdAorIyAraHR0cHM6Ly93
+d3cuZ251Lm9yZy9saWNlbnNlcy9sZ3BsLTMuMC5odG1sLgorIyArCisjICsKKyMgK3NyYy90aGly
+ZF9wYXJ0eS94eGgoYXNofF94ODZkaXNwYXRjaCkuW2hjXQorIyArfn5+fn5+fn5+fn5+fn5+fn5+
+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+CisjICsKKyMgK3h4SGFzaCAtIEV4dHJlbWVseSBGYXN0
+IEhhc2ggYWxnb3JpdGhtLiBDb3BpZWQgZnJvbSB4eEhhc2ggdjAuOC4wIGRvd25sb2FkZWQKKyMg
+K2Zyb20gPGh0dHBzOi8vZ2l0aHViLmNvbS9DeWFuNDk3My94eEhhc2gvcmVsZWFzZXM+LgorIyAr
+CisjICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCisjICtDb3B5cmlnaHQgKGMpIDIwMTItMjAyMCBZ
+YW5uIENvbGxldAorIyArQWxsIHJpZ2h0cyByZXNlcnZlZC4KKyMgKworIyArQlNEIDItQ2xhdXNl
+IExpY2Vuc2UgKGh0dHA6Ly93d3cub3BlbnNvdXJjZS5vcmcvbGljZW5zZXMvYnNkLWxpY2Vuc2Uu
+cGhwKQorIyArCisjICtSZWRpc3RyaWJ1dGlvbiBhbmQgdXNlIGluIHNvdXJjZSBhbmQgYmluYXJ5
+IGZvcm1zLCB3aXRoIG9yIHdpdGhvdXQKKyMgK21vZGlmaWNhdGlvbiwgYXJlIHBlcm1pdHRlZCBw
+cm92aWRlZCB0aGF0IHRoZSBmb2xsb3dpbmcgY29uZGl0aW9ucyBhcmUKKyMgK21ldDoKKyMgKwor
+IyArICAgICogUmVkaXN0cmlidXRpb25zIG9mIHNvdXJjZSBjb2RlIG11c3QgcmV0YWluIHRoZSBh
+Ym92ZSBjb3B5cmlnaHQKKyMgK25vdGljZSwgdGhpcyBsaXN0IG9mIGNvbmRpdGlvbnMgYW5kIHRo
+ZSBmb2xsb3dpbmcgZGlzY2xhaW1lci4KKyMgKyAgICAqIFJlZGlzdHJpYnV0aW9ucyBpbiBiaW5h
+cnkgZm9ybSBtdXN0IHJlcHJvZHVjZSB0aGUgYWJvdmUKKyMgK2NvcHlyaWdodCBub3RpY2UsIHRo
+aXMgbGlzdCBvZiBjb25kaXRpb25zIGFuZCB0aGUgZm9sbG93aW5nIGRpc2NsYWltZXIKKyMgK2lu
+IHRoZSBkb2N1bWVudGF0aW9uIGFuZC9vciBvdGhlciBtYXRlcmlhbHMgcHJvdmlkZWQgd2l0aCB0
+aGUKKyMgK2Rpc3RyaWJ1dGlvbi4KKyMgKworIyArVEhJUyBTT0ZUV0FSRSBJUyBQUk9WSURFRCBC
+WSBUSEUgQ09QWVJJR0hUIEhPTERFUlMgQU5EIENPTlRSSUJVVE9SUworIyArIkFTIElTIiBBTkQg
+QU5ZIEVYUFJFU1MgT1IgSU1QTElFRCBXQVJSQU5USUVTLCBJTkNMVURJTkcsIEJVVCBOT1QKKyMg
+K0xJTUlURUQgVE8sIFRIRSBJTVBMSUVEIFdBUlJBTlRJRVMgT0YgTUVSQ0hBTlRBQklMSVRZIEFO
+RCBGSVRORVNTIEZPUgorIyArQSBQQVJUSUNVTEFSIFBVUlBPU0UgQVJFIERJU0NMQUlNRUQuIElO
+IE5PIEVWRU5UIFNIQUxMIFRIRSBDT1BZUklHSFQKKyMgK09XTkVSIE9SIENPTlRSSUJVVE9SUyBC
+RSBMSUFCTEUgRk9SIEFOWSBESVJFQ1QsIElORElSRUNULCBJTkNJREVOVEFMLAorIyArU1BFQ0lB
+TCwgRVhFTVBMQVJZLCBPUiBDT05TRVFVRU5USUFMIERBTUFHRVMgKElOQ0xVRElORywgQlVUIE5P
+VAorIyArTElNSVRFRCBUTywgUFJPQ1VSRU1FTlQgT0YgU1VCU1RJVFVURSBHT09EUyBPUiBTRVJW
+SUNFUzsgTE9TUyBPRiBVU0UsCisjICtEQVRBLCBPUiBQUk9GSVRTOyBPUiBCVVNJTkVTUyBJTlRF
+UlJVUFRJT04pIEhPV0VWRVIgQ0FVU0VEIEFORCBPTiBBTlkKKyMgK1RIRU9SWSBPRiBMSUFCSUxJ
+VFksIFdIRVRIRVIgSU4gQ09OVFJBQ1QsIFNUUklDVCBMSUFCSUxJVFksIE9SIFRPUlQKKyMgKyhJ
+TkNMVURJTkcgTkVHTElHRU5DRSBPUiBPVEhFUldJU0UpIEFSSVNJTkcgSU4gQU5ZIFdBWSBPVVQg
+T0YgVEhFIFVTRQorIyArT0YgVEhJUyBTT0ZUV0FSRSwgRVZFTiBJRiBBRFZJU0VEIE9GIFRIRSBQ
+T1NTSUJJTElUWSBPRiBTVUNIIERBTUFHRS4KKyMgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KKyMg
+CisjCisKK1NVTU1BUlkgPSAiYSBmYXN0IEMvQysrIGNvbXBpbGVyIGNhY2hlIgorREVTQ1JJUFRJ
+T04gPSAiY2NhY2hlIGlzIGEgY29tcGlsZXIgY2FjaGUuIEl0IHNwZWVkcyB1cCByZWNvbXBpbGF0
+aW9uIFwKK2J5IGNhY2hpbmcgdGhlIHJlc3VsdCBvZiBwcmV2aW91cyBjb21waWxhdGlvbnMgYW5k
+IGRldGVjdGluZyB3aGVuIHRoZSBcCitzYW1lIGNvbXBpbGF0aW9uIGlzIGJlaW5nIGRvbmUgYWdh
+aW4uIFN1cHBvcnRlZCBsYW5ndWFnZXMgYXJlIEMsIENcK1wrLCBcCitPYmplY3RpdmUtQyBhbmQg
+T2JqZWN0aXZlLUMrKy4iCitIT01FUEFHRSA9ICJodHRwOi8vY2NhY2hlLnNhbWJhLm9yZyIKK1NF
+Q1RJT04gPSAiZGV2ZWwiCisKK0xJQ0VOU0UgPSAiR1BMdjMrIgorTElDX0ZJTEVTX0NIS1NVTSA9
+ICJmaWxlOi8vTElDRU5TRS5hZG9jO21kNT1hNjZjNTgxZjg1NWMxYzQwODczMGZlNWQxNzFlMzAx
+MyIKKworREVQRU5EUyA9ICJ6bGliIgorCitTUkNfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9j
+Y2FjaGUvY2NhY2hlL3JlbGVhc2VzL2Rvd25sb2FkL3Yke1BWfS8ke0JQfS50YXIuZ3oiCitTUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiYWM5N2FmODY2NzkwMjhlYmM4NTU1Yzk5MzE4MzUyNTg4ZmY1MGY1
+MTVmYzNhN2Y4ZWQyMWE4YWQzNjdlM2Q0NSIKKworVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBz
+Oi8vZ2l0aHViLmNvbS9jY2FjaGUvY2NhY2hlL3JlbGVhc2VzLyIKKworaW5oZXJpdCBhdXRvdG9v
+bHMKKworIyBSZW1vdmUgY2NhY2hlLW5hdGl2ZSdzIGRlcGVuZGVuY2llcywgc28gdGhhdCBpdCBj
+YW4gYmUgdXNlZCB3aWRlbHkgYnkKKyMgb3RoZXIgbmF0aXZlIHJlY2lwZXMuCitERVBFTkRTX2Ns
+YXNzLW5hdGl2ZSA9ICIiCitFWFRSQV9PRUNPTkZfY2xhc3MtbmF0aXZlID0gIi0td2l0aC1idW5k
+bGVkLXpsaWIiCitJTkhJQklUX0FVVE9UT09MU19ERVBTX2NsYXNzLW5hdGl2ZSA9ICIxIgorUEFU
+Q0hUT09MID0gInBhdGNoIgorCitCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSIKKworZG9fY29uZmln
+dXJlX2NsYXNzLW5hdGl2ZSgpIHsKKyAgICBvZV9ydW5jb25mCit9Ci0tIAoyLjIwLjEKCg==
 
----
- meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.8.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.8.1.bb} (96%)
-
-diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.8.1.bb
-similarity index 96%
-rename from meta/recipes-connectivity/kea/kea_1.7.10.bb
-rename to meta/recipes-connectivity/kea/kea_1.8.1.bb
-index 1d011ace78..9b104a06df 100644
---- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.8.1.bb
-@@ -19,7 +19,7 @@ SRC_URI = "\
-     file://fix-multilib-conflict.patch \
-     file://fix_pid_keactrl.patch \
- "
--SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
-+SRC_URI[sha256sum] = "52020cb16889484b661746d7fc4c7cd88974b1af5b7fc436eb6e69c62eb83734"
- 
- inherit autotools systemd update-rc.d upstream-version-is-even
- 
--- 
-2.20.1
-
-
---===============9025883493018928538==
+--===============7500014297986006419==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
 
-packages/core2-32-poky-linux/kea/kea-dbg: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea/kea-dbg: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea/kea-dbg: PKGSIZE changed from 258778088 to 259214668 (+0%)
-packages/core2-32-poky-linux/kea/kea-dbg: FILELIST: removed "/usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cfgclient.so.9.0.0", added "/usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-database.so.6 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10 /u
- sr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-process.so.11 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-util.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-dhcp_ddns.so.3.0.0"
-packages/core2-32-poky-linux/kea/kea-dev: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea/kea-dev: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea/kea-dev: PKGSIZE changed from 3458982 to 3466873 (+0%)
-packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cfgclient.so.9.0.0", added "/usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-database.so.6 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10 /u
- sr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-process.so.11 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-util.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-dhcp_ddns.so.3.0.0"
-packages/core2-32-poky-linux/kea/kea-doc: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea/kea-doc: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea/kea-doc: PKGSIZE changed from 889774 to 894379 (+1%)
-packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cfgclient.so.9.0.0", added "/usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-database.so.6 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10 /u
- sr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-process.so.11 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-util.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-dhcp_ddns.so.3.0.0"
-packages/core2-32-poky-linux/kea/kea-locale: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea/kea-locale: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cfgclient.so.9.0.0", added "/usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-database.so.6 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10
-  /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-process.so.11 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-util.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-dhcp_ddns.so.3.0.0"
-packages/core2-32-poky-linux/kea/kea-src: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea/kea-src: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea/kea-src: PKGSIZE changed from 8192136 to 8226699 (+0%)
-packages/core2-32-poky-linux/kea/kea-src: FILELIST: removed "/usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cfgclient.so.9.0.0", added "/usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-database.so.6 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10 /u
- sr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-process.so.11 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-util.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-dhcp_ddns.so.3.0.0"
-packages/core2-32-poky-linux/kea/kea-staticdev: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea/kea-staticdev: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cfgclient.so.9.0.0", added "/usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-database.so.6 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so
- .10 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-process.so.11 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-util.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-dhcp_ddns.so.3.0.0"
-packages/core2-32-poky-linux/kea/kea: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea/kea: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea/kea: PKGSIZE changed from 14115514 to 14156488 (+0%)
-packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-util.so.15 /usr/lib/libkea-cfgclient.so.9.0.0", added "/usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-database.so.6 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10 /usr/l
- ib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-process.so.11 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-util.so.16 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-dhcp_ddns.so.3.0.0"
-packages/core2-32-poky-linux/kea: PV changed from "1.7.10" to "1.8.1"
-packages/core2-32-poky-linux/kea: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
-packages/core2-32-poky-linux/kea: SRC_URI changed from "http://ftp.isc.org/isc/kea/1.7.10/kea-1.7.10.tar.gz file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch" to "http://ftp.isc.org/isc/kea/1.8.1/kea-1.8.1.tar.gz file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch"
-Changes to packages/core2-32-poky-linux/kea (sysroot):
-  /usr/lib/libkea-asiodns.so.1 changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
-  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
-  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.7.1.0 to libkea-asiolink.so.9.0.0
-  /usr/lib/libkea-cc.so.8 changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
-  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
-  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.9.0.0 to libkea-cfgclient.so.10.0.0
-  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.5.1.0 to libkea-database.so.6.1.0
-  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.2.0.1 to libkea-dhcp_ddns.so.3.0.0
-  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.18.0.0 to libkea-dhcp++.so.19.0.0
-  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.26.0.0 to libkea-dhcpsrv.so.28.0.0
-  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.4.0.0 to libkea-dns++.so.5.0.0
-  /usr/lib/libkea-exceptions.so.0 changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
-  /usr/lib/libkea-exceptions.so changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
-  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.15.0.0 to libkea-hooks.so.16.0.0
-  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.6.1.2 to libkea-http.so.7.1.0
-  /usr/lib/libkea-log.so.6 changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
-  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
-  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.10.0.0 to libkea-process.so.11.0.0
-  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.15.0.0 to libkea-util.so.16.0.0
-  /usr/lib/libkea-asiodns.so.1.0.0 moved to /usr/lib/libkea-asiodns.so.1.0.1
-  /usr/lib/libkea-asiolink.so.7.1.0 moved to /usr/lib/libkea-asiolink.so.9.0.0
-  /usr/lib/libkea-asiolink.so.7 moved to /usr/lib/libkea-asiolink.so.9
-  /usr/lib/libkea-cc.so.8.1.4 moved to /usr/lib/libkea-cc.so.8.1.5
-  /usr/lib/libkea-database.so.5.1.0 moved to /usr/lib/libkea-database.so.6.1.0
-  /usr/lib/libkea-database.so.5 moved to /usr/lib/libkea-database.so.6
-  /usr/lib/libkea-dhcp_ddns.so.2.0.1 moved to /usr/lib/libkea-dhcp_ddns.so.3.0.0
-  /usr/lib/libkea-dhcp_ddns.so.2 moved to /usr/lib/libkea-dhcp_ddns.so.3
-  /usr/lib/libkea-dhcp++.so.18.0.0 moved to /usr/lib/libkea-dhcp++.so.19.0.0
-  /usr/lib/libkea-dhcp++.so.18 moved to /usr/lib/libkea-dhcp++.so.19
-  /usr/lib/libkea-dhcpsrv.so.26.0.0 moved to /usr/lib/libkea-dhcpsrv.so.28.0.0
-  /usr/lib/libkea-dhcpsrv.so.26 moved to /usr/lib/libkea-dhcpsrv.so.28
-  /usr/lib/libkea-dns++.so.4.0.0 moved to /usr/lib/libkea-dns++.so.5.0.0
-  /usr/lib/libkea-dns++.so.4 moved to /usr/lib/libkea-dns++.so.5
-  /usr/lib/libkea-exceptions.so.0.2.0 moved to /usr/lib/libkea-exceptions.so.0.2.1
-  /usr/lib/libkea-hooks.so.15.0.0 moved to /usr/lib/libkea-hooks.so.16.0.0
-  /usr/lib/libkea-hooks.so.15 moved to /usr/lib/libkea-hooks.so.16
-  /usr/lib/libkea-http.so.6.1.2 moved to /usr/lib/libkea-http.so.7.1.0
-  /usr/lib/libkea-http.so.6 moved to /usr/lib/libkea-http.so.7
-  /usr/lib/libkea-log.so.6.0.0 moved to /usr/lib/libkea-log.so.6.0.1
-  /usr/lib/libkea-process.so.10.0.0 moved to /usr/lib/libkea-process.so.11.0.0
-  /usr/lib/libkea-process.so.10 moved to /usr/lib/libkea-process.so.11
-  /usr/lib/libkea-util.so.15.0.0 moved to /usr/lib/libkea-util.so.16.0.0
-  /usr/lib/libkea-util.so.15 moved to /usr/lib/libkea-util.so.16
-  /usr/lib/libkea-cfgclient.so.10.0.0 was added
-  /usr/lib/libkea-cfgclient.so.10 was added
-  /usr/lib/libkea-cfgclient.so.9.0.0 was removed
-  /usr/lib/libkea-cfgclient.so.9 was removed
+Loading cache...done.
+Loaded 1378 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 791 .bb files complete (790 cached, 1 parsed). 1372 targets, 35 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-32 sysroot...done.
+Removing 1 recipes from the qemux86 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============9025883493018928538==--
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "i686-poky-linux"
+MACHINE              = "qemux86"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-20201116"
+TUNE_FEATURES        = "m32 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:ff27956d8c1164d700a0ae7883c093c1c2f5673c"
+workspace            = "master:aaf6aa3e530deb4a8d818a55a37b9029980b0b0d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 22 Found 15 Missed 7 Current 126 (68% match, 95% complete)
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 518 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_fetch)
+NOTE: recipe ccache-4.0-r0: task do_fetch: Started
+NOTE: recipe ccache-4.0-r0: task do_fetch: Succeeded
+NOTE: Running task 566 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_unpack)
+NOTE: Running task 567 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe ccache-4.0-r0: task do_unpack: Started
+NOTE: recipe ccache-4.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe ccache-4.0-r0: task do_unpack: Succeeded
+NOTE: Running task 568 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_patch)
+NOTE: recipe ccache-4.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe ccache-4.0-r0: task do_patch: Started
+NOTE: recipe ccache-4.0-r0: task do_patch: Succeeded
+NOTE: Running task 569 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 570 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_populate_lic)
+NOTE: recipe ccache-4.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe ccache-4.0-r0: task do_populate_lic: Started
+NOTE: recipe ccache-4.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 571 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_configure)
+NOTE: recipe ccache-4.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe ccache-4.0-r0: task do_configure: Started
+NOTE: recipe ccache-4.0-r0: task do_configure: Succeeded
+NOTE: Running task 572 of 579 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_compile)
+NOTE: recipe ccache-4.0-r0: task do_compile: Started
+ERROR: ccache-4.0-r0 do_compile: oe_runmake failed
+ERROR: ccache-4.0-r0 do_compile: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ccache/4.0-r0/temp/run.do_compile.36626' failed with exit code 1:
+make: *** No targets specified and no makefile found.  Stop.
+WARNING: exit code 1 from a shell command.
+
+ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ccache/4.0-r0/temp/log.do_compile.36626
+Log data follows:
+| DEBUG: Executing python function autotools_aclocals
+| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common', 'common-linux', 'common-glibc', 'i686-linux', 'common']
+| DEBUG: Python function autotools_aclocals finished
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 56
+| make: *** No targets specified and no makefile found.  Stop.
+| ERROR: oe_runmake failed
+| WARNING: exit code 1 from a shell command.
+| ERROR: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/ccache/4.0-r0/temp/run.do_compile.36626' failed with exit code 1:
+| make: *** No targets specified and no makefile found.  Stop.
+| WARNING: exit code 1 from a shell command.
+| 
+NOTE: recipe ccache-4.0-r0: task do_compile: Failed
+ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_compile) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 572 tasks of which 564 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+
+Summary: 1 task failed:
+  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ccache/ccache_4.0.bb:do_compile
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+
+--===============7500014297986006419==--
