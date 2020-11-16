@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.39493.1605551303737590398
+ by mx.groups.io with SMTP id smtpd.web11.39495.1605551304053546571
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Nov 2020 10:28:25 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id A011A38C13F5
+	by mail.yoctoproject.org (Postfix) with ESMTP id 9D08C38C13E9
 	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 18:28:23 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Denys Dmytriyenko <denys@ti.com>
+To: Yi Zhao <yi.zhao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lz4: upgrading to 1.9.3 SUCCEEDED
-Message-ID: <MADEUP.16481067DF9DFD6E.12355@lists.openembedded.org>
-X-Groupsio-MsgNum: 144666
-Content-Type: multipart/mixed; boundary="===============1937122183669628294=="
+Subject: [AUH] libcap: upgrading to 2.45 FAILED
+Message-ID: <MADEUP.16481067C949D5A5.17549@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============5683274666584698697=="
 
---===============1937122183669628294==
+--===============5683274666584698697==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,99 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lz4* to *1.9.3* has Succeeded.
+that the automatic attempt to upgrade the recipe *libcap* to *2.45* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-lz4-upgrade-1.9.2-1.9.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe libcap failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1446 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-20201116"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7fbcd767929d1b6ad8e71d4ffd6f20999aaabeac"
+workspace            = "master:aaf6aa3e530deb4a8d818a55a37b9029980b0b0d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.45.tar.xz...
+Loading cache...done.
+Loaded 1446 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 792 .bb files complete (790 cached, 2 parsed). 1373 targets, 35 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-20201116"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:7fbcd767929d1b6ad8e71d4ffd6f20999aaabeac"
+workspace            = "master:aaf6aa3e530deb4a8d818a55a37b9029980b0b0d"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase d9d61c3a90260674ff61503cfdcebbe49ae78a94' failed:
+First, rewinding head to replay your work on top of it...
+Applying: Ensure the XATTR_NAME_CAPS is defined when it is used
+Applying: tests: do not run target executables
+Using index info to reconstruct a base tree...
+M	tests/Makefile
+Falling back to patching base and 3-way merge...
+Auto-merging tests/Makefile
+CONFLICT (content): Merge conflict in tests/Makefile
+error: Failed to merge in the changes.
+hint: Use 'git am --show-current-patch' to see the failed patch
+Patch failed at 0002 tests: do not run target executables
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libcap
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libcap/libcap_2.45.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,97 +123,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1937122183669628294==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/lz4/lz4-dev: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-doc: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-locale: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-staticdev: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-Changes to packages/core2-32-poky-linux/lz4 (sysroot):
-  /usr/lib/liblz4.so.1 changed symlink target from liblz4.so.1.9.2 to liblz4.so.1.9.3
-  /usr/lib/liblz4.so changed symlink target from liblz4.so.1.9.2 to liblz4.so.1.9.3
-  /usr/lib/liblz4.so.1.9.2 moved to /usr/lib/liblz4.so.1.9.3
-
---===============1937122183669628294==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/lz4: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4: SRC_URI changed from "git://github.com/lz4/lz4.git file://run-ptest" to "git://github.com/lz4/lz4.git;branch=release file://run-ptest"
-packages/core2-32-poky-linux/lz4: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-packages/core2-32-poky-linux/lz4/lz4-dbg: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-dbg: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-dbg: PKGSIZE changed from 39108 to 39536 (+1%)
-packages/core2-32-poky-linux/lz4/lz4-dbg: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-packages/core2-32-poky-linux/lz4/lz4-dev: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-dev: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-dev: PKGSIZE changed from 90349 to 90317 (-0%)
-packages/core2-32-poky-linux/lz4/lz4-dev: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-packages/core2-32-poky-linux/lz4/lz4-doc: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-doc: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-doc: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-packages/core2-32-poky-linux/lz4/lz4-locale: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-locale: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-locale: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-packages/core2-32-poky-linux/lz4/lz4-src: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-src: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-src: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-packages/core2-32-poky-linux/lz4/lz4-staticdev: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-staticdev: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4/lz4-staticdev: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-packages/core2-32-poky-linux/lz4/lz4: FILELIST: removed "/usr/lib/liblz4.so.1.9.2", added "/usr/lib/liblz4.so.1.9.3"
-packages/core2-32-poky-linux/lz4/lz4: PV changed from "1.9.2" to "1.9.3"
-packages/core2-32-poky-linux/lz4/lz4: PKGSIZE changed from 486056 to 498344 (+3%)
-packages/core2-32-poky-linux/lz4/lz4: PKGV changed from 1.9.2 [default] to 1.9.3 [default]
-Changes to packages/core2-32-poky-linux/lz4 (sysroot):
-  /usr/lib/liblz4.so.1 changed symlink target from liblz4.so.1.9.2 to liblz4.so.1.9.3
-  /usr/lib/liblz4.so changed symlink target from liblz4.so.1.9.2 to liblz4.so.1.9.3
-  /usr/lib/liblz4.so.1.9.2 moved to /usr/lib/liblz4.so.1.9.3
-
---===============1937122183669628294==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="0001-lz4-upgrade-1.9.2-1.9.3.patch"
-
-From acf4cea02b7e1533998fc0fcd70a20c74c90d97d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 16 Nov 2020 18:28:22 +0000
-Subject: [PATCH] lz4: upgrade 1.9.2 -> 1.9.3
-
----
- meta/recipes-support/lz4/{lz4_1.9.2.bb => lz4_1.9.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/lz4/{lz4_1.9.2.bb => lz4_1.9.3.bb} (90%)
-
-diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support/lz4/lz4_1.9.3.bb
-similarity index 90%
-rename from meta/recipes-support/lz4/lz4_1.9.2.bb
-rename to meta/recipes-support/lz4/lz4_1.9.3.bb
-index 6510156ed0..00f2dd32fe 100644
---- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.3.bb
-@@ -9,9 +9,9 @@ LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=ebc2ea4814a64de7708f1571904b32cc \
- 
- PE = "1"
- 
--SRCREV = "fdf2ef5809ca875c454510610764d9125ef2ebbd"
-+SRCREV = "d44371841a2f1728a3f36839fd4b7e872d0927d3"
- 
--SRC_URI = "git://github.com/lz4/lz4.git \
-+SRC_URI = "git://github.com/lz4/lz4.git;branch=release \
-            file://run-ptest \
-            "
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
--- 
-2.20.1
-
-
---===============1937122183669628294==--
+--===============5683274666584698697==--
