@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.39171.1605551303697347953
+ by mx.groups.io with SMTP id smtpd.web12.39174.1605551303787701912
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Nov 2020 10:28:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 78E6F38C13C3
+	by mail.yoctoproject.org (Postfix) with ESMTP id 65D5D38C13BB
 	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 18:28:23 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] pango: upgrading to 1.48.0 FAILED
-Message-ID: <MADEUP.164810679F0D8859.27635@lists.openembedded.org>
-X-Groupsio-MsgNum: 144652
-Content-Type: multipart/mixed; boundary="===============6521237273786234698=="
+Subject: [AUH] libdrm: upgrading to 2.4.103 SUCCEEDED
+Message-ID: <MADEUP.164810679F84A793.17549@lists.openembedded.org>
+X-Groupsio-MsgNum: 144653
+Content-Type: multipart/mixed; boundary="===============6856854828458868775=="
 
---===============6521237273786234698==
+--===============6856854828458868775==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,16 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *pango* to *1.48.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *libdrm* to *2.4.103* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-pango-upgrade-1.46.2-1.48.0.patch
+    - apply the patch: git am 0001-libdrm-upgrade-2.4.102-2.4.103.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -50,162 +44,2711 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6521237273786234698==
+--===============6856854828458868775==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
+  /sysroot-providers/virtual_i686-poky-linux-g++ was added
+  /sysroot-providers/virtual_i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-10.2.0 was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
+  /usr/libexec/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/cc1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/cc1plus was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/collect2 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-strip was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/fixincl was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/mkheaders was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcp1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/liblto_plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/liblto_plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/liblto_plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/lto1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/lto-wrapper was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/gengtype was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/strip was added
+  /usr/lib/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/adxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/ammintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512cdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512dqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512erintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512fintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512pfintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/bmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/bmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/bmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cet.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cldemoteintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/clflushoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/clwbintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/clzerointrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cpuid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cross-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/emmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/enqcmdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/f16cintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed/syslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/float.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/fma4intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/fmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/fxsrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/gfniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/ia32intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/immintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/iso646.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/lwpintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/lzcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mm3dnow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mm_malloc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/movdirintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mwaitxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/nmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/pconfigintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/pkuintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/pmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/popcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/prfchwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/quadmath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/quadmath_weak.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/rdseedintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/rtmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/sgxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/shaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/smmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdalign.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdatomic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdbool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stddef.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdfix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdint-gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdnoreturn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/tbmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/tmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/unwind.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/vaesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/varargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/waitpkgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/wmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/x86intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xopintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsavecintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsaveintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsavesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xtestintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/fixinc_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/include/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/include/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/macro_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/gtype.state was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ada was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/addresses.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/align.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/all-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/array-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/asan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/attribs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/auto-host.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/backend.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/basic-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/b-header-vars was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/bitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/brig-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtins.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/bversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/calls.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ccmp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfganal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cgraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cif-code.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/collect2.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/color-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/conditions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/configargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/dbxelf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/convert.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/coretypes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/coverage.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cpplib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cselib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/d was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dbxout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ddg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/debug.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/defaults.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/df.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dfp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/digraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dojump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dominance.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/domwalk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/double-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dump-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/edit-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/errors.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/et-forest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/except.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/explow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/expmed.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/file-find.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/filenames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/flag-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fold-const.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/function-abi.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/generic-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gengtype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/genrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gensupport.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ggc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimplify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/glimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graphds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graphite.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graphviz.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gstab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gsyms.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hashtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-table.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hsa-brig-format.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hsa-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hsa-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hwint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/inchash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/incpath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/input.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/intl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ira.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ira-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/is-a.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/langhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lcm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/libiberty.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/limitx.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/limity.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/line-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/linux64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lra-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/machmode.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/machmode.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/md5.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/memmodel.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/memory-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/objc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/obstack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-general.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-grid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/options.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/output.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/passes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/poly-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/predict.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/prefix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/print-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/profile-count.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/range-op.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/read-md.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/real.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/recog.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regcprop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regrename.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/reload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/resource.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sched-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/selftest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sese.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/signop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sparseset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sreal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stab.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/statistics.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stmt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stringpool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/system.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-globals.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-insns.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/targhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/timevar.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/timevar.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tm_p.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/toplev.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tracer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-check.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/treestruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tristate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tsystem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/typeclass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ubsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/valtrack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/value-prof.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/value-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/varasm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vr-values.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/wide-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was added
+  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-10.2.0 was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
+  /usr/libexec/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/cc1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/cc1plus was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/collect2 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-strip was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/fixincl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/mkheaders was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcp1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/liblto_plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/liblto_plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/liblto_plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/lto1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/lto-wrapper was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/gengtype was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/strip was removed
+  /usr/lib/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/adxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/ammintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512erintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512fintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/bmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/bmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/bmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cet.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/clwbintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/clzerointrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cpuid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cross-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/emmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/f16cintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed/syslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/float.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/fma4intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/fmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/fxsrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/gfniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/ia32intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/immintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/iso646.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/lwpintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/lzcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mm3dnow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mm_malloc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/movdirintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/nmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/pconfigintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/pkuintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/pmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/popcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/prfchwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/quadmath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/quadmath_weak.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/rdseedintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/rtmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/sgxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/shaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/smmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdalign.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdatomic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdbool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stddef.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdfix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdint-gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdnoreturn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/tbmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/tmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/unwind.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/vaesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/varargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/wmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/x86intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xopintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsavecintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsaveintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsavesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xtestintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/fixinc_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/include/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/include/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/macro_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/gtype.state was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ada was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/addresses.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/align.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/asan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/attribs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/backend.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/brig-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtins.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/bversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/calls.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/collect2.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/conditions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/configargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/dbxelf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/convert.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/coverage.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cselib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/d was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dbxout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ddg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/debug.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/defaults.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/df.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dfp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/digraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dojump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dominance.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/double-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/errors.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/except.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/explow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/expmed.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/file-find.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/filenames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ggc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/glimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graphds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graphite.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gstab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hsa-brig-format.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hsa-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hsa-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hwint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/inchash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/incpath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/input.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/intl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ira.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/is-a.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lcm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/limitx.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/limity.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/line-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/linux64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/machmode.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/machmode.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/md5.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/objc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/obstack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-grid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/options.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/output.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/passes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/predict.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/prefix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/range-op.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/read-md.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/real.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/recog.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regrename.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/reload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/resource.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/selftest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sese.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/signop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sreal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stab.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/statistics.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stmt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/system.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/timevar.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/timevar.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/toplev.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tracer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tristate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/value-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/varasm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/xcoff.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/xcoffout.h was removed
+
+--===============6856854828458868775==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-pango-upgrade-1.46.2-1.48.0.patch"
+ filename="0001-libdrm-upgrade-2.4.102-2.4.103.patch"
 
-From 6b2fcbc0d76a4e0a646daafb77381652a19f0f83 Mon Sep 17 00:00:00 2001
+From 51c108d35c21a39742bd63c8d0042318715a0ee2 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 16 Nov 2020 15:53:53 +0000
-Subject: [PATCH] pango: upgrade 1.46.2 -> 1.48.0
+Date: Mon, 16 Nov 2020 15:38:15 +0000
+Subject: [PATCH] libdrm: upgrade 2.4.102 -> 2.4.103
 
 ---
- .../recipes-graphics/pango/{pango_1.46.2.bb => pango_1.48.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/pango/{pango_1.46.2.bb => pango_1.48.0.bb} (94%)
+ .../0001-xf86drm.c-fix-build-failure.patch    | 87 -------------------
+ .../{libdrm_2.4.102.bb => libdrm_2.4.103.bb}  |  5 +-
+ 2 files changed, 2 insertions(+), 90 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
+ rename meta/recipes-graphics/drm/{libdrm_2.4.102.bb => libdrm_2.4.103.bb} (93%)
 
-diff --git a/meta/recipes-graphics/pango/pango_1.46.2.bb b/meta/recipes-graphics/pango/pango_1.48.0.bb
-similarity index 94%
-rename from meta/recipes-graphics/pango/pango_1.46.2.bb
-rename to meta/recipes-graphics/pango/pango_1.48.0.bb
-index c41d1e8a9b..1f5887896c 100644
---- a/meta/recipes-graphics/pango/pango_1.46.2.bb
-+++ b/meta/recipes-graphics/pango/pango_1.48.0.bb
-@@ -16,7 +16,7 @@ GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspection
+diff --git a/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch b/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
+deleted file mode 100644
+index 60c996ca85..0000000000
+--- a/meta/recipes-graphics/drm/files/0001-xf86drm.c-fix-build-failure.patch
++++ /dev/null
+@@ -1,87 +0,0 @@
+-From c7d89412884de2dbfa543720d185027377e62f21 Mon Sep 17 00:00:00 2001
+-From: Heiko Thiery <heiko.thiery@gmail.com>
+-Date: Fri, 5 Jun 2020 23:46:52 +0200
+-Subject: [PATCH] xf86drm.c: fix build failure
+-
+-./xf86drm.c: In function 'drmNodeIsDRM':
+-../xf86drm.c:2825:7: error: "__FreeBSD__" is not defined [-Werror=undef]
+- #elif __FreeBSD__
+-       ^
+-../xf86drm.c: In function 'drmGetMinorNameForFD':
+-../xf86drm.c:2938:7: error: "__FreeBSD__" is not defined [-Werror=undef]
+- #elif __FreeBSD__
+-       ^
+-../xf86drm.c: In function 'drmParsePciBusInfo':
+-../xf86drm.c:3258:7: error: "__FreeBSD__" is not defined [-Werror=undef]
+- #elif __FreeBSD__
+-       ^
+-../xf86drm.c: In function 'drmParsePciDeviceInfo':
+-../xf86drm.c:3427:7: error: "__FreeBSD__" is not defined [-Werror=undef]
+- #elif __FreeBSD__
+-       ^
+-../xf86drm.c: In function 'drmGetDeviceNameFromFd2':
+-../xf86drm.c:4305:7: error: "__FreeBSD__" is not defined [-Werror=undef]
+- #elif __FreeBSD__
+-       ^
+-
+-Signed-off-by: Heiko Thiery <heiko.thiery@gmail.com>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Armin Kuster <akuster@mvista.com>
+-
+----
+- xf86drm.c | 10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
+-
+-diff --git a/xf86drm.c b/xf86drm.c
+-index 07a18c4..50a6f09 100644
+---- a/xf86drm.c
+-+++ b/xf86drm.c
+-@@ -2822,7 +2822,7 @@ static bool drmNodeIsDRM(int maj, int min)
+-     snprintf(path, sizeof(path), "/sys/dev/char/%d:%d/device/drm",
+-              maj, min);
+-     return stat(path, &sbuf) == 0;
+--#elif __FreeBSD__
+-+#elif defined(__FreeBSD__)
+-     char name[SPECNAMELEN];
+- 
+-     if (!devname_r(makedev(maj, min), S_IFCHR, name, sizeof(name)))
+-@@ -2935,7 +2935,7 @@ static char *drmGetMinorNameForFD(int fd, int type)
+- 
+-     closedir(sysdir);
+-     return NULL;
+--#elif __FreeBSD__
+-+#elif defined(__FreeBSD__)
+-     struct stat sbuf;
+-     char dname[SPECNAMELEN];
+-     const char *mname;
+-@@ -3255,7 +3255,7 @@ static int drmParsePciBusInfo(int maj, int min, drmPciBusInfoPtr info)
+-     info->func = pinfo.func;
+- 
+-     return 0;
+--#elif __FreeBSD__
+-+#elif defined(__FreeBSD__)
+-     return get_sysctl_pci_bus_info(maj, min, info);
+- #else
+- #warning "Missing implementation of drmParsePciBusInfo"
+-@@ -3424,7 +3424,7 @@ static int drmParsePciDeviceInfo(int maj, int min,
+-     device->subdevice_id = pinfo.subdevice_id;
+- 
+-     return 0;
+--#elif __FreeBSD__
+-+#elif defined(__FreeBSD__)
+-     drmPciBusInfo info;
+-     struct pci_conf_io pc;
+-     struct pci_match_conf patterns[1];
+-@@ -4302,7 +4302,7 @@ drm_public char *drmGetDeviceNameFromFd2(int fd)
+-     free(value);
+- 
+-     return strdup(path);
+--#elif __FreeBSD__
+-+#elif defined(__FreeBSD__)
+-     return drmGetDeviceNameFromFd(fd);
+- #else
+-     struct stat      sbuf;
+--- 
+-1.8.3.1
+-
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.102.bb b/meta/recipes-graphics/drm/libdrm_2.4.103.bb
+similarity index 93%
+rename from meta/recipes-graphics/drm/libdrm_2.4.102.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.103.bb
+index ad512d14a9..1028d618ae 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.102.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.103.bb
+@@ -10,10 +10,9 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
+ PROVIDES = "drm"
+ DEPENDS = "libpthread-stubs"
  
- SRC_URI += " file://run-ptest"
--SRC_URI[archive.sha256sum] = "d89fab5f26767261b493279b65cfb9eb0955cd44c07c5628d36094609fc51841"
-+SRC_URI[archive.sha256sum] = "391f26f3341c2d7053e0fb26a956bd42360dadd825efe7088b1e9340a65e74e6"
+-SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz \ 
+-           file://0001-xf86drm.c-fix-build-failure.patch "
++SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz"
  
- DEPENDS = "glib-2.0 glib-2.0-native fontconfig freetype virtual/libiconv cairo harfbuzz fribidi"
+-SRC_URI[sha256sum] = "8bcbf9336c28e393d76c1f16d7e79e394a7fce8a2e929d52d3ad7ad8525ba05b"
++SRC_URI[sha256sum] = "3fe0affdba6460166a7323290c18cf68e9b59edcb520722826cb244e9cb50222"
+ 
+ inherit meson pkgconfig manpages
  
 -- 
 2.20.1
 
 
---===============6521237273786234698==
+--===============6856854828458868775==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Loading cache...done.
-Loaded 1412 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 791 .bb files complete (790 cached, 1 parsed). 1372 targets, 35 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-32-poky-linux/libdrm: SRC_URI changed from "http://dri.freedesktop.org/libdrm/libdrm-2.4.102.tar.xz file://0001-xf86drm.c-fix-build-failure.patch" to "http://dri.freedesktop.org/libdrm/libdrm-2.4.103.tar.xz"
+packages/core2-32-poky-linux/libdrm: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-amdgpu: PKGSIZE changed from 53877 to 56412 (+5%)
+packages/core2-32-poky-linux/libdrm/libdrm-amdgpu: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-amdgpu: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-dbg: PKGSIZE changed from 1595576 to 1595552 (-0%)
+packages/core2-32-poky-linux/libdrm/libdrm-dbg: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-dbg: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-dev: PKGSIZE changed from 616301 to 617098 (+0%)
+packages/core2-32-poky-linux/libdrm/libdrm-dev: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-dev: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-doc: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-doc: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-drivers: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-drivers: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-etnaviv: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-etnaviv: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-exynos: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-exynos: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-freedreno: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-freedreno: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-intel: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-intel: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-kms: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-kms: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-locale: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-locale: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-nouveau: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-nouveau: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-omap: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-omap: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-radeon: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-radeon: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-src: PKGSIZE changed from 1641119 to 1642211 (+0%)
+packages/core2-32-poky-linux/libdrm/libdrm-src: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-src: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-staticdev: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-staticdev: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm-tests: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm-tests: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+packages/core2-32-poky-linux/libdrm/libdrm: PV changed from "2.4.102" to "2.4.103"
+packages/core2-32-poky-linux/libdrm/libdrm: PKGV changed from 2.4.102 [default] to 2.4.103 [default]
+Changes to packages/x86_64-linux/gcc-cross-i686 (sysroot):
+  /sysroot-providers/virtual_i686-poky-linux-g++ was added
+  /sysroot-providers/virtual_i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-c++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-cpp was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-g++ was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-10.2.0 was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ar was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-nm was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcc-ranlib was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-dump was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-gcov-tool was added
+  /usr/bin/i686-poky-linux/i686-poky-linux-lto-dump was added
+  /usr/libexec/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/cc1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/cc1plus was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/collect2 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ar was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-as was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-cpp was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-gcc was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/i686-poky-linux-strip was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/fixincl was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/mkheaders was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ld.bfd was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ld was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ld.gold was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcc1.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/libcp1plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/liblto_plugin.so.0.0.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/liblto_plugin.so.0 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/liblto_plugin.so was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/lto1 was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/lto-wrapper was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/nm was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/objcopy was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/objdump was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/gengtype was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/ranlib was added
+  /usr/libexec/i686-poky-linux/gcc/i686-poky-linux/10.2.0/strip was added
+  /usr/lib/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/adxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/ammintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512bwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512cdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512dqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512erintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512fintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512pfintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/avxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/bmi2intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/bmiintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/bmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cet.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cetintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cldemoteintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/clflushoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/clwbintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/clzerointrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cpuid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/cross-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/emmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/enqcmdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/f16cintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include-fixed/syslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/float.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/fma4intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/fmaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/fxsrintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/gfniintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/ia32intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/immintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/iso646.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/lwpintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/lzcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mm3dnow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mm_malloc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/movdirintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/mwaitxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/nmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/pconfigintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/pkuintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/pmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/popcntintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/prfchwintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/quadmath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/quadmath_weak.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/rdseedintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/rtmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/sgxintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/shaintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/smmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdalign.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdatomic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdbool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stddef.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdfix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdint-gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/stdnoreturn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/tbmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/tmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/unwind.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/vaesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/varargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/waitpkgintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/wmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/x86intrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xmmintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xopintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsavecintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsaveintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xsavesintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/include/xtestintrin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/fixinc_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/include/limits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/include/README was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/macro_list was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/gtype.state was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ada was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/addresses.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/align.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/all-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/array-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/asan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/attribs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/auto-host.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/backend.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/basic-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/b-header-vars was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/bitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/brig-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtins.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/bversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/calls.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ccmp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfganal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cgraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cif-code.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/collect2.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/color-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/conditions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/configargs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/dbxelf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386 was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/convert.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/coretypes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/coverage.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cpplib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/cselib.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/c-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/d was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dbxout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ddg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/debug.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/defaults.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/df.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dfp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/digraph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dojump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dominance.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/domwalk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/double-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dump-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/edit-context.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/errors.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/et-forest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/except.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/explow.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/expmed.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/file-find.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/filenames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/flag-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/fold-const.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/function-abi.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gcse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/generic-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gengtype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/genrtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gensupport.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ggc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-ssa-evrp-analyze.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimplify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/glimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graphds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graph.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graphite.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/graphviz.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gstab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gsyms.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-set.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hashtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-table.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hsa-brig-format.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hsa-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hsa-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/hwint.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/inchash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/incpath.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/input.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/intl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ira.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ira-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/is-a.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/langhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lcm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/libiberty.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/limitx.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/limity.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/line-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/linux64.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/linux.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lra-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/machmode.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/machmode.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/md5.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/memmodel.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/memory-block.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/objc was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/obstack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-general.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-grid.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-low.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/optinfo.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/options.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/output.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/passes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/poly-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/predict.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/predict.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/prefix.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/print-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/profile-count.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/profile.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/range-op.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/read-md.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/real.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/recog.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regcprop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regrename.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/regs.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/reload.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/resource.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sched-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/selftest.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sese.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/signop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sparseset.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sreal.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stab.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/statistics.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stmt.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/stringpool.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/symtab.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/system.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-def.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-globals.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/target-insns.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/targhooks.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/timevar.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/timevar.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tm_p.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/toplev.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tracer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-check.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-core.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/treestruct.def was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tristate.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/tsystem.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/typeclass.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/ubsan.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/valtrack.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/value-prof.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/value-range.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/varasm.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vec.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/version.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vr-values.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/wide-int.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoff.h was added
+  /usr/lib/i686-poky-linux/gcc/i686-poky-linux/10.2.0/plugin/include/xcoffout.h was added
+  /sysroot-providers/virtual_i686-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-c++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-cpp was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-g++ was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-10.2.0 was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ar was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-nm was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-dump was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-gcov-tool was removed
+  /usr/bin/i686-poky-linux-musl/i686-poky-linux-musl-lto-dump was removed
+  /usr/libexec/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/cc1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/cc1plus was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/collect2 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ar was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-as was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-cpp was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-gcc was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/i686-poky-linux-musl-strip was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/fixincl was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/mkheaders was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ld.bfd was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ld was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ld.gold was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcc1.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/libcp1plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/liblto_plugin.so.0.0.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/liblto_plugin.so.0 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/liblto_plugin.so was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/lto1 was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/lto-wrapper was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/nm was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/objcopy was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/objdump was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/gengtype was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/ranlib was removed
+  /usr/libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/strip was removed
+  /usr/lib/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/adxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/ammintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512erintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512fintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/avxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/bmi2intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/bmiintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/bmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cet.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cetintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/clwbintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/clzerointrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cpuid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/cross-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/emmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/f16cintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include-fixed/syslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/float.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/fma4intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/fmaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/fxsrintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/gfniintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/ia32intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/immintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/iso646.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/lwpintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/lzcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mm3dnow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mm_malloc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/movdirintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/nmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/pconfigintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/pkuintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/pmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/popcntintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/prfchwintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/quadmath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/quadmath_weak.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/rdseedintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/rtmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/sgxintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/shaintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/smmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdalign.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdatomic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdbool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stddef.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdfix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdint-gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/stdnoreturn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/tbmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/tmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/unwind.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/vaesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/varargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/wmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/x86intrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xmmintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xopintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsavecintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsaveintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xsavesintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/include/xtestintrin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/fixinc_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/include/limits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/include/README was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/macro_list was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/gtype.state was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ada was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/addresses.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/align.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/asan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/attribs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/backend.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/brig-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtins.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/bversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/calls.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/collect2.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/conditions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/configargs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/dbxelf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386 was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/convert.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/coverage.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/cselib.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/d was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dbxout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ddg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/debug.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/defaults.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/df.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dfp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/digraph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dojump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dominance.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/double-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/errors.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/except.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/explow.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/expmed.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/file-find.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/filenames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gcse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ggc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-ssa-evrp-analyze.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/glimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graphds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graph.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graphite.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gstab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hsa-brig-format.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hsa-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hsa-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/hwint.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/inchash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/incpath.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/input.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/intl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ira.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/is-a.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lcm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/limitx.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/limity.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/line-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/linux64.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/linux.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/machmode.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/machmode.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/md5.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/objc was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/obstack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-grid.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/options.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/output.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/passes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/predict.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/predict.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/prefix.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/profile.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/range-op.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/read-md.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/real.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/recog.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regrename.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/regs.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/reload.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/resource.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/selftest.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sese.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/signop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sreal.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stab.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/statistics.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stmt.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/symtab.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/system.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-def.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/timevar.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/timevar.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/toplev.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tracer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tristate.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/value-range.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/varasm.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vec.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/version.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/xcoff.h was removed
+  /usr/lib/i686-poky-linux-musl/gcc/i686-poky-linux-musl/10.2.0/plugin/include/xcoffout.h was removed
 
-Build Configuration:
-BB_VERSION           = "1.49.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-20201116"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:05fb3187e8cd2e957decf71bb472fa4163f4eab9"
-workspace            = "master:aaf6aa3e530deb4a8d818a55a37b9029980b0b0d"
-
-Initialising tasks...done.
-Sstate summary: Wanted 184 Found 176 Missed 8 Current 565 (95% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1430 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_fetch)
-NOTE: Running task 1629 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_write_config)
-NOTE: recipe pango-1.48.0-r0: task do_fetch: Started
-NOTE: recipe pango-1.48.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1783 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_unpack)
-NOTE: Running task 1784 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.48.0-r0: task do_write_config: Started
-NOTE: recipe pango-1.48.0-r0: task do_write_config: Succeeded
-NOTE: recipe pango-1.48.0-r0: task do_unpack: Started
-NOTE: recipe pango-1.48.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.48.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2336 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_patch)
-NOTE: recipe pango-1.48.0-r0: task do_patch: Started
-NOTE: recipe pango-1.48.0-r0: task do_patch: Succeeded
-NOTE: Running task 2337 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2338 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_populate_lic)
-NOTE: recipe pango-1.48.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe pango-1.48.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe pango-1.48.0-r0: task do_populate_lic: Started
-NOTE: recipe pango-1.48.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2339 of 2350 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_configure)
-NOTE: recipe pango-1.48.0-r0: task do_populate_lic: Succeeded
-NOTE: recipe pango-1.48.0-r0: task do_configure: Started
-ERROR: pango-1.48.0-r0 do_configure: meson failed
-ERROR: pango-1.48.0-r0 do_configure: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/temp/run.do_configure.40177' failed with exit code 1:
-gtkdocize: neither configure.ac nor configure.in exist
-The Meson build system
-Version: 0.55.1
-Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/pango-1.48.0
-Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/build
-Build type: cross build
-Using 'PKG_CONFIG_PATH' from environment with value: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/recipe-sysroot/usr/lib/pkgconfig:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/recipe-sysroot/usr/share/pkgconfig'
-
-../pango-1.48.0/meson.build:1:0: ERROR: Value "true" for combo option "Build the GObject introspection data for Pango" is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
-
-A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/build/meson-logs/meson-log.txt
-WARNING: exit code 1 from a shell command.
-
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/temp/log.do_configure.40177
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/harfbuzz/harfbuzz_2.7.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.6.12.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/fribidi/fribidi_1.0.10.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/cairo/cairo_1.16.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.32.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_10.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_10.2.bb:do_populate_sy
- sroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/quilt/quilt-native_0.66.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/meson/meson_0.55.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/ninja/ninja_1.10.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/qemu/qemu-native_5.1.0.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/freetype/freetype
- _2.10.4.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gtk-doc/gtk-doc_1.33.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/prelink/prelink_git.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.0.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', '/home/pokybuild/yocto-worker/auh/build/build/poky/m
- eta/recipes-graphics/xorg-lib/libxft_2.3.3.bb:do_populate_sysroot', 'virtual:native:/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.66.1.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['harfbuzz', 'gobject-introspection', 'libx11', 'fribidi', 'cairo', 'glibc', 'gcc-runtime', 'gcc-cross-i686', 'quilt-native', 'meson-native', 'ninja-native', 'pseudo-native', 'qemu-native', 'fontconfig', 'glib-2.0-native', 'freetype', 'patch-native', 'gtk-doc-native', 'xz-native', 'glib-2.0', 'prelink-native', 'python3-native', 'pkgconfig-native', 'libxft', 'gobject-introspection-native', 'icu', 'opkg-utils', 'python3', 'libffi', 'zlib', 'autoconf-archive', 'xtrans', 'xorgproto', 'util-macros', 'libxcb', 'libxext', 'pixman', 'libpng', 'libxrender', 'mesa', 'libsm', 'linux-libc-headers', 'binutils-cross-i686', 'autoconf-native', 'zlib-native', 'libtool-native', 'mpfr-native', 'gmp-native', 'automake-native', 'flex-native', 'libmpc-native', 'texinfo-dummy-native', 'gnu-config-native', 'python3-setuptools-native', 're2c-native', 'util-linux', 'expat', 'libpcre-native', 'libffi-native', 'gettext-native', 'gettext-minimal-native', 'util-linux
- -native', 'attr-native', 'libpcre', 'dbus', 'bash-completion', 'elfutils-native', 'binutils-native', 'libtirpc-native', 'sqlite3-native', 'libnsl2-native', 'gdbm-native', 'readline-native', 'bzip2-native', 'openssl-native', 'libgcc', 'sqlite3', 'libnsl2', 'libtirpc', 'openssl', 'gdbm', 'bzip2', 'xz', 'readline', 'libxcrypt', 'xcb-proto', 'libpthread-stubs', 'libxdmcp', 'libxau', 'libxfixes', 'libxxf86vm', 'xrandr', 'wayland-protocols', 'libxdamage', 'libxshmfence', 'libdrm', 'wayland', 'libice', 'm4-native', 'unzip-native', 'ncurses', 'libcap-ng', 'libcap-ng-native', 'ncurses-native', 'libpcre2-native', 'shadow', 'initscripts', 'base-files', 'update-rc.d', 'shadow-sysroot', 'base-passwd', 'shadow-native', 'libxrandr', 'libpciaccess', 'libxml2', 'attr']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| gtkdocize: neither configure.ac nor configure.in exist
-| NOTE: Executing meson -Dintrospection=true -Dgtk_doc=false -Dinstall-tests=true...
-| The Meson build system
-| Version: 0.55.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/pango-1.48.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/build
-| Build type: cross build
-| Using 'PKG_CONFIG_PATH' from environment with value: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/recipe-sysroot/usr/lib/pkgconfig:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/recipe-sysroot/usr/share/pkgconfig'
-| 
-| ../pango-1.48.0/meson.build:1:0: ERROR: Value "true" for combo option "Build the GObject introspection data for Pango" is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: exit code 1 from a shell command.
-| ERROR: Execution of '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/temp/run.do_configure.40177' failed with exit code 1:
-| gtkdocize: neither configure.ac nor configure.in exist
-| The Meson build system
-| Version: 0.55.1
-| Source dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/pango-1.48.0
-| Build dir: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/build
-| Build type: cross build
-| Using 'PKG_CONFIG_PATH' from environment with value: '/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/recipe-sysroot/usr/lib/pkgconfig:/home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/recipe-sysroot/usr/share/pkgconfig'
-| 
-| ../pango-1.48.0/meson.build:1:0: ERROR: Value "true" for combo option "Build the GObject introspection data for Pango" is not one of the choices. Possible choices are: "enabled", "disabled", "auto".
-| 
-| A full log can be found at /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/pango/1.48.0-r0/build/meson-logs/meson-log.txt
-| WARNING: exit code 1 from a shell command.
-| 
-NOTE: recipe pango-1.48.0-r0: task do_configure: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_configure) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2339 tasks of which 2331 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/pango/pango_1.48.0.bb:do_configure
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-
---===============6521237273786234698==--
+--===============6856854828458868775==--
