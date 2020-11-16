@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.39234.1605551304091618103
+ by mx.groups.io with SMTP id smtpd.web12.39175.1605551304394215499
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Nov 2020 10:28:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 46D7138C13A6
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8EA2538C13D7
 	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 18:28:23 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: Victor Kamensky <kamensky@cisco.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] msmtp: upgrading to 1.8.13 SUCCEEDED
-Message-ID: <MADEUP.164810679485AFAA.17549@lists.openembedded.org>
-X-Groupsio-MsgNum: 144647
-Content-Type: multipart/mixed; boundary="===============6217752018486324893=="
+Subject: [AUH] systemtap-uprobes: upgrading to 4.4 SUCCEEDED
+Message-ID: <MADEUP.16481067A6C59C7F.17549@lists.openembedded.org>
+X-Groupsio-MsgNum: 144648
+Content-Type: multipart/mixed; boundary="===============7829439135011443353=="
 
---===============6217752018486324893==
+--===============7829439135011443353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *msmtp* to *1.8.13* has Succeeded.
+that the automatic attempt to upgrade the recipe *systemtap-uprobes* to *4.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-msmtp-upgrade-1.8.12-1.8.13.patch
+    - apply the patch: git am 0001-systemtap-uprobes-upgrade-4.3-4.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,87 +44,178 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6217752018486324893==
+--===============7829439135011443353==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/systemtap (sysroot):
+  /usr/share/systemtap/examples/general/floatingpoint.meta was added
+  /usr/share/systemtap/examples/general/floatingpoint.stp was added
+  /usr/share/systemtap/examples/general/floatingpoint.txt was added
+  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
+  /usr/share/systemtap/runtime/linux/stp_tls.h was added
+  /usr/share/systemtap/runtime/softfloat was added
+  /usr/share/systemtap/runtime/softfloat.c was added
+  /usr/share/systemtap/runtime/softfloat.h was added
+  /usr/share/systemtap/runtime/softfloat/internals.h was added
+  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
+  /usr/share/systemtap/runtime/softfloat/platform.h was added
+  /usr/share/systemtap/runtime/softfloat/primitives.h was added
+  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
+  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
+  /usr/share/systemtap/runtime/softfloat/specialize.h was added
+  /usr/share/systemtap/tapset/floatingpoint.stp was added
+  /usr/share/systemtap/tapset/linux/errno.stpm was added
+  /usr/share/systemtap/tapset/linux/tls.stp was added
+  /usr/share/systemtap/tapset/sreg_arch.stpm was added
+  /usr/share/systemtap/runtime/transport/relayfs.c was removed
+  /usr/share/systemtap/runtime/transport/relayfs.h was removed
+  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
+
+--===============7829439135011443353==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-msmtp-upgrade-1.8.12-1.8.13.patch"
+ filename="0001-systemtap-uprobes-upgrade-4.3-4.4.patch"
 
-From 776a26fc090b70c0ef3ff50920059cfeb9647451 Mon Sep 17 00:00:00 2001
+From 34e2269d10ae009c576f2773b26ffa8e88ec3c9e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 16 Nov 2020 14:56:50 +0000
-Subject: [PATCH] msmtp: upgrade 1.8.12 -> 1.8.13
+Date: Mon, 16 Nov 2020 17:25:56 +0000
+Subject: [PATCH] systemtap-uprobes: upgrade 4.3 -> 4.4
 
 ---
- .../recipes-extended/msmtp/{msmtp_1.8.12.bb => msmtp_1.8.13.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.8.12.bb => msmtp_1.8.13.bb} (91%)
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.12.bb b/meta/recipes-extended/msmtp/msmtp_1.8.13.bb
-similarity index 91%
-rename from meta/recipes-extended/msmtp/msmtp_1.8.12.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.8.13.bb
-index 54798f9e6f..994f1c5d90 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.8.12.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.8.13.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 56fa51d61e..ae735025b7 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,7 +1,7 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
+-PV = "4.3"
++SRCREV = "988f439af39a359b4387963ca4633649866d8275"
++PV = "4.4"
  
- SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
--SRC_URI[sha256sum] = "a86fef9477339923afefe974988a38e32d0feb90dfeeb88f7f55aac356a96354"
-+SRC_URI[sha256sum] = "ada945ab8d519102bb632f197273b3326ded25b38c003b0cf3861d1d6d4a9bb9"
- 
- inherit gettext autotools update-alternatives pkgconfig
- 
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
 -- 
 2.20.1
 
 
---===============6217752018486324893==
+--===============7829439135011443353==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 1409 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 791 .bb files complete (787 cached, 4 parsed). 1372 targets, 46 skipped, 0 masked, 0 errors.
+Removing 109 recipes from the core2-32 sysroot...done.
+Removing 113 recipes from the qemux86 sysroot...done.
+ERROR: Nothing PROVIDES 'systemtap-uprobes'
+systemtap-uprobes was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============7829439135011443353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/msmtp: SRC_URI changed from "https://marlam.de/msmtp/releases/msmtp-1.8.12.tar.xz" to "https://marlam.de/msmtp/releases/msmtp-1.8.13.tar.xz"
-packages/core2-32-poky-linux/msmtp: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-dbg: PKGSIZE changed from 300488 to 300840 (+0%)
-packages/core2-32-poky-linux/msmtp/msmtp-dbg: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-dbg: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-dev: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-dev: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-doc: PKGSIZE changed from 100906 to 99901 (-1%)
-packages/core2-32-poky-linux/msmtp/msmtp-doc: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-doc: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-de: PKGSIZE changed from 37144 to 35980 (-3%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-de: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-de: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-eo: PKGSIZE changed from 35122 to 34031 (-3%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-eo: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-eo: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-fr: PKGSIZE changed from 37862 to 36722 (-3%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-fr: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-fr: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-pt-br: PKGSIZE changed from 37749 to 36619 (-3%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-pt-br: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-pt-br: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-sr: PKGSIZE changed from 45805 to 44482 (-3%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-sr: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-sr: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-ta: PKGSIZE changed from 14008 to 13809 (-1%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-ta: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-ta: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-locale-uk: PKGSIZE changed from 47537 to 46178 (-3%)
-packages/core2-32-poky-linux/msmtp/msmtp-locale-uk: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-locale-uk: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-src: PKGSIZE changed from 504604 to 502877 (-0%)
-packages/core2-32-poky-linux/msmtp/msmtp-src: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-src: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp-staticdev: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp-staticdev: PV changed from "1.8.12" to "1.8.13"
-packages/core2-32-poky-linux/msmtp/msmtp: PKGV changed from 1.8.12 [default] to 1.8.13 [default]
-packages/core2-32-poky-linux/msmtp/msmtp: PV changed from "1.8.12" to "1.8.13"
+packages/core2-32-poky-linux/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap: PV changed from "4.3" to "4.4"
+Changes to packages/core2-32-poky-linux/systemtap (sysroot):
+  /usr/share/systemtap/examples/general/floatingpoint.meta was added
+  /usr/share/systemtap/examples/general/floatingpoint.stp was added
+  /usr/share/systemtap/examples/general/floatingpoint.txt was added
+  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
+  /usr/share/systemtap/runtime/linux/stp_tls.h was added
+  /usr/share/systemtap/runtime/softfloat was added
+  /usr/share/systemtap/runtime/softfloat.c was added
+  /usr/share/systemtap/runtime/softfloat.h was added
+  /usr/share/systemtap/runtime/softfloat/internals.h was added
+  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
+  /usr/share/systemtap/runtime/softfloat/platform.h was added
+  /usr/share/systemtap/runtime/softfloat/primitives.h was added
+  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
+  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
+  /usr/share/systemtap/runtime/softfloat/specialize.h was added
+  /usr/share/systemtap/tapset/floatingpoint.stp was added
+  /usr/share/systemtap/tapset/linux/errno.stpm was added
+  /usr/share/systemtap/tapset/linux/tls.stp was added
+  /usr/share/systemtap/tapset/sreg_arch.stpm was added
+  /usr/share/systemtap/runtime/transport/relayfs.c was removed
+  /usr/share/systemtap/runtime/transport/relayfs.h was removed
+  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
+packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGSIZE changed from 64079464 to 64266432 (+0%)
+packages/core2-32-poky-linux/systemtap/systemtap-dbg: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-dev: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-dev: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGSIZE changed from 462049 to 465784 (+1%)
+packages/core2-32-poky-linux/systemtap/systemtap-doc: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGSIZE changed from 1481625 to 1486917 (+0%)
+packages/core2-32-poky-linux/systemtap/systemtap-examples: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-exporter: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-exporter: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGSIZE changed from 85480 to 85339 (-0%)
+packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-python: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-python: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGSIZE changed from 293256 to 280968 (-4%)
+packages/core2-32-poky-linux/systemtap/systemtap-runtime: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-src: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-src: PKGSIZE changed from 2860603 to 2867440 (+0%)
+packages/core2-32-poky-linux/systemtap/systemtap-src: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap: PKGSIZE changed from 8561494 to 8864480 (+4%)
+packages/core2-32-poky-linux/systemtap/systemtap: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PV changed from "4.3" to "4.4"
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes: PV changed from "4.3" to "4.4"
 
---===============6217752018486324893==--
+--===============7829439135011443353==--
