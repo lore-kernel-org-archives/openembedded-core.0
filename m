@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.39204.1605551303664222218
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web11.39496.1605551304217659016
  for <openembedded-core@lists.openembedded.org>;
  Mon, 16 Nov 2020 10:28:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-2.yocto.io (unknown [172.29.10.56])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9081338C13DC
+	by mail.yoctoproject.org (Postfix) with ESMTP id 5BA8838C13B7
 	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 18:28:23 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Victor Kamensky <kamensky@cisco.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemtap: upgrading to 4.4 SUCCEEDED
-Message-ID: <MADEUP.16481067A5261683.17549@lists.openembedded.org>
-X-Groupsio-MsgNum: 144654
-Content-Type: multipart/mixed; boundary="===============2323935988056286979=="
+Subject: [AUH] libhandy: upgrading to 1.0.2 SUCCEEDED
+Message-ID: <MADEUP.16481067A87039DB.12355@lists.openembedded.org>
+X-Groupsio-MsgNum: 144655
+Content-Type: multipart/mixed; boundary="===============0483183546944117386=="
 
---===============2323935988056286979==
+--===============0483183546944117386==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemtap* to *4.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *libhandy* to *1.0.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-systemtap-upgrade-4.3-4.4.patch
+    - apply the patch: git am 0001-libhandy-upgrade-1.0.1-1.0.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,162 +44,98 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2323935988056286979==
+--===============0483183546944117386==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libhandy-upgrade-1.0.1-1.0.2.patch"
+
+From a653ed2f7702c56d6cd53a1e9454b31cff774034 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Mon, 16 Nov 2020 15:35:45 +0000
+Subject: [PATCH] libhandy: upgrade 1.0.1 -> 1.0.2
+
+---
+ .../libhandy/{libhandy_1.0.1.bb => libhandy_1.0.2.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-gnome/libhandy/{libhandy_1.0.1.bb => libhandy_1.0.2.bb} (91%)
+
+diff --git a/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb b/meta/recipes-gnome/libhandy/libhandy_1.0.2.bb
+similarity index 91%
+rename from meta/recipes-gnome/libhandy/libhandy_1.0.1.bb
+rename to meta/recipes-gnome/libhandy/libhandy_1.0.2.bb
+index 146ef62f41..4daa3c1a54 100644
+--- a/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb
++++ b/meta/recipes-gnome/libhandy/libhandy_1.0.2.bb
+@@ -3,7 +3,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
+-SRCREV = "5cee0927b8b39dea1b2a62ec6d19169f73ba06c6"
++SRCREV = "465c00f8f80c27330be494ed7c0ba2ffe26321c4"
+ S = "${WORKDIR}/git"
+ 
+ GIR_MESON_ENABLE_FLAG = 'enabled'
+-- 
+2.20.1
+
+
+--===============0483183546944117386==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-32-poky-linux/systemtap (sysroot):
-  /usr/share/systemtap/examples/general/floatingpoint.meta was added
-  /usr/share/systemtap/examples/general/floatingpoint.stp was added
-  /usr/share/systemtap/examples/general/floatingpoint.txt was added
-  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
-  /usr/share/systemtap/runtime/linux/stp_tls.h was added
-  /usr/share/systemtap/runtime/softfloat was added
-  /usr/share/systemtap/runtime/softfloat.c was added
-  /usr/share/systemtap/runtime/softfloat.h was added
-  /usr/share/systemtap/runtime/softfloat/internals.h was added
-  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
-  /usr/share/systemtap/runtime/softfloat/platform.h was added
-  /usr/share/systemtap/runtime/softfloat/primitives.h was added
-  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
-  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
-  /usr/share/systemtap/runtime/softfloat/specialize.h was added
-  /usr/share/systemtap/tapset/floatingpoint.stp was added
-  /usr/share/systemtap/tapset/linux/errno.stpm was added
-  /usr/share/systemtap/tapset/linux/tls.stp was added
-  /usr/share/systemtap/tapset/sreg_arch.stpm was added
-  /usr/share/systemtap/runtime/transport/relayfs.c was removed
-  /usr/share/systemtap/runtime/transport/relayfs.h was removed
-  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
+packages/core2-32-poky-linux/libhandy: PACKAGES: added "libhandy-locale-ca"
 
---===============2323935988056286979==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-systemtap-upgrade-4.3-4.4.patch"
-
-From 3971ca6f1dfd3a0dae98acd66aa6cc2549b961b6 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Mon, 16 Nov 2020 17:27:31 +0000
-Subject: [PATCH] systemtap: upgrade 4.3 -> 4.4
-
----
- meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 56fa51d61e..ae735025b7 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,7 +1,7 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
--PV = "4.3"
-+SRCREV = "988f439af39a359b4387963ca4633649866d8275"
-+PV = "4.4"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
--- 
-2.20.1
-
-
---===============2323935988056286979==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 1409 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 791 .bb files complete (788 cached, 3 parsed). 1372 targets, 46 skipped, 0 masked, 0 errors.
-Removing 108 recipes from the core2-32 sysroot...done.
-Removing 111 recipes from the qemux86 sysroot...done.
-ERROR: Nothing PROVIDES 'systemtap'
-systemtap was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============2323935988056286979==
+--===============0483183546944117386==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/systemtap: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
-Changes to packages/core2-32-poky-linux/systemtap (sysroot):
-  /usr/share/systemtap/examples/general/floatingpoint.meta was added
-  /usr/share/systemtap/examples/general/floatingpoint.stp was added
-  /usr/share/systemtap/examples/general/floatingpoint.txt was added
-  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
-  /usr/share/systemtap/runtime/linux/stp_tls.h was added
-  /usr/share/systemtap/runtime/softfloat was added
-  /usr/share/systemtap/runtime/softfloat.c was added
-  /usr/share/systemtap/runtime/softfloat.h was added
-  /usr/share/systemtap/runtime/softfloat/internals.h was added
-  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
-  /usr/share/systemtap/runtime/softfloat/platform.h was added
-  /usr/share/systemtap/runtime/softfloat/primitives.h was added
-  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
-  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
-  /usr/share/systemtap/runtime/softfloat/specialize.h was added
-  /usr/share/systemtap/tapset/floatingpoint.stp was added
-  /usr/share/systemtap/tapset/linux/errno.stpm was added
-  /usr/share/systemtap/tapset/linux/tls.stp was added
-  /usr/share/systemtap/tapset/sreg_arch.stpm was added
-  /usr/share/systemtap/runtime/transport/relayfs.c was removed
-  /usr/share/systemtap/runtime/transport/relayfs.h was removed
-  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGSIZE changed from 64079464 to 64266432 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-dev: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-dev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGSIZE changed from 462049 to 465784 (+1%)
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGSIZE changed from 1481625 to 1486917 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-exporter: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-exporter: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGSIZE changed from 85480 to 85339 (-0%)
-packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-python: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-python: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGSIZE changed from 293256 to 280968 (-4%)
-packages/core2-32-poky-linux/systemtap/systemtap-src: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-src: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-src: PKGSIZE changed from 2860603 to 2867440 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap: PKGSIZE changed from 8561494 to 8864480 (+4%)
+packages/core2-32-poky-linux/libhandy: PACKAGES: added "libhandy-locale-ca"
+packages/core2-32-poky-linux/libhandy: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PKGSIZE changed from 1684896 to 1685748 (+0%)
+packages/core2-32-poky-linux/libhandy/libhandy-dbg: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PKGSIZE changed from 562991 to 562994 (+0%)
+packages/core2-32-poky-linux/libhandy/libhandy-dev: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-doc: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-examples: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-en-gb: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-en-gb: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-es: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-es: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-eu: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-eu: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fr: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fr: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fur: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-fur: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-id: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-id: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pl: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pl: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pt-br: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-pt-br: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-ro: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-ro: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-sl: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-locale-uk: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-locale-uk: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-src: PKGSIZE changed from 4147854 to 4148572 (+0%)
+packages/core2-32-poky-linux/libhandy/libhandy-src: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy-staticdev: PV changed from "1.0.1" to "1.0.2"
+packages/core2-32-poky-linux/libhandy/libhandy: PKGV changed from 1.0.1 [default] to 1.0.2 [default]
+packages/core2-32-poky-linux/libhandy/libhandy: PV changed from "1.0.1" to "1.0.2"
 
---===============2323935988056286979==--
+--===============0483183546944117386==--
