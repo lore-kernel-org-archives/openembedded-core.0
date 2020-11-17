@@ -1,264 +1,261 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web11.10760.1605631360273550007
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+ by mx.groups.io with SMTP id smtpd.web10.11201.1605632724801685838
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 08:42:40 -0800
+ Tue, 17 Nov 2020 09:05:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IGDwQu6z;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id f23so30409866ejk.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 08:42:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DOxW8iIO;
+ spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-lf1-f68.google.com with SMTP id e139so11646219lfd.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 09:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+ZirpeDE6mmJO/fchagjOsaVG0WqrnFggIacUwvLmLo=;
-        b=IGDwQu6zRh/neDvgS0F11BBMVN+Fu/vdFRo9MgLvlMoeQ6s2vsRfgdIpyl5o5hhM9Z
-         TZJR56hxH8C2IZKY2JB6ZlmkEpZOOgrMo99obOeu2wWi2/Q7Vh+IgpIx4P/NB/0srlsA
-         OfTifcUaTA7oGz1Sn/B5/vid9tn6FQbzcAyifdfTbJyQei5DxlKCOR4HVfLfRofPIXXv
-         M7vywBfENl+6bmd6GO16o9BicHr59VqRmdTu3G+7RO0wjXqloDaXrTiIyfXPMiCA8Hh0
-         T/L5mP4xBPQwdvd9FnPAdClJkaUaGf/8m60Eq4iI157GLg7CwXUXqWPZYtWfdHht9FkI
-         CVRw==
+        bh=PDspUalJ7OPuVaFj//zrGAvbXU84l/p5VOFuRxBOkAk=;
+        b=DOxW8iIOJVJ6+xTLqfPW0KwbdcCr8YzJobbtVhpJcS2BaRcMDdpJMVvZ4jO754IGlm
+         BstTFHCOqjT36zTONpO7uIbDFSu9ikAKQyLrUMmllaDVvQyhsMHLDRVT0C2J8axg9efB
+         QF8BXB90tWGAhmpQhFcGBX9Xa5ZJrc7MjggHhLtqeLQVbC1gLPfH3PJX8a+iwBEP37na
+         Lw92E0YMx1k3waFMtHU999fuuF+IzSGI2NViF3NoXf4xs6oN4Cem9wBU2yErXgjCeFBz
+         3bg1HVzAAmzbjH+ZoFPooI6ywsnLls73lhnuk9JzZV8pNMOJLQp9aluiLJK5QnqamxkN
+         faDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+ZirpeDE6mmJO/fchagjOsaVG0WqrnFggIacUwvLmLo=;
-        b=YZ2x5HiB2WjuPp3BO2uW2WZMgBJKUUZNu7fx18lw5k+uaaCRdk3JaCmkJBTQD5Yg8j
-         wDNd4qeXlzKIhZar8qq1GnuLxR9fYFVsTuHlXhKI6+J3sc1gXncqwCKvBB0OXBEmip4T
-         u8p4f5LMowOETBvWBKKOaDj+qnT2DH22saRzV/JmsICXPyQIW36/GwWKaCrx7Ga0gMaQ
-         r0oXrbmAUn6vkUzidjYg2fW2/J+ggr2zYuIPODVq1MFjtwji8kvgsxSLOFWYju80jIiZ
-         pACQ1JPmT58qNnQT1B6dfZeoSag0FCgOx+fxO4WLQXzXpmcWoXSXja2/zO8PnKzKdZ2a
-         wtGA==
-X-Gm-Message-State: AOAM533DpUq+VTJQxYVfU8d+tELoWGZDbFJlvgZE48OAJy/Cvn1wKj3K
-	jISnOPDkz85tTibUbxMQLVd1sgftbbbrpTAxwZs=
-X-Google-Smtp-Source: ABdhPJxppgZfBOIhQNHziDMSZCCbq97VvirrKzeQln0tbNvUH5/9RMAOyg7HxC66SFcU4Z5rrQJ3VbN3Uzlxa+8uhAI=
-X-Received: by 2002:a17:906:4dd4:: with SMTP id f20mr20013758ejw.94.1605631358736;
- Tue, 17 Nov 2020 08:42:38 -0800 (PST)
+        bh=PDspUalJ7OPuVaFj//zrGAvbXU84l/p5VOFuRxBOkAk=;
+        b=Tzxs3QXQfvrQKqg277QpVjbz32BuRnjvcJbzmraT2Q+Y3MSdQbh5prgXxKouI1hbsF
+         8ZHmP7oTVwL0p3v492+DPlzydMcnxi4Ru+OLdCViFhlJXpTM9eycxckBbGpH8JP+qXZj
+         L7cyhxKCjDVAjjLBphPNpX9dVIMPhMaj48fwYLNgiWw10dCAAOLPKMwS0jJTbduJIBWJ
+         UaYsJpLGw+sfrDKlzMiFl9mGfBk+KW/7w5Dak8NjR/Ez8DZZ92hWuR16zsXMSOMzCsis
+         GqwcVh6oDvz2nXVdfGVE71tCfNMYXH+cw5AZr2CKHnGEm2uekit40A0SVfPk9cnBBCVP
+         +1OQ==
+X-Gm-Message-State: AOAM533apspR5uyKbCiuuIA1/OMYdjzlXOM6Dl+DDXZ+R8gIcvHjMmU8
+	XFIo/IUbCQuKzVT1TM+/afLigVDgYeOoTbR8Q3U=
+X-Google-Smtp-Source: ABdhPJw/IDIn7gLnwl2UPZd+mNvwoM4XQL+5IoVmV0Xcmw2PkyPjcn9vRRXMU9KpT/Kcrpd3pBMocXqYSGKlEpYOzUE=
+X-Received: by 2002:a19:4c56:: with SMTP id z83mr2013852lfa.456.1605632722710;
+ Tue, 17 Nov 2020 09:05:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117153436.3701771-1-raj.khem@gmail.com> <CA+chaQej+epYOHFh4T_07WwMGA5Rof4ubkEEhFHxKDX2fAYppw@mail.gmail.com>
-In-Reply-To: <CA+chaQej+epYOHFh4T_07WwMGA5Rof4ubkEEhFHxKDX2fAYppw@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 17 Nov 2020 17:42:27 +0100
-Message-ID: <CA+chaQeFfTaMPwsSWwztk+LLyM9L7Dq+KorJ3Jzavq0rfd1+TQ@mail.gmail.com>
-Subject: Re: [PATCH] python3targetconfig.bbclass: Add py3 dependecy only for target recipes
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000c71d8705b4502e21"
+References: <cover.1605626675.git.anuj.mittal@intel.com> <b10b5527ec2455f597e56327d3d320c2711e39ef.1605626675.git.anuj.mittal@intel.com>
+In-Reply-To: <b10b5527ec2455f597e56327d3d320c2711e39ef.1605626675.git.anuj.mittal@intel.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 17 Nov 2020 12:05:08 -0500
+Message-ID: <CADkTA4Onr5AdyLwdVmde=z7RAzyEFEVdB+Dwj03U_ab_f+p3zQ@mail.gmail.com>
+Subject: Re: [OE-core] [gatesgarth][PATCH 17/19] kernel: provide module.lds for out of tree builds in v5.10+
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000013b8fd05b4508006"
 
---000000000000c71d8705b4502e21
+--00000000000013b8fd05b4508006
 Content-Type: text/plain; charset="UTF-8"
 
-Errm, I meant:
+The wrong version of this patch merged to oe-core, so you don't want this
+one as-is.
 
-EXTRA_PYTHON_DEPENDS ?= ""
-EXTRA_PYTHON_DEPENDS_class-target = "python3"
-DEPENDS_append = " ${EXTRA_PYTHON_DEPENDS}"
+You also need the follow up that I posted today, and that hopefully will be
+in oe-core soon.
 
-On Tue, Nov 17, 2020 at 5:41 PM Martin Jansa <martin.jansa@gmail.com> wrote:
+Bruce
 
-> Do we need to export _PYTHON_SYSCONFIGDATA_NAME for non-target cases?
->
-> And instead of:
-> DEPENDS_append = "${@['', ' python3']['${CLASSOVERRIDE}' ==
-> 'class-target']}"
->
-> I would use intermediate variable like
-> EXTRA_PYTHON_DEPENDS = "python3"
-> EXTRA_PYTHON_DEPENDS_class-target = ""
-> DEPENDS_append = " ${EXTRA_PYTHON_DEPENDS}"
->
-> I know it's just personal preference, but in this case with small benefit
-> to undo the append if you really don't want it added for some mysterious
-> reason.
->
-> On Tue, Nov 17, 2020 at 4:34 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->> python3targetconfig append target python3 to dependencies
->> unconditionally, and here its inherited unconditionally too but
->> distutils3-base is inherited in BBCLASSEXTEND'ed recipes and other
->> not-target
->> recipes as well. Hence the change added via
->> 9c8f666097802cb594a759989edcf01603a22df3
->> is now bridging the native dependencies with target python3 and thats
->> resulting all sorts of rebuilds for multimachine builds e.g.
->>
->> MACHINE=qemuarm bitbake python3-scons-native
->> MACHINE=qemumips bitbake python3-scons-native
->>
->> results in rebuilds for python3-scons-native
->>
->> bitbake-diffsigs shows
->>
->> Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sysroot
->> changed from
->> 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f73f36933 to
->> 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897
->> 0e3b97bd058d162065
->>     Hash for dependent task python/python3-scons-native_3.1.2.bb:do_install
->> changed from
->> 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4fb11aef86dd89 to
->> c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156
->> 229cb0f5ebb11
->>         Hash for dependent task python/python3-scons-native_3.1.2.bb:do_compile
->> changed from
->> e3ee4b52a15267e6ae7853ec19a666b2fb62608a597608793336382d1c45f8a0 to
->> 1e582043dfe6b3e00aaa532f363ce6afb37652abe837dac
->> 7cc9769194c43eae1
->>             Hash for dependent task python/python3-scons-native_3.1.2.bb:do_configure
->> changed from
->> 770a4d5a77a96ebd9e1e7368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to
->> a366982778b03eee5165c3117ee778f848acdfaa2
->> b346650fbdf114ac70ab57b
->>                 Hash for dependent task
->> python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed
->> from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to
->> 474333fb565f908992fd3716
->> 4935aaecf31a79e867826fe634cde4f44171d8e7
->>                     Hash for dependent task python/python3_3.9.0.bb:do_populate_sysroot
->> changed from
->> 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to
->> 25dcfe74a95af19cce8df7c29311cc5edbbf6ad
->> 08777e46a6fa6e417c0445018
->>
->> ...
->>
->> Therefore limit inheriting this class only for target recipes.
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> Cc: Alexander Kanavin <alex.kanavin@gmail.com>
->> Cc: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->> v2: Mark depends conditional instead
->>
->>  meta/classes/python3targetconfig.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/python3targetconfig.bbclass
->> b/meta/classes/python3targetconfig.bbclass
->> index 640d0c97b6..b79ec211c7 100644
->> --- a/meta/classes/python3targetconfig.bbclass
->> +++ b/meta/classes/python3targetconfig.bbclass
->> @@ -1,6 +1,6 @@
->>  inherit python3native
->>
->> -DEPENDS_append = " python3"
->> +DEPENDS_append = "${@['', ' python3']['${CLASSOVERRIDE}' ==
->> 'class-target']}"
->>
->>  do_configure_prepend() {
->>          export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
->> --
->> 2.29.2
->>
->>
+On Tue, Nov 17, 2020 at 10:36 AM Anuj Mittal <anuj.mittal@intel.com> wrote:
 
---000000000000c71d8705b4502e21
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> The upstream commit 596b0474d3d [kbuild: preprocess module linker
+> script], adds a dependency on module.lds for external module
+> building.
+>
+> Since module.lds is generated as part of 'modules_prepare', we
+> must make it available with the other kernel artifacts in the
+> kernel shared workdir, otherwise out of tree builds fail.
+>
+> This fixes errors like:
+>
+>     | make[4]: *** No rule to make target 'scripts/module.lds', needed by
+>
+> 'build/tmp/work/qemuarm64-poky-linux/cryptodev-module/1.11-r0/git/cryptodev.ko'.
+>         Stop.
+>     | make[4]: *** Waiting for unfinished jobs....
+>
+> We also ensure that kernel-devsrc has a copy to support on
+> target module builds that are often prepared with 'make scripts
+> prepare'. Those targets won't regenerate it, so the build fails.
+> If 'make modules_prepare' is used, the file will be regenerated
+> and overwrite our copy (as expected).
+>
+> Signed-off-by: Pan, Kris <kris.pan@intel.com>
+> Signed-off-by: Lili Li <lili.li@intel.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 0fc66a0b64953aae38d0124b57615fffaec8de52)
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>  meta/classes/kernel.bbclass                | 1 +
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
+>  2 files changed, 7 insertions(+)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 78def5bbc1..22c92381c0 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -486,6 +486,7 @@ do_shared_workdir () {
+>         # Copy files required for module builds
+>         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+>         [ -e Module.symvers ] && cp Module.symvers $kerneldir/
+> +       [ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds
+> $kerneldir/scripts/module.lds
+>         cp .config $kerneldir/
+>         mkdir -p $kerneldir/include/config
+>         cp include/config/kernel.release
+> $kerneldir/include/config/kernel.release
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index aa8e162f4f..8373c97a31 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -86,6 +86,12 @@ do_install() {
+>         # be dealt with.
+>         # cp -a scripts $kerneldir/build
+>
+> +       # although module.lds can be regenerated on target via 'make
+> modules_prepare'
+> +       # there are several places where 'makes scripts prepare' is done,
+> and that won't
+> +       # regenerate the file. So we copy it onto the target as a
+> migration to using
+> +       # modules_prepare
+> +       cp -a --parents scripts/module.lds $kerneldir/build/ 2>/dev/null
+> || :
+> +
+>          if [ -d arch/${ARCH}/scripts ]; then
+>             cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
+>         fi
+> --
+> 2.28.0
+>
+>
+> 
+>
+>
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--00000000000013b8fd05b4508006
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Errm, I meant:<div><br></div><div><div>EXTRA_PYTHON_DEPEND=
-S ?=3D &quot;&quot;</div><div>EXTRA_PYTHON_DEPENDS_class-target =3D &quot;p=
-ython3&quot;<br></div><div>DEPENDS_append =3D &quot; ${EXTRA_PYTHON_DEPENDS=
-}&quot;</div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Tue, Nov 17, 2020 at 5:41 PM Martin Jansa &lt;<a href=
-=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">D=
-o we need to export _PYTHON_SYSCONFIGDATA_NAME for non-target cases?<div><b=
-r></div><div>And instead of:</div><div>DEPENDS_append =3D &quot;${@[&#39;&#=
-39;, &#39; python3&#39;][&#39;${CLASSOVERRIDE}&#39; =3D=3D &#39;class-targe=
-t&#39;]}&quot;<br></div><div><br></div><div>I would use intermediate variab=
-le like</div><div>EXTRA_PYTHON_DEPENDS =3D &quot;python3&quot;</div><div>EX=
-TRA_PYTHON_DEPENDS_class-target =3D &quot;&quot;<br></div><div>DEPENDS_appe=
-nd =3D &quot; ${EXTRA_PYTHON_DEPENDS}&quot;</div><div><br></div><div>I know=
- it&#39;s just personal preference, but in this case with small benefit to =
-undo the append if you really don&#39;t want it added for some mysterious r=
-eason.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Tue, Nov 17, 2020 at 4:34 PM Khem Raj &lt;<a href=3D"mailto:=
-raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">python3targetconfig=
- append target python3 to dependencies<br>
-unconditionally, and here its inherited unconditionally too but<br>
-distutils3-base is inherited in BBCLASSEXTEND&#39;ed recipes and other not-=
-target<br>
-recipes as well. Hence the change added via 9c8f666097802cb594a759989edcf01=
-603a22df3<br>
-is now bridging the native dependencies with target python3 and thats<br>
-resulting all sorts of rebuilds for multimachine builds e.g.<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">The=
+ wrong version of this patch merged to oe-core, so you don&#39;t want this =
+one as-is.</div><div class=3D"gmail_default" style=3D"font-size:small"><br>=
+</div><div class=3D"gmail_default" style=3D"font-size:small">You also need =
+the follow up that I posted today, and that hopefully will be in oe-core so=
+on.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
+div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, No=
+v 17, 2020 at 10:36 AM Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.=
+com">anuj.mittal@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.=
+ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
 <br>
-MACHINE=3Dqemuarm bitbake python3-scons-native<br>
-MACHINE=3Dqemumips bitbake python3-scons-native<br>
+The upstream commit 596b0474d3d [kbuild: preprocess module linker<br>
+script], adds a dependency on module.lds for external module<br>
+building.<br>
 <br>
-results in rebuilds for python3-scons-native<br>
+Since module.lds is generated as part of &#39;modules_prepare&#39;, we<br>
+must make it available with the other kernel artifacts in the<br>
+kernel shared workdir, otherwise out of tree builds fail.<br>
 <br>
-bitbake-diffsigs shows<br>
+This fixes errors like:<br>
 <br>
-Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sy=
-sroot changed from 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f=
-73f36933 to 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897<br>
-0e3b97bd058d162065<br>
-=C2=A0 =C2=A0 Hash for dependent task python/python3-scons-native_3.1.2.bb:=
-do_install changed from 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4=
-fb11aef86dd89 to c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156<br>
-229cb0f5ebb11<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent task python/python3-scons-na=
-tive_3.1.2.bb:do_compile changed from e3ee4b52a15267e6ae7853ec19a666b2fb626=
-08a597608793336382d1c45f8a0 to 1e582043dfe6b3e00aaa532f363ce6afb37652abe837=
-dac<br>
-7cc9769194c43eae1<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent task python/py=
-thon3-scons-native_3.1.2.bb:do_configure changed from 770a4d5a77a96ebd9e1e7=
-368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to a366982778b03eee5165c3117ee7=
-78f848acdfaa2<br>
-b346650fbdf114ac70ab57b<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent =
-task python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed=
- from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to 4=
-74333fb565f908992fd3716<br>
-4935aaecf31a79e867826fe634cde4f44171d8e7<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash =
-for dependent task python/python3_3.9.0.bb:do_populate_sysroot changed from=
- 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to 25dcfe=
-74a95af19cce8df7c29311cc5edbbf6ad<br>
-08777e46a6fa6e417c0445018<br>
+=C2=A0 =C2=A0 | make[4]: *** No rule to make target &#39;scripts/module.ld=
+s&#39;, needed by<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;build/tmp/work/qemuarm64-poky-linux/crypt=
+odev-module/1.11-r0/git/cryptodev.ko&#39;.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Stop.<br>
+=C2=A0 =C2=A0 | make[4]: *** Waiting for unfinished jobs....<br>
 <br>
-...<br>
+We also ensure that kernel-devsrc has a copy to support on<br>
+target module builds that are often prepared with &#39;make scripts<br>
+prepare&#39;. Those targets won&#39;t regenerate it, so the build fails.<b=
+r>
+If &#39;make modules_prepare&#39; is used, the file will be regenerated<br=
+>
+and overwrite our copy (as expected).<br>
 <br>
-Therefore limit inheriting this class only for target recipes.<br>
-<br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
-"_blank">raj.khem@gmail.com</a>&gt;<br>
-Cc: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=
-=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-Cc: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_b=
-lank">Martin.Jansa@gmail.com</a>&gt;<br>
+Signed-off-by: Pan, Kris &lt;<a href=3D"mailto:kris.pan@intel.com" target=
+=3D"_blank">kris.pan@intel.com</a>&gt;<br>
+Signed-off-by: Lili Li &lt;<a href=3D"mailto:lili.li@intel.com" target=3D"=
+_blank">lili.li@intel.com</a>&gt;<br>
+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
+undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<=
+br>
+(cherry picked from commit 0fc66a0b64953aae38d0124b57615fffaec8de52)<br>
+Signed-off-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" ta=
+rget=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
 ---<br>
-v2: Mark depends conditional instead<br>
+=C2=A0meta/classes/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 | 1 +<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D=
+"noreferrer" target=3D"_blank">kernel-devsrc.bb</a> | 6 ++++++<br>
+=C2=A02 files changed, 7 insertions(+)<br>
 <br>
-=C2=A0meta/classes/python3targetconfig.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass<br>
+index 78def5bbc1..22c92381c0 100644<br>
+--- a/meta/classes/kernel.bbclass<br>
++++ b/meta/classes/kernel.bbclass<br>
+@@ -486,6 +486,7 @@ do_shared_workdir () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Copy files required for module builds<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp System.map $kerneldir/System.map-${KERNEL_V=
+ERSION}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 [ -e Module.symvers ] &amp;&amp; cp Module.sym=
+vers $kerneldir/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0[ -e scripts/module.lds ] &amp;&amp; install -=
+Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp .config $kerneldir/<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p $kerneldir/include/config<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp include/config/kernel.release $kerneldir/in=
+clude/config/kernel.release<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb"=
+ rel=3D"noreferrer" target=3D"_blank">kernel-devsrc.bb</a> b/meta/recipes-k=
+ernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D"noreferrer" target=
+=3D"_blank">kernel-devsrc.bb</a><br>
+index aa8e162f4f..8373c97a31 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D=
+"noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D=
+"noreferrer" target=3D"_blank">kernel-devsrc.bb</a><br>
+@@ -86,6 +86,12 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # be dealt with.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # cp -a scripts $kerneldir/build<br>
 <br>
-diff --git a/meta/classes/python3targetconfig.bbclass b/meta/classes/python=
-3targetconfig.bbclass<br>
-index 640d0c97b6..b79ec211c7 100644<br>
---- a/meta/classes/python3targetconfig.bbclass<br>
-+++ b/meta/classes/python3targetconfig.bbclass<br>
-@@ -1,6 +1,6 @@<br>
-=C2=A0inherit python3native<br>
-<br>
--DEPENDS_append =3D &quot; python3&quot;<br>
-+DEPENDS_append =3D &quot;${@[&#39;&#39;, &#39; python3&#39;][&#39;${CLASSO=
-VERRIDE}&#39; =3D=3D &#39;class-target&#39;]}&quot;<br>
-<br>
-=C2=A0do_configure_prepend() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export _PYTHON_SYSCONFIGDATA_NAME=3D&quot=
-;_sysconfigdata&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# although module.lds can be regenerated on ta=
+rget via &#39;make modules_prepare&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# there are several places where &#39;makes sc=
+ripts prepare&#39; is done, and that won&#39;t<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# regenerate the file. So we copy it onto the =
+target as a migration to using<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# modules_prepare<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -a --parents scripts/module.lds $kerneldir/=
+build/ 2&gt;/dev/null || :<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d arch/${ARCH}/scripts ]; then<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -a arch/${ARCH}/scripts $kern=
+eldir/build/arch/${ARCH}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
 -- <br>
-2.29.2<br>
+2.28.0<br>
 <br>
-</blockquote></div>
-</blockquote></div>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
+haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
+ - Gandalf, Star Trek II<br><br></div>
 
---000000000000c71d8705b4502e21--
+--00000000000013b8fd05b4508006--
