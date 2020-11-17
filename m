@@ -1,73 +1,93 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
- by mx.groups.io with SMTP id smtpd.web08.16786.1605656928362603896
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web10.16965.1605656933960777696
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 15:48:48 -0800
+ Tue, 17 Nov 2020 15:48:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=D8kfqCY8;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.172, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f172.google.com with SMTP id f11so171299oij.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 15:48:48 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HoZj4+yx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.47, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f47.google.com with SMTP id l20so5196348oot.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 15:48:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=VP7eITLN4f+VUX4N2JjqVQtDZBgobnrytZTSDHbXiMo=;
-        b=D8kfqCY8h70EBAvFBV3WmPV1EdXyqjy/3NQzVSwzyxcf4eLzRmOx9PVbFlwB8QK7wT
-         sdfl52cfD9iBIh6zmR9J1tkB2g7ZVJmQpRdEaLGxnwuLUE8xhBraTtMo9WRS2O0NAGcb
-         RAXu+uz8XsspPrAPBu1P7oZVMdwVgYcyINZzjZQcYwmsI8HwEw2ofUZYF7/FqU06bzh0
-         fjRAwhhKbGL+IdV7nvY+PTciH4Hl2sOS3gNG6wCuRg97moZYVyn0fmvSshqtD6NG8tmv
-         KBUKxLLT7GJdrzZgX4eAys4+Cx/wqJs6sxQoTTpQ2SEH4At4vkzR87SOYEz2TV5cgvVq
-         BEeA==
+        bh=+J+5IszVyKQANmn6Ur2uTgwGzoDsSjoQ2DtLcBPi/V8=;
+        b=HoZj4+yxcNX3+0PtNZdv3vp6ZjfY2jNoKWUrddW+K8GAGinbd0cq4OHoZ268p9B+hr
+         3onnQNMFWEOKelq1frORT9mZHQCiaR+CktoJHFL2OXC6Jw+CoIX+PhjSybcMUl4lA3DX
+         TDOq/rAgNk+t32GxK+V0hSJIMqQofQlrx0jVn+eJzCLHRuqmsKpiYA9d9tEBZDG4IBZp
+         wne5SNNkcc/RQhDjhsA9Sw17fRx6KJOQY8G5zo7BAb8gJeUFavSb6ZEMSd4BvfgdfDoD
+         Od/6aND4qYDNXMD/Z1cxE+87Y1EamRNBGRJ3nP53d2q2o59uHLgwT6S6M/VcenWuzSpv
+         N6Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=VP7eITLN4f+VUX4N2JjqVQtDZBgobnrytZTSDHbXiMo=;
-        b=qaY0Cmm5VXCP6l6/meOfSlJsGmK/Z9iEZ6lwZEF57eQy+OEblD3szu0SGjj02z401b
-         OOxkcUq4F883+NXyxG3m41S3W4lJJE4Ax7wlUek21LE7ZZolVAebrzBplVLrdXRXhhnU
-         XkPaXCWlrOdJIncqqxsANlxxnDHEu1kvUt+P3FopRWwvRUvnSh5gPRTHj7r7jKmurd+4
-         uHfTOCE1kOXtnUR0zSnNfxgEX2VZGdapcL47FwPvsXw3vnEulKu6wGLIJvakY95RKQBp
-         v+qSZ7F7t3qVdkmWnUa7JYZRWRUfvbwQffqQ0k5AYtt/3xZFzaTsDB0csUHobrf/H0oJ
-         3cPg==
-X-Gm-Message-State: AOAM532vXR2OPV27UX0y1WpD1ynzk5GhXXNu2r717BEXqYFqZGlhe/2+
-	iyfOualmpudpQtLKn7YJpLOdc2XvqTIfYUY6
-X-Google-Smtp-Source: ABdhPJwXde6W0wJWy1g8CyZ+2Wi64Xk77ddEgB2V6OeYZrbqDKE+vmUnqwsCgUL3191jrJufCWzZKQ==
-X-Received: by 2002:aca:af57:: with SMTP id y84mr1042608oie.122.1605656927298;
-        Tue, 17 Nov 2020 15:48:47 -0800 (PST)
+        bh=+J+5IszVyKQANmn6Ur2uTgwGzoDsSjoQ2DtLcBPi/V8=;
+        b=WO4LDm1FsMMZwhEUG1/rgUVHhBAj3MW+8kFXS9j8GgKJl9QJECh1WhWlUOM++crn7v
+         QQVBV5/ZFA4dYVxreArABj7i2d0WW1arkf1y/4NCC2NH6q1jZ7qjRKn4M6+qCjgSk906
+         1ytbTmIZRonFggY2BigmFZiTesMyVMa+SjEy3297DE+bPWwt/f7Wrures/2b4sS2XETO
+         iREeEGq4MmGc2Wcl74+N2ukYp3rH27o0hyBWLsnzPdIR2wA6f7gia83T4WBMotTo9pJ8
+         Cmb3JgDnENVXsS/WR5SeI5VJaoI5hk0Gpovz4ycpQ2yBAXbH3TiJLeXgsqsnfKgVSISp
+         xazA==
+X-Gm-Message-State: AOAM530RhFCMSXsLNTiY9YonxzMT4RF5o0A6IIWkwqLZ4ElsAduTKq6O
+	Ohs52TNBJEl9t4df0HH6W1NiRAeFlZTGRxf6
+X-Google-Smtp-Source: ABdhPJyASuB8Tna6rc8ucTqQ9B/lGWwxzvJg+aHPBisiBxDvAP5y9y/JB/fPLkmeejHGA0kfAlXAyQ==
+X-Received: by 2002:a4a:d9d7:: with SMTP id l23mr4611755oou.91.1605656932905;
+        Tue, 17 Nov 2020 15:48:52 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id s131sm6715936oie.58.2020.11.17.15.48.43
+        by smtp.gmail.com with ESMTPSA id s131sm6715936oie.58.2020.11.17.15.48.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 15:48:46 -0800 (PST)
+        Tue, 17 Nov 2020 15:48:52 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 8/9] glib-2.0: correct build with latest meson
-Date: Tue, 17 Nov 2020 13:47:38 -1000
-Message-Id: <b95d8fa49f26d48e821017e555f90887974c89b7.1605656725.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 9/9] python3: add ldconfig rdepends for python3-ctypes
+Date: Tue, 17 Nov 2020 13:47:39 -1000
+Message-Id: <84e1a32096db9deb98d282a652beec95dbfe80f1.1605656725.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1605656725.git.steve@sakoman.com>
 References: <cover.1605656725.git.steve@sakoman.com>
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+The ctypes module needs to use "ldconfig -p" to find the
+library path and it simply has below logic if no ldconfig
+installed.
+  except OSError:
+      pass
+
+Before the patch:
+  >>> from ctypes.util import find_library
+  >>> lib_path = find_library('archive')
+  >>> print(lib_path)
+  None
+
+After the patch:
+  >>> from ctypes.util import find_library
+  >>> lib_path = find_library('archive')
+  >>> print(lib_path)
+  libarchive.so.13
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6a91d2b7d463abfd8f39a9f9d5ddde40a939d6e3)
+(cherry picked from commit ddb96902a124a6e1f035f0fd868b0139989bc1bc)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3_3.8.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux
-index 83596e0efb..adad7e62ee 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux
-@@ -2,4 +2,4 @@
- have_proc_self_cmdline = true
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index 169bc87988..758ed87546 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -345,6 +345,7 @@ FILES_${PN}-man = "${datadir}/man"
  
- [binaries]
--env = "/usr/bin/env"
-+env = '/usr/bin/env'
+ # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
+ RDEPENDS_libpython3_append_libc-glibc = " libgcc"
++RDEPENDS_${PN}-ctypes_append_libc-glibc = " ${MLPREFIX}ldconfig"
+ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+ RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
 -- 
 2.17.1
 
