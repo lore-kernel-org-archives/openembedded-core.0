@@ -1,92 +1,90 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web12.8760.1605624164949356444
- for <Openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 06:42:45 -0800
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web12.9005.1605625163542366998
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 17 Nov 2020 06:59:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Uenq1K+j;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id s13so3449780wmh.4
-        for <Openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 06:42:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nb7T4xNc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: vincent.prince.fr@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 19so3550378wmf.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 06:59:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Bqs/gO0JvWx89zFYlfOgV6OFcvQ+P4aBSMPjbSurRQQ=;
-        b=Uenq1K+j7dSyaskxRQPMTfcO9xphkPtr/CJ8l+uQztYC0fmTGN3l1BxeZYQly9Ef4n
-         UJ6nK2DHBg9ah8TCWhTF4JZrzOrasiSxmZzgbGxR5H/5qcEY72H7M6zdaiOQ8d6Z0psG
-         x6cruIPZjuqbKfBNzXNoudkS9WpZyYALKYNJYy6GamL/OKYXc1FplCrWgZZN6fVV6SRU
-         2WGnSloStSAPTYwa/tvRZl84HtH6+lCPQRaS2iOrylPyItf2/n271WKMPr4KqhNLKYoJ
-         nyrhZUMGFDEwXhEPtaCpb2BLfwFoETQOVhI+WsQlQtmu042LR4Sp5WFHKOIWVot8TkRd
-         nobw==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=+2EK1E53FMQxPbO3jvyfAo+S4BTI0xpjBSjaB7b5E+o=;
+        b=nb7T4xNcHP6HQA5JulG+svyzW0pX3BjwtJkG/pmfDXSrXgbP0Q8zlqTi3Cy4Vo/+Np
+         WHKXizsjfglAeHIktxDr/WUoj5Iii0WbEbugiZMffRJhAIoVB/bKJY1C5cuLf0Nij8Uy
+         Rq4K1nV+XxSthirP3nOVjMstF0fn2mCpt7BBX88o4aK08ntkW63VfVjP1lNf38iUdZJK
+         e6DMsp4vDW4Uzc1oUzKMMYSc1JU228QqgFDoOG42GZaOLMQNIOzbdUAxBGjU2ZoAX7Tp
+         j/1eC5xjBGPZvP/qC1JULh4Ez3AYyn7RayQseeClQs+0c1cHokzdjgPHCN7c+JjkviMc
+         95Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Bqs/gO0JvWx89zFYlfOgV6OFcvQ+P4aBSMPjbSurRQQ=;
-        b=fHmdDH0kXk7cb6Y9aS4XA63F3ccY7SnFqqdRM5fAvVm9uzwMVpOLpcolGmFbxjTkV8
-         zBFmO0jpJCetvRh/WW4dknB9nHMTNNDhcuXaWcwk6RwPNEHHot6KgpIZcI4dT0BbXvYo
-         ZnS/rRdUI4vCUH9MzPnzKyzGQudpwpCxFIQekEk/qYCef/zFo4kXRuNW+nExrBmlbMbi
-         559hfNrqnqs4BEVfOjshmUDyHaj3xTUIOPlcquHMS+HAuKwyx1tJAMRGR2P8dqlwmYNg
-         PWVQR5cfiAqzRG89xy5ZuHlROnU3UHy6uwXysoSEs+LMPUBSu5DlX7hFP6EOVRIXO/fz
-         I8ng==
-X-Gm-Message-State: AOAM532/jmHpOwaOjxWOgseT5CYF+QaZt4J2o7lxcmLyw8ea/Q/ZFsCv
-	71tAw7ny+HvD0YNASF3wXYyNt1yxzR+z8Q==
-X-Google-Smtp-Source: ABdhPJxq29CC3G6UKdGjSREAqrdCCgATZPWI0szaY8kmrGFPkbT6sHMJzIGmTYRMIM/1eQXEyDROuQ==
-X-Received: by 2002:a1c:4884:: with SMTP id v126mr3435800wma.160.1605624163133;
-        Tue, 17 Nov 2020 06:42:43 -0800 (PST)
-Return-Path: <uvv.mail@gmail.com>
-Received: from localhost.localdomain (dslb-002-205-007-251.002.205.pools.vodafone-ip.de. [2.205.7.251])
-        by smtp.gmail.com with ESMTPSA id s202sm3960895wme.39.2020.11.17.06.42.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 06:42:42 -0800 (PST)
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-Subject: [PATCH] license_image.bbclass: use canonical name for license files
-Date: Tue, 17 Nov 2020 15:41:20 +0100
-Message-Id: <20201117144120.441804-1-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=+2EK1E53FMQxPbO3jvyfAo+S4BTI0xpjBSjaB7b5E+o=;
+        b=tM89uSnjjCn70J3PG1J1hXOWFmcICb/3K7Ap/BHiE+epAnHaHWJgsoK9AYyot0PNIl
+         uyc7f5J8iZXDh4GrZWfG2TECxAltQ61BOdHM/EE/K/cZV5b+nfZnSYDKeYUw8xDPm/6y
+         OGxXhiIXMw0iwlc6WudHT36LJaeG3yqUuPRsucYImTUddXPV2BBW12CP3+qbb3VdFzBZ
+         2oUVDYwZ7R06BHz/tPj7tc0aD2MNe4ibLcKIFNSZKHr0PAZtk7ItZ27gkmAqhdMWWB8h
+         lp9hoXhdP9YIR+pyzQ9nADvkOv3bStATiUmlOo4jISiMXAC27N2scx8VQNtLHVr4xZyH
+         cLCQ==
+X-Gm-Message-State: AOAM5335kQvGwQeEmNzICpQWwLFm1v6u+JxAkfcS5EN4Q+6AP6Eq1mhI
+	BZwFF/4IIoyRQtDwjJ/cX7XxtyV6iQgqhSuHLW4Y2ccR42A=
+X-Google-Smtp-Source: ABdhPJyMsxKZRrXa864sak/myqSkQeBNLlovNRDu9wd5G7Z6COnBMDaePe6cMckITDx7CKMW+Lc246/5GUfNvwfHaUs=
+X-Received: by 2002:a1c:3d44:: with SMTP id k65mr4623828wma.147.1605625161449;
+ Tue, 17 Nov 2020 06:59:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "nefethael" <vincent.prince.fr@gmail.com>
+Date: Tue, 17 Nov 2020 15:59:10 +0100
+Message-ID: <CAB2nKc_WuU_YJAA9q+Yu_kbg+7XQFPOmGaKrg1PtzTfQe0TD8w@mail.gmail.com>
+Subject: cve-check: custom hook for unpatched CVEs
+To: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000064043f05b44ebd06"
 
-From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+--00000000000064043f05b44ebd06
+Content-Type: text/plain; charset="UTF-8"
 
-When copying license files to the image rootfs, i.e to
-/usr/share/common-licenses, a canonical name of a license should be
-used, otherwise duplicated files end up in common-licenses directory.
+ Hello Team,
 
-For example, GPL-2.0 license according to conf/license.conf can be
-referenced in recipes as GPL-2, GPLv2, and GPLv2.0. If a license name is
-used directly, we end up with three files in the rootfs with the same
-content. If a canonical name used instead, then each license gets copied
-only once.
+I wish I could extend cve-check.bbclass to do some custom actions when some
+unpatched CVEs are discovered.
+For now, I just duplicated class to another my-cve-check.bbclass but
+cve-update-db-native.bb fails due
+to
+http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-core/meta/cve-update-db-native.bb?id=cbc717350b21fb417fa6f83621022ac633a26124
+.
+I also tried to just override cve-check.bbclass in a custom layer but it
+seems it's quite a mess to do it if I follow correctly
+https://wiki.yoctoproject.org/wiki/Technical_FAQ#How_do_I_override_a_bbclass_file.3F
 
-Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
----
- meta/classes/license_image.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I'm not a Yocto guru so I'm not sure how to contribute to add some kind of
+custom hooks in existing code so that we can extend cve-check process?
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 702e9f9c55..119c8dfc86 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -125,7 +125,6 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
- 
-                 licenses = os.listdir(pkg_license_dir)
-                 for lic in licenses:
--                    rootfs_license = os.path.join(rootfs_license_dir, lic)
-                     pkg_license = os.path.join(pkg_license_dir, lic)
-                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
- 
-@@ -144,6 +143,8 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                                 bad_licenses) == False:
-                             continue
- 
-+                        # Make sure we use only canonical name for the license file
-+                        rootfs_license = os.path.join(rootfs_license_dir, "generic_%s" % generic_lic)
-                         if not os.path.exists(rootfs_license):
-                             oe.path.copyhardlink(pkg_license, rootfs_license)
- 
--- 
-2.25.1
+Thanks for your help,
+Vincent
 
+--00000000000064043f05b44ebd06
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">
+Hello Team, <br><br>I wish I could extend cve-check.bbclass to do some cust=
+om actions when some unpatched CVEs are discovered. <br>For now, I just dup=
+licated class to another my-cve-check.bbclass but <a href=3D"http://cve-upd=
+ate-db-native.bb">cve-update-db-native.bb</a> fails due<br>to <a href=3D"ht=
+tp://cgit.openembedded.org/openembedded-core/commit/meta/recipes-core/meta/=
+cve-update-db-native.bb?id=3Dcbc717350b21fb417fa6f83621022ac633a26124" targ=
+et=3D"_blank">http://cgit.openembedded.org/openembedded-core/commit/meta/re=
+cipes-core/meta/cve-update-db-native.bb?id=3Dcbc717350b21fb417fa6f83621022a=
+c633a26124</a> .<br>I also tried to just override cve-check.bbclass in a cu=
+stom layer but it seems it&#39;s quite a mess to do it if I follow correctl=
+y <br><a href=3D"https://wiki.yoctoproject.org/wiki/Technical_FAQ#How_do_I_=
+override_a_bbclass_file.3F" target=3D"_blank">https://wiki.yoctoproject.org=
+/wiki/Technical_FAQ#How_do_I_override_a_bbclass_file.3F</a><br><br>I&#39;m
+ not a Yocto guru so I&#39;m not sure how to contribute to add some kind of=
+=20
+custom hooks in existing code so that we can extend cve-check process?<br><=
+br>Thanks for your help,<br>Vincent
+
+</div>
+
+--00000000000064043f05b44ebd06--
