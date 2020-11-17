@@ -1,143 +1,125 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web11.16751.1605655200947308161
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+ by mx.groups.io with SMTP id smtpd.web12.16760.1605656678844180974
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 15:20:01 -0800
+ Tue, 17 Nov 2020 15:44:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 5UlV+q/Q0rwLGdnlr8FrcD+8SEoJjgbiAILKkQwmBFSjpdXgi5mjcNgsP23QBQcZejuEgbL18z
- Kc5OYbrof03Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="189096056"
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="189096056"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 15:19:59 -0800
-IronPort-SDR: GyteoQ/dl8X8Gy0A9pw5kZME2OzAw2UqiijjL9tur+LzzI5n8ySoZ1bt977GL8WjvXl/iPsVeI
- U4YiHWn12c6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,486,1596524400"; 
-   d="scan'208";a="533999127"
-Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143])
-  by fmsmga005.fm.intel.com with ESMTP; 17 Nov 2020 15:19:58 -0800
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- kmsmsx603.gar.corp.intel.com (172.21.219.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 18 Nov 2020 07:19:58 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
- Wed, 18 Nov 2020 07:19:58 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "martin.jansa@gmail.com" <martin.jansa@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [gatesgarth][PATCH 00/19] gatesgarth review request
-Thread-Topic: [OE-core] [gatesgarth][PATCH 00/19] gatesgarth review request
-Thread-Index: AQHWvPcqNDw5xLGmtE6JlGavGN1K3KnL/HMAgABz1YA=
-Date: Tue, 17 Nov 2020 23:19:57 +0000
-Message-ID: <c552afd43ebd2a8d0a315a6e45d98f3170fd1ad5.camel@intel.com>
-References: <cover.1605626675.git.anuj.mittal@intel.com>
-	 <CA+chaQfx=0OJfW=f_DsUG58GC8RYvXhSYb80-3MFouSeh_3DRw@mail.gmail.com>
-In-Reply-To: <CA+chaQfx=0OJfW=f_DsUG58GC8RYvXhSYb80-3MFouSeh_3DRw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
-MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <22715C419B40A04C8C6F7804B6A6FCB9@intel.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=uxYTyI/9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.161.48, mailfrom: steve@sakoman.com)
+Received: by mail-oo1-f48.google.com with SMTP id t142so5179514oot.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 15:44:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=aMlhn/Dtg8DgrUMJP3sfGVWtRi9kTZs+SuThAqYAbvM=;
+        b=uxYTyI/9sq6aADBYwjLPLuJuh36LSjxA101GLafGUCbO4fCJ6H27BliKtOevnpWu+s
+         N0jpr2Xo9W3DpfvBLHvUGz+Ml8FzHkUgfJdCOrg7rLi0FE8y+PT4t8u+oRZ/JWImS7P2
+         SRuqy+NtMk5y2W3YvDcdwopG4JUvEOIdGcCQ9hIW8qhYlyaSo9G1HAY2Mv33RNZvXEtb
+         roxqtcBv1yC4OitKwhJbyfdOOuHUFrAsx6Gq47nD4QcMOLtBKTUDHRLDH9fEIfAk0ZEa
+         zNCStBo+DzxVktTZhsKfrFYGBox1782p0RmN0QdNJTwa+HAP1Rek9nccSq5LfuRUgtVg
+         ZCIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=aMlhn/Dtg8DgrUMJP3sfGVWtRi9kTZs+SuThAqYAbvM=;
+        b=V/g7xItV5LXWVtc1OdwAW3dZfmtmsU54iAecfCDBeR6EmQdjKRV/nXkEOMRqNEm9wV
+         RmKySVJEvk59LhjhwPFcE+QpCXUzlxP0ggpTR5aEbg2MtWjM1TIPMt89RLQmgXpPLuFn
+         1LWxJkyTbWF3jmIveJGxLgDJpq7oNkow/TzJF1UtXbiMygD9ewiKIWo/EoW7aC1Em0aI
+         beSUQKSR0jdLRmdWYMBMAz53M/pG3AZAe9i5l5xgahaIu6o0VXBzLG+RdmxxOk6a62JL
+         4ak/d2t6RPesdhQsZfk3TlCHEUU86hRIIf/CgBROeSJwWkZ3Qr/A1Ne50HkGPVTN7KjJ
+         /JcA==
+X-Gm-Message-State: AOAM531ahIiPzT8IQ4QYoKhrcsbm4NuV2+9vR29sE9PrJjeZ7pTu3rZu
+	Cm8MT5Bh/U/wzzsd3JGq81p9c9i6UNb94JXU
+X-Google-Smtp-Source: ABdhPJyXZIfLq954dgJ65/6SBFXlfAaQEp/XHw4aNdi1t+gRbxk4u+nVx63Td7LsdloOkx1KeBqTpg==
+X-Received: by 2002:a4a:9cc7:: with SMTP id d7mr4865137ook.8.1605656677611;
+        Tue, 17 Nov 2020 15:44:37 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com ([99.197.43.113])
+        by smtp.gmail.com with ESMTPSA id m29sm6623302otj.42.2020.11.17.15.44.33
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2020 15:44:36 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/16] Pull request (cover letter only)
+Date: Tue, 17 Nov 2020 13:44:17 -1000
+Message-Id: <cover.1605656546.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-SGkgTWFydGluLA0KDQpPbiBUdWUsIDIwMjAtMTEtMTcgYXQgMTc6MjUgKzAxMDAsIE1hcnRpbiBK
-YW5zYSB3cm90ZToNCj4gSGksDQo+IERvIHlvdSBzdGlsbCBwbGFuIHRvIHVwZ3JhZGUgYmx1ZXo1
-IGluIGdhdGVzZ2FydGggdG8gNS41NSBsaWtlDQo+IGR1bmZlbGwgd2FzIHJlY2VudGx5IHVwZGF0
-ZWQ/DQo+IA0KPiBZb3UgbWVudGlvbmVkIGl0IGluOg0KPiBodHRwczovL2xpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzE0NDQ2Nw0KPiBidXQgSSBkb24n
-dCBzZWUgaXQgaW4gdGhpcyBQUi4NCg0KWWVzLCBJIG1pc3NlZCBpdCB0aGlzIHRpbWUgYW5kIHdp
-bGwgaW5jbHVkZSBpdCBpbiB0aGUgbmV4dCBzZXQuDQoNClRoYW5rcywNCg0KQW51ag0KDQo+IA0K
-PiBPbiBUdWUsIE5vdiAxNywgMjAyMCBhdCA0OjM2IFBNIEFudWogTWl0dGFsIDxhbnVqLm1pdHRh
-bEBpbnRlbC5jb20+DQo+IHdyb3RlOg0KPiA+IE5leHQgc2V0IG9mIGNoYW5nZXMgZm9yIGdhdGVz
-Z2FydGguIFBsZWFzZSByZXZpZXcuDQo+ID4gDQo+ID4gUGFzc2VkIGEtZnVsbCBvbiBhdXRvYnVp
-bGRlciBleGNlcHQgZm9yIG9uZSBmYWlsdXJlLiBQaW5nIHRlc3QNCj4gPiBmYWlsZWQNCj4gPiB3
-aGlsZSBleGVjdXRpbmcgZG9fdGVzdGltYWdlIGZvciBzYXRvIGltYWdlLiANCj4gPiANCj4gPiBo
-dHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgz
-L2J1aWxkcy8xNjAyDQo+ID4gDQo+ID4gSSB0aGluayB0aGlzIGZhaWx1cmUgaXMgbm90IHJlbGF0
-ZWQgdG8gdGhlIGNoYW5nZXMgaGVyZSBhcyB0aGUgdGVzdA0KPiA+IHBhc3NlZA0KPiA+IGluIG90
-aGVyIGNvbmZpZ3VyYXRpb25zLiBQcm9iYWJseSBzaW1pbGFyIHRvOg0KPiA+IGh0dHBzOi8vYnVn
-emlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9MTQwMjkNCj4gPiANCj4gPiBU
-aGFua3MsDQo+ID4gDQo+ID4gQW51ag0KPiA+IA0KPiA+IFRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
-aW5jZSBjb21taXQNCj4gPiBhMWRiMWU3MTEyOWMzZTY3ZGRkOWRiZWYyMWUxYzVlYjMxNTUyZTAw
-Og0KPiA+IA0KPiA+IMKgIGdydWI6IGNsZWFuIHVwIENWRSBwYXRjaGVzICgyMDIwLTExLTEyIDEx
-OjU0OjI4ICswODAwKQ0KPiA+IA0KPiA+IGFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0
-b3J5IGF0Og0KPiA+IA0KPiA+IMKgIGdpdDovL3B1c2gub3BlbmVtYmVkZGVkLm9yZy9vcGVuZW1i
-ZWRkZWQtY29yZS1jb250cmliDQo+ID4gYW51am0vZ2F0ZXNnYXJ0aA0KPiA+IA0KPiA+IEFsZXhh
-bmRlciBLYW5hdmluICgyKToNCj4gPiDCoCBjbHV0dGVyLWdzdC0zLjA6IGRvIG5vdCBjYWxsIG91
-dCB0byBob3N0IGdzdHJlYW1lciBwbHVnaW4gc2Nhbm5lcg0KPiA+IMKgIGNvbmYtbm90ZXMudHh0
-OiBtZW50aW9uIG1vcmUgaW1wb3J0YW50IGltYWdlcyB0aGFuIGp1c3Qgc2F0bw0KPiA+IA0KPiA+
-IEJydWNlIEFzaGZpZWxkICgxKToNCj4gPiDCoCBrZXJuZWw6IHByb3ZpZGUgbW9kdWxlLmxkcyBm
-b3Igb3V0IG9mIHRyZWUgYnVpbGRzIGluIHY1LjEwKw0KPiA+IA0KPiA+IERlbnlzIFphZ29ydWkg
-KDEpOg0KPiA+IMKgIGJpbnV0aWxzOiByZXByb2R1Y2liaWxpdHk6IHJldXNlIGRlYnVnLXByZWZp
-eC1tYXAgZm9yIHN0YWJzDQo+ID4gDQo+ID4gRGllZ28gU2FudGEgQ3J1eiAoMSk6DQo+ID4gwqAg
-ZnJlZXR5cGU6IGZpeCBDVkUtMjAyMC0xNTk5OSwgYmFja3BvcnQgZnJvbSAyLjEwLjQNCj4gPiAN
-Cj4gPiBHcmF0aWFuIENyaXNhbiAoMSk6DQo+ID4gwqAga2VybmVsLW1vZHVsZS1zcGxpdC5iYmNs
-YXNzOiBpZGVudGlmeSBrZXJuZWwgbW9kY29uZiBmaWxlcyBhcw0KPiA+IMKgIMKgIGNvbmZpZ3Vy
-YXRpb24gZmlsZXMNCj4gPiANCj4gPiBKb3NlIFF1YXJlc21hICgxKToNCj4gPiDCoCBnc3RyZWFt
-ZXIxLjA6IHdhcm4gdGhlIHVzZXIgd2hlbiBzb21ldGhpbmcgaXMgd3Jvbmcgd2l0aA0KPiA+IEdz
-dEJ1ZmZlclBvb2wNCj4gPiANCj4gPiBLaGVtIFJhaiAoMik6DQo+ID4gwqAgbHJ6c3o6IFVzZSBD
-cm9zcyBBUiBkdXJpbmcgY29tcGlsZQ0KPiA+IMKgIGdhd2s6IEF2b2lkIHVzaW5nIGhvc3QgYXIg
-ZHVyaW5nIGNyb3NzIGNvbXBpbGUNCj4gPiANCj4gPiBLb25yYWQgV2VpaG1hbm4gKDMpOg0KPiA+
-IMKgIG9lcWEvY29yZS9jb250ZXh0OiBleHBvc2UgcmVzdWx0cyBhcyB2YXJpYWJsZQ0KPiA+IMKg
-IG9lcWEvY29yZS9jb250ZXh0OiBpbml0aWFsaXplIF9ydW5fZW5kX3RpbWUNCj4gPiDCoCB0ZXN0
-aW1hZ2U6IHByaW50IHJlc3VsdHMgZm9yIGludGVycnVwdGVkIHJ1bnMNCj4gPiANCj4gPiBNYXJr
-IEpvbmFzICgxKToNCj4gPiDCoCBsaWJic2Q6IFJlbW92ZSBCU0QtNC1DbGF1c2UgZnJvbSBtYWlu
-IHBhY2thZ2UNCj4gPiANCj4gPiBNYXR0IE1hZGlzb24gKDEpOg0KPiA+IMKgIGxheWVyLmNvbmY6
-IGZpeCBzeW50YXggZXJyb3IgaW4gUEFUSCBzZXR0aW5nDQo+ID4gDQo+ID4gTmF0aGFuIFJvc3Np
-ICgxKToNCj4gPiDCoCBkaWZmc3RhdDogYWRkIG5hdGl2ZXNkayB0byBCQkNMQVNTRVhURU5EDQo+
-ID4gDQo+ID4gUmljaGFyZCBQdXJkaWUgKDMpOg0KPiA+IMKgIHB0ZXN0LXJ1bm5lcjogRml4IGxp
-Y2Vuc2UgYXMgaXQgY29udGFpbnMgJ29yIGxhdGVyJyBjbGF1c2UNCj4gPiDCoCBsaWJkbmY6IEZp
-eCBsaWNlbnNlIGFzIGl0IGNvbnRhaW5zICdvciBsYXRlcicgY2xhdXNlDQo+ID4gwqAgYWxzYS11
-dGlsczogRml4IGxpY2Vuc2UgdG8gR1BMdjIgb25seQ0KPiA+IA0KPiA+IFN0ZXZlIFNha29tYW4g
-KDEpOg0KPiA+IMKgIG9wZW5zc2g6IHdoaXRlbGlzdCBDVkUtMjAxNC05Mjc4DQo+ID4gDQo+ID4g
-wqBtZXRhL2NsYXNzZXMva2VybmVsLW1vZHVsZS1zcGxpdC5iYmNsYXNzwqAgwqAgwqAgfMKgIDEg
-Kw0KPiA+IMKgbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-wqAgwqAgwqB8wqAgMSArDQo+ID4gwqBtZXRhL2NsYXNzZXMvdGVzdGltYWdlLmJiY2xhc3PCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCB8IDE5ICsrKystLS0NCj4gPiDCoG1ldGEvY29uZi9jb25mLW5v
-dGVzLnR4dMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIHzCoCAyICsNCj4gPiDCoG1l
-dGEvY29uZi9sYXllci5jb25mwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAg
-fMKgIDIgKy0NCj4gPiDCoG1ldGEvbGliL29lcWEvY29yZS9jb250ZXh0LnB5wqAgwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqB8wqAgNCArKw0KPiA+IMKgLi4ubXBpbGF0aW9uLXVzaW5nLWF1dG9jb25m
-LWRldGVjdGVkLUFSLnBhdGNoIHwgMzYgKysrKysrKysrKysrKw0KPiA+IMKgbWV0YS9yZWNpcGVz
-LWJzcC9scnpzei9scnpzel8wLjEyLjIwLmJiwqAgwqAgwqAgwqB8wqAgMSArDQo+ID4gwqAuLi4v
-b3BlbnNzaC9vcGVuc3NoXzguM3AxLmJiwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgfMKgIDQg
-KysNCj4gPiDCoC4uLi9iaW51dGlscy9iaW51dGlscy0yLjM1LmluY8KgIMKgIMKgIMKgIMKgIMKg
-IMKgIMKgIHzCoCAxICsNCj4gPiDCoC4uLm9kdWNpYmlsaXR5LWZvci1zdGFicy1kZWJ1Z2dpbmct
-ZGF0YS5wYXRjaCB8IDM1ICsrKysrKysrKysrKysNCj4gPiDCoC4uLi9kaWZmc3RhdC9kaWZmc3Rh
-dF8xLjYzLmJiwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqAgwqB8wqAgMiArDQo+ID4gwqBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZl8wLjQ4LjAuYmIgfMKgIDIgKy0NCj4gPiDCoC4u
-Li8wMDAxLVVzZS1jcm9zcy1BUi1kdXJpbmctY29tcGlsZS5wYXRjaMKgIMKgIHwgMzUgKysrKysr
-KysrKysrKw0KPiA+IMKgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjEuMC5iYsKg
-IMKgIMKgIHzCoCAxICsNCj4gPiDCoC4uLi9jbHV0dGVyL2NsdXR0ZXItZ3N0LTMuMC5pbmPCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoHzCoCAyICsNCj4gPiDCoC4uLi1zZm50LUZpeC1oZWFwLWJ1ZmZl
-ci1vdmVyZmxvdy01OTMwOC5wYXRjaCB8IDUxDQo+ID4gKysrKysrKysrKysrKysrKysrKw0KPiA+
-IMKgLi4uL2ZyZWV0eXBlL2ZyZWV0eXBlXzIuMTAuMi5iYsKgIMKgIMKgIMKgIMKgIMKgIMKgIMKg
-fMKgIDEgKw0KPiA+IMKgbWV0YS9yZWNpcGVzLWtlcm5lbC9saW51eC9rZXJuZWwtZGV2c3JjLmJi
-wqAgwqAgfMKgIDYgKysrDQo+ID4gwqBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9hbHNhL2Fsc2Et
-dXRpbHMuaW5jwqAgwqB8wqAgMyArLQ0KPiA+IMKgLi4uc2l6ZS1pbi1yZXNldC13aGVuLW1heHNp
-emUtaXMtbGFyZ2VyLnBhdGNoIHwgNDkNCj4gPiArKysrKysrKysrKysrKysrKysNCj4gPiDCoC4u
-Li9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wXzEuMTYuMy5iYsKgIMKgIMKgIMKgIMKgIHzCoCAxICsN
-Cj4gPiDCoG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYmJzZC9saWJic2RfMC4xMC4wLmJiwqAgfMKg
-IDMgKy0NCj4gPiDCoC4uLi9wdGVzdC1ydW5uZXIvcHRlc3QtcnVubmVyXzIuNC4wLmJiwqAgwqAg
-wqAgwqAgfMKgIDIgKy0NCj4gPiDCoDI0IGZpbGVzIGNoYW5nZWQsIDI1MSBpbnNlcnRpb25zKCsp
-LCAxMyBkZWxldGlvbnMoLSkNCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
-YnNwL2xyenN6L2xyenN6LTAuMTIuMjAvMDAwMS1GaXgtDQo+ID4gY3Jvc3MtY29tcGlsYXRpb24t
-dXNpbmctYXV0b2NvbmYtZGV0ZWN0ZWQtQVIucGF0Y2gNCj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0
-NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmludXRpbHMvYmludXRpbHMvMDAxNy0NCj4gPiBnYXMt
-aW1wcm92ZS1yZXByb2R1Y2liaWxpdHktZm9yLXN0YWJzLWRlYnVnZ2luZy1kYXRhLnBhdGNoDQo+
-ID4gwqBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3ay8w
-MDAxLVVzZS1jcm9zcy0NCj4gPiBBUi1kdXJpbmctY29tcGlsZS5wYXRjaA0KPiA+IMKgY3JlYXRl
-IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9mcmVldHlwZS9mcmVldHlwZS8wMDAx
-LQ0KPiA+IHNmbnQtRml4LWhlYXAtYnVmZmVyLW92ZXJmbG93LTU5MzA4LnBhdGNoDQo+ID4gwqBj
-cmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLQ0KPiA+IG11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdHJlYW1lcjEuMC8wMDA1LWJ1ZmZlcnBvb2wtb25seS1yZXNpemUtaW4tDQo+ID4gcmVzZXQt
-d2hlbi1tYXhzaXplLWlzLWxhcmdlci5wYXRjaA0KPiA+IA0KDQo=
+The following changes since commit 4f395ad49ef9035954d0fda7b7df14dea18b49a0:
+
+  grub: clean up CVE patches (2020-11-08 16:51:24 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alexander Kanavin (1):
+  clutter-gst-3.0: do not call out to host gstreamer plugin scanner
+
+Denys Zagorui (1):
+  binutils: reproducibility: reuse debug-prefix-map for stabs
+
+Diego Santa Cruz (1):
+  freetype: fix CVE-2020-15999, backport from 2.10.4
+
+Gratian Crisan (1):
+  kernel-module-split.bbclass: identify kernel modconf files as
+    configuration files
+
+Jose Quaresma (1):
+  gstreamer1.0: warn the user when something is wrong with GstBufferPool
+
+Konrad Weihmann (3):
+  oeqa/core/context: expose results as variable
+  oeqa/core/context: initialize _run_end_time
+  testimage: print results for interrupted runs
+
+Nathan Rossi (1):
+  diffstat: add nativesdk to BBCLASSEXTEND
+
+Ricardo Salveti (1):
+  dosfstools: add mkfs.vfat to ALTERNATIVE
+
+Richard Purdie (3):
+  ptest-runner: Fix license as it contains 'or later' clause
+  libdnf: Fix license as it contains 'or later' clause
+  alsa-utils: Fix license to GPLv2 only
+
+Ross Burton (1):
+  syslinux: add link to upstream discussion in patch
+
+Steve Sakoman (1):
+  openssh: whitelist CVE-2014-9278
+
+akash hadke (1):
+  systemd: udev SECLABEL{selinux} crash fix
+
+ meta/classes/kernel-module-split.bbclass      |  1 +
+ meta/classes/testimage.bbclass                | 19 ++++---
+ meta/lib/oeqa/core/context.py                 |  4 ++
+ .../openssh/openssh_8.2p1.bb                  |  4 ++
+ ...temd-udev-seclabel-options-crash-fix.patch | 30 +++++++++++
+ meta/recipes-core/systemd/systemd_244.3.bb    |  1 +
+ .../binutils/binutils-2.34.inc                |  1 +
+ ...oducibility-for-stabs-debugging-data.patch | 32 ++++++++++++
+ .../diffstat/diffstat_1.63.bb                 |  2 +
+ .../dosfstools/dosfstools_4.1.bb              |  6 ++-
+ meta/recipes-devtools/libdnf/libdnf_0.28.1.bb |  2 +-
+ ...nux-syslinux-support-ext2-3-4-device.patch |  2 +-
+ .../clutter/clutter-gst-3.0.inc               |  2 +
+ ...-sfnt-Fix-heap-buffer-overflow-59308.patch | 51 +++++++++++++++++++
+ .../freetype/freetype_2.10.1.bb               |  1 +
+ .../alsa/alsa-utils_1.2.1.bb                  |  3 +-
+ ...size-in-reset-when-maxsize-is-larger.patch | 49 ++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.16.3.bb          |  1 +
+ .../ptest-runner/ptest-runner_2.3.2.bb        |  2 +-
+ 19 files changed, 200 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/systemd-udev-seclabel-options-crash-fix.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-gas-improve-reproducibility-for-stabs-debugging-data.patch
+ create mode 100644 meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch
+
+-- 
+2.17.1
+
