@@ -1,133 +1,114 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga18.intel.com (mga18.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.9458.1605627377733567004
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 07:36:17 -0800
+ Tue, 17 Nov 2020 07:36:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: w0FLLwcfDOQsQ5c2i/csl8bRTeOfrypo+AY9ZcvA4WaPU2MzuYye4xUHaS8QgItN/4EliG3cAc
- +9vDE7klxI+A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="158719946"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: bccJlIFkZ8qGOogusKkcgqYKVuIK2zPKCsEcW7zWMApjHgHfwVZhQt5qkO12u8KxwOURB0oIac
+ Vy9yRtwd6TUg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="158719947"
 X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
-   d="scan'208";a="158719946"
+   d="scan'208";a="158719947"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 07:36:16 -0800
-IronPort-SDR: 5rL3SRWjK5Phqs6GPNwHxNc/3APwzxlhB1EI3HTuAKZc862kKhbQw4zbWzfOgXyCzIhJj6rYwn
- s0KNL6PQuEsw==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 07:36:17 -0800
+IronPort-SDR: CUj91ZSvUOQh+jDT2JWaPsy+VOscU5lDDuzmmLxvLcf66mFlvsleTyyD4ZA3H3vhJhcLm20Xda
+ MbGqINyDIzpQ==
 X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
-   d="scan'208";a="400802926"
+   d="scan'208";a="400802932"
 Received: from sbinisma-mobl2.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.40.254])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 07:36:15 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 07:36:16 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 00/19] gatesgarth review request
-Date: Tue, 17 Nov 2020 23:35:49 +0800
-Message-Id: <cover.1605626675.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 01/19] freetype: fix CVE-2020-15999, backport from 2.10.4
+Date: Tue, 17 Nov 2020 23:35:50 +0800
+Message-Id: <95b928e68325218508cff8def10e72bbe0051c83.1605626675.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1605626675.git.anuj.mittal@intel.com>
+References: <cover.1605626675.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Next set of changes for gatesgarth. Please review.
+From: Diego Santa Cruz <diego.santacruz@spinetix.com>
 
-Passed a-full on autobuilder except for one failure. Ping test failed
-while executing do_testimage for sato image. 
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1602
-
-I think this failure is not related to the changes here as the test passed
-in other configurations. Probably similar to:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=14029
-
-Thanks,
-
-Anuj
-
-The following changes since commit a1db1e71129c3e67ddd9dbef21e1c5eb31552e00:
-
-  grub: clean up CVE patches (2020-11-12 11:54:28 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
-
-Alexander Kanavin (2):
-  clutter-gst-3.0: do not call out to host gstreamer plugin scanner
-  conf-notes.txt: mention more important images than just sato
-
-Bruce Ashfield (1):
-  kernel: provide module.lds for out of tree builds in v5.10+
-
-Denys Zagorui (1):
-  binutils: reproducibility: reuse debug-prefix-map for stabs
-
-Diego Santa Cruz (1):
-  freetype: fix CVE-2020-15999, backport from 2.10.4
-
-Gratian Crisan (1):
-  kernel-module-split.bbclass: identify kernel modconf files as
-    configuration files
-
-Jose Quaresma (1):
-  gstreamer1.0: warn the user when something is wrong with GstBufferPool
-
-Khem Raj (2):
-  lrzsz: Use Cross AR during compile
-  gawk: Avoid using host ar during cross compile
-
-Konrad Weihmann (3):
-  oeqa/core/context: expose results as variable
-  oeqa/core/context: initialize _run_end_time
-  testimage: print results for interrupted runs
-
-Mark Jonas (1):
-  libbsd: Remove BSD-4-Clause from main package
-
-Matt Madison (1):
-  layer.conf: fix syntax error in PATH setting
-
-Nathan Rossi (1):
-  diffstat: add nativesdk to BBCLASSEXTEND
-
-Richard Purdie (3):
-  ptest-runner: Fix license as it contains 'or later' clause
-  libdnf: Fix license as it contains 'or later' clause
-  alsa-utils: Fix license to GPLv2 only
-
-Steve Sakoman (1):
-  openssh: whitelist CVE-2014-9278
-
- meta/classes/kernel-module-split.bbclass      |  1 +
- meta/classes/kernel.bbclass                   |  1 +
- meta/classes/testimage.bbclass                | 19 ++++---
- meta/conf/conf-notes.txt                      |  2 +
- meta/conf/layer.conf                          |  2 +-
- meta/lib/oeqa/core/context.py                 |  4 ++
- ...mpilation-using-autoconf-detected-AR.patch | 36 +++++++++++++
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
- .../openssh/openssh_8.3p1.bb                  |  4 ++
- .../binutils/binutils-2.35.inc                |  1 +
- ...oducibility-for-stabs-debugging-data.patch | 35 +++++++++++++
- .../diffstat/diffstat_1.63.bb                 |  2 +
- meta/recipes-devtools/libdnf/libdnf_0.48.0.bb |  2 +-
- .../0001-Use-cross-AR-during-compile.patch    | 35 +++++++++++++
- meta/recipes-extended/gawk/gawk_5.1.0.bb      |  1 +
- .../clutter/clutter-gst-3.0.inc               |  2 +
+Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
  ...-sfnt-Fix-heap-buffer-overflow-59308.patch | 51 +++++++++++++++++++
  .../freetype/freetype_2.10.2.bb               |  1 +
- meta/recipes-kernel/linux/kernel-devsrc.bb    |  6 +++
- meta/recipes-multimedia/alsa/alsa-utils.inc   |  3 +-
- ...size-in-reset-when-maxsize-is-larger.patch | 49 ++++++++++++++++++
- .../gstreamer/gstreamer1.0_1.16.3.bb          |  1 +
- meta/recipes-support/libbsd/libbsd_0.10.0.bb  |  3 +-
- .../ptest-runner/ptest-runner_2.4.0.bb        |  2 +-
- 24 files changed, 251 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
- create mode 100644 meta/recipes-extended/gawk/gawk/0001-Use-cross-AR-during-compile.patch
+ 2 files changed, 52 insertions(+)
  create mode 100644 meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch
 
+diff --git a/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch b/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
+new file mode 100644
+index 0000000000..fa8a29b798
+--- /dev/null
++++ b/meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
+@@ -0,0 +1,51 @@
++From a3bab162b2ae616074c8877a04556932998aeacd Mon Sep 17 00:00:00 2001
++From: Werner Lemberg <wl@gnu.org>
++Date: Mon, 19 Oct 2020 23:45:28 +0200
++Subject: [PATCH] [sfnt] Fix heap buffer overflow (#59308).
++
++This is CVE-2020-15999.
++
++* src/sfnt/pngshim.c (Load_SBit_Png): Test bitmap size earlier.
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/freetype/freetype2.git/commit/?id=a3bab162b2ae616074c8877a04556932998aeacd]
++
++Signed-off-by: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
++---
++ src/sfnt/pngshim.c | 14 +++++++-------
++ 1 file changed, 7 insertions(+), 7 deletions(-)
++
++diff --git a/src/sfnt/pngshim.c b/src/sfnt/pngshim.c
++index 2e64e5846..f55016122 100644
++--- a/src/sfnt/pngshim.c
+++++ b/src/sfnt/pngshim.c
++@@ -332,6 +332,13 @@
++ 
++     if ( populate_map_and_metrics )
++     {
+++      /* reject too large bitmaps similarly to the rasterizer */
+++      if ( imgHeight > 0x7FFF || imgWidth > 0x7FFF )
+++      {
+++        error = FT_THROW( Array_Too_Large );
+++        goto DestroyExit;
+++      }
+++
++       metrics->width  = (FT_UShort)imgWidth;
++       metrics->height = (FT_UShort)imgHeight;
++ 
++@@ -340,13 +347,6 @@
++       map->pixel_mode = FT_PIXEL_MODE_BGRA;
++       map->pitch      = (int)( map->width * 4 );
++       map->num_grays  = 256;
++-
++-      /* reject too large bitmaps similarly to the rasterizer */
++-      if ( map->rows > 0x7FFF || map->width > 0x7FFF )
++-      {
++-        error = FT_THROW( Array_Too_Large );
++-        goto DestroyExit;
++-      }
++     }
++ 
++     /* convert palette/gray image to rgb */
++-- 
++2.18.4
++
+diff --git a/meta/recipes-graphics/freetype/freetype_2.10.2.bb b/meta/recipes-graphics/freetype/freetype_2.10.2.bb
+index 1034ddc0d7..cb0006b23e 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.10.2.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.10.2.bb
+@@ -14,6 +14,7 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1
+ 
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
+            file://use-right-libtool.patch \
++           file://0001-sfnt-Fix-heap-buffer-overflow-59308.patch \
+           "
+ SRC_URI[md5sum] = "7c0d5a39f232d7eb9f9d7da76bf08074"
+ SRC_URI[sha256sum] = "1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b"
 -- 
 2.28.0
 
