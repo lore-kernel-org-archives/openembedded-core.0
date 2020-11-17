@@ -1,113 +1,232 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.65])
- by mx.groups.io with SMTP id smtpd.web12.5262.1605602008323083492
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
+ by mx.groups.io with SMTP id smtpd.web12.5375.1605603195732388314
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 00:33:28 -0800
+ Tue, 17 Nov 2020 00:53:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=VNSB1UGn;
- spf=pass (domain: windriver.com, ip: 40.107.237.65, mailfrom: kai.kang@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S2JidB3XygjbxE6VwpsjLm9ylfQ6W4CGvoP3s3qG1wCYMLfMcB5zKingO+9Wux7hWUxa3WVaVorWXDy5WALqsnX52noStcSJ58klLBkyVFENZkNkqZV5M903kGRKTVrm/0hoqR8vzaNh8pqyE3jMfJy1NZuI58sDNSwRw/WgiZypOXSG2+7vlQThqmuKHGVUogKA2mYmaD67TSGe5Rn6crUIYCuS8gqT/aCIeph3Lk/mQ3KjgFlmRBD2idJjcI9iIzmucxB7eVNvx9F815bRRhihYQeWI8ibjxQAnCoQmc1Z9v+GceXN4wSkga+38+LpaU5k69lq5IxmRUahEvlTMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R3qik9+THUH8Kfu1fl2hUS+fb7YzWyN/Lv6+d5+B9G8=;
- b=g9o8ESVf58k1peOCXzIM8StYxh+LcDgWR9hX8yRtyj6Kgh7NcMbzjwElcJ3ZIbpb82ZaiyQ6+7omhUQ+hQ+Z1UxIQ1VIZnVRJT2hHfu0vGX7gaTXVgJSRSffsOoZxB0Cet2P4lzZW10pzmLka+Du7iApsHrlm3EvMjAGJ0j/R9ssOxE9r87Qdx3n6WT93PhsuZCRVfWw6nDyAgGvuVcDVX2tFpahvhdEYnhnS/m7EwviP6zWiBYylLctH9bzTh68KIBhzq00CLG8VskvSUMpB9hfP3G7SKeMDuYSkqyS4K+MWeSWGwJhGneoZkNCQsJaUou2T6AsvTX8UWGGNtxhfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oMpbz4hd;
+ spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f67.google.com with SMTP id u7so10626721vsq.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 00:53:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=R3qik9+THUH8Kfu1fl2hUS+fb7YzWyN/Lv6+d5+B9G8=;
- b=VNSB1UGnDsFnvrMn1QzDVXIu2mDO1xSPU3CEW1QtU+ZlXdXnSSFDV3brtmADXQkW8I3Rr1RIxs+btd9I/vHYdud/ZuIkhZmF3/tH3+yE1TyyA/1wYRp6F4gsffa9OMx8lVDFMjRhN1+jHKVMgsaLzc9muMg+jNNV+h5dxElZ/5M=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB3294.namprd11.prod.outlook.com (2603:10b6:805:c4::33)
- by SA0PR11MB4718.namprd11.prod.outlook.com (2603:10b6:806:98::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Tue, 17 Nov
- 2020 08:33:26 +0000
-Received: from SN6PR11MB3294.namprd11.prod.outlook.com
- ([fe80::b49d:2c09:ddcc:f5e2]) by SN6PR11MB3294.namprd11.prod.outlook.com
- ([fe80::b49d:2c09:ddcc:f5e2%5]) with mapi id 15.20.3564.028; Tue, 17 Nov 2020
- 08:33:26 +0000
-From: "kai" <kai.kang@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] toolchain-scripts: set PS1
-Date: Tue, 17 Nov 2020 16:33:09 +0800
-Message-Id: <20201117083309.20327-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HKAPR03CA0018.apcprd03.prod.outlook.com
- (2603:1096:203:c8::23) To SN6PR11MB3294.namprd11.prod.outlook.com
- (2603:10b6:805:c4::33)
-Return-Path: kai.kang@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e6Hh34vmUNh2vzSjNyhEb617cinIyXagodZwfCW0B7w=;
+        b=oMpbz4hd9a0SwqEvlYBJ3mtoEICplj1fzSwRPf+eww0iWMMX+0f4wAlb46sz+rFtAs
+         uBoXLO3i/TZp/A0ZViJK53dg2dE7asiQjSvpj2mcKIsJzkzpb8byw9+7yCaEdTDnJ992
+         r6Hk8cTLP/euhi3MEBwvkuPqLs8DNOxVjMOW/sT32Y8mQ3bFUNgr2sK6xcVuvQuMwaX/
+         PqJaSpE6EiAhEplKv4PjFhhUYpJq1qreQ/THYNsBtmoiLm7m7T7sbSkyNpX8BaHgm2Fz
+         ZS2i4fuApAxbtJEcW7M4ZnyzkteCHw8pgQ+H5ABj3S9eOVE0m8i6R8B535AvZGmssDHA
+         9EHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e6Hh34vmUNh2vzSjNyhEb617cinIyXagodZwfCW0B7w=;
+        b=nKEb7lOReSKuSBzMVrF0syn/AymwB6hY/fcIK5EC+SXkfhW2NglTsyYs/Fyb0Ein/L
+         56uGfCxAIOVRkzYGf16DhnBTplP8NPR7COixRqdAGg+ylqVvHokd39j4oTP2kGiBBr3U
+         +uyf9+GK3cE/1chPm7vWdthsIO4ODGucMmSgy4y+fwzduPlhq9m6c3SwLL4OvJ2OlpJ/
+         5gJvQ8TkPomNaDy57dridis47rVKpi5TDOAu4KgV1GPWj2JmF7F5HRxHKdUe6uCPKewp
+         jpkk7gwEF9b8f5NkGypMVhc8T+4JwWoWypQY9VChWzFMcVxtq7BJ/spk11mhHAkNVZsn
+         0EmA==
+X-Gm-Message-State: AOAM532v/QkMnULoGnVlHJ3hSkVa+hHuQ7dVSx37lOsT5ex+Ji3358Ui
+	A+oG/uK2/OptHGgaKI3ymJIP/9BW8zg7IUALPf8=
+X-Google-Smtp-Source: ABdhPJzTPc1yeXYQ7rrK5hRHPsvA4RYYL2Z45hyPPnAhexx+aehjNTJ7AOMQjFPkomihIOFZ8E6q2Pyb/uJxOaDdsfk=
+X-Received: by 2002:a67:2f46:: with SMTP id v67mr2561554vsv.54.1605603194828;
+ Tue, 17 Nov 2020 00:53:14 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HKAPR03CA0018.apcprd03.prod.outlook.com (2603:1096:203:c8::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.15 via Frontend Transport; Tue, 17 Nov 2020 08:33:25 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e9400060-0a79-4e5f-de78-08d88ad373db
-X-MS-TrafficTypeDiagnostic: SA0PR11MB4718:
-X-Microsoft-Antispam-PRVS: 
-	<SA0PR11MB4718EC314EED88AD6A081E5795E20@SA0PR11MB4718.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	LUuMuYAI7B2E83GjRTkBUkusSPWK3EX0muBvHONAQRGRmbjZHkUzXpyHitol8s3xkFgetXg8C6kLcuOrbwVoRUt8DZY2EwQXFMzWO98qAmVFxJTBKfoEXCWUE9nBtBnUtSGsh9i2fYYOvr2fzeMY9o1avCN8Y3709ic/UIbdz3YcFmwDTAjZGJ5OvTy8LrgFtdGF6DFcuFS8/WdjES+VhY4ZiK6zmBNemfKBE++Y3VzqHQb/uxJabJZ1RfAiBoC73Kvbl+J0vv30nV3Hr45Hfaera3xn9QPxqsyMgENhRzlvmyLcswqRLHd7vfiB5hXh/tCbufsqz7I4lHwVpg205w==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3294.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(396003)(39850400004)(376002)(346002)(186003)(86362001)(26005)(2616005)(9686003)(52116002)(956004)(16526019)(6506007)(6512007)(8676002)(8936002)(2906002)(6486002)(6916009)(316002)(6666004)(36756003)(5660300002)(1076003)(66556008)(66476007)(66946007)(478600001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	rI2jJ0OAvfyOcDO7jkBRaQgDAkWBw/3doqmqTB7OWKtoOpkPgO+Cp10VCnvMr32ZqWpEkoyEbAqi/T6DQcp5s8JIcUXz+1HE7y+KFnIr57ivBNb4lYDW6EqoI93fIfZ2yhvU/s7eJjKgcTieksC1rKFbzH2PXFp3dPoGMjxaZcL1TjSxvxwChqzbSlXQsY8lkJVv+1WpQgRZI0CcAia38mzNsDGG9Kk98nL6klKQM590Y15a5CaSFATjEJD3JhwOc42fhTRExNyEMVJA+a7sHtCRvalwvconQ2ysTt5x6Wnd9afWcaTuRWBqHjgMM8C+0xeUg32n5hXAHZUlHvBq8FgjLr+h1l6Gibd0Se7S2nuDFzJE9hEthizFpqTVw6zXkjNf9mJPRE/4KgcFKEg0mawucGlPOMWwxKinFnDoxLfUzT/PUDadMxk703tsBu1N/WQuhHmtmVYhHD93z0FtZyq6tpk3gFd/6fdetvh5lYu/YhCPUJmMcg8BfrVvYbWhckJLutxM/zlxhiGKgrHep81+TMRonfpYdnhjH0sbXtDI7Gqf+4X6kGm1Oro0e2+5+eCsBQUTRBU4+hfLYJYTUUEPikGKLCaYjLEv7uQDwLjgbjwlBSxmPwFzvQPW+WMmjlpBZ2Az22zG+y3eUO6fwg==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9400060-0a79-4e5f-de78-08d88ad373db
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3294.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2020 08:33:26.1825
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w0MwHxCUUCMpTHTE5tAz6GbcUCsBOOL9um3M+P1stFYMejPFO+CcehfXEqWbKlhkIM9uaw26EQWIdT3CJm1M3g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4718
-Content-Type: text/plain
+References: <20201117065508.1575532-1-raj.khem@gmail.com>
+In-Reply-To: <20201117065508.1575532-1-raj.khem@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 17 Nov 2020 09:53:03 +0100
+Message-ID: <CANNYZj-mVEE0vD8tpJQTPvA_+0Ny7JNk0co97xU5gs+U=PbUOg@mail.gmail.com>
+Subject: Re: [PATCH] distutils3-base.bbclass: Inherit python3targetconfig only for target recipes
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000013fd5d05b449a016"
 
-From: Kai Kang <kai.kang@windriver.com>
+--00000000000013fd5d05b449a016
+Content-Type: text/plain; charset="UTF-8"
 
-Introduce a variable SDK_PS1 to configure PS1 after source
-environment-setup-script. The prompt string by default looks like:
+This explanation does not seem right. The class only sets
 
-SDK-poky-glibc-x86_64--cortexa57-qemuarm64$
+inherit python3native
+DEPENDS_append = " python3"
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/classes/toolchain-scripts.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+which should not drag in target python when it is inherited from -native
+recipes, only python3-native.
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index db1d3215ef..274dfcf7e2 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -8,6 +8,9 @@ TARGET_CC_ARCH_append_libc-musl = " -mmusl"
- # default debug prefix map isn't valid in the SDK
- DEBUG_PREFIX_MAP = ""
- 
-+# PS1 setting after source the environment-setup-script
-+SDK_PS1 ?= "SDK-${SDK_NAME}$ "
-+
- # This function creates an environment-setup-script for use in a deployable SDK
- toolchain_create_sdk_env_script () {
- 	# Create environment setup script.  Remember that $SDKTARGETSYSROOT should
-@@ -45,6 +48,7 @@ toolchain_create_sdk_env_script () {
- 		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
- 	done
- 	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
-+	echo 'export PS1="${SDK_PS1}"' >>$script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
- 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
- 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
--- 
-2.17.1
+Alex
 
+On Tue, 17 Nov 2020 at 07:55, Khem Raj <raj.khem@gmail.com> wrote:
+
+> python3targetconfig append target python3 to dependencies
+> unconditionally, and here its inherited unconditionally too but
+> distutils3-base is inherited in BBCLASSEXTEND'ed recipes and other
+> not-target
+> recipes as well. Hence the change added via
+> 9c8f666097802cb594a759989edcf01603a22df3
+> is now bridging the native dependencies with target python3 and thats
+> resulting all sorts of rebuilds for multimachine builds e.g.
+>
+> MACHINE=qemuarm bitbake python3-scons-native
+> MACHINE=qemumips bitbake python3-scons-native
+>
+> results in rebuilds for python3-scons-native
+>
+> bitbake-diffsigs shows
+>
+> Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sysroot
+> changed from
+> 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f73f36933 to
+> 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897
+> 0e3b97bd058d162065
+>     Hash for dependent task python/python3-scons-native_3.1.2.bb:do_install
+> changed from
+> 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4fb11aef86dd89 to
+> c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156
+> 229cb0f5ebb11
+>         Hash for dependent task python/python3-scons-native_3.1.2.bb:do_compile
+> changed from
+> e3ee4b52a15267e6ae7853ec19a666b2fb62608a597608793336382d1c45f8a0 to
+> 1e582043dfe6b3e00aaa532f363ce6afb37652abe837dac
+> 7cc9769194c43eae1
+>             Hash for dependent task python/python3-scons-native_3.1.2.bb:do_configure
+> changed from
+> 770a4d5a77a96ebd9e1e7368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to
+> a366982778b03eee5165c3117ee778f848acdfaa2
+> b346650fbdf114ac70ab57b
+>                 Hash for dependent task
+> python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed
+> from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to
+> 474333fb565f908992fd3716
+> 4935aaecf31a79e867826fe634cde4f44171d8e7
+>                     Hash for dependent task python/python3_3.9.0.bb:do_populate_sysroot
+> changed from
+> 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to
+> 25dcfe74a95af19cce8df7c29311cc5edbbf6ad
+> 08777e46a6fa6e417c0445018
+>
+> ...
+>
+> Therefore limit inheriting this class only for target recipes.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/classes/distutils3-base.bbclass | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/distutils3-base.bbclass
+> b/meta/classes/distutils3-base.bbclass
+> index a277d1c7bc..882db9f605 100644
+> --- a/meta/classes/distutils3-base.bbclass
+> +++ b/meta/classes/distutils3-base.bbclass
+> @@ -1,5 +1,4 @@
+>  DEPENDS  += "${@["${PYTHON_PN}-native ${PYTHON_PN}",
+> ""][(d.getVar('PACKAGES') == '')]}"
+>  RDEPENDS_${PN} += "${@['', '${PYTHON_PN}-core']['${CLASSOVERRIDE}' ==
+> 'class-target']}"
+>
+> -inherit distutils-common-base python3native python3targetconfig
+> -
+> +inherit distutils-common-base python3native ${@['python3targetconfig',
+> '']['${CLASSOVERRIDE}' == 'class-target']}
+> --
+> 2.29.2
+>
+>
+
+--00000000000013fd5d05b449a016
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>This explanation does not seem right. The class only =
+sets <br></div><div><br></div><div>inherit python3native</div><div>DEPENDS_=
+append =3D &quot; python3&quot;</div><div><br></div><div>which should not d=
+rag in target python when it is inherited from -native recipes, only python=
+3-native.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 17 Nov 2020 at 07:=
+55, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">py=
+thon3targetconfig append target python3 to dependencies<br>
+unconditionally, and here its inherited unconditionally too but<br>
+distutils3-base is inherited in BBCLASSEXTEND&#39;ed recipes and other not-=
+target<br>
+recipes as well. Hence the change added via 9c8f666097802cb594a759989edcf01=
+603a22df3<br>
+is now bridging the native dependencies with target python3 and thats<br>
+resulting all sorts of rebuilds for multimachine builds e.g.<br>
+<br>
+MACHINE=3Dqemuarm bitbake python3-scons-native<br>
+MACHINE=3Dqemumips bitbake python3-scons-native<br>
+<br>
+results in rebuilds for python3-scons-native<br>
+<br>
+bitbake-diffsigs shows<br>
+<br>
+Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sy=
+sroot changed from 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f=
+73f36933 to 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897<br>
+0e3b97bd058d162065<br>
+=C2=A0 =C2=A0 Hash for dependent task python/python3-scons-native_3.1.2.bb:=
+do_install changed from 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4=
+fb11aef86dd89 to c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156<br>
+229cb0f5ebb11<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent task python/python3-scons-na=
+tive_3.1.2.bb:do_compile changed from e3ee4b52a15267e6ae7853ec19a666b2fb626=
+08a597608793336382d1c45f8a0 to 1e582043dfe6b3e00aaa532f363ce6afb37652abe837=
+dac<br>
+7cc9769194c43eae1<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent task python/py=
+thon3-scons-native_3.1.2.bb:do_configure changed from 770a4d5a77a96ebd9e1e7=
+368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to a366982778b03eee5165c3117ee7=
+78f848acdfaa2<br>
+b346650fbdf114ac70ab57b<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent =
+task python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed=
+ from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to 4=
+74333fb565f908992fd3716<br>
+4935aaecf31a79e867826fe634cde4f44171d8e7<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash =
+for dependent task python/python3_3.9.0.bb:do_populate_sysroot changed from=
+ 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to 25dcfe=
+74a95af19cce8df7c29311cc5edbbf6ad<br>
+08777e46a6fa6e417c0445018<br>
+<br>
+...<br>
+<br>
+Therefore limit inheriting this class only for target recipes.<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+Cc: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=
+=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/distutils3-base.bbclass | 3 +--<br>
+=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/classes/distutils3-base.bbclass b/meta/classes/distutils3=
+-base.bbclass<br>
+index a277d1c7bc..882db9f605 100644<br>
+--- a/meta/classes/distutils3-base.bbclass<br>
++++ b/meta/classes/distutils3-base.bbclass<br>
+@@ -1,5 +1,4 @@<br>
+=C2=A0DEPENDS=C2=A0 +=3D &quot;${@[&quot;${PYTHON_PN}-native ${PYTHON_PN}&q=
+uot;, &quot;&quot;][(d.getVar(&#39;PACKAGES&#39;) =3D=3D &#39;&#39;)]}&quot=
+;<br>
+=C2=A0RDEPENDS_${PN} +=3D &quot;${@[&#39;&#39;, &#39;${PYTHON_PN}-core&#39;=
+][&#39;${CLASSOVERRIDE}&#39; =3D=3D &#39;class-target&#39;]}&quot;<br>
+<br>
+-inherit distutils-common-base python3native python3targetconfig<br>
+-<br>
++inherit distutils-common-base python3native ${@[&#39;python3targetconfig&#=
+39;, &#39;&#39;][&#39;${CLASSOVERRIDE}&#39; =3D=3D &#39;class-target&#39;]}=
+<br>
+-- <br>
+2.29.2<br>
+<br>
+</blockquote></div>
+
+--00000000000013fd5d05b449a016--
