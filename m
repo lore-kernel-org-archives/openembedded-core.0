@@ -1,490 +1,247 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web09.10519.1605630977216748613
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web08.10455.1605631286918524211
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 08:36:17 -0800
+ Tue, 17 Nov 2020 08:41:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EE7+Oj+m;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id gj5so2829803ejb.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 08:36:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GnSACxwe;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id ay21so23192067edb.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 08:41:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ooa7NFRV2f+1sqBaNN3CmR8Q37jmOpW/TwKtXIAmJx8=;
-        b=EE7+Oj+mgY6DSyg2C2IwYDdOpxVWBeLPm0ZEEcFp16Y1NtpPG5qxwq2jEL5RpIce5Y
-         74ZQR4//AlQwBgrCo+jREiZjzEzO7DZc2e0F9pvPjqLM2mfQvEy2/1/7CgdXubhUhDUL
-         s9A7CAgvWt/M4yal2+hDXY/zk5DuJsCZC5i9ZEE5vm3KZ9XvB9CVJPTgU1UtaVWyIIz+
-         eb8btNIzWVoBnbtMPglmlmORnEF0tAIU1yf9oRVXw6JqfC7qaC3uklv+J6FeO5vpQyzO
-         wrV6lHXVzC+CUGfBY2WMX9brspuRrl0zTJ71/V/m0eepOfF9GsYnasl13FYWUByUroBq
-         iikw==
+        bh=ygJcnDiDOcF+mrZdjNRjMZp0SuVSfOAMSUfYB9lJGJo=;
+        b=GnSACxweiGpR580FQQYgcqCpo/pah9lqPTpjrNxlNcU2JH1aPLFAKjBrlTeHtvtju0
+         7d1/ogqsEo/CMx5J2Gk9fxEWL/CJagnrqnVEjuoNR9P2JukBBamGRx8avk26TfPWBLts
+         krA6AA5rmog243Zygl3yldqSsHI47beKX6L4EsGCcHn2AUbagm5QIbELZxwo2S1Jfj7U
+         3Ezx6odFZqUzI5e7THC4LmTgF39GgIvSwYi4y8rY5jOmQ1S7s92hyMxXRsBv5b+8/V5X
+         iqCghndQFJ9cia+EFn0YQ9E+z2mzfBEd1OOdAuv87y12kA4BCVR2UW1JHcGwgQWj/7Ox
+         gGjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ooa7NFRV2f+1sqBaNN3CmR8Q37jmOpW/TwKtXIAmJx8=;
-        b=fmyYBGPtVuQmtjXvrxk/RH5jnVF+UVRFRbHmro0NNbtgf/A+e/Z+uKuGIGE0pN9B42
-         F1r9BYgjiCr5usfAP0cRKIbWL6LgeRjihJm4GlSk1c50ZX3UA3/N9UApgtKlTFzwJu1m
-         xIZA4EN+A2n11qQAwASVcPl6GGRFw00C+E3zL7801OfCP0P7r5tBUkQbvrp2T0QS0bCR
-         nxNApCUcPWmhrcus685bu0s+brBZo8h9bABGvHPzM0b2Ol1+fiSCEr55FWDlIg+S0AHs
-         obdxOeM6U+EShRGrUaJg0tS07pGthl7xHHMkOUG/ygVO7OZGTjCiVPRTCIoexBTnlR/S
-         qHIg==
-X-Gm-Message-State: AOAM533PHaP9t+IdLkNCrstJBPfgPhkVYQIMe9pEvw8Kc6MfR2wWp3AJ
-	hauKffehOC9Ko6jPHMhszMd8iE22m4TqERJeHtA=
-X-Google-Smtp-Source: ABdhPJzno6tH91/SzatUlFdD6qX4/gKItgREvsKJRmLAetL7WHtJYhqdKBOjKrdIbyoUvgIaPiyUou5/Y6n4Y+otFds=
-X-Received: by 2002:a17:906:e2c3:: with SMTP id gr3mr19582531ejb.471.1605630975519;
- Tue, 17 Nov 2020 08:36:15 -0800 (PST)
+        bh=ygJcnDiDOcF+mrZdjNRjMZp0SuVSfOAMSUfYB9lJGJo=;
+        b=m0nWc+pDjHuCExSnovdqMvyOlOlY9hc6tqmQ5nRxPr6lFIs9ga72qhclVJ9dIY9JCK
+         J1CdlcHbxpz0O0qGApADWny1GF8Z0DkpRVTbKjm48ZAEjpeiZ2O7RjRlVERzV4jmUS/y
+         LB5Oj2pyV6eMDEr7uYPwmbUghCzHxDmy3hDshlwUpoBwLjFgMj0S8Wv74tbU10tc56iq
+         zFGNQtI8zdsrGIkcMxHusrlBtGzjkTNDI22CEsHkAc1ZIvZ3fzTpTIO6eKyvdXC7LpSH
+         Vu5F9xAvxHFzw2rQf93NYEFiXZuoEbaLxNq5SVNxq38ZDn3hawsmxhQGF0QsqIlblLOn
+         PDqA==
+X-Gm-Message-State: AOAM530kSWtOhpyFriZVN5LGmzNbxD+4Mp2CG7bVvJ0WDlAwh5tiRylQ
+	gZ1abR2Ylerr85iJj9x+YqsxJwnGBO+/QiX43v0=
+X-Google-Smtp-Source: ABdhPJzBtwieDpWM13/DTr7xYt7fixOHAP5ZAgkoQ50rUdNqffSscbJBITpkKT8PIFwl9vTJpPIwFwXAsQS3Q+kBZtg=
+X-Received: by 2002:a05:6402:1cb2:: with SMTP id cz18mr20829816edb.388.1605631285324;
+ Tue, 17 Nov 2020 08:41:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20201016043341.635385-1-raj.khem@gmail.com> <c671f8ca6bdeb7d7475dbfea8ec440d103045395.camel@linuxfoundation.org>
- <CAMKF1sotEEnaqk98JEDJtxg-TWP2Qa5isQtKLptE1cX+qA95Lw@mail.gmail.com>
-In-Reply-To: <CAMKF1sotEEnaqk98JEDJtxg-TWP2Qa5isQtKLptE1cX+qA95Lw@mail.gmail.com>
+References: <20201117153436.3701771-1-raj.khem@gmail.com>
+In-Reply-To: <20201117153436.3701771-1-raj.khem@gmail.com>
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 17 Nov 2020 17:36:04 +0100
-Message-ID: <CA+chaQebpk-CxcZ98gtj=U2oF_bQ-LTVaKN6edhngXKr2xKoaQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] recipes: Use GPL-2.0-only instead of GPL-2.0 for LIC_FILES_CHKSUM
+Date: Tue, 17 Nov 2020 17:41:13 +0100
+Message-ID: <CA+chaQej+epYOHFh4T_07WwMGA5Rof4ubkEEhFHxKDX2fAYppw@mail.gmail.com>
+Subject: Re: [PATCH] python3targetconfig.bbclass: Add py3 dependecy only for target recipes
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Meh Mbeh Ida Delphine <idadelm@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000efb1e905b4501703"
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>
+Content-Type: multipart/alternative; boundary="00000000000066ee1905b4502a87"
 
---000000000000efb1e905b4501703
+--00000000000066ee1905b4502a87
 Content-Type: text/plain; charset="UTF-8"
 
-Hello Meh,
+Do we need to export _PYTHON_SYSCONFIGDATA_NAME for non-target cases?
 
-master is now open for next release, can you please send an updated
-revision of this patch?
+And instead of:
+DEPENDS_append = "${@['', ' python3']['${CLASSOVERRIDE}' ==
+'class-target']}"
 
-Regards,
+I would use intermediate variable like
+EXTRA_PYTHON_DEPENDS = "python3"
+EXTRA_PYTHON_DEPENDS_class-target = ""
+DEPENDS_append = " ${EXTRA_PYTHON_DEPENDS}"
 
-On Fri, Oct 16, 2020 at 8:48 PM Khem Raj <raj.khem@gmail.com> wrote:
+I know it's just personal preference, but in this case with small benefit
+to undo the append if you really don't want it added for some mysterious
+reason.
 
-> On Fri, Oct 16, 2020 at 2:05 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > Hi Khem,
-> >
-> > This patch fixes issues introduced by a patch I tested in -next from
-> > Meh Mbeh Ida Delphine <idadelm@gmail.com> (cc'd). I have removed it
-> > from the queue as it failed testing. This patch may be useful so they
-> > can fix their patch though.
-> >
-> > Note the fixes Khem found for glibc-collateral and devicetree.bbclass
-> > in addition to the recipes.
+On Tue, Nov 17, 2020 at 4:34 PM Khem Raj <raj.khem@gmail.com> wrote:
+
+> python3targetconfig append target python3 to dependencies
+> unconditionally, and here its inherited unconditionally too but
+> distutils3-base is inherited in BBCLASSEXTEND'ed recipes and other
+> not-target
+> recipes as well. Hence the change added via
+> 9c8f666097802cb594a759989edcf01603a22df3
+> is now bridging the native dependencies with target python3 and thats
+> resulting all sorts of rebuilds for multimachine builds e.g.
 >
-> Thanks, other layers also rely on these names. So perhaps this should
-> wait till master opens for next release
-> and address those layers too.
+> MACHINE=qemuarm bitbake python3-scons-native
+> MACHINE=qemumips bitbake python3-scons-native
 >
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> > On Thu, 2020-10-15 at 21:33 -0700, Khem Raj wrote:
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > > v2: Add devicetree.bbclass and glibc-collateral.inc
-> > >
-> > >  meta/classes/devicetree.bbclass                              | 2 +-
-> > >  meta/recipes-connectivity/connman/connman-conf.bb            | 2 +-
-> > >  meta/recipes-core/busybox/busybox-inittab_1.32.0.bb          | 2 +-
-> > >  meta/recipes-core/glibc/glibc-collateral.inc                 | 4 ++-
-> > > -
-> > >  meta/recipes-core/systemd/systemd-serialgetty.bb             | 2 +-
-> > >  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb       | 2 +-
-> > >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
-> > >  7 files changed, 8 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/meta/classes/devicetree.bbclass
-> > > b/meta/classes/devicetree.bbclass
-> > > index c772ab2ab9..ece883accf 100644
-> > > --- a/meta/classes/devicetree.bbclass
-> > > +++ b/meta/classes/devicetree.bbclass
-> > > @@ -18,7 +18,7 @@ SECTION ?= "bsp"
-> > >  # device trees built with them are at least GPLv2 (and in some cases
-> > > dual
-> > >  # licensed). Default to GPLv2 if the recipe does not specify a
-> > > license.
-> > >  LICENSE ?= "GPLv2"
-> > > -LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-
-> > > 2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > > +LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0-
-> > > only;md5=801f80980d171dd6425610833a22dbe6"
-> > >
-> > >  INHIBIT_DEFAULT_DEPS = "1"
-> > >  DEPENDS += "dtc-native"
-> > > diff --git a/meta/recipes-connectivity/connman/connman-conf.bb
-> > > b/meta/recipes-connectivity/connman/connman-conf.bb
-> > > index 9a519ec866..85fee09258 100644
-> > > --- a/meta/recipes-connectivity/connman/connman-conf.bb
-> > > +++ b/meta/recipes-connectivity/connman/connman-conf.bb
-> > > @@ -2,7 +2,7 @@ SUMMARY = "Connman config to setup wired interface on
-> > > qemu machines"
-> > >  DESCRIPTION = "This is the ConnMan configuration to set up a Wired \
-> > >  network interface for a qemu machine."
-> > >  LICENSE = "GPLv2"
-> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> > >
-> > >  inherit systemd
-> > >
-> > > diff --git a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > > b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > > index 61fb8cbad1..2129acd8d3 100644
-> > > --- a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > > +++ b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
-> > > @@ -1,6 +1,6 @@
-> > >  SUMMARY = "inittab configuration for BusyBox"
-> > >  LICENSE = "GPLv2"
-> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> > >
-> > >  SRC_URI = "file://inittab"
-> > >
-> > > diff --git a/meta/recipes-core/glibc/glibc-collateral.inc
-> > > b/meta/recipes-core/glibc/glibc-collateral.inc
-> > > index 52880791a7..4f81f07da7 100644
-> > > --- a/meta/recipes-core/glibc/glibc-collateral.inc
-> > > +++ b/meta/recipes-core/glibc/glibc-collateral.inc
-> > > @@ -1,7 +1,7 @@
-> > >  require glibc-common.inc
-> > >
-> > > -LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-
-> > > 2.0;md5=801f80980d171dd6425610833a22dbe6 \
-> > > -                     file://${COMMON_LICENSE_DIR}/LGPL-
-> > > 2.1;md5=1a6d268fd218675ffea8be556788b780"
-> > > +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-
-> > > only;md5=801f80980d171dd6425610833a22dbe6 \
-> > > +                     file://${COMMON_LICENSE_DIR}/LGPL-2.1-
-> > > only;md5=1a6d268fd218675ffea8be556788b780"
-> > >
-> > >  deltask do_fetch
-> > >  deltask do_unpack
-> > > diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > > b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > > index 0cc0dc8c79..9a63c9f0a8 100644
-> > > --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > > +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > > @@ -1,7 +1,7 @@
-> > >  SUMMARY = "Serial terminal support for systemd"
-> > >  HOMEPAGE = "https://www.freedesktop.org/wiki/Software/systemd/"
-> > >  LICENSE = "GPLv2+"
-> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> > >
-> > >  PR = "r5"
-> > >
-> > > diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > > b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > > index 8781492d47..d95d1a63f5 100644
-> > > --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > > +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
-> > > @@ -1,6 +1,6 @@
-> > >  SUMMARY = "Inittab configuration for SysVinit"
-> > >  LICENSE = "GPLv2"
-> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> > >
-> > >  PR = "r10"
-> > >
-> > > diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-
-> > > scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-
-> > > scripts_1.0.bb
-> > > index 1ab248fed5..8a02bc7f48 100644
-> > > --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > > +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> > > @@ -1,6 +1,6 @@
-> > >  SUMMARY = "Build tools needed by external modules"
-> > >  LICENSE = "GPLv2"
-> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
-> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
-> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
-> > >
-> > >  inherit kernel-arch
-> > >  inherit pkgconfig
-> > >
-> > >
-> >
+> results in rebuilds for python3-scons-native
 >
-> 
+> bitbake-diffsigs shows
+>
+> Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sysroot
+> changed from
+> 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f73f36933 to
+> 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897
+> 0e3b97bd058d162065
+>     Hash for dependent task python/python3-scons-native_3.1.2.bb:do_install
+> changed from
+> 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4fb11aef86dd89 to
+> c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156
+> 229cb0f5ebb11
+>         Hash for dependent task python/python3-scons-native_3.1.2.bb:do_compile
+> changed from
+> e3ee4b52a15267e6ae7853ec19a666b2fb62608a597608793336382d1c45f8a0 to
+> 1e582043dfe6b3e00aaa532f363ce6afb37652abe837dac
+> 7cc9769194c43eae1
+>             Hash for dependent task python/python3-scons-native_3.1.2.bb:do_configure
+> changed from
+> 770a4d5a77a96ebd9e1e7368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to
+> a366982778b03eee5165c3117ee778f848acdfaa2
+> b346650fbdf114ac70ab57b
+>                 Hash for dependent task
+> python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed
+> from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to
+> 474333fb565f908992fd3716
+> 4935aaecf31a79e867826fe634cde4f44171d8e7
+>                     Hash for dependent task python/python3_3.9.0.bb:do_populate_sysroot
+> changed from
+> 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to
+> 25dcfe74a95af19cce8df7c29311cc5edbbf6ad
+> 08777e46a6fa6e417c0445018
+>
+> ...
+>
+> Therefore limit inheriting this class only for target recipes.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+> Cc: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+> v2: Mark depends conditional instead
+>
+>  meta/classes/python3targetconfig.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/python3targetconfig.bbclass
+> b/meta/classes/python3targetconfig.bbclass
+> index 640d0c97b6..b79ec211c7 100644
+> --- a/meta/classes/python3targetconfig.bbclass
+> +++ b/meta/classes/python3targetconfig.bbclass
+> @@ -1,6 +1,6 @@
+>  inherit python3native
+>
+> -DEPENDS_append = " python3"
+> +DEPENDS_append = "${@['', ' python3']['${CLASSOVERRIDE}' ==
+> 'class-target']}"
+>
+>  do_configure_prepend() {
+>          export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
+> --
+> 2.29.2
 >
 >
 
---000000000000efb1e905b4501703
+--00000000000066ee1905b4502a87
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hello Meh,<div><br></div><div>master is now open for next =
-release, can you please send an updated revision of this patch?</div><div><=
-br></div><div>Regards,</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, Oct 16, 2020 at 8:48 PM Khem Raj &lt=
-;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, Oct 16, 20=
-20 at 2:05 AM Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
-">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi Khem,<br>
-&gt;<br>
-&gt; This patch fixes issues introduced by a patch I tested in -next from<=
-br>
-&gt; Meh Mbeh Ida Delphine &lt;<a href=3D"mailto:idadelm@gmail.com" target=
-=
-=3D"_blank">idadelm@gmail.com</a>&gt; (cc&#39;d). I have removed it<br>
-&gt; from the queue as it failed testing. This patch may be useful so they=
+<div dir=3D"ltr">Do we need to export _PYTHON_SYSCONFIGDATA_NAME for non-ta=
+rget cases?<div><br></div><div>And instead of:</div><div>DEPENDS_append =3D=
+ &quot;${@[&#39;&#39;, &#39; python3&#39;][&#39;${CLASSOVERRIDE}&#39; =3D=
+=3D &#39;class-target&#39;]}&quot;<br></div><div><br></div><div>I would use=
+ intermediate variable like</div><div>EXTRA_PYTHON_DEPENDS =3D &quot;python=
+3&quot;</div><div>EXTRA_PYTHON_DEPENDS_class-target =3D &quot;&quot;<br></d=
+iv><div>DEPENDS_append =3D &quot; ${EXTRA_PYTHON_DEPENDS}&quot;</div><div><=
+br></div><div>I know it&#39;s just personal preference, but in this case wi=
+th small benefit to undo the append if you really don&#39;t want it added f=
+or some mysterious reason.</div></div><br><div class=3D"gmail_quote"><div d=
+ir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17, 2020 at 4:34 PM Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">python3targetconf=
+ig append target python3 to dependencies<br>
+unconditionally, and here its inherited unconditionally too but<br>
+distutils3-base is inherited in BBCLASSEXTEND&#39;ed recipes and other not-=
+target<br>
+recipes as well. Hence the change added via 9c8f666097802cb594a759989edcf01=
+603a22df3<br>
+is now bridging the native dependencies with target python3 and thats<br>
+resulting all sorts of rebuilds for multimachine builds e.g.<br>
 <br>
-&gt; can fix their patch though.<br>
-&gt;<br>
-&gt; Note the fixes Khem found for glibc-collateral and devicetree.bbclass=
+MACHINE=3Dqemuarm bitbake python3-scons-native<br>
+MACHINE=3Dqemumips bitbake python3-scons-native<br>
 <br>
-&gt; in addition to the recipes.<br>
+results in rebuilds for python3-scons-native<br>
 <br>
-Thanks, other layers also rely on these names. So perhaps this should<br>
-wait till master opens for next release<br>
-and address those layers too.<br>
+bitbake-diffsigs shows<br>
 <br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
-&gt; On Thu, 2020-10-15 at 21:33 -0700, Khem Raj wrote:<br>
-&gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com=
-" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; v2: Add devicetree.bbclass and glibc-collateral.inc<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 meta/classes/devicetree.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 2 +-<br>
-&gt; &gt;=C2=A0 meta/recipes-connectivity/connman/<a href=3D"http://connma=
-n-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt; &gt;=C2=A0 meta/recipes-core/busybox/<a href=3D"http://busybox-initta=
-b_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb=
-</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt; &gt;=C2=A0 meta/recipes-core/glibc/glibc-collateral.inc=C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++-<br>
-&gt; &gt; -<br>
-&gt; &gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd-serial=
-getty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt; &gt;=C2=A0 meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-init=
-tab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88d=
-sf.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt; &gt;=C2=A0 meta/recipes-kernel/make-mod-scripts/<a href=3D"http://mak=
-e-mod-scripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts=
-_1.0.bb</a> | 2 +-<br>
-&gt; &gt;=C2=A0 7 files changed, 8 insertions(+), 8 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/classes/devicetree.bbclass<br>
-&gt; &gt; b/meta/classes/devicetree.bbclass<br>
-&gt; &gt; index c772ab2ab9..ece883accf 100644<br>
-&gt; &gt; --- a/meta/classes/devicetree.bbclass<br>
-&gt; &gt; +++ b/meta/classes/devicetree.bbclass<br>
-&gt; &gt; @@ -18,7 +18,7 @@ SECTION ?=3D &quot;bsp&quot;<br>
-&gt; &gt;=C2=A0 # device trees built with them are at least GPLv2 (and in =
-some cases<br>
-&gt; &gt; dual<br>
-&gt; &gt;=C2=A0 # licensed). Default to GPLv2 if the recipe does not speci=
-fy a<br>
-&gt; &gt; license.<br>
-&gt; &gt;=C2=A0 LICENSE ?=3D &quot;GPLv2&quot;<br>
-&gt; &gt; -LIC_FILES_CHKSUM ?=3D &quot;file://${COMMON_LICENSE_DIR}/GPL-<b=
-r>
-&gt; &gt; 2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br>
-&gt; &gt; +LIC_FILES_CHKSUM ?=3D &quot;file://${COMMON_LICENSE_DIR}/GPL-2.=
-0-<br>
-&gt; &gt; only;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
-&gt; &gt;=C2=A0 DEPENDS +=3D &quot;dtc-native&quot;<br>
-&gt; &gt; diff --git a/meta/recipes-connectivity/connman/<a href=3D"http:/=
-/connman-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><=
-br>
-&gt; &gt; b/meta/recipes-connectivity/connman/<a href=3D"http://connman-co=
-nf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><br>
-&gt; &gt; index 9a519ec866..85fee09258 100644<br>
-&gt; &gt; --- a/meta/recipes-connectivity/connman/<a href=3D"http://connma=
-n-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><br>
-&gt; &gt; +++ b/meta/recipes-connectivity/connman/<a href=3D"http://connma=
-n-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><br>
-&gt; &gt; @@ -2,7 +2,7 @@ SUMMARY =3D &quot;Connman config to setup wired =
-interface on<br>
-&gt; &gt; qemu machines&quot;<br>
-&gt; &gt;=C2=A0 DESCRIPTION =3D &quot;This is the ConnMan configuration to=
- set up a Wired \<br>
-&gt; &gt;=C2=A0 network interface for a qemu machine.&quot;<br>
-&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
-&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
->
-&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
-t;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 inherit systemd<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-core/busybox/<a href=3D"http://busybox=
--inittab_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.=
-32.0.bb</a><br>
-&gt; &gt; b/meta/recipes-core/busybox/<a href=3D"http://busybox-inittab_1.=
-32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb</a>=
+Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sy=
+sroot changed from 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f=
+73f36933 to 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897<br>
+0e3b97bd058d162065<br>
+=C2=A0 =C2=A0 Hash for dependent task python/python3-scons-native_3.1.2.bb:=
+do_install changed from 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4=
+fb11aef86dd89 to c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156<br>
+229cb0f5ebb11<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent task python/python3-scons-na=
+tive_3.1.2.bb:do_compile changed from e3ee4b52a15267e6ae7853ec19a666b2fb626=
+08a597608793336382d1c45f8a0 to 1e582043dfe6b3e00aaa532f363ce6afb37652abe837=
+dac<br>
+7cc9769194c43eae1<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent task python/py=
+thon3-scons-native_3.1.2.bb:do_configure changed from 770a4d5a77a96ebd9e1e7=
+368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to a366982778b03eee5165c3117ee7=
+78f848acdfaa2<br>
+b346650fbdf114ac70ab57b<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash for dependent =
+task python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed=
+ from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to 4=
+74333fb565f908992fd3716<br>
+4935aaecf31a79e867826fe634cde4f44171d8e7<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Hash =
+for dependent task python/python3_3.9.0.bb:do_populate_sysroot changed from=
+ 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to 25dcfe=
+74a95af19cce8df7c29311cc5edbbf6ad<br>
+08777e46a6fa6e417c0445018<br>
 <br>
-&gt; &gt; index 61fb8cbad1..2129acd8d3 100644<br>
-&gt; &gt; --- a/meta/recipes-core/busybox/<a href=3D"http://busybox-initta=
-b_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb=
-</a><br>
-&gt; &gt; +++ b/meta/recipes-core/busybox/<a href=3D"http://busybox-initta=
-b_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb=
-</a><br>
-&gt; &gt; @@ -1,6 +1,6 @@<br>
-&gt; &gt;=C2=A0 SUMMARY =3D &quot;inittab configuration for BusyBox&quot;<=
-br>
-&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
-&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
->
-&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
-t;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 SRC_URI =3D &quot;file://inittab&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-core/glibc/glibc-collateral.inc<br>
-&gt; &gt; b/meta/recipes-core/glibc/glibc-collateral.inc<br>
-&gt; &gt; index 52880791a7..4f81f07da7 100644<br>
-&gt; &gt; --- a/meta/recipes-core/glibc/glibc-collateral.inc<br>
-&gt; &gt; +++ b/meta/recipes-core/glibc/glibc-collateral.inc<br>
-&gt; &gt; @@ -1,7 +1,7 @@<br>
-&gt; &gt;=C2=A0 require glibc-common.inc<br>
-&gt; &gt;<br>
-&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COMMON_LICENSE_DIR}/GPL-<br=
->
-&gt; &gt; 2.0;md5=3D801f80980d171dd6425610833a22dbe6 \<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0file://${COMMON_LICENSE_DIR}/LGPL-<br>
-&gt; &gt; 2.1;md5=3D1a6d268fd218675ffea8be556788b780&quot;<br>
-&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COMMON_LICENSE_DIR}/GPL-2.0=
--<br>
-&gt; &gt; only;md5=3D801f80980d171dd6425610833a22dbe6 \<br>
-&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0file://${COMMON_LICENSE_DIR}/LGPL-2.1-<br>
-&gt; &gt; only;md5=3D1a6d268fd218675ffea8be556788b780&quot;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 deltask do_fetch<br>
-&gt; &gt;=C2=A0 deltask do_unpack<br>
-&gt; &gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd=
--serialgetty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.b=
-b</a><br>
-&gt; &gt; b/meta/recipes-core/systemd/<a href=3D"http://systemd-serialgett=
-y.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a><br>
-&gt; &gt; index 0cc0dc8c79..9a63c9f0a8 100644<br>
-&gt; &gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd-serial=
-getty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a><b=
-r>
-&gt; &gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd-serial=
-getty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a><b=
-r>
-&gt; &gt; @@ -1,7 +1,7 @@<br>
-&gt; &gt;=C2=A0 SUMMARY =3D &quot;Serial terminal support for systemd&quot=
-;<br>
-&gt; &gt;=C2=A0 HOMEPAGE =3D &quot;<a href=3D"https://www.freedesktop.org/=
-wiki/Software/systemd/" rel=3D"noreferrer" target=3D"_blank">https://www.fr=
-eedesktop.org/wiki/Software/systemd/</a>&quot;<br>
-&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2+&quot;<br>
-&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
->
-&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
-t;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 PR =3D &quot;r5&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-core/sysvinit/<a href=3D"http://sysvin=
-it-inittab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-initta=
-b_2.88dsf.bb</a><br>
-&gt; &gt; b/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-inittab_=
-2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88dsf.b=
-b</a><br>
-&gt; &gt; index 8781492d47..d95d1a63f5 100644<br>
-&gt; &gt; --- a/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-init=
-tab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88d=
-sf.bb</a><br>
-&gt; &gt; +++ b/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-init=
-tab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88d=
-sf.bb</a><br>
-&gt; &gt; @@ -1,6 +1,6 @@<br>
-&gt; &gt;=C2=A0 SUMMARY =3D &quot;Inittab configuration for SysVinit&quot;=
+...<br>
 <br>
-&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
-&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
->
-&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
-t;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 PR =3D &quot;r10&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-<br>
-&gt; &gt; <a href=3D"http://scripts_1.0.bb" rel=3D"noreferrer" target=3D"_=
-blank">scripts_1.0.bb</a> b/meta/recipes-kernel/make-mod-scripts/make-mod-<=
-br>
-&gt; &gt; <a href=3D"http://scripts_1.0.bb" rel=3D"noreferrer" target=3D"_=
-blank">scripts_1.0.bb</a><br>
-&gt; &gt; index 1ab248fed5..8a02bc7f48 100644<br>
-&gt; &gt; --- a/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://mak=
-e-mod-scripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts=
-_1.0.bb</a><br>
-&gt; &gt; +++ b/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://mak=
-e-mod-scripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts=
-_1.0.bb</a><br>
-&gt; &gt; @@ -1,6 +1,6 @@<br>
-&gt; &gt;=C2=A0 SUMMARY =3D &quot;Build tools needed by external modules&q=
-uot;<br>
-&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
-&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
->
-&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
--<br>
-&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
-t;<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 inherit kernel-arch<br>
-&gt; &gt;=C2=A0 inherit pkgconfig<br>
-&gt; &gt; <br>
-&gt; &gt;<br>
-&gt;<br>
+Therefore limit inheriting this class only for target recipes.<br>
 <br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
+"_blank">raj.khem@gmail.com</a>&gt;<br>
+Cc: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=
+=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+Cc: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" target=3D"_b=
+lank">Martin.Jansa@gmail.com</a>&gt;<br>
+---<br>
+v2: Mark depends conditional instead<br>
 <br>
+=C2=A0meta/classes/python3targetconfig.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/python3targetconfig.bbclass b/meta/classes/python=
+3targetconfig.bbclass<br>
+index 640d0c97b6..b79ec211c7 100644<br>
+--- a/meta/classes/python3targetconfig.bbclass<br>
++++ b/meta/classes/python3targetconfig.bbclass<br>
+@@ -1,6 +1,6 @@<br>
+=C2=A0inherit python3native<br>
+<br>
+-DEPENDS_append =3D &quot; python3&quot;<br>
++DEPENDS_append =3D &quot;${@[&#39;&#39;, &#39; python3&#39;][&#39;${CLASSO=
+VERRIDE}&#39; =3D=3D &#39;class-target&#39;]}&quot;<br>
+<br>
+=C2=A0do_configure_prepend() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export _PYTHON_SYSCONFIGDATA_NAME=3D&quot=
+;_sysconfigdata&quot;<br>
+-- <br>
+2.29.2<br>
 <br>
 </blockquote></div>
 
---000000000000efb1e905b4501703--
+--00000000000066ee1905b4502a87--
