@@ -1,227 +1,108 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web12.9372.1605626697455822203
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+ by mx.groups.io with SMTP id smtpd.web10.9782.1605627280785848842
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 07:24:57 -0800
+ Tue, 17 Nov 2020 07:34:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=E5Vejr3k;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id a15so8585027qvk.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 07:24:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tgEdmqfL;
+ spf=pass (domain: gmail.com, ip: 209.85.214.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f193.google.com with SMTP id 18so973592pli.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 07:34:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uhsc8skJT9DesatTvn5RFMQS5ezbQEG/8yTgPKkxyB8=;
-        b=E5Vejr3klSJnYbo9lPIJy3fu6Se5oeGuz576bvnU9IVJwBbsGy3dRBnnM67rLGb4jg
-         GwHnXy4QOCxU362NVcDIagnhuJD8oebWtBOFgfkSoGD6qoat4RWmYkiLglyRfaRoz7lS
-         OnloEB4YCU6SQcuvKlsx7l0Hg9/8eK/5OwqUoPNWJEgbTHDZPnIYVoWqf81k8JstF6Yh
-         /AX7z/W4P/Btwi54EX3YCiK6E594ApNpfKEoJdPPlZ/RfrMTFlx1O8EvzrE9+wdT6ozU
-         u0C/Xn2z0ktLpe6DzINLF8WX9uKnILcG3LoCt9EBY2lmTL2elntVlmduOYxRJ7dlh3nG
-         IYZQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9P97SKJGuwPDECjD6X5AU5tno0BCQIb7D7MRwvyAnUc=;
+        b=tgEdmqfLGnJw8rVu55CIMDnI7pq/HOnHoTBeBOp0lRI+ihuRyXstQdOUL7swzH6Wqt
+         6Wlt5P6oCiPeEVG+Ufoly6oHoriNntFj/9WQs/9hgVMGFjz0GlgM3Tm9GRNtD7EIw480
+         U7kM/wL23XlaU1v5HL4vM6IFeB3KS6KI/2KFL4i1f54DDR8ZwmgYRuP4E+7S4piU/riu
+         0v/gUWPt8HCkAL0y2EN06tNRJIIMWp18GRg7PrH7LhMrH7/5IMuJBIjxdbzbpAELtpXb
+         injxDNOuINcXBEhfopm2YieWpLrIceC1mm9/y9PbPoCVnEiMFbAEKXrkzS2gL5WZkC7w
+         hRVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uhsc8skJT9DesatTvn5RFMQS5ezbQEG/8yTgPKkxyB8=;
-        b=APUHCTYJ6046bWY7d+PxoafE9z0tGh3Ok5EoefqQDd1G0JsIYPbhb+ljKIw7UaDcjn
-         /HNCSHkcZxbAWRJtkXruEsFX3wLki6kbki/BhBWM5vp4Hr1aYzdL1kAOU4V/zFOHOv+/
-         SdjCuXZbBr6h2RgsqJJptt3auHN95JKx6uIWzyHULFV+I+9JKrlyjRKeRHkLGZP9uCzw
-         QeHm4kYNvQ0YrPcBHll53QM/78Etz5iRUisV2avqazuBsHbwDO/GgETpm/4C+ip2I8Mb
-         eseX316Q5pJzKBRhRUBb8KNs1Rg+3uoWLWIvKqMSb+SRN8SxF2SzmhOfuhz2FzKSqwlL
-         6eOg==
-X-Gm-Message-State: AOAM530ewarK8MddS/gk0t1nwMLVv6Mu5V9G32jASMt1KT6iGtnZSI7E
-	A9Vd7eVo3E0ygkZQ74k3Zsw=
-X-Google-Smtp-Source: ABdhPJx94d+oPLl6COdbDbLDI3ZZGTzph7Bm2pJxIMRzPDm/sA29gSNMVZAFbMJ+L8KkYbHIyzv8uQ==
-X-Received: by 2002:a0c:a261:: with SMTP id f88mr21428633qva.56.1605626694919;
-        Tue, 17 Nov 2020 07:24:54 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id u24sm14537923qtb.33.2020.11.17.07.24.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9P97SKJGuwPDECjD6X5AU5tno0BCQIb7D7MRwvyAnUc=;
+        b=A5PFD6/jNNU8xHBsL90hSC8mTaJgD/ZJdRw3g+Qzi85PzMy/GCex89KYPYPO9nZDC2
+         vcHfE3J4N01R8W/X4uWLmAkRZR76VYRNbSRzCeM5edm1NZZ6/8B6GWBHcEyaDT6kONYD
+         BVeXvYRkDaAI0YbQH1DCGWuOQAel2yaVgbkfSoCozQfZznJppDhRcquojsIzgxRlMng5
+         r7aPEuIMAeTrjxsGYiOxb+Uvg1Jc+e6xwzT58dmxstoUy+mQX5YhcvJoBp41Y4br21I2
+         JS4efZ8s0OUg4gbYPp2fbUKA3VILdiJG2UiGIn4uSsvWYhN2NCMZO2GJ5htgK8bvz1g4
+         gtNw==
+X-Gm-Message-State: AOAM531qxPG0ZeFZPCs3fFk/bJ+I9FKlG3ZP62xS+gTsxlpqnQt91VYw
+	ACMOXQfaF4IVHTONdbYjjHq1Gogo60hWDw==
+X-Google-Smtp-Source: ABdhPJzG8nBr13+p4Cg2rMcMRtKv1wEiMS+6agiqZeQ2Q8j22jY043Q9W3MBFV8peLLRKB9fOBRvbQ==
+X-Received: by 2002:a17:902:aa06:b029:d8:bc5b:612b with SMTP id be6-20020a170902aa06b02900d8bc5b612bmr174848plb.50.1605627279953;
+        Tue, 17 Nov 2020 07:34:39 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4611])
+        by smtp.gmail.com with ESMTPSA id l8sm3649981pjq.22.2020.11.17.07.34.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 07:24:53 -0800 (PST)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/11] linux-yocto/5.8: update to v5.8.18
-Date: Tue, 17 Nov 2020 10:24:36 -0500
-Message-Id: <b6ceaf9c8bca9f93d88085337ad69f404758cfac.1605626488.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1605626488.git.bruce.ashfield@gmail.com>
-References: <cover.1605626488.git.bruce.ashfield@gmail.com>
+        Tue, 17 Nov 2020 07:34:39 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] python3targetconfig.bbclass: Add py3 dependecy only for target recipes
+Date: Tue, 17 Nov 2020 07:34:36 -0800
+Message-Id: <20201117153436.3701771-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+python3targetconfig append target python3 to dependencies
+unconditionally, and here its inherited unconditionally too but
+distutils3-base is inherited in BBCLASSEXTEND'ed recipes and other not-target
+recipes as well. Hence the change added via 9c8f666097802cb594a759989edcf01603a22df3
+is now bridging the native dependencies with target python3 and thats
+resulting all sorts of rebuilds for multimachine builds e.g.
 
-Updating linux-yocto/5.8 to the latest korg -stable release that comprises
-the following commits:
+MACHINE=qemuarm bitbake python3-scons-native
+MACHINE=qemumips bitbake python3-scons-native
 
-    ab435ce49bd1 Linux 5.8.18
-    4a5649e0d379 phy: marvell: comphy: Convert internal SMCC firmware return codes to errno
-    b8049438969b misc: rtsx: do not setting OC_POWER_DOWN reg in rtsx_pci_init_ocp()
-    ad9ee9ce9d68 openrisc: Fix issue with get_user for 64-bit values
-    f594998331bc xen/gntdev.c: Mark pages as dirty
-    67e326e4f5df ata: sata_rcar: Fix DMA boundary mask
-    f6b94060a123 PM: runtime: Fix timer_expires data type on 32-bit arches
-    53faca2f4ca3 serial: pl011: Fix lockdep splat when handling magic-sysrq interrupt
-    e3f6c126a3f7 serial: qcom_geni_serial: To correct QUP Version detection logic
-    8f924c0a5665 drm/i915/gem: Serialise debugfs i915_gem_objects with ctx->mutex
-    241bd102e337 mtd: lpddr: Fix bad logic in print_drs_error
-    5868beda60c8 RDMA/addr: Fix race with netevent_callback()/rdma_addr_cancel()
-    a8069b80a1fb cxl: Rework error message for incompatible slots
-    9f9dc704c8cd p54: avoid accessing the data mapped to streaming DMA
-    9f4ef6a90c1b evm: Check size of security.evm before using it
-    a42b1273af73 bpf: Fix comment for helper bpf_current_task_under_cgroup()
-    07d54b8dc56e fuse: fix page dereference after free
-    78453a7dbb1a ata: ahci: mvebu: Make SATA PHY optional for Armada 3720
-    4752a1313463 PCI: aardvark: Fix initialization with old Marvell's Arm Trusted Firmware
-    b9cc04b049d8 x86/xen: disable Firmware First mode for correctable memory errors
-    ea4e8cf5072e x86/traps: Fix #DE Oops message regression
-    085f6be2fe88 arch/x86/amd/ibs: Fix re-arming IBS Fetch
-    b4818cfc3f9c erofs: avoid duplicated permission check for "trusted." xattrs
-    3a9e7db9a40e net: protect tcf_block_unbind with block lock
-    af5d5b8afd12 tipc: fix memory leak caused by tipc_buf_append()
-    519366f64c27 tcp: Prevent low rmem stalls with SO_RCVLOWAT.
-    9ceecfdba701 ravb: Fix bit fields checking in ravb_hwtstamp_get()
-    fa67cc69a8c8 r8169: fix issue with forced threading in combination with shared interrupts
-    62d9cec6f928 net/sched: act_mpls: Add softdep on mpls_gso.ko
-    2bc5d5c373ef net: ipa: command payloads already mapped
-    1336d288b353 net: hns3: Clear the CMDQ registers before unmapping BAR region
-    7fb8fbceb0e3 netem: fix zero division in tabledist
-    25259932e1bb mlxsw: core: Fix memory leak on module removal
-    d6f6e3f97885 ibmvnic: fix ibmvnic_set_mac
-    4606d3512043 ibmveth: Fix use of ibmveth in a bridge.
-    b520e574fdbf gtp: fix an use-before-init in gtp_newlink()
-    9921e777a347 cxgb4: set up filter action after rewrites
-    b97638e0f3be chelsio/chtls: fix tls record info to user
-    eb592f2ae478 chelsio/chtls: fix memory leaks in CPL handlers
-    c3208dec446a chelsio/chtls: fix deadlock issue
-    b334112f20b7 bnxt_en: Send HWRM_FUNC_RESET fw command unconditionally.
-    f739fc7e1072 bnxt_en: Re-write PCI BARs after PCI fatal error.
-    7fe9514cfe68 bnxt_en: Invoke cancel_delayed_work_sync() for PFs also.
-    bfbbfb501e74 bnxt_en: Fix regression in workqueue cleanup logic in bnxt_remove_one().
-    0b17de4d67bf bnxt_en: Check abort error state in bnxt_open_nic().
-    c328793e21fb efivarfs: Replace invalid slashes with exclamation marks in dentries.
-    61ececc85274 x86/copy_mc: Introduce copy_mc_enhanced_fast_string()
-    a092869e0351 x86, powerpc: Rename memcpy_mcsafe() to copy_mc_to_{user, kernel}()
-    18703f749e99 x86/PCI: Fix intel_mid_pci.c build error when ACPI is not enabled
-    4b0a9591dd78 arm64: link with -z norelro regardless of CONFIG_RELOCATABLE
-    dfaa0f7d0832 arm64: Run ARCH_WORKAROUND_2 enabling code on all CPUs
-    0ccd5c2c60e0 arm64: Run ARCH_WORKAROUND_1 enabling code on all CPUs
-    4720b25e4ca3 fs/kernel_read_file: Remove FIRMWARE_EFI_EMBEDDED enum
-    8b23af0ef2f7 efi/arm64: libstub: Deal gracefully with EFI_RNG_PROTOCOL failure
-    865013fcf4c3 scripts/setlocalversion: make git describe output more reliable
-    6f4c9772e195 io_uring: Convert advanced XArray uses to the normal API
-    f7b24bee5e6e io_uring: Fix XArray usage in io_uring_add_task_file
-    efce965a49f1 io_uring: Fix use of XArray in __io_uring_files_cancel
-    5ee3fea0c227 io_uring: no need to call xa_destroy() on empty xarray
-    0ca6ce23f4f6 io-wq: fix use-after-free in io_wq_worker_running
-    4863be653425 io_wq: Make io_wqe::lock a raw_spinlock_t
-    b6a6d1df552b io_uring: reference ->nsproxy for file table commands
-    511abceaf0a0 io_uring: don't rely on weak ->files references
-    fdc84c9bf131 io_uring: enable task/files specific overflow flushing
-    3de61f9bcc1c io_uring: return cancelation status from poll/timeout/files handlers
-    f34e674fbe6d io_uring: unconditionally grab req->task
-    bf0305989241 io_uring: stash ctx task reference for SQPOLL
-    dd1acc182c85 io_uring: move dropping of files into separate helper
-    cecf78cc0890 io_uring: allow timeout/poll/files killing to take task into account
-    07463d7da999 io_uring: don't run task work on an exiting task
-    6e1f770fbc0a netfilter: nftables_offload: KASAN slab-out-of-bounds Read in nft_flow_rule_create
+results in rebuilds for python3-scons-native
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+bitbake-diffsigs shows
+
+Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sysroot changed from 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f73f36933 to 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897
+0e3b97bd058d162065
+    Hash for dependent task python/python3-scons-native_3.1.2.bb:do_install changed from 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4fb11aef86dd89 to c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156
+229cb0f5ebb11
+        Hash for dependent task python/python3-scons-native_3.1.2.bb:do_compile changed from e3ee4b52a15267e6ae7853ec19a666b2fb62608a597608793336382d1c45f8a0 to 1e582043dfe6b3e00aaa532f363ce6afb37652abe837dac
+7cc9769194c43eae1
+            Hash for dependent task python/python3-scons-native_3.1.2.bb:do_configure changed from 770a4d5a77a96ebd9e1e7368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to a366982778b03eee5165c3117ee778f848acdfaa2
+b346650fbdf114ac70ab57b
+                Hash for dependent task python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to 474333fb565f908992fd3716
+4935aaecf31a79e867826fe634cde4f44171d8e7
+                    Hash for dependent task python/python3_3.9.0.bb:do_populate_sysroot changed from 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to 25dcfe74a95af19cce8df7c29311cc5edbbf6ad
+08777e46a6fa6e417c0445018
+
+...
+
+Therefore limit inheriting this class only for target recipes.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../linux/linux-yocto-rt_5.8.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.8.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.8.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+v2: Mark depends conditional instead
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-index d0f3ecb8c8..203ddf6684 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+ meta/classes/python3targetconfig.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/python3targetconfig.bbclass b/meta/classes/python3targetconfig.bbclass
+index 640d0c97b6..b79ec211c7 100644
+--- a/meta/classes/python3targetconfig.bbclass
++++ b/meta/classes/python3targetconfig.bbclass
+@@ -1,6 +1,6 @@
+ inherit python3native
  
--SRCREV_machine ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_meta ?= "d5ca337b7e9b5834c83b629b5456bb4744efa644"
-+SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
+-DEPENDS_append = " python3"
++DEPENDS_append = "${@['', ' python3']['${CLASSOVERRIDE}' == 'class-target']}"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.8.17"
-+LINUX_VERSION ?= "5.8.18"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-index 536bc26c5e..f37f525cc3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.8.17"
-+LINUX_VERSION ?= "5.8.18"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "c548e45d83f9cdf224d2a7e318d68aecf390f3bd"
--SRCREV_machine ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_meta ?= "d5ca337b7e9b5834c83b629b5456bb4744efa644"
-+SRCREV_machine_qemuarm ?= "aa614dcf182db126013b255968ab125afd96eb88"
-+SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-index c468170968..c0cdffce73 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.8/standard/base"
- KBRANCH_qemux86-64 ?= "v5.8/standard/base"
- KBRANCH_qemumips64 ?= "v5.8/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "3bb879f7650c06b97ee4d4b496d33bb5d62a4679"
--SRCREV_machine_qemuarm64 ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_machine_qemumips ?= "6dd61d0707b17293a472f5717acb68d5a86e1e4d"
--SRCREV_machine_qemuppc ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_machine_qemuriscv64 ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_machine_qemux86 ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_machine_qemux86-64 ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_machine_qemumips64 ?= "a92b9df163d6e6b05bf1e7137d6868760537f326"
--SRCREV_machine ?= "d0ff030adc1f65129e29c7110c9be2adaa0533f2"
--SRCREV_meta ?= "d5ca337b7e9b5834c83b629b5456bb4744efa644"
-+SRCREV_machine_qemuarm ?= "cd6c8c74317d2f9504c25e28e37f4140deec2d19"
-+SRCREV_machine_qemuarm64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine_qemumips ?= "c610a204d0821f5abc253e72894fd32b41b92db3"
-+SRCREV_machine_qemuppc ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine_qemuriscv64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine_qemux86 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine_qemux86-64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine_qemumips64 ?= "86cc0d9a3f6751ada12fa4630b3e3c23221d6da7"
-+SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
- 
- # remap qemuarm to qemuarma15 for the 5.8 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
--LINUX_VERSION ?= "5.8.17"
-+LINUX_VERSION ?= "5.8.18"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ do_configure_prepend() {
+         export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
 -- 
-2.19.1
+2.29.2
 
