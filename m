@@ -1,79 +1,116 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web08.16125.1605653673816067776
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web09.15976.1605653675065694505
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 14:54:33 -0800
+ Tue, 17 Nov 2020 14:54:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eJRxWeO1;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id j19so10215257pgg.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 14:54:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QHDlFFhr;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id t18so11116808plo.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 14:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1c909Pz8J3NKd+H82C27mQJFSyiCj/LEVJVRj79zpH4=;
-        b=eJRxWeO1v+zARkcN8XAXx6MZrzykM/rSk73RtE8Pnopeq2QRXSTLLQlcSvJnRnf3H7
-         RI6olEd2YrXN9XXg8TjaaJe4AVkHE6l7G4c9ZBOaFTo9lfXpp+DjSG3h9FQ/1LCSWT9b
-         bjq0JNb5aKlVR0gtT+FyIP0lsjT1MgW58tf9fNIu74TCgI1aSKHf4pSkwz75yCcoUev4
-         t8UOfNw+u8nzbVz38gPpQyZKPoCZiURnrA17Ul58U6L86cWzr17Dym3+l/NYaSC4vFpq
-         k6i66Ge1iqKR/f7Q7IVaP3ytfwAQPMoZ1Dw2kqrZGGWNC+IsMu80kcm7u8lo4bu75IDl
-         hFAA==
+        bh=6ZeK/GVoJ4OmKFH5bB6vBP0my5ffr6QXg0mnHpysZIY=;
+        b=QHDlFFhrROX3LWkiuxZ4LzNZDWlLpWLRLXVGPlUaoN3Zvcb6BysOUZEEsqv2GQOd8B
+         EDcL8mUXrsKGgCDTAaUd+bTpnCXyTLVwvwtoH8cBu65WQ73zCnnbJmv6lEmuFg6vnwNL
+         RGpj+z0YKp+DtL5j8qxup7TF1QS3nFhHcv87H6c+INGuF3Sd2BPLHVyk+fvUH+E7EcGl
+         G7Am71yNhLkULqQpp1F1MxkMK10zm8T77h1kgnP6RQFP5hEfhf20tN2I6WjLi6ERHCaM
+         pkxl7KVZP4tbO/qrx/H4//7RVx146rtN93Lp2ZvkWWmYaS7vpmDipGtyb3SQXkCuIWXL
+         CQKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1c909Pz8J3NKd+H82C27mQJFSyiCj/LEVJVRj79zpH4=;
-        b=fko5QBy2QMprRkjcockGOqwJED/2Jnz8HQAGqAM4aJgmg/nIvvlcSHVVPjsPGj/Y+t
-         aXhQOS1m6VpfZlHttODwHsklbM5al/wHT2xpJtDjXnC4/UPQv1Cn3nLXX/Mp7Av5xqGx
-         u+Vk9MOzAvoxiF1c6taw2OyOjgJ8x1uqKLkjUyMvYSAESCPqyj4rd2dIDiYMVCtYKo/X
-         GGlH44/5Bsukl2yiB7LdX1n7Y+VgPp5r7uerDw1gaT3XR1+hnYIi4Rsw/5rvexEc98K5
-         d7ahGqso/6IDCegHRP208/Z2NJSRJlupoYxp4OdLBUdIIrHWS/bmXh8kJmU/W2yXPmy9
-         /IuA==
-X-Gm-Message-State: AOAM533PBozY10QfawkaRKqcujW4HPWc+83aPETj/MuSbLvwQB/zdtsm
-	aR7b27gmbOIAHNrzGNIYXkzIECBoLoeHPg==
-X-Google-Smtp-Source: ABdhPJwszE0z8uuj8inau+KQH4iGFA2IrnznrM1R0PLzFKJFuTkrYQJDhEUYiJ3leDxiKSm079zpIg==
-X-Received: by 2002:a62:7bcc:0:b029:18b:5859:d5e1 with SMTP id w195-20020a627bcc0000b029018b5859d5e1mr1733399pfc.40.1605653673160;
-        Tue, 17 Nov 2020 14:54:33 -0800 (PST)
+        bh=6ZeK/GVoJ4OmKFH5bB6vBP0my5ffr6QXg0mnHpysZIY=;
+        b=q/Dv3R6KOR/OqApWsur/XSera35KqpfAynRbtFWlazEQfPI4MYivJei0Kafi+UL2Li
+         docGyuiMKiEg/gKDwgx/dmd56Z5zem6r9A9bKbUaKR+hSGv27ytsbP27GBBJ1umCmVay
+         yfYL3eenJ6BfF2q7jKpI5Qijw0YSwFu4dGY0pyLWhxGbe7xz+RzkptzGb35GjO6k7e22
+         cbzkHryXW5pErRFVAFyew9DeYFDTty36Qo3ovOzITYLZPsyPBPVDXonTO67EikR1q3D3
+         2h1st1dEYBE/m2UM3E9n2yvfZUEVrIIVBt+ByZ+KZHR4Amu/Wb+T1KzGvLqs3xJjZWyc
+         PgJw==
+X-Gm-Message-State: AOAM530+CGpQEA7hOUWYJXHeFqAm4Q2IUiWKcvAm2E3xUXPxEUgPP/Qb
+	sGExoUf1sL5BRRLSJfJGTIh4EBqXRC9zEw==
+X-Google-Smtp-Source: ABdhPJyqDGN+KSmo4VccKcbJ1qwjNLQlIMDGSk5cmQLaCIkMb50U8TWWYGuzFeAT0EDuSSkH9IZWxw==
+X-Received: by 2002:a17:90a:6392:: with SMTP id f18mr1177082pjj.143.1605653674258;
+        Tue, 17 Nov 2020 14:54:34 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4611])
-        by smtp.gmail.com with ESMTPSA id w127sm22349579pfc.172.2020.11.17.14.54.32
+        by smtp.gmail.com with ESMTPSA id w127sm22349579pfc.172.2020.11.17.14.54.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 14:54:32 -0800 (PST)
+        Tue, 17 Nov 2020 14:54:33 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/4] python3-sortedcontainers: Add recipe
-Date: Tue, 17 Nov 2020 14:54:27 -0800
-Message-Id: <20201117225428.877691-3-raj.khem@gmail.com>
+Subject: [PATCH 4/4] python-numpy: Add ptest
+Date: Tue, 17 Nov 2020 14:54:28 -0800
+Message-Id: <20201117225428.877691-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201117225428.877691-1-raj.khem@gmail.com>
 References: <20201117225428.877691-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Used in some python package testing infrastructures
+Since 1.15, numpy have replaced nose with pytest testing framework
+it additionally needs hypothesis and sortedcontainers modules
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python/python3-sortedcontainers_2.3.0.bb             | 9 +++++++++
- 1 file changed, 9 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb
+ meta/recipes-devtools/python-numpy/files/run-ptest         | 5 +++++
+ meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb | 7 +++++--
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/python-numpy/files/run-ptest
 
-diff --git a/meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb b/meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb
+diff --git a/meta/recipes-devtools/python-numpy/files/run-ptest b/meta/recipes-devtools/python-numpy/files/run-ptest
 new file mode 100644
-index 0000000000..6060c03723
+index 0000000000..9a1c72aeb1
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb
-@@ -0,0 +1,9 @@
-+SUMMARY = "Sorted Containers is an Apache2 licensed sorted collections library, written in pure-Python, and fast as C-extensions."
-+HOMEPAGE = "http://www.grantjenks.com/docs/sortedcontainers/"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=7c7c6a1a12ec816da16c1839137d53ae"
++++ b/meta/recipes-devtools/python-numpy/files/run-ptest
+@@ -0,0 +1,5 @@
++#!/usr/bin/env python3
 +
-+inherit pypi setuptools3
-+SRC_URI[sha256sum] = "59cc937650cf60d677c16775597c89a960658a09cf7c1a668f86e1e4464b10a1"
++import numpy
++numpy.test(label='full', verbose=2)
 +
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+index 7ff057b781..08130821c8 100644
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+@@ -8,6 +8,7 @@ SRCNAME = "numpy"
+ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
++           file://run-ptest \
+ "
+ SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"  
+ 
+@@ -16,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ DEPENDS += "python3-cython-native"
+ 
+-inherit setuptools3
++inherit ptest setuptools3
+ 
+ S = "${WORKDIR}/numpy-${PV}"
+ 
+@@ -30,7 +31,6 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
+                   ${PYTHON_PN}-pprint \
+                   ${PYTHON_PN}-pickle \
+                   ${PYTHON_PN}-shell \
+-                  ${PYTHON_PN}-nose \
+                   ${PYTHON_PN}-doctest \
+                   ${PYTHON_PN}-datetime \
+                   ${PYTHON_PN}-distutils \
+@@ -39,6 +39,9 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
+                   ${PYTHON_PN}-netclient \
+                   ${PYTHON_PN}-numbers \
+                   ${PYTHON_PN}-pydoc \
++                  ${PYTHON_PN}-pytest \
++                  ${PYTHON_PN}-hypothesis \
++                  ${PYTHON_PN}-sortedcontainers \
+                   ${PYTHON_PN}-pkgutil \
+                   ${PYTHON_PN}-email \
+                   ${PYTHON_PN}-compression \
 -- 
 2.29.2
 
