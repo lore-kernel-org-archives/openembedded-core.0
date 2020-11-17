@@ -1,274 +1,219 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web08.1623.1605574958462807589
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.81])
+ by mx.groups.io with SMTP id smtpd.web08.2438.1605579318475631551
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2020 17:02:38 -0800
+ Mon, 16 Nov 2020 18:15:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pnpx7yDZ;
- spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f180.google.com with SMTP id cp9so9307141plb.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2020 17:02:38 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=gOHAW31Z;
+ spf=pass (domain: windriver.com, ip: 40.107.236.81, mailfrom: kai.kang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G/0OpERrgtdpa9Efg9VYKxmuip1F6JEVeRHXBiIDgCUgVZaraPSdwSjVqDnZfkgjo6TUEgaYTSUpSRRRR8G/9ofvm7DIexTk+xY61CRxjIJBdevzDjFkeK787h6HD+VstuEI1E4srNMzidgxoo6h6FDfVtFrn0a78Gya5lvtMO99ytjjT2WTjd39Zh+Zf0mjy+3yXj14+F//qx2NjqS0iL3bYhy+s3/p+3lUfWrucEovm1b+Y+4dmfNNg5vxZPWnxGdFVYWGzNQUIm7m+balyLGrcv2bTs5rXOL5a47+qQyfwD9exVaJ4d34YHm2XCAnVOVuYBJhvdXJlIngyEcg1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4mxEPvlRnUAcuZF2x9an6YiAVE9ruqy4ZWP8ct7QMs4=;
+ b=Vjd6oL/yV+inR1OgXWkBCqOSkPW6pPncXYpvIvz8xEKRlZEvUm+80wtZrhn1MCgWFtnrXA67j8YyKktlGT59iai2TPKsaViGQLr3fPQmfQz8+l0brvUyb+PwzAg3SWXDsefLsBdfpsiIBa6yKHeO+QUUUpW5jrdnnUIrc8h6eacFk0mjbOTXTXSJhB3DDvx/DQPJOiXaEe2VoPGp3YHed26Jwz66Q8TEjmdxQ/dgUntEASRBIXVftgA0FnR8T8rjOtK6jq8lASA+iH8s6KBFEF1j7CVfyWHaJygjOYp9PcyJEndYuf32Ah/4vW8/iCwYk1oaZeqTUTf9vL3C31KMKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=3BtBLIUtMd2u7PPcLsKM8DqKhlvt1jL5bXXaU4vpyI0=;
-        b=pnpx7yDZYLmUAs7PbHGYlZYHGTuXOTv1hZiGhs6auX0NaQTXd8hw+aRMQzHVjrL9yg
-         0LVA4ACXcOk3N2Fslnf6+MPbR4qGI9axB58xOOn7RG1al2iaM3d5G/Atoi7vUWmZBi+a
-         3YB9hsMvl/fWVkH8DFFRw8lOdBqeVbpPJ3uIktdbN/g41/sNsnRO39e6xpruAVhe6jKx
-         VvDR2bfJ2SyC7xzJVPFiBaT7A+alx/nykbes1eYgaSMYVcctYhJWnnLrUagJWNoEVDXU
-         Pdadv65t8DutDlmc9aY+EJIdcWDgAD6Ft0h9HBpvy3kQp5CXyx0StbUOLiWrHu7wLyBp
-         BnlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=3BtBLIUtMd2u7PPcLsKM8DqKhlvt1jL5bXXaU4vpyI0=;
-        b=syTkjsGJaAY+eTlTXe2ueEtuHFQ/va5nvwm2PB7Tz8r2yNPGR9QljtO2/umJj3dKV/
-         +iZLQf0MLzK/YDvU+gqz0Vh6zoqltA3iIDpvXUsf9AwRdn+ToVhBQoJWPO7HEs0gi3SE
-         Tqx/oFUXQrD3WLnyQMJtEYU03B/9UzVqKLigdbYZ1hi1Br7UFwXQYai0PiukS5fGHnn/
-         Uk7Wm/QGbWanTFKJ3aFIKjXyLRZplpUshFLoYHaA8UU+MwXqs4jFx+gOVoRlLot3LI9Z
-         Aj96dfu9hMC9xBQYe2PohyZSrwTcXPkNeQVYv47RHfR6PG9XJnLO8jYvrIAvOuD5Ut9P
-         TpwA==
-X-Gm-Message-State: AOAM532ham7ywFio9uyblfGzc3mN7pUNxV1KpI7dIxr+kFadRITUpo6B
-	M2oTlp9poETKMx9bDJSIajo=
-X-Google-Smtp-Source: ABdhPJygA6BZCMREILEQizRbuIZW2OreeyDyFAmzzMeV6eDNgEOBq5h99lDDSvSvb4fq6EcxOTBDKg==
-X-Received: by 2002:a17:902:c383:b029:d6:991c:671b with SMTP id g3-20020a170902c383b02900d6991c671bmr14711323plg.51.1605574957901;
-        Mon, 16 Nov 2020 17:02:37 -0800 (PST)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id g2sm17968066pfq.107.2020.11.16.17.02.36
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Nov 2020 17:02:37 -0800 (PST)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 16 Nov 2020 17:02:36 -0800
-Message-ID: <0da801d6bc7d$57609690$0621c3b0$@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4mxEPvlRnUAcuZF2x9an6YiAVE9ruqy4ZWP8ct7QMs4=;
+ b=gOHAW31ZMUZjM2GIGbuaMVuhtPWZt1CgvZ6WLSuoMp/IVVd9KoU4JGJG2yLQONmdQTLLr2EM5DMlxfGVRrJxL4nrjX8rvXIvVUziIHlMPE68QBBpLkC72jFsegtuAraWZxnlqjNtICb/33Qt31zvdvs+0uOIBxymQUSBdMjNpXs=
+Authentication-Results: windriver.com; dkim=none (message not signed)
+ header.d=none;windriver.com; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SN6PR11MB3294.namprd11.prod.outlook.com (2603:10b6:805:c4::33)
+ by SN6PR11MB2638.namprd11.prod.outlook.com (2603:10b6:805:58::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.26; Tue, 17 Nov
+ 2020 02:15:16 +0000
+Received: from SN6PR11MB3294.namprd11.prod.outlook.com
+ ([fe80::b49d:2c09:ddcc:f5e2]) by SN6PR11MB3294.namprd11.prod.outlook.com
+ ([fe80::b49d:2c09:ddcc:f5e2%5]) with mapi id 15.20.3564.028; Tue, 17 Nov 2020
+ 02:15:16 +0000
+Subject: Re: [OE-core] [PATCH 1/2] systemd-systemctl: capable to call without argument
+From: "kai" <kai.kang@windriver.com>
+To: obi@opendreambox.org
+Cc: openembedded-core@lists.openembedded.org
+References: <20201102021757.32532-1-kai.kang@windriver.com>
+ <16438F587D21D644.10137@lists.openembedded.org>
+Message-ID: <aec8898c-4fca-9336-d947-54db4d08bad3@windriver.com>
+Date: Tue, 17 Nov 2020 10:14:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <16438F587D21D644.10137@lists.openembedded.org>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK0PR03CA0117.apcprd03.prod.outlook.com
+ (2603:1096:203:b0::33) To SN6PR11MB3294.namprd11.prod.outlook.com
+ (2603:10b6:805:c4::33)
+Return-Path: kai.kang@windriver.com
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQL12a4cwi8s2kkXPd3eHgL5TRnL/A==
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.141] (60.247.85.82) by HK0PR03CA0117.apcprd03.prod.outlook.com (2603:1096:203:b0::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend Transport; Tue, 17 Nov 2020 02:15:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 79edf9b8-171f-46ce-4feb-08d88a9e9f55
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2638:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<SN6PR11MB2638154CA0F5E675415EEFAF95E20@SN6PR11MB2638.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:873;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	/Uawk/1y0k9xT+JtqNE9dfqfqlb4/RVWyld6J8fbpd6eWwau0fPiKp8zeYCOvRFB4SCsAFUWEPwWT+uYGCvRzwB2IUPNlCAbo+w5Rat+B2rdA5fPYLrqRHrlP3j9GmaXC/PEF+P9x2xi9MbiZB8mT0NFfd27RtJ0uhkLszU5GyDIpUjSDqHHZX5ENL9JPpMw3QXZVhY9JTZiCNzXxQfYpOGTmZHyTRGfKWOqClGu+YTJrS+COGwzWhrzCDVTDA5I9p9CNkhkoGNE8AdH1a3H2xMrWkgYIxVFvT2hqVgwj9hz8WPfclbHfLrO10kMKSYW15KWaCnj34Fnbzbx59rKHJadzm2CJ8OF4Epc5HmJQsX5gOW7W1H4c3q2Yd/amxY7wbngHgeynPKLgrD1cmDMX6lH5rTv93+P7s1BzOe3r0Z8TnHGtHHTS1AW2M5SdOJooSLU8UGtqghSbeukK3oO62vVlluWaLpVubd+werL0Mg=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3294.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(136003)(39850400004)(346002)(376002)(31696002)(86362001)(316002)(16576012)(4326008)(2906002)(2616005)(956004)(66556008)(8936002)(6486002)(66946007)(8676002)(66476007)(6916009)(6706004)(36756003)(166002)(33964004)(186003)(478600001)(26005)(83380400001)(966005)(5660300002)(6666004)(16526019)(31686004)(52116002)(53546011)(78286007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	bk8K8Fm5Imy3huVVOqf/a9fegqDeudYAZ05heJkBQVUX+5flSyhUXTrRvw5vuws6uuv+q0dDpfgv+ctawTplXS4HQ3qzs6UDkmW6goqXaUmEHzsG8Ge5A65c4kLYQ2I3wIudjzVSuIc5UP3r80IwOHdKd2+zo+/PjRL2ulLEAbHiJCZR4YcNjCGghFaCmqV4sGCWzkViDX0H183p7qmF6eoRROcexXqempwu8lUH2psMZ6rrPB1yQ4hhETu3vjluwDP1YvAOzoD/DYadU/WuXJw56PDk5KHSEz65GWAcYOTV1f/k5l4KOZ1twtR+GZ6dBaWYIxYye5ZkZW+ne/OxhtMmo+G+QhgWyk7Cq+olwgG2QwqJEOIy1/dXAhFPQyhdSqHTe1ATohpthi4bmA/SHfA7CJQ9r88K5ltux584Ng2sBScK0qzPLVs7z8PqqqIXKytiBZSxZdNsfB5vk2e+/rihlXfbgBEhzEgUqQLoq0Jbaq8mQoYX8EI2p+ApjWRZonFnQRcFl3N9EqMGgXRhVTLBxNwDhZE/s7K1tJz/ZRyBRR0KGU7wMPNQdqwJsLhxgK9yCLEZQ+zxC3Ztoqz6jKTQDmTf5pc1Hm19MyOXf7/fhTSEos8ZuSj9K0Myn4ykNa6gyjPeyWZx53kUb5dLeQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79edf9b8-171f-46ce-4feb-08d88a9e9f55
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3294.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2020 02:15:15.8967
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: BVjftNOaX1HB+3BACVBmn1KhHD5Q6tphXjzst6x1d4vxQmD0Y9ex07KsyZRQyZccnKIbN4EbCc8YT42fLVKFTg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2638
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0DA9_01D6BC3A.493F2B50"
-Content-Language: en-us
+ boundary="------------BF4AE5B2FA0774820068E8AB"
+Content-Language: en-US
 
-------=_NextPart_000_0DA9_01D6BC3A.493F2B50
-Content-Type: text/plain;
-	charset="us-ascii"
+--------------BF4AE5B2FA0774820068E8AB
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-All,
+Ping.
 
+On 11/2/20 10:17 AM, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Make systemctl prints help mesages if run without any argument. It helps
+> to judge whether systemctl works in postscripts in systemd.bbclass.
+>
+> Remove trailing white spaces as well.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-core/systemd/systemd-systemctl/systemctl | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+> index 990de1ab39..c692b65920 100755
+> --- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
+> +++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+> @@ -30,7 +30,7 @@ class SystemdFile():
+>           self._parse(root, path)
+>           dirname = os.path.basename(path.name) + ".d"
+>           for location in locations:
+> -            for path2 in sorted((root / location / "system" / dirname).glob("*.conf")):
+> +            for path2 in sorted((root / location / "system" / dirname).glob("*.conf")):
+>                   self._parse(root, path2)
+>   
+>       def _parse(self, root, path):
+> @@ -282,7 +282,7 @@ def main():
+>           sys.exit("Python 3.4 or greater is required")
+>   
+>       parser = argparse.ArgumentParser()
+> -    parser.add_argument('command', nargs=1, choices=['enable', 'mask',
+> +    parser.add_argument('command', nargs='?', choices=['enable', 'mask',
+>                                                        'preset-all'])
+>       parser.add_argument('service', nargs=argparse.REMAINDER)
+>       parser.add_argument('--root')
+> @@ -300,7 +300,11 @@ def main():
+>           locations.append(BASE_LIBDIR / "systemd")
+>       locations.append(LIBDIR / "systemd")
+>   
+> -    command = args.command[0]
+> +    command = args.command
+> +    if not command:
+> +        parser.print_help()
+> +        return 0
+> +
+>       if command == "mask":
+>           for service in args.service:
+>               SystemdUnit(root, service).mask()
+>
+> 
+>
+
+
+--------------BF4AE5B2FA0774820068E8AB
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Ping.<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">On 11/2/20 10:17 AM, kai wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:16438F587D21D644.10137@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+
+Make systemctl prints help mesages if run without any argument. It helps
+to judge whether systemctl works in postscripts in systemd.bbclass.
+
+Remove trailing white spaces as well.
+
+Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+---
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index 990de1ab39..c692b65920 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -30,7 +30,7 @@ class SystemdFile():
+         self._parse(root, path)
+         dirname = os.path.basename(path.name) + &quot;.d&quot;
+         for location in locations:
+-            for path2 in sorted((root / location / &quot;system&quot; / dirname).glob(&quot;*.conf&quot;)):                
++            for path2 in sorted((root / location / &quot;system&quot; / dirname).glob(&quot;*.conf&quot;)):
+                 self._parse(root, path2)
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
+     def _parse(self, root, path):
+@@ -282,7 +282,7 @@ def main():
+         sys.exit(&quot;Python 3.4 or greater is required&quot;)
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 322
-unassigned or newcomer bugs.
-
+     parser = argparse.ArgumentParser()
+-    parser.add_argument('command', nargs=1, choices=['enable', 'mask',
++    parser.add_argument('command', nargs='?', choices=['enable', 'mask',
+                                                      'preset-all'])
+     parser.add_argument('service', nargs=argparse.REMAINDER)
+     parser.add_argument('--root')
+@@ -300,7 +300,11 @@ def main():
+         locations.append(BASE_LIBDIR / &quot;systemd&quot;)
+     locations.append(LIBDIR / &quot;systemd&quot;)
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
+-    command = args.command[0]
++    command = args.command
++    if not command:
++        parser.print_help()
++        return 0
++
+     if command == &quot;mask&quot;:
+         for service in args.service:
+             SystemdUnit(root, service).mask()
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
 
 
-------=_NextPart_000_0DA9_01D6BC3A.493F2B50
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0E27_01D6B6B1.FAB08F70";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 322 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_0DA9_01D6BC3A.493F2B50--
+--------------BF4AE5B2FA0774820068E8AB--
