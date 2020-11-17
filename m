@@ -1,58 +1,60 @@
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
- by mx.groups.io with SMTP id smtpd.web11.5484.1605603590670438193
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web08.5463.1605604349655839501
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 00:59:50 -0800
+ Tue, 17 Nov 2020 01:12:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DUwtAaEQ;
- spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f68.google.com with SMTP id u24so10645396vsl.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 00:59:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tjb91to8;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id f20so28401518ejz.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 01:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=BHmUta/+otAXKpGz180mkBBfGEMRXjJFq5OPnei15SI=;
-        b=DUwtAaEQOZazF8Yaw6aIZeiSC59c7ypXHBZfFRab7zZJa5g/5pGe2NX07nIyRB5lfL
-         hfLMkzfKll2Y1WVL3dt7Rfs8yNrtSdyR7YdSkg3wWGtKOtWvEfUJ3vYPz70pbByBkGWr
-         f3079QajO+dRa7beL4gwBndkCBww2lFAMDpxmqczZ8O89qFIENR70iAVSsvs4tOcSPgV
-         cJqwUBWogIWK42gBOGajiMhNOtynJTnwdztj3m++SANSEDS/ONwcbRAwEUjh604CxHdD
-         U72bHYxDnp+5zsa+Oe9MHa9Kl6kN5t5WjXzN5ifPPEvEK0w2RFjS6OiDDVPqoqOTNs7g
-         cJgQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eb6X+Y7PINoipIuFXf+r7y84Y6BqTv72Y7GERYhSd0E=;
+        b=tjb91to8iddnBZqHkPGKSwgSwHudKFRwo4F54Q57ch4c/lfJPbMbMFTghTQL0FZHQ+
+         E7RfeX5Q7PrmeHmzeYPsLss+yGM2dtmEy39J72aP4IAzfyBROZeU5G9vVM0BZBG3t6zP
+         +SBAVmJWiEXIgh27ZYodUCB+sq+TiI0jqxRVUaSfdNt1U+CCwA61iy/LDgb9PbaUho4u
+         8RO4OwvACN4+GVYEjF3sNMaIt/VmdJyk1Ucqw0ZmjfhP8hy725cWv4V8pt3hnN7chliJ
+         lVwMI+vSjeJlf4G1ROVdOYELEJi3H/1nDJXX6GjfB2a4liT8CKU+YWumwJvPZ1G1RnRq
+         skqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=BHmUta/+otAXKpGz180mkBBfGEMRXjJFq5OPnei15SI=;
-        b=DRCW6j93EyPLytnDmGzCoV0qzocGrW0wwlmaD/4TVPYH8Ke1ryBAFGQiUzTVSsGMIA
-         jAGfc6rEK2PhY0YU4ec9Cw4DWHvC2hZn+8Jcbqg23hZXhFurW+hHXJz585VXnwr1l+Ew
-         qRmCJZRQNgMpNrpM7yLCX2WQxr/xkhrQ4d6Fr3uRmqcFGIYW4rzcc9i1QMKnU6aiSp2H
-         mM2O+UEY9CVnLEcwpKzjxm1oamJCLMJfbUl6dDb0x7mDTuqTpfacGGaPaWnRNZxcJo1Z
-         tOltPOtJcI8IbiS/i9grnNiZ7O6wyBWfEzxGyDsC8UxUdFaxuvz4rRbDMXGq6h+O3nLB
-         jPng==
-X-Gm-Message-State: AOAM531nF8mj7M136nDD4/UXHu5fBfdJB+wfGYg/vSv6OrYOsoSRqqIj
-	YOaZ2QolyINPuMcZgSQaXxyJN5rLkLF2nqDWtLyeyjI9it8=
-X-Google-Smtp-Source: ABdhPJweO2Fbksm/tOIL3Hf9yluy+6+wWTre9v/g7B+3lBfZMMEkaijQJ21mWYabtabZZRLyRt8Q55WaxPAwVQwuEVU=
-X-Received: by 2002:a67:2f46:: with SMTP id v67mr2568867vsv.54.1605603589508;
- Tue, 17 Nov 2020 00:59:49 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=eb6X+Y7PINoipIuFXf+r7y84Y6BqTv72Y7GERYhSd0E=;
+        b=b2p+7/Gnd23meDSvnoUA9DZKwKEuLfTgg6hwIl8vlKuh4zS1gAvnw/3AjLTb/XGnJH
+         YWk0T1EJMz3wlQPtsqRezhN60vMMaFyHfVcVp/OskRFb0IVLvBswGCq+t8/mQXGc/kpP
+         joj7xRXPQpYwSvuKoEvIqz4hbvV/6VvagDFZDlBCP6K6GtRas1J+6Wb7wy7eJErIeJuN
+         cKWzj5Yqy+sp/FaS2x2+8HF8QGgfD665zbU3eVj1HxvQk61y3SDafDSTzKhiahAfiQVr
+         ncimGMKPxkiZ1RkmKXZK1AbEK7LXSyby1vMIRcFLU+ObYqPDFAdogBG7pFrzX/M/4y6I
+         XhXg==
+X-Gm-Message-State: AOAM533XB8kh6w+94MPv/Z4slQyrZAVyXryjhqPsVcGhKWx0sXUpkNxv
+	4L4/E4884ei909K+N8WDCx/mUvi4zDX0v1anChg=
+X-Google-Smtp-Source: ABdhPJx1/XMAjbdZjU5GS3rkPqY7QDmLfLLgjBUuV7R5RCpT5t/7O69ty+ziNGqpY24QmZ0elQn/wrA7z8PI24zK4OU=
+X-Received: by 2002:a17:906:b255:: with SMTP id ce21mr19108257ejb.137.1605604348098;
+ Tue, 17 Nov 2020 01:12:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117065508.1575532-1-raj.khem@gmail.com> <16483F9996935210.960@lists.openembedded.org>
-In-Reply-To: <16483F9996935210.960@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 17 Nov 2020 09:59:38 +0100
-Message-ID: <CANNYZj-9_opd5iK0+GDHNOKiHMgt9=n=UBUxXD_N29kVnWXYSA@mail.gmail.com>
+References: <20201117065508.1575532-1-raj.khem@gmail.com> <CANNYZj-mVEE0vD8tpJQTPvA_+0Ny7JNk0co97xU5gs+U=PbUOg@mail.gmail.com>
+In-Reply-To: <CANNYZj-mVEE0vD8tpJQTPvA_+0Ny7JNk0co97xU5gs+U=PbUOg@mail.gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Tue, 17 Nov 2020 10:12:16 +0100
+Message-ID: <CA+chaQcyh_i92pMt32-iiehDsxr1TyhF5pNKiRQstwPz7UVArQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] distutils3-base.bbclass: Inherit python3targetconfig only for target recipes
-To: OE-core <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000009a52bf05b449b770"
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d17ea005b449e4f4"
 
---0000000000009a52bf05b449b770
+--000000000000d17ea005b449e4f4
 Content-Type: text/plain; charset="UTF-8"
 
-I think the correct fix here would be to fold python3-scons-native_bb into
-the main recipe using BBCLASSEXTEND, so DEPENDS gets properly rewritten.
+You mean that in BBCLASSEXTEND'ed recipes mentioned in the explanation it
+should work and only the recipes which directly inherit native, like
+meta/recipes-devtools/python/python3-scons-native_3.1.2.bb
+are broken?
 
-Alex
-
-On Tue, 17 Nov 2020 at 09:53, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
+On Tue, Nov 17, 2020 at 9:53 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
 > This explanation does not seem right. The class only sets
 >
@@ -146,29 +148,30 @@ On Tue, 17 Nov 2020 at 09:53, Alexander Kanavin via lists.openembedded.org
 >
 >
 
---0000000000009a52bf05b449b770
+--000000000000d17ea005b449e4f4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I think the correct fix here would be to fold python3=
--scons-native_bb into the main recipe using BBCLASSEXTEND, so DEPENDS gets =
-properly rewritten.</div><div><br></div><div>Alex<br></div></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 17 Nov 2=
-020 at 09:53, Alexander Kanavin via <a href=3D"http://lists.openembedded.or=
-g">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.co=
-m@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
-<div>This explanation does not seem right. The class only sets <br></div><d=
-iv><br></div><div>inherit python3native</div><div>DEPENDS_append =3D &quot;=
- python3&quot;</div><div><br></div><div>which should not drag in target pyt=
-hon when it is inherited from -native recipes, only python3-native.</div><d=
-iv><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Tue, 17 Nov 2020 at 07:55, Khem Raj &lt;=
-<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com<=
+<div dir=3D"ltr"><div>You mean that in BBCLASSEXTEND&#39;ed recipes mention=
+ed in the explanation it should work and only the recipes which directly in=
+herit native, like</div><div dir=3D"ltr">meta/recipes-devtools/python/<a hr=
+ef=3D"http://python3-scons-native_3.1.2.bb">python3-scons-native_3.1.2.bb</=
+a><br></div><div>are broken?</div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17, 2020 at 9:53 AM Alexander Ka=
+navin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com<=
 /a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">p=
-ython3targetconfig append target python3 to dependencies<br>
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
+div dir=3D"ltr"><div>This explanation does not seem right. The class only s=
+ets <br></div><div><br></div><div>inherit python3native</div><div>DEPENDS_a=
+ppend =3D &quot; python3&quot;</div><div><br></div><div>which should not dr=
+ag in target python when it is inherited from -native recipes, only python3=
+-native.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 17 Nov 2020 at 07:5=
+5, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj=
+.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">python3targetconfig append target python3 to dependencies<br=
+>
 unconditionally, and here its inherited unconditionally too but<br>
 distutils3-base is inherited in BBCLASSEXTEND&#39;ed recipes and other not=
 -target<br>
@@ -250,6 +253,6 @@ t;<br>
 <br>
 <br>
 <br>
-</blockquote></div>
+</blockquote></div></div>
 
---0000000000009a52bf05b449b770--
+--000000000000d17ea005b449e4f4--
