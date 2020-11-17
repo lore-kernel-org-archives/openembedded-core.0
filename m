@@ -1,100 +1,92 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web09.8172.1605622005197182767
- for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 06:06:45 -0800
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web12.8760.1605624164949356444
+ for <Openembedded-core@lists.openembedded.org>;
+ Tue, 17 Nov 2020 06:42:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bD/D/w3c;
- spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f67.google.com with SMTP id u23so3177466qvf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 06:06:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Uenq1K+j;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id s13so3449780wmh.4
+        for <Openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 06:42:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PoayGjTtqR4m2nxOiLZDpFH3VUh+4/ZKH5z5Dl0JI8I=;
-        b=bD/D/w3ciq0lncHJzFSYBLgpQjD3fR957ZhkOO5Bv/NZ/mQaD7FuSWQ3WtoRchkDzK
-         xICnv+EO6i0aS3UiDtb4MdkzvGV5SPPE5cRd5ApiaAbFdugRFLeTzxmfLMGjCrqV1C8Q
-         SGSDJIW+COfcYennnm8Dm9wZZVk3a7SmRA6jGxPOdodfRIhqvUM5wwfn2F9EHbW6x7OP
-         wNj7c8IZqQwU+crQyqtGksUZFECNhr1Eg4KoFYHyiqNwSc4axoK1ir4wO++cgtGuJAtw
-         KjrJLdFIZ7b3iRxGsqRWk5lmS1pHK2W/7s29UFaAmXgtj+4lSLs1aLtL5Fh1QaqYaXYL
-         tugw==
+        bh=Bqs/gO0JvWx89zFYlfOgV6OFcvQ+P4aBSMPjbSurRQQ=;
+        b=Uenq1K+j7dSyaskxRQPMTfcO9xphkPtr/CJ8l+uQztYC0fmTGN3l1BxeZYQly9Ef4n
+         UJ6nK2DHBg9ah8TCWhTF4JZrzOrasiSxmZzgbGxR5H/5qcEY72H7M6zdaiOQ8d6Z0psG
+         x6cruIPZjuqbKfBNzXNoudkS9WpZyYALKYNJYy6GamL/OKYXc1FplCrWgZZN6fVV6SRU
+         2WGnSloStSAPTYwa/tvRZl84HtH6+lCPQRaS2iOrylPyItf2/n271WKMPr4KqhNLKYoJ
+         nyrhZUMGFDEwXhEPtaCpb2BLfwFoETQOVhI+WsQlQtmu042LR4Sp5WFHKOIWVot8TkRd
+         nobw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=PoayGjTtqR4m2nxOiLZDpFH3VUh+4/ZKH5z5Dl0JI8I=;
-        b=I6tk6Lkv6gMd6SJqZgySO4SS41CZtzsVPs3EUZSrTSp4NFdiLjCDHzX3xfKxky58ay
-         bo0mXi3y6y4gnny0SBVwskrHL2Yg7swlAxBnNnn3TjzaodWVXPpbp3iU1t3ier8xw+tq
-         wUI+Bu53a0TOpSj+BvrdE7348hQrcoGe20MopebUprglydfEPD2sKUgL4ZO0F1nwntNv
-         xxcdKJnmb6yArzI8P26HjL43ZJ14fYMhIWZc3X+3g6kODEB75Vw5/+BrC7NkcjE2kVNU
-         2cX+2PyabmdEdiyDpSxXOC1fDi0bpOUjn5wJn6QqsSc0aRmETdf//WKpBWnTdw3myw6H
-         ysKQ==
-X-Gm-Message-State: AOAM532Q5buvp2PJPz2/p9ZYDky2I6MSCuLT9rS50hIlIh7KbTcTSP0K
-	ApKd1Cy43ZaEttYqCC/itLE=
-X-Google-Smtp-Source: ABdhPJzhy4CQIkc4m4BK1o71QymHGduuR8hQtunhj/7sbE2rvdWkL/9JWF+10zxI2nJ5LmfpAk/20g==
-X-Received: by 2002:a0c:a223:: with SMTP id f32mr21273514qva.9.1605622004225;
-        Tue, 17 Nov 2020 06:06:44 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id z11sm13813743qkz.38.2020.11.17.06.06.42
+        bh=Bqs/gO0JvWx89zFYlfOgV6OFcvQ+P4aBSMPjbSurRQQ=;
+        b=fHmdDH0kXk7cb6Y9aS4XA63F3ccY7SnFqqdRM5fAvVm9uzwMVpOLpcolGmFbxjTkV8
+         zBFmO0jpJCetvRh/WW4dknB9nHMTNNDhcuXaWcwk6RwPNEHHot6KgpIZcI4dT0BbXvYo
+         ZnS/rRdUI4vCUH9MzPnzKyzGQudpwpCxFIQekEk/qYCef/zFo4kXRuNW+nExrBmlbMbi
+         559hfNrqnqs4BEVfOjshmUDyHaj3xTUIOPlcquHMS+HAuKwyx1tJAMRGR2P8dqlwmYNg
+         PWVQR5cfiAqzRG89xy5ZuHlROnU3UHy6uwXysoSEs+LMPUBSu5DlX7hFP6EOVRIXO/fz
+         I8ng==
+X-Gm-Message-State: AOAM532/jmHpOwaOjxWOgseT5CYF+QaZt4J2o7lxcmLyw8ea/Q/ZFsCv
+	71tAw7ny+HvD0YNASF3wXYyNt1yxzR+z8Q==
+X-Google-Smtp-Source: ABdhPJxq29CC3G6UKdGjSREAqrdCCgATZPWI0szaY8kmrGFPkbT6sHMJzIGmTYRMIM/1eQXEyDROuQ==
+X-Received: by 2002:a1c:4884:: with SMTP id v126mr3435800wma.160.1605624163133;
+        Tue, 17 Nov 2020 06:42:43 -0800 (PST)
+Return-Path: <uvv.mail@gmail.com>
+Received: from localhost.localdomain (dslb-002-205-007-251.002.205.pools.vodafone-ip.de. [2.205.7.251])
+        by smtp.gmail.com with ESMTPSA id s202sm3960895wme.39.2020.11.17.06.42.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 06:06:43 -0800 (PST)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel: relocate copy of module.lds to module compilation task
-Date: Tue, 17 Nov 2020 09:06:41 -0500
-Message-Id: <20201117140641.19575-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        Tue, 17 Nov 2020 06:42:42 -0800 (PST)
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+Subject: [PATCH] license_image.bbclass: use canonical name for license files
+Date: Tue, 17 Nov 2020 15:41:20 +0100
+Message-Id: <20201117144120.441804-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
 
-There were two copies of this patch floating around, and the merged
-variant has the copy in the wrong place.
+When copying license files to the image rootfs, i.e to
+/usr/share/common-licenses, a canonical name of a license should be
+used, otherwise duplicated files end up in common-licenses directory.
 
-module.lds is only created during modules_prepare, and that target is
-not invoked during our main build of the kernel. We aren't about to
-change the kernel build (there's no need), so we move the copy into
-the compile_kernelmodules task. After that runs, we have module.lds
-availble to copy.
+For example, GPL-2.0 license according to conf/license.conf can be
+referenced in recipes as GPL-2, GPLv2, and GPLv2.0. If a license name is
+used directly, we end up with three files in the rootfs with the same
+content. If a canonical name used instead, then each license gets copied
+only once.
 
-This has been tested against clean kernel + out of tree module
-builds, and the dependencies are correct that the file is copied
-before the out of tree module build starts.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
 ---
+ meta/classes/license_image.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This is just a fixup to the patch [kernel: provide module.lds for out of
-tree builds in v5.10+], which v1 merged instead of v2.
-
-Build tested locally.
-
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ccd74e61e8..af4c891de4 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -391,6 +391,7 @@ do_compile_kernelmodules() {
- 		# other kernel modules and will look at this
- 		# file to do symbol lookups
- 		cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
-+		[ -e ${B}/scripts/module.lds ] && install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
- 	else
- 		bbnote "no modules to compile"
- 	fi
-@@ -494,7 +495,6 @@ do_shared_workdir () {
- 	# Copy files required for module builds
- 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
- 	[ -e Module.symvers ] && cp Module.symvers $kerneldir/
--	[ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 702e9f9c55..119c8dfc86 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -125,7 +125,6 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+ 
+                 licenses = os.listdir(pkg_license_dir)
+                 for lic in licenses:
+-                    rootfs_license = os.path.join(rootfs_license_dir, lic)
+                     pkg_license = os.path.join(pkg_license_dir, lic)
+                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
+ 
+@@ -144,6 +143,8 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+                                 bad_licenses) == False:
+                             continue
+ 
++                        # Make sure we use only canonical name for the license file
++                        rootfs_license = os.path.join(rootfs_license_dir, "generic_%s" % generic_lic)
+                         if not os.path.exists(rootfs_license):
+                             oe.path.copyhardlink(pkg_license, rootfs_license)
+ 
 -- 
-2.19.1
+2.25.1
 
