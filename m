@@ -1,108 +1,133 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
- by mx.groups.io with SMTP id smtpd.web10.9782.1605627280785848842
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web08.9458.1605627377733567004
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 07:34:40 -0800
+ Tue, 17 Nov 2020 07:36:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tgEdmqfL;
- spf=pass (domain: gmail.com, ip: 209.85.214.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f193.google.com with SMTP id 18so973592pli.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 07:34:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9P97SKJGuwPDECjD6X5AU5tno0BCQIb7D7MRwvyAnUc=;
-        b=tgEdmqfLGnJw8rVu55CIMDnI7pq/HOnHoTBeBOp0lRI+ihuRyXstQdOUL7swzH6Wqt
-         6Wlt5P6oCiPeEVG+Ufoly6oHoriNntFj/9WQs/9hgVMGFjz0GlgM3Tm9GRNtD7EIw480
-         U7kM/wL23XlaU1v5HL4vM6IFeB3KS6KI/2KFL4i1f54DDR8ZwmgYRuP4E+7S4piU/riu
-         0v/gUWPt8HCkAL0y2EN06tNRJIIMWp18GRg7PrH7LhMrH7/5IMuJBIjxdbzbpAELtpXb
-         injxDNOuINcXBEhfopm2YieWpLrIceC1mm9/y9PbPoCVnEiMFbAEKXrkzS2gL5WZkC7w
-         hRVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9P97SKJGuwPDECjD6X5AU5tno0BCQIb7D7MRwvyAnUc=;
-        b=A5PFD6/jNNU8xHBsL90hSC8mTaJgD/ZJdRw3g+Qzi85PzMy/GCex89KYPYPO9nZDC2
-         vcHfE3J4N01R8W/X4uWLmAkRZR76VYRNbSRzCeM5edm1NZZ6/8B6GWBHcEyaDT6kONYD
-         BVeXvYRkDaAI0YbQH1DCGWuOQAel2yaVgbkfSoCozQfZznJppDhRcquojsIzgxRlMng5
-         r7aPEuIMAeTrjxsGYiOxb+Uvg1Jc+e6xwzT58dmxstoUy+mQX5YhcvJoBp41Y4br21I2
-         JS4efZ8s0OUg4gbYPp2fbUKA3VILdiJG2UiGIn4uSsvWYhN2NCMZO2GJ5htgK8bvz1g4
-         gtNw==
-X-Gm-Message-State: AOAM531qxPG0ZeFZPCs3fFk/bJ+I9FKlG3ZP62xS+gTsxlpqnQt91VYw
-	ACMOXQfaF4IVHTONdbYjjHq1Gogo60hWDw==
-X-Google-Smtp-Source: ABdhPJzG8nBr13+p4Cg2rMcMRtKv1wEiMS+6agiqZeQ2Q8j22jY043Q9W3MBFV8peLLRKB9fOBRvbQ==
-X-Received: by 2002:a17:902:aa06:b029:d8:bc5b:612b with SMTP id be6-20020a170902aa06b02900d8bc5b612bmr174848plb.50.1605627279953;
-        Tue, 17 Nov 2020 07:34:39 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4611])
-        by smtp.gmail.com with ESMTPSA id l8sm3649981pjq.22.2020.11.17.07.34.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 07:34:39 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: w0FLLwcfDOQsQ5c2i/csl8bRTeOfrypo+AY9ZcvA4WaPU2MzuYye4xUHaS8QgItN/4EliG3cAc
+ +9vDE7klxI+A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9808"; a="158719946"
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
+   d="scan'208";a="158719946"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 07:36:16 -0800
+IronPort-SDR: 5rL3SRWjK5Phqs6GPNwHxNc/3APwzxlhB1EI3HTuAKZc862kKhbQw4zbWzfOgXyCzIhJj6rYwn
+ s0KNL6PQuEsw==
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
+   d="scan'208";a="400802926"
+Received: from sbinisma-mobl2.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.40.254])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2020 07:36:15 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] python3targetconfig.bbclass: Add py3 dependecy only for target recipes
-Date: Tue, 17 Nov 2020 07:34:36 -0800
-Message-Id: <20201117153436.3701771-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.2
+Subject: [gatesgarth][PATCH 00/19] gatesgarth review request
+Date: Tue, 17 Nov 2020 23:35:49 +0800
+Message-Id: <cover.1605626675.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-python3targetconfig append target python3 to dependencies
-unconditionally, and here its inherited unconditionally too but
-distutils3-base is inherited in BBCLASSEXTEND'ed recipes and other not-target
-recipes as well. Hence the change added via 9c8f666097802cb594a759989edcf01603a22df3
-is now bridging the native dependencies with target python3 and thats
-resulting all sorts of rebuilds for multimachine builds e.g.
+Next set of changes for gatesgarth. Please review.
 
-MACHINE=qemuarm bitbake python3-scons-native
-MACHINE=qemumips bitbake python3-scons-native
+Passed a-full on autobuilder except for one failure. Ping test failed
+while executing do_testimage for sato image. 
 
-results in rebuilds for python3-scons-native
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1602
 
-bitbake-diffsigs shows
+I think this failure is not related to the changes here as the test passed
+in other configurations. Probably similar to:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=14029
 
-Hash for dependent task python/python3-scons-native_3.1.2.bb:do_populate_sysroot changed from 1cdb93193b416477df6faa137e83a967b433c7aa29033146b405153f73f36933 to 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897
-0e3b97bd058d162065
-    Hash for dependent task python/python3-scons-native_3.1.2.bb:do_install changed from 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb4fb11aef86dd89 to c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156
-229cb0f5ebb11
-        Hash for dependent task python/python3-scons-native_3.1.2.bb:do_compile changed from e3ee4b52a15267e6ae7853ec19a666b2fb62608a597608793336382d1c45f8a0 to 1e582043dfe6b3e00aaa532f363ce6afb37652abe837dac
-7cc9769194c43eae1
-            Hash for dependent task python/python3-scons-native_3.1.2.bb:do_configure changed from 770a4d5a77a96ebd9e1e7368f710bca3f88e3b1266dffa3b2d0360b1e3a81e27 to a366982778b03eee5165c3117ee778f848acdfaa2
-b346650fbdf114ac70ab57b
-                Hash for dependent task python/python3-scons-native_3.1.2.bb:do_prepare_recipe_sysroot changed from 958910037856ff5d5eb2b5162b3cdd02a3a710fc543b933cfeba771ee095cb72 to 474333fb565f908992fd3716
-4935aaecf31a79e867826fe634cde4f44171d8e7
-                    Hash for dependent task python/python3_3.9.0.bb:do_populate_sysroot changed from 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d55e2e32f2c9e485e7f5975fecf8 to 25dcfe74a95af19cce8df7c29311cc5edbbf6ad
-08777e46a6fa6e417c0445018
+Thanks,
 
-...
+Anuj
 
-Therefore limit inheriting this class only for target recipes.
+The following changes since commit a1db1e71129c3e67ddd9dbef21e1c5eb31552e00:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
----
-v2: Mark depends conditional instead
+  grub: clean up CVE patches (2020-11-12 11:54:28 +0800)
 
- meta/classes/python3targetconfig.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/meta/classes/python3targetconfig.bbclass b/meta/classes/python3targetconfig.bbclass
-index 640d0c97b6..b79ec211c7 100644
---- a/meta/classes/python3targetconfig.bbclass
-+++ b/meta/classes/python3targetconfig.bbclass
-@@ -1,6 +1,6 @@
- inherit python3native
- 
--DEPENDS_append = " python3"
-+DEPENDS_append = "${@['', ' python3']['${CLASSOVERRIDE}' == 'class-target']}"
- 
- do_configure_prepend() {
-         export _PYTHON_SYSCONFIGDATA_NAME="_sysconfigdata"
+  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
+
+Alexander Kanavin (2):
+  clutter-gst-3.0: do not call out to host gstreamer plugin scanner
+  conf-notes.txt: mention more important images than just sato
+
+Bruce Ashfield (1):
+  kernel: provide module.lds for out of tree builds in v5.10+
+
+Denys Zagorui (1):
+  binutils: reproducibility: reuse debug-prefix-map for stabs
+
+Diego Santa Cruz (1):
+  freetype: fix CVE-2020-15999, backport from 2.10.4
+
+Gratian Crisan (1):
+  kernel-module-split.bbclass: identify kernel modconf files as
+    configuration files
+
+Jose Quaresma (1):
+  gstreamer1.0: warn the user when something is wrong with GstBufferPool
+
+Khem Raj (2):
+  lrzsz: Use Cross AR during compile
+  gawk: Avoid using host ar during cross compile
+
+Konrad Weihmann (3):
+  oeqa/core/context: expose results as variable
+  oeqa/core/context: initialize _run_end_time
+  testimage: print results for interrupted runs
+
+Mark Jonas (1):
+  libbsd: Remove BSD-4-Clause from main package
+
+Matt Madison (1):
+  layer.conf: fix syntax error in PATH setting
+
+Nathan Rossi (1):
+  diffstat: add nativesdk to BBCLASSEXTEND
+
+Richard Purdie (3):
+  ptest-runner: Fix license as it contains 'or later' clause
+  libdnf: Fix license as it contains 'or later' clause
+  alsa-utils: Fix license to GPLv2 only
+
+Steve Sakoman (1):
+  openssh: whitelist CVE-2014-9278
+
+ meta/classes/kernel-module-split.bbclass      |  1 +
+ meta/classes/kernel.bbclass                   |  1 +
+ meta/classes/testimage.bbclass                | 19 ++++---
+ meta/conf/conf-notes.txt                      |  2 +
+ meta/conf/layer.conf                          |  2 +-
+ meta/lib/oeqa/core/context.py                 |  4 ++
+ ...mpilation-using-autoconf-detected-AR.patch | 36 +++++++++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
+ .../openssh/openssh_8.3p1.bb                  |  4 ++
+ .../binutils/binutils-2.35.inc                |  1 +
+ ...oducibility-for-stabs-debugging-data.patch | 35 +++++++++++++
+ .../diffstat/diffstat_1.63.bb                 |  2 +
+ meta/recipes-devtools/libdnf/libdnf_0.48.0.bb |  2 +-
+ .../0001-Use-cross-AR-during-compile.patch    | 35 +++++++++++++
+ meta/recipes-extended/gawk/gawk_5.1.0.bb      |  1 +
+ .../clutter/clutter-gst-3.0.inc               |  2 +
+ ...-sfnt-Fix-heap-buffer-overflow-59308.patch | 51 +++++++++++++++++++
+ .../freetype/freetype_2.10.2.bb               |  1 +
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  6 +++
+ meta/recipes-multimedia/alsa/alsa-utils.inc   |  3 +-
+ ...size-in-reset-when-maxsize-is-larger.patch | 49 ++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.16.3.bb          |  1 +
+ meta/recipes-support/libbsd/libbsd_0.10.0.bb  |  3 +-
+ .../ptest-runner/ptest-runner_2.4.0.bb        |  2 +-
+ 24 files changed, 251 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
+ create mode 100644 meta/recipes-extended/gawk/gawk/0001-Use-cross-AR-during-compile.patch
+ create mode 100644 meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch
+
 -- 
-2.29.2
+2.28.0
 
