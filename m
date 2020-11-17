@@ -1,239 +1,99 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web09.15303.1605650659483757084
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web11.15812.1605650943473407367
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 14:04:19 -0800
+ Tue, 17 Nov 2020 14:09:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=D5kPWf6r;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id r12so11604104qvq.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 14:04:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AG2TEodI;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id d28so22433086qka.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 14:09:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=bxxtiLXankGXzkpdcgov01U4ckoXZb/vl4POCCOLOSg=;
-        b=D5kPWf6rvco+kRLwcnvRN9jK8V15+R4c+tCZAsy9hnqFiyHq8QB+X5CQdos5Xh9zaH
-         S5ZKwj+j2Bh5In1UDVlEe/a1os7vmfoXzEkYgPFDVgI4nra9bRQut/bOXBa1d4tOWUR1
-         HOgT85js1kAqjGrBYuoqlD9rR7h9ppGXKj4xs47jUSh+u3uPIAR6P6kpJCH1F7nPlNXN
-         sXjOYagyUTwo6c1MITY8zM9RAze6PzAMroVS2g3PQApisxxm3b5pc1Fvo27EGPqHyT6K
-         3IUTcz8qk0cb7HnKFAriUnR3ekFZXVdluPBMN/bHRc9Xd1bZ90cKOT3d6n/sWcMoZ9PT
-         L3lw==
+         :cc;
+        bh=pK/cXizgfGuXnZuKsz3IaOENVWX32pH+VxXdBbgX3f8=;
+        b=AG2TEodIKhs9e++C0N/y6t2iJtrZE+jeZDRKCc1YuURBAnYlKSZlz2HtQHGLUqfLDz
+         UXNFVgObsXGnNxpWewIAYqZ+37b6CMui5ASb2z55PFf+cufGqyoT9n1OOg0qMh9zPpSb
+         R/1TN7KByeoDAV8+PEjRXZgzaC1Z65Lde4t+DJwdHpglpGoaVqjoVwDkpUXpWlsX7o8f
+         a2JEA709J33d+w1+NMaO43/PHxwlCnu+DErVQDhJjJyMhYOdIDpv1/hSeWKa6f01djyv
+         QgUyunaV+kCVgNo3+3In9uwE8voLLo5JEFNLz5tBhqBKpB/+Dipsgst/e5csG3eVmisC
+         lKsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bxxtiLXankGXzkpdcgov01U4ckoXZb/vl4POCCOLOSg=;
-        b=DOjxjzyasv3MENs3xWgomRjwO+nRh18iC6wwus0KzlNiv+czJw139rRTQSNHpeSGK2
-         RYZqRjJBcY84EAdJgWDWO/GjhZswjAhdou/AhZojsC3Fz/NoOdJMlXfe9rTfOjs7HFsy
-         d1cIV1f4VjbhB7PZS4ed2Zkjrkqq9H2vRAH6RW5FvdoX/VlS3lUJeSZcTbxIqfzSkGMe
-         LrIjwKrdZbbM5v4l+dz1OsjmvGAQTDrZm+3n6Z593uHxT6YIx56i07m/wvcAoQlyiZYN
-         xnBM3keE+pWtgvG4ltGP1IziekPllhdZl3LaDEp1buzR5dVAimgAHqedhn4jso7HdPsW
-         56MA==
-X-Gm-Message-State: AOAM530wWrUN9IaOFiehO3GzfuCmTe1tEOZEKmoJQFuPgYDRJM8gn/JT
-	T6f3qlieRi8EauR7BeWDb8udJOgkYPQ9rKyeiG0=
-X-Google-Smtp-Source: ABdhPJxq6q8Y1y9L5c9/lKxZ2JSalwIQ/uC0vmP3ltGq3egAXmq9hCuqok9ysiRHzWjZT0UORR95/BN3VcFH+qmrLFQ=
-X-Received: by 2002:ad4:4ae4:: with SMTP id cp4mr1499537qvb.21.1605650658232;
- Tue, 17 Nov 2020 14:04:18 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=pK/cXizgfGuXnZuKsz3IaOENVWX32pH+VxXdBbgX3f8=;
+        b=UgdalwDQFxkUaCQCjsSPEggP9per5lElFxWe8ZrNoBOuyp+2jHIsagcjfiY+mk05RT
+         IX9ecVmcckR0T8CubcLY9ov21kxziXR1FYK3Y4u/6s9E45OzKUg0D6KUFAPIvcSqRHeT
+         uKKgwE9isJMC/WTYfvwWzDLN/mQvlBaKEJaMN4MtSkI6dbxKiz8rsAnVZSYL50YLvNrm
+         JEbng8VYBREFDR+P+jFlG365ZIx6d2+m4PRfbJpKQF5uh+0asr1pWcNvHWgmYBLaKSfg
+         W72XVUJ14ePvMb7hvc0gNqtxC/os6GW3QQRImlMANuDVjU2H/ZxW08+9VYqwDnNQeNM0
+         Q70A==
+X-Gm-Message-State: AOAM531cGGRMsdOBi9uBPRgJGjjI8uNC4AIV6ji9dUV8mmrFX8K7AAOI
+	nOZV3MOT81DV4EIURMPq6XB4MlsjT0U2PP5deKM=
+X-Google-Smtp-Source: ABdhPJyoNsUMXq4xQ6durYsSUGe+ArH1otWr3Zr73NKEp2ED7zVVfIW/KTUlkMboxJ3pD/BezvZkPML8CjmVW1nMenE=
+X-Received: by 2002:a37:a70e:: with SMTP id q14mr1800992qke.337.1605650942600;
+ Tue, 17 Nov 2020 14:09:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20201117180441.296304-1-raj.khem@gmail.com> <CANPvuRkvCVF8nV5Gpo0LYkGs4d8So4Pvukp-YpDxK1=1vS116Q@mail.gmail.com>
- <CA+chaQdPKhwuw197c=cHesYPmS5weQc6jc6SQi-1iisEGdHSeg@mail.gmail.com>
- <CANPvuRnK2v4SwZ722=Phhp_C6PGphB7ygMYOzMaCDbbXcSzUsw@mail.gmail.com>
- <CA+chaQdJ79DA8zB9DFkqbVWzumABb+aF5jXgPu0s4pdqXQ7UTg@mail.gmail.com> <CANPvuR=k3b+oiObtgixKTS2nX=sbFkdeaQ44GcmHDU=rrD12LQ@mail.gmail.com>
-In-Reply-To: <CANPvuR=k3b+oiObtgixKTS2nX=sbFkdeaQ44GcmHDU=rrD12LQ@mail.gmail.com>
+References: <20201117065508.1575532-1-raj.khem@gmail.com> <CANNYZj-mVEE0vD8tpJQTPvA_+0Ny7JNk0co97xU5gs+U=PbUOg@mail.gmail.com>
+ <CA+chaQcyh_i92pMt32-iiehDsxr1TyhF5pNKiRQstwPz7UVArQ@mail.gmail.com>
+ <CANNYZj-SwsznTXvooSHeVijaUPVPgBBN_gFfKednZCe-OGcdow@mail.gmail.com>
+ <CAMKF1sqzEw8sAhzsUvPz6rB1OR=i8Cg7-2WUtpjW8tmS3HGF_Q@mail.gmail.com>
+ <CANNYZj_Eu38-cpsb767mdgqLn6SEXjdfiJKdQheRWuZv47FYAQ@mail.gmail.com>
+ <CAMKF1sq77HcFtdxMODMk231BfW0=vqCV+BL4vOTpcKcAMVTBoA@mail.gmail.com> <CA+chaQdg9wcYFrOuU6zTMMib-Rp0hNYSn_AC3RjFvBwpXM-J4w@mail.gmail.com>
+In-Reply-To: <CA+chaQdg9wcYFrOuU6zTMMib-Rp0hNYSn_AC3RjFvBwpXM-J4w@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 17 Nov 2020 14:03:51 -0800
-Message-ID: <CAMKF1sq3Uwvf6jB+V7ihhbCysohJ+QotAG=3_qoJGw3=nbaAhA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] python3targetconfig.bbclass: Make py3 dep and tasks only for target recipes
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 17 Nov 2020 14:08:34 -0800
+Message-ID: <CAMKF1srSjP1rTXeaPan8yxEas2aVN6xdoP0snkabNd_X4DXAZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] distutils3-base.bbclass: Inherit python3targetconfig only for target recipes
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2020 at 1:18 PM Jose Quaresma <quaresma.jose@gmail.com> wro=
-te:
+On Tue, Nov 17, 2020 at 12:00 PM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> Martin Jansa <martin.jansa@gmail.com> escreveu no dia ter=C3=A7a,
-> 17/11/2020 =C3=A0(s) 20:24:
-> >
-> > Then you will need space in:
-> > EXTRA_PYTHON_DEPENDS_append_class-target =3D " python3"
-> > as well.
+> And there are some cases where we need only native recipe and creating a target one just to BBCLASSEXTEND seems worse than the current state with native.bbclass.
 >
-> right.
+> Or there are some cases where the native build is so significantly different from the target one, that using BBCLASSEXTEND just makes it more difficult to read without any benefit.
 >
-> >
-> > I don't expect EXTRA_PYTHON_DEPENDS to be often (if at all) outside th=
-e bbclass, but IMHO it's good convention to just use leading space wherever=
- you append to space separated list (less surprises for people who might ev=
-entually set something like EXTRA_PYTHON_DEPENDS in their recipes - even fr=
-om wrong reasons).
-> >
+> So please don't remove the option to just inherit native if there aren't any technical reasons to do that.
+>
 
-I think that's fine reason, I am not too hard on it but I have sent a
-v5 which reverts to original spaces. Hopefully this will be final rev.
+I think we have a patch to address the fallout so we should be good here now.
 
->
-> if EXTRA_PYTHON_DEPENDS is don't expect to be often (if at all)
-> outside the bbclass, a clean solution can be:
->
-> -DEPENDS_append =3D " python3"
-> +DEPENDS_append_class-target =3D " python3"
->
-> > On Tue, Nov 17, 2020 at 9:18 PM Jose Quaresma <quaresma.jose@gmail.com=
-> wrote:
-> >>
-> >> Martin,
-> >>
-> >> you're right. if EXTRA_PYTHON_DEPENDS is set outside of the bbclass i=
-t
-> >> break the DEPENDS.
-> >>
-> >> Sorry Khem for my suggestion, your initial was right.
-> >>
-> >> +EXTRA_PYTHON_DEPENDS_class-target =3D "python3"
-> >> +DEPENDS_append =3D " ${EXTRA_PYTHON_DEPENDS}"
-> >>
-> >> But in this case (when EXTRA_PYTHON_DEPENDS is set outside of the bbc=
-lass)
-> >> it will don't have any effect for the overwrite class-target because
-> >> EXTRA_PYTHON_DEPENDS_class-target=3D"python3" always will set
-> >> EXTRA_PYTHON_DEPENDS=3D"python3"
-> >>
-> >> I think I have see another problem now and something like this is bet=
-ter:
-> >>
-> >> +EXTRA_PYTHON_DEPENDS_append_class-target =3D "python3"
-> >> +DEPENDS_append =3D " ${EXTRA_PYTHON_DEPENDS}"
-> >>
-> >> Martin Jansa <martin.jansa@gmail.com> escreveu no dia ter=C3=A7a,
-> >> 17/11/2020 =C3=A0(s) 19:56:
-> >> >
-> >> > I don't mind this change, but why do you think space in the variabl=
-e is better in this case (where we don't mind extra space being added for n=
-ative/nativesdk case?)
-> >> >
-> >> > If someone sets EXTRA_PYTHON_DEPENDS =3D "foo" for whatever reason =
-in some recipe, then the space will be missing.
-> >> >
-> >> > On Tue, Nov 17, 2020 at 7:36 PM Jose Quaresma <quaresma.jose@gmail.=
-com> wrote:
-> >> >>
-> >> >> Khem Raj <raj.khem@gmail.com> escreveu no dia ter=C3=A7a, 17/11/20=
-20 =C3=A0(s) 18:04:
-> >> >> >
-> >> >> > python3targetconfig append target python3 to dependencies
-> >> >> > unconditionally, and here its inherited unconditionally too but
-> >> >> > distutils3-base is inherited in BBCLASSEXTEND'ed recipes and oth=
-er not-target
-> >> >> > recipes as well. Hence the change added via 9c8f666097802cb594a7=
-59989edcf01603a22df3
-> >> >> > is now bridging the native dependencies with target python3 and =
-thats
-> >> >> > resulting all sorts of rebuilds for multimachine builds e.g.
-> >> >> >
-> >> >> > MACHINE=3Dqemuarm bitbake python3-scons-native
-> >> >> > MACHINE=3Dqemumips bitbake python3-scons-native
-> >> >> >
-> >> >> > results in rebuilds for python3-scons-native
-> >> >> >
-> >> >> > bitbake-diffsigs shows
-> >> >> >
-> >> >> > Hash for dependent task python/python3-scons-native_3.1.2.bb:do_=
-populate_sysroot changed from 1cdb93193b416477df6faa137e83a967b433c7aa29033=
-146b405153f73f36933 to 3cea1e7cbedd121ecb768fbc291cc4e4d7d3b5c0442897
-> >> >> > 0e3b97bd058d162065
-> >> >> >     Hash for dependent task python/python3-scons-native_3.1.2.bb=
-:do_install changed from 8d6018fd03ffc6060a04532dc39a5b7ccca1be026a69d069cb=
-4fb11aef86dd89 to c5f1d173596a8e910f45a2b6e0b4dab96cd0102be4d62bd3156
-> >> >> > 229cb0f5ebb11
-> >> >> >         Hash for dependent task python/python3-scons-native_3.1.=
-2.bb:do_compile changed from e3ee4b52a15267e6ae7853ec19a666b2fb62608a597608=
-793336382d1c45f8a0 to 1e582043dfe6b3e00aaa532f363ce6afb37652abe837dac
-> >> >> > 7cc9769194c43eae1
-> >> >> >             Hash for dependent task python/python3-scons-native_=
-3.1.2.bb:do_configure changed from 770a4d5a77a96ebd9e1e7368f710bca3f88e3b12=
-66dffa3b2d0360b1e3a81e27 to a366982778b03eee5165c3117ee778f848acdfaa2
-> >> >> > b346650fbdf114ac70ab57b
-> >> >> >                 Hash for dependent task python/python3-scons-nat=
-ive_3.1.2.bb:do_prepare_recipe_sysroot changed from 958910037856ff5d5eb2b51=
-62b3cdd02a3a710fc543b933cfeba771ee095cb72 to 474333fb565f908992fd3716
-> >> >> > 4935aaecf31a79e867826fe634cde4f44171d8e7
-> >> >> >                     Hash for dependent task python/python3_3.9.0=
-.bb:do_populate_sysroot changed from 7ac1c4fcbb2eacf98d2c32d991751bd2f3c7d5=
-5e2e32f2c9e485e7f5975fecf8 to 25dcfe74a95af19cce8df7c29311cc5edbbf6ad
-> >> >> > 08777e46a6fa6e417c0445018
-> >> >> >
-> >> >> > ...
-> >> >> >
-> >> >> > Therefore limit effects of this class only for target recipes.
-> >> >> >
-> >> >> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> >> > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> >> >> > Cc: Martin Jansa <Martin.Jansa@gmail.com>
-> >> >> > ---
-> >> >> > v2: Mark depends conditional instead
-> >> >> > v3: Export _PYTHON_SYSCONFIGDATA_NAME only for target
-> >> >> >     and mark tasks with target override
-> >> >> >
-> >> >> >  meta/classes/python3targetconfig.bbclass | 10 ++++++----
-> >> >> >  1 file changed, 6 insertions(+), 4 deletions(-)
-> >> >> >
-> >> >> > diff --git a/meta/classes/python3targetconfig.bbclass b/meta/cla=
-sses/python3targetconfig.bbclass
-> >> >> > index 640d0c97b6..fc1025c207 100644
-> >> >> > --- a/meta/classes/python3targetconfig.bbclass
-> >> >> > +++ b/meta/classes/python3targetconfig.bbclass
-> >> >> > @@ -1,15 +1,17 @@
-> >> >> >  inherit python3native
-> >> >> >
-> >> >> > -DEPENDS_append =3D " python3"
-> >> >> > +EXTRA_PYTHON_DEPENDS ?=3D ""
-> >> >> > +EXTRA_PYTHON_DEPENDS_class-target =3D "python3"
-> >> >> > +DEPENDS_append =3D " ${EXTRA_PYTHON_DEPENDS}"
-> >> >>
-> >> >> -EXTRA_PYTHON_DEPENDS_class-target =3D "python3"
-> >> >> -DEPENDS_append =3D " ${EXTRA_PYTHON_DEPENDS}"
-> >> >> +EXTRA_PYTHON_DEPENDS_class-target =3D " python3"
-> >> >> +DEPENDS_append =3D "${EXTRA_PYTHON_DEPENDS}"
-> >> >>
-> >> >> add a space before python3 is better than always add it to DEPENDS
-> >> >>
-> >> >> >
-> >> >> > -do_configure_prepend() {
-> >> >> > +do_configure_prepend_class-target() {
-> >> >> >          export _PYTHON_SYSCONFIGDATA_NAME=3D"_sysconfigdata"
-> >> >> >  }
-> >> >> >
-> >> >> > -do_compile_prepend() {
-> >> >> > +do_compile_prepend_class-target() {
-> >> >> >          export _PYTHON_SYSCONFIGDATA_NAME=3D"_sysconfigdata"
-> >> >> >  }
-> >> >> >
-> >> >> > -do_install_prepend() {
-> >> >> > +do_install_prepend_class-target() {
-> >> >> >          export _PYTHON_SYSCONFIGDATA_NAME=3D"_sysconfigdata"
-> >> >> >  }
-> >> >> > --
-> >> >> > 2.29.2
-> >> >> >
-> >> >> >=20
-> >> >> >
-> >> >>
-> >> >>
-> >> >> --
-> >> >> best regards,
-> >> >> Jos=C3=A9 Quaresma
-> >>
-> >>
-> >>
-> >> --
-> >> best regards,
-> >> Jos=C3=A9 Quaresma
->
->
->
-> --
-> best regards,
-> Jos=C3=A9 Quaresma
+> On Tue, Nov 17, 2020 at 7:09 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Tue, Nov 17, 2020 at 9:33 AM Alexander Kanavin
+>> <alex.kanavin@gmail.com> wrote:
+>> >
+>> > On Tue, 17 Nov 2020 at 16:41, Khem Raj <raj.khem@gmail.com> wrote:
+>> >>
+>> >> On Tue, Nov 17, 2020 at 1:19 AM Alexander Kanavin
+>> >> <alex.kanavin@gmail.com> wrote:
+>> >> >
+>> >> > Yes - and if python3-scons-native is the only such recipe we can find, I think it's better to merge the recipe with the target one.
+>> >> >
+>> >> python3-scons-native is just a manifestation of a larger problem which
+>> >> is a regression and this suggestion compounds the problem by setting
+>> >> an unequal rule where non-python packages can
+>> >> have a native-recipe and recipe but python ones can not, therefore we
+>> >> need to fix this properly in core classes instead.
+>> >
+>> >
+>> > If non-python native-only recipes inherit something that DEPENDS on a target item, they will have the exact same problem. This is what needs fixing - but not by special-casing DEPENDS in every class where it happens, or might happen.
+>> >
+>>
+>> keep this issue aside and think in a generic way about how recipes can
+>> be written regardless of native or not. behavior has to be consistent
+>>
+>> > I'd rather convert all native-only recipes to target ones + BBCLASSEXTEND, so it works the same way everywhere, and minimizes surprises.
+>> >
+>>
+>> that's wishful, there are a lot of layers that will have to also
+>> change, and we have to change the semantics of native recipes where
+>> BBCLASSEXTEND is the only way to do them.
+>>
+>>
+>> > Alex
+>> >
