@@ -1,350 +1,490 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web09.10363.1605630336169513472
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web09.10519.1605630977216748613
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 08:25:36 -0800
+ Tue, 17 Nov 2020 08:36:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VuIO60Uv;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id m16so8209766edr.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 08:25:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EE7+Oj+m;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id gj5so2829803ejb.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 08:36:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mvSoyu9uWocg5SAVGYWcLtalhdhAtKT5G/9huExicus=;
-        b=VuIO60Uv/xWaBgFXaSAhea7MONioiJPpGd8lp/MMGdb+/BdVREnIZ9E7w+gLHelkp0
-         C//ysVS7epPcCC+lc+aaOPpsxbFHgte3iXlV1Cmp3Tnzaj7fHzgm3brCPhfCDNXn2W9p
-         LOokEDFm9tpAXC8LPiI4qXtRPqiBmHT8RCpUEbUqiau3Lz2NjqfyG6Sn9hiV9FVY1Y1k
-         5HNT0CvvjhqUxoSrixg66HpgMHXuyz5RcKBofLYklqQZPqJxn8QqoKP7zxfQ4ELP88ma
-         qakEISpdLe7YbZyIxPCBGlK0bU0PHIpi+Cp1GMnEVVKrlPqK9WU1ZFtx1OUmJSm/fHX2
-         R8RQ==
+        bh=Ooa7NFRV2f+1sqBaNN3CmR8Q37jmOpW/TwKtXIAmJx8=;
+        b=EE7+Oj+mgY6DSyg2C2IwYDdOpxVWBeLPm0ZEEcFp16Y1NtpPG5qxwq2jEL5RpIce5Y
+         74ZQR4//AlQwBgrCo+jREiZjzEzO7DZc2e0F9pvPjqLM2mfQvEy2/1/7CgdXubhUhDUL
+         s9A7CAgvWt/M4yal2+hDXY/zk5DuJsCZC5i9ZEE5vm3KZ9XvB9CVJPTgU1UtaVWyIIz+
+         eb8btNIzWVoBnbtMPglmlmORnEF0tAIU1yf9oRVXw6JqfC7qaC3uklv+J6FeO5vpQyzO
+         wrV6lHXVzC+CUGfBY2WMX9brspuRrl0zTJ71/V/m0eepOfF9GsYnasl13FYWUByUroBq
+         iikw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mvSoyu9uWocg5SAVGYWcLtalhdhAtKT5G/9huExicus=;
-        b=MV1roQPJDo/RU8Rzhyw/RKJV4Q2m5RSSGyrd+XT/vyhPdQAITS28JgdjQ9530eSQZi
-         UlqwxFqdP/6nFlJAGUtnItXQXNlv6Mb3dCGdH1JAiMQuAOOrEwWlYliUPA0ujVm7wNFo
-         s4QbZdEfB5Fdmwi2zCdUncb+X8YAHZW3dCXHUauc+efKGEzLhUmBxlXabUrA8Ppj9Zul
-         JrkuCw7TW3hYAom3BZUkDwsPXbB9DQiBW6gpkTKUrP2GVzd+D9gACYnpnBU/U3D8JBzJ
-         AW1cTAVnAE6KytMZUlvDh8nroBWDYX/Qfz39BL+Gam2Y1f4BwUWOp+Wez6tQQ/B/Fcn9
-         clGg==
-X-Gm-Message-State: AOAM530Y+6eX88gq+PtIdbaqLF+zLXhwr/TiTP+Mm+YxHyvLIAPrki86
-	rBeq1PZE3Orpu4xgQDuK/K64KkYiAJ3LpoEAp4k=
-X-Google-Smtp-Source: ABdhPJzx4vCVY5P7T6jJJpn2HLRDO3ZSs342TR0n+g97gUx5pHReh129Ra+xuCj73uryaJQ2YuK1H53A5IQZR1mcgmw=
-X-Received: by 2002:a50:f147:: with SMTP id z7mr1405693edl.76.1605630334622;
- Tue, 17 Nov 2020 08:25:34 -0800 (PST)
+        bh=Ooa7NFRV2f+1sqBaNN3CmR8Q37jmOpW/TwKtXIAmJx8=;
+        b=fmyYBGPtVuQmtjXvrxk/RH5jnVF+UVRFRbHmro0NNbtgf/A+e/Z+uKuGIGE0pN9B42
+         F1r9BYgjiCr5usfAP0cRKIbWL6LgeRjihJm4GlSk1c50ZX3UA3/N9UApgtKlTFzwJu1m
+         xIZA4EN+A2n11qQAwASVcPl6GGRFw00C+E3zL7801OfCP0P7r5tBUkQbvrp2T0QS0bCR
+         nxNApCUcPWmhrcus685bu0s+brBZo8h9bABGvHPzM0b2Ol1+fiSCEr55FWDlIg+S0AHs
+         obdxOeM6U+EShRGrUaJg0tS07pGthl7xHHMkOUG/ygVO7OZGTjCiVPRTCIoexBTnlR/S
+         qHIg==
+X-Gm-Message-State: AOAM533PHaP9t+IdLkNCrstJBPfgPhkVYQIMe9pEvw8Kc6MfR2wWp3AJ
+	hauKffehOC9Ko6jPHMhszMd8iE22m4TqERJeHtA=
+X-Google-Smtp-Source: ABdhPJzno6tH91/SzatUlFdD6qX4/gKItgREvsKJRmLAetL7WHtJYhqdKBOjKrdIbyoUvgIaPiyUou5/Y6n4Y+otFds=
+X-Received: by 2002:a17:906:e2c3:: with SMTP id gr3mr19582531ejb.471.1605630975519;
+ Tue, 17 Nov 2020 08:36:15 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1605626675.git.anuj.mittal@intel.com>
-In-Reply-To: <cover.1605626675.git.anuj.mittal@intel.com>
+References: <20201016043341.635385-1-raj.khem@gmail.com> <c671f8ca6bdeb7d7475dbfea8ec440d103045395.camel@linuxfoundation.org>
+ <CAMKF1sotEEnaqk98JEDJtxg-TWP2Qa5isQtKLptE1cX+qA95Lw@mail.gmail.com>
+In-Reply-To: <CAMKF1sotEEnaqk98JEDJtxg-TWP2Qa5isQtKLptE1cX+qA95Lw@mail.gmail.com>
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 17 Nov 2020 17:25:22 +0100
-Message-ID: <CA+chaQfx=0OJfW=f_DsUG58GC8RYvXhSYb80-3MFouSeh_3DRw@mail.gmail.com>
-Subject: Re: [OE-core] [gatesgarth][PATCH 00/19] gatesgarth review request
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000bc5dba05b44ff108"
+Date: Tue, 17 Nov 2020 17:36:04 +0100
+Message-ID: <CA+chaQebpk-CxcZ98gtj=U2oF_bQ-LTVaKN6edhngXKr2xKoaQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] recipes: Use GPL-2.0-only instead of GPL-2.0 for LIC_FILES_CHKSUM
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Meh Mbeh Ida Delphine <idadelm@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000efb1e905b4501703"
 
---000000000000bc5dba05b44ff108
+--000000000000efb1e905b4501703
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hello Meh,
 
-Do you still plan to upgrade bluez5 in gatesgarth to 5.55 like dunfell was
-recently updated?
+master is now open for next release, can you please send an updated
+revision of this patch?
 
-You mentioned it in:
-https://lists.openembedded.org/g/openembedded-core/message/144467
-but I don't see it in this PR.
+Regards,
 
-On Tue, Nov 17, 2020 at 4:36 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
+On Fri, Oct 16, 2020 at 8:48 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-> Next set of changes for gatesgarth. Please review.
+> On Fri, Oct 16, 2020 at 2:05 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > Hi Khem,
+> >
+> > This patch fixes issues introduced by a patch I tested in -next from
+> > Meh Mbeh Ida Delphine <idadelm@gmail.com> (cc'd). I have removed it
+> > from the queue as it failed testing. This patch may be useful so they
+> > can fix their patch though.
+> >
+> > Note the fixes Khem found for glibc-collateral and devicetree.bbclass
+> > in addition to the recipes.
 >
-> Passed a-full on autobuilder except for one failure. Ping test failed
-> while executing do_testimage for sato image.
+> Thanks, other layers also rely on these names. So perhaps this should
+> wait till master opens for next release
+> and address those layers too.
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1602
->
-> I think this failure is not related to the changes here as the test passed
-> in other configurations. Probably similar to:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=14029
->
-> Thanks,
->
-> Anuj
->
-> The following changes since commit
-> a1db1e71129c3e67ddd9dbef21e1c5eb31552e00:
->
->   grub: clean up CVE patches (2020-11-12 11:54:28 +0800)
->
-> are available in the Git repository at:
->
->   git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
->
-> Alexander Kanavin (2):
->   clutter-gst-3.0: do not call out to host gstreamer plugin scanner
->   conf-notes.txt: mention more important images than just sato
->
-> Bruce Ashfield (1):
->   kernel: provide module.lds for out of tree builds in v5.10+
->
-> Denys Zagorui (1):
->   binutils: reproducibility: reuse debug-prefix-map for stabs
->
-> Diego Santa Cruz (1):
->   freetype: fix CVE-2020-15999, backport from 2.10.4
->
-> Gratian Crisan (1):
->   kernel-module-split.bbclass: identify kernel modconf files as
->     configuration files
->
-> Jose Quaresma (1):
->   gstreamer1.0: warn the user when something is wrong with GstBufferPool
->
-> Khem Raj (2):
->   lrzsz: Use Cross AR during compile
->   gawk: Avoid using host ar during cross compile
->
-> Konrad Weihmann (3):
->   oeqa/core/context: expose results as variable
->   oeqa/core/context: initialize _run_end_time
->   testimage: print results for interrupted runs
->
-> Mark Jonas (1):
->   libbsd: Remove BSD-4-Clause from main package
->
-> Matt Madison (1):
->   layer.conf: fix syntax error in PATH setting
->
-> Nathan Rossi (1):
->   diffstat: add nativesdk to BBCLASSEXTEND
->
-> Richard Purdie (3):
->   ptest-runner: Fix license as it contains 'or later' clause
->   libdnf: Fix license as it contains 'or later' clause
->   alsa-utils: Fix license to GPLv2 only
->
-> Steve Sakoman (1):
->   openssh: whitelist CVE-2014-9278
->
->  meta/classes/kernel-module-split.bbclass      |  1 +
->  meta/classes/kernel.bbclass                   |  1 +
->  meta/classes/testimage.bbclass                | 19 ++++---
->  meta/conf/conf-notes.txt                      |  2 +
->  meta/conf/layer.conf                          |  2 +-
->  meta/lib/oeqa/core/context.py                 |  4 ++
->  ...mpilation-using-autoconf-detected-AR.patch | 36 +++++++++++++
->  meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
->  .../openssh/openssh_8.3p1.bb                  |  4 ++
->  .../binutils/binutils-2.35.inc                |  1 +
->  ...oducibility-for-stabs-debugging-data.patch | 35 +++++++++++++
->  .../diffstat/diffstat_1.63.bb                 |  2 +
->  meta/recipes-devtools/libdnf/libdnf_0.48.0.bb |  2 +-
->  .../0001-Use-cross-AR-during-compile.patch    | 35 +++++++++++++
->  meta/recipes-extended/gawk/gawk_5.1.0.bb      |  1 +
->  .../clutter/clutter-gst-3.0.inc               |  2 +
->  ...-sfnt-Fix-heap-buffer-overflow-59308.patch | 51 +++++++++++++++++++
->  .../freetype/freetype_2.10.2.bb               |  1 +
->  meta/recipes-kernel/linux/kernel-devsrc.bb    |  6 +++
->  meta/recipes-multimedia/alsa/alsa-utils.inc   |  3 +-
->  ...size-in-reset-when-maxsize-is-larger.patch | 49 ++++++++++++++++++
->  .../gstreamer/gstreamer1.0_1.16.3.bb          |  1 +
->  meta/recipes-support/libbsd/libbsd_0.10.0.bb  |  3 +-
->  .../ptest-runner/ptest-runner_2.4.0.bb        |  2 +-
->  24 files changed, 251 insertions(+), 13 deletions(-)
->  create mode 100644
-> meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cross-compilation-using-autoconf-detected-AR.patch
->  create mode 100644
-> meta/recipes-devtools/binutils/binutils/0017-gas-improve-reproducibility-for-stabs-debugging-data.patch
->  create mode 100644
-> meta/recipes-extended/gawk/gawk/0001-Use-cross-AR-during-compile.patch
->  create mode 100644
-> meta/recipes-graphics/freetype/freetype/0001-sfnt-Fix-heap-buffer-overflow-59308.patch
->  create mode 100644
-> meta/recipes-multimedia/gstreamer/gstreamer1.0/0005-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch
->
-> --
-> 2.28.0
->
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> > On Thu, 2020-10-15 at 21:33 -0700, Khem Raj wrote:
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > > v2: Add devicetree.bbclass and glibc-collateral.inc
+> > >
+> > >  meta/classes/devicetree.bbclass                              | 2 +-
+> > >  meta/recipes-connectivity/connman/connman-conf.bb            | 2 +-
+> > >  meta/recipes-core/busybox/busybox-inittab_1.32.0.bb          | 2 +-
+> > >  meta/recipes-core/glibc/glibc-collateral.inc                 | 4 ++-
+> > > -
+> > >  meta/recipes-core/systemd/systemd-serialgetty.bb             | 2 +-
+> > >  meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb       | 2 +-
+> > >  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+> > >  7 files changed, 8 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/meta/classes/devicetree.bbclass
+> > > b/meta/classes/devicetree.bbclass
+> > > index c772ab2ab9..ece883accf 100644
+> > > --- a/meta/classes/devicetree.bbclass
+> > > +++ b/meta/classes/devicetree.bbclass
+> > > @@ -18,7 +18,7 @@ SECTION ?= "bsp"
+> > >  # device trees built with them are at least GPLv2 (and in some cases
+> > > dual
+> > >  # licensed). Default to GPLv2 if the recipe does not specify a
+> > > license.
+> > >  LICENSE ?= "GPLv2"
+> > > -LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-
+> > > 2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > > +LIC_FILES_CHKSUM ?= "file://${COMMON_LICENSE_DIR}/GPL-2.0-
+> > > only;md5=801f80980d171dd6425610833a22dbe6"
+> > >
+> > >  INHIBIT_DEFAULT_DEPS = "1"
+> > >  DEPENDS += "dtc-native"
+> > > diff --git a/meta/recipes-connectivity/connman/connman-conf.bb
+> > > b/meta/recipes-connectivity/connman/connman-conf.bb
+> > > index 9a519ec866..85fee09258 100644
+> > > --- a/meta/recipes-connectivity/connman/connman-conf.bb
+> > > +++ b/meta/recipes-connectivity/connman/connman-conf.bb
+> > > @@ -2,7 +2,7 @@ SUMMARY = "Connman config to setup wired interface on
+> > > qemu machines"
+> > >  DESCRIPTION = "This is the ConnMan configuration to set up a Wired \
+> > >  network interface for a qemu machine."
+> > >  LICENSE = "GPLv2"
+> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> > >
+> > >  inherit systemd
+> > >
+> > > diff --git a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > > b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > > index 61fb8cbad1..2129acd8d3 100644
+> > > --- a/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > > +++ b/meta/recipes-core/busybox/busybox-inittab_1.32.0.bb
+> > > @@ -1,6 +1,6 @@
+> > >  SUMMARY = "inittab configuration for BusyBox"
+> > >  LICENSE = "GPLv2"
+> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> > >
+> > >  SRC_URI = "file://inittab"
+> > >
+> > > diff --git a/meta/recipes-core/glibc/glibc-collateral.inc
+> > > b/meta/recipes-core/glibc/glibc-collateral.inc
+> > > index 52880791a7..4f81f07da7 100644
+> > > --- a/meta/recipes-core/glibc/glibc-collateral.inc
+> > > +++ b/meta/recipes-core/glibc/glibc-collateral.inc
+> > > @@ -1,7 +1,7 @@
+> > >  require glibc-common.inc
+> > >
+> > > -LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-
+> > > 2.0;md5=801f80980d171dd6425610833a22dbe6 \
+> > > -                     file://${COMMON_LICENSE_DIR}/LGPL-
+> > > 2.1;md5=1a6d268fd218675ffea8be556788b780"
+> > > +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-
+> > > only;md5=801f80980d171dd6425610833a22dbe6 \
+> > > +                     file://${COMMON_LICENSE_DIR}/LGPL-2.1-
+> > > only;md5=1a6d268fd218675ffea8be556788b780"
+> > >
+> > >  deltask do_fetch
+> > >  deltask do_unpack
+> > > diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > > b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > > index 0cc0dc8c79..9a63c9f0a8 100644
+> > > --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > > +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+> > > @@ -1,7 +1,7 @@
+> > >  SUMMARY = "Serial terminal support for systemd"
+> > >  HOMEPAGE = "https://www.freedesktop.org/wiki/Software/systemd/"
+> > >  LICENSE = "GPLv2+"
+> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> > >
+> > >  PR = "r5"
+> > >
+> > > diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > > b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > > index 8781492d47..d95d1a63f5 100644
+> > > --- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > > +++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+> > > @@ -1,6 +1,6 @@
+> > >  SUMMARY = "Inittab configuration for SysVinit"
+> > >  LICENSE = "GPLv2"
+> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> > >
+> > >  PR = "r10"
+> > >
+> > > diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-
+> > > scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-
+> > > scripts_1.0.bb
+> > > index 1ab248fed5..8a02bc7f48 100644
+> > > --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> > > +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> > > @@ -1,6 +1,6 @@
+> > >  SUMMARY = "Build tools needed by external modules"
+> > >  LICENSE = "GPLv2"
+> > > -LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0;md5=801f80980d171dd6425610833a22dbe6"
+> > > +LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-
+> > > licenses/GPL-2.0-only;md5=801f80980d171dd6425610833a22dbe6"
+> > >
+> > >  inherit kernel-arch
+> > >  inherit pkgconfig
+> > >
+> > >
+> >
 >
 > 
 >
 >
 
---000000000000bc5dba05b44ff108
+--000000000000efb1e905b4501703
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi,<div><br></div><div>Do you still plan =
-to upgrade bluez5 in gatesgarth to 5.55 like dunfell was recently updated?<=
-/div><div><br></div><div>You mentioned it in:</div><div><a href=3D"https://=
-lists.openembedded.org/g/openembedded-core/message/144467">https://lists.op=
-enembedded.org/g/openembedded-core/message/144467</a><br></div><div>but I d=
-on&#39;t see it in this PR.</div></div><br><div class=3D"gmail_quote"><div =
-dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17, 2020 at 4:36 PM Anuj Mitta=
-l &lt;<a href=3D"mailto:anuj.mittal@intel.com">anuj.mittal@intel.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Next se=
-t of changes for gatesgarth. Please review.<br>
+<div dir=3D"ltr">Hello Meh,<div><br></div><div>master is now open for next =
+release, can you please send an updated revision of this patch?</div><div><=
+br></div><div>Regards,</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Oct 16, 2020 at 8:48 PM Khem Raj &lt=
+;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, Oct 16, 20=
+20 at 2:05 AM Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
+">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi Khem,<br>
+&gt;<br>
+&gt; This patch fixes issues introduced by a patch I tested in -next from<=
+br>
+&gt; Meh Mbeh Ida Delphine &lt;<a href=3D"mailto:idadelm@gmail.com" target=
+=
+=3D"_blank">idadelm@gmail.com</a>&gt; (cc&#39;d). I have removed it<br>
+&gt; from the queue as it failed testing. This patch may be useful so they=
 <br>
-Passed a-full on autobuilder except for one failure. Ping test failed<br>
-while executing do_testimage for sato image. <br>
+&gt; can fix their patch though.<br>
+&gt;<br>
+&gt; Note the fixes Khem found for glibc-collateral and devicetree.bbclass=
 <br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/buil=
-ds/1602" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/typhoon/#/builders/83/builds/1602</a><br>
+&gt; in addition to the recipes.<br>
 <br>
-I think this failure is not related to the changes here as the test passed=
+Thanks, other layers also rely on these names. So perhaps this should<br>
+wait till master opens for next release<br>
+and address those layers too.<br>
 <br>
-in other configurations. Probably similar to:<br>
-<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14029" rel=
-=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_b=
-ug.cgi?id=3D14029</a><br>
-<br>
-Thanks,<br>
-<br>
-Anuj<br>
-<br>
-The following changes since commit a1db1e71129c3e67ddd9dbef21e1c5eb31552e0=
-0:<br>
-<br>
-=C2=A0 grub: clean up CVE patches (2020-11-12 11:54:28 +0800)<br>
-<br>
-are available in the Git repository at:<br>
-<br>
-=C2=A0 git://<a href=3D"http://push.openembedded.org/openembedded-core-con=
-trib" rel=3D"noreferrer" target=3D"_blank">push.openembedded.org/openembedd=
-ed-core-contrib</a> anujm/gatesgarth<br>
-<br>
-Alexander Kanavin (2):<br>
-=C2=A0 clutter-gst-3.0: do not call out to host gstreamer plugin scanner<b=
+&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+&gt; On Thu, 2020-10-15 at 21:33 -0700, Khem Raj wrote:<br>
+&gt; &gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com=
+" target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; v2: Add devicetree.bbclass and glibc-collateral.inc<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 meta/classes/devicetree.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 2 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-connectivity/connman/<a href=3D"http://connma=
+n-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-core/busybox/<a href=3D"http://busybox-initta=
+b_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb=
+</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-core/glibc/glibc-collateral.inc=C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++-<br>
+&gt; &gt; -<br>
+&gt; &gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd-serial=
+getty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-init=
+tab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88d=
+sf.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt; &gt;=C2=A0 meta/recipes-kernel/make-mod-scripts/<a href=3D"http://mak=
+e-mod-scripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts=
+_1.0.bb</a> | 2 +-<br>
+&gt; &gt;=C2=A0 7 files changed, 8 insertions(+), 8 deletions(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/classes/devicetree.bbclass<br>
+&gt; &gt; b/meta/classes/devicetree.bbclass<br>
+&gt; &gt; index c772ab2ab9..ece883accf 100644<br>
+&gt; &gt; --- a/meta/classes/devicetree.bbclass<br>
+&gt; &gt; +++ b/meta/classes/devicetree.bbclass<br>
+&gt; &gt; @@ -18,7 +18,7 @@ SECTION ?=3D &quot;bsp&quot;<br>
+&gt; &gt;=C2=A0 # device trees built with them are at least GPLv2 (and in =
+some cases<br>
+&gt; &gt; dual<br>
+&gt; &gt;=C2=A0 # licensed). Default to GPLv2 if the recipe does not speci=
+fy a<br>
+&gt; &gt; license.<br>
+&gt; &gt;=C2=A0 LICENSE ?=3D &quot;GPLv2&quot;<br>
+&gt; &gt; -LIC_FILES_CHKSUM ?=3D &quot;file://${COMMON_LICENSE_DIR}/GPL-<b=
 r>
-=C2=A0 conf-notes.txt: mention more important images than just sato<br>
-<br>
-Bruce Ashfield (1):<br>
-=C2=A0 kernel: provide module.lds for out of tree builds in v5.10+<br>
-<br>
-Denys Zagorui (1):<br>
-=C2=A0 binutils: reproducibility: reuse debug-prefix-map for stabs<br>
-<br>
-Diego Santa Cruz (1):<br>
-=C2=A0 freetype: fix CVE-2020-15999, backport from 2.10.4<br>
-<br>
-Gratian Crisan (1):<br>
-=C2=A0 kernel-module-split.bbclass: identify kernel modconf files as<br>
-=C2=A0 =C2=A0 configuration files<br>
-<br>
-Jose Quaresma (1):<br>
-=C2=A0 gstreamer1.0: warn the user when something is wrong with GstBufferP=
-ool<br>
-<br>
-Khem Raj (2):<br>
-=C2=A0 lrzsz: Use Cross AR during compile<br>
-=C2=A0 gawk: Avoid using host ar during cross compile<br>
-<br>
-Konrad Weihmann (3):<br>
-=C2=A0 oeqa/core/context: expose results as variable<br>
-=C2=A0 oeqa/core/context: initialize _run_end_time<br>
-=C2=A0 testimage: print results for interrupted runs<br>
-<br>
-Mark Jonas (1):<br>
-=C2=A0 libbsd: Remove BSD-4-Clause from main package<br>
-<br>
-Matt Madison (1):<br>
-=C2=A0 layer.conf: fix syntax error in PATH setting<br>
-<br>
-Nathan Rossi (1):<br>
-=C2=A0 diffstat: add nativesdk to BBCLASSEXTEND<br>
-<br>
-Richard Purdie (3):<br>
-=C2=A0 ptest-runner: Fix license as it contains &#39;or later&#39; clause<=
+&gt; &gt; 2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br>
+&gt; &gt; +LIC_FILES_CHKSUM ?=3D &quot;file://${COMMON_LICENSE_DIR}/GPL-2.=
+0-<br>
+&gt; &gt; only;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 INHIBIT_DEFAULT_DEPS =3D &quot;1&quot;<br>
+&gt; &gt;=C2=A0 DEPENDS +=3D &quot;dtc-native&quot;<br>
+&gt; &gt; diff --git a/meta/recipes-connectivity/connman/<a href=3D"http:/=
+/connman-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><=
 br>
-=C2=A0 libdnf: Fix license as it contains &#39;or later&#39; clause<br>
-=C2=A0 alsa-utils: Fix license to GPLv2 only<br>
+&gt; &gt; b/meta/recipes-connectivity/connman/<a href=3D"http://connman-co=
+nf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><br>
+&gt; &gt; index 9a519ec866..85fee09258 100644<br>
+&gt; &gt; --- a/meta/recipes-connectivity/connman/<a href=3D"http://connma=
+n-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-connectivity/connman/<a href=3D"http://connma=
+n-conf.bb" rel=3D"noreferrer" target=3D"_blank">connman-conf.bb</a><br>
+&gt; &gt; @@ -2,7 +2,7 @@ SUMMARY =3D &quot;Connman config to setup wired =
+interface on<br>
+&gt; &gt; qemu machines&quot;<br>
+&gt; &gt;=C2=A0 DESCRIPTION =3D &quot;This is the ConnMan configuration to=
+ set up a Wired \<br>
+&gt; &gt;=C2=A0 network interface for a qemu machine.&quot;<br>
+&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
+&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
+>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
+t;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 inherit systemd<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-core/busybox/<a href=3D"http://busybox=
+-inittab_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.=
+32.0.bb</a><br>
+&gt; &gt; b/meta/recipes-core/busybox/<a href=3D"http://busybox-inittab_1.=
+32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb</a>=
 <br>
-Steve Sakoman (1):<br>
-=C2=A0 openssh: whitelist CVE-2014-9278<br>
-<br>
-=C2=A0meta/classes/kernel-module-split.bbclass=C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- 1 +<br>
-=C2=A0meta/classes/kernel.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A0meta/classes/testimage.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 | 19 ++++---<br>
-=C2=A0meta/conf/conf-notes.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +<br>
-=C2=A0meta/conf/layer.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A0meta/lib/oeqa/core/context.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 ++<br>
-=C2=A0...mpilation-using-autoconf-detected-AR.patch | 36 +++++++++++++<br>
-=C2=A0meta/recipes-bsp/lrzsz/<a href=3D"http://lrzsz_0.12.20.bb" rel=3D"no=
-referrer" target=3D"_blank">lrzsz_0.12.20.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0=
-|=C2=A0 1 +<br>
-=C2=A0.../openssh/<a href=3D"http://openssh_8.3p1.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">openssh_8.3p1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 4 ++<br>
-=C2=A0.../binutils/binutils-2.35.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A0...oducibility-for-stabs-debugging-data.patch | 35 +++++++++++++<br>
-=C2=A0.../diffstat/<a href=3D"http://diffstat_1.63.bb" rel=3D"noreferrer" =
-target=3D"_blank">diffstat_1.63.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +<br>
-=C2=A0meta/recipes-devtools/libdnf/<a href=3D"http://libdnf_0.48.0.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">libdnf_0.48.0.bb</a> |=C2=A0 2 +-<br>
-=C2=A0.../0001-Use-cross-AR-during-compile.patch=C2=A0 =C2=A0 | 35 +++++++=
-++++++<br>
-=C2=A0meta/recipes-extended/gawk/<a href=3D"http://gawk_5.1.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">gawk_5.1.0.bb</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-1 +<br>
-=C2=A0.../clutter/clutter-gst-3.0.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +<br>
-=C2=A0...-sfnt-Fix-heap-buffer-overflow-59308.patch | 51 +++++++++++++++++=
-++<br>
-=C2=A0.../freetype/<a href=3D"http://freetype_2.10.2.bb" rel=3D"noreferrer=
-" target=3D"_blank">freetype_2.10.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A0meta/recipes-kernel/linux/<a href=3D"http://kernel-devsrc.bb" rel=3D=
-"noreferrer" target=3D"_blank">kernel-devsrc.bb</a>=C2=A0 =C2=A0 |=C2=A0 6 =
-+++<br>
-=C2=A0meta/recipes-multimedia/alsa/alsa-utils.inc=C2=A0 =C2=A0|=C2=A0 3 +-=
-<br>
-=C2=A0...size-in-reset-when-maxsize-is-larger.patch | 49 +++++++++++++++++=
-+<br>
-=C2=A0.../gstreamer/<a href=3D"http://gstreamer1.0_1.16.3.bb" rel=3D"noref=
-errer" target=3D"_blank">gstreamer1.0_1.16.3.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 |=C2=A0 1 +<br>
-=C2=A0meta/recipes-support/libbsd/<a href=3D"http://libbsd_0.10.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">libbsd_0.10.0.bb</a>=C2=A0 |=C2=A0 3 +-<=
+&gt; &gt; index 61fb8cbad1..2129acd8d3 100644<br>
+&gt; &gt; --- a/meta/recipes-core/busybox/<a href=3D"http://busybox-initta=
+b_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb=
+</a><br>
+&gt; &gt; +++ b/meta/recipes-core/busybox/<a href=3D"http://busybox-initta=
+b_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-inittab_1.32.0.bb=
+</a><br>
+&gt; &gt; @@ -1,6 +1,6 @@<br>
+&gt; &gt;=C2=A0 SUMMARY =3D &quot;inittab configuration for BusyBox&quot;<=
 br>
-=C2=A0.../ptest-runner/<a href=3D"http://ptest-runner_2.4.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">ptest-runner_2.4.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 2 +-<br>
-=C2=A024 files changed, 251 insertions(+), 13 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0001-Fix-cro=
-ss-compilation-using-autoconf-detected-AR.patch<br>
-=C2=A0create mode 100644 meta/recipes-devtools/binutils/binutils/0017-gas-=
-improve-reproducibility-for-stabs-debugging-data.patch<br>
-=C2=A0create mode 100644 meta/recipes-extended/gawk/gawk/0001-Use-cross-AR=
--during-compile.patch<br>
-=C2=A0create mode 100644 meta/recipes-graphics/freetype/freetype/0001-sfnt=
--Fix-heap-buffer-overflow-59308.patch<br>
-=C2=A0create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/00=
-05-bufferpool-only-resize-in-reset-when-maxsize-is-larger.patch<br>
+&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
+&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
+>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
+t;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 SRC_URI =3D &quot;file://inittab&quot;<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-core/glibc/glibc-collateral.inc<br>
+&gt; &gt; b/meta/recipes-core/glibc/glibc-collateral.inc<br>
+&gt; &gt; index 52880791a7..4f81f07da7 100644<br>
+&gt; &gt; --- a/meta/recipes-core/glibc/glibc-collateral.inc<br>
+&gt; &gt; +++ b/meta/recipes-core/glibc/glibc-collateral.inc<br>
+&gt; &gt; @@ -1,7 +1,7 @@<br>
+&gt; &gt;=C2=A0 require glibc-common.inc<br>
+&gt; &gt;<br>
+&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COMMON_LICENSE_DIR}/GPL-<br=
+>
+&gt; &gt; 2.0;md5=3D801f80980d171dd6425610833a22dbe6 \<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0file://${COMMON_LICENSE_DIR}/LGPL-<br>
+&gt; &gt; 2.1;md5=3D1a6d268fd218675ffea8be556788b780&quot;<br>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COMMON_LICENSE_DIR}/GPL-2.0=
+-<br>
+&gt; &gt; only;md5=3D801f80980d171dd6425610833a22dbe6 \<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0file://${COMMON_LICENSE_DIR}/LGPL-2.1-<br>
+&gt; &gt; only;md5=3D1a6d268fd218675ffea8be556788b780&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 deltask do_fetch<br>
+&gt; &gt;=C2=A0 deltask do_unpack<br>
+&gt; &gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd=
+-serialgetty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.b=
+b</a><br>
+&gt; &gt; b/meta/recipes-core/systemd/<a href=3D"http://systemd-serialgett=
+y.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a><br>
+&gt; &gt; index 0cc0dc8c79..9a63c9f0a8 100644<br>
+&gt; &gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd-serial=
+getty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a><b=
+r>
+&gt; &gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd-serial=
+getty.bb" rel=3D"noreferrer" target=3D"_blank">systemd-serialgetty.bb</a><b=
+r>
+&gt; &gt; @@ -1,7 +1,7 @@<br>
+&gt; &gt;=C2=A0 SUMMARY =3D &quot;Serial terminal support for systemd&quot=
+;<br>
+&gt; &gt;=C2=A0 HOMEPAGE =3D &quot;<a href=3D"https://www.freedesktop.org/=
+wiki/Software/systemd/" rel=3D"noreferrer" target=3D"_blank">https://www.fr=
+eedesktop.org/wiki/Software/systemd/</a>&quot;<br>
+&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2+&quot;<br>
+&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
+>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
+t;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 PR =3D &quot;r5&quot;<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-core/sysvinit/<a href=3D"http://sysvin=
+it-inittab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-initta=
+b_2.88dsf.bb</a><br>
+&gt; &gt; b/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-inittab_=
+2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88dsf.b=
+b</a><br>
+&gt; &gt; index 8781492d47..d95d1a63f5 100644<br>
+&gt; &gt; --- a/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-init=
+tab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88d=
+sf.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-core/sysvinit/<a href=3D"http://sysvinit-init=
+tab_2.88dsf.bb" rel=3D"noreferrer" target=3D"_blank">sysvinit-inittab_2.88d=
+sf.bb</a><br>
+&gt; &gt; @@ -1,6 +1,6 @@<br>
+&gt; &gt;=C2=A0 SUMMARY =3D &quot;Inittab configuration for SysVinit&quot;=
 <br>
--- <br>
-2.28.0<br>
+&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
+&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
+>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
+t;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 PR =3D &quot;r10&quot;<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-<br>
+&gt; &gt; <a href=3D"http://scripts_1.0.bb" rel=3D"noreferrer" target=3D"_=
+blank">scripts_1.0.bb</a> b/meta/recipes-kernel/make-mod-scripts/make-mod-<=
+br>
+&gt; &gt; <a href=3D"http://scripts_1.0.bb" rel=3D"noreferrer" target=3D"_=
+blank">scripts_1.0.bb</a><br>
+&gt; &gt; index 1ab248fed5..8a02bc7f48 100644<br>
+&gt; &gt; --- a/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://mak=
+e-mod-scripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts=
+_1.0.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-kernel/make-mod-scripts/<a href=3D"http://mak=
+e-mod-scripts_1.0.bb" rel=3D"noreferrer" target=3D"_blank">make-mod-scripts=
+_1.0.bb</a><br>
+&gt; &gt; @@ -1,6 +1,6 @@<br>
+&gt; &gt;=C2=A0 SUMMARY =3D &quot;Build tools needed by external modules&q=
+uot;<br>
+&gt; &gt;=C2=A0 LICENSE =3D &quot;GPLv2&quot;<br>
+&gt; &gt; -LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0;md5=3D801f80980d171dd6425610833a22dbe6&quot;<br=
+>
+&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/files/common=
+-<br>
+&gt; &gt; licenses/GPL-2.0-only;md5=3D801f80980d171dd6425610833a22dbe6&quo=
+t;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 inherit kernel-arch<br>
+&gt; &gt;=C2=A0 inherit pkgconfig<br>
+&gt; &gt; <br>
+&gt; &gt;<br>
+&gt;<br>
 <br>
 <br>
 <br>
-<br>
-</blockquote></div></div>
+</blockquote></div>
 
---000000000000bc5dba05b44ff108--
+--000000000000efb1e905b4501703--
