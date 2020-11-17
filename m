@@ -1,90 +1,103 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.9005.1605625163542366998
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.web11.9449.1605626680670111818
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 06:59:23 -0800
+ Tue, 17 Nov 2020 07:24:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nb7T4xNc;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: vincent.prince.fr@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 19so3550378wmf.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 06:59:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=c3fRAC0e;
+ spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id v11so15789954qtq.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 07:24:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=+2EK1E53FMQxPbO3jvyfAo+S4BTI0xpjBSjaB7b5E+o=;
-        b=nb7T4xNcHP6HQA5JulG+svyzW0pX3BjwtJkG/pmfDXSrXgbP0Q8zlqTi3Cy4Vo/+Np
-         WHKXizsjfglAeHIktxDr/WUoj5Iii0WbEbugiZMffRJhAIoVB/bKJY1C5cuLf0Nij8Uy
-         Rq4K1nV+XxSthirP3nOVjMstF0fn2mCpt7BBX88o4aK08ntkW63VfVjP1lNf38iUdZJK
-         e6DMsp4vDW4Uzc1oUzKMMYSc1JU228QqgFDoOG42GZaOLMQNIOzbdUAxBGjU2ZoAX7Tp
-         j/1eC5xjBGPZvP/qC1JULh4Ez3AYyn7RayQseeClQs+0c1cHokzdjgPHCN7c+JjkviMc
-         95Yg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=shGMjocQlmlebrj2muF7DFhKVhwAM7S/VT108gelpeI=;
+        b=c3fRAC0epcOOhb5zpRQ1ysdRCjWSSPUCJkesj0+NRmSraPbTUp5pO7o1/7t6X6I6FA
+         aqJPfqRIstlZGj5WIEROQL8/ambEYtm3r0A5OEz6ypLBWkej65RAVMYSrWjAI1vSaKCD
+         pJBZlxCKqtqpQVsVTp2ZuGsGCB+hwQMMhNGeQnAYvjtagWE6Eg/x5YplgVooLgHD99Aa
+         sumfmCaJ9gbWk3ziY4KAPBfW5+ssoClXBtqFxhqi8a/OAtR805MSSEvezgOkpQromMcr
+         jZ1Yuy+yJjj79pMYOlskge8RyS8j9JqZQU/oM8717+yt7XOO+Hq5V587xU72m/ZD/2dX
+         1rbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=+2EK1E53FMQxPbO3jvyfAo+S4BTI0xpjBSjaB7b5E+o=;
-        b=tM89uSnjjCn70J3PG1J1hXOWFmcICb/3K7Ap/BHiE+epAnHaHWJgsoK9AYyot0PNIl
-         uyc7f5J8iZXDh4GrZWfG2TECxAltQ61BOdHM/EE/K/cZV5b+nfZnSYDKeYUw8xDPm/6y
-         OGxXhiIXMw0iwlc6WudHT36LJaeG3yqUuPRsucYImTUddXPV2BBW12CP3+qbb3VdFzBZ
-         2oUVDYwZ7R06BHz/tPj7tc0aD2MNe4ibLcKIFNSZKHr0PAZtk7ItZ27gkmAqhdMWWB8h
-         lp9hoXhdP9YIR+pyzQ9nADvkOv3bStATiUmlOo4jISiMXAC27N2scx8VQNtLHVr4xZyH
-         cLCQ==
-X-Gm-Message-State: AOAM5335kQvGwQeEmNzICpQWwLFm1v6u+JxAkfcS5EN4Q+6AP6Eq1mhI
-	BZwFF/4IIoyRQtDwjJ/cX7XxtyV6iQgqhSuHLW4Y2ccR42A=
-X-Google-Smtp-Source: ABdhPJyMsxKZRrXa864sak/myqSkQeBNLlovNRDu9wd5G7Z6COnBMDaePe6cMckITDx7CKMW+Lc246/5GUfNvwfHaUs=
-X-Received: by 2002:a1c:3d44:: with SMTP id k65mr4623828wma.147.1605625161449;
- Tue, 17 Nov 2020 06:59:21 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=shGMjocQlmlebrj2muF7DFhKVhwAM7S/VT108gelpeI=;
+        b=BZsbR5QYhSmfr/XvZyzxna0Uop+xqnNJlgmSEpDuTaPg62MlmtfMuNhWYGpZ6fFbn4
+         SS4V3Grd6BMRTy2MAXEiACvUoexxJ9gbB5E9i6NT5Fl5tnfzbhBTmVXdB16tcycSvLxQ
+         y5ilq1pyEl4h4RAskLOjw0G/B+uOr4OtYpa6yb0Cwm4srcUWTyhxjwhaPbJvDotzcRNY
+         C1JQ8SBt5hyTVIk6L05bpQqMmOQJ1eHN28mLIGyeItABukZpK9mEpUqt4lubCez0Mlhc
+         iSJkrP2hZVZYJwSegD4hv51ISRKYcq11BAm4eQu9UVwpkXoTnv5h6jbz74nRUFi8lOCv
+         /eyw==
+X-Gm-Message-State: AOAM53044rK4AKDr4WAF9Z69fTCKGABnRfbe1UF4Htop05KR2MOaf4rt
+	Fx7l7WZW/fDho98FwvK2jAk=
+X-Google-Smtp-Source: ABdhPJzDRN1Izhw5bStLggs1CSvMWHFzbn2ze49vynr5dqRtdtFAHN/gFrKQE6DhjkMZznnGLx+ybQ==
+X-Received: by 2002:ac8:6943:: with SMTP id n3mr187428qtr.22.1605626679545;
+        Tue, 17 Nov 2020 07:24:39 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
+        by smtp.gmail.com with ESMTPSA id u24sm14537923qtb.33.2020.11.17.07.24.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2020 07:24:38 -0800 (PST)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/11] linux-yocto: consolidated pull request
+Date: Tue, 17 Nov 2020 10:24:26 -0500
+Message-Id: <cover.1605626488.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-From: "nefethael" <vincent.prince.fr@gmail.com>
-Date: Tue, 17 Nov 2020 15:59:10 +0100
-Message-ID: <CAB2nKc_WuU_YJAA9q+Yu_kbg+7XQFPOmGaKrg1PtzTfQe0TD8w@mail.gmail.com>
-Subject: cve-check: custom hook for unpatched CVEs
-To: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000064043f05b44ebd06"
+Content-Transfer-Encoding: 8bit
 
---00000000000064043f05b44ebd06
-Content-Type: text/plain; charset="UTF-8"
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
- Hello Team,
+Richard,
 
-I wish I could extend cve-check.bbclass to do some custom actions when some
-unpatched CVEs are discovered.
-For now, I just duplicated class to another my-cve-check.bbclass but
-cve-update-db-native.bb fails due
-to
-http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-core/meta/cve-update-db-native.bb?id=cbc717350b21fb417fa6f83621022ac633a26124
-.
-I also tried to just override cve-check.bbclass in a custom layer but it
-seems it's quite a mess to do it if I follow correctly
-https://wiki.yoctoproject.org/wiki/Technical_FAQ#How_do_I_override_a_bbclass_file.3F
+I had sent some of these before, but on my latest rebase I see they are
+still outstanding.
 
-I'm not a Yocto guru so I'm not sure how to contribute to add some kind of
-custom hooks in existing code so that we can extend cve-check process?
+Feel free to drop ones that you already have queued, since I've included
+all my tested -stable updates. I've also kept 5.4 separate from 5.8 in
+config chanages, so Steve can pick them up more easily.
 
-Thanks for your help,
-Vincent
+I'm doing another round of -stable updates now, so I wanted to send these
+again first.
 
---00000000000064043f05b44ebd06
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr">
-Hello Team, <br><br>I wish I could extend cve-check.bbclass to do some cust=
-om actions when some unpatched CVEs are discovered. <br>For now, I just dup=
-licated class to another my-cve-check.bbclass but <a href=3D"http://cve-upd=
-ate-db-native.bb">cve-update-db-native.bb</a> fails due<br>to <a href=3D"ht=
-tp://cgit.openembedded.org/openembedded-core/commit/meta/recipes-core/meta/=
-cve-update-db-native.bb?id=3Dcbc717350b21fb417fa6f83621022ac633a26124" targ=
-et=3D"_blank">http://cgit.openembedded.org/openembedded-core/commit/meta/re=
-cipes-core/meta/cve-update-db-native.bb?id=3Dcbc717350b21fb417fa6f83621022a=
-c633a26124</a> .<br>I also tried to just override cve-check.bbclass in a cu=
-stom layer but it seems it&#39;s quite a mess to do it if I follow correctl=
-y <br><a href=3D"https://wiki.yoctoproject.org/wiki/Technical_FAQ#How_do_I_=
-override_a_bbclass_file.3F" target=3D"_blank">https://wiki.yoctoproject.org=
-/wiki/Technical_FAQ#How_do_I_override_a_bbclass_file.3F</a><br><br>I&#39;m
- not a Yocto guru so I&#39;m not sure how to contribute to add some kind of=
-=20
-custom hooks in existing code so that we can extend cve-check process?<br><=
-br>Thanks for your help,<br>Vincent
+Bruce
 
-</div>
+The following changes since commit eced9bcb337087c076e847f8d9cbae95760c28ed:
 
---00000000000064043f05b44ebd06--
+  kexec: arm64: disabled check if kaslr-seed dtb property was wiped (2020-11-16 14:27:46 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (11):
+  linux-yocto/5.8: update to v5.8.15
+  linux-yocto/5.4: update to v5.4.71
+  linux-yocto/5.8: update to v5.8.16
+  linux-yocto/5.4: update to v5.4.72
+  linux-yocto/5.8: update to v5.8.17
+  linux-yocto/5.4: update to v5.4.73
+  linux-yocto-dev: move to v5.10-rc
+  linux-yocto/5.4: config cleanup / warnings
+  linux-yocto/5.8: config cleanup / warnings
+  linux-yocto/5.8: update to v5.8.18
+  linux-yocto/5.4: update to v5.4.75
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-rt_5.8.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ .../linux/linux-yocto-tiny_5.8.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  | 22 +++++++++----------
+ 7 files changed, 37 insertions(+), 37 deletions(-)
+
+-- 
+2.19.1
+
