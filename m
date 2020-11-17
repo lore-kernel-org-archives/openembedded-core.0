@@ -1,96 +1,75 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.web12.16798.1605656912902263195
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+ by mx.groups.io with SMTP id smtpd.web11.17084.1605656917424562353
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 15:48:33 -0800
+ Tue, 17 Nov 2020 15:48:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MoK3ijlw;
- spf=softfail (domain: sakoman.com, ip: 209.85.161.48, mailfrom: steve@sakoman.com)
-Received: by mail-oo1-f48.google.com with SMTP id q28so5204659oof.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 15:48:32 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bVSCte25;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.42, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f42.google.com with SMTP id n89so13175otn.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 15:48:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=5vnBW2qoT/e8HcdIO85OnrVZ7qgfS+QMd0JbFttb0Y0=;
-        b=MoK3ijlw/YUJdd/NuGC6pwqJaoizMNJpLzXs1NU2d5lRaySqEhKqVUhzQfXPfjQ7R/
-         s2bZSfxKML+ERWSKc8DZ2HU22NyILuIfNROh3CnDcDyt0C15jSYlQ0m5n9Fy+sOFsqqv
-         49B+1VAIf2OxsfVcoxVMsG/4wyRTDBjEiG0Df9s7oLeegsVrHaFEMeE5X09sYA0w7Xwg
-         nBG6QoNhoPYYQ3zI340i6WKJXqC56jIUfhJ2jP7fpgw2wLTfY0ARzQOWNhr7L3RQZZUO
-         4giM6sM85PNUnpA4SYyVYOM1SGM9++kN2gdq+1j3k1qNyoVYpBsqXioSBtwhjlH1eYjh
-         yELg==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=k5qqoCSJCkB5I7yUQ/XEh3wIeQ4D1ogWVkUdB8MDSQQ=;
+        b=bVSCte25Y1gez8EsJOfGXBufqpqBwJcjjhR1BQ2nwua99RT95jEWhuYpi3ZyyfxLVU
+         WnGzSUd3PAq4To+oklU6YEbMknGcCnEHFFegYClXHHgAQH1iWDIiSkR0cNbqxN7jQd9n
+         J23KrRD/rJFn6OfIa1Riwh4kLe9zj8bDrdaPBE/hftTkToyxUBqyJuFN/2IYTdePKRQa
+         2Ob8rHgYyehrUIUAlPlZuBsFWlNR/XwNsw8jY3X6//t8LIjo2YAKppmz4YdeH+Bs6TwD
+         7vRY/SQTQDte0fId0qGQMjkBFcPdOj4xWU9jtaY7abWblK9T9OLOv3xqECzRJCSGibgs
+         t9KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5vnBW2qoT/e8HcdIO85OnrVZ7qgfS+QMd0JbFttb0Y0=;
-        b=K1+wXAPS39wKd4eW4vZycHjzx+c8VE7t72U5Ep1TNA3S3hP1kXmFFCi05c8sS1qL71
-         7DxcVrQv3A83KTVOA6rLo1EOKVzUpsMWF1aIKJsgxIXV3CwPy4XcRSH61W4QCe+Z+RGv
-         q86neDw3LKBU7ShqyUXEcq7qRPWB6sybEvwag6FOuTSEgZX4h3ropxTaK1zCrVw/55T1
-         p7suww7XN2Y5NmAd98xPR9BPd/4oPSEtMshxLY0uvmJZ335ptj2yVf4EJ6NEzmmq3InM
-         mB+lPtLkSH2wl9hsLdCmw/tLgk2A6QkCXESyRPSAbPxGekSXd1vjua0nhfeHJvMGPWrE
-         g8RA==
-X-Gm-Message-State: AOAM531Eh3GMvDRYNgy/tZcj/8rZJgozPB0MLk9dYV1unbVQOqwVa765
-	PR4AU8k2mggClps1pewJtUUjYUKPpIiYEwOd
-X-Google-Smtp-Source: ABdhPJx5U99xIUPrKP7TgDiMXPJRKGIsRMQdyVi9BKCoBRUOP+H/tjyBwgMNFUvyUz0ZPL6cnMNa4Q==
-X-Received: by 2002:a4a:d752:: with SMTP id h18mr4688008oot.62.1605656911844;
-        Tue, 17 Nov 2020 15:48:31 -0800 (PST)
+         :references;
+        bh=k5qqoCSJCkB5I7yUQ/XEh3wIeQ4D1ogWVkUdB8MDSQQ=;
+        b=YuA7CC57stkNJK89lv85nOd5abt9c+Pe2SOD7KRKe9zg7ztjO4P6OxEE+6gvORGpWz
+         BJa9UcX/NYzrz+NHDuYcalWNEuZgy1HDl46rMDlaSPf9BEsZXJOgH46iKKYG5sm29Sch
+         PuFLGOzZD+QFgFT6hVrV+cE8jZM2y9902jSZ+kJ8dtpGUyZm9qKZY61vL+uhQTZpqEWS
+         GfO6NjNFeUmlaZ9Fiv0ULgRIzVogka0FgOvKDHotK31dsvIsU22WGDNHcYRFFOXHucEU
+         pYrGnzx7t+UGC1tqKnDYYKYdrftTAaljC3JDmsUdc9XXnHgsLIIZKXYwURqrzRrd9iyG
+         HkyQ==
+X-Gm-Message-State: AOAM531tnfGe/92w+31+EGgiIaiWmvEoJs+YpaG04DkENVxG4KkJ5Bo6
+	PIfr9x0ksWShVzvQRjoUCZww7sV9NgqYEyof
+X-Google-Smtp-Source: ABdhPJxA3Ux/U6v66djB0+V5+QF3onzNaA+Mph6aKxsFhvDw8frWAP1xuFuGYlqBVvqjeSy0GjXJaQ==
+X-Received: by 2002:a9d:69d2:: with SMTP id v18mr5022233oto.165.1605656916385;
+        Tue, 17 Nov 2020 15:48:36 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.113])
-        by smtp.gmail.com with ESMTPSA id s131sm6715936oie.58.2020.11.17.15.48.27
+        by smtp.gmail.com with ESMTPSA id s131sm6715936oie.58.2020.11.17.15.48.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2020 15:48:31 -0800 (PST)
+        Tue, 17 Nov 2020 15:48:35 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 5/9] ptest-runner: Bump to 2.4.0
-Date: Tue, 17 Nov 2020 13:47:35 -1000
-Message-Id: <bd7de7dd0992e0d7a6cc322a54cf9e69b052acca.1605656725.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 6/9] ptest-runner: fix upstream version check
+Date: Tue, 17 Nov 2020 13:47:36 -1000
+Message-Id: <83e9731584de86662c009201873759d1b1b3c317.1605656725.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1605656725.git.steve@sakoman.com>
 References: <cover.1605656725.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Anibal Limon <anibal.limon@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Add support for un ptests in multiple directories, useful in multilib
-builds.
-
-Changes,
-
-1e9a845 Add support to specify multiple folder for ptest-runner
-287ba30 Makefile: Fix TEST_LDFLAGS gcc cmdline position
-
-[YOCTO #12604]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1203ee86e3cf4d73f6ba513452717f1c4f78c501)
+(cherry picked from commit fd180d21ec907726b2fcd7709b93cb8e464390d5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{ptest-runner_2.3.2.bb => ptest-runner_2.4.0.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/ptest-runner/{ptest-runner_2.3.2.bb => ptest-runner_2.4.0.bb} (90%)
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-similarity index 90%
-rename from meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
-rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-index 3a0dbf84fd..9e62c486ac 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
+index 9e62c486ac..73c08c6add 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
 +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-@@ -7,8 +7,8 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
- 
--SRCREV = "7015e9199ce748c0717addeebe7a8c47448bab03"
--PV = "2.3.2+git${SRCPV}"
-+SRCREV = "1e9a84585909b970cc8850d3ea02a7215dcfa5a3"
-+PV = "2.4.0+git${SRCPV}"
+@@ -12,6 +12,7 @@ PV = "2.4.0+git${SRCPV}"
  
  SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
  "
++UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.17.1
 
