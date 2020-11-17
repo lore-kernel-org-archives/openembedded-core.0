@@ -1,99 +1,99 @@
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
- by mx.groups.io with SMTP id smtpd.web11.15812.1605650943473407367
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web12.16129.1605653671853973560
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 14:09:03 -0800
+ Tue, 17 Nov 2020 14:54:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AG2TEodI;
- spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f194.google.com with SMTP id d28so22433086qka.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 14:09:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hwiW+0p7;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 62so17002755pgg.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 14:54:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pK/cXizgfGuXnZuKsz3IaOENVWX32pH+VxXdBbgX3f8=;
-        b=AG2TEodIKhs9e++C0N/y6t2iJtrZE+jeZDRKCc1YuURBAnYlKSZlz2HtQHGLUqfLDz
-         UXNFVgObsXGnNxpWewIAYqZ+37b6CMui5ASb2z55PFf+cufGqyoT9n1OOg0qMh9zPpSb
-         R/1TN7KByeoDAV8+PEjRXZgzaC1Z65Lde4t+DJwdHpglpGoaVqjoVwDkpUXpWlsX7o8f
-         a2JEA709J33d+w1+NMaO43/PHxwlCnu+DErVQDhJjJyMhYOdIDpv1/hSeWKa6f01djyv
-         QgUyunaV+kCVgNo3+3In9uwE8voLLo5JEFNLz5tBhqBKpB/+Dipsgst/e5csG3eVmisC
-         lKsQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kZuofQhLAoA40G38bBPSYiXgqEBvYlkk8iV5vp7cF6E=;
+        b=hwiW+0p7h3CI8Qo/x2oIRzBk82L3zb/Ql1Vti8bWR36HHNfrXJF7JhNrldOhbfDkBC
+         a+HZLTWV1rzy7OX7kzdjF4g5QraJClNKkGV4JyoXdu88h/6G6qnlqRqLkyqZimWcI78h
+         T5G1hnheZ4xhcmc6ig27/DqG7RQG87SYjN9VYRcsaWtTlfe/RLTcrKGR5BW5BVUOIqCo
+         34LnIp185xk8t+UC+QhfN9EiFrFAPLAKr4OQUemQiOpRVnTpPG21mqxFQnPGwkGmzgn9
+         +PLZKg+/1K6DH/tZ31YpqDlUIg5oqwcjNQF8TrhcmIXlvPYg3wNGqNocI7/hLrGfIOim
+         W+qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pK/cXizgfGuXnZuKsz3IaOENVWX32pH+VxXdBbgX3f8=;
-        b=UgdalwDQFxkUaCQCjsSPEggP9per5lElFxWe8ZrNoBOuyp+2jHIsagcjfiY+mk05RT
-         IX9ecVmcckR0T8CubcLY9ov21kxziXR1FYK3Y4u/6s9E45OzKUg0D6KUFAPIvcSqRHeT
-         uKKgwE9isJMC/WTYfvwWzDLN/mQvlBaKEJaMN4MtSkI6dbxKiz8rsAnVZSYL50YLvNrm
-         JEbng8VYBREFDR+P+jFlG365ZIx6d2+m4PRfbJpKQF5uh+0asr1pWcNvHWgmYBLaKSfg
-         W72XVUJ14ePvMb7hvc0gNqtxC/os6GW3QQRImlMANuDVjU2H/ZxW08+9VYqwDnNQeNM0
-         Q70A==
-X-Gm-Message-State: AOAM531cGGRMsdOBi9uBPRgJGjjI8uNC4AIV6ji9dUV8mmrFX8K7AAOI
-	nOZV3MOT81DV4EIURMPq6XB4MlsjT0U2PP5deKM=
-X-Google-Smtp-Source: ABdhPJyoNsUMXq4xQ6durYsSUGe+ArH1otWr3Zr73NKEp2ED7zVVfIW/KTUlkMboxJ3pD/BezvZkPML8CjmVW1nMenE=
-X-Received: by 2002:a37:a70e:: with SMTP id q14mr1800992qke.337.1605650942600;
- Tue, 17 Nov 2020 14:09:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20201117065508.1575532-1-raj.khem@gmail.com> <CANNYZj-mVEE0vD8tpJQTPvA_+0Ny7JNk0co97xU5gs+U=PbUOg@mail.gmail.com>
- <CA+chaQcyh_i92pMt32-iiehDsxr1TyhF5pNKiRQstwPz7UVArQ@mail.gmail.com>
- <CANNYZj-SwsznTXvooSHeVijaUPVPgBBN_gFfKednZCe-OGcdow@mail.gmail.com>
- <CAMKF1sqzEw8sAhzsUvPz6rB1OR=i8Cg7-2WUtpjW8tmS3HGF_Q@mail.gmail.com>
- <CANNYZj_Eu38-cpsb767mdgqLn6SEXjdfiJKdQheRWuZv47FYAQ@mail.gmail.com>
- <CAMKF1sq77HcFtdxMODMk231BfW0=vqCV+BL4vOTpcKcAMVTBoA@mail.gmail.com> <CA+chaQdg9wcYFrOuU6zTMMib-Rp0hNYSn_AC3RjFvBwpXM-J4w@mail.gmail.com>
-In-Reply-To: <CA+chaQdg9wcYFrOuU6zTMMib-Rp0hNYSn_AC3RjFvBwpXM-J4w@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kZuofQhLAoA40G38bBPSYiXgqEBvYlkk8iV5vp7cF6E=;
+        b=M8/lWH9MW4Hxr8gJYhIyKnzPmAO0B4JcoG0FuNjphtxC+6REsrVkUpcFKITQOtTvcH
+         dbk7zSJizjBAOelJU51pTbaJZ2eQUeE/ebE36KLJMzSg0t2wGoMcngU0GmOOzGdSSDX/
+         nmdp8emZBNd9JDZNIkuSaYb/VemBLSWQx9TDIpeA5gdMG8EK4OoZbwlSC2/9TNVBHAwH
+         wgt3rTusNrHTW7Y2snimh/GgN4oN6vJqH8uaVjukhEuJJqx8w+59VELXfJq+gJqxBCmA
+         5yUhNpmQ9vNyjV+WoCyiqB2U7pkFrLnOpxx2ukjQKAJYUIiCI5EzRBuAAfuor2Ntu5Ih
+         U3Hw==
+X-Gm-Message-State: AOAM530O0htvncG9/OrUr6WAmQQyJ28ZTYNxvXLTikbL49b6em1DRzYU
+	SXrUSbwMegfZIgLd5fmlRn/HT83IrMiBsQ==
+X-Google-Smtp-Source: ABdhPJwCjvMzie+4Em5bVkFGHySW6gOFLe7uuX5DckhRkX9QfiSnFNaTrcbM4TelrZ/nvrn6dstjGw==
+X-Received: by 2002:a62:7c95:0:b029:18c:5002:a1ab with SMTP id x143-20020a627c950000b029018c5002a1abmr1596470pfc.40.1605653671011;
+        Tue, 17 Nov 2020 14:54:31 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4611])
+        by smtp.gmail.com with ESMTPSA id w127sm22349579pfc.172.2020.11.17.14.54.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2020 14:54:30 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 17 Nov 2020 14:08:34 -0800
-Message-ID: <CAMKF1srSjP1rTXeaPan8yxEas2aVN6xdoP0snkabNd_X4DXAZw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] distutils3-base.bbclass: Inherit python3targetconfig only for target recipes
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/4] python3-numpy: Upgrade to 1.19.4
+Date: Tue, 17 Nov 2020 14:54:25 -0800
+Message-Id: <20201117225428.877691-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 17, 2020 at 12:00 PM Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> And there are some cases where we need only native recipe and creating a target one just to BBCLASSEXTEND seems worse than the current state with native.bbclass.
->
-> Or there are some cases where the native build is so significantly different from the target one, that using BBCLASSEXTEND just makes it more difficult to read without any benefit.
->
-> So please don't remove the option to just inherit native if there aren't any technical reasons to do that.
->
+Unify inc file into single recipe, py2 is gone
 
-I think we have a patch to address the fallout so we should be good here now.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb  | 3 ---
+ .../{python-numpy.inc => python3-numpy_1.19.4.bb}           | 6 ++++--
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb
+ rename meta/recipes-devtools/python-numpy/{python-numpy.inc => python3-numpy_1.19.4.bb} (94%)
 
-> On Tue, Nov 17, 2020 at 7:09 PM Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Tue, Nov 17, 2020 at 9:33 AM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > On Tue, 17 Nov 2020 at 16:41, Khem Raj <raj.khem@gmail.com> wrote:
->> >>
->> >> On Tue, Nov 17, 2020 at 1:19 AM Alexander Kanavin
->> >> <alex.kanavin@gmail.com> wrote:
->> >> >
->> >> > Yes - and if python3-scons-native is the only such recipe we can find, I think it's better to merge the recipe with the target one.
->> >> >
->> >> python3-scons-native is just a manifestation of a larger problem which
->> >> is a regression and this suggestion compounds the problem by setting
->> >> an unequal rule where non-python packages can
->> >> have a native-recipe and recipe but python ones can not, therefore we
->> >> need to fix this properly in core classes instead.
->> >
->> >
->> > If non-python native-only recipes inherit something that DEPENDS on a target item, they will have the exact same problem. This is what needs fixing - but not by special-casing DEPENDS in every class where it happens, or might happen.
->> >
->>
->> keep this issue aside and think in a generic way about how recipes can
->> be written regardless of native or not. behavior has to be consistent
->>
->> > I'd rather convert all native-only recipes to target ones + BBCLASSEXTEND, so it works the same way everywhere, and minimizes surprises.
->> >
->>
->> that's wishful, there are a lot of layers that will have to also
->> change, and we have to change the semantics of native recipes where
->> BBCLASSEXTEND is the only way to do them.
->>
->>
->> > Alex
->> >
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb
+deleted file mode 100644
+index d388e88d25..0000000000
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-inherit setuptools3
+-require python-numpy.inc
+-
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+similarity index 94%
+rename from meta/recipes-devtools/python-numpy/python-numpy.inc
+rename to meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+index 40f81046ee..7ff057b781 100644
+--- a/meta/recipes-devtools/python-numpy/python-numpy.inc
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+@@ -8,14 +8,16 @@ SRCNAME = "numpy"
+ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+-           "
+-SRC_URI[sha256sum] = "9179d259a9bc53ed7b153d31fc3156d1ca560d61079f53191cf177c3efc4a498"
++"
++SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"  
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ DEPENDS += "python3-cython-native"
+ 
++inherit setuptools3
++
+ S = "${WORKDIR}/numpy-${PV}"
+ 
+ CLEANBROKEN = "1"
+-- 
+2.29.2
+
