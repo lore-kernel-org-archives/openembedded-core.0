@@ -1,207 +1,131 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web10.18160.1605663269069181423
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
+ by mx.groups.io with SMTP id smtpd.web12.18498.1605666003902890179
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2020 17:34:30 -0800
+ Tue, 17 Nov 2020 18:20:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.77,486,1596470400"; 
-   d="scan'208,217";a="101491076"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 18 Nov 2020 09:34:24 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id D44474CE4BDF;
-	Wed, 18 Nov 2020 09:34:22 +0800 (CST)
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 18 Nov 2020 09:34:22 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77])
- by G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::549d:26ce:6b90:da77%14]) with
- mapi id 15.00.1497.006; Wed, 18 Nov 2020 09:34:22 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] systemtap: upgrade 4.3 -> 4.4
-Thread-Topic: [OE-core] [PATCH] systemtap: upgrade 4.3 -> 4.4
-Thread-Index: AQHWvBySVMkwcwLohUCXN7ItZm9R6KnNHNWA
-Date: Wed, 18 Nov 2020 01:34:22 +0000
-Message-ID: <9c529ed174954f7c97348c5e960c31c5@G08CNEXMBPEKD04.g08.fujitsu.local>
-References: <1605548543-88442-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <CADkTA4OJ325xQKJ+HjA8Yx05XQjGnbXF8tT_mdaCe-U7h7WBKA@mail.gmail.com>
-In-Reply-To: <CADkTA4OJ325xQKJ+HjA8Yx05XQjGnbXF8tT_mdaCe-U7h7WBKA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.81]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=h0o3+0RR;
+ spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f193.google.com with SMTP id g20so584257qtu.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2020 18:20:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bcu+lpGOqJuxj5T2OCfidWqsl2xfq2G8F9z6xePejV8=;
+        b=h0o3+0RRDIPToVc9OWIJUM0oOqjI98+RODorNaQ84eEWeHMi+XuaZWNumJQ+XLRwHg
+         KcjXHZYa/qAPUoalestEi47WtjewteIWSb2PC4OuepEEF+RyskZYUhU31W5MyDmYzm/J
+         5swW8AkF44OpsLeY7oy7a86rObJd57NDHaWJ17QZ/nUpd5w/KiTAxwiB0oeTCh1eCVBR
+         20Hhe/MmvENITwEpl0MUfIV0Yaceb/AAdM7IyoUw5dQW02+FQHFoaRW8cJ1ersCfVsvF
+         RTb/yXITunPQQiIjukCG7CTPJGPvHm1ysEI8r6yV1qfXlkXhng95oozDYaegiwKP8dR7
+         k/Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bcu+lpGOqJuxj5T2OCfidWqsl2xfq2G8F9z6xePejV8=;
+        b=K7aIgKGeuxPH/YRUc0g7LIMIvuaCGqgwdo/JM1Uavm9N1o5hhrSmiq3kqR7mIzqJx2
+         YbT+1t1kEfDMyOtUcP9F5ZXaJXF0Qz3A3AEAjblBnZw4XDwcXtfNzFZZPSHz3lDf65nz
+         aK29gxjj5BvoTHtIoA+BEoamWCxMgzEVnSm7fZOKj/jlcWsIh6JanzXNDHGrpbIzQjy8
+         RqO277cfO6BonNcPLWtWND0FZNXzDnYkTw7YEZEzYTu+AqJieqcz420wJ+7FeUGlD10x
+         Sjp9OU5sme1OTPqBFqreL5a4/pMf2lDReKWSI4yDEt6jp4XOBO0crgv7Wx4wFGVwcxYO
+         Nf2A==
+X-Gm-Message-State: AOAM530ZLERECRXddMVBa6ujBDJeOKlfdd2d2wcH4Y9KZqdtsucRR/K9
+	3XG82at/17kWc7PfxP8w1EAajsn3oQGwLJQ3DS4=
+X-Google-Smtp-Source: ABdhPJxPV5ezOhzphmrZ1GV8AXX3u7g4sIbnLUIjyKpys1V98ys/g9HgtBGHK0fCe0ATrGMdawt/yMxKJIfFBrA4NTY=
+X-Received: by 2002:ac8:5844:: with SMTP id h4mr2794385qth.194.1605666002951;
+ Tue, 17 Nov 2020 18:20:02 -0800 (PST)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: D44474CE4BDF.A8259
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_9c529ed174954f7c97348c5e960c31c5G08CNEXMBPEKD04g08fujit_"
+References: <20201117140641.19575-1-bruce.ashfield@gmail.com>
+In-Reply-To: <20201117140641.19575-1-bruce.ashfield@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 17 Nov 2020 18:19:36 -0800
+Message-ID: <CAMKF1srGFphXgGN-RfnV35PGqpthR5XeEH87-djvx4_guWVcYg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel: relocate copy of module.lds to module compilation task
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
---_000_9c529ed174954f7c97348c5e960c31c5G08CNEXMBPEKD04g08fujit_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi Bruce
 
-SSBnb3QgYW4gZXJyb3Igd2hpbGUgcnVubmluZyBvZS1zZWxmdGVzdC4gSSBhbSBpbnZlc3RpZ2F0
-aW5nIHRoZSBwcm9ibGVtLiBJZiB0aGUgdGVzdCBwYXNzZXMsIEkgd2lsbCByZXNlbmQgdGhlIHBh
-dGNoIHRvIHRoZSBtYWlsaW5nIGxpc3QuDQoNClphbmcgUnVvY2hlbg0KDQpGcm9tOiBCcnVjZSBB
-c2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPg0KU2VudDogTW9uZGF5LCBOb3ZlbWJl
-ciAxNiwgMjAyMCA5OjMwIFBNDQpUbzogWmFuZywgUnVvY2hlbi/oh6cg6Iul5bCYIDx6YW5ncmMu
-Zm5zdEBjbi5mdWppdHN1LmNvbT4NCkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0
-aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBzeXN0ZW10YXA6IHVwZ3JhZGUgNC4z
-IC0+IDQuNA0KDQpzeXN0ZW10YXAgaXMgb25lIG9mIHRoZSBwYWNrYWdlcyB0aGF0IGdpdmVzIHVz
-IHRyb3VibGUgb24gdXBncmFkZXMNCmFuZCBvbiBrZXJuZWwgdXBncmFkZXMuDQoNClRoZXJlJ3Mg
-YW4gb2Utc2VsZnRlc3QgYXZhaWxhYmxlIGZvciB0aGlzLCBjYW4geW91IGFkZCB0aGUgbG9ncyBv
-ZiBoYXZpbmcNCnJ1biBpdCBpbnRvIHRoaXMgY29tbWl0ID8NCg0KQnJ1Y2UNCg0KT24gTW9uLCBO
-b3YgMTYsIDIwMjAgYXQgMTI6NDMgQU0gemFuZ3JjIDx6YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNv
-bTxtYWlsdG86emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb20+PiB3cm90ZToNClNpZ25lZC1vZmYt
-Ynk6IFphbmcgUnVvY2hlbiA8emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb208bWFpbHRvOnphbmdy
-Yy5mbnN0QGNuLmZ1aml0c3UuY29tPj4NCi0tLQ0KIG1ldGEvcmVjaXBlcy1rZXJuZWwvc3lzdGVt
-dGFwL3N5c3RlbXRhcF9naXQuaW5jIHwgNCArKy0tDQogMSBmaWxlIGNoYW5nZWQsIDIgaW5zZXJ0
-aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1rZXJu
-ZWwvc3lzdGVtdGFwL3N5c3RlbXRhcF9naXQuaW5jIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0
-ZW10YXAvc3lzdGVtdGFwX2dpdC5pbmMNCmluZGV4IDU2ZmE1MWQ2MWUuLmFlNzM1MDI1YjcgMTAw
-NjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMta2VybmVsL3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0Lmlu
-Yw0KKysrIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwX2dpdC5pbmMN
-CkBAIC0xLDcgKzEsNyBAQA0KIExJQ0VOU0UgPSAiR1BMdjIiDQogTElDX0ZJTEVTX0NIS1NVTSA9
-ICJmaWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4NmE4MGZkYWY0YTQyNjMiDQot
-U1JDUkVWID0gIjgyYjhlMWEwN2EzMWJmMzdlZDA1ZDZlYmM1MTYyYjA1NGMwYmU5ZmQiDQotUFYg
-PSAiNC4zIg0KK1NSQ1JFViA9ICI5ODhmNDM5YWYzOWEzNTliNDM4Nzk2M2NhNDYzMzY0OTg2NmQ4
-Mjc1Ig0KK1BWID0gIjQuNCINCg0KIFNSQ19VUkkgPSAiZ2l0Oi8vc291cmNld2FyZS5vcmcvZ2l0
-L3N5c3RlbXRhcC5naXQ8aHR0cDovL3NvdXJjZXdhcmUub3JnL2dpdC9zeXN0ZW10YXAuZ2l0PiBc
-DQogICAgICAgICAgICBmaWxlOi8vMDAwMS1Eby1ub3QtbGV0LWNvbmZpZ3VyZS13cml0ZS1hLXB5
-dGhvbi1sb2NhdGlvbi1pbnRvLXRoLnBhdGNoIFwNCi0tDQoyLjI1LjENCg0KDQoNCg0KDQoNCg0K
-LS0NCi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBh
-bmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQNCi0gIlVzZSB0aGUgZm9yY2UgSGFycnki
-IC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQoKCg==
+On Tue, Nov 17, 2020 at 6:06 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> There were two copies of this patch floating around, and the merged
+> variant has the copy in the wrong place.
+>
+> module.lds is only created during modules_prepare, and that target is
+> not invoked during our main build of the kernel. We aren't about to
+> change the kernel build (there's no need), so we move the copy into
+> the compile_kernelmodules task. After that runs, we have module.lds
+> availble to copy.
+>
+> This has been tested against clean kernel + out of tree module
+> builds, and the dependencies are correct that the file is copied
+> before the out of tree module build starts.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>
+> This is just a fixup to the patch [kernel: provide module.lds for out of
+> tree builds in v5.10+], which v1 merged instead of v2.
+>
+> Build tested locally.
+>
+>  meta/classes/kernel.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index ccd74e61e8..af4c891de4 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -391,6 +391,7 @@ do_compile_kernelmodules() {
+>                 # other kernel modules and will look at this
+>                 # file to do symbol lookups
+>                 cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
+> +               [ -e ${B}/scripts/module.lds ] && install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
 
---_000_9c529ed174954f7c97348c5e960c31c5G08CNEXMBPEKD04g08fujit_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+This change fails the task if file does not exist
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAx
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTsN
-CglwYW5vc2UtMToyIDExIDUgMyAyIDIgNCAyIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFt
-aWx5OiJcQOetiee6vyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOW+rui9r+mbhem7kSI7fQ0KLyogU3R5bGUgRGVmaW5pdGlv
-bnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2lu
-OjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250
-LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJs
-aW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
-dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJ
-e21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25vcm1hbDAsIGRpdi5tc29ub3JtYWww
-DQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsN
-CgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvOw0KCW1hcmdp
-bi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
-Um9tYW4iLHNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNv
-bmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5Ouetiee6vzsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29D
-aHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtc2l6ZToxMC41
-cHQ7DQoJZm9udC1mYW1pbHk6562J57q/O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYx
-Mi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRp
-di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
-IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
-IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxv
-OnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIx
-IiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkg
-bGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29y
-ZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5Ouetiee6vyI+SSBnb3QgYW4gZXJyb3Igd2hpbGUgcnVubmluZyBv
-ZS1zZWxmdGVzdC4gSSBhbSBpbnZlc3RpZ2F0aW5nIHRoZSBwcm9ibGVtLiBJZiB0aGUgdGVzdCBw
-YXNzZXMsIEkgd2lsbCByZXNlbmQgdGhlIHBhdGNoIHRvIHRoZSBtYWlsaW5nIGxpc3QuPG86cD48
-L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6562J57q/Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
-b250LWZhbWlseTrnrYnnur8iPlphbmcgUnVvY2hlbjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
-aWx5Ouetiee6vztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
-ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRp
-bmc6MGNtIDBjbSAwY20gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2Jv
-cmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
-bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9i
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssc2Fucy1zZXJpZiI+IEJydWNlIEFzaGZpZWxkICZsdDticnVjZS5hc2hmaWVsZEBnbWFp
-bC5jb20mZ3Q7DQo8YnI+DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBOb3ZlbWJlciAxNiwgMjAyMCA5
-OjMwIFBNPGJyPg0KPGI+VG86PC9iPiBaYW5nLCBSdW9jaGVuLzwvc3Bhbj48c3BhbiBsYW5nPSJa
-SC1DTiIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q75b6u6L2v6ZuF
-6buRJnF1b3Q7LHNhbnMtc2VyaWYiPuiHpzwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9
-ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
-cmlmIj4NCjwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q75b6u6L2v6ZuF6buRJnF1b3Q7LHNhbnMtc2VyaWYiPuiLpeWwmDwv
-c3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
-YnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiAmbHQ7emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb20mZ3Q7
-PGJyPg0KPGI+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29y
-ZSBsYXllciAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs8
-YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHN5c3RlbXRhcDogdXBn
-cmFkZSA0LjMgLSZndDsgNC40PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+
-DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+c3lzdGVtdGFwIGlzIG9uZSBvZiB0aGUgcGFj
-a2FnZXMgdGhhdCBnaXZlcyB1cyB0cm91YmxlIG9uIHVwZ3JhZGVzPG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5hbmQgb24ga2VybmVsIHVwZ3JhZGVz
-LjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86
-cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5U
-aGVyZSdzIGFuIG9lLXNlbGZ0ZXN0IGF2YWlsYWJsZSZuYnNwO2ZvciB0aGlzLCBjYW4geW91IGFk
-ZCB0aGUgbG9ncyBvZiBoYXZpbmc8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPnJ1biBpdCBpbnRvIHRoaXMgY29tbWl0ID88bzpwPjwvbzpwPjwvcD4N
-CjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+QnJ1Y2U8bzpwPjwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
-PjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gTW9uLCBOb3YgMTYs
-IDIwMjAgYXQgMTI6NDMgQU0gemFuZ3JjICZsdDs8YSBocmVmPSJtYWlsdG86emFuZ3JjLmZuc3RA
-Y24uZnVqaXRzdS5jb20iPnphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29tPC9hPiZndDsgd3JvdGU6
-PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTti
-b3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7
-bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-IiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPlNpZ25lZC1vZmYtYnk6IFphbmcgUnVvY2hl
-biAmbHQ7PGEgaHJlZj0ibWFpbHRvOnphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29tIiB0YXJnZXQ9
-Il9ibGFuayI+emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4N
-CiZuYnNwO21ldGEvcmVjaXBlcy1rZXJuZWwvc3lzdGVtdGFwL3N5c3RlbXRhcF9naXQuaW5jIHwg
-NCAmIzQzOyYjNDM7LS08YnI+DQombmJzcDsxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCYj
-NDM7KSwgMiBkZWxldGlvbnMoLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWtlcm5lbC9zeXN0ZW10YXAvc3lzdGVtdGFwX2dpdC5pbmMgYi9tZXRhL3JlY2lwZXMta2VybmVs
-L3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmluYzxicj4NCmluZGV4IDU2ZmE1MWQ2MWUuLmFlNzM1
-MDI1YjcgMTAwNjQ0PGJyPg0KLS0tIGEvbWV0YS9yZWNpcGVzLWtlcm5lbC9zeXN0ZW10YXAvc3lz
-dGVtdGFwX2dpdC5pbmM8YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL3JlY2lwZXMta2VybmVs
-L3N5c3RlbXRhcC9zeXN0ZW10YXBfZ2l0LmluYzxicj4NCkBAIC0xLDcgJiM0MzsxLDcgQEA8YnI+
-DQombmJzcDtMSUNFTlNFID0gJnF1b3Q7R1BMdjImcXVvdDs8YnI+DQombmJzcDtMSUNfRklMRVNf
-Q0hLU1VNID0gJnF1b3Q7PGEgaHJlZj0iZmlsZTovL0NPUFlJTkc7bWQ1PWIyMzRlZTRkNjlmNWZj
-ZTQ0ODZhODBmZGFmNGE0MjYzIj5maWxlOi8vQ09QWUlORzttZDU9YjIzNGVlNGQ2OWY1ZmNlNDQ4
-NmE4MGZkYWY0YTQyNjM8L2E+JnF1b3Q7PGJyPg0KLVNSQ1JFViA9ICZxdW90OzgyYjhlMWEwN2Ez
-MWJmMzdlZDA1ZDZlYmM1MTYyYjA1NGMwYmU5ZmQmcXVvdDs8YnI+DQotUFYgPSAmcXVvdDs0LjMm
-cXVvdDs8YnI+DQomIzQzO1NSQ1JFViA9ICZxdW90Ozk4OGY0MzlhZjM5YTM1OWI0Mzg3OTYzY2E0
-NjMzNjQ5ODY2ZDgyNzUmcXVvdDs8YnI+DQomIzQzO1BWID0gJnF1b3Q7NC40JnF1b3Q7PGJyPg0K
-PGJyPg0KJm5ic3A7U1JDX1VSSSA9ICZxdW90O2dpdDovLzxhIGhyZWY9Imh0dHA6Ly9zb3VyY2V3
-YXJlLm9yZy9naXQvc3lzdGVtdGFwLmdpdCIgdGFyZ2V0PSJfYmxhbmsiPnNvdXJjZXdhcmUub3Jn
-L2dpdC9zeXN0ZW10YXAuZ2l0PC9hPiBcPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-ICZuYnNwOyAmbmJzcDsgPGEgaHJlZj0iZmlsZTovLzAwMDEtRG8tbm90LWxldC1jb25maWd1cmUt
-d3JpdGUtYS1weXRob24tbG9jYXRpb24taW50by10aC5wYXRjaCI+DQpmaWxlOi8vMDAwMS1Eby1u
-b3QtbGV0LWNvbmZpZ3VyZS13cml0ZS1hLXB5dGhvbi1sb2NhdGlvbi1pbnRvLXRoLnBhdGNoPC9h
-PiBcPGJyPg0KLS0gPGJyPg0KMi4yNS4xPGJyPg0KPGJyPg0KPGJyPg0KPGJyPg0KPGJyPg0KPG86
-cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxiciBjbGVhcj0iYWxsIj4NCjxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij4tLSA8bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
-bWFyZ2luLWJvdHRvbToxMi4wcHQiPi0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBv
-aW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQ8YnI+DQot
-ICZxdW90O1VzZSB0aGUgZm9yY2UgSGFycnkmcXVvdDsgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUk8
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0K
-PC9odG1sPg0K
+make: Leaving directory
+'/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/linux-raspberrypi/1_5.4.72+gitAUTOINC+5d52d9eea9_154de7bbd5-r0/linux-raspberrypi4_64-standard-build'
+WARNING: /mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/linux-raspberrypi/1_5.4.72+gitAUTOINC+5d52d9eea9_154de7bbd5-r0/temp/run.do_compile_kernelmodules.1515902:175
+exit 1 from '[ -e
+/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/linux-raspberrypi/1_5.4.72+gitAUTOINC+5d52d9eea9_154de7bbd5-r0/linux-raspberrypi4_64-standard-build/scripts/module.lds
+]'
+WARNING: Backtrace (BB generated script):
+        #1: main,
+/mnt/b/yoe/master/build/tmp/work/raspberrypi4_64-yoe-linux/linux-raspberrypi/1_5.4.72+gitAUTOINC+5d52d9eea9_154de7bbd5-r0/temp/run.do_compile_kernelmodules.1515902,
+line 175
 
---_000_9c529ed174954f7c97348c5e960c31c5G08CNEXMBPEKD04g08fujit_--
+however if I change the above fragment to
+
+
+if [ -f ${B}/scripts/module.lds ]; then
+  install -Dm 0644 ${B}/scripts/module.lds
+${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
+fi
+
+it works well.
+
+and note I have used -f instead of -e since that appropriate check but
+it does not matter if we use -e or -f it fails in same
+way with the check you proposed.
+>         else
+>                 bbnote "no modules to compile"
+>         fi
+> @@ -494,7 +495,6 @@ do_shared_workdir () {
+>         # Copy files required for module builds
+>         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+>         [ -e Module.symvers ] && cp Module.symvers $kerneldir/
+> -       [ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
+>         cp .config $kerneldir/
+>         mkdir -p $kerneldir/include/config
+>         cp include/config/kernel.release $kerneldir/include/config/kernel.release
+> --
+> 2.19.1
+>
+>
+> 
+>
