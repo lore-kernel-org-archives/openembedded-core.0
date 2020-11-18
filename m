@@ -1,28 +1,28 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web08.30438.1605730882336973097
+ by mx.groups.io with SMTP id smtpd.web10.30831.1605730913814441909
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2020 12:21:22 -0800
+ Wed, 18 Nov 2020 12:21:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=default header.b=FsK6SUWO;
+ dkim=pass header.i=@kernel.org header.s=default header.b=lxp3yGzl;
  spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
 Received: from sinanubuntu.ckuic5o5zete5ommc4uz5anrqg.bx.internal.cloudapp.net (unknown [23.96.20.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 31E2D20B1F;
-	Wed, 18 Nov 2020 20:21:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTPSA id B28C62145D;
+	Wed, 18 Nov 2020 20:21:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1605730881;
+	s=default; t=1605730913;
 	bh=sFmT4puedC29I0lIPqF0GCLFAKorD3674FEo2wb0yQI=;
 	h=From:To:Cc:Subject:Date:From;
-	b=FsK6SUWO6ZFWQPyCpv44uN3VUwNMKCPanGjKOViT+Z8+MVR4+obXqe85wP22sIWz7
-	 XBlVR2+r/2Yr3BD6a58E/MkXFjr18WShjqohxpSZzXfufzvfHlHFKY77ZUFVwY8zZ7
-	 CC5ExBoDhL6mlIX6Rqjhx6zp9uw4UdQo/K0wywKs=
+	b=lxp3yGzlqzhU9IRqVQhaHfixypbrAhOe9Je9udasDcHCRfzg5rIkXQlymN6z7KKve
+	 pGOstHACJUS+BFqwUkmoOnJF//3F03egJR58TBhqefPEcOZniLIq3P8vj/92Jb3och
+	 KHbDeHdV3OBwX3fNcoK66/MeLUkFWGXOQR2hfmi4=
 From: "Sinan Kaya" <okaya@kernel.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Sinan Kaya <okaya@kernel.org>
-Subject: [PATCH] kernel-uboot: allow compression option to be configurable
-Date: Wed, 18 Nov 2020 20:21:17 +0000
-Message-Id: <20201118202117.22378-1-okaya@kernel.org>
+Subject: [meta-oe][PATCH RESEND] kernel-uboot: allow compression option to be configurable
+Date: Wed, 18 Nov 2020 20:21:46 +0000
+Message-Id: <20201118202146.25315-1-okaya@kernel.org>
 X-Mailer: git-send-email 2.17.1
 
 While some platforms might choose to compress the kernel by
