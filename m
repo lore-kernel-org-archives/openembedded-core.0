@@ -1,109 +1,331 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.71])
- by mx.groups.io with SMTP id smtpd.web11.31371.1605733070928839367
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web08.583.1605737004802983039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2020 12:57:51 -0800
+ Wed, 18 Nov 2020 14:03:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=LrtnuvMA;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.92.71, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HuBdDdoapTTwhkTA9QB2qkf26FQEYZ7oErTsWIudVntsSwltEeO4RUTAUIYSd0b/WmfliOXUdLJ5iAk6JuyP4PCIEHE6GN7G2lX4cGLgWC4rk1i7yDS+x7kmlmjSsScUbBE9+pidghrR+yMX6hF8WuHHoAt/UVupQ3m+XyZXpRNLlETKG7w3FE/zcQ0NlNFPQI14zi1KfU4kvh5Qrd1ZWR8BqWZNuXoq125TDO9pXyThU/huVRkPShGF9qrbh1DaZ3yiPZXWxi2UayB+kX877OmyMO00O8kVoRkZiezCAnNSwGbrPb3xu7qHWVp6bTQq+turwAIMbrH5Iw8wrB4KfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tOz1TrUudCr3YekscgUju+vkquJO5ppLBmRwnPAkD3A=;
- b=jZh6/41imXd/fbF7FppDcpR38p93KANisFcYtPPfA2egh3o2qFWK8w/KCBZRPJN38gdSz98lKlvWeSe6C/XqomguMKyp8DgZ3cfI80mkAlxX7lmuc2ITmelROf7iMzDa1J593tDscU2EkTGC1CFkGAh3HPWEuyWKf/09k7+kq+hvmbXmF/upp8XDY0R0S+pLKNO9aOYGTP2A9blwwwQGRWzR5K5iHeK1YGbPpLworiejuztXgEfLDc8tr6G+pCTuDEBr/Bvy68FAK7RNaIyFakQDikt9R/L+Xm6+cY0XrtveSqCMkIYQmBmO1jF7sflx20lm9e50Dd6FOM00kwMErg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.25.218.34) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=agilent.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tOz1TrUudCr3YekscgUju+vkquJO5ppLBmRwnPAkD3A=;
- b=LrtnuvMAri3Dek03JEr376JJLkXWJ+Z+AAyOm7YAs5enwgMy9IbPrP6gFFnTVIjea49x3TOSxSbNBtUgm99ZRyaZE6xxg+EqAxcYAmynrSMMsZkqpzj00KuIjMH8aOiEWJEbhrzPC2b1xkHo5ro7GSPrUKL8xlW5jZkbvkoK35vkDuJTK79+QraM7jspoiV1ffRU46w/fkihtyHlyF2q1er/iKLv1EKCPZ1aIa0E5X/sm1PFOXcfJaMLbsJ3sclZ/fn4RNdLWajky4R1+jmfSEAbjdpia2wlafrkv8n+1IhehqqYo+2ntisbSfAFbDd8Jv12/1q8FUZKrQ0pgBnbjQ==
-Received: from DM6PR07CA0039.namprd07.prod.outlook.com (2603:10b6:5:74::16) by
- CY4PR12MB1384.namprd12.prod.outlook.com (2603:10b6:903:3d::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3564.25; Wed, 18 Nov 2020 20:57:49 +0000
-Received: from DM6NAM12FT005.eop-nam12.prod.protection.outlook.com
- (2603:10b6:5:74:cafe::c7) by DM6PR07CA0039.outlook.office365.com
- (2603:10b6:5:74::16) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21 via Frontend
- Transport; Wed, 18 Nov 2020 20:57:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.34)
- smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
- header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
- 192.25.218.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.25.218.34; helo=edgeappmail.agilent.com;
-Received: from edgeappmail.agilent.com (192.25.218.34) by
- DM6NAM12FT005.mail.protection.outlook.com (10.13.178.111) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.12 via Frontend Transport; Wed, 18 Nov 2020 20:57:49 +0000
-Received: from localhost.localdomain (10.255.84.72) by edgeappmail.agilent.com
- (192.25.218.34) with Microsoft SMTP Server id 15.1.2044.4; Wed, 18 Nov 2020
- 13:57:46 -0700
-From: "Chris Laplante" <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Chris Laplante <chris.laplante@agilent.com>
-Subject: [PATCH] cases/bbtests.py: ensure PACKAGE_CLASSES is set to RPM for bbtests.BitbakeTests.test_force_task_1
-Date: Wed, 18 Nov 2020 15:56:36 -0500
-Message-ID: <20201118205636.126372-1-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ItK3xZZ9;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id f16so3330089otl.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2020 14:03:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:subject:to:references:cc:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=uvBcv3v7+BvsB1Ru9L52CZg5DoQXvIKESdpvrP/+erY=;
+        b=ItK3xZZ9mjyVctsCElPNYi3Zo0j2ITw4NeO+7JcXyrvpbCpVqrQInieqO2Fq/oNfF0
+         3TWTHmH2NeionJ9ucaDEUL/8LHfkIW4F+8flSLQhIeiCtekHziwMdmshBW2Q8bWgvrp5
+         bx/u5+i0d0A9u69bNBH2Hrkyinykcvxbh9IwA3J+fiu/uug0/m3u19AHHqEWS+M7Uvlw
+         yXoVR1RxalKSohe6tdfWQRXqBX82cynlsLgNmwWyQoCwpPKCSNjh+dnA3wI9kFcNOip6
+         DMPehYBwcF1ZdDbGkKM9oNJeStBFqyF/NnO70EDJ5NCDPxvlL+9FJbqaLHJl6hVTyHco
+         4Ojw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:references:cc:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=uvBcv3v7+BvsB1Ru9L52CZg5DoQXvIKESdpvrP/+erY=;
+        b=LvcEpWjwkuJ+Fj7kIt+mPyNWD4WIUMw/tKvWWlOXYh71Mq0W+QrKh/Gx3IQDZYUREu
+         clzIOcivdEftHowPswnJ/6v73oqueIiByh9pSZ61r5EWzi4IvvopWlpTOb8tijKuVYNf
+         qSOxvDsk5eUYIdYdITjjT8ZvyPUyrBSeKUdQmZLJ7w5KPaGOVv01SICDoUsjy69JhE1i
+         voqj6w5MKk//0O1O/8qY/K4GqxjOXRkAZ7TpGKMTPkK4DzYqRH/Sk96Bu15j+hkjcrOJ
+         pjah7oKsiT+verHfTHbeX/TVReooTfMopcM6lBdEx/WarV0Y3myy7KvkbrFaaI2dxMUO
+         eyHw==
+X-Gm-Message-State: AOAM532P8RXn8YlIdhW02jZmI4bRCb2KC4QzpKYVCMiUoLLl4QxU6I8L
+	8E136/4WCLLIEvYBCHpXG+M=
+X-Google-Smtp-Source: ABdhPJzMreYttBUAOc5fgCLRm6TUEou6gHhOPkEqqsKofDRjZCdyhBHb0I4H0eLpnLfuk3ATqsaV3Q==
+X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr8183152oth.250.1605737003989;
+        Wed, 18 Nov 2020 14:03:23 -0800 (PST)
+Return-Path: <jpewhacker@gmail.com>
+Received: from ?IPv6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
+        by smtp.gmail.com with ESMTPSA id 19sm8251104oth.63.2020.11.18.14.03.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2020 14:03:23 -0800 (PST)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Subject: Re: [OE-core][PATCH v2] systemd: Re-enable chvt as non-root user without polkit
+To: openembedded-core@lists.openembedded.org
+References: <20201113211143.30425-1-JPEWhacker@gmail.com>
+ <20201116143826.26521-1-JPEWhacker@gmail.com>
+Cc: anuj.mittal@intel.com
+Message-ID: <a3f36e65-157d-4255-7ae1-5a2094cbdd37@gmail.com>
+Date: Wed, 18 Nov 2020 16:03:22 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Return-Path: chris.laplante@agilent.com
-Received-SPF: SoftFail (wpcosapexchedg3.windmz.agilent.com: domain of
- transitioning chris.laplante@agilent.com discourages use of 10.255.84.72 as
- permitted sender)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 32dff92e-9f8e-4944-e612-08d88c049bd0
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1384:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<CY4PR12MB1384F95F6C32580DC241C8CE8BE10@CY4PR12MB1384.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:376;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	GkQ1cjM5xk8zUYueJuYZGZiOaFBXVp9YyeauayVr7ZjxpNMZJO9Km04FJPBKY5cnQgy+sANu4/6O7fY/t+PVhUo2B8gl3zze6nKdcAIoClTECzl4tCZMG5pjErFVjCDXrSEnZkmXOkruqHtAg92a0JOxWxSwbEZq7jr7l5XT8TEdzzJoPMHbBzqnOezgX7Pcax9IAk4rcmJe5leopOnfkwScNvILj6A8v/ZXY5m3aaYm2c72A8io5GYki7Run0u/1LO7P6KNJHiM1VBJIYVfynVPe4CRhGVzrSUKYxaq2ZKWw+xueOJLxjWPtVrtAj6Ce4n462J/EUO5dLm0EQV2OsT3girh34eWlalq4Ay6v20EMR/sNrWrY/ojed+EYF0hR6bCdc9A70bGh+TF6y0mR+OOJKsfIoScp5tvtNULetY=
-X-Forefront-Antispam-Report: 
-	CIP:192.25.218.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:cos.smtp.agilent.com;CAT:NONE;SFS:(4636009)(396003)(376002)(39860400002)(346002)(136003)(29502001)(46966005)(36756003)(7636003)(2616005)(86362001)(47076004)(82740400003)(336012)(8936002)(70206006)(356005)(6666004)(1076003)(82310400003)(4744005)(5660300002)(478600001)(2906002)(107886003)(36906005)(6916009)(26005)(426003)(8676002)(44832011)(316002)(4326008)(186003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 20:57:49.3072
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32dff92e-9f8e-4944-e612-08d88c049bd0
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.34];Helo=[edgeappmail.agilent.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-DM6NAM12FT005.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1384
-Content-Type: text/plain
+In-Reply-To: <20201116143826.26521-1-JPEWhacker@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-From: Chris Laplante <chris.laplante@agilent.com>
+On 11/16/20 8:38 AM, Joshua Watt wrote:
+> systemd 245 introduced a regression in behavior where they removed
+> support for non-root users to chvt from a service file. This prevents
+> running compositors (e.g. weston) as any user other than root. The
+> intention is for polkit to be used to allow this (and in fact the
+> default polkit rules that ship with systemd allow this). However, polkit
+> is a huge dependency to bring in for an embedded system, and isn't
+> support by OE-core.
+>
+> The patch has been proposed upstream to restore the previous behavior of
+> allowing a non-root user to chvt to unbreak the regression without
+> requiring polkit.
 
-This is because the test expects to find "do_package_write_rpm" in the
-bitbake output.
+Can this be backported to 3.2, since it affects the systemd version 
+there also?
 
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
----
- meta/lib/oeqa/selftest/cases/bbtests.py | 1 +
- 1 file changed, 1 insertion(+)
+Thanks
 
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index dc423ec439..79390acc0d 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -89,6 +89,7 @@ class BitbakeTests(OESelftestTestCase):
-         image_dir = bb_vars['D']
-         pkgsplit_dir = bb_vars['PKGDEST']
-         man_dir = bb_vars['mandir']
-+        self.write_config("PACKAGE_CLASSES = \"package_rpm\"")
- 
-         bitbake('-c clean %s' % test_recipe)
-         bitbake('-c package -f %s' % test_recipe)
--- 
-2.17.1
-
+>
+> Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/17494]
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>   ...chvt-as-non-root-user-without-polkit.patch | 227 ++++++++++++++++++
+>   meta/recipes-core/systemd/systemd_246.6.bb    |   1 +
+>   2 files changed, 228 insertions(+)
+>   create mode 100644 meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
+>
+> diff --git a/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
+> new file mode 100644
+> index 0000000000..89ef39bc3e
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
+> @@ -0,0 +1,227 @@
+> +From 150d9cade6d475570395cb418b824524dead9577 Mon Sep 17 00:00:00 2001
+> +From: Joshua Watt <JPEWhacker@gmail.com>
+> +Date: Fri, 30 Oct 2020 08:15:43 -0500
+> +Subject: [PATCH] logind: Restore chvt as non-root user without polkit
+> +
+> +4acf0cfd2f ("logind: check PolicyKit before allowing VT switch") broke
+> +the ability to write user sessions that run graphical sessions (e.g.
+> +weston/X11). This was partially amended in 19bb87fbfa ("login: allow
+> +non-console sessions to change vt") by changing the default PolicyKit
+> +policy so that non-root users are again allowed to switch the VT. This
+> +makes the policy when PolKit is not enabled (as on many embedded
+> +systems) match the default PolKit policy and allows launching graphical
+> +sessions as a non-root user.
+> +
+> +Closes #17473
+> +---
+> + src/login/logind-dbus.c         | 11 ++-------
+> + src/login/logind-polkit.c       | 26 +++++++++++++++++++++
+> + src/login/logind-polkit.h       | 10 ++++++++
+> + src/login/logind-seat-dbus.c    | 41 ++++-----------------------------
+> + src/login/logind-session-dbus.c | 11 ++-------
+> + src/login/meson.build           |  1 +
+> + 6 files changed, 46 insertions(+), 54 deletions(-)
+> + create mode 100644 src/login/logind-polkit.c
+> + create mode 100644 src/login/logind-polkit.h
+> +
+> +diff --git a/src/login/logind-dbus.c b/src/login/logind-dbus.c
+> +index 0f83ed99bc..a3765d88ba 100644
+> +--- a/src/login/logind-dbus.c
+> ++++ b/src/login/logind-dbus.c
+> +@@ -30,6 +30,7 @@
+> + #include "format-util.h"
+> + #include "fs-util.h"
+> + #include "logind-dbus.h"
+> ++#include "logind-polkit.h"
+> + #include "logind-seat-dbus.h"
+> + #include "logind-session-dbus.h"
+> + #include "logind-user-dbus.h"
+> +@@ -1047,15 +1048,7 @@ static int method_activate_session_on_seat(sd_bus_message *message, void *userda
+> +                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT,
+> +                                          "Session %s not on seat %s", session_name, seat_name);
+> +
+> +-        r = bus_verify_polkit_async(
+> +-                        message,
+> +-                        CAP_SYS_ADMIN,
+> +-                        "org.freedesktop.login1.chvt",
+> +-                        NULL,
+> +-                        false,
+> +-                        UID_INVALID,
+> +-                        &m->polkit_registry,
+> +-                        error);
+> ++        r = check_polkit_chvt(message, m, error);
+> +         if (r < 0)
+> +                 return r;
+> +         if (r == 0)
+> +diff --git a/src/login/logind-polkit.c b/src/login/logind-polkit.c
+> +new file mode 100644
+> +index 0000000000..9072570cc6
+> +--- /dev/null
+> ++++ b/src/login/logind-polkit.c
+> +@@ -0,0 +1,26 @@
+> ++/* SPDX-License-Identifier: LGPL-2.1+ */
+> ++
+> ++#include "bus-polkit.h"
+> ++#include "logind-polkit.h"
+> ++#include "missing_capability.h"
+> ++#include "user-util.h"
+> ++
+> ++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error) {
+> ++#if ENABLE_POLKIT
+> ++        return bus_verify_polkit_async(
+> ++                        message,
+> ++                        CAP_SYS_ADMIN,
+> ++                        "org.freedesktop.login1.chvt",
+> ++                        NULL,
+> ++                        false,
+> ++                        UID_INVALID,
+> ++                        &manager->polkit_registry,
+> ++                        error);
+> ++#else
+> ++        /* Allow chvt when polkit is not present. This allows a service to start a graphical session as a
+> ++         * non-root user when polkit is not compiled in, matching the default polkit policy */
+> ++        return 1;
+> ++#endif
+> ++}
+> ++
+> ++
+> +diff --git a/src/login/logind-polkit.h b/src/login/logind-polkit.h
+> +new file mode 100644
+> +index 0000000000..476c077a8a
+> +--- /dev/null
+> ++++ b/src/login/logind-polkit.h
+> +@@ -0,0 +1,10 @@
+> ++/* SPDX-License-Identifier: LGPL-2.1+ */
+> ++#pragma once
+> ++
+> ++#include "sd-bus.h"
+> ++
+> ++#include "bus-object.h"
+> ++#include "logind.h"
+> ++
+> ++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error);
+> ++
+> +diff --git a/src/login/logind-seat-dbus.c b/src/login/logind-seat-dbus.c
+> +index a945132284..f22e9e2734 100644
+> +--- a/src/login/logind-seat-dbus.c
+> ++++ b/src/login/logind-seat-dbus.c
+> +@@ -9,6 +9,7 @@
+> + #include "bus-polkit.h"
+> + #include "bus-util.h"
+> + #include "logind-dbus.h"
+> ++#include "logind-polkit.h"
+> + #include "logind-seat-dbus.h"
+> + #include "logind-seat.h"
+> + #include "logind-session-dbus.h"
+> +@@ -179,15 +180,7 @@ static int method_activate_session(sd_bus_message *message, void *userdata, sd_b
+> +         if (session->seat != s)
+> +                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT, "Session %s not on seat %s", name, s->id);
+> +
+> +-        r = bus_verify_polkit_async(
+> +-                        message,
+> +-                        CAP_SYS_ADMIN,
+> +-                        "org.freedesktop.login1.chvt",
+> +-                        NULL,
+> +-                        false,
+> +-                        UID_INVALID,
+> +-                        &s->manager->polkit_registry,
+> +-                        error);
+> ++        r = check_polkit_chvt(message, s->manager, error);
+> +         if (r < 0)
+> +                 return r;
+> +         if (r == 0)
+> +@@ -215,15 +208,7 @@ static int method_switch_to(sd_bus_message *message, void *userdata, sd_bus_erro
+> +         if (to <= 0)
+> +                 return sd_bus_error_setf(error, SD_BUS_ERROR_INVALID_ARGS, "Invalid virtual terminal");
+> +
+> +-        r = bus_verify_polkit_async(
+> +-                        message,
+> +-                        CAP_SYS_ADMIN,
+> +-                        "org.freedesktop.login1.chvt",
+> +-                        NULL,
+> +-                        false,
+> +-                        UID_INVALID,
+> +-                        &s->manager->polkit_registry,
+> +-                        error);
+> ++        r = check_polkit_chvt(message, s->manager, error);
+> +         if (r < 0)
+> +                 return r;
+> +         if (r == 0)
+> +@@ -243,15 +228,7 @@ static int method_switch_to_next(sd_bus_message *message, void *userdata, sd_bus
+> +         assert(message);
+> +         assert(s);
+> +
+> +-        r = bus_verify_polkit_async(
+> +-                        message,
+> +-                        CAP_SYS_ADMIN,
+> +-                        "org.freedesktop.login1.chvt",
+> +-                        NULL,
+> +-                        false,
+> +-                        UID_INVALID,
+> +-                        &s->manager->polkit_registry,
+> +-                        error);
+> ++        r = check_polkit_chvt(message, s->manager, error);
+> +         if (r < 0)
+> +                 return r;
+> +         if (r == 0)
+> +@@ -271,15 +248,7 @@ static int method_switch_to_previous(sd_bus_message *message, void *userdata, sd
+> +         assert(message);
+> +         assert(s);
+> +
+> +-        r = bus_verify_polkit_async(
+> +-                        message,
+> +-                        CAP_SYS_ADMIN,
+> +-                        "org.freedesktop.login1.chvt",
+> +-                        NULL,
+> +-                        false,
+> +-                        UID_INVALID,
+> +-                        &s->manager->polkit_registry,
+> +-                        error);
+> ++        r = check_polkit_chvt(message, s->manager, error);
+> +         if (r < 0)
+> +                 return r;
+> +         if (r == 0)
+> +diff --git a/src/login/logind-session-dbus.c b/src/login/logind-session-dbus.c
+> +index ccc5ac8df2..57c8a4e900 100644
+> +--- a/src/login/logind-session-dbus.c
+> ++++ b/src/login/logind-session-dbus.c
+> +@@ -11,6 +11,7 @@
+> + #include "fd-util.h"
+> + #include "logind-brightness.h"
+> + #include "logind-dbus.h"
+> ++#include "logind-polkit.h"
+> + #include "logind-seat-dbus.h"
+> + #include "logind-session-dbus.h"
+> + #include "logind-session-device.h"
+> +@@ -192,15 +193,7 @@ int bus_session_method_activate(sd_bus_message *message, void *userdata, sd_bus_
+> +         assert(message);
+> +         assert(s);
+> +
+> +-        r = bus_verify_polkit_async(
+> +-                        message,
+> +-                        CAP_SYS_ADMIN,
+> +-                        "org.freedesktop.login1.chvt",
+> +-                        NULL,
+> +-                        false,
+> +-                        UID_INVALID,
+> +-                        &s->manager->polkit_registry,
+> +-                        error);
+> ++        r = check_polkit_chvt(message, s->manager, error);
+> +         if (r < 0)
+> +                 return r;
+> +         if (r == 0)
+> +diff --git a/src/login/meson.build b/src/login/meson.build
+> +index 0a7d3d5440..7e46be2add 100644
+> +--- a/src/login/meson.build
+> ++++ b/src/login/meson.build
+> +@@ -26,6 +26,7 @@ liblogind_core_sources = files('''
+> +         logind-device.h
+> +         logind-inhibit.c
+> +         logind-inhibit.h
+> ++        logind-polkit.c
+> +         logind-seat-dbus.c
+> +         logind-seat-dbus.h
+> +         logind-seat.c
+> +--
+> +2.28.0
+> +
+> diff --git a/meta/recipes-core/systemd/systemd_246.6.bb b/meta/recipes-core/systemd/systemd_246.6.bb
+> index 1d1ff34d89..d9e7b1a00c 100644
+> --- a/meta/recipes-core/systemd/systemd_246.6.bb
+> +++ b/meta/recipes-core/systemd/systemd_246.6.bb
+> @@ -23,6 +23,7 @@ SRC_URI += "file://touchscreen.rules \
+>              file://0003-implment-systemd-sysv-install-for-OE.patch \
+>              file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
+>              file://selinux-hook-handling-to-enumerate-nexthop.patch \
+> +           file://0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch \
+>              "
+>   
+>   # patches needed by musl
