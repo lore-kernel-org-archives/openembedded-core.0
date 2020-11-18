@@ -1,331 +1,195 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web08.583.1605737004802983039
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.88])
+ by mx.groups.io with SMTP id smtpd.web11.987.1605738619452796547
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2020 14:03:24 -0800
+ Wed, 18 Nov 2020 14:30:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ItK3xZZ9;
- spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: jpewhacker@gmail.com)
-Received: by mail-ot1-f46.google.com with SMTP id f16so3330089otl.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2020 14:03:24 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Sll4JMy7;
+ spf=pass (domain: windriver.com, ip: 40.107.94.88, mailfrom: randy.macleod@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lWc/UCxObhz4rspRTboBxl2sV/Caen1CsBuZK0kjuAdozmQ+9iZzklbw10B6v+Kxg6jpJPDO+nwVAgQpC15TkroMUjfKRNInDNJOESJg1SRpTvPZGVncOKrpKMZQLPcx2q+do2TeOc5zhnLIAQzWFq9aqDk1T0zoqaOIy9tFIyaf0j5ySvaErAEFGXM2IkxnGGwhuCNFiZ5R9jyUZPjsIETG0W+tSvrTUNwC13eU9wvZI7ovyRrdAf+lGsQOb1Q144tZZeNSKJTNr0CVCElXD2bD0vOo+l/dGDjQwyfKJT+57cfCao1hjUPJh6CDWdgcJTdiOemWcQWUV2Xq6RTEWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TtXyV0vzi+OZOYZYiJWFAMEx8fxNW424dNeWcxXIiB4=;
+ b=ZRAknEqGYOgxAR+7SCd/T3TTyHsdGbUa017NSCH+F1qkFoQAMhh3Y/6JdfJ/80ANYYnluzR1xMZJ3k6IQdYjZVjTJwTom3vp+iapDO53KrE9Rey6Q7w4fbYuQdtkGqxceIKAlhuUxMserYCPCXPDIAXp0v4FOd4tCNBAh4cpmolTvEf/FP03y8rOuMTdVmXmoy8AV6TN6kjta5c001spw3/RFfWtAPCl8lXMV5vHWMZUpypae9BIVHr5EsrX/JoVjbD3gL+CGKSqbWvf8iCc2TvQCjBsBBiQ7g5wEYBiIiiEIg+DD89CzebRhrYl8Ifw9AqZ2YpEBIi8qLOhLOMpNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:references:cc:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=uvBcv3v7+BvsB1Ru9L52CZg5DoQXvIKESdpvrP/+erY=;
-        b=ItK3xZZ9mjyVctsCElPNYi3Zo0j2ITw4NeO+7JcXyrvpbCpVqrQInieqO2Fq/oNfF0
-         3TWTHmH2NeionJ9ucaDEUL/8LHfkIW4F+8flSLQhIeiCtekHziwMdmshBW2Q8bWgvrp5
-         bx/u5+i0d0A9u69bNBH2Hrkyinykcvxbh9IwA3J+fiu/uug0/m3u19AHHqEWS+M7Uvlw
-         yXoVR1RxalKSohe6tdfWQRXqBX82cynlsLgNmwWyQoCwpPKCSNjh+dnA3wI9kFcNOip6
-         DMPehYBwcF1ZdDbGkKM9oNJeStBFqyF/NnO70EDJ5NCDPxvlL+9FJbqaLHJl6hVTyHco
-         4Ojw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:references:cc:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=uvBcv3v7+BvsB1Ru9L52CZg5DoQXvIKESdpvrP/+erY=;
-        b=LvcEpWjwkuJ+Fj7kIt+mPyNWD4WIUMw/tKvWWlOXYh71Mq0W+QrKh/Gx3IQDZYUREu
-         clzIOcivdEftHowPswnJ/6v73oqueIiByh9pSZ61r5EWzi4IvvopWlpTOb8tijKuVYNf
-         qSOxvDsk5eUYIdYdITjjT8ZvyPUyrBSeKUdQmZLJ7w5KPaGOVv01SICDoUsjy69JhE1i
-         voqj6w5MKk//0O1O/8qY/K4GqxjOXRkAZ7TpGKMTPkK4DzYqRH/Sk96Bu15j+hkjcrOJ
-         pjah7oKsiT+verHfTHbeX/TVReooTfMopcM6lBdEx/WarV0Y3myy7KvkbrFaaI2dxMUO
-         eyHw==
-X-Gm-Message-State: AOAM532P8RXn8YlIdhW02jZmI4bRCb2KC4QzpKYVCMiUoLLl4QxU6I8L
-	8E136/4WCLLIEvYBCHpXG+M=
-X-Google-Smtp-Source: ABdhPJzMreYttBUAOc5fgCLRm6TUEou6gHhOPkEqqsKofDRjZCdyhBHb0I4H0eLpnLfuk3ATqsaV3Q==
-X-Received: by 2002:a05:6830:1f5a:: with SMTP id u26mr8183152oth.250.1605737003989;
-        Wed, 18 Nov 2020 14:03:23 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from ?IPv6:2605:a601:ac3d:c100:e3e8:d9:3a56:e27d? ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id 19sm8251104oth.63.2020.11.18.14.03.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Nov 2020 14:03:23 -0800 (PST)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Subject: Re: [OE-core][PATCH v2] systemd: Re-enable chvt as non-root user without polkit
-To: openembedded-core@lists.openembedded.org
-References: <20201113211143.30425-1-JPEWhacker@gmail.com>
- <20201116143826.26521-1-JPEWhacker@gmail.com>
-Cc: anuj.mittal@intel.com
-Message-ID: <a3f36e65-157d-4255-7ae1-5a2094cbdd37@gmail.com>
-Date: Wed, 18 Nov 2020 16:03:22 -0600
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TtXyV0vzi+OZOYZYiJWFAMEx8fxNW424dNeWcxXIiB4=;
+ b=Sll4JMy7215Y4wHa53pSHlQQwPQAm+27p47DcgzJJXVRdJ/lyjHwUqLOvPTHD1llcC3jOLS28PhGQiNqmH8TN+Uy9m69d9kfOf2Avf8hdOKAsMcJkm3XcmS5lo/3RiZxB3VurmmzRYqxfEDjLryCWqTF6lH7Fleh8A99z/qhE8I=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BN6PR1101MB2276.namprd11.prod.outlook.com
+ (2603:10b6:405:4e::18) by BN6PR11MB3938.namprd11.prod.outlook.com
+ (2603:10b6:405:79::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Wed, 18 Nov
+ 2020 22:30:15 +0000
+Received: from BN6PR1101MB2276.namprd11.prod.outlook.com
+ ([fe80::217f:7bd0:c2de:ca36]) by BN6PR1101MB2276.namprd11.prod.outlook.com
+ ([fe80::217f:7bd0:c2de:ca36%3]) with mapi id 15.20.3564.032; Wed, 18 Nov 2020
+ 22:30:15 +0000
+Subject: YPBZ 14125: busybox wget: where to add openssl-bin dependency?
+To: Shachar Menashe <shachar@vdoo.com>, "steve@sakoman.com"
+ <steve@sakoman.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <AM7PR08MB5335A3F67A86A99D40F14979C13E0@AM7PR08MB5335.eurprd08.prod.outlook.com>
+ <BY5PR11MB4167CE3E6868CDF84B723417EA140@BY5PR11MB4167.namprd11.prod.outlook.com>
+ <AM7PR08MB5335FD6327DC339AD370110AC1140@AM7PR08MB5335.eurprd08.prod.outlook.com>
+ <BY5PR11MB4167A2717FBFEE9C8838535BEA140@BY5PR11MB4167.namprd11.prod.outlook.com>
+ <AM7PR08MB53350F08EB85F0EC65DC7798C1140@AM7PR08MB5335.eurprd08.prod.outlook.com>
+ <40be87cf-d621-9382-494e-5d8f7593aded@windriver.com>
+ <AM7PR08MB533582E4480B60D11B6DB3A9C1100@AM7PR08MB5335.eurprd08.prod.outlook.com>
+ <efebc5dc-c5d4-6279-50f8-629877346691@windriver.com>
+ <AM7PR08MB5335CCB3F970B45A09C4C416C1E20@AM7PR08MB5335.eurprd08.prod.outlook.com>
+ <471a4868-05a9-5851-d52e-b145011721c5@windriver.com>
+ <AM0PR08MB3617FDDCEE0A4B7988EE9986C5E20@AM0PR08MB3617.eurprd08.prod.outlook.com>
+ <d5af9fd5-4395-df8e-9ab0-a0dff0ce80e2@windriver.com>
+ <AM0PR08MB3617976199B253B75D1A7D30C5E10@AM0PR08MB3617.eurprd08.prod.outlook.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <34d371b7-8552-0dec-d322-7ea1932f7bed@windriver.com>
+Date: Wed, 18 Nov 2020 17:30:11 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
+In-Reply-To: <AM0PR08MB3617976199B253B75D1A7D30C5E10@AM0PR08MB3617.eurprd08.prod.outlook.com>
+X-Originating-IP: [198.48.226.187]
+X-ClientProxiedBy: SJ0PR13CA0207.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::32) To BN6PR1101MB2276.namprd11.prod.outlook.com
+ (2603:10b6:405:4e::18)
+Return-Path: randy.macleod@windriver.com
 MIME-Version: 1.0
-In-Reply-To: <20201116143826.26521-1-JPEWhacker@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.25.44.2] (198.48.226.187) by SJ0PR13CA0207.namprd13.prod.outlook.com (2603:10b6:a03:2c3::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.9 via Frontend Transport; Wed, 18 Nov 2020 22:30:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0eb1ad92-7596-425f-435a-08d88c118575
+X-MS-TrafficTypeDiagnostic: BN6PR11MB3938:
+X-Microsoft-Antispam-PRVS: 
+	<BN6PR11MB3938754E3B5CD60FE3706A6CF8E10@BN6PR11MB3938.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ZKs6EiGIYU8oM4MElVnaZ2tof8EKdZVnPb+gpwGXePxh99xG10qw8gGehkEQ0TeIy8thhXf5lmUbQrzmP3+IX2UFqlOPCEOqdxE4qjOJWuvj01BCoLk6PE2Y67j3YN6iem1kj8npKsoS88MTa0+w3as4rc3e7s7uCq0XA/mpxJ0ARFQuBQEFHBrbFH/4yFaJ1SXzWSTgQI3a8n7uIBer77RXURlJWBX8vFhZFDLHeUabZr/GZ/tAKDxngDDzKBrZs7wtMVYUUt8KOARvQLC33d0OPBVl282Lr6pGzzZHwINAHquBRSvyHH8xv2sCsT/x0mupvF0rclNUwjGFvsbEnzGIFMI/rvTOZ+1IlwvJNQYjBf1RWY+3bYBi7gpTAmU7
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR1101MB2276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(39850400004)(376002)(346002)(366004)(6486002)(31696002)(186003)(16526019)(83380400001)(316002)(8676002)(16576012)(36756003)(4001150100001)(2906002)(8936002)(956004)(110136005)(52116002)(6666004)(5660300002)(86362001)(478600001)(31686004)(26005)(2616005)(53546011)(66476007)(66556008)(66946007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	9j+AMhMWVpzvvzf9otg4AYnnZRV7GgVxqWRpTn0cqx0mklA5oyidhVXswQ6WTt5N9l6d+bhwhcu7rdC1Wg5HB2AvuLkYmtcbiH1vUbIfG5Xtb1jYSfFq4VTWRFJuyD251N94EQLMphw94IgmR9pmFQXSiqYBKlrdfVhexsDO1z/K5Kk+lXCf0p4EHM9Z9pJ8ZF9M6WEOHUQWS3i7TWrwroRUvk0vRbOJLJnzPF3eesnU0nCSMyJc8v6+i+VYQTBVdc/S2nK92US1Qp/9ng0rS1hILObefBrsoSdZZS/aVbPPI0BveWjKeH0OfSY93D5OuN+1wSNFj6LYJ2vGni3sJvDcbKVWcH3QZp8iaQIv5AjQOBekwU76YD6QIUhWUNAkL1r57JasQ0V/xPAYEi4v5B9yGd6BTm3oaisKLO1I5jx4IJjETNmoKDbyuvGoJ6h/8EfRCMtnlWVXT8XZJg+KwT9Ah5Xmrf1DlvLmCRSDNxbIi3KMC00TbfGovW4HCQFudkK/nVs64xJtnCoh1n/xXo3V0WAm5bi55048wXVCuO8vyOLH0nJMXYPiQCPAZW6Wj6GdP23BCSJHkvyvnw4YMK3VsVBaw94KrHJyl/iGQgdNFjLhEnIIcpq7Yz/5whKB63X3mFn1/3vy9LrhwBkQ/w==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0eb1ad92-7596-425f-435a-08d88c118575
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR1101MB2276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 22:30:15.6681
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FTB8ztpX+wI2GByDbh8a9RCpKcMQbIlYlxAucqTxMhlsIzxEknyTJlJs+oKlPmiGxo2f3ophc9x3AyY8sVwhkEfofJNf2m7isaEN2j4vQPw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB3938
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-CA
 
-On 11/16/20 8:38 AM, Joshua Watt wrote:
-> systemd 245 introduced a regression in behavior where they removed
-> support for non-root users to chvt from a service file. This prevents
-> running compositors (e.g. weston) as any user other than root. The
-> intention is for polkit to be used to allow this (and in fact the
-> default polkit rules that ship with systemd allow this). However, polkit
-> is a huge dependency to bring in for an embedded system, and isn't
-> support by OE-core.
+Hi Shachar,
+
+On 2020-11-18 1:49 p.m., Shachar Menashe wrote:
+> About the busybox patch, I realized that Dunfell doesn't come with the "o=
+penssl" binary built-in (only the library) but this fix will actually requi=
+res having the openssl binary (busybox invokes the openssl binary directly)
+> Do you think it's reasonable to add it? The library is already getting bu=
+ilt, so I don't think it's a huge deal to add the binary as well
+
+For dunfell, you need to ask Steve and the oe-core list.
+I've CCed both Steve and the list here.
+
+Typically we would not add components to an image after release
+but since you have a bug that adding openssl-bin fixes, that's
+a different story. You would need to add a dependency
+on openssl-bin from busybox. That seems wrong since it'll
+increase the size of core-image-minimal.
+
 >
-> The patch has been proposed upstream to restore the previous behavior of
-> allowing a non-root user to chvt to unbreak the regression without
-> requiring polkit.
+> I'm thinking we would need to add "openssl-bin" to the openssl recipe som=
+ewhere, right?
 
-Can this be backported to 3.2, since it affects the systemd version 
-there also?
+The openssl recipe on master already produces:
 
-Thanks
+$ ls tmp-glibc/work/core2-64-wrs-linux/openssl/1.1.1h-r0/packages-split/
+libcrypto=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ libssl.shlibdeps=C2=A0 openssl-bin.shlibdeps=20
+openssl-dev=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 openssl-engines.shlibdeps=C2=A0 o=
+penssl-src
+libcrypto.shlibdeps=C2=A0 openssl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 openssl-conf openssl-doc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
+openssl-locale=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 openssl-staticdev
+libssl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 openssl-bin=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 openssl-dbg=
+ openssl-engines=C2=A0=20
+openssl-misc
 
->
-> Upstream-Status: Submitted [https://github.com/systemd/systemd/pull/17494]
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->   ...chvt-as-non-root-user-without-polkit.patch | 227 ++++++++++++++++++
->   meta/recipes-core/systemd/systemd_246.6.bb    |   1 +
->   2 files changed, 228 insertions(+)
->   create mode 100644 meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
->
-> diff --git a/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
-> new file mode 100644
-> index 0000000000..89ef39bc3e
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch
-> @@ -0,0 +1,227 @@
-> +From 150d9cade6d475570395cb418b824524dead9577 Mon Sep 17 00:00:00 2001
-> +From: Joshua Watt <JPEWhacker@gmail.com>
-> +Date: Fri, 30 Oct 2020 08:15:43 -0500
-> +Subject: [PATCH] logind: Restore chvt as non-root user without polkit
-> +
-> +4acf0cfd2f ("logind: check PolicyKit before allowing VT switch") broke
-> +the ability to write user sessions that run graphical sessions (e.g.
-> +weston/X11). This was partially amended in 19bb87fbfa ("login: allow
-> +non-console sessions to change vt") by changing the default PolicyKit
-> +policy so that non-root users are again allowed to switch the VT. This
-> +makes the policy when PolKit is not enabled (as on many embedded
-> +systems) match the default PolKit policy and allows launching graphical
-> +sessions as a non-root user.
-> +
-> +Closes #17473
-> +---
-> + src/login/logind-dbus.c         | 11 ++-------
-> + src/login/logind-polkit.c       | 26 +++++++++++++++++++++
-> + src/login/logind-polkit.h       | 10 ++++++++
-> + src/login/logind-seat-dbus.c    | 41 ++++-----------------------------
-> + src/login/logind-session-dbus.c | 11 ++-------
-> + src/login/meson.build           |  1 +
-> + 6 files changed, 46 insertions(+), 54 deletions(-)
-> + create mode 100644 src/login/logind-polkit.c
-> + create mode 100644 src/login/logind-polkit.h
-> +
-> +diff --git a/src/login/logind-dbus.c b/src/login/logind-dbus.c
-> +index 0f83ed99bc..a3765d88ba 100644
-> +--- a/src/login/logind-dbus.c
-> ++++ b/src/login/logind-dbus.c
-> +@@ -30,6 +30,7 @@
-> + #include "format-util.h"
-> + #include "fs-util.h"
-> + #include "logind-dbus.h"
-> ++#include "logind-polkit.h"
-> + #include "logind-seat-dbus.h"
-> + #include "logind-session-dbus.h"
-> + #include "logind-user-dbus.h"
-> +@@ -1047,15 +1048,7 @@ static int method_activate_session_on_seat(sd_bus_message *message, void *userda
-> +                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT,
-> +                                          "Session %s not on seat %s", session_name, seat_name);
-> +
-> +-        r = bus_verify_polkit_async(
-> +-                        message,
-> +-                        CAP_SYS_ADMIN,
-> +-                        "org.freedesktop.login1.chvt",
-> +-                        NULL,
-> +-                        false,
-> +-                        UID_INVALID,
-> +-                        &m->polkit_registry,
-> +-                        error);
-> ++        r = check_polkit_chvt(message, m, error);
-> +         if (r < 0)
-> +                 return r;
-> +         if (r == 0)
-> +diff --git a/src/login/logind-polkit.c b/src/login/logind-polkit.c
-> +new file mode 100644
-> +index 0000000000..9072570cc6
-> +--- /dev/null
-> ++++ b/src/login/logind-polkit.c
-> +@@ -0,0 +1,26 @@
-> ++/* SPDX-License-Identifier: LGPL-2.1+ */
-> ++
-> ++#include "bus-polkit.h"
-> ++#include "logind-polkit.h"
-> ++#include "missing_capability.h"
-> ++#include "user-util.h"
-> ++
-> ++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error) {
-> ++#if ENABLE_POLKIT
-> ++        return bus_verify_polkit_async(
-> ++                        message,
-> ++                        CAP_SYS_ADMIN,
-> ++                        "org.freedesktop.login1.chvt",
-> ++                        NULL,
-> ++                        false,
-> ++                        UID_INVALID,
-> ++                        &manager->polkit_registry,
-> ++                        error);
-> ++#else
-> ++        /* Allow chvt when polkit is not present. This allows a service to start a graphical session as a
-> ++         * non-root user when polkit is not compiled in, matching the default polkit policy */
-> ++        return 1;
-> ++#endif
-> ++}
-> ++
-> ++
-> +diff --git a/src/login/logind-polkit.h b/src/login/logind-polkit.h
-> +new file mode 100644
-> +index 0000000000..476c077a8a
-> +--- /dev/null
-> ++++ b/src/login/logind-polkit.h
-> +@@ -0,0 +1,10 @@
-> ++/* SPDX-License-Identifier: LGPL-2.1+ */
-> ++#pragma once
-> ++
-> ++#include "sd-bus.h"
-> ++
-> ++#include "bus-object.h"
-> ++#include "logind.h"
-> ++
-> ++int check_polkit_chvt(sd_bus_message *message, Manager *manager, sd_bus_error *error);
-> ++
-> +diff --git a/src/login/logind-seat-dbus.c b/src/login/logind-seat-dbus.c
-> +index a945132284..f22e9e2734 100644
-> +--- a/src/login/logind-seat-dbus.c
-> ++++ b/src/login/logind-seat-dbus.c
-> +@@ -9,6 +9,7 @@
-> + #include "bus-polkit.h"
-> + #include "bus-util.h"
-> + #include "logind-dbus.h"
-> ++#include "logind-polkit.h"
-> + #include "logind-seat-dbus.h"
-> + #include "logind-seat.h"
-> + #include "logind-session-dbus.h"
-> +@@ -179,15 +180,7 @@ static int method_activate_session(sd_bus_message *message, void *userdata, sd_b
-> +         if (session->seat != s)
-> +                 return sd_bus_error_setf(error, BUS_ERROR_SESSION_NOT_ON_SEAT, "Session %s not on seat %s", name, s->id);
-> +
-> +-        r = bus_verify_polkit_async(
-> +-                        message,
-> +-                        CAP_SYS_ADMIN,
-> +-                        "org.freedesktop.login1.chvt",
-> +-                        NULL,
-> +-                        false,
-> +-                        UID_INVALID,
-> +-                        &s->manager->polkit_registry,
-> +-                        error);
-> ++        r = check_polkit_chvt(message, s->manager, error);
-> +         if (r < 0)
-> +                 return r;
-> +         if (r == 0)
-> +@@ -215,15 +208,7 @@ static int method_switch_to(sd_bus_message *message, void *userdata, sd_bus_erro
-> +         if (to <= 0)
-> +                 return sd_bus_error_setf(error, SD_BUS_ERROR_INVALID_ARGS, "Invalid virtual terminal");
-> +
-> +-        r = bus_verify_polkit_async(
-> +-                        message,
-> +-                        CAP_SYS_ADMIN,
-> +-                        "org.freedesktop.login1.chvt",
-> +-                        NULL,
-> +-                        false,
-> +-                        UID_INVALID,
-> +-                        &s->manager->polkit_registry,
-> +-                        error);
-> ++        r = check_polkit_chvt(message, s->manager, error);
-> +         if (r < 0)
-> +                 return r;
-> +         if (r == 0)
-> +@@ -243,15 +228,7 @@ static int method_switch_to_next(sd_bus_message *message, void *userdata, sd_bus
-> +         assert(message);
-> +         assert(s);
-> +
-> +-        r = bus_verify_polkit_async(
-> +-                        message,
-> +-                        CAP_SYS_ADMIN,
-> +-                        "org.freedesktop.login1.chvt",
-> +-                        NULL,
-> +-                        false,
-> +-                        UID_INVALID,
-> +-                        &s->manager->polkit_registry,
-> +-                        error);
-> ++        r = check_polkit_chvt(message, s->manager, error);
-> +         if (r < 0)
-> +                 return r;
-> +         if (r == 0)
-> +@@ -271,15 +248,7 @@ static int method_switch_to_previous(sd_bus_message *message, void *userdata, sd
-> +         assert(message);
-> +         assert(s);
-> +
-> +-        r = bus_verify_polkit_async(
-> +-                        message,
-> +-                        CAP_SYS_ADMIN,
-> +-                        "org.freedesktop.login1.chvt",
-> +-                        NULL,
-> +-                        false,
-> +-                        UID_INVALID,
-> +-                        &s->manager->polkit_registry,
-> +-                        error);
-> ++        r = check_polkit_chvt(message, s->manager, error);
-> +         if (r < 0)
-> +                 return r;
-> +         if (r == 0)
-> +diff --git a/src/login/logind-session-dbus.c b/src/login/logind-session-dbus.c
-> +index ccc5ac8df2..57c8a4e900 100644
-> +--- a/src/login/logind-session-dbus.c
-> ++++ b/src/login/logind-session-dbus.c
-> +@@ -11,6 +11,7 @@
-> + #include "fd-util.h"
-> + #include "logind-brightness.h"
-> + #include "logind-dbus.h"
-> ++#include "logind-polkit.h"
-> + #include "logind-seat-dbus.h"
-> + #include "logind-session-dbus.h"
-> + #include "logind-session-device.h"
-> +@@ -192,15 +193,7 @@ int bus_session_method_activate(sd_bus_message *message, void *userdata, sd_bus_
-> +         assert(message);
-> +         assert(s);
-> +
-> +-        r = bus_verify_polkit_async(
-> +-                        message,
-> +-                        CAP_SYS_ADMIN,
-> +-                        "org.freedesktop.login1.chvt",
-> +-                        NULL,
-> +-                        false,
-> +-                        UID_INVALID,
-> +-                        &s->manager->polkit_registry,
-> +-                        error);
-> ++        r = check_polkit_chvt(message, s->manager, error);
-> +         if (r < 0)
-> +                 return r;
-> +         if (r == 0)
-> +diff --git a/src/login/meson.build b/src/login/meson.build
-> +index 0a7d3d5440..7e46be2add 100644
-> +--- a/src/login/meson.build
-> ++++ b/src/login/meson.build
-> +@@ -26,6 +26,7 @@ liblogind_core_sources = files('''
-> +         logind-device.h
-> +         logind-inhibit.c
-> +         logind-inhibit.h
-> ++        logind-polkit.c
-> +         logind-seat-dbus.c
-> +         logind-seat-dbus.h
-> +         logind-seat.c
-> +--
-> +2.28.0
-> +
-> diff --git a/meta/recipes-core/systemd/systemd_246.6.bb b/meta/recipes-core/systemd/systemd_246.6.bb
-> index 1d1ff34d89..d9e7b1a00c 100644
-> --- a/meta/recipes-core/systemd/systemd_246.6.bb
-> +++ b/meta/recipes-core/systemd/systemd_246.6.bb
-> @@ -23,6 +23,7 @@ SRC_URI += "file://touchscreen.rules \
->              file://0003-implment-systemd-sysv-install-for-OE.patch \
->              file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
->              file://selinux-hook-handling-to-enumerate-nexthop.patch \
-> +           file://0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch \
->              "
->   
->   # patches needed by musl
+
+An example of a dependency on openssl-bin is:
+
+$ cd .../oe-core.git
+$ rg openssl-bin
+...
+meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
+87:RDEPENDS_${PN}_class-target =3D "openssl-bin"
+89:RDEPENDS_${PN}_class-nativesdk =3D "nativesdk-openssl-bin"
+
+so without looking carefully at the busybox recipe, I do wonder
+if you just need an *optional* dependency on ca-certificates.
+
+Looking at the busybox recipe, it would be better to have busybox-wget
+depend on openssl-bin like:
+
+# busybox's unzip test case needs zip command, which busybox itself does=20
+not provide
+RDEPENDS_${PN}-ptest =3D "zip"
+
+of course a busybox-wget only component/alternative doesn't seem to=20
+exist yet:
+
+$ ls tmp-glibc/work/core2-64-oe-linux/busybox/1.32.0-r0/packages-splt
+busybox=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 busybox-dev=C2=A0 busybox-httpd=C2=A0=
+=C2=A0=C2=A0 busybox-locale=20
+busybox.shlibdeps=C2=A0 busybox-staticdev=C2=A0 busybox-udhcpc
+busybox-dbg=C2=A0 busybox-doc=C2=A0 busybox-hwclock=C2=A0 busybox-mdev=20
+busybox-src=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 busybox-syslog=C2=A0=
+=C2=A0=C2=A0=C2=A0 busybox-udhcpd
+
+so you'd have to separate that out like we have for -syslog and -httpd, etc=
+.
+
+It's more work than you signed up for but I'm pretty sure that people
+are not going to want to have our default core-image-minimal include
+openssl-FOO and increase in size.
+
+$ grep busybox=20
+tmp-glibc/deploy/images/qemux86-64/core-image-minimal-qemux86-64-2020111723=
+2559.rootfs.manifest
+busybox core2-64 1.32.0-r0
+busybox-hwclock core2-64 1.32.0-r0
+busybox-syslog core2-64 1.32.0-r0
+busybox-udhcpc core2-64 1.32.0-r0
+
+$ grep openssl=20
+tmp-glibc/deploy/images/qemux86-64/core-image-minimal-qemux86-64-2020111723=
+2559.rootfs.manifest
+NULL
+$
+
+Hopefully someone opinionated about busybox will make a suggestion
+on how to resolve this bug.
+
+../Randy
+
+
+# Randy MacLeod
+# Wind River Linux
+
