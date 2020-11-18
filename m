@@ -1,87 +1,74 @@
-Received: from pp2023.ppsmtp.net (pp2023.ppsmtp.net [132.145.231.115])
- by mx.groups.io with SMTP id smtpd.web09.27576.1605719630784188656
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web08.28451.1605722952057672229
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2020 09:13:51 -0800
+ Wed, 18 Nov 2020 10:09:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ifm.com header.s=pps header.b=aCXwUWsg;
- spf=pass (domain: ifm.com, ip: 132.145.231.115, mailfrom: prvs=1591cff76d=fedor.ross@ifm.com)
-Received: from pps.filterd (pp2023.ppsmtp.internal [127.0.0.1])
-	by pp2023.ppsmtp.internal (8.16.0.42/8.16.0.42) with SMTP id 0AIH4fLq024523
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2020 18:13:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ifm.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=pps;
- bh=HELhv0nOrsaiqKW1SlowyR/RSK8WK3FWLCk9YK0aU+k=;
- b=aCXwUWsgQ95cINHuy18+OD3ySt4pFNEqG+yS6u5OYi1LUCop9NgBmTaePiH4dFXx69hl
- SdJrsLnnikHWyBUUWT0E85vz9S8enDu2Z/ZepGDND9Nc73vSI1/+zZ0kgodnluRcUiZH
- pdJ3RISxlsVbMLeQYLpv6SDY4YTOf1sohcwxuYSrYGXiqZrm3h+UyZtK61rqd5j2tKaX
- Tme4kZmSBz6OA4Y3eYrI5ksq9ux4pCxfY6J5Cank5bDLi+wYd5fegrKZq1tiU5Nz+ZTK
- jnfxgBANeR8lj1RggPyYwMfAFNowomGNfp8UUsq+Tsf1agJICfXafTvgNJx3FjBWh2kD Gw== 
-Received: from deesdmz226.dmz.es.de.ifm (mail26.ifm.com [194.156.152.226])
-	by pp2023.ppsmtp.internal with ESMTP id 34w58xrehx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2020 18:13:49 +0100
-Received: from deesdmz226.dmz.es.de.ifm (localhost.localdomain [127.0.0.1])
-	by deesdmz226.dmz.es.de.ifm (Postfix) with ESMTP id AAA9B70383E
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2020 18:13:48 +0100 (CET)
-From: fedor.ross@ifm.com
-To: <openembedded-core@lists.openembedded.org>
-CC: Fedor Ross <fedor.ross@ifm.com>
-Subject: [PATCH 2/2] sysvinit: remove bashism to be compatible with dash
-Date: Wed, 18 Nov 2020 18:13:14 +0100
-Message-ID: <20201118171314.5543-2-fedor.ross@ifm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201118171314.5543-1-fedor.ross@ifm.com>
-References: <20201118171314.5543-1-fedor.ross@ifm.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZsIDLWwv;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id 81so1751040pgf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2020 10:09:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cKkWaGnPvfn1SGZ1C9q/O7SwqoJ8ihRB32ljNtq9N+I=;
+        b=ZsIDLWwvOkQihpY4GDvLPjDd51KxNfr9WOJkRm86eOuTa0eBuTfgkumN7KHg3Zhw39
+         7icpOsN0cNtEpKRcbjfqPcf0rmMZmY//n9DM32yZOpboBsymM9On3sIJOl0zRIajbzgh
+         ksFAly6EjjjQnsfgeC0CWQYFIJG2mAZVSkWI7bVUOZRaedvlxLWJgFJ+zJxF2mBbs+df
+         nOGMj7LgYqwxPC9P8P1BIRJP1mjjooNmE1B+XLiOfzBHGa75DJTxQW0bg/3k2Hmz1z6y
+         kRZ2fTxa89A9bdNCzWH4mckYRe3jHxyPcSSEXXzIBf36p/h3E5at5tsjCGOzUQ4R+Q6c
+         bceQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cKkWaGnPvfn1SGZ1C9q/O7SwqoJ8ihRB32ljNtq9N+I=;
+        b=K+HTV/Sw1lq0GfexnfholxqxfZDHLVnwIdYBFv6QTr7DKryu+m3kxYfTqpAH/cRaeF
+         4WkiGzGElAOF5pDuajNS/vb6wG/mOLbDemV6Rk9fhy04PRfDyY7Z62hJLSHA3cQdwiMk
+         II/SCV/mjHVWIcOAGkwZiiCJqSYhV03FFP/woFF5TzUyw5YbsIlV4VoqCtuDFpyLqrlH
+         07S1IYvy1tLFlcsJOOLX46ROHNS13fU6WSMnYuJp3i2c2iY6MZhV7uiQuTI+bdL0GCD+
+         6hy5kDP3W9MRJr0i5W5SQaNEC0CFucsLEFVr5uBfdiiajXVtbui2PB47c1gMxehAFAEP
+         uOSQ==
+X-Gm-Message-State: AOAM533yg9wUMjT0/xaSTEIO6Ne/8IoqRYZm0UIkaWcJdJSvMKGcyPni
+	qyOBmm3iwA5sumcBxSMsv8agbDyLwHJj4Q==
+X-Google-Smtp-Source: ABdhPJycmkftlB81K7gqKseT5fqt7xmpgX1P3oXmoRspMjcpOO2+2ykjTU3mw9ig5pw6NhgL+Ie9Wg==
+X-Received: by 2002:a63:eb4a:: with SMTP id b10mr9616710pgk.416.1605722951275;
+        Wed, 18 Nov 2020 10:09:11 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4611])
+        by smtp.gmail.com with ESMTPSA id g15sm22847739pgi.89.2020.11.18.10.09.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2020 10:09:10 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] python3-numpy: Add ldd runtime dependency on ptest package
+Date: Wed, 18 Nov 2020 10:09:08 -0800
+Message-Id: <20201118180908.2708116-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Originating-IP: [172.18.85.69]
-X-ClientProxiedBy: dettex01.intra.ifm (172.19.1.101) To dettex04.intra.ifm
- (172.19.1.163)
-X-TM-AS-Product-Ver: SMEX-12.5.0.2055-8.6.1012-25798.001
-X-TM-AS-Result: No-2.812300-5.000000-10
-X-TMASE-MatchedRID: vIqJu39ZnH/r8Nu3QGZdEz8Ckw9b/GFeTJDl9FKHbrkvM0Gdq0fzqU0B
-	XzNFL3+M4LDKPtPVt4yAMuqetGVetiVvu9chHp+mavP8b9lJtWr6C0ePs7A07Zbv1Srwoyj1lgI
-	I4PpcKoUZco4VxSeF1HTy6MqN9Z9VumzuRtu40x0fVLWou0xu+cER7atz388DWhO/585UPzuwHk
-	MkeXWV8qavK1RUwy68xsbRsxJFgNYWGegpbh/sx/VzxEkh5LVAWYqZ+nM0cw0=
-X-TM-AS-User-Approved-Sender: Yes
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--2.812300-5.000000
-X-TMASE-Version: SMEX-12.5.0.2055-8.6.1012-25798.001
-X-TM-SNTS-SMTP: 
-	FB241C297C94F4ECEA1EACF20272BF1F2611C5F58D188DAC7AD538C78DFB4C802002:9
-X-C2ProcessedOrg: 02c94ccb-b9eb-40fe-af38-4bcaa8aaafa4
-X-CompuMailGateway: Version: 7.00.0.20903.x86_64 COMPUMAIL Date: 20201118171348Z
-X-Proofpoint-ID: SID=34w58xrehx QID=34w58xrehx-1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-18_06:2020-11-17,2020-11-18 signatures=0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Fedor Ross <fedor.ross@ifm.com>
+Fixes
+E           RuntimeError: command ['ldd'] cannot be run
 
-Replace the equality operator '=3D=3D' with '=3D' inside of '[]' to be
-compatible with bash and dash.
-
-Signed-off-by: Fedor Ross <fedor.ross@ifm.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/sysvinit/sysvinit/rc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rc b/meta/recipes-core/sys=
-vinit/sysvinit/rc
-index fd1fdd26ba..d0d3149821 100755
---- a/meta/recipes-core/sysvinit/sysvinit/rc
-+++ b/meta/recipes-core/sysvinit/sysvinit/rc
-@@ -63,7 +63,7 @@ startup() {
-   stty onlcr 0>&1
-=20
-   # Limit stack size for startup scripts
--  [ "$STACK_SIZE" =3D=3D "" ] || ulimit -S -s $STACK_SIZE
-+  [ "$STACK_SIZE" =3D "" ] || ulimit -S -s $STACK_SIZE
-=20
-   # Now find out what the current and what the previous runlevel are.
-=20
---=20
-2.20.1
-
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+index 08130821c8..5b448081d0 100644
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+@@ -49,6 +49,7 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
+                   ${PYTHON_PN}-threading \
+                   ${PYTHON_PN}-multiprocessing \
+ "
++RDEPENDS_${PN}-ptest += "ldd"
+ 
+ RDEPENDS_${PN}_class-native = ""
+ 
+-- 
+2.29.2
 
