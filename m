@@ -1,161 +1,97 @@
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.77.78])
- by mx.groups.io with SMTP id smtpd.web10.13551.1605810730078634252
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
+ by mx.groups.io with SMTP id smtpd.web12.14211.1605813475543622152
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 10:32:10 -0800
+ Thu, 19 Nov 2020 11:17:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=NKpsniyP;
- spf=pass (domain: windriver.com, ip: 40.107.77.78, mailfrom: stacy.gaikovaia@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IJ0DGd7g1Z08jaldx2qum/QNdRTGKC8nOd89cMuCElYHmALSKA6OGq8QUYWWs1Ewtnt5JBaGMj8eUqa55FSjBxsoXgky/guCLBPWOxwPp6i3bp5tAbKEm9V3A6gLYc6rqZJgFTIOQhOrg+ajnMN7jdjQdZDe5Mh1Zs2pDMHc/Pa7iSApJ55s3NXeNsetDmKMzWfHYAegaC9vErgxAJ7XD54vQkkIBwkAMxUUiFNGOVwgPTy/LLIzaGHE0A7dVOc2fKjLdCVwZ7v+RGMFQ2M05M2hT08Gsy5Cb+3cmTJy+BMsf3AtH4eRqnM9oi8ldwOunktjw27tPhXSqV4cQiKNRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JwcE8lp8Z0+m57DLr7ZUIBvmVMMoXxox+LgFlqdjYyM=;
- b=H56XqCWBDIS0on9adL0qlVfBDVyfQiF1DCVmqzdF8GVisnoS58CDI44wc9ZCdRrTFObx6s871s+tVT6QstvYt74KADT66AnF2i2l/6bp/QxMd3osnWm8lp7Nt0FIjUQtFP6ciWId6fc7/hZoYjxDpogo21T5Sd/za1v5v6dtZRVyVY5D4zPMq8QWsoL3meaHCQnRNK2gmXpgsOVVde8VGW6M1tXn6+qGuvzTh4S/TDwRv048sPpvALUEvmPngV4jgBklrhvGAat/NXP1zyOYGoQFNCF0TGxy/Oi8SXzCtT9plT+2dd+VtXZ5jAj8ca6Z00FbXtd5SU/ZCEDvyOcXkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QnDCuG4B;
+ spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f67.google.com with SMTP id a15so3445283qvk.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 11:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JwcE8lp8Z0+m57DLr7ZUIBvmVMMoXxox+LgFlqdjYyM=;
- b=NKpsniyP++47wbC13Y0jZ3zoTdj9hrCjcHXlj6O3eA4Uma+zFHQfj441+YEJ0dwzSRuh7uNhsErqK5Q+0mbuK1FyJT0R3XajYYXQqCc2gXOWXmHLoiYU/vUYxt6WrhCxHmmDGCHAoHghjXQTAWg11wXzo4C0gANUab0cSh99sB0=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3127.namprd11.prod.outlook.com (2603:10b6:a03:91::32)
- by BYAPR11MB3528.namprd11.prod.outlook.com (2603:10b6:a03:87::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.24; Thu, 19 Nov
- 2020 18:32:07 +0000
-Received: from BYAPR11MB3127.namprd11.prod.outlook.com
- ([fe80::3cdc:2026:1e0d:62f9]) by BYAPR11MB3127.namprd11.prod.outlook.com
- ([fe80::3cdc:2026:1e0d:62f9%6]) with mapi id 15.20.3499.034; Thu, 19 Nov 2020
- 18:32:07 +0000
-From: "Stacy Gaikovaia" <Stacy.Gaikovaia@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] valgrind: helgrind: Intercept libc functions
-Date: Thu, 19 Nov 2020 10:31:51 -0800
-Message-Id: <20201119183151.16752-1-stacy.gaikovaia@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [147.11.105.124]
-X-ClientProxiedBy: BYAPR02CA0060.namprd02.prod.outlook.com
- (2603:10b6:a03:54::37) To BYAPR11MB3127.namprd11.prod.outlook.com
- (2603:10b6:a03:91::32)
-Return-Path: stacy.gaikovaia@windriver.com
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0aehGcjQHLMQGQ/KjCW401irXx010FIrSNLZ6gUEKk8=;
+        b=QnDCuG4BMqlVuyAhswTe8a106cTb3aG3UDxbV0QJvKdTLtd5qM7fiDe4yPjihrwujc
+         obUaLRilT0nH9jziWZBAblzrb+tPKsw/jMwMKAsl5KjcVjNgGVcqc92iYb8zS8OAo6mI
+         TgDQVnjlmsqrLFGWL3xPFVfagB1pXLPTkEzVcMBTGPkX8vnejdkT1YVdpmIo64VAi4GO
+         vTn6Y1AEwg1cE8pIx9loD8SRYkDh6PL8q2G5fEukBTQKORDXtvMLwHIrKqyq6h3F2m+v
+         stLsOzpLuTkmKQNu3cyzpb4i8PP8o50lj5pWPaE2H9fmOoNlj370DLePBZjw1AfrmqQU
+         bCOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0aehGcjQHLMQGQ/KjCW401irXx010FIrSNLZ6gUEKk8=;
+        b=PTcNFJXHPOK2oeHBezRW86bIbEw1ts5CAdunG+qtQUqA432kP2ZyBtRJPOF7f691Vb
+         +eVbUiom7j1BNVhhSR90gFheRbJZi1+eEL6RQVd38jE8F1uAgKvvVQ/FLmCVpQWfj767
+         YFKxsy8NkHXu22wP6o0wP+HFa8+n660jDquTxNOMCNgE8MsuYp6qlzyVgsZlD2xzX+h9
+         Sw9BcV/4xj9UVM1rzCUHESO96xc6BLMwxWQSkMFFL1DQvwWbDqdzZ1k3BYpxM92mJ3pc
+         woqSe1amVXRp4Sz/XBpl6nTUrxVHL/wknS/n4z7kaXujGOk6pl/99m/UCyKacPx8xhjc
+         psmA==
+X-Gm-Message-State: AOAM533nV9n9+SL1MgW0LKlVb0ADCkJ+lBG447UnCgR7JSmDzAUy6uE/
+	W67w5x/nIZv/BUyIEfnAFr8=
+X-Google-Smtp-Source: ABdhPJxBQiJQJy3OjYVlsGbknuTIxvwa41MiZRHo30cdzU8laBEfRmvubMDoOCDVKD5qr6kGKcj/Fg==
+X-Received: by 2002:ad4:5483:: with SMTP id q3mr12120860qvy.24.1605813474548;
+        Thu, 19 Nov 2020 11:17:54 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
+        by smtp.gmail.com with ESMTPSA id l22sm478684qke.118.2020.11.19.11.17.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2020 11:17:53 -0800 (PST)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request
+Date: Thu, 19 Nov 2020 14:17:47 -0500
+Message-Id: <cover.1605813340.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by BYAPR02CA0060.namprd02.prod.outlook.com (2603:10b6:a03:54::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend Transport; Thu, 19 Nov 2020 18:32:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b6a5ed10-953f-4caf-e545-08d88cb96b73
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3528:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB35281638057FE034A34AA39DFDE00@BYAPR11MB3528.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	fPta5g9b4VNoHVHmMMeSeVlCbnstiNXrROKOriY+LYEKzCR0JM/KR7oYfDsPwC/PMBdvkM/oWaPN4qf3TaW3KpKdxGGxPfcqkctrx6KBtaUTEzQNDrX6pitmTAHjFiaOWKZGS/zvSeWCxTgXAoMWJMFHLXI22g7z7sJOcCRCEKfdhKKO8GQGkvMkel8hMHwiUuEhCGatZ5iim6tjpnOSG5wcqHzOf1mi4JUnpAuiGLjP3JW08XlO/kdT+rEFKEW6sM3qYa8LES+8bjIBO5n7koO+mD4h78FOUZtIKOg9a4tPzpAI64y1zkhvNM7VAzfIA7RRnNp/Er1Y+B/t+5EWEEVSxtnOfqttF1EEmY7emLuh0xXsEpNrgnKd7jcayLTwGFYY2Eg+9nUV4WQs/hdN8CyG0cw7YaRVK2TBTcnwoN/AoB2IKf8OybDu41ocq4ukT7Q60SSwMkA+KllPFOKtZw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3127.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(366004)(39850400004)(136003)(2616005)(44832011)(5660300002)(6916009)(6512007)(16526019)(86362001)(6486002)(8936002)(26005)(36756003)(186003)(6506007)(956004)(52116002)(8676002)(6666004)(478600001)(66556008)(66946007)(66476007)(1076003)(2906002)(83380400001)(316002)(966005)(15866825006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	XTsOO4PpIAyRQeTkz7WXncMuffQMC0sQ4wJEuaIf+XUsRHM+ZgNWFdk0BAtoOkevBhL1Wuvhojc7ewJYFh8IznRX+XJmNq0c7TpoHrEDdtk3aQiVryQaMCj5/xyKzgX0vMMgS5TaAFxt8Gz6y5T0skapnabLb2ICN3PopL8Dh9nOt7cR65fIgL6sxDP+MNEK/ireJ4FjCUL1Yt2s78rch8/x4WFtyAreArlXF8yTETFiG31epzNmcvhugpq/8vso0hpAdalVm6vaEYqP3nLoWnBDYanYroEIT7Mbo3tvLm5zMsqlS1T1So8H0fECHjpn9ovguGF9ygfl880JC/qdMDMdPUNCOPjV8BqMuINwSdCG4HBWDRKigB2zsm+DKBRD5pJqkTE60wddl+dFEDY/OqRRU9YI23LwAnA4VpSaldLjq0rlPPOLdYCyCv8AzBvQ09KI03K6eqlu+2VEldPJONZ9pYIZifxOEvjgDC5bzyuxFpnbc+Vz3XdNJyBLJNTn+DjTgn8/e40nHTm2MCMT4C6+ai7UPP66RZqOZNq7bKa/K3Dt17OXeNIkLLn7rq0mVPxc8+pILXu1UfTe+W706W/eAvN4LPYh9lD0YwxC0OSE0Q+GL+/JAhqdPpUjhv54TATYKvR5XhU42JuTnw235g==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6a5ed10-953f-4caf-e545-08d88cb96b73
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3127.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 18:32:07.4789
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pqgu2aVmsgb5p6WCoaCpSGBf5ZbYCQCUJc7n4ldhQVBWXYzWeV+eLlQbTNMjFhUyWhqaenWgiqdifTLCIFr9GQojo8azILXQodJEAWxv6tg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3528
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-PTH_FUNC definition needs to be modified in order to
-intercept posix thread functions in both libc and libpthread.
-In order to handle this in helgrind, weak alias the pthread functions in glibc.
-This also prevents any need for a special case for musl, where
-these definitions aren't duplicated.
+Richard,
 
-See https://bugs.kde.org/show_bug.cgi?id=428909 for additional
-discussion.
+Here's my next set of collected changes for linux-yocto. I built and booted the
+5.4 -stable bump .. and obviously it looks good.
 
-Signed-off-by: Paul Floyd <paulf@free.fr>
-Signed-off-by: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
----
- ...01-helgrind-Intercept-libc-functions.patch | 45 +++++++++++++++++++
- .../valgrind/valgrind_3.16.1.bb               |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch
+I've also grabbed a pending devsrc change, that looks good to me.
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch b/meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch
-new file mode 100644
-index 0000000000..b3ab329bd8
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch
-@@ -0,0 +1,45 @@
-+From d02cafce8dd29df0309935beefbfbca1d8e29862 Mon Sep 17 00:00:00 2001
-+From: Paul Floyd <paulf@free.fr>
-+Date: Wed, 18 Nov 2020 12:49:20 -0400
-+Subject: [PATCH] helgrind: Intercept libc functions
-+
-+Signed-off-by: Paul Floyd <paulf@free.fr>
-+
-+PTH_FUNC definition needs to be modified in order to
-+intercept posix threa functions in both libc and
-+libpthread. In order to handle this in helgrind, weak alias
-+the pthread functions in glibc.
-+
-+Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
-+
-+---
-+ helgrind/hg_intercepts.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/helgrind/hg_intercepts.c b/helgrind/hg_intercepts.c
-+index a10c3a4a3..4b571bef9 100644
-+--- a/helgrind/hg_intercepts.c
-++++ b/helgrind/hg_intercepts.c
-+@@ -77,6 +77,11 @@
-+ /*---                                                          ---*/
-+ /*----------------------------------------------------------------*/
-+ 
-++#define hg_expand(tok) #tok
-++#define hg_str(tok) hg_expand(tok)
-++# define hg_weak_alias(name, aliasname) \
-++  extern __typeof (name) aliasname __attribute__ ((weak, alias(hg_str(name))))
-++
-+ #if defined(VGO_solaris)
-+ /* On Solaris, libpthread is just a filter library on top of libc.
-+  * Threading and synchronization functions in runtime linker are not
-+@@ -93,6 +98,7 @@
-+ #else
-+ #define PTH_FUNC(ret_ty, f, args...) \
-+    ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args); \
-++   hg_weak_alias(I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f), I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBC_SONAME,f)); \
-+    ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args)
-+ #define CREQ_PTHREAD_T pthread_t
-+ #define SEM_ERROR errno
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-index bcba55f327..5db181ac14 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-@@ -42,6 +42,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-            file://0001-drd-Port-to-Fedora-33.patch \
-            file://0001-drd-musl-fix.patch \
-+           file://0001-helgrind-Intercept-libc-functions.patch \
-            "
- SRC_URI[md5sum] = "d1b153f1ab17cf1f311705e7a83ef589"
- SRC_URI[sha256sum] = "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba918cc6720a33ca"
+Finally, I have a fix Khem sent for perf builds. I kept 5.4 and 5.8 separate
+for that fix, so Steve can pick them up for Dunfell as appropriate.
+
+Bruce
+
+The following changes since commit d8f47a68a92802fc47f297de05a0f2817963a7ee:
+
+  kernel: relocate copy of module.lds to module compilation task (2020-11-18 13:59:27 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
+    arches with 64bit time_t
+  linux-yocto/5.8: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
+    arches with 64bit time_t
+  linux-yocto/5.8: ext4/tipc warning fixups
+  linux-yocto/5.4: update to v5.4.78
+
+INC@Cisco) (1):
+  kernel-devsrc: improve reproducibility for arm64
+
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  4 ++++
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-rt_5.8.bb               |  2 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ .../linux/linux-yocto-tiny_5.8.bb             |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  | 18 +++++++--------
+ 7 files changed, 34 insertions(+), 30 deletions(-)
+
 -- 
-2.17.1
+2.19.1
 
