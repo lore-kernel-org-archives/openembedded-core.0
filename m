@@ -1,100 +1,157 @@
-Received: from esa11.hc324-48.eu.iphmx.com (esa11.hc324-48.eu.iphmx.com [207.54.69.30])
- by mx.groups.io with SMTP id smtpd.web11.6625.1605775616954185463
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web11.7104.1605779011820187920
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 00:46:58 -0800
+ Thu, 19 Nov 2020 01:43:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=CVm/95Mi;
- spf=pass (domain: bmw.de, ip: 207.54.69.30, mailfrom: prvs=585f5ef5f=mikko.rapeli@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1605775616; x=1637311616;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=eBvTnRugjvLy5PG8ojvUm7L0rTKy4vR4TL852y6K17E=;
-  b=CVm/95Mis4pkJM9b1ir3+zj/+qI8I82v7nJcBdgKz4yfZK6uxFkqcGfi
-   mKlxpIxAXIn1tXmiZw3YjHM2uqWAGtwREFmiwgg/Vaw3yeen+4URIQROl
-   mo0conUbN0A+R6T967osnSwiRIM/r5W+a70eOZ6M6hGUHtFrOft5USb5x
-   8=;
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
- esa11.hc324-48.eu.iphmx.com with ESMTP/TLS; 19 Nov 2020 09:46:54 +0100
-Received: from esabb1.muc ([160.50.100.31])  by esagw3.muc with ESMTP/TLS;
- 19 Nov 2020 09:46:54 +0100
-Received: from smucm33j.bmwgroup.net (HELO smucm33j.europe.bmw.corp) ([160.46.167.66])
- by esabb1.muc with ESMTP/TLS; 19 Nov 2020 09:46:53 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33j.europe.bmw.corp
- (160.46.167.66) with Microsoft SMTP Server (TLS;
- Thu, 19 Nov 2020 09:46:53 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.007; Thu,
- 19 Nov 2020 09:46:53 +0100
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <steve@sakoman.com>
-CC: <anuj.mittal@intel.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] cups: whitelist CVE-2018-6553
-Thread-Topic: [OE-core] cups: whitelist CVE-2018-6553
-Thread-Index: AQHWvb8v3lGpikj54Eq19XIILtiIgKnOgKYAgAAEYACAAI/FAA==
-Date: Thu, 19 Nov 2020 08:46:53 +0000
-Message-ID: <20201119084652.GW1246345@korppu>
-References: <20201118152522.20849-1-steve@sakoman.com>
- <8df909f90903613c2aa74e2b43dec9d747b5330a.camel@intel.com>
- <CAOSpxdZWBUh3UCDLoAgOgZvpgCBD6SGvRETcgjx2HHfKUuh_NQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdZWBUh3UCDLoAgOgZvpgCBD6SGvRETcgjx2HHfKUuh_NQ@mail.gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3ED40AEFDCDAA7448581F84092C44319@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: q+Pzi5Y6JAjsHBsM31zNb+agliWF2/Tj17m2jGC0dM1jCWL9BXYe5oIWdI+QjgY8IjKdP7wM//
+ 2bbn3jx0+RqA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="151109743"
+X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
+   d="scan'208";a="151109743"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 01:43:30 -0800
+IronPort-SDR: U6uPLm9enj7wKMHcTQs9MSQCG9MJjdnDu0i0S+8wJ0qgg88iM53Gh5brjj4QocVPLT1367zLB+
+ MiGblX6bK3HQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
+   d="scan'208";a="311010152"
+Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
+  by fmsmga008.fm.intel.com with ESMTP; 19 Nov 2020 01:43:30 -0800
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 1/3] libproxy: fix CVE-2020-26154
+Date: Thu, 19 Nov 2020 17:43:27 +0800
+Message-Id: <20201119094329.37712-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On Wed, Nov 18, 2020 at 02:12:18PM -1000, Steve Sakoman wrote:
-> On Wed, Nov 18, 2020 at 1:56 PM Mittal, Anuj <anuj.mittal@intel.com> wrot=
-e:
-> >
-> > On Wed, 2020-11-18 at 05:25 -1000, Steve Sakoman wrote:
-> > > This an Ububtu specific issue:
-> > >
-> > > The CUPS AppArmor profile incorrectly confined the dnssd backend
-> > > due to use of hard links. A local attacker could possibly use this
-> > > issue to escape confinement. This flaw affects versions prior to
-> > > 2.2.7-1ubuntu2.1 in Ubuntu 18.04 LTS, prior to 2.2.4-7ubuntu3.1
-> > > in Ubuntu 17.10, prior to 2.1.3-4ubuntu0.5 in Ubuntu 16.04 LTS,
-> > >  and prior to 1.7.2-0ubuntu1.10 in Ubuntu 14.04 LTS
-> >
-> > It doesn't affect the default configuration but someone in theory could
-> > have extended the recipe to have AppArmor support and then it might be
-> > vulnerable?
->=20
-> I suppose if someone implemented AppArmor support and botched it in the
-> same way as it was in Ubuntu, then yes they would have the same vulnerabi=
-lity!
->=20
-> > Since this CVE is sort of distro specific and not package specific,
-> > should this be part of recipe or the poky distro meta data?
->=20
-> I'm open for suggestions.  There are many ways people can take our
-> standard recipes and implement a horribly insecure image. IMHO
-> this is one of the more unlikely paths that someone would take :-)
->=20
-> But if the community feels this is best in the poky distro metadata I hav=
-e no
-> issue with that.
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-I'd keep this CVE whitelist in cups recipe. CVEs details apply to an unmodi=
-fied
-poky version of the recipe. bbappends and other layers can do really weird =
-things
-including removing patches and downgrading SW versions which would also res=
-ult
-in bad CVE data overall but we can't possibly detect those cases inside the
-recipe in poky or even distro configuration. Only way to be sure, is to rev=
-iew all
-bbappends to recipes from all layers in product configurations. Devil is in
-the details.
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../libproxy/libproxy/CVE-2020-26154.patch    | 98 +++++++++++++++++++
+ .../libproxy/libproxy_0.4.15.bb               |  1 +
+ 2 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-26154.patch
 
-Cheers,
+diff --git a/meta/recipes-support/libproxy/libproxy/CVE-2020-26154.patch b/meta/recipes-support/libproxy/libproxy/CVE-2020-26154.patch
+new file mode 100644
+index 0000000000..0ccb99da81
+--- /dev/null
++++ b/meta/recipes-support/libproxy/libproxy/CVE-2020-26154.patch
+@@ -0,0 +1,98 @@
++From 4411b523545b22022b4be7d0cac25aa170ae1d3e Mon Sep 17 00:00:00 2001
++From: Fei Li <lifeibiren@gmail.com>
++Date: Fri, 17 Jul 2020 02:18:37 +0800
++Subject: [PATCH] Fix buffer overflow when PAC is enabled
++
++The bug was found on Windows 10 (MINGW64) when PAC is enabled. It turned
++out to be the large PAC file (more than 102400 bytes) returned by a
++local proxy program with no content-length present.
++
++Upstream-Status: Backport [https://github.com/libproxy/libproxy/commit/6d342b50366a048d3d543952e2be271b5742c5f8]
++CVE: CVE-2020-26154
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ libproxy/url.cpp | 44 +++++++++++++++++++++++++++++++-------------
++ 1 file changed, 31 insertions(+), 13 deletions(-)
++
++diff --git a/libproxy/url.cpp b/libproxy/url.cpp
++index ee776b2..8684086 100644
++--- a/libproxy/url.cpp
+++++ b/libproxy/url.cpp
++@@ -54,7 +54,7 @@ using namespace std;
++ #define PAC_MIME_TYPE_FB "text/plain"
++ 
++ // This is the maximum pac size (to avoid memory attacks)
++-#define PAC_MAX_SIZE 102400
+++#define PAC_MAX_SIZE 0x800000
++ // This is the default block size to use when receiving via HTTP
++ #define PAC_HTTP_BLOCK_SIZE 512
++ 
++@@ -478,15 +478,13 @@ char* url::get_pac() {
++ 		}
++ 
++ 		// Get content
++-		unsigned int recvd = 0;
++-		buffer = new char[PAC_MAX_SIZE];
++-		memset(buffer, 0, PAC_MAX_SIZE);
+++		std::vector<char> dynamic_buffer;
++ 		do {
++ 			unsigned int chunk_length;
++ 
++ 			if (chunked) {
++ 				// Discard the empty line if we received a previous chunk
++-				if (recvd > 0) recvline(sock);
+++				if (!dynamic_buffer.empty()) recvline(sock);
++ 
++ 				// Get the chunk-length line as an integer
++ 				if (sscanf(recvline(sock).c_str(), "%x", &chunk_length) != 1 || chunk_length == 0) break;
++@@ -498,21 +496,41 @@ char* url::get_pac() {
++ 
++ 			if (content_length >= PAC_MAX_SIZE) break;
++ 
++-			while (content_length == 0 || recvd != content_length) {
++-				int r = recv(sock, buffer + recvd,
++-				             content_length == 0 ? PAC_HTTP_BLOCK_SIZE
++-				                                 : content_length - recvd, 0);
+++			while (content_length == 0 || dynamic_buffer.size() != content_length) {
+++				// Calculate length to recv
+++				unsigned int length_to_read = PAC_HTTP_BLOCK_SIZE;
+++				if (content_length > 0)
+++					length_to_read = content_length - dynamic_buffer.size();
+++
+++				// Prepare buffer
+++				dynamic_buffer.resize(dynamic_buffer.size() + length_to_read);
+++
+++				int r = recv(sock, dynamic_buffer.data() + dynamic_buffer.size() - length_to_read, length_to_read, 0);
+++
+++				// Shrink buffer to fit
+++				if (r >= 0)
+++					dynamic_buffer.resize(dynamic_buffer.size() - length_to_read + r);
+++
+++				// PAC size too large, discard
+++				if (dynamic_buffer.size() >= PAC_MAX_SIZE) {
+++					chunked = false;
+++					dynamic_buffer.clear();
+++					break;
+++				}
+++
++ 				if (r <= 0) {
++ 					chunked = false;
++ 					break;
++ 				}
++-				recvd += r;
++ 			}
++ 		} while (chunked);
++ 
++-		if (content_length != 0 && string(buffer).size() != content_length) {
++-			delete[] buffer;
++-			buffer = NULL;
+++		if (content_length == 0 || content_length == dynamic_buffer.size()) {
+++			buffer = new char[dynamic_buffer.size() + 1];
+++			if (!dynamic_buffer.empty()) {
+++				memcpy(buffer, dynamic_buffer.data(), dynamic_buffer.size());
+++			}
+++			buffer[dynamic_buffer.size()] = '\0';
++ 		}
++ 	}
++ 
+diff --git a/meta/recipes-support/libproxy/libproxy_0.4.15.bb b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
+index a14c358cc2..6f704d7a91 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.4.15.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.4.15.bb
+@@ -11,6 +11,7 @@ DEPENDS = "glib-2.0"
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/${PV}/${BP}.tar.xz \
+            file://0001-get-pac-test-Fix-build-with-clang-libc.patch \
+            file://CVE-2020-25219.patch \
++           file://CVE-2020-26154.patch \
+           "
+ SRC_URI[md5sum] = "f6b1d2a1e17a99cd3debaae6d04ab152"
+ SRC_URI[sha256sum] = "654db464120c9534654590b6683c7fa3887b3dad0ca1c4cd412af24fbfca6d4f"
+-- 
+2.17.1
 
--Mikko=
