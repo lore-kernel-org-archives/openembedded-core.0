@@ -1,50 +1,50 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web08.14332.1605813477792264634
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web12.14213.1605813478970347728
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 11:17:57 -0800
+ Thu, 19 Nov 2020 11:17:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Lp92KpC+;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id k4so6471197qko.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 11:17:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sn2oqj/D;
+ spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id m65so5204259qte.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 11:17:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TiOZRTejmzwPtCpqnBZq8RQtGLkXgdc7a8hsL/LVI5g=;
-        b=Lp92KpC+wwWNrtBAP2Llw9HJvOLOaJQtZZ90mP5cxDBe03t9GNq/EOIOSdiraGBV1p
-         Q8pbiDK8Kexp7sUVRvuxmtJmoadFr2bgLEwfO5uZOM53+4tZvZ2zPjn9LWfT8mG1kFpx
-         OJ5RyRj6PPdUW73/D1PsvE5vpzSwirFWMjpsDsqo9CRmmX9pPFnZ0AeT1CIBzkpcLrFd
-         flTWNKf/70TaQFCfPkmooFMt72IV9uLo2FyzL+h4bYLep2CObXMkVR1S3GeDAOF6m0Yy
-         8B2T88w4//obikj/1cSNQzM1EDbkyIlKwm4vngiBPPtnrFWx5Xf8xNcrSvXT5bwTQIlU
-         iKzA==
+        bh=sDCmITWt0D1FHd/43BPPcDrVQaPN7ohkw1d+KLGxtKI=;
+        b=sn2oqj/DFzGvA+CTn5VrvIipjJt3FAU2TBLVj/XygYSUyX2C7il8V2kGt//7ac2wQk
+         NQ65qwyL7PW0Ou4oXc5q+YMS/nxFAU/+nBWDFSqszLa+trfG4GHqgkkYvs/GcHN9P5Dr
+         0naRhpY9rcD+R4cIWCLmBv9F5SieR2Bk07eudZxHiMTi5MZp27rjiM2UNxE3oSVaLlfE
+         mviJoVF97zKArA7RiMeVH1wyQW8ChP9MhHewwF3EsSiTJnvrLaYAcR0nlRKC8fThjDwk
+         tkHdGQwBUrciqCpUpwHstmG+P3fAm5tp0uD/s9EEzyWqqFlUOYqmcMDcnrKUvr0tvEmN
+         zOkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TiOZRTejmzwPtCpqnBZq8RQtGLkXgdc7a8hsL/LVI5g=;
-        b=A4Hln009ZuSMezaoX96YAAIOYHdbV0qVBMlOMiMHChWSCu/oagdSPx5KIkqF3D0MGG
-         xw60GThYvaGZkyjSlh1yPnmSTjOr20nR98drlL9XaR59HIkOJ9ns+PM9JgLHGvMohgdp
-         j2fYyKrGM4v6AWOqyyPcgYLNEV1ipl8/PizOQmWXVOXzom0/CROwCRQYtPgce88WRoEW
-         SX+p8kOtPS5aNxgNHE5nGFltm9FeHVY86HZBz+laRtxygRUpyfMJxEWPLCxBxYXnVAnG
-         kt20vQk/sLcSOxwSiyWVDTHo7FIllcHWhkTCweMmniF1W/Jk+W8s3GL4HB+WRhSLScEj
-         2Abg==
-X-Gm-Message-State: AOAM530XuFYnbt1IDK7ubblzJoLdoL6v9LujfF+lXycDX51V6Ift9gFn
-	LXbkNZSeTUqsEDTn4zRHx6M=
-X-Google-Smtp-Source: ABdhPJwiYvUEUqXx9kChjCERtwWXF8aJX1+KwkhZUzGwc3aBs9To/FY3W6uATus7O4s3fgH0NzFE1g==
-X-Received: by 2002:ae9:ea14:: with SMTP id f20mr12412047qkg.239.1605813476916;
-        Thu, 19 Nov 2020 11:17:56 -0800 (PST)
+        bh=sDCmITWt0D1FHd/43BPPcDrVQaPN7ohkw1d+KLGxtKI=;
+        b=ci3lvohUKRcO1elt3jcIbIynCKhXlNWYhUzhnpbHSZzhkep3s6+iQHU2PqdwR1HUej
+         e+hrtT7rkVRcn6lqBthtMMyhgOTOGCAygJaneY7D25XHy2yseSS9ySu2oDITKKWzyMN0
+         iRDtzY6rHidU9U1pxVVj9aTE2nP/pC9r3R4+wZomFSH9+lwvj2ubBEYIH4Byur+hg+2i
+         fYyYLFy2ZN9AWSS5gkuGxB9iJDbL6kCqji8lctBaO8YK59avM3AyF3cNJvU3zNVSjeM0
+         i4/IV35s1IFPp9DW7Io9sZ0U3TVZZY2KgOPwCt4C4Yja++xcatjE6//rrIKF8Lr8YWGj
+         J7rg==
+X-Gm-Message-State: AOAM531fvJj0isC9VyoCcMUM1QqWmT/9fp7lOOFL69NYmpqWQKRv629o
+	IjMqXwHktgUzI1RDbO9bJYYqFlc+m7wbaZT3
+X-Google-Smtp-Source: ABdhPJyW+gWTYQO6EjzaXzgrMclo41UbQVhhyr2O5psf5nyMpLhZfsBDXiTYN6RNWdUD6STdyjPgdw==
+X-Received: by 2002:ac8:71d9:: with SMTP id i25mr11913361qtp.218.1605813478075;
+        Thu, 19 Nov 2020 11:17:58 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id l22sm478684qke.118.2020.11.19.11.17.55
+        by smtp.gmail.com with ESMTPSA id l22sm478684qke.118.2020.11.19.11.17.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 11:17:56 -0800 (PST)
+        Thu, 19 Nov 2020 11:17:57 -0800 (PST)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] linux-yocto/5.4: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit arches with 64bit time_t
-Date: Thu, 19 Nov 2020 14:17:49 -0500
-Message-Id: <3dbed0de30332c9916f15e9023790b3626d9c06c.1605813340.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 3/5] linux-yocto/5.8: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit arches with 64bit time_t
+Date: Thu, 19 Nov 2020 14:17:50 -0500
+Message-Id: <0721fd9c4fc0373bfcec65cac9c54a96cd89c046.1605813340.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1605813340.git.bruce.ashfield@gmail.com>
 References: <cover.1605813340.git.bruce.ashfield@gmail.com>
@@ -53,74 +53,74 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the following commit(s) to linux-yocto/5.4:
+Integrating the following commit(s) to linux-yocto/5.8:
 
-    356914747645 perf: Alias SYS_futex with SYS_futex_time64 on 32-bit arches with 64bit time_t
+    52b840afae05 perf: Alias SYS_futex with SYS_futex_time64 on 32-bit arches with 64bit time_t
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- .../recipes-kernel/linux/linux-yocto-rt_5.4.bb |  2 +-
- .../linux/linux-yocto-tiny_5.4.bb              |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_5.4.bb   | 18 +++++++++---------
+ .../recipes-kernel/linux/linux-yocto-rt_5.8.bb |  2 +-
+ .../linux/linux-yocto-tiny_5.8.bb              |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb   | 18 +++++++++---------
  3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 183acce226..4db2b33aef 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+index 203ddf6684..c2d627acb7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
 @@ -11,7 +11,7 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "e500e89811e268ab5c420744c41b10d12c9844a0"
-+SRCREV_machine ?= "1fe1ef9c7272caf75d92b3e9166a0f29c4f06141"
- SRCREV_meta ?= "8d0ed83a864cc91eef4d2abbc90f13d4ecd1c213"
+-SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
++SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+ SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index f6190be8da..f6ed7f35ea 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+index f37f525cc3..31a84f3972 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
 @@ -15,8 +15,8 @@ DEPENDS += "openssl-native util-linux-native"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "2c7da912c6b5bd36d84f75e0aff4afd0814f1bd3"
--SRCREV_machine ?= "d0096198f08dd2aa4222ef5480d2fcdaf520b65b"
-+SRCREV_machine_qemuarm ?= "83d064534da33ab41108a786d917068f282a9bf2"
-+SRCREV_machine ?= "356914747645db5ceba98b22acdfa060ef1764af"
- SRCREV_meta ?= "8d0ed83a864cc91eef4d2abbc90f13d4ecd1c213"
+-SRCREV_machine_qemuarm ?= "aa614dcf182db126013b255968ab125afd96eb88"
+-SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
++SRCREV_machine_qemuarm ?= "3e9aa72b02cf7d04096e367c99d503cd1d26cc6c"
++SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+ SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 23fc5ea819..0330a9d159 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,15 +12,15 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+index c0cdffce73..c6fb9e9f86 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+@@ -12,15 +12,15 @@ KBRANCH_qemux86  ?= "v5.8/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.8/standard/base"
+ KBRANCH_qemumips64 ?= "v5.8/standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "dbac8d2939bca0a92226cfd55543331715dd642d"
--SRCREV_machine_qemuarm64 ?= "d0096198f08dd2aa4222ef5480d2fcdaf520b65b"
--SRCREV_machine_qemumips ?= "819cf265755f21768f6bb98312cb568c6db8b1e8"
--SRCREV_machine_qemuppc ?= "d0096198f08dd2aa4222ef5480d2fcdaf520b65b"
--SRCREV_machine_qemuriscv64 ?= "d0096198f08dd2aa4222ef5480d2fcdaf520b65b"
--SRCREV_machine_qemux86 ?= "d0096198f08dd2aa4222ef5480d2fcdaf520b65b"
--SRCREV_machine_qemux86-64 ?= "d0096198f08dd2aa4222ef5480d2fcdaf520b65b"
--SRCREV_machine_qemumips64 ?= "bb9110d96ce8a2c56466e5b4314b93175af3d80d"
--SRCREV_machine ?= "d0096198f08dd2aa4222ef5480d2fcdaf520b65b"
-+SRCREV_machine_qemuarm ?= "879db1ae1856cf5a9fe4609fdbcbe2e3c7bade5f"
-+SRCREV_machine_qemuarm64 ?= "356914747645db5ceba98b22acdfa060ef1764af"
-+SRCREV_machine_qemumips ?= "190c3ce9c2dbc709c3dcf02d8cfa80adc8a063d2"
-+SRCREV_machine_qemuppc ?= "356914747645db5ceba98b22acdfa060ef1764af"
-+SRCREV_machine_qemuriscv64 ?= "356914747645db5ceba98b22acdfa060ef1764af"
-+SRCREV_machine_qemux86 ?= "356914747645db5ceba98b22acdfa060ef1764af"
-+SRCREV_machine_qemux86-64 ?= "356914747645db5ceba98b22acdfa060ef1764af"
-+SRCREV_machine_qemumips64 ?= "98b1fc2eafc28e5c198e23579e38a76626c66182"
-+SRCREV_machine ?= "356914747645db5ceba98b22acdfa060ef1764af"
- SRCREV_meta ?= "8d0ed83a864cc91eef4d2abbc90f13d4ecd1c213"
+-SRCREV_machine_qemuarm ?= "cd6c8c74317d2f9504c25e28e37f4140deec2d19"
+-SRCREV_machine_qemuarm64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
+-SRCREV_machine_qemumips ?= "c610a204d0821f5abc253e72894fd32b41b92db3"
+-SRCREV_machine_qemuppc ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
+-SRCREV_machine_qemuriscv64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
+-SRCREV_machine_qemux86 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
+-SRCREV_machine_qemux86-64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
+-SRCREV_machine_qemumips64 ?= "86cc0d9a3f6751ada12fa4630b3e3c23221d6da7"
+-SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
++SRCREV_machine_qemuarm ?= "0c6d276c75233f9b8d05103ff652676a2c271868"
++SRCREV_machine_qemuarm64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine_qemumips ?= "4c07d59936f8e28eadecab8f56ef14726f77ccb8"
++SRCREV_machine_qemuppc ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine_qemuriscv64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine_qemux86 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine_qemux86-64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine_qemumips64 ?= "2224bf83cf372bb729583dfb93ad28abba9905fd"
++SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+ SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
  
- # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # remap qemuarm to qemuarma15 for the 5.8 kernel
 -- 
 2.19.1
 
