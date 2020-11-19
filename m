@@ -1,86 +1,139 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web08.7277.1605780514938793935
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.77])
+ by mx.groups.io with SMTP id smtpd.web09.7263.1605781444723003384
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 02:08:35 -0800
+ Thu, 19 Nov 2020 02:24:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qyRCQtbE;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: wickbergster@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id z21so7365005lfe.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 02:08:34 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=bnosuPMc;
+ spf=pass (domain: windriver.com, ip: 40.107.237.77, mailfrom: li.wang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nyvMI6Dtszcv/82oeeafIAJ2k6VZpN6ktDZMX0Smb/bDYEWqpQMDY/qSFZu/+tn2Anrz0Yivz6wqJG3dChPS5vB0NAK0okPRN8xGr/GwNRDrEuu6XDQ6fnXEvswJUpyAOq/opQ2UzuMyakXkHZ3p2Q6iSwWZAbJhYJkYFRkTXjZHEcyLQ8MNg+w0dlX1gMX/EYnO2eHKZ+2rCP/7jvKgwDI39jEpf3zDgi+DcH2B/RMgN2UvGJTAP5XVOmAtSC8cghR9PM+qCzgkVJtEFsMosiKfEqF+3jtZjVOLncbGqMRvTz/VP9NAjem19H+YICRc0jofVBTd30QLAH641pb5MQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u944LeZ8/pyyWMx+f6VNVuOYa/dlw5C8fz5IB6KE+gI=;
+ b=LOC/sVvWdb4Z/PjXbCTtaWEX9EvL+n4Upoc+NVbWfjw9u1R5T9IurHJD8OjZv8Q3JpGkGnBlc6bDDEdSFBCiyHuaGTqFTLq7MjCPpgOVAUt5w1dESQGjR3t+UNSvI7mwUiWGSyW8uN/UH4EGYdOUgKOW9Okp5vVli74oei7b4LcgRYATYAzY5B7Ojo0+kJXMsm/bUPmRrMo4l3BDoUXxfAdkeS++XTduKCOjk55hO0yVTOr48yrCCDlW0HEPgkIT+3V5Hhx+nPrg2KD+kb37VFr10a2hnhvjAH6e/rGxVLX4AY6ygPBR/4Cyd14vAZeXtU6eaS+ZggLF56Q2cKDyvQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=l7RfDcex7oheV9KlumDH6JzSQ1fSiITshwiYP+AfoV4=;
-        b=qyRCQtbEWQfJWrjfmKNDW3jnfi/3xk+hXf9aVKM8W6Gp6LLcLz00N66bcJzJ0sNgTZ
-         Iy1DBFlLq9zvfXsMyepmyXhT1bDmXabBLs+37Zo5DLDzQNQFVCWNIUbQAvP90GYz2crS
-         nZOCFsU3gfUXdt8bUil4sYCiqmdrx4Lxy7kLCOgER0aZO9oVRnK0EPw+3pk/MOfKQ9vz
-         oVop6kkqmX9DnesKN3AodQ2pS+rYA6Yy9aD4GoyYFt5pyOUeMpKxQCL/2WsSv/bMTj/V
-         ALSgXwGGquQso7ZDow8vokdmlgW097PQW0kt9kgW0YnBQjFB/zKuzTiASOoHR/u6YrJ8
-         Hq4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=l7RfDcex7oheV9KlumDH6JzSQ1fSiITshwiYP+AfoV4=;
-        b=TlqrrKHJm22bkY+wyI3Ewy0G7naVRGwNiH9QCe0P/UbdQMK/v0BN9rE8tg8sq2RtB2
-         6q0z47jEEZggY2zE5SxCl4Xmvy/yskN0RWrqYyIKkDYT4aIpwYa/q8E1Bi0BXr5+7yoX
-         qHcsF55xGr9aYx8GFBR3O2wLLeiexrdUGj24ytgNEI91vJDOhvotOTdrZaNLOTOyuF3l
-         JI4B2HUcpeXqL3EnC9K77qd1uFSDi43jw9FblzuXV9pDbnwhNT5++37uAfO1EkClCi5i
-         G3H/wGrieXBmI0PWGJlJcbEycIOo6TYgPJKoIVanTWm1FFuZ3aGwluWvqKkU6XaPGcOa
-         Sd7g==
-X-Gm-Message-State: AOAM533HFjyNOeAaF0Ngw+sZY44gM/PW6x3aPaUUxDWvCaE8vFKGqPfW
-	3s2sb+fceTCb5AMNzWXNlit1NUKP3Tk=
-X-Google-Smtp-Source: ABdhPJzNRmAKJfK7BxnSmEh5z6FJM39EzMEZUWnbOtD5tXxoMtlfNl3LCIxmVse+5xYEGDLAVqMb/Q==
-X-Received: by 2002:ac2:456a:: with SMTP id k10mr5826912lfm.88.1605780512658;
-        Thu, 19 Nov 2020 02:08:32 -0800 (PST)
-Return-Path: <wickbergster@gmail.com>
-Received: from localhost.localdomain (dyn-13-cust157.netit.se. [85.89.70.157])
-        by smtp.gmail.com with ESMTPSA id a1sm3915223lfg.282.2020.11.19.02.08.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 02:08:31 -0800 (PST)
-From: "Alexander Vickberg" <wickbergster@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u944LeZ8/pyyWMx+f6VNVuOYa/dlw5C8fz5IB6KE+gI=;
+ b=bnosuPMcsL7dJXEKim5IDcGMZ5JBwLQ38P1J+VYj3B91ql/Unxgh1YZgdzecxh3Bx4S02/O0+eXsR0RhMZMujgamOQK8d+Dms/R+KTKPT5XLzobTq0TISZHBQbBP7iGBW2enUf/XMzJT0YaY66Uz+nP4t3FIfdhgtEcTGcsOU1I=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3595.namprd11.prod.outlook.com (2603:10b6:5:142::16)
+ by DM6PR11MB4642.namprd11.prod.outlook.com (2603:10b6:5:2a2::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Thu, 19 Nov
+ 2020 10:24:02 +0000
+Received: from DM6PR11MB3595.namprd11.prod.outlook.com
+ ([fe80::54c6:c8e4:c594:eada]) by DM6PR11MB3595.namprd11.prod.outlook.com
+ ([fe80::54c6:c8e4:c594:eada%6]) with mapi id 15.20.3564.026; Thu, 19 Nov 2020
+ 10:24:02 +0000
+From: "Li Wang" <li.wang@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Vickberg <wickbergster@gmail.com>
-Subject: [PATCH] socat: make building with OpenSSL support optional
-Date: Thu, 19 Nov 2020 11:06:14 +0100
-Message-Id: <20201119100614.512998-1-wickbergster@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [OE-core][zeus][PATCH] sqlite3: CVE-2020-13632
+Date: Thu, 19 Nov 2020 10:20:40 +0000
+Message-Id: <20201119102040.624-1-li.wang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR0401CA0014.apcprd04.prod.outlook.com
+ (2603:1096:202:2::24) To DM6PR11MB3595.namprd11.prod.outlook.com
+ (2603:10b6:5:142::16)
+Return-Path: li.wang@windriver.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from bfbf5eb70dd2.wrs.com (60.247.85.82) by HK2PR0401CA0014.apcprd04.prod.outlook.com (2603:1096:202:2::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend Transport; Thu, 19 Nov 2020 10:24:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1d013551-06dc-4bf5-819a-08d88c753c21
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4642:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB46429D819FAE4233FE174F55EFE00@DM6PR11MB4642.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:102;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	E9t9cSzIIfrVlXxBwTwhDIee+8n/bz1wQrFh32asYRSB4RwGjCbNJe9U6TC7pz6asL289i8Yc++8yl/+I8B+J6zk4c/tdOMz0//UlQz2eRrB9nyuZaHJSPt4XJYbpsgxUx4TuiE4nQIppioQAiSOrQsuVMDImZQ62YsyjLq5ZS0QDMEY+6qdGI+/FVDf+qeV2v07bQp06cnSCheP72wFXxSAf8CkEBuMvvbF1518RjvjWjxtLNcWI6cnD5mwccpA6WXIg2Pc4bUxVJXwZLpN2BOST89kXNV4GgX0pphNVvul7UwEtbmRnYmt4lUdbDZ1evoKfAp6meb/AJFprF6jV1OgSUeptSGIiVE0htIxF78iS2SEbnyH4X7oguZq6cLVabPu2zNi/gfR8/SX0a8WmQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3595.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(366004)(396003)(39850400004)(376002)(2616005)(44832011)(8936002)(52116002)(8676002)(83380400001)(956004)(26005)(66476007)(16526019)(66946007)(316002)(186003)(66556008)(966005)(478600001)(36756003)(6506007)(6916009)(5660300002)(6486002)(2906002)(86362001)(6512007)(6666004)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	RUCxWpP7rCBuFma6AzSF9A3FKGjpVhjtVHyc5p9P9no1kpjs4U4VgjFDmjuv15/OfnslrV+F+EG2RVfV/NTtnLGNXlsFDs283nvJXzQiJo15EkMj6vc/esEzFAWS65Dnkaup/T4mMHlRBVhd/OFi4D2H+vnAQTKSOs1VdSPFWInib57Wj7kLeGZ/JbqvQODoOsGvS7ytosxJs9kLjx0k/cp6PT8ZbyaQYrpkOuAKtZmlO0via6w234MVch61AgVdeBKs9KQX21DOPxLWcNZFAxROnzHGEqMe9si+hVlKXd57L67CjbOuzrLfEFqP+ufF6xOijRux0ui9p005oFxGR9nScT5eNnoxYlfqnTinRyFoeEBH6kUpyCsikaXifOPAoXNop7HHzCz9IMrIv9CyKWBdSKKkvssqZjxMGN7ziym0DrGFd9Rl938SIY+uCEkYHt0181gbZRJV3j82hNf8uXoitjxcW+xaRyeI7occa2QecBTsfXZqUWg2Cm9wsgbUdJ/4UaNGuH1RLV8xMf+tRe5eg4LLQfb9ATkJ55qDVCa6FqQtqcCFf2V8xLbb23/aKhssdE3J/+ZGtUCBfLSocPWWIhC+Bz0voffBk4QBsikKoA9/3UC8t5xFp9+MVnbj1G8ITz2NnDbI08df5fKPxg==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d013551-06dc-4bf5-819a-08d88c753c21
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3595.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2020 10:24:02.3005
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IpgSMD7uovYnqtVuwQFFULDPaDIAW9Eb88/uJhiMd2PviSA3aoAMmaOD4FmpnbAtknqW0V1DbXKr/TcKK+foWw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4642
+Content-Type: text/plain
 
-Signed-off-by: Alexander Vickberg <wickbergster@gmail.com>
+backport patch from:
+https://github.com/sqlite/sqlite/commit/219b8e7e7587df8669d96ce867cdd61ca1c05730
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
 ---
- meta/recipes-connectivity/socat/socat_1.7.3.4.bb | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ .../sqlite/sqlite3/CVE-2020-13632.patch       | 32 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.29.0.bb |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2020-13632.patch
 
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.4.bb b/meta/recipes-connectivity/socat/socat_1.7.3.4.bb
-index 9b0d4071ac..f3f569d262 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.3.4.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.3.4.bb
-@@ -5,8 +5,6 @@ HOMEPAGE = "http://www.dest-unreach.org/socat/"
- 
- SECTION = "console/network"
- 
--DEPENDS = "openssl"
--
- LICENSE = "GPL-2.0-with-OpenSSL-exception"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
-@@ -39,10 +37,11 @@ TERMBITS_SHIFTS_powerpc64 = "sc_cv_sys_crdly_shift=12 \
-                              sc_cv_sys_tabdly_shift=10 \
-                              sc_cv_sys_csize_shift=8"
- 
--PACKAGECONFIG_class-target ??= "tcp-wrappers readline"
--PACKAGECONFIG ??= "readline"
-+PACKAGECONFIG_class-target ??= "tcp-wrappers readline openssl"
-+PACKAGECONFIG ??= "readline openssl"
- PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
- PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline"
-+PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
- 
- CFLAGS += "-fcommon"
- 
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2020-13632.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2020-13632.patch
+new file mode 100644
+index 0000000000..7af5e91c4c
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2020-13632.patch
+@@ -0,0 +1,32 @@
++From 219b8e7e7587df8669d96ce867cdd61ca1c05730 Mon Sep 17 00:00:00 2001
++From: drh <drh@noemail.net>
++Date: Thu, 14 May 2020 23:59:24 +0000
++Subject: [PATCH] Fix a null pointer deference that can occur on a strange
++ matchinfo() query.
++
++FossilOrigin-Name: a4dd148928ea65bd4e1654dfacc3d8057d1f85b8c9939416991d50722e5a720e
++
++Upstream-Status: Backport
++CVE: CVE-2020-13632
++[https://github.com/sqlite/sqlite/commit/219b8e7e7587df8669d96ce867cdd61ca1c05730]
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ sqlite3.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index fd28360..ee455e5 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -177622,7 +177622,7 @@ static int fts3ExprLHits(
++     iStart = pExpr->iPhrase * ((p->nCol + 31) / 32);
++   }
++ 
++-  while( 1 ){
+++  if( pIter ) while( 1 ){
++     int nHit = fts3ColumnlistCount(&pIter);
++     if( (pPhrase->iColumn>=pTab->nColumn || pPhrase->iColumn==iCol) ){
++       if( p->flag==FTS3_MATCHINFO_LHITS ){
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
+index 95e1174b07..425612bf12 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
+@@ -13,6 +13,7 @@ SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2019-19959.patch \
+            file://CVE-2019-20218.patch \
+            file://CVE-2020-11655.patch \
++           file://CVE-2020-13632.patch \
+ "
+ SRC_URI[md5sum] = "8f3dfe83387e62ecb91c7c5c09c688dc"
+ SRC_URI[sha256sum] = "8e7c1e2950b5b04c5944a981cb31fffbf9d2ddda939d536838ebc854481afd5b"
 -- 
-2.25.1
+2.17.1
 
