@@ -1,90 +1,103 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web09.14832.1605815671814205821
+Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com [209.85.219.194])
+ by mx.groups.io with SMTP id smtpd.web08.14903.1605815718990983382
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 11:54:32 -0800
+ Thu, 19 Nov 2020 11:55:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HnHs22ep;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: mklntf@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id c17so7671439wrc.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 11:54:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Aajmz5YF;
+ spf=pass (domain: gmail.com, ip: 209.85.219.194, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f194.google.com with SMTP id t33so6367853ybd.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 11:55:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hhJZmXH9w6ngFcbZ38skKgR6gXqeBoJUHHh4SlXswrs=;
-        b=HnHs22eppZ4kkCTGhZFrwIWiHTYX+pKiV/rg1f0+8ktUOircw124o6vEHaL9fDJiJ6
-         JfqW27hMwwvW2y/MMF3Ot7U5Guwf/mpqI+8WKMLJGZThSG1OleQBTCYY4DoJdBiE55hz
-         dnf9pA+jO2+kM7FMsxnE44wiPqCUFixno4HnTfDcvWatM8DVwTIYb83tK9ZdTd0jtsBD
-         31Q1sCBofB4Hibzy38YpzAqj3OenLLMvb/UikImzhphYp7zscrPmVO9LS4wmPp3u08+T
-         i/pxcSb2v196LLt31c4VoV8uKOc+iRxJIWkATvJhRKHTWDc52TDx6Ugn7U8+ZbbbvQOS
-         YIbg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XdO+N1r5WoXzYRk43RccSkAtllGyUjHjrWRiIY9Rrfk=;
+        b=Aajmz5YFZk5qP9ZVbhi2QPMcXCGsoBuUqRoyXE0ThzUl5zGPsXRNubiNrANg7ri8Fy
+         DHp5Asq4SPY0pW/c3HOtKVmTL4P1CcUQfewxQtw+nBUKnRVMK2BbnJngDC7OPtbFG+QT
+         tskaabpkjKSrrzYrmxU7ZWWq/JAAmVaIxp57O92Rsu+h6QhODFYLLcVguLdjwSkp9mZs
+         v6JnvQY4RlgeuKpvCHyqYnhS3DF4P5jkXnY55mVfT9WBGcyg/3r6PJWHSB80DDbwnXt4
+         42jB+zK8Jvlw/wVy6dYtchpBus07ayTOlw0NpE8Bk1iZsHHzbXVJGK7EIXQs7T8X6wnl
+         tmVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hhJZmXH9w6ngFcbZ38skKgR6gXqeBoJUHHh4SlXswrs=;
-        b=JkMTIrvfktEwFgVpBiitvyFV51fM5E2zHfBZXmziCXjG/EgNqofDBICEeaPRwMaEEW
-         KCMBlsWjchjAb2W61VYg6ga6RIODwJ4kvkVzNRwwHgIHsyZM8F8It2+YRcrO7T8UpbYl
-         8u+vSJ5q4CcOEd6SOhPHZab38XKMKWLR+Fb0dE18B2x86wOkPfYZb/dRcbSTta21S3IX
-         S9rX9GYbpihSLxiF95dr9yHBj0yl4z4NHG7oUZZavVAzmWRwpvoByRqxA2VBpSHtohsr
-         7KUYcrSz1Ud0+okrb7sr5msn6xWmkcM1Vi/byWhkldTwfGOD7bTd9gxs1mxf5B5DqW9M
-         wFqg==
-X-Gm-Message-State: AOAM533MerScb6Xn00Ee4EGmC1kTntdB+QFU421QAQ3mhsNrusZkoBkc
-	av3a7EjsJrVLPQd2/3sng0+K1s0jPj8=
-X-Google-Smtp-Source: ABdhPJz8PJyy5QP21l/D7B5SetfPTJtnr3mDOSbx8nG86vr2r6wZd6hRdtKA0S5sDG4aKPUY/9U2Lg==
-X-Received: by 2002:adf:a495:: with SMTP id g21mr12845103wrb.213.1605815670306;
-        Thu, 19 Nov 2020 11:54:30 -0800 (PST)
-Return-Path: <mklntf@gmail.com>
-Received: from localhost.localdomain ([2a02:810d:6e3f:e9a0:db66:7c53:5f42:fe5])
-        by smtp.gmail.com with ESMTPSA id b145sm1566483wmd.0.2020.11.19.11.54.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 11:54:29 -0800 (PST)
-From: "Markus Fuchs" <mklntf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Markus Fuchs <mklntf@gmail.com>
-Subject: [meta-oe][PATCH] haveged: remove appending of the service file
-Date: Thu, 19 Nov 2020 20:54:27 +0100
-Message-Id: <20201119195427.11968-1-mklntf@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XdO+N1r5WoXzYRk43RccSkAtllGyUjHjrWRiIY9Rrfk=;
+        b=i9CDkevAGy4DtlBHh0oUuYdAc6zf2IrqfeQUSLL/aB5uEYWMLqaFLBdXYbcL/Ae5GD
+         N8GKOmcr4JB3jbXm0vCsoC6w3MFOkJotNoJC8o33/EhY8nTIu/THd4HJ4ssJ6dKfCnZ9
+         6ZuRnEXDgUyIAOczmnP9Qw8gtw/a22y9NTH3xOG0ss+utk7WGyYjF4vo0vQcF0TH9rv5
+         CN6vmZfafThW8pF+6rf6hr0hrkGMxyWjsphZF2tsvz3cjhPRJxoovEYT47yYisCt4rwd
+         KnbNrmhfq4cB/sxqxjgjl9Bc4oZfBSfGWC/s43CUW8b1S5XHUH3fRWOMHOvbIrxdW00r
+         EMYQ==
+X-Gm-Message-State: AOAM530Na6E7Lru/CobmUG2HXUuOTIbosqwpl78qd5incbGbkJtCSKsK
+	bcBzabaSu9BYTuFAMR0IgLfdIxGjIkXxCC6kdRs=
+X-Google-Smtp-Source: ABdhPJy4UR3zV1Ve9krcXbVSLWQ98P2g09y4i+9mo2zBMk8OliCzk3py1tsOSLG4tQNQkvheub1VuT+6M4p7toYkB1c=
+X-Received: by 2002:a25:a525:: with SMTP id h34mr13898038ybi.284.1605815718133;
+ Thu, 19 Nov 2020 11:55:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1605813340.git.bruce.ashfield@gmail.com>
+In-Reply-To: <cover.1605813340.git.bruce.ashfield@gmail.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Thu, 19 Nov 2020 09:55:07 -1000
+Message-ID: <CAGDS+nnGP4-jj1xJYxL=0EEW-nrkFmdO5TX3W0qRWCh2kSDrzQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/5] linux-yocto: consolidated pull request
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Commit c1dd93296ff69c0c29dfaa22f586b8738e71ee52 ("haveged: use the
-Fedora service file available from upstream") changed the systemd
-service file from service.redhat to service.fedora.
-The line "SuccessExitStatus=137 143" is available in service.fedora, so
-it is not necessary to append SuccessExitStatus=137 to the service file.
+On Thu, Nov 19, 2020 at 9:18 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Richard,
+>
+> Here's my next set of collected changes for linux-yocto. I built and booted the
+> 5.4 -stable bump .. and obviously it looks good.
+>
+> I've also grabbed a pending devsrc change, that looks good to me.
+>
+> Finally, I have a fix Khem sent for perf builds. I kept 5.4 and 5.8 separate
+> for that fix, so Steve can pick them up for Dunfell as appropriate.
 
-Signed-off-by: Markus Fuchs <mklntf@gmail.com>
----
- meta-oe/recipes-extended/haveged/haveged_1.9.13.bb | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+Thanks :-)
 
-diff --git a/meta-oe/recipes-extended/haveged/haveged_1.9.13.bb b/meta-oe/recipes-extended/haveged/haveged_1.9.13.bb
-index 50326ea2f..6d4979f4a 100644
---- a/meta-oe/recipes-extended/haveged/haveged_1.9.13.bb
-+++ b/meta-oe/recipes-extended/haveged/haveged_1.9.13.bb
-@@ -32,15 +32,11 @@ SYSTEMD_PACKAGES = "${PN}"
- SYSTEMD_SERVICE_${PN} = "haveged.service"
- 
- do_install_append() {
--    # The exit status is 143 when the service is stopped
--    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
--        sed -i '/ExecStart/a SuccessExitStatus=143' ${D}${systemd_system_unitdir}/haveged.service
--        # Hybrid systemd-sysvinit distros must install the initscript manually
--        if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
--            install -d ${D}${INIT_D_DIR}
--            sed -e "s,@SBINDIR@,${sbindir},g" <${S}/init.d/sysv.redhat >${D}${INIT_D_DIR}/haveged
--            chmod 755 ${D}${INIT_D_DIR}/haveged
--        fi
-+    # Hybrid systemd-sysvinit distros must install the initscript manually
-+    if ${@bb.utils.contains('DISTRO_FEATURES', ['systemd', 'sysvinit'], 'true', 'false', d)}; then
-+        install -d ${D}${INIT_D_DIR}
-+        sed -e "s,@SBINDIR@,${sbindir},g" <${S}/init.d/sysv.redhat >${D}${INIT_D_DIR}/haveged
-+        chmod 755 ${D}${INIT_D_DIR}/haveged
-     fi
- }
- 
--- 
-2.29.2
+Steve
 
+> Bruce
+>
+> The following changes since commit d8f47a68a92802fc47f297de05a0f2817963a7ee:
+>
+>   kernel: relocate copy of module.lds to module compilation task (2020-11-18 13:59:27 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib zedd/kernel
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+>
+> Bruce Ashfield (4):
+>   linux-yocto/5.4: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
+>     arches with 64bit time_t
+>   linux-yocto/5.8: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
+>     arches with 64bit time_t
+>   linux-yocto/5.8: ext4/tipc warning fixups
+>   linux-yocto/5.4: update to v5.4.78
+>
+> INC@Cisco) (1):
+>   kernel-devsrc: improve reproducibility for arm64
+>
+>  meta/recipes-kernel/linux/kernel-devsrc.bb    |  4 ++++
+>  .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+>  .../linux/linux-yocto-rt_5.8.bb               |  2 +-
+>  .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+>  .../linux/linux-yocto-tiny_5.8.bb             |  4 ++--
+>  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+>  meta/recipes-kernel/linux/linux-yocto_5.8.bb  | 18 +++++++--------
+>  7 files changed, 34 insertions(+), 30 deletions(-)
+>
+> --
+> 2.19.1
+>
+>
+> 
+>
