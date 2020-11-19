@@ -1,113 +1,86 @@
-Received: from mga17.intel.com (mga17.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.7104.1605779011820187920
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+ by mx.groups.io with SMTP id smtpd.web08.7277.1605780514938793935
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 01:43:33 -0800
+ Thu, 19 Nov 2020 02:08:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: PRnbCohQiYqGfJsI4dfCCHVfbHFNocOOaMUQk+beDhH/jEl2L5+0tlaw/5CizbttCYbKx86GRy
- IgdMPMnztTZA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="151109748"
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
-   d="scan'208";a="151109748"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 01:43:32 -0800
-IronPort-SDR: FBKbFX3ITPBaA3FVrt5ilNIsE3YCyaUGa3/E+Y0EAYVVZ4wlkn82gkFTjZ9Krzb9BYZLo8fDov
- cogdkLOuvZeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
-   d="scan'208";a="311010158"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by fmsmga008.fm.intel.com with ESMTP; 19 Nov 2020 01:43:32 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qyRCQtbE;
+ spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: wickbergster@gmail.com)
+Received: by mail-lf1-f51.google.com with SMTP id z21so7365005lfe.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 02:08:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l7RfDcex7oheV9KlumDH6JzSQ1fSiITshwiYP+AfoV4=;
+        b=qyRCQtbEWQfJWrjfmKNDW3jnfi/3xk+hXf9aVKM8W6Gp6LLcLz00N66bcJzJ0sNgTZ
+         Iy1DBFlLq9zvfXsMyepmyXhT1bDmXabBLs+37Zo5DLDzQNQFVCWNIUbQAvP90GYz2crS
+         nZOCFsU3gfUXdt8bUil4sYCiqmdrx4Lxy7kLCOgER0aZO9oVRnK0EPw+3pk/MOfKQ9vz
+         oVop6kkqmX9DnesKN3AodQ2pS+rYA6Yy9aD4GoyYFt5pyOUeMpKxQCL/2WsSv/bMTj/V
+         ALSgXwGGquQso7ZDow8vokdmlgW097PQW0kt9kgW0YnBQjFB/zKuzTiASOoHR/u6YrJ8
+         Hq4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l7RfDcex7oheV9KlumDH6JzSQ1fSiITshwiYP+AfoV4=;
+        b=TlqrrKHJm22bkY+wyI3Ewy0G7naVRGwNiH9QCe0P/UbdQMK/v0BN9rE8tg8sq2RtB2
+         6q0z47jEEZggY2zE5SxCl4Xmvy/yskN0RWrqYyIKkDYT4aIpwYa/q8E1Bi0BXr5+7yoX
+         qHcsF55xGr9aYx8GFBR3O2wLLeiexrdUGj24ytgNEI91vJDOhvotOTdrZaNLOTOyuF3l
+         JI4B2HUcpeXqL3EnC9K77qd1uFSDi43jw9FblzuXV9pDbnwhNT5++37uAfO1EkClCi5i
+         G3H/wGrieXBmI0PWGJlJcbEycIOo6TYgPJKoIVanTWm1FFuZ3aGwluWvqKkU6XaPGcOa
+         Sd7g==
+X-Gm-Message-State: AOAM533HFjyNOeAaF0Ngw+sZY44gM/PW6x3aPaUUxDWvCaE8vFKGqPfW
+	3s2sb+fceTCb5AMNzWXNlit1NUKP3Tk=
+X-Google-Smtp-Source: ABdhPJzNRmAKJfK7BxnSmEh5z6FJM39EzMEZUWnbOtD5tXxoMtlfNl3LCIxmVse+5xYEGDLAVqMb/Q==
+X-Received: by 2002:ac2:456a:: with SMTP id k10mr5826912lfm.88.1605780512658;
+        Thu, 19 Nov 2020 02:08:32 -0800 (PST)
+Return-Path: <wickbergster@gmail.com>
+Received: from localhost.localdomain (dyn-13-cust157.netit.se. [85.89.70.157])
+        by smtp.gmail.com with ESMTPSA id a1sm3915223lfg.282.2020.11.19.02.08.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2020 02:08:31 -0800 (PST)
+From: "Alexander Vickberg" <wickbergster@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 3/3] qemu: fix CVE-2020-24352
-Date: Thu, 19 Nov 2020 17:43:29 +0800
-Message-Id: <20201119094329.37712-3-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201119094329.37712-1-chee.yang.lee@intel.com>
-References: <20201119094329.37712-1-chee.yang.lee@intel.com>
+Cc: Alexander Vickberg <wickbergster@gmail.com>
+Subject: [PATCH] socat: make building with OpenSSL support optional
+Date: Thu, 19 Nov 2020 11:06:14 +0100
+Message-Id: <20201119100614.512998-1-wickbergster@gmail.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
-
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Alexander Vickberg <wickbergster@gmail.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-24352.patch            | 52 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
+ meta/recipes-connectivity/socat/socat_1.7.3.4.bb | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 84f600cec0..11be545cb5 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -32,6 +32,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://find_datadir.patch \
-            file://usb-fix-setup_len-init.patch \
-            file://0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch \
-+           file://CVE-2020-24352.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.4.bb b/meta/recipes-connectivity/socat/socat_1.7.3.4.bb
+index 9b0d4071ac..f3f569d262 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.3.4.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.3.4.bb
+@@ -5,8 +5,6 @@ HOMEPAGE = "http://www.dest-unreach.org/socat/"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
-new file mode 100644
-index 0000000000..861ff6c3b0
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
-@@ -0,0 +1,52 @@
-+From ca1f9cbfdce4d63b10d57de80fef89a89d92a540 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Wed, 21 Oct 2020 16:08:18 +0530
-+Subject: [PATCH 1/1] ati: check x y display parameter values
-+
-+The source and destination x,y display parameters in ati_2d_blt()
-+may run off the vga limits if either of s->regs.[src|dst]_[xy] is
-+zero. Check the parameter values to avoid potential crash.
-+
-+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-id: 20201021103818.1704030-1-ppandit@redhat.com
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport [ https://git.qemu.org/?p=qemu.git;a=commitdiff;h=ca1f9cbfdce4d63b10d57de80fef89a89d92a540;hp=2ddafce7f797082ad216657c830afd4546f16e37 ]
-+CVE: CVE-2020-24352
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/display/ati_2d.c | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-+index 23a8ae0..4dc10ea 100644
-+--- a/hw/display/ati_2d.c
-++++ b/hw/display/ati_2d.c
-+@@ -75,8 +75,9 @@ void ati_2d_blt(ATIVGAState *s)
-+         dst_stride *= bpp;
-+     }
-+     uint8_t *end = s->vga.vram_ptr + s->vga.vram_size;
-+-    if (dst_bits >= end || dst_bits + dst_x + (dst_y + s->regs.dst_height) *
-+-        dst_stride >= end) {
-++    if (dst_x > 0x3fff || dst_y > 0x3fff || dst_bits >= end
-++        || dst_bits + dst_x
-++         + (dst_y + s->regs.dst_height) * dst_stride >= end) {
-+         qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-+         return;
-+     }
-+@@ -107,8 +108,9 @@ void ati_2d_blt(ATIVGAState *s)
-+             src_bits += s->regs.crtc_offset & 0x07ffffff;
-+             src_stride *= bpp;
-+         }
-+-        if (src_bits >= end || src_bits + src_x +
-+-            (src_y + s->regs.dst_height) * src_stride >= end) {
-++        if (src_x > 0x3fff || src_y > 0x3fff || src_bits >= end
-++            || src_bits + src_x
-++             + (src_y + s->regs.dst_height) * src_stride >= end) {
-+             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-+             return;
-+         }
-+-- 
-+1.8.3.1
-+
+ SECTION = "console/network"
+ 
+-DEPENDS = "openssl"
+-
+ LICENSE = "GPL-2.0-with-OpenSSL-exception"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
+@@ -39,10 +37,11 @@ TERMBITS_SHIFTS_powerpc64 = "sc_cv_sys_crdly_shift=12 \
+                              sc_cv_sys_tabdly_shift=10 \
+                              sc_cv_sys_csize_shift=8"
+ 
+-PACKAGECONFIG_class-target ??= "tcp-wrappers readline"
+-PACKAGECONFIG ??= "readline"
++PACKAGECONFIG_class-target ??= "tcp-wrappers readline openssl"
++PACKAGECONFIG ??= "readline openssl"
+ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+ PACKAGECONFIG[readline] = "--enable-readline,--disable-readline,readline"
++PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+ 
+ CFLAGS += "-fcommon"
+ 
 -- 
-2.17.1
+2.25.1
 
