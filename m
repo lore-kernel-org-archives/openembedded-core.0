@@ -1,84 +1,76 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web12.23684.1605870851823060422
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.24012.1605871183439628328
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2020 03:14:12 -0800
+ Fri, 20 Nov 2020 03:19:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=gUFRQ7jt;
- spf=pass (domain: burtonini.com, ip: 209.85.167.41, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f41.google.com with SMTP id u19so12908011lfr.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 03:14:11 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WJYrnZut;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id a3so9464836wmb.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 03:19:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=JVopud5L5V5ROItemySsSo/A+CJ9j+B+5I0QN6l1u0U=;
-        b=gUFRQ7jtb7QhPUgjbIKU42rjiWycHw2BXFnuHgTjN7ejj+TEA4nXf4wee4WVA8+55z
-         Wx8ZXSwZ8dlh0eywBVcU0skvih2IghlC2J6cHniHdD1aiG6Fn1KsL/9UruAkbppqPGDi
-         TJFXutUHG8hiMhOkJ8u7hB7vxh17gxiUhy2VAYG/+Yg64ym5oHWXUjKREHyNUtz9Ot13
-         STrPsRaevnbeyKq/REVLbxawzLLBknYY6NiqUSJ/B7EoE+lYEzT4cn1KM5C+OYobGZ4b
-         NkuT+Ollkk5Invmq5+2sY+rdC0kVuC2wxGNpVWX76RNFIMuWMp0b13gc5mAI0smxbn45
-         R8yA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=W8ig3m0W2YrUPXDlY9kEu03BQrDqZpLPGKpV8zX5Rl4=;
+        b=WJYrnZutWrABNaZPZO9H6sjfMFw/GHxykd9GX5muEJHo2p7n8j/dw08wg9AhVFjVwi
+         qnS7Ri7eUsgSDvq0YdxVTzOVZpkjP9kK7IBFLFuxMIAgr7/kHUdrYmKhgdahTrqeDUu+
+         WOcbqqKUNjz2+VXuWadIzV2zq76Jw/gxzUltA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JVopud5L5V5ROItemySsSo/A+CJ9j+B+5I0QN6l1u0U=;
-        b=j8jwjjUu2+pWrCku4QpM8zSQPDAzANBoVH8K9WV22HPxdfFnlT92jhCQB/H+LWJE3k
-         w2sRdFJWWDLF6LYFzWiHZhKAJusSWUuxV6//L3uGBPpwANJ1XXGC4Dlo1+CnlFlWiPYp
-         UmUC/8wVlYMFE7Eyl5D1fbPm0CpnS3TL4CUykKlYgKGbQ9+7uWhFLLmuXARrYMuWB7tj
-         85UrxCqEzLG/guGUm16uJmtmfkgJ2cnCuEQi7ttbmKUIxpp7ws5TGFvvgusAoVdiTaII
-         Sk+XabjqJ5CWKuQ8I+p3IUIsoAWsIv+MgzEgmwdR4zLWZDLS6ArQZAE50NDTwAXytgTV
-         5Jcg==
-X-Gm-Message-State: AOAM530nxzaxbsAcMkhZgktiSB9ACcTjPwJz5KHqB+N0gXeLnzW159c3
-	vApdcEdTCpRXMKbF/dkTKz8VdurahX93SOEEgvD/4Q==
-X-Google-Smtp-Source: ABdhPJzMDsEbsNmcM4dyk1ebYVHGcplspWL46VXa4EBrnUDmdkWuHwmnjwIz5Imen6piK7IJsrQi/09iK1LTyxQqV0c=
-X-Received: by 2002:ac2:5dcb:: with SMTP id x11mr8217665lfq.44.1605870850109;
- Fri, 20 Nov 2020 03:14:10 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=W8ig3m0W2YrUPXDlY9kEu03BQrDqZpLPGKpV8zX5Rl4=;
+        b=isxRRfkoWect4y5BK6lWpaMH20fUgSMihnUCKnUO8C0F4CdTwIv3cjwiS5qgrHlYll
+         0MqoISlU8ojEopHyv7v1PyAngSOTBCR68jxHVv2/awSw6Axgi+RHiwbWxcdY+YI75Zqc
+         xMWgQXw1BxQa3E9ZA5wj8v0IaqWzIc1NJ0BUCt8uptDeA28YdkoGI45G3DLQhX0YrCW1
+         nCSgXTcsxOJCBmpLKTgkVXyWkgcMvnI8NBVhH7E/x/PQVhzSuK6UvkxbIVqOYAdKXcrU
+         782jqw4vmsrua43uGTQzlt7XZWi9I3QOfu2FOzL0qbT+1FbqH1qsKienMGlR5iYqfniC
+         beFA==
+X-Gm-Message-State: AOAM533HSmO8tAyy6+uPXf724uolJ8tN0lYAswysSJ6vwXXTMKg3qW1C
+	PCroFUxLLUOtNOEh3D50eizrnssdDyPS8g==
+X-Google-Smtp-Source: ABdhPJzO0UHRiB0h60mAycBwlLziHE/Dt88zt7b/JrV/EHFJOyQknVU2XepvN4VMkASdI+2AcHHYFw==
+X-Received: by 2002:a1c:1c3:: with SMTP id 186mr9253337wmb.39.1605871182022;
+        Fri, 20 Nov 2020 03:19:42 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from c.8.b.3.0.6.d.4.9.0.2.b.0.0.0.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (c.8.b.3.0.6.d.4.9.0.2.b.0.0.0.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:6000:b209:4d60:3b8c])
+        by smtp.gmail.com with ESMTPSA id f2sm4837797wre.63.2020.11.20.03.19.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2020 03:19:40 -0800 (PST)
+Message-ID: <c2a50c2fca652aa36dbb5694df47a939f1c1ae3c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/4] python-numpy: Add ptest
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: "Orling, Timothy T" <timothy.t.orling@intel.com>, Trevor Gamblin
+	 <Trevor.Gamblin@windriver.com>
+Date: Fri, 20 Nov 2020 11:19:40 +0000
+In-Reply-To: <20201117225428.877691-4-raj.khem@gmail.com>
+References: <20201117225428.877691-1-raj.khem@gmail.com>
+	 <20201117225428.877691-4-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20201119103813.2726273-1-ross.burton@arm.com> <20201119103813.2726273-3-ross.burton@arm.com>
- <CAOSpxdYRu4t85FLHB4W-_BFvP8amE2fkcgJ9taqTrvZ=8tRziQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdYRu4t85FLHB4W-_BFvP8amE2fkcgJ9taqTrvZ=8tRziQ@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Fri, 20 Nov 2020 11:13:58 +0000
-Message-ID: <CAAnfSTuuecd0OPZ=B8DQKX-D+0B-=+aj5AxWF39=qD1+iy_Obg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/5] sqlite3: add CVE-2015-3717 to whitelist
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Yes, it is.
+On Tue, 2020-11-17 at 14:54 -0800, Khem Raj wrote:
+> Since 1.15, numpy have replaced nose with pytest testing framework
+> it additionally needs hypothesis and sortedcontainers modules
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/python-numpy/files/run-ptest         | 5 +++++
+>  meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb | 7 +++++--
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-devtools/python-numpy/files/run-ptest
 
-Ross
+This series isn't quite there as it needs python3-pytest and I think
+its missing some BBCLASSEXTENDs too.
 
-On Thu, 19 Nov 2020 at 15:04, Steve Sakoman <steve@sakoman.com> wrote:
->
-> Is this also suitable for dunfell?
->
-> Steve
->
-> On Thu, Nov 19, 2020 at 12:38 AM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > As per https://groups.google.com/g/sqlite-dev/c/U7OjAbZO6LA this issue
-> > is believed to be either iOS specific, or fixed in 3.8.9.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  meta/recipes-support/sqlite/sqlite3_3.33.0.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta/recipes-support/sqlite/sqlite3_3.33.0.bb b/meta/recipes-support/sqlite/sqlite3_3.33.0.bb
-> > index 611a1bd923a..33f041a161d 100644
-> > --- a/meta/recipes-support/sqlite/sqlite3_3.33.0.bb
-> > +++ b/meta/recipes-support/sqlite/sqlite3_3.33.0.bb
-> > @@ -8,3 +8,5 @@ SRC_URI[sha256sum] = "106a2c48c7f75a298a7557bcc0d5f4f454e5b43811cc738b7ca294d695
-> >
-> >  # -19242 is only an issue in specific development branch commits
-> >  CVE_CHECK_WHITELIST += "CVE-2019-19242"
-> > +# This is believed to be iOS specific (https://groups.google.com/g/sqlite-dev/c/U7OjAbZO6LA)
-> > +CVE_CHECK_WHITELIST += "CVE-2015-3717"
-> > --
-> > 2.25.1
-> >
-> >
-> > 
-> >
+stdio: WARNING: Nothing RPROVIDES 'nativesdk-python3-hypothesis' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-full/build/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb RDEPENDS on or otherwise requires it)
+stdio: WARNING: Nothing RPROVIDES 'nativesdk-python3-pytest' (but virtual:nativesdk:/home/pokybuild/yocto-worker/a-full/build/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb RDEPENDS on or otherwise requires it)
+stdio: WARNING: Nothing RPROVIDES 'python3-pytest' (but /home/pokybuild/yocto-worker/a-full/build/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb RDEPENDS on or otherwise requires it)
+stdio: WARNING: Nothing RPROVIDES 'python3-numpy' (but /home/pokybuild/yocto-worker/a-full/build/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb RDEPENDS on or otherwise requires it)
+
+Cheers,
+
+Richard
+
