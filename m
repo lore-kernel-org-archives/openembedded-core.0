@@ -1,258 +1,228 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web12.17323.1605826740012830247
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.83])
+ by mx.groups.io with SMTP id smtpd.web10.19523.1605837843357203601
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 14:59:00 -0800
+ Thu, 19 Nov 2020 18:04:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RoH1BrAM;
- spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oi1-f177.google.com with SMTP id t143so8262400oif.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 14:58:59 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=n1dO1Vvu;
+ spf=pass (domain: windriver.com, ip: 40.107.94.83, mailfrom: kai.kang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fvvcIVWpmwEsfcHyRbMkw/365HWeovlxrkLN31g2Nu714Wrynk7cMJDjfzEC0J4WFWq55DE5Amsh9AaetrePgnWbYxo4RQ6fNOdI5pj9h+0CIlJ7FxDjX/FuVGdiyt4ujCl3+K9225Mcf3KOhydAsTi85aC662b+TaxmhrPnQO0uoIZaMhoo4g89k46wdyxJIyM2amvkxDr1Tyt2lcJ/Os+R/QGT0uKUFgTDxu3SNI6tF4basLNNowT5kfOO6tXJIwxDaaWR1/u8t0/zC3XUFsYPTfFPlx9wpSQXgEXe9JCkaHRgBrQmd6CaALY4UHVsnfoOFckS+ccRvNLk8f1UKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0zX+yEcxfK15nB6Bvm83D294M3v4fuozVX010nIMhLg=;
+ b=ASi6TZl9wkmTNY/3uzvZYNNGTuU1AujQtrH5Opgz7u8VRaUNoCfRbPECNZxpSKyd4R+Ak+b6JqLeQn7Fsd95g4o7CqvXu7Mw0ZfPW4F1NZbdEu9VaQqAjqLSjVVGTJOA4cZICHVxKAHBjCe9odfWTjZIjmYUx3JlDwOAdR5jfjKmJN8pG7ijb5eSoKbRuo1ZJAsK8uYd9H3NK6jtr2cThW/SSnDvJna+sk/ry8bdKXkV7unOKVFm2BOaQ5fY30KneM4u+L4JI+rOXockW+lRnjHQNLxY2yOoS9XVBuodlgjbYzeMw/b8OiiXLBTz6WVIeG2USEEd6VhqSeIEeme0Mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j3jhUrJ2PW9QZD6ohpWXpGu4ljK3u08NCyqKgW8MP50=;
-        b=RoH1BrAM+X44NncxvnOfkJNr6XXSDNwesdxNa+q0qp9Ftw9xZQ6yiDEMbuzz+8fsZa
-         pYTylv8AClCTTXVxkA75KfxEvrdtglpkiHi65dPGDEc6YRxbzUhp9rHjDUWVtbDGKjjg
-         KaASQxSzwWKjE5MpFVNflFoP8SVOtAgVtM/uc2K1QSg+ICg97QR2SBJVNc5vc9nnCXyg
-         3Y/kseMRp0uEa2iYqjMq6MdE0RTqQz2G8jYSXZY3Y6g1zPVstMiOtoau0vzo9wCFR1Rd
-         dmWzXSxKWjjcvGbvsCTP8THZ2AC7ZKuUfjJbvVZGByqia/chLD2kx9vc26h4Cl3cnN5N
-         DOvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j3jhUrJ2PW9QZD6ohpWXpGu4ljK3u08NCyqKgW8MP50=;
-        b=rdu9xViRQ+3ojJtNLCX+ieqU7+AbQpf8CMd8p/CB1R4oZIhLgGWA7dcJrBHtB91Pww
-         WpX8f9+p8qAdlN7PRJX4P4Or62OJzh2Z0iHs2YeloyUHB1kqJSoVrr4I8zhTPlpFpCgb
-         N2/sBOkN4rTD331JxS3zdfjP5S+h4pfpFEqqzHenGvJ8F+Q9aYc/LGFIYTbLpXMqnCM8
-         hYxmW3Muuhfz41yWQxM8lAXAHf1zGS5x1SvNmNPeeHCHSl/UaK5AZSHqZLY/3kw3Uv/c
-         x8oY1x2SkgCYKfA9hPqcWMBf7Na5q47kcc1ELBITj1WCp7gYRiunY/RywPXh+WGonhkA
-         kUqQ==
-X-Gm-Message-State: AOAM530OnnAuqIi4VXVADjgFoSuFNSmzpuLlfMVfi8iUAHiGun71wvQf
-	ywlAkRwbu5s8qiiN3tl43rIz3ydXO5ykMA==
-X-Google-Smtp-Source: ABdhPJy/ACPANLuuRFdPSveVMl7f/QWouTGcGSfqoSJdOVX7BiV4OPGZA/sTuUMIjhhuayvzZiAQ4A==
-X-Received: by 2002:aca:a8d4:: with SMTP id r203mr4240775oie.3.1605826738964;
-        Thu, 19 Nov 2020 14:58:58 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id g188sm651266oia.19.2020.11.19.14.58.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 14:58:58 -0800 (PST)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: raj.khem@gmail.com,
-	alistair@alistair23.me,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][RFC] weston-init: Stop running weston as root
-Date: Thu, 19 Nov 2020 16:58:53 -0600
-Message-Id: <20201119225853.12645-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.29.2
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0zX+yEcxfK15nB6Bvm83D294M3v4fuozVX010nIMhLg=;
+ b=n1dO1Vvu3QSO/uSIwkcVfjxYGVaClcSRZRKA703yXEe71+HtVNueqH/k9HdojNqRnfTD796s7/yKNlIn91PZaNhPb/cV/paRgxRp0k817mG321mdv4+GdG1xORG3fDq2gnyjSu5eW6Xyw9SqgazuaSraHlZtaX4S87keKgHKnVA=
+Authentication-Results: windriver.com; dkim=none (message not signed)
+ header.d=none;windriver.com; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3292.namprd11.prod.outlook.com (2603:10b6:5:5a::21) by
+ DM6PR11MB2601.namprd11.prod.outlook.com (2603:10b6:5:ce::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.22; Fri, 20 Nov 2020 02:04:02 +0000
+Received: from DM6PR11MB3292.namprd11.prod.outlook.com
+ ([fe80::fcf7:a1ca:17c2:f169]) by DM6PR11MB3292.namprd11.prod.outlook.com
+ ([fe80::fcf7:a1ca:17c2:f169%7]) with mapi id 15.20.3589.024; Fri, 20 Nov 2020
+ 02:04:02 +0000
+Subject: Re: [OE-core] [PATCH 1/2] systemd-systemctl: capable to call without argument
+From: "kai" <kai.kang@windriver.com>
+To: obi@opendreambox.org
+Cc: openembedded-core@lists.openembedded.org
+References: <20201102021757.32532-1-kai.kang@windriver.com>
+ <16438F587D21D644.10137@lists.openembedded.org>
+Message-ID: <61546dfe-1e08-7928-7549-9e82997588c0@windriver.com>
+Date: Fri, 20 Nov 2020 10:03:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <16438F587D21D644.10137@lists.openembedded.org>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HKAPR03CA0015.apcprd03.prod.outlook.com
+ (2603:1096:203:c8::20) To DM6PR11MB3292.namprd11.prod.outlook.com
+ (2603:10b6:5:5a::21)
+Return-Path: kai.kang@windriver.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.141] (60.247.85.82) by HKAPR03CA0015.apcprd03.prod.outlook.com (2603:1096:203:c8::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.9 via Frontend Transport; Fri, 20 Nov 2020 02:04:00 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 35aa3b95-1292-4a8a-ec98-08d88cf88d1a
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2601:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB2601FC69407243DA2745AB1F95FF0@DM6PR11MB2601.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	CZ7Ybi/c/rE7LzHXptM53F6w0+Cdob8BMfRmPdxbk2wkgvxlancPdu8v2xXzB9G6ZyeVZnvM6nwxVPgS7wYBMDJQ0wVk8gzIs8n+Lh+zmhtiP9wthFAd1q6Si4Ko1YY9vHp6jXtdSNQa3TliUCD9EedXAIscmcvtpSDI5jeSR/PT6PwgCTLWt/enAxmWNe29rVL7Gyii4syPh3y7kCkal+thB4vgt9eeHUThjyO0tMXZ7MZoDcrKmpCMnDMBDC+TpV7EwgkgCZ+20VWsegTOUU7qlW7HFoihwG6sOFfX6DjFvAWiy9ClhQS5xdhoP7p32+hMcUGMBXk+KVUrrCmPlEhDqjdIejFoi/uYxlCZAqv9OYzlRssF2R8TeOkNHq19T7vqH+mPlLcwcMjBgV1bB7UtVDRet8d7bd4RsjXZAY2mNhkDF2WLZhhA6U2EgbbZS+oGz132LFBbN2AlGOcrFp0wq6g2FbaB+Zle+hQjBnQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3292.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(39850400004)(376002)(346002)(366004)(31696002)(66476007)(66556008)(966005)(26005)(6706004)(186003)(6916009)(6666004)(66946007)(36756003)(316002)(5660300002)(2906002)(166002)(478600001)(31686004)(4326008)(2616005)(83380400001)(16576012)(16526019)(956004)(52116002)(86362001)(6486002)(33964004)(8936002)(53546011)(8676002)(78286007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	VFlpUPAMI21seUKPB3ban4IIMvwc4sUjOh57iZ5i2zz4s/EjPJLZWXpinp93DpFs4wdgoC7cNDS/3+TTa0grtDDsAczScccMmenVAn7dtNvxhhcqKyog/ziQe26JLVZ7FMfPQgOyVjm/g7i79pp29D7621GofyIoI3P4QrsHCuPRsRGP76l1gVijlPKmJ7c/LrhqAwhnyI90SLJDnfFWu7EOqCxltNEj1TVhoaNnVulf/PDL8xJZjdRy6577raD8Qu/f6yAurBa6sAY+aQsX8K7SS0qJ2WTV5lbULK4NwGDCZRgBcxqh+azkkGl/6lz0Ga0265fowVzfoVIsjVBJBApkOqq88X51/a5Rpwu7VrHoCrO9BHBnoGGKxoO3zY/1fABV6HYsPtjdqb7LAxav6YNGYFzzKI0rUCYDW65HNld3pv1HnOijcn8PMuIlu0JfzbqJBePAgahOh9n9T5gVviIMz9OzP1toRdKfQJ7BHxsd0d1zPXADhipU7T7Vo8WJ7vNWg7SMzNM6Q8XfQ2dxIMJBKBrbh+/5ukRf356yoD46CabvyT7oh5+7meMzVPpDpEOjlphap2yp1zUYI2yzt4Z/m/BAmcfZDhl/ZVVDfRa2g6SdRKTmmRc2v2hWY5BejjobmHZ/Jc+T12JROXysGQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35aa3b95-1292-4a8a-ec98-08d88cf88d1a
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3292.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2020 02:04:02.1164
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5HRfT/2kwECbjAeI7y1D09b3+MQ0TZhDX+/ed3W0BgEa7J9HigQe6hhvU+wOoiOCgyMldx0vgEaQllhlXUgNhg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2601
+Content-Type: multipart/alternative;
+ boundary="------------A7CE45517B0A22D781A7486B"
+Content-Language: en-US
 
-Running the weston compositor as the root user is an insecure default
-behavior for OE-core. We can do much better, at least when using
-systemd. Change the recipe to create a dedicated "weston" user and start
-weston as this user. The systemd service and socket units are no longer
-template units, as there were several inconsistencies in the templates.
-Instead, there is now a global /run/wayland-0 socket that gets created,
-and systemd will start weston on demand when a client connects to that
-socket or when attempting to reach graphical.target, whichever comes
-first. This also allows downstream users to easily change the behavior
-so that weston *only* starts on demand by adding a drop file. Access to
-the global socket is controlled by a "wayland" group; any user that is a
-member of the group can use the socket to talk to the compositor. This
-also satisfies another use case where another systemd service might
-start a graphical application that needs to display with weston (e.g. a
-single function device in kiosk mode). Finally, the udev rules for
-starting weston with the existance of a DRM device have been removed.
-Being WantedBy= a graphical target should eliminate the need for this
-behavior, and having it present makes it difficult for downstream users
-to start weston on demand (having to override the udev rules).
+--------------A7CE45517B0A22D781A7486B
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Any comment, please?
+
+Thanks,
+Kai
+
+
+On 11/2/20 10:17 AM, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Make systemctl prints help mesages if run without any argument. It helps
+> to judge whether systemctl works in postscripts in systemd.bbclass.
+>
+> Remove trailing white spaces as well.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-core/systemd/systemd-systemctl/systemctl | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+> index 990de1ab39..c692b65920 100755
+> --- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
+> +++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+> @@ -30,7 +30,7 @@ class SystemdFile():
+>           self._parse(root, path)
+>           dirname = os.path.basename(path.name) + ".d"
+>           for location in locations:
+> -            for path2 in sorted((root / location / "system" / dirname).glob("*.conf")):
+> +            for path2 in sorted((root / location / "system" / dirname).glob("*.conf")):
+>                   self._parse(root, path2)
+>   
+>       def _parse(self, root, path):
+> @@ -282,7 +282,7 @@ def main():
+>           sys.exit("Python 3.4 or greater is required")
+>   
+>       parser = argparse.ArgumentParser()
+> -    parser.add_argument('command', nargs=1, choices=['enable', 'mask',
+> +    parser.add_argument('command', nargs='?', choices=['enable', 'mask',
+>                                                        'preset-all'])
+>       parser.add_argument('service', nargs=argparse.REMAINDER)
+>       parser.add_argument('--root')
+> @@ -300,7 +300,11 @@ def main():
+>           locations.append(BASE_LIBDIR / "systemd")
+>       locations.append(LIBDIR / "systemd")
+>   
+> -    command = args.command[0]
+> +    command = args.command
+> +    if not command:
+> +        parser.print_help()
+> +        return 0
+> +
+>       if command == "mask":
+>           for service in args.service:
+>               SystemdUnit(root, service).mask()
+>
+> 
+>
+
+
+--------------A7CE45517B0A22D781A7486B
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">Any comment, please?</div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">Thanks,<br>
+      Kai<br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix"><br>
+    </div>
+    <div class="moz-cite-prefix">On 11/2/20 10:17 AM, kai wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:16438F587D21D644.10137@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+
+Make systemctl prints help mesages if run without any argument. It helps
+to judge whether systemctl works in postscripts in systemd.bbclass.
+
+Remove trailing white spaces as well.
+
+Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
 ---
- meta/recipes-graphics/wayland/weston-init.bb  | 33 ++++++++++++-------
- .../wayland/weston-init/71-weston-drm.rules   |  2 --
- .../{weston@.service => weston.service}       | 14 +++++---
- .../wayland/weston-init/weston.socket         | 14 ++++++++
- .../wayland/weston-init/weston@.socket        | 10 ------
- 5 files changed, 45 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
- rename meta/recipes-graphics/wayland/weston-init/{weston@.service => weston.service} (83%)
- create mode 100644 meta/recipes-graphics/wayland/weston-init/weston.socket
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/weston@.socket
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-index a616c473ec..65d7b81dc5 100644
---- a/meta/recipes-graphics/wayland/weston-init.bb
-+++ b/meta/recipes-graphics/wayland/weston-init.bb
-@@ -7,9 +7,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- SRC_URI = "file://init \
-            file://weston.env \
-            file://weston.ini \
--           file://weston@.service \
--           file://weston@.socket \
--           file://71-weston-drm.rules \
-+           file://weston.service \
-+           file://weston.socket \
-            file://weston-autologin \
-            file://weston-start"
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index 990de1ab39..c692b65920 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -30,7 +30,7 @@ class SystemdFile():
+         self._parse(root, path)
+         dirname = os.path.basename(path.name) + &quot;.d&quot;
+         for location in locations:
+-            for path2 in sorted((root / location / &quot;system&quot; / dirname).glob(&quot;*.conf&quot;)):                
++            for path2 in sorted((root / location / &quot;system&quot; / dirname).glob(&quot;*.conf&quot;)):
+                 self._parse(root, path2)
  
-@@ -36,17 +35,15 @@ do_install() {
- 	install -Dm644 ${WORKDIR}/weston.env ${D}${sysconfdir}/default/weston
+     def _parse(self, root, path):
+@@ -282,7 +282,7 @@ def main():
+         sys.exit(&quot;Python 3.4 or greater is required&quot;)
  
- 	# Install Weston systemd service and accompanying udev rule
--	install -D -p -m0644 ${WORKDIR}/weston@.service ${D}${systemd_system_unitdir}/weston@.service
--	install -D -p -m0644 ${WORKDIR}/weston@.socket ${D}${systemd_system_unitdir}/weston@.socket
-+	install -D -p -m0644 ${WORKDIR}/weston.service ${D}${systemd_system_unitdir}/weston.service
-+	install -D -p -m0644 ${WORKDIR}/weston.socket ${D}${systemd_system_unitdir}/weston.socket
-         if [ "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}" ]; then
- 		install -D -p -m0644 ${WORKDIR}/weston-autologin ${D}${sysconfdir}/pam.d/weston-autologin
-         fi
- 	sed -i -e s:/etc:${sysconfdir}:g \
- 		-e s:/usr/bin:${bindir}:g \
- 		-e s:/var:${localstatedir}:g \
--		${D}${systemd_unitdir}/system/weston@.service
--	install -D -p -m0644 ${WORKDIR}/71-weston-drm.rules \
--		${D}${sysconfdir}/udev/rules.d/71-weston-drm.rules
-+		${D}${systemd_unitdir}/system/weston.service
- 	# Install weston-start script
- 	install -Dm755 ${WORKDIR}/weston-start ${D}${bindir}/weston-start
- 	sed -i 's,@DATADIR@,${datadir},g' ${D}${bindir}/weston-start
-@@ -58,11 +55,15 @@ do_install() {
- 	if [ "${@bb.utils.contains('PACKAGECONFIG', 'no-idle-timeout', 'yes', 'no', d)}" = "yes" ]; then
- 		sed -i -e "/^\[core\]/a idle-time=0" ${D}${sysconfdir}/xdg/weston/weston.ini
- 	fi
+     parser = argparse.ArgumentParser()
+-    parser.add_argument('command', nargs=1, choices=['enable', 'mask',
++    parser.add_argument('command', nargs='?', choices=['enable', 'mask',
+                                                      'preset-all'])
+     parser.add_argument('service', nargs=argparse.REMAINDER)
+     parser.add_argument('--root')
+@@ -300,7 +300,11 @@ def main():
+         locations.append(BASE_LIBDIR / &quot;systemd&quot;)
+     locations.append(LIBDIR / &quot;systemd&quot;)
+ 
+-    command = args.command[0]
++    command = args.command
++    if not command:
++        parser.print_help()
++        return 0
 +
-+	install -dm 755 -o weston -g weston ${D}/home/weston
- }
- 
- INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
- 
--inherit update-rc.d features_check systemd
-+inherit update-rc.d features_check systemd useradd
-+
-+USERADD_PACKAGES = "${PN}"
- 
- # rdepends on weston which depends on virtual/egl
- # requires pam enabled if started via systemd
-@@ -73,10 +74,18 @@ RDEPENDS_${PN} = "weston kbd"
- INITSCRIPT_NAME = "weston"
- INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
- 
--FILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${systemd_system_unitdir}/weston@.service ${systemd_system_unitdir}/weston@.socket ${sysconfdir}/default/weston ${sysconfdir}/pam.d/"
-+FILES_${PN} += "\
-+    ${sysconfdir}/xdg/weston/weston.ini \
-+    ${systemd_system_unitdir}/weston.service \
-+    ${systemd_system_unitdir}/weston.socket \
-+    ${sysconfdir}/default/weston \
-+    ${sysconfdir}/pam.d/ \
-+    /home/weston \
-+    "
- 
- CONFFILES_${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
- 
--SYSTEMD_SERVICE_${PN} = "weston@%i.service"
--SYSTEMD_AUTO_ENABLE = "disable"
-+SYSTEMD_SERVICE_${PN} = "weston.service weston.socket"
-+USERADD_PARAM_${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input weston"
-+GROUPADD_PARAM_${PN} = "-r wayland"
- 
-diff --git a/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules b/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
-deleted file mode 100644
-index 1a1b8bbda4..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/71-weston-drm.rules
-+++ /dev/null
-@@ -1,2 +0,0 @@
--ACTION=="add", SUBSYSTEM=="graphics", KERNEL=="fb0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="weston@root.service"
--ACTION=="add", SUBSYSTEM=="drm", KERNEL=="card0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="weston@root.service"
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston.service
-similarity index 83%
-rename from meta/recipes-graphics/wayland/weston-init/weston@.service
-rename to meta/recipes-graphics/wayland/weston-init/weston.service
-index ce8f4fb71a..e09625b31c 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston@.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.service
-@@ -9,6 +9,7 @@ Documentation=man:weston(1) man:weston.ini(5)
- Documentation=http://wayland.freedesktop.org/
- 
- # Make sure we are started after logins are permitted.
-+Requires=systemd-user-sessions.service
- After=systemd-user-sessions.service
- 
- # If Plymouth is used, we want to start when it is on its way out.
-@@ -18,6 +19,9 @@ After=plymouth-quit-wait.service
- Wants=dbus.socket
- After=dbus.socket
- 
-+# Ensure the socket is present
-+Requires=weston.socket
-+
- # Since we are part of the graphical session, make sure we are started before
- # it is complete.
- Before=graphical.target
-@@ -37,10 +41,11 @@ TimeoutStartSec=60
- WatchdogSec=20
- 
- # The user to run Weston as.
--User=%I
-+User=weston
-+Group=weston
- 
--# Make sure working directory is users home directory
--WorkingDirectory=/home/%i
-+# Make sure the working directory is the users home directory
-+WorkingDirectory=/home/weston
- 
- # Set up a full user session for the user, required by Weston.
- PAMName=weston-autologin
-@@ -61,5 +66,6 @@ UtmpIdentifier=tty7
- UtmpMode=user
- 
- [Install]
-+# Note: If you only want weston to start on-demand, remove this line with a
-+# service drop file
- WantedBy=graphical.target
--DefaultInstance=tty7
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.socket b/meta/recipes-graphics/wayland/weston-init/weston.socket
-new file mode 100644
-index 0000000000..c1bdc83c05
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.socket
-@@ -0,0 +1,14 @@
-+[Unit]
-+Description=Weston socket
-+RequiresMountsFor=/run
-+
-+[Socket]
-+ListenStream=/run/wayland-0
-+SocketMode=0775
-+SocketUser=weston
-+SocketGroup=wayland
-+RemoveOnStop=yes
-+
-+[Install]
-+WantedBy=sockets.target
-+
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.socket b/meta/recipes-graphics/wayland/weston-init/weston@.socket
-deleted file mode 100644
-index f1790d74a8..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/weston@.socket
-+++ /dev/null
-@@ -1,10 +0,0 @@
--[Unit]
--Description=Weston Wayland socket
--After=user-runtime-dir@1000.service
--
--[Socket]
--ListenStream=/run/user/1000/wayland-%I
--
--[Install]
--WantedBy=sockets.target
--
--- 
-2.29.2
+     if command == &quot;mask&quot;:
+         for service in args.service:
+             SystemdUnit(root, service).mask()
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
 
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------A7CE45517B0A22D781A7486B--
