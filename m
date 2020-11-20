@@ -1,50 +1,50 @@
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
- by mx.groups.io with SMTP id smtpd.web11.22543.1605858987062514609
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web09.22396.1605860124133780615
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 23:56:27 -0800
+ Fri, 20 Nov 2020 00:15:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TQnVnmK4;
- spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f194.google.com with SMTP id q28so6640084pgk.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2020 23:56:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rcs4mSNB;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id 10so7144601pfp.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 00:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l8548I2fgeGNYU3roDTd8p6Z3RSzI/7GaoEgxezElU4=;
-        b=TQnVnmK4WTPOmrAYhhyay+cy37JjG4JyxFNvGfPkUUS5Nt4O7FT2OOo7VpA+LUIp2g
-         LdTBJRuF9ou6SxrnbNLYjTkoiCjrYaVphQs6OiSUlYvbcWU+enReSV44NyvdTYwTfuyB
-         ffdWUZ0xoN8ifJo4hpHT3aOdKwsYBBWvbaPhQSlHGNhpyq7geCZhOUT2PL36nwb9QzXF
-         CwZTYsszcJomK4lds0QLkMASC2+X1fD93xZqzt9qjyMQorZsBB1MgxwP6H4C9GVr3yOm
-         BdC6TpqoWaKfuMmK6PjVHz+Gz6UYnEiCE+BpKrJAppQsVLHlfOP0p7FKW/P+T/D5r58P
-         c3jA==
+        bh=0+U2HxRHgqZKlPXiEewU3UTRWFrHlgziBRBIdHpKyRE=;
+        b=Rcs4mSNBRMhwxYx9AMRQZC+MoywmchNP+aF5Wi2mxx/gGp+/bRkDB+2rdkHQZiH0V4
+         JgAE62VzG7oBeOaMIMqM7ITsrlxhDMpZruFxtrEr4nLXG8DVScpIrQVFcPNBxHXWV60V
+         /RKFKHku+UAxk8gFynpPRPTCKpSSpYLqMe8weAobPoeK4z/OEtPCAhkJLwEWditRjJjf
+         6WdNvrygjCBB0nrmo6UohVRvKnMprokR28zOycsCP37MKE/TR248XOD1c8aOD/BUhQjS
+         BwKeWMZBjJzo2eAFMziHlUS+AsktprCdKcwHDdHbveEJu2sfUvuNRbGbT3T7e0JwS36E
+         F+JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l8548I2fgeGNYU3roDTd8p6Z3RSzI/7GaoEgxezElU4=;
-        b=M5tHzeZm2dxYFe7MAIHq7stdi0/Rh5H2axOOLq+/563EuHv0yyGT9bBAC26BYk/yhN
-         y1JHDdyicFCNjmPRU2IxGiTqu4izFCxulMwuXGAGaB4nOD1ui3uDC2dap6EmX/8jdEAB
-         ErsJ5MeY8LXhd1yQk6VEyf+QwUWzWw0s4I9uqY1RB14oVifAqssTyI2MPpmUzgAlipB/
-         FRrnjTyQgpWZgTH1cC6hlXkS91ar2mGdkHTm3mLPOw+I/kYnUA32cPC8j1Uzz3e2BA4D
-         XZORxqtqNIaSOsIf0LWjSvUYbc2tWuzwM2ZYKkymXzdmvNsEAODy0wBTeUXh1W8mhdKT
-         h5yQ==
-X-Gm-Message-State: AOAM530sivfLZl3QhMHgskLyfP5JyWxwMwav/LofAsFAUr3J0OHeMRLV
-	+XtgcFlWEt6TxQwLXmZp42sJ/Cnvxm9+pA==
-X-Google-Smtp-Source: ABdhPJxSnRAXhWyWtaV6lw8FvHPOkGtI2kYI0wNsGRjMued5QFXlfsRB8UPEnxeU8jMCSFGELmZhBw==
-X-Received: by 2002:a17:90a:4d47:: with SMTP id l7mr8751874pjh.121.1605858986021;
-        Thu, 19 Nov 2020 23:56:26 -0800 (PST)
+        bh=0+U2HxRHgqZKlPXiEewU3UTRWFrHlgziBRBIdHpKyRE=;
+        b=HjbOXQQc2dY5J0zSI7QWR/t2ChE1IVTdtH5HnZtnrHU2zJ97MMVQx6ltSpOKaM0k//
+         ruIcVtXYlKtW8XV2f67x/rLRSJXWnOJsNeGXgde/JlCcgnBWwMGxEOlTdoCLcyU0gV33
+         YxLhz8bH8t9XK9KGihfEYS2hEdYo6iqi9S/BiYJMkZaNbNTxTKguswxmjKR6Vt88X9MJ
+         FKAVM0I2VKJbWzn6LZMb7y2jCLFnoKy225ELyuhCqqTnUDB7onnZUnkFI9jNqWWOWCOg
+         3u6pQzNnrpzf3sEo+OHOgfnxMnS3rGsBClib4gIXw9SpepcIE3hBvjt7xr90Bshcnmo6
+         yoyQ==
+X-Gm-Message-State: AOAM533tT6SxFMSIIF+0Yect102I2zh06vpgKa/8jankXx/YSJaEVK4k
+	v7fv09tHOZkpkwGM6enAFpsTJsAxh2h/rQ==
+X-Google-Smtp-Source: ABdhPJwAbwryxbz33gS4AV155UFZn/Kk6TDibfpPKM8/04DklS/CB/j+w9hjhIMYWHTJbCb4vxVwuA==
+X-Received: by 2002:a17:90a:d491:: with SMTP id s17mr9282060pju.2.1605860123085;
+        Fri, 20 Nov 2020 00:15:23 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::b756])
-        by smtp.gmail.com with ESMTPSA id h68sm2496237pfe.74.2020.11.19.23.56.24
+        by smtp.gmail.com with ESMTPSA id o133sm2550652pfg.97.2020.11.20.00.15.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 23:56:25 -0800 (PST)
+        Fri, 20 Nov 2020 00:15:22 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] go: Update to 1.15.5
-Date: Thu, 19 Nov 2020 23:56:21 -0800
-Message-Id: <20201120075621.1257101-1-raj.khem@gmail.com>
+Subject: [PATCH v2] go: Update to 1.15.5
+Date: Fri, 20 Nov 2020 00:15:20 -0800
+Message-Id: <20201120081520.1356830-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -53,12 +53,21 @@ Define CXX_FOR_TARGET and CC_FOR_TARGET for target go
 since we are cross building it, it helps in defining the compiler
 for cgo on target
 
+Disable CGO_LDFLAGS for go-runtime since it confuses the linker
+
+Fixes
+| Building std for target, linux/arm.
+| go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
+v2: Fix go-runtime build
+
  meta/recipes-devtools/go/go-1.15.inc                          | 4 ++--
  ...{go-binary-native_1.15.3.bb => go-binary-native_1.15.5.bb} | 4 ++--
+ meta/recipes-devtools/go/go-runtime.inc                       | 1 -
  meta/recipes-devtools/go/go_1.15.bb                           | 2 ++
- 3 files changed, 6 insertions(+), 4 deletions(-)
+ 4 files changed, 6 insertions(+), 5 deletions(-)
  rename meta/recipes-devtools/go/{go-binary-native_1.15.3.bb => go-binary-native_1.15.5.bb} (83%)
 
 diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
@@ -98,6 +107,18 @@ index aeab91a80f..1fb11b0435 100644
  
  UPSTREAM_CHECK_URI = "https://golang.org/dl/"
  UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
+index 21179a83a0..37a8c95203 100644
+--- a/meta/recipes-devtools/go/go-runtime.inc
++++ b/meta/recipes-devtools/go/go-runtime.inc
+@@ -5,7 +5,6 @@ PROVIDES = "virtual/${TARGET_PREFIX}go-runtime"
+ export CGO_CFLAGS = "${CFLAGS}"
+ export CGO_CPPFLAGS = "${CPPFLAGS}"
+ export CGO_CXXFLAGS = "${CXXFLAGS}"
+-export CGO_LDFLAGS = "${LDFLAGS}"
+ export GOCACHE = "${B}/.cache"
+ 
+ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
 diff --git a/meta/recipes-devtools/go/go_1.15.bb b/meta/recipes-devtools/go/go_1.15.bb
 index cc4c3fe45d..d4812c0f0a 100644
 --- a/meta/recipes-devtools/go/go_1.15.bb
