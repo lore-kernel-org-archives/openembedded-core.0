@@ -1,88 +1,95 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web12.849.1605894264710361702
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.581.1605901582979487253
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2020 09:44:24 -0800
+ Fri, 20 Nov 2020 11:46:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LkyTmGbb;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id y197so9663393qkb.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 09:44:24 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MaU+xozS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id v12so8842116pfm.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 11:46:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hY2mDb3ocsaNso5lv5xNMuSm+nu3VkscF624w0i7vko=;
-        b=LkyTmGbb1/3S54YJYyXvkuFeWaz6M0XuqiN8LRE2nrxUwXJxr1tjZhofQDeLu5RBUH
-         Gw4J1pLNanryftnISwcrYLB6M+BJnPWdAtZTkAk1/qFQ5iHI0lildB8I6VV6/JjODlVm
-         3RL+LqspUXPj58DdAvILb4BpllPA2HEgWvxcytGtbG4lKPIzA9uVlsJFVS5Gq7Timf4E
-         XgH8TWKU1a69G7wuz3t/pv/eQGV3Z597PQ6jpgfZ6leGu4/My+9+RqjzB/L0dSoURf7J
-         jYubaSOIEpdNx/xsjvpZLUxADxmbXCWJpMm5m7Fj/zhT9VszAieZjoiWliQ09HmGtn56
-         mDOg==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=06pD66zRkGGKtMAnLigOy4SoSXYEKMF0Jm+aM9No0vE=;
+        b=MaU+xozSkVzQ9IXbCXIS7wFcAQNxmQMkYaUYPeiNYmjIrP3ndkI+G31eYyg3EzBUg8
+         OkhqQfhqUApfbUHAErxs/iSxrQGYGmbe6IxgKgsx6/rCG2bZQy9l6gKu+8Iy01/nGDR0
+         HeUPHKqElsuw0GuzUWUwtjwtBbdxEpuHe4tWna8WaWEuHsRDav+8/akGaTyLj/xhm3D8
+         M3Z06e0r926r63cF8F/KCWm/x+G/4epPnr4qXvS2/s2vSrwEmZTZwwPbqM0Vktea22ni
+         VCQXJfQ8dXI5DWOCOQ/BSCIE/J2wSaoTWdVkZf01UBHgPwKTZSNeKKYkVczCuSA6ix9N
+         ZHDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hY2mDb3ocsaNso5lv5xNMuSm+nu3VkscF624w0i7vko=;
-        b=RbqS+h5GN6Z1IhZen7bYKPGJ9vJJ8Pe2EJhomawCMgipfhzSUQ8YsgHSqBkw6O1p0n
-         PBi2+oA3xaKNO1FCEIpU57L6kxjVf5mQFP49AA2kdq1VVFD5A1lZ1ft/E+/chDfHPazo
-         WzWKpPh+hFOlRLOXEsH6IALUyQdbodYqqIWh/OQNEx9OkpXTVLvM70WB+pebCrNgCAc0
-         u/fa5TmLw+Ic5t9Li0eVJfEM1m8hifIwihGLUus4VHV6BnBfSBD77OETN/Z82ifig8qh
-         1lbX2IERfpwNVGmyn8NKjwcVLVGY6j5nHOnJaUk9M/E/vIYAVbh3FPIgn+efUEmINKzX
-         I7+g==
-X-Gm-Message-State: AOAM532xGGRgS6XPID6iycb9liq40MOGdzMeXptoNphnfNS0p7pnbi8E
-	jLWbpQgFAmQUeuR0EhZQlqUsUV8xYd+q7FyJlOg=
-X-Google-Smtp-Source: ABdhPJwKOrhjwAnqQJyFDlbkJWIaur1gQJ/86cpeXgpb/XV7nsaGjmqApVcgfOsDRLwB+1da7pn3dLEJSGQkcCNH1CQ=
-X-Received: by 2002:a05:620a:204c:: with SMTP id d12mr17997612qka.212.1605894263735;
- Fri, 20 Nov 2020 09:44:23 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=06pD66zRkGGKtMAnLigOy4SoSXYEKMF0Jm+aM9No0vE=;
+        b=af9BnvSYdmq/WASvaTeDA6KPtk0egjf8oSLMA07oElvG9cotUoJMXOrznH00VS8x6W
+         TdJsl14rWKjaGgSHBA4Zk5Co2BbmjNc9NW64TQzKgnz0kQK1QS4eE0RMA3J971bXBRFY
+         Sa5jBa+NVGcSj8U3LIX7nXnVxkGfS0vursnwNQ+LjjOakaoLjKV7mpYlUsuGZVv9TnS4
+         jwp4LTdKvA6H+tnwqDZgKn+D+oJs/j8A5rnlSaLA2ZT0uScXdbsgeUff16r6KU+Xs/gc
+         JG+lXwgaX2TRPMl8gfMuwxlEdO+GkQ3pAhOsQ1KUYE8WUULRLz6tnnE7Ot8eL/TWXgG7
+         3B6g==
+X-Gm-Message-State: AOAM533j/9aLYB+bpv/9QB/r01oXjgzDj651rxjnNjqC8Bnh2utD7EiP
+	rizZ1wV7oUOWVy4kJ8I7aQ94vB0EWpagcu+u
+X-Google-Smtp-Source: ABdhPJwCpfl5c3OL75MelYbp/oZmhWcfU5SKif6NyXzftTdjXn0mBJAN30SY2/JIo1VKk8ucY3cMzw==
+X-Received: by 2002:a17:90a:e604:: with SMTP id j4mr12538941pjy.19.1605901581904;
+        Fri, 20 Nov 2020 11:46:21 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id s4sm4701945pjn.0.2020.11.20.11.46.20
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2020 11:46:20 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/9] Pull request (cover letter only)
+Date: Fri, 20 Nov 2020 09:46:11 -1000
+Message-Id: <cover.1605901407.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20201120081520.1356830-1-raj.khem@gmail.com> <16494477F3BE7FC7.12254@lists.openembedded.org>
- <2661dbaed4995b2e276b2cf9d5f89877645b6a4d.camel@linuxfoundation.org>
-In-Reply-To: <2661dbaed4995b2e276b2cf9d5f89877645b6a4d.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 20 Nov 2020 09:43:57 -0800
-Message-ID: <CAMKF1sriatsRA79BK3WzqDggXfpR5VvaRdOx7DrRpu_Z4RFCzg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] go: Update to 1.15.5
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 20, 2020 at 9:33 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2020-11-20 at 16:33 +0000, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Fri, 2020-11-20 at 00:15 -0800, Khem Raj wrote:
-> > > Define CXX_FOR_TARGET and CC_FOR_TARGET for target go
-> > > since we are cross building it, it helps in defining the compiler
-> > > for cgo on target
-> > >
-> > > Disable CGO_LDFLAGS for go-runtime since it confuses the linker
-> > >
-> > > Fixes
-> > > > Building std for target, linux/arm.
-> > > > go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > > v2: Fix go-runtime build
-> >
-> > Various failures in world builds:
-> >
-> > musl x86:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/2728
-> > musl x86-64:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/2731
-> > no-x11:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2729
->
-> and selftests:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1582
->
-> Cheers,
+The following changes since commit b4a92a20a683a74423fd5a833d5c016f63dba2b4:
 
-thanks I can see some of it locally too. will deep dive there is
-something quirky with CGO flags
->
-> Richard
->
+  freetype: fix CVE-2020-15999, backport from 2.10.4 (2020-11-13 05:57:16 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Alexander Kanavin (2):
+  ptest-runner: fix upstream version check
+  glib-2.0: correct build with latest meson
+
+Anibal Limon (1):
+  ptest-runner: Bump to 2.4.0
+
+Joshua Watt (3):
+  classes/reproducible: Move to library code
+  lib/oe/reproducible: Fix error when no git HEAD
+  lib/oe/reproducible.py: Fix git HEAD check
+
+Khem Raj (1):
+  ptest-runner: Backport patch to fix inappropriate ioctl error
+
+Mark Jonas (1):
+  libbsd: Remove BSD-4-Clause from main package
+
+Mingli Yu (1):
+  python3: add ldconfig rdepends for python3-ctypes
+
+ meta/classes/reproducible_build.bbclass       |  90 +--------------
+ meta/lib/oe/reproducible.py                   | 104 ++++++++++++++++++
+ .../glib-2.0/meson.cross.d/common-linux       |   2 +-
+ meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
+ meta/recipes-support/libbsd/libbsd_0.10.0.bb  |   3 +-
+ ...-runner_2.3.2.bb => ptest-runner_2.4.0.bb} |   5 +-
+ 6 files changed, 114 insertions(+), 91 deletions(-)
+ create mode 100644 meta/lib/oe/reproducible.py
+ rename meta/recipes-support/ptest-runner/{ptest-runner_2.3.2.bb => ptest-runner_2.4.0.bb} (87%)
+
+-- 
+2.17.1
+
