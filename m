@@ -1,68 +1,66 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web11.748.1605893802933706803
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.web08.749.1605893806335618389
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2020 09:36:43 -0800
+ Fri, 20 Nov 2020 09:36:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id q5so9606266qkc.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 09:36:42 -0800 (PST)
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qt1-f179.google.com with SMTP id p12so7658375qtp.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 09:36:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :organization:content-transfer-encoding;
-        bh=x1aTuxvT6p4vyDeO1LBM7Z2Xd3PRFkySvLU62kdyo1E=;
-        b=iLdNfod+oqCAG+rZJT+lAKDk0TkzYgc93mO0JyhMcRqaS5j2vJ4+PL7eD2/M+ko7jn
-         3+yWqlJFjNg1k3JIJZ1mFmSO8QnQRBsirz4E/kLccv2YI5pL2DyY2pKqe2JC4+LtR19b
-         FHcwKO/T6A7VuDP9K54rmFOIN/5hhLEFy+gfLMgyEi5+niqDN2J+SxNsm1A4Vz8tKQ+K
-         XXzmdH540+yif1neyUfjWo1ByRzCK5rMCwNPTDH8yoE6GtbIFEA6lleILNWARmYTOonu
-         kcOFgkBywInZqKSGXKCuk4AkFL2D3qjavQ70adrp0TnbvqNd85g22wtwbwZIL6tutzUo
-         f8xA==
-X-Gm-Message-State: AOAM533XVtNj8Z/OYoQKaLj89ho7PCPmaqm61PiZzqdnLtavOYaNOUcj
-	ra81VzmaJu0Gi/ewpA4G3e0+7lzpZOH0Xw==
-X-Google-Smtp-Source: ABdhPJw1xTcnCynn5w8wOWrxvYooXxlTAb+fOp+u6VrZFHRJQCdoT9auntiwmCzKVFKebKDfKEzRGQ==
-X-Received: by 2002:a37:4758:: with SMTP id u85mr17148575qka.274.1605893801760;
-        Fri, 20 Nov 2020 09:36:41 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:organization:content-transfer-encoding;
+        bh=ino8AMJgFkWWrMZZ/Na6WygV2WpvxwhnN8P3I17AIEM=;
+        b=NEQYIVzxtsYbVUFX2PKHoqUVnTck1t0zUCaBV8X9PmEHA90nrXEmrZsA4TDxxdElcA
+         MqmdEJlb2JaPpRu4uaj8SH4y/aSkgtgKOZnarpzIKnin4nmRu1R0d/HSo6hqLzEYOl1P
+         v97E3RRfnU2Ogl1v8fEimC1FQqe5Agy6Q90SSQHqOVBaxpfeR5Dflt7/cR4HySyUPt6d
+         ZoVhsYDCBWWZpMM+zxJ1cYKE5+1JtjKMh5MFYE6932uyv3WlTZ61aDZcbcrClU267vdR
+         GAu5hDy0v8Li/zEWIvWDpVat6iXHNpdO5v23N6yDfy61WBoso8LJJKfh6FnwErSTyWFU
+         Tsbg==
+X-Gm-Message-State: AOAM531Rckgu4MXCnIxLmXNW1sFEZLGJIgDwRj8E6gof5NrNivtkNayr
+	QjAjJ+TDjEhTpV/5lvxNfmr9QXsqR8/8lQ==
+X-Google-Smtp-Source: ABdhPJxkdPAp4lCrHYZGmnvjUoAJurXD5Bk0Ec6sfJqANJm7xPmloD2tezDb80kITRemBKnc45PCHg==
+X-Received: by 2002:ac8:590f:: with SMTP id 15mr17373361qty.249.1605893805160;
+        Fri, 20 Nov 2020 09:36:45 -0800 (PST)
 Return-Path: <otavio.salvador@gmail.com>
 Received: from localhost (191-221-68-106.user3p.brasiltelecom.net.br. [191.221.68.106])
-        by smtp.gmail.com with ESMTPSA id l46sm2535252qta.44.2020.11.20.09.36.40
+        by smtp.gmail.com with ESMTPSA id n41sm2613495qtb.18.2020.11.20.09.36.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 09:36:40 -0800 (PST)
+        Fri, 20 Nov 2020 09:36:44 -0800 (PST)
 From: "Otavio Salvador" <otavio.salvador@gmail.com>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 1/2] gstreamer1.0-plugins-base: Add 'viv-fb' OpenGL Window System option
-Date: Fri, 20 Nov 2020 14:36:29 -0300
-Message-Id: <20201120173630.1296722-1-otavio@ossystems.com.br>
+Subject: [PATCH 2/2] gstreamer1.0-plugins-base: Use bb.utils.filter to reduce code
+Date: Fri, 20 Nov 2020 14:36:30 -0300
+Message-Id: <20201120173630.1296722-2-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201120173630.1296722-1-otavio@ossystems.com.br>
+References: <20201120173630.1296722-1-otavio@ossystems.com.br>
 MIME-Version: 1.0
 Organization: O.S. Systems Software LTDA.
 Content-Transfer-Encoding: 8bit
 
-This adds the 'viv-fb' PACKAGECONFIG option to allow Vivante GPU window
-system to work.
-
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
 
- .../gstreamer/gstreamer1.0-plugins-base_1.18.1.bb               | 2 ++
- 1 file changed, 2 insertions(+)
+ .../gstreamer/gstreamer1.0-plugins-base_1.18.1.bb          | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-index 8e3ff21c90..8813b8faca 100644
+index 8813b8faca..43d51552f1 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-@@ -62,12 +62,14 @@ PACKAGECONFIG[egl]          = ",,virtual/egl"
- PACKAGECONFIG[gbm]          = ",,virtual/libgbm libgudev libdrm"
- PACKAGECONFIG[wayland]      = ",,wayland-native wayland wayland-protocols libdrm"
+@@ -64,12 +64,7 @@ PACKAGECONFIG[wayland]      = ",,wayland-native wayland wayland-protocols libdrm
  PACKAGECONFIG[dispmanx]     = ",,virtual/libomxil"
-+PACKAGECONFIG[viv-fb]       = ",,virtual/libgles2 virtual/libg2d"
+ PACKAGECONFIG[viv-fb]       = ",,virtual/libgles2 virtual/libg2d"
  
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', ' x11', '', d)}"
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'gbm', ' gbm', '', d)}"
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'wayland', ' wayland', '', d)}"
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'dispmanx', ' dispmanx', '', d)}"
- OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'egl', ' egl', '', d)}"
-+OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'viv-fb', ' viv-fb', '', d)}"
+-OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', ' x11', '', d)}"
+-OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'gbm', ' gbm', '', d)}"
+-OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'wayland', ' wayland', '', d)}"
+-OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'dispmanx', ' dispmanx', '', d)}"
+-OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'egl', ' egl', '', d)}"
+-OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'viv-fb', ' viv-fb', '', d)}"
++OPENGL_WINSYS_append = "${@bb.utils.filter('PACKAGECONFIG', 'x11 gbm wayland dispmanx egl viv-fb', d)}"
  
  EXTRA_OEMESON += " \
      -Ddoc=disabled \
