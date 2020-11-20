@@ -1,54 +1,59 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web10.21848.1605854961317947255
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web12.22078.1605857978877786145
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2020 22:49:22 -0800
+ Thu, 19 Nov 2020 23:39:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: /l3wL6JfC35TU4W4IZg6OCTE+3GMbaUqqLI1RSBzL6Xh0rnHLgnDlOEFiCi1WLfpLtlrXSqL3L
- 6MuiulQsGKDw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9810"; a="168852955"
-X-IronPort-AV: E=Sophos;i="5.78,355,1599548400"; 
-   d="scan'208";a="168852955"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 22:49:20 -0800
-IronPort-SDR: Ag/QXXMUGjiJUkoxkBsDadK5QTAmXdr9oZWzhaa0LLdzXVu3iI/wxMxxPDQEaVrglo6SuBYMFR
- vbcyUjkFOS0g==
-X-IronPort-AV: E=Sophos;i="5.78,355,1599548400"; 
-   d="scan'208";a="363664495"
-Received: from zyteoh-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.214.163.84])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 22:49:19 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] glib-2.0: RDEPEND on dbusmock only when GI_DATA_ENABLED is True
-Date: Fri, 20 Nov 2020 14:49:14 +0800
-Message-Id: <20201120064914.66946-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.28.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.78,355,1599494400"; 
+   d="scan'208";a="101580382"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 20 Nov 2020 15:39:30 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 08A834CE3A6C
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 15:39:28 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 20 Nov 2020 15:39:28 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] msmtp: upgrade 1.8.12 -> 1.8.13
+Date: Sat, 21 Nov 2020 01:20:31 +0800
+Message-ID: <1605892831-39194-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 08A834CE3A6C.A4051
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-python3-dbusmock depends on pygobject unconditionally and it's not going
-to work if g-i is disabled.
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 2 +-
+ .../recipes-extended/msmtp/{msmtp_1.8.12.bb => msmtp_1.8.13.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.12.bb => msmtp_1.8.13.bb} (91%)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index a0055d81b0..e48b5cb67b 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -170,7 +170,7 @@ RDEPENDS_${PN}-ptest += "\
-             ${PN}-locale-th \
-             python3-core \
-             python3-modules \
--            python3-dbusmock \
-+            ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'python3-dbusmock', '', d)} \
-             ${PN}-codegen \
-            "
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.12.bb b/meta/recipes-extended/msmtp/msmtp_1.8.13.bb
+similarity index 91%
+rename from meta/recipes-extended/msmtp/msmtp_1.8.12.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.13.bb
+index 54798f9e6f..994f1c5d90 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.12.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.13.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
+ 
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "a86fef9477339923afefe974988a38e32d0feb90dfeeb88f7f55aac356a96354"
++SRC_URI[sha256sum] = "ada945ab8d519102bb632f197273b3326ded25b38c003b0cf3861d1d6d4a9bb9"
+ 
+ inherit gettext autotools update-alternatives pkgconfig
  
 -- 
-2.28.0
+2.25.1
+
+
 
