@@ -1,69 +1,84 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
- by mx.groups.io with SMTP id smtpd.web08.749.1605893806335618389
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web09.848.1605894210697282404
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2020 09:36:46 -0800
+ Fri, 20 Nov 2020 09:43:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.160.179, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qt1-f179.google.com with SMTP id p12so7658375qtp.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 09:36:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZzoyguVa;
+ spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id v143so9683680qkb.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 09:43:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=E7Hw0pIFIwOp1rOB+ZV8oxMu4WHDP7RZhn04uwVp8QA=;
+        b=ZzoyguVaV5wx87NoWFihjj2IfAC6V21KWrdBYjp5gQaowjux7fDehzw7MgbajCFIx0
+         z9+/iRJ1mUMfdIJAWLE15bdjoAoUVyOJO93MDNDajr8FOmpiFXj2L001i9i1mvLLgspi
+         ILHLPxmifiCaJ+jVpzJ2Fm1jOU17XVrklXh4XonqO7Cc3ohk1t7vJqnk6WrVSzoHbsYU
+         GHnVSNccIxLzUYf+skC5wpDMHIWmoqj5yPXbBgrJol9E81jqy5UrwN8LnUksFg6D9X3o
+         YVQNTQKZcjoKM3gW+xwwvS6A/2udTI/TcD0sA72hO2FB1WCvpwAP3zQRrBOZz4MUUlTH
+         w+Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:organization:content-transfer-encoding;
-        bh=ino8AMJgFkWWrMZZ/Na6WygV2WpvxwhnN8P3I17AIEM=;
-        b=NEQYIVzxtsYbVUFX2PKHoqUVnTck1t0zUCaBV8X9PmEHA90nrXEmrZsA4TDxxdElcA
-         MqmdEJlb2JaPpRu4uaj8SH4y/aSkgtgKOZnarpzIKnin4nmRu1R0d/HSo6hqLzEYOl1P
-         v97E3RRfnU2Ogl1v8fEimC1FQqe5Agy6Q90SSQHqOVBaxpfeR5Dflt7/cR4HySyUPt6d
-         ZoVhsYDCBWWZpMM+zxJ1cYKE5+1JtjKMh5MFYE6932uyv3WlTZ61aDZcbcrClU267vdR
-         GAu5hDy0v8Li/zEWIvWDpVat6iXHNpdO5v23N6yDfy61WBoso8LJJKfh6FnwErSTyWFU
-         Tsbg==
-X-Gm-Message-State: AOAM531Rckgu4MXCnIxLmXNW1sFEZLGJIgDwRj8E6gof5NrNivtkNayr
-	QjAjJ+TDjEhTpV/5lvxNfmr9QXsqR8/8lQ==
-X-Google-Smtp-Source: ABdhPJxkdPAp4lCrHYZGmnvjUoAJurXD5Bk0Ec6sfJqANJm7xPmloD2tezDb80kITRemBKnc45PCHg==
-X-Received: by 2002:ac8:590f:: with SMTP id 15mr17373361qty.249.1605893805160;
-        Fri, 20 Nov 2020 09:36:45 -0800 (PST)
-Return-Path: <otavio.salvador@gmail.com>
-Received: from localhost (191-221-68-106.user3p.brasiltelecom.net.br. [191.221.68.106])
-        by smtp.gmail.com with ESMTPSA id n41sm2613495qtb.18.2020.11.20.09.36.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 09:36:44 -0800 (PST)
-From: "Otavio Salvador" <otavio.salvador@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/2] gstreamer1.0-plugins-base: Use bb.utils.filter to reduce code
-Date: Fri, 20 Nov 2020 14:36:30 -0300
-Message-Id: <20201120173630.1296722-2-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201120173630.1296722-1-otavio@ossystems.com.br>
-References: <20201120173630.1296722-1-otavio@ossystems.com.br>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=E7Hw0pIFIwOp1rOB+ZV8oxMu4WHDP7RZhn04uwVp8QA=;
+        b=cGHs4R2E0SoPOKz8iwh61aRX3c/JH+FeS1Vx+Yign+JWED2lONX9qvFipecnlaA0iO
+         veKG3DSH/vCIzOI9PZINRHbqomjR80s94HszsLoGxBYMiihkBIC087LlYDbJNMrAkUmn
+         8i60/x0l9teXxe8CkH+V8LTg0H/NstSSAYESu3rolcPZXGES9qQ2CvM4aWfLOvpQRKhM
+         O9/ndL/YHlGI6UX15KSfBwMRo8MU123bltXSXaNp/VX0HheQduT7Jmm1CpHcOeyUke2f
+         WlojUqEpP2+x/S3BU/SnGT/aOwyscxNURQNl4kJ5xuK3J98thkommzQtTJEj3BFFURFJ
+         BSyw==
+X-Gm-Message-State: AOAM531DshNSbKAWXjOCCtFx+dvq4tzy0H2OV4ExCdSenGPkFcoO1jCx
+	Q5+FwNkg+Gv+GI90giw13QoEqF/247VmFGMlXlM=
+X-Google-Smtp-Source: ABdhPJykgl4Zg7G9BzTO4C1JXle12Lv2QKk7HEsQmqqJOw1PW/C+L3oqeCdUhLKYJikIqfCUthsHae309YdbQTADM0E=
+X-Received: by 2002:a37:58c1:: with SMTP id m184mr3805409qkb.9.1605894209795;
+ Fri, 20 Nov 2020 09:43:29 -0800 (PST)
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Content-Transfer-Encoding: 8bit
+References: <20201120172950.1619754-1-raj.khem@gmail.com> <20201120172950.1619754-6-raj.khem@gmail.com>
+ <8db9491c541ccc1da36f53d971b04f0ed2277888.camel@linuxfoundation.org>
+In-Reply-To: <8db9491c541ccc1da36f53d971b04f0ed2277888.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 20 Nov 2020 09:43:03 -0800
+Message-ID: <CAMKF1so2O-NbHfw2-O86Dcmv6ALgJ5hmqosnzXmgi-0AbgOFkg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 6/8] python3-pytest: Add recipe
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
+On Fri, Nov 20, 2020 at 9:35 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2020-11-20 at 09:29 -0800, Khem Raj wrote:
+> > +RDEPENDS_${PN}_append_class-target = " \
+> > +    ${PYTHON_PN}-attrs \
+> > +    ${PYTHON_PN}-debugger \
+> > +    ${PYTHON_PN}-doctest \
+> > +    ${PYTHON_PN}-iniconfig \
+> > +    ${PYTHON_PN}-json \
+> > +    ${PYTHON_PN}-pluggy \
+> > +    ${PYTHON_PN}-py \
+> > +    ${PYTHON_PN}-setuptools \
+> > +    ${PYTHON_PN}-six \
+> > +    ${PYTHON_PN}-atomicwrites \
+> > +    ${PYTHON_PN}-importlib-metadata \
+> > +    ${PYTHON_PN}-pathlib2 \
+> > +    ${PYTHON_PN}-wcwidth \
+> > +    ${PYTHON_PN}-more-itertools \
+> > +    ${PYTHON_PN}-packaging \
+> > +"
+>
+> Do these exist in OE-Core? I think there are a lot of dependencies
+> pytest pulls in? I don't think this precludes the move but I'm not sure
+> the patchset is complete.
+>
 
- .../gstreamer/gstreamer1.0-plugins-base_1.18.1.bb          | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+hmm not all. I wonder if it makes sense to move these recipes as well
+to support pytest in core otherwise
+I guess I will just move the numpy dependencies onto PN-ptest in numpy
+recipe and live with that or packageconfig it out.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-index 8813b8faca..43d51552f1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-@@ -64,12 +64,7 @@ PACKAGECONFIG[wayland]      = ",,wayland-native wayland wayland-protocols libdrm
- PACKAGECONFIG[dispmanx]     = ",,virtual/libomxil"
- PACKAGECONFIG[viv-fb]       = ",,virtual/libgles2 virtual/libg2d"
- 
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'x11', ' x11', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'gbm', ' gbm', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'wayland', ' wayland', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'dispmanx', ' dispmanx', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'egl', ' egl', '', d)}"
--OPENGL_WINSYS_append = "${@bb.utils.contains('PACKAGECONFIG', 'viv-fb', ' viv-fb', '', d)}"
-+OPENGL_WINSYS_append = "${@bb.utils.filter('PACKAGECONFIG', 'x11 gbm wayland dispmanx egl viv-fb', d)}"
- 
- EXTRA_OEMESON += " \
-     -Ddoc=disabled \
--- 
-2.29.2
-
+> Cheers,
+>
+> Richard
+>
