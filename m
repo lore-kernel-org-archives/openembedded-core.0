@@ -1,99 +1,84 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.638.1605893394455575894
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web11.640.1605893396525059326
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2020 09:29:54 -0800
+ Fri, 20 Nov 2020 09:29:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y/2HIN88;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id q10so8526360pfn.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 09:29:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BvT/F0Iq;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id x15so5207188pll.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 09:29:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2EIy7Q6FfxeCeX9jyB0TBbB96yGIoMqahs6K6cfFftE=;
-        b=Y/2HIN88A5/B61ErbSXZzXic1dc+canVRyQKLJ5x1VlCpCMbz4MYG5sijxZSQiZkOl
-         oh9Xv2cnbPYK4tChqMTXZ+UFiHdu4ngnD+Ka+BXFgKttiTw4plIZmHiz+L97L84Sdshr
-         leOCO5Xh1oXSeTrQS0YTBOjyBWH6bVDtJb+0XxqHRBvVPhPKtWZUydCsNvxU7Ynv/Wbl
-         lRw1l9jweGA7KhSiyVZF47n2G2R1BnzcB+3+QZ4kRrkpqPy+E2y9zcuyEGYr8uzh/QIs
-         fenDYAtIhv/Z36gQ5Y7lwkLee7SK6w+ZW1zEEzx4IAPo+8dMM0oHLfqavF/WEZPQ69r6
-         mVkw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=67ukrktebSLodjsYZNQKijmgx+mwHkjafFSS6oSlFFQ=;
+        b=BvT/F0IqVxpPnEqiVE+PLuISGjimmDEOVJkHU287cDMUUQubArQGVBIvIUExTCrnzu
+         i03MdIg3CJx2vLAKLbPlFrzx/4I6ZFcM05oyf1Zlz5Q9pI5gvQ7azLnrNDUR/zFjr86Z
+         KRaaPw53bfXdyzkG+Gv0dUgwG/J5VfxcUxF8jv8ht7gTzadC+BXAjwwK95bt4zP45RjS
+         YHLz7AfrAQZ7kV8GZGbdXnkX33fKDbsK4I2FHoltLU9eX3wRPGTNswPfjzovpKd6JpVp
+         uafaaB2RJt9jkSG74Rza0L7DlBZIt77nTtr7SpcoqdvoJtQ0bRdSpIQ/TsvrNRchV4Pa
+         2lsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2EIy7Q6FfxeCeX9jyB0TBbB96yGIoMqahs6K6cfFftE=;
-        b=EWTaCQKs0xJXmKOODSX7vdwJKttkvRq368YL8BbfyHyzFCEiWH8BW/mHqrVgkgvGhf
-         OEzYWT/ZyideA5ccdkPu2W5Hw5f7xrbRpAU+eYqbcdEcd4wH88UdGZFn5ycqgrECUhkT
-         ot0uDVmApB88i2Q4PWJW+1cfiRpjugPaLL6yzOHOKyq/rww9cMNaTpFdUxyUK0kU+N1d
-         e+bkWMpwvIBpZwEu+3X3etVsnDWQDJAPYm8B/Xy4QckECeRus1gUuK74LB9zA0v6c6AS
-         Nlxgo17CY+inmXkidDl4u8wnHO6HtNK0pcjSbOu4dfBGZc3ODnLI1vXn1ZcfjgBYm01h
-         mtwA==
-X-Gm-Message-State: AOAM532Tg92t7Q/yk86nedLqBITH4fCOUEDcqWBwBlwHCmgh37DWERIi
-	6duzYvHfz+V5cPRSpSozJWu+w5lXC4tFWA==
-X-Google-Smtp-Source: ABdhPJyoqTHA9TDWWDFrL05sE88BCdzgtxTlzjVCCGQqwDnNw4A6AfKTbYkcF4Eu+6MzLKxx3udn7g==
-X-Received: by 2002:aa7:86c3:0:b029:197:cad7:918 with SMTP id h3-20020aa786c30000b0290197cad70918mr6616043pfo.28.1605893393597;
-        Fri, 20 Nov 2020 09:29:53 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=67ukrktebSLodjsYZNQKijmgx+mwHkjafFSS6oSlFFQ=;
+        b=iXjXILVV+5xpE6/OaBwIzAvbqIHQnhSkLvPyBQ3ufKbdgdwcdjxRiOnZNNHg1sn1CG
+         Br6LZYshsATQAlhqM3oyqMqnrXbNNWVgo3j17mKkfJNLU6y7JD0+u/im2l1nZ6iiWM8w
+         XmIqJ75jZetUd3nobrf8m+UIWlKSu/X+glSrFP/A0bZuqMEMFT5WBY5LG58Y7IZexC6I
+         deEukDhO5j7AgmQ2aGR0SPSZ9rjmoGDmsifg7XBL/hZO/cqGzi19ybgX4nQsUsbyMsOH
+         lqWR3xYxmUUbVT8T+hRzgtdu1CEyiMpt2lnIwV9bi04pkjiQf4oqc6E22f1DazvFAl4X
+         m4gw==
+X-Gm-Message-State: AOAM533XtEevIlFh+nhN+QN1P7NbRedq+2PLMxgC/JHexG8fEspd2LdP
+	Ow2fIxLaj9t5wYP1cIE84GKj9eYEHM6Big==
+X-Google-Smtp-Source: ABdhPJykECKzIsCbkjUJYss1DcqaVxK8Mw1QcwvkKCMxXXq5dYDM3weKjEL5FBLsiYvpRIIRiAV1uw==
+X-Received: by 2002:a17:902:10e:b029:d8:d11d:9613 with SMTP id 14-20020a170902010eb02900d8d11d9613mr13931544plb.26.1605893395684;
+        Fri, 20 Nov 2020 09:29:55 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::b756])
-        by smtp.gmail.com with ESMTPSA id x61sm4855684pjj.4.2020.11.20.09.29.52
+        by smtp.gmail.com with ESMTPSA id x61sm4855684pjj.4.2020.11.20.09.29.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 09:29:52 -0800 (PST)
+        Fri, 20 Nov 2020 09:29:55 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 1/8] python3-numpy: Upgrade to 1.19.4
-Date: Fri, 20 Nov 2020 09:29:43 -0800
-Message-Id: <20201120172950.1619754-1-raj.khem@gmail.com>
+Subject: [PATCH v3 2/8] python3-hypothesis: Add recipe
+Date: Fri, 20 Nov 2020 09:29:44 -0800
+Message-Id: <20201120172950.1619754-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201120172950.1619754-1-raj.khem@gmail.com>
+References: <20201120172950.1619754-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Unify inc file into single recipe, py2 is gone
+Its used in many python packages for testing eg. numpy
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb  | 3 ---
- .../{python-numpy.inc => python3-numpy_1.19.4.bb}           | 6 ++++--
- 2 files changed, 4 insertions(+), 5 deletions(-)
- delete mode 100644 meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb
- rename meta/recipes-devtools/python-numpy/{python-numpy.inc => python3-numpy_1.19.4.bb} (94%)
+ .../python/python3-hypothesis_5.41.2.bb            | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-hypothesis_5.41.2.bb
 
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb
-deleted file mode 100644
-index d388e88d25..0000000000
---- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.3.bb
-+++ /dev/null
-@@ -1,3 +0,0 @@
--inherit setuptools3
--require python-numpy.inc
--
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-similarity index 94%
-rename from meta/recipes-devtools/python-numpy/python-numpy.inc
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-index 40f81046ee..d54f2f6c18 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy.inc
-+++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-@@ -8,14 +8,16 @@ SRCNAME = "numpy"
- SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://0001-numpy-core-Define-RISCV-32-support.patch \
--           "
--SRC_URI[sha256sum] = "9179d259a9bc53ed7b153d31fc3156d1ca560d61079f53191cf177c3efc4a498"
-+"
-+SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"
- 
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
- 
- DEPENDS += "python3-cython-native"
- 
-+inherit setuptools3
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_5.41.2.bb b/meta/recipes-devtools/python/python3-hypothesis_5.41.2.bb
+new file mode 100644
+index 0000000000..d6b85089d2
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-hypothesis_5.41.2.bb
+@@ -0,0 +1,14 @@
++SUMMARY = "A library for property-based testing"
++HOMEPAGE = "https://github.com/HypothesisWorks/hypothesis/tree/master/hypothesis-python"
++LICENSE = "MPL-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4ee62c16ebd0f4f99d906f36b7de8c3c"
 +
- S = "${WORKDIR}/numpy-${PV}"
- 
- CLEANBROKEN = "1"
++PYPI_PACKAGE = "hypothesis"
++
++inherit pypi setuptools3
++
++SRC_URI[sha256sum] = "f8c281355aaba1da696e40f1488c2bb47c42660424f5750daea45a85e2d047b3"
++
++RDEPENDS_${PN} += "python3-core"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.29.2
 
