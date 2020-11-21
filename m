@@ -1,131 +1,234 @@
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.92.66.32])
- by mx.groups.io with SMTP id smtpd.web09.3373.1605945709480787240
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.3674.1605947000275884418
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Nov 2020 00:01:50 -0800
+ Sat, 21 Nov 2020 00:23:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=cFQxtvWm;
- spf=pass (domain: outlook.com, ip: 40.92.66.32, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LjY80MFiMuc49d8sbTosITaNShStmrlm1/X6SCDSqf6/WS9bfVEk7Y51B/DooAAbkl2l2WsVm9Hcya1UcaTMVhSnjJUbgVA9tUGkXzXKBv8YwFl5XbDsZdAyeXivZGB2sy80/5v+MDTsXeYhZuACD3Uf0WThCoNoo2kz+4F6fkjef38i5/7dYjIGaFS5qxrqXAToh3r1u6LtI0marX8ysjQ4eBXFBG3KwdTEw6c+yr0D5WOKY5nM/RtKqVXA7I8unBz5zU1DdrZehivBUjjCwtZV4QfFNQdFGNzPaZqbae4betpWkoYaxK+sHTk0uG686pI3bnfPV+/UlrLM7AjRGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DYUJKPzc+Zzp8v9Y8qruLmSmJ8uc8G/TezGJ3MIpfHE=;
- b=Y1pFvCbkvAI3Rl0HrkcVPY0IjbgQgpe/yDTdmGEmRc1xTZgBEcIUT6ViOO3yMneWKrmVjEkn/9jemH3DcnEsni1k/thLBtK1izxo1/OKlekdZpZX8s/pd7QfkjOtIYfdRJowGThD8YVu9Cxsh4TE2UAydA2BppgQpSBLqiuk/l7wke4npX4TWsljvVily0J/nv1vLMpTqWqhexWFxZkLlhFu3TA/HoJIurKWf8W+H6k2SnBr0vi1DpVE2wg8bwu0VNrcZa5s03R9UBWL8KG7px475ja1ybeTATDRzOkZ0lKK7v7nGhdkw2dZ3cXM8gfVgXenfhxrkocEdxfhP0GNEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DYUJKPzc+Zzp8v9Y8qruLmSmJ8uc8G/TezGJ3MIpfHE=;
- b=cFQxtvWm3Z8kAafJMISG0XT5tKPlv6gAhxasmraRutH4TB2EkA46t4jh/C+T43eYzdetAYcjrGbwqpqVmPEhp5yl8xLrhG6b726Zyptuj6Wrovi/7E8UvCW9jr+RxUVNjXPyW0jUNVhIkV4/ji8tJ2oo7OVSdpodtT8JhafyAMmKYM0FZH5+6GW3DccgxQAq6asf7TbwLlLsuut5fzZabJa9a/KDZWEbFhhGazLa1aFQCXA34CaCFIbXC2A/EqF20bmhGi3gKJIDlb+Hi0roIAsR9dKGRkgleNA61rgqHuRz05DdF9AkSRAvDwxCF+8eZwJrDe9zCB7yxxk2gzYkvA==
-Received: from VE1EUR01FT033.eop-EUR01.prod.protection.outlook.com
- (2a01:111:e400:7e19::4d) by
- VE1EUR01HT112.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e19::307)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20; Sat, 21 Nov
- 2020 08:01:44 +0000
-Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- (2a01:111:e400:7e19::4f) by VE1EUR01FT033.mail.protection.outlook.com
- (2a01:111:e400:7e19::230) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
- Transport; Sat, 21 Nov 2020 08:01:44 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:E5F442138D8CBBEBC1926F5F7F09AB6DD15F55CE49827858457261CBDC81E810;UpperCasedChecksum:9322191ADE7B615F56707D3669DD46A1F92E11F6885B77D1752AC837407F5DC6;SizeAsReceived:8684;Count:47
-Received: from VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- ([fe80::10f9:f756:6d75:96c3]) by VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- ([fe80::10f9:f756:6d75:96c3%6]) with mapi id 15.20.3589.021; Sat, 21 Nov 2020
- 08:01:44 +0000
-Subject: Re: [OE-core] [meta-oe][PATCH v3] heaptrack: add bitbake recipe
-To: openembedded-core@lists.openembedded.org, Sinan Kaya <okaya@kernel.org>
-References: <20201121031705.21220-1-okaya@kernel.org>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <VI1PR01MB6462348D471590E1A52A010DA8FE0@VI1PR01MB6462.eurprd01.prod.exchangelabs.com>
-Date: Sat, 21 Nov 2020 09:01:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20201121031705.21220-1-okaya@kernel.org>
-X-TMN: [KaGl/7WuBdplFQDYpZkxoyjIeSL8LxJv]
-X-ClientProxiedBy: AM6P193CA0056.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:209:8e::33) To VI1PR01MB6462.eurprd01.prod.exchangelabs.com
- (2603:10a6:800:154::12)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <bbcaafcc-5efc-e54b-89e2-0f54204ee20c@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FnM1t1RJ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id w14so10174427pfd.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2020 00:23:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=deDZCikgz5sg1qNpjZjH47AQs9akaCXEJnWqH345Ga0=;
+        b=FnM1t1RJqqeBaw9aLinFyNVvqS7KvSKj7fC5JFb/fQTKesexY0E2MhtDSplThcNDns
+         ulHBwhHa6dPUEVHdymGRm+yXUG/wKnlv6a/5xESP0sALRdItDyiwfzVNK+ja2qHe6caZ
+         9Znx33fjjvggkqy/pSA1aMWOUqVN8Lco/A/+D8/wSWZCfIlYKwPSVaG5tRQUfGR3sVIq
+         pbVAcZKDhiBEqUNS4psfCvCCawthcQRIRCAFn+L5xbJ6NCP1hwedP1EwsMqNjB9zZHdN
+         5dy7myEB6I4673H1emJqDL2dC5HYY/xoczZqqytHbhLAVEQkTrdQ0gF2uWrPbfgY8HLG
+         lvSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=deDZCikgz5sg1qNpjZjH47AQs9akaCXEJnWqH345Ga0=;
+        b=ThBX8Bo7dTiBmnYdBMcrwCXapZgqkipsaDiqr6/gshhTKWqhCQDICL1znHp7t/PR1y
+         jAFaQmLHv4mTV7xXiK53DSLbOeUqlNjnKtk/5hwNr8SGoz08WvfNS+B5jIRCyCVcnzwp
+         pv2I8nYRIbLQH4V7BX9YZrd8x6sSBtjexYUdzNRjpKrD+dQPoueUfJWPhauW7B9td58J
+         AHRHuYaqnuwNnduSTF5W+2entWMlsrzU4lnAKM3JcbK+ckaMdmCIZFLynHiFHCG8j0Ma
+         bKLXuoGouwI6nsMjSulvwOmIvJZ3njz6En1YPzaqFSEKPr8/A7Ci7zy06DvTww3etbFJ
+         +8Ig==
+X-Gm-Message-State: AOAM533ZngxlUEc8Tv/9bf5rNB9SHR3d1dWO55qbCf6cUiuJ6MyzYeTl
+	GmEvNrMZaSxGUx4yyhgu+9Si4nimSHmpyA==
+X-Google-Smtp-Source: ABdhPJx4ZXtxM3S+9BKLZYastRYiVxqZDPBrwicO9Cv7FJLIjWWuTun6khdWT4IKh2aotwGeP6hvqg==
+X-Received: by 2002:a17:90a:a81:: with SMTP id 1mr14101210pjw.165.1605946999326;
+        Sat, 21 Nov 2020 00:23:19 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::b756])
+        by smtp.gmail.com with ESMTPSA id q12sm7254216pjl.41.2020.11.21.00.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2020 00:23:18 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2] go: Update to 1.15.5
+Date: Sat, 21 Nov 2020 00:23:16 -0800
+Message-Id: <20201121082316.980961-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (79.215.13.166) by AM6P193CA0056.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:8e::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend Transport; Sat, 21 Nov 2020 08:01:44 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 0ed79165-17a0-45a4-180f-08d88df3b016
-X-MS-TrafficTypeDiagnostic: VE1EUR01HT112:
-X-MS-Exchange-MinimumUrlDomainAge: github.com#4792
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	NvrPC6Odmrm8zGr62dlfGIFg81pcbA5wpPBw1dqYLe/Nj3YD0R648k/pEmj87jF8KM8H/07j8mEDaSaOcC23YuZ0rOhKGpWyhRh4BGBsp/Qi8npokBn5HBoLtlbpj5BCVsAKqiLOXTQfK79AayJxsSERFotUfdHCCbim7QqtF+C2pn8eCXQkcxyqjTyJC/r2jVsjMTM0l/swWY+EIjscpoWLnPGWJvLffXml/pqOMrWE2hi/jWGzu6dmkWAUbGYi
-X-MS-Exchange-AntiSpam-MessageData: 
-	Xkll7k//xxA79jzHxWY85qEsIe97409HxQVcj7GxN3teFYbj1uy5Eyr08lCVMr6FLuU/49jY9fHDsFinmgU7ADQGEWo4x0y0eA03J1GW9Az77qDoorBaPgR3Ri90ezTPZvsujF7HL0pL85mrMjOzng==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ed79165-17a0-45a4-180f-08d88df3b016
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2020 08:01:44.8521
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR01FT033.eop-EUR01.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT112
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 21.11.20 04:17, Sinan Kaya wrote:
-> Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
-> Signed-off-by: Sinan Kaya <okaya@kernel.org>
-> ---
->   .../heaptrack/heaptrack_git.bb                 | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
->   create mode 100644 meta-oe/recipes-devtools/heaptrack/heaptrack_git.bb
-> 
-> diff --git a/meta-oe/recipes-devtools/heaptrack/heaptrack_git.bb b/meta-oe/recipes-devtools/heaptrack/heaptrack_git.bb
-> new file mode 100644
-> index 0000000000..efee3bbec4
-> --- /dev/null
-> +++ b/meta-oe/recipes-devtools/heaptrack/heaptrack_git.bb
-> @@ -0,0 +1,18 @@
-> +DESCRIPTION = "Heaptrack"
-> +HOMEPAGE = "https://phabricator.kde.org/source/heaptrack/"
-> +LICENSE = "LGPL-2.1"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-> +
-> +DEPENDS = "zlib boost libunwind elfutils"
-> +
-> +SRC_URI = "git://github.com/KDE/heaptrack.git;protocol=https"
-> +
-> +SRCREV = "f8d9e665196614b606eaab9c6fc81d65a88a2af1"
+Define CXX_FOR_TARGET and CC_FOR_TARGET for target go
+since we are cross building it, it helps in defining the compiler
+for cgo on target
 
-Why this very outdated version?
-Latest tag (1.2.0) points to 
-https://github.com/KDE/heaptrack/commit/bc9e3744bcc47de978673d1e382f4125a1ab5fa8
+backport a patch to fix CGO_LDFLAGS regression like below
 
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit cmake
-> +
-> +EXTRA_OECMAKE += " -DHEAPTRACK_BUILD_GUI=OFF"
+Fixes
+| Building std for target, linux/arm.
+| go build runtime/cgo: invalid flag in go:cgo_ldflag: -Wl,-O1
 
-the leading space is not needed IMO
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Backport a patch to fix CGO_LDFLAGS regression
 
-> +
-> +BBCLASSEXTEND = "native nativesdk"
-> 
-> 
-> 
-> 
-> 
+ meta/recipes-devtools/go/go-1.15.inc          |   5 +-
+ ...t-CGO_LDFLAGS-to-appear-in-go-ldflag.patch | 100 ++++++++++++++++++
+ ...e_1.15.3.bb => go-binary-native_1.15.5.bb} |   4 +-
+ meta/recipes-devtools/go/go_1.15.bb           |   2 +
+ 4 files changed, 107 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
+ rename meta/recipes-devtools/go/{go-binary-native_1.15.3.bb => go-binary-native_1.15.5.bb} (83%)
+
+diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
+index a35921c1f8..ccfb0c5987 100644
+--- a/meta/recipes-devtools/go/go-1.15.inc
++++ b/meta/recipes-devtools/go/go-1.15.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
+ 
+ GO_BASEVERSION = "1.15"
+-PV = "1.15.3"
++PV = "1.15.5"
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+@@ -15,5 +15,6 @@ SRC_URI += "\
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
++    file://0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch \
+ "
+-SRC_URI[main.sha256sum] = "896a602570e54c8cdfc2c1348abd4ffd1016758d0bd086ccd9787dbfc9b64888"
++SRC_URI[main.sha256sum] = "c1076b90cf94b73ebed62a81d802cd84d43d02dea8c07abdc922c57a071c84f1"
+diff --git a/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch b/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
+new file mode 100644
+index 0000000000..b57041f1db
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
+@@ -0,0 +1,100 @@
++From 4759221d46b1666de96b8047cec3160bfe4d3d5d Mon Sep 17 00:00:00 2001
++From: Ian Lance Taylor <iant@golang.org>
++Date: Fri, 13 Nov 2020 11:05:37 -0800
++Subject: [PATCH] cmd/go: permit CGO_LDFLAGS to appear in //go:ldflag
++
++Fixes #42565
++
++Upstream-Status: Backport [https://github.com/golang/go/commit/782cf560db4c919790fdb476d1bbe18e5ddf5ffd]
++Change-Id: If7cf39905d124dbd54dfac6a53ee38270498efed
++Reviewed-on: https://go-review.googlesource.com/c/go/+/269818
++Trust: Ian Lance Taylor <iant@golang.org>
++Run-TryBot: Ian Lance Taylor <iant@golang.org>
++TryBot-Result: Go Bot <gobot@golang.org>
++Reviewed-by: Jay Conrod <jayconrod@google.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/cmd/go/internal/work/exec.go      | 15 +++++++++
++ src/cmd/go/testdata/script/ldflag.txt | 44 +++++++++++++++++++++++++++
++ 2 files changed, 59 insertions(+)
++ create mode 100644 src/cmd/go/testdata/script/ldflag.txt
++
++diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
++index 575a2df..9209e3d 100644
++--- a/src/cmd/go/internal/work/exec.go
+++++ b/src/cmd/go/internal/work/exec.go
++@@ -2821,6 +2821,21 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
++ 				idx = bytes.Index(src, []byte(cgoLdflag))
++ 			}
++ 		}
+++
+++		// We expect to find the contents of cgoLDFLAGS in flags.
+++		if len(cgoLDFLAGS) > 0 {
+++		outer:
+++			for i := range flags {
+++				for j, f := range cgoLDFLAGS {
+++					if f != flags[i+j] {
+++						continue outer
+++					}
+++				}
+++				flags = append(flags[:i], flags[i+len(cgoLDFLAGS):]...)
+++				break
+++			}
+++		}
+++
++ 		if err := checkLinkerFlags("LDFLAGS", "go:cgo_ldflag", flags); err != nil {
++ 			return nil, nil, err
++ 		}
++diff --git a/src/cmd/go/testdata/script/ldflag.txt b/src/cmd/go/testdata/script/ldflag.txt
++new file mode 100644
++index 0000000..6ceb33b
++--- /dev/null
+++++ b/src/cmd/go/testdata/script/ldflag.txt
++@@ -0,0 +1,44 @@
+++# Issue #42565
+++
+++[!cgo] skip
+++
+++# We can't build package bad, which uses #cgo LDFLAGS.
+++cd bad
+++! go build
+++stderr no-such-warning
+++
+++# We can build package ok with the same flags in CGO_LDFLAGS.
+++env CGO_LDFLAGS=-Wno-such-warning -Wno-unknown-warning-option
+++cd ../ok
+++go build
+++
+++# Build a main program that actually uses LDFLAGS.
+++cd ..
+++go build -ldflags=-v
+++
+++# Because we passed -v the Go linker should print the external linker
+++# command which should include the flag we passed in CGO_LDFLAGS.
+++stderr no-such-warning
+++
+++-- go.mod --
+++module ldflag
+++
+++-- bad/bad.go --
+++package bad
+++
+++// #cgo LDFLAGS: -Wno-such-warning -Wno-unknown-warning
+++import "C"
+++
+++func F() {}
+++-- ok/ok.go --
+++package ok
+++
+++import "C"
+++
+++func F() {}
+++-- main.go --
+++package main
+++
+++import _ "ldflag/ok"
+++
+++func main() {}
++-- 
++2.29.2
++
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.15.3.bb b/meta/recipes-devtools/go/go-binary-native_1.15.5.bb
+similarity index 83%
+rename from meta/recipes-devtools/go/go-binary-native_1.15.3.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.15.5.bb
+index aeab91a80f..1fb11b0435 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.15.3.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.15.5.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+ PROVIDES = "go-native"
+ 
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "010a88df924a81ec21b293b5da8f9b11c176d27c0ee3962dc1738d2352d3c02d"
+-SRC_URI[go_linux_arm64.sha256sum] = "b8b88a87ada918ef5189fa5938ef4c46a4f61952a34317612aaac705f4275f80"
++SRC_URI[go_linux_amd64.sha256sum] = "9a58494e8da722c3aef248c9227b0e9c528c7318309827780f16220998180a0d"
++SRC_URI[go_linux_arm64.sha256sum] = "a72a0b036beb4193a0214bca3fca4c5d68a38a4ccf098c909f7ce8bf08567c48"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go_1.15.bb b/meta/recipes-devtools/go/go_1.15.bb
+index cc4c3fe45d..d4812c0f0a 100644
+--- a/meta/recipes-devtools/go/go_1.15.bb
++++ b/meta/recipes-devtools/go/go_1.15.bb
+@@ -6,6 +6,8 @@ inherit linuxloader
+ export GOBUILDMODE=""
+ export CGO_ENABLED_riscv64 = ""
+ export GO_LDSO = "${@get_linuxloader(d)}"
++export CC_FOR_TARGET = "gcc"
++export CXX_FOR_TARGET = "g++"
+ 
+ # mips/rv64 doesn't support -buildmode=pie, so skip the QA checking for mips/riscv and its
+ # variants.
+-- 
+2.29.2
+
