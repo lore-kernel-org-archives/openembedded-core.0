@@ -1,81 +1,80 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web09.2742.1605917665789072122
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.2679.1605917667990243889
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2020 16:14:25 -0800
+ Fri, 20 Nov 2020 16:14:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sUyZbJZF;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id v5so5403991pff.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 16:14:25 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=0Kag/L80;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id v5so5404056pff.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2020 16:14:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=932god6sAIF1zg32MSaSVGsFf6fbAUuaJVOc/FZLs8A=;
-        b=sUyZbJZFCxoJQzwewqNEyVTZOPJABf5P+DWCsAoZ+u1/MPIlnkmoXTUHAtHGZtpXfF
-         BITbCvrcL/Ps2koJmAQI4d+Pov0iiD7nIoM2DZyDlks0NymVMMARG7CFHhvlbKElsgow
-         zMSvGstxafsu/WfzpkpnwqhmPlDyTLzBfwZauw5ZpRaiWSzngGXhT0twgB6suWnL/zQF
-         RO2k4EbXFDri5AWC769wPEutXycDuWfyx5PKoT3NOrrWr2camMvS1iJXOluNoINAKYzI
-         xv4tLu6DTdE8/v0xAxcnPy+8/XQmXlPDXbu09r87B+LGrCEeJbVng1ee4h+ecwkzElel
-         2PhA==
+        bh=5L8k9tY5FCc733zTRUSyWMhC5s5QxwxT2O7zOQpd/ZU=;
+        b=0Kag/L80e03uqRyIgjMPlfoEfEt1jTXqvYCCxf4acSEAc98d7qjrsrp2bmk4wDRy4Q
+         Iw8odaI+1IfxA8kElYg1JsbytbTFmXkX/x9CW0uMxQQrNK89WZ5+p9+zLgl5yakPPC2b
+         Hu+plycX7pF/JJS5sRXwMsIZ2WMPNI3EmV4xT9TSPiSdVoRoLLvcE6ZZnAVLhnQ3XrYh
+         jpVv1NxSccK8mYKPuvoDr3NKQmxb0+vW6ZsGOKcjD7t/LYQDa7eDp2ygPf2LwxkFhBuF
+         eX1p92+W0BRzhaeI4I0/qFAQ9/yE3I+zD3oN1EQOAWB+fsvotptV3MkyZkWK06AnUSCW
+         x0Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=932god6sAIF1zg32MSaSVGsFf6fbAUuaJVOc/FZLs8A=;
-        b=ETpTkxPCps50FjEeIQsyVpFt6/BiG9/wCzwIC9RXMHCGy72aBRsHwzM500HSPav4DT
-         3h9Yh3URjKEJNEQi54jU+vCA7wamGBjwHIkXtFYF+jMT4pqHh2efxeiBaja8m68q+KU1
-         ppi6FXd5K2X2fp5qhncv9Br6aLKjRCsq2FAf63xvpik9I8lf8Iomsqz/JF/HTpIR98um
-         Hl7i+sOSCnc9iuMEnJUsgCY5TQsFWaZYWAmOWZNliYy5wJ0FOCaK58qTaGzSEhGn2lwc
-         FqHxLztQeZoDd/pRRuDRqZtY+pRrNr8CMl3wzjMzZgPqxxmnD5P4PWTpk6S6XGs4CD8O
-         DXsw==
-X-Gm-Message-State: AOAM533SZuegV53CInw0Hy6zN0LxVllMFAhrf2rDgR3CJHhC89rTtDSk
-	HBSOn+0ZhbaFNPA2HJzK9Z6LllCHnpNREjaB
-X-Google-Smtp-Source: ABdhPJyfAZ6Mgu1+QwQC+nYML49UPriDD+kQft9LOVmxyU2dJ1E0JyI7gbCze3EPW1419nZ+SGNF3g==
-X-Received: by 2002:a63:2cc3:: with SMTP id s186mr18539880pgs.230.1605917664995;
-        Fri, 20 Nov 2020 16:14:24 -0800 (PST)
+        bh=5L8k9tY5FCc733zTRUSyWMhC5s5QxwxT2O7zOQpd/ZU=;
+        b=G9lDQB4wnwHTreDjBpuPM4imOdNvvNf2wk7WP2Qp6sjK2+IRLgXj2LHW8aSf94Ah+E
+         fMm1seny+FaUJZyI1SFyclgmjusbRsEZGb+qRgl5OD7pCRr/VS7nNuy5MbEG5+gIu0PX
+         b6CitIgcOaXEeINy4uQw6G9dzvTaHvJ3iHGIYFWW7O1BtKJ8xTZOJaAbcGYSQCIzv0Wc
+         SrvXNgHWUbI0YVKwK+8EhvIHPyAWGPPgMVIciayTAymkvlacyS/V+jya5IbKnJTaasSE
+         DGID40LTycxWjzjIHvUlLyLl6MNTy0VCpXXvs7JSqUN6mLoPvJCQkH0OSwz3c8S0g8nm
+         Os5Q==
+X-Gm-Message-State: AOAM531jerCpA+JnXgxetht3Px3mapM1ad8CjLO02dPCz0bDvQM4Icu8
+	RweSJvWrLeYHUgNi7lS9MTC5Rz4dUtn/V3KS
+X-Google-Smtp-Source: ABdhPJz5Nnw455BwT6AXLziZe0K60ymSUcMgwLL2QbKg6+C2EMwfbvcwfRom8eIGjiC/9ToUW7SH/A==
+X-Received: by 2002:a63:9508:: with SMTP id p8mr19249091pgd.189.1605917667267;
+        Fri, 20 Nov 2020 16:14:27 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d10sm5302419pjj.38.2020.11.20.16.14.23
+        by smtp.gmail.com with ESMTPSA id d10sm5302419pjj.38.2020.11.20.16.14.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 16:14:24 -0800 (PST)
+        Fri, 20 Nov 2020 16:14:26 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 2/5] bison: update to 3.5.4 for CVE-2020-14150
-Date: Fri, 20 Nov 2020 14:14:01 -1000
-Message-Id: <6e1647fe60004bd4989a65824f0bf02d37f5aeba.1605917505.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 3/5] python3: whitelist CVE-2020-15523
+Date: Fri, 20 Nov 2020 14:14:02 -1000
+Message-Id: <c216431d0704bd8be237e860bbdc32be34a82aee.1605917505.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1605917505.git.steve@sakoman.com>
 References: <cover.1605917505.git.steve@sakoman.com>
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Release notes:
-https://lists.gnu.org/archive/html/info-gnu/2020-04/msg00000.html
+This CVE is issue on _Py_CheckPython3 uses uninitialized dllpath when embedder sets module path with Py_SetPath.
+Since it is .dll issue (on windows only), hence whitelist it.
+
+https://bugs.python.org/issue29778
 
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/bison/{bison_3.5.3.bb => bison_3.5.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/bison/{bison_3.5.3.bb => bison_3.5.4.bb} (94%)
+ meta/recipes-devtools/python/python3_3.8.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/bison/bison_3.5.3.bb b/meta/recipes-devtools/bison/bison_3.5.4.bb
-similarity index 94%
-rename from meta/recipes-devtools/bison/bison_3.5.3.bb
-rename to meta/recipes-devtools/bison/bison_3.5.4.bb
-index e6c169e9db..9830721038 100644
---- a/meta/recipes-devtools/bison/bison_3.5.3.bb
-+++ b/meta/recipes-devtools/bison/bison_3.5.4.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://add-with-bisonlocaledir.patch \
-            file://0001-bison-fix-the-parallel-build.patch \
- "
--SRC_URI[sha256sum] = "2bf85b5f88a5f2fa8069aed2a2dfc3a9f8d15a97e59c713e3906e5fdd982a7c4"
-+SRC_URI[sha256sum] = "4c17e99881978fa32c05933c5262457fa5b2b611668454f8dc2a695cd6b3720c"
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index 758ed87546..5f7901dbf2 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -54,6 +54,9 @@ CVE_PRODUCT = "python"
+ # This is not exploitable when glibc has CVE-2016-10739 fixed.
+ CVE_CHECK_WHITELIST += "CVE-2019-18348"
  
- # No point in hardcoding path to m4, just use PATH
- EXTRA_OECONF += "M4=m4"
++# This is windows only issue.
++CVE_CHECK_WHITELIST += "CVE-2020-15523"
++
+ PYTHON_MAJMIN = "3.8"
+ 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.17.1
 
