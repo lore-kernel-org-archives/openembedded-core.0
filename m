@@ -1,428 +1,532 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.51])
- by mx.groups.io with SMTP id smtpd.web12.33529.1606130291000578106
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.34688.1606138113384179258
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2020 03:18:11 -0800
+ Mon, 23 Nov 2020 05:28:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=PQwsu2bY;
- spf=pass (domain: windriver.com, ip: 40.107.243.51, mailfrom: zhe.he@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hH6Tbfid1OFASbNlV1OU12gnaGm4NNwhc6bvHVG9pkGE48cL+vTamdqOGwLw2GVH4jKyHoVqNnKL+uah9TSg1vCXgJDrzIbKJK6e4MKejzu7Lp3H0ERBADoBxR85L23TZJdvSUfDm682/lapUWaPGnG1sCu66lmd7naQPooVAftL5ikY44u4ZRRf61u0jdHBmmkhqFIy2snemTYTWdXOy3V9OeL1GocvmXpmJ9cu0kDcuBpggFlErvFcvzMdU0aKdr+20dmGd/PZUh4QFSPlEHyjooOsxWEGA1bB7tYcCnzN52EFXkUj/oGPUjLg9bqLpgB0mmSeLVc863c/jbF2fA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OaRffRZjLdPwhj9O+fjrrnteAQCy3K18gMjQCG8kIk0=;
- b=ldzRjASvOSSBm8Z8xw3rk52L8QI6VU8/LAoiq0mX0e3cpC0T6463aZHRoaKxzvNq8wDJjBnd2cFY2twXGck4sfvuF5PRrs2Y39vQxvnQvNJ29Vj9q1RC86yQE6HTfhzhVsWOraJok6cSviOB9rA9yaTXGraJ8hP7TpBsVGJaJsvds2/stBbkRKmZ47xKF20vTRib/3ZTAFaqXy5dGcOEmCModexZKskdxO1N0R+RZoEfnxFu+QuEe7dpMiGQ+7AHX312S/770VEbnLdgZVU64oagpPUhQUgZy4uZ2kRCVbzjQ49EXzARCJN8nS7WB/i7lfkl39ZV1Qo5pZAbeCMCnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oGHTT6ku;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id l1so18566491wrb.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2020 05:28:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OaRffRZjLdPwhj9O+fjrrnteAQCy3K18gMjQCG8kIk0=;
- b=PQwsu2bY+oTQNMuG88lEnwHE+kcb3QFG8+dTlI1YfEHrPfcfEvs4ClBfk7cb60K3QKyBGpgWhxve9/qQ05+Pl9rzuLWtwQGbwWqHmiwthEEw4v8G7hjUyyK3UZ/lznUP6ASL7oU67CUbgMHfpHf0k+XLp8oCqzSBgWFcoEmXh8g=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB3360.namprd11.prod.outlook.com (2603:10b6:805:c8::30)
- by SN6PR11MB3264.namprd11.prod.outlook.com (2603:10b6:805:bd::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Mon, 23 Nov
- 2020 11:18:09 +0000
-Received: from SN6PR11MB3360.namprd11.prod.outlook.com
- ([fe80::f013:6c05:9f97:ca7c]) by SN6PR11MB3360.namprd11.prod.outlook.com
- ([fe80::f013:6c05:9f97:ca7c%6]) with mapi id 15.20.3589.025; Mon, 23 Nov 2020
- 11:18:09 +0000
-From: "He Zhe" <zhe.he@windriver.com>
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=a/oB8l/a4qMXX2zH7m/+aHG2zItJDDGYZKhhwyo3mfU=;
+        b=oGHTT6kuFJ+AtP9sLjHXimdo72YTcTbvC7XGOu2ubUbGeEZbCv8mkIFrMVB0DMMGpw
+         dEbtJ7ToKV3UjQTk7S2PXbg+CvTUrnULYjrmB1EQ5llQQeuUp/HHtmIYL6x0ycNMRfvD
+         JdhRolMTcrMqw7Otvh5j48TqxP7X8WvV+7xaxETN4NdW1NTGW0UJUYqqFDCxiW4AL0mI
+         27niKLb61OimctyaEnyO0j6QBOnoChUA4nnkvAvCVYwPqKNGB3/m4SsikvQ+kwZx3UsC
+         2eSSNCb5qirI2n1ExQIX6stPjF2vGY7W5lYBXCiA4m8apzwbS0SXclCGMenBIU/a/ziw
+         KXQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=a/oB8l/a4qMXX2zH7m/+aHG2zItJDDGYZKhhwyo3mfU=;
+        b=iXsSWIFVBZ+gnNrq20Hx22nXls80RK55Lro3c2zbjXZW/FoSylIy4NvDCgNqEChaQ/
+         dfu4J9OTGJrijhR2qblhxRIk/nKHOFIoEw+b9FdXxCHp9MPakcAcV8fzvn0FoDiCikYl
+         1H6b4JHmJ7fCmFXmHbOClZvDURBw51Idxyy10uWufrQLs8XCcrybnF2VNDBu8YoeEcwJ
+         roo8CczalAMlXS5dbEDN0aTDn/NtU1rA09spfehcQZXj1RiUFW8iEnQbUCp4S10QqRex
+         WhMkycy2HicVR6wjwN1vl18eiZNlh+3PvvYnjn5Co6vt7XyePYtQwE4486jtpriHK60l
+         /CRA==
+X-Gm-Message-State: AOAM532exXAYzaLHnkUY+MjrQmbHW54t9ZXwCpwQXD04U7mhThADYb5M
+	3mjts5cJkoRoSyqLu0xO0J3Q+xQhan2cQg==
+X-Google-Smtp-Source: ABdhPJw77ka1DkkdZZWBnBmLoaVOR7YNNBmvxiCN2tGZ8c0kt2MVZVRqtCaUpAb5uEZN3yakh1dLig==
+X-Received: by 2002:adf:82f5:: with SMTP id 108mr31560417wrc.269.1606138110785;
+        Mon, 23 Nov 2020 05:28:30 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from localhost ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id d13sm21460873wrb.39.2020.11.23.05.28.29
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2020 05:28:29 -0800 (PST)
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: He Zhe <zhe.he@windriver.com>
-Subject: [oe-core][PATCH] lttng-modules: Backport a patch to fix btrfs build failure
-Date: Mon, 23 Nov 2020 19:17:53 +0800
-Message-Id: <20201123111753.38770-1-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR02CA0128.apcprd02.prod.outlook.com
- (2603:1096:202:16::12) To SN6PR11MB3360.namprd11.prod.outlook.com
- (2603:10b6:805:c8::30)
-Return-Path: zhe.he@windriver.com
+Subject: [PATCH v3] util-linux: split uuid in separate recipe to allow bootstrapping
+Date: Mon, 23 Nov 2020 13:28:23 +0000
+Message-Id: <20201123132823.3996355-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20191209162419.4343-1-luca.boccassi@gmail.com>
+References: <20191209162419.4343-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by HK2PR02CA0128.apcprd02.prod.outlook.com (2603:1096:202:16::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend Transport; Mon, 23 Nov 2020 11:18:08 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: df2138a3-a92e-46eb-55a5-08d88fa17561
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3264:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB3264A0EC2DE7D8B3C1D8C5A68FFC0@SN6PR11MB3264.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1303;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	wHD1dV/S0n7edPriEIwzGDpR5m7fqvRMUlOIIFhLh6n193VYJjc0LVrOftJqr4qTn39rud0QTh0Fxi41+oFUqfZY3QYiT+U2FHrQyj/TYeZRAIDpDz8sZgFd2cOfmMmD3A3D1Nd7yExvBkdGT6YkgljurGjM64nNKdHWWSAJLmCTd8cyybN5pkJzkjUPzTDH8o33GonHDyWmqUpVbbuvbDsxRMaQ9yMDRcpdxTsXowX3ETHIgS3SsaEZg111C794q04DTNBQ7P4B7bxOH/nRqOwl3mCBw90O+YICzQ4K9D1RGAE7/ulAW5gj9oGRsfd/gl9xhAr0HGo2j56aXNACEDDH8fQvVrlc+NmqkNnsstO2S0cadnt9vah1TRji8aNU56tIOQyJToaDeEwaLeBeZw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3360.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39850400004)(346002)(396003)(136003)(366004)(6512007)(66556008)(6666004)(26005)(186003)(83380400001)(316002)(6506007)(8676002)(8936002)(5660300002)(6486002)(16526019)(86362001)(1076003)(478600001)(956004)(66946007)(4326008)(107886003)(36756003)(52116002)(66476007)(2616005)(30864003)(6916009)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	eCHi6yDHpogPQnyNn1doKyEC/xxVf1DXIWBSnozq7WxBVirtzOEbizuNDVBcNvZnCbJkG2kLo7B3Dnfd1wx093Q1XDkqNYgoy93c9bojgqTn1V+waM/I6zZGv5kajnnAuq3hBYBTBwcU0ZRd8viSGqKoUn1VhCQFxmwmNajm/rm7cqZ4fKPF4HRWahZfnoLt7vNrwBwDXhjOybSvkfbDGfCNZGCwrqeNqGyeeB9dP9mY8b3j9i3zfBWhKhs1cwdY902EYLuePyPw0vNFXWogARIA16E08bdK+XD7THoIdVqFnuICeTMDu27uqV9nSx6ZRi1llHzajzi63rQDrzRcOQDkQXais1+EZVhvnTp6BDaNc8y+BZiCc4u8RKgb/IHGCi5f6A7Vyabng63/uhobAMdPwTPMdl3M6sY6Y7HWqDUhndGsesadDi/YeaiU2waxBz1fl+TeUvs3L5+M+Izql0KvExo/h4zDhnqk6O5KtI2xKp+hdfPLww4JlcDgEP26TYs3NcOF7CimZ+ieiUVFkGK45THmlixNVx2JdVTmeYQ5tKxMuszVGwTw+LqailG54tFX6zhmhm+ljlD6Jqf3DxwZ7xom7/V2Le/jFBmukAqPD640iasnvD1LrP/9r2Tl8GDjZ576ZK7DqGw0Scu7zALRyObpJcElkbJLK8opuq0hn7JC7QyIEP9aLfQIb8+sMjmcQ3e0xzqVRibdpjWa5xiV85z+yboBGLjjYFj/nPZeNxOKUBdAcl+rFGizWsppNI4LMQso/4+3bqa7I0iqijMBBm3Ie3b6ODxhNrj2v+0u6m+JwZYgcv38+4vQm8sQyDwl6v3Pm1WyrXuLXX3uEOs3eETIX4Wx16x6xRR9CD9OqQrURaJrLzt4X0PSGxAbUFrb7Qs2DFYaNLuy+Cf2Og==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df2138a3-a92e-46eb-55a5-08d88fa17561
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3360.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2020 11:18:09.7893
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vuYc4UAnlx6dwa0luJbNI43qps19u9RBViwFF2EyXdeAlzetPlwIPcoBhjUKf6bkF4aTOfRrYwHfHozQl8N/UQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3264
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-lttng-modules-2.12.3/probes/lttng-probe-btrfs.c:36:
-lttng-modules-2.12.3/probes/../probes/lttng-tracepoint-event-impl.h:131:6:
-error: conflicting types for 'trace_find_free_extent'
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+In v2.35 util-linux  gained an (optional) build
+dependency on libcryptsetup. But libcryptsetup build-depends on
+util-linux for blkid (optional, can be disabled) and uuid (mandatory).
+Split out util-linux-uuid in a different recipe to break the cycle.
+
+Add a packageconfig switch (disabled by default) to allow using the
+new dependency.
+
+https://github.com/karelzak/util-linux/pull/898
+
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
- ...oints-output-proper-root-owner-for-t.patch | 318 ++++++++++++++++++
- .../lttng/lttng-modules_2.12.3.bb             |   1 +
- 2 files changed, 319 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
+v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
+    underway as I'm not sure if this is the best approach or if there are
+    alternatives. Suggestions and comments very welcome. Thanks!
+v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
+    and leave uuid build enable in main recipe to allow for uuidgen build to happen,
+    as it does not have its own autoconf switch. Delete the library manualy from
+    the main recipe after build instead, and add dependency.
+    Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
+    only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
+v3: rebased and refactored to have a common util-linux.inc file
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
-new file mode 100644
-index 0000000000..956f53d7b7
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
-@@ -0,0 +1,318 @@
-+From e13a7d262928984154fcf89feb14098e0cd1ad31 Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Tue, 27 Oct 2020 11:42:23 -0400
-+Subject: [PATCH 04/11] fix: btrfs: tracepoints: output proper root owner for
-+ trace_find_free_extent() (v5.10)
-+
-+See upstream commit :
-+
-+  commit 437490fed3b0c9ae21af8f70e0f338d34560842b
-+  Author: Qu Wenruo <wqu@suse.com>
-+  Date:   Tue Jul 28 09:42:49 2020 +0800
-+
-+    btrfs: tracepoints: output proper root owner for trace_find_free_extent()
-+
-+    The current trace event always output result like this:
-+
-+     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=4(METADATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=4(METADATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=4096 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=4096 empty_size=0 flags=1(DATA)
-+
-+    T's saying we're allocating data extent for EXTENT tree, which is not
-+    even possible.
-+
-+    It's because we always use EXTENT tree as the owner for
-+    trace_find_free_extent() without using the @root from
-+    btrfs_reserve_extent().
-+
-+    This patch will change the parameter to use proper @root for
-+    trace_find_free_extent():
-+
-+    Now it looks much better:
-+
-+     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=5(FS_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=4096 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=7(CSUM_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=1(ROOT_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Change-Id: I1d674064d29b31417e2acffdeb735f5052a87032
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ instrumentation/events/lttng-module/btrfs.h | 206 ++++++++++++--------
-+ 1 file changed, 122 insertions(+), 84 deletions(-)
-+
-+diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
-+index 7b29008..52fcfd0 100644
-+--- a/instrumentation/events/lttng-module/btrfs.h
-++++ b/instrumentation/events/lttng-module/btrfs.h
-+@@ -1856,7 +1856,29 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
-+ 
-+ #endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)) */
-+ 
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0) || \
-++	LTTNG_KERNEL_RANGE(5,9,6, 5,10,0) || \
-++	LTTNG_KERNEL_RANGE(5,4,78, 5,5,0))
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(root, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, root->lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, root_objectid, root->root_key.objectid)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
-++
-+ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+ 
-+ 	btrfs_find_free_extent,
-+@@ -1874,6 +1896,105 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+ 	)
-+ )
-+ 
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(fs_info, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(fs_info, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(fs_info, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LTTNG_SLE_KERNEL_RANGE(4,4,73,5,0,0, 4,4,73,6,0,0) || \
-++	LTTNG_SLE_KERNEL_RANGE(4,4,82,6,0,0, 4,4,82,7,0,0) || \
-++	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
-++	LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(root, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_integer(u64, root_objectid, root->root_key.objectid)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(root, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_integer(u64, root_objectid, root->root_key.objectid)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++#endif
-++
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(const struct btrfs_block_group *block_group, u64 start,
-+@@ -1907,22 +2028,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ )
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(fs_info, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+ 
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+@@ -1957,22 +2062,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ )
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(fs_info, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+ 
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+@@ -2011,23 +2100,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0))
-+ 
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(fs_info, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+-
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(struct btrfs_fs_info *fs_info,
-+@@ -2066,23 +2138,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ 	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
-+ 	LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
-+ 
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(root, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_integer(u64, root_objectid, root->root_key.objectid)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+-
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(const struct btrfs_root *root,
-+@@ -2120,23 +2175,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
-+ 
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(root, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_integer(u64, root_objectid, root->root_key.objectid)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+-
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(struct btrfs_root *root,
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-index 0b6a69ff5e..ca79e27df6 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-@@ -11,6 +11,7 @@ include lttng-platforms.inc
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-+           file://0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch \
-            "
+
+ .../nfs-utils/nfs-utils_2.5.1.bb              |  2 +-
+ meta/recipes-core/udev/eudev_3.2.9.bb         |  2 +-
+ .../util-linux/util-linux-uuid_2.36.bb        | 22 +++++++++
+ meta/recipes-core/util-linux/util-linux.inc   | 40 ++++++++++++++++
+ .../util-linux/util-linux_2.36.bb             | 48 ++++---------------
+ .../btrfs-tools/btrfs-tools_5.7.bb            |  2 +-
+ meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |  2 +-
+ meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb |  2 +-
+ meta/recipes-devtools/mtd/mtd-utils_git.bb    |  2 +-
+ meta/recipes-devtools/python/python3_3.9.0.bb |  2 +-
+ .../syslinux/syslinux_6.04-pre2.bb            |  2 +-
+ .../tcf-agent/tcf-agent_git.bb                |  2 +-
+ meta/recipes-extended/mc/mc_4.8.25.bb         |  2 +-
+ meta/recipes-extended/parted/parted_3.3.bb    |  2 +-
+ meta/recipes-extended/wget/wget.inc           |  2 +-
+ .../fontconfig/fontconfig_2.13.1.bb           |  2 +-
+ meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb |  2 +-
+ .../recipes-kernel/lttng/babeltrace2_2.0.3.bb |  2 +-
+ meta/recipes-kernel/lttng/babeltrace_1.5.8.bb |  2 +-
+ .../lttng/lttng-tools_2.12.2.bb               |  2 +-
+ meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb |  2 +-
+ .../gstreamer1.0-plugins-base_1.18.0.bb       |  2 +-
+ meta/recipes-support/apr/apr_1.7.0.bb         |  2 +-
+ meta/recipes-support/serf/serf_1.3.9.bb       |  2 +-
+ 24 files changed, 92 insertions(+), 60 deletions(-)
+ create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.36.bb
+ create mode 100644 meta/recipes-core/util-linux/util-linux.inc
+
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.1.bb
+index b8ad23a0d8..7bf3f1d898 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.1.bb
+@@ -8,7 +8,7 @@ LICENSE = "MIT & GPLv2+ & BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
  
- SRC_URI[sha256sum] = "673ef85c9f03e9b8fed10795e09d4e68add39404b70068d08b10f7b85754d7f0"
+ # util-linux for libblkid
+-DEPENDS = "libcap libevent util-linux sqlite3 libtirpc"
++DEPENDS = "libcap libevent util-linux util-linux-uuid sqlite3 libtirpc"
+ RDEPENDS_${PN} = "${PN}-client"
+ RRECOMMENDS_${PN} = "kernel-module-nfsd"
+ 
+diff --git a/meta/recipes-core/udev/eudev_3.2.9.bb b/meta/recipes-core/udev/eudev_3.2.9.bb
+index f96f8cbe78..4332ca9b7c 100644
+--- a/meta/recipes-core/udev/eudev_3.2.9.bb
++++ b/meta/recipes-core/udev/eudev_3.2.9.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPLv2.0+ & LGPL-2.1+"
+ LICENSE_libudev = "LGPL-2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ 
+-DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux"
++DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux util-linux-uuid"
+ 
+ PROVIDES = "udev"
+ 
+diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.bb b/meta/recipes-core/util-linux/util-linux-uuid_2.36.bb
+new file mode 100644
+index 0000000000..ffb2c87270
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.bb
+@@ -0,0 +1,22 @@
++# To allow util-linux to optionally build-depend on cryptsetup, libuuid is
++# split out of the main recipe, as it's needed by cryptsetup
++
++require util-linux.inc
++
++inherit autotools gettext pkgconfig
++
++S = "${WORKDIR}/util-linux-${PV}"
++EXTRA_OECONF += "--disable-all-programs --enable-libuuid"
++DEBIAN_NOAUTONAME_util-linux-libuuid = "1"
++DEBIAN_NOAUTONAME_util-linux-libuuid-dev = "1"
++DEBIAN_NOAUTONAME_util-linux-libuuid-dbg = "1"
++PACKAGES = "util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-dbg"
++FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
++FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${includedir} ${libdir}/pkgconfig"
++FILES_util-linux-libuuid-dbg = "/usr/src ${libdir}/.debug"
++
++do_install_append() {
++	rm -rf ${D}${datadir} ${D}${bindir} ${D}${base_bindir} ${D}${sbindir} ${D}${base_sbindir} ${D}${exec_prefix}/sbin
++}
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+new file mode 100644
+index 0000000000..c0634082cd
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -0,0 +1,40 @@
++SUMMARY = "A suite of basic system administration utilities"
++HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
++DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
++commonly found on most Linux systems.  Some of the more important utilities include \
++disk partitioning, kernel message management, filesystem creation, and system login."
++
++SECTION = "base"
++
++LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
++LICENSE_${PN}-libblkid = "LGPLv2.1+"
++LICENSE_${PN}-libfdisk = "LGPLv2.1+"
++LICENSE_${PN}-libmount = "LGPLv2.1+"
++LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
++LICENSE_${PN}-libuuid = "BSD-3-Clause"
++
++LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
++                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
++                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
++                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
++                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
++                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
++                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
++"
++
++MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
++FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${MAJOR_VERSION}.tar.xz \
++           file://configure-sbindir.patch \
++           file://runuser.pamd \
++           file://runuser-l.pamd \
++           file://ptest.patch \
++           file://run-ptest \
++           file://display_testname_for_subtest.patch \
++           file://avoid_parallel_tests.patch \
++           "
++SRC_URI[sha256sum] = "9e4b1c67eb13b9b67feb32ae1dc0d50e08ce9e5d82e1cccd0ee771ad2fa9e0b1"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
+index 474f1e188c..5b721187e1 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.36.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
+@@ -1,47 +1,9 @@
+-SUMMARY = "A suite of basic system administration utilities"
+-HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
+-DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
+-commonly found on most Linux systems.  Some of the more important utilities include \
+-disk partitioning, kernel message management, filesystem creation, and system login."
+-
+-SECTION = "base"
+-
+-LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+-LICENSE_${PN}-libblkid = "LGPLv2.1+"
+-LICENSE_${PN}-libfdisk = "LGPLv2.1+"
+-LICENSE_${PN}-libmount = "LGPLv2.1+"
+-LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
+-LICENSE_${PN}-libuuid = "BSD-3-Clause"
+-
+-LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
+-                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
+-                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
+-                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
+-                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
+-                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
+-                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
+-"
++require util-linux.inc
+ 
+ #gtk-doc is not enabled as it requires xmlto which requires util-linux
+ inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
+ DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
+ 
+-MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
+-           file://configure-sbindir.patch \
+-           file://runuser.pamd \
+-           file://runuser-l.pamd \
+-           file://ptest.patch \
+-           file://run-ptest \
+-           file://display_testname_for_subtest.patch \
+-           file://avoid_parallel_tests.patch \
+-           "
+-SRC_URI[sha256sum] = "9e4b1c67eb13b9b67feb32ae1dc0d50e08ce9e5d82e1cccd0ee771ad2fa9e0b1"
+-
+ PACKAGES =+ "${PN}-swaponoff"
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '${PN}-pylibmount', '', d)}"
+ 
+@@ -141,6 +103,7 @@ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-pytho
+ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ # PCRE support in hardlink
+ PACKAGECONFIG[pcre2] = ",,libpcre2"
++PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
+ 
+ EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
+ 
+@@ -316,6 +279,13 @@ ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
+ ALTERNATIVE_LINK_NAME[uuid.3] = "${mandir}/man3/uuid.3"
+ ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
+ 
++# dm-verity support introduces a circular build dependency, so util-linux-uuid is split out for target builds
++# Need to build libuuid for uuidgen, but then delete it and let the other recipe ship it
++do_install_append() {
++    rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D}${libdir}/libuuid* ${D}/lib/libuuid*
++}
++PACKAGES_remove = "util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-dbg"
++
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.7.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.7.bb
+index e61ea9bf89..abb579d608 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.7.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.7.bb
+@@ -10,7 +10,7 @@ HOMEPAGE = "https://btrfs.wiki.kernel.org"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
+-DEPENDS = "util-linux attr e2fsprogs lzo acl"
++DEPENDS = "util-linux util-linux-uuid attr e2fsprogs lzo acl"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
+ 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+index 009f5ed807..0452d32699 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://NOTICE;md5=d50be0580c0b0a7fbc7a4830bbe6c12b \
+                       file://lib/et/et_name.c;beginline=1;endline=11;md5=ead236447dac7b980dbc5b4804d8c836 \
+                       file://lib/ss/ss.h;beginline=1;endline=20;md5=6e89ad47da6e75fecd2b5e0e81e1d4a6"
+ SECTION = "base"
+-DEPENDS = "util-linux attr"
++DEPENDS = "util-linux util-linux-uuid attr"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git"
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
+index c7850f03ca..dbbe6f21db 100644
+--- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
++++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
+@@ -4,7 +4,7 @@ DESCRIPTION = "GPT fdisk is a disk partitioning tool loosely modeled on Linux fd
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+ 
+-DEPENDS = "util-linux"
++DEPENDS = "util-linux util-linux-uuid"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
+            file://0001-gptcurses-correctly-include-curses.h.patch \
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 8d6bbfca3f..1a5111ea23 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 
+ inherit autotools pkgconfig update-alternatives
+ 
+-DEPENDS = "zlib e2fsprogs util-linux"
++DEPENDS = "zlib e2fsprogs util-linux util-linux-uuid"
+ RDEPENDS_mtd-utils-tests += "bash"
+ 
+ PV = "2.1.2"
+diff --git a/meta/recipes-devtools/python/python3_3.9.0.bb b/meta/recipes-devtools/python/python3_3.9.0.bb
+index 6402760a1b..09f1a5daee 100644
+--- a/meta/recipes-devtools/python/python3_3.9.0.bb
++++ b/meta/recipes-devtools/python/python3_3.9.0.bb
+@@ -63,7 +63,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
+ ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
+ 
+ 
+-DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2"
++DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux util-linux-uuid libtirpc libnsl2"
+ DEPENDS_append_class-target = " python3-native"
+ DEPENDS_append_class-nativesdk = " python3-native"
+ 
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index 3e7eef3a75..9ed5b8dc22 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 
+ # If you really want to run syslinux, you need mtools.  We just want the
+ # ldlinux.* stuff for now, so skip mtools-native
+-DEPENDS = "nasm-native util-linux e2fsprogs"
++DEPENDS = "nasm-native util-linux util-linux-uuid e2fsprogs"
+ PV = "6.04-pre2"
+ 
+ SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz \
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index ed14fe66b1..174b9c0a5e 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -16,7 +16,7 @@ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent \
+            file://tcf-agent.service \
+           "
+ 
+-DEPENDS = "util-linux openssl"
++DEPENDS = "util-linux util-linux-uuid openssl"
+ RDEPENDS_${PN} = "bash"
+ 
+ S = "${WORKDIR}/git/agent"
+diff --git a/meta/recipes-extended/mc/mc_4.8.25.bb b/meta/recipes-extended/mc/mc_4.8.25.bb
+index 83c8a6ecf6..78565c9a9a 100644
+--- a/meta/recipes-extended/mc/mc_4.8.25.bb
++++ b/meta/recipes-extended/mc/mc_4.8.25.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.midnight-commander.org/"
+ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=270bbafe360e73f9840bd7981621f9c2"
+ SECTION = "console/utils"
+-DEPENDS = "ncurses glib-2.0 util-linux"
++DEPENDS = "ncurses glib-2.0 util-linux util-linux-uuid"
+ RDEPENDS_${PN} = "ncurses-terminfo-base"
+ RRECOMMENDS_${PN} = "ncurses-terminfo"
+ 
+diff --git a/meta/recipes-extended/parted/parted_3.3.bb b/meta/recipes-extended/parted/parted_3.3.bb
+index a1fd3ef07b..f06cdc18e6 100644
+--- a/meta/recipes-extended/parted/parted_3.3.bb
++++ b/meta/recipes-extended/parted/parted_3.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/parted/parted.html"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
+ SECTION = "console/tools"
+-DEPENDS = "ncurses readline util-linux virtual/libiconv"
++DEPENDS = "ncurses readline util-linux util-linux-uuid virtual/libiconv"
+ 
+ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://no_check.patch \
+diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+index 2338328216..7b7a3fae7a 100644
+--- a/meta/recipes-extended/wget/wget.inc
++++ b/meta/recipes-extended/wget/wget.inc
+@@ -32,7 +32,7 @@ PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ PACKAGECONFIG[iri] = "--enable-iri,--disable-iri,libidn2"
+ PACKAGECONFIG[libpsl] = "--with-libpsl,--without-libpsl,libpsl"
+-PACKAGECONFIG[libuuid] = "--with-libuuid,--without-libuuid,util-linux"
++PACKAGECONFIG[libuuid] = "--with-libuuid,--without-libuuid,util-linux-uuid"
+ PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
+ PACKAGECONFIG[pcre] = "--enable-pcre,--disable-pcre,libpcre"
+ PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
+diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb
+index d0da419ce0..c9edf8dee6 100644
+--- a/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb
++++ b/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb
+@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7a0449e9bc5370402a94c00204beca3d \
+ 
+ SECTION = "libs"
+ 
+-DEPENDS = "expat freetype zlib gperf-native util-linux"
++DEPENDS = "expat freetype zlib gperf-native util-linux util-linux-uuid"
+ 
+ SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
+            file://revert-static-pkgconfig.patch \
+diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb b/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb
+index 54384521c8..ab8c4215d3 100644
+--- a/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb
+@@ -15,7 +15,7 @@ require xorg-lib-common.inc
+ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=73d55cea4d27ca1a09a5d23378b3ecf8"
+ 
+-DEPENDS += "util-linux libxcb libsm virtual/libx11 xorgproto libxdmcp"
++DEPENDS += "util-linux util-linux-uuid libxcb libsm virtual/libx11 xorgproto libxdmcp"
+ PROVIDES = "xt"
+ 
+ PE = "1"
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
+index c65882581d..952cba0977 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+ LICENSE = "MIT & GPLv2 & LGPLv2.1 & BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e"
+ 
+-DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
++DEPENDS = "glib-2.0 util-linux util-linux-uuid popt bison-native flex-native"
+ 
+ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0 \
+            file://run-ptest \
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+index 9e5d3a7a97..e618f1cf98 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
+ LICENSE = "MIT & GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
+ 
+-DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
++DEPENDS = "glib-2.0 util-linux util-linux-uuid popt bison-native flex-native"
+ 
+ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.5 \
+ 	   file://run-ptest \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+index 0787e04d19..e645bc4743 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=40ef17463fbd6f377db3c47b1cbaded8 \
+ 
+ include lttng-platforms.inc
+ 
+-DEPENDS = "liburcu popt libxml2 util-linux"
++DEPENDS = "liburcu popt libxml2 util-linux util-linux-uuid"
+ RDEPENDS_${PN} = "libgcc"
+ RRECOMMENDS_${PN} += "${LTTNGMODULES}"
+ RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb
+index 67a4307c7b..d477528db5 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb
+@@ -19,7 +19,7 @@ include lttng-platforms.inc
+ 
+ EXTRA_OECONF = "--disable-numa"
+ 
+-DEPENDS = "liburcu util-linux"
++DEPENDS = "liburcu util-linux util-linux-uuid"
+ RDEPENDS_${PN}-bin = "python3-core"
+ 
+ # For backwards compatibility after rename
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
+index a04af186f6..b42b62799e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.0.bb
+@@ -14,7 +14,7 @@ SRC_URI[sha256sum] = "762abdd1a950809a1cea62fff7f86b5f7d6bd5f6841e3e585c700b823c
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
+-DEPENDS += "iso-codes util-linux zlib"
++DEPENDS += "iso-codes util-linux util-linux-uuid zlib"
+ 
+ inherit gobject-introspection
+ 
+diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
+index 7073af8c98..ed0b9a0903 100644
+--- a/meta/recipes-support/apr/apr_1.7.0.bb
++++ b/meta/recipes-support/apr/apr_1.7.0.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Apache Portable Runtime (APR) library"
+ HOMEPAGE = "http://apr.apache.org/"
+ SECTION = "libs"
+-DEPENDS = "util-linux"
++DEPENDS = "util-linux util-linux-uuid"
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
+diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
+index 6a27f12102..c2800c69cc 100644
+--- a/meta/recipes-support/serf/serf_1.3.9.bb
++++ b/meta/recipes-support/serf/serf_1.3.9.bb
+@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+ 
+ inherit scons
+ 
+-DEPENDS += " openssl apr apr-util util-linux expat"
++DEPENDS += " openssl apr apr-util util-linux util-linux-uuid expat"
+ 
+ EXTRA_OESCONS = " \
+                   LIBDIR=${libdir} \
 -- 
-2.17.1
+2.27.0
 
