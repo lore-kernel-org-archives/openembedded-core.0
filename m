@@ -1,99 +1,110 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
- by mx.groups.io with SMTP id smtpd.web11.36855.1606144585706401307
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+ by mx.groups.io with SMTP id smtpd.web08.40314.1606158039820562027
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2020 07:16:25 -0800
+ Mon, 23 Nov 2020 11:00:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tlB0mqUO;
- spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: wonmin82@gmail.com)
-Received: by mail-pf1-f195.google.com with SMTP id e8so3271291pfh.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2020 07:16:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v+E3A2fqtZGYDfjWnurB5jjExJemYOvNdmYSGwZeais=;
-        b=tlB0mqUOhmmxJV7fZWF3fZ+p8aenJl7ALVcudouJ1lfkXLPJNSQDDEEEPRHR2xF9Lh
-         kykuFmvnN+59B498MSewlgV2FShI5dEsJnE1t8o70C2t1UpX+TLXLBAQ4maBmIAqjMy1
-         T5n18tLrOmDBjVEHplu+/1ENVRm5kJ//7vKNA9IUnG0gDbwSOAsgZxmtghja4RXnpJVQ
-         jamgTo6FaWTiIHARrLqEjaQ5PH7HRG/Xsz2Z81MLgMX6nLxU/Fg5+AAPeF+qI3nhhcM3
-         um3VKETjrb6eR67wTY4FmXFuaKs1GSEet4GnpokYXJyT8T0ssU6VW1ue6hrXbgK/rw3x
-         ueEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=v+E3A2fqtZGYDfjWnurB5jjExJemYOvNdmYSGwZeais=;
-        b=HrbgzQA7ZpAQ9TBD3PZk6tTVuvxK/6T5oAZbbWt2fGGx2No3U0U0IjlBZoKbWv117G
-         1SNWWXoAWA26U+5mUwGVHMYumTOOnX5zMBR2lmi6PABkr/1KAmlbMULYSwJzs2bg4Ff9
-         E5fm1h3NyjSnOAd3xAdB7ZsU1GsxsE77Uc8IYMsPKf62iOwbMpM2+8zByxThtIy0Vr0t
-         dV4DwfyxYWaxbf6F6VZbbk8KiiTQsiDzTcReU6PPcVYptBynoYDquh6Bv4ShUeqdlFif
-         XRTQaeruLoy0bwOB7iuAu413Tw59k0cbYTQriqMfDyzA6CqSifnbfHZ6oviDGSjY4WgO
-         +yNQ==
-X-Gm-Message-State: AOAM530XFaEAnKhsbWErAGOWT6FBGIycANrfCp2Z5hoOSQahj8HQosjn
-	9PFVnD+WlsUkzGpHQ5c4vovezU3mos20xEz49wc=
-X-Google-Smtp-Source: ABdhPJyvE3/G74Dd/YSj35G9tfBcA5EFVt46kA3i6YnFvXD0b7wveWtvYhomBXua4BWL72XHAC9kpQ==
-X-Received: by 2002:a17:90a:ec08:: with SMTP id l8mr196482pjy.115.1606144584921;
-        Mon, 23 Nov 2020 07:16:24 -0800 (PST)
-Return-Path: <wonmin82@gmail.com>
-Received: from localhost.localdomain ([121.168.243.85])
-        by smtp.gmail.com with ESMTPSA id e1sm12213292pfi.158.2020.11.23.07.16.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2020 07:16:24 -0800 (PST)
-From: "Wonmin Jung" <wonmin82@gmail.com>
+ dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.2, mailfrom: andrej.valek@siemens.com)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 0ANJ0bPa009299
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2020 20:00:37 +0100
+Received: from dev.vm6.ccp.siemens.com ([167.87.76.33])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 0ANJ0anR012966;
+	Mon, 23 Nov 2020 20:00:37 +0100
+Received: from mail3.siemens.de (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 75F609508F2;
+	Mon, 23 Nov 2020 20:00:36 +0100 (CET)
+From: "Andrej Valek" <andrej.valek@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [gatesgarth][PATCH] kernel: Set proper LD in KERNEL_KCONFIG_COMMAND
-Date: Tue, 24 Nov 2020 00:15:49 +0900
-Message-Id: <20201123151549.2491-1-wonmin82@gmail.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Andrej Valek <andrej.valek@siemens.com>,
+        Pascal Bach <pascal.bach@siemens.com>,
+        Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [OE-core][PATCH v2 1/2] bitbake.conf: Split optimization into common part
+Date: Mon, 23 Nov 2020 20:00:28 +0100
+Message-Id: <20201123190029.13811-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20201122124853.30262-1-andrej.valek@siemens.com>
+References: <20201122124853.30262-1-andrej.valek@siemens.com>
 
-With 'ld-is-gold' and linux kernel 5.4 or later, menuconfig
-task for kernel recipes will fail with:
+This option allows correctly handle the release/debug flags separation in
+upper recipe like cmake. Adopt SELECTED_OPTIMIZATION usage in other
+recipes.
 
-$ bitbake -c menuconfig virtual/kernel
-...
-scripts/kconfig/mconf  Kconfig
-scripts/Kconfig.include:43:  gold linker 'x86_64-poky-linux-ld' not supported
-/OE/build/tmp/work-shared/qemux86-64/kernel-source/scripts/kconfig/Makefile:29:
- recipe for target 'menuconfig' failed
-make[2]: *** [menuconfig] Error 1
-/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:606:
- recipe for target 'menuconfig' failed
-make[1]: *** [menuconfig] Error 2
-/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:185:
- recipe for target '__sub-make' failed
-make: *** [__sub-make] Error 2
-Command failed.
-
-This is because that the KERNEL_LD variable already set in
-kernel-arch.bbclass isn't used by do_menuconfig function of
-cml1.bbclass.
-
-To fix this issue specify LD variable while calling the kernel
-menuconfig command through KERNEL_KCONFIG_COMMAND.
-
-Signed-off-by: Wonmin Jung <wonmin82@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf                            | 7 ++++---
+ meta/conf/distro/include/security_flags.inc       | 8 ++++----
+ meta/conf/local.conf.sample.extended              | 1 +
+ meta/recipes-devtools/valgrind/valgrind_3.16.1.bb | 1 +
+ 4 files changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 78def5bbc1..705c663c37 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -586,7 +586,7 @@ addtask savedefconfig after do_configure
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0d38eac094..5555093e24 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -569,7 +569,7 @@ TARGET_CPPFLAGS = ""
+ export BUILD_CFLAGS = "${BUILD_CPPFLAGS} ${BUILD_OPTIMIZATION}"
+ BUILDSDK_CFLAGS = "${BUILDSDK_CPPFLAGS} ${BUILD_OPTIMIZATION} ${DEBUG_PREFIX_MAP}"
+ export CFLAGS = "${TARGET_CFLAGS}"
+-TARGET_CFLAGS = "${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION}"
++TARGET_CFLAGS = "${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION} ${COMMON_OPTIMIZATION}"
  
- inherit cml1
+ export BUILD_CXXFLAGS = "${BUILD_CFLAGS}"
+ BUILDSDK_CXXFLAGS = "${BUILDSDK_CFLAGS}"
+@@ -616,8 +616,9 @@ DEBUG_PREFIX_MAP ?= "-fmacro-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTEND
+ DEBUG_FLAGS ?= "-g -feliminate-unused-debug-types ${DEBUG_PREFIX_MAP}"
  
--KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
-+KCONFIG_CONFIG_COMMAND_append = " LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
+ # Disabled until the option works properly -feliminate-dwarf2-dups
+-FULL_OPTIMIZATION = "-O2 -pipe ${DEBUG_FLAGS}"
+-DEBUG_OPTIMIZATION = "-Og ${DEBUG_FLAGS} -pipe"
++COMMON_OPTIMIZATION = "${DEBUG_FLAGS} -pipe"
++FULL_OPTIMIZATION = "-O2"
++DEBUG_OPTIMIZATION = "-Og"
+ SELECTED_OPTIMIZATION = "${@d.getVar(oe.utils.vartrue('DEBUG_BUILD', 'DEBUG_OPTIMIZATION', 'FULL_OPTIMIZATION', d))}"
+ SELECTED_OPTIMIZATION[vardeps] += "FULL_OPTIMIZATION DEBUG_OPTIMIZATION DEBUG_BUILD"
+ BUILD_OPTIMIZATION = "${@oe.utils.vartrue('DEBUG_BUILD', '-Og -g -feliminate-unused-debug-types', '-O2', d)} -pipe"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 4e64eb99f9..60370eeb17 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -63,7 +63,7 @@ SECURITY_STACK_PROTECTOR_pn-glibc-testsuite = ""
+ # handled in recipes-graphics/xorg-driver/xorg-driver-common.inc
+ SECURITY_LDFLAGS_pn-xserver-xorg = "${SECURITY_X_LDFLAGS}"
  
- EXPORT_FUNCTIONS do_compile do_install do_configure
+-TARGET_CC_ARCH_append_pn-binutils = " ${SELECTED_OPTIMIZATION}"
+-TARGET_CC_ARCH_append_pn-gcc = " ${SELECTED_OPTIMIZATION}"
+-TARGET_CC_ARCH_append_pn-gdb = " ${SELECTED_OPTIMIZATION}"
+-TARGET_CC_ARCH_append_pn-perf = " ${SELECTED_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-binutils = " ${SELECTED_OPTIMIZATION} ${COMMON_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-gcc = " ${SELECTED_OPTIMIZATION} ${COMMON_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-gdb = " ${SELECTED_OPTIMIZATION} ${COMMON_OPTIMIZATION}"
++TARGET_CC_ARCH_append_pn-perf = " ${SELECTED_OPTIMIZATION} ${COMMON_OPTIMIZATION}"
+diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
+index 5ece522fa8..51cea43b9e 100644
+--- a/meta/conf/local.conf.sample.extended
++++ b/meta/conf/local.conf.sample.extended
+@@ -99,6 +99,7 @@
+ #
+ # PROFILE_OPTIMIZATION = "-pg"
+ # SELECTED_OPTIMIZATION = "${PROFILE_OPTIMIZATION}"
++# COMMON_OPTIMIZATION = ""
+ # LDFLAGS =+ "-pg"
  
+ # TCMODE controls the characteristics of the generated packages/images by
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+index bcba55f327..395d603cec 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
+@@ -97,6 +97,7 @@ CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
+ # (via CFLAGS) means we interfere with that. Only pass DEBUG_FLAGS to it
+ # which fixes build path issue in DWARF.
+ SELECTED_OPTIMIZATION = "${DEBUG_FLAGS}"
++COMMON_OPTIMIZATION = ""
+ 
+ do_configure_prepend () {
+     rm -rf ${S}/config.h
 -- 
-2.29.2
+2.11.0
 
