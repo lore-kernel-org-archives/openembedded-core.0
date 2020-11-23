@@ -1,115 +1,99 @@
-Received: from mga07.intel.com (mga07.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.36702.1606144038537265324
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web11.36817.1606144470248785890
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2020 07:07:34 -0800
+ Mon, 23 Nov 2020 07:14:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: MrK8XEATLC+0oNCz5OBMfxeEk5WDuQ/hQuv0cFqqjlA/fmYnNNL0AaMvaDptuOjCA8JWgngpFY
- a9a5Qxzv62hg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9813"; a="235920771"
-X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; 
-   d="scan'208";a="235920771"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:07:34 -0800
-IronPort-SDR: 7yI+LajkaoW7roiiR85K03/N0fEHPIBG30xE7DsAgwAzWui0uIwdwSIHRAaWS2c3owNQYY3/5E
- aEgTukAmj1Xg==
-X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; 
-   d="scan'208";a="361475258"
-Received: from kpteh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.244.15])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:07:33 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eOLmInvS;
+ spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: wonmin82@gmail.com)
+Received: by mail-pg1-f196.google.com with SMTP id 34so14514689pgp.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2020 07:14:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JaLTRZz6U5r+HFmk9Bhg8yA5z5X4UAGRm2HYG9/rhYc=;
+        b=eOLmInvS4YQTFsPbWLCBcgjcxCL0PMBPVsbqWPmo6nRIszf+ePWoUD0L8Kv0Uqtgq1
+         g/nFjFH0AVcz+JZ1M0RbsCEL02x7WX5d6SDB9vdL+mBk74bgeGWHNrN7zChfkn3X0r42
+         XcNDNrtaHUNOsR5BW9Z9+POBNau1WyVQ9dxq3R9gJ0jFUAiz7HMGrSgfyobPoY0rig4H
+         yGwE/c/tiqmwibkakKPTIzRUtTkPqBkQfNu9/ewuxKzIxeDHqj0EimJqIJlIU1aJheCu
+         z1zNeUnx40e+S9zXEXEDOPk+eXUEBjLr2fFAk0NM8QsB7AYZ6DCY71JlYFVbB0aO2v0D
+         MYSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JaLTRZz6U5r+HFmk9Bhg8yA5z5X4UAGRm2HYG9/rhYc=;
+        b=PtD82d7s0N49wRvKikGfKnPLvfBXI5Gxw3hnvvpFmQr2u/wlqWUCztZJa5wBAHVTJ2
+         kVJzbryZ/hNRXeWgkx7DQLXxNqh6gUJ7zKEDy7RJGolakrwrx7/diA75SY/PfCK5XsTM
+         XXwtWTgoy52tdn0/0wEvv8fCQg6wRDpmyLJt0J3+V47Cy8hYAJwRA+cfM5kUsYIK0HAE
+         SYcal945jXtgQqH7qvd3LGqlZQ8pD0Bnvtf457dvtABoPM+Wryp1NAXcZVAV/ECx+7OM
+         /KII4ENTioBqHRYkxcHl0b3oWmLP6y4uvHsH2ElOp6mQaFuXBwXVcngMeh+3w2oUOuZs
+         SzCw==
+X-Gm-Message-State: AOAM5310JMrSFCYJSC/HqdM3ekpGXeJUsd/n+s2MgdV7pTgVXwuUGCVw
+	FE7aGHzGkJkZWT/u9360oMguOwpsc+FuxQB+
+X-Google-Smtp-Source: ABdhPJwsqcVkIc2Ox6y+jgswJGtVrsdVb/SE0vbOoYf8G6Bsu1yTnidKVyKvWeqy5Vse84JI7u3l1A==
+X-Received: by 2002:a63:cb4a:: with SMTP id m10mr8964022pgi.278.1606144469473;
+        Mon, 23 Nov 2020 07:14:29 -0800 (PST)
+Return-Path: <wonmin82@gmail.com>
+Received: from localhost.localdomain ([121.168.243.85])
+        by smtp.gmail.com with ESMTPSA id y23sm10079111pfb.207.2020.11.23.07.14.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2020 07:14:29 -0800 (PST)
+From: "Wonmin Jung" <wonmin82@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 21/21] qemu: fix CVE-2020-24352
-Date: Mon, 23 Nov 2020 23:06:51 +0800
-Message-Id: <12bee66a42a7c2a38789ddb37cb098bcbf0b3841.1606111370.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1606111370.git.anuj.mittal@intel.com>
-References: <cover.1606111370.git.anuj.mittal@intel.com>
+Cc: steve@sakoman.com,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH] kernel: Set proper LD in KERNEL_KCONFIG_COMMAND
+Date: Tue, 24 Nov 2020 00:12:59 +0900
+Message-Id: <20201123151259.1893-1-wonmin82@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+With 'ld-is-gold' and linux kernel 5.4 or later, menuconfig
+task for kernel recipes will fail with:
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+$ bitbake -c menuconfig virtual/kernel
+...
+scripts/kconfig/mconf  Kconfig
+scripts/Kconfig.include:43:  gold linker 'x86_64-poky-linux-ld' not supported
+/OE/build/tmp/work-shared/qemux86-64/kernel-source/scripts/kconfig/Makefile:29:
+ recipe for target 'menuconfig' failed
+make[2]: *** [menuconfig] Error 1
+/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:606:
+ recipe for target 'menuconfig' failed
+make[1]: *** [menuconfig] Error 2
+/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:185:
+ recipe for target '__sub-make' failed
+make: *** [__sub-make] Error 2
+Command failed.
+
+This is because that the KERNEL_LD variable already set in
+kernel-arch.bbclass isn't used by do_menuconfig function of
+cml1.bbclass.
+
+To fix this issue specify LD variable while calling the kernel
+menuconfig command through KERNEL_KCONFIG_COMMAND.
+
+Signed-off-by: Wonmin Jung <wonmin82@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-24352.patch            | 52 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 84f600cec0..11be545cb5 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -32,6 +32,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://find_datadir.patch \
-            file://usb-fix-setup_len-init.patch \
-            file://0001-target-mips-Increase-number-of-TLB-entries-on-the-34.patch \
-+           file://CVE-2020-24352.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 9e3c34ad48..89bcac4426 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -565,7 +565,7 @@ addtask savedefconfig after do_configure
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
-new file mode 100644
-index 0000000000..861ff6c3b0
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
-@@ -0,0 +1,52 @@
-+From ca1f9cbfdce4d63b10d57de80fef89a89d92a540 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Wed, 21 Oct 2020 16:08:18 +0530
-+Subject: [PATCH 1/1] ati: check x y display parameter values
-+
-+The source and destination x,y display parameters in ati_2d_blt()
-+may run off the vga limits if either of s->regs.[src|dst]_[xy] is
-+zero. Check the parameter values to avoid potential crash.
-+
-+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-id: 20201021103818.1704030-1-ppandit@redhat.com
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport [ https://git.qemu.org/?p=qemu.git;a=commitdiff;h=ca1f9cbfdce4d63b10d57de80fef89a89d92a540;hp=2ddafce7f797082ad216657c830afd4546f16e37 ]
-+CVE: CVE-2020-24352
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/display/ati_2d.c | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-+index 23a8ae0..4dc10ea 100644
-+--- a/hw/display/ati_2d.c
-++++ b/hw/display/ati_2d.c
-+@@ -75,8 +75,9 @@ void ati_2d_blt(ATIVGAState *s)
-+         dst_stride *= bpp;
-+     }
-+     uint8_t *end = s->vga.vram_ptr + s->vga.vram_size;
-+-    if (dst_bits >= end || dst_bits + dst_x + (dst_y + s->regs.dst_height) *
-+-        dst_stride >= end) {
-++    if (dst_x > 0x3fff || dst_y > 0x3fff || dst_bits >= end
-++        || dst_bits + dst_x
-++         + (dst_y + s->regs.dst_height) * dst_stride >= end) {
-+         qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-+         return;
-+     }
-+@@ -107,8 +108,9 @@ void ati_2d_blt(ATIVGAState *s)
-+             src_bits += s->regs.crtc_offset & 0x07ffffff;
-+             src_stride *= bpp;
-+         }
-+-        if (src_bits >= end || src_bits + src_x +
-+-            (src_y + s->regs.dst_height) * src_stride >= end) {
-++        if (src_x > 0x3fff || src_y > 0x3fff || src_bits >= end
-++            || src_bits + src_x
-++             + (src_y + s->regs.dst_height) * src_stride >= end) {
-+             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-+             return;
-+         }
-+-- 
-+1.8.3.1
-+
+ inherit cml1
+ 
+-KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
++KCONFIG_CONFIG_COMMAND_append = " LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
+ 
+ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
 -- 
-2.28.0
+2.29.2
 
