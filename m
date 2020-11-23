@@ -1,29 +1,29 @@
 Received: from mga07.intel.com (mga07.intel.com [])
  by mx.groups.io with SMTP id smtpd.web09.36702.1606144038537265324
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2020 07:07:22 -0800
+ Mon, 23 Nov 2020 07:07:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: qGh4lwgYOdlF7aSgACA1Yzru4MYLle8fqLEuFob6MRgN5U1l0gcKQieuazMKMb0H04N7LganWM
- +6RxLDFL10lQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9813"; a="235920708"
+IronPort-SDR: xAqsJ7Eu9CqszrwoB9/2rZg403lRlrRnk+jN6hYlj6fMYyWOTlL19D5/bmZ5kwkbKalRdVgc/F
+ w3aLEUv2eulw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9813"; a="235920722"
 X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; 
-   d="scan'208";a="235920708"
+   d="scan'208";a="235920722"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:07:22 -0800
-IronPort-SDR: fmapMjPwY8ZwPwxyz5I9F5XTQgbfAvzvN40NbXeKEzVdNDHQnnshQH+L4s6k/Kj0+3aLrK4WPj
- chZj+yzKzrPw==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:07:23 -0800
+IronPort-SDR: gJriY9KPLJiLCD4Tv3oYqPxZCeP6SlDCXNXqMKiDLSwqBzWcXxowk9+U4UbBDv7VJ1HmMC++JP
+ FvyrujLzusfg==
 X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; 
-   d="scan'208";a="361475207"
+   d="scan'208";a="361475209"
 Received: from kpteh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.244.15])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:07:20 -0800
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:07:22 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 13/21] kernel: provide module.lds for out of tree builds in v5.10+
-Date: Mon, 23 Nov 2020 23:06:43 +0800
-Message-Id: <27856184dee4b68254cb302b2294c115a46fcf16.1606111370.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 14/21] kernel: relocate copy of module.lds to module compilation task
+Date: Mon, 23 Nov 2020 23:06:44 +0800
+Message-Id: <d9e327063f63193186822d958706081d64ec8139.1606111370.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606111370.git.anuj.mittal@intel.com>
 References: <cover.1606111370.git.anuj.mittal@intel.com>
@@ -32,67 +32,50 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-The upstream commit 596b0474d3d [kbuild: preprocess module linker
-script], adds a dependency on module.lds for external module
-building.
+There were two copies of this patch floating around, and the merged
+variant has the copy in the wrong place.
 
-Since module.lds is generated as part of 'modules_prepare', we
-must make it available with the other kernel artifacts in the
-kernel shared workdir, otherwise out of tree builds fail.
+module.lds is only created during modules_prepare, and that target is
+not invoked during our main build of the kernel. We aren't about to
+change the kernel build (there's no need), so we move the copy into
+the compile_kernelmodules task. After that runs, we have module.lds
+availble to copy.
 
-This fixes errors like:
+This has been tested against clean kernel + out of tree module
+builds, and the dependencies are correct that the file is copied
+before the out of tree module build starts.
 
-    | make[4]: *** No rule to make target 'scripts/module.lds', needed by
-        'build/tmp/work/qemuarm64-poky-linux/cryptodev-module/1.11-r0/git/cryptodev.ko'.
-        Stop.
-    | make[4]: *** Waiting for unfinished jobs....
-
-We also ensure that kernel-devsrc has a copy to support on
-target module builds that are often prepared with 'make scripts
-prepare'. Those targets won't regenerate it, so the build fails.
-If 'make modules_prepare' is used, the file will be regenerated
-and overwrite our copy (as expected).
-
-Signed-off-by: Pan, Kris <kris.pan@intel.com>
-Signed-off-by: Lili Li <lili.li@intel.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0fc66a0b64953aae38d0124b57615fffaec8de52)
+(cherry picked from commit 7d94f9209ebaaf59ea001239a889dd7f928a0e7c)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/kernel.bbclass                | 1 +
- meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
- 2 files changed, 7 insertions(+)
+ meta/classes/kernel.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 78def5bbc1..22c92381c0 100644
+index 22c92381c0..6fffcac07f 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -486,6 +486,7 @@ do_shared_workdir () {
+@@ -383,6 +383,10 @@ do_compile_kernelmodules() {
+ 		# other kernel modules and will look at this
+ 		# file to do symbol lookups
+ 		cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
++		# 5.10+ kernels have module.lds that we need to copy for external module builds
++		if [ -e "${B}/scripts/module.lds" ]; then
++			install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
++		fi
+ 	else
+ 		bbnote "no modules to compile"
+ 	fi
+@@ -486,7 +490,6 @@ do_shared_workdir () {
  	# Copy files required for module builds
  	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
  	[ -e Module.symvers ] && cp Module.symvers $kerneldir/
-+	[ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
+-	[ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
  	cp .config $kerneldir/
  	mkdir -p $kerneldir/include/config
  	cp include/config/kernel.release $kerneldir/include/config/kernel.release
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index aa8e162f4f..8373c97a31 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -86,6 +86,12 @@ do_install() {
- 	# be dealt with.
- 	# cp -a scripts $kerneldir/build
- 
-+	# although module.lds can be regenerated on target via 'make modules_prepare'
-+	# there are several places where 'makes scripts prepare' is done, and that won't
-+	# regenerate the file. So we copy it onto the target as a migration to using
-+	# modules_prepare
-+	cp -a --parents scripts/module.lds $kerneldir/build/ 2>/dev/null || :
-+
-         if [ -d arch/${ARCH}/scripts ]; then
- 	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
- 	fi
 -- 
 2.28.0
 
