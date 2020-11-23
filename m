@@ -1,124 +1,113 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web09.36647.1606143833781485856
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web10.35991.1606144018748201149
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2020 07:03:53 -0800
+ Mon, 23 Nov 2020 07:06:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SqGqFDoX;
- spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id q22so17198551qkq.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2020 07:03:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mqLtIFcwFpn2zAcSyNJuN4c0slGZb/TfutQTVxzpMSA=;
-        b=SqGqFDoX4YIGekAHNwbzun2utA1xOpVDC8g/gEfXdDfupG1NsLr079N5hfL5kgvzhb
-         qBjRbYRr/Xa3jb8Cq3Ts5dK8mNRR6QGXYQCkYwpuBTKUcIDwRNpEPiQ676meYYc0Lfoi
-         zhYi/qDA2fvq76kpcnfK1/qnRSLSO/0CwTOTSSa37p5H/OHH7cPtXHQKpk45k7EWlVKU
-         bRhR/DmUYkzrYfFgbNyQRMgwM0tTdMJw9rY6EQHiHgK5qbz7IM2CH1Df52SsMlmdq3hS
-         RZC4SiPI1MuD6RY5Q5eNorausfx41UvcPn+yQRx6vML3p5LYaA5UhCCW6Ee3FjFeyMjq
-         jknA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mqLtIFcwFpn2zAcSyNJuN4c0slGZb/TfutQTVxzpMSA=;
-        b=LXXds4yLENik4Z5PYXJB4hStpl9+IsH1QAH/Uk1jOYUSSCwn2PO90sqFlzF8HHaH1s
-         TCXRRMh55s/QK7mwcXbyk7u95xmfiIUfIumQG4P0xjDiji4QvU76yD+fA5Z4MLK0VLOb
-         xYOc5FwD4i86x3x1UJ8YlJKD8ggWp8U0yKAudWRlXmPhn8wj89eD4kXUbMT2Ab786d2m
-         4qsDml5vFctLk4j5FouIUVKyaFRWxS/fGW2LKdX0sqBtJO0UgomGMFeiQ1YGCwJ/biBG
-         SHS48aQQociEDMYKvGANY5SywNUxENKHWmVK1eVzoEldw0NkIelmkpx6yAzCwpcKnZnv
-         Khrw==
-X-Gm-Message-State: AOAM533E5c8PDxlN5OFDMjm7ZRE8SLrcxRMxQddUNYMDSEYUoBpEH8OF
-	DK/wjzJwDZZDnBV7oUXYDR/wlLVO5BZw5cpba2k=
-X-Google-Smtp-Source: ABdhPJy9tzF8vr0ymJxFiKTH475/FdtxvGAJh0Bh9hKnKuZ44tWSW23dC58bgi1JUf0MD3nGsO+pKwA31u+lp1xEnOk=
-X-Received: by 2002:a37:58c1:: with SMTP id m184mr16631510qkb.9.1606143832829;
- Mon, 23 Nov 2020 07:03:52 -0800 (PST)
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: pKObAAchznvi2uJLvXXrzxRQtv1LWwUS7M+HmL0m+WXUYgvOFlDo04XsJDhgY8U5hq0/SG/hbc
+ vC/CfGj940WQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9813"; a="159547240"
+X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; 
+   d="scan'208";a="159547240"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:06:57 -0800
+IronPort-SDR: ErivPP7ieAfIdJDatZ1fF3LHWh8RCvf5OGI9T/n9nD0uT5aqte8k4MZXI/fkfm1wm+3B3SifaH
+ /SH4C4Rgz2bw==
+X-IronPort-AV: E=Sophos;i="5.78,363,1599548400"; 
+   d="scan'208";a="361475068"
+Received: from kpteh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.215.244.15])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Nov 2020 07:06:56 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/21] gatesgarth patch review request
+Date: Mon, 23 Nov 2020 23:06:30 +0800
+Message-Id: <cover.1606111370.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20201122124853.30262-1-andrej.valek@siemens.com> <20201122124853.30262-2-andrej.valek@siemens.com>
-In-Reply-To: <20201122124853.30262-2-andrej.valek@siemens.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 23 Nov 2020 07:03:25 -0800
-Message-ID: <CAMKF1srXUBHS0CXAPApjv_caAUBGRXxHCaurjVykq5L7-6drvA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 2/2] cmake: split release and debug flags
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Pascal Bach <pascal.bach@siemens.com>, Adrian Freihofer <adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-I am seeing several failures due to this series see
+Please review these next set of changes for gatesgarth. These build
+cleanly on the autobuilder except for one unrelated failure while
+running ltp tests:
 
-https://errors.yoctoproject.org/Errors/Build/113114/
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1619
 
-On Sun, Nov 22, 2020 at 4:49 AM Andrej Valek <andrej.valek@siemens.com> wrote:
->
-> Keep only flags related to release in particular part _RELEASE (same for
-> debug). This option allows to really use the Release/Debug build type
-> in cmake. The corresponding build type will have corresponding flags set
-> with/without optimization. Flags are respecting selected optimization from
-> the whole build.
->
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  meta/classes/cmake.bbclass | 27 ++++++++++++++++++++++-----
->  1 file changed, 22 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index 7c055e8a3d..a0ce92ce46 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -25,15 +25,23 @@ python() {
->  OECMAKE_AR ?= "${AR}"
->
->  # Compiler flags
-> -OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
-> -OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS}"
-> -OECMAKE_C_FLAGS_RELEASE ?= "-DNDEBUG"
-> -OECMAKE_CXX_FLAGS_RELEASE ?= "-DNDEBUG"
-> +OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS_COMMON}"
-> +OECMAKE_CXX_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS_COMMON}"
-> +OECMAKE_C_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
-> +OECMAKE_CXX_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION} -DNDEBUG"
-> +OECMAKE_C_FLAGS_DEBUG ?= "${DEBUG_OPTIMIZATION}"
-> +OECMAKE_CXX_FLAGS_DEBUG ?= "${DEBUG_OPTIMIZATION}"
->  OECMAKE_C_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CPPFLAGS} ${LDFLAGS}"
-> -OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LDFLAGS}"
-> +OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS_COMMON} ${LDFLAGS}"
-> +OECMAKE_LINKER_FLAGS_RELEASE ?= "${SELECTED_OPTIMIZATION}"
-> +OECMAKE_LINKER_FLAGS_DEBUG ?= "${DEBUG_OPTIMIZATION}"
->  CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
->  CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
->
-> +# Common CFLAGS/CXXFLAGS without optimization
-> +CFLAGS_COMMON = "${@d.getVar('CFLAGS').replace(d.getVar('SELECTED_OPTIMIZATION'),'')}"
-> +CXXFLAGS_COMMON = "${@d.getVar('CXXFLAGS').replace(d.getVar('SELECTED_OPTIMIZATION'),'')}"
-> +
->  def oecmake_map_compiler(compiler, d):
->      args = d.getVar(compiler).split()
->      if args[0] == "ccache":
-> @@ -107,8 +115,17 @@ set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
->  set( CMAKE_C_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "Additional CFLAGS for release" )
->  set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "Additional CXXFLAGS for release" )
->  set( CMAKE_ASM_FLAGS_RELEASE "${OECMAKE_C_FLAGS_RELEASE}" CACHE STRING "Additional ASM FLAGS for release" )
-> +set( CMAKE_C_FLAGS_DEBUG "${OECMAKE_C_FLAGS_DEBUG}" CACHE STRING "Additional CFLAGS for debug" )
-> +set( CMAKE_CXX_FLAGS_DEBUG "${OECMAKE_CXX_FLAGS_DEBUG}" CACHE STRING "Additional CXXFLAGS for debug" )
-> +set( CMAKE_ASM_FLAGS_DEBUG "${OECMAKE_C_FLAGS_DEBUG}" CACHE STRING "Additional ASM FLAGS for debug" )
->  set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
->  set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
-> +set( CMAKE_SHARED_LINKER_FLAGS_RELEASE "${OECMAKE_LINKER_FLAGS_RELEASE}" CACHE STRING "Additional SHARED LINKER FLAGS for release" )
-> +set( CMAKE_SHARED_LINKER_FLAGS_DEBUG "${OECMAKE_LINKER_FLAGS_DEBUG}" CACHE STRING "Additional SHARED LINKER FLAGS for debug" )
-> +set( CMAKE_MODULE_LINKER_FLAGS_RELEASE "${OECMAKE_LINKER_FLAGS_RELEASE}" CACHE STRING "Additional MODULE LINKER FLAGS for release" )
-> +set( CMAKE_MODULE_LINKER_FLAGS_DEBUG "${OECMAKE_LINKER_FLAGS_DEBUG}" CACHE STRING "Additional MODULE LINKER FLAGS for debug" )
-> +set( CMAKE_EXE_LINKER_FLAGS_RELEASE "${OECMAKE_LINKER_FLAGS_RELEASE}" CACHE STRING "Additional EXE LINKER FLAGS for release" )
-> +set( CMAKE_EXE_LINKER_FLAGS_DEBUG "${OECMAKE_LINKER_FLAGS_DEBUG}" CACHE STRING "Additional EXE LINKER FLAGS for debug" )
->
->  # only search in the paths provided so cmake doesnt pick
->  # up libraries and tools from the native build machine
-> --
-> 2.11.0
->
->
-> 
->
+Thanks,
+
+Anuj
+
+The following changes since commit 3a4ac9d028e6d7840660bb9640614d92fd89246f:
+
+  diffstat: add nativesdk to BBCLASSEXTEND (2020-11-18 07:57:11 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
+
+Alistair (1):
+  weston-init: Fix incorrect idle-time setting
+
+Bruce Ashfield (13):
+  linux-yocto/5.8: update to v5.8.15
+  linux-yocto/5.4: update to v5.4.71
+  linux-yocto/5.8: update to v5.8.16
+  linux-yocto/5.4: update to v5.4.72
+  linux-yocto/5.8: update to v5.8.17
+  linux-yocto/5.4: update to v5.4.73
+  linux-yocto-dev: move to v5.10-rc
+  linux-yocto/5.4: config cleanup / warnings
+  linux-yocto/5.8: config cleanup / warnings
+  linux-yocto/5.8: update to v5.8.18
+  linux-yocto/5.4: update to v5.4.75
+  kernel: provide module.lds for out of tree builds in v5.10+
+  kernel: relocate copy of module.lds to module compilation task
+
+Chee Yang Lee (1):
+  bluez5: update to 5.55
+
+Lee Chee Yang (3):
+  libproxy: fix CVE-2020-26154
+  python3: fix CVE-2020-27619
+  qemu: fix CVE-2020-24352
+
+Loic Domaigne (1):
+  roofs_*.bbclass: fix missing vardeps for do_rootfs
+
+Max Krummenacher (1):
+  linux-firmware: rdepend on license for all nvidia packages
+
+Wonmin Jung (1):
+  kernel: Set proper LD in KERNEL_KCONFIG_COMMAND
+
+ meta/classes/kernel.bbclass                   |  6 +-
+ meta/classes/rootfs_deb.bbclass               |  2 +-
+ meta/classes/rootfs_ipk.bbclass               |  2 +-
+ meta/classes/rootfs_rpm.bbclass               |  2 +-
+ .../bluez5/{bluez5_5.54.bb => bluez5_5.55.bb} |  4 +-
+ .../python/python3/CVE-2020-27619.patch       | 71 ++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.5.bb |  1 +
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-24352.patch            | 52 ++++++++++
+ meta/recipes-graphics/wayland/weston-init.bb  |  2 +-
+ .../linux-firmware/linux-firmware_20200817.bb |  1 +
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |  6 ++
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |  6 +-
+ .../linux/linux-yocto-rt_5.8.bb               |  6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +-
+ .../linux/linux-yocto-tiny_5.8.bb             |  8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++---
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  | 22 ++---
+ .../libproxy/libproxy/CVE-2020-26154.patch    | 98 +++++++++++++++++++
+ .../libproxy/libproxy_0.4.15.bb               |  1 +
+ 21 files changed, 279 insertions(+), 44 deletions(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.54.bb => bluez5_5.55.bb} (91%)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-27619.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
+ create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-26154.patch
+
+-- 
+2.28.0
+
