@@ -1,72 +1,79 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.53261.1606230843860019449
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
+ by mx.groups.io with SMTP id smtpd.web12.53303.1606230982620629780
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2020 07:14:04 -0800
+ Tue, 24 Nov 2020 07:16:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=kq4Rj+Mq;
- spf=pass (domain: konsulko.com, ip: 209.85.128.68, mailfrom: pbarker@konsulko.com)
-Received: by mail-wm1-f68.google.com with SMTP id d142so2708588wmd.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2020 07:14:03 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Nw/UauU6;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.194, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f194.google.com with SMTP id c80so24147233oib.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2020 07:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZXMoKN7zo6r/FShXFiFaRd4LwHIgssVFfNFNUiaPRls=;
-        b=kq4Rj+Mq2H/jwVe7W/gU5j0sBxLH0M5amcqGTg5Y48TxEclxDAtNY1Rd2vgS/sDUQL
-         rN2O79MtRz1LcEGcBsxknIZzG+HEZogLUeeRQ3f/pEPpbTc6z8AA8HPHC/HBUPRe7j5L
-         ttVKHiLdblHD8+HqJ81F9AGPc//pdBPhixc/M=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=Vd94qy9BkIvGgyUSOby0XuwaCPDRB4xlkbUvDboZsWc=;
+        b=Nw/UauU6JyFekXHGRPi3N2jKCPXM5lEZbH5sEt3fR51UDeeGPOc4SzZqzA+UsK5SHf
+         52EEfWDpW2/FsLoxHWRZtU/96SGMwfeUKImUaT15A1xLosGtOOarvVWAYSeo0AXyRE6d
+         bZ1cO+ZGsS/had4om0+v9CRwC4RjnBe7VHYzg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZXMoKN7zo6r/FShXFiFaRd4LwHIgssVFfNFNUiaPRls=;
-        b=OS8mV6IUY+tPjrgjOsPSelCLn9ztfPW9RfGcjIr+BnMMEMttDf1WptaErKOXsVzkVn
-         6dbpZ7WmtRVTsK/GrApgtkfYc2j0viuXdDQGsLYY8ecodu2RSjaLKHFexsxlwCqf3gtq
-         FX+nn2bW3PCTpGZwimtDsB78k0agG7vh5FSD4SXiHDS0OVBfJaSKJMoYOs7u/Z5/PJ6c
-         SvzSP1IxNo+IehG0D0mszZxKcAyWw3QxhxxYFexyCsUBdTXs06xx7Pc2qPCYDUoI6Qi8
-         Sd/973MZ5kgUsOhFO/dh+064PH/SRUtEmoeHqhHzNXNuXv0tN/YklZXIdA4vgvXTf7v/
-         2vJQ==
-X-Gm-Message-State: AOAM5303hnQTUjcZSMsGDgk9vsb2XwU9Z89SKImnEE+xlniJXTY01I42
-	wnJ0jbTWym0qGJemxrkotPdhWp08O5vqYw==
-X-Google-Smtp-Source: ABdhPJz4A5x52Bzrq7UgSNa7eWVsbC2IAEYRR6RSBycANhrQ6X14p7+CH9DQMWH7qUS78e/nrXhEbA==
-X-Received: by 2002:a05:600c:255:: with SMTP id 21mr5074496wmj.69.1606230842167;
-        Tue, 24 Nov 2020 07:14:02 -0800 (PST)
-Return-Path: <pbarker@konsulko.com>
-Received: from alpha.home.b5net.uk (cpc76148-clif11-2-0-cust524.12-4.cable.virginm.net. [82.1.54.13])
-        by smtp.gmail.com with ESMTPSA id 140sm6039909wme.14.2020.11.24.07.14.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 07:14:01 -0800 (PST)
-From: "Paul Barker" <pbarker@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <pbarker@konsulko.com>
-Subject: [PATCH 2/2] poky.conf: Drop fedora-30 from tested distros
-Date: Tue, 24 Nov 2020 15:13:58 +0000
-Message-Id: <20201124151358.30845-2-pbarker@konsulko.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201124151358.30845-1-pbarker@konsulko.com>
-References: <20201124151358.30845-1-pbarker@konsulko.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=Vd94qy9BkIvGgyUSOby0XuwaCPDRB4xlkbUvDboZsWc=;
+        b=sJCs5PMFJTG9UdbAml3jl7pWJRLkN7454F8OUrN8w2VYfzcEkmNDY2i3hX/1WZuSK+
+         bOSL66D43jE9HmeMnfQHzFNiOFmcFKXFYnVws/pTsiuAcWSblrZQjS+7vaUaJyrDTFxU
+         hZvbu7W6N1781OXY7xD2Fzp2U3FXw9IyuefEgXIylFb+MKByL52qxGkDpQT0RqgN1ba2
+         HR7W7JRy7terzsFZZza4HpthrSQlL+SVmXx/TiE0NUc046OtfGT3MbPyN5140RWVM45Q
+         JJduai1lZqPH3aGJtvoYQCEE50CikTfNh7oHBRfrOJ5awv0FmcCCu2NO4+pI/vj1/lp1
+         nzLQ==
+X-Gm-Message-State: AOAM532cmSazQ1PKpMiP2jWSpoRLpKQrsh/WjuM4mN8jVCCqyALwCjGZ
+	BYpSm3ODoBnZyWrf/N/kyKQePumIPHgDlLeOHTEm6b+j5BE=
+X-Google-Smtp-Source: ABdhPJwjOx9bX6ztfWIHiWsWdXrtnWYEjYtLcfRLeFRPDd6t8U2dxihoL+7xR6y8d37weUyH1RarbQcq5GYwQLNMcb8=
+X-Received: by 2002:aca:b288:: with SMTP id b130mr2877344oif.152.1606230981786;
+ Tue, 24 Nov 2020 07:16:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201124151358.30845-1-pbarker@konsulko.com>
+In-Reply-To: <20201124151358.30845-1-pbarker@konsulko.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 24 Nov 2020 15:16:11 +0000
+Message-ID: <CAM9ZRVvOStJfDLQq4qjMGHUf7DS_ZQXHrsM2OTEF50R2HaRrsg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] poky.conf: Add opensuseleap-15.2 and fedora-33 to tested distros
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The autobuilder no longer contains a worker for this distro.
+On Tue, 24 Nov 2020 at 15:14, Paul Barker <pbarker@konsulko.com> wrote:
+>
+> The autobuilder contains workers for both of these distros.
+>
+> Signed-off-by: Paul Barker <pbarker@konsulko.com>
+> ---
+>  meta-poky/conf/distro/poky.conf | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+> index 31dc110bf6..bdf46f4038 100644
+> --- a/meta-poky/conf/distro/poky.conf
+> +++ b/meta-poky/conf/distro/poky.conf
+> @@ -52,12 +52,14 @@ SANITY_TESTED_DISTROS ?= " \
+>              fedora-30 \n \
+>              fedora-31 \n \
+>              fedora-32 \n \
+> +            fedora-33 \n \
+>              centos-7 \n \
+>              centos-8 \n \
+>              debian-8 \n \
+>              debian-9 \n \
+>              debian-10 \n \
+>              opensuseleap-15.1 \n \
+> +            opensuseleap-15.2 \n \
+>              "
+>  # add poky sanity bbclass
+>  INHERIT += "poky-sanity"
+> --
+> 2.26.2
+>
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
----
- meta-poky/conf/distro/poky.conf | 1 -
- 1 file changed, 1 deletion(-)
+Sorry, wrong mailing list.
 
-diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
-index bdf46f4038..35c9b1a27c 100644
---- a/meta-poky/conf/distro/poky.conf
-+++ b/meta-poky/conf/distro/poky.conf
-@@ -49,7 +49,6 @@ SANITY_TESTED_DISTROS ?= " \
-             ubuntu-16.04 \n \
-             ubuntu-18.04 \n \
-             ubuntu-20.04 \n \
--            fedora-30 \n \
-             fedora-31 \n \
-             fedora-32 \n \
-             fedora-33 \n \
 -- 
-2.26.2
-
+Paul Barker
+Konsulko Group
