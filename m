@@ -1,56 +1,82 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.51784.1606222648953375370
+Received: from mail-oo1-f68.google.com (mail-oo1-f68.google.com [209.85.161.68])
+ by mx.groups.io with SMTP id smtpd.web08.51548.1606224196418840736
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2020 04:57:29 -0800
+ Tue, 24 Nov 2020 05:23:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A4BA3143D
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2020 04:57:28 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4F0313F70D
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2020 04:57:28 -0800 (PST)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] cve-update-db-native: handle all-wildcard versions
-Date: Tue, 24 Nov 2020 12:57:24 +0000
-Message-Id: <20201124125724.2786825-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Xr53cUIK;
+ spf=pass (domain: konsulko.com, ip: 209.85.161.68, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oo1-f68.google.com with SMTP id y3so4792425ooq.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2020 05:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=wutpmYgnGgZx33hgtBUUGrM5bvIhdVHzG1pbdbCzmrM=;
+        b=Xr53cUIKz2UVVl7dJQWHHyfk4o/685cbFeUcSf+IR6iEt78Xf2DbZPI6CRLig2BIil
+         SD19ivq5gipsJZqBZOH6PiLPLtqujve9Bmdv4d4+K6e5+UoSIUaW5jYsZ8B3WrulyS6y
+         kCVCGbnqukKwfWTu3q07QUyIs7cLazz3zdJds=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=wutpmYgnGgZx33hgtBUUGrM5bvIhdVHzG1pbdbCzmrM=;
+        b=d+h3BsNzbJqHkdSD2Cf7fImJLckIjFGE9avA+a5w1SOttQnUq94HSIFlE8d/Aj/qAf
+         iyKzwcqXqdXM6Qm7HTduei8MBM0FzREBkPshZxPM+D46O+H3TmnzM8ww5Hv/qDdzXF4a
+         WpFHVt3+6B+203zmdHCk7KGFUF7T7cszciVdY4532QMLK/K/ov6+BX9+KAFGPPX4WqV5
+         QzwNbjZe5mMH2TZwfScLdZt8j3SBzqhi0YgW95Kq31ToHVRf/v9/h7tPthnyYQKEkAES
+         8I9JHp3fV/ypVM7ebh6WJvqD31GhOiNFAZGfPfcutXmVYRbyCrcfrt9ZbftweULXFpGF
+         CeqQ==
+X-Gm-Message-State: AOAM532vYkGSWSAesi91Wna3lCNsodedApXypBNR5T4Jsicg/XJ5eLXO
+	D8IezCItSHk3vBHu4J2/cdrWyONWk8sRoBnNJ6nf/FHWyC8=
+X-Google-Smtp-Source: ABdhPJwJXiv060RTb+ypEhiDToml5vfMqWQWQrgr5TK3tYXUx3gOXQQhokZXJZRAX6r2bVD6tgi9uC2Bh3fkmYxaMIc=
+X-Received: by 2002:a4a:a444:: with SMTP id w4mr3190760ool.5.1606224195491;
+ Tue, 24 Nov 2020 05:23:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20201124124445.25342-1-pbarker@konsulko.com>
+In-Reply-To: <20201124124445.25342-1-pbarker@konsulko.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 24 Nov 2020 13:23:05 +0000
+Message-ID: <CAM9ZRVuDA=wmf82CQ9eLtUO26drsp7fz45FP=Sy2nQWdnPXo9A@mail.gmail.com>
+Subject: Re: [master/gatesgarth/dunfell PATCH] local.conf.sample: Update list of qemu machines
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-If a CPE version field is just *:*:*:* it should be handled the same as
--:*:*:*, that is 'all versions'.  To ease handling, transform this case
-to use -.
+On Tue, 24 Nov 2020 at 12:44, Paul Barker <pbarker@konsulko.com> wrote:
+>
+> The `qemuarmv5` and `qemuriscv64` machines have been support since the
+> warrior and zeus releases respectively. Add them to the local.conf
+> sample so that they're easier for new users to discover.
+>
+> Signed-off-by: Paul Barker <pbarker@konsulko.com>
+> ---
+>  meta/conf/local.conf.sample | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+> index 22d43b20d4..742c3e3cb4 100644
+> --- a/meta/conf/local.conf.sample
+> +++ b/meta/conf/local.conf.sample
+> @@ -19,11 +19,13 @@
+>  #
+>  #MACHINE ?= "qemuarm"
+>  #MACHINE ?= "qemuarm64"
+> +#MACHINE ?= "qemuarmv5"
+>  #MACHINE ?= "qemumips"
+>  #MACHINE ?= "qemumips64"
+>  #MACHINE ?= "qemuppc"
+>  #MACHINE ?= "qemux86"
+>  #MACHINE ?= "qemux86-64"
+> +#MACHINE ?= "qemuriscv64"
+>  #
+>  # This sets the default machine to be qemux86-64 if no other machine is selected:
+>  MACHINE ??= "qemux86-64"
+> --
+> 2.26.2
+>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+After further discussion on the poky list, let's drop this for now. We
+don't have sufficient test coverage at the moment for either of these
+machines to list them in the sample config file.
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipe=
-s-core/meta/cve-update-db-native.bb
-index 27b5dc9e880..e8ece46d276 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -172,7 +172,12 @@ def parse_node_and_insert(c, node, cveId):
-                     op_end =3D '<'
-                     v_end =3D cpe['versionEndExcluding']
-=20
--                yield [cveId, vendor, product, v_start, op_start, v_end,=
- op_end]
-+                if op_start or op_end or v_start or v_end:
-+                    yield [cveId, vendor, product, v_start, op_start, v_=
-end, op_end]
-+                else:
-+                    # This is no version information, expressed differen=
-tly.
-+                    # Save processing by representing as -.
-+                    yield [cveId, vendor, product, '-', '', '', '']
-=20
-     c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", c=
-pe_generator())
-=20
---=20
-2.25.1
-
+-- 
+Paul Barker
+Konsulko Group
