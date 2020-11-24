@@ -1,79 +1,77 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.45981.1606180047299638572
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web10.46103.1606183694119230876
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2020 17:07:27 -0800
+ Mon, 23 Nov 2020 18:08:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=li7U6/mu;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id w16so3549673pga.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2020 17:07:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=tJ39mHWiLOOaCzGM/MqJ0a+/+gQ8b8FWVBrl6NlSNkw=;
-        b=li7U6/muUptdDLIUMCAxa1j3pyPma2Fj2H0DQxaAfUwjL5fBs9iKqBCtS1ywNmZ8Xw
-         inJRkLC8xmCQqgbU81wvLYzxjixgeiJCbUarHDk0fDQLjPn7BnrOz/7pLxL7/P+urEnH
-         e0EB3mVKx0D7RN4HzoOXr9cmkN8VR2vbslouhgQ+ph+03S3MKGjTtNuXD2xeBijEoZIK
-         FnScRhZdwI0VLVdChigMC+4FMQ4gp39X5lYDZUx9Vjnc8Ve5iGiv/nVNFt3HvHVViF3+
-         79H5kA84skdJfvZwrU7TrK8k2R6XvQ3QsvXrGKX/MSeOTSG67lBO/xb7/5np6Wext37y
-         L3XQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=tJ39mHWiLOOaCzGM/MqJ0a+/+gQ8b8FWVBrl6NlSNkw=;
-        b=lMQcBm9juOGeecWnh0IByZ+QC+hatCWrSlZAVcL7tn24NtTeZPR1Hg3pjEihYPokYz
-         5Oo1+t5KKOrW62MGX04enUDUB6gWcrZ6wKxvWizrJtQLOZ5TRjNwujHIWojHdsGbmSs8
-         uWgV5SR1HzMTRIH/vpM2i6fr5kMoGvBvi6V3pf2AGeTYO6dKWhz0mZeqfdDkY5XQHTIz
-         yhSn+xX25FpIyorJqkwQUH15YWYmYd5E//hhdZnu9Ci2p0ibwYin6G602XEMZLYdlXN/
-         QsEOM9mSkikukfgwir5HQol4skgvrapSoAcFtGJLRkx9ef/cyp79V26kJtBHqQvVF/l5
-         K8qw==
-X-Gm-Message-State: AOAM5319HlSNTy2q6Pp3iwILNRnCy2MJOZ19rVuGhq5LB5LMY27l9e7J
-	764eMEeEvm8lXnc9sNGzHqi3SC58R04Zx18G
-X-Google-Smtp-Source: ABdhPJxbgWc2uh+GBuHLmSYP9csar6DGzESfF4o8o3Md7W2cNZ+sfchM3uhdW++JfhcJJrIJ9CEXCQ==
-X-Received: by 2002:a17:90b:8d8:: with SMTP id ds24mr1806572pjb.5.1606180046162;
-        Mon, 23 Nov 2020 17:07:26 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d2sm609594pji.7.2020.11.23.17.07.24
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2020 17:07:25 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/5] Pull request (cover letter only)
-Date: Mon, 23 Nov 2020 15:07:12 -1000
-Message-Id: <cover.1606179985.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.78,364,1599494400"; 
+   d="scan'208";a="101678530"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 24 Nov 2020 10:08:04 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 8640B4CE5478
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2020 10:08:01 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 24 Nov 2020 10:07:59 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+Date: Tue, 24 Nov 2020 19:49:06 +0800
+Message-ID: <1606218546-115087-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 8640B4CE5478.A11C5
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-The following changes since commit 84e1a32096db9deb98d282a652beec95dbfe80f1:
+The test log of oe-selftest is as follows:
+2020-11-23 15:48:49,144 - oe-selftest - INFO - test_crosstap_helloworld (runtime_test.SystemTap)
+2020-11-23 17:06:55,949 - oe-selftest - INFO -  ... ok
+2020-11-23 17:06:55,951 - oe-selftest - INFO - test_crosstap_pstree (runtime_test.SystemTap)
+2020-11-23 17:08:07,921 - oe-selftest - INFO -  ... ok
+2020-11-23 17:08:07,922 - oe-selftest - INFO - test_crosstap_syscalls_by_pid (runtime_test.SystemTap)
+2020-11-23 17:09:20,084 - oe-selftest - INFO -  ... ok
+2020-11-23 17:09:20,085 - oe-selftest - INFO - test_crosstap_syscalls_by_proc (runtime_test.SystemTap)
+2020-11-23 17:10:31,349 - oe-selftest - INFO -  ... ok
+2020-11-23 17:12:58,052 - oe-selftest - INFO - ----------------------------------------------------------------------
+2020-11-23 17:12:58,054 - oe-selftest - INFO - Ran 4 tests in 5051.537s
+2020-11-23 17:12:58,054 - oe-selftest - INFO - OK
+2020-11-23 17:13:08,416 - oe-selftest - INFO - RESULTS:
+2020-11-23 17:13:08,417 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_helloworld: PASSED (4686.81s)
+2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_pstree: PASSED (71.97s)
+2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_syscalls_by_pid: PASSED (72.16s)
+2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_syscalls_by_proc: PASSED (71.26s)
+2020-11-23 17:13:08,432 - oe-selftest - INFO - SUMMARY:
+2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest () - Ran 4 tests in 5051.540s
+2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=4, skipped=0, failures=0, errors=0)
 
-  python3: add ldconfig rdepends for python3-ctypes (2020-11-17 07:34:27 -1000)
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Lee Chee Yang (5):
-  libproxy: fix CVE-2020-26154
-  bison: update to 3.5.4 for CVE-2020-14150
-  python3: whitelist CVE-2020-15523
-  python3: fix CVE-2020-27619
-  qemu: fix CVE-2020-24352
-
- .../bison/{bison_3.5.3.bb => bison_3.5.4.bb}  |  2 +-
- .../python/python3/CVE-2020-27619.patch       | 70 +++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |  4 +
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-24352.patch            | 52 ++++++++++
- .../libproxy/libproxy/CVE-2020-26154.patch    | 98 +++++++++++++++++++
- .../libproxy/libproxy_0.4.15.bb               |  1 +
- 7 files changed, 227 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/bison/{bison_3.5.3.bb => bison_3.5.4.bb} (94%)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2020-27619.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-24352.patch
- create mode 100644 meta/recipes-support/libproxy/libproxy/CVE-2020-26154.patch
-
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 56fa51d61e..ae735025b7 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,7 +1,7 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
+-PV = "4.3"
++SRCREV = "988f439af39a359b4387963ca4633649866d8275"
++PV = "4.4"
+ 
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
 -- 
-2.17.1
+2.25.1
+
+
 
