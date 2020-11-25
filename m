@@ -1,211 +1,80 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.82])
- by mx.groups.io with SMTP id smtpd.web12.5013.1606299828396079421
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web09.4980.1606300251162414725
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2020 02:23:49 -0800
+ Wed, 25 Nov 2020 02:30:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=aEipoze/;
- spf=pass (domain: siemens.com, ip: 40.107.8.82, mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=b1W0Xj82JEyVH/yvKC5i3U8q6jDUjbeKL4ds/Bim2kKSv7NIBQTWqPydD0sGs7WNGJQyiCxiAvQiyvk6VcTxFjISw9ciburMJrCvNH0ZINz6Szl9P3sYGnlVLMrq5PlZSjsJ1/Eund5fLkDj4OFOUSLJjxjp0lZjp2/at7yXG2EFuyjPA6JvjTNdazKXcgQvdCq2VMtIWZf4GrE2PoJxc+8sLWPvLLLeUEzfh10+rdHUGVlEDWENJjWpP4WeaqqsnGgVyHRML/wGQ13mCR6S82uaTeD30yvHlO/WwfH2CavsqKkXoOgpmMAIRN7EOs6/2pvRNlEjdQlrdgljPcihbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ntQmbQvXebptfuA8Nol2j+vC0qqrEttxrJd52N4F/sk=;
- b=HNpG1vezfroYe5ZQI6jNAEnzdwSLGeUs3YajT/NP6pc559riDp8fLkuxH5SdE27bxrydfpA4AcHwiaAAeNkI6dKbSu1D4aRVS+35ex7WUFmbNl9rq99Y4xDdMhtajfrF7vMa+h9Szq3VBbDcH4JIjHqXqqZ16ddjXqunO5RE5xMEbdZHgVRcibmgRF1web4wkfxcJht1DqMd7UAB8Y6/oJCBmtAxfaPAUZbSV8Ycnj6rzrVNr6uxN+LgfhbS2x8OgWi/7V8flqe/F9UiIjZ4Mv8NOEnml70yYjWl4mlvcuJYopYXbRl7h1eZVN7DlMMMbTaOMp73WCDPmCDzWBA0Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z/agQX86;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id i2so1378401wrs.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2020 02:30:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ntQmbQvXebptfuA8Nol2j+vC0qqrEttxrJd52N4F/sk=;
- b=aEipoze/YA2McgPmHkSpu9k9Rr3BJS2Jh6xJMIiYmY8mEicT4v3orR+R0TuWzvT8NjWGYSwb8FBV/KtIycvMKhKNAcC9+OptA5DCvLt28tK9mnC0PQT7lytFyWLOIAQVhfU1mUwU7XjVM8x+sVW8PojcIcG2YJ+JIjueoyKPLmM=
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:138::9)
- by DB7PR10MB1994.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:5:f::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3564.28; Wed, 25 Nov 2020 10:23:45 +0000
-Received: from DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::dd4e:81f8:cb7e:a1eb]) by DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::dd4e:81f8:cb7e:a1eb%3]) with mapi id 15.20.3589.025; Wed, 25 Nov 2020
- 10:23:45 +0000
-From: "Andrej Valek" <andrej.valek@siemens.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Bach, Pascal"
-	<pascal.bach@siemens.com>, "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-Subject: Re: [OE-core][PATCH v2 2/2] cmake: split release and debug flags
-Thread-Topic: [OE-core][PATCH v2 2/2] cmake: split release and debug flags
-Thread-Index: AQHWwpiXJPMrX4fv1UugoRgN8TnTaqnYo9Sw
-Date: Wed, 25 Nov 2020 10:23:45 +0000
-Message-ID: 
- <DB8PR10MB3977CB0EC9B940D6FC87A05B92FA0@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=NS9iN/Oxht3ywLk/aN6dMmnAETIaKvt2BuUtsNfVGAI=;
+        b=Z/agQX86vlZxK46jWobXv1UZXQZ0DttlF40v+/+JA8LSZwEo4W1ziY4PjMOS4DvI8L
+         TF598oyFks60LIDldr4cUItv9zeplf3M01ChUglgmO5FYwRTPghea66sCstmnE1LMGTM
+         denVlCokmIMTcxLynWtRZ0a/Tx8Gx8/wuSxH8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=NS9iN/Oxht3ywLk/aN6dMmnAETIaKvt2BuUtsNfVGAI=;
+        b=K0o+xz+Wvfy6r7wSs4hOuCarp+DLkN8+VrFv872hyVUkYC62PvppacB/Mh7ct0HKLV
+         vz+AfgQUq9Dri7GlBZA93X/zB8gRBcS2PEW/KJjnyamauXCjOjULBR6Wmm8csKNOBsGs
+         vnS/WTt5/UOrsnaeE+U+U+zQiaslqklB4coJBKQklAhc4H8oYx2E4apvBj1SojNFhVVd
+         y6wOuFqnSjnoW/yLR7t0pXjWLhpCS4aqiQQtHT2dU3zba5EETXrkUwqkOSycKmLCmHss
+         N60e2LQ5P3qvLA6A1P8JPm7WIVo2Q2EgsCqT/cC43x9xagfkcEg3ePYBfJIqD89S8QeN
+         W0hw==
+X-Gm-Message-State: AOAM5334TdlCY8wD6Cxwflo7cavv1M6WH8NScfL+YSWTxYCdFqP+BZQg
+	+V0yjwdFdxItPEzHb/mgRLaeUA==
+X-Google-Smtp-Source: ABdhPJzKoTy19q1Z5yaBKH9gWY5FUhtyZnRny9UPuDJQN7HnIkS7Tpj1Npy94kdixCJ7TupvyjEFMQ==
+X-Received: by 2002:a5d:634d:: with SMTP id b13mr3335383wrw.310.1606300249613;
+        Wed, 25 Nov 2020 02:30:49 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 4.3.1.2.4.d.e.0.6.7.2.2.d.6.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.3.1.2.4.d.e.0.6.7.2.2.d.6.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:906d:2276:ed4:2134])
+        by smtp.gmail.com with ESMTPSA id g131sm4120754wma.35.2020.11.25.02.30.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 02:30:48 -0800 (PST)
+Message-ID: <32812d8ef3f7b29686e3a591e29315e82a80ead5.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v2 1/2] bitbake.conf: Split optimization into common part
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Pascal Bach <pascal.bach@siemens.com>, Adrian Freihofer
+	 <adrian.freihofer@siemens.com>
+Date: Wed, 25 Nov 2020 10:30:46 +0000
+In-Reply-To: <20201123190029.13811-1-andrej.valek@siemens.com>
 References: <20201122124853.30262-1-andrej.valek@siemens.com>
- <20201123190029.13811-1-andrej.valek@siemens.com>
- <20201123190029.13811-2-andrej.valek@siemens.com>
- <CAMKF1srWhM8ja4Q_tEUzsAh-oEDepm=FrwQptGbwcjbS0NVC7w@mail.gmail.com>
-In-Reply-To: 
- <CAMKF1srWhM8ja4Q_tEUzsAh-oEDepm=FrwQptGbwcjbS0NVC7w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2020-11-25T10:23:43Z;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=3073d38c-8532-4bd9-bf1b-f26018c9c757;
- MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
-document_confidentiality: Restricted
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=siemens.com;
-x-originating-ip: [165.225.200.172]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 12459e4f-67d1-41f7-b374-08d8912c30a8
-x-ms-traffictypediagnostic: DB7PR10MB1994:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <DB7PR10MB1994CE0EDE290C871FF48C3292FA0@DB7PR10MB1994.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:2331;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- sKBkXHxTAcBo856wQXOjaUz8uHnQA71AK5JpIBMReg6rNPNREhqyredrT/LcBDEVAK0TwYlqa1UQut14P+WgcgBxsY84dFEeBZTvL8U7QGq99kUboIqywrIv/mS2l5136cJ1C6kjhAlvfavHh4FnysUXKt8llhhALNIWdvepfJQ+DmHmfjSkP9K4olb6OfLbV+UHBBwKQNzRzbwgWEETwkL5GcRhhH0/SNiAQWjfZGPnZzzlHpIDwBFQPjvXyC5yV4UFLmguGJOdA/G7AuJY+B1b9MRoRsDXbelhUiRyTSMOJ9jwcD7C4nB51i9OZyWJen6oSq/Xv9mgGFO1s0jSnGQFikXgZ5S0CNwDTsnIc02QvCgEsp46VlLlrn8RDRF9tbeMPFrS6yn9mxDA+OxE0w==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(396003)(346002)(39860400002)(136003)(8936002)(6916009)(5660300002)(86362001)(66556008)(66446008)(8676002)(2906002)(52536014)(64756008)(66946007)(66476007)(83380400001)(186003)(107886003)(6506007)(33656002)(54906003)(55016002)(7696005)(316002)(76116006)(4326008)(45080400002)(9686003)(966005)(478600001)(71200400001)(55236004)(26005);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- =?utf-8?B?dWpsSHFJK3c0bWF2YXRxZkRmekZIeE5weEh4RVN2RTBKRHJ1ZGJkVU0rM2k1?=
- =?utf-8?B?cVNuWFVFcG05LzV6RldZZnVVTGVLVGVLR3Nkb1F5YUhPdzhPOER3UW9NbWpN?=
- =?utf-8?B?UGZOaDFmMktxWGxFY0J1emlBcTlTYnMwa0UyRDNCZ2xjWDdBQzd1VTZaTHdW?=
- =?utf-8?B?L21Qd1VvRW93QnoxQWg1V1ZmbXFKTDA2Z2ozQXJWenZCQUYydEpIdmx0LzNE?=
- =?utf-8?B?bUJaWGRzL2g5MWM5dWFGbHB1N1ZYakl3bkc0WXF0ZHVHbEV2YXFxVE9KR2Fm?=
- =?utf-8?B?V3JzZjJaUnlVdis5ZU9uSHFZTElObUNWamtaYk1DSEF4VktNc0lUcHJXczNp?=
- =?utf-8?B?TFZPSHNjazFGRTVJWUdCOHRuMjNQNEZ6NEFCRmt4dU52bEZzcUd3aG1BcVdP?=
- =?utf-8?B?b1ROaEJNcWRVNmY4eGNLQm50OVgrVEMrVkhaYkVJSjFXZmhhTWFaWkxQcmZQ?=
- =?utf-8?B?MzF5ZnNKeWRoRjFIQS9WSlN3Qmp3VnpOcGpxUHlsZHRnS2I4L1FtWW9Jekll?=
- =?utf-8?B?R1FxcHlHRmxFckNtS0ZJREFUbXFIcGlhbUxwd0RKazM0eitNd1p1WVZhcjVz?=
- =?utf-8?B?YmdkdnRTUXhLUEZDLzY1ZzB3blhSN0xMbE9CMm9UbjBWajJsU2hYZ1g1NzlO?=
- =?utf-8?B?ZXkwS2hoU3N4aEFUYTJ2bVhyQ1cvUzdJempoaFFpOWR1QjRoWHhXZCtZOWo5?=
- =?utf-8?B?TFdjWlJnakZKL25zcGZ1NFA3TGh4eHhUcGZYS0hEZ1E0Z3VPUzdxRWRIc1U0?=
- =?utf-8?B?eXQyT1I3SHpSR1p5by96R25oUThiaHFEdHBEVkpSc0ZpMEUxSXZTdjg2dmdn?=
- =?utf-8?B?WEhtdVNQVzgzL3RSYUEwSnNUN1RWYlgzZUpodFRrSERWL0NjM2M1T1RwNkhZ?=
- =?utf-8?B?ejdFdzc4N3RiL3Qrb2d6NkIxb016SHZmNlJXalBSUDI2SmVrbHNUeWxLZDBs?=
- =?utf-8?B?ZlFjZkdscGo0My83SEQ2d3N1M0JpaXdQV1dKVFZoM0MzYVprQk9mem11ZXRh?=
- =?utf-8?B?TEk1NXBUallXQWQ2TDZVc2lFUzFoRXdVRkowMHBpUUI1YVA2ZEtPRzdGRTlW?=
- =?utf-8?B?TWJraUJIM2gwekdYZnlIVWhXY1FyazROSG9TN2RSbXA4MzZGN1VPb1I0S3hO?=
- =?utf-8?B?NW1FT1pVRkdVWWgzdzJuNGtrNUV4RjlsbVViUkRlaGI5T1p1bGpxc3duanY4?=
- =?utf-8?B?K2MzcXdGU0REenJ2N01KZmJSMlZraGRIOVZUYUdtVEpTSDFhNW9sWEFhRlZ4?=
- =?utf-8?B?WUNVUHVWc0dUS2VxTkZ0RXlvK1BxSGdQRFVuM3h1dEZJM3ppeWRRdTVTWCty?=
- =?utf-8?Q?4Kwy2gDTU5LSo=3D?=
+	 <20201123190029.13811-1-andrej.valek@siemens.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12459e4f-67d1-41f7-b374-08d8912c30a8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2020 10:23:45.2322
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MYN+0WlPBhO1CRNAUcIMgZlTKp9EyGvyCEFMA0AtZ8rNEFlKJ0GADr1/rFshO4hbGOxKm9QKDFpP/v/bkG2nodo5cMEa7meuGn36fhNjsaQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR10MB1994
-Content-Class: 
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-V2hhdCBkb2VzIGl0IG1lYW4/IFNob3VsZCBJIGFsc28gInJlbW92ZSIgdGhlICR7bGNsX21heWJl
-X2ZvcnRpZnl9IEZyb20gQy9DWFhGTEFHUz8NCkJlY2F1c2UgSSB3b3VsZCBsaWtlIHRvIGtlZXAg
-dGhlbSBvbmx5IGluIF9SRUxFQVNFIGNhc2UuDQoNClJlZ2FyZHMsDQpBbmRyZWoNCg0KPg0KPj4+
-IEtlZXAgb25seSBmbGFncyByZWxhdGVkIHRvIHJlbGVhc2UgaW4gcGFydGljdWxhciBwYXJ0IF9S
-RUxFQVNFIChzYW1lDQo+PiBmb3IgZGVidWcpLiBUaGlzIG9wdGlvbiBhbGxvd3MgdG8gcmVhbGx5
-IHVzZSB0aGUgUmVsZWFzZS9EZWJ1ZyBidWlsZA0KPj4gdHlwZSBpbiBjbWFrZS4gVGhlIGNvcnJl
-c3BvbmRpbmcgYnVpbGQgdHlwZSB3aWxsIGhhdmUgY29ycmVzcG9uZGluZw0KPj4gZmxhZ3Mgc2V0
-IHdpdGgvd2l0aG91dCBvcHRpbWl6YXRpb24uIEZsYWdzIGFyZSByZXNwZWN0aW5nIHNlbGVjdGVk
-DQo+PiBvcHRpbWl6YXRpb24gZnJvbSB0aGUgd2hvbGUgYnVpbGQuDQo+Pg0KPj4gU2lnbmVkLW9m
-Zi1ieTogQW5kcmVqIFZhbGVrIDxhbmRyZWoudmFsZWtAc2llbWVucy5jb20+DQo+PiBTaWduZWQt
-b2ZmLWJ5OiBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+DQo+PiBTaWduZWQt
-b2ZmLWJ5OiBBZHJpYW4gRnJlaWhvZmVyIDxhZHJpYW4uZnJlaWhvZmVyQHNpZW1lbnMuY29tPg0K
-Pj4gLS0tDQo+PiAgbWV0YS9jbGFzc2VzL2NtYWtlLmJiY2xhc3MgfCAzNiArKysrKysrKysrKysr
-KysrKysrKysrKysrKysrLS0tLS0tLS0NCj4+ICAxIGZpbGUgY2hhbmdlZCwgMjggaW5zZXJ0aW9u
-cygrKSwgOCBkZWxldGlvbnMoLSkNCj4+DQo+PiBkaWZmIC0tZ2l0IGEvbWV0YS9jbGFzc2VzL2Nt
-YWtlLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvY21ha2UuYmJjbGFzcw0KPj4gaW5kZXggN2MwNTVl
-OGEzZC4uMTMwNWI0MGJmOSAxMDA2NDQNCj4+IC0tLSBhL21ldGEvY2xhc3Nlcy9jbWFrZS5iYmNs
-YXNzDQo+PiArKysgYi9tZXRhL2NsYXNzZXMvY21ha2UuYmJjbGFzcw0KPj4gQEAgLTI1LDE0ICsy
-NSwyNSBAQCBweXRob24oKSB7DQo+PiAgT0VDTUFLRV9BUiA/PSAiJHtBUn0iDQo+Pg0KPj4gICMg
-Q29tcGlsZXIgZmxhZ3MNCj4+IC1PRUNNQUtFX0NfRkxBR1MgPz0gIiR7SE9TVF9DQ19BUkNIfSAk
-e1RPT0xDSEFJTl9PUFRJT05TfSAke0NGTEFHU30iDQo+PiAtT0VDTUFLRV9DWFhfRkxBR1MgPz0g
-IiR7SE9TVF9DQ19BUkNIfSAke1RPT0xDSEFJTl9PUFRJT05TfSAke0NYWEZMQUdTfSINCj4+IC1P
-RUNNQUtFX0NfRkxBR1NfUkVMRUFTRSA/PSAiLUROREVCVUciDQo+PiAtT0VDTUFLRV9DWFhfRkxB
-R1NfUkVMRUFTRSA/PSAiLUROREVCVUciDQo+PiAtT0VDTUFLRV9DX0xJTktfRkxBR1MgPz0gIiR7
-SE9TVF9DQ19BUkNIfSAke1RPT0xDSEFJTl9PUFRJT05TfSAke0NQUEZMQUdTfSAke0xERkxBR1N9
-Ig0KPj4gLU9FQ01BS0VfQ1hYX0xJTktfRkxBR1MgPz0gIiR7SE9TVF9DQ19BUkNIfSAke1RPT0xD
-SEFJTl9PUFRJT05TfSAke0NYWEZMQUdTfSAke0xERkxBR1N9Ig0KPj4gLUNYWEZMQUdTICs9ICIk
-e0hPU1RfQ0NfQVJDSH0gJHtUT09MQ0hBSU5fT1BUSU9OU30iDQo+PiAtQ0ZMQUdTICs9ICIke0hP
-U1RfQ0NfQVJDSH0gJHtUT09MQ0hBSU5fT1BUSU9OU30iDQo+PiArT0VDTUFLRV9DX0ZMQUdTID89
-ICIke0hPU1RfQ0NfQVJDSF9DT01NT059ICR7VE9PTENIQUlOX09QVElPTlN9ICR7Q0ZMQUdTX0NP
-TU1PTn0iDQo+DQo+IENNQUtFXzxMQU5HPl9GTEFHUyBhcmUgc2VlZGVkIHdpdGggQ0ZMQUdTL0NY
-WEZMQUdTIGV0YyBmcm9tIHRoZSBlbnZpcm9ubWVudCBhbmQgdXNlZCBkdXJpbmcgY29uZmlndXJl
-IHN0ZXBzIHdoZW4gY21ha2UgaXMgaW52b2tpbmcgY29tcGlsZXIgdG8gY29tcGlsZSBzbWFsbCBz
-YW1wbGUgdG8gZGV0ZXJtaW5lIGZ1bmN0aW9uYWxpdHkgYW5kIHRoZXNlIHRlc3RzIHdpbGwgc3Rh
-cnQgdG8gZmFpbC4gZXNwZWNpYWxseSBjYXNlcyB3aGVyZSB3ZSB1c2Ugc2VjdXJpdHkgZmxhZ3Mg
-d2hpY2ggc2hvdWxkIGFjY29tcGFueSBzb21lIC1PbiBvciBlbHNlIGNvbXBpbGUgd2lsbCB3YXJu
-IGFuZCBpZiB3YXJuaW5ncyBhcmUgYmVpbmcgdHJlYXRlZCBhcyBlcnJvcnMgdGhlbiBpdCB3aWxs
-IGZhaWwgdGhlIHRlc3QuDQo+DQo+PiArT0VDTUFLRV9DWFhfRkxBR1MgPz0gIiR7SE9TVF9DQ19B
-UkNIX0NPTU1PTn0gJHtUT09MQ0hBSU5fT1BUSU9OU30gJHtDWFhGTEFHU19DT01NT059Ig0KPj4g
-K09FQ01BS0VfQ19GTEFHU19SRUxFQVNFID89ICIke1NFTEVDVEVEX09QVElNSVpBVElPTn0gJHts
-Y2xfbWF5YmVfZm9ydGlmeX0gLUROREVCVUciDQo+PiArT0VDTUFLRV9DWFhfRkxBR1NfUkVMRUFT
-RSA/PSAiJHtTRUxFQ1RFRF9PUFRJTUlaQVRJT059ICR7bGNsX21heWJlX2ZvcnRpZnl9IC1ETkRF
-QlVHIg0KPj4gK09FQ01BS0VfQ19GTEFHU19ERUJVRyA/PSAiJHtERUJVR19PUFRJTUlaQVRJT059
-Ig0KPj4gK09FQ01BS0VfQ1hYX0ZMQUdTX0RFQlVHID89ICIke0RFQlVHX09QVElNSVpBVElPTn0i
-DQo+PiArT0VDTUFLRV9DX0xJTktfRkxBR1MgPz0gIiR7SE9TVF9DQ19BUkNIX0NPTU1PTn0gJHtU
-T09MQ0hBSU5fT1BUSU9OU30gJHtDUFBGTEFHU30gJHtMREZMQUdTfSINCj4+ICtPRUNNQUtFX0NY
-WF9MSU5LX0ZMQUdTID89ICIke0hPU1RfQ0NfQVJDSF9DT01NT059ICR7VE9PTENIQUlOX09QVElP
-TlN9ICR7Q1hYRkxBR1NfQ09NTU9OfSAke0xERkxBR1N9Ig0KPj4gK09FQ01BS0VfTElOS0VSX0ZM
-QUdTX1JFTEVBU0UgPz0gIiR7U0VMRUNURURfT1BUSU1JWkFUSU9OfSAke2xjbF9tYXliZV9mb3J0
-aWZ5fSINCj4+ICtPRUNNQUtFX0xJTktFUl9GTEFHU19ERUJVRyA/PSAiJHtERUJVR19PUFRJTUla
-QVRJT059Ig0KPj4gK0NYWEZMQUdTICs9ICIke0hPU1RfQ0NfQVJDSF9DT01NT059ICR7VE9PTENI
-QUlOX09QVElPTlN9Ig0KPj4gK0NGTEFHUyArPSAiJHtIT1NUX0NDX0FSQ0hfQ09NTU9OfSAke1RP
-T0xDSEFJTl9PUFRJT05TfSINCj4+ICsNCj4+ICsjIENvbW1vbiBjb21waWxlciBmbGFncw0KPj4g
-KyMgQ0ZMQUdTL0NYWEZMQUdTIHdpdGhvdXQgb3B0aW1pemF0aW9uICMgSE9TVF9DQ19BUkNIIHdp
-dGhvdXQgZm9ydGlmeQ0KPj4gK0NGTEFHU19DT01NT04gPSAiJHtAZC5nZXRWYXIoJ0NGTEFHUycp
-LnJlcGxhY2UoZC5nZXRWYXIoJ1NFTEVDVEVEX09QVElNSVpBVElPTicpLCcnKX0iDQo+PiArQ1hY
-RkxBR1NfQ09NTU9OID0gIiR7QGQuZ2V0VmFyKCdDWFhGTEFHUycpLnJlcGxhY2UoZC5nZXRWYXIo
-J1NFTEVDVEVEX09QVElNSVpBVElPTicpLCcnKX0iDQo+PiArSE9TVF9DQ19BUkNIX0NPTU1PTiA9
-ICIke0BkLmdldFZhcignSE9TVF9DQ19BUkNIJykucmVwbGFjZShkLmdldFZhcignbGNsX21heWJl
-X2ZvcnRpZnknKSwnJyl9Ig0KPj4NCj4+ICBkZWYgb2VjbWFrZV9tYXBfY29tcGlsZXIoY29tcGls
-ZXIsIGQpOg0KPj4gICAgICBhcmdzID0gZC5nZXRWYXIoY29tcGlsZXIpLnNwbGl0KCkgQEAgLTEw
-Nyw4ICsxMTgsMTcgQEAgc2V0KA0KPj4gQ01BS0VfQVNNX0ZMQUdTICIke09FQ01BS0VfQ19GTEFH
-U30iIENBQ0hFIFNUUklORyAiQVNNIEZMQUdTIiApICBzZXQoDQo+PiBDTUFLRV9DX0ZMQUdTX1JF
-TEVBU0UgIiR7T0VDTUFLRV9DX0ZMQUdTX1JFTEVBU0V9IiBDQUNIRSBTVFJJTkcNCj4+ICJBZGRp
-dGlvbmFsIENGTEFHUyBmb3IgcmVsZWFzZSIgKSAgc2V0KCBDTUFLRV9DWFhfRkxBR1NfUkVMRUFT
-RQ0KPj4gIiR7T0VDTUFLRV9DWFhfRkxBR1NfUkVMRUFTRX0iIENBQ0hFIFNUUklORyAiQWRkaXRp
-b25hbCBDWFhGTEFHUyBmb3INCj4+IHJlbGVhc2UiICkgIHNldCggQ01BS0VfQVNNX0ZMQUdTX1JF
-TEVBU0UgIiR7T0VDTUFLRV9DX0ZMQUdTX1JFTEVBU0V9Ig0KPj4gQ0FDSEUgU1RSSU5HICJBZGRp
-dGlvbmFsIEFTTSBGTEFHUyBmb3IgcmVsZWFzZSIgKQ0KPj4gK3NldCggQ01BS0VfQ19GTEFHU19E
-RUJVRyAiJHtPRUNNQUtFX0NfRkxBR1NfREVCVUd9IiBDQUNIRSBTVFJJTkcNCj4+ICsiQWRkaXRp
-b25hbCBDRkxBR1MgZm9yIGRlYnVnIiApIHNldCggQ01BS0VfQ1hYX0ZMQUdTX0RFQlVHDQo+PiAr
-IiR7T0VDTUFLRV9DWFhfRkxBR1NfREVCVUd9IiBDQUNIRSBTVFJJTkcgIkFkZGl0aW9uYWwgQ1hY
-RkxBR1MgZm9yDQo+PiArZGVidWciICkgc2V0KCBDTUFLRV9BU01fRkxBR1NfREVCVUcgIiR7T0VD
-TUFLRV9DX0ZMQUdTX0RFQlVHfSIgQ0FDSEUNCj4+ICtTVFJJTkcgIkFkZGl0aW9uYWwgQVNNIEZM
-QUdTIGZvciBkZWJ1ZyIgKQ0KPj4gIHNldCggQ01BS0VfQ19MSU5LX0ZMQUdTICIke09FQ01BS0Vf
-Q19MSU5LX0ZMQUdTfSIgQ0FDSEUgU1RSSU5HDQo+PiAiTERGTEFHUyIgKSAgc2V0KCBDTUFLRV9D
-WFhfTElOS19GTEFHUyAiJHtPRUNNQUtFX0NYWF9MSU5LX0ZMQUdTfSINCj4+IENBQ0hFIFNUUklO
-RyAiTERGTEFHUyIgKQ0KPj4gK3NldCggQ01BS0VfU0hBUkVEX0xJTktFUl9GTEFHU19SRUxFQVNF
-DQo+PiArIiR7T0VDTUFLRV9MSU5LRVJfRkxBR1NfUkVMRUFTRX0iIENBQ0hFIFNUUklORyAiQWRk
-aXRpb25hbCBTSEFSRUQNCj4+ICtMSU5LRVIgRkxBR1MgZm9yIHJlbGVhc2UiICkgc2V0KCBDTUFL
-RV9TSEFSRURfTElOS0VSX0ZMQUdTX0RFQlVHDQo+PiArIiR7T0VDTUFLRV9MSU5LRVJfRkxBR1Nf
-REVCVUd9IiBDQUNIRSBTVFJJTkcgIkFkZGl0aW9uYWwgU0hBUkVEDQo+PiArTElOS0VSIEZMQUdT
-IGZvciBkZWJ1ZyIgKSBzZXQoIENNQUtFX01PRFVMRV9MSU5LRVJfRkxBR1NfUkVMRUFTRQ0KPj4g
-KyIke09FQ01BS0VfTElOS0VSX0ZMQUdTX1JFTEVBU0V9IiBDQUNIRSBTVFJJTkcgIkFkZGl0aW9u
-YWwgTU9EVUxFDQo+PiArTElOS0VSIEZMQUdTIGZvciByZWxlYXNlIiApIHNldCggQ01BS0VfTU9E
-VUxFX0xJTktFUl9GTEFHU19ERUJVRw0KPj4gKyIke09FQ01BS0VfTElOS0VSX0ZMQUdTX0RFQlVH
-fSIgQ0FDSEUgU1RSSU5HICJBZGRpdGlvbmFsIE1PRFVMRQ0KPj4gK0xJTktFUiBGTEFHUyBmb3Ig
-ZGVidWciICkgc2V0KCBDTUFLRV9FWEVfTElOS0VSX0ZMQUdTX1JFTEVBU0UNCj4+ICsiJHtPRUNN
-QUtFX0xJTktFUl9GTEFHU19SRUxFQVNFfSIgQ0FDSEUgU1RSSU5HICJBZGRpdGlvbmFsIEVYRSBM
-SU5LRVINCj4+ICtGTEFHUyBmb3IgcmVsZWFzZSIgKSBzZXQoIENNQUtFX0VYRV9MSU5LRVJfRkxB
-R1NfREVCVUcNCj4+ICsiJHtPRUNNQUtFX0xJTktFUl9GTEFHU19ERUJVR30iIENBQ0hFIFNUUklO
-RyAiQWRkaXRpb25hbCBFWEUgTElOS0VSDQo+PiArRkxBR1MgZm9yIGRlYnVnIiApDQo+Pg0KPj4g
-ICMgb25seSBzZWFyY2ggaW4gdGhlIHBhdGhzIHByb3ZpZGVkIHNvIGNtYWtlIGRvZXNudCBwaWNr
-ICAjIHVwDQo+PiBsaWJyYXJpZXMgYW5kIHRvb2xzIGZyb20gdGhlIG5hdGl2ZSBidWlsZCBtYWNo
-aW5lDQo+PiAtLQ0KPj4gMi4xMS4wDQo+Pg0KPj4NCj4+IA0KPj4NCg==
+On Mon, 2020-11-23 at 20:00 +0100, Andrej Valek wrote:
+> This option allows correctly handle the release/debug flags separation in
+> upper recipe like cmake. Adopt SELECTED_OPTIMIZATION usage in other
+> recipes.
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>  meta/conf/bitbake.conf                            | 7 ++++---
+>  meta/conf/distro/include/security_flags.inc       | 8 ++++----
+>  meta/conf/local.conf.sample.extended              | 1 +
+>  meta/recipes-devtools/valgrind/valgrind_3.16.1.bb | 1 +
+>  4 files changed, 10 insertions(+), 7 deletions(-)
+
+I am a bit worried about this as we're effectively letting cmake's idea
+of flags separation determine how we have to set things in OE. Once we
+go down this route, we're going to have problems any time we try and
+add a new compiler flag.
+
+What does this buy us in the end?
+
+Cheers,
+
+Richard
+
