@@ -1,17 +1,17 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.88])
- by mx.groups.io with SMTP id smtpd.web11.1168.1606270026580019855
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.48])
+ by mx.groups.io with SMTP id smtpd.web08.2106.1606275542019950135
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2020 18:07:07 -0800
+ Tue, 24 Nov 2020 19:39:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=HRMtYQ+t;
- spf=pass (domain: windriver.com, ip: 40.107.93.88, mailfrom: changqing.li@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=fGGtLzHf;
+ spf=pass (domain: windriver.com, ip: 40.107.92.48, mailfrom: kai.kang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=E8BzLpCLD42F5pw5y+YsHsCTmPXg742ZkMDe4d5vw8TxWt5Hzkeg7+E2kmqgRHEy0v6VWsb6rmqTVAAsByj6qsGH0EKe39127KjGuSG725n/IIdFLb/SzAOfhJoQD+8EkqwCi3b9yTirzdklvk6gm9Y5zsKYSIHmZeqvczSq5jGNdMYWrPJZw1EmoCwL2O3hOyoejYFsOzg6gfee6dNuCZUpd+Z+Vbs8y5zY5zo1ifpjMCtMy7qCl0HWlaKI0kZS1tr7YDcTG2UF9qqwlK6zyGuLPQdK3kBvA1qnQbcm4zEIXN+RLWer/XnSJ9heRqznQ3yyzNRs36oVS4+wgZmsJQ==
+ b=aD3Oxv8UfbAlG1BOWgA81kzCyFm7XiiGGQpFjPulZYIVRSEfDyGVVt8/BN9xmC60OquydzWJydMqIPttcj9ixnxw/CjauXV5zgtLzlp984yVpHP9ghyWXBKkKTY0J25SQ2i7+aO6rPQBggJwJoTBSH4srBh0qzvYWDgJLczTfTBBm2c/R+9peJTzFMyBCtKZNyIp6qSU24Q0+UiXxcjnx76PlTgA6jkblXITcF1Gin3Kadz+pqCyEfBTvvwAbwofPtsqrpAuUel2K87lvhCxjj7NUYruUOOpA3amq3A4qHCJAaRQXCgbzglhAPB70ZJmh+jugCCW1p5q+LGMnUcWCQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Esmk6tZcfAa+zrbGossSTNxjYHLGpWPJ4xNSymtopr4=;
- b=NuOy+CMOcaysccuRUNy4xbtlmW3bZ7HsSeHre7Vzar2nPmz+xR35ryTD3HI0UNUCtfzOA2TYv8T9pIQUDig8gXsKGCc3jplEvAzGotXjJoc3B2g2CEgyVH+SBcqi/u1PdBAY1e44VcNVUmSEmMbnGF4AUbQDlKsNYquKxW4Ar6v9hNVUwrqRu3W8txrJCKRsLlC2c+JPs6+DJRBj8C9njdLuSfloP1qgVKReC2XMiXzhO1knqhH4YxX/ixeHkIx6z8BNgEdpSvIKyEIEZ4nmylgngx65mr0U3o2Z+LbHFgNx6KwAAeNsLWrogCLvBR6h3IEtcVm+bXTRW1gR1f447Q==
+ bh=MmdHSi+ySR8LjuR8hm7vpoXhlfbY6LkJ1d7qu4879Do=;
+ b=bm0zhr6N5+GmTXWCamSXhxJd8yiF3eBa+K9gLKAp/87m1V3qCal3qrblbHDySoPBTUxyMVgPR+wqQFsTQXZ+w4lwnusoYrMV6oKR/p8WtdtkcFuwFZebioNUT3OFEfLheF1lNVxO8u+WD933B+69AWRSRaaSTxp0NS6ns8HqaDiSsj6WTTbzMDGhSBYMpg/wfBcHG8u4mryTQHCWfyKe02xKlFAhSW7kS0TdaPgQJHyTWydEz8Es3gtKPme1FWuJo34jglXbBKwRrlRp0AWiwJ/TUgEaEz8/2vqfxv/r8SJzHupdf4KSScKj+yWsDSEuKysvU2UACE0HvjSRewKF6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,92 +19,184 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Esmk6tZcfAa+zrbGossSTNxjYHLGpWPJ4xNSymtopr4=;
- b=HRMtYQ+tYAnV1Pr/jUvA7uOaQt9Pze30IsZYo1A80FxhvO4JPPKNFYXozPdTpM/VySncwUTEqvxWi9LBB/gMQWpbl7vh2LyOe13e1v2m4ZFqN7/GR5ZaLcFjKXGPaS58Uf6hmsbu66PjemPRl1fUH9jno52jSEOWYF2eKNfpX+0=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
+ bh=MmdHSi+ySR8LjuR8hm7vpoXhlfbY6LkJ1d7qu4879Do=;
+ b=fGGtLzHf0riBMFUtfyU3aOhR3C2Btmwl0EzxDTaALBFLFGqUK7tmaQPNw0M40Bu8ts+R6+/spjCTG4jxsSJHp+3lD393ZNFRYg9popRp3MbCkfts4FZOOhvpV3Qr+BL8X7A0I4kP0AAfmIyNFlFMr08Ui8XYwAVMdbSglFiGNnk=
+Authentication-Results: windriver.com; dkim=none (message not signed)
+ header.d=none;windriver.com; dmarc=none action=none
  header.from=windriver.com;
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
- by SA0PR11MB4749.namprd11.prod.outlook.com (2603:10b6:806:9a::23) with
+Received: from SN6PR11MB3294.namprd11.prod.outlook.com (2603:10b6:805:c4::33)
+ by SN6PR11MB2576.namprd11.prod.outlook.com (2603:10b6:805:5b::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Wed, 25 Nov
- 2020 02:07:05 +0000
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::2906:8fbf:ad33:c618]) by SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::2906:8fbf:ad33:c618%7]) with mapi id 15.20.3589.025; Wed, 25 Nov 2020
- 02:07:05 +0000
-From: "Changqing Li" <changqing.li@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Wed, 25 Nov
+ 2020 03:38:59 +0000
+Received: from SN6PR11MB3294.namprd11.prod.outlook.com
+ ([fe80::b4b5:fc79:127b:66f4]) by SN6PR11MB3294.namprd11.prod.outlook.com
+ ([fe80::b4b5:fc79:127b:66f4%6]) with mapi id 15.20.3589.025; Wed, 25 Nov 2020
+ 03:38:59 +0000
+Subject: Re: [OE-core] [PATCH] toolchain-scripts: set PS1
+From: "kai" <kai.kang@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH V2] buildtools-tarball: add wic dependency into extended buildtools
-Date: Wed, 25 Nov 2020 10:02:48 +0800
-Message-Id: <20201125020248.4114-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
+References: <16483E8531A55CE5.5807@lists.openembedded.org>
+Message-ID: <ea18b971-4275-6e20-9c6b-922d57cf316f@windriver.com>
+Date: Wed, 25 Nov 2020 11:37:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <16483E8531A55CE5.5807@lists.openembedded.org>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: YTXPR0101CA0036.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00::49) To SN6PR11MB2557.namprd11.prod.outlook.com
- (2603:10b6:805:56::33)
-Return-Path: changqing.li@windriver.com
+X-ClientProxiedBy: HK2PR04CA0051.apcprd04.prod.outlook.com
+ (2603:1096:202:14::19) To SN6PR11MB3294.namprd11.prod.outlook.com
+ (2603:10b6:805:c4::33)
+Return-Path: kai.kang@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by YTXPR0101CA0036.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20 via Frontend Transport; Wed, 25 Nov 2020 02:07:03 +0000
+Received: from [128.224.162.142] (60.247.85.82) by HK2PR04CA0051.apcprd04.prod.outlook.com (2603:1096:202:14::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20 via Frontend Transport; Wed, 25 Nov 2020 03:38:58 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 173c9496-7b6a-4585-c852-08d890e6ce0b
-X-MS-TrafficTypeDiagnostic: SA0PR11MB4749:
+X-MS-Office365-Filtering-Correlation-Id: c81a6eb3-b7c7-4e2f-368b-08d890f3a504
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2576:
+X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<SA0PR11MB4749E7DD63775B4C89533CD382FA0@SA0PR11MB4749.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+	<SN6PR11MB2576FBDA9B291677805593A095FA0@SN6PR11MB2576.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	JBrxdaoeFHnZpcrpL3tYhP4UiB5hWjHuOtFQ+6QOxNJd3e+O6BswZfYkbp6UDv4YJTXJ1uHsI2p5V1KO5UJC5pSQhp0lm5JVi27kbN+5n0UyjCD9CaU/cCwp6qDKOX/HBGCD0K2ZQLUmBvpWj2a8nvZQOEjvX5PyealtYml0vmFVjKCNpP3qPbw2xhHN/m+FILAh1meFoNvf9B6fKIvSaAVCFD8mKOGjhlURvQWTqdot84xKs13+RBa1qAJcY8xApbSSuMENKwOsuuR/pTirDjrDpNjIT+9Tmsog2qqBZm5GZ+s04nLyH7Vi4n4jsTAglcnW8N1Rn+OJKWBKR5W8Dg==
+	Xj/A5lPD/l/TIhnLRu8D4MK2boOzOmeC7Dnrdlu1L4yxupIhKxonJ8FdxkjjgJN0L8jt/BH8vbFSWXr5/jp7INLLEGJudeMsJT4//kqdBVqcNg/oIfVeWtqqrdnOZRXCs89Ig3BDlKPyM2cxbYUHyaiJXD6aWI6pK/rz+o0ZeVtHnMRGW+JeFpZF49O70uKOHm5QyQXrNmaau2v+9ahG9VEUcuOUT67iEk3Kivai71INIf0uRcpRkH6hdei5bdEG4IerMv8TpGZdEit+YTgWYMs06Ufels9RA76fLHVZJSX0lwHHPcLa9rAFEMpqf0ZyXaqUyt2dZbT1sjj4Ae1djgQBVEPknJBBlAjl3E2DdDpL6DDUfaaJw7TBCr+wFlbjMmUdXRCGQZpkRjCR6fxXSgndmENeQCYo5XOS99A1wMbaq4MdgGrhib8AMHKbwlOC2e6SNzgAfLt9idzEjh1ejOB6q8rtaPGmaIvn/q1nzUo=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(366004)(396003)(39830400003)(478600001)(8676002)(6506007)(86362001)(26005)(6916009)(1076003)(16526019)(6512007)(186003)(6666004)(316002)(66946007)(6486002)(5660300002)(44832011)(2616005)(52116002)(66476007)(66556008)(956004)(8936002)(36756003)(2906002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3294.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(366004)(346002)(39830400003)(136003)(5660300002)(2616005)(6486002)(53546011)(16526019)(66476007)(956004)(86362001)(6916009)(36756003)(66556008)(26005)(31686004)(186003)(83380400001)(166002)(66946007)(6706004)(16576012)(31696002)(8936002)(33964004)(2906002)(478600001)(966005)(52116002)(6666004)(316002)(8676002)(78286007)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	GDxLVUDdqCU9qdEjxje/tQbNeoUFFmVaDyHU5LorS1Wq4CpAzDJ+2BwwOtfz7pOnKiR9PIifEG/QvioaQV62loiI+YAR9MV/3C/1zHXntp+6yaXj397LUud0NRuucEfXWZhPPzULJ28SZjQsaBdYNak+VfbxOKlkCdufSTRHtb8Q4jasmT8dReyJ+CA8X65sS3BaSS1e1B26ASTt5MZ6bSVECy5jKiV1pRe5T2kD4HaD4gk0FVzE88OulbJWTgkX2wq5UvOjHRvmlHsSm3V/2j0xqJvtqm5U8aZ5666d056AQHEKKuq0EiceRFTjJXBL5bmUHzv6r3E6fiZl2UquKbQrEE9tHs4aOymDVulvEe5VETyISVBazx7ZRkYkRX8k8DDiXwM9H78MuMl/Mp66qUsBMWG1iZCgCHYDOuFLt8FQrGrYruOczsg+6VqqsSmXRyKIO+rpxEgOOAkF7r11M05PdO1oqZB6hlvDtiRY55lG/8CsYbJPcN4QZ/oINHcK69ga4gchoqdJlEQ/7/22QKgZmUqwvNChnceqpCKztXGEnPrWVgMKHS9T40aE7QLhMG5CX2AxcJ5lhEG0byH6BUkp169wN1S+N/Qq/nWtQneVVFgGdnIQcCjdy935VpRf4PxpaBGzI9gpkzLQevEtjMVAF28LvWWCQeU7T5zrV3JRJybadd8+qimc/BerIlTfp51U9Civ3BqTPYvyhZSJQDk3r6ZWMndYy1xzG1e8FaBi0OdNXbNtbQrYL7+urxcu8RQNq4bJcYmwR45jqbcctYcJW/7OHEu9MJBH0m4G024PSGaBrOYl6HsZyxn1wJr/uFKCAZqwv7N+enDz533kg0hROKBlcz84T8dRoNXzD3K1crQmGzh+hDNRNaUO3u2XUYc3c0yTS8Baj4HY34G5pQ==
+	qMiwgOERztyHEwvTrQzvoEuEGQ4uoAe8JpQDSmW+bXDzlj2MR3u1bxS1R5NA+OcH6dTWi2QKhACwCKuJK8kSH7CiNOf7Uq1duNAji/EX50To9cRjErqPDG29XQPkR7IKwmkyuVZeM4ltYcj2nxmpFTudU08aGw8KAih180xZpDeDgqTK7JaBF9qihNgCDOxpUAYaZ11aBkPypAFNZvikFWIiKCX+oechL6fwisN8xWYKc2XgfgDe9zdH8T2RbN13QuYNamX0drs7YjFfg8vACHCFslgjUh6yQzHfkq8XB5TmJspve1vWtw/R7ByvBw4tro22PG+w0StxgYDF1m6e+t5la7b31/w8ISAHRXfvDKTdAcysTBFrVbjQi+pwlr3N2hyqAyvqWNESadCcJpRPKQYUa1QebccA0+bXf+yTZPuQZIXxm9GtJ+yWlk0V2kXpnB9/jkbgE9UBqx7ThGwVs/G1uX90INushJ894VsyMldQFbzVv+K/boVrbNOA+phA1vNd1NWbaWwC3AoIch5saGnS++gpjcq8o5Y95J9FFisRO2ZcJTMOGemnP0KYpzdbSggrG0NC3RV8qTczE99C05Q5ndHRl8qFqZXzYyW3pyR75GAKRizs9huz58chsApmcabvWzpB4RieL7InlhOgzNE7SX+JAI/qZFmPZw/IQo549Qa2H8EB7tF6s/oNfm2SijDYWOxjksUEuuIlLbDv0XdL5R3mQLGSLhzZ+49oIMPIfSh0N9dv23ti3Nsaq4cgDanLhPyUHu/LMqgfXtNsgGv/UD99s17dEvFjlZqIp/kjLQ2gtLLwoYzcyoqbWEQAAw9a/6lLYU1fJd6eAYMjBTST4c7CXNoSbunaKSw2TDmGQZ3jHNWm7iaMl0JLnSpH3tPVzxJahz6a6DNNR6Xaew==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 173c9496-7b6a-4585-c852-08d890e6ce0b
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c81a6eb3-b7c7-4e2f-368b-08d890f3a504
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3294.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2020 02:07:05.2128
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2020 03:38:59.5812
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6D6V7hGF6PtGFyfBxWNhDb5vz3K5U9BigoAUyArWXppsWS/o923jCIayd9L3BKDjk487MELD1rlS6KqyOBLToz5eix9jhQQiqkGPif2YVsE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4749
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: KeZRbsit6FhNmPYkzZwkuG6nGZCpmPzbheyFH0uWZ+FhLvZexXUUO7gYI8uOSp9JGDVchaFtA8buIW6wLE1D7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2576
+Content-Type: multipart/alternative;
+ boundary="------------52AE472F4764D661837D6AD6"
+Content-Language: en-US
 
-fix below error:
-wic ls ./core-image-minimal-intel-x86-64.wic
+--------------52AE472F4764D661837D6AD6
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ERROR: Can't find executable parted
+On 11/17/20 4:33 PM, kai wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Introduce a variable SDK_PS1 to configure PS1 after source
+> environment-setup-script. The prompt string by default looks like:
+>
+> SDK-poky-glibc-x86_64--cortexa57-qemuarm64$
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/classes/toolchain-scripts.bbclass | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+> index db1d3215ef..274dfcf7e2 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -8,6 +8,9 @@ TARGET_CC_ARCH_append_libc-musl = " -mmusl"
+>   # default debug prefix map isn't valid in the SDK
+>   DEBUG_PREFIX_MAP = ""
+>   
+> +# PS1 setting after source the environment-setup-script
+> +SDK_PS1 ?= "SDK-${SDK_NAME}$ "
 
-wic depend on some tools like parted/mtools/..., and we have those
-tools in native_sysroot. so above problem can be avoided by
-run command like wic ls imagename.wic --native-sysroot <path>
+Any comment on the default format of SDK_PS1 or the whole patch, please?
 
-but this cannot cover condition that usr don't have build the
-image, the image just copy from somewhere.
+Thanks,
+Kai
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+
+> +
+>   # This function creates an environment-setup-script for use in a deployable SDK
+>   toolchain_create_sdk_env_script () {
+>   	# Create environment setup script.  Remember that $SDKTARGETSYSROOT should
+> @@ -45,6 +48,7 @@ toolchain_create_sdk_env_script () {
+>   		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
+>   	done
+>   	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
+> +	echo 'export PS1="${SDK_PS1}"' >>$script
+>   	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
+>   	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
+>   	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
+>
+> 
+>
+
+
+--------------52AE472F4764D661837D6AD6
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 11/17/20 4:33 PM, kai wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:16483E8531A55CE5.5807@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+
+Introduce a variable SDK_PS1 to configure PS1 after source
+environment-setup-script. The prompt string by default looks like:
+
+SDK-poky-glibc-x86_64--cortexa57-qemuarm64$
+
+Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
 ---
- meta/recipes-core/meta/buildtools-extended-tarball.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/toolchain-scripts.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-index c32d0107c3..0816486754 100644
---- a/meta/recipes-core/meta/buildtools-extended-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-@@ -29,6 +29,9 @@ TOOLCHAIN_HOST_TASK += "\
-     nativesdk-pkgconfig \
-     nativesdk-glibc-utils \
-     nativesdk-libxcrypt-dev \
-+    nativesdk-parted \
-+    nativesdk-dosfstools \
-+    nativesdk-gptfdisk \
-     "
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index db1d3215ef..274dfcf7e2 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -8,6 +8,9 @@ TARGET_CC_ARCH_append_libc-musl = &quot; -mmusl&quot;
+ # default debug prefix map isn't valid in the SDK
+ DEBUG_PREFIX_MAP = &quot;&quot;
  
- TOOLCHAIN_OUTPUTNAME = "${SDK_ARCH}-buildtools-extended-nativesdk-standalone-${DISTRO_VERSION}"
--- 
-2.17.1
++# PS1 setting after source the environment-setup-script
++SDK_PS1 ?= &quot;SDK-${SDK_NAME}$ &quot;</pre>
+    </blockquote>
+    <p>Any comment on the default format of SDK_PS1 or the whole patch,
+      please?</p>
+    <p>Thanks,<br>
+      Kai<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite" cite="mid:16483E8531A55CE5.5807@lists.openembedded.org">
+      <pre class="moz-quote-pre" wrap="">
++
+ # This function creates an environment-setup-script for use in a deployable SDK
+ toolchain_create_sdk_env_script () {
+ 	# Create environment setup script.  Remember that $SDKTARGETSYSROOT should
+@@ -45,6 +48,7 @@ toolchain_create_sdk_env_script () {
+ 		EXTRAPATH=&quot;$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i&quot;
+ 	done
+ 	echo &quot;export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}&quot;$EXTRAPATH':$PATH' &gt;&gt; $script
++	echo 'export PS1=&quot;${SDK_PS1}&quot;' &gt;&gt;$script
+ 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' &gt;&gt; $script
+ 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'&quot;$libdir&quot;'/pkgconfig:$SDKTARGETSYSROOT'&quot;$prefix&quot;'/share/pkgconfig' &gt;&gt; $script
+ 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'&quot;${multimach_target_sys}&quot; &gt;&gt; $script
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
 
+
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------52AE472F4764D661837D6AD6--
