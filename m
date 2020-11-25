@@ -1,17 +1,17 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.48])
- by mx.groups.io with SMTP id smtpd.web08.2106.1606275542019950135
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.42])
+ by mx.groups.io with SMTP id smtpd.web09.3238.1606285253354225001
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2020 19:39:02 -0800
+ Tue, 24 Nov 2020 22:20:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=fGGtLzHf;
- spf=pass (domain: windriver.com, ip: 40.107.92.48, mailfrom: kai.kang@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=IaRki9WX;
+ spf=pass (domain: windriver.com, ip: 40.107.220.42, mailfrom: jiping.ma2@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aD3Oxv8UfbAlG1BOWgA81kzCyFm7XiiGGQpFjPulZYIVRSEfDyGVVt8/BN9xmC60OquydzWJydMqIPttcj9ixnxw/CjauXV5zgtLzlp984yVpHP9ghyWXBKkKTY0J25SQ2i7+aO6rPQBggJwJoTBSH4srBh0qzvYWDgJLczTfTBBm2c/R+9peJTzFMyBCtKZNyIp6qSU24Q0+UiXxcjnx76PlTgA6jkblXITcF1Gin3Kadz+pqCyEfBTvvwAbwofPtsqrpAuUel2K87lvhCxjj7NUYruUOOpA3amq3A4qHCJAaRQXCgbzglhAPB70ZJmh+jugCCW1p5q+LGMnUcWCQ==
+ b=AQJOxktdgYoWTwuUFgJNWce+GZLSqEFt069wipxo0d0pIEZv36WhoW9qgfeA44IoZ96eOt0yt5ffUYDe6lbVTFv+6L1lQvh31a7jJ3qzphPKYeCEBeQ3D7h9v58MXYv4l8e0gAh+z1JbxLJq0t6A4X8KApLOGV+BaHnYEkiY2TmFMlCty8aq5u24GYy02Ao6+BYxlBEr1lRxe1OVCbGVpk4f8EsKKXU9ZeF0/iibqhtZT8SLm96R979UHxTZ0KO0OFW25R4/lg6MOs845DNDsa9hzHv3jPzLEP1bTsWCM212DtZ7Hc6AJWYwM7Q98llVSylW0Gx1Yl0GMPtA8ULrYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MmdHSi+ySR8LjuR8hm7vpoXhlfbY6LkJ1d7qu4879Do=;
- b=bm0zhr6N5+GmTXWCamSXhxJd8yiF3eBa+K9gLKAp/87m1V3qCal3qrblbHDySoPBTUxyMVgPR+wqQFsTQXZ+w4lwnusoYrMV6oKR/p8WtdtkcFuwFZebioNUT3OFEfLheF1lNVxO8u+WD933B+69AWRSRaaSTxp0NS6ns8HqaDiSsj6WTTbzMDGhSBYMpg/wfBcHG8u4mryTQHCWfyKe02xKlFAhSW7kS0TdaPgQJHyTWydEz8Es3gtKPme1FWuJo34jglXbBKwRrlRp0AWiwJ/TUgEaEz8/2vqfxv/r8SJzHupdf4KSScKj+yWsDSEuKysvU2UACE0HvjSRewKF6w==
+ bh=afsRRblJ84bDvTGnAu6eKalxY0G5cExpXESyCNVUo/0=;
+ b=WOifUUhe+O3sX4NHwUdak624IqMWgVsYSXtwOyo5PKfCbS6vIKsv1S3bUSvwouRDp7G59IlmmpmYBWxbTaN9pvOh8bKiLKjcd9z9b04DA24Gn6wNWcdjt6iq2fgO6LDK0lx0S/tbv7v+g3C/IR9oAl+DgXbx1XUM3C/YlK0BFLNnCT67PHjTP+R0lZjrzxE9jbW1696tEOtR09chEK02h6T+0qbL61y7K6hISMnDFYqpHy0a6OzTSnV6DEW385+2nEqbJgEecfXQHJ8O/l3SSh3fTNFEBkyGc/VRketyMiZTtboE5B08tBIfuErCctO5UyWnuLNYnhDnr8ntR2O2Sg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,184 +19,106 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MmdHSi+ySR8LjuR8hm7vpoXhlfbY6LkJ1d7qu4879Do=;
- b=fGGtLzHf0riBMFUtfyU3aOhR3C2Btmwl0EzxDTaALBFLFGqUK7tmaQPNw0M40Bu8ts+R6+/spjCTG4jxsSJHp+3lD393ZNFRYg9popRp3MbCkfts4FZOOhvpV3Qr+BL8X7A0I4kP0AAfmIyNFlFMr08Ui8XYwAVMdbSglFiGNnk=
-Authentication-Results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none
+ bh=afsRRblJ84bDvTGnAu6eKalxY0G5cExpXESyCNVUo/0=;
+ b=IaRki9WXBbYrox/CPVWWvqZgK8f7wZJ0Ip+OvYN6vXXZGqhh/UwnlFHzpKQPWyXULF+ZF7JZc305dD5oy2uTTzcsdYW6Bmvi1SNnPbWVWon+24xJblOWzTHsGJd8QEBQaXYscEBLB+hABhL5cmUDejkWWK0eLe+HVbPrC483V4Y=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
-Received: from SN6PR11MB3294.namprd11.prod.outlook.com (2603:10b6:805:c4::33)
- by SN6PR11MB2576.namprd11.prod.outlook.com (2603:10b6:805:5b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Wed, 25 Nov
- 2020 03:38:59 +0000
-Received: from SN6PR11MB3294.namprd11.prod.outlook.com
- ([fe80::b4b5:fc79:127b:66f4]) by SN6PR11MB3294.namprd11.prod.outlook.com
- ([fe80::b4b5:fc79:127b:66f4%6]) with mapi id 15.20.3589.025; Wed, 25 Nov 2020
- 03:38:59 +0000
-Subject: Re: [OE-core] [PATCH] toolchain-scripts: set PS1
-From: "kai" <kai.kang@windriver.com>
-To: openembedded-core@lists.openembedded.org
-References: <16483E8531A55CE5.5807@lists.openembedded.org>
-Message-ID: <ea18b971-4275-6e20-9c6b-922d57cf316f@windriver.com>
-Date: Wed, 25 Nov 2020 11:37:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <16483E8531A55CE5.5807@lists.openembedded.org>
+Received: from DM6PR11MB2747.namprd11.prod.outlook.com (2603:10b6:5:c6::22) by
+ DM6PR11MB2585.namprd11.prod.outlook.com (2603:10b6:5:ce::22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3589.22; Wed, 25 Nov 2020 06:20:52 +0000
+Received: from DM6PR11MB2747.namprd11.prod.outlook.com
+ ([fe80::dd9a:8caa:5d02:f349]) by DM6PR11MB2747.namprd11.prod.outlook.com
+ ([fe80::dd9a:8caa:5d02:f349%7]) with mapi id 15.20.3589.025; Wed, 25 Nov 2020
+ 06:20:52 +0000
+From: "Jiping Ma" <jiping.ma2@windriver.com>
+To: openembedded-core@lists.openembedded.org,
+	jiping.ma2@windriver.com
+Subject: [oe][master][PATCH] packagegroup-cross-canadian: repackage when multilibs gcc gdb binutils changes
+Date: Wed, 25 Nov 2020 14:19:57 +0800
+Message-Id: <1606285197-79282-1-git-send-email-jiping.ma2@windriver.com>
+X-Mailer: git-send-email 1.9.1
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR04CA0051.apcprd04.prod.outlook.com
- (2603:1096:202:14::19) To SN6PR11MB3294.namprd11.prod.outlook.com
- (2603:10b6:805:c4::33)
-Return-Path: kai.kang@windriver.com
+X-ClientProxiedBy: YT1PR01CA0126.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:2c::35) To DM6PR11MB2747.namprd11.prod.outlook.com
+ (2603:10b6:5:c6::22)
+Return-Path: jiping.ma2@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.142] (60.247.85.82) by HK2PR04CA0051.apcprd04.prod.outlook.com (2603:1096:202:14::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20 via Frontend Transport; Wed, 25 Nov 2020 03:38:58 +0000
+Received: from pek-lpggp2.wrs.com (60.247.85.82) by YT1PR01CA0126.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::35) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3611.20 via Frontend Transport; Wed, 25 Nov 2020 06:20:50 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c81a6eb3-b7c7-4e2f-368b-08d890f3a504
-X-MS-TrafficTypeDiagnostic: SN6PR11MB2576:
+X-MS-Office365-Filtering-Correlation-Id: 038c0a65-e80b-4153-6b17-08d8910a41e7
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2585:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB2576FBDA9B291677805593A095FA0@SN6PR11MB2576.namprd11.prod.outlook.com>
+	<DM6PR11MB25854B3B56A833B189B02E8ED8FA0@DM6PR11MB2585.namprd11.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Xj/A5lPD/l/TIhnLRu8D4MK2boOzOmeC7Dnrdlu1L4yxupIhKxonJ8FdxkjjgJN0L8jt/BH8vbFSWXr5/jp7INLLEGJudeMsJT4//kqdBVqcNg/oIfVeWtqqrdnOZRXCs89Ig3BDlKPyM2cxbYUHyaiJXD6aWI6pK/rz+o0ZeVtHnMRGW+JeFpZF49O70uKOHm5QyQXrNmaau2v+9ahG9VEUcuOUT67iEk3Kivai71INIf0uRcpRkH6hdei5bdEG4IerMv8TpGZdEit+YTgWYMs06Ufels9RA76fLHVZJSX0lwHHPcLa9rAFEMpqf0ZyXaqUyt2dZbT1sjj4Ae1djgQBVEPknJBBlAjl3E2DdDpL6DDUfaaJw7TBCr+wFlbjMmUdXRCGQZpkRjCR6fxXSgndmENeQCYo5XOS99A1wMbaq4MdgGrhib8AMHKbwlOC2e6SNzgAfLt9idzEjh1ejOB6q8rtaPGmaIvn/q1nzUo=
+	lZOwpL/R64V8W7Jm1LjAHACnOJZaxYlz7leS3f9c+v4BSVtz5KWNYLNdQ+YzYrlQeWdtFal9eszLijxWHqRXpeCiNs+J5noxLLV89l/1ND+f0vbDdSX4PhGAEGQ/W0xS71c5+83WW/QP04BfvCrNmr7vIHkIvnBOn2dREcTG9Mbe3E5fA5Ldv0vJUANjlcK5q9EefSiUCjkpJUCS4InJa4YdUIeRfeca/btGLzK8VNQREr2fiOdnJ6RFnJMymOqYbVOKCdOWF47Rarwa21A9cLF0uPU+m15xX9KEAQaNrYB03RI7+zoxZ88PLEPAkVbp
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB3294.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(366004)(346002)(39830400003)(136003)(5660300002)(2616005)(6486002)(53546011)(16526019)(66476007)(956004)(86362001)(6916009)(36756003)(66556008)(26005)(31686004)(186003)(83380400001)(166002)(66946007)(6706004)(16576012)(31696002)(8936002)(33964004)(2906002)(478600001)(966005)(52116002)(6666004)(316002)(8676002)(78286007)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2747.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(376002)(366004)(346002)(136003)(396003)(6486002)(956004)(5660300002)(86362001)(66946007)(6512007)(66556008)(2616005)(316002)(66476007)(52116002)(36756003)(16526019)(186003)(2906002)(6506007)(83380400001)(26005)(478600001)(8936002)(8676002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	qMiwgOERztyHEwvTrQzvoEuEGQ4uoAe8JpQDSmW+bXDzlj2MR3u1bxS1R5NA+OcH6dTWi2QKhACwCKuJK8kSH7CiNOf7Uq1duNAji/EX50To9cRjErqPDG29XQPkR7IKwmkyuVZeM4ltYcj2nxmpFTudU08aGw8KAih180xZpDeDgqTK7JaBF9qihNgCDOxpUAYaZ11aBkPypAFNZvikFWIiKCX+oechL6fwisN8xWYKc2XgfgDe9zdH8T2RbN13QuYNamX0drs7YjFfg8vACHCFslgjUh6yQzHfkq8XB5TmJspve1vWtw/R7ByvBw4tro22PG+w0StxgYDF1m6e+t5la7b31/w8ISAHRXfvDKTdAcysTBFrVbjQi+pwlr3N2hyqAyvqWNESadCcJpRPKQYUa1QebccA0+bXf+yTZPuQZIXxm9GtJ+yWlk0V2kXpnB9/jkbgE9UBqx7ThGwVs/G1uX90INushJ894VsyMldQFbzVv+K/boVrbNOA+phA1vNd1NWbaWwC3AoIch5saGnS++gpjcq8o5Y95J9FFisRO2ZcJTMOGemnP0KYpzdbSggrG0NC3RV8qTczE99C05Q5ndHRl8qFqZXzYyW3pyR75GAKRizs9huz58chsApmcabvWzpB4RieL7InlhOgzNE7SX+JAI/qZFmPZw/IQo549Qa2H8EB7tF6s/oNfm2SijDYWOxjksUEuuIlLbDv0XdL5R3mQLGSLhzZ+49oIMPIfSh0N9dv23ti3Nsaq4cgDanLhPyUHu/LMqgfXtNsgGv/UD99s17dEvFjlZqIp/kjLQ2gtLLwoYzcyoqbWEQAAw9a/6lLYU1fJd6eAYMjBTST4c7CXNoSbunaKSw2TDmGQZ3jHNWm7iaMl0JLnSpH3tPVzxJahz6a6DNNR6Xaew==
+	=?us-ascii?Q?g0AgP/8fywZNR/9qUll6pz9qBO4lpyWtflv4iGhwoBdIxw2boynl6tBVnMgy?=
+ =?us-ascii?Q?lQS6cZJ/vEYQycejqR+FEddSkVWHICbzS90MoiFTpqxCgpra34EUXfEXx/aP?=
+ =?us-ascii?Q?o0EzHvo6ttCYG86lCbKWkahSf+DADUH48ngbjCMnm4Z2/CtDzoNkS6PCj4MH?=
+ =?us-ascii?Q?D9w7rVDS9YDIi2MgBF/Gjy+3L9MY3V0g0SeXrx0CUwdVEE/SPLYGOrewp3nq?=
+ =?us-ascii?Q?UT67i9jaOOous5RRfcLahfoYOUqzE22If1/7GluI08cOdtg9WGZEws7M4tJu?=
+ =?us-ascii?Q?7sddoyfVikkKfU+ToDpvf31csmYLYbaAWrc/du+ZzRp/Us63USR7tvehHCRN?=
+ =?us-ascii?Q?/+pxooNZ+4bNNl4uSGudIHqcD7U/fayIUrjuYwE260IGoj/9V61J+9e91zTN?=
+ =?us-ascii?Q?VPjKwxI2Zj4LToMrQmXnUbcr38fonKaVSKlVEKAdbx4ZrCR1V5OeHVR57nnZ?=
+ =?us-ascii?Q?HhAbLNR52wfT7t3cArx59op4nRzwQSgpEBLu0QLTpOC0T/ButckEbTpgnSbG?=
+ =?us-ascii?Q?vOirTvNXJnVer27eVx1o7M+EeHCPXISxX31LCIz+JDTBpMkIRnLwl0V7+1Mg?=
+ =?us-ascii?Q?Vauh3JrSu26BdHFzt/Uu1Pq2/Lx1c6eMwOfFaHF5LQreOfsqcJG4TULrFfPv?=
+ =?us-ascii?Q?sYVqQ6eigjYqd6bLtDSy5Ed4HFLQVVj8cguXDOldoxauTMxpO3VQXg6rDfkr?=
+ =?us-ascii?Q?CaZS/4Wt9whLsVdCdCivJLGFxHdj3CLAL6N7YqGCS39UcMi4myN/VWcOa3tt?=
+ =?us-ascii?Q?7b88gZhkhJ8/VIddw72dhVt6q/sSDBHQiQEBxq53jkXps2xArkG6iUBIbdXY?=
+ =?us-ascii?Q?yLguxogoQfwfiZFLUj34U7Ic/6Kv54Z67ACP08a5Mdu/b0X9fjJdZyvNrjrs?=
+ =?us-ascii?Q?IvXW7/RN7QXrZDMqFjgbVvws5RPTISbOk7ZiCGPzGbx4nVJbWbnHoaGuaiXI?=
+ =?us-ascii?Q?vckUw9H4mKZWiPOLhWzF1InMPBnXL58C4KuRhA9Bozk=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c81a6eb3-b7c7-4e2f-368b-08d890f3a504
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB3294.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 038c0a65-e80b-4153-6b17-08d8910a41e7
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2747.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2020 03:38:59.5812
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Nov 2020 06:20:51.8908
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KeZRbsit6FhNmPYkzZwkuG6nGZCpmPzbheyFH0uWZ+FhLvZexXUUO7gYI8uOSp9JGDVchaFtA8buIW6wLE1D7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2576
-Content-Type: multipart/alternative;
- boundary="------------52AE472F4764D661837D6AD6"
-Content-Language: en-US
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9w6TMN4AkU+0eaj5JuEyHYWvNxmB0XhJlBTliIJNzWN+TAD4x6cxeYvb93eDrx5QPubMOA7yn7r90HIzs3wMR73SYLjOwid5oXEOdgRDKM4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2585
+Content-Type: text/plain
 
---------------52AE472F4764D661837D6AD6
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 11/17/20 4:33 PM, kai wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> Introduce a variable SDK_PS1 to configure PS1 after source
-> environment-setup-script. The prompt string by default looks like:
->
-> SDK-poky-glibc-x86_64--cortexa57-qemuarm64$
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->   meta/classes/toolchain-scripts.bbclass | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-> index db1d3215ef..274dfcf7e2 100644
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -8,6 +8,9 @@ TARGET_CC_ARCH_append_libc-musl = " -mmusl"
->   # default debug prefix map isn't valid in the SDK
->   DEBUG_PREFIX_MAP = ""
->   
-> +# PS1 setting after source the environment-setup-script
-> +SDK_PS1 ?= "SDK-${SDK_NAME}$ "
-
-Any comment on the default format of SDK_PS1 or the whole patch, please?
-
-Thanks,
-Kai
-
-
-> +
->   # This function creates an environment-setup-script for use in a deployable SDK
->   toolchain_create_sdk_env_script () {
->   	# Create environment setup script.  Remember that $SDKTARGETSYSROOT should
-> @@ -45,6 +48,7 @@ toolchain_create_sdk_env_script () {
->   		EXTRAPATH="$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i"
->   	done
->   	echo "export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}"$EXTRAPATH':$PATH' >> $script
-> +	echo 'export PS1="${SDK_PS1}"' >>$script
->   	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' >> $script
->   	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'"$libdir"'/pkgconfig:$SDKTARGETSYSROOT'"$prefix"'/share/pkgconfig' >> $script
->   	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'"${multimach_target_sys}" >> $script
->
-> 
->
-
-
---------------52AE472F4764D661837D6AD6
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 11/17/20 4:33 PM, kai wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:16483E8531A55CE5.5807@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
-
-Introduce a variable SDK_PS1 to configure PS1 after source
-environment-setup-script. The prompt string by default looks like:
-
-SDK-poky-glibc-x86_64--cortexa57-qemuarm64$
-
-Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+Signed-off-by: Jiping Ma <jiping.ma2@windriver.com>
 ---
- meta/classes/toolchain-scripts.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../packagegroups/packagegroup-cross-canadian.bb  | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index db1d3215ef..274dfcf7e2 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -8,6 +8,9 @@ TARGET_CC_ARCH_append_libc-musl = &quot; -mmusl&quot;
- # default debug prefix map isn't valid in the SDK
- DEBUG_PREFIX_MAP = &quot;&quot;
+diff --git a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+index 3b430c0814..b6b3e5235f 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+@@ -17,8 +17,13 @@ RDEPENDS_${PN} = "\
+     meta-environment-${MACHINE} \
+     "
  
-+# PS1 setting after source the environment-setup-script
-+SDK_PS1 ?= &quot;SDK-${SDK_NAME}$ &quot;</pre>
-    </blockquote>
-    <p>Any comment on the default format of SDK_PS1 or the whole patch,
-      please?</p>
-    <p>Thanks,<br>
-      Kai<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite" cite="mid:16483E8531A55CE5.5807@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">
-+
- # This function creates an environment-setup-script for use in a deployable SDK
- toolchain_create_sdk_env_script () {
- 	# Create environment setup script.  Remember that $SDKTARGETSYSROOT should
-@@ -45,6 +48,7 @@ toolchain_create_sdk_env_script () {
- 		EXTRAPATH=&quot;$EXTRAPATH:$sdkpathnative$bindir/${TARGET_ARCH}${TARGET_VENDOR}-$i&quot;
- 	done
- 	echo &quot;export PATH=$sdkpathnative$bindir:$sdkpathnative$sbindir:$sdkpathnative$base_bindir:$sdkpathnative$base_sbindir:$sdkpathnative$bindir/../${HOST_SYS}/bin:$sdkpathnative$bindir/${TARGET_SYS}&quot;$EXTRAPATH':$PATH' &gt;&gt; $script
-+	echo 'export PS1=&quot;${SDK_PS1}&quot;' &gt;&gt;$script
- 	echo 'export PKG_CONFIG_SYSROOT_DIR=$SDKTARGETSYSROOT' &gt;&gt; $script
- 	echo 'export PKG_CONFIG_PATH=$SDKTARGETSYSROOT'&quot;$libdir&quot;'/pkgconfig:$SDKTARGETSYSROOT'&quot;$prefix&quot;'/share/pkgconfig' &gt;&gt; $script
- 	echo 'export CONFIG_SITE=${SDKPATH}/site-config-'&quot;${multimach_target_sys}&quot; &gt;&gt; $script
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
+-# When TUNE_ARCH changes but MACHINE does not (for example when a machine definition is updated), 
+-# cross-canadian.bbclass prevents variable dependency propagation to TRANSLATED_TARGET_ARCH
+-# This will result in erroneous reuse of previous sstate packages. The following line
+-# establishes a direct dependency instead.
+-do_package[vardeps] += "TUNE_ARCH"
++# When TUNE_ARCH, GCC, GDB, BINUTILS changes but MACHINE does not (for example when a machine 
++# definition is updated), cross-canadian.bbclass prevents variable dependency propagation to 
++# TRANSLATED_TARGET_ARCH This will result in erroneous reuse of previous sstate packages. The
++# following line establishes a direct dependency instead.
++do_package[vardeps] += "\
++    ${@all_multilib_tune_values(d, 'BINUTILS')} \
++    ${@all_multilib_tune_values(d, 'GDB')} \
++    ${@all_multilib_tune_values(d, 'GCC')} \
++    TUNE_ARCH \
++    "
+-- 
+2.23.0
 
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------52AE472F4764D661837D6AD6--
