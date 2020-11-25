@@ -1,35 +1,35 @@
-Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.6636.1606311051097155170
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web08.6626.1606311055863217712
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2020 05:30:55 -0800
+ Wed, 25 Nov 2020 05:30:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=onyOYgMI;
- spf=fail (domain: axis.com, ip: <nil>, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=DJ9mGAX0;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=axis.com; l=3646; q=dns/txt; s=axis-central1;
-  t=1606311055; x=1637847055;
+  d=axis.com; l=3597; q=dns/txt; s=axis-central1;
+  t=1606311056; x=1637847056;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=Rp+y+ThYrc9ZQR7ePeJ8/DegjPhy4B8JzMDMOGgOX0c=;
-  b=onyOYgMIvNaQScYJFMjIl2TTiarWC68B7p2AD511Z5kWZetIng6lBSyk
-   58ODpYLosHuN2v161VkWu4bncL4wHENT7cLuq1zuDix8f1EgnjPLaOYzv
-   AHAVhkPEyTb4NMlUqbEn7JHds10+ORxbH8kSUgPQwbOJ/Wv8RG2j2mMWk
-   sxbrlz7zcye/JsmgYPho31r2PJJzhtLu1fFHkuc2B2B0aV2zp0x8Olmq8
-   GWQoTFFRWmA+upaEjOYAIWx48V2vUqPdoxIkK4K7XP8dOwD1vaNMgibgr
-   rjGRfly7TzxK+kp33MePqkxrFWzDv46Eab+eiGjIN+NfE8chEYV3sH6vf
-   w==;
-IronPort-SDR: IYOII+2p+xY9BSLJlzM4/+mhM13mrShFk6CUeRc8ybIs0md5uqyk3tJdOYi9buZUW4XePtSiZr
- Ocsf1aYU6CgW2KU6FnHGvpirw55pQspMX1iRAOMmydfStpHrFB6wlPLjy/rLSdV8m/STk/PoBg
- t0ll16pa7N9s24ynRPD4aYvyBoPwaU8eYSDG5eKESaE0PbZpltbofS716Beu6dnaI6eRm46xeC
- L1oqiv0DxwaCUedMLxqZKjQveqCEwHLmdkPyfRAq3HQJCpEQwcql/m7Y5Y9LAc/roxdXA8uBLR
- PDU=
+  bh=eJ9ti1NBmfLse6XbkdItACFh7UDH9A6raClqlL7t7kA=;
+  b=DJ9mGAX0FqkjODW0vaUqrTIKBzkGSL/VzikvVNJpD2N6eNH70qrnXgxx
+   4jJqW9DEGzjVfItRKb7Jtt1hZzsOd92gy759XxIdQB7ivMDi58RN1hBew
+   rTpB2Grv7ZeFirCLnNeGcnazlo8KYQ+XdW67x91doODpimaakweHtUDM7
+   fKlz89eUO1wrCO0qd+5KdWm54cSGs3ZWVZ/T3dA6VOjh0l5j4ww43K9zQ
+   vG78ljAPMIsps4ymJg0JhNVXG5TQnhPjRs8ll/bqBT4ISPiMSpU+bSI2o
+   qVF8fYSVtg4Scc1TCEChkobSwcrXABLcvEcwExpo+n47qGyaGp67FJfpL
+   Q==;
+IronPort-SDR: 5OksQEwxxuxxJfhWM3yT+SLypL4FFBbHiGIDlkhh8mr4emVn1m9x2AhCd74/Ax92is5DIC96l8
+ RQQHChA1Ac4uUqim+BpVV6FvWtQTH3qHVcUrWZXhBft0rnUdGfsLqNEXvksSZHVukrteVy2ECf
+ 9ZEbpZTZ5V6TEe+j6Z3khouQhmVRoTeUKY0zKrF8/7uIq02tKlyNXHIOftnN2WrKLwcrvSV1iB
+ bWrCt3EP7vrxLLIqaoTNRlOxB+c00YCSjJ0wwFtbZ1H6A9FvzO5YOB61zFDzfbsp+En/qTsJgb
+ 3zI=
 X-IronPort-AV: E=Sophos;i="5.78,368,1599516000"; 
-   d="scan'208";a="15421898"
+   d="scan'208";a="15421899"
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 3/4] bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
-Date: Wed, 25 Nov 2020 14:30:39 +0100
-Message-ID: <6a67c9795e44b0c91de8abb855e67bc5c1d251d1.1606310940.git.pkj@axis.com>
+Subject: [PATCH 2/4] bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS
+Date: Wed, 25 Nov 2020 14:30:38 +0100
+Message-ID: <9d90bc03e13030cfa8c46aafcd6d3c4c1cc6ba25.1606310940.git.pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <cover.1606310940.git.pkj@axis.com>
 References: <cover.1606310940.git.pkj@axis.com>
@@ -38,47 +38,68 @@ Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Introduce PSEUDO_IGNORE_REAL_PATHS and make it contain the canonicalized
-paths from PSEUDO_IGNORE_PATHS, obtained by passing the latter to
-oe.path.to_real_paths(). This is needed since pseudo's
-pseudo_client_ignore_path_chroot() will compare the ignored paths to
-paths that have been canonicalized.
+Instead of ignoring ${COREBASE}/meta in PSEUDO_IGNORE_PATHS (which may
+or may not ignore all layers depending on how they are named and placed
+under ${COREBASE}), ignore all layers.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/conf/bitbake.conf | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/conf/bitbake.conf                      | 2 +-
+ meta/conf/machine/include/tune-thunderx.inc | 2 +-
+ scripts/contrib/bb-perf/bb-matrix-plot.sh   | 8 +++++---
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 9742fe4fe2..4862095a1b 100644
+index 0d38eac094..9742fe4fe2 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -685,15 +685,16 @@ SRC_URI = ""
+@@ -685,7 +685,7 @@ SRC_URI = ""
  PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
  PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
  PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
-+PSEUDO_IGNORE_REAL_PATHS = "${@','.join(os.path.realpath(path) for path in (d.getVar('PSEUDO_IGNORE_PATHS') or '').split(','))}"
- PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${@','.join(d.getVar('BBLAYERS').split())},${CCACHE_DIR}"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE_DIR}"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${@','.join(d.getVar('BBLAYERS').split())},${CCACHE_DIR}"
  
  export PSEUDO_DISABLED = "1"
  #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
- #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
- #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
--FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1"
-+FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=1"
- FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
--FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=0"
-+FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=0"
- FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
- FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
- PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
-@@ -884,7 +885,8 @@ BB_HASHEXCLUDE_COMMON ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
-     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
-     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
-     SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES"
--BB_HASHBASE_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS BUILDHISTORY_DIR SSTATE_DIR "
-+BB_HASHBASE_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS \
-+    PSEUDO_IGNORE_REAL_PATHS BUILDHISTORY_DIR SSTATE_DIR "
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
+diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machine/include/tune-thunderx.inc
+index d1aaf4891e..dadcadedc6 100644
+--- a/meta/conf/machine/include/tune-thunderx.inc
++++ b/meta/conf/machine/include/tune-thunderx.inc
+@@ -11,7 +11,7 @@ ARMPKGARCH_tune-thunderx ?= "thunderx"
+ ARMPKGARCH_tune-thunderx_be ?= "thunderx"
+ 
+ TUNE_FEATURES_tune-thunderx = "${TUNE_FEATURES_tune-aarch64} thunderx"
+-TUNE_FEATURES_tune-thunderx_be = "${TUNE_FEATURES_tune-thunderx} bigendian"
++TUNE_FEATURES_tune-thunderx_be = "${TUNE_FEATURES_tune-aarch64_be} thunderx"
+ BASE_LIB_tune-thunderx = "lib64"
+ BASE_LIB_tune-thunderx_be = "lib64"
+ 
+diff --git a/scripts/contrib/bb-perf/bb-matrix-plot.sh b/scripts/contrib/bb-perf/bb-matrix-plot.sh
+index e7bd129e9e..450afcb559 100755
+--- a/scripts/contrib/bb-perf/bb-matrix-plot.sh
++++ b/scripts/contrib/bb-perf/bb-matrix-plot.sh
+@@ -90,10 +90,12 @@ fi
+ # Determine the dgrid3d mesh dimensions size
+ MIN=$(tail -n +2 "$DATFILE" | cut -d ' ' -f 1 | sed 's/^0*//' | sort -n | uniq | head -n1)
+ MAX=$(tail -n +2 "$DATFILE" | cut -d ' ' -f 1 | sed 's/^0*//' | sort -n | uniq | tail -n1)
+-BB_CNT=$[${MAX} - $MIN + 1]
++#BB_CNT=$[${MAX} - $MIN + 1]
++BB_CNT=$[(${MAX} - $MIN)/4 + 1]
+ MIN=$(tail -n +2 "$DATFILE" | cut -d ' ' -f 2 | sed 's/^0*//' | sort -n | uniq | head -n1)
+ MAX=$(tail -n +2 "$DATFILE" | cut -d ' ' -f 2 | sed 's/^0*//' | sort -n | uniq | tail -n1)
+-PM_CNT=$[${MAX} - $MIN + 1]
++#PM_CNT=$[${MAX} - $MIN + 1]
++PM_CNT=$[(${MAX} - $MIN)/4 + 1]
+ 
+ 
+ (cat <<EOF
+@@ -118,7 +120,7 @@ set output "$PLOT_BASENAME-pm.png"
+ replot
+ 
+ set view 60,30
+-set term wxt size $SIZE
++set term qt size $SIZE
+ replot
+ EOF
+ ) | gnuplot --persist
