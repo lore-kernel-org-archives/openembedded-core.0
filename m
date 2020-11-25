@@ -1,72 +1,75 @@
-Received: from smtp2.axis.com (smtp2.axis.com [])
- by mx.groups.io with SMTP id smtpd.web12.6954.1606312098403602466
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.web10.8442.1606318950783416288
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2020 05:48:21 -0800
+ Wed, 25 Nov 2020 07:42:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=oEbq3+e4;
- spf=fail (domain: axis.com, ip: <nil>, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=axis.com; l=1754; q=dns/txt; s=axis-central1;
-  t=1606312100; x=1637848100;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=XXAJEKHkTmg7YPeJeOV0v3dEVieAS1na0t8CIFcdEaU=;
-  b=oEbq3+e4nRaQl5tkiugwdBLb9guwlaZHCGpxfcFHcc2aDrzf/P4+vJ3p
-   tGNlzerwAZ81WQf6qgilAdjKBILTzUCzCWt0N7PSCdyxqhOjPM80wGe7m
-   Su0e647Hj9C6z9f3htirTN24sJXGGWHbCJfE+wbjSldpu/sB+ZkiOt/3g
-   MWJeupDajLiukHr1STcCzntygjjEzlFiiNBTViRPenvPhg+6DCX5AmgJE
-   Twn3NyjXIs73O3gl1GuXwOZKc+icBjiA5pbIW1+7RjnRmKzcVoeiZWazA
-   iKt7JvhT881tJ8Tnv/ycg+JK4nczgqYCXBjmWuoW/6rfTzFWEUJvET05p
-   A==;
-IronPort-SDR: LUi58Nd2zFjNX+1pcrg6zZnPuP3CXgSJgFNICNU09cCBJk+LEcMXTstsaRAln/HWL1vPhNmaSP
- 0P7neo8gpiTAIr1yWac5kwgMbTtFksKuk7nEEaXKk0ZnqKBRulFtYj/P5OKNkgjLS4dmek/OWZ
- haBzoR6VVhcjDSTTXf2GSATEqFjGOdTfXicraExhNubaflgQMekZieB43mWQeguOmkL+c/l/AD
- bve4EwonIeicy22wBgr9LHCajfyO0r78KaC/RNVW1kLI9FH/ueX/3MDjH024l6NmEje/Y6SqOT
- lok=
-X-IronPort-AV: E=Sophos;i="5.78,368,1599516000"; 
-   d="scan'208";a="14882343"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv2 4/4] wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
-Date: Wed, 25 Nov 2020 14:48:13 +0100
-Message-ID: <ef917f0a73aa7142722db2800cc21606469d1900.1606312002.git.pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <cover.1606312002.git.pkj@axis.com>
-References: <cover.1606312002.git.pkj@axis.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G0jiF4SI;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id f93so1855977qtb.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2020 07:42:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=H9WZKzo5EXTarFrqN4Y2mAsgY23/xtK4Tnet3Av3afQ=;
+        b=G0jiF4SIBdQ5m1r8Jt9E20UNgBf2DwYtSMyZNyJNZp2tTB+QEHETXybnfTwE3/Y+aP
+         tyGgFH/nbc04Z2UNvaYBOJIBmZoH2bR8ZVdBV/NAcHVT7y9W7yAVmvDYPn5o9y4dedXD
+         FToiaRYazBnNJ4jF+Y3GcM7p8DxjpDeL8Gf/xkCqduJFOow6TzT49yx2ffM1RwaOOIuf
+         l9dDjFVCYj3K/NHjwtQTZmFAXHtgevbS1ig2yIbuaBsq7nkW6FeaHaoc3i5mOazlO0I9
+         NMnufKLijp1V/9kYEmc4D65oGQWxhFnJSU1A4b44Jg6anuqqzAkQCfPYBIk1LueOFRzo
+         mynQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=H9WZKzo5EXTarFrqN4Y2mAsgY23/xtK4Tnet3Av3afQ=;
+        b=CiuGK6tbsLnPT+Bz6Im0R+y42crEY5bJhJspMQ04vWUFMSTG1yo4cAtxkB2Y4vh1m2
+         qrF35iIjbm8DU++ATsy+4TnSboHFB6tugmRrNq0SBPCXTrYfpG0dDGrG+C3gsYCKBrjO
+         eHI79QCE7BlebICAxFcPw57ziPn9nG4CMXxOBvk6yrr02HLmsm7ucsT+cSKPcviEMS4Z
+         YIGejIUcfaJxIY9oxAku9Vd9Wy6bQg2SU9ukpl7FYiDimcbrMu8UD99m71apwGPsD4NZ
+         v7dwloZwHEE2D4vrIsakhpaM4iIxzdJVi85m0RQdYi+pKtsP4InmK9IRSyigtgszr1ec
+         QIGQ==
+X-Gm-Message-State: AOAM533JbQ1rnHC4AaQ+wPXn7FobH20Ag7OpbBMiTPrPvMhEhGIlxCN+
+	iXa2KhNbOuQ59/u0A7acmcLR5zrjQdPYpxmlG98=
+X-Google-Smtp-Source: ABdhPJzRQT/qLpXhPWzEBCA/bSeIqrEHHGvU5Px0APEWdLtbeNok5zCBiRiqNPHkTaKNNODJePiQdP95IMA/Kd+p2uc=
+X-Received: by 2002:aed:2962:: with SMTP id s89mr3694732qtd.88.1606318949881;
+ Wed, 25 Nov 2020 07:42:29 -0800 (PST)
 MIME-Version: 1.0
-Return-Path: pkj@axis.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <DB8PR10MB3977EC83BB4D654A05D7615E92FA0@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <DB8PR10MB3977EC83BB4D654A05D7615E92FA0@DB8PR10MB3977.EURPRD10.PROD.OUTLOOK.COM>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 25 Nov 2020 07:42:03 -0800
+Message-ID: <CAMKF1sqcyGMvvSGN0-iZ-pkgdFuZo-K_qVtqOYHXb3tFiM08-w@mail.gmail.com>
+Subject: Re: Error when building eSDK for a "linux-dummy"
+To: "Valek, Andrej" <andrej.valek@siemens.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/image_types_wic.bbclass | 2 +-
- scripts/lib/wic/partition.py         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Wed, Nov 25, 2020 at 2:17 AM Valek, Andrej <andrej.valek@siemens.com> wr=
+ote:
+>
+> Hello Khem,
+>
+>
+>
+> I was, that you were trying to figure you, what=E2=80=99s going wrong wit=
+h =E2=80=9Clinux-dummy=E2=80=9D kernel in eSDK case. Did you or somebody el=
+se find something?
+>
+>
+>
+> I have the same problem as described here https://lists.yoctoproject.org/=
+g/yocto/topic/78096462#51336.
+>
+>
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 286e0f5d54..9c1605c29c 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -5,7 +5,7 @@ WICVARS ?= "\
-            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
-            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
-            KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND \
--           ASSUME_PROVIDED PSEUDO_IGNORE_PATHS"
-+           ASSUME_PROVIDED PSEUDO_IGNORE_REAL_PATHS"
- 
- inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
- 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index ebe250b00d..e910fd3fa0 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -211,7 +211,7 @@ class Partition():
-             pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-             pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-             pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
--            pseudo += "export PSEUDO_IGNORE_PATHS=%s;" % (rootfs + "," + (get_bitbake_var("PSEUDO_IGNORE_PATHS") or ""))
-+            pseudo += "export PSEUDO_IGNORE_PATHS=%s;" % (os.path.realpath(rootfs) + "," + (get_bitbake_var("PSEUDO_IGNORE_REAL_PATHS") or ""))
-             pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-         else:
-             pseudo = None
+i have not really spent time looking into this
+
+>
+>
+>
+> Regards,
+>
+> Andrej
