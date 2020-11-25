@@ -1,261 +1,274 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web09.6671.1606311153667358938
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.6840.1606312077811170141
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2020 05:32:34 -0800
+ Wed, 25 Nov 2020 05:47:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CudhbRHj;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id 7so3061231ejm.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2020 05:32:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MEMXmJcRKHNUHTrxpWMXb2vakd5w+tL71effYljScns=;
-        b=CudhbRHj6e9Vy1Yp0IIqoFM5pXFQeHrDMJVX0/rmWeAMnPT3UAv2xZCBK7ncgz25cp
-         7sYou/gY7Hk75nzigkKWd4sC/QwzUE3bv8u1AVRP1VekurrNXzM8NMpbI1RwV4xcrE9S
-         Zu5M6sWA4y8C5FcMlqRdp1Y5WgxFNc1INN+8p+a2oSUcX7lk8giKzHlrm3JpTIBkZfol
-         JyE6jUgsfvF5G3a7wibiFobUYv1rnf+NxoO1rQ/QvxA53eW5bJVXIKA+a4GSw+9Nhb8A
-         TEDGJ3YcFVVU82h89pnJXikqiGMQUwew7SLtOxQd11hCUVsiap5AqktxxHFAWuyclOip
-         7uuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MEMXmJcRKHNUHTrxpWMXb2vakd5w+tL71effYljScns=;
-        b=SJZucgyOCYx0/JGVLwCvLZpbBiWC5A4jQW4EIgfbiqZ2Euexs2VYxZKcEM+f84B0n+
-         j90PVSpeGbDzrG8lT/ohWAusktQphcZe9H7fMjNLfWVY7hzje4AqtWzSt1SyPauRONl4
-         XMVpP1X19aAu4uwqcLz1gMsyms8DLKQwrmS8ElpGd3L1+ROD8xYUNKUZmMFNo1udS7tc
-         xDeIDz4ntTDhbs3U/xYOFmipaJmQyUbhY1ZRyiF1vcmNR/fVNgmFjC3bCtt003isXQYS
-         zc6y7xPRS5qgBUtM7YBp8uzLyGpAltSuHYo7w+m3yUsR/Ep02FafSYu9T5L8RGRvkufC
-         jk6Q==
-X-Gm-Message-State: AOAM5312y5UVHj0jNX+d7gURi0WV7x62dhkQrD2Mg8+vK7M1YoDVtFkR
-	eUu/AzVbycKRugeBd1ItJyg4OIp1b7QnOzL0Zj8=
-X-Google-Smtp-Source: ABdhPJwOjJc+/oKlDpXi14PUf7OIFWQnAEMdYNiApnDDYOAnj+BiCBTGvPY36YcNZkT9UjF2xhFeqSbXS0/PgMyV9MY=
-X-Received: by 2002:a17:906:fcdb:: with SMTP id qx27mr3054498ejb.470.1606311152178;
- Wed, 25 Nov 2020 05:32:32 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1606310940.git.pkj@axis.com> <9d90bc03e13030cfa8c46aafcd6d3c4c1cc6ba25.1606310940.git.pkj@axis.com>
-In-Reply-To: <9d90bc03e13030cfa8c46aafcd6d3c4c1cc6ba25.1606310940.git.pkj@axis.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Wed, 25 Nov 2020 14:32:20 +0100
-Message-ID: <CA+chaQexeaUzhzrstAi0YpcG=0jsvEGXm68kZ0rUg+AKoed1Lg@mail.gmail.com>
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=QUxoBuyB;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=axis.com; l=18706; q=dns/txt; s=axis-central1;
+  t=1606312078; x=1637848078;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=SM8B7/Ja9yRH6CiyE8T+NG+3x5ESusSt0nJZDgmeUJw=;
+  b=QUxoBuyBXhWZcL8/OzAjEt+Q4ZoyhotZyfFPkg0tF5ajxzbFzMVwyUJV
+   SnwvD/+kUvAS9Dk+u2tQh6N8cRtq/RrKJSv/cHOWqeGkJ4sRXjUrhx8/c
+   rchI6Lwhkbt5OzFRyZJCrJwg5X57QqrpKnjI85EYnxRIB/YeFpZhGxx0m
+   wjo3aoDYKZFGFoInzn3RWlsjfduJGPhZiliYAkZgxChk25b1WG+i8G3La
+   xdKCEJ4uyY+8LESlq0nBmRQ4sjnnHWwXKFDA3Q+wJSua9uG/JizKSV4vm
+   9T+DDTVxqNamrcq7yK83Bh/3X7wSfbZ8xW3IcLTTgv38Ic4QnA+YjKkYc
+   Q==;
+IronPort-SDR: a1hvxsZfCEEFMOgjSbIJpPRF2h6gO71yjtoT4tkFWvhnMNeD0J7TzCjrftlgPS25FWxJ4eBENx
+ c+FOxgdhxBqB6eUU02IgaztHfXRlyjmQGj/ntdQnk78VlY5WMWVsytoMPYvKge4wr4CadmB6yv
+ ecITVbjLuJFAWbsr5Q3SdyAkFkNum4dN2uJMeEwxTH80gTZuraiQKI93AkkvfFdoMEkgWWHCE2
+ ud0AGIWCsz401NC+vzwSty8PlDkI2XANDR5sNnYn435GZOjUVMx+lTIXv6qIuWsffQdvMp48iK
+ ifM=
+X-IronPort-AV: E=Sophos;i="5.78,368,1599516000"; 
+   d="scan'208,217";a="14882324"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH 2/4] bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000009fd9bb05b4ee7567"
+Thread-Topic: [OE-core] [PATCH 2/4] bitbake.conf: Add all layers (from
+ BBLAYERS) to PSEUDO_IGNORE_PATHS
+Thread-Index: AQHWwy9mYM9kBL8kC0iqzCO+f+5/jKnY3J9w
+Date: Wed, 25 Nov 2020 13:47:56 +0000
+Message-ID: <1fe55f020e6d42f0b868b2c81f65d0e1@XBOX03.axis.com>
+References: <cover.1606310940.git.pkj@axis.com>
+ <9d90bc03e13030cfa8c46aafcd6d3c4c1cc6ba25.1606310940.git.pkj@axis.com>
+ <CA+chaQexeaUzhzrstAi0YpcG=0jsvEGXm68kZ0rUg+AKoed1Lg@mail.gmail.com>
+In-Reply-To: <CA+chaQexeaUzhzrstAi0YpcG=0jsvEGXm68kZ0rUg+AKoed1Lg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1fe55f020e6d42f0b868b2c81f65d0e1XBOX03axiscom_"
 
---0000000000009fd9bb05b4ee7567
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_1fe55f020e6d42f0b868b2c81f65d0e1XBOX03axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Looks like some unrelated changes sneaked into this one.
+QnV0IGR1aC4gT2ssIHBhdGNoIHYyIGluY29taW5n4oCmDQoNCi8vUGV0ZXINCg0KRnJvbTogTWFy
+dGluIEphbnNhIDxtYXJ0aW4uamFuc2FAZ21haWwuY29tPg0KU2VudDogZGVuIDI1IG5vdmVtYmVy
+IDIwMjAgMTQ6MzINClRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBh
+eGlzLmNvbT4NCkNjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBs
+YXllciA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6
+IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvNF0gYml0YmFrZS5jb25mOiBBZGQgYWxsIGxheWVycyAo
+ZnJvbSBCQkxBWUVSUykgdG8gUFNFVURPX0lHTk9SRV9QQVRIUw0KDQpMb29rcyBsaWtlIHNvbWUg
+dW5yZWxhdGVkIGNoYW5nZXMgc25lYWtlZCBpbnRvIHRoaXMgb25lLg0KDQpPbiBXZWQsIE5vdiAy
+NSwgMjAyMCBhdCAyOjMxIFBNIFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
+QGF4aXMuY29tPG1haWx0bzpwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+PiB3cm90ZToNCklu
+c3RlYWQgb2YgaWdub3JpbmcgJHtDT1JFQkFTRX0vbWV0YSBpbiBQU0VVRE9fSUdOT1JFX1BBVEhT
+ICh3aGljaCBtYXkNCm9yIG1heSBub3QgaWdub3JlIGFsbCBsYXllcnMgZGVwZW5kaW5nIG9uIGhv
+dyB0aGV5IGFyZSBuYW1lZCBhbmQgcGxhY2VkDQp1bmRlciAke0NPUkVCQVNFfSksIGlnbm9yZSBh
+bGwgbGF5ZXJzLg0KDQpTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtq
+ZWxsZXJzdGVkdEBheGlzLmNvbTxtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPj4N
+Ci0tLQ0KIG1ldGEvY29uZi9iaXRiYWtlLmNvbmYgICAgICAgICAgICAgICAgICAgICAgfCAyICst
+DQogbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLXRodW5kZXJ4LmluYyB8IDIgKy0NCiBz
+Y3JpcHRzL2NvbnRyaWIvYmItcGVyZi9iYi1tYXRyaXgtcGxvdC5zaCAgIHwgOCArKysrKy0tLQ0K
+IDMgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KDQpkaWZm
+IC0tZ2l0IGEvbWV0YS9jb25mL2JpdGJha2UuY29uZiBiL21ldGEvY29uZi9iaXRiYWtlLmNvbmYN
+CmluZGV4IDBkMzhlYWMwOTQuLjk3NDJmZTRmZTIgMTAwNjQ0DQotLS0gYS9tZXRhL2NvbmYvYml0
+YmFrZS5jb25mDQorKysgYi9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQpAQCAtNjg1LDcgKzY4NSw3
+IEBAIFNSQ19VUkkgPSAiIg0KIFBTRVVET19MT0NBTFNUQVRFRElSID89ICIke1dPUktESVJ9L3Bz
+ZXVkby8iDQogUFNFVURPX1BBU1NXRCA/PSAiJHtTVEFHSU5HX0RJUl9UQVJHRVR9OiR7UFNFVURP
+X1NZU1JPT1R9Ig0KIFBTRVVET19TWVNST09UID0gIiR7Q09NUE9ORU5UU19ESVJ9LyR7QlVJTERf
+QVJDSH0vcHNldWRvLW5hdGl2ZSINCi1QU0VVRE9fSUdOT1JFX1BBVEhTID0gIi91c3IvLC9ldGMv
+LC9saWIsL2Rldi8sJHtUfSwke1dPUktESVJ9L3JlY2lwZS1zeXNyb290LCR7U1NUQVRFX0RJUn0s
+JHtTVEFNUFNfRElSfSwke1dPUktESVJ9L3BrZ2RhdGEtc3lzcm9vdCwke1RNUERJUn0vc3N0YXRl
+LWNvbnRyb2wsJHtERVBMT1lfRElSfSwke1dPUktESVJ9L2RlcGxveS0sJHtUTVBESVJ9L2J1aWxk
+c3RhdHMsJHtXT1JLRElSfS9zc3RhdGUtYnVpbGQtcGFja2FnZV8sJHtXT1JLRElSfS9zc3RhdGUt
+aW5zdGFsbC1wYWNrYWdlXywke1dPUktESVJ9L3NzdGF0ZS1idWlsZC1pbWFnZV9jb21wbGV0ZSwk
+e1RNUERJUn0vc3lzcm9vdHMtY29tcG9uZW50cywke0JVSUxESElTVE9SWV9ESVJ9LCR7VE1QRElS
+fS9wa2dkYXRhLCR7VE9QRElSfS9jYWNoZSwke0NPUkVCQVNFfS9zY3JpcHRzLCR7Q09SRUJBU0V9
+L21ldGEsJHtDQ0FDSEVfRElSfSINCitQU0VVRE9fSUdOT1JFX1BBVEhTID0gIi91c3IvLC9ldGMv
+LC9saWIsL2Rldi8sJHtUfSwke1dPUktESVJ9L3JlY2lwZS1zeXNyb290LCR7U1NUQVRFX0RJUn0s
+JHtTVEFNUFNfRElSfSwke1dPUktESVJ9L3BrZ2RhdGEtc3lzcm9vdCwke1RNUERJUn0vc3N0YXRl
+LWNvbnRyb2wsJHtERVBMT1lfRElSfSwke1dPUktESVJ9L2RlcGxveS0sJHtUTVBESVJ9L2J1aWxk
+c3RhdHMsJHtXT1JLRElSfS9zc3RhdGUtYnVpbGQtcGFja2FnZV8sJHtXT1JLRElSfS9zc3RhdGUt
+aW5zdGFsbC1wYWNrYWdlXywke1dPUktESVJ9L3NzdGF0ZS1idWlsZC1pbWFnZV9jb21wbGV0ZSwk
+e1RNUERJUn0vc3lzcm9vdHMtY29tcG9uZW50cywke0JVSUxESElTVE9SWV9ESVJ9LCR7VE1QRElS
+fS9wa2dkYXRhLCR7VE9QRElSfS9jYWNoZSwke0NPUkVCQVNFfS9zY3JpcHRzLCR7QCcsJy5qb2lu
+KGQuZ2V0VmFyKCdCQkxBWUVSUycpLnNwbGl0KCkpfSwke0NDQUNIRV9ESVJ9Ig0KDQogZXhwb3J0
+IFBTRVVET19ESVNBQkxFRCA9ICIxIg0KICNleHBvcnQgUFNFVURPX1BSRUZJWCA9ICIke1NUQUdJ
+TkdfRElSX05BVElWRX0ke3ByZWZpeF9uYXRpdmV9Ig0KZGlmZiAtLWdpdCBhL21ldGEvY29uZi9t
+YWNoaW5lL2luY2x1ZGUvdHVuZS10aHVuZGVyeC5pbmMgYi9tZXRhL2NvbmYvbWFjaGluZS9pbmNs
+dWRlL3R1bmUtdGh1bmRlcnguaW5jDQppbmRleCBkMWFhZjQ4OTFlLi5kYWRjYWRlZGM2IDEwMDY0
+NA0KLS0tIGEvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLXRodW5kZXJ4LmluYw0KKysr
+IGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLXRodW5kZXJ4LmluYw0KQEAgLTExLDcg
+KzExLDcgQEAgQVJNUEtHQVJDSF90dW5lLXRodW5kZXJ4ID89ICJ0aHVuZGVyeCINCiBBUk1QS0dB
+UkNIX3R1bmUtdGh1bmRlcnhfYmUgPz0gInRodW5kZXJ4Ig0KDQogVFVORV9GRUFUVVJFU190dW5l
+LXRodW5kZXJ4ID0gIiR7VFVORV9GRUFUVVJFU190dW5lLWFhcmNoNjR9IHRodW5kZXJ4Ig0KLVRV
+TkVfRkVBVFVSRVNfdHVuZS10aHVuZGVyeF9iZSA9ICIke1RVTkVfRkVBVFVSRVNfdHVuZS10aHVu
+ZGVyeH0gYmlnZW5kaWFuIg0KK1RVTkVfRkVBVFVSRVNfdHVuZS10aHVuZGVyeF9iZSA9ICIke1RV
+TkVfRkVBVFVSRVNfdHVuZS1hYXJjaDY0X2JlfSB0aHVuZGVyeCINCiBCQVNFX0xJQl90dW5lLXRo
+dW5kZXJ4ID0gImxpYjY0Ig0KIEJBU0VfTElCX3R1bmUtdGh1bmRlcnhfYmUgPSAibGliNjQiDQoN
+CmRpZmYgLS1naXQgYS9zY3JpcHRzL2NvbnRyaWIvYmItcGVyZi9iYi1tYXRyaXgtcGxvdC5zaCBi
+L3NjcmlwdHMvY29udHJpYi9iYi1wZXJmL2JiLW1hdHJpeC1wbG90LnNoDQppbmRleCBlN2JkMTI5
+ZTllLi40NTBhZmNiNTU5IDEwMDc1NQ0KLS0tIGEvc2NyaXB0cy9jb250cmliL2JiLXBlcmYvYmIt
+bWF0cml4LXBsb3Quc2gNCisrKyBiL3NjcmlwdHMvY29udHJpYi9iYi1wZXJmL2JiLW1hdHJpeC1w
+bG90LnNoDQpAQCAtOTAsMTAgKzkwLDEyIEBAIGZpDQogIyBEZXRlcm1pbmUgdGhlIGRncmlkM2Qg
+bWVzaCBkaW1lbnNpb25zIHNpemUNCiBNSU49JCh0YWlsIC1uICsyICIkREFURklMRSIgfCBjdXQg
+LWQgJyAnIC1mIDEgfCBzZWQgJ3MvXjAqLy8nIHwgc29ydCAtbiB8IHVuaXEgfCBoZWFkIC1uMSkN
+CiBNQVg9JCh0YWlsIC1uICsyICIkREFURklMRSIgfCBjdXQgLWQgJyAnIC1mIDEgfCBzZWQgJ3Mv
+XjAqLy8nIHwgc29ydCAtbiB8IHVuaXEgfCB0YWlsIC1uMSkNCi1CQl9DTlQ9JFske01BWH0gLSAk
+TUlOICsgMV0NCisjQkJfQ05UPSRbJHtNQVh9IC0gJE1JTiArIDFdDQorQkJfQ05UPSRbKCR7TUFY
+fSAtICRNSU4pLzQgKyAxXQ0KIE1JTj0kKHRhaWwgLW4gKzIgIiREQVRGSUxFIiB8IGN1dCAtZCAn
+ICcgLWYgMiB8IHNlZCAncy9eMCovLycgfCBzb3J0IC1uIHwgdW5pcSB8IGhlYWQgLW4xKQ0KIE1B
+WD0kKHRhaWwgLW4gKzIgIiREQVRGSUxFIiB8IGN1dCAtZCAnICcgLWYgMiB8IHNlZCAncy9eMCov
+LycgfCBzb3J0IC1uIHwgdW5pcSB8IHRhaWwgLW4xKQ0KLVBNX0NOVD0kWyR7TUFYfSAtICRNSU4g
+KyAxXQ0KKyNQTV9DTlQ9JFske01BWH0gLSAkTUlOICsgMV0NCitQTV9DTlQ9JFsoJHtNQVh9IC0g
+JE1JTikvNCArIDFdDQoNCg0KIChjYXQgPDxFT0YNCkBAIC0xMTgsNyArMTIwLDcgQEAgc2V0IG91
+dHB1dCAiJFBMT1RfQkFTRU5BTUUtcG0ucG5nIg0KIHJlcGxvdA0KDQogc2V0IHZpZXcgNjAsMzAN
+Ci1zZXQgdGVybSB3eHQgc2l6ZSAkU0laRQ0KK3NldCB0ZXJtIHF0IHNpemUgJFNJWkUNCiByZXBs
+b3QNCiBFT0YNCiApIHwgZ251cGxvdCAtLXBlcnNpc3QNCg0KDQo=
 
-On Wed, Nov 25, 2020 at 2:31 PM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
+--_000_1fe55f020e6d42f0b868b2c81f65d0e1XBOX03axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> Instead of ignoring ${COREBASE}/meta in PSEUDO_IGNORE_PATHS (which may
-> or may not ignore all layers depending on how they are named and placed
-> under ${COREBASE}), ignore all layers.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/conf/bitbake.conf                      | 2 +-
->  meta/conf/machine/include/tune-thunderx.inc | 2 +-
->  scripts/contrib/bb-perf/bb-matrix-plot.sh   | 8 +++++---
->  3 files changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 0d38eac094..9742fe4fe2 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -685,7 +685,7 @@ SRC_URI =3D ""
->  PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
->  PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
->  PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
-> -PSEUDO_IGNORE_PATHS =3D
-> "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${S=
-TAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR=
-},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,=
-${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,$=
-{TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR=
-}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE_DIR}"
-> +PSEUDO_IGNORE_PATHS =3D
-> "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${S=
-TAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR=
-},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,=
-${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,$=
-{TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR=
-}/cache,${COREBASE}/scripts,${@','.join(d.getVar('BBLAYERS').split())},${CC=
-ACHE_DIR}"
->
->  export PSEUDO_DISABLED =3D "1"
->  #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
-> diff --git a/meta/conf/machine/include/tune-thunderx.inc
-> b/meta/conf/machine/include/tune-thunderx.inc
-> index d1aaf4891e..dadcadedc6 100644
-> --- a/meta/conf/machine/include/tune-thunderx.inc
-> +++ b/meta/conf/machine/include/tune-thunderx.inc
-> @@ -11,7 +11,7 @@ ARMPKGARCH_tune-thunderx ?=3D "thunderx"
->  ARMPKGARCH_tune-thunderx_be ?=3D "thunderx"
->
->  TUNE_FEATURES_tune-thunderx =3D "${TUNE_FEATURES_tune-aarch64} thunderx=
-"
-> -TUNE_FEATURES_tune-thunderx_be =3D "${TUNE_FEATURES_tune-thunderx}
-> bigendian"
-> +TUNE_FEATURES_tune-thunderx_be =3D "${TUNE_FEATURES_tune-aarch64_be}
-> thunderx"
->  BASE_LIB_tune-thunderx =3D "lib64"
->  BASE_LIB_tune-thunderx_be =3D "lib64"
->
-> diff --git a/scripts/contrib/bb-perf/bb-matrix-plot.sh
-> b/scripts/contrib/bb-perf/bb-matrix-plot.sh
-> index e7bd129e9e..450afcb559 100755
-> --- a/scripts/contrib/bb-perf/bb-matrix-plot.sh
-> +++ b/scripts/contrib/bb-perf/bb-matrix-plot.sh
-> @@ -90,10 +90,12 @@ fi
->  # Determine the dgrid3d mesh dimensions size
->  MIN=3D$(tail -n +2 "$DATFILE" | cut -d ' ' -f 1 | sed 's/^0*//' | sort =
--n |
-> uniq | head -n1)
->  MAX=3D$(tail -n +2 "$DATFILE" | cut -d ' ' -f 1 | sed 's/^0*//' | sort =
--n |
-> uniq | tail -n1)
-> -BB_CNT=3D$[${MAX} - $MIN + 1]
-> +#BB_CNT=3D$[${MAX} - $MIN + 1]
-> +BB_CNT=3D$[(${MAX} - $MIN)/4 + 1]
->  MIN=3D$(tail -n +2 "$DATFILE" | cut -d ' ' -f 2 | sed 's/^0*//' | sort =
--n |
-> uniq | head -n1)
->  MAX=3D$(tail -n +2 "$DATFILE" | cut -d ' ' -f 2 | sed 's/^0*//' | sort =
--n |
-> uniq | tail -n1)
-> -PM_CNT=3D$[${MAX} - $MIN + 1]
-> +#PM_CNT=3D$[${MAX} - $MIN + 1]
-> +PM_CNT=3D$[(${MAX} - $MIN)/4 + 1]
->
->
->  (cat <<EOF
-> @@ -118,7 +120,7 @@ set output "$PLOT_BASENAME-pm.png"
->  replot
->
->  set view 60,30
-> -set term wxt size $SIZE
-> +set term qt size $SIZE
->  replot
->  EOF
->  ) | gnuplot --persist
->
->=20
->
->
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
+OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
+cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTgN
+Cgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmki
+LHNhbnMtc2VyaWY7DQoJY29sb3I6Izk0MzYzNDsNCglmb250LXdlaWdodDpub3JtYWw7DQoJZm9u
+dC1zdHlsZTpub3JtYWw7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
+LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIu
+MHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30NCmRpdi5Xb3Jk
+U2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBt
+c28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYi
+IC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBl
+bGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0K
+PC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0i
+U1YiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24x
+Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iY29sb3I6
+Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+QnV0IGR1aC4gT2ssIHBhdGNoIHYy
+IGluY29taW5n4oCmPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1
+YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3Qt
+bGFuZ3VhZ2U6RU4tVVMiPi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZh
+cmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYg
+c3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzow
+Y20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVy
+LXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZyb206PC9zcGFuPjwvYj48
+c3BhbiBsYW5nPSJFTi1VUyI+IE1hcnRpbiBKYW5zYSAmbHQ7bWFydGluLmphbnNhQGdtYWlsLmNv
+bSZndDsNCjxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjUgbm92ZW1iZXIgMjAyMCAxNDozMjxicj4N
+CjxiPlRvOjwvYj4gUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDtwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0
+aGUgb2UtY29yZSBsYXllciAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi80XSBi
+aXRiYWtlLmNvbmY6IEFkZCBhbGwgbGF5ZXJzIChmcm9tIEJCTEFZRVJTKSB0byBQU0VVRE9fSUdO
+T1JFX1BBVEhTPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPkxvb2tzIGxpa2Ugc29tZSB1bnJlbGF0ZWQgY2hhbmdlcyBzbmVha2VkIGludG8gdGhp
+cyBvbmUuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBX
+ZWQsIE5vdiAyNSwgMjAyMCBhdCAyOjMxIFBNIFBldGVyIEtqZWxsZXJzdGVkdCAmbHQ7PGEgaHJl
+Zj0ibWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbSI+cGV0ZXIua2plbGxlcnN0ZWR0
+QGF4aXMuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1
+b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3Bh
+ZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBj
+bSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPklu
+c3RlYWQgb2YgaWdub3JpbmcgJHtDT1JFQkFTRX0vbWV0YSBpbiBQU0VVRE9fSUdOT1JFX1BBVEhT
+ICh3aGljaCBtYXk8YnI+DQpvciBtYXkgbm90IGlnbm9yZSBhbGwgbGF5ZXJzIGRlcGVuZGluZyBv
+biBob3cgdGhleSBhcmUgbmFtZWQgYW5kIHBsYWNlZDxicj4NCnVuZGVyICR7Q09SRUJBU0V9KSwg
+aWdub3JlIGFsbCBsYXllcnMuPGJyPg0KPGJyPg0KU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxl
+cnN0ZWR0ICZsdDs8YSBocmVmPSJtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tIiB0
+YXJnZXQ9Il9ibGFuayI+cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPC9hPiZndDs8YnI+DQot
+LS08YnI+DQombmJzcDttZXRhL2NvbmYvYml0YmFrZS5jb25mJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyB8
+IDIgJiM0MzstPGJyPg0KJm5ic3A7bWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLXRodW5k
+ZXJ4LmluYyB8IDIgJiM0MzstPGJyPg0KJm5ic3A7c2NyaXB0cy9jb250cmliL2JiLXBlcmYvYmIt
+bWF0cml4LXBsb3Quc2gmbmJzcDsgJm5ic3A7fCA4ICYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0Mzst
+LS08YnI+DQombmJzcDszIGZpbGVzIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygmIzQzOyksIDUgZGVs
+ZXRpb25zKC0pPGJyPg0KPGJyPg0KZGlmZiAtLWdpdCBhL21ldGEvY29uZi9iaXRiYWtlLmNvbmYg
+Yi9tZXRhL2NvbmYvYml0YmFrZS5jb25mPGJyPg0KaW5kZXggMGQzOGVhYzA5NC4uOTc0MmZlNGZl
+MiAxMDA2NDQ8YnI+DQotLS0gYS9tZXRhL2NvbmYvYml0YmFrZS5jb25mPGJyPg0KJiM0MzsmIzQz
+OyYjNDM7IGIvbWV0YS9jb25mL2JpdGJha2UuY29uZjxicj4NCkBAIC02ODUsNyAmIzQzOzY4NSw3
+IEBAIFNSQ19VUkkgPSAmcXVvdDsmcXVvdDs8YnI+DQombmJzcDtQU0VVRE9fTE9DQUxTVEFURURJ
+UiA/PSAmcXVvdDske1dPUktESVJ9L3BzZXVkby8mcXVvdDs8YnI+DQombmJzcDtQU0VVRE9fUEFT
+U1dEID89ICZxdW90OyR7U1RBR0lOR19ESVJfVEFSR0VUfToke1BTRVVET19TWVNST09UfSZxdW90
+Ozxicj4NCiZuYnNwO1BTRVVET19TWVNST09UID0gJnF1b3Q7JHtDT01QT05FTlRTX0RJUn0vJHtC
+VUlMRF9BUkNIfS9wc2V1ZG8tbmF0aXZlJnF1b3Q7PGJyPg0KLVBTRVVET19JR05PUkVfUEFUSFMg
+PSAmcXVvdDsvdXNyLywvZXRjLywvbGliLC9kZXYvLCR7VH0sJHtXT1JLRElSfS9yZWNpcGUtc3lz
+cm9vdCwke1NTVEFURV9ESVJ9LCR7U1RBTVBTX0RJUn0sJHtXT1JLRElSfS9wa2dkYXRhLXN5c3Jv
+b3QsJHtUTVBESVJ9L3NzdGF0ZS1jb250cm9sLCR7REVQTE9ZX0RJUn0sJHtXT1JLRElSfS9kZXBs
+b3ktLCR7VE1QRElSfS9idWlsZHN0YXRzLCR7V09SS0RJUn0vc3N0YXRlLWJ1aWxkLXBhY2thZ2Vf
+LCR7V09SS0RJUn0vc3N0YXRlLWluc3RhbGwtcGFja2FnZV8sJHtXT1JLRElSfS9zc3RhdGUtYnVp
+bGQtaW1hZ2VfY29tcGxldGUsJHtUTVBESVJ9L3N5c3Jvb3RzLWNvbXBvbmVudHMsJHtCVUlMREhJ
+U1RPUllfRElSfSwke1RNUERJUn0vcGtnZGF0YSwke1RPUERJUn0vY2FjaGUsJHtDT1JFQkFTRX0v
+c2NyaXB0cywke0NPUkVCQVNFfS9tZXRhLCR7Q0NBQ0hFX0RJUn0mcXVvdDs8YnI+DQomIzQzO1BT
+RVVET19JR05PUkVfUEFUSFMgPSAmcXVvdDsvdXNyLywvZXRjLywvbGliLC9kZXYvLCR7VH0sJHtX
+T1JLRElSfS9yZWNpcGUtc3lzcm9vdCwke1NTVEFURV9ESVJ9LCR7U1RBTVBTX0RJUn0sJHtXT1JL
+RElSfS9wa2dkYXRhLXN5c3Jvb3QsJHtUTVBESVJ9L3NzdGF0ZS1jb250cm9sLCR7REVQTE9ZX0RJ
+Un0sJHtXT1JLRElSfS9kZXBsb3ktLCR7VE1QRElSfS9idWlsZHN0YXRzLCR7V09SS0RJUn0vc3N0
+YXRlLWJ1aWxkLXBhY2thZ2VfLCR7V09SS0RJUn0vc3N0YXRlLWluc3RhbGwtcGFja2FnZV8sJHtX
+T1JLRElSfS9zc3RhdGUtYnVpbGQtaW1hZ2VfY29tcGxldGUsJHtUTVBESVJ9L3N5c3Jvb3RzLWNv
+bXBvbmVudHMsJHtCVUlMREhJU1RPUllfRElSfSwke1RNUERJUn0vcGtnZGF0YSwke1RPUERJUn0v
+Y2FjaGUsJHtDT1JFQkFTRX0vc2NyaXB0cywke0AnLCcuam9pbihkLmdldFZhcignQkJMQVlFUlMn
+KS5zcGxpdCgpKX0sJHtDQ0FDSEVfRElSfSZxdW90Ozxicj4NCjxicj4NCiZuYnNwO2V4cG9ydCBQ
+U0VVRE9fRElTQUJMRUQgPSAmcXVvdDsxJnF1b3Q7PGJyPg0KJm5ic3A7I2V4cG9ydCBQU0VVRE9f
+UFJFRklYID0gJnF1b3Q7JHtTVEFHSU5HX0RJUl9OQVRJVkV9JHtwcmVmaXhfbmF0aXZlfSZxdW90
+Ozxicj4NCmRpZmYgLS1naXQgYS9tZXRhL2NvbmYvbWFjaGluZS9pbmNsdWRlL3R1bmUtdGh1bmRl
+cnguaW5jIGIvbWV0YS9jb25mL21hY2hpbmUvaW5jbHVkZS90dW5lLXRodW5kZXJ4LmluYzxicj4N
+CmluZGV4IGQxYWFmNDg5MWUuLmRhZGNhZGVkYzYgMTAwNjQ0PGJyPg0KLS0tIGEvbWV0YS9jb25m
+L21hY2hpbmUvaW5jbHVkZS90dW5lLXRodW5kZXJ4LmluYzxicj4NCiYjNDM7JiM0MzsmIzQzOyBi
+L21ldGEvY29uZi9tYWNoaW5lL2luY2x1ZGUvdHVuZS10aHVuZGVyeC5pbmM8YnI+DQpAQCAtMTEs
+NyAmIzQzOzExLDcgQEAgQVJNUEtHQVJDSF90dW5lLXRodW5kZXJ4ID89ICZxdW90O3RodW5kZXJ4
+JnF1b3Q7PGJyPg0KJm5ic3A7QVJNUEtHQVJDSF90dW5lLXRodW5kZXJ4X2JlID89ICZxdW90O3Ro
+dW5kZXJ4JnF1b3Q7PGJyPg0KPGJyPg0KJm5ic3A7VFVORV9GRUFUVVJFU190dW5lLXRodW5kZXJ4
+ID0gJnF1b3Q7JHtUVU5FX0ZFQVRVUkVTX3R1bmUtYWFyY2g2NH0gdGh1bmRlcngmcXVvdDs8YnI+
+DQotVFVORV9GRUFUVVJFU190dW5lLXRodW5kZXJ4X2JlID0gJnF1b3Q7JHtUVU5FX0ZFQVRVUkVT
+X3R1bmUtdGh1bmRlcnh9IGJpZ2VuZGlhbiZxdW90Ozxicj4NCiYjNDM7VFVORV9GRUFUVVJFU190
+dW5lLXRodW5kZXJ4X2JlID0gJnF1b3Q7JHtUVU5FX0ZFQVRVUkVTX3R1bmUtYWFyY2g2NF9iZX0g
+dGh1bmRlcngmcXVvdDs8YnI+DQombmJzcDtCQVNFX0xJQl90dW5lLXRodW5kZXJ4ID0gJnF1b3Q7
+bGliNjQmcXVvdDs8YnI+DQombmJzcDtCQVNFX0xJQl90dW5lLXRodW5kZXJ4X2JlID0gJnF1b3Q7
+bGliNjQmcXVvdDs8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvc2NyaXB0cy9jb250cmliL2JiLXBl
+cmYvYmItbWF0cml4LXBsb3Quc2ggYi9zY3JpcHRzL2NvbnRyaWIvYmItcGVyZi9iYi1tYXRyaXgt
+cGxvdC5zaDxicj4NCmluZGV4IGU3YmQxMjllOWUuLjQ1MGFmY2I1NTkgMTAwNzU1PGJyPg0KLS0t
+IGEvc2NyaXB0cy9jb250cmliL2JiLXBlcmYvYmItbWF0cml4LXBsb3Quc2g8YnI+DQomIzQzOyYj
+NDM7JiM0MzsgYi9zY3JpcHRzL2NvbnRyaWIvYmItcGVyZi9iYi1tYXRyaXgtcGxvdC5zaDxicj4N
+CkBAIC05MCwxMCAmIzQzOzkwLDEyIEBAIGZpPGJyPg0KJm5ic3A7IyBEZXRlcm1pbmUgdGhlIGRn
+cmlkM2QgbWVzaCBkaW1lbnNpb25zIHNpemU8YnI+DQombmJzcDtNSU49JCh0YWlsIC1uICYjNDM7
+MiAmcXVvdDskREFURklMRSZxdW90OyB8IGN1dCAtZCAnICcgLWYgMSB8IHNlZCAncy9eMCovLycg
+fCBzb3J0IC1uIHwgdW5pcSB8IGhlYWQgLW4xKTxicj4NCiZuYnNwO01BWD0kKHRhaWwgLW4gJiM0
+MzsyICZxdW90OyREQVRGSUxFJnF1b3Q7IHwgY3V0IC1kICcgJyAtZiAxIHwgc2VkICdzL14wKi8v
+JyB8IHNvcnQgLW4gfCB1bmlxIHwgdGFpbCAtbjEpPGJyPg0KLUJCX0NOVD0kWyR7TUFYfSAtICRN
+SU4gJiM0MzsgMV08YnI+DQomIzQzOyNCQl9DTlQ9JFske01BWH0gLSAkTUlOICYjNDM7IDFdPGJy
+Pg0KJiM0MztCQl9DTlQ9JFsoJHtNQVh9IC0gJE1JTikvNCAmIzQzOyAxXTxicj4NCiZuYnNwO01J
+Tj0kKHRhaWwgLW4gJiM0MzsyICZxdW90OyREQVRGSUxFJnF1b3Q7IHwgY3V0IC1kICcgJyAtZiAy
+IHwgc2VkICdzL14wKi8vJyB8IHNvcnQgLW4gfCB1bmlxIHwgaGVhZCAtbjEpPGJyPg0KJm5ic3A7
+TUFYPSQodGFpbCAtbiAmIzQzOzIgJnF1b3Q7JERBVEZJTEUmcXVvdDsgfCBjdXQgLWQgJyAnIC1m
+IDIgfCBzZWQgJ3MvXjAqLy8nIHwgc29ydCAtbiB8IHVuaXEgfCB0YWlsIC1uMSk8YnI+DQotUE1f
+Q05UPSRbJHtNQVh9IC0gJE1JTiAmIzQzOyAxXTxicj4NCiYjNDM7I1BNX0NOVD0kWyR7TUFYfSAt
+ICRNSU4gJiM0MzsgMV08YnI+DQomIzQzO1BNX0NOVD0kWygke01BWH0gLSAkTUlOKS80ICYjNDM7
+IDFdPGJyPg0KPGJyPg0KPGJyPg0KJm5ic3A7KGNhdCAmbHQ7Jmx0O0VPRjxicj4NCkBAIC0xMTgs
+NyAmIzQzOzEyMCw3IEBAIHNldCBvdXRwdXQgJnF1b3Q7JFBMT1RfQkFTRU5BTUUtcG0ucG5nJnF1
+b3Q7PGJyPg0KJm5ic3A7cmVwbG90PGJyPg0KPGJyPg0KJm5ic3A7c2V0IHZpZXcgNjAsMzA8YnI+
+DQotc2V0IHRlcm0gd3h0IHNpemUgJFNJWkU8YnI+DQomIzQzO3NldCB0ZXJtIHF0IHNpemUgJFNJ
+WkU8YnI+DQombmJzcDtyZXBsb3Q8YnI+DQombmJzcDtFT0Y8YnI+DQombmJzcDspIHwgZ251cGxv
+dCAtLXBlcnNpc3Q8YnI+DQo8YnI+DQo8bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
---0000000000009fd9bb05b4ee7567
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Looks like some unrelated changes sneaked into this one.</=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Wed, Nov 25, 2020 at 2:31 PM Peter Kjellerstedt &lt;<a href=3D"mailto:pete=
-r.kjellerstedt@axis.com">peter.kjellerstedt@axis.com</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">Instead of ignoring ${C=
-OREBASE}/meta in PSEUDO_IGNORE_PATHS (which may<br>
-or may not ignore all layers depending on how they are named and placed<br=
->
-under ${COREBASE}), ignore all layers.<br>
-<br>
-Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt=
-@axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
----<br>
-=C2=A0meta/conf/bitbake.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0meta/conf/machine/include/tune-thunderx.inc | 2 +-<br>
-=C2=A0scripts/contrib/bb-perf/bb-matrix-plot.sh=C2=A0 =C2=A0| 8 +++++---<b=
-r>
-=C2=A03 files changed, 7 insertions(+), 5 deletions(-)<br>
-<br>
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
-index 0d38eac094..9742fe4fe2 100644<br>
---- a/meta/conf/bitbake.conf<br>
-+++ b/meta/conf/bitbake.conf<br>
-@@ -685,7 +685,7 @@ SRC_URI =3D &quot;&quot;<br>
-=C2=A0PSEUDO_LOCALSTATEDIR ?=3D &quot;${WORKDIR}/pseudo/&quot;<br>
-=C2=A0PSEUDO_PASSWD ?=3D &quot;${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}&quo=
-t;<br>
-=C2=A0PSEUDO_SYSROOT =3D &quot;${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-nati=
-ve&quot;<br>
--PSEUDO_IGNORE_PATHS =3D &quot;/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/reci=
-pe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}=
-/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WOR=
-KDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/s=
-state-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR=
-},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${=
-CCACHE_DIR}&quot;<br>
-+PSEUDO_IGNORE_PATHS =3D &quot;/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/reci=
-pe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}=
-/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WOR=
-KDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/s=
-state-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR=
-},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${@&#39;,&#39;.join=
-(d.getVar(&#39;BBLAYERS&#39;).split())},${CCACHE_DIR}&quot;<br>
-<br>
-=C2=A0export PSEUDO_DISABLED =3D &quot;1&quot;<br>
-=C2=A0#export PSEUDO_PREFIX =3D &quot;${STAGING_DIR_NATIVE}${prefix_native=
-}&quot;<br>
-diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machi=
-ne/include/tune-thunderx.inc<br>
-index d1aaf4891e..dadcadedc6 100644<br>
---- a/meta/conf/machine/include/tune-thunderx.inc<br>
-+++ b/meta/conf/machine/include/tune-thunderx.inc<br>
-@@ -11,7 +11,7 @@ ARMPKGARCH_tune-thunderx ?=3D &quot;thunderx&quot;<br>
-=C2=A0ARMPKGARCH_tune-thunderx_be ?=3D &quot;thunderx&quot;<br>
-<br>
-=C2=A0TUNE_FEATURES_tune-thunderx =3D &quot;${TUNE_FEATURES_tune-aarch64} =
-thunderx&quot;<br>
--TUNE_FEATURES_tune-thunderx_be =3D &quot;${TUNE_FEATURES_tune-thunderx} b=
-igendian&quot;<br>
-+TUNE_FEATURES_tune-thunderx_be =3D &quot;${TUNE_FEATURES_tune-aarch64_be}=
- thunderx&quot;<br>
-=C2=A0BASE_LIB_tune-thunderx =3D &quot;lib64&quot;<br>
-=C2=A0BASE_LIB_tune-thunderx_be =3D &quot;lib64&quot;<br>
-<br>
-diff --git a/scripts/contrib/bb-perf/bb-matrix-plot.sh b/scripts/contrib/b=
-b-perf/bb-matrix-plot.sh<br>
-index e7bd129e9e..450afcb559 100755<br>
---- a/scripts/contrib/bb-perf/bb-matrix-plot.sh<br>
-+++ b/scripts/contrib/bb-perf/bb-matrix-plot.sh<br>
-@@ -90,10 +90,12 @@ fi<br>
-=C2=A0# Determine the dgrid3d mesh dimensions size<br>
-=C2=A0MIN=3D$(tail -n +2 &quot;$DATFILE&quot; | cut -d &#39; &#39; -f 1 | =
-sed &#39;s/^0*//&#39; | sort -n | uniq | head -n1)<br>
-=C2=A0MAX=3D$(tail -n +2 &quot;$DATFILE&quot; | cut -d &#39; &#39; -f 1 | =
-sed &#39;s/^0*//&#39; | sort -n | uniq | tail -n1)<br>
--BB_CNT=3D$[${MAX} - $MIN + 1]<br>
-+#BB_CNT=3D$[${MAX} - $MIN + 1]<br>
-+BB_CNT=3D$[(${MAX} - $MIN)/4 + 1]<br>
-=C2=A0MIN=3D$(tail -n +2 &quot;$DATFILE&quot; | cut -d &#39; &#39; -f 2 | =
-sed &#39;s/^0*//&#39; | sort -n | uniq | head -n1)<br>
-=C2=A0MAX=3D$(tail -n +2 &quot;$DATFILE&quot; | cut -d &#39; &#39; -f 2 | =
-sed &#39;s/^0*//&#39; | sort -n | uniq | tail -n1)<br>
--PM_CNT=3D$[${MAX} - $MIN + 1]<br>
-+#PM_CNT=3D$[${MAX} - $MIN + 1]<br>
-+PM_CNT=3D$[(${MAX} - $MIN)/4 + 1]<br>
-<br>
-<br>
-=C2=A0(cat &lt;&lt;EOF<br>
-@@ -118,7 +120,7 @@ set output &quot;$PLOT_BASENAME-pm.png&quot;<br>
-=C2=A0replot<br>
-<br>
-=C2=A0set view 60,30<br>
--set term wxt size $SIZE<br>
-+set term qt size $SIZE<br>
-=C2=A0replot<br>
-=C2=A0EOF<br>
-=C2=A0) | gnuplot --persist<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000009fd9bb05b4ee7567--
+--_000_1fe55f020e6d42f0b868b2c81f65d0e1XBOX03axiscom_--
