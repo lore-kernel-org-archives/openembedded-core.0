@@ -1,80 +1,84 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web09.4980.1606300251162414725
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.6636.1606311051097155170
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2020 02:30:51 -0800
+ Wed, 25 Nov 2020 05:30:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z/agQX86;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id i2so1378401wrs.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2020 02:30:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=NS9iN/Oxht3ywLk/aN6dMmnAETIaKvt2BuUtsNfVGAI=;
-        b=Z/agQX86vlZxK46jWobXv1UZXQZ0DttlF40v+/+JA8LSZwEo4W1ziY4PjMOS4DvI8L
-         TF598oyFks60LIDldr4cUItv9zeplf3M01ChUglgmO5FYwRTPghea66sCstmnE1LMGTM
-         denVlCokmIMTcxLynWtRZ0a/Tx8Gx8/wuSxH8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=NS9iN/Oxht3ywLk/aN6dMmnAETIaKvt2BuUtsNfVGAI=;
-        b=K0o+xz+Wvfy6r7wSs4hOuCarp+DLkN8+VrFv872hyVUkYC62PvppacB/Mh7ct0HKLV
-         vz+AfgQUq9Dri7GlBZA93X/zB8gRBcS2PEW/KJjnyamauXCjOjULBR6Wmm8csKNOBsGs
-         vnS/WTt5/UOrsnaeE+U+U+zQiaslqklB4coJBKQklAhc4H8oYx2E4apvBj1SojNFhVVd
-         y6wOuFqnSjnoW/yLR7t0pXjWLhpCS4aqiQQtHT2dU3zba5EETXrkUwqkOSycKmLCmHss
-         N60e2LQ5P3qvLA6A1P8JPm7WIVo2Q2EgsCqT/cC43x9xagfkcEg3ePYBfJIqD89S8QeN
-         W0hw==
-X-Gm-Message-State: AOAM5334TdlCY8wD6Cxwflo7cavv1M6WH8NScfL+YSWTxYCdFqP+BZQg
-	+V0yjwdFdxItPEzHb/mgRLaeUA==
-X-Google-Smtp-Source: ABdhPJzKoTy19q1Z5yaBKH9gWY5FUhtyZnRny9UPuDJQN7HnIkS7Tpj1Npy94kdixCJ7TupvyjEFMQ==
-X-Received: by 2002:a5d:634d:: with SMTP id b13mr3335383wrw.310.1606300249613;
-        Wed, 25 Nov 2020 02:30:49 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 4.3.1.2.4.d.e.0.6.7.2.2.d.6.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.3.1.2.4.d.e.0.6.7.2.2.d.6.0.9.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:906d:2276:ed4:2134])
-        by smtp.gmail.com with ESMTPSA id g131sm4120754wma.35.2020.11.25.02.30.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 02:30:48 -0800 (PST)
-Message-ID: <32812d8ef3f7b29686e3a591e29315e82a80ead5.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v2 1/2] bitbake.conf: Split optimization into common part
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Pascal Bach <pascal.bach@siemens.com>, Adrian Freihofer
-	 <adrian.freihofer@siemens.com>
-Date: Wed, 25 Nov 2020 10:30:46 +0000
-In-Reply-To: <20201123190029.13811-1-andrej.valek@siemens.com>
-References: <20201122124853.30262-1-andrej.valek@siemens.com>
-	 <20201123190029.13811-1-andrej.valek@siemens.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=pmBaBMqk;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=axis.com; l=2307; q=dns/txt; s=axis-central1;
+  t=1606311051; x=1637847051;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MpPu4podu2UKnnj56/VCUZpyaeUXc+ottPxtU7NWpP0=;
+  b=pmBaBMqkzJc1lIgyR5xdMtHtaMZIM3cb/lhHYISkq1xyjCutO+gwfJT/
+   EoKqlEAHtFU7S0a+QJruzMpS5cOac3Knwckfb2wpGgSs/ErDyCxFrnR6s
+   pytIYGdwLOVWxtMOQQswThxbrMU5bVPdz8s0IN/9ks+x5DkUsu7zlODHM
+   13I3oquSHrqZ9fnOrA4cwPuCYvctZY6BCqfJp1jssXEtSAQrBP9+y2Zbp
+   H6rNpL46nWpTyp/oZIE4ZvpeDWgfawttmiypB13lOusX8Y7pM2oiB6mic
+   OB01dFFLVG6u8ZSDpD8oGPtO0YWdu/406/0orwDYMerl/BOUfEDZMS5r6
+   A==;
+IronPort-SDR: vOu8R3JrZhhK1BCjbATfIvuuZ71izxhDvW7OWPc2Ot/kc+p9MBZX6HFvfclBwYRZffgRy5k94Y
+ bieJMvwALQjssVRmvAcKSuCY7vB7Gmuzz0vts3PJ/WgGsFf0uHdloZzjhQHuEgPqczvQyJSgQ+
+ R/6yD/XhFFEQDPLGZigm/D5wKr1k77SW01rxTS1BTBp7Y0o5gT/yW+FuV90H/0cklTza3YdCjC
+ uQ7Qf6xPO9j7qT+o0CedcG8tPJ4HC9H9ojqA+LzYyymrjLoHZxTwvKMgPwWLPt+ub1t11iSoiR
+ Wtg=
+X-IronPort-AV: E=Sophos;i="5.78,368,1599516000"; 
+   d="scan'208";a="15421897"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 0/4] Support symbolic links in paths in PSEUDO_IGNORE_PATHS
+Date: Wed, 25 Nov 2020 14:30:36 +0100
+Message-ID: <cover.1606310940.git.pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Mon, 2020-11-23 at 20:00 +0100, Andrej Valek wrote:
-> This option allows correctly handle the release/debug flags separation in
-> upper recipe like cmake. Adopt SELECTED_OPTIMIZATION usage in other
-> recipes.
-> 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  meta/conf/bitbake.conf                            | 7 ++++---
->  meta/conf/distro/include/security_flags.inc       | 8 ++++----
->  meta/conf/local.conf.sample.extended              | 1 +
->  meta/recipes-devtools/valgrind/valgrind_3.16.1.bb | 1 +
->  4 files changed, 10 insertions(+), 7 deletions(-)
+The changes in this patch series aim to rectify a problem with pseudo
+and its support for ignoring paths. When pseudo compares a path to the
+paths specified in PSEUDO_IGNORE_PATHS, it uses a path that has been
+canonicalized. However, it does not canonicalize the paths in
+PSEUDO_IGNORE_PATHS itself and unless they are canonicalized, they
+will not match as intended. Thus the paths in PSEUDO_IGNORE_PATHS
+needs to be canonicalized. These patches do that by adding a new
+PSEUDO_IGNORE_REAL_PATHS variable, which contains the paths from
+PSEUDO_IGNORE_PATHS after having run them through os.path.realpath().
 
-I am a bit worried about this as we're effectively letting cmake's idea
-of flags separation determine how we have to set things in OE. Once we
-go down this route, we're going to have problems any time we try and
-add a new compiler flag.
+There is also one patch that adds two patches to pseudo to clean up
+pseudo_client_ignore_path_chroot(), and they also plug a memory leak.
+The patches were brought about as I initially intended to do the
+canonicalization in pseudo itself in this function.
 
-What does this buy us in the end?
+I have not tested the change to wic as we do not use it, though I do
+not expect it to be problematic.
 
-Cheers,
+//Peter
 
-Richard
+The following changes since commit 3ecf5d9692fec97b37af6a4e6c747a4e2c2ca292:
+
+  uninative: Don't use single sstate for pseudo-native (2020-11-24 15:53:07 +0000)
+
+are available in the Git repository at:
+
+  git://push.yoctoproject.org/poky-contrib pkj/pseudo-ignore
+
+Peter Kjellerstedt (4):
+  pseudo: Simplify pseudo_client_ignore_path_chroot()
+  bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS
+  bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+  wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
+
+ meta/classes/image_types_wic.bbclass          |  2 +-
+ meta/conf/bitbake.conf                        | 10 +--
+ meta/conf/machine/include/tune-thunderx.inc   |  2 +-
+ ...ssen-indentation-of-pseudo_client_ig.patch | 69 +++++++++++++++++++
+ ...mplify-pseudo_client_ignore_path_chr.patch | 50 ++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +
+ scripts/contrib/bb-perf/bb-matrix-plot.sh     |  8 ++-
+ scripts/lib/wic/partition.py                  |  2 +-
+ 8 files changed, 135 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
+ create mode 100644 meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
 
