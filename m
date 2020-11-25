@@ -1,84 +1,84 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.6953.1606312098313518383
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.6954.1606312098403602466
  for <openembedded-core@lists.openembedded.org>;
  Wed, 25 Nov 2020 05:48:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=IuldzEN8;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=k3Kswz/l;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=axis.com; l=2257; q=dns/txt; s=axis-central1;
+  d=axis.com; l=3646; q=dns/txt; s=axis-central1;
   t=1606312098; x=1637848098;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0gsAXQgNXIXtAr2sXTe6FTXrZPTcpmJf4emvR+detXg=;
-  b=IuldzEN84lo44rwxgkbblxRJK3c/q7CAujUvRtwL48yTAzMpW7xK3CZW
-   RUs6hlC58bdCe7CG5mrGpy8vbQ/uzbfD9MK95zOInXiWH136B+5TiqzTq
-   7W1dmNGz2YWzk52Ptk8NK8Q0bqqvgNCOWAdRFxC0Bqv+W4tMfXucbfz2E
-   uIRqeoEomGFuhYPwasBLcVkJvicmkr5ZRK+yN9Qdb6hJ0/sk1X33ANZAs
-   uOyheB3QE9KeOlwxHgv0+W8mRIb5VUFXofeP38YO7oJbEFouyMOD0sB51
-   ip0FEpMYdlpXSwBxcE88pkGmDtuXBrAS9WN3D2LzK6vfdUTQI1f4QGkoJ
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=Rp+y+ThYrc9ZQR7ePeJ8/DegjPhy4B8JzMDMOGgOX0c=;
+  b=k3Kswz/lxbWjKUB5gpL4mrdWK+QuZN3ZdCEglEFmQ/CBOO/vijpxZmr3
+   c7sLd8sYwNkGrDx4pRQ6PLuitBN7h00GKC+1DZ8/IXx2R5Xu8Fa9h9DT2
+   fRPzRapvxQctxjOF96+KeYO6yVoUbHnRr1HSGC6cfA+phxWahYyw7m86r
+   adJJdWOl/NlPFj0jOCvKLV66+flEXBm0SwoM38F0vcNGFWLjFlvDzZD+z
+   d4Al7AoP/QcE4j0Biw/kxm7nnXMnZIWAepnx/CLFqh7oDH3F7nd/NZasz
+   vYtGHo0nKphwSYoOgprLN92DdRbSs66e546rIkg3f3LA8Jl4f9SScSfeO
    Q==;
-IronPort-SDR: bPgn6LX/rm/K3J7GfD2D1tJZHR7S5BqzSFLuRWUW+vIy/VE8upFivGfcB7bqS//G9Tzuo6kOzK
- X3qbmwySjHELLwVzd6A9EaHcgNiucPu8szKH8DI0ixY+YuA7CLerr3gnnklSqqIFFrpTmzLkNf
- B8Q/loOy12dL+m0RtxPffwtxzVbJvt5XmxVxQ+WRDHf66q5A76VB6Ui9DokBR5LKBm70bxncTF
- sNI5zU9IgtB5FGZMOwTnw84sCPm09tIC0kPqL4ovFaXc1mFJ6f39+AAdTp5vlN8wLT+UM063V5
- xtw=
+IronPort-SDR: dx6RTPUj0hG1FPW3fd0QTTj8oKyf+6K0jsdZiGGafFKRIRlp0j8Y2J+Eskx69Pzwm8N6+l4em/
+ IxUuYFMkG/9biXuUyKp9bMBIaiELpknOxwBkQ8nnpp1KWyZCpDikur6IBTnRqcd4ofgsY3FVIL
+ gfNbOqkDDG/gbfIONqzuudE2FGST4AUuljt8VQvL//GpmynioSTbvnO0KAvrewoP9tw3UD7c5B
+ LxFIGuBzwkaDp7yJQRtVG/pZhe5X/OQTSgXL/va6rUVdUmbc9rGWvBPThhd/cHOFePw/7jTtS9
+ 1mU=
 X-IronPort-AV: E=Sophos;i="5.78,368,1599516000"; 
-   d="scan'208";a="15422710"
+   d="scan'208";a="14882342"
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv2 0/4] Support symbolic links in paths in PSEUDO_IGNORE_PATHS
-Date: Wed, 25 Nov 2020 14:48:09 +0100
-Message-ID: <cover.1606312002.git.pkj@axis.com>
+Subject: [PATCHv2 3/4] bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+Date: Wed, 25 Nov 2020 14:48:12 +0100
+Message-ID: <9b62c1babb6a53472329d57fa6ec2ac8ed70a3f8.1606312002.git.pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <cover.1606312002.git.pkj@axis.com>
+References: <cover.1606312002.git.pkj@axis.com>
 MIME-Version: 1.0
 Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-The changes in this patch series aim to rectify a problem with pseudo
-and its support for ignoring paths. When pseudo compares a path to the
-paths specified in PSEUDO_IGNORE_PATHS, it uses a path that has been
-canonicalized. However, it does not canonicalize the paths in
-PSEUDO_IGNORE_PATHS itself and unless they are canonicalized, they
-will not match as intended. Thus the paths in PSEUDO_IGNORE_PATHS
-needs to be canonicalized. These patches do that by adding a new
-PSEUDO_IGNORE_REAL_PATHS variable, which contains the paths from
-PSEUDO_IGNORE_PATHS after having run them through os.path.realpath().
+Introduce PSEUDO_IGNORE_REAL_PATHS and make it contain the canonicalized
+paths from PSEUDO_IGNORE_PATHS, obtained by passing the latter to
+oe.path.to_real_paths(). This is needed since pseudo's
+pseudo_client_ignore_path_chroot() will compare the ignored paths to
+paths that have been canonicalized.
 
-There is also one patch that adds two patches to pseudo to clean up
-pseudo_client_ignore_path_chroot(), and they also plug a memory leak.
-The patches were brought about as I initially intended to do the
-canonicalization in pseudo itself in this function.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/conf/bitbake.conf | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-I have not tested the change to wic as we do not use it, though I do
-not expect it to be problematic.
-
-PATCHv2: Removed some unrelated changes in the second patch.
-
-//Peter
-
-The following changes since commit 3ecf5d9692fec97b37af6a4e6c747a4e2c2ca292:
-
-  uninative: Don't use single sstate for pseudo-native (2020-11-24 15:53:07 +0000)
-
-are available in the Git repository at:
-
-  git://push.yoctoproject.org/poky-contrib pkj/pseudo-ignore
-
-Peter Kjellerstedt (4):
-  pseudo: Simplify pseudo_client_ignore_path_chroot()
-  bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS
-  bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
-  wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
-
- meta/classes/image_types_wic.bbclass          |  2 +-
- meta/conf/bitbake.conf                        | 10 +--
- ...ssen-indentation-of-pseudo_client_ig.patch | 69 +++++++++++++++++++
- ...mplify-pseudo_client_ignore_path_chr.patch | 50 ++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +
- scripts/lib/wic/partition.py                  |  2 +-
- 6 files changed, 129 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
- create mode 100644 meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9742fe4fe2..4862095a1b 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -685,15 +685,16 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
++PSEUDO_IGNORE_REAL_PATHS = "${@','.join(os.path.realpath(path) for path in (d.getVar('PSEUDO_IGNORE_PATHS') or '').split(','))}"
+ PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${@','.join(d.getVar('BBLAYERS').split())},${CCACHE_DIR}"
+ 
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+ #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+-FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1"
++FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=1"
+ FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=0"
++FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=0"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+@@ -884,7 +885,8 @@ BB_HASHEXCLUDE_COMMON ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
+     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
+     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
+     SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES"
+-BB_HASHBASE_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS BUILDHISTORY_DIR SSTATE_DIR "
++BB_HASHBASE_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS \
++    PSEUDO_IGNORE_REAL_PATHS BUILDHISTORY_DIR SSTATE_DIR "
+ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
+     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
+     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
