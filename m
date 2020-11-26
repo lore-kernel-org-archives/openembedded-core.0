@@ -1,126 +1,157 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web09.10806.1606423135542355342
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.12538.1606434123218348200
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2020 12:38:59 -0800
+ Thu, 26 Nov 2020 15:42:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=cnW7vqP8;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=axis.com; l=5838; q=dns/txt; s=axis-central1;
-  t=1606423135; x=1637959135;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=bAPkeVO4P/35C6wb9I/UGlk7U+H3T1Lvm6QBxea2CzM=;
-  b=cnW7vqP8KByHqnsB8MtK3bevB55fdtwwSR2OgAF/jYRkIoTe9Dlv5n+W
-   MwdaDyUuQFP7lIbS6RoA9xRnL4BCrxaHW4cRFz0D7LL6KqX6q1UufxmXq
-   /GnKSyMJKSHMrmq3NWC0lIYdf1OL/peMRvTPl6Ab659EV7j6QYLueunPg
-   gsKLm9fPwCMs+rP0Ro+W3O5G2+bs9IO3tf/VVSNHsxFfJSxW8WBOZ9zOV
-   AG7E48UsIm6lSVSr4+W1cmfvp2kNqlVSS40VbsrpABumcxRh1c4Ogz/VD
-   +QktNH16cuGERbxOmzkndHlTXo5Ql199LInXpxO5554FPkmekv/Q8C0wK
-   A==;
-IronPort-SDR: Zh7gEYKOxO10JA9HbYa1uTq0fjc4BmHDDLp4VDcHpvewZ7psjARfbWFg0Uq07+7+ADATB0/AoF
- 8g3Pb61A4TbnX+yNkpFIrne3bst9TlYZ4ygjuyJAE+KkXz6UUrozkwARQI7Dkq9jC0Xoo/w+bw
- uOMIu0hC3TCu3xO7Dk6AI33FJNfhZulmaeX29QmkflomwzfppAD33ybLFDkPu4R5K7bp83oX2c
- 01KTh5uyXlT+Lra4gECWQpxFxz6P8h6gpoF93J1OAz8MNFBlxC+Oe0x99voFkdcLiQl8Od9FVW
- D/Q=
-X-IronPort-AV: E=Sophos;i="5.78,373,1599516000"; 
-   d="scan'208";a="14935695"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HoZJppsd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id l1so3816062wrb.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2020 15:42:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=e9Cv0VWC8MkSUDbDj05Q2LIipC+gsheW3wxAGr87WdQ=;
+        b=HoZJppsdRNMJFkn7s1oCZbfiLdiUUweKYeQ22nip/kSXw/eTF042L0HPZMfQLrf/ly
+         Vx9Vc/MITeLxuGX0e8e6Pz+XEJibRYq1XGL5kLBOB2TsADAnFPEPirVf8dNhVr7wb0oA
+         vAns7VAzOtgblnBfi4qqcim220gnoT+e0jgcg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=e9Cv0VWC8MkSUDbDj05Q2LIipC+gsheW3wxAGr87WdQ=;
+        b=k6hw+WnPNeQt/+UChHcb5LyIWviHCu4hixOaUKGQoNUNa2aMGjuKuqAwkA6vHMk7n/
+         gt4w7sPCtvAeTpfW6xuPQIFII8WWF3Kw0upZp4Zg9yR8UCXK+JDuVtnNdwS9QN/YQ6jF
+         kDk1s7G+ADFKnMeepcGtexOlnT8N1VfbkMeCCGDvYOzyIyIeHyub//V/2GhxZG4nZLEh
+         hLg/IrGOLfwEPl/xq4ZoJVHZPQXKI1c07WndluQFKk1eme417iNLQtZ8OuZGnjwmMpAx
+         V95gIbO9lFKS+jXqTxV1A4ZGPbZuIIOq8U5mPu8hY2TaQIXLxVg+bGJt6Ow+KC+kbaJX
+         fVxQ==
+X-Gm-Message-State: AOAM531VhIibFCEvC0bUvh1nipHM0zINk+enQfThWL9BcyBP7stA3WvB
+	aYlFR4WMfgVgOFaJq4WF/qCgwg==
+X-Google-Smtp-Source: ABdhPJyC9RsvhBORAIiX+VOrxiEuI4m0KXQ9f+d/NJuLaOYXZ0kQ4WPKR9tOGs2UmC7H3am0gUW0uA==
+X-Received: by 2002:adf:8b4a:: with SMTP id v10mr6798643wra.212.1606434121165;
+        Thu, 26 Nov 2020 15:42:01 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 7.8.3.c.5.5.3.2.b.b.3.d.3.f.0.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (7.8.3.c.5.5.3.2.b.b.3.d.3.f.0.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:80f3:d3bb:2355:c387])
+        by smtp.gmail.com with ESMTPSA id b18sm11787242wrt.54.2020.11.26.15.42.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2020 15:42:00 -0800 (PST)
+Message-ID: <fe01b78024f2e643f7f2442483bb4a673112b63d.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
-Thread-Topic: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize paths in
- PSEUDO_IGNORE_PATHS
-Thread-Index: AQHWxAMDZ2uY0SjbnUS1zQe3joUJnqna3QXQ
-Date: Thu, 26 Nov 2020 20:38:50 +0000
-Message-ID: <307eb4fc670343e6b725de414ea90f43@XBOX03.axis.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Nov 2020 23:41:59 +0000
+In-Reply-To: <307eb4fc670343e6b725de414ea90f43@XBOX03.axis.com>
 References: <cover.1606312002.git.pkj@axis.com>
 	 <9b62c1babb6a53472329d57fa6ec2ac8ed70a3f8.1606312002.git.pkj@axis.com>
- <4ddd2873ff90af2675c690fd44ab8881ff609a70.camel@linuxfoundation.org>
-In-Reply-To: <4ddd2873ff90af2675c690fd44ab8881ff609a70.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	 <4ddd2873ff90af2675c690fd44ab8881ff609a70.camel@linuxfoundation.org>
+	 <307eb4fc670343e6b725de414ea90f43@XBOX03.axis.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
-aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDI2IG5vdmVtYmVy
-IDIwMjAgMTU6NDcNCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
-Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0h2MiAzLzRdIGJpdGJha2UuY29uZjogQ2Fu
-b25pY2FsaXplIHBhdGhzIGluDQo+IFBTRVVET19JR05PUkVfUEFUSFMNCj4gDQo+IE9uIFdlZCwg
-MjAyMC0xMS0yNSBhdCAxNDo0OCArMDEwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+
-IEludHJvZHVjZSBQU0VVRE9fSUdOT1JFX1JFQUxfUEFUSFMgYW5kIG1ha2UgaXQgY29udGFpbiB0
-aGUNCj4gY2Fub25pY2FsaXplZA0KPiA+IHBhdGhzIGZyb20gUFNFVURPX0lHTk9SRV9QQVRIUywg
-b2J0YWluZWQgYnkgcGFzc2luZyB0aGUgbGF0dGVyIHRvDQo+ID4gb2UucGF0aC50b19yZWFsX3Bh
-dGhzKCkuIFRoaXMgaXMgbmVlZGVkIHNpbmNlIHBzZXVkbydzDQo+ID4gcHNldWRvX2NsaWVudF9p
-Z25vcmVfcGF0aF9jaHJvb3QoKSB3aWxsIGNvbXBhcmUgdGhlIGlnbm9yZWQgcGF0aHMgdG8NCj4g
-PiBwYXRocyB0aGF0IGhhdmUgYmVlbiBjYW5vbmljYWxpemVkLg0KPiA+DQo+ID4gU2lnbmVkLW9m
-Zi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+
-ID4gLS0tDQo+ID4gIG1ldGEvY29uZi9iaXRiYWtlLmNvbmYgfCA4ICsrKysrLS0tDQo+ID4gIDEg
-ZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+IA0KPiBUaGlz
-IGxvb2tzIGxpa2UgYSBnb29kIHdheSB0byBmaXggdGhpcywgZXhjZXB0IEkgaGF2ZSBhIHN0cm9u
-ZyBkaXNsaWtlDQo+IG9mICJSRUFMIiB2YXJpYWJsZXMuDQoNCldlbGwsIEkgbmFtZWQgaXQgUFNF
-VURPX0lHTk9SRV9SRUFMX1BBVEhTIHRvIG1hdGNoIG9zLnBhdGgucmVhbHBhdGgoKS4gDQpJIGNh
-biBuYW1lIGl0LCBlLmcuLCBQU0VVRE9fSUdOT1JFX0NBTk9OSUNBTF9QQVRIUyBpZiB5b3UgcHJl
-ZmVyIHRoYXQ/DQoNCj4gDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9iaXRiYWtlLmNvbmYg
-Yi9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+ID4gaW5kZXggOTc0MmZlNGZlMi4uNDg2MjA5NWEx
-YiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+ID4gKysrIGIvbWV0
-YS9jb25mL2JpdGJha2UuY29uZg0KPiA+IEBAIC02ODUsMTUgKzY4NSwxNiBAQCBTUkNfVVJJID0g
-IiINCj4gPiAgUFNFVURPX0xPQ0FMU1RBVEVESVIgPz0gIiR7V09SS0RJUn0vcHNldWRvLyINCj4g
-PiAgUFNFVURPX1BBU1NXRCA/PSAiJHtTVEFHSU5HX0RJUl9UQVJHRVR9OiR7UFNFVURPX1NZU1JP
-T1R9Ig0KPiA+ICBQU0VVRE9fU1lTUk9PVCA9ICIke0NPTVBPTkVOVFNfRElSfS8ke0JVSUxEX0FS
-Q0h9L3BzZXVkby1uYXRpdmUiDQo+ID4gK1BTRVVET19JR05PUkVfUkVBTF9QQVRIUyA9ICIke0An
-LCcuam9pbihvcy5wYXRoLnJlYWxwYXRoKHBhdGgpIGZvcg0KPiBwYXRoIGluIChkLmdldFZhcign
-UFNFVURPX0lHTk9SRV9QQVRIUycpIG9yICcnKS5zcGxpdCgnLCcpKX0iDQo+ID4gIFBTRVVET19J
-R05PUkVfUEFUSFMgPSAiL3Vzci8sL2V0Yy8sL2xpYiwvZGV2Lywke1R9LCR7V09SS0RJUn0vcmVj
-aXBlLQ0KPiBzeXNyb290LCR7U1NUQVRFX0RJUn0sJHtTVEFNUFNfRElSfSwke1dPUktESVJ9L3Br
-Z2RhdGEtDQo+IHN5c3Jvb3QsJHtUTVBESVJ9L3NzdGF0ZS1jb250cm9sLCR7REVQTE9ZX0RJUn0s
-JHtXT1JLRElSfS9kZXBsb3ktDQo+ICwke1RNUERJUn0vYnVpbGRzdGF0cywke1dPUktESVJ9L3Nz
-dGF0ZS1idWlsZC1wYWNrYWdlXywke1dPUktESVJ9L3NzdGF0ZS0NCj4gaW5zdGFsbC1wYWNrYWdl
-Xywke1dPUktESVJ9L3NzdGF0ZS1idWlsZC0NCj4gaW1hZ2VfY29tcGxldGUsJHtUTVBESVJ9L3N5
-c3Jvb3RzLQ0KPiBjb21wb25lbnRzLCR7QlVJTERISVNUT1JZX0RJUn0sJHtUTVBESVJ9L3BrZ2Rh
-dGEsJHtUT1BESVJ9L2NhY2hlLCR7Q09SRUJBDQo+IFNFfS9zY3JpcHRzLCR7QCcsJy5qb2luKGQu
-Z2V0VmFyKCdCQkxBWUVSUycpLnNwbGl0KCkpfSwke0NDQUNIRV9ESVJ9Ig0KPiA+DQo+ID4gIGV4
-cG9ydCBQU0VVRE9fRElTQUJMRUQgPSAiMSINCj4gPiAgI2V4cG9ydCBQU0VVRE9fUFJFRklYID0g
-IiR7U1RBR0lOR19ESVJfTkFUSVZFfSR7cHJlZml4X25hdGl2ZX0iDQo+ID4gICNleHBvcnQgUFNF
-VURPX0JJTkRJUiA9ICIke1NUQUdJTkdfRElSX05BVElWRX0ke2JpbmRpcl9uYXRpdmV9Ig0KPiA+
-ICAjZXhwb3J0IFBTRVVET19MSUJESVIgPQ0KPiAiJHtTVEFHSU5HX0RJUl9OQVRJVkV9JFBTRVVE
-T0JJTkRJUi8uLi9saWIvcHNldWRvL2xpYg0KPiA+IC1GQUtFUk9PVEJBU0VFTlYgPSAiUFNFVURP
-X0JJTkRJUj0ke1BTRVVET19TWVNST09UfSR7YmluZGlyX25hdGl2ZX0NCj4gUFNFVURPX0xJQkRJ
-Uj0ke1BTRVVET19TWVNST09UfSR7cHJlZml4X25hdGl2ZX0vbGliL3BzZXVkby9saWINCj4gUFNF
-VURPX1BSRUZJWD0ke1BTRVVET19TWVNST09UfSR7cHJlZml4X25hdGl2ZX0NCj4gUFNFVURPX0lH
-Tk9SRV9QQVRIUz0ke1BTRVVET19JR05PUkVfUEFUSFN9IFBTRVVET19ESVNBQkxFRD0xIg0KPiA+
-ICtGQUtFUk9PVEJBU0VFTlYgPSAiUFNFVURPX0JJTkRJUj0ke1BTRVVET19TWVNST09UfSR7Ymlu
-ZGlyX25hdGl2ZX0NCj4gUFNFVURPX0xJQkRJUj0ke1BTRVVET19TWVNST09UfSR7cHJlZml4X25h
-dGl2ZX0vbGliL3BzZXVkby9saWINCj4gUFNFVURPX1BSRUZJWD0ke1BTRVVET19TWVNST09UfSR7
-cHJlZml4X25hdGl2ZX0NCj4gUFNFVURPX0lHTk9SRV9QQVRIUz0ke1BTRVVET19JR05PUkVfUkVB
-TF9QQVRIU30gUFNFVURPX0RJU0FCTEVEPTEiDQo+ID4gIEZBS0VST09UQ01EID0gIiR7UFNFVURP
-X1NZU1JPT1R9JHtiaW5kaXJfbmF0aXZlfS9wc2V1ZG8iDQo+ID4gLUZBS0VST09URU5WID0gIlBT
-RVVET19QUkVGSVg9JHtQU0VVRE9fU1lTUk9PVH0ke3ByZWZpeF9uYXRpdmV9DQo+IFBTRVVET19M
-T0NBTFNUQVRFRElSPSR7UFNFVURPX0xPQ0FMU1RBVEVESVJ9DQo+IFBTRVVET19QQVNTV0Q9JHtQ
-U0VVRE9fUEFTU1dEfSBQU0VVRE9fTk9TWU1MSU5LRVhQPTENCj4gUFNFVURPX0lHTk9SRV9QQVRI
-Uz0ke1BTRVVET19JR05PUkVfUEFUSFN9IFBTRVVET19ESVNBQkxFRD0wIg0KPiA+ICtGQUtFUk9P
-VEVOViA9ICJQU0VVRE9fUFJFRklYPSR7UFNFVURPX1NZU1JPT1R9JHtwcmVmaXhfbmF0aXZlfQ0K
-PiBQU0VVRE9fTE9DQUxTVEFURURJUj0ke1BTRVVET19MT0NBTFNUQVRFRElSfQ0KPiBQU0VVRE9f
-UEFTU1dEPSR7UFNFVURPX1BBU1NXRH0gUFNFVURPX05PU1lNTElOS0VYUD0xDQo+IFBTRVVET19J
-R05PUkVfUEFUSFM9JHtQU0VVRE9fSUdOT1JFX1JFQUxfUEFUSFN9IFBTRVVET19ESVNBQkxFRD0w
-Ig0KPiA+DQo+IA0KPiBJJ20gd29uZGVyaW5nIGlmIHdlIGNyZWF0ZSBhIGZ1bmN0aW9uIGluIGxp
-Yi9vZS91dGlscy5weSBhbmQgdGhlbiB1c2UNCj4gc29tZXRoaW5nIGxpa2U6DQo+IA0KPiBQU0VV
-RE9fSUdOT1JFX1BBVEhTPSR7QG9lLnV0aWxzLnJlYWxwYXRoKCJQU0VVRE9fSUdOT1JFX1JFQUxf
-UEFUSFMiKX0NCg0KVGhlcmUgYWxyZWFkeSBpcyBhbiBvZS5wYXRoLnJlYWxwYXRoKCkuIEhvd2V2
-ZXIsIEkgYW0gbm90IHN1cmUgd2hlbiANCml0IGlzIGV4cGVjdGVkIHRvIGJlIHVzZWQgaW5zdGVh
-ZCBvZiBvcy5wYXRoLnJlYWxwYXRoKCkuDQoNCkkgaW5pdGlhbGx5IGNyZWF0ZWQgYW4gb2UucGF0
-aC5yZWFscGF0aHMoZCwgdmFyLCBzZXBhcmF0b3I9JywnKSwgYnV0IA0KYWZ0ZXIgSSBoYWQgcmV3
-cml0dGVuIGl0IGEgY291cGxlIG9mIHRpbWVzIEkgd2FzIGRvd24gdG8ganVzdCB0aGUgDQpzaW5n
-bGUgbGlzdCBjb21wcmVoZW5zaW9uIGFuZCB0aGVuIEkgZmVsdCBhcyBJIGNvdWxkIGp1c3QgYXMg
-d2VsbCANCnVzZSBpdCBkaXJlY3RseSBzaW5jZSBJIGRvbid0IHNlZSBhIGdyZWF0IG5lZWQgZm9y
-IGEgY29tbW9uIGZ1bmN0aW9uIA0KdG8gY2Fub25pY2FsaXplIGEgbGlzdCBvZiBwYXRocy4gQnV0
-IGlmIHlvdSBwcmVmZXIgdGhhdCBzb2x1dGlvbiwgSSANCmNhbiByZXN0b3JlIGl0Lg0KDQo+IA0K
-PiA/DQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQoNCi8vUGV0ZXINCg0K
+On Thu, 2020-11-26 at 20:38 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Sent: den 26 november 2020 15:47
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize
+> > paths in
+> > PSEUDO_IGNORE_PATHS
+> > 
+> > On Wed, 2020-11-25 at 14:48 +0100, Peter Kjellerstedt wrote:
+> > > Introduce PSEUDO_IGNORE_REAL_PATHS and make it contain the
+> > canonicalized
+> > > paths from PSEUDO_IGNORE_PATHS, obtained by passing the latter to
+> > > oe.path.to_real_paths(). This is needed since pseudo's
+> > > pseudo_client_ignore_path_chroot() will compare the ignored paths
+> > > to
+> > > paths that have been canonicalized.
+> > > 
+> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > ---
+> > >  meta/conf/bitbake.conf | 8 +++++---
+> > >  1 file changed, 5 insertions(+), 3 deletions(-)
+> > 
+> > This looks like a good way to fix this, except I have a strong
+> > dislike
+> > of "REAL" variables.
+> 
+> Well, I named it PSEUDO_IGNORE_REAL_PATHS to match
+> os.path.realpath(). 
+> I can name it, e.g., PSEUDO_IGNORE_CANONICAL_PATHS if you prefer
+> that?
+
+My point was less about the name and more that I'd prefer not to have
+an indirect variable which isn't useful.
+
+> > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > > index 9742fe4fe2..4862095a1b 100644
+> > > --- a/meta/conf/bitbake.conf
+> > > +++ b/meta/conf/bitbake.conf
+> > > @@ -685,15 +685,16 @@ SRC_URI = ""
+> > >  PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+> > >  PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+> > >  PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+> > > +PSEUDO_IGNORE_REAL_PATHS = "${@','.join(os.path.realpath(path) for
+> > path in (d.getVar('PSEUDO_IGNORE_PATHS') or '').split(','))}"
+> > >  PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-
+> > sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-
+> > sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-
+> > ,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-
+> > install-package_,${WORKDIR}/sstate-build-
+> > image_complete,${TMPDIR}/sysroots-
+> > components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBA
+> > SE}/scripts,${@','.join(d.getVar('BBLAYERS').split())},${CCACHE_DIR}"
+> > >  export PSEUDO_DISABLED = "1"
+> > >  #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+> > >  #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+> > >  #export PSEUDO_LIBDIR =
+> > "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+> > > -FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native}
+> > PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib
+> > PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
+> > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1"
+> > > +FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native}
+> > PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib
+> > PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
+> > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=1"
+> > >  FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+> > > -FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
+> > PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR}
+> > PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1
+> > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=0"
+> > > +FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
+> > PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR}
+> > PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1
+> > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=0"
+> > 
+> > I'm wondering if we create a function in lib/oe/utils.py and then use
+> > something like:
+> > 
+> > PSEUDO_IGNORE_PATHS=${@oe.utils.realpath("PSEUDO_IGNORE_REAL_PATHS")}
+> 
+> There already is an oe.path.realpath(). However, I am not sure when 
+> it is expected to be used instead of os.path.realpath().
+
+That is a bad choice of name now I look at it! I was thinking more
+about the use of a function.
+
+> I initially created an oe.path.realpaths(d, var, separator=','), but 
+> after I had rewritten it a couple of times I was down to just the 
+> single list comprehension and then I felt as I could just as well 
+> use it directly since I don't see a great need for a common function 
+> to canonicalize a list of paths. But if you prefer that solution, I 
+> can restore it.
+
+I don't really mind the list comprehension directly or a function, I'd
+just prefer not to have an indirect variable around to confuse people.
+
+Cheers,
+
+Richard
+
