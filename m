@@ -1,114 +1,126 @@
-Received: from 13.mo1.mail-out.ovh.net (13.mo1.mail-out.ovh.net [178.33.253.128])
- by mx.groups.io with SMTP id smtpd.web10.6446.1606403867612771209
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web09.10806.1606423135542355342
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2020 07:17:48 -0800
+ Thu, 26 Nov 2020 12:38:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=softfail (domain: 3mdeb.com, ip: 178.33.253.128, mailfrom: norbert.kaminski@3mdeb.com)
-Received: from player735.ha.ovh.net (unknown [10.108.4.72])
-	by mo1.mail-out.ovh.net (Postfix) with ESMTP id 8656C1E5181
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2020 16:17:45 +0100 (CET)
-Received: from 3mdeb.com (178235223047.warszawa.vectranet.pl [178.235.223.47])
-	(Authenticated sender: norbert.kaminski@3mdeb.com)
-	by player735.ha.ovh.net (Postfix) with ESMTPSA id 5E4B618520E0C;
-	Thu, 26 Nov 2020 15:17:42 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-106R0065ee08f5f-bfba-42a2-a368-ae075ffcfdf4,
-                    637D313A34A7FE78C7459B71C1419970C707AA62) smtp.auth=norbert.kaminski@3mdeb.com
-Subject: Re: [OE-core] [PATCH] grub: Add support for RISC-V
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-References: <20201125172249.1067599-1-norbert.kaminski@3mdeb.com>
- <CAMKF1spgmRqX-rmy-tV+a5VwRCTT6-UpjWejAq2UL5nhbB9-kQ@mail.gmail.com>
-From: "Norbert Kaminski" <norbert.kaminski@3mdeb.com>
-Message-ID: <0925f3b7-4b36-f4a3-8d5e-e0deb5bc2b5d@3mdeb.com>
-Date: Thu, 26 Nov 2020 16:17:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=cnW7vqP8;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=axis.com; l=5838; q=dns/txt; s=axis-central1;
+  t=1606423135; x=1637959135;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=bAPkeVO4P/35C6wb9I/UGlk7U+H3T1Lvm6QBxea2CzM=;
+  b=cnW7vqP8KByHqnsB8MtK3bevB55fdtwwSR2OgAF/jYRkIoTe9Dlv5n+W
+   MwdaDyUuQFP7lIbS6RoA9xRnL4BCrxaHW4cRFz0D7LL6KqX6q1UufxmXq
+   /GnKSyMJKSHMrmq3NWC0lIYdf1OL/peMRvTPl6Ab659EV7j6QYLueunPg
+   gsKLm9fPwCMs+rP0Ro+W3O5G2+bs9IO3tf/VVSNHsxFfJSxW8WBOZ9zOV
+   AG7E48UsIm6lSVSr4+W1cmfvp2kNqlVSS40VbsrpABumcxRh1c4Ogz/VD
+   +QktNH16cuGERbxOmzkndHlTXo5Ql199LInXpxO5554FPkmekv/Q8C0wK
+   A==;
+IronPort-SDR: Zh7gEYKOxO10JA9HbYa1uTq0fjc4BmHDDLp4VDcHpvewZ7psjARfbWFg0Uq07+7+ADATB0/AoF
+ 8g3Pb61A4TbnX+yNkpFIrne3bst9TlYZ4ygjuyJAE+KkXz6UUrozkwARQI7Dkq9jC0Xoo/w+bw
+ uOMIu0hC3TCu3xO7Dk6AI33FJNfhZulmaeX29QmkflomwzfppAD33ybLFDkPu4R5K7bp83oX2c
+ 01KTh5uyXlT+Lra4gECWQpxFxz6P8h6gpoF93J1OAz8MNFBlxC+Oe0x99voFkdcLiQl8Od9FVW
+ D/Q=
+X-IronPort-AV: E=Sophos;i="5.78,373,1599516000"; 
+   d="scan'208";a="14935695"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+Thread-Topic: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize paths in
+ PSEUDO_IGNORE_PATHS
+Thread-Index: AQHWxAMDZ2uY0SjbnUS1zQe3joUJnqna3QXQ
+Date: Thu, 26 Nov 2020 20:38:50 +0000
+Message-ID: <307eb4fc670343e6b725de414ea90f43@XBOX03.axis.com>
+References: <cover.1606312002.git.pkj@axis.com>
+	 <9b62c1babb6a53472329d57fa6ec2ac8ed70a3f8.1606312002.git.pkj@axis.com>
+ <4ddd2873ff90af2675c690fd44ab8881ff609a70.camel@linuxfoundation.org>
+In-Reply-To: <4ddd2873ff90af2675c690fd44ab8881ff609a70.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spgmRqX-rmy-tV+a5VwRCTT6-UpjWejAq2UL5nhbB9-kQ@mail.gmail.com>
-X-Ovh-Tracer-Id: 14346498088966134062
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudehvddgjeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomheppfhorhgsvghrthgpmfgrmhhiknhskhhiuceonhhorhgsvghrthdrkhgrmhhinhhskhhiseefmhguvggsrdgtohhmqeenucggtffrrghtthgvrhhnpedtffejvdffvedugfejffdvfffggeeuveelffefteeiudeghfektdevtddttddvleenucffohhmrghinhepghhnuhdrohhrghdpohhpvghnvghmsggvugguvggurdhorhhgnecukfhppedtrddtrddtrddtpddujeekrddvfeehrddvvdefrdegjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejfeehrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepnhhorhgsvghrthdrkhgrmhhinhhskhhiseefmhguvggsrdgtohhmpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhg
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 25.11.2020 19:54, Khem Raj wrote:
-> Thanks for your contribution.
->
-> On Wed, Nov 25, 2020 at 9:23 AM Norbert Kaminski
-> <norbert.kaminski@3mdeb.com> wrote:
->> This patch adds RISC-V to the COMPATIBLE_HOST. Since GRUB 2.04,
->> the source code supports the RISC-V, thanks to Alexander Graf.
->>
->> Adding the GRUBPLATFORM for RISC-V prevents autoconf problems.
->> Also, the patch appends the __anonymous method with RISC-V architecture.
->>
->> Signed-off-by: Norbert Kaminski <norbert.kaminski@3mdeb.com>
->> ---
->>   meta/recipes-bsp/grub/grub-efi_2.04.bb | 4 ++++
->>   meta/recipes-bsp/grub/grub2.inc        | 4 +++-
->>   2 files changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-bsp/grub/grub-efi_2.04.bb b/meta/recipes-bsp/grub/grub-efi_2.04.bb
->> index 30d95f95e0..f80afd95cb 100644
->> --- a/meta/recipes-bsp/grub/grub-efi_2.04.bb
->> +++ b/meta/recipes-bsp/grub/grub-efi_2.04.bb
->> @@ -26,6 +26,10 @@ python __anonymous () {
->>           grubtarget = 'arm64'
->>       elif re.match('arm', target):
->>           grubtarget = 'arm'
->> +    elif re.match('riscv64', target):
->> +        grubtarget = 'riscv64'
->> +    elif re.match('riscv32', target):
->> +        grubtarget = 'riscv32'
-> RV64 is file but does it also support RV32 ?
-I see that there are some changes for RV32:
-
-https://git.savannah.gnu.org/cgit/grub.git/tree/configure.ac?h=grub-2.04#n186
-
-And I'm able to build the grub and grub-native package for RV32.
-There is a problem with grub-mkimage for RV32 in grub-efi,
-it fails with the error:
-
-grub-mkimage: error: target 1f46 not reachable from pc=10b6.
-
-This points to the line:
-https://git.savannah.gnu.org/cgit/grub.git/tree/util/grub-mkimagexx.c?h=grub-2.04&id=3562536fd5e5cc3d40942f3e8ac53d4f0ee5c220#n1300
-
-I guess for now, we should leave the support only for the RV64,
-which is tested and works well.
-
->>       else:
->>           raise bb.parse.SkipRecipe("grub-efi is incompatible with target %s" % target)
->>       grubimage = prefix + d.getVar("EFI_BOOT_IMAGE")
->> diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
->> index ff17dbe8b7..d020103605 100644
->> --- a/meta/recipes-bsp/grub/grub2.inc
->> +++ b/meta/recipes-bsp/grub/grub2.inc
->> @@ -33,7 +33,7 @@ SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e503165
->>
->>   DEPENDS = "flex-native bison-native gettext-native"
->>
->> -COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*)-(linux.*|freebsd.*)'
->> +COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|riscv.*)-(linux.*|freebsd.*)'
->>   COMPATIBLE_HOST_armv7a = 'null'
->>   COMPATIBLE_HOST_armv7ve = 'null'
->>
->> @@ -42,6 +42,8 @@ COMPATIBLE_HOST_armv7ve = 'null'
->>
->>   GRUBPLATFORM_arm = "efi"
->>   GRUBPLATFORM_aarch64 = "efi"
->> +GRUBPLATFORM_riscv32 = "efi"
->> +GRUBPLATFORM_riscv64 = "efi"
->>   GRUBPLATFORM ??= "pc"
->>
->>   inherit autotools gettext texinfo pkgconfig
->> --
->> 2.25.1
->>
->>
->> 
->>
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDI2IG5vdmVtYmVy
+IDIwMjAgMTU6NDcNCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
+QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0h2MiAzLzRdIGJpdGJha2UuY29uZjogQ2Fu
+b25pY2FsaXplIHBhdGhzIGluDQo+IFBTRVVET19JR05PUkVfUEFUSFMNCj4gDQo+IE9uIFdlZCwg
+MjAyMC0xMS0yNSBhdCAxNDo0OCArMDEwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+
+IEludHJvZHVjZSBQU0VVRE9fSUdOT1JFX1JFQUxfUEFUSFMgYW5kIG1ha2UgaXQgY29udGFpbiB0
+aGUNCj4gY2Fub25pY2FsaXplZA0KPiA+IHBhdGhzIGZyb20gUFNFVURPX0lHTk9SRV9QQVRIUywg
+b2J0YWluZWQgYnkgcGFzc2luZyB0aGUgbGF0dGVyIHRvDQo+ID4gb2UucGF0aC50b19yZWFsX3Bh
+dGhzKCkuIFRoaXMgaXMgbmVlZGVkIHNpbmNlIHBzZXVkbydzDQo+ID4gcHNldWRvX2NsaWVudF9p
+Z25vcmVfcGF0aF9jaHJvb3QoKSB3aWxsIGNvbXBhcmUgdGhlIGlnbm9yZWQgcGF0aHMgdG8NCj4g
+PiBwYXRocyB0aGF0IGhhdmUgYmVlbiBjYW5vbmljYWxpemVkLg0KPiA+DQo+ID4gU2lnbmVkLW9m
+Zi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+
+ID4gLS0tDQo+ID4gIG1ldGEvY29uZi9iaXRiYWtlLmNvbmYgfCA4ICsrKysrLS0tDQo+ID4gIDEg
+ZmlsZSBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQo+IA0KPiBUaGlz
+IGxvb2tzIGxpa2UgYSBnb29kIHdheSB0byBmaXggdGhpcywgZXhjZXB0IEkgaGF2ZSBhIHN0cm9u
+ZyBkaXNsaWtlDQo+IG9mICJSRUFMIiB2YXJpYWJsZXMuDQoNCldlbGwsIEkgbmFtZWQgaXQgUFNF
+VURPX0lHTk9SRV9SRUFMX1BBVEhTIHRvIG1hdGNoIG9zLnBhdGgucmVhbHBhdGgoKS4gDQpJIGNh
+biBuYW1lIGl0LCBlLmcuLCBQU0VVRE9fSUdOT1JFX0NBTk9OSUNBTF9QQVRIUyBpZiB5b3UgcHJl
+ZmVyIHRoYXQ/DQoNCj4gDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY29uZi9iaXRiYWtlLmNvbmYg
+Yi9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+ID4gaW5kZXggOTc0MmZlNGZlMi4uNDg2MjA5NWEx
+YiAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL2NvbmYvYml0YmFrZS5jb25mDQo+ID4gKysrIGIvbWV0
+YS9jb25mL2JpdGJha2UuY29uZg0KPiA+IEBAIC02ODUsMTUgKzY4NSwxNiBAQCBTUkNfVVJJID0g
+IiINCj4gPiAgUFNFVURPX0xPQ0FMU1RBVEVESVIgPz0gIiR7V09SS0RJUn0vcHNldWRvLyINCj4g
+PiAgUFNFVURPX1BBU1NXRCA/PSAiJHtTVEFHSU5HX0RJUl9UQVJHRVR9OiR7UFNFVURPX1NZU1JP
+T1R9Ig0KPiA+ICBQU0VVRE9fU1lTUk9PVCA9ICIke0NPTVBPTkVOVFNfRElSfS8ke0JVSUxEX0FS
+Q0h9L3BzZXVkby1uYXRpdmUiDQo+ID4gK1BTRVVET19JR05PUkVfUkVBTF9QQVRIUyA9ICIke0An
+LCcuam9pbihvcy5wYXRoLnJlYWxwYXRoKHBhdGgpIGZvcg0KPiBwYXRoIGluIChkLmdldFZhcign
+UFNFVURPX0lHTk9SRV9QQVRIUycpIG9yICcnKS5zcGxpdCgnLCcpKX0iDQo+ID4gIFBTRVVET19J
+R05PUkVfUEFUSFMgPSAiL3Vzci8sL2V0Yy8sL2xpYiwvZGV2Lywke1R9LCR7V09SS0RJUn0vcmVj
+aXBlLQ0KPiBzeXNyb290LCR7U1NUQVRFX0RJUn0sJHtTVEFNUFNfRElSfSwke1dPUktESVJ9L3Br
+Z2RhdGEtDQo+IHN5c3Jvb3QsJHtUTVBESVJ9L3NzdGF0ZS1jb250cm9sLCR7REVQTE9ZX0RJUn0s
+JHtXT1JLRElSfS9kZXBsb3ktDQo+ICwke1RNUERJUn0vYnVpbGRzdGF0cywke1dPUktESVJ9L3Nz
+dGF0ZS1idWlsZC1wYWNrYWdlXywke1dPUktESVJ9L3NzdGF0ZS0NCj4gaW5zdGFsbC1wYWNrYWdl
+Xywke1dPUktESVJ9L3NzdGF0ZS1idWlsZC0NCj4gaW1hZ2VfY29tcGxldGUsJHtUTVBESVJ9L3N5
+c3Jvb3RzLQ0KPiBjb21wb25lbnRzLCR7QlVJTERISVNUT1JZX0RJUn0sJHtUTVBESVJ9L3BrZ2Rh
+dGEsJHtUT1BESVJ9L2NhY2hlLCR7Q09SRUJBDQo+IFNFfS9zY3JpcHRzLCR7QCcsJy5qb2luKGQu
+Z2V0VmFyKCdCQkxBWUVSUycpLnNwbGl0KCkpfSwke0NDQUNIRV9ESVJ9Ig0KPiA+DQo+ID4gIGV4
+cG9ydCBQU0VVRE9fRElTQUJMRUQgPSAiMSINCj4gPiAgI2V4cG9ydCBQU0VVRE9fUFJFRklYID0g
+IiR7U1RBR0lOR19ESVJfTkFUSVZFfSR7cHJlZml4X25hdGl2ZX0iDQo+ID4gICNleHBvcnQgUFNF
+VURPX0JJTkRJUiA9ICIke1NUQUdJTkdfRElSX05BVElWRX0ke2JpbmRpcl9uYXRpdmV9Ig0KPiA+
+ICAjZXhwb3J0IFBTRVVET19MSUJESVIgPQ0KPiAiJHtTVEFHSU5HX0RJUl9OQVRJVkV9JFBTRVVE
+T0JJTkRJUi8uLi9saWIvcHNldWRvL2xpYg0KPiA+IC1GQUtFUk9PVEJBU0VFTlYgPSAiUFNFVURP
+X0JJTkRJUj0ke1BTRVVET19TWVNST09UfSR7YmluZGlyX25hdGl2ZX0NCj4gUFNFVURPX0xJQkRJ
+Uj0ke1BTRVVET19TWVNST09UfSR7cHJlZml4X25hdGl2ZX0vbGliL3BzZXVkby9saWINCj4gUFNF
+VURPX1BSRUZJWD0ke1BTRVVET19TWVNST09UfSR7cHJlZml4X25hdGl2ZX0NCj4gUFNFVURPX0lH
+Tk9SRV9QQVRIUz0ke1BTRVVET19JR05PUkVfUEFUSFN9IFBTRVVET19ESVNBQkxFRD0xIg0KPiA+
+ICtGQUtFUk9PVEJBU0VFTlYgPSAiUFNFVURPX0JJTkRJUj0ke1BTRVVET19TWVNST09UfSR7Ymlu
+ZGlyX25hdGl2ZX0NCj4gUFNFVURPX0xJQkRJUj0ke1BTRVVET19TWVNST09UfSR7cHJlZml4X25h
+dGl2ZX0vbGliL3BzZXVkby9saWINCj4gUFNFVURPX1BSRUZJWD0ke1BTRVVET19TWVNST09UfSR7
+cHJlZml4X25hdGl2ZX0NCj4gUFNFVURPX0lHTk9SRV9QQVRIUz0ke1BTRVVET19JR05PUkVfUkVB
+TF9QQVRIU30gUFNFVURPX0RJU0FCTEVEPTEiDQo+ID4gIEZBS0VST09UQ01EID0gIiR7UFNFVURP
+X1NZU1JPT1R9JHtiaW5kaXJfbmF0aXZlfS9wc2V1ZG8iDQo+ID4gLUZBS0VST09URU5WID0gIlBT
+RVVET19QUkVGSVg9JHtQU0VVRE9fU1lTUk9PVH0ke3ByZWZpeF9uYXRpdmV9DQo+IFBTRVVET19M
+T0NBTFNUQVRFRElSPSR7UFNFVURPX0xPQ0FMU1RBVEVESVJ9DQo+IFBTRVVET19QQVNTV0Q9JHtQ
+U0VVRE9fUEFTU1dEfSBQU0VVRE9fTk9TWU1MSU5LRVhQPTENCj4gUFNFVURPX0lHTk9SRV9QQVRI
+Uz0ke1BTRVVET19JR05PUkVfUEFUSFN9IFBTRVVET19ESVNBQkxFRD0wIg0KPiA+ICtGQUtFUk9P
+VEVOViA9ICJQU0VVRE9fUFJFRklYPSR7UFNFVURPX1NZU1JPT1R9JHtwcmVmaXhfbmF0aXZlfQ0K
+PiBQU0VVRE9fTE9DQUxTVEFURURJUj0ke1BTRVVET19MT0NBTFNUQVRFRElSfQ0KPiBQU0VVRE9f
+UEFTU1dEPSR7UFNFVURPX1BBU1NXRH0gUFNFVURPX05PU1lNTElOS0VYUD0xDQo+IFBTRVVET19J
+R05PUkVfUEFUSFM9JHtQU0VVRE9fSUdOT1JFX1JFQUxfUEFUSFN9IFBTRVVET19ESVNBQkxFRD0w
+Ig0KPiA+DQo+IA0KPiBJJ20gd29uZGVyaW5nIGlmIHdlIGNyZWF0ZSBhIGZ1bmN0aW9uIGluIGxp
+Yi9vZS91dGlscy5weSBhbmQgdGhlbiB1c2UNCj4gc29tZXRoaW5nIGxpa2U6DQo+IA0KPiBQU0VV
+RE9fSUdOT1JFX1BBVEhTPSR7QG9lLnV0aWxzLnJlYWxwYXRoKCJQU0VVRE9fSUdOT1JFX1JFQUxf
+UEFUSFMiKX0NCg0KVGhlcmUgYWxyZWFkeSBpcyBhbiBvZS5wYXRoLnJlYWxwYXRoKCkuIEhvd2V2
+ZXIsIEkgYW0gbm90IHN1cmUgd2hlbiANCml0IGlzIGV4cGVjdGVkIHRvIGJlIHVzZWQgaW5zdGVh
+ZCBvZiBvcy5wYXRoLnJlYWxwYXRoKCkuDQoNCkkgaW5pdGlhbGx5IGNyZWF0ZWQgYW4gb2UucGF0
+aC5yZWFscGF0aHMoZCwgdmFyLCBzZXBhcmF0b3I9JywnKSwgYnV0IA0KYWZ0ZXIgSSBoYWQgcmV3
+cml0dGVuIGl0IGEgY291cGxlIG9mIHRpbWVzIEkgd2FzIGRvd24gdG8ganVzdCB0aGUgDQpzaW5n
+bGUgbGlzdCBjb21wcmVoZW5zaW9uIGFuZCB0aGVuIEkgZmVsdCBhcyBJIGNvdWxkIGp1c3QgYXMg
+d2VsbCANCnVzZSBpdCBkaXJlY3RseSBzaW5jZSBJIGRvbid0IHNlZSBhIGdyZWF0IG5lZWQgZm9y
+IGEgY29tbW9uIGZ1bmN0aW9uIA0KdG8gY2Fub25pY2FsaXplIGEgbGlzdCBvZiBwYXRocy4gQnV0
+IGlmIHlvdSBwcmVmZXIgdGhhdCBzb2x1dGlvbiwgSSANCmNhbiByZXN0b3JlIGl0Lg0KDQo+IA0K
+PiA/DQo+IA0KPiBDaGVlcnMsDQo+IA0KPiBSaWNoYXJkDQoNCi8vUGV0ZXINCg0K
