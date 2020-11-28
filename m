@@ -1,146 +1,110 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web08.28886.1606537480883004744
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.28867.1606537486502256501
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:24:40 -0800
+ Fri, 27 Nov 2020 20:24:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cCzw/JMF;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id s63so5770094pgc.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:24:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EQ7/B3YK;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id 131so6139860pfb.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:24:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=rWsl2vDtRREx5voirPUInx0TkL3q9CEnzYnu1rrxj+A=;
-        b=cCzw/JMFatzeSrx31AGK4X9n/89EV1GFG3M44WtRgcnp3jeCv8UglHpn3RmqJmn/sI
-         RSRDo0K6t6LV1HS2KbOsJ1bqbQduTDGqI08UkCUKOfY6aSxIXnGN8GO1zfjF9uVvlg6s
-         1if5er3tp4oxy0uYG+gH0CBGWYCrezZZFbIgC8r8nJkff2Jl+d0s75gFPI+6Mn7k6gQx
-         13BjRfhm/OKSISCLGQgcn4ZXNpLbAY071q8D/lXUW/R5Qx25wcbMBtNAASs/i8qHD9CN
-         4AFaigNNeLf3D9eXw3h8oOXrvjELrNr6kyS2dc77P6M7n+5LIk7aKtVsDEjxAoFTplU3
-         b1Ig==
+        bh=hyLy8dwUhjyw2hzdYju5l+hLjDodWtGVfGxiXJvwhqE=;
+        b=EQ7/B3YKlmMh/UEW+OHF1xWZWDkyaqRbTuUqOr1zcuGHlRrXodbGauGsPUQiWWW8yq
+         QHfkAsrZ46CW+yynBl/AsJn6YztlNY3ud8eF8y7unkDWUxL1wgaJq0BYjYlroOHHQamh
+         YhKn4uTJ//OA3R7lD6wzIvw2li4cgx7ka139rjjX7xwkgxf4VwGTh8P0uRQMcMLpz4d6
+         5rQtxi7mIK5zu+4M7Ebzc2j1FdFc1y9frnaumgYoYdVvVf3E/1B9oaP5zTaEf86V/lI8
+         jfdlefuf79L95pMVzBBd5dQICvMgxRyfHxFBdJvASbMjKSD2IthHPbqTQa2TPlO83QjX
+         tbXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rWsl2vDtRREx5voirPUInx0TkL3q9CEnzYnu1rrxj+A=;
-        b=Ug4L2qauMolQfB0UzbWPH/FpHnLBK/l+Jim4U5eZkwxt72xnJUzWrqmTssV/Tp/t3k
-         +xRdxfWKNvtEuyddHcnDhmXHdY43BpBx6TZ7pmTj03MyHNwNqEJBYW8xkV1AyQ1bQghL
-         ZR2RC+LT8fWnMYQjJgew2pamYcZTPYGONFatfrOamBDIQGVq+czBIirEPxTi8u72ZSro
-         VVOeBfty1cavRFbAkKKStfyrpRZGXJ8aya9WtKX2BU+O7boUIjwHae6WWaVEJMyyT5Lw
-         gSIwsIuaxHfLy4Jq0YWm2GOSniLRgDh2Z5vgv2zdjdcud/bniyTyT/OqXZHW/NHqDDLJ
-         FOoA==
-X-Gm-Message-State: AOAM533BG5nWM1VSTnfOEXC/i5gNQbQkFCGSphs4Ruvp7njDrGj8+am5
-	D60VcYjMm+iRoCWK+yVrpO6ux58T3cdjoQ==
-X-Google-Smtp-Source: ABdhPJyeK7/symaY12Q89Y5DULLFDIBSucSgIw10nPFV9Uj82BvTZLpAFqamjQvWjkHsx/34+7R1gA==
-X-Received: by 2002:a17:90a:62c3:: with SMTP id k3mr13469327pjs.24.1606537479766;
-        Fri, 27 Nov 2020 20:24:39 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=hyLy8dwUhjyw2hzdYju5l+hLjDodWtGVfGxiXJvwhqE=;
+        b=iZhIkvZk9eWJ/I12t7VhJR8mnqki52G2omO50+WmzrnQNeg6g92SbDwFEAf93h70JB
+         z86fzeB6vgK8QBe5KTjuJ4w884/7ikOngRVDhfCJRyL8tBoQZxGltBy7a9Du0qlOsZBI
+         EBxoC2PDyJB0qzZEB/417/Gi71kAybafm2dwD4jUF0LyZmcqokyxyX8RuM3ww0r8JQsT
+         +bLX1QWzJDMPfKqDtn8k+/knwNB8ko1OczrcJYw3cXDWZifUD/7QEAknb/kE1p6sAXn8
+         9EFseGweAKjAkYcarKcu8G4vDBZsDKcXkouXdsPMAltQK7NpJeaiLQNHdUUwWe0Gn/Zn
+         IylA==
+X-Gm-Message-State: AOAM5306+jZkko6ezay+QzxoOoiCPmIz31lzbHli6RIypfTOlVLJQyfL
+	gjqPiFLiZYk7V1dBs8MRUZlBaHgnMOqiog==
+X-Google-Smtp-Source: ABdhPJxdKzDDAzCuzX1JEjHbZ5n/qvQqajEcOynDncgftShuChv1vINxDP1BRV++nWPDfcVUmEch+w==
+X-Received: by 2002:a62:1686:0:b029:197:5d15:2733 with SMTP id 128-20020a6216860000b02901975d152733mr9832570pfw.81.1606537485541;
+        Fri, 27 Nov 2020 20:24:45 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.24.38
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.24.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:24:39 -0800 (PST)
+        Fri, 27 Nov 2020 20:24:45 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 00/18] Move python3-pytest to oe-core
-Date: Fri, 27 Nov 2020 20:24:13 -0800
-Message-Id: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 01/18] python3-atomicwrites: move from meta-python
+Date: Fri, 27 Nov 2020 20:24:14 -0800
+Message-Id: <6aa81ff75f180b0ea5ac709021d3239b8b2debe7.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
+References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-We are increasingly needing pytest in oe-core, so it is time to move it
-from meta-python.
+Powerful Python library for atomic file writes
 
-This series first imports the recipes -- as-is -- from meta-python.
-Second, the maintainers.inc is updated to add myself as maintainer for all
-the new recipes.
-Third, the two recipes that have stable updates are updated to their
-latest releases.
-Finally, a fix caught during ptest runs is added for RDEPENDS for
-pytest.
+* Part of the dependency chain for python3-pytest
 
-This was built on 'nodistro' with only openembedded-core and tested on 
-qemux86-64. All the new recipes that have ptests pass all tests.
-
-The following changes since commit 6e3785a3f1f3cf68f5fe101cd6bebe91db165973:
-
-  uninative: Don't use single sstate for pseudo-native (2020-11-24 15:53:04 +0000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib timo/add-pytest-to-oe-core
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=timo/add-pytest-to-oe-core
-
-For convenience, the same series is also available at the Git repository
-at:
-
- git://git.yoctoproject.org/poky-contrib timo/move-pytest-to-core
- http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=timo/move-pytest-to-core
-
-Tim Orling (18):
-  python3-atomicwrites: move from meta-python
-  python3-attrs: move from meta-python
-  python3-iniconfig: move from meta-python
-  python3-more-itertools: move from meta-python
-  python3-pathlib2: move from meta-python
-  python3-toml: move from meta-python
-  python3-py: move from meta-python
-  python3-setuptools-scm: move from meta-python
-  python3-packaging: move from meta-python
-  python3-wcwidth: move from meta-python
-  python3-zipp: move from meta-python
-  python3-importlib-metadata: move from meta-python
-  python3-pluggy: move from meta-python
-  python3-pytest: move from meta-python
-  maintainers.inc: add self for new pytest packages
-  python3-more-itertools: upgrade 8.5.0 -> 8.6.0
-  python3-importlib-metadata: upgrade 2.0.0 to 3.1.0
-  python3-pytest: RDEPENDS on python3-toml
-
- meta/conf/distro/include/maintainers.inc      | 14 +++++++
- .../python/python3-atomicwrites/run-ptest     |  3 ++
- .../python/python3-atomicwrites_1.4.0.bb      | 25 ++++++++++++
- .../python/python3-attrs_20.3.0.bb            | 20 ++++++++++
- .../python3-importlib-metadata_3.1.0.bb       | 18 +++++++++
- .../python/python3-iniconfig_1.1.1.bb         |  9 +++++
- .../python/python3-more-itertools/run-ptest   |  3 ++
- .../python/python3-more-itertools_8.6.0.bb    | 23 +++++++++++
- .../python/python3-packaging_20.4.bb          | 14 +++++++
- .../python/python3-pathlib2_2.3.5.bb          | 13 +++++++
- .../python/python3-pluggy/run-ptest           |  3 ++
- .../python/python3-pluggy_0.13.1.bb           | 27 +++++++++++++
- .../python/python3-py_1.9.0.bb                | 15 +++++++
- ...he-setup_requires-for-setuptools-scm.patch | 39 +++++++++++++++++++
- .../python/python3-pytest_6.1.2.bb            | 39 +++++++++++++++++++
- .../python/python3-setuptools-scm_4.1.2.bb    | 21 ++++++++++
- .../python/python3-toml_0.10.2.bb             | 15 +++++++
- .../python/python3-wcwidth/run-ptest          |  3 ++
- .../python/python3-wcwidth_0.2.5.bb           | 25 ++++++++++++
- .../python/python3-zipp_3.4.0.bb              | 19 +++++++++
- 20 files changed, 348 insertions(+)
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ .../python/python3-atomicwrites/run-ptest     |  3 +++
+ .../python/python3-atomicwrites_1.4.0.bb      | 25 +++++++++++++++++++
+ 2 files changed, 28 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-atomicwrites/run-ptest
  create mode 100644 meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-attrs_20.3.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-importlib-metadata_3.1.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-iniconfig_1.1.1.bb
- create mode 100644 meta/recipes-devtools/python/python3-more-itertools/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-packaging_20.4.bb
- create mode 100644 meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
- create mode 100644 meta/recipes-devtools/python/python3-pluggy/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
- create mode 100644 meta/recipes-devtools/python/python3-py_1.9.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
- create mode 100644 meta/recipes-devtools/python/python3-pytest_6.1.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-setuptools-scm_4.1.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-toml_0.10.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-wcwidth/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb
- create mode 100644 meta/recipes-devtools/python/python3-zipp_3.4.0.bb
 
+diff --git a/meta/recipes-devtools/python/python3-atomicwrites/run-ptest b/meta/recipes-devtools/python/python3-atomicwrites/run-ptest
+new file mode 100644
+index 00000000000..b63c4de0d9a
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-atomicwrites/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
+diff --git a/meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb b/meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb
+new file mode 100644
+index 00000000000..7edd41030fb
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb
+@@ -0,0 +1,25 @@
++DESCRIPTION = "Powerful Python library for atomic file writes"
++HOMEPAGE = "https://github.com/untitaker/python-atomicwrites"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=91cc36cfafeefb7863673bcfcb1d4da4"
++
++SRC_URI[md5sum] = "b5cc15c8f9f180a48665f9aacf91d817"
++SRC_URI[sha256sum] = "ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"
++
++inherit pypi setuptools3 ptest
++
++SRC_URI += " \
++	file://run-ptest \
++"
++
++RDEPENDS_${PN}-ptest += " \
++	${PYTHON_PN}-pytest \
++	${PYTHON_PN}-unixadmin \
++"
++
++do_install_ptest() {
++	install -d ${D}${PTEST_PATH}/tests
++	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
++}
++
++RDEPENDS_${PN} = "${PYTHON_PN}-misc"
 -- 
 2.25.0
 
