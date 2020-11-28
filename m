@@ -1,50 +1,50 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.28867.1606537486502256501
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web09.29012.1606537487943230304
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:24:46 -0800
+ Fri, 27 Nov 2020 20:24:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EQ7/B3YK;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id 131so6139860pfb.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:24:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OE9XsPhC;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id k11so5799514pgq.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=hyLy8dwUhjyw2hzdYju5l+hLjDodWtGVfGxiXJvwhqE=;
-        b=EQ7/B3YKlmMh/UEW+OHF1xWZWDkyaqRbTuUqOr1zcuGHlRrXodbGauGsPUQiWWW8yq
-         QHfkAsrZ46CW+yynBl/AsJn6YztlNY3ud8eF8y7unkDWUxL1wgaJq0BYjYlroOHHQamh
-         YhKn4uTJ//OA3R7lD6wzIvw2li4cgx7ka139rjjX7xwkgxf4VwGTh8P0uRQMcMLpz4d6
-         5rQtxi7mIK5zu+4M7Ebzc2j1FdFc1y9frnaumgYoYdVvVf3E/1B9oaP5zTaEf86V/lI8
-         jfdlefuf79L95pMVzBBd5dQICvMgxRyfHxFBdJvASbMjKSD2IthHPbqTQa2TPlO83QjX
-         tbXQ==
+        bh=vkniehZJlI+sbtB0iX/rUNguxxvYyumU77CmB+n5g1A=;
+        b=OE9XsPhC3C4rDicDUNC8GKicfbBRkXXcoRCbndgsGtjNfNP1bV19R2+w6oEXA/5AqK
+         CeUf7CLiU/KdNWk4XZAb5EkOj8qWH16tsGLqLbNowo4qC1LVF28+aw4skwDFvX2RePMP
+         jwS5/ma24a86SJIaFAwVmUeA/3Ck4u/Ea2oyVBx3h7L9cO2rE1aCJtrcP4QENZjmsKrz
+         3bRqa+yXe6LKqls7WT1xekpBVqs5pnSPNOdlFfQksRb2nCvRDkyhLUdCCsp6+n1eYzsY
+         +3t8TR2vjCRtqnGWROR79KYX+irWD6Njw2q2wXi3SMulffTzbCNoknJ2ketkkE6s8Uww
+         L/8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hyLy8dwUhjyw2hzdYju5l+hLjDodWtGVfGxiXJvwhqE=;
-        b=iZhIkvZk9eWJ/I12t7VhJR8mnqki52G2omO50+WmzrnQNeg6g92SbDwFEAf93h70JB
-         z86fzeB6vgK8QBe5KTjuJ4w884/7ikOngRVDhfCJRyL8tBoQZxGltBy7a9Du0qlOsZBI
-         EBxoC2PDyJB0qzZEB/417/Gi71kAybafm2dwD4jUF0LyZmcqokyxyX8RuM3ww0r8JQsT
-         +bLX1QWzJDMPfKqDtn8k+/knwNB8ko1OczrcJYw3cXDWZifUD/7QEAknb/kE1p6sAXn8
-         9EFseGweAKjAkYcarKcu8G4vDBZsDKcXkouXdsPMAltQK7NpJeaiLQNHdUUwWe0Gn/Zn
-         IylA==
-X-Gm-Message-State: AOAM5306+jZkko6ezay+QzxoOoiCPmIz31lzbHli6RIypfTOlVLJQyfL
-	gjqPiFLiZYk7V1dBs8MRUZlBaHgnMOqiog==
-X-Google-Smtp-Source: ABdhPJxdKzDDAzCuzX1JEjHbZ5n/qvQqajEcOynDncgftShuChv1vINxDP1BRV++nWPDfcVUmEch+w==
-X-Received: by 2002:a62:1686:0:b029:197:5d15:2733 with SMTP id 128-20020a6216860000b02901975d152733mr9832570pfw.81.1606537485541;
-        Fri, 27 Nov 2020 20:24:45 -0800 (PST)
+        bh=vkniehZJlI+sbtB0iX/rUNguxxvYyumU77CmB+n5g1A=;
+        b=nSR/HlVaXBCK3ZT/sBI/mPVHA1UDogzbLXdJOy7MdF/X/cxwJ4Ew6aGlN1rNC87ciH
+         2963Kqh6L+TGI/Ewc4NFP2wGcph2VNOgvpwMobgU0cR9aFsQJAkMXaJVr32Akcy+44fA
+         kwhJCu0SxJ3O78nFtxarVGdvhP6PXrymrhuC8bC1w7vOCLE2L9mXXp/WW0BtNrrOgtV+
+         3kf/yxfnG/cG/FBRT27wktBGaiLOkoWwhAV/iGy5JCI0Rx5N4O5EGlm7YGy7IuxGiVAn
+         6b6+lxvmbtmZonFGHNGAeCLE3QAA0azYpBaSf1k/ue9L47YsaYcSS1sSSJMPckaBozsx
+         oK7w==
+X-Gm-Message-State: AOAM531wGCDNYFU54uEch0LlmYrORAwCK7VpEPjxoDdrPjR9J7nJs6PT
+	84zDnVSXr/j/TQ4Q/GoHl+bJpQro5DGulA==
+X-Google-Smtp-Source: ABdhPJyxOGLGGGH6bB2xGTOTncTBtWq9X1RfAtkfTBfle7TTyy25JFQn1pXgVpEQmwLTC+SOD+Caqw==
+X-Received: by 2002:a05:6a00:225c:b029:18b:d208:a366 with SMTP id i28-20020a056a00225cb029018bd208a366mr9882917pfu.5.1606537487364;
+        Fri, 27 Nov 2020 20:24:47 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.24.44
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.24.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:24:45 -0800 (PST)
+        Fri, 27 Nov 2020 20:24:46 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 01/18] python3-atomicwrites: move from meta-python
-Date: Fri, 27 Nov 2020 20:24:14 -0800
-Message-Id: <6aa81ff75f180b0ea5ac709021d3239b8b2debe7.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 02/18] python3-attrs: move from meta-python
+Date: Fri, 27 Nov 2020 20:24:15 -0800
+Message-Id: <1deec77168c68eed0b07aae5da98598cced0d452.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
@@ -53,58 +53,42 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Powerful Python library for atomic file writes
+Classes Without Boilerplate
 
-* Part of the dependency chain for python3-pytest
+* Part of the dependency chain for pytest
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../python/python3-atomicwrites/run-ptest     |  3 +++
- .../python/python3-atomicwrites_1.4.0.bb      | 25 +++++++++++++++++++
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-atomicwrites/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb
+ .../python/python3-attrs_20.3.0.bb            | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-attrs_20.3.0.bb
 
-diff --git a/meta/recipes-devtools/python/python3-atomicwrites/run-ptest b/meta/recipes-devtools/python/python3-atomicwrites/run-ptest
+diff --git a/meta/recipes-devtools/python/python3-attrs_20.3.0.bb b/meta/recipes-devtools/python/python3-attrs_20.3.0.bb
 new file mode 100644
-index 00000000000..b63c4de0d9a
+index 00000000000..55cfda71809
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-atomicwrites/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb b/meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb
-new file mode 100644
-index 00000000000..7edd41030fb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb
-@@ -0,0 +1,25 @@
-+DESCRIPTION = "Powerful Python library for atomic file writes"
-+HOMEPAGE = "https://github.com/untitaker/python-atomicwrites"
++++ b/meta/recipes-devtools/python/python3-attrs_20.3.0.bb
+@@ -0,0 +1,20 @@
++DESCRIPTION = "Classes Without Boilerplate"
++HOMEPAGE = "http://www.attrs.org/"
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=91cc36cfafeefb7863673bcfcb1d4da4"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=d4ab25949a73fe7d4fdee93bcbdbf8ff"
 +
-+SRC_URI[md5sum] = "b5cc15c8f9f180a48665f9aacf91d817"
-+SRC_URI[sha256sum] = "ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"
++SRC_URI[sha256sum] = "832aa3cde19744e49938b91fea06d69ecb9e649c93ba974535d08ad92164f700"
++SRC_URI[md5sum] = "4fe38f89297b2b446d83190fce189f29"
 +
-+inherit pypi setuptools3 ptest
++inherit pypi setuptools3
 +
-+SRC_URI += " \
-+	file://run-ptest \
++RDEPENDS_${PN}_class-target += " \
++    ${PYTHON_PN}-crypt \
++    ${PYTHON_PN}-ctypes \
++"
++RDEPENDS_${PN}_class-nativesdk += " \
++    ${PYTHON_PN}-crypt \
++    ${PYTHON_PN}-ctypes \
 +"
 +
-+RDEPENDS_${PN}-ptest += " \
-+	${PYTHON_PN}-pytest \
-+	${PYTHON_PN}-unixadmin \
-+"
-+
-+do_install_ptest() {
-+	install -d ${D}${PTEST_PATH}/tests
-+	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
-+
-+RDEPENDS_${PN} = "${PYTHON_PN}-misc"
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.0
 
