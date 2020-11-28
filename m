@@ -1,50 +1,50 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web12.28921.1606537492015977804
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web08.28887.1606537494099617713
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:24:52 -0800
+ Fri, 27 Nov 2020 20:24:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f3nukXS8;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id e8so6164970pfh.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:24:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OQTeTfNj;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id q10so6178616pfn.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:24:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=FkUJR8WftnCHKbvJpWdQs3dQinOB1Umxnx4TiRReDM4=;
-        b=f3nukXS8L+Sb09UjAlzFKpGB5Sbvv7oDzQNCF4y96aJZzBHv2KbvK+yvfL+tmxZKuQ
-         6kxgTC427qvsqLeYnKuqwKLatQuD24RovoiAwpWu4s1PKgzwSzDCAHzImTw6xSEQK4go
-         hdKKFQWjgAwtknAguaPRAdef8SbOHICdZl71M0JTNeF4Lit1mdsIWOlJg2mcSc2y/xvy
-         9N2tPztkNqxbYVhunLbUOJ0z/lD/EDCqYfGPU1pufC7Aayc3VvAAJTe8mqa9UKXXv1tm
-         A1F2NAeVltSqb/lfhXbGmHFNm3ukCHw61x8GNwzdXJMZEsPtx6M3+zfcHaCaKnYqatEp
-         AOOA==
+        bh=s/JJTrx8n1vwwz7Pr8iSMrJG2pPU/xR6Gdp3CfnUQHQ=;
+        b=OQTeTfNjr5NOqh/0drNATS/7E42IIJIAloMNEJY1z1Pi1A/zhY+7kVkx6/9TvlsY61
+         pgq+UQ6Q2QR5uIDBbMUEAOecJNuArKSMBqYTa3iBc9ENFKS+2P2u4mWtu5DWCHRq29Pq
+         qzIwcDcDYv2pLPK3Z+uU1PwbfV0UB/EDDDSKSK3I7d7HBuQK3o2xgh9Lx0Q3TFEgEEI8
+         SaR/W1YKfg9VVbfSSsXI8l4XnxAOmERSQguU5oPeDBeJD792JXxxBcwfevPrFpZo0Ft1
+         ABVAgq/8TQ+QicKGGRP3oFVysUGNCLob0qrYciLSSCjGuzQ3IMhw/Z7KcnUa6nhWkEbS
+         ecrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FkUJR8WftnCHKbvJpWdQs3dQinOB1Umxnx4TiRReDM4=;
-        b=adPbfHKBe9zTnZpyWBaN96pd2k2N6KakG5ckt/02RibvY997+6yL25IqPwZLfQhvMN
-         IOhbV7wN9yKpG3pV2pS3YCDBz0uw196b4PvloTZxLIUxdmeFyNIRdhGKLPldt5t1+hY4
-         yqdb+kxh7/Ux+2C6jy7UnsSlHcH8R1oiNJ1caA9TTqaQXQIJlAek7b7pxNVBDtcpURsy
-         mex7ikI+ARp1ctnXnWsUODULMyrjsZt3fHHlnJzmbKfO7MHhyMr84XpV663qKZ9EYNPV
-         P2viuYPYwkRLLmP10T9TYMwuMKtuN8QrwOYym+ac6zMnJR+FI6dch7ziQBWu4f7G8Sto
-         cm4w==
-X-Gm-Message-State: AOAM531xQHNX+MYbxBkpEXjMei4uzXOYunF5/YY1CskmdAi3lsGybZyo
-	5TON4MEECMzNsKh6xgfRsucjU+T2etqTXw==
-X-Google-Smtp-Source: ABdhPJxK1IySlEAaZIwZTKYQI2k8LVXZYs7eB85UPW1G2VB8cS6TqAIKB0S+r0jvIEoEPOXfTPwjZA==
-X-Received: by 2002:a63:1a1d:: with SMTP id a29mr9020225pga.19.1606537491367;
-        Fri, 27 Nov 2020 20:24:51 -0800 (PST)
+        bh=s/JJTrx8n1vwwz7Pr8iSMrJG2pPU/xR6Gdp3CfnUQHQ=;
+        b=nKOABectQo2XJoqeH2ZBNNB95W7w38DLL4zFqUY+XyYShu3gPSsokoHAu14477f/BH
+         tL8OJx7Va3jzOCrDwR3nPj+lST8rlucwc47L5MMry2GlEH9OjevlihvRgB25xOIiOxpJ
+         FxNKiJsSrAhyReAJGg9enRklQenz7Rbho+mmzzmw8+4Qlb5oy4b2P3DJ4bXuH4wSz9Ti
+         cMrLOcYrcu4RKg7OkuiS5vQwWxVZFyC6oWnBWTTovpVxXPWZmKTVNXRd/DM663SOGWbv
+         8rYcGeHcbVgo5aqTulvVTP0DyKcQhkro0RmVVDofcjO951RBJThFjZKDVMLdlmO/DYHF
+         roAQ==
+X-Gm-Message-State: AOAM5303tpdfvOHRoJg7Mk5MIiUkmbCJ/mIV/g3pOaXs79SRP4gkCxUj
+	WJuL4Wl+pBgaP8JAG/ZfMREpCDL/1AkKQA==
+X-Google-Smtp-Source: ABdhPJwXZGwsRWzY8f+wGrTEtAwUumGIa95fuK2A0xDNSKcgLZOWMgbDBtTGmpXZ5meSpZ+5bSAsKg==
+X-Received: by 2002:a17:90a:b114:: with SMTP id z20mr13869855pjq.14.1606537493506;
+        Fri, 27 Nov 2020 20:24:53 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.24.50
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.24.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:24:50 -0800 (PST)
+        Fri, 27 Nov 2020 20:24:53 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/18] python3-more-itertools: move from meta-python
-Date: Fri, 27 Nov 2020 20:24:17 -0800
-Message-Id: <016d83a6502367c6fd29d61a571960afea35b7a1.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 05/18] python3-pathlib2: move from meta-python
+Date: Fri, 27 Nov 2020 20:24:18 -0800
+Message-Id: <919562bd4a5d7ac1161ffce1b20c22f3010c052a.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
@@ -53,57 +53,35 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-More routines for operating on iterables, beyond itertools
+Object-oriented filesystem paths
 
 * Part of the dependency chain for pytest
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../python/python3-more-itertools/run-ptest   |  3 +++
- .../python/python3-more-itertools_8.5.0.bb    | 24 +++++++++++++++++++
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-more-itertools/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-more-itertools_8.5.0.bb
+ .../python/python3-pathlib2_2.3.5.bb                | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
 
-diff --git a/meta/recipes-devtools/python/python3-more-itertools/run-ptest b/meta/recipes-devtools/python/python3-more-itertools/run-ptest
+diff --git a/meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb b/meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
 new file mode 100644
-index 00000000000..3385d68939d
+index 00000000000..a022701ad0f
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-more-itertools/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_8.5.0.bb b/meta/recipes-devtools/python/python3-more-itertools_8.5.0.bb
-new file mode 100644
-index 00000000000..e924b0f731f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-more-itertools_8.5.0.bb
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "More routines for operating on iterables, beyond itertools"
-+HOMEPAGE = "https://github.com/erikrose/more-itertools"
++++ b/meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
+@@ -0,0 +1,13 @@
++DESCRIPTION = "Object-oriented filesystem paths"
++HOMEPAGE = "https://github.com/mcmtroffaes/pathlib2"
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=042856c23a3e903b33bf361ea1cbe29a"
 +
-+SRC_URI[md5sum] = "2588b5a7042576b99574779582be9292"
-+SRC_URI[sha256sum] = "6f83822ae94818eae2612063a5101a7311e68ae8002005b5e05f03fd74a86a20"
++SRC_URI[md5sum] = "f2bd0a363eb0f8fa0556f35c1d9e66fb"
++SRC_URI[sha256sum] = "6cd9a47b597b37cc57de1c05e56fb1a1c9cc9fab04fe78c29acd090418529868"
 +
-+inherit pypi setuptools3 ptest
++inherit pypi setuptools3
++
++RDEPENDS_${PN} += "${PYTHON_PN}-six ${PYTHON_PN}-ctypes"
 +
 +BBCLASSEXTEND = "native nativesdk"
-+
-+SRC_URI += " \
-+	file://run-ptest \
-+"
-+
-+RDEPENDS_${PN}-ptest += " \
-+	${PYTHON_PN}-pytest \
-+"
-+
-+do_install_ptest() {
-+	install -d ${D}${PTEST_PATH}/tests
-+	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
-+}
 -- 
 2.25.0
 
