@@ -1,50 +1,50 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web11.28876.1606537509192153856
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.28760.1606537511100591222
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:25:09 -0800
+ Fri, 27 Nov 2020 20:25:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B/95WuRM;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id w202so6137889pff.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MgPFa4Fx;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id w16so5767974pga.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=Y8qM1JOq6cAX7L4lWkgO6WscEORmGtkBbpSsgF+/vew=;
-        b=B/95WuRMy71B72kEpXGZBfH/+r8ZalxKyJ5ShtjCOFqLbTKi84PW979J8Sr7H2LtHO
-         Bs03M1ERMJlXNLjFuUIMYfuabNhpyKioCSELR1BLUC8W7/4T33lR/Ej0k1AAj+bZBjJj
-         SjTLQ5kDIVjTiBb/3YBqHQYHLp8vBGJgQ8gHirSvozza8GkyFB0R5OgySxywNgNvwlad
-         cv7LecNNHiq82iBZ15HmatBh2y8e8P1rahh6DH7Qtrjnu07Q9eaS7w0CKwIpQEMDEr+5
-         ZI+o2spevOaHCksZET/jEf2njujwGhVslLFbeTdJF0RGJZDYg8KzJF5vDBFOtUlMnz+Y
-         wF8A==
+        bh=lPlyDAJip75t4pL7D6wtXUAJ8tYlLnFzmle0qwPXhwo=;
+        b=MgPFa4FxCnWpUnFmqpTEaSDvOrBMFtnwk+YLXidZ7hgyVqcVosKVdw3aXWf5kabTIK
+         cfxxKI/iNBYpbtPjQURpE6vRyswQRs8vI4TWOqBl0MlGtq7rS8gZvIWftvvUcJdsi4fw
+         E5In9SDzroViE79nQMdj0W6s6LaLE2SPOGTYAx3i4bSQg7uhyodixZ0NVMVPFZqAsg+B
+         QqzdV02WsKMWw+f8vbNXBW2CyXgIiDNgU48ja/Cuwl6g7xwfIkYlZybxM6dmmJ8VHM49
+         fY3n9nT2+70SkCIgP90UI7VJ/NnadK1pKSCioX9Bc+/elFzL/YkuWw0utmDQ4OJiFREX
+         k4hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Y8qM1JOq6cAX7L4lWkgO6WscEORmGtkBbpSsgF+/vew=;
-        b=ZTw227OJMy0WU717JI5PDNyyCkvo8VHC2iQYnAJO4zo8VZGurfjrs/g9lsijeyu4OK
-         vwQxNCuvZ2JrJOxHDAwfh1VytYZCw4kRhgDYQsF9km1eryc1amJ93H4Glub2Okqi7QhS
-         6hgoLCbPdEPTVaz4bSk8f8x4qFZxMybec/oAGKtnuHbOB1F+IFXiYPxjRr98lZ2n4r3p
-         mSuzZ1UZRJZc+MNt/f849DNSJSL0byMdXQr09ngcVQFWO6Bdtro/+3Sjb763iSiCUSLW
-         XMep0kORBiPpeX26IeYJjgJh+scym2MEi6RhDpuvblNqpc1bYuT/nWPU4WYEsK6tHCNS
-         d14A==
-X-Gm-Message-State: AOAM533cfNppZQk45aOLCP2ea5hCNhIAiGPTqan3AUTI7cGAdONj/vo5
-	F6dzrgttlPzdtv+tCP8/ZWTjQnjI/gPiwQ==
-X-Google-Smtp-Source: ABdhPJz2IgEFZ5patCvJ36hx8Vfkt0I13HpZJ65enVEHB2AkqbXvKjaUetyhxrG3cg23SkusL45L3g==
-X-Received: by 2002:a17:90a:4596:: with SMTP id v22mr923100pjg.12.1606537508618;
-        Fri, 27 Nov 2020 20:25:08 -0800 (PST)
+        bh=lPlyDAJip75t4pL7D6wtXUAJ8tYlLnFzmle0qwPXhwo=;
+        b=Ht3FLD7bBE+ce1CSYnpwKL2u/3SlObUSktSGfXb/Bc5yRKEm1joFA3Oaz30pTQzMd1
+         Xk4L7zAIV5/k2GjQb1IhnUigFkUN0jXV50x++zfwlUCisHc37dbdMV6QKTSu4yDDcC63
+         BVlZa/l8uf+hra4f/JLJf6TzDtk90MyvHrjZKwgcc5EaEzofv9sqdvfNgPPmrLgmj5fH
+         NzWrbLU5VL4o7l5shZPe+Fpnyf+E+DhYd0yr8VO+loisrYYp79TX+uDFyG/29u9WjOKX
+         fRJWQr/SPUtnM0S1mtBOqshwkmLRw6NkcIcH7CCxQ8/mKQLB3cf5jpNER51pdjollAzy
+         dWUA==
+X-Gm-Message-State: AOAM530tRU66veIDmgnulDI40xtac8ZulgkWbWplrU0A1e+vdEFdsHle
+	rNq5jL6l4mW5L6Hi1KUWpsOmx9Vueaq6Ew==
+X-Google-Smtp-Source: ABdhPJyrc0hjhYRDipKxWlrDf5g+y2ATF8xAbQLtawVKOyz17hAdwsx02pFqE4jU3xKXMuq2nJGeGQ==
+X-Received: by 2002:a17:90a:db0a:: with SMTP id g10mr14092942pjv.225.1606537510444;
+        Fri, 27 Nov 2020 20:25:10 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.08
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:25:08 -0800 (PST)
+        Fri, 27 Nov 2020 20:25:09 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 13/18] python3-pluggy: move from meta-python
-Date: Fri, 27 Nov 2020 20:24:26 -0800
-Message-Id: <17ca5e6a689fcdc32b0467a500b53d8719afd1d4.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 14/18] python3-pytest: move from meta-python
+Date: Fri, 27 Nov 2020 20:24:27 -0800
+Message-Id: <7a68b781715c9c84993946f2906f24581fb94613.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
@@ -53,60 +53,105 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Plugin and hook calling mechanisms for python
-
-* Part of the dependency chain for pytest
+Simple powerful testing with python
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../python/python3-pluggy/run-ptest           |  3 +++
- .../python/python3-pluggy_0.13.1.bb           | 27 +++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pluggy/run-ptest
- create mode 100644 meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
+ ...he-setup_requires-for-setuptools-scm.patch | 39 +++++++++++++++++++
+ .../python/python3-pytest_6.1.2.bb            | 38 ++++++++++++++++++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pytest_6.1.2.bb
 
-diff --git a/meta/recipes-devtools/python/python3-pluggy/run-ptest b/meta/recipes-devtools/python/python3-pluggy/run-ptest
+diff --git a/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch b/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
 new file mode 100644
-index 00000000000..b63c4de0d9a
+index 00000000000..8c5c17247e6
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pluggy/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
++++ b/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
+@@ -0,0 +1,39 @@
++From ff784f4803ab33f5e3389e40d038d52d1e211843 Mon Sep 17 00:00:00 2001
++From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
++Date: Wed, 28 Aug 2019 16:12:27 +0900
++Subject: [PATCH] [PATCH] setup.py: remove the setup_requires for
++ setuptools-scm
 +
-+pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
-diff --git a/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb b/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
++The setup_requires argument forces the download of the egg file for setuptools-scm
++during the do_compile phase.  This download is incompatible with the typical fetch
++and mirror structure.  The only usage of scm is the generation of the _version.py
++file and in the release tarball it is already correctly created
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Derek Straka <derek@asterius.io>
++
++Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
++
++Rebase for pytest 6.1.0.
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++ setup.cfg | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/setup.cfg b/setup.cfg
++index 60f6564..c4d1471 100644
++--- a/setup.cfg
+++++ b/setup.cfg
++@@ -55,7 +55,6 @@ package_dir =
++ 	=src
++ setup_requires = 
++ 	setuptools>=40.0
++-	setuptools-scm
++ zip_safe = no
++ 
++ [options.entry_points]
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/python/python3-pytest_6.1.2.bb b/meta/recipes-devtools/python/python3-pytest_6.1.2.bb
 new file mode 100644
-index 00000000000..d3e0365ca1d
+index 00000000000..6872da5cfac
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "Plugin and hook calling mechanisms for python"
-+HOMEPAGE = "https://github.com/pytest-dev/pluggy"
++++ b/meta/recipes-devtools/python/python3-pytest_6.1.2.bb
+@@ -0,0 +1,38 @@
++SUMMARY = "Simple powerful testing with python"
++
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1c8206d16fd5cc02fa9b0bb98955e5c2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=81eb9f71d006c6b268cf4388e3c98f7b"
 +
-+SRC_URI[md5sum] = "7f610e28b8b34487336b585a3dfb803d"
-+SRC_URI[sha256sum] = "15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"
++SRC_URI_append = " file://0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch "
 +
-+DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
-+RDEPENDS_${PN} += "${PYTHON_PN}-importlib-metadata \
-+                   ${PYTHON_PN}-more-itertools \
++SRC_URI[sha256sum] = "c0a7e94a8cdbc5422a51ccdad8e6f1024795939cc89159a0ae7f0b316ad3823e"
++
++inherit update-alternatives pypi setuptools3
++
++RDEPENDS_${PN}_class-target += " \
++    ${PYTHON_PN}-attrs \
++    ${PYTHON_PN}-debugger \
++    ${PYTHON_PN}-doctest \
++    ${PYTHON_PN}-iniconfig \
++    ${PYTHON_PN}-json \
++    ${PYTHON_PN}-pluggy \
++    ${PYTHON_PN}-py \
++    ${PYTHON_PN}-setuptools \
++    ${PYTHON_PN}-six \
++    ${PYTHON_PN}-atomicwrites \
++    ${PYTHON_PN}-importlib-metadata \
++    ${PYTHON_PN}-pathlib2 \
++    ${PYTHON_PN}-wcwidth \
++    ${PYTHON_PN}-more-itertools \
++    ${PYTHON_PN}-packaging \
 +"
 +
-+inherit pypi ptest setuptools3
++ALTERNATIVE_${PN} += "py.test pytest"
 +
-+SRC_URI += " \
-+	file://run-ptest \
-+"
++NATIVE_LINK_NAME[pytest] = "${bindir}/pytest"
++ALTERNATIVE_TARGET[pytest] = "${bindir}/pytest"
 +
-+RDEPENDS_${PN}-ptest += " \
-+	${PYTHON_PN}-pytest \
-+"
++ALTERNATIVE_LINK_NAME[py.test] = "${bindir}/py.test"
++ALTERNATIVE_TARGET[py.test] = "${bindir}/py.test"
 +
-+do_install_ptest() {
-+	install -d ${D}${PTEST_PATH}/testing
-+	cp -rf ${S}/testing/* ${D}${PTEST_PATH}/testing/
-+}
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.0
 
