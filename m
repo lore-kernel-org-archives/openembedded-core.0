@@ -1,50 +1,50 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web08.28888.1606537501953996205
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web10.28757.1606537504067096941
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:25:02 -0800
+ Fri, 27 Nov 2020 20:25:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cLqq3WcN;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id s63so5770577pgc.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HfYMego+;
+ spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f180.google.com with SMTP id t3so5765252pgi.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=M7S8vSDdlcb4fMGJO5sOdAi9hY2gLNDUzpUAb51vkew=;
-        b=cLqq3WcNV4fiP5G99ts1+qtgW2xbgi3sYgdNYckRfBUQigEdRuqcEqljCpVeKgjKef
-         JhAlyIXbE9l5upKi9V64SdAgjEIU2FaVraKwor8sYDLcFiRs238pb3uufbSmBbBbwR3S
-         tm2eU/ZggpOfcLiQXxNkh8qFqP5nMTXpTsr2xeD13ea64AHkpAXQdEU+HkKRNFzA+5gv
-         QtX7mnu4IInL9Eij8nmSS5kW+z41HQ9yQQe19h9tuLi+3G+kWS/1X7c11SQABwLqjxHf
-         czADCQ1350CQMtbanAY/VRVWE+5XQ79eE0EfMw9XYUIF/6sXYxrusfzX5uWK6IystGBi
-         ydxg==
+        bh=0wPvTsa/sw3USu3hQBVQ+QGBQ+jXvEneNXuSL00G6sY=;
+        b=HfYMego+m+px81XYfWnip6LQl5nKdrGpmURq3OPshmHkklXuOLw7diUWk3XP3ON6zj
+         GRg54DrRP6BCTAwBIUXyMqZb8IRLjLabY7O0fM1d8/cxGLSXOWs1oKgsQqOm5Y2SsIGJ
+         cuQ1OgrioPEpYPfS5B5XEajcZQnVyPPAie+2TFiM+aZsYN1PrnnigC+g5Oggspndq++x
+         G/mhNfklsuzR2tQKDbFvjiki2Le8NBKrowMiG3Am0wo9o99uLdB/qx65lB08CUUFsAYR
+         oMxXJ2xbSTQehZY/BajGBTWCPqu3qGuFOjoffaV3p76ClZdgtYsdecncBeEwrx9qhgMf
+         aPzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=M7S8vSDdlcb4fMGJO5sOdAi9hY2gLNDUzpUAb51vkew=;
-        b=GqqFzJS59KtShavKpvovZdd3wQbDinw5pphEaCBV8N4/+i+/BiBSUIr5MbJq8UN8wC
-         HtL5wOXwJ2vaRj3SVQo/5MrqNDATVC7cy5ni2PrZoOlaMEEsyYBZM06JgoBUkOnsRWGM
-         dhQql8+BPgYoTGd0RnlMFTz5iKk8cx+JtevQRYzAXTUDJu0+SelXnemvsN8f39vztZYZ
-         5y8rdir5WNeTWzPRKuXe9+K3Vfui+MC+QmL5LEj+8qacKhGsvH84yX240m+Mf69GxgUY
-         mA+wQCagzaMf48phWwwz7hy78x/JyNihohlpyMT/jRSYWo5XlS/f0nWcrSIk5Jbhdf3m
-         uJ6w==
-X-Gm-Message-State: AOAM531tGOgLTI0VLUpaez7pl5b7wxaBky3xhdt4XX8oE1rOR/D25+mb
-	MfKy3gkHBR06XH1EZOYSHHDZgKCRBF7VsQ==
-X-Google-Smtp-Source: ABdhPJyfXJIL7ibFRnyOJ2oD4DZsfykizgOqzI2tX/2iVy2ATjWfZ1e5QS3LePzm96bSPlKOCscunw==
-X-Received: by 2002:a63:ea54:: with SMTP id l20mr9126599pgk.237.1606537501321;
-        Fri, 27 Nov 2020 20:25:01 -0800 (PST)
+        bh=0wPvTsa/sw3USu3hQBVQ+QGBQ+jXvEneNXuSL00G6sY=;
+        b=qTz9wMz9HBjpy1TLK/EDnZXVr5B5DrdiKmWFR9yX2o08t0KhQqAJ23KA2fwDzpwnAr
+         +pzHkt8Dw9juP41udZYBbqmX8innKjb8UljP1hpLoUoR+8DZS1tS1Kl7CejMbgtn4QXY
+         /0ZOIOxjKJzHArnGOvAS4ZKgdXT799RaIFo1Nu77X7q0QLyzf5vVdMDFLNxpF7Av2Ju0
+         R5lsPSbSwC0iOECXPcm7cT+WWVoTlZUUKVfJd4wHlH/gK1fURQYssSaJn3inrBhEUxj5
+         D6zKTBEQEpbSQfzC1ScD/la4zp7Cd1t2tsrHK9scPtEKvLW33uZOudGpoNyjX0jvif5P
+         xLmQ==
+X-Gm-Message-State: AOAM533P69S6KuTdID9KMVA6/RFRgQSBYL00Fz89xBkbUIl4iCHJpIlV
+	juxx89rE3izGsxBQmnvDpImgO5WiMgqb4w==
+X-Google-Smtp-Source: ABdhPJzFpTft6SHz3joevhxhpnZBZir1E5EtkH4TSPDBgn0Rr3DRByHSKNcOPl2jrUkKlB58lZaEhw==
+X-Received: by 2002:a63:221a:: with SMTP id i26mr9273929pgi.331.1606537503498;
+        Fri, 27 Nov 2020 20:25:03 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.00
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:25:00 -0800 (PST)
+        Fri, 27 Nov 2020 20:25:02 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 09/18] python3-packaging: move from meta-python
-Date: Fri, 27 Nov 2020 20:24:22 -0800
-Message-Id: <85af2283fe950bf51f35291772bed5df96dda6f0.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 10/18] python3-wcwidth: move from meta-python
+Date: Fri, 27 Nov 2020 20:24:23 -0800
+Message-Id: <621cf806813afe2b0ed0154dc08a386b687b31cb.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
@@ -53,36 +53,58 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Core utilities for Python packages
+Library for bulding powerful interactive command lines in Python
 
 * Part of the dependency chain for pytest
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../python/python3-packaging_20.4.bb               | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-packaging_20.4.bb
+ .../python/python3-wcwidth/run-ptest          |  3 +++
+ .../python/python3-wcwidth_0.2.5.bb           | 25 +++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-wcwidth/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb
 
-diff --git a/meta/recipes-devtools/python/python3-packaging_20.4.bb b/meta/recipes-devtools/python/python3-packaging_20.4.bb
+diff --git a/meta/recipes-devtools/python/python3-wcwidth/run-ptest b/meta/recipes-devtools/python/python3-wcwidth/run-ptest
 new file mode 100644
-index 00000000000..c75707e69c7
+index 00000000000..b63c4de0d9a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-packaging_20.4.bb
-@@ -0,0 +1,14 @@
-+DESCRIPTION = "Core utilities for Python packages"
-+HOMEPAGE = "https://github.com/pypa/packaging"
-+LICENSE = "Apache-2.0 & BSD"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
++++ b/meta/recipes-devtools/python/python3-wcwidth/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
 +
-+SRC_URI[md5sum] = "3208229da731c5d8e29d4d8941e75005"
-+SRC_URI[sha256sum] = "4357f74f47b9c12db93624a82154e9b120fa8293699949152b22065d556079f8"
++pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
+diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb b/meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb
+new file mode 100644
+index 00000000000..bb4aae2e86b
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Library for building powerful interactive command lines in Python"
++DESCRIPTION = "Measures the displayed width of unicode strings in a terminal"
++HOMEPAGE = "https://github.com/jquast/wcwidth"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
 +
-+inherit pypi setuptools3
++SRC_URI[md5sum] = "a07a75f99d316e14838ac760c831ea37"
++SRC_URI[sha256sum] = "c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"
 +
-+BBCLASSEXTEND = "native"
++inherit pypi setuptools3 ptest
 +
-+DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
-+RDEPENDS_${PN} += "${PYTHON_PN}-six ${PYTHON_PN}-pyparsing"
++SRC_URI += " \
++        file://run-ptest \
++"
++
++RDEPENDS_${PN}-ptest += " \
++       ${PYTHON_PN}-pytest \
++"
++
++do_install_ptest() {
++      install -d ${D}${PTEST_PATH}/tests
++        cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
++}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.0
 
