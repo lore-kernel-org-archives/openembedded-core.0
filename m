@@ -1,50 +1,50 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web12.36671.1606592391822586102
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+ by mx.groups.io with SMTP id smtpd.web08.36673.1606592392728831540
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Nov 2020 11:39:51 -0800
+ Sat, 28 Nov 2020 11:39:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tNGCMdsO;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id t3so6999609pgi.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2020 11:39:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mNdKTgdO;
+ spf=pass (domain: gmail.com, ip: 209.85.210.196, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f196.google.com with SMTP id y7so7352209pfq.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2020 11:39:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=T6wR3+KBlpthc8Qzbnbidp5k4h/cqeKRRhvpDC3qKz8=;
-        b=tNGCMdsO9NcRqUGdwvz4ZKjvCD1/3VXcu0p1ojiwlVaMUWwlNoi18UEZOqPrSXPpwz
-         D4j6v30n5TKT52nMHXHwcp07xflkhHY+JmVrXmFjSZWY0ieNLB5Yc59DYemf5HVRGPAd
-         mDK/vGBi24VZf1aunWGQRt/zbKxA6FJGg/bDuEGA6eLgUGosQoUEeSYjhsL9bfF7xyCu
-         9SvYXcdjgz238opdtWKuq+SdzXT2J39cWkwgcGoC5F6HFin3yF5jpDnzhIKQjsVqRvrP
-         CTIxjhOYkVWx/3hfqOmAWyBYVGJz5idNKPdBZSJNCyrGYXT4aNa+CUKmpnwQ6NNJE4sy
-         VD3Q==
+        bh=eULjkAVKX5fYW3spfaG0ybQ2hl078d2I6xqv4JA7oZk=;
+        b=mNdKTgdO7QEOXsRrA3KfgOtmzV9hU/FxeuD5VwiU8JIyGSUnlxd1k3kd/Ip5nisaxF
+         4d2PGu55s5VgVw6DeL35UYsLk1T/++rRZLNXekuJl2mbQrLkmsa/zr51aI+WR3k6/pUL
+         PbQqiM0SSIeEU/+mw6QFp946JGXg7gcE77xYi6ai0CL6rJlR0bKp453Aa0YjZ+mW4qt5
+         cEBvnffcKHLMqLW3wlrX7m4ezzCs2xYDVsceHRmf55EGHu0IS/8ttlwtPQq0OO5I3uPs
+         45ooowODiBNwsYGe8HlKxrachzBNEQyf7XO2vTD9MFoV2/ULE7vkyPaH4eskFcxwaaIU
+         V8tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=T6wR3+KBlpthc8Qzbnbidp5k4h/cqeKRRhvpDC3qKz8=;
-        b=dmLJFHsmFmUq6Gry43qcAiJhEFILhgabxbHrp4Cn3rvYEebBOrSxPpOdM5iNpvUTN+
-         LqX/B6z68WwKosMus5F/lHHF93exJHjPiWked41lM4vrvRdRl0/10Qd9XdNoqlIqLGvY
-         xW4bwrzVIFGeTWO13ACGRHvo94sE0/r2nHpuJvUyXl8nhqDL4t+/0OaoW3kAsaNC1lHL
-         uD5pzYhzINp61WJnAWSk26XkHD6G8p4yQlvPSO128/ofeUDcVKhAaZeYkg/NADfkBUPK
-         rHrsQTWops1lDNHcKn6wP+JirbQ6vZYlm7fl3MNlQVClM/yo3RVr9tCkSVCvKLVdfWGN
-         kCWw==
-X-Gm-Message-State: AOAM532nm0OSXUmaNNEAj6CvBBHLSlQWV/n2h66p/9edGm7bmfUh7TJJ
-	oM3LIV96NG2dSpiohozMUDpyNpOOGJqT9g==
-X-Google-Smtp-Source: ABdhPJzPT6+A9QuH08L9WTfDaMl0zj/fKWeaPBz72gZ6uy81gtTDhcxekQtP8xsQl+eg4AHG78ejMA==
-X-Received: by 2002:a17:90a:fe88:: with SMTP id co8mr17110044pjb.76.1606592391051;
+        bh=eULjkAVKX5fYW3spfaG0ybQ2hl078d2I6xqv4JA7oZk=;
+        b=NIenqlAUPzBgEI/vv46bfYbCwG3b4Q8HHmbB3iZq6zuxC3jz6IGgUYrOU1CL+IG6mH
+         yawwB5hI8WXX79JdWigNsHCXNOnSnudj2KUMTjm0VIFpasaQTTSU7jYVa22i+88gy2ES
+         TA0zlx5zTg+GR3N/JrRObeQVEu/GPGpRw2eIEvF3OulQq9ZSDMA8YA+1Ssgft77Pq/mt
+         a1kPlDrX3PnB+XtCnHO/QCNcMniiQwSVhrrP/7WW/pTsN2fPtiu80Va/AjmbTJnNA6tp
+         05qfREARdMZngu7b9wOXSuV9UI9IhiIKGUZ28bFXkEVwDmTBrIBpT2vfjdjimfp9agMa
+         P9cA==
+X-Gm-Message-State: AOAM530K8UoVp/Td0HqyatOa1KB7FPsrlkqWKtOFmCJWR2CCBJ4oN4pq
+	5rP1F0lH81rwHjeThxFsGeQ+61ZZZaYvrg==
+X-Google-Smtp-Source: ABdhPJxXybIjKtKdIMWz91yTNoQhxVFQL0XM7VjoIZQ5td5AciMeyxHclJrT9PD0G+piGy6km2e5uQ==
+X-Received: by 2002:a63:2060:: with SMTP id r32mr11519022pgm.129.1606592391934;
         Sat, 28 Nov 2020 11:39:51 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:58b6:35be:25dc:8a78])
-        by smtp.gmail.com with ESMTPSA id z29sm2629795pgk.88.2020.11.28.11.39.50
+        by smtp.gmail.com with ESMTPSA id z29sm2629795pgk.88.2020.11.28.11.39.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2020 11:39:50 -0800 (PST)
+        Sat, 28 Nov 2020 11:39:51 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] python3-hypothesis: move from meta-python
-Date: Sat, 28 Nov 2020 11:39:34 -0800
-Message-Id: <5aa1850cbc714258bd5e74cfdc2a7a4f94d58451.1606584666.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 2/4] python3-sortedcontainers: move from meta-python
+Date: Sat, 28 Nov 2020 11:39:35 -0800
+Message-Id: <759d12061c9a7412e3c6a0cbb738706d4e5d549b.1606584666.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606584666.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606584666.git.timothy.t.orling@linux.intel.com>
@@ -53,34 +53,30 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-A library for property-based testing
+Sorted Containers is an Apache2 licensed sorted collections library,
+written in pure-Python, and fast as C-extensions.
 
 * Part of the dependency chain for python3-numpy ptest
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../python/python3-hypothesis_5.41.3.bb            | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
+ .../python/python3-sortedcontainers_2.3.0.bb             | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb b/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
+diff --git a/meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb b/meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb
 new file mode 100644
-index 00000000000..b7bf15c31ed
+index 00000000000..6060c03723a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
-@@ -0,0 +1,14 @@
-+SUMMARY = "A library for property-based testing"
-+HOMEPAGE = "https://github.com/HypothesisWorks/hypothesis/tree/master/hypothesis-python"
-+LICENSE = "MPL-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4ee62c16ebd0f4f99d906f36b7de8c3c"
-+
-+PYPI_PACKAGE = "hypothesis"
++++ b/meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb
+@@ -0,0 +1,9 @@
++SUMMARY = "Sorted Containers is an Apache2 licensed sorted collections library, written in pure-Python, and fast as C-extensions."
++HOMEPAGE = "http://www.grantjenks.com/docs/sortedcontainers/"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=7c7c6a1a12ec816da16c1839137d53ae"
 +
 +inherit pypi setuptools3
-+
-+SRC_URI[sha256sum] = "6a3471ff74864ab04a0650c75500ef15f2f4a901d49ccbb7cbec668365736688"
-+
-+RDEPENDS_${PN} += "python3-core"
++SRC_URI[sha256sum] = "59cc937650cf60d677c16775597c89a960658a09cf7c1a668f86e1e4464b10a1"
 +
 +BBCLASSEXTEND = "native nativesdk"
 -- 
