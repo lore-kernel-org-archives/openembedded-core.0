@@ -1,90 +1,159 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web12.36673.1606592394260784818
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web08.37648.1606597431039839535
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Nov 2020 11:39:54 -0800
+ Sat, 28 Nov 2020 13:03:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WQbaZqvV;
- spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id n137so7386136pfd.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2020 11:39:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PsRZHdaq;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f180.google.com with SMTP id z188so7452265qke.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2020 13:03:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=rdP8WwyE9egIyFg1g8iz90UTw7Isa1IPx4yBiiuZHJc=;
-        b=WQbaZqvVQmX/oGPJSP2ZgOwHAKlD+bzJoViPAhYtTO9FLZkqMJEzqtgTqAB/8hs06m
-         OSHq+r83hJ0M4PKuSlj40rvqEuLp91593oXdPYBLt4YPaA5EPtM8cUu3/ZZwyV2ndaEE
-         CAbOsfqa+/r1KMdxIfJfeTS+bAZGi4gkl4d84fthgfvh4z++sO1ObpYjdPE677kQFgJy
-         blLbJRh8T//AwG9xEAkOO6HD4qL3UbAYUM4qq4M59mehI+QkBIQaJp6efuDqLJR6h/3n
-         0nOEXQwYrkzNUEYEBJd88baoj9O/l3I87C57ohGS2+hNyrkyjIJx6xt27saZyVxTRlJn
-         9LHA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0aMv3Ytpe1Vl4F/fTOSTVN/HsM7yLpCoteIJfGtT4DU=;
+        b=PsRZHdaqTaJ+EWhz94YFtewh3g9MojTgS9IrU3tbHprUoSzacjzKgHYzjhbDk/5JQC
+         61PDW4EtRHEgrt6tafyB4EOMoXrlJHyH1+8dE3armLAMbodmcMInlpKm3UIqH/9ht5EM
+         qyFauXV9ZzxsJSzu9ucWbeVRPZIREEvf4YrV/NEKXYBRw3M6ljcP6V91kcWg5otdx6TG
+         PI7Sfyt1StpKHLPg+yyylpG1LppreOLyhiDLF4rTudcFR2PAOJ0f0S0Csrmtm87CVaHv
+         BnaI3qsQQV3kn+r1sgm/9sD9QKGGltYSm4edNf7NMRjWV4rszQCU7bhGa/hjvPCnwdgR
+         /+Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rdP8WwyE9egIyFg1g8iz90UTw7Isa1IPx4yBiiuZHJc=;
-        b=cr3F0bdS+M/Wi2AvXhz0Fv/kxW11FwYPkUKf+qCQtZVRrHaEIXcfdeyHXP6hDajobx
-         5feD226vTl/dCRUcVcvvyMcJ+CZdPnQVOEre6XS9fK1lnFFSOc4NDbbgIS+xmUZ1zbcw
-         Mw1UIwt2rWecefFgP1v7g4WbzP8Vp3T27WXrExPZnIzmuNHx8ygvCNVWF39UV0rhQhR5
-         TgNWdsn88H5KxVwSlgvM4z+DV8onCNr7r7AEJ4kvPn0NSphLlj8vH2a/pJkYVnll9HYW
-         KeiL6kr8gE2M2c6P/g7uibIqzZiiH9I+m40rLa6OE2tR6cVz+ItiiATMaJsj3Y390Ahe
-         axAw==
-X-Gm-Message-State: AOAM5307j1SqZIDTNd3C9hk5E6fhl+Fuue9rXv2vrHGSwuxDqZgNJPuh
-	N6IuV6VobRPRpyNo8KRbXSTEnh6g3l3gVA==
-X-Google-Smtp-Source: ABdhPJyn4KPwU7deuz2jVdH1/eDcTh/BOZS9igsPdjd9dyhj8z6p/bH/ZDQ6n8ySCf7XdR2RbWsN4g==
-X-Received: by 2002:a05:6a00:14cd:b029:18b:fac7:d88 with SMTP id w13-20020a056a0014cdb029018bfac70d88mr12275147pfu.6.1606592393629;
-        Sat, 28 Nov 2020 11:39:53 -0800 (PST)
-Return-Path: <ticotimo@gmail.com>
-Received: from thetis.local ([2601:1c0:6000:9640:58b6:35be:25dc:8a78])
-        by smtp.gmail.com with ESMTPSA id z29sm2629795pgk.88.2020.11.28.11.39.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2020 11:39:53 -0800 (PST)
-From: "Tim Orling" <ticotimo@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] python3-hypothesis: upgrade 5.41.3 -> 5.41.4
-Date: Sat, 28 Nov 2020 11:39:37 -0800
-Message-Id: <31ae1fff5ac74cfaed06ab920ee4da3000f20cb2.1606584666.git.timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <cover.1606584666.git.timothy.t.orling@linux.intel.com>
-References: <cover.1606584666.git.timothy.t.orling@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0aMv3Ytpe1Vl4F/fTOSTVN/HsM7yLpCoteIJfGtT4DU=;
+        b=Zw1RnTVyonKI2DAlEG4yT7drKFDi+bN3TyWKuLqvhqq0FUT1IEnQELtUSj+qx/+HY6
+         lg8nriQ9koyh0y5zRuFq09u2ov5LBXB1Pd4XNRySmDlf+Bxoa5JRnv2PnQvrmXNCyGPq
+         G+O7FXBkDRdQ0Mr+H15g0AuYnaDggjL3I7Ii+/Hn6Aek2up4xNBIvuCa1GJWP52/imMP
+         Hr3DFo0I22Dy5la+d3ZKttXCIyCgdmFS+oYusW+HmB3jIuUFYgBMILqcRVs9wcbf7k8r
+         ihm/e6ej3Apwk77X+OL0CVrvBnWVHIfSREFCGuQJqeLqbsJGnMlIpfJowhQ5C9o6ash0
+         lZjg==
+X-Gm-Message-State: AOAM531dhoDHUwB7oM5ryBXt+4DiXPMS7chfa4GnzJS7Xz8+spAqYfpe
+	unwPuMJ5cL7q2FMk8PUHFPjz5wAuYxI+OoxWwWo=
+X-Google-Smtp-Source: ABdhPJzmMKTnWRyNC5WL9U/job1haBpaYOSyZLLZL39i7BKuzMWxoaw1eViqtv0MbmlT5yoYgNzNNemCAsjUOamVSIo=
+X-Received: by 2002:a37:a70e:: with SMTP id q14mr15038865qke.337.1606597430040;
+ Sat, 28 Nov 2020 13:03:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201120172950.1619754-1-raj.khem@gmail.com> <20201120172950.1619754-4-raj.khem@gmail.com>
+ <CANx9H-AQbxr-RpJe3T-6YSR4=zMwmxwdrNCVGjAnLMpmo1fM2w@mail.gmail.com>
+In-Reply-To: <CANx9H-AQbxr-RpJe3T-6YSR4=zMwmxwdrNCVGjAnLMpmo1fM2w@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 28 Nov 2020 13:03:23 -0800
+Message-ID: <CAMKF1soTReBQ6qVMgJMU1F6O9QdLQ2AMLShXw91u3+GY5k-H+A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 4/8] python-numpy: Add ptest
+To: Tim Orling <ticotimo@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+On Sat, Nov 28, 2020 at 10:57 AM Tim Orling <ticotimo@gmail.com> wrote:
+>
+>
+>
+> On Fri, Nov 20, 2020 at 9:30 AM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> Since 1.15, numpy have replaced nose with pytest testing framework
+>> it additionally needs hypothesis and sortedcontainers modules
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-devtools/python-numpy/files/run-ptest         | 5 +++++
+>>  meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb | 7 +++++--
+>>  2 files changed, 10 insertions(+), 2 deletions(-)
+>>  create mode 100644 meta/recipes-devtools/python-numpy/files/run-ptest
+>>
+>> diff --git a/meta/recipes-devtools/python-numpy/files/run-ptest b/meta/recipes-devtools/python-numpy/files/run-ptest
+>> new file mode 100644
+>> index 0000000000..9a1c72aeb1
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/python-numpy/files/run-ptest
+>> @@ -0,0 +1,5 @@
+>> +#!/usr/bin/env python3
+>> +
+>> +import numpy
+>> +numpy.test(label='full', verbose=2)
+>> +
+>> diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+>> index d54f2f6c18..b484e7cddc 100644
+>> --- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+>> +++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+>> @@ -8,6 +8,7 @@ SRCNAME = "numpy"
+>>  SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+>>             file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+>>             file://0001-numpy-core-Define-RISCV-32-support.patch \
+>> +           file://run-ptest \
+>>  "
+>>  SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"
+>>
+>> @@ -16,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+>>
+>>  DEPENDS += "python3-cython-native"
+>>
+>> -inherit setuptools3
+>> +inherit ptest setuptools3
+>>
+>>  S = "${WORKDIR}/numpy-${PV}"
+>>
+>> @@ -30,7 +31,6 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
+>>                    ${PYTHON_PN}-pprint \
+>>                    ${PYTHON_PN}-pickle \
+>>                    ${PYTHON_PN}-shell \
+>> -                  ${PYTHON_PN}-nose \
+>>                    ${PYTHON_PN}-doctest \
+>>                    ${PYTHON_PN}-datetime \
+>>                    ${PYTHON_PN}-distutils \
+>> @@ -39,6 +39,9 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
+>>                    ${PYTHON_PN}-netclient \__class__  = <class 'zipfile._ZipWriteFile'>
+>>         # and may, or may not, abort the process depending on the LAPACK package.
+>>
+>>         XERBLA_OK = 255
+>>
+>>         try:
+>>             pid = os.fork()
+>>         except (OSError, AttributeError):
+>>             # fork failed, or not running on POSIX
+>>             pytest.skip("Not POSIX or fork failed.")
+>>
+>>         if pid == 0:
+>>             # child; close i/o file handles
+>>             os.close(1)
+>>             os.close(0)
+>>             # Avoid producing core files.
+>> >           import resource
+>> E           ModuleNotFoundError: No module named 'resource'
+>>
+>> XERBLA_OK  = 255
+>> pid        = 0
+>>
+>> ../../python3.9/site-packages/numpy/linalg/tests/test_linalg.py:1808: ModuleNotFoundError
+>>
+>> """
+>
+>
+>>
+>>                    ${PYTHON_PN}-numbers \
+>>                    ${PYTHON_PN}-pydoc \
+>> +                  ${PYTHON_PN}-pytest \
+>> +                  ${PYTHON_PN}-hypothesis \
+>> +                  ${PYTHON_PN}-sortedcontainers \
+>
+>
+> Also needs ${PYTHON_PN}-resource
+>
 
-Upstream release notes:
-"""
-5.41.4 - 2020-11-28
+Thanks, did you mean python3-pkg-resources ?
+I did not encounter this locally and I have the above installed and
+was wondering if thats the case.
+but I have added this, I will send that in v4 otherwise.
 
-This patch fixes issue #2657, where passing unicode patterns compiled
-with re.IGNORECASE to from_regex() could trigger an internal error when
-casefolding a character creates a longer string (e.g. "\u0130".lower()
--> "i\u0370").
-"""
-
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- ...ython3-hypothesis_5.41.3.bb => python3-hypothesis_5.41.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_5.41.3.bb => python3-hypothesis_5.41.4.bb} (80%)
-
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb b/meta/recipes-devtools/python/python3-hypothesis_5.41.4.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_5.41.4.bb
-index b7bf15c31ed..416acc8d72f 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_5.41.4.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "hypothesis"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "6a3471ff74864ab04a0650c75500ef15f2f4a901d49ccbb7cbec668365736688"
-+SRC_URI[sha256sum] = "7ef22dd2ae4a906ef1e237dcd6806aa7f97e30c37f924a0e6d595f4639350b53"
- 
- RDEPENDS_${PN} += "python3-core"
- 
--- 
-2.25.0
-
+> """
+>
+>>                    ${PYTHON_PN}-pkgutil \
+>>                    ${PYTHON_PN}-email \
+>>                    ${PYTHON_PN}-compression \
+>> --
+>> 2.29.2
+>>
+>>
+>> 
+>>
