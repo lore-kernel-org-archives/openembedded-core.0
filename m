@@ -1,50 +1,50 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web08.28892.1606537512581001942
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web09.29018.1606537514785664144
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:25:12 -0800
+ Fri, 27 Nov 2020 20:25:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LXwYx6U3;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id x24so6151856pfn.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cKq9iGhL;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id w16so5768054pga.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=XizMCpWtErklsMftmAlvLitb2kOy26DxwDaBNCZ4dd4=;
-        b=LXwYx6U3ttPg2Wy233nWuBEBJvEzCYnCmJyMWtKYLZdqP4LhS285eMgiHjlWiVw2yV
-         NdBXCN9QH9CZkA8tjbelQU5cNFuKgqqA3lcpNzh+20RXp4C570tatVGb72awySdMOV9Z
-         jD6xFEZeVYTeYIa/GGeTFmsPBB9hH+zz8C3rzAlqQGj247iJJs3i1nhB5//FXRTFhENM
-         uzC7n+bEWezRz73xGZgiYY4j24QCAtxlER6IYbzVwCaAPOhiM3qkI0AMEw32dS+O7Bdr
-         VXuEkthtaZn+LHX8HkDA3VZSQvRNg8TNs2vaMOQkm8a9r27Iw6Ul1jU2mXse36HXJNV8
-         nREw==
+        bh=sP9kxVuSnqYtzhScxyAaHqh7ZYenpqNPYIe74ivk25s=;
+        b=cKq9iGhLGcrtZIbAeKeAiqK8qrwq6JMUQKQDUO15hhI800qFyYCTlkZJfEU83O4otN
+         44wsjeYJSSxruKPHH0dQc89NPSicWHcfRQqcHCjwO768K5bUi3gZQuHZsWtxTR0MALNu
+         0DS9K3rOMRppUWVKmvcQdw722Xifk1L7KFDafCncZ4LmrnLsJPUJutdhjGkbrplwQAht
+         rzUGr3ZyBvzq6GMCNdTV6jo2kOs291LxgPmE8bUJurSe7iS9yUdDEwrvxhEj5Xknnzmd
+         yz5RpVG5sMKEn7+oMXAdDHZdTbz+OFKeU6gzZYNhPkCaFkAwIXQxvO/s+CA5R+emYQxq
+         mvkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XizMCpWtErklsMftmAlvLitb2kOy26DxwDaBNCZ4dd4=;
-        b=kXw3mXgmeGQhWdJdJzm4lKGuDaXnpmZX5JF8GkMq4lzNRTzHDTch5VOIqTLolofM7h
-         OHCMM1TDs6nB82P/sDT8joDwr9XOwNkOW5oJP2Pg5FYqclA1Jz439d9e/ytRlkBOf8Rp
-         HihToiWlamNX/ObbPaykz3QZspg9KBcYPQ6dr7ZZosTF5Nd5LuPQATrluij/O1GoeBYy
-         CzLc6x2DvMWFha1YqoBeGA2wl/ppPh4NvpKvc9LB/P0jfNEL3AOC+PzHz1vAbqOhIT8Y
-         iqh9VPrSzH08+8YIlCa5x71sYarKky83QWjZakMAd0+KkkGglyI23XDEKRIdhvsTz0N2
-         ORFg==
-X-Gm-Message-State: AOAM533/w2uchQ/++wx8l/zI82qks2O+kAhX0nd4SCLrf+V4GAlczxo8
-	/w8D7qIHnw2axXeiNIhdT2n9hGT7CyVCog==
-X-Google-Smtp-Source: ABdhPJxJG8eBhVI+2hbZSIkKAF1iSGspPL/QZYF+qy1uKkNpe0+aaSe2Nfa63dh+cXpcJ47zCXp64A==
-X-Received: by 2002:a17:90b:3692:: with SMTP id mj18mr639759pjb.60.1606537511982;
-        Fri, 27 Nov 2020 20:25:11 -0800 (PST)
+        bh=sP9kxVuSnqYtzhScxyAaHqh7ZYenpqNPYIe74ivk25s=;
+        b=YCkd9W+WByOFmJoE9HvCz5S/EQE9aZtDHzXadwkLU8ID3YY7OLWMvygKgFKC/7No22
+         fQtpfohAk1iiCbvyEz/EnTycOro/DwcHY+I6yQVsHq0ADpat97DmXrPxWZnx5BhYecgZ
+         CReEjmW5so9QSDBoMFMBoTopJARIYi0dFg4t/2sCipDPlvjFuBhlaykAQz2Nc+QZ3BZQ
+         8UlyV8bIol2cesf4DU7zGbu4HdaJ6fW0JE/7yxW4AiJ8yRweLi0YVAKHg50/5WfXRfgj
+         nHh33c3fi4AMuyw6VNZIDEQQdpc4MFH375KicMYgzo3u6TaeKbmipXQuXRe+LGyEJ5od
+         Mr3g==
+X-Gm-Message-State: AOAM530bXfKy1SKsKhUT5muODB7AXYzTngnS/4A8EdZRQOClLo4xn2i7
+	1hZM1MOv1R4+EpkcE+51Ze7ImCY0pSurbw==
+X-Google-Smtp-Source: ABdhPJxe0ZG6je7O+TqDqaM6TxoKyLNkflK0uo5MvQ2i/+88v4VzjaKLeGoaw54RxHwf6HQlbdq0Qw==
+X-Received: by 2002:a17:90a:e2d4:: with SMTP id fr20mr13748226pjb.202.1606537514173;
+        Fri, 27 Nov 2020 20:25:14 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.11
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:25:11 -0800 (PST)
+        Fri, 27 Nov 2020 20:25:13 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 15/18] maintainers.inc: add self for new pytest packages
-Date: Fri, 27 Nov 2020 20:24:28 -0800
-Message-Id: <e797afbeb815a83bda856b3299e3bd3a0c4b1e0e.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 16/18] python3-more-itertools: upgrade 8.5.0 -> 8.6.0
+Date: Fri, 27 Nov 2020 20:24:29 -0800
+Message-Id: <0a6850284d08317dd76f0bbd0e5842c3518f9a75.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
@@ -53,65 +53,56 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
+Upstream release notes:
+"
+* New itertools
+  - all_unique (thanks to brianmaissy)
+  - nth_product and nth_permutation (thanks to N8Brooks)
+
+* Changes to existing itertools
+  - chunked and sliced now accept a strict parameter (thanks to
+    shlomif and jtwool)
+
+* Other changes
+  - Python 3.5 has reached its end of life and is no longer
+    supported.
+  - Python 3.9 is officially supported.
+  - Various documentation fixes (thanks to timgates42)
+
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/conf/distro/include/maintainers.inc | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ ...-itertools_8.5.0.bb => python3-more-itertools_8.6.0.bb} | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python3-more-itertools_8.5.0.bb => python3-more-itertools_8.6.0.bb} (77%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index ad5f4672c7a..f77965f8e0b 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -582,6 +582,8 @@ RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Tanu Kaskinen <tanuk@iki.fi>
- RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-python3 = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-async = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-atomicwrites = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-python3-attrs = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-cython = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-dbus = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-dbusmock = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-@@ -591,28 +593,40 @@ RECIPE_MAINTAINER_pn-python3-pycryptodomex = "Joshua Watt <JPEWhacker@gmail.com>
- RECIPE_MAINTAINER_pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-importlib-metadata = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-python3-iniconfig = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-iniparse = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-jinja2 = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-python3-libarchive-c = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-magic = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-markupsafe = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-+RECIPE_MAINTAINER_pn-python3-more-itertools = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-packaging = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-python3-pathlib2 = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-pbr = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pip = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
-+RECIPE_MAINTAINER_pn-python3-pluggy = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-python3-py = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-pycairo = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pyelftools = "Joshua Watt <JPEWhacker@gmail.com>"
- RECIPE_MAINTAINER_pn-python3-pygments = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-pygobject = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-pyparsing = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-pytest = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-scons = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-scons-native = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-setuptools-scm = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-python3-six = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
- RECIPE_MAINTAINER_pn-python3-smmap = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-subunit = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-python3-testtools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-+RECIPE_MAINTAINER_pn-python3-toml = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-python3-wcwidth = "Tim Orling <timothy.t.orling@linux.intel.com>"
-+RECIPE_MAINTAINER_pn-python3-zipp = "Tim Orling <timothy.t.orling@linux.intel.com>"
- RECIPE_MAINTAINER_pn-qemu = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-qemu-helper-native = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-qemu-native = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+diff --git a/meta/recipes-devtools/python/python3-more-itertools_8.5.0.bb b/meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb
+similarity index 77%
+rename from meta/recipes-devtools/python/python3-more-itertools_8.5.0.bb
+rename to meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb
+index e924b0f731f..ee5ce7ba9cc 100644
+--- a/meta/recipes-devtools/python/python3-more-itertools_8.5.0.bb
++++ b/meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb
+@@ -3,13 +3,10 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
+ 
+-SRC_URI[md5sum] = "2588b5a7042576b99574779582be9292"
+-SRC_URI[sha256sum] = "6f83822ae94818eae2612063a5101a7311e68ae8002005b5e05f03fd74a86a20"
++SRC_URI[sha256sum] = "b3a9005928e5bed54076e6e549c792b306fddfe72b2d1d22dd63d42d5d3899cf"
+ 
+ inherit pypi setuptools3 ptest
+ 
+-BBCLASSEXTEND = "native nativesdk"
+-
+ SRC_URI += " \
+ 	file://run-ptest \
+ "
+@@ -22,3 +19,5 @@ do_install_ptest() {
+ 	install -d ${D}${PTEST_PATH}/tests
+ 	cp -rf ${S}/tests/* ${D}${PTEST_PATH}/tests/
+ }
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.0
 
