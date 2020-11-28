@@ -1,50 +1,50 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.28760.1606537511100591222
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+ by mx.groups.io with SMTP id smtpd.web08.28892.1606537512581001942
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:25:11 -0800
+ Fri, 27 Nov 2020 20:25:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MgPFa4Fx;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id w16so5767974pga.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LXwYx6U3;
+ spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f182.google.com with SMTP id x24so6151856pfn.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=lPlyDAJip75t4pL7D6wtXUAJ8tYlLnFzmle0qwPXhwo=;
-        b=MgPFa4FxCnWpUnFmqpTEaSDvOrBMFtnwk+YLXidZ7hgyVqcVosKVdw3aXWf5kabTIK
-         cfxxKI/iNBYpbtPjQURpE6vRyswQRs8vI4TWOqBl0MlGtq7rS8gZvIWftvvUcJdsi4fw
-         E5In9SDzroViE79nQMdj0W6s6LaLE2SPOGTYAx3i4bSQg7uhyodixZ0NVMVPFZqAsg+B
-         QqzdV02WsKMWw+f8vbNXBW2CyXgIiDNgU48ja/Cuwl6g7xwfIkYlZybxM6dmmJ8VHM49
-         fY3n9nT2+70SkCIgP90UI7VJ/NnadK1pKSCioX9Bc+/elFzL/YkuWw0utmDQ4OJiFREX
-         k4hA==
+        bh=XizMCpWtErklsMftmAlvLitb2kOy26DxwDaBNCZ4dd4=;
+        b=LXwYx6U3ttPg2Wy233nWuBEBJvEzCYnCmJyMWtKYLZdqP4LhS285eMgiHjlWiVw2yV
+         NdBXCN9QH9CZkA8tjbelQU5cNFuKgqqA3lcpNzh+20RXp4C570tatVGb72awySdMOV9Z
+         jD6xFEZeVYTeYIa/GGeTFmsPBB9hH+zz8C3rzAlqQGj247iJJs3i1nhB5//FXRTFhENM
+         uzC7n+bEWezRz73xGZgiYY4j24QCAtxlER6IYbzVwCaAPOhiM3qkI0AMEw32dS+O7Bdr
+         VXuEkthtaZn+LHX8HkDA3VZSQvRNg8TNs2vaMOQkm8a9r27Iw6Ul1jU2mXse36HXJNV8
+         nREw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lPlyDAJip75t4pL7D6wtXUAJ8tYlLnFzmle0qwPXhwo=;
-        b=Ht3FLD7bBE+ce1CSYnpwKL2u/3SlObUSktSGfXb/Bc5yRKEm1joFA3Oaz30pTQzMd1
-         Xk4L7zAIV5/k2GjQb1IhnUigFkUN0jXV50x++zfwlUCisHc37dbdMV6QKTSu4yDDcC63
-         BVlZa/l8uf+hra4f/JLJf6TzDtk90MyvHrjZKwgcc5EaEzofv9sqdvfNgPPmrLgmj5fH
-         NzWrbLU5VL4o7l5shZPe+Fpnyf+E+DhYd0yr8VO+loisrYYp79TX+uDFyG/29u9WjOKX
-         fRJWQr/SPUtnM0S1mtBOqshwkmLRw6NkcIcH7CCxQ8/mKQLB3cf5jpNER51pdjollAzy
-         dWUA==
-X-Gm-Message-State: AOAM530tRU66veIDmgnulDI40xtac8ZulgkWbWplrU0A1e+vdEFdsHle
-	rNq5jL6l4mW5L6Hi1KUWpsOmx9Vueaq6Ew==
-X-Google-Smtp-Source: ABdhPJyrc0hjhYRDipKxWlrDf5g+y2ATF8xAbQLtawVKOyz17hAdwsx02pFqE4jU3xKXMuq2nJGeGQ==
-X-Received: by 2002:a17:90a:db0a:: with SMTP id g10mr14092942pjv.225.1606537510444;
-        Fri, 27 Nov 2020 20:25:10 -0800 (PST)
+        bh=XizMCpWtErklsMftmAlvLitb2kOy26DxwDaBNCZ4dd4=;
+        b=kXw3mXgmeGQhWdJdJzm4lKGuDaXnpmZX5JF8GkMq4lzNRTzHDTch5VOIqTLolofM7h
+         OHCMM1TDs6nB82P/sDT8joDwr9XOwNkOW5oJP2Pg5FYqclA1Jz439d9e/ytRlkBOf8Rp
+         HihToiWlamNX/ObbPaykz3QZspg9KBcYPQ6dr7ZZosTF5Nd5LuPQATrluij/O1GoeBYy
+         CzLc6x2DvMWFha1YqoBeGA2wl/ppPh4NvpKvc9LB/P0jfNEL3AOC+PzHz1vAbqOhIT8Y
+         iqh9VPrSzH08+8YIlCa5x71sYarKky83QWjZakMAd0+KkkGglyI23XDEKRIdhvsTz0N2
+         ORFg==
+X-Gm-Message-State: AOAM533/w2uchQ/++wx8l/zI82qks2O+kAhX0nd4SCLrf+V4GAlczxo8
+	/w8D7qIHnw2axXeiNIhdT2n9hGT7CyVCog==
+X-Google-Smtp-Source: ABdhPJxJG8eBhVI+2hbZSIkKAF1iSGspPL/QZYF+qy1uKkNpe0+aaSe2Nfa63dh+cXpcJ47zCXp64A==
+X-Received: by 2002:a17:90b:3692:: with SMTP id mj18mr639759pjb.60.1606537511982;
+        Fri, 27 Nov 2020 20:25:11 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.09
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:25:09 -0800 (PST)
+        Fri, 27 Nov 2020 20:25:11 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 14/18] python3-pytest: move from meta-python
-Date: Fri, 27 Nov 2020 20:24:27 -0800
-Message-Id: <7a68b781715c9c84993946f2906f24581fb94613.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 15/18] maintainers.inc: add self for new pytest packages
+Date: Fri, 27 Nov 2020 20:24:28 -0800
+Message-Id: <e797afbeb815a83bda856b3299e3bd3a0c4b1e0e.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
@@ -53,105 +53,65 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Simple powerful testing with python
-
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- ...he-setup_requires-for-setuptools-scm.patch | 39 +++++++++++++++++++
- .../python/python3-pytest_6.1.2.bb            | 38 ++++++++++++++++++
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
- create mode 100644 meta/recipes-devtools/python/python3-pytest_6.1.2.bb
+ meta/conf/distro/include/maintainers.inc | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch b/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
-new file mode 100644
-index 00000000000..8c5c17247e6
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
-@@ -0,0 +1,39 @@
-+From ff784f4803ab33f5e3389e40d038d52d1e211843 Mon Sep 17 00:00:00 2001
-+From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
-+Date: Wed, 28 Aug 2019 16:12:27 +0900
-+Subject: [PATCH] [PATCH] setup.py: remove the setup_requires for
-+ setuptools-scm
-+
-+The setup_requires argument forces the download of the egg file for setuptools-scm
-+during the do_compile phase.  This download is incompatible with the typical fetch
-+and mirror structure.  The only usage of scm is the generation of the _version.py
-+file and in the release tarball it is already correctly created
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Derek Straka <derek@asterius.io>
-+
-+Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
-+
-+Rebase for pytest 6.1.0.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ setup.cfg | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/setup.cfg b/setup.cfg
-+index 60f6564..c4d1471 100644
-+--- a/setup.cfg
-++++ b/setup.cfg
-+@@ -55,7 +55,6 @@ package_dir =
-+ 	=src
-+ setup_requires = 
-+ 	setuptools>=40.0
-+-	setuptools-scm
-+ zip_safe = no
-+ 
-+ [options.entry_points]
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/python/python3-pytest_6.1.2.bb b/meta/recipes-devtools/python/python3-pytest_6.1.2.bb
-new file mode 100644
-index 00000000000..6872da5cfac
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pytest_6.1.2.bb
-@@ -0,0 +1,38 @@
-+SUMMARY = "Simple powerful testing with python"
-+
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=81eb9f71d006c6b268cf4388e3c98f7b"
-+
-+SRC_URI_append = " file://0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch "
-+
-+SRC_URI[sha256sum] = "c0a7e94a8cdbc5422a51ccdad8e6f1024795939cc89159a0ae7f0b316ad3823e"
-+
-+inherit update-alternatives pypi setuptools3
-+
-+RDEPENDS_${PN}_class-target += " \
-+    ${PYTHON_PN}-attrs \
-+    ${PYTHON_PN}-debugger \
-+    ${PYTHON_PN}-doctest \
-+    ${PYTHON_PN}-iniconfig \
-+    ${PYTHON_PN}-json \
-+    ${PYTHON_PN}-pluggy \
-+    ${PYTHON_PN}-py \
-+    ${PYTHON_PN}-setuptools \
-+    ${PYTHON_PN}-six \
-+    ${PYTHON_PN}-atomicwrites \
-+    ${PYTHON_PN}-importlib-metadata \
-+    ${PYTHON_PN}-pathlib2 \
-+    ${PYTHON_PN}-wcwidth \
-+    ${PYTHON_PN}-more-itertools \
-+    ${PYTHON_PN}-packaging \
-+"
-+
-+ALTERNATIVE_${PN} += "py.test pytest"
-+
-+NATIVE_LINK_NAME[pytest] = "${bindir}/pytest"
-+ALTERNATIVE_TARGET[pytest] = "${bindir}/pytest"
-+
-+ALTERNATIVE_LINK_NAME[py.test] = "${bindir}/py.test"
-+ALTERNATIVE_TARGET[py.test] = "${bindir}/py.test"
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index ad5f4672c7a..f77965f8e0b 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -582,6 +582,8 @@ RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Tanu Kaskinen <tanuk@iki.fi>
+ RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-python3 = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-async = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
++RECIPE_MAINTAINER_pn-python3-atomicwrites = "Tim Orling <timothy.t.orling@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-attrs = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-cython = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-dbus = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-dbusmock = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+@@ -591,28 +593,40 @@ RECIPE_MAINTAINER_pn-python3-pycryptodomex = "Joshua Watt <JPEWhacker@gmail.com>
+ RECIPE_MAINTAINER_pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
++RECIPE_MAINTAINER_pn-python3-importlib-metadata = "Tim Orling <timothy.t.orling@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-iniconfig = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-iniparse = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-jinja2 = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-python3-libarchive-c = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER_pn-python3-magic = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-markupsafe = "Richard Purdie <richard.purdie@linuxfoundation.org>"
++RECIPE_MAINTAINER_pn-python3-more-itertools = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
++RECIPE_MAINTAINER_pn-python3-packaging = "Tim Orling <timothy.t.orling@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-pathlib2 = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-pbr = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-pip = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
++RECIPE_MAINTAINER_pn-python3-pluggy = "Tim Orling <timothy.t.orling@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-py = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-pycairo = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-pyelftools = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER_pn-python3-pygments = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-pygobject = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-pyparsing = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
++RECIPE_MAINTAINER_pn-python3-pytest = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-scons = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-scons-native = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
++RECIPE_MAINTAINER_pn-python3-setuptools-scm = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-python3-six = "Zang Ruochen <zangrc.fnst@cn.fujitsu.com>"
+ RECIPE_MAINTAINER_pn-python3-smmap = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-subunit = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-testtools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
++RECIPE_MAINTAINER_pn-python3-toml = "Tim Orling <timothy.t.orling@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-wcwidth = "Tim Orling <timothy.t.orling@linux.intel.com>"
++RECIPE_MAINTAINER_pn-python3-zipp = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-qemu = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-qemu-helper-native = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-qemu-native = "Richard Purdie <richard.purdie@linuxfoundation.org>"
 -- 
 2.25.0
 
