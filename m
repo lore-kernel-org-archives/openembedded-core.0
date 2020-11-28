@@ -1,94 +1,88 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
- by mx.groups.io with SMTP id smtpd.web11.36681.1606592391587746357
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web12.36671.1606592391822586102
  for <openembedded-core@lists.openembedded.org>;
  Sat, 28 Nov 2020 11:39:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JK4SLGct;
- spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: ticotimo@gmail.com)
-Received: by mail-pl1-f196.google.com with SMTP id t18so4305728plo.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tNGCMdsO;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id t3so6999609pgi.11
         for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2020 11:39:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=hm3cV9uXe2VC5GYyicLRHBzWdvCVCpztSSOmv+5t3bw=;
-        b=JK4SLGct4hd4EFv3Ela088Hisyc3AKPvm1Zrvj3MZj08jywxMKIN+H8n4iHunjsNgL
-         FTo9WmGRvhlWw+5J0Kybij/Dp05/Nr2RiCWEf35WGu9AMOO2jZP8pEJmo36Hj53V2FyT
-         RN3YJ6749lqJ2CCn0NUPgM4qAfHSslHYLj8Il/OlNWT3eDeuOr/sJRR6NdVtu9DeFzkd
-         x5WV4H/ze8fJnDFZsJwL9jGKwkf4E8QrczHAVHA420psiy6SHB9meEHbVJ9oV2qJkpZO
-         FHQVfA51Rto4H7y0leCKhMiGVwos8fdCAKkxKL0xFOaBtceh3Bhl/1jNpB2oAdmfsq+3
-         QcWg==
+        bh=T6wR3+KBlpthc8Qzbnbidp5k4h/cqeKRRhvpDC3qKz8=;
+        b=tNGCMdsO9NcRqUGdwvz4ZKjvCD1/3VXcu0p1ojiwlVaMUWwlNoi18UEZOqPrSXPpwz
+         D4j6v30n5TKT52nMHXHwcp07xflkhHY+JmVrXmFjSZWY0ieNLB5Yc59DYemf5HVRGPAd
+         mDK/vGBi24VZf1aunWGQRt/zbKxA6FJGg/bDuEGA6eLgUGosQoUEeSYjhsL9bfF7xyCu
+         9SvYXcdjgz238opdtWKuq+SdzXT2J39cWkwgcGoC5F6HFin3yF5jpDnzhIKQjsVqRvrP
+         CTIxjhOYkVWx/3hfqOmAWyBYVGJz5idNKPdBZSJNCyrGYXT4aNa+CUKmpnwQ6NNJE4sy
+         VD3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hm3cV9uXe2VC5GYyicLRHBzWdvCVCpztSSOmv+5t3bw=;
-        b=SRa9Tf/enQlZL3a+CfQNa2PI7GqSlx34NGg4+BEwaYyypu8egoFK2WEoWiiaHbmUyN
-         jM6wQ93Xe15m7b9FOUTd+lOkm7hOAaN9HVlKQ/W8B25Cy8rpALAwrwR5prUwAGBaN4KH
-         jU8W5JJ/VwHnz/AJDiQaoVTLxt5zWYiTD2Q6wbuzsziWSjLwTB06I8LKg/BpWrDEMb4n
-         Sw0nS6DI1CjLMBPhEJe+IrdC0rkPh31+hbUGSXyiNpITl+dNCofeGsyW96Q5NjZYqqPo
-         FhT/B/7fNtM5BXMV2Dq+XgBQwgI9Ma0cTB45NtjkMOoqZFn9SLVWg7NrNfXiquyDLiK4
-         44Wg==
-X-Gm-Message-State: AOAM533J4sNCOk5KdQfw7d3CraUT7ZN6RspT56s9HCLNsA4BS49PUqZw
-	ERNtN1ERCE+ZeWqNxATCopip+qqX4mTsHg==
-X-Google-Smtp-Source: ABdhPJyndYoIcTCS3dm+M9PX2uoyLmZoRPA9TkWoxEq+XSLquOxmceP5+Jxo/uWO5UveDVerbcagmg==
-X-Received: by 2002:a17:902:7594:b029:d5:eda6:fb45 with SMTP id j20-20020a1709027594b02900d5eda6fb45mr11905703pll.5.1606592390280;
-        Sat, 28 Nov 2020 11:39:50 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=T6wR3+KBlpthc8Qzbnbidp5k4h/cqeKRRhvpDC3qKz8=;
+        b=dmLJFHsmFmUq6Gry43qcAiJhEFILhgabxbHrp4Cn3rvYEebBOrSxPpOdM5iNpvUTN+
+         LqX/B6z68WwKosMus5F/lHHF93exJHjPiWked41lM4vrvRdRl0/10Qd9XdNoqlIqLGvY
+         xW4bwrzVIFGeTWO13ACGRHvo94sE0/r2nHpuJvUyXl8nhqDL4t+/0OaoW3kAsaNC1lHL
+         uD5pzYhzINp61WJnAWSk26XkHD6G8p4yQlvPSO128/ofeUDcVKhAaZeYkg/NADfkBUPK
+         rHrsQTWops1lDNHcKn6wP+JirbQ6vZYlm7fl3MNlQVClM/yo3RVr9tCkSVCvKLVdfWGN
+         kCWw==
+X-Gm-Message-State: AOAM532nm0OSXUmaNNEAj6CvBBHLSlQWV/n2h66p/9edGm7bmfUh7TJJ
+	oM3LIV96NG2dSpiohozMUDpyNpOOGJqT9g==
+X-Google-Smtp-Source: ABdhPJzPT6+A9QuH08L9WTfDaMl0zj/fKWeaPBz72gZ6uy81gtTDhcxekQtP8xsQl+eg4AHG78ejMA==
+X-Received: by 2002:a17:90a:fe88:: with SMTP id co8mr17110044pjb.76.1606592391051;
+        Sat, 28 Nov 2020 11:39:51 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:58b6:35be:25dc:8a78])
-        by smtp.gmail.com with ESMTPSA id z29sm2629795pgk.88.2020.11.28.11.39.48
+        by smtp.gmail.com with ESMTPSA id z29sm2629795pgk.88.2020.11.28.11.39.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2020 11:39:49 -0800 (PST)
+        Sat, 28 Nov 2020 11:39:50 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/3] Move numpy pytest rdeps from meta-python
-Date: Sat, 28 Nov 2020 11:39:33 -0800
-Message-Id: <cover.1606583783.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 1/4] python3-hypothesis: move from meta-python
+Date: Sat, 28 Nov 2020 11:39:34 -0800
+Message-Id: <5aa1850cbc714258bd5e74cfdc2a7a4f94d58451.1606584666.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <cover.1606584666.git.timothy.t.orling@linux.intel.com>
+References: <cover.1606584666.git.timothy.t.orling@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-This series in intended to be applied on top of the previous series
-moving pytest to oe-core.
+A library for property-based testing
 
-Thanks to Khem Raj for reminding me of these additional necessary changes.
+* Part of the dependency chain for python3-numpy ptest
 
-This series:
-(1) moves additional required python recipes in order to enable
-    ptest of python3-numpy
-(2) adds self as maintainer for these new recipes
-(3) upgrades python3-hypothesis to the latest revision
-
-The following changes since commit 7790d9b16011aec9551dbb526d6e558772670165:
-
-  python3-pytest: RDEPENDS on python3-toml (2020-11-27 18:49:03 -0800)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib timo/numpy-pytest-deps
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=timo/numpy-pytest-deps
-
-For convenience, the same series is also available in the Git repository
-at:
-
- git://git.yoctoproject.org/poky-contrib timo/move-numpy-pytest-deps
- http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=timo/move-numpy-pytest-deps
-
-Tim Orling (3):
-  python3-hypothesis: move from meta-python
-  python3-sortedcontainers: move from meta-python
-  maintainers.inc: add self for new python recipes
-
- meta/conf/distro/include/maintainers.inc           |  2 ++
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
  .../python/python3-hypothesis_5.41.3.bb            | 14 ++++++++++++++
- .../python/python3-sortedcontainers_2.3.0.bb       |  9 +++++++++
- 3 files changed, 25 insertions(+)
+ 1 file changed, 14 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
- create mode 100644 meta/recipes-devtools/python/python3-sortedcontainers_2.3.0.bb
 
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb b/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
+new file mode 100644
+index 00000000000..b7bf15c31ed
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-hypothesis_5.41.3.bb
+@@ -0,0 +1,14 @@
++SUMMARY = "A library for property-based testing"
++HOMEPAGE = "https://github.com/HypothesisWorks/hypothesis/tree/master/hypothesis-python"
++LICENSE = "MPL-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4ee62c16ebd0f4f99d906f36b7de8c3c"
++
++PYPI_PACKAGE = "hypothesis"
++
++inherit pypi setuptools3
++
++SRC_URI[sha256sum] = "6a3471ff74864ab04a0650c75500ef15f2f4a901d49ccbb7cbec668365736688"
++
++RDEPENDS_${PN} += "python3-core"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.0
 
