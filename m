@@ -1,50 +1,50 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web08.28890.1606537507454454065
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.28876.1606537509192153856
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2020 20:25:07 -0800
+ Fri, 27 Nov 2020 20:25:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lkBemPCM;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id 34so5764927pgp.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=B/95WuRM;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id w202so6137889pff.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2020 20:25:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=WhJP2V4gFhTptp9neODuWUCSaAEEwGhuJ+Le8M8zU8E=;
-        b=lkBemPCM7MuK0zx7X6A6ImXoX1Mhh3YGJEi5escyaoOUshDPNV093UuLEODSKLFrm+
-         hDL6+Tr5Q6Jc3gqb4CYE1xMElaoe+fRPHYOX/AjSWcSRVUK5GMxT0ON6A/Xzx+PNyVWD
-         uUuUbNYplMn3/Z9jF5Wjm47HbjtUUlx9QfhgF2rROgMwalhqiERaXeVV9THN9sqCnWhf
-         xzcF3vQf1ZM3IrIH0OIGHM1hlF5Eq7OVtx2WD+nRVn8YfKlwNh7NE2tgc/DGjD/LJTpQ
-         NlaJQoZr2GI0x36Yn2ug9+evy+DP+UKE19feODQGyQLi5X58262bwZMhTkCN4veLeYJx
-         HJDQ==
+        bh=Y8qM1JOq6cAX7L4lWkgO6WscEORmGtkBbpSsgF+/vew=;
+        b=B/95WuRMy71B72kEpXGZBfH/+r8ZalxKyJ5ShtjCOFqLbTKi84PW979J8Sr7H2LtHO
+         Bs03M1ERMJlXNLjFuUIMYfuabNhpyKioCSELR1BLUC8W7/4T33lR/Ej0k1AAj+bZBjJj
+         SjTLQ5kDIVjTiBb/3YBqHQYHLp8vBGJgQ8gHirSvozza8GkyFB0R5OgySxywNgNvwlad
+         cv7LecNNHiq82iBZ15HmatBh2y8e8P1rahh6DH7Qtrjnu07Q9eaS7w0CKwIpQEMDEr+5
+         ZI+o2spevOaHCksZET/jEf2njujwGhVslLFbeTdJF0RGJZDYg8KzJF5vDBFOtUlMnz+Y
+         wF8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WhJP2V4gFhTptp9neODuWUCSaAEEwGhuJ+Le8M8zU8E=;
-        b=DvxpE/Ueazhps6gJVoRgsNoveS62CH4APxXrZYLxKKf3Th9wPIgSREWsaNR3kycMzf
-         lhYrnBxXamGUf37eguGANqX9P6/0CXFUnM/zJZ5SUt8R3Cy8opqcD1hx1LUk/P0Zyuv9
-         dl/d6qjxmNp1XlkSVJ0LanYyflKixgiaxb7fN7WUq1FHUEEdG2dwymKiRqgCz0tMj6ss
-         D3TfyBtndjA9qPqfk512ZGYju5s1et+oDswMq95H39jKHSq+Bym5lLRh7pvIxdm/+ecb
-         4NY8n9jEuY7RVcwKm266Fm/haWOQdWGUW7DZD6TlayhViUTWqeY/pdA1LI+mkV5hFQHT
-         sIJw==
-X-Gm-Message-State: AOAM532fupg0OKgcTgcJBSDJslq+2HhDxYd5orkEz/IjLCqwEEryj3US
-	34nX4/sJbhHUMBfwrbwf05qIMUhfpPtneA==
-X-Google-Smtp-Source: ABdhPJwdP57MxBEJAejmFswUEMU6Fy/7durfgEvXdYvCv20nWKnVCnbOTCGQL3sbyxUzAf5GMoqHtg==
-X-Received: by 2002:a65:6205:: with SMTP id d5mr9333557pgv.76.1606537506764;
-        Fri, 27 Nov 2020 20:25:06 -0800 (PST)
+        bh=Y8qM1JOq6cAX7L4lWkgO6WscEORmGtkBbpSsgF+/vew=;
+        b=ZTw227OJMy0WU717JI5PDNyyCkvo8VHC2iQYnAJO4zo8VZGurfjrs/g9lsijeyu4OK
+         vwQxNCuvZ2JrJOxHDAwfh1VytYZCw4kRhgDYQsF9km1eryc1amJ93H4Glub2Okqi7QhS
+         6hgoLCbPdEPTVaz4bSk8f8x4qFZxMybec/oAGKtnuHbOB1F+IFXiYPxjRr98lZ2n4r3p
+         mSuzZ1UZRJZc+MNt/f849DNSJSL0byMdXQr09ngcVQFWO6Bdtro/+3Sjb763iSiCUSLW
+         XMep0kORBiPpeX26IeYJjgJh+scym2MEi6RhDpuvblNqpc1bYuT/nWPU4WYEsK6tHCNS
+         d14A==
+X-Gm-Message-State: AOAM533cfNppZQk45aOLCP2ea5hCNhIAiGPTqan3AUTI7cGAdONj/vo5
+	F6dzrgttlPzdtv+tCP8/ZWTjQnjI/gPiwQ==
+X-Google-Smtp-Source: ABdhPJz2IgEFZ5patCvJ36hx8Vfkt0I13HpZJ65enVEHB2AkqbXvKjaUetyhxrG3cg23SkusL45L3g==
+X-Received: by 2002:a17:90a:4596:: with SMTP id v22mr923100pjg.12.1606537508618;
+        Fri, 27 Nov 2020 20:25:08 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:74ec:3128:f635:34a1])
-        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.06
+        by smtp.gmail.com with ESMTPSA id b5sm12625076pjg.28.2020.11.27.20.25.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 20:25:06 -0800 (PST)
+        Fri, 27 Nov 2020 20:25:08 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 12/18] python3-importlib-metadata: move from meta-python
-Date: Fri, 27 Nov 2020 20:24:25 -0800
-Message-Id: <8c61a338dfed0b50bf133ddbf6f1e0246b01e8cc.1606536874.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 13/18] python3-pluggy: move from meta-python
+Date: Fri, 27 Nov 2020 20:24:26 -0800
+Message-Id: <17ca5e6a689fcdc32b0467a500b53d8719afd1d4.1606536874.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
 References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
@@ -53,40 +53,60 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Read metadata from Python packages
+Plugin and hook calling mechanisms for python
 
 * Part of the dependency chain for pytest
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../python/python3-importlib-metadata_2.0.0.bb | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-importlib-metadata_2.0.0.bb
+ .../python/python3-pluggy/run-ptest           |  3 +++
+ .../python/python3-pluggy_0.13.1.bb           | 27 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pluggy/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
 
-diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_2.0.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_2.0.0.bb
+diff --git a/meta/recipes-devtools/python/python3-pluggy/run-ptest b/meta/recipes-devtools/python/python3-pluggy/run-ptest
 new file mode 100644
-index 00000000000..325a41c22e1
+index 00000000000..b63c4de0d9a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-importlib-metadata_2.0.0.bb
-@@ -0,0 +1,18 @@
-+DESCRIPTION = "Read metadata from Python packages"
-+HOMEPAGE = "https://pypi.org/project/importlib-metadata/"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=e88ae122f3925d8bde8319060f2ddb8e"
++++ b/meta/recipes-devtools/python/python3-pluggy/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
 +
-+inherit pypi setuptools3
++pytest -o log_cli=true -o log_cli_level=INFO | sed -e 's/\[...%\]//g'| sed -e 's/PASSED/PASS/g'| sed -e 's/FAILED/FAIL/g'|sed -e 's/SKIPPED/SKIP/g'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS"){printf "%s: %s\n", $NF, $0}else{print}}'| awk '{if ($NF=="PASS" || $NF=="FAIL" || $NF=="SKIP" || $NF=="XFAIL" || $NF=="XPASS") {$NF="";print $0}else{print}}'
+diff --git a/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb b/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
+new file mode 100644
+index 00000000000..d3e0365ca1d
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "Plugin and hook calling mechanisms for python"
++HOMEPAGE = "https://github.com/pytest-dev/pluggy"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=1c8206d16fd5cc02fa9b0bb98955e5c2"
 +
-+SRC_URI = "https://files.pythonhosted.org/packages/56/1f/74c3e29389d34feea2d62ba3de1169efea2566eb22e9546d379756860525/importlib_metadata-2.0.0.tar.gz"
-+S = "${WORKDIR}/importlib_metadata-${PV}"
-+SRC_URI[md5sum] = "3dd91821c930a3c3633e99a7025aa9c2"
-+SRC_URI[sha256sum] = "77a540690e24b0305878c37ffd421785a6f7e53c8b5720d211b211de8d0e95da"
++SRC_URI[md5sum] = "7f610e28b8b34487336b585a3dfb803d"
++SRC_URI[sha256sum] = "15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"
 +
 +DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
-+RDEPENDS_${PN} += "${PYTHON_PN}-zipp ${PYTHON_PN}-pathlib2"
-+RDEPENDS_${PN}_append_class-target = " python3-misc"
-+RDEPENDS_${PN}_append_class-nativesdk = " python3-misc"
++RDEPENDS_${PN} += "${PYTHON_PN}-importlib-metadata \
++                   ${PYTHON_PN}-more-itertools \
++"
 +
-+BBCLASSEXTEND = "native nativesdk"
++inherit pypi ptest setuptools3
++
++SRC_URI += " \
++	file://run-ptest \
++"
++
++RDEPENDS_${PN}-ptest += " \
++	${PYTHON_PN}-pytest \
++"
++
++do_install_ptest() {
++	install -d ${D}${PTEST_PATH}/testing
++	cp -rf ${S}/testing/* ${D}${PTEST_PATH}/testing/
++}
 -- 
 2.25.0
 
