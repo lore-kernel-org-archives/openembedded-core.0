@@ -1,130 +1,107 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+Received: from mga04.intel.com (mga04.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.53736.1606698750617407323
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Nov 2020 17:12:30 -0800
+ Sun, 29 Nov 2020 17:12:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: aPCVkdWLpUHUUjonLBnRrmeEVTGd2te1YSZt5/4lYWIhQEYKxzUttsP9bPS1YNU2tvuny0E8Kc
- 1+9fT8FzxAWA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004422"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: JGRPDvBPKXCEayRKVw1BIEQqkq1mrc9G5iFjnqkbispJpTpLTTl6DoKfBaCZ/QX8loT9b70+QY
+ l2f82MAcHNyg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004429"
 X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="170004422"
+   d="scan'208";a="170004429"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:12:13 -0800
-IronPort-SDR: bDVVsfwl3DX8PJ04c/dZRzmK3CmBPlGXP0hvn+uLSXI+m6ZeG41eyfIaKGKj0PhvBSovys9cve
- H/JPko+7wNdg==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:12:16 -0800
+IronPort-SDR: m+smgH9EEew/vnKh9xvQ01n9Nk+8yIe0gxc0d9TrGGyQ8gCS+tWcCY63WO0wtPfDMSYDMa4n2A
+ YiMOh6q5Bbvg==
 X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="372302704"
+   d="scan'208";a="372302719"
 Received: from ajraj-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.114.166])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:12:12 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:12:14 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 15/21] valgrind: helgrind: Intercept libc functions
-Date: Mon, 30 Nov 2020 09:11:30 +0800
-Message-Id: <4c33ce1b1eca9aff0009bf71ce50f6398f7cd281.1606698421.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 16/21] fs-perms: Ensure /usr/src/debug/ file modes are correct
+Date: Mon, 30 Nov 2020 09:11:31 +0800
+Message-Id: <1f807da38b9d9aebdd86b3b5839305e03d9930e1.1606698421.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606698421.git.anuj.mittal@intel.com>
 References: <cover.1606698421.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-PTH_FUNC definition needs to be modified in order to
-intercept posix thread functions in both libc and libpthread.
-In order to handle this in helgrind, weak alias the pthread functions in glibc.
-Include a special case for musl.
+If files are copied into /usr/src/debug directly from WORKDIR (e.g. makedevs)
+we'd get the permissions from the checkout which would depend on the host umask.
 
-See https://bugs.kde.org/show_bug.cgi?id=428909 for additional
-discussion.
+Avoid this and be deterministic by setting the file modes consistently. Core
+code copies the files in so we're responsible for the permissions.
 
-Upstream-Status: Submitted
+Unfortunately to force this change to apply we need to invalidate both
+the package tasks and the hash equivalance mappings since file mode
+'corruption' already made it into the output hashes (both input options
+were mapped to the output hashes).
 
-Signed-off-by: Paul Floyd <paulf@free.fr>
-Signed-off-by: Stacy Gaikovaia <Stacy.Gaikovaia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5da46a552d54de34a5243e1d90dcc6f52b7af746)
+(cherry picked from commit 1f958bcd6c9cd12ec76d80586cba15f4d6ed17a7)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...01-helgrind-Intercept-libc-functions.patch | 54 +++++++++++++++++++
- .../valgrind/valgrind_3.16.1.bb               |  1 +
- 2 files changed, 55 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch
+ meta/classes/package.bbclass           | 2 +-
+ meta/conf/abi_version.conf             | 2 +-
+ meta/files/fs-perms-persistent-log.txt | 2 +-
+ meta/files/fs-perms.txt                | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch b/meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch
-new file mode 100644
-index 0000000000..f66df3d2d2
---- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch
-@@ -0,0 +1,54 @@
-+From cdec010444df5a4328e90d07a2024fdeefcc74b5 Mon Sep 17 00:00:00 2001
-+From: Paul Floyd <paulf@free.fr>
-+Date: Wed, 18 Nov 2020 12:49:20 -0400
-+Subject: [PATCH] helgrind: Intercept libc functions
-+
-+PTH_FUNC definition needs to be modified in order to
-+intercept posix thread functions in both libc and
-+libpthread. In order to handle this in helgrind, weak alias
-+the pthread functions in glibc.
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Paul Floyd <paulf@free.fr>
-+Signed-off-by: Stacy Gaikovaia <stacy.gaikovaia@windriver.com>
-+---
-+ helgrind/hg_intercepts.c | 12 ++++++++++++
-+ 1 file changed, 12 insertions(+)
-+
-+diff --git a/helgrind/hg_intercepts.c b/helgrind/hg_intercepts.c
-+index a10c3a4a3..316140ca6 100644
-+--- a/helgrind/hg_intercepts.c
-++++ b/helgrind/hg_intercepts.c
-+@@ -77,6 +77,11 @@
-+ /*---                                                          ---*/
-+ /*----------------------------------------------------------------*/
-+ 
-++#define hg_expand(tok) #tok
-++#define hg_str(tok) hg_expand(tok)
-++# define hg_weak_alias(name, aliasname) \
-++  extern __typeof (name) aliasname __attribute__ ((weak, alias(hg_str(name))))
-++
-+ #if defined(VGO_solaris)
-+ /* On Solaris, libpthread is just a filter library on top of libc.
-+  * Threading and synchronization functions in runtime linker are not
-+@@ -91,9 +96,16 @@
-+ #define CREQ_PTHREAD_T Word
-+ #define SEM_ERROR ret
-+ #else
-++#ifdef MUSL_LIBC
-++#define PTH_FUNC(ret_ty, f, args...) \
-++   ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args); \
-++   ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args)
-++#else
-+ #define PTH_FUNC(ret_ty, f, args...) \
-+    ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args); \
-++   hg_weak_alias(I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f), I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBC_SONAME,f)); \
-+    ret_ty I_WRAP_SONAME_FNNAME_ZZ(VG_Z_LIBPTHREAD_SONAME,f)(args)
-++#endif
-+ #define CREQ_PTHREAD_T pthread_t
-+ #define SEM_ERROR errno
-+ #endif /* VGO_solaris */
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-index bcba55f327..5db181ac14 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.16.1.bb
-@@ -42,6 +42,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-memcheck-tests-Fix-timerfd-syscall-test.patch \
-            file://0001-drd-Port-to-Fedora-33.patch \
-            file://0001-drd-musl-fix.patch \
-+           file://0001-helgrind-Intercept-libc-functions.patch \
-            "
- SRC_URI[md5sum] = "d1b153f1ab17cf1f311705e7a83ef589"
- SRC_URI[sha256sum] = "c91f3a2f7b02db0f3bc99479861656154d241d2fdb265614ba918cc6720a33ca"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index e6236c0bb2..247bdc7bbf 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -2340,7 +2340,7 @@ python do_package () {
+     # cache.  This is useful if an item this class depends on changes in a
+     # way that the output of this class changes.  rpmdeps is a good example
+     # as any change to rpmdeps requires this to be rerun.
+-    # PACKAGE_BBCLASS_VERSION = "2"
++    # PACKAGE_BBCLASS_VERSION = "4"
+ 
+     # Init cachedpath
+     global cpath
+diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
+index 5318a10190..251d43bb21 100644
+--- a/meta/conf/abi_version.conf
++++ b/meta/conf/abi_version.conf
+@@ -12,4 +12,4 @@ OELAYOUT_ABI = "14"
+ # a reset of the equivalence, for example when reproducibility issues break the
+ # existing match data. Distros can also append to this value for the same effect.
+ #
+-HASHEQUIV_HASH_VERSION  = "3"
++HASHEQUIV_HASH_VERSION  = "4"
+diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent-log.txt
+index 3a7cf3ab94..518c1be3c9 100644
+--- a/meta/files/fs-perms-persistent-log.txt
++++ b/meta/files/fs-perms-persistent-log.txt
+@@ -41,7 +41,7 @@ ${includedir}		0755	root	root	true	0644	root	root
+ ${oldincludedir}	0755	root	root	true	0644	root	root
+ 
+ # Cleanup debug src
+-/usr/src/debug		0755	root	root	true	-	root	root
++/usr/src/debug		0755	root	root	true	0644	root	root
+ 
+ # Items from base-files
+ # Links
+diff --git a/meta/files/fs-perms.txt b/meta/files/fs-perms.txt
+index c8c3ac5dbe..daa4aed840 100644
+--- a/meta/files/fs-perms.txt
++++ b/meta/files/fs-perms.txt
+@@ -41,7 +41,7 @@ ${includedir}		0755	root	root	true	0644	root	root
+ ${oldincludedir}	0755	root	root	true	0644	root	root
+ 
+ # Cleanup debug src
+-/usr/src/debug		0755	root	root	true	-	root	root
++/usr/src/debug		0755	root	root	true	0644	root	root
+ 
+ # Items from base-files
+ # Links
 -- 
 2.28.0
 
