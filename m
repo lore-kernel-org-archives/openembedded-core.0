@@ -1,153 +1,73 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web09.59843.1606742654246625984
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.60123.1606744027332625624
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 05:24:14 -0800
+ Mon, 30 Nov 2020 05:47:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=en55zYOt;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id n24so13951608edb.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 05:24:14 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D7A+lcPH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id h21so25232605wmb.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 05:47:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xWME1qzg7amN9VK9ni1H4mOeTlnE4rAhB07W2StIPPA=;
-        b=en55zYOtxuoWsgI+SRnPvvA2rp6CmxvjTyWgiENwdbAJvqkkTSRAbVX8dg8/AkkX+Y
-         aqt+jQFvce/8HKrzKbX4QYkjxXxIXQQ/KDreKRfzZIHE6YLdGZCWlsml86upTquQZjFl
-         YBYiC41TomRvu9gcZo2ZfcL5MqMdbI1wZC66VIGQkdQaSGPPFnnHWspXgPkTHz2Q1XGw
-         SEQGncXjyR7wNFPGChHUPbhizq1URN66tGn4KAfuy68HNPUKoGSWp8vfef/KNsH62TkM
-         MqgsMAy4DqFKqcTNgXOqIoCM5RK4svM+D156Fql0Qigdpo2WaEAQCLJ/xkP68Fcwk9xz
-         WhpA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HqMHzGEHhAupWGqBIS9yelsjhKoMOzq/EwzHvgglPJw=;
+        b=D7A+lcPHnFU4tbSCdhPc/eAwz+V1hyJkblZcc0iusu5pQCT3R3MQNGtDfvsffoO1zI
+         L4rnPxaFcj/5z2DuL5zbZ2TJADTUfpfjXZNxz0XMl6HcGVYmSi663LpAm3obbvoEpy/o
+         LHM0ABHJuNTo+dH0pG7/A6Rnb5h/5pcdktvCU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xWME1qzg7amN9VK9ni1H4mOeTlnE4rAhB07W2StIPPA=;
-        b=GLTr0riKP67HH6Mq1h4s8UMtu58Lgu9sQHusoK4CBAXvgxg26Y2UCvBY7WF7Irt3jc
-         3/+sg0AM8xX9g01rzS6qFKtzdUToy0USoCKKfxaSHM3yC5ISLweegP3CPPNnOoRITXbQ
-         Svx3ait1RwoP2e5wy2BdDPHNnStkeRGdLBwqnYkZJOGPlC3/wHxJ94cuCM4RD8rCYb37
-         frBiDKYSRByuzo0oK9N8igI70pQRby/HP6DeSHDn01YUIQRpChEBu5HQH60q/Tbm056y
-         0Tq93VtqcVr1Nfv3VaOa7jVNSPSdHV2VUH7IrMZrAG2LvPq7+kmcbPCQ2c7EIAFEDDw4
-         UXqQ==
-X-Gm-Message-State: AOAM530Uo6RYG7AAgukth8ONZbiyBCPVK/t3f0VoWMwZClZ7wqP0fFCL
-	5YNKCWd+K3x6G4c/e/L76kGMly0Gmojd8d38dmw=
-X-Google-Smtp-Source: ABdhPJwjD/kXN7/T4FOwihpQubyZichT+rbjHRwi01oIaaJ4oM0dIvsDWIjYsURiwsrsT3KxX45hxTmr2uDWLwU9Xro=
-X-Received: by 2002:a05:6402:17ad:: with SMTP id j13mr21817623edy.347.1606742652662;
- Mon, 30 Nov 2020 05:24:12 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HqMHzGEHhAupWGqBIS9yelsjhKoMOzq/EwzHvgglPJw=;
+        b=ZrN11d27nA0wioXQit0RPW7BBgYQVTCn509bXe4qhfDz8OtMDVn42GSgp/fKzY51WQ
+         15jTtccOi+pwNTBcbybESawW9DOLN94DuhviNNvTIjXDeGQDO0YwhbwQfOCv0OAXqL4m
+         nrw0rAr/q6zj4Rskg40pdkC2y/NLDECVbXGVxxEWB00sMEHbypXFA+EfsscYRSt0SopW
+         dHUKZTeXk6Q7GgepRBjf6PhNF9KU0U7BsN9+rbe+GOOHejOqcf8enCCwHo0yfB4AeKjV
+         NPB0gJPeqzu4b84U8eyMmRwLwxZxH/cGWteebrUvrHFCZo4g34e5PdSdMTU6/M7TGp9r
+         GgWA==
+X-Gm-Message-State: AOAM532HBFhdVx6ruXnXdTqHveNczNvgu6td7+Z2+cigxsAaLXq3DX1o
+	cwIFjhGofspSfrq3k9kZ2448k7UuQanFuQ==
+X-Google-Smtp-Source: ABdhPJwhRI0+5NJ17cNHlr+oCRVrxQZJOl65arC5k5Td19IHqypjSW61StuNXeq6qHWxNKEA3pkW/A==
+X-Received: by 2002:a1c:2681:: with SMTP id m123mr7001677wmm.175.1606744025380;
+        Mon, 30 Nov 2020 05:47:05 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (6.8.4.7.c.c.2.8.a.5.e.3.8.c.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b1c8:3e5a:82cc:7486])
+        by smtp.gmail.com with ESMTPSA id a184sm25254879wmf.8.2020.11.30.05.47.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 05:47:04 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] lz4: Use the new branch naming from upstream
+Date: Mon, 30 Nov 2020 13:47:03 +0000
+Message-Id: <20201130134703.3279682-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20201118045633.47396-1-bruce.ashfield@gmail.com> <CAP71Wjzp=9QWJLvANLXw2p6YtbgbZbK6yx0sxHVU2zBKB7x1oA@mail.gmail.com>
-In-Reply-To: <CAP71Wjzp=9QWJLvANLXw2p6YtbgbZbK6yx0sxHVU2zBKB7x1oA@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 30 Nov 2020 08:24:01 -0500
-Message-ID: <CADkTA4NxyxdJaCboGLdjE8syqDO+MBVVNOoRe4rTs90Ym_sp_g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] kernel: relocate copy of module.lds to module compilation task
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: Steve Sakoman <steve@sakoman.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 30, 2020 at 2:38 AM Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
->
-> hi Steve and Bruce,
->
-> On Wed, Nov 18, 2020 at 5:56 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > There were two copies of this patch floating around, and the merged
-> > variant has the copy in the wrong place.
-> >
-> > module.lds is only created during modules_prepare, and that target is
-> > not invoked during our main build of the kernel. We aren't about to
-> > change the kernel build (there's no need), so we move the copy into
-> > the compile_kernelmodules task. After that runs, we have module.lds
-> > availble to copy.
-> >
-> > This has been tested against clean kernel + out of tree module
-> > builds, and the dependencies are correct that the file is copied
-> > before the out of tree module build starts.
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->
->
-> Can we get this patch into dunfell? This is fixing a bug for BSP using
-> 5.10+ kernel, so I believe this is important for LTS. I haven't
-> attempted to backport it yet.. but let me know if you need help with
-> the backport.
+Upstream renamed master -> dev, update SRC_URI to match.
 
-For a backport, you need this patch and also the one that it is tweaking:
-[kernel: provide module.lds for out of tree builds in v5.10+], but I didn't
-check to see if Steve had already grabbed that one.
+[YOCTO #14135]
 
-I also don't see any issue with this, and the backport is simple enough since
-it is additive to what we copy into the artifacts.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-support/lz4/lz4_1.9.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Like building on newer distros, we will eventually run into newer kernel
-support that we can't backport or support on dunfell .. but this isn't that
-case!
-
-Steve: it should be a simple cherry pick, if it isn't, let me know and I can
-send the patches.
-
-Cheers,
-
-Bruce
-
->
->
-> > ---
-> >
-> > v2:
-> >
-> > I had done my test builds on a branch that didn't actually contain my
-> > change, hence why 5.8 builds where blowing up.
-> >
-> > I switched to the if [ ] model, since that doesn't run afoul of the
-> > exit handler. I do find it curious that the compile task behaves so
-> > differently than the install ones (even with set +e, I couldn't use
-> > the [ ] method.
-> >
-> > Anyway, this is tested against 5.8 and 5.10 + eternal module builds
-> >
-> > Bruce
-> >
-> >  meta/classes/kernel.bbclass | 5 ++++-
-> >  1 file changed, 4 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > index ccd74e61e8..8b28ee626f 100644
-> > --- a/meta/classes/kernel.bbclass
-> > +++ b/meta/classes/kernel.bbclass
-> > @@ -391,6 +391,10 @@ do_compile_kernelmodules() {
-> >                 # other kernel modules and will look at this
-> >                 # file to do symbol lookups
-> >                 cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
-> > +               # 5.10+ kernels have module.lds that we need to copy for external module builds
-> > +               if [ -e "${B}/scripts/module.lds" ]; then
-> > +                       install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
-> > +               fi
-> >         else
-> >                 bbnote "no modules to compile"
-> >         fi
-> > @@ -494,7 +498,6 @@ do_shared_workdir () {
-> >         # Copy files required for module builds
-> >         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-> >         [ -e Module.symvers ] && cp Module.symvers $kerneldir/
-> > -       [ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
-> >         cp .config $kerneldir/
-> >         mkdir -p $kerneldir/include/config
-> >         cp include/config/kernel.release $kerneldir/include/config/kernel.release
-> > --
-> > 2.19.1
-> >
-> >
-> > 
-> >
-
-
-
+diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support/lz4/lz4_1.9.2.bb
+index 6510156ed0c..455d2a5141f 100644
+--- a/meta/recipes-support/lz4/lz4_1.9.2.bb
++++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
+@@ -11,7 +11,7 @@ PE = "1"
+ 
+ SRCREV = "fdf2ef5809ca875c454510610764d9125ef2ebbd"
+ 
+-SRC_URI = "git://github.com/lz4/lz4.git \
++SRC_URI = "git://github.com/lz4/lz4.git;branch=dev \
+            file://run-ptest \
+            "
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.25.1
+
