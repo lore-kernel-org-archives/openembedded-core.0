@@ -1,137 +1,90 @@
-Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com [209.85.219.196])
- by mx.groups.io with SMTP id smtpd.web10.62493.1606754739849849670
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web08.62837.1606754957316637164
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 08:45:40 -0800
+ Mon, 30 Nov 2020 08:49:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=hXI67pXo;
- spf=pass (domain: linaro.org, ip: 209.85.219.196, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-yb1-f196.google.com with SMTP id s8so11961780yba.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 08:45:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mS6OeaMR;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 3so22254592wmg.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 08:49:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=q12DJ+Ne14cP4sxPOCTqL2Fnxl+ytR5NU7LKonDOlO8=;
-        b=hXI67pXo3KuNmwus4sZK1fLMt4Cb3TdetpU7IJ0s9inBWnZwqzvUN7uQYI6WLCkJA8
-         BXNIXoNrXEEQky1Y5kmB29PUuvR9QqNKVJ/wvocKxYzjKbnl2++9s7lBV6QHhfl7ikdt
-         plWLjbpBYTsIVtPH5/wTjdalnRhuTtEJN9+ODiXNzkljCD2eq7e9lRqKyQNsJwdBiCsu
-         CQZt03cyWVSe4JPGlYwYrDAWbOCfzrsiu+vJTqwqg+krKsiz1ELIxtT6m+nwM36KdkUh
-         ANQOZir61P2Y2qhWAFD1bcHhtgT6lIV8QFIUUokMVGprGOVvTmEbcVfAPjes4ofXNHEt
-         LS7w==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kozcDjdG67to4aaIj/Ggp/CVW7Bc8EEpNhKL7yfUs+I=;
+        b=mS6OeaMR1cdLoXiGXPUI4/Zk6/DEwdMjsPDpbSaTooVQqfW1glLraJw7eKiZI9QQ6p
+         yaIwBN5rPAbAQgNAHwqdkMzOsTDDskclU0zm7CNRIkYShpG2I0Luecb7eYF2GSpKGm1B
+         BRC+aGOzGLJUH81QFF+9QYkAfyts1KUm1iPt1DVStHrsQ2T+/Di6HhC6l1UQbuCVbOkY
+         Jr0Nm98dQK3Xcn00WAEBIy9dTxbQi6cLNEnE0KazqZ8IgYQIF5gdGmKvmaJ55fgWllKx
+         p3SqZCnAv58/Ee8xzu7TZ1yAifoiDyc5ihFZHXPwr8AQjN2qcCjF8l5Vze8hGsYiLca7
+         qqcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=q12DJ+Ne14cP4sxPOCTqL2Fnxl+ytR5NU7LKonDOlO8=;
-        b=nOhpVleic5bhCYEoBm/WBpm0DTBwwVxU6qXOpmxTU1YXgX3wmKoGFAeddH2XJ6OfBg
-         bXRe5KNGqyfhblbADhPGBt343bKPRBJCNqajwgqC4m3ai2PZ9RH0BMElo+ItZ5RwHuGZ
-         K+qc8ulEOOxyv3mEmMKj1qv9TrUZQkYCiEDdZl60J24tvGsLok1YmCKWNgC37SKUXNVE
-         ijea3v580Qr+DAK9+j18P//o5YybYdIZpZyPaWYl4MBF4fqVzUDxJX1WWIH79tmHBu6n
-         sK7yr/Z6+viGJBnc7OL+jQPFewRe+KCaR8KeevDmUg4bEwGrMFJpIgDHj4/gttEsBhBe
-         StbA==
-X-Gm-Message-State: AOAM532ras82NBbsyRQsFQeeMDK5ZFM0pnIaN4u0Ij5U70kAqXVh4Usc
-	hy2oGCbrPBTsCAOl/0Z86K4CPRsTEiLU3ZkGz8wo/g==
-X-Google-Smtp-Source: ABdhPJxJBAVZBjbaBReDE0O5hmyFZOm+4CvmncFlqzNxVQr9AGJ83gAoUaF9umjeRz0m65KJjDtFivk3uEFTyQzVTuU=
-X-Received: by 2002:a25:bbc5:: with SMTP id c5mr31195372ybk.373.1606754738886;
- Mon, 30 Nov 2020 08:45:38 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kozcDjdG67to4aaIj/Ggp/CVW7Bc8EEpNhKL7yfUs+I=;
+        b=rb+ZcgkCeRZwDta7l1SpxgEbySc6uLlhW85RL8pg7jrjTT2p1uMrHlOzKMNppbBiZ4
+         pe2Fp28bKICW7/iCOqVztp6RE6Ve/6rvSK8cPV+dAbrvYKiJYyvlsVHL41/CFuC438do
+         qwiiMISpBeIzJicu2gvlkl7MN/hzQ1pOW9exJHX0bXtdVKDR5+Kfy2ZarUDW1c+PY+fd
+         6UJVZzWKJLWHpLW4JbACaiO9lNyfsoR5AiDBzpRX67fZb15w/5A5czJ/dFs86RuPaeVp
+         cxmf5bL4mKCu6c0OIEI99K/DW3isg6iIa2JM0HoQw6lO+m8Fet85+rpuExdHMQ6cf5TD
+         jk/g==
+X-Gm-Message-State: AOAM533ebAFkcPMgYSqQMw+6qfHrE4DZdoFRsc7Kqb65ElT6DBu5wChz
+	RF6AN0NqD8BpDvLI4HSfo0hvaaHZ7JPUCQ==
+X-Google-Smtp-Source: ABdhPJzlGMNOE7+94iGD0+gqVfB0e0tjTACYHG+IKvlWb6r6tLjJijpnuWT/94tmYmCfdK5P/75H5Q==
+X-Received: by 2002:a1c:f311:: with SMTP id q17mr23587688wmq.28.1606754955358;
+        Mon, 30 Nov 2020 08:49:15 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from localhost ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id s133sm25044728wmf.38.2020.11.30.08.49.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 08:49:14 -0800 (PST)
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] dbus: move messagebus user to dbus-common package
+Date: Mon, 30 Nov 2020 16:49:10 +0000
+Message-Id: <20201130164910.989386-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20201118045633.47396-1-bruce.ashfield@gmail.com>
- <CAP71Wjzp=9QWJLvANLXw2p6YtbgbZbK6yx0sxHVU2zBKB7x1oA@mail.gmail.com> <CAOSpxdbEu_3ZQOS-YQCFr9Z64CaNuSjPP=YC1FU2nyXc8919CQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdbEu_3ZQOS-YQCFr9Z64CaNuSjPP=YC1FU2nyXc8919CQ@mail.gmail.com>
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-Date: Mon, 30 Nov 2020 17:45:28 +0100
-Message-ID: <CAP71WjxxrXphMse3iLxWOjEC11jJ888JrLOoCyAdQdNUgJitxQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] kernel: relocate copy of module.lds to module compilation task
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 30, 2020 at 4:34 PM Steve Sakoman <steve@sakoman.com> wrote:
->
-> On Sun, Nov 29, 2020 at 9:38 PM Nicolas Dechesne
-> <nicolas.dechesne@linaro.org> wrote:
-> >
-> > hi Steve and Bruce,
-> >
-> > On Wed, Nov 18, 2020 at 5:56 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> > >
-> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >
-> > > There were two copies of this patch floating around, and the merged
-> > > variant has the copy in the wrong place.
-> > >
-> > > module.lds is only created during modules_prepare, and that target is
-> > > not invoked during our main build of the kernel. We aren't about to
-> > > change the kernel build (there's no need), so we move the copy into
-> > > the compile_kernelmodules task. After that runs, we have module.lds
-> > > availble to copy.
-> > >
-> > > This has been tested against clean kernel + out of tree module
-> > > builds, and the dependencies are correct that the file is copied
-> > > before the out of tree module build starts.
-> > >
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> >
-> > Can we get this patch into dunfell? This is fixing a bug for BSP using
-> > 5.10+ kernel, so I believe this is important for LTS. I haven't
-> > attempted to backport it yet.. but let me know if you need help with
-> > the backport.
->
-> Is this the only patch you need to fix the 5.10+ kernel issue in dunfell?
->
-> In general I haven't been taking patches that claim to be for kernels
-> beyond 5.4, so I suspect there may be a handful of other patches you
-> might need.
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Not that I am aware! Thanks for picking it!
+dbus-broker also uses the messagebus user, so move it
+over from dbus to dbus-common
+---
+ meta/recipes-core/dbus/dbus_1.12.20.bb | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
->
-> Steve
->
-> > > I had done my test builds on a branch that didn't actually contain my
-> > > change, hence why 5.8 builds where blowing up.
-> > >
-> > > I switched to the if [ ] model, since that doesn't run afoul of the
-> > > exit handler. I do find it curious that the compile task behaves so
-> > > differently than the install ones (even with set +e, I couldn't use
-> > > the [ ] method.
-> > >
-> > > Anyway, this is tested against 5.8 and 5.10 + eternal module builds
-> > >
-> > > Bruce
-> > >
-> > >  meta/classes/kernel.bbclass | 5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > > index ccd74e61e8..8b28ee626f 100644
-> > > --- a/meta/classes/kernel.bbclass
-> > > +++ b/meta/classes/kernel.bbclass
-> > > @@ -391,6 +391,10 @@ do_compile_kernelmodules() {
-> > >                 # other kernel modules and will look at this
-> > >                 # file to do symbol lookups
-> > >                 cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
-> > > +               # 5.10+ kernels have module.lds that we need to copy for external module builds
-> > > +               if [ -e "${B}/scripts/module.lds" ]; then
-> > > +                       install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
-> > > +               fi
-> > >         else
-> > >                 bbnote "no modules to compile"
-> > >         fi
-> > > @@ -494,7 +498,6 @@ do_shared_workdir () {
-> > >         # Copy files required for module builds
-> > >         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
-> > >         [ -e Module.symvers ] && cp Module.symvers $kerneldir/
-> > > -       [ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
-> > >         cp .config $kerneldir/
-> > >         mkdir -p $kerneldir/include/config
-> > >         cp include/config/kernel.release $kerneldir/include/config/kernel.release
-> > > --
-> > > 2.19.1
-> > >
-> > >
-> > > 
-> > >
+diff --git a/meta/recipes-core/dbus/dbus_1.12.20.bb b/meta/recipes-core/dbus/dbus_1.12.20.bb
+index 4040fdb22a..09049301cc 100644
+--- a/meta/recipes-core/dbus/dbus_1.12.20.bb
++++ b/meta/recipes-core/dbus/dbus_1.12.20.bb
+@@ -24,17 +24,17 @@ python __anonymous() {
+         d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+ }
+ 
+-USERADD_PACKAGES = "${PN}"
+-USERADD_PARAM_${PN} = "--system --home ${localstatedir}/lib/dbus \
+-                       --no-create-home --shell /bin/false \
+-                       --user-group messagebus"
++PACKAGES =+ "${PN}-lib ${PN}-common ${PN}-tools"
++
++USERADD_PACKAGES = "dbus-common"
++USERADD_PARAM_dbus-common = "--system --home ${localstatedir}/lib/dbus \
++                             --no-create-home --shell /bin/false \
++                             --user-group messagebus"
+ 
+ CONFFILES_${PN} = "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus-1/session.conf"
+ 
+ DEBIANNAME_${PN} = "dbus-1"
+ 
+-PACKAGES =+ "${PN}-lib ${PN}-common ${PN}-tools"
+-
+ OLDPKGNAME = "dbus-x11"
+ OLDPKGNAME_class-nativesdk = ""
+ 
+-- 
+2.27.0
+
