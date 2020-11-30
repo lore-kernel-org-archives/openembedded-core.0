@@ -1,127 +1,90 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web08.62887.1606755148167615985
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.63015.1606756357612938960
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 08:52:28 -0800
+ Mon, 30 Nov 2020 09:12:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RmYEn6bM;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id 7so8638368qtp.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 08:52:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ROgWKqSb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.50, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f50.google.com with SMTP id qw4so13108233ejb.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 09:12:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uhI03sRBpz2WZUL0hh+q1q5jPafKF4SPq2PdaSigM8c=;
-        b=RmYEn6bM2dcn+56qeMgxinTQVIhZjB080jsXw1WkzyzRYmmlIgQz1Qt4PWM+Rn0SuC
-         VTiDqoQScbVaZcCgD94EOnlMmD0HAm7JQMJtyT+F4XyFvcTtdbOqd/oBg7O2uizyitYk
-         FVAsmd0Ltqhpw+jcKAkW1s6S3TTaK8y9nn+/Sb6BmQTQHd8nxXVvyfvZakyHxYev73t3
-         EcZul34xmzEkl25VIMFnASWLFzeWeQ8+eTnSvqF0wuyvj1B0tj7/4mYfT/farRAXCBaT
-         h8aqaA0Q4xeEpTU8hLTzPfVcf0ew9srBOQOTAkMUeFCxUoM6uAnguR52SO2miafUAXb1
-         sPtw==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=5rUT0eo67xqw2Kqfm/08BL2UmssNRNtPIGYFRLWdnfE=;
+        b=ROgWKqSbu5btY/AnsLQdLvumXlG6CMYF2eb3Swvg/ltzt1ynIrvikArlP0tA1AxcGC
+         iaI/04T5A6IWIvhgjv7I9kIXeJwyt5Kc/JF7rp0GWczUbo1LHVSrzGIz+gD7TXFBWMkM
+         +lP9dDznXTuw4JrmYBXIzrjxmv5HS76Y++EeBMPScSsK//u0yyQSUPSkP0QRtYik5Ne/
+         ULTIFdFWXJvBu9gjN15G9sDBlImGFhlSpDPDL3Qz2BAKnVy3ybpUwFZb9+oRYpOzOR6U
+         yXHN/CwMGcBKxUh1OeHsWC6zf0uD+g9dyQHugWjFzm6L5LFP40VUqtJCNy0UN6kfLx9n
+         ikKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uhI03sRBpz2WZUL0hh+q1q5jPafKF4SPq2PdaSigM8c=;
-        b=DtuYfxGs908ALufCy3WFPJ7urVENOrIy8MpfMXSOanhFMc8CaeqQaqOHLr59/vNyhG
-         n5e88cxsyHUaVXxNONNU6v143UGa8YQC39qZm/SbAYZNFQ7jBSsVscwcJaaE6YtaPtNz
-         6MsanCsACbWzYBG2RkThwzgMQ6MIEkeIgR/cOvDFjcCrRVNyUlOC6XXZog315LlFNkSc
-         UF9Kyln4nNFubvoSilDLmnG0DGiNeFVAF+yMuF6gUPKju8RtH/Ur8r9gbJFqIwOz9epd
-         475hsAl8KvPCc3ONJbGWnFXbhknYHX4SGjSLTkNBkV6q0OtNPiwrwwTIDdwEwup8UFO+
-         MzpQ==
-X-Gm-Message-State: AOAM532AvqUui8aswbPsUA3Ei9vI0tUxN317RZzyyJUkouHVsMYz+RMJ
-	wfIoBz4kcFfA0uOsz6rNsU1O2AxNzo6apCbNQS8=
-X-Google-Smtp-Source: ABdhPJxUBSkKKArZQxe07dILUiGSNtrvxXng6gUB9CVjlotPAzgXZE+fRzFJpIXmYDBxS+8tdk15ofnO3uz28bkOHqM=
-X-Received: by 2002:aed:2962:: with SMTP id s89mr22829658qtd.88.1606755147171;
- Mon, 30 Nov 2020 08:52:27 -0800 (PST)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=5rUT0eo67xqw2Kqfm/08BL2UmssNRNtPIGYFRLWdnfE=;
+        b=UtKwJoIVccdhuDR0YCzFDTB2VvL+l7peP6sHlOBN0XVdN4kemAHfHOjspuCgJVxB5C
+         gdgE2wZ886JfrEJahKAntkyqQDML65zllZmZI8facFuCEKpCydur+IUcum3EPsus4nHr
+         T9w8f1Dy2GqosF9HKY27nJQnPiSic/MuFGv+NYOKuUdZ6nBIc3JOixXJY0IbDaYnbcA8
+         BECxU1g6qEU4MiKk7Tcv73cc9QtifETOKZngej6mfn+Zrob17+errjbDNmayBGCFlbfM
+         bri50eqC9z+BqGh2qTrvzX2IgtkuWmXWBZlcz7EJBSy+8NFuvZvYULZS4GzCwTMeNq61
+         r3Kg==
+X-Gm-Message-State: AOAM533ytZzGWxjbwZ09beIbkpkSU8F9qO3wQ3UPt6mUpEE617aq+aZa
+	1qHE/KRkxLzkIZeyKKV2x4O5e5He44PZ+j/61MSOZkpqMMzjQTy6
+X-Google-Smtp-Source: ABdhPJyDPGH05k5f9dtUQS2JwRzNKVKsTS6I+32zncOAMgUIQLEme7Gx9x9+jJsDNSvJkWhsehykksfhaxjiOAWQeAg=
+X-Received: by 2002:a17:906:4e52:: with SMTP id g18mr20885674ejw.385.1606756355441;
+ Mon, 30 Nov 2020 09:12:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20201129074802.1493537-1-raj.khem@gmail.com> <20201129074802.1493537-2-raj.khem@gmail.com>
- <CAAnfSTsTrHve_H+WMKdt7d2bYWC+mBKoTcWwa0sZ-Mo=xWWs6g@mail.gmail.com>
-In-Reply-To: <CAAnfSTsTrHve_H+WMKdt7d2bYWC+mBKoTcWwa0sZ-Mo=xWWs6g@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 30 Nov 2020 08:52:01 -0800
-Message-ID: <CAMKF1sqa2JaqT2p7-5G7Bug9Rug-oZQPycaqp0HOwrzFpbU+mA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v5 2/5] python3-numpy: Add ptest
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Mon, 30 Nov 2020 07:12:24 -1000
+Message-ID: <CAOSpxdZ8PdqOkiGqvhFRmQMH814kMj0RRC5shpZDP4yHoJOsYQ@mail.gmail.com>
+Subject: Dunfell CVE reduction fun: December raffle
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 30, 2020 at 6:11 AM Ross Burton <ross@burtonini.com> wrote:
->
-> Why are all the patches from this not squashed into this?  We don't
-> need to see the bugs you fixed.
+We've been making good progress on reducing the number of issues
+reported by the CVE checker.  We went from 202 on August 16 to 59 on
+November 29.
 
-Right.
-heh its better to eat the sausage than to see it being made.
-Richard did it before pushing to all is set.
->
-> Ross
->
-> On Sun, 29 Nov 2020 at 07:48, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Since 1.15, numpy have replaced nose with pytest testing framework
-> > it additionally needs hypothesis and sortedcontainers modules
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/python-numpy/files/run-ptest         | 5 +++++
-> >  meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb | 7 +++++--
-> >  2 files changed, 10 insertions(+), 2 deletions(-)
-> >  create mode 100644 meta/recipes-devtools/python-numpy/files/run-ptest
-> >
-> > diff --git a/meta/recipes-devtools/python-numpy/files/run-ptest b/meta/recipes-devtools/python-numpy/files/run-ptest
-> > new file mode 100644
-> > index 0000000000..9a1c72aeb1
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/python-numpy/files/run-ptest
-> > @@ -0,0 +1,5 @@
-> > +#!/usr/bin/env python3
-> > +
-> > +import numpy
-> > +numpy.test(label='full', verbose=2)
-> > +
-> > diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-> > index d54f2f6c18..b484e7cddc 100644
-> > --- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-> > +++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-> > @@ -8,6 +8,7 @@ SRCNAME = "numpy"
-> >  SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-> >             file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-> >             file://0001-numpy-core-Define-RISCV-32-support.patch \
-> > +           file://run-ptest \
-> >  "
-> >  SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"
-> >
-> > @@ -16,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
-> >
-> >  DEPENDS += "python3-cython-native"
-> >
-> > -inherit setuptools3
-> > +inherit ptest setuptools3
-> >
-> >  S = "${WORKDIR}/numpy-${PV}"
-> >
-> > @@ -30,7 +31,6 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
-> >                    ${PYTHON_PN}-pprint \
-> >                    ${PYTHON_PN}-pickle \
-> >                    ${PYTHON_PN}-shell \
-> > -                  ${PYTHON_PN}-nose \
-> >                    ${PYTHON_PN}-doctest \
-> >                    ${PYTHON_PN}-datetime \
-> >                    ${PYTHON_PN}-distutils \
-> > @@ -39,6 +39,9 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
-> >                    ${PYTHON_PN}-netclient \
-> >                    ${PYTHON_PN}-numbers \
-> >                    ${PYTHON_PN}-pydoc \
-> > +                  ${PYTHON_PN}-pytest \
-> > +                  ${PYTHON_PN}-hypothesis \
-> > +                  ${PYTHON_PN}-sortedcontainers \
-> >                    ${PYTHON_PN}-pkgutil \
-> >                    ${PYTHON_PN}-email \
-> >                    ${PYTHON_PN}-compression \
-> > --
-> > 2.29.2
-> >
-> >
-> > 
-> >
+Some of these reductions have come from sending in corrections to the
+CVE database where there were errors in version matching, and others
+have come from backported fixes or whitelisting..  Many thanks to all
+who have helped!
+
+To encourage more folks to contribute to this effort I'm going to be
+holding a raffle during the month of December.  You'll get one entry
+for each CVE fix patch that I merge into dunfell.  And a database
+update that results in a reduction in dunell reported issues will also
+get you an entry.
+
+The prize?  A bag of fresh roasted whole bean coffee from my small
+coffee orchard here on the Big Island of Hawaii.  If the winner isn't
+a coffee drinker I'll try to get some locally grown tea as a
+substitute prize.
+
+The fine print:
+
+1. Patches and database update requests must be submitted during the
+month of December to receive a raffle entry.
+
+2. CVE patch submissions should follow the guidelines in the "Patch
+name convention and commit message" section of
+https://wiki.yoctoproject.org/wiki/Security
+
+3. If the patch also applies to master please send the patch for
+master and note that it should be backported to dunfell/gatesgarth as
+appropriate.  I'll pull this type of patch into dunfell only after it
+hits master.
+
+4. CVE database update requests should be sent to:
+cpe_dictionary@nist.gov  You should note the CVE number and provide
+supporting links for why you think an update is appropriate. When you
+receive a "Thank you for bringing this to our attention. We appreciate
+community input" response please forward a copy to me.  I'll add your
+raffle entry to the pool when the database is updated and the dunfell
+cve count reduced.
+
+5. To help avoid people working on the same CVE's I'll start a "CVE
+raffle: collision avoidance" thread on this list.  Just do a quick
+reply noting which CVE you plan to work on.  Please don't claim one
+unless you really intend to follow through!
+
+Steve
