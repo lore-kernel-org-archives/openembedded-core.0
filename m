@@ -1,107 +1,148 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web08.48801.1606673912550564996
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web08.53727.1606698706457667213
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Nov 2020 10:18:32 -0800
+ Sun, 29 Nov 2020 17:11:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=G8PCLRGa;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.52, mailfrom: steve@sakoman.com)
-Received: by mail-ot1-f52.google.com with SMTP id l36so9281352ota.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Nov 2020 10:18:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=kdmZcFkSgb2XZnFe01QAnWW77VwszID7YxHpiTuKwaI=;
-        b=G8PCLRGaE3tizhmIqlCxGU/a42HSXw+VvJNU9WvalGqha92vQ5GYyBivyc04LfE5V2
-         LTuGtRadEjX1f3p94rW9UTDUvF6OBraHSii9KAT14IXSzeOsPZzsYQiRJwNpuMxS5ROO
-         DiGGi3StApg1avXwvoe6kuiaOULeyYwBmVWFhsNbu4Qou68dBJuRSCYBO2BHTSCOzppL
-         zg4TwVZ3gouonUfmqkd4/DDeKbizcN4dYZmHRhqGlOWiaoam/iQpiBsTROfhKetbi4/V
-         dYNBtZGhCJgb0S89lczjw0/8n9FgibNN0a9Me7UDnMphafJamuastzk1/xtLuR9y40vJ
-         ZTnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=kdmZcFkSgb2XZnFe01QAnWW77VwszID7YxHpiTuKwaI=;
-        b=IN6SQiF0bL8FowWhP1RiEKJNzOTIymSXfkfsuCReCzzouOI8xsJSTSpSTZrJKOxhsv
-         JUHZD+Cc/klcTyFBkWQ5R+NZHdmCrUHszRaEyv+WC5fcDjw1Qs0BfPB/ofUAzm5eTWXP
-         gjsGFgrLPXxfDu/CwgtiOxBfobqQX+8URZV+NHaOWQt5o8a+khUaoszW4mUvqrIeT571
-         dgeOc6m7E60SO4Hcvh3ZYc6MJhCd7S0w0136l8XtomVAXVV3p1t4yDkerxl+xnnHFexE
-         DslLIktcvUp8v4FdCyhSs7G5sBgA2yv8GXKUACe4SO4P6If614PtCLGNin+AngXD8/1f
-         a3fg==
-X-Gm-Message-State: AOAM531rSdSPOW0UgMSHQFsRaMSjbg/cF0yUraNLagoJ6KQaULd49OlG
-	kgXDO5XY6yFKZFONmBd1QDGtnGp7ATIjzj3j
-X-Google-Smtp-Source: ABdhPJxdPtykErUDJAfvXYL88fFHZ2AO+cszRapH68WWEYo7oeN48QHCxuMy89KZLFMQUtmZMe3Ykw==
-X-Received: by 2002:a9d:6189:: with SMTP id g9mr14050655otk.231.1606673911425;
-        Sun, 29 Nov 2020 10:18:31 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id k20sm8415779ots.53.2020.11.29.10.18.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Nov 2020 10:18:30 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id DF18A960251; Sun, 29 Nov 2020 08:18:27 -1000 (HST)
-Subject: OE-core CVE metrics for gatesgarth on Sun 29 Nov 2020 08:15:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20201129181827.DF18A960251@nuc.router0800d9.com>
-Date: Sun, 29 Nov 2020 08:18:27 -1000 (HST)
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Ikbq1/EAEK+22tPLGJC0o2bsvOkGeyKmzIfPi0qw5Qg/B7JBfMcDsFzYd4uso3JnhxZdSJIZI5
+ BTHkaYy/S87Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004344"
+X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
+   d="scan'208";a="170004344"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:45 -0800
+IronPort-SDR: Q7OzwaeghEcrTcGcjbLI00bUXPhaiqZ2U60oMaOyOSzOBLKxxmSqPfxAC8djREpZLk53hI8WVM
+ u54Qt1OX6kTw==
+X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
+   d="scan'208";a="372302593"
+Received: from ajraj-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.114.166])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:43 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/21] patch review request
+Date: Mon, 30 Nov 2020 09:11:15 +0800
+Message-Id: <cover.1606698421.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Branch: gatesgarth
+Please review these next set of changes for gatesgarth. Builds cleanly
+on autobuilder:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1628
 
-New this week:
+Thanks,
 
-Removed this week:
-CVE-2020-24352: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-24352 *
-CVE-2020-26154: libproxy https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-26154 *
-CVE-2020-27153: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27153 *
-CVE-2020-27619: python3-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27619 *
+Anuj
 
-Full list:  Found 48 unpatched CVEs
-CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
-CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
-CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
-CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
-CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
-CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
-CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
-CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
-CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
-CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
-CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
-CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
-CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
-CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-28362: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28362 *
-CVE-2020-28366: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28366 *
-CVE-2020-28367: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28367 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
+The following changes since commit 12bee66a42a7c2a38789ddb37cb098bcbf0b3841:
+
+  qemu: fix CVE-2020-24352 (2020-11-20 23:02:39 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Alexander Kanavin (1):
+  lttng-modules: update 2.12.2 -> 2.12.3
+
+Anuj Mittal (2):
+  glib-2.0: RDEPEND on dbusmock only when GI_DATA_ENABLED is True
+  distutils-common-base: fix LINKSHARED expansion
+
+Bruce Ashfield (4):
+  linux-yocto/5.4: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
+    arches with 64bit time_t
+  linux-yocto/5.8: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
+    arches with 64bit time_t
+  linux-yocto/5.8: ext4/tipc warning fixups
+  linux-yocto/5.4: update to v5.4.78
+
+Fedor Ross (2):
+  sysvinit: remove bashism to be compatible with dash
+  eudev: remove bashism to be compatible with dash
+
+He Zhe (1):
+  lttng-modules: Backport a patch to fix btrfs build failure
+
+INC@Cisco) (1):
+  kernel-devsrc: improve reproducibility for arm64
+
+Khem Raj (1):
+  binutils: Fix linker errors on chromium/ffmpeg on aarch64
+
+Richard Purdie (2):
+  fs-perms: Ensure /usr/src/debug/ file modes are correct
+  e2fsprogs: Fix a ptest permissions determinism issue
+
+Ross Burton (5):
+  cve-check: show real PN/PV
+  python3: add CVE-2007-4559 to whitelist
+  sqlite3: add CVE-2015-3717 to whitelist
+  gstreamer1.0-rtsp-server: set CVE_PRODUCT
+  gstreamer1.0-plugins-base: set CVE_PRODUCT
+
+Stacy Gaikovaia (1):
+  valgrind: helgrind: Intercept libc functions
+
+Vyacheslav Yurkov (1):
+  license_image.bbclass: use canonical name for license files
+
+ meta/classes/cve-check.bbclass                |   9 +-
+ meta/classes/distutils-common-base.bbclass    |   2 +-
+ meta/classes/license_image.bbclass            |   3 +-
+ meta/classes/package.bbclass                  |   2 +-
+ meta/conf/abi_version.conf                    |   2 +-
+ meta/files/fs-perms-persistent-log.txt        |   2 +-
+ meta/files/fs-perms.txt                       |   2 +-
+ meta/recipes-core/glib-2.0/glib.inc           |   2 +-
+ meta/recipes-core/sysvinit/sysvinit/rc        |   2 +-
+ meta/recipes-core/udev/eudev/init             |   2 +-
+ .../binutils/binutils-2.35.inc                |   1 +
+ ...n-error-on-conditional-branch-to-an-.patch | 135 +++
+ .../e2fsprogs/e2fsprogs_1.45.6.bb             |   2 +
+ meta/recipes-devtools/python/python3_3.8.5.bb |   2 +
+ ...01-helgrind-Intercept-libc-functions.patch |  54 ++
+ .../valgrind/valgrind_3.16.1.bb               |   1 +
+ meta/recipes-kernel/linux/kernel-devsrc.bb    |   4 +
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-rt_5.8.bb               |   2 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ .../linux/linux-yocto-tiny_5.8.bb             |   4 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  |  18 +-
+ ...ndency-issue-when-building-in-tree-w.patch |  54 --
+ ...oints-output-proper-root-owner-for-t.patch | 318 ++++++
+ ...ce.h-into-the-mmu-sub-directory-v5.9.patch |  41 -
+ ...Make-kvm_mmu_page-definition-and-acc.patch |  39 -
+ ...he-length-of-per-inode-prealloc-list.patch |  84 --
+ ...e-via-a-block-bitmap-read-is-prefetc.patch |  63 --
+ ...al-of-smp_-read_barrier_depends-v5.9.patch | 391 --------
+ ...teback-Drop-I_DIRTY_TIME_EXPIRE-v5.9.patch |  59 --
+ ...x-sync-livelock-due-to-b_dirty_time-.patch | 117 ---
+ ...es-for-ext4_discard_preallocations-a.patch |  52 -
+ .../0010-Fix-system-call-filter-table.patch   | 918 ------------------
+ ...ules_2.12.2.bb => lttng-modules_2.12.3.bb} |  13 +-
+ .../gstreamer1.0-plugins-base_1.16.3.bb       |   2 +
+ .../gstreamer1.0-rtsp-server_1.16.3.bb        |   2 +
+ meta/recipes-support/sqlite/sqlite3_3.33.0.bb |   2 +
+ 38 files changed, 571 insertions(+), 1871 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-aarch64-Return-an-error-on-conditional-branch-to-an-.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-helgrind-Intercept-libc-functions.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Kconfig-fix-dependency-issue-when-building-in-tree-w.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-Move-mmutrace.h-into-the-mmu-sub-directory-v5.9.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-KVM-x86-mmu-Make-kvm_mmu_page-definition-and-acc.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-ext4-limit-the-length-of-per-inode-prealloc-list.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-indicate-via-a-block-bitmap-read-is-prefetc.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-removal-of-smp_-read_barrier_depends-v5.9.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-writeback-Drop-I_DIRTY_TIME_EXPIRE-v5.9.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0008-fix-writeback-Fix-sync-livelock-due-to-b_dirty_time-.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-version-ranges-for-ext4_discard_preallocations-a.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-Fix-system-call-filter-table.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.12.2.bb => lttng-modules_2.12.3.bb} (64%)
+
+-- 
+2.28.0
+
