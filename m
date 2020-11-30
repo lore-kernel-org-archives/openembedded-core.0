@@ -1,29 +1,29 @@
 Received: from mga04.intel.com (mga04.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.53727.1606698706457667213
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Nov 2020 17:11:53 -0800
+ Sun, 29 Nov 2020 17:11:55 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: /buwiK7Oam/v+TBKYs93xaPg09QOiHAxiNDVAJIuC61v4NvpnAY1t3I+VZnaU+jWy4bGR6Zv9q
- 5lhg16Ms7jpw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004362"
+IronPort-SDR: eUAvnHH6lqOjL1yHbBR+N3YBW73AM/hoMUVqdHUrzmfFJEAp8mi3ORlu4QE1mhYBhqqg1FUAiM
+ I8i+fWoCBm1g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004365"
 X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="170004362"
+   d="scan'208";a="170004365"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:53 -0800
-IronPort-SDR: eJziExeYAXjz+py/99oxOW5kcqoe3GjVlpzckUvNwEy3vPcmxfa7EYLFY5/QJm+qGJI6cyq9lq
- wPph7nKydfqA==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:55 -0800
+IronPort-SDR: 6lVR55R63k6DOwD84bmJwynaNOtSvCL5F5nwWnbEBAVKMKJvvl/6iU4xVNlQvU/6mfVO0uDY4A
+ YPNnS/VvIAlQ==
 X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="372302619"
+   d="scan'208";a="372302629"
 Received: from ajraj-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.114.166])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:52 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:53 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 04/21] linux-yocto/5.8: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit arches with 64bit time_t
-Date: Mon, 30 Nov 2020 09:11:19 +0800
-Message-Id: <fbcd54a3db79e85aa1180523ca2903bf03ff7462.1606698421.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 05/21] linux-yocto/5.8: ext4/tipc warning fixups
+Date: Mon, 30 Nov 2020 09:11:20 +0800
+Message-Id: <234c8101d642120b08b369d305914b1560f140db.1606698421.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606698421.git.anuj.mittal@intel.com>
 References: <cover.1606698421.git.anuj.mittal@intel.com>
@@ -34,11 +34,12 @@ From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
 Integrating the following commit(s) to linux-yocto/5.8:
 
-    52b840afae05 perf: Alias SYS_futex with SYS_futex_time64 on 32-bit arches with 64bit time_t
+    3c5d210805d6 tipc: fix -Wstringop-truncation warnings
+    cc89fd77c248 ext4: fix -Wstringop-truncation warnings
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 41135c844af1165b1e74e8e2654784f3cd4def8b)
+(cherry picked from commit 45a229f84fe71b251530bb182c1ad03a88f592a8)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
  .../recipes-kernel/linux/linux-yocto-rt_5.8.bb |  2 +-
@@ -47,59 +48,59 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
  3 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
-index 203ddf6684..c2d627acb7 100644
+index c2d627acb7..033dfc76a2 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
 @@ -11,7 +11,7 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
  SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
-index f37f525cc3..31a84f3972 100644
+index 31a84f3972..50cee07620 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
 @@ -15,8 +15,8 @@ DEPENDS += "openssl-native util-linux-native"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "aa614dcf182db126013b255968ab125afd96eb88"
--SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine_qemuarm ?= "3e9aa72b02cf7d04096e367c99d503cd1d26cc6c"
-+SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine_qemuarm ?= "3e9aa72b02cf7d04096e367c99d503cd1d26cc6c"
+-SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine_qemuarm ?= "9509db6e3ed6a23b1f7495b53248d1cbfe22710b"
++SRCREV_machine ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
  SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
-index c0cdffce73..c6fb9e9f86 100644
+index c6fb9e9f86..af576891e2 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
 @@ -12,15 +12,15 @@ KBRANCH_qemux86  ?= "v5.8/standard/base"
  KBRANCH_qemux86-64 ?= "v5.8/standard/base"
  KBRANCH_qemumips64 ?= "v5.8/standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "cd6c8c74317d2f9504c25e28e37f4140deec2d19"
--SRCREV_machine_qemuarm64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
--SRCREV_machine_qemumips ?= "c610a204d0821f5abc253e72894fd32b41b92db3"
--SRCREV_machine_qemuppc ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
--SRCREV_machine_qemuriscv64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
--SRCREV_machine_qemux86 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
--SRCREV_machine_qemux86-64 ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
--SRCREV_machine_qemumips64 ?= "86cc0d9a3f6751ada12fa4630b3e3c23221d6da7"
--SRCREV_machine ?= "64fd51cbe98ae4a0e05e59ed9abd9135f1b4cf64"
-+SRCREV_machine_qemuarm ?= "0c6d276c75233f9b8d05103ff652676a2c271868"
-+SRCREV_machine_qemuarm64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
-+SRCREV_machine_qemumips ?= "4c07d59936f8e28eadecab8f56ef14726f77ccb8"
-+SRCREV_machine_qemuppc ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
-+SRCREV_machine_qemuriscv64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
-+SRCREV_machine_qemux86 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
-+SRCREV_machine_qemux86-64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
-+SRCREV_machine_qemumips64 ?= "2224bf83cf372bb729583dfb93ad28abba9905fd"
-+SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine_qemuarm ?= "0c6d276c75233f9b8d05103ff652676a2c271868"
+-SRCREV_machine_qemuarm64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine_qemumips ?= "4c07d59936f8e28eadecab8f56ef14726f77ccb8"
+-SRCREV_machine_qemuppc ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine_qemuriscv64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine_qemux86 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine_qemux86-64 ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
+-SRCREV_machine_qemumips64 ?= "2224bf83cf372bb729583dfb93ad28abba9905fd"
+-SRCREV_machine ?= "52b840afae058fb20ce69ff5af811f8582b3bb5a"
++SRCREV_machine_qemuarm ?= "14b463d0e5c1e2ff354244420f9bbc7f0ab80533"
++SRCREV_machine_qemuarm64 ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
++SRCREV_machine_qemumips ?= "8d8d9afb396f154f366f32948fdff3cf4e269841"
++SRCREV_machine_qemuppc ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
++SRCREV_machine_qemuriscv64 ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
++SRCREV_machine_qemux86 ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
++SRCREV_machine_qemux86-64 ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
++SRCREV_machine_qemumips64 ?= "01a02b058f9a8941032b298b8d25c673526152f4"
++SRCREV_machine ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
  SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
  
  # remap qemuarm to qemuarma15 for the 5.8 kernel
