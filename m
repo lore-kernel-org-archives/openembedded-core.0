@@ -1,120 +1,154 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web09.60418.1606745462234943544
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web12.60700.1606747020574668657
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 06:11:02 -0800
+ Mon, 30 Nov 2020 06:37:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=EahTPHuc;
- spf=pass (domain: burtonini.com, ip: 209.85.167.67, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f67.google.com with SMTP id u18so21858301lfd.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 06:11:01 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=lI3hAzct;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.66, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f66.google.com with SMTP id 38so9127622edr.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 06:37:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tqUhbf3D4Xs94VKycC7lpVJyW8zSu4jAK4cxAajABlw=;
-        b=EahTPHucchlrBJrNanN3f7fa6hESHQn2QUhWZNUrT1OC4Mun1Xfd1jnJRhJGx/fxno
-         P85BhLwlFlB+nrWt0g9+Vr1j2XrmbLd69Y2Lpgb8Z6HTgIRLVzD/ADWBcxB5Y+sjZixk
-         KwTtJFsmYQjjVP8JBaal+Sb+oy/3v021PcTV/rcBg2KIN2e3xF2u2DpCprjN2xQ1S8kt
-         RSjX2zgp6EvWvHAjRy1Lst3NO6Ey+doJhOJ/m1gpZBhlTMJO4XkWSPP5M4SSMFvlgRl9
-         /8tTLJ3+rqGfcWZjoyrPWbFcTLwZeaaoizaYBcnZgWagEgoGg7voMyxMNqpkVn2mSwmm
-         LL5Q==
+        bh=Fs9RfEhpTy9ITg5HtVgvFzL1D00OpzvbjCfXDr58nSM=;
+        b=lI3hAzctDSWKCpPaXKtfvJqXLBcXuwBsBv/daqO8+HpgJU/jlK9VlBEfCin8/cH07t
+         SgCWLT1GveqH56OMHz/EjNl2wrWIbkepdmVccz6XZrydaRnsiOhWR2XEaB3QyFTwXp27
+         WTBqIWT/z7aKT+Sml9Spzj8G3RsTtvjXAmrGlZDs76oXEeK2it1Cw+wN/r98Wyh0MT32
+         zWWFc1C23ZpBvXjHIqagMTPtxMxPezw3DNXkDPe+8ag/lCsSUB8cnksI/nwJNqNVJ56+
+         x0WXbkyxeub0V8ajOVvfN+cdleYf6xl/XlosO5MtAyhJ4ymQEW5a4MDLKbHJgonNK2C+
+         bVpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tqUhbf3D4Xs94VKycC7lpVJyW8zSu4jAK4cxAajABlw=;
-        b=Qt8HFQobSFeyMCR2+l2/jzHb+zFL82Ll4uErN1osLiplbfTVZlSbYI0bLZDmaSa1aI
-         FS0VhUjQd13Ssq7XIoGRg9ABskd5H6uSO24E0AxcuqVePnOIC1aPzns8VajbbViBzsTE
-         /nV6y4myRWRzJt8eXGF/Bizs544OYk/LbbddkHX0fWCUWRNYwrhmBlsKJUD4Jv6xMKx7
-         qzi2QIk47x7Yp5hKv9UoLfMXih2myz5G+FIrr6KB7TJwomxohFovCgJ5N/oyHNCIB3Sq
-         0z8gmU5YmXxVV+i0xMudt1QmZAa+pGRBbtfVfS+7KUIz9z/RzK978Mx3HQ5iNGh2CrGC
-         UsFA==
-X-Gm-Message-State: AOAM532g+iitYvfQ7PsTqGeeCDgEFC4oLsLuPWBN01kmanGCA/NW8oPd
-	bsGl6wgS2EqjtyB0lJSs9mN5zWX8ituyYlXNKY3p9A==
-X-Google-Smtp-Source: ABdhPJyLx7TuAuJDQeQvJnK01qum4mfiyBtpVoz4whLlzyzuMN2FduWECvaMN/r3NY6vRZIy30xz4JbJRWeAqMuwq60=
-X-Received: by 2002:a19:4a41:: with SMTP id x62mr10041545lfa.398.1606745458890;
- Mon, 30 Nov 2020 06:10:58 -0800 (PST)
+        bh=Fs9RfEhpTy9ITg5HtVgvFzL1D00OpzvbjCfXDr58nSM=;
+        b=cLyZ/eJOvrf6Zcq1qaHUYN7XPGpJaqew9dXTszraJ7JMnnEXG6DbtGjaArGvsOYDrR
+         pzT0wQ9b4wJPghGDXcSRi80SEr5JouEsKTio5DCjG9atB+NuDBlIFtrcpNypkE1nkyXg
+         u+vtgs60E2cfM2VqwW42kh5LqyNGyi+Yq/oqlFl33cQCWReCFTNlElASFppyKJBZjqpd
+         ZKI3tV9uCttY5BxWSGtHbtov5oU03BLj56n7I34vbbN+eXlSDxGSVDijlwxr61+HzntT
+         rSvNtKhrxxbxLxHLEcaGC92uL1el7HkZG9vMvgsdBweUkUjsnlDQGqr6cybKHi8LcfhX
+         eKqg==
+X-Gm-Message-State: AOAM533LOY0OLIMaIZriLhv/XJ3UEP6LKIADueAqtqBIxDxjoooCA+dc
+	0D3ONIyfrS2xBrdSAabQzKwFpZsMGtnZXO7AUWxzvA==
+X-Google-Smtp-Source: ABdhPJwwMwmFecjDb8cByuK6j/TAiB/X4mPU9wOwXRausd98xh8qbIb2Sigug34vORbC0/MLkFLd8Oztdi0fyjbZTPo=
+X-Received: by 2002:a50:a6c9:: with SMTP id f9mr21760394edc.158.1606747018914;
+ Mon, 30 Nov 2020 06:36:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20201129074802.1493537-1-raj.khem@gmail.com> <20201129074802.1493537-2-raj.khem@gmail.com>
-In-Reply-To: <20201129074802.1493537-2-raj.khem@gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 30 Nov 2020 14:10:44 +0000
-Message-ID: <CAAnfSTsTrHve_H+WMKdt7d2bYWC+mBKoTcWwa0sZ-Mo=xWWs6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v5 2/5] python3-numpy: Add ptest
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+References: <20201118045633.47396-1-bruce.ashfield@gmail.com>
+ <CAP71Wjzp=9QWJLvANLXw2p6YtbgbZbK6yx0sxHVU2zBKB7x1oA@mail.gmail.com> <CADkTA4NxyxdJaCboGLdjE8syqDO+MBVVNOoRe4rTs90Ym_sp_g@mail.gmail.com>
+In-Reply-To: <CADkTA4NxyxdJaCboGLdjE8syqDO+MBVVNOoRe4rTs90Ym_sp_g@mail.gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Mon, 30 Nov 2020 04:36:47 -1000
+Message-ID: <CAOSpxdai_zn_6UnPh74q3p=6w-fV9-m3yW=OpiLArrd+ofY4DA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] kernel: relocate copy of module.lds to module compilation task
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Why are all the patches from this not squashed into this?  We don't
-need to see the bugs you fixed.
+On Mon, Nov 30, 2020 at 3:24 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> On Mon, Nov 30, 2020 at 2:38 AM Nicolas Dechesne
+> <nicolas.dechesne@linaro.org> wrote:
+> >
+> > hi Steve and Bruce,
+> >
+> > On Wed, Nov 18, 2020 at 5:56 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> > >
+> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > >
+> > > There were two copies of this patch floating around, and the merged
+> > > variant has the copy in the wrong place.
+> > >
+> > > module.lds is only created during modules_prepare, and that target is
+> > > not invoked during our main build of the kernel. We aren't about to
+> > > change the kernel build (there's no need), so we move the copy into
+> > > the compile_kernelmodules task. After that runs, we have module.lds
+> > > availble to copy.
+> > >
+> > > This has been tested against clean kernel + out of tree module
+> > > builds, and the dependencies are correct that the file is copied
+> > > before the out of tree module build starts.
+> > >
+> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> >
+> > Can we get this patch into dunfell? This is fixing a bug for BSP using
+> > 5.10+ kernel, so I believe this is important for LTS.
 
-Ross
+Certainly!
 
-On Sun, 29 Nov 2020 at 07:48, Khem Raj <raj.khem@gmail.com> wrote:
+> For a backport, you need this patch and also the one that it is tweaking:
+> [kernel: provide module.lds for out of tree builds in v5.10+], but I didn't
+> check to see if Steve had already grabbed that one.
 >
-> Since 1.15, numpy have replaced nose with pytest testing framework
-> it additionally needs hypothesis and sortedcontainers modules
+> I also don't see any issue with this, and the backport is simple enough since
+> it is additive to what we copy into the artifacts.
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-devtools/python-numpy/files/run-ptest         | 5 +++++
->  meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb | 7 +++++--
->  2 files changed, 10 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-devtools/python-numpy/files/run-ptest
+> Like building on newer distros, we will eventually run into newer kernel
+> support that we can't backport or support on dunfell .. but this isn't that
+> case!
 >
-> diff --git a/meta/recipes-devtools/python-numpy/files/run-ptest b/meta/recipes-devtools/python-numpy/files/run-ptest
-> new file mode 100644
-> index 0000000000..9a1c72aeb1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python-numpy/files/run-ptest
-> @@ -0,0 +1,5 @@
-> +#!/usr/bin/env python3
-> +
-> +import numpy
-> +numpy.test(label='full', verbose=2)
-> +
-> diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-> index d54f2f6c18..b484e7cddc 100644
-> --- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-> +++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
-> @@ -8,6 +8,7 @@ SRCNAME = "numpy"
->  SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
->             file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
->             file://0001-numpy-core-Define-RISCV-32-support.patch \
-> +           file://run-ptest \
->  "
->  SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"
+> Steve: it should be a simple cherry pick, if it isn't, let me know and I can
+> send the patches.
+
+A simple cherry-pick was successful.  Will start testing later this morning.
+
+Steve
+
+> > >
+> > > v2:
+> > >
+> > > I had done my test builds on a branch that didn't actually contain my
+> > > change, hence why 5.8 builds where blowing up.
+> > >
+> > > I switched to the if [ ] model, since that doesn't run afoul of the
+> > > exit handler. I do find it curious that the compile task behaves so
+> > > differently than the install ones (even with set +e, I couldn't use
+> > > the [ ] method.
+> > >
+> > > Anyway, this is tested against 5.8 and 5.10 + eternal module builds
+> > >
+> > > Bruce
+> > >
+> > >  meta/classes/kernel.bbclass | 5 ++++-
+> > >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > > index ccd74e61e8..8b28ee626f 100644
+> > > --- a/meta/classes/kernel.bbclass
+> > > +++ b/meta/classes/kernel.bbclass
+> > > @@ -391,6 +391,10 @@ do_compile_kernelmodules() {
+> > >                 # other kernel modules and will look at this
+> > >                 # file to do symbol lookups
+> > >                 cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
+> > > +               # 5.10+ kernels have module.lds that we need to copy for external module builds
+> > > +               if [ -e "${B}/scripts/module.lds" ]; then
+> > > +                       install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
+> > > +               fi
+> > >         else
+> > >                 bbnote "no modules to compile"
+> > >         fi
+> > > @@ -494,7 +498,6 @@ do_shared_workdir () {
+> > >         # Copy files required for module builds
+> > >         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+> > >         [ -e Module.symvers ] && cp Module.symvers $kerneldir/
+> > > -       [ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
+> > >         cp .config $kerneldir/
+> > >         mkdir -p $kerneldir/include/config
+> > >         cp include/config/kernel.release $kerneldir/include/config/kernel.release
+> > > --
+> > > 2.19.1
+> > >
+> > >
+> > > 
+> > >
 >
-> @@ -16,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
 >
->  DEPENDS += "python3-cython-native"
 >
-> -inherit setuptools3
-> +inherit ptest setuptools3
->
->  S = "${WORKDIR}/numpy-${PV}"
->
-> @@ -30,7 +31,6 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
->                    ${PYTHON_PN}-pprint \
->                    ${PYTHON_PN}-pickle \
->                    ${PYTHON_PN}-shell \
-> -                  ${PYTHON_PN}-nose \
->                    ${PYTHON_PN}-doctest \
->                    ${PYTHON_PN}-datetime \
->                    ${PYTHON_PN}-distutils \
-> @@ -39,6 +39,9 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
->                    ${PYTHON_PN}-netclient \
->                    ${PYTHON_PN}-numbers \
->                    ${PYTHON_PN}-pydoc \
-> +                  ${PYTHON_PN}-pytest \
-> +                  ${PYTHON_PN}-hypothesis \
-> +                  ${PYTHON_PN}-sortedcontainers \
->                    ${PYTHON_PN}-pkgutil \
->                    ${PYTHON_PN}-email \
->                    ${PYTHON_PN}-compression \
 > --
-> 2.29.2
->
->
-> 
->
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
