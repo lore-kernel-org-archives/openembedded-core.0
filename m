@@ -1,76 +1,65 @@
 Received: from mga04.intel.com (mga04.intel.com [])
  by mx.groups.io with SMTP id smtpd.web08.53727.1606698706457667213
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Nov 2020 17:11:48 -0800
+ Sun, 29 Nov 2020 17:11:50 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: bbQZt7SqwX1NDj1humFLL0/qdYxsoOk+OzHfq4SjwwLuLP4HFOGx3eZ/JgG25O6UhPYI6FLrpR
- JFI9lW2N+y8g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004346"
+IronPort-SDR: GDnYWwMHLC4oAKEGdJAT/7EoWnv70n3q5vBZCbLmZrrRLkhQaUV4dPJlSIaQPrkcbB7TG7leBl
+ nQv99x/YTzOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004355"
 X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="170004346"
+   d="scan'208";a="170004355"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:47 -0800
-IronPort-SDR: BDXhIXe2X9kh4YnUdVGFUv/C5OgO4iq4O0gSWjpfcKNFRMh9A3YhLJiajKDdqxM3aIcMS71G9A
- xdQhAoyYv74g==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:50 -0800
+IronPort-SDR: tWyBsAw8ua9QBSqeYi1zNRWwnI8jC9u7ljzyRNRint6LEL492X8kKa6cC+CCtxonPuRkm4qRNi
+ w8AQd4m+jWNQ==
 X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="372302597"
+   d="scan'208";a="372302605"
 Received: from ajraj-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.114.166])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:45 -0800
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:11:48 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 01/21] license_image.bbclass: use canonical name for license files
-Date: Mon, 30 Nov 2020 09:11:16 +0800
-Message-Id: <0fda54af52dfb57598ea9409113d33dacb786dc1.1606698421.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 02/21] kernel-devsrc: improve reproducibility for arm64
+Date: Mon, 30 Nov 2020 09:11:17 +0800
+Message-Id: <b627c00c624f9f9279c21ddd4d8aa9a8a592a8d3.1606698421.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606698421.git.anuj.mittal@intel.com>
 References: <cover.1606698421.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+From: "INC@Cisco)" <INC@Cisco)>
 
-When copying license files to the image rootfs, i.e to
-/usr/share/common-licenses, a canonical name of a license should be
-used, otherwise duplicated files end up in common-licenses directory.
+.vdso-offsets.h.cmd contains command that was used to produce vdso-offsets.h.
+It breaks reproducibility because it has an absolute path in it. There is no
+any value to package such files so it can be dropped.
 
-For example, GPL-2.0 license according to conf/license.conf can be
-referenced in recipes as GPL-2, GPLv2, and GPLv2.0. If a license name is
-used directly, we end up with three files in the rootfs with the same
-content. If a canonical name used instead, then each license gets copied
-only once.
-
-Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+Signed-off-by: Denys Zagorui <dzagorui@cisco.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 670fe71dd18ea675f35581db4a61fda137f8bf00)
+(cherry picked from commit d31b4db24643b0867c654af34c684b4de2f8122b)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/license_image.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 702e9f9c55..119c8dfc86 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -125,7 +125,6 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 8373c97a31..8a900ed182 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -119,6 +119,10 @@ do_install() {
+ 	# but without this file, we get a forced syncconfig run in v5.8+, which prompts and
+ 	# breaks workflows.
+ 	cp -a --parents include/generated/autoconf.h $kerneldir/build 2>/dev/null || :
++
++	if [ -e $kerneldir/include/generated/.vdso-offsets.h.cmd ]; then
++	    rm $kerneldir/include/generated/.vdso-offsets.h.cmd
++	fi
+     )
  
-                 licenses = os.listdir(pkg_license_dir)
-                 for lic in licenses:
--                    rootfs_license = os.path.join(rootfs_license_dir, lic)
-                     pkg_license = os.path.join(pkg_license_dir, lic)
-                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
- 
-@@ -144,6 +143,8 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                                 bad_licenses) == False:
-                             continue
- 
-+                        # Make sure we use only canonical name for the license file
-+                        rootfs_license = os.path.join(rootfs_license_dir, "generic_%s" % generic_lic)
-                         if not os.path.exists(rootfs_license):
-                             oe.path.copyhardlink(pkg_license, rootfs_license)
- 
+     # now grab the chunks from the source tree that we need
 -- 
 2.28.0
 
