@@ -1,76 +1,153 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.58702.1606736845915843868
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web09.59843.1606742654246625984
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 03:47:26 -0800
+ Mon, 30 Nov 2020 05:24:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fSOtoPOm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id e25so5754581wme.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 03:47:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=en55zYOt;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id n24so13951608edb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 05:24:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=UMTnTgGBfp1SObaNkgZZSwyO/AOvcGdBIEHdLzEMngo=;
-        b=fSOtoPOmzzOHqjreWWJs+aeS5aBCHxMHdi4iZgMik+6CpR6vpnY4dGIlnqjDinUFq5
-         baB8FU94un+fUA9ZEXcIdZNtjqOjvI1eiOnU2Vmb7I3rwO2063ZC/8awZOIa0neGLF7e
-         szv9neHtNOstEKDISj52CDcuN9ifgBrVCQF6o=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xWME1qzg7amN9VK9ni1H4mOeTlnE4rAhB07W2StIPPA=;
+        b=en55zYOtxuoWsgI+SRnPvvA2rp6CmxvjTyWgiENwdbAJvqkkTSRAbVX8dg8/AkkX+Y
+         aqt+jQFvce/8HKrzKbX4QYkjxXxIXQQ/KDreKRfzZIHE6YLdGZCWlsml86upTquQZjFl
+         YBYiC41TomRvu9gcZo2ZfcL5MqMdbI1wZC66VIGQkdQaSGPPFnnHWspXgPkTHz2Q1XGw
+         SEQGncXjyR7wNFPGChHUPbhizq1URN66tGn4KAfuy68HNPUKoGSWp8vfef/KNsH62TkM
+         MqgsMAy4DqFKqcTNgXOqIoCM5RK4svM+D156Fql0Qigdpo2WaEAQCLJ/xkP68Fcwk9xz
+         WhpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=UMTnTgGBfp1SObaNkgZZSwyO/AOvcGdBIEHdLzEMngo=;
-        b=oY31FTVKzEWXP7Hv7QaPnCWImH2RWAdICXf8tMwlnHwzssQ5uqA1r3EAgSmgxVTqfi
-         qxky028rrFQUuZ2kdq5kxUo6dSOylQ/NWteVgcvaE0d0fhBxu8qUSXNAdl9evGb5WOkQ
-         6dag7QTh1i8HAW0pPuXyJcqjbTJRo466WjEGtlryprZtbyzlM1/b3SYFMxuF7Johyto8
-         nB+v4u+hLYxpABruV6q0x5ebEB0k4yuXZflrbMHn5jdlhsT+cWs0M3zDw6yfI24IWXZV
-         ukr/MURl/+/wlcvnpH5oKDZzg/zFH4EMcs7cjUue87PgX4zl4phJLoiCH7oKrei34yvB
-         OWZg==
-X-Gm-Message-State: AOAM5310+tRYXyTs1iAhtzdl+rpwCSHeMbKFTkZq06Q4FSp+kRqkKoYV
-	FGHAR+/A6TGg824hen6rxJDgXw==
-X-Google-Smtp-Source: ABdhPJztN/ybN2deuzaFRlQhblXM+qSZ67b7rb7HGsA/UbL0vJY84PrN8kYMcpMPT1bXZXdyl9v84g==
-X-Received: by 2002:a1c:220a:: with SMTP id i10mr9277331wmi.93.1606736844412;
-        Mon, 30 Nov 2020 03:47:24 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 6.8.4.7.c.c.2.8.a.5.e.3.8.c.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.8.4.7.c.c.2.8.a.5.e.3.8.c.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b1c8:3e5a:82cc:7486])
-        by smtp.gmail.com with ESMTPSA id q12sm24250856wmc.45.2020.11.30.03.47.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 03:47:23 -0800 (PST)
-Message-ID: <1f005e64f11edd73d83461290baf0805f886fa41.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv2 1/4] pseudo: Simplify pseudo_client_ignore_path_chroot()
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 30 Nov 2020 11:47:23 +0000
-In-Reply-To: <dc076eec080ae9dd901ed4387b1a20239f7594ce.1606312002.git.pkj@axis.com>
-References: <cover.1606312002.git.pkj@axis.com>
-	 <dc076eec080ae9dd901ed4387b1a20239f7594ce.1606312002.git.pkj@axis.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xWME1qzg7amN9VK9ni1H4mOeTlnE4rAhB07W2StIPPA=;
+        b=GLTr0riKP67HH6Mq1h4s8UMtu58Lgu9sQHusoK4CBAXvgxg26Y2UCvBY7WF7Irt3jc
+         3/+sg0AM8xX9g01rzS6qFKtzdUToy0USoCKKfxaSHM3yC5ISLweegP3CPPNnOoRITXbQ
+         Svx3ait1RwoP2e5wy2BdDPHNnStkeRGdLBwqnYkZJOGPlC3/wHxJ94cuCM4RD8rCYb37
+         frBiDKYSRByuzo0oK9N8igI70pQRby/HP6DeSHDn01YUIQRpChEBu5HQH60q/Tbm056y
+         0Tq93VtqcVr1Nfv3VaOa7jVNSPSdHV2VUH7IrMZrAG2LvPq7+kmcbPCQ2c7EIAFEDDw4
+         UXqQ==
+X-Gm-Message-State: AOAM530Uo6RYG7AAgukth8ONZbiyBCPVK/t3f0VoWMwZClZ7wqP0fFCL
+	5YNKCWd+K3x6G4c/e/L76kGMly0Gmojd8d38dmw=
+X-Google-Smtp-Source: ABdhPJwjD/kXN7/T4FOwihpQubyZichT+rbjHRwi01oIaaJ4oM0dIvsDWIjYsURiwsrsT3KxX45hxTmr2uDWLwU9Xro=
+X-Received: by 2002:a05:6402:17ad:: with SMTP id j13mr21817623edy.347.1606742652662;
+ Mon, 30 Nov 2020 05:24:12 -0800 (PST)
 MIME-Version: 1.0
+References: <20201118045633.47396-1-bruce.ashfield@gmail.com> <CAP71Wjzp=9QWJLvANLXw2p6YtbgbZbK6yx0sxHVU2zBKB7x1oA@mail.gmail.com>
+In-Reply-To: <CAP71Wjzp=9QWJLvANLXw2p6YtbgbZbK6yx0sxHVU2zBKB7x1oA@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 30 Nov 2020 08:24:01 -0500
+Message-ID: <CADkTA4NxyxdJaCboGLdjE8syqDO+MBVVNOoRe4rTs90Ym_sp_g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] kernel: relocate copy of module.lds to module compilation task
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: Steve Sakoman <steve@sakoman.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-Hi Peter,
+On Mon, Nov 30, 2020 at 2:38 AM Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+>
+> hi Steve and Bruce,
+>
+> On Wed, Nov 18, 2020 at 5:56 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > There were two copies of this patch floating around, and the merged
+> > variant has the copy in the wrong place.
+> >
+> > module.lds is only created during modules_prepare, and that target is
+> > not invoked during our main build of the kernel. We aren't about to
+> > change the kernel build (there's no need), so we move the copy into
+> > the compile_kernelmodules task. After that runs, we have module.lds
+> > availble to copy.
+> >
+> > This has been tested against clean kernel + out of tree module
+> > builds, and the dependencies are correct that the file is copied
+> > before the out of tree module build starts.
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+>
+> Can we get this patch into dunfell? This is fixing a bug for BSP using
+> 5.10+ kernel, so I believe this is important for LTS. I haven't
+> attempted to backport it yet.. but let me know if you need help with
+> the backport.
 
-On Wed, 2020-11-25 at 14:48 +0100, Peter Kjellerstedt wrote:
-> This also plugs a memory leak in pseudo_client_ignore_path_chroot().
-> 
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+For a backport, you need this patch and also the one that it is tweaking:
+[kernel: provide module.lds for out of tree builds in v5.10+], but I didn't
+check to see if Steve had already grabbed that one.
 
-I make no claim to understand what happened but I tried patches 1 and 2
-in a build over the weekend and with the first two present:
+I also don't see any issue with this, and the backport is simple enough since
+it is additive to what we copy into the artifacts.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1602
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1584
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1586
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1610
+Like building on newer distros, we will eventually run into newer kernel
+support that we can't backport or support on dunfell .. but this isn't that
+case!
 
-I then removed this one leaving only patch 2 and the build was fine.
-
-So there is something odd in this patch but I've not looked into what
-or why only selftest is affected.
+Steve: it should be a simple cherry pick, if it isn't, let me know and I can
+send the patches.
 
 Cheers,
 
-Richard
+Bruce
 
+>
+>
+> > ---
+> >
+> > v2:
+> >
+> > I had done my test builds on a branch that didn't actually contain my
+> > change, hence why 5.8 builds where blowing up.
+> >
+> > I switched to the if [ ] model, since that doesn't run afoul of the
+> > exit handler. I do find it curious that the compile task behaves so
+> > differently than the install ones (even with set +e, I couldn't use
+> > the [ ] method.
+> >
+> > Anyway, this is tested against 5.8 and 5.10 + eternal module builds
+> >
+> > Bruce
+> >
+> >  meta/classes/kernel.bbclass | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> > index ccd74e61e8..8b28ee626f 100644
+> > --- a/meta/classes/kernel.bbclass
+> > +++ b/meta/classes/kernel.bbclass
+> > @@ -391,6 +391,10 @@ do_compile_kernelmodules() {
+> >                 # other kernel modules and will look at this
+> >                 # file to do symbol lookups
+> >                 cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
+> > +               # 5.10+ kernels have module.lds that we need to copy for external module builds
+> > +               if [ -e "${B}/scripts/module.lds" ]; then
+> > +                       install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
+> > +               fi
+> >         else
+> >                 bbnote "no modules to compile"
+> >         fi
+> > @@ -494,7 +498,6 @@ do_shared_workdir () {
+> >         # Copy files required for module builds
+> >         cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+> >         [ -e Module.symvers ] && cp Module.symvers $kerneldir/
+> > -       [ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
+> >         cp .config $kerneldir/
+> >         mkdir -p $kerneldir/include/config
+> >         cp include/config/kernel.release $kerneldir/include/config/kernel.release
+> > --
+> > 2.19.1
+> >
+> >
+> > 
+> >
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
