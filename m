@@ -1,387 +1,204 @@
-Received: from mga04.intel.com (mga04.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.53737.1606698751849314392
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web11.55294.1606708348310392903
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Nov 2020 17:12:32 -0800
+ Sun, 29 Nov 2020 19:52:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: WTYWB5p/XAt02fmonpx98nKY688IFo7ZixC3LIhmHsMPkSs8aUP8rdl1s6bqmmJcuMUYOVC+ZN
- LuapdPGmE4cA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="170004452"
-X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="170004452"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:12:27 -0800
-IronPort-SDR: B6LAOTqS3RasFqtVcmGc5MGmezL9hY99OAtKLyco2cqeDXiYCcFxFP82BRmUldm4CjyHto0aPO
- n75ZjyByyoLQ==
-X-IronPort-AV: E=Sophos;i="5.78,379,1599548400"; 
-   d="scan'208";a="372302748"
-Received: from ajraj-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.213.114.166])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2020 17:12:25 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 21/21] lttng-modules: Backport a patch to fix btrfs build failure
-Date: Mon, 30 Nov 2020 09:11:36 +0800
-Message-Id: <af428fa2432279d24cdf2a62f9dee91b30d46c3a.1606698421.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1606698421.git.anuj.mittal@intel.com>
-References: <cover.1606698421.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IjiRrnmj;
+ spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f174.google.com with SMTP id b10so8159876pfo.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Nov 2020 19:52:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=cXnCarkTjokgjDr06kJua362RdJqvcYz4fr41lzOrcs=;
+        b=IjiRrnmjQmaPGX5CHoxxldrELvv5lQ0P793p5t5Z46+cp207coQlvZYnb1vwU2NMyX
+         Hda4aYFEIFSV1u5zpKJ75e43TGYY5p7UtmyciuYIarf1oC5LEyhA0xdjfGj5a7jhuMRJ
+         iKqhVA7pZ2Ta9tg2KlF/5MS0x5FcSexQKryhYv+7k1xd1eDdMYK48jueHCIW/kUs+Et3
+         b+uidAxtHfJ3F80HDTQT0pbhsB5EaSGUrWKqq29FcDQJBjWfygnw+RBqfv4zG4NaE6pQ
+         N0hKyCmnwY63ChE4WkxbnXzD2kzZ5Y2A/Wnjrt1mcT+U4rOz+JxKRggFEh4o7cuBvPE+
+         ajTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=cXnCarkTjokgjDr06kJua362RdJqvcYz4fr41lzOrcs=;
+        b=AsYqoQzOd5NPy2uiMU/GbEnFBzvHFvowKRJEN30F65AaOC0Vj8plyOahtFIr9cafuz
+         DRAUUmTWFqypIrVj8RdEFu1Un/QqYKHtJGOd+pHoBisqK1HZQLdtN3CtbNjEpEyy7PWF
+         bskkflTA8gt1igB8YRRSGwljJzUlIo7nrEJ6dyy3dhppJeYQPeBlEWjTMsK0wXcC/+E5
+         5RLJRKumT555Q70nUmX12044phBeIMk1uO7PeaSPv/ok8Z5glqNOdYX/XnZLkQwonqV2
+         sXHizZdSVp3bStk0AJnBU1MYDjfawSYO4Vyqu4UCM3IUW4dyg2pI34d9eaxqRFa+kY14
+         U6pw==
+X-Gm-Message-State: AOAM533QswxT2Ge5jQMK36R51UarMQHEArmza9mB9DmrRW73WGKVu2RV
+	d4K5eg/4G6T/whn48XBfiokgj70kgZLY1Q==
+X-Google-Smtp-Source: ABdhPJzrJrpPGPiT2cq3AmvTtGZ25/7oSEklB+pZloJCxpKeQpKvUjnNtBC+jNRuYkIlZ4x3LkS4mw==
+X-Received: by 2002:a63:e54b:: with SMTP id z11mr3874686pgj.158.1606708347305;
+        Sun, 29 Nov 2020 19:52:27 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:50da:b39c:9932:258b? ([2601:202:4180:a5c0:50da:b39c:9932:258b])
+        by smtp.gmail.com with ESMTPSA id c2sm14787219pfi.21.2020.11.29.19.52.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 29 Nov 2020 19:52:26 -0800 (PST)
+Subject: Re: [OE-core] [PATCH 00/18] Move python3-pytest to oe-core
+To: Tim Orling <ticotimo@gmail.com>, openembedded-core@lists.openembedded.org
+References: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
+From: "akuster" <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+ xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
+ Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
+ mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
+ aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
+ mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
+ C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
+ Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
+ 7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
+ dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
+ FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABzSFha3VzdGVyODA4
+ IDxha3VzdGVyODA4QGdtYWlsLmNvbT7CwX0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
+ FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
+ vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
+ ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
+ IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
+ g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
+ rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
+ FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
+ wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
+ t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
+ aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
+ oRoyDxDOwU0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
+ Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
+ 37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
+ 0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
+ IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
+ 0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
+ 0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
+ ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
+ UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
+ Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAHCwWUEGAEI
+ AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
+ mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
+ ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
+ vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
+ JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
+ EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
+ dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
+ /mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
+ PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
+ ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
+ 8CS2NxU=
+Message-ID: <1e770a99-711b-c9e6-829e-497e5180a31f@gmail.com>
+Date: Sun, 29 Nov 2020 19:52:25 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <cover.1606536874.git.timothy.t.orling@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: He Zhe <zhe.he@windriver.com>
 
-lttng-modules-2.12.3/probes/lttng-probe-btrfs.c:36:
-lttng-modules-2.12.3/probes/../probes/lttng-tracepoint-event-impl.h:131:6:
-error: conflicting types for 'trace_find_free_extent'
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 42c791ab3815b47188fdd98998cdcb3d2c62ef20)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- ...oints-output-proper-root-owner-for-t.patch | 318 ++++++++++++++++++
- .../lttng/lttng-modules_2.12.3.bb             |   1 +
- 2 files changed, 319 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
+On 11/27/20 8:24 PM, Tim Orling wrote:
+> From: Tim Orling <timothy.t.orling@linux.intel.com>
+>
+> We are increasingly needing pytest in oe-core, so it is time to move it
+> from meta-python.
+>
+> This series first imports the recipes -- as-is -- from meta-python.
+> Second, the maintainers.inc is updated to add myself as maintainer for all
+> the new recipes.
+> Third, the two recipes that have stable updates are updated to their
+> latest releases.
+> Finally, a fix caught during ptest runs is added for RDEPENDS for
+> pytest.
+>
+> This was built on 'nodistro' with only openembedded-core and tested on 
+> qemux86-64. All the new recipes that have ptests pass all tests.
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
-new file mode 100644
-index 0000000000..956f53d7b7
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
-@@ -0,0 +1,318 @@
-+From e13a7d262928984154fcf89feb14098e0cd1ad31 Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Tue, 27 Oct 2020 11:42:23 -0400
-+Subject: [PATCH 04/11] fix: btrfs: tracepoints: output proper root owner for
-+ trace_find_free_extent() (v5.10)
-+
-+See upstream commit :
-+
-+  commit 437490fed3b0c9ae21af8f70e0f338d34560842b
-+  Author: Qu Wenruo <wqu@suse.com>
-+  Date:   Tue Jul 28 09:42:49 2020 +0800
-+
-+    btrfs: tracepoints: output proper root owner for trace_find_free_extent()
-+
-+    The current trace event always output result like this:
-+
-+     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=4(METADATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=4(METADATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=4096 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=2(EXTENT_TREE) len=4096 empty_size=0 flags=1(DATA)
-+
-+    T's saying we're allocating data extent for EXTENT tree, which is not
-+    even possible.
-+
-+    It's because we always use EXTENT tree as the owner for
-+    trace_find_free_extent() without using the @root from
-+    btrfs_reserve_extent().
-+
-+    This patch will change the parameter to use proper @root for
-+    trace_find_free_extent():
-+
-+    Now it looks much better:
-+
-+     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=5(FS_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=4096 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=8192 empty_size=0 flags=1(DATA)
-+     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=7(CSUM_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+     find_free_extent: root=1(ROOT_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
-+
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+Change-Id: I1d674064d29b31417e2acffdeb735f5052a87032
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ instrumentation/events/lttng-module/btrfs.h | 206 ++++++++++++--------
-+ 1 file changed, 122 insertions(+), 84 deletions(-)
-+
-+diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
-+index 7b29008..52fcfd0 100644
-+--- a/instrumentation/events/lttng-module/btrfs.h
-++++ b/instrumentation/events/lttng-module/btrfs.h
-+@@ -1856,7 +1856,29 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
-+ 
-+ #endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)) */
-+ 
-+-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0) || \
-++	LTTNG_KERNEL_RANGE(5,9,6, 5,10,0) || \
-++	LTTNG_KERNEL_RANGE(5,4,78, 5,5,0))
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(root, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, root->lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, root_objectid, root->root_key.objectid)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
-++
-+ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+ 
-+ 	btrfs_find_free_extent,
-+@@ -1874,6 +1896,105 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+ 	)
-+ )
-+ 
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(fs_info, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(fs_info, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(fs_info, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++
-++#elif (LTTNG_SLE_KERNEL_RANGE(4,4,73,5,0,0, 4,4,73,6,0,0) || \
-++	LTTNG_SLE_KERNEL_RANGE(4,4,82,6,0,0, 4,4,82,7,0,0) || \
-++	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
-++	LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(root, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_integer(u64, root_objectid, root->root_key.objectid)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
-++
-++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-++
-++	btrfs_find_free_extent,
-++
-++	TP_PROTO(struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-++		 u64 data),
-++
-++	TP_ARGS(root, num_bytes, empty_size, data),
-++
-++	TP_FIELDS(
-++		ctf_integer(u64, root_objectid, root->root_key.objectid)
-++		ctf_integer(u64, num_bytes, num_bytes)
-++		ctf_integer(u64, empty_size, empty_size)
-++		ctf_integer(u64, data, data)
-++	)
-++)
-++#endif
-++
-++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(const struct btrfs_block_group *block_group, u64 start,
-+@@ -1907,22 +2028,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ )
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(fs_info, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+ 
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+@@ -1957,22 +2062,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ )
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(fs_info, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+ 
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+@@ -2011,23 +2100,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0))
-+ 
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(fs_info, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+-
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(struct btrfs_fs_info *fs_info,
-+@@ -2066,23 +2138,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ 	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
-+ 	LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
-+ 
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(root, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_integer(u64, root_objectid, root->root_key.objectid)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+-
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(const struct btrfs_root *root,
-+@@ -2120,23 +2175,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
-+ 
-+ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
-+ 
-+-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
-+-
-+-	btrfs_find_free_extent,
-+-
-+-	TP_PROTO(struct btrfs_root *root, u64 num_bytes, u64 empty_size,
-+-		 u64 data),
-+-
-+-	TP_ARGS(root, num_bytes, empty_size, data),
-+-
-+-	TP_FIELDS(
-+-		ctf_integer(u64, root_objectid, root->root_key.objectid)
-+-		ctf_integer(u64, num_bytes, num_bytes)
-+-		ctf_integer(u64, empty_size, empty_size)
-+-		ctf_integer(u64, data, data)
-+-	)
-+-)
-+-
-+ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
-+ 
-+ 	TP_PROTO(struct btrfs_root *root,
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-index 0b6a69ff5e..ca79e27df6 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-@@ -11,6 +11,7 @@ include lttng-platforms.inc
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-+           file://0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch \
-            "
- 
- SRC_URI[sha256sum] = "673ef85c9f03e9b8fed10795e09d4e68add39404b70068d08b10f7b85754d7f0"
--- 
-2.28.0
+cool. This will reduce the number needed from meta-python  that the
+sphinx recipe needs.
+
+need to rebase my work.
+-armin
+>
+> The following changes since commit 6e3785a3f1f3cf68f5fe101cd6bebe91db165973:
+>
+>   uninative: Don't use single sstate for pseudo-native (2020-11-24 15:53:04 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib timo/add-pytest-to-oe-core
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=timo/add-pytest-to-oe-core
+>
+> For convenience, the same series is also available at the Git repository
+> at:
+>
+>  git://git.yoctoproject.org/poky-contrib timo/move-pytest-to-core
+>  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=timo/move-pytest-to-core
+>
+> Tim Orling (18):
+>   python3-atomicwrites: move from meta-python
+>   python3-attrs: move from meta-python
+>   python3-iniconfig: move from meta-python
+>   python3-more-itertools: move from meta-python
+>   python3-pathlib2: move from meta-python
+>   python3-toml: move from meta-python
+>   python3-py: move from meta-python
+>   python3-setuptools-scm: move from meta-python
+>   python3-packaging: move from meta-python
+>   python3-wcwidth: move from meta-python
+>   python3-zipp: move from meta-python
+>   python3-importlib-metadata: move from meta-python
+>   python3-pluggy: move from meta-python
+>   python3-pytest: move from meta-python
+>   maintainers.inc: add self for new pytest packages
+>   python3-more-itertools: upgrade 8.5.0 -> 8.6.0
+>   python3-importlib-metadata: upgrade 2.0.0 to 3.1.0
+>   python3-pytest: RDEPENDS on python3-toml
+>
+>  meta/conf/distro/include/maintainers.inc      | 14 +++++++
+>  .../python/python3-atomicwrites/run-ptest     |  3 ++
+>  .../python/python3-atomicwrites_1.4.0.bb      | 25 ++++++++++++
+>  .../python/python3-attrs_20.3.0.bb            | 20 ++++++++++
+>  .../python3-importlib-metadata_3.1.0.bb       | 18 +++++++++
+>  .../python/python3-iniconfig_1.1.1.bb         |  9 +++++
+>  .../python/python3-more-itertools/run-ptest   |  3 ++
+>  .../python/python3-more-itertools_8.6.0.bb    | 23 +++++++++++
+>  .../python/python3-packaging_20.4.bb          | 14 +++++++
+>  .../python/python3-pathlib2_2.3.5.bb          | 13 +++++++
+>  .../python/python3-pluggy/run-ptest           |  3 ++
+>  .../python/python3-pluggy_0.13.1.bb           | 27 +++++++++++++
+>  .../python/python3-py_1.9.0.bb                | 15 +++++++
+>  ...he-setup_requires-for-setuptools-scm.patch | 39 +++++++++++++++++++
+>  .../python/python3-pytest_6.1.2.bb            | 39 +++++++++++++++++++
+>  .../python/python3-setuptools-scm_4.1.2.bb    | 21 ++++++++++
+>  .../python/python3-toml_0.10.2.bb             | 15 +++++++
+>  .../python/python3-wcwidth/run-ptest          |  3 ++
+>  .../python/python3-wcwidth_0.2.5.bb           | 25 ++++++++++++
+>  .../python/python3-zipp_3.4.0.bb              | 19 +++++++++
+>  20 files changed, 348 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-atomicwrites/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-atomicwrites_1.4.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-attrs_20.3.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-importlib-metadata_3.1.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-iniconfig_1.1.1.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-more-itertools/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-more-itertools_8.6.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-packaging_20.4.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-pathlib2_2.3.5.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-pluggy/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-pluggy_0.13.1.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-py_1.9.0.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-pytest_6.1.2.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-setuptools-scm_4.1.2.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-toml_0.10.2.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-wcwidth/run-ptest
+>  create mode 100644 meta/recipes-devtools/python/python3-wcwidth_0.2.5.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-zipp_3.4.0.bb
+>
+>
+> 
+>
 
