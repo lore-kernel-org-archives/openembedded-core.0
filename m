@@ -1,68 +1,120 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web12.60135.1606744827581083943
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web09.60418.1606745462234943544
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 06:00:27 -0800
+ Mon, 30 Nov 2020 06:11:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gD/bPXaQ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id z7so16347379wrn.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 06:00:27 -0800 (PST)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=EahTPHuc;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.67, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f67.google.com with SMTP id u18so21858301lfd.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 06:11:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ajZAPHKAiLGLw6byMeXQBBaF4KbaOOViR8xzC2grVq8=;
-        b=gD/bPXaQ2Nrb+R0b9lalVouUhfpVVcFMQ9b8rukZzONjDTiK4XBOXHmUyvBg4oBI35
-         UM/qWSMUrPn2tmQilYFAdSURw/b02ltgT9dTfdEQsfaHCM2NJw6W8/ohJ9IHAQQWqOGi
-         y0jQn0XfQUka9DdD6RansQ+u/rcxzVt2g0VNI=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tqUhbf3D4Xs94VKycC7lpVJyW8zSu4jAK4cxAajABlw=;
+        b=EahTPHucchlrBJrNanN3f7fa6hESHQn2QUhWZNUrT1OC4Mun1Xfd1jnJRhJGx/fxno
+         P85BhLwlFlB+nrWt0g9+Vr1j2XrmbLd69Y2Lpgb8Z6HTgIRLVzD/ADWBcxB5Y+sjZixk
+         KwTtJFsmYQjjVP8JBaal+Sb+oy/3v021PcTV/rcBg2KIN2e3xF2u2DpCprjN2xQ1S8kt
+         RSjX2zgp6EvWvHAjRy1Lst3NO6Ey+doJhOJ/m1gpZBhlTMJO4XkWSPP5M4SSMFvlgRl9
+         /8tTLJ3+rqGfcWZjoyrPWbFcTLwZeaaoizaYBcnZgWagEgoGg7voMyxMNqpkVn2mSwmm
+         LL5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ajZAPHKAiLGLw6byMeXQBBaF4KbaOOViR8xzC2grVq8=;
-        b=GVqkIeIRclGEXcO/cR8yoCZszgpNhubsNaQGwXId6/bS3W7tWllxkOLI5vE8t0iZqT
-         NPdiprIiOYi2z7ddxcWY4cRH7ZlsKJlW9LG+oYGX7Gb5ZdqDIIAot4ECOF0pUpHduxtV
-         1CygB1mmXOeCJWlLO2kg1B6aX+sZWvHtYZeS0Zdwu+qCvoLH2VWxkCVT54nt/5qDxslj
-         YR4yBXF3k2C3MT70J8gI5Y/PpPplVBDVKQdcm9awcsrLii2TJK8CJNCMltn6kU17Ql9p
-         NFZ1ArxBuNOX48wPBXKLzd5gIZhkFMhWtOWy1CSFv/QCbY5cLFxFXqac6efLXNL6dAKh
-         3CmA==
-X-Gm-Message-State: AOAM533AAy+7V2nH9wwJdwO3ltPFhJjaOjiEd0WoV8yBXW0kKf/mlc0i
-	IY+RcIJmx5Tbalj5vhIzCUxsOg==
-X-Google-Smtp-Source: ABdhPJx9dPJVVdNM886DtNEUH80buywHI4+GfUHabIq4yQROIXqvL4A/qZHxZ8bmKPvmUX7wY92Lvg==
-X-Received: by 2002:adf:9144:: with SMTP id j62mr28400211wrj.419.1606744825991;
-        Mon, 30 Nov 2020 06:00:25 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 6.8.4.7.c.c.2.8.a.5.e.3.8.c.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.8.4.7.c.c.2.8.a.5.e.3.8.c.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b1c8:3e5a:82cc:7486])
-        by smtp.gmail.com with ESMTPSA id q12sm26625883wrx.86.2020.11.30.06.00.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 06:00:23 -0800 (PST)
-Message-ID: <2fb035ec3e4435752754f3b7bd895a52bce18d0a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] lz4: Use the new branch naming from upstream
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Nov 2020 14:00:22 +0000
-In-Reply-To: <20201130135131.5vxtbajvhepxc474@qschulz>
-References: <20201130134703.3279682-1-richard.purdie@linuxfoundation.org>
-	 <20201130135131.5vxtbajvhepxc474@qschulz>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tqUhbf3D4Xs94VKycC7lpVJyW8zSu4jAK4cxAajABlw=;
+        b=Qt8HFQobSFeyMCR2+l2/jzHb+zFL82Ll4uErN1osLiplbfTVZlSbYI0bLZDmaSa1aI
+         FS0VhUjQd13Ssq7XIoGRg9ABskd5H6uSO24E0AxcuqVePnOIC1aPzns8VajbbViBzsTE
+         /nV6y4myRWRzJt8eXGF/Bizs544OYk/LbbddkHX0fWCUWRNYwrhmBlsKJUD4Jv6xMKx7
+         qzi2QIk47x7Yp5hKv9UoLfMXih2myz5G+FIrr6KB7TJwomxohFovCgJ5N/oyHNCIB3Sq
+         0z8gmU5YmXxVV+i0xMudt1QmZAa+pGRBbtfVfS+7KUIz9z/RzK978Mx3HQ5iNGh2CrGC
+         UsFA==
+X-Gm-Message-State: AOAM532g+iitYvfQ7PsTqGeeCDgEFC4oLsLuPWBN01kmanGCA/NW8oPd
+	bsGl6wgS2EqjtyB0lJSs9mN5zWX8ituyYlXNKY3p9A==
+X-Google-Smtp-Source: ABdhPJyLx7TuAuJDQeQvJnK01qum4mfiyBtpVoz4whLlzyzuMN2FduWECvaMN/r3NY6vRZIy30xz4JbJRWeAqMuwq60=
+X-Received: by 2002:a19:4a41:: with SMTP id x62mr10041545lfa.398.1606745458890;
+ Mon, 30 Nov 2020 06:10:58 -0800 (PST)
 MIME-Version: 1.0
+References: <20201129074802.1493537-1-raj.khem@gmail.com> <20201129074802.1493537-2-raj.khem@gmail.com>
+In-Reply-To: <20201129074802.1493537-2-raj.khem@gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 30 Nov 2020 14:10:44 +0000
+Message-ID: <CAAnfSTsTrHve_H+WMKdt7d2bYWC+mBKoTcWwa0sZ-Mo=xWWs6g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v5 2/5] python3-numpy: Add ptest
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-11-30 at 14:51 +0100, Quentin Schulz wrote:
-> Hi Richard,
+Why are all the patches from this not squashed into this?  We don't
+need to see the bugs you fixed.
+
+Ross
+
+On Sun, 29 Nov 2020 at 07:48, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Since 1.15, numpy have replaced nose with pytest testing framework
+> it additionally needs hypothesis and sortedcontainers modules
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/python-numpy/files/run-ptest         | 5 +++++
+>  meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb | 7 +++++--
+>  2 files changed, 10 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-devtools/python-numpy/files/run-ptest
+>
+> diff --git a/meta/recipes-devtools/python-numpy/files/run-ptest b/meta/recipes-devtools/python-numpy/files/run-ptest
+> new file mode 100644
+> index 0000000000..9a1c72aeb1
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python-numpy/files/run-ptest
+> @@ -0,0 +1,5 @@
+> +#!/usr/bin/env python3
+> +
+> +import numpy
+> +numpy.test(label='full', verbose=2)
+> +
+> diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+> index d54f2f6c18..b484e7cddc 100644
+> --- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+> +++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+> @@ -8,6 +8,7 @@ SRCNAME = "numpy"
+>  SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+>             file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
+>             file://0001-numpy-core-Define-RISCV-32-support.patch \
+> +           file://run-ptest \
+>  "
+>  SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"
+>
+> @@ -16,7 +17,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+>
+>  DEPENDS += "python3-cython-native"
+>
+> -inherit setuptools3
+> +inherit ptest setuptools3
+>
+>  S = "${WORKDIR}/numpy-${PV}"
+>
+> @@ -30,7 +31,6 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
+>                    ${PYTHON_PN}-pprint \
+>                    ${PYTHON_PN}-pickle \
+>                    ${PYTHON_PN}-shell \
+> -                  ${PYTHON_PN}-nose \
+>                    ${PYTHON_PN}-doctest \
+>                    ${PYTHON_PN}-datetime \
+>                    ${PYTHON_PN}-distutils \
+> @@ -39,6 +39,9 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
+>                    ${PYTHON_PN}-netclient \
+>                    ${PYTHON_PN}-numbers \
+>                    ${PYTHON_PN}-pydoc \
+> +                  ${PYTHON_PN}-pytest \
+> +                  ${PYTHON_PN}-hypothesis \
+> +                  ${PYTHON_PN}-sortedcontainers \
+>                    ${PYTHON_PN}-pkgutil \
+>                    ${PYTHON_PN}-email \
+>                    ${PYTHON_PN}-compression \
+> --
+> 2.29.2
+>
+>
 > 
-> On Mon, Nov 30, 2020 at 01:47:03PM +0000, Richard Purdie wrote:
-> > Upstream renamed master -> dev, update SRC_URI to match.
-> > 
-> 
-> Wondering if "release" branch does not make more sense?
-
-Good question. Dev had the revision we're using in so I didn't look
-further. In practise I'm not sure it matters too much...
-
-Cheers,
-
-Richard
-
+>
