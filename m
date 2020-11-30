@@ -1,90 +1,49 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web11.63015.1606756357612938960
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web12.194.1606757384789039136
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 09:12:38 -0800
+ Mon, 30 Nov 2020 09:29:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ROgWKqSb;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.50, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f50.google.com with SMTP id qw4so13108233ejb.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 09:12:37 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PV+PGnLC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.53, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f53.google.com with SMTP id y22so9010051edv.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 09:29:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:from:date:message-id:subject:to;
-        bh=5rUT0eo67xqw2Kqfm/08BL2UmssNRNtPIGYFRLWdnfE=;
-        b=ROgWKqSbu5btY/AnsLQdLvumXlG6CMYF2eb3Swvg/ltzt1ynIrvikArlP0tA1AxcGC
-         iaI/04T5A6IWIvhgjv7I9kIXeJwyt5Kc/JF7rp0GWczUbo1LHVSrzGIz+gD7TXFBWMkM
-         +lP9dDznXTuw4JrmYBXIzrjxmv5HS76Y++EeBMPScSsK//u0yyQSUPSkP0QRtYik5Ne/
-         ULTIFdFWXJvBu9gjN15G9sDBlImGFhlSpDPDL3Qz2BAKnVy3ybpUwFZb9+oRYpOzOR6U
-         yXHN/CwMGcBKxUh1OeHsWC6zf0uD+g9dyQHugWjFzm6L5LFP40VUqtJCNy0UN6kfLx9n
-         ikKw==
+        bh=hi0fiCsn2VjSsam1CiI4tA7EwqRR3XrfjgSkOPGZghw=;
+        b=PV+PGnLCIfgpobxZcRR1Jh2j/9drNJOKbSVwGyWILv7s38ggFQ1IOAYbcaPTdr10IB
+         1IO1cXxYO8tbtoDfPMRZFQeNUloFx4uTvsidFuQNJhYVdHyTdUtelAc+9ITdZL7KlAaD
+         RF61d5pQ/m7Vs6vnsxtLq9+kwPNAcu2N+KRxThn+/BLzDKPL06C6nH4mK7h7/4Dj5jS1
+         qbxRG2pYBkW4kgXLFka9PXLo0pJKXKlGO28Z+PZMFHeCXcfJNTRtkcqZb/LcjIUsUfdo
+         gmt7wDL4dE7aXdEbuZ2LzaWTLueNadm7Un4jDS6NtvFt4JP2fFyF3MPhcSsO/JOG4nql
+         5B4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=5rUT0eo67xqw2Kqfm/08BL2UmssNRNtPIGYFRLWdnfE=;
-        b=UtKwJoIVccdhuDR0YCzFDTB2VvL+l7peP6sHlOBN0XVdN4kemAHfHOjspuCgJVxB5C
-         gdgE2wZ886JfrEJahKAntkyqQDML65zllZmZI8facFuCEKpCydur+IUcum3EPsus4nHr
-         T9w8f1Dy2GqosF9HKY27nJQnPiSic/MuFGv+NYOKuUdZ6nBIc3JOixXJY0IbDaYnbcA8
-         BECxU1g6qEU4MiKk7Tcv73cc9QtifETOKZngej6mfn+Zrob17+errjbDNmayBGCFlbfM
-         bri50eqC9z+BqGh2qTrvzX2IgtkuWmXWBZlcz7EJBSy+8NFuvZvYULZS4GzCwTMeNq61
-         r3Kg==
-X-Gm-Message-State: AOAM533ytZzGWxjbwZ09beIbkpkSU8F9qO3wQ3UPt6mUpEE617aq+aZa
-	1qHE/KRkxLzkIZeyKKV2x4O5e5He44PZ+j/61MSOZkpqMMzjQTy6
-X-Google-Smtp-Source: ABdhPJyDPGH05k5f9dtUQS2JwRzNKVKsTS6I+32zncOAMgUIQLEme7Gx9x9+jJsDNSvJkWhsehykksfhaxjiOAWQeAg=
-X-Received: by 2002:a17:906:4e52:: with SMTP id g18mr20885674ejw.385.1606756355441;
- Mon, 30 Nov 2020 09:12:35 -0800 (PST)
+        bh=hi0fiCsn2VjSsam1CiI4tA7EwqRR3XrfjgSkOPGZghw=;
+        b=F6DF7QWrsPNbWHtHbwBFM9dfHCK/XeNhKESAsyn20PNHhguDzk0bGo5s+L0vnEZwSr
+         +N+2+kogWc8fASg+t6coN9IpMs+160+tk/KIOFoKf9z4vkR8mD42mGLrN+ZyxRAJDxHw
+         LG4sfFFAxUlXirwYPVm3vABt3aj9mjNGbLqOpvooPC6YD9TUNfKp4jbeOAVoEBtiHzOZ
+         49fOUj30TgaAZrUcm62EARSowCf3p1zhHs9jaSLGE6EfVuq3SkTsvbyq/LEeyy1InqXZ
+         4FopOHbSBD5oJAXdeb3D/w08+/vQfcCCKE0s3ry9wvJHx1Lwq9qc7CMoAADqIY+Maoll
+         h/VA==
+X-Gm-Message-State: AOAM530NU4QWY8viWa7sPiGZNKd/zrMJuGaJXxXbDZ7nVZc++z/wNjpe
+	9UhrejecIbCZThLzvoIPW6ErbjCECqfa+sFBpf8CWzBN8Y+ub/mU
+X-Google-Smtp-Source: ABdhPJy601pMt03RFiHQhK7dtNv/ZcPHuFKNw4KlWu01ZHn2fdEqPaBFLG7Q9Qb3bXFfzvHbafauMYFBZU4Ih8C1bxQ=
+X-Received: by 2002:a05:6402:2da:: with SMTP id b26mr22280317edx.176.1606757382827;
+ Mon, 30 Nov 2020 09:29:42 -0800 (PST)
 MIME-Version: 1.0
 From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 30 Nov 2020 07:12:24 -1000
-Message-ID: <CAOSpxdZ8PdqOkiGqvhFRmQMH814kMj0RRC5shpZDP4yHoJOsYQ@mail.gmail.com>
-Subject: Dunfell CVE reduction fun: December raffle
+Date: Mon, 30 Nov 2020 07:29:32 -1000
+Message-ID: <CAOSpxdbVWXUD2i+Ewpq72i2hr=L8-_Tp+Oaf7NnX5HAwPc4eJw@mail.gmail.com>
+Subject: CVE raffle: collision avoidance
 To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-We've been making good progress on reducing the number of issues
-reported by the CVE checker.  We went from 202 on August 16 to 59 on
-November 29.
-
-Some of these reductions have come from sending in corrections to the
-CVE database where there were errors in version matching, and others
-have come from backported fixes or whitelisting..  Many thanks to all
-who have helped!
-
-To encourage more folks to contribute to this effort I'm going to be
-holding a raffle during the month of December.  You'll get one entry
-for each CVE fix patch that I merge into dunfell.  And a database
-update that results in a reduction in dunell reported issues will also
-get you an entry.
-
-The prize?  A bag of fresh roasted whole bean coffee from my small
-coffee orchard here on the Big Island of Hawaii.  If the winner isn't
-a coffee drinker I'll try to get some locally grown tea as a
-substitute prize.
-
-The fine print:
-
-1. Patches and database update requests must be submitted during the
-month of December to receive a raffle entry.
-
-2. CVE patch submissions should follow the guidelines in the "Patch
-name convention and commit message" section of
-https://wiki.yoctoproject.org/wiki/Security
-
-3. If the patch also applies to master please send the patch for
-master and note that it should be backported to dunfell/gatesgarth as
-appropriate.  I'll pull this type of patch into dunfell only after it
-hits master.
-
-4. CVE database update requests should be sent to:
-cpe_dictionary@nist.gov  You should note the CVE number and provide
-supporting links for why you think an update is appropriate. When you
-receive a "Thank you for bringing this to our attention. We appreciate
-community input" response please forward a copy to me.  I'll add your
-raffle entry to the pool when the database is updated and the dunfell
-cve count reduced.
-
-5. To help avoid people working on the same CVE's I'll start a "CVE
-raffle: collision avoidance" thread on this list.  Just do a quick
-reply noting which CVE you plan to work on.  Please don't claim one
+Reply to this thread noting which CVE you plan to work on.  Please
+don't claim one
 unless you really intend to follow through!
 
-Steve
+Note: there are already outstanding CVE database update requests for
+most of the older qemu issues.  Fixes for recent CVE's are fair game
+though!
