@@ -1,94 +1,81 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web12.13083.1606841395437451173
+Received: from linuxplesk15.openhost.net.nz (linuxplesk15.openhost.net.nz [119.47.118.83])
+ by mx.groups.io with SMTP id smtpd.web11.13494.1606842843306723925
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 08:49:55 -0800
+ Tue, 01 Dec 2020 09:14:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=default header.b=wvlfC1AK;
- spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
-Received: from [192.168.0.113] (75-58-59-55.lightspeed.rlghnc.sbcglobal.net [75.58.59.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 5D8D4206B7;
-	Tue,  1 Dec 2020 16:49:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1606841394;
-	bh=GF1xj+e0m9NJAoBcqmclkj+l5IUY/cFL2hD+nduvvHU=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=wvlfC1AKpk4IniWCIsz0EgnotUVh73hckavto/ng09p7YNkbNanfGUNSbAvV9rdyO
-	 l1FaNCJex93foN+w+vk3YxcO8XHWV+6RRfpozw3B+CIWiF86e9gA8nO9hVhSIlaEif
-	 LxyIWTuAbaSrls0zh8AWlNZgoScHVKsAWG8z6HH4=
-Subject: Re: [OE-core] [meta-oe][PATCH v2] procps: split into binary subpackages
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Otavio Salvador <otavio.salvador@ossystems.com.br>
+ dkim=missing; spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 119.47.118.83, mailfrom: bluelightning@bluelightning.org)
+Received: from linc.localnet (unknown [151.210.228.105])
+	by linuxplesk15.openhost.net.nz (Postfix) with ESMTPSA id 11562A218C;
+	Wed,  2 Dec 2020 06:13:59 +1300 (NZDT)
+Authentication-Results: linuxplesk15.openhost.net.nz;
+	spf=pass (sender IP is 151.210.228.105) smtp.mailfrom=bluelightning@bluelightning.org smtp.helo=linc.localnet
+Received-SPF: pass (linuxplesk15.openhost.net.nz: connection is authenticated)
+From: "Paul Eggleton" <bluelightning@bluelightning.org>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20201201034326.11447-1-okaya@kernel.org>
- <2d6b4cd69ed05454b7936f0a3a1c320db1c56558.camel@linuxfoundation.org>
- <CAP9ODKokNQw_HmiX6MC2wbB47tapHXC-9Za5tKzkbbtYsFHr6A@mail.gmail.com>
- <0976a2df7109d102b71033dc444ba9414670d4aa.camel@linuxfoundation.org>
- <CAP9ODKoT12CUNKJnqT_edYu3-Ei-zganQzskRx47OLrJWwXcEQ@mail.gmail.com>
- <63d2d693-dece-0c94-87f9-7965cbb56686@kernel.org>
- <5b161d2cc31540dc73c42df6068e0ef7f69574f2.camel@linuxfoundation.org>
-From: "Sinan Kaya" <okaya@kernel.org>
-Message-ID: <278a2145-7ebe-ea4b-375c-c2e65e69a06a@kernel.org>
-Date: Tue, 1 Dec 2020 11:49:54 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/1] classes/kernel*: allow disabling symlink creation
+Date: Wed, 02 Dec 2020 06:13:58 +1300
+Message-ID: <4074215.1IzOArtZ34@linc>
+In-Reply-To: <CA+chaQc4dmqWxU5o1AbPpN9Pj37ZAGpgy0bMisgpzyj_m66C+Q@mail.gmail.com>
+References: <cover.1606352479.git.paul.eggleton@linux.microsoft.com>
+	<5243521.Sb9uPGUboI@linc>
+	<CA+chaQc4dmqWxU5o1AbPpN9Pj37ZAGpgy0bMisgpzyj_m66C+Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5b161d2cc31540dc73c42df6068e0ef7f69574f2.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <20201201171359.253368.2084@localhost6.localdomain6>
+X-PPP-Vhost: softec.co.nz
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 12/1/2020 10:07 AM, Richard Purdie wrote:
-> On Tue, 2020-12-01 at 09:39 -0500, Sinan Kaya wrote:
->> On 12/1/2020 9:30 AM, Otavio Salvador wrote:
->>>>>> I am starting to get a little worried about the direction these
->>>>>> patches
->>>>>> are heading in. How much of the system are we going to split into
->>>>>> individual package per binaries?
->>>>> I am wondering why this is a concern for you? If we keep the old
->>>>> package rdepends on the new ones I see no problem in allowing this
->>>>> granular packaging.
->>>> Taking this to a conclusion its heading towards, most recipes
->>>> generating more than one binary would end up with this splitting code.
->>>> I don't like having large blocks of python in each recipe and heading
->>>> that way means we should probably change approach somehow.
->>>>
->>>> My worry is that simpler recipes are easier to maintain, test and
->>>> upgrade.
->>> Maybe Sinan could try to rework this and move the python code to a
->>> class reducing code duplication?
->>
->> The problem I'm trying to solve is I only need ps file out of this
->> entire package. Everything else in this package is useless for me. I'm
->> sure no-one wants dead code in their system especially if they are size
->> constrained.
->>
->> Ideal solution would be to have --with/without-foo support upstream
->> that we can configure with PACKAGECONFIG.
->>
->> I'm happy to look at other options if there is an alternative.
+On Wednesday, 2 December 2020 05:22:43 NZDT Martin Jansa wrote:
+> I see, I was just worried that this case will block me pushing the last bit
+> of [YOCTO #12937] which changes symlinks to hardlinks:
+> https://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/artifact
+> s
 > 
-> The question is how many other packages are you going to need just one
-> thing out of?
+> Which makes the use case you're fixing worse (as even less systems will
+> correctly handle hardlinks), so I support the idea to disable having the
+> links. My current work around is to just remove the unnecessary files when
+> rsyncing to file-server.
 > 
-> You might want ps, someone else might want something different. We've
-> had this problem a lot with util-linux and e2fsprogs so we split those
-> in the end as the patches were getting painful.
+> But the main issue which I'm seeing with my current implementation (and
+> with webos_deploy this is based on) is that we need the version-less
+> artifacts to be available, because e.g. image recipe searching kernel
+> artifact when there is DATETIME or SRCPV in the kernel artifact-name won't
+> be able to find it, because the image might be built at different DATETIME
+> and doesn't know anything about kernel SRCREV/SRCPV. To resolve this, the
+> build is using the version-less artifacts (always the latest one).
 > 
-> If this is a widespread issue we might want to have a generic class,
-> kind of like lib_package but for splitting the binaries into individual
-> packages.
+> I guess your implementation might fail in such DATETIME cases as well.
 > 
-> I just need an idea of how big this problem is going to be as I don't
-> want to iterate over half the recipes in oe-core over the next 9
-> months! :)
+> With separate variable to disable the links we can somehow work around this
+> or at least warn user that without the version-less filenames, the
+> VERSION_SUFFIX variable needs to be stable (as no PV/SRCPV/DATATIME in it).
 
-I see. In terms of my project requirements, the only package that I'm
-planning to go after like this is sudo.
+That is a good point and we have the same problem here - what I'm planning to
+do is to set a bunch of the other variables such that there are no versioned
+artifacts - i.e. the real files effectively appear in place of the symlinks and
+the versioned ones disappear. It seems to work in my tests so far. With my
+patchset this is what I set:
 
-We should not open the path for subpackages across the board. We need to
-prefer PACKAGECONFIG as the right option.
+------------ snip ------------
+IMAGE_LINK_NAME = ""
+IMAGE_VERSION_SUFFIX = ""
+IMAGE_NAME_SUFFIX = ""
+IMAGE_MANIFEST_distroname = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
+
+KERNEL_ARTIFACT_NAME = "${MACHINE}"
+KERNEL_ARTIFACT_LINK_NAME = ""
+------------ snip ------------
+
+I have found that I still need the plain type named kernel artifacts (e.g. vmlinux),
+and since these don't actually use the link name variable I have changed those to
+be written out even if the link name is blank (v2 patchset still in testing). We could
+introduce another variable to disable those but I hadn't planned to do that
+for the moment.
+
+Cheers,
+Paul
+
 
 
