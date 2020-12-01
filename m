@@ -1,35 +1,35 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web08.342.1606846332590679527
+Received: from smtp2.axis.com (smtp2.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web11.358.1606846332325516692
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 10:12:13 -0800
+ Tue, 01 Dec 2020 10:12:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=PIxSFpFW;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=jm0mz2oi;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=axis.com; l=1442; q=dns/txt; s=axis-central1;
-  t=1606846333; x=1638382333;
+  d=axis.com; l=5518; q=dns/txt; s=axis-central1;
+  t=1606846334; x=1638382334;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=zWIy8n5hQEviDrW+DURCCBQv0JgKKmQ9A+aXbtwSies=;
-  b=PIxSFpFWKmQXJaLvR6TlN712rVzfxaX/7jnyBleTosHpMyov0rnf7OBH
-   rmDy667keCiDeesdcDU4537QbRi7pSRoIjtS/47TV+iEnGtUNPF5z7Bpt
-   hzN6TF4fUlk9nUW626DGfUsSWP079Bh9yDKvwfaKSGcJhIkYFb6K6ZHc4
-   o4Y+wqmvwFDMlOXq/Y4mtADaEIokFM+wkIjmewShtZItP15BRvlKZPPtc
-   H/FIpKCyphS2UWNwVpLxBRBNozoAL070LXgv5crHnTqOcica4W8tkbmNI
-   IpM20lCIUPQ4O9tCmsOpZkuPa/KiI4uF5qq8A8UbZiDZnJamElkGBsNQF
+  bh=B0Pj5oeIZkGenyoM9xC7kfkeVatiXtEkNLNfcvVzhgc=;
+  b=jm0mz2oiKkcfxvecmVqp47C6hwdszUTGVnXWBU9kWgwsuWgUUhFy0+Lm
+   E2oIpTCz2HDADZiji52rQ7fkhnyhroG23ufG4pSw08NWxnV3G3Tjsmi+H
+   m1dg3pRSxqLTlwoulwySKtDHjZrF3+gz1FWQLjF8jM9p6/jDSYjBzczu+
+   Yss1a0w1lNMg6vVYMxPtEqDtUpJNIN5uApSAS3jdRbrJDkvRFb0BvdB4W
+   Vm4Yau+kwcOmPOxh5r31A9+COhmaNW2IznqD7Ra6QbYocOoj3kX3fWnfR
+   4O/Be5HSdSl2QXJEGvdcssBsjjExaUKMDpgaIRVQtE1iXSlVAifRhN98Q
    Q==;
-IronPort-SDR: mKysOfhiHNScAyKxt90d1Ae+VKIZIkI/chyKgbHz4bvUWFYEuQMyGLHmuJfaMvDf6Wf8BopWvM
- 0BNVXgMycgI+98QwqJewdiOr12mZ6IMtFGymphXqVIcQobB4uF6/E73VPrzmKVbLqjavQKjxkw
- ugVS1scF8lG9lmd+lTykn6X4+GRUNip63L3Y7sFo7BGGuoXcZ1a0ukGfaPpjG6L9mEGw7E6OXe
- J0PlCqlmcbUpVeXUHJxrb7xijjpBL7ldzqkmSrEi+wS7BsSzt6ix1fUsKaWJ9/Q7X/itnPSbCv
- vpI=
+IronPort-SDR: bIshdnqIFI6DrW56fOS4xLnr0+QkirkW7BMrIcC4B6XmnldDDzvQNFXtt/xZahxLTd3NU2hAXH
+ vNHnz7HQhricfsEGejLvw0sbp8OYWKm0XjMwArD57qBnD2h6vZ51S3479IL4nRGPAde9aIEy/s
+ QpnpD0XdEVDyGIs2oclOtRqaN5dam6CvtMQJqiVWisMjd57UU9Q+uu5QK7bYughQmfEXzwl7z2
+ LY6GQ98qeUVqABiZVTO+f+57fovjAve9BpFxBm5Y8eOpelekC9Y7sI3WMSROdhl9lmg9tJtG29
+ eFc=
 X-IronPort-AV: E=Sophos;i="5.78,385,1599516000"; 
-   d="scan'208";a="15621784"
+   d="scan'208";a="15074582"
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv3 3/5] lib/oe/path: Add canonicalize()
-Date: Tue, 1 Dec 2020 19:11:49 +0100
-Message-ID: <3f2c73b1637817bed05a3e1445a4b38122c59543.1606846217.git.pkj@axis.com>
+Subject: [PATCHv3 1/5] pseudo: Simplify pseudo_client_ignore_path_chroot()
+Date: Tue, 1 Dec 2020 19:11:47 +0100
+Message-ID: <81d354a708b427b6f2387181225f178c242165a4.1606846217.git.pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <cover.1606846217.git.pkj@axis.com>
 References: <cover.1606846217.git.pkj@axis.com>
@@ -38,33 +38,158 @@ Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-oe.path.canonicalize() is used to canonicalize paths (i.e., remove
-symbolic links and "..", and make them absolute). It takes a string
-with paths separated by commas, and returns the canonicalized path in
-the same format.
+This also plugs a memory leak in pseudo_client_ignore_path_chroot().
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/lib/oe/path.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ ...ssen-indentation-of-pseudo_client_ig.patch | 69 +++++++++++++++++++
+ ...mplify-pseudo_client_ignore_path_chr.patch | 50 ++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +
+ 3 files changed, 121 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
+ create mode 100644 meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 082972457b..504342e267 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -320,3 +320,15 @@ def which_wild(pathname, path=None, mode=os.F_OK, *, reverse=False, candidates=F
+diff --git a/meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch b/meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
+new file mode 100644
+index 0000000000..e4a5356f5c
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
+@@ -0,0 +1,69 @@
++From 28c760542eecd7c5b35ea88aa2b14d62afbda961 Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Sat, 21 Nov 2020 17:22:38 +0100
++Subject: [PATCH] pseudo_client: Lessen indentation of
++ pseudo_client_ignore_path_chroot()
++
++Change-Id: I739b18efb7a95ce2d2d907d0faf7df539ab9af1c
++---
++ pseudo_client.c | 45 +++++++++++++++++++++++++--------------------
++ 1 file changed, 25 insertions(+), 20 deletions(-)
++
++diff --git a/pseudo_client.c b/pseudo_client.c
++index 116d926..a8bc3dc 100644
++--- a/pseudo_client.c
+++++ b/pseudo_client.c
++@@ -1527,28 +1527,33 @@ int pseudo_client_ignore_fd(int fd) {
++ 
++ int pseudo_client_ignore_path_chroot(const char *path, int ignore_chroot) {
++ 	char *env;
++-	if (path) {
++-		if (ignore_chroot && pseudo_chroot && strncmp(path, pseudo_chroot, pseudo_chroot_len) == 0)
++-			return 0;
++-		env = pseudo_get_value("PSEUDO_IGNORE_PATHS");
++-		if (env) {
++-			char *p = env;
++-        	        while (*p) {
++-				char *next = strchr(p, ',');
++-				if (!next)
++-				    next = strchr(p, '\0');
++-				if ((next - p) && !strncmp(path, p, next - p)) {
++-		 			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
++-					return 1;
++-				}
++-				if (next && *next != '\0')
++-					p = next+1;
++-				else
++-					break;
++-			}
++-			free(env);
+++
+++	if (!path)
+++		return 0;
+++
+++	if (ignore_chroot && pseudo_chroot && strncmp(path, pseudo_chroot, pseudo_chroot_len) == 0)
+++		return 0;
+++
+++	env = pseudo_get_value("PSEUDO_IGNORE_PATHS");
+++	if (!env)
+++		return 0;
+++
+++	char *p = env;
+++	while (*p) {
+++		char *next = strchr(p, ',');
+++		if (!next)
+++			next = strchr(p, '\0');
+++		if ((next - p) && !strncmp(path, p, next - p)) {
+++ 			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
+++			return 1;
++ 		}
+++		if (next && *next != '\0')
+++			p = next+1;
+++		else
+++			break;
++ 	}
+++	free(env);
+++
++ 	return 0;
++ }
++ 
+diff --git a/meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch b/meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
+new file mode 100644
+index 0000000000..a657a27f28
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
+@@ -0,0 +1,50 @@
++From a1d61d68777373a50ae23b9dd83b428abe2f748d Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Sat, 21 Nov 2020 17:30:33 +0100
++Subject: [PATCH] pseudo_client: Simplify pseudo_client_ignore_path_chroot()
++
++This also plugs a memory leak by making sure env is freed.
++
++Change-Id: Ia8635fd2c6b1e85919e4743713a85e0b52c28fac
++---
++ pseudo_client.c | 21 ++++++++++-----------
++ 1 file changed, 10 insertions(+), 11 deletions(-)
++
++diff --git a/pseudo_client.c b/pseudo_client.c
++index a8bc3dc..7dc0345 100644
++--- a/pseudo_client.c
+++++ b/pseudo_client.c
++@@ -1538,23 +1538,22 @@ int pseudo_client_ignore_path_chroot(const char *path, int ignore_chroot) {
++ 	if (!env)
++ 		return 0;
++ 
+++	int ret = 0;
++ 	char *p = env;
++-	while (*p) {
+++	while (p) {
++ 		char *next = strchr(p, ',');
++-		if (!next)
++-			next = strchr(p, '\0');
++-		if ((next - p) && !strncmp(path, p, next - p)) {
++- 			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
++-			return 1;
++-		}
++-		if (next && *next != '\0')
++-			p = next+1;
++-		else
+++		if (next)
+++			*next++ = '\0';
+++		if (*p && !strncmp(path, p, strlen(p))) {
+++			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
+++			ret = 1;
++ 			break;
+++		}
+++		p = next;
++ 	}
++ 	free(env);
++ 
++-	return 0;
+++	return ret;
++ }
++ 
++ int pseudo_client_ignore_path(const char *path) {
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 2e13fec540..50933c4bc1 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -4,6 +4,8 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+            file://0001-configure-Prune-PIE-flags.patch \
+            file://fallback-passwd \
+            file://fallback-group \
++           file://0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch \
++           file://0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch \
+            "
  
-     return files
- 
-+def canonicalize(paths, sep=','):
-+    """Given a string with paths (separated by commas by default), expand
-+    each path using os.path.realpath() and return the resulting paths as a
-+    string (separated using the same separator a the original string).
-+    """
-+    # Ignore paths containing "$" as they are assumed to be unexpanded bitbake
-+    # variables. Normally they would be ignored, e.g., when passing the paths
-+    # through the shell they would expand to empty strings. However, when they
-+    # are passed through os.path.realpath(), it will cause them to be prefixed
-+    # with the absolute path to the current directory and thus not be empty
-+    # anymore.
-+    return sep.join(os.path.realpath(path) for path in (paths or '').split(sep) if "$" not in path)
+ SRCREV = "cca0d7f15b7197095cd587420d31b187620c3093"
