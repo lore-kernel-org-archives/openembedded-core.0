@@ -1,210 +1,208 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.6876.1606809508663478591
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web08.7541.1606814128690898097
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 23:58:29 -0800
+ Tue, 01 Dec 2020 01:15:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=e834yynj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id a3so2982837wmb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 23:58:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=N3kTDSDaanXObrKY9qg8+QcU54AiIkNL6s8HM+OIAqA=;
-        b=e834yynj3IEVEH4ElXszO/+XAQj+1pVGkyJIQdNnBxALs7UBOZIUqapnBf8Nl851Rq
-         /l+VlufEIUQUXv2Vzl1V95KhYBM1whX0zABh/gqnRhcvpSWY0zs0j1RY/a/SkYdxFbw1
-         +jN+Weg8KjAh2ijAvHP2l2ehXoNUdAdvFPO94=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=N3kTDSDaanXObrKY9qg8+QcU54AiIkNL6s8HM+OIAqA=;
-        b=DS7Gf6uEVdguxfdsupLGTny9FO4zWAmN4euUnVyJehYTqodO8QXrAK44BOtBETvUvu
-         YLAntHUHFlU4cNiZy1T39Yu4DydJTPtq1gcaSb2E8HmRFzLCL8RtrRq2+dJb7WaaFyWt
-         2+HBCRKnnqnKPr2v9qslRwmWlJSWcPCVhSKZ0HR//cLSj2jO/8swTExuLT5XVULFQkvE
-         dNznkVpheqtlZ7/EEQVDWwX4Ulkv2o5r4Ehjj8AbcweprslW0S0F7+xMtefB6MSS/ORm
-         LnLsPKPEtiW7Nuh0td3thEX6hMqJakfHlEP0D8J4EbBhjUMVIjYwdrc4bV+7M01jtt5U
-         S21Q==
-X-Gm-Message-State: AOAM531bMXXUMyTEqAURQQ8PMJ7gYq0KxoKJL2z3sZrFYfTbT209gmKD
-	Tf+Ll1as2kiXqCwPYXGDU/5CQQ==
-X-Google-Smtp-Source: ABdhPJxZWDcOY6wdyqVb1gg2V4s8AHnT3wkdXa6+lKnA1WiPQJe9ZOFzff+Mx27tds7y+JHcln5kiA==
-X-Received: by 2002:a05:600c:410d:: with SMTP id j13mr1373017wmi.95.1606809507038;
-        Mon, 30 Nov 2020 23:58:27 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 6.8.4.7.c.c.2.8.a.5.e.3.8.c.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.8.4.7.c.c.2.8.a.5.e.3.8.c.1.b.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:b1c8:3e5a:82cc:7486])
-        by smtp.gmail.com with ESMTPSA id o2sm1635379wrq.37.2020.11.30.23.58.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 23:58:26 -0800 (PST)
-Message-ID: <756e4529c98cdb1598dc2e118f2b3103229df1c7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 01 Dec 2020 07:58:24 +0000
-In-Reply-To: <af090a2c9e16425b9a01bd2f791a5f1b@XBOX03.axis.com>
-References: <cover.1606312002.git.pkj@axis.com>
-	 <9b62c1babb6a53472329d57fa6ec2ac8ed70a3f8.1606312002.git.pkj@axis.com>
-	 <4ddd2873ff90af2675c690fd44ab8881ff609a70.camel@linuxfoundation.org>
-	 <307eb4fc670343e6b725de414ea90f43@XBOX03.axis.com>
-	 <fe01b78024f2e643f7f2442483bb4a673112b63d.camel@linuxfoundation.org>
-	 <af090a2c9e16425b9a01bd2f791a5f1b@XBOX03.axis.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=O/bk4wiz;
+ spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: sangeeta.jain@intel.com)
+IronPort-SDR: FGjxsRsQtDcZx/AF+OaJseMDOaAZTM5cq5msJAS2bkqKvAOM2cYs213YRmzlw/rPex0dfkWTvW
+ exzKa8rB6hIw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9821"; a="170230800"
+X-IronPort-AV: E=Sophos;i="5.78,384,1599548400"; 
+   d="scan'208";a="170230800"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 01:15:22 -0800
+IronPort-SDR: EAsJOouOYBZGfA4ZJueKNFs5G5GlR828Pj5H4xSUdxuPNYmTEmWCwiTsGFhsgIleLPeNntN2mT
+ 70Dwc9gjwxyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,384,1599548400"; 
+   d="scan'208";a="329902147"
+Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
+  by orsmga003.jf.intel.com with ESMTP; 01 Dec 2020 01:15:22 -0800
+Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
+ ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 1 Dec 2020 01:15:22 -0800
+Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
+ ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 1 Dec 2020 01:15:21 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Tue, 1 Dec 2020 01:15:21 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Tue, 1 Dec 2020 01:15:18 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GF9cg7qcYmtsOuaOqGnbimUhRIMPpyBz6FTVnv27KooEI0GNCQFgeRbeW2UfEksyzQTDBBHJF3bLg3+kpqJeu2JEUHaafPN4mUID81jTmWJNL5fur5DYsnT8ExJDnkHTjZbsKHVq+5wMmAULSHZOmd+9gc98Xv/LCqxAVeyJqM34IuF+Vu+pr5Y+XJRd33C0t+PyeMd5w+xrlPkb2pDkzIBio4qYcJQFHU2F1k1Gx/fE/9XR6gZZSA0mJW2x57jO/4q2IXRzQXnG0sMgnOBM6LsIlz0dKvtfsCMRxaxkMppj1S5F/iaGYUKIoMXEgNc7j7dF3KyxHj4TzNyES+v5yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SfCfs879mvXVu3xGcvzZIhFf1tKaRE2P6wlT2ommtsE=;
+ b=Jfmf/JAXeujmQuR933gwqng1ff9MaIn/+mSAUPbDCDJoi7UxpHf/AN9q7IQF4xS4SQB/CDlvwGAm82apq3DIxdI5a90u+5FnMJewAmh5Vx3MjMOt+vAPFKE6bkOFPRXZn4dixvfIRI+iDLAH3krnzMR8K8XiqeuUnh68Zjn1Nh9f6qe+MFgijww45c66487myJwze2fjt3F4Mr8EpWK7cJClKDP2J4z5q2Mn3pmyS96Q+Msh9aXiufCpuoDXh0QwblXqPz0901thSliesc6XlEKUjn82PB1PDqoovsULgHoqEwZZS6B5o6ukv8RAXd87axybLLMg31Hjym/U1jD37A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SfCfs879mvXVu3xGcvzZIhFf1tKaRE2P6wlT2ommtsE=;
+ b=O/bk4wizfdfAWpaO3YmejsfEJs9p9a9Fzz1wCfMCJ7SBNukrHC9QK9DJt+k0SRkEXxVqBjAT0cjsFrB/5pLNYgfPgwxpf71+iBkEoKga87dFVz5WBNaWMBFiXD7z+GAzpNzKHBXe068kz5pkr6kTumY9dt5wfBiBUrGXAbEmS3M=
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
+ by SJ0PR11MB4974.namprd11.prod.outlook.com (2603:10b6:a03:2d6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.22; Tue, 1 Dec
+ 2020 09:15:17 +0000
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::c0d3:471b:c804:8059]) by BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::c0d3:471b:c804:8059%6]) with mapi id 15.20.3611.031; Tue, 1 Dec 2020
+ 09:15:17 +0000
+From: "Sangeeta Jain" <sangeeta.jain@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+CC: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"yi.zhao@windriver.com" <yi.zhao@windriver.com>, "Sangal, Apoorv"
+	<apoorv.sangal@intel.com>, "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, "Chan,
+ Aaron Chun Yew" <aaron.chun.yew.chan@intel.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"akuster808@gmail.com" <akuster808@gmail.com>, "sjolley.yp.pm@gmail.com"
+	<sjolley.yp.pm@gmail.com>, "steve@sakoman.com" <steve@sakoman.com>
+Subject: Re: QA notification for completed autobuilder build (yocto-3.1.4.rc1)
+Thread-Topic: QA notification for completed autobuilder build
+ (yocto-3.1.4.rc1)
+Thread-Index: AQHWw6qnEFCDcmXBKECEKcZGa+5dhKnh/Vww
+Date: Tue, 1 Dec 2020 09:15:16 +0000
+Message-ID: <BYAPR11MB3624F3E82A281AAE63E2E9D2E3F40@BYAPR11MB3624.namprd11.prod.outlook.com>
+References: <20201126041423.5FD5F86048A@debian10-ty-2.yocto.io>
+In-Reply-To: <20201126041423.5FD5F86048A@debian10-ty-2.yocto.io>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=intel.com;
+x-originating-ip: [42.189.150.218]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0b2fa39b-1695-4b2d-41b7-08d895d99e5e
+x-ms-traffictypediagnostic: SJ0PR11MB4974:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SJ0PR11MB4974D78168BD1D8AD32F166DE3F40@SJ0PR11MB4974.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: gisuR0FyHBFsYInZKJH1apWtq/Rb1BsZlxI0AhcU3Xme16yg5Tp1zFcRaPij8Ur3vIkjWwdEA9SydVj4UQJOcqRnahEZW/bGI4MzhYUXgkrX7ETEN/7TCXDdwgupgNnFc3aGR9VgZUEgKcf61Mq0TNifrl0Ix4pJkcnEuPGyOW6H9Y/J3Y+7FzpO0f7RXIXMkRgw1MzvTsSyfFEkRJTimR6Kf6fLoiDJ3IVIrmPTfIDVwKIfIN0NKSkqo4Ye5C7r3gwZ/xrnkMnebTG8/mr5vc+qaK+QNmtAoBPe6kNwrilRCFz7Zm0ogtBHoXz/9pGH0nYSRWucKVb0So5wIwRk+fqBhoVknSwAd2mfIBzvp30EOFSdp8NJGfTrqN5bl8Mg/NU0DqIDjBDmlVH8/HUZ/Q==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3624.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(39860400002)(346002)(136003)(366004)(8936002)(7696005)(15650500001)(966005)(6506007)(66946007)(86362001)(76116006)(478600001)(8676002)(66446008)(4326008)(66556008)(64756008)(2906002)(66476007)(53546011)(33656002)(9686003)(55016002)(52536014)(71200400001)(186003)(316002)(5660300002)(26005)(83380400001)(54906003)(110136005);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?h2iYnGG6qh3Cpg6kFVwlSv5RPs2xIYvlq4YZExSX+TBXzEwnFHdZIbzau/Af?=
+ =?us-ascii?Q?iPdCkllsU8loyEb6MekwA6p0FtZnRU+bCPs+L8wkZc4lccEWjURPAxjctPy8?=
+ =?us-ascii?Q?ODoWTQzkHNLTs0NvKwKdTSkYu2VzaS6lMmBP98Suv+7jUGB0xXstJTkxD2yU?=
+ =?us-ascii?Q?k/nTmfbgWoxJGTKHNRm25my/tqFxQSKgLqSPMXBol6Qn0KWbMqmqzFMAHu74?=
+ =?us-ascii?Q?9j46T4Li0mUhq6uG2F11cMQe20zcbVqhT+/teF5GV8631c5JKxc28Yw12OoE?=
+ =?us-ascii?Q?fDgdZkpMT9S151LqIJoXMy0QhH5S7L6pFaitXb8XWSaB6Xqmk2vdcNUxv3yD?=
+ =?us-ascii?Q?fs/qeW/SVPMiOyh/IQRMXOdLVTh0EATbswh+VdTTLhwlUgWYIJXcyy3sMPK+?=
+ =?us-ascii?Q?6398MDQedOgWxSL2/UzLXTVysZ/iiLkE6vg1KlX/nuWWqc7YVGsstpfv10Ka?=
+ =?us-ascii?Q?JmNFqWnIZzRwzXpcGy2KyBzQ7Xac9asnUG0RTEGhswHWkii8EHm5i6C7Q2WQ?=
+ =?us-ascii?Q?ia8bRiZzF8woZT1Pn5rp6UBsybnakP3821Eq6LTkwSD8kNPVzeC8U1ypYx6f?=
+ =?us-ascii?Q?AoQsxvSeulN+pWV5Yz+wW9nywmMeNs3m6dik9LEM6fVPG58P5aUs6XzXgcas?=
+ =?us-ascii?Q?QZemwrAb1ZT/BXGS1GhW30aTHZtlBhq/MD9wivInoBJeWeY7yMiexNwrikLZ?=
+ =?us-ascii?Q?a2U4JxSSrWGJyVum7MAx/kKBgVG/F5rtmrm6she8Q7RIlwXc90AgAAPo+JzW?=
+ =?us-ascii?Q?XThyjeuV/iP95cExDxHIfTRwNRrghFHqP+bajDAR2rZgstNrQz0cQlXZfqqs?=
+ =?us-ascii?Q?HudwvcgAXdmSAT3yTKMfgA3wyyJQaf7dielpHzgl82hjclVY4aw7IQ0yljJA?=
+ =?us-ascii?Q?fAUc5FIsxwZunID12TVsubym8j4DlugueFof801BCOLiqbn6fwyvOIViu294?=
+ =?us-ascii?Q?ff3xVeqsUeaJq8Idf0aiOMHHo9WpbNjwO/D22cyF9bo=3D?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3624.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b2fa39b-1695-4b2d-41b7-08d895d99e5e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Dec 2020 09:15:16.8775
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 18eDV1k8eXoRa/z4tMRZUYghsj/SP/zZhIvzE83mWm35dsk30CAK6hwCmxULh+HLGJ/te1Mh8o0kbRjb9mxDwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB4974
+Return-Path: sangeeta.jain@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2020-11-30 at 17:44 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Richard Purdie
-> > Sent: den 27 november 2020 00:42
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> > core@lists.openembedded.org
-> > Subject: Re: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize paths in
-> > PSEUDO_IGNORE_PATHS
-> > 
-> > On Thu, 2020-11-26 at 20:38 +0000, Peter Kjellerstedt wrote:
-> > > > -----Original Message-----
-> > > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > Sent: den 26 november 2020 15:47
-> > > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
-> > > > core@lists.openembedded.org
-> > > > Subject: Re: [OE-core] [PATCHv2 3/4] bitbake.conf: Canonicalize
-> > > > paths in
-> > > > PSEUDO_IGNORE_PATHS
-> > > > 
-> > > > On Wed, 2020-11-25 at 14:48 +0100, Peter Kjellerstedt wrote:
-> > > > > Introduce PSEUDO_IGNORE_REAL_PATHS and make it contain the
-> > > > canonicalized
-> > > > > paths from PSEUDO_IGNORE_PATHS, obtained by passing the latter to
-> > > > > oe.path.to_real_paths(). This is needed since pseudo's
-> > > > > pseudo_client_ignore_path_chroot() will compare the ignored paths
-> > > > > to
-> > > > > paths that have been canonicalized.
-> > > > > 
-> > > > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > > > ---
-> > > > >  meta/conf/bitbake.conf | 8 +++++---
-> > > > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > > > 
-> > > > This looks like a good way to fix this, except I have a strong
-> > > > dislike
-> > > > of "REAL" variables.
-> > > 
-> > > Well, I named it PSEUDO_IGNORE_REAL_PATHS to match
-> > > os.path.realpath().
-> > > I can name it, e.g., PSEUDO_IGNORE_CANONICAL_PATHS if you prefer
-> > > that?
-> > 
-> > My point was less about the name and more that I'd prefer not to have
-> > an indirect variable which isn't useful.
-> > 
-> > > > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > > > > index 9742fe4fe2..4862095a1b 100644
-> > > > > --- a/meta/conf/bitbake.conf
-> > > > > +++ b/meta/conf/bitbake.conf
-> > > > > @@ -685,15 +685,16 @@ SRC_URI = ""
-> > > > >  PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
-> > > > >  PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
-> > > > >  PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
-> > > > > +PSEUDO_IGNORE_REAL_PATHS = "${@','.join(os.path.realpath(path) for
-> > > > path in (d.getVar('PSEUDO_IGNORE_PATHS') or '').split(','))}"
-> > > > >  PSEUDO_IGNORE_PATHS =
-> > "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-
-> > > > sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-
-> > > > sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-
-> > > > ,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-
-> > package_,${WORKDIR}/sstate-
-> > > > install-package_,${WORKDIR}/sstate-build-
-> > > > image_complete,${TMPDIR}/sysroots-
-> > > > 
-> > components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBA
-> > > > SE}/scripts,${@','.join(d.getVar('BBLAYERS').split())},${CCACHE_DIR}"
-> > > > >  export PSEUDO_DISABLED = "1"
-> > > > >  #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
-> > > > >  #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
-> > > > >  #export PSEUDO_LIBDIR =
-> > > > "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
-> > > > > -FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native}
-> > > > PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib
-> > > > PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
-> > > > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1"
-> > > > > +FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native}
-> > > > PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib
-> > > > PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
-> > > > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=1"
-> > > > >  FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
-> > > > > -FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
-> > > > PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR}
-> > > > PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1
-> > > > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=0"
-> > > > > +FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native}
-> > > > PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR}
-> > > > PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1
-> > > > PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_REAL_PATHS} PSEUDO_DISABLED=0"
-> > > > 
-> > > > I'm wondering if we create a function in lib/oe/utils.py and then use
-> > > > something like:
-> > > > 
-> > > > PSEUDO_IGNORE_PATHS=${@oe.utils.realpath("PSEUDO_IGNORE_REAL_PATHS")}
-> > > 
-> > > There already is an oe.path.realpath(). However, I am not sure when
-> > > it is expected to be used instead of os.path.realpath().
-> > 
-> > That is a bad choice of name now I look at it! I was thinking more
-> > about the use of a function.
-> > 
-> > > I initially created an oe.path.realpaths(d, var, separator=','), but
-> > > after I had rewritten it a couple of times I was down to just the
-> > > single list comprehension and then I felt as I could just as well
-> > > use it directly since I don't see a great need for a common function
-> > > to canonicalize a list of paths. But if you prefer that solution, I
-> > > can restore it.
-> > 
-> > I don't really mind the list comprehension directly or a function, I'd
-> > just prefer not to have an indirect variable around to confuse people.
-> 
-> Ok, I take that to mean that you instead want me to, e.g., use a function 
-> to canonicalize the paths where ${PSEUDO_IGNORE_REAL_PATHS} is used now? 
-> I.e., something like this (line broken here for readability):
-> 
->   FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} \
->                  PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} \
->                  PSEUDO_PASSWD=${PSEUDO_PASSWD} \
->                  PSEUDO_NOSYMLINKEXP=1 \
->                  PSEUDO_IGNORE_PATHS=${@oe.paths.canonicalize(d, 'PSEUDO_IGNORE_PATHS')} \
->                  PSEUDO_DISABLED=0"
->   FAKEROOTENV[vardeps] += "PSEUDO_IGNORE_PATHS"
-> 
-> alternatively:
-> 
->   FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} \
->                  PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} \
->                  PSEUDO_PASSWD=${PSEUDO_PASSWD} \
->                  PSEUDO_NOSYMLINKEXP=1 \
->                  PSEUDO_IGNORE_PATHS=${@oe.paths.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} \
->                  PSEUDO_DISABLED=0"
-> 
-> I am not sure whether there is a preference for utility functions 
-> to take d and the name of a bitbake variable as arguments, or to 
-> take the variable's value. The former is a little bit shorter, but 
-> on the other hand it requires the extra vardeps declaration.
-> 
-> There is a minor drawback with this solution, and that is that I 
-> cannot use that function in wic. So I will use the list comprehension 
-> directly, with a comment referring to the oe.path.canonicalize() 
-> function.
+Hello all,
 
-The version which avoids the vardeps is probably slightly neater
-overall. I wasn't sure if using the list comprehension here would be
-too ugly or not but I'm happy just not to have another variable name
-used here, thanks!
+This is the full report for yocto-3.1.4.rc1: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
 
-The wic issue is unfortunate but hard to avoid.
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.=20
 
-Cheers,
+new issue found=20
 
-Richard
+BUG id:14138 - [QA 3.1.4 RC1] failure in oe-core manual test: test_bitbake_=
+devshell
+  =20
+Bugs verified:
 
+BUG id:14071 - [QA 3.1.3 RC1] failure in ptest : perl.t/re/pat=20
+   Verified Fixed.
+
+Existing bugs observed in this release:
+
+BUG id:14055 - [QA 3.2 M3 RC1] failure in oe-core manual test: test_depende=
+ncy_explorer_is_launched
+ =20
+=3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14138
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14071
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14055
+
+Thanks,
+Sangeeta
+
+> -----Original Message-----
+> From: Pokybuild User <pokybuild@debian10-ty-2.yocto.io>
+> Sent: Thursday, 26 November, 2020 12:14 PM
+> To: yocto@lists.yoctoproject.org
+> Cc: otavio@ossystems.com.br; yi.zhao@windriver.com; Sangal, Apoorv
+> <apoorv.sangal@intel.com>; Yeoh, Ee Peng <ee.peng.yeoh@intel.com>; Chan,
+> Aaron Chun Yew <aaron.chun.yew.chan@intel.com>;
+> richard.purdie@linuxfoundation.org; akuster808@gmail.com;
+> sjolley.yp.pm@gmail.com; Jain, Sangeeta <sangeeta.jain@intel.com>;
+> steve@sakoman.com
+> Subject: QA notification for completed autobuilder build (yocto-3.1.4.rc1=
+)
+>=20
+>=20
+> A build flagged for QA (yocto-3.1.4.rc1) was completed on the autobuilder=
+ and is
+> available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.1.4.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: 89fc9450abefd682266efcbfa031d1ef115ff1a7
+> meta-arm: e18ee052f75da60655fb434ff24a463a8fb36781
+> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+> meta-intel: 541c7256c1b6acba35d1116a1483b6594d189e3a
+> meta-kernel: f9d30c65d08c9cef20d6487a7aff0fff40acc823
+> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
+> oecore: b885888df67eb5cdb3b82f4f0a07369a449e223b
+> poky: 424296bf9bb4bae27febf91bce0118df09ce5fa1
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
