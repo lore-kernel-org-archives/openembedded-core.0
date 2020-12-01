@@ -1,157 +1,94 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.12615.1606839775596475195
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by mx.groups.io with SMTP id smtpd.web12.13083.1606841395437451173
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 08:22:55 -0800
+ Tue, 01 Dec 2020 08:49:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=U4jM+8fI;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id lt17so5338523ejb.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 08:22:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HhU+n9fkkQ4NKmuZave2F5ELrdm3nSVvkxcvtLyRmXA=;
-        b=U4jM+8fIQ6zzwo+gVSXhQuHc9yPiVLezZDWEc9aUre4Aeg9OsQ4nsBLEjzxKMrC5FF
-         g0I+LPn6b8q/y2FXuxJbN6rcKwsvpFXnQgfRAv9Utf4aYpzpUnh+prCAsDDftx29wV2D
-         NgiftiW9XMxBzpaSrevAU46bUIa6gUWv8auoOw4LSN+gUvJd7Z11G13ORfwsUOz+UFVJ
-         hPUt3EXffeuZ7njresqCeRZlPWZ0gefsZ2I8HmFSYN3XVdpECPegcfFWRHXprQIRO42s
-         hZfhBL4+zn6l7kBL8WhkvfmCzkvAjL1pLfDFI9TX0+RpKykVfqJ9Q+4G4Q3iXAvrRbwM
-         DpLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HhU+n9fkkQ4NKmuZave2F5ELrdm3nSVvkxcvtLyRmXA=;
-        b=mgy9ojLuYstYry7u9JZylgpO3d/BPR+/u6v3FNXgKbBJMEITLnsw2t/SCktVmlf6D8
-         iSs5OJN5PSoOS8r6ZZXzUIjO1jkcdaH0AwcBxh/1aNb2mAHIFAp5pFrYhxg53aPz+gzH
-         dcUtsm+fTRZ6r5m82ZBZrKFqa0v7uEhcTW1l2SRn/JZ8kgOApycuZ8UCEdgH0hseW2L8
-         SH8lz9FgfAVIoWqbZXwMK1wP3qsxf5It4QsEdQ+vcxnAQtNZIrAnVAYNY4tiIOIi24xa
-         Vc4EP72wU3DUvRjcTdW3w+wlMiGzvYidmCY8HHKwQjGg49locOYKrr4b12bBK5WlmLRD
-         jzvw==
-X-Gm-Message-State: AOAM531x8qXA7vnDYCbke4lMojBgMTfIZdWYL5vhi0VBVyBLwEn2L8/B
-	3pTfDpW/mRyVaQ7AihXNVqbJ6Rhdus+7Iz2q6kA=
-X-Google-Smtp-Source: ABdhPJwexOVyX9YbyPSbVPzP46T7AH+Qu/oWtF1ZArDZKJr+4S8wTzQKA+yQMGZbJYPWLOB7j85vgprDL/yVUg4Ij4k=
-X-Received: by 2002:a17:907:2179:: with SMTP id rl25mr3681577ejb.470.1606839774080;
- Tue, 01 Dec 2020 08:22:54 -0800 (PST)
+ dkim=pass header.i=@kernel.org header.s=default header.b=wvlfC1AK;
+ spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
+Received: from [192.168.0.113] (75-58-59-55.lightspeed.rlghnc.sbcglobal.net [75.58.59.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id 5D8D4206B7;
+	Tue,  1 Dec 2020 16:49:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1606841394;
+	bh=GF1xj+e0m9NJAoBcqmclkj+l5IUY/cFL2hD+nduvvHU=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=wvlfC1AKpk4IniWCIsz0EgnotUVh73hckavto/ng09p7YNkbNanfGUNSbAvV9rdyO
+	 l1FaNCJex93foN+w+vk3YxcO8XHWV+6RRfpozw3B+CIWiF86e9gA8nO9hVhSIlaEif
+	 LxyIWTuAbaSrls0zh8AWlNZgoScHVKsAWG8z6HH4=
+Subject: Re: [OE-core] [meta-oe][PATCH v2] procps: split into binary subpackages
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>
+References: <20201201034326.11447-1-okaya@kernel.org>
+ <2d6b4cd69ed05454b7936f0a3a1c320db1c56558.camel@linuxfoundation.org>
+ <CAP9ODKokNQw_HmiX6MC2wbB47tapHXC-9Za5tKzkbbtYsFHr6A@mail.gmail.com>
+ <0976a2df7109d102b71033dc444ba9414670d4aa.camel@linuxfoundation.org>
+ <CAP9ODKoT12CUNKJnqT_edYu3-Ei-zganQzskRx47OLrJWwXcEQ@mail.gmail.com>
+ <63d2d693-dece-0c94-87f9-7965cbb56686@kernel.org>
+ <5b161d2cc31540dc73c42df6068e0ef7f69574f2.camel@linuxfoundation.org>
+From: "Sinan Kaya" <okaya@kernel.org>
+Message-ID: <278a2145-7ebe-ea4b-375c-c2e65e69a06a@kernel.org>
+Date: Tue, 1 Dec 2020 11:49:54 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <cover.1606352479.git.paul.eggleton@linux.microsoft.com>
- <3140175.5fSG56mABF@linc> <CA+chaQdMdRJJTQfTADj5TjJWm4y4kOj7X5_FChaG_zX5TsBmSw@mail.gmail.com>
- <5243521.Sb9uPGUboI@linc>
-In-Reply-To: <5243521.Sb9uPGUboI@linc>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 1 Dec 2020 17:22:43 +0100
-Message-ID: <CA+chaQc4dmqWxU5o1AbPpN9Pj37ZAGpgy0bMisgpzyj_m66C+Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] classes/kernel*: allow disabling symlink creation
-To: Paul Eggleton <bluelightning@bluelightning.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f1f0ad05b569893e"
+In-Reply-To: <5b161d2cc31540dc73c42df6068e0ef7f69574f2.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---000000000000f1f0ad05b569893e
-Content-Type: text/plain; charset="UTF-8"
+On 12/1/2020 10:07 AM, Richard Purdie wrote:
+> On Tue, 2020-12-01 at 09:39 -0500, Sinan Kaya wrote:
+>> On 12/1/2020 9:30 AM, Otavio Salvador wrote:
+>>>>>> I am starting to get a little worried about the direction these
+>>>>>> patches
+>>>>>> are heading in. How much of the system are we going to split into
+>>>>>> individual package per binaries?
+>>>>> I am wondering why this is a concern for you? If we keep the old
+>>>>> package rdepends on the new ones I see no problem in allowing this
+>>>>> granular packaging.
+>>>> Taking this to a conclusion its heading towards, most recipes
+>>>> generating more than one binary would end up with this splitting code.
+>>>> I don't like having large blocks of python in each recipe and heading
+>>>> that way means we should probably change approach somehow.
+>>>>
+>>>> My worry is that simpler recipes are easier to maintain, test and
+>>>> upgrade.
+>>> Maybe Sinan could try to rework this and move the python code to a
+>>> class reducing code duplication?
+>>
+>> The problem I'm trying to solve is I only need ps file out of this
+>> entire package. Everything else in this package is useless for me. I'm
+>> sure no-one wants dead code in their system especially if they are size
+>> constrained.
+>>
+>> Ideal solution would be to have --with/without-foo support upstream
+>> that we can configure with PACKAGECONFIG.
+>>
+>> I'm happy to look at other options if there is an alternative.
+> 
+> The question is how many other packages are you going to need just one
+> thing out of?
+> 
+> You might want ps, someone else might want something different. We've
+> had this problem a lot with util-linux and e2fsprogs so we split those
+> in the end as the patches were getting painful.
+> 
+> If this is a widespread issue we might want to have a generic class,
+> kind of like lib_package but for splitting the binaries into individual
+> packages.
+> 
+> I just need an idea of how big this problem is going to be as I don't
+> want to iterate over half the recipes in oe-core over the next 9
+> months! :)
 
-Hi Paul,
+I see. In terms of my project requirements, the only package that I'm
+planning to go after like this is sudo.
 
-I see, I was just worried that this case will block me pushing the last bit
-of [YOCTO #12937] which changes symlinks to hardlinks:
-https://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/artifacts
+We should not open the path for subpackages across the board. We need to
+prefer PACKAGECONFIG as the right option.
 
-Which makes the use case you're fixing worse (as even less systems will
-correctly handle hardlinks), so I support the idea to disable having the
-links. My current work around is to just remove the unnecessary files when
-rsyncing to file-server.
 
-But the main issue which I'm seeing with my current implementation (and
-with webos_deploy this is based on) is that we need the version-less
-artifacts to be available, because e.g. image recipe searching kernel
-artifact when there is DATETIME or SRCPV in the kernel artifact-name won't
-be able to find it, because the image might be built at different DATETIME
-and doesn't know anything about kernel SRCREV/SRCPV. To resolve this, the
-build is using the version-less artifacts (always the latest one).
-
-I guess your implementation might fail in such DATETIME cases as well.
-
-With separate variable to disable the links we can somehow work around this
-or at least warn user that without the version-less filenames, the
-VERSION_SUFFIX variable needs to be stable (as no PV/SRCPV/DATATIME in it).
-
-Cheers,
-
-On Tue, Dec 1, 2020 at 5:13 PM Paul Eggleton <
-bluelightning@bluelightning.org> wrote:
-
-> Hi Martin
->
-> (replying all this time)
->
-> On Tuesday, 1 December 2020 15:40:36 NZDT you wrote:
-> > Can we use a separate variable controlling this behavior other than
-> > *_LINK_NAME variables being set to empty?
-> >
-> > Then we could easily extend it to stop creating the links also for image
-> > artifacts as well.
->
-> Well, I didn't call it out explicitly but I was just mirroring the image
-> artifacts behaviour - we set those to "" as well and there are checks
-> there
-> already to make that disable the symlink in that case.
->
-> Paul
->
->
->
-
---000000000000f1f0ad05b569893e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Paul,<div><br></div><div>I see, I was just worried that=
- this case will block me pushing the last bit of=C2=A0[YOCTO #12937] which =
-changes symlinks to hardlinks:</div><div><a href=3D"https://git.openembedde=
-d.org/openembedded-core-contrib/log/?h=3Djansa/artifacts" target=3D"_blank"=
->https://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/arti=
-facts</a><br></div><div><br></div><div>Which makes the use case you&#39;re =
-fixing worse (as even less systems will correctly handle hardlinks), so I s=
-upport the idea to disable having the links. My current work around is to j=
-ust remove the unnecessary files when rsyncing to file-server.</div><div><b=
-r></div><div>But the main issue which I&#39;m seeing with my current implem=
-entation (and with webos_deploy this is based on) is that we need the versi=
-on-less artifacts to be available, because e.g. image recipe searching kern=
-el artifact when there is DATETIME or SRCPV in the kernel artifact-name won=
-&#39;t be able to find it, because the image might be built at different DA=
-TETIME and doesn&#39;t know anything about kernel SRCREV/SRCPV. To resolve =
-this, the build is using the version-less artifacts (always the latest one)=
-.</div><div><br></div><div>I guess your implementation might fail in such D=
-ATETIME cases as well.</div><div><br></div><div>With separate variable to d=
-isable the links we can somehow work around this or at least warn user that=
- without the version-less filenames, the VERSION_SUFFIX variable needs to b=
-e stable (as no PV/SRCPV/DATATIME in it).</div><div><br></div><div>Cheers,<=
-/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
-ttr">On Tue, Dec 1, 2020 at 5:13 PM Paul Eggleton &lt;<a href=3D"mailto:blu=
-elightning@bluelightning.org">bluelightning@bluelightning.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi Martin<br>
-<br>
-(replying all this time)<br>
-<br>
-On Tuesday, 1 December 2020 15:40:36 NZDT you wrote:<br>
-&gt; Can we use a separate variable controlling this behavior other than<br=
->
-&gt; *_LINK_NAME variables being set to empty?<br>
-&gt;<br>
-&gt; Then we could easily extend it to stop creating the links also for ima=
-ge<br>
-&gt; artifacts as well.<br>
-<br>
-Well, I didn&#39;t call it out explicitly but I was just mirroring the imag=
-e <br>
-artifacts behaviour - we set those to &quot;&quot; as well and there are ch=
-ecks there <br>
-already to make that disable the symlink in that case.<br>
-<br>
-Paul<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000f1f0ad05b569893e--
