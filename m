@@ -1,280 +1,201 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.4079.1606788144107610364
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.77])
+ by mx.groups.io with SMTP id smtpd.web08.4211.1606789219876187789
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 18:02:24 -0800
+ Mon, 30 Nov 2020 18:20:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=o2FnB/dy;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id t37so261907pga.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 18:02:24 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=fI7dMb+q;
+ spf=pass (domain: windriver.com, ip: 40.107.243.77, mailfrom: li.wang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=T2pdSrfQo03Vn/AlOqpsjJFnA2Xe//z29NHPl+Ib+/gGnNf70qsyy2d7bqCOq03dnUV9cdTIRe95M6h9NMKmzGwLLxMUbP449smvG7D0zaOpywgsA47z384uZqHG78O154qGHVQ9C4zTgnYNKRINJj4w+Sh726WPikvSldmjBSyyumacoJd/r5i0h9iJMyuQg6TIbZ/MPy7mkse7qpbldpdF3Lvdw8tCS0NIrm/ky0aHpITN2s95HN+t61EyABGQlMN3FZE5NtlR5xlnYQrrmtG124JUvSfmEV/Lerf+FnXRu+Nn+EOFrMQvZMSEbxW33NnagJ/cuL+5CutGReV5xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hDPkVmx60V/V3ivp1GU1eDNvXZ09q/xMHCPg9vLFRwM=;
+ b=Sp5iLZXk5pRZbiS1ez/rqnKXn/jUtViHSAmdfVDb4hUUHILS3HAYytjR6MGSrJ4dnH1kZPHoDtHMR86BR6gwDN6lN7UaZD1XD0TV1muX6zMV3MClMULTvWZ31HskVr+PatLRf7RESjiTUo3Yta6YDJVaUaY5gvGJi4fPFCi6A+LGgyL0udNNrfQ9wER4Uju+hA3GinkX9qRMumYAwTU+I7df4FN0pdhgbFJbQjonv307bPxigNGYrsaMslhCLm+1i5j+yqlJL5NWeVI2xGuK78VhgYSIRykbdktpKq3Qz90avs6JrEVTMaQz3sNWKqicVXU2I9vgBFuZhD+I5FYmoQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language:importance;
-        bh=8pbdue8dUrWKz0oRfF4FAT+BrLQvH3W/YVWZYNw9KaA=;
-        b=o2FnB/dyZsAdshx62bWPU/EXt0rXm8Yc/0bioWDUzzB/aW9BmIrlVXh7LQSY76lcm0
-         +WHhth1nszEYV1ctDlbiCzY2kc0PZmEQH98j4xaT/crDwY7ZOfvEEeNKVlGYlCki2N4X
-         TrztxDUOL1B0TOdf/q/3Oj26BQQ7uyEX1r+ayTP9J2tOnerL7qmxhkW256t0r1ukJjc1
-         ezdjd5kp2+wFDySKKJF8JE2LkQsNLBF/WPXzGiEjC53Oysdk8wzne0c1yezw2TSTDyGH
-         DRPSwBX7avmW/zfrqiAiJyRPuYBP0a5B7NbAcM146WKtCQ9SZGzIw/6GKGIqkrSHRejh
-         oU7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language:importance;
-        bh=8pbdue8dUrWKz0oRfF4FAT+BrLQvH3W/YVWZYNw9KaA=;
-        b=MFayEC4+uYlismCV+w2uXLyQEjil/R1x3Cf5EqKa3dougKe75O19SEa+1VUrldwAdX
-         S+g/8NPM8uYAXsBoUOVKRSH0zBHsofHtc2iV8vlUz118ygmftV/q/K+pmPf4IRHfRc2I
-         +q9EttdriUuO/2hfoHt4Y8Rjzd7GkNCO9Fogi8BkXLRAyi+15X0orVyDhU9fbtGf5ico
-         cJmSAeqzswtUUMGvlQOMtGQd3+iLfo1TTCuT/kJEo9D/7Hh1hAe9yFwQNXBcKZ2VhOie
-         nWRcMwe58xavfuo/g9jz+Iyol7Rp3kQ3VSSDtH0+ykD/lW3GmttS3yZWVg6JnTjKUFFv
-         vL0Q==
-X-Gm-Message-State: AOAM532wzc0MJ1/dRYitKzfTrAUy9cUxmEFHO4NcMXze1Bi2Bq9kqFvb
-	LwK+7vxCX2PAZqXKTciTf0u9a323qdY=
-X-Google-Smtp-Source: ABdhPJzZWFIgr9pu0BD0HgB/SXvYh2eYTv/aZCnTdeI7YIE1mJTWUQjjbCQHHQ9aft463wpgZ79psQ==
-X-Received: by 2002:a63:5849:: with SMTP id i9mr247774pgm.271.1606788143071;
-        Mon, 30 Nov 2020 18:02:23 -0800 (PST)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id b10sm219250pju.27.2020.11.30.18.02.22
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 30 Nov 2020 18:02:22 -0800 (PST)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on the first Tuesday (PDT)
-Date: Mon, 30 Nov 2020 18:02:22 -0800
-Message-ID: <0bd901d6c786$0263ac40$072b04c0$@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hDPkVmx60V/V3ivp1GU1eDNvXZ09q/xMHCPg9vLFRwM=;
+ b=fI7dMb+q1oH9jgwKzw8g5iFIKlfcdfwnDqfZelX7n73qM8zql0OWzVljsABEX2mUXpe5opI/AwmCWJL+4OO/dqxEbpZkHb6dLbx59oUOkgT2usYBZF6U9ccaRAEGBgVgpYY0PixvLfLHx5WoWVCSwMGa3QKQmsOIlD0HAm/5vGY=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB3595.namprd11.prod.outlook.com (2603:10b6:5:142::16)
+ by DM6PR11MB3995.namprd11.prod.outlook.com (2603:10b6:5:6::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3611.25; Tue, 1 Dec 2020 02:20:18 +0000
+Received: from DM6PR11MB3595.namprd11.prod.outlook.com
+ ([fe80::54c6:c8e4:c594:eada]) by DM6PR11MB3595.namprd11.prod.outlook.com
+ ([fe80::54c6:c8e4:c594:eada%6]) with mapi id 15.20.3611.025; Tue, 1 Dec 2020
+ 02:20:18 +0000
+From: "Li Wang" <li.wang@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][master][PATCH] qemu: CVE-2020-29129 CVE-2020-29130
+Date: Tue,  1 Dec 2020 02:16:54 +0000
+Message-ID: <20201201021654.327-1-li.wang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK0PR01CA0068.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::32) To DM6PR11MB3595.namprd11.prod.outlook.com
+ (2603:10b6:5:142::16)
+Return-Path: li.wang@windriver.com
 MIME-Version: 1.0
-X-Priority: 1 (Highest)
-X-MSMail-Priority: High
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIam5ZNuvONMaCjBhMfovCGWsaj0g==
-Importance: High
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0BDA_01D6C742.F4426810"
-Content-Language: en-us
-
-------=_NextPart_000_0BDA_01D6C742.F4426810
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-Just a reminder we will hold the monthly Yocto Project Technical Meeting at
-8am PST tomorrow. (12/1)  
-
- 
-
-Yocto Project Technical Team Meeting: We encourage people attending the
-meeting to logon and announce themselves on the Yocto Project IRC chancel
-during the meeting (optional):
-
-Yocto IRC: http://webchat.freenode.net/?channels=#yocto
-
- 
-
-Wiki: https://www.yoctoproject.org/public-virtual-meetings/
-
- 
-
-When            Monthly from 8am to 9am on the first Tuesday Pacific Time
-
-Where           Zoom Meeting:
-https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
-
- 
-
-We are tracking the minutes at:
-https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
-DH4/edit?pli=1 Please request access if you want to assist in editing them.
-The world should have view access. 
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0BDA_01D6C742.F4426810
-Content-Type: text/html;
-	boundary="----=_NextPart_000_132C_01D6B126.5F3EE7C0";
-	charset="us-ascii"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from bfbf5eb70dd2.wrs.com (60.247.85.82) by HK0PR01CA0068.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20 via Frontend Transport; Tue, 1 Dec 2020 02:20:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 63fc7854-5719-422b-a1b3-08d8959fa55f
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3995:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB3995B9737C1A8A5D960DFEA4EFF40@DM6PR11MB3995.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:758;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	xFKaEihRVCSWgmyZuIZP6v8kAR84p38sW6ypT9OkCzVntPNkMS8ewO2ESEXbzfPVCkVS382Z+O8s9vnlHYVD5RzwsbBgFeU5Y769L+3Qnq71iwJ4iJC2ttRUllPcBMNc2vq9mXTd7kMiDoIYhAWLXqTyX1ReKgm9tHkTwd1zKaEDMGIQXO16xA73x0/SU2aSVNktyLLRjJPpRJKAqkBF3naVGQZKHoeLQz/11r/6u2X9I2r+CY23guBqbuUFcVBJjaGLCo/HQEJHhFo581pjSCoYoMyGpz7fHA8cz/UCnLRN+dexIIFyZem5My5locN/HUW5+Qnhs3M3ZqmZsIR3Vbg1jTU8a0pSbPmO5B9ilFO0vyfB4ZOOBv5ahu212yy/qufo/owAVu3iYIwscD/yXzz9j5kTYIaja9j+tP4vmm0FqTbz9KqQK1fg1Vxgmoo6ZwvOhKe7cLFlpNcTVK1LTg==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3595.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(366004)(136003)(39850400004)(396003)(66476007)(45080400002)(186003)(16526019)(26005)(966005)(36756003)(86362001)(66946007)(478600001)(83080400002)(66556008)(5660300002)(6666004)(1076003)(316002)(2616005)(2906002)(83380400001)(956004)(6916009)(8936002)(8676002)(6512007)(6486002)(6506007)(52116002)(44832011);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?/dySko/2KMwz6axUTnLCvyT5ysVSUNnS1NJ5ASRVhsIPHRlZmmHaYycxRDYz?=
+ =?us-ascii?Q?ahbMj4rlQh+HYAnNv8SgSQCTCA3NmaVj66ovSeAkXQY9DLB4NV1CgAajdgOZ?=
+ =?us-ascii?Q?Vgz7g9eA3NP0UKG+vfgnbEAIhEoiGimkTMRSgmCeKmCQ34t1g08jq9qUiioe?=
+ =?us-ascii?Q?ThouJ3HMc2i7csIYUo7TVNk6wX/uf0UqcWa6M1cFh0GMOYotW4VPHxKOLNre?=
+ =?us-ascii?Q?XxwyM38a6GGcZNxV8XjwDbQpyGLpLY3kdbb6xWm/btnwO8721Lwu539vyXgI?=
+ =?us-ascii?Q?B7nkY2muVza5RPIjAAi17I/512MDiB/MsXVSsUxPkOMCyHII5KhYSsS6VYAX?=
+ =?us-ascii?Q?avFxP8C1Q4PEs9ehR6ZoLAx7chTA0dzyxA7evJeOFJhN8DjPMzFiEjipmZvJ?=
+ =?us-ascii?Q?3n3ogRepC131KbSKeZSsQCsJ3Z7QZQlwu0Ik/8GZD92XWF7AsHZBWWDqWKSL?=
+ =?us-ascii?Q?Y+SevUSkpebjsu3JEU/uYVtgu5A7WqPWkwSvNRXQlu2hsosUT7OMq38IK+A+?=
+ =?us-ascii?Q?VJK1Wy0+qCNGUnv5t5VJj4/B/PTogWPjf9GVbddFhhxicGnpIC+G7kTX7a7p?=
+ =?us-ascii?Q?ve5WX2KeedUiIeDz0oCH59OS5Kf61ilAT37Hih7S20z50ar57CoNsEL4aDN8?=
+ =?us-ascii?Q?BHRrmMbkDfNWcqvZ7Rix9x/FG1+JNfkuzUzxedRHMQWBTcrqMS2mwh5Iefp5?=
+ =?us-ascii?Q?VyW0H/A/BVaVqpm6bM6Gh5byJzBV+4EMjYH9p82acFTYwuW2dwIwNooi9JyK?=
+ =?us-ascii?Q?Yrb7NucQEB/YrBpTQ+Rd9wH8pmshoMqYNVQmnIcBuPmnXOSr0BjHPvFtu8Pj?=
+ =?us-ascii?Q?JvO50Rx0t5Tck4zNDjXG0xqrNXJMFdpuDayuDl8ockV9U/tXKX37gzjiamYP?=
+ =?us-ascii?Q?PSDhueQskJk9x/xaeHZhi3L7DkmqtRON3rUEpnHUwdH4Mvh4ZE0VdnK/UAgr?=
+ =?us-ascii?Q?cC6lD1siCBavoZ/aLx4Hxy8Ff8xm60OvyGJovzVqHWLI0R4PomvaGJO3fWFD?=
+ =?us-ascii?Q?sjyD?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63fc7854-5719-422b-a1b3-08d8959fa55f
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3595.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Dec 2020 02:20:18.2690
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2Hexo/6imeFCj94DGtMMbwTvvPMkKxUbv3JG8pAxQOk+tqQAk2WQNkJ6ivC1kZBz5OFtTSUfpFEs0O7/M6YYdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3995
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>All,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
-reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
-PST tomorrow. (12/1)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
-Project Technical Team Meeting: We encourage people attending the =
-meeting to logon and announce themselves on the Yocto Project IRC =
-chancel during the meeting (optional):</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto IRC: =
-</span><a =
-href=3D"http://webchat.freenode.net/?channels=3D#yocto">http://webchat.fr=
-eenode.net/?channels=3D#yocto</a><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Wiki: =
-</span><a =
-href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
-w.yoctoproject.org/public-virtual-meetings/</a><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 9am on the first Tuesday =
-Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
-New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; Zoom Meeting: <a =
-href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
-9">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09</a>=
-<o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
-tracking the minutes at: </span><a =
-href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
-wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
-4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
-style=3D'color:#1F497D'> Please request access if you want to assist in =
-editing them.&nbsp; The world should have view access. </span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Thanks,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2020-29129
+https://nvd.nist.gov/vuln/detail/CVE-2020-29130
 
-------=_NextPart_000_0BDA_01D6C742.F4426810--
+backport patch from:
+https://git.qemu.org/?p=3Dlibslirp.git;a=3Dcommit;h=3D2e1dcbc0c2af64fcb1700=
+9eaf2ceedd81be2b27f
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/CVE-2020-29129-CVE-2020-29130.patch  | 64 +++++++++++++++++++
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-29129-CVE-2020=
+-29130.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qe=
+mu/qemu.inc
+index 11be545cb5..bbe2a39755 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -33,6 +33,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar.x=
+z \
+            file://usb-fix-setup_len-init.patch \
+            file://0001-target-mips-Increase-number-of-TLB-entries-on-the-3=
+4.patch \
+            file://CVE-2020-24352.patch \
++           file://CVE-2020-29129-CVE-2020-29130.patch \
+            "
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-29129-CVE-2020-29130.=
+patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-29129-CVE-2020-29130.patch
+new file mode 100644
+index 0000000000..e5829f6dad
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-29129-CVE-2020-29130.patch
+@@ -0,0 +1,64 @@
++From 2e1dcbc0c2af64fcb17009eaf2ceedd81be2b27f Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Thu, 26 Nov 2020 19:27:06 +0530
++Subject: [PATCH] slirp: check pkt_len before reading protocol header
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3Dutf8
++Content-Transfer-Encoding: 8bit
++
++While processing ARP/NCSI packets in 'arp_input' or 'ncsi_input'
++routines, ensure that pkt_len is large enough to accommodate the
++respective protocol headers, lest it should do an OOB access.
++Add check to avoid it.
++
++CVE-2020-29129 CVE-2020-29130
++  QEMU: slirp: out-of-bounds access while processing ARP/NCSI packets
++ -> https://www.openwall.com/lists/oss-security/2020/11/27/1
++
++Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Message-Id: <20201126135706.273950-1-ppandit@redhat.com>
++Reviewed-by: Marc-Andr=C3=83 Lureau <marcandre.lureau@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2020-29129 CVE-2020-29130
++[https://git.qemu.org/?p=3Dlibslirp.git;a=3Dcommit;h=3D2e1dcbc0c2af64fcb17=
+009eaf2ceedd81be2b27f]
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ slirp/src/ncsi.c  | 4 ++++
++ slirp/src/slirp.c | 4 ++++
++ 2 files changed, 8 insertions(+)
++
++diff --git a/slirp/src/ncsi.c b/slirp/src/ncsi.c
++index 3c1dfef..75dcc08 100644
++--- a/slirp/src/ncsi.c
+++++ b/slirp/src/ncsi.c
++@@ -148,6 +148,10 @@ void ncsi_input(Slirp *slirp, const uint8_t *pkt, int=
+ pkt_len)
++     uint32_t checksum;
++     uint32_t *pchecksum;
++=20
+++    if (pkt_len < ETH_HLEN + sizeof(struct ncsi_pkt_hdr)) {
+++        return; /* packet too short */
+++    }
+++
++     memset(ncsi_reply, 0, sizeof(ncsi_reply));
++=20
++     memset(reh->h_dest, 0xff, ETH_ALEN);
++diff --git a/slirp/src/slirp.c b/slirp/src/slirp.c
++index dba7c98..9be58e2 100644
++--- a/slirp/src/slirp.c
+++++ b/slirp/src/slirp.c
++@@ -756,6 +756,10 @@ static void arp_input(Slirp *slirp, const uint8_t *pk=
+t, int pkt_len)
++         return;
++     }
++=20
+++    if (pkt_len < ETH_HLEN + sizeof(struct slirp_arphdr)) {
+++        return; /* packet too short */
+++    }
+++
++     ar_op =3D ntohs(ah->ar_op);
++     switch (ar_op) {
++     case ARPOP_REQUEST:
++--=20
++2.17.1
++
+--=20
+2.17.1
+
