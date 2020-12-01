@@ -1,96 +1,83 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web08.2957.1606782973848301839
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.3679.1606785616499214563
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 16:36:14 -0800
+ Mon, 30 Nov 2020 17:20:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dl3xGpSE;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id o24so21113341ljj.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 16:36:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=vn9jwztAjTzXECHpNQn6SVbnmAvqXuGQA7FXhmxgwt0=;
-        b=dl3xGpSEEmpgJH4TIkwKq2pUp6SZpp5WPn2Za4qnOzvXT46Dn+0xURAIEMBJre3v1K
-         5hKpbMLvl2JzettdwnPI2kYxq8E6H9vDT1WIzC0dJzcmAXwGjfkcu2Lq4uGEZ2dNIV1L
-         Z7Km0FH4s8WgPUpx7xNzWPnoBrXyWfCVxXIjZ1EI4NhVEHoqg5eMkJErkJ9G4JcMxKXA
-         kqso7IKZ9DM/G2K5PabkplBLdzeDcJNFXPWsiQ2tWJ3eew3JcpSqLTarQVj9789tZ4yI
-         40+naj9712smACda6EXjgCLQguYbw14HRhb+7NATrvmNjQObnUvD2MsRMzoI+cqsFEtR
-         1RMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vn9jwztAjTzXECHpNQn6SVbnmAvqXuGQA7FXhmxgwt0=;
-        b=UH/M/gOs/67HKNUhmjy1fqh4jmw5jwSCe83YBk9k3k+fViRavPaD+5xjChuMmxLLCU
-         pcEWSuLp+ZojQ4Eb6LesFloQ2NLEw29oV6lKK2vcy/bbK3tN01s08ctjqo0aO9zDYrFI
-         uK0nAVXsrWatJnMLyiI9IvPiRFyur4C5MSVBWykYKQCF9uyi0vq2BUfF1difhY4tjauS
-         KoqRW7qsGhDrdR7840AHh4X1Vh3nlmPfPsxuoUOVn1cuvRJFRmO/hE+RSomMtJ+mrmzF
-         b4d72KAS/pYoUI2uJeEfb9mhhx1oMRpu40g6NPwK+zhIbMpoDIF0fraxlplItv5Ye+4u
-         nezw==
-X-Gm-Message-State: AOAM531TD07h2rN/dPpI44sbScGVTw3Ia/XYhywkQgUJwhcvO0yC4Cxh
-	Y08MnBc0o2hgGeL/iMCTZxY79stLiMw=
-X-Google-Smtp-Source: ABdhPJw9smOz2lnHq0W8//hT9YXLtCbaykq1O/s/K9npwkuUGY71+8dOnNiLZwWT+V1bRpCOTSTYJg==
-X-Received: by 2002:a2e:858b:: with SMTP id b11mr108927lji.90.1606782971796;
-        Mon, 30 Nov 2020 16:36:11 -0800 (PST)
-Return-Path: <dbaryshkov@gmail.com>
-Received: from umbar.lan ([188.162.65.76])
-        by smtp.gmail.com with ESMTPSA id m21sm25037ljh.82.2020.11.30.16.36.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 16:36:11 -0800 (PST)
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 2/2] linux-firmware: package ath11k firmware
-Date: Tue,  1 Dec 2020 03:36:05 +0300
-Message-Id: <20201201003605.768732-2-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201201003605.768732-1-dbaryshkov@gmail.com>
-References: <20201201003605.768732-1-dbaryshkov@gmail.com>
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=nkP0XlRP;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=axis.com; l=2496; q=dns/txt; s=axis-central1;
+  t=1606785616; x=1638321616;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=yNy0BuoUblt+lpQiEjrficZjYS5MaO0JmpawimfnD3U=;
+  b=nkP0XlRPlDNqnj0bRlL6Pj9pPk9NekmOfI3yWRfDQp70rTLKWKOAOsER
+   Uy500I0w/IwYo6CuZymetLLVW7QkB5IOQHBYuYr20g1QRyiQtsYtFDmru
+   jDwoc/e+j4gjUNOu43Rk5XjAV3rC+qJ0MQ/LetWR6JswEXZ9Gb94HPdFU
+   DcCglVgvpUD4CqDqXMv+nRrKwTOopqhyT+Pmi3AZAMn3anfvzdfen5wYD
+   6auKyapIlI6uq2pYIZts0E51anaklnhBTgjqjOvguzHFjT6zlIMvsGtFy
+   Smc9kBdH64ItzRUxhdtrVPkFcx9tHayorw0u/jiVTvAlQ5A+NAeQl2QEn
+   A==;
+IronPort-SDR: kn+9oWyiVjhAaUeUcVRHL0dt0gwrsnFF0OpztZ/JsYkgeU1rP+M81Y1jWFRKNfsvaxPDXjGiqc
+ iu658y35aRN8546KfsTi7o3VhZjp/qSESaFoQtE5wR6jeizw/g9oZ0HwCK9YTOBjpxeS/wiyTN
+ lLi1+udQnk63zsT6k402NzeCCvBVOn6Qx2pZg3yx652cKw1+g1wxSVHLQXBLqpqLb0SGImzt+N
+ s7Y+atfazGXhnZC7KQNhYBotezqe6q9LgxSQbpSfjkEXHq1S0VLkS6a+TUeNCJz5EPUf/y4qJZ
+ IkY=
+X-IronPort-AV: E=Sophos;i="5.78,382,1599516000"; 
+   d="scan'208";a="15040381"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCHv2 1/4] pseudo: Simplify pseudo_client_ignore_path_chroot()
+Thread-Topic: [OE-core] [PATCHv2 1/4] pseudo: Simplify
+ pseudo_client_ignore_path_chroot()
+Thread-Index: AQHWxw6TJaKDjl8LR0aOR09xkD+qUanhbo3Q
+Date: Tue, 1 Dec 2020 01:20:13 +0000
+Message-ID: <61bfe4c0ea574d5c865e3640a26e06f0@XBOX03.axis.com>
+References: <cover.1606312002.git.pkj@axis.com>
+	 <dc076eec080ae9dd901ed4387b1a20239f7594ce.1606312002.git.pkj@axis.com>
+ <1f005e64f11edd73d83461290baf0805f886fa41.camel@linuxfoundation.org>
+In-Reply-To: <1f005e64f11edd73d83461290baf0805f886fa41.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Package firmware for new generation of Atheros WiFi cards.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../linux-firmware/linux-firmware_20201118.bb              | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
-index 5de7157f3a84..baac26c51053 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
-@@ -261,7 +261,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-bcm43xx-hdr \
-              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ath6k ${PN}-ath9k \
-              ${PN}-gplv2-license ${PN}-carl9170 \
--             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-qca \
-+             ${PN}-ar3k-license ${PN}-ar3k ${PN}-ath10k-license ${PN}-ath10k ${PN}-ath11k ${PN}-qca \
-              \
-              ${PN}-imx-sdma-license ${PN}-imx-sdma-imx6q ${PN}-imx-sdma-imx7d \
-              \
-@@ -356,12 +356,17 @@ FILES_${PN}-ath10k = " \
-   ${nonarch_base_libdir}/firmware/ath10k \
- "
- 
-+FILES_${PN}-ath11k = " \
-+  ${nonarch_base_libdir}/firmware/ath11k \
-+"
-+
- FILES_${PN}-qca = " \
-   ${nonarch_base_libdir}/firmware/qca \
- "
- 
- RDEPENDS_${PN}-ar3k += "${PN}-ar3k-license"
- RDEPENDS_${PN}-ath10k += "${PN}-ath10k-license"
-+RDEPENDS_${PN}-ath11k += "${PN}-ath10k-license"
- RDEPENDS_${PN}-qca += "${PN}-ath10k-license"
- 
- # For ralink
--- 
-2.29.2
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDMwIG5vdmVtYmVy
+IDIwMjAgMTI6NDcNCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
+QGF4aXMuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0h2MiAxLzRdIHBzZXVkbzogU2ltcGxpZnkN
+Cj4gcHNldWRvX2NsaWVudF9pZ25vcmVfcGF0aF9jaHJvb3QoKQ0KPiANCj4gSGkgUGV0ZXIsDQo+
+IA0KPiBPbiBXZWQsIDIwMjAtMTEtMjUgYXQgMTQ6NDggKzAxMDAsIFBldGVyIEtqZWxsZXJzdGVk
+dCB3cm90ZToNCj4gPiBUaGlzIGFsc28gcGx1Z3MgYSBtZW1vcnkgbGVhayBpbiBwc2V1ZG9fY2xp
+ZW50X2lnbm9yZV9wYXRoX2Nocm9vdCgpLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIg
+S2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+IA0KPiBJIG1ha2Ug
+bm8gY2xhaW0gdG8gdW5kZXJzdGFuZCB3aGF0IGhhcHBlbmVkIGJ1dCBJIHRyaWVkIHBhdGNoZXMg
+MSBhbmQgMg0KPiBpbiBhIGJ1aWxkIG92ZXIgdGhlIHdlZWtlbmQgYW5kIHdpdGggdGhlIGZpcnN0
+IHR3byBwcmVzZW50Og0KPiANCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3Jn
+L3R5cGhvb24vIy9idWlsZGVycy83OS9idWlsZHMvMTYwMg0KPiBodHRwczovL2F1dG9idWlsZGVy
+LnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgwL2J1aWxkcy8xNTg0DQo+IGh0
+dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvODYv
+YnVpbGRzLzE1ODYNCj4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhv
+b24vIy9idWlsZGVycy84Ny9idWlsZHMvMTYxMA0KPiANCj4gSSB0aGVuIHJlbW92ZWQgdGhpcyBv
+bmUgbGVhdmluZyBvbmx5IHBhdGNoIDIgYW5kIHRoZSBidWlsZCB3YXMgZmluZS4NCj4gDQo+IFNv
+IHRoZXJlIGlzIHNvbWV0aGluZyBvZGQgaW4gdGhpcyBwYXRjaCBidXQgSSd2ZSBub3QgbG9va2Vk
+IGludG8gd2hhdA0KPiBvciB3aHkgb25seSBzZWxmdGVzdCBpcyBhZmZlY3RlZC4NCj4gDQo+IENo
+ZWVycywNCj4gDQo+IFJpY2hhcmQNCg0KSSBiZWxpZXZlIEkgaGF2ZSBmb3VuZCB0aGUgcHJvYmxl
+bS4gSSBoYWQgbWlzc2VkIHRoZSBlZGdlIGNhc2Ugd2hlcmUgDQp0d28gY29tbWFzIGFyZSBzcGVj
+aWZpZWQgaW1tZWRpYXRlbHkgYWZ0ZXIgZWFjaCBvdGhlciwgb3IgdGhlcmUgaXMgYQ0KbGVhZGlu
+Zy90cmFpbGluZyBjb21tYS4gVGhpcyB3b3VsZCBlZmZlY3RpdmVseSBjYXVzZSBwc2V1ZG8gdG8g
+aWdub3JlIA0KYWxsIHBhdGhzLiBUaGFua2Z1bGx5IHRoZSBmaXggaXMgdHJpdmlhbC4NCg0KSSBo
+YXZlIHZlcmlmaWVkIHRoYXQgSSBjb3VsZCByZXBlYXQgdGhlIG9lLXNlbGZ0ZXN0IHByb2JsZW1z
+IGZvciB0aGUgDQp3aWMuV2ljMiB0ZXN0cywgYW5kIHRoYXQgdGhleSBhcmUgYmFjayB0byB3b3Jr
+aW5nIHdpdGggbXkgdXBkYXRlZCANCmNvZGUuDQoNCkkgd2lsbCB3YWl0IHdpdGggc2VuZGluZyBh
+biB1cGRhdGVkIHBhdGNoIHNlcmllcyB1bnRpbCBJIGhhdmUgYSANCnJlc3BvbnNlIHJlZ2FyZGlu
+ZyBob3cgeW91IHdhbnQgbWUgdG8gaGFuZGxlIHRoZSB0aGlyZCBwYXRjaCBpbiANCnRoZSBzZXJp
+ZXMgKHNlZSBteSBvdGhlciBtYWlsIGZyb20gZWFybGllciB0b2RheSkuDQoNCi8vUGV0ZXINCg0K
