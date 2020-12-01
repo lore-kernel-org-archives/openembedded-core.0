@@ -1,142 +1,88 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.50])
- by mx.groups.io with SMTP id smtpd.web12.919.1606774051987390884
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web09.2936.1606782972858643779
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Nov 2020 14:07:32 -0800
+ Mon, 30 Nov 2020 16:36:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=gCwo41Xt;
- spf=pass (domain: xilinx.com, ip: 40.107.243.50, mailfrom: ckalluri@xilinx.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LA678PJ4Kkv7Y1wDno/+hX2xM9MADGv8adjHJQW2oh8aH7biHxzRbdG3x9wUg81RdnoGibIFaTD7zMt8dokFSQOzcccEeF7QD7Ka5w2jFmNOURULa0f/ktecGZN2pdiBi44wXtKpVcK2bIhE5N0KbgkWasWa3DNU3kf4o9N+b/RG+u7a95pnoR8pZIz/RG6MWXVVFwoCExff5HLc5Z7r9qoahALjPMg4xegWUdaaMhoSH5+72Mc5N0N5f1fKomBsoAPcK2mHyIjSvFSzX29FdZUhKvDXbCBdZ2QoS5RGchNn1VVi2nyf1W4swT1F4wyyVUMa5uAWwaN3nzno5LF0ew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jt92UZHQ/edny+s3hOSWAZ5k+pLaDBQKeAZnoFPLfV8=;
- b=MByCB+fDU4w2KublbR10AGq8ASnlcsmrw3Dz2DzoUom+6ykeJixh+KpE/pmXr8o84r8EI0KYy2PNv0gYTOTOUFS1YUvJycCoYh7BWudiXZ/c2Ki9VzPhRLvlGzs2Xcz5sZPQeIu1IoZHQevjnYSnlEQ5vtODu3Ce1QXUjdJ2EATD8ubWsj+dm2ZYxLrukao+/xz+hjCosqQmN8XOrk4FAYXpX7wvcok4MYw544sL8JoOhRNY2DHWZX3XVA39iY/boaFsuhj7a2UyCsSNo5m/gEdPZt71JDj8jNHjBcQ3j8p7VCpxAwvrzGsfvVkgV95kagCiP/Icoa8AJcEBq843fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UQn5qRkr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-lj1-f196.google.com with SMTP id z1so21141858ljn.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Nov 2020 16:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Jt92UZHQ/edny+s3hOSWAZ5k+pLaDBQKeAZnoFPLfV8=;
- b=gCwo41XtgxsD3+zmm8wrdOFC0miFtMmlTmgB6+EhTotwQeKRBlHvsN1tejHGAishWlqdik5jiEm2TYK85ZBOi+F/+TbawAgHFnEFMwBY+P5XuwZeTEZV8d6hV8z3gv0hVKRma3DsIXckUdHw77LcIMpDW+4MTY+imMc58eagMeo=
-Received: from DM6PR02CA0166.namprd02.prod.outlook.com (2603:10b6:5:332::33)
- by CH2PR02MB6182.namprd02.prod.outlook.com (2603:10b6:610:d::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.24; Mon, 30 Nov
- 2020 22:07:30 +0000
-Received: from CY1NAM02FT009.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:332:cafe::c2) by DM6PR02CA0166.outlook.office365.com
- (2603:10b6:5:332::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3611.20 via Frontend
- Transport; Mon, 30 Nov 2020 22:07:30 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT009.mail.protection.outlook.com (10.152.75.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3611.27 via Frontend Transport; Mon, 30 Nov 2020 22:07:29 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 30 Nov 2020 14:07:28 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 30 Nov 2020 14:07:28 -0800
-Return-Path: ckalluri@xilinx.com
-Envelope-to: chandana.kalluri@xilinx.com,
- openembedded-core@lists.openembedded.org
-Received: from [172.19.2.12] (port=49574 helo=xsjckalluri50.xilinx.com)
-	by smtp.xilinx.com with esmtp (Exim 4.90)
-	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1kjrKS-0004Qq-Ge; Mon, 30 Nov 2020 14:07:28 -0800
-From: "Chandana kalluri" <ckalluri@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Subject: [OE-Core][master][gatesgarth][PATCH] populate_sdk_ext: use CUSTOM_TEPLATECONF variable to enable custom templateconf.cfg
-Date: Mon, 30 Nov 2020 14:07:27 -0800
-Message-ID: <1606774047-25380-1-git-send-email-chandana.kalluri@xilinx.com>
-X-Mailer: git-send-email 2.7.4
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TcYX2gX1WbLPdw97enDm59R3i7bTlrD+SmiN6+1qB6I=;
+        b=UQn5qRkryH8ZuP6IDmglE/ixndXs+eXNiAitC7lWGRfhkC0tAJ6b1L5d25YOdX59Xk
+         NWRO2N1e5M1zqiawhls/iKEG1aAYwAN+Md8is4ymX1WRVsq+tMrmTZgwFd7kEXGub7mE
+         Uv5EFxylS3qG/ysycXmyjnu7aPNg5MXGaeLt58QjMlSapT6LHjiEaOo9FmCEj+PJ8ECD
+         OKEbEqzUO1whZcZ/YkcDRqYKIaiHJQEkIRUbsV+f31sAPiVuqC3Pg0ZgpKx29kN+azDU
+         ncSqEBQIhzliVikx8GOJJ1XccbCXsU+Dlzyp+UQNYFLPq4yc5BHgMO5B9d2Qi5R3rws+
+         XRng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TcYX2gX1WbLPdw97enDm59R3i7bTlrD+SmiN6+1qB6I=;
+        b=l9/ALJjtTXAvxtCsXl1l+t8x5ScmRxLWdDRTs7NZSxov1g0Y8zZOwYYrEHz4zcdu/e
+         zB4tRc5FWw6KoA/ilqVvwztakeYq6ik8XBkMyJhiwHZsV9GqAaNMBKxN5TccNmdDKkdy
+         Yek/0a7kB8v6lflos5NopP7M+kahOzBpQQqR7OCMoVk9Bvn73sPVe4RpXou96t1/dJHJ
+         yP2eHBNJTXGLdsYggQoszinJ7SabDRO0IHv/GmBt322umvDEFRnQBiMXcX2pnD1LXvCA
+         XVWRrWCMO0zROXBIooHEHzT6UWoCMk72Ti61iNaYWW8cIyI0tCGdThNNU71enRnjjvsi
+         wb3Q==
+X-Gm-Message-State: AOAM531Sg5MN23+IXYrUKg3xCzyd8StqwP0RitGzGWDQafqnpI03gg3S
+	Q9Pzup/0AY+Hc5AMEgf4WBOZ+n4J3NY=
+X-Google-Smtp-Source: ABdhPJxRtdqlCDZxx3KMDchtXxkz363UFcBe8tXqvD9QFsQC8VaiECtbEbluVKDVrdt78Q3qz7pLIQ==
+X-Received: by 2002:a2e:2a86:: with SMTP id q128mr103631ljq.158.1606782970867;
+        Mon, 30 Nov 2020 16:36:10 -0800 (PST)
+Return-Path: <dbaryshkov@gmail.com>
+Received: from umbar.lan ([188.162.65.76])
+        by smtp.gmail.com with ESMTPSA id m21sm25037ljh.82.2020.11.30.16.36.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 16:36:10 -0800 (PST)
+From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/2] linux-firmware: upgrade 20201022 -> 20201118
+Date: Tue,  1 Dec 2020 03:36:04 +0300
+Message-Id: <20201201003605.768732-1-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 333bf657-1ee9-4efc-5aa9-08d8957c5480
-X-MS-TrafficTypeDiagnostic: CH2PR02MB6182:
-X-Microsoft-Antispam-PRVS: 
-	<CH2PR02MB61822E9A55754D4CD419C3DCB0F50@CH2PR02MB6182.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4g9mQqtUizRtWqZ/oLt8VoudaD9+kT55pqrMZ69kv9sl/qECRxXX2xn5JvAjLgUJ0eIPxQKvZu3WyqjONtbu+RD31NQDvj3y+PqroqmvZsJPNZRTeguSeSSSMK2cnUXbdsaMZf9tbsC8L/2kZlS/g65Dr2hIrdSiEZ2Nb2eGNDxpuaK2XhF0B1P1j3qQfypzIm4lNSGoY9J2v3+v2jhu7ekkfhC7PzUtKR2AmseGmSzVTn9OYuwfoOFJaYn34Q6N0LQPSaU87hmPPLswYt7qvSPluPp8JTSNonysIScsK+lCdPm8f91QBJqquNP7fGEuV0ZguAbKmw7A/Y45XKtBo1gxLNSiavuK9R1VonnPKEMbzKWuR+Xre/thVfGNnauNTJ1Qcv4VxGoJ5HIncVrAB7VlfClGnv3136ZRaS1iMUg=
-X-Forefront-Antispam-Report: 
-	CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(39860400002)(136003)(376002)(346002)(396003)(46966005)(36906005)(83380400001)(316002)(336012)(7696005)(26005)(6916009)(82310400003)(186003)(2616005)(426003)(107886003)(356005)(9786002)(7636003)(2906002)(36756003)(4326008)(8676002)(8936002)(70586007)(47076004)(70206006)(5660300002)(82740400003)(478600001)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2020 22:07:29.7923
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 333bf657-1ee9-4efc-5aa9-08d8957c5480
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CY1NAM02FT009.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR02MB6182
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-The current implementation will always pick an existing templateconf.cfg if
-present else it will use the one from OE.  A user might not always want to pick
-an existing tempalteconf.cfg even if its present.  Introduce
-CUSTOM_TEMPLATECONF variable to provide an option for the user to specify if he
-wants to use an existing custom templateconf.cfg or not
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-If CUSTOM_TEMPLATECONF=='1' then enable custom templateconf.cfg. By default
-CUSTOM_TEMPLATECONF is set to '0'
-
-Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+License-Update: firmware versions/filenames
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/classes/populate_sdk_ext.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ ...{linux-firmware_20201022.bb => linux-firmware_20201118.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201022.bb => linux-firmware_20201118.bb} (99%)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 6f35b61..d1f61d5 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -24,6 +24,7 @@ SDK_INCLUDE_NATIVESDK ?= "0"
- SDK_INCLUDE_BUILDTOOLS ?= '1'
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
+index 93b9d5308aa1..5de7157f3a84 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
+@@ -126,7 +126,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=daf28db5d6353de0a886f08106cffa22 \
++                    file://WHENCE;md5=ef221e03fc58f4d34a132b801dfa1d68 \
+                     "
  
- SDK_RECRDEP_TASKS ?= ""
-+CUSTOM_TEMPLATECONF ?= "0"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -198,7 +198,7 @@ PE = "1"
  
- SDK_LOCAL_CONF_WHITELIST ?= ""
- SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
-@@ -199,6 +200,9 @@ python copy_buildsystem () {
-     buildsystem = oe.copy_buildsystem.BuildSystem('extensible SDK', d)
-     baseoutpath = d.getVar('SDK_OUTPUT') + '/' + d.getVar('SDKPATH')
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
  
-+    #check if custome templateconf path is set
-+    use_custom_templateconf = d.getVar('CUSTOM_TEMPLATECONF')
-+
-     # Determine if we're building a derivative extensible SDK (from devtool build-sdk)
-     derivative = (d.getVar('SDK_DERIVATIVE') or '') == '1'
-     if derivative:
-@@ -390,7 +394,7 @@ python copy_buildsystem () {
-         shutil.copyfile(builddir + '/cache/bb_unihashes.dat', baseoutpath + '/cache/bb_unihashes.dat')
+-SRC_URI[sha256sum] = "bf586e0beb4c65f22bf0a79811f259aa0a5a7cc9f70eebecb260525b6914cef7"
++SRC_URI[sha256sum] = "863d5a31da725b856a917280d1e3014929b3bc3d4e6e5faecf530c13afb7e2b9"
  
-     # Use templateconf.cfg file from builddir if exists
--    if os.path.exists(builddir + '/conf/templateconf.cfg'):
-+    if os.path.exists(builddir + '/conf/templateconf.cfg') and use_custom_templateconf == '1':
-         shutil.copyfile(builddir + '/conf/templateconf.cfg', baseoutpath + '/conf/templateconf.cfg')
-     else:
-         # Write a templateconf.cfg
+ inherit allarch
+ 
 -- 
-2.7.4
+2.29.2
 
