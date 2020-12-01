@@ -1,101 +1,112 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web09.469.1606848748905727897
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.431.1606848751732496385
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 10:52:29 -0800
+ Tue, 01 Dec 2020 10:52:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=l3GQL71t;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f193.google.com with SMTP id e23so1704708pgk.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:28 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MMXoo1XS;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id l23so1836327pjg.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=ppnuOrEc1O8niE47NvWEWWlI3wVJY0kt6xnTEEiHN9o=;
-        b=l3GQL71tni4JOMPKnpo6PPe3jqQEIDOtks+hVSOuvzuTL+bQSK9AX8Wg5hSNH8zarT
-         JXhvSpQmDMmfRyFmZDF5+eQR9JsIv+7xb28rv+UszuPFSKecrOBVb3FljEyMi7Sg4GME
-         exluJrpEyn7Q3YBm0ihe/NL2NdH8bbhX1sFU7bgM+sSUd5HSLjoiA3SqWEPJolEQ8mr6
-         /cW8leFe0DDMrScqyunWpyVoeqmKb4FaF1Lr7b9Qo8MIlbEFdH37w9JuSPh6k+i6vUH3
-         SiawxeO37qXMGt+YUyEHXnreaJaZfZ2cRmwKY+Qcu3LWGYD2CpjYPY0eTrzj35d+qE/A
-         9L/Q==
+        bh=VmRmM8D7RfzQENSukXBQZ+6zzNa/QwSALXXP13N/NU0=;
+        b=MMXoo1XSI6JZfVV5342ehy0j1O35lSUefqEM68mZl+AlSol3nJ7faS8/qTeClfafre
+         gz5vXjXfIHG3aXrItIazeP4SBdRsqu1gDK7p1JDtb0ckKgb6q1iAaYQZPtT9Xy+IRYkG
+         cyX0SrS6QepI38XcZIbx42/o+glOiBKqQEkaJ1OI+r3pQz+DQqrqm1XpkQVp0bzIWQ90
+         MElOKQ4n4z/B8fD3E52YLklaOe7YK6aqKUpR4mHjIlJ3VU+VEn7XQVyM2mXMBOZXLUgt
+         vM/yk952aEvC8aUkf9AcaBNulQ46C29ZWgf0wynzSWGfyH50jn5NH/ZjN2iVaihMxKY8
+         rO3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=ppnuOrEc1O8niE47NvWEWWlI3wVJY0kt6xnTEEiHN9o=;
-        b=fPkPvQWflIYk2xW/1jOFu5X+h8yq+XZ+UVO44op1cFTGbnGGmpoMy+Pr97aL3d/CMs
-         bx8krIpB+Y80mO0lkCb0oxZlyYzJDYCuL5h8R50ForsOmQCt0pUUFTbZj1AAFvuvHsVb
-         ecIzUNhdGk7StcxSZwY8qajKwkheNOXXV7u9ftJ+twtyJD3CfCdQIDVVOi+i7i7mHWBK
-         zDOakCgNIms62587jTHzHzju804GDOJNYTyBBTGZphennyjM4DTV472/PwZ1FcNW5Kde
-         eCVQT1kD1mF79S8J+6+ebXI9MQaz4ek5fVedg4FPWp4sT7jq05oqM0ClifVBtlfk2uZh
-         uSiA==
-X-Gm-Message-State: AOAM532FsOXMI2hWyolE/xK1FwaJBOwL37cE2q5nNzmc2a211bJ95SJw
-	+8fHberzbUEtUnkZOGqyI7rzGbsrRosVhAvm
-X-Google-Smtp-Source: ABdhPJwkb/BHLgDnFYksLl56BPR3pTusU27crAaY6fX+r05eJVlIgjO64fBUsj+OvKYcs+HAlfPVDQ==
-X-Received: by 2002:a63:161a:: with SMTP id w26mr3414557pgl.17.1606848748037;
-        Tue, 01 Dec 2020 10:52:28 -0800 (PST)
+        bh=VmRmM8D7RfzQENSukXBQZ+6zzNa/QwSALXXP13N/NU0=;
+        b=qos225ozHyNShsaEQikHo2tk/vh5TEsPxiP7wVJ0jgmSEYUZm3QwOlRnBgILc/HgMS
+         JqrzPFGW1REWSG+CojLuSXh69LagAtydJ1W0mtK4A7/COo8kDQNeyOpO34A6Qgo3hRfM
+         nNPFwtkBWlmdhz4IhSZzzDt8J5flEYT1ycsjhpr5ceF1VDD59iK0TVWazfq0gUh4xNcc
+         bOJznbn97HYhwvM1KKInqwWzkELTI97CVeeaYJZt0AGhu4D9p/m4i+oFOlIiWeQks0fp
+         N+iQfmuidV/I7IMsifbBrx6uiq9swQvy8uCPpOfTIgdzrP8JLgTo3/jFxoE1KDT7t7N3
+         Gzvg==
+X-Gm-Message-State: AOAM531FFg397xVKU8IapeG4FkbEgpTY0Sfl7Tjq7kOcd5VlyXuOeoLP
+	c4BcAFcLw/nhM8SLkKmMOzgr2BVci2VsP1G6
+X-Google-Smtp-Source: ABdhPJysmmDvZXdhJerWSxIQcMIMGixpSczk6PVbg/bNqGHH7brRhpcDWAqIqeyXrjXwhsy0v+AWZA==
+X-Received: by 2002:a17:90b:b0f:: with SMTP id bf15mr4078921pjb.202.1606848750898;
+        Tue, 01 Dec 2020 10:52:30 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.26
+        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 10:52:27 -0800 (PST)
+        Tue, 01 Dec 2020 10:52:30 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/16] kernel: Set proper LD in KERNEL_KCONFIG_COMMAND
-Date: Tue,  1 Dec 2020 08:51:46 -1000
-Message-Id: <5f85104363cf496d76c3d29a05ba4406701d2878.1606848593.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/16] roofs_*.bbclass: fix missing vardeps for do_rootfs
+Date: Tue,  1 Dec 2020 08:51:47 -1000
+Message-Id: <5ebd147ecb59a8b3b9919c5c96ebc1dd66fefa36.1606848593.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1606848593.git.steve@sakoman.com>
 References: <cover.1606848593.git.steve@sakoman.com>
 
-From: Wonmin Jung <wonmin82@gmail.com>
+From: Loic Domaigne <tech@domaigne.com>
 
-With 'ld-is-gold' and linux kernel 5.4 or later, menuconfig
-task for kernel recipes will fail with:
+As per lib/oe/rootfs.py and lib/oe/package_manager/???/__init__.py
+the PACKAGE_FEED baseurl is defined as the joined paths of:
+URIS/BASE_PATHS/ARCHS
 
-$ bitbake -c menuconfig virtual/kernel
-...
-scripts/kconfig/mconf  Kconfig
-scripts/Kconfig.include:43:  gold linker 'x86_64-poky-linux-ld' not supported
-/OE/build/tmp/work-shared/qemux86-64/kernel-source/scripts/kconfig/Makefile:29:
- recipe for target 'menuconfig' failed
-make[2]: *** [menuconfig] Error 1
-/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:606:
- recipe for target 'menuconfig' failed
-make[1]: *** [menuconfig] Error 2
-/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:185:
- recipe for target '__sub-make' failed
-make: *** [__sub-make] Error 2
-Command failed.
+Therefore, the do_rootfs task should depend furthermore on
+PACKAGE_FEED_{BASE_PATHS,ARCHS} to properly retrigger a build if
+the value changes.
 
-This is because that the KERNEL_LD variable already set in
-kernel-arch.bbclass isn't used by do_menuconfig function of
-cml1.bbclass.
-
-To fix this issue specify LD variable while calling the kernel
-menuconfig command through KERNEL_KCONFIG_COMMAND.
-
-Signed-off-by: Wonmin Jung <wonmin82@gmail.com>
+Signed-off-by: Loic Domaigne (ljd) <tech@domaigne.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1faf66ce0b1f8f5165277161e07e25e672370c3f)
+(cherry picked from commit e5329464f5ebad909c4c9bd27a718bbd8f4cc221)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/rootfs_deb.bbclass | 2 +-
+ meta/classes/rootfs_ipk.bbclass | 2 +-
+ meta/classes/rootfs_rpm.bbclass | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 700ba0ad8d..29afd791e9 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -569,7 +569,7 @@ addtask savedefconfig after do_configure
+diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+index 2b93796a76..ef616da229 100644
+--- a/meta/classes/rootfs_deb.bbclass
++++ b/meta/classes/rootfs_deb.bbclass
+@@ -7,7 +7,7 @@ ROOTFS_PKGMANAGE = "dpkg apt"
+ do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
+ do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_package_write_deb do_package_qa"
+-do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
++do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS PACKAGE_FEED_ARCHS"
  
- inherit cml1
+ do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+ do_populate_sdk[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index e73d2bfdae..f1e0219732 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -11,7 +11,7 @@ ROOTFS_PKGMANAGE = "opkg ${EXTRAOPKGCONFIG}"
+ do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+ do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_package_write_ipk do_package_qa"
+-do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
++do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS PACKAGE_FEED_ARCHS"
  
--KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
-+KCONFIG_CONFIG_COMMAND_append = " LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
+ do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
+ do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
+diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
+index 51f89ea990..ae0f541c49 100644
+--- a/meta/classes/rootfs_rpm.bbclass
++++ b/meta/classes/rootfs_rpm.bbclass
+@@ -24,7 +24,7 @@ do_rootfs[depends] += "${RPMROOTFSDEPENDS}"
+ do_populate_sdk[depends] += "${RPMROOTFSDEPENDS}"
  
- EXPORT_FUNCTIONS do_compile do_install do_configure
+ do_rootfs[recrdeptask] += "do_package_write_rpm do_package_qa"
+-do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
++do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS PACKAGE_FEED_ARCHS"
  
+ python () {
+     if d.getVar('BUILD_IMAGES_FROM_FEEDS'):
 -- 
 2.17.1
 
