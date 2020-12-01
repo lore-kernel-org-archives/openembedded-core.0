@@ -1,82 +1,78 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web08.508.1606848776145356234
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+ by mx.groups.io with SMTP id smtpd.web08.504.1606848771300324546
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Dec 2020 10:52:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dN9+fosT;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id m9so1727962pgb.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Z+it07aE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f181.google.com with SMTP id s21so1685121pfu.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=jj2cgtQv08dbNTclAlWCW4gRQSSu1kKZIF/VU5/Qizw=;
-        b=dN9+fosTTOSs03qoM5hqf96vKUaSJtCjY5E3RZIDtxrED5r6sIlfvFcFA4KKa8LF4D
-         wEb3/sYPS/MTdkC9zAyYVhtmm/KC3NaOWBIf/fuiYfHAJfw0u3ec9sr+R9Cg72L9tr3F
-         Cr305SeDVbq7PhYyw3hJk5ASRkR2QMWKFZe9OL7hoFklMajY4U5NzKglKgQS5QS/eCjl
-         eiNL5KcfWnx1A1VdfpQs5wDv085iUDHsObxIvGRzXcRAMD0nLcLZkR1V6I4vCMZHU0Vi
-         G6pl0xHLDlEDQPjNl1mgYPh4bw4de6VR5f6nXuSJ0qNHt1W8sjLWdhtyC66r8LkquYBi
-         kN9Q==
+        bh=xWCTbR63rNa2ePW1rlcZWUXKbYhCtEAGDHF1aZAmkwc=;
+        b=Z+it07aE8HHi5Y1f5eCD0Lqay7aGe93abN2bMGo2UUUyn2+K45jHV7FJOVM5gUi1qZ
+         CJsL2ikIRh5Lx3rw6I/qUOWyZ7bi2+i2JPnq3SnAmZQmwS/xoaXIADPXZY7jZND6/Rtj
+         Z3v6O7RW0esjY6BEVpDHloZ+fxO4yi3JIo56rb2BbYIlaH3i9WxNvl6pGEGZz9l+6OHF
+         YDeyi/nbWBAUtj8h++A0bNWqt3gRlZKqOKhOnoCx1sb51gB1yIpEhrr8FgrL1ujuWkQZ
+         TyqgI25UPt8a1OrnmI4oGovqZDnwB/maXmKAbwE73y/S7o3TE6W/qPa6U2G9mdqN9x/r
+         10mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=jj2cgtQv08dbNTclAlWCW4gRQSSu1kKZIF/VU5/Qizw=;
-        b=BQxbpkm6jVEKAniegjFPdGnyUmg4nFDaIW5fJKUUSX2tMZGejkAcGB7b6x6zwKgUrT
-         kXP1MJYAKlT6xgEZj7xyts7bMf3MAq8jUDLS9fkG/PZIPjr7zUiTR07xJLgBeqw57oei
-         kFCWez5rjJchbxKVUmUmyfWdZUKCYipgarWfDXYP7u49aHQ6zV+cOCxI3bOXGhqN1xFd
-         Vrq2HGfRuiFlMe0ebwDotxuiXCruCgKCG16sLR2sd7inpBlVANjtZhsDyus2PTgB4Jyd
-         g2qiojbvtwzQwemWu9o2SU8QaJZu26qb16EH2aXEqi4KyBK2a1cAgJiqEsp28d+hKj6w
-         0ZsA==
-X-Gm-Message-State: AOAM531PsLciSIIKKdYygoonIKhdLaBVrdWH9AhVpTYXoXH7kiGgerx6
-	P4w3ko97e/HIwhrjscqaKFz+RhERnIhI9Ddg
-X-Google-Smtp-Source: ABdhPJxc7uuffRS68tBVix5W2qZ+4801Tid60Ql0SP1uc+9thr1Z0EZowAw3xg2PJeXHlMhx0ZUEIg==
-X-Received: by 2002:a05:6a00:22ce:b029:197:9168:80fb with SMTP id f14-20020a056a0022ceb0290197916880fbmr3926217pfj.38.1606848775275;
-        Tue, 01 Dec 2020 10:52:55 -0800 (PST)
+        bh=xWCTbR63rNa2ePW1rlcZWUXKbYhCtEAGDHF1aZAmkwc=;
+        b=Ji9IDycKea/42Wp35NC0lHe8tgyw/pQdXJFcE6EpX61SuPsBYDQNrqYoTY43mjfELz
+         /UAGdMw4S4G6N3CqxYyldQBTU48gNpNaR1iclGPmGcFAUvZDqvcxWoNMmtHnCnQBAoU6
+         VeN8XgHku6oZwYcD6GZV+4gV2iQMYIFp7lg/foiN0tOckUxpRNMsD1lcj4KSMUHrPBw2
+         MVNzYq6ae8zGu4LPLLTQCLpTXSZTX3twH7UEzPAsdTGee96oND02LR7lfoIfHe4OaepM
+         8QPXrqVhe/qHxKOPR9RHE5Fai74itL/X/0wyd3nDL5ckZ2QTOz3j+z7/PIwCuqvQlI4d
+         a33A==
+X-Gm-Message-State: AOAM5316w6h2/aeA2lirzpj5M4a3eNXmiOyF1Nlp+DVEX8egWwaKDjZi
+	TntehbM3seZOHSqSGUu+0mo8HjEPhZAbWOZu
+X-Google-Smtp-Source: ABdhPJyuSy+11CcDPtgzawjQpglSn+NB13znTelhlwr4JJBRu+WqQKNMVcOuceVDLniAyWBmKhKR0A==
+X-Received: by 2002:a62:8cd2:0:b029:19b:9057:4f5d with SMTP id m201-20020a628cd20000b029019b90574f5dmr3061779pfd.11.1606848770363;
+        Tue, 01 Dec 2020 10:52:50 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.54
+        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 10:52:54 -0800 (PST)
+        Tue, 01 Dec 2020 10:52:49 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/16] eudev: remove bashism to be compatible with dash
-Date: Tue,  1 Dec 2020 08:51:57 -1000
-Message-Id: <34161447a03386d629a3782dabcd7f56fd8b9814.1606848593.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/16] distutils-common-base: fix LINKSHARED expansion
+Date: Tue,  1 Dec 2020 08:51:55 -1000
+Message-Id: <0fc0b52cc624455cd48097dbc0536de50dbc4ede.1606848593.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1606848593.git.steve@sakoman.com>
 References: <cover.1606848593.git.steve@sakoman.com>
 
-From: Fedor Ross <fedor.ross@ifm.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-Remove 'echo -e' and replace it with 'printf'. In bash the builtin
-'echo' has an option for interpreting backslash escapes. In a shell like
-dash the builtin 'echo' interprets backslash escapes by default.
-Therefor the 'echo' in dash doesn't have the '-e' option. When using
-'printf' instead it is safe to use it either with bash or dash.
+Add the missing $ so SECURITY_CFLAGS actually gets expanded.
 
-Signed-off-by: Fedor Ross <fedor.ross@ifm.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c747acca33f84879a1ebd0ef972c07f4d5dff8b7)
+(cherry picked from commit 6ed2f892ebb0b4e30a3bf167eac68027ea378a2d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/udev/eudev/init | 2 +-
+ meta/classes/distutils-common-base.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/eudev/init b/meta/recipes-core/udev/eudev/init
-index 0455ade258..c60dbbf6d5 100644
---- a/meta/recipes-core/udev/eudev/init
-+++ b/meta/recipes-core/udev/eudev/init
-@@ -52,7 +52,7 @@ case "$1" in
-     kill_udevd > "/dev/null" 2>&1
+diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+index 94b5fd426d..43a38e5a3a 100644
+--- a/meta/classes/distutils-common-base.bbclass
++++ b/meta/classes/distutils-common-base.bbclass
+@@ -11,7 +11,7 @@ export LDCXXSHARED  = "${CXX} -shared"
+ export CCSHARED  = "-fPIC -DPIC"
+ # LINKFORSHARED are the flags passed to the $(CC) command that links
+ # the python executable
+-export LINKFORSHARED = "{SECURITY_CFLAGS} -Xlinker -export-dynamic"
++export LINKFORSHARED = "${SECURITY_CFLAGS} -Xlinker -export-dynamic"
  
-     # trigger the sorted events
--    [ -e /proc/sys/kernel/hotplug ] && echo -e '\000' >/proc/sys/kernel/hotplug
-+    [ -e /proc/sys/kernel/hotplug ] && printf '\0\n' >/proc/sys/kernel/hotplug
-     @UDEVD@ -d
+ FILES_${PN} += "${libdir}/* ${libdir}/${PYTHON_DIR}/*"
  
-     udevadm control --env=STARTUP=1
 -- 
 2.17.1
 
