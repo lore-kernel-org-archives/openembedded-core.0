@@ -1,81 +1,58 @@
-Received: from linuxplesk15.openhost.net.nz (linuxplesk15.openhost.net.nz [119.47.118.83])
- by mx.groups.io with SMTP id smtpd.web11.13494.1606842843306723925
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web12.13560.1606842982145517688
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 09:14:03 -0800
+ Tue, 01 Dec 2020 09:16:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 119.47.118.83, mailfrom: bluelightning@bluelightning.org)
-Received: from linc.localnet (unknown [151.210.228.105])
-	by linuxplesk15.openhost.net.nz (Postfix) with ESMTPSA id 11562A218C;
-	Wed,  2 Dec 2020 06:13:59 +1300 (NZDT)
-Authentication-Results: linuxplesk15.openhost.net.nz;
-	spf=pass (sender IP is 151.210.228.105) smtp.mailfrom=bluelightning@bluelightning.org smtp.helo=linc.localnet
-Received-SPF: pass (linuxplesk15.openhost.net.nz: connection is authenticated)
-From: "Paul Eggleton" <bluelightning@bluelightning.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/1] classes/kernel*: allow disabling symlink creation
-Date: Wed, 02 Dec 2020 06:13:58 +1300
-Message-ID: <4074215.1IzOArtZ34@linc>
-In-Reply-To: <CA+chaQc4dmqWxU5o1AbPpN9Pj37ZAGpgy0bMisgpzyj_m66C+Q@mail.gmail.com>
-References: <cover.1606352479.git.paul.eggleton@linux.microsoft.com>
-	<5243521.Sb9uPGUboI@linc>
-	<CA+chaQc4dmqWxU5o1AbPpN9Pj37ZAGpgy0bMisgpzyj_m66C+Q@mail.gmail.com>
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=YYiY8kJb;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f195.google.com with SMTP id 142so4155614ljj.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 09:16:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rg6g/B+Ayu+dtk8YtF3CRya9rBdz0W3HNj+Ft6D69b4=;
+        b=YYiY8kJb3doxUyqAAXtzCbE0+S4xx6sesn38MGnwTogbRKojsuuwAE3SJU8UGcylMD
+         dojWLYpu8DAF2nKpAMLp6Z/s4mXH3VaatXGEjDVDjZ1i9LixxgGx5DoKK+N6hm6/lLK6
+         clOl4wqScL16mlHo4r2L4aUXgj2QfxiJar0tciHkMZnDFiNO0v1H9o/sCsKIuBOP1Vw9
+         K6QyjDv+OF6ppbIm+saJQA9eVQE5wIl4Q3Ohwrug+o8meq5T1G8blU9OOgoiyHX8eedh
+         m+/IGYzzS44BJl9KTlpUr3MsbnpYKnngApZP6xH+/mr3eWyfa/GTv1dkmbsaz31TwJHt
+         RepA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rg6g/B+Ayu+dtk8YtF3CRya9rBdz0W3HNj+Ft6D69b4=;
+        b=j/lbHdJIQrN0mxcWQnSr8kWTo0NALxEO2yggZqO+ngqTyt5nauIvIv5am8pOaZEmcw
+         RzwxGfzGbojBHgjghqAwGrdbA0WKU6QdBay+aiTwOdfEeOAYcG2N/h22t8ZrtkBT4CIk
+         FsVqvor8lJ7ovLm5TnDzFCQKkt8vY83RxDHJnE7AaC/LjVNtFKepUrnJuy+03abdUUyf
+         K9tgeytfyLWBNA9nBQmv8RGN8O0CRFabf1g9jDARswTn838dEGqnoPCWfCaidJSxou+O
+         asM7JIvo4L9yNMZj9sSC0NVuVtsuouJxetefso4NihIbviMBXPMIYXZg935WOrAbwIwy
+         apMQ==
+X-Gm-Message-State: AOAM530O3h8a654/xkjwDo9I6Zg5NFLlZj3NdvYeayTJ3UCxmPXYM0YH
+	9PhH1hxkUpFhmaHVsNsjIgQE0wpMQlyT7voRIzhNZw==
+X-Google-Smtp-Source: ABdhPJw0ypRhH/O3ifzCEklCio7esxriKYcshqWtnBv2ob5PmG4avBlHiBwBxxZHfJuX1MfLLRrbd7twcQp3YOp7p0M=
+X-Received: by 2002:a05:651c:2005:: with SMTP id s5mr1987205ljo.36.1606842980323;
+ Tue, 01 Dec 2020 09:16:20 -0800 (PST)
 MIME-Version: 1.0
-X-PPP-Message-ID: <20201201171359.253368.2084@localhost6.localdomain6>
-X-PPP-Vhost: softec.co.nz
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20201201152305.2375723-1-ross.burton@arm.com> <20201201152305.2375723-4-ross.burton@arm.com>
+ <04b925bedf42ef5a8828bf262a39c5f85fdc2f85.camel@linuxfoundation.org>
+In-Reply-To: <04b925bedf42ef5a8828bf262a39c5f85fdc2f85.camel@linuxfoundation.org>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Tue, 1 Dec 2020 17:16:08 +0000
+Message-ID: <CAAnfSTv=GdCS6Ybup5Y77sHiG1DZ7ev+sgbgeutCrPb7=GL8bQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 4/6] reproducible_build: clamp the rootfs tarball mtime to the epoch
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wednesday, 2 December 2020 05:22:43 NZDT Martin Jansa wrote:
-> I see, I was just worried that this case will block me pushing the last bit
-> of [YOCTO #12937] which changes symlinks to hardlinks:
-> https://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/artifact
-> s
-> 
-> Which makes the use case you're fixing worse (as even less systems will
-> correctly handle hardlinks), so I support the idea to disable having the
-> links. My current work around is to just remove the unnecessary files when
-> rsyncing to file-server.
-> 
-> But the main issue which I'm seeing with my current implementation (and
-> with webos_deploy this is based on) is that we need the version-less
-> artifacts to be available, because e.g. image recipe searching kernel
-> artifact when there is DATETIME or SRCPV in the kernel artifact-name won't
-> be able to find it, because the image might be built at different DATETIME
-> and doesn't know anything about kernel SRCREV/SRCPV. To resolve this, the
-> build is using the version-less artifacts (always the latest one).
-> 
-> I guess your implementation might fail in such DATETIME cases as well.
-> 
-> With separate variable to disable the links we can somehow work around this
-> or at least warn user that without the version-less filenames, the
-> VERSION_SUFFIX variable needs to be stable (as no PV/SRCPV/DATATIME in it).
+On Tue, 1 Dec 2020 at 15:45, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I'm not convinced this is correct as it could mess up the timestamps of
+> stamps set in other recipes?
+>
+> It's also tar specific and should really be across all image types?
 
-That is a good point and we have the same problem here - what I'm planning to
-do is to set a bunch of the other variables such that there are no versioned
-artifacts - i.e. the real files effectively appear in place of the symlinks and
-the versioned ones disappear. It seems to work in my tests so far. With my
-patchset this is what I set:
+Yes, it most likely should be done at rootfs time instead.
 
------------- snip ------------
-IMAGE_LINK_NAME = ""
-IMAGE_VERSION_SUFFIX = ""
-IMAGE_NAME_SUFFIX = ""
-IMAGE_MANIFEST_distroname = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
-
-KERNEL_ARTIFACT_NAME = "${MACHINE}"
-KERNEL_ARTIFACT_LINK_NAME = ""
------------- snip ------------
-
-I have found that I still need the plain type named kernel artifacts (e.g. vmlinux),
-and since these don't actually use the link name variable I have changed those to
-be written out even if the link name is blank (v2 patchset still in testing). We could
-introduce another variable to disable those but I hadn't planned to do that
-for the moment.
-
-Cheers,
-Paul
-
-
-
+Ross
