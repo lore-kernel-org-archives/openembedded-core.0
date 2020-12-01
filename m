@@ -1,76 +1,67 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web08.11527.1606836189996738592
+ by mx.groups.io with SMTP id smtpd.web11.11648.1606836190245759485
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Dec 2020 07:23:10 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEBE830E
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Dec 2020 07:23:08 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 81E3C1042
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Dec 2020 07:23:09 -0800 (PST)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A2B53F575
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Dec 2020 07:23:08 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E3C53F575
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Dec 2020 07:23:09 -0800 (PST)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/6] ldconfig-native: don't write auxiliary cache
-Date: Tue,  1 Dec 2020 15:23:00 +0000
-Message-Id: <20201201152305.2375723-1-ross.burton@arm.com>
+Subject: [PATCH 2/6] image_types: remove obsolete tar comment
+Date: Tue,  1 Dec 2020 15:23:01 +0000
+Message-Id: <20201201152305.2375723-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201201152305.2375723-1-ross.burton@arm.com>
+References: <20201201152305.2375723-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The auxiliary cache written by ldconfig is only useful for speeding up
-future runs of ldconfig, and as it contains inode numbers as the keys
-in a dictionary it is entirely pointless to generate on the build host.
+We now depend on tar 1.28, so talking about older tar versions is just
+confusing.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../ldconfig-native-2.12.1/no-aux-cache.patch | 19 +++++++++++++++++++
- .../glibc/ldconfig-native_2.12.1.bb           |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/no-aux=
--cache.patch
+ meta/classes/image_types.bbclass | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/no-aux-cache.=
-patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/no-aux-cache.patch
-new file mode 100644
-index 00000000000..c6765ba00d2
---- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/no-aux-cache.patch
-@@ -0,0 +1,19 @@
-+The ldconfig auxiliary cache is a dictionary where the keys include inod=
-e, so
-+there is no point in writing these files on the build host.=20
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+
-+diff --git a/ldconfig.c b/ldconfig.c
-+index 2c4eb57..2d6dc92 100644
-+--- a/ldconfig.c
-++++ b/ldconfig.c
-+@@ -1399,8 +1399,6 @@ main (int argc, char **argv)
-+   if (opt_build_cache)
-+     {
-+       save_cache (cache_file);
-+-      if (aux_cache_file)
-+-        save_aux_cache (aux_cache_file);
-+     }
-+=20
-+   return 0;
-diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/rec=
-ipes-core/glibc/ldconfig-native_2.12.1.bb
-index 93c0b186714..919d11417d3 100644
---- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-@@ -14,6 +14,7 @@ SRC_URI =3D "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://ldconfig-default-to-all-multilib-dirs.patch \
-            file://endian-ness_handling_fix.patch \
-            file://add-64-bit-flag-for-ELF64-entries.patch \
-+           file://no-aux-cache.patch \
- "
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.=
+bbclass
+index 66884af8e09..3ec321765d9 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -108,16 +108,6 @@ IMAGE_CMD_squashfs-xz =3D "mksquashfs ${IMAGE_ROOTFS=
+} ${IMGDEPLOYDIR}/${IMAGE_NAME
+ IMAGE_CMD_squashfs-lzo =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
+{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lzo ${EXTRA_IMAGECMD} -noappend=
+ -comp lzo"
+ IMAGE_CMD_squashfs-lz4 =3D "mksquashfs ${IMAGE_ROOTFS} ${IMGDEPLOYDIR}/$=
+{IMAGE_NAME}${IMAGE_NAME_SUFFIX}.squashfs-lz4 ${EXTRA_IMAGECMD} -noappend=
+ -comp lz4"
 =20
- PR =3D "r2"
+-# By default, tar from the host is used, which can be quite old. If
+-# you need special parameters (like --xattrs) which are only supported
+-# by GNU tar upstream >=3D 1.27, then override that default:
+-# IMAGE_CMD_TAR =3D "tar --xattrs --xattrs-include=3D*"
+-# do_image_tar[depends] +=3D "tar-replacement-native:do_populate_sysroot=
+"
+-# EXTRANATIVEPATH +=3D "tar-native"
+-#
+-# The GNU documentation does not specify whether --xattrs-include is nec=
+essary.
+-# In practice, it turned out to be not needed when creating archives and
+-# required when extracting, but it seems prudent to use it in both cases=
+.
+ IMAGE_CMD_TAR ?=3D "tar"
+ # ignore return code 1 "file changed as we read it" as other tasks(e.g. =
+do_image_wic) may be hardlinking rootfs
+ IMAGE_CMD_tar =3D "${IMAGE_CMD_TAR} --numeric-owner -cf ${IMGDEPLOYDIR}/=
+${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.tar -C ${IMAGE_ROOTFS} . || [ $? -eq 1 =
+]"
 --=20
 2.25.1
 
