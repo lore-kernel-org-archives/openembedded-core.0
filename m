@@ -1,58 +1,228 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web12.13560.1606842982145517688
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+ by mx.groups.io with SMTP id smtpd.web10.13729.1606843178687522920
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 09:16:22 -0800
+ Tue, 01 Dec 2020 09:19:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=YYiY8kJb;
- spf=pass (domain: burtonini.com, ip: 209.85.208.195, mailfrom: ross@burtonini.com)
-Received: by mail-lj1-f195.google.com with SMTP id 142so4155614ljj.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 09:16:21 -0800 (PST)
+ dkim=pass header.i=@broadcom.com header.s=google header.b=hgrkx+Tp;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.214.193, mailfrom: scott.branden@broadcom.com)
+Received: by mail-pl1-f193.google.com with SMTP id r2so1521021pls.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 09:19:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rg6g/B+Ayu+dtk8YtF3CRya9rBdz0W3HNj+Ft6D69b4=;
-        b=YYiY8kJb3doxUyqAAXtzCbE0+S4xx6sesn38MGnwTogbRKojsuuwAE3SJU8UGcylMD
-         dojWLYpu8DAF2nKpAMLp6Z/s4mXH3VaatXGEjDVDjZ1i9LixxgGx5DoKK+N6hm6/lLK6
-         clOl4wqScL16mlHo4r2L4aUXgj2QfxiJar0tciHkMZnDFiNO0v1H9o/sCsKIuBOP1Vw9
-         K6QyjDv+OF6ppbIm+saJQA9eVQE5wIl4Q3Ohwrug+o8meq5T1G8blU9OOgoiyHX8eedh
-         m+/IGYzzS44BJl9KTlpUr3MsbnpYKnngApZP6xH+/mr3eWyfa/GTv1dkmbsaz31TwJHt
-         RepA==
+        d=broadcom.com; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to;
+        bh=IK51VD9gwU/i42oLTQ1AA9hc0s6+YsaBR83hXRQ+UgM=;
+        b=hgrkx+Tpy/Vfo0Sg5WHLhPP51dDAw1mnUcEeJ96md0jWu2AZMkq0zjQhQyP0jXLVA0
+         aWqgkm3A6raqig5o2+6J2EPfU3YfWZCQ+XTwno8Bt2YC2+GcL5S4+c75d2GhKSoQzqkK
+         dNdeJwAj7v1Z9Uf6Tsm/nQyRegPgk3Klzq5T4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rg6g/B+Ayu+dtk8YtF3CRya9rBdz0W3HNj+Ft6D69b4=;
-        b=j/lbHdJIQrN0mxcWQnSr8kWTo0NALxEO2yggZqO+ngqTyt5nauIvIv5am8pOaZEmcw
-         RzwxGfzGbojBHgjghqAwGrdbA0WKU6QdBay+aiTwOdfEeOAYcG2N/h22t8ZrtkBT4CIk
-         FsVqvor8lJ7ovLm5TnDzFCQKkt8vY83RxDHJnE7AaC/LjVNtFKepUrnJuy+03abdUUyf
-         K9tgeytfyLWBNA9nBQmv8RGN8O0CRFabf1g9jDARswTn838dEGqnoPCWfCaidJSxou+O
-         asM7JIvo4L9yNMZj9sSC0NVuVtsuouJxetefso4NihIbviMBXPMIYXZg935WOrAbwIwy
-         apMQ==
-X-Gm-Message-State: AOAM530O3h8a654/xkjwDo9I6Zg5NFLlZj3NdvYeayTJ3UCxmPXYM0YH
-	9PhH1hxkUpFhmaHVsNsjIgQE0wpMQlyT7voRIzhNZw==
-X-Google-Smtp-Source: ABdhPJw0ypRhH/O3ifzCEklCio7esxriKYcshqWtnBv2ob5PmG4avBlHiBwBxxZHfJuX1MfLLRrbd7twcQp3YOp7p0M=
-X-Received: by 2002:a05:651c:2005:: with SMTP id s5mr1987205ljo.36.1606842980323;
- Tue, 01 Dec 2020 09:16:20 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to;
+        bh=IK51VD9gwU/i42oLTQ1AA9hc0s6+YsaBR83hXRQ+UgM=;
+        b=DiyFVOeDJRaIBD4C2lsHSh/UQ9fnpd51emNlKrtsac+ZhHSiTyd0dS4tzBWOn6d4yG
+         xVIF7DX9M5EwXnTVrU5X3U+QfArUu1716h8O9JjyuqlVHnHd6F+7NlqczZwSjBgZ12PH
+         QWTrXYq7R3wYFaByJVJnRlD4Dr1wDpySnh3KzldugFcIne+QePqdH3s9yBzpl13iGIyj
+         J08ikbeQn83jYaLMLbe4D0Zs2gb0sX+VPUWIciMa090aYfn9suwVoi3cTwmPi1lG6lf4
+         2B5kv5XTMqEq53VTBfkfJu4WIfOKIZPX466PLvdZx4QMA7cr5s3Zt0nuOhFWyS8tDifO
+         KzIg==
+X-Gm-Message-State: AOAM5310mxrrDomb+iEmorMXeJ/vaWOusEkXSZixlxxig/oYsr+Skk5J
+	PLVqE3p/acZ4t2sn9F4/HXAEXg==
+X-Google-Smtp-Source: ABdhPJy1xVpW1w5F87b2nSunyyZc0bMYQ5iVOFHjEkOEzWQsdu1+jqx6f1ONGE/3/vVK8TXRzhZ6BA==
+X-Received: by 2002:a17:90b:3594:: with SMTP id mm20mr3755250pjb.121.1606843177852;
+        Tue, 01 Dec 2020 09:19:37 -0800 (PST)
+Return-Path: <scott.branden@broadcom.com>
+Received: from [10.136.13.65] ([192.19.228.250])
+        by smtp.gmail.com with ESMTPSA id p14sm261792pjo.53.2020.12.01.09.19.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Dec 2020 09:19:36 -0800 (PST)
+Subject: Re: [PATCH] menuconfig,mconf-cfg: Allow specification of ncurses location
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Broadcom Kernel Feedback List <bcm-kernel-feedback-list@broadcom.com>,
+ Bruce Ashfield <bruce.ashfield@gmail.com>,
+ OE-core <openembedded-core@lists.openembedded.org>,
+ openembeded-devel <openembedded-devel@lists.openembedded.org>,
+ Michal Marek <mmarek@suse.cz>
+References: <20201128004505.27619-1-scott.branden@broadcom.com>
+ <CAK7LNATD0J3C_mFrXAju8-WmdCmrPmRFn7Um0yebnfL-_zcu8w@mail.gmail.com>
+From: "Scott Branden" <scott.branden@broadcom.com>
+Message-ID: <a5ea40a5-17ef-f037-16b3-177f01db6447@broadcom.com>
+Date: Tue, 1 Dec 2020 09:19:34 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201201152305.2375723-1-ross.burton@arm.com> <20201201152305.2375723-4-ross.burton@arm.com>
- <04b925bedf42ef5a8828bf262a39c5f85fdc2f85.camel@linuxfoundation.org>
-In-Reply-To: <04b925bedf42ef5a8828bf262a39c5f85fdc2f85.camel@linuxfoundation.org>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Tue, 1 Dec 2020 17:16:08 +0000
-Message-ID: <CAAnfSTv=GdCS6Ybup5Y77sHiG1DZ7ev+sgbgeutCrPb7=GL8bQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/6] reproducible_build: clamp the rootfs tarball mtime to the epoch
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAK7LNATD0J3C_mFrXAju8-WmdCmrPmRFn7Um0yebnfL-_zcu8w@mail.gmail.com>
+X-Groupsio-MsgNum: 145136
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000dc8e4405b56a5433"
 
-On Tue, 1 Dec 2020 at 15:45, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I'm not convinced this is correct as it could mess up the timestamps of
-> stamps set in other recipes?
+--000000000000dc8e4405b56a5433
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-CA
+
+Hi Masahiro,
+
+On 2020-12-01 4:25 a.m., Masahiro Yamada wrote:
+> On Sat, Nov 28, 2020 at 9:45 AM Scott Branden
+> <scott.branden@broadcom.com> wrote:
+>> From: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>
+>> In some cross build environments such as the Yocto Project build
+>> environment it provides an ncurses library that is compiled
+>> differently than the host's version.  This causes display corruption
+>> problems when the host's curses includes are used instead of the
+>> includes from the provided compiler are overridden.  There is a second
+>> case where there is no curses libraries at all on the host system and
+>> menuconfig will just fail entirely.
+>>
+>> The solution is simply to allow an override variable in
+>> check-lxdialog.sh for environments such as the Yocto Project.  Adding
+>> a CROSS_CURSES_LIB and CROSS_CURSES_INC solves the issue and allowing
+>> compiling and linking against the right headers and libraries.
+>>
+>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> cc: Michal Marek <mmarek@suse.cz>
+>> cc: linux-kbuild@vger.kernel.org
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+>> ---
 >
-> It's also tar specific and should really be across all image types?
+> Some people solve the cross-compiling in Yocto
+> by using pkg-config.
+>
+>
+> For example,
+>
+> commit 067c650c456e758f933aaf87a202f841d34be269
+> Author: Pavel Modilaynen <pavel.modilaynen@axis.com>
+> Date:   Fri Jul 12 13:52:19 2019 +0200
+>
+>     dtc: Use pkg-config to locate libyaml
+>
+>     Using Makefile's wildcard with absolute path to detect
+>     the presence of libyaml results in false-positive
+>     detection when cross-compiling e.g. in yocto environment.
+>
+>
+>
+> mconf-cfg.sh already allows the path flexibility with pkg-config.
+> Why do you want yet another hook?
+I hope the yocto community can provide more details on this patch.
+The yocto environment isolates the build environment from the host tools.
+Running menuconfig with the upstream kernel does not work on the latest yocto without this patch.
+>>  scripts/kconfig/mconf-cfg.sh | 8 ++++++++
+>>  1 file changed, 8 insertions(+)
+>>  mode change 100755 => 100644 scripts/kconfig/mconf-cfg.sh
+>>
+>> diff --git a/scripts/kconfig/mconf-cfg.sh b/scripts/kconfig/mconf-cfg.sh
+>> old mode 100755
+>> new mode 100644
+>> index aa68ec95620d..32448bc198a5
+>> --- a/scripts/kconfig/mconf-cfg.sh
+>> +++ b/scripts/kconfig/mconf-cfg.sh
+>> @@ -4,6 +4,14 @@
+>>  PKG="ncursesw"
+>>  PKG2="ncurses"
+>>
+>> +if [ "$CROSS_CURSES_LIB" != "" ]; then
+>> +    echo libs=\'$CROSS_CURSES_LIB\'
+>> +    if [ x"$CROSS_CURSES_INC" != x ]; then
+>> +       echo cflags=\'$CROSS_CURSES_INC\'
+>> +    fi
+>> +    exit 0
+>> +fi
+>> +
+>>  if [ -n "$(command -v pkg-config)" ]; then
+>>         if pkg-config --exists $PKG; then
+>>                 echo cflags=\"$(pkg-config --cflags $PKG)\"
+>> --
+>> 2.17.1
+>>
+>
 
-Yes, it most likely should be done at rootfs time instead.
 
-Ross
+--000000000000dc8e4405b56a5433
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+I/3RRboOeC9M13VNr5feU91O0iDoMreAgPQJ0Lo7YrodKYug0Tt/fFDjkW3v3VIbEr2liUN69U0C
+AwEAAaOCAdEwggHNMA4GA1UdDwEB/wQEAwIFoDCBngYIKwYBBQUHAQEEgZEwgY4wTQYIKwYBBQUH
+MAKGQWh0dHA6Ly9zZWN1cmUuZ2xvYmFsc2lnbi5jb20vY2FjZXJ0L2dzcGVyc29uYWxzaWduMnNo
+YTJnM29jc3AuY3J0MD0GCCsGAQUFBzABhjFodHRwOi8vb2NzcDIuZ2xvYmFsc2lnbi5jb20vZ3Nw
+ZXJzb25hbHNpZ24yc2hhMmczME0GA1UdIARGMEQwQgYKKwYBBAGgMgEoCjA0MDIGCCsGAQUFBwIB
+FiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzAJBgNVHRMEAjAAMEQGA1Ud
+HwQ9MDswOaA3oDWGM2h0dHA6Ly9jcmwuZ2xvYmFsc2lnbi5jb20vZ3NwZXJzb25hbHNpZ24yc2hh
+MmczLmNybDAlBgNVHREEHjAcgRpzY290dC5icmFuZGVuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAK
+BggrBgEFBQcDBDAfBgNVHSMEGDAWgBRpcoJiMWeVRIV3kYDEBDZJnXsLYTAdBgNVHQ4EFgQUWOK7
+qiyDSt/IDm/SRcNi/sTEiyswDQYJKoZIhvcNAQELBQADggEBAEe2edd4F9tpp0GPmrFrQ+xp9kY7
+uxBzPdCw588bgVrPemjLwiwV37XTT4iWJtNhPfEpaguM6jeLm58LCvHq5/IBjcyHyf4URQVwAg7B
+pqkH8/M+IBstu4/D+znPHB59X+c+au3Q8D+xoNFd7I30kaE+oJuBuFsGXRBc0Ci+FM86x9k7SF8U
+aui1E7Y9wDfsRSCL2TSwU773f09WkrvVdlKxNqQZj2z7bQUUn+yfXdFfBz0LqlYNfn7xJOpQE3HI
+H4jq6U9+b0Qf+J0n0wyysjXPSeQ7EKXVkT8dM2KSpIN86v5dd9LkAz3C1dmjuPRGEC8ZhI1IjMBt
+0itrn6C23NsxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWdu
+IG52LXNhMTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0g
+RzMCDFtD165RQeUC8DvoCDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQg1jHKelYf
+WFmqo3Dkhwxcisi+BuOiRxuwU98YNkpGvfIwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkq
+hkiG9w0BCQUxDxcNMjAxMjAxMTcxOTM4WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjAL
+BglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG
+9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAEUFzR7aI1qxywMDaOO0U4qyCBSk
++Zs1iT3JIDSdA12pq3zIV2Cldp28mv2V79UTAv1KIwH+ufQ+o9/vIN1jOBKTrloT7CKybEX60PmF
+i8VfRb9k3Gupbri0ZLFW3hHGCKaNoOIaQyPooTYgOgQEZKVdmMejrAUfom8dAt4Zxdegmifj9L39
+vfTR7rttUjl5NCdBO3sD7B0Zz6Q4fRJZUeRtoroj8QMPnzoql7I4CrGHnTWRqFBGRUk/q5UcCgd6
+Mcd7EaT9RKRqgCIpoPF8d9W5VFtOjCqBDFAWr0gS02zF1ycRH5zb1t00IDhP07s5yMlfZ8RxdOGE
+fyKsLwPHiCE=
+
+--000000000000dc8e4405b56a5433--
