@@ -1,93 +1,104 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web09.472.1606848756627013690
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.489.1606848758773950880
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 10:52:36 -0800
+ Tue, 01 Dec 2020 10:52:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=FdUHZ/H4;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id x4so1642044pln.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=f2toLhr4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id 4so1651680plk.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=wjZwqie3AMe+TkDGsW2kXOtOItoz2PmhARiZKvviduc=;
-        b=FdUHZ/H4F2LuXrTovHP+CLgWDi1CYgY+uPvDW48EezMQKXLsHD/MIaLnp8U1Xd/W1D
-         0RTY/a+rj1KFRGgR17gpwD+8XTgYcSxH7K77cK7OsL0kVpFvpegieiyAkDaOHl92OSbf
-         G6m5cksWLjZ+KxapnYUlbpvxUcA1nKwA8nymySuqffuDXNxOyKQ4vNa5rFCx621MTk6r
-         b/dgnoEg+kt8WHQ8CGk9iDqwR14jbxUXMh0w6owUafz26Y0NUAj+2B+0ivpYQZlGi0Ch
-         aLHeObPORT521JAgTQ+KEdlQ4K3UAzg5RHpapt15TManI60ddDHshK7Wwmeb001TYiaq
-         eldQ==
+        bh=emoe7AgswvCpJip7v2ctO3h2cXMPmGFq6rBSjpzRMd0=;
+        b=f2toLhr4/W8BxIpJ2mM8XkFxT8xGJfHkt/QF85a+YYhwlaZXlPUSuuKvri5gPUuuJ3
+         VNLCUIhQJbKVabznOYFQVhfZVbzRDpEnluDMJv52IHBOQ93SdaCiR2EH9K45DSbKyF94
+         luMRamFKDnuvGxITnl1d02vJ5uwhHs48MlIkcdkukD+mafzCfQKPwWj6V/INOcf80ST2
+         ZFG9VTsdF7r9kkJPhiFr1mFnwEsbpAI6EoQEab9gnknMSpZcslWo5gDtqMameAuSZvzy
+         tJbB+u3nDpD8QMgrbn/piDcPxBfLDhnHGmsdcPP/xYbjrs+NhtZiy8bJKyC3IU0fH0z2
+         0L4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=wjZwqie3AMe+TkDGsW2kXOtOItoz2PmhARiZKvviduc=;
-        b=dPtFgMus3elMoFxut2zWTkESI/AuVo/fTAr1AvJ3MYYDwM1++QaqttcC5l8qB6DkvI
-         nAY74Ohba3I8ZWGw8j3xccUIw8WkojGT8S5M0ub0KwtBNQI3HiKRvO8WI4tRKIZpHynI
-         t/7aL+Y4fcQhghozhg2FjHLx62TQ/FjrHHIA0xEH1y+owoZpYYc6e8WCeR7o6jhw9ujM
-         RXUvMiGXM232Cq0UbtYc+tbGy3TBZVeyomlU5iTmU4Ekh876hr3yjvhKG0IKOr8FcWcU
-         66NwvXeqYLLFOlgblkvLtw0fZYq7CCQU2XTLhk4vbRTSgVaRKWMdQ6x44risSGQg34gj
-         VGHQ==
-X-Gm-Message-State: AOAM531m+P2uOwmt7WRi9a4wasnqshcwpuICdSiLe68RoxhScTB/evp1
-	7atVIeH64diol3UZ3PWTMX6GO1BA8PemLh9B
-X-Google-Smtp-Source: ABdhPJw0VG0i0f2LYmW31mQhtVTdA0Hu9aMJTmsX/kgdRnJuFbZ55PkGNHwWT9cEW4I5ecjBnhufUA==
-X-Received: by 2002:a17:90a:f48b:: with SMTP id bx11mr4209293pjb.48.1606848755637;
-        Tue, 01 Dec 2020 10:52:35 -0800 (PST)
+        bh=emoe7AgswvCpJip7v2ctO3h2cXMPmGFq6rBSjpzRMd0=;
+        b=uaWi1T9gqLknz76V60i663neEQDR1yyXGuDrgZtrrnhXgfgduDZlCc0Dm7FRr2zsTU
+         Cbp/8JXXKAVUFkjkgmSvU5pAWgMT1jRF1ppKGm6OK6hcwOZFIZM6bBgw85RkKVe0W/CD
+         YuhjqsDYqR92QEZu81SZLtRpudDVycvBtky/s2QWdxhnw2Z/MM6BHKgRRtrIQPN+MZab
+         sTpsGbEGTb8RZY+x1b4izTlCavwe6DDFMSOBxMfrwE/02owHsCXDBZ0Tn0Q11/tQ41vZ
+         j+Ry+YJwhecoVcWnLIvSO3OOlLvYDT/qPr8l/G38w7ny24qgrERbnWy3rcq15cvL6Lnp
+         gnEQ==
+X-Gm-Message-State: AOAM530J/bi4SQiMCUQqouJ/5LTe1xHTM2YNASWWMIUsUE7g4HuJVhs+
+	mkV0Zzz6dWIkczrC3nwMlOTOw2lfi3CID5/8
+X-Google-Smtp-Source: ABdhPJzOp672GtLrh18ai7roKgkkXkmlcZ2x6sPjo3ljRSusYvYydYMcfwz4VOtqKSctEtRdeZgW8A==
+X-Received: by 2002:a17:90a:2a42:: with SMTP id d2mr4078688pjg.42.1606848757890;
+        Tue, 01 Dec 2020 10:52:37 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.34
+        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 10:52:34 -0800 (PST)
+        Tue, 01 Dec 2020 10:52:37 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/16] license_image.bbclass: use canonical name for license files
-Date: Tue,  1 Dec 2020 08:51:49 -1000
-Message-Id: <d31fd6a2fc2334a20d4fd1bcfe5964c462d1bb98.1606848593.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 07/16] cve-check: show real PN/PV
+Date: Tue,  1 Dec 2020 08:51:50 -1000
+Message-Id: <2618eedbafc408c41479e63dac88a9b5bab461fc.1606848593.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1606848593.git.steve@sakoman.com>
 References: <cover.1606848593.git.steve@sakoman.com>
 
-From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+From: Ross Burton <ross@burtonini.com>
 
-When copying license files to the image rootfs, i.e to
-/usr/share/common-licenses, a canonical name of a license should be
-used, otherwise duplicated files end up in common-licenses directory.
+The output currently shows the remapped product and version fields,
+which may not be the actual recipe name/version. As this report is about
+recipes, use the real values.
 
-For example, GPL-2.0 license according to conf/license.conf can be
-referenced in recipes as GPL-2, GPLv2, and GPLv2.0. If a license name is
-used directly, we end up with three files in the rootfs with the same
-content. If a canonical name used instead, then each license gets copied
-only once.
-
-Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 670fe71dd18ea675f35581db4a61fda137f8bf00)
+(cherry picked from commit 18827d7f40db4a4f92680bd59ca655cca373ad65)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/license_image.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/cve-check.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index a8c72da3cb..acd8126f68 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -125,7 +125,6 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 17f64a8a9c..669da6c8e9 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -205,6 +205,9 @@ def check_cves(d, patched_cves):
+     """
+     from distutils.version import LooseVersion
  
-                 licenses = os.listdir(pkg_license_dir)
-                 for lic in licenses:
--                    rootfs_license = os.path.join(rootfs_license_dir, lic)
-                     pkg_license = os.path.join(pkg_license_dir, lic)
-                     pkg_rootfs_license = os.path.join(pkg_rootfs_license_dir, lic)
++    pn = d.getVar("PN")
++    real_pv = d.getVar("PV")
++
+     cves_unpatched = []
+     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
+     products = d.getVar("CVE_PRODUCT").split()
+@@ -214,7 +217,7 @@ def check_cves(d, patched_cves):
+     pv = d.getVar("CVE_VERSION").split("+git")[0]
  
-@@ -144,6 +143,8 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                                 bad_licenses) == False:
-                             continue
+     # If the recipe has been whitlisted we return empty lists
+-    if d.getVar("PN") in d.getVar("CVE_CHECK_PN_WHITELIST").split():
++    if pn in d.getVar("CVE_CHECK_PN_WHITELIST").split():
+         bb.note("Recipe has been whitelisted, skipping check")
+         return ([], [], [])
  
-+                        # Make sure we use only canonical name for the license file
-+                        rootfs_license = os.path.join(rootfs_license_dir, "generic_%s" % generic_lic)
-                         if not os.path.exists(rootfs_license):
-                             oe.path.copyhardlink(pkg_license, rootfs_license)
+@@ -283,12 +286,12 @@ def check_cves(d, patched_cves):
+                         vulnerable = vulnerable_start or vulnerable_end
+ 
+                 if vulnerable:
+-                    bb.note("%s-%s is vulnerable to %s" % (product, pv, cve))
++                    bb.note("%s-%s is vulnerable to %s" % (pn, real_pv, cve))
+                     cves_unpatched.append(cve)
+                     break
+ 
+             if not vulnerable:
+-                bb.note("%s-%s is not vulnerable to %s" % (product, pv, cve))
++                bb.note("%s-%s is not vulnerable to %s" % (pn, real_pv, cve))
+                 # TODO: not patched but not vulnerable
+                 patched_cves.add(cve)
  
 -- 
 2.17.1
