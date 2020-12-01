@@ -1,79 +1,74 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.435.1606848760938314099
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.490.1606848763166310993
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 10:52:41 -0800
+ Tue, 01 Dec 2020 10:52:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DaQtVTOy;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id b23so1634646pls.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:40 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=G8NrhSsn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id s21so1684778pfu.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=5PVO4ZwlYbstqv+Dzy6ZuHj1THkxht0lA4GdZYpAZGE=;
-        b=DaQtVTOyQ+IeEIQDdaKgwTZEGq96OLMaz/fbelDk1PHHOUsaAKef689pR9X6KKpvhB
-         QVJkvmUxZVfe7OW5GSEFFpMnnUIv+l+c/0+wVSyAeXw2qx34WdpLJCqajARYA3xXFicR
-         EAozOtnEe5oSv1Q1eTJyB8np63hQ0b70jNd51BBv9QmanSshVJiXoecCpIN2Q4+T2Bs/
-         D9UIdQHGgUTZUCsgDNt52cr9VUoLZj5EQOhDdk1HfNUcBaLNYh3fTI0GxPYIv5+5RrO4
-         XebL6pPoMkfYOQPvdjNPolSsgnJud6qqxOgLmCPm4hvyzjsOZEj+JGOeymwcZWHtS8GZ
-         ZORw==
+        bh=JpLzRkPMT/GVOZsROAMjZIEtdrbRm1BK1rVbWFlhb4U=;
+        b=G8NrhSsnbG1+SKGKVNl8+i+vmn7soK6FVbJVw9pbyT4SG3b32KIwislItKRwp/XZvl
+         NhY+LPN3rMZdrekUlUZqiS48QYMjdVJ196exd63Ln3e7GmU7/AS8CwouPCH7Fktt9mJn
+         XLftKjMUjqd+TE/lYZohHr2f9RqY7kUXq9IBfIj+JpoXyMgjOuEPZXVlg49CIQ4AcXxu
+         J8RudjV9frA3ivar4QPwAuJQQF7lkqV61YPyDujWn1+E2YxdrMbsI+2I8buK8pOaGrEg
+         nCNo1muktYyz0aR6YT7OG9xVrLvPUsBrMee/aDqfdKkU1KzKbLUpvpR39TNoNn/UjiyA
+         gpJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=5PVO4ZwlYbstqv+Dzy6ZuHj1THkxht0lA4GdZYpAZGE=;
-        b=UaINwI3rselIERuSmdKFnvVZZWBrRzpkBlotEI38NPpHqKopQsciVBTmd3iXhadmKc
-         8ZX3gmw81DxLPcgmc+ybcK5DyQEnbRrIB9BM1afYp2GJiRl1PFEd+g8HDrCr6YTRduBD
-         yPbQGguMIyrz+IZlPmtUniD4o7GuymQ9ftrslpjFT/cE9MDujumQv88kUWYeugnnnhYs
-         c3gHEcvbaanZ+9UgrcLHmKCzGOft07/LhTEjKPdetuf4242bo2JzsiWbuGdYr1u6OLX9
-         YRKzEnLmOStvB6XOJUDbOLCvlVAK1oUZPrs+EdWQHmEdhiK3y/PnX/Bwm391nsSj3lDM
-         I+xQ==
-X-Gm-Message-State: AOAM530hXjMJ6O325GMY1PE0kFyna5LHfJF0OPzVtjiCY6hqyzIw2YfY
-	cN66A3D5fNs0at08vf8n4zyPRVsm99P9vU98
-X-Google-Smtp-Source: ABdhPJxZjvNjTSg6x6eQi/CfaeIZsHWMRixiRbrvxc0MBwFq9AbII6iMfRIkLPFz6JiL8R2m1UA+8w==
-X-Received: by 2002:a17:90a:2b0b:: with SMTP id x11mr4166616pjc.65.1606848760084;
-        Tue, 01 Dec 2020 10:52:40 -0800 (PST)
+        bh=JpLzRkPMT/GVOZsROAMjZIEtdrbRm1BK1rVbWFlhb4U=;
+        b=E56xYP1/LXrtHWjpGoF/4jNnuaRktg1p9+jcHthEyk3dzVbDs/LsglHN538eldemoj
+         jJkEHfXJz8LEsj4/33XRbZPNnFZ1uEX8tc9hFI3jlzN+Tp52R7mihrBJPc8r9dtjoBMq
+         JOJqrdl8XmMIpAIsbX8/qrFJfX2jketsj6V3kT8vdYMseddcJwEmQAC7Z6dhzdi95N6D
+         QReIePErotkFT3PZVyMeijdtXmBPpTX6sgRVleikdGWeUJk3TbSI/EdCvbtY2LgGvRxp
+         VkMJofRGk1uyHK2AFA2+76Q5htCqqSCUJRF1L1WfcIRAsprZA+7jZle+3EM4/bkEva/9
+         hE1Q==
+X-Gm-Message-State: AOAM532VelLkXXSlUiBEsu8mnkBTefF1AyGN8qfoVIz7VzNvi41VOZIf
+	WF5pGwYVhKc4q1hA59ij3RXy9i68XFMEDMr5
+X-Google-Smtp-Source: ABdhPJxjLl4leEv6hHh4+iToXXYkm/Y+9aytFS9lbuS6zd5lnsWoMLpmbuhGpBikCaC8KSmg//eZsw==
+X-Received: by 2002:a65:6205:: with SMTP id d5mr3501452pgv.76.1606848762179;
+        Tue, 01 Dec 2020 10:52:42 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.38
+        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 10:52:39 -0800 (PST)
+        Tue, 01 Dec 2020 10:52:41 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/16] python3: add CVE-2007-4559 to whitelist
-Date: Tue,  1 Dec 2020 08:51:51 -1000
-Message-Id: <267130c66dde462a0a1043ab5dffdb86781389a0.1606848593.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/16] sqlite3: add CVE-2015-3717 to whitelist
+Date: Tue,  1 Dec 2020 08:51:52 -1000
+Message-Id: <c5bfb3e4680fb69b7ce793c57082354c12ce3f13.1606848593.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1606848593.git.steve@sakoman.com>
 References: <cover.1606848593.git.steve@sakoman.com>
 
-From: Ross Burton <ross@burtonini.com>
-
-This issue describes expected behaviour, do not use tarfile with
-untrusted data.
+As per https://groups.google.com/g/sqlite-dev/c/U7OjAbZO6LA this issue
+is believed to be either iOS specific, or fixed in 3.8.9.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f4c22e83f2e68ff157da5ea1303acc2931d63f5f)
+ (cherry-picked from d11a2157befcfe40517140988dd26bf0ed7240b6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/python/python3_3.8.2.bb | 2 ++
+ meta/recipes-support/sqlite/sqlite3_3.31.1.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index 1d0b4cdb77..b4cce88e87 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -52,6 +52,8 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+index c289affd60..877e80f5a3 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+@@ -19,3 +19,5 @@ SRC_URI[sha256sum] = "62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b5
  
- CVE_PRODUCT = "python"
- 
-+# Upstream consider this expected behaviour
-+CVE_CHECK_WHITELIST += "CVE-2007-4559"
- # This is not exploitable when glibc has CVE-2016-10739 fixed.
- CVE_CHECK_WHITELIST += "CVE-2019-18348"
- 
+ # -19242 is only an issue in specific development branch commits
+ CVE_CHECK_WHITELIST += "CVE-2019-19242"
++# This is believed to be iOS specific (https://groups.google.com/g/sqlite-dev/c/U7OjAbZO6LA)
++CVE_CHECK_WHITELIST += "CVE-2015-3717"
 -- 
 2.17.1
 
