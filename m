@@ -1,112 +1,77 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.web11.431.1606848751732496385
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web08.501.1606848754249275130
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 10:52:31 -0800
+ Tue, 01 Dec 2020 10:52:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MMXoo1XS;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f53.google.com with SMTP id l23so1836327pjg.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:31 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1JTu3b9h;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id s63so1720183pgc.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=VmRmM8D7RfzQENSukXBQZ+6zzNa/QwSALXXP13N/NU0=;
-        b=MMXoo1XSI6JZfVV5342ehy0j1O35lSUefqEM68mZl+AlSol3nJ7faS8/qTeClfafre
-         gz5vXjXfIHG3aXrItIazeP4SBdRsqu1gDK7p1JDtb0ckKgb6q1iAaYQZPtT9Xy+IRYkG
-         cyX0SrS6QepI38XcZIbx42/o+glOiBKqQEkaJ1OI+r3pQz+DQqrqm1XpkQVp0bzIWQ90
-         MElOKQ4n4z/B8fD3E52YLklaOe7YK6aqKUpR4mHjIlJ3VU+VEn7XQVyM2mXMBOZXLUgt
-         vM/yk952aEvC8aUkf9AcaBNulQ46C29ZWgf0wynzSWGfyH50jn5NH/ZjN2iVaihMxKY8
-         rO3w==
+        bh=al5Dm/nFRSqUKZlW0yQUP9udf1PA56GyzSoXoIL8irg=;
+        b=1JTu3b9hJcUwVF7+w9grQCehlhWazM0OaDp+OGSXj8662zYSRhePEb07eztiqhdbeD
+         ixvAtgjWM4PoO6Ga1IlNEZbisI0SLItk4zqkbdA/UWyotFypRqHFMx31rZ/niu9XozGg
+         Llbpg/ISGWTACOSW//oUNH833LQ1Ipjph1foJ1cRrG9JqD7yiQSnSB/JPtYMZ5e+sJjo
+         AvYpTu2fbtP6jdgVgt82E/zNEHjRBwrjsHZouWZ/lbZ39YXVsBvkS74e1fR0p39Q/M/T
+         8Mr9TIqC0UU7JkR+87YIE5+VSDX+1IMdfoDiZn0ElKGsJoyHX0R+sa8eTfIWtBAe1uaP
+         PfEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=VmRmM8D7RfzQENSukXBQZ+6zzNa/QwSALXXP13N/NU0=;
-        b=qos225ozHyNShsaEQikHo2tk/vh5TEsPxiP7wVJ0jgmSEYUZm3QwOlRnBgILc/HgMS
-         JqrzPFGW1REWSG+CojLuSXh69LagAtydJ1W0mtK4A7/COo8kDQNeyOpO34A6Qgo3hRfM
-         nNPFwtkBWlmdhz4IhSZzzDt8J5flEYT1ycsjhpr5ceF1VDD59iK0TVWazfq0gUh4xNcc
-         bOJznbn97HYhwvM1KKInqwWzkELTI97CVeeaYJZt0AGhu4D9p/m4i+oFOlIiWeQks0fp
-         N+iQfmuidV/I7IMsifbBrx6uiq9swQvy8uCPpOfTIgdzrP8JLgTo3/jFxoE1KDT7t7N3
-         Gzvg==
-X-Gm-Message-State: AOAM531FFg397xVKU8IapeG4FkbEgpTY0Sfl7Tjq7kOcd5VlyXuOeoLP
-	c4BcAFcLw/nhM8SLkKmMOzgr2BVci2VsP1G6
-X-Google-Smtp-Source: ABdhPJysmmDvZXdhJerWSxIQcMIMGixpSczk6PVbg/bNqGHH7brRhpcDWAqIqeyXrjXwhsy0v+AWZA==
-X-Received: by 2002:a17:90b:b0f:: with SMTP id bf15mr4078921pjb.202.1606848750898;
-        Tue, 01 Dec 2020 10:52:30 -0800 (PST)
+        bh=al5Dm/nFRSqUKZlW0yQUP9udf1PA56GyzSoXoIL8irg=;
+        b=kbSoqyd0kS2YS6421cs33BCpgpS3291OHKyvKgdLLoqhmr4kOOdZvX7+8E480XSbQ0
+         lKUfcMELZfH4VGdAvVPNMaUeBgPd9HzCPzoXfZzVbV10VyZ6phpBdukr6h8txq/Af8jD
+         +FR8CCv560ZSKasekG/9qUtclGAqfO6uHr9q1XDKh8NTkRbpvOI/qBkvouaYpbfoxMwa
+         Fj9SPJ9gbTHOYysM45zrRDGMq5/pE0fr4P2liEwn7iUaBo3K+WgS98i2szVtHe1KH7Or
+         5ubI+XT9g6KfGJpJ8hrS+1Gv71eKtcipPoI9H9QE4mRUN/BRjEh1o2K8arNF0yjJmY9H
+         iGBw==
+X-Gm-Message-State: AOAM531KDDwjQaHjXQz3XkmhdOzsKVLCXPSj4yXHVBgukzNMR1Z2BsNz
+	zOAb4+5t4X61GxwQMhuEwarPZIflEBVu2T0J
+X-Google-Smtp-Source: ABdhPJzU4gf+7oCwcmEJeAUBaJmMT0Wc90hqLcWzPfvC6Lbo3ctPkWhJiug+mAoLwDvmKCy02ePiXQ==
+X-Received: by 2002:a65:414d:: with SMTP id x13mr3477974pgp.226.1606848753305;
+        Tue, 01 Dec 2020 10:52:33 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.29
+        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 10:52:30 -0800 (PST)
+        Tue, 01 Dec 2020 10:52:32 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/16] roofs_*.bbclass: fix missing vardeps for do_rootfs
-Date: Tue,  1 Dec 2020 08:51:47 -1000
-Message-Id: <5ebd147ecb59a8b3b9919c5c96ebc1dd66fefa36.1606848593.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/16] linux-firmware: rdepend on license for all nvidia packages
+Date: Tue,  1 Dec 2020 08:51:48 -1000
+Message-Id: <8edd935405d6fb3b1822bbbbea41fae892629cb5.1606848593.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1606848593.git.steve@sakoman.com>
 References: <cover.1606848593.git.steve@sakoman.com>
 
-From: Loic Domaigne <tech@domaigne.com>
+From: Max Krummenacher <max.oss.09@gmail.com>
 
-As per lib/oe/rootfs.py and lib/oe/package_manager/???/__init__.py
-the PACKAGE_FEED baseurl is defined as the joined paths of:
-URIS/BASE_PATHS/ARCHS
+Fixes commit 0671d04978 ("linux-firmware: package nvidia firmware")
 
-Therefore, the do_rootfs task should depend furthermore on
-PACKAGE_FEED_{BASE_PATHS,ARCHS} to properly retrigger a build if
-the value changes.
-
-Signed-off-by: Loic Domaigne (ljd) <tech@domaigne.com>
+Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e5329464f5ebad909c4c9bd27a718bbd8f4cc221)
+(cherry picked from commit 59789dea33629a96f0fe5646eb684aa131e167bf)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/rootfs_deb.bbclass | 2 +-
- meta/classes/rootfs_ipk.bbclass | 2 +-
- meta/classes/rootfs_rpm.bbclass | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index 2b93796a76..ef616da229 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -7,7 +7,7 @@ ROOTFS_PKGMANAGE = "dpkg apt"
- do_rootfs[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot"
- do_populate_sdk[depends] += "dpkg-native:do_populate_sysroot apt-native:do_populate_sysroot bzip2-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_deb do_package_qa"
--do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
-+do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS PACKAGE_FEED_ARCHS"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
+index 045f2647e0..93b9d5308a 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201022.bb
+@@ -501,6 +501,7 @@ FILES_${PN}-nvidia-license = "${nonarch_base_libdir}/firmware/LICENCE.nvidia"
  
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- do_populate_sdk[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
-index e73d2bfdae..f1e0219732 100644
---- a/meta/classes/rootfs_ipk.bbclass
-+++ b/meta/classes/rootfs_ipk.bbclass
-@@ -11,7 +11,7 @@ ROOTFS_PKGMANAGE = "opkg ${EXTRAOPKGCONFIG}"
- do_rootfs[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_populate_sdk[depends] += "opkg-native:do_populate_sysroot opkg-utils-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_package_write_ipk do_package_qa"
--do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
-+do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS PACKAGE_FEED_ARCHS"
+ RDEPENDS_${PN}-nvidia-gpu += "${PN}-nvidia-license"
+ RDEPENDS_${PN}-nvidia-tegra += "${PN}-nvidia-license"
++RDEPENDS_${PN}-nvidia-tegra-k1 += "${PN}-nvidia-license"
  
- do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
- do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
-diff --git a/meta/classes/rootfs_rpm.bbclass b/meta/classes/rootfs_rpm.bbclass
-index 51f89ea990..ae0f541c49 100644
---- a/meta/classes/rootfs_rpm.bbclass
-+++ b/meta/classes/rootfs_rpm.bbclass
-@@ -24,7 +24,7 @@ do_rootfs[depends] += "${RPMROOTFSDEPENDS}"
- do_populate_sdk[depends] += "${RPMROOTFSDEPENDS}"
- 
- do_rootfs[recrdeptask] += "do_package_write_rpm do_package_qa"
--do_rootfs[vardeps] += "PACKAGE_FEED_URIS"
-+do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS PACKAGE_FEED_ARCHS"
- 
- python () {
-     if d.getVar('BUILD_IMAGES_FROM_FEEDS'):
+ # For rtl
+ LICENSE_${PN}-rtl8188 = "Firmware-rtlwifi_firmware"
 -- 
 2.17.1
 
