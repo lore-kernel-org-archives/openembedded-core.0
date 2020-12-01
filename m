@@ -1,99 +1,101 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web09.467.1606848745914551178
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+ by mx.groups.io with SMTP id smtpd.web09.469.1606848748905727897
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 10:52:26 -0800
+ Tue, 01 Dec 2020 10:52:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Sf39BmPd;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id l4so1729530pgu.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:25 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=l3GQL71t;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f193.google.com with SMTP id e23so1704708pgk.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=hNXOHx1MNuv9Og4j4pr4uRNgAQOkJdZcaOBoiA9u8Us=;
-        b=Sf39BmPdy8sAmjLLg5BLQsXBg70pOzC+XoMlV1YhgnnG0XlGqgtKSvKLFKQSDhpCj1
-         1B2sZHoc1ZG7NbZlUXPpftu6mqqapjewfFAbG5cFfHix20yLbS4VOmllGChbOg870onG
-         T0DgoSvE17pjpQdXkSGOB5gYxOeTE+BhTSQamuikkftOdIHzPU3NciMDcx2sJaIfa+Nm
-         rLONaGbZ+YrjyQJmE9SyLyXaZ4ANhJRp6epTxBpMo803/dIKXaJKs2fkAGAukr8NpV+Y
-         7vMkTByL/g1eZw8OOJ3xlvmCbxx1ppQKdATA+MA2Svw1oz2mPhjcSiAH+xW/Ak5Afj+h
-         QTHQ==
+        bh=ppnuOrEc1O8niE47NvWEWWlI3wVJY0kt6xnTEEiHN9o=;
+        b=l3GQL71tni4JOMPKnpo6PPe3jqQEIDOtks+hVSOuvzuTL+bQSK9AX8Wg5hSNH8zarT
+         JXhvSpQmDMmfRyFmZDF5+eQR9JsIv+7xb28rv+UszuPFSKecrOBVb3FljEyMi7Sg4GME
+         exluJrpEyn7Q3YBm0ihe/NL2NdH8bbhX1sFU7bgM+sSUd5HSLjoiA3SqWEPJolEQ8mr6
+         /cW8leFe0DDMrScqyunWpyVoeqmKb4FaF1Lr7b9Qo8MIlbEFdH37w9JuSPh6k+i6vUH3
+         SiawxeO37qXMGt+YUyEHXnreaJaZfZ2cRmwKY+Qcu3LWGYD2CpjYPY0eTrzj35d+qE/A
+         9L/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=hNXOHx1MNuv9Og4j4pr4uRNgAQOkJdZcaOBoiA9u8Us=;
-        b=h+ue3qmgxUzgxbIzroTrhp/yTWs50hR7q6WRd+9/QZjwsMxJsYwWLr2N1dB1mNje3B
-         wEYxIHMIWgBPKpjZ+BneFCGH2F8+xcRBhc+RixtbEDSJ5uq1U2+lLQ3cxKwzrcAibi42
-         QvBlg1UimD9K+dl55VB/Tl17W4CT985J7Kk8f4LaLvLPjuCUnf2GBjyYWcQ4eo9WSmrx
-         yES3Va8PMr/RM6AVyQaf4Td9HtQzMWYhLmedXY/SykgBaDr39RKCRO84ZXyevOW0XAOb
-         xA+jg6gUJzFlNy7uqNJahP8LVvWanktgfkSj104a+dD6x/xo8DeiGEtwvkAgKQKT7U06
-         m7nw==
-X-Gm-Message-State: AOAM533/M+yNgzLaJxsNMH111sZbd5lA8ZJ6tjXBL+hapm3GsCbsOBoe
-	OcRVwNIoL4tOo2H8PTMmb4nBPEFqDnfWib1y
-X-Google-Smtp-Source: ABdhPJwiLRpV2o3A/D3RfbMP4gyx5x/fTI+EB+O1khMHFnJq9df8e2wePgtCv8sDYaIl0WeRNEWQJA==
-X-Received: by 2002:a62:4e87:0:b029:197:c74c:a8bf with SMTP id c129-20020a624e870000b0290197c74ca8bfmr3923850pfb.45.1606848744940;
-        Tue, 01 Dec 2020 10:52:24 -0800 (PST)
+        bh=ppnuOrEc1O8niE47NvWEWWlI3wVJY0kt6xnTEEiHN9o=;
+        b=fPkPvQWflIYk2xW/1jOFu5X+h8yq+XZ+UVO44op1cFTGbnGGmpoMy+Pr97aL3d/CMs
+         bx8krIpB+Y80mO0lkCb0oxZlyYzJDYCuL5h8R50ForsOmQCt0pUUFTbZj1AAFvuvHsVb
+         ecIzUNhdGk7StcxSZwY8qajKwkheNOXXV7u9ftJ+twtyJD3CfCdQIDVVOi+i7i7mHWBK
+         zDOakCgNIms62587jTHzHzju804GDOJNYTyBBTGZphennyjM4DTV472/PwZ1FcNW5Kde
+         eCVQT1kD1mF79S8J+6+ebXI9MQaz4ek5fVedg4FPWp4sT7jq05oqM0ClifVBtlfk2uZh
+         uSiA==
+X-Gm-Message-State: AOAM532FsOXMI2hWyolE/xK1FwaJBOwL37cE2q5nNzmc2a211bJ95SJw
+	+8fHberzbUEtUnkZOGqyI7rzGbsrRosVhAvm
+X-Google-Smtp-Source: ABdhPJwkb/BHLgDnFYksLl56BPR3pTusU27crAaY6fX+r05eJVlIgjO64fBUsj+OvKYcs+HAlfPVDQ==
+X-Received: by 2002:a63:161a:: with SMTP id w26mr3414557pgl.17.1606848748037;
+        Tue, 01 Dec 2020 10:52:28 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.23
+        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 10:52:24 -0800 (PST)
+        Tue, 01 Dec 2020 10:52:27 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/16] kernel: relocate copy of module.lds to module compilation task
-Date: Tue,  1 Dec 2020 08:51:45 -1000
-Message-Id: <38c6c6f4a460e9c0593e2530ffeaf20b24fd83a9.1606848593.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/16] kernel: Set proper LD in KERNEL_KCONFIG_COMMAND
+Date: Tue,  1 Dec 2020 08:51:46 -1000
+Message-Id: <5f85104363cf496d76c3d29a05ba4406701d2878.1606848593.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1606848593.git.steve@sakoman.com>
 References: <cover.1606848593.git.steve@sakoman.com>
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Wonmin Jung <wonmin82@gmail.com>
 
-There were two copies of this patch floating around, and the merged
-variant has the copy in the wrong place.
+With 'ld-is-gold' and linux kernel 5.4 or later, menuconfig
+task for kernel recipes will fail with:
 
-module.lds is only created during modules_prepare, and that target is
-not invoked during our main build of the kernel. We aren't about to
-change the kernel build (there's no need), so we move the copy into
-the compile_kernelmodules task. After that runs, we have module.lds
-availble to copy.
+$ bitbake -c menuconfig virtual/kernel
+...
+scripts/kconfig/mconf  Kconfig
+scripts/Kconfig.include:43:  gold linker 'x86_64-poky-linux-ld' not supported
+/OE/build/tmp/work-shared/qemux86-64/kernel-source/scripts/kconfig/Makefile:29:
+ recipe for target 'menuconfig' failed
+make[2]: *** [menuconfig] Error 1
+/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:606:
+ recipe for target 'menuconfig' failed
+make[1]: *** [menuconfig] Error 2
+/OE/build/tmp/work-shared/qemux86-64/kernel-source/Makefile:185:
+ recipe for target '__sub-make' failed
+make: *** [__sub-make] Error 2
+Command failed.
 
-This has been tested against clean kernel + out of tree module
-builds, and the dependencies are correct that the file is copied
-before the out of tree module build starts.
+This is because that the KERNEL_LD variable already set in
+kernel-arch.bbclass isn't used by do_menuconfig function of
+cml1.bbclass.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+To fix this issue specify LD variable while calling the kernel
+menuconfig command through KERNEL_KCONFIG_COMMAND.
+
+Signed-off-by: Wonmin Jung <wonmin82@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7d94f9209ebaaf59ea001239a889dd7f928a0e7c)
+(cherry picked from commit 1faf66ce0b1f8f5165277161e07e25e672370c3f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/classes/kernel.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 58c9f171dc..700ba0ad8d 100644
+index 700ba0ad8d..29afd791e9 100644
 --- a/meta/classes/kernel.bbclass
 +++ b/meta/classes/kernel.bbclass
-@@ -358,6 +358,10 @@ do_compile_kernelmodules() {
- 		# other kernel modules and will look at this
- 		# file to do symbol lookups
- 		cp ${B}/Module.symvers ${STAGING_KERNEL_BUILDDIR}/
-+		# 5.10+ kernels have module.lds that we need to copy for external module builds
-+		if [ -e "${B}/scripts/module.lds" ]; then
-+			install -Dm 0644 ${B}/scripts/module.lds ${STAGING_KERNEL_BUILDDIR}/scripts/module.lds
-+		fi
- 	else
- 		bbnote "no modules to compile"
- 	fi
-@@ -465,7 +469,6 @@ do_shared_workdir () {
- 	# Copy files required for module builds
- 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
- 	[ -e Module.symvers ] && cp Module.symvers $kerneldir/
--	[ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
- 	cp .config $kerneldir/
- 	mkdir -p $kerneldir/include/config
- 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+@@ -569,7 +569,7 @@ addtask savedefconfig after do_configure
+ 
+ inherit cml1
+ 
+-KCONFIG_CONFIG_COMMAND_append = " HOSTLDFLAGS='${BUILD_LDFLAGS}'"
++KCONFIG_CONFIG_COMMAND_append = " LD='${KERNEL_LD}' HOSTLDFLAGS='${BUILD_LDFLAGS}'"
+ 
+ EXPORT_FUNCTIONS do_compile do_install do_configure
+ 
 -- 
 2.17.1
 
