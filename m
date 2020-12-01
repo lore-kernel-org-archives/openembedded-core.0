@@ -1,124 +1,116 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web08.492.1606848732839509805
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+ by mx.groups.io with SMTP id smtpd.web11.428.1606848738921580585
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Dec 2020 10:52:13 -0800
+ Tue, 01 Dec 2020 10:52:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kw0CfyeN;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d77so1257682pfd.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:12 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=X5Ew9cIE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f68.google.com with SMTP id r20so1791759pjp.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Dec 2020 10:52:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=MInWQY7iXfzJT5r7jYz8XJ6SQG4QJn9zI9i6qfACzs0=;
-        b=kw0CfyeN8T/8Xw94vdGfLTpiDfvqchYSBBoVy/NdeOoS3O6XZoxHzAtWnaaqRo09bA
-         illEzXol9oHFTpu23e9bUhEwERHJLvMf+LIFr2K/hSgQSnJLxLCKyBJnQhnmojiKze9c
-         wvxTl+FBY28pSmPfYOONhkUSy74lgOxn+wDQ4SS3A7dlLigxI96NvxR/lgZTk85plx6o
-         xt2Js/35sibEVvvbfgz1ngXxoSXUetjZ57fFZ1vT+EFloy3Fv3Mhgkq58cfHJ98P/k2d
-         zi4WHTfi1o2kvI9bNNLxsc3An7PzC20NFsh7UHPev/ZrMUGBXz9U819+ZnZu8cuEFYKW
-         hjHw==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=wk3jdejG4lXbp0o9v/HJ/epqAB+hjtr18jPXQA1P67k=;
+        b=X5Ew9cIEMWkBbZJnHCZ/m0W4+W0vUDRl5Q/i0/uln1nyunhRO1WUZYrs6T8sOJJR4f
+         32x+4+ahkQrUkywKdQeLn9ojj7hGqbdhjqI+DOHyz9fT99/koGQcUe5L8OjlPnk5Qtdu
+         Dn1WoML0Be+VeDiWH9a3c8NdMW1GwgSEke2JICyBl8liIsKj5/9ZIiHiRXiv/UxRnpZg
+         jlR7FJw4c7luK2moWtLr6QJyKPl+QTnow5Vclh/vA++TBDJe5NRznKCzj+cHFRE8H1R9
+         wtPSbG5yChrk6ZnWuxbJWLXh56Xh/cqPwllRU+xIIayPOGVfQr3NjqKJ/WvC/6xfdsgL
+         3MRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=MInWQY7iXfzJT5r7jYz8XJ6SQG4QJn9zI9i6qfACzs0=;
-        b=lAnOk/b/qmdNpodyPUpNpRIEyH8jqihWKJFS+3BzHAYkwPgUQdt5JiykYP7nSAqy+F
-         fqh1hHIDKEEIy6CCcfQ/kkA2cUg1P7mHsmwrhMV/XTbXAtth39Ocu4hAvxGGPvhOW4WP
-         sdlLCg/It+qwkks03SztHKMPch166Qjznbn7asO4UNDJ5IG7HcUfrhD6VptLxsDByhi8
-         9x119s+dKc4UrLUjmxrGYWANPc95owpHdqMN0I/osQtNhORw69hMTPmJLrDCvLASeieB
-         5LCF8Y1g3899e5JJBypLd7kMPvUGSC58qYxXDAY8ugxHjQ3NMoLdYugdYzumJUFuRF5c
-         rW+g==
-X-Gm-Message-State: AOAM533/nM9FLWASsF1j1ymQ90VckXMhE1RImyf2QEc6C5hL5yLi2rj3
-	FL72oDf76c3uV+h8Mgip940M2MvmSveXxTM8
-X-Google-Smtp-Source: ABdhPJwFQp9s7bA8q3CACMWJimWl1Hy6mtrSuYO1wjHGxgE2uaueg/qp1mY5mxz+UCjMcEg4mL0xgg==
-X-Received: by 2002:a05:6a00:1593:b029:198:195:4d93 with SMTP id u19-20020a056a001593b029019801954d93mr3836919pfk.32.1606848731795;
-        Tue, 01 Dec 2020 10:52:11 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=wk3jdejG4lXbp0o9v/HJ/epqAB+hjtr18jPXQA1P67k=;
+        b=S/sUlOzrwHTjnMO6nax1Z312sWhtPnARLQ5hPbAD2T4MlVWYIeNXIUNklrmW0OWrWo
+         sutHcSYQAsf0K9YQGelYDVGwIvgexwF1zP48cSKN7SjuoqMefVyPwAgfjwd9Ig/FVD3+
+         v2npt/5/+vzCF/TyNnuQBCM/u6NHAvPt4HuDUrrffRXX2BH/Kyp9mtQGW0mRfQXvDG5O
+         GQfbPxGmMT8HV9vsO2ZuuaBdy0OtgR+lYK6POka5fsMIV2PsNg2E/1zQnas4G8pQpvYz
+         MZ4LOHN1ktnTgDQS6RdrV5bb6GW/RkW33riUST2hdiNPqTxXjAGisLouc/Q33QjaT9Ud
+         2fHw==
+X-Gm-Message-State: AOAM533Zh5x0cvNlCVJ6xr9Fu0YJGbzPVGVOnnXcUls7x46BCJBDmziF
+	gpljuljIEI18bWlmFSiskkcdXxkNQGb4TJez
+X-Google-Smtp-Source: ABdhPJzGc31TUDMCWHCURktjtKxHFz/sRrWIApVWGES4ViboChnEp/ZwKRskc8uCviZglTQqmzbCLg==
+X-Received: by 2002:a17:90a:7b86:: with SMTP id z6mr4215582pjc.34.1606848737812;
+        Tue, 01 Dec 2020 10:52:17 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.10
+        by smtp.gmail.com with ESMTPSA id q5sm460168pjg.4.2020.12.01.10.52.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 10:52:10 -0800 (PST)
+        Tue, 01 Dec 2020 10:52:17 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/16] Patch review
-Date: Tue,  1 Dec 2020 08:51:43 -1000
-Message-Id: <cover.1606848593.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/16] kernel: provide module.lds for out of tree builds in v5.10+
+Date: Tue,  1 Dec 2020 08:51:44 -1000
+Message-Id: <46bc7719ea5ddf4342921c1b2721c73c1a3694a6.1606848593.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1606848593.git.steve@sakoman.com>
+References: <cover.1606848593.git.steve@sakoman.com>
 
-Please review this next set of patches for dunfell and have comments back by
-end of day Thursday.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Passed a-full on autobuilder:
+The upstream commit 596b0474d3d [kbuild: preprocess module linker
+script], adds a dependency on module.lds for external module
+building.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1638
+Since module.lds is generated as part of 'modules_prepare', we
+must make it available with the other kernel artifacts in the
+kernel shared workdir, otherwise out of tree builds fail.
 
-The following changes since commit b885888df67eb5cdb3b82f4f0a07369a449e223b:
+This fixes errors like:
 
-  build-appliance-image: Update to dunfell head revision (2020-11-25 23:25:31 +0000)
+    | make[4]: *** No rule to make target 'scripts/module.lds', needed by
+        'build/tmp/work/qemuarm64-poky-linux/cryptodev-module/1.11-r0/git/cryptodev.ko'.
+        Stop.
+    | make[4]: *** Waiting for unfinished jobs....
 
-are available in the Git repository at:
+We also ensure that kernel-devsrc has a copy to support on
+target module builds that are often prepared with 'make scripts
+prepare'. Those targets won't regenerate it, so the build fails.
+If 'make modules_prepare' is used, the file will be regenerated
+and overwrite our copy (as expected).
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+Signed-off-by: Pan, Kris <kris.pan@intel.com>
+Signed-off-by: Lili Li <lili.li@intel.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0fc66a0b64953aae38d0124b57615fffaec8de52)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/classes/kernel.bbclass                | 1 +
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-Anuj Mittal (1):
-  distutils-common-base: fix LINKSHARED expansion
-
-Bruce Ashfield (2):
-  kernel: provide module.lds for out of tree builds in v5.10+
-  kernel: relocate copy of module.lds to module compilation task
-
-Fedor Ross (2):
-  sysvinit: remove bashism to be compatible with dash
-  eudev: remove bashism to be compatible with dash
-
-Loic Domaigne (1):
-  roofs_*.bbclass: fix missing vardeps for do_rootfs
-
-Max Krummenacher (1):
-  linux-firmware: rdepend on license for all nvidia packages
-
-Richard Purdie (2):
-  fs-perms: Ensure /usr/src/debug/ file modes are correct
-  e2fsprogs: Fix a ptest permissions determinism issue
-
-Ross Burton (4):
-  cve-check: show real PN/PV
-  python3: add CVE-2007-4559 to whitelist
-  gstreamer1.0-rtsp-server: set CVE_PRODUCT
-  gstreamer1.0-plugins-base: set CVE_PRODUCT
-
-Steve Sakoman (1):
-  sqlite3: add CVE-2015-3717 to whitelist
-
-Vyacheslav Yurkov (1):
-  license_image.bbclass: use canonical name for license files
-
-Wonmin Jung (1):
-  kernel: Set proper LD in KERNEL_KCONFIG_COMMAND
-
- meta/classes/cve-check.bbclass                           | 9 ++++++---
- meta/classes/distutils-common-base.bbclass               | 2 +-
- meta/classes/kernel.bbclass                              | 6 +++++-
- meta/classes/license_image.bbclass                       | 3 ++-
- meta/classes/package.bbclass                             | 2 +-
- meta/classes/rootfs_deb.bbclass                          | 2 +-
- meta/classes/rootfs_ipk.bbclass                          | 2 +-
- meta/classes/rootfs_rpm.bbclass                          | 2 +-
- meta/conf/abi_version.conf                               | 2 +-
- meta/files/fs-perms-persistent-log.txt                   | 2 +-
- meta/files/fs-perms.txt                                  | 2 +-
- meta/recipes-core/sysvinit/sysvinit/rc                   | 2 +-
- meta/recipes-core/udev/eudev/init                        | 2 +-
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb      | 2 ++
- meta/recipes-devtools/python/python3_3.8.2.bb            | 2 ++
- .../linux-firmware/linux-firmware_20201022.bb            | 1 +
- meta/recipes-kernel/linux/kernel-devsrc.bb               | 6 ++++++
- .../gstreamer/gstreamer1.0-plugins-base_1.16.3.bb        | 2 ++
- .../gstreamer/gstreamer1.0-rtsp-server_1.16.3.bb         | 2 ++
- meta/recipes-support/sqlite/sqlite3_3.31.1.bb            | 2 ++
- 20 files changed, 40 insertions(+), 15 deletions(-)
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 9e3c34ad48..58c9f171dc 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -465,6 +465,7 @@ do_shared_workdir () {
+ 	# Copy files required for module builds
+ 	cp System.map $kerneldir/System.map-${KERNEL_VERSION}
+ 	[ -e Module.symvers ] && cp Module.symvers $kerneldir/
++	[ -e scripts/module.lds ] && install -Dm 0644 scripts/module.lds $kerneldir/scripts/module.lds
+ 	cp .config $kerneldir/
+ 	mkdir -p $kerneldir/include/config
+ 	cp include/config/kernel.release $kerneldir/include/config/kernel.release
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 5940cc90ea..951e7635cc 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -86,6 +86,12 @@ do_install() {
+ 	# be dealt with.
+ 	# cp -a scripts $kerneldir/build
+ 
++	# although module.lds can be regenerated on target via 'make modules_prepare'
++	# there are several places where 'makes scripts prepare' is done, and that won't
++	# regenerate the file. So we copy it onto the target as a migration to using
++	# modules_prepare
++	cp -a --parents scripts/module.lds $kerneldir/build/ 2>/dev/null || :
++
+         if [ -d arch/${ARCH}/scripts ]; then
+ 	    cp -a arch/${ARCH}/scripts $kerneldir/build/arch/${ARCH}
+ 	fi
 -- 
 2.17.1
 
