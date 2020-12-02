@@ -1,156 +1,324 @@
-Received: from outbound.soverin.net (outbound.soverin.net [116.202.65.218])
- by mx.groups.io with SMTP id smtpd.web08.3823.1606911103456956378
- for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Dec 2020 04:11:44 -0800
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: embed.me.uk, ip: 116.202.65.218, mailfrom: ml@embed.me.uk)
-Received: from smtp.soverin.net (unknown [10.10.3.24])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by outbound.soverin.net (Postfix) with ESMTPS id 74C246008F;
-	Wed,  2 Dec 2020 12:11:36 +0000 (UTC)
-Received: from smtp.soverin.net (smtp.soverin.net [159.69.232.138]) by soverin.net
-Subject: Re: [OE-core] [PATCH 2/2] connman: set service to conflict with systemd-networkd
-To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
-References: <20201102092012.15968-1-yi.zhao@windriver.com>
- <20201102092012.15968-2-yi.zhao@windriver.com>
- <f4fb20c8-e735-bc5e-bd42-3d1f8823dffd@embed.me.uk>
- <bdfe3b74-d0ff-6d53-4a8a-2195b9b49497@windriver.com>
-Cc: kai.kang@windriver.com
-From: "Jack Mitchell" <ml@embed.me.uk>
-Message-ID: <3cb971ce-8358-5355-0698-2330f436d1bc@embed.me.uk>
-Date: Wed, 2 Dec 2020 12:11:32 +0000
+Subject: Multi-threaded npm build
+To: openembedded-core@lists.openembedded.org
+From: michal.frynas@sigma.se
+X-Originating-Location: Wrocław, Lower Silesia, PL (78.8.146.236)
+X-Originating-Platform: Linux Chrome 87
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-In-Reply-To: <bdfe3b74-d0ff-6d53-4a8a-2195b9b49497@windriver.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
+Date: Wed, 02 Dec 2020 08:25:56 -0800
+Message-ID: <WyJB.1606926356468119429.WUQh@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="an0uumEmsZBP97ZybBqF"
+
+--an0uumEmsZBP97ZybBqF
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On 02/12/2020 02:20, Yi Zhao wrote:
->=20
-> On 12/1/20 5:02 AM, Jack Mitchell wrote:
->> On 02/11/2020 09:20, Yi Zhao wrote:
->>> Do not run systemd-networkd and connman simultaneously. These two
->>> network managers may conflict with each other.
->>>
->>> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
->>> ---
->>>  ...stop-systemd-networkd-when-using-con.patch | 29 ++++++++++++++++++=
-+
->>>  .../connman/connman_1.38.bb                   |  1 +
->>>  2 files changed, 30 insertions(+)
->>>  create mode 100644 meta/recipes-connectivity/connman/connman/0001-con=
-nman.service-stop-systemd-networkd-when-using-con.patch
->>>
->>> diff --git a/meta/recipes-connectivity/connman/connman/0001-connman.se=
-rvice-stop-systemd-networkd-when-using-con.patch b/meta/recipes-connectivit=
-y/connman/connman/0001-connman.service-stop-systemd-networkd-when-using-con=
-.patch
->>> new file mode 100644
->>> index 0000000000..dd012750a4
->>> --- /dev/null
->>> +++ b/meta/recipes-connectivity/connman/connman/0001-connman.service-s=
-top-systemd-networkd-when-using-con.patch
->>> @@ -0,0 +1,29 @@
->>> +From 9fea099d0a3ece37d80ad70d32ebb8a93f8f3280 Mon Sep 17 00:00:00 200=
-1
->>> +From: Yi Zhao <yi.zhao@windriver.com>
->>> +Date: Fri, 30 Oct 2020 13:48:45 +0800
->>> +Subject: [PATCH] connman.service: stop systemd-networkd when using co=
-nnman
->>> +
->>> +Stop systemd-networkd service when we use connman as network manager.
->>> +
->>> +Upstream-Status: Inappropriate [configuration]
->>> +
->>> +Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
->>> +---
->>> + src/connman.service.in | 1 +
->>> + 1 file changed, 1 insertion(+)
->>> +
->>> +diff --git a/src/connman.service.in b/src/connman.service.in
->>> +index 79e75d6..014eafe 100644
->>> +--- a/src/connman.service.in
->>> ++++ b/src/connman.service.in
->>> +@@ -6,6 +6,7 @@ RequiresMountsFor=3D@localstatedir@/lib/connman
->>> + After=3Ddbus.service network-pre.target systemd-sysusers.service
->>> + Before=3Dnetwork.target multi-user.target shutdown.target
->>> + Wants=3Dnetwork.target
->>> ++Conflicts=3Dsystemd-networkd.service systemd-networkd.socket
->>> + Conflicts=3Dsystemd-resolved.service
->>> +=20
->>> + [Service]
->>> +--=20
->>> +2.17.1
->>> +
->>> diff --git a/meta/recipes-connectivity/connman/connman_1.38.bb b/meta/=
-recipes-connectivity/connman/connman_1.38.bb
->>> index 027c41e9af..45c2934dec 100644
->>> --- a/meta/recipes-connectivity/connman/connman_1.38.bb
->>> +++ b/meta/recipes-connectivity/connman/connman_1.38.bb
->>> @@ -3,6 +3,7 @@ require connman.inc
->>>  SRC_URI =3D "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->>>             file://0001-plugin.h-Change-visibility-to-default-for-debu=
-g-symb.patch \
->>>             file://0001-connman.service-stop-systemd-resolved-when-we-=
-use-co.patch \
->>> +           file://0001-connman.service-stop-systemd-networkd-when-usi=
-ng-con.patch \
->>>             file://connman \
->>>             file://no-version-scripts.patch \
->>>             "
->>>
->> Hi Yi,
->>
->> This breaks our usecase where we have been using connman and
->> systemd-networkd in tandem for a long time. IMO this should be reverted
->> as if the two applications are conflicting then the correct fix is that
->> they should be configured so that they don't both try to configure the
->> same interfaces. As systemd-networkd doesn't ship with any rules by
->> default it shouldn't be doing anything to interfere?
->=20
->=20
-> Currently, A systemd-networkd configuration file 80-wired.network from
-> systemd-conf package is also installed by default on HW BSPs. Comman is
-> the default network-manager in Yocto. It will manage the wired interface
-> automatically. But with this configuration file, the systemd-networkd
-> will also try to manage the wired interface as connman does. They may
-> conflict with each other.In addition to revert this patch, I think we
-> should consider whether to install this configuration file by default.
-> Maybe it=E2=80=99s better to install it as an example and users can enab=
-le it as
-> needed.
->=20
-> Thanks,
-> Yi
->=20
-
-
-Hi Yi,
-
-I see, thank you for pointing that out. I agree that we shouldn't be
-shipping custom catch-all networkd snippets. Perhaps it should be
-something appended by the Poky distro rather than installed by default?
-I assume it is included so that network interfaces come up with a DHCP
-address by default so people can ssh into the machine without an extra
-config.
-
-Cc kai.kang@windriver.com as it looks like they were the original author.
-
-Regards,
-Jack.
+Task do_configure delivered by npm.bbclass takes a lot of time, the longer =
+shrinkwrap dependency list the longer time needed for do_configure to execu=
+te.
+Following improvement allows to execute do_configure on any available CPI =
+threads.
 
 >=20
->> With this patch I can no-longer run both services as it's a hard
->> conflict with no option to either revert locally, or bbappend this patc=
-h
->> out.
->>
->> Regards,
->> Jack.
->>
+> diff --git a/bitbake/lib/bb/fetch2/npmsw.py
+> b/bitbake/lib/bb/fetch2/npmsw.py
+> index 0c3511d8ab..0e6075859c 100644
+> --- a/bitbake/lib/bb/fetch2/npmsw.py
+> +++ b/bitbake/lib/bb/fetch2/npmsw.py
+> @@ -29,8 +29,9 @@ from bb.fetch2.npm import npm_integrity
+> from bb.fetch2.npm import npm_localfile
+> from bb.fetch2.npm import npm_unpack
+> from bb.utils import is_semver
+> +from concurrent.futures import ThreadPoolExecutor
 >=20
+> -def foreach_dependencies(shrinkwrap, callback=3DNone, dev=3DFalse):
+> +def foreach_dependencies(shrinkwrap, callback=3DNone, dev=3DFalse,
+> executor=3DNone):
+> """
+> Run a callback for each dependencies of a shrinkwrap file.
+> The callback is using the format:
+> @@ -49,7 +50,10 @@ def foreach_dependencies(shrinkwrap, callback=3DNone,
+> dev=3DFalse):
+> continue
+> elif deps[name].get("bundled", False):
+> continue
+> -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 callback(name, =
+deps[name], subtree)
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if executor:
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 e=
+xecutor.submit(callback, name=3Dname,
+> params=3Ddeps[name], deptree=3Dsubtree)
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:
+> +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c=
+allback(name, deps[name], subtree)
 >=20
+> _walk_deps(shrinkwrap.get("dependencies", {}), [])
 >=20
+> diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+> index 068032a1e5..1869b63cdb 100644
+> --- a/meta/classes/npm.bbclass
+> +++ b/meta/classes/npm.bbclass
+> @@ -80,6 +80,7 @@ python npm_do_configure() {
+> from bb.fetch2.npm import npm_unpack
+> from bb.fetch2.npmsw import foreach_dependencies
+> from bb.progress import OutOfProgressHandler
+> +=C2=A0 =C2=A0 from concurrent.futures import ThreadPoolExecutor
 >=20
+> bb.utils.remove(d.getVar("NPM_CACHE"), recurse=3DTrue)
+> bb.utils.remove(d.getVar("NPM_PACKAGE"), recurse=3DTrue)
+> @@ -164,9 +165,11 @@ python npm_do_configure() {
+> progress_done +=3D 1
+> progress.write("%d/%d" % (progress_done, progress_total))
+>=20
+> +=C2=A0 =C2=A0 executor =3D ThreadPoolExecutor(max_workers =3D os.cpu_co=
+unt())
+> dev =3D bb.utils.to_boolean(d.getVar("NPM_INSTALL_DEV"), False)
+> foreach_dependencies(orig_shrinkwrap, _count_dependency, dev)
+> -=C2=A0 =C2=A0 foreach_dependencies(orig_shrinkwrap, _cache_dependency, =
+dev)
+> +=C2=A0 =C2=A0 foreach_dependencies(orig_shrinkwrap, _cache_dependency, =
+dev,
+> executor)
+> +=C2=A0 =C2=A0 executor.shutdown(True)
+>=20
+> # Configure the main package
+> with tempfile.TemporaryDirectory() as tmpdir:
+>=20
+>
 
+--an0uumEmsZBP97ZybBqF
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit; =
+font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-si=
+ze: 12pt; line-height: inherit; font-family: Calibri, Arial, Helvetica, san=
+s-serif; vertical-align: baseline; color: #000000;">Task do_configure deliv=
+ered by npm.bbclass takes a lot of time, the longer shrinkwrap dependency l=
+ist the longer time needed for do_configure to execute.</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; font-family: Calibri, Arial, Helvetica, sa=
+ns-serif; vertical-align: baseline; color: #000000;">Following improvement =
+allows to execute do_configure on any available CPI threads.<br />
+<blockquote>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">diff --git a/bi=
+tbake/lib/bb/fetch2/npmsw.py b/bitbake/lib/bb/fetch2/npmsw.py</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">index 0c3511d8a=
+b..0e6075859c 100644</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">--- a/bitbake/l=
+ib/bb/fetch2/npmsw.py</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+++ b/bitbake/l=
+ib/bb/fetch2/npmsw.py</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">@@ -29,8 +29,9 =
+@@ from bb.fetch2.npm import npm_integrity</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;from bb.f=
+etch2.npm import npm_localfile</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;from bb.f=
+etch2.npm import npm_unpack</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;from bb.u=
+tils import is_semver</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+from concurren=
+t.futures import ThreadPoolExecutor</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">-def foreach_de=
+pendencies(shrinkwrap, callback=3DNone, dev=3DFalse):</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+def foreach_de=
+pendencies(shrinkwrap, callback=3DNone, dev=3DFalse, executor=3DNone):</div=
+>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;"""</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp;Run a callback for each dependencies of a shrinkwrap fil=
+e.</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp;The callback is using the format:</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">@@ -49,7 +50,10=
+ @@ def foreach_dependencies(shrinkwrap, callback=3DNone, dev=3DFalse):</di=
+v>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;continue</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;elif deps[name].get("bundled=
+", False):</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;continue</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">-&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; callback(name, deps[name], subtre=
+e)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if executor:</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; executor.submit(cal=
+lback, name=3Dname, params=3Ddeps[name], deptree=3Dsubtree)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else:</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; callback(name, deps=
+[name], subtree)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;_walk_deps(shrinkwrap.get("dependencies", {}), [])</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">diff --git a/me=
+ta/classes/npm.bbclass b/meta/classes/npm.bbclass</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">index 068032a1e=
+5..1869b63cdb 100644</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">--- a/meta/clas=
+ses/npm.bbclass</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+++ b/meta/clas=
+ses/npm.bbclass</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">@@ -80,6 +80,7 =
+@@ python npm_do_configure() {</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;from bb.fetch2.npm import npm_unpack</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;from bb.fetch2.npmsw import foreach_dependencies</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;from bb.progress import OutOfProgressHandler</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+from concurrent.futures import ThreadPoolExecutor</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;bb.utils.remove(d.getVar("NPM_CACHE"), recurse=3DTrue)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;bb.utils.remove(d.getVar("NPM_PACKAGE"), recurse=3DTrue)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">@@ -164,9 +165,=
+11 @@ python npm_do_configure() {</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp;progress_done +=3D 1</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp;progress.write("%d/%d" % (progress_done, p=
+rogress_total))</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+executor =3D ThreadPoolExecutor(max_workers =3D os.cpu_count())</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;dev =3D bb.utils.to_boolean(d.getVar("NPM_INSTALL_DEV"), False)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;foreach_dependencies(orig_shrinkwrap, _count_dependency, dev)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">-&nbsp; &nbsp; =
+foreach_dependencies(orig_shrinkwrap, _cache_dependency, dev)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+foreach_dependencies(orig_shrinkwrap, _cache_dependency, dev, executor)</di=
+v>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">+&nbsp; &nbsp; =
+executor.shutdown(True)</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp;</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;# Configure the main package</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; vertical-align: baseline;">&nbsp; &nbsp; &=
+nbsp;with tempfile.TemporaryDirectory() as tmpdir:</div>
+<div>&nbsp;</div>
+</blockquote>
+</div>
+<div style=3D"margin: 0px; padding: 0px; border: 0px; font-style: inherit;=
+ font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-s=
+ize: 12pt; line-height: inherit; font-family: Calibri, Arial, Helvetica, sa=
+ns-serif; vertical-align: baseline; color: #000000;">&nbsp;</div>
+
+--an0uumEmsZBP97ZybBqF--
