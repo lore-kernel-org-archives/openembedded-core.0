@@ -1,71 +1,69 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web10.2434.1607025163496213281
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web09.3113.1607027639350189508
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 11:52:43 -0800
+ Thu, 03 Dec 2020 12:33:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Nxj6nghc;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id z3so2270052qtw.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:52:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UYObDnic;
+ spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id v11so2359193qtq.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 12:33:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+gP5UyFolQsf365oR+qb2v5FENYXCtk3jwvYxkrQFlk=;
-        b=Nxj6nghclKlL7VNqxKGD5w43CH98EYu9z4TwNlOSE0SnDO69l/gKFdya4hFGy6R2D4
-         J/IegYzqRDA3DaBYSuVNNPQedRHr0XN4kD68VF2RYnkUmNZ8yJDjINELOpTVV9HZDiYM
-         9dW/B6lCHXODq2yB/oRXtIv+DS1eykmkfiHCbrGWXBbC3QCABUpWZcTXmxMtQq0wO+0B
-         R3mPbA7nZySuOMtP4XfP+T/FvGq1eJNFp/V15UWzaaLyQW3BgLt04vKtzWvGQr0aPeg5
-         q+lGnBcW9YtdeEdAxJXvI6WyhU8lxXCcXthWHPkV7CgMuuRE5YHQ6ZNyX0kSaIbaphkP
-         8x4w==
+         :cc;
+        bh=E2ceWKV89VaBHs2YvIlyeBce4cYBoEnHLznbbF5gwKQ=;
+        b=UYObDnicxRw77YOyr96ZmUUUhiH4WDYNxbOuwf+Fy8BXyVWn3/mnQ6m+LaQ/Chnq4C
+         QW74lmmv8o/LDn2Husb9DpxJW3UvNz9+nZ8kL2k+3TLfwLeIz4+1uDQXw1L/D073PekX
+         PTDrMeRMikVcD9h93R71v4kCBreO2X4LwMIdXitwDsO3kOtCGHIXyBsyYfonoG2W4CW8
+         aCIRDec63Et6VZRoBrSgN5K6+EAy+MLNajSXnEHFPAqmTxii+E3vNoDtrMuS7nmexrbf
+         rjcWGNKh5BMh5Wldx8cPZtmt/KboAP9Rk1ZUuzCpzA1nRxX5CnHf7FUL+VEyKq81bwHd
+         R36A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+gP5UyFolQsf365oR+qb2v5FENYXCtk3jwvYxkrQFlk=;
-        b=U3W/GpAC1xIvM+lgWSvPv+9dCaD06YraSmvMiImWatAGo88gYPfw+rwbv9mrnKg7d5
-         XNZkzRHA75YxkPFksj8ElszqHq1AHd+ftZwfh6Mvw9vOpGunNaqDp02GQr/vVv7tq1tS
-         mWqoNKAriTjL4psJPmXFJ6oBdLRvXxtl4p2a+Ka9qlXvAXmkA9OGTRgk0LoqkPyOKQ0O
-         LrIYhzr32TVhXe2g4pMQYVu164K5VDnSQPgR3dZf0u2nVAaTM7CPp0TQ8zJDw2IynDnW
-         t8SyU65xkMfA+1aRA4lX9grytxYJpYppNI9EXaZMLAaeqeUE82dlo/vZu11e+GsHBjh3
-         M3wA==
-X-Gm-Message-State: AOAM531V4XbbbZxo96cP4f+3wFeJ3TdhkTvzhr8iZl9MHPd9dS8hUzgG
-	JybpPzWhvZSM3a/FpeRyNlU5+NZU64DwBcXmOOo=
-X-Google-Smtp-Source: ABdhPJzibnMtFqwQo56ml8IAsUS46hYjv2HMbZPDJNWFr2dqGajHDOic7EQ5gnVS6h30MBmg8JHhpQNVGHNC05UTpE4=
-X-Received: by 2002:ac8:5a0f:: with SMTP id n15mr5060347qta.88.1607025162594;
- Thu, 03 Dec 2020 11:52:42 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=E2ceWKV89VaBHs2YvIlyeBce4cYBoEnHLznbbF5gwKQ=;
+        b=MbRFi4NKT6fKkMe1TmWZI17e6W2f1z4TwJHj02jdFsE9zcq3FOepJz49yapB7gnX+K
+         mSF1BZGiALBrtWlMaip04u/9CcXiLj/fgFLbOhyN2Z5u4XP2YEzwO3/6Yz+Y/Dsg8Yyr
+         31Zc866ix/rVKlxCtP70DJ4sbFZh4Ggkk0qw6A4h9KY2XEEWJExHRZPAJBDkTbAjOP3f
+         tKC7+HlMRinD8cZT6hEkAy25sVHyoAKD9SPWwibjknoLW1yEv1LwEALhU4at0KeQlGLg
+         k2ZADUkzHd23GFCFV5IWwVT43FBdaDG2P9l65Vt3o8NWhDMDFZfSAuxq+a4//DzO50gY
+         5WWA==
+X-Gm-Message-State: AOAM533dyCZb5+fbmhDEp2avf6svnNlKzBNLS2N5fInEhEuzU0qKUB9K
+	6LoiNz5xZgf+OTh/g4YgkRhkMkCl7I4HJVASJbs=
+X-Google-Smtp-Source: ABdhPJyVoCaiCG+T2SUCaLhoTb3wCF+pAiE7OkpQtcshAc/IEh2elH7uO+iyYdVQ3dHLH2NDl8o8W9AIiMlG0QdTj6Y=
+X-Received: by 2002:ac8:729a:: with SMTP id v26mr3760441qto.53.1607027638420;
+ Thu, 03 Dec 2020 12:33:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20201203133727.12936-1-alex.kanavin@gmail.com>
- <20201203133727.12936-4-alex.kanavin@gmail.com> <CAMKF1sqM-xmu-L-nhRKsf-A1Loiv0U72zV6jcNXyEy9QOLXdNw@mail.gmail.com>
- <CANNYZj-fDQdkXVN=hjqb7u=bqPZhXfidO_cT+Buv6gB4gAN_ew@mail.gmail.com>
-In-Reply-To: <CANNYZj-fDQdkXVN=hjqb7u=bqPZhXfidO_cT+Buv6gB4gAN_ew@mail.gmail.com>
+ <20201203133727.12936-2-alex.kanavin@gmail.com> <CAMKF1spavgHqm9YuCqo3mr-=kRGzW-J60T4gTQ5=uoBn98Hb9Q@mail.gmail.com>
+ <CANNYZj_FvTGSUtBoEi_Nc=jA4szr1WrPNQSwjRuuawuJ7H6-rg@mail.gmail.com>
+ <CAMKF1sq0cnt27qB5qSnKpVA2F4Tnf-ha1Va+P7F8B3OjGh9R_Q@mail.gmail.com> <CANNYZj9yrOVHM44Cd2Sz+FVxE5QSO3p7abcixjuMVQNJ91p2oQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9yrOVHM44Cd2Sz+FVxE5QSO3p7abcixjuMVQNJ91p2oQ@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 3 Dec 2020 11:52:16 -0800
-Message-ID: <CAMKF1soyXa8g9WyGL357BYkS+JK4PwYxz3wjqgZ9vFxGQUwGyw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/11] ruby: fix reproducibility
+Date: Thu, 3 Dec 2020 12:33:32 -0800
+Message-ID: <CAMKF1sqK2SzqBNkDPoz90mzLXa3trkiRbS_zDv7YzafvMHvP8g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 02/11] kea: fix reproducibility
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 3, 2020 at 11:20 AM Alexander Kanavin
+On Thu, Dec 3, 2020 at 11:22 AM Alexander Kanavin
 <alex.kanavin@gmail.com> wrote:
 >
-> On Thu, 3 Dec 2020 at 20:16, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, 3 Dec 2020 at 20:19, Khem Raj <raj.khem@gmail.com> wrote:
 >>
 >>
->> where is this template used ? is it used on target ? is it possible to
->> just all bare compiler name then since it will still work on target
->> although not as important as if it was needed during cross builds.
+>> but say if you were. Would it make the problem more obscure than what
+>> it is now. So while here, perhaps defining KEA_LOCKFILE_DIR to point
+>> to /run would be a prudent thing to do if it's already not done.
 >
 >
-> I don't think it is used on target, as harcoded host items would surely n=
-ot have worked. Again, the goal here is not to ensure that target toolchain=
- and target tests work (a large and not necessarily useful task), but merel=
-y to avoid host paths leaking into target packages.
+> Apologies, but no. I am not defining something that I have no way to test the correctness of, and I am not going to bring up the kea tests on target to achieve that.
 >
 
-I see that, I just want to ensure that deferring the problems does not
-make them harder to detect in the future at the same time. It's easy
-to fix them in the context than to revisit later.
+Looking at code it seems defaults are /var/run/kea so perhaps we are
+fine by not setting it explicitly here,  I know systemd wants to move
+away from /var/run but that's perhaps an independent issue
+
 > Alex
