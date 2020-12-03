@@ -1,103 +1,90 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web08.11495.1607008187867935140
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.11327.1607008190226666292
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 07:09:47 -0800
+ Thu, 03 Dec 2020 07:09:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Q/Bo9NHt;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id u2so1286777pls.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:09:47 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tskiaQEz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id f17so1569231pge.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:09:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=RWLS0NuQPYTalwFQZUi9JTAWn5mXSukR+J0crn5YVwU=;
-        b=Q/Bo9NHtz0jdsToNLO6gwO5JKCP71jqO5Ha/8gsorU2u+vxbOBEzYcuYDmnzw5q3gW
-         PQFo4rfe7rmeNlWNfZ5iWRAG13k7EpyB2c3pKvIRropQ+/vwTAa8tIPr91uQJ2dezVTM
-         QlMgqYCTZqCzBpgYyP8bbdcBiNivXjx1Pcu9pOMeVAvPdCHq/5V67H/WnTNC4ZYbeaJU
-         moN+kgSzzbErPY5adlbKXkE68lZXBK61Lduq94ZSbNVDFETar+otmrvcANSRcXnhPyNh
-         B9+kTgh9XNaCR75rlc8r1cOQcXo9Hn2U6an0broMaNmrrbcKypNzxHKeq6Lmt9zrN+PO
-         mnvw==
+        bh=/Dk2CxziHB2IfVSDcDspWr+VoEQgNcm2eaFE+KQLFs0=;
+        b=tskiaQEzQSEJVP0YfkkI3PMoCtF+YzrF6tqDLzlZLik2RIVElA/zX+em3wW/fO7YJa
+         2mxK015spbgdQkX5VG3ErpTXLVroZ8uuD70mmnSTZJD8j3pIi648gIUYBn0G7nvkShxI
+         LVgHQk4F0AOzUR2bJsSUjOLlFgdmbridlj7/I9HrkaGFUEX1jGVNC2UvAcDtZviHYRoh
+         AbEu/YntnfObKurHJmEoqQOHoaWIqEeYENGbdN3q0AF7USQg0/B1IOG3LhHOK/oibile
+         I5xcpqyyBravoFtIKmlr6ZxwwFMBB0Rtn9O/0peo5hj1AY1J15P7HtExdIDeDvu2Rk9B
+         1GFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=RWLS0NuQPYTalwFQZUi9JTAWn5mXSukR+J0crn5YVwU=;
-        b=oPtcfrOWc/rmfMTlPVfEgUgNcwXDjXmZLdcLRVLIyExOWiWqQ003/mt2GT65lTW3AY
-         1qDc/voJbZw1b+x5aWUAooOXc1+hoTIeFJSL17Xyxr94zyNs0UbV3n8e8ypYgh7PoFPD
-         HmkGo7WKpdXtY5jsnQmGJIwUtVBzlU85Ux3wKDcHm0Eu6MOQSM65iWhkRpSwgzw9gqOC
-         UsrKT517gsOU5u3lzn4LlcAjNZCHV2R7X8lhQkrFJYqSehKa7vM9m6ACrC9EpAaMJn0+
-         zJPk9Fc7ih1xTgVLmElyxxUOvjrGLtyi9/lA3zZatka025oQYkkjAIxHw1laVkxN4G5y
-         WEDw==
-X-Gm-Message-State: AOAM531EQ6qaAZa8I1r3XWSRw2V5r9OqHeNbYH0jURd/jOQ1fJF2sn70
-	L4e2MU/AHwAMcdadrfB674ORh4qP2Ibdjlqt
-X-Google-Smtp-Source: ABdhPJyxyi1syOlWzsESziHZwWAaJKad9PbTm+fsRjaAXBkaRRjBtHvXZw6siQi73Xr7xj/wCIX+CQ==
-X-Received: by 2002:a17:902:bc86:b029:da:9da4:3092 with SMTP id bb6-20020a170902bc86b02900da9da43092mr3572314plb.71.1607008186876;
-        Thu, 03 Dec 2020 07:09:46 -0800 (PST)
+        bh=/Dk2CxziHB2IfVSDcDspWr+VoEQgNcm2eaFE+KQLFs0=;
+        b=VmcqIVqHV1+s7Gtmlg8is5Dm9mo8nv+Ad45iPXKGEY5Xf/OKfLRf1mTnpqzAIdPgl8
+         61tqVrA2SB/WgNR0KKFGFdxm7/PsQjQqlo+ajtdKdc4yKOb7RhWLFLNG9xRE1zuHJHBG
+         kUxaVkzFtu4XquxppfaQgOqDPkAJAjd3qcTeb/G3mj8VGbRCzmDX22aFUfPR48Fn4gX6
+         nhKB9FAyyTNEHDqHfuLEesbZq+dGKyR7lIctIISbLQ/akYBcj0ZTIG7IJ4O43zJwddOI
+         wv1zY/QoZx4jKdwCGyysc9HHbo/ajRjT4XYkcjjkNqtt/rxiuOFGHgWnGha2cB/rneeI
+         2RmA==
+X-Gm-Message-State: AOAM531pEfFWyqdg7NUmu/X8HuyyOyz65ff39TyUQbcTkh16mdaJ1NS7
+	c7QCZAsLMdahFqDFzlGPI5ube5bq/hX8W8hL
+X-Google-Smtp-Source: ABdhPJzyM0OLVvwOqHhgvefud38UdZoeT4nK3tYOUvHj/nex4DiCyEv0zxo6y0BcgW5VG7iIfAsD6g==
+X-Received: by 2002:a63:48f:: with SMTP id 137mr3395339pge.172.1607008189211;
+        Thu, 03 Dec 2020 07:09:49 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.09.45
+        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.09.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 07:09:46 -0800 (PST)
+        Thu, 03 Dec 2020 07:09:48 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 26/28] tcl: adapt to potential pseudo changes
-Date: Thu,  3 Dec 2020 05:08:16 -1000
-Message-Id: <dc34af800bddaeb390f8dace1f47e5322a32c7cf.1607007208.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 27/28] bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
+Date: Thu,  3 Dec 2020 05:08:17 -1000
+Message-Id: <40ec12e35c8184d984a17c3545ed5ea6e6e4af01.1607007208.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607007208.git.steve@sakoman.com>
 References: <cover.1607007208.git.steve@sakoman.com>
 
 From: Mingli Yu <mingli.yu@windriver.com>
 
-It failed as below when rerun do_install for tcl:
- $ bitbake tcl
- $ bitbake tcl -f -cinstall
+When ccache enabled as below:
+INHERIT += "ccache"
+CCACHE_DIR = "/path/build/ccache"
+
+There comes do_install failure for some recipes randomly, take
+linux-libc-headerswhen as example.
+ $ cat /path/build/tmp/work/corei7-64-wrs-linux/linux-libc-headers/5.8-r0/pseudo/pseudo.log
  [snip]
- | NOTE: make -j 72 DESTDIR=/build/tmp/work/core2-64-wrs-linux/tcl/8.6.10-r0/image install
- | abort()ing pseudo client by server request. See https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
- | /build/tmp/work/core2-64-wrs-linux/tcl/8.6.10-r0/temp/run.do_install.3490694: line 184: 3499214 Aborted                 (core dumped) make -j 72 "$@"
+ path mismatch [1 link]: ino 243004209 db '/path/build/ccache/6/stats' req '/path/build/ccache/7/stats.lock'.
+ [snip]
 
-By default the S is ${WORKDIR}/${BPN}-${PV}, but after unpack,
-the tcl source [1] unpacked to ${WORKDIR}/${BPN}${PV} and all the
-files under ${WORKDIR}/${BPN}${PV} are acutally the source files.
-
-But the the main Makefile.in is under ${WORKDIR}/${BPN}${PV}/unix
-for tcl, so there is below logic in tcl recipe:
-S = "${WORKDIR}/${BPN}${PV}/unix"
-
-To adapt the potential pseudo changes, there is a general logic to
-exclude ${S} from pseudo database in base.bbclass in [2]. That's to
-say, just the dir ${WORKDIR}/${BPN}${PV}/unix is excluded from the
-pseudo database.
-
-But it's not enough for tcl, we need to exclude the actual source dir
-${WORKDIR}/${BPN}${PV} from pseudo database specifically to fix the
-above do_install failure.
-
-[1] https://downloads.sourceforge.net/tcl/tcl8.6.0-src.tar.gz
-[2] https://git.openembedded.org/openembedded-core/tree/meta/classes/base.bbclass#n396
+Exclude ${CCACHE_DIR} from pseudo database to fix the potential
+do_install failure.
 
 Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0d835f8069a336fd6bab1058d4e605a81c844212)
+(cherry picked from commit b65e5280bf9e7f1f9c8e6acabab79bcf209e5342)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/tcltk/tcl_8.6.10.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-index aedd96b021..e6feb25a7e 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-@@ -32,6 +32,7 @@ SRC_URI_class-native = "${BASE_SRC_URI}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 922972967f..6615dee760 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -686,7 +686,7 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE_DIR}"
  
- S = "${WORKDIR}/${BPN}${PV}/unix"
- 
-+PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/${BPN}${PV}"
- VER = "${PV}"
- 
- inherit autotools ptest binconfig update-alternatives
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
 -- 
 2.17.1
 
