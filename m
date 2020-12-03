@@ -1,45 +1,45 @@
-Received: from relay.dream-property.net (relay.dream-property.net [178.19.67.222])
- by mx.groups.io with SMTP id smtpd.web09.2967.1606956834825256388
+Received: from outbound-relay8.guardedhost.com (outbound-relay8.guardedhost.com [216.239.133.208])
+ by mx.groups.io with SMTP id smtpd.web09.4882.1606965638363063851
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Dec 2020 16:53:55 -0800
+ Wed, 02 Dec 2020 19:20:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail, err=bad algorithm. Only rsa-sha1 or rsa-sha256 are permitted;
- spf=pass (domain: opendreambox.org, ip: 178.19.67.222, mailfrom: obi@opendreambox.org)
-Received: from mail.dream-property.net (mail.dream-property.net [82.149.226.172])
-	by relay.dream-property.net (Postfix) with ESMTPS id 16F2610097041;
-	Thu,  3 Dec 2020 00:54:04 +0000 (UTC)
-Received: from localhost (ip-88-152-32-15.hsi03.unitymediagroup.de [88.152.32.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id BD3693144C8D;
-	Thu,  3 Dec 2020 01:53:50 +0100 (CET)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=opendreambox.org;
-	s=dkim; t=1606956843;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=guCybu6G69BHvNXfItrBKqlqXpnmA8O5YK4zBPeTAyM=;
-	b=/1GGZMdMyxA5xltsWazRNpZTSYyzx+cetGx5Wob+VIIAo+vfRxnOj0h/WjrcL8DmwbRxBX
-	O/pue+HMo8DWD1AQ==
-Date: Thu, 3 Dec 2020 01:53:48 +0100
-From: "Andreas Oberritter" <obi@opendreambox.org>
-To: "Alan Perry" <alanp@snowmoose.com>
-Cc: openembedded-core@lists.openembedded.org
+ dkim=missing; spf=pass (domain: snowmoose.com, ip: 216.239.133.208, mailfrom: alanp@snowmoose.com)
+Received: from mail.guardedhost.com (tev-mx6.omnis.com [216.239.133.155])
+	by outbound-relay5.guardedhost.com (Postfix) with ESMTP id 4Cmh1K3Xflz29cK;
+	Thu,  3 Dec 2020 03:20:37 +0000 (GMT)
+Received: from [192.168.1.14] (c-73-254-147-133.hsd1.wa.comcast.net [73.254.147.133])
+	(Authenticated sender: alanp@snowmoose.com)
+	by mail.guardedhost.com (Postfix) with ESMTPSA id 4Cmh1J4vNVz30M4;
+	Thu,  3 Dec 2020 03:20:36 +0000 (GMT)
+From: "Alan Perry" <alanp@snowmoose.com>
+Mime-Version: 1.0 (1.0)
 Subject: Re: [OE-core] [PATCH 1/2] iproute2: install tools to mirror install under Debian/Ubuntu
-Message-ID: <20201203015348.5e4de8a1@opendreambox.org>
-In-Reply-To: <20201202191124.15903-1-alanp@snowmoose.com>
-References: <20201202191124.15903-1-alanp@snowmoose.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Date: Wed, 2 Dec 2020 19:20:35 -0800
+Message-Id: <02AD4244-264F-4A35-942E-4A9490A92EBB@snowmoose.com>
+References: <20201203015348.5e4de8a1@opendreambox.org>
+Cc: openembedded-core@lists.openembedded.org
+In-Reply-To: <20201203015348.5e4de8a1@opendreambox.org>
+To: Andreas Oberritter <obi@opendreambox.org>
+X-Mailer: iPhone Mail (18B92)
+Authentication-Results: mail.guardedhost.com;auth=pass
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse-Id: 834B2844-3516-11EB-B2D9-A4EDFA4FBE41
+X-Virus-Scanned: clamav-milter 0.102.2 at tev-mx6.omnis.com
+X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alan,
+Good catch. Thanks.
 
-> +    mv ${D}${base_sbindir}/genl ${D}${sbindir}/genl
+> On Dec 2, 2020, at 17:02, Andreas Oberritter <obi@opendreambox.org> wrote:=
 
-this is going to break setups where ${base_sbindir} equals ${sbindir}, so you'll need make this conditional.
-
-Best regards,
-Andreas
+>=20
+> =EF=BB=BFHi Alan,
+>=20
+>> +    mv ${D}${base_sbindir}/genl ${D}${sbindir}/genl
+>=20
+> this is going to break setups where ${base_sbindir} equals ${sbindir}, so y=
+ou'll need make this conditional.
+>=20
+> Best regards,
+> Andreas
