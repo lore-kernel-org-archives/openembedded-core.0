@@ -1,139 +1,190 @@
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web11.5246.1607034716376301843
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web09.5323.1607034935532802549
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 14:31:56 -0800
+ Thu, 03 Dec 2020 14:35:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AWKLTPQW;
- spf=pass (domain: gmail.com, ip: 209.85.167.65, mailfrom: andrey.z@gmail.com)
-Received: by mail-lf1-f65.google.com with SMTP id l11so5100063lfg.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 14:31:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pNUNn9Mk;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: twoerner@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id p5so3453587iln.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 14:35:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=z8YRDONMqN5LmxHrbTYk29XJIEd6W8RGA4wvwJhfHOc=;
-        b=AWKLTPQWHgYJFjQrdYX8hCPtTmlrlz0pqysS2sh1/qcZc6TKLwBS5OHA2oNcDLDZpT
-         qokpPyN5QpvLmT4Q/PICQ8Lv8LCm7uHPr7Xxp4jj+BIOVyeyWTozJJqJcgXDvXaLHgyn
-         cA+ygeyaRisMPgsavVfdWHKle+re9hA5bZOGw3xYQAu6tT5TeRaxWGvBmln4YqJdYkub
-         h5lHKOEBkl8cM9pJJauYbdGqAQUsA5wjEKabp0vS3JymznovDcZnxTbDC1LVhs5ITo7b
-         S8FEMN1hiwbM+gOb2zV+UddQW/tvWcbrJ60ZN/bPxc0HY9hNAYG148MIb8xfFhj4Gcq8
-         T6NA==
+        bh=3sBmsQzdmeXLolk5yBBenby8EizEbMz5CSBgl82rqgY=;
+        b=pNUNn9Mk+q5HpEfZvnh3LGzbJ0RM9VdGGtfarMJ2tpvwkL5IAtcxCFkegU+1OuYdFv
+         /5auuJpQBV064oT2WMS1NjNDygZ1XKeeIdWUlnPMcUIcxpXTVlDpdu3CXQHo1M7pZF1Y
+         CtLxhCv7+d7AN4QrHapbIcvmFXe4Mp0jNz3Rd1ZVCmr4uj5KjJCbM7lNstT/PGLQ5azr
+         uGyaX0JlkphfJ5NPh3D6S2q//z0GK3yk7yk51gSDNvGzMlIuEQwjQo0h8TcTYzjSEwgg
+         IOeyLs6eIrFh/v6/xBvVSYLqjqfieLS0WHE6NG/x8qBvwQMAg3NnCaqEcQl4ITiTArZ6
+         NViQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=z8YRDONMqN5LmxHrbTYk29XJIEd6W8RGA4wvwJhfHOc=;
-        b=BhNTfWiV2qc9RiGPWmWOBCyCTkKY0HoUcB5F2Z39EEd5Ce4SdrJrhMsSkTVsxOMeJC
-         8gelVqIV9bF1xVH/VLHVY9LUnySYxhmdTghofV9sCV3Fz58QVMWpFe9gor5bDlUMgGHe
-         HYnv76TZ79nOr1Q2frHXOozMdfgNuF7ZWNoqFPnq6kCuxM1v41lmMYbtGjrgY7s7RikE
-         eSj/aaeErNCFvKItVN3SgGywdYiRKwvVipl+aZEHMKraShKYXqTASJdijaMzVbZrmw3N
-         Zx3WUv/BkkGa8ZPxj/k148ZffneXe1/mm63NbeA/+pt3dK2FCfeNkaRFEe8waPm8vV1S
-         JY4w==
-X-Gm-Message-State: AOAM531oaMcxxi0vGh7aEFdDk8z64kHKM3UX3UiRVhIbMJKwobEcDPOv
-	ePzHM7X18T6UViEMdNaCloFKtdveOtdwGUpDMDY=
-X-Google-Smtp-Source: ABdhPJzd/JI3dgGsWgfzqWG5+ur1B6fbFPK+LX+vOoU0xsQumVJv0W8vAMIm6vFW2bkz3iHXW2wAHRwdIQwfEiiRPh8=
-X-Received: by 2002:a19:c21a:: with SMTP id l26mr2365118lfc.590.1607034714313;
- Thu, 03 Dec 2020 14:31:54 -0800 (PST)
+        bh=3sBmsQzdmeXLolk5yBBenby8EizEbMz5CSBgl82rqgY=;
+        b=EIXC4OQxVaz+yHSuSYBRPItqfLkMnobkYUBrliCFXb4dI4MjT+fsd2DzJDywIjeetQ
+         mWVzDBjDmRhCwXFxU4K6vfgzpuGRNUVAFo3iWl5xZms1zgn2enn/cyjuYmZzbSH7Caiw
+         947wfKLMzxa2Ui26V3n9yWS7Z5/fkCoIhUPOgxQ/+bf6fvJVM3a/IEFNHE8U5sDgazR2
+         MI+Ew7qxjco4ECGUChyWTw+8vgOUjHnGrb/05QLvAuu/Xug2CmiuQHXvwhj3FjkaP4PW
+         VCr+M3QKB8bKlkiKl+wr8KTb4OdQy9fiqmYUI6XOHRPHX+nETn/jrG/9hsv3ynsHGsaK
+         TRtw==
+X-Gm-Message-State: AOAM530ipgRV5TjIcNgZH5WzZJ8fM5LyPk5bHJ/dKvnp2QR/FiuEmL1f
+	LAngErJA5rk1oGnnOBFhP4cqVxFLt8w7ZqN+c+I9UbjJavz/DA==
+X-Google-Smtp-Source: ABdhPJyWNvLCPtXiwoZjXdy9ylhZOdBn56a4Zz8EXIQPUM3zP99PBl5UiX5wkHzqQhRMIdqNZpUqW79j71b9Z0fZoQU=
+X-Received: by 2002:a05:6e02:160b:: with SMTP id t11mr1862876ilu.275.1607034934896;
+ Thu, 03 Dec 2020 14:35:34 -0800 (PST)
 MIME-Version: 1.0
-References: <bb945efa-f12d-6ff6-a783-8010269c9931@broadcom.com>
- <CA+aJhH20y3q84WkxfAb_-Dj2fpaankFD9VbskhyV8uPrQauPFQ@mail.gmail.com> <baf9a93e-188c-4c45-9ba5-b4d08a655564@broadcom.com>
-In-Reply-To: <baf9a93e-188c-4c45-9ba5-b4d08a655564@broadcom.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Thu, 3 Dec 2020 23:31:43 +0100
-Message-ID: <CAHtQpK4jkSeJaWNuok13NhbD2Ghcd+DeVs5f23gSqoSaDh0Cbg@mail.gmail.com>
-Subject: Re: [OE-core] commit breaks menuconfig on upstream kernel "cml1.bbclass: Handle ncurses-native being available via pkg-config"
-To: Scott Branden <scott.branden@broadcom.com>
-Cc: Nathan Rossi <nathan@nathanrossi.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20201203133526.2075-1-twoerner@gmail.com> <036904F4-E7CE-4A5D-B940-DF360F2AAED9@pbcl.net>
+In-Reply-To: <036904F4-E7CE-4A5D-B940-DF360F2AAED9@pbcl.net>
+From: "Trevor Woerner" <twoerner@gmail.com>
+Date: Thu, 3 Dec 2020 17:35:23 -0500
+Message-ID: <CAHUNapRs_1Dz6ARBfgLk7i3DXx0HHbRgC5u7U=3njQb3ht4cbw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa.inc: add dispmanx support
+To: Phil Blundell <pb@pbcl.net>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006faf6405b596fa23"
+
+--0000000000006faf6405b596fa23
 Content-Type: text/plain; charset="UTF-8"
 
-Hello Scott and Nathan,
+On Thu, Dec 3, 2020 at 5:25 PM Phil Blundell <pb@pbcl.net> wrote:
 
-On Thu, Dec 3, 2020 at 7:18 PM Scott Branden via
-lists.openembedded.org
-<scott.branden=broadcom.com@lists.openembedded.org> wrote:
->
->
->
-> On 2020-12-02 4:19 p.m., Nathan Rossi wrote:
-> > On Thu, 3 Dec 2020 at 05:17, Scott Branden <scott.branden@broadcom.com> wrote:
-> >> Hi Nathan,
-> >>
-> >> Your commit:
-> >> "cml1.bbclass: Handle ncurses-native being available via pkg-config"
-> >> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=master-next&id=ce447d70df386ca55ce1672478b245851556374e
-> >>
-> >> breaks bitbake menuconfig when using the upstream kernel.
-> > Interesting. The purpose of the commit was to actually fix that exact
-> > use case since previously the mainline kernel menuconfig was relying
-> > on hardcoded paths to the host ncurses libraries.
-> >
-> > Would you be able to provide the error messages you are getting (and
-> > anything else that can help to reproduce the failure), because I am
-> > not able to reproduce any failures with a mainline kernel, linux-yocto
-> > (with and without the below mention patch) or with other projects that
-> > are using cml1 (e.g. u-boot).
-> >
-> >> It only works with the linux-yocto kernel due to this workaround which is not upstream.
-> >> If you revert this commit in linux-yocto menuconfig will not work in linux-yocto:
-> >> "menuconfig,mconf-cfg: Allow specification of ncurses location"
-> >> https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit/scripts/kconfig/mconf-cfg.sh?h=v5.8/standard/base&id=1714a5ad9cf61f4d0f4b8432f327cca2998aba77
-> > This change should not be required to have menuconfig working when
-> > pkg-config is used.
-> >
-> >>
-> >> Seems like your commit needs to be reverted or a change made to work with the upstream kernel.
-> >> Or, the linux-yocto change needs to actually be upstreamed.  I submitted it and the upstream maintainer questioned why the change is needed:
-> >> https://lore.kernel.org/lkml/CAK7LNATD0J3C_mFrXAju8-WmdCmrPmRFn7Um0yebnfL-_zcu8w@mail.gmail.com/
-> > The problem is if it was accepted, every kernel prior to its inclusion
-> > would need to be patched, as well as other projects (u-boot, busybox).
-> > This makes supporting menuconfig using that change for kconfig
-> > generically problematic. This is why the pkg-config solution is
-> > preferable.
-
-As I've already said before I had similar issues with doing menuconfig
-kernel task. I took a deeper look and actually found out that the
-recipe-sysroot-native/usr/lib/pkgconfig/ncursesw.pc in the kernel
-recipe build folder contained the absolute path to the ld, which for
-me was taken from the SSTATE_MIRROR produced on the CI system.
-
-The string inside ncursesw.pc looked like this (note the -Wl,--dynamic-linker):
-Libs:  -L${pcfiledir}/../../../usr/lib -Wl,--enable-new-dtags
--Wl,-rpath-link,${pcfiledir}/../../../usr/lib
--Wl,-rpath-link,${pcfiledir}/../../../lib
--Wl,-rpath,${pcfiledir}/../../../usr/lib
--Wl,-rpath,${pcfiledir}/../../../lib -Wl,-O1
--Wl,--allow-shlib-undefined
--Wl,--dynamic-linker=/teamcity/work/c3acfc3a6f255dcb/build-output/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
--lncursesw -ltinfo
-
-I then manually changed it to match the path on my local PC, and
-menuconfig went totally fine after that.
-
-Nathan,
-I tend to believe this issue is not caused directly by the patch
-committed, but rather by the fact that pkg-conf files do contain
-absolute paths pulled from shared state. At least this is what I've
-observed for my setup.
-
-Scott,
-Can you have a look at the content of your <path to kernel build
-folder>/recipe-sysroot-native/usr/lib/pkgconfig/ncursesw.pc and check
-if you have the absolute ld path there, which does not match you build
-folder?
-
-> The kernel works with menuconfig without your yocto change today.
-> Only linux-yocto (with the patch mentioned above) works with your yocto change.
-> >
-> > Regards,
-> > Nathan
->
->
-> 
+> If we're talking about OpenGLES applications, wouldn't you already have
+> opengl in DISTRO_FEATURES?
 >
 
+Not necessarily.
 
--- 
-Regards,
-Andrey.
+Adding opengl to DISTRO_FEATURES really means "enable a bunch of
+PACKAGECONFIGs all over the place because I need x11 and mesa with all the
+bells and whistles". These things are not necessary to build and run apps
+based on dispmanx. With this patch and my patch to meta-openembedded I'm
+able to build "core-image-minimal" with no x11/wayland, no window managers,
+with "userland" and with "glmark2". Here is my package list:
+
+  1 base-files_3.0.14-r89_raspberrypi3.ipk
+  2 base-passwd_3.5.29-r0_cortexa7t2hf-neon-vfpv4.ipk
+  3 bash_5.0-r0_cortexa7t2hf-neon-vfpv4.ipk
+  4 busybox_1.32.0-r0_cortexa7t2hf-neon-vfpv4.ipk
+  5 busybox-syslog_1.32.0-r0_cortexa7t2hf-neon-vfpv4.ipk
+  6 busybox-udhcpc_1.32.0-r0_cortexa7t2hf-neon-vfpv4.ipk
+  7 eudev_3.2.9-r0_cortexa7t2hf-neon-vfpv4.ipk
+  8 glmark2_2020.11+0+784aca755a-r0_cortexa7t2hf-neon-vfpv4.ipk
+  9 init-ifupdown_1.0-r7_raspberrypi3.ipk
+ 10 initscripts-functions_1.0-r155_cortexa7t2hf-neon-vfpv4.ipk
+ 11 initscripts_1.0-r155_cortexa7t2hf-neon-vfpv4.ipk
+ 12 init-system-helpers-service_1.58-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 13 kbd_2.3.0-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 14 kernel-5.4.79-v7_1:5.4.79+git0+5d52d9eea9_9797f1a493-r0_raspberrypi3.ipk
+ 15
+kernel-module-i2c-bcm2708-5.4.79-v7_1:5.4.79+git0+5d52d9eea9_9797f1a493-r0_raspberrypi3.ipk
+ 16
+kernel-module-i2c-dev-5.4.79-v7_1:5.4.79+git0+5d52d9eea9_9797f1a493-r0_raspberrypi3.ipk
+ 17 keymaps_1.0-r31_raspberrypi3.ipk
+ 18 ldconfig_2.32-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 19 libblkid1_2.36-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 20 libc6_2.32-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 21 libgcc1_10.2.0-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 22 libjpeg62_1:2.0.6-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 23 libkmod2_27-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 24 libpng16-16_1.6.37-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 25 libstdc++6_10.2.0-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 26 libtinfo5_6.2-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 27 libz1_1.2.11-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 28 modutils-initscripts_1.0-r7_cortexa7t2hf-neon-vfpv4.ipk
+ 29 ncurses-terminfo-base_6.2-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 30 netbase_1:6.1-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 31 packagegroup-core-boot_1.0-r17_raspberrypi3.ipk
+ 32 run-postinsts_1.0-r10_all.ipk
+ 33 sysvinit-inittab_2.88dsf-r10_raspberrypi3.ipk
+ 34 sysvinit-pidof_2.97-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 35 sysvinit_2.97-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 36 update-alternatives-opkg_0.4.3-r0_cortexa7t2hf-neon-vfpv4.ipk
+ 37 update-rc.d_0.8-r0_all.ipk
+ 38 userland_20201027-r0_cortexa7t2hf-neon-vfpv4.ipk
+
+In my case my DISTRO_FEATURES include "x11" and this new "dispmanx".
+"userland" also includes a bunch of dispmanx test programs such as
+hello_tiger.bin that work as well.
+
+
+
+
+
+> I'm not sure it makes a lot of sense to introduce a check for dispmanx to
+> oe-core if nothing in oe-core ever defines that feature.
+>
+
+As I mentioned to Khem, I added this patch in order to support the changes
+I made to the recipe for glmark2 in meta-openembedded. If those can be done
+in a bbappend in the BSP layer then I'd be happy to re-asses, but I don't
+think they can.
+
+Maybe a better question is: does adding this DISTRO_FEATURE hurt anything
+in oe-core?
+
+--0000000000006faf6405b596fa23
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, Dec 3, 2020 at 5:25 PM Phil Blund=
+ell &lt;<a href=3D"mailto:pb@pbcl.net">pb@pbcl.net</a>&gt; wrote:<br></div>=
+<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><div>If we&#39;re talking about OpenGLES applications, wouldn&#39;t you a=
+lready have opengl in DISTRO_FEATURES?<br></div></blockquote><div><br></div=
+><div>Not necessarily.</div><div><br></div><div>Adding opengl to DISTRO_FEA=
+TURES really means &quot;enable a bunch of PACKAGECONFIGs all over the plac=
+e because I need x11 and mesa with all the bells and whistles&quot;. These =
+things are not necessary to build and run apps based on dispmanx. With this=
+ patch and my patch to meta-openembedded I&#39;m able to build &quot;core-i=
+mage-minimal&quot; with no x11/wayland, no window managers, with &quot;user=
+land&quot; and with &quot;glmark2&quot;. Here is my package list:</div><div=
+><br></div><div>=C2=A0 1 base-files_3.0.14-r89_raspberrypi3.ipk<br>=C2=A0 2=
+ base-passwd_3.5.29-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A0 3 bash_5.0-r0_=
+cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A0 4 busybox_1.32.0-r0_cortexa7t2hf-neon=
+-vfpv4.ipk<br>=C2=A0 5 busybox-syslog_1.32.0-r0_cortexa7t2hf-neon-vfpv4.ipk=
+<br>=C2=A0 6 busybox-udhcpc_1.32.0-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A0=
+ 7 eudev_3.2.9-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A0 8 glmark2_2020.11+0=
++784aca755a-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A0 9 init-ifupdown_1.0-r7=
+_raspberrypi3.ipk<br>=C2=A010 initscripts-functions_1.0-r155_cortexa7t2hf-n=
+eon-vfpv4.ipk<br>=C2=A011 initscripts_1.0-r155_cortexa7t2hf-neon-vfpv4.ipk<=
+br>=C2=A012 init-system-helpers-service_1.58-r0_cortexa7t2hf-neon-vfpv4.ipk=
+<br>=C2=A013 kbd_2.3.0-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A014 kernel-5.=
+4.79-v7_1:5.4.79+git0+5d52d9eea9_9797f1a493-r0_raspberrypi3.ipk<br>=C2=A015=
+ kernel-module-i2c-bcm2708-5.4.79-v7_1:5.4.79+git0+5d52d9eea9_9797f1a493-r0=
+_raspberrypi3.ipk<br>=C2=A016 kernel-module-i2c-dev-5.4.79-v7_1:5.4.79+git0=
++5d52d9eea9_9797f1a493-r0_raspberrypi3.ipk<br>=C2=A017 keymaps_1.0-r31_rasp=
+berrypi3.ipk<br>=C2=A018 ldconfig_2.32-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=
+=C2=A019 libblkid1_2.36-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A020 libc6_2.=
+32-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A021 libgcc1_10.2.0-r0_cortexa7t2h=
+f-neon-vfpv4.ipk<br>=C2=A022 libjpeg62_1:2.0.6-r0_cortexa7t2hf-neon-vfpv4.i=
+pk<br>=C2=A023 libkmod2_27-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A024 libpn=
+g16-16_1.6.37-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A025 libstdc++6_10.2.0-=
+r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A026 libtinfo5_6.2-r0_cortexa7t2hf-ne=
+on-vfpv4.ipk<br>=C2=A027 libz1_1.2.11-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=
+=A028 modutils-initscripts_1.0-r7_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A029 n=
+curses-terminfo-base_6.2-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A030 netbase=
+_1:6.1-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A031 packagegroup-core-boot_1.=
+0-r17_raspberrypi3.ipk<br>=C2=A032 run-postinsts_1.0-r10_all.ipk<br>=C2=A03=
+3 sysvinit-inittab_2.88dsf-r10_raspberrypi3.ipk<br>=C2=A034 sysvinit-pidof_=
+2.97-r0_cortexa7t2hf-neon-vfpv4.ipk<br>=C2=A035 sysvinit_2.97-r0_cortexa7t2=
+hf-neon-vfpv4.ipk<br>=C2=A036 update-alternatives-opkg_0.4.3-r0_cortexa7t2h=
+f-neon-vfpv4.ipk<br>=C2=A037 update-rc.d_0.8-r0_all.ipk<br>=C2=A038 userlan=
+d_20201027-r0_cortexa7t2hf-neon-vfpv4.ipk<br></div><div><br></div><div>In m=
+y case my DISTRO_FEATURES include &quot;x11&quot; and this new &quot;dispma=
+nx&quot;. &quot;userland&quot; also includes a bunch of dispmanx test progr=
+ams such as hello_tiger.bin that work as well.</div><div><br></div><div><br=
+></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex"><div>I&#39;m not sure it makes a lot of sense to introduce a =
+check for dispmanx to oe-core if nothing in oe-core ever defines that featu=
+re. <br></div></blockquote><div><br></div><div>As I mentioned to Khem, I ad=
+ded this patch in order to support the changes I made to the recipe for glm=
+ark2 in meta-openembedded. If those can be done in a bbappend in the BSP la=
+yer then I&#39;d be happy to re-asses, but I don&#39;t think they can.</div=
+><div><br></div><div>Maybe a better question is: does adding this DISTRO_FE=
+ATURE hurt anything in oe-core?</div><div>=C2=A0</div></div></div>
+
+--0000000000006faf6405b596fa23--
