@@ -1,145 +1,117 @@
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (NAM02-BL2-obe.outbound.protection.outlook.com [40.107.75.51])
- by mx.groups.io with SMTP id smtpd.web09.6161.1607038262462363169
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web08.6384.1607039203287108755
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 15:31:02 -0800
+ Thu, 03 Dec 2020 15:46:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=q0vwIjTM;
- spf=pass (domain: xilinx.com, ip: 40.107.75.51, mailfrom: ckalluri@xilinx.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WGvwOrSkffHEeBZZi8dmA9pu7vMjXOpaWwL7l5yoR/VHlPt63pPkyOznKutE0C0P7AkLPVazrrXySgA09BeZP7gFcEA0iR5ONXx9zrTAnwZTJvCY/y8v8oEwJ6Dn4GOqKiyeExXka1xHmHn/lGc66zbxNsVNuVpWCc5m0P+R0wihbVLFb4uMvwBN4/qoC6rBn75fvS/lp+5oMDLIvb9xZG9gxVJCtoqOLf/fDn9phNXT5+PAnlwf6PHnPIXTVgBGahzmofL1U5reOh7HXgMhPXxjkqeSPShIpsz5EXHuW48hE56f55CXGWG+32bTzLWqaXiTIAA40jyupHXen0fiYQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ionrrbSDkQavO9ymLnXjBOCwmMN/yTT9qJs8fJGV6ZQ=;
- b=T/Bfg76umn9b3oUM01f91iMv43wAqxxV5zHka64cu49y/qFwCuR+ZDVBvIpHObho/TMTw05NVvKbXUWOskfnuSY8k1hj4pgjEY5CpLjpLOxJCmh7B+/dKJwM3IuPfU6vPo92PoPKQTV6XHRW7TQGcSMo3YWSlE0LxApe5WYWvgla6+tuY2Ys8R3r49HFQe8gY31Eu8IJ0tgJsbCJytQ7ePCLu1QcgIA58mdHrD4Jpo3P6Tq8WGBdfbI+KrYOdOTuEFLvniWRNZNLclFGBDyh2QLQjx7m5F24p5qPuCMuhiqp6mo1VFwyhSp8Qxzxdwb7QSgr7wQEt+AVkYP2aHCpMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vEB6lWXM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id m5so2082337pjv.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 15:46:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ionrrbSDkQavO9ymLnXjBOCwmMN/yTT9qJs8fJGV6ZQ=;
- b=q0vwIjTMYMKm/+k3UKg4rsJiG3le1H1SgN4od/MgK8+3n/Vs5Fe9m97B2aje6yoYloO0TJbToXvmUUiNarCo+s+RtCMzsZA/EnLDKX2OQvop1aenszfRCEOZASHa4ZOe3z04nrChtrGMKWyvlWNHs9UyWOXwIEB9RSK0Jl/CfVA=
-Received: from MN2PR12CA0021.namprd12.prod.outlook.com (2603:10b6:208:a8::34)
- by MW2PR02MB3674.namprd02.prod.outlook.com (2603:10b6:907:e::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Thu, 3 Dec
- 2020 23:31:00 +0000
-Received: from BL2NAM02FT047.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:a8:cafe::c7) by MN2PR12CA0021.outlook.office365.com
- (2603:10b6:208:a8::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
- Transport; Thu, 3 Dec 2020 23:31:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- BL2NAM02FT047.mail.protection.outlook.com (10.152.77.9) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3632.21 via Frontend Transport; Thu, 3 Dec 2020 23:31:00 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Thu, 3 Dec 2020 15:30:59 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Thu, 3 Dec 2020 15:30:59 -0800
-Return-Path: ckalluri@xilinx.com
-Envelope-to: chandana.kalluri@xilinx.com,
- openembedded-core@lists.openembedded.org
-Received: from [172.19.2.12] (port=38506 helo=xsjckalluri50.xilinx.com)
-	by smtp.xilinx.com with esmtp (Exim 4.90)
-	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1kky3v-000785-EE; Thu, 03 Dec 2020 15:30:59 -0800
-From: "Chandana kalluri" <ckalluri@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Subject: [OE-Core][master][gatesgarth][PATCH v2] populate_sdk_ext: use SDK_CUSTOM_TEPLATECONF variable to enable custom templateconf.cfg
-Date: Thu, 3 Dec 2020 15:30:58 -0800
-Message-ID: <1607038258-14106-1-git-send-email-chandana.kalluri@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 79ac4227-46b8-4e98-f117-08d897e37e3f
-X-MS-TrafficTypeDiagnostic: MW2PR02MB3674:
-X-Microsoft-Antispam-PRVS: 
-	<MW2PR02MB3674B5D3D5CD93520CE7A355B0F20@MW2PR02MB3674.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	dCzMHVBqVRSOFMt5mGNAHlAtuldxHzB7w2hcqyOSRPzcAcxvaTIFfH/n7/YmYOo8h7Q4wVPt/HOsYiZ+dCxC3SmKmf9hCG1DxffzU6PLYq5mbJBy+vxOTWVDuaW9LHbENE5Fpc1IpwZEr5U5hnsIBAN/nXCcANdWCV+q3QTGj7xDH2s4sGfxEhfISrqJa0tL4j83pW30D7XKgWJLKMQzM0RUo3YIMq3L8BuNbNe1wEGqgKPXxYZRXPB7XabAuDkrUuh0nrhyadd30qJbiHlJ//WJYYK0p9fsTw0MUpT5a6XpKGzquw+/RERNweiOePenL7a22olMU9D1XQyPuZYT4Z9c86i5dDDzLhkZS6iu8s7PDpMlZQJJi2AFVWqHH67n6j54CcnTEfMUfwMotTYb0z+DCQNfM5lEDjynFa8mCyA=
-X-Forefront-Antispam-Report: 
-	CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(39860400002)(396003)(46966005)(8676002)(82310400003)(7636003)(2906002)(107886003)(4326008)(6916009)(186003)(7696005)(8936002)(9786002)(2616005)(82740400003)(36756003)(26005)(426003)(356005)(47076004)(70206006)(316002)(83380400001)(70586007)(478600001)(5660300002)(336012)(36906005)(102446001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2020 23:31:00.2925
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 79ac4227-46b8-4e98-f117-08d897e37e3f
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	BL2NAM02FT047.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR02MB3674
-Content-Type: text/plain
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=hIJUDXGjSJsSL5NGFajnkZyEkrUL/ouC8iBMB0CJlTE=;
+        b=vEB6lWXMrE5z+vOpeUmVyLF/HHvg6eAdND6Sw0SKn8tL9fs5r2t8++6gThgs87cEk1
+         W47bJNoo5dCXQgyoxWMCLqjksGjLVLx+JwgrtOqUJhV+xqrj3ftg9J0337U00/l7Odpn
+         7f/au2cs/5XIw6bq9drMaOp0EhSAQJv7feZGYoK/0vtAfvq24zuL2OHfFaQnC7y+9abf
+         q/VEv7rM/Liscz23MlSU6IUnnnvABhEVNEyO9EmBXoQ/QTqNiPKwuRcnBiUqQPwZir92
+         +3xdvfpU1zqwXxFT5DfIFwHf+SgZbIPZaEcMt/0D+MqchyV/++yxJNr5yGUrwwbACT1F
+         5xnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=hIJUDXGjSJsSL5NGFajnkZyEkrUL/ouC8iBMB0CJlTE=;
+        b=LBQP2zdyjf+mMB76ZQ7CSI8LMfsKwQwD08+Oxuu3IWVStkOuLTEKOZ0c7hx9loemzy
+         KUnhTbW360G9MWTvMYw2TZf8sUbQQT9igbi9gzTP/pdf5Hpr6k/s+K2iyMvOchkI6cTD
+         7bg9KAltFNu+A9BXUI/6hBGOGy2r/K0Bio+WxDSeQRvl8oEkrObTde6lSj+DFWiM15gh
+         iy79N6GLPUWNW4TuQHluoO3BUDvWv6JBTuHbpN+3WwkIwtATjT3tcN6rdN16l9DlKpqp
+         0SjIvCxSm6qwgyxagIaW7JoRFLFsjWxDJEr/hqAyqclWOfM++/CBZQwckdXyg+x0IxiE
+         OsKA==
+X-Gm-Message-State: AOAM531GaM6QOUAkXzIR0Av96kuPw2Bq+L1WpfjO+cPd2R+Cb2CPa4kW
+	MUV2ZhYsp7dajrv25IZHxxM5bW+o1BM69OA3
+X-Google-Smtp-Source: ABdhPJwHOGfTC/5AADQ/2zdayOQryfGb6kWSju0s4HNuO0CtC+Ke30w1/+P0x6RNT+ie1dAeEA4bCA==
+X-Received: by 2002:a17:90a:aa8d:: with SMTP id l13mr1380223pjq.223.1607039202084;
+        Thu, 03 Dec 2020 15:46:42 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id q14sm2924993pfl.163.2020.12.03.15.46.40
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Dec 2020 15:46:41 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/16] Pull request (cover letter only)
+Date: Thu,  3 Dec 2020 13:46:29 -1000
+Message-Id: <cover.1607039080.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-The current implementation will always pick an existing templateconf.cfg if
-present else it will use the one from OE.  A user might not always want to pick
-an existing tempalteconf.cfg even if its present.  Introduce
-SDK_CUSTOM_TEMPLATECONF variable to provide an option for the user to specify if he
-wants to use an existing custom templateconf.cfg or not
+The following changes since commit b885888df67eb5cdb3b82f4f0a07369a449e223b:
 
-If SDK_CUSTOM_TEMPLATECONF=='1' then enable custom templateconf.cfg. By default
-SDK_CUSTOM_TEMPLATECONF is set to '0'
+  build-appliance-image: Update to dunfell head revision (2020-11-25 23:25:31 +0000)
 
-Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
----
-changelog v2:
-Prefix variable with SDK_ similar to other variables in the class
----
- meta/classes/populate_sdk_ext.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 6f35b61..e6bf27c 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -24,6 +24,7 @@ SDK_INCLUDE_NATIVESDK ?= "0"
- SDK_INCLUDE_BUILDTOOLS ?= '1'
- 
- SDK_RECRDEP_TASKS ?= ""
-+SDK_CUSTOM_TEMPLATECONF ?= "0"
- 
- SDK_LOCAL_CONF_WHITELIST ?= ""
- SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
-@@ -199,6 +200,9 @@ python copy_buildsystem () {
-     buildsystem = oe.copy_buildsystem.BuildSystem('extensible SDK', d)
-     baseoutpath = d.getVar('SDK_OUTPUT') + '/' + d.getVar('SDKPATH')
- 
-+    #check if custome templateconf path is set
-+    use_custom_templateconf = d.getVar('SDK_CUSTOM_TEMPLATECONF')
-+
-     # Determine if we're building a derivative extensible SDK (from devtool build-sdk)
-     derivative = (d.getVar('SDK_DERIVATIVE') or '') == '1'
-     if derivative:
-@@ -390,7 +394,7 @@ python copy_buildsystem () {
-         shutil.copyfile(builddir + '/cache/bb_unihashes.dat', baseoutpath + '/cache/bb_unihashes.dat')
- 
-     # Use templateconf.cfg file from builddir if exists
--    if os.path.exists(builddir + '/conf/templateconf.cfg'):
-+    if os.path.exists(builddir + '/conf/templateconf.cfg') and use_custom_templateconf == '1':
-         shutil.copyfile(builddir + '/conf/templateconf.cfg', baseoutpath + '/conf/templateconf.cfg')
-     else:
-         # Write a templateconf.cfg
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Anuj Mittal (1):
+  distutils-common-base: fix LINKSHARED expansion
+
+Bruce Ashfield (2):
+  kernel: provide module.lds for out of tree builds in v5.10+
+  kernel: relocate copy of module.lds to module compilation task
+
+Fedor Ross (2):
+  sysvinit: remove bashism to be compatible with dash
+  eudev: remove bashism to be compatible with dash
+
+Loic Domaigne (1):
+  roofs_*.bbclass: fix missing vardeps for do_rootfs
+
+Max Krummenacher (1):
+  linux-firmware: rdepend on license for all nvidia packages
+
+Richard Purdie (2):
+  fs-perms: Ensure /usr/src/debug/ file modes are correct
+  e2fsprogs: Fix a ptest permissions determinism issue
+
+Ross Burton (4):
+  cve-check: show real PN/PV
+  python3: add CVE-2007-4559 to whitelist
+  gstreamer1.0-rtsp-server: set CVE_PRODUCT
+  gstreamer1.0-plugins-base: set CVE_PRODUCT
+
+Steve Sakoman (1):
+  sqlite3: add CVE-2015-3717 to whitelist
+
+Vyacheslav Yurkov (1):
+  license_image.bbclass: use canonical name for license files
+
+Wonmin Jung (1):
+  kernel: Set proper LD in KERNEL_KCONFIG_COMMAND
+
+ meta/classes/cve-check.bbclass                           | 9 ++++++---
+ meta/classes/distutils-common-base.bbclass               | 2 +-
+ meta/classes/kernel.bbclass                              | 6 +++++-
+ meta/classes/license_image.bbclass                       | 3 ++-
+ meta/classes/package.bbclass                             | 2 +-
+ meta/classes/rootfs_deb.bbclass                          | 2 +-
+ meta/classes/rootfs_ipk.bbclass                          | 2 +-
+ meta/classes/rootfs_rpm.bbclass                          | 2 +-
+ meta/conf/abi_version.conf                               | 2 +-
+ meta/files/fs-perms-persistent-log.txt                   | 2 +-
+ meta/files/fs-perms.txt                                  | 2 +-
+ meta/recipes-core/sysvinit/sysvinit/rc                   | 2 +-
+ meta/recipes-core/udev/eudev/init                        | 2 +-
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb      | 2 ++
+ meta/recipes-devtools/python/python3_3.8.2.bb            | 2 ++
+ .../linux-firmware/linux-firmware_20201022.bb            | 1 +
+ meta/recipes-kernel/linux/kernel-devsrc.bb               | 6 ++++++
+ .../gstreamer/gstreamer1.0-plugins-base_1.16.3.bb        | 2 ++
+ .../gstreamer/gstreamer1.0-rtsp-server_1.16.3.bb         | 2 ++
+ meta/recipes-support/sqlite/sqlite3_3.31.1.bb            | 2 ++
+ 20 files changed, 40 insertions(+), 15 deletions(-)
+
 -- 
-2.7.4
+2.17.1
 
