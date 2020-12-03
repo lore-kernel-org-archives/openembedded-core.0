@@ -1,50 +1,50 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.9898.1607002660114947209
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web11.10170.1607002661114580164
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 05:37:40 -0800
+ Thu, 03 Dec 2020 05:37:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r1cL+LoG;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id n26so3496235eju.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 05:37:39 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VCkQd13+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id ga15so3509377ejb.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 05:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=HZ9KSSwpsZCrTZrL/cHK/FpH29sqykeb/x5cdonp2T8=;
-        b=r1cL+LoGFWvcmZyn14QfOjI/FmLQtisu/JVMHzv6mP41/hduT8750Hziqi8q1Ij5HZ
-         rlkgZdhuq+U/GoOS8gGA8cgRDIX/G5ULqXkTFTn+Th2B/lMCeSCXZmpwku7MHn0WAJNY
-         3HyRX3xBXrWYVQ3OYubQNH+bv9LmCV2R6e5J+EbYAdoh4VffSOlxXQuYs5yxP0pSh87T
-         kvkGA8dWBX52MWAjlPVkRoualvE7fvBjTkc7DRiHFMraiapWxj4+JEvqX6WH7X0YXJbn
-         be1A4i5TOijkz88UxzZ29JCuMwTCBkTpEunNKsVlmLCFm54vzFYwSmrq2zhe7WeZq52P
-         hbnw==
+        bh=8ctEaqS0RdLPV60A10vVMY94+wRU9k0Pp2SZU3XxVEA=;
+        b=VCkQd13+0+VZ0AESZhq9jrdexFxhAc+xtKVKpZCPIO5qW42mDdH0/oQHdtOQXheDRC
+         pXR14MVSDxz+AmJppAIKmB/EeF6O5il6WESh/Fp/0vj3t3/xM56QxmXXi4q7E+uZH0/G
+         KEL4wQ3MjJICEA/5BPGnEz6J4KpNWXaMwF7Lg6TZxYs2kyzW5L3LboL7gbk5NqSAZbwC
+         rLAXFeIZ/tKQeSfLvRVnYHKTb5KrH4lcwojeG/kEj6ON8G4CoNHSjPdV6gDpoM8Pe/0S
+         sch9lqFlwxPBT7FXl4Q8INSepmMuoYa0CgGcYu5mDpchNjbvzD2aOZlXeYLj2LM4Tbsu
+         qvFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=HZ9KSSwpsZCrTZrL/cHK/FpH29sqykeb/x5cdonp2T8=;
-        b=js0RcceoJqsaimeoCoF1fH8Rm5CxpIa/4005A+dI+MK598lW1FpmzqiHh6+I93cuFF
-         OQzukV0qHqLFivwV6EfKcu14D1CiYuYeFRz6GXwEc1BOQWug8nOBoOjBKtt6TzDHTKaw
-         WdNk3L6s3BktkGC49zpgWa2kpj5JPSupJlFIm2wZVGkoVikQNYCy4PPrHs33dUHhrWkQ
-         j3uG5fR47V644/fHAG6xiAUfTWfK5rJskXG89n54zqkbilzH6YpdsN68ntP1HDk9IH8d
-         P0hd14dDVpk7jHQttPadR1tp9r2r/LQwEslRRuOP4rLrOFMiNG4+6tbZ1AmBFaqKYW2K
-         Ipzg==
-X-Gm-Message-State: AOAM532pAruEs0esjswYbPipUNtu2XJejjoeo2jCvwQ2RFrHx7sBN8HU
-	3LLDBEMq0qAoqbKLXNNvAFOm3ggmB5WNzg==
-X-Google-Smtp-Source: ABdhPJyPAA+007YIJVowMav50i1AsIwdhnR+ntuqOiu2t5smv27KCawRnBw83pfqMGtgIsi1EOm9yQ==
-X-Received: by 2002:a17:907:373:: with SMTP id rs19mr1037033ejb.298.1607002658316;
-        Thu, 03 Dec 2020 05:37:38 -0800 (PST)
+        bh=8ctEaqS0RdLPV60A10vVMY94+wRU9k0Pp2SZU3XxVEA=;
+        b=aeMhiX7pa3ruf1IcAS426wpDYj+9alSLbyTyEwCg+umQpj2eaUPT2eyDg3Gzu4uJ4V
+         p/ACVeRfuckJUGBOkcL6ULSw2JoApJ1QDUwh6YouVFQrouqiVIoBOGxGvO+LP1JXLOey
+         qVL56Qk261dsegV5Uh7IaMda7iQaYMmK3WemURKpbKtaHRP3vUEP5vaBvoEW+3uyUeki
+         PaHfC8Pap4lQoIjR2yZ6d/jwLG+PfXsLhWjbXijBx+LLUpVg3Wq9XnTVFd3KR7w/L0uO
+         OLEe817Yfp3SqzIn3RRDb0iHhP5+vQ9tJL4iLOUSpbAVlhC9hkZ8s5++YH9T9obF/1l1
+         sHOg==
+X-Gm-Message-State: AOAM533fQ5wBU8cxTVmvMWAwhsbKCKdEbEdIPgsVmhj0aKZzy8Pvkqxm
+	J9/eUV5AUnoxsQu99BfT2tCyyzoH2dA9BA==
+X-Google-Smtp-Source: ABdhPJwuKx7FvCqE/MbtpDYrGXiHMaKOTCC8ZYUzINQ6ZoM6anvjszOxO2Zns4a6+WHpmW+Yb08QkA==
+X-Received: by 2002:a17:906:7f95:: with SMTP id f21mr2642558ejr.340.1607002659396;
+        Thu, 03 Dec 2020 05:37:39 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id ng1sm77130ejb.112.2020.12.03.05.37.37
+        by smtp.gmail.com with ESMTPSA id ng1sm77130ejb.112.2020.12.03.05.37.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 05:37:37 -0800 (PST)
+        Thu, 03 Dec 2020 05:37:38 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 04/11] ruby: fix reproducibility
-Date: Thu,  3 Dec 2020 14:37:20 +0100
-Message-Id: <20201203133727.12936-4-alex.kanavin@gmail.com>
+Subject: [PATCH 05/11] webkitgtk: fix reproducibility
+Date: Thu,  3 Dec 2020 14:37:21 +0100
+Message-Id: <20201203133727.12936-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201203133727.12936-1-alex.kanavin@gmail.com>
 References: <20201203133727.12936-1-alex.kanavin@gmail.com>
@@ -53,61 +53,29 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...e.in-do-not-write-host-cross-cc-item.patch | 32 +++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_2.7.2.bb      |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
+ meta/recipes-sato/webkit/webkitgtk_2.30.2.bb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-new file mode 100644
-index 0000000000..826daf2cda
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-@@ -0,0 +1,32 @@
-+From 2368d07660a93a2c41d63f3ab6054ca4daeef820 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 17 Nov 2020 18:31:40 +0000
-+Subject: [PATCH] template/Makefile.in: do not write host cross-cc items into
-+ target config
-+
-+This helps reproducibility.
-+
-+Upstream-Status: Inapproppriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ template/Makefile.in | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/template/Makefile.in b/template/Makefile.in
-+index 10dc826..940ee07 100644
-+--- a/template/Makefile.in
-++++ b/template/Makefile.in
-+@@ -657,11 +657,11 @@ mjit_config.h:
-+ 	echo '#endif'; \
-+ 	quote MJIT_MIN_HEADER_NAME "$(MJIT_MIN_HEADER_NAME)"; \
-+ 	sep=,; \
-+-	quote "MJIT_CC_COMMON  " $(MJIT_CC); \
-++	quote "MJIT_CC_COMMON  " ; \
-+ 	quote "MJIT_CFLAGS      MJIT_ARCHFLAG" $(MJIT_CFLAGS); \
-+ 	quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
-+ 	quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
-+-	quote "MJIT_LDSHARED   " $(MJIT_LDSHARED); \
-++	quote "MJIT_LDSHARED   " ; \
-+ 	quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-+ 	quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
-+ 	quote 'PRELOADENV       "@PRELOADENV@"'; \
-diff --git a/meta/recipes-devtools/ruby/ruby_2.7.2.bb b/meta/recipes-devtools/ruby/ruby_2.7.2.bb
-index 055ea9343f..db6d672985 100644
---- a/meta/recipes-devtools/ruby/ruby_2.7.2.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.2.bb
-@@ -6,6 +6,7 @@ SRC_URI += " \
-            file://remove_has_include_macros.patch \
-            file://run-ptest \
-            file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
-+           file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-            "
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
+index 58b66c0f66..31370f3239 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.30.2.bb
+@@ -134,3 +134,15 @@ GI_DATA_ENABLED_libc-musl_armv7ve = "False"
  
- SRC_URI[md5sum] = "2d4a28dcfa38352a627a597f6057c465"
+ # Can't be built with ccache
+ CCACHE_DISABLE = "1"
++
++PACKAGE_PREPROCESS_FUNCS += "src_package_preprocess"
++src_package_preprocess () {
++        # Trim build paths from comments in generated sources to ensure reproducibility
++        sed -i -e "s,${WORKDIR},,g" \
++            ${B}/DerivedSources/webkit2gtk/webkit2/*.cpp \
++            ${B}/DerivedSources/ForwardingHeaders/JavaScriptCore/*.h \
++            ${B}/DerivedSources/JavaScriptCore/*.h \
++            ${B}/DerivedSources/JavaScriptCore/yarr/*.h \
++            ${B}/DerivedSources/MiniBrowser/*.c
++}
++
 -- 
 2.29.2
 
