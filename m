@@ -1,83 +1,117 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
- by mx.groups.io with SMTP id smtpd.web09.1733.1607022753567880233
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web10.1856.1607022979810828986
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 11:12:33 -0800
+ Thu, 03 Dec 2020 11:16:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=E0PQG8HK;
- spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f52.google.com with SMTP id q5so1898642vsg.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:12:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=glSu+iBc;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id u21so2174043qtw.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:16:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=4ZKwEW1KUk+r6q/UZ6HaUmZ7cWaqiTLF+C6wzhLr/Dg=;
-        b=E0PQG8HKgP+eZeDkmUbOhjZpkh99VY/lOHeO2OsQn3ZGobbuWAE/aO9r3sgXg1+pAu
-         LcuABOrEKZ/boSqagA/Yo6yvfnPvW82OkVtUiDUi54TCz4GGZYmj80M7r4W2Z44Ok6lK
-         8/fjybVSRw0PVn5dphtRJOxS7uKibFufUvcGLvXwfmtNFUL1R8mC1bw6nIAxLMAvGHXw
-         rrtbpwey/yjirsUQVh+VrVuMwggrb7KC+qHo+wKzh+SWw9gVi22c0DtS9y9/0608NVTa
-         NKubRoVoerCg0CaWfNdBcF4/iVQ94oFemUKD6ql/s0/7Pe3HtkGcJUHCAjG2qPML+vyK
-         6Rpg==
+        bh=zmO7CizAqQyhdwX5DxqwjLyOZrIvZadQaJXm+7AuhtY=;
+        b=glSu+iBcoLyIXsT+auZbrZ7ozB28hJ43Aov1NHqjGVN+oWz+hljjzHjPA8dRPYh3yv
+         pjT21vRlKD2/yIteH6pefGsbmeWXnaKxMsjCLwEYh9rbpo6QT5nLWsdWo9zqlA++qWRz
+         cLY/uuWXNZbYJ0oF+XR+jndM8IZbkg9e4meokwdqUro541FWNhCZAQN4I/aaDyXp4y76
+         CwSzjdQuInDq9R5zWFCgYmTtH5Geb3uYeV5j+xyJONaipor0QhN3FZgTuN53nhjKJtxy
+         a5WMdQ/xWPWFaFPyD+CVumitjTvCKOncpLGcZD7HctvHMIPEVgSBUbdps2r+u8K0wZvQ
+         cZcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4ZKwEW1KUk+r6q/UZ6HaUmZ7cWaqiTLF+C6wzhLr/Dg=;
-        b=UByF3OP7KYlhNtQ9QaTe5MWXUMpAxwD99TzXvS88T84s8i9LkSKh3lc3gUo0hbVwdV
-         q/5Cq3JzwY9i10sXzMLS4XQhEztUGxZkczpuhrAcYPP77ymiavEZSBoUGIM4aGEA3Wp/
-         qM2TXcDFGFO3rZpMUc4lmICiNmK73igYBwEPCeAUaqCao9ccRsrWcfBUwabGfMlh3v+k
-         wd0rBtM4RkljARBAstCCU+W8aaDShwFeG1QjEElPU10skpmXUjIAeTBesZY7/d1WOaYg
-         Kvkno6Tb2mQmW5g9A/AkpWCu97xLcDNEQo75IVbwWC4SwegcAlW0MNCxHn9bYC9T7i3o
-         vbxQ==
-X-Gm-Message-State: AOAM531ks9qZSkGnSCssH/dENfFzRvMVgsnal+PCBkFNBpuSwRPCaXRU
-	YC40Z54gsKBOOtg+rlVyLPztdiQpIi8Wlv1sKCc=
-X-Google-Smtp-Source: ABdhPJz7F6TB4LWRPfW4gKvtZ4e4r5FTKxgN04zGRlhbSyZxJag5iJ/RwIHFpCFY/SbSXh4iU4kb5lQar8RO8WyCI38=
-X-Received: by 2002:a67:7902:: with SMTP id u2mr270384vsc.41.1607022752715;
- Thu, 03 Dec 2020 11:12:32 -0800 (PST)
+        bh=zmO7CizAqQyhdwX5DxqwjLyOZrIvZadQaJXm+7AuhtY=;
+        b=BDsC3Wo1GAEFW5kWHgsZKhXd5LW1wQLNbGO09tbo1UgfUWUk8Oo8sx4fZWDuvHUOFo
+         lYKs6WmIaaKnlU2C2JHKYZTFPXI1Vh+RhSpKXdkRwM6+gdpbzpFoTeKG0eKwQtEEj+kw
+         vDrXOPMTKb3COgmW6AVOAa7gfQX230r+glmuKRbTyVa5TL3oOzora7UCYSY9b3pMhgET
+         sz7BgrcHfBl6bIm9SlBKhhLM5W9lTvRHOlduOlpWZVsXXPR675mruYDHglLAPDzCyPX1
+         DKLRSvZeP8utHcwjH+zRB9rtWn5opfmV0WD4xa/Ar+edpKgABFNtAst4r3p1YuafCIii
+         zBYw==
+X-Gm-Message-State: AOAM530SxG03YPIduNxa+RCCz3M0Z+sAzb49eJWLS6ql/bm3fYSlgtAw
+	vY9l18OG+U7yz9HVoAYq9L4gnN2tKR5sNH6E3c8=
+X-Google-Smtp-Source: ABdhPJyt7o2Xyzj3QlFr29WpmpoocGY9aB6i3L7AnAp0PNy1jRC2Vm/GoWz95RmVwwGFBqx0CHsCUJJztrJ84N7e6gY=
+X-Received: by 2002:ac8:3417:: with SMTP id u23mr4868515qtb.80.1607022978870;
+ Thu, 03 Dec 2020 11:16:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20201203133727.12936-1-alex.kanavin@gmail.com>
- <20201203133727.12936-2-alex.kanavin@gmail.com> <CAMKF1spavgHqm9YuCqo3mr-=kRGzW-J60T4gTQ5=uoBn98Hb9Q@mail.gmail.com>
-In-Reply-To: <CAMKF1spavgHqm9YuCqo3mr-=kRGzW-J60T4gTQ5=uoBn98Hb9Q@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 3 Dec 2020 20:12:21 +0100
-Message-ID: <CANNYZj_FvTGSUtBoEi_Nc=jA4szr1WrPNQSwjRuuawuJ7H6-rg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 02/11] kea: fix reproducibility
-To: Khem Raj <raj.khem@gmail.com>
+References: <20201203133727.12936-1-alex.kanavin@gmail.com> <20201203133727.12936-4-alex.kanavin@gmail.com>
+In-Reply-To: <20201203133727.12936-4-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 3 Dec 2020 11:15:52 -0800
+Message-ID: <CAMKF1sqM-xmu-L-nhRKsf-A1Loiv0U72zV6jcNXyEy9QOLXdNw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/11] ruby: fix reproducibility
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000052571905b5942476"
-
---00000000000052571905b5942476
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 3 Dec 2020 at 20:07, Khem Raj <raj.khem@gmail.com> wrote:
-
+On Thu, Dec 3, 2020 at 5:37 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> does this test then work or do we also need to ensure that
-> KEA_LOCKFILE_DIR is set to somewhere in /run dir
-> via Compiler flags or some such
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  ...e.in-do-not-write-host-cross-cc-item.patch | 32 +++++++++++++++++++
+>  meta/recipes-devtools/ruby/ruby_2.7.2.bb      |  1 +
+>  2 files changed, 33 insertions(+)
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
 >
+> diff --git a/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
+> new file mode 100644
+> index 0000000000..826daf2cda
+> --- /dev/null
+> +++ b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
+> @@ -0,0 +1,32 @@
+> +From 2368d07660a93a2c41d63f3ab6054ca4daeef820 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Tue, 17 Nov 2020 18:31:40 +0000
+> +Subject: [PATCH] template/Makefile.in: do not write host cross-cc items into
+> + target config
+> +
+> +This helps reproducibility.
+> +
+> +Upstream-Status: Inapproppriate [oe-core specific]
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + template/Makefile.in | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/template/Makefile.in b/template/Makefile.in
+> +index 10dc826..940ee07 100644
+> +--- a/template/Makefile.in
+> ++++ b/template/Makefile.in
+> +@@ -657,11 +657,11 @@ mjit_config.h:
+> +       echo '#endif'; \
+> +       quote MJIT_MIN_HEADER_NAME "$(MJIT_MIN_HEADER_NAME)"; \
+> +       sep=,; \
+> +-      quote "MJIT_CC_COMMON  " $(MJIT_CC); \
+> ++      quote "MJIT_CC_COMMON  " ; \
 
-As we are not executing the test, it does not matter, and it would not have
-worked on target anyway as it hardcodes the build path. If someone wants to
-work on the tests, they can look into it properly.
+where is this template used ? is it used on target ? is it possible to
+just all bare compiler name then since it will still work on target
+although not as important as if it was needed during cross builds.
 
-Alex
-
---00000000000052571905b5942476
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 3 Dec 2020 at 20:07, Khem Raj &lt=
-;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-does this test then work or do we also need to ensure that<br>
-KEA_LOCKFILE_DIR is set to somewhere in /run dir<br>
-via Compiler flags or some such<br></blockquote><div><br></div><div>As we a=
-re not executing the test, it does not matter, and it would not have worked=
- on target anyway as it hardcodes the build path. If someone wants to work =
-on the tests, they can look into it properly.</div><div><br></div><div>Alex=
-<br></div></div></div>
-
---00000000000052571905b5942476--
+> +       quote "MJIT_CFLAGS      MJIT_ARCHFLAG" $(MJIT_CFLAGS); \
+> +       quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
+> +       quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
+> +-      quote "MJIT_LDSHARED   " $(MJIT_LDSHARED); \
+> ++      quote "MJIT_LDSHARED   " ; \
+> +       quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
+> +       quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
+> +       quote 'PRELOADENV       "@PRELOADENV@"'; \
+> diff --git a/meta/recipes-devtools/ruby/ruby_2.7.2.bb b/meta/recipes-devtools/ruby/ruby_2.7.2.bb
+> index 055ea9343f..db6d672985 100644
+> --- a/meta/recipes-devtools/ruby/ruby_2.7.2.bb
+> +++ b/meta/recipes-devtools/ruby/ruby_2.7.2.bb
+> @@ -6,6 +6,7 @@ SRC_URI += " \
+>             file://remove_has_include_macros.patch \
+>             file://run-ptest \
+>             file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
+> +           file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
+>             "
+>
+>  SRC_URI[md5sum] = "2d4a28dcfa38352a627a597f6057c465"
+> --
+> 2.29.2
+>
+>
+> 
+>
