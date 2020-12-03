@@ -1,73 +1,59 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web09.6133.1607038113551093166
+ by mx.groups.io with SMTP id smtpd.web10.6193.1607038115150546914
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 15:28:33 -0800
+ Thu, 03 Dec 2020 15:28:35 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
 From: "Sinan Kaya" <okaya@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
 To: openembedded-core@lists.openembedded.org
 Cc: Sinan Kaya <okaya@kernel.org>
-Subject: [meta-oe][PATCH v4 1/3] introduce lib_subpackage
-Date: Thu,  3 Dec 2020 23:28:24 +0000
-Message-Id: <20201203232826.28519-1-okaya@kernel.org>
+Subject: [meta-oe][PATCH v4 2/3] net-tools: split into binary packages
+Date: Thu,  3 Dec 2020 23:28:25 +0000
+Message-Id: <20201203232826.28519-2-okaya@kernel.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201203232826.28519-1-okaya@kernel.org>
+References: <20201203232826.28519-1-okaya@kernel.org>
 
-This subclass allows us to easily split a recipe into
-subpackages.
+Support per binary package to not bloat the system with unneeded
+tools.
 
 Signed-off-by: Sinan Kaya <okaya@kernel.org>
 ---
- meta/classes/lib_subpackage.bbclass | 40 +++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
- create mode 100644 meta/classes/lib_subpackage.bbclass
+ .../net-tools/net-tools_1.60-20181103.bb                 | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/meta/classes/lib_subpackage.bbclass b/meta/classes/lib_subpackage.bbclass
-new file mode 100644
-index 00000000000..a0c3d2446c7
---- /dev/null
-+++ b/meta/classes/lib_subpackage.bbclass
-@@ -0,0 +1,40 @@
-+python __anonymous() {
-+    packages = []
-+
-+    variables = [ ("base_sbindir_progs", "base_sbindir"),
-+                  ("base_bindir_progs", "base_bindir"),
-+                  ("bindir_progs", "bindir"),
-+                  ("sbindir_progs", "sbindir"),
-+                ]
-+
-+    for v in variables:
-+        if d.getVar(v[0]) is None:
-+            continue
-+        for prog in d.getVar(v[0]).split():
-+            pkg = "%s-%s" % (d.getVar("PN"), prog.replace("_", "-"))
-+            packages.append(pkg)
-+
-+            # set alternatives
-+            d.setVar("ALTERNATIVE_%s" % pkg, prog.replace("_", "-"))
-+            d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar(v[1]), prog))
-+
-+            d.setVar("RDEPENDS_%s" % pkg, "%s-lib" % d.getVar("PN"))
-+            d.appendVar("FILES_%s" % pkg, " ${%s}/%s.%s" % (v[1], prog, d.getVar("BPN")))
-+
-+    pkg = "%s-man" % (d.getVar("PN"))
-+    packages.append(pkg)
-+    d.appendVar("FILES_%s" % pkg, " ${mandir}/*")
-+
-+    pkg = "%s-lib" % (d.getVar("PN"))
-+    packages.append(pkg)
-+    d.appendVar("FILES_%s" % pkg, " ${libdir}/*")
-+
-+    d.setVar("LIB_SUBPACKAGES_%s" % d.getVar("PN"), " ".join(packages))
-+
-+    d.setVar("FILES_%s" % d.getVar("PN"), "")
-+    d.setVar("ALTERNATIVE_%s" % d.getVar("PN"), "")
-+    d.setVar("ALLOW_EMPTY_%s" % d.getVar("PN"), "1")
-+    d.appendVar("PACKAGES", " " + " ".join(packages))
-+    d.appendVar("PROVIDES", " " + " ".join(packages))
-+    d.appendVar("RRECOMMENDS_%s" % d.getVar("PN"), " " + " ".join(packages))
-+}
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb b/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
+index e97731073e8..f9253123c24 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
+@@ -21,6 +21,7 @@ UPSTREAM_VERSION_UNKNOWN = "1"
+ S = "${WORKDIR}/git"
+ 
+ inherit gettext
++inherit lib_subpackage
+ 
+ # The Makefile is lame, no parallel build
+ PARALLEL_MAKE = ""
+@@ -93,18 +94,10 @@ base_bindir_progs  = "ifconfig netstat route \
+     ${@bb.utils.contains('PACKAGECONFIG', 'hostname', 'dnsdomainname domainname hostname nisdomainname ypdomainname', '', d)} \
+ "
+ 
+-ALTERNATIVE_${PN} = "${base_sbindir_progs} ${base_bindir_progs}"
+ ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'hostname', 'hostname.1 dnsdomainname.1', '', d)}"
+ ALTERNATIVE_LINK_NAME[hostname.1] = "${mandir}/man1/hostname.1"
+ ALTERNATIVE_LINK_NAME[dnsdomainname.1] = "${mandir}/man1/dnsdomainname.1"
+ ALTERNATIVE_PRIORITY[hostname.1] = "10"
+-
+-python __anonymous() {
+-    for prog in d.getVar('base_sbindir_progs').split():
+-        d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir'), prog))
+-    for prog in d.getVar('base_bindir_progs').split():
+-        d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_bindir'), prog))
+-}
+ ALTERNATIVE_PRIORITY = "100"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.17.1
 
