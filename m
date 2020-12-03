@@ -1,84 +1,86 @@
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
- by mx.groups.io with SMTP id smtpd.web12.1919.1607023335764481824
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web08.2044.1607023821983927718
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 11:22:15 -0800
+ Thu, 03 Dec 2020 11:30:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hat0kYL4;
- spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f66.google.com with SMTP id v8so1905191vso.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:22:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QEadOYWH;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id y197so3226220qkb.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:30:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=9E4f5/oFgh18XCRM8jzmamEQCHNjEcbaOSqoeKzyG9Y=;
-        b=hat0kYL49N9yRnm1ZsEzMLD/030SJfKSkbY8OtSFzWZw83xgeF4G4Overy4aqYG0Sq
-         qvLDAPiciMsD8d5sDUgG2hSx3eODI9IrwDt/zhuGteOwpa6b35PUlML6FVSDf2HDtVeb
-         XL6w6jGUWx7h1EltkOatbstyhFvsn1lrKOfZ4uCValp2lj/czF3EPFfzC5Z0gs4CXe1j
-         K50g3mSPfMtxsqrPq5SZCQehAWVTZTxOOaw88dFM5lDaO6nNyzLDT0MAsccIxemudDcL
-         51NDROoteEtVQejo4y361w+LTczr59WRBqlWy30cRvV7uNI0cbl/795npoW2W3LQHfDD
-         k/6Q==
+        bh=WkrfkoDO57A1k3dmcEg1EFqjLsBCK/EqA7UF4YhLBDM=;
+        b=QEadOYWHz1q11fGe7ENsCRSgVH2quMAj6CEPjoHjdP6YEzBPC8q0XoQ2U4hSFSCmq1
+         qHTxlAmHmiSqk8CMpbs7wglMCZ9//7hhVBLgbbd1A+lhkSXnDD9TM8WIrYyiS/doD84N
+         EXPwzvn5Vu9Glec3HbJFQhNVOlvO28Rc1dvyYTORKU1r843kRp42GmDfQnZT7MVKGQMj
+         2ceW+6GUzm94e+yJgzuyoopz5F+kTig4jMzNXMXfMhUGIiqqV5wsll7HuixUb4ijtqyJ
+         /oQkY4iAAvxxo2U9GQHoVW/CBNWfYrlhNj+ppdHaq/kRrY9tYQz59kzRyO6IdU7Xt9Mz
+         QjBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9E4f5/oFgh18XCRM8jzmamEQCHNjEcbaOSqoeKzyG9Y=;
-        b=daNt/LAFNrlpupwl+TgY24eWheBqcHnZhp44/Suw8j2RIuF8EZSJHtuRFZ/EBbstAa
-         yArhDkn2Hk4V0RiUvh9s0l2NhZpNEF9heDPVI+Y+Fqoeha1dbe4FGvtoc7pvGDI5iUjS
-         PBzpZyuw4nf3S7bZMqbzw04/YdnSOROtG7/Hte0aXKKS9Rpb/IHix5cQrwRJ+mAdgG15
-         rbaaMJqGwsmP4QoN3yeW22MNBFDDAPzYJ7Ly9qElOeE+kWqwlkHLYYUqFmpc4j541O/C
-         NRptI8pICzXcVJk9W5FDjspkKH+16aG+21oo/chrO4sJ/Lbsu/fr/qZdmfPbSj3NXlEy
-         A0dA==
-X-Gm-Message-State: AOAM533ZCCG7ey4xbL3AgYLlkYYPlv0ZwkmwI+aZboLpnrMn6TWnqjfM
-	4Wgbt+j54GKue3FhOorbtZdKjDSkLEY3mUUBvIY=
-X-Google-Smtp-Source: ABdhPJxBlTa4hIaSZTdBO9M7L8nrHhuEH74cYi8+hVL89t68ooj+Cs1KLBUjsmp/1+SYWVYPHurvzwVxyheowSAhoLw=
-X-Received: by 2002:a67:7902:: with SMTP id u2mr308218vsc.41.1607023334975;
- Thu, 03 Dec 2020 11:22:14 -0800 (PST)
+        bh=WkrfkoDO57A1k3dmcEg1EFqjLsBCK/EqA7UF4YhLBDM=;
+        b=sJwjF4LpqaWqKk40DRjl/atRLQ6JgTCd4LacHbPQmmCkjDj56aL8YQXHdbTH3Bj9hL
+         uIRdfOsQJMox3iuqhmQzjdVJbXddxhenKX6VznVNOFmwYsExixG9gKwgAVRHlPzlNaUg
+         WyRWCeOjWK6sxc+ZVZRO7/mXTR/L2a6CqlR47m8BRcxX4xKUhXHbtEBaXAqahjBfZzTS
+         9BX6zu+MR7FVc6qYfndyT74iW3bnHUMVua8+LGpPxAtRveXUYhep1FJ9cI7Ne8JuCfFr
+         9tzubej0kPiq3LeiIwHHwy3EskKLFuU6kucMU3Bns2Agf8CfbSPxu3QcwoqWdAiO0Qzw
+         pWnA==
+X-Gm-Message-State: AOAM531uTk0dmAVMwccpljdyFHT2+NwgCipyu5fs0Vw0EvbE/0FSssXx
+	ftiJu+gMJBdQROZ4AV/YaqxkY+b7US3E1aY1fuo=
+X-Google-Smtp-Source: ABdhPJxbWkw0dLPIEdXwrWOFCQHVZa69vVSgb5iN91TxcYKVHvTQnX7x7R0aYpoNf4GnV4F696ExEFbFwlkm2Hh+wGM=
+X-Received: by 2002:ae9:f402:: with SMTP id y2mr4511952qkl.9.1607023819692;
+ Thu, 03 Dec 2020 11:30:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20201203133727.12936-1-alex.kanavin@gmail.com>
- <20201203133727.12936-2-alex.kanavin@gmail.com> <CAMKF1spavgHqm9YuCqo3mr-=kRGzW-J60T4gTQ5=uoBn98Hb9Q@mail.gmail.com>
- <CANNYZj_FvTGSUtBoEi_Nc=jA4szr1WrPNQSwjRuuawuJ7H6-rg@mail.gmail.com> <CAMKF1sq0cnt27qB5qSnKpVA2F4Tnf-ha1Va+P7F8B3OjGh9R_Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sq0cnt27qB5qSnKpVA2F4Tnf-ha1Va+P7F8B3OjGh9R_Q@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 3 Dec 2020 20:22:02 +0100
-Message-ID: <CANNYZj9yrOVHM44Cd2Sz+FVxE5QSO3p7abcixjuMVQNJ91p2oQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 02/11] kea: fix reproducibility
-To: Khem Raj <raj.khem@gmail.com>
+References: <20201203133727.12936-1-alex.kanavin@gmail.com> <20201203133727.12936-8-alex.kanavin@gmail.com>
+In-Reply-To: <20201203133727.12936-8-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 3 Dec 2020 11:29:53 -0800
+Message-ID: <CAMKF1sq+iTO90AcsPaMVcRXiqEaPYtfoar+LMTQwEWOoQx712g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 08/11] serf: do not install the static library
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000006ebb805b59447ec"
-
---00000000000006ebb805b59447ec
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 3 Dec 2020 at 20:19, Khem Raj <raj.khem@gmail.com> wrote:
-
+On Thu, Dec 3, 2020 at 5:37 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> but say if you were. Would it make the problem more obscure than what
-> it is now. So while here, perhaps defining KEA_LOCKFILE_DIR to point
-> to /run would be a prudent thing to do if it's already not done.
+> scons is using host ar to create it, which may or may not
+> be built with reproducible option by default. Rather than
+> patch scons for the benefit of a single recipe, let's
+> just not install the .a, which is unused anyway.
 >
 
-Apologies, but no. I am not defining something that I have no way to test
-the correctness of, and I am not going to bring up the kea tests on target
-to achieve that.
+honestly, scons should be fixed here. Since it will be used in more
+than one places
+using host ar is never a good option for cross builds.
+if you dare reluctant to fix scons properly that's fine but at least
+create a tracker bug for it.
 
-Alex
-
---00000000000006ebb805b59447ec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 3 Dec 2020 at 20:19, Khem Raj &lt=
-;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-but say if you were. Would it make the problem more obscure than what<br>
-it is now. So while here, perhaps defining KEA_LOCKFILE_DIR to point<br>
-to /run would be a prudent thing to do if it&#39;s already not done.<br></b=
-lockquote><div><br></div><div>Apologies, but no. I am not defining somethin=
-g that I have no way to test the correctness of, and I am not going to brin=
-g up the kea tests on target to achieve that.<br></div><div><br></div><div>=
-Alex<br></div></div></div>
-
---00000000000006ebb805b59447ec--
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-support/serf/serf_1.3.9.bb | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
+> index 6a27f12102..2fbf96f997 100644
+> --- a/meta/recipes-support/serf/serf_1.3.9.bb
+> +++ b/meta/recipes-support/serf/serf_1.3.9.bb
+> @@ -30,4 +30,9 @@ EXTRA_OESCONS = " \
+>                    OPENSSL="${STAGING_EXECPREFIXDIR}" \
+>                    "
+>
+> +# scons creates non-reproducible archives
+> +do_install_append() {
+> +       rm ${D}/${libdir}/*.a
+> +}
+> +
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.29.2
+>
+>
+> 
+>
