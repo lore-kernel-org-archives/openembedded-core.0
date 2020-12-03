@@ -1,41 +1,41 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web11.735.1607019205821727227
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
+ by mx.groups.io with SMTP id smtpd.web10.850.1607019485605171829
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 10:13:26 -0800
+ Thu, 03 Dec 2020 10:18:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@broadcom.com header.s=google header.b=DY4aKqod;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.214.195, mailfrom: scott.branden@broadcom.com)
-Received: by mail-pl1-f195.google.com with SMTP id bj5so1603073plb.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 10:13:25 -0800 (PST)
+ dkim=pass header.i=@broadcom.com header.s=google header.b=LaeZsUrq;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: broadcom.com, ip: 209.85.216.66, mailfrom: scott.branden@broadcom.com)
+Received: by mail-pj1-f66.google.com with SMTP id b12so1598832pjl.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 10:18:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=broadcom.com; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to;
-        bh=+gtZjjKY6HS/gzDEUtNTQx8a2aqpOFAwMeP6jxUk52M=;
-        b=DY4aKqodiK1z0HrpK0kwkVWr0IT53uMD7LEtvGz0iDRKBUoTljykiOZuTIV/SYa4Ny
-         Z94gNAnjz8o9EVgyxalLlXeq+UAZIiZZGdemc5j7Bc73BDxYcaD4MMGmg+54tggD5QP8
-         tgXmlew/k3Ho+7AE3EszNGrzcUZ7TUMGWHaGI=
+        bh=G0rQQGH+081m8Pw5ceMRf4sO6dxlFgHoOAVhgS7bYD8=;
+        b=LaeZsUrqNDHp4ofsCGdeJV8yHHC5flPgeZSBaIxUOmy+aShDwHrJytlAhQwwLbpjMn
+         HiMJtF37jGfxZpu7g9RVH8OIZqwDEM1IJ9MKTwNJi91s8fQC4tzxf3PVo6/+RzzBk39E
+         n0MYve7qZTXq07HxwEExxMhYUPHBkUk/Pc2GE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to;
-        bh=+gtZjjKY6HS/gzDEUtNTQx8a2aqpOFAwMeP6jxUk52M=;
-        b=FHJmEPPmRrVOrIn2PS5yJe67kZszfTV0BPOjgPcazXGjrZA7qV2eXMRYnjV6RlGOqH
-         6YQ8qKc1zkPaGfSkABIuQXkdsfkcI9OD+znDEC1nxOLynJGH9ZGPRjge7wODw1MrImxV
-         okDkedP+8Yf6a/kSuPdCG+CARQ0YtxTgaoEH2bl2E8ekOUDDIGrlAV13KlbLJ5QIrf5a
-         21kP1y+SLgXYDjZUiUV/fISq7sHSqi9uvv5tXDNVRctp5ObryVp/NctTOdf/Dqqzbqi+
-         oKWkbRvHrxcsuWmakU5B37E6bFG4d48EV/Qln5U6EFSxazEjg6SRE9zNvMfRhLFXOmte
-         KCJw==
-X-Gm-Message-State: AOAM530RtVsv6VBOJ7qYtWOcurG6VUriZ5hGOhf/2do4n4asj/hTw7KT
-	pv2xp2zfkofiS9UtY6erxzYfPg==
-X-Google-Smtp-Source: ABdhPJwCbdheNAJ8atYjXsrUfl43hrSOKAjrQl3rfLY4iU5x8pvUQbfABiR4xlZMAbMo6zdHvkJRhA==
-X-Received: by 2002:a17:90a:7c44:: with SMTP id e4mr333821pjl.138.1607019205191;
-        Thu, 03 Dec 2020 10:13:25 -0800 (PST)
+        bh=G0rQQGH+081m8Pw5ceMRf4sO6dxlFgHoOAVhgS7bYD8=;
+        b=fGT0uDbCA3EF2oA6li/+QADOb2/07JLFyquK3SevNgqR38FW5A4G8DD/Kh0q4QN+tO
+         pfChY8qyt4tvFvnq9MROeo9v1X7FgEcyyzClW7Gh544+wNwOQu0RPjKJtUU7AUo1z+BT
+         M946K8jnZLgG8yV7gdwK727jYBPBaZx99KZRHi7MCmWyDhyDdFAmn8zkgvXJezq/U0q/
+         6KqRTaQQD5FEOEbOC+QuP2TsJpOlXxk0KnRU8dZXILfP1wLsRi70NIYwixBgsMbA5xRi
+         VCi2T8/3dWPyZq6Vf5+SiSV6gKUXm2yIPK7f9YAyuhiB+cBugm2OWwl8KYTjSt1h3Qe4
+         Ww8Q==
+X-Gm-Message-State: AOAM531awzRVBrKLO7F7NjBT3h7F4aGo4ZaSHhmDZSeFJfW2kk59GKZi
+	dV5xzkosFxDmu2KglOhzDjXqyw==
+X-Google-Smtp-Source: ABdhPJyQBDuUXPc7XxTNuXRxY7GhKwvxAdr5MIeyVnzUOg1zc3+YqEnhlrIvufNbPyj9GCTa1RTI0w==
+X-Received: by 2002:a17:90a:3e05:: with SMTP id j5mr333442pjc.91.1607019485001;
+        Thu, 03 Dec 2020 10:18:05 -0800 (PST)
 Return-Path: <scott.branden@broadcom.com>
 Received: from [10.136.13.65] ([192.19.228.250])
-        by smtp.gmail.com with ESMTPSA id y188sm2448750pfy.98.2020.12.03.10.13.23
+        by smtp.gmail.com with ESMTPSA id s21sm1673758pgk.52.2020.12.03.10.18.03
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Dec 2020 10:13:24 -0800 (PST)
+        Thu, 03 Dec 2020 10:18:04 -0800 (PST)
 Subject: Re: commit breaks menuconfig on upstream kernel "cml1.bbclass: Handle ncurses-native being available via pkg-config"
 To: Nathan Rossi <nathan@nathanrossi.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>,
@@ -43,19 +43,19 @@ Cc: OE-core <openembedded-core@lists.openembedded.org>,
 References: <bb945efa-f12d-6ff6-a783-8010269c9931@broadcom.com>
  <CA+aJhH20y3q84WkxfAb_-Dj2fpaankFD9VbskhyV8uPrQauPFQ@mail.gmail.com>
 From: "Scott Branden" <scott.branden@broadcom.com>
-Message-ID: <764b6894-3e48-ee19-ff58-7b3a1cd6930a@broadcom.com>
-Date: Thu, 3 Dec 2020 10:13:22 -0800
+Message-ID: <baf9a93e-188c-4c45-9ba5-b4d08a655564@broadcom.com>
+Date: Thu, 3 Dec 2020 10:18:02 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
 In-Reply-To: <CA+aJhH20y3q84WkxfAb_-Dj2fpaankFD9VbskhyV8uPrQauPFQ@mail.gmail.com>
-X-Groupsio-MsgNum: 145244
+X-Groupsio-MsgNum: 145245
 Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="000000000000e5eb4d05b59350fc"
+	boundary="000000000000926b5605b59361d6"
 
---000000000000e5eb4d05b59350fc
+--000000000000926b5605b59361d6
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-CA
 
 
@@ -78,37 +78,6 @@ On 2020-12-02 4:19 p.m., Nathan Rossi wrote:
 > not able to reproduce any failures with a mainline kernel, linux-yocto
 > (with and without the below mention patch) or with other projects that
 > are using cml1 (e.g. u-boot).
-Here is the result of menuconfig with your yocto change in place:
-
-  GEN     Makefile
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/kconfig/confdata.o
-  HOSTCC  scripts/kconfig/expr.o
-  HOSTCC  scripts/kconfig/lexer.lex.o
-  HOSTCC  scripts/kconfig/parser.tab.o
-  HOSTCC  scripts/kconfig/preprocess.o
-  HOSTCC  scripts/kconfig/symbol.o
-  HOSTCC  scripts/kconfig/util.o
-  UPD     scripts/kconfig/mconf-cfg
-  HOSTCC  scripts/kconfig/mconf.o
-  HOSTCC  scripts/kconfig/lxdialog/checklist.o
-  HOSTCC  scripts/kconfig/lxdialog/inputbox.o
-  HOSTCC  scripts/kconfig/lxdialog/menubox.o
-  HOSTCC  scripts/kconfig/lxdialog/textbox.o
-  HOSTCC  scripts/kconfig/lxdialog/util.o
-  HOSTCC  scripts/kconfig/lxdialog/yesno.o
-  HOSTLD  scripts/kconfig/mconf
-scripts/kconfig/mconf  Kconfig
-make[2]: scripts/kconfig/mconf: Command not found
-/mnt/2ndHDD/yocto/nxs/poky/build/workspace/sources/brcm-linux/scripts/kconfig/Makefile:29: recipe for target 'menuconfig' failed
-make[2]: *** [menuconfig] Error 127
-/mnt/2ndHDD/yocto/nxs/poky/build/workspace/sources/brcm-linux/Makefile:606: recipe for target 'menuconfig' failed
-make[1]: *** [menuconfig] Error 2
-/mnt/2ndHDD/yocto/nxs/poky/build/workspace/sources/brcm-linux/Makefile:185: recipe for target '__sub-make' failed
-make: *** [__sub-make] Error 2
-Command failed.
-Press any key to continue...
-
 >
 >> It only works with the linux-yocto kernel due to this workaround which is not upstream.
 >> If you revert this commit in linux-yocto menuconfig will not work in linux-yocto:
@@ -126,12 +95,14 @@ Press any key to continue...
 > This makes supporting menuconfig using that change for kconfig
 > generically problematic. This is why the pkg-config solution is
 > preferable.
+The kernel works with menuconfig without your yocto change today.
+Only linux-yocto (with the patch mentioned above) works with your yocto change.
 >
 > Regards,
 > Nathan
 
 
---000000000000e5eb4d05b59350fc
+--000000000000926b5605b59361d6
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -201,15 +172,15 @@ aui1E7Y9wDfsRSCL2TSwU773f09WkrvVdlKxNqQZj2z7bQUUn+yfXdFfBz0LqlYNfn7xJOpQE3HI
 H4jq6U9+b0Qf+J0n0wyysjXPSeQ7EKXVkT8dM2KSpIN86v5dd9LkAz3C1dmjuPRGEC8ZhI1IjMBt
 0itrn6C23NsxggJvMIICawIBATBtMF0xCzAJBgNVBAYTAkJFMRkwFwYDVQQKExBHbG9iYWxTaWdu
 IG52LXNhMTMwMQYDVQQDEypHbG9iYWxTaWduIFBlcnNvbmFsU2lnbiAyIENBIC0gU0hBMjU2IC0g
-RzMCDFtD165RQeUC8DvoCDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQgKXCuE1QK
-yayZaFi2/pfud60b9eyFDTvRFX6HtF+v7cowGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkq
-hkiG9w0BCQUxDxcNMjAxMjAzMTgxMzI1WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjAL
+RzMCDFtD165RQeUC8DvoCDANBglghkgBZQMEAgEFAKCB1DAvBgkqhkiG9w0BCQQxIgQg8e0EaHnI
+gdfcuvKJnnzKB1GsRE0LcnjEjwz6Qa2joVUwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkq
+hkiG9w0BCQUxDxcNMjAxMjAzMTgxODA1WjBpBgkqhkiG9w0BCQ8xXDBaMAsGCWCGSAFlAwQBKjAL
 BglghkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMAsGCSqGSIb3DQEBCjALBgkqhkiG
-9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBACBfgfhOPAOb7n9zVJZYzzMEafT1
-zarhSiAHZk0O8BzFm+QEMXVef8O53G40AI+j5kurrAJ6x6gl396wvXUSY+ciGnSsJO8tj/PPB9Iz
-NO3OR8sFzXYxRmfs+sceWU9yclM70rNQD14Aa1BNcfcZZGQvipCWOuWzzCXEmROiUtWqwMi4z07e
-NfPmsZqGNBOLXqeWcvsYy3qtdUlPrkkFGvFzReM9d6USCtYJtQAcDpT7bwBsxgJPizdoRD78dUQB
-Xcs5fg0XoCC0STj5tBdb7J+S8bdU6wC5s67pTetxg8eKinS02kQSYxyu5wbKhP2YLfmntwPnu+51
-/siA1No+8fU=
+9w0BAQcwCwYJYIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBADMM4D88+8GoFnBFsu3Z/nwGPiXB
+4mJNacNH5S9VimSYL52j05ICSucguFabXCpmdj5IEW6PMQ6igRT3rPKOHzXuUPdcnlT6/5KrsROq
+iQ1nfpPQcwWt5QxgnjKzs34y9RDraLYGIPUJ0CV6RchFmTUrZCIWdIYPSBFgKsMF4mJzAbDdt4Gs
+qe/mZC9xxH5jqIGyVRvIlWKSwrK6L8ObjGy/Gkc8jZfZwIGMpEsRtnfw5davfgK7LRHKsM5gpq8u
+wpyaX55syifrozXA/OYiic6MUyyF/EBliGcblK4fVW1NthlY5gz+dkgp5SJQGSrFmqnHcYJZDZbt
+yAnRtRXNKIo=
 
---000000000000e5eb4d05b59350fc--
+--000000000000926b5605b59361d6--
