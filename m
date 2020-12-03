@@ -1,124 +1,139 @@
-Received: from pbcl.net (pbcl.net [159.69.221.92])
- by mx.groups.io with SMTP id smtpd.web12.5180.1607034302675097868
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
+ by mx.groups.io with SMTP id smtpd.web11.5246.1607034716376301843
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 14:25:03 -0800
+ Thu, 03 Dec 2020 14:31:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: pbcl.net, ip: 159.69.221.92, mailfrom: pb@pbcl.net)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=[192.168.82.87])
-	by pbcl.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.92)
-	(envelope-from <pb@pbcl.net>)
-	id 1kkx23-0006Py-NU; Thu, 03 Dec 2020 23:25:00 +0100
-Date: Thu, 03 Dec 2020 22:02:53 +0000
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20201203133526.2075-1-twoerner@gmail.com>
-References: <20201203133526.2075-1-twoerner@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AWKLTPQW;
+ spf=pass (domain: gmail.com, ip: 209.85.167.65, mailfrom: andrey.z@gmail.com)
+Received: by mail-lf1-f65.google.com with SMTP id l11so5100063lfg.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 14:31:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=z8YRDONMqN5LmxHrbTYk29XJIEd6W8RGA4wvwJhfHOc=;
+        b=AWKLTPQWHgYJFjQrdYX8hCPtTmlrlz0pqysS2sh1/qcZc6TKLwBS5OHA2oNcDLDZpT
+         qokpPyN5QpvLmT4Q/PICQ8Lv8LCm7uHPr7Xxp4jj+BIOVyeyWTozJJqJcgXDvXaLHgyn
+         cA+ygeyaRisMPgsavVfdWHKle+re9hA5bZOGw3xYQAu6tT5TeRaxWGvBmln4YqJdYkub
+         h5lHKOEBkl8cM9pJJauYbdGqAQUsA5wjEKabp0vS3JymznovDcZnxTbDC1LVhs5ITo7b
+         S8FEMN1hiwbM+gOb2zV+UddQW/tvWcbrJ60ZN/bPxc0HY9hNAYG148MIb8xfFhj4Gcq8
+         T6NA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=z8YRDONMqN5LmxHrbTYk29XJIEd6W8RGA4wvwJhfHOc=;
+        b=BhNTfWiV2qc9RiGPWmWOBCyCTkKY0HoUcB5F2Z39EEd5Ce4SdrJrhMsSkTVsxOMeJC
+         8gelVqIV9bF1xVH/VLHVY9LUnySYxhmdTghofV9sCV3Fz58QVMWpFe9gor5bDlUMgGHe
+         HYnv76TZ79nOr1Q2frHXOozMdfgNuF7ZWNoqFPnq6kCuxM1v41lmMYbtGjrgY7s7RikE
+         eSj/aaeErNCFvKItVN3SgGywdYiRKwvVipl+aZEHMKraShKYXqTASJdijaMzVbZrmw3N
+         Zx3WUv/BkkGa8ZPxj/k148ZffneXe1/mm63NbeA/+pt3dK2FCfeNkaRFEe8waPm8vV1S
+         JY4w==
+X-Gm-Message-State: AOAM531oaMcxxi0vGh7aEFdDk8z64kHKM3UX3UiRVhIbMJKwobEcDPOv
+	ePzHM7X18T6UViEMdNaCloFKtdveOtdwGUpDMDY=
+X-Google-Smtp-Source: ABdhPJzd/JI3dgGsWgfzqWG5+ur1B6fbFPK+LX+vOoU0xsQumVJv0W8vAMIm6vFW2bkz3iHXW2wAHRwdIQwfEiiRPh8=
+X-Received: by 2002:a19:c21a:: with SMTP id l26mr2365118lfc.590.1607034714313;
+ Thu, 03 Dec 2020 14:31:54 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [OE-core] [PATCH] mesa.inc: add dispmanx support
-To: openembedded-core@lists.openembedded.org,Trevor Woerner <twoerner@gmail.com>
-From: "Phil Blundell" <pb@pbcl.net>
-Message-ID: <036904F4-E7CE-4A5D-B940-DF360F2AAED9@pbcl.net>
-X-Spam_score: -2.9
-X-Spam_score_int: -28
-X-Spam_bar: --
-X-Spam_report: Spam detection software, running on the system "hetzner.pbcl.net",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- postmaster@pbcl.net for details.
- 
- Content preview:  If we're talking about OpenGLES applications, wouldn't you
-    already have opengl in DISTRO_FEATURES? I'm not sure it makes a lot of sense
-    to introduce a check for dispmanx to oe-core if nothing in oe-core ever defines
-    that feature. 
- 
- Content analysis details:   (-2.9 points, 5.0 required)
- 
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -1.0 ALL_TRUSTED            Passed through trusted hosts only via SMTP
- -1.9 BAYES_00               BODY: Bayes spam probability is 0 to 1%
-                             [score: 0.0000]
-  0.0 HTML_MESSAGE           BODY: HTML included in message
-Content-Type: multipart/alternative; boundary="----DPH0LBN2WOKBG78UBSVQQMKRQ01SNI"
-Content-Transfer-Encoding: 7bit
+References: <bb945efa-f12d-6ff6-a783-8010269c9931@broadcom.com>
+ <CA+aJhH20y3q84WkxfAb_-Dj2fpaankFD9VbskhyV8uPrQauPFQ@mail.gmail.com> <baf9a93e-188c-4c45-9ba5-b4d08a655564@broadcom.com>
+In-Reply-To: <baf9a93e-188c-4c45-9ba5-b4d08a655564@broadcom.com>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Thu, 3 Dec 2020 23:31:43 +0100
+Message-ID: <CAHtQpK4jkSeJaWNuok13NhbD2Ghcd+DeVs5f23gSqoSaDh0Cbg@mail.gmail.com>
+Subject: Re: [OE-core] commit breaks menuconfig on upstream kernel "cml1.bbclass: Handle ncurses-native being available via pkg-config"
+To: Scott Branden <scott.branden@broadcom.com>
+Cc: Nathan Rossi <nathan@nathanrossi.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-------DPH0LBN2WOKBG78UBSVQQMKRQ01SNI
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Hello Scott and Nathan,
 
-If we're talking about OpenGLES applications, wouldn't you already have ope=
-ngl in DISTRO_FEATURES?
-
-I'm not sure it makes a lot of sense to introduce a check for dispmanx to =
-oe-core if nothing in oe-core ever defines that feature=2E=20
-
-p=2E=20
-
-
-
-On 3 December 2020 13:35:26 GMT, Trevor Woerner <twoerner@gmail=2Ecom> wro=
-te:
->On the RaspberryPi it is possible to run gles2 applications on top of
->dispmanx
->without the need for x11/wayland/etc=2E
+On Thu, Dec 3, 2020 at 7:18 PM Scott Branden via
+lists.openembedded.org
+<scott.branden=broadcom.com@lists.openembedded.org> wrote:
 >
->Signed-off-by: Trevor Woerner <twoerner@gmail=2Ecom>
->---
-> meta/recipes-graphics/mesa/mesa=2Einc | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
 >
->diff --git a/meta/recipes-graphics/mesa/mesa=2Einc
->b/meta/recipes-graphics/mesa/mesa=2Einc
->index a6652b0ddb=2E=2E34cb3c35e2 100644
->--- a/meta/recipes-graphics/mesa/mesa=2Einc
->+++ b/meta/recipes-graphics/mesa/mesa=2Einc
->@@ -51,7 +51,7 @@ inherit meson pkgconfig python3native gettext
->features_check
->=20
-> BBCLASSEXTEND =3D "native nativesdk"
->=20
->-ANY_OF_DISTRO_FEATURES_class-target =3D "opengl vulkan"
->+ANY_OF_DISTRO_FEATURES_class-target =3D "opengl vulkan dispmanx"
->=20
->PLATFORMS ??=3D "${@bb=2Eutils=2Efilter('PACKAGECONFIG', 'x11 wayland', d=
-)} \
->          ${@bb=2Eutils=2Econtains('PACKAGECONFIG', 'gbm', 'drm', '', d)}=
- \
->--=20
->2=2E28=2E0=2E497=2Eg54e85e7af1
+>
+> On 2020-12-02 4:19 p.m., Nathan Rossi wrote:
+> > On Thu, 3 Dec 2020 at 05:17, Scott Branden <scott.branden@broadcom.com> wrote:
+> >> Hi Nathan,
+> >>
+> >> Your commit:
+> >> "cml1.bbclass: Handle ncurses-native being available via pkg-config"
+> >> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?h=master-next&id=ce447d70df386ca55ce1672478b245851556374e
+> >>
+> >> breaks bitbake menuconfig when using the upstream kernel.
+> > Interesting. The purpose of the commit was to actually fix that exact
+> > use case since previously the mainline kernel menuconfig was relying
+> > on hardcoded paths to the host ncurses libraries.
+> >
+> > Would you be able to provide the error messages you are getting (and
+> > anything else that can help to reproduce the failure), because I am
+> > not able to reproduce any failures with a mainline kernel, linux-yocto
+> > (with and without the below mention patch) or with other projects that
+> > are using cml1 (e.g. u-boot).
+> >
+> >> It only works with the linux-yocto kernel due to this workaround which is not upstream.
+> >> If you revert this commit in linux-yocto menuconfig will not work in linux-yocto:
+> >> "menuconfig,mconf-cfg: Allow specification of ncurses location"
+> >> https://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto/commit/scripts/kconfig/mconf-cfg.sh?h=v5.8/standard/base&id=1714a5ad9cf61f4d0f4b8432f327cca2998aba77
+> > This change should not be required to have menuconfig working when
+> > pkg-config is used.
+> >
+> >>
+> >> Seems like your commit needs to be reverted or a change made to work with the upstream kernel.
+> >> Or, the linux-yocto change needs to actually be upstreamed.  I submitted it and the upstream maintainer questioned why the change is needed:
+> >> https://lore.kernel.org/lkml/CAK7LNATD0J3C_mFrXAju8-WmdCmrPmRFn7Um0yebnfL-_zcu8w@mail.gmail.com/
+> > The problem is if it was accepted, every kernel prior to its inclusion
+> > would need to be patched, as well as other projects (u-boot, busybox).
+> > This makes supporting menuconfig using that change for kconfig
+> > generically problematic. This is why the pkg-config solution is
+> > preferable.
 
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+As I've already said before I had similar issues with doing menuconfig
+kernel task. I took a deeper look and actually found out that the
+recipe-sysroot-native/usr/lib/pkgconfig/ncursesw.pc in the kernel
+recipe build folder contained the absolute path to the ld, which for
+me was taken from the SSTATE_MIRROR produced on the CI system.
 
-------DPH0LBN2WOKBG78UBSVQQMKRQ01SNI
-Content-Type: text/html;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The string inside ncursesw.pc looked like this (note the -Wl,--dynamic-linker):
+Libs:  -L${pcfiledir}/../../../usr/lib -Wl,--enable-new-dtags
+-Wl,-rpath-link,${pcfiledir}/../../../usr/lib
+-Wl,-rpath-link,${pcfiledir}/../../../lib
+-Wl,-rpath,${pcfiledir}/../../../usr/lib
+-Wl,-rpath,${pcfiledir}/../../../lib -Wl,-O1
+-Wl,--allow-shlib-undefined
+-Wl,--dynamic-linker=/teamcity/work/c3acfc3a6f255dcb/build-output/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2
+-lncursesw -ltinfo
 
-<html><head></head><body>If we're talking about OpenGLES applications, woul=
-dn't you already have opengl in DISTRO_FEATURES?<br><br>I'm not sure it mak=
-es a lot of sense to introduce a check for dispmanx to oe-core if nothing i=
-n oe-core ever defines that feature=2E <br><br>p=2E <br><br><br><br><div cl=
-ass=3D"gmail_quote">On 3 December 2020 13:35:26 GMT, Trevor Woerner &lt;two=
-erner@gmail=2Ecom&gt; wrote:<blockquote class=3D"gmail_quote" style=3D"marg=
-in: 0pt 0pt 0pt 0=2E8ex; border-left: 1px solid rgb(204, 204, 204); padding=
--left: 1ex;">
-<pre class=3D"k9mail">On the RaspberryPi it is possible to run gles2 appli=
-cations on top of dispmanx<br>without the need for x11/wayland/etc=2E<br><b=
-r>Signed-off-by: Trevor Woerner &lt;twoerner@gmail=2Ecom&gt;<hr> meta/recip=
-es-graphics/mesa/mesa=2Einc | 2 +-<br> 1 file changed, 1 insertion(+), 1 de=
-letion(-)<br><br>diff --git a/meta/recipes-graphics/mesa/mesa=2Einc b/meta/=
-recipes-graphics/mesa/mesa=2Einc<br>index a6652b0ddb=2E=2E34cb3c35e2 100644=
-<br>--- a/meta/recipes-graphics/mesa/mesa=2Einc<br>+++ b/meta/recipes-graph=
-ics/mesa/mesa=2Einc<br>@@ -51,7 +51,7 @@ inherit meson pkgconfig python3nat=
-ive gettext features_check<br> <br> BBCLASSEXTEND =3D "native nativesdk"<br=
-> <br>-ANY_OF_DISTRO_FEATURES_class-target =3D "opengl vulkan"<br>+ANY_OF_D=
-ISTRO_FEATURES_class-target =3D "opengl vulkan dispmanx"<br> <br> PLATFORMS=
- ??=3D "${@bb=2Eutils=2Efilter('PACKAGECONFIG', 'x11 wayland', d)} \<br>   =
-             ${@bb=2Eutils=2Econtains('PACKAGECONFIG', 'gbm', 'drm', '', d)=
-} \</pre></blockquote></div><br>-- <br>Sent from my Android device with K-9=
- Mail=2E Please excuse my brevity=2E</body></html>
+I then manually changed it to match the path on my local PC, and
+menuconfig went totally fine after that.
 
-------DPH0LBN2WOKBG78UBSVQQMKRQ01SNI--
+Nathan,
+I tend to believe this issue is not caused directly by the patch
+committed, but rather by the fact that pkg-conf files do contain
+absolute paths pulled from shared state. At least this is what I've
+observed for my setup.
+
+Scott,
+Can you have a look at the content of your <path to kernel build
+folder>/recipe-sysroot-native/usr/lib/pkgconfig/ncursesw.pc and check
+if you have the absolute ld path there, which does not match you build
+folder?
+
+> The kernel works with menuconfig without your yocto change today.
+> Only linux-yocto (with the patch mentioned above) works with your yocto change.
+> >
+> > Regards,
+> > Nathan
+>
+>
+> 
+>
+
+
+-- 
+Regards,
+Andrey.
