@@ -1,115 +1,84 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.5690.1607036284410121518
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.5882.1607036703464171560
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 14:58:04 -0800
+ Thu, 03 Dec 2020 15:05:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fLBrE45D;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id x22so4076429wmc.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 14:58:04 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CPPKpPRU;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id h21so5490264wmb.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 15:05:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ITO/xwu+vc3cCBgrzYqlq2H5qhk4v0kuTUdponhu/XE=;
-        b=fLBrE45D8aRBBmnW4Uw5liKbkQuI+iwiS6JI/15MUBTKUx8bGsrf19/PFqAsZyZS77
-         JzkNMThj/lpg4wSp0EEc84Wg9iBTWHx2U9vM49KdLEMlzf6yzmlwyFqHSP/ZriGoBlIL
-         7a0PxLjHhhygYkbpoYoYm0MPNOcD2DU336Mp0=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=943VdQFJjo/tNvIQHfue8DX+1S3baeC5SiQHBimDB7s=;
+        b=CPPKpPRUo4W9YStWuaR1viWx1nn6P4aIiU6CGnCPRtmb/LpvLuLnlTHhw27Ob2oLk5
+         jhwXK8vH0Q2aeFTdxQQqk3cY0qGJhJqBYyEHJfoYR6fKd4FFEtvDk1vCbprOUd0dmoM/
+         /b/1/f+thozmm2bhQB1XAQIr9HoTSr4djNj3o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ITO/xwu+vc3cCBgrzYqlq2H5qhk4v0kuTUdponhu/XE=;
-        b=lpC88nKmnAMfDUU8ssafcRgTNw/0CP+r35eu2diiCNz3anoMXulNKBL19Feuimw4Fo
-         RAMB11VrO5da97MYg7R35KbR62/wLlIZToVlUP8llwmatfxGvH+SG0nr9ZJZthcj7Lhj
-         gF2Z6RJicaF+x+BEp5ZqDyeX439HzcRn1DLVcfYQTXf+TFQL7x5wVUWflyW4KLKaXx9t
-         emsWXTna2VIJCsZx3n6TTjSTfcsrzaKLe+gpcmrUYSTC9t0MDPLtAUY2V8VJT6RX748Z
-         4qrnUTHlrTCobxoPEmtIfXir2bQCoeoSqK1agNNCjn77PCHy/dAT49dYdCCl5cZC8CXU
-         /EMA==
-X-Gm-Message-State: AOAM530KN5b+qngnVYmTM3VJM+uHILLtIhm593ElFTuuQUxTeRtkb50y
-	DN/rqCVwJzb3MSbPHGov3GQZ/Q==
-X-Google-Smtp-Source: ABdhPJxr5J4dFJMSGkHNkqc8NzgJRjsHy8xwiOstYNcPhKm3y2IrA4mRVn5qIVM14R/e4qHgVyMXZg==
-X-Received: by 2002:a1c:2646:: with SMTP id m67mr1022471wmm.81.1607036282916;
-        Thu, 03 Dec 2020 14:58:02 -0800 (PST)
+        bh=943VdQFJjo/tNvIQHfue8DX+1S3baeC5SiQHBimDB7s=;
+        b=SkCdm8DNg7lbiDw526EprpBnE3UjvMSveBLepy8qP1wuP+30Prg1apYAUbFXLvcjB1
+         CXhJmbinezUQ3qfEw9QDIqkeEbJ7QB5hLlldXuko/AR7S1Pap/B33jqLyCtyqCpjvQnb
+         VyUJ2HBa8Uc7Ff6SbRizAA6Rqe3Az6WkPYfdCB4rLcGUjlkrg69bDwS0FK3O2sGx+2PS
+         izR1NMuNqqsxAFL0jSCqm2I/7au3dCNQ34PtsXJ6xkGHxkYpfRAj64zz95VDEWcakZ1v
+         QM7GpVlFxKSpbGdULPVgNCIb9X9HUDzLPbYiltWak2DaG6HMmK889EYGTE6AHjp+t4lI
+         +UZA==
+X-Gm-Message-State: AOAM5309khEIXNvA9spPw0MjTZWDTEahZ9kTWonLTJNQSTj/YQYM8toa
+	Fyk+lDYLJSEZosKsDjNksMKT8A==
+X-Google-Smtp-Source: ABdhPJxRvhmxlYZdC3xrOWq2RAR7nX3fsdB4tMfjOoXu/LxZZKSF43FvvlRum25OCpkrQLwMgiuEGg==
+X-Received: by 2002:a7b:c182:: with SMTP id y2mr1049345wmi.57.1607036701926;
+        Thu, 03 Dec 2020 15:05:01 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from 9.2.d.8.e.2.1.e.1.8.2.c.7.a.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.2.d.8.e.2.1.e.1.8.2.c.7.a.4.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c4a7:c281:e12e:8d29])
-        by smtp.gmail.com with ESMTPSA id c4sm1216011wrw.72.2020.12.03.14.58.02
+        by smtp.gmail.com with ESMTPSA id o15sm1074070wrp.74.2020.12.03.15.05.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 14:58:02 -0800 (PST)
-Message-ID: <b287bb4773b60bb624813704fff24201fa6b1c6f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] wic: Introduce empty plugin to create unformatted empty partitions
+        Thu, 03 Dec 2020 15:05:01 -0800 (PST)
+Message-ID: <9335029ffaa0db7dff5bb0b4acea4ff381bf4b54.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Automatic cap on BB_NUMBER_THREADS and PARALLEL_MAKE
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Diego Sueiro <diego.sueiro@arm.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Date: Thu, 03 Dec 2020 22:58:00 +0000
-In-Reply-To: <cbb0c77415bba971194ff9c18577646d12a66250.1607009672.git.diego.sueiro@arm.com>
+To: Ross Burton <ross@burtonini.com>, OE-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 03 Dec 2020 23:05:00 +0000
+In-Reply-To: <CAAnfSTuCTy4U60iJwtMm=N1PEaWjz6XyL_idgRXJVbzuLHggUw@mail.gmail.com>
 References: 
-	<cbb0c77415bba971194ff9c18577646d12a66250.1607009672.git.diego.sueiro@arm.com>
+	<CAAnfSTuCTy4U60iJwtMm=N1PEaWjz6XyL_idgRXJVbzuLHggUw@mail.gmail.com>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-12-03 at 15:35 +0000, Diego Sueiro wrote:
-> The empty wic plugin is used to create unformatted empty partitions for wic
-> images.
+On Thu, 2020-12-03 at 17:48 +0000, Ross Burton wrote:
+> Hi,
 > 
-> To use it you must pass "empty" as argument for the "--source" parameter in
-> the wks file. For example:
->     part foo --source empty --ondisk sda --size="1024" --align 1024
+> Currently, BB_NUMBER_THREADS and PARALLEL_MAKE use the number of
+> cores
+> available unless told otherwise.  This was a good idea six years
+> ago[1] but some modern machines are moving to very large core counts.
 > 
-> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> ---
->  scripts/lib/wic/plugins/source/empty.py | 32 +++++++++++++++++++++++++
->  1 file changed, 32 insertions(+)
->  create mode 100644 scripts/lib/wic/plugins/source/empty.py
+> For example, 88 core dual Xeons are fairly common. A ThunderX2 has
+> 256
+> cores (2 sockets, 4 hyperthreads per physical core). The Ampere Altra
+> is dual socket 2*80=160 cores.
 > 
-> diff --git a/scripts/lib/wic/plugins/source/empty.py b/scripts/lib/wic/plugins/source/empty.py
-> new file mode 100644
-> index 0000000000..041617d648
-> --- /dev/null
-> +++ b/scripts/lib/wic/plugins/source/empty.py
-> @@ -0,0 +1,32 @@
-> +#
-> +# SPDX-License-Identifier: MIT
-> +#
-> +
-> +# The empty wic plugin is used to create unformatted empty partitions for wic
-> +# images.
-> +# To use it you must pass "empty" as argument for the "--source" parameter in
-> +# the wks file. For example:
-> +# part foo --source empty --ondisk sda --size="1024" --align 1024
-> +
-> +import logging
-> +
-> +from wic.pluginbase import SourcePlugin
-> +
-> +logger = logging.getLogger('wic')
-> +
-> +class EmptyPartitionPlugin(SourcePlugin):
-> +    """
-> +    Populate unformatted empty partition.
-> +    """
-> +
-> +    name = 'empty'
-> +
-> +    @classmethod
-> +    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-> +                             oe_builddir, bootimg_dir, kernel_dir,
-> +                             rootfs_dir, native_sysroot):
-> +        """
-> +        Called to do the actual content population for a partition i.e. it
-> +        'prepares' the partition to be incorporated into the image.
-> +        """
-> +        return
+> At this level of parallelisation the sheer amount of I/O from the
+> unpack storm is quite excessive.  As a strawman argument, I propose a
+> hard cap to the default BB_NUMBER_THREADS of -- and I'm literally
+> making up numbers here -- 32.  Maybe 64.  Comments?
 
+I've had no issues on 88 core systems. I'm not sure there is an
+"automatic" value we can guess at here and it is mentioned in
+local.conf for the user to customise...
 
-Thanks, the wic test coverage is pretty comprehensive, could you add a
-test for this please ("oe-selftest -r wic" is the test command).
+What might make more sense is to have site.conf from a user's homedir
+working better, although that does have issues of its own.
+
+I do agree with Alex that having bitbake throttle on system load would
+be nicer.
 
 Cheers,
 
 Richard
-
 
