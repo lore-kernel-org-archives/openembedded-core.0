@@ -1,51 +1,48 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
- by mx.groups.io with SMTP id smtpd.web08.1052.1607020277596390998
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
+ by mx.groups.io with SMTP id smtpd.web10.1104.1607020346577638628
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 10:31:17 -0800
+ Thu, 03 Dec 2020 10:32:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vMS0CcrR;
- spf=pass (domain: gmail.com, ip: 209.85.217.46, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f46.google.com with SMTP id q10so1781092vsr.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 10:31:17 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=ev0iC3zT;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.169, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f169.google.com with SMTP id o25so3230047oie.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 10:32:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=konsulko.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=w+PM26qEmclIjXliZlhO9rA+Rd9FfQHGn/cTMyhHXCk=;
-        b=vMS0CcrRbZj91J1qowmgLK5Sq1fljgoazs2SeZO+bAM5RMoQzoDfQCeuDiM6n5YANc
-         PDM6DXkqdptY4JTNC9VWI70A6FtLF9PXxN1ylP8dVPbYHsusBLgJYK4ae+zffL4JgRr0
-         04HG8WfudA7zVwwmAepJLNP8XxISehcE7Lu84rm2lwaqULC0Mfmf4l1xnpfmKRHd/aKr
-         FamjTq+DpntL2nLfbvyNut15B+CE98BytWw3OolcGg6VgDyCPY/hZFViAyQdDS9WGJwD
-         KQ1ljxFDaEXxag5WcDwfJ3TnXItjlI0LD1E2fIak7s6BR0S9+r7clC5UTRnLxzgJQu3V
-         nDNQ==
+        bh=7ORwNYs4eZhwNAo/ToGtpIMV+MRKVjJl9pp6ac5P8fY=;
+        b=ev0iC3zTZ71Jth1lumpRSPAn3oYC8lkOoS8KcPurfaF0tVP/168ftmj0hQEyCJ86Fq
+         vZmhOV0lfjZK/QCUSSPUOpyxGSY9MGXam4KNA3MWordnBHvh5zYh7WDyo71kv8vVjlGQ
+         UZfNDBFe3yLxbPiPYVoTSFHic21xPEtCJW24U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=w+PM26qEmclIjXliZlhO9rA+Rd9FfQHGn/cTMyhHXCk=;
-        b=NFKTpj8dMlg2yojMAwp4GybFVHrfzAGhcA9fQRBVMnziGh54oSipwSSjPumr3vlaAc
-         YWvPAjFfIHvTKL5dBid82l7LvnD2MsV/HEvr+SINfs6p7mpAbtUd9c6a8dqt2737j/EC
-         S9ojBeJIp8bkypz4s1DA/RyC++lTFJbV0F1GL7ueiOKTBNCOSuo2PJGLj1DLX4lknNlF
-         7eBWJlmGh2smHEwvkFJqRQS8fHcxYk4JHVEU1OLJbIgBpC8YZL0OypQeG4dzVna720zL
-         8S3h/CEdLeHGZBpRXiQS+2ZMDF0JBl2b/Wha7pTYIAkb+9lRQ8umB2vHgsP1nPcUXHEm
-         KCGA==
-X-Gm-Message-State: AOAM530uo2ATIv5b8X+5ZfdGiqVoiiAk/GGJZL8IGiNCmiZ4h8KM258w
-	NqWzBRJBFWHhvz5oY8FvM4mT34WeejvHt3yBeLM=
-X-Google-Smtp-Source: ABdhPJzKo4vMPZfvfkOOj7vvIrMa5Uqo9aakiW6/rNTA2QiOeQ5MH41YnHFFlRmo7SLu6S5T+ocvSvsHXAb7iseBRG0=
-X-Received: by 2002:a67:3354:: with SMTP id z81mr668426vsz.18.1607020276710;
- Thu, 03 Dec 2020 10:31:16 -0800 (PST)
+        bh=7ORwNYs4eZhwNAo/ToGtpIMV+MRKVjJl9pp6ac5P8fY=;
+        b=UMT1i18zJCdR5SHASMgR/R1kUITQnAw3Qnwr8XKVFnFKcl8jX2y2JMxoxQB5T0k7Cq
+         hdQnZ83kL7+myPXkxHSljCnYo3SXf0qpjbMhTO9Jjr4KSoCRGWlHKj5f6zh6AsNhFhIN
+         BCPwTBPkO2vBq20nhQ1xmIFqIMblUitZSokS0UPlgCeQEaqIXu2Sgf1tgz5DsGTYDHWW
+         U75meKvl53nscLmfrMUFReQkl0tBnLVgnQ/h95UQ3zmPT7F9iEUSQQf/iX84SNpnXq9E
+         7SPDbCcNtZFUHq7pMgIj49k9Bpj9Vw+sc+O84gzLaNd+5Hok3dhSGKcWZZqkOs12Dh23
+         Y68Q==
+X-Gm-Message-State: AOAM530p9+TPSXeUqpzGV7UoTnmBZ/GF3CN2iKRssFRhKZnArDEx3D75
+	FaLPD+0+j8O6KKizzgIwDx6rxG7kcKF9QG4i3OA/pg==
+X-Google-Smtp-Source: ABdhPJzwxThhEiNaiQL3gD09/AmboYg17HmHv3HruaKOY1oYRDA7OZfF4nJ/ucRQITJrCBD+Az6XRiFcjtsphNO4iK8=
+X-Received: by 2002:aca:ebce:: with SMTP id j197mr261868oih.6.1607020345902;
+ Thu, 03 Dec 2020 10:32:25 -0800 (PST)
 MIME-Version: 1.0
 References: <CAAnfSTuCTy4U60iJwtMm=N1PEaWjz6XyL_idgRXJVbzuLHggUw@mail.gmail.com>
 In-Reply-To: <CAAnfSTuCTy4U60iJwtMm=N1PEaWjz6XyL_idgRXJVbzuLHggUw@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 3 Dec 2020 10:31:05 -0800
-Message-ID: <CAJ86T=X0YxHN3RfFd7ECDDs=Y6nza_EgckTYc_ON+2ikcUeqrg@mail.gmail.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Thu, 3 Dec 2020 18:32:15 +0000
+Message-ID: <CAM9ZRVuy_YCDe-Vc9ztvnSzVrWfFK75Bywbnrj8UhQr5CnsuCA@mail.gmail.com>
 Subject: Re: [OE-core] Automatic cap on BB_NUMBER_THREADS and PARALLEL_MAKE
 To: Ross Burton <ross@burtonini.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Dec 3, 2020 at 9:48 AM Ross Burton <ross@burtonini.com> wrote:
+On Thu, 3 Dec 2020 at 17:48, Ross Burton <ross@burtonini.com> wrote:
 >
 > Hi,
 >
@@ -62,16 +59,11 @@ On Thu, Dec 3, 2020 at 9:48 AM Ross Burton <ross@burtonini.com> wrote:
 > hard cap to the default BB_NUMBER_THREADS of -- and I'm literally
 > making up numbers here -- 32.  Maybe 64.  Comments?
 
-Since the default should be the "safe" default (and users wanting or
-needing more are expected to profile and tune manually) a cap of 32
-sounds reasonable.
+This is really going to depend on what storage technology you're
+using. I used to limit both at 8 when I was using traditional HDDs.
+With NVMe drives I see no need to limit at the top end of the systems
+I've built on (12c/24t).
 
-
-
-> Cheers,
-> Ross
->
-> [1] http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=1529ef0504542145f2b81b2dba4bcc81d5dac96e
->
-> 
->
+-- 
+Paul Barker
+Konsulko Group
