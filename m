@@ -1,229 +1,151 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.11930.1607010041203351593
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (NAM02-BL2-obe.outbound.protection.outlook.com [40.107.75.73])
+ by mx.groups.io with SMTP id smtpd.web10.12226.1607011474900870625
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 07:40:41 -0800
+ Thu, 03 Dec 2020 08:04:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=r3BSt5Ia;
- spf=pass (domain: linaro.org, ip: 209.85.221.67, mailfrom: anibal.limon@linaro.org)
-Received: by mail-wr1-f67.google.com with SMTP id p8so2320873wrx.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:40:40 -0800 (PST)
+ dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=f7QXnugj;
+ spf=pass (domain: xilinx.com, ip: 40.107.75.73, mailfrom: ckalluri@xilinx.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fhx6/D0W8HO0HxhWrdYM1QOsTiosu8oFZolBSa0GhXX95le8irNuA4jAwVszL3iZAnEfnTJQ/yfyAcHcy4qdy9fcApKV5bzWRYWH9eu0zsonMn0G5Jw18gREPUiSnp+jfv6JWhEd39YZCQfuhZfdRgkkdEI02i+WS0Z4tDqi9fYTJ5T97nW6faa3Dggp1OxFpmrp23OiRBd86FJmWuMR7iVRy1fWNhVmY9oOxeZ0r1+RJmZ6t8iK1sDq1/RH8jqdEYvgz/9tsUzUSz+eem9hovjKLTutArnlzPJaMa2VBGzwTbAlMt4IyFAcjvlHvvtk+sDS724s7oCNc/VwHNRB8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kngILdmGLNANSx/dPA842ZGclTDWq3HyUdkgnV29KS8=;
+ b=jZ6OMakpz6RF7u7L4MhilbtYxeghf2pTPtp1tEhZjQnWXnEyFc8v0qRE+cGgn1FgvUm+DTFX4v/p4wKTfW6uZEArkBlsOnOXkFssL2bhonFUQqT3/PJbADJIzlpebxsci/V5NhZOx8XFmiT45hnTvkZ0NamxVpySoXZH0TKnVwbhgLrLpeCNRVSKncHFBAM6qcEaBc++Apw91ZDMDjWw/agc1OAzgi3OIPhjewRAlQypTYwv79w2VWO996QzP5On9RPE6ScukD6AjqAGWww4qOy0S+1bEHU/JNTpKkO7rotL9ApVKpUbXBUz1uNJlXdPLiNHEyCqw0U667gYOacZWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LCi51GR+fMKGZPQWDQnZki5/yc6s1oyUXr8gkyKJAH4=;
-        b=r3BSt5IaWWweLK+cccsJ7cvkFnnpX09itbXxJ0UfHKSCcv0+MJAfsFeEceYEeabz1b
-         OG62kIWftDgBl3L3yTujwUwDT5nF3VX9U5A/+LYw2Ev+8O8Zeq9eoW46GeXsoHIDLEXo
-         vMkuH5hRKPOdlQLy9FZdhBAIy9xU5/S5CyvcVkEG0sIaphffSt3C4M2ZlRgiCyTHQFIQ
-         gWQfyjwhv4p4HA7CbWSqfRPkGCfaw5T6gPf5Ceip6jNfA0W27bJ6XXrXkeT6uyNLSoTe
-         4GIvvtTpVivEn/PYb+MY7QgCHrbDBd1q+uUxlnv0w2Btxgp029ulJcK7ugTbCBeeon3R
-         ATuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LCi51GR+fMKGZPQWDQnZki5/yc6s1oyUXr8gkyKJAH4=;
-        b=XLSfAcZXHehTTBEet8bLf1kW7o/QNhtGkytYyYl+xYYCIB4InCrUQyuQcwx29EDdCO
-         kfX2i+AF+ranJdSZmI62qMy7JJxW7/OavmXr6eif4YW0K2pX6lhgTpZLEKopoeXV6uqy
-         tzrhwH+oRM9UujidEq0FDfdXFQwl5atE+n5Eeaon4QdEtvxUaRKZhBEx9ARHIvMZafhg
-         RhHjP49PWahY6YErLtwDIGqOg6LPYZzKMP82PxwL5JvVqyIhZRr8ghPPiUl/dq1P/1m6
-         y1DmIZfDlFs517b9GxwfsoHvl8A3jB/pJJM6MOKc0pKOdXyvvCy/Op594p98DaWx4rld
-         1Erg==
-X-Gm-Message-State: AOAM530FZ3YWpACslEgZuYipN2Rbi6JuPic0XYUZPBfHZGWIhGHfhAKs
-	eFt4AMv0SFWmPFtMmn1sVnSttKqHQyzXE9T+ALQ65Q==
-X-Google-Smtp-Source: ABdhPJwPOeduwUqFIg9U3EXLDjtKfdlmlrqwzjdE2CNfnZSoTyGj5qSLmsIrY7E7Os3+RS0IqZU3gqY1tJzaWOa4QXM=
-X-Received: by 2002:a5d:4604:: with SMTP id t4mr4291601wrq.411.1607010039687;
- Thu, 03 Dec 2020 07:40:39 -0800 (PST)
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kngILdmGLNANSx/dPA842ZGclTDWq3HyUdkgnV29KS8=;
+ b=f7QXnugjII81aEeF9UnHejwOZZ/eZzNgToa8c90ao8Wjo/bc1wgz7/TnU+TNoh0UhWGYsZAY0NxcARFwIamAC65Fy7UUoXkh5/gdiIh3djecEJn/nOifqzwMb42x/ozNRXhnJa59ACKQwUaYuK8C9nX3LhGWgqYcLIopHDnQsa8=
+Received: from BYAPR02MB5926.namprd02.prod.outlook.com (2603:10b6:a03:11e::19)
+ by SJ0PR02MB7262.namprd02.prod.outlook.com (2603:10b6:a03:29b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Thu, 3 Dec
+ 2020 16:04:33 +0000
+Received: from BYAPR02MB5926.namprd02.prod.outlook.com
+ ([fe80::dc48:9657:fae0:3411]) by BYAPR02MB5926.namprd02.prod.outlook.com
+ ([fe80::dc48:9657:fae0:3411%3]) with mapi id 15.20.3611.025; Thu, 3 Dec 2020
+ 16:04:33 +0000
+From: "Chandana kalluri" <ckalluri@xilinx.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-Core][master][gatesgarth][PATCH] populate_sdk_ext: use CUSTOM_TEPLATECONF variable to enable custom templateconf.cfg
+Thread-Topic: [OE-Core][master][gatesgarth][PATCH] populate_sdk_ext: use
+ CUSTOM_TEPLATECONF variable to enable custom templateconf.cfg
+Thread-Index: AQHWx2U6C4sQ/+oEP0ugcG+Od3FbVqnlBxIA
+Date: Thu, 3 Dec 2020 16:04:32 +0000
+Message-ID: <F9F5F1D9-8221-4285-ADA5-676EE71CC824@xilinx.com>
+References: <164C687CDA5B4DDD.5074@lists.openembedded.org>
+In-Reply-To: <164C687CDA5B4DDD.5074@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/16.40.20081000
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=xilinx.com;
+x-originating-ip: [149.199.62.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 544e8f2c-73fb-44d2-68f8-08d897a51fc8
+x-ms-traffictypediagnostic: SJ0PR02MB7262:
+x-microsoft-antispam-prvs: 
+ <SJ0PR02MB7262C342F92D5DB7045C8A6FB0F20@SJ0PR02MB7262.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ kQXyszXPRDUt0nZVBgKIXeaPGSZ4iJUPytvFnx/fVMZAWnBZNaXsgpP1ZJV4bExeTowka/q7ujtI/kEn2vz/U8ik0U2UwfqOtJR9ss3n3QT4k0yVCLk6OwGzzYVQAVx5zjgZVMGxbqCHTRGMSjxTjfVnzIV8aENQuCWbR6gdnQFsQKqrXirDvTI1Arg7izi9i/MlCknWP2MM/BmP+2KPvrcMft+dR/9zVI3YnzRIb5MySme/o2r6r1A3NrXUnh+j/1e7Wsyx1OFeUUNwSDIkh7+rU5SOBalyhEmbIn290h2NSaQrS/C/6snql1S1m1TYcWbij9WZKqHcRcdzdrtkatSn+eKNV+4msHsK0J+AiuNDvQplIo/0WqPo9y+ZXoyd
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR02MB5926.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(366004)(396003)(39860400002)(136003)(83380400001)(6512007)(8676002)(6486002)(36756003)(5660300002)(2906002)(66556008)(66476007)(64756008)(8936002)(76116006)(66446008)(66946007)(71200400001)(2616005)(86362001)(186003)(6916009)(316002)(26005)(33656002)(6506007)(478600001)(45980500001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ =?utf-8?B?dk5RZ25Vd3hEKy9JL0c2RmFVSGY0UEViZWZLTHFtb25OMFhjQzZUcEZVTGVv?=
+ =?utf-8?B?QTRyZGphUis3VG5tVWRqUm5jQ3g1aHBBU3F1dWcxd1FIcWRQeTNZNTVxVkNK?=
+ =?utf-8?B?ZEcrTGw1ak51S0pNNzNlYjFWN2NXWUZ1WHFnWGRmb0RTVTFkU1NyWS8yRGox?=
+ =?utf-8?B?TFFtVmVZbFhOK21OSDBsb1pha0ZEWlQ5bU80bllSblEwbjU5N3ZOT0dVRFAy?=
+ =?utf-8?B?SHFuQWRDVG5jclFpaFNxamV2a1ExU0NyQVFDRXhaOHdyNHJOWkM0U3pHM2Z6?=
+ =?utf-8?B?VzFEZ2F3OGcwMW0rdUk1OVJUQkZOMHhNbmM0ZGVuT3IwY21XV1FsY3NGV2dt?=
+ =?utf-8?B?ZCt6Y2cxZlJFYmFZZGF4RjRKaEp4LzRUaEcvQlpJZTRCRkk2emhRVm5hL09D?=
+ =?utf-8?B?SmZieGgzNWgzUjBBQU9XWjJSSTJHWFd1eE5NY2VpL3dsQU1NSDVjbTJZVGd1?=
+ =?utf-8?B?L1JIcXVWNWIwREk3R1ZLUm5VKzMyZjRjOG5COFZaZ2lWUTVZUEdNTUZUVVd0?=
+ =?utf-8?B?TXFvTDFMUDRHRUJPSHo2bC9XbzAwNDBEYkdac2JuYm5JZENqdXZyT0oxSUZU?=
+ =?utf-8?B?YTZpWnpnaEpqekJsU3ZuMm5UZXljM09EREFHN1Jhc1ROT09zZzhEdjd0Tjla?=
+ =?utf-8?B?bXVtKzZLd3dZdUcvYnVkRllZQjRsN1pVcHF5SFBFYWR5OWoxTVBRZHZuTkxE?=
+ =?utf-8?B?Rkt5cU0wT0I0Q2U4UER1a3kvcjJsWmQ2cnR1ay9mTzlSOHg4andyckRoTGp5?=
+ =?utf-8?B?TzNWQmtiamJTeVJBTVlEWWtrbHAwTGpUeWR2OXJjMlNCVjZOOEoxVGtUYUV0?=
+ =?utf-8?B?UzcwNkdRRGVHUTlDb244bUZvNzJtdnVBNUpkelRKaDJNTzhja3Z0UWoyRTA4?=
+ =?utf-8?B?clljVFZqc1RMeE80eXpNSGEwYTJhSmQ5aENDeDZ3ZlZWUUI4TVg3ajNIaXkr?=
+ =?utf-8?B?Vzl2Q1NLV0xRRm13TmNzc3BuWTNtYWIvSDdNbFkxMnZzd3VPQlVXSUlFd0sx?=
+ =?utf-8?B?RG1nYnNSTFU3cSsyWjVSUG8zZHJpS01oVkE0VXdVTTNIcjZQN0RneWQ3Mzc2?=
+ =?utf-8?B?aUU4NDZWZldzaEcrRzVKWUtXajZIOHJQc3hwaWt0b0JDZnZQVHgyTnUvWFVW?=
+ =?utf-8?B?dVBPTk5VL0xMRU5LRFdWbzFPN0hzL3lVOWpRYTZ3QXliNW1aK0wzdWxqbklD?=
+ =?utf-8?B?UXVJUmJKYWpiYnJDWnFVSTlGemNNSW5JSVhSWXdpbEtxaURKZm9HTHozVXMw?=
+ =?utf-8?B?TWlQU3F5cGxRaTRDOHN1RkVvTHphSnY0VVhnTGpMMFNZR1Y1ZmxuSGhlT0Yz?=
+ =?utf-8?Q?7o5DZdrbAfA/yV55G8xK67vMIDhcG7Uk+h?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20201201033449.8961-1-okaya@kernel.org>
-In-Reply-To: <20201201033449.8961-1-okaya@kernel.org>
-From: "Anibal Limon" <anibal.limon@linaro.org>
-Date: Thu, 3 Dec 2020 09:40:28 -0600
-Message-ID: <CA+_AqivGc6Omr0iHes0TKWoxWZOncw=ZA6YQCsCYVfR6YaDMvg@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v3] net-tools: split into binary packages
-To: Sinan Kaya <okaya@kernel.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000091098705b5912e48"
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB5926.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 544e8f2c-73fb-44d2-68f8-08d897a51fc8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2020 16:04:33.0361
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: dhxE+2DaJSZT9PCSBPENKRD3b/DE56Itzjvrw26tHzQBCrEJMLyvUgGicy6tzcHGJ506bieyk26WKkT9qrlk8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR02MB7262
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3AC1D10452AFE64F858736698E04841A@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
---00000000000091098705b5912e48
-Content-Type: text/plain; charset="UTF-8"
-
-This patch causes problems in multilib configurations,
-
-http://errors.yoctoproject.org/Errors/Details/539019/
-
-Regards,
-Anibal
-
-On Mon, 30 Nov 2020 at 21:35, Sinan Kaya <okaya@kernel.org> wrote:
-
-> Support per binary package to not bloat the system with unneeded
-> tools.
->
-> Signed-off-by: Sinan Kaya <okaya@kernel.org>
-> ---
->  .../net-tools/net-tools_1.60-20181103.bb      | 29 ++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
-> b/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
-> index e97731073e8..63a3ccbe516 100644
-> --- a/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
-> +++ b/meta/recipes-extended/net-tools/net-tools_1.60-20181103.bb
-> @@ -93,7 +93,7 @@ base_bindir_progs  = "ifconfig netstat route \
->      ${@bb.utils.contains('PACKAGECONFIG', 'hostname', 'dnsdomainname
-> domainname hostname nisdomainname ypdomainname', '', d)} \
->  "
->
-> -ALTERNATIVE_${PN} = "${base_sbindir_progs} ${base_bindir_progs}"
-> +ALTERNATIVE_${PN} = ""
->  ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG',
-> 'hostname', 'hostname.1 dnsdomainname.1', '', d)}"
->  ALTERNATIVE_LINK_NAME[hostname.1] = "${mandir}/man1/hostname.1"
->  ALTERNATIVE_LINK_NAME[dnsdomainname.1] = "${mandir}/man1/dnsdomainname.1"
-> @@ -107,4 +107,31 @@ python __anonymous() {
->  }
->  ALTERNATIVE_PRIORITY = "100"
->
-> +python __anonymous () {
-> +    packages = []
-> +    for prog in d.getVar('base_sbindir_progs').split():
-> +        pkg = "net-tools-%s" % prog.replace("_", "-")
-> +        packages.append(pkg)
-> +        d.setVar("ALTERNATIVE_%s" % pkg, prog.replace("_", "-"))
-> +        if not d.getVar("FILES_%s" % pkg):
-> +                d.setVar("FILES_%s" % pkg, "${base_sbindir}/%s*" % prog)
-> +    for prog in d.getVar('base_bindir_progs').split():
-> +        pkg = "net-tools-%s" % prog.replace("_", "-")
-> +        packages.append(pkg)
-> +        d.setVar("ALTERNATIVE_%s" % pkg, prog.replace("_", "-"))
-> +        if not d.getVar("FILES_%s" % pkg):
-> +                d.setVar("FILES_%s" % pkg, "${base_bindir}/%s*" % prog)
-> +    pkg = "net-tools-man"
-> +    packages.append(pkg)
-> +    if not d.getVar("FILES_%s" % pkg):
-> +            d.setVar("FILES_%s" % pkg, "${mandir}/*")
-> +    d.setVar("NETTOOLS_PACKAGES", " ".join(packages))
-> +}
-> +# "net-tools" is a metapackage which pulls in all net-tools binaries
-> +PACKAGES += "${NETTOOLS_PACKAGES}"
-> +PROVIDES += "${NETTOOLS_PACKAGES}"
-> +FILES_${PN} = ""
-> +ALLOW_EMPTY_${PN} = "1"
-> +RRECOMMENDS_${PN} += "${NETTOOLS_PACKAGES}"
-> +
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.17.1
->
->
-> 
->
->
-
---00000000000091098705b5912e48
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This patch causes problems in multilib configurations,<div=
-><br></div><div><a href=3D"http://errors.yoctoproject.org/Errors/Details/53=
-9019/">http://errors.yoctoproject.org/Errors/Details/539019/</a></div><div>=
-<br></div><div>Regards,</div><div>Anibal</div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 30 Nov 2020 at 21:35,=
- Sinan Kaya &lt;<a href=3D"mailto:okaya@kernel.org">okaya@kernel.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Support=
- per binary package to not bloat the system with unneeded<br>
-tools.<br>
-<br>
-Signed-off-by: Sinan Kaya &lt;<a href=3D"mailto:okaya@kernel.org" target=
-=3D"_blank">okaya@kernel.org</a>&gt;<br>
----<br>
-=C2=A0.../net-tools/<a href=3D"http://net-tools_1.60-20181103.bb" rel=3D"n=
-oreferrer" target=3D"_blank">net-tools_1.60-20181103.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 | 29 ++++++++++++++++++-<br>
-=C2=A01 file changed, 28 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-extended/net-tools/<a href=3D"http://net-tools_1=
-.60-20181103.bb" rel=3D"noreferrer" target=3D"_blank">net-tools_1.60-201811=
-03.bb</a> b/meta/recipes-extended/net-tools/<a href=3D"http://net-tools_1.6=
-0-20181103.bb" rel=3D"noreferrer" target=3D"_blank">net-tools_1.60-20181103=
-.bb</a><br>
-index e97731073e8..63a3ccbe516 100644<br>
---- a/meta/recipes-extended/net-tools/<a href=3D"http://net-tools_1.60-201=
-81103.bb" rel=3D"noreferrer" target=3D"_blank">net-tools_1.60-20181103.bb</=
-a><br>
-+++ b/meta/recipes-extended/net-tools/<a href=3D"http://net-tools_1.60-201=
-81103.bb" rel=3D"noreferrer" target=3D"_blank">net-tools_1.60-20181103.bb</=
-a><br>
-@@ -93,7 +93,7 @@ base_bindir_progs=C2=A0 =3D &quot;ifconfig netstat route=
- \<br>
-=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;hos=
-tname&#39;, &#39;dnsdomainname domainname hostname nisdomainname ypdomainna=
-me&#39;, &#39;&#39;, d)} \<br>
-=C2=A0&quot;<br>
-<br>
--ALTERNATIVE_${PN} =3D &quot;${base_sbindir_progs} ${base_bindir_progs}&qu=
-ot;<br>
-+ALTERNATIVE_${PN} =3D &quot;&quot;<br>
-=C2=A0ALTERNATIVE_${PN}-doc +=3D &quot;${@bb.utils.contains(&#39;PACKAGECO=
-NFIG&#39;, &#39;hostname&#39;, &#39;hostname.1 dnsdomainname.1&#39;, &#39;&=
-#39;, d)}&quot;<br>
-=C2=A0ALTERNATIVE_LINK_NAME[hostname.1] =3D &quot;${mandir}/man1/hostname.=
-1&quot;<br>
-=C2=A0ALTERNATIVE_LINK_NAME[dnsdomainname.1] =3D &quot;${mandir}/man1/dnsd=
-omainname.1&quot;<br>
-@@ -107,4 +107,31 @@ python __anonymous() {<br>
-=C2=A0}<br>
-=C2=A0ALTERNATIVE_PRIORITY =3D &quot;100&quot;<br>
-<br>
-+python __anonymous () {<br>
-+=C2=A0 =C2=A0 packages =3D []<br>
-+=C2=A0 =C2=A0 for prog in d.getVar(&#39;base_sbindir_progs&#39;).split():=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkg =3D &quot;net-tools-%s&quot; % prog.repla=
-ce(&quot;_&quot;, &quot;-&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 packages.append(pkg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;ALTERNATIVE_%s&quot; % pkg, pr=
-og.replace(&quot;_&quot;, &quot;-&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not d.getVar(&quot;FILES_%s&quot; % pkg):<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;FI=
-LES_%s&quot; % pkg, &quot;${base_sbindir}/%s*&quot; % prog)<br>
-+=C2=A0 =C2=A0 for prog in d.getVar(&#39;base_bindir_progs&#39;).split():<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkg =3D &quot;net-tools-%s&quot; % prog.repla=
-ce(&quot;_&quot;, &quot;-&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 packages.append(pkg)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;ALTERNATIVE_%s&quot; % pkg, pr=
-og.replace(&quot;_&quot;, &quot;-&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not d.getVar(&quot;FILES_%s&quot; % pkg):<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;FI=
-LES_%s&quot; % pkg, &quot;${base_bindir}/%s*&quot; % prog)<br>
-+=C2=A0 =C2=A0 pkg =3D &quot;net-tools-man&quot;<br>
-+=C2=A0 =C2=A0 packages.append(pkg)<br>
-+=C2=A0 =C2=A0 if not d.getVar(&quot;FILES_%s&quot; % pkg):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;FILES_%s&quot; %=
- pkg, &quot;${mandir}/*&quot;)<br>
-+=C2=A0 =C2=A0 d.setVar(&quot;NETTOOLS_PACKAGES&quot;, &quot; &quot;.join(=
-packages))<br>
-+}<br>
-+# &quot;net-tools&quot; is a metapackage which pulls in all net-tools bin=
-aries<br>
-+PACKAGES +=3D &quot;${NETTOOLS_PACKAGES}&quot;<br>
-+PROVIDES +=3D &quot;${NETTOOLS_PACKAGES}&quot;<br>
-+FILES_${PN} =3D &quot;&quot;<br>
-+ALLOW_EMPTY_${PN} =3D &quot;1&quot;<br>
-+RRECOMMENDS_${PN} +=3D &quot;${NETTOOLS_PACKAGES}&quot;<br>
-+<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
--- <br>
-2.17.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000091098705b5912e48--
+UGluZw0KDQrvu79PbiAxMS8zMC8yMCwgMjowNyBQTSwgIm9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcgb24gYmVoYWxmIG9mIENoYW5kYW5hIGthbGx1cmkgdmlhIGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmciIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnIG9uIGJlaGFsZiBvZiBja2FsbHVyaT14aWxpbnguY29tQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+IHdyb3RlOg0KDQogICAgVGhlIGN1cnJlbnQgaW1wbGVtZW50YXRpb24gd2lsbCBhbHdheXMg
+cGljayBhbiBleGlzdGluZyB0ZW1wbGF0ZWNvbmYuY2ZnIGlmDQogICAgcHJlc2VudCBlbHNlIGl0
+IHdpbGwgdXNlIHRoZSBvbmUgZnJvbSBPRS4gIEEgdXNlciBtaWdodCBub3QgYWx3YXlzIHdhbnQg
+dG8gcGljaw0KICAgIGFuIGV4aXN0aW5nIHRlbXBhbHRlY29uZi5jZmcgZXZlbiBpZiBpdHMgcHJl
+c2VudC4gIEludHJvZHVjZQ0KICAgIENVU1RPTV9URU1QTEFURUNPTkYgdmFyaWFibGUgdG8gcHJv
+dmlkZSBhbiBvcHRpb24gZm9yIHRoZSB1c2VyIHRvIHNwZWNpZnkgaWYgaGUNCiAgICB3YW50cyB0
+byB1c2UgYW4gZXhpc3RpbmcgY3VzdG9tIHRlbXBsYXRlY29uZi5jZmcgb3Igbm90DQoNCiAgICBJ
+ZiBDVVNUT01fVEVNUExBVEVDT05GPT0nMScgdGhlbiBlbmFibGUgY3VzdG9tIHRlbXBsYXRlY29u
+Zi5jZmcuIEJ5IGRlZmF1bHQNCiAgICBDVVNUT01fVEVNUExBVEVDT05GIGlzIHNldCB0byAnMCcN
+Cg0KICAgIFNpZ25lZC1vZmYtYnk6IFNhaSBIYXJpIENoYW5kYW5hIEthbGx1cmkgPGNoYW5kYW5h
+LmthbGx1cmlAeGlsaW54LmNvbT4NCiAgICAtLS0NCiAgICAgbWV0YS9jbGFzc2VzL3BvcHVsYXRl
+X3Nka19leHQuYmJjbGFzcyB8IDYgKysrKystDQogICAgIDEgZmlsZSBjaGFuZ2VkLCA1IGluc2Vy
+dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCg0KICAgIGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMv
+cG9wdWxhdGVfc2RrX2V4dC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3BvcHVsYXRlX3Nka19leHQu
+YmJjbGFzcw0KICAgIGluZGV4IDZmMzViNjEuLmQxZjYxZDUgMTAwNjQ0DQogICAgLS0tIGEvbWV0
+YS9jbGFzc2VzL3BvcHVsYXRlX3Nka19leHQuYmJjbGFzcw0KICAgICsrKyBiL21ldGEvY2xhc3Nl
+cy9wb3B1bGF0ZV9zZGtfZXh0LmJiY2xhc3MNCiAgICBAQCAtMjQsNiArMjQsNyBAQCBTREtfSU5D
+TFVERV9OQVRJVkVTREsgPz0gIjAiDQogICAgIFNES19JTkNMVURFX0JVSUxEVE9PTFMgPz0gJzEn
+DQoNCiAgICAgU0RLX1JFQ1JERVBfVEFTS1MgPz0gIiINCiAgICArQ1VTVE9NX1RFTVBMQVRFQ09O
+RiA/PSAiMCINCg0KICAgICBTREtfTE9DQUxfQ09ORl9XSElURUxJU1QgPz0gIiINCiAgICAgU0RL
+X0xPQ0FMX0NPTkZfQkxBQ0tMSVNUID89ICJDT05GX1ZFUlNJT04gXA0KICAgIEBAIC0xOTksNiAr
+MjAwLDkgQEAgcHl0aG9uIGNvcHlfYnVpbGRzeXN0ZW0gKCkgew0KICAgICAgICAgYnVpbGRzeXN0
+ZW0gPSBvZS5jb3B5X2J1aWxkc3lzdGVtLkJ1aWxkU3lzdGVtKCdleHRlbnNpYmxlIFNESycsIGQp
+DQogICAgICAgICBiYXNlb3V0cGF0aCA9IGQuZ2V0VmFyKCdTREtfT1VUUFVUJykgKyAnLycgKyBk
+LmdldFZhcignU0RLUEFUSCcpDQoNCiAgICArICAgICNjaGVjayBpZiBjdXN0b21lIHRlbXBsYXRl
+Y29uZiBwYXRoIGlzIHNldA0KICAgICsgICAgdXNlX2N1c3RvbV90ZW1wbGF0ZWNvbmYgPSBkLmdl
+dFZhcignQ1VTVE9NX1RFTVBMQVRFQ09ORicpDQogICAgKw0KICAgICAgICAgIyBEZXRlcm1pbmUg
+aWYgd2UncmUgYnVpbGRpbmcgYSBkZXJpdmF0aXZlIGV4dGVuc2libGUgU0RLIChmcm9tIGRldnRv
+b2wgYnVpbGQtc2RrKQ0KICAgICAgICAgZGVyaXZhdGl2ZSA9IChkLmdldFZhcignU0RLX0RFUklW
+QVRJVkUnKSBvciAnJykgPT0gJzEnDQogICAgICAgICBpZiBkZXJpdmF0aXZlOg0KICAgIEBAIC0z
+OTAsNyArMzk0LDcgQEAgcHl0aG9uIGNvcHlfYnVpbGRzeXN0ZW0gKCkgew0KICAgICAgICAgICAg
+IHNodXRpbC5jb3B5ZmlsZShidWlsZGRpciArICcvY2FjaGUvYmJfdW5paGFzaGVzLmRhdCcsIGJh
+c2VvdXRwYXRoICsgJy9jYWNoZS9iYl91bmloYXNoZXMuZGF0JykNCg0KICAgICAgICAgIyBVc2Ug
+dGVtcGxhdGVjb25mLmNmZyBmaWxlIGZyb20gYnVpbGRkaXIgaWYgZXhpc3RzDQogICAgLSAgICBp
+ZiBvcy5wYXRoLmV4aXN0cyhidWlsZGRpciArICcvY29uZi90ZW1wbGF0ZWNvbmYuY2ZnJyk6DQog
+ICAgKyAgICBpZiBvcy5wYXRoLmV4aXN0cyhidWlsZGRpciArICcvY29uZi90ZW1wbGF0ZWNvbmYu
+Y2ZnJykgYW5kIHVzZV9jdXN0b21fdGVtcGxhdGVjb25mID09ICcxJzoNCiAgICAgICAgICAgICBz
+aHV0aWwuY29weWZpbGUoYnVpbGRkaXIgKyAnL2NvbmYvdGVtcGxhdGVjb25mLmNmZycsIGJhc2Vv
+dXRwYXRoICsgJy9jb25mL3RlbXBsYXRlY29uZi5jZmcnKQ0KICAgICAgICAgZWxzZToNCiAgICAg
+ICAgICAgICAjIFdyaXRlIGEgdGVtcGxhdGVjb25mLmNmZw0KICAgIC0tIA0KICAgIDIuNy40DQoN
+Cg0K
