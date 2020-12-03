@@ -1,80 +1,89 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web12.11389.1607008180697479167
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.11324.1607008183134605015
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 07:09:40 -0800
+ Thu, 03 Dec 2020 07:09:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ybSI+Ws4;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id o9so1454727pfd.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:09:40 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wVglHVE9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id 131so1456967pfb.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:09:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=hZmOV9RE2zXF2TVChNJQvhinc3T85N3t8LBQ5fJWx+w=;
-        b=ybSI+Ws4eSqg1D1XvpHJNtvBxUGH6OMUGoi9UPUjUL4vjjMQ6JvBgHWfZNZlpRCFKG
-         aDY9YvB9eO1+/ZQT4cTTTQs+uwCQTDL3dfhexb/MCVkkAFWJyT2GhRnfDBsG7jBLVVeI
-         DIYrqi3wRhb3wEn5xbRj6dWAu+GcuEIeJJwDx8tM8mpYeCeZaVSLY3stx1b4Kk7sEpAO
-         lHMlBZH6dZwDoBKjsrUHlnTzqGGN8s0M4fF/WwNa7oRCarpjU+sFdmEJCM1W/6JrngaJ
-         uJ+ORmkCvzyzTePPo5UTdsutoxrQqHCZSfK3XE7GI4+FEDzgTIt28V7zTzmr5tmTEWQp
-         mhgA==
+        bh=SNimO4AEBO+VHFlDu3V7qD1MMKJWGEa/6PUmHesdl6Q=;
+        b=wVglHVE9CFyyL3rQ3Yo8uJRgqlc9qYEymI6ReEJQsFddb5+9BKfd4XCJQcPljZ8U8o
+         4wBhb299QU2fB3J997cbyaZxWPi/Os3WPNtL8LyIIlHSVKLG8e6mScn4b0p1m/R4UNBO
+         HtJf5K0SX9VEtM1BqfmRMnYjkQ83lxOQD5LA7aR7uw0dGCvzPCN9LBYwTMiaOqDS+x7X
+         Nl+S4rKhQh5wJd1bsIwzu1HyRJkwezEzxG0XixVA4fVfL4duMcagKq+5FCeR6L0NnRMh
+         EUoSTiEXJX7IQwNXHbZuLMmrXAnXksQClVrfUedKsVnoTZkngIf4C1VWpqCowDTfU89W
+         KutQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=hZmOV9RE2zXF2TVChNJQvhinc3T85N3t8LBQ5fJWx+w=;
-        b=c6Mq21QyFX+UD0zCVsijdxw+iJtYtRiUAkG0fWggbjFYtnmBr12lNoXrrVZo1uXgYN
-         KaAmZ/BzS9YWbHUE1HvlCVu8s773lzJZewwufpWAD368QGoQiM0ELFc+pX5MDekMzJW6
-         kVx49zOEucFP8Z0s6G1Tep/BTPjZU+k0z2Z+nQmMIog8vYSsxqRXxqoXyYH2uv8QA03W
-         RZjE5wR1cs9TXNnQVyT9v8xb9EU4ab7jf+u3oupMYaZ7A1G2eGsCSvj199qDapkrYUMw
-         vE2wQxTgcn+9HitlnpYnSAAu6qNvAxuAQRC5D7uXzz+N2J6JA/8M1QrcvgF1INiV3bSh
-         jWUw==
-X-Gm-Message-State: AOAM532ocmG9n0twvZB6eqdU2Y3FlArftZLoaHcUA5MNbdN7E5PrguuH
-	Ril0o42MWnRRxmtLxfgvJI7s0+4yJKqTgkW+
-X-Google-Smtp-Source: ABdhPJxfZQp57rx6rcOCELh7XpQrqNlb+4Sbb2oFuHs/YS6X7+m6H8SkiClGP0SD5aTBYcCVFvKtXA==
-X-Received: by 2002:a63:1d55:: with SMTP id d21mr3368948pgm.324.1607008179730;
-        Thu, 03 Dec 2020 07:09:39 -0800 (PST)
+        bh=SNimO4AEBO+VHFlDu3V7qD1MMKJWGEa/6PUmHesdl6Q=;
+        b=IfoyqRGMhh/NU8RFolyE/veG7bM8zVLACXqB13xZmL7f1QwOJPvoHKXUpojLpklFn9
+         WBCuLWiXToj+ucb9FcMPAyeeqQtgi7ilCyJzTeycPzmW78lBu7a6iFkN6Bfly9lMW16U
+         VgBzj7oSHVUXIwpxW/sNSOkPq5nFCi9bfkmyVOpZ+NCTu+5rMn2Pcp3brPwPwyOga0SP
+         vlxTiN+ZzzQm7PQ20fdvlTvG1KVIZOQ9yF+XKzVZlUciwQ/LT6ACRUZfCQQ/ZD+ABIz+
+         NJwq9gmaY2pnmDB1TErZzFW2cYfsxvCI117H2RLjkRhTiKP+KILEbGXAgHKMvEeuUWFG
+         6qZQ==
+X-Gm-Message-State: AOAM530Jr0oJeY8Xo8/qUrGI+ncaFitL38tWD8qYIhvKmj0vhnaIJci/
+	GLqu50BcdUjWfx6Yx9t8Vu4WgVmQEw5nDApm
+X-Google-Smtp-Source: ABdhPJyLX57i5ja8QYbd3yWrgUTZx+UNHzsJmf20Ut38Mu4hKUoLgj2VY9BJmAG0xWCvLs7w60WufA==
+X-Received: by 2002:a63:1b09:: with SMTP id b9mr3411754pgb.13.1607008182134;
+        Thu, 03 Dec 2020 07:09:42 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.09.38
+        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.09.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 07:09:38 -0800 (PST)
+        Thu, 03 Dec 2020 07:09:41 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 23/28] pseudo: Upgrade to include mkostemp64 wrapper
-Date: Thu,  3 Dec 2020 05:08:13 -1000
-Message-Id: <7f8cebb94965113b7c9c781743ad5ef27a37aed1.1607007208.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 24/28] base.bbclass: use os.path.normpath instead of just comparing WORKDIR and S as strings
+Date: Thu,  3 Dec 2020 05:08:14 -1000
+Message-Id: <e5051f218499d80e1bba54a9a193bc61b24cbb50.1607007208.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607007208.git.steve@sakoman.com>
 References: <cover.1607007208.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-Newer systems are using this currently unwrapped glibc function,
-add it.
+* cannot use os.path.samefile, because S/B might not exist at this time yet
 
-[YOCTO #14080]
+* there is issue with PSEUDO_IGNORE_PATHS when some recipe sets e.g.
+  S = "${WORKDIR}/"
+  whole WORKDIR gets added to PSEUDO_IGNORE_PATHS and then the build
+  can fail with various strange errors, in my case do_package was
+  failing when do_package calls:
+  fix_perms(.../1.0-r0/package/etc, 755, 0, 0, /etc)
+  and fails with "[Errno 1] Operation not permitted:"
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cba4f51f0166e2c20e854ee0344be0c58769eaca)
+(cherry picked from commit 50b11a61ab29acb8ec990668353e0b7305114628)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/base.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 9b7ee1c18c..2e13fec540 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://fallback-group \
-            "
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index a710abdbd7..65b9d954c7 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -388,9 +388,9 @@ python () {
+     oe.utils.features_backfill("DISTRO_FEATURES", d)
+     oe.utils.features_backfill("MACHINE_FEATURES", d)
  
--SRCREV = "07141f919dc8582460f984ed1d2fb73e05f82ef3"
-+SRCREV = "cca0d7f15b7197095cd587420d31b187620c3093"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
+-    if d.getVar("WORKDIR") != d.getVar("S"):
++    if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("S")):
+         d.appendVar("PSEUDO_IGNORE_PATHS", ",${S}")
+-    if d.getVar("WORKDIR") != d.getVar("B"):
++    if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("B")):
+         d.appendVar("PSEUDO_IGNORE_PATHS", ",${B}")
  
+     # Handle PACKAGECONFIG
 -- 
 2.17.1
 
