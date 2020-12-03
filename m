@@ -1,76 +1,83 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web08.1490.1607021840954847758
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+ by mx.groups.io with SMTP id smtpd.web11.1528.1607022086839167948
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 10:57:21 -0800
+ Thu, 03 Dec 2020 11:01:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=N+6T8SjE;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id z3so2129132qtw.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 10:57:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IV0TC9vn;
+ spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f181.google.com with SMTP id 7so2167942qtp.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:01:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zz8zfBLlBiBjMqtw2bup0lSOsa/lhbRGl0su/b8eEmI=;
-        b=N+6T8SjEJ49e1ytOfDqYWQubexjXQnXowVk3yLO1CCO6dQehdk14+/KO1eJhKcMX6g
-         66VcbfxRT9F0ML8xwIn/SBEpdJYagt1m4kW82Gy1cUsWZmVjXktVGG+O64mnecukuOCt
-         8bPRlTSCw0vlanmRfAqK0zpmxMcy8Vk7tspCPIMQjnifIitGvipWR7gdhMImtsjsk92k
-         k8o8rQ+9vWOBhwpUdlhMqQfD8Zx7pyAA6s2CEglxZAywEEUh3E2Gngg0rdH/jftQhKFR
-         /aYDYfCK1WytoAGi7TuIIFc8e1sSKheXdk5jU3Vq1d7mLalp7wr0EnjyT3wp9jFLV8UQ
-         7Qxw==
+        bh=77gaKKAk9andO+tTVuou1oaBCinef4F9lT4tCMY88Uw=;
+        b=IV0TC9vnI+cplM81ajz2Jr7TdredGPXPVcpiyBLVQHFLDb1Kz0LlFxwkV+OgV4ItpS
+         2XRIFPm6h9Z73FWad1v3doI6TigHtOnglodBTbS4sFg6sEcefcRd5wTxS/UzTYu8BLWp
+         M/n+VJotk9NCmaqNl4CNbbBpmdHsE9iDw88gzlnh6wc0XD0Vw31w8eOjYv34HMRSLgdQ
+         GhekBUvIHD8f/Zm8YGK68wVFcLaos6a4cakJf8x69bFdS/HhT/IydOqDzm71D9zSc1/J
+         H2L0dma1BHYVDTMOxjiHhtysBm20yedQ5BJyg8MXpy1Xh5b4SsYsMyaVVxTeQYxNsNdI
+         dqlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zz8zfBLlBiBjMqtw2bup0lSOsa/lhbRGl0su/b8eEmI=;
-        b=YgskaUnp3B3yQorm7NuwZHW/Q2H9dWYRU7Yu9ZNcMvnV2HR68EiLaiCCWe5g78wLVf
-         43r9CMN48hu1A11s49T4AHC8EAqnOVVNp7xncPSdcXpZcSYmHqkq7ZY6qnyovcIlWTYZ
-         NjAvoz9umX3DgKQdn2ytqJM58RVoZp7YGZ2JieXn0NgyE1085TFTNDj1rmVmh7w+T3VM
-         ck2dJZWiAR9XuN/0XqFtO5zwjLOLHsuSLhQE1CYpP6K75HwlMhnZpBZUFC3KQtVQksFH
-         AasIaqR9FRRBgKL4/hzZx8a6qfkauUce99GdGhL2IQLvUqMWX2hzrFh5A9erf5fDwz/n
-         VDiw==
-X-Gm-Message-State: AOAM530UEbOYykrzbDpuRfoDOR+panmutpQrHrevS78F7vAMwWmCI1ez
-	Yh6urC6+kneE1bq2LuGInr+cgMwzEYwwhdWwMdg=
-X-Google-Smtp-Source: ABdhPJzPXMQXJCFoYgyI8t/RgwawYsh/jvDJKfOC5yboXdri+Ax7j3pde91KDRaVVdESaN3FwA2s096RV/klPpBUNx0=
-X-Received: by 2002:ac8:5a0f:: with SMTP id n15mr4789072qta.88.1607021839951;
- Thu, 03 Dec 2020 10:57:19 -0800 (PST)
+        bh=77gaKKAk9andO+tTVuou1oaBCinef4F9lT4tCMY88Uw=;
+        b=VnLq40sDjKdYLCrgUaAEuSd9VElFJ2GgE/ess5veEcGTgvquk+0UAGSarKjvPbw4p1
+         GpHoHqhU8Lo5IrMJ118gA9EmRZGPAkzCjhLiVOx6VFn/80E7t7Bw/55Ln307dps+wORV
+         8dAoKMb9AxGmoyGOFT6RuakjNNFaFZDqRbE22iMats9kRf+9Pr0H74GRVyFcWrItcQBi
+         6VxjnTuYy+6PdiqMG0KMcAWI6JgM73dNSLc/gC1honWPJAW9+A8VQeLmABJN84cSM5/Z
+         iEP5ixVL/ojaMKLn2nOpzL01XrLPiFNy8yJ3T1a5/SdzyLRkZQYao0tpExj/VuqJ2SZN
+         pD9A==
+X-Gm-Message-State: AOAM531DagjlEk3k3TBphOxnIt2jjYFaHqCPRFHRvdQlqbb1XZyX2Rhn
+	g63ZcAVZpbvv2bpHChjM6G/+6RIOVYsg3WHVp90=
+X-Google-Smtp-Source: ABdhPJz1izq9NNdkE8TGfI5yIyXkKDc4XLgy/wUHGuS+GKjodT9LnGP/srIoRwKu6dw2buarQ/qY55pH9n9FJddRFVY=
+X-Received: by 2002:ac8:2ff6:: with SMTP id m51mr4837747qta.194.1607022085928;
+ Thu, 03 Dec 2020 11:01:25 -0800 (PST)
 MIME-Version: 1.0
-References: <CAAnfSTuCTy4U60iJwtMm=N1PEaWjz6XyL_idgRXJVbzuLHggUw@mail.gmail.com>
-In-Reply-To: <CAAnfSTuCTy4U60iJwtMm=N1PEaWjz6XyL_idgRXJVbzuLHggUw@mail.gmail.com>
+References: <20201203133526.2075-1-twoerner@gmail.com>
+In-Reply-To: <20201203133526.2075-1-twoerner@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 3 Dec 2020 10:56:53 -0800
-Message-ID: <CAMKF1spd0OHieyUi6Px+_j21B8Cv5_aPA8+9Po-sVNxBLk-o_g@mail.gmail.com>
-Subject: Re: [OE-core] Automatic cap on BB_NUMBER_THREADS and PARALLEL_MAKE
-To: Ross Burton <ross@burtonini.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Dec 2020 11:00:59 -0800
+Message-ID: <CAMKF1sqDGwjkour8X=F9YPmFNY=nyPvFb8q8O9YvVxQGMsJK_w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] mesa.inc: add dispmanx support
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Dec 3, 2020 at 9:48 AM Ross Burton <ross@burtonini.com> wrote:
+On Thu, Dec 3, 2020 at 5:35 AM Trevor Woerner <twoerner@gmail.com> wrote:
 >
-> Hi,
+> On the RaspberryPi it is possible to run gles2 applications on top of dispmanx
+> without the need for x11/wayland/etc.
 >
-> Currently, BB_NUMBER_THREADS and PARALLEL_MAKE use the number of cores
-> available unless told otherwise.  This was a good idea six years
-> ago[1] but some modern machines are moving to very large core counts.
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> For example, 88 core dual Xeons are fairly common. A ThunderX2 has 256
-> cores (2 sockets, 4 hyperthreads per physical core). The Ampere Altra
-> is dual socket 2*80=160 cores.
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index a6652b0ddb..34cb3c35e2 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -51,7 +51,7 @@ inherit meson pkgconfig python3native gettext features_check
 >
-> At this level of parallelisation the sheer amount of I/O from the
-> unpack storm is quite excessive.  As a strawman argument, I propose a
-> hard cap to the default BB_NUMBER_THREADS of -- and I'm literally
-> making up numbers here -- 32.  Maybe 64.  Comments?
+>  BBCLASSEXTEND = "native nativesdk"
+>
+> -ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan"
+> +ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan dispmanx"
 >
 
-I think capping at say 32 might be fine also think about how can we
-then make it known widely to users since this
-will be important to know.
+dispmanx is only supported by userland graphics and we do have a
+machine feature knob for that
+this addition seems not common enough to warrant inclusion in OE-Core.
+I would suggest to keep it
+in meta-raspberrypi via a bbappend using the machine feature check.
 
-> Cheers,
-> Ross
+>  PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)} \
+>                 ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'drm', '', d)} \
+> --
+> 2.28.0.497.g54e85e7af1
 >
-> [1] http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=1529ef0504542145f2b81b2dba4bcc81d5dac96e
 >
 > 
 >
