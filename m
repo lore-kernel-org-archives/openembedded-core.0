@@ -1,86 +1,71 @@
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
- by mx.groups.io with SMTP id smtpd.web10.2430.1607025124638532620
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.2434.1607025163496213281
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 11:52:04 -0800
+ Thu, 03 Dec 2020 11:52:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eMRsFIVF;
- spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f67.google.com with SMTP id q10so1926644vsr.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:52:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Nxj6nghc;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id z3so2270052qtw.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 11:52:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qD00w4FKakQ56DrTt2qNdcVAjwc+0nGxChw9d+bIm7w=;
-        b=eMRsFIVFVnqEJqac6CkkzFGxDBX3UbtAoMMa9aNtoz5OOxGZAMyKJk9ugaZMc42kUQ
-         4vQmJp7u6+Jl02yqUHcT/YLL64/bxlQRPI4xyI318SVtVaPzIAo1QdAml/n1O2cKYHgj
-         rB6AzTuyRlhwVe5v45SL8DYFVNl953b8y/dhSg4aWAeUp9BRYvJ37h1i1nmUxDRuODUP
-         CDv2qpSEJLFJOIF9nG5ky9OsdiEWdPYtn7IpmdR1LDvVgOXWChvyVY5Ooz/5G3XLl8zl
-         mwwFutMwcRV9qop5+eh8DZSsWAB63uIpFdiRH7kpKHP8Saf4Rtot67shKal0KrE2/f07
-         HJ+Q==
+         :cc:content-transfer-encoding;
+        bh=+gP5UyFolQsf365oR+qb2v5FENYXCtk3jwvYxkrQFlk=;
+        b=Nxj6nghclKlL7VNqxKGD5w43CH98EYu9z4TwNlOSE0SnDO69l/gKFdya4hFGy6R2D4
+         J/IegYzqRDA3DaBYSuVNNPQedRHr0XN4kD68VF2RYnkUmNZ8yJDjINELOpTVV9HZDiYM
+         9dW/B6lCHXODq2yB/oRXtIv+DS1eykmkfiHCbrGWXBbC3QCABUpWZcTXmxMtQq0wO+0B
+         R3mPbA7nZySuOMtP4XfP+T/FvGq1eJNFp/V15UWzaaLyQW3BgLt04vKtzWvGQr0aPeg5
+         q+lGnBcW9YtdeEdAxJXvI6WyhU8lxXCcXthWHPkV7CgMuuRE5YHQ6ZNyX0kSaIbaphkP
+         8x4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qD00w4FKakQ56DrTt2qNdcVAjwc+0nGxChw9d+bIm7w=;
-        b=KvVoy5FJaLcTvSjre+WJk3rUIDRqjwiYyaA3npCszJirDRPgAdZfDPmZQr/hqwGWl9
-         qSS2X9hM88cfMBjhOIKjRtrAIEQyoe3J+lYki0Jcn2Ir24CAQ4tRlFyH8JG7TV1VCpww
-         DlArF+YlcU+lcrd8jAVbhPOCfHEIVS8CRR0AF1zwzA1y+VhGKm/jLeKZG3Ias66MfMyC
-         hPvAaSwUeAbgUFahVY+F5gzqiL7B3UdBdC7Rnq2x3Bj2T+EjdQr5fQZUpzgMhXkUASAQ
-         eqePrv6KQYmyAihLgMK+R6CzgT14CTHUAhhLa7TgkZvvVuzv5wagjGaFf2Wn2rzUZCty
-         vzRw==
-X-Gm-Message-State: AOAM532rQ1vBUIj/vwP+zVMhaX0plAEmdbHPGK0CeOMaN4fTNlrYroT3
-	tZKdC2ndkZkA1//eNdiwaZzPV4vOEnNckjsw4iA=
-X-Google-Smtp-Source: ABdhPJzpYO68WK/vM5NYiBddmX5mn+hEOF5LbP6+q8dAe5akxmhmmDX889Rm6hl8rHBOHnniki2IF+FUL2ye4aSofLk=
-X-Received: by 2002:a67:7902:: with SMTP id u2mr402430vsc.41.1607025123829;
- Thu, 03 Dec 2020 11:52:03 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+gP5UyFolQsf365oR+qb2v5FENYXCtk3jwvYxkrQFlk=;
+        b=U3W/GpAC1xIvM+lgWSvPv+9dCaD06YraSmvMiImWatAGo88gYPfw+rwbv9mrnKg7d5
+         XNZkzRHA75YxkPFksj8ElszqHq1AHd+ftZwfh6Mvw9vOpGunNaqDp02GQr/vVv7tq1tS
+         mWqoNKAriTjL4psJPmXFJ6oBdLRvXxtl4p2a+Ka9qlXvAXmkA9OGTRgk0LoqkPyOKQ0O
+         LrIYhzr32TVhXe2g4pMQYVu164K5VDnSQPgR3dZf0u2nVAaTM7CPp0TQ8zJDw2IynDnW
+         t8SyU65xkMfA+1aRA4lX9grytxYJpYppNI9EXaZMLAaeqeUE82dlo/vZu11e+GsHBjh3
+         M3wA==
+X-Gm-Message-State: AOAM531V4XbbbZxo96cP4f+3wFeJ3TdhkTvzhr8iZl9MHPd9dS8hUzgG
+	JybpPzWhvZSM3a/FpeRyNlU5+NZU64DwBcXmOOo=
+X-Google-Smtp-Source: ABdhPJzibnMtFqwQo56ml8IAsUS46hYjv2HMbZPDJNWFr2dqGajHDOic7EQ5gnVS6h30MBmg8JHhpQNVGHNC05UTpE4=
+X-Received: by 2002:ac8:5a0f:: with SMTP id n15mr5060347qta.88.1607025162594;
+ Thu, 03 Dec 2020 11:52:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20201203133727.12936-1-alex.kanavin@gmail.com>
- <20201203133727.12936-8-alex.kanavin@gmail.com> <CAMKF1sq+iTO90AcsPaMVcRXiqEaPYtfoar+LMTQwEWOoQx712g@mail.gmail.com>
-In-Reply-To: <CAMKF1sq+iTO90AcsPaMVcRXiqEaPYtfoar+LMTQwEWOoQx712g@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 3 Dec 2020 20:51:52 +0100
-Message-ID: <CANNYZj9TRbE2gOZtPGnVBmEm-V4gD-AxYFwbvrRtQUhCJ19CCA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 08/11] serf: do not install the static library
-To: Khem Raj <raj.khem@gmail.com>
+ <20201203133727.12936-4-alex.kanavin@gmail.com> <CAMKF1sqM-xmu-L-nhRKsf-A1Loiv0U72zV6jcNXyEy9QOLXdNw@mail.gmail.com>
+ <CANNYZj-fDQdkXVN=hjqb7u=bqPZhXfidO_cT+Buv6gB4gAN_ew@mail.gmail.com>
+In-Reply-To: <CANNYZj-fDQdkXVN=hjqb7u=bqPZhXfidO_cT+Buv6gB4gAN_ew@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 3 Dec 2020 11:52:16 -0800
+Message-ID: <CAMKF1soyXa8g9WyGL357BYkS+JK4PwYxz3wjqgZ9vFxGQUwGyw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 04/11] ruby: fix reproducibility
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a6acf305b594b168"
-
---000000000000a6acf305b594b168
 Content-Type: text/plain; charset="UTF-8"
-
-On Thu, 3 Dec 2020 at 20:30, Khem Raj <raj.khem@gmail.com> wrote:
-
->
-> honestly, scons should be fixed here. Since it will be used in more
-> than one places
-> using host ar is never a good option for cross builds.
-> if you dare reluctant to fix scons properly that's fine but at least
-> create a tracker bug for it.
->
-
-There you go:
-https://github.com/SCons/scons/issues/3838
-
-Alex
-
---000000000000a6acf305b594b168
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 3 Dec 2020 at 20:30, Khem Raj &lt=
-;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-honestly, scons should be fixed here. Since it will be used in more<br>
-than one places<br>
-using host ar is never a good option for cross builds.<br>
-if you dare reluctant to fix scons properly that&#39;s fine but at least<br=
+On Thu, Dec 3, 2020 at 11:20 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-create a tracker bug for it.<br></blockquote><div><br></div><div>There you =
-go:</div><div><a href=3D"https://github.com/SCons/scons/issues/3838">https:=
-//github.com/SCons/scons/issues/3838</a></div><div><br></div><div>Alex<br><=
-/div></div></div>
+> On Thu, 3 Dec 2020 at 20:16, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>> where is this template used ? is it used on target ? is it possible to
+>> just all bare compiler name then since it will still work on target
+>> although not as important as if it was needed during cross builds.
+>
+>
+> I don't think it is used on target, as harcoded host items would surely n=
+ot have worked. Again, the goal here is not to ensure that target toolchain=
+ and target tests work (a large and not necessarily useful task), but merel=
+y to avoid host paths leaking into target packages.
+>
 
---000000000000a6acf305b594b168--
+I see that, I just want to ensure that deferring the problems does not
+make them harder to detect in the future at the same time. It's easy
+to fix them in the context than to revisit later.
+> Alex
