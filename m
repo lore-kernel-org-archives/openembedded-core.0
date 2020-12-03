@@ -1,75 +1,80 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web09.11334.1607008126408463916
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web11.11666.1607008129619654185
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 07:08:46 -0800
+ Thu, 03 Dec 2020 07:08:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bjQ2/Rq5;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id f1so1282098plt.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:08:46 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=M7umH6LI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id m5so1273212pjv.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:08:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=zd2zW+xftbVhgURuAEBpZIZNHJ/xj7qgLPEsAer35jQ=;
-        b=bjQ2/Rq50ppebpLE8jJ6MfLa3beZMmHrvhM/uykus6NKXrDaJh9BCjTw+Tse97Isqw
-         A5Ulity2K0nCa85bNvHeRvBfafYpGippPAWBBjPisXpaFcm7qoqVdNqJ3wvh10JTpHxZ
-         Vy8U5EKJdXhGtqHneByEtn62ua9xBrsTypul1lW5/0Vd0qv4d/Ao5wYZGO+d0gTbWvea
-         1883cYIN5AOLYKcAROrYJ4fDy61LSFXH/U1yPeS2NFofa1YjO0oe8vouJ0YQYVUgcHhS
-         +B4efpf9y+sQ6EbBVKCRHmfYN7Zdf5i09ZIjYidkHglsOlpmBY7C5ANaEwROWDT7gjE8
-         9sfw==
+        bh=Flv0Ggsv0i0cXQSAcLvWvtLP4OHHWuPfB/tcVMbbqcM=;
+        b=M7umH6LIlCdJ2H4hN4Ls0FgdFa0BbB+xLbk2wzhGO5fjGM3mlhJfp/oN6j6y4bFETd
+         LnfM/Qy+hlxATL8iS2o/mlUH7tnKNzgi0TRLA5WUHZgh4azzyMOA/eeEgxJNUFF+2aTF
+         x7qYzMNw1CZS0QnWtzBDnuYmw+0peFIfF4UTblgXJmKLSbwR3WuadSliQyUvBIVWscZo
+         1wuZEIKz5QM3WrT45DAyYXLAR8zu42A30u1K4ooa81O2m8GrIowir7+fo0eQBgAuPV7/
+         mMScaXEL9qetvgkZqOecTqHUECP1UlZE1CL8TaALf6uy0AhOEumfslIe1OjQ4zX7B8Dz
+         ngFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=zd2zW+xftbVhgURuAEBpZIZNHJ/xj7qgLPEsAer35jQ=;
-        b=saLI7mCF6UfbWstxklbo908bHKqaqcgnbj+RsOfwl7awoEocV2GM/qNLH6PLZzH3l0
-         4OidBUZLFuGK9Bbv1qErjz2pSru4v3+mQum+S7Dm4of0J6QcpK/6NvMWl6gYLQTN3Ihe
-         9Vhqo12ozqs9ra8sTrX1umPmTcNeJJz/pYaxXqEVwf9obwsIRsquAAO/TOczcfoPL7Xu
-         HSSKDM8SCRXQJZQmwpGpOpzCHtCIoxub0+zo2eUzXacVJB/gBSFa9V1CuoOcyipHthss
-         rTa/Fy/LC/alera4eYqFAwxjuub3zlI+YA4cbN3C513kxuEh3wGQ+h7C30N3x8LJweak
-         ktbQ==
-X-Gm-Message-State: AOAM5322h3ZEIk/7TWsKG0o1VVAKOCudqXbbSPkchBipXNCw/0DpMbf5
-	UR7fBnfrKUCjBTx6Wu/IOL8Y/YMLkcVMUTC9
-X-Google-Smtp-Source: ABdhPJwTIB/xQgO09LmrAN7qSqskM0yV2O0ATrO2/db2JzglM5mQt/tn+M/2cmT5RAVpdUPiIB78Vw==
-X-Received: by 2002:a17:90a:6809:: with SMTP id p9mr3323836pjj.112.1607008125573;
-        Thu, 03 Dec 2020 07:08:45 -0800 (PST)
+        bh=Flv0Ggsv0i0cXQSAcLvWvtLP4OHHWuPfB/tcVMbbqcM=;
+        b=HXEWt5A7ZIhTYjBShirBJTk/gaXLWBAZ241Ro/jbwMOHxYo6G5uG5M2Owt1tVEsJ2B
+         I9s0G7cLOevzj+PHvQ+1fKBttB74IxHLKPUBK36I7IZq+fFUQ62LZkzzwYgezWs+oaqp
+         k4zsCPLgbXGrwmgCWpmJZgyjnWVznBz4eJPl2x9NhnRspPWW4G82OCMG5/MbAwMUGhgs
+         YMZct+uXiYbZeZvnkFwZNnrlGYGzQH6DFgwpebDGfOU4LQAjxha8P3vv3m+rWcRg5G6C
+         07xKm9+CbKpssuGOCxP2O5Id73FdEi8C/+ZLwawNTmgIW36H2LB8RCAaDbGqOq8dA3yp
+         ncjA==
+X-Gm-Message-State: AOAM532O84sMv6nhwF+pKPQNsAyaDrfMtUQqKMgRqNKvLEvG/10qHvw5
+	EF7lKE4mWkQprYWXT8AmcW5+SqTgROwWaDHb
+X-Google-Smtp-Source: ABdhPJzi0sGKp0Ha1sojcgQtO+0ubMKomJKd/mRt4OxmeL4jiwxpwYM8ehnrsl5ClUefZ5rkr+YWOw==
+X-Received: by 2002:a17:90a:7c4a:: with SMTP id e10mr3482352pjl.72.1607008128698;
+        Thu, 03 Dec 2020 07:08:48 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.08.44
+        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.08.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 07:08:44 -0800 (PST)
+        Thu, 03 Dec 2020 07:08:48 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/28] pseudo: Update to add OFC fcntl lock updates
-Date: Thu,  3 Dec 2020 05:07:53 -1000
-Message-Id: <333a22e9191ff121886717b6d326654a9349c8e4.1607007208.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/28] pseudo: fix renaming to self
+Date: Thu,  3 Dec 2020 05:07:54 -1000
+Message-Id: <fd97ad2e14554743c45424f66022d45685b2baf3.1607007208.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607007208.git.steve@sakoman.com>
 References: <cover.1607007208.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Joe Slater <joe.slater@windriver.com>
 
-This adds in support for the OFC fcntl ioctl lock flags, removing
-warnings on some more recent linux kernels.
+Pseudo tests for an item being renamed to itself only after
+information about it has been deleted.  Move the test to before
+we change the database.
 
+Note that pseudo does not support renameat2(), but neither does
+glibc.
+
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 234168f803bee2e5b0955aabaddb1d967349fb82)
+(cherry picked from commit 6b3d109f42385ad1cf1f297a6c06ea7eb6509f26)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index fcadfd96ac..9a22304bba 100644
+index 9a22304bba..3b623d8bd7 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
 @@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
             file://fallback-group \
             "
  
--SRCREV = "067950bd9415fafcafb2bf32c0e10df4f2ac936c"
-+SRCREV = "8efb082863ff0ceec7b7e46f9a44750e12f48039"
+-SRCREV = "8efb082863ff0ceec7b7e46f9a44750e12f48039"
++SRCREV = "d6b1b13c268d7246f0288d32d6b5eccc658cff4e"
  S = "${WORKDIR}/git"
  PV = "1.9.0+git${SRCPV}"
  
