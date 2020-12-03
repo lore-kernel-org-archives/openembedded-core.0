@@ -1,122 +1,119 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web08.11478.1607008142288889390
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web09.11342.1607008145699178225
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 07:09:02 -0800
+ Thu, 03 Dec 2020 07:09:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=vZrrKZ88;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id p6so1296230plo.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:09:02 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=iNFh+Sax;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f178.google.com with SMTP id x15so1306620pll.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:09:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=3Yjj/HTdP0ZVzQXyDmbMLqVvCMUqkG1K4abBsgAu8s8=;
-        b=vZrrKZ88AuAarBeFMsndqXM2o7I5zj0loP/4y1z8OH1zdtBhC4ovkW6zdaj2y+ubqL
-         zDKykO6Pia6NhDZOTKFDpu387MhfMxqvGgUtkgWKCrRUAHRq2yGJddLx3mBFq4D067dY
-         TE6zBUVzqoYw+RLkmS/Pyf4IBitsSeLm3hQgzLlAfuyB7N9os42+xVlGrdvC17mw5BqG
-         xFj38ATibGV7T3OBbKNj/4J2ia7yt6IAOgT3+UpyZFxFAZFwDcjaOZ3xIcqybKl+JyOv
-         VeFoiZdhu2bn8r2XI2h6SLGDW8TM84puuA7Ht5R0eCsScNLqH4yNUS8X8Qz7it7W9Spj
-         0lPA==
+        bh=WvNKJD7gVCx3T3dRevk2T1wpXC1e2d+XXFqIqQdBnps=;
+        b=iNFh+SaxCGcXH6/e3LsltvLbp3SxC59f95nGKPC/uFBcrVhcFxt/XhA9TBYwpiqNHj
+         5Rj82XHMuzdFdI7fiKaVnxDXx0BDL43EwegIyxLMIZOCxEl6Xy5t9eCZ332Uol65QMh9
+         kQaHFuqIUdxMTjNrA6PoTlMiDv0sCThazuSGDY/WX7/PcOu5Rtzrp0XsfPU9iwVi0fK+
+         s84ONGy7KBF/Cj4AEeeRxjHkS3brVQiUQlyQdJ7ED+OMsG+S/Tjti9tV07Lcds9f8hjF
+         0FrZi458MOf35dJEHOo9lg4uiUGVBgqN2Rc8TnKIT17m0HGXP578G3ZyHh2a5nNTeSlD
+         Murg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=3Yjj/HTdP0ZVzQXyDmbMLqVvCMUqkG1K4abBsgAu8s8=;
-        b=berPcaNMN+WZWncdMfNSexq+ma5pLZ0W1Kiy36jeISPzMn3gyy4osF0M2OupMbEsNR
-         3manx4dsBnQZtSoZY4ghMYgtm5NuQ4PWFIaVVzqsfquF8J/WT4g4r0e17pOr/k1l36uP
-         S1XFlIWIa8JFreuJnebr3bEV2/JRScmFIKgobwf6A0EjwdmxE/QwiVmAmDOhCJXrg8Ll
-         6EGw2BucobrXh3ikMdOlTnkCp7WRy14FcPaFD0DG/sWb8to5iAitqo/pPBEb3qEOkCL6
-         nrjjR9NtZAQf6x4rh35Ru7OGBKu0EatOSewGkSf0T+qNMBgpr+Xa1lab64LMNeRtfl0h
-         zUJw==
-X-Gm-Message-State: AOAM533ONd2NlgQxHdaZanNouWhn1aRuRVZ6f3MmqEnFx84Ib0RA4Bm8
-	hCErIrgs8T2oSiLLF3UER31G9buoBb+NZBxI
-X-Google-Smtp-Source: ABdhPJz5mEz3bbDE9MCzjDb1yXtcqWMA3B3PdMbg6rQP6/nmU6ofKUfFMhLo7J9KGH26CD4r4+GMLw==
-X-Received: by 2002:a17:90a:940c:: with SMTP id r12mr3435110pjo.107.1607008141402;
-        Thu, 03 Dec 2020 07:09:01 -0800 (PST)
+        bh=WvNKJD7gVCx3T3dRevk2T1wpXC1e2d+XXFqIqQdBnps=;
+        b=GnXAmYAWdUZruIFIoZXIZS4EilxTaW0a27xCJ88yXH89PTfMpwwFxKjoqg6esQeqq9
+         Yy1UlFZuA6VK4i0dw29d4XZbvyS8ON6JMqwpnaSMlgytztfO9+2n0bzRT6Lsg4iFLeTQ
+         B96PC23kv8jbc7XmZOhVHYpRc3bi2piV57JRgFuDSB/FGzeC8IkBLyyLjwqkKuJfIrc2
+         DytPZb6eZUiNkZ+pT/vF15NPKCXOPfMfFzyTV8H0qgh4XvHQJQeMhXKSuZvFRq7tqHTq
+         txwveC78hEa6zAyb4TH6SuWde80bE57BSWCKA+ub+U+izE8aKp4dp6EvF9YWNQP5N5ya
+         6YKQ==
+X-Gm-Message-State: AOAM532vz4TEapcy7BDBT3pvhHvDyZUiZqJyG2HJvcWmCLEKWD4o9O4L
+	/FmPnDhDv3/fQLB6aiEwowTQTANZMp3Tl4Uo
+X-Google-Smtp-Source: ABdhPJwqBJDFkcF66UadeUfL/dLRIZYxMa/yO7M5IsgIvg3PIk03iJyq01dgodqFqCE1pjVkoiqTCQ==
+X-Received: by 2002:a17:902:a9c1:b029:da:8227:65f7 with SMTP id b1-20020a170902a9c1b02900da822765f7mr3438299plr.49.1607008144348;
+        Thu, 03 Dec 2020 07:09:04 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.08.59
+        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.09.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 07:09:00 -0800 (PST)
+        Thu, 03 Dec 2020 07:09:03 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/28] pseudo: Fix xattr segfault
-Date: Thu,  3 Dec 2020 05:07:59 -1000
-Message-Id: <48c770afc64b42af8386d9002ba9d3ce02acef41.1607007208.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/28] pseudo: Add may unlink patch
+Date: Thu,  3 Dec 2020 05:08:00 -1000
+Message-Id: <39726a9e31638cb746cac79ce8b48ccd102d2cf8.1607007208.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607007208.git.steve@sakoman.com>
 References: <cover.1607007208.git.steve@sakoman.com>
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Fix a NULL pointer dereference exposed by the path ignore code in
-xattr handling.
+Mark files which are unlinked (nlink == 0) but open with fd's as
+"may-unlink" to avoid problematic database entries.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 929a27bf6cbca94d1141d2094ae0c915d93bd3f4)
+(cherry picked from commit e1e481f3608c05ab14c61bf45cd0837d7287b6a5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pseudo/files/xattr_fix.patch              | 40 +++++++++++++++++++
+ .../pseudo/files/mayunlink.patch              | 37 +++++++++++++++++++
  meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/xattr_fix.patch
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/mayunlink.patch
 
-diff --git a/meta/recipes-devtools/pseudo/files/xattr_fix.patch b/meta/recipes-devtools/pseudo/files/xattr_fix.patch
+diff --git a/meta/recipes-devtools/pseudo/files/mayunlink.patch b/meta/recipes-devtools/pseudo/files/mayunlink.patch
 new file mode 100644
-index 0000000000..61d0030b10
+index 0000000000..9d54e40dd9
 --- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/xattr_fix.patch
-@@ -0,0 +1,40 @@
-+
-+In the xattr handling functions, if result is NULL, which it can be 
-+with the path ignore code, there is a NULL pointer dereference and 
-+segfault. Everywhere else checks result first, this appears to just 
-+be an omission.
++++ b/meta/recipes-devtools/pseudo/files/mayunlink.patch
+@@ -0,0 +1,37 @@
++Some operations may call unlink() on an open fd, then call fchown/fchmod/fstat
++on that fd. This would currently readd its entry to the database, which
++is necessary to preserve its permissions information however since that 
++file will be lost when it is closed, we don't want the DB entry to persist.
++Marking it as may_unlink means the code will know its likely been deleted 
++and ignore the entry later, giving improved behaviour that simple path
++mismatch warnings. We can use an nlink of zero to detect this.
 +
 +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +Upstream-Status: Pending
 +
-+Index: git/ports/linux/xattr/pseudo_wrappers.c
++Index: git/pseudo.c
 +===================================================================
-+--- git.orig/ports/linux/xattr/pseudo_wrappers.c
-++++ git/ports/linux/xattr/pseudo_wrappers.c
-+@@ -134,7 +134,7 @@ static ssize_t shared_getxattr(const cha
-+ 	pseudo_debug(PDBGF_XATTR, "getxattr(%s [fd %d], %s)\n",
-+ 		path ? path : "<no path>", fd, name);
-+ 	pseudo_msg_t *result = pseudo_client_op(OP_GET_XATTR, 0, fd, -1, path, &buf, name);
-+-	if (result->result != RESULT_SUCCEED) {
-++	if (!result || result->result != RESULT_SUCCEED) {
-+ 		errno = ENOATTR;
-+ 		return -1;
++--- git.orig/pseudo.c
+++++ git/pseudo.c
++@@ -1100,6 +1100,21 @@ pseudo_op(pseudo_msg_t *msg, const char
++ 		break;
 + 	}
-+@@ -254,7 +254,7 @@ static int shared_setxattr(const char *p
-+ static ssize_t shared_listxattr(const char *path, int fd, char *list, size_t size) {
-+ 	RC_AND_BUF
-+ 	pseudo_msg_t *result = pseudo_client_op(OP_LIST_XATTR, 0, fd, -1, path, &buf);
-+-	if (result->result != RESULT_SUCCEED) {
-++	if (!result || result->result != RESULT_SUCCEED) {
-+ 		pseudo_debug(PDBGF_XATTR, "listxattr: no success.\n");
-+ 		errno = ENOATTR;
-+ 		return -1;
-+@@ -276,7 +276,7 @@ static int shared_removexattr(const char
-+ 	RC_AND_BUF
-+ 	pseudo_msg_t *result = pseudo_client_op(OP_REMOVE_XATTR, 0, fd, -1, path, &buf, name);
 + 
-+-	if (result->result != RESULT_SUCCEED) {
-++	if (!result || result->result != RESULT_SUCCEED) {
-+ 		/* docs say ENOATTR, but I don't have one */
-+ 		errno = ENOENT;
-+ 		return -1;
+++	switch (msg->op) {
+++	case OP_FCHOWN:		/* FALLTHROUGH */
+++	case OP_FCHMOD:		/* FALLTHROUGH */
+++	case OP_FSTAT:
+++		if (!found_path && !found_ino && (msg->nlink == 0)) {
+++			/* If nlink is 0 for an fchown/fchmod/fstat, we probably have an fd which is 
+++			 * unlinked and we don't want to do inode/path matching against it. Marking it 
+++ 			 * as may unlink gives the right hints in the database to ensure we
+++			 * handle correctly whilst maintaining the permissions whilst the 
+++			 * file exists for the fd.  */
+++			pdb_may_unlink_file(msg, msg->client);
+++		}
+++		break;
+++	}
+++
++ op_exit:
++ 	/* in the case of an exact match, we just used the pointer
++ 	 * rather than allocating space.
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index a5e79ec9a5..7857b4f1b1 100644
+index 7857b4f1b1..c5040f5f7f 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -6,6 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://add_ignore_paths.patch \
+@@ -7,6 +7,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
             file://abort_on_mismatch.patch \
             file://track_link_fds.patch \
-+           file://xattr_fix.patch \
+            file://xattr_fix.patch \
++           file://mayunlink.patch \
             file://fallback-passwd \
             file://fallback-group \
             "
