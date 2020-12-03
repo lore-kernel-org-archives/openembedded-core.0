@@ -1,199 +1,157 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web09.9909.1607002668851337977
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web12.11358.1607008111366403105
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Dec 2020 05:37:49 -0800
+ Thu, 03 Dec 2020 07:08:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BAf+1D1z;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id bo9so3428423ejb.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 05:37:48 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kwhK5BFH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id v1so1256057pjr.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Dec 2020 07:08:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=sN/ZBnXufPtx09YypT/NoI237W6W0N2rQAlzTrwKUvI=;
-        b=BAf+1D1zNP0n3emX+5BMVaFC043CgqtRMlGZakag7U3YvXU5AO7K5DrBxpWHHVaBAe
-         abPhgFzrAPwo4qdnTi9Nd6gs24StP/Off761dxrAdFcQZRK9Ks9/RmfOxcEQ6k5UX+AL
-         EXIyhkqr/CnDf2I4pg0NblInQ2tLK8odETEixsdb6l1uiIgBDUYvQluspypy+gjjeeW6
-         nY3JXFzBqoy4ezquX5GJ5TyppRkBn4LCA76OM6mItLoLxRY9EEE6tksAhx3Gd3x8UEw2
-         GcO5EbQds1iWStbOUXXl5y/FXD0ENgF2uCK2lKid2OP2fzH1KBPInOlVbJ137xUuyTXt
-         vq6Q==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=1ybJcwO9gdAfo43qKse/bsTgBUmshHR25kHdP6QTxuc=;
+        b=kwhK5BFH0I/OSySWeSmKucqcXXWtC2pMuxD5MfFrGfcA/C7edlXVoDr7MXfdFe++LH
+         Df+yg3k9rIxD9Qu4x8OrtBUv411WTK0IVe4n3uu3Xl0oeRaXVl07eyv/LCb49EHGTfaV
+         5o3jZ8OfdyIzbND2DDOktKHfzsVoqPUzSDvVvTndcbCfNNK1nkKA+QeKe9nS5xJ6n8r+
+         PvLLx0Fi2/qnakIAqnnFTB1955nEkI7S/u1CTN6E29o8y4M3ZfgSuqR8R696kjVDG+nF
+         R+CIdeJp5ahNDqzex0JFqQGpHm8KeZlXkCIB9lMPuxeGn1V1n0Hb2PhXf5nkF8Cm3nsG
+         mFxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sN/ZBnXufPtx09YypT/NoI237W6W0N2rQAlzTrwKUvI=;
-        b=iJprcSlr6yDQx9//NJPgwQJSGN8rLbuXtSdMz/4RvGT9re+//jjqc7pYbUL3fCqeSA
-         6P2RHbFyhAkBumRc02DAtWh1z9W1sE8JPge/3GHvaPzKGA6TT4tPyrTEDh6ARI34cA7c
-         /lwj57JJF/9cjhH271Q81rwbcCp4PN3WncD6OuUJ9bo6FaxExc7WaoR0WHka8D7lI6hD
-         CbZ/ycRyvKhqceGLAw75oz5eqMg8F1Zg71c4DU2xhyLyqRFGF/p7If7ehy/XZLiuYzhK
-         O1Tn0rz/Mdzl9Q/GiPEA32xROcg86JzoD/NPPZ8vIv0EDH/AZx8IpqbRJWEK69lLml9V
-         l3tA==
-X-Gm-Message-State: AOAM53113gQG0KA0yPeeouRJvg6E46S4p7wO8VhtaEtyDPn6LLxGvdpX
-	U80r/uBseERtS8IrAaKMDSbJVN1jRAVhFQ==
-X-Google-Smtp-Source: ABdhPJxlkL5aPnleWJUbi6Uy47M+hPHNwv2YNXvSUXdGtLMBlUahwI0TDqOCuEArpi1+eArne7IILw==
-X-Received: by 2002:a17:906:c248:: with SMTP id bl8mr2518440ejb.343.1607002666921;
-        Thu, 03 Dec 2020 05:37:46 -0800 (PST)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id ng1sm77130ejb.112.2020.12.03.05.37.45
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=1ybJcwO9gdAfo43qKse/bsTgBUmshHR25kHdP6QTxuc=;
+        b=RYJENW5pULaz/388TQTjEB5v7urrC4da7tzcouLVuiB/QBDl/oE5KvayNJaLM8S36x
+         bxYkrGjP5ijGyluUt5AhDteow/wMYPk1My7pXQiqN8w7QsTOB2J/Ab6rW7L8T7RLw/jf
+         5EPnGTis3bBfV+BLvHudTFbGRpvigumDBT/e4ZGkfNSyoPaP9+YB+kgbVnBHP578P9OQ
+         SaYnWdlWGkzBzDA6aIug72bWJ/W7hAWmneCFIbhoQrpkPuluvohfeo6Rpos7q7WvUhkp
+         NPUiuubLqrIUxtECK/PfxsyEEdXDUf4SCDUQL0YRUS/QNYmKzvP0xQk4f+i9ipFyMqwI
+         FEZA==
+X-Gm-Message-State: AOAM531Hjz7IQp2MLuFBJOFP3UsEjpbKwBhaH7gFO7odDlhpZ40UylwH
+	EoBRDNumciW3C3a1c8B3njMcIEzhsrCNzpEg
+X-Google-Smtp-Source: ABdhPJyxzbjxAdoi4s+HsBCcXADLG7TDiT0hrS3Vm7dLmOUTp+gH7dUbTt4APi37xcsI8UW6OmrjkA==
+X-Received: by 2002:a17:90a:f28f:: with SMTP id fs15mr3483493pjb.121.1607008110167;
+        Thu, 03 Dec 2020 07:08:30 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id s7sm1632320pju.37.2020.12.03.07.08.28
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 05:37:46 -0800 (PST)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Thu, 03 Dec 2020 07:08:29 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/11] selftest/reproducible: add an exclusion list for items that are not yet reproducible
-Date: Thu,  3 Dec 2020 14:37:27 +0100
-Message-Id: <20201203133727.12936-11-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201203133727.12936-1-alex.kanavin@gmail.com>
-References: <20201203133727.12936-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [OE-core][dunfell 00/28] Patch review - pseudo file mode corruption fix series
+Date: Thu,  3 Dec 2020 05:07:50 -1000
+Message-Id: <cover.1607007208.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-Hopefully over time this list will be reduced to an empty one.
+Issues with undetected file mode corruption in pseudo have been identified.
 
-Non-reproducible excluded packages are not given to diffoscope and do not cause a
-failure, but still saved side-by-side with non-reproducible failing ones to make
-investigation easier.
+Fixes have been merged into master and gatesgarth over the past couple of months and
+things seem to have stabilized enough that we can consider backporting these fixes
+to dunfell.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 82 +++++++++++++++++++-
- 1 file changed, 79 insertions(+), 3 deletions(-)
+This is a somewhat more invasive change than normal. Specifically the user will
+be required to clean TMPDIR after this merge. It may also expose issues with
+other layers, though master and gategarth have probably helped to pave the way for
+this change.
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 6faeedb544..e3597d5081 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -17,6 +17,72 @@ import stat
- import os
- import datetime
- 
-+# For sample packages, see:
-+# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-0t7wr_oo/
-+# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-4s9ejwyp/
-+# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-haiwdlbr/
-+# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201127-hwds3mcl/
-+# https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201203-sua0pzvc/
-+# (both packages/ and packages-excluded/)
-+exclude_packages = [
-+	'acpica-src',
-+	'babeltrace2-ptest',
-+	'bootchart2-doc',
-+	'cups',
-+	'cwautomacros',
-+	'dtc',
-+	'efivar',
-+	'epiphany',
-+	'gcr',
-+	'git',
-+	'glide',
-+	'go-dep',
-+	'go-helloworld',
-+	'go-runtime',
-+	'go_',
-+	'groff',
-+	'gst-devtools',
-+	'gstreamer1.0-python',
-+	'gtk-doc',
-+	'igt-gpu-tools',
-+        'kernel-devsrc',
-+	'libaprutil',
-+	'libcap-ng',
-+	'libhandy-1-src',
-+	'libid3tag',
-+	'libproxy',
-+	'libsecret-dev',
-+	'libsecret-src',
-+	'lttng-tools-dbg',
-+	'lttng-tools-ptest',
-+	'ltp',
-+	'meson',
-+	'ovmf-shell-efi',
-+	'parted-ptest',
-+	'perf',
-+	'python3-cython',
-+	'qemu',
-+	'quilt-ptest',
-+	'rsync',
-+	'ruby',
-+	'spirv-tools-dev',
-+	'swig',
-+	'syslinux-misc',
-+	'systemd-bootchart',
-+	'valgrind-ptest',
-+	'vim',
-+	'watchdog',
-+	'xmlto',
-+	'xorg-minimal-fonts'
-+	]
-+
-+def is_excluded(package):
-+    package_name = os.path.basename(package)
-+    for i in exclude_packages:
-+        if package_name.startswith(i):
-+            return True
-+    return False
-+
- MISSING = 'MISSING'
- DIFFERENT = 'DIFFERENT'
- SAME = 'SAME'
-@@ -39,6 +105,7 @@ class PackageCompareResults(object):
-         self.total = []
-         self.missing = []
-         self.different = []
-+        self.different_excluded = []
-         self.same = []
- 
-     def add_result(self, r):
-@@ -46,7 +113,10 @@ class PackageCompareResults(object):
-         if r.status == MISSING:
-             self.missing.append(r)
-         elif r.status == DIFFERENT:
--            self.different.append(r)
-+            if is_excluded(r.reference):
-+                self.different_excluded.append(r)
-+            else:
-+                self.different.append(r)
-         else:
-             self.same.append(r)
- 
-@@ -54,10 +124,11 @@ class PackageCompareResults(object):
-         self.total.sort()
-         self.missing.sort()
-         self.different.sort()
-+        self.different_excluded.sort()
-         self.same.sort()
- 
-     def __str__(self):
--        return 'same=%i different=%i missing=%i total=%i' % (len(self.same), len(self.different), len(self.missing), len(self.total))
-+        return 'same=%i different=%i different_excluded=%i missing=%i total=%i' % (len(self.same), len(self.different), len(self.different_excluded), len(self.missing), len(self.total))
- 
- def compare_file(reference, test, diffutils_sysroot):
-     result = CompareResult()
-@@ -237,6 +308,7 @@ class ReproducibleTests(OESelftestTestCase):
- 
-                 self.write_package_list(package_class, 'missing', result.missing)
-                 self.write_package_list(package_class, 'different', result.different)
-+                self.write_package_list(package_class, 'different_excluded', result.different_excluded)
-                 self.write_package_list(package_class, 'same', result.same)
- 
-                 if self.save_results:
-@@ -244,8 +316,12 @@ class ReproducibleTests(OESelftestTestCase):
-                         self.copy_file(d.reference, '/'.join([save_dir, 'packages', strip_topdir(d.reference)]))
-                         self.copy_file(d.test, '/'.join([save_dir, 'packages', strip_topdir(d.test)]))
- 
-+                    for d in result.different_excluded:
-+                        self.copy_file(d.reference, '/'.join([save_dir, 'packages-excluded', strip_topdir(d.reference)]))
-+                        self.copy_file(d.test, '/'.join([save_dir, 'packages-excluded', strip_topdir(d.test)]))
-+
-                 if result.missing or result.different:
--                    fails.append("The following %s packages are missing or different: %s" %
-+                    fails.append("The following %s packages are missing or different and not in exclusion list: %s" %
-                             (c, '\n'.join(r.test for r in (result.missing + result.different))))
- 
-         # Clean up empty directories
+Personally I think that this fixes a serious enough issue that we should consider
+this series for dunfell.
+
+Please have comments back by Monday morning.
+
+The following changes since commit 071806feb195961e59069f778c9ae8f27a739d9a:
+
+  e2fsprogs: Fix a ptest permissions determinism issue (2020-11-30 12:05:57 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Jacob Kroon (1):
+  bitbake.conf: Remove TERM from default BB_HASHBASE_WHITELIST
+
+Joe Slater (1):
+  pseudo: fix renaming to self
+
+Martin Jansa (1):
+  base.bbclass: use os.path.normpath instead of just comparing WORKDIR
+    and S as strings
+
+Mingli Yu (2):
+  tcl: adapt to potential pseudo changes
+  bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
+
+Ricardo Ribalda Delgado (3):
+  wic: Fix permissions when using exclude or include path
+  wic: Fix multi images .wks with bitbake
+  wic: Avoid creating invalid pseudo directory
+
+Richard Purdie (19):
+  pseudo: Switch to oe-core branch in git repo
+  pseudo: merge in fixes for setfacl issue
+  pseudo: Update to add OFC fcntl lock updates
+  pseudo: Ignore mismatched inodes from the db
+  pseudo: Add support for ignoring paths from the pseudo DB
+  pseudo: Abort on mismatch patch
+  psuedo: Add tracking of linked files for fds
+  pseudo: Fix xattr segfault
+  pseudo: Add may unlink patch
+  pseudo: Add pathfix patch
+  base/bitbake.conf: Enable pseudo path filtering
+  wic: Handle new PSEUDO_IGNORE_PATHS variable
+  pseudo: Fix statx function usage
+  bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+  abi_version,sanity: Tell users TMPDIR must be clean after pseudo
+    changes
+  pseudo: Update to account for patches merged on branch
+  pseudo: Upgrade to include mkostemp64 wrapper
+  oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
+  uninative: Don't use single sstate for pseudo-native
+
+Ross Burton (1):
+  devtool: remove unused variable
+
+ meta/classes/archiver.bbclass                 |   2 +-
+ meta/classes/base.bbclass                     |   6 +
+ meta/classes/image_types_wic.bbclass          |  12 +-
+ meta/classes/populate_sdk_base.bbclass        |   2 +
+ meta/classes/sanity.bbclass                   |   3 +
+ meta/classes/sstate.bbclass                   |   4 +
+ meta/conf/abi_version.conf                    |   2 +-
+ meta/conf/bitbake.conf                        |  13 +-
+ meta/lib/oe/sstatesig.py                      |   4 +-
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   1 +
+ .../pseudo/files/0001-Add-statx.patch         | 106 --------------
+ ...001-maketables-wrappers-use-Python-3.patch |  34 -----
+ ...ixup-remove-files-that-do-not-exist-.patch |  49 -------
+ .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  |  31 ----
+ ...1-realpath.c-Remove-trailing-slashes.patch |  57 --------
+ ...xattr-adjust-for-attr-2.4.48-release.patch |  48 ------
+ .../pseudo/files/moreretries.patch            |  19 ---
+ .../pseudo/files/seccomp.patch                | 137 ------------------
+ .../pseudo/files/toomanyfiles.patch           |  71 ---------
+ .../pseudo/files/xattr_version.patch          |  54 -------
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  14 +-
+ meta/recipes-devtools/tcltk/tcl_8.6.10.bb     |   1 +
+ scripts/lib/devtool/standard.py               |   1 -
+ scripts/lib/wic/partition.py                  |  23 +--
+ scripts/lib/wic/plugins/source/rootfs.py      |  37 ++++-
+ scripts/postinst-intercepts/update_font_cache |   2 +
+ 26 files changed, 89 insertions(+), 644 deletions(-)
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/moreretries.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+
 -- 
-2.29.2
+2.17.1
 
