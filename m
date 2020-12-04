@@ -1,139 +1,95 @@
-Received: from mx0a-00010702.pphosted.com (mx0a-00010702.pphosted.com [148.163.156.75])
- by mx.groups.io with SMTP id smtpd.web10.19803.1607110228007957832
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web08.20402.1607112467418796400
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 11:30:28 -0800
+ Fri, 04 Dec 2020 12:07:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nio365.onmicrosoft.com header.s=selector2-nio365-onmicrosoft-com header.b=aDX+xZwi;
- spf=pass (domain: ni.com, ip: 148.163.156.75, mailfrom: prvs=5607aca33d=gratian.crisan@ni.com)
-Received: from pps.filterd (m0239462.ppops.net [127.0.0.1])
-	by mx0b-00010702.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0B4JThPE029456;
-	Fri, 4 Dec 2020 13:30:27 -0600
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2173.outbound.protection.outlook.com [104.47.58.173])
-	by mx0b-00010702.pphosted.com with ESMTP id 3573ptjdhh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 04 Dec 2020 13:30:27 -0600
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GT934AhzKbmAmsBJPAR11dZzpE0dcByxZZ3R2wfdZNXa9vt7eQTYqn8rQuNGXrID9+bJOdIw50nU+A0O0UNPJ80RxeDT6S9g+ml5ZoYELVSaIe446DpkL3VFNKQAXZGj6FfBSdSWRMkxqW1EwyQbwNcd7ASSG0ZFo5xjQbejNPGErEBfSoIHAk93RqYvUdUPtFJtQodw5P4ON3L/mmMHx3c6DlzadeZiTdGvLVYoKDp3FwQ41D4BD9tS+szwPs5MHHbXAAkmQIQM7z3N7kvHpo/KVu5+EAVG+vJ95OOJUFYqVb+yoKoz/D7fq83WB+gdhEIH5ijJputrrIZvbDtRUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k8FwV/Y4uMZa9gobW8cpqug9iA110hEpDkdKuDJlNxI=;
- b=Awz09RzKaEvv2zxw1pfrz3K+3alZBByju98Joq62yLsjuPtbob7nR8fSNOhwt/FcDXLp89K89/n72UtXfUAxBdRkVgN+NbW2qEGn9mJYS7vUtqpXnBzbVU3sKx3edSNHLpNfuaUOVIGD/G7v0vg1xw01MFgqXGBNnOluW2OP73K18Kw3/NO8nWe8fdYjiltTTzenEsnQlGTGpLVlUZyLDpJN/VdF3kfWrBlW6h3Z7ifNwulveip9FmzKH1bs93TRrqctOVmnmKqzd2c5dTfUDMikgA5fKa/IXU+066+krYCKjNcOqOf+xlQh099f7SaIa1Vm76WWE7L3TzhIVMmppQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
- header.d=ni.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rg1ZUcYc;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id f23so10466421ejk.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k8FwV/Y4uMZa9gobW8cpqug9iA110hEpDkdKuDJlNxI=;
- b=aDX+xZwiqZR21Pys2HrqHkbst+aEBzu8lyvG/HNspbpDonfEdArtqo6rK9812dPBXf4j0+JTT1gccnjmwv8kagpdPAqGWYiyPPsM6MBCSRTIS+qUjSICVRDvlizSBODo/p3VLwR+tJAlJp/iuFWgE3sOXm3YXz8/It9Xq1wwGLE=
-Authentication-Results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none header.from=ni.com;
-Received: from SN6PR04MB4496.namprd04.prod.outlook.com (2603:10b6:805:a3::23)
- by SN6PR04MB4077.namprd04.prod.outlook.com (2603:10b6:805:47::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.28; Fri, 4 Dec
- 2020 19:30:25 +0000
-Received: from SN6PR04MB4496.namprd04.prod.outlook.com
- ([fe80::cc42:669f:a4f2:c1]) by SN6PR04MB4496.namprd04.prod.outlook.com
- ([fe80::cc42:669f:a4f2:c1%5]) with mapi id 15.20.3632.018; Fri, 4 Dec 2020
- 19:30:25 +0000
-User-agent: mu4e 1.3.2; emacs 27.1
-From: "Gratian Crisan" <gratian.crisan@ni.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lf9xUKUaz/gTM2LRr3jRAbVU/SeZVS6LrN9riZl0S7g=;
+        b=Rg1ZUcYc4FIzWeuO9ACZ8vRx8WEvQp6B5+kA3Qt/szOKxpEcbxtlfFeZXTaXlta0Bt
+         JXr61LRHEuRzmKKCwWOGdCtwznWuK8HSA96uI7d71tpbc6Dd2RkpgnREtgYhziAv8h/8
+         2DuGoNJqD7MuGE2HFH+AmbqAKkCN9UsKa7gL/C5avGJ5QGNJTZAsoUw1WEbBFptmIVAA
+         cDxVxejSK6D18N3GYNoJrDbovytFT00AwIFhIYD8UAwLX5MVF3Nw2IVD039PmYhYNiN5
+         YXioK/u2m3rwEvoBKRJgMao52CNQhppPdzuix6ruMrJyxJWiNVH7y/T64nwZMkhA7qxn
+         xV+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lf9xUKUaz/gTM2LRr3jRAbVU/SeZVS6LrN9riZl0S7g=;
+        b=Mt6mLCHx2w9yDvri6ZM3qUxtZRFnbtTL30i3CfG1cJ85YYsWCKemGpus8EV9Not8W/
+         0LWWbo3ptc2t4YKngt/7ojjbDbgcFu9K+URR21qLiS4yJaC8DmOGBiccc+HacNxWZDHm
+         bXRBeScVwShkWdrx5dJuRAYLdo1B172nKGuf6J8iz3CfPaVVhCpr6pbA2S2bsE/E0TH6
+         qXWCMZky9ySXMlR9DraSejMCQmEWzE6PzumhxajUTJLocaWWO9BHWr55oFuiV3gfOqyx
+         CjRH16uIVWN+WmHP3nZxRgk/bfNrw+u5MiP5GPKkaoA28lj9rUszWO2o+zUjCgsyOO3T
+         dwgQ==
+X-Gm-Message-State: AOAM531k7woVVnkZOBCpLPIWw9ZRy07TiKbhzM4m5VsWGHBCSy1RDrV7
+	iOILa0SKBo6A8ho1scpjrEInyEVGOmEwDw==
+X-Google-Smtp-Source: ABdhPJyouZw/MzSA33A5eg77lzDjUrZ6I4KELZ5b3Vt66fRMQ3aqdtrEjZwHmCiJvpQQWU+ZAwdMiA==
+X-Received: by 2002:a17:906:cecd:: with SMTP id si13mr6574591ejb.441.1607112465612;
+        Fri, 04 Dec 2020 12:07:45 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
+        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Dec 2020 12:07:45 -0800 (PST)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: yi.zhao@windriver.com
-Subject: [OE-core][PATCH] kernel-module-split.bbclass: fix kernel modules getting marked as CONFFILES
-Date: Fri, 04 Dec 2020 13:30:21 -0600
-Message-ID: <87k0txfjxu.fsf@ni.com>
-X-Originating-IP: [130.164.62.170]
-X-ClientProxiedBy: SA9PR13CA0186.namprd13.prod.outlook.com
- (2603:10b6:806:26::11) To SN6PR04MB4496.namprd04.prod.outlook.com
- (2603:10b6:805:a3::23)
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/23] netbase: upgrade 6.1 -> 6.2
+Date: Fri,  4 Dec 2020 21:07:14 +0100
+Message-Id: <20201204200737.7072-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from quark (130.164.62.170) by SA9PR13CA0186.namprd13.prod.outlook.com (2603:10b6:806:26::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.10 via Frontend Transport; Fri, 4 Dec 2020 19:30:24 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2c7cbfd0-6817-4084-5d50-08d8988b0c66
-X-MS-TrafficTypeDiagnostic: SN6PR04MB4077:
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR04MB407764F6532BD6CA0241CAAFFEF10@SN6PR04MB4077.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:156;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	2l7BvZ8N8NEqcHxSLg/6E7LGOyidb9olX8gAS19AYuvGlCTAJvVtw3hoqHsVRwOB1UGv5sIR8tbuDUKCRMs2F7jvRgIbJHW8LslqLBGa4zWX9pFGyyyH7NfPpx0axlSfOHIx11O0ZikL2Bib/H3ZMxxxf6ZeQqQfDNALF/Ols9KNr9PQJl2tU6flS6ISecSx7c0kQwmUi+6OaZJ+h/7h6xg8Qd4YqjQnGGivFaC83VBlzWYDN6otgib9Py2JzDcKZBCw/Z9wl2duZzn8YOenAsaczJbAW3hSFJXo/MvaJgxuBSVKtUkjmUF7J1B+x4G+zbcQtEpbhTu918zesP1oZg==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR04MB4496.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(346002)(376002)(366004)(39860400002)(396003)(6496006)(6486002)(4326008)(956004)(44832011)(8676002)(6666004)(36756003)(478600001)(6916009)(52116002)(8936002)(16526019)(316002)(2616005)(5660300002)(86362001)(66556008)(186003)(83380400001)(66476007)(26005)(2906002)(66946007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?sHuYD6zgQIkXxXk2sn70myRpI6yYwf9GyudcrYFVorR5HioYL/kPQYRcxbFT?=
- =?us-ascii?Q?h2OnLEf+VSrm4BSs7iYjwYfXv6DyrsPt3Y6SPlipqLDlu482egFt8/KMBa0b?=
- =?us-ascii?Q?PzuuRWg9JH2jdMxUFVjeOSu6SV2DtsVT6fg4qWAOs40eb/ULMbpAnApeZ3zV?=
- =?us-ascii?Q?3wZyCgUgRul9Gmt88yaf2vd5LqzAFz++hTKodJWr7AECydSGo/Mabx28fY05?=
- =?us-ascii?Q?wT9dhnks/1DHw4WkG+OJj7siXAzbv9vzUgGP4FNODdT12ofGqmmKPBUJrmjj?=
- =?us-ascii?Q?sAx8eQCPilPlZf6q7Ab5fvO3TuuqYyiNHR8eygpANg5qUhdORtkZFAKtNsGG?=
- =?us-ascii?Q?4SM2+BcMsQPx3iErA7qkik4wjkc9bhtSFdR+tYOy/hQpvYXZvbDFEPg/YrpF?=
- =?us-ascii?Q?lnrJNh1kAA/Nf+n3wby3sEB15OuBjUOpJq9yYp/IB+0SaFtvXuuyJQHA8DkX?=
- =?us-ascii?Q?tTk1y62WRp7qLY5GH2KLf+gSJvUK/ag+StyhEoCkW9Pn+inxCRhxVLMuY9B3?=
- =?us-ascii?Q?KVd/FvT8PuiK4LKiGfTfSgTvGVBr9H/tyqwxQix1laqrnFzk4uXYGucwEFef?=
- =?us-ascii?Q?sml2Dc+Z6dxj+HBntpwLzQ1UPqHEiV5fO1MX7gTgIKLHdKNIx4WW0TVwCDO8?=
- =?us-ascii?Q?TUYu0f45F0O1zmHUAnOAnfdnS3oZxoAYSBwCON1zi0E0QYvhXIs+UA86JuoT?=
- =?us-ascii?Q?Ba7v5VSaXKwVvvsSje8sUGf1Jlzce+ob+h6GFTGNttngP4RyGi3AJhhRRoJo?=
- =?us-ascii?Q?eb8EBYiKg+6NfTCIip05BZAyZEf7B4RqM0jXE4qacsyV08ISFSYSnremfsab?=
- =?us-ascii?Q?bZWv/g8RmORsKqoh1Pgd6B94sNcF2j8YlIdJ4SGGJZnAgMRr4SfGx7hQ3Wbp?=
- =?us-ascii?Q?NBXVGVVGoIJ42RD0iY9RJ7fnWShmGtLtBS7yi1KLU+X2EkB8ZZWV2Ov26uzo?=
- =?us-ascii?Q?GDG3nDBk9CtMCKOmX40QYv9EMg8SzHSNwrDk6uKeTELXNoFnehUVJH96V9Ro?=
- =?us-ascii?Q?V2Dr?=
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c7cbfd0-6817-4084-5d50-08d8988b0c66
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR04MB4496.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2020 19:30:25.1205
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SwxnDan1THsrPivCzYVZ2TQmVVa76Wr+DzaeSAUxxvZBWzE+SNxLZOMP2m+wBJp0D4CsIoaNX2Azi6UHzsf+hQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB4077
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-12-04_09:2020-12-04,2020-12-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy score=30 clxscore=1015
- suspectscore=1 mlxscore=0 mlxlogscore=999 phishscore=0 spamscore=0
- bulkscore=0 malwarescore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 impostorscore=0 classifier=spam adjust=30 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2012040111
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Yi pointed out that commit 1a70a92d1f10 ("kernel-module-split.bbclass:
-identify kernel modconf files as configuration files") is
-unintentionally adding the actual kernel /lib/modules .ko files to the
-CONFFILES variable.
+Not sure why this didn't inherit allarch, but now it does - only
+static data is installed.
 
-The root cause is the re-use of the 'files' variable in that commit.
-Fix it by using a separate variable to keep track of the generated
-module .conf files that need to be marked as configuration files.
-
-Fixes: 1a70a92d1f10 ("kernel-module-split.bbclass: identify kernel modconf files as configuration files")
-Reported-by: Yi Zhao <yi.zhao@windriver.com>
-Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/kernel-module-split.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../netbase/{netbase_6.1.bb => netbase_6.2.bb}      | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+ rename meta/recipes-core/netbase/{netbase_6.1.bb => netbase_6.2.bb} (65%)
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index c8ede26996..baa32e0a90 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -120,7 +120,10 @@ python split_kernel_module_packages () {
-         files = d.getVar('FILES_%s' % pkg)
-         files = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename)
-         d.setVar('FILES_%s' % pkg, files)
--        d.setVar('CONFFILES_%s' % pkg, files)
+diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.2.bb
+similarity index 65%
+rename from meta/recipes-core/netbase/netbase_6.1.bb
+rename to meta/recipes-core/netbase/netbase_6.2.bb
+index 33eca459d5..a54d2e7764 100644
+--- a/meta/recipes-core/netbase/netbase_6.1.bb
++++ b/meta/recipes-core/netbase/netbase_6.2.bb
+@@ -6,17 +6,18 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+ PE = "1"
+ 
+-SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}~bpo10+1.tar.xz"
+-S = "${WORKDIR}/${BPN}-${PV}~bpo10+1"
++SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "4fa7517285b4045ac0dc8dbf6730dd7a"
+-SRC_URI[sha256sum] = "4e9c3082dff8896cb6b6bea9bb2200d82fb0d7c8d8c8fc9b18704fe553316237"
++inherit allarch
 +
-+        conffiles = d.getVar('CONFFILES_%s' % pkg)
-+        conffiles = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (conffiles, basename, basename)
-+        d.setVar('CONFFILES_%s' % pkg, conffiles)
-
-         if "description" in vals:
-             old_desc = d.getVar('DESCRIPTION_' + pkg) or ""
---
++SRC_URI[sha256sum] = "309a24146a06347d654b261e9e07a82fab844b173674a42e223803dd8258541e"
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+-do_install () {
+ 
+-	install -d ${D}/${mandir}/man8 ${D}${sysconfdir}
++do_install () {
++	install -d ${D}${sysconfdir}
+ 	install -m 0644 ${S}/etc/rpc ${D}${sysconfdir}/rpc
+ 	install -m 0644 ${S}/etc/protocols ${D}${sysconfdir}/protocols
+ 	install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
++	install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
+ }
+-- 
 2.29.2
+
