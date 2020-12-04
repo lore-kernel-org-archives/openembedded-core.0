@@ -1,50 +1,50 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web12.20281.1607112478171072876
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web08.20410.1607112479070284819
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 12:07:58 -0800
+ Fri, 04 Dec 2020 12:07:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZSw0aoRM;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id ce23so6670452ejb.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Nsag9a19;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id dk8so4237653edb.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=r5LBydtLIrNRvQiLTT+Wi1JMEKArOB+R2pQskNjuNkI=;
-        b=ZSw0aoRMLvZbSSnMCJ3QZohwaslueAWHLi09ViYQ3J/t/rWLY0iqOZt7Jvdu8KUxSF
-         QNvRYzyOGjOze+WSbXluYPmq2NZKP3+rDZwlNAh3y5USyTmYkous4tNwI+NoC0tCcc6U
-         KX7bzd5FHejMNrH9aGACV7e+6RsvDSu+XmUjb6Sqf7GBZnpBtccSwFZv6soPmV0sepV7
-         pvnkTypQuYKwaBOKT/MIwB+34zrc7JRaFsIFlvUapNaPgu1l28lElUyBLHH7SVREtlJL
-         J4W+LLWqb5Zwu4Sci1Kxd/v2/w2n7jlJMU0u6mi83HNRuQAH+TfIlystw5lC4ZWbkg3e
-         l7Jg==
+        bh=8VP9YLydoSYvmj52Dni+KiM4tVBs/8c7cOMhIj7xm14=;
+        b=Nsag9a196gyLP2Uv0HZ+QLxxOScd2vbpWgAmYcX7+Lz67PGEXrQYsp9I3CZ2PSkvJL
+         2kgsFeyINJ9HS5q8l+oXK+GxZ+OZFRgFJSzt+UDbwxZCK1IDgokImdN7y2j9c45oWily
+         gOxUN4xLULHRKo6Ne61DnjAvDhKqAh+LUQY9uVKGoxdfCx2dq+IRuPDa/mcDNiXG3a7K
+         KNGmCztaZN5FMaxmxxqS9HqsNh/CJEPzXXYZPdHdUcsjSqGvYsYaoZMEnoC2l8mzkF7+
+         mvJ1z6mZcpQH74nkWKYetd4T+VnwLB0rFHdTEeu+Z7a5XLC46TB+HJzkIF38mSSBHaDC
+         X/sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=r5LBydtLIrNRvQiLTT+Wi1JMEKArOB+R2pQskNjuNkI=;
-        b=OP6/+DLhlqeqib7+FBOkVurLOBCKbjYi2X0L+OeqsHjUYgfY5LzaUBTbi7WjzNSbup
-         t56y/PyJqsyQaBLbqTg1sHQ9hWqRu7OSLt1O9myW+U53qzYkDTTZFxaiDQs69VCIZMUK
-         3D0W2XzobvVSDuUgBgiTnsYWK8qOehkwm9+5VG9/PrE20WhMDt5PShenapjACTRiq9UT
-         rM/M9e0a+U0vKAJgz8sMcL1gr3WmoCfFJQ65H2vhHCfS7TcqMq/Tqxkajjnro3LzXpnT
-         RvRtU3YF9P3uD664Ep6jUlOfePpiifNoAQynpjOjgsTim2rFkTfrWD/cX6uQAztGKm8T
-         Y9eQ==
-X-Gm-Message-State: AOAM533JTZiX6bltrEXa3hJRxqWbDe+2MxqHzO48XDTTBKO6kjEPBeua
-	ekIfeTI0mxeqcsfuBL4Mt8IqiCp9n/3/lg==
-X-Google-Smtp-Source: ABdhPJwZfS6t9L4KN/9ovn1YqGzTOGW1KaoFXmhYDhgQb9B6mYgdWQF4WWzHrXJBqd+Q9e9WQMO1lw==
-X-Received: by 2002:a17:906:5912:: with SMTP id h18mr8573892ejq.261.1607112476585;
-        Fri, 04 Dec 2020 12:07:56 -0800 (PST)
+        bh=8VP9YLydoSYvmj52Dni+KiM4tVBs/8c7cOMhIj7xm14=;
+        b=Pt8qPKQOW4Xg1pG6Eqmi738JAHscxXOGDVIck2/UHu+ge1VrLBR4g9eUJnqhKdDEdN
+         A7QMy/m2KB/cnS3yI/9WPn1csK9BVmlvcQeWFPA64hbmCHaHROwqVbPqQbI78UsX43qQ
+         mrkO4HdPSGIMvEi713FAQKkvq8aB8D8hohwNeOdSLb7eGGKcfb0+mbMBB3rj8Wsve+ZT
+         RgpHp4t4RkFERwGiIoPtT27dbvrtGesR2vYpgDRaR9XOgMP5ARSwU/YwaxxIIwbNi1SU
+         4KNGcDbzu922dBQKYRS35A6MFpaXjT4/7OyDU3OA8sWSTU/dMwOLcda0+bdRirh6gJjc
+         CfUA==
+X-Gm-Message-State: AOAM531kf0Y2gj1RwO/GXDk8W9u+0wcDBEGQ426Ucl1CGQgThXVcywLe
+	lupNk7ptdyyyRAquoI6Ug4M+5kJm6Vuc5g==
+X-Google-Smtp-Source: ABdhPJzbR/YH+9rpwjoC/0ra9BRhh4fUnCW6du6TkeZDg2iLK0SN9iBTV+vFJ3l1ijKseUGB662jAA==
+X-Received: by 2002:a05:6402:1c96:: with SMTP id cy22mr9124427edb.339.1607112477467;
+        Fri, 04 Dec 2020 12:07:57 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.55
+        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 12:07:56 -0800 (PST)
+        Fri, 04 Dec 2020 12:07:57 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 13/23] grep: upgrade 3.5 -> 3.6
-Date: Fri,  4 Dec 2020 21:07:26 +0100
-Message-Id: <20201204200737.7072-13-alex.kanavin@gmail.com>
+Subject: [PATCH 14/23] man-pages: upgrade 5.08 -> 5.09
+Date: Fri,  4 Dec 2020 21:07:27 +0100
+Message-Id: <20201204200737.7072-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201204200737.7072-1-alex.kanavin@gmail.com>
 References: <20201204200737.7072-1-alex.kanavin@gmail.com>
@@ -53,25 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/grep/{grep_3.5.bb => grep_3.6.bb} | 2 +-
+ .../man-pages/{man-pages_5.08.bb => man-pages_5.09.bb}          | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/grep/{grep_3.5.bb => grep_3.6.bb} (93%)
+ rename meta/recipes-extended/man-pages/{man-pages_5.08.bb => man-pages_5.09.bb} (91%)
 
-diff --git a/meta/recipes-extended/grep/grep_3.5.bb b/meta/recipes-extended/grep/grep_3.6.bb
-similarity index 93%
-rename from meta/recipes-extended/grep/grep_3.5.bb
-rename to meta/recipes-extended/grep/grep_3.6.bb
-index 22ef70bc5b..edf9b29c8f 100644
---- a/meta/recipes-extended/grep/grep_3.5.bb
-+++ b/meta/recipes-extended/grep/grep_3.6.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+diff --git a/meta/recipes-extended/man-pages/man-pages_5.08.bb b/meta/recipes-extended/man-pages/man-pages_5.09.bb
+similarity index 91%
+rename from meta/recipes-extended/man-pages/man-pages_5.08.bb
+rename to meta/recipes-extended/man-pages/man-pages_5.09.bb
+index caf9320a67..00d6eb5c2e 100644
+--- a/meta/recipes-extended/man-pages/man-pages_5.08.bb
++++ b/meta/recipes-extended/man-pages/man-pages_5.09.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=207f70f56526417514ac46b6680e314f"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
  
- SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6e0b8ae23ee9467cee701f23dea908257a93e5fffa9e261b19a23efbd27e84a2"
++SRC_URI[sha256sum] = "3bd9029b94520c730fe1a1fb78ed7d8d878236da0f725ca86ee71c1969de6c4f"
  
--SRC_URI[sha256sum] = "b82ac77707c2ab945520c8404c9fa9f890f7791a62cf2103cf6238acad87a44a"
-+SRC_URI[sha256sum] = "667e15e8afe189e93f9f21a7cd3a7b3f776202f417330b248c2ad4f997d9373e"
- 
- inherit autotools gettext texinfo pkgconfig
+ inherit manpages
  
 -- 
 2.29.2
