@@ -1,50 +1,50 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web08.20410.1607112479070284819
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web12.20282.1607112480042503273
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 12:07:59 -0800
+ Fri, 04 Dec 2020 12:08:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Nsag9a19;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id dk8so4237653edb.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A061wy4J;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id bo9so10380747ejb.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8VP9YLydoSYvmj52Dni+KiM4tVBs/8c7cOMhIj7xm14=;
-        b=Nsag9a196gyLP2Uv0HZ+QLxxOScd2vbpWgAmYcX7+Lz67PGEXrQYsp9I3CZ2PSkvJL
-         2kgsFeyINJ9HS5q8l+oXK+GxZ+OZFRgFJSzt+UDbwxZCK1IDgokImdN7y2j9c45oWily
-         gOxUN4xLULHRKo6Ne61DnjAvDhKqAh+LUQY9uVKGoxdfCx2dq+IRuPDa/mcDNiXG3a7K
-         KNGmCztaZN5FMaxmxxqS9HqsNh/CJEPzXXYZPdHdUcsjSqGvYsYaoZMEnoC2l8mzkF7+
-         mvJ1z6mZcpQH74nkWKYetd4T+VnwLB0rFHdTEeu+Z7a5XLC46TB+HJzkIF38mSSBHaDC
-         X/sw==
+        bh=5WwjV8GxwuEV2FO1sMd1VvNL4AnlYcJ/WqF97oWOO2A=;
+        b=A061wy4Jr2gt1ljrhjVMJET+6P42JBtOZr8LDEt1IOYnM7IlVhOnblwtsoiw0YU9HI
+         xhrHWKkyp+Acjc0mw84A8T5JRVzF+5HO3FqiED7JqXk4lV/U9r6JHeZNgeTgX+FIsU/i
+         JeN1Cb83yqmZC+k6+Pm1E+j5ACgxfp1VZiFa76vfVyglj+kAcq+ER+2ZzORfE+yXcIqH
+         vDMapyJbZI5yG5+/hMTG1eF02tpSmpiUu5zEPRiFXZtANp5XHR6cNTh9se7TSsYgOxIP
+         QLAOtFiygP5HA8hHo5lNS5Dg5FlymZ0XsrKNva644MyodgK878etz1pjlZ29HxLbFHyR
+         zdKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8VP9YLydoSYvmj52Dni+KiM4tVBs/8c7cOMhIj7xm14=;
-        b=Pt8qPKQOW4Xg1pG6Eqmi738JAHscxXOGDVIck2/UHu+ge1VrLBR4g9eUJnqhKdDEdN
-         A7QMy/m2KB/cnS3yI/9WPn1csK9BVmlvcQeWFPA64hbmCHaHROwqVbPqQbI78UsX43qQ
-         mrkO4HdPSGIMvEi713FAQKkvq8aB8D8hohwNeOdSLb7eGGKcfb0+mbMBB3rj8Wsve+ZT
-         RgpHp4t4RkFERwGiIoPtT27dbvrtGesR2vYpgDRaR9XOgMP5ARSwU/YwaxxIIwbNi1SU
-         4KNGcDbzu922dBQKYRS35A6MFpaXjT4/7OyDU3OA8sWSTU/dMwOLcda0+bdRirh6gJjc
-         CfUA==
-X-Gm-Message-State: AOAM531kf0Y2gj1RwO/GXDk8W9u+0wcDBEGQ426Ucl1CGQgThXVcywLe
-	lupNk7ptdyyyRAquoI6Ug4M+5kJm6Vuc5g==
-X-Google-Smtp-Source: ABdhPJzbR/YH+9rpwjoC/0ra9BRhh4fUnCW6du6TkeZDg2iLK0SN9iBTV+vFJ3l1ijKseUGB662jAA==
-X-Received: by 2002:a05:6402:1c96:: with SMTP id cy22mr9124427edb.339.1607112477467;
-        Fri, 04 Dec 2020 12:07:57 -0800 (PST)
+        bh=5WwjV8GxwuEV2FO1sMd1VvNL4AnlYcJ/WqF97oWOO2A=;
+        b=k3iQx4TWjfRsIANZ3KDj2u7R92UgFdoC5CriiKVJBwo/EY4xfUdp1w6H7ltGe6vKYV
+         OH71V4fgwq1EMk5tKLud7u3eFw0PjUzwIg49bcg5r4JnZcg60WKWmAag9CZrGxEXr/R6
+         bo9NkjBsb9soIVR6PRBBDWkejtC7/25I1bKABGIF6hkGaq2ckyzGQHbJyXK3J7lPWaf2
+         fb78Ema+epfc+RQNrQGD9gmu1/2WRt0Yx3fFqiFZyOLoYsT426KoQJP1Dg1TrsS8yjJ1
+         SyUUYgZBp8wbT2jFOAVXqL6vCHHJKoh6n4XsXHT4SmbOHnc2miKBpOL3bkmcrrjbqXg7
+         zJxQ==
+X-Gm-Message-State: AOAM530fqojxq8q00LrigJAc819Dlvaoehn/havMuGGhrRJri8+2q6K5
+	fvRXBcSHMUYh87n6Tq/8QyXKaBQSfVy9zA==
+X-Google-Smtp-Source: ABdhPJwnceCNJvW51vRQh5DJxEASt5qyKbKo8i/sZ+jDFSBDOJMhb4ac+BkNJm/TW0zJtDGUqdCdgg==
+X-Received: by 2002:a17:906:6010:: with SMTP id o16mr8683433ejj.55.1607112478383;
+        Fri, 04 Dec 2020 12:07:58 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.56
+        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 04 Dec 2020 12:07:57 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/23] man-pages: upgrade 5.08 -> 5.09
-Date: Fri,  4 Dec 2020 21:07:27 +0100
-Message-Id: <20201204200737.7072-14-alex.kanavin@gmail.com>
+Subject: [PATCH 15/23] stress-ng: upgrade 0.11.23 -> 0.11.24
+Date: Fri,  4 Dec 2020 21:07:28 +0100
+Message-Id: <20201204200737.7072-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201204200737.7072-1-alex.kanavin@gmail.com>
 References: <20201204200737.7072-1-alex.kanavin@gmail.com>
@@ -53,25 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../man-pages/{man-pages_5.08.bb => man-pages_5.09.bb}          | 2 +-
+ .../stress-ng/{stress-ng_0.11.23.bb => stress-ng_0.11.24.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/man-pages/{man-pages_5.08.bb => man-pages_5.09.bb} (91%)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.11.23.bb => stress-ng_0.11.24.bb} (90%)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_5.08.bb b/meta/recipes-extended/man-pages/man-pages_5.09.bb
-similarity index 91%
-rename from meta/recipes-extended/man-pages/man-pages_5.08.bb
-rename to meta/recipes-extended/man-pages/man-pages_5.09.bb
-index caf9320a67..00d6eb5c2e 100644
---- a/meta/recipes-extended/man-pages/man-pages_5.08.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_5.09.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;md5=207f70f56526417514ac46b6680e314f"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.23.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.24.bb
+similarity index 90%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.11.23.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.11.24.bb
+index f09bb24737..3516c15451 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.11.23.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.24.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            file://no_daddr_t.patch \
+            "
+-SRC_URI[sha256sum] = "c0a76147a02f4c31af1fb4b9b7e0b90ac8bbd8590ccb54264d5cbe046c769cd2"
++SRC_URI[sha256sum] = "5b3a724a85eed48743dedf37eab851b617ecf921b7fff427c6d0bbf405534671"
  
--SRC_URI[sha256sum] = "6e0b8ae23ee9467cee701f23dea908257a93e5fffa9e261b19a23efbd27e84a2"
-+SRC_URI[sha256sum] = "3bd9029b94520c730fe1a1fb78ed7d8d878236da0f725ca86ee71c1969de6c4f"
- 
- inherit manpages
+ DEPENDS = "coreutils-native"
  
 -- 
 2.29.2
