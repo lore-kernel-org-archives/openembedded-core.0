@@ -1,50 +1,50 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
- by mx.groups.io with SMTP id smtpd.web09.20480.1607112477335368079
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+ by mx.groups.io with SMTP id smtpd.web12.20281.1607112478171072876
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 12:07:57 -0800
+ Fri, 04 Dec 2020 12:07:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EcLNhZS7;
- spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f68.google.com with SMTP id qw4so10409103ejb.12
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZSw0aoRM;
+ spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f51.google.com with SMTP id ce23so6670452ejb.8
         for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lZgDTTSEJ1Ucy+brcoKFAi14b2sQ840/PV5Nl226fHk=;
-        b=EcLNhZS7X/r/VD589XBxjhz++zoz9NE5IjPyaZxx84vE+O+tEOuxQczuZSNOFPbtO8
-         PnVgNwgKg4yZqCLnpvrZmoYx6ycAgB9nx23f+vTsMaZxeWQaUvcNDNtUG2PbMjj1iSd1
-         eXNU8/4S/Qb+oxK6ajTcONnnVga5TAmeHKEQIvrM3Gbzt8GWC3LF8P4wx5ZVRsCYtxgn
-         SbORLaME8N3i8h6GIGdMCh/UaU3+4aDDE9wfE8Klwav8Lh4RwZp8ctP9ZaC0ZcawWWDc
-         SxQXthXOEW/1oue/Xf01HAxbs6Fh0DmhJAujBD4phtEWhhGAE3nxY6e/ejLh+KIM+qdL
-         A7HA==
+        bh=r5LBydtLIrNRvQiLTT+Wi1JMEKArOB+R2pQskNjuNkI=;
+        b=ZSw0aoRMLvZbSSnMCJ3QZohwaslueAWHLi09ViYQ3J/t/rWLY0iqOZt7Jvdu8KUxSF
+         QNvRYzyOGjOze+WSbXluYPmq2NZKP3+rDZwlNAh3y5USyTmYkous4tNwI+NoC0tCcc6U
+         KX7bzd5FHejMNrH9aGACV7e+6RsvDSu+XmUjb6Sqf7GBZnpBtccSwFZv6soPmV0sepV7
+         pvnkTypQuYKwaBOKT/MIwB+34zrc7JRaFsIFlvUapNaPgu1l28lElUyBLHH7SVREtlJL
+         J4W+LLWqb5Zwu4Sci1Kxd/v2/w2n7jlJMU0u6mi83HNRuQAH+TfIlystw5lC4ZWbkg3e
+         l7Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lZgDTTSEJ1Ucy+brcoKFAi14b2sQ840/PV5Nl226fHk=;
-        b=Hy8OewPILYpWZaiXsWMudzT8KMfi9YFd0Qdncxcw+NsFXOh3gK3FFztCTr73nqugv3
-         qUfjhnHln/NjnXNeU/9kqK01tU8TlZcrM4UJ3g7IaUdW3n3UpBtSF2bpLRKRnGfVI6ha
-         xxLbtyqWnvGslUcSoxTSJUV/YOK5lop+x4oFfbwUSYPC8Eh2NImKprUmYjjvIT96dLGm
-         Y4riZDdRk4ZHtxzhzduHYV9K11BzNnKwvLxyveRas0EIHHUmA9Yk3YEQiIcCDdWuCtR/
-         Qhb6J/AO1NcMG0GebwJkJLJgqWiXP1/h1+3AX6kTuOKa2QiRB12m2AHPvC3mvTkn6mtA
-         bWqg==
-X-Gm-Message-State: AOAM531Sw9QAGziVW4pMeCP3d4klsOEpbVUq8H2r0lN7AXeOElRxXrsJ
-	QnRJU+qo47yx20niZU6Kr08wkECDvQK4Nw==
-X-Google-Smtp-Source: ABdhPJyXFAlW8ncm+vtbvwLaaOk9/hyvao+DLzy1T+RvjdhB5XA/Vv2lrWC16uyi7smrlZd/tJtCrA==
-X-Received: by 2002:a17:906:cec3:: with SMTP id si3mr8598373ejb.277.1607112475723;
-        Fri, 04 Dec 2020 12:07:55 -0800 (PST)
+        bh=r5LBydtLIrNRvQiLTT+Wi1JMEKArOB+R2pQskNjuNkI=;
+        b=OP6/+DLhlqeqib7+FBOkVurLOBCKbjYi2X0L+OeqsHjUYgfY5LzaUBTbi7WjzNSbup
+         t56y/PyJqsyQaBLbqTg1sHQ9hWqRu7OSLt1O9myW+U53qzYkDTTZFxaiDQs69VCIZMUK
+         3D0W2XzobvVSDuUgBgiTnsYWK8qOehkwm9+5VG9/PrE20WhMDt5PShenapjACTRiq9UT
+         rM/M9e0a+U0vKAJgz8sMcL1gr3WmoCfFJQ65H2vhHCfS7TcqMq/Tqxkajjnro3LzXpnT
+         RvRtU3YF9P3uD664Ep6jUlOfePpiifNoAQynpjOjgsTim2rFkTfrWD/cX6uQAztGKm8T
+         Y9eQ==
+X-Gm-Message-State: AOAM533JTZiX6bltrEXa3hJRxqWbDe+2MxqHzO48XDTTBKO6kjEPBeua
+	ekIfeTI0mxeqcsfuBL4Mt8IqiCp9n/3/lg==
+X-Google-Smtp-Source: ABdhPJwZfS6t9L4KN/9ovn1YqGzTOGW1KaoFXmhYDhgQb9B6mYgdWQF4WWzHrXJBqd+Q9e9WQMO1lw==
+X-Received: by 2002:a17:906:5912:: with SMTP id h18mr8573892ejq.261.1607112476585;
+        Fri, 04 Dec 2020 12:07:56 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.54
+        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 12:07:55 -0800 (PST)
+        Fri, 04 Dec 2020 12:07:56 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 12/23] acpica: upgrade 20200925 -> 20201113
-Date: Fri,  4 Dec 2020 21:07:25 +0100
-Message-Id: <20201204200737.7072-12-alex.kanavin@gmail.com>
+Subject: [PATCH 13/23] grep: upgrade 3.5 -> 3.6
+Date: Fri,  4 Dec 2020 21:07:26 +0100
+Message-Id: <20201204200737.7072-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201204200737.7072-1-alex.kanavin@gmail.com>
 References: <20201204200737.7072-1-alex.kanavin@gmail.com>
@@ -53,25 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../acpica/{acpica_20200925.bb => acpica_20201113.bb}           | 2 +-
+ meta/recipes-extended/grep/{grep_3.5.bb => grep_3.6.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/acpica/{acpica_20200925.bb => acpica_20201113.bb} (94%)
+ rename meta/recipes-extended/grep/{grep_3.5.bb => grep_3.6.bb} (93%)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20200925.bb b/meta/recipes-extended/acpica/acpica_20201113.bb
-similarity index 94%
-rename from meta/recipes-extended/acpica/acpica_20200925.bb
-rename to meta/recipes-extended/acpica/acpica_20201113.bb
-index a6d8d67270..f2d17ca54e 100644
---- a/meta/recipes-extended/acpica/acpica_20200925.bb
-+++ b/meta/recipes-extended/acpica/acpica_20201113.bb
-@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- DEPENDS = "m4-native flex-native bison-native"
+diff --git a/meta/recipes-extended/grep/grep_3.5.bb b/meta/recipes-extended/grep/grep_3.6.bb
+similarity index 93%
+rename from meta/recipes-extended/grep/grep_3.5.bb
+rename to meta/recipes-extended/grep/grep_3.6.bb
+index 22ef70bc5b..edf9b29c8f 100644
+--- a/meta/recipes-extended/grep/grep_3.5.bb
++++ b/meta/recipes-extended/grep/grep_3.6.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
  
- SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
--SRC_URI[sha256sum] = "d44388e21e3d2e47c6d39e9c897935d3f775f04fec76271dcba072c74f834589"
-+SRC_URI[sha256sum] = "48c4e0c07b42581d017487cc9264470e6420605ddd24cbb5d16410d02a771461"
+ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
  
- UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+-SRC_URI[sha256sum] = "b82ac77707c2ab945520c8404c9fa9f890f7791a62cf2103cf6238acad87a44a"
++SRC_URI[sha256sum] = "667e15e8afe189e93f9f21a7cd3a7b3f776202f417330b248c2ad4f997d9373e"
+ 
+ inherit autotools gettext texinfo pkgconfig
  
 -- 
 2.29.2
