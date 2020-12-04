@@ -1,50 +1,50 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web08.20408.1607112474526966268
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.20365.1607112475439962425
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 12:07:54 -0800
+ Fri, 04 Dec 2020 12:07:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SDlI4Pt8;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id m19so10404233ejj.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kGQ9rslG;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id qw4so10408979ejb.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=d4/Zxclalua689M92IdGji7dVuWk/MJUwoHdfAYTo64=;
-        b=SDlI4Pt8iUJt0s3+fKRfxwG2rvLePPG+5yO3QzE5WmuimMavLMyJYfMosKAnWedAxY
-         XVUi72Fuv85hgenqausn9BmQ1baoVq38khaQBmkf5E1FOAezzwrf94fvB1XVFxBZOWWt
-         +UmUzF2gOWykmI8lhPx7wKUcsIbl4mISazp5/alpPjOoql057iKmj4gBA1exdex8gYu/
-         mqWepTFvczI4YxG7yRWshQd6cZTNFJSuMP25lNL6rK65hfQ/tUpSjPsd0P+07b0vrc+S
-         6NRBcTVD65nxKfaLnR7CjiyPobfXpiGD4/tGaKiCQYJHAwVwSh4VllAUumOHZ7r6r0IG
-         pOfg==
+        bh=59BhNX4VBeq3WoyfzH6/AO6k4WoZlwvRxZ/Ssm9ywMs=;
+        b=kGQ9rslGWlWAIVOfqkMGjJIVR9eGBSppXiUz7UoS1chpYp4rRCFpNMEFiKUvSpwa3e
+         42BpCWBS+d6wOX97Z+T35JQzbKvewfXmcpmvQu/d7zJsZwJJdpF/q9j3Wvz8erUrI94K
+         +idcVIMhnCjM71D3X9K3NqvJaDzqKghmA1cFYag4m+MtSigKcE/b6FpBFJVl+Okmwf56
+         NC55t49Bp2nAcIiXsDGKs0xdIWRs1wx8A7CwqigOYFhIGPFHrNBzyYmDqfB1an4CgtkP
+         SZlwa71MR9VKNi2cQwbF7k1HDFJpr1UdgSTna7ysqs9AcGmFLrU4gOEjsPzZmPqSp4cz
+         UE1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=d4/Zxclalua689M92IdGji7dVuWk/MJUwoHdfAYTo64=;
-        b=T/fMdlfpdKUU/LKZmnPG6zfXFmMVX1wF3M7rJ17aJXtiBaJmAyqU280znvZBfMuJe6
-         9cHuDWylZmYDEp41MiK00nNqjqk5lRDClOURBXbhnnLIPYktElsN7xi+xlpVhzo6jlTU
-         lc56G9cqruxZwa/RfW+2ty1qVd89Hf2zzekG9o161nJ7WPGljMREV2QMtmJ+YYfQhO9v
-         8S5USKu1eKAkT9Fy2uN5nIit+8I0Srm04fEelShPuhsVnFcy3ViWth0DzgkZP0C0qSLr
-         Q6ARfV/wM4bgdKZq4ZuSXHsd27bm/HiJoCNbBSDCxbOGLMJGiN9AjCnqn/5gPHsDM/Yc
-         aHYA==
-X-Gm-Message-State: AOAM532UkLi5LqWv+VwoFhEw/mkN7Jb7SHNGdyvaNr6XgiGXjTW80Ki4
-	rBZ1INfV+RxoucvLDaxAEgQRooXkCKzyTg==
-X-Google-Smtp-Source: ABdhPJzEFu8/SWZPzVvWAT1B4IaWSnv+0CpgvnnJDcwpGJVDV08H87Oztw2gVRdMgaNfKCEhhUkzIg==
-X-Received: by 2002:a17:906:3c11:: with SMTP id h17mr8558458ejg.20.1607112472884;
-        Fri, 04 Dec 2020 12:07:52 -0800 (PST)
+        bh=59BhNX4VBeq3WoyfzH6/AO6k4WoZlwvRxZ/Ssm9ywMs=;
+        b=StXLUPi5FJJzqF8XlMJL2G9QxAkmDI4pb+S6bJWgx/P2UOSpFEXhtjutT09LbRie8z
+         jBP8ANB9XsbOnFwDK17h+S7w249P6WeTsXUPp/9mGMNxQ31AWeQbC6WZWOqLId6wK7kR
+         Qf4le5VrZ9ma7rntA7MthG5vMuu4GNtNEQAJloCInDGGHX5y3PCPiNAzg9Zp+5JmVYdl
+         Sq2cMEhsEjek/uPkKrc3Qp0HupKut3dP5+RVseX3OZYTCvDnAm/8QGja5PXT7XAyphOv
+         PMgyjyZFeAXPI8Acn7P1+c7U2c2XedJk2CFCy/Sq0pDcOERCIQXwgiCSY3sWA8k1S5Ss
+         am0g==
+X-Gm-Message-State: AOAM531liq6O1i4K5kMciIp9WSn7EhwyRfL0WZaYlz0Cgc8HfqszD+UP
+	a0pY3GWAf+mS4gMWmjnlH20qBUhpgr2/Mg==
+X-Google-Smtp-Source: ABdhPJxROglAIVuC8nOtBoLAI0bz6AYFs3NK/6k8/elFCCcqW+ccrfbGwNVC7kQYXnn2+IvJCod/CA==
+X-Received: by 2002:a17:906:1744:: with SMTP id d4mr8877887eje.176.1607112473852;
+        Fri, 04 Dec 2020 12:07:53 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
         by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 12:07:52 -0800 (PST)
+        Fri, 04 Dec 2020 12:07:53 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 09/23] kea: upgrade 1.7.10 -> 1.8.1
-Date: Fri,  4 Dec 2020 21:07:22 +0100
-Message-Id: <20201204200737.7072-9-alex.kanavin@gmail.com>
+Subject: [PATCH 10/23] ifupdown: upgrade 0.8.35 -> 0.8.36
+Date: Fri,  4 Dec 2020 21:07:23 +0100
+Message-Id: <20201204200737.7072-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201204200737.7072-1-alex.kanavin@gmail.com>
 References: <20201204200737.7072-1-alex.kanavin@gmail.com>
@@ -53,25 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.8.1.bb} | 2 +-
+ .../ifupdown/{ifupdown_0.8.35.bb => ifupdown_0.8.36.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.8.1.bb} (96%)
+ rename meta/recipes-core/ifupdown/{ifupdown_0.8.35.bb => ifupdown_0.8.36.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.8.1.bb
-similarity index 96%
-rename from meta/recipes-connectivity/kea/kea_1.7.10.bb
-rename to meta/recipes-connectivity/kea/kea_1.8.1.bb
-index 1d011ace78..9b104a06df 100644
---- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.8.1.bb
-@@ -19,7 +19,7 @@ SRC_URI = "\
-     file://fix-multilib-conflict.patch \
-     file://fix_pid_keactrl.patch \
- "
--SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
-+SRC_URI[sha256sum] = "52020cb16889484b661746d7fc4c7cd88974b1af5b7fc436eb6e69c62eb83734"
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
+similarity index 97%
+rename from meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
+rename to meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
+index 53cb971d33..5b425da95c 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.36.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https \
+            file://run-ptest \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://tweak-ptest-script.patch', '', d)} \
+            "
+-SRCREV = "4af76318cfc57f8e4a44d357104188666213bd4b"
++SRCREV = "c73226073e2b13970ca613b20a13b9c0253bf9da"
  
- inherit autotools systemd update-rc.d upstream-version-is-even
+ S = "${WORKDIR}/git"
  
 -- 
 2.29.2
