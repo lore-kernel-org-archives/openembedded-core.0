@@ -1,50 +1,50 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web08.20409.1607112476419709497
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web09.20480.1607112477335368079
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 12:07:56 -0800
+ Fri, 04 Dec 2020 12:07:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KIYt03P8;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id f23so10467003ejk.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EcLNhZS7;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id qw4so10409103ejb.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=th0xRJS8agch+AZannnUCC1E2x2q/93sSn19G1K4nik=;
-        b=KIYt03P8AngqSafUR9+xVW5uGfTbt9tzEfydeA4OUGf9sCVH5CtoNFg4lwZD7gFyCG
-         G2mtU2DmGIzo7G6lgIOWSeM6DOiPTFBRGBkVW+jto/Q5a9spJZDOW6q4g8Y1D+tYarAL
-         ktcnUg/loxEsSrBVRz1eMVKMfTYRDkbLydFQhKBqsDli1r03l1DJvojUx3izy2s9srAe
-         oEh84UOIug5UmeLZhxavMHvEqFB1rVw9tPgRJQSJ6doKBWGtphe9MbvJHuG7RRg8KoIV
-         fBDApPyU0csvHKwEiggpgOhYK7R2pt9+0hOgXFqKpAzE53HSwhovYVFQD4f2C55wlt0p
-         zv/Q==
+        bh=lZgDTTSEJ1Ucy+brcoKFAi14b2sQ840/PV5Nl226fHk=;
+        b=EcLNhZS7X/r/VD589XBxjhz++zoz9NE5IjPyaZxx84vE+O+tEOuxQczuZSNOFPbtO8
+         PnVgNwgKg4yZqCLnpvrZmoYx6ycAgB9nx23f+vTsMaZxeWQaUvcNDNtUG2PbMjj1iSd1
+         eXNU8/4S/Qb+oxK6ajTcONnnVga5TAmeHKEQIvrM3Gbzt8GWC3LF8P4wx5ZVRsCYtxgn
+         SbORLaME8N3i8h6GIGdMCh/UaU3+4aDDE9wfE8Klwav8Lh4RwZp8ctP9ZaC0ZcawWWDc
+         SxQXthXOEW/1oue/Xf01HAxbs6Fh0DmhJAujBD4phtEWhhGAE3nxY6e/ejLh+KIM+qdL
+         A7HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=th0xRJS8agch+AZannnUCC1E2x2q/93sSn19G1K4nik=;
-        b=YDeK25Vl/6JtKNfgYEquZPiVJ1eLt7LeAXIfc7CjTZ8PSTZloSyLks0sos4bBmndQY
-         NYxoF3ga94d+CZoVjOSbsrEwSkHgsAUwSBLwQasXn+dalKe03R1WJMXaMTmaUoPT7Mg3
-         VzrsHbu3ZCtBSMWYYB2C+UZm0weMaX/pQmRslr0djfs37nfHBggNjzgG7u1PA3t2I47V
-         rTQUjykuZcHerb7AN4ps8L3rkjQySlFUi2JLixMFDmearU29LhEPhp6oiKhiPR2anFbM
-         zB6yGnqbCRJ1ui9FH8w9/u8jbWwdD0/EzYD1xgtjStYbIWLpLqIu+63Xv78p8ve/1Xzx
-         /7Ng==
-X-Gm-Message-State: AOAM532FpQj6Ff459a7LnlmZIdo1XXwkCsGcuecLAKJBQj5hxVRmd4tS
-	DO4r6ILYzhso/s+tIerZTa7lnGDvcz+VEA==
-X-Google-Smtp-Source: ABdhPJxJQbiAVh8m3gfMG5DE0NOtDNG33enAkCn+y6+TDtKMw10z943zBjlQZPcy6pR7172+CcYLyQ==
-X-Received: by 2002:a17:906:f1cc:: with SMTP id gx12mr8402903ejb.164.1607112474725;
-        Fri, 04 Dec 2020 12:07:54 -0800 (PST)
+        bh=lZgDTTSEJ1Ucy+brcoKFAi14b2sQ840/PV5Nl226fHk=;
+        b=Hy8OewPILYpWZaiXsWMudzT8KMfi9YFd0Qdncxcw+NsFXOh3gK3FFztCTr73nqugv3
+         qUfjhnHln/NjnXNeU/9kqK01tU8TlZcrM4UJ3g7IaUdW3n3UpBtSF2bpLRKRnGfVI6ha
+         xxLbtyqWnvGslUcSoxTSJUV/YOK5lop+x4oFfbwUSYPC8Eh2NImKprUmYjjvIT96dLGm
+         Y4riZDdRk4ZHtxzhzduHYV9K11BzNnKwvLxyveRas0EIHHUmA9Yk3YEQiIcCDdWuCtR/
+         Qhb6J/AO1NcMG0GebwJkJLJgqWiXP1/h1+3AX6kTuOKa2QiRB12m2AHPvC3mvTkn6mtA
+         bWqg==
+X-Gm-Message-State: AOAM531Sw9QAGziVW4pMeCP3d4klsOEpbVUq8H2r0lN7AXeOElRxXrsJ
+	QnRJU+qo47yx20niZU6Kr08wkECDvQK4Nw==
+X-Google-Smtp-Source: ABdhPJyXFAlW8ncm+vtbvwLaaOk9/hyvao+DLzy1T+RvjdhB5XA/Vv2lrWC16uyi7smrlZd/tJtCrA==
+X-Received: by 2002:a17:906:cec3:: with SMTP id si3mr8598373ejb.277.1607112475723;
+        Fri, 04 Dec 2020 12:07:55 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.53
+        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 12:07:54 -0800 (PST)
+        Fri, 04 Dec 2020 12:07:55 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/23] createrepo-c: upgrade 0.16.1 -> 0.16.2
-Date: Fri,  4 Dec 2020 21:07:24 +0100
-Message-Id: <20201204200737.7072-11-alex.kanavin@gmail.com>
+Subject: [PATCH 12/23] acpica: upgrade 20200925 -> 20201113
+Date: Fri,  4 Dec 2020 21:07:25 +0100
+Message-Id: <20201204200737.7072-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201204200737.7072-1-alex.kanavin@gmail.com>
 References: <20201204200737.7072-1-alex.kanavin@gmail.com>
@@ -53,25 +53,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{createrepo-c_0.16.1.bb => createrepo-c_0.16.2.bb}          | 2 +-
+ .../acpica/{acpica_20200925.bb => acpica_20201113.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.16.1.bb => createrepo-c_0.16.2.bb} (95%)
+ rename meta/recipes-extended/acpica/{acpica_20200925.bb => acpica_20201113.bb} (94%)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.1.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.2.bb
-similarity index 95%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.16.1.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.16.2.bb
-index 942741023f..2b552a4cdf 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.1.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.16.2.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
+diff --git a/meta/recipes-extended/acpica/acpica_20200925.bb b/meta/recipes-extended/acpica/acpica_20201113.bb
+similarity index 94%
+rename from meta/recipes-extended/acpica/acpica_20200925.bb
+rename to meta/recipes-extended/acpica/acpica_20201113.bb
+index a6d8d67270..f2d17ca54e 100644
+--- a/meta/recipes-extended/acpica/acpica_20200925.bb
++++ b/meta/recipes-extended/acpica/acpica_20201113.bb
+@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ DEPENDS = "m4-native flex-native bison-native"
  
--SRCREV = "634141eaefe0cc87466dfb91b07b64facce4384b"
-+SRCREV = "031f0524905c2a64a2faae555ca9d91281448d1b"
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "d44388e21e3d2e47c6d39e9c897935d3f775f04fec76271dcba072c74f834589"
++SRC_URI[sha256sum] = "48c4e0c07b42581d017487cc9264470e6420605ddd24cbb5d16410d02a771461"
  
- S = "${WORKDIR}/git"
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
  
 -- 
 2.29.2
