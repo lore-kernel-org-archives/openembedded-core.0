@@ -1,66 +1,94 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web09.14134.1607088602279575120
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web12.14413.1607090838998548347
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 05:30:02 -0800
+ Fri, 04 Dec 2020 06:07:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=iFvzLgcn;
- spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
-Subject: Re: [OE-core] [meta-oe][PATCH v4 1/3] introduce lib_subpackage
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1607088601;
-	bh=ZVw2wNr6mkwG/e48ifZOnZbCd26+y5DoH0QH6ZhnXZo=;
-	h=To:Cc:References:From:Date:In-Reply-To:From;
-	b=iFvzLgcnqa3jlpz1fDZC+h76LJSZnfP1JnJB4Af2JBOP0RkMi/x0qGYQFxiYyqgiy
-	 OZxN2bl/eBnoLF7QyunCYdCBEg4ss9/MEKecPGLZVpckU2c7K5Az49TL+py4uvy+Aq
-	 KfLUEDa8iSB2MICtwt2xTIqD3wngG/DY+GWBh4C7sAEcfoRHR9X6hvw8DZkNw3r4by
-	 dCqviYB4kEFA9rPYCO1gymZqJDolappVGP74Rndk6HtIhvqlO95KCKsYxW2qLzd5qX
-	 BaxbECXXSzYV5Ct7RTaA2xR8keE8AOBLvK+ERKElN6oUVyqI/GRlGI0/arICv9U+94
-	 1VJgmAF7TsYCw==
-To: pb@pbcl.net
-Cc: openembedded-core@lists.openembedded.org,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20201203232826.28519-1-okaya@kernel.org>
- <20201204110142.GV30831@pbcl.net>
-From: "Sinan Kaya" <okaya@kernel.org>
-Message-ID: <d7593470-039f-e4c4-e4a9-36c475cf99c0@kernel.org>
-Date: Fri, 4 Dec 2020 08:30:01 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=btqdeJnf;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.193, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f193.google.com with SMTP id o24so6764091ljj.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 06:07:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BcofiQFxFwbUgNWU7ezuNPwrLxng3mnk+myFVQpu3G4=;
+        b=btqdeJnfxUqJD79gFOIClsrksOPF0BtmYojnWZIY//3JYNTbyC3Hi329C8dvZL2rwj
+         lUOVj99TGcCk2YydknSSiNFfkOcf2O7MypK+/9Psvd0EjJrwb57cqSRBvCRCwL0twtC5
+         SMhSg9d0dV5nTFfC9D9viMe7YKHqqJu5ih6deE389ZEvgCBbHp3fr5SgQmNad+65olN5
+         1cshrmSfIgWPXajSI0hgBBPahbdHCC4bD7+5+WIDEOedujel6F92++j6SQSd98dEgWaN
+         toX0vumWzYNStaUss8hKFPcgzV5zC1tosXWrjgQMEz8qHV1xTpiuIy9L1dBZUEJ+xu5G
+         es+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BcofiQFxFwbUgNWU7ezuNPwrLxng3mnk+myFVQpu3G4=;
+        b=GJHmHARZN7CS42yMdh61h1CRqV/k9bPs+cJuEV2Wlhmw5Jl6LAQJrD7l/LOX7tdHzH
+         ApP9+Hc1MzUEGGc38ypbIdfOw8r2Jzl+qNUvL1qfvKXpgA7ToCDcN1IsRxxyHL3yxzq2
+         tLCez2djlFJfnnojloC1Nbw+lDQVqxsS0ftrVkQWSkOx3CjgbiKT38g+bAsnIEAxHN/I
+         UTKDaskxyoqoEBX1mm6sgJRVQWxvgABHY0oCqHlpBRCZFncXhLn6FkJx+Utqdqp4bUWo
+         R7Yrq+qy4YRiZZKSJcV+zgEfxeyrsQlYBUJ3yUSdapWHTFr1x81mOZAAkweYioOO+Qkd
+         RLEA==
+X-Gm-Message-State: AOAM533uFIFJQP94lEAPZ6UMOnpBGafO1Bd9cTVtU0iWLbMJbWhYayqd
+	HWHHcMBWPpPKCQXDYPPPFsi90IgVpPrIx+QQFhJ2+A==
+X-Google-Smtp-Source: ABdhPJxzsuLUubdQe7fJvnBNJEhYWIeIKYgVaQeqvG4KveTlWfLUIlusjI5Gi48Z6HQ8R/ClC31Gs0CpR18WwP/BcP4=
+X-Received: by 2002:a2e:b4ed:: with SMTP id s13mr3553489ljm.22.1607090836939;
+ Fri, 04 Dec 2020 06:07:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201204110142.GV30831@pbcl.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201203161611.1346206-1-ross.burton@arm.com> <ad40fd1f62c7d837ca8052a2931f73fda43dba7c.camel@linuxfoundation.org>
+In-Reply-To: <ad40fd1f62c7d837ca8052a2931f73fda43dba7c.camel@linuxfoundation.org>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 4 Dec 2020 14:07:03 +0000
+Message-ID: <CAAnfSTtrG4bQkEuj10dXD1wBCh1UzkHL5ai6HO5e=4GxNcqYdg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] oeqa/selftest/containerimage: update for improved cleanup
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Anibal Limon <anibal.limon@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 
-+Richard,
+Argh, sorry.  Meant to run it through a selftest before posting, but forgot.
 
-On 12/4/2020 6:01 AM, Phil Blundell via lists.openembedded.org wrote:
-> On Thu, Dec 03, 2020 at 11:28:24PM +0000, Sinan Kaya wrote:
->> This subclass allows us to easily split a recipe into
->> subpackages.
-> 
-> "lib_subpackage" seems a slightly odd name for something that isn't
-> dealing with libraries.  What's the etymology of that?
+Ross
 
-I'm open to giving it a better name. Richard pointed me to a file
-beginning with lib_foo.class for where this functionality could be
-hosted before.
-
-> 
->> +    d.appendVar("PACKAGES", " " + " ".join(packages))
->> +    d.appendVar("PROVIDES", " " + " ".join(packages))
-> 
-> It seems a bit strange to be putting the same things in PACKAGES and
-> PROVIDES.  Is that actually necessary?
-
-I want to be able to include procps-ps without the entire procps
-package. I was not able to do that without the above two lines.
-
-> 
-> p.
-> 
-> 
-> 
-> 
-> 
-
+On Fri, 4 Dec 2020 at 05:04, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2020-12-03 at 16:16 +0000, Ross Burton wrote:
+> > ldconfig/aux-cache isn't generated anymore, and the opkg directories
+> > are correctly removed now.
+> >
+> > Signed-off-by: Ross Burton <ross.burton@arm.com>
+> > ---
+> >  meta/lib/oeqa/selftest/cases/containerimage.py | 8 +-------
+> >  1 file changed, 1 insertion(+), 7 deletions(-)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/containerimage.py
+> > b/meta/lib/oeqa/selftest/cases/containerimage.py
+> > index 4ad7f0e654..5d498f5bf2 100644
+> > --- a/meta/lib/oeqa/selftest/cases/containerimage.py
+> > +++ b/meta/lib/oeqa/selftest/cases/containerimage.py
+> > @@ -58,13 +58,7 @@ IMAGE_INSTALL_remove = "ssh-pregen-hostkeys"
+> >                      '.{sysconfdir}/ld.so.cache',
+> >                      '.{sysconfdir}/timestamp',
+> >                      '.{sysconfdir}/version',
+> > -                    './run/',
+> > -                    '.{localstatedir}/cache/',
+> > -                    '.{localstatedir}/cache/ldconfig/',
+> > -                    '.{localstatedir}/cache/ldconfig/aux-cache',
+> > -                    '.{localstatedir}/cache/opkg/',
+> > -                    '.{localstatedir}/lib/',
+> > -                    '.{localstatedir}/lib/opkg/'
+> > +                    './run/'
+> >                  ]
+> >
+>
+> Nearly, but:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1602/steps/15/logs/stdio
+>
+> I've a fixup I'll test and squash in -next.
+>
+> Cheers,
+>
+> Richard
+>
