@@ -1,50 +1,50 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web09.20482.1607112481282937202
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.20368.1607112482093874958
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 12:08:01 -0800
+ Fri, 04 Dec 2020 12:08:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VVpRJcn4;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id cm17so7127530edb.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ta5XHfQu;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id qw4so10409407ejb.12
         for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:08:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wOKwxgfHo1UUalH/J5y1tu+9wPAz+LHoHKX23q8RpXs=;
-        b=VVpRJcn48N9GHcgsGC9+mm8nxP//quIyg2BAzzwLrQM3V3HgexFp1HwFl2jyKFxmZH
-         X9AlunQjshEiA66txwL+Afj/bfPGRMmniGtCicxZl1HD+cDyI0oNnWFWiKte1XqE1HA/
-         I+1+c9YdmIhAaPG6z6TG/u/JdYhRnIqBm+nFUdEgsu2JE88H+ooZOipmIQpciJ5KYiDc
-         t2G1jWg8V073crnTh8zHQHE9TXoPrOvJtioBmvH7gC8T9SMXEX85ErsVMeNChzw/g777
-         sLxgIKuzY0wxTd5vV6nYtVG1aBA3tRo8uaOdo0ZN7pEwZdXvCnOE/tWd4Jp15y9b7q/j
-         eHVA==
+        bh=06EtsO+QQXMWjLiuTp6ol1RGMkFUSh34TbkHwFRhG4A=;
+        b=ta5XHfQuG9BKPKUvHSPWsgYoF964aKSnOjm8OBnxNfGsrXcfqg19ZuLhJQquV3YBgY
+         MpO9dnbkq8R80c9ixiLNE9SD9WXGbS+9JUH9W4o01D9S6zgtLmZ5By9cQZSoWf+tl1sg
+         HENM9xJHbq0+T7YBenu+8u7y/YsoN0wSMoRB00NM2PvBS0RIMkQEFr04IMfljPX6NreZ
+         DgC2FdaLUtM2OzDMsBEUaM1KjXwjioto2TXnzA3DdDN6P3SAsMhIe+bC3cvOfJTrv8eA
+         0DFk8vba+3ZHpJtv5chlthf4Z4Io4F5kjP5emJGCqg7WzirPTTn88rvOhl3IywU6X03d
+         kBxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wOKwxgfHo1UUalH/J5y1tu+9wPAz+LHoHKX23q8RpXs=;
-        b=BTTftPLWV32vBacm89VlaNPpQcLCwcAN/PkMCSwlSgir1qm1U4pSYydo6P2xlNwu/B
-         AGFZTJ+x9/EV7AsmFFfCFuNo2+3Qn052POg21tFdAR+2rDKGw8FAFi3Anv7/HfZDGUk+
-         J7XP1s11iWjzZtRaa72B7wUq0OK+EKQCxRJp0LP5bISSYTqdVoATJ6/UfINce/Id8e4l
-         u/w7vXaCm88qYR7uz2rjKNOj6PJCN6yPFv032/oD0NAVf//UiKsLfUAsa4V4NmXSxeSI
-         Tq5oXxjhN2opnvsZf6yFCr4KQrEo0z6RojOlbq0c1vgzOBKWbu3MsBj6u2ygxpGs2Yrd
-         fbfA==
-X-Gm-Message-State: AOAM532PkfZZ7GtqopF/naBOOfMekKJAxTcYzNiluCuFvZqKZQP1/SU0
-	Ghk3ytKKIKZTI5MYMMiIW9uMayhyHcg8sg==
-X-Google-Smtp-Source: ABdhPJx6G4FxKErLZcdegjS1s9LD1HwhP+7hE/hC/Fq12AAqNJW0qHjNYchkArAols4HzHS4MyVbiw==
-X-Received: by 2002:aa7:ca41:: with SMTP id j1mr9425928edt.295.1607112479323;
-        Fri, 04 Dec 2020 12:07:59 -0800 (PST)
+        bh=06EtsO+QQXMWjLiuTp6ol1RGMkFUSh34TbkHwFRhG4A=;
+        b=BodjPklKL/g1epN25ZixKq14L0gT+jh3qRAiKEWZRAeSnBu4Y85eREUEPgLe/xmEYI
+         oFaD0ors9HvfQV+xDeOuT8f3vzk1MJ/g9vG5RYq/IDvmoogsdq9TUU4SPbVE1M+jyBeJ
+         NTxuY7AVlErtU3MfZmr8g7CjyRkpyDJ9d/frqDRXDxrEBbGmgZ7s3YHn1uwE+ZhqdJ5+
+         teUdo1wWRSEbTSzaJdZDQUSSLmjjuEtY0j06JqMt5gPdqlPqa130cGG2JRg29GQ4nCkW
+         vHbfMCZniu4WSf3K7PlAeikqqOoIJxbV1Lzu4iA52ZnlimSahGFeWAW7Pk33phlkcuCe
+         616Q==
+X-Gm-Message-State: AOAM533NFPMKBaYt2s4AndNgmJ3yKPDQjWWC2RkkHRD6TGM6XLcuYzQw
+	ktPYv5x194ozS4b8/tPWv/WVvN4wG9rjlg==
+X-Google-Smtp-Source: ABdhPJzRaxlfAeQwGScsKZI49la6J6+zBxVRYtDh6F4KElkp7Pz97+BrZckWUWLSmgv+Y2nfrHw2oQ==
+X-Received: by 2002:a17:907:2122:: with SMTP id qo2mr6602870ejb.539.1607112480523;
+        Fri, 04 Dec 2020 12:08:00 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.58
+        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 12:07:58 -0800 (PST)
+        Fri, 04 Dec 2020 12:08:00 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 16/23] libhandy: upgrade 1.0.1 -> 1.0.2
-Date: Fri,  4 Dec 2020 21:07:29 +0100
-Message-Id: <20201204200737.7072-16-alex.kanavin@gmail.com>
+Subject: [PATCH 17/23] piglit: upgrade to latest revision
+Date: Fri,  4 Dec 2020 21:07:30 +0100
+Message-Id: <20201204200737.7072-17-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201204200737.7072-1-alex.kanavin@gmail.com>
 References: <20201204200737.7072-1-alex.kanavin@gmail.com>
@@ -53,26 +53,22 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libhandy/{libhandy_1.0.1.bb => libhandy_1.0.2.bb}           | 2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/libhandy/{libhandy_1.0.1.bb => libhandy_1.0.2.bb} (91%)
 
-diff --git a/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb b/meta/recipes-gnome/libhandy/libhandy_1.0.2.bb
-similarity index 91%
-rename from meta/recipes-gnome/libhandy/libhandy_1.0.1.bb
-rename to meta/recipes-gnome/libhandy/libhandy_1.0.2.bb
-index 146ef62f41..4daa3c1a54 100644
---- a/meta/recipes-gnome/libhandy/libhandy_1.0.1.bb
-+++ b/meta/recipes-gnome/libhandy/libhandy_1.0.2.bb
-@@ -3,7 +3,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index a9d1d39dfe..6dacc4bcbf 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -11,7 +11,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- SRC_URI = "git://gitlab.gnome.org/GNOME/${BPN}.git;protocol=https"
--SRCREV = "5cee0927b8b39dea1b2a62ec6d19169f73ba06c6"
-+SRCREV = "465c00f8f80c27330be494ed7c0ba2ffe26321c4"
- S = "${WORKDIR}/git"
+-SRCREV = "59e695c16fdcdd4ea4f16365f0e397a93cef7b80"
++SRCREV = "0fda9f67a782edec640998286e7b6058e8933d17"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
  
- GIR_MESON_ENABLE_FLAG = 'enabled'
 -- 
 2.29.2
 
