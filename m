@@ -1,176 +1,143 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.20359.1607112470277853125
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.20360.1607112471136932240
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 12:07:50 -0800
+ Fri, 04 Dec 2020 12:07:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gaSAfIGK;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id bo9so10380111ejb.13
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FqczCci+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id ck29so7098610edb.8
         for <openembedded-core@lists.openembedded.org>; Fri, 04 Dec 2020 12:07:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=w2RwRmBKPt7p2erKxNDWh/q801ThrjMN4Dz5m/g8/C0=;
-        b=gaSAfIGKoV/o3gkFhclTbPGwJID/1Hf5HXxecNOB0D10bjgq+l1/mYkUuL0To44VqB
-         UdpMaPDxrSVoBC+24ksftTKusikXxJK4b+WXLLIZ38/f7MBJvetDprr6Sju7xqsSDHhY
-         OYmqgp+tyMEkR40nTTwneOc78xkEuXGDtcLHRosEno4WjZPWdPs/H8xLdy1fTvNyqFXi
-         0umf0Rg8mtVdJ+TzVHAHAAymJzpQXO+DHvrE25X4DSKWUMQ7muXZKX2YYMpUsR17DP6q
-         UeWqTX3yu1238DaylKp7RqREX6YSFoEQ9gzzXJE4X77ygbPXV8g/spsLDlNF4sGeAGzm
-         r7bw==
+        bh=nd0pgIB8vP3aN03EQf5QXCnX1BSSS9o4IvYTYJEH8lw=;
+        b=FqczCci+NH2EWZBxE7RF5H4SumwpCpGUL/9SaBz6LbGQQwDDoamSp13ccmtijzuqxX
+         G2x1qr6Gz69Th35TmW7CYZjbjQ9IPE40xaLGU0VR4F0cbgUEV7YfcPdzO1MLqW5LPj50
+         hl/kkEDSQ2cW71NrFRYztcMo8oe7XDJ4tdosKIYjWcih1IFcsiJwQsMdEuiOWsVjxuNv
+         ukSKJSJYdrJyTjD5+6GNf3AmrsgVAZmJXU3O5VXU/zOZ/fIpnZE6niUUExLiKFNHeXj9
+         +VRUSjgnBph2KMCzQJV5me5eEcs7tRNN+oeZF3HVUf/o1LY+cIiulR1UoOixeic1OmNM
+         Ib5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=w2RwRmBKPt7p2erKxNDWh/q801ThrjMN4Dz5m/g8/C0=;
-        b=genAE3rqQ8zpWZoc5UPmyR9X7njG+Mn7hXy4+jPo3ZGJy4ASr8DEoisAC619jtBEmD
-         DaDG/5t2diwfdmnR0+tjRIANXeZut1YHZlTG56P/ElazaxwkLAzSr7Akhpud8RsbNGl4
-         t3tjWMd6YX2FptMU64K0SBg2prPDSsylT8nQP2E4cm6oOtyL2hsQ/B7IxmwMbh/mtVHC
-         HnlA2Zk/OLlllSee2D9sKaq1kow6hLddfcTuAUJfcTgnXeqypcPm3NI6iF+UIAjp7HuP
-         siz5CdHvKxV0PHjiNwns6YBrziOkpg6G6wgIy1UNGNANeU8y9hO/koB0yAcu1D88b1Yt
-         96Aw==
-X-Gm-Message-State: AOAM530qqyg4ScNW3niq6F1HSmHqyZ2ohEP0mKggeSo/lKYi3/5bCqNP
-	rMSoOGWhEtSB85RpLuyrtZEykJcVpGXdqg==
-X-Google-Smtp-Source: ABdhPJzH3YNVdvRZKzGuVTpOY03OyYp9X+9p48qaijyRB47Oeb7K4qlmfwwf6hWHOaDpUIcr629qvw==
-X-Received: by 2002:a17:906:c096:: with SMTP id f22mr8489861ejz.488.1607112468593;
-        Fri, 04 Dec 2020 12:07:48 -0800 (PST)
+        bh=nd0pgIB8vP3aN03EQf5QXCnX1BSSS9o4IvYTYJEH8lw=;
+        b=fVlKo1DYlh+N/hItvJI2pVd5fLLUeXuKuMJKzJHiog0lAkiYWVgb0x+vbJFblYRiiE
+         6YgzjwzcdmYDC2+sgf3fwfqfFyq93+ZNsFybtKD0gVGizk7un+RkzXyA0IOXtJvCi47v
+         1xUplhMlLiiJyCjGdjKe7v4USFed9yvULOSo3dV7XBwkNgJf+273nvuthSv1E4Gnw5s6
+         Wiv64+0dYgSW2DNayqieo6Z6ZETKd7RGRLDn4YRLtQuUc+G9ymqHJVAPX8rMQpJeiG8X
+         F3G/laHthFggKmv3u6MZE9LJhWob3jZFgBiWn7o0eBQNKclLy/ETTSvcUHvX9qA/SlZM
+         Wvrw==
+X-Gm-Message-State: AOAM530vdu5FBxrHTQeQiNFK0etNGBzkMbPbpqDzDWoLiArprDVL4gpX
+	xrLyUTZ91ooROEJivfQDFHOUhjj7FP7J0Q==
+X-Google-Smtp-Source: ABdhPJwdJtgAeEj4KltlbQhqiYz8OoCQkQitKZIa3tVvk6y85x9QUm54R/dtkrKsiQu9/pjnZQPSMw==
+X-Received: by 2002:a50:cfcf:: with SMTP id i15mr9426419edk.351.1607112469452;
+        Fri, 04 Dec 2020 12:07:49 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.47
+        by smtp.gmail.com with ESMTPSA id d6sm3601660ejy.114.2020.12.04.12.07.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Fri, 04 Dec 2020 12:07:48 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 04/23] libcap: update 2.44 -> 2.45
-Date: Fri,  4 Dec 2020 21:07:17 +0100
-Message-Id: <20201204200737.7072-4-alex.kanavin@gmail.com>
+Subject: [PATCH 05/23] bind: upgrade 9.16.7 -> 9.16.9
+Date: Fri,  4 Dec 2020 21:07:18 +0100
+Message-Id: <20201204200737.7072-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201204200737.7072-1-alex.kanavin@gmail.com>
 References: <20201204200737.7072-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+License-Update: http -> https
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-tests-do-not-statically-link-a-test.patch | 36 +++++++++++++------
- ...-tests-do-not-run-target-executables.patch | 16 ++++-----
- .../libcap/{libcap_2.44.bb => libcap_2.45.bb} |  2 +-
- 3 files changed, 34 insertions(+), 20 deletions(-)
- rename meta/recipes-support/libcap/{libcap_2.44.bb => libcap_2.45.bb} (96%)
+ .../0001-avoid-start-failure-with-bind-user.patch             | 0
+ ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 0
+ ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 0
+ .../bind/{bind-9.16.7 => bind-9.16.9}/bind9                   | 0
+ .../bind/{bind-9.16.7 => bind-9.16.9}/conf.patch              | 0
+ .../bind/{bind-9.16.7 => bind-9.16.9}/generate-rndc-key.sh    | 0
+ .../init.d-add-support-for-read-only-rootfs.patch             | 0
+ .../make-etc-initd-bind-stop-work.patch                       | 0
+ .../bind/{bind-9.16.7 => bind-9.16.9}/named.service           | 0
+ .../bind/{bind_9.16.7.bb => bind_9.16.9.bb}                   | 4 ++--
+ 10 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.7 => bind-9.16.9}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.16.7.bb => bind_9.16.9.bb} (96%)
 
-diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-index d9fd48a9db..3c737b884e 100644
---- a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-+++ b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-@@ -1,4 +1,4 @@
--From 03e925f0d68bc51e1acf1ac2014a9c2452c664bf Mon Sep 17 00:00:00 2001
-+From c22c6c16362c7dbc8d6faea06edee5e07759c5fa Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 15 Jan 2020 17:16:28 +0100
- Subject: [PATCH] tests: do not statically link a test
-@@ -9,23 +9,37 @@ Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- ---
-+ progs/Makefile | 2 +-
-  tests/Makefile | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
- 
-+diff --git a/progs/Makefile b/progs/Makefile
-+index 1d7fc7a..37db8f7 100644
-+--- a/progs/Makefile
-++++ b/progs/Makefile
-+@@ -42,7 +42,7 @@ endif
-+ test: $(PROGS)
-+ 
-+ tcapsh-static: capsh.c $(DEPS)
-+-	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS) --static
-++	$(CC) $(IPATH) $(CAPSH_SHELL) $(CFLAGS) -o $@ $< $(LIBCAPLIB) $(LDFLAGS)
-+ 
-+ sudotest: test tcapsh-static
-+ 	sudo $(LDPATH) ./quicktest.sh
- diff --git a/tests/Makefile b/tests/Makefile
--index d569650..f5ca377 100644
-+index 3431df9..727fb86 100644
- --- a/tests/Makefile
- +++ b/tests/Makefile
--@@ -11,7 +11,7 @@ ifeq ($(DYNAMIC),yes)
-- LDPATH = LD_LIBRARY_PATH=../libcap
-- DEPSBUILD = all
-+@@ -22,7 +22,7 @@ ifeq ($(PTHREADS),yes)
-+ DEPS += ../libcap/libpsx.so
-+ endif
-  else
- -LDFLAGS += --static
--+LDFLAGS += 
-- DEPSBUILD = libcap.a libpsx.a
-- endif
-- 
--@@ -51,7 +51,7 @@ libcap_psx_launch_test: libcap_launch_test.c $(DEPS)
-++LDFLAGS +=
-+ DEPS=../libcap/libcap.a ../progs/tcapsh-static
-+ ifeq ($(PTHREADS),yes)
-+ DEPS +=  ../libcap/libpsx.a
-+@@ -106,7 +106,7 @@ noexploit: exploit.o $(DEPS)
-  
-  # This one runs in a chroot with no shared library files.
-  noop: noop.c
-diff --git a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-index bfce8e0547..69287152eb 100644
---- a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-+++ b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-@@ -1,4 +1,4 @@
--From 7744c1f678f5226a151bc6b2a254a56835229d91 Mon Sep 17 00:00:00 2001
-+From 652071e430d5eea758965176b7648e79ad404daa Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 20 Dec 2019 16:54:05 +0100
- Subject: [PATCH] tests: do not run target executables
-@@ -11,20 +11,20 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
- 
- diff --git a/tests/Makefile b/tests/Makefile
--index 8956d5d..d569650 100644
-+index fc39fee..3431df9 100644
- --- a/tests/Makefile
- +++ b/tests/Makefile
--@@ -27,13 +27,11 @@ sudotest: test run_libcap_launch_test run_libcap_launch_test
-- install: all
-+@@ -59,13 +59,11 @@ endif
-  
-+ # unprivileged
-  run_psx_test: psx_test
---	$(LDPATH) ./psx_test
-+-	./psx_test
-  
-  psx_test: psx_test.c $(DEPS)
-- 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBPSXLIB)
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LINKEXTRA) $(LIBPSXLIB) $(LDFLAGS)
-  
-  run_libcap_psx_test: libcap_psx_test
---	$(LDPATH) ./libcap_psx_test
-+-	./libcap_psx_test
-  
-  libcap_psx_test: libcap_psx_test.c $(DEPS)
-- 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) $(LDFLAGS)
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LINKEXTRA) $(LIBCAPLIB) $(LIBPSXLIB) $(LDFLAGS)
-diff --git a/meta/recipes-support/libcap/libcap_2.44.bb b/meta/recipes-support/libcap/libcap_2.45.bb
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.9/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.9/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/bind9 b/meta/recipes-connectivity/bind/bind-9.16.9/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/bind9
+rename to meta/recipes-connectivity/bind/bind-9.16.9/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.9/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.9/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.9/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.16.9/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.9/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.9/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.9/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.9/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.7/named.service b/meta/recipes-connectivity/bind/bind-9.16.9/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.7/named.service
+rename to meta/recipes-connectivity/bind/bind-9.16.9/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.7.bb b/meta/recipes-connectivity/bind/bind_9.16.9.bb
 similarity index 96%
-rename from meta/recipes-support/libcap/libcap_2.44.bb
-rename to meta/recipes-support/libcap/libcap_2.45.bb
-index 79875522d6..067ba32d99 100644
---- a/meta/recipes-support/libcap/libcap_2.44.bb
-+++ b/meta/recipes-support/libcap/libcap_2.45.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
-            file://0002-tests-do-not-run-target-executables.patch \
-            file://0001-tests-do-not-statically-link-a-test.patch \
+rename from meta/recipes-connectivity/bind/bind_9.16.7.bb
+rename to meta/recipes-connectivity/bind/bind_9.16.9.bb
+index fbe3de63cb..be8a294a43 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.7.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.9.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://www.isc.org/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "MPL-2.0"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=188b8d0644bd6835df43b84e3f180be1"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4673dc07337cace3b93c65e9ffe57b60"
+ 
+ DEPENDS = "openssl libcap zlib libuv"
+ 
+@@ -19,7 +19,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
             "
--SRC_URI[sha256sum] = "92188359cd5be86e8e5bd3f6483ac6ce582264f912398937ef763def2205c8e1"
-+SRC_URI[sha256sum] = "d66639f765c0e10557666b00f519caf0bd07a95f867dddaee131cd284fac3286"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+-SRC_URI[sha256sum] = "9f7d1812ebbd26a699f62b6fa8522d5dec57e4bf43af0042a0d60d39ed8314d1"
++SRC_URI[sha256sum] = "bcb292c4d738a46e3cbcb8afaa25ecf54f77652fa575135da9a2a1d525304a5a"
  
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.16 follow the ESV versions divisible by 4
 -- 
 2.29.2
 
