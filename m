@@ -1,85 +1,88 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by mx.groups.io with SMTP id smtpd.web10.673.1607120350317782551
+Received: from outbound-relay8.guardedhost.com (outbound-relay8.guardedhost.com [216.239.133.208])
+ by mx.groups.io with SMTP id smtpd.web10.1545.1607156600165580208
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Dec 2020 14:19:10 -0800
+ Sat, 05 Dec 2020 00:23:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=T8J1PaAl;
- spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: dmurphy@ti.com)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B4MJ6ZP006170;
-	Fri, 4 Dec 2020 16:19:06 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1607120346;
-	bh=FYbaGcAymvPujiqKLKJAbZAQf4kGPWUA2hUA7M4OT8Y=;
-	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=T8J1PaAl5EPX9ymsTeDny+PET2oxLElc7AXPoMCOX4UKIle5DMWw7wDC1YnJisPYG
-	 kynXK2EX7tY/NhTXoJa92uIjtKywNdFomkSDyf9AwAe3CH5AQ7FHm8K0gN42xGSNWX
-	 QzAYmbFnnoerL7LfDnkd2yMgWT/hZxVFsd5bYrRU=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B4MJ6fj032439
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 4 Dec 2020 16:19:06 -0600
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 4 Dec
- 2020 16:19:05 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 4 Dec 2020 16:19:05 -0600
-Received: from [10.250.40.192] (ileax41-snat.itg.ti.com [10.172.224.153])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B4MJ5nL024366;
-	Fri, 4 Dec 2020 16:19:05 -0600
-Subject: Re: [OE-core] [RFC]Backport of a patch from master to dunfell
-To: Steve Sakoman <steve@sakoman.com>
-CC: Bruce Ashfield <bruce.ashfield@gmail.com>,
-        Patches and discussions about
- the oe-core layer <openembedded-core@lists.openembedded.org>,
-        Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <8a9e9b68-8fc3-824e-a6aa-7556945cea59@ti.com>
- <CAOSpxdZFBi_3aOMUkzGR3juc_xfNb1EeMV6-oXmvEV2LEkw1JQ@mail.gmail.com>
-From: "Dan Murphy" <dmurphy@ti.com>
-Message-ID: <e75ef924-e626-1f7c-790a-a02a8179e432@ti.com>
-Date: Fri, 4 Dec 2020 16:19:05 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAOSpxdZFBi_3aOMUkzGR3juc_xfNb1EeMV6-oXmvEV2LEkw1JQ@mail.gmail.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+ dkim=missing; spf=pass (domain: snowmoose.com, ip: 216.239.133.208, mailfrom: alanp@snowmoose.com)
+Received: from mail.guardedhost.com (mx04.guardedhost.com [IPv6:2607:fe90:1:1::55:1])
+	by outbound-relay5.guardedhost.com (Postfix) with ESMTP id 4Cp2dg3MF6z8Tc;
+	Sat,  5 Dec 2020 08:23:19 +0000 (GMT)
+Received: from alaperry-ubuntu-build.43vr1hlvonre5le4v1ueig2kyb.xx.internal.cloudapp.net (unknown [52.151.43.11])
+	(Authenticated sender: alanp@snowmoose.com)
+	by mail.guardedhost.com (Postfix) with ESMTPSA id 4Cp2df396Mz30Lq;
+	Sat,  5 Dec 2020 08:23:18 +0000 (GMT)
+From: "Alan Perry" <alanp@snowmoose.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alan Perry <alanp@snowmoose.com>
+Subject: [PATCH v2 1/2] iproute2: install tools to mirror install under Debian/Ubuntu
+Date: Sat,  5 Dec 2020 08:22:45 +0000
+Message-Id: <20201205082246.14954-1-alanp@snowmoose.com>
+X-Mailer: git-send-email 2.17.1
+Authentication-Results: mail.guardedhost.com;auth=pass
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse-Id: 21492984-36D3-11EB-A7FF-961406491BCE
+X-Virus-Scanned: clamav-milter 0.102.2 at tev-mx4.omnis.com
+X-Virus-Status: Clean
 
-Steve
+Many scripts exist that expect the iproute2 tools to be found in
+the same directories where they are found in Debian or Ubuntu.
+For the iproute2 tools included in the iproute2 recipe, move
+them to those directories or create links there.. Also, add
+bash-completion files as is done by Debian and Ubuntu.
 
-Awesome thanks!
+Signed-off-by: Alan Perry <alanp@snowmoose.com>
+---
+ .../iproute2/iproute2.inc                     | 23 +++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-The 3 patches will fix our issues
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index 403d264308..de5c63a6e3 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -41,6 +41,23 @@ do_install () {
+     install -d ${D}${datadir}
+     mv ${D}/share/* ${D}${datadir}/ || true
+     rm ${D}/share -rf || true
++
++    install -d ${D}${base_bindir}
++    ln -s /sbin/ip ${D}${base_bindir}/ip
++    mv ${D}${base_sbindir}/ss ${D}${base_bindir}/ss
++
++    install -d ${D}${bindir}
++    mv ${D}${base_sbindir}/nstat ${D}${bindir}/nstat
++    mv ${D}${base_sbindir}/lnstat ${D}${bindir}/lnstat
++    mv ${D}${base_sbindir}/ctstat ${D}${bindir}/ctstat
++    mv ${D}${base_sbindir}/rtstat ${D}${bindir}/rtstat
++    mv ${D}${base_sbindir}/routef ${D}${bindir}/routef
++    mv ${D}${base_sbindir}/routel ${D}${bindir}/routel
++
++    if [ "${base_sbindir}" != "${sbindir}" ]; then
++        install -d ${D}${sbindir}
++        mv ${D}${base_sbindir}/genl ${D}${sbindir}/genl
++    fi
+ }
+ 
+ # The .so files in iproute2-tc are modules, not traditional libraries
+@@ -59,7 +76,8 @@ PACKAGES =+ "\
+ "
+ 
+ FILES_${PN}-tc = "${base_sbindir}/tc* \
+-                  ${libdir}/tc/*.so"
++                  ${libdir}/tc/*.so \
++                  ${datadir}/bash-completion/completions/tc"
+ FILES_${PN}-lnstat = "${base_sbindir}/lnstat \
+                       ${base_sbindir}/ctstat \
+                       ${base_sbindir}/rtstat"
+@@ -69,7 +87,8 @@ FILES_${PN}-rtacct = "${base_sbindir}/rtacct"
+ FILES_${PN}-nstat = "${base_sbindir}/nstat"
+ FILES_${PN}-ss = "${base_sbindir}/ss"
+ FILES_${PN}-tipc = "${base_sbindir}/tipc"
+-FILES_${PN}-devlink = "${base_sbindir}/devlink"
++FILES_${PN}-devlink = "${base_sbindir}/devlink \
++                       ${datadir}/bash-completion/completions/devlink"
+ 
+ ALTERNATIVE_${PN} = "ip"
+ ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
+-- 
+2.17.1
 
-Dan
-
-On 12/4/20 4:18 PM, Steve Sakoman wrote:
-> I sent a pull request yesterday for a series that includes this patch.
->
-> Richard will probably merge it to dunfell in the next day or two.
->
-> Steve
->
-> On Fri, Dec 4, 2020 at 11:30 AM Dan Murphy via lists.openembedded.org
-> <dmurphy=ti.com@lists.openembedded.org> wrote:
->> Hello
->>
->> How do we get this patch below backported to dunfell?
->>
->> https://git.openembedded.org/openembedded-core/commit/meta/classes/kernel.bbclass?h=gatesgarth&id=d9e327063f63193186822d958706081d64ec8139
->>
->> We at TI are seeing similar issues with Dunfell and cryptodev modules on
->> 5.10 builds.
->>
->> Dan
->>
->>
->>
->> 
->>
