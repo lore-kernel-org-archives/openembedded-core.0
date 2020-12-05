@@ -1,125 +1,98 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web08.7943.1607194316782180442
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web12.7915.1607194614866539341
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Dec 2020 10:51:57 -0800
+ Sat, 05 Dec 2020 10:56:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u8ebmhUI;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: jan.vermaete@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id b2so9392441edm.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Dec 2020 10:51:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MUb8erpO;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id m19so13556779ejj.11
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Dec 2020 10:56:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MEbWFw9Ld07FjewrvG3YQXfPcYA747DVXrlSxGYRcXA=;
-        b=u8ebmhUIRnV1yCoMaDt6p5y0Xz3z8jog1CHgg/OVhoh08x02FlJ6UemzvOJSXy6A1E
-         YdOcahM59N5987zAHnVNCA7mvj1X6LSqPhT2lG0Z6kyiDROF31txWe00km1tu0SyUKlQ
-         LU+k8pH84320+oGFe0wBGBCIuVHo3M9hpuOgdE58i7E15T8oKadR2sIB0z2hQryf89R6
-         Mpqvznsrtu67P1hEVwrwLy4MyDQ6HszaO2fB9dMPcR93IMEdxpZxXdmGTiWsujmKvGo8
-         AEZ6I50ivHLXqPVf+Nicu75P0HodFeireQ85OBQiamZOz+6PxW70/neiJ+Xp5JvGMtf8
-         5RBQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hZAKKJx6nznobFOEKydqUxVL5f1Tp14kagDcAC1kb3s=;
+        b=MUb8erpOa4rDyFQUFXvuZPOSpsuZFb0UHE4NgHOBTGkssIqgCmJf/pdK/9hO+GfnZU
+         +Qxx4khYF/0/ZC1q14clIXIJvq4DqtFx6HppAD+751hRGsTfTkDZ5LwGJEmCb1zZPmhB
+         /yHi9lH3ODnj88iKQOhccS1nPu7YijII3YyrGMseD/nW9Q8sEBnlBwXCbb0t116SJYuT
+         s1+vGMhZCDhScUQV9RvOWvJEFZsLSfR3lMSu47vyb6UjLM/tiujuJ7yv3MybDqG4MZK0
+         6uxyKIHTbqFBDVsJ99rnKJg3BeTc1CAI+zPJo9WjsChBCe4WT9xJ/k9Ax/OxQOpsBZ1Q
+         wJTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MEbWFw9Ld07FjewrvG3YQXfPcYA747DVXrlSxGYRcXA=;
-        b=WGZrzuH973YLsPSDhxV3LJh+yGCsqZv+CMk9ZoxWQIr2qwvugCe5+ixTVpQJUfn2Ze
-         ZqFrrYRWlTYgyns7TSNF8ntYH61h2yPQAjMZ9Thtib4KllQwMJgwPndGA6WjDM/6/JC7
-         pRixO2l2yrkO26C4XqI6JudJkjr9LmI4VUDkzhj8XmTZHQl2P5wk9fUCZMsnChFTTzln
-         5ydUzKu4lTw/ODzWHkYkUo94nQQ8l0nvWbhg8KcTsmOcHMdi07QFCJwyu97Y/NyAQ4Rw
-         1zRdBE5LkVTmlbJIg7fTCSY931RwMTpzn7yTTn9h2PcBb9UyqewAyMkUptlPl31o1eOu
-         CC/Q==
-X-Gm-Message-State: AOAM531Yu/JyF60UJmNC1kChZOHis+MfGlyQy/vvM6Pa9dY0aCjGoBiV
-	A2VK8d2pqEO4UFBr5kZSmHJD+ScKAAFRJw==
-X-Google-Smtp-Source: ABdhPJz8CwEpGSnRMJ6RActRX+gxSQrLizYuIq1Rxig6Dd50e8NGP+JLxyuJGQ150cEwK2xSxs0SxA==
-X-Received: by 2002:aa7:de0f:: with SMTP id h15mr1393296edv.110.1607194314906;
-        Sat, 05 Dec 2020 10:51:54 -0800 (PST)
-Return-Path: <jan.vermaete@gmail.com>
-Received: from localhost.localdomain (78-20-166-56.access.telenet.be. [78.20.166.56])
-        by smtp.googlemail.com with ESMTPSA id v24sm6203882edw.23.2020.12.05.10.51.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Dec 2020 10:51:54 -0800 (PST)
-From: "jan" <jan.vermaete@gmail.com>
-X-Google-Original-From: Jan Vermaete <jan.vermaet@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jan Vermaete <jan.vermaete@gmail.com>
-Subject: [PATCH] common-licenses: add OpenDDS
-Date: Sat,  5 Dec 2020 19:49:34 +0100
-Message-Id: <20201205184934.6105-1-jan.vermaet@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hZAKKJx6nznobFOEKydqUxVL5f1Tp14kagDcAC1kb3s=;
+        b=M+Zhv+PGoo8kIv3SZI6rhF7B2jtsvAksrFgonj15+Bi1xQw+gIjTH0XTMiFGpCKwuV
+         G7a0v67K4yWbV0X0n1NjDZmynP196O0rJ1Pou/W560zMhVK1NbDnnoku3KU77V4uVmcX
+         /sh8VaMrkMMbkUOdXKgylfYYx4pz/6TYbgx4EbT0Qc0q3bQn1rTiPr7u/sek3m693DTn
+         PXuYdF25iecRn81F7500PO+cqeQcfqMmQirtI4j7iUTkGbaTxZFzsLsvKe7ZyYccakE/
+         6wozIukA1Ybh4KG0Di0p7dN/JNPC0dx7EP5EIZ7b3kmqdU8vs44MilMirT9Boxi8Vz8K
+         S78Q==
+X-Gm-Message-State: AOAM530QHoZ59x/e75VoV++DP3P0ZngBimMX6Ng8NZMq35Lj7mkcpkOD
+	5nuuFNga6tz7gOQF1+HUscJ9SgxE0NsZna+XZDY=
+X-Google-Smtp-Source: ABdhPJywEyELa/qOVMjo3gd9NUpitYciwpIhLNjS4kguzs7FP4Na46mUbuuplV97FSzX8rE4b2v2SoAObV4GtU6TLqg=
+X-Received: by 2002:a17:906:fa8b:: with SMTP id lt11mr12383376ejb.94.1607194612981;
+ Sat, 05 Dec 2020 10:56:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201205184934.6105-1-jan.vermaet@gmail.com>
+In-Reply-To: <20201205184934.6105-1-jan.vermaet@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Sat, 5 Dec 2020 19:56:41 +0100
+Message-ID: <CA+chaQdstPg9_ty5ZoqxLwewf5Db_iWGj2ZfEggZe5+PH7ujVw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] common-licenses: add OpenDDS
+To: jan <jan.vermaete@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000fde84105b5bc274a"
 
-From: Jan Vermaete <jan.vermaete@gmail.com>
+--000000000000fde84105b5bc274a
+Content-Type: text/plain; charset="UTF-8"
 
-This is the license of OpenDDS found at
-https://github.com/objectcomputing/OpenDDS
-as LICENSE at commit 11b2e4771fa323485c0f231f7fa4030feedae9a0.
+On Sat, Dec 5, 2020 at 7:52 PM jan <jan.vermaete@gmail.com> wrote:
 
-They have a meta layer at https://github.com/oci-labs/meta-opendds
+> From: Jan Vermaete <jan.vermaete@gmail.com>
+>
+> This is the license of OpenDDS found at
+> https://github.com/objectcomputing/OpenDDS
+> as LICENSE at commit 11b2e4771fa323485c0f231f7fa4030feedae9a0.
+>
+> They have a meta layer at https://github.com/oci-labs/meta-opendds
 
-Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
----
- meta/files/common-licenses/OpenDDS | 50 ++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
- create mode 100644 meta/files/common-licenses/OpenDDS
 
-diff --git a/meta/files/common-licenses/OpenDDS b/meta/files/common-licenses/OpenDDS
-new file mode 100644
-index 0000000000..e743a00e3a
---- /dev/null
-+++ b/meta/files/common-licenses/OpenDDS
-@@ -0,0 +1,50 @@
-+OpenDDS (Licensed Product) is protected by copyright, and is
-+distributed under the following terms.
-+
-+OpenDDS is an open source implementation of the Object Management Group
-+(OMG) Data Distribution Service (DDS), developed and copyrighted by
-+Object Computing Incorporated (OCI). OpenDDS is both a multi-language
-+and multi-platform implementation. The OMG DDS specification is intended
-+to be suitable for systems whose requirements include real-time, high
-+volume, robustness, failure tolerant data distribution utilizing a
-+publish and subscribe model.
-+
-+Since OpenDDS is open source and free of licensing fees, you are free
-+to use, modify, and distribute the source code, as long as you include
-+this copyright statement.
-+
-+In particular, you can use OpenDDS to build proprietary software and
-+are under no obligation to redistribute any of your source code that
-+is built using OpenDDS. Note however, that you may not do anything to
-+the OpenDDS code, such as copyrighting it yourself or claiming
-+authorship of the OpenDDS code, that will prevent OpenDDS from being
-+distributed freely using an open source development model.
-+
-+Warranty
-+
-+LICENSED PRODUCT IS PROVIDED AS IS WITH NO WARRANTIES OF ANY KIND
-+INCLUDING THE WARRANTIES OF DESIGN, MERCHANTABILITY AND FITNESS FOR A
-+PARTICULAR PURPOSE, NON-INFRINGEMENT, OR ARISING FROM A COURSE OF
-+DEALING, USAGE OR TRADE PRACTICE.
-+
-+Support
-+
-+LICENSED PRODUCT IS PROVIDED WITH NO SUPPORT AND WITHOUT ANY
-+OBLIGATION ON THE PART OF OCI OR ANY OF ITS SUBSIDIARIES OR AFFILIATES
-+TO ASSIST IN ITS USE, CORRECTION, MODIFICATION OR ENHANCEMENT.
-+
-+Support may be available from OCI to users who have agreed to a
-+support contract.
-+
-+Liability
-+
-+OCI OR ANY OF ITS SUBSIDIARIES OR AFFILIATES SHALL HAVE NO LIABILITY
-+WITH RESPECT TO THE INFRINGEMENT OF COPYRIGHTS, TRADE SECRETS OR ANY
-+PATENTS BY LICENSED PRODUCT OR ANY PART THEREOF.
-+
-+IN NO EVENT WILL OCI OR ANY OF ITS SUBSIDIARIES OR AFFILIATES BE
-+LIABLE FOR ANY LOST REVENUE OR PROFITS OR OTHER SPECIAL, INDIRECT AND
-+CONSEQUENTIAL DAMAGES, EVEN IF OCI HAS BEEN ADVISED OF THE POSSIBILITY
-+OF SUCH DAMAGES.
-+
-+OpenDDS copyright OCI. St. Louis MO USA, 2005
--- 
-2.25.1
+Why not add it in meta-opendds layer?
 
+LICENSE_PATH += "${LAYERDIR}/licenses"
+in meta-opendds/conf/layer.conf and meta-opendds/licenses/OpenDDS
+
+If you don't expect other recipes outside this layer using this license,
+then it doesn't belong to oe-core.
+
+Regards,
+
+--000000000000fde84105b5bc274a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Dec 5, 2020 at 7:52 PM jan &l=
+t;<a href=3D"mailto:jan.vermaete@gmail.com">jan.vermaete@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Jan=
+ Vermaete &lt;<a href=3D"mailto:jan.vermaete@gmail.com" target=3D"_blank">j=
+an.vermaete@gmail.com</a>&gt;<br>
+<br>
+This is the license of OpenDDS found at<br>
+<a href=3D"https://github.com/objectcomputing/OpenDDS" rel=3D"noreferrer" t=
+arget=3D"_blank">https://github.com/objectcomputing/OpenDDS</a><br>
+as LICENSE at commit 11b2e4771fa323485c0f231f7fa4030feedae9a0.<br>
+<br>
+They have a meta layer at <a href=3D"https://github.com/oci-labs/meta-opend=
+ds" rel=3D"noreferrer" target=3D"_blank">https://github.com/oci-labs/meta-o=
+pendds</a></blockquote><div><br></div><div>Why not add it in meta-opendds l=
+ayer?</div><div><br></div><div>LICENSE_PATH +=3D &quot;${LAYERDIR}/licenses=
+&quot;</div><div>in meta-opendds/conf/layer.conf and meta-opendds/licenses/=
+OpenDDS</div><div><br></div><div>If you don&#39;t expect other recipes outs=
+ide this layer using this license, then it doesn&#39;t belong to oe-core.</=
+div><div><br></div><div>Regards,</div></div></div>
+
+--000000000000fde84105b5bc274a--
