@@ -1,155 +1,121 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.6183.1607348551770977683
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web09.6619.1607350367292078744
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Dec 2020 05:42:32 -0800
+ Mon, 07 Dec 2020 06:12:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: brett.warren@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2BB2101E
-	for <openembedded-core@lists.openembedded.org>; Mon,  7 Dec 2020 05:42:30 -0800 (PST)
-Received: from e125157.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 03E0A3F718
-	for <openembedded-core@lists.openembedded.org>; Mon,  7 Dec 2020 05:42:29 -0800 (PST)
-From: "Brett Warren" <brett.warren@arm.com>
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=iNVxIPsH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f176.google.com with SMTP id e2so631537pgi.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Dec 2020 06:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=vBCgSdEtYtHej++EDwq0swtST7TXkIhxgrJZizaiUEs=;
+        b=iNVxIPsHKJwZ29pXv4Hme9z+0llOlPg6yrb0JMlcfQeHwmCbhMUMFF9mTJV3wJYJT5
+         PpGE1/G3TJ+WjU2pVNzRL/0kdH5T2hX78ckD1fsWjGZr49mtl4cYy9ho12VJSPuz383V
+         UYZNxd1eXFSbe46qOPQ5JtxxKDb4XcTf5o+VVX1Tp2VOHWeic8przuhJ8qTCiEnmbcE0
+         o2Hp1dxQ4sHuR6dtNfmfduIYJ1YgEHYce2MfzsA1ycKtPBFwNmrLhlhrbe8xTD/2TYuu
+         Biw+WFZ48O3r95vUD9S1r64N5jqzhuPTQYa4PjJPRtCakvfdykrH/ySQpHI1WWzTyjD/
+         ullA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=vBCgSdEtYtHej++EDwq0swtST7TXkIhxgrJZizaiUEs=;
+        b=r/dtzZJIkuuoGqPCTeHuWA+Yu1WaCER9Mf0PpEBEsBcPofvgqyG4cPI7i14U8prULW
+         g0DO880UCx0oegTO0UdLXTtdqXjNH/G0nJ7T3LhYnee88BDVrcafqKIcet/gZAOqMQSD
+         uEByZiIxhgfsaEN98HODivXkoat5H0b9gLIsQVTGSLTbLkvh6W0R4UOIXKY74EVAHTGc
+         DuKm1CeDEtjbkieKFYYcMEFXe7mvCyn3f4Do1w5I5QB5V0YW+W7Txd+GSDFzHOZtVZHs
+         /x7upBxJfpK7exFORykSJulOOD+j4kMnEGLS2j2jL1IZ0YVQJ7mfyGPKK1608tc/9f97
+         m2Kw==
+X-Gm-Message-State: AOAM530tTcdk05+LFV3Y26xMBhs+5hgKe5/mRS4QQYj9FSco0TLrOAnq
+	Ap2lMdvWupxmrRJk3eJRWYXvUIPNlGarxUHS
+X-Google-Smtp-Source: ABdhPJxY5KC2VOJND8jED3ET/YaBkOeRTxEJT35W9dVoaCFhnvYFoZGyyyyJHygUx0bzTjenhowzpg==
+X-Received: by 2002:a17:902:22e:b029:d9:e591:7bd1 with SMTP id 43-20020a170902022eb02900d9e5917bd1mr16502425plc.50.1607350365947;
+        Mon, 07 Dec 2020 06:12:45 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id u3sm14848093pfu.47.2020.12.07.06.12.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Dec 2020 06:12:44 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libffi: add patch to revert clang VFP workaround
-Date: Mon,  7 Dec 2020 13:42:23 +0000
-Message-Id: <20201207134223.5298-1-brett.warren@arm.com>
+Subject: [OE-core][dunfell 0/9] Patch review
+Date: Mon,  7 Dec 2020 04:12:17 -1000
+Message-Id: <cover.1607350153.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 
-Patch is added to address an issue preventing libffi
-from compiling under clang.
+Please review this next set of patches for dunfell and have comments back by
+Wednesday end of day.
 
-Change-Id: I55e36d252ec8e84de9b35fea18044c2c0e8c5aab
-Signed-off-by: Brett Warren <brett.warren@arm.com>
----
- ...m-sysv-reverted-clang-VFP-mitigation.patch | 104 ++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.3.bb     |   1 +
- 2 files changed, 105 insertions(+)
- create mode 100644 meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch
+Passed a-full on autobuilder:
 
-diff --git a/meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch b/meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch
-new file mode 100644
-index 0000000000..782dce70d8
---- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch
-@@ -0,0 +1,104 @@
-+From 501a6b55853af549fae72723e74271f2a4ec7cf6 Mon Sep 17 00:00:00 2001
-+From: Brett Warren <brett.warren@arm.com>
-+Date: Fri, 27 Nov 2020 15:28:42 +0000
-+Subject: [PATCH] arm/sysv: reverted clang VFP mitigation
-+
-+Since commit e3d2812ce43940aacae5bab2d0e965278cb1e7ea,
-+seperate instructions were used when compiling under clang, 
-+as clang didn't allow the directives at the time. This mitigation
-+now causes compilation to fail under clang 10, as described by 
-+https://github.com/libffi/libffi/issues/607. Now that
-+clang supports the LDC and SDC instructions, this mitigation
-+has been reverted.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Brett Warren <brett.warren@arm.com>
-+---
-+ src/arm/sysv.S | 33 ---------------------------------
-+ 1 file changed, 33 deletions(-)
-+
-+diff --git a/src/arm/sysv.S b/src/arm/sysv.S
-+index 63180a4..e3ce526 100644
-+--- a/src/arm/sysv.S
-++++ b/src/arm/sysv.S
-+@@ -128,13 +128,8 @@ ARM_FUNC_START(ffi_call_VFP)
-+ 	cfi_startproc
-+ 
-+ 	cmp	r3, #3			@ load only d0 if possible
-+-#ifdef __clang__
-+-	vldrle d0, [sp]
-+-	vldmgt sp, {d0-d7}
-+-#else
-+ 	ldcle	p11, cr0, [r0]		@ vldrle d0, [sp]
-+ 	ldcgt	p11, cr0, [r0], {16}	@ vldmgt sp, {d0-d7}
-+-#endif
-+ 	add	r0, r0, #64		@ discard the vfp register args
-+ 	/* FALLTHRU */
-+ ARM_FUNC_END(ffi_call_VFP)
-+@@ -172,25 +167,13 @@ ARM_FUNC_START(ffi_call_SYSV)
-+ 	nop
-+ 0:
-+ E(ARM_TYPE_VFP_S)
-+-#ifdef __clang__
-+-	vstr s0, [r2]
-+-#else
-+ 	stc	p10, cr0, [r2]		@ vstr s0, [r2]
-+-#endif
-+ 	pop	{fp,pc}
-+ E(ARM_TYPE_VFP_D)
-+-#ifdef __clang__
-+-	vstr d0, [r2]
-+-#else
-+ 	stc	p11, cr0, [r2]		@ vstr d0, [r2]
-+-#endif
-+ 	pop	{fp,pc}
-+ E(ARM_TYPE_VFP_N)
-+-#ifdef __clang__
-+-	vstm r2, {d0-d3}
-+-#else
-+ 	stc	p11, cr0, [r2], {8}	@ vstm r2, {d0-d3}
-+-#endif
-+ 	pop	{fp,pc}
-+ E(ARM_TYPE_INT64)
-+ 	str	r1, [r2, #4]
-+@@ -287,11 +270,7 @@ ARM_FUNC_START(ffi_closure_VFP)
-+ 	add	ip, sp, #16
-+ 	sub	sp, sp, #64+32			@ allocate frame
-+ 	cfi_adjust_cfa_offset(64+32)
-+-#ifdef __clang__
-+-	vstm sp, {d0-d7}
-+-#else
-+ 	stc	p11, cr0, [sp], {16}		@ vstm sp, {d0-d7}
-+-#endif
-+ 	stmdb	sp!, {ip,lr}
-+ 
-+ 	/* See above.  */
-+@@ -320,25 +299,13 @@ ARM_FUNC_START_LOCAL(ffi_closure_ret)
-+ 	cfi_rel_offset(lr, 4)
-+ 0:
-+ E(ARM_TYPE_VFP_S)
-+-#ifdef __clang__
-+-	vldr s0, [r2]
-+-#else
-+ 	ldc	p10, cr0, [r2]			@ vldr s0, [r2]
-+-#endif
-+ 	ldm	sp, {sp,pc}
-+ E(ARM_TYPE_VFP_D)
-+-#ifdef __clang__
-+-	vldr d0, [r2]
-+-#else
-+ 	ldc	p11, cr0, [r2]			@ vldr d0, [r2]
-+-#endif
-+ 	ldm	sp, {sp,pc}
-+ E(ARM_TYPE_VFP_N)
-+-#ifdef __clang__
-+-	vldm r2, {d0-d3}
-+-#else
-+ 	ldc	p11, cr0, [r2], {8}		@ vldm r2, {d0-d3}
-+-#endif
-+ 	ldm	sp, {sp,pc}
-+ E(ARM_TYPE_INT64)
-+ 	ldr	r1, [r2, #4]
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/libffi/libffi_3.3.bb b/meta/recipes-support/libffi/libffi_3.3.bb
-index 9dfdb9e39b..10ef003242 100644
---- a/meta/recipes-support/libffi/libffi_3.3.bb
-+++ b/meta/recipes-support/libffi/libffi_3.3.bb
-@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=492385fe22195952f5b9b197868ba268"
- SRC_URI = "https://github.com/libffi/libffi/releases/download/v${PV}/${BPN}-${PV}.tar.gz \
-            file://not-win32.patch \
-            file://0001-Fixed-missed-ifndef-for-__mips_soft_float.patch \
-+           file://0001-arm-sysv-reverted-clang-VFP-mitigation.patch \
-            file://0001-powerpc-fix-build-failure-on-power7-and-older-532.patch \
-            file://0001-Address-platforms-with-no-__int128.patch \
-            file://0001-Address-platforms-with-no-__int128-part2.patch \
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1648
+
+The following changes since commit 071806feb195961e59069f778c9ae8f27a739d9a:
+
+  e2fsprogs: Fix a ptest permissions determinism issue (2020-11-30 12:05:57 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (8):
+  linux-yocto/5.4: update to v5.4.71
+  linux-yocto/5.4: update to v5.4.72
+  linux-yocto/5.4: update to v5.4.73
+  linux-yocto/5.4: config cleanup / warnings
+  linux-yocto/5.4: update to v5.4.75
+  linux-yocto/5.4: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
+    arches with 64bit time_t
+  linux-yocto/5.4: update to v5.4.78
+  lttng-modules: add post 2.11.6 patches
+
+Lee Chee Yang (1):
+  go: update to 1.14.12
+
+ meta/recipes-devtools/go/go-1.14.inc          |   5 +-
+ ...t-CGO_LDFLAGS-to-appear-in-go-ldflag.patch |  98 ++++++
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ ...ncpy-equals-destination-size-warning.patch |  42 +++
+ ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 +++++
+ ...oints-output-proper-root-owner-for-t.patch | 316 ++++++++++++++++++
+ ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++
+ ...ext4-fast-commit-recovery-path-v5.10.patch |  91 +++++
+ ...intr-vectoring-info-and-error-code-t.patch | 124 +++++++
+ ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 +++++
+ ...Return-unique-RET_PF_-values-if-the-.patch |  71 ++++
+ ...int-Optimize-using-static_call-v5.10.patch | 155 +++++++++
+ ...-fix-include-order-for-older-kernels.patch |  31 ++
+ .../0011-Add-release-maintainer-script.patch  |  59 ++++
+ .../0012-Improve-the-release-script.patch     | 173 ++++++++++
+ ...fix-ext4-fast-commit-recovery-path-v.patch |  32 ++
+ ...-fix-include-order-for-older-kernels.patch |  32 ++
+ ...fix-tracepoint-Optimize-using-static.patch |  46 +++
+ ...ion-range-for-trace_find_free_extent.patch |  30 ++
+ .../lttng/lttng-modules_2.11.6.bb             |  16 +
+ 22 files changed, 1686 insertions(+), 20 deletions(-)
+ create mode 100644 meta/recipes-devtools/go/go-1.14/0010-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-strncpy-equals-destination-size-warning.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-fast-commit-recovery-path-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-KVM-x86-Add-intr-vectoring-info-and-error-code-t.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0008-fix-KVM-x86-mmu-Return-unique-RET_PF_-values-if-the-.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-tracepoint-Optimize-using-static_call-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-include-order-for-older-kernels.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0011-Add-release-maintainer-script.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-Improve-the-release-script.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0013-fix-backport-of-fix-ext4-fast-commit-recovery-path-v.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-Revert-fix-include-order-for-older-kernels.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0015-fix-backport-of-fix-tracepoint-Optimize-using-static.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-adjust-version-range-for-trace_find_free_extent.patch
+
 -- 
 2.17.1
 
