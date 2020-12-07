@@ -1,107 +1,115 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.721.1607278693141777628
+Received: from NAM02-CY1-obe.outbound.protection.outlook.com (NAM02-CY1-obe.outbound.protection.outlook.com [40.107.76.72])
+ by mx.groups.io with SMTP id smtpd.web10.3836.1607332553179898739
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Dec 2020 10:18:13 -0800
+ Mon, 07 Dec 2020 01:15:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1a/vZUSI;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id x4so5950193pln.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Dec 2020 10:18:13 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=X7V5uPS1;
+ spf=pass (domain: windriver.com, ip: 40.107.76.72, mailfrom: kexin.hao@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Km7BNWc2/CpIaDkRaHnvsW1C97o6lG6OAiWElpQLr4pULZkuPjOY82Vic4FoB8VIvdMELWBInNiUTS8i+I0Lob2ka7rVRvumz5ODYkDge6SvgraCEwi7zo37Ou61a2g8EoxdCbska47hOt3NSMHmemBJ5B/rqkLW+yOSmxSTMhWwpzQxsIDG4ptfJfo5Xj1MIXeSJ0gfvNkFWfwh/4GwHbjj7KGjxkDjcHyqaoG/RqIV3S7k+ttnz4GFnY/eTnPfPBvF/exKaxd6QTylQEK8ovX+dtG+30FZgvYqH1n3vBTeH9Nlasvw1c/hdnaXFn97z7MHVCTF7JXTr0gYV7DX1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DOKEaq90rKUwiP4R1Em77Ak3eq+fM6XRekWEsfxdaA4=;
+ b=VM8agWls2iq00fM96SxAdfY4dU/1HAW1rOaRVCCJmEeLcFrYekoywv7t8h1ZSY3CGhsCGTyqgJMNXZlfzr1/46G/f+IKybjVF5J83rZK8XbSbndLLzdlLhAyOKYSGDubJnJvyL4mATh0rMJlweSBYEowHlQp6DX7hKfcYQwEyizQfcMgpbBJXziB0xOPOm/VOLmsgm6DL+ZH2Z1tYSosxP0Eq96Vq+jBvns48pFx2JMSrBV074SdRD0EIpZptCTXJwcELEcIZ2VGtzfWQalAh26almMNP5Ck8Jck+gLT+qqEGmNYl4PzO3Ym8cFPw7kN1v9a+qlXEtjIq1pccYfO8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=Bl4CTgtkpBFEACLGoh2HkJmjf6V5eM0ekm4V8+gOtAU=;
-        b=1a/vZUSIhnC4ftPL4UbNaEZFDLapmTfIinpeKjNui8uMWt7pK6oaPWJMRZa6R+OniK
-         yNyD8stxoQUkFksmvI5YOUvV7CZzj+7OiTLtjrT1XyPNN6e1l32WiyUwu+xHlE1oFm1+
-         wwjvHR5JJGZgk5Hk2aj3nS/5did6lNy/mxSnnWlQxnZycRey3TecNq2d4Dm+jf9uiAJi
-         6h7TbzoTtG242RiuLg1vVMu8zdyoZr7O4mlFS55ErY4EZ9eXT6d0fSKnSEMQ2bgKW5Br
-         u13bgCwH6O3IwmWFpaqHrAoTBVfpWTciweyTzpxG0znci2meHb5iz4yRPpyYFRPX1nk/
-         fFeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=Bl4CTgtkpBFEACLGoh2HkJmjf6V5eM0ekm4V8+gOtAU=;
-        b=DJKQDVe40AesELfrYo3Lbjfnn/qSRBCO/WmRPXFguGx2u7PF0ptXwN5FTxu11OIs81
-         D2lUA8Nrc236TyipgWTJDgtrtTIeU6L5b2ebgIIacbAT1OSWAL+Tm3nu3JYdSRrtJQ0R
-         04988HWdqFF0zHl+p/wwD2TMo/x++pAHr1oT1XELTbfZVVsWxpqKs2aowIJ7NwhKJOed
-         SOQCoGBkTb+opo3LEoxhB03Ce3bjUuTdCXf+/lDWihyolhJvQgavXADXJaJff3Mu0Za9
-         pX4BiysXDJOrUVIUkAwQ6QB8nKR1eSD7ggBFK2QNMRzwxBBKIfSyoGvPm9l3owgIb97+
-         FN9w==
-X-Gm-Message-State: AOAM533MD4aQHKSyWeF1/hHqoMWloQf2UdonWcN79Y5I/SIBJYK/7PXH
-	FPEwRFoc/KuoFbPTTRepLMuYUHdVtb5lfNnZ
-X-Google-Smtp-Source: ABdhPJxAvR5xMYdYSwQ99Ckloa6XYvhRpJkIrCk5xBIGZ5izqU6jsCDdNsvpB7xr0NJRQomTReGcdg==
-X-Received: by 2002:a17:902:be02:b029:da:c6c9:c9db with SMTP id r2-20020a170902be02b02900dac6c9c9dbmr12319588pls.69.1607278692068;
-        Sun, 06 Dec 2020 10:18:12 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id r185sm642347pfc.53.2020.12.06.10.18.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Dec 2020 10:18:11 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id 145CD96024F; Sun,  6 Dec 2020 08:18:09 -1000 (HST)
-Subject: OE-core CVE metrics for gatesgarth on Sun 06 Dec 2020 08:15:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20201206181809.145CD96024F@nuc.router0800d9.com>
-Date: Sun,  6 Dec 2020 08:18:09 -1000 (HST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DOKEaq90rKUwiP4R1Em77Ak3eq+fM6XRekWEsfxdaA4=;
+ b=X7V5uPS1NcmDKp1KEt6BP+vbqn6UF+WcaWdUfmkIQmlRBZbnP62SRVnUNqSY73QPcjNonKmV6yKyv3W79IaYuppRVH92VCbnvBAKoB8Lrm67oIvm0aSCUL9hdictpxVe+Cs4hsICf5plLHHgR+SDQ/h0GoeadYc+szPs4FwkBhA=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB4314.namprd11.prod.outlook.com (2603:10b6:5:1de::32)
+ by DM6PR11MB3257.namprd11.prod.outlook.com (2603:10b6:5:5c::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.21; Mon, 7 Dec
+ 2020 09:15:51 +0000
+Received: from DM6PR11MB4314.namprd11.prod.outlook.com
+ ([fe80::3d5e:ce55:f91:da0e]) by DM6PR11MB4314.namprd11.prod.outlook.com
+ ([fe80::3d5e:ce55:f91:da0e%3]) with mapi id 15.20.3632.021; Mon, 7 Dec 2020
+ 09:15:51 +0000
+From: "Kevin Hao" <kexin.hao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] tune-octeontx2.inc: Add tune for Marvell OCTEON TX2 core
+Date: Mon,  7 Dec 2020 17:09:05 +0800
+Message-ID: <20201207090905.17706-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR04CA0059.apcprd04.prod.outlook.com
+ (2603:1096:202:14::27) To DM6PR11MB4314.namprd11.prod.outlook.com
+ (2603:10b6:5:1de::32)
+Return-Path: kexin.hao@windriver.com
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpggp6.wrs.com (60.247.85.82) by HK2PR04CA0059.apcprd04.prod.outlook.com (2603:1096:202:14::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Mon, 7 Dec 2020 09:15:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 97e7195a-e34d-4254-aa98-08d89a90b159
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3257:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB32575DA8093783E032F4EA7EE2CE0@DM6PR11MB3257.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:363;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	FEwKUyvxs46F3fUHCd9LRQQEx8tek31vEpmkpvBlBAz/wdrIpIXlWuRwbv9BhMnNNpSIxOOAyAKZ5Un57LCPfr5sOjYFApffOKWRz0RYZ5EYszf/YsmwygUFOVjCKWoTNM7yzbCmD23MLgY+9yGb3fUz1grXsuUT+ogn41GOy4igp74ae7MGsmjov5zdw1h2lKmWrRpDXo01dOYDisx1XlShlDIgdXvehkJ0/4JZZZO7JDpGULTj98f8hMt4sywRf4eDQJXJfzhLLhaS/xcMyr8oeiWYCk4KvLDRmY9Di7Zt8/RaFK6JjWIJgLEhwVuE
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4314.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(366004)(396003)(376002)(136003)(39840400004)(186003)(36756003)(6916009)(956004)(16526019)(66556008)(66476007)(6512007)(66946007)(6506007)(316002)(8936002)(86362001)(478600001)(8676002)(26005)(52116002)(6486002)(2906002)(5660300002)(6666004)(2616005)(1076003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	jDuASG8thYUN8RtWe+cb7KJh4X0WDits6w6wGpfch7lq6//aqfXS8GkW//h3Ijw0cbbjhxRptvMtgM4tJQJgau/0trVZ4KZyUffY6jaJHqqsosL/JO6NqQPg/ZK0pgQnIhPUKia5367aCIgYEiTmF+FrBNL3RGkNS9EL16pXw0o5X20GTxSDry1EBORrLqErdCKsO4mfFc62E9roJmr4X59rC2XoaIRpYCxeonDwCxRDHUz0/KauqzkZunuwfBfr7vt6hXC8M/LRIkku9UH9iGGE7xGegi7ebeCCDXDPtGbsCipM34owv04ItpZsWUE9LOIutn+kFd2hZo/EfRCYrYQBXJFm14LtfAh3IMpHWGP3gtO8B+5F1TnPwK0BrtaWlwcc/8T/gg7lopmfmia+4WyXV0piHxjHxFBrHE6DomkVehzRVC3cwV1kmVv2Ome6PkPNVknMs8+p8Pw0Og+W8YeSTYKBace8MKcgNnJrEJ9DCQEt6SzWRRAeDeQ2VEiq15PvOy94J1by8IYZHoy+cbonjJofeURzCcu2Sy/jlFQk7qj5BhWtuUWsZK9MzZtsa33AboIHjxsjiK4sUdr8bLYSww10iSKQWTogTWwjsX3X3ZYGnChIp1Y+hkV3z7tdQoYYW9LFxPWffSACCfAnThogCyCykEcuPC9ji0dTlQdDj7TCQ2gnpfMOnDCpJ85gpeVTk1PLkPUNdZbawKJuuKlDAOJQEHruad5Bpkn938slPPF5Gbjm1e7ZyBcntWRk
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4314.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Dec 2020 09:15:51.3687
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97e7195a-e34d-4254-aa98-08d89a90b159
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: co8aSFA64oCPH/rb397iYZ51ignIX4BHY4RUeGdtrNepVz1wfCVXMyTbR/Z0I93hkemt8vwCvfWEClBmVJ1S7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3257
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Branch: gatesgarth
+The OCTEON TX2 core is custom designed by Marvell and is compliant
+with Arm V8.2 architecture.
 
-New this week:
-CVE-2020-12351: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12351 *
-CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+---
+ .../machine/include/arm/armv8-2a/tune-octeontx2.inc | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.i=
+nc
 
-Removed this week:
+diff --git a/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc b/me=
+ta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+new file mode 100644
+index 000000000000..f873b9517e23
+--- /dev/null
++++ b/meta/conf/machine/include/arm/armv8-2a/tune-octeontx2.inc
+@@ -0,0 +1,13 @@
++DEFAULTTUNE ?=3D "octeontx2"
++
++TUNEVALID[octeontx2] =3D "Enable Marvell octeontx2 specific processor opti=
+mizations"
++TUNE_CCARGS .=3D "${@bb.utils.contains('TUNE_FEATURES', 'octeontx2', ' -mc=
+pu=3Docteontx2', '', d)}"
++
++require conf/machine/include/arm/arch-armv8-2a.inc
++
++# Little Endian base configs
++AVAILTUNES +=3D "octeontx2"
++ARMPKGARCH_tune-octeontx2             =3D "octeontx2"
++TUNE_FEATURES_tune-octeontx2          =3D "${TUNE_FEATURES_tune-armv8-2a-c=
+rypto} octeontx2"
++PACKAGE_EXTRA_ARCHS_tune-octeontx2    =3D "${PACKAGE_EXTRA_ARCHS_tune-armv=
+8-2a-crypto} octeontx2"
++BASE_LIB_tune-octeontx2               =3D "lib64"
+--=20
+2.26.2
 
-Full list:  Found 50 unpatched CVEs
-CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2015-8345: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8345 *
-CVE-2015-8619: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-8619 *
-CVE-2016-4002: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-4002 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2016-9101: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9101 *
-CVE-2016-9907: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9907 *
-CVE-2016-9908: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9908 *
-CVE-2016-9911: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9911 *
-CVE-2016-9912: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9912 *
-CVE-2016-9921: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9921 *
-CVE-2016-9923: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-9923 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
-CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
-CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
-CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
-CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-12351: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12351 *
-CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
-CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
-CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-28362: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28362 *
-CVE-2020-28366: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28366 *
-CVE-2020-28367: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28367 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
