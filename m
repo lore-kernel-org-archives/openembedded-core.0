@@ -1,395 +1,1778 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web12.6685.1607350392134195910
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web12.6688.1607350399398552357
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Dec 2020 06:13:12 -0800
+ Mon, 07 Dec 2020 06:13:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ll8hTjLG;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id o7so7516219pjj.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Dec 2020 06:13:12 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=pChq7771;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f169.google.com with SMTP id i3so6508591pfd.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Dec 2020 06:13:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=l6xPbOfpCT/5M5zUCgT1JW4zezK/hQLU1PyGHRzZTzs=;
-        b=ll8hTjLGTlxJxICv9eSVJKW8MSRsQDmiaIJYLOkStjWZRj/I4N0Hg+TR4MaL2BEtrp
-         Hh01wzXocrmt3sFjmjkVTrwn7GOrVCcpFGc71buibgbcxvuyhdJSL8miMcYUlyU0aa2Y
-         75frn7NMoaGN1nB0b6Czn47jbNAWRvgE4w2PpI/TiXGW4GGLssR8YtvYHrHXwZUlFs+x
-         rdGpoBB3v3W8eonj0Cuq3ju6sf1ofdFubZV9xyotDrBEhSAwsnx5V1JvnhNZ87ZVOb/z
-         d2OffhJcu/ImscEb2+sV82C+1/DHXbT7dTaa/gRwZ/1DpndAIgRj9Windhcq06h2wajJ
-         UmIg==
+        h=from:to:subject:date:message-id:mime-version:in-reply-to:references
+         :content-transfer-encoding;
+        bh=DUshCFbu4bzVTJHPRXYGQYpzMKEnr9oU+QEieDTMWSY=;
+        b=pChq7771NC+X3raXB5rrxreTRzl8ZSL4Gz0lR/e1T6+GmZvvtCXbX8MvHkIEbnqg8c
+         6JcryZ+Bu09WOtWtuGz54SA+oJrHcW1yLm4gh+azOxLwJu11nHl8JO+O08I3RrQyDJFH
+         L4oaFO53n/k8HF/VR7y8nYWdJn/m3Gbx3vW3zP8b/ChcFGEyUF+XhH+Y0Q1OuLlr2zZb
+         e9YgxOsQuAOwy+IdX9jIfa2MwDh9qgXNoxkpxgt2+gR5+avrRPyHQIHiLc+bDbYwJEYQ
+         hoAGf9JGKGOwxDiKCw1LAtvh7EYa7yKzWSJOqCbJyabAj3sxfS9Scr8FoZwsQe9iUSRC
+         fRrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=l6xPbOfpCT/5M5zUCgT1JW4zezK/hQLU1PyGHRzZTzs=;
-        b=Y98ljUfG8JHxNjapBQByHS2UB8c3q8yCJPWZs36bVNjnCy4GF9+6Dk/7o+glbDE3b4
-         W2jTb/SwwrxRRDe4q2mQ8MwrgjMhdDDdX0maCYfU1yv7ApMJ8ySIruY+tgQj3Fbs19gO
-         aay0Fmkr9pZ5bi0GiTySA9vLCiw6A/CwySHiEwlptRbOfTEV/5BcYW4EteNAqEu50eXY
-         AtdFYB5ubv20A+FpXcfnEoLZLvBqqKJlfkYQDcTrrzD31ZRoA7oOvgKuV/xp2CYY9gCu
-         o7AmkO5dfiFqNeYO4StIt6z5ejn2cvCpbhSXc7IK7AHeex0BUXAaUFYpyLT9uSxxNN3S
-         sFlQ==
-X-Gm-Message-State: AOAM530yKXuH5Hpl1VeHncPW6q1F0jRG3V0hMhn+Cli5dNZRBUhjp+di
-	o+abBtOyibJ4akN84szrmHU4UYLSwEkb4mnT
-X-Google-Smtp-Source: ABdhPJyKeccbBjdOh7sNjzzGo3Nr3mL8JQrclFAJfVrhgMfX1KCcfWG/J+wUF33XXHnyB8ZVRbNPYw==
-X-Received: by 2002:a17:90b:3594:: with SMTP id mm20mr16705735pjb.121.1607350390663;
-        Mon, 07 Dec 2020 06:13:10 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :in-reply-to:references:content-transfer-encoding;
+        bh=DUshCFbu4bzVTJHPRXYGQYpzMKEnr9oU+QEieDTMWSY=;
+        b=McEv+z1fN5b2NuJG3/j1lajmoODq4K+VBz89VxatZZtZie3JkAzb5kqIRdvHQd7bs1
+         tuPBZVIHnC9ep67dByJPNBzTZk4EH1WUEXlp36gpd2yQZ21/LvrvFzB6PTGD3ubzXmAC
+         opbs5sg7voVOVtYw+GkVAsYIeBKYPh7TB0eEDnEPWGt752zhWX6Z+iN/cUkQwaO6vG66
+         mYwJONlYz4D0h51GPHHPu/P6PcmNui9aGv1ySqG7ewHrHvi2Ihnoz2pqNMAodkFOaLAG
+         e25FPbNSWgZ6VeqfGFC9tgWvoXKXSU2FNsO/EHdOHfAMiY53qali2i9f76LHQe+NT3QA
+         mlag==
+X-Gm-Message-State: AOAM530uSUPHKpcefVzP2dtS2FQPY4ROHgDSmasTJi1zZPYZsmzmXZ2A
+	870UW1NepfxhMwQzsM17R9F4xxLHt8NFTISO
+X-Google-Smtp-Source: ABdhPJzND78/ncaBQDFxMMRaB3DGZWcverBaL7j7/lYZ1aipM/ufDEIOIIrp2yjAZ7pv+VRdvc/Msg==
+X-Received: by 2002:a17:902:b90b:b029:da:97e2:722d with SMTP id bf11-20020a170902b90bb02900da97e2722dmr16440404plb.3.1607350397272;
+        Mon, 07 Dec 2020 06:13:17 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u3sm14848093pfu.47.2020.12.07.06.13.08
+        by smtp.gmail.com with ESMTPSA id u3sm14848093pfu.47.2020.12.07.06.13.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 06:13:09 -0800 (PST)
+        Mon, 07 Dec 2020 06:13:16 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 7/9] linux-yocto/5.4: update to v5.4.78
-Date: Mon,  7 Dec 2020 04:12:24 -1000
-Message-Id: <c34d8060452a3866cda24a77f71f546f0ef45d03.1607350153.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 8/9] lttng-modules: add post 2.11.6 patches
+Date: Mon,  7 Dec 2020 04:12:25 -1000
+Message-Id: <ea7e3c47af4191e69d54fc519865d125ed61d8eb.1607350153.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
 In-Reply-To: <cover.1607350153.git.steve@sakoman.com>
 References: <cover.1607350153.git.steve@sakoman.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
+To fix building against the latest 5.4.x kernels (and other versions
+as well), we import the lttng patches that have been added since the
+2.11.6 release.
 
-    315443293a2d Linux 5.4.78
-    9fda2e762498 Convert trailing spaces and periods in path components
-    ebc24aeb8694 net: sch_generic: fix the missing new qdisc assignment bug
-    c5cf5c7b585c perf/core: Fix race in the perf_mmap_close() function
-    c6b1616f5472 perf scripting python: Avoid declaring function pointers with a visibility attribute
-    b74fe3186471 x86/speculation: Allow IBPB to be conditionally enabled on CPUs with always-on STIBP
-    6958fbd52e79 powerpc/603: Always fault when _PAGE_ACCESSED is not set
-    5af9d48acbee drm/i915: Correctly set SFC capability for video engines
-    6fcf4141b9a2 r8169: fix potential skb double free in an error path
-    78f6fac0814e tipc: fix memory leak in tipc_topsrv_start()
-    c59039a088bd net/x25: Fix null-ptr-deref in x25_connect
-    7e332a5c0e2c net: Update window_clamp if SOCK_RCVBUF is set
-    25786fb512f7 net: udp: fix UDP header access on Fast/frag0 UDP GRO
-    016e70d176ff net/af_iucv: fix null pointer dereference on shutdown
-    22ee23fe1cc9 IPv6: Set SIT tunnel hard_header_len to zero
-    98901bff58d9 swiotlb: fix "x86: Don't panic if can not alloc buffer for swiotlb"
-    2cd21fe5bcc4 pinctrl: amd: fix incorrect way to disable debounce filter
-    fa76dd3c1df3 pinctrl: amd: use higher precision for 512 RtcClk
-    c6a6168a31e1 drm/gma500: Fix out-of-bounds access to struct drm_device.vblank[]
-    974e3a7002a0 don't dump the threads that had been already exiting when zapped.
-    039c8dcd2b15 mmc: renesas_sdhi_core: Add missing tmio_mmc_host_free() at remove
-    e1d706eeeaf7 mmc: sdhci-of-esdhc: Handle pulse width detection erratum for more SoCs
-    2a6cba6d3d72 gpio: pcie-idio-24: Enable PEX8311 interrupts
-    7b6790ae3a94 gpio: pcie-idio-24: Fix IRQ Enable Register value
-    819bf3b0d969 gpio: pcie-idio-24: Fix irq mask when masking
-    68dae71b7cde selinux: Fix error return code in sel_ib_pkey_sid_slow()
-    33e53f2cac19 btrfs: fix potential overflow in cluster_pages_for_defrag on 32bit arch
-    9de4ffb70150 ocfs2: initialize ip_next_orphan
-    ac18b128cfd6 reboot: fix overflow parsing reboot cpu number
-    fa6265f8fb9e Revert "kernel/reboot.c: convert simple_strtoul to kstrtoint"
-    bd4d106f3122 mm/slub: fix panic in slab_alloc_node()
-    84778a43ae59 jbd2: fix up sparse warnings in checkpoint code
-    2192d905df0d futex: Don't enable IRQs unconditionally in put_pi_state()
-    761fb6829238 mei: protect mei_cl_mtu from null dereference
-    e2b2c390ec9e virtio: virtio_console: fix DMA memory allocation for rproc serial
-    57626d77ef1e xhci: hisilicon: fix refercence leak in xhci_histb_probe
-    cbad9668929c usb: cdc-acm: Add DISABLE_ECHO for Renesas USB Download mode
-    f988e9c85cfb uio: Fix use-after-free in uio_unregister_device()
-    1654bf2d9f0e thunderbolt: Add the missed ida_simple_remove() in ring_request_msix()
-    06c1895fe71b thunderbolt: Fix memory leak if ida_simple_get() fails in enumerate_services()
-    11c14da8d005 KVM: arm64: Don't hide ID registers from userspace
-    2033dd885297 btrfs: dev-replace: fail mount if we don't have replace item with target device
-    5af9630036ef btrfs: fix min reserved size calculation in merge_reloc_root
-    8266c23124c1 btrfs: ref-verify: fix memory leak in btrfs_ref_tree_mod
-    062c9b04f6eb ext4: unlock xattr_sem properly in ext4_inline_data_truncate()
-    a6ca4c7ec44c ext4: correctly report "not supported" for {usr,grp}jquota when !CONFIG_QUOTA
-    52e3a55bc253 erofs: derive atime instead of leaving it empty
-    09b0d47b7952 perf: Fix get_recursion_context()
-    70867a9dbf57 vrf: Fix fast path output packet handling with async Netfilter rules
-    2ab9c76986e4 cosa: Add missing kfree in error path of cosa_write
-    c0a6cc9e11f4 of/address: Fix of_node memory leak in of_dma_is_coherent
-    f10d238aad93 xfs: fix a missing unlock on error in xfs_fs_map_blocks
-    0e2ad69bd4b5 lan743x: fix "BUG: invalid wait context" when setting rx mode
-    b45f52a20879 xfs: fix brainos in the refcount scrubber's rmap fragment processor
-    7cbf708b1b9a xfs: fix rmap key and record comparison functions
-    3bd97b33be41 xfs: set the unwritten bit in rmap lookup flags in xchk_bmap_get_rmapextents
-    08e213bef291 xfs: fix flags argument to rmap lookup when converting shared file rmaps
-    a8ee686597fb igc: Fix returning wrong statistics
-    81dcfdb9a015 nbd: fix a block_device refcount leak in nbd_release
-    c602ad2b52dc bpf: Zero-fill re-used per-cpu map element
-    dfcb33773877 SUNRPC: Fix general protection fault in trace_rpc_xdr_overflow()
-    b9e8f9d139bd net/mlx5: Fix deletion of duplicate rules
-    e74e514c8cca pinctrl: aspeed: Fix GPI only function problem.
-    d2e61c5202e6 bpf: Don't rely on GCC __attribute__((optimize)) to disable GCSE
-    443ae3655f8c ARM: 9019/1: kprobes: Avoid fortify_panic() when copying optprobe template
-    c0be7a34c889 pinctrl: intel: Set default bias in case no particular value given
-    88ccabbd2066 mfd: sprd: Add wakeup capability for PMIC IRQ
-    58953e87343d tick/common: Touch watchdog in tick_unfreeze() on all CPUs
-    3322f7289e50 spi: bcm2835: remove use of uninitialized gpio flags variable
-    572e545d80ea tpm_tis: Disable interrupts on ThinkPad T490s
-    713a3a94bee0 i2c: sh_mobile: implement atomic transfers
-    37a048d790c3 riscv: Set text_offset correctly for M-Mode
-    6d8b43376990 selftests: proc: fix warning: _GNU_SOURCE redefined
-    ab10b7def421 amd/amdgpu: Disable VCN DPG mode for Picasso
-    4faa1fabc645 i2c: mediatek: move dma reset before i2c reset
-    b66c7cdedd1e vfio/pci: Bypass IGD init in case of -ENODEV
-    c6be53caf1c8 vfio: platform: fix reference leak in vfio_platform_open
-    4d6f536e34d6 s390/smp: move rcu_cpu_starting() earlier
-    984d77507439 iommu/amd: Increase interrupt remapping table limit to 512 entries
-    a889cd3d350d nvme-tcp: avoid repeated request completion
-    9d14f5225dbb nvme-rdma: avoid repeated request completion
-    531b55cce9cd nvme-tcp: avoid race between time out and tear down
-    d0e888a20dfd nvme-rdma: avoid race between time out and tear down
-    0ca279c859d7 nvme: introduce nvme_sync_io_queues
-    c473b3e56c1d scsi: mpt3sas: Fix timeouts observed while reenabling IRQ
-    b61e157d9f64 scsi: scsi_dh_alua: Avoid crash during alua_bus_detach()
-    bf1cedc12f58 tracing: Fix the checking of stackidx in __ftrace_trace_stack
-    e57c04697030 cfg80211: regulatory: Fix inconsistent format argument
-    a3f0db0d2320 cfg80211: initialize wdev data earlier
-    67bb2e4d41de mac80211: fix use of skb payload instead of header
-    c1cbb64c100d drm/amd/pm: do not use ixFEATURE_STATUS for checking smc running
-    48083640a47b drm/amd/pm: perform SMC reset on suspend/hibernation
-    f449b902badb drm/amdgpu: perform srbm soft reset always on SDMA resume
-    7f6df0b085ce scsi: hpsa: Fix memory leak in hpsa_init_one()
-    325455358e54 gfs2: check for live vs. read-only file system in gfs2_fitrim
-    edeff05a1f10 gfs2: Add missing truncate_inode_pages_final for sd_aspace
-    99dcfc517d17 gfs2: Free rd_bits later in gfs2_clear_rgrpd to fix use-after-free
-    42eaa22aaf2e ALSA: hda: Reinstate runtime_allow() for all hda controllers
-    0a4c091673ca ALSA: hda: Separate runtime and system suspend
-    9b7e6b670df7 selftests: pidfd: fix compilation errors due to wait.h
-    9110e2f2633d selftests/ftrace: check for do_sys_openat2 in user-memory test
-    1737ea0c5775 usb: gadget: goku_udc: fix potential crashes in probe
-    e60490354191 opp: Reduce the size of critical section in _opp_table_kref_release()
-    fe2dc1093c61 usb: dwc3: pci: add support for the Intel Alder Lake-S
-    e22142a9a2a9 ASoC: cs42l51: manage mclk shutdown delay
-    0fc0befe0bfa ASoC: qcom: sdm845: set driver name correctly
-    b668352c4aad ath9k_htc: Use appropriate rs_datalen type
-    42501604363f KVM: x86: don't expose MSR_IA32_UMWAIT_CONTROL unconditionally
-    d2cef3bae14b KVM: arm64: ARM_SMCCC_ARCH_WORKAROUND_1 doesn't return SMCCC_RET_NOT_REQUIRED
-    213e1238cacc random32: make prandom_u32() output unpredictable
-    327af342ca9b tpm: efi: Don't create binary_bios_measurements file for an empty log
-    0685eb84ad56 xfs: fix scrub flagging rtinherit even if there is no rt device
-    2f6cbef32718 xfs: flush new eof page on truncate to avoid post-eof corruption
-    66ce8bfad6f6 can: flexcan: flexcan_remove(): disable wakeup completely
-    0b657367309e can: flexcan: remove FLEXCAN_QUIRK_DISABLE_MECR quirk for LS1021A
-    56c56af0a3a1 can: peak_canfd: pucan_handle_can_rx(): fix echo management when loopback is on
-    a23ee9956612 can: peak_usb: peak_usb_get_ts_time(): fix timestamp wrapping
-    44b2c4beff8a can: peak_usb: add range checking in decode operations
-    d6c34afab0ed can: xilinx_can: handle failure cases of pm_runtime_get_sync
-    51920ca7519c can: ti_hecc: ti_hecc_probe(): add missed clk_disable_unprepare() in error path
-    b9c4a9a07c4a can: j1939: j1939_sk_bind(): return failure if netdev is down
-    0ab4c839409a can: j1939: swap addr and pgn in the send example
-    5bde65abe166 can: can_create_echo_skb(): fix echo skb generation: always use skb_clone()
-    183f1af506fe can: dev: __can_get_echo_skb(): fix real payload length return value for RTR frames
-    ab46748bf988 can: dev: can_get_echo_skb(): prevent call to kfree_skb() in hard IRQ context
-    3d0954767918 can: rx-offload: don't call kfree_skb() from IRQ context
-    e201588fad54 afs: Fix warning due to unadvanced marshalling pointer
-    9946509a027b iommu/vt-d: Fix a bug for PDP check in prq_event_thread
-    2825a5bf3ca5 ALSA: hda: prevent undefined shift in snd_hdac_ext_bus_get_link()
-    22901751d269 perf tools: Add missing swap for ino_generation
-    b36f78fd48e9 perf trace: Fix segfault when trying to trace events by cgroup
-    d261d0bd9066 powerpc/eeh_cache: Fix a possible debugfs deadlock
-    1c8fe343a79d netfilter: ipset: Update byte and packet counters regardless of whether they match
-    ad017cf5dace netfilter: nf_tables: missing validation from the abort path
-    56907fa27b94 netfilter: use actual socket sk rather than skb sk when routing harder
-    6234710dc634 xfs: set xefi_discard when creating a deferred agfl free log intent item
-    933f911136e2 ASoC: codecs: wcd9335: Set digital gain range correctly
-    5cb904da85ed net: xfrm: fix a race condition during allocing spi
-    4e438ca1b629 hv_balloon: disable warning when floor reached
-    bb2b60242c8e genirq: Let GENERIC_IRQ_IPI select IRQ_DOMAIN_HIERARCHY
-    bb8c6bd53cc0 ASoC: Intel: kbl_rt5663_max98927: Fix kabylake_ssp_fixup function
-    a8ec66026dd8 btrfs: reschedule when cloning lots of extents
-    0ee771e96954 btrfs: sysfs: init devices outside of the chunk_mutex
-    c58fa93b1409 btrfs: tracepoints: output proper root owner for trace_find_free_extent()
-    e24516cf62f9 usb: dwc3: gadget: Reclaim extra TRBs after request completion
-    ab031673e2ab usb: dwc3: gadget: Continue to process pending requests
-    504cfb5e3bca PCI: qcom: Make sure PCIe is reset before init for rev 2.1.0
-    9dfbc2f82ac8 KVM: arm64: Force PTE mapping on fault resulting in a device mapping
-    95fda70d3955 nbd: don't update block size after device is started
-    160777b19b86 time: Prevent undefined behaviour in timespec64_to_ns()
-    5a39fb2f22fd drm/i915/gem: Flush coherency domains on first set-domain-ioctl
-    2544d06afd8d Linux 5.4.77
-    19f6d91bdad4 powercap: restrict energy meter to root access
-    ec9c6b417e27 Linux 5.4.76
-    c3d60c695712 arm64: dts: marvell: espressobin: Add ethernet switch aliases
-    b7f7474b3921 perf/core: Fix a memory leak in perf_event_parse_addr_filter()
-    21ab13af8c50 xfs: flush for older, xfs specific ioctls
-    258d01b1577e PM: runtime: Resume the device earlier in __device_release_driver()
-    37f75c6aa8dd PM: runtime: Drop pm_runtime_clean_up_links()
-    874dfb5c6aa3 PM: runtime: Drop runtime PM references to supplier on link removal
-    fbfca92c7840 ARC: stack unwinding: avoid indefinite looping
-    d61edc06002f drm/panfrost: Fix a deadlock between the shrinker and madvise path
-    b9d91fa92164 usb: mtu3: fix panic in mtu3_gadget_stop()
-    b0d03a1bdb3c USB: Add NO_LPM quirk for Kingston flash drive
-    290fcf3e0c0c usb: dwc3: ep0: Fix delay status handling
-    86875e1d6426 tty: serial: fsl_lpuart: LS1021A has a FIFO size of 16 words, like LS1028A
-    8febdfb5973d tty: serial: fsl_lpuart: add LS1028A support
-    d5d3cca9d61f USB: serial: option: add Telit FN980 composition 0x1055
-    7f7be9341b86 USB: serial: option: add LE910Cx compositions 0x1203, 0x1230, 0x1231
-    b7f74775c2bb USB: serial: option: add Quectel EC200T module support
-    9d34dbab6ef4 USB: serial: cyberjack: fix write-URB completion race
-    62c4b2b21e3b serial: txx9: add missing platform_driver_unregister() on error in serial_txx9_init
-    085fc4784e4b serial: 8250_mtk: Fix uart_get_baud_rate warning
-    b33a1039564c s390/pkey: fix paes selftest failure with paes and pkey static build
-    beeb658cfd35 fork: fix copy_process(CLONE_PARENT) race with the exiting ->real_parent
-    642181fe3567 vt: Disable KD_FONT_OP_COPY
-    cfd9d7137759 Revert "coresight: Make sysfs functional on topologies with per core sink"
-    8ee6a0f25457 arm64/smp: Move rcu_cpu_starting() earlier
-    eceb94287dbf drm/nouveau/gem: fix "refcount_t: underflow; use-after-free"
-    7d0de6f87257 drm/nouveau/nouveau: fix the start/end range for migration
-    4dab0fd40323 usb: cdns3: gadget: suspicious implicit sign extension
-    937753df482c ACPI: NFIT: Fix comparison to '-ENXIO'
-    16476c2b26ca drm/vc4: drv: Add error handding for bind
-    a04cec1dd293 nvmet: fix a NULL pointer dereference when tracing the flush command
-    8c9c03432500 nvme-rdma: handle unexpected nvme completion data length
-    2fd9e60760ef vsock: use ns_capable_noaudit() on socket create
-    2149aa583068 scsi: ibmvscsi: Fix potential race after loss of transport
-    1247f4e29188 drm/amdgpu: add DID for navi10 blockchain SKU
-    fd4fb5080725 scsi: core: Don't start concurrent async scan on same host
-    3c52715ceaae blk-cgroup: Pre-allocate tree node on blkg_conf_prep
-    f77756ea6641 blk-cgroup: Fix memleak on error path
-    914fc5524261 drm/sun4i: frontend: Fix the scaler phase on A33
-    f743f73f42a7 drm/sun4i: frontend: Reuse the ch0 phase for RGB formats
-    6d7b41a67687 drm/sun4i: frontend: Rework a bit the phase data
-    147e3743cf7a of: Fix reserved-memory overlap detection
-    6e02c29e4ac4 x86/kexec: Use up-to-dated screen_info copy to fill boot params
-    3283d4d78412 arm64: dts: meson: add missing g12 rng clock
-    69e0e917c7c8 ARM: dts: sun4i-a10: fix cpu_alert temperature
-    2716e78a6486 futex: Handle transient "ownerless" rtmutex state correctly
-    ec5f524e0293 tracing: Fix out of bounds write in get_trace_buf
-    9f6883fce694 spi: bcm2835: fix gpio cs level inversion
-    f352cca84625 regulator: defer probe when trying to get voltage from unresolved supply
-    a69af5baed80 ftrace: Handle tracing when switching between context
-    3058420f40fb ftrace: Fix recursion check for NMI test
-    cfaf010cf345 mtd: spi-nor: Don't copy self-pointing struct around
-    aef59b5e5bdf ring-buffer: Fix recursion protection transitions between interrupt context
-    2cd71743e7ff gfs2: Wake up when sd_glock_disposal becomes zero
-    d2286457bd83 mm: always have io_remap_pfn_range() set pgprot_decrypted()
-    1b8490d6b809 kthread_worker: prevent queuing delayed work from timer_fn when it is being canceled
-    b1d16be4f2f4 lib/crc32test: remove extra local_irq_disable/enable
-    c1f729c7dec0 mm: mempolicy: fix potential pte_unmap_unlock pte error
-    f7c2913d606b ALSA: usb-audio: Add implicit feedback quirk for MODX
-    26a871cf86cb ALSA: usb-audio: Add implicit feedback quirk for Qu-16
-    a46e830d017e ALSA: usb-audio: add usb vendor id as DSD-capable for Khadas devices
-    65457e345f3c ALSA: usb-audio: Add implicit feedback quirk for Zoom UAC-2
-    72ce616ed55a ALSA: hda/realtek - Enable headphone for ASUS TM420
-    f7d0f7242405 ALSA: hda/realtek - Fixed HP headset Mic can't be detected
-    61402d61a2af Fonts: Replace discarded const qualifier
-    e5ea79bb19f8 sfp: Fix error handing in sfp_probe()
-    9b5458effeee sctp: Fix COMM_LOST/CANT_STR_ASSOC err reporting on big-endian platforms
-    26ffb8916059 powerpc/vnic: Extend "failover pending" window
-    92e65059beda net: usb: qmi_wwan: add Telit LE910Cx 0x1230 composition
-    8e3c047f814b ip_tunnel: fix over-mtu packet send fail without TUNNEL_DONT_FRAGMENT flags
-    ac343efb572c ionic: check port ptr before use
-    6ef3bcc25a3e gianfar: Account for Tx PTP timestamp in the skb headroom
-    5b66a5b6a9e2 gianfar: Replace skb_realloc_headroom with skb_cow_head for PTP
-    7bf7b7c385a1 chelsio/chtls: fix always leaking ctrl_skb
-    14d755a4815e chelsio/chtls: fix memory leaks caused by a race
-    57bb59f9d8fb cadence: force nonlinear buffers to be cloned
-    1695fca8a923 ptrace: fix task_join_group_stop() for the case when current is traced
-    76e5bba75a63 tipc: fix use-after-free in tipc_bcast_get_mode
-    ca16a42f5f0d arm64: Change .weak to SYM_FUNC_START_WEAK_PI for arch/arm64/lib/mem*.S
-    d94589900d98 arm64: lib: Use modern annotations for assembly functions
-    3e7050661d95 arm64: asm: Add new-style position independent function annotations
-    840d8c9b3e5f linkage: Introduce new macros for assembler symbols
-    1ca84322ab5b ASoC: Intel: Skylake: Add alternative topology binary name
-    e05dfcff26e9 drm/i915: Drop runtime-pm assert from vgpu io accessors
-    d321f127eb51 drm/i915/gt: Delay execlist processing for tgl
-    5bcd18bf8082 drm/i915: Break up error capture compression loops with cond_resched()
+When 2.11.7 is released, we can drop these patches and go with the
+release tarball.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6063baedd741e1ae86a2c42cd2dc41899718a2d5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
+ ...ncpy-equals-destination-size-warning.patch |  42 +++
+ ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 +++++
+ ...oints-output-proper-root-owner-for-t.patch | 316 ++++++++++++++++++
+ ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++
+ ...ext4-fast-commit-recovery-path-v5.10.patch |  91 +++++
+ ...intr-vectoring-info-and-error-code-t.patch | 124 +++++++
+ ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 +++++
+ ...Return-unique-RET_PF_-values-if-the-.patch |  71 ++++
+ ...int-Optimize-using-static_call-v5.10.patch | 155 +++++++++
+ ...-fix-include-order-for-older-kernels.patch |  31 ++
+ .../0011-Add-release-maintainer-script.patch  |  59 ++++
+ .../0012-Improve-the-release-script.patch     | 173 ++++++++++
+ ...fix-ext4-fast-commit-recovery-path-v.patch |  32 ++
+ ...-fix-include-order-for-older-kernels.patch |  32 ++
+ ...fix-tracepoint-Optimize-using-static.patch |  46 +++
+ ...ion-range-for-trace_find_free_extent.patch |  30 ++
+ .../lttng/lttng-modules_2.11.6.bb             |  16 +
+ 17 files changed, 1567 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-strncpy-equals-destination-size-warning.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-fast-commit-recovery-path-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-KVM-x86-Add-intr-vectoring-info-and-error-code-t.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0008-fix-KVM-x86-mmu-Return-unique-RET_PF_-values-if-the-.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-tracepoint-Optimize-using-static_call-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-include-order-for-older-kernels.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0011-Add-release-maintainer-script.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-Improve-the-release-script.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0013-fix-backport-of-fix-ext4-fast-commit-recovery-path-v.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-Revert-fix-include-order-for-older-kernels.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0015-fix-backport-of-fix-tracepoint-Optimize-using-static.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-adjust-version-range-for-trace_find_free_extent.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 4d59d5c155..42e864611f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-strncpy-equals-destination-size-warning.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-strncpy-equals-destination-size-warning.patch
+new file mode 100644
+index 0000000000..6f82488772
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-strncpy-equals-destination-size-warning.patch
+@@ -0,0 +1,42 @@
++From cb78974394a9af865e1d2d606e838dbec0de80e8 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 5 Oct 2020 15:31:42 -0400
++Subject: [PATCH 01/16] fix: strncpy equals destination size warning
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Some versions of GCC when called with -Wstringop-truncation will warn
++when doing a copy of the same size as the destination buffer with
++strncpy :
++
++  ‘strncpy’ specified bound 256 equals destination size [-Werror=stringop-truncation]
++
++Since we unconditionally write '\0' in the last byte, reduce the copy
++size by one.
++
++Upstream-Status: Backport
++
++Change-Id: Idb907c9550817a06fc0dffc489740f63d440e7d4
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++---
++ lttng-syscalls.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lttng-syscalls.c b/lttng-syscalls.c
++index 49c0d81b..b43dd570 100644
++--- a/lttng-syscalls.c
+++++ b/lttng-syscalls.c
++@@ -719,7 +719,7 @@ int fill_table(const struct trace_syscall_entry *table, size_t table_len,
++ 			ev.u.syscall.abi = LTTNG_KERNEL_SYSCALL_ABI_COMPAT;
++ 			break;
++ 		}
++-		strncpy(ev.name, desc->name, LTTNG_KERNEL_SYM_NAME_LEN);
+++		strncpy(ev.name, desc->name, LTTNG_KERNEL_SYM_NAME_LEN - 1);
++ 		ev.name[LTTNG_KERNEL_SYM_NAME_LEN - 1] = '\0';
++ 		ev.instrumentation = LTTNG_KERNEL_SYSCALL;
++ 		chan_table[i] = _lttng_event_create(chan, &ev, filter,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0002-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0002-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
+new file mode 100644
+index 0000000000..90d7b0cf9c
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0002-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
+@@ -0,0 +1,88 @@
++From 8e4e8641961df32bfe519fd18d899250951acd1a Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 26 Oct 2020 13:41:02 -0400
++Subject: [PATCH 02/16] fix: objtool: Rename frame.h -> objtool.h (v5.10)
++
++See upstream commit :
++
++  commit 00089c048eb4a8250325efb32a2724fd0da68cce
++  Author: Julien Thierry <jthierry@redhat.com>
++  Date:   Fri Sep 4 16:30:25 2020 +0100
++
++    objtool: Rename frame.h -> objtool.h
++
++    Header frame.h is getting more code annotations to help objtool analyze
++    object files.
++
++    Rename the file to objtool.h.
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: Ic2283161bebcbf1e33b72805eb4d2628f4ae3e89
++---
++ lttng-filter-interpreter.c     |  2 +-
++ wrapper/{frame.h => objtool.h} | 19 ++++++++++++-------
++ 2 files changed, 13 insertions(+), 8 deletions(-)
++ rename wrapper/{frame.h => objtool.h} (50%)
++
++diff --git a/lttng-filter-interpreter.c b/lttng-filter-interpreter.c
++index 21169f01..5d572437 100644
++--- a/lttng-filter-interpreter.c
+++++ b/lttng-filter-interpreter.c
++@@ -8,7 +8,7 @@
++  */
++ 
++ #include <wrapper/uaccess.h>
++-#include <wrapper/frame.h>
+++#include <wrapper/objtool.h>
++ #include <wrapper/types.h>
++ #include <linux/swab.h>
++ 
++diff --git a/wrapper/frame.h b/wrapper/objtool.h
++similarity index 50%
++rename from wrapper/frame.h
++rename to wrapper/objtool.h
++index 6e6dc811..3b997cae 100644
++--- a/wrapper/frame.h
+++++ b/wrapper/objtool.h
++@@ -1,18 +1,23 @@
++-/* SPDX-License-Identifier: (GPL-2.0 or LGPL-2.1)
+++/* SPDX-License-Identifier: (GPL-2.0-only or LGPL-2.1-only)
++  *
++- * wrapper/frame.h
+++ * wrapper/objtool.h
++  *
++  * Copyright (C) 2016 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++  */
++ 
++-#ifndef _LTTNG_WRAPPER_FRAME_H
++-#define _LTTNG_WRAPPER_FRAME_H
+++#ifndef _LTTNG_WRAPPER_OBJTOOL_H
+++#define _LTTNG_WRAPPER_OBJTOOL_H
++ 
++ #include <linux/version.h>
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,6,0))
++-
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++#include <linux/objtool.h>
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,6,0))
++ #include <linux/frame.h>
+++#endif
+++
+++
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,6,0))
++ 
++ #define LTTNG_STACK_FRAME_NON_STANDARD(func) \
++ 	STACK_FRAME_NON_STANDARD(func)
++@@ -23,4 +28,4 @@
++ 
++ #endif
++ 
++-#endif /* _LTTNG_WRAPPER_FRAME_H */
+++#endif /* _LTTNG_WRAPPER_OBJTOOL_H */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch b/meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
+new file mode 100644
+index 0000000000..2a100361ea
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
+@@ -0,0 +1,316 @@
++From 5a3b76a81fd3df52405700d369223d64c7a04dc8 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Tue, 27 Oct 2020 11:42:23 -0400
++Subject: [PATCH 03/16] fix: btrfs: tracepoints: output proper root owner for
++ trace_find_free_extent() (v5.10)
++
++See upstream commit :
++
++  commit 437490fed3b0c9ae21af8f70e0f338d34560842b
++  Author: Qu Wenruo <wqu@suse.com>
++  Date:   Tue Jul 28 09:42:49 2020 +0800
++
++    btrfs: tracepoints: output proper root owner for trace_find_free_extent()
++
++    The current trace event always output result like this:
++
++     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=4(METADATA)
++     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=4(METADATA)
++     find_free_extent: root=2(EXTENT_TREE) len=8192 empty_size=0 flags=1(DATA)
++     find_free_extent: root=2(EXTENT_TREE) len=8192 empty_size=0 flags=1(DATA)
++     find_free_extent: root=2(EXTENT_TREE) len=4096 empty_size=0 flags=1(DATA)
++     find_free_extent: root=2(EXTENT_TREE) len=4096 empty_size=0 flags=1(DATA)
++
++    T's saying we're allocating data extent for EXTENT tree, which is not
++    even possible.
++
++    It's because we always use EXTENT tree as the owner for
++    trace_find_free_extent() without using the @root from
++    btrfs_reserve_extent().
++
++    This patch will change the parameter to use proper @root for
++    trace_find_free_extent():
++
++    Now it looks much better:
++
++     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
++     find_free_extent: root=5(FS_TREE) len=8192 empty_size=0 flags=1(DATA)
++     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=1(DATA)
++     find_free_extent: root=5(FS_TREE) len=4096 empty_size=0 flags=1(DATA)
++     find_free_extent: root=5(FS_TREE) len=8192 empty_size=0 flags=1(DATA)
++     find_free_extent: root=5(FS_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
++     find_free_extent: root=7(CSUM_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
++     find_free_extent: root=2(EXTENT_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
++     find_free_extent: root=1(ROOT_TREE) len=16384 empty_size=0 flags=36(METADATA|DUP)
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: I1d674064d29b31417e2acffdeb735f5052a87032
++---
++ instrumentation/events/lttng-module/btrfs.h | 206 ++++++++++++--------
++ 1 file changed, 122 insertions(+), 84 deletions(-)
++
++diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
++index 7b290085..52fcfd0d 100644
++--- a/instrumentation/events/lttng-module/btrfs.h
+++++ b/instrumentation/events/lttng-module/btrfs.h
++@@ -1856,7 +1856,29 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
++ 
++ #endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)) */
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0) || \
+++	LTTNG_KERNEL_RANGE(5,9,6, 5,10,0) || \
+++	LTTNG_KERNEL_RANGE(5,4,78, 5,5,0))
+++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
+++
+++	btrfs_find_free_extent,
+++
+++	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
+++		 u64 data),
+++
+++	TP_ARGS(root, num_bytes, empty_size, data),
+++
+++	TP_FIELDS(
+++		ctf_array(u8, fsid, root->lttng_fs_info_fsid, BTRFS_UUID_SIZE)
+++		ctf_integer(u64, root_objectid, root->root_key.objectid)
+++		ctf_integer(u64, num_bytes, num_bytes)
+++		ctf_integer(u64, empty_size, empty_size)
+++		ctf_integer(u64, data, data)
+++	)
+++)
+++
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
+++
++ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++ 
++ 	btrfs_find_free_extent,
++@@ -1874,6 +1896,105 @@ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++ 	)
++ )
++ 
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
+++
+++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
+++
+++	btrfs_find_free_extent,
+++
+++	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
+++		 u64 data),
+++
+++	TP_ARGS(fs_info, num_bytes, empty_size, data),
+++
+++	TP_FIELDS(
+++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
+++		ctf_integer(u64, num_bytes, num_bytes)
+++		ctf_integer(u64, empty_size, empty_size)
+++		ctf_integer(u64, data, data)
+++	)
+++)
+++
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
+++
+++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
+++
+++	btrfs_find_free_extent,
+++
+++	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
+++		 u64 data),
+++
+++	TP_ARGS(fs_info, num_bytes, empty_size, data),
+++
+++	TP_FIELDS(
+++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
+++		ctf_integer(u64, num_bytes, num_bytes)
+++		ctf_integer(u64, empty_size, empty_size)
+++		ctf_integer(u64, data, data)
+++	)
+++)
+++
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0))
+++
+++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
+++
+++	btrfs_find_free_extent,
+++
+++	TP_PROTO(struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
+++		 u64 data),
+++
+++	TP_ARGS(fs_info, num_bytes, empty_size, data),
+++
+++	TP_FIELDS(
+++		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
+++		ctf_integer(u64, num_bytes, num_bytes)
+++		ctf_integer(u64, empty_size, empty_size)
+++		ctf_integer(u64, data, data)
+++	)
+++)
+++
+++#elif (LTTNG_SLE_KERNEL_RANGE(4,4,73,5,0,0, 4,4,73,6,0,0) || \
+++	LTTNG_SLE_KERNEL_RANGE(4,4,82,6,0,0, 4,4,82,7,0,0) || \
+++	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
+++	LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
+++
+++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
+++
+++	btrfs_find_free_extent,
+++
+++	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
+++		 u64 data),
+++
+++	TP_ARGS(root, num_bytes, empty_size, data),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, root_objectid, root->root_key.objectid)
+++		ctf_integer(u64, num_bytes, num_bytes)
+++		ctf_integer(u64, empty_size, empty_size)
+++		ctf_integer(u64, data, data)
+++	)
+++)
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
+++
+++LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
+++
+++	btrfs_find_free_extent,
+++
+++	TP_PROTO(struct btrfs_root *root, u64 num_bytes, u64 empty_size,
+++		 u64 data),
+++
+++	TP_ARGS(root, num_bytes, empty_size, data),
+++
+++	TP_FIELDS(
+++		ctf_integer(u64, root_objectid, root->root_key.objectid)
+++		ctf_integer(u64, num_bytes, num_bytes)
+++		ctf_integer(u64, empty_size, empty_size)
+++		ctf_integer(u64, data, data)
+++	)
+++)
+++#endif
+++
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
++ 
++ 	TP_PROTO(const struct btrfs_block_group *block_group, u64 start,
++@@ -1907,22 +2028,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
++ )
++ 
++ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,18,0))
++-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++-
++-	btrfs_find_free_extent,
++-
++-	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
++-		 u64 data),
++-
++-	TP_ARGS(fs_info, num_bytes, empty_size, data),
++-
++-	TP_FIELDS(
++-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
++-		ctf_integer(u64, num_bytes, num_bytes)
++-		ctf_integer(u64, empty_size, empty_size)
++-		ctf_integer(u64, data, data)
++-	)
++-)
++ 
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
++ 
++@@ -1957,22 +2062,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
++ )
++ 
++ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0))
++-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++-
++-	btrfs_find_free_extent,
++-
++-	TP_PROTO(const struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
++-		 u64 data),
++-
++-	TP_ARGS(fs_info, num_bytes, empty_size, data),
++-
++-	TP_FIELDS(
++-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
++-		ctf_integer(u64, num_bytes, num_bytes)
++-		ctf_integer(u64, empty_size, empty_size)
++-		ctf_integer(u64, data, data)
++-	)
++-)
++ 
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
++ 
++@@ -2011,23 +2100,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
++ 
++ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0))
++ 
++-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++-
++-	btrfs_find_free_extent,
++-
++-	TP_PROTO(struct btrfs_fs_info *fs_info, u64 num_bytes, u64 empty_size,
++-		 u64 data),
++-
++-	TP_ARGS(fs_info, num_bytes, empty_size, data),
++-
++-	TP_FIELDS(
++-		ctf_array(u8, fsid, lttng_fs_info_fsid, BTRFS_UUID_SIZE)
++-		ctf_integer(u64, num_bytes, num_bytes)
++-		ctf_integer(u64, empty_size, empty_size)
++-		ctf_integer(u64, data, data)
++-	)
++-)
++-
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
++ 
++ 	TP_PROTO(struct btrfs_fs_info *fs_info,
++@@ -2066,23 +2138,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
++ 	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
++ 	LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
++ 
++-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++-
++-	btrfs_find_free_extent,
++-
++-	TP_PROTO(const struct btrfs_root *root, u64 num_bytes, u64 empty_size,
++-		 u64 data),
++-
++-	TP_ARGS(root, num_bytes, empty_size, data),
++-
++-	TP_FIELDS(
++-		ctf_integer(u64, root_objectid, root->root_key.objectid)
++-		ctf_integer(u64, num_bytes, num_bytes)
++-		ctf_integer(u64, empty_size, empty_size)
++-		ctf_integer(u64, data, data)
++-	)
++-)
++-
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
++ 
++ 	TP_PROTO(const struct btrfs_root *root,
++@@ -2120,23 +2175,6 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserve_extent, btrfs_reserve_extent_clus
++ 
++ #elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,3,0))
++ 
++-LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++-
++-	btrfs_find_free_extent,
++-
++-	TP_PROTO(struct btrfs_root *root, u64 num_bytes, u64 empty_size,
++-		 u64 data),
++-
++-	TP_ARGS(root, num_bytes, empty_size, data),
++-
++-	TP_FIELDS(
++-		ctf_integer(u64, root_objectid, root->root_key.objectid)
++-		ctf_integer(u64, num_bytes, num_bytes)
++-		ctf_integer(u64, empty_size, empty_size)
++-		ctf_integer(u64, data, data)
++-	)
++-)
++-
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__reserve_extent,
++ 
++ 	TP_PROTO(struct btrfs_root *root,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0004-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch b/meta/recipes-kernel/lttng/lttng-modules/0004-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
+new file mode 100644
+index 0000000000..67025418c3
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0004-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
+@@ -0,0 +1,179 @@
++From d51a3332909ff034c8ec16ead0090bd6a4e2bc38 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Tue, 27 Oct 2020 12:10:05 -0400
++Subject: [PATCH 04/16] fix: btrfs: make ordered extent tracepoint take
++ btrfs_inode (v5.10)
++
++See upstream commit :
++
++  commit acbf1dd0fcbd10c67826a19958f55a053b32f532
++  Author: Nikolay Borisov <nborisov@suse.com>
++  Date:   Mon Aug 31 14:42:40 2020 +0300
++
++    btrfs: make ordered extent tracepoint take btrfs_inode
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: I096d0801ffe0ad826cfe414cdd1c0857cbd2b624
++---
++ instrumentation/events/lttng-module/btrfs.h | 120 +++++++++++++++-----
++ 1 file changed, 90 insertions(+), 30 deletions(-)
++
++diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
++index 52fcfd0d..d47f3280 100644
++--- a/instrumentation/events/lttng-module/btrfs.h
+++++ b/instrumentation/events/lttng-module/btrfs.h
++@@ -346,7 +346,29 @@ LTTNG_TRACEPOINT_EVENT(btrfs_handle_em_exist,
++ )
++ #endif
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0))
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__ordered_extent,
+++
+++	TP_PROTO(const struct btrfs_inode *inode,
+++		 const struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered),
+++
+++	TP_FIELDS(
+++		ctf_array(u8, fsid, inode->root->lttng_fs_info_fsid, BTRFS_UUID_SIZE)
+++		ctf_integer(ino_t, ino, btrfs_ino(inode))
+++		ctf_integer(u64, file_offset, ordered->file_offset)
+++		ctf_integer(u64, start, ordered->disk_bytenr)
+++		ctf_integer(u64, len, ordered->num_bytes)
+++		ctf_integer(u64, disk_len, ordered->disk_num_bytes)
+++		ctf_integer(u64, bytes_left, ordered->bytes_left)
+++		ctf_integer(unsigned long, flags, ordered->flags)
+++		ctf_integer(int, compress_type, ordered->compress_type)
+++		ctf_integer(int, refs, refcount_read(&ordered->refs))
+++		ctf_integer(u64, root_objectid, inode->root->root_key.objectid)
+++	)
+++)
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__ordered_extent,
++ 
++ 	TP_PROTO(const struct inode *inode,
++@@ -458,7 +480,39 @@ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__ordered_extent,
++ )
++ #endif
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0) || \
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_add,
+++
+++	TP_PROTO(const struct btrfs_inode *inode,
+++		 const struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_remove,
+++
+++	TP_PROTO(const struct btrfs_inode *inode,
+++		 const struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_start,
+++
+++	TP_PROTO(const struct btrfs_inode *inode,
+++		 const struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
+++
+++	TP_PROTO(const struct btrfs_inode *inode,
+++		 const struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0) || \
++ 	LTTNG_SLE_KERNEL_RANGE(4,4,73,5,0,0, 4,4,73,6,0,0) || \
++ 	LTTNG_SLE_KERNEL_RANGE(4,4,82,6,0,0, 4,4,82,7,0,0) || \
++ 	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
++@@ -494,7 +548,41 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
++ 
++ 	TP_ARGS(inode, ordered)
++ )
+++#else
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_add,
+++
+++	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_remove,
+++
+++	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_start,
+++
+++	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
++ 
+++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
+++
+++	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
+++
+++	TP_ARGS(inode, ordered)
+++)
+++#endif
+++
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0) || \
+++	LTTNG_SLE_KERNEL_RANGE(4,4,73,5,0,0, 4,4,73,6,0,0) || \
+++	LTTNG_SLE_KERNEL_RANGE(4,4,82,6,0,0, 4,4,82,7,0,0) || \
+++	LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
+++	LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__writepage,
++ 
++ 	TP_PROTO(const struct page *page, const struct inode *inode,
++@@ -563,34 +651,6 @@ LTTNG_TRACEPOINT_EVENT(btrfs_sync_file,
++ 	)
++ )
++ #else
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_add,
++-
++-	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
++-
++-	TP_ARGS(inode, ordered)
++-)
++-
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_remove,
++-
++-	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
++-
++-	TP_ARGS(inode, ordered)
++-)
++-
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_start,
++-
++-	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
++-
++-	TP_ARGS(inode, ordered)
++-)
++-
++-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
++-
++-	TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
++-
++-	TP_ARGS(inode, ordered)
++-)
++-
++ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__writepage,
++ 
++ 	TP_PROTO(struct page *page, struct inode *inode,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-fast-commit-recovery-path-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-fast-commit-recovery-path-v5.10.patch
+new file mode 100644
+index 0000000000..63d97fa4a3
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-fast-commit-recovery-path-v5.10.patch
+@@ -0,0 +1,91 @@
++From b96f5364ba4d5a8b9e8159fe0b9e20d598a1c0f5 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 26 Oct 2020 17:03:23 -0400
++Subject: [PATCH 05/16] fix: ext4: fast commit recovery path (v5.10)
++
++See upstream commit :
++
++  commit 8016e29f4362e285f0f7e38fadc61a5b7bdfdfa2
++  Author: Harshad Shirwadkar <harshadshirwadkar@gmail.com>
++  Date:   Thu Oct 15 13:37:59 2020 -0700
++
++    ext4: fast commit recovery path
++
++    This patch adds fast commit recovery path support for Ext4 file
++    system. We add several helper functions that are similar in spirit to
++    e2fsprogs journal recovery path handlers. Example of such functions
++    include - a simple block allocator, idempotent block bitmap update
++    function etc. Using these routines and the fast commit log in the fast
++    commit area, the recovery path (ext4_fc_replay()) performs fast commit
++    log recovery.
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: Ia65cf44e108f2df0b458f0d335f33a8f18f50baa
++---
++ instrumentation/events/lttng-module/ext4.h | 40 ++++++++++++++++++++++
++ 1 file changed, 40 insertions(+)
++
++diff --git a/instrumentation/events/lttng-module/ext4.h b/instrumentation/events/lttng-module/ext4.h
++index f9a55e29..5fddccad 100644
++--- a/instrumentation/events/lttng-module/ext4.h
+++++ b/instrumentation/events/lttng-module/ext4.h
++@@ -1423,6 +1423,18 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_load_extent,
++ 	)
++ )
++ 
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
+++	TP_PROTO(struct super_block *sb, unsigned long ino),
+++
+++	TP_ARGS(sb, ino),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, sb->s_dev)
+++		ctf_integer(ino_t, ino, ino)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
++ 	TP_PROTO(struct inode *inode),
++ 
++@@ -2045,6 +2057,34 @@ LTTNG_TRACEPOINT_EVENT(ext4_es_shrink_exit,
++ 
++ #endif
++ 
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++LTTNG_TRACEPOINT_EVENT(ext4_fc_replay_scan,
+++	TP_PROTO(struct super_block *sb, int error, int off),
+++
+++	TP_ARGS(sb, error, off),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, sb->s_dev)
+++		ctf_integer(int, error, error)
+++		ctf_integer(int, off, off)
+++	)
+++)
+++
+++LTTNG_TRACEPOINT_EVENT(ext4_fc_replay,
+++	TP_PROTO(struct super_block *sb, int tag, int ino, int priv1, int priv2),
+++
+++	TP_ARGS(sb, tag, ino, priv1, priv2),
+++
+++	TP_FIELDS(
+++		ctf_integer(dev_t, dev, sb->s_dev)
+++		ctf_integer(int, tag, tag)
+++		ctf_integer(int, ino, ino)
+++		ctf_integer(int, priv1, priv1)
+++		ctf_integer(int, priv2, priv2)
+++	)
+++)
+++#endif
+++
++ #endif /* LTTNG_TRACE_EXT4_H */
++ 
++ /* This part must be outside protection */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0006-fix-KVM-x86-Add-intr-vectoring-info-and-error-code-t.patch b/meta/recipes-kernel/lttng/lttng-modules/0006-fix-KVM-x86-Add-intr-vectoring-info-and-error-code-t.patch
+new file mode 100644
+index 0000000000..56c563cea3
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0006-fix-KVM-x86-Add-intr-vectoring-info-and-error-code-t.patch
+@@ -0,0 +1,124 @@
++From a6334775b763c187d84914e89a0b835a793ae0fd Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 26 Oct 2020 14:11:17 -0400
++Subject: [PATCH 06/16] fix: KVM: x86: Add intr/vectoring info and error code
++ to kvm_exit tracepoint (v5.10)
++
++See upstream commit :
++
++  commit 235ba74f008d2e0936b29f77f68d4e2f73ffd24a
++  Author: Sean Christopherson <sean.j.christopherson@intel.com>
++  Date:   Wed Sep 23 13:13:46 2020 -0700
++
++    KVM: x86: Add intr/vectoring info and error code to kvm_exit tracepoint
++
++    Extend the kvm_exit tracepoint to align it with kvm_nested_vmexit in
++    terms of what information is captured.  On SVM, add interrupt info and
++    error code, while on VMX it add IDT vectoring and error code.  This
++    sets the stage for macrofying the kvm_exit tracepoint definition so that
++    it can be reused for kvm_nested_vmexit without loss of information.
++
++    Opportunistically stuff a zero for VM_EXIT_INTR_INFO if the VM-Enter
++    failed, as the field is guaranteed to be invalid.  Note, it'd be
++    possible to further filter the interrupt/exception fields based on the
++    VM-Exit reason, but the helper is intended only for tracepoints, i.e.
++    an extra VMREAD or two is a non-issue, the failed VM-Enter case is just
++    low hanging fruit.
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: I638fa29ef7d8bb432de42a33f9ae4db43259b915
++---
++ .../events/lttng-module/arch/x86/kvm/trace.h  | 55 ++++++++++++++++++-
++ 1 file changed, 53 insertions(+), 2 deletions(-)
++
++diff --git a/instrumentation/events/lttng-module/arch/x86/kvm/trace.h b/instrumentation/events/lttng-module/arch/x86/kvm/trace.h
++index 4416ae02..0917b51f 100644
++--- a/instrumentation/events/lttng-module/arch/x86/kvm/trace.h
+++++ b/instrumentation/events/lttng-module/arch/x86/kvm/trace.h
++@@ -115,6 +115,37 @@ LTTNG_TRACEPOINT_EVENT_MAP(kvm_apic, kvm_x86_apic,
++ /*
++  * Tracepoint for kvm guest exit:
++  */
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++LTTNG_TRACEPOINT_EVENT_CODE_MAP(kvm_exit, kvm_x86_exit,
+++	TP_PROTO(unsigned int exit_reason, struct kvm_vcpu *vcpu, u32 isa),
+++	TP_ARGS(exit_reason, vcpu, isa),
+++
+++	TP_locvar(
+++		u64 info1, info2;
+++		u32 intr_info, error_code;
+++	),
+++
+++	TP_code_pre(
+++		kvm_x86_ops.get_exit_info(vcpu, &tp_locvar->info1,
+++				&tp_locvar->info2,
+++				&tp_locvar->intr_info,
+++				&tp_locvar->error_code);
+++	),
+++
+++	TP_FIELDS(
+++		ctf_integer(unsigned int, exit_reason, exit_reason)
+++		ctf_integer(unsigned long, guest_rip, kvm_rip_read(vcpu))
+++		ctf_integer(u32, isa, isa)
+++		ctf_integer(u64, info1, tp_locvar->info1)
+++		ctf_integer(u64, info2, tp_locvar->info2)
+++		ctf_integer(u32, intr_info, tp_locvar->intr_info)
+++		ctf_integer(u32, error_code, tp_locvar->error_code)
+++		ctf_integer(unsigned int, vcpu_id, vcpu->vcpu_id)
+++	),
+++
+++	TP_code_post()
+++)
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,7,0))
++ LTTNG_TRACEPOINT_EVENT_CODE_MAP(kvm_exit, kvm_x86_exit,
++ 	TP_PROTO(unsigned int exit_reason, struct kvm_vcpu *vcpu, u32 isa),
++ 	TP_ARGS(exit_reason, vcpu, isa),
++@@ -124,13 +155,32 @@ LTTNG_TRACEPOINT_EVENT_CODE_MAP(kvm_exit, kvm_x86_exit,
++ 	),
++ 
++ 	TP_code_pre(
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,7,0))
++ 		kvm_x86_ops.get_exit_info(vcpu, &tp_locvar->info1,
++ 				&tp_locvar->info2);
+++	),
+++
+++	TP_FIELDS(
+++		ctf_integer(unsigned int, exit_reason, exit_reason)
+++		ctf_integer(unsigned long, guest_rip, kvm_rip_read(vcpu))
+++		ctf_integer(u32, isa, isa)
+++		ctf_integer(u64, info1, tp_locvar->info1)
+++		ctf_integer(u64, info2, tp_locvar->info2)
+++	),
+++
+++	TP_code_post()
+++)
++ #else
+++LTTNG_TRACEPOINT_EVENT_CODE_MAP(kvm_exit, kvm_x86_exit,
+++	TP_PROTO(unsigned int exit_reason, struct kvm_vcpu *vcpu, u32 isa),
+++	TP_ARGS(exit_reason, vcpu, isa),
+++
+++	TP_locvar(
+++		u64 info1, info2;
+++	),
+++
+++	TP_code_pre(
++ 		kvm_x86_ops->get_exit_info(vcpu, &tp_locvar->info1,
++ 				&tp_locvar->info2);
++-#endif
++ 	),
++ 
++ 	TP_FIELDS(
++@@ -143,6 +193,7 @@ LTTNG_TRACEPOINT_EVENT_CODE_MAP(kvm_exit, kvm_x86_exit,
++ 
++ 	TP_code_post()
++ )
+++#endif
++ 
++ /*
++  * Tracepoint for kvm interrupt injection:
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0007-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0007-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
+new file mode 100644
+index 0000000000..d78a8c25c7
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0007-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
+@@ -0,0 +1,82 @@
++From 2f421c43c60b2c9d3ed63c1a363320e98a536a35 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 26 Oct 2020 14:28:35 -0400
++Subject: [PATCH 07/16] fix: kvm: x86/mmu: Add TDP MMU PF handler (v5.10)
++
++See upstream commit :
++
++  commit bb18842e21111a979e2e0e1c5d85c09646f18d51
++  Author: Ben Gardon <bgardon@google.com>
++  Date:   Wed Oct 14 11:26:50 2020 -0700
++
++    kvm: x86/mmu: Add TDP MMU PF handler
++
++    Add functions to handle page faults in the TDP MMU. These page faults
++    are currently handled in much the same way as the x86 shadow paging
++    based MMU, however the ordering of some operations is slightly
++    different. Future patches will add eager NX splitting, a fast page fault
++    handler, and parallel page faults.
++
++    Tested by running kvm-unit-tests and KVM selftests on an Intel Haswell
++    machine. This series introduced no new failures.
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: Ie56959cb6c77913d2f1188b0ca15da9114623a4e
++---
++ .../lttng-module/arch/x86/kvm/mmutrace.h      | 20 ++++++++++++++++++-
++ probes/lttng-probe-kvm-x86-mmu.c              |  5 +++++
++ 2 files changed, 24 insertions(+), 1 deletion(-)
++
++diff --git a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
++index e5470400..86717835 100644
++--- a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
+++++ b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
++@@ -163,7 +163,25 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(kvm_mmu_page_class, kvm_mmu_prepare_zap_page,
++ 	TP_ARGS(sp)
++ )
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0))
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++
+++LTTNG_TRACEPOINT_EVENT_MAP(
+++	mark_mmio_spte,
+++
+++	kvm_mmu_mark_mmio_spte,
+++
+++	TP_PROTO(u64 *sptep, gfn_t gfn, u64 spte),
+++	TP_ARGS(sptep, gfn, spte),
+++
+++	TP_FIELDS(
+++		ctf_integer_hex(void *, sptep, sptep)
+++		ctf_integer(gfn_t, gfn, gfn)
+++		ctf_integer(unsigned, access, spte & ACC_ALL)
+++		ctf_integer(unsigned int, gen, get_mmio_spte_generation(spte))
+++	)
+++)
+++
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0))
++ 
++ LTTNG_TRACEPOINT_EVENT_MAP(
++ 	mark_mmio_spte,
++diff --git a/probes/lttng-probe-kvm-x86-mmu.c b/probes/lttng-probe-kvm-x86-mmu.c
++index 8f981865..5043c776 100644
++--- a/probes/lttng-probe-kvm-x86-mmu.c
+++++ b/probes/lttng-probe-kvm-x86-mmu.c
++@@ -31,6 +31,11 @@
++ #include <../../arch/x86/kvm/mmutrace.h>
++ #endif
++ 
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++#include <../arch/x86/kvm/mmu.h>
+++#include <../arch/x86/kvm/mmu/spte.h>
+++#endif
+++
++ #undef TRACE_INCLUDE_PATH
++ #undef TRACE_INCLUDE_FILE
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0008-fix-KVM-x86-mmu-Return-unique-RET_PF_-values-if-the-.patch b/meta/recipes-kernel/lttng/lttng-modules/0008-fix-KVM-x86-mmu-Return-unique-RET_PF_-values-if-the-.patch
+new file mode 100644
+index 0000000000..a71bb728f0
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0008-fix-KVM-x86-mmu-Return-unique-RET_PF_-values-if-the-.patch
+@@ -0,0 +1,71 @@
++From 14bbccffa579f4d66e2900843d6afae1294ce7c8 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 26 Oct 2020 17:07:13 -0400
++Subject: [PATCH 08/16] fix: KVM: x86/mmu: Return unique RET_PF_* values if the
++ fault was fixed (v5.10)
++
++See upstream commit :
++
++  commit c4371c2a682e0da1ed2cd7e3c5496f055d873554
++  Author: Sean Christopherson <sean.j.christopherson@intel.com>
++  Date:   Wed Sep 23 15:04:24 2020 -0700
++
++    KVM: x86/mmu: Return unique RET_PF_* values if the fault was fixed
++
++    Introduce RET_PF_FIXED and RET_PF_SPURIOUS to provide unique return
++    values instead of overloading RET_PF_RETRY.  In the short term, the
++    unique values add clarity to the code and RET_PF_SPURIOUS will be used
++    by set_spte() to avoid unnecessary work for spurious faults.
++
++    In the long term, TDX will use RET_PF_FIXED to deterministically map
++    memory during pre-boot.  The page fault flow may bail early for benign
++    reasons, e.g. if the mmu_notifier fires for an unrelated address.  With
++    only RET_PF_RETRY, it's impossible for the caller to distinguish between
++    "cool, page is mapped" and "darn, need to try again", and thus cannot
++    handle benign cases like the mmu_notifier retry.
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: Ie0855c78852b45f588e131fe2463e15aae1bc023
++---
++ .../lttng-module/arch/x86/kvm/mmutrace.h      | 22 ++++++++++++++++++-
++ 1 file changed, 21 insertions(+), 1 deletion(-)
++
++diff --git a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
++index 86717835..cdf0609f 100644
++--- a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
+++++ b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
++@@ -233,7 +233,27 @@ LTTNG_TRACEPOINT_EVENT_MAP(
++ 	)
++ )
++ 
++-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0) || \
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++LTTNG_TRACEPOINT_EVENT_MAP(
+++	fast_page_fault,
+++
+++	kvm_mmu_fast_page_fault,
+++
+++	TP_PROTO(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u32 error_code,
+++		 u64 *sptep, u64 old_spte, int ret),
+++	TP_ARGS(vcpu, cr2_or_gpa, error_code, sptep, old_spte, ret),
+++
+++	TP_FIELDS(
+++		ctf_integer(int, vcpu_id, vcpu->vcpu_id)
+++		ctf_integer(gpa_t, cr2_or_gpa, cr2_or_gpa)
+++		ctf_integer(u32, error_code, error_code)
+++		ctf_integer_hex(u64 *, sptep, sptep)
+++		ctf_integer(u64, old_spte, old_spte)
+++		ctf_integer(u64, new_spte, *sptep)
+++		ctf_integer(int, ret, ret)
+++	)
+++)
+++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0) || \
++ 	LTTNG_KERNEL_RANGE(4,19,103, 4,20,0) || \
++ 	LTTNG_KERNEL_RANGE(5,4,19, 5,5,0) || \
++ 	LTTNG_KERNEL_RANGE(5,5,3, 5,6,0) || \
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0009-fix-tracepoint-Optimize-using-static_call-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0009-fix-tracepoint-Optimize-using-static_call-v5.10.patch
+new file mode 100644
+index 0000000000..b942aa5c95
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0009-fix-tracepoint-Optimize-using-static_call-v5.10.patch
+@@ -0,0 +1,155 @@
++From c6b31b349fe901a8f586a66064f9e9b15449ac1c Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 26 Oct 2020 17:09:05 -0400
++Subject: [PATCH 09/16] fix: tracepoint: Optimize using static_call() (v5.10)
++
++See upstream commit :
++
++  commit d25e37d89dd2f41d7acae0429039d2f0ae8b4a07
++  Author: Steven Rostedt (VMware) <rostedt@goodmis.org>
++  Date:   Tue Aug 18 15:57:52 2020 +0200
++
++    tracepoint: Optimize using static_call()
++
++    Currently the tracepoint site will iterate a vector and issue indirect
++    calls to however many handlers are registered (ie. the vector is
++    long).
++
++    Using static_call() it is possible to optimize this for the common
++    case of only having a single handler registered. In this case the
++    static_call() can directly call this handler. Otherwise, if the vector
++    is longer than 1, call a function that iterates the whole vector like
++    the current code.
++
++Upstream-Status: Backport
++
++Change-Id: I739dd84d62cc1a821b8bd8acff74fa29aa25d22f
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ lttng-statedump-impl.c    | 44 ++++++++++++++++++++++++++++++++-------
++ probes/lttng.c            |  7 +++++--
++ tests/probes/lttng-test.c |  7 ++++++-
++ wrapper/tracepoint.h      |  8 +++++++
++ 4 files changed, 56 insertions(+), 10 deletions(-)
++
++diff --git a/lttng-statedump-impl.c b/lttng-statedump-impl.c
++index 54a309d1..e0b19b42 100644
++--- a/lttng-statedump-impl.c
+++++ b/lttng-statedump-impl.c
++@@ -55,13 +55,43 @@
++ #define LTTNG_INSTRUMENTATION
++ #include <instrumentation/events/lttng-module/lttng-statedump.h>
++ 
++-DEFINE_TRACE(lttng_statedump_block_device);
++-DEFINE_TRACE(lttng_statedump_end);
++-DEFINE_TRACE(lttng_statedump_interrupt);
++-DEFINE_TRACE(lttng_statedump_file_descriptor);
++-DEFINE_TRACE(lttng_statedump_start);
++-DEFINE_TRACE(lttng_statedump_process_state);
++-DEFINE_TRACE(lttng_statedump_network_interface);
+++LTTNG_DEFINE_TRACE(lttng_statedump_block_device,
+++	TP_PROTO(struct lttng_session *session,
+++		dev_t dev, const char *diskname),
+++	TP_ARGS(session, dev, diskname));
+++
+++LTTNG_DEFINE_TRACE(lttng_statedump_end,
+++	TP_PROTO(struct lttng_session *session),
+++	TP_ARGS(session));
+++
+++LTTNG_DEFINE_TRACE(lttng_statedump_interrupt,
+++	TP_PROTO(struct lttng_session *session,
+++		unsigned int irq, const char *chip_name,
+++		struct irqaction *action),
+++	TP_ARGS(session, irq, chip_name, action));
+++
+++LTTNG_DEFINE_TRACE(lttng_statedump_file_descriptor,
+++	TP_PROTO(struct lttng_session *session,
+++		struct files_struct *files,
+++		int fd, const char *filename,
+++		unsigned int flags, fmode_t fmode),
+++	TP_ARGS(session, files, fd, filename, flags, fmode));
+++
+++LTTNG_DEFINE_TRACE(lttng_statedump_start,
+++	TP_PROTO(struct lttng_session *session),
+++	TP_ARGS(session));
+++
+++LTTNG_DEFINE_TRACE(lttng_statedump_process_state,
+++	TP_PROTO(struct lttng_session *session,
+++		struct task_struct *p,
+++		int type, int mode, int submode, int status,
+++		struct files_struct *files),
+++	TP_ARGS(session, p, type, mode, submode, status, files));
+++
+++LTTNG_DEFINE_TRACE(lttng_statedump_network_interface,
+++	TP_PROTO(struct lttng_session *session,
+++		struct net_device *dev, struct in_ifaddr *ifa),
+++	TP_ARGS(session, dev, ifa));
++ 
++ struct lttng_fd_ctx {
++ 	char *page;
++diff --git a/probes/lttng.c b/probes/lttng.c
++index 05bc1388..7ddaa69f 100644
++--- a/probes/lttng.c
+++++ b/probes/lttng.c
++@@ -8,7 +8,7 @@
++  */
++ 
++ #include <linux/module.h>
++-#include <linux/tracepoint.h>
+++#include <wrapper/tracepoint.h>
++ #include <linux/uaccess.h>
++ #include <linux/gfp.h>
++ #include <linux/fs.h>
++@@ -32,7 +32,10 @@
++ #define LTTNG_LOGGER_COUNT_MAX	1024
++ #define LTTNG_LOGGER_FILE	"lttng-logger"
++ 
++-DEFINE_TRACE(lttng_logger);
+++LTTNG_DEFINE_TRACE(lttng_logger,
+++	PARAMS(const char __user *text, size_t len),
+++	PARAMS(text, len)
+++);
++ 
++ static struct proc_dir_entry *lttng_logger_dentry;
++ 
++diff --git a/tests/probes/lttng-test.c b/tests/probes/lttng-test.c
++index c728bed5..8f2d3feb 100644
++--- a/tests/probes/lttng-test.c
+++++ b/tests/probes/lttng-test.c
++@@ -26,7 +26,12 @@
++ #define LTTNG_INSTRUMENTATION
++ #include <instrumentation/events/lttng-module/lttng-test.h>
++ 
++-DEFINE_TRACE(lttng_test_filter_event);
+++LTTNG_DEFINE_TRACE(lttng_test_filter_event,
+++	PARAMS(int anint, int netint, long *values,
+++		char *text, size_t textlen,
+++		char *etext, uint32_t * net_values),
+++	PARAMS(anint, netint, values, text, textlen, etext, net_values)
+++);
++ 
++ #define LTTNG_TEST_FILTER_EVENT_FILE	"lttng-test-filter-event"
++ 
++diff --git a/wrapper/tracepoint.h b/wrapper/tracepoint.h
++index 3883e11a..758038b6 100644
++--- a/wrapper/tracepoint.h
+++++ b/wrapper/tracepoint.h
++@@ -20,6 +20,14 @@
++ 
++ #endif
++ 
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
+++#define LTTNG_DEFINE_TRACE(name, proto, args)		\
+++	DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
+++#else
+++#define LTTNG_DEFINE_TRACE(name, proto, args)		\
+++	DEFINE_TRACE(name)
+++#endif
+++
++ #ifndef HAVE_KABI_2635_TRACEPOINT
++ 
++ #define kabi_2635_tracepoint_probe_register tracepoint_probe_register
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0010-fix-include-order-for-older-kernels.patch b/meta/recipes-kernel/lttng/lttng-modules/0010-fix-include-order-for-older-kernels.patch
+new file mode 100644
+index 0000000000..250e9c6261
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0010-fix-include-order-for-older-kernels.patch
+@@ -0,0 +1,31 @@
++From 2ce89d35c9477d8c17c00489c72e1548e16af9b9 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Fri, 20 Nov 2020 11:42:30 -0500
++Subject: [PATCH 10/16] fix: include order for older kernels
++
++Fixes a build failure on v3.0 and v3.1.
++
++Upstream-Status: Backport
++
++Change-Id: Ic48512d2aa5ee46678e67d147b92dba6d0959615
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ lttng-events.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/lttng-events.h b/lttng-events.h
++index 099fd78b..f5cc57c6 100644
++--- a/lttng-events.h
+++++ b/lttng-events.h
++@@ -16,6 +16,7 @@
++ #include <linux/kref.h>
++ #include <lttng-cpuhotplug.h>
++ #include <linux/uuid.h>
+++#include <linux/irq_work.h>
++ #include <wrapper/uprobes.h>
++ #include <lttng-tracer.h>
++ #include <lttng-abi.h>
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0011-Add-release-maintainer-script.patch b/meta/recipes-kernel/lttng/lttng-modules/0011-Add-release-maintainer-script.patch
+new file mode 100644
+index 0000000000..d25d64b9de
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0011-Add-release-maintainer-script.patch
+@@ -0,0 +1,59 @@
++From 22ffa48439e617a32556365e00827fba062c5688 Mon Sep 17 00:00:00 2001
++From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Date: Mon, 23 Nov 2020 10:49:57 -0500
++Subject: [PATCH 11/16] Add release maintainer script
++
++Upstream-Status: Backport
++
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ scripts/maintainer/do-release.sh | 37 ++++++++++++++++++++++++++++++++
++ 1 file changed, 37 insertions(+)
++ create mode 100755 scripts/maintainer/do-release.sh
++
++diff --git a/scripts/maintainer/do-release.sh b/scripts/maintainer/do-release.sh
++new file mode 100755
++index 00000000..e0cec167
++--- /dev/null
+++++ b/scripts/maintainer/do-release.sh
++@@ -0,0 +1,37 @@
+++#!/bin/sh
+++
+++# invoke with do-release 2.N.M, or 2.N.M-rcXX
+++
+++REL=$1
+++SRCDIR=~/git/lttng-modules
+++# The output files are created in ${HOME}/stable/
+++OUTPUTDIR=${HOME}/stable
+++
+++if [ x"$1" = x"" ]; then
+++	echo "1 arg : VERSION";
+++	exit 1;
+++fi
+++
+++cd ${OUTPUTDIR}
+++
+++echo Doing LTTng modules release ${REL}
+++
+++mkdir lttng-modules-${REL}
+++cd lttng-modules-${REL}
+++cp -ax ${SRCDIR}/. .
+++
+++#cleanup
+++make clean
+++git clean -xdf
+++
+++for a in \*.orig \*.rej Module.markers Module.symvers; do
+++	find . -name "${a}" -exec rm '{}' \;;
+++done
+++for a in outgoing .tmp_versions .git .pc; do
+++	find . -name "${a}" -exec rm -rf '{}' \;;
+++done
+++
+++cd ..
+++tar cvfj lttng-modules-${REL}.tar.bz2 lttng-modules-${REL}
+++mksums lttng-modules-${REL}.tar.bz2
+++signpkg lttng-modules-${REL}.tar.bz2
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0012-Improve-the-release-script.patch b/meta/recipes-kernel/lttng/lttng-modules/0012-Improve-the-release-script.patch
+new file mode 100644
+index 0000000000..f5e7fb55a2
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0012-Improve-the-release-script.patch
+@@ -0,0 +1,173 @@
++From a241d30fa82ed0be1026f14e36e8bd2b0e65740d Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 23 Nov 2020 12:15:43 -0500
++Subject: [PATCH 12/16] Improve the release script
++
++  * Use git-archive, this removes all custom code to cleanup the repo, it
++    can now be used in an unclean repo as the code will be exported from
++    a specific tag.
++  * Add parameters, this will allow using the script on any machine
++    while keeping the default behavior for the maintainer.
++
++Upstream-Status: Backport
++
++Change-Id: I9f29d0e1afdbf475d0bbaeb9946ca3216f725e86
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ .gitattributes                   |   3 +
++ scripts/maintainer/do-release.sh | 121 +++++++++++++++++++++++++------
++ 2 files changed, 100 insertions(+), 24 deletions(-)
++ create mode 100644 .gitattributes
++
++diff --git a/.gitattributes b/.gitattributes
++new file mode 100644
++index 00000000..7839355a
++--- /dev/null
+++++ b/.gitattributes
++@@ -0,0 +1,3 @@
+++.gitattributes export-ignore
+++.gitignore export-ignore
+++.gitreview export-ignore
++diff --git a/scripts/maintainer/do-release.sh b/scripts/maintainer/do-release.sh
++index e0cec167..5e94e136 100755
++--- a/scripts/maintainer/do-release.sh
+++++ b/scripts/maintainer/do-release.sh
++@@ -1,37 +1,110 @@
++-#!/bin/sh
+++#!/bin/bash
+++
+++set -eu
+++set -o pipefail
++ 
++ # invoke with do-release 2.N.M, or 2.N.M-rcXX
++ 
++-REL=$1
++-SRCDIR=~/git/lttng-modules
+++# Default maintainer values
+++SRCDIR="${HOME}/git/lttng-modules"
++ # The output files are created in ${HOME}/stable/
++-OUTPUTDIR=${HOME}/stable
+++OUTPUTDIR="${HOME}/stable"
+++SIGN="yes"
+++VERBOSE=""
+++
+++usage() {
+++	echo "Usage: do-release.sh [OPTION]... RELEASE"
+++	echo
+++	echo "Mandatory arguments to long options are mandatory for short options too."
+++	echo "  -s, --srcdir DIR               source directory"
+++	echo "  -o, --outputdir DIR            output directory, must exist"
+++	echo "  -n, --no-sign                  don't GPG sign the output archive"
+++	echo "  -v, --verbose                  verbose command output"
+++}
+++
+++POS_ARGS=()
+++while [[ $# -gt 0 ]]
+++do
+++	arg="$1"
+++
+++	case $arg in
+++	-n|--no-sign)
+++		SIGN="no"
+++		shift 1
+++	;;
+++
+++	-s|--srcdir)
+++		SRCDIR="$2"
+++		shift 2
+++	;;
+++
+++	-o|--outputdir)
+++		OUTPUTDIR="$2"
+++		shift 2
+++	;;
+++
+++	-v|--verbose)
+++		VERBOSE="-v"
+++		shift 1
+++	;;
+++
+++	# Catch unknown arguments
+++	-*)
+++		usage
+++		exit 1
+++	;;
+++
+++	*)
+++	POS_ARGS+=("$1")
+++	shift
+++	;;
+++	esac
+++done
+++set -- "${POS_ARGS[@]}"
++ 
++-if [ x"$1" = x"" ]; then
++-	echo "1 arg : VERSION";
+++REL=${1:-}
+++
+++if [ x"${REL}" = x"" ]; then
+++	usage
++ 	exit 1;
++ fi
++ 
++-cd ${OUTPUTDIR}
+++echo "Doing LTTng modules release ${REL}"
+++echo "  Source dir: ${SRCDIR}"
+++echo "  Output dir: ${OUTPUTDIR}"
+++echo "  GPG sign: ${SIGN}"
++ 
++-echo Doing LTTng modules release ${REL}
+++# Make sure the output directory exists
+++if [ ! -d "${OUTPUTDIR}" ]; then
+++	echo "Output directory '${OUTPUTDIR}' doesn't exist."
+++	exit 1
+++fi
++ 
++-mkdir lttng-modules-${REL}
++-cd lttng-modules-${REL}
++-cp -ax ${SRCDIR}/. .
+++# Make sure the source directory is a git repository
+++if [ ! -r "${SRCDIR}/.git/config" ]; then
+++	echo "Source directory '${SRCDIR}' isn't a git repository."
+++	exit 1
+++fi
++ 
++-#cleanup
++-make clean
++-git clean -xdf
+++# Set the git repo directory for all further git commands
+++export GIT_DIR="${SRCDIR}/.git/"
++ 
++-for a in \*.orig \*.rej Module.markers Module.symvers; do
++-	find . -name "${a}" -exec rm '{}' \;;
++-done
++-for a in outgoing .tmp_versions .git .pc; do
++-	find . -name "${a}" -exec rm -rf '{}' \;;
++-done
+++# Check if the release tag exists
+++if ! git rev-parse "refs/tags/v${REL}" >/dev/null 2>&1; then
+++	echo "Release tag 'v${REL}' doesn't exist."
+++	exit 1
+++fi
+++
+++# Generate the compressed tar archive, the git attributes from the tag will be used.
+++git archive $VERBOSE --format=tar --prefix="lttng-modules-${REL}/" "v${REL}" | bzip2 > "${OUTPUTDIR}/lttng-modules-${REL}.tar.bz2"
++ 
++-cd ..
++-tar cvfj lttng-modules-${REL}.tar.bz2 lttng-modules-${REL}
++-mksums lttng-modules-${REL}.tar.bz2
++-signpkg lttng-modules-${REL}.tar.bz2
+++pushd "${OUTPUTDIR}" >/dev/null
+++# Generate the hashes
+++md5sum "lttng-modules-${REL}.tar.bz2" > "lttng-modules-${REL}.tar.bz2.md5"
+++sha256sum "lttng-modules-${REL}.tar.bz2" > "lttng-modules-${REL}.tar.bz2.sha256"
+++
+++if [ "x${SIGN}" = "xyes" ]; then
+++	# Sign with the default key
+++	gpg --armor -b "lttng-modules-${REL}.tar.bz2"
+++fi
+++popd >/dev/null
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0013-fix-backport-of-fix-ext4-fast-commit-recovery-path-v.patch b/meta/recipes-kernel/lttng/lttng-modules/0013-fix-backport-of-fix-ext4-fast-commit-recovery-path-v.patch
+new file mode 100644
+index 0000000000..f6288923e1
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0013-fix-backport-of-fix-ext4-fast-commit-recovery-path-v.patch
+@@ -0,0 +1,32 @@
++From 59fcc704bea8ecf4bd401e744df41e3331359524 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Mon, 23 Nov 2020 10:19:52 -0500
++Subject: [PATCH 13/16] fix: backport of fix: ext4: fast commit recovery path
++ (v5.10)
++
++Add missing '#endif'.
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: I43349d685d7ed740b32ce992be0c2e7e6f12c799
++---
++ instrumentation/events/lttng-module/ext4.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/instrumentation/events/lttng-module/ext4.h b/instrumentation/events/lttng-module/ext4.h
++index 5fddccad..d454fa6e 100644
++--- a/instrumentation/events/lttng-module/ext4.h
+++++ b/instrumentation/events/lttng-module/ext4.h
++@@ -1446,6 +1446,7 @@ LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
++ 	)
++ )
++ #endif
+++#endif
++ 
++ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0014-Revert-fix-include-order-for-older-kernels.patch b/meta/recipes-kernel/lttng/lttng-modules/0014-Revert-fix-include-order-for-older-kernels.patch
+new file mode 100644
+index 0000000000..446391a832
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0014-Revert-fix-include-order-for-older-kernels.patch
+@@ -0,0 +1,32 @@
++From b2df75dd378ce5260bb51872e43ac1d76fbf4588 Mon Sep 17 00:00:00 2001
++From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Date: Mon, 23 Nov 2020 14:21:51 -0500
++Subject: [PATCH 14/16] Revert "fix: include order for older kernels"
++
++This reverts commit 2ce89d35c9477d8c17c00489c72e1548e16af9b9.
++
++This commit is only needed for master and stable-2.12, because
++stable-2.11 does not include irq_work.h.
++
++Upstream-Status: Backport
++
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ lttng-events.h | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/lttng-events.h b/lttng-events.h
++index f5cc57c6..099fd78b 100644
++--- a/lttng-events.h
+++++ b/lttng-events.h
++@@ -16,7 +16,6 @@
++ #include <linux/kref.h>
++ #include <lttng-cpuhotplug.h>
++ #include <linux/uuid.h>
++-#include <linux/irq_work.h>
++ #include <wrapper/uprobes.h>
++ #include <lttng-tracer.h>
++ #include <lttng-abi.h>
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0015-fix-backport-of-fix-tracepoint-Optimize-using-static.patch b/meta/recipes-kernel/lttng/lttng-modules/0015-fix-backport-of-fix-tracepoint-Optimize-using-static.patch
+new file mode 100644
+index 0000000000..1ff10d48da
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0015-fix-backport-of-fix-tracepoint-Optimize-using-static.patch
+@@ -0,0 +1,46 @@
++From f8922333020aaa267e17fb23180b56c4c16ebe9e Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Tue, 24 Nov 2020 11:11:42 -0500
++Subject: [PATCH 15/16] fix: backport of fix: tracepoint: Optimize using
++ static_call() (v5.10)
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: I94f2b845f11654e639f03254185980de527a4ca8
++---
++ lttng-statedump-impl.c | 9 ++++-----
++ 1 file changed, 4 insertions(+), 5 deletions(-)
++
++diff --git a/lttng-statedump-impl.c b/lttng-statedump-impl.c
++index e0b19b42..a8c32db5 100644
++--- a/lttng-statedump-impl.c
+++++ b/lttng-statedump-impl.c
++@@ -72,10 +72,9 @@ LTTNG_DEFINE_TRACE(lttng_statedump_interrupt,
++ 
++ LTTNG_DEFINE_TRACE(lttng_statedump_file_descriptor,
++ 	TP_PROTO(struct lttng_session *session,
++-		struct files_struct *files,
++-		int fd, const char *filename,
+++		struct task_struct *p, int fd, const char *filename,
++ 		unsigned int flags, fmode_t fmode),
++-	TP_ARGS(session, files, fd, filename, flags, fmode));
+++	TP_ARGS(session, p, fd, filename, flags, fmode));
++ 
++ LTTNG_DEFINE_TRACE(lttng_statedump_start,
++ 	TP_PROTO(struct lttng_session *session),
++@@ -85,8 +84,8 @@ LTTNG_DEFINE_TRACE(lttng_statedump_process_state,
++ 	TP_PROTO(struct lttng_session *session,
++ 		struct task_struct *p,
++ 		int type, int mode, int submode, int status,
++-		struct files_struct *files),
++-	TP_ARGS(session, p, type, mode, submode, status, files));
+++		struct pid_namespace *pid_ns),
+++	TP_ARGS(session, p, type, mode, submode, status, pid_ns));
++ 
++ LTTNG_DEFINE_TRACE(lttng_statedump_network_interface,
++ 	TP_PROTO(struct lttng_session *session,
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0016-fix-adjust-version-range-for-trace_find_free_extent.patch b/meta/recipes-kernel/lttng/lttng-modules/0016-fix-adjust-version-range-for-trace_find_free_extent.patch
+new file mode 100644
+index 0000000000..59d4d7afa7
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0016-fix-adjust-version-range-for-trace_find_free_extent.patch
+@@ -0,0 +1,30 @@
++From 5c3e67d7994097cc75f45258b7518aacb55dde1b Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Tue, 24 Nov 2020 11:27:18 -0500
++Subject: [PATCH 16/16] fix: adjust version range for trace_find_free_extent()
++
++Upstream-Status: Backport
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Change-Id: Iaa6088092cf58b4d29d55f3ff9586c57ae272302
++---
++ instrumentation/events/lttng-module/btrfs.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
++index d47f3280..efe7af96 100644
++--- a/instrumentation/events/lttng-module/btrfs.h
+++++ b/instrumentation/events/lttng-module/btrfs.h
++@@ -1917,7 +1917,7 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__reserved_extent,  btrfs_reserved_extent_f
++ #endif /* #else #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,10,0)) */
++ 
++ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0) || \
++-	LTTNG_KERNEL_RANGE(5,9,6, 5,10,0) || \
+++	LTTNG_KERNEL_RANGE(5,9,5, 5,10,0) || \
++ 	LTTNG_KERNEL_RANGE(5,4,78, 5,5,0))
++ LTTNG_TRACEPOINT_EVENT_MAP(find_free_extent,
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb
+index a38d8afb7a..26c247e169 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.6.bb
+@@ -11,6 +11,22 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           file://0001-fix-strncpy-equals-destination-size-warning.patch \
++           file://0002-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch \
++           file://0003-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch \
++           file://0004-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch \
++           file://0005-fix-ext4-fast-commit-recovery-path-v5.10.patch \
++           file://0006-fix-KVM-x86-Add-intr-vectoring-info-and-error-code-t.patch \
++           file://0007-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch \
++           file://0008-fix-KVM-x86-mmu-Return-unique-RET_PF_-values-if-the-.patch \
++           file://0009-fix-tracepoint-Optimize-using-static_call-v5.10.patch \
++           file://0010-fix-include-order-for-older-kernels.patch \
++           file://0011-Add-release-maintainer-script.patch \
++           file://0012-Improve-the-release-script.patch \
++           file://0013-fix-backport-of-fix-ext4-fast-commit-recovery-path-v.patch \
++           file://0014-Revert-fix-include-order-for-older-kernels.patch \
++           file://0015-fix-backport-of-fix-tracepoint-Optimize-using-static.patch \
++           file://0016-fix-adjust-version-range-for-trace_find_free_extent.patch \
+            "
  
--SRCREV_machine ?= "1fe1ef9c7272caf75d92b3e9166a0f29c4f06141"
--SRCREV_meta ?= "8d0ed83a864cc91eef4d2abbc90f13d4ecd1c213"
-+SRCREV_machine ?= "97576fb7447efba82eb025bde3ae9ceb29939d5e"
-+SRCREV_meta ?= "d626f9108d590d41e82b97cbffc380aa699e86e1"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.75"
-+LINUX_VERSION ?= "5.4.78"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index f6ed7f35ea..d8784c49ad 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.75"
-+LINUX_VERSION ?= "5.4.78"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "83d064534da33ab41108a786d917068f282a9bf2"
--SRCREV_machine ?= "356914747645db5ceba98b22acdfa060ef1764af"
--SRCREV_meta ?= "8d0ed83a864cc91eef4d2abbc90f13d4ecd1c213"
-+SRCREV_machine_qemuarm ?= "6cf3b1d30bc7ac9bd86190129b3cbbdd04b8b236"
-+SRCREV_machine ?= "370ef947d5b1470e858bae5a300110566c994b9f"
-+SRCREV_meta ?= "d626f9108d590d41e82b97cbffc380aa699e86e1"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index e049d21689..0bf226215e 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "879db1ae1856cf5a9fe4609fdbcbe2e3c7bade5f"
--SRCREV_machine_qemuarm64 ?= "356914747645db5ceba98b22acdfa060ef1764af"
--SRCREV_machine_qemumips ?= "190c3ce9c2dbc709c3dcf02d8cfa80adc8a063d2"
--SRCREV_machine_qemuppc ?= "356914747645db5ceba98b22acdfa060ef1764af"
--SRCREV_machine_qemuriscv64 ?= "356914747645db5ceba98b22acdfa060ef1764af"
--SRCREV_machine_qemux86 ?= "356914747645db5ceba98b22acdfa060ef1764af"
--SRCREV_machine_qemux86-64 ?= "356914747645db5ceba98b22acdfa060ef1764af"
--SRCREV_machine_qemumips64 ?= "98b1fc2eafc28e5c198e23579e38a76626c66182"
--SRCREV_machine ?= "356914747645db5ceba98b22acdfa060ef1764af"
--SRCREV_meta ?= "8d0ed83a864cc91eef4d2abbc90f13d4ecd1c213"
-+SRCREV_machine_qemuarm ?= "b3bafed66cf1be24caaa9c876d7d9a8298df831b"
-+SRCREV_machine_qemuarm64 ?= "370ef947d5b1470e858bae5a300110566c994b9f"
-+SRCREV_machine_qemumips ?= "36c2a0b1caef0b2dd6b5777d1939c383238536a8"
-+SRCREV_machine_qemuppc ?= "370ef947d5b1470e858bae5a300110566c994b9f"
-+SRCREV_machine_qemuriscv64 ?= "370ef947d5b1470e858bae5a300110566c994b9f"
-+SRCREV_machine_qemux86 ?= "370ef947d5b1470e858bae5a300110566c994b9f"
-+SRCREV_machine_qemux86-64 ?= "370ef947d5b1470e858bae5a300110566c994b9f"
-+SRCREV_machine_qemumips64 ?= "971a3cedf9a2a7774fa072b9a13380fb59fd605b"
-+SRCREV_machine ?= "370ef947d5b1470e858bae5a300110566c994b9f"
-+SRCREV_meta ?= "d626f9108d590d41e82b97cbffc380aa699e86e1"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.75"
-+LINUX_VERSION ?= "5.4.78"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
+ SRC_URI[md5sum] = "8ef09fdfcdec669d33f7fc1c1c80f2c4"
 -- 
 2.17.1
 
