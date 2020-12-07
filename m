@@ -1,88 +1,87 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web08.789.1607374617712662364
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web08.157.1607377772372854318
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Dec 2020 12:56:58 -0800
+ Mon, 07 Dec 2020 13:49:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=NnHplT37;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.67, mailfrom: fabio.berton@ossystems.com.br)
-Received: by mail-qv1-f67.google.com with SMTP id l7so1874001qvt.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Dec 2020 12:56:57 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d+lErp8y;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id 3so624166wmg.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Dec 2020 13:49:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version:organization
-         :content-transfer-encoding;
-        bh=ATh2OPuOmCxTn0mBHqUhQScqPz+vL4+Ypdo3XqlZPHg=;
-        b=NnHplT37mTMyz5gG96J5Mx7mtQHyjlyYRCtghGQ4c2vzqmry0g022vMpMiJrFmtjsW
-         Uua/BvtNg8tVP0aYCSMuvXWAyeRVjqXNMxHTHWrMYNqiPXdQ3iH74N2/JilQVfjGoCj4
-         hhLpSxafGMjQaSDMt52oJKGRUSMT0/n3u8aWSiVlyxkpmPj/m4wNM0pLO6o41yJnn7ZG
-         6fjXmCMEUSz5V8nKz/mvlLOdRj1zP0FmmLfjkjUex3ilBb6U1Ywcgqe00RgI1EtFhSqT
-         JPp0NXSB2ba5CeqbF9+lOs/Uw7M0P9nANsh02NUtV2DftyB7NFQ+UZU6zCRSJVmxC5xs
-         e19A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=VH+qmocKuWpLY6BHenqp5c6At5Y1wtnLFwrdxTXOhFQ=;
+        b=d+lErp8y1OiTbtlXKv/7Zw1Mqbpjv1QlHxt823kXuSMq5eLnKDvncX1XK41WxV6vOK
+         5fvEN04LuLN+KN1GlZ2Gyou3sWTGLYumpGV0aTYxqTzlwq5/GV5Y/vHnnIisUHZUmmYD
+         uOitEfktRUUEovfG135C7c0H8mlyrdnRbRg/4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :organization:content-transfer-encoding;
-        bh=ATh2OPuOmCxTn0mBHqUhQScqPz+vL4+Ypdo3XqlZPHg=;
-        b=E5Ix8hwPF2Ps8J3hwotC2BhzcoeZuyWlpxoczMZKUoo4em7H+mmLbDjAmBBjkgd0BK
-         xijNSCVOKn7ZWFKt/DGSlpZApJ+jKpcAA029lRvb25d1PuhWD3M9Bi9KoLaYZj4JXCYk
-         f542cr9hlJHe/OKnoYiDngSclcYgrow3PssdJM46icOZE9C6FQpTycfhcAHrodehl0zZ
-         7E+Uh3VdHs6CPFKxGNdGP/Kjpt5734ObyryAsvqJF75KbKavUDw0aEvqDiqyrla9+P4+
-         9LAzHObpLJHl94zbFfiGxtRzt7lptSNrLASUCPwK7PQFcV4sO5iScX2hH/e5DaFDAbf6
-         YtvQ==
-X-Gm-Message-State: AOAM533X4IQd0O0wWYFi7PoG2gnFf6F6iITueKW7A+n1cNVJ3lisV2e/
-	y2gEdPEuzQqWlXDbgcCWDjPNwuPVMFbhgA==
-X-Google-Smtp-Source: ABdhPJzp95zY/B2IW2QeGf8QIax82jzXhMPIofipjtxPX9HbccRqpzSx+3X++dJavTZFlEtrIr0aAA==
-X-Received: by 2002:ad4:45a9:: with SMTP id y9mr12330169qvu.15.1607374616432;
-        Mon, 07 Dec 2020 12:56:56 -0800 (PST)
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from pikachu.lab.ossystems (200-180-244-15.user3p.brasiltelecom.net.br. [200.180.244.15])
-        by smtp.gmail.com with ESMTPSA id u26sm20243qke.57.2020.12.07.12.56.54
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VH+qmocKuWpLY6BHenqp5c6At5Y1wtnLFwrdxTXOhFQ=;
+        b=U+IiAbrPn65mpnOyXuJENMLgAXYaXlk7DWAbffpL6Xc9+xSlfb3ei4LjmJ1qY85HEH
+         g8E0EhzpN2hyKL31ZMKo0klMnQKd79cGwHCRlq6gzYUjQmbsJUjJJyGbCGcFWKcy89Zs
+         syi4wpAWOnsejMueWvmcg7yDSQ12CqwqZqTmZs60Mt35kCmVB6zifatKACzkjyv/ShTP
+         7JvDm/gKdzps6jFtPO9dp0CVNa/AeDyjVcbH8FTlXVPGceRvgw7rln1MJarwrY0lenkn
+         GhuJVP+V7OoKrVsYOueTbal5RStAUh2wfoeCo/X4x0vNXL5U4g2XmwXJ/Twd2WASlgpD
+         NkEw==
+X-Gm-Message-State: AOAM532WcZutU1mobXe8Sgq5RAcAcDuP+akpcg7nuqSFE9WipFJDjbpz
+	mIwHIvGt3zKKITGF8iDhs6PMJA==
+X-Google-Smtp-Source: ABdhPJwOMgOxxKbpggs3Lg8cTdJOpBYoz/AzbIPy1T6HUz3Exj13DDY3EjqlPXVHXCtBWhODzUOTQA==
+X-Received: by 2002:a1c:80cb:: with SMTP id b194mr833071wmd.91.1607377770487;
+        Mon, 07 Dec 2020 13:49:30 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c0cc:57b6:514f:c89])
+        by smtp.gmail.com with ESMTPSA id l8sm674293wmf.35.2020.12.07.13.49.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 12:56:55 -0800 (PST)
-From: "Fabio Berton" <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa: Update 20.2.1 -> 20.2.4
-Date: Mon,  7 Dec 2020 17:56:46 -0300
-Message-Id: <20201207205646.2660675-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.29.2
+        Mon, 07 Dec 2020 13:49:30 -0800 (PST)
+Message-ID: <bb38bb9111dbc5e0a2c3c47256d2bead31b70316.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/2] iproute2: install tools to mirror install under Debian/Ubuntu
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alan Perry <alanp@snowmoose.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 07 Dec 2020 21:49:29 +0000
+In-Reply-To: <20201205082246.14954-1-alanp@snowmoose.com>
+References: <20201205082246.14954-1-alanp@snowmoose.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This commit adds the changes of 20.2.2, 20.2.3 and 20.2.4 bug fix
-releases.
+On Sat, 2020-12-05 at 08:22 +0000, Alan Perry wrote:
+> Many scripts exist that expect the iproute2 tools to be found in
+> the same directories where they are found in Debian or Ubuntu.
+> For the iproute2 tools included in the iproute2 recipe, move
+> them to those directories or create links there.. Also, add
+> bash-completion files as is done by Debian and Ubuntu.
+> 
+> Signed-off-by: Alan Perry <alanp@snowmoose.com>
+> ---
+>  .../iproute2/iproute2.inc                     | 23 +++++++++++++++++--
+>  1 file changed, 21 insertions(+), 2 deletions(-)
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- .../mesa/{mesa-gl_20.2.1.bb => mesa-gl_20.2.4.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_20.2.1.bb => mesa_20.2.4.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_20.2.1.bb => mesa-gl_20.2.4.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_20.2.1.bb => mesa_20.2.4.bb} (100%)
+The direction in the patch is worrying me a little.
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_20.2.1.bb b/meta/recipes-graphics/mesa/mesa-gl_20.2.4.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_20.2.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_20.2.4.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index a6652b0ddb..7956d95fc1 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -25,7 +25,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch \
-            "
- 
--SRC_URI[sha256sum] = "d1a46d9a3f291bc0e0374600bdcb59844fa3eafaa50398e472a36fc65fd0244a"
-+SRC_URI[sha256sum] = "0572dc6015d2e1c50f67823edd16855ae9b6feded0a1470598404e75e64aa092"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_20.2.1.bb b/meta/recipes-graphics/mesa/mesa_20.2.4.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_20.2.1.bb
-rename to meta/recipes-graphics/mesa/mesa_20.2.4.bb
--- 
-2.29.2
+There is a bash-completion class which splits completion files into
+their own package, most "embedded" users don't want them in the main
+packages. This patch does something different to what has been done
+elsewhere.
+
+Secondly, I'm also not sure that just because debian does something we
+should therefore do it, I'm not convinced that scripts should be
+hardcoding path assumptions about these tools. IF this is such a
+universal need, why doesn't upstream change the default installation
+locations? Has it been discussed?
+
+I'd expect there to be opinions on this topic but I'm not seeing much
+discussion. I suspect if if does merge there would be push back later
+though.
+
+Also, the duplication between bin and sbin for ip is not particularly
+good practise.
+
+Cheers,
+
+Richard
 
