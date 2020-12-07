@@ -1,74 +1,155 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.5625.1607345189581081518
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.6183.1607348551770977683
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Dec 2020 04:46:29 -0800
+ Mon, 07 Dec 2020 05:42:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TW57lwrV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id x6so8697953wro.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Dec 2020 04:46:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=74t/eMgMabY+07mNuClyLafOrHvIxr74TW4HxvLbWIM=;
-        b=TW57lwrVwefRrtmcs4GnJkGjgA8UipwAuqlo8vSlv6ULrnT/WF64iaK8LBbrwlgrDP
-         der5FJbBnHrii8Ajl2ubypI5vhUALLwG3aZgOi3X452xHogZhOy4QpxOuSqqgubFQ5zC
-         JdUg8thax44bP+m1vN8Qo/c55oz10qrWqk/b0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=74t/eMgMabY+07mNuClyLafOrHvIxr74TW4HxvLbWIM=;
-        b=PjF2qp6/MSPJpjmHTLweC5/ymqs1j+UhUGNK/wI5QR+TI9Les3Qm039ajkC1Jzpcad
-         qi9Y3GJqAGCPFAQsv8SsybTaq6Xbl4IZ/GWiwf7jRAq7gbMZhf6kD1HrAAsGJXlDDX0J
-         I0GB/AUEIL4BcThh9FECHU6F6E+GggU+KV/HSIhTD5mH8Wo1oUoav2zM8+lF7noppnmO
-         9OZI0masYSPDIcK8xH5eYkGlU3G3uUrNkFb7JoXAzScdt1bJGfzTUvqJwq3d9bEqgjvk
-         K+BxEUfiCB7jC2T2WI1OukwkzKD9605XOhDt19Rcf5xhiGMM6HmrR9zX9j/VWyn9ubG0
-         e2TQ==
-X-Gm-Message-State: AOAM533EcQ6ci2qxvVLj563yjQGhs5On2KzWPsJmxdh8yiH3zzdBF7E3
-	+I9HWPr+ACxWiBZ4VEvEAsqPlQ==
-X-Google-Smtp-Source: ABdhPJz1sunCtuzNTtAppjqAKEOPY25rvTtnj3Jrr8c7NzEn0Ytdj388GoiAN/p3jImfSZ+fhSz3/Q==
-X-Received: by 2002:a5d:4604:: with SMTP id t4mr19026546wrq.411.1607345188090;
-        Mon, 07 Dec 2020 04:46:28 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c0cc:57b6:514f:c89])
-        by smtp.gmail.com with ESMTPSA id y2sm14712266wrn.31.2020.12.07.04.46.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 04:46:27 -0800 (PST)
-Message-ID: <88d9a9dea0420aa5944c0acba44f14f6eb24d771.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCHv3 2/5] bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Paul Barker <pbarker@konsulko.com>, Peter Kjellerstedt
-	 <peter.kjellerstedt@axis.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 07 Dec 2020 12:46:25 +0000
-In-Reply-To: <CAM9ZRVsX+r31zxDHDNA7BOiBCrGyrwwYJWwMmjdF6p69QScJUg@mail.gmail.com>
-References: <cover.1606846217.git.pkj@axis.com>
-	 <b7bae6e1633fba206d9c7abad93d79fbe7b0f654.1606846217.git.pkj@axis.com>
-	 <CAM9ZRVtVRk2CrBKeG=Ks8a+OPhTPKu6q=HctT39tKyYCbAguFA@mail.gmail.com>
-	 <CAM9ZRVsX+r31zxDHDNA7BOiBCrGyrwwYJWwMmjdF6p69QScJUg@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: brett.warren@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2BB2101E
+	for <openembedded-core@lists.openembedded.org>; Mon,  7 Dec 2020 05:42:30 -0800 (PST)
+Received: from e125157.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 03E0A3F718
+	for <openembedded-core@lists.openembedded.org>; Mon,  7 Dec 2020 05:42:29 -0800 (PST)
+From: "Brett Warren" <brett.warren@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libffi: add patch to revert clang VFP workaround
+Date: Mon,  7 Dec 2020 13:42:23 +0000
+Message-Id: <20201207134223.5298-1-brett.warren@arm.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, 2020-12-07 at 12:04 +0000, Paul Barker wrote:
-> On Mon, 7 Dec 2020 at 10:29, Paul Barker <pbarker@konsulko.com>
-> wrote:
-> To follow up some more: The entries in PSEUDO_IGNORE_PATHS are
-> treated
-> as string prefixes within pseudo. So if
-> "/home/pbarker/Projects/Yocto/meta-linux-mainline" is added to the
-> ignore list it will exclude not just
-> "/home/pbarker/Projects/Yocto/meta-linux-mainline/build" but also
-> ""/home/pbarker/Projects/Yocto/meta-linux-mainline-build".
-> 
-> I wonder if some more of those entries should have trailing slashes.
+Patch is added to address an issue preventing libffi
+from compiling under clang.
 
-In most (all?) cases it was very deliberate FWIW...
+Change-Id: I55e36d252ec8e84de9b35fea18044c2c0e8c5aab
+Signed-off-by: Brett Warren <brett.warren@arm.com>
+---
+ ...m-sysv-reverted-clang-VFP-mitigation.patch | 104 ++++++++++++++++++
+ meta/recipes-support/libffi/libffi_3.3.bb     |   1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch b/meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch
+new file mode 100644
+index 0000000000..782dce70d8
+--- /dev/null
++++ b/meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch
+@@ -0,0 +1,104 @@
++From 501a6b55853af549fae72723e74271f2a4ec7cf6 Mon Sep 17 00:00:00 2001
++From: Brett Warren <brett.warren@arm.com>
++Date: Fri, 27 Nov 2020 15:28:42 +0000
++Subject: [PATCH] arm/sysv: reverted clang VFP mitigation
++
++Since commit e3d2812ce43940aacae5bab2d0e965278cb1e7ea,
++seperate instructions were used when compiling under clang, 
++as clang didn't allow the directives at the time. This mitigation
++now causes compilation to fail under clang 10, as described by 
++https://github.com/libffi/libffi/issues/607. Now that
++clang supports the LDC and SDC instructions, this mitigation
++has been reverted.
++
++Upstream-Status: Pending
++Signed-off-by: Brett Warren <brett.warren@arm.com>
++---
++ src/arm/sysv.S | 33 ---------------------------------
++ 1 file changed, 33 deletions(-)
++
++diff --git a/src/arm/sysv.S b/src/arm/sysv.S
++index 63180a4..e3ce526 100644
++--- a/src/arm/sysv.S
+++++ b/src/arm/sysv.S
++@@ -128,13 +128,8 @@ ARM_FUNC_START(ffi_call_VFP)
++ 	cfi_startproc
++ 
++ 	cmp	r3, #3			@ load only d0 if possible
++-#ifdef __clang__
++-	vldrle d0, [sp]
++-	vldmgt sp, {d0-d7}
++-#else
++ 	ldcle	p11, cr0, [r0]		@ vldrle d0, [sp]
++ 	ldcgt	p11, cr0, [r0], {16}	@ vldmgt sp, {d0-d7}
++-#endif
++ 	add	r0, r0, #64		@ discard the vfp register args
++ 	/* FALLTHRU */
++ ARM_FUNC_END(ffi_call_VFP)
++@@ -172,25 +167,13 @@ ARM_FUNC_START(ffi_call_SYSV)
++ 	nop
++ 0:
++ E(ARM_TYPE_VFP_S)
++-#ifdef __clang__
++-	vstr s0, [r2]
++-#else
++ 	stc	p10, cr0, [r2]		@ vstr s0, [r2]
++-#endif
++ 	pop	{fp,pc}
++ E(ARM_TYPE_VFP_D)
++-#ifdef __clang__
++-	vstr d0, [r2]
++-#else
++ 	stc	p11, cr0, [r2]		@ vstr d0, [r2]
++-#endif
++ 	pop	{fp,pc}
++ E(ARM_TYPE_VFP_N)
++-#ifdef __clang__
++-	vstm r2, {d0-d3}
++-#else
++ 	stc	p11, cr0, [r2], {8}	@ vstm r2, {d0-d3}
++-#endif
++ 	pop	{fp,pc}
++ E(ARM_TYPE_INT64)
++ 	str	r1, [r2, #4]
++@@ -287,11 +270,7 @@ ARM_FUNC_START(ffi_closure_VFP)
++ 	add	ip, sp, #16
++ 	sub	sp, sp, #64+32			@ allocate frame
++ 	cfi_adjust_cfa_offset(64+32)
++-#ifdef __clang__
++-	vstm sp, {d0-d7}
++-#else
++ 	stc	p11, cr0, [sp], {16}		@ vstm sp, {d0-d7}
++-#endif
++ 	stmdb	sp!, {ip,lr}
++ 
++ 	/* See above.  */
++@@ -320,25 +299,13 @@ ARM_FUNC_START_LOCAL(ffi_closure_ret)
++ 	cfi_rel_offset(lr, 4)
++ 0:
++ E(ARM_TYPE_VFP_S)
++-#ifdef __clang__
++-	vldr s0, [r2]
++-#else
++ 	ldc	p10, cr0, [r2]			@ vldr s0, [r2]
++-#endif
++ 	ldm	sp, {sp,pc}
++ E(ARM_TYPE_VFP_D)
++-#ifdef __clang__
++-	vldr d0, [r2]
++-#else
++ 	ldc	p11, cr0, [r2]			@ vldr d0, [r2]
++-#endif
++ 	ldm	sp, {sp,pc}
++ E(ARM_TYPE_VFP_N)
++-#ifdef __clang__
++-	vldm r2, {d0-d3}
++-#else
++ 	ldc	p11, cr0, [r2], {8}		@ vldm r2, {d0-d3}
++-#endif
++ 	ldm	sp, {sp,pc}
++ E(ARM_TYPE_INT64)
++ 	ldr	r1, [r2, #4]
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/libffi/libffi_3.3.bb b/meta/recipes-support/libffi/libffi_3.3.bb
+index 9dfdb9e39b..10ef003242 100644
+--- a/meta/recipes-support/libffi/libffi_3.3.bb
++++ b/meta/recipes-support/libffi/libffi_3.3.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=492385fe22195952f5b9b197868ba268"
+ SRC_URI = "https://github.com/libffi/libffi/releases/download/v${PV}/${BPN}-${PV}.tar.gz \
+            file://not-win32.patch \
+            file://0001-Fixed-missed-ifndef-for-__mips_soft_float.patch \
++           file://0001-arm-sysv-reverted-clang-VFP-mitigation.patch \
+            file://0001-powerpc-fix-build-failure-on-power7-and-older-532.patch \
+            file://0001-Address-platforms-with-no-__int128.patch \
+            file://0001-Address-platforms-with-no-__int128-part2.patch \
+-- 
+2.17.1
 
