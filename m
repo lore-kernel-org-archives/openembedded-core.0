@@ -1,120 +1,129 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [])
- by mx.groups.io with SMTP id smtpd.web09.6275.1607420609895827439
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.6523.1607422658844791121
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 01:43:30 -0800
+ Tue, 08 Dec 2020 02:17:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=HfXbcXWW;
- spf=softfail (domain: windriver.com, ip: <nil>, mailfrom: liezhi.yang@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J0TKRwFIOKE+4t0AQaX2KoWLWJg5RVbKGVn/TPFaV6pM4JFr5bljTTcqg10Mfv9ryBj/T705jHZEktLrYC1X3f3XMMaQV6HH/V/1XWHv+8emSrYqWjT4dfvw2R52BxYbsJHq23PjvFj8+w8zItNUdiXA3FHhbsa+ajTZSiFKNajDV3oyEsWan32FF/IIIKw1hhPqY2juGgeV978Sv0POMRrcHvpgcnFlPFQn4uX7xSr0vum9T4LHRnFC8ykQUk/UbfL0JeqrDAMS7iXqYIkp1esxKzlzQGfECoQV5EVPuY0O3gw9JZ0vWh+QzX+yfsYMMdb8g6IbxoffZw14RQC7lA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eDnoJyniVRL6KbOCRyb+X9VnHiUW0YSGvRj8oml+oO0=;
- b=FEeTzNQGuE2SKqjLjcwQA0cw2b2y7IWahbSUEqzZVeUkI3KZ+UvcM+obC/iHPtXYAfUohYYMfR/LmgeyeWydUArgSW/luDOmdSI7XCFfzsjCYMugCHg+Y6ypkhWMOPLqozoszWEyatr+Z6FiDMobGarP9JT7thcGuQUxDeippT3wXQxFr6Ogg7TC1Sn3Ih0FA3lKdip6lXRZ1MP0XM0FDaC+Ogb4kYe1N4dv3UkcZFjAaVBfLoHMcfb0EExIbRCVKmmr9R4XEzuV81gQ8UVwEuvI8MW/aJZMr3oz6RZQzw++ucfI9pNWENcvRJyuyROo0qF+hrDJURTfcjywmBo2Bw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ufofrjcn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id m5so6032757wrx.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 02:17:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eDnoJyniVRL6KbOCRyb+X9VnHiUW0YSGvRj8oml+oO0=;
- b=HfXbcXWWRhr5h6b85ad6UJ0G0D2Mk8iXxmJG+gqjOBxOWJCT33mApfIYkMK1aroMj0Oe7CqsSNVMizU2h0w6v4tCP45AZ4/n422y7+qrDquKP5TAm0jKBThXTQ0jxA2ijLom3Mjo8Ed0NdR9NIhaRglcmr1LYOCO7OMmNmJ0Ck0=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com (52.135.126.77) by
- SN6PR11MB2814.namprd11.prod.outlook.com (52.135.90.15) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.21; Tue, 8 Dec 2020 09:43:29 +0000
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::e0b3:8438:9d91:c16]) by SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::e0b3:8438:9d91:c16%7]) with mapi id 15.20.3632.018; Tue, 8 Dec 2020
- 09:43:29 +0000
-From: "Robert Yang" <liezhi.yang@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] buildtools-tarball.bb: Fix PATH for environment setup script
-Date: Tue,  8 Dec 2020 01:43:13 -0800
-Message-Id: <af469d1014584f3a8ef3b46e5373e9eb0841efc1.1607420550.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1607420550.git.liezhi.yang@windriver.com>
-References: <cover.1607420550.git.liezhi.yang@windriver.com>
-X-Originating-IP: [147.11.105.124]
-X-ClientProxiedBy: YTOPR0101CA0021.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00:15::34) To SN6PR11MB2909.namprd11.prod.outlook.com
- (2603:10b6:805:d5::13)
-Return-Path: liezhi.yang@windriver.com
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=C9pl4sANLXy9IG34YqbdL+uKyGsiOky5PhPnEHXFc1w=;
+        b=Ufofrjcnj7/bbkb1y175FsUyheqSGr+dM+T3JMMNLZDid/6PcmT6nit4OJsN5hJDHb
+         SX2wwAHOPDzznjkyboV/SqZ/ZHwPGoYC+ZDfZtEVYSKYEV0NsPW+VcVo8blEwL432QEQ
+         OzEeb+2WutkZo8TrudjU+Mnm621TU9y8YQ4j8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=C9pl4sANLXy9IG34YqbdL+uKyGsiOky5PhPnEHXFc1w=;
+        b=nWCcfeBBcCrGlZHdGAGHGwrjKGU1LURgnZzf18FbVfInSYuh0OomGPgSU6i1C72SmM
+         WaqZ9nap67697ElFCIwtnMFO94QTdNJj0mM3kzOJ8PadiyNvitMznDhuRV0ugOg8lqiN
+         iW/YKL3VyqWL5QF/3M+pBEU6yccY5X9XOsTl9cQZKApCIqHHjw2cHpYWLF5aWP5yV4qR
+         M/00fp8Aj6M8ew048YmTe5b37PeB74nMnzPlmqv7UwbcrOUWkCRGDKGNQvrJyRkVogaw
+         MoDjLBU36sY6Jw0tS6Dya2xbj25dGUe//OsAMGeUF/+wa9F7sUlJlHflb1Tvk9frQo1S
+         mo+w==
+X-Gm-Message-State: AOAM533YEsHaEHkG5ejpUDyjfMU5yTGxctnf9gP0a9Git9ndNpsNi7IP
+	fj+RnSovrXvDKXSrC9eNnzctlQ==
+X-Google-Smtp-Source: ABdhPJw07wG3XiDqm97phRaYVmpwY/2Zj9kyMCtU/lz7Qp7DfbCFHFMNAlZBqu8MCCa1mHtqZoYZXQ==
+X-Received: by 2002:adf:f1d2:: with SMTP id z18mr25715130wro.244.1607422657190;
+        Tue, 08 Dec 2020 02:17:37 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c0cc:57b6:514f:c89])
+        by smtp.gmail.com with ESMTPSA id b18sm20326528wrt.54.2020.12.08.02.17.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 02:17:36 -0800 (PST)
+Message-ID: <8c23ef9f3ae53debdb90eecea4f16a7909aa3626.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCHv3 2/5] bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Paul Barker <pbarker@konsulko.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, openembedded-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 08 Dec 2020 10:17:34 +0000
+In-Reply-To: <CAM9ZRVuTxAwqRAntHaf5UGg2iiAPW=KBC7v0hCM02J0a8WgPyg@mail.gmail.com>
+References: <cover.1606846217.git.pkj@axis.com>
+	 <b7bae6e1633fba206d9c7abad93d79fbe7b0f654.1606846217.git.pkj@axis.com>
+	 <CAM9ZRVtVRk2CrBKeG=Ks8a+OPhTPKu6q=HctT39tKyYCbAguFA@mail.gmail.com>
+	 <CAM9ZRVsX+r31zxDHDNA7BOiBCrGyrwwYJWwMmjdF6p69QScJUg@mail.gmail.com>
+	 <88d9a9dea0420aa5944c0acba44f14f6eb24d771.camel@linuxfoundation.org>
+	 <CAM9ZRVuTxAwqRAntHaf5UGg2iiAPW=KBC7v0hCM02J0a8WgPyg@mail.gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by YTOPR0101CA0021.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Tue, 8 Dec 2020 09:43:27 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 73710788-7262-4c8e-2134-08d89b5db80a
-X-MS-TrafficTypeDiagnostic: SN6PR11MB2814:
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB2814A7F3D3937DF4F51D85F1FFCD0@SN6PR11MB2814.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	oyw8Wfm2t8ZAdQMu6AMDzHKQooxlap2xBOs7Asir7E0w3SwAHdR1hUExwsnYN8TV4KNIkKBY0SWY6t7vIX9O9b4nydKTtGI384CHRtQE1rjiYICLg3nvZvuxXFslzd7IsE9IFUqlcTy9TVqlvasdNKTpQSKH/VZfDke7oKwGLrrQv1gqtR42KofaNN/ZYCKmt6c4BQfII+C1kHu2NSKHpTtD3PD/PBlGQ2qYdhuhrHfHKoLhGrwVTA2zN2vKZ25v/Hq6b2ur9EOCRw0FJxNYQWvuAx+k/OuUj9Xkd7qRHeyZ2JUjh1K8+k6rPlx++vAd21fRNzKUxrjVuYCpHoc0QQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39850400004)(66946007)(2906002)(66556008)(8936002)(26005)(83380400001)(6486002)(6916009)(16526019)(5660300002)(186003)(6512007)(52116002)(36756003)(478600001)(6506007)(66476007)(2616005)(6666004)(8676002)(956004)(86362001)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?aEmZq3W36vprdH0a4JbgJD/5qjG+Zbb5NaEswl3ikbUzEhXgOPi9BsT9/OWy?=
- =?us-ascii?Q?eaHYlewL5VptPbPl/S4CTUlW8FTlz50SR+STlKu4vAUYEOyix7cJT3iJIvMA?=
- =?us-ascii?Q?uSfVKGj4VVoy2wOD3EBPWW9eFBMP5iNis6/DvQMuhjFUyVa0mYIvXUxFK5QA?=
- =?us-ascii?Q?sPHn7TVvogf58gnNEZ9wZOMxSwpUghGgYOC8gnRQZTyDqdHa+xmzaR3z17qH?=
- =?us-ascii?Q?ztJyY1HVk1cO/ciX/xG7ZVz6PQmBqVfqo+xd9QglKtAyvOLhrwZ5/FC1L3Uq?=
- =?us-ascii?Q?DJM+T+JFYtxzyGPVWHVdaELFPDFb/i4tJ1x+CtbI17DK27j2J73iMjToBE9+?=
- =?us-ascii?Q?5/WLnpFQGT8sfHf8VC+PQmDv1k0JY25XAi1bSj9N14R4cvrjywndEdTzXxz5?=
- =?us-ascii?Q?bzVEUUMN3xy4IYfqQ79KZVPz+38/6vVxdWYKbfoIN3BUViEA+nvhMEe/ijzW?=
- =?us-ascii?Q?dtQVLUAqzVdGCbDT8G1ca/tvp7qq6x/OKzSuJQfafQKZO3BZb3v5nyH0hjUc?=
- =?us-ascii?Q?SDWcOMAKBjToIulsZd0ZI+3uqFiuFtD39cL5aD7rkUXetIYQd51C4etkVm+P?=
- =?us-ascii?Q?TGhzgoV5iBCs9m+1czt2JIWEpIhKN3mUlprf9KAlbf2S1E169+ZytJ2siwpU?=
- =?us-ascii?Q?QnKE9tqk/Hio9hHXdv0+VHHtSQeX5kuJrDFA4i3Dtl9Afk9zrs6yAQz4TkHW?=
- =?us-ascii?Q?tiQKLB/hM1Miznt9oyV6oWB+tBTxZ69wei/O1wv/io/3SxOI+Mz35xquzKyZ?=
- =?us-ascii?Q?h5g6k/Iwh/zVwf3FwskKMf7lcNBppvr5UhAsckKpuMl5xfsORHiogLYIAOp+?=
- =?us-ascii?Q?q98m+e66WZN45xX7gCu0jlajscGFqBI2Q26F/pL+bouxYNO//bgLP7T+vd8i?=
- =?us-ascii?Q?crVlfzrGwRE2ge7EA8OXdF2rU+5K8od2oS4+rycVfCmKP9cOvnAxgAh6YNvh?=
- =?us-ascii?Q?WsElobMR+qMeRGlgJk5yQCV3MBQ7+zqHh8gAcMbgrVdeccCtai2k4WSdkI8R?=
- =?us-ascii?Q?KD2T?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 09:43:29.3791
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-Network-Message-Id: 73710788-7262-4c8e-2134-08d89b5db80a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bAAJum/4J51MT8e9/VjMD9WDqBHineFK/oA9ZZe+Y4L9zDFHGMcVt5vVCXA9DPhb245jRsHPh4xJFTc+PXWwiSslBj6v/mMDwGOUQz+HRYk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2814
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-It only added ${SDKPATHNATIVE}/usr/bin to PATH which didn't work when files
-were installed to other bin dirs such as /bin or /sbin, for example,
-nativesdk-pigz installs the files to /bin, now fix it to keep align with sdk's
-PATH.
+On Tue, 2020-12-08 at 08:48 +0000, Paul Barker wrote:
+> On Mon, 7 Dec 2020 at 12:46, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2020-12-07 at 12:04 +0000, Paul Barker wrote:
+> > > On Mon, 7 Dec 2020 at 10:29, Paul Barker <pbarker@konsulko.com>
+> > > wrote:
+> > > To follow up some more: The entries in PSEUDO_IGNORE_PATHS are
+> > > treated
+> > > as string prefixes within pseudo. So if
+> > > "/home/pbarker/Projects/Yocto/meta-linux-mainline" is added to
+> > > the
+> > > ignore list it will exclude not just
+> > > "/home/pbarker/Projects/Yocto/meta-linux-mainline/build" but also
+> > > ""/home/pbarker/Projects/Yocto/meta-linux-mainline-build".
+> > > 
+> > > I wonder if some more of those entries should have trailing
+> > > slashes.
+> > 
+> > In most (all?) cases it was very deliberate FWIW...
+> 
+> That does make sense. Ignoring "${COREBASE}/meta" will also ignore
+> most layers unpacked or cloned within the poky directory as their
+> names start with "meta". However that does miss layers if you use a
+> different directory structure which is what Peter's patch addresses
+> (though I'm still not sure if there's an actual build failure with
+> some layers which it is intended to fix or if it's just to make
+> things
+> consistent).
+> 
+> The issue comes when you clone a layer as the top-level of your
+> working tree and build within that. That's how I work with
+> meta-sancloud & meta-linux-mainline. It's also what happens if you
+> build using the kas config in meta-raspberrypi. So it's not uncommon.
+> 
+> Investigating why the layer directories are being ignored I found
+> this
+> commit added the ignore of "${COREBASE}/meta":
+> 
+>     commit e0cb6dd689a362d8433caa14cc5a9fdd5eb44923
+>     Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+>     Date:   Wed Oct 7 23:08:45 2020 +0100
+> 
+>        bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+> 
+>         Unfortunately, .pyc files can be generated in meta/lib/oe
+> which corrupt the pseudo
+>         database so we need to extend the ignore list to cover this
+> as well.
+> 
+>         Signed-off-by: Richard Purdie <
+> richard.purdie@linuxfoundation.org>
+> 
+> Could we instead ignore "${LAYERDIR}/lib" for each layer?
+> 
+> An alternative would be to detect the case where TOPDIR or TMPDIR is
+> beneath an entry in BBLAYERS and handle that as a special case.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/meta/buildtools-tarball.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think we'll have to look at alternatives, yes. Thanks for reminding
+me this was for the pyc files, I'd forgotten the exact reason.
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 560b8d67b9b..9da81d55235 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -67,7 +67,7 @@ create_sdk_files_append () {
- 	# Generate new (mini) sdk-environment-setup file
- 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
- 	touch $script
--	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
-+	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${sbindir_nativesdk}:${SDKPATHNATIVE}${base_bindir_nativesdk}:${SDKPATHNATIVE}${base_sbindir_nativesdk}:$PATH' >> $script
- 	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
- 	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
--- 
-2.17.1
+The reason I added meta was because at least in core we have multiple
+python lib directories (there are also things in scripts/).
+
+Peter: Which files were you having a problem with in your layers?
+
+We may need to go back to requiring layers to set this up correctly
+themselves where needed?
+
+Cheers,
+
+Richard
 
