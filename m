@@ -1,79 +1,90 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web09.9781.1607440125371032181
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.9747.1607440126691067469
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 07:08:45 -0800
+ Tue, 08 Dec 2020 07:08:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=q/uUT9LN;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id g185so2667151wmf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 07:08:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VKtZo3OX;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id a3so2645815wmb.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 07:08:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/TPxwt8KtkFlSGuhHGug3Th3Faxm1KfIx6lITSU7HXQ=;
-        b=q/uUT9LNzEK4m3O4xigdn7xHRmzex/Wrk2q+YOdUsfU0bEvgMUyX3yUdDSJcWMq958
-         HdSyMmdO1wOxSblTWKd619aO+jmdIs4xr40rFr8NNhpVomEbN87BKmi9T/mVyM0YdvFQ
-         5/5vLMc0smDoHTAF+jYXP+1/mmWsO05PsqTCTO7efPKkXzQ8HcGvnbTOXkla4FOC86AH
-         xK2mYGvL1HPO3UCrn79LRkSYvo83N8RAwCZdsst4mEQpHIke6aNs+pLKcHPye1cK8Exk
-         tnY+v1Zc8XiJwwewk0zMmCLy0EONjg+aXZE0H1pAOrO7cc3eOL+FtQs1yNPOSxo4livW
-         2vfg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rzMeH0jPgn5h2kwtQe5kW3nJQJ85va1qM5Din74Sw5Q=;
+        b=VKtZo3OXvXC5cZN910rMii2n1OcpeyiO6EAHb0zOs02JQcPgsBewwO261Kcs4DDXGY
+         pXiOirCzypCg1fL1tKYbp/EXMlKJQhHsg/TvDCAADb010qVDJGGqHubfkQiflT/Ycap6
+         m67y20ABjTERQzDgwasibTuGxJciY1p8zvEI8o/Hw9YyTvR89BJO3WfmcN3gYt+IYTb2
+         9Ji3GQnaGudZvkQskD2MRTVRdPfiP3jxAnxlHyLkJZZcyQMLflSE+A66sciSYEg629of
+         PWudt10isZ2fhr0vJIN6J8MwSQHgddTGHpy9XbN3XxR1n2lUodxkXBWWLUKEDrFnpISU
+         +JlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/TPxwt8KtkFlSGuhHGug3Th3Faxm1KfIx6lITSU7HXQ=;
-        b=eHEdhJi+2Af4fApylLYjIlXpYBKDCiKdxiAYb9A8LScrW3jP6Qhs4zLfem75fCRTtV
-         GYyi2CiYGT/+8RO/oYpV4SXFW5ttU9u8zq2vW24R7FNnQ3wijx+J6qilV10qHEMJIu/7
-         iXkU/2UOpEak8XpulOKzhGsBKx4kIj7gRp6uSdQ7MU6LutaeW52am8UOCp/kUJEr6MFk
-         OiCWqOkalW4IB2ZVUPc2Yc+0haH2qAejfC8a5zqSxcYT27vIllhur2f6luhx5aUtLYBk
-         oB97+NGDACZbR71e8DFxIydV7N2tcdSAdonzQ1JHoXeQolcKDFKRgVt7bX+fvFKIldxA
-         3UBQ==
-X-Gm-Message-State: AOAM532yP7GJqrBSUN2CvVqioYtoutvB9XumyC+NHCFjPxpVHb0bjxKL
-	qjFTPBdM0/A6AOXAGaBsRP0zYvMWCwA=
-X-Google-Smtp-Source: ABdhPJyvnmy2wiqrlX9+B7TJg6nPy71ZFevWKuDpQng4h/aPQbVN5o96MRtVAsB1jSxMR7WjOpKxSw==
-X-Received: by 2002:a05:600c:21d1:: with SMTP id x17mr4238046wmj.160.1607440123545;
-        Tue, 08 Dec 2020 07:08:43 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rzMeH0jPgn5h2kwtQe5kW3nJQJ85va1qM5Din74Sw5Q=;
+        b=gqPTZDjngbbTsDhZXnEP42LT7U5vIiaYsfrZHe4dcbOcgoE8KiiINWLyvyGvXzs3A6
+         1cVpH+RZELzuzNZXuafeUfHF9ceSGMSpOiejnUy/KeJkbLMYisDUHK8t7tIG3QQLqyAy
+         ruSadtlUs0z85DIlPBkSwEmjQH8KYI7nTQy8gpzYc0jLIHAEgP4DYxJMjnv3bKUUnoy5
+         O54R+G+fJZlRPULxQdsNPlDH0N+D2R/R6WQHDYfKfha77yg+aBWv1HdcJfjrQDji1/+F
+         I5LwuhQMncO726A0QHQluCSHwcU4onRE2eSkLde/ctDU+fZ985jEMv1WhJWLLQWyhKQP
+         jt2w==
+X-Gm-Message-State: AOAM531OF3GA+E3BkEov8IOJ9xpIHcf7fV91ZvgLGkDWz3uTySenD5Zr
+	KXhy65VIcCfMHbwWPh1WRSqggH78aC0=
+X-Google-Smtp-Source: ABdhPJzqyAuywQ55mKCNNydRg3f6c8m70y6c//mSoUTYR5LkNFQukvlRGZIuFa+Q/Jz90he2n83KWQ==
+X-Received: by 2002:a1c:7f81:: with SMTP id a123mr4350769wmd.6.1607440124829;
+        Tue, 08 Dec 2020 07:08:44 -0800 (PST)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id h83sm4418607wmf.9.2020.12.08.07.08.42
+        by smtp.gmail.com with ESMTPSA id h83sm4418607wmf.9.2020.12.08.07.08.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 07:08:42 -0800 (PST)
+        Tue, 08 Dec 2020 07:08:44 -0800 (PST)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 1/8] gstreamer1.0-plugins-bad: v4l2codecs fix typo
-Date: Tue,  8 Dec 2020 15:08:09 +0000
-Message-Id: <20201208150816.744752-1-quaresma.jose@gmail.com>
+Subject: [PATCH 2/8] gstreamer1.0-plugins-bad: add support for aom plugin
+Date: Tue,  8 Dec 2020 15:08:10 +0000
+Message-Id: <20201208150816.744752-2-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201208150816.744752-1-quaresma.jose@gmail.com>
+References: <20201208150816.744752-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
-index f70437ccd3..f2b8a21abc 100644
+index f2b8a21abc..9de99f60e6 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
-@@ -72,6 +72,7 @@ PACKAGECONFIG[srtp]            = "-Dsrtp=enabled,-Dsrtp=disabled,libsrtp"
- PACKAGECONFIG[tinyalsa]        = "-Dtinyalsa=enabled,-Dtinyalsa=disabled,tinyalsa"
- PACKAGECONFIG[ttml]            = "-Dttml=enabled,-Dttml=disabled,libxml2 pango cairo"
- PACKAGECONFIG[uvch264]         = "-Duvch264=enabled,-Duvch264=disabled,libusb1 libgudev"
-+PACKAGECONFIG[v4l2codecs]      = "-Dv4l2codecs=enabled,-Dv4l2codecs=disabled,libgudev"
- PACKAGECONFIG[va]              = "-Dva=enabled,-Dva=disabled,libva"
- PACKAGECONFIG[voaacenc]        = "-Dvoaacenc=enabled,-Dvoaacenc=disabled,vo-aacenc"
- PACKAGECONFIG[voamrwbenc]      = "-Dvoamrwbenc=enabled,-Dvoamrwbenc=disabled,vo-amrwbenc"
-@@ -81,7 +82,6 @@ PACKAGECONFIG[webp]            = "-Dwebp=enabled,-Dwebp=disabled,libwebp"
- PACKAGECONFIG[webrtc]          = "-Dwebrtc=enabled,-Dwebrtc=disabled,libnice"
- PACKAGECONFIG[webrtcdsp]       = "-Dwebrtcdsp=enabled,-Dwebrtcdsp=disabled,webrtc-audio-processing"
+@@ -27,6 +27,7 @@ PACKAGECONFIG ??= " \
+     ttml uvch264 webp \
+ "
+ 
++PACKAGECONFIG[aom]             = "-Daom=enabled,-Daom=disabled,aom"
+ PACKAGECONFIG[assrender]       = "-Dassrender=enabled,-Dassrender=disabled,libass"
+ PACKAGECONFIG[bluez]           = "-Dbluez=enabled,-Dbluez=disabled,bluez5"
+ PACKAGECONFIG[bz2]             = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
+@@ -84,7 +85,7 @@ PACKAGECONFIG[webrtcdsp]       = "-Dwebrtcdsp=enabled,-Dwebrtcdsp=disabled,webrt
  PACKAGECONFIG[zbar]            = "-Dzbar=enabled,-Dzbar=disabled,zbar"
--PACKAGECONFIG[v4l2codecs]      = "-D-Dv4l2codecs=enabled,-Dv4l2codecs=disabled,libgudev"
  
  # these plugins currently have no corresponding library in OE-core or meta-openembedded:
- #   aom androidmedia applemedia bs2b chromaprint d3dvideosink
+-#   aom androidmedia applemedia bs2b chromaprint d3dvideosink
++#   androidmedia applemedia bs2b chromaprint d3dvideosink
+ #   directsound dts fdkaac gme gsm iq kate ladspa lv2 mpeg2enc
+ #   mplex musepack nvdec nvenc ofa openexr openni2 opensles
+ #   soundtouch spandsp teletext wasapi wildmidi winks
+@@ -98,7 +99,6 @@ EXTRA_OEMESON += " \
+     -Dipcpipeline=enabled \
+     -Dnetsim=enabled \
+     -Dshm=enabled \
+-    -Daom=disabled \
+     -Dandroidmedia=disabled \
+     -Dapplemedia=disabled \
+     -Davtp=disabled \
 -- 
 2.29.2
 
