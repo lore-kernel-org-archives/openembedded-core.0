@@ -1,84 +1,240 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web11.11186.1607445422020011672
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web09.13047.1607450200955210486
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 08:37:02 -0800
+ Tue, 08 Dec 2020 09:56:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=owl6p+HI;
- spf=pass (domain: burtonini.com, ip: 209.85.167.67, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f67.google.com with SMTP id u18so24485871lfd.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 08:37:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pAjGxaAC;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id bo9so25766355ejb.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 09:56:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Y3EvZ/uJ5fylnk1Z0KHt9yTW3T7s6h0tIM1kxwwFRRs=;
-        b=owl6p+HIDxpHHe/14r7uPvE5qrn8663kJm61D5vszhX/o6ApU46Jk33eH9CPzLeEYN
-         jS6nm8r44zJmPlaW1z5hTdtpGmcqh5MoFzRTKHZl3aBPMEJ/9HfoH42hltPr1EfPMWxj
-         Fn2Z98gqmPyU5+Y/LyJdm3Oghalo3lpZod8pMN1+4U5lh8ezjI1Y8Aj+r6jmOIktBKhj
-         VAsUqxvVkOJmDZAevejmHw1In7hZjUKJy4RIopjFSDiBl5HRl5THuiewtyfZi9BQBVKC
-         IpcVrRZ2Ih3LUjLhN3+qB2dcsvgQBWtA5w/oCFfE9W0FkpI1qtggdG2d4aa/mImI+B/v
-         11iw==
+         :cc:content-transfer-encoding;
+        bh=/GgYcE0AJ2aGMV8q5wvydfO3sfVEJgtOe/cytCVAhiA=;
+        b=pAjGxaACed4eYCl2w6wIS0d/t6IW3EKpXh45zax1HvAahc9umK5PlJYf0rsr3TVI1a
+         vAzsqS3ojmLpc/S0DlnWiUv92X2qm9AcCJkVWsxsnvG0jcIRKynl82RNpLZTpkTOczKW
+         JPdULt/tnWOa9hYFOlDcw29bhrjOjYMBV0FSiZsNAo3iUPmhITyhcDTcLvZOpNLM8Dqb
+         2bqL970e6F0Qo8588aGReWtKOsrpl1bmhmAn79NkTjLQPZcXjQW76rSO6iw7ocNN6xM6
+         lBXdt118CLEvqNvbgdza4TbfQmv162NHDK/gsx6aUyEAEp5zkn1Zq3B+LyYAwdlGYg+9
+         7E8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Y3EvZ/uJ5fylnk1Z0KHt9yTW3T7s6h0tIM1kxwwFRRs=;
-        b=jByKFjKNsOQR8ysZzhNV0Uh+tmxam8QAjDQFmACwJfkHFoWno1yo4y+IC2Qr+RlPxH
-         X2Vi1vL/PaOjQKbtxRXt7IiwtNq2WEDz8TvExBs7sbOpbNamCaTpZIhVwkafHJB2W9ZS
-         z24/6g+5AyqdOXcngpqz4GQ/hpAdsGcatSomha8vmeTTF70rO/MfjK2PMRbBWdS419Ky
-         pDQAMfEbrUGSc9vbZJVV3TnNvbBSSi146FKrMAkr1ngqdRiky0slWzsG4d8UHanLzIAA
-         LMlaqnhLh1TLRl7p9T7TqR1e3k/ZW8xnNnD4fCOt9j5AivRHQ/943dKWjuOrdhFOnQ4k
-         zPVg==
-X-Gm-Message-State: AOAM532id+iUCJpPLPONJyQKtgQe5Vu7TQTC9gVgtiR1BXqafkclNEss
-	CFUdapRVTVf+6bKdrt00lkjfkIJtIWKKve+XSzBHoA==
-X-Google-Smtp-Source: ABdhPJwgLQwrFeqa4SjMPQccBVaM8IZy9ad7BaJwpxEhWc7/xdeFTJ1t65nKI4z6qgb1SiCc28wDERyI21YJT7PRTnQ=
-X-Received: by 2002:a19:655c:: with SMTP id c28mr10786181lfj.549.1607445419924;
- Tue, 08 Dec 2020 08:36:59 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/GgYcE0AJ2aGMV8q5wvydfO3sfVEJgtOe/cytCVAhiA=;
+        b=g8OmVs/1D0ZprPMRsImE4I7Fb+tV1OedJRXeRojsko4qwKgeQDPEP70JxaF50g4KR5
+         EpeXwxT4679+6ib93QfnCg7MSGjymMtcjT5+PaD4RiP2AYCtt6MLvjAP1RRoPkahJGWY
+         cleqYlLWI0hFlZDVLHy8qLInwdFXKOd4KXbGJxCIvMNht3SAf0Jla5V2sD1FrLkyUNUi
+         gY+WGUja/pfTgOY98JXDsKYS564rtWQNsWUFhdgX7dtDNuahNrPUMaEi+rsakLnGj7TX
+         GOlzlwnIkn5tZroZSIjH1cK+xWGNEBkAq4VZzNy1Ggd9nF/1HWhpPvA/QxYvXZnmVY52
+         TRWw==
+X-Gm-Message-State: AOAM533cclcE//nZgUGWritjGj2EEgfleGcqJnv1hc8PnjBRSoVJLqUK
+	7teGBpGlQNCycBxtANciBQs1iXC3jbyX3DvdpcY=
+X-Google-Smtp-Source: ABdhPJyRa9SYHhLooRKkXab41tVQmv/rFgyveCVeRs+NjKOhrAmadkdwwyt+kzEdplA6dbc5t281SJzILKOmElmfKqQ=
+X-Received: by 2002:a17:907:373:: with SMTP id rs19mr21647784ejb.298.1607450199426;
+ Tue, 08 Dec 2020 09:56:39 -0800 (PST)
 MIME-Version: 1.0
-References: <20201207155410.1671537-1-ross.burton@arm.com> <CAOSpxdZ2n8x_Qr3eJz6M-4rhuxB+0dM3nEn1-bv1EgU8+q-kRA@mail.gmail.com>
-In-Reply-To: <CAOSpxdZ2n8x_Qr3eJz6M-4rhuxB+0dM3nEn1-bv1EgU8+q-kRA@mail.gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Tue, 8 Dec 2020 16:36:48 +0000
-Message-ID: <CAAnfSTuJ6NOx=s7ESR30XD5gYv5NZpPu7TSd2bb6xzFxwOWCXQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] coreutils: add SUSE-specific issues to CVE whitelist
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <1606218546-115087-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+ <CAPLtV=qtux0nP429iJqRTCFRpfHN3B8_fpNPSaeGqreWJFK=Dg@mail.gmail.com>
+ <164D60671E1EC649.7952@lists.openembedded.org> <bcd9f08662984ddaa8923c0d3fe13d4c@G08CNEXMBPEKD04.g08.fujitsu.local>
+In-Reply-To: <bcd9f08662984ddaa8923c0d3fe13d4c@G08CNEXMBPEKD04.g08.fujitsu.local>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 8 Dec 2020 12:56:27 -0500
+Message-ID: <CADkTA4NL0ek_WMbq1tu-9itDFVKkNL-tiw-RyzxtnGhqsd3sAA@mail.gmail.com>
+Subject: Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+To: zangrc <zangrc.fnst@cn.fujitsu.com>
+Cc: Leonardo Sandoval <leonardo.sandoval@linaro.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes, definitely.
+If that symbol is required, then we'd need to add it to the
+appropriate fragment in the
+reference kernel configurations (kernel-cache), and make sure it is
+built into the
+various kernel types.
 
-Ross
+Changes like that are submitted to the linux-yocto mailing list.
 
-On Tue, 8 Dec 2020 at 14:27, Steve Sakoman <steve@sakoman.com> wrote:
+That being said, I went and looked at the error, and the .c that
+defines the missing
+symbol is security.c, which is controlled by CONFIG_SECURITY, not
+CONFIG_SECURITY_LOCKDOWN_LSM. And that option is already enabled in
+all kernel types.
+
+It looks more like a missing .h, versus a missing option to me.
+
+Have you looked at the systemtap source for an include of security.h,
+and traced why
+it wouldn't be finding the function definition ?
+
+If this is the on-target build, versus a cross build test, then maybe
+we are missing the
+copy of a .h to the target (but you'd think that we'd get a more
+obvious compile error
+if a .h wasn't found).
+
+Bruce
+
+On Mon, Dec 7, 2020 at 10:03 PM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
 >
-> On Mon, Dec 7, 2020 at 5:54 AM Ross Burton <ross@burtonini.com> wrote:
-> >
-> > CVE-2013-0221 through -223 are all SUSE-specific, so add them to the
-> > whitelist.
+> Ping
 >
-> Good for dunfell too (with recipe version change of course)?
 >
-> Steve
 >
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> >  meta/recipes-core/coreutils/coreutils_8.32.bb | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/meta/recipes-core/coreutils/coreutils_8.32.bb b/meta/recipes-core/coreutils/coreutils_8.32.bb
-> > index 9d1eceef54..4eb357e310 100644
-> > --- a/meta/recipes-core/coreutils/coreutils_8.32.bb
-> > +++ b/meta/recipes-core/coreutils/coreutils_8.32.bb
-> > @@ -199,3 +199,6 @@ do_install_ptest () {
-> >  }
-> >
-> >  FILES_${PN}-ptest += "${bindir}/getlimits"
-> > +
-> > +# These are specific to Opensuse
-> > +CVE_WHITELIST += "CVE-2013-0221 CVE-2013-0222 CVE-2013-0223"
-> > --
-> > 2.25.1
-> >
-> >
-> > 
-> >
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.=
+openembedded.org> On Behalf Of zangrc
+> Sent: Friday, December 4, 2020 9:51 AM
+> To: Leonardo Sandoval <leonardo.sandoval@linaro.org>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+>
+>
+>
+> I think this problem should be because the kernel does not enable CONFIG=
+_SECURITY_LOCKDOWN_LSM,
+>
+> do you need me to submit a patch to open this option of the kernel?
+>
+>
+>
+> Zangrc
+>
+>
+>
+> From: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98
+> Sent: Thursday, November 26, 2020 2:18 PM
+> To: 'Leonardo Sandoval' <leonardo.sandoval@linaro.org>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: RE: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+>
+>
+>
+> I will investigate, it may take some time, if the error is resolved, I w=
+ill send a patch to the mailing list.
+>
+>
+>
+> zangrc
+>
+>
+>
+> From: Leonardo Sandoval <leonardo.sandoval@linaro.org>
+> Sent: Thursday, November 26, 2020 6:09 AM
+> To: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98 <zangrc.fnst@cn.fujitsu.c=
+om>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+>
+>
+>
+> Hi Zangrc,
+>
+>
+>
+> this patch is now in master-next
+>
+>
+>
+>   https://patchwork.openembedded.org/series/27030/
+>
+>
+>
+> but autobuilder detected a compilation error in the upgraded version
+>
+>
+>
+>   https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/2736=
+/steps/13/logs/stdio
+>
+>
+>
+> Can you please take a look? (seems like a C macro is not defined).
+>
+>
+>
+> Thanks,
+>
+>
+>
+> lsg
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> On Mon, 23 Nov 2020 at 20:08, zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
+>
+> The test log of oe-selftest is as follows:
+> 2020-11-23 15:48:49,144 - oe-selftest - INFO - test_crosstap_helloworld =
+(runtime_test.SystemTap)
+> 2020-11-23 17:06:55,949 - oe-selftest - INFO -  ... ok
+> 2020-11-23 17:06:55,951 - oe-selftest - INFO - test_crosstap_pstree (run=
+time_test.SystemTap)
+> 2020-11-23 17:08:07,921 - oe-selftest - INFO -  ... ok
+> 2020-11-23 17:08:07,922 - oe-selftest - INFO - test_crosstap_syscalls_by=
+_pid (runtime_test.SystemTap)
+> 2020-11-23 17:09:20,084 - oe-selftest - INFO -  ... ok
+> 2020-11-23 17:09:20,085 - oe-selftest - INFO - test_crosstap_syscalls_by=
+_proc (runtime_test.SystemTap)
+> 2020-11-23 17:10:31,349 - oe-selftest - INFO -  ... ok
+> 2020-11-23 17:12:58,052 - oe-selftest - INFO - -------------------------=
+---------------------------------------------
+> 2020-11-23 17:12:58,054 - oe-selftest - INFO - Ran 4 tests in 5051.537s
+> 2020-11-23 17:12:58,054 - oe-selftest - INFO - OK
+> 2020-11-23 17:13:08,416 - oe-selftest - INFO - RESULTS:
+> 2020-11-23 17:13:08,417 - oe-selftest - INFO - RESULTS - runtime_test.Sy=
+stemTap.test_crosstap_helloworld: PASSED (4686.81s)
+> 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.Sy=
+stemTap.test_crosstap_pstree: PASSED (71.97s)
+> 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.Sy=
+stemTap.test_crosstap_syscalls_by_pid: PASSED (72.16s)
+> 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.Sy=
+stemTap.test_crosstap_syscalls_by_proc: PASSED (71.26s)
+> 2020-11-23 17:13:08,432 - oe-selftest - INFO - SUMMARY:
+> 2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest () - Ran 4 te=
+sts in 5051.540s
+> 2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest - OK - All re=
+quired tests passed (successes=3D4, skipped=3D0, failures=3D0, errors=3D0)
+>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/reci=
+pes-kernel/systemtap/systemtap_git.inc
+> index 56fa51d61e..ae735025b7 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> @@ -1,7 +1,7 @@
+>  LICENSE =3D "GPLv2"
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a=
+4263"
+> -SRCREV =3D "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
+> -PV =3D "4.3"
+> +SRCREV =3D "988f439af39a359b4387963ca4633649866d8275"
+> +PV =3D "4.4"
+>
+>  SRC_URI =3D "git://sourceware.org/git/systemtap.git \
+>             file://0001-Do-not-let-configure-write-a-python-location-int=
+o-th.patch \
+> --
+> 2.25.1
+>
+>
+>
+>
+>=20
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
