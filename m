@@ -1,509 +1,366 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
- by mx.groups.io with SMTP id smtpd.web12.6033.1607418119297482402
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web09.6164.1607419690588315434
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 01:01:59 -0800
+ Tue, 08 Dec 2020 01:28:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RvjiB92c;
- spf=pass (domain: gmail.com, ip: 209.85.221.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f170.google.com with SMTP id t16so1207479vkl.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 01:01:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=G4zuB1K3;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id y17so6092821wrr.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 01:28:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9S+3r3Wg5iK4LbhNlVqmMUWF3a+FnokgLiIMpJVvaz8=;
-        b=RvjiB92c6joOOzmyMlntAVq5WAbPd0OzsHD3ieQUYKisWsf/pzEALtnzWRsrrO0h9i
-         Qz9nJhmv99///8sUxug3dZz4kYlqX3yBhiBXqcuk13ApzEoFyaK738EdDE8RlUvkAfZb
-         yeSWWCRbdt5wPX5YNfxrZKUxtquw7tN6/Y3R5fse185XWpPOWwiDzZMDJXE5bT7z+nbi
-         i8txs34FF/PDVxfpF2tsggv0XPn3FHL+JJ7MANQGWBmBzKA7V1zPLISYh5IQrpVysj3m
-         v3L3h9r77QZWCbnNAN7SqKw/BCRd5h+kB1zK52O2TDhA9SXjxnUv7rI0HMDSNarr3fFW
-         E0+A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7wYfLbW27VwU/VGI+evFhuMpcuPCdqxJlF5nuBN/aAk=;
+        b=G4zuB1K3lMm75qOwtxbtly6oMKCf1IdVrw7whfzGRs39j93MCikGiqI1IpoIPVgHYg
+         BtAi/xF2U+l6O4RzMFvz+EI+01EeZJJWQ25noT8+sTIHXmWvNFydtQNxW+u++Y/Q7CNX
+         dU82f4myeFDxriQe8Yf9xWdIHqhgLKER96860VUS2lbV9RVo8ca2M6jOJHaMGhM0Xqju
+         zulQBVyVUvoZWGwdVlXRkMEdXvGyUv/sFLNhPfWVIVXve+hUAr32VfJSgQEacy3qpqIK
+         hCuABFV1fVt1gqiLqCK3zmvDE08yDnnpY7+GRNQd8vxwpkiWD/C0oYROGEtE3x1EayR1
+         s6fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9S+3r3Wg5iK4LbhNlVqmMUWF3a+FnokgLiIMpJVvaz8=;
-        b=b87wkEJxANc5zsEGoCfW95T69Wh3KwM5sCjoROQvnlP/NYbdqS+JevhHkTvCh+ePSD
-         jZQdkXdnBPZO/GwzK7rbFbXcp9ehrCIlURo4odnNjFJvhFiSsHzngCbToJtn/mgin/VU
-         FAFkO4jiWYyeW63iWkNs+jkqVdOmqkVXce/zKJXmIIWYNfZEVMeidfY9ij0hlDsf1G1R
-         4QBHo6alfsbTNA9fBLEifD1sbrAU9oXBndh57zid8dof3zJ3ioK2SQJ2r6gTCJQtQ34Y
-         iv6VwsIu1DSA6afOL1as3dewiJvQxU0hukYz8gJ7OhtBJ4FePezu0YegK4iOCR6KozHv
-         PFyQ==
-X-Gm-Message-State: AOAM532BbmQyUvs/GKOMmJ+aEBZov1mvVYINUgIrpJ+QVvg575MFTakd
-	DaqMz70IBbDCPHRe5q9uy8Snf9oGKzOSNr0Mw6U=
-X-Google-Smtp-Source: ABdhPJwCCoCUxa56xjL2E+1s2yMSfE2p48azzaw6ssX//Fmbtcy88upylvqmay6noycAfcbnlmr3/VZAcJ8Bnwz43kk=
-X-Received: by 2002:a1f:a301:: with SMTP id m1mr4348094vke.0.1607418118330;
- Tue, 08 Dec 2020 01:01:58 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7wYfLbW27VwU/VGI+evFhuMpcuPCdqxJlF5nuBN/aAk=;
+        b=sxld2AwwOLtPjb7T1Tk8QCf3QZiG1+B63zdqNecdgMHIpt5EWqq+t3Woalf+CHCTcQ
+         hmUwM+4U6o6qrIiNZwmnYmNC/IPVw6+WzuwJfcAtDytTTnYWLdw2HVCc4fShlhYrOTob
+         9m5jWL8H7ZxjFS/Ykd/dICxNd8CT6pdGEJTfre8Hv9we1DSyMRClk/R6CLWwF892f70u
+         7DBrMzBf9TuYbeyaBobzlaztuoAwMwH1aKpvpikA/1Eel8yowgKHAdEgTATjd2L6dTXs
+         ZNq9s1FT+/DPoBqLxtfU8jrCuxm9MTXpmCbRMiE2tFqGUyHeBEtm8JroUNiw8whYnPaA
+         0XgA==
+X-Gm-Message-State: AOAM5310us4hnuRvyLeLWxwoYWO+yTC4s52SaymeA1l8rgv0zzQoZ7Q/
+	ZCQBgP+3tDz4PGUNpHj5XnjNBNTBosY=
+X-Google-Smtp-Source: ABdhPJySt+OHU5ZnEV694tCv9/PwWVVvA84WTzxNMZ5BoclvlPtGdgv0sZ8yUzPfJ7zk+FoQOlHjcg==
+X-Received: by 2002:a05:6000:ce:: with SMTP id q14mr1437477wrx.277.1607419688566;
+        Tue, 08 Dec 2020 01:28:08 -0800 (PST)
+Return-Path: <quaresma.jose@gmail.com>
+Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
+        by smtp.gmail.com with ESMTPSA id w12sm1909097wre.57.2020.12.08.01.28.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 01:28:07 -0800 (PST)
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jose Quaresma <quaresma.jose@gmail.com>
+Subject: [PATCH] gstreamer1.0: upgrade 1.18.1 -> 1.18.2
+Date: Tue,  8 Dec 2020 09:27:38 +0000
+Message-Id: <20201208092738.158048-1-quaresma.jose@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <1606218546-115087-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <CAPLtV=qtux0nP429iJqRTCFRpfHN3B8_fpNPSaeGqreWJFK=Dg@mail.gmail.com>
- <164D60671E1EC649.7952@lists.openembedded.org> <bcd9f08662984ddaa8923c0d3fe13d4c@G08CNEXMBPEKD04.g08.fujitsu.local>
-In-Reply-To: <bcd9f08662984ddaa8923c0d3fe13d4c@G08CNEXMBPEKD04.g08.fujitsu.local>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 8 Dec 2020 10:01:46 +0100
-Message-ID: <CANNYZj9=m-fOHp+8BT61w46dFamaZ_8TAequuXqm=M5ros6OKA@mail.gmail.com>
-Subject: Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
-Cc: Leonardo Sandoval <leonardo.sandoval@linaro.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f2de8505b5f0312a"
+Content-Transfer-Encoding: 8bit
 
---000000000000f2de8505b5f0312a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Drop patches as it as merged upstream:
 
-I think sending a patch is better than waiting :)
+    * gstreamer1.0: 0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch
+    * gstreamer1.0-plugins-good: 0001-rpicamsrc-add-vchostif-library-as-it-is-required-to-.patch
 
-Alex
+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+---
+ ...tools_1.18.1.bb => gst-devtools_1.18.2.bb} |  2 +-
+ ...mples_1.18.1.bb => gst-examples_1.18.2.bb} |  2 +-
+ ...1.18.1.bb => gstreamer1.0-libav_1.18.2.bb} |  2 +-
+ ...x_1.18.1.bb => gstreamer1.0-omx_1.18.2.bb} |  2 +-
+ ....bb => gstreamer1.0-plugins-bad_1.18.2.bb} |  2 +-
+ ...bb => gstreamer1.0-plugins-base_1.18.2.bb} |  2 +-
+ ...hostif-library-as-it-is-required-to-.patch | 32 -----------------
+ ...bb => gstreamer1.0-plugins-good_1.18.2.bb} |  3 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.18.2.bb} |  2 +-
+ ....18.1.bb => gstreamer1.0-python_1.18.2.bb} |  2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.18.2.bb} |  2 +-
+ ...1.18.1.bb => gstreamer1.0-vaapi_1.18.2.bb} |  2 +-
+ ...crese-padding-in-struct-_GstClockEnt.patch | 34 -------------------
+ ...er1.0_1.18.1.bb => gstreamer1.0_1.18.2.bb} |  3 +-
+ 14 files changed, 12 insertions(+), 80 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.18.1.bb => gst-devtools_1.18.2.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.18.1.bb => gst-examples_1.18.2.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.18.1.bb => gstreamer1.0-libav_1.18.2.bb} (89%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.18.1.bb => gstreamer1.0-omx_1.18.2.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.18.1.bb => gstreamer1.0-plugins-bad_1.18.2.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.18.1.bb => gstreamer1.0-plugins-base_1.18.2.bb} (97%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-rpicamsrc-add-vchostif-library-as-it-is-required-to-.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.18.1.bb => gstreamer1.0-plugins-good_1.18.2.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.18.1.bb => gstreamer1.0-plugins-ugly_1.18.2.bb} (93%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.18.1.bb => gstreamer1.0-python_1.18.2.bb} (89%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.18.1.bb => gstreamer1.0-rtsp-server_1.18.2.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.18.1.bb => gstreamer1.0-vaapi_1.18.2.bb} (95%)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.18.1.bb => gstreamer1.0_1.18.2.bb} (94%)
 
-On Tue, 8 Dec 2020 at 04:03, zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
+diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.2.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.18.2.bb
+index 2e09ef9c25..9fd9e0be93 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.18.2.bb
+@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
+            file://0001-connect-has-a-different-signature-on-musl.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "712212babd2238233d55beecfc0fe1ea8db18e8807ac6ab05a64505b2c7ab0df"
++SRC_URI[sha256sum] = "6ea73d718bf1f9692218540ff88479c51d67c0b477fa56d6812fc7b739d30a56"
+ 
+ DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
+ RRECOMMENDS_${PN} = "git"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.2.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gst-examples_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gst-examples_1.18.2.bb
+index 048b45a08f..54a4b5df15 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.18.2.bb
+@@ -9,7 +9,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=http
+            file://gst-player.desktop \
+            "
+ 
+-SRCREV = "998ee69af18a5928759dbe17fffbceebbc8d72d0"
++SRCREV = "45086d8ef2d75244d9d5c8f69c0f0e1dfd4200b3"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.2.bb
+similarity index 89%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.2.bb
+index 38bbffafa4..b638814aa4 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.18.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
+                     "
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "39a717bc2613efbbba19df3cf5cacff0987471fc8281ba2c5dcdeaded79c2ed8"
++SRC_URI[sha256sum] = "36969ad44c5f0756a8a90215410710d6c39713d58f6cee13d663be9774557f49"
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.18.2.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.18.2.bb
+index 513d66f9fc..686fcc2655 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.18.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "42a8e0f9518b94655981ede441638f9f9395f4b1b9a4b329f068ee793975a965"
++SRC_URI[sha256sum] = "4c05d64544eecf4aaf5b337789916c67ed720317dfb2c8c8c335720fcc5c7cf4"
+ 
+ S = "${WORKDIR}/gst-omx-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
+index ebd8c5a27d..f70437ccd3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
+@@ -6,7 +6,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            "
+-SRC_URI[sha256sum] = "c195978c85d97406c05eb9d43ac54b9ab35eda6ffdae32b3ed597b8f1743c1b2"
++SRC_URI[sha256sum] = "8ad5822f1118fe46a19af54422b74e3a16d79a6800dcb173b49e199a496b341a"
+ 
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.2.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.2.bb
+index 1b2bd4fe14..531d577b0c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.2.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            file://0004-glimagesink-Downrank-to-marginal.patch \
+            "
+-SRC_URI[sha256sum] = "1ba654d7de30f7284b4c7071b32f881b609733ce02ab6d9d9ea29386a036c641"
++SRC_URI[sha256sum] = "dd04fb1f7826e2f6d9b4d66fc22f19cc6a47c301e13041f0ee3d7f65c89b05ac"
+ 
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-rpicamsrc-add-vchostif-library-as-it-is-required-to-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-rpicamsrc-add-vchostif-library-as-it-is-required-to-.patch
+deleted file mode 100644
+index 685ee08e50..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-rpicamsrc-add-vchostif-library-as-it-is-required-to-.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 3ec4fe5507a39383b161f1ab7687acb4a57c32f8 Mon Sep 17 00:00:00 2001
+-From: Jose Quaresma <quaresma.jose@gmail.com>
+-Date: Sun, 15 Nov 2020 11:30:07 +0000
+-Subject: [PATCH] rpicamsrc: add vchostif library as it is required to build
+- successful
+-
+-fix: undefined reference to `vc_gencmd'
+-/usr/src/debug/gstreamer1.0-plugins-good/1.18.1-r0/build/../gst-plugins-good-1.18.1/sys/rpicamsrc/RaspiCamControl.c:1440: undefined reference to `vc_gencmd'
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/merge_requests/818]
+-
+-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+----
+- sys/rpicamsrc/meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/sys/rpicamsrc/meson.build b/sys/rpicamsrc/meson.build
+-index dc18a8345..48b2ceb66 100644
+---- a/sys/rpicamsrc/meson.build
+-+++ b/sys/rpicamsrc/meson.build
+-@@ -34,7 +34,7 @@ if not cc.has_header('bcm_host.h', args: rpi_inc_args)
+- endif
+- 
+- mmal_deps = []
+--foreach rpi_lib : ['mmal_core', 'mmal_util', 'mmal_vc_client', 'vcos', 'bcm_host']
+-+foreach rpi_lib : ['mmal_core', 'mmal_util', 'mmal_vc_client', 'vcos', 'vchostif', 'bcm_host']
+-   l = cc.find_library(rpi_lib, dirs: rpi_lib_path, required: false)
+-   if not l.found()
+-     if get_option('rpicamsrc').enabled()
+--- 
+-2.29.2
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.2.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.2.bb
+index 77e1333ddc..2e076bf884 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.18.2.bb
+@@ -2,10 +2,9 @@ require gstreamer1.0-plugins-common.inc
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
+-           file://0001-rpicamsrc-add-vchostif-library-as-it-is-required-to-.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "e210e91a5590ecb6accc9d06c949a58ca6897d8edb3b3d55828e424c624f626c"
++SRC_URI[sha256sum] = "f71752dde434d9ec55fa5e8d2e2a3be3fc6eb5b34f397b065f84aead25b449a4"
+ 
+ S = "${WORKDIR}/gst-plugins-good-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.18.2.bb
+similarity index 93%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.18.2.bb
+index 614ef8d740..e482aa10b2 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.18.2.bb
+@@ -9,7 +9,7 @@ LICENSE_FLAGS = "commercial"
+ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+-SRC_URI[sha256sum] = "18cd6cb829eb9611ca63cbcbf46aca0f0de1dd28b2df18caa2834326a75ff725"
++SRC_URI[sha256sum] = "a337a022ed472209b38cab5918dc2f4e7a6adc1f4afacd226a6345e5cb668bdb"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.2.bb
+similarity index 89%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.2.bb
+index c0c5d271d0..5711744b4d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.18.2.bb
+@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "42b289422f7ab32757670848cf2245c5a8a8b08a665a9cab65ded8d69364f6f6"
++SRC_URI[sha256sum] = "e19d0f760b353e88161b3712193cffbd79bf1314418da792b5fec4d8ecef389c"
+ 
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS_${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.2.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.2.bb
+index 30534c9782..b680aa38d6 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.18.2.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "10a82865c3d199e66731017ca4b120bad071df9889e60cfe4dd6c49d953ef754"
++SRC_URI[sha256sum] = "973922aba65a1672a131527dee965fb09bab4bb996c351f0ee7f42f0d5b954e2"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.2.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.2.bb
+index acf5598a62..f237191d5f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.18.2.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "400d3c42810b50b4566df03f37319a6bdd758f969560c40147e7d9a3b0e8a6ea"
++SRC_URI[sha256sum] = "8c7b2c74fda095d83dea67accde6a68ba9f608d97ed969fdcf278930f9b1c7c0"
+ 
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch
+deleted file mode 100644
+index a2d215d72d..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From 4449246a8d788e71dfe4679fba95955cec5894c1 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Tue, 3 Nov 2020 22:58:26 -0800
+-Subject: [PATCH] gst_private.h: increse padding in struct _GstClockEntryImpl
+-
+-When compiling for 32bit architectures with 64bit time_t e.g. riscv32,
+-the static assert that the GstClockEntryImpl smaller or
+-equal to the struct _GstClockEntryImpl triggered.
+-(they were 12bytes off).
+-
+-To fix this, the padding is increased by 8 bytes (on 32bit).
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/694]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gst/gst_private.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/gst/gst_private.h b/gst/gst_private.h
+-index a8897e1..8252ede 100644
+---- a/gst/gst_private.h
+-+++ b/gst/gst_private.h
+-@@ -522,7 +522,7 @@ struct _GstClockEntryImpl
+-   GstClockEntry entry;
+-   GWeakRef clock;
+-   GDestroyNotify destroy_entry;
+--  gpointer padding[19];                 /* padding for allowing e.g. systemclock
+-+  gpointer padding[21];                 /* padding for allowing e.g. systemclock
+-                                          * to add data in lieu of overridable
+-                                          * virtual functions on the clock */
+- };
+--- 
+-2.29.2
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.2.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.1.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.2.bb
+index d55b2871e7..0fb0bcebc1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.2.bb
+@@ -19,9 +19,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
+            file://0002-Remove-unused-valgrind-detection.patch \
+            file://0003-meson-Add-option-for-installed-tests.patch \
+-           file://0001-gst_private.h-increse-padding-in-struct-_GstClockEnt.patch \
+            "
+-SRC_URI[sha256sum] = "79df8de21f284a105a5c1568527f8c559c583c85c0f2bd7bdb5b0372b8beecba"
++SRC_URI[sha256sum] = "66cdeb4f970c2e55932a2f427177d438fe2c55c0b6d29e80fda80263f2ae5446"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    check \
+-- 
+2.29.2
 
-> Ping
->
->
->
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> *On Behalf Of *zangrc
-> *Sent:* Friday, December 4, 2020 9:51 AM
-> *To:* Leonardo Sandoval <leonardo.sandoval@linaro.org>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
->
->
->
-> I think this problem should be because the kernel does not enable
-> CONFIG_SECURITY_LOCKDOWN_LSM,
->
-> do you need me to submit a patch to open this option of the kernel?
->
->
->
-> Zangrc
->
->
->
-> *From:* Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98
-> *Sent:* Thursday, November 26, 2020 2:18 PM
-> *To:* 'Leonardo Sandoval' <leonardo.sandoval@linaro.org>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* RE: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
->
->
->
-> I will investigate, it may take some time, if the error is resolved, I
-> will send a patch to the mailing list.
->
->
->
-> zangrc
->
->
->
-> *From:* Leonardo Sandoval <leonardo.sandoval@linaro.org>
-> *Sent:* Thursday, November 26, 2020 6:09 AM
-> *To:* Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98 <zangrc.fnst@cn.fujitsu=
-.com>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
->
->
->
-> Hi Zangrc,
->
->
->
-> this patch is now in master-next
->
->
->
->   https://patchwork.openembedded.org/series/27030/
->
->
->
-> but autobuilder detected a compilation error in the upgraded version
->
->
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/2736/s=
-teps/13/logs/stdio
->
->
->
-> Can you please take a look? (seems like a C macro is not defined).
->
->
->
-> Thanks,
->
->
->
-> lsg
->
->
->
->
->
->
->
->
->
-> On Mon, 23 Nov 2020 at 20:08, zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
->
-> The test log of oe-selftest is as follows:
-> 2020-11-23 15:48:49,144 - oe-selftest - INFO - test_crosstap_helloworld
-> (runtime_test.SystemTap)
-> 2020-11-23 17:06:55,949 - oe-selftest - INFO -  ... ok
-> 2020-11-23 17:06:55,951 - oe-selftest - INFO - test_crosstap_pstree
-> (runtime_test.SystemTap)
-> 2020-11-23 17:08:07,921 - oe-selftest - INFO -  ... ok
-> 2020-11-23 17:08:07,922 - oe-selftest - INFO -
-> test_crosstap_syscalls_by_pid (runtime_test.SystemTap)
-> 2020-11-23 17:09:20,084 - oe-selftest - INFO -  ... ok
-> 2020-11-23 17:09:20,085 - oe-selftest - INFO -
-> test_crosstap_syscalls_by_proc (runtime_test.SystemTap)
-> 2020-11-23 17:10:31,349 - oe-selftest - INFO -  ... ok
-> 2020-11-23 17:12:58,052 - oe-selftest - INFO -
-> ----------------------------------------------------------------------
-> 2020-11-23 17:12:58,054 - oe-selftest - INFO - Ran 4 tests in 5051.537s
-> 2020-11-23 17:12:58,054 - oe-selftest - INFO - OK
-> 2020-11-23 17:13:08,416 - oe-selftest - INFO - RESULTS:
-> 2020-11-23 17:13:08,417 - oe-selftest - INFO - RESULTS -
-> runtime_test.SystemTap.test_crosstap_helloworld: PASSED (4686.81s)
-> 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS -
-> runtime_test.SystemTap.test_crosstap_pstree: PASSED (71.97s)
-> 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS -
-> runtime_test.SystemTap.test_crosstap_syscalls_by_pid: PASSED (72.16s)
-> 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS -
-> runtime_test.SystemTap.test_crosstap_syscalls_by_proc: PASSED (71.26s)
-> 2020-11-23 17:13:08,432 - oe-selftest - INFO - SUMMARY:
-> 2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest () - Ran 4
-> tests in 5051.540s
-> 2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest - OK - All
-> required tests passed (successes=3D4, skipped=3D0, failures=3D0, errors=
-=3D0)
->
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc
-> b/meta/recipes-kernel/systemtap/systemtap_git.inc
-> index 56fa51d61e..ae735025b7 100644
-> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-> @@ -1,7 +1,7 @@
->  LICENSE =3D "GPLv2"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a=
-4263"
-> -SRCREV =3D "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
-> -PV =3D "4.3"
-> +SRCREV =3D "988f439af39a359b4387963ca4633649866d8275"
-> +PV =3D "4.4"
->
->  SRC_URI =3D "git://sourceware.org/git/systemtap.git \
->
-> file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-> --
-> 2.25.1
->
->
->
->
->=20
->
->
-
---000000000000f2de8505b5f0312a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I think sending a patch is better than waiting :)</di=
-v><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Tue, 8 Dec 2020 at 04:03, zangrc &lt=
-;<a href=3D"mailto:zangrc.fnst@cn.fujitsu.com">zangrc.fnst@cn.fujitsu.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-
-
-
-
-
-<div lang=3D"EN-US">
-<div class=3D"gmail-m_-1513054640787591461WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)">Ping<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-color:currentcolor currentcolor currentcolor blue;bor=
-der-style:none none none solid;border-width:medium medium medium 1.5pt;padd=
-ing:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-color:rgb(225,225,225) currentcolor currentcolor;bord=
-er-style:solid none none;border-width:1pt medium medium;padding:3pt 0cm 0cm=
-">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:&quot;=
-Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11pt;fon=
-t-family:&quot;Calibri&quot;,sans-serif"> <a href=3D"mailto:openembedded-co=
-re@lists.openembedded.org" target=3D"_blank">openembedded-core@lists.openem=
-bedded.org</a> &lt;<a href=3D"mailto:openembedded-core@lists.openembedded.o=
-rg" target=3D"_blank">openembedded-core@lists.openembedded.org</a>&gt;
-<b>On Behalf Of </b>zangrc<br>
-<b>Sent:</b> Friday, December 4, 2020 9:51 AM<br>
-<b>To:</b> Leonardo Sandoval &lt;<a href=3D"mailto:leonardo.sandoval@linar=
-o.org" target=3D"_blank">leonardo.sandoval@linaro.org</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" tar=
-get=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -&g=
-t; 4.4<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)">I think this problem should be because the=
- kernel does not enable CONFIG_SECURITY_LOCKDOWN_LSM,
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)">do you need me to submit a patch to open t=
-his option of the kernel?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)">Zangrc<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-color:currentcolor currentcolor currentcolor blue;bor=
-der-style:none none none solid;border-width:medium medium medium 1.5pt;padd=
-ing:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-color:rgb(225,225,225) currentcolor currentcolor;bord=
-er-style:solid none none;border-width:1pt medium medium;padding:3pt 0cm 0cm=
-">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:&quot;=
-Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11pt;fon=
-t-family:&quot;Calibri&quot;,sans-serif"> Zang, Ruochen/</span><span style=
-=3D"font-size:11pt;font-family:&quot;\005fae\008f6f\0096c5\009ed1&quot;,sa=
-ns-serif" lang=3D"ZH-CN">=E8=87=A7</span><span style=3D"font-size:11pt;font=
--family:&quot;Calibri&quot;,sans-serif" lang=3D"ZH-CN">
-</span><span style=3D"font-size:11pt;font-family:&quot;\005fae\008f6f\0096=
-c5\009ed1&quot;,sans-serif" lang=3D"ZH-CN">=E8=8B=A5=E5=B0=98</span><span s=
-tyle=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-serif">
-<br>
-<b>Sent:</b> Thursday, November 26, 2020 2:18 PM<br>
-<b>To:</b> &#39;Leonardo Sandoval&#39; &lt;<a href=3D"mailto:leonardo.sand=
-oval@linaro.org" target=3D"_blank">leonardo.sandoval@linaro.org</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" tar=
-get=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> RE: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -&g=
-t; 4.4<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)">I will investigate, it may take some time,=
- if the error is resolved, I will send a patch to the mailing list.<u></u><=
-u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)">zangrc<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:=E7=AD=89=
-=
-=E7=BA=BF;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-color:currentcolor currentcolor currentcolor blue;bor=
-der-style:none none none solid;border-width:medium medium medium 1.5pt;padd=
-ing:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-color:rgb(225,225,225) currentcolor currentcolor;bord=
-er-style:solid none none;border-width:1pt medium medium;padding:3pt 0cm 0cm=
-">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11pt;font-family:&quot;=
-Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11pt;fon=
-t-family:&quot;Calibri&quot;,sans-serif"> Leonardo Sandoval &lt;<a href=3D"=
-mailto:leonardo.sandoval@linaro.org" target=3D"_blank">leonardo.sandoval@li=
-naro.org</a>&gt;
-<br>
-<b>Sent:</b> Thursday, November 26, 2020 6:09 AM<br>
-<b>To:</b> Zang, Ruochen/</span><span style=3D"font-size:11pt;font-family:=
-&quot;\005fae\008f6f\0096c5\009ed1&quot;,sans-serif" lang=3D"ZH-CN">=E8=87=
-=A7</span><span style=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sa=
-ns-serif" lang=3D"ZH-CN">
-</span><span style=3D"font-size:11pt;font-family:&quot;\005fae\008f6f\0096=
-c5\009ed1&quot;,sans-serif" lang=3D"ZH-CN">=E8=8B=A5=E5=B0=98</span><span s=
-tyle=3D"font-size:11pt;font-family:&quot;Calibri&quot;,sans-serif"> &lt;<a =
-href=3D"mailto:zangrc.fnst@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn=
-.fujitsu.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" tar=
-get=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -&g=
-t; 4.4<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal">Hi Zangrc,<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">this patch is now in master-next <u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">=C2=A0 <a href=3D"https://patchwork.openembedded.or=
-g/series/27030/" target=3D"_blank">
-https://patchwork.openembedded.org/series/27030/</a><u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">but autobuilder detected a compilation error in the=
- upgraded version<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">=C2=A0 <a href=3D"https://autobuilder.yoctoproject.=
-org/typhoon/#/builders/61/builds/2736/steps/13/logs/stdio" target=3D"_blank=
-">
-https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/2736/ste=
-ps/13/logs/stdio</a><u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Can you please take a look? (seems like a C macro i=
-s not defined).<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Thanks,<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">lsg<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Mon, 23 Nov 2020 at 20:08, zangrc &lt;<a href=3D=
-"mailto:zangrc.fnst@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn.fujits=
-u.com</a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-color:currentcolor currentcolor currentcolor r=
-gb(204,204,204);border-style:none none none solid;border-width:medium mediu=
-m medium 1pt;padding:0cm 0cm 0cm 6pt;margin:5pt 0cm 5pt 4.8pt">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12pt">The test log of oe-sel=
-ftest is as follows:<br>
-2020-11-23 15:48:49,144 - oe-selftest - INFO - test_crosstap_helloworld (r=
-untime_test.SystemTap)<br>
-2020-11-23 17:06:55,949 - oe-selftest - INFO -=C2=A0 ... ok<br>
-2020-11-23 17:06:55,951 - oe-selftest - INFO - test_crosstap_pstree (runti=
-me_test.SystemTap)<br>
-2020-11-23 17:08:07,921 - oe-selftest - INFO -=C2=A0 ... ok<br>
-2020-11-23 17:08:07,922 - oe-selftest - INFO - test_crosstap_syscalls_by_p=
-id (runtime_test.SystemTap)<br>
-2020-11-23 17:09:20,084 - oe-selftest - INFO -=C2=A0 ... ok<br>
-2020-11-23 17:09:20,085 - oe-selftest - INFO - test_crosstap_syscalls_by_p=
-roc (runtime_test.SystemTap)<br>
-2020-11-23 17:10:31,349 - oe-selftest - INFO -=C2=A0 ... ok<br>
-2020-11-23 17:12:58,052 - oe-selftest - INFO - ---------------------------=
--------------------------------------------<br>
-2020-11-23 17:12:58,054 - oe-selftest - INFO - Ran 4 tests in 5051.537s<br=
->
-2020-11-23 17:12:58,054 - oe-selftest - INFO - OK<br>
-2020-11-23 17:13:08,416 - oe-selftest - INFO - RESULTS:<br>
-2020-11-23 17:13:08,417 - oe-selftest - INFO - RESULTS - runtime_test.Syst=
-emTap.test_crosstap_helloworld: PASSED (4686.81s)<br>
-2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.Syst=
-emTap.test_crosstap_pstree: PASSED (71.97s)<br>
-2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.Syst=
-emTap.test_crosstap_syscalls_by_pid: PASSED (72.16s)<br>
-2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.Syst=
-emTap.test_crosstap_syscalls_by_proc: PASSED (71.26s)<br>
-2020-11-23 17:13:08,432 - oe-selftest - INFO - SUMMARY:<br>
-2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest () - Ran 4 test=
-s in 5051.540s<br>
-2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest - OK - All requ=
-ired tests passed (successes=3D4, skipped=3D0, failures=3D0, errors=3D0)<br=
->
-<br>
-Signed-off-by: Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@cn.fujitsu.c=
-om" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipe=
-s-kernel/systemtap/systemtap_git.inc<br>
-index 56fa51d61e..ae735025b7 100644<br>
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc<br>
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc<br>
-@@ -1,7 +1,7 @@<br>
-=C2=A0LICENSE =3D &quot;GPLv2&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;<a>file://COPYING;md5=3Db234ee4d69f5fce44=
-86a80fdaf4a4263</a>&quot;<br>
--SRCREV =3D &quot;82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd&quot;<br>
--PV =3D &quot;4.3&quot;<br>
-+SRCREV =3D &quot;988f439af39a359b4387963ca4633649866d8275&quot;<br>
-+PV =3D &quot;4.4&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://sourceware.org/git/systemt=
-ap.git" target=3D"_blank">sourceware.org/git/systemtap.git</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>
-file://0001-Do-not-let-configure-write-a-python-location-into-th.patch</a>=
- \<br>
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000f2de8505b5f0312a--
