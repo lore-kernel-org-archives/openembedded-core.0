@@ -1,17 +1,17 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.56])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [])
  by mx.groups.io with SMTP id smtpd.web09.6275.1607420609895827439
  for <openembedded-core@lists.openembedded.org>;
  Tue, 08 Dec 2020 01:43:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=mPLBs0UX;
- spf=pass (domain: windriver.com, ip: 40.107.236.56, mailfrom: liezhi.yang@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=HfXbcXWW;
+ spf=softfail (domain: windriver.com, ip: <nil>, mailfrom: liezhi.yang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lHniz9DmvnHnF9Tzk4vHtBmBK1Cx4rLpk8edEWFa78GRHx1ykFvoGozidGd1FAz9BeuoW1KFM3pEcgQkmRz0cnJ2dZ9od4qMWZ03RqQIyscbw7Yt9zIH+4Xq8RCe7rQ+9RFj/Eo91wugoiVhDVZl14mleuJu5lF5fNZeeObwI3/eeuCDa/3twjIUjjq9vF16S4Xts95r67cY9rp9mwnHUg9xYX1/fYSYNazdGpG60stSBUi0ECTNGrPRN20eFC4cRPSUmWPnA2/ql1T3ln00au/IOsXPKc3UgMOqIVm8Czccl5T0ad89mhJgSSVFlxNWDqzntjuRA59fhMaqfCliOg==
+ b=J0TKRwFIOKE+4t0AQaX2KoWLWJg5RVbKGVn/TPFaV6pM4JFr5bljTTcqg10Mfv9ryBj/T705jHZEktLrYC1X3f3XMMaQV6HH/V/1XWHv+8emSrYqWjT4dfvw2R52BxYbsJHq23PjvFj8+w8zItNUdiXA3FHhbsa+ajTZSiFKNajDV3oyEsWan32FF/IIIKw1hhPqY2juGgeV978Sv0POMRrcHvpgcnFlPFQn4uX7xSr0vum9T4LHRnFC8ykQUk/UbfL0JeqrDAMS7iXqYIkp1esxKzlzQGfECoQV5EVPuY0O3gw9JZ0vWh+QzX+yfsYMMdb8g6IbxoffZw14RQC7lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xqZj9rwsmWYOt25IbOu2jHhJuLalCOt5H3nHxOm4HvA=;
- b=ezQBSBEOkaKHP727H5kv0DcxUQGc9yPhxZLadmLh3QrTwdljd2DcmtYWp1Z8mPekUqC9BjHWcuPzfW4BEse/nc9q3q1xBis0b0lPxT0CnvdNc60Wv2q95GyCHapBY0gOJxMUDbEiIkCyHBeRbLOwtEkj0YZSx95B5+Nj62EHtMcer2IbBFUXmp9ieit1yhlpi8wGaWUmukPIjTsdb1DjzjHu3vAfTgHFS6on2gYigsvCO5Sc1E/pO9CBFf4depDZ+uj0JW1jjH5pIT6AaVzIeCrLfvEHiTB8wNsbtDSOzRZv+Rj/5mvFsRAWu+MIxURfk1AUDAyQwmVrDXnJuQjUhg==
+ bh=eDnoJyniVRL6KbOCRyb+X9VnHiUW0YSGvRj8oml+oO0=;
+ b=FEeTzNQGuE2SKqjLjcwQA0cw2b2y7IWahbSUEqzZVeUkI3KZ+UvcM+obC/iHPtXYAfUohYYMfR/LmgeyeWydUArgSW/luDOmdSI7XCFfzsjCYMugCHg+Y6ypkhWMOPLqozoszWEyatr+Z6FiDMobGarP9JT7thcGuQUxDeippT3wXQxFr6Ogg7TC1Sn3Ih0FA3lKdip6lXRZ1MP0XM0FDaC+Ogb4kYe1N4dv3UkcZFjAaVBfLoHMcfb0EExIbRCVKmmr9R4XEzuV81gQ8UVwEuvI8MW/aJZMr3oz6RZQzw++ucfI9pNWENcvRJyuyROo0qF+hrDJURTfcjywmBo2Bw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,25 +19,27 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xqZj9rwsmWYOt25IbOu2jHhJuLalCOt5H3nHxOm4HvA=;
- b=mPLBs0UXmqZfoj9tnhoPfmgPMnyCgW50YLe9flz4sLlET6KND9kARk8BfLuES22PdW5Q9OmEAgSRSYMfvFGqgHlRpkOMNsLt2O5siw2nJdWlAz8oKsw5Yc7aQ5qRxEphZFAfE2iVwSb9M2CQ9UzvhGzrubR/W9DOih478JgcjnE=
+ bh=eDnoJyniVRL6KbOCRyb+X9VnHiUW0YSGvRj8oml+oO0=;
+ b=HfXbcXWWRhr5h6b85ad6UJ0G0D2Mk8iXxmJG+gqjOBxOWJCT33mApfIYkMK1aroMj0Oe7CqsSNVMizU2h0w6v4tCP45AZ4/n422y7+qrDquKP5TAm0jKBThXTQ0jxA2ijLom3Mjo8Ed0NdR9NIhaRglcmr1LYOCO7OMmNmJ0Ck0=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from SN6PR11MB2909.namprd11.prod.outlook.com (52.135.126.77) by
  SN6PR11MB2814.namprd11.prod.outlook.com (52.135.90.15) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.21; Tue, 8 Dec 2020 09:43:27 +0000
+ 15.20.3632.21; Tue, 8 Dec 2020 09:43:29 +0000
 Received: from SN6PR11MB2909.namprd11.prod.outlook.com
  ([fe80::e0b3:8438:9d91:c16]) by SN6PR11MB2909.namprd11.prod.outlook.com
  ([fe80::e0b3:8438:9d91:c16%7]) with mapi id 15.20.3632.018; Tue, 8 Dec 2020
- 09:43:27 +0000
+ 09:43:29 +0000
 From: "Robert Yang" <liezhi.yang@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] buildtools-tarball.bb: Fix PATH for environment setup script
-Date: Tue,  8 Dec 2020 01:43:12 -0800
-Message-Id: <cover.1607420550.git.liezhi.yang@windriver.com>
+Subject: [PATCH 1/1] buildtools-tarball.bb: Fix PATH for environment setup script
+Date: Tue,  8 Dec 2020 01:43:13 -0800
+Message-Id: <af469d1014584f3a8ef3b46e5373e9eb0841efc1.1607420550.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1607420550.git.liezhi.yang@windriver.com>
+References: <cover.1607420550.git.liezhi.yang@windriver.com>
 X-Originating-IP: [147.11.105.124]
 X-ClientProxiedBy: YTOPR0101CA0021.CANPRD01.PROD.OUTLOOK.COM
  (2603:10b6:b00:15::34) To SN6PR11MB2909.namprd11.prod.outlook.com
@@ -45,66 +47,74 @@ X-ClientProxiedBy: YTOPR0101CA0021.CANPRD01.PROD.OUTLOOK.COM
 Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by YTOPR0101CA0021.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Tue, 8 Dec 2020 09:43:26 +0000
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by YTOPR0101CA0021.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:15::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend Transport; Tue, 8 Dec 2020 09:43:27 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c42f6706-56d1-42bf-bae2-08d89b5db6ae
+X-MS-Office365-Filtering-Correlation-Id: 73710788-7262-4c8e-2134-08d89b5db80a
 X-MS-TrafficTypeDiagnostic: SN6PR11MB2814:
 X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB2814F39B8E443C50DE85620FFFCD0@SN6PR11MB2814.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:376;
+	<SN6PR11MB2814A7F3D3937DF4F51D85F1FFCD0@SN6PR11MB2814.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	yL/XeoOVrmC1D1rwEla3xDs4NR6RBm4QM+3s8uUUuyr0RuymGQpYk84OX5KWWlErZCuLFochOr2I03LiEyKk34F8PnLwhpLDdEk8NNYB1xtfwtmz0ytCNZLFCFmEwlpwwAhcoSdTrnS8Fv+90LB4J/80ypAvrdknfH7qeZjg79zQ1UyjvEdfur8wsGNjzo5zsqyZJqM2eG1rMF2B87fWv3Ya9jRToFkhfauXW1V0mAGBLmWFI+aQUlOG7xX8KB2k+AUotSXOND82VSPX++b8qF+QslC5FSrAXjxzBIIYLDrCwg5H4rxwa2dvJNAtx4tDDqBQONfWRCRRBPoJaU2L03ydggMJGf53EvOFwdV9CEWEmclkqiPAwxIt+Iu8kxvWZaP6nTDtizF9LEpa32W6Hg==
+	oyw8Wfm2t8ZAdQMu6AMDzHKQooxlap2xBOs7Asir7E0w3SwAHdR1hUExwsnYN8TV4KNIkKBY0SWY6t7vIX9O9b4nydKTtGI384CHRtQE1rjiYICLg3nvZvuxXFslzd7IsE9IFUqlcTy9TVqlvasdNKTpQSKH/VZfDke7oKwGLrrQv1gqtR42KofaNN/ZYCKmt6c4BQfII+C1kHu2NSKHpTtD3PD/PBlGQ2qYdhuhrHfHKoLhGrwVTA2zN2vKZ25v/Hq6b2ur9EOCRw0FJxNYQWvuAx+k/OuUj9Xkd7qRHeyZ2JUjh1K8+k6rPlx++vAd21fRNzKUxrjVuYCpHoc0QQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39850400004)(66946007)(2906002)(66556008)(4744005)(8936002)(26005)(83380400001)(6486002)(6916009)(16526019)(5660300002)(186003)(6512007)(52116002)(36756003)(478600001)(6506007)(66476007)(2616005)(6666004)(8676002)(956004)(86362001)(316002)(966005);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(376002)(366004)(136003)(39850400004)(66946007)(2906002)(66556008)(8936002)(26005)(83380400001)(6486002)(6916009)(16526019)(5660300002)(186003)(6512007)(52116002)(36756003)(478600001)(6506007)(66476007)(2616005)(6666004)(8676002)(956004)(86362001)(316002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?bMVE7M7t122VbIlnF6qHduakRen+W/Ekn5wqOwEa8IaWwqUyVRMHeAYwoYBM?=
- =?us-ascii?Q?QtFNJB0K9+CpmRUDSm1s/73WtU5cHCj687SmHJddBfZ6jHO7hBrabzUMDM2X?=
- =?us-ascii?Q?Fj+zriwmtKDW2/HY0V7zvBx2XR//G4A3LSQXAvR3khx7nRTWaeA04KwSONJS?=
- =?us-ascii?Q?L8qUjMmIHqJ8Zg7QH/gw5CBq7+4gHEg/3XCHig+BgR+uHk6hiOaF+Fl/0l/q?=
- =?us-ascii?Q?3GssxaY7EnkshUAR29t002wnQvO/h3aVLKJEXG73blK+BX2c6Zha0rBtIpYr?=
- =?us-ascii?Q?8Q3huQGvHAtXEuyqwkXUj0drLEiIgoOHS0de4gQRvN98JHZM5A1UbsbiU105?=
- =?us-ascii?Q?1XudmvQ6YY6KqX/mby4wWclHLlXiedOFOvvRy1bcEGOCUB/ou57+F0d49lSs?=
- =?us-ascii?Q?F3a7K/J8ALiKN2rb7mjnG3PkfIPaDvX7EsFOn3ldcc/q4B7+bLQdcn0rUKOu?=
- =?us-ascii?Q?rcwnZzFRz41pqwzAZUMbv3VMJTsQPAF6V3QAtWeM4Doh7xp8EkTGxNQEdH8s?=
- =?us-ascii?Q?eokwYKGkn+iQMy0niZ4cvTEeiPnJtWEtHHKKr9TGcKtegJe0W7MYhy3sCEW3?=
- =?us-ascii?Q?3rUKvK0QhYajLVvphBqAuBAbvjB2ZfH1z3wygZTbcFg9rbQJFZ+PM5MWbRDD?=
- =?us-ascii?Q?j83x8tE6cDRwmtNqlzBH+Ouae5Rn27/8jUXcIHDQEkVM3afzB0AQWF829/Go?=
- =?us-ascii?Q?ioDeIy7TQvX4AgY6bjh4AESwyodFfLLSnyU8aQ041+Lv0+aTud42HnsED4L5?=
- =?us-ascii?Q?+3aHUyqp5gWaHOo8Akk0a3274zEq+V39zqT7gQbT/TqxTenQAURDoaoglQBc?=
- =?us-ascii?Q?sWfaknHGWqacfQbo5MT1z8b1F64ywSSVSv2ywpuiNLYaiZjpn4We8cBnRsls?=
- =?us-ascii?Q?19wEEksIddI7zoQT46UmJcSg9VhEmKLwvofM1HSHvr+kwqy9Dddawhm5sLkg?=
- =?us-ascii?Q?a6qLm9B8D7LHKTy08oICOyvYwWG6i9tSiZY5HALBW6oUt4Rl7pE4Z8WObAkp?=
- =?us-ascii?Q?96fj?=
+	=?us-ascii?Q?aEmZq3W36vprdH0a4JbgJD/5qjG+Zbb5NaEswl3ikbUzEhXgOPi9BsT9/OWy?=
+ =?us-ascii?Q?eaHYlewL5VptPbPl/S4CTUlW8FTlz50SR+STlKu4vAUYEOyix7cJT3iJIvMA?=
+ =?us-ascii?Q?uSfVKGj4VVoy2wOD3EBPWW9eFBMP5iNis6/DvQMuhjFUyVa0mYIvXUxFK5QA?=
+ =?us-ascii?Q?sPHn7TVvogf58gnNEZ9wZOMxSwpUghGgYOC8gnRQZTyDqdHa+xmzaR3z17qH?=
+ =?us-ascii?Q?ztJyY1HVk1cO/ciX/xG7ZVz6PQmBqVfqo+xd9QglKtAyvOLhrwZ5/FC1L3Uq?=
+ =?us-ascii?Q?DJM+T+JFYtxzyGPVWHVdaELFPDFb/i4tJ1x+CtbI17DK27j2J73iMjToBE9+?=
+ =?us-ascii?Q?5/WLnpFQGT8sfHf8VC+PQmDv1k0JY25XAi1bSj9N14R4cvrjywndEdTzXxz5?=
+ =?us-ascii?Q?bzVEUUMN3xy4IYfqQ79KZVPz+38/6vVxdWYKbfoIN3BUViEA+nvhMEe/ijzW?=
+ =?us-ascii?Q?dtQVLUAqzVdGCbDT8G1ca/tvp7qq6x/OKzSuJQfafQKZO3BZb3v5nyH0hjUc?=
+ =?us-ascii?Q?SDWcOMAKBjToIulsZd0ZI+3uqFiuFtD39cL5aD7rkUXetIYQd51C4etkVm+P?=
+ =?us-ascii?Q?TGhzgoV5iBCs9m+1czt2JIWEpIhKN3mUlprf9KAlbf2S1E169+ZytJ2siwpU?=
+ =?us-ascii?Q?QnKE9tqk/Hio9hHXdv0+VHHtSQeX5kuJrDFA4i3Dtl9Afk9zrs6yAQz4TkHW?=
+ =?us-ascii?Q?tiQKLB/hM1Miznt9oyV6oWB+tBTxZ69wei/O1wv/io/3SxOI+Mz35xquzKyZ?=
+ =?us-ascii?Q?h5g6k/Iwh/zVwf3FwskKMf7lcNBppvr5UhAsckKpuMl5xfsORHiogLYIAOp+?=
+ =?us-ascii?Q?q98m+e66WZN45xX7gCu0jlajscGFqBI2Q26F/pL+bouxYNO//bgLP7T+vd8i?=
+ =?us-ascii?Q?crVlfzrGwRE2ge7EA8OXdF2rU+5K8od2oS4+rycVfCmKP9cOvnAxgAh6YNvh?=
+ =?us-ascii?Q?WsElobMR+qMeRGlgJk5yQCV3MBQ7+zqHh8gAcMbgrVdeccCtai2k4WSdkI8R?=
+ =?us-ascii?Q?KD2T?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 09:43:27.0894
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 09:43:29.3791
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-Network-Message-Id: c42f6706-56d1-42bf-bae2-08d89b5db6ae
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73710788-7262-4c8e-2134-08d89b5db80a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Wz5Z5M/cSCAwIdSrlSf0ROV8kvmDwcHO8oxl0kFmiohumxqjpDDx8C1c8R2bhLqXLhduXIeUgPA4e2syp6omPLRWCEcfVzCUfntU0QZWIN0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: bAAJum/4J51MT8e9/VjMD9WDqBHineFK/oA9ZZe+Y4L9zDFHGMcVt5vVCXA9DPhb245jRsHPh4xJFTc+PXWwiSslBj6v/mMDwGOUQz+HRYk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2814
 Content-Type: text/plain
 
-The following changes since commit e995e67bc7a3d30adf9f8d0d2f4df92a941baeae:
+It only added ${SDKPATHNATIVE}/usr/bin to PATH which didn't work when files
+were installed to other bin dirs such as /bin or /sbin, for example,
+nativesdk-pigz installs the files to /bin, now fix it to keep align with sdk's
+PATH.
 
-  meta/lib/oeqa/manual/oe-core.json: Update test_bitbake_devshell (2020-12-06 23:16:50 +0000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/bt
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/bt
-
-Robert Yang (1):
-  buildtools-tarball.bb: Fix PATH for environment setup script
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-core/meta/buildtools-tarball.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 560b8d67b9b..9da81d55235 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -67,7 +67,7 @@ create_sdk_files_append () {
+ 	# Generate new (mini) sdk-environment-setup file
+ 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
+ 	touch $script
+-	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
++	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:${SDKPATHNATIVE}${sbindir_nativesdk}:${SDKPATHNATIVE}${base_bindir_nativesdk}:${SDKPATHNATIVE}${base_sbindir_nativesdk}:$PATH' >> $script
+ 	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+ 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+ 	echo 'export SSL_CERT_FILE="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
 -- 
 2.17.1
 
