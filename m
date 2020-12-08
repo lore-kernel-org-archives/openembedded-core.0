@@ -1,234 +1,78 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web09.9099.1607437401036383519
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web10.9036.1607437639912347329
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 06:23:21 -0800
+ Tue, 08 Dec 2020 06:27:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=X/+6vPJ7;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.47, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f47.google.com with SMTP id d17so24820753ejy.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 06:23:20 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rMJFtEkK;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.68, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f68.google.com with SMTP id ga15so24869958ejb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 06:27:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dyjrOTkjuAj/QTpsgvkeZcMHcGthMvTSjtIcvPTS5Eo=;
-        b=X/+6vPJ7uPgGukTop8S0O7EOUlDSjghKrQf0/qbIFnpO+9JP7o6ZYjDDzR2wagErni
-         qD2+ubt3FXJrj3vqSYDUFZFKXFEEHjQPJo2I8nXjGyhaCYbn+/DPJkSAdlfFvbGM8YTj
-         AP/jS4fEm0IVP9HIwcIcs6ErQOSc/X59y23/QaXGUeweFjwbd0LAw/C+5e5E97tpre03
-         Sh2Wgl4yhU4kNESp7NR4LsnjQOOoyNpLKFH2O1WL4Oo6FTbI9zA/ecxZQ7aCQ2+o+TpE
-         Qq959ZkV+y9D/S7EhLoNwDwhVcx+phO6F7/1ve0FLaXZj2/lJEan9w714KGXg4sVUHVJ
-         h5Jw==
+        bh=DlAz2DBj00z/GyAS69NpcaBEhjgzBBx7qeqJbPU+f3c=;
+        b=rMJFtEkK6/iyaM3HnqTTwstIcpuLeWB0I4UoRkstmIpF3c75VYpD8jLDbDgeHiTxb3
+         8rSAv0TxU4rw/W6RpyY7QYgdFGR7bcPI12snzPumvhLeGGc0g5b1q2AAC20wUtn+XS8C
+         TMzfIU4lt+d7a97DcuVofYC57bXOssRVxh0IA2VR1Occ4jBF84f6ssY2iaV3xZDwT98P
+         fL1XRKyn+1B3emTl0bI6sYZSrz3lGOwte8yZXEqTwMyg9eO19d19EpAMg8aZ+Rl7tuIn
+         1dfSPlddPumoWKdnOmJXy8CXQB9yng+kD0HEshKFVQbkMNCGugJIue+myj65HbXgMbUB
+         W19g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dyjrOTkjuAj/QTpsgvkeZcMHcGthMvTSjtIcvPTS5Eo=;
-        b=gWhDyOvvcrP9kjmNp5T5jbXYdIKOWaXbQCtcAcIo/z/LJNhMFEoDaxBjxdikWqwCDg
-         SbPrI/dU2wan7fj1xrxs9+3SzlwTrWCeJ1mp83NrObruUn3U2SAWpcuJt7tEGcKeX2Ba
-         B7L3pB2goFiSuAyMCO2KlFlZx5mDSJd9ESPhLAAD8qRKVNWpN7w+i9Yk+4FS1uE0GXNy
-         l2/Wgj70tkoQHBG80ANXFITLqUXtm5Ylvwym2KBZ1LKNsl2W0gb3f7otuuo6+1sNuJ9W
-         2vpO5BnAMD3qlNX397m+rOOb+Sy9cVqn91zBl1/ogLGMj/mo97WAsfQCiwCX7kXz53VM
-         POag==
-X-Gm-Message-State: AOAM532z4hK3t0WJmUdo58Y9OD2DUK3spxStVEheZb/sQRfUzMMJWZ6J
-	otbywiJbdP2gL1QJACvVbmG0yQtJCcxFNPpPxm+lyQ==
-X-Google-Smtp-Source: ABdhPJzQcd++Qrv9zU8jR6WhwB+rAdhdP8UL+zjP6pXUg8MwC33W15XSIDgBFO2HBFWuSCIDN2ANMzH8l2Tcn8ZzvOY=
-X-Received: by 2002:a17:906:edc8:: with SMTP id sb8mr13563084ejb.247.1607437399459;
- Tue, 08 Dec 2020 06:23:19 -0800 (PST)
+        bh=DlAz2DBj00z/GyAS69NpcaBEhjgzBBx7qeqJbPU+f3c=;
+        b=LAowo/WJ7ojaIdRPw7hGppB+RfWgtmM7XdlNioTCW3yB6RzSdl7m/DmTkuSxAQ+bP1
+         SMpItjFmX1x9VtAuwNr0pJzJ3tu3qw4xhHJpNE9YNZoZJ8rgzdZ2z9s6cG69AR4yGsB2
+         y635p1mRK3HSdq4WuDdZcOUUX9guAHmxxJfi8Cqm32gEcgefkDL8sBp+wc/fnhTbg+bQ
+         VTpJa7oz+oJQieLeQJTHT7RmrKyXkhtoVDo+ZVuCj/95y92Eliou0QYp/jh/akXNJgaR
+         GmfIpQbNHO9/baScT8LOwUYpIMvdhAtLAjktTNZvwoAE9MyyQmGIFePtSgxPnB7ljJQK
+         nFBw==
+X-Gm-Message-State: AOAM530psgN0kvLijQlvhbKRIQozYkZjXoNpy7LWj/160cGN7h9qULlm
+	VEix0RT95wtDRTemG0AUU2nxM1CblnWKZB/E1kVaA+zKrcZwnw==
+X-Google-Smtp-Source: ABdhPJxFSD9Qb4J7vlkYcQpqLwbhzuaXmf/fvMGYUFx0BhTC7B2nxXUCt73b6Q+nxy3UyMQoIz7PoKsKIS2NCcCxQ5Y=
+X-Received: by 2002:a17:906:edc8:: with SMTP id sb8mr13577019ejb.247.1607437638179;
+ Tue, 08 Dec 2020 06:27:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20201208083102.3259-1-andrej.valek@siemens.com>
-In-Reply-To: <20201208083102.3259-1-andrej.valek@siemens.com>
+References: <20201207155410.1671537-1-ross.burton@arm.com>
+In-Reply-To: <20201207155410.1671537-1-ross.burton@arm.com>
 From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 8 Dec 2020 04:23:08 -1000
-Message-ID: <CAOSpxdawqv0Wh5dqHnFx2c3Zm+hEuRnE10Sm-AiM1u9gi5r3pg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell][PATCH] python3: fix CVE-2019-20907
-To: Andrej Valek <andrej.valek@siemens.com>
+Date: Tue, 8 Dec 2020 04:27:07 -1000
+Message-ID: <CAOSpxdZ2n8x_Qr3eJz6M-4rhuxB+0dM3nEn1-bv1EgU8+q-kRA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] coreutils: add SUSE-specific issues to CVE whitelist
+To: Ross Burton <ross@burtonini.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks Andrej!  I appreciate the help in CVE reduction.
+On Mon, Dec 7, 2020 at 5:54 AM Ross Burton <ross@burtonini.com> wrote:
+>
+> CVE-2013-0221 through -223 are all SUSE-specific, so add them to the
+> whitelist.
 
-This patch is missing some of the requirements (CVE: tag, sign-off,
-references) outlined in the "Patch name convention and commit message"
-section of:
-
-https://wiki.yoctoproject.org/wiki/Security
-
-Could you submit a v2?
-
-Thanks again!
+Good for dunfell too (with recipe version change of course)?
 
 Steve
 
-On Mon, Dec 7, 2020 at 10:32 PM Andrej Valek <andrej.valek@siemens.com> wrote:
->
-> - move fixing patch for CVE-2020-8492 to the right location
->
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
 > ---
->  ...VE-2020-8492-Fix-AbstractBasicAuthHandler.patch |   0
->  .../python/python3/CVE-2019-20907.patch            | 135 +++++++++++++++++++++
->  meta/recipes-devtools/python/python3_3.8.2.bb      |   1 +
->  3 files changed, 136 insertions(+)
->  rename meta/recipes-devtools/python/{files => python3}/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch (100%)
->  create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+>  meta/recipes-core/coreutils/coreutils_8.32.bb | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-> rename to meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-> diff --git a/meta/recipes-devtools/python/python3/CVE-2019-20907.patch b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
-> new file mode 100644
-> index 0000000000..5ac145333b
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
-> @@ -0,0 +1,135 @@
-> +From 1fa6ef2bc7cee1c8e088dd8b397d9b2d54036dbc Mon Sep 17 00:00:00 2001
-> +From: Rajarishi Devarajan <rishi93dev@gmail.com>
-> +Date: Sun, 12 Jul 2020 23:47:42 +0200
-> +Subject: [PATCH 1/4] bpo-39017 Fix infinite loop in the tarfile module
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.32.bb b/meta/recipes-core/coreutils/coreutils_8.32.bb
+> index 9d1eceef54..4eb357e310 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.32.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.32.bb
+> @@ -199,3 +199,6 @@ do_install_ptest () {
+>  }
+>
+>  FILES_${PN}-ptest += "${bindir}/getlimits"
 > +
-> +Add a check for length = 0 in the _proc_pax function to avoid running into an infinite loop
-> +---
-> + Lib/tarfile.py           |   2 ++
-> + Lib/test/recursion.tar   | Bin 0 -> 516 bytes
-> + Lib/test/test_tarfile.py |   5 +++++
-> + 3 files changed, 7 insertions(+)
-> + create mode 100644 Lib/test/recursion.tar
-> +
-> +diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-> +index e2b60532f693d..6769066cabd6f 100755
-> +--- a/Lib/tarfile.py
-> ++++ b/Lib/tarfile.py
-> +@@ -1249,6 +1249,8 @@ def _proc_pax(self, tarfile):
-> +
-> +             length, keyword = match.groups()
-> +             length = int(length)
-> ++            if length == 0:
-> ++                raise InvalidHeaderError("invalid header")
-> +             value = buf[match.end(2) + 1:match.start(1) + length - 1]
-> +
-> +             # Normally, we could just use "utf-8" as the encoding and "strict"
-> +diff --git a/Lib/test/recursion.tar b/Lib/test/recursion.tar
-> +new file mode 100644
-> +index 0000000000000000000000000000000000000000..b8237251964983f54ed1966297e887636cd0c5f4
-> +GIT binary patch
-> +literal 516
-> +zcmYdFPRz+kEn=W0Fn}74P8%Xw3X=l~85kIuo0>8xq$A1Gm}!7)KUsFc41m#O8A5+e
-> +I1_}|j06>QaCIA2c
-> +
-> +literal 0
-> +HcmV?d00001
-> +
-> +diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-> +index d60d35b5be04a..1f31a8f700766 100644
-> +--- a/Lib/test/test_tarfile.py
-> ++++ b/Lib/test/test_tarfile.py
-> +@@ -429,6 +429,11 @@ def test_premature_end_of_archive(self):
-> +                 with self.assertRaisesRegex(tarfile.ReadError, "unexpected end of data"):
-> +                     tar.extractfile(t).read()
-> +
-> ++    def test_length_zero_header(self):
-> ++        with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
-> ++            with tarfile.open(support.findfile('recursion.tar')) as tar:
-> ++                tar.getmembers()
-> ++
-> + class MiscReadTestBase(CommonReadTest):
-> +     def requires_name_attribute(self):
-> +         pass
-> +
-> +From c43a5afcf9cc2dab2410c35632f66e055a938c02 Mon Sep 17 00:00:00 2001
-> +From: "blurb-it[bot]" <43283697+blurb-it[bot]@users.noreply.github.com>
-> +Date: Sun, 12 Jul 2020 22:16:59 +0000
-> +Subject: [PATCH 2/4] =?UTF-8?q?=F0=9F=93=9C=F0=9F=A4=96=20Added=20by=20blu?=
-> + =?UTF-8?q?rb=5Fit.?=
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=UTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +---
-> + .../NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst | 1 +
-> + 1 file changed, 1 insertion(+)
-> + create mode 100644 Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-> +
-> +diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-> +new file mode 100644
-> +index 0000000000000..10d98f759ac87
-> +--- /dev/null
-> ++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-> +@@ -0,0 +1 @@
-> ++Add check for length = 0 to avoid infinite loop inside _proc_pax function in tarfile module
-> +\ No newline at end of file
-> +
-> +From 5f7b94574db21086dc2693210a975def7cc058e3 Mon Sep 17 00:00:00 2001
-> +From: Rishi <rishi_devan@mail.com>
-> +Date: Tue, 14 Jul 2020 12:39:14 +0200
-> +Subject: [PATCH 3/4] Apply suggestions from code review
-> +
-> +Add relevant CVE number in inline comments
-> +
-> +Co-authored-by: Petr Viktorin <encukou@gmail.com>
-> +---
-> + Lib/test/test_tarfile.py                                        | 2 ++
-> + .../next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst       | 2 +-
-> + 2 files changed, 3 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-> +index 1f31a8f700766..827ffaf3273b3 100644
-> +--- a/Lib/test/test_tarfile.py
-> ++++ b/Lib/test/test_tarfile.py
-> +@@ -430,6 +430,8 @@ def test_premature_end_of_archive(self):
-> +                     tar.extractfile(t).read()
-> +
-> +     def test_length_zero_header(self):
-> ++        # bpo-39017 (CVE-2019-20907): reading a zero-length header should fail
-> ++        # with an exception
-> +         with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
-> +             with tarfile.open(support.findfile('recursion.tar')) as tar:
-> +                 tar.getmembers()
-> +diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-> +index 10d98f759ac87..ad26676f8b856 100644
-> +--- a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-> ++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-> +@@ -1 +1 @@
-> +-Add check for length = 0 to avoid infinite loop inside _proc_pax function in tarfile module
-> +\ No newline at end of file
-> ++Avoid infinite loop when reading specially crafted TAR files using the tarfile module (CVE-2019-20907).
-> +
-> +From 54084a8beef62fa0ac443618be2352f67f2bb8c3 Mon Sep 17 00:00:00 2001
-> +From: rishi93 <rishi_devan@mail.com>
-> +Date: Tue, 14 Jul 2020 12:45:48 +0200
-> +Subject: [PATCH 4/4] bpo-39017: Fix infinite loop in the tarfile module
-> +
-> +Replace code that is never called with pass in tarfile testcase
-> +---
-> + Lib/test/test_tarfile.py | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-> +index 827ffaf3273b3..3ddeb97f5268f 100644
-> +--- a/Lib/test/test_tarfile.py
-> ++++ b/Lib/test/test_tarfile.py
-> +@@ -434,7 +434,7 @@ def test_length_zero_header(self):
-> +         # with an exception
-> +         with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
-> +             with tarfile.open(support.findfile('recursion.tar')) as tar:
-> +-                tar.getmembers()
-> ++                pass
-> +
-> + class MiscReadTestBase(CommonReadTest):
-> +     def requires_name_attribute(self):
-> diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-> index b4cce88e87..9eddad4ad4 100644
-> --- a/meta/recipes-devtools/python/python3_3.8.2.bb
-> +++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-> @@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
->             file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
->             file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
->             file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
-> +           file://CVE-2019-20907.patch \
->             file://CVE-2020-14422.patch \
->             file://CVE-2020-26116.patch \
->             file://CVE-2020-27619.patch \
+> +# These are specific to Opensuse
+> +CVE_WHITELIST += "CVE-2013-0221 CVE-2013-0222 CVE-2013-0223"
 > --
-> 2.11.0
+> 2.25.1
+>
+>
+> 
 >
