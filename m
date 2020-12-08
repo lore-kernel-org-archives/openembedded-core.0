@@ -1,25 +1,25 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.73])
- by mx.groups.io with SMTP id smtpd.web09.7230.1607427814620780293
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.43])
+ by mx.groups.io with SMTP id smtpd.web12.7342.1607427937032121206
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 03:43:35 -0800
+ Tue, 08 Dec 2020 03:45:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=Vh45m8Mn;
- spf=pass (domain: arm.com, ip: 40.107.20.73, mailfrom: diego.sueiro@arm.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=kNwNTIQa;
+ spf=pass (domain: arm.com, ip: 40.107.13.43, mailfrom: diego.sueiro@arm.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sRJRYYjZSSyAwlA6RzpfRP9Q3ST+I9j2wjonM+XSFZA=;
- b=Vh45m8MnuWrzAbBNeVbuNLtMxkH5mV4vXGzNR+pqnapUZqWJatjMHIEUit7q/oVi+3RUQSPhU+JevCDFRZTyOTrRE/thKJL946AG9ziGPQq3o4a4tciZdrKyp71aPtsDgwb/sHLidW8bguZdSc2la9LgmbDtPago4hJ/HdlOg7c=
-Received: from DB6PR1001CA0046.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:4:55::32)
- by DB7PR08MB3274.eurprd08.prod.outlook.com (2603:10a6:5:1f::24) with
+ bh=ZLr64ST5l9k3WzTFA6ZGNAVIXay+U9sR22RtDRQtOXI=;
+ b=kNwNTIQafnfZgSSgKO0cjlRHS0EaV6mx/L+cY2GKGYSQa+JeIEFZO9OFjQpFYuQZCgLct5hVDg7ZBb0mq+Sz8utG8hQzs7GOGDfJVYq0r64owVw7R03SNxblITn8Ve9oiJN9apE8y6fqsM0A7N6MCD85CHDIjh9SFJe7mncO1Zc=
+Received: from DB8PR09CA0013.eurprd09.prod.outlook.com (2603:10a6:10:a0::26)
+ by VI1PR0802MB2157.eurprd08.prod.outlook.com (2603:10a6:800:9c::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Tue, 8 Dec
- 2020 11:43:30 +0000
-Received: from DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:4:55:cafe::5e) by DB6PR1001CA0046.outlook.office365.com
- (2603:10a6:4:55::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
+ 2020 11:45:34 +0000
+Received: from DB5EUR03FT032.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:10:a0:cafe::82) by DB8PR09CA0013.outlook.office365.com
+ (2603:10a6:10:a0::26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
- Transport; Tue, 8 Dec 2020 11:43:30 +0000
+ Transport; Tue, 8 Dec 2020 11:45:33 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
  smtp.mailfrom=arm.com; lists.openembedded.org; dkim=pass (signature was
  verified) header.d=armh.onmicrosoft.com;lists.openembedded.org; dmarc=pass
@@ -28,35 +28,35 @@ Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
  63.35.35.123 as permitted sender) receiver=protection.outlook.com;
  client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
 Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT057.mail.protection.outlook.com (10.152.20.235) with Microsoft SMTP
+ DB5EUR03FT032.mail.protection.outlook.com (10.152.20.162) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3632.17 via Frontend Transport; Tue, 8 Dec 2020 11:43:30 +0000
-Received: ("Tessian outbound 665ba7fbdfd9:v71"); Tue, 08 Dec 2020 11:43:30 +0000
+ 15.20.3632.17 via Frontend Transport; Tue, 8 Dec 2020 11:45:33 +0000
+Received: ("Tessian outbound 6af064f543d4:v71"); Tue, 08 Dec 2020 11:45:33 +0000
 X-CheckRecipientChecked: true
-X-CR-MTA-CID: 9af6c2eeec4be072
+X-CR-MTA-CID: 5eb30e5e3b86625f
 X-CR-MTA-TID: 64aa7808
-Received: from a08341c37cb9.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 24F8BEC1-D1C5-4EBE-9656-8E23E7ACB54B.1;
-	Tue, 08 Dec 2020 11:43:02 +0000
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a08341c37cb9.1
+Received: from 4a8c26176233.2
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id A4978238-1AF2-4318-8C7C-7D8EDB340FFB.1;
+	Tue, 08 Dec 2020 11:45:11 +0000
+Received: from EUR02-VE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 4a8c26176233.2
     (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 08 Dec 2020 11:43:02 +0000
+    Tue, 08 Dec 2020 11:45:11 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LVEw5t4X9N+TOT0negTidFlgKUz6yWF8s5l50pQueoxbRDP0krHPNhJGdQkmHfTHp/VlXxHeTMERLgztWjFKEHPEX9gxRZ7E1jjYAZ/XrZeKs0hqx39JPtnIj6wRveWV35L/9o793l/D3wIONzCBgtwkB79W5FG2B0q7Wp3x/5e5OL9+JCZnhGUWVAWBQ9DrF3VS8HhntBnVk3UZ6sZ37rKaobpatLQaSCIakVQPCHqOuyfuKsBPxsTVj2lIokL5K9rplBBuTte3rfOX3jUZ1rJ0AQ8YsrAnjW5TiWRLhc0wIZSGFQ+aUSrJiC8KMKFY09masXoIbXbUeLLzyorLMQ==
+ b=JpkFJWpBKK0Kj7tYzQuUlHOJA7M8Cyqwg+CAMSPCGIkJmGZ+4OioxtH8giAwxiMUfKmPdqXfzWoG2FOZzgOtztOON0+J7715f9tkxo+f8jKIau4D9Q6o9TgrPPknJLeiJKIMl7T5uwfF2pqHUT3aLcpyfRh2jN+utGDENoXFeBxpOSqMzLAROFYH5TuspZFgkk2REn4pNfObmRuj3L0WK+GJFxYnc36LXZLvSChqy3XXjcPN+OYn05kPGnFhYz3bGh2WhoXI3adNud95ycVDVqiZkIr46AuDHZuHWNyGidfnCuy7ZaLn8mNrou/3xeR2LORd/MhQyVIpucqnpO7Tuw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sRJRYYjZSSyAwlA6RzpfRP9Q3ST+I9j2wjonM+XSFZA=;
- b=gPbJnyuGXBim4726ytme7LsjMM8nylu99fD4sTyAFT079FSh6tylr9TyyY3aVcaoX9NIPYCDNq+/W12Bxstv5CvWqocCBuxgw79io9IM+8k34DmmWQTZBcjMmvC4/9AcpIzk8Iby3cOW/6ybD+WyslrtkBzRS/CX91KItAnMxb40O2TJ/RzkvmGk8aQuWNxG7vEEzMaOk+33ftWiw1YhMnbYIAfeSOxxRA9OZfy769KI4B1aZtLhcbDp0wNc/j64/LPJe0VZFmoRrSNqQBrlPWCVuTq4u4QKdJvchUWHl7bUdnEXl/zog/Jr0QnXmpsH/G0znetgX9Q5ogvUX1G2cQ==
+ bh=ZLr64ST5l9k3WzTFA6ZGNAVIXay+U9sR22RtDRQtOXI=;
+ b=XK9qyMLSjfdDqLyO1VzthrrXMQDTbffXV+/vhNzNNZ0lj4kj6pmBKoxqUv1atgVFcwLKy9SOCSZtsVYD1C2l2fOT/XEMgOiA2ZJtMa0nTnT6XoJzjG0pdYEQwqPuexZHf6y9HSegWdcZD6M6MbW8irXqMXtFufM5QvFBiU3q8d4IH2fZt9S+A6WUW0ZdVEn4tN+GtLqILu9oUQlydut3T/DkF2xaXm97/wblyb0Z1AWbsNfLGQVF5aYjdG5/4a8tjpzyUL4eU9so5c4HrhNh2h4O/5vYtoqovWcbhX/Mp/i/s4NWTkxK4p/H0seLsTrBP2XPNC74vpe1wzLon/hOYw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
  header.d=arm.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
  s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sRJRYYjZSSyAwlA6RzpfRP9Q3ST+I9j2wjonM+XSFZA=;
- b=Vh45m8MnuWrzAbBNeVbuNLtMxkH5mV4vXGzNR+pqnapUZqWJatjMHIEUit7q/oVi+3RUQSPhU+JevCDFRZTyOTrRE/thKJL946AG9ziGPQq3o4a4tciZdrKyp71aPtsDgwb/sHLidW8bguZdSc2la9LgmbDtPago4hJ/HdlOg7c=
+ bh=ZLr64ST5l9k3WzTFA6ZGNAVIXay+U9sR22RtDRQtOXI=;
+ b=kNwNTIQafnfZgSSgKO0cjlRHS0EaV6mx/L+cY2GKGYSQa+JeIEFZO9OFjQpFYuQZCgLct5hVDg7ZBb0mq+Sz8utG8hQzs7GOGDfJVYq0r64owVw7R03SNxblITn8Ve9oiJN9apE8y6fqsM0A7N6MCD85CHDIjh9SFJe7mncO1Zc=
 Authentication-Results-Original: lists.openembedded.org; dkim=none (message
  not signed) header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=arm.com;
@@ -64,61 +64,61 @@ Received: from AM6PR08MB3461.eurprd08.prod.outlook.com (2603:10a6:20b:47::28)
  by AM5PR0801MB2003.eurprd08.prod.outlook.com (2603:10a6:203:4a::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
- 2020 11:43:02 +0000
+ 2020 11:45:08 +0000
 Received: from AM6PR08MB3461.eurprd08.prod.outlook.com
  ([fe80::f500:d160:ee9e:f578]) by AM6PR08MB3461.eurprd08.prod.outlook.com
  ([fe80::f500:d160:ee9e:f578%5]) with mapi id 15.20.3632.021; Tue, 8 Dec 2020
- 11:43:01 +0000
+ 11:45:08 +0000
 From: "Diego Sueiro" <diego.sueiro@arm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: nd@arm.com,
 	Diego Sueiro <diego.sueiro@arm.com>
-Subject: [PATCH v2] wic: Introduce empty plugin to create unformatted empty partitions
-Date: Tue,  8 Dec 2020 11:42:52 +0000
-Message-Id: <a47db4974657f4459997a409b4d6c830371796dd.1607427688.git.diego.sueiro@arm.com>
+Subject: [PATCH] modutils-initscripts: Use depmod -a when modules.dep is empty
+Date: Tue,  8 Dec 2020 11:44:59 +0000
+Message-Id: <d470a02e9f532a8f9b5b407403f4c8a62be44632.1607427806.git.diego.sueiro@arm.com>
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [217.140.99.251]
-X-ClientProxiedBy: LO4P123CA0185.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a4::10) To AM6PR08MB3461.eurprd08.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0018.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:150::23) To AM6PR08MB3461.eurprd08.prod.outlook.com
  (2603:10a6:20b:47::28)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from e125394.arm.com (217.140.99.251) by LO4P123CA0185.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1a4::10) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend Transport; Tue, 8 Dec 2020 11:43:00 +0000
+Received: from e125394.arm.com (217.140.99.251) by LO4P123CA0018.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:150::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18 via Frontend Transport; Tue, 8 Dec 2020 11:45:07 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 731c403c-ff1c-4fc4-fa21-08d89b6e7bf1
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB2003:|DB7PR08MB3274:
+X-MS-Office365-Filtering-Correlation-Id: 6459fda6-5438-4699-f985-08d89b6ec5ab
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB2003:|VI1PR0802MB2157:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<DB7PR08MB3274F9850AB66DE8F9FDF97692CD0@DB7PR08MB3274.eurprd08.prod.outlook.com>
+	<VI1PR0802MB2157B5DF2BA3DB991D90358192CD0@VI1PR0802MB2157.eurprd08.prod.outlook.com>
 x-checkrecipientrouted: true
 NoDisclaimer: true
-X-MS-Oob-TLC-OOBClassifiers: OLM:1417;OLM:1417;
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;OLM:2887;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam-Untrusted: BCL:0;
 X-Microsoft-Antispam-Message-Info-Original: 
- /beFW8UKYGY6QaK5tUY67jkYySZkpRRgfHPyA4VNidI8F5kXhCjyT2LZuFFXssBBxDrcK+z3rGyAr37y5JnphnTrQICLkC+f23k0T6/gxqMc2azcI4pDmsQ1emPhRnQpHSJHGiT3Ju6zOGHQ/UciwfIYabsYZtmipwVVEH8wTYKcj00vEGG0uPEj0X5cPpOuL2tMcm5BfDwiyGqWfXaoQ94paxu43rvKwj+LMVqa6ooZZvUCVtG3X6eR1f2Lr9vwrR7N72ZCVDU5kY6CMoWj6Y1ELNPHgCflfiMBvPI3TgSwV3vk2bdgXksw60agFbs0aqy9m2txDXyArkBlmJqOA843TXDOWANEbwlDk0XFu8ABfCdDhsEOOVINpIpbSA3N
+ 0JOkV22PJE4SxSvjWUYZ0rIWBTpFkCMdhmYZ+U/HIjBzl5a95ksK4u5EaI58lAP5GX8tuSjcM6+2cisjoue2xulXNmyRMPaJ5mlnbgOCMokT8lVHYp/xVPR5XBdeeucFyHp3em+xP1fFDapaVDPASy/aZDNVHa0CcIuIGbCK1d+cTgkSmkPZvJK/WDBFE8XMWLcD9kgUItuGddCcDX6tii63WRtZDeVdEEyBjajOzqtdn4hwMj6ZTLxNHS5eDTsrUlsw++7lpBSKVwZZ7/+sWvKF8A6pKX0ZqfddfX0vS22XZSJK7DonclGcXP2dF3XQ6+2Ml3h/6fpyplqT0UoJTjUcvu9h6kpFqite8nmKJH8mP7PM0ZhxIL9kUR/QrHXe
 X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3461.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(346002)(376002)(956004)(5660300002)(6666004)(26005)(2616005)(6486002)(4326008)(36756003)(7696005)(66946007)(6916009)(66476007)(34490700003)(2906002)(86362001)(66556008)(8676002)(508600001)(186003)(16526019)(52116002)(44832011)(8936002);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3461.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(346002)(376002)(956004)(5660300002)(6666004)(26005)(2616005)(6486002)(4326008)(36756003)(7696005)(83380400001)(66946007)(6916009)(66476007)(34490700003)(2906002)(86362001)(66556008)(8676002)(508600001)(186003)(16526019)(52116002)(44832011)(8936002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
- =?us-ascii?Q?NsNBiFkDGojrepsmuhh6zV/bhybtbVpypkEaHl41s+L8Mrr2c7o5F1EB7oiv?=
- =?us-ascii?Q?hPUB2puoyaQPWkBvOVtAsjDsHhWbhUv8DM2OdPxWl4sWwPqb9y/DMeOgZL/i?=
- =?us-ascii?Q?+e0pvxKf5bTrADNl+kA9A1pwFOL3gDO9k/BOLHP/Yei5ABUkOL1gmu1Qclb+?=
- =?us-ascii?Q?THvIdgsJHfRXsuRQRNAHiE0E2g+IyqiaK7KWHEykPD1Mkx62LfOYDRWLd1hD?=
- =?us-ascii?Q?Id01+vBQV0dMzfmaJWx6uNyk9RUuf+5PTPDLtPSY7FZLqY+pIhDcAUkHz4go?=
- =?us-ascii?Q?IrAPrvmzzQyzwepLIGA4pWhQPUVqT22/gqddLu2t00wPod+jzS1K10p11GOC?=
- =?us-ascii?Q?XotMwfWqYBMiBbTVWtIcFJt3Ov6qmyy+5nzu4QMV4oajcM67fyVZAzh54ovU?=
- =?us-ascii?Q?YPQ9GTzs4ze95uNO9OMR1KiCiRzGF8Zet2JGXFj3OnUSJ2UU//rTu1mREqvH?=
- =?us-ascii?Q?o5AOdoB5vqvNuad3ZJL3rFNqRMrqVnCQFmYHIN/AaMA5i5HAO/2Q7h1Fpyt1?=
- =?us-ascii?Q?Z1+1/xFbxNreYvKvKiUKFyu2IstWwomJAczY645jm8bRejBBz69VQP9sUfwK?=
- =?us-ascii?Q?DK9NRJ9Z6ZxXmTrMmnAyN9fpHsvPaeJboprGAsBqDzfK9ENYQbRjKsg6srOh?=
- =?us-ascii?Q?vcprodxoyKYevhwQ530r5YnEpPA+UQCSTWAhK1xZaqY012HSM/CZnclTnZgp?=
- =?us-ascii?Q?eLbYIHl1KAPFqltTCSxUS/acdCtDT6OVz5+8DXK5TvdnVVKOoJhhrIgiNPZI?=
- =?us-ascii?Q?CPyygUmHVcsYf+UsF8xPhwvlwc8k7pgNXxU3X4F0wPFDL3dz8Ye9WwQ9hyfK?=
- =?us-ascii?Q?14lscwsmfwRzAgXrruoUSOHWUu7CSRB586S8FL6NTmjFM/KZTcufGLA8D9SI?=
- =?us-ascii?Q?NlQKgp190iPwFfa7XUh6BdfUSY1hFfonCf6beDDU6HEb64lkEBqeCUAC8YvU?=
- =?us-ascii?Q?hK3uOQdPRwaz6H980hVB+eZEBYiwK5V+MIvCB3B/ksP8b8RISZsfhU7YCNHp?=
- =?us-ascii?Q?bKdw?=
+ =?us-ascii?Q?K7cbeGqP2ULC3DluobtmwgfFZRBloqspnuKSqP+AhfV/K09CU/JT1aENHDlm?=
+ =?us-ascii?Q?t6vZZ8ZgvpkW1Ban1wCCtHLWbLX0JDGi6FK/MLyw3s27x52jtaNDGRN3BVy+?=
+ =?us-ascii?Q?gKLnR17sqRV+19LGu0zOZqLvejWLoNsR4SMHifj36sCqNsuymlpZMKP3QqgB?=
+ =?us-ascii?Q?EW8KzKZ/LJrRFwH0EM1Q9bTyzKkZGUgtvFuqWd5wYdnN8jIaLo+/+IdyJI94?=
+ =?us-ascii?Q?iVpajJloWQfeHxLeqsNaq1cNMyDAIlSZT+eopQC1neaL6aO0lAhvBGB0czCv?=
+ =?us-ascii?Q?HTB9TlfPPzNZA4giuxxHJyde4SyrWutBuNcQxn38kUTmkwTqxSjjNs+YAGCr?=
+ =?us-ascii?Q?Uayypwa+VXbC57w+n0jManHQcWtJxmC2eFWrnWiNT1eDIc4gLbKdPQQDfCIn?=
+ =?us-ascii?Q?W6ts2KZ2N5Z83gq7iitmPnNdx7h1bAEIr62FiXiQs807gd2z6XphEMxmJMRx?=
+ =?us-ascii?Q?WxAT3RkE70od1kBsV2kmHDr9JlL0EFCpeMZpdx0rbZszp+fIPhbZVdszXAV9?=
+ =?us-ascii?Q?KVWbet75jeC8vSFCDuCR5evsnopyM9nM37XGSxleNQJst+Ylnnn9yB/EMajY?=
+ =?us-ascii?Q?Cnk08QJVjs20DLWwp8RhQkyiHs5eioMwroNZCbzIbuxluHUUYzXm6tWFN5DV?=
+ =?us-ascii?Q?ThmWKw5QExmIXiFqa2BCc3xELzwfyy14wUD7RLGeik6Js6/+MD0xocvDe2pY?=
+ =?us-ascii?Q?IKe5E7UBTKKPACNl9CtjsSiT192QN+iRtCSo7/HEjhaV9EwwPyqAUDOTqRgo?=
+ =?us-ascii?Q?KyGmD+xbFM08E74wYkTpZeJ/kAniP+1Llx7uxGl/W3NEE+sgsLpZ87CdOTGl?=
+ =?us-ascii?Q?fbaw6V5X0++P7fhy44hzFiG6izYOCDUuifU9GNslxjUfrozpjVuANezSrO+b?=
+ =?us-ascii?Q?9rnjcYknezf3TVK6E5fvHO4ywnlua9KmqKwbDV/JaMWMd33mOdS5oIsxsd6y?=
+ =?us-ascii?Q?CkvcNWtrGSvv5fgs5Tj0FLNF3EJqez3TLwXevRzGJGiYf0rt1mvaoW3Lk4yN?=
+ =?us-ascii?Q?l9uO?=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB2003
 Original-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
@@ -126,126 +126,50 @@ Original-Authentication-Results: lists.openembedded.org; dkim=none (message not 
 Return-Path: Diego.Sueiro@arm.com
 X-EOPAttributedMessage: 0
 X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
+ DB5EUR03FT032.eop-EUR03.prod.protection.outlook.com
 X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	7a22fbeb-09d9-4de7-0c20-08d89b6e6a98
+	7f7e4df4-9113-417d-f69c-08d89b6eb621
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	T8mcT8mUc5YaEEGAWLo1uLKydbYg1hloczp6Uw5dKuMiwXTHSRt8CMA8aag4BqnG3XfqU/ObH3yWC+b/5hDuo/2sE82wz3VH0Gwpz/ywagS35tXfJzIuvL7gihM3XorKHbphcx2JkxcmxKeUVTa7JI4Q1eriut1eKc4y/mhZYCuD3QgzEKI9NN/6dBO9i76MzRElWwZP9VLiY81aOwSjav+zvA+Hz1eXmiTv7TqjlnXJLmY3EPdMZ/3pSa7VIyxThzcYOCLDvui7V6wzw5nlV/d+Ao5eoNYoKxfOb4p1g/t7I4e8H3Afp/tryK8F5D1ddHbFqKZi7gkbl+vTz7hgUIJrUzFF0LhRGKuP1pd53SpB0n3fH2USH50ZDqPEYtgPkKu/K8JVaU0ZiZ6W6BPesg==
+	KIL4r6UGrn1OvcLIG2mASgsT4vIZsKecIcG8REQIC/VTN3MIF7Fxxh+vWAuuRjJ7kJTg6knpXvhpA2m1E2rdX+jI8aSeBr25Cp2lmPq326dsNvMJvEUiKlOmHz2cjyneIJCEMi1SPG34yyxHQFAfWxZC5lf9YmnVbyHAwC9lILQTDpqJh0WfiOT79T/b3OsH/UEi+xZT/JNf/HjSMzd7gfnF36vmtVjwLZkAQzmx7NnOAEWuFtKSSjbAdkjIDD2823T9XYYqg3hsXLe0xdvQvD4GVlhageu4/qazb6wxESwlVQTAxwHFxWqZblaQp2XYtvv0tvXa/oKxFgmCs7DJgPTxp6K/77wREJiUpPeTSdDtXHlnagc40AyC5qWQkuQU8sePLPcEpxM1/QIraYiY1Q==
 X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(46966005)(36756003)(16526019)(6666004)(7696005)(186003)(81166007)(356005)(2906002)(336012)(4326008)(5660300002)(6486002)(2616005)(44832011)(8936002)(47076004)(956004)(86362001)(6916009)(26005)(70586007)(82310400003)(70206006)(508600001)(8676002);DIR:OUT;SFP:1101;
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(376002)(346002)(136003)(46966005)(47076004)(6666004)(2906002)(6486002)(36756003)(26005)(508600001)(4326008)(8936002)(336012)(7696005)(186003)(6916009)(5660300002)(70206006)(356005)(2616005)(86362001)(44832011)(70586007)(16526019)(956004)(83380400001)(82310400003)(81166007)(8676002);DIR:OUT;SFP:1101;
 X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 11:43:30.1008
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 11:45:33.7955
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 731c403c-ff1c-4fc4-fa21-08d89b6e7bf1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6459fda6-5438-4699-f985-08d89b6ec5ab
 X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT057.eop-EUR03.prod.protection.outlook.com
+	DB5EUR03FT032.eop-EUR03.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3274
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2157
 Content-Type: text/plain
 
-The empty wic plugin is used to create unformatted empty partitions for wic
-images.
-
-To use it you must pass "empty" as argument for the "--source" parameter in
-the wks file. For example:
-    part foo --source empty --ondisk sda --size="1024" --align 1024
-
-Also adds a selftest for this plugin where the 'Fstype' column from 'wic
-ls' should be empty for the second partition as listed in
-test_empty_plugin.wks.
+To correctly create the modules.dep when it is empty, we need to call depmod
+with '-a' instead of '-Ae' since the quick option uses the mtime to decide
+whether or not it needs to update. This way we can guarantee that it will be
+recreated completely and not only when adding new modules.
 
 Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
 ---
- meta-selftest/wic/test_empty_plugin.wks |  4 ++++
- meta/lib/oeqa/selftest/cases/wic.py     | 20 ++++++++++++++++
- scripts/lib/wic/plugins/source/empty.py | 32 +++++++++++++++++++++++++
- 3 files changed, 56 insertions(+)
- create mode 100644 meta-selftest/wic/test_empty_plugin.wks
- create mode 100644 scripts/lib/wic/plugins/source/empty.py
+ meta/recipes-kernel/modutils-initscripts/files/modutils.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-selftest/wic/test_empty_plugin.wks b/meta-selftest/wic/test_empty_plugin.wks
-new file mode 100644
-index 0000000000..4e91e04e19
---- /dev/null
-+++ b/meta-selftest/wic/test_empty_plugin.wks
-@@ -0,0 +1,4 @@
-+# short-description: image for checking empty partition creation
-+
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+part empty --source empty --ondisk sda --size 1024 --align 1024
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 714637ec1e..091f0ab47c 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -990,6 +990,26 @@ class Wic2(WicTestCase):
-             out = glob(self.resultdir + "%s-*direct" % wksname)
-             self.assertEqual(1, len(out))
+diff --git a/meta/recipes-kernel/modutils-initscripts/files/modutils.sh b/meta/recipes-kernel/modutils-initscripts/files/modutils.sh
+index 3274c25a69..28fe6f92d7 100755
+--- a/meta/recipes-kernel/modutils-initscripts/files/modutils.sh
++++ b/meta/recipes-kernel/modutils-initscripts/files/modutils.sh
+@@ -17,7 +17,7 @@ LOAD_MODULE=modprobe
+ # Test if modules.dep exists and has a size greater than zero
+ if [ ! -s /lib/modules/`uname -r`/modules.dep ]; then
+ 	[ "$VERBOSE" != no ] && echo "Calculating module dependencies ..."
+-	depmod -Ae
++	depmod -a
+ fi
  
-+    def test_empty_plugin(self):
-+        """Test empty plugin"""
-+        config = 'IMAGE_FSTYPES = "wic"\nWKS_FILE = "test_empty_plugin.wks"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal').status)
-+        self.remove_config(config)
-+
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'MACHINE'])
-+        deploy_dir = bb_vars['DEPLOY_DIR_IMAGE']
-+        machine = bb_vars['MACHINE']
-+        image_path = os.path.join(deploy_dir, 'core-image-minimal-%s.wic' % machine)
-+        self.assertEqual(True, os.path.exists(image_path))
-+
-+        sysroot = get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+
-+        # Fstype column from 'wic ls' should be empty for the second partition
-+        # as listed in test_empty_plugin.wks
-+        result = runCmd("wic ls %s -n %s | awk -F ' ' '{print $1 \" \" $5}' | grep '^2' | wc -w" % (image_path, sysroot))
-+        self.assertEqual('1', result.output)
-+
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     def test_biosplusefi_plugin_qemu(self):
-         """Test biosplusefi plugin in qemu"""
-diff --git a/scripts/lib/wic/plugins/source/empty.py b/scripts/lib/wic/plugins/source/empty.py
-new file mode 100644
-index 0000000000..041617d648
---- /dev/null
-+++ b/scripts/lib/wic/plugins/source/empty.py
-@@ -0,0 +1,32 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+# The empty wic plugin is used to create unformatted empty partitions for wic
-+# images.
-+# To use it you must pass "empty" as argument for the "--source" parameter in
-+# the wks file. For example:
-+# part foo --source empty --ondisk sda --size="1024" --align 1024
-+
-+import logging
-+
-+from wic.pluginbase import SourcePlugin
-+
-+logger = logging.getLogger('wic')
-+
-+class EmptyPartitionPlugin(SourcePlugin):
-+    """
-+    Populate unformatted empty partition.
-+    """
-+
-+    name = 'empty'
-+
-+    @classmethod
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-+                             oe_builddir, bootimg_dir, kernel_dir,
-+                             rootfs_dir, native_sysroot):
-+        """
-+        Called to do the actual content population for a partition i.e. it
-+        'prepares' the partition to be incorporated into the image.
-+        """
-+        return
+ [ -f /etc/modules ] || [ -d /etc/modules-load.d ] || exit 0
 -- 
 2.17.1
 
