@@ -1,124 +1,196 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.82])
- by mx.groups.io with SMTP id smtpd.web12.5619.1607414653781965212
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+ by mx.groups.io with SMTP id smtpd.web12.5806.1607416318134956822
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 00:04:13 -0800
+ Tue, 08 Dec 2020 00:31:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=hubf+Iju;
- spf=pass (domain: windriver.com, ip: 40.107.93.82, mailfrom: liezhi.yang@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nTOjVAaGchv4H407wgYRgEylYCQ3Gi0y3JCkjoFWRhgepBuKrEHiXoO2+XbQPkdw+EKyAycSIxg/Xdv6UKgeGIin5M5ktarhTBgCybocy40Gc0u5UYHtdp+3HYw3JwK9WnyLr33UDXyNNFqrVVNkJIfuLUUiyJL2wy9JTN3Rg2ec32WP4rwWnjsCcV8feD7/1uFckUHX2Kd+UAAordAFd5wdMpAdpkrKwZcpft6EAWcVyURKQjdzhRtmN5LWv3I0oxn8B6km5XS50UtqH0uaMBwayzj+1af+Du8K/KR+bugX/N/xw3219j5FI9OjNET/EKGh7SvdCHcaMivYFqEJiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5jW6SwJhdF5wZSE7+MzxkaeSmideUqBhHdhtVW18Qm0=;
- b=HhwKjRhHsfcQYkej+TPc9lYNDY9Wth1ch/ypGiIksTkSyzOZUQiG5tDmUJH75FAWuEvesnqF2Cy+aOArT7A0IdduC2kTNXhAZTXlmPfAqNLFG2P+evZCnU7GKuEU9zMoc2pfAYG6u90QROhGjYqIuTouccjVCSYY1Pth6jlLva9pYZPqyqvGT3zPO194jkzPYQtfMTrTCFnPRLHxRKHxdditIG4s4BgPGa657yDuq6X68/hSIaXsKsQAQvsx0bTyyss4Mh7J0RaMuTdYEJrTxOpfp47GCJR2Y1wlG3fhMpNw3IN0elpBIMMYqmP2cnUE2fdhWq6o0GsRNpfRDDlngg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5jW6SwJhdF5wZSE7+MzxkaeSmideUqBhHdhtVW18Qm0=;
- b=hubf+IjuCT/65mEFDda3x582/qyiPosQnnvmcG1PV1RQLYMDOJ0dym4LcUqcj1wqoGRkotQIjhR4EnLfmvA2tpQktwG4gU41OCzuBPodX9fZeKCdpudICV0TzmFG7/PXSxYpvbzi+tTOO1hXzGLE4oSNoPdSzT15We1b3NRIw4o=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com (2603:10b6:805:d5::13)
- by SA0PR11MB4574.namprd11.prod.outlook.com (2603:10b6:806:71::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
- 2020 08:04:13 +0000
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::e0b3:8438:9d91:c16]) by SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::e0b3:8438:9d91:c16%7]) with mapi id 15.20.3632.018; Tue, 8 Dec 2020
- 08:04:13 +0000
-From: "Robert Yang" <liezhi.yang@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] archiver.bbclass: Fix --runall=deploy_archives for images
-Date: Tue,  8 Dec 2020 00:03:57 -0800
-Message-Id: <365004069db0ab7de09f8da1ede825ca37cc716b.1607414579.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1607414579.git.liezhi.yang@windriver.com>
-References: <cover.1607414579.git.liezhi.yang@windriver.com>
-X-Originating-IP: [147.11.105.124]
-X-ClientProxiedBy: YTXPR0101CA0007.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b00::20) To SN6PR11MB2909.namprd11.prod.outlook.com
- (2603:10b6:805:d5::13)
-Return-Path: liezhi.yang@windriver.com
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by YTXPR0101CA0007.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend Transport; Tue, 8 Dec 2020 08:04:12 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 518439d4-ce3a-4ef7-6d2c-08d89b4fd9bd
-X-MS-TrafficTypeDiagnostic: SA0PR11MB4574:
-X-Microsoft-Antispam-PRVS: 
-	<SA0PR11MB45741CE8C8236FA3F2A52B23FFCD0@SA0PR11MB4574.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:361;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	9SaokczPorhq2Zu+v9U2p5zHEz8hMQqHFpJ+iZ56d0+mMbuT+Nh38/S4tFXYFNGWKSStpyUXskmAOVn0pJ+8AQGp7vfs+1yq6qNb5qUr5kbiNtMKd1Ns2WXxuKsS4cmxrP8nq6Sjqis14nQQfsHSdLp6uejbFe5ouosfrrZ7/5jMF1/ZGH5AWeZPB7k234njz9jnuYscDPcmltzF/JK8Fr+V9VzEqkioEXOC1l0yuixuzuChJmXHs5qH4jJz2ONERYcwlj95O1ZiaYYTaN5tH0Uhhj6tFVaVHdTeEIDrcQrd03mnrQc0UM48wbGBgzGu
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(366004)(346002)(39850400004)(376002)(5660300002)(6666004)(86362001)(2616005)(6486002)(66556008)(316002)(66476007)(4744005)(36756003)(16526019)(8936002)(26005)(956004)(66946007)(6916009)(6506007)(8676002)(186003)(6512007)(2906002)(478600001)(52116002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?9MFJY9Dkm/Y462TANyo4r16AuNdGT7HCiE4KyEm2MuL14o3EIy5mMNQSqX1z?=
- =?us-ascii?Q?PHngVPksTWkbRl0pLzk4SbDBZDH+zMFlRjZtcGomzVls3fXhGbIDcYQZwjPE?=
- =?us-ascii?Q?/PbDyG3weGigCpIWTDd4unqTjwvN8J9lVI2G2KqT9YsnyF3gn7y8nrA0Sl1c?=
- =?us-ascii?Q?aINE7RjeJAxrS14Y192Fpq44J9yxNscgWOlx2lajjRxMMAjNnWt58I3En0t0?=
- =?us-ascii?Q?DwVWCmHb+hV4kkRvqnnQBeU4SqvvU2RT3eKB1ADe78LnPNdxTgeCpeMhOjRo?=
- =?us-ascii?Q?US6GSOB9N5HkoKcyFY73iv0NzoHWoeXjvEMhVkXQd6eKLMojBCP/zaPDXI+i?=
- =?us-ascii?Q?VBEs981bHfRut380lqhUlRK7+Y1hD3V9/f6uS2EsHtBEsznk+FOMLs5Tdu6P?=
- =?us-ascii?Q?iDn1cqrqPzB8w8mr1fV303f5FT7Y9DxFaGxFMcky5SZn0eJ8vEgdQrMsz4W9?=
- =?us-ascii?Q?sGIcm3zBRYBC+xPU16MHmiA2WtKSJDRfYAoPCB/SoJxbtx0F30390lzVMx+h?=
- =?us-ascii?Q?kxQE1D6XJut+sGR3yYoSR6lRrpsWxW/UPSzn+N5R5zvF1H1YZ7rzUABq7jrD?=
- =?us-ascii?Q?20kGCM773FtZsnLsRUF1x/reMN3oBpA69qSx88b6aHjR8NUUBcPyL1YW930+?=
- =?us-ascii?Q?bN6ZLVn8zCi3IYir2GrH0UnxnmmggzgJEPsx/mLqOwCOzQdpAd7lVKqUc79W?=
- =?us-ascii?Q?1U5XFVodeO0EMgVU9Z6eG5qtFpoBYb1ENcqoPkOSuQW3PzdW6EX01Sfl1GBU?=
- =?us-ascii?Q?GVj7mB1o/zG83+FoHlHz9NNSJJe54dbxg665LcwTh9SwRNC4PdH/2/8XbgTp?=
- =?us-ascii?Q?w7bvzJkrTMfcmkqLWZ1hyzdeo4voIlKZ9EbI5x5Os4ehvKTyXTL/cRZ6kwzV?=
- =?us-ascii?Q?guEIiVgcN8wb4vZzMghuPWrv4m+LGTdnABhrz3nn3qf7SjzXFEUKWPN3rw1v?=
- =?us-ascii?Q?KrYtk2iNNk89pB6OYZoRZsUaG5pqZEDLiinlRVWYPcXzlJfvBpv2EER5B2Sp?=
- =?us-ascii?Q?cE/b?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 08:04:12.9257
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-Network-Message-Id: 518439d4-ce3a-4ef7-6d2c-08d89b4fd9bd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FLGARg5X56+JiNLbIeAeuQ/ySpS8WaK8BaaQHV95UIrCsaPpKGRxjme82OeyTKh3+tAAYHtOVl00ZHx5ou9TeVZo4uvG2CrPiMpRfkz9z9I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4574
-Content-Type: text/plain
+ dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.2, mailfrom: andrej.valek@siemens.com)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 0B88VsVu018753
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 8 Dec 2020 09:31:55 +0100
+Received: from dev.vm6.ccp.siemens.com ([144.145.220.50])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id 0B88VsiC022564;
+	Tue, 8 Dec 2020 09:31:54 +0100
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 077A59508F2;
+	Tue,  8 Dec 2020 09:31:54 +0100 (CET)
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: steve@sakoman.com
+Cc: openembedded-core@lists.openembedded.org,
+        Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][dunfell][PATCH] python3: fix CVE-2019-20907
+Date: Tue,  8 Dec 2020 09:31:02 +0100
+Message-Id: <20201208083102.3259-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
 
-Fixed:
-INHERIT += "archiver"
-COPYLEFT_LICENSE_INCLUDE = "*"
+- move fixing patch for CVE-2020-8492 to the right location
 
-$ bitbake core-image-minimal --runall=deploy_archives
-[snip]
-KeyError: '/path/to/meta/recipes-core/images/core-image-minimal.bb:do_ar_original'
-[snip]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 ---
- meta/classes/archiver.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ ...VE-2020-8492-Fix-AbstractBasicAuthHandler.patch |   0
+ .../python/python3/CVE-2019-20907.patch            | 135 +++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb      |   1 +
+ 3 files changed, 136 insertions(+)
+ rename meta/recipes-devtools/python/{files => python3}/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch (100%)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 598298ef6f6..858507b3439 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -590,6 +590,7 @@ addtask do_dumpdata
- addtask do_ar_recipe
- addtask do_deploy_archives
- do_build[recrdeptask] += "do_deploy_archives"
-+do_rootfs[recrdeptask] += "do_deploy_archives"
- do_populate_sdk[recrdeptask] += "do_deploy_archives"
- 
- python () {
+diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+similarity index 100%
+rename from meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+rename to meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2019-20907.patch b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+new file mode 100644
+index 0000000000..5ac145333b
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+@@ -0,0 +1,135 @@
++From 1fa6ef2bc7cee1c8e088dd8b397d9b2d54036dbc Mon Sep 17 00:00:00 2001
++From: Rajarishi Devarajan <rishi93dev@gmail.com>
++Date: Sun, 12 Jul 2020 23:47:42 +0200
++Subject: [PATCH 1/4] bpo-39017 Fix infinite loop in the tarfile module
++
++Add a check for length = 0 in the _proc_pax function to avoid running into an infinite loop
++---
++ Lib/tarfile.py           |   2 ++
++ Lib/test/recursion.tar   | Bin 0 -> 516 bytes
++ Lib/test/test_tarfile.py |   5 +++++
++ 3 files changed, 7 insertions(+)
++ create mode 100644 Lib/test/recursion.tar
++
++diff --git a/Lib/tarfile.py b/Lib/tarfile.py
++index e2b60532f693d..6769066cabd6f 100755
++--- a/Lib/tarfile.py
+++++ b/Lib/tarfile.py
++@@ -1249,6 +1249,8 @@ def _proc_pax(self, tarfile):
++ 
++             length, keyword = match.groups()
++             length = int(length)
+++            if length == 0:
+++                raise InvalidHeaderError("invalid header")
++             value = buf[match.end(2) + 1:match.start(1) + length - 1]
++ 
++             # Normally, we could just use "utf-8" as the encoding and "strict"
++diff --git a/Lib/test/recursion.tar b/Lib/test/recursion.tar
++new file mode 100644
++index 0000000000000000000000000000000000000000..b8237251964983f54ed1966297e887636cd0c5f4
++GIT binary patch
++literal 516
++zcmYdFPRz+kEn=W0Fn}74P8%Xw3X=l~85kIuo0>8xq$A1Gm}!7)KUsFc41m#O8A5+e
++I1_}|j06>QaCIA2c
++
++literal 0
++HcmV?d00001
++
++diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
++index d60d35b5be04a..1f31a8f700766 100644
++--- a/Lib/test/test_tarfile.py
+++++ b/Lib/test/test_tarfile.py
++@@ -429,6 +429,11 @@ def test_premature_end_of_archive(self):
++                 with self.assertRaisesRegex(tarfile.ReadError, "unexpected end of data"):
++                     tar.extractfile(t).read()
++ 
+++    def test_length_zero_header(self):
+++        with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
+++            with tarfile.open(support.findfile('recursion.tar')) as tar:
+++                tar.getmembers()
+++
++ class MiscReadTestBase(CommonReadTest):
++     def requires_name_attribute(self):
++         pass
++
++From c43a5afcf9cc2dab2410c35632f66e055a938c02 Mon Sep 17 00:00:00 2001
++From: "blurb-it[bot]" <43283697+blurb-it[bot]@users.noreply.github.com>
++Date: Sun, 12 Jul 2020 22:16:59 +0000
++Subject: [PATCH 2/4] =?UTF-8?q?=F0=9F=93=9C=F0=9F=A4=96=20Added=20by=20blu?=
++ =?UTF-8?q?rb=5Fit.?=
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++---
++ .../NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst | 1 +
++ 1 file changed, 1 insertion(+)
++ create mode 100644 Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++
++diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++new file mode 100644
++index 0000000000000..10d98f759ac87
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++@@ -0,0 +1 @@
+++Add check for length = 0 to avoid infinite loop inside _proc_pax function in tarfile module
++\ No newline at end of file
++
++From 5f7b94574db21086dc2693210a975def7cc058e3 Mon Sep 17 00:00:00 2001
++From: Rishi <rishi_devan@mail.com>
++Date: Tue, 14 Jul 2020 12:39:14 +0200
++Subject: [PATCH 3/4] Apply suggestions from code review
++
++Add relevant CVE number in inline comments
++
++Co-authored-by: Petr Viktorin <encukou@gmail.com>
++---
++ Lib/test/test_tarfile.py                                        | 2 ++
++ .../next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst       | 2 +-
++ 2 files changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
++index 1f31a8f700766..827ffaf3273b3 100644
++--- a/Lib/test/test_tarfile.py
+++++ b/Lib/test/test_tarfile.py
++@@ -430,6 +430,8 @@ def test_premature_end_of_archive(self):
++                     tar.extractfile(t).read()
++ 
++     def test_length_zero_header(self):
+++        # bpo-39017 (CVE-2019-20907): reading a zero-length header should fail
+++        # with an exception
++         with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
++             with tarfile.open(support.findfile('recursion.tar')) as tar:
++                 tar.getmembers()
++diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++index 10d98f759ac87..ad26676f8b856 100644
++--- a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
+++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++@@ -1 +1 @@
++-Add check for length = 0 to avoid infinite loop inside _proc_pax function in tarfile module
++\ No newline at end of file
+++Avoid infinite loop when reading specially crafted TAR files using the tarfile module (CVE-2019-20907).
++
++From 54084a8beef62fa0ac443618be2352f67f2bb8c3 Mon Sep 17 00:00:00 2001
++From: rishi93 <rishi_devan@mail.com>
++Date: Tue, 14 Jul 2020 12:45:48 +0200
++Subject: [PATCH 4/4] bpo-39017: Fix infinite loop in the tarfile module
++
++Replace code that is never called with pass in tarfile testcase
++---
++ Lib/test/test_tarfile.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
++index 827ffaf3273b3..3ddeb97f5268f 100644
++--- a/Lib/test/test_tarfile.py
+++++ b/Lib/test/test_tarfile.py
++@@ -434,7 +434,7 @@ def test_length_zero_header(self):
++         # with an exception
++         with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
++             with tarfile.open(support.findfile('recursion.tar')) as tar:
++-                tar.getmembers()
+++                pass
++ 
++ class MiscReadTestBase(CommonReadTest):
++     def requires_name_attribute(self):
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index b4cce88e87..9eddad4ad4 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
++           file://CVE-2019-20907.patch \
+            file://CVE-2020-14422.patch \
+            file://CVE-2020-26116.patch \
+            file://CVE-2020-27619.patch \
 -- 
-2.17.1
+2.11.0
 
