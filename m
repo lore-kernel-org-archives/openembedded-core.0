@@ -1,196 +1,103 @@
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
- by mx.groups.io with SMTP id smtpd.web12.5806.1607416318134956822
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.web12.5926.1607417340340632763
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 00:31:59 -0800
+ Tue, 08 Dec 2020 00:49:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.2, mailfrom: andrej.valek@siemens.com)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id 0B88VsVu018753
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 8 Dec 2020 09:31:55 +0100
-Received: from dev.vm6.ccp.siemens.com ([144.145.220.50])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id 0B88VsiC022564;
-	Tue, 8 Dec 2020 09:31:54 +0100
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 077A59508F2;
-	Tue,  8 Dec 2020 09:31:54 +0100 (CET)
-From: "Andrej Valek" <andrej.valek@siemens.com>
-To: steve@sakoman.com
-Cc: openembedded-core@lists.openembedded.org,
-        Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][dunfell][PATCH] python3: fix CVE-2019-20907
-Date: Tue,  8 Dec 2020 09:31:02 +0100
-Message-Id: <20201208083102.3259-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
+ dkim=pass header.i=@konsulko.com header.s=google header.b=grCLP/E/;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.45, mailfrom: paul.barker@konsulko.com)
+Received: by mail-ot1-f45.google.com with SMTP id j12so15163326ota.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 00:49:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wsv6ZoICveKbDEcYpsCR/kfKkDsVLQOP7IKvu4AEnxU=;
+        b=grCLP/E/VwUxppfFt74SkcQOhcOLgIZ8z8y4wJGpMYB1sQK2vlgOmNj2fCy70RqvxH
+         7DJgePKAmrI1RSsYP4idTFHquVaQ6M57znhqw/mJS+S955gv5l7oQzK7uJM9ljDVYVMQ
+         VF5YcPeYXgXJ2fkYhWGbraxvGy0j2MxCF4WQI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wsv6ZoICveKbDEcYpsCR/kfKkDsVLQOP7IKvu4AEnxU=;
+        b=d2uOVioYJnnkF5Ymo1Fxa2fibSat7zKI72mfHJposaEkR4wETWGUjd+82sjGLT6OsO
+         FsYESPUraVdWAtdU/9cKHies9D4X6ETrCQUih6UNpuKbSHVhStTZwt792WGALrIsLEUd
+         u7wYeKJ41U/OwWYw5sR+BvcB8lE9aMRRRzE76WCfkQQl8R8LLMBGp/DI1wmj2H5CUY3T
+         QSIskfAgXkGMzoo8jESXEBVE2ScmsNmQcNvgXEzgP3D+jZtYQsA8932R6hXMxPqiiLg5
+         sJdVGFGg7X0vhlYbKhpGidiNZggfKwohs4MVu0W5CUqnUo/yyqSUggKPo974kRp724Ye
+         ozEg==
+X-Gm-Message-State: AOAM531FNsB5SG7c0C7j9guZ4y/A6Ns4lsAbTXQKTTKYjgo7O5MV8JnG
+	nLmncLIPRVmLR4a6x3+fudmog08f+V2sxb86dm4sHw==
+X-Google-Smtp-Source: ABdhPJy0juz2G8BZCxngosBNKi1t5ErayIxZICbmDoRRpYRD2zGXz43B7h8g8a6lhl3HCmkyOOFzc9XM3cfJVV0ZCgQ=
+X-Received: by 2002:a9d:1725:: with SMTP id i37mr15881048ota.258.1607417339645;
+ Tue, 08 Dec 2020 00:48:59 -0800 (PST)
+MIME-Version: 1.0
+References: <cover.1606846217.git.pkj@axis.com> <b7bae6e1633fba206d9c7abad93d79fbe7b0f654.1606846217.git.pkj@axis.com>
+ <CAM9ZRVtVRk2CrBKeG=Ks8a+OPhTPKu6q=HctT39tKyYCbAguFA@mail.gmail.com>
+ <CAM9ZRVsX+r31zxDHDNA7BOiBCrGyrwwYJWwMmjdF6p69QScJUg@mail.gmail.com> <88d9a9dea0420aa5944c0acba44f14f6eb24d771.camel@linuxfoundation.org>
+In-Reply-To: <88d9a9dea0420aa5944c0acba44f14f6eb24d771.camel@linuxfoundation.org>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 8 Dec 2020 08:48:49 +0000
+Message-ID: <CAM9ZRVuTxAwqRAntHaf5UGg2iiAPW=KBC7v0hCM02J0a8WgPyg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCHv3 2/5] bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-- move fixing patch for CVE-2020-8492 to the right location
+On Mon, 7 Dec 2020 at 12:46, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-12-07 at 12:04 +0000, Paul Barker wrote:
+> > On Mon, 7 Dec 2020 at 10:29, Paul Barker <pbarker@konsulko.com>
+> > wrote:
+> > To follow up some more: The entries in PSEUDO_IGNORE_PATHS are
+> > treated
+> > as string prefixes within pseudo. So if
+> > "/home/pbarker/Projects/Yocto/meta-linux-mainline" is added to the
+> > ignore list it will exclude not just
+> > "/home/pbarker/Projects/Yocto/meta-linux-mainline/build" but also
+> > ""/home/pbarker/Projects/Yocto/meta-linux-mainline-build".
+> >
+> > I wonder if some more of those entries should have trailing slashes.
+>
+> In most (all?) cases it was very deliberate FWIW...
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- ...VE-2020-8492-Fix-AbstractBasicAuthHandler.patch |   0
- .../python/python3/CVE-2019-20907.patch            | 135 +++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb      |   1 +
- 3 files changed, 136 insertions(+)
- rename meta/recipes-devtools/python/{files => python3}/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch (100%)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+That does make sense. Ignoring "${COREBASE}/meta" will also ignore
+most layers unpacked or cloned within the poky directory as their
+names start with "meta". However that does miss layers if you use a
+different directory structure which is what Peter's patch addresses
+(though I'm still not sure if there's an actual build failure with
+some layers which it is intended to fix or if it's just to make things
+consistent).
 
-diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-similarity index 100%
-rename from meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-rename to meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-diff --git a/meta/recipes-devtools/python/python3/CVE-2019-20907.patch b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
-new file mode 100644
-index 0000000000..5ac145333b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
-@@ -0,0 +1,135 @@
-+From 1fa6ef2bc7cee1c8e088dd8b397d9b2d54036dbc Mon Sep 17 00:00:00 2001
-+From: Rajarishi Devarajan <rishi93dev@gmail.com>
-+Date: Sun, 12 Jul 2020 23:47:42 +0200
-+Subject: [PATCH 1/4] bpo-39017 Fix infinite loop in the tarfile module
-+
-+Add a check for length = 0 in the _proc_pax function to avoid running into an infinite loop
-+---
-+ Lib/tarfile.py           |   2 ++
-+ Lib/test/recursion.tar   | Bin 0 -> 516 bytes
-+ Lib/test/test_tarfile.py |   5 +++++
-+ 3 files changed, 7 insertions(+)
-+ create mode 100644 Lib/test/recursion.tar
-+
-+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index e2b60532f693d..6769066cabd6f 100755
-+--- a/Lib/tarfile.py
-++++ b/Lib/tarfile.py
-+@@ -1249,6 +1249,8 @@ def _proc_pax(self, tarfile):
-+ 
-+             length, keyword = match.groups()
-+             length = int(length)
-++            if length == 0:
-++                raise InvalidHeaderError("invalid header")
-+             value = buf[match.end(2) + 1:match.start(1) + length - 1]
-+ 
-+             # Normally, we could just use "utf-8" as the encoding and "strict"
-+diff --git a/Lib/test/recursion.tar b/Lib/test/recursion.tar
-+new file mode 100644
-+index 0000000000000000000000000000000000000000..b8237251964983f54ed1966297e887636cd0c5f4
-+GIT binary patch
-+literal 516
-+zcmYdFPRz+kEn=W0Fn}74P8%Xw3X=l~85kIuo0>8xq$A1Gm}!7)KUsFc41m#O8A5+e
-+I1_}|j06>QaCIA2c
-+
-+literal 0
-+HcmV?d00001
-+
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index d60d35b5be04a..1f31a8f700766 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -429,6 +429,11 @@ def test_premature_end_of_archive(self):
-+                 with self.assertRaisesRegex(tarfile.ReadError, "unexpected end of data"):
-+                     tar.extractfile(t).read()
-+ 
-++    def test_length_zero_header(self):
-++        with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
-++            with tarfile.open(support.findfile('recursion.tar')) as tar:
-++                tar.getmembers()
-++
-+ class MiscReadTestBase(CommonReadTest):
-+     def requires_name_attribute(self):
-+         pass
-+
-+From c43a5afcf9cc2dab2410c35632f66e055a938c02 Mon Sep 17 00:00:00 2001
-+From: "blurb-it[bot]" <43283697+blurb-it[bot]@users.noreply.github.com>
-+Date: Sun, 12 Jul 2020 22:16:59 +0000
-+Subject: [PATCH 2/4] =?UTF-8?q?=F0=9F=93=9C=F0=9F=A4=96=20Added=20by=20blu?=
-+ =?UTF-8?q?rb=5Fit.?=
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+---
-+ .../NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst | 1 +
-+ 1 file changed, 1 insertion(+)
-+ create mode 100644 Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+
-+diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+new file mode 100644
-+index 0000000000000..10d98f759ac87
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+@@ -0,0 +1 @@
-++Add check for length = 0 to avoid infinite loop inside _proc_pax function in tarfile module
-+\ No newline at end of file
-+
-+From 5f7b94574db21086dc2693210a975def7cc058e3 Mon Sep 17 00:00:00 2001
-+From: Rishi <rishi_devan@mail.com>
-+Date: Tue, 14 Jul 2020 12:39:14 +0200
-+Subject: [PATCH 3/4] Apply suggestions from code review
-+
-+Add relevant CVE number in inline comments
-+
-+Co-authored-by: Petr Viktorin <encukou@gmail.com>
-+---
-+ Lib/test/test_tarfile.py                                        | 2 ++
-+ .../next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst       | 2 +-
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index 1f31a8f700766..827ffaf3273b3 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -430,6 +430,8 @@ def test_premature_end_of_archive(self):
-+                     tar.extractfile(t).read()
-+ 
-+     def test_length_zero_header(self):
-++        # bpo-39017 (CVE-2019-20907): reading a zero-length header should fail
-++        # with an exception
-+         with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
-+             with tarfile.open(support.findfile('recursion.tar')) as tar:
-+                 tar.getmembers()
-+diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+index 10d98f759ac87..ad26676f8b856 100644
-+--- a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+@@ -1 +1 @@
-+-Add check for length = 0 to avoid infinite loop inside _proc_pax function in tarfile module
-+\ No newline at end of file
-++Avoid infinite loop when reading specially crafted TAR files using the tarfile module (CVE-2019-20907).
-+
-+From 54084a8beef62fa0ac443618be2352f67f2bb8c3 Mon Sep 17 00:00:00 2001
-+From: rishi93 <rishi_devan@mail.com>
-+Date: Tue, 14 Jul 2020 12:45:48 +0200
-+Subject: [PATCH 4/4] bpo-39017: Fix infinite loop in the tarfile module
-+
-+Replace code that is never called with pass in tarfile testcase
-+---
-+ Lib/test/test_tarfile.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
-+index 827ffaf3273b3..3ddeb97f5268f 100644
-+--- a/Lib/test/test_tarfile.py
-++++ b/Lib/test/test_tarfile.py
-+@@ -434,7 +434,7 @@ def test_length_zero_header(self):
-+         # with an exception
-+         with self.assertRaisesRegex(tarfile.ReadError, "file could not be opened successfully"):
-+             with tarfile.open(support.findfile('recursion.tar')) as tar:
-+-                tar.getmembers()
-++                pass
-+ 
-+ class MiscReadTestBase(CommonReadTest):
-+     def requires_name_attribute(self):
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index b4cce88e87..9eddad4ad4 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
-+           file://CVE-2019-20907.patch \
-            file://CVE-2020-14422.patch \
-            file://CVE-2020-26116.patch \
-            file://CVE-2020-27619.patch \
+The issue comes when you clone a layer as the top-level of your
+working tree and build within that. That's how I work with
+meta-sancloud & meta-linux-mainline. It's also what happens if you
+build using the kas config in meta-raspberrypi. So it's not uncommon.
+
+Investigating why the layer directories are being ignored I found this
+commit added the ignore of "${COREBASE}/meta":
+
+    commit e0cb6dd689a362d8433caa14cc5a9fdd5eb44923
+    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+    Date:   Wed Oct 7 23:08:45 2020 +0100
+
+       bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+
+        Unfortunately, .pyc files can be generated in meta/lib/oe
+which corrupt the pseudo
+        database so we need to extend the ignore list to cover this as well.
+
+        Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Could we instead ignore "${LAYERDIR}/lib" for each layer?
+
+An alternative would be to detect the case where TOPDIR or TMPDIR is
+beneath an entry in BBLAYERS and handle that as a special case.
+
+Thanks,
+
 -- 
-2.11.0
-
+Paul Barker
+Konsulko Group
