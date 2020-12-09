@@ -1,81 +1,58 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.10289.1607533515279407702
+Received: from smtp2.axis.com (smtp2.axis.com [])
+ by mx.groups.io with SMTP id smtpd.web10.10408.1607533515477315624
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Dec 2020 09:05:17 -0800
+ Wed, 09 Dec 2020 09:05:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=mcHRjCmf;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=B6gg1qld;
+ spf=fail (domain: axis.com, ip: <nil>, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1607533515;
-  x=1639069515;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=uxSoiYzOEtYq9cwWj1UkOxKE3FGpAmO+KFAlh/Mqqn0=;
-  b=mcHRjCmf1AjgyI3XDc4fGW32Xbl7QV/DrjZUux7QgOaIotLn1wT5mika
-   ZgX2RO5fOyeXQvVWKqYBLrcJOAAivSAAlzbtGK1q6pVlwTQ5E8o069+rQ
-   CHeua3dhLSa16ZKdVAMtapW+BSL9FxNegZ1pCkitDckQwjnCrmC40kLun
-   vEB0seBFaMSkaNgvWRQ9O1kz0aQEJaxQwmLIGVb5DNUPx3Lde/SDgAqDC
-   uwv05dJ3HJm9nB6BHO+uEZaZZl0ZJAag9W5A1jordOclBHimOowmpqsBh
-   fmpozrk7bN3liMsubB8AA9ENtld86FvqNX02G3dbW/anZMSEUbBLnjM3Y
-   w==;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1607533518;
+  x=1639069518;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=w3Qd4utvmz85qgs9oW8IGJbqElujvEIdDPJBg0N4S6Y=;
+  b=B6gg1qldiVl5dbzXGaOaXaTgZ0Po+1CW+h/BBMQy6ji9ND+i1T7nsEpB
+   0hV1TTsuUXoVfybyM0CCsC9gGcCcKwhI7LPMLItRyzosYZ1smFmtZujpd
+   cmn9Arrh+PQNpp65VwxP9CdO6YuX0+8+zBq3eeuq2XDzwoc8hyRJjmQx0
+   NggAhgYc+FB15IFx1kVV3uDFAqpcZqcRT2mGMwd+J5UTYInjyLGatsDYB
+   VBuC0gQqL7u2EYVKZV7lmiYiwnzv658LMIcn+uCx7aBaZRR+j0EmZWNXA
+   Bi8VnBKGvymr5OY68GHvxdFbQj/6pIuqCEGYpcMeEmBGNlT32gKagKW8v
+   A==;
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv4 0/3] Support symbolic links in paths in PSEUDO_IGNORE_PATHS
-Date: Wed, 9 Dec 2020 18:05:06 +0100
-Message-ID: <cover.1607533369.git.pkj@axis.com>
+Subject: [PATCHv4 2/3] bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+Date: Wed, 9 Dec 2020 18:05:08 +0100
+Message-ID: <8c220eff1b35f0be288a5600fe079868b665589c.1607533369.git.pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <cover.1607533369.git.pkj@axis.com>
+References: <cover.1607533369.git.pkj@axis.com>
 MIME-Version: 1.0
 Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-The changes in this patch series aim to rectify a problem with pseudo
-and its support for ignoring paths. When pseudo compares a path to the
-paths specified in PSEUDO_IGNORE_PATHS, it uses a path that has been
-canonicalized. However, it does not canonicalize the paths in
-PSEUDO_IGNORE_PATHS itself and unless they are canonicalized, they
-will not match as intended. Thus the paths in PSEUDO_IGNORE_PATHS
-needs to be canonicalized. These patches do that by adding a new
-function oe.path.canonicalize(), which is then used when passing 
-${PSEUDO_IGNORE_PATHS} to pseudo.
+Use oe.path.canonicalize() to canonicalize the paths in
+PSEUDO_IGNORE_PATHS before passing them to pseudo. This is needed since
+pseudo will compare them to paths that are canonicalized.
 
-There is also one patch that adds two patches to pseudo to clean up
-pseudo_client_ignore_path_chroot(), and they also plug a memory leak.
-The patches were brought about as I initially intended to do the
-canonicalization in pseudo itself in this function.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have not tested the change to wic as we do not use it, though I do
-not expect it to be problematic.
-
-PATCHv2: 
-  * Removed some unrelated changes in the second patch.
-PATCHv3: 
-  * Handle an edge case in pseudo_client_ignore_path_chroot() in case
-    PSEUDO_IGNORE_PATHS contains ",," or leading/trailing commas.
-  * Introduce oe.path.canonicalize() and use it instead of adding
-    PSEUDO_IGNORE_REAL_PATHS as was previously done.
-  * Add similar code to wic.
-PATCHv4:
-  * Rewrote oe.path.canonicalize() to maintain trailing slashes
-    present in the paths.
-
-//Peter
-
-The following changes since commit 9826881036191be6ffba98c9bc8a86d1b852ff41:
-
-  build-appliance-image: Update to master head revision (2020-12-09 12:36:32 +0000)
-
-are available in the Git repository at:
-
-  git://push.yoctoproject.org/poky-contrib pkj/pseudo-ignore
-
-Peter Kjellerstedt (3):
-  lib/oe/path: Add canonicalize()
-  bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
-  wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
-
- meta/conf/bitbake.conf       |  4 ++--
- meta/lib/oe/path.py          | 21 +++++++++++++++++++++
- scripts/lib/wic/partition.py | 12 +++++++++++-
- 3 files changed, 34 insertions(+), 3 deletions(-)
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0d38eac094..812cd05102 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -691,9 +691,9 @@ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+ #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+-FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1"
++FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1"
+ FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=0"
++FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
