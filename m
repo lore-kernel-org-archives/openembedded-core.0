@@ -1,97 +1,72 @@
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
- by mx.groups.io with SMTP id smtpd.web08.5897.1607518223132222037
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.10408.1607533515477315624
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Dec 2020 04:50:23 -0800
+ Wed, 09 Dec 2020 09:05:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=O/BhScWD;
- spf=pass (domain: konsulko.com, ip: 209.85.167.194, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oi1-f194.google.com with SMTP id d27so1597684oic.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Dec 2020 04:50:23 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=HSmR5zmo;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=c0aqdN6LdYZGd0ov2bMwq+bVl9/qsAxx32iwfbLccfw=;
-        b=O/BhScWDFatlhGfQk+LZbkGsR+8fKJIUQsQYQTIWPahuX5mwSjDBAJs3J1ijgralIA
-         dYec0V9Cv9GvXWH17ZttfKYx4t8w091D+z3ZkRKLe1rT320zHv4HUBCEQNC/qjn58bfR
-         wWXMaxpVd6YrbFBqf6lX6nPgegFIb/GwFzAbA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=c0aqdN6LdYZGd0ov2bMwq+bVl9/qsAxx32iwfbLccfw=;
-        b=ElamwpqcuRTDGVhVFestGJudvjaUogAk5RcPEvC+y1jMLW8P+n4of055EmZ78esMmD
-         Vs5idhmYtWJNs5guXYA+tBWyDr2AioLA9NuGGtuYKAmYuAhn4U2FvY+19FXK1F0NzUSw
-         Oa8hEQ4h6rbsXmEWDAxdxYT2a7l5u5GOFN97j+QVBMch/SSJL0p7LMVOH1tfXYJqeqHN
-         frz4oxnJjr77jYbZtsflnoWIdRN1ky4eyBt09KKDmgLSZrYkSNyvy3nk57JFQw+XS6Br
-         V3O/O1jVU3K2/lF3nyIrC4BUgbAdIEQhnX0li092R6KvpEqOz2ZhbnMe452kg5pppdfP
-         XuXQ==
-X-Gm-Message-State: AOAM530l62ri4J0y3VMSV/zry/ufQngTQR51ZVB5TkYyr/rOnuJOcbUT
-	PkYAU3dhL7TIBbYdW5xgiY0RynybBfDRlHjtfvJZds+MTLk=
-X-Google-Smtp-Source: ABdhPJzVsS2xrAgt+m+1eNBusXhJVZGVOsa4uokGsLuLIlpoTi/sm2y0Wc0adCYrSoc/jAPM4sgj8itqdYymrbFQlRI=
-X-Received: by 2002:aca:f3d6:: with SMTP id r205mr1571739oih.152.1607518222414;
- Wed, 09 Dec 2020 04:50:22 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1607533516;
+  x=1639069516;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=HWhC/a6PYzNNepg0t54RjlbeJZpAlhs9U1ETV0iT3bM=;
+  b=HSmR5zmo/rLUrT01BLKaM5RQayK+nqBK4ApScoRMADiXqh64K+eo2mn4
+   92BNhtl1CY9qj6DYawYy2tkaabE0YuQdBwTpBc65/x9E+wcYx8b+c8OMl
+   410gsGVzuS1XN52hXiL3PGWqd+9/kdUuiG+uebVBoKG7vWvCE2PNfkyhQ
+   XxH8WOOKpG/q9I3Ev7Cf9lfJS5ikVhKHBJMNHWRPAC3x9Piq8YNmTBmRm
+   Yz0zTTg1mSpU96axcBmrlW2OH8bQKzaRy7T8HXJbKnwhXHKcclHUFPx3m
+   0K4K/kFraGKrsGs/JCqOqAA//CvjHLnTnuItdKsxV2J2T6cLibqDNv8Ei
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCHv4 1/3] lib/oe/path: Add canonicalize()
+Date: Wed, 9 Dec 2020 18:05:07 +0100
+Message-ID: <70cdd65b31ebf453e84e8b01dd5d705d3883b5e6.1607533369.git.pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
+In-Reply-To: <cover.1607533369.git.pkj@axis.com>
+References: <cover.1607533369.git.pkj@axis.com>
 MIME-Version: 1.0
-References: <20201209122626.3637550-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20201209122626.3637550-1-richard.purdie@linuxfoundation.org>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Wed, 9 Dec 2020 12:50:12 +0000
-Message-ID: <CAM9ZRVsj9DoELb8O5+wwk7MA4xAEBvXiA6k0hQXFZszzagP2VA@mail.gmail.com>
-Subject: Re: [PATCH] Revert "bitbake.conf: Add all layers (from BBLAYERS) to PSEUDO_IGNORE_PATHS"
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, 9 Dec 2020 at 12:26, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> This reverts commit cc30537bb4d0815c4d69f0b1a1a8a200085902d5.
->
-> There are issues with this change where the build directory may be includ=
-ed
-> within the paths included in BBLAYERS, which is particularly problematic
-> where people are using kas.
->
-> An alternative to this to handle the pyc file issue is being worked on bu=
-t
-> revert this for now whilst that fix is developed.
-> ---
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index a353dc5d6b2..812cd051021 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -685,7 +685,7 @@ SRC_URI =3D ""
->  PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
->  PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
->  PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
-> -PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-s=
-ysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sst=
-ate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR=
-}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstat=
-e-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${=
-TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${@','.join(d.getVar('B=
-BLAYERS').split())},${CCACHE_DIR}"
-> +PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-s=
-ysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sst=
-ate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR=
-}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstat=
-e-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${=
-TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCAC=
-HE_DIR}"
->
->  export PSEUDO_DISABLED =3D "1"
->  #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
-> --
-> 2.25.1
->
+oe.path.canonicalize() is used to canonicalize paths (i.e., remove
+symbolic links and "..", and make them absolute). It takes a string
+with paths separated by commas, and returns the canonicalized path in
+the same format.
 
-Thanks Richard, I had few other builds to run so haven't had a chance
-to test this locally yet.
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/lib/oe/path.py | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
---=20
-Paul Barker
-Konsulko Group
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 082972457b..c8d8ad05b9 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -320,3 +320,24 @@ def which_wild(pathname, path=None, mode=os.F_OK, *, reverse=False, candidates=F
+ 
+     return files
+ 
++def canonicalize(paths, sep=','):
++    """Given a string with paths (separated by commas by default), expand
++    each path using os.path.realpath() and return the resulting paths as a
++    string (separated using the same separator a the original string).
++    """
++    # Ignore paths containing "$" as they are assumed to be unexpanded bitbake
++    # variables. Normally they would be ignored, e.g., when passing the paths
++    # through the shell they would expand to empty strings. However, when they
++    # are passed through os.path.realpath(), it will cause them to be prefixed
++    # with the absolute path to the current directory and thus not be empty
++    # anymore.
++    #
++    # Also maintain trailing slashes, as the paths may actually be used as
++    # prefixes in sting compares later on, where the slashes then are important.
++    canonical_paths = []
++    for path in (paths or '').split(sep):
++        if '$' not in path:
++            trailing_slash = path.endswith('/') and '/' or ''
++            canonical_paths.append(os.path.realpath(path) + trailing_slash)
++
++    return sep.join(canonical_paths)
