@@ -1,77 +1,91 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by mx.groups.io with SMTP id smtpd.web10.2570.1607546952268107455
+Received: from outbound-relay8.guardedhost.com (outbound-relay8.guardedhost.com [216.239.133.208])
+ by mx.groups.io with SMTP id smtpd.web11.4431.1607553570371083367
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Dec 2020 12:49:12 -0800
+ Wed, 09 Dec 2020 14:39:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=VB8xqwDs;
- spf=pass (domain: ti.com, ip: 198.47.19.142, mailfrom: dmurphy@ti.com)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B9Kn9OX102318;
-	Wed, 9 Dec 2020 14:49:09 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1607546949;
-	bh=rt8njm+DG6PPUNQ6iSu3BZdjsuHLkJOPCoahHYI/OR8=;
-	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=VB8xqwDsj60L6htuiwFtDCD+2R15jETC/4CBqg++4gQmdwuTr8jHNxRCYnrIP9b3n
-	 IJ+/NNr7IO+YIX5NSjZ72lwRoaXrphNH2V8HQL0NEElAckZv6b59igc8NbUAE3JS1Q
-	 Z1hE4X7sQ8qY70oB3vhmawfyZ8SlI8TLzKrOWGI8=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B9Kn9u8108709
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 9 Dec 2020 14:49:09 -0600
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 9 Dec
- 2020 14:49:08 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 9 Dec 2020 14:49:08 -0600
-Received: from [10.250.40.192] (ileax41-snat.itg.ti.com [10.172.224.153])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B9Kn8cs066776;
-	Wed, 9 Dec 2020 14:49:08 -0600
-Subject: Re: [OE-core] [dunfell] [PATCH 2/2] lz4: upgrade 1.9.2 -> 1.9.3
-To: Steve Sakoman <steve@sakoman.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
-        Patches and
- discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-        Alexander Kanavin
-	<alex.kanavin@gmail.com>
-References: <20201209192111.21817-1-dmurphy@ti.com>
- <20201209192111.21817-2-dmurphy@ti.com>
- <CAOSpxdbceaaD4NKn34zwb73+jP1Y9ra7UwYi82LNL-KmPLGs5g@mail.gmail.com>
- <95a23893-b7ea-68b3-18ab-f11cd2209a19@ti.com>
- <CAOSpxdZeotQV7wy-oYS1qbbWnKxyUohYb4_5mn2iq9-o3jQ64Q@mail.gmail.com>
-From: "Dan Murphy" <dmurphy@ti.com>
-Message-ID: <2c2f75e6-1331-6ec4-9193-ccc6b7958c12@ti.com>
-Date: Wed, 9 Dec 2020 14:49:08 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=missing; spf=pass (domain: snowmoose.com, ip: 216.239.133.208, mailfrom: alanp@snowmoose.com)
+Received: from mail.guardedhost.com (mx04.guardedhost.com [IPv6:2607:fe90:1:1::55:1])
+	by outbound-relay5.guardedhost.com (Postfix) with ESMTP id 4CrsRd0LGVz10sC;
+	Wed,  9 Dec 2020 22:39:24 +0000 (GMT)
+Received: from Alans-MacBook-Pro.local (c-73-254-147-133.hsd1.wa.comcast.net [73.254.147.133])
+	(Authenticated sender: alanp@snowmoose.com)
+	by mail.guardedhost.com (Postfix) with ESMTPA id 4CrsRc18RQz30LC;
+	Wed,  9 Dec 2020 22:39:24 +0000 (GMT)
+Subject: Re: [OE-core] [PATCH v2 1/2] iproute2: install tools to mirror install under Debian/Ubuntu
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20201205082246.14954-1-alanp@snowmoose.com>
+ <bb38bb9111dbc5e0a2c3c47256d2bead31b70316.camel@linuxfoundation.org>
+From: "Alan Perry" <alanp@snowmoose.com>
+Message-ID: <83ae3fae-37a5-e32d-5084-e1a20d97b13d@snowmoose.com>
+Date: Wed, 9 Dec 2020 14:39:22 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <CAOSpxdZeotQV7wy-oYS1qbbWnKxyUohYb4_5mn2iq9-o3jQ64Q@mail.gmail.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <bb38bb9111dbc5e0a2c3c47256d2bead31b70316.camel@linuxfoundation.org>
+Authentication-Results: mail.guardedhost.com;auth=pass
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse-Id: 636371E0-3A6F-11EB-9A84-F94F6C6C9F7D
+X-Virus-Scanned: clamav-milter 0.102.2 at tev-mx4.omnis.com
+X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-Steve
 
-On 12/9/20 2:23 PM, Steve Sakoman wrote:
-> On Wed, Dec 9, 2020 at 10:03 AM Dan Murphy <dmurphy@ti.com> wrote:
->> Steve
+
+On 12/7/20 1:49 PM, Richard Purdie wrote:
+> On Sat, 2020-12-05 at 08:22 +0000, Alan Perry wrote:
+>> Many scripts exist that expect the iproute2 tools to be found in
+>> the same directories where they are found in Debian or Ubuntu.
+>> For the iproute2 tools included in the iproute2 recipe, move
+>> them to those directories or create links there.. Also, add
+>> bash-completion files as is done by Debian and Ubuntu.
 >>
->> No it has some enhancements.
-> If it has enhancements then it probably isn't appropriate for LTS, we
-> should stick with 1.9.2
-OK
+>> Signed-off-by: Alan Perry <alanp@snowmoose.com>
+>> ---
+>>   .../iproute2/iproute2.inc                     | 23 +++++++++++++++++--
+>>   1 file changed, 21 insertions(+), 2 deletions(-)
+> The direction in the patch is worrying me a little.
 >
->> I was not sure if we wanted to use the dev
->> branch as opposed to the release branch.
-> Is 1.9.2 available in the release branch?  If so then that seems to be
-> appropriate.
+> There is a bash-completion class which splits completion files into
+> their own package, most "embedded" users don't want them in the main
+> packages. This patch does something different to what has been done
+> elsewhere.
+>
+> Secondly, I'm also not sure that just because debian does something we
+> should therefore do it, I'm not convinced that scripts should be
+> hardcoding path assumptions about these tools. IF this is such a
+> universal need, why doesn't upstream change the default installation
+> locations? Has it been discussed?
+>
+> I'd expect there to be opinions on this topic but I'm not seeing much
+> discussion. I suspect if if does merge there would be push back later
+> though.
+>
+> Also, the duplication between bin and sbin for ip is not particularly
+> good practise.
+>
+Thanks for your comments. I apologize for the delay in responding, but I 
+needed to do some research first.
 
-It is only in the dev branch not in release which seems a bit weird.
+I will look at the bash-completion class and make the appropriate 
+changes there.
 
-Dan
+As far as the installation path changes, I discussed why those aren't 
+the defaults with the iproute2 upstream maintainer. The idea is that the 
+upstream puts everything in /sbin and where is appropriate to install 
+them for a given distro is left as an exercise for that distro.
+
+The iproute2 recipe is doing that exercise for poky. So, where is the 
+correct place to install these tools on poky? I'd argue that they should 
+go in the expected directories for Unix-y OSes. Someone at Debian went 
+through that analysis and put them where they put them and those mostly 
+seem like reasonable places to me. It is also where users coming to 
+poky-based systems will likely expecting to find them.
+
+As far as duplicating ip in bin and sbin, I agree that it isn't good 
+practice. Having it in both doesn't seem necessary to me.
+
+alan
 
