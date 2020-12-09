@@ -1,114 +1,122 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web11.4925.1607555540826075014
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
+ by mx.groups.io with SMTP id smtpd.web12.5234.1607557271653093975
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Dec 2020 15:12:21 -0800
+ Wed, 09 Dec 2020 15:41:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=oAXZr42G;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.193, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f193.google.com with SMTP id 11so2214230pfu.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Dec 2020 15:12:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dncXQGEd;
+ spf=pass (domain: gmail.com, ip: 209.85.222.66, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f66.google.com with SMTP id t15so1103389ual.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Dec 2020 15:41:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=NOrsQr1AJE+Qhf55NfZgdS6R0iJYz6xu6i3h3onTPMc=;
-        b=oAXZr42GaPPXgEVXJRAozy/KDn5UmbZN1fTVyWNhqFSV8dgCICBbtk6UoAYkcyWgrn
-         IP5ECPz8THr04eF2w4SnQaLCvuwR0yIj/oj3MQrojt63e5JFjCVDeTMT7+Q900OscdiM
-         yh4yMarL1j3UvV6nvzHapNEsKvqG0jqgMcgmJBxT8oK0GRb+FBLuq4Dj2YxnGkVfsOrx
-         K1cI7QglTT40OtCpuA3SiZao42zHTVBCK+OLQluCB2qfoIkMEV6jqySjVzlJYA1gNpEq
-         1fpDLriqpUihlrdUW7x9zyH+WBcPgFG1uuPxnwX0ZBp9KDviQ32bcIQMiry6NO9OmqiK
-         AlcA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sekVDnveaN+577uS4sMixFdpkCe1M/iXcqSVDBkQcB8=;
+        b=dncXQGEdNUWuIdNC46QsCCeEoPCIIL6du9IRSaG0bJqGeo4pVekQLk8s3GeTqMd4zs
+         A0b6PnRkWlxe1OHekneTCLM+0ZHfpRn1x0iWuR4ERDAE9iEDVSd1+i4S1pmloQk64vLI
+         MXA7z14kRB5Ni7xRcjs3q9kGmM70UVHcnO2+XA/M4t6t1Ihn7dooDP4qfsBjt4YczbWC
+         Ba1Ld5KyRFtkEVs+/g5galzLlFKXbuYTmq7vZaw9yWA/FxdWAwPynzwe4eKxX5nN50su
+         c+0faQTGaXeBabF5uCNROwiVNon/jOGRaF+zV2CJlmayHYNGqPpwsZp1vbXUJ5CVuKMO
+         YDRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=NOrsQr1AJE+Qhf55NfZgdS6R0iJYz6xu6i3h3onTPMc=;
-        b=AIlYb2og6PCNOgIRIQmorRFnQTK4vXGMPtKBcMSr+QdXnsquYAq2hQlx7hsyg8Dw3j
-         CcoKgL/1rwBqDMDaMNxSXavEXRXwqvR06HBu75hsdPgjIkAmjpaOQnxeyaCrO500Vwq6
-         gKu62WIVHA+hp3TLFNNYrEih2w701J3GnGl5GQ6nJSL7tjsH75uQhxD84bKyQqAy9kUr
-         ZTLPlD6R74APIOLW8ZLgajRwWxrDidfUts1lJ1OYJG0Rbt4tq+/SSmFAMI6gP4BT7Jn4
-         JjyfxqllmrUKt2egdfru/gDEzbsrMxS3IAaL+hdw77cs1aTtwz/Tlf3raaGZsM0Ms97a
-         MEbA==
-X-Gm-Message-State: AOAM530SBKd8c9tw6+5p/ClLdfdfmNRdumvr0ZUebTZ09SHYexuwiwmn
-	MHcK/CxPm3DrzT3IlFcmCwJpsDXmhRN3GNDI
-X-Google-Smtp-Source: ABdhPJxnDVdnbuby1o6DtxfTwtqdp4RPd8ek9/wRPg5qlhHEFjZb4nLkBSF1G40sOMLS0yYw8Q7EVg==
-X-Received: by 2002:a63:3647:: with SMTP id d68mr646126pga.172.1607555539607;
-        Wed, 09 Dec 2020 15:12:19 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id l66sm3474629pgl.24.2020.12.09.15.12.18
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 15:12:18 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 0/9] Pull request (cover letter only)
-Date: Wed,  9 Dec 2020 13:12:08 -1000
-Message-Id: <cover.1607555391.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sekVDnveaN+577uS4sMixFdpkCe1M/iXcqSVDBkQcB8=;
+        b=qpJtt1TKGEid4AjLq4wMS9dNrqzfj1gmpT1Z2lhfYOOK/vjo075m0FY6CCdwvvUQ4p
+         79gaT5TavWTkUGN8djA+sO9PQTV9pqq4qWsKFgl9isELIObA+6M+6sf784mZLAMAfdDV
+         E/VrLCaIPgs+/UI5S2ZHVR9QqyJn6WPpAHKlh97wzv7Qei3DbBqbN68i31HroclH2+Ls
+         5sqxhpk2srpcozgIIwiDQF4gXZWz88ZbNikAjQwMzSZjueS51YwRkkzuKk8y9I7wopQ/
+         YYBWvL4c4InsQub99CSLVlwx7VCbjHVJU51pte/tMuXUFAX7qQyzMfT0pHb65dYVHHyG
+         W86A==
+X-Gm-Message-State: AOAM530Wc7+dMmGPolJpk415BcGl/C4INY3w0p7hd+Styukf9qFgfPrs
+	heyeb+qYhjFT/0uiwxy7LNmyTkw+Nwn4Jh0o5os=
+X-Google-Smtp-Source: ABdhPJyzmkqA9Asj/URK0I2d0wSe6Oet2Hq8GACTfODiPh655JDKEy6ytHTuwZwwJnnuopNKU2hAnwpVPF3dSdcFbOI=
+X-Received: by 2002:a9f:2356:: with SMTP id 80mr4659554uae.92.1607557270747;
+ Wed, 09 Dec 2020 15:41:10 -0800 (PST)
+MIME-Version: 1.0
+References: <20201205082246.14954-1-alanp@snowmoose.com> <bb38bb9111dbc5e0a2c3c47256d2bead31b70316.camel@linuxfoundation.org>
+ <83ae3fae-37a5-e32d-5084-e1a20d97b13d@snowmoose.com>
+In-Reply-To: <83ae3fae-37a5-e32d-5084-e1a20d97b13d@snowmoose.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Wed, 9 Dec 2020 15:40:58 -0800
+Message-ID: <CAJ86T=WMCdqRn5mzzDHYVuu_eVtH3M=X-moWJzEeP2nBLzYALQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] iproute2: install tools to mirror install under Debian/Ubuntu
+To: Alan Perry <alanp@snowmoose.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The following changes since commit 071806feb195961e59069f778c9ae8f27a739d9a:
+On Wed, Dec 9, 2020 at 2:39 PM Alan Perry <alanp@snowmoose.com> wrote:
+> On 12/7/20 1:49 PM, Richard Purdie wrote:
+> > On Sat, 2020-12-05 at 08:22 +0000, Alan Perry wrote:
+> >> Many scripts exist that expect the iproute2 tools to be found in
+> >> the same directories where they are found in Debian or Ubuntu.
+> >> For the iproute2 tools included in the iproute2 recipe, move
+> >> them to those directories or create links there.. Also, add
+> >> bash-completion files as is done by Debian and Ubuntu.
+> >>
+> >> Signed-off-by: Alan Perry <alanp@snowmoose.com>
+> >> ---
+> >>   .../iproute2/iproute2.inc                     | 23 +++++++++++++++++--
+> >>   1 file changed, 21 insertions(+), 2 deletions(-)
+> > The direction in the patch is worrying me a little.
+> >
+> > There is a bash-completion class which splits completion files into
+> > their own package, most "embedded" users don't want them in the main
+> > packages. This patch does something different to what has been done
+> > elsewhere.
+> >
+> > Secondly, I'm also not sure that just because debian does something we
+> > should therefore do it, I'm not convinced that scripts should be
+> > hardcoding path assumptions about these tools. IF this is such a
+> > universal need, why doesn't upstream change the default installation
+> > locations? Has it been discussed?
+> >
+> > I'd expect there to be opinions on this topic but I'm not seeing much
+> > discussion. I suspect if if does merge there would be push back later
+> > though.
+> >
+> > Also, the duplication between bin and sbin for ip is not particularly
+> > good practise.
+> >
+> Thanks for your comments. I apologize for the delay in responding, but I
+> needed to do some research first.
+>
+> I will look at the bash-completion class and make the appropriate
+> changes there.
+>
+> As far as the installation path changes, I discussed why those aren't
+> the defaults with the iproute2 upstream maintainer. The idea is that the
+> upstream puts everything in /sbin and where is appropriate to install
+> them for a given distro is left as an exercise for that distro.
+>
+> The iproute2 recipe is doing that exercise for poky. So, where is the
+> correct place to install these tools on poky? I'd argue that they should
+> go in the expected directories for Unix-y OSes. Someone at Debian went
+> through that analysis and put them where they put them and those mostly
+> seem like reasonable places to me. It is also where users coming to
+> poky-based systems will likely expecting to find them.
+>
+> As far as duplicating ip in bin and sbin, I agree that it isn't good
+> practice. Having it in both doesn't seem necessary to me.
 
-  e2fsprogs: Fix a ptest permissions determinism issue (2020-11-30 12:05:57 -1000)
+But isn't that duplication all part of aligning with Debian (where
+/sbin/ip is a symlink to /bin/ip)? Presumably something relies on the
+symlink or Debian wouldn't be doing it.
 
-are available in the Git repository at:
+Based on:
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+  https://sources.debian.org/src/iproute2/5.9.0-1/debian/iproute2.install/
+  https://sources.debian.org/src/iproute2/5.9.0-1/debian/iproute2.links/
 
-Bruce Ashfield (8):
-  linux-yocto/5.4: update to v5.4.71
-  linux-yocto/5.4: update to v5.4.72
-  linux-yocto/5.4: update to v5.4.73
-  linux-yocto/5.4: config cleanup / warnings
-  linux-yocto/5.4: update to v5.4.75
-  linux-yocto/5.4: perf: Alias SYS_futex with SYS_futex_time64 on 32-bit
-    arches with 64bit time_t
-  linux-yocto/5.4: update to v5.4.78
-  lttng-modules: add post 2.11.6 patches
+Debian does seem to do quite a lot or rearranging of the installed
+files. Open question seems to be whether that rearranging is to align
+with requirements which are specific to Debian or something which
+other distros might need too?
 
-Lee Chee Yang (1):
-  go: update to 1.14.12
+Based on:
 
- meta/recipes-devtools/go/go-1.14.inc          |   5 +-
- ...t-CGO_LDFLAGS-to-appear-in-go-ldflag.patch |  98 ++++++
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- ...ncpy-equals-destination-size-warning.patch |  42 +++
- ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 +++++
- ...oints-output-proper-root-owner-for-t.patch | 316 ++++++++++++++++++
- ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++
- ...ext4-fast-commit-recovery-path-v5.10.patch |  91 +++++
- ...intr-vectoring-info-and-error-code-t.patch | 124 +++++++
- ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 +++++
- ...Return-unique-RET_PF_-values-if-the-.patch |  71 ++++
- ...int-Optimize-using-static_call-v5.10.patch | 155 +++++++++
- ...-fix-include-order-for-older-kernels.patch |  31 ++
- .../0011-Add-release-maintainer-script.patch  |  59 ++++
- .../0012-Improve-the-release-script.patch     | 173 ++++++++++
- ...fix-ext4-fast-commit-recovery-path-v.patch |  32 ++
- ...-fix-include-order-for-older-kernels.patch |  32 ++
- ...fix-tracepoint-Optimize-using-static.patch |  46 +++
- ...ion-range-for-trace_find_free_extent.patch |  30 ++
- .../lttng/lttng-modules_2.11.6.bb             |  16 +
- 22 files changed, 1686 insertions(+), 20 deletions(-)
- create mode 100644 meta/recipes-devtools/go/go-1.14/0010-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-strncpy-equals-destination-size-warning.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0005-fix-ext4-fast-commit-recovery-path-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0006-fix-KVM-x86-Add-intr-vectoring-info-and-error-code-t.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0008-fix-KVM-x86-mmu-Return-unique-RET_PF_-values-if-the-.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-tracepoint-Optimize-using-static_call-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-include-order-for-older-kernels.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0011-Add-release-maintainer-script.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-Improve-the-release-script.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0013-fix-backport-of-fix-ext4-fast-commit-recovery-path-v.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-Revert-fix-include-order-for-older-kernels.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0015-fix-backport-of-fix-tracepoint-Optimize-using-static.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-adjust-version-range-for-trace_find_free_extent.patch
+  https://centos.pkgs.org/8/centos-baseos-x86_64/iproute-5.3.0-5.el8.x86_64.rpm.html
 
--- 
-2.17.1
-
+It looks like Centos installs all binaries under /usr/sbin
