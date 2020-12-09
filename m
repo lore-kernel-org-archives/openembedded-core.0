@@ -1,72 +1,81 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.10408.1607533515477315624
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.10289.1607533515279407702
  for <openembedded-core@lists.openembedded.org>;
  Wed, 09 Dec 2020 09:05:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=HSmR5zmo;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=mcHRjCmf;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1607533516;
-  x=1639069516;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=HWhC/a6PYzNNepg0t54RjlbeJZpAlhs9U1ETV0iT3bM=;
-  b=HSmR5zmo/rLUrT01BLKaM5RQayK+nqBK4ApScoRMADiXqh64K+eo2mn4
-   92BNhtl1CY9qj6DYawYy2tkaabE0YuQdBwTpBc65/x9E+wcYx8b+c8OMl
-   410gsGVzuS1XN52hXiL3PGWqd+9/kdUuiG+uebVBoKG7vWvCE2PNfkyhQ
-   XxH8WOOKpG/q9I3Ev7Cf9lfJS5ikVhKHBJMNHWRPAC3x9Piq8YNmTBmRm
-   Yz0zTTg1mSpU96axcBmrlW2OH8bQKzaRy7T8HXJbKnwhXHKcclHUFPx3m
-   0K4K/kFraGKrsGs/JCqOqAA//CvjHLnTnuItdKsxV2J2T6cLibqDNv8Ei
+  d=axis.com; q=dns/txt; s=axis-central1; t=1607533515;
+  x=1639069515;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uxSoiYzOEtYq9cwWj1UkOxKE3FGpAmO+KFAlh/Mqqn0=;
+  b=mcHRjCmf1AjgyI3XDc4fGW32Xbl7QV/DrjZUux7QgOaIotLn1wT5mika
+   ZgX2RO5fOyeXQvVWKqYBLrcJOAAivSAAlzbtGK1q6pVlwTQ5E8o069+rQ
+   CHeua3dhLSa16ZKdVAMtapW+BSL9FxNegZ1pCkitDckQwjnCrmC40kLun
+   vEB0seBFaMSkaNgvWRQ9O1kz0aQEJaxQwmLIGVb5DNUPx3Lde/SDgAqDC
+   uwv05dJ3HJm9nB6BHO+uEZaZZl0ZJAag9W5A1jordOclBHimOowmpqsBh
+   fmpozrk7bN3liMsubB8AA9ENtld86FvqNX02G3dbW/anZMSEUbBLnjM3Y
    w==;
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv4 1/3] lib/oe/path: Add canonicalize()
-Date: Wed, 9 Dec 2020 18:05:07 +0100
-Message-ID: <70cdd65b31ebf453e84e8b01dd5d705d3883b5e6.1607533369.git.pkj@axis.com>
+Subject: [PATCHv4 0/3] Support symbolic links in paths in PSEUDO_IGNORE_PATHS
+Date: Wed, 9 Dec 2020 18:05:06 +0100
+Message-ID: <cover.1607533369.git.pkj@axis.com>
 X-Mailer: git-send-email 2.21.3
-In-Reply-To: <cover.1607533369.git.pkj@axis.com>
-References: <cover.1607533369.git.pkj@axis.com>
 MIME-Version: 1.0
 Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-oe.path.canonicalize() is used to canonicalize paths (i.e., remove
-symbolic links and "..", and make them absolute). It takes a string
-with paths separated by commas, and returns the canonicalized path in
-the same format.
+The changes in this patch series aim to rectify a problem with pseudo
+and its support for ignoring paths. When pseudo compares a path to the
+paths specified in PSEUDO_IGNORE_PATHS, it uses a path that has been
+canonicalized. However, it does not canonicalize the paths in
+PSEUDO_IGNORE_PATHS itself and unless they are canonicalized, they
+will not match as intended. Thus the paths in PSEUDO_IGNORE_PATHS
+needs to be canonicalized. These patches do that by adding a new
+function oe.path.canonicalize(), which is then used when passing 
+${PSEUDO_IGNORE_PATHS} to pseudo.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/lib/oe/path.py | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+There is also one patch that adds two patches to pseudo to clean up
+pseudo_client_ignore_path_chroot(), and they also plug a memory leak.
+The patches were brought about as I initially intended to do the
+canonicalization in pseudo itself in this function.
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 082972457b..c8d8ad05b9 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -320,3 +320,24 @@ def which_wild(pathname, path=None, mode=os.F_OK, *, reverse=False, candidates=F
- 
-     return files
- 
-+def canonicalize(paths, sep=','):
-+    """Given a string with paths (separated by commas by default), expand
-+    each path using os.path.realpath() and return the resulting paths as a
-+    string (separated using the same separator a the original string).
-+    """
-+    # Ignore paths containing "$" as they are assumed to be unexpanded bitbake
-+    # variables. Normally they would be ignored, e.g., when passing the paths
-+    # through the shell they would expand to empty strings. However, when they
-+    # are passed through os.path.realpath(), it will cause them to be prefixed
-+    # with the absolute path to the current directory and thus not be empty
-+    # anymore.
-+    #
-+    # Also maintain trailing slashes, as the paths may actually be used as
-+    # prefixes in sting compares later on, where the slashes then are important.
-+    canonical_paths = []
-+    for path in (paths or '').split(sep):
-+        if '$' not in path:
-+            trailing_slash = path.endswith('/') and '/' or ''
-+            canonical_paths.append(os.path.realpath(path) + trailing_slash)
-+
-+    return sep.join(canonical_paths)
+I have not tested the change to wic as we do not use it, though I do
+not expect it to be problematic.
+
+PATCHv2: 
+  * Removed some unrelated changes in the second patch.
+PATCHv3: 
+  * Handle an edge case in pseudo_client_ignore_path_chroot() in case
+    PSEUDO_IGNORE_PATHS contains ",," or leading/trailing commas.
+  * Introduce oe.path.canonicalize() and use it instead of adding
+    PSEUDO_IGNORE_REAL_PATHS as was previously done.
+  * Add similar code to wic.
+PATCHv4:
+  * Rewrote oe.path.canonicalize() to maintain trailing slashes
+    present in the paths.
+
+//Peter
+
+The following changes since commit 9826881036191be6ffba98c9bc8a86d1b852ff41:
+
+  build-appliance-image: Update to master head revision (2020-12-09 12:36:32 +0000)
+
+are available in the Git repository at:
+
+  git://push.yoctoproject.org/poky-contrib pkj/pseudo-ignore
+
+Peter Kjellerstedt (3):
+  lib/oe/path: Add canonicalize()
+  bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+  wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
+
+ meta/conf/bitbake.conf       |  4 ++--
+ meta/lib/oe/path.py          | 21 +++++++++++++++++++++
+ scripts/lib/wic/partition.py | 12 +++++++++++-
+ 3 files changed, 34 insertions(+), 3 deletions(-)
+
