@@ -1,65 +1,75 @@
-Received: from smtp1.axis.com (smtp1.axis.com [])
- by mx.groups.io with SMTP id smtpd.web11.10289.1607533515279407702
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web09.10439.1607534325040974025
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Dec 2020 09:05:18 -0800
+ Wed, 09 Dec 2020 09:18:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=iAs0bkxj;
- spf=fail (domain: axis.com, ip: <nil>, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZriGtYsS;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id q75so2487975wme.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Dec 2020 09:18:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1607533518;
-  x=1639069518;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=EwwUrF7UlvQfo1JOAow4RTKyJ2M0dxmk2xJcwxX9bXw=;
-  b=iAs0bkxjwdq9Ohz/+R8gewvf8On0mrJTuaurE+3Jz7HMkIQxVpfJYaN/
-   Ami3HcpUC8yCeIbC5fKat4jc7+ChLum/qiIaB+EuxkR+GSTg+he2WKA2m
-   yXPVPjMh3xOi+tUQ2A3ZZijBHXzTm+TYPttP9NOg7L4yKUgLJ6RDHR9Yx
-   Z2ETkuqGNR0QoFUzHOOK1G53wMgy50iCG7/ye+vtlAJq2SCYn2ywV31SQ
-   hJQOcLYPbBWS8yttOo6zyJzpVUKY7rSpZx9JKSmSYb7TwZE6JCgdiPOI0
-   jGcLTITrxDECYxsUxWvDUucmQ5osKHSPxcPDP+e7BGqEgeXXYj6RxQQed
-   A==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCHv4 3/3] wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
-Date: Wed, 9 Dec 2020 18:05:09 +0100
-Message-ID: <47c5c4be5d4157518da2329d3465ad17172c8c05.1607533369.git.pkj@axis.com>
-X-Mailer: git-send-email 2.21.3
-In-Reply-To: <cover.1607533369.git.pkj@axis.com>
-References: <cover.1607533369.git.pkj@axis.com>
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P90ON83oiI6uCVfeuW61WCVoVl0rAwEs663pSoXN+JM=;
+        b=ZriGtYsSDoJOGyIlqJ7Ct17XYu06LU3WDGVgdLTtR5JPa+VpsaP/mT8qbTlcOfj3cO
+         tRbj6VJCppK4/jaL1gh1Gl+Caavxg1CNs6fAN35A6lIfyG3widgi6FdHTvUAqLQbU2Yy
+         VRQ8itMPFvavi6XcpqwmKN4iWCHs2YAa8xiFw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=P90ON83oiI6uCVfeuW61WCVoVl0rAwEs663pSoXN+JM=;
+        b=NZqHIfhxSXF+s53xDXLMrCP2ZDceFibmR+M+ojMuJsKWkQvqNBcagP22PvToPpterP
+         J2gvWY4oGjCvlKAnOtYE50neOKdNplrNVfDVJpWfDQrMjojk61Be1gKeMH9lxc0LUZqd
+         5cU6grutHbdZQX7omKr9tUXdCj7wHzPTNn6vxOe4rd9cIFW4Cu+9GbVc++aUqC1nyK7q
+         3xh1KGOQUZulQKWaiEAiLLArCot7ODCHvEMwHg2NIcyx7e73BXuuas0SX9tegaMO/Rzr
+         dv24Z8f6CPUWRn0lwJrQpW8G7u1g3EKieZnOYPcB78vtJOrAeiLI3eedEIFKPWXGmamP
+         3tIg==
+X-Gm-Message-State: AOAM530QVQE5jIIkqqbvou0f1MzCj/HqG9IvHEm/M50cNh5d4p44h3xU
+	2nx9dz116NemAPM4wQLbaf5YU5XjiF9umg==
+X-Google-Smtp-Source: ABdhPJxwEOALIIidSpv/OJFFPv4E6N1d43u+XsuR/5u/TeI8r6C+YIj+HQDKDDPiOIk/yj42IYBzSA==
+X-Received: by 2002:a1c:e309:: with SMTP id a9mr3914657wmh.172.1607534323309;
+        Wed, 09 Dec 2020 09:18:43 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c0cc:57b6:514f:c89])
+        by smtp.gmail.com with ESMTPSA id u66sm4986020wmg.2.2020.12.09.09.18.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Dec 2020 09:18:42 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] metadata_scm: Fix signature handling of METADATA_REVISION and METADATA_BRANCH
+Date: Wed,  9 Dec 2020 17:18:41 +0000
+Message-Id: <20201209171841.3648579-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+We're not interested in the dependencies of these functions and what
+those functions look like, we're interested in the value the variable has.
+
+Force the hashed value to be the actual value from the function. This
+means using METADATA_REVISION in DISTRO_VERSION for example now
+correctly rebuilds when it changes value.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/wic/partition.py | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta/classes/metadata_scm.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index ebe250b00d..286c7867cb 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -207,11 +207,21 @@ class Partition():
+diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+index 58bb4c555a2..2608a7ef7b8 100644
+--- a/meta/classes/metadata_scm.bbclass
++++ b/meta/classes/metadata_scm.bbclass
+@@ -1,5 +1,7 @@
+ METADATA_BRANCH ?= "${@base_detect_branch(d)}"
++METADATA_BRANCH[vardepvalue] = "${METADATA_BRANCH}"
+ METADATA_REVISION ?= "${@base_detect_revision(d)}"
++METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}"
  
-         p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
-         if (pseudo_dir):
-+            # Canonicalize the ignore paths. This corresponds to
-+            # calling oe.path.canonicalize(), which is used in bitbake.conf.
-+            ignore_paths = [rootfs] + (get_bitbake_var("PSEUDO_IGNORE_PATHS") or "").split(",")
-+            canonical_paths = []
-+            for path in ignore_paths:
-+                if "$" not in path:
-+                    trailing_slash = path.endswith("/") and "/" or ""
-+                    canonical_paths.append(os.path.realpath(path) + trailing_slash)
-+            ignore_paths = ",".join(canonical_paths)
-+
-             pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
-             pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-             pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-             pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
--            pseudo += "export PSEUDO_IGNORE_PATHS=%s;" % (rootfs + "," + (get_bitbake_var("PSEUDO_IGNORE_PATHS") or ""))
-+            pseudo += "export PSEUDO_IGNORE_PATHS=%s;" % ignore_paths
-             pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-         else:
-             pseudo = None
+ def base_detect_revision(d):
+     path = base_get_scmbasepath(d)
+-- 
+2.25.1
+
