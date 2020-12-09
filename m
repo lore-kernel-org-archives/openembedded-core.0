@@ -1,75 +1,71 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web09.10439.1607534325040974025
+Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+ by mx.groups.io with SMTP id smtpd.web09.998.1607541287631146403
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Dec 2020 09:18:45 -0800
+ Wed, 09 Dec 2020 11:14:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZriGtYsS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id q75so2487975wme.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Dec 2020 09:18:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=P90ON83oiI6uCVfeuW61WCVoVl0rAwEs663pSoXN+JM=;
-        b=ZriGtYsSDoJOGyIlqJ7Ct17XYu06LU3WDGVgdLTtR5JPa+VpsaP/mT8qbTlcOfj3cO
-         tRbj6VJCppK4/jaL1gh1Gl+Caavxg1CNs6fAN35A6lIfyG3widgi6FdHTvUAqLQbU2Yy
-         VRQ8itMPFvavi6XcpqwmKN4iWCHs2YAa8xiFw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=P90ON83oiI6uCVfeuW61WCVoVl0rAwEs663pSoXN+JM=;
-        b=NZqHIfhxSXF+s53xDXLMrCP2ZDceFibmR+M+ojMuJsKWkQvqNBcagP22PvToPpterP
-         J2gvWY4oGjCvlKAnOtYE50neOKdNplrNVfDVJpWfDQrMjojk61Be1gKeMH9lxc0LUZqd
-         5cU6grutHbdZQX7omKr9tUXdCj7wHzPTNn6vxOe4rd9cIFW4Cu+9GbVc++aUqC1nyK7q
-         3xh1KGOQUZulQKWaiEAiLLArCot7ODCHvEMwHg2NIcyx7e73BXuuas0SX9tegaMO/Rzr
-         dv24Z8f6CPUWRn0lwJrQpW8G7u1g3EKieZnOYPcB78vtJOrAeiLI3eedEIFKPWXGmamP
-         3tIg==
-X-Gm-Message-State: AOAM530QVQE5jIIkqqbvou0f1MzCj/HqG9IvHEm/M50cNh5d4p44h3xU
-	2nx9dz116NemAPM4wQLbaf5YU5XjiF9umg==
-X-Google-Smtp-Source: ABdhPJxwEOALIIidSpv/OJFFPv4E6N1d43u+XsuR/5u/TeI8r6C+YIj+HQDKDDPiOIk/yj42IYBzSA==
-X-Received: by 2002:a1c:e309:: with SMTP id a9mr3914657wmh.172.1607534323309;
-        Wed, 09 Dec 2020 09:18:43 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (9.8.c.0.f.4.1.5.6.b.7.5.c.c.0.c.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:c0cc:57b6:514f:c89])
-        by smtp.gmail.com with ESMTPSA id u66sm4986020wmg.2.2020.12.09.09.18.42
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Dec 2020 09:18:42 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] metadata_scm: Fix signature handling of METADATA_REVISION and METADATA_BRANCH
-Date: Wed,  9 Dec 2020 17:18:41 +0000
-Message-Id: <20201209171841.3648579-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@ti.com header.s=ti-com-17q1 header.b=OuIOSlFi;
+ spf=pass (domain: ti.com, ip: 198.47.19.141, mailfrom: dmurphy@ti.com)
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0B9JEibC076036;
+	Wed, 9 Dec 2020 13:14:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1607541284;
+	bh=M+5jtVvlvdsB6bv480Yx5MviQrc5E7mHJ2PvU2qx8SM=;
+	h=From:To:CC:Subject:Date;
+	b=OuIOSlFieSqKKokIRuPS2GhZCd/VE66Lu7q6GaDv+Ajz+LX3PniROxpnZ3w1KCOWK
+	 HlKj+FpMYOM82xhWwtFGn8bjN57nwO1/xjIIlkWhppqBUrSJbSfMjQq7+NRmhb3xHb
+	 V71p5z1uegO58yXb+bl67CMlfFjhGlqSQla5I9Cw=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0B9JEi61032654
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 9 Dec 2020 13:14:44 -0600
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 9 Dec
+ 2020 13:14:44 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 9 Dec 2020 13:14:44 -0600
+Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
+	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0B9JEiHX110035;
+	Wed, 9 Dec 2020 13:14:44 -0600
+From: "Dan Murphy" <dmurphy@ti.com>
+To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+CC: "changqing.li@windriver.com" <changqing.li@windriver.com>,
+        Dan Murphy
+	<dmurphy@ti.com>
+Subject: [dunfell] [PATCH] thin-provisioning-tools: switch branch from master to main
+Date: Wed, 9 Dec 2020 13:14:38 -0600
+Message-ID: <20201209191438.20673-1-dmurphy@ti.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-We're not interested in the dependencies of these functions and what
-those functions look like, we're interested in the value the variable has.
+From: "changqing.li@windriver.com" <changqing.li@windriver.com>
 
-Force the hashed value to be the actual value from the function. This
-means using METADATA_REVISION in DISTRO_VERSION for example now
-correctly rebuilds when it changes value.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Dan Murphy <dmurphy@ti.com>
 ---
- meta/classes/metadata_scm.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ .../thin-provisioning-tools/thin-provisioning-tools_0.8.5.bb    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index 58bb4c555a2..2608a7ef7b8 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -1,5 +1,7 @@
- METADATA_BRANCH ?= "${@base_detect_branch(d)}"
-+METADATA_BRANCH[vardepvalue] = "${METADATA_BRANCH}"
- METADATA_REVISION ?= "${@base_detect_revision(d)}"
-+METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}"
+diff --git a/meta-oe/recipes-support/thin-provisioning-tools/thin-provisioning-tools_0.8.5.bb b/meta-oe/recipes-support/thin-provisioning-tools/thin-provisioning-tools_0.8.5.bb
+index 9f89bac22ac9..3f82734acde2 100644
+--- a/meta-oe/recipes-support/thin-provisioning-tools/thin-provisioning-tools_0.8.5.bb
++++ b/meta-oe/recipes-support/thin-provisioning-tools/thin-provisioning-tools_0.8.5.bb
+@@ -7,7 +7,7 @@ SECTION = "devel"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ S = "${WORKDIR}/git"
  
- def base_detect_revision(d):
-     path = base_get_scmbasepath(d)
+-SRC_URI = "git://github.com/jthornber/thin-provisioning-tools \
++SRC_URI = "git://github.com/jthornber/thin-provisioning-tools;branch=main \
+            file://0001-do-not-strip-pdata_tools-at-do_install.patch \
+            file://use-sh-on-path.patch \
+ "
 -- 
-2.25.1
+2.29.2
 
