@@ -1,50 +1,50 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web10.1016.1607474153990839638
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web12.1037.1607474160536930130
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Dec 2020 16:35:54 -0800
+ Tue, 08 Dec 2020 16:36:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=olV7y9uD;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: ticotimo@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id o5so17127pgm.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 16:35:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vB88KpYs;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id e2so37827pgi.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Dec 2020 16:36:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=K8BALhiFRq3lWDSmymo8RfwK2JttbriKmYdZ4WMGVwY=;
-        b=olV7y9uDqLSZ6GLbb09mirMrb661Mr33osVA5AKRLuDD+xD1bqjbr2QgqwiZ44H5FS
-         Wyv12aBsZdosDZOeIjm+wN48lrdS1Bk8XebiukEOnZw/8hNkHvXvGP4E/hB9jhc8x919
-         vZkIMzUU4SDeShI/iDQIHv8dap1LRn5TYGPjat6Lr21UXUJlcYaDiEGN/9V5HUy+jrLt
-         suRTn6vrFt1JgEomvkv79pGEuJdt8id3yzsQD0N/WnzIwcD6PZqU6kevSLN+mRVi+l3O
-         QkNt9LHHecF8QWElJ2BuFMTMSO97lVjG9F/m1rVTGX5Y1gr5em8T686nCFRPBfB61QAf
-         +96w==
+        bh=sGiVKhC0tmQPeCNF8TgtvtGZctT7peT1mRDL3CN9D6o=;
+        b=vB88KpYs90inZdZVpwCdnSNVDHASDflQfcfWZLW71eoAO3RREuGstmZ2tzRvyLzdjm
+         1reglBjvdySINuVRIEk5eWaCeY9fPYI75v3nFakAXO2Jh3xiir2/76nlZUCyf2CtpL0r
+         DJrn8fawVu2eRBXmGtoCAj3sDH7ELCz4Y8pVSwiDtay3SpBzxCD0mC70TxH9rxfRfxLY
+         qn3wkOuzJDk8/ZaWuHZPyDNQyu9twwiJBrwCinFpqsvYgpkx/ZXtrZu0Q+Uow5Tlujkk
+         qIGNvZidT5/QSKDqdQlKa7y+bggD4uMlhQPreGqvqUm9ow6B8oeFVaVc0CxOcVHC399g
+         fk/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=K8BALhiFRq3lWDSmymo8RfwK2JttbriKmYdZ4WMGVwY=;
-        b=pnNpKcCdME8tOy3HVPeGkhqcvOKQ/HJNQnwUmAX/z9c4p7oXQJ8X0bKVW3of3pU6DX
-         5Y36yYgg0OTIfjq7giTTDvTygFzADXBecz7tN+DAdBaC4VoNh4SCpK+VjYQkwzUpaAL8
-         rDn5xOoHiaCxG0e/Xosb0ARv+WAQjVz0G7VsmYTVqrGYcxuZ07aqMNfiPqavtVorjGqf
-         MwP/xvD50wgG3krOdyy6+1fQNp9E/lvHZw7aLQn2j/ndKKTO0tj3IJi7Kg4g8qO+aIKM
-         K5XC3bb/YDZpzTDBoNUOyptEz7HOyFKsPKBNm7CgDpqrDeTBRLL9jrbFop8HDCGCDyRr
-         YL/g==
-X-Gm-Message-State: AOAM5312F2Ufa0nuAYfTqHKZqtW7thckbYqEy4XKIbXvmMsrKmWto3Gc
-	4+kz3pBktvV6oB3jaGQhIv9QbcAuWEsJ7g==
-X-Google-Smtp-Source: ABdhPJwzjnK0N9E0g0+B+f8ZYqAGaUSyqaSQ2nB4caJDrz2vLCmDQ8Cu+mPVw22xuqh7cF2b9GpVhg==
-X-Received: by 2002:a62:1749:0:b029:19d:960c:1bb8 with SMTP id 70-20020a6217490000b029019d960c1bb8mr439163pfx.63.1607474153326;
-        Tue, 08 Dec 2020 16:35:53 -0800 (PST)
+        bh=sGiVKhC0tmQPeCNF8TgtvtGZctT7peT1mRDL3CN9D6o=;
+        b=Zh4AavQVApg+eVHXGbLLtaZ2L+KJIlqzJdtG3DxFA+NSXDdonKRu8xZOlwtM9XgLsT
+         anBcNVjXiKN8e3ibVGeqLL1OM1eWEvEUhIS2EZzrfgCf71zxCzibY/FSfHRHH14k3Ixx
+         DrJvCyC0A6C02XP2R4LYbQKjJFSHuzbTvpvPnoqQXeNYRsESPXYHvkWt8bNM4U9BVgh/
+         tr4SVurIVMuum76uFahZFzzPshSSzFSSk7rTXcrMxQ4RDi34C+7btwTXKDMYR0A46S0n
+         FGx3DWA6bcYk94uCTIGDqIMveOANJ3m3M2BTpTOL02JlJdFp7H/PEUqiBW1ZvbdqgmW+
+         dFSQ==
+X-Gm-Message-State: AOAM533X+zJTn9nuW48I4hRswPpZ6JAGZTHDCtYdc+KI4+kHL2aXw53h
+	UlfEfrptj8yUI+NFXLe1pusB0ldhrjZDRw==
+X-Google-Smtp-Source: ABdhPJzqU4Sx/p/Oh1stziC4VpWVnzA5Gt5ysIUz4vOU14hlg23JfPqi4U02cYOHmBmYQHrUq6HDOw==
+X-Received: by 2002:a62:528c:0:b029:19e:4a39:d9ea with SMTP id g134-20020a62528c0000b029019e4a39d9eamr42672pfb.20.1607474159853;
+        Tue, 08 Dec 2020 16:35:59 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from thetis.local ([2601:1c0:6000:9640:183:c5f6:e3c0:185c])
-        by smtp.gmail.com with ESMTPSA id v1sm58181pjs.16.2020.12.08.16.35.52
+        by smtp.gmail.com with ESMTPSA id v1sm58181pjs.16.2020.12.08.16.35.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Dec 2020 16:35:52 -0800 (PST)
+        Tue, 08 Dec 2020 16:35:59 -0800 (PST)
 From: "Tim Orling" <ticotimo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH 1/5] python3-hypothesis: upgrade 5.41.4 -> 5.41.5
-Date: Tue,  8 Dec 2020 16:35:43 -0800
-Message-Id: <5e4a312e7239b150ec32366cfd5f4f5f0d4b75b4.1607473952.git.timothy.t.orling@linux.intel.com>
+Subject: [PATCH 2/5] python3-importlib-metadata: upgrade 3.1.0 -> 3.1.1
+Date: Tue,  8 Dec 2020 16:35:44 -0800
+Message-Id: <3ed25611065ac11429a225d650ba9a3a4856d258.1607473952.git.timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1607473952.git.timothy.t.orling@linux.intel.com>
 References: <cover.1607473952.git.timothy.t.orling@linux.intel.com>
@@ -53,42 +53,57 @@ Content-Transfer-Encoding: 8bit
 
 From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-Add missing RDEPENDS:
-  - python3-attrs
-  - python3-sortedcontainers
+No upstream release notes.
 
-Upstream release notes:
-"""
-5.41.5 - 2020-12-05
-
-This patch adds a performance optimisation to avoid saving redundant
-seeds when using the .fuzz_one_input hook.
-"""
+Commits since 3.1.0 tag:
+155bc48 (HEAD, tag: v3.1.1) Merge branch 'maint/2.x'
+83c7dd2 (tag: v2.1.1, origin/maint/2.x) Merge pull request #264 from
+  python/bugfix/261-versionless-egg-info-pre-normalized-fallback
+4cb3bd0 Update changelog. Ref #261.
+6036a37 Avoid relying on new-style normalization for legacy eggs.
+4098b51 Perform exact match on Prepared.normalized, and then add a
+  separate check for an empty self.normalized instead of relying on a
+  degenerate result from startswith.
+7bdbb57 Add test to ensure that a prefix isn't matched
+595eb5f Compare the name against self.normalized. Fixes #261 but also
+  will cause 'lib' to match 'lib_foo'.
+fea6e75 Move is_egg into prepared.
+313535a Extract method for matching a name in a prepared search.
+4335def Add test capturing expectation where versionless metadata exists
+  but hasn't been updated to the new normalization technique. Ref #261.
+9aee90b Fix syntax in changelog
+55e64a4 Merge pull request #258 from python/feature/skeleton
+8721a05 Merge branch 'master' into feature/skeleton
+ed672ee Consolidate coverage files
+eabd24d Restore diffcov
+b29baea Correct syntax for invoking pytest
+d5a5c90 Bring back perf
+67cb123 Run tests to exercise coverage
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- ...hon3-hypothesis_5.41.4.bb => python3-hypothesis_5.41.5.bb} | 4 ++--
+ ...-metadata_3.1.0.bb => python3-importlib-metadata_3.1.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_5.41.4.bb => python3-hypothesis_5.41.5.bb} (67%)
+ rename meta/recipes-devtools/python/{python3-importlib-metadata_3.1.0.bb => python3-importlib-metadata_3.1.1.bb} (68%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_5.41.4.bb b/meta/recipes-devtools/python/python3-hypothesis_5.41.5.bb
-similarity index 67%
-rename from meta/recipes-devtools/python/python3-hypothesis_5.41.4.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_5.41.5.bb
-index 416acc8d72f..7ad975b62a3 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_5.41.4.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_5.41.5.bb
-@@ -7,8 +7,8 @@ PYPI_PACKAGE = "hypothesis"
+diff --git a/meta/recipes-devtools/python/python3-importlib-metadata_3.1.0.bb b/meta/recipes-devtools/python/python3-importlib-metadata_3.1.1.bb
+similarity index 68%
+rename from meta/recipes-devtools/python/python3-importlib-metadata_3.1.0.bb
+rename to meta/recipes-devtools/python/python3-importlib-metadata_3.1.1.bb
+index d89621bedd6..56b57cc32a5 100644
+--- a/meta/recipes-devtools/python/python3-importlib-metadata_3.1.0.bb
++++ b/meta/recipes-devtools/python/python3-importlib-metadata_3.1.1.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e88ae122f3925d8bde8319060f2ddb8e"
  
  inherit pypi setuptools3
  
--SRC_URI[sha256sum] = "7ef22dd2ae4a906ef1e237dcd6806aa7f97e30c37f924a0e6d595f4639350b53"
-+SRC_URI[sha256sum] = "a74e127a865fde12b853cc00f5f52a3a1601d2a1c311b3ffc8de92a4c06778f7"
+-SRC_URI = "https://files.pythonhosted.org/packages/7d/d4/dbc58eed92be61bae65a7d80a7604d35bf6ded3e3c53c14f2d45b4a28831/importlib_metadata-3.1.0.tar.gz"
+-SRC_URI[sha256sum] = "d9b8a46a0885337627a6430db287176970fff18ad421becec1d64cfc763c2099"
++SRC_URI = "https://files.pythonhosted.org/packages/3f/a8/16dc098b0addd1c20719c18a86e985be851b3ec1e103e703297169bb22cc/importlib_metadata-3.1.1.tar.gz"
++SRC_URI[sha256sum] = "b0c2d3b226157ae4517d9625decf63591461c66b3a808c2666d538946519d170"
  
--RDEPENDS_${PN} += "python3-core"
-+RDEPENDS_${PN} += "python3-attrs python3-core python3-sortedcontainers"
+ S = "${WORKDIR}/importlib_metadata-${PV}"
  
- BBCLASSEXTEND = "native nativesdk"
 -- 
 2.25.0
 
