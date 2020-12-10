@@ -1,50 +1,50 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.12239.1607604805827768208
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web09.12478.1607604806980462508
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Dec 2020 04:53:26 -0800
+ Thu, 10 Dec 2020 04:53:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Tqag4zkA;
- spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f65.google.com with SMTP id r3so5375941wrt.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 04:53:25 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i0/ODERj;
+ spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f66.google.com with SMTP id 91so5353089wrj.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 04:53:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=YlbwukCs2VpTpV5KP5hnHlGFpiD2Gb1/JS5B5VZyEkY=;
-        b=Tqag4zkAJn0M5EJ1HoMHUaEta9D6XixL73bCzg3eBiVuohbwrKL3hlL+Qezr/5koHY
-         gk5LplHZgXMarXe3qFCbnsYSM+8H2SsekIv4VqSUA6P3oMzJIXDu7KTv8M+iIPFMNEOj
-         jtKHZIioI7roev+qojhBaSD0yBCT0P1y4kU/MnwgZRC+k3YxlZ9wefTfpn9MJxjxXFkv
-         cECWFxPs9w6qoqgBVGhm7MSCKZ35f1ESo/fP6Gy2LMX9/uXYr+3whVqGO5WXru501dRx
-         74+T43NbiGKBcnnaHh4wHuCe0Drqat+rZMwyK/nmlRT33hM36URv6e8sfTBKolekCm83
-         cB6w==
+        bh=EHhhFHGQW9zwM6wh+UjpLtiHeL9wJJsU0oK3L3sEXAw=;
+        b=i0/ODERjf0paZtTYnVrlpRlBXJzuDQ1PymraYChJXYv+wQ77z0uVI69+iBcVhJDy91
+         fBTvXPNcHOXzpKPeiMf1RCxI5BaqfdX+TsdAlFFOztJgtw2JDD+4es5hIZlz5y3UFWGX
+         1ORM8+MBK52BheOdu97NEFwxhDqEdjaXuBNvHDmt7ujTdNNdt6IsSzi70VKMxXie/Shq
+         KkF4gi7E+SWYlaeIAhOJKkSe6XVp3mnhZjSGZFt8OzoT7xRqA63aMP/BXO+Jjs8DwqiU
+         pnc+y207+4M9RXQVeSBBoEehBV8QUX/iSEccbxIB0Y2q4vMF33k9JxmpsmD/+ZFq4eeM
+         OduQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YlbwukCs2VpTpV5KP5hnHlGFpiD2Gb1/JS5B5VZyEkY=;
-        b=hHNEqyzmYrlUz8oqwVOsa8nPwn2JACk/e6TD2zgr2749kioZy7pNZ+lorsgsVgg3bC
-         Z9ryWAZ9/CpmDz8Wd/0BASUiU++H4KtU8fZrE5FUnJ7xRqqEk+EKjQH0DNOLcesPJEf1
-         hNJJYyng5RiEoAVbDLQvcI7iwgKa8uUhgslhB2isyHyptE5H5VJoXSUzPgHQl4yIdd85
-         kmSn91UtPJsXmBhfJlRh3MpOgzUKzAVoKjvKoq/0yF+WHUE7X4zD9haA1/yP/Lv530yV
-         eKK7PMxpWpq1V2aDZW6DyAeg7rG+G2XYdepd6mrgUrTs4QGBf/8eh0BBrLkwjj09/cP9
-         SWYg==
-X-Gm-Message-State: AOAM53230ADjGZfR0eCs0hjpbBB7o0TjwxjVcxLduFpgybBIpuXGH211
-	j7JpBcJC+GcKyZuvXTm8cd960tZQikwLEw==
-X-Google-Smtp-Source: ABdhPJwl/vCmnz4IPF8LJ6XdhMnhFo76P4jf/YL475tThIE2qibUIF4vdTwuO4TVPGJv2bwM5dAhfw==
-X-Received: by 2002:adf:e84c:: with SMTP id d12mr8445100wrn.382.1607604804084;
-        Thu, 10 Dec 2020 04:53:24 -0800 (PST)
+        bh=EHhhFHGQW9zwM6wh+UjpLtiHeL9wJJsU0oK3L3sEXAw=;
+        b=BzWRsuiFKETGRhFIwDz3qOKwcyHtP+ZPzL6oR5sxieSCYVLTXJ+aykQFLOsNyKFJrg
+         GjZt5rlVu7UsNjsMc51Th8P9NunufWy8/17zIROvL3XIoUrp04ACYzt9LB5ajowtGt+A
+         3zDavfC345a6sQD+Zhc3OZ9UHMwZQdCytO6XjqizoyP86CwLD0gxkRAcI1KTHjzdMf74
+         9LUDYM/2c/nvbnu4JyDazsKlDtajAweYAeO539JTBqra8oo91X+KH69MBsUVABTYa8K6
+         eYHuT3Ek3NMdL+IxYrL27+L+MByAsuGY04lCPZ22CgUu043gnBVbyGcj8O3wH5c6PVB8
+         OWyw==
+X-Gm-Message-State: AOAM530FZYCYi4TqfTSEJ+ZvN/LGBSi5+NQTdmJ0x3mRS+KzFvYBFqUH
+	RLAmVHvkzeeePd7uKOkA5EilXgift5u30w==
+X-Google-Smtp-Source: ABdhPJz0tKjuig2nj/eHYH09fiF/Ds6W3TRbpT2x3QAujKGlxgMfc2P7StaOSvHw2PehXZTvEjeUJw==
+X-Received: by 2002:adf:e84f:: with SMTP id d15mr8153448wrn.245.1607604805324;
+        Thu, 10 Dec 2020 04:53:25 -0800 (PST)
 Return-Path: <luca.boccassi@gmail.com>
 Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id l8sm9703141wmf.35.2020.12.10.04.53.23
+        by smtp.gmail.com with ESMTPSA id c4sm9521793wrw.72.2020.12.10.04.53.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 04:53:23 -0800 (PST)
+        Thu, 10 Dec 2020 04:53:24 -0800 (PST)
 From: "Luca Bocassi" <luca.boccassi@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/5] systemd: set -Dmode=release as recommended by NEWS
-Date: Thu, 10 Dec 2020 12:53:11 +0000
-Message-Id: <20201210125312.3302065-4-luca.boccassi@gmail.com>
+Subject: [PATCH 5/5] systemd: add RRECOMMENDS for weak dependencies, if enabled
+Date: Thu, 10 Dec 2020 12:53:12 +0000
+Message-Id: <20201210125312.3302065-5-luca.boccassi@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201210125312.3302065-1-luca.boccassi@gmail.com>
 References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
@@ -53,23 +53,34 @@ Content-Transfer-Encoding: 8bit
 
 From: Luca Boccassi <luca.boccassi@microsoft.com>
 
+Some libraries are now dlopen'ed and skipped at runtime if
+not available. Add them to the RRECOMMENDS list, to allow
+users to exclude them for smaller images even if generally
+enabled at build time.
+
 Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
- meta/recipes-core/systemd/systemd_247.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/systemd/systemd_247.1.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_247.1.bb b/meta/recipes-core/systemd/systemd_247.1.bb
-index 09dce2e07d..f20e86d94b 100644
+index f20e86d94b..951bffa23f 100644
 --- a/meta/recipes-core/systemd/systemd_247.1.bb
 +++ b/meta/recipes-core/systemd/systemd_247.1.bb
-@@ -210,6 +210,7 @@ EXTRA_OEMESON += "-Dnobody-user=nobody \
-                   -Drootlibdir=${rootlibdir} \
-                   -Drootprefix=${rootprefix} \
-                   -Ddefault-locale=C \
-+                  -Dmode=release \
-                   "
+@@ -603,6 +603,13 @@ RRECOMMENDS_${PN} += "systemd-extra-utils \
+                       systemd-conf \
+ "
  
- # Hardcode target binary paths to avoid using paths from sysroot
++# Weak dlopen-style dependencies: if explicitly requested via PACKAGECONFIG, recommend them
++RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'qrencode', 'qrencode', '', d)} \
++                      ${@bb.utils.contains('PACKAGECONFIG', 'libidn', 'libidn', '', d)} \
++                      ${@bb.utils.contains('PACKAGECONFIG', 'libidn2', 'libidn2', '', d)} \
++                      ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup', 'cryptsetup', '', d)} \
++"
++
+ INSANE_SKIP_${PN} += "dev-so libdir"
+ INSANE_SKIP_${PN}-dbg += "libdir"
+ INSANE_SKIP_${PN}-doc += " libdir"
 -- 
 2.29.2
 
