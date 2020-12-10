@@ -1,80 +1,77 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.20320.1607632126056243376
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web12.20637.1607632885717620944
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Dec 2020 12:28:46 -0800
+ Thu, 10 Dec 2020 12:41:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=M7gfLWvZ;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: kergoth@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id v29so5284352pgk.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 12:28:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hyEeJ0yi;
+ spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id n142so6285736qkn.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 12:41:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=w56HpSVWC5JoDZ/ouWmVIWZKA4OJXtjm6+0wYxR3Z1g=;
-        b=M7gfLWvZLrxiPcrxvxELjkpb7dfJaF/RcIY6meOo9VfP85+QuMPcsoM6MMhqbb5OwQ
-         TXSSILaTQtAdf4KKKsLXE/QCwDz1qxy+y1iD39Ufqc76tE8ZYb+Y2XWTV1epOsu0WveG
-         ChWcDjGqRzh7nr+qqAQh0HG8vbgZJVPvmYWZEtaQBZZKdXYzc0xNzvn0PY/HSoNkmPdD
-         Ycw4XTXSts74Bsfi23UrdM34mh50OkniGS6ibEYRRIfzOw2g2GfVFmobOKYjuX+xPx3X
-         abKE6DHZDI6yKYeQ+d1qMV5UJSa+bYfdRK9swd8Pu+WQmNyh8O7XqFFsjpM/6+sHQR7i
-         LnzA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/OW6xNAth6MFSUPkq6nfc3elMea6fm4Zggy57MVh/Wc=;
+        b=hyEeJ0yiwwl2nnerRjvgDa0Zh+OAf89QlBvqNsJieSUmDArCePIw6IIICUOmCRKa9s
+         Gw5Ns0TLDdgtyR7U2cGKBiSpz5HFjzx8xOq5cZxUwGcqpCxSTMdbrALmxbULSEc0hTvN
+         93dCtDYwcYevitcYNtBzgxoFSMSPJclkZl6rYW2pDfuomvkdEqktlZSqmb4G4DlwWoQ8
+         M+fj+yWJRgRi4DrPaP/3+ax0hFJ7qLPv7aVT3okZCzQ06GZg+O5qCjJpZ8MnleWg6Qwx
+         2CsS+ImVnme9l0VB00BlH84kX+rwvn7JvIijNX2yPvWC/z6ca1GtI4n2Wfi1FEKrYCwh
+         uzgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=w56HpSVWC5JoDZ/ouWmVIWZKA4OJXtjm6+0wYxR3Z1g=;
-        b=gNbWe/PfZ1GpUx4uQxoMjSKqAKDeQhhDE1aldnph383cKYAFV3OV1RUUESVdGoMC0u
-         7V3k1CSvS44WmrmK6GZXIrGznYKMPZU6uuRLWxCNC4rpwCeAiIaSrtF/BeWVG6mGtE71
-         JwoMa847ANuNKtaCBIZETd+H1zv1tJf8zQjXmU+GExkTi6vfuCxxSgf0Z7dHk7pi9KTY
-         CYeHXL6xPPZko9eNAKKMLyzkbLHRwYgo+HIWbMIaxkOHpUh5PbcHfIqR2BmQBP/ipBJR
-         9k5XZwY2x0ir6mYQuspf6qAL84T8/sQoS0ohKzATMkCI3F6H16RVVTzXQea07nzCSNMG
-         XECA==
-X-Gm-Message-State: AOAM531dxTXDgQNiakAV08fG9tKZyJdpTO7M0sMzJR+fP97tqo8GcFXl
-	nzaK76+49huNaRVEJrmgFjwYNE2WpdDbxA==
-X-Google-Smtp-Source: ABdhPJyG6TVyd83gaQtUft1AubLYyA+0AKj7ZhpvNuZFvcgmdjJ9czZpr/YtsEAgHCP0rFT11eDYow==
-X-Received: by 2002:a63:4b1f:: with SMTP id y31mr8364894pga.29.1607632125295;
-        Thu, 10 Dec 2020 12:28:45 -0800 (PST)
-Return-Path: <kergoth@gmail.com>
-Received: from localhost.localdomain (ip72-201-170-237.ph.ph.cox.net. [72.201.170.237])
-        by smtp.googlemail.com with ESMTPSA id v24sm7287929pgi.61.2020.12.10.12.28.44
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Dec 2020 12:28:44 -0800 (PST)
-From: "Christopher Larson" <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/2] uboot-extlinux-config: exclude OVERRIDES from do_create_extlinux_config vardeps
-Date: Thu, 10 Dec 2020 13:28:27 -0700
-Message-Id: <ed436321f5c069d817cbd0fca4aee26ce3b2640d.1607630988.git.kergoth@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1607630988.git.kergoth@gmail.com>
-References: <cover.1607630988.git.kergoth@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/OW6xNAth6MFSUPkq6nfc3elMea6fm4Zggy57MVh/Wc=;
+        b=gnStu2WA80/1IH4wF//vtRurS29jQNdG/9MuXP27rIbQ8rAfT39mAkMTDSYxAhRFfp
+         iB709BPrIyKnuLDeU207yTjd1nbYZY1EIkxomTvjWK4wVKcAQ4i6+GTNyHa/mXzqDEab
+         lP2X+Gtn124VzBmxcZvCSwhKswlkiF822PW0QqB796mNXa7Ob0qRUocmpNXgGHDLr9rq
+         sFaqE9uv8+jGCzvSduVj5rL4F3X24CDBxElFYPJZY2XC0qtgYUMLqLYp+AnRzMToRmSc
+         DBXt7VUpTy6P4zQ/CaFIvLw3MHlt5f7cW5d0vDKeSvgnYBmE6qYe4vJOxWDk2A1wc04X
+         X9kA==
+X-Gm-Message-State: AOAM531kASUFGDMTEJ9t/eH3iryN7AgIwS80urVkr3qPU2ImXhZlRXal
+	dmAd91xwi+pvq+ZTNeJ9CFnBwQMu6m0Ngyiq+IM=
+X-Google-Smtp-Source: ABdhPJxfXJW4yFTCZmnCqEsmwVcJud+Mi8ObEWRL2asKc2+5s75x4EAG9XJPckHKm7paRnZTH98dKHqTLMtaRQvc3Ic=
+X-Received: by 2002:a37:b182:: with SMTP id a124mr11678456qkf.9.1607632884875;
+ Thu, 10 Dec 2020 12:41:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
+ <4b5b304d-9cff-4a61-16b9-6dd8fba58626@gmail.com> <22ce46324e27aacc8cddee2c3f716adae091fbfb.camel@microsoft.com>
+In-Reply-To: <22ce46324e27aacc8cddee2c3f716adae091fbfb.camel@microsoft.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 10 Dec 2020 12:40:58 -0800
+Message-ID: <CAMKF1sq05u5zXapFPL15RH7rk4JiDEw90-2oSg2cKqLTmtyrUQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] systemd: update 246 -> 247
+To: Luca Boccassi <Luca.Boccassi@microsoft.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Thu, Dec 10, 2020 at 10:05 AM Luca Boccassi
+<Luca.Boccassi@microsoft.com> wrote:
+>
+> On Thu, 2020-12-10 at 09:08 -0800, Khem Raj wrote:
+> >
+> > On 12/10/20 4:53 AM, Luca Bocassi wrote:
+> > > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> > >
+> > > Update systemd to v247.1.
+> > > Add rule for new oomd dbus conf and for new pam.d
+> > > conf directory in /usr/lib.
+> > > Drop selinux-hook-handling-to-enumerate-nexthop.patch,
+> > > merged upstream.
+> > > Backport 0001-meson-set-cxx-variable-before-using-it.patch
+> > > from v247-stable to fix builds without C++.
+> > > Refresh musl patches.
+> > >
+> >
+> > perhaps we need to update systemd-conf and systemd-boot recipes as well here
+>
+> systemd-boot is updated to use the new meson patch. systemd-conf didn't
+> need it, at least for me? Does it fail to build for you?
 
-This function is primarily *appending* configuration entries to the
-overrides, it only gets it to ensure it's set at all, so doesn't belong
-in the vardeps. Having a dependency on OVERRIDES means you cannot use a
-bbclass like distrooverrides without changing the signatures of recipes
-using this class.
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/uboot-extlinux-config.bbclass | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
-index f4bf94be04..be285daa01 100644
---- a/meta/classes/uboot-extlinux-config.bbclass
-+++ b/meta/classes/uboot-extlinux-config.bbclass
-@@ -153,5 +153,6 @@ python do_create_extlinux_config() {
- }
- UBOOT_EXTLINUX_VARS = "CONSOLE MENU_DESCRIPTION ROOT KERNEL_IMAGE FDTDIR FDT KERNEL_ARGS INITRD"
- do_create_extlinux_config[vardeps] += "${@' '.join(['UBOOT_EXTLINUX_%s_%s' % (v, l) for v in d.getVar('UBOOT_EXTLINUX_VARS').split() for l in d.getVar('UBOOT_EXTLINUX_LABELS').split()])}"
-+do_create_extlinux_config[vardepsexclude] += "OVERRIDES"
- 
- addtask create_extlinux_config before do_install do_deploy after do_compile
--- 
-2.29.2
-
+no they dont but I thought they should be reflecting systemd version I
+would think
+>
+> --
+> Kind regards,
+> Luca Boccassi
