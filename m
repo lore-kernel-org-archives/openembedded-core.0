@@ -1,146 +1,69 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web10.19896.1607630700163070196
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web08.20622.1607632107724083345
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Dec 2020 12:05:00 -0800
+ Thu, 10 Dec 2020 12:28:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=McebFlNn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id r3so6789534wrt.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 12:04:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OGpNY7Hv;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: kergoth@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id o4so5322832pgj.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 12:28:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ATuqC5jiK6S5qKrUco86GCCozqtZmYFlr4ACmn+7gNo=;
-        b=McebFlNniTYruvk5xivUkAlF+xuCQvuzbR68O5TFyQAKPciB5l82gjmti53N5JE03A
-         PbuMIHS8jP3kI4yKXo9Z6LILZ0wVg9aarbCB6prxcchVBumEaCpYZtFN8VkPChJj88nR
-         /GZx26twyTwHj294LrkmU4JHA89zQpVtA89WM=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hk5EoboWuyAeQEVa2pwhUI/OTup9W6ONCW2yyjcV0kQ=;
+        b=OGpNY7HvAfor1Bh4NI5w7VsLpqbVPU1+DozLSSS2bLiTO2bIO65d93NBHfZrAx1vfq
+         VcfzPBZaJ7+lRmieAVDWrfUTpujyPH43sRihIzRQEYv1KLzaDPWZofN4bgfJOYWWtIVc
+         MvZP12DDTUKQuuK6Pv6ElO/fsNAFVQSByzvL1j5q5MI+zaRpYMp8KVn1uJmQ0M2i/Zq8
+         XCTJROUwYWzuAPyfqkqcegvAzrhDvdhxX1GVvnouxYzl4usmIySIG7zrKMhS8O/+PhfG
+         JLdVp1TmQ6BkO3nP3fRqjwHjhaN54PYKdEn+Du8cLA9nrhOi90vUu/ciThEl82/e0DQz
+         he/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ATuqC5jiK6S5qKrUco86GCCozqtZmYFlr4ACmn+7gNo=;
-        b=XFmapepfpjy4JDUoG9QIQFOIGlyhRicnJDRpHGMRUAOFevrCQpF1eF5R5eM3i5nnkQ
-         vJIkVECkrc6bHbIZacxAXOvLjhga+J0Ztjgw5yLv5mL68sXroXCRM4zpjbqrREXyGvnD
-         vy8+uZmnbmRpPlxSQXWflS3OL3lMkWnDvDpdY7ANvGSsDxRX/UXfJqu9sEmRkFeeIevr
-         kK7Kzunnb/GofJbGj99lzZRB5LgpJk9R73bkYRf5WTMKnKuxkyCgGEmRScAyxP6JtMiO
-         jcpIAfe8XvY5MTueXtNbhQSTqYiRwwGCXbNqV9YpMSVWG0pZZvPZvRFc0E0jzlZAHPT8
-         /FQA==
-X-Gm-Message-State: AOAM532OYLulZK0ome9izjU1QalVNTmK/yqoLx1MXJA1A7/2QZCrHd/K
-	lUedipq+ScGCDbgzesMBgtKD4w==
-X-Google-Smtp-Source: ABdhPJwFWSRaOkKs9IdpvMBA/h8qKFNw8fwc6v+uo6XGxWssn0DqA8jKVFxDTEU0hVrr5Yu2iVz8XQ==
-X-Received: by 2002:adf:f70c:: with SMTP id r12mr10104072wrp.234.1607630698595;
-        Thu, 10 Dec 2020 12:04:58 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:15e3:7b39:fc6b:1133])
-        by smtp.gmail.com with ESMTPSA id p9sm5602276wmm.17.2020.12.10.12.04.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 12:04:57 -0800 (PST)
-Message-ID: <8135d8b348600bcf9c7d3c08fbd395f912c68aea.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] util-linux: split uuid in separate recipe to allow bootstrapping
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Luca Boccassi <Luca.Boccassi@microsoft.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Dec 2020 20:04:56 +0000
-In-Reply-To: <f627105e5820b447a8fc4eac9afa980fb080ea4a.camel@microsoft.com>
-References: <20191209162419.4343-1-luca.boccassi@gmail.com>
-	 <20201123132823.3996355-1-luca.boccassi@gmail.com>
-		 <2d012b8dcd17962239264152e6969edda609e16c.camel@linuxfoundation.org>
-	 <f627105e5820b447a8fc4eac9afa980fb080ea4a.camel@microsoft.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Hk5EoboWuyAeQEVa2pwhUI/OTup9W6ONCW2yyjcV0kQ=;
+        b=qHtNMiLDCNkR/H6+X4i7T/IynCtE5EgkrIM3hau/rGMr7dYwtx9laZmo/9wUHDzVuZ
+         gYCT8/1Ghm3WHU8PWuLJMsBeE4M8fS0P363DuG1hgRRnX/DO8ms4nd/I9RFQJi8I85uk
+         7Dt2q8QFkOza+84hqGvfBJ2TQesx6V7rbHuEJvXlVw7qx6R3Xh998u1jSsNGOulVV8LP
+         hIGe4d54Vy4Sy1a//QGZ42uc5KhH3iu/cZjxAmBp10MJvEoNxAgJy3rwCPfl6qIZnYHM
+         GJJmGk7VmzX8iiIM2tELBTg2wYpcRztwneD4yLEGXmM373nOt6DfL431NAL0hmx+CYR/
+         IycQ==
+X-Gm-Message-State: AOAM531GkIiIiZC6An8Rgsb24iRjVLu30UXxmwQRZwoP4F6cF6HT0sVD
+	Xiumgfcj3kJeu17uN/6RASmH7cCvg0OniA==
+X-Google-Smtp-Source: ABdhPJytYl31uuYC9yjfg1h7C6WoC+qZq+QDdfbRgt+ySqTSO3Dy29+2VbOlPHLFiRLEkCzQ6xy4Bw==
+X-Received: by 2002:aa7:8d86:0:b029:19e:cb57:2849 with SMTP id i6-20020aa78d860000b029019ecb572849mr2883279pfr.54.1607632106664;
+        Thu, 10 Dec 2020 12:28:26 -0800 (PST)
+Return-Path: <kergoth@gmail.com>
+Received: from localhost.localdomain (ip72-201-170-237.ph.ph.cox.net. [72.201.170.237])
+        by smtp.googlemail.com with ESMTPSA id jx4sm7030625pjb.24.2020.12.10.12.28.24
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 10 Dec 2020 12:28:25 -0800 (PST)
+From: "Christopher Larson" <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/2] Exclude OVERRIDES from vardeps for a couple funcs
+Date: Thu, 10 Dec 2020 13:28:01 -0700
+Message-Id: <cover.1607630988.git.kergoth@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-12-10 at 18:47 +0000, Luca Boccassi wrote:
-> On Thu, 2020-12-10 at 15:52 +0000, Richard Purdie wrote:
-> > On Mon, 2020-11-23 at 13:28 +0000, Luca Bocassi wrote:
-> > > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > 
-> > > In v2.35 util-linux  gained an (optional) build
-> > > dependency on libcryptsetup. But libcryptsetup build-depends on
-> > > util-linux for blkid (optional, can be disabled) and uuid
-> > > (mandatory).
-> > > Split out util-linux-uuid in a different recipe to break the
-> > > cycle.
-> > > 
-> > > Add a packageconfig switch (disabled by default) to allow using
-> > > the
-> > > new dependency.
-> > > 
-> > > https://github.com/karelzak/util-linux/pull/898
-> > > 
-> > > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > > ---
-> > > v1: util-linux 2.35 is not out yet, but I'd like to get the
-> > > preparatory work
-> > >     underway as I'm not sure if this is the best approach or if
-> > > there are
-> > >     alternatives. Suggestions and comments very welcome. Thanks!
-> > > v2: changed packages names to reflect old ones (eg: libuuid1 ->
-> > > util-linux-libuuid)
-> > >     and leave uuid build enable in main recipe to allow for
-> > > uuidgen build to happen,
-> > >     as it does not have its own autoconf switch. Delete the
-> > > library manualy from
-> > >     the main recipe after build instead, and add dependency.
-> > >     Might help to break loop python3 -> util-linux -> libselinux
-> > > -> python3, as it's
-> > >     only libuuid that is needed, see 
-> > > https://lists.yoctoproject.org/g/yocto/message/47570
-> > > v3: rebased and refactored to have a common util-linux.inc file
-> > > 
-> > 
-> > I'm afraid this causes do_package_qa errors in basic testing:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1668
-> 
-> Thanks, added RDEPENDS in v4. Strange that those didn't pop up when
-> building poky locally, I usually get QA warnings as expected.
-> Anything
-> in local.conf to enable to get them?
+These functions are primarily *appending* configuration entries to the
+overrides, they only get it to ensure it's set at all, so doesn't belong
+in the vardeps. Having a dependency on OVERRIDES means you cannot use a
+bbclass like distrooverrides without changing the signatures of recipes
+using this class.
 
-No, you should see it in a standard build. It did make me wonder how
-this was tested :/.
+Christopher Larson (2):
+  grub-efi-cfg: exclude OVERRIDES from build_efi_cfg vardeps
+  uboot-extlinux-config: exclude OVERRIDES from
+    do_create_extlinux_config vardeps
 
-> > I am worried about this change as we're starting to see a number of
-> > circular dependencies in util-linux (there is a new bug about the
-> > pylibmount PACKAGECONFIG option too), maybe we should flag this
-> > upstream?
-> > 
-> > Multiple recipes like this usually turn into a maintenance
-> > nightmare
-> > unfortunately which is part of my reluctance to go in this
-> > direction,
-> > not sure we have any choice though.
-> 
-> Well I've added the feature, and both the maintainer and myself were
-> aware of the implications. It's optional, so on distros with multi-
-> stage bootstrapping functionality like Debian/Ubuntu/RHEL/Suse/etc it
-> can be automatically disabled for the first stage build. At runtime
-> it can also be optional via dlopen, if desired (via --configure
-> flag).
+ meta/classes/grub-efi-cfg.bbclass          | 1 +
+ meta/classes/uboot-extlinux-config.bbclass | 1 +
+ 2 files changed, 2 insertions(+)
 
-I have to ask why libuuid couldn't be done in a separate repository and
-avoid the need to do a multi-stage build of a component? To me at
-least, it would seem to make sense to logically split the library code
-out, then it avoids all the complexity. Yes, that means a different
-component to release but that isn't unusual.
-
-> Yocto could really use multi stage support - this isn't the first and
-> won't be the last occurrence. Just my 2c...
-
-Well, we can do it as you're proving, its just ugly and hard to
-maintain. I don't think the other distros will be particularly happy
-about needing to do it either. Outside of libgcc, we've not really
-found that we need to do this often at all and the compiler/libc
-interface is a lot more "special" than uuid.
-
-Thanks for updating the patch. I'll put it back into the queue and test
-the new version.
-
-Cheers,
-
-Richard
+-- 
+2.29.2
 
