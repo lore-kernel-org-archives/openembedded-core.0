@@ -1,50 +1,50 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.20319.1607632124530986146
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+ by mx.groups.io with SMTP id smtpd.web10.20320.1607632126056243376
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Dec 2020 12:28:44 -0800
+ Thu, 10 Dec 2020 12:28:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=djM/EQOh;
- spf=pass (domain: gmail.com, ip: 209.85.210.170, mailfrom: kergoth@gmail.com)
-Received: by mail-pf1-f170.google.com with SMTP id f9so5201543pfc.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 12:28:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=M7gfLWvZ;
+ spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: kergoth@gmail.com)
+Received: by mail-pg1-f193.google.com with SMTP id v29so5284352pgk.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 12:28:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gKb6bTHigDveHHnKYi1fwXDVJ/fE/YMtOZ7IChMjTLc=;
-        b=djM/EQOhvEw08WrK7umhJwJJkomoaOp0kSlPLPFHC6ssIsp+W1UybQdzn6rIYnFhpY
-         3imuE98Ys+KsprtfErm18V9qR1gj/7o4DhsBJAzksOgq0L5ArJB8MOg9Wbod5mF254QB
-         dodKAbCxd9ugdXjhcIdPR64J7rPQZjYp9zDDXQ7aCl/EoTR2TB2oIP9AZ77LW5MnbUn8
-         fdFevdLcnh1+/dITIIJsFSLAqplXDTDsREGJHTTRGwAnEvxP1rIslE6oBUa+XXCqhq04
-         8KAGeqCZWval/Zr4mkNMvJgBYC1B+mWT49ZU5AxM1TtW6kMooUp32FlRScALIjqhcnSM
-         4q1w==
+        bh=w56HpSVWC5JoDZ/ouWmVIWZKA4OJXtjm6+0wYxR3Z1g=;
+        b=M7gfLWvZLrxiPcrxvxELjkpb7dfJaF/RcIY6meOo9VfP85+QuMPcsoM6MMhqbb5OwQ
+         TXSSILaTQtAdf4KKKsLXE/QCwDz1qxy+y1iD39Ufqc76tE8ZYb+Y2XWTV1epOsu0WveG
+         ChWcDjGqRzh7nr+qqAQh0HG8vbgZJVPvmYWZEtaQBZZKdXYzc0xNzvn0PY/HSoNkmPdD
+         Ycw4XTXSts74Bsfi23UrdM34mh50OkniGS6ibEYRRIfzOw2g2GfVFmobOKYjuX+xPx3X
+         abKE6DHZDI6yKYeQ+d1qMV5UJSa+bYfdRK9swd8Pu+WQmNyh8O7XqFFsjpM/6+sHQR7i
+         LnzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gKb6bTHigDveHHnKYi1fwXDVJ/fE/YMtOZ7IChMjTLc=;
-        b=YscSbBYR9B89Kn1gR+NL6BQlKFklQ5oJ1e+2AZHixkVcndsr3bPPiGm8NdwwlmWS03
-         5Zd4+TNt6Kle15uVz/E1abIPF4e7KqgkiIq661KPfnn9ChkB7YNFSVsopXaPOOeOEPtG
-         zGN7XaudVlQw54LMEwKk8RQ97m34t+9o3iP4/NSrOFctHyODihOJhCV7QCvX2E4im090
-         ALoTn02wlDLF5us5h2VULDfLPeBmi2VwCO4ov7xTqkcFrtEvJubutlf9nVpo8NDb7gW6
-         auckucb6T3v7cCxh/omHnXKqdZFdhsvQcSW9KpTv4vHtGmJ1ztLq3rfX9CItiU3zk13V
-         2gkw==
-X-Gm-Message-State: AOAM533DqhG8ZD2WbX43ZgO3bOaqjJXccCXVrDNUW+98FnFYLZkCkyb8
-	Oko70X07BkXHxTg51VIXsvtq3Ev3aotruw==
-X-Google-Smtp-Source: ABdhPJzIn0Y4vzC7PugRkzFqltDDHMLvcIFIDRZxmZ+TbNYtKSCovp3MZT8iI0HBGYD1HzQTbFY/tw==
-X-Received: by 2002:a17:90a:cc06:: with SMTP id b6mr9382766pju.94.1607632123738;
-        Thu, 10 Dec 2020 12:28:43 -0800 (PST)
+        bh=w56HpSVWC5JoDZ/ouWmVIWZKA4OJXtjm6+0wYxR3Z1g=;
+        b=gNbWe/PfZ1GpUx4uQxoMjSKqAKDeQhhDE1aldnph383cKYAFV3OV1RUUESVdGoMC0u
+         7V3k1CSvS44WmrmK6GZXIrGznYKMPZU6uuRLWxCNC4rpwCeAiIaSrtF/BeWVG6mGtE71
+         JwoMa847ANuNKtaCBIZETd+H1zv1tJf8zQjXmU+GExkTi6vfuCxxSgf0Z7dHk7pi9KTY
+         CYeHXL6xPPZko9eNAKKMLyzkbLHRwYgo+HIWbMIaxkOHpUh5PbcHfIqR2BmQBP/ipBJR
+         9k5XZwY2x0ir6mYQuspf6qAL84T8/sQoS0ohKzATMkCI3F6H16RVVTzXQea07nzCSNMG
+         XECA==
+X-Gm-Message-State: AOAM531dxTXDgQNiakAV08fG9tKZyJdpTO7M0sMzJR+fP97tqo8GcFXl
+	nzaK76+49huNaRVEJrmgFjwYNE2WpdDbxA==
+X-Google-Smtp-Source: ABdhPJyG6TVyd83gaQtUft1AubLYyA+0AKj7ZhpvNuZFvcgmdjJ9czZpr/YtsEAgHCP0rFT11eDYow==
+X-Received: by 2002:a63:4b1f:: with SMTP id y31mr8364894pga.29.1607632125295;
+        Thu, 10 Dec 2020 12:28:45 -0800 (PST)
 Return-Path: <kergoth@gmail.com>
 Received: from localhost.localdomain (ip72-201-170-237.ph.ph.cox.net. [72.201.170.237])
-        by smtp.googlemail.com with ESMTPSA id v24sm7287929pgi.61.2020.12.10.12.28.41
+        by smtp.googlemail.com with ESMTPSA id v24sm7287929pgi.61.2020.12.10.12.28.44
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 10 Dec 2020 12:28:43 -0800 (PST)
+        Thu, 10 Dec 2020 12:28:44 -0800 (PST)
 From: "Christopher Larson" <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/2] grub-efi-cfg: exclude OVERRIDES from build_efi_cfg vardeps
-Date: Thu, 10 Dec 2020 13:28:26 -0700
-Message-Id: <a821110489e9bea6e3028d15275a5f6a17711e1c.1607630988.git.kergoth@gmail.com>
+Subject: [PATCH 2/2] uboot-extlinux-config: exclude OVERRIDES from do_create_extlinux_config vardeps
+Date: Thu, 10 Dec 2020 13:28:27 -0700
+Message-Id: <ed436321f5c069d817cbd0fca4aee26ce3b2640d.1607630988.git.kergoth@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1607630988.git.kergoth@gmail.com>
 References: <cover.1607630988.git.kergoth@gmail.com>
@@ -61,18 +61,20 @@ using this class.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/grub-efi-cfg.bbclass | 1 +
+ meta/classes/uboot-extlinux-config.bbclass | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
-index 3a2cdd698b..ea21b3de3d 100644
---- a/meta/classes/grub-efi-cfg.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -120,3 +120,4 @@ python build_efi_cfg() {
- 
-     cfgfile.close()
+diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
+index f4bf94be04..be285daa01 100644
+--- a/meta/classes/uboot-extlinux-config.bbclass
++++ b/meta/classes/uboot-extlinux-config.bbclass
+@@ -153,5 +153,6 @@ python do_create_extlinux_config() {
  }
-+build_efi_cfg[vardepsexclude] += "OVERRIDES"
+ UBOOT_EXTLINUX_VARS = "CONSOLE MENU_DESCRIPTION ROOT KERNEL_IMAGE FDTDIR FDT KERNEL_ARGS INITRD"
+ do_create_extlinux_config[vardeps] += "${@' '.join(['UBOOT_EXTLINUX_%s_%s' % (v, l) for v in d.getVar('UBOOT_EXTLINUX_VARS').split() for l in d.getVar('UBOOT_EXTLINUX_LABELS').split()])}"
++do_create_extlinux_config[vardepsexclude] += "OVERRIDES"
+ 
+ addtask create_extlinux_config before do_install do_deploy after do_compile
 -- 
 2.29.2
 
