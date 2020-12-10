@@ -1,178 +1,96 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.14812.1607612539571389137
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web12.15463.1607615571356651594
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Dec 2020 07:02:19 -0800
+ Thu, 10 Dec 2020 07:52:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 211C91FB
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 07:02:14 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BF7383F68F
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 07:02:13 -0800 (PST)
-From: "Ross Burton" <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] syslinux: rewrite recipe so only target code is x86-specific
-Date: Thu, 10 Dec 2020 15:02:09 +0000
-Message-Id: <20201210150211.1505531-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a1fmnOfF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id t16so5985248wra.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 07:52:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=I5PxdE7Au2TyJARSCmHgUkc//1v95bGXI9XFQhA5WEs=;
+        b=a1fmnOfFbVXpMh3aCQFxfT1htxO3NR0kzdkVKrPHYdygflCBaTnsPGuPzMrXjszzGL
+         X4gLmlLHTwBGQJHirgsFFk7tjP/gQLg2ZAWTIC+dfefpnkCnRjHpIAZM3r3DzR2V/13L
+         xZtl8inFr1q82+DQk/BCaw4ZdVMOmDDJmmSu8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=I5PxdE7Au2TyJARSCmHgUkc//1v95bGXI9XFQhA5WEs=;
+        b=Jl35Xha/skoEGl3aTEgPx+w5fVEoEVk5EpXNXzT5eKTsPkxXUoSu/OvkQii3LJMxaU
+         Lb0ojkIAS8FmWLz/E9kNm2k2AEABECGyw7sJyuE0OnWCFjDivu8xOmyEbET13A6UItJI
+         Q1w3RF3LFCdKwUKiTKcK4yazL1aqZB93pkCDzU1/DXqP0ljXuQ9Yvz9BnKK1BccTR8kn
+         nmYwC+44/+tg1CNnUQOs4LLaqbJwLbQE3E6wAj2tBs5vjXQ/34zZb29P4uAw8zFhqTq0
+         8q8c7E6JRV3mCHkBbybrAS95w+/HgdaffDgvgd90g98oqMq4ZUev9E1+RqguJ/MNE+5/
+         EGhQ==
+X-Gm-Message-State: AOAM531BHMVDV9enoMuxSaRmeNR5rrkD/03ywNVkKV2ZNGSUraQy1cQQ
+	FaVZSTBONfPWgpf5e+CiDSo6MQ==
+X-Google-Smtp-Source: ABdhPJwxx3hD4Ou+p7qIicl1OwKOr6XiRvoc2tWxrHatsedYETzsQMYEGJ7GJMBx6j5lMhtzmu15rg==
+X-Received: by 2002:a5d:65c8:: with SMTP id e8mr9393135wrw.338.1607615569864;
+        Thu, 10 Dec 2020 07:52:49 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:15e3:7b39:fc6b:1133])
+        by smtp.gmail.com with ESMTPSA id 20sm9608792wmk.16.2020.12.10.07.52.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Dec 2020 07:52:49 -0800 (PST)
+Message-ID: <2d012b8dcd17962239264152e6969edda609e16c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3] util-linux: split uuid in separate recipe to allow bootstrapping
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Luca Bocassi <luca.boccassi@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 10 Dec 2020 15:52:46 +0000
+In-Reply-To: <20201123132823.3996355-1-luca.boccassi@gmail.com>
+References: <20191209162419.4343-1-luca.boccassi@gmail.com>
+	 <20201123132823.3996355-1-luca.boccassi@gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Currently the syslinux recipe set COMPATIBLE_HOST to 32/64-bit x86.
-Whilst this makes sense for the target binaries as syslinux is
-x86-specific, this also affects the native recipe which should be able
-to be built on non-x86 build hosts (for example, arm64 build host,
-qemux86 target).
+On Mon, 2020-11-23 at 13:28 +0000, Luca Bocassi wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+> 
+> In v2.35 util-linux  gained an (optional) build
+> dependency on libcryptsetup. But libcryptsetup build-depends on
+> util-linux for blkid (optional, can be disabled) and uuid (mandatory).
+> Split out util-linux-uuid in a different recipe to break the cycle.
+> 
+> Add a packageconfig switch (disabled by default) to allow using the
+> new dependency.
+> 
+> https://github.com/karelzak/util-linux/pull/898
+> 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
+>     underway as I'm not sure if this is the best approach or if there are
+>     alternatives. Suggestions and comments very welcome. Thanks!
+> v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
+>     and leave uuid build enable in main recipe to allow for uuidgen build to happen,
+>     as it does not have its own autoconf switch. Delete the library manualy from
+>     the main recipe after build instead, and add dependency.
+>     Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
+>     only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
+> v3: rebased and refactored to have a common util-linux.inc file
+> 
 
-syslinux itself has a somewhat fragile build system but with care it is
-possible to build the installer for native/nativesdk, and the bootloader
-for target.  Despite claims the documentation to the contrary, not all
-of the bootloader is shipped precompiled in the tarball which does
-complicate matters.
+I'm afraid this causes do_package_qa errors in basic testing:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../syslinux/syslinux_6.04-pre2.bb            | 80 ++++++++++---------
- 1 file changed, 43 insertions(+), 37 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1668
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/=
-recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index 3e7eef3a75..c233b3c39f 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -4,10 +4,7 @@ LICENSE =3D "GPLv2+"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317=
-bb3 \
-                     file://README;beginline=3D35;endline=3D41;md5=3D558f=
-2c71cb1fb9ba511ccd4858e48e8a"
-=20
--# If you really want to run syslinux, you need mtools.  We just want the
--# ldlinux.* stuff for now, so skip mtools-native
- DEPENDS =3D "nasm-native util-linux e2fsprogs"
--PV =3D "6.04-pre2"
-=20
- SRC_URI =3D "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${=
-PV}.tar.xz \
-            file://syslinux-remove-clean-script.patch \
-@@ -27,64 +24,73 @@ SRC_URI =3D "https://www.zytor.com/pub/syslinux/Testi=
-ng/6.04/syslinux-${PV}.tar.xz
- SRC_URI[md5sum] =3D "2b31c78f087f99179feb357da312d7ec"
- SRC_URI[sha256sum] =3D "4441a5d593f85bb6e8d578cf6653fb4ec30f9e8f4a2315a3=
-d8f2d0a8b3fadf94"
-=20
-+RECIPE_NO_UPDATE_REASON =3D "6.04-pre3 is broken"
- UPSTREAM_CHECK_URI =3D "https://www.zytor.com/pub/syslinux/"
- UPSTREAM_CHECK_REGEX =3D "syslinux-(?P<pver>.+)\.tar"
- UPSTREAM_VERSION_UNKNOWN =3D "1"
-=20
--COMPATIBLE_HOST =3D '(x86_64|i.86).*-(linux|freebsd.*)'
-+# We can build the native parts anywhere, but the target has to be x86
-+COMPATIBLE_HOST_class-target =3D '(x86_64|i.86).*-(linux|freebsd.*)'
-+
- # Don't let the sanity checker trip on the 32 bit real mode BIOS binarie=
-s
- INSANE_SKIP_${PN}-misc =3D "arch"
- INSANE_SKIP_${PN}-chain =3D "arch"
-=20
-+# When building the installer, CC is used to link. When building the boo=
-tloader,
-+# LD is used. However, these variables assume that GCC is used and break=
- the
-+# build, so unset them.
-+TARGET_LDFLAGS =3D ""
-+SECURITY_LDFLAGS =3D ""
-+LDFLAGS_SECTION_REMOVAL =3D ""
-+
- EXTRA_OEMAKE =3D " \
- 	BINDIR=3D${bindir} SBINDIR=3D${sbindir} LIBDIR=3D${libdir} \
- 	DATADIR=3D${datadir} MANDIR=3D${mandir} INCDIR=3D${includedir} \
-+	CC=3D"${CC} ${CFLAGS} ${LDFLAGS}" \
-+	LD=3D"${LD} ${LDFLAGS}" \
-+	OBJDUMP=3D"${OBJDUMP}" \
-+	OBJCOPY=3D"${OBJCOPY}" \
-+	AR=3D"${AR}" \
-+	STRIP=3D"${STRIP}" \
-+	NM=3D"${NM}" \
-+	RANLIB=3D"${RANLIB}" \
- "
-=20
-+#
-+# Tasks for native/nativesdk which just build the installer.
-+#
- do_configure() {
--	# drop win32 targets or build fails
--	sed -e 's,win32/\S*,,g' -i Makefile
--
--	# clean installer executables included in source tarball
--	oe_runmake clean firmware=3D"efi32" EFIINC=3D"${includedir}"
--	# NOTE: There is a temporary work around above to specify
--	#	the efi32 as the firmware else the pre-built bios
--	#	files get erased contrary to the doc/distib.txt
--	#	In the future this should be "bios" and not "efi32".
-+	oe_runmake firmware=3D"bios" clean
- }
-=20
- do_compile() {
--	# Make sure the recompile is OK.
--	# Though the ${B} should always exist, still check it before find and r=
-m.
--	[ -d "${B}" ] && find ${B} -name '.*.d' -type f -exec rm -f {} \;
--
--	# Rebuild only the installer; keep precompiled bootloaders
--	# as per author's request (doc/distrib.txt)
--	oe_runmake CC=3D"${CC} ${CFLAGS}" \
--                   LD=3D"${LD}" LDFLAGS=3D"${LDFLAGS}" \
--                   OBJDUMP=3D"${OBJDUMP}" \
--                   OBJCOPY=3D"${OBJCOPY}" \
--                   AR=3D"${AR}" \
--                   STRIP=3D"${STRIP}" \
--                   NM=3D"${NM}" \
--                   RANLIB=3D"${RANLIB}" \
--                   firmware=3D"bios" installer
-+	oe_runmake firmware=3D"bios" installer
- }
-=20
- do_install() {
--	oe_runmake CC=3D"${CC} ${CFLAGS}" LD=3D"${LD}" \
--                   OBJDUMP=3D"${OBJDUMP}" \
--                   OBJCOPY=3D"${OBJCOPY}" \
--                   AR=3D"${AR}" \
--                   STRIP=3D"${STRIP}" \
--                   NM=3D"${NM}" \
--                   RANLIB=3D"${RANLIB}" \
--                   firmware=3D"bios" install INSTALLROOT=3D"${D}"
-+	install -d ${D}${bindir}
-+	install ${B}/bios/mtools/syslinux ${B}/bios/extlinux/extlinux ${D}${bin=
-dir}
-+}
-+
-+#
-+# Tasks for target which ship the precompiled bootloader and installer
-+#
-+do_configure_class-target() {
-+	# No need to do anything as we're mostly shipping the precompiled binar=
-ies
-+	:
-+}
-+
-+do_compile_class-target() {
-+	# No need to do anything as we're mostly shipping the precompiled binar=
-ies
-+	:
-+}
-+
-+do_install_class-target() {
-+	oe_runmake firmware=3D"bios" install INSTALLROOT=3D"${D}"
-=20
- 	install -d ${D}${datadir}/syslinux/
- 	install -m 644 ${S}/bios/core/ldlinux.sys ${D}${datadir}/syslinux/
- 	install -m 644 ${S}/bios/core/ldlinux.bss ${D}${datadir}/syslinux/
--	install -m 755 ${S}/bios/linux/syslinux-nomtools ${D}${bindir}/
- }
-=20
- PACKAGES +=3D "${PN}-nomtools ${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}=
--pxelinux ${PN}-isolinux ${PN}-misc"
---=20
-2.25.1
+I am worried about this change as we're starting to see a number of
+circular dependencies in util-linux (there is a new bug about the
+pylibmount PACKAGECONFIG option too), maybe we should flag this
+upstream?
+
+Multiple recipes like this usually turn into a maintenance nightmare
+unfortunately which is part of my reluctance to go in this direction,
+not sure we have any choice though.
+
+Cheers,
+
+Richard
 
