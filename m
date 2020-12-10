@@ -1,77 +1,123 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web11.5466.1607557662482352356
+Received: from outbound-relay9.guardedhost.com (outbound-relay9.guardedhost.com [216.239.133.221])
+ by mx.groups.io with SMTP id smtpd.web11.5626.1607558442387353498
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Dec 2020 15:47:42 -0800
+ Wed, 09 Dec 2020 16:00:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=P+eRspqv;
- spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
-Subject: Re: [OE-core] [meta-oe][PATCH v4 1/3] introduce lib_subpackage
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1607557661;
-	bh=yNc4Pwsoh9olhB9pvlACEYnwv2y/Or3PPAm0fcJ3VBE=;
-	h=From:To:Cc:References:Date:In-Reply-To:From;
-	b=P+eRspqvn1PEDl7qxVJX9xkttVFg5MNjmm5aHQ20Mx37qBw9xD9QNOMDKr7j3O9zg
-	 qqdoDyk3wDEyr55UBBwhA894VEOF6c9ifJXT22yWXhBCVY1euAfOlUD9gpk0LIlxso
-	 Xd+N+2cvnGQWRpE4u7AdHjUYJTc9hMyr0PyeQPeckDfcjYs0pudN8g8yJ9/s8DSPg1
-	 oX8Bp7k3VYpmryJcHNaWpN9adEUojFuxWUWf33GeiKovG3OVq1l8+eSUsAfqNglrJv
-	 VX+aQvUcWxgotLFAjq4ysz/JWx48K2Ptps9Gu7hP8OVgA/T4j4TiqeSEu+iP3Y21DA
-	 JcBeX35OJFprQ==
-From: "Sinan Kaya" <okaya@kernel.org>
-To: Phil Blundell <pb@pbcl.net>
-Cc: openembedded-core@lists.openembedded.org,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20201203232826.28519-1-okaya@kernel.org>
- <20201204110142.GV30831@pbcl.net>
- <d7593470-039f-e4c4-e4a9-36c475cf99c0@kernel.org>
- <20201205222337.GW30831@pbcl.net>
- <164DFA8489EB0A7A.29396@lists.openembedded.org>
-Message-ID: <09709579-adf9-1a13-44e9-b16d93d1f57f@kernel.org>
-Date: Wed, 9 Dec 2020 18:47:40 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ dkim=missing; spf=pass (domain: snowmoose.com, ip: 216.239.133.221, mailfrom: alanp@snowmoose.com)
+Received: from mail.guardedhost.com (mx02.guardedhost.com [IPv6:2607:fe90:1:1::53:1])
+	by outbound-relay1.guardedhost.com (Postfix) with ESMTP id 4CrvFP2WD9z4x77M;
+	Thu, 10 Dec 2020 00:00:41 +0000 (GMT)
+Received: from Alans-MacBook-Pro.local (c-73-254-147-133.hsd1.wa.comcast.net [73.254.147.133])
+	(Authenticated sender: alanp@snowmoose.com)
+	by mail.guardedhost.com (Postfix) with ESMTPA id 4CrvFN2B3zz30nk;
+	Thu, 10 Dec 2020 00:00:40 +0000 (GMT)
+Subject: Re: [OE-core] [PATCH v2 1/2] iproute2: install tools to mirror install under Debian/Ubuntu
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20201205082246.14954-1-alanp@snowmoose.com>
+ <bb38bb9111dbc5e0a2c3c47256d2bead31b70316.camel@linuxfoundation.org>
+ <83ae3fae-37a5-e32d-5084-e1a20d97b13d@snowmoose.com>
+ <CAJ86T=WMCdqRn5mzzDHYVuu_eVtH3M=X-moWJzEeP2nBLzYALQ@mail.gmail.com>
+From: "Alan Perry" <alanp@snowmoose.com>
+Message-ID: <ec601700-2a30-27f6-d31c-a2e5de7cbac8@snowmoose.com>
+Date: Wed, 9 Dec 2020 16:00:38 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
+ Gecko/20100101 Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <164DFA8489EB0A7A.29396@lists.openembedded.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <CAJ86T=WMCdqRn5mzzDHYVuu_eVtH3M=X-moWJzEeP2nBLzYALQ@mail.gmail.com>
+Authentication-Results: mail.guardedhost.com;auth=pass
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse-Id: BDE6AE42-3A7A-11EB-81E2-B3D96A92F8E6
+X-Virus-Scanned: clamav-milter 0.102.2 at tev-mx2.omnis.com
+X-Virus-Status: Clean
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On 12/5/2020 7:54 PM, Sinan Kaya wrote:
-> On 12/5/2020 5:23 PM, Phil Blundell wrote:
->>> I'm open to giving it a better name. Richard pointed me to a file
->>> beginning with lib_foo.class for where this functionality could be
->>> hosted before.
->> I suppose the interesting question here, then, is "what is this class
->> actually for?"  The description above says that it "allows us to easily
->> split a recipe into subpackages" but doesn't say very much about what
->> the consequences of including the class actually are or under what
->> circumstances that's useful.
->>
->> Reading between the lines the idea seems to be that this class is
->> appropriate for recipes that build a collection of utilities each of
->> which is essentially independent and is useful in its own right
->> without any of the others.  Is that right?
-> 
-> Yes, this is correct.
-> 
->>
->>>>> +    d.appendVar("PACKAGES", " " + " ".join(packages))
->>>>> +    d.appendVar("PROVIDES", " " + " ".join(packages))
->>>> It seems a bit strange to be putting the same things in PACKAGES and
->>>> PROVIDES.  Is that actually necessary?
->>> I want to be able to include procps-ps without the entire procps
->>> package. I was not able to do that without the above two lines.
->> What do you mean by "include procps-ps"?  It sounds like you're saying
->> you want to be able to introduce procps-ps to DEPENDS, is that right?
->>
-> 
-> I want to be able to include a specific tool out of N number of tools
-> that a package builds into the image.
-> 
->> p.
-> 
 
-Is there anything else that i need to do on this changeset to move it
-forward?
 
-I have no clue if there has been a build failure somewhere or if I have
-addressed all comments.
+On 12/9/20 3:40 PM, Andre McCurdy wrote:
+> On Wed, Dec 9, 2020 at 2:39 PM Alan Perry <alanp@snowmoose.com> wrote:
+>> On 12/7/20 1:49 PM, Richard Purdie wrote:
+>>> On Sat, 2020-12-05 at 08:22 +0000, Alan Perry wrote:
+>>>> Many scripts exist that expect the iproute2 tools to be found in
+>>>> the same directories where they are found in Debian or Ubuntu.
+>>>> For the iproute2 tools included in the iproute2 recipe, move
+>>>> them to those directories or create links there.. Also, add
+>>>> bash-completion files as is done by Debian and Ubuntu.
+>>>>
+>>>> Signed-off-by: Alan Perry <alanp@snowmoose.com>
+>>>> ---
+>>>>    .../iproute2/iproute2.inc                     | 23 +++++++++++++++++--
+>>>>    1 file changed, 21 insertions(+), 2 deletions(-)
+>>> The direction in the patch is worrying me a little.
+>>>
+>>> There is a bash-completion class which splits completion files into
+>>> their own package, most "embedded" users don't want them in the main
+>>> packages. This patch does something different to what has been done
+>>> elsewhere.
+>>>
+>>> Secondly, I'm also not sure that just because debian does something we
+>>> should therefore do it, I'm not convinced that scripts should be
+>>> hardcoding path assumptions about these tools. IF this is such a
+>>> universal need, why doesn't upstream change the default installation
+>>> locations? Has it been discussed?
+>>>
+>>> I'd expect there to be opinions on this topic but I'm not seeing much
+>>> discussion. I suspect if if does merge there would be push back later
+>>> though.
+>>>
+>>> Also, the duplication between bin and sbin for ip is not particularly
+>>> good practise.
+>>>
+>> Thanks for your comments. I apologize for the delay in responding, but I
+>> needed to do some research first.
+>>
+>> I will look at the bash-completion class and make the appropriate
+>> changes there.
+>>
+>> As far as the installation path changes, I discussed why those aren't
+>> the defaults with the iproute2 upstream maintainer. The idea is that the
+>> upstream puts everything in /sbin and where is appropriate to install
+>> them for a given distro is left as an exercise for that distro.
+>>
+>> The iproute2 recipe is doing that exercise for poky. So, where is the
+>> correct place to install these tools on poky? I'd argue that they should
+>> go in the expected directories for Unix-y OSes. Someone at Debian went
+>> through that analysis and put them where they put them and those mostly
+>> seem like reasonable places to me. It is also where users coming to
+>> poky-based systems will likely expecting to find them.
+>>
+>> As far as duplicating ip in bin and sbin, I agree that it isn't good
+>> practice. Having it in both doesn't seem necessary to me.
+> But isn't that duplication all part of aligning with Debian (where
+> /sbin/ip is a symlink to /bin/ip)? Presumably something relies on the
+> symlink or Debian wouldn't be doing it.
+
+I was just saying that I could see an argument for leaving that one out. 
+As noted here, doing so isn't without risk.
+
+>
+> Based on:
+>
+>    https://sources.debian.org/src/iproute2/5.9.0-1/debian/iproute2.install/
+>    https://sources.debian.org/src/iproute2/5.9.0-1/debian/iproute2.links/
+>
+> Debian does seem to do quite a lot or rearranging of the installed
+> files. Open question seems to be whether that rearranging is to align
+> with requirements which are specific to Debian or something which
+> other distros might need too?
+>
+> Based on:
+>
+>    https://centos.pkgs.org/8/centos-baseos-x86_64/iproute-5.3.0-5.el8.x86_64.rpm.html
+>
+> It looks like Centos installs all binaries under /usr/sbin
+
+I don't know that I would characterize rearranging the installed files 
+as Debian does is "specific to Debian" or moving them as appropriate to 
+how /bin, /sbin, /usr/bin, and /usr/sbin have been traditionally 
+distinguished from each other. Where Centos is described to install them 
+doesn't match that traditional use.
+
