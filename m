@@ -1,544 +1,157 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web08.18895.1607625999992489414
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.133])
+ by mx.groups.io with SMTP id smtpd.web12.18625.1607626081440202188
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Dec 2020 10:46:40 -0800
+ Thu, 10 Dec 2020 10:48:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oqsmycfS;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id r14so6562393wrn.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 10:46:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=HUbeeAWHEEvlx1PfZkE0au7/gkGiuiusHpHoSbRB/vs=;
-        b=oqsmycfSskWo51TuQhBfWuGcMua6IdkiUjSugnsn11Enfn1wxr9Phcue+D4jb7hFk2
-         tjQmpUmNtkPjkT4DK1EWpD+F+ug7BBMjv1/qQwW+JYSn/3Jy+5CsjQu/djRIz2Bwy0mv
-         xcyJOLnKKCifQyX6bs4+9zRPSL6g0bv44cw3Xt6cLK+/N4UR5uWgotpdnP6zshkxHFZr
-         eCF1Gu21Lm4Kxwg84hI3vy6TOR2qGGndAAZ+SHsagCBESYnMzNUyHV1x7aU7H3DkYPBu
-         nbPm7sK2EF+JfBIgSKDbFg9oZsJ94nPH1I6+Kfk07mZVZA2aBSKspT8MIAthZ/fJc/TC
-         l0/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=HUbeeAWHEEvlx1PfZkE0au7/gkGiuiusHpHoSbRB/vs=;
-        b=cGQ1oox+OoHvq0Aj9I8NWT7jZjaOK8nW4wiAhQBH+u0M01S4byD+pv8Ni5AFlCbIll
-         w2ve6S1SsR3JhcgtKPoYYZFHTl0JkeB3BhU/o1Qu9hXoS9yzPF2A52+lwrctK0nYaNGj
-         S0hCbSeX0gXFJHkujqMCdUnzumm832l01m/CDWP9mDI1IYpvN3JD7wvornHrh2yWgpmo
-         OvyweyBVzCtPXy0yzOtBrcmcSAhOUwg9ifVqxYefmdB3D5mH8r/5vaFVonBy462hpd2C
-         bxS+/VNSyjJMV0UQr48FTMwlwDc0GNrFGfa23nisSGthfEciq6WTYUo+9OgyblRCFJgi
-         e5Qg==
-X-Gm-Message-State: AOAM533ZqlEf02w9p556QP0gvJItpwo8QXjFpRrkIcARMvZZdTb+ckic
-	6icleyK15VZqsBb3Mj+Vfp3N1KvcZTowHg==
-X-Google-Smtp-Source: ABdhPJzMLVJ2B/+c3Ul4tWrnbwIWfkopPSBo7EAX7d/TM5uOaXB/InVtz9WTJz7lNyi6VKfXcqADZw==
-X-Received: by 2002:a5d:6443:: with SMTP id d3mr9562413wrw.422.1607625997808;
-        Thu, 10 Dec 2020 10:46:37 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id w17sm9984464wmk.12.2020.12.10.10.46.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 10:46:35 -0800 (PST)
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: richard.purdie@linuxfoundation.org
-Subject: [PATCH v4] util-linux: split uuid in separate recipe to allow bootstrapping
-Date: Thu, 10 Dec 2020 18:46:32 +0000
-Message-Id: <20201210184632.3448265-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201123132823.3996355-1-luca.boccassi@gmail.com>
-References: <20201123132823.3996355-1-luca.boccassi@gmail.com>
+ dkim=pass header.i=@microsoft.com header.s=selector2 header.b=Pa95Oirk;
+ spf=pass (domain: microsoft.com, ip: 40.107.8.133, mailfrom: luca.boccassi@microsoft.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JG5LQfYQpFRbQGM1hQneb96f+kRG/c/mhAzyDHV196e1w64yaBqEgYmApEe91g6fTIKoUeFAtQ8p0TeNQAgONE2I97jdgSkj8gPlmIlyzV1x9t6U49y30e14sY0ccEVSs/FtEuQdnZcHl46lmcSC4WvrvY0Qkol1lolK87VJ/lNro4AgQMJ10Ywcjr42nSr6tCQUiv4rqS8G71awx9IvTnTaV+VGE4KeknhX8HNezgWU33nrDkzj1LL1zwgdnyGlmLM0I/E+3FJeqIMz4jzRT/BMAmQ0jBP0Py4uQUcFtbj1lbfSMuDOcONu7WGIW8lzmGJMX221YLmFu/z+78OiEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jT5PJCqn1X5Yyy2xe3Gr7AIianOwojVM/2xnPwCC3Ww=;
+ b=Cme4OlHA6QQ5ogyQHyCHjwvxYBlIcFBTjSfUmnNkb59vVUtI/1EiyaTtJYXloHEz3jNBlJ6LjIfj5xV+CQxbLornl3G2Lkm5KOHD5XwgVlb0o76AJheoep7IYekWGZw83kIvSljsHPUhKHAzWeXFeOF4Qwf6kr8fg/gRwlfVmQ3DpiCskze1KygveDcvo2ifLu0Gh9qXf6wFa/Jo1vkeSsZrzIY/gobCKIeJn8uSEuHuVd6ku637nsl5n7iIgqhNdz3dsJR+IL572vOwkwI+VCRC2omvUdGOfKiAzoS7IQLK6cOSbk+Gpgzyj9i84Nhr9taPUPIlUU8KOqRSEOhfCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jT5PJCqn1X5Yyy2xe3Gr7AIianOwojVM/2xnPwCC3Ww=;
+ b=Pa95Oirk5g1fJDELZK/8/DvF/nxibXrxbMXnvAYW/v3Y26LI1QzPY4h9oGpOjfaAd0h6IoJRLAKPY128FfMNuo+3roItVNt1VO5N4ZCkon9lC2WJIKkKN2acxZ6/qcA1HM0tMOZXxEd5oGcXuU5HgNr2waHoioGBop1hFC41K7s=
+Received: from (2603:10a6:206:25::31) by
+ AM6PR83MB0294.EURPRD83.prod.outlook.com (2603:10a6:209:6f::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3676.5; Thu, 10 Dec 2020 18:47:58 +0000
+Received: from AM5PR83MB0178.EURPRD83.prod.outlook.com
+ ([fe80::90da:f9ec:91f0:285b]) by AM5PR83MB0178.EURPRD83.prod.outlook.com
+ ([fe80::90da:f9ec:91f0:285b%3]) with mapi id 15.20.3676.006; Thu, 10 Dec 2020
+ 18:47:58 +0000
+From: "Luca Boccassi" <luca.boccassi@microsoft.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v3] util-linux: split uuid in separate recipe to allow bootstrapping
+Thread-Topic: [OE-core] [PATCH v3] util-linux: split uuid in separate recipe
+ to allow bootstrapping
+Thread-Index: AQHWzyT66QyGOeGa10i6GYuxe6xioA==
+Date: Thu, 10 Dec 2020 18:47:58 +0000
+Message-ID: <f627105e5820b447a8fc4eac9afa980fb080ea4a.camel@microsoft.com>
+References: <20191209162419.4343-1-luca.boccassi@gmail.com>
+	 <20201123132823.3996355-1-luca.boccassi@gmail.com>
+	 <2d012b8dcd17962239264152e6969edda609e16c.camel@linuxfoundation.org>
+In-Reply-To: 
+ <2d012b8dcd17962239264152e6969edda609e16c.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.30.5-1.2 
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=microsoft.com;
+x-originating-ip: [88.98.246.218]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 99a86f70-0e7c-4de9-bd55-08d89d3c1d29
+x-ms-traffictypediagnostic: AM6PR83MB0294:
+x-microsoft-antispam-prvs: 
+ <AM6PR83MB0294C7696988FA05F4F1C274F1CB1@AM6PR83MB0294.EURPRD83.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ JQLfdiiqyw3EfgzlNSi+ofWd7Egd2Fl6PFgHGTCNQ74aKjQGog/pqGSxvom2oD1ahQbItNUUV0dYfTcAzMfpy+Wx1pAtip0Qgsk9S4PzEo4J1Yt8UINBzbjmDdLHYo6w0KZV1HmcWzdeHnLvlcae/Bchx0eMVVF/6lYtxoLxv8wo/eghg83LSOYGx022F5SLPhDKXotU/q+SORH0JMgIRVYDc4A1x5FrmJH2RcL8OXejhkWA1Wa8lm0mVRjUF+jF53zMObPCjRC5aZIfp4bePLc6SPzYvs0ua5CokLEGqv6tD7ICUcXFgdTGJmXrwniPTI0ULu2v7yq6/C/X8oqEgapqwc8kvb2V1CXIjdZtPuwhLTKVMSCjlTfafx0vxPC42L6tVmVguDL/U0JRWIupKN4CRCuSYXyCQLF85wtcRiPj9glfG7+4cG548C10eyJbFbMnvjknV7EVLoHaSupX2DR+faYkFXoJ4Tm/UcwM/0Us75D0LxTI/0IvPw832zLGhgOkF5AiHdINm1CH2wwFAw==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR83MB0178.EURPRD83.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(396003)(136003)(366004)(376002)(5660300002)(4001150100001)(316002)(478600001)(76116006)(64756008)(8936002)(110136005)(71200400001)(36756003)(8676002)(82960400001)(66446008)(2616005)(66946007)(66556008)(186003)(82950400001)(86362001)(66476007)(10290500003)(26005)(6512007)(966005)(6506007)(6486002)(2906002)(83380400001)(20673002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: 
+ =?utf-8?B?K3ljZDFoa0V0cE9GWW00Tjc2aHloczFiUkpjWkpydFdCV3NXbXQ3QURNVzJm?=
+ =?utf-8?B?VjVyRFJzaWpwN0dNUHJrdWQ3Z3c0MnU4WDNHVmlKQnl2RDBhK1gyRVVwaFlZ?=
+ =?utf-8?B?ZnBDYS9BbFFvVTZQZkFucm5zTVk2c0tWNnBEekRUdDlYMTBnRnNBV1FDUmxk?=
+ =?utf-8?B?L2ZzMlo4M1lFdVlLMlZ6N1l6V3pGbzdTYUYzZW1RM3JnQmk0MUZQTkNQcFJI?=
+ =?utf-8?B?VEMzQ1VGSDZxdVpmYVpvK1VpUTA2MzJjZlJUenhDb0RCL1ZreERYWm1YUUQx?=
+ =?utf-8?B?dzVXdDd6WTBkT2RNa3FHbE1SSStHYkZicjNZQVYrWW91cUU2QWw0dTFKMncx?=
+ =?utf-8?B?eUo0d2Z0c2xkOGpmMGhhVEdxNFpaZHpDU2tNMUtONUZnNmZRS0JzVC83bVll?=
+ =?utf-8?B?U3VhekhpT0JQV3oxYUIrTElMV2ZMQ1l5QmZtTnMvdm9hMUYzZ2FiZTZubVFH?=
+ =?utf-8?B?eUZUNlhGTE1SamdXZkFpOE1LSytISU9CNFlMeXIwZ2huZlp1SzZZRkx5QUZQ?=
+ =?utf-8?B?NUpEdTNSNFg4S0VaQURFMjY1SEZtUUozbTh1ZmRGaVZkeGQ5NGNKNEZDMVhX?=
+ =?utf-8?B?TjBsZ3N1aTJkdEI1V0RiK1hXWXdhblV3enVOTG9HR0U3YWhsYW82S1k1TjJn?=
+ =?utf-8?B?c29PZTkxdElvczBvTmY4VjIvQmlWVmU3aVJrUzVNL2haOC8zRkwvWVJYRTlY?=
+ =?utf-8?B?dXJGQkFMaFZlWEs4UWdxNG9zTUovU2xnREZRdUNKUlM1T1ovT3JCRkhpNExk?=
+ =?utf-8?B?NWI2aWpsanJGdkprK0hkaXRCNFRObmlUYUJkSS8wRTVrMERxR0tSQUZTbjN4?=
+ =?utf-8?B?eGlLZ2UvSTFjRy8yTWhUTHBRRFh4TENFSHhWWW05QWpKRXdob1lWZWNJZGNi?=
+ =?utf-8?B?bkFWeUFoYURBU01KdUJpdDllK1lTdkRDYUV1dHJHd2xmUGMzcGxmQ1Q1anA0?=
+ =?utf-8?B?RW03MlE2cVRkMy9vMnhhcVYwb1BxUURWaEFNZEdrc25OTkdyNi90Q2UraDZu?=
+ =?utf-8?B?bEJWSUNQdmR5ZWZWU3AwRnRaN0RnMDM1aFNTVTF5cTZkNWZ3RnNZZDhseDFQ?=
+ =?utf-8?B?aVFOTk04UzF4NGhubmw5dzlhTExUWDNQQ0xSaFg3NGZTa2tUQXVSendaTjNZ?=
+ =?utf-8?B?bjJEL1d1czZCaHNIM3cxUWlFdCtidWxENTcvN2NTUzVpV2dzM0RFNmpDejhk?=
+ =?utf-8?B?a1gyN2R6aWN2alNWTThNSEU5WHliRkFJc1g3VDhvYUtVdGx0VXlhQzg2MFlK?=
+ =?utf-8?B?MExsQy9UdkFMYWNYUFVaSHA1VmdhSUgvZ2VZTlhISTRsYlo3c0t2RVRwbWxH?=
+ =?utf-8?Q?uRxmjhh7iOD1quMLhr47UiFDMlkQULMNVJ?=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM5PR83MB0178.EURPRD83.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99a86f70-0e7c-4de9-bd55-08d89d3c1d29
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Dec 2020 18:47:58.4199
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: s7c4+cSsGJDJse65xbbLeX3G4ecjzMgvTG5tPIMB/pBfkFANAXKN9LA5Fj+kwzuzECyLXLH0iday1LsULvX37g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR83MB0294
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2A13075B8383754DBC5D29B39FE67818@EURPRD83.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
-
-In the next release util-linux will gain an (optional) build
-dependency on libcryptsetup. But libcryptsetup build-depends on
-util-linux for blkid (optional, can be disabled) and uuid (mandatory).
-Split out util-linux-uuid in a different recipe to break the cycle.
-
-https://github.com/karelzak/util-linux/pull/898
-
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
-    underway as I'm not sure if this is the best approach or if there are
-    alternatives. Suggestions and comments very welcome. Thanks!
-v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
-    and leave uuid build enable in main recipe to allow for uuidgen build to happen,
-    as it does not have its own autoconf switch. Delete the library manualy from
-    the main recipe after build instead, and add dependency.
-    Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
-    only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
-v3: rebased and refactored to have a common util-linux.inc file
-v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
-
- .../nfs-utils/nfs-utils_2.5.2.bb              |  2 +-
- meta/recipes-core/udev/eudev_3.2.9.bb         |  2 +-
- .../util-linux/util-linux-uuid_2.36.bb        | 22 ++++++++
- meta/recipes-core/util-linux/util-linux.inc   | 40 +++++++++++++
- .../util-linux/util-linux_2.36.bb             | 56 ++++++-------------
- .../btrfs-tools/btrfs-tools_5.9.bb            |  2 +-
- meta/recipes-devtools/e2fsprogs/e2fsprogs.inc |  2 +-
- meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb |  2 +-
- meta/recipes-devtools/mtd/mtd-utils_git.bb    |  2 +-
- meta/recipes-devtools/python/python3_3.9.0.bb |  2 +-
- .../syslinux/syslinux_6.04-pre2.bb            |  2 +-
- .../tcf-agent/tcf-agent_git.bb                |  2 +-
- meta/recipes-extended/mc/mc_4.8.25.bb         |  2 +-
- meta/recipes-extended/parted/parted_3.3.bb    |  2 +-
- meta/recipes-extended/wget/wget.inc           |  2 +-
- .../fontconfig/fontconfig_2.13.1.bb           |  2 +-
- meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb |  2 +-
- .../recipes-kernel/lttng/babeltrace2_2.0.3.bb |  2 +-
- meta/recipes-kernel/lttng/babeltrace_1.5.8.bb |  2 +-
- .../lttng/lttng-tools_2.12.2.bb               |  2 +-
- meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb |  2 +-
- .../gstreamer1.0-plugins-base_1.18.1.bb       |  2 +-
- meta/recipes-support/apr/apr_1.7.0.bb         |  2 +-
- meta/recipes-support/serf/serf_1.3.9.bb       |  2 +-
- 24 files changed, 99 insertions(+), 61 deletions(-)
- create mode 100644 meta/recipes-core/util-linux/util-linux-uuid_2.36.bb
- create mode 100644 meta/recipes-core/util-linux/util-linux.inc
-
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.2.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.2.bb
-index c7ac67cf31..33eff35e07 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.2.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.5.2.bb
-@@ -8,7 +8,7 @@ LICENSE = "MIT & GPLv2+ & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
- 
- # util-linux for libblkid
--DEPENDS = "libcap libevent util-linux sqlite3 libtirpc"
-+DEPENDS = "libcap libevent util-linux util-linux-uuid sqlite3 libtirpc"
- RDEPENDS_${PN} = "${PN}-client"
- RRECOMMENDS_${PN} = "kernel-module-nfsd"
- 
-diff --git a/meta/recipes-core/udev/eudev_3.2.9.bb b/meta/recipes-core/udev/eudev_3.2.9.bb
-index f96f8cbe78..4332ca9b7c 100644
---- a/meta/recipes-core/udev/eudev_3.2.9.bb
-+++ b/meta/recipes-core/udev/eudev_3.2.9.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2.0+ & LGPL-2.1+"
- LICENSE_libudev = "LGPL-2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- 
--DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux"
-+DEPENDS = "glib-2.0 glib-2.0-native gperf-native kmod libxslt-native util-linux util-linux-uuid"
- 
- PROVIDES = "udev"
- 
-diff --git a/meta/recipes-core/util-linux/util-linux-uuid_2.36.bb b/meta/recipes-core/util-linux/util-linux-uuid_2.36.bb
-new file mode 100644
-index 0000000000..ffb2c87270
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux-uuid_2.36.bb
-@@ -0,0 +1,22 @@
-+# To allow util-linux to optionally build-depend on cryptsetup, libuuid is
-+# split out of the main recipe, as it's needed by cryptsetup
-+
-+require util-linux.inc
-+
-+inherit autotools gettext pkgconfig
-+
-+S = "${WORKDIR}/util-linux-${PV}"
-+EXTRA_OECONF += "--disable-all-programs --enable-libuuid"
-+DEBIAN_NOAUTONAME_util-linux-libuuid = "1"
-+DEBIAN_NOAUTONAME_util-linux-libuuid-dev = "1"
-+DEBIAN_NOAUTONAME_util-linux-libuuid-dbg = "1"
-+PACKAGES = "util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-dbg"
-+FILES_util-linux-libuuid = "${libdir}/libuuid.so.*"
-+FILES_util-linux-libuuid-dev = "${libdir}/libuuid.so ${includedir} ${libdir}/pkgconfig"
-+FILES_util-linux-libuuid-dbg = "/usr/src ${libdir}/.debug"
-+
-+do_install_append() {
-+	rm -rf ${D}${datadir} ${D}${bindir} ${D}${base_bindir} ${D}${sbindir} ${D}${base_sbindir} ${D}${exec_prefix}/sbin
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-new file mode 100644
-index 0000000000..c0634082cd
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -0,0 +1,40 @@
-+SUMMARY = "A suite of basic system administration utilities"
-+HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
-+DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
-+commonly found on most Linux systems.  Some of the more important utilities include \
-+disk partitioning, kernel message management, filesystem creation, and system login."
-+
-+SECTION = "base"
-+
-+LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
-+LICENSE_${PN}-libblkid = "LGPLv2.1+"
-+LICENSE_${PN}-libfdisk = "LGPLv2.1+"
-+LICENSE_${PN}-libmount = "LGPLv2.1+"
-+LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
-+LICENSE_${PN}-libuuid = "BSD-3-Clause"
-+
-+LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
-+                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
-+                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
-+                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
-+                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
-+                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
-+                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
-+"
-+
-+MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-+FILESEXTRAPATHS_prepend := "${THISDIR}/util-linux:"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-linux-${MAJOR_VERSION}.tar.xz \
-+           file://configure-sbindir.patch \
-+           file://runuser.pamd \
-+           file://runuser-l.pamd \
-+           file://ptest.patch \
-+           file://run-ptest \
-+           file://display_testname_for_subtest.patch \
-+           file://avoid_parallel_tests.patch \
-+           "
-+SRC_URI[sha256sum] = "9e4b1c67eb13b9b67feb32ae1dc0d50e08ce9e5d82e1cccd0ee771ad2fa9e0b1"
-diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.bb
-index 474f1e188c..0eca39ef85 100644
---- a/meta/recipes-core/util-linux/util-linux_2.36.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.36.bb
-@@ -1,47 +1,9 @@
--SUMMARY = "A suite of basic system administration utilities"
--HOMEPAGE = "https://en.wikipedia.org/wiki/Util-linux"
--DESCRIPTION = "Util-linux includes a suite of basic system administration utilities \
--commonly found on most Linux systems.  Some of the more important utilities include \
--disk partitioning, kernel message management, filesystem creation, and system login."
--
--SECTION = "base"
--
--LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
--LICENSE_${PN}-libblkid = "LGPLv2.1+"
--LICENSE_${PN}-libfdisk = "LGPLv2.1+"
--LICENSE_${PN}-libmount = "LGPLv2.1+"
--LICENSE_${PN}-libsmartcols = "LGPLv2.1+"
--LICENSE_${PN}-libuuid = "BSD-3-Clause"
--
--LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
--                    file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
--                    file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
--                    file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
--                    file://libuuid/COPYING;md5=6d2cafc999feb2c2de84d4d24b23290c \
--                    file://libmount/COPYING;md5=7c7e39fb7d70ffe5d693a643e29987c2 \
--                    file://libblkid/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--                    file://libfdisk/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--                    file://libsmartcols/COPYING;md5=693bcbbe16d3a4a4b37bc906bc01cc04 \
--"
-+require util-linux.inc
- 
- #gtk-doc is not enabled as it requires xmlto which requires util-linux
- inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
- DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
- 
--MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
--           file://configure-sbindir.patch \
--           file://runuser.pamd \
--           file://runuser-l.pamd \
--           file://ptest.patch \
--           file://run-ptest \
--           file://display_testname_for_subtest.patch \
--           file://avoid_parallel_tests.patch \
--           "
--SRC_URI[sha256sum] = "9e4b1c67eb13b9b67feb32ae1dc0d50e08ce9e5d82e1cccd0ee771ad2fa9e0b1"
--
- PACKAGES =+ "${PN}-swaponoff"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '${PN}-pylibmount', '', d)}"
- 
-@@ -141,6 +103,7 @@ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-pytho
- PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
- # PCRE support in hardlink
- PACKAGECONFIG[pcre2] = ",,libpcre2"
-+PACKAGECONFIG[cryptsetup] = "--with-cryptsetup,--without-cryptsetup,cryptsetup"
- 
- EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
- 
-@@ -165,7 +128,7 @@ RRECOMMENDS_${PN}_class-nativesdk = ""
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}_class-nativesdk = ""
- 
--RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
-+RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev"
- 
- RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
- RDEPENDS_${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm procps sed socat which xz"
-@@ -316,6 +279,19 @@ ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
- ALTERNATIVE_LINK_NAME[uuid.3] = "${mandir}/man3/uuid.3"
- ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
- 
-+# dm-verity support introduces a circular build dependency, so util-linux-uuid is split out for target builds
-+# Need to build libuuid for uuidgen, but then delete it and let the other recipe ship it
-+do_install_append() {
-+    rm -rf ${D}${includedir}/uuid ${D}${libdir}/pkgconfig/uuid.pc ${D}${libdir}/libuuid* ${D}/lib/libuuid*
-+}
-+PACKAGES_remove = "util-linux-libuuid util-linux-libuuid-dev util-linux-libuuid-dbg"
-+RDEPENDS_${PN}-uuid = "util-linux-libuuid"
-+RDEPENDS_${PN}-uuidgen = "util-linux-libuuid"
-+RDEPENDS_${PN}-uuidparse = "util-linux-libuuid"
-+RDEPENDS_${PN}-libfdisk = "util-linux-libuuid"
-+RDEPENDS_${PN}-mkswap = "util-linux-libuuid"
-+RDEPENDS_${PN}-swaplabel = "util-linux-libuuid"
-+
- 
- BBCLASSEXTEND = "native nativesdk"
- 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.9.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.9.bb
-index 15a958e624..cd4ee60f8b 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.9.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.9.bb
-@@ -10,7 +10,7 @@ HOMEPAGE = "https://btrfs.wiki.kernel.org"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
- SECTION = "base"
--DEPENDS = "util-linux attr e2fsprogs lzo acl"
-+DEPENDS = "util-linux util-linux-uuid attr e2fsprogs lzo acl"
- DEPENDS_append_class-target = " udev"
- RDEPENDS_${PN} = "libgcc"
- 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-index 009f5ed807..0452d32699 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs.inc
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://NOTICE;md5=d50be0580c0b0a7fbc7a4830bbe6c12b \
-                       file://lib/et/et_name.c;beginline=1;endline=11;md5=ead236447dac7b980dbc5b4804d8c836 \
-                       file://lib/ss/ss.h;beginline=1;endline=20;md5=6e89ad47da6e75fecd2b5e0e81e1d4a6"
- SECTION = "base"
--DEPENDS = "util-linux attr"
-+DEPENDS = "util-linux util-linux-uuid attr"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
-index c7850f03ca..dbbe6f21db 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.5.bb
-@@ -4,7 +4,7 @@ DESCRIPTION = "GPT fdisk is a disk partitioning tool loosely modeled on Linux fd
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
- 
--DEPENDS = "util-linux"
-+DEPENDS = "util-linux util-linux-uuid"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz \
-            file://0001-gptcurses-correctly-include-curses.h.patch \
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index 8d6bbfca3f..1a5111ea23 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 
- inherit autotools pkgconfig update-alternatives
- 
--DEPENDS = "zlib e2fsprogs util-linux"
-+DEPENDS = "zlib e2fsprogs util-linux util-linux-uuid"
- RDEPENDS_mtd-utils-tests += "bash"
- 
- PV = "2.1.2"
-diff --git a/meta/recipes-devtools/python/python3_3.9.0.bb b/meta/recipes-devtools/python/python3_3.9.0.bb
-index 19a8950f15..eede402aea 100644
---- a/meta/recipes-devtools/python/python3_3.9.0.bb
-+++ b/meta/recipes-devtools/python/python3_3.9.0.bb
-@@ -69,7 +69,7 @@ ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config
- ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
- 
- 
--DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2"
-+DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux util-linux-uuid libtirpc libnsl2"
- DEPENDS_append_class-target = " python3-native"
- DEPENDS_append_class-nativesdk = " python3-native"
- 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index 3e7eef3a75..9ed5b8dc22 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
- 
- # If you really want to run syslinux, you need mtools.  We just want the
- # ldlinux.* stuff for now, so skip mtools-native
--DEPENDS = "nasm-native util-linux e2fsprogs"
-+DEPENDS = "nasm-native util-linux util-linux-uuid e2fsprogs"
- PV = "6.04-pre2"
- 
- SRC_URI = "https://www.zytor.com/pub/syslinux/Testing/6.04/syslinux-${PV}.tar.xz \
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index ed14fe66b1..174b9c0a5e 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -16,7 +16,7 @@ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent \
-            file://tcf-agent.service \
-           "
- 
--DEPENDS = "util-linux openssl"
-+DEPENDS = "util-linux util-linux-uuid openssl"
- RDEPENDS_${PN} = "bash"
- 
- S = "${WORKDIR}/git/agent"
-diff --git a/meta/recipes-extended/mc/mc_4.8.25.bb b/meta/recipes-extended/mc/mc_4.8.25.bb
-index 83c8a6ecf6..78565c9a9a 100644
---- a/meta/recipes-extended/mc/mc_4.8.25.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.25.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.midnight-commander.org/"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=270bbafe360e73f9840bd7981621f9c2"
- SECTION = "console/utils"
--DEPENDS = "ncurses glib-2.0 util-linux"
-+DEPENDS = "ncurses glib-2.0 util-linux util-linux-uuid"
- RDEPENDS_${PN} = "ncurses-terminfo-base"
- RRECOMMENDS_${PN} = "ncurses-terminfo"
- 
-diff --git a/meta/recipes-extended/parted/parted_3.3.bb b/meta/recipes-extended/parted/parted_3.3.bb
-index a1fd3ef07b..f06cdc18e6 100644
---- a/meta/recipes-extended/parted/parted_3.3.bb
-+++ b/meta/recipes-extended/parted/parted_3.3.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/parted/parted.html"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
- SECTION = "console/tools"
--DEPENDS = "ncurses readline util-linux virtual/libiconv"
-+DEPENDS = "ncurses readline util-linux util-linux-uuid virtual/libiconv"
- 
- SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://no_check.patch \
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index 2338328216..7b7a3fae7a 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -32,7 +32,7 @@ PACKAGECONFIG[gnutls] = "--with-ssl=gnutls,,gnutls"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- PACKAGECONFIG[iri] = "--enable-iri,--disable-iri,libidn2"
- PACKAGECONFIG[libpsl] = "--with-libpsl,--without-libpsl,libpsl"
--PACKAGECONFIG[libuuid] = "--with-libuuid,--without-libuuid,util-linux"
-+PACKAGECONFIG[libuuid] = "--with-libuuid,--without-libuuid,util-linux-uuid"
- PACKAGECONFIG[openssl] = "--with-ssl=openssl,,openssl"
- PACKAGECONFIG[pcre] = "--enable-pcre,--disable-pcre,libpcre"
- PACKAGECONFIG[zlib] = "--with-zlib,--without-zlib,zlib"
-diff --git a/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb b/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb
-index d0da419ce0..c9edf8dee6 100644
---- a/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb
-+++ b/meta/recipes-graphics/fontconfig/fontconfig_2.13.1.bb
-@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7a0449e9bc5370402a94c00204beca3d \
- 
- SECTION = "libs"
- 
--DEPENDS = "expat freetype zlib gperf-native util-linux"
-+DEPENDS = "expat freetype zlib gperf-native util-linux util-linux-uuid"
- 
- SRC_URI = "http://fontconfig.org/release/fontconfig-${PV}.tar.gz \
-            file://revert-static-pkgconfig.patch \
-diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb b/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb
-index 54384521c8..ab8c4215d3 100644
---- a/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxt_1.2.0.bb
-@@ -15,7 +15,7 @@ require xorg-lib-common.inc
- LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=73d55cea4d27ca1a09a5d23378b3ecf8"
- 
--DEPENDS += "util-linux libxcb libsm virtual/libx11 xorgproto libxdmcp"
-+DEPENDS += "util-linux util-linux-uuid libxcb libsm virtual/libx11 xorgproto libxdmcp"
- PROVIDES = "xt"
- 
- PE = "1"
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
-index c65882581d..952cba0977 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.3.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
- LICENSE = "MIT & GPLv2 & LGPLv2.1 & BSD-2-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a6a458c13f18385b7bc5069a6d7b176e"
- 
--DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
-+DEPENDS = "glib-2.0 util-linux util-linux-uuid popt bison-native flex-native"
- 
- SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.0 \
-            file://run-ptest \
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-index 9e5d3a7a97..e618f1cf98 100644
---- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-@@ -5,7 +5,7 @@ BUGTRACKER = "https://bugs.lttng.org/projects/babeltrace"
- LICENSE = "MIT & GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
- 
--DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
-+DEPENDS = "glib-2.0 util-linux util-linux-uuid popt bison-native flex-native"
- 
- SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.5 \
- 	   file://run-ptest \
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-index 0787e04d19..e645bc4743 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.12.2.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=40ef17463fbd6f377db3c47b1cbaded8 \
- 
- include lttng-platforms.inc
- 
--DEPENDS = "liburcu popt libxml2 util-linux"
-+DEPENDS = "liburcu popt libxml2 util-linux util-linux-uuid"
- RDEPENDS_${PN} = "libgcc"
- RRECOMMENDS_${PN} += "${LTTNGMODULES}"
- RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod ${LTTNGMODULES} sed python3-core"
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb
-index 67a4307c7b..d477528db5 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.12.0.bb
-@@ -19,7 +19,7 @@ include lttng-platforms.inc
- 
- EXTRA_OECONF = "--disable-numa"
- 
--DEPENDS = "liburcu util-linux"
-+DEPENDS = "liburcu util-linux util-linux-uuid"
- RDEPENDS_${PN}-bin = "python3-core"
- 
- # For backwards compatibility after rename
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-index 1b2bd4fe14..c9bb0b7488 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.1.bb
-@@ -13,7 +13,7 @@ SRC_URI[sha256sum] = "1ba654d7de30f7284b4c7071b32f881b609733ce02ab6d9d9ea29386a0
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
--DEPENDS += "iso-codes util-linux zlib"
-+DEPENDS += "iso-codes util-linux util-linux-uuid zlib"
- 
- inherit gobject-introspection
- 
-diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
-index 7073af8c98..ed0b9a0903 100644
---- a/meta/recipes-support/apr/apr_1.7.0.bb
-+++ b/meta/recipes-support/apr/apr_1.7.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Apache Portable Runtime (APR) library"
- HOMEPAGE = "http://apr.apache.org/"
- SECTION = "libs"
--DEPENDS = "util-linux"
-+DEPENDS = "util-linux util-linux-uuid"
- 
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=4dfd4cd216828c8cae5de5a12f3844c8 \
-diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
-index 2fbf96f997..77a9ac337c 100644
---- a/meta/recipes-support/serf/serf_1.3.9.bb
-+++ b/meta/recipes-support/serf/serf_1.3.9.bb
-@@ -17,7 +17,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
- 
- inherit scons
- 
--DEPENDS += " openssl apr apr-util util-linux expat"
-+DEPENDS += " openssl apr apr-util util-linux util-linux-uuid expat"
- 
- EXTRA_OESCONS = " \
-                   LIBDIR=${libdir} \
--- 
-2.29.2
-
+T24gVGh1LCAyMDIwLTEyLTEwIGF0IDE1OjUyICswMDAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
+Cj4gT24gTW9uLCAyMDIwLTExLTIzIGF0IDEzOjI4ICswMDAwLCBMdWNhIEJvY2Fzc2kgd3JvdGU6
+DQo+ID4gRnJvbTogTHVjYSBCb2NjYXNzaSA8bHVjYS5ib2NjYXNzaUBtaWNyb3NvZnQuY29tPg0K
+PiA+IA0KPiA+IEluIHYyLjM1IHV0aWwtbGludXggIGdhaW5lZCBhbiAob3B0aW9uYWwpIGJ1aWxk
+DQo+ID4gZGVwZW5kZW5jeSBvbiBsaWJjcnlwdHNldHVwLiBCdXQgbGliY3J5cHRzZXR1cCBidWls
+ZC1kZXBlbmRzIG9uDQo+ID4gdXRpbC1saW51eCBmb3IgYmxraWQgKG9wdGlvbmFsLCBjYW4gYmUg
+ZGlzYWJsZWQpIGFuZCB1dWlkIChtYW5kYXRvcnkpLg0KPiA+IFNwbGl0IG91dCB1dGlsLWxpbnV4
+LXV1aWQgaW4gYSBkaWZmZXJlbnQgcmVjaXBlIHRvIGJyZWFrIHRoZSBjeWNsZS4NCj4gPiANCj4g
+PiBBZGQgYSBwYWNrYWdlY29uZmlnIHN3aXRjaCAoZGlzYWJsZWQgYnkgZGVmYXVsdCkgdG8gYWxs
+b3cgdXNpbmcgdGhlDQo+ID4gbmV3IGRlcGVuZGVuY3kuDQo+ID4gDQo+ID4gaHR0cHM6Ly9naXRo
+dWIuY29tL2thcmVsemFrL3V0aWwtbGludXgvcHVsbC84OTgNCj4gPiANCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBMdWNhIEJvY2Nhc3NpIDxsdWNhLmJvY2Nhc3NpQG1pY3Jvc29mdC5jb20+DQo+ID4gLS0t
+DQo+ID4gdjE6IHV0aWwtbGludXggMi4zNSBpcyBub3Qgb3V0IHlldCwgYnV0IEknZCBsaWtlIHRv
+IGdldCB0aGUgcHJlcGFyYXRvcnkgd29yaw0KPiA+ICAgICB1bmRlcndheSBhcyBJJ20gbm90IHN1
+cmUgaWYgdGhpcyBpcyB0aGUgYmVzdCBhcHByb2FjaCBvciBpZiB0aGVyZSBhcmUNCj4gPiAgICAg
+YWx0ZXJuYXRpdmVzLiBTdWdnZXN0aW9ucyBhbmQgY29tbWVudHMgdmVyeSB3ZWxjb21lLiBUaGFu
+a3MhDQo+ID4gdjI6IGNoYW5nZWQgcGFja2FnZXMgbmFtZXMgdG8gcmVmbGVjdCBvbGQgb25lcyAo
+ZWc6IGxpYnV1aWQxIC0+IHV0aWwtbGludXgtbGlidXVpZCkNCj4gPiAgICAgYW5kIGxlYXZlIHV1
+aWQgYnVpbGQgZW5hYmxlIGluIG1haW4gcmVjaXBlIHRvIGFsbG93IGZvciB1dWlkZ2VuIGJ1aWxk
+IHRvIGhhcHBlbiwNCj4gPiAgICAgYXMgaXQgZG9lcyBub3QgaGF2ZSBpdHMgb3duIGF1dG9jb25m
+IHN3aXRjaC4gRGVsZXRlIHRoZSBsaWJyYXJ5IG1hbnVhbHkgZnJvbQ0KPiA+ICAgICB0aGUgbWFp
+biByZWNpcGUgYWZ0ZXIgYnVpbGQgaW5zdGVhZCwgYW5kIGFkZCBkZXBlbmRlbmN5Lg0KPiA+ICAg
+ICBNaWdodCBoZWxwIHRvIGJyZWFrIGxvb3AgcHl0aG9uMyAtPiB1dGlsLWxpbnV4IC0+IGxpYnNl
+bGludXggLT4gcHl0aG9uMywgYXMgaXQncw0KPiA+ICAgICBvbmx5IGxpYnV1aWQgdGhhdCBpcyBu
+ZWVkZWQsIHNlZSBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvZy95b2N0by9tZXNzYWdl
+LzQ3NTcwDQo+ID4gdjM6IHJlYmFzZWQgYW5kIHJlZmFjdG9yZWQgdG8gaGF2ZSBhIGNvbW1vbiB1
+dGlsLWxpbnV4LmluYyBmaWxlDQo+ID4gDQo+IA0KPiBJJ20gYWZyYWlkIHRoaXMgY2F1c2VzIGRv
+X3BhY2thZ2VfcWEgZXJyb3JzIGluIGJhc2ljIHRlc3Rpbmc6DQo+IA0KPiBodHRwczovL2F1dG9i
+dWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgzL2J1aWxkcy8xNjY4
+DQoNClRoYW5rcywgYWRkZWQgUkRFUEVORFMgaW4gdjQuIFN0cmFuZ2UgdGhhdCB0aG9zZSBkaWRu
+J3QgcG9wIHVwIHdoZW4NCmJ1aWxkaW5nIHBva3kgbG9jYWxseSwgSSB1c3VhbGx5IGdldCBRQSB3
+YXJuaW5ncyBhcyBleHBlY3RlZC4gQW55dGhpbmcNCmluIGxvY2FsLmNvbmYgdG8gZW5hYmxlIHRv
+IGdldCB0aGVtPw0KDQo+IEkgYW0gd29ycmllZCBhYm91dCB0aGlzIGNoYW5nZSBhcyB3ZSdyZSBz
+dGFydGluZyB0byBzZWUgYSBudW1iZXIgb2YNCj4gY2lyY3VsYXIgZGVwZW5kZW5jaWVzIGluIHV0
+aWwtbGludXggKHRoZXJlIGlzIGEgbmV3IGJ1ZyBhYm91dCB0aGUNCj4gcHlsaWJtb3VudCBQQUNL
+QUdFQ09ORklHIG9wdGlvbiB0b28pLCBtYXliZSB3ZSBzaG91bGQgZmxhZyB0aGlzDQo+IHVwc3Ry
+ZWFtPw0KPiANCj4gTXVsdGlwbGUgcmVjaXBlcyBsaWtlIHRoaXMgdXN1YWxseSB0dXJuIGludG8g
+YSBtYWludGVuYW5jZSBuaWdodG1hcmUNCj4gdW5mb3J0dW5hdGVseSB3aGljaCBpcyBwYXJ0IG9m
+IG15IHJlbHVjdGFuY2UgdG8gZ28gaW4gdGhpcyBkaXJlY3Rpb24sDQo+IG5vdCBzdXJlIHdlIGhh
+dmUgYW55IGNob2ljZSB0aG91Z2guDQoNCldlbGwgSSd2ZSBhZGRlZCB0aGUgZmVhdHVyZSwgYW5k
+IGJvdGggdGhlIG1haW50YWluZXIgYW5kIG15c2VsZiB3ZXJlDQphd2FyZSBvZiB0aGUgaW1wbGlj
+YXRpb25zLiBJdCdzIG9wdGlvbmFsLCBzbyBvbiBkaXN0cm9zIHdpdGggbXVsdGktDQpzdGFnZSBi
+b290c3RyYXBwaW5nIGZ1bmN0aW9uYWxpdHkgbGlrZSBEZWJpYW4vVWJ1bnR1L1JIRUwvU3VzZS9l
+dGMgaXQNCmNhbiBiZSBhdXRvbWF0aWNhbGx5IGRpc2FibGVkIGZvciB0aGUgZmlyc3Qgc3RhZ2Ug
+YnVpbGQuIEF0IHJ1bnRpbWUgaXQNCmNhbiBhbHNvIGJlIG9wdGlvbmFsIHZpYSBkbG9wZW4sIGlm
+IGRlc2lyZWQgKHZpYSAtLWNvbmZpZ3VyZSBmbGFnKS4NCg0KWW9jdG8gY291bGQgcmVhbGx5IHVz
+ZSBtdWx0aSBzdGFnZSBzdXBwb3J0IC0gdGhpcyBpc24ndCB0aGUgZmlyc3QgYW5kDQp3b24ndCBi
+ZSB0aGUgbGFzdCBvY2N1cnJlbmNlLiBKdXN0IG15IDJjLi4uDQoNCi0tIA0KS2luZCByZWdhcmRz
+LA0KTHVjYSBCb2NjYXNzaQ0K
