@@ -1,78 +1,97 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.13351.1607718422230301051
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.13424.1607718855200935452
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Dec 2020 12:27:02 -0800
+ Fri, 11 Dec 2020 12:34:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RWCGhCOD;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id b5so1435902pjk.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Dec 2020 12:27:02 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=dNPQHrR9;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pOyuRSTJ6PhVLdNSwCPcjnPOA0gMzRFbm+ta9rh7KHs=;
-        b=RWCGhCODJmCzk1n8qV8H1x2zfGrSldPi5tN8rF3Ke0Vy+qIyE+E6fh03INXk83igr/
-         zPiFmmS8KbUN4o27zrbsM/dS4gryI6IvVeebVjXBUzpJvzpYtT/EPmRhgzKrk4vqiTn0
-         opXCvVgnJcVJ30rH2xate/ApUpjUZa0JbMepiMIMnage4AfER5inrzZVMtpctwKRk2cp
-         RCoEM5H7VA9flVDSiaHn2WaAvaxjmOAuSDoSqOVqUPBEO02bWDxtFUSDdX34jZpIAuHB
-         kvkQUfwbz8Dt9PD7CDZJ2o1HAuOl2Rky4lateaGJnFRsNtNaZ+rqh939m7a62nUnew9G
-         XZ8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pOyuRSTJ6PhVLdNSwCPcjnPOA0gMzRFbm+ta9rh7KHs=;
-        b=DqaAStfQYKGiEbuVeFrIFMZnUH7FOH76FMGQq6I391pLd4hD2S39g2MyBAGwavgc4w
-         sLUWfNpjQLGKSx9MmEb7aGiPP7Zdvs80es2W/yadWsuA8O6CQ637l5bZkC5X5IxGieH5
-         IthHPgpUfJKw7SHe8IXlYI792vPBqfIF5JHpqVGpMM2NPRRPk3hieUAsmWeyqG1SA1N7
-         7dI6GNKlcFJehtoEr/GKwE2Chg25MvihqCsTXeiXAeywgsGN6/zFCRAjm+VQELWAs/7d
-         qhOdrG1vmgPPxisj1q0krSJHAhNqy2z5tOOM0pevK20EgH8IXGhxi+KHehP/GfO13t/e
-         gJYw==
-X-Gm-Message-State: AOAM532XkpZSPysSek1bmIfD6XH4xJURua5uTI/jKwzR1iwP5W28DZz6
-	21I5h+VgUVW1mBmtwHS1IFiLj1JlYSN/eA==
-X-Google-Smtp-Source: ABdhPJx4Q2P0b2RPytHCVHMgElbBNknoyaQBuySmVn+XZ3NuNWhusqaS1a2vX8XRSgm0AOIosH1DTw==
-X-Received: by 2002:a17:90a:a108:: with SMTP id s8mr14495200pjp.206.1607718419942;
-        Fri, 11 Dec 2020 12:26:59 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::5bf5])
-        by smtp.gmail.com with ESMTPSA id b11sm10986794pjl.41.2020.12.11.12.26.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 12:26:59 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] qemuriscv: check serial consoles w.r.t. /proc/consoles
-Date: Fri, 11 Dec 2020 12:26:56 -0800
-Message-Id: <20201211202657.1237295-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.2
+  d=axis.com; q=dns/txt; s=axis-central1; t=1607718855;
+  x=1639254855;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=ifmhlvXUR0XhLdvy1TnNqqZcD5F1cVyRUs/ynSZg/38=;
+  b=dNPQHrR9uz/aAcuFl4ofgRoYsRL04MV5YNorARWceAs5hXX2bMF1FsJR
+   b27DHrQtza3ELcShPviwb4+Ca6r1FdNjKJz2UQiVcDlDhmIC73WRDN5jD
+   yDM5TuPqBByuxYNs5wn5e2o0l3M3sRJlZMlDBZjgbH+Wzi8YK7zFPRS16
+   QDBJp/JLpjfHdm7p+xe4R6Mh1+kuomv/hANOwI2FJ4npIBUy9xQJUPsJa
+   1ZEG7vPLH9Dy5HwSygZu+k6vDxsVTfQPI2BONqCbkPEtX1WEsAPBpXd8c
+   igVVPJD5HIpYw7kqXskdW5Qde96oKYWMDRv3MT9pJnso6X91tKUv6H38S
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Luca Bocassi <luca.boccassi@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 5/5] systemd: add RRECOMMENDS for weak dependencies, if enabled
+Thread-Topic: [OE-core] [PATCH 5/5] systemd: add RRECOMMENDS for weak
+ dependencies, if enabled
+Thread-Index: AQHWzvOJHD0NNHyi/0icOVMbXsz3danyWwJw
+Date: Fri, 11 Dec 2020 20:34:12 +0000
+Message-ID: <3de202170ea048ff8ab2bdd4d85b1163@XBOX03.axis.com>
+References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
+ <20201210125312.3302065-5-luca.boccassi@gmail.com>
+In-Reply-To: <20201210125312.3302065-5-luca.boccassi@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-qemuriscv enables hvc0 along with ttyS0, however its not enabled in
-/proc/consoles, getty tries to enable it in inittab and erroring out
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Luca Bocassi
+> Sent: den 10 december 2020 13:53
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 5/5] systemd: add RRECOMMENDS for weak
+> dependencies, if enabled
+>=20
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+>=20
+> Some libraries are now dlopen'ed and skipped at runtime if
+> not available. Add them to the RRECOMMENDS list, to allow
+> users to exclude them for smaller images even if generally
+> enabled at build time.
+>=20
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+>  meta/recipes-core/systemd/systemd_247.1.bb | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_247.1.bb b/meta/recipes-co=
+re/systemd/systemd_247.1.bb
+> index f20e86d94b..951bffa23f 100644
+> --- a/meta/recipes-core/systemd/systemd_247.1.bb
+> +++ b/meta/recipes-core/systemd/systemd_247.1.bb
+> @@ -603,6 +603,13 @@ RRECOMMENDS_${PN} +=3D "systemd-extra-utils \
+>                        systemd-conf \
+>  "
+>=20
+> +# Weak dlopen-style dependencies: if explicitly requested via PACKAGECON=
+FIG, recommend them
+> +RRECOMMENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'qrencode'=
+, 'qrencode', '', d)} \
+> +                      ${@bb.utils.contains('PACKAGECONFIG', 'libidn', 'l=
+ibidn', '', d)} \
+> +                      ${@bb.utils.contains('PACKAGECONFIG', 'libidn2', '=
+libidn2', '', d)} \
+> +                      ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup'=
+, 'cryptsetup', '', d)} \
+> +"
 
-Fixes below message with sysvinit
+Please write this as:
 
-INIT: Id "hvc0" respawning too fast: disabled for 5 minutes
+RRECOMMENDS_${PN} +=3D "${@bb.utils.filter('PACKAGECONFIG', 'cryptsetup lib=
+idn libidn2 qrencode', d)}"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/include/riscv/qemuriscv.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-index 0e88c91aa6..47d7e9b174 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -10,6 +10,7 @@ KERNEL_IMAGETYPES += "uImage"
- KEEPUIMAGE = "no"
- 
- SERIAL_CONSOLES ?= "115200;ttyS0 115200;hvc0"
-+SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
- 
- IMAGE_FSTYPES += "ext4 wic.qcow2"
- 
--- 
-2.29.2
+> +
+>  INSANE_SKIP_${PN} +=3D "dev-so libdir"
+>  INSANE_SKIP_${PN}-dbg +=3D "libdir"
+>  INSANE_SKIP_${PN}-doc +=3D " libdir"
+> --
+> 2.29.2
 
