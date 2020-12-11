@@ -1,107 +1,198 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web09.1266.1607654935557940517
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web08.2379.1607663566851416892
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Dec 2020 18:48:55 -0800
+ Thu, 10 Dec 2020 21:12:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EIlJOn6L;
- spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: twoerner@gmail.com)
-Received: by mail-qv1-f67.google.com with SMTP id s6so3559491qvn.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Dec 2020 18:48:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=ErGB9cCpoFMrQsYWt6ti+hg7Q26o+/aXcVznsxyV1GY=;
-        b=EIlJOn6LRCarfO8tjjdR91TpDkXgj2xdtxekwt4tUIgHHZ3HeuFqiRqY4LBmswIrnS
-         dF0r4l/9lioLoSklCjh+UFRrxqiTFj5ZzQIdM74rsCtrQyuTP/SajKM3iphOywZX2f9Q
-         cs55j9gmu9iHzKgcvfFrLibtcz9yfVS6+95gmF3K9UaJvFCXpQbD36tiXK0EtiKW42Vs
-         /6hFi8UH6uOsO8LCUi63Kam8S+nhyk9nRRMD/lsq4hLFdHHJrurHx5qTANBpUWgOo86x
-         HeRPwnxD2UEFisuRAcdjqYRZxkMvGjpINtrPp26TqbK2um6QdEQxA/vytPpfKae+N0v1
-         AZCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=ErGB9cCpoFMrQsYWt6ti+hg7Q26o+/aXcVznsxyV1GY=;
-        b=fWqzhl2OURBh28I38c7ryDRqDN0ODwf+lMkuZeCXcacNeG0dEGG53ukQFoM26pOo3C
-         2xZVFAZqH2tqIFX+d7xX0asXl465ool+9ABNAKWMP0IZ74hOr5vUZ3Tlj6Xnvx+RSjBO
-         NL0nE7Mj5GgyW3k2PiwWwMWFtKST3uu4X1hxlvz+Nja4yxMUQTDNDv2ba7OS8muydvT8
-         68wgYu4YmsymIz7EAdfJXRowuEazxpyH4dCifRfETVM+XZvFvcOHB2DTPHgm/HC4DfBJ
-         Xeug0SBeqxETYGkTT27+CUni0nQ7AJCEtlQqq8K11HuHI8xJje2eB6THsEuWxDaMm6kC
-         vzMQ==
-X-Gm-Message-State: AOAM5308yXrPnngT5BxltVrSiSblCbKdkRwVAwIKxapHikqZ1GU+Q3+7
-	flJ/s6q8YU7cX9fVCWvV/IIDEXv7v6o7gg==
-X-Google-Smtp-Source: ABdhPJzyTm2u/qosk4s460oQ9xHy0g7DJSELXeQuuIZ1O+TlDK0z8oStfZbskvNPHj5c748KqirRvA==
-X-Received: by 2002:a0c:b505:: with SMTP id d5mr12826322qve.59.1607654934473;
-        Thu, 10 Dec 2020 18:48:54 -0800 (PST)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id n3sm5330850qtp.72.2020.12.10.18.48.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 18:48:53 -0800 (PST)
-Date: Thu, 10 Dec 2020 21:48:50 -0500
-From: "Trevor Woerner" <twoerner@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] mesa.inc: add dispmanx support
-Message-ID: <20201211024850.GA25551@localhost>
-References: <20201203133526.2075-1-twoerner@gmail.com>
- <036904F4-E7CE-4A5D-B940-DF360F2AAED9@pbcl.net>
- <CAHUNapRs_1Dz6ARBfgLk7i3DXx0HHbRgC5u7U=3njQb3ht4cbw@mail.gmail.com>
- <20201204105141.GU30831@pbcl.net>
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=WEFBSrAR;
+ spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: sangeeta.jain@intel.com)
+IronPort-SDR: IOOKNLCoSARa3GIZurs/O6gruCVdhLhTbzyr0pNBjKfQPV/YN1Hlnjdw4FDealK7/0bmwZVSWt
+ dqHpKzFD5z/g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="174495411"
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
+   d="scan'208";a="174495411"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 21:12:45 -0800
+IronPort-SDR: IW4VoGNK0JfoDMJdbHTfx9SlscaZoc3VtvBOGlUmGC/NptBJFOrVM8zeFDQG5TlNroI8YCZXOs
+ 0xvzIO0OAy6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
+   d="scan'208";a="365255961"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orsmga008.jf.intel.com with ESMTP; 10 Dec 2020 21:12:44 -0800
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 10 Dec 2020 21:12:44 -0800
+Received: from fmsmsx604.amr.corp.intel.com (10.18.126.84) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 10 Dec 2020 21:12:43 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Thu, 10 Dec 2020 21:12:43 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Thu, 10 Dec 2020 21:12:36 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=adE60/qoUrRk6YTpnKqDH6r/2GwzuIPK4qqjfxCHZsqCbZMFU7/xrX+gL/Szhh11Oy0tJY1tzIH6ejs6ic/GbhCorU2puThQKpaVcknTohOAJePJp/zH54iBBgvzAKYl9i/VGgoyADWFl6P1wB5X+tgBUIQlrn+8txIyqRXZrzOH0X3RSC/mEem+Qq0xT7VCDh+isdbW+s2aAZM/92xcvxLNYCA0xWDvc3e9m39M+y7e2hJ7dyDwDse4Ez2gq6Xg1EncTtedkRMdQRo6ia0A9vJaWXEJJ/EDZUhAPL/NBFiugQaLyrvmS5ehuq+HnfSefCpCO8swJjhmu/PtC2eQyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VCIdFmWKhuoGUXxUaNvTOiDDukcTID9ykaN2zrj83HE=;
+ b=LijmvwxIE5KBmtzr346ufmeqfcFEZybxRiTkUqcrihQIC5FPG9NrBjezmdVoazogl6b2XdV7jJpqXmn4My7DD6OocVKJ129T3Jr0PIMmrNjRNw7iFPJyOnMITorL1rtxQaalqKmRjHXZpOHPMaqrD6TqSCWQTE1ysKsw10wepHKcQKquwilyGnM56ZV9nyl0LuoN3de11VeBqPzcipXDX7c/s/qVPrWFTT2aCsICPn+mKYORr8E3V6CD5zipjJl+OECvgNod9RQf+OZmAX8mteFamO4cG9L4e+ar21jHjUXhHpAW0F8puhm1MvzHCaIDu0/ByIwOYIs47IYL3exB3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VCIdFmWKhuoGUXxUaNvTOiDDukcTID9ykaN2zrj83HE=;
+ b=WEFBSrARL+MQHSxckVVeh1/i3wQgPempBkrdQEfJp7QCsMIZluMffbyGP5TXvwibCF7hysM5JTa1H+iskqLvy4RyOL3D4pSDadkY58cfwqKN/4bQV9vSE2I7gols0BBzi9j/SgkvAN18Qimzfgd2wybsdM7Hg9W60hrwsYGcvBY=
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
+ by BYAPR11MB3063.namprd11.prod.outlook.com (2603:10b6:a03:89::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Fri, 11 Dec
+ 2020 05:12:33 +0000
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::c0d3:471b:c804:8059]) by BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::c0d3:471b:c804:8059%6]) with mapi id 15.20.3654.015; Fri, 11 Dec 2020
+ 05:12:33 +0000
+From: "Sangeeta Jain" <sangeeta.jain@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+CC: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"yi.zhao@windriver.com" <yi.zhao@windriver.com>, "Sangal, Apoorv"
+	<apoorv.sangal@intel.com>, "Chan, Aaron Chun Yew"
+	<aaron.chun.yew.chan@intel.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>, "akuster808@gmail.com"
+	<akuster808@gmail.com>, "sjolley.yp.pm@gmail.com" <sjolley.yp.pm@gmail.com>,
+	"Teoh, Jay Shen" <jay.shen.teoh@intel.com>, "Tummalapalli, Vineela"
+	<vineela.tummalapalli@intel.com>
+Subject: Re: QA notification for completed autobuilder build (yocto-3.2.1.rc2)
+Thread-Topic: QA notification for completed autobuilder build
+ (yocto-3.2.1.rc2)
+Thread-Index: AQHWzPA5Xbk8VGXNK0e2T/ugmkaAyKnxXjvQ
+Date: Fri, 11 Dec 2020 05:12:33 +0000
+Message-ID: <BYAPR11MB3624F05F4513CDAC27E2E1F3E3CA0@BYAPR11MB3624.namprd11.prod.outlook.com>
+References: <20201207232504.27A422A066A@ubuntu1804-ty-2.yocto.io>
+In-Reply-To: <20201207232504.27A422A066A@ubuntu1804-ty-2.yocto.io>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=intel.com;
+x-originating-ip: [175.138.41.97]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 05f0cb36-3537-4964-75ad-08d89d935dcd
+x-ms-traffictypediagnostic: BYAPR11MB3063:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR11MB3063787E34E1E8916FD9A5E7E3CA0@BYAPR11MB3063.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: pXvNzBKxDTDO+6avf6IR21n4PZw4balkGGZNm4B64XmNGFfVe7WP15u4I30Qtq2Xwl8WsW90pXn0fYv2/P7kFW/G8tjhtEvR2E5AEPULbc0UQi0Zr1YTmFRvIzcEuQ+G8/aDxdsh1aEG6h5MgmQzUTZ+mFwAg6UkR6Tl5moSEI9M/X74UPOR2rgB0l/JkSXHw6YrAzFWr6elcIqgShT5dD/aDm6KA7jFFUTeVbaQz2zOjxl/sj2vKkkGPsRxuaQv7QIjkmy8IwW+ZHxEkQptnIc/CD4aPLJlrM5j/08ZXeJgmKxGNDmDuGA2hTA8oAABsIC9OF/QeFlIcx4yix3cwmw+RsVtEvNlsfcKYz/ll+G8XPko+7R+rQMuShpooBKdlYQvUgonf5jwcWGPC5yMKw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3624.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(366004)(136003)(66476007)(66946007)(4326008)(66556008)(64756008)(76116006)(9686003)(33656002)(8676002)(2906002)(508600001)(86362001)(966005)(71200400001)(66446008)(110136005)(107886003)(53546011)(55236004)(6506007)(52536014)(7696005)(15650500001)(5660300002)(55016002)(8936002)(186003)(26005)(83380400001)(54906003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?71d+I+niTByw6BH5dn82jwPByC5XHwPnpXMjeJm32C2tEisk8bhMSSA2uKFy?=
+ =?us-ascii?Q?gP7gO7xy0ssd8xn2XF4jZVm1rrKhLg9jyd75qBAiWmHOuxkV7eNWJMubRUO+?=
+ =?us-ascii?Q?tAQwzcTXtzuUE4q+uiObCz5olHkahDZrtVztRH+z1wUdReSzsu763+nthAGy?=
+ =?us-ascii?Q?HNfLjzNR93B4TVBDlp1p7l2aJJCZ2ikJTtCauuuNXMr6mlq3HQ5glp6kQL4H?=
+ =?us-ascii?Q?o6aK31Ow4iXspxW05s+Jj8JFOkKHxTfu+1fVbksFoFQ2UjFur2UKw9kGA0kE?=
+ =?us-ascii?Q?69xinjXnubb9OQ4kvjz0dL7nZkTZEc9SpVT1fZgPtC2cOnxHx4kg6fhGlD/h?=
+ =?us-ascii?Q?WkCuvbbtN0lL5C2iEoTuTjldwRgAKBIDTJD1rM8cgYI6474OaCngpcYGgl0z?=
+ =?us-ascii?Q?MoapwgMsfwPmDR9X3WE35eIAMbtORyFMXWk1Uf/brhxK1CwSTP16lgRUogqr?=
+ =?us-ascii?Q?NAy0/DXOsNlHUaTMIsvZ0lvOUMnVgrws3LEoz+qG0kNHLlD6B3CaXK5nIQRP?=
+ =?us-ascii?Q?iQPC1+6CyK/JXQsQKEXEHc3TTS5vn7UsDyFRPRGFnNjqv1IMdZBC2zTRPB3i?=
+ =?us-ascii?Q?FtGOupRECEVRij0q+ff6Q3uTI7W99zIOiFe9zx4oVh0bniKHmR+sTPPlFgKi?=
+ =?us-ascii?Q?KnjxbSz6pa273MfPy8ZWp+vXMo3SjFg9TdzzjKeIOroYy0pBOhdnG1cKnKeu?=
+ =?us-ascii?Q?8j/b9gl49l2F08ZluBLMTrb38/flv/hAEltlfJ+zldONhA6AXxoIx98tvEQf?=
+ =?us-ascii?Q?hnFpkyceCaahc/xMicMa66KlAUykclXkyai35u4BQ9DcgfHF+xrw4ImwLpRf?=
+ =?us-ascii?Q?ld3ksKJ2fSO26lrGTXbL1o1ETpFd+rrYlbh7EYS4U2IT6XWs21eQ9n0sXpOy?=
+ =?us-ascii?Q?+rDdv/AmCMRZCj6x+rdB3379pbrY5ZB3p0c+4Y6jaSdI9q6phAwSKFpZm1u3?=
+ =?us-ascii?Q?RXZ5d0QeG5brclcJsPOtuYAW4gl+yz+U5dokHmw/Pko=3D?=
 MIME-Version: 1.0
-In-Reply-To: <20201204105141.GU30831@pbcl.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3624.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05f0cb36-3537-4964-75ad-08d89d935dcd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2020 05:12:33.0935
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: L3CkO+Hs3kgtiJ9pQjXM55m5GIGKXTG6KMLCrCzPrQFYIJ6l8D+ox+xwT+aL7XFo3/HvCP8o7Hv2aeUcCOvsdw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3063
+Return-Path: sangeeta.jain@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri 2020-12-04 @ 11:51:41 AM, Phil Blundell wrote:
-> On Thu, Dec 03, 2020 at 05:35:23PM -0500, Trevor Woerner wrote:
-> > On Thu, Dec 3, 2020 at 5:25 PM Phil Blundell <pb@pbcl.net> wrote:
-> > 
-> > > If we're talking about OpenGLES applications, wouldn't you already have
-> > > opengl in DISTRO_FEATURES?
-> > >
-> > 
-> > Not necessarily.
-> > 
-> > Adding opengl to DISTRO_FEATURES really means "enable a bunch of
-> > PACKAGECONFIGs all over the place because I need x11 and mesa with all the
-> > bells and whistles".
-> 
-> It sounds like there are a few things that have gone wrong here then.
-> Firstly, "opengl" in DISTRO_FEATURES isn't supposed to imply anything
-> about x11.  If it does, that's just a bug. 
+Hello All,
 
-I have this bad habit of saying something specific when I actually mean to use
-something as an example, sorry. I meant to say "if, for example, i'm building
-an image for x11, and want opengl support…". As far as I can tell enabling
-opengl in DISTRO_FEATURES doesn't imply x11 in any way, sorry :-)
+This is the full report for yocto-3.2.1.rc2: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
 
-> It should indeed enable opengl
-> support in other recipes, though.  Can you give an example of the sort
-> of thing that's getting enabled there that you don't want?
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.=20
 
-I am seeing an issue, but after quite a bit of testing and checking, I now
-realize that the issue I was seeing is because of something a BSP layer is
-doing and is not related to anything in core.
+No new issues found=20
 
-> But secondly, thinking about it again, there's no reason for mesa itself
-> to require opengl in DISTRO_FEATURES anyway.  Mesa itself is what provides
-> the GL API so it clearly doesn't depend on it.  I think that existing
-> DISTRO_FEATURE check in mesa is just bogus and should be removed entirely.
+  =20
+Existing bugs observed in this release:
 
-Excellent, I agree.
+BUG id:14051 - [QA 3.2 M3 RC1] failure in ptest : valgrind.drd and valgrind=
+.helgrind
+ =20
+=3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14051
 
-If I understand it correctly, mesa can PROVIDE more than just the GL
-interface; it can, for example, PROVIDE gbm which is useful for situations
-where GL is provided via a binary (such as in my case with Raspberry Pi's
-userland).
 
-I'll send a patch.
+Thanks,
+Sangeeta
 
-Best regards,
-	Trevor
+> -----Original Message-----
+> From: Pokybuild User <pokybuild@ubuntu1804-ty-2.yocto.io>
+> Sent: Tuesday, 8 December, 2020 7:25 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: otavio@ossystems.com.br; yi.zhao@windriver.com; Sangal, Apoorv
+> <apoorv.sangal@intel.com>; Yeoh, Ee Peng <ee.peng.yeoh@intel.com>; Chan,
+> Aaron Chun Yew <aaron.chun.yew.chan@intel.com>;
+> richard.purdie@linuxfoundation.org; akuster808@gmail.com;
+> sjolley.yp.pm@gmail.com; Jain, Sangeeta <sangeeta.jain@intel.com>
+> Subject: QA notification for completed autobuilder build (yocto-3.2.1.rc2=
+)
+>=20
+>=20
+> A build flagged for QA (yocto-3.2.1.rc2) was completed on the autobuilder=
+ and is
+> available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.2.1.rc2
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: fec2b85689bba1d26ad6f376bc11cc29bb27cbe5
+> meta-arm: afa281b7a997bf265bfe221d1693a8a5bd4a243d
+> meta-gplv2: 6e8e969590a22a729db1ff342de57f2fd5d02d43
+> meta-intel: 5492270c796daf8b7a7cc9cd93880c2bb25523c0
+> meta-kernel: f9d30c65d08c9cef20d6487a7aff0fff40acc823
+> meta-mingw: 352d8b0aa3c7bbd5060a4cc2ebe7c0e964de4879
+> oecore: d11ab9cb77bf91f939035417b757773a5d80242c
+> poky: 943ef2fad8428f002850e3655a3312e13d0dcb2c
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
