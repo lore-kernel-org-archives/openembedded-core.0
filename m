@@ -1,82 +1,82 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.4741.1607785540976195114
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.web09.12061.1607817169059374396
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Dec 2020 07:05:41 -0800
+ Sat, 12 Dec 2020 15:52:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CiqMX1jR;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: toertel@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id q18so4449431wrn.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Dec 2020 07:05:40 -0800 (PST)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=huallZfT;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.173, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f173.google.com with SMTP id f14so9364193qto.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Dec 2020 15:52:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j7+Orv/JgOhAjveyZnHSMK2VM/nyeF/PfgZlkP5GAg0=;
-        b=CiqMX1jR5ww3Qqkx4HewReh5UJInP5jIreLv1kTRTfXXo1xHr8P755FnqWIc4SEoTV
-         /OXdE7ZZUFOt9+coploWNdmZRO5o6jbu2DEciz4qIjKHjc4KJEPoHn0RINeCxQH8RM66
-         xOE+G+KmFb8kvAHhGkMAQtFEh5QV3KWS66B1syafm2Pw/0Fmzro9yyUHfYcp/ek3gY2p
-         evD0A5GAXwGQYgSFHk6ZKbwcY+34+yaBJphw6yHTRJ16FALHLlMJIvXIUF1TPipGNO0j
-         JebEgag1TXm4g8PbTAkBtEtQZm+1q2ATyuDu2Tw4qVm7+96d+tXDF/fQVZLJMR/MW0ZX
-         JoXA==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:date:message-id:subject:to;
+        bh=wotx2+NPIoaB1Di6tbevAvn+vbG5UTfK8tlap6CV+Ng=;
+        b=huallZfT0MJCW1hAOJRbbWVez10atN3eWN0bwCj5zZ0HyCAdV0Lmb81f6vOFTlOIMi
+         IHyBNxBEuJd3A1WZs9vuf/8yby5GLldeJQrG7qWMEWIyi2ShOPxZk4wwFtfmQtAkG3h3
+         unJUBqPfYNJQsS505aR1xKNHs8tNftOfWUD71T4i1+/3WLiCb2UDN9logpdscEseuDU9
+         k3+xa7XWqXYXZwJYeb+82m8ByPvsk5D4AUij1Gwwt/8sfe6oBOC/AYgpSN+kvrxda0t8
+         2aH7T9Zc6slkavzgy4Ex4+xbdUDWY3NJ7FDtdZLzjs26jyVdn+uT0CVpsyc0MXQGDSxd
+         JQtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j7+Orv/JgOhAjveyZnHSMK2VM/nyeF/PfgZlkP5GAg0=;
-        b=ro+Zojv1DDuTIgPWP4ZhN8qix6j5fuL/X8kDMHEYRVfQpR0xnBaLtg7MTweUMLz+Uc
-         CosfGOjQBYiMG77ZoEJRWBOwYCAJZg1mKdQfNao+EzEi6oUMOe+tFVSPHESyuFkHUxeg
-         wVbMl3FeZGv44JPKxay+J9X6XC1xepKY9SWNe/dqPOul/8SoJy75GuTffZpOP8cmxzgf
-         ofDjPBSkSTpJ4ubIraXMnXu7F0XS0j/8QlNjp0xyXyLZD/YFJ/G4i0RJg1HtTieuWlFk
-         71HmczPRxGs+ARfLculcfpMqmhUYrMJS5DKWVFzPAshrH/0VS4qV0HU+sERipa0V4z/S
-         QN3g==
-X-Gm-Message-State: AOAM530+eSlpfIUGTtQUBzLLcWvLlS0Rplm4B9qeg1AuXn880EhnV64b
-	3qm9Ruc1Kr8JbcKMZWBLsignpxm6xks=
-X-Google-Smtp-Source: ABdhPJx3tFH7oCh4eJBQySlmKX06PF7Vp0ypKIsUaRjLM0+gqBBvDgwVfZ3cVrjQJkcU3SWb3SOhOQ==
-X-Received: by 2002:adf:fe05:: with SMTP id n5mr11723407wrr.9.1607785538940;
-        Sat, 12 Dec 2020 07:05:38 -0800 (PST)
-Return-Path: <toertel@gmail.com>
-Received: from gigabyte.fritz.box (p200300cfaf2e6200b1e759e92fe30cac.dip0.t-ipconnect.de. [2003:cf:af2e:6200:b1e7:59e9:2fe3:cac])
-        by smtp.gmail.com with ESMTPSA id w13sm20504488wrt.52.2020.12.12.07.05.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Dec 2020 07:05:38 -0800 (PST)
-From: "Mark Jonas" <toertel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Mark Jonas <toertel@gmail.com>
-Subject: [PATCH] parted: Make readline dependency optional
-Date: Sat, 12 Dec 2020 16:05:32 +0100
-Message-Id: <20201212150532.1340959-1-toertel@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:from:mime-version:date:message-id:subject:to;
+        bh=wotx2+NPIoaB1Di6tbevAvn+vbG5UTfK8tlap6CV+Ng=;
+        b=t7kqQov7PSDE64LJVWJTwE3joLqux/GYzdisBzFMTnRfsUjPdg3i3kPJkMUsSGO4Pe
+         oAC1FFei4v56+gcBP3RwD+oD0XEt7dHZAMde/R74pS13QoMHI9zabnpIldNyGrJpAH6L
+         YcMBhrkUNPAdSWrSBA3NE/W1eKw329/8jcSrTBohFkf3ZzKzf51VBf7dLSBoFjxzlzeO
+         wp3X3dG5Cd97fzXvOZs33RjoejEV4eGB9ISjMV3Wq8YQc3OGOjbe0KJqtkO8678UEKp9
+         oZPl5byP5CDAIBUt8LUrYtTKtUILY4SmTrfz6qxSx+qf6wtWhT/bYJ+h6kPo05E63DjG
+         J6OA==
+X-Gm-Message-State: AOAM530vp1qli6p+s+n/SphxTPBPfcZviBfMjtEzWqtSXQxG1QdG0PNO
+	jeL8WyP2+i/qpTd+y98YCnLA4EYX8963x9w3
+X-Google-Smtp-Source: ABdhPJwuAhlistK0C+mVPMGPKZzdhKRRWZmSFxbQWjfRbr5DZcAhQvL13FPMhMppGqpatBtaClJetA==
+X-Received: by 2002:aed:30d1:: with SMTP id 75mr24603373qtf.61.1607817167914;
+        Sat, 12 Dec 2020 15:52:47 -0800 (PST)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
+        by smtp.gmail.com with ESMTPSA id l24sm1829964qkl.46.2020.12.12.15.52.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 12 Dec 2020 15:52:47 -0800 (PST)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f179.google.com with SMTP id h4so7438139qkk.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Dec 2020 15:52:47 -0800 (PST)
+X-Received: by 2002:a37:498b:: with SMTP id w133mr24498166qka.383.1607817166506;
+ Sat, 12 Dec 2020 15:52:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Sat, 12 Dec 2020 20:52:34 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpXfVcDjtMwUvSRi68+-BHnK9nF6B-5wFX7nzW2wi2adQ@mail.gmail.com>
+Message-ID: <CAP9ODKpXfVcDjtMwUvSRi68+-BHnK9nF6B-5wFX7nzW2wi2adQ@mail.gmail.com>
+Subject: Strange segfault on native Go binaries
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Mark Jonas <toertel@gmail.com>
----
- meta/recipes-extended/parted/parted_3.3.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Hello all,
 
-diff --git a/meta/recipes-extended/parted/parted_3.3.bb b/meta/recipes-extended/parted/parted_3.3.bb
-index a1fd3ef07b..ce40c04ad4 100644
---- a/meta/recipes-extended/parted/parted_3.3.bb
-+++ b/meta/recipes-extended/parted/parted_3.3.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.gnu.org/software/parted/parted.html"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2f31b266d3440dd7ee50f92cf67d8e6c"
- SECTION = "console/tools"
--DEPENDS = "ncurses readline util-linux virtual/libiconv"
-+DEPENDS = "ncurses util-linux virtual/libiconv"
- 
- SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://no_check.patch \
-@@ -22,6 +22,9 @@ EXTRA_OECONF = "--disable-device-mapper"
- 
- inherit autotools pkgconfig gettext texinfo ptest
- 
-+PACKAGECONFIG ?= "readline"
-+PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- do_compile_ptest() {
+I am trying to debug a strange issue on native Go binaries. We're
+seeing it on 'glide' for example.
+
+If I build 'glide-native' and I go to its tmp/work/.../image/bin/glide
+it works just fine. For example, running it we see the expected error
+as I am running inside a clean environment without any extra tools:
+
+otavio@yocto-env ~/.../build %
+./tmp/work/x86_64-linux/glide-native/0.13.3-r0/build/bin/glide
+[ERROR] Error getting version: exec: "go": executable file not found in $PATH.
+
+Now, if we run it from the sysroot-native, it segfaults:
+
+otavio@yocto-env ~/.../build %
+./tmp/work/cortexa9hf-neon-oel-linux-gnueabi/updatehub/1.1.1-r0/recipe-sysroot-native/usr/bin/glide
+[1]    26085 segmentation fault (core dumped)
+
+And this segfault is also happening inside the build. I ran the
+readelf on them and it seems to have been modified to use the
+uninative libc loader but I am in doubt how if this is the culprit.
+Can someone shed any light on this?
+
 -- 
-2.25.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
