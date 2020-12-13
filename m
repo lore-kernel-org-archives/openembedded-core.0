@@ -1,58 +1,74 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web11.26139.1607898055819558623
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.26847.1607900969003962800
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Dec 2020 14:20:56 -0800
+ Sun, 13 Dec 2020 15:09:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=lWJ+rF2m;
- spf=pass (domain: burtonini.com, ip: 209.85.167.67, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f67.google.com with SMTP id a9so25442064lfh.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Dec 2020 14:20:55 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cHNDW84f;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id c133so144578wme.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Dec 2020 15:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1IohrxMO+R8LA5eEK8T9gu2MF1zgTB9nq1Zk4ymFEvM=;
-        b=lWJ+rF2mf06jlR0WQoIFbM+fLXGE54LN4HJdUT0olrsU7nVi+33HAAJoYuak0SfNiL
-         YHFH4/7qwoZWT4ERPN5uuC7Xdp2Fs8txK/V8fldHKxEP/Tw9gnf58mdKNyxJPLeHyn3j
-         dsRO8V51CCrhIaXXBSX4wRF+F43Vc7n4koQAkDWWJb8lyoBB1fUIqHfImHYKrofmijf4
-         +RMAMMBtM/zYcZiQWWrp4XcK3I11mD7sX4dOYbkDhiePwsRX6mvrvU6fx4lkLteFIRLQ
-         xYn+O/j4u/2OipNxxlUEHLuCKK1VpQBj9ZY2/L/m54W/iovWzPz+0kO0QhJ2twV4pxKd
-         rQQg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Ghrn9226nQvee5iJWlhYrScqqllT1naMnQGahdBi7EQ=;
+        b=cHNDW84f0EVCtY8wQ8NBfkMVvC+XJkhpgq9V3g26Zknmuh1nSHTLP2ISsoUVWMo0sl
+         fXT5W+qgBWgOHBupPzWnvpVzmbFdKh9EK38ZYcbx67N+/WyKzxCFT0PJQKrx6tGeEtc2
+         r5P9YOh+Yyn/2IoEeW5A1yopMBb1WYySH3Rx8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1IohrxMO+R8LA5eEK8T9gu2MF1zgTB9nq1Zk4ymFEvM=;
-        b=K3cU8uXBpnXw7+uinafgcw2CuOQPOxag2tJf4MZguysbMIwZbUKJwZFEi967RLlNIX
-         Q5NDtQyX6ONTDxsUb3vSUiQhZFVANLJ4b/w8CswV/JTGM2LCUlvQ3W0nllMbNpWH0pJr
-         rOU+Gp8bU7AQJ/xEMFzXDhZ4qJaBqw+j9Vo21bS2CVPN46PAoSzxTj4ppeMcQCjsP/mR
-         6vyr47KH9oGa+H+U+J7mqsgOJbFiQaY9cqKfnOoSEVHuN2FdmayrdOxBMhY7mKqLG1qI
-         wwnd6PI8QvrCfZpBpxHvHezdyzsUv29v4Wg10niTO7/dTCMkYLUEJllY5bk9N+4nSWFs
-         Estw==
-X-Gm-Message-State: AOAM532GuC56E/ETMLag4Oiu05lwudOoT7hF7sFBWT5vR+fWFypV+zNd
-	aDvGa1KGs3UFt1xgM6pTh1f+SljxnQqXneQ6LOXVwA==
-X-Google-Smtp-Source: ABdhPJyDULHxCC1fscPJe58pes4TGfmjpELYKdOJ5D9Gi25NVdVBFrAwH6tK+AbUs1a9dQjYobl9or+dRCfGLgxGKqQ=
-X-Received: by 2002:a2e:3807:: with SMTP id f7mr9330747lja.24.1607898052631;
- Sun, 13 Dec 2020 14:20:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20201211160922.4125554-1-ross.burton@arm.com> <51192976-54f1-a6dc-6be0-0780c3006338@gmail.com>
-In-Reply-To: <51192976-54f1-a6dc-6be0-0780c3006338@gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Sun, 13 Dec 2020 22:20:41 +0000
-Message-ID: <CAAnfSTvfQZWGXCjduUU_1M4ae=vnmqLO95JBsS-ZeNrHf6KbEw@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Ghrn9226nQvee5iJWlhYrScqqllT1naMnQGahdBi7EQ=;
+        b=kEsWTh/3RaTAscvbcF9GMgh0RqiHfSnkMOO24QgxG/3vPPUNTFvEwzNUIEOXcxi9RC
+         8hi6hyD+5DdpjhcyzryWD3Rk026DCc1UMKHw5WW924G61o+DIyFOmiJp4UA13tQNBx2B
+         lxQUGJ5jTcbTlwJO+xPcSlvk5wu6YBm+Xnn1iNHGZgYwZ0GwlGXK3+EFDE7AXVnDmSH0
+         cVUrJeHzFT8a7TkrbVrA9ZD8Plgj1B0gZ7I/a50V+r3pkLQ/n4Q0xNkKmicXZgpBBjVY
+         J8tg05y/Kn8pJqtqgAkxOIDZe7Di8hJmVBiwns59/0FETn8gOCtsVCKkNi9B3OqTCMV2
+         3JJQ==
+X-Gm-Message-State: AOAM533MpBJocucMJ6ABEV2dWcr86QJr8oqjzn5VZrulaU6rZAwAs+PR
+	Di8zzKqnWipjfvVDKJXS6en9MA==
+X-Google-Smtp-Source: ABdhPJziWDoVptvMudhW2eMerAq3xMU/YFxpseBLZKENY+OMKdFd51goNdXfUnRiyDmD5VmGSg+mGg==
+X-Received: by 2002:a7b:ca41:: with SMTP id m1mr20701893wml.76.1607900967380;
+        Sun, 13 Dec 2020 15:09:27 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:15e3:7b39:fc6b:1133])
+        by smtp.gmail.com with ESMTPSA id 138sm31103641wma.41.2020.12.13.15.09.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Dec 2020 15:09:26 -0800 (PST)
+Message-ID: <09e9d4fe00cf8d42f3bb9cef83ae0988452df050.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] kernel: set COMPATIBLE_HOST to *-linux
-To: Khem Raj <raj.khem@gmail.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross@burtonini.com>, Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 13 Dec 2020 23:09:25 +0000
+In-Reply-To: <CAAnfSTvfQZWGXCjduUU_1M4ae=vnmqLO95JBsS-ZeNrHf6KbEw@mail.gmail.com>
+References: <20201211160922.4125554-1-ross.burton@arm.com>
+	 <51192976-54f1-a6dc-6be0-0780c3006338@gmail.com>
+	 <CAAnfSTvfQZWGXCjduUU_1M4ae=vnmqLO95JBsS-ZeNrHf6KbEw@mail.gmail.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 11 Dec 2020 at 16:53, Khem Raj <raj.khem@gmail.com> wrote:
+On Sun, 2020-12-13 at 22:20 +0000, Ross Burton wrote:
+> On Fri, 11 Dec 2020 at 16:53, Khem Raj <raj.khem@gmail.com> wrote:
+> 
+> > > +COMPATIBLE_HOST = ".*-linux"
+> > 
+> > does this cover linux-gnueabi and such tuples too ?
+> 
+> Maybe?  Depends on the matching in anchored.  If it does by accident
+> then explicitly matching would be better.  What machine has a triple
+> like that for testing?
 
-> > +COMPATIBLE_HOST = ".*-linux"
->
-> does this cover linux-gnueabi and such tuples too ?
+Most arm machines I think? :)
 
-Maybe?  Depends on the matching in anchored.  If it does by accident
-then explicitly matching would be better.  What machine has a triple
-like that for testing?
+It is unanchored, something which I have to wonder about. I also don't
+like the overhead adding COMPATIBLE_* adds but I guess we just have to
+live with that :(.
 
-Ross
+Cheers,
+
+Richard
+
