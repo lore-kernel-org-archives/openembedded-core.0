@@ -1,74 +1,169 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.26847.1607900969003962800
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web11.28779.1607910497260007076
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Dec 2020 15:09:29 -0800
+ Sun, 13 Dec 2020 17:48:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cHNDW84f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id c133so144578wme.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Dec 2020 15:09:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Ghrn9226nQvee5iJWlhYrScqqllT1naMnQGahdBi7EQ=;
-        b=cHNDW84f0EVCtY8wQ8NBfkMVvC+XJkhpgq9V3g26Zknmuh1nSHTLP2ISsoUVWMo0sl
-         fXT5W+qgBWgOHBupPzWnvpVzmbFdKh9EK38ZYcbx67N+/WyKzxCFT0PJQKrx6tGeEtc2
-         r5P9YOh+Yyn/2IoEeW5A1yopMBb1WYySH3Rx8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Ghrn9226nQvee5iJWlhYrScqqllT1naMnQGahdBi7EQ=;
-        b=kEsWTh/3RaTAscvbcF9GMgh0RqiHfSnkMOO24QgxG/3vPPUNTFvEwzNUIEOXcxi9RC
-         8hi6hyD+5DdpjhcyzryWD3Rk026DCc1UMKHw5WW924G61o+DIyFOmiJp4UA13tQNBx2B
-         lxQUGJ5jTcbTlwJO+xPcSlvk5wu6YBm+Xnn1iNHGZgYwZ0GwlGXK3+EFDE7AXVnDmSH0
-         cVUrJeHzFT8a7TkrbVrA9ZD8Plgj1B0gZ7I/a50V+r3pkLQ/n4Q0xNkKmicXZgpBBjVY
-         J8tg05y/Kn8pJqtqgAkxOIDZe7Di8hJmVBiwns59/0FETn8gOCtsVCKkNi9B3OqTCMV2
-         3JJQ==
-X-Gm-Message-State: AOAM533MpBJocucMJ6ABEV2dWcr86QJr8oqjzn5VZrulaU6rZAwAs+PR
-	Di8zzKqnWipjfvVDKJXS6en9MA==
-X-Google-Smtp-Source: ABdhPJziWDoVptvMudhW2eMerAq3xMU/YFxpseBLZKENY+OMKdFd51goNdXfUnRiyDmD5VmGSg+mGg==
-X-Received: by 2002:a7b:ca41:: with SMTP id m1mr20701893wml.76.1607900967380;
-        Sun, 13 Dec 2020 15:09:27 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:15e3:7b39:fc6b:1133])
-        by smtp.gmail.com with ESMTPSA id 138sm31103641wma.41.2020.12.13.15.09.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Dec 2020 15:09:26 -0800 (PST)
-Message-ID: <09e9d4fe00cf8d42f3bb9cef83ae0988452df050.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kernel: set COMPATIBLE_HOST to *-linux
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross@burtonini.com>, Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 13 Dec 2020 23:09:25 +0000
-In-Reply-To: <CAAnfSTvfQZWGXCjduUU_1M4ae=vnmqLO95JBsS-ZeNrHf6KbEw@mail.gmail.com>
-References: <20201211160922.4125554-1-ross.burton@arm.com>
-	 <51192976-54f1-a6dc-6be0-0780c3006338@gmail.com>
-	 <CAAnfSTvfQZWGXCjduUU_1M4ae=vnmqLO95JBsS-ZeNrHf6KbEw@mail.gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
+IronPort-SDR: xgsZvg3qXVr70UyqVciesAv8BulL3hF2qVs39qpBhij+NvdgYA5P6jDVjiUtdmXD4OMSEiM9Hz
+ 4//pBG1Kagyw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="171133624"
+X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
+   d="scan'208";a="171133624"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2020 17:48:16 -0800
+IronPort-SDR: GtBGMZuxRlVap2JF8dS3X/uKYXYmy1Sm5cyvipBTiqUTZnyKI2h/0GHHo6WmhOChYwr9lJh9tm
+ gq0ls96jRaMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
+   d="scan'208";a="331645015"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga008.fm.intel.com with ESMTP; 13 Dec 2020 17:48:15 -0800
+From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] go: Update 1.15.5 -> 1.15.6
+Date: Mon, 14 Dec 2020 09:48:14 +0800
+Message-Id: <1607910494-12730-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-On Sun, 2020-12-13 at 22:20 +0000, Ross Burton wrote:
-> On Fri, 11 Dec 2020 at 16:53, Khem Raj <raj.khem@gmail.com> wrote:
-> 
-> > > +COMPATIBLE_HOST = ".*-linux"
-> > 
-> > does this cover linux-gnueabi and such tuples too ?
-> 
-> Maybe?  Depends on the matching in anchored.  If it does by accident
-> then explicitly matching would be better.  What machine has a triple
-> like that for testing?
+From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 
-Most arm machines I think? :)
+The deleted patch file mentioned below is removed since 1.15.6
+already has the issue patched.
 
-It is unanchored, something which I have to wonder about. I also don't
-like the overhead adding COMPATIBLE_* adds but I guess we just have to
-live with that :(.
+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+---
+ meta/recipes-devtools/go/go-1.15.inc               |   5 +-
+ ...permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch | 100 ---------------------
+ 2 files changed, 2 insertions(+), 103 deletions(-)
+ delete mode 100644 meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
+index ccfb0c5..abe74e5 100644
+--- a/meta/recipes-devtools/go/go-1.15.inc
++++ b/meta/recipes-devtools/go/go-1.15.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
+ 
+ GO_BASEVERSION = "1.15"
+-PV = "1.15.5"
++PV = "1.15.6"
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
+@@ -15,6 +15,5 @@ SRC_URI += "\
+     file://0006-cmd-dist-separate-host-and-target-builds.patch \
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+-    file://0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch \
+ "
+-SRC_URI[main.sha256sum] = "c1076b90cf94b73ebed62a81d802cd84d43d02dea8c07abdc922c57a071c84f1"
++SRC_URI[main.sha256sum] = "890bba73c5e2b19ffb1180e385ea225059eb008eb91b694875dd86ea48675817"
+diff --git a/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch b/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
+deleted file mode 100644
+index b57041f..0000000
+--- a/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 4759221d46b1666de96b8047cec3160bfe4d3d5d Mon Sep 17 00:00:00 2001
+-From: Ian Lance Taylor <iant@golang.org>
+-Date: Fri, 13 Nov 2020 11:05:37 -0800
+-Subject: [PATCH] cmd/go: permit CGO_LDFLAGS to appear in //go:ldflag
+-
+-Fixes #42565
+-
+-Upstream-Status: Backport [https://github.com/golang/go/commit/782cf560db4c919790fdb476d1bbe18e5ddf5ffd]
+-Change-Id: If7cf39905d124dbd54dfac6a53ee38270498efed
+-Reviewed-on: https://go-review.googlesource.com/c/go/+/269818
+-Trust: Ian Lance Taylor <iant@golang.org>
+-Run-TryBot: Ian Lance Taylor <iant@golang.org>
+-TryBot-Result: Go Bot <gobot@golang.org>
+-Reviewed-by: Jay Conrod <jayconrod@google.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/cmd/go/internal/work/exec.go      | 15 +++++++++
+- src/cmd/go/testdata/script/ldflag.txt | 44 +++++++++++++++++++++++++++
+- 2 files changed, 59 insertions(+)
+- create mode 100644 src/cmd/go/testdata/script/ldflag.txt
+-
+-diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
+-index 575a2df..9209e3d 100644
+---- a/src/cmd/go/internal/work/exec.go
+-+++ b/src/cmd/go/internal/work/exec.go
+-@@ -2821,6 +2821,21 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
+- 				idx = bytes.Index(src, []byte(cgoLdflag))
+- 			}
+- 		}
+-+
+-+		// We expect to find the contents of cgoLDFLAGS in flags.
+-+		if len(cgoLDFLAGS) > 0 {
+-+		outer:
+-+			for i := range flags {
+-+				for j, f := range cgoLDFLAGS {
+-+					if f != flags[i+j] {
+-+						continue outer
+-+					}
+-+				}
+-+				flags = append(flags[:i], flags[i+len(cgoLDFLAGS):]...)
+-+				break
+-+			}
+-+		}
+-+
+- 		if err := checkLinkerFlags("LDFLAGS", "go:cgo_ldflag", flags); err != nil {
+- 			return nil, nil, err
+- 		}
+-diff --git a/src/cmd/go/testdata/script/ldflag.txt b/src/cmd/go/testdata/script/ldflag.txt
+-new file mode 100644
+-index 0000000..6ceb33b
+---- /dev/null
+-+++ b/src/cmd/go/testdata/script/ldflag.txt
+-@@ -0,0 +1,44 @@
+-+# Issue #42565
+-+
+-+[!cgo] skip
+-+
+-+# We can't build package bad, which uses #cgo LDFLAGS.
+-+cd bad
+-+! go build
+-+stderr no-such-warning
+-+
+-+# We can build package ok with the same flags in CGO_LDFLAGS.
+-+env CGO_LDFLAGS=-Wno-such-warning -Wno-unknown-warning-option
+-+cd ../ok
+-+go build
+-+
+-+# Build a main program that actually uses LDFLAGS.
+-+cd ..
+-+go build -ldflags=-v
+-+
+-+# Because we passed -v the Go linker should print the external linker
+-+# command which should include the flag we passed in CGO_LDFLAGS.
+-+stderr no-such-warning
+-+
+-+-- go.mod --
+-+module ldflag
+-+
+-+-- bad/bad.go --
+-+package bad
+-+
+-+// #cgo LDFLAGS: -Wno-such-warning -Wno-unknown-warning
+-+import "C"
+-+
+-+func F() {}
+-+-- ok/ok.go --
+-+package ok
+-+
+-+import "C"
+-+
+-+func F() {}
+-+-- main.go --
+-+package main
+-+
+-+import _ "ldflag/ok"
+-+
+-+func main() {}
+--- 
+-2.29.2
+-
+-- 
+2.7.4
 
