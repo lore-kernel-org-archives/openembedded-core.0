@@ -1,89 +1,81 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.35821.1607956696434629771
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web09.35618.1607956698831909858
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:38:16 -0800
+ Mon, 14 Dec 2020 06:38:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QkMTVSBL;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id j13so6667468pjz.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:38:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YqXpBkl9;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id c12so12089083pgm.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:38:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=HnuD7+i6eTTibW5mQGGGpBZujpyJRWpQxOkJi4++oxQ=;
-        b=QkMTVSBL3sDpKV4U+l55AikhTeJ5co6lJmi1yRqrevKlVHWP8TuddFYupmYuLx+SKe
-         N126YQE7UbTVAcwdnIYMf8qOMear30fIa2flynVQrCJ2BzD5XrIe1qZArtxnLceiKQch
-         wKIJcs+Q3WAMQRH2dU9ECXhDLhkXZGP8ViijuOnh8nWOYc3XzwjYZ0Igv8F9XY7I9wjA
-         vxk8nAxiwwzO2fe8dXPTk8Cc//V0m57OhjCKolm7d/N5nVcsTOlO2ni3IJrKa8wMEb5E
-         GCA+MuvI8VXiERVVEYdOb/dPnSw3YGEyTzN0zJE3Ct3GxRd2kD8eGWHkxtW1dhgdEbHB
-         TwqQ==
+        bh=DmTT2XNRCnX/v+VNIaHKSKEVrLQfjTtOLcitQd4uH7U=;
+        b=YqXpBkl9CGcjNy344K+1qpjiNnEmZ6UGc2x0g3FCpIrO7uEh60mFxW5+wpMEQnd3mS
+         G0PpDc+v+j3sQbwlzvkDr4SzS/tpmmtxyltC2JLwtuT1Nqh4f8grcXRTar9rmgiJ2L9+
+         iifawtg4q4I7GGZeV2cRGgqBhBQx5ksXRu7GTRruNu7yQDTWeDE1XjGwmK0+udUEPRTZ
+         QyklyBUDsj67XS53NhqHIYj13PoxxXvh5f1QCmCiQ8fDUTzSs2wycgYgT53qe3bM1tD8
+         l1fAo+1vMgeyi817zttGbKsURu9NrAlN0bap1DyEHIJE+/MRytN96EuDk13uWvusAqsH
+         zmVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=HnuD7+i6eTTibW5mQGGGpBZujpyJRWpQxOkJi4++oxQ=;
-        b=acLUd/tO3F1uOAJihJ1pwIjariwM/4DA+kUYB+9R2uGZ6ZEjXttVl3Pygq5GjXBHGF
-         Jfa04QrFCj4EthfGHjtnonMpAG/PZMpZ6T+qqwFnJIAvvppAYRjUjxDftsduMGwYAF6/
-         8OoYWKkha1aGtTIqBM/yUYe5XJXrj0cIyKLGM3eu7+gQdUDj+3cAfQZ2cvlWc4M/aQxb
-         in1lPhYjEN1r8BqScFDr3LmrLDSVNFwXwb3DKbdYz9IW7v7HHaDM/GEYlZLHw07xHNwL
-         87Sx2beMRAbQEDMKdj/7a5T35dzXwJQ4zsIejeZzIvBPQlq7tBltFKlUeE9xpQ9WYkWh
-         Gn6g==
-X-Gm-Message-State: AOAM532kIie2PlvNewQb79p+zd4dz+2PG1Ojdnx9V/A17sQroyazBMjc
-	k3c5N9Ogsril720+Md6veQMTqxKROv+xgIVk
-X-Google-Smtp-Source: ABdhPJx9P71APQqiz+2gZLPd3DcO2dj5rhWFF1DtCapwglBVx6LkpBTwfrL4rtA2lYjziy2bBIGtmg==
-X-Received: by 2002:a17:90a:a485:: with SMTP id z5mr25820234pjp.160.1607956695570;
-        Mon, 14 Dec 2020 06:38:15 -0800 (PST)
+        bh=DmTT2XNRCnX/v+VNIaHKSKEVrLQfjTtOLcitQd4uH7U=;
+        b=D0AAe6mXTD0Y+IpRtQzjgjcBAf6x6Jw2aUselyBEc3/jxg/6XA2S2oz+zh0wllEY+Y
+         0Dmq1+nDTXbfMQoGHyV/BMQzWitz8CoamDGPX4YAtqug4Y+SWOzJPUdpXb3icOsiSW+F
+         PFK8iHGJFsvlrwsDCNKGfRIuE2i7AEEjabIwlNIdRQLc6co4bxJVchTjb3QZMN4BJHlI
+         Tkd4B1W92yzq9CHfquo2B55bC3/qyfE2YVWDk1OR8aH26kRtqkktkXlcoepQQ4hE08b1
+         p4GZfFagmVB5Zx1HOxq762qsviSU8LHyScm9VUBCyYcxaKfWP9X3z+kcsFMmJGuABWO4
+         COjQ==
+X-Gm-Message-State: AOAM531PNTyKkH7j6J3snsEOzIxn28v1RAPS0C1nF2SCtYPh6q0zWbAm
+	+RNU5yyGCZkWWklY9YQWKf+jjjRvyzXuAAev
+X-Google-Smtp-Source: ABdhPJycu2rBW0mPLeXQDPMnQxrNrXhDVow66/AWinD6BiNEbBj+ZpfrOH+sh+Yp9dAF4YW4XsIEbQ==
+X-Received: by 2002:a63:1805:: with SMTP id y5mr24423193pgl.27.1607956697948;
+        Mon, 14 Dec 2020 06:38:17 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.38.13
+        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.38.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:38:14 -0800 (PST)
+        Mon, 14 Dec 2020 06:38:17 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 23/25] buildtools-tarball: add wic dependency into extended buildtools
-Date: Mon, 14 Dec 2020 04:36:52 -1000
-Message-Id: <0dc25d88658461b71bd62a14a809cedf16e072bc.1607956164.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 24/25] metadata_scm: Fix signature handling of METADATA_REVISION and METADATA_BRANCH
+Date: Mon, 14 Dec 2020 04:36:53 -1000
+Message-Id: <edbe823ddf53aecc58d28fbcf7de1a1dc2dc79c8.1607956164.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
 References: <cover.1607956164.git.steve@sakoman.com>
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-fix below error:
-wic ls ./core-image-minimal-intel-x86-64.wic
+We're not interested in the dependencies of these functions and what
+those functions look like, we're interested in the value the variable has.
 
-ERROR: Can't find executable parted
+Force the hashed value to be the actual value from the function. This
+means using METADATA_REVISION in DISTRO_VERSION for example now
+correctly rebuilds when it changes value.
 
-wic depend on some tools like parted/mtools/..., and we have those
-tools in native_sysroot. so above problem can be avoided by
-run command like wic ls imagename.wic --native-sysroot <path>
-
-but this cannot cover condition that usr don't have build the
-image, the image just copy from somewhere.
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c0eda6ec09395f3a04cb80107a3ca33a063b21f8)
+(cherry picked from commit 005651dc782859c01f170fb974811b2a13cb2cef)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/buildtools-extended-tarball.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/metadata_scm.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-index c32d0107c3..0816486754 100644
---- a/meta/recipes-core/meta/buildtools-extended-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-@@ -29,6 +29,9 @@ TOOLCHAIN_HOST_TASK += "\
-     nativesdk-pkgconfig \
-     nativesdk-glibc-utils \
-     nativesdk-libxcrypt-dev \
-+    nativesdk-parted \
-+    nativesdk-dosfstools \
-+    nativesdk-gptfdisk \
-     "
+diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
+index 58bb4c555a..2608a7ef7b 100644
+--- a/meta/classes/metadata_scm.bbclass
++++ b/meta/classes/metadata_scm.bbclass
+@@ -1,5 +1,7 @@
+ METADATA_BRANCH ?= "${@base_detect_branch(d)}"
++METADATA_BRANCH[vardepvalue] = "${METADATA_BRANCH}"
+ METADATA_REVISION ?= "${@base_detect_revision(d)}"
++METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}"
  
- TOOLCHAIN_OUTPUTNAME = "${SDK_ARCH}-buildtools-extended-nativesdk-standalone-${DISTRO_VERSION}"
+ def base_detect_revision(d):
+     path = base_get_scmbasepath(d)
 -- 
 2.17.1
 
