@@ -1,79 +1,70 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web09.29878.1607917763397255034
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web12.30096.1607919259004255392
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Dec 2020 19:49:23 -0800
+ Sun, 13 Dec 2020 20:14:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AXGA4rv0;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id u21so11011283qtw.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Dec 2020 19:49:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=JnmyQe0DuWsP+FH2H8+lANEc+sWyzkqCxczk9b2JtfU=;
-        b=AXGA4rv0frGObQO3RIpFK0zHfiFif9EG4q5jTdHIf8zkNMy/5JCg7CZPZbkEafWEaS
-         Znrzey/0xATvDBxXz60uC9QMNFzQqvpipTQBvJ2zwTc25AbrQcaGOdSICgR9PflT85lW
-         hQrtXv/Q2MVZat9A9NMu1iybBcjava3MaRn8q7BdI3J8mks1m81jgvLHHNmLHxp6Krz/
-         ixu0Pbv3LhhaoVZ15o8oL2VNvV9Dtio3VAEEy05lEuW56OdBeWfpMRHnm8pVVcnjkQfx
-         t5Zbya4TJcX+5uC32VuPW/WSPnPBobV+rQTPQPhwzMHAToSxAJ6bsBYS+R4lc+SpLtM3
-         PxPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=JnmyQe0DuWsP+FH2H8+lANEc+sWyzkqCxczk9b2JtfU=;
-        b=V67KonEAe9Na/JusBfRICyzCD1fGlMUlGfNTKKxMEgLFci6FM+xsPesyto+FeG4INp
-         +PJ35kRHNxhgwsLkfcnBRRGYRQbpjTS2b+hS1Q2vwCr5wHxDLdxuj7VltAkXFSWZaCBb
-         fLWv/zUcHYWwbHC/kDn+h1Oli8oOsjtdmG/2+c+wIfd6GRmpgQ1zxZ3BIRELZE6agJWZ
-         3BIJXcwFQMOE8ALzSP2gQzQj1cgg5MU4OglEjpaXBgU8SJvxc+qwIhI6GPYpqYIMHkjH
-         3vLFuNaUq6fVFUDGDpl4uO+jNIBapP4Ce2eIDeQezlw6EF+0tp2/jtyXQqJA9qha0QJ2
-         yfXQ==
-X-Gm-Message-State: AOAM531zc8/o+ClGpqRqorb3mDwRwJ1dxYffTnZkKHHhKsmRVrG6B0gO
-	pKIBY4paQnhHNkRF0IRs3kvJTS2q2LkFqIVUlERl3xFlQG0=
-X-Google-Smtp-Source: ABdhPJzo/+SJWgaLY1rq2a/m0Terg/hvXCOcg9ERdl2GDeFGSrsaS9KClzaKg3R6AkjrVNzgjMt8VcApxB9viWoL1Qo=
-X-Received: by 2002:aed:2ec6:: with SMTP id k64mr29355875qtd.194.1607917762502;
- Sun, 13 Dec 2020 19:49:22 -0800 (PST)
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: vD0x0T7j1fWWRZnBrFe7zFnHUWoFuLv+dB8SngZio7wUdkiuF8b8lYfSPYrDM9xbleLonKkpYN
+ bI4pr1VoqfCw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="162403202"
+X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
+   d="scan'208";a="162403202"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2020 20:14:14 -0800
+IronPort-SDR: 8HxcBb/bLryJcELru+zPyGwUe+p2I2tNahznGBTqrz8BqxmN5IUPLIjLS8j4WJ1uXwpyUcREOM
+ zmVY1WwFg1oA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
+   d="scan'208";a="367045669"
+Received: from pgsmsx602.gar.corp.intel.com ([10.108.199.137])
+  by orsmga008.jf.intel.com with ESMTP; 13 Dec 2020 20:14:13 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx602.gar.corp.intel.com (10.108.199.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 14 Dec 2020 12:14:13 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Mon, 14 Dec 2020 12:14:12 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
+	<raj.khem@gmail.com>
+CC: "alistair@alistair23.me" <alistair@alistair23.me>
+Subject: Re: [PATCH 2/2] mesa: remove patch disabling asm
+Thread-Topic: [PATCH 2/2] mesa: remove patch disabling asm
+Thread-Index: AQHWz9yHI7hS27R6HkqVcVBnUxKQnan1eVIA
+Date: Mon, 14 Dec 2020 04:14:12 +0000
+Message-ID: <5c6996a2dbc28630bed661c6d2fa3c4efb51eaf8.camel@intel.com>
+References: <20201211073640.479105-1-anuj.mittal@intel.com>
+	 <20201211073640.479105-2-anuj.mittal@intel.com>
+	 <b5957578-08bd-5926-02e7-9c13559e3f5b@gmail.com>
+In-Reply-To: <b5957578-08bd-5926-02e7-9c13559e3f5b@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-References: <CAP9ODKpXfVcDjtMwUvSRi68+-BHnK9nF6B-5wFX7nzW2wi2adQ@mail.gmail.com>
- <CAMKF1sqj0epXj_cFBniiEvYmfTgcVuCxaAfLh7_Y7oPZ==Tq1w@mail.gmail.com> <CAP9ODKoxVgDoMtys=aQdhteAZQ3bV7fbtLN8ZUuHehW2caLgSg@mail.gmail.com>
-In-Reply-To: <CAP9ODKoxVgDoMtys=aQdhteAZQ3bV7fbtLN8ZUuHehW2caLgSg@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sun, 13 Dec 2020 19:48:56 -0800
-Message-ID: <CAMKF1spBFaSKMXU77Rmx-usTw-mJN-dhbAb-=PKiFSFJ1-5hSg@mail.gmail.com>
-Subject: Re: [OE-core] Strange segfault on native Go binaries
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1E746F8896F0EF419655F9289F0C9E2F@intel.com>
+Content-Transfer-Encoding: base64
 
-On Sun, Dec 13, 2020 at 6:52 AM Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
->
-> Hello Khem,
->
-> Em s=C3=A1b., 12 de dez. de 2020 =C3=A0s 23:30, Khem Raj <raj.khem@gmail.=
-com> escreveu:
-> > On Sat, Dec 12, 2020 at 3:52 PM Otavio Salvador
-> > <otavio.salvador@ossystems.com.br> wrote:
-> > > And this segfault is also happening inside the build. I ran the
-> > > readelf on them and it seems to have been modified to use the
-> > > uninative libc loader but I am in doubt how if this is the culprit.
-> > > Can someone shed any light on this?
-> >
-> > it seems relocation is not working in some cases. whats your host
-> > distro, are you using gold linker by any chance.
->
-> Ubuntu 20.04 inside Docker
->
-> The features are: DISTRO_FEATURES =3D argp ipv4 ipv6 systemd ldconfig
->
-
-Does it happen outside docker ?
-
->
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+T24gRnJpLCAyMDIwLTEyLTExIGF0IDA4OjQxIC0wODAwLCBLaGVtIFJhaiB3cm90ZToNCj4gDQo+
+IA0KPiBPbiAxMi8xMC8yMCAxMTozNiBQTSwgQW51aiBNaXR0YWwgd3JvdGU6DQo+ID4gVGhpcyB3
+YXMgb3JpZ2luYWxseSBhZGRlZCBmb3IgbXVzbCBvbmx5IFsxXS4gVXBzdHJlYW0gaGFzIHJlbW92
+ZWQNCj4gPiB0aGlzDQo+ID4gb3B0aW9uIGJ1dCB3ZSByZXZlcnRlZCB0aGF0IGNoYW5nZSBkdXJp
+bmcgYW4gdXBncmFkZSB0byBmaXggY2VydGFpbg0KPiA+IG11c2wgc3BlY2lmaWMgY29tcGlsZSB0
+aW1lIGlzc3VlcyBbMl0uDQo+ID4gDQo+ID4gSSBjb21waWxlIHRlc3RlZCB3aXRob3V0IHRoaXMg
+cGF0Y2ggb24gbXVzbC14ODYgYW5kIG11c2wteDg2LTY0IGFuZA0KPiA+IGRvbid0IHNlZSB0aGUg
+d2FybmluZ3MgYW55bW9yZS4gU2ltaWxhciB0ZXh0cmVsIGlzc3VlcyB3ZXJlIGZpeGVkDQo+ID4g
+dXBzdHJlYW0gc28gcGVyaGFwcyB0aG9zZSBoZWxwZWQgWzNdLg0KPiA+IA0KPiA+IFsxXSANCj4g
+PiBodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kvcG9reS9jb21taXQ/
+aWQ9NjhiZjEyOGU5MDFlODlkNWI0OWEyOGIxNWQ1MDgzYjJiZjZiNTM2Zg0KPiA+IFsyXSANCj4g
+PiBodHRwczovL3d3dy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFpbC9vcGVuZW1iZWRkZWQtY29y
+ZS8yMDE5LU5vdmVtYmVyLzI4OTIyMi5odG1sDQo+ID4gWzNdIA0KPiA+IGh0dHBzOi8vZ2l0bGFi
+LmZyZWVkZXNrdG9wLm9yZy9tZXNhL21lc2EvLS9jb21taXQvNDUyMDZkNzY3M2FkYjE0ODRjYmRi
+M2VhZGFmODJlMDg0OWM5Y2RjZj9tZXJnZV9yZXF1ZXN0X2lpZD0xOTc0DQo+ID4gDQo+IA0KPiBQ
+bGVhc2UgdHJ5IHJ1bm5pbmcvYm9vdGluZyBjb3JlLWltYWdlLXNhdG8gYWZ0ZXIgdGhpcyBjaGFu
+Z2UgZm9yIGENCj4gbXVzbCANCj4gYmFzZWQgeDg2IHN5c3RlbSBhcyB3ZWxsLg0KDQpZZWFoLCBJ
+IGhhZCBkb25lIHRoYXQgYW5kIGRpZG4ndCBzZWUgYW55IHByb2JsZW1zLg0KDQpUaGFua3MsDQoN
+CkFudWoNCg0K
