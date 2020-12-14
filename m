@@ -1,79 +1,85 @@
 Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web12.35531.1607956657431115007
+ by mx.groups.io with SMTP id smtpd.web10.35169.1607956660726728290
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:37:37 -0800
+ Mon, 14 Dec 2020 06:37:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mQOjadxY;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=g7+/z8a6;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id w6so12190845pfu.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:37 -0800 (PST)
+Received: by mail-pf1-f178.google.com with SMTP id t8so12165759pfg.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=zhSoR79yAKzSJnsSLXOdYIHoT5IO0mE/GI4Lx57xNyo=;
-        b=mQOjadxYjs2AC7K9mpycUKnZi5XGHFNJGA632q3F1reDgKT4SGJlhkBm8Er22Mjqn/
-         3KWt+jX87nwYN+M2Tnb65FYYsNVgiBl5eRqPIDCQ07ZuxCGDxFbaNd7o7XdpdcASI3uQ
-         c22FrKNV0p5jTh2+d9Ejaff4liyK2CorOIzz1VUKt68H7MEj8PWFt82zusVD3607xjwv
-         2uaebz7C0Vs9IzdA5oCnGjI2zrt9ZVWHwvsk2A7wWWsepWuLrLjAa7V2ke1su2iJKmkL
-         5i33m4zcNwUx3ABOfVYZNq0W1UNNlP/Dl6+7yEIBnxF9TnX1BCu1xHBJWY+m99FxpA4+
-         Sdog==
+        bh=/7CVTpY/jfzmqrfGIgGq6k2fRayZMnwXxeClN57EquI=;
+        b=g7+/z8a6LwTlTpK9M5oDMHqgHGTaue4eNq4E84wZXL7kLWlZ8CVTQ0ueOabXHuxxJc
+         Y+ZrZYOERfEqjohI+5fTEkLflvwy/f4w3mOYV/4TPoU3VePXyjZchBTAISP/xrxadY7q
+         /5qQ5f+wHU/VX+5WsSi5h9EGX7jiJ0pVJcaRdaI4SIyAXXfeBSvchQAPv9G1+u1uyBfy
+         LqY0TZSGfxM+KDs4KtSoWBuJ5PrNQ+gsJTnbTfLJmbOCsrDs1Jv/eiu9NLmE8/3BEXIj
+         dCmpcHWPiQTk2sOIxBFTo+NfHNeuASWMaFr9nyRqwChmZOKgfjDy4ZUDXohfOYRFO29B
+         yOsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=zhSoR79yAKzSJnsSLXOdYIHoT5IO0mE/GI4Lx57xNyo=;
-        b=gpNFydSWHe31UcDVQllJU+MarqeDZZT2GZHHNo/bjS/4b8bv1OgUWz7c5ncR3Sgtbc
-         N7FCE/7wScGNofbDEJC6VRQrp4z+sl27ju+qUQnuGXFdWOzgzfJU6sbhw/6TRi9DF3dU
-         qurBs6qNIsF8mURNtToY55VvP/nG6Sj0jbxmGs6hjA5B8OwEvYMUBX+XH1scEI8tgjIG
-         Rd2VjCAW1frYO/VYRcHsGsEfu3LfHXnBgGA9DbIXhMLxb1rrYkO6K+lvzIxRqeWtTBFp
-         DFdu0CrWrBbYjPfEYhjZp+CvoCjcPTkRU+3SK/EHJ19RO9Nq/+yYlrWJ6c7SrtDaTQ2p
-         Px9w==
-X-Gm-Message-State: AOAM5308UJnx8PQ/jK7F2bJa9h8OKyXQRLvB5Baebqr77m5K8Y4HUc+j
-	092TI5DT4uUVNbHLA2LEfwZbrai8NeXIEq26
-X-Google-Smtp-Source: ABdhPJzbQlSUSI3jsNiWMjCGz6rG9/Jm/x4w2HB5MjeJWrrtzYBLHMmh/Dju2FwF/pc1z77lyRdD5w==
-X-Received: by 2002:a62:4e91:0:b029:19e:53f7:e7f9 with SMTP id c139-20020a624e910000b029019e53f7e7f9mr23645360pfb.45.1607956656464;
-        Mon, 14 Dec 2020 06:37:36 -0800 (PST)
+        bh=/7CVTpY/jfzmqrfGIgGq6k2fRayZMnwXxeClN57EquI=;
+        b=jnMVTxIJTqOubaCeto3ACLB/eikjEhg8DOtuO69DIvyK6wzDW0wBzN3zWpyjfUCMVn
+         M/GTf/SOVB+rkZNr7VJkh64DylfchuvuA2nnJoDimYDFl5JRR4+iJccBNglRXZfw4MK8
+         T1W8IUhadoio4zOBUAZtxxk9AZTqB5Dc4dH1XKd/H6HSgXLfjPHTlJ8vGK2ugfe//gmh
+         sFSj0R7Vc8O9IXx5R1WT3Owu7Dv3ctBFTUG3weoq+qtZhgrphgNkLmptyYvMYXHIAQtH
+         AVAbnBjtOWSuC8P9b+VmfsZrq2X5FsrGIZpQZX22CjoCtXYz/dALL472oodEaYaV5GGz
+         MITw==
+X-Gm-Message-State: AOAM5318Aj5bY0B8onekzZ2W13WtlIDytIcr1iv2W93mbcJUxxhhVvSF
+	zzAd2pAWRGPX+XjbSJHVcQu1hlFEcOwAXFrN
+X-Google-Smtp-Source: ABdhPJwwaDg9X4B8eE+gwkU2lcnvjX9JprUkyHmhOFzr0KwPoDntSHLs5N7tWcsAmtDLg5TW1gMsbw==
+X-Received: by 2002:a05:6a00:8c7:b029:19d:afa5:34e5 with SMTP id s7-20020a056a0008c7b029019dafa534e5mr14506344pfu.30.1607956659826;
+        Mon, 14 Dec 2020 06:37:39 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.35
+        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:37:35 -0800 (PST)
+        Mon, 14 Dec 2020 06:37:39 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/25] meta/lib/oeqa/manual/oe-core.json: Update test_bitbake_devshell
-Date: Mon, 14 Dec 2020 04:36:39 -1000
-Message-Id: <e902026496ea026c4316d1a74265c633db9431b8.1607956164.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/25] cve-update-db-native: handle all-wildcard versions
+Date: Mon, 14 Dec 2020 04:36:40 -1000
+Message-Id: <ff17ef98ff7ff0bfac9f647c0833f5b7b6d6fdd6.1607956164.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
 References: <cover.1607956164.git.steve@sakoman.com>
 
-From: sangeeta jain <sangeeta.jain@intel.com>
+From: Ross Burton <ross@burtonini.com>
 
-Update command used for cross compilation to include ${CONFIGUREOPTS}
-to ensure right arguments are passed for cross compiling on any host.
+If a CPE version field is just *:*:*:* it should be handled the same as
+-:*:*:*, that is 'all versions'.  To ease handling, transform this case
+to use -.
 
-Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e995e67bc7a3d30adf9f8d0d2f4df92a941baeae)
+(cherry picked from commit 04a9bc4ca5294fe6834513669c7746a824d12b04)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/manual/oe-core.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/manual/oe-core.json b/meta/lib/oeqa/manual/oe-core.json
-index fb47c5ec36..4ad524d89b 100644
---- a/meta/lib/oeqa/manual/oe-core.json
-+++ b/meta/lib/oeqa/manual/oe-core.json
-@@ -80,7 +80,7 @@
-           "expected_results": ""
-         },
-         "7": {
--          "action": "Run command:./configure && make ",
-+          "action": "Run command:./configure ${CONFIGUREOPTS} && make ",
-           "expected_results": "Verify that \"matchbox-desktop\" binary file was created successfully under \"src/\" directory "
-         },
-         "8": {
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 0cd3a1c153..9e8e006a32 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -166,7 +166,12 @@ def parse_node_and_insert(c, node, cveId):
+                     op_end = '<'
+                     v_end = cpe['versionEndExcluding']
+ 
+-                yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
++                if op_start or op_end or v_start or v_end:
++                    yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
++                else:
++                    # This is no version information, expressed differently.
++                    # Save processing by representing as -.
++                    yield [cveId, vendor, product, '-', '', '', '']
+ 
+     c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
+ 
 -- 
 2.17.1
 
