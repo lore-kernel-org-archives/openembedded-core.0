@@ -1,147 +1,160 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
- by mx.groups.io with SMTP id smtpd.web08.1471.1607973405239349355
+Received: from wforward5-smtp.messagingengine.com (wforward5-smtp.messagingengine.com [64.147.123.35])
+ by mx.groups.io with SMTP id smtpd.web09.1537.1607973711133516885
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 11:16:45 -0800
+ Mon, 14 Dec 2020 11:21:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vFCk1UIx;
- spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f50.google.com with SMTP id h6so9583850vsr.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 11:16:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=03zwB0RdAV706j0q+vfLDMnsNsbPozg5Yr3TejUSxrc=;
-        b=vFCk1UIxza2djSSyEOhoHyw0X9ZDGc8qdtloUrcyF7pKkziPzqObs4KyjRsblQi9zQ
-         U7cv4HRACRNAmtqycnoiL0dnoUvCS8Y4ZsC1wtIO+iF0qosbKyKtShJnSJ+1QWc334a0
-         7vzWe/4A7IBr3ApZwa9imrsqcSKaFSLXxLJWp7ev7EdrAVp/UfE1ZaaOmQR+5i7DBzQh
-         x91TeaM1XLffRsZjiqodVPXJ0shD/6V0losqwp+pswyrkO0Aq4xfJTOztLkHJzvq30Go
-         m0lm9NqCHRS+LrFFec4q7l6PHiLXthHPzDiW4xsCQ6jKCO7oaakQLMY6C3Ybrdz2iI1P
-         p/SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=03zwB0RdAV706j0q+vfLDMnsNsbPozg5Yr3TejUSxrc=;
-        b=FVy8GhkM3IoVtbKQrd9WjzzwmpYYdmwnG75nu+A5jHZFIeQXkWsF8xvAuDzyEtMpEe
-         FOjHpEd1gm7jmt4U+y1fzcmC2urkLuDaSfKHlfYv2HUm9UQEcnqgXenV1jyiUgkuwB+6
-         JAF8r/T5n5Dt4tuyJO5YDh3D2di/MUjN4Z/y8LPWD7nqPN23K/+osuLcqie2L/zelQ1q
-         rnRphCNQ0XU9r0+Nitr//BOAazZ/HoZzW3zHbp3Ze/XEHzBBVbPr4OKNDTpY4MqsPyt8
-         sRd0BrlBf15kh9PR/mpA9e/hZlmZ8NLkh9AVE2TDQm+lbhfBk1Mz6VzUEYh0yXprqbAH
-         IFgg==
-X-Gm-Message-State: AOAM531HImi8movYOaeDekStv8SeMoNiUTcmtNBBzXJqLRkfVcrFmbTG
-	v5wFWnrcg5Paa9/KCQVJiyakmb0pAZ0DJxxJAlY=
-X-Google-Smtp-Source: ABdhPJwqlCcy7XN+p1hmK2epXSqxk30YjeWgU+4FKFhL7oM21BLQXcIM9kcTh6uzw8kf8isSfjvo9HYZe+4AA9TIli0=
-X-Received: by 2002:a67:4346:: with SMTP id q67mr8219510vsa.51.1607973404425;
- Mon, 14 Dec 2020 11:16:44 -0800 (PST)
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=msjHgRaq;
+ spf=neutral (domain: iki.fi, ip: 64.147.123.35, mailfrom: tanuk@iki.fi)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailforward.west.internal (Postfix) with ESMTP id CD13F5D2
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 14:21:47 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 14 Dec 2020 14:21:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PyfKTXNQ9haRTp8q3
+	1ucu++Pz/3w0aF3pPvN+LrHKeA=; b=msjHgRaqcCDZ8NnudkCknj7lM/wJuD28Z
+	jahqI3ugUzXZ48ovtgv1nk0qyatrtp4Rcba850GSV8tG1rg1ZlhCnKnx2FKNF0KG
+	851KjhF3zqOiJ3v+uEr8bdb6TEe3Ee5D3TOrXHWQePWPiC26RwOgoY0tp88Irkst
+	IZfx30K+j1wzIrAkF2wNfLQUtrSXCESNGYmafgeMio2m4F+I+Ak0Wo83SkMNrp2X
+	tbHDkcyWIX/qoFBScKIIKDviye90dCo+bGfhOcZwLLRCF23ErNoeNF0/6HyMkMGv
+	DPHjKtb6vj98kvxZZPPEBBw/cM0MzHdaAdgOqnIrI2pxSp6hwAavg==
+X-ME-Sender: <xms:SrvXX0ivXaAx3jlPHvpdQdIh6aS6qkYsFrSqhnjjRut9jmftDT8v2g>
+    <xme:SrvXXyRbvYitKo7TDyh5P9iCRHtfv2Rn5NqkUH1qw2cQWgCrMCepDLlD2XWKyNzke
+    no8WCZ7ct9p5GtY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudekkedguddvgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecuogfggedutddqvdejucdlgedtmdenucfjughrpe
+    fhvffufffkofgggfestdekredtredttdenucfhrhhomhepvfgrnhhuucfmrghskhhinhgv
+    nhcuoehtrghnuhhksehikhhirdhfiheqnecuggftrfgrthhtvghrnhephffhheehieeiff
+    egueevvdekudeltdegvefflefgleefudfffefgjeetieetieeinecukfhppedukeekrddu
+    vdeirdekledruddunecuufhprghmkfhppfgvthifohhrkhepudekkedruddviedrkeelrd
+    duudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpeht
+    rghnuhhksehikhhirdhfih
+X-ME-Proxy: <xmx:SrvXX9zFRW471WN7W1lsaWlPjXT7ij07ceivLO0fMRXrWzrO24ZPBQ>
+    <xmx:SrvXX9fckQYaBJT_GxTd8fX2JWXfa3XPGhEwGjkiT_JMC3SZGBLrfw>
+    <xmx:SrvXX5J6kghRylm4hBAdtQXTwnKuwI0yPTMRjKnCYowTtbarwQKDrA>
+    <xmx:S7vXXwOCAXHTrv8NiZfI8ReFdcLO6f1di0RReej6bg-T6IjZUe64AuePUhc>
+Received: from localhost.localdomain (unknown [188.126.89.11])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 57FC8240062
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 14:21:46 -0500 (EST)
+From: "Tanu Kaskinen" <tanuk@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] maintainers.inc: remove myself from maintainers
+Date: Mon, 14 Dec 2020 21:21:35 +0200
+Message-Id: <20201214192135.10277-1-tanuk@iki.fi>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <e4085caa6fe95c5d09a23a850fe8748c93323af4.camel@iki.fi>
-In-Reply-To: <e4085caa6fe95c5d09a23a850fe8748c93323af4.camel@iki.fi>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 14 Dec 2020 20:16:33 +0100
-Message-ID: <CANNYZj_xWix4a3eyFwCC1r8e+NieqJdKF7c184kfBS4RBQND4Q@mail.gmail.com>
-Subject: Re: [OE-core] I wish to drop my recipe maintainer duties
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000094426705b6717be8"
+Content-Transfer-Encoding: 8bit
 
---00000000000094426705b6717be8
-Content-Type: text/plain; charset="UTF-8"
+---
+ meta/conf/distro/include/maintainers.inc | 38 ++++++++++++------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-Unassigned is the way to go, yes. All recipe updates (or failed attempts to
-do so) are nowadays posted here, so they can be picked up by anyone
-interested.
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index e9c69b2e6e..8dffa2fc95 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -31,14 +31,14 @@ RECIPE_MAINTAINER_pn-acl = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-acpica = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-acpid = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-adwaita-icon-theme = "Ross Burton <ross.burton@arm.com>"
+-RECIPE_MAINTAINER_pn-alsa-lib = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-alsa-plugins = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-alsa-state = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-alsa-tools = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-alsa-topology-conf = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-alsa-ucm-conf = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-alsa-utils = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-alsa-utils-scripts = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-alsa-lib = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-alsa-plugins = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-alsa-state = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-alsa-tools = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-alsa-topology-conf = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-alsa-ucm-conf = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-alsa-utils = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-alsa-utils-scripts = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-apmd = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-apr = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
+@@ -175,7 +175,7 @@ RECIPE_MAINTAINER_pn-expect = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-ffmpeg = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-file = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER_pn-flac = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-flac = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-font-alias = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-font-util = "Armin Kuster <akuster808@gmail.com>"
+@@ -297,10 +297,10 @@ RECIPE_MAINTAINER_pn-kmod = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-kmod-native = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-kmscube = "Carlos Rafael Giani <dv@pseudoterminal.org>"
+ RECIPE_MAINTAINER_pn-l3afpad = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-lame = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-lame = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-ldconfig-native = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-less = "Yi Zhao <yi.zhao@windriver.com>"
+-RECIPE_MAINTAINER_pn-liba52 = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-liba52 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-libacpi = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libaio = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libarchive = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+@@ -343,7 +343,7 @@ RECIPE_MAINTAINER_pn-libgudev = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libhandy = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libical = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libice = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-libid3tag = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-libid3tag = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-libidn2 = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libinput = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libjitterentropy = "Ross Burton <ross.burton@arm.com>"
+@@ -374,11 +374,11 @@ RECIPE_MAINTAINER_pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.c
+ RECIPE_MAINTAINER_pn-libpsl = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-librepo = "Wang Mingyu <wangmy@cn.fujitsu.com>"
+ RECIPE_MAINTAINER_pn-librsvg = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-libsamplerate0 = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-libsamplerate0 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-libsdl2 = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-libsecret = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-libsm = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-libsndfile1 = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-libsndfile1 = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-libsolv = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libsoup-2.4 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libssp-nonshared = "Khem Raj <raj.khem@gmail.com>"
+@@ -577,8 +577,8 @@ RECIPE_MAINTAINER_pn-pseudo = "Richard Purdie <richard.purdie@linuxfoundation.or
+ RECIPE_MAINTAINER_pn-psmisc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-psplash = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-ptest-runner = "Ross Burton <ross.burton@arm.com>"
+-RECIPE_MAINTAINER_pn-pulseaudio = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-pulseaudio = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-python3 = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-async = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+@@ -651,7 +651,7 @@ RECIPE_MAINTAINER_pn-ruby = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-rxvt-unicode = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
+-RECIPE_MAINTAINER_pn-sbc = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-serf = "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -666,8 +666,8 @@ RECIPE_MAINTAINER_pn-shutdown-desktop = "Alexander Kanavin <alex.kanavin@gmail.c
+ RECIPE_MAINTAINER_pn-signing-keys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-speex = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-speexdsp = "Tanu Kaskinen <tanuk@iki.fi>"
++RECIPE_MAINTAINER_pn-speex = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER_pn-speexdsp = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER_pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
+ RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
+-- 
+2.20.1
 
-Thanks for your work (of the highest quality), and totally understandable
-that you don't want to spend time on something you do not use.
-
-Alex
-
-
-On Mon, 14 Dec 2020 at 20:07, Tanu Kaskinen <tanuk@iki.fi> wrote:
-
-> Hello,
->
-> I haven't lately had time to do OE work, or maybe the lack of time is
-> more rooted in lack of motivation since I don't objectively have a very
-> busy life, but in any case, I think it's time for me to step down as a
-> recipe maintainer. When in 2015 I transitioned from being paid for the
-> work to a volunteer, I had plans to use OE in hobby projects, but those
-> projects haven't materialized, so I don't really have any connection to
-> OE other than being a recipe maintainer. My experience of the community
-> has been very positive, it has always been nice to work with you, thank
-> you for that!
->
-> Should I post a maintainers.inc patch that changes all my recipes to to
-> unassigned, or should they or some of them be directly transferred to
-> someone else?
->
-> I will still post some patches for pulseaudio that convert the recipe
-> from autotools to meson. I've had them ready since the last feature
-> freeze, and I intended to submit them today, but I found out (as I read
-> the mailing list for the first time in three months) that the recipe
-> has had a major version update, so I'll have to redo some tests first.
->
-> --
-> Tanu
->
->
-> 
->
->
-
---00000000000094426705b6717be8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Unassigned is the way to go, yes. All recipe updates =
-(or failed attempts to do so) are nowadays posted here, so they can be pick=
-ed up by anyone interested.</div><div><br></div><div>Thanks for your work (=
-of the highest quality), and totally understandable that you don&#39;t want=
- to spend time on something you do not use.</div><div><br></div><div>Alex<b=
-r></div><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Mon, 14 Dec 2020 at 20:07, Tanu Kaskinen &lt;<a href=3D"mail=
-to:tanuk@iki.fi">tanuk@iki.fi</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">Hello,<br>
-<br>
-I haven&#39;t lately had time to do OE work, or maybe the lack of time is<=
-br>
-more rooted in lack of motivation since I don&#39;t objectively have a ver=
-y<br>
-busy life, but in any case, I think it&#39;s time for me to step down as a=
-<br>
-recipe maintainer. When in 2015 I transitioned from being paid for the<br>
-work to a volunteer, I had plans to use OE in hobby projects, but those<br=
->
-projects haven&#39;t materialized, so I don&#39;t really have any connecti=
-on to<br>
-OE other than being a recipe maintainer. My experience of the community<br=
->
-has been very positive, it has always been nice to work with you, thank<br=
->
-you for that!<br>
-<br>
-Should I post a maintainers.inc patch that changes all my recipes to to<br=
->
-unassigned, or should they or some of them be directly transferred to<br>
-someone else?<br>
-<br>
-I will still post some patches for pulseaudio that convert the recipe<br>
-from autotools to meson. I&#39;ve had them ready since the last feature<br=
->
-freeze, and I intended to submit them today, but I found out (as I read<br=
->
-the mailing list for the first time in three months) that the recipe<br>
-has had a major version update, so I&#39;ll have to redo some tests first.=
-<br>
-<br>
--- <br>
-Tanu<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000094426705b6717be8--
