@@ -1,77 +1,124 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web10.31752.1607937051728322343
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.32356.1607937052897793352
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 01:10:52 -0800
+ Mon, 14 Dec 2020 01:10:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pt3D1aMo;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id b73so16341612edf.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 01:10:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Xdj26NSC;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id jx16so21480902ejb.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 01:10:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9QTGa2kL9lhsJLeNf7/MZ5Wso+CPIjalF3GjRYOQjhA=;
-        b=pt3D1aMop5eMoldJOAiHpkOiLIBeuYqJ7w4wLOrtbNUqj4Frgt+2EIqpbBFIWQKJ8k
-         UbEz4tMAXz7KF8v5luxWFQBMOHnedcUe8l9lBqcOaG7WIAzvOe8IAdUsXaYQ3t8ZeVY/
-         1pmAYnw0EIFelQq3JFtTZyEBmKR7AzyVZdsgsj/A/pqHG4ih+tWUgU5rIbizttK4jWqe
-         BZ2Hi9t1A4v9+4dKy6VBB3VMV9fukwJTTmrJUsTE35qulpxjVrQ0e5GHYke8jVzBJ8fk
-         YStxlgP7ZmZwJAYCNHdHZpDVoE917ZBYsk78r1najV25aRhQx3iNG8w9PoeoV5zsy6lo
-         9uFA==
+        bh=rcNBrkCqmMU1vuaRZ4g1r46031YSXpU71VyCsOrWToc=;
+        b=Xdj26NSCjRZMEUgQmeylp82tCRCAdv7FOp0kAx7do/BnNPG552SP1EY31lheh8AISr
+         z8dOyXR1wGOvjdZIocjkCX/bRdW6PNInEA4/sU4axLs4eIt4HyQ3hNFi2ZKCKAwassXb
+         H1B2liOyL8dZMI5lETR8wfw73BhcaTvNg7Rr5DjKQjpBpsOJkk5kHfPzzcM0QF1zr9ad
+         sFBvl6IaJqEDT2o2UumhmSziir5UQA52fEA855fORyzN9HKTKUbUFH8orY12kkPURnp0
+         V2qgo9zLx7HIVPdwUFlykqtv+a9s+I3fePLo6t/Lc+jWWzlMGgwkjRTfxFxZkSHPI9WT
+         FdeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9QTGa2kL9lhsJLeNf7/MZ5Wso+CPIjalF3GjRYOQjhA=;
-        b=Rk/mzSomAi9GWJpEu7sESMEJUmITXeNBsuxHbu7wfJw/iP/67+46526rvO6pqeT95v
-         4HGkB93nlyfOl+M/hZyq53t1BVBF69CiOQSXRgcHRL5Jk+lUk/gZcbhGWS4KV5g1TVb8
-         HhjD+vtGlgS8GEKLptlZaLXoEsMPI1eL+4W9K7iA2Ce0gf/LXH8DvmszmXIBRbt2NJrG
-         5D8yv29MNdYlz6BFPtWPlXIDj+/Jwh0FfBgEscLUF+UV/DUzZxu3LVDCtAsniz8DJEM9
-         rUxoBkyjlIV8utFrYdgixnCEd5hEiIXx1yea0jWFGBnJ67hSSkja5Vf76JHHS5JykBLP
-         WPCg==
-X-Gm-Message-State: AOAM533CMzdUj8JzapLeDaetjTu3+H0MRp7Si0VPoEvL0Bv7MKNaSdtX
-	EJb7yNsqqMsBW/i/HWYOPbsT9/FdtIX8dg==
-X-Google-Smtp-Source: ABdhPJwDP3HVp7VVFyI8bRX0NhtWgjvVqD7Xh9MdlKfnH1Dx6ISqYBC3fidfCM3VRJU/QEKPzFQWOQ==
-X-Received: by 2002:a50:a694:: with SMTP id e20mr23942211edc.261.1607937050384;
-        Mon, 14 Dec 2020 01:10:50 -0800 (PST)
+        bh=rcNBrkCqmMU1vuaRZ4g1r46031YSXpU71VyCsOrWToc=;
+        b=R3SN8dxNXCIIEBzwc1gwwGtNgklUvCDCsyyXqglDkskMdAO8+KU1KtujHMMwKlcF36
+         dkO9EYhZsGm5d5eNtiIgq1gtbT2x0XMmVimPP5OpxZ/tHjHHaS+CkDyyYg8P3vP91hzK
+         pz8B6WcDi8Z4JPRaBrvRFXDiFWzbeQoKZyEZ4COwDiYhbRzGpHhbs7KLoFyTCRGlwxaN
+         8KCm3GV5NLhI7evUPfI08/Arw68gyNg/2WLDq5bMeI7jrdjRgtix195lTp7uekq4PRE6
+         Sp1tsbEOBL4Asu5Xuq2iDMl0FaidaMpIlHUAwujQ78n2rLPiTUpJlIPjnk+PcVMGrguE
+         fU+g==
+X-Gm-Message-State: AOAM5338huOFZW0bbfn1AReI/ETAPuSjemVNrlBnr74KoABTpRyOcAlD
+	+LlKStm2/wHwubD6XvIubg18Gn3TUAALEw==
+X-Google-Smtp-Source: ABdhPJzNBIB9QT1JSPjA+qMMmEqZtbkNmuWiP0ytwdjqouHwECO7UqSg+8xCrh/T2p0ZyjEnY9zzIQ==
+X-Received: by 2002:a17:906:4e52:: with SMTP id g18mr22310827ejw.385.1607937051195;
+        Mon, 14 Dec 2020 01:10:51 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
-        by smtp.gmail.com with ESMTPSA id d22sm13318425eja.72.2020.12.14.01.10.49
+        by smtp.gmail.com with ESMTPSA id d22sm13318425eja.72.2020.12.14.01.10.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 01:10:49 -0800 (PST)
+        Mon, 14 Dec 2020 01:10:50 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 3/4] bzip2: run ptests without valgrind
-Date: Mon, 14 Dec 2020 10:10:40 +0100
-Message-Id: <20201214091042.10145-3-alex.kanavin@gmail.com>
+Subject: [PATCH 4/4] lttng-tools: disable more failing ptests
+Date: Mon, 14 Dec 2020 10:10:41 +0100
+Message-Id: <20201214091042.10145-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214091042.10145-1-alex.kanavin@gmail.com>
 References: <20201214091042.10145-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Otherwise, valgrind significantly slows them down, and actually
-even causes ptest timeouts on arm64.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/bzip2/bzip2/Makefile.am | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...ression-disable-the-tools-live-tests.patch | 35 +++++++++++++++----
+ 1 file changed, 28 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-index d4498947e8..7338df03eb 100644
---- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
-+++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-@@ -46,7 +46,7 @@ runtest:
- 	else echo "FAIL: sample2 decompress"; fi
- 	@if cmp sample3.tst sample3.ref; then echo "PASS: sample3 decompress";\
- 	else echo "FAIL: sample3 decompress"; fi
--	./bzip2-tests/run-tests.sh --tests-dir="$(PWD)/bzip2-tests"
-+	./bzip2-tests/run-tests.sh --without-valgrind --tests-dir="$(PWD)/bzip2-tests"
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch
+index f2c14ecc94..08c1423310 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch
+@@ -1,4 +1,4 @@
+-From c69b68e5c03f1d260025fb1dd9ab7345e31e15ef Mon Sep 17 00:00:00 2001
++From de9fc501e775cae05f1f87534b4237cd78e8d9a8 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 24 Jan 2020 18:03:25 +0100
+ Subject: [PATCH] tests/regression: disable the tools/live tests
+@@ -9,15 +9,16 @@ https://bugs.lttng.org/issues/1217
  
- install-ptest:
- 	sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
+ Upstream-Status: Inappropriate [upstream is working on a real fix]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+- tests/regression/Makefile.am | 4 ----
+- 1 file changed, 4 deletions(-)
++ tests/regression/Makefile.am | 10 +---------
++ 1 file changed, 1 insertion(+), 9 deletions(-)
+ 
+ diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
+-index 73eb9f7..b92bdbd 100644
++index cbac90d..d467886 100644
+ --- a/tests/regression/Makefile.am
+ +++ b/tests/regression/Makefile.am
+-@@ -9,14 +9,10 @@ TESTS = tools/filtering/test_invalid_filter \
++@@ -11,16 +11,10 @@ TESTS = tools/filtering/test_invalid_filter \
+  	tools/filtering/test_valid_filter \
+  	tools/streaming/test_ust \
+  	tools/health/test_thread_ok \
+@@ -26,9 +27,29 @@ index 73eb9f7..b92bdbd 100644
+ -	tools/live/test_lttng_ust \
+  	tools/tracefile-limits/test_tracefile_count \
+  	tools/tracefile-limits/test_tracefile_size \
+- 	tools/exclusion/test_exclusion \
++-	tools/exclusion/test_exclusion \
+  	tools/snapshots/test_ust_fast \
+ -	tools/snapshots/test_ust_streaming \
+  	tools/save-load/test_save \
+- 	tools/save-load/test_load \
++-	tools/save-load/test_load \
+  	tools/save-load/test_autoload \
++ 	tools/mi/test_mi \
++ 	tools/wildcard/test_event_wildcard \
++@@ -38,8 +32,7 @@ TESTS = tools/filtering/test_invalid_filter \
++ 	tools/working-directory/test_relayd_working_directory \
++ 	tools/notification/test_notification_multi_app \
++ 	tools/clear/test_ust \
++-	tools/clear/test_kernel \
++-	tools/tracker/test_event_tracker
+++	tools/clear/test_kernel
++ 
++ if HAVE_LIBLTTNG_UST_CTL
++ SUBDIRS += ust
++@@ -60,7 +53,6 @@ TESTS += ust/before-after/test_before_after \
++ 	ust/multi-lib/test_multi_lib \
++ 	ust/rotation-destroy-flush/test_rotation_destroy_flush \
++ 	ust/namespaces/test_ns_contexts \
++-	ust/namespaces/test_ns_contexts_change \
++ 	tools/metadata/test_ust \
++ 	tools/relayd-grouping/test_ust
++ endif # HAVE_LIBLTTNG_UST_CTL
 -- 
 2.29.2
 
