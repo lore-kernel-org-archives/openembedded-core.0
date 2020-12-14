@@ -1,104 +1,125 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.32450.1607942018565613678
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+ by mx.groups.io with SMTP id smtpd.web09.32948.1607942381081148981
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 02:33:38 -0800
+ Mon, 14 Dec 2020 02:39:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JGH2cnO9;
- spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f68.google.com with SMTP id q18so8410764wrn.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 02:33:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=riujqj/K;
+ spf=pass (domain: gmail.com, ip: 209.85.217.50, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f50.google.com with SMTP id r24so8698858vsg.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 02:39:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=oNDWXt0z4AyQpN+hJiPO15kkiWq/3dPe6fc6g/e/j90=;
-        b=JGH2cnO9/6kb6nekH2xoy+GNvz6DVIxr3OQryOi0HfY7Qh0xrwxYByX4mWmRErBtMb
-         tthVqotwMlALSw1+i7lvV/6n7PoC6sxLhRYpfhnPWpFEwdX9XEK87ezHIcUk//ABxbQo
-         rtGI1SmEE5ThhiubOVnYWiHGNV3SWztAXZsWSvUoAYB5NXwBbBpdftrtJDccAx5Jkpfl
-         wNfEKzph1CfUONX1LtCdx2iT93zQlMBXNcKZ9dirWphOLgHd5Azx+czVIK511CmIuFtY
-         vfBmQAjDYdyK7hL+yQxIrq91F3jUZLss1SAVZcU9Y9MyhKhv0RSSstWFtPHg1w3Bd8eq
-         hhuw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3M7Q/bBzjSCusiVZ4mStk7/UgYG02402dkArppDT8HM=;
+        b=riujqj/KQSIbELVS0PpN5vsOVllXfyDxyTmlmWMMSnmNGp4IbGTBETRFwe4j3vSQxl
+         rDEKiLciV7hXgKcaGz2kxFs0aOUlQbswnkwJv1bEHbfPyvwvpLw84rhZl94QK9X+aat1
+         DsozQ9M3AeRpfBpblrJLWKTycSBBKHnIMEBlgMn4/QoNq7y7CfjbCwAiLxXnSTXo1w04
+         C2aLX3o0K6qOzXI1lpA5Q7rZ0KlGdgji4DIDo9RfsJQu5fBlCvnVtXK/g+lIO2jCkyFl
+         PAq9jYZD2g+frTAwiALVF5TD5yLMBk00/rw8p5jCV88N/aPEYcdZBWMLYE2o/ikKnySA
+         IwwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=oNDWXt0z4AyQpN+hJiPO15kkiWq/3dPe6fc6g/e/j90=;
-        b=ZeJWmM9ZZfaNa4fzv5R7Ym+T2GKZ01zmHPu22ji/Xypk3MBS2npA9vk5XXbiN0Nb1M
-         IVMp8y/s2eGKtmXgjlzy41tj1iza5qEiqQEOJ/6ArJmPF2ohAwg8p1iFF+UmKHnOMoqL
-         qt1/VbxokUrRiBhhNtmaB2f2D1fdPmOiABb9T8/mQZubEvDF+P/CN7DvMM6l4aWJpKUv
-         27azyn9AM+/bOblfc75wfY2oHF5sWrMrEi24eGhTPqPjuIzAaNNAszBiuE+MZd8kSHJb
-         s2t8oYuWqTRsx1+whzXAlBaUbJNHqq3QpDB9gwTgiiCRhDFlGtXVdeUsNkUDvFEyOKqZ
-         NJ7Q==
-X-Gm-Message-State: AOAM532qVrHUeBGANVKFELflwWGGAajAYpXVYIaeUp1xoa+EICRobSQY
-	0toz+jac1sMvw5qz7GfacsE=
-X-Google-Smtp-Source: ABdhPJwfcTC74mMZ0n2PQ944bYJPL0L0zvAqE9A/7j0u7Z0mjfJf4gKD2/vclO3LSQHAR8t2WoAhBA==
-X-Received: by 2002:adf:d082:: with SMTP id y2mr28482218wrh.301.1607942017165;
-        Mon, 14 Dec 2020 02:33:37 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from bluca-lenovo ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id f9sm3306371wrh.9.2020.12.14.02.33.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 02:33:36 -0800 (PST)
-Message-ID: <9080ca5df5e9e03fe242623b9599c4b30c0b9818.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] systemd: add RRECOMMENDS for weak dependencies, if enabled
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2020 10:33:35 +0000
-In-Reply-To: <3de202170ea048ff8ab2bdd4d85b1163@XBOX03.axis.com>
-References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
-	 <20201210125312.3302065-5-luca.boccassi@gmail.com>
-	 <3de202170ea048ff8ab2bdd4d85b1163@XBOX03.axis.com>
-User-Agent: Evolution 3.30.5-1.2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3M7Q/bBzjSCusiVZ4mStk7/UgYG02402dkArppDT8HM=;
+        b=qL/rKND7aBvglsBKzIbBS5eCb53iqd3JPWVY6cddOgD4vMhUWT5fZz67JwiW0CRSxx
+         HovHrZ4CSxJ0WHKhdWxwOS6YnpP0gilucptNfdiboqR8E9jMACTvW3N9pFq9u+3bpQ4E
+         qotC1+oNevSHV1OJas5T2z/u1ahlPid+XtpSiyyZBbgILGCS7rcGaDV5E+RrnST6oui+
+         z8+O/J7bK23kDI81nkh+5zkKEfHnYW2yIZkLuI62/OomU/FIExdMPinmmHxVJZZURf4J
+         8e21TaCq4EOXvOBXv2yFjjRe+Eh1qByNOrCi+7l+YKOhc/7ryPV3nBXyaBzDT+ZKLquR
+         UEkw==
+X-Gm-Message-State: AOAM530sbIpKRfL8t+IdrIShXmRQQiXZcGZihfL/f7KvLhgn+SIJy/AM
+	UXeJhvgl167sRU472A5xoPDtb0xoXdmnk1gu3qA=
+X-Google-Smtp-Source: ABdhPJxmDD4+MJPiYfc4i1hobKTMI8tveHGPA550rNMMdgfTxBQl8qY+rwXOUD9P2YJWSENUHL5vj7Qxzz8yA5FU7no=
+X-Received: by 2002:a05:6102:319b:: with SMTP id c27mr22925833vsh.20.1607942380305;
+ Mon, 14 Dec 2020 02:39:40 -0800 (PST)
 MIME-Version: 1.0
+References: <20201214103248.2227-1-outbackdingo@gmail.com>
+In-Reply-To: <20201214103248.2227-1-outbackdingo@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 14 Dec 2020 11:39:29 +0100
+Message-ID: <CANNYZj_EoiG+MXJ-fjsZ8YsxwRhD6SSwv9xXLTzw3PMTvBqXdA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] file /etc/ethertypes conflicts between netbase-1:6.2-r0.corei7_64 and ebtables-2.0.10+4-r4.corei7_64
+To: Outback Dingo <outbackdingo@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000065c06705b66a42ec"
+
+--00000000000065c06705b66a42ec
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-12-11 at 20:34 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Luca Bocassi
-> > Sent: den 10 december 2020 13:53
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 5/5] systemd: add RRECOMMENDS for weak
-> > dependencies, if enabled
-> > 
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > 
-> > Some libraries are now dlopen'ed and skipped at runtime if
-> > not available. Add them to the RRECOMMENDS list, to allow
-> > users to exclude them for smaller images even if generally
-> > enabled at build time.
-> > 
-> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> > ---
-> >  meta/recipes-core/systemd/systemd_247.1.bb | 7 +++++++
-> >  1 file changed, 7 insertions(+)
-> > 
-> > diff --git a/meta/recipes-core/systemd/systemd_247.1.bb b/meta/recipes-core/systemd/systemd_247.1.bb
-> > index f20e86d94b..951bffa23f 100644
-> > --- a/meta/recipes-core/systemd/systemd_247.1.bb
-> > +++ b/meta/recipes-core/systemd/systemd_247.1.bb
-> > @@ -603,6 +603,13 @@ RRECOMMENDS_${PN} += "systemd-extra-utils \
-> >                        systemd-conf \
-> >  "
-> > 
-> > +# Weak dlopen-style dependencies: if explicitly requested via PACKAGECONFIG, recommend them
-> > +RRECOMMENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'qrencode', 'qrencode', '', d)} \
-> > +                      ${@bb.utils.contains('PACKAGECONFIG', 'libidn', 'libidn', '', d)} \
-> > +                      ${@bb.utils.contains('PACKAGECONFIG', 'libidn2', 'libidn2', '', d)} \
-> > +                      ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup', 'cryptsetup', '', d)} \
-> > +"
+Sorry, but you need to explain why the file from from ebtables (an optional
+package from a 3rd party layer) takes precedence over file from netbase
+(which is a core item).
+
+Alex
+
+On Mon, 14 Dec 2020 at 11:33, Outback Dingo <outbackdingo@gmail.com> wrote:
+
+> ---
+>  meta/recipes-core/netbase/netbase_6.2.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/netbase/netbase_6.2.bb
+> b/meta/recipes-core/netbase/netbase_6.2.bb
+> index a54d2e7764..262b2cf1bc 100644
+> --- a/meta/recipes-core/netbase/netbase_6.2.bb
+> +++ b/meta/recipes-core/netbase/netbase_6.2.bb
+> @@ -19,5 +19,4 @@ do_install () {
+>         install -m 0644 ${S}/etc/rpc ${D}${sysconfdir}/rpc
+>         install -m 0644 ${S}/etc/protocols ${D}${sysconfdir}/protocols
+>         install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
+> -       install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
+>  }
+> --
+> 2.20.1
+>
+>
 > 
-> Please write this as:
-> 
-> RRECOMMENDS_${PN} += "${@bb.utils.filter('PACKAGECONFIG', 'cryptsetup libidn libidn2 qrencode', d)}"
+>
+>
 
-Andre suggested instead to add the rrecommends directly in the
-packageconfig definition.
+--00000000000065c06705b66a42ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Kind regards,
-Luca Boccassi
+<div dir=3D"ltr"><div>Sorry, but you need to explain why the file from from=
+ ebtables (an optional package from a 3rd party layer) takes precedence ove=
+r file from netbase (which is a core item).</div><div><br></div><div>Alex<b=
+r></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Mon, 14 Dec 2020 at 11:33, Outback Dingo &lt;<a href=3D"mailto:o=
+utbackdingo@gmail.com">outbackdingo@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">---<br>
+=C2=A0meta/recipes-core/netbase/<a href=3D"http://netbase_6.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">netbase_6.2.bb</a> | 1 -<br>
+=C2=A01 file changed, 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-core/netbase/<a href=3D"http://netbase_6.2.bb" r=
+el=3D"noreferrer" target=3D"_blank">netbase_6.2.bb</a> b/meta/recipes-core/=
+netbase/<a href=3D"http://netbase_6.2.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">netbase_6.2.bb</a><br>
+index a54d2e7764..262b2cf1bc 100644<br>
+--- a/meta/recipes-core/netbase/<a href=3D"http://netbase_6.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">netbase_6.2.bb</a><br>
++++ b/meta/recipes-core/netbase/<a href=3D"http://netbase_6.2.bb" rel=3D"n=
+oreferrer" target=3D"_blank">netbase_6.2.bb</a><br>
+@@ -19,5 +19,4 @@ do_install () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${S}/etc/rpc ${D}${sysconfdir}=
+/rpc<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${S}/etc/protocols ${D}${sysco=
+nfdir}/protocols<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 ${S}/etc/services ${D}${syscon=
+fdir}/services<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${S}/etc/ethertypes ${D}${sysc=
+onfdir}/ethertypes<br>
+=C2=A0}<br>
+-- <br>
+2.20.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
+--00000000000065c06705b66a42ec--
