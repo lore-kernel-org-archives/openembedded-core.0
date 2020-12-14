@@ -1,83 +1,80 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web09.35603.1607956630728530671
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web09.35604.1607956633957145549
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:37:10 -0800
+ Mon, 14 Dec 2020 06:37:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=GE9SuxuO;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id q4so3002033plr.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xwuoTc2X;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id t8so12165060pfg.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=0MZ3Tr5WgoFNH6/koQBSKfXfBWaYa6B7JQDRU4kvBcE=;
-        b=GE9SuxuOG6WryjEhssBppoyF/0cMMgcmo0dy8zMOe09MBVIU0+li93q+InjHFJeag3
-         LDN0fKH8EaVlo3Fr5FZ9X68JWB0Cq4lQxIPqxiKgTy0mcifNaF0d3R5/uSsTt1UHbfeS
-         SVcrDdg+rPItoL8wVWI4lnt/HW2NpHmlqjF+Q9AezPQf3oTeNSfgucHJC9GHfQ8Ub3V1
-         2VjD5GLjaquDjDl/Rm2rFBn9zGie5mFiZkU56nesaq7/VsqryYcL8iP0sO8bFyyGxCEA
-         jgFkvLID7QZMzn07GHIy525s3ddpw0UK+EhxsMfODhLpNArXosHCxgVdVZCKx4HZSlPq
-         6bmg==
+        bh=UXwnVoOZSviOnWIAhowaVyo62JJBze2ANzyX1NGi2Po=;
+        b=xwuoTc2XRZA0fcNijdilpZ+jkg7r+XWCoOmd8114oAaDManK8PgDV1LDLcQjfflwq1
+         zxfa6pS72GfJFHOCsd4kDUk2rRhYfW0HlkPIWASS/wORbBY6hqZux+eo66RybZx+6c4f
+         pMx4iUk1MK5/O+1rWOM60T7sGBh37OcYzgzC4qIK4RsmWOEeGj62ULar5GQwQxcyZu0q
+         RRvl9Vs/kiMsUiRxhLUE14HLj5andah0+Wnd9CnFNRi41jGVaCEGZWmeTwGs3Gcm85l0
+         PvEItGs6+LJ4Crw+XNKZxxLmuijqip3qNBCMSlOS5qbc9KufGqs2bzGhUK9i2y6E7K3G
+         h+Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=0MZ3Tr5WgoFNH6/koQBSKfXfBWaYa6B7JQDRU4kvBcE=;
-        b=Z+SPqxw9kxop+u+Bao8Vz9MKeE5wzJe9G/lYSKbVmZBOH4nqN9WeeLKlySfNGrJ0RR
-         dj/wUoThH62SjZBlT3hOBRdeIUyjB6So57tKhqXBF8EklTs7eMxwqbm8BhceMgrnwSoF
-         2IxyPmAhkd6Bns/Ntc/X3+oogZS+qaz3hWlgWqXnJhx3CGde7e95P8f5Z6jZGyI0paOr
-         eIgRPouMg2Kn9eGXkXobia30yV3ifYiYdqqpZII3aE/pm6JsZ4zOQkv+nUdUlzDcR3Jm
-         NtF++1yP8UjXpHdMdVG6tYm9K6bx0sIZ/QhXxpanaTgYakuA+Yv9R4kPKz63vX6yzmS6
-         ccqg==
-X-Gm-Message-State: AOAM530vUKeplpymI9AEbDGSkxue9dwh3JDEe1ch6sl6ZFHKIFWLN7YX
-	w7vO8fCdqhDtiIwIUr1V3dXg84KhyQjd2VBN
-X-Google-Smtp-Source: ABdhPJxTGl7B2d8y/zmk0TFLDX3ETfQ3enyy7LiSkyQWREbRuILmeEBi2Th8qr6t9VN5YkO16LHvqQ==
-X-Received: by 2002:a17:90a:ad7:: with SMTP id r23mr7351613pje.149.1607956629648;
-        Mon, 14 Dec 2020 06:37:09 -0800 (PST)
+        bh=UXwnVoOZSviOnWIAhowaVyo62JJBze2ANzyX1NGi2Po=;
+        b=QAbEewWyOqtuoUz8C7Iadfn2p1orfaPk+lc4S9DrfzAL0B75eVz1AE8l0Sg1DYwCNT
+         95Lg/v8o8CDko7rHXwHUz6Ap6WqPvlhcrNw1aYeKqw92CzqN5jRu+uzdC4JOJZ5cWCgM
+         smT445ts0Wj9Eewx003NTgd/JxWPqZvSneGvtz/90Aj0mm577EnTLQmmxxLKBjGqphwO
+         pdUQeMPuYfGp6TONrMZcScjETjRD4h/2Pbgg0AnsO1l4OBCUdEKLpnI/LI/GtJ32nSsA
+         pL2sxZ4cxA9oFOgP+zMS85azwS4nOalKeJvtzFIfhIdqM5Ifea3L89zH+iCecDZTUnKe
+         NS/g==
+X-Gm-Message-State: AOAM530NykRD/3y+aGDelVYd8R8VNXkvKHPChy6xx+fwTMoDkRQCOpNj
+	4DCeOXOmPQpRzIozOYJO9RkTEpeLTu8z+mhn
+X-Google-Smtp-Source: ABdhPJz3mprj6S/2X/juc4upaePt60C0IRoQy+tvq0+Hl3PeC4orBlZe/mzqX7KQ4DJ/4sv4CihTNg==
+X-Received: by 2002:aa7:904b:0:b029:19e:c8a5:5154 with SMTP id n11-20020aa7904b0000b029019ec8a55154mr19196648pfo.41.1607956633112;
+        Mon, 14 Dec 2020 06:37:13 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.08
+        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:37:08 -0800 (PST)
+        Mon, 14 Dec 2020 06:37:12 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/25] libsdl2: Add directfb to PACKAGECONFIG rdepends
-Date: Mon, 14 Dec 2020 04:36:30 -1000
-Message-Id: <5738bec0e5f06037015fa431f74ff66da66b70b1.1607956164.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/25] wireless-regdb: upgrade 2020.04.29 -> 2020.11.20
+Date: Mon, 14 Dec 2020 04:36:31 -1000
+Message-Id: <d01a4149891637561b4bb1e9120eccb9619dadf4.1607956164.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
 References: <cover.1607956164.git.steve@sakoman.com>
 
-From: Mark Jonas <toertel@gmail.com>
+From: zangrc <zangrc.fnst@cn.fujitsu.com>
 
-PACKAGECONFIG[directfb] already adds directfb to the build
-dependencies. But the automatically generated runtime
-dependencies do not add the directfb package to the runtime
-dependencies. Most likely this happens because libsdl2 does not link
-against directfb but uses dlopen() or similar. Thus, the runtime
-dependency to directfb needs to be declared explicitly.
-
-Signed-off-by: Mark Jonas <toertel@gmail.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 62d3cbe7c8261c1c875ff6da11572409262aaf02)
+(cherry picked from commit c5461c6b0e21877c58a75834f62324a4798c2000)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb | 2 +-
+ ...ireless-regdb_2020.04.29.bb => wireless-regdb_2020.11.20.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2020.04.29.bb => wireless-regdb_2020.11.20.bb} (94%)
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-index 1049aa548a..fa7acc4c50 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-@@ -57,7 +57,7 @@ PACKAGECONFIG ??= " \
- "
- PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
- PACKAGECONFIG[arm-neon]   = "--enable-arm-neon,--disable-arm-neon"
--PACKAGECONFIG[directfb]   = "--enable-video-directfb,--disable-video-directfb,directfb"
-+PACKAGECONFIG[directfb]   = "--enable-video-directfb,--disable-video-directfb,directfb,directfb"
- PACKAGECONFIG[gles2]      = "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
- PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
- PACKAGECONFIG[kmsdrm]     = "--enable-video-kmsdrm,--disable-video-kmsdrm,libdrm virtual/libgbm"
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.11.20.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.11.20.bb
+index 30d4cb523f..b3567bca95 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.11.20.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+ 
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "89fd031aed5977c219a71501e144375a10e7c90d1005d5d086ea7972886a2c7a"
++SRC_URI[sha256sum] = "b4164490d82ff7b0086e812ac42ab27baf57be24324d4c0ee1c5dd6ba27f2a52"
+ 
+ inherit bin_package allarch
+ 
 -- 
 2.17.1
 
