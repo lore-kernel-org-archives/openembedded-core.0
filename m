@@ -1,95 +1,95 @@
-Received: from mailout03.rmx.de (mailout03.rmx.de [94.199.88.101])
- by mx.groups.io with SMTP id smtpd.web11.33427.1607944464877040939
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+ by mx.groups.io with SMTP id smtpd.web08.33163.1607945530455972737
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 03:14:26 -0800
+ Mon, 14 Dec 2020 03:32:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.101, mailfrom: ceggers@arri.de)
-Received: from kdin01.retarus.com (kdin01.dmz1.retloc [172.19.17.48])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout03.rmx.de (Postfix) with ESMTPS id 4Cvf0r49CJzlZw1
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 12:14:20 +0100 (CET)
-Received: from mta.arri.de (unknown [217.111.95.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by kdin01.retarus.com (Postfix) with ESMTPS id 4Cvf0r0Xnzz2xG4
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 12:14:20 +0100 (CET)
-Received: from n95hx1g2.localnet (192.168.54.135) by mta.arri.de
- (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 14 Dec
- 2020 12:14:19 +0100
-From: "Christian Eggers" <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [SDK] How to use the gold linker
-Date: Mon, 14 Dec 2020 12:14:18 +0100
-Message-ID: <5776519.IOBmFsySL6@n95hx1g2>
-Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=nNP4J9SU;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.51, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qv1-f51.google.com with SMTP id bd6so7624888qvb.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 03:32:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=4yzRgN1JAq9AsXgYTE6Hm5Wg1EyL3S3Ltn4Kr1gajLM=;
+        b=nNP4J9SUMwLg9SeRca/WId+L9h94EkNOsDeFbtYklSkdcxInaVQvmkj82i5gj4bUEP
+         MMd6JrVnR6jmwOlk6meyoomFXkk0NhM5ia8EfDx/I32MpempSC2UEq2EDDUClAiKDj0V
+         DIxGNrbLuYxzgyoBdsHQFQ3C3JrlVttEvXkdXkOLZFFAjBB6QW1JQHP9YMcaRxQPoEJ2
+         sac6u1trUb7oanh07UVpKWsCRvMcnT71Ef73exWQaIe6lH4tNbtjgs1e+cCZBNVFBH06
+         q5jGKEG+p55KPQyXP6LE/uv53vPNxD+YXWDw09BFhhQz3o6WdY9e7vC7M9/0jKmMIQAW
+         GDjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=4yzRgN1JAq9AsXgYTE6Hm5Wg1EyL3S3Ltn4Kr1gajLM=;
+        b=PaMaAQprERvPxffmAPUic4f4H1RCXfZirB00KQydfoTnswEkXmjJX0YPh12OZtIqAS
+         pMWqzgURYXBeEEkM7nSaqYYvt5/K2QWejzKeFvlb1gj7o67f3+BAOffTSM6R0ysC+Wf5
+         H3cE6nieLy+74VPU0ZxLD/wKmjYKrdoBSS5JjhcAaet5dvgAUiW28s/j97SxQJ4zjape
+         EZv82k8AcU1ZmiQRbeoun7QPJ7VlvSNtiZ8JydLlrzZ9wcHDiltkZgAftr4PjdX+fdSs
+         Vv2wAG62EiLpRWNuHg433gIzwuZXBSVu4n+Nc0lpyJOr3Vfu6pa/8A7IXrmNNF5Ft9X2
+         TKPQ==
+X-Gm-Message-State: AOAM531uXDlQrjLD5PEZ9frNnjsrS703o8XKWcVNAedUjvPl/cuXWziH
+	qRQ3vswGFQumklQzyA2+DXeT+xmAlpg+aRME
+X-Google-Smtp-Source: ABdhPJxn7f9KZsuH1T7XT483jBGvKKX4rrLa/VspEauUbUFF0iENJpYWra4gH1nE0SPBRMumlHhiZw==
+X-Received: by 2002:a05:6214:a14:: with SMTP id dw20mr31062111qvb.43.1607945529364;
+        Mon, 14 Dec 2020 03:32:09 -0800 (PST)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com. [209.85.160.170])
+        by smtp.gmail.com with ESMTPSA id u20sm13708191qtw.88.2020.12.14.03.32.08
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Dec 2020 03:32:08 -0800 (PST)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qt1-f170.google.com with SMTP id z20so11579986qtq.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 03:32:08 -0800 (PST)
+X-Received: by 2002:ac8:690f:: with SMTP id e15mr29203737qtr.100.1607945528526;
+ Mon, 14 Dec 2020 03:32:08 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.54.135]
-X-RMX-ID: 20201214-121420-RvydvkQRnFvs-0@out01.hq
-X-RMX-SOURCE: 217.111.95.66
+References: <CAP9ODKpXfVcDjtMwUvSRi68+-BHnK9nF6B-5wFX7nzW2wi2adQ@mail.gmail.com>
+ <CAMKF1sqj0epXj_cFBniiEvYmfTgcVuCxaAfLh7_Y7oPZ==Tq1w@mail.gmail.com>
+ <CAP9ODKoxVgDoMtys=aQdhteAZQ3bV7fbtLN8ZUuHehW2caLgSg@mail.gmail.com> <CAMKF1spBFaSKMXU77Rmx-usTw-mJN-dhbAb-=PKiFSFJ1-5hSg@mail.gmail.com>
+In-Reply-To: <CAMKF1spBFaSKMXU77Rmx-usTw-mJN-dhbAb-=PKiFSFJ1-5hSg@mail.gmail.com>
+Date: Mon, 14 Dec 2020 08:31:57 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoPuatKkZYK0Zy-6wfPh--G7HD3bz_QDRmqDR-gRhiLnA@mail.gmail.com>
+Message-ID: <CAP9ODKoPuatKkZYK0Zy-6wfPh--G7HD3bz_QDRmqDR-gRhiLnA@mail.gmail.com>
+Subject: Re: [OE-core] Strange segfault on native Go binaries
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-Branch: dunfell
-Arch: arm
+Hello Khem,
 
-When I set -fuse-ld=3Dgold with the Yocto SDK, the bfd linker is used anywa=
-y:
+Em seg., 14 de dez. de 2020 =C3=A0s 00:49, Khem Raj <raj.khem@gmail.com> es=
+creveu:
+> On Sun, Dec 13, 2020 at 6:52 AM Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+> > Em s=C3=A1b., 12 de dez. de 2020 =C3=A0s 23:30, Khem Raj <raj.khem@gmai=
+l.com> escreveu:
+> > > On Sat, Dec 12, 2020 at 3:52 PM Otavio Salvador
+> > > <otavio.salvador@ossystems.com.br> wrote:
+> > > > And this segfault is also happening inside the build. I ran the
+> > > > readelf on them and it seems to have been modified to use the
+> > > > uninative libc loader but I am in doubt how if this is the culprit.
+> > > > Can someone shed any light on this?
+> > >
+> > > it seems relocation is not working in some cases. whats your host
+> > > distro, are you using gold linker by any chance.
+> >
+> > Ubuntu 20.04 inside Docker
+> >
+> > The features are: DISTRO_FEATURES =3D argp ipv4 ipv6 systemd ldconfig
+>
+> Does it happen outside docker ?
 
-> . /opt/poky-tiny/3.1.4/environment-setup-cortexa7t2hf-neon-vfpv4-poky-lin=
-ux-musleabi
-> ${CC} -fuse-ld=3Dgold -Wl,--threads -o test test.c
-/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
-ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/real-ld: unrecognized option '-=
--threads'
-/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
-ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/real-ld: use the --help option =
-for usage information
+Yes as it fails on our CI as well; however in this specific host I
+cannot avoid the Docker use as my host is NixOS.
 
-When I call the "real-ld" with -h, I can see that it's the BFD linker.
+How can I debug it?
 
-> ${CC} -print-prog-name=3Dld
-/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
-ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld
-
-> ${CC} -fuse-ld=3Dbfd -print-prog-name=3Dld
-ld.bfd
-
-> ${CC} -fuse-ld=3Dgold -print-prog-name=3Dld
-ld.gold
-
-Compared to other cross toolchains I use, the output of the previous two co=
-mmands
-miss the full path to the linker. The gold linker is part of my SDK:
-
-> arm-poky-linux-musleabi-ld.gold --help
-Usage: arm-poky-linux-musleabi-ld.gold [options] file...
-Options:
-  --help                      Report usage information
-...
-
-How can I use the gold linker from gcc (without making it default)?
-
-regards
-Christian
-
-
-
-________________________________
- [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
-.jpg] <https://microsites.arri.com/stellar/>
-
-Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
-cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
-Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
-tube.com/user/ARRIChannel>.
-
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRA 57918
-Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
-H
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRB 54477
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
-er Trauninger; Markus Zeiler
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
