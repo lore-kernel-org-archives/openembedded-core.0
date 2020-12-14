@@ -1,169 +1,74 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web08.2194.1607975571563838302
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web08.2240.1607975709862523608
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 11:52:51 -0800
+ Mon, 14 Dec 2020 11:55:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Uvc1JLe6;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id h6so9644091vsr.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 11:52:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=t/JEb1hs;
+ spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: ticotimo@gmail.com)
+Received: by mail-pg1-f177.google.com with SMTP id t37so13337687pga.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 11:55:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mic8HSYw3oy2+AfGEkkceLGbmbUnfZTWjk9n0D3FVI4=;
-        b=Uvc1JLe6essy+sKfKnN7bX6omMV2LzstwiNDcf05szUT5C72mnTLjo5ue7udZJH+3K
-         d8x8Zaxm+v8NHFfAqUXkjWuXghBUUdRcLu1blXUOtziGrzlhMC/s4QtXK6P0G1A3UevY
-         slBegUzeyA62Y9uJvSnZ5KSt5V5nidyNVVspg7jspozMJO4L+hvlNvZIm5BjRVsud6/+
-         5UOgfWPFo+3+vvNNWJ07jwFJWFOMxxoJ+Y8uUmBB2oJp5VKeXyEP0qrSeQrS1FpUiQod
-         SzfooNFjjoPVPp2jbM8gBIBPb8RGG0Q3n08Nhcy8TuKrLuHjJd7fLioLLttY5qSY7kbv
-         TKvQ==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+a1rmeCdkscmWIOLckLzoCL0lNtncbn1wuPDwQ8xfR8=;
+        b=t/JEb1hsUjXtjFiCyICwioKNqwNcu75OzyUpSza1SjN7/QD+0MBMCDPX5WjmM9HK7S
+         n1au/UDE3MoN0PqjkCxsGKv3FPnfE/ZwQkakRgDt2Yy8fBWruj01jTa1UNx2oXmX5/l9
+         Gk0IL+cd5oU3cncFh2CT5cmlkMdMNIBLE4DqovDa2MWn3+gODOBcS1uT20ombQhVF5+F
+         7ScFdMipXhHh/PxwRrsK8JccUdaPQwx70cO7d1Acoiiio5wQTXN6xYLFVxkh2DaJeoM1
+         TKf1rlT1YALza8Ml1Fg4Q85x5qZ6S3oqtleWm1JXWUC0MV6iscY0oiQtjrITJA3tw8cU
+         iZEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mic8HSYw3oy2+AfGEkkceLGbmbUnfZTWjk9n0D3FVI4=;
-        b=By90ZV2UHq8OyDmgWacBFxeYZPVbFr3ztPWOc3KfZ2xMcN/HKVrj8zhmJRx78rYCfA
-         ewE2e6Q7LQz4aR+5cSdr9Bf5of+070Hyi3RVuxN6afU/ZKBrfoqOK+vdBTPqT1ZU6a5k
-         fIEjqTCaCp7Pukw2J4j6ydUUA+A5jtWAjHIAfR//2QeMvZgBkASshqnWnG7VEJItt0rw
-         ErxW0D+5cih/Ci489nVQe+/lK5Vq/DdFh99zek+WdWLpnq3onIHr174ZGsdDCtFd08kl
-         UdKStqT0yyYCinhvr6ZxGakw4Sg2J0mpOhc4FK+Y5ZKEQjc3eCTToyPEkZy38J7pQqqF
-         wxVw==
-X-Gm-Message-State: AOAM531aWs/KH4aFIpDnHhJpeA6glslkEV/gbN3sk8Y6PFxk+xmaFuG3
-	LY67+r9KCWddq/a6tDD63pFzpjobIRLeTdSF9xI=
-X-Google-Smtp-Source: ABdhPJynnvFp27BSS1zQT2/SZFR9qXhMrQdirWqCHC1/5ikHRBKHqxxPtQKeytZJfeN7kxA3x4ebNoBO4SWAHnUCBcE=
-X-Received: by 2002:a67:c89e:: with SMTP id v30mr24856289vsk.54.1607975570761;
- Mon, 14 Dec 2020 11:52:50 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+a1rmeCdkscmWIOLckLzoCL0lNtncbn1wuPDwQ8xfR8=;
+        b=SZ+keX7OTpX2zFQk4+UTvUxGzgjjIE0gdnN4C8PIqfWh8GEGG5dQORcBn5YJdAMGpH
+         l5NCrG7xlPeQMaL2Dg7DbNRsncmbLucbBqKLN65uQwyx/jDMemgeiwYaVeKTvb/75RTP
+         oN/EjFwOG/qC0/j9PDbWLGZcy5/g84l0ep9+6p8R44MZdI9TMmPOfxXBF7EXyFSuaNc/
+         s1kb1SC+YOQcb9gcbVmIaRFuc/LKLxhSOImLk9fVCN2d7lPNjtYGy7gaw5WaykjGkNEc
+         m06+2IILmhC4el2UK9KJ9jjK0ZM5y3Ws/66t0kDms1YxSfa8L007t0SBrVPSeULYTQWZ
+         CNRw==
+X-Gm-Message-State: AOAM531jfLCw2nZc8THDX2IjjyWwuWwPH+KfCytECvB5FUXBgQH2RWI2
+	zA4qupH0wD2SAlr+w8TFEwIjgTblLz7iog==
+X-Google-Smtp-Source: ABdhPJxAPO19Z9+WjlstrOCQMrvocmHQMLBkRGCcAO0ed5H6rgKDhjqiqgVnQDpSxZGK4a8Rz6dU+g==
+X-Received: by 2002:aa7:91cd:0:b029:19d:b10c:7f89 with SMTP id z13-20020aa791cd0000b029019db10c7f89mr25341208pfa.43.1607975708669;
+        Mon, 14 Dec 2020 11:55:08 -0800 (PST)
+Return-Path: <ticotimo@gmail.com>
+Received: from thetis.local ([2601:1c0:6000:9640:8d6d:2a16:706b:382])
+        by smtp.gmail.com with ESMTPSA id h20sm20069688pgv.23.2020.12.14.11.55.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Dec 2020 11:55:08 -0800 (PST)
+From: "Tim Orling" <ticotimo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] python3-packaging: upgrade
+Date: Mon, 14 Dec 2020 11:54:50 -0800
+Message-Id: <cover.1607975468.git.timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <20201207224400.1008323-1-alejandro.delcastillo@ni.com>
-In-Reply-To: <20201207224400.1008323-1-alejandro.delcastillo@ni.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 14 Dec 2020 20:52:39 +0100
-Message-ID: <CANNYZj9Yq6X3Px4AHJ_T40MoKoX0aMpETW6BnSTcz8oAyQOo=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] opkg: upgrade to version 0.4.4
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000b3ea6305b671fc73"
+Content-Transfer-Encoding: 8bit
 
---000000000000b3ea6305b671fc73
-Content-Type: text/plain; charset="UTF-8"
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-opkg ptests regress with this change:
-https://autobuilder.yocto.io/pub/non-release/20201214-1/testresults/qemux86-64-ptest/opkg.log
+This was built and tested on top of current master-next.
 
-Do not merge please, as this undoes my work to reach 100% pass rate in
-ptests :)
+The following changes since commit 647066acbd15e4489cbbbde3165c7980aee1e91c:
 
-Alex
+  wic-image-minimal: only depend on syslinux on x86 targets (2020-12-14 13:37:21 +0000)
 
-On Mon, 7 Dec 2020 at 23:44, Alejandro del Castillo <
-alejandro.delcastillo@ni.com> wrote:
+are available in the Git repository at:
 
-> Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-> ---
->  meta/recipes-devtools/opkg/{opkg_0.4.3.bb => opkg_0.4.4.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/opkg/{opkg_0.4.3.bb => opkg_0.4.4.bb} (95%)
->
-> diff --git a/meta/recipes-devtools/opkg/opkg_0.4.3.bb
-> b/meta/recipes-devtools/opkg/opkg_0.4.4.bb
-> similarity index 95%
-> rename from meta/recipes-devtools/opkg/opkg_0.4.3.bb
-> rename to meta/recipes-devtools/opkg/opkg_0.4.4.bb
-> index 46b7aa2523..0f29e1d41b 100644
-> --- a/meta/recipes-devtools/opkg/opkg_0.4.3.bb
-> +++ b/meta/recipes-devtools/opkg/opkg_0.4.4.bb
-> @@ -17,8 +17,8 @@ SRC_URI = "
-> http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
->             file://run-ptest \
->  "
->
-> -SRC_URI[md5sum] = "86ec5eee9362aca0990994a402e077e9"
-> -SRC_URI[sha256sum] =
-> "dda452854bc0cd1334f7ba18a66003d1c12a98600c894111b56919b1ea434718"
-> +SRC_URI[md5sum] = "345900c1d4747d58455867f9fe88ca43"
-> +SRC_URI[sha256sum] =
-> "2217acc58b8eb31300631ebae75e222ebc700c9c1cf6408088705d19a472c839"
->
->  # This needs to be before ptest inherit, otherwise all ptest files end
-> packaged
->  # in libopkg package if OPKGLIBDIR == libdir, because default
-> --
-> 2.28.0
->
->
-> 
->
->
+  git://git.openembedded.org/openembedded-core-contrib timo/python3-packaging-20.8
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=timo/python3-packaging-20.8
 
---000000000000b3ea6305b671fc73
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Tim Orling (1):
+  python3-packaging: upgrade 20.4 -> 20.8
 
-<div dir=3D"ltr"><div>opkg ptests regress with this change:</div><div><a hr=
-ef=3D"https://autobuilder.yocto.io/pub/non-release/20201214-1/testresults/q=
-emux86-64-ptest/opkg.log">https://autobuilder.yocto.io/pub/non-release/2020=
-1214-1/testresults/qemux86-64-ptest/opkg.log</a></div><div><br></div><div>D=
-o not merge please, as this undoes my work to reach 100% pass rate in ptest=
-s :)</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 7 Dec 2020 at 23:44, Al=
-ejandro del Castillo &lt;<a href=3D"mailto:alejandro.delcastillo@ni.com">al=
-ejandro.delcastillo@ni.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">Signed-off-by: Alejandro del Castillo &lt;<a href=
-=
-=3D"mailto:alejandro.delcastillo@ni.com" target=3D"_blank">alejandro.delca=
-stillo@ni.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/opkg/{<a href=3D"http://opkg_0.4.3.bb" rel=3D"=
-noreferrer" target=3D"_blank">opkg_0.4.3.bb</a> =3D&gt; <a href=3D"http://o=
-pkg_0.4.4.bb" rel=3D"noreferrer" target=3D"_blank">opkg_0.4.4.bb</a>} | 4 +=
-+--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-devtools/opkg/{<a href=3D"http://opkg_0.4.3.bb" =
-rel=3D"noreferrer" target=3D"_blank">opkg_0.4.3.bb</a> =3D&gt; <a href=3D"h=
-ttp://opkg_0.4.4.bb" rel=3D"noreferrer" target=3D"_blank">opkg_0.4.4.bb</a>=
-} (95%)<br>
-<br>
-diff --git a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.4.3.bb" r=
-el=3D"noreferrer" target=3D"_blank">opkg_0.4.3.bb</a> b/meta/recipes-devtoo=
-ls/opkg/<a href=3D"http://opkg_0.4.4.bb" rel=3D"noreferrer" target=3D"_blan=
-k">opkg_0.4.4.bb</a><br>
-similarity index 95%<br>
-rename from meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.4.3.bb" re=
-l=3D"noreferrer" target=3D"_blank">opkg_0.4.3.bb</a><br>
-rename to meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.4.4.bb" rel=
-=3D"noreferrer" target=3D"_blank">opkg_0.4.4.bb</a><br>
-index 46b7aa2523..0f29e1d41b 100644<br>
---- a/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.4.3.bb" rel=3D"n=
-oreferrer" target=3D"_blank">opkg_0.4.3.bb</a><br>
-+++ b/meta/recipes-devtools/opkg/<a href=3D"http://opkg_0.4.4.bb" rel=3D"n=
-oreferrer" target=3D"_blank">opkg_0.4.4.bb</a><br>
-@@ -17,8 +17,8 @@ SRC_URI =3D &quot;<a href=3D"http://downloads.yoctoproje=
-ct.org/releases/$%7BBPN%7D/$%7BBPN%7D-$%7BPV%7D.tar.gz" rel=3D"noreferrer" =
-target=3D"_blank">http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-=
-${PV}.tar.gz</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
-=C2=A0&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;86ec5eee9362aca0990994a402e077e9&quot;<br>
--SRC_URI[sha256sum] =3D &quot;dda452854bc0cd1334f7ba18a66003d1c12a98600c89=
-4111b56919b1ea434718&quot;<br>
-+SRC_URI[md5sum] =3D &quot;345900c1d4747d58455867f9fe88ca43&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;2217acc58b8eb31300631ebae75e222ebc700c9c1cf6=
-408088705d19a472c839&quot;<br>
-<br>
-=C2=A0# This needs to be before ptest inherit, otherwise all ptest files e=
-nd packaged<br>
-=C2=A0# in libopkg package if OPKGLIBDIR =3D=3D libdir, because default<br=
->
--- <br>
-2.28.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+ .../{python3-packaging_20.4.bb => python3-packaging_20.8.bb}   | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-packaging_20.4.bb => python3-packaging_20.8.bb} (71%)
 
---000000000000b3ea6305b671fc73--
+-- 
+2.25.0
+
