@@ -1,50 +1,50 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.34080.1607949315675691191
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web12.33875.1607949673982916593
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 04:35:16 -0800
+ Mon, 14 Dec 2020 04:41:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZXAO4FGw;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id a3so15051424wmb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 04:35:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vXCOj4RH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wr1-f66.google.com with SMTP id c5so12586581wrp.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 04:41:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=gKsyFr2fMmDT2ZcirkKBWNG2SCNC5sGzNTkktZfPS6w=;
-        b=ZXAO4FGwhAUX/lbBQaYx2m2H3h5mVUs0bWoDGeEINnUNAbGUKGmquatP00VfhlrLz2
-         WbwJBZnHngM5Y5H5myCu3GA/AY48VuUJ4j6CrqBjvll+GZUraV4jvG1T0VScjQOpjCTk
-         2FRgCZkAIqfy0SY7tOWXG/0jzJa/lWlSM/RS9FHS5GiJ05FvTG2C/9UVfChmWzGkNI7U
-         SXyXjUi9/Ooq7bBXHdz27mkTGplghAW67rL/jCNOXHLF0K+lGHic1G4Omdnt0ec/Yneg
-         7NqKATVYkYlK12l89JYogSGWtKUyxcddsMLegPf4MH/7ECfnzVnrC0bfPTeAOgIjjS7p
-         DxdA==
+        bh=YlbwukCs2VpTpV5KP5hnHlGFpiD2Gb1/JS5B5VZyEkY=;
+        b=vXCOj4RHM3+//1RxcA/ljl+sLcM5MRb6Kd+R9DOFGCaW5kQoWP/u0sLVCAUS6TjgXB
+         dA7kfNYaUCyAzW6vDremtm3SoToO3JKL5gtNbBupZdue3glFrdibBliwglktEnw3vNQx
+         NbnGUC3Yseo6MRwWu2u1qn8+9ctdwZ2jF3LyEHZPVXRJaViVzJCTS7Nh10InUrjJlW1V
+         +0bMeTNLzTzsvS0VsDfov+JfCfKhOQbig/JfOaSRNpjDsCohdClEvMI/2v+iSvhrt1Pw
+         TWNtVg+M0XoaanmC2S9JCi/mHSZt1vwo6+3YQxadXlGnRqBVS+w3CtB4C6G+dQbA5pNV
+         yj7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gKsyFr2fMmDT2ZcirkKBWNG2SCNC5sGzNTkktZfPS6w=;
-        b=CwhIRI8pwcqXvBjn3z65BHD803G57+6ZjPgOwcfWzwMO5gnq+AUWDsm33zdGjk8DOI
-         A3A3Q/pIolRKi/3zaOH3wzL2oYVZEytpITZiF2aOAbElPqyBWv/iiwcxLZjZmIe1wf/H
-         j8Kh2EjpwCpcgnT+fzxP3BCZ1CzyDbX2BjcxA6imuQyxvpv7qELYDgGQfK5GbXoM1shz
-         k0EHIGNR0WYArx5p+0NELkttXivoiREyTFrfhBAo9JV0oDoI6YjVuGZs0UZNFz6cVtdt
-         fBS/N6C2pupXxKyhxl7CaEyR2bZ3L52ogUDxnPX08QYCZackIPckklIFXAYhXAOtYVwN
-         E2jQ==
-X-Gm-Message-State: AOAM532014NjmVtSO5/E58dBsHKkK1UAdgWWJmiUL4/EejGbOEDLvxx7
-	uw9dyf0cO7XBjV3MCxA9RiDbQmk+CB/G/w==
-X-Google-Smtp-Source: ABdhPJwyjOc8fMlc9HeDPW81uGtcoxheCKLZzGJoxsuVI2MhDR4YV9i5uShQTlgorpUjTERkJbov3g==
-X-Received: by 2002:a05:600c:21c7:: with SMTP id x7mr26796540wmj.75.1607949310126;
-        Mon, 14 Dec 2020 04:35:10 -0800 (PST)
+        bh=YlbwukCs2VpTpV5KP5hnHlGFpiD2Gb1/JS5B5VZyEkY=;
+        b=pzKgdTI9JfHuSx6L6BIa4xSBZqerrc8dJpZT+Utoz+ycIxFEtBlozNUdHENg9hwXVJ
+         kxdag133qwIPKe+CLWwx7ilJtwO5rO1TsfJF3cdk2piAdXi5e5sY+MAWvxjvIKk7DUDp
+         Z4bvuDUVvCBGHtViSHqG+lkXWljH0O8EBRfgMUMl1GquUdtzIXc9qx148aeQZF1oAqC+
+         E6YS6/HZBYg6rSuHDlch3KKInK98PSQSpRAgEVtGGvP8ftn4OH/KxR9IQCJmnUF26Rvx
+         DwLD1wPujiku+FK0JieBqPI3SwWDEiEJLFGkVWBMcjrdGddvR5auZeK+eVfRq8PqIkWi
+         eNFQ==
+X-Gm-Message-State: AOAM532bd4MS+0+avsNGmU+WoScSrPDh9VZbbkWjwzEdfcUGSumBSDmn
+	4j2I97PAXK4rDfo/iXqMn7NOQEhz8IlMgQ==
+X-Google-Smtp-Source: ABdhPJxv7yAvicIOghDqXwnyNSrbrkrJDfUN2OYzTC4A3PB4r00MvBx4dKig/XnLm/9x6vSq/x/w7g==
+X-Received: by 2002:adf:ef06:: with SMTP id e6mr21900463wro.231.1607949312208;
+        Mon, 14 Dec 2020 04:35:12 -0800 (PST)
 Return-Path: <luca.boccassi@gmail.com>
 Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id i16sm29243678wrx.89.2020.12.14.04.35.08
+        by smtp.gmail.com with ESMTPSA id q12sm32029605wmc.45.2020.12.14.04.35.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 04:35:09 -0800 (PST)
+        Mon, 14 Dec 2020 04:35:11 -0800 (PST)
 From: "Luca Bocassi" <luca.boccassi@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 3/5] systemd: ship new systemd-dissect in -extra-utils
-Date: Mon, 14 Dec 2020 12:34:55 +0000
-Message-Id: <20201214123457.122655-3-luca.boccassi@gmail.com>
+Subject: [PATCH v2 4/5] systemd: set -Dmode=release as recommended by NEWS
+Date: Mon, 14 Dec 2020 12:34:56 +0000
+Message-Id: <20201214123457.122655-4-luca.boccassi@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201214123457.122655-1-luca.boccassi@gmail.com>
 References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
@@ -60,17 +60,17 @@ Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_247.1.bb b/meta/recipes-core/systemd/systemd_247.1.bb
-index f20c2cffb7..09dce2e07d 100644
+index 09dce2e07d..f20e86d94b 100644
 --- a/meta/recipes-core/systemd/systemd_247.1.bb
 +++ b/meta/recipes-core/systemd/systemd_247.1.bb
-@@ -471,6 +471,7 @@ FILES_${PN}-extra-utils = "\
-                         ${base_bindir}/systemd-escape \
-                         ${base_bindir}/systemd-inhibit \
-                         ${bindir}/systemd-detect-virt \
-+                        ${bindir}/systemd-dissect \
-                         ${bindir}/systemd-path \
-                         ${bindir}/systemd-run \
-                         ${bindir}/systemd-cat \
+@@ -210,6 +210,7 @@ EXTRA_OEMESON += "-Dnobody-user=nobody \
+                   -Drootlibdir=${rootlibdir} \
+                   -Drootprefix=${rootprefix} \
+                   -Ddefault-locale=C \
++                  -Dmode=release \
+                   "
+ 
+ # Hardcode target binary paths to avoid using paths from sysroot
 -- 
 2.29.2
 
