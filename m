@@ -1,81 +1,133 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web09.35618.1607956698831909858
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.35182.1607956701919975630
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:38:18 -0800
+ Mon, 14 Dec 2020 06:38:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YqXpBkl9;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id c12so12089083pgm.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:38:18 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1V6abZLo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id j1so8725637pld.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:38:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=DmTT2XNRCnX/v+VNIaHKSKEVrLQfjTtOLcitQd4uH7U=;
-        b=YqXpBkl9CGcjNy344K+1qpjiNnEmZ6UGc2x0g3FCpIrO7uEh60mFxW5+wpMEQnd3mS
-         G0PpDc+v+j3sQbwlzvkDr4SzS/tpmmtxyltC2JLwtuT1Nqh4f8grcXRTar9rmgiJ2L9+
-         iifawtg4q4I7GGZeV2cRGgqBhBQx5ksXRu7GTRruNu7yQDTWeDE1XjGwmK0+udUEPRTZ
-         QyklyBUDsj67XS53NhqHIYj13PoxxXvh5f1QCmCiQ8fDUTzSs2wycgYgT53qe3bM1tD8
-         l1fAo+1vMgeyi817zttGbKsURu9NrAlN0bap1DyEHIJE+/MRytN96EuDk13uWvusAqsH
-         zmVw==
+        bh=g6MEmp7KpF0r/63XVqku2x/J9ZwJYj8wQnIe9tme2f4=;
+        b=1V6abZLo6MzYp7LMscydQNiBMgn17UVoNWdPrBUGxb0V83K+mzC3juZgj2OhbBsk1j
+         bu5xeRbM5Y1sAfmOkWSJbPPLepBOLNuYuZ/ovuXzsmowfYkHUXjugsTVuQzrfYs+Ubcd
+         T5MX8lBVy5EEauUAabH36R3dsLCBNx38Pr+T+8wnJwnltLoOZIyysvkmSlDyh2LC8Rfo
+         jmsETVMr9rNiGKvARaEwLEuIL5TXmX5Lafc12a7PaZ6tVm23m5xo6GjIgz38FvQzqn++
+         jerP4+dmWeqPI89/5WUPnRGdXcY2U3r3udk9YiXUeN2pA52vBTVa1pf1DzikMH0iWUM0
+         ZdAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=DmTT2XNRCnX/v+VNIaHKSKEVrLQfjTtOLcitQd4uH7U=;
-        b=D0AAe6mXTD0Y+IpRtQzjgjcBAf6x6Jw2aUselyBEc3/jxg/6XA2S2oz+zh0wllEY+Y
-         0Dmq1+nDTXbfMQoGHyV/BMQzWitz8CoamDGPX4YAtqug4Y+SWOzJPUdpXb3icOsiSW+F
-         PFK8iHGJFsvlrwsDCNKGfRIuE2i7AEEjabIwlNIdRQLc6co4bxJVchTjb3QZMN4BJHlI
-         Tkd4B1W92yzq9CHfquo2B55bC3/qyfE2YVWDk1OR8aH26kRtqkktkXlcoepQQ4hE08b1
-         p4GZfFagmVB5Zx1HOxq762qsviSU8LHyScm9VUBCyYcxaKfWP9X3z+kcsFMmJGuABWO4
-         COjQ==
-X-Gm-Message-State: AOAM531PNTyKkH7j6J3snsEOzIxn28v1RAPS0C1nF2SCtYPh6q0zWbAm
-	+RNU5yyGCZkWWklY9YQWKf+jjjRvyzXuAAev
-X-Google-Smtp-Source: ABdhPJycu2rBW0mPLeXQDPMnQxrNrXhDVow66/AWinD6BiNEbBj+ZpfrOH+sh+Yp9dAF4YW4XsIEbQ==
-X-Received: by 2002:a63:1805:: with SMTP id y5mr24423193pgl.27.1607956697948;
-        Mon, 14 Dec 2020 06:38:17 -0800 (PST)
+        bh=g6MEmp7KpF0r/63XVqku2x/J9ZwJYj8wQnIe9tme2f4=;
+        b=CpUPwl9hLWlupvrxdC57TnIJ4nghyeswsMur3k/yrwcIYu/905gTUwSdprVAlgom8O
+         ld+HMprUrG9HTv2BJ6fKuXFhlK8Yj18USjXH59GInawENJxvMk/dveSTLw/87EZH+hgK
+         EfwKYo4uCLV0pbwu5EWpguIjys1lpie8sfHyrjWfOcsVhe0Xl2n3jrsCbD6XIbduPQ7v
+         4c7Dt0SDj9UmF9Pm1jJTGpuHaA6ccmUVEc8SbADF/BkOC8aG5hH7aNMRry0jyzoCCHyD
+         xUat37NSYqJSR1kdWGQqO6qHFm+IRm/ZcjgFgj4eXWyw/s9YcTqIw0O58eXKlsTHEtTc
+         xLYA==
+X-Gm-Message-State: AOAM532AzFZBIhq4BP98XUWXSPVzemeTXEa1AGp4BlrJYktznRDOnZNd
+	1+Jab1iRauSHWDRhgYOccrrPPOhW7TFDxgRG
+X-Google-Smtp-Source: ABdhPJxGLvXDBE1sF7tVhuiRTcSi3B6FnDXR6TEJx2yiUbkjewE0hx/JHDAKeyFzahy4dXSxw9MAiw==
+X-Received: by 2002:a17:90a:ab8e:: with SMTP id n14mr24883610pjq.96.1607956701033;
+        Mon, 14 Dec 2020 06:38:21 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.38.16
+        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.38.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:38:17 -0800 (PST)
+        Mon, 14 Dec 2020 06:38:20 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 24/25] metadata_scm: Fix signature handling of METADATA_REVISION and METADATA_BRANCH
-Date: Mon, 14 Dec 2020 04:36:53 -1000
-Message-Id: <edbe823ddf53aecc58d28fbcf7de1a1dc2dc79c8.1607956164.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 25/25] python3: fix CVE-2019-20907
+Date: Mon, 14 Dec 2020 04:36:54 -1000
+Message-Id: <f7e7378ea7099af8555de809787cf8e2cb5208fd.1607956164.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
 References: <cover.1607956164.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Andrej Valek <andrej.valek@siemens.com>
 
-We're not interested in the dependencies of these functions and what
-those functions look like, we're interested in the value the variable has.
+ - move fixing patch for CVE-2020-8492 to the right location
 
-Force the hashed value to be the actual value from the function. This
-means using METADATA_REVISION in DISTRO_VERSION for example now
-correctly rebuilds when it changes value.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 005651dc782859c01f170fb974811b2a13cb2cef)
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/metadata_scm.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ ...20-8492-Fix-AbstractBasicAuthHandler.patch |  0
+ .../python/python3/CVE-2019-20907.patch       | 44 +++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb |  1 +
+ 3 files changed, 45 insertions(+)
+ rename meta/recipes-devtools/python/{files => python3}/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch (100%)
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
 
-diff --git a/meta/classes/metadata_scm.bbclass b/meta/classes/metadata_scm.bbclass
-index 58bb4c555a..2608a7ef7b 100644
---- a/meta/classes/metadata_scm.bbclass
-+++ b/meta/classes/metadata_scm.bbclass
-@@ -1,5 +1,7 @@
- METADATA_BRANCH ?= "${@base_detect_branch(d)}"
-+METADATA_BRANCH[vardepvalue] = "${METADATA_BRANCH}"
- METADATA_REVISION ?= "${@base_detect_revision(d)}"
-+METADATA_REVISION[vardepvalue] = "${METADATA_REVISION}"
- 
- def base_detect_revision(d):
-     path = base_get_scmbasepath(d)
+diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+similarity index 100%
+rename from meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+rename to meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+diff --git a/meta/recipes-devtools/python/python3/CVE-2019-20907.patch b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+new file mode 100644
+index 0000000000..a2e72372dd
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+@@ -0,0 +1,44 @@
++From a06a6bf4e67a50561f6d6fb33534df1d3035ea34 Mon Sep 17 00:00:00 2001
++From: Rishi <rishi_devan@mail.com>
++Date: Wed, 15 Jul 2020 13:51:00 +0200
++Subject: [PATCH] bpo-39017: Avoid infinite loop in the tarfile module
++ (GH-21454)
++
++Avoid infinite loop when reading specially crafted TAR files using the tarfile module
++(CVE-2019-20907).
++(cherry picked from commit 5a8d121a1f3ef5ad7c105ee378cc79a3eac0c7d4)
++
++Co-authored-by: Rishi <rishi_devan@mail.com>
++
++Removed testing 'recursion.tar' tar file due to binary data
++
++Upstream-Status: Backport [https://github.com/python/cpython/commit/c55479556db015f48fc8bbca17f64d3e65598559]
++CVE: CVE-2019-20907
++Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
++---
++ Lib/tarfile.py                                    |   2 ++
++ .../2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst      |   1 +
++ 4 files changed, 10 insertions(+)
++ create mode 100644 Lib/test/recursion.tar
++ create mode 100644 Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++
++diff --git a/Lib/tarfile.py b/Lib/tarfile.py
++index d31b9cbb51d65..7a69e1b1aa544 100755
++--- a/Lib/tarfile.py
+++++ b/Lib/tarfile.py
++@@ -1241,6 +1241,8 @@ def _proc_pax(self, tarfile):
++ 
++             length, keyword = match.groups()
++             length = int(length)
+++            if length == 0:
+++                raise InvalidHeaderError("invalid header")
++             value = buf[match.end(2) + 1:match.start(1) + length - 1]
++ 
++             # Normally, we could just use "utf-8" as the encoding and "strict"
++diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++new file mode 100644
++index 0000000000000..ad26676f8b856
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
++@@ -0,0 +1 @@
+++Avoid infinite loop when reading specially crafted TAR files using the tarfile module (CVE-2019-20907).
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index b4cce88e87..9eddad4ad4 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
+            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
+            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
++           file://CVE-2019-20907.patch \
+            file://CVE-2020-14422.patch \
+            file://CVE-2020-26116.patch \
+            file://CVE-2020-27619.patch \
 -- 
 2.17.1
 
