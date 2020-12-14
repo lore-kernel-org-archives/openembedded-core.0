@@ -1,112 +1,213 @@
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web10.32586.1607942981651037401
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web08.32780.1607943178055624897
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 02:49:42 -0800
+ Mon, 14 Dec 2020 02:52:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sYJOVLv1;
- spf=pass (domain: gmail.com, ip: 209.85.167.65, mailfrom: outbackdingo@gmail.com)
-Received: by mail-lf1-f65.google.com with SMTP id l11so29020791lfg.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 02:49:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IzLoFmOkBLd7wtRo+olqdIJnb0TIc5FqIk9PSS2gqz4=;
-        b=sYJOVLv19ynOvfIqS5QOIzLV/VJh3fXSZbFqLZgdYs5rP3SMZxygqFmfQZbz9owTGK
-         y4jUoWL0WWhm1j85mRtK2N8P8YPcUJ36cpkTLLO41sBBOT2IOuJmUKyjPF0yliJXiiAE
-         kTL6NwDOX2ZiBmlWFBCadbdY7Pe2KdJx4kUTd1FnZQ9oCE0IlxzBpgFptsmktIH0gadx
-         sbL09zexvEUVsAji0njPDmxToWuAR8epRm4WYyGKuVrplff98WOGQYrHXugKsFpmJzL8
-         cyqMsBCn6xpZ11LodxpLcyFidyj3bR7DXRPad5o2L5cWCWcaNCAIp/8pYRB7cHYzS6Bv
-         qjwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IzLoFmOkBLd7wtRo+olqdIJnb0TIc5FqIk9PSS2gqz4=;
-        b=KhEZR3Yw2sxzGS/kBKPlyAoDyEeXhbJXadNR8XX3439clDWd67BKANI7bbcq/vOBlv
-         lD3rmsBYJ4QlmZhbaXQY7IZ+diTJuqmgqKOgoQgIR/fgWrOj38dcrxjJzqyQIwNj9aVJ
-         WcGYW3SPOlSTRYHGUIJ3ZOzvziGFiQigz0MESjtopQbMSdWMYcTGsE5IVzZX7JKqv3FC
-         3FxpU2hkptI0oz3A8S64WqBnAgkTf/ACg3uoX1Dyoy25Ckg0xxdfJz+3ydK4qtiPLrg/
-         yhzF7VoCzA/ydbMl17a41CsSlUivJrdHS436yByQSerIdJBkL7Dkgvm1rBxBf0Y4TIio
-         J6kA==
-X-Gm-Message-State: AOAM531xCvZKr6FmF+nUy3LpLMjs+XASgfkFvzsNi0aCn/XJtPBwKpYn
-	Ofju4h9kb35Eda0QN2UVTV5fMZLronXXEBjMkGY=
-X-Google-Smtp-Source: ABdhPJwai7B2/2NA8Q/VpuwJfTjE5OcpR2MDpSr4+GEi1R4ndqlbFQE8higDlqFjhoVqIR6InXYoyuWUIxQWNNdtdQU=
-X-Received: by 2002:a2e:8250:: with SMTP id j16mr2056480ljh.354.1607942979954;
- Mon, 14 Dec 2020 02:49:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20201214103248.2227-1-outbackdingo@gmail.com> <CANNYZj_EoiG+MXJ-fjsZ8YsxwRhD6SSwv9xXLTzw3PMTvBqXdA@mail.gmail.com>
-In-Reply-To: <CANNYZj_EoiG+MXJ-fjsZ8YsxwRhD6SSwv9xXLTzw3PMTvBqXdA@mail.gmail.com>
-From: "Outback Dingo" <outbackdingo@gmail.com>
-Date: Mon, 14 Dec 2020 17:49:03 +0700
-Message-ID: <CAKYr3zzDd02Q8A7X3zBRRczFHwxCHL-rcpqtCv+OX15sn37tSA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] file /etc/ethertypes conflicts between netbase-1:6.2-r0.corei7_64 and ebtables-2.0.10+4-r4.corei7_64
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: tE48QW8lU7PsaHdF0gO1QphKH6L8u7+3+sdoUAVKGanqnSC3zqmNLcrZKTRsKOmSY5l2YHo703
+ tHQh1NEsY7GA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="171177866"
+X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; 
+   d="scan'208";a="171177866"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 02:52:56 -0800
+IronPort-SDR: 13q4UvFtOy/T/1+eb8YjqC+ggJr7/90In5mwtaeVP3Bkuz8L9S7lvsAPh7PAE43oeqMujJMEco
+ vQ4ttIdYzCrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; 
+   d="scan'208";a="411138070"
+Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
+  by orsmga001.jf.intel.com with ESMTP; 14 Dec 2020 02:52:55 -0800
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH][dunfell 1/3] glibc: fix CVE-2020-29562
+Date: Mon, 14 Dec 2020 18:52:52 +0800
+Message-Id: <20201214105254.57230-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, Dec 14, 2020 at 5:39 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Sorry, but you need to explain why the file from from ebtables (an optional package from a 3rd party layer) takes precedence over file from netbase (which is a core item).
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-I happened to run across it using poky and it was suggested i send a
-patch, the fact it conflicts with an optional package, well i guess
-Ill have to look at both, might just be that
-it should come out of ebtables, either way i hit it due to the recent
-change commit in netbase_6.2.bb telling me it was not previously there
-until you actually added that line this month!
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../glibc/glibc/CVE-2020-29562.patch          | 156 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
+ 2 files changed, 157 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
 
-git show ba069a5a3dae374744f68a57ab9e7869167beb2b
-
--SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}~bpo10+1.tar.xz"
--S = "${WORKDIR}/${BPN}-${PV}~bpo10+1"
-+SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
-
--SRC_URI[md5sum] = "4fa7517285b4045ac0dc8dbf6730dd7a"
--SRC_URI[sha256sum] =
-"4e9c3082dff8896cb6b6bea9bb2200d82fb0d7c8d8c8fc9b18704fe553316237"
-+inherit allarch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch b/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
+new file mode 100644
+index 0000000000..c51fb3223a
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
+@@ -0,0 +1,156 @@
++From 228edd356f03bf62dcf2b1335f25d43c602ee68d Mon Sep 17 00:00:00 2001
++From: Michael Colavita <mcolavita@fb.com>
++Date: Thu, 19 Nov 2020 11:44:40 -0500
++Subject: [PATCH] iconv: Fix incorrect UCS4 inner loop bounds (BZ#26923)
 +
-+SRC_URI[sha256sum] =
-"309a24146a06347d654b261e9e07a82fab844b173674a42e223803dd8258541e"
++Previously, in UCS4 conversion routines we limit the number of
++characters we examine to the minimum of the number of characters in the
++input and the number of characters in the output. This is not the
++correct behavior when __GCONV_IGNORE_ERRORS is set, as we do not consume
++an output character when we skip a code unit. Instead, track the input
++and output pointers and terminate the loop when either reaches its
++limit.
++
++This resolves assertion failures when resetting the input buffer in a step of
++iconv, which assumes that the input will be fully consumed given sufficient
++output space.
++
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=228edd356f03bf62dcf2b1335f25d43c602ee68d]
++CVE: CVE-2020-29562
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ iconv/Makefile       |  2 +-
++ iconv/gconv_simple.c | 16 ++++----------
++ iconv/tst-iconv8.c   | 50 ++++++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 55 insertions(+), 13 deletions(-)
++ create mode 100644 iconv/tst-iconv8.c
++
++diff --git a/iconv/Makefile b/iconv/Makefile
++index 30bf996d3a..f9b51e23ec 100644
++--- a/iconv/Makefile
+++++ b/iconv/Makefile
++@@ -44,7 +44,7 @@ CFLAGS-linereader.c += -DNO_TRANSLITERATION
++ CFLAGS-simple-hash.c += -I../locale
++ 
++ tests	= tst-iconv1 tst-iconv2 tst-iconv3 tst-iconv4 tst-iconv5 tst-iconv6 \
++-	  tst-iconv7 tst-iconv-mt tst-iconv-opt
+++	  tst-iconv7 tst-iconv8 tst-iconv-mt tst-iconv-opt
++ 
++ others		= iconv_prog iconvconfig
++ install-others-programs	= $(inst_bindir)/iconv
++diff --git a/iconv/gconv_simple.c b/iconv/gconv_simple.c
++index d4797fba17..963b29f246 100644
++--- a/iconv/gconv_simple.c
+++++ b/iconv/gconv_simple.c
++@@ -239,11 +239,9 @@ ucs4_internal_loop (struct __gconv_step *step,
++   int flags = step_data->__flags;
++   const unsigned char *inptr = *inptrp;
++   unsigned char *outptr = *outptrp;
++-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
++   int result;
++-  size_t cnt;
++ 
++-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
++     {
++       uint32_t inval;
++ 
++@@ -307,11 +305,9 @@ ucs4_internal_loop_unaligned (struct __gconv_step *step,
++   int flags = step_data->__flags;
++   const unsigned char *inptr = *inptrp;
++   unsigned char *outptr = *outptrp;
++-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
++   int result;
++-  size_t cnt;
++ 
++-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
++     {
++       if (__glibc_unlikely (inptr[0] > 0x80))
++ 	{
++@@ -613,11 +609,9 @@ ucs4le_internal_loop (struct __gconv_step *step,
++   int flags = step_data->__flags;
++   const unsigned char *inptr = *inptrp;
++   unsigned char *outptr = *outptrp;
++-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
++   int result;
++-  size_t cnt;
++ 
++-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
++     {
++       uint32_t inval;
++ 
++@@ -684,11 +678,9 @@ ucs4le_internal_loop_unaligned (struct __gconv_step *step,
++   int flags = step_data->__flags;
++   const unsigned char *inptr = *inptrp;
++   unsigned char *outptr = *outptrp;
++-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
++   int result;
++-  size_t cnt;
++ 
++-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
+++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
++     {
++       if (__glibc_unlikely (inptr[3] > 0x80))
++ 	{
++diff --git a/iconv/tst-iconv8.c b/iconv/tst-iconv8.c
++new file mode 100644
++index 0000000000..0b92b19f66
++--- /dev/null
+++++ b/iconv/tst-iconv8.c
++@@ -0,0 +1,50 @@
+++/* Test iconv behavior on UCS4 conversions with //IGNORE.
+++   Copyright (C) 2020 Free Software Foundation, Inc.
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <http://www.gnu.org/licenses/>.  */
+++
+++/* Derived from BZ #26923 */
+++#include <errno.h>
+++#include <iconv.h>
+++#include <stdio.h>
+++#include <support/check.h>
+++
+++static int
+++do_test (void)
+++{
+++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-10646/UCS4/");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++
+++  /*
+++   * Convert sequence beginning with an irreversible character into buffer that
+++   * is too small.
+++   */
+++  char input[12] = "\xe1\x80\xa1" "AAAAAAAAA";
+++  char *inptr = input;
+++  size_t insize = sizeof (input);
+++  char output[6];
+++  char *outptr = output;
+++  size_t outsize = sizeof (output);
+++
+++  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == -1);
+++  TEST_VERIFY (errno == E2BIG);
+++
+++  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
+++
+++  return 0;
+++}
+++
+++#include <support/test-driver.c>
++-- 
++2.27.0
++
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 3d486fbb59..3a0d60abf8 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -41,6 +41,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0027-intl-Emit-no-lines-in-bison-generated-files.patch \
+            file://0028-inject-file-assembly-directives.patch \
+            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
++           file://CVE-2020-29562.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+-- 
+2.17.1
 
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
--do_install () {
-
--       install -d ${D}/${mandir}/man8 ${D}${sysconfdir}
-+do_install () {
-+       install -d ${D}${sysconfdir}
-        install -m 0644 ${S}/etc/rpc ${D}${sysconfdir}/rpc
-        install -m 0644 ${S}/etc/protocols ${D}${sysconfdir}/protocols
-        install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
-+       install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
- }
-
-
-
->
-> Alex
->
-> On Mon, 14 Dec 2020 at 11:33, Outback Dingo <outbackdingo@gmail.com> wrote:
->>
->> ---
->>  meta/recipes-core/netbase/netbase_6.2.bb | 1 -
->>  1 file changed, 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/netbase/netbase_6.2.bb b/meta/recipes-core/netbase/netbase_6.2.bb
->> index a54d2e7764..262b2cf1bc 100644
->> --- a/meta/recipes-core/netbase/netbase_6.2.bb
->> +++ b/meta/recipes-core/netbase/netbase_6.2.bb
->> @@ -19,5 +19,4 @@ do_install () {
->>         install -m 0644 ${S}/etc/rpc ${D}${sysconfdir}/rpc
->>         install -m 0644 ${S}/etc/protocols ${D}${sysconfdir}/protocols
->>         install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
->> -       install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
->>  }
->> --
->> 2.20.1
->>
->>
->> 
->>
