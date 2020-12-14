@@ -1,74 +1,65 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web11.28836.1607910784316673259
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web11.29836.1607916926312113884
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Dec 2020 17:53:04 -0800
+ Sun, 13 Dec 2020 19:35:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: B/WbuGITFFESStclkd1NdmBnO4622zuOTginDTGorXbpk/zCPE3dvw9zVETbZzQigw8YI3Wr5E
- PykbfSgFljiw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="154453740"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Ek7aBfy4hgneWrtJAdoR5Kt+oZKfQwelmoWldM/lmIKYoe9H+/y5YrTVsePF/6VTgmLJ452YMx
+ 9bEpLDgtWZ4Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="238752352"
 X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
-   d="scan'208";a="154453740"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2020 17:53:03 -0800
-IronPort-SDR: hkZa3ATb+eT6wUBcRSG4tmPk0pdR+4shgmutSBkNECKq1nuJBeWy5suWkoYtIafCMSPuhmL2hA
- qOi7wu6gGQ3A==
-X-ExtLoop1: 1
+   d="scan'208";a="238752352"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2020 19:35:24 -0800
+IronPort-SDR: TOTeday7RWEBEHUOwQpHHbJaudHTXjLG+AVN9GHYZ/2+DN5H/lw5uSmNbciLzVNj7iDSZlB04U
+ qA491LV5OdQA==
 X-IronPort-AV: E=Sophos;i="5.78,417,1599548400"; 
-   d="scan'208";a="381151806"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga004.fm.intel.com with ESMTP; 13 Dec 2020 17:53:02 -0800
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
+   d="scan'208";a="447670744"
+Received: from gohpeibo-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.173.90])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2020 19:35:22 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][gatesgarth] go: 1.15.2 -> 1.15.6
-Date: Mon, 14 Dec 2020 09:53:01 +0800
-Message-Id: <1607910781-88071-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.7.4
+Subject: [gatesgarth][PATCH 02/19] cve-update-db-native: handle all-wildcard versions
+Date: Mon, 14 Dec 2020 11:34:59 +0800
+Message-Id: <4116c4bbc896d0b445efc294603f02dedd0d3674.1607916826.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1607916826.git.anuj.mittal@intel.com>
+References: <cover.1607916826.git.anuj.mittal@intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+From: Ross Burton <ross@burtonini.com>
 
-update minor version to 1.15.6
+If a CPE version field is just *:*:*:* it should be handled the same as
+-:*:*:*, that is 'all versions'.  To ease handling, transform this case
+to use -.
 
-go-1.15.3 includes fixes to cgo, the compiler, runtime, the go command, and the bytes, plugin, and testing packages.
-go-1.15.4 includes fixes to cgo, the compiler, linker, runtime, and the compress/flate, net/http, reflect, and time packages.
-go-1.15.5 includes security fixes to the go command and the math/big package.
-go-1.15.6 includes fixes to the compiler, linker, runtime, the go command, and the io package.
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2020-28362
-https://nvd.nist.gov/vuln/detail/CVE-2020-28366
-https://nvd.nist.gov/vuln/detail/CVE-2020-28367
-https://golang.org/doc/devel/release.html#go1.15.minor
-
-Updates includes fix for:
-CVE-2020-28362
-CVE-2020-28366
-CVE-2020-28367
-
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 04a9bc4ca5294fe6834513669c7746a824d12b04)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/go/go-1.15.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
-index 97d748b..c5e3fe0 100644
---- a/meta/recipes-devtools/go/go-1.15.inc
-+++ b/meta/recipes-devtools/go/go-1.15.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index cf2b251e21..cf62e1e32c 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -172,7 +172,12 @@ def parse_node_and_insert(c, node, cveId):
+                     op_end = '<'
+                     v_end = cpe['versionEndExcluding']
  
- GO_BASEVERSION = "1.15"
--GO_MINOR = ".2"
-+GO_MINOR = ".6"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+-                yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
++                if op_start or op_end or v_start or v_end:
++                    yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
++                else:
++                    # This is no version information, expressed differently.
++                    # Save processing by representing as -.
++                    yield [cveId, vendor, product, '-', '', '', '']
  
-@@ -17,4 +17,4 @@ SRC_URI += "\
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
- "
--SRC_URI[main.sha256sum] = "28bf9d0bcde251011caae230a4a05d917b172ea203f2a62f2c2f9533589d4b4d"
-+SRC_URI[main.sha256sum] = "890bba73c5e2b19ffb1180e385ea225059eb008eb91b694875dd86ea48675817"
+     c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
+ 
 -- 
-2.7.4
+2.29.2
 
