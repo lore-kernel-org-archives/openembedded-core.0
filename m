@@ -1,211 +1,54 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web09.36069.1607958578873289691
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+ by mx.groups.io with SMTP id smtpd.web12.36220.1607959222090898189
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 07:09:39 -0800
+ Mon, 14 Dec 2020 07:20:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cWFVHtZa;
- spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id z11so15821552qkj.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 07:09:38 -0800 (PST)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=gkcYi+ga;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.68, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f68.google.com with SMTP id 23so31003012lfg.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 07:20:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WSS+I6YfY+/fAKqrIkdoddE1MnMNgFvEzNjsfHLVaR0=;
-        b=cWFVHtZaVNM2QAXlvm5yvWIeoHafbYRL072TajtYBgRBDQP5TwoYFrsYj/Ua8tf7VX
-         KFp2lIc/oqF9WzGQ4ogQmXcO14FQObh0xxTdQA2TOqA8VO8R1xtGpc/S7jfH6B9mU5d2
-         kmbyUF9X/I+YWTp15I3pSycdQ2Exa78WS7KZVyXKYM0zLWs8ilfkLsyRrf3T2bnfw0sr
-         d69cowKSIrqlby9S7hclqCydOehlRK/ZNkW4wkKSEouk5HtpqyLhKHqVhqJHcx6IKn0U
-         2nxmyOepQrOs5BWxqcId0XKznGZT2b8mF/h/n6zJrNSRGD8oQk5Poq4CzAiPESl/mSXM
-         09eg==
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OWchaYthgjcevcwUiExeu8oJV7ylVwJAsAq7XEmME18=;
+        b=gkcYi+ga6moajWrNTU7QGDbrlajp3zt9pIcOGAht3KoI02A7NrqukEejI5ZO0xWzlV
+         u/TF8Cx+Tz+Ui+xlGk2JlPJZATLMNDXGpPqiyyFME0+lfuVbTU7QgRYgY+Fd2qg39o+m
+         ulUpsDoHoSclNnTd/spmmj9rX5JheaHfCM3sTcVTjPQuppW2rir9ZtQMmw+HKx8iaLiE
+         x5bSPciCPinXY9P3x3b6byJjQoCYUfCDuLUFuSIPocbfz4OeL86UDFvdV2jJhDjqVt3X
+         jDvXeyAPGXfGK5OmZgiaocK8kCuKRuF4al/R+S+qV2ooW84q7pRHqb9Y1iRQ/lQtWqrP
+         3ENA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WSS+I6YfY+/fAKqrIkdoddE1MnMNgFvEzNjsfHLVaR0=;
-        b=mvRiVRKOikeK8TO3pUXs5r8/IDH1chR1EnoL4uzaamKr4EmUiShGyzuDmojToxDzeC
-         wxeJ56UHto+0zOkh6b2qW6lvjZ77NYJLnPqkzqGVEJVgkscr5+oUUYPqblmVarkuoH8m
-         4NIS4uLbullUxS1PivP1NH+9CNJFrcZq/e7Y7Ltp4wCQA4dvH/ELM3TdP/Zl7qXEPonJ
-         F6cQVCFGP91pHXm9XFo0wkIAFtoWV+sbP13PeTc0vIU1+HWUMCCM+++MN1Q4NPIH7g+A
-         m+cBlG87l8AZmlaMFwC8eZdcmtsvw6hSErcYGPIF1I8Yv9ZnH5AQnk5oIVUCzJDZlWcN
-         /qRA==
-X-Gm-Message-State: AOAM530Y9nXHImTS9KcMt1w/r2ET8JLcsaNkGmRxKc96cZhMinsrU700
-	F2Rj0v5uoRvysCYsnBk+5LP4e3ckdFVTcGqV
-X-Google-Smtp-Source: ABdhPJx4h5YR3Juc9MzX9g0W35+sgnTPg4nW9GG0zSLcrFzT+glM9Cia+gZfrILstCnTfwKWHRLbaA==
-X-Received: by 2002:ae9:de45:: with SMTP id s66mr32586503qkf.227.1607958577986;
-        Mon, 14 Dec 2020 07:09:37 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id a194sm13565070qkc.70.2020.12.14.07.09.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 07:09:36 -0800 (PST)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/8] linux-yocto/5.4: update to v5.4.83
-Date: Mon, 14 Dec 2020 10:09:24 -0500
-Message-Id: <a8396a7d3a96082094213391add84299ab5b3932.1607958349.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1607958349.git.bruce.ashfield@gmail.com>
-References: <cover.1607958349.git.bruce.ashfield@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OWchaYthgjcevcwUiExeu8oJV7ylVwJAsAq7XEmME18=;
+        b=dX51N39SNaFCv4u3bUaimqU4FwKDdrzfp6oQi7b3qjb90GpJnbGSXptRJMzpbsuVCt
+         Wodd6F/SyZQsehTK2WUISHI/TQpiMmPoLWjMTdTJNEV508dtZJ8PQe7ow+v3E/T43+TM
+         Fr5f26ewVubvvrYzv8/remDDybdreoC4d/S7Aqv6YCSpOeEJmN7kgXywgMmAykM5Weau
+         CH5PC1nfvAu6JQj03a9Jfh43gVd3ngkCEmhXncV4BGI37UXj4hEeFzv036f8DXqUPqBw
+         iLuvUkyda8pR0vZSf5id77zAf6ButQ8b+3cEmhbUBNIeYezFCudlLnG4MCNcbxNKpwQ4
+         baMw==
+X-Gm-Message-State: AOAM533sBUHLnTUfwB4XOLS2QlM/wCRYEYV0Sxx0O1flxYl/YfPVUfai
+	4CGBQ4BaPhzF+1DPO2xtt8mnZactNNwt9LAQHmgMrA==
+X-Google-Smtp-Source: ABdhPJygizh+J6iA/sHrZVi+oIU92scQJO0BZyKIDx+tHx3Vl8EOdnikQ2rWhbWNqHXL18EcInYa1UWzZmaaNyx2yCQ=
+X-Received: by 2002:a2e:924f:: with SMTP id v15mr11724223ljg.6.1607959220277;
+ Mon, 14 Dec 2020 07:20:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201210163242.3329917-1-ross.burton@arm.com> <732073f5112c4d4ff8d2e6d72832bb53823e81f4.camel@intel.com>
+ <CAAnfSTtMRjAJx4d7KHP4eMa5YO3=uCf0_RpjToDT8bUPLcwGQQ@mail.gmail.com>
+In-Reply-To: <CAAnfSTtMRjAJx4d7KHP4eMa5YO3=uCf0_RpjToDT8bUPLcwGQQ@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 14 Dec 2020 15:20:08 +0000
+Message-ID: <CAAnfSTtRg5EfEZqHWpFb+Bqzx61Pa7h8Kxd5ND61avW34JxiiQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] systemd-boot: allow building for Arm targets
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Mon, 14 Dec 2020 at 14:11, Ross Burton <ross@burtonini.com> wrote:
+> Can we just move the contents of that append into core?
 
-Updating linux-yocto/5.4 to the latest korg -stable release that comprises
-the following commits:
+FWIW, got a patch doing just that locally.
 
-    2bff021f53b2 Linux 5.4.83
-    66a08d1d3bd8 Revert "geneve: pull IP header before ECN decapsulation"
-    ed58971beb47 x86/insn-eval: Use new for_each_insn_prefix() macro to loop over prefixes bytes
-    423e1b08ce5c netfilter: nftables_offload: set address type in control dissector
-    13995410b616 netfilter: nf_tables: avoid false-postive lockdep splat
-    f25fa580f99e Input: i8042 - fix error return code in i8042_setup_aux()
-    b9df537e5fcd dm writecache: remove BUG() and fail gracefully instead
-    8e2c50315f00 i2c: qup: Fix error return code in qup_i2c_bam_schedule_desc()
-    1015eefe10e2 rtw88: debug: Fix uninitialized memory in debugfs code
-    af699e99efdc ASoC: wm_adsp: fix error return code in wm_adsp_load()
-    fdc1416c2199 tipc: fix a deadlock when flushing scheduled work
-    6410c7f53698 netfilter: ipset: prevent uninit-value in hash_ip6_add
-    cd928d387b0b gfs2: check for empty rgrp tree in gfs2_ri_update
-    c358e7e99dda can: af_can: can_rx_unregister(): remove WARN() statement from list operation sanity check
-    867fbf2bb739 lib/syscall: fix syscall registers retrieval on 32-bit platforms
-    f68f5bdfefd9 tracing: Fix userstacktrace option for instances
-    dbbf6cdab503 iommu/amd: Set DTE[IntTabLen] to represent 512 IRTEs
-    d863a4ad3cc5 spi: bcm2835: Release the DMA channel if probe fails after dma_init
-    83d5121c3b0f i2c: imx: Check for I2SR_IAL after every byte
-    83366a7b2d34 i2c: imx: Fix reset of I2SR_IAL flag
-    b0d4fa10bfcc speakup: Reject setting the speakup line discipline outside of speakup
-    a2a163f70bdf mm/swapfile: do not sleep with a spin lock held
-    4870004d30e3 mm: list_lru: set shrinker map bit when child nr_items is not zero
-    42ccf9d14ede coredump: fix core_pattern parse error
-    579c977253b6 x86/uprobes: Do not use prefixes.nbytes when looping over prefixes.bytes
-    002d2c4a3f66 dm: remove invalid sparse __acquires and __releases annotations
-    3b02d67064ff dm: fix bug with RCU locking in dm_blk_report_zones
-    7eb514087cdd powerpc/pseries: Pass MSI affinity to irq_create_mapping()
-    1f72986fc9df genirq/irqdomain: Add an irq_create_mapping_affinity() function
-    6466119452a8 powerpc/64s/powernv: Fix memory corruption when saving SLB entries on MCE
-    8a758e97b707 dm writecache: fix the maximum number of arguments
-    3f680c5996f9 scsi: mpt3sas: Fix ioctl timeout
-    812dff6a5250 drm/i915/gt: Program mocs:63 for cache eviction on gen9
-    b92738c4f9d3 thunderbolt: Fix use-after-free in remove_unplugged_switch()
-    ed201cb54d6f i2c: imx: Don't generate STOP condition if arbitration has been lost
-    73948ab9f2df cifs: fix potential use-after-free in cifs_echo_request()
-    a0ca8cb2f707 cifs: allow syscalls to be restarted in __smb_send_rqst()
-    205740ca4a4d ftrace: Fix updating FTRACE_FL_TRAMP
-    d18379bbb856 ALSA: hda/generic: Add option to enforce preferred_dacs pairs
-    f28666e00a44 ALSA: hda/realtek - Add new codec supported for ALC897
-    c57556f1798b ALSA: hda/realtek: Enable headset of ASUS UX482EG & B9400CEA with ALC294
-    f3fc36614438 ALSA: hda/realtek: Add mute LED quirk to yet another HP x360 model
-    de41002d2e0e ALSA: hda/realtek: Fix bass speaker DAC assignment on Asus Zephyrus G14
-    35ee9ac51328 tty: Fix ->session locking
-    c536ecd48560 tty: Fix ->pgrp locking in tiocspgrp()
-    013d2d046532 USB: serial: option: fix Quectel BG96 matching
-    3cf949422734 USB: serial: option: add support for Thales Cinterion EXS82
-    0f8af69bec41 USB: serial: option: add Fibocom NL668 variants
-    250930f60c33 USB: serial: ch341: sort device-id entries
-    25b90f887dd4 USB: serial: ch341: add new Product ID for CH341A
-    f0990c21af7d USB: serial: kl5kusb105: fix memleak on open
-    8954745718e7 usb: gadget: f_fs: Use local copy of descriptors for userspace copy
-    4a77729b25d6 Partially revert bpf: Zero-fill re-used per-cpu map element
-    512b18eec5c2 pinctrl: baytrail: Fix pin being driven low for a while on gpiod_get(..., GPIOD_OUT_HIGH)
-    e90d11d0be10 pinctrl: baytrail: Replace WARN with dev_info_once when setting direct-irq pin to output
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
- 3 files changed, 18 insertions(+), 18 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 5162c065ed..3754abbc66 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "65a53ac9134b9736ae67afc5fb02049f4908d8e3"
--SRCREV_meta ?= "104cf3e89371ac8971fef69f55a6c788c46ec65a"
-+SRCREV_machine ?= "7bc8ae3fc04fdc06192d39d725cb18d4c0b78d9f"
-+SRCREV_meta ?= "cd9826707f887241a661ea886cfa19f8d282438c"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "5.4.82"
-+LINUX_VERSION ?= "5.4.83"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 01de087128..b06db10f9f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "5.4.82"
-+LINUX_VERSION ?= "5.4.83"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "0c335c490cfe932664f2e40c791efa387f769df5"
--SRCREV_machine ?= "53e9ea9bf3868442be0b1aef4e7624ec8143f10b"
--SRCREV_meta ?= "104cf3e89371ac8971fef69f55a6c788c46ec65a"
-+SRCREV_machine_qemuarm ?= "2b6db4fbe53a1986c0249bc663d8ce7d99cbf19c"
-+SRCREV_machine ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
-+SRCREV_meta ?= "cd9826707f887241a661ea886cfa19f8d282438c"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index ebd25dab3e..21935ac171 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
- KBRANCH_qemux86-64 ?= "v5.4/standard/base"
- KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "844ffab23aca849f9f4cf89866229e079fc7aa11"
--SRCREV_machine_qemuarm64 ?= "53e9ea9bf3868442be0b1aef4e7624ec8143f10b"
--SRCREV_machine_qemumips ?= "7937b24594ecce307971a3b2871fc1286055d0c4"
--SRCREV_machine_qemuppc ?= "53e9ea9bf3868442be0b1aef4e7624ec8143f10b"
--SRCREV_machine_qemuriscv64 ?= "53e9ea9bf3868442be0b1aef4e7624ec8143f10b"
--SRCREV_machine_qemux86 ?= "53e9ea9bf3868442be0b1aef4e7624ec8143f10b"
--SRCREV_machine_qemux86-64 ?= "53e9ea9bf3868442be0b1aef4e7624ec8143f10b"
--SRCREV_machine_qemumips64 ?= "0ba329b53891de44e4ef8d2ca8a948e1c6a5866c"
--SRCREV_machine ?= "53e9ea9bf3868442be0b1aef4e7624ec8143f10b"
--SRCREV_meta ?= "104cf3e89371ac8971fef69f55a6c788c46ec65a"
-+SRCREV_machine_qemuarm ?= "78231a4abb434782470d272690b7792b7dc1c1c6"
-+SRCREV_machine_qemuarm64 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
-+SRCREV_machine_qemumips ?= "adca343488d22623848ba206071cc0fa67b79b6a"
-+SRCREV_machine_qemuppc ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
-+SRCREV_machine_qemuriscv64 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
-+SRCREV_machine_qemux86 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
-+SRCREV_machine_qemux86-64 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
-+SRCREV_machine_qemumips64 ?= "75c7340de480587c3a6650b46be7b1a2f71501a9"
-+SRCREV_machine ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
-+SRCREV_meta ?= "cd9826707f887241a661ea886cfa19f8d282438c"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "5.4.82"
-+LINUX_VERSION ?= "5.4.83"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
--- 
-2.19.1
-
+Ross
