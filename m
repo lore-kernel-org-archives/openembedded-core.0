@@ -1,85 +1,77 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web10.35169.1607956660726728290
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web08.35412.1607956664096131418
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:37:40 -0800
+ Mon, 14 Dec 2020 06:37:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=g7+/z8a6;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f178.google.com with SMTP id t8so12165759pfg.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:40 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fp6C9aAW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id c12so12088051pgm.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=/7CVTpY/jfzmqrfGIgGq6k2fRayZMnwXxeClN57EquI=;
-        b=g7+/z8a6LwTlTpK9M5oDMHqgHGTaue4eNq4E84wZXL7kLWlZ8CVTQ0ueOabXHuxxJc
-         Y+ZrZYOERfEqjohI+5fTEkLflvwy/f4w3mOYV/4TPoU3VePXyjZchBTAISP/xrxadY7q
-         /5qQ5f+wHU/VX+5WsSi5h9EGX7jiJ0pVJcaRdaI4SIyAXXfeBSvchQAPv9G1+u1uyBfy
-         LqY0TZSGfxM+KDs4KtSoWBuJ5PrNQ+gsJTnbTfLJmbOCsrDs1Jv/eiu9NLmE8/3BEXIj
-         dCmpcHWPiQTk2sOIxBFTo+NfHNeuASWMaFr9nyRqwChmZOKgfjDy4ZUDXohfOYRFO29B
-         yOsg==
+        bh=oTZeSaFjW6Qg9j7ebCm9L2GXg8/IOYjWlz5/pgQNCPU=;
+        b=fp6C9aAWQEU4uY49SU2aYX9KzJeIU23mx1nVPwy5JrIMR+qDIQWgkb1bRm9LgRLY/n
+         R3Qt6tDixcIbukp3NUsUcr/JKUYVdGoiScnDWTMjO7bDMIMy+GvRFggjPyTWJtik+3Mk
+         nb6JOmJIvsaTfijku+DrQy2mjrxb1I/+u+z68tX3VObHFHf03/7prLcL+GdW0e6DzwK3
+         j4yyMeRLRhsD/db95pfz/UA75nT5qmIT4w9wgIQtCFxEzz13XEjHEkovD8wwaqlC6i1R
+         DI+qoRIqY9frdUbtCq2yCnPWUIDjDDon4Ecy2Mr8d+Fmsm0upWoOEETGLqDWCPuV81ad
+         I3dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=/7CVTpY/jfzmqrfGIgGq6k2fRayZMnwXxeClN57EquI=;
-        b=jnMVTxIJTqOubaCeto3ACLB/eikjEhg8DOtuO69DIvyK6wzDW0wBzN3zWpyjfUCMVn
-         M/GTf/SOVB+rkZNr7VJkh64DylfchuvuA2nnJoDimYDFl5JRR4+iJccBNglRXZfw4MK8
-         T1W8IUhadoio4zOBUAZtxxk9AZTqB5Dc4dH1XKd/H6HSgXLfjPHTlJ8vGK2ugfe//gmh
-         sFSj0R7Vc8O9IXx5R1WT3Owu7Dv3ctBFTUG3weoq+qtZhgrphgNkLmptyYvMYXHIAQtH
-         AVAbnBjtOWSuC8P9b+VmfsZrq2X5FsrGIZpQZX22CjoCtXYz/dALL472oodEaYaV5GGz
-         MITw==
-X-Gm-Message-State: AOAM5318Aj5bY0B8onekzZ2W13WtlIDytIcr1iv2W93mbcJUxxhhVvSF
-	zzAd2pAWRGPX+XjbSJHVcQu1hlFEcOwAXFrN
-X-Google-Smtp-Source: ABdhPJwwaDg9X4B8eE+gwkU2lcnvjX9JprUkyHmhOFzr0KwPoDntSHLs5N7tWcsAmtDLg5TW1gMsbw==
-X-Received: by 2002:a05:6a00:8c7:b029:19d:afa5:34e5 with SMTP id s7-20020a056a0008c7b029019dafa534e5mr14506344pfu.30.1607956659826;
-        Mon, 14 Dec 2020 06:37:39 -0800 (PST)
+        bh=oTZeSaFjW6Qg9j7ebCm9L2GXg8/IOYjWlz5/pgQNCPU=;
+        b=OeuXhCH0ey1h5fTbf5b5hlfWJV/JPGFbCS3I1ZSWq9oQyD7+pg7+zbGk4ICV/e56zo
+         nlf+WxDdqeU3ATMDz+e5kWcq8WVarjSNf57TyXJsdNHzWM1EubEoSUgRmNNGtUGdxgx3
+         ZK3SQQQlJ6m1wyOMUxafFDWaSDtP7VlRu8r5TS7qmFwS0gUx7H+TXScFyurhxIHFh6kP
+         UUDL13zo+HHE9gxVV/Bpd/fehygR/f+ADKRVaXX5fAa3NLLe+U4dX/enZ0FYZUVysphB
+         ez3Z7uLxkuc4D7PMWMrx8Z5gzwXcb8KvCApz9wcMrMDdxhbQ0qFIR4hugzSr2ESr5kih
+         iBJw==
+X-Gm-Message-State: AOAM530vN0bhiIyZ9rDQ1zVSOV32q91HaHbp9k5A/QVhiFlBbL5k8kf9
+	72XkDZBeamU8fvOE0FZ6Lllzm52xr168YcOs
+X-Google-Smtp-Source: ABdhPJxhKqzIxUSbIizoV8mxQmxkZMMIwwh+Frrv5tRO+ER1kqJKc1ZTslXkFPtg2wJlqOffNSAM+g==
+X-Received: by 2002:a63:e94f:: with SMTP id q15mr24690545pgj.401.1607956663024;
+        Mon, 14 Dec 2020 06:37:43 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.37
+        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:37:39 -0800 (PST)
+        Mon, 14 Dec 2020 06:37:41 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/25] cve-update-db-native: handle all-wildcard versions
-Date: Mon, 14 Dec 2020 04:36:40 -1000
-Message-Id: <ff17ef98ff7ff0bfac9f647c0833f5b7b6d6fdd6.1607956164.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/25] coreutils: add SUSE-specific issues to CVE whitelist
+Date: Mon, 14 Dec 2020 04:36:41 -1000
+Message-Id: <886a8c4e9a749216c0427dffe552c7b2ad087593.1607956164.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
 References: <cover.1607956164.git.steve@sakoman.com>
 
 From: Ross Burton <ross@burtonini.com>
 
-If a CPE version field is just *:*:*:* it should be handled the same as
--:*:*:*, that is 'all versions'.  To ease handling, transform this case
-to use -.
+CVE-2013-0221 through -223 are all SUSE-specific, so add them to the
+whitelist.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 04a9bc4ca5294fe6834513669c7746a824d12b04)
+(cherry picked from commit 59f2120de3b6d53bbfb9db858ffb8b7b20c8d1ce)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-core/coreutils/coreutils_8.31.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 0cd3a1c153..9e8e006a32 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -166,7 +166,12 @@ def parse_node_and_insert(c, node, cveId):
-                     op_end = '<'
-                     v_end = cpe['versionEndExcluding']
+diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+index 0c8452da98..bd7a8a2f35 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.31.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+@@ -199,3 +199,6 @@ do_install_ptest () {
+ }
  
--                yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
-+                if op_start or op_end or v_start or v_end:
-+                    yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
-+                else:
-+                    # This is no version information, expressed differently.
-+                    # Save processing by representing as -.
-+                    yield [cveId, vendor, product, '-', '', '', '']
- 
-     c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
- 
+ FILES_${PN}-ptest += "${bindir}/getlimits"
++
++# These are specific to Opensuse
++CVE_WHITELIST += "CVE-2013-0221 CVE-2013-0222 CVE-2013-0223"
 -- 
 2.17.1
 
