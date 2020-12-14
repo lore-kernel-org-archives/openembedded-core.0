@@ -1,119 +1,99 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web12.36005.1607958567941560870
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
+ by mx.groups.io with SMTP id smtpd.web10.35667.1607958568966997921
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 07:09:28 -0800
+ Mon, 14 Dec 2020 07:09:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qhgSDg8u;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id b64so11798392qkc.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 07:09:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=O8x8aMA9;
+ spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f193.google.com with SMTP id u21so12005238qtw.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 07:09:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hFg9V5B6YaMh9bxvQ6ehscjPcmrGXeZGhbjqg9B/C8Q=;
-        b=qhgSDg8uoQFJVwXM6fyCmNjBlNGIwZFOh6crE2hmD/o2JKLDOZAvCftQBpLKK4oLUu
-         mQxDlowQjmbU2JCtb9YCa1NKoLkta+NzOXTfWeOW+dK47FPGBHBx6FPLvD0vqAV/686Q
-         5qc2N0dqLeFZsKuI6jpiciTds8DVTWnjtQrwyvXTcaiXPFmeLt0fSdPqmhCVS8VCA0D8
-         Mkmm4gk5FuSeD/DAWLguE+BXPitt+9O0yKnmqAHuus6QqEgnwOBo/gofzooDziEfYrQ+
-         /NFb5xqjK6OR2llECFjOPtSgp6rDuKkUkA92Z/Fx3/kxF+GmizyLX6LYbRGaTok5iVJc
-         SuvA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=piWuYR7Qbnpbxry7By1oxP2ICmYwo4sYuEOY5elmfzg=;
+        b=O8x8aMA9BzkuwKTVF9rdtVHLgrCHPa/ePvf7NDn5MYC5sXuCvqRMebvOvpwQETjgoR
+         i5HhkfsEwxqw7s2geqje2zNzMUyY1BOAz/qvtAWc4YHccLU/IHYglvQD4R/+DnN9Ns1n
+         BZQmPN6/srRHgg8La+uDoURJqYCiFYkcGDd0Sg80x485MTkwUGAnPGmuVCXyoRDPXYp2
+         Knw/ptkPnK+Ldm3iZJ8gl6un+7I1WMZGT98DZsZOixptU5pcEIKXB3Fc3pqT4jnMzeh1
+         CzvxHyp9NNwq3KnGd1DTcKgq9kFbb2nkcHesfafe2SduhfgSdkX0spWPGmjDQPoo2WEH
+         mbyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hFg9V5B6YaMh9bxvQ6ehscjPcmrGXeZGhbjqg9B/C8Q=;
-        b=iZPwJt88JLScMe0FDIRqfPVKPDfMr8HTr3S2ETnBc0ANGVv6Jt/d4TryRG5N6/Dsos
-         fhp83+9W9BlzSWI/kcwsnfq1JSOXLwSk6Nfq+6zyzbE82/3YaFC3fGpAVaWHcbfmRkA/
-         7lPTgMwggKsnrCLbf4W+1SyPSxTTrcSHtBgR1DUxN6lssz3qooyug2PFNWmedw2zjE2T
-         YrIqXFxvRzwICpXJs697iPpX5g2s/+K7Irrk/5JQ6YLBBR+9OCzkQGzGilZqtD3cyDld
-         RZLso8u43kd65Gi7BomwC7IVbXWvnOQ8GTiDnxMe9hvYXzd/8OcIDBiTxDPTwQnXjqBS
-         M4lw==
-X-Gm-Message-State: AOAM530/TqQu7a4jDYBS6EMnQpHEYhp7XqRn6Ym6qeyB72sk/1cCQqO6
-	gOhE+qKeOQhu09GuESrwJzw=
-X-Google-Smtp-Source: ABdhPJyEjvoLN5TMdK39Mw7plf0/B/iL8STrzDMAfTa6bKyhWjpqa8B0E7D1yhzmExf2xFsXOp3h+Q==
-X-Received: by 2002:ae9:eb8b:: with SMTP id b133mr32437338qkg.399.1607958566966;
-        Mon, 14 Dec 2020 07:09:26 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=piWuYR7Qbnpbxry7By1oxP2ICmYwo4sYuEOY5elmfzg=;
+        b=qBLLAwWQTQNVIxCUPkx3kuOD41ipoZx1bhJyv6UqkXPLtjOyYFRm/63ciuYlfMB2pt
+         Jh8BI860IkCWt772gSQWJO7EUsEHzcPwV3Z5munlR6oF9S8j9fPWx4/l9iqJxVanJQmY
+         Hl4c2XEHhFgEGXfMW3VJAuVUQiCgb35jJYdld4Wxnq0u5WFIqDRJqWEQVl2eSz5pOi0r
+         MMrSZyVA1COTGdQ8esyg9ZTw04P0ld923nRF6FutMr5krnQ0VY9hONb1wMDESf3emYqr
+         i2X/q0uiegmzYLemxd1jRL+tkT06WN/MpyEquIRl407MAe3SD7CNT4QFnuXiJuaPy1nV
+         6lXQ==
+X-Gm-Message-State: AOAM532LYIM4MtHMiPgpnz0H5r7siv82O5I/5pIZ5DW59/VSLdLDPPRz
+	o9R2eEpFxtYk/qLHW0+YiFU=
+X-Google-Smtp-Source: ABdhPJw0rPqvMZyr6vfiUoeHYgqjUw2miBC9GyntpVNhZ52la9W4c+wFdMyVkXdsPCxHktNPyFTIMQ==
+X-Received: by 2002:ac8:7654:: with SMTP id i20mr29705102qtr.291.1607958568142;
+        Mon, 14 Dec 2020 07:09:28 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id a194sm13565070qkc.70.2020.12.14.07.09.25
+        by smtp.gmail.com with ESMTPSA id a194sm13565070qkc.70.2020.12.14.07.09.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 07:09:26 -0800 (PST)
+        Mon, 14 Dec 2020 07:09:27 -0800 (PST)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/8] linux-yocto: consolidated pull requesrt
-Date: Mon, 14 Dec 2020 10:09:16 -0500
-Message-Id: <cover.1607958349.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 1/8] linux-yocto-rt/5.4: update to -rt44
+Date: Mon, 14 Dec 2020 10:09:17 -0500
+Message-Id: <9965299ccb54e019a6af41d7528f6e084959affe.1607958349.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1607958349.git.bruce.ashfield@gmail.com>
+References: <cover.1607958349.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Richard,
+Integrating the following commit(s):
 
-5.10 dropped this morning, so I'm switching over to the libc-headers
-and reference kernel upgrade (5.4 and 5.10 will be in master, with
-5.8 being dropped).
+    375e7ee20260 Linux 5.4.78-rt44
+    c948a34d2755 Linux 5.4.77-rt43
+    8189406f8f2b Linux 5.4.74-rt42
+    0856261877e2 timers: Don't block on ->expiry_lock for TIMER_IRQSAFE
+    416edb155e5d ptrace: fix ptrace_unfreeze_traced() race with rt-lock
+    6bd85935ab11 mm/memcontrol: Disable preemption in __mod_memcg_lruvec_state()
+    57ada856a2a8 net: Properly annotate the try-lock for the seqlock
+    1c80ecf69d2d Linux 5.4.74-rt41
+    d4318c110dc6 Linux 5.4.70-rt40
+    bdfc6168388d Linux 5.4.69-rt39
+    b6e0ef250594 Linux 5.4.66-rt38
+    151876f794fc Linux 5.4.61-rt37
+    4bdac3f47b53 Linux 5.4.59-rt36
+    cf9b41798238 Linux 5.4.58-rt35
+    631b98ae597b Linux 5.4.55-rt34
+    77d701a69ebb Linux 5.4.54-rt33
+    130cf1b82691 rwsem: Provide down_read_non_owner() and up_read_non_owner() for -RT
+    6ab4141069fc net: phy: fixed_phy: Remove unused seqcount
+    291d163db65a Bluetooth: Acquire sk_lock.slock without disabling interrupts
+    4c9f5d78fed4 workqueue: Sync with upstream
 
-But since that will take a bit to sort out, I wanted to send my queue
-of patches for other fixes/versions.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I didn't pick up any issues with local testing, so hopefully this won't
-cause any problems.
-
-I have the lttng-modules patch from a previous send repeated here, since
-it may be easier to take it as part of the bulk update. I checked
-just a few minutes ago, and there isn't a new tagged version of the
-modules yet, so we still need the backported patches for 5.10+ builds.
-
-Cheers,
-
-Bruce
-
-
-The following changes since commit 796be0593a607938aef3941372a9238b7e895446:
-
-  bitbake: msg: use safe YAML loader (2020-12-10 13:39:15 +0000)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib zedd/kernel
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (8):
-  linux-yocto-rt/5.4: update to -rt44
-  linux-yocto/5.4: update to v5.4.80
-  kern-tools: non-gcc config support and option re-classification
-  linux-yocto/cfg: qemuppc: set CONFIG_SCSI to '=y'
-  linux-yocto/5.4: update to v5.4.82
-  linux-yocto/cfg: qemuarm64-gfx.cfg: add CONFIG_INPUT_UINPUT
-  lttng-modules: fix build against v5.10+
-  linux-yocto/5.4: update to v5.4.83
-
- .../kern-tools/kern-tools-native_git.bb       |   2 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-rt_5.8.bb               |   2 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- .../linux/linux-yocto-tiny_5.8.bb             |   2 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- meta/recipes-kernel/linux/linux-yocto_5.8.bb  |   2 +-
- ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 ++++++++
- ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++++++++
- ...ext4-fast-commit-recovery-path-v5.10.patch |  99 +++++++++
- ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 ++++++++
- ...int-Optimize-using-static_call-v5.10.patch | 196 ++++++++++++++++++
- ...defined-symbols-caused-by-incorrect-.patch |  55 +++++
- .../lttng/lttng-modules_2.12.3.bb             |  10 +-
- 14 files changed, 729 insertions(+), 24 deletions(-)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 104ada2db5..893388ac6b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "97576fb7447efba82eb025bde3ae9ceb29939d5e"
++SRCREV_machine ?= "375e7ee20260d4448761605ae55b5cc50e38d516"
+ SRCREV_meta ?= "d626f9108d590d41e82b97cbffc380aa699e86e1"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
 -- 
 2.19.1
 
