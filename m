@@ -1,90 +1,79 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web11.35812.1607956669667677239
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web08.35417.1607956672329944885
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:37:49 -0800
+ Mon, 14 Dec 2020 06:37:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=2MQK3QM0;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id w4so12536843pgg.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:49 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1CLBuoSE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f172.google.com with SMTP id x126so3348512pfc.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=J8ewtVp+tV/YYc5qAZn4aZQx+S1cqAdf0ntllTRhYLI=;
-        b=2MQK3QM03pitbn6cofJGSjxYHN4WXneE2BCtBn0wV3umpN6DX3kQPh9mx8UAohVbj2
-         +opUdd6Rz20v/o7+bHFpWQclDpZW1zfZsulGkDoD4CkGNscHLstkfqQDaisAT/VQR13G
-         GTuzCqjmCvTC8mbtgL2yS/W6szTxVuBDIec8/QsTCRNZwZoncBDXFolUJ77BL+aKA3qY
-         TXUsobo14b5TlNn4nmX/TdeMEv3HeTShK0xz3ZA+gs8RhUclt6jF559U37Mdc6Rc9QmY
-         jkwubuwNgUCp8mnoA4fcKOx3CB72Poi0CK45tRX8AUormfUbqchIonZla5IeXqwMQZta
-         0aOQ==
+        bh=6vahTbqeWDkUKj/LhbyNJ8SRrl94DxGjkNIsCNe92Vg=;
+        b=1CLBuoSEEtdeCL8DTBnILY6sjNhHl79KkZBCCwmN6k9Qq/qKBbULmdZLd0X4m1V+FZ
+         FG8GXSqXEYDc+voDNys7bYtSZ4PdgjVGf7aBMDlarsd6DXjL9bWu4F/DiH+WokT1K/4/
+         BzrCwZrapBjSKqeaO1RGkzat0BcxLUmwMW142VkVAZUhojxw9oIHT/2k7jUqotF68R4U
+         yatZrIu2TAwPR9j28HJmFC1jtgeCh6aLI+Z8F/KzFszcCGMNNuFIArHd3rIfG/5Jgdi0
+         9sFcsVC/ScQyDiMCAiGmxATeHSH1CbGWnUgh5lg8SSSHT8IvF9u8NBU7f4k9QLhijjnT
+         gDgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=J8ewtVp+tV/YYc5qAZn4aZQx+S1cqAdf0ntllTRhYLI=;
-        b=UZRA+OjEVuOL6MDp+3BXZiwfB0uusSHjEP6Nf4f4zME5QBXYi75cUo590hH1JYgDvh
-         6M/RY/v0fi2YFBsjNQ/mjfuJHn7hLq5F5p0JEWtll76qcNhM6N7hCm4N2oDuuZde8l87
-         vCH8/iKh+xat1q/9aaGauQ6P0+nsnwJngxkH14JxaazhGbcyh4eZX33MnNQEmDzbRVOH
-         5ljOT5O+0KuteKEIhYMu0f/BKeSPyCbxvaa7KIRqtCuKZ0rbLOvTcP8DP6SN8WX3b7yY
-         xaHYrJheYhtu+8CYTOX4OrHI33z9ScFjsQ1klvTtOTRbBEfrk48EJjCeghrYgRUz9n1w
-         I7fg==
-X-Gm-Message-State: AOAM533CHzWSIuNaaMpBDPvn6Y4wAS1whaTfPpnYYQbkGnnkIP6tSzwa
-	9ODp+BmY+9/djk69ntWXt8rVMxwnhSCG1gdj
-X-Google-Smtp-Source: ABdhPJw9ZIDTJPhR//ht0h2vtFVWYUSCUtgT6FEDR/xS7KSXcR636M/vwZBXSKI1vDB9F0g/JuTovQ==
-X-Received: by 2002:a63:5416:: with SMTP id i22mr24342214pgb.8.1607956668839;
-        Mon, 14 Dec 2020 06:37:48 -0800 (PST)
+        bh=6vahTbqeWDkUKj/LhbyNJ8SRrl94DxGjkNIsCNe92Vg=;
+        b=aJnSIExktYITIXOgacSqv1sadgxPSK36+nakVmN7OnDHmZ2X0pma7Mj9oN+Fb1dTiq
+         ulCY9mh/abKhZNWvRWh+Xl6Ba7yu9PDUxjpEc3o0eHPKjAuXdzys2t7R3olpaT5mLbTa
+         jMoy9xh50rHXNYmNh+5q6KJWWC0rp2DcuMSTFRbcB8u2rF5yf2wtjyVps9jLbrCLDvlX
+         xTtuXp5Ux9yalPvU9FtNhKgvHCqbnxBY27xeYdzZ/iT9yaFgiU/uNZEruKPI968pm9qB
+         z6fnQg9tAI0gGzKLHEu578fvpXMEhzvpvjiRZ30sUt2Ofr7/U5nqJJH6AchDAbcqHKvu
+         Rs4w==
+X-Gm-Message-State: AOAM530jrHoWUv0Ahrzc2hVKXP94vFLl81yQ9HNUfDfW/T+EPsDftJVL
+	LFf8CivICIU4pSXtrkXJeIehoO64x+lEx65h
+X-Google-Smtp-Source: ABdhPJzJVkPFJSSdmxmdoe1iriW+8fQ/HJBuFzCrs2ixz/TPfFsDau8yOE8bzYJdNC77CmAjcJ1bpA==
+X-Received: by 2002:a63:9dcf:: with SMTP id i198mr5480078pgd.242.1607956671470;
+        Mon, 14 Dec 2020 06:37:51 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.47
+        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:37:47 -0800 (PST)
+        Mon, 14 Dec 2020 06:37:50 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/25] kernel-module-split.bbclass: fix kernel modules getting marked as CONFFILES
-Date: Mon, 14 Dec 2020 04:36:43 -1000
-Message-Id: <f1f904ebf2aef54c4c867d5d2c842ec5d53d3c78.1607956164.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 15/25] meta/lib/oe/reproducible.py: gitsm:// works just as fine as git:// for timestamps
+Date: Mon, 14 Dec 2020 04:36:44 -1000
+Message-Id: <156482c0c5addba78eacb79b7464a5b463b3757f.1607956164.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
 References: <cover.1607956164.git.steve@sakoman.com>
 
-From: Gratian Crisan <gratian.crisan@ni.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Yi pointed out that commit 1a70a92d1f10 ("kernel-module-split.bbclass:
-identify kernel modconf files as configuration files") is
-unintentionally adding the actual kernel /lib/modules .ko files to the
-CONFFILES variable.
+This in particular addresses vulkan-samples reproducibility which made me scratch my
+head for a while.
 
-The root cause is the re-use of the 'files' variable in that commit.
-Fix it by using a separate variable to keep track of the generated
-module .conf files that need to be marked as configuration files.
-
-Fixes: 1a70a92d1f10 ("kernel-module-split.bbclass: identify kernel modconf files as configuration files")
-Reported-by: Yi Zhao <yi.zhao@windriver.com>
-Signed-off-by: Gratian Crisan <gratian.crisan@ni.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit db5f2ca532db4f0d2e05b7cb5f9d146e1dd76ab3)
+(cherry picked from commit 4a2936126f12eeacecced051fa339c32c1f16576)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-module-split.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/lib/oe/reproducible.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index c8ede26996..baa32e0a90 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -120,7 +120,10 @@ python split_kernel_module_packages () {
-         files = d.getVar('FILES_%s' % pkg)
-         files = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (files, basename, basename)
-         d.setVar('FILES_%s' % pkg, files)
--        d.setVar('CONFFILES_%s' % pkg, files)
-+
-+        conffiles = d.getVar('CONFFILES_%s' % pkg)
-+        conffiles = "%s /etc/modules-load.d/%s.conf /etc/modprobe.d/%s.conf" % (conffiles, basename, basename)
-+        d.setVar('CONFFILES_%s' % pkg, conffiles)
+diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
+index 421bb12f54..0fb02ccdb0 100644
+--- a/meta/lib/oe/reproducible.py
++++ b/meta/lib/oe/reproducible.py
+@@ -47,7 +47,7 @@ def find_git_folder(d, sourcedir):
+     return None
  
-         if "description" in vals:
-             old_desc = d.getVar('DESCRIPTION_' + pkg) or ""
+ def get_source_date_epoch_from_git(d, sourcedir):
+-    if not "git://" in d.getVar('SRC_URI'):
++    if not "git://" in d.getVar('SRC_URI') and not "gitsm://" in d.getVar('SRC_URI'):
+         return None
+ 
+     gitpath = find_git_folder(d, sourcedir)
 -- 
 2.17.1
 
