@@ -1,58 +1,48 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.38788.1607967027512647173
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.38638.1607967803507600035
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 09:30:28 -0800
+ Mon, 14 Dec 2020 09:43:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=plHOswzK;
- spf=pass (domain: burtonini.com, ip: 209.85.167.45, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f45.google.com with SMTP id m25so32124578lfc.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 09:30:27 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=XTcx2eNZ;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zvGbIvsDg9TMRy5Kny6phjpBex10NS7tLAqa0YLQgps=;
-        b=plHOswzKKYROqxKH3skUffWunbTvFKHNjtcnRnoLPvI62uyDC3mRx71NgHFg9LoCJu
-         gzA96HktuqRNv2DSg4xoOdq1bNCZ6VuR/MzlbrPQ8Ze/4rQCUD2ULXD+eLq9ykfGOhJ6
-         ImQJm7cscIQw3zByrKAN7kEnOQHPIfhkDeLP73SO00COkODYrgTVkYV3nfquWPk26GaZ
-         ULqaxPHJ0v3BXTYhw3eWH33EEXg5514085gCTRN89QgtI0kJPbmlfrs+eQt5JethAZk1
-         v5KI3pSEfBqsncWP8m2ZTJ+lsC0e5Np05vdDi3RJiSB54ppvZxapV3mTYiW+Wl6kcBaT
-         N8EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zvGbIvsDg9TMRy5Kny6phjpBex10NS7tLAqa0YLQgps=;
-        b=ibnUs9LxrZNL44fXpxYPULJG3iy4/gOFlwXG0YfyET+fI7Bk7EthFZza5tz9h/zped
-         FmlO87D1VMY+9XEJmsgDHor/SPqxWyU204BMz5+6ZNF3DrljwoJscd9NuaCUXzkId7O7
-         p0xtH7w7/jQmkeGXKdZIo0qmV93eZXtZfqp6NZvflxxRcFt/0cufWDw924Lpv9scKe4h
-         T0yo4DCG+LpHqrqZKAmJrVmuRsZX+wlHlBt3/ztV/ty7hy88n22mVd+jSIEihcf8zWwr
-         bw1X/jnABLqLDkcNskCnaOAek4m5O//97/e5m8Kbfl6OwxMpLkZCbti1gB1N1rhS70lM
-         hQHg==
-X-Gm-Message-State: AOAM530wkc0GSOLEkOOHNaNNJmeLuVP4A9b92z+0/O1eRC+YKOImkDsI
-	HaEz3MbbJlxIhymggAWVUuI4VxKx9fI8jdLL+t0JLQ==
-X-Google-Smtp-Source: ABdhPJxN+ronNi+cnQzLXc1XI3K50vV0+omC1qgF6Y8FbGsAWrvxOLUr+Zzj5M+eMWs/h5QW7ZdxG+PhDUSZKxDlQyI=
-X-Received: by 2002:a2e:b1d2:: with SMTP id e18mr4592626lja.101.1607967025651;
- Mon, 14 Dec 2020 09:30:25 -0800 (PST)
+  d=axis.com; q=dns/txt; s=axis-central1; t=1607967803;
+  x=1639503803;
+  h=from:to:subject:date:message-id:
+   content-transfer-encoding:mime-version;
+  bh=3+jC/bkyZtd2uSNQ8ChLjOn1Bn1vWCy2Rkv0bzORyws=;
+  b=XTcx2eNZBLz0zUXvZ7Jh8Gc0i+L/ZRyFAHzN/BakzxfRU/qU6tJv52/T
+   LSY17U79cy082ghsf9ZKPwTz+f9yK79ovy2IIlci1hC+kDAZJlab4YCb7
+   8heUm2ExaSKmXsBMm9pEpzR5IUa4RXQtR0rDR++BIEue+0HvLzUxY2dCG
+   bXFk38bKPSKKzICVftMwGGYKTQMjZEW8VYuLLa/dyiVpfC313Ty8cyQmv
+   wGlMIBIFUAOqVM/JZfQ6yeBFhj1SkEnyUsa9f/YQQatWsPQlU94Nb+VdV
+   RWLIB6S7phNQ5tk0sINF/xtosRUxROEm3Es/XzS0BUTETc6qS742QLOcg
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: "OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Subject: How to create a directory in multiple packages?
+Thread-Topic: How to create a directory in multiple packages?
+Thread-Index: AdbSQJc4B4k2YOYSQY+O793Rgwk5dA==
+Date: Mon, 14 Dec 2020 17:43:18 +0000
+Message-ID: <9f740ac720f742ab869a15de54cf865e@XBOX03.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20201210162023.3239592-1-ross.burton@arm.com> <46755a3c09815c2083f65c090406711ac5114e03.camel@linuxfoundation.org>
-In-Reply-To: <46755a3c09815c2083f65c090406711ac5114e03.camel@linuxfoundation.org>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 14 Dec 2020 17:30:14 +0000
-Message-ID: <CAAnfSTsM6p4+WCdA30xvC00vdAFD--isrrFPnQ=+2G7xcRjHrg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] yocto-check-layer: make argument parsing unambiguous
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Alejandro Hernandez <alhe@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 14 Dec 2020 at 13:31, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+Say we have a recipe that creates an empty /etc/foo directory. Now we=20
+want to add a new file in that directory /etc/foo/bar and package it as=20
+${PN}-bar. This means the creation of the /etc/foo directory is moved=20
+from the ${PN} package to the ${PN}-bar package. Is there any way to=20
+make ${PN} continue to create an empty /etc/foo, or is the only=20
+alternative to introduce an /etc/foo/.dummy and package it in ${PN}?
 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/39/builds/2825
->
-> Do we need to update the way we're calling it on the autobuilder?
+//Peter
 
-Yes.  Sorry, forgot this was on the autobuilder.  Patch incoming.
-
-Ross
