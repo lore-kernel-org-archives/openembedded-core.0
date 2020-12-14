@@ -1,95 +1,68 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web09.32685.1607940309793530370
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web12.32846.1607941986894839265
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 02:05:10 -0800
+ Mon, 14 Dec 2020 02:33:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q8k8JyDH;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id 91so15825777wrj.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 02:05:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CLW0CcLw;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: outbackdingo@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id t6so8423955plq.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 02:33:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=6BWgWwoD1UCLheBtyWxwc0DBegdGKyaRfdQQ9LpbBvQ=;
-        b=Q8k8JyDHuGcfEM4ACa/7U6dQ/UpBKl+TG2/nhYtQuWBL/mv4auq4WegvoMxlA8Oku9
-         VL1s8inVKaAsDCZ6fUQEDr8OqlOva7ZpTOJiuaMQUnibv+P34SZms+rw0bBp//mUIixR
-         x8GSx1xiP/h1l2Q4R0261FBfGs63tC9DzAiscIxlhTYBTdPW8gII8+0mttqY4Tqvqt/Y
-         uA6q2QIp9cbpCazmbYr8S3nyu6pUyQujJZ1aD1Z5sSBer+1uId/MeMLuZBFm5+OmqtP0
-         QrRVS/J+fzqCPkku5wZeMs2qJ2mtE8enMxBqpj60EKXL1H9L+dsFM8hCnW0tA59ISNEg
-         nshA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oNGpbc+CMwt7iSDBqnaCpv6Dco8R0ThtMLHpGcZePwQ=;
+        b=CLW0CcLwkEDW9gFt+dPiQNISZ17pWEfJEX58SUAvIg0TiqyWLtxmmtBOrfcFw+kySX
+         8vOCmhThe4W8wELNRSHipYcIa41eMlgxbLoGCZYYj1mKSqP3TgabONyA7zq7vgu/xYI0
+         LjSiQP2LM+gg8ErobQot5rVHjGWhQy6P9G3+PwF0ckofiCi1Iga+QdYs3JQp40yJ76YZ
+         ++qnPnQoa80hq16asFfDe5d+SGT0FvFmWLtdOWtmbpgKb41LWN2No1PqZxgwSUgLmkJa
+         kcCUv04o1ClFkFdLMjAWAd6gm/6XDOtoI85DIRkqAH7rs01uTbcD00uYYpVjoPcJdfv2
+         ucMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6BWgWwoD1UCLheBtyWxwc0DBegdGKyaRfdQQ9LpbBvQ=;
-        b=YQ1ebGUS0Tn5xezr4iurhwgU0YKcMtLUgWd9LP1ahS1M6kJAw5L5+X1hQlG1F73i6r
-         cMB0XuamCa1aiPpqhBQb6Z4VQ3n2DrqgvHkMOBMyxBfZtbOzVYnNt4C0zjOIdG9kA+2I
-         IPrRm7aDciOYWz9JELEkOe40rmNVq9t6mSAcQgK5X4kdguTP4chjN1XUwMpb9PhVH0d0
-         FvVEJ2k7IsMjwFTSqOVAu52RrWbDLu55VNyCtEfnhXU/xWGacllBFQ9YtriAwRb4+Upl
-         QbzSZQKqWzuEdxjcawhwBJV9c02pwZyTMPnE+uMfHmHR0lgtZTxKopBaEvNkdbz/3/6T
-         XRVQ==
-X-Gm-Message-State: AOAM533lXAfBuPEwuCziuJEqEEDw4anWBndYe8fzicwzWoPiickN9rjL
-	j6b6yb2ReV1cet08deNh4EE=
-X-Google-Smtp-Source: ABdhPJzYRadJQFke4tPtu/4d4qlYvP2X3pW648bJvdtK14hcr/osjlRS7Eg5XSUQway7YJTzQ2bV8A==
-X-Received: by 2002:adf:f401:: with SMTP id g1mr28090639wro.258.1607940308311;
-        Mon, 14 Dec 2020 02:05:08 -0800 (PST)
-Return-Path: <luca.boccassi@gmail.com>
-Received: from bluca-lenovo ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id a18sm30355560wrr.20.2020.12.14.02.05.06
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oNGpbc+CMwt7iSDBqnaCpv6Dco8R0ThtMLHpGcZePwQ=;
+        b=Z68NF2lW4WHtCQI+r8SwsYhO6t0t626z8y22a/VlFy8HF6GIaXJz6ruHybW2a5Ulxl
+         0WPxitblYbQXOrKsLcDvBanzuiunXAyCDgj1lAjQxCM+SP1tQgJIPZNRSiHvFsEBKz1s
+         VOkPNJtwmTyNBXWLorkZHaBH3Je3OyJjCj4npjUR8sVyKOv+qK/nM1YKkJDIQufmcIrW
+         TIlmQr1jkaxW1+29Ld5GncPJRJxt9qnG61CLzXWqo5zIhzU/HBNqpexvUzgaePT2RUpx
+         oUXyiDvUozOpGM0D9c5t+eumsaX2Ffq/aqKQrK+UsGOmZMV2PAm+mD8McYT+VDPT1UUH
+         fqqA==
+X-Gm-Message-State: AOAM533Sl9RhmkRFZ1y5hMCBKsR/DnRhgkOrZNu8nRErnj30O8noB2ws
+	BQg6uWAfloLksW6ZpyLaC/8o80h0/IE=
+X-Google-Smtp-Source: ABdhPJyVe1YC0zTEmeXpmcWqmLVxRknlMgP7rEhZ9KRBDE6JaCObH2nav04lCxcJtxhW8gJgQ7o26A==
+X-Received: by 2002:a17:90b:3110:: with SMTP id gc16mr24849379pjb.83.1607941985878;
+        Mon, 14 Dec 2020 02:33:05 -0800 (PST)
+Return-Path: <outbackdingo@gmail.com>
+Received: from debian.optimcloud.com ([1.52.111.43])
+        by smtp.gmail.com with ESMTPSA id v17sm19975171pga.58.2020.12.14.02.33.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 02:05:07 -0800 (PST)
-Message-ID: <ea95fab55a1536a6cc7fec99324c2a379e7277e4.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH 5/5] systemd: add RRECOMMENDS for weak dependencies, if enabled
-From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Dec 2020 10:05:06 +0000
-In-Reply-To: <CAJ86T=XA_L6FfJoN1dcVzU2L7D6jJKeu+bUc2Jg4DrcKADiwmw@mail.gmail.com>
-References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
-	 <20201210125312.3302065-5-luca.boccassi@gmail.com>
-	 <CAJ86T=XA_L6FfJoN1dcVzU2L7D6jJKeu+bUc2Jg4DrcKADiwmw@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1.2 
+        Mon, 14 Dec 2020 02:33:05 -0800 (PST)
+From: "Outback Dingo" <outbackdingo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: OutBackDingo <outbackdingo@gmail.com>
+Subject: [PATCH] file /etc/ethertypes conflicts between netbase-1:6.2-r0.corei7_64 and ebtables-2.0.10+4-r4.corei7_64
+Date: Mon, 14 Dec 2020 05:32:48 -0500
+Message-Id: <20201214103248.2227-1-outbackdingo@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-12-11 at 12:55 -0800, Andre McCurdy wrote:
-> On Thu, Dec 10, 2020 at 4:53 AM Luca Bocassi <luca.boccassi@gmail.com> wrote:
-> > From: Luca Boccassi <luca.boccassi@microsoft.com>
-> > 
-> > Some libraries are now dlopen'ed and skipped at runtime if
-> > not available. Add them to the RRECOMMENDS list, to allow
-> > users to exclude them for smaller images even if generally
-> > enabled at build time.
-> 
-> This seems to imply that these options have some basic level of
-> functionality even when the corresponding shared library isn't found
-> at runtime. Is that right?
+---
+ meta/recipes-core/netbase/netbase_6.2.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Yes - or more precisely, the options themselves are not available at
-runtime without the related library, but fallback is graceful. Eg: you
-don't get a QR encoded printout when generating a recovery key, just
-the textual form, and a warning that libqrencode is missing.
-
-The system is designed to allow building just once with these features
-enabled, but then make the decision on whether to include the
-additional library when building the image.
-
-> If there's no functionality at all without the corresponding shared
-> library then these should just be regular dependencies (and users who
-> need smaller images should disable via the PACKAGECONFIG rather than
-> leaving the PACKAGECONFIG enabled but then excluding the shared
-> library).
-> 
-> Note also that PACKAGECONFIG gives a way to express recommended
-> dependencies (the 5th argument).
-> 
->   https://www.yoctoproject.org/docs/latest/ref-manual/ref-manual.html#var-PACKAGECONFIG
-
-Thanks for the suggestion, will send a v2.
-
+diff --git a/meta/recipes-core/netbase/netbase_6.2.bb b/meta/recipes-core/netbase/netbase_6.2.bb
+index a54d2e7764..262b2cf1bc 100644
+--- a/meta/recipes-core/netbase/netbase_6.2.bb
++++ b/meta/recipes-core/netbase/netbase_6.2.bb
+@@ -19,5 +19,4 @@ do_install () {
+ 	install -m 0644 ${S}/etc/rpc ${D}${sysconfdir}/rpc
+ 	install -m 0644 ${S}/etc/protocols ${D}${sysconfdir}/protocols
+ 	install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
+-	install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
+ }
 -- 
-Kind regards,
-Luca Boccassi
+2.20.1
 
