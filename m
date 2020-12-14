@@ -1,112 +1,61 @@
-Received: from EUR02-VE1-obe.outbound.protection.outlook.com (EUR02-VE1-obe.outbound.protection.outlook.com [40.92.69.53])
- by mx.groups.io with SMTP id smtpd.web09.35080.1607954748889020963
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web11.35387.1607955117982685793
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:05:49 -0800
+ Mon, 14 Dec 2020 06:11:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=nl46980r;
- spf=pass (domain: outlook.com, ip: 40.92.69.53, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MLof3yBzjovAUI57ISPxHyRTIDsubEBrliLp09CDc3ceamT3Gu4AnkkScBZ1LhgKgHVWpazY7CUXglycC97mIDTnBZRo6/7F9LUfTiPEDcfLJku/yAPSshfAi9D8mLpNDgWUUlehDzuV/ktcei1nyHXJd7U6s0jDcCeXo7eRVMIaJWJloTZ/nszWCsiHP32yzcpmw5gqr98pOeyAnqNecJUSQXjGVXHzkcE26ncbg9Hj5porspTVjcjULUeJEQiTu/aFiZlYy/hK5aPIoLMrxgBNnC1/nI4t8CZj0CQzoXkxEfI8c8oY8WOeQ/KTai6JeyH+UHDTqhnsV8JkTxudvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8gF9pUE3WjVdcix8+JPfea7BmvkDrfx46K4VgszZHro=;
- b=GYwSPRNPOF4z/ZAKzlDTajSAosOJPyMOF1YrJZ2v/onyfDJAG1/bukKBiwoCHgnSWX0lgg0r1LaUyC50xm62X3J1uhL6DzfZuTUDN9uHG2UxQnzuwsaPLiztwO3kFxjymUy34X5q/Zs4iy251DuhEK02xbq3mmzj0mOdZEKR8xjloe2Oxt2ZO3Fq9rqZY31gLgD6toHxZgzfAMCmGDGeiV9bSJU+h5NU4vyxiESunnkYoE8Yh5UYGROoPdf8b4/iCnlnnDOdqR9ol+Chth/Q28kJwxiLR8Di++gUlyS7rgBqdhAiCKE/ljf7Z8jVEdg6pdYbkiOWOWJK5rmcYw3scg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8gF9pUE3WjVdcix8+JPfea7BmvkDrfx46K4VgszZHro=;
- b=nl46980rdduLzRBeUTEEMTIoVsdWBQz1I8Ks9UwZgPReenasO3psskOe4H/OmtBGDQtT4txqcrWNQXI/lIo/Plqvn9UrFdX7KAj2JrpdKv/lgWLqPftzv052lf8acb5mdQ+eWkb7q6TTBkSNgnw/4dfDPAhpi2IMlz9GnrDI8X9/HhrHIPeQ0jSVCi+pFoH5E4kXOqncfuQzcSsq9gNTShi/3pPeVZZ4u8RlPpTsnb+1o/LEfItGHHi82OM7us71dFWyPeTeoRWK6HAST+7aCdcw+QiGAG9sRVZ/ZoQ64ZKZ9qKOPFrhEYX8SPKR/GR83au2KwPk2CbJVsON8yY+9g==
-Received: from VE1EUR02FT005.eop-EUR02.prod.protection.outlook.com
- (2a01:111:e400:7e1e::53) by
- VE1EUR02HT032.eop-EUR02.prod.protection.outlook.com (2a01:111:e400:7e1e::476)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.18; Mon, 14 Dec
- 2020 14:05:46 +0000
-Received: from AM9PR09MB4739.eurprd09.prod.outlook.com
- (2a01:111:e400:7e1e::46) by VE1EUR02FT005.mail.protection.outlook.com
- (2a01:111:e400:7e1e::218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
- Transport; Mon, 14 Dec 2020 14:05:46 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:905FC300124077E09379F8112EDB445776AA3A9CDAD655528EABE0DD2D7221E1;UpperCasedChecksum:42CE3C116BCFB0D97B76B65303EFFD7EFD4F9967E303B2E5ED550ADFBD9DF144;SizeAsReceived:9306;Count:48
-Received: from AM9PR09MB4739.eurprd09.prod.outlook.com
- ([fe80::f948:8335:6703:e772]) by AM9PR09MB4739.eurprd09.prod.outlook.com
- ([fe80::f948:8335:6703:e772%3]) with mapi id 15.20.3654.021; Mon, 14 Dec 2020
- 14:05:46 +0000
-Subject: Re: [OE-core] Strange segfault on native Go binaries
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
- "Purdie, Richard" <richard.purdie@linuxfoundation.org>
-CC: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>
-References: <CAP9ODKpXfVcDjtMwUvSRi68+-BHnK9nF6B-5wFX7nzW2wi2adQ@mail.gmail.com>
- <CAMKF1sqj0epXj_cFBniiEvYmfTgcVuCxaAfLh7_Y7oPZ==Tq1w@mail.gmail.com>
- <CAP9ODKoxVgDoMtys=aQdhteAZQ3bV7fbtLN8ZUuHehW2caLgSg@mail.gmail.com>
- <CAMKF1spBFaSKMXU77Rmx-usTw-mJN-dhbAb-=PKiFSFJ1-5hSg@mail.gmail.com>
- <CAP9ODKoPuatKkZYK0Zy-6wfPh--G7HD3bz_QDRmqDR-gRhiLnA@mail.gmail.com>
- <AM9PR09MB47393922BAC96879D84F9A8DA8C70@AM9PR09MB4739.eurprd09.prod.outlook.com>
- <CAP9ODKrCw15pXVTTqcZm3C12ZZR+i0bxKHC5UbdOQC8VvewNgQ@mail.gmail.com>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: <AM9PR09MB4739F7F2E5541EEA191395AAA8C70@AM9PR09MB4739.eurprd09.prod.outlook.com>
-Date: Mon, 14 Dec 2020 15:05:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <CAP9ODKrCw15pXVTTqcZm3C12ZZR+i0bxKHC5UbdOQC8VvewNgQ@mail.gmail.com>
-X-TMN: [IlmPMC40oq0I56+iq69nQ23EpMxlM3cj]
-X-ClientProxiedBy: AM7PR03CA0004.eurprd03.prod.outlook.com
- (2603:10a6:20b:130::14) To AM9PR09MB4739.eurprd09.prod.outlook.com
- (2603:10a6:20b:282::12)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: <e0ac0ad6-93fb-f251-2abb-415468f222a8@outlook.com>
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=17AtPq3I;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.67, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f67.google.com with SMTP id y19so30335875lfa.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:11:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9pDWKgtGd2SKE4DUfPHV8vPDkINp/qwiCejRZ/bhyOk=;
+        b=17AtPq3ISPASRytI+o21iP0bZF4bWru7ZH+3Bk8V0DLnVHr1oyM3gMDfnewvgIvex/
+         V2rzChsmFqtSromVpO5/8dWZW7/45nD1sjXfJkdG4z/tsKlGjertSqr7aEVxL4DfMq6r
+         Dar/W9s/dfFuJweRrIhlypGtKlnWtKPFEGFPlQpBYCUk7tswx0ybuOR8YX7tJTxMlmfQ
+         99oBZQ93csYh4gzIu4QKwiM1HRC4RbFblSEK2zOjtcIfhriiw/UOHLOApY2IHQLa2naE
+         PLZ2CuqCWPC9SDDTeOu4dA5ET1k3dFSWSN9PEHAzpO91/Hcvt6EzN346RrCy5R7WOQAp
+         RypQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9pDWKgtGd2SKE4DUfPHV8vPDkINp/qwiCejRZ/bhyOk=;
+        b=Vf2rg5poAPHmswS1sFUkU97tD/S85PS2YrfVZlTgXB4zkk8StWa7JWW0XDpPh16J4F
+         qQqhzZx/sRraWGfsOvqDfsLI/CgDMEb9F/cqWla0wrpLMuklVFcS1IVn0GCDYV+eRj0c
+         6kKHQZKPdXsl79L/zVjYgVdXxybTlWHKEDlHbhh2R+pfk2xdgfENXtPVsgK3wfIKUMQW
+         qJ6mbMAxz+zp8qVVfsKuRCcEOmnmxPQabZ6HAgsHEM/O5LYjBrjvnavr8oqhNzXE65d4
+         /3PoG+ywugHy3dZzaewHb1xDq6yMr3sKxySH2s4c4P5pD2o1va/hMacvLFCzK4ZNiw0u
+         dxZA==
+X-Gm-Message-State: AOAM533auKHA7zWN2kS/5lH3NZx4qby8D9+TN+6YIkSG+Klx8fVowfXj
+	PrNXo67YLFJnHdxjnGm1ix5QQCZvZGHIrv4EKbu/xA==
+X-Google-Smtp-Source: ABdhPJw/QYMc2s+gMppU6IJbxKz7AMxvRdbh+L0+POqiEIL+fh/o9VhXocZ+YiQ05vyRBNOgN8656QyZJEUqi378JHQ=
+X-Received: by 2002:a05:6512:34d3:: with SMTP id w19mr10177049lfr.180.1607955115842;
+ Mon, 14 Dec 2020 06:11:55 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (87.141.83.178) by AM7PR03CA0004.eurprd03.prod.outlook.com (2603:10a6:20b:130::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend Transport; Mon, 14 Dec 2020 14:05:46 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: c43e7b7b-96fc-485b-5ed8-08d8a0395a97
-X-MS-TrafficTypeDiagnostic: VE1EUR02HT032:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	8RFnfqfcN93bwwz0HFNRvvReiEClTHOu3X82eBqOoIK8zjf7UF+P+K+3gz59C+V9jVQsZ9F0mxg18A0OowBEVuISaDuhIaFK+kPHp/IrVPyLgbTu5obL/x+TMqxY5T8UxXR2eiT3LxLxtfDJ5wsRzlcfNvsPiFXNqTM+BpIYlMO4DE3vMw7hmHMsurODaDEUvPWrRP7H0EH42N9awliZWA==
-X-MS-Exchange-AntiSpam-MessageData: 
-	ENyRemB8IzoIFbsBkGyySkhhxFJ0J9QXStg6PgmSvubVW/EyTrKTdDuE3rUGYDHQOuxWla8NcCnn2RvNYu+opu66Qc2S1S2hMSbardNTaOaTj36UcpRJOfz/nDUt5zxCU8pnlP6YXiDwOELqj8I68A==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Dec 2020 14:05:46.5219
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-Network-Message-Id: c43e7b7b-96fc-485b-5ed8-08d8a0395a97
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR02FT005.eop-EUR02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR02HT032
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+References: <20201210163242.3329917-1-ross.burton@arm.com> <732073f5112c4d4ff8d2e6d72832bb53823e81f4.camel@intel.com>
+In-Reply-To: <732073f5112c4d4ff8d2e6d72832bb53823e81f4.camel@intel.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Mon, 14 Dec 2020 14:11:44 +0000
+Message-ID: <CAAnfSTtMRjAJx4d7KHP4eMa5YO3=uCf0_RpjToDT8bUPLcwGQQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] systemd-boot: allow building for Arm targets
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Had that at a bunch of my tools in meta-sca - as I couldn't rule out my=20
-own fault, I help myself with the static linking workaround
+On Mon, 14 Dec 2020 at 04:26, Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Thu, 2020-12-10 at 16:32 +0000, Ross Burton wrote:
+> >
+> > Remove the SYSTEMD_BOOT_EFI_ARCH assignments, as they're never used.
+>
+> It's used by meta-intel. If it's not fixing any problems, can we keep
+> it here?
 
-On 14.12.20 15:03, Otavio Salvador wrote:
-> Hello Konrad,
->=20
-> Em seg., 14 de dez. de 2020 =C3=A0s 09:51, Konrad Weihmann
-> <kweihmann@outlook.com> escreveu:
->> I'm experiencing the same on plain Ubuntu 20.04 since 1.15.x update on
->> master (dunfell works like a charm even without any hacks) - but also
->> Ubuntu 18.04 and 16.04 based containers do show the same behavior.
->> This affects only the native variants.
->=20
-> Indeed; reverting to 1.14 "fixes" it here as well.
->=20
->> As a partial workaround I disabled GO_DYNLINK for native - so I kind of
->> second the impression that relocation is buggy in here.
->=20
-> Where you did it? I tried in the 'glide-native' case but it did not work =
-out.
->=20
+Ah, didn't expect to find a do_install_append using it.
+
+Can we just move the contents of that append into core?
+
+Ross
