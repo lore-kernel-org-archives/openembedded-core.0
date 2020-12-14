@@ -1,133 +1,119 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.35182.1607956701919975630
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web12.36005.1607958567941560870
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:38:22 -0800
+ Mon, 14 Dec 2020 07:09:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1V6abZLo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id j1so8725637pld.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:38:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qhgSDg8u;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id b64so11798392qkc.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 07:09:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=g6MEmp7KpF0r/63XVqku2x/J9ZwJYj8wQnIe9tme2f4=;
-        b=1V6abZLo6MzYp7LMscydQNiBMgn17UVoNWdPrBUGxb0V83K+mzC3juZgj2OhbBsk1j
-         bu5xeRbM5Y1sAfmOkWSJbPPLepBOLNuYuZ/ovuXzsmowfYkHUXjugsTVuQzrfYs+Ubcd
-         T5MX8lBVy5EEauUAabH36R3dsLCBNx38Pr+T+8wnJwnltLoOZIyysvkmSlDyh2LC8Rfo
-         jmsETVMr9rNiGKvARaEwLEuIL5TXmX5Lafc12a7PaZ6tVm23m5xo6GjIgz38FvQzqn++
-         jerP4+dmWeqPI89/5WUPnRGdXcY2U3r3udk9YiXUeN2pA52vBTVa1pf1DzikMH0iWUM0
-         ZdAw==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hFg9V5B6YaMh9bxvQ6ehscjPcmrGXeZGhbjqg9B/C8Q=;
+        b=qhgSDg8uoQFJVwXM6fyCmNjBlNGIwZFOh6crE2hmD/o2JKLDOZAvCftQBpLKK4oLUu
+         mQxDlowQjmbU2JCtb9YCa1NKoLkta+NzOXTfWeOW+dK47FPGBHBx6FPLvD0vqAV/686Q
+         5qc2N0dqLeFZsKuI6jpiciTds8DVTWnjtQrwyvXTcaiXPFmeLt0fSdPqmhCVS8VCA0D8
+         Mkmm4gk5FuSeD/DAWLguE+BXPitt+9O0yKnmqAHuus6QqEgnwOBo/gofzooDziEfYrQ+
+         /NFb5xqjK6OR2llECFjOPtSgp6rDuKkUkA92Z/Fx3/kxF+GmizyLX6LYbRGaTok5iVJc
+         SuvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=g6MEmp7KpF0r/63XVqku2x/J9ZwJYj8wQnIe9tme2f4=;
-        b=CpUPwl9hLWlupvrxdC57TnIJ4nghyeswsMur3k/yrwcIYu/905gTUwSdprVAlgom8O
-         ld+HMprUrG9HTv2BJ6fKuXFhlK8Yj18USjXH59GInawENJxvMk/dveSTLw/87EZH+hgK
-         EfwKYo4uCLV0pbwu5EWpguIjys1lpie8sfHyrjWfOcsVhe0Xl2n3jrsCbD6XIbduPQ7v
-         4c7Dt0SDj9UmF9Pm1jJTGpuHaA6ccmUVEc8SbADF/BkOC8aG5hH7aNMRry0jyzoCCHyD
-         xUat37NSYqJSR1kdWGQqO6qHFm+IRm/ZcjgFgj4eXWyw/s9YcTqIw0O58eXKlsTHEtTc
-         xLYA==
-X-Gm-Message-State: AOAM532AzFZBIhq4BP98XUWXSPVzemeTXEa1AGp4BlrJYktznRDOnZNd
-	1+Jab1iRauSHWDRhgYOccrrPPOhW7TFDxgRG
-X-Google-Smtp-Source: ABdhPJxGLvXDBE1sF7tVhuiRTcSi3B6FnDXR6TEJx2yiUbkjewE0hx/JHDAKeyFzahy4dXSxw9MAiw==
-X-Received: by 2002:a17:90a:ab8e:: with SMTP id n14mr24883610pjq.96.1607956701033;
-        Mon, 14 Dec 2020 06:38:21 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.38.19
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hFg9V5B6YaMh9bxvQ6ehscjPcmrGXeZGhbjqg9B/C8Q=;
+        b=iZPwJt88JLScMe0FDIRqfPVKPDfMr8HTr3S2ETnBc0ANGVv6Jt/d4TryRG5N6/Dsos
+         fhp83+9W9BlzSWI/kcwsnfq1JSOXLwSk6Nfq+6zyzbE82/3YaFC3fGpAVaWHcbfmRkA/
+         7lPTgMwggKsnrCLbf4W+1SyPSxTTrcSHtBgR1DUxN6lssz3qooyug2PFNWmedw2zjE2T
+         YrIqXFxvRzwICpXJs697iPpX5g2s/+K7Irrk/5JQ6YLBBR+9OCzkQGzGilZqtD3cyDld
+         RZLso8u43kd65Gi7BomwC7IVbXWvnOQ8GTiDnxMe9hvYXzd/8OcIDBiTxDPTwQnXjqBS
+         M4lw==
+X-Gm-Message-State: AOAM530/TqQu7a4jDYBS6EMnQpHEYhp7XqRn6Ym6qeyB72sk/1cCQqO6
+	gOhE+qKeOQhu09GuESrwJzw=
+X-Google-Smtp-Source: ABdhPJyEjvoLN5TMdK39Mw7plf0/B/iL8STrzDMAfTa6bKyhWjpqa8B0E7D1yhzmExf2xFsXOp3h+Q==
+X-Received: by 2002:ae9:eb8b:: with SMTP id b133mr32437338qkg.399.1607958566966;
+        Mon, 14 Dec 2020 07:09:26 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
+        by smtp.gmail.com with ESMTPSA id a194sm13565070qkc.70.2020.12.14.07.09.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:38:20 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 25/25] python3: fix CVE-2019-20907
-Date: Mon, 14 Dec 2020 04:36:54 -1000
-Message-Id: <f7e7378ea7099af8555de809787cf8e2cb5208fd.1607956164.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
-References: <cover.1607956164.git.steve@sakoman.com>
+        Mon, 14 Dec 2020 07:09:26 -0800 (PST)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/8] linux-yocto: consolidated pull requesrt
+Date: Mon, 14 Dec 2020 10:09:16 -0500
+Message-Id: <cover.1607958349.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Andrej Valek <andrej.valek@siemens.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
- - move fixing patch for CVE-2020-8492 to the right location
+Richard,
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- ...20-8492-Fix-AbstractBasicAuthHandler.patch |  0
- .../python/python3/CVE-2019-20907.patch       | 44 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |  1 +
- 3 files changed, 45 insertions(+)
- rename meta/recipes-devtools/python/{files => python3}/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch (100%)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
+5.10 dropped this morning, so I'm switching over to the libc-headers
+and reference kernel upgrade (5.4 and 5.10 will be in master, with
+5.8 being dropped).
 
-diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-similarity index 100%
-rename from meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-rename to meta/recipes-devtools/python/python3/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-diff --git a/meta/recipes-devtools/python/python3/CVE-2019-20907.patch b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
-new file mode 100644
-index 0000000000..a2e72372dd
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2019-20907.patch
-@@ -0,0 +1,44 @@
-+From a06a6bf4e67a50561f6d6fb33534df1d3035ea34 Mon Sep 17 00:00:00 2001
-+From: Rishi <rishi_devan@mail.com>
-+Date: Wed, 15 Jul 2020 13:51:00 +0200
-+Subject: [PATCH] bpo-39017: Avoid infinite loop in the tarfile module
-+ (GH-21454)
-+
-+Avoid infinite loop when reading specially crafted TAR files using the tarfile module
-+(CVE-2019-20907).
-+(cherry picked from commit 5a8d121a1f3ef5ad7c105ee378cc79a3eac0c7d4)
-+
-+Co-authored-by: Rishi <rishi_devan@mail.com>
-+
-+Removed testing 'recursion.tar' tar file due to binary data
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/c55479556db015f48fc8bbca17f64d3e65598559]
-+CVE: CVE-2019-20907
-+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-+---
-+ Lib/tarfile.py                                    |   2 ++
-+ .../2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst      |   1 +
-+ 4 files changed, 10 insertions(+)
-+ create mode 100644 Lib/test/recursion.tar
-+ create mode 100644 Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+
-+diff --git a/Lib/tarfile.py b/Lib/tarfile.py
-+index d31b9cbb51d65..7a69e1b1aa544 100755
-+--- a/Lib/tarfile.py
-++++ b/Lib/tarfile.py
-+@@ -1241,6 +1241,8 @@ def _proc_pax(self, tarfile):
-+ 
-+             length, keyword = match.groups()
-+             length = int(length)
-++            if length == 0:
-++                raise InvalidHeaderError("invalid header")
-+             value = buf[match.end(2) + 1:match.start(1) + length - 1]
-+ 
-+             # Normally, we could just use "utf-8" as the encoding and "strict"
-+diff --git a/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+new file mode 100644
-+index 0000000000000..ad26676f8b856
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Library/2020-07-12-22-16-58.bpo-39017.x3Cg-9.rst
-+@@ -0,0 +1 @@
-++Avoid infinite loop when reading specially crafted TAR files using the tarfile module (CVE-2019-20907).
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index b4cce88e87..9eddad4ad4 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-            file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
-+           file://CVE-2019-20907.patch \
-            file://CVE-2020-14422.patch \
-            file://CVE-2020-26116.patch \
-            file://CVE-2020-27619.patch \
+But since that will take a bit to sort out, I wanted to send my queue
+of patches for other fixes/versions.
+
+I didn't pick up any issues with local testing, so hopefully this won't
+cause any problems.
+
+I have the lttng-modules patch from a previous send repeated here, since
+it may be easier to take it as part of the bulk update. I checked
+just a few minutes ago, and there isn't a new tagged version of the
+modules yet, so we still need the backported patches for 5.10+ builds.
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 796be0593a607938aef3941372a9238b7e895446:
+
+  bitbake: msg: use safe YAML loader (2020-12-10 13:39:15 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (8):
+  linux-yocto-rt/5.4: update to -rt44
+  linux-yocto/5.4: update to v5.4.80
+  kern-tools: non-gcc config support and option re-classification
+  linux-yocto/cfg: qemuppc: set CONFIG_SCSI to '=y'
+  linux-yocto/5.4: update to v5.4.82
+  linux-yocto/cfg: qemuarm64-gfx.cfg: add CONFIG_INPUT_UINPUT
+  lttng-modules: fix build against v5.10+
+  linux-yocto/5.4: update to v5.4.83
+
+ .../kern-tools/kern-tools-native_git.bb       |   2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-rt_5.8.bb               |   2 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ .../linux/linux-yocto-tiny_5.8.bb             |   2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ meta/recipes-kernel/linux/linux-yocto_5.8.bb  |   2 +-
+ ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 ++++++++
+ ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++++++++
+ ...ext4-fast-commit-recovery-path-v5.10.patch |  99 +++++++++
+ ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 ++++++++
+ ...int-Optimize-using-static_call-v5.10.patch | 196 ++++++++++++++++++
+ ...defined-symbols-caused-by-incorrect-.patch |  55 +++++
+ .../lttng/lttng-modules_2.12.3.bb             |  10 +-
+ 14 files changed, 729 insertions(+), 24 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch
+
 -- 
-2.17.1
+2.19.1
 
