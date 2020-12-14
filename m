@@ -1,24 +1,24 @@
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web10.32091.1607939486303640594
+ by mx.groups.io with SMTP id smtpd.web08.32291.1607939618352971649
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 01:51:26 -0800
+ Mon, 14 Dec 2020 01:53:39 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
 Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.89)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1kokVj-00046t-L2; Mon, 14 Dec 2020 11:51:21 +0200
+	id 1kokXv-0004nM-IT; Mon, 14 Dec 2020 11:53:36 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1kokVj-0008a6-JU; Mon, 14 Dec 2020 11:51:19 +0200
+	id 1kokXv-000BMi-H8; Mon, 14 Dec 2020 11:53:35 +0200
 From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@bmw.de>,
 	Joe Slater <joe.slater@windriver.com>
-Subject: [PATCH] systemd: update from 244.3 to 244.5 stable release
-Date: Mon, 14 Dec 2020 11:51:04 +0200
-Message-Id: <20201214095104.31794-1-mikko.rapeli@bmw.de>
+Subject: [PATCH v2][dunfell] systemd: update from 244.3 to 244.5 stable release
+Date: Mon, 14 Dec 2020 11:53:31 +0200
+Message-Id: <20201214095331.43421-1-mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Rspam-Score: -1.7 (-)
@@ -40,7 +40,7 @@ X-Rspam-Report: Action: no action
  Symbol: FROM_NEQ_ENVFROM(0.00)
  Symbol: BAYES_HAM(-3.00)
  Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20201214095104.31794-1-mikko.rapeli@bmw.de
+ Message-ID: 20201214095331.43421-1-mikko.rapeli@bmw.de
 X-SA-Exim-Connect-IP: 2001:67c:1be8::11
 X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
@@ -140,6 +140,8 @@ Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
  delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
  delete mode 100644 meta/recipes-core/systemd/systemd/systemd-udev-seclabel-options-crash-fix.patch
  rename meta/recipes-core/systemd/{systemd_244.3.bb => systemd_244.5.bb} (99%)
+
+v2: added dunfell patch prefix
 
 diff --git a/meta/recipes-core/systemd/systemd-boot_244.3.bb b/meta/recipes-core/systemd/systemd-boot_244.5.bb
 similarity index 100%
