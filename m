@@ -1,164 +1,98 @@
-Received: from mga11.intel.com (mga11.intel.com [])
- by mx.groups.io with SMTP id smtpd.web08.32780.1607943178055624897
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.33241.1607943393630707270
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 02:52:58 -0800
+ Mon, 14 Dec 2020 02:56:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: o2f36hrs7IEGjtFju27grPL1f3/7gcoguZMM5736iLY5SeqNzur4Sjorg8k0qgHnQk1rFCOpom
- 34QBusKrzJoA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="171177870"
-X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; 
-   d="scan'208";a="171177870"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 02:52:58 -0800
-IronPort-SDR: eBi3j0YpGqB5y8MRgjAzEoCS2gsWevY8H03wuhPniZZPi6KY4b4EhnMFfHV7mTix2IUYOp1Nov
- IvJuxuRJV+sQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,418,1599548400"; 
-   d="scan'208";a="411138076"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga001.jf.intel.com with ESMTP; 14 Dec 2020 02:52:57 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][dunfell 3/3] binutils: fix CVE-2020-16592/16598
-Date: Mon, 14 Dec 2020 18:52:54 +0800
-Message-Id: <20201214105254.57230-3-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201214105254.57230-1-chee.yang.lee@intel.com>
-References: <20201214105254.57230-1-chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=T5g2yF1g;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: outbackdingo@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id r24so29026236lfm.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 02:56:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6+I0sGDtMp/5lkB56NF6xYG9zEsiO8A9XaDTH7CQvFM=;
+        b=T5g2yF1g8ICa+hOkscelBF1o5VPe43q76aezWW5vSF2mSKecSBCZxtd0x946wy1mZ7
+         1I5CDbQYSlEWkNiwqnP+qJL7gbjYAqNWwiojODn/anzRrUGXjYxdR7FBtZL9QbZs0NJY
+         P/BdNHvIfZ2EwXVz1sSKdrmXly8qTcKS5PPhwSX8y2dIcrrh6SeI0VLLv1eK2ge84jMv
+         if4vywTeVmUljCVLUGRDFHQT8hhxeNVgmQOWbvcRX2QySqFL9LTyv1Wy9EmAbONvfVzX
+         81i/iQRZpU9VktBbebM4e7lwE9N33eTHnAbL0H9GjbkPKD68KGC7TVt8gAgVCUhWRSEf
+         SGaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6+I0sGDtMp/5lkB56NF6xYG9zEsiO8A9XaDTH7CQvFM=;
+        b=iyA7lALBdCLLYXBhd6cm8pUcL4jk6J9hPdySFosVX2LiMY9bBk5Ms2e6nhvlUl3Pf2
+         ntWmZ78oeyteyYFHiCBtGnjX/r+E53176solg6sspDyX3aXwtBd50XWapL06T5sIr498
+         XhVy3RX+4PmopE9Qj+I5qWVmkBvmaftazEzKh6Zku/TuvtvFr8KwCyLjp/PJCdJ74r/q
+         HdXM4a9U58Bit0J1nGIZej7svR5fpkumQT7pe/my1XgFNj/218QHfpjfzoEk68W4xw33
+         FewunukIEuctWzutEheKAh/h9rarpi4qMCawj2pkmaskr4p13Ulc6XmhRzmh/Aegnwi9
+         F4kw==
+X-Gm-Message-State: AOAM5320Wmw9WabiTOuxwpp0f8zGMCtuVu6CI66PJFANDEit5ZF3xvpN
+	6qj6gD63CfS3hdtV4fbonklhrBQbiseZfkb3IO4=
+X-Google-Smtp-Source: ABdhPJyGf8CGxepPdVLasJlzv8YIBvELscxyOZKVN3EXtb2U5qFv0rgcjwpwskWYFDHb70oFgE9QVfOM0FSJMnLEgvw=
+X-Received: by 2002:a19:7911:: with SMTP id u17mr9344741lfc.466.1607943391823;
+ Mon, 14 Dec 2020 02:56:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20201214103248.2227-1-outbackdingo@gmail.com> <CANNYZj_EoiG+MXJ-fjsZ8YsxwRhD6SSwv9xXLTzw3PMTvBqXdA@mail.gmail.com>
+In-Reply-To: <CANNYZj_EoiG+MXJ-fjsZ8YsxwRhD6SSwv9xXLTzw3PMTvBqXdA@mail.gmail.com>
+From: "Outback Dingo" <outbackdingo@gmail.com>
+Date: Mon, 14 Dec 2020 17:55:55 +0700
+Message-ID: <CAKYr3zyZ2N=VHuy+qDwHo4QkR7DNweusO3RrBj+A2zziBHKaDw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] file /etc/ethertypes conflicts between netbase-1:6.2-r0.corei7_64 and ebtables-2.0.10+4-r4.corei7_64
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+On Mon, Dec 14, 2020 at 5:39 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Sorry, but you need to explain why the file from from ebtables (an optional package from a 3rd party layer) takes precedence over file from netbase (which is a core item).
 
-fix CVE-2020-16592 & CVE-2020-16598
+further to the previous note, it conflicts with ebtables in meta-oe
+from what i can tell
 
-removed changes to Changelog in patch file
+commit c71a08cea8477f69ee3bc511f1f14d99e09c0a49
+Author: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date:   Mon Dec 3 15:30:40 2012 +0000
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../binutils/binutils-2.34.inc                |  2 +
- .../binutils/binutils/CVE-2020-16592.patch    | 61 +++++++++++++++++++
- .../binutils/binutils/CVE-2020-16598.patch    | 32 ++++++++++
- 3 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-16592.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-16598.patch
+    ebtables: add from OE-Classic, update and tidy up
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-index b5f5a1c69a..f557fe970c 100644
---- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-@@ -44,5 +44,7 @@ SRC_URI = "\
-      file://0017-binutils-drop-redundant-program_name-definition-fno-.patch \
-      file://CVE-2020-0551.patch \
-      file://0001-gas-improve-reproducibility-for-stabs-debugging-data.patch \
-+     file://CVE-2020-16592.patch \
-+     file://CVE-2020-16598.patch \
- "
- S  = "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2020-16592.patch b/meta/recipes-devtools/binutils/binutils/CVE-2020-16592.patch
-new file mode 100644
-index 0000000000..f5f9ccdd53
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2020-16592.patch
-@@ -0,0 +1,61 @@
-+From 7ecb51549ab1ec22aba5aaf34b70323cf0b8509a Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Wed, 15 Apr 2020 18:58:11 +0930
-+Subject: [PATCH] PR25823, Use after free in bfd_hash_lookup
-+
-+	PR 25823
-+	* peXXigen.c (_bfd_XXi_swap_sym_in <C_SECTION>): Don't use a
-+	pointer into strings that may be freed for section name, always
-+	allocate a new string.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=7ecb51549ab1ec22aba5aaf34b70323cf0b8509a]
-+CVE: CVE-2020-16592
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ bfd/peXXigen.c | 20 ++++++++++----------
-+ 1 files changed, 10 insertions(+), 10 deletions(-)
-+ 
-+diff --git a/bfd/peXXigen.c b/bfd/peXXigen.c
-+index b9eeb775d9b..8aa5914acd9 100644
-+--- a/bfd/peXXigen.c
-++++ b/bfd/peXXigen.c
-+@@ -177,25 +177,25 @@ _bfd_XXi_swap_sym_in (bfd * abfd, void * ext1, void * in1)
-+ 	  int unused_section_number = 0;
-+ 	  asection *sec;
-+ 	  flagword flags;
-++	  size_t name_len;
-++	  char *sec_name;
-+ 
-+ 	  for (sec = abfd->sections; sec; sec = sec->next)
-+ 	    if (unused_section_number <= sec->target_index)
-+ 	      unused_section_number = sec->target_index + 1;
-+ 
-+-	  if (name == namebuf)
-++	  name_len = strlen (name) + 1;
-++	  sec_name = bfd_alloc (abfd, name_len);
-++	  if (sec_name == NULL)
-+ 	    {
-+-	      name = (const char *) bfd_alloc (abfd, strlen (namebuf) + 1);
-+-	      if (name == NULL)
-+-		{
-+-		  _bfd_error_handler (_("%pB: out of memory creating name for empty section"),
-+-				      abfd);
-+-		  return;
-+-		}
-+-	      strcpy ((char *) name, namebuf);
-++	      _bfd_error_handler (_("%pB: out of memory creating name "
-++				    "for empty section"), abfd);
-++	      return;
-+ 	    }
-++	  memcpy (sec_name, name, name_len);
-+ 
-+ 	  flags = SEC_HAS_CONTENTS | SEC_ALLOC | SEC_DATA | SEC_LOAD;
-+-	  sec = bfd_make_section_anyway_with_flags (abfd, name, flags);
-++	  sec = bfd_make_section_anyway_with_flags (abfd, sec_name, flags);
-+ 	  if (sec == NULL)
-+ 	    {
-+ 	      _bfd_error_handler (_("%pB: unable to create fake empty section"),
-+-- 
-+2.27.0
-+
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2020-16598.patch b/meta/recipes-devtools/binutils/binutils/CVE-2020-16598.patch
-new file mode 100644
-index 0000000000..52bd925c97
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2020-16598.patch
-@@ -0,0 +1,32 @@
-+From ca3f923f82a079dcf441419f4a50a50f8b4b33c2 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Fri, 17 Apr 2020 10:38:16 +0930
-+Subject: [PATCH] PR25840, Null pointer dereference in objdump
-+
-+	PR 25840
-+	* debug.c (debug_class_type_samep): Don't segfault on NULL type.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=patch;h=ca3f923f82a079dcf441419f4a50a50f8b4b33c2]
-+CVE: CVE-2020-16598
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ binutils/debug.c   | 2 ++
-+ 1 files changed, 2 insertions(+)
-+
-+diff --git a/binutils/debug.c b/binutils/debug.c
-+index 022fa4edffb..5470e155edc 100644
-+--- a/binutils/debug.c
-++++ b/binutils/debug.c
-+@@ -3277,6 +3277,8 @@ debug_class_type_samep (struct debug_handle *info, struct debug_type_s *t1,
-+              names, since that sometimes fails in the presence of
-+              typedefs and we really don't care.  */
-+ 	  if (strcmp (f1->name, f2->name) != 0
-++	      || f1->type == NULL
-++	      || f2->type == NULL
-+ 	      || ! debug_type_samep (info,
-+ 				     debug_get_real_type ((void *) info,
-+ 							  f1->type, NULL),
-+-- 
-+2.27.0
-+
--- 
-2.17.1
+    * Update to 2.0.10-4
+    * Handle hardcoded paths in initscript
+    * Add LIC_FILES_CHKSUM
+    * Set SUMMARY (which sets DESCRIPTION)
+    * Drop PRIORITY
+    * Minor formatting/ordering tweaks
 
+    Based on a patch by Vladimir Redzhepoff <vladimir.redzhepoff@promwad.com>
+
+    Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+
+>
+> Alex
+>
+> On Mon, 14 Dec 2020 at 11:33, Outback Dingo <outbackdingo@gmail.com> wrote:
+>>
+>> ---
+>>  meta/recipes-core/netbase/netbase_6.2.bb | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/netbase/netbase_6.2.bb b/meta/recipes-core/netbase/netbase_6.2.bb
+>> index a54d2e7764..262b2cf1bc 100644
+>> --- a/meta/recipes-core/netbase/netbase_6.2.bb
+>> +++ b/meta/recipes-core/netbase/netbase_6.2.bb
+>> @@ -19,5 +19,4 @@ do_install () {
+>>         install -m 0644 ${S}/etc/rpc ${D}${sysconfdir}/rpc
+>>         install -m 0644 ${S}/etc/protocols ${D}${sysconfdir}/protocols
+>>         install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
+>> -       install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
+>>  }
+>> --
+>> 2.20.1
+>>
+>>
+>> 
+>>
