@@ -1,79 +1,79 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web08.35417.1607956672329944885
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web11.35814.1607956674801030117
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 06:37:52 -0800
+ Mon, 14 Dec 2020 06:37:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1CLBuoSE;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id x126so3348512pfc.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:52 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=DXW322+5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id j1so8724999pld.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 06:37:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=6vahTbqeWDkUKj/LhbyNJ8SRrl94DxGjkNIsCNe92Vg=;
-        b=1CLBuoSEEtdeCL8DTBnILY6sjNhHl79KkZBCCwmN6k9Qq/qKBbULmdZLd0X4m1V+FZ
-         FG8GXSqXEYDc+voDNys7bYtSZ4PdgjVGf7aBMDlarsd6DXjL9bWu4F/DiH+WokT1K/4/
-         BzrCwZrapBjSKqeaO1RGkzat0BcxLUmwMW142VkVAZUhojxw9oIHT/2k7jUqotF68R4U
-         yatZrIu2TAwPR9j28HJmFC1jtgeCh6aLI+Z8F/KzFszcCGMNNuFIArHd3rIfG/5Jgdi0
-         9sFcsVC/ScQyDiMCAiGmxATeHSH1CbGWnUgh5lg8SSSHT8IvF9u8NBU7f4k9QLhijjnT
-         gDgg==
+        bh=cQbgro5r+PHxPfjovOjkwUMr6vfg6Akj+D/qQNHHtfY=;
+        b=DXW322+5XkJPmHn8RWyGrqk3ugfcF8xjE8Yjxx7fQykzR0tS09SzrHtGWeBxzr9+HZ
+         aj6WlXj2E7BfrvkkY77PxOy7xDdVWEzs553fvdrLNeEtdNkJNJ8O/0jtkm0KWIYi4oCs
+         9BfzNcn6fqbSozfsVgYSzK4owKTVFVLxqFEVrkmBKt8yd4dTbKThfwoD+7HCD2XLOwE3
+         WQi8BeBtTuhrHuC3J9MbTuFzX0gRl41h15GecDUN9/zp4QghowZyp+4dksccRn5wHEwU
+         hjg9r4y4myIwT396FLioqcuoL17iIH+L/z8a0ohSN8yS5jxSg82gjG+FUMwCgf/5SPNp
+         Vdgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=6vahTbqeWDkUKj/LhbyNJ8SRrl94DxGjkNIsCNe92Vg=;
-        b=aJnSIExktYITIXOgacSqv1sadgxPSK36+nakVmN7OnDHmZ2X0pma7Mj9oN+Fb1dTiq
-         ulCY9mh/abKhZNWvRWh+Xl6Ba7yu9PDUxjpEc3o0eHPKjAuXdzys2t7R3olpaT5mLbTa
-         jMoy9xh50rHXNYmNh+5q6KJWWC0rp2DcuMSTFRbcB8u2rF5yf2wtjyVps9jLbrCLDvlX
-         xTtuXp5Ux9yalPvU9FtNhKgvHCqbnxBY27xeYdzZ/iT9yaFgiU/uNZEruKPI968pm9qB
-         z6fnQg9tAI0gGzKLHEu578fvpXMEhzvpvjiRZ30sUt2Ofr7/U5nqJJH6AchDAbcqHKvu
-         Rs4w==
-X-Gm-Message-State: AOAM530jrHoWUv0Ahrzc2hVKXP94vFLl81yQ9HNUfDfW/T+EPsDftJVL
-	LFf8CivICIU4pSXtrkXJeIehoO64x+lEx65h
-X-Google-Smtp-Source: ABdhPJzJVkPFJSSdmxmdoe1iriW+8fQ/HJBuFzCrs2ixz/TPfFsDau8yOE8bzYJdNC77CmAjcJ1bpA==
-X-Received: by 2002:a63:9dcf:: with SMTP id i198mr5480078pgd.242.1607956671470;
-        Mon, 14 Dec 2020 06:37:51 -0800 (PST)
+        bh=cQbgro5r+PHxPfjovOjkwUMr6vfg6Akj+D/qQNHHtfY=;
+        b=WmMsb+3b4k+ZQyVBQ0WZP5xiI+yMjSCLm51KtG5hpHX2IwtgkE0v05nLMZ71F1ebx7
+         Sqlh2J/pJEOBb+vmGJGuOe0NTXWNDkKW8OkJ++FEAxM0q28RSkfyhHc2G1tbwC+sHEtd
+         saomawD7bxoU/1IckVXLU+EA8/2dx3edym2bcvdByjANZ05CdthQtf8VZlqDu5PZata9
+         7HjYnNz8+mWc/LfSNT/nD3bsV4uIosdIKJh8MidHYE7JnRyv7ZYzrV/HPRb0fDN5d8+9
+         mbQxgula9t/yXJA3Cp5z7kd48Szzsd2RPU1b9twqeqf3xC61jZWz4y8J7cd1RkQVWTJW
+         Mucw==
+X-Gm-Message-State: AOAM532W1YFeYTLODCeT6ZGVlTI07R4P6B7VhPoHHWg7uQG5wG9VYfpD
+	opbBadkuTjyncJaoOnVOrK1D01AIiTEWELTg
+X-Google-Smtp-Source: ABdhPJzNrZlwoIwXYNdHOX1FCRma3fpoLUelkCisV9UyF5UGvP8I7CCaLpGKd6QltBtdiZcA8kcHWQ==
+X-Received: by 2002:a17:902:82c7:b029:da:cb88:38f8 with SMTP id u7-20020a17090282c7b02900dacb8838f8mr16020404plz.49.1607956673934;
+        Mon, 14 Dec 2020 06:37:53 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.49
+        by smtp.gmail.com with ESMTPSA id y2sm18859439pfe.10.2020.12.14.06.37.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 06:37:50 -0800 (PST)
+        Mon, 14 Dec 2020 06:37:53 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/25] meta/lib/oe/reproducible.py: gitsm:// works just as fine as git:// for timestamps
-Date: Mon, 14 Dec 2020 04:36:44 -1000
-Message-Id: <156482c0c5addba78eacb79b7464a5b463b3757f.1607956164.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/25] llvm: fix reproducibility
+Date: Mon, 14 Dec 2020 04:36:45 -1000
+Message-Id: <18004b4c1b2d595d081888437f6f9cbcb02bf746.1607956164.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1607956164.git.steve@sakoman.com>
 References: <cover.1607956164.git.steve@sakoman.com>
 
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-This in particular addresses vulkan-samples reproducibility which made me scratch my
-head for a while.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4a2936126f12eeacecced051fa339c32c1f16576)
+(cherry picked from commit a467c0a03d077861c37e317dcb2905b6388cb64c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/reproducible.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/llvm/llvm_git.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/lib/oe/reproducible.py b/meta/lib/oe/reproducible.py
-index 421bb12f54..0fb02ccdb0 100644
---- a/meta/lib/oe/reproducible.py
-+++ b/meta/lib/oe/reproducible.py
-@@ -47,7 +47,7 @@ def find_git_folder(d, sourcedir):
-     return None
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index a8607f5008..6ea1b80e1f 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -101,6 +101,11 @@ do_configure_prepend() {
+ 	sed -ri "s#lib/${LLVM_DIR}#${baselib}/${LLVM_DIR}#g" ${S}/tools/llvm-config/llvm-config.cpp
+ }
  
- def get_source_date_epoch_from_git(d, sourcedir):
--    if not "git://" in d.getVar('SRC_URI'):
-+    if not "git://" in d.getVar('SRC_URI') and not "gitsm://" in d.getVar('SRC_URI'):
-         return None
- 
-     gitpath = find_git_folder(d, sourcedir)
++# patch out build host paths for reproducibility
++do_compile_prepend_class-target() {
++        sed -i -e "s,${WORKDIR},,g" ${B}/tools/llvm-config/BuildVariables.inc
++}
++
+ do_compile() {
+ 	ninja -v ${PARALLEL_MAKE}
+ }
 -- 
 2.17.1
 
