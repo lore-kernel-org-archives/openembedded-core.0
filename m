@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.872.1608060225616031662
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web11.933.1608060224886778159
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Dec 2020 11:23:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 7D2A638C1698
+	by mail.yoctoproject.org (Postfix) with ESMTP id CDCE738C1692
 	for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 19:23:45 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Victor Kamensky <kamensky@cisco.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] vulkan-loader: upgrading to 1.2.162.0 FAILED
-Message-ID: <MADEUP.1650FA4186390077.29031@lists.openembedded.org>
-X-Groupsio-MsgNum: 145713
-Content-Type: multipart/mixed; boundary="===============1585372921739997237=="
+Subject: [AUH] systemtap: upgrading to 4.4 SUCCEEDED
+Message-ID: <MADEUP.1650FA41860973AF.26086@lists.openembedded.org>
+X-Groupsio-MsgNum: 145714
+Content-Type: multipart/mixed; boundary="===============8486391802117119842=="
 
---===============1585372921739997237==
+--===============8486391802117119842==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,16 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *vulkan-loader* to *1.2.162.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe *systemtap* to *4.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-vulkan-loader-upgrade-1.2.154.1-1.2.162.0.patch
+    - apply the patch: git am 0001-systemtap-upgrade-4.3-4.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -50,91 +44,162 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============1585372921739997237==
+--===============8486391802117119842==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 1452 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 807 .bb files complete (803 cached, 4 parsed). 1413 targets, 41 skipped, 0 masked, 0 errors.
+Removing 94 recipes from the core2-32 sysroot...done.
+Removing 99 recipes from the qemux86 sysroot...done.
+ERROR: Nothing PROVIDES 'systemtap'
+systemtap was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============8486391802117119842==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap: PV changed from "4.3" to "4.4"
+Changes to packages/core2-32-poky-linux/systemtap (sysroot):
+  /usr/share/systemtap/examples/general/floatingpoint.meta was added
+  /usr/share/systemtap/examples/general/floatingpoint.stp was added
+  /usr/share/systemtap/examples/general/floatingpoint.txt was added
+  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
+  /usr/share/systemtap/runtime/linux/stp_tls.h was added
+  /usr/share/systemtap/runtime/softfloat was added
+  /usr/share/systemtap/runtime/softfloat.c was added
+  /usr/share/systemtap/runtime/softfloat.h was added
+  /usr/share/systemtap/runtime/softfloat/internals.h was added
+  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
+  /usr/share/systemtap/runtime/softfloat/platform.h was added
+  /usr/share/systemtap/runtime/softfloat/primitives.h was added
+  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
+  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
+  /usr/share/systemtap/runtime/softfloat/specialize.h was added
+  /usr/share/systemtap/tapset/floatingpoint.stp was added
+  /usr/share/systemtap/tapset/linux/errno.stpm was added
+  /usr/share/systemtap/tapset/linux/tls.stp was added
+  /usr/share/systemtap/tapset/sreg_arch.stpm was added
+  /usr/share/systemtap/runtime/transport/relayfs.c was removed
+  /usr/share/systemtap/runtime/transport/relayfs.h was removed
+  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
+packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-dbg: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGSIZE changed from 64079464 to 64266432 (+0%)
+packages/core2-32-poky-linux/systemtap/systemtap-dev: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-dev: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-doc: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGSIZE changed from 462049 to 465784 (+1%)
+packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-examples: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGSIZE changed from 1481625 to 1486917 (+0%)
+packages/core2-32-poky-linux/systemtap/systemtap-exporter: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-exporter: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGSIZE changed from 85480 to 85339 (-0%)
+packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-python: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-python: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-runtime: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGSIZE changed from 293256 to 280968 (-4%)
+packages/core2-32-poky-linux/systemtap/systemtap-src: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-src: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap-src: PKGSIZE changed from 2860603 to 2867440 (+0%)
+packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
+packages/core2-32-poky-linux/systemtap/systemtap: PV changed from "4.3" to "4.4"
+packages/core2-32-poky-linux/systemtap/systemtap: PKGSIZE changed from 8561494 to 8864480 (+4%)
+
+--===============8486391802117119842==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-32-poky-linux/systemtap (sysroot):
+  /usr/share/systemtap/examples/general/floatingpoint.meta was added
+  /usr/share/systemtap/examples/general/floatingpoint.stp was added
+  /usr/share/systemtap/examples/general/floatingpoint.txt was added
+  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
+  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
+  /usr/share/systemtap/runtime/linux/stp_tls.h was added
+  /usr/share/systemtap/runtime/softfloat was added
+  /usr/share/systemtap/runtime/softfloat.c was added
+  /usr/share/systemtap/runtime/softfloat.h was added
+  /usr/share/systemtap/runtime/softfloat/internals.h was added
+  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
+  /usr/share/systemtap/runtime/softfloat/platform.h was added
+  /usr/share/systemtap/runtime/softfloat/primitives.h was added
+  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
+  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
+  /usr/share/systemtap/runtime/softfloat/specialize.h was added
+  /usr/share/systemtap/tapset/floatingpoint.stp was added
+  /usr/share/systemtap/tapset/linux/errno.stpm was added
+  /usr/share/systemtap/tapset/linux/tls.stp was added
+  /usr/share/systemtap/tapset/sreg_arch.stpm was added
+  /usr/share/systemtap/runtime/transport/relayfs.c was removed
+  /usr/share/systemtap/runtime/transport/relayfs.h was removed
+  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
+
+--===============8486391802117119842==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-vulkan-loader-upgrade-1.2.154.1-1.2.162.0.patch"
+ filename="0001-systemtap-upgrade-4.3-4.4.patch"
 
-From c784111eae4394f06aa489d404781c6d72a08ed3 Mon Sep 17 00:00:00 2001
+From 4ad37a0409be8fc6b523f5e9a5958e70c586ef4d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Tue, 15 Dec 2020 13:48:47 +0000
-Subject: [PATCH] vulkan-loader: upgrade 1.2.154.1 -> 1.2.162.0
+Date: Tue, 15 Dec 2020 14:46:18 +0000
+Subject: [PATCH] systemtap: upgrade 4.3 -> 4.4
 
 ---
- .../{vulkan-loader_1.2.154.1.bb => vulkan-loader_1.2.162.0.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/vulkan/{vulkan-loader_1.2.154.1.bb => vulkan-loader_1.2.162.0.bb} (96%)
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.154.1.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.162.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/vulkan/vulkan-loader_1.2.154.1.bb
-rename to meta/recipes-graphics/vulkan/vulkan-loader_1.2.162.0.bb
-index 23bf59f8a6..5715ce3962 100644
---- a/meta/recipes-graphics/vulkan/vulkan-loader_1.2.154.1.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.2.162.0.bb
-@@ -10,7 +10,7 @@ SECTION = "libs"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
- SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-1.2.154"
--SRCREV = "2aa801755eab3fab610d9676c4dd94054e30c854"
-+SRCREV = "7a313093b5c4af964d50a5a64e73d7df6152ea3f"
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 56fa51d61e..ae735025b7 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,7 +1,7 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
+-PV = "4.3"
++SRCREV = "988f439af39a359b4387963ca4633649866d8275"
++PV = "4.4"
  
- S = "${WORKDIR}/git"
- 
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
 -- 
 2.17.1
 
 
---===============1585372921739997237==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86.txt"
-
-Loading cache...done.
-Loaded 1459 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 807 .bb files complete (806 cached, 1 parsed). 1413 targets, 31 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-32 sysroot...done.
-Removing 1 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-656fd0142a1dc3b8d52396d1a336d912820a2d80"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:656fd0142a1dc3b8d52396d1a336d912820a2d80"
-workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
-
-Initialising tasks...done.
-Sstate summary: Wanted 220 Found 212 Missed 8 Current 506 (96% match, 98% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 1554 of 2291 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.2.162.0.bb:do_fetch)
-NOTE: recipe vulkan-loader-1.2.162.0-r0: task do_fetch: Started
-WARNING: vulkan-loader-1.2.162.0-r0 do_fetch: Failed to fetch URL git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-1.2.154, attempting MIRRORS if available
-ERROR: vulkan-loader-1.2.162.0-r0 do_fetch: Fetcher failure: Unable to find revision 7a313093b5c4af964d50a5a64e73d7df6152ea3f in branch sdk-1.2.154 even from upstream
-ERROR: vulkan-loader-1.2.162.0-r0 do_fetch: Fetcher failure for URL: 'git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-1.2.154'. Unable to fetch URL from any source.
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-32-poky-linux/vulkan-loader/1.2.162.0-r0/temp/log.do_fetch.8685
-NOTE: recipe vulkan-loader-1.2.162.0-r0: task do_fetch: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.2.162.0.bb:do_fetch) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 2276 tasks of which 2275 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: 1 task failed:
-  /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/vulkan/vulkan-loader_1.2.162.0.bb:do_fetch
-Summary: There was 1 WARNING message shown.
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-
---===============1585372921739997237==--
+--===============8486391802117119842==--
