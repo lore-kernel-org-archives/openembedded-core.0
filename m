@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.834.1608060223479842011
+ by mx.groups.io with SMTP id smtpd.web08.919.1608060223380956986
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Dec 2020 11:23:48 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D7C3F38C16D8
+	by mail.yoctoproject.org (Postfix) with ESMTP id E4B4B38C144E
 	for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 19:23:46 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libcap-ng: upgrading to 0.8.2 SUCCEEDED
-Message-ID: <MADEUP.1650FA42238C2E3C.26086@lists.openembedded.org>
-X-Groupsio-MsgNum: 145738
-Content-Type: multipart/mixed; boundary="===============6938098071977597657=="
+Subject: [AUH] libjitterentropy: upgrading to 3.0.0 FAILED
+Message-ID: <MADEUP.1650FA4229EE0F1C.26086@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============6016165040022953198=="
 
---===============6938098071977597657==
+--===============6016165040022953198==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,65 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libcap-ng* to *0.8.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *libjitterentropy* to *3.0.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libcap-ng-upgrade-0.8.1-0.8.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe libjitterentropy failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1509 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-27f7ede005a11f5630d698c32198ee21da5c4e7d"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:27f7ede005a11f5630d698c32198ee21da5c4e7d"
+workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+WARNING: Command 'git rebase a37e57d9b939d1f93a1b92e1486edd44a3c1cb4c' failed:
+First, rewinding head to replay your work on top of it...
+Applying: Make man pages reproducible
+Using index info to reconstruct a base tree...
+M	Makefile
+Falling back to patching base and 3-way merge...
+Auto-merging Makefile
+CONFLICT (content): Merge conflict in Makefile
+error: Failed to merge in the changes.
+Patch failed at 0001 Make man pages reproducible
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/libjitterentropy
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/libjitterentropy/libjitterentropy_3.0.0.bb
+INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,70 +89,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6938098071977597657==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-libcap-ng-upgrade-0.8.1-0.8.2.patch"
-
-From 78ac2ed774e776b49d51443f102a0bc2f8657c04 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Tue, 15 Dec 2020 18:56:25 +0000
-Subject: [PATCH] libcap-ng: upgrade 0.8.1 -> 0.8.2
-
----
- meta/recipes-support/libcap-ng/libcap-ng.inc                    | 2 +-
- .../libcap-ng/{libcap-ng_0.8.1.bb => libcap-ng_0.8.2.bb}        | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libcap-ng/{libcap-ng_0.8.1.bb => libcap-ng_0.8.2.bb} (100%)
-
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
-index a312b602ff..842f77dfa4 100644
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-@@ -11,6 +11,6 @@ SRC_URI = "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
-            file://python.patch \
- "
- 
--SRC_URI[sha256sum] = "f06b17aaca029e245c9a26c698c6cc8a1cf42b58483d93e94ee02b478bdc1055"
-+SRC_URI[sha256sum] = "52c083b77c2b0d8449dee141f9c3eba76e6d4c5ad44ef05df25891126cb85ae9"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.8.1.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb
-similarity index 100%
-rename from meta/recipes-support/libcap-ng/libcap-ng_0.8.1.bb
-rename to meta/recipes-support/libcap-ng/libcap-ng_0.8.2.bb
--- 
-2.17.1
-
-
---===============6938098071977597657==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libcap-ng: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng: SRC_URI changed from "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.1.tar.gz file://python.patch" to "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-0.8.2.tar.gz file://python.patch"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-bin: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-bin: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-dbg: PKGSIZE changed from 146084 to 147140 (+1%)
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-dbg: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-dbg: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-dev: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-dev: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-doc: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-doc: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-locale: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-locale: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-src: PKGSIZE changed from 75707 to 77348 (+2%)
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-src: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-src: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-staticdev: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng-staticdev: PV changed from "0.8.1" to "0.8.2"
-packages/core2-32-poky-linux/libcap-ng/libcap-ng: PKGV changed from 0.8.1 [default] to 0.8.2 [default]
-packages/core2-32-poky-linux/libcap-ng/libcap-ng: PV changed from "0.8.1" to "0.8.2"
-
---===============6938098071977597657==--
+--===============6016165040022953198==--
