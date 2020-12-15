@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.934.1608060223438363423
+ by mx.groups.io with SMTP id smtpd.web12.834.1608060223479842011
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Dec 2020 11:23:43 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 1B4DC38C1279
+	by mail.yoctoproject.org (Postfix) with ESMTP id 2402938C127E
 	for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 19:23:43 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemd-boot: upgrading to 247.1 FAILED
-Message-ID: <MADEUP.1650FA40E2789EE4.29031@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============6666645803699789564=="
+Subject: [AUH] systemd: upgrading to 247.1 FAILED
+Message-ID: <MADEUP.1650FA40E3D03E10.26179@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============8207679417819855543=="
 
---===============6666645803699789564==
+--===============8207679417819855543==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,17 +23,18 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemd-boot* to *247.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *systemd* to *247.1* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe systemd-boot failed.
+Running 'devtool upgrade' for recipe systemd failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1418 entries from dependency cache.
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -56,7 +57,8 @@ Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
 WARNING: Command 'git rebase dc057df84c93274283cd228bc56733bc03a54195' failed:
 First, rewinding head to replay your work on top of it...
@@ -77,8 +79,8 @@ You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/systemd-boot
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/systemd-boot/systemd-boot_247.1.bb
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/systemd
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/systemd/systemd_247.1.bb
 
 
 
@@ -88,4 +90,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6666645803699789564==--
+--===============8207679417819855543==--
