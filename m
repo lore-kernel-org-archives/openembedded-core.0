@@ -1,90 +1,79 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.7698.1608017061518822027
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+ by mx.groups.io with SMTP id smtpd.web09.8315.1608020905585596295
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 23:24:23 -0800
+ Tue, 15 Dec 2020 00:28:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.78,420,1599494400"; 
-   d="scan'208";a="102408391"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 15 Dec 2020 15:23:54 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0F2CE4CE546D
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 15:23:49 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 15 Dec 2020 15:23:48 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] readline: upgrade 8.0 -> 8.1
-Date: Tue, 15 Dec 2020 15:23:44 +0800
-Message-ID: <1608017024-21664-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=OoRW6yyA;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.216.68, mailfrom: nathan@nathanrossi.com)
+Received: by mail-pj1-f68.google.com with SMTP id v1so778774pjr.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 00:28:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=nathanrossi.com; s=google;
+        h=date:message-id:from:to:cc:subject:content-transfer-encoding
+         :mime-version;
+        bh=6jURbGi16FdXgV1zm1ZHp6p2PwgtlSbGr78OPiimv4Y=;
+        b=OoRW6yyAbRS297DWy+mdGRng08yM4+wg3PRIpKxldxCGyVh3mOyBmp9UCo0/rzcQdR
+         vh1T91qZ+DM0JqfeZCxD8hAn5FRTBFQvHL7oFxgEtOIFz3iQa1Q7526wfBaace1cyipb
+         9peo3B8pOb7ZkPAXmMjXQMsn0Rc1IwdADoYpeUytUwLMYd7EpCmiXSmo7cTcGlMllfIU
+         ixpGt0j9QRhJq9gYjtQXg2Pewu+iw/dAkNWM0XVqh1zehjQB4lb9/FPVII/SIEjkO+cq
+         Yr3i/yA0IHLzC3VsSdXjeOqIRrEvLjicID7rCAB7+/6KpIENViqJILzs57NwC8oT1YRV
+         X8LQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:from:to:cc:subject
+         :content-transfer-encoding:mime-version;
+        bh=6jURbGi16FdXgV1zm1ZHp6p2PwgtlSbGr78OPiimv4Y=;
+        b=AUgNzwxI2oQ+EQ1+1OdrooQoshVIspZMfE7lOaeN6lBCcTvo+DGkjgkFjkKpAwaTOh
+         dV/fL/QfvctAglshGFaftr+ZonSfPkHij9S8IGNYQbwtwwfO6EML2el1DZ/CS5DhbCte
+         5BU+ya0vsh9cb9dPgpf+GqmF5+HoexM2FMYRKCd4RXUtoyaXUamCocsKROXJ7ZrgfYSv
+         UD3KWtxaoC68nRklH03O/dlu2O9Rq6lAICoawz3rctE8N9yafaXRAeHRgtDCiqxnWFdH
+         lfrqvATMjIreQko5YCrxqCQXENy6uJH9sIS/YxBgfztzok2i11nLzWQ8ym9xJutZZhyn
+         UFbQ==
+X-Gm-Message-State: AOAM532iIYa+H5eOZbgeSUeN08NV3bVgSFDrIi+SfYqUEIK1oot3Pxad
+	MFkyqfW0e1jOw6aI794Kls3q3w==
+X-Google-Smtp-Source: ABdhPJxavmutXD6ten5cNfQ05WsDsxZ1IbKKI8y5wDoDEllO0thpNakgwpHsbKNnwxX6eGubIPyGnA==
+X-Received: by 2002:a17:902:d705:b029:db:fbbf:6145 with SMTP id w5-20020a170902d705b02900dbfbbf6145mr9174491ply.7.1608020905094;
+        Tue, 15 Dec 2020 00:28:25 -0800 (PST)
+Return-Path: <nathan@nathanrossi.com>
+Received: from [127.0.1.1] (117-20-70-209.751446.bne.nbn.aussiebb.net. [117.20.70.209])
+        by smtp.gmail.com with UTF8SMTPSA id v26sm6237577pfm.203.2020.12.15.00.28.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Dec 2020 00:28:24 -0800 (PST)
+Date: Tue, 15 Dec 2020 08:28:15 +0000
+Message-Id: <20201215082815.1360538-1-nathan@nathanrossi.com>
+From: "Nathan Rossi" <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Nathan Rossi <nathan@nathanrossi.com>
+Subject: [PATCH] qemu.inc: Add seccomp PACKAGECONFIG option
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 0F2CE4CE546D.A7277
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Add the seccomp PACKAGECONFIG option to allow building seccomp features
+in QEMU. The libseccomp library is available in additional layers (e.g.
+meta-security).
+
+Additionally this serves as a way to disable seccomp by default to avoid
+the configure of QEMU automatically finding it (via pkg-config) on the
+build host when building qemu-system-native and auto enabling the
+feature.
+
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- .../{readline-8.0 => readline-8.1}/configure-fix.patch     | 0
- .../readline/{readline-8.0 => readline-8.1}/norpath.patch  | 0
- .../readline/{readline-8.0 => readline-8.1}/rl-native.map  | 0
- meta/recipes-core/readline/readline_8.0.bb                 | 7 -------
- meta/recipes-core/readline/readline_8.1.bb                 | 7 +++++++
- 5 files changed, 7 insertions(+), 7 deletions(-)
- rename meta/recipes-core/readline/{readline-8.0 => readline-8.1}/configure-fix.patch (100%)
- rename meta/recipes-core/readline/{readline-8.0 => readline-8.1}/norpath.patch (100%)
- rename meta/recipes-core/readline/{readline-8.0 => readline-8.1}/rl-native.map (100%)
- delete mode 100644 meta/recipes-core/readline/readline_8.0.bb
- create mode 100644 meta/recipes-core/readline/readline_8.1.bb
+ meta/recipes-devtools/qemu/qemu.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/readline/readline-8.0/configure-fix.patch b/meta/recipes-core/readline/readline-8.1/configure-fix.patch
-similarity index 100%
-rename from meta/recipes-core/readline/readline-8.0/configure-fix.patch
-rename to meta/recipes-core/readline/readline-8.1/configure-fix.patch
-diff --git a/meta/recipes-core/readline/readline-8.0/norpath.patch b/meta/recipes-core/readline/readline-8.1/norpath.patch
-similarity index 100%
-rename from meta/recipes-core/readline/readline-8.0/norpath.patch
-rename to meta/recipes-core/readline/readline-8.1/norpath.patch
-diff --git a/meta/recipes-core/readline/readline-8.0/rl-native.map b/meta/recipes-core/readline/readline-8.1/rl-native.map
-similarity index 100%
-rename from meta/recipes-core/readline/readline-8.0/rl-native.map
-rename to meta/recipes-core/readline/readline-8.1/rl-native.map
-diff --git a/meta/recipes-core/readline/readline_8.0.bb b/meta/recipes-core/readline/readline_8.0.bb
-deleted file mode 100644
-index 99d022a32f..0000000000
---- a/meta/recipes-core/readline/readline_8.0.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require readline.inc
--
--SRC_URI += "file://configure-fix.patch \
--            file://norpath.patch"
--
--SRC_URI[archive.md5sum] = "7e6c1f16aee3244a69aba6e438295ca3"
--SRC_URI[archive.sha256sum] = "e339f51971478d369f8a053a330a190781acb9864cf4c541060f12078948e461"
-diff --git a/meta/recipes-core/readline/readline_8.1.bb b/meta/recipes-core/readline/readline_8.1.bb
-new file mode 100644
-index 0000000000..0786a08163
---- /dev/null
-+++ b/meta/recipes-core/readline/readline_8.1.bb
-@@ -0,0 +1,7 @@
-+require readline.inc
-+
-+SRC_URI += "file://configure-fix.patch \
-+            file://norpath.patch"
-+
-+SRC_URI[archive.md5sum] = "e9557dd5b1409f5d7b37ef717c64518e"
-+SRC_URI[archive.sha256sum] = "f8ceb4ee131e3232226a17f51b164afc46cd0b9e6cef344be87c65962cb82b02"
--- 
-2.25.1
-
-
-
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 274c855d35..b5827dc2ad 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -188,6 +188,7 @@ PACKAGECONFIG[rbd] = "--enable-rbd,--disable-rbd,ceph,ceph"
+ PACKAGECONFIG[vhost] = "--enable-vhost-net,--disable-vhost-net,,"
+ PACKAGECONFIG[ust] = "--enable-trace-backend=ust,--enable-trace-backend=nop,lttng-ust,"
+ PACKAGECONFIG[pie] = "--enable-pie,--disable-pie,,"
++PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
+ 
+ INSANE_SKIP_${PN} = "arch"
+ 
+---
+2.29.2
