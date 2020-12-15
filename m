@@ -1,46 +1,61 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web09.1780.1608062969555900140
+ by mx.groups.io with SMTP id smtpd.web09.1923.1608063556700493603
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Dec 2020 12:09:29 -0800
+ Tue, 15 Dec 2020 12:19:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=KUQD4HJt;
- spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
-Subject: Re: [OE-core] [meta-oe][PATCH v3] sudo: split into smaller tools package
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1608062968;
-	bh=XZ8hkwi4aMw0Coo1dL9VnPRS1lMYJk/x3Db4gIy35Cw=;
-	h=To:Cc:References:From:Date:In-Reply-To:From;
-	b=KUQD4HJtjZGHrPUtKeV7vERcvJE39sBaPmen7oL53oJiSdFiQoyu7MWNdU2izzFsB
-	 IQrlbg1LFETLfC1QAr05TMQw/3fQvu1L/1FKlMAUXs9Zigr3lgLqpkFTTieB+9U+LM
-	 Z0dEDBcKZARSY3ZIo7vO24PhOcD1ccR5XNuih4xr4BidFtm0Xh353nW1CMb1ryVZ/o
-	 D3VH1xhX5r6AhZ4dSnv0pe8CehJiQG/rMZ3iFes8JRw2VIAAcWbM4RZ92sFvU4/HoA
-	 UbxuAW1qbQkea4llVWdLFDQdiG+LOhWnON0rE2D8ZrEAxWQWty5lsjik/5Uu74jcnR
-	 fdeyLzSbXhK9g==
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20201215193506.13053-1-okaya@kernel.org>
- <CADkTA4OWM5PJXSgp7SMu+n0071YE-3wkaoV2JUPCuf5u=XdAnQ@mail.gmail.com>
- <8861f46e-fc85-2af4-fb2a-0aed9cb89791@kernel.org>
- <CADkTA4M6bbosSG3nhoe5uNm3ZF-qUZisOiCbnevnRVGCr_tLpQ@mail.gmail.com>
+ dkim=missing; spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
 From: "Sinan Kaya" <okaya@kernel.org>
-Message-ID: <ec673a83-2804-2ffd-4b5d-0230c55ebcc2@kernel.org>
-Date: Tue, 15 Dec 2020 15:09:27 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4M6bbosSG3nhoe5uNm3ZF-qUZisOiCbnevnRVGCr_tLpQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To: openembedded-core@lists.openembedded.org
+Cc: Sinan Kaya <okaya@kernel.org>
+Subject: [meta-oe][PATCH v4] sudo: split into smaller tools package
+Date: Tue, 15 Dec 2020 20:19:10 +0000
+Message-Id: <20201215201910.15221-1-okaya@kernel.org>
+X-Mailer: git-send-email 2.17.1
 
-On 12/15/2020 2:57 PM, Bruce Ashfield wrote:
->> Interesting, I didn't know that RRECOMMENDS can be turned off.
->> I was hoping to do a non-invasive change for existing users.
-> A good goal!
-> 
-> It's this variable:
-> https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#var-NO_RECOMMENDATIONS
+Allow to include whether we want sudo, visudo, sudoreplay
+or cvtsudoers tools.
 
-Would you be interested in setting it as default for the tiny distro
-with a patch?
+Signed-off-by: Sinan Kaya <okaya@kernel.org>
+---
+ meta/recipes-extended/sudo/sudo_1.9.3p1.bb | 25 +++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.3p1.bb b/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
+index ba61a7f2472..136a085522c 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
+@@ -44,6 +44,29 @@ do_install_append () {
+ 	rmdir -p --ignore-fail-on-non-empty ${D}/run/sudo
+ }
+ 
+-FILES_${PN} += "${nonarch_libdir}/tmpfiles.d"
+ FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/*.la \
+                     ${libdir}/lib*${SOLIBSDEV} ${libdir}/*.la"
++
++SUDO_PACKAGES = "${PN}-cvtsudoers"
++SUDO_PACKAGES += "${PN}-sudoreplay"
++SUDO_PACKAGES += "${PN}-visudo"
++SUDO_PACKAGES += "${PN}-sudo"
++SUDO_PACKAGES += "${PN}-lib"
++PACKAGES += "${SUDO_PACKAGES}"
++
++RDEPENDS_${PN}-cvtsudoers = "${PN}-lib"
++RDEPENDS_${PN}-sudo = "${PN}-lib"
++RDEPENDS_${PN}-sudoreplay = "${PN}-lib"
++RDEPENDS_${PN}-visudo = "${PN}-lib"
++
++PROVIDES += "${SUDO_PACKAGES}"
++RDEPENDS_${PN} += "${SUDO_PACKAGES}"
++
++ALLOW_EMPTY_${PN} = "1"
++
++FILES_${PN} = ""
++FILES_${PN}-cvtsudoers = "${bindir}/cvtsudoers"
++FILES_${PN}-sudoreplay = "${bindir}/sudoreplay"
++FILES_${PN}-sudo = "${bindir}/sudo ${bindir}/sudoedit"
++FILES_${PN}-visudo = "${sbindir}/visudo"
++FILES_${PN}-lib = "${localstatedir} ${libexecdir} ${sysconfdir} ${libdir} ${nonarch_libdir}"
+-- 
+2.17.1
+
