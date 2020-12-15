@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.919.1608060223380956986
+ by mx.groups.io with SMTP id smtpd.web10.868.1608060223398260149
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Dec 2020 11:23:43 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0469938C11C0
+	by mail.yoctoproject.org (Postfix) with ESMTP id 0A24238C11D7
 	for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 19:23:43 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] init-system-helpers: upgrading to 1.60 SUCCEEDED
-Message-ID: <MADEUP.1650FA40DEED4EB7.26179@lists.openembedded.org>
-X-Groupsio-MsgNum: 145662
-Content-Type: multipart/mixed; boundary="===============2035603962902062856=="
+Subject: [AUH] ovmf: upgrading to edk2-stable202011 FAILED
+Message-ID: <MADEUP.1650FA40DFDE36CC.26179@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============3377983098471862072=="
 
---===============2035603962902062856==
+--===============3377983098471862072==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,83 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *init-system-helpers* to *1.60* has Succeeded.
+that the automatic attempt to upgrade the recipe *ovmf* to *edk2-stable202011* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-init-system-helpers-upgrade-1.58-1.60.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade ovmf -V edk2-stable202011 -S 872f953262d68a11da7bc2fb3ded16df234b8700
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1415 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-0da42903041e10dd2ec261915833460278e86163"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:0da42903041e10dd2ec261915833460278e86163"
+workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https...
+Loading cache...done.
+Loaded 1415 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 807 .bb files complete (805 cached, 2 parsed). 1411 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-0da42903041e10dd2ec261915833460278e86163"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:0da42903041e10dd2ec261915833460278e86163"
+workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 557, in upgrade
+    tinfoil, rd)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 218, in _extract_new_source
+    md5 = checksums['md5sum']
+KeyError: 'md5sum'
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,70 +107,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============2035603962902062856==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dbg: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dbg: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dev: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-dev: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-doc: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-doc: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-invoke-rc.d: PKGSIZE changed from 17042 to 16507 (-3%)
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-invoke-rc.d: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-invoke-rc.d: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-locale: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-locale: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-service: PKGSIZE changed from 9269 to 9104 (-2%)
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-service: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-service: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-src: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-src: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-staticdev: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers-staticdev: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers/init-system-helpers: PV changed from "1.58" to "1.60"
-packages/core2-32-poky-linux/init-system-helpers: PKGV changed from 1.58 [default] to 1.60 [default]
-packages/core2-32-poky-linux/init-system-helpers: PV changed from "1.58" to "1.60"
-
---===============2035603962902062856==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-init-system-helpers-upgrade-1.58-1.60.patch"
-
-From 8153f738b9d4bd3a4fcfa055911c8d3b7f6ce4c1 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Tue, 15 Dec 2020 05:22:42 +0000
-Subject: [PATCH] init-system-helpers: upgrade 1.58 -> 1.60
-
----
- ...{init-system-helpers_1.58.bb => init-system-helpers_1.60.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/initscripts/{init-system-helpers_1.58.bb => init-system-helpers_1.60.bb} (96%)
-
-diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.58.bb b/meta/recipes-core/initscripts/init-system-helpers_1.60.bb
-similarity index 96%
-rename from meta/recipes-core/initscripts/init-system-helpers_1.58.bb
-rename to meta/recipes-core/initscripts/init-system-helpers_1.60.bb
-index b591f412c6..33977e66c1 100644
---- a/meta/recipes-core/initscripts/init-system-helpers_1.58.bb
-+++ b/meta/recipes-core/initscripts/init-system-helpers_1.60.bb
-@@ -16,7 +16,7 @@ SECTION = "base"
- LICENSE = "BSD-3-Clause & GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=ee2b1830fcfead84d07bc060ec43e072"
- 
--SRCREV = "6a1860c6f5ad295af605ddf588933544e7c24ce1"
-+SRCREV = "dbd9197569c0935029acd5c9b02b84c68fd937ee"
- SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git;protocol=https"
- 
- S = "${WORKDIR}/git"
--- 
-2.17.1
-
-
---===============2035603962902062856==--
+--===============3377983098471862072==--
