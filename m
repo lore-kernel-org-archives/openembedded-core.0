@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.934.1608060223438363423
+ by mx.groups.io with SMTP id smtpd.web08.919.1608060223380956986
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Dec 2020 11:23:43 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9015B38C13FF
+	by mail.yoctoproject.org (Postfix) with ESMTP id 6844638C13E1
 	for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 19:23:43 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Pascal Bach <pascal.bach@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] go: upgrading to 1.15.6 SUCCEEDED
-Message-ID: <MADEUP.1650FA40F43B0120.1152@lists.openembedded.org>
-X-Groupsio-MsgNum: 145672
-Content-Type: multipart/mixed; boundary="===============0242608716806072400=="
+Subject: [AUH] cmake: upgrading to 3.19.1 FAILED
+Message-ID: <MADEUP.1650FA40F0560D9E.29031@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============0969168561028409322=="
 
---===============0242608716806072400==
+--===============0969168561028409322==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,139 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *go* to *1.15.6* has Succeeded.
+that the automatic attempt to upgrade the recipe *cmake* to *3.19.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-go-upgrade-1.15.5-1.15.6.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe cmake failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1423 entries from dependency cache.
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-5c15cd0ca06c91232af73e8447ce5cf1794843b3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:5c15cd0ca06c91232af73e8447ce5cf1794843b3"
+workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cmake.org/files/v3.19/cmake-3.19.1.tar.gz...
+Loading cache...done.
+Loaded 1423 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 808 .bb files complete (806 cached, 2 parsed). 1414 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-5c15cd0ca06c91232af73e8447ce5cf1794843b3"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:5c15cd0ca06c91232af73e8447ce5cf1794843b3"
+workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   2% |                                    | ETA:  0:00:03
+Adding changed files:   5% |#                                   | ETA:  0:00:02
+Adding changed files:   8% |##                                  | ETA:  0:00:02
+Adding changed files:  10% |###                                 | ETA:  0:00:02
+Adding changed files:  13% |####                                | ETA:  0:00:01
+Adding changed files:  16% |#####                               | ETA:  0:00:01
+Adding changed files:  19% |######                              | ETA:  0:00:01
+Adding changed files:  21% |#######                             | ETA:  0:00:01
+Adding changed files:  24% |########                            | ETA:  0:00:01
+Adding changed files:  27% |#########                           | ETA:  0:00:01
+Adding changed files:  30% |##########                          | ETA:  0:00:01
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  35% |############                        | ETA:  0:00:01
+Adding changed files:  38% |#############                       | ETA:  0:00:01
+Adding changed files:  41% |##############                      | ETA:  0:00:01
+Adding changed files:  43% |###############                     | ETA:  0:00:01
+Adding changed files:  46% |################                    | ETA:  0:00:01
+Adding changed files:  49% |#################                   | ETA:  0:00:01
+Adding changed files:  52% |##################                  | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  57% |####################                | ETA:  0:00:00
+Adding changed files:  60% |#####################               | ETA:  0:00:00
+Adding changed files:  63% |######################              | ETA:  0:00:00
+Adding changed files:  65% |#######################             | ETA:  0:00:00
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  71% |#########################           | ETA:  0:00:00
+Adding changed files:  74% |##########################          | ETA:  0:00:00
+Adding changed files:  76% |###########################         | ETA:  0:00:00
+Adding changed files:  79% |############################        | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  87% |###############################     | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files:  98% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
+WARNING: Command 'git rebase bf866a1c04708ce5a6d683c07c41622e76d7e4e6' failed:
+First, rewinding head to replay your work on top of it...
+Applying: cmake: Prevent the detection of Qt5
+Using index info to reconstruct a base tree...
+M	Source/QtDialog/CMakeLists.txt
+M	Tests/CMakeLists.txt
+M	Tests/RunCMake/CMakeLists.txt
+Falling back to patching base and 3-way merge...
+Auto-merging Tests/RunCMake/CMakeLists.txt
+Auto-merging Tests/CMakeLists.txt
+Auto-merging Source/QtDialog/CMakeLists.txt
+CONFLICT (content): Merge conflict in Source/QtDialog/CMakeLists.txt
+error: Failed to merge in the changes.
+Patch failed at 0001 cmake: Prevent the detection of Qt5
+Use 'git am --show-current-patch' to see the failed patch
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/cmake
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/cmake/cmake_3.19.1.bb
+INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,223 +163,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0242608716806072400==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/go-runtime/go-runtime-dbg: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime/go-runtime-dbg: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime/go-runtime-dev: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime/go-runtime-dev: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime/go-runtime-dev: PKGSIZE changed from 135691745 to 135714940 (+0%)
-packages/core2-32-poky-linux/go-runtime/go-runtime-doc: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime/go-runtime-doc: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime/go-runtime-locale: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime/go-runtime-locale: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime/go-runtime-src: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime/go-runtime-src: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime/go-runtime-staticdev: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime/go-runtime-staticdev: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime/go-runtime-staticdev: PKGSIZE changed from 63197094 to 63220338 (+0%)
-packages/core2-32-poky-linux/go-runtime/go-runtime: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime/go-runtime: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime/go-runtime: PKGSIZE changed from 28087512 to 28087616 (+0%)
-packages/core2-32-poky-linux/go-runtime: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go-runtime: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go-runtime: SRC_URI changed from "http://golang.org/dl/go1.15.5.src.tar.gz;name=main file://0001-allow-CC-and-CXX-to-have-multiple-words.patch file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch file://0004-ld-add-soname-to-shareable-objects.patch file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch file://0006-cmd-dist-separate-host-and-target-builds.patch file://0007-cmd-go-make-GOROOT-precious-by-default.patch file://0008-use-GOBUILDMODE-to-set-buildmode.patch file://0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch" to "http://golang.org/dl/go1.15.6.src.tar.gz;name=main file://0001-allow-CC-and-CXX-to-have-multiple-words.patch file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch file://0004-ld-add-soname-to-shareable-objects.patch file://0005-make.ba
- sh-override-CC-when-building-dist-and-go_boot.patch file://0006-cmd-dist-separate-host-and-target-builds.patch file://0007-cmd-go-make-GOROOT-precious-by-default.patch file://0008-use-GOBUILDMODE-to-set-buildmode.patch"
-packages/core2-32-poky-linux/go/go-dev: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go/go-dev: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go/go-src: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go/go-src: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go/go: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go/go: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go/go: PKGSIZE changed from 81348563 to 81373139 (+0%)
-packages/core2-32-poky-linux/go: PV changed from "1.15.5" to "1.15.6"
-packages/core2-32-poky-linux/go: PKGV changed from 1.15.5 [default] to 1.15.6 [default]
-packages/core2-32-poky-linux/go: SRC_URI changed from "http://golang.org/dl/go1.15.5.src.tar.gz;name=main file://0001-allow-CC-and-CXX-to-have-multiple-words.patch file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch file://0004-ld-add-soname-to-shareable-objects.patch file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch file://0006-cmd-dist-separate-host-and-target-builds.patch file://0007-cmd-go-make-GOROOT-precious-by-default.patch file://0008-use-GOBUILDMODE-to-set-buildmode.patch file://0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch" to "http://golang.org/dl/go1.15.6.src.tar.gz;name=main file://0001-allow-CC-and-CXX-to-have-multiple-words.patch file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch file://0004-ld-add-soname-to-shareable-objects.patch file://0005-make.bash-overr
- ide-CC-when-building-dist-and-go_boot.patch file://0006-cmd-dist-separate-host-and-target-builds.patch file://0007-cmd-go-make-GOROOT-precious-by-default.patch file://0008-use-GOBUILDMODE-to-set-buildmode.patch"
-
---===============0242608716806072400==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-go-upgrade-1.15.5-1.15.6.patch"
-
-From 4db002178739cb75bd18792797b515acafa520ce Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Tue, 15 Dec 2020 06:25:08 +0000
-Subject: [PATCH] go: upgrade 1.15.5 -> 1.15.6
-
----
- meta/recipes-devtools/go/go-1.15.inc          |  25 +++--
- ...t-CGO_LDFLAGS-to-appear-in-go-ldflag.patch | 100 ------------------
- 2 files changed, 12 insertions(+), 113 deletions(-)
- delete mode 100644 meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
-
-diff --git a/meta/recipes-devtools/go/go-1.15.inc b/meta/recipes-devtools/go/go-1.15.inc
-index ccfb0c5987..472b891f33 100644
---- a/meta/recipes-devtools/go/go-1.15.inc
-+++ b/meta/recipes-devtools/go/go-1.15.inc
-@@ -1,20 +1,19 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.15"
--PV = "1.15.5"
-+PV = "1.15.6"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707"
- 
--SRC_URI += "\
--    file://0001-allow-CC-and-CXX-to-have-multiple-words.patch \
--    file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch \
--    file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch \
--    file://0004-ld-add-soname-to-shareable-objects.patch \
--    file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
--    file://0006-cmd-dist-separate-host-and-target-builds.patch \
--    file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
--    file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
--    file://0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch \
--"
--SRC_URI[main.sha256sum] = "c1076b90cf94b73ebed62a81d802cd84d43d02dea8c07abdc922c57a071c84f1"
-+SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz;name=main \
-+           file://0001-allow-CC-and-CXX-to-have-multiple-words.patch \
-+           file://0002-cmd-go-make-content-based-hash-generation-less-pedan.patch \
-+           file://0003-allow-GOTOOLDIR-to-be-overridden-in-the-environment.patch \
-+           file://0004-ld-add-soname-to-shareable-objects.patch \
-+           file://0005-make.bash-override-CC-when-building-dist-and-go_boot.patch \
-+           file://0006-cmd-dist-separate-host-and-target-builds.patch \
-+           file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-+           file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-+           "
-+SRC_URI[main.sha256sum] = "890bba73c5e2b19ffb1180e385ea225059eb008eb91b694875dd86ea48675817"
-diff --git a/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch b/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
-deleted file mode 100644
-index b57041f1db..0000000000
---- a/meta/recipes-devtools/go/go-1.15/0009-cmd-go-permit-CGO_LDFLAGS-to-appear-in-go-ldflag.patch
-+++ /dev/null
-@@ -1,100 +0,0 @@
--From 4759221d46b1666de96b8047cec3160bfe4d3d5d Mon Sep 17 00:00:00 2001
--From: Ian Lance Taylor <iant@golang.org>
--Date: Fri, 13 Nov 2020 11:05:37 -0800
--Subject: [PATCH] cmd/go: permit CGO_LDFLAGS to appear in //go:ldflag
--
--Fixes #42565
--
--Upstream-Status: Backport [https://github.com/golang/go/commit/782cf560db4c919790fdb476d1bbe18e5ddf5ffd]
--Change-Id: If7cf39905d124dbd54dfac6a53ee38270498efed
--Reviewed-on: https://go-review.googlesource.com/c/go/+/269818
--Trust: Ian Lance Taylor <iant@golang.org>
--Run-TryBot: Ian Lance Taylor <iant@golang.org>
--TryBot-Result: Go Bot <gobot@golang.org>
--Reviewed-by: Jay Conrod <jayconrod@google.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/cmd/go/internal/work/exec.go      | 15 +++++++++
-- src/cmd/go/testdata/script/ldflag.txt | 44 +++++++++++++++++++++++++++
-- 2 files changed, 59 insertions(+)
-- create mode 100644 src/cmd/go/testdata/script/ldflag.txt
--
--diff --git a/src/cmd/go/internal/work/exec.go b/src/cmd/go/internal/work/exec.go
--index 575a2df..9209e3d 100644
----- a/src/cmd/go/internal/work/exec.go
--+++ b/src/cmd/go/internal/work/exec.go
--@@ -2821,6 +2821,21 @@ func (b *Builder) cgo(a *Action, cgoExe, objdir string, pcCFLAGS, pcLDFLAGS, cgo
-- 				idx = bytes.Index(src, []byte(cgoLdflag))
-- 			}
-- 		}
--+
--+		// We expect to find the contents of cgoLDFLAGS in flags.
--+		if len(cgoLDFLAGS) > 0 {
--+		outer:
--+			for i := range flags {
--+				for j, f := range cgoLDFLAGS {
--+					if f != flags[i+j] {
--+						continue outer
--+					}
--+				}
--+				flags = append(flags[:i], flags[i+len(cgoLDFLAGS):]...)
--+				break
--+			}
--+		}
--+
-- 		if err := checkLinkerFlags("LDFLAGS", "go:cgo_ldflag", flags); err != nil {
-- 			return nil, nil, err
-- 		}
--diff --git a/src/cmd/go/testdata/script/ldflag.txt b/src/cmd/go/testdata/script/ldflag.txt
--new file mode 100644
--index 0000000..6ceb33b
----- /dev/null
--+++ b/src/cmd/go/testdata/script/ldflag.txt
--@@ -0,0 +1,44 @@
--+# Issue #42565
--+
--+[!cgo] skip
--+
--+# We can't build package bad, which uses #cgo LDFLAGS.
--+cd bad
--+! go build
--+stderr no-such-warning
--+
--+# We can build package ok with the same flags in CGO_LDFLAGS.
--+env CGO_LDFLAGS=-Wno-such-warning -Wno-unknown-warning-option
--+cd ../ok
--+go build
--+
--+# Build a main program that actually uses LDFLAGS.
--+cd ..
--+go build -ldflags=-v
--+
--+# Because we passed -v the Go linker should print the external linker
--+# command which should include the flag we passed in CGO_LDFLAGS.
--+stderr no-such-warning
--+
--+-- go.mod --
--+module ldflag
--+
--+-- bad/bad.go --
--+package bad
--+
--+// #cgo LDFLAGS: -Wno-such-warning -Wno-unknown-warning
--+import "C"
--+
--+func F() {}
--+-- ok/ok.go --
--+package ok
--+
--+import "C"
--+
--+func F() {}
--+-- main.go --
--+package main
--+
--+import _ "ldflag/ok"
--+
--+func main() {}
---- 
--2.29.2
--
--- 
-2.17.1
-
-
---===============0242608716806072400==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuppc.txt"
-
-Loading cache...done.
-Loaded 1417 entries from dependency cache.
-Parsing recipes...done.
-ERROR: Nothing PROVIDES 'go'
-go was skipped: incompatible with host powerpc-poky-linux (not in COMPATIBLE_HOST)
-Parsing of 807 .bb files complete (801 cached, 6 parsed). 1413 targets, 66 skipped, 0 masked, 0 errors.
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============0242608716806072400==--
+--===============0969168561028409322==--
