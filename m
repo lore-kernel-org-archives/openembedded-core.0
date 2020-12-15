@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.833.1608060223196223869
+ by mx.groups.io with SMTP id smtpd.web10.866.1608060223331144014
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Dec 2020 11:23:43 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from [172.29.10.111] (unknown [172.29.10.111])
-	by mail.yoctoproject.org (Postfix) with ESMTP id DE3F738C117B
+	by mail.yoctoproject.org (Postfix) with ESMTP id D346A38C096D
 	for <openembedded-core@lists.openembedded.org>; Tue, 15 Dec 2020 19:23:42 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] openssl: upgrading to 1.1.1i FAILED
-Message-ID: <MADEUP.1650FA40D55E9953.1152@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0128877834795854986=="
+Subject: [AUH] kea: upgrading to 1.8.1 SUCCEEDED
+Message-ID: <MADEUP.1650FA40DDCEB32D.29031@lists.openembedded.org>
+X-Groupsio-MsgNum: 145661
+Content-Type: multipart/mixed; boundary="===============3178976474603569222=="
 
---===============0128877834795854986==
+--===============3178976474603569222==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,727 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *openssl* to *1.1.1i* has Failed(other errors).
+that the automatic attempt to upgrade the recipe *kea* to *1.8.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-kea-upgrade-1.7.10-1.8.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-'MACHINE=qemux86 bitbake openssl' failed
-Loading cache...done.
-Loaded 1412 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 806 .bb files complete (805 cached, 1 parsed). 1410 targets, 31 skipped, 0 masked, 0 errors.
-Removing 97 recipes from the core2-32 sysroot...done.
-Removing 101 recipes from the qemux86 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "i686-poky-linux"
-MACHINE              = "qemux86"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-d84d4058c3ebd8db0f20f489d85f0bbe128bf11a"
-TUNE_FEATURES        = "m32 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d84d4058c3ebd8db0f20f489d85f0bbe128bf11a"
-workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
-
-Initialising tasks...done.
-Sstate summary: Wanted 456 Found 453 Missed 3 Current 198 (99% match, 99% complete)
-NOTE: Executing Tasks
-NOTE: Running setscene task 199 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.9.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 201 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 203 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/socat/socat_1.7.3.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 204 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 205 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 206 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 207 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_8.32.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 208 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 209 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 210 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 211 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 212 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc-locale_2.32.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 213 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.32.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 214 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/init-system-helpers_1.58.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 215 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 216 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/kbd/kbd_2.3.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 217 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.17.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 218 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 219 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 220 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/os-release/os-release.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 221 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 222 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-compat-units.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 223 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-conf_246.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 224 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-serialgetty.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 225 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_246.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 226 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.36.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 227 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 228 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.35.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 229 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 230 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.9.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 231 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 232 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.182.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 233 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 234 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_10.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 235 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_10.2.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 236 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/m4/m4_1.4.18.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 237 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 238 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 239 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 240 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.32.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 241 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 242 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 243 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bc/bc_1.07.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 244 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 245 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.5.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 246 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/diffutils/diffutils_3.7.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 247 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.7.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 248 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.1.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe iproute2-5.9.0-r0: task do_package_write_rpm_setscene: Started
-ERROR: When reparsing /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install, the basehash value changed from 5e57beda894f9d6537637ff9b47affb2042184f326bbafc75870c336dfbe23cf to e6a621128e9ae26ef6d20882c232ecf153428341685e07661ac7ff931b010bfe. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake base-files -cdo_install -Snone
-ERROR: Then:
-ERROR: $ bitbake base-files -cdo_install -Sprintdiff
-
-NOTE: recipe base-passwd-3.5.29-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe init-system-helpers-1.58-r0: task do_package_write_rpm_setscene: Started
-ERROR: When reparsing /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/os-release/os-release.bb:do_compile, the basehash value changed from c4de0c32ccdaaf98033b2650c9c04c2cef325cab67ada6a6d4ba091ecbd6674b to 68987924e164c89da36a7e50fafc5ce233b6b24e03bc14fbc164270bb0aa1fb2. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake os-release -cdo_compile -Snone
-ERROR: Then:
-ERROR: $ bitbake os-release -cdo_compile -Sprintdiff
-
-NOTE: recipe socat-1.7.3.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm_setscene: Started
-NOTE: recipe glibc-locale-2.32-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe initscripts-1.0-r155: task do_package_write_rpm_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe os-release-1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe readline-8.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe coreutils-8.32-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxcrypt-4.4.17-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-compat-units-1.0-r29: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-conf-246.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_package_write_rpm_setscene: Started
-NOTE: recipe glib-2.0-1_2.66.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxml2-2.9.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kbd-2.3.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe zlib-1.2.11-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bison-3.7.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe glibc-2.32-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe opkg-utils-0.4.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe binutils-2.35-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe btrfs-tools-5.9-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe make-4.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libgcc-10.2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe e2fsprogs-1.45.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe elfutils-0.182-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe m4-1.4.18-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe util-linux-2.36-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe cracklib-2.9.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe liberror-perl-0.17029-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe perl-5.32.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bc-1.07.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe findutils-4.7.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe iproute2-5.9.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe systemd-1_246.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 249 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.6.bb:do_package_write_rpm_setscene)
-NOTE: recipe diffutils-3.7-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 250 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/iptables/iptables_1.8.6.bb:do_package_write_rpm_setscene)
-NOTE: recipe init-system-helpers-1.58-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-5.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gawk-5.1.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 251 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.4.bb:do_package_write_rpm_setscene)
-NOTE: recipe initscripts-1.0-r155: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 252 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/init-system-helpers_1.58.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe python3-3.9.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe socat-1.7.3.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 253 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_package_write_rpm_setscene)
-NOTE: recipe base-files-3.0.14-r89: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 254 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb:do_package_write_rpm_setscene)
-NOTE: recipe expat-2.2.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 255 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/mdadm/mdadm_4.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe grep-3.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe os-release-1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libmnl-1.0.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 256 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.3.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe init-system-helpers-1.58-r0: task do_packagedata_setscene: Started
-NOTE: recipe iptables-1.8.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 257 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.16.bb:do_package_write_rpm_setscene)
-NOTE: recipe readline-8.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libnsl2-1.3.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libtirpc-1.2.6-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 258 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_package_write_rpm_setscene)
-NOTE: recipe mdadm-4.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libpam-1.3.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxcrypt-4.4.17-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe systemd-compat-units-1.0-r29: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 259 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-securetty_4.6.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 260 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe systemd-conf-246.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 261 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.8.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe procps-3.3.16-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 262 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb:do_package_write_rpm_setscene)
-NOTE: recipe sed-4.8-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-securetty-4.6-r3: task do_package_write_rpm_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe tcp-wrappers-7.6-r10: task do_package_write_rpm_setscene: Started
-NOTE: recipe zlib-1.2.11-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 263 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe opkg-utils-0.4.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 264 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/which/which_2.21.bb:do_package_write_rpm_setscene)
-NOTE: recipe unzip-1_6.0-r5: task do_package_write_rpm_setscene: Started
-NOTE: recipe make-4.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 265 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_package_write_rpm_setscene)
-NOTE: recipe which-2.21-r3: task do_package_write_rpm_setscene: Started
-NOTE: recipe tcp-wrappers-7.6-r10: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe cracklib-2.9.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 266 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.18.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe libnsl2-1.3.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 267 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 268 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_package_write_rpm_setscene)
-NOTE: recipe bc-1.07.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 269 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_package_write_rpm_setscene)
-NOTE: recipe xz-5.2.5-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe wayland-1.18.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-test-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 270 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.6.12.bb:do_package_write_rpm_setscene)
-NOTE: recipe libmnl-1.0.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 271 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_package_write_rpm_setscene)
-NOTE: recipe libtirpc-1.2.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 272 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_package_write_rpm_setscene)
-NOTE: recipe libx11-1_1.6.12-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 273 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus-test_1.12.20.bb:do_packagedata_setscene)
-NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kbd-2.3.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 274 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_package_write_rpm_setscene)
-NOTE: recipe shadow-securetty-4.6-r3: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 275 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.3.bb:do_package_write_rpm_setscene)
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 276 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe bison-3.7.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 277 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.31.bb:do_package_write_rpm_setscene)
-NOTE: recipe which-2.21-r3: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 278 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxkbcommon-1.0.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r3: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe m4-1.4.18-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 279 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe xkeyboard-config-2.31-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 280 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2020.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe unzip-1_6.0-r5: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 281 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.2.bb:do_package_write_rpm_setscene)
-NOTE: recipe xorgproto-2020.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 282 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_package_write_rpm_setscene)
-NOTE: recipe wayland-1.18.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 283 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.8.bb:do_package_write_rpm_setscene)
-NOTE: recipe findutils-4.7.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 284 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.8.bb:do_deploy_setscene)
-NOTE: recipe grep-3.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 285 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.8.bb:do_package_write_rpm_setscene)
-NOTE: recipe util-macros-1_1.19.2-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe sed-4.8-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 286 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.2.53.bb:do_package_write_rpm_setscene)
-NOTE: recipe liberror-perl-0.17029-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 287 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.4.48.bb:do_package_write_rpm_setscene)
-NOTE: recipe libpthread-stubs-0.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 288 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_package_write_rpm_setscene)
-NOTE: recipe kmod-27-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-libc-headers-5.8-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libsm-1_1.2.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 289 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/db/db_5.3.28.bb:do_package_write_rpm_setscene)
-NOTE: recipe diffutils-3.7-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 290 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.18.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe bash-5.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 291 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe libpam-1.3.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 292 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe libice-1_1.0.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 293 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.1.bb:do_package_write_rpm_setscene)
-NOTE: recipe acl-2.2.53-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe iptables-1.8.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm_setscene: Started
-NOTE: Running setscene task 294 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.45.bb:do_package_write_rpm_setscene)
-NOTE: recipe attr-2.4.48-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe db-1_5.3.28-r1: task do_package_write_rpm_setscene: Started
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_deploy_setscene: Started
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe procps-3.3.16-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe mdadm-4.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 295 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.3.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 296 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.44.bb:do_package_write_rpm_setscene)
-NOTE: recipe gdbm-1.18.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libcap-ng-0.8.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-completion-2.11-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 297 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lzo/lzo_2.10.bb:do_package_write_rpm_setscene)
-NOTE: recipe libcap-2.45-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libffi-3.3-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libpcre-8.44-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 298 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe lzo-2.10-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libxau-1_1.0.9-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 299 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_package_write_rpm_setscene)
-NOTE: recipe ptest-runner-2.4.0+gitAUTOINC+834670317b-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe kmod-27-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 300 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.33.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe shared-mime-info-2.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 301 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/m4/m4_1.4.18.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-10.2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.33.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe attr-2.4.48-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe acl-2.2.53-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r3: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe m4-1.4.18-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe btrfs-tools-5.9-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.0.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gawk-5.1.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xcb-proto-1.14.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xorgproto-2020.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gdbm-1.18.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe gmp-6.2.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libxml2-2.9.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_deploy_setscene: Succeeded
-NOTE: Running setscene task 302 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libffi-3.3-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-2.45-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libx11-1_1.6.12-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe shadow-4.8.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 303 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow-securetty_4.6.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe shadow-securetty-4.6-r3: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpcre-8.44-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe xkeyboard-config-2.31-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe e2fsprogs-1.45.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 304 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/diffutils/diffutils_3.7.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.36-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 305 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/iproute2/iproute2_5.9.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 306 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/socat/socat_1.7.3.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 307 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 308 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bc/bc_1.07.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 309 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/grep/grep_3.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 310 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/mdadm/mdadm_4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 311 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/procps/procps_3.3.16.bb:do_packagedata_setscene)
-NOTE: Running setscene task 312 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/which/which_2.21.bb:do_packagedata_setscene)
-NOTE: recipe elfutils-0.182-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe diffutils-3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe lzo-2.10-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe socat-1.7.3.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe iproute2-5.9.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bc-1.07.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe grep-3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe which-2.21-r3: task do_packagedata_setscene: Started
-NOTE: recipe btrfs-tools-5.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe procps-3.3.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe mdadm-4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-5.8-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe perl-5.32.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.0+gitAUTOINC+834670317b-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bc-1.07.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe dbus-test-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.66.2-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 317 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gnome-desktop-testing/gnome-desktop-testing_2018.1.bb:do_packagedata_setscene)
-NOTE: recipe socat-1.7.3.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 318 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 321 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb:do_packagedata_setscene)
-NOTE: recipe tcp-wrappers-7.6-r10: task do_packagedata_setscene: Started
-NOTE: recipe shared-mime-info-2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe init-system-helpers-1.58-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-securetty-4.6-r3: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe btrfs-tools-5.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 330 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/lzo/lzo_2.10.bb:do_packagedata_setscene)
-NOTE: recipe lzo-2.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe which-2.21-r3: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.33.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe python3-3.9.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 334 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/unzip/unzip_6.0.bb:do_packagedata_setscene)
-NOTE: recipe mdadm-4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe iproute2-5.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe m4-1.4.18-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 339 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/elfutils/elfutils_0.182.bb:do_packagedata_setscene)
-NOTE: Running setscene task 341 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/iptables/iptables_1.8.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 343 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libmnl/libmnl_1.0.4.bb:do_packagedata_setscene)
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 347 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe tcp-wrappers-7.6-r10: task do_packagedata_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Started
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libmnl-1.0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe iptables-1.8.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe elfutils-0.182-r0: task do_packagedata_setscene: Started
-NOTE: recipe procps-3.3.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 352 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gnome-desktop-testing-2018.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe coreutils-8.32-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 355 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/coreutils/coreutils_8.32.bb:do_packagedata_setscene)
-NOTE: Running setscene task 356 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/make/make_4.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 357 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/liberror-perl_0.17029.bb:do_packagedata_setscene)
-NOTE: Running setscene task 358 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/findutils/findutils_4.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 359 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/gawk/gawk_5.1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 360 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/sed/sed_4.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 361 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb:do_packagedata_setscene)
-NOTE: recipe systemd-1_246.6-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 362 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/kbd/kbd_2.3.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 363 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/os-release/os-release.bb:do_packagedata_setscene)
-NOTE: Running setscene task 364 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-compat-units.bb:do_packagedata_setscene)
-NOTE: Running setscene task 365 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-conf_246.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 366 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd-serialgetty.bb:do_packagedata_setscene)
-NOTE: Running setscene task 367 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 368 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bash/bash_5.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 369 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.8.bb:do_packagedata_setscene)
-ERROR: When reparsing /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/os-release/os-release.bb:do_compile, the basehash value changed from c4de0c32ccdaaf98033b2650c9c04c2cef325cab67ada6a6d4ba091ecbd6674b to 68987924e164c89da36a7e50fafc5ce233b6b24e03bc14fbc164270bb0aa1fb2. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake os-release -cdo_compile -Snone
-ERROR: Then:
-ERROR: $ bitbake os-release -cdo_compile -Sprintdiff
-
-NOTE: recipe ptest-runner-2.4.0+gitAUTOINC+834670317b-r0: task do_packagedata_setscene: Started
-NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe liberror-perl-0.17029-r0: task do_packagedata_setscene: Started
-NOTE: recipe os-release-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-compat-units-1.0-r29: task do_packagedata_setscene: Started
-NOTE: recipe findutils-4.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-conf-246.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_packagedata_setscene: Started
-NOTE: recipe gawk-5.1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-8.32-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe kbd-2.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe lzo-2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe depmodwrapper-cross-1.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe glibc-2.32-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe e2fsprogs-1.45.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_packagedata_setscene: Started
-NOTE: recipe os-release-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe unzip-1_6.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: recipe grep-3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe systemd-compat-units-1.0-r29: task do_packagedata_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.0+gitAUTOINC+834670317b-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe elfutils-0.182-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe diffutils-3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmnl-1.0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gawk-5.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe db-1_5.3.28-r1: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe systemd-conf-246.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sed-4.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe make-4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe liberror-perl-0.17029-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 397 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/perl/perl_5.32.0.bb:do_packagedata_setscene)
-NOTE: recipe perl-5.32.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-serialgetty-1.0-r5: task do_packagedata_setscene: Succeeded
-NOTE: recipe findutils-4.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 406 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb:do_packagedata_setscene)
-NOTE: recipe e2fsprogs-1.45.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.66.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe iptables-1.8.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe coreutils-8.32-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 415 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gmp/gmp_6.2.1.bb:do_packagedata_setscene)
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe kbd-2.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe binutils-2.35-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 419 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils_2.35.bb:do_packagedata_setscene)
-NOTE: recipe binutils-2.35-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glibc-locale-2.32-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 422 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc-locale_2.32.bb:do_packagedata_setscene)
-NOTE: recipe glibc-locale-2.32-r0: task do_packagedata_setscene: Started
-NOTE: recipe binutils-2.35-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 425 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/bison/bison_3.7.4.bb:do_packagedata_setscene)
-NOTE: recipe bison-3.7.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.66.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 428 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/dbus/dbus_1.12.20.bb:do_packagedata_setscene)
-NOTE: Running setscene task 431 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libpcre/libpcre_8.44.bb:do_packagedata_setscene)
-NOTE: recipe libpcre-8.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Started
-NOTE: recipe dbus-1.12.20-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 435 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/systemd/systemd_246.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 437 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libsm_1.2.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 439 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libx11_1.6.12.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.6.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_246.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre-8.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bison-3.7.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.6.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 448 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libice_1.0.10.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe systemd-1_246.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 452 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 454 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_packagedata_setscene)
-NOTE: Running setscene task 455 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 458 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/shadow/shadow_4.8.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 460 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxkbcommon_1.0.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 462 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/kmod/kmod_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 464 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/acl_2.2.53.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap/libcap_2.45.bb:do_packagedata_setscene)
-ERROR: When reparsing /home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-files/base-files_3.0.14.bb:do_install, the basehash value changed from 5e57beda894f9d6537637ff9b47affb2042184f326bbafc75870c336dfbe23cf to e6a621128e9ae26ef6d20882c232ecf153428341685e07661ac7ff931b010bfe. The metadata is not deterministic and this needs to be fixed.
-ERROR: The following commands may help:
-ERROR: $ bitbake base-files -cdo_install -Snone
-ERROR: Then:
-ERROR: $ bitbake base-files -cdo_install -Sprintdiff
-
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.45-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.0.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.2.53-r0: task do_packagedata_setscene: Started
-NOTE: recipe kmod-27-r0: task do_packagedata_setscene: Started
-NOTE: recipe libice-1_1.0.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 470 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb:do_packagedata_setscene)
-NOTE: recipe base-passwd-3.5.29-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 473 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.0.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 475 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/wayland/wayland_1.18.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 477 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 480 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.31.bb:do_packagedata_setscene)
-NOTE: recipe base-passwd-3.5.29-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-files-3.0.14-r89: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-2.45-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe xkeyboard-config-2.31-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-1.18.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.5.29-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe xtrans-1_1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-1.18.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 489 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/expat/expat_2.2.10.bb:do_packagedata_setscene)
-NOTE: Running setscene task 491 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxml/libxml2_2.9.10.bb:do_packagedata_setscene)
-NOTE: recipe kmod-27-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe acl-2.2.53-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r155: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxml2-2.9.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 502 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/attr/attr_2.4.48.bb:do_packagedata_setscene)
-NOTE: recipe attr-2.4.48-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 505 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 507 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 510 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 512 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.1.bb:do_packagedata_setscene)
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xkeyboard-config-2.31-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe expat-2.2.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe attr-2.4.48-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 526 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-proto/xorgproto_2020.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 528 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-graphics/xorg-util/util-macros_1.19.2.bb:do_packagedata_setscene)
-NOTE: recipe libxml2-2.9.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 532 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/python/python3_3.9.0.bb:do_packagedata_setscene)
-NOTE: recipe xorgproto-2020.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-macros-1_1.19.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.9.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.14.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xorgproto-2020.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-macros-1_1.19.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.9.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 541 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_packagedata_setscene)
-NOTE: Running setscene task 542 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 543 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/readline/readline_8.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 545 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/util-linux/util-linux_2.36.bb:do_packagedata_setscene)
-NOTE: Running setscene task 548 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: Running setscene task 550 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 552 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/xz/xz_5.2.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 554 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libffi/libffi_3.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 556 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/sqlite/sqlite3_3.33.0.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_packagedata_setscene: Started
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-1.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.33.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.36-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-1.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 560 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb:do_packagedata_setscene)
-NOTE: recipe readline-8.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.2.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe sqlite3-3_3.33.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libffi-3.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 570 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_package_setscene)
-NOTE: recipe xz-5.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtirpc-1.2.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_package_setscene: Started
-NOTE: recipe util-linux-2.36-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 576 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/ncurses/ncurses_6.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 579 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/pam/libpam_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 581 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/bash-completion/bash-completion_2.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 583 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/libcap-ng/libcap-ng_0.8.1.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-ng-0.8.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-completion-2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 591 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux/linux-yocto_5.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe perl-5.32.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 594 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/db/db_5.3.28.bb:do_packagedata_setscene)
-NOTE: Running setscene task 596 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-support/gdbm/gdbm_1.18.1.bb:do_packagedata_setscene)
-NOTE: recipe linux-yocto-5.8.18+gitAUTOINC+7883b60d32_3c5d210805-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe db-1_5.3.28-r1: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.18.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe db-1_5.3.28-r1: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.18.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 605 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/libxcrypt/libxcrypt_4.4.17.bb:do_packagedata_setscene)
-NOTE: Running setscene task 607 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/flex/flex_2.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 609 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-extended/cracklib/cracklib_2.9.5.bb:do_packagedata_setscene)
-NOTE: recipe libxcrypt-4.4.17-r0: task do_packagedata_setscene: Started
-NOTE: recipe cracklib-2.9.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcrypt-4.4.17-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.9.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 615 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/zlib/zlib_1.2.11.bb:do_packagedata_setscene)
-NOTE: recipe zlib-1.2.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe flex-2.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.2.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 624 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 625 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 626 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.4.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running task 1250 of 2096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_fetch)
-NOTE: recipe opkg-utils-0.4.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_fetch: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_fetch: Succeeded
-NOTE: Running task 1251 of 2096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_unpack)
-NOTE: recipe opkg-utils-0.4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 628 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_10.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 629 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_10.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 630 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe opkg-utils-0.4.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_unpack: Started
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.4.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_unpack: Succeeded
-NOTE: Running task 1256 of 2096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_patch)
-NOTE: recipe openssl-1.1.1h-r0: task do_patch: Started
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 632 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_10.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-10.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 633 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-runtime_10.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 634 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_10.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libgcc-10.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgcc-10.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_patch: Succeeded
-NOTE: Running task 1259 of 2096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_populate_lic)
-NOTE: recipe gcc-runtime-10.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_populate_lic: Started
-NOTE: recipe libgcc-10.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 636 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/libgcc_10.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libgcc-10.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgcc-10.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe openssl-1.1.1h-r0: task do_populate_lic: Succeeded
-NOTE: recipe glibc-locale-2.32-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 639 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.32.bb:do_packagedata_setscene)
-NOTE: Running setscene task 640 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.32.bb:do_populate_sysroot_setscene)
-NOTE: recipe glibc-2.32-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glibc-2.32-r0: task do_packagedata_setscene: Started
-NOTE: recipe glibc-2.32-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe glibc-2.32-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 643 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-core/glibc/glibc_2.32.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 645 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_10.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 647 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.8.bb:do_packagedata_setscene)
-NOTE: recipe linux-libc-headers-5.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-cross-i686-10.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glibc-2.32-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe glibc-2.32-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-cross-i686-10.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 650 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/gcc/gcc-cross_10.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 651 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-5.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-i686-10.2.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe gcc-cross-i686-10.2.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe linux-libc-headers-5.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 652 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.35.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 653 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_5.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe linux-libc-headers-5.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe binutils-cross-i686-2.35-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-5.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe binutils-cross-i686-2.35-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 654 of 654 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-devtools/binutils/binutils-cross_2.35.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe binutils-cross-i686-2.35-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe binutils-cross-i686-2.35-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 2095 of 2096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_package_qa)
-NOTE: recipe openssl-1.1.1h-r0: task do_package_qa: Started
-NOTE: recipe openssl-1.1.1h-r0: task do_package_qa: Succeeded
-NOTE: Running noexec task 2096 of 2096 (/home/pokybuild/yocto-worker/auh/build/build/poky/meta/recipes-connectivity/openssl/openssl_1.1.1h.bb:do_build)
-NOTE: Tasks Summary: Attempted 2096 tasks of which 2090 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 20 ERROR messages shown, returning a non-zero exit code.
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -751,4 +44,197 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0128877834795854986==--
+--===============3178976474603569222==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/kea/kea-dbg: FILELIST: removed "/usr/lib/libkea-util.so.15 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dns++.so.4", added "/usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-util.s
+ o.16 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9"
+packages/core2-32-poky-linux/kea/kea-dbg: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea/kea-dbg: PV changed from "1.7.10" to "1.8.1"
+packages/core2-32-poky-linux/kea/kea-dbg: PKGSIZE changed from 258777968 to 259214548 (+0%)
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-util.so.15 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dns++.so.4", added "/usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-util.s
+ o.16 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9"
+packages/core2-32-poky-linux/kea/kea-dev: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea/kea-dev: PV changed from "1.7.10" to "1.8.1"
+packages/core2-32-poky-linux/kea/kea-dev: PKGSIZE changed from 3458982 to 3466873 (+0%)
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-util.so.15 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dns++.so.4", added "/usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-util.s
+ o.16 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9"
+packages/core2-32-poky-linux/kea/kea-doc: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea/kea-doc: PV changed from "1.7.10" to "1.8.1"
+packages/core2-32-poky-linux/kea/kea-doc: PKGSIZE changed from 889774 to 894379 (+1%)
+packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-util.so.15 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dns++.so.4", added "/usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-uti
+ l.so.16 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9"
+packages/core2-32-poky-linux/kea/kea-locale: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea/kea-locale: PV changed from "1.7.10" to "1.8.1"
+packages/core2-32-poky-linux/kea/kea-src: FILELIST: removed "/usr/lib/libkea-util.so.15 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dns++.so.4", added "/usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-util.s
+ o.16 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9"
+packages/core2-32-poky-linux/kea/kea-src: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea/kea-src: PV changed from "1.7.10" to "1.8.1"
+packages/core2-32-poky-linux/kea/kea-src: PKGSIZE changed from 8189999 to 8224585 (+0%)
+packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-util.so.15 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dns++.so.4", added "/usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-
+ util.so.16 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9"
+packages/core2-32-poky-linux/kea/kea-staticdev: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea/kea-staticdev: PV changed from "1.7.10" to "1.8.1"
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-util.so.15 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-http.so.6 /usr/lib/libkea-hooks.so.15 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcpsrv.so.26 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dns++.so.4", added "/usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-util.so.16
+  /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-asiodns.so.1.0.1 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-asiolink.so.9"
+packages/core2-32-poky-linux/kea/kea: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea/kea: PV changed from "1.7.10" to "1.8.1"
+packages/core2-32-poky-linux/kea/kea: PKGSIZE changed from 14112416 to 14145198 (+0%)
+packages/core2-32-poky-linux/kea: SRC_URI changed from "http://ftp.isc.org/isc/kea/1.7.10/kea-1.7.10.tar.gz file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch" to "http://ftp.isc.org/isc/kea/1.8.1/kea-1.8.1.tar.gz file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch"
+packages/core2-32-poky-linux/kea: PKGV changed from 1.7.10 [default] to 1.8.1 [default]
+packages/core2-32-poky-linux/kea: PV changed from "1.7.10" to "1.8.1"
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-asiodns.so.1 changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.7.1.0 to libkea-asiolink.so.9.0.0
+  /usr/lib/libkea-cc.so.8 changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.9.0.0 to libkea-cfgclient.so.10.0.0
+  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.5.1.0 to libkea-database.so.6.1.0
+  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.2.0.1 to libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.18.0.0 to libkea-dhcp++.so.19.0.0
+  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.26.0.0 to libkea-dhcpsrv.so.28.0.0
+  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.4.0.0 to libkea-dns++.so.5.0.0
+  /usr/lib/libkea-exceptions.so.0 changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-exceptions.so changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.15.0.0 to libkea-hooks.so.16.0.0
+  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.6.1.2 to libkea-http.so.7.1.0
+  /usr/lib/libkea-log.so.6 changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.10.0.0 to libkea-process.so.11.0.0
+  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.15.0.0 to libkea-util.so.16.0.0
+  /usr/lib/libkea-asiodns.so.1.0.0 moved to /usr/lib/libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiolink.so.7.1.0 moved to /usr/lib/libkea-asiolink.so.9.0.0
+  /usr/lib/libkea-asiolink.so.7 moved to /usr/lib/libkea-asiolink.so.9
+  /usr/lib/libkea-cc.so.8.1.4 moved to /usr/lib/libkea-cc.so.8.1.5
+  /usr/lib/libkea-database.so.5.1.0 moved to /usr/lib/libkea-database.so.6.1.0
+  /usr/lib/libkea-database.so.5 moved to /usr/lib/libkea-database.so.6
+  /usr/lib/libkea-dhcp_ddns.so.2.0.1 moved to /usr/lib/libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp_ddns.so.2 moved to /usr/lib/libkea-dhcp_ddns.so.3
+  /usr/lib/libkea-dhcp++.so.18.0.0 moved to /usr/lib/libkea-dhcp++.so.19.0.0
+  /usr/lib/libkea-dhcp++.so.18 moved to /usr/lib/libkea-dhcp++.so.19
+  /usr/lib/libkea-dhcpsrv.so.26.0.0 moved to /usr/lib/libkea-dhcpsrv.so.28.0.0
+  /usr/lib/libkea-dhcpsrv.so.26 moved to /usr/lib/libkea-dhcpsrv.so.28
+  /usr/lib/libkea-dns++.so.4.0.0 moved to /usr/lib/libkea-dns++.so.5.0.0
+  /usr/lib/libkea-dns++.so.4 moved to /usr/lib/libkea-dns++.so.5
+  /usr/lib/libkea-exceptions.so.0.2.0 moved to /usr/lib/libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so.15.0.0 moved to /usr/lib/libkea-hooks.so.16.0.0
+  /usr/lib/libkea-hooks.so.15 moved to /usr/lib/libkea-hooks.so.16
+  /usr/lib/libkea-http.so.6.1.2 moved to /usr/lib/libkea-http.so.7.1.0
+  /usr/lib/libkea-http.so.6 moved to /usr/lib/libkea-http.so.7
+  /usr/lib/libkea-log.so.6.0.0 moved to /usr/lib/libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so.10.0.0 moved to /usr/lib/libkea-process.so.11.0.0
+  /usr/lib/libkea-process.so.10 moved to /usr/lib/libkea-process.so.11
+  /usr/lib/libkea-util.so.15.0.0 moved to /usr/lib/libkea-util.so.16.0.0
+  /usr/lib/libkea-util.so.15 moved to /usr/lib/libkea-util.so.16
+  /usr/lib/libkea-cfgclient.so.10.0.0 was added
+  /usr/lib/libkea-cfgclient.so.10 was added
+  /usr/lib/libkea-cfgclient.so.9.0.0 was removed
+  /usr/lib/libkea-cfgclient.so.9 was removed
+
+--===============3178976474603569222==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-kea-upgrade-1.7.10-1.8.1.patch"
+
+From 76b571ca0f6a5b05ca3972fe5c2747384ffdcfff Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Tue, 15 Dec 2020 05:16:38 +0000
+Subject: [PATCH] kea: upgrade 1.7.10 -> 1.8.1
+
+---
+ meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.8.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/kea/{kea_1.7.10.bb => kea_1.8.1.bb} (97%)
+
+diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.8.1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/kea/kea_1.7.10.bb
+rename to meta/recipes-connectivity/kea/kea_1.8.1.bb
+index c9a11908e5..3a2ccf5c1f 100644
+--- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
++++ b/meta/recipes-connectivity/kea/kea_1.8.1.bb
+@@ -19,7 +19,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://fix_pid_keactrl.patch \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+            "
+-SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
++SRC_URI[sha256sum] = "52020cb16889484b661746d7fc4c7cd88974b1af5b7fc436eb6e69c62eb83734"
+ 
+ inherit autotools systemd update-rc.d upstream-version-is-even
+ 
+-- 
+2.17.1
+
+
+--===============3178976474603569222==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-util.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-http.so.6 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcpsrv.so.26", added "/usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-u
+ til.so.16 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-asiodns.so.1.0.1"
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-util.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-http.so.6 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcpsrv.so.26", added "/usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-u
+ til.so.16 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-asiodns.so.1.0.1"
+packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-util.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-http.so.6 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcpsrv.so.26", added "/usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libke
+ a-util.so.16 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-asiodns.so.1.0.1"
+packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-util.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-http.so.6 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcpsrv.so.26", added "/usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/li
+ bkea-util.so.16 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-asiodns.so.1.0.1"
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-hooks.so.15 /usr/lib/libkea-util.so.15 /usr/lib/libkea-log.so.6.0.0 /usr/lib/libkea-database.so.5.1.0 /usr/lib/libkea-cfgclient.so.9.0.0 /usr/lib/libkea-util.so.15.0.0 /usr/lib/libkea-dns++.so.4.0.0 /usr/lib/libkea-database.so.5 /usr/lib/libkea-dhcp++.so.18.0.0 /usr/lib/libkea-asiodns.so.1.0.0 /usr/lib/libkea-process.so.10.0.0 /usr/lib/libkea-hooks.so.15.0.0 /usr/lib/libkea-dhcp_ddns.so.2 /usr/lib/libkea-cfgclient.so.9 /usr/lib/libkea-http.so.6.1.2 /usr/lib/libkea-dhcp_ddns.so.2.0.1 /usr/lib/libkea-dhcp++.so.18 /usr/lib/libkea-dhcpsrv.so.26.0.0 /usr/lib/libkea-asiolink.so.7.1.0 /usr/lib/libkea-cc.so.8.1.4 /usr/lib/libkea-http.so.6 /usr/lib/libkea-asiolink.so.7 /usr/lib/libkea-exceptions.so.0.2.0 /usr/lib/libkea-process.so.10 /usr/lib/libkea-dns++.so.4 /usr/lib/libkea-dhcpsrv.so.26", added "/usr/lib/libkea-asiolink.so.9.0.0 /usr/lib/libkea-dhcp_ddns.so.3.0.0 /usr/lib/libkea-database.so.6.1.0 /usr/lib/libkea-util.
+ so.16 /usr/lib/libkea-exceptions.so.0.2.1 /usr/lib/libkea-cc.so.8.1.5 /usr/lib/libkea-database.so.6 /usr/lib/libkea-process.so.11.0.0 /usr/lib/libkea-http.so.7 /usr/lib/libkea-cfgclient.so.10.0.0 /usr/lib/libkea-log.so.6.0.1 /usr/lib/libkea-cfgclient.so.10 /usr/lib/libkea-dhcp++.so.19.0.0 /usr/lib/libkea-dns++.so.5.0.0 /usr/lib/libkea-hooks.so.16 /usr/lib/libkea-asiolink.so.9 /usr/lib/libkea-util.so.16.0.0 /usr/lib/libkea-dns++.so.5 /usr/lib/libkea-dhcp_ddns.so.3 /usr/lib/libkea-http.so.7.1.0 /usr/lib/libkea-hooks.so.16.0.0 /usr/lib/libkea-dhcpsrv.so.28.0.0 /usr/lib/libkea-process.so.11 /usr/lib/libkea-dhcpsrv.so.28 /usr/lib/libkea-dhcp++.so.19 /usr/lib/libkea-asiodns.so.1.0.1"
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-asiodns.so.1 changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiodns.so changed symlink target from libkea-asiodns.so.1.0.0 to libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiolink.so changed symlink target from libkea-asiolink.so.7.1.0 to libkea-asiolink.so.9.0.0
+  /usr/lib/libkea-cc.so.8 changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cc.so changed symlink target from libkea-cc.so.8.1.4 to libkea-cc.so.8.1.5
+  /usr/lib/libkea-cfgclient.so changed symlink target from libkea-cfgclient.so.9.0.0 to libkea-cfgclient.so.10.0.0
+  /usr/lib/libkea-database.so changed symlink target from libkea-database.so.5.1.0 to libkea-database.so.6.1.0
+  /usr/lib/libkea-dhcp_ddns.so changed symlink target from libkea-dhcp_ddns.so.2.0.1 to libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp++.so changed symlink target from libkea-dhcp++.so.18.0.0 to libkea-dhcp++.so.19.0.0
+  /usr/lib/libkea-dhcpsrv.so changed symlink target from libkea-dhcpsrv.so.26.0.0 to libkea-dhcpsrv.so.28.0.0
+  /usr/lib/libkea-dns++.so changed symlink target from libkea-dns++.so.4.0.0 to libkea-dns++.so.5.0.0
+  /usr/lib/libkea-exceptions.so.0 changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-exceptions.so changed symlink target from libkea-exceptions.so.0.2.0 to libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.15.0.0 to libkea-hooks.so.16.0.0
+  /usr/lib/libkea-http.so changed symlink target from libkea-http.so.6.1.2 to libkea-http.so.7.1.0
+  /usr/lib/libkea-log.so.6 changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-log.so changed symlink target from libkea-log.so.6.0.0 to libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so changed symlink target from libkea-process.so.10.0.0 to libkea-process.so.11.0.0
+  /usr/lib/libkea-util.so changed symlink target from libkea-util.so.15.0.0 to libkea-util.so.16.0.0
+  /usr/lib/libkea-asiodns.so.1.0.0 moved to /usr/lib/libkea-asiodns.so.1.0.1
+  /usr/lib/libkea-asiolink.so.7.1.0 moved to /usr/lib/libkea-asiolink.so.9.0.0
+  /usr/lib/libkea-asiolink.so.7 moved to /usr/lib/libkea-asiolink.so.9
+  /usr/lib/libkea-cc.so.8.1.4 moved to /usr/lib/libkea-cc.so.8.1.5
+  /usr/lib/libkea-database.so.5.1.0 moved to /usr/lib/libkea-database.so.6.1.0
+  /usr/lib/libkea-database.so.5 moved to /usr/lib/libkea-database.so.6
+  /usr/lib/libkea-dhcp_ddns.so.2.0.1 moved to /usr/lib/libkea-dhcp_ddns.so.3.0.0
+  /usr/lib/libkea-dhcp_ddns.so.2 moved to /usr/lib/libkea-dhcp_ddns.so.3
+  /usr/lib/libkea-dhcp++.so.18.0.0 moved to /usr/lib/libkea-dhcp++.so.19.0.0
+  /usr/lib/libkea-dhcp++.so.18 moved to /usr/lib/libkea-dhcp++.so.19
+  /usr/lib/libkea-dhcpsrv.so.26.0.0 moved to /usr/lib/libkea-dhcpsrv.so.28.0.0
+  /usr/lib/libkea-dhcpsrv.so.26 moved to /usr/lib/libkea-dhcpsrv.so.28
+  /usr/lib/libkea-dns++.so.4.0.0 moved to /usr/lib/libkea-dns++.so.5.0.0
+  /usr/lib/libkea-dns++.so.4 moved to /usr/lib/libkea-dns++.so.5
+  /usr/lib/libkea-exceptions.so.0.2.0 moved to /usr/lib/libkea-exceptions.so.0.2.1
+  /usr/lib/libkea-hooks.so.15.0.0 moved to /usr/lib/libkea-hooks.so.16.0.0
+  /usr/lib/libkea-hooks.so.15 moved to /usr/lib/libkea-hooks.so.16
+  /usr/lib/libkea-http.so.6.1.2 moved to /usr/lib/libkea-http.so.7.1.0
+  /usr/lib/libkea-http.so.6 moved to /usr/lib/libkea-http.so.7
+  /usr/lib/libkea-log.so.6.0.0 moved to /usr/lib/libkea-log.so.6.0.1
+  /usr/lib/libkea-process.so.10.0.0 moved to /usr/lib/libkea-process.so.11.0.0
+  /usr/lib/libkea-process.so.10 moved to /usr/lib/libkea-process.so.11
+  /usr/lib/libkea-util.so.15.0.0 moved to /usr/lib/libkea-util.so.16.0.0
+  /usr/lib/libkea-util.so.15 moved to /usr/lib/libkea-util.so.16
+  /usr/lib/libkea-cfgclient.so.10.0.0 was added
+  /usr/lib/libkea-cfgclient.so.10 was added
+  /usr/lib/libkea-cfgclient.so.9.0.0 was removed
+  /usr/lib/libkea-cfgclient.so.9 was removed
+
+--===============3178976474603569222==--
