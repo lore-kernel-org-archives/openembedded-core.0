@@ -1,167 +1,201 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web09.6650.1608009534484290788
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web09.7643.1608015242999914570
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Dec 2020 21:18:54 -0800
+ Mon, 14 Dec 2020 22:54:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=o8uEElVZ;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id v29so14437643pgk.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Dec 2020 21:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:references:organization:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=0xlECQJubyU6ky+lY7ASxMVx2V1IPX2mpT9Gl6XJvMo=;
-        b=o8uEElVZ+RWDso7K+mKyrg5ImTjWC4bfbA+5dHsuV5FwzG/OndUFZrg3LoAvHEk0rc
-         Xm2SLy3f3ZkczRLjIKXd9Jlvl+W4BpctqfJasxH4P+hSGKH7uqBx47x+9eLmxVzd1GL6
-         vaWvh9yR83URcNWS7LJvlf2wjMQ+8LmJYXcBJTafIRr8fAmYLTA353BHN7MCRVLOk10n
-         TfWSa/buW+6+1ENJFdkMlQZ0Wr/+144FMcSIyMKUh5eEUz+ASxp2Gm/ASPKAYkJ3nv3L
-         KLZR14HkPxDZh//YikVRpoKoOJlp3YwA8so72IjF9qlicEf2YsKwicky0vJ81jufKMvX
-         q+GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:references:organization:subject
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=0xlECQJubyU6ky+lY7ASxMVx2V1IPX2mpT9Gl6XJvMo=;
-        b=SttMa8kWOFrupncE4Q+LEnWE39gNER9txWTQkl0hCb7UIO483qnFPxaSWfjWhJzy4i
-         fHOBIh0IAe7/6BYsXNsTOQmOUizhA90rPH4i6kbCRhek99SZNZf8xOZDYwmhekkdnOns
-         6lzhEbd4Ay9Uc6vRhuq24gCUSGVRM11tBVlNuALWSinSva/tOV4Fy664IyUaenXzf8uY
-         mlIrzpaPXc5Yq5FPxDFhSlsBbqQdiwz2ebsVCxzDyCTV/E3ekImqmPt4cPVGhqHP9PbL
-         0jwgOHAwhDNcRab/FtwW43n7AJOLgVmUHlKuddtrIv6tuiTgFoDmaP26kWAhgHrijwQS
-         0Agg==
-X-Gm-Message-State: AOAM5324ftJrL8t21ZmsYBo/MjPj6uXopluvLmQ94pD1A9NUBfUE5Iej
-	4hnVi2lpQ5nV76zjtU0C4p/12LM+ujDvmw==
-X-Google-Smtp-Source: ABdhPJyB+IBZOXHL6gcQWGjuFRYFlx3vjyym/ZhPwLr1hGRFcAWvWz9MNQU25IknVOoXKpc45xxBSQ==
-X-Received: by 2002:a65:5c47:: with SMTP id v7mr27737496pgr.409.1608009533160;
-        Mon, 14 Dec 2020 21:18:53 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0:8805:68fc:996d:3100? ([2601:646:9200:4e0:8805:68fc:996d:3100])
-        by smtp.gmail.com with ESMTPSA id p15sm21816786pgl.19.2020.12.14.21.18.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Dec 2020 21:18:52 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <CAP9ODKpXfVcDjtMwUvSRi68+-BHnK9nF6B-5wFX7nzW2wi2adQ@mail.gmail.com>
- <20201214225851.yqscuyms4pwihtfy@apollo.localdomain>
- <CAP9ODKqt6mQeckiFPhTrO8b1kZvbPOWE-S27pQp5PNj09EOviQ@mail.gmail.com>
- <CAMKF1srVeApTW9Ym7-qrmTpSyttY8BG7LofAhMTBX02M4EG_dg@mail.gmail.com>
-Organization: HIMVIS LLC
-Subject: Re: [OE-core] Strange segfault on native Go binaries
-Message-ID: <04ea4495-feba-652d-9b15-d09e23c7bc03@gmail.com>
-Date: Mon, 14 Dec 2020 21:18:51 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.0
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=v6PSlxES;
+ spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: sangeeta.jain@intel.com)
+IronPort-SDR: A3+E195m9DQL0G2s4o/PTeOvAx9uDx8eByRiptmirF48BUcuTllYSaxRcWPfxJuU6UZZHUhoPO
+ uTHC7cCygKQQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9835"; a="236420511"
+X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
+   d="scan'208";a="236420511"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 22:54:01 -0800
+IronPort-SDR: P3DpeHLcru+abbKPSWWcJvPftWq+gHPdSlqlQxWeKR0sO2eUUupZg8lfUCnPXlIwDfm2dbUEai
+ ARtY17TIsb7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
+   d="scan'208";a="556575483"
+Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
+  by orsmga005.jf.intel.com with ESMTP; 14 Dec 2020 22:54:01 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 14 Dec 2020 22:54:01 -0800
+Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 14 Dec 2020 22:54:01 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 14 Dec 2020 22:54:01 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.105)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Mon, 14 Dec 2020 22:53:59 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bHVevahv8s3lp3mnjLRrGk4vULC/zd6NIRa3ITXIm9SIVrbEYMDcO0EyYK/2PhfQuEndJknhpJLtwAMaO4wfNdBqE8+EgAZZBiEEa7vwLsmDI8D/S/X7HNYLIWJSvDT6GSJx/MC/Uiy7ZmusAMjf1VQWLlbl67tbpMyF9firWjmKUrinbLw4PP798WFyGwqn7br6V7MTsLPJ6Sgi2yC7mM585wGczcVxZthrwKO1LHOyr0C3cFmGyVyzvmCKBQ61kxKzsrDfvpMszANokxm7+k7haRwpVDMUYdM08dtAaYK1kvq6e213jGyxwvXYPCZgQlGe/hxr3BstlYIQmat+LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mSw1pFvDdeRl7U6xIqaH1xFJDJ1cWGY5VdtC49EIW74=;
+ b=XFLE6GOxF/bCNL8LYG5tA7uZ0qFsVSsPLCatpfTit9/BsKK0XMPjcHOdrQ8kyt6RdOxMEW7Q09P5aJhSbc/CCG7ITrR3AmCgYbIN55YDOby0t5z02buQG/ANSjVx65vLgzweGP5+1YgTZigAFrgCj1EdRlpl+y6w++AmKvRwZSC3LFlDqvX+FZtJlEOyaQZopvAlXOffwh1anVqpr8q2TTnqg+xHRejGhMsHaxBJq6wju+RANmp37ykM2tXWSjJ+ORG74GFVw6pqnlWkibHuTVA7dCmydtM3JZEfGzWP6gr7pwoa45SupmoUd2asS02PGXHiYitbhT7kPYUOvG18ZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mSw1pFvDdeRl7U6xIqaH1xFJDJ1cWGY5VdtC49EIW74=;
+ b=v6PSlxESAgXqd4PY/vDZpEePt01ka87bKHH2J/NId0phIbQnvGE0dic2K2nN3qbetlSnJqSrz3ENMfxb4K3tD8oN3NPhPSBkbC+dz/pQfDqH3YiVL2czAzejrEfp9TcHzSj53Gq0527aH6TtK5fP6KKkOtr9XQ051GgFFU/6OHk=
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
+ by BYAPR11MB3224.namprd11.prod.outlook.com (2603:10b6:a03:77::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12; Tue, 15 Dec
+ 2020 06:53:57 +0000
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::c0d3:471b:c804:8059]) by BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::c0d3:471b:c804:8059%6]) with mapi id 15.20.3654.025; Tue, 15 Dec 2020
+ 06:53:57 +0000
+From: "Sangeeta Jain" <sangeeta.jain@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+CC: "Tummalapalli, Vineela" <vineela.tummalapalli@intel.com>, "Sangal, Apoorv"
+	<apoorv.sangal@intel.com>, "Teoh, Jay Shen" <jay.shen.teoh@intel.com>, "Chan,
+ Aaron Chun Yew" <aaron.chun.yew.chan@intel.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"sjolley.yp.pm@gmail.com" <sjolley.yp.pm@gmail.com>, "yi.zhao@windriver.com"
+	<yi.zhao@windriver.com>
+Subject: Re: [yocto] QA notification for completed autobuilder build (yocto-3.3_M1.rc2)
+Thread-Topic: [yocto] QA notification for completed autobuilder build
+ (yocto-3.3_M1.rc2)
+Thread-Index: AQHWzrA56w1gjX1yNEyk5wM3632Gy6n3wEqQ
+Date: Tue, 15 Dec 2020 06:53:56 +0000
+Message-ID: <BYAPR11MB362456FA45B6109A5A27FB89E3C60@BYAPR11MB3624.namprd11.prod.outlook.com>
+References: <20201210045112.F08ED7E084A@ubuntu1804-ty-3.yocto.io>
+In-Reply-To: <20201210045112.F08ED7E084A@ubuntu1804-ty-3.yocto.io>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=intel.com;
+x-originating-ip: [175.138.41.97]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c37b5c66-610c-472f-0114-08d8a0c631e6
+x-ms-traffictypediagnostic: BYAPR11MB3224:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR11MB32247B134044AA97A7589A38E3C60@BYAPR11MB3224.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BD3XK3KCXmIO98cj8OHt5QL8pl4S0kVSReTE7QvAQzfokUSQjhPEScITNvFD4pKlu0iX5D9+c6PptwKI0iYkCKwlrRq4AX022zTqNLCxu09FjN6o7h9EACXUpKNAPwjB0dAjeMrx3Sd8O3jyLTeDcfyiLUtV7yxftcf6CAooEGX/3Go3rVIL4o/QZEhNprtiwk6q1eAiRGbpgA/uB9ytg3jxzuB+toq+hq7+qNJtJdKhhRYQY5cesXcUFAn1akAjp9rymeR/gVFZG9E/F0C6t7f/gRuTjvjQQjDasm0rLewZr4Od+UQ19MKk0twJzOVxfU16BYcppBBtN5vDY6eVI9+d7Je1A5HpMY1uzyBfgP160Fqslx87Wa3c6+C0V9rvrN8XJn4HMhETQKdZfpCBSQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3624.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(366004)(7696005)(55236004)(110136005)(966005)(76116006)(186003)(53546011)(8936002)(52536014)(55016002)(508600001)(15650500001)(26005)(66446008)(4326008)(66946007)(66476007)(6506007)(71200400001)(83380400001)(64756008)(2906002)(66556008)(54906003)(86362001)(8676002)(9686003)(5660300002)(33656002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?MxxZBqjnc6RM/i8X/nUf5uq1Ocz5sJfKECkrrIdB4VfXiZtU5fnpiZcHnDsQ?=
+ =?us-ascii?Q?Q07A0PQ3LISJRRFjMJ54cHCDphxIYe9qwgFZ5fLQYdp0j5t6dvBeV3bM+8FY?=
+ =?us-ascii?Q?F5OCdAd3AHJUbYHSs9r+VMvVlsEgq92DsjmPCmzFt5zkhy/w0ye80YRZPSu3?=
+ =?us-ascii?Q?2xDpo6YDQPG/a/dR5yyRWuAgPblWOuIHfdJLgHBQsgwC4etrWEQ+LTr1Dp6U?=
+ =?us-ascii?Q?MVB1/+rwsQonDiWM2T1Cq+skvyTlnbuDR4+/DjNvrxCprBBlAMeEZJySWODZ?=
+ =?us-ascii?Q?3hTaAeOBpq0Zgurij8EHrOSccppNjRTXwJlKG0V0x3RVGvHKnidvK0WR7C11?=
+ =?us-ascii?Q?tba+YEbfQGTBZ9YgEUBZBEbyrSgMdUD5D3nJYgirhWWga63DBeoqcgN0ev99?=
+ =?us-ascii?Q?otWJEyALgKFNqkzXVl9F0C3ZZjA3D/3j8Lm2NkjazIlHelzZkkWJSWU72d7N?=
+ =?us-ascii?Q?dyLY+mMjQzlG2akqphvidbyaAvIuAPXwl/xzM83swhwifqcvhb+Gy+eYTQVz?=
+ =?us-ascii?Q?3TBTrlLYD50z+4u6UFUEhzQMf4yQZl5FwH5GomR7nlBXe1v0O/tUoUzGtnXR?=
+ =?us-ascii?Q?gvjN743w3dGwJLj3x6lm7F44dgtq5o2te5K1vKrm38HRm5jMg6GKMWgjXIrF?=
+ =?us-ascii?Q?50/h/4ISfMOs3YtapJgtHh/fr6rpoczNRWDEIKati2CELqOWgMciiPrNO3Al?=
+ =?us-ascii?Q?lZdj7sjZNoZzIzTX8k273Oz3eYgxuyHvzpHzvKEKSd/8N2xb2ZSJZhCvAb9o?=
+ =?us-ascii?Q?GYRQGibyx5eSZKM8dsvT4Yr3rCbjyNH8/2zWdzLIkR9c/j6q/PNKX7AEAm5+?=
+ =?us-ascii?Q?rUlO3YLSAneonNmuf3/mm1J6yn7tVfXMPjOStB1gGN3PxCvqIYZznzTKh0qp?=
+ =?us-ascii?Q?DULIQL24pyeyV0f1qVZZ6ZS6nAaQP1ttgX3O0VW1pG4sD2UnLsk3+5AhdlFh?=
+ =?us-ascii?Q?rlS3Gcjl+IhHFZKSxGcV/snU0/Ci0bPQaGOJAZCVwfI=3D?=
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srVeApTW9Ym7-qrmTpSyttY8BG7LofAhMTBX02M4EG_dg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3624.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c37b5c66-610c-472f-0114-08d8a0c631e6
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Dec 2020 06:53:57.1702
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XOFzjWFhqrFZhJlEriyCeszHtxmnPWxP2D1PvYPfy601vQ88uEPzsxnoHAN0R/f1l4v+hEaFx+eTQsnMaC/lpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3224
+Return-Path: sangeeta.jain@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+Hello All,
+=20
+This is the full report for yocto-3.3_M1.rc2: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
 
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No new defects are found.
+No high milestone defects.
+ =20
+Bugs verified:
 
-On 12/14/20 4:12 PM, Khem Raj wrote:
-> On Mon, Dec 14, 2020 at 3:50 PM Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>
->> Em seg., 14 de dez. de 2020 às 19:59, Khem Raj <raj.khem@gmail.com> escreveu:
->>> On Sat, Dec 12, 2020 at 08:52:34PM -0300, Otavio Salvador wrote:
->>>> Hello all,
->>>>
->>>> I am trying to debug a strange issue on native Go binaries. We're
->>>> seeing it on 'glide' for example.
->>>>
->>>> If I build 'glide-native' and I go to its tmp/work/.../image/bin/glide
->>>> it works just fine. For example, running it we see the expected error
->>>> as I am running inside a clean environment without any extra tools:
->>>>
->>>> otavio@yocto-env ~/.../build %
->>>> ./tmp/work/x86_64-linux/glide-native/0.13.3-r0/build/bin/glide
->>>> [ERROR] Error getting version: exec: "go": executable file not found in $PATH.
->>>>
->>>> Now, if we run it from the sysroot-native, it segfaults:
->>>>
->>>> otavio@yocto-env ~/.../build %
->>>> ./tmp/work/cortexa9hf-neon-oel-linux-gnueabi/updatehub/1.1.1-r0/recipe-sysroot-native/usr/bin/glide
->>>> [1]    26085 segmentation fault (core dumped)
->>>>
->>>> And this segfault is also happening inside the build. I ran the
->>>> readelf on them and it seems to have been modified to use the
->>>> uninative libc loader but I am in doubt how if this is the culprit.
->>>> Can someone shed any light on this?
->>>>
->>>
->>> It looks like a known regression in 1.15.5
->>>
->>> There was a linker regression which crept into go compiler in 1.15.5
->>> which was immediately patched and we also backported that to OE-core
->>> however, recently we have switched to using go-binary-native to
->>> bootstrap the toolchain which means the bug was still not plugged in the
->>> native version even though we patched our go versions, we cant help the
->>> prebuilts.
->>>
->>> Luckily we now have .6 release which came out last week, which means we
->>> can upgrade to it and that should take care of the segfault, I have
->>> improvised on the patch which was sent for upgrades and sent a v2 [1]
->>>
->>> Please try it out and let me know.
->>>
->>> [1] https://lists.openembedded.org/g/openembedded-core/topic/patch_v2_go_update_1_15_5/78964072?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,78964072
->>
->> I tried it but it did not solve the problem. The behavior is the same
->> for this specific issue. The cgo issue documented was indeed fixed but
->> the relocation one is still happening :(
-> 
-> The issue seems to be in stripped glide binary in sysroot but normal
-> unstripped binary is ok. So the issue is indeed orthogonal. I am
-> looking into what changes during strip
-> step here
-> 
+BUG id:13997 - [QA 3.2 M2 RC1] failure in ptest : libinput.libinput-test-su=
+ite
+   Verified Fixed.
 
-The problem seems to obscure editing of the glide binary which is 
-resulting in a single byte in ELF header being modified between 
-do_install and do_populate_sysroot
+Existing bugs observed in this release:
 
-easy reproducer is
+BUG id:14051 - [QA 3.2 M3 RC1] failure in ptest : valgrind.drd and valgrind=
+.helgrind
+	1 ptest passed, 2 ptest failed
+       =20
+  =20
+ =20
+=3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13997
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14051
 
-bitbake -cinstall glide-native
+Thanks,
+Sangeeta
 
-then make a copy of glide installed in image/ dir ( where do_install 
-puts it ) then run
-
-bitbake -cpopulate_sysroot glide-native
-
-% cmp 
-../../image/mnt/b/yoe/master/build/tmp/work/x86_64-linux/glide-native/0.13.3-r0/recipe-sysroot-native/usr/bin/glide 
-glide
-
-so they are identical.
-
-and now compare the installed binary and the saved copy.
-
-% cmp 
-../../image/mnt/b/yoe/master/build/tmp/work/x86_64-linux/glide-native/0.13.3-r0/recipe-sysroot-native/usr/bin/glide 
-glide
-../../image/mnt/b/yoe/master/build/tmp/work/x86_64-linux/glide-native/0.13.3-r0/recipe-sysroot-native/usr/bin/glide 
-glide differ: byte 57, line 1
-
-it seems installed binary is fine until do_install but then gets edited 
-during populate_sysroot
-
-I have shunted many functions, including patchelf operations and the 
-binary still gets modified in place
-
-I wonder what other operations could be put under scanner here, Let me 
-know if anyone has ideas..
-
-
-
->>
->>
->> --
->> Otavio Salvador                             O.S. Systems
->> http://www.ossystems.com.br        http://code.ossystems.com.br
->> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+> -----Original Message-----
+> From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On Beha=
+lf
+> Of Pokybuild User
+> Sent: Thursday, 10 December, 2020 12:51 PM
+> To: yocto@lists.yoctoproject.org
+> Cc: qa-build-notification@lists.yoctoproject.org
+> Subject: [yocto] QA notification for completed autobuilder build (yocto-
+> 3.3_M1.rc2)
+>=20
+>=20
+> A build flagged for QA (yocto-3.3_M1.rc2) was completed on the autobuilde=
+r
+> and is available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.3_M1.rc2
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: 5775d9463ecedf8681cb6c919b240b80fe70f5a3
+> meta-arm: 2a530c34199e9aaff2bab1ac53d81f112f34647f
+> meta-gplv2: 6e8e969590a22a729db1ff342de57f2fd5d02d43
+> meta-intel: 7d79beb5093da8adf0f9b106a33d8e0904a50a48
+> meta-kernel: e5a0723a3f3dadd880893bccf9bff88a9b46843d
+> meta-mingw: 352d8b0aa3c7bbd5060a4cc2ebe7c0e964de4879
+> oecore: a55b01a3a1faf9a52d7edad074c76327f637aaa2
+> poky: f36484e88d21346357bd1fa1bef6fdcc42bed54a
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
