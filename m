@@ -1,124 +1,170 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web12.873.1608142045511913899
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.30.1608142582540215477
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 10:07:25 -0800
+ Wed, 16 Dec 2020 10:16:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NpDX7stn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id q18so16568385wrn.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 10:07:25 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=oJlIHxJv;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.51, mailfrom: pbarker@konsulko.com)
+Received: by mail-wm1-f51.google.com with SMTP id 190so3263376wmz.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 10:16:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=AC9PrxUSx6zYCoDHDuncIAU25U11sZxA7jZvQckcXu8=;
-        b=NpDX7stn1yxz4mr2Mp4sYIfj4GeQxCXNGF/uXw2pFSiciNnRHaHRSfREnnNdh2ngYA
-         BUaT5JROdXsrBA2n1nOua0WctjXEPo46aU8drWhCJccWdQyKEuvfog6xPqMbIQOSM4A6
-         446qQv9OJVTTjSXeIKS8PeG8DxnQdc4gFO3SM=
+        d=konsulko.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uWPdGuJyoINw/UPkw6sJ9kCk29NwY8xFy/M7ax0eJiQ=;
+        b=oJlIHxJv/Bjha1IaY9GBUeccGjbvpuWZqPBpFsh3J5ydpFFsP1QnnGdVp5EJ5Uiq/1
+         RWd7978v1qoq+yRKO83IoEbTYLjhisv0D2P0jZwTkpBOA9vgHCm2v2vEQZrX0g9ygKq9
+         X8TEiaFnnxf+qkJXELUKZncUd181tY6U989p4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AC9PrxUSx6zYCoDHDuncIAU25U11sZxA7jZvQckcXu8=;
-        b=nZwL4UFU1ZFIGflquqhBxOsVIiCleJ2CNMzGJvWtzTCORQSWeTRfeLY/+VJ4D0IMfl
-         LOUZQISbGwxmhaSn7SHoG87DIZ9OkUxe9iHVokqccoZcx8KC4EUbpVaAqOqtbtv0+YVo
-         axNyaEzq/ia+pSbBIrwJJTRa3DMhtI1pRgtOKru8yxP8tzkwfTaCQ8h9UnUUtzEygkQy
-         aE3ow5Z7quOn8JxiE3ZpDOsz13cQ61G/eWe5GNPCgjEQz+XcND/xTT17xlK+2VRESbk7
-         y0WYdB79Ely/vTyfAQb6fjV1tvD+fyxUcVigGywp/hIQgv6gF2yoCZV/tmiKk48JaONk
-         +WrA==
-X-Gm-Message-State: AOAM532S5DAoLQ+DyYNox57jl3EPknuIAgCWNCsD4gYiyPwomGZs+STO
-	RqJxG8uCBHlugVa0Z2nbtFJWDQ==
-X-Google-Smtp-Source: ABdhPJwFzof3WkNa8+K9pBG5GPHfdRWabLeF6saN3DXVL42AQNr0mn4INKhQNZEU4UfXY7TK1FSAAg==
-X-Received: by 2002:adf:8145:: with SMTP id 63mr7994739wrm.8.1608142043987;
-        Wed, 16 Dec 2020 10:07:23 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:15e3:7b39:fc6b:1133])
-        by smtp.gmail.com with ESMTPSA id t1sm4439168wro.27.2020.12.16.10.07.23
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=uWPdGuJyoINw/UPkw6sJ9kCk29NwY8xFy/M7ax0eJiQ=;
+        b=U2S9KKgA41Vv6dkySwU7Crqz8NX/LKQKiL9u+Lr1z0lVfM07Z8Aa92fuKUv1Oy5kxe
+         D7ozxJ9P31rxU1vGVe27fuAdIbcupeSj9zsUiUt42/dQJNlinnqe4gMl8yR3kM2wS3UE
+         taSFnkhIh5HyG9ykgdD0JOcdJeWMErT2R4IrRbBt1QcjemXUw0M1R4WgeHVB4USr+h85
+         mG8zrzXwangFaJFWQ7xlWHFZWlY8Pk8XracavlXoM0FuXXMVHz0IIX1xjaorx+nP6xWN
+         fNOjw97BVoUE7+zOYw96GucXtvxRWu9bwOtv8WstxHaXfltCIQLFZX+VYK3gF9dStlnd
+         8ilA==
+X-Gm-Message-State: AOAM531VrtASGB4EJ1avDM0s1GhzTdY4gYXYUUFBu/tGHn9UfAQmFirp
+	9QlrUdQPjhsS1FRE+H/08tC2R4IAcviQfQ==
+X-Google-Smtp-Source: ABdhPJzCRxbM6+nMFtNnYtGl2jz0ilCrp9SdYFeWOtHrh9JI0IjnaTcb/Q6VepCUPtRzP8j55wKlNw==
+X-Received: by 2002:a7b:c3d1:: with SMTP id t17mr4500726wmj.11.1608142580614;
+        Wed, 16 Dec 2020 10:16:20 -0800 (PST)
+Return-Path: <pbarker@konsulko.com>
+Received: from alpha.home.b5net.uk (cpc76148-clif11-2-0-cust524.12-4.cable.virginm.net. [82.1.54.13])
+        by smtp.gmail.com with ESMTPSA id c1sm3603496wml.8.2020.12.16.10.16.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Dec 2020 10:07:23 -0800 (PST)
-Message-ID: <7d16bf791179cc0e90fd0172e984eeeacb065112.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 1/5] systemd: update 246 -> 247
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Luca Bocassi <luca.boccassi@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 16 Dec 2020 18:07:21 +0000
-In-Reply-To: <20201214123457.122655-1-luca.boccassi@gmail.com>
-References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
-	 <20201214123457.122655-1-luca.boccassi@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Wed, 16 Dec 2020 10:16:20 -0800 (PST)
+From: "Paul Barker" <pbarker@konsulko.com>
+To: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Paul Barker <pbarker@konsulko.com>
+Subject: [PATCH] bitbake.conf: Prevent pyc file generation in pseudo context
+Date: Wed, 16 Dec 2020 18:16:16 +0000
+Message-Id: <20201216181616.32727-1-pbarker@konsulko.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-12-14 at 12:34 +0000, Luca Bocassi wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> Update systemd to v247.1.
-> Add rule for new oomd dbus conf and for new pam.d
-> conf directory in /usr/lib.
-> Drop selinux-hook-handling-to-enumerate-nexthop.patch,
-> merged upstream.
-> Backport 0001-meson-set-cxx-variable-before-using-it.patch
-> from v247-stable to fix builds without C++.
-> Refresh musl patches.
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
-> NOTE: the musl build has only been build-tested, and only on x86_64.
-> The glibc build has been built and runtime-tested on x86_64 and
-> arm64.
+This also effectively reverts commit b6d30c21b0:
+    bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
 
-[sorry, hit send early when writing]
+The contents of ${COREBASE}/meta were ignored as pyc files could be
+generated for the contents of the lib subdirectory if python modules
+were imported within a pseudo context. However this doesn't protect us
+from pyc files being generated in the lib directories for other layers.
+It's far better to tell python not to produce pyc files when running
+under pseudo (by setting the PYTHONDONTWRITEBYTECODE variable) as this
+will cover any location where pyc files could possibly be created. This
+variable is set in FAKEROOTBASEENV so that it applies to the
+bitbake-worker instance for fakeroot tasks, preventing pyc files from
+being generated for imports in python tasks themselves.
 
-Unfortunately there is still something not quite right in this patchset
-as it failed again during testing. There are a few different problems:
+Also add a test case to ensure that pyc files are not created in tasks
+which are executed under pseudo.
 
-meta-intel in systemd-boot:
+Signed-off-by: Paul Barker <pbarker@konsulko.com>
+---
+ meta-selftest/lib/pseudo_pyc_test1.py         |  1 +
+ meta-selftest/lib/pseudo_pyc_test2.py         |  1 +
+ .../pseudo-pyc-test/pseudo-pyc-test.bb        | 15 +++++++++++
+ meta/conf/bitbake.conf                        |  4 +--
+ meta/lib/oeqa/selftest/cases/pseudo.py        | 27 +++++++++++++++++++
+ 5 files changed, 46 insertions(+), 2 deletions(-)
+ create mode 100644 meta-selftest/lib/pseudo_pyc_test1.py
+ create mode 100644 meta-selftest/lib/pseudo_pyc_test2.py
+ create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/pseudo.py
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/1016
-
-a reproducibility issue in oe-selftest:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1651
-(which did happen last time as well on centos but I don't think was
-reported on the list, sorry)
-
-These urls may help understand why its not reproducible:
-
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201215-mhq8wl33/packages/diff-html/
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201215-mhq8wl33/
-
-(looks like the uid of messagebus is changing at a really quick glance)
-
-and a build issue in world-lsb:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/1189
-
-At the top of the logs you can see the configuration that is being used
-for a given build, so for example in the last one, the key difference
-to some of the other builds might be any one of:
-
-DISTRO = "poky-altcfg"
-DISTRO_FEATURES_append = ' api-documentation'
-require conf/multilib.conf
-MULTILIBS = 'multilib:lib32'
-DEFAULTTUNE_virtclass-multilib-lib32 = 'x86'
-QEMU_USE_KVM = 'True'
-INHERIT += 'testimage'
-SDK_EXT_TYPE = 'minimal'
-SDK_INCLUDE_TOOLCHAIN = '1'
-
-but given its a pam error, I'd strongly suspect the DISTRO = "poky-
-altcfg" would be the likely trigger.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
-
+diff --git a/meta-selftest/lib/pseudo_pyc_test1.py b/meta-selftest/lib/pseudo_pyc_test1.py
+new file mode 100644
+index 0000000000..b59abdd536
+--- /dev/null
++++ b/meta-selftest/lib/pseudo_pyc_test1.py
+@@ -0,0 +1 @@
++STRING = "pseudo_pyc_test1"
+diff --git a/meta-selftest/lib/pseudo_pyc_test2.py b/meta-selftest/lib/pseudo_pyc_test2.py
+new file mode 100644
+index 0000000000..fb67a978e0
+--- /dev/null
++++ b/meta-selftest/lib/pseudo_pyc_test2.py
+@@ -0,0 +1 @@
++STRING = "pseudo_pyc_test2"
+diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+new file mode 100644
+index 0000000000..12dc91a8f3
+--- /dev/null
++++ b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+@@ -0,0 +1,15 @@
++SUMMARY = "pseudo env test"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++INHIBIT_DEFAULT_DEPS = "1"
++
++python do_compile() {
++    import pseudo_pyc_test1
++    print(pseudo_pyc_test1.STRING)
++}
++
++python do_install() {
++    import pseudo_pyc_test2
++    print(pseudo_pyc_test2.STRING)
++}
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 0d38eac094..4ce224a90c 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -685,13 +685,13 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE_DIR}"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+ 
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+ #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+-FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1"
++FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
+ FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+ FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=0"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+diff --git a/meta/lib/oeqa/selftest/cases/pseudo.py b/meta/lib/oeqa/selftest/cases/pseudo.py
+new file mode 100644
+index 0000000000..33593d5ce9
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/pseudo.py
+@@ -0,0 +1,27 @@
++#
++# SPDX-License-Identifier: MIT
++#
++
++import glob
++import os
++import shutil
++from oeqa.utils.commands import bitbake, get_test_layer
++from oeqa.selftest.case import OESelftestTestCase
++
++class Pseudo(OESelftestTestCase):
++
++    def test_pseudo_pyc_creation(self):
++        self.write_config("")
++
++        metaselftestpath = get_test_layer()
++        pycache_path = os.path.join(metaselftestpath, 'lib/__pycache__')
++        if os.path.exists(pycache_path):
++            shutil.rmtree(pycache_path)
++
++        bitbake('pseudo-pyc-test -c install')
++
++        test1_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test1.*.pyc')))
++        self.assertTrue(test1_pyc_present, 'test1 pyc file missing, should be created outside of pseudo context.')
++
++        test2_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test2.*.pyc')))
++        self.assertFalse(test2_pyc_present, 'test2 pyc file present, should not be created in pseudo context.')
+-- 
+2.26.2
 
