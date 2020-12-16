@@ -1,43 +1,47 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web08.11571.1608138569169118649
+ by mx.groups.io with SMTP id smtpd.web08.107.1608139117590169218
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 09:09:29 -0800
+ Wed, 16 Dec 2020 09:18:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=c0ICP/2E;
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=nKTE1DNZ;
  spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
-Subject: Re: [OE-core] [meta-oe][PATCH v3] iproute2: split ip to individual package
+Subject: Re: [OE-core] [meta-oe][PATCH v5] sudo: split into smaller tools package
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1608138568;
-	bh=FtjFphtuGW1fZnKmqY9uCyU/iPW7jjTFR0E6XoGb25c=;
+	s=k20201202; t=1608139116;
+	bh=HSVKMXbw1zk+OONl3uKl88LYH2tlHnNbvU8GLUILk3o=;
 	h=To:References:From:Date:In-Reply-To:From;
-	b=c0ICP/2EdS1Pgvxb6Jj51Q+ZktGEv89x8W5IuC3KwO4KiNTZoLkF10mdn3sMMHuh/
-	 LyFnpYe/Qfp+fQbgZpvAi/EaqJTbPrJBcohvdwl1als/0eR7qPDiKt4DEeEJFXu0xf
-	 Yxt5oZxLdg8/3jUMqzqAvi9CjgzCqrDV1oiF0DuO2hyoTJTd13G+SP0w0bedFFIpPn
-	 czUZEo6bskLRwI+4+t6HAWLbXYSaUe6/qJqYG43FipWBLP6+Ocr1palmVnj233y5xb
-	 L2+RZ2kzf21Axw5/KcfdRZHlQjPoiquiAzYmBh+K1MNeoVm3zkZ5U4zDieXeKIbcwQ
-	 HDl6SipgJM2FA==
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	b=nKTE1DNZzPF+bh0DrVQj9rK8nm7sVogHD1qd9epjoNdp7SqMhKOcYJpRh94aGmHKt
+	 2LwKfMboSnpgyQbicYLT4Bxe4aY3AsMSseeiFpl43zI9WK7v5C9wW2Ic5vshKPw0S5
+	 +n/xSd4fBLDYa9HGO1wQHKDgutiE2pUhwz/LI2iNB9BNsK1wBbycpyl1hgy0To8fej
+	 ru7h/W3J4ykWNpqqjqB9oQMgIm6c/NMAvEy9yCHQx7KiUxcEy536x0/c3kOQfKnNGv
+	 soUEBEx5ktsAQRgYRS/xdFbHbDjGDAwkl/kMcvShs4IYG/XlvrbJ392Qb5VkCIu1fN
+	 Gok+De5vCkzLw==
+To: Konrad Weihmann <kweihmann@outlook.com>,
  openembedded-core@lists.openembedded.org
-References: <20201216164510.9823-1-okaya@kernel.org>
- <497c9433b74b13fc96510739deb4b41d2ea2fd5e.camel@linuxfoundation.org>
+References: <20201216165609.28794-1-okaya@kernel.org>
+ <AM9PR09MB47392E6E695982CFAFC326B8A8C50@AM9PR09MB4739.eurprd09.prod.outlook.com>
 From: "Sinan Kaya" <okaya@kernel.org>
-Message-ID: <284464d4-6bc6-f70a-4c5e-630cc9fc13b0@kernel.org>
-Date: Wed, 16 Dec 2020 12:09:27 -0500
+Message-ID: <b39b1794-8291-02f8-a43d-a0a97a177daa@kernel.org>
+Date: Wed, 16 Dec 2020 12:18:35 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <497c9433b74b13fc96510739deb4b41d2ea2fd5e.camel@linuxfoundation.org>
+In-Reply-To: <AM9PR09MB47392E6E695982CFAFC326B8A8C50@AM9PR09MB4739.eurprd09.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 12/16/2020 12:00 PM, Richard Purdie wrote:
-> I accept there is a case for splitting out ip, the patch now splits out
-> every binary though? That isn't what the commit message says...
+On 12/16/2020 12:01 PM, Konrad Weihmann wrote:
+>> +PACKAGES += "${SUDO_PACKAGES}"
+> 
+> I think needs to be PACKAGE_BEFORE_PN = "${SUDO_PACKAGES}"
+> otherwise everything will end up in ${PN} as the list is appended here
 
-I thought of going all the way to split everything since I'm here.
+OK, I guess this is what I didn't know. This is unusual keyword that I
+have never used/seen before.
 
-Is your preference to keep ip or have individual packages for the
-remaining ?
+All other examples I looked had FILES="" and split the package into
+smaller subpackages.
 
-I can adjust commit and name accordingly.
+I can rework the change to just have sudo as a small package with
+PACKAGE_BEFORE_PN keyword.
