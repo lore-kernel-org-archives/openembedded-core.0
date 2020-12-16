@@ -1,82 +1,69 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web11.6326.1608120717821208246
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by mx.groups.io with SMTP id smtpd.web09.10500.1608134999706243559
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 04:11:58 -0800
+ Wed, 16 Dec 2020 08:09:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=iHmRAsLw;
- spf=pass (domain: burtonini.com, ip: 209.85.167.52, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f52.google.com with SMTP id x20so28210327lfe.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 04:11:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2Ry2sqzQ9kadF4evoWM0rFMhc9jvgbRZn9TpM3FcV6I=;
-        b=iHmRAsLw+8aJzc7d6cOTfD2/J9Q8kyjJGuHJGvL5BScNa9RZOUpLDeXZWvGXgP8NHd
-         JWBT7J8DdJttdgmN8v+7aNtJOGTNxM4Z4SKfhi2IrJCf/mo5+1sIexPqQgW7FoevxdDw
-         F77RSB0hurXtleda0FhB6izX+NXHd4bClcl+HB3IllIip9obZ39K/liyaTzjRq7YqEAq
-         NVPo9SdMyyGdMx/AqxjQ4hKRIbnpIBG7WWNJ1l+fJ3dV+IX4+hycgsoLG4oQJ6cWwTeS
-         SojnIhy6zRyT2S2RqSbfT1SVxczpJwa6aOYp2rMZTXKFghMGIs7DS0z77RSJpDnveKq2
-         TzFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2Ry2sqzQ9kadF4evoWM0rFMhc9jvgbRZn9TpM3FcV6I=;
-        b=Ypf3Mil1nqEmQ6AkQbl0RcRr8kUE1tkmgqe7aKCYGxqrEVQzUuMfzAyar63pDeMIt5
-         SsHhlOzF58RAvLzXmhwfMVmoPTa30krmeHx18h9eX/uBng9CxpRNO8Gs4MVurxlDGFvt
-         QU3ZtiQ0ORUtvRr+o+1npMAl2YfIUd5fmeLQgzOl6yA77vxCgL0sQU77MVV3JNmEsaqn
-         EFQnt37QjiXsKVfdffkKFM6JpnCyt4sr5pvfxOAWpQDT5fp1gx479FbJMeS6CEtOnG6j
-         9FVGThLXeUJktYdzLvqhvrDgRe3ncyDgVwwuTHTu39hEFHnqwvMycA7w8LTArOYQhrlv
-         MXNA==
-X-Gm-Message-State: AOAM533uYrQfl7aORjiNEKAIspVo8lr2qxWT5Jyk3muCFuSIzo8nxwmJ
-	bYt4dmVF1fMZVO2SObF97qsz5nE/DZhR+RzWvZuBNQ==
-X-Google-Smtp-Source: ABdhPJzsze6ayo/6G+v8O6VYkehYuiaSHhdYyGwfmu40IImmRMSxy16Ri4Grw1oMPfnw85KV/lLuqNfDxvxuECh297k=
-X-Received: by 2002:a2e:6a14:: with SMTP id f20mr1186583ljc.6.1608120715653;
- Wed, 16 Dec 2020 04:11:55 -0800 (PST)
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=MAdVzwv+;
+ spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
+Subject: Re: [OE-core] [meta-oe][PATCH v2] iproute2: split ip to individual package
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1608134998;
+	bh=OfeBfqebtLSyDEltXAoLFy8IzIERSKDSEPHOP8cXvxc=;
+	h=To:References:From:Date:In-Reply-To:From;
+	b=MAdVzwv+EcgD7eqJXqSrWemdpdla/PhPlaoiab+ACQ0WredWO3fWbkIcNYXvdlHim
+	 4sLbLz7sVYYhXt4VXmegp+a5sH9mP6i1hYSvXYxZ/Cq9cDqLPu4iedAt0pox2siiO5
+	 crKTgpZds1U5FN7Duc70QAZwykhIDQc3haju6+WI3biSEsEo0Ol6k7dSIkdsY0DLjm
+	 9MdYKq4vGgh3kKOAiw56PafNORYa9SGEltza/Sm1KxAVWMbHMOKysUdTDjIkLIHdJt
+	 gMX2UBEpfyxCJHFmNM6G0YqDsUbMJs046SFA4zFs5f2Tn92OTKCLQLebZ8RVUIVqvh
+	 U1+9rT4eB4wkA==
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20201216024141.22439-1-okaya@kernel.org>
+ <fdfd532cceb2c81874e4a0ac6a9a27014a14808a.camel@linuxfoundation.org>
+From: "Sinan Kaya" <okaya@kernel.org>
+Message-ID: <24b84835-d086-7aec-2f5b-af1313039de6@kernel.org>
+Date: Wed, 16 Dec 2020 11:09:57 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-References: <e4085caa6fe95c5d09a23a850fe8748c93323af4.camel@iki.fi>
-In-Reply-To: <e4085caa6fe95c5d09a23a850fe8748c93323af4.camel@iki.fi>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Wed, 16 Dec 2020 12:11:44 +0000
-Message-ID: <CAAnfSTu0t+OOFy6gakZ6UiKUhxf862W5t89B_tHd=Byko=4efQ@mail.gmail.com>
-Subject: Re: [OE-core] I wish to drop my recipe maintainer duties
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <fdfd532cceb2c81874e4a0ac6a9a27014a14808a.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Thanks for all the work over the years, it's been much appreciated!
-
-Cheers,
-Ross
-
-On Mon, 14 Dec 2020 at 19:07, Tanu Kaskinen <tanuk@iki.fi> wrote:
->
-> Hello,
->
-> I haven't lately had time to do OE work, or maybe the lack of time is
-> more rooted in lack of motivation since I don't objectively have a very
-> busy life, but in any case, I think it's time for me to step down as a
-> recipe maintainer. When in 2015 I transitioned from being paid for the
-> work to a volunteer, I had plans to use OE in hobby projects, but those
-> projects haven't materialized, so I don't really have any connection to
-> OE other than being a recipe maintainer. My experience of the community
-> has been very positive, it has always been nice to work with you, thank
-> you for that!
->
-> Should I post a maintainers.inc patch that changes all my recipes to to
-> unassigned, or should they or some of them be directly transferred to
-> someone else?
->
-> I will still post some patches for pulseaudio that convert the recipe
-> from autotools to meson. I've had them ready since the last feature
-> freeze, and I intended to submit them today, but I found out (as I read
-> the mailing list for the first time in three months) that the recipe
-> has had a major version update, so I'll have to redo some tests first.
->
-> --
-> Tanu
->
->
+On 12/16/2020 6:50 AM, Richard Purdie wrote:
+>> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+>> @@ -46,10 +46,11 @@ do_install () {
+>>  # The .so files in iproute2-tc are modules, not traditional
+>> libraries
+>>  INSANE_SKIP_${PN}-tc = "dev-so"
+>>  
+>> -PACKAGES =+ "\
+>> +IPROUTE2_PACKAGES =+ "\
+>>      ${PN}-devlink \
+>>      ${PN}-genl \
+>>      ${PN}-ifstat \
+>> +    ${PN}-ip \
+>>      ${PN}-lnstat \
+>>      ${PN}-nstat \
+>>      ${PN}-rtacct \
+>> @@ -58,12 +59,17 @@ PACKAGES =+ "\
+>>      ${PN}-tipc \
+>>  "
+>>
+>> +PACKAGES += "${IPROUTE2_PACKAGES}"
+>> +PROVIDES += "${IPROUTE2_PACKAGES}"
+> This doesn't look correct. Why do we need to add all the individual
+> package splits to PROVIDES?
 > 
->
+
+I want to add iproute2-ip into my IMAGE_INSTALL and not take the rest
+of the iproute2-$foo packages. If I don't add PROVIDES, build stage
+fails saying nobody provides iproute2-ip.
+
+> 
+> or is there some other reason for this? This is basically the issue
+> with some of the other package splits too, its not using the build time
+> verses runtime namespaces correctly.
+
+If I misunderstood something or am not doing it right, let me know.
