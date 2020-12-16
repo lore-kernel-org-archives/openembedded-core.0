@@ -1,111 +1,129 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web12.999.1608145234376278386
+Received: from mx0b-00010702.pphosted.com (mx0b-00010702.pphosted.com [148.163.158.57])
+ by mx.groups.io with SMTP id smtpd.web08.2211.1608148895499926665
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 11:00:34 -0800
+ Wed, 16 Dec 2020 12:01:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BNMdmMxc;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id z9so18166518qtn.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 11:00:34 -0800 (PST)
+ dkim=pass header.i=@nio365.onmicrosoft.com header.s=selector2-nio365-onmicrosoft-com header.b=YSdcXsrb;
+ spf=pass (domain: ni.com, ip: 148.163.158.57, mailfrom: prvs=5619220c10=alex.stewart@ni.com)
+Received: from pps.filterd (m0098779.ppops.net [127.0.0.1])
+	by mx0b-00010702.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 0BGJwC93032530;
+	Wed, 16 Dec 2020 14:01:34 -0600
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2168.outbound.protection.outlook.com [104.47.59.168])
+	by mx0b-00010702.pphosted.com with ESMTP id 35cvjaq89x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Dec 2020 14:01:34 -0600
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jKWua2zwpEvUn22Pfa3NNfvCHXFqJ2FEdvJ1bXkcAsj6H0MaFzEcDjs31e1QvMKeW5U9LAletetjuhMGVZmd0y1mCWX5PTe4nB7xG4F6TlercgySVM4GXq1LK83/G3zpEZ3TJXQvNp2SXnPjCRpgCh7N9+0othHaxbY122CESgVqnGAwaF3StJf56vZty4ydzBt60YpHfKpdCvuxEyiYemtWeBjVqbElKsOAZuqxTVqG+8T4lSAW4Swh04WPsEPh9gPezM/uW1DgtcYh37gymiw5mVmEAd3tDnN6a2m0CZSYBZuhTIC/nVCU2+LkGC5niqc+BbIC7Fw/VhNyjYSbFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V5ZYa2viv2rA6JbeLPmKO3ldiwBPYFDnQTDK27ZYThg=;
+ b=A0PVb+R974bVlB8cSmNBVCAvJSOi4w2p/z2uh05XdxSxtdfPzjmFU433Q/CGwC03C4xBGwYh9z5hQWJ0hkm47f8jAqsmLbl0idgqOVlwUq0yaW0zL7JoUrT0EuB0FrDMpCkaDtCfonccWfWL3zb3Djy+e5ROOgTN7nhscMNe8QxiBmoLs0+Zf3Ic5uI6oWsgKlRsyQDAcCS6157gc1G1iLPx3A/SClUpygRP2N1SFDM3CgxNEmxPqPiEsrh9PZgwRYOPAKn4dDBdvFauPx8WDMJiO7bbKAkYYFZ7RH99fOdDhBz0JQaY0oyst4EZy8RNg0f/tOImlu9FmFST81ufEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ni.com; dmarc=pass action=none header.from=ni.com; dkim=pass
+ header.d=ni.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KnTenDqhHuBtuNcKuQJwdwKglV8rXtHfSlUUPRLcgL4=;
-        b=BNMdmMxciADP/Rdvx54bdZ5nz3Yf49IBAe2I/pE1CUOmzCZ019TfbMk96paxEn9Pa7
-         P2nvxy0rLTdbQEzEy/WGAB+hwyuW1yt4sVud8QvO57FduRDB+YLEW1lY3T+V5XdfjE7+
-         3/uDRdaUl6A+8UrgdDJvNkfmplXmMa4mtM50qlIGKsPNRiiz5EHHEDBG6C1V6kzMCg7d
-         IkwzDpmNERwHV/s3iagCTNgNNHJBQMk0SaZM7HE51Hkb+qfqZ2QwLKloJad6BqreUw4g
-         koMzPyPRJKFSZaSU53YXc8CmUNKOxez973imKM60aq3hgt0xzI5GCZH31Hnpy1dRS6W/
-         th5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KnTenDqhHuBtuNcKuQJwdwKglV8rXtHfSlUUPRLcgL4=;
-        b=g0iWTp1WDHCDDYYZU8MXCiHQCDZuI3deaEDsG/7OAv5BmCcjxpSqxCFAGOWhzx6sAG
-         2rTrbPmpxvB0ptapdKRE+J3qos4WMtL+CG0ZyB5pAouxjV2WrWb7vaQJGN0MQDWNxnn0
-         QoY/bY/VvAS5SHOIiMI84c62+UIAYZvr+vlwwaXpJ6Ntas0sr9cYk8HAuF9sKKC3gMOe
-         /cOkYcHmyBlmC+C7PQ3zNUvDgMhgn65kvgv45VBIIoYjgiUdxwZrGZQq5EhqWG9wMa4h
-         llt8cA0trfeOv/zeDd9GTVdl/eq3l8xh89DiQD58QtbenyT0iJ2kY+mB9bW7LYyXF0J5
-         hxeQ==
-X-Gm-Message-State: AOAM532FThCu8JZjS4IsiiwlL82txY2a62/1QcCguDI4p8VmdulhPFLW
-	9ym/fBT8E5N18Wsue3RfaFZrqRMWsVys86kKNwmSpIx7HaQ=
-X-Google-Smtp-Source: ABdhPJykJ4q0j/aSxRMUq2BD2DgM/MKndDUTMlMoHVs0z/wz9oUrTtmwS6ELt7rW91eCx56jyHXCp/93E+ooUVfwy1o=
-X-Received: by 2002:ac8:729a:: with SMTP id v26mr44105210qto.53.1608145233251;
- Wed, 16 Dec 2020 11:00:33 -0800 (PST)
+ d=nio365.onmicrosoft.com; s=selector2-nio365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V5ZYa2viv2rA6JbeLPmKO3ldiwBPYFDnQTDK27ZYThg=;
+ b=YSdcXsrbsYImg4wxg9jBOhnmSreuRJ+wKhVEZK3Odjzav4LQMG8VRrUay0u1lfuAxOO9TkDw5TkR5MN7odexHM1406cROjUbTN8AD83RlVujvJy6aA/PwTEgwRHmItCgmNN+DAYJMUSSyW+bkbseZ6v8gdm5QEMlBSMoNho6uUo=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=ni.com;
+Received: from DM6PR04MB5306.namprd04.prod.outlook.com (2603:10b6:5:10f::25)
+ by DM6PR04MB6954.namprd04.prod.outlook.com (2603:10b6:5:24c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.20; Wed, 16 Dec
+ 2020 20:01:32 +0000
+Received: from DM6PR04MB5306.namprd04.prod.outlook.com
+ ([fe80::85b6:eb0:e666:8db]) by DM6PR04MB5306.namprd04.prod.outlook.com
+ ([fe80::85b6:eb0:e666:8db%6]) with mapi id 15.20.3654.025; Wed, 16 Dec 2020
+ 20:01:32 +0000
+From: "Alex Stewart" <alex.stewart@ni.com>
+To: openembedded-core@lists.openembedded.org
+Cc: alejandro.delcastillo@ni.com, alex.kanavin@gmail.com,
+        Alex Stewart <alex.stewart@ni.com>
+Subject: [OE-core][PATCH v2 0/1] opkg: upgrade to 0.4.4
+Date: Wed, 16 Dec 2020 14:00:55 -0600
+Message-Id: <20201216200056.2897070-1-alex.stewart@ni.com>
+X-Mailer: git-send-email 2.29.2
+X-Originating-IP: [130.164.62.147]
+X-ClientProxiedBy: DM3PR08CA0013.namprd08.prod.outlook.com
+ (2603:10b6:0:52::23) To DM6PR04MB5306.namprd04.prod.outlook.com
+ (2603:10b6:5:10f::25)
 MIME-Version: 1.0
-References: <20201216073754.4371-1-alanp@snowmoose.com> <CAMKF1sq+_YGUfaKVDYW8APSFdMDC8BWV+Tdf4mm+XjJ+w4_BvQ@mail.gmail.com>
- <d1e0520e-3321-2ef1-9ba6-9a4a5287998a@snowmoose.com>
-In-Reply-To: <d1e0520e-3321-2ef1-9ba6-9a4a5287998a@snowmoose.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 16 Dec 2020 11:00:07 -0800
-Message-ID: <CAMKF1sr0mDqyrvNg2nLBdKytZv9vLbGNBSn8rH_V0P+rEhRmXw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] binutils: add libopcodes package for perf
-To: Alan Perry <alanp@snowmoose.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from 41d17.amer.corp.natinst.com (130.164.62.147) by DM3PR08CA0013.namprd08.prod.outlook.com (2603:10b6:0:52::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend Transport; Wed, 16 Dec 2020 20:01:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9601b311-06e5-439e-4bed-08d8a1fd62b6
+X-MS-TrafficTypeDiagnostic: DM6PR04MB6954:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR04MB695404F189239D0FA8D01EE3FEC50@DM6PR04MB6954.namprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	nK+XfYor2Wr9+mYWrfR34zJFGYkXTueppn4sHkplKxuRZzQLfrd741y+g372LCwSAv8zhS5vz36MiWWL0e849286smCS5/chb0Hq9s6sTGcEGV52XVjIvYjnTbjimeF2OHtWh+ii0ZLd8tsb50TESdRoB2ITcOmMUXr1oREJNsrdOjKn3zuoDEGH9gIi0eZxHQnW4/yWl0tEoWyXSDGCpv3wO4oTeKB4neJWH4QVd3V6J4ZtaXDAcIeVCMmgqlbxg/pSI82rVEpHSoop6n8T0b6oFRshQsf8nG323vYg/yJPAi7a9k3XpxGUv+OuW2VobEudLYr2ekbP28Egk+ka9g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB5306.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(396003)(39860400002)(376002)(366004)(346002)(4744005)(6512007)(6486002)(44832011)(8676002)(36756003)(2906002)(86362001)(186003)(5660300002)(6506007)(66946007)(83380400001)(52116002)(16526019)(66556008)(2616005)(1076003)(956004)(6666004)(26005)(4326008)(8936002)(6916009)(66476007)(316002)(478600001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?2Xv+vu/GNmJDM1njY0M0S0LPMY7c1n94F920tlbeYb4jujnSxVwW3Qif3kqY?=
+ =?us-ascii?Q?RbnfO+4ScWBTEa/t2GulmDUVEPMoK9DYDYHbY41ae+IeA0wq0DEIdltNzsr/?=
+ =?us-ascii?Q?QOfT3l+PmwBmIOk6XxLaSTksEfVu1rYLCWVjTMvaSwFlzJ2u3rDRSvKweNmI?=
+ =?us-ascii?Q?iIi1dQCMFQlUyrhjpOv243JocWF1MoIsHTmQM0fefnZLY18UX0sKkpwvYZY+?=
+ =?us-ascii?Q?tsey6JFyYZxNfXdwOKWBU5AFFolCMwHqXyK5YvHiDLE89ot+bHSWZHkyyrWp?=
+ =?us-ascii?Q?u7RwAokkbzcOGX4p8Rwjj3HVPJdUPekwRyguxQDWoN8No8sVjFyXthtGzW2t?=
+ =?us-ascii?Q?0Rjemqs0VHzgkbqxACVk1hLZ3Wcq16wie+qG/MURDfRIN6GN0kY5u2Wp6WJK?=
+ =?us-ascii?Q?XWUYvlIkrBvDyAd4v2Mvb4VlxzMXnrlt5vAK6Opa6YLl0FdP3sZUJDWowcD9?=
+ =?us-ascii?Q?Aj2gyi97Gv8Md8fGPPq8ogdKsWDWVZpz2V4Bm8jwiZEOVIuxVR04V1PHu+90?=
+ =?us-ascii?Q?vAyrsYtYMblHSuMmJSwMcZg4oOcAlzQEMYXF7w2tYnRiTEiRw6NOGVB0YOXX?=
+ =?us-ascii?Q?A5HGAL3NGMZf3k3rw3c1/fFmzRHGPuIQhZJUnC0FuLVQ8X+twKsAHvl5lS9W?=
+ =?us-ascii?Q?mDF67SiV45QUfcjnEukTXikCok7KJ9aP1T/tT2lzS4OLKm45YWD2yXQ/9CAa?=
+ =?us-ascii?Q?d2o/VD4iEuB4gWx+LbNVy9bQPvGCcvAM97JJ6ErC+IspkHGfLBx3OCJ9vmdf?=
+ =?us-ascii?Q?D4eNpNtbL7ZCj4VoSIMc1Zy6L05vtRZX8VBK+hwD44kc5FRq3pYmVrMEcuYR?=
+ =?us-ascii?Q?OSfZE/xXBP+p2TF7I/6+CvdPnn2ZZHSkJ3BOYGTGH7NC5Qn2+sAJPFZuS+ld?=
+ =?us-ascii?Q?WNASRKQrd9jZSj0Y41P1X7K3chSOOIBXSWmOC4O5+8fPEdHwrWP80Kqocp9S?=
+ =?us-ascii?Q?/veBcNj5PvWU2udDgIxu6bEzYcD9+sWFASBY6CCqR5WLzwoTVxVEXYy46N8c?=
+ =?us-ascii?Q?uAqY?=
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB5306.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2020 20:01:32.6827
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9601b311-06e5-439e-4bed-08d8a1fd62b6
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +vHFN1poeyXZAD0eVYnbj6Nk5MiypgUtLLtYq8iUhwFjdLas9u3woouTtVQwWNCmVA6r+MPgMOXBC95vb+lDAA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6954
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343,18.0.737
+ definitions=2020-12-16_08:2020-12-15,2020-12-16 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_policy_notspam policy=outbound_policy score=30
+ priorityscore=1501 mlxscore=0 spamscore=0 clxscore=1015 bulkscore=0
+ impostorscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ phishscore=0 mlxlogscore=826 adultscore=0 classifier=spam adjust=30
+ reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012160123
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, Dec 16, 2020 at 10:57 AM Alan Perry <alanp@snowmoose.com> wrote:
->
->
->
-> On 12/16/20 10:27 AM, Khem Raj wrote:
-> > On Tue, Dec 15, 2020 at 11:38 PM Alan Perry <alanp@snowmoose.com> wrote:
-> >> Add a package for libopcodes, since, like libbfd, it is needed by
-> >> perf. Without separate packages for these libraries, all of the
-> >> binutil tools get added as well.
-> >>
-> > libopcodes is not an API that binutils publish for wider consumption,
-> > its meant for internal components and
-> > external components can use it from binutils itself knowing very well
-> > that it will change with binutils and therefore
-> > I would prefer to not separate it out into separate package like this
-> > which can appear as if its an external API
-> > that binutils will respect.
->
-> Currently in binutils, the libbfd package is there "so including perf
-> doesn't include extra stuff".
->
-> Without this change, including perf includes that extra stuff anyway.
->
-> If that comment is to be believed, the libbfd is not currently being
-> provided in binutils as an external API.
+Adopting Alejandro del Castillo's original upgrade patch.
 
-yes libbfd should also have not been done this way as well but I guess
-there are more than
-one user for libbfd which tilted in its favor.
+Patch V2:
+* Added a .patch from the 0.4.4 upstream which should resolve the ptest
+  framework error which Alex Kanavin observed in his OE-core tests. I've
+  verified this change on a local build of the OE-core minimal QEMU image.
 
->
->
-> >
-> >> Signed-off-by: Alan Perry <alanp@snowmoose.com>
-> >> ---
-> >>   meta/recipes-devtools/binutils/binutils_2.35.bb | 6 ++++--
-> >>   1 file changed, 4 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-devtools/binutils/binutils_2.35.bb b/meta/recipes-devtools/binutils/binutils_2.35.bb
-> >> index 2e645e1ed8..976e49765a 100644
-> >> --- a/meta/recipes-devtools/binutils/binutils_2.35.bb
-> >> +++ b/meta/recipes-devtools/binutils/binutils_2.35.bb
-> >> @@ -52,9 +52,11 @@ do_install_class-native () {
-> >>          rmdir ${D}/${libdir}64 || :
-> >>   }
-> >>
-> >> -# Split out libbfd-*.so so including perf doesn't include extra stuff
-> >> -PACKAGE_BEFORE_PN += "libbfd"
-> >> +# Split out libbfd-*.so and libopcodes-*.so so including perf doesn't include
-> >> +# extra stuff
-> >> +PACKAGE_BEFORE_PN += "libbfd libopcodes"
-> >>   FILES_libbfd = "${libdir}/libbfd-*.so.* ${libdir}/libbfd-*.so"
-> >> +FILES_libopcodes = "${libdir}/libopcodes-*.so.* ${libdir}/libopcodes-*.so"
-> >>
-> >>   SRC_URI_append_class-nativesdk =  " file://0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch "
-> >>
-> >> --
-> >> 2.17.1
-> >>
-> >>
-> >> 
-> >>
->
+Alex Stewart (1):
+  opkg: upgrade to version 0.4.4
+
+ ...e-OS-negotiate-relative-package-dirs.patch | 43 +++++++++++++++++++
+ .../opkg/{opkg_0.4.3.bb => opkg_0.4.4.bb}     |  5 ++-
+ 2 files changed, 46 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-tests-let-the-OS-negotiate-relative-package-dirs.patch
+ rename meta/recipes-devtools/opkg/{opkg_0.4.3.bb => opkg_0.4.4.bb} (92%)
+
+-- 
+2.29.1
+
