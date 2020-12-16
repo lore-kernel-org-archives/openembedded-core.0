@@ -1,79 +1,110 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web10.5611.1608115207750630547
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web10.6215.1608119451921788158
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 02:40:08 -0800
+ Wed, 16 Dec 2020 03:50:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=DdipTbR/;
- spf=pass (domain: burtonini.com, ip: 209.85.167.46, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f46.google.com with SMTP id l11so47133905lfg.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 02:40:07 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Isk0N+mn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id r7so22905239wrc.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 03:50:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DrCwTkvhecpQ6VEvLvqxXCRcnDoAWGdNfID3I8I2XC0=;
-        b=DdipTbR/DdIZrjPC6Mr8DGhhkc5+Y38YxDEIEbfW5jZHvsJPUBFtyZAgc1gB3bKdF2
-         vkGavX3PLNsfVFj+61EkTv2gOwJImZdzS7uHbDQxAeN3Ry9qcr7DcQ69bPcyMfZDnGrf
-         ecx6tvM6kHaUX3WxU9cOH3QvwgKf7O+eCh+8bdKMvEpTjabgYNnj13JbWOuiFksJTN4T
-         MkaHnGKoXC5lSbsAZYv9Y2qep4L0W954UkfsK27l46DU8osevMc9Fgj0VfJnPlXSl2cY
-         y6TyRKnZptamjmXRHTOnRbNaJM5Svp7i/3ME2DQ3/pyLkop5qJechC3e6206BHMqItuO
-         S7Vg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=mPLLKNXJAG8/Z9vUzpaIxCtYoPcdgfTjEKanII9JkjI=;
+        b=Isk0N+mnxWqBZkUM43RRTl7O+p/qzjPK7/XEFh/2BYe20WRHoTqr5M1SUSnDCH3io9
+         1AMgV/75nZmbNJeweJglVpfWObm1nns7hM8ixQv/hEbL5w/fdEZ8zxfQQgrfjtfWEwHe
+         qzf9j95ZJCXWLRG8m+lagTMn1HY4qvtKoQdo0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DrCwTkvhecpQ6VEvLvqxXCRcnDoAWGdNfID3I8I2XC0=;
-        b=GVT5aW5Uu2eaFCvi6Fw4ZqdNa3JoXYpDVzwV+YUjpSMJI5uiR3f2LaCySXsNYLDCCI
-         WnuyZ8x87O+QNMUvkVGA3MxRu0ly4k5e9p61snH44Z5vBfw2A22QDjnNtUkqvw6LRYP1
-         sSoLbzIPainyzcgIvyaTBOB5J/rClWOK612d42d/bVnQUbJGL5yGiarcIMDpXw3zzpWX
-         9xnKc/D1RZDKtKqTlQF+NrXMoO0hTq2G+BRm9/HoibHx6nH2T96864/EPWpMzsecS04C
-         oVInnSo98uzQatlBEpTd2TELOjhb6gA63EgUNEvhom3LxMhSM1MriYdUZMM3kMqaF6dq
-         0hyA==
-X-Gm-Message-State: AOAM532IYLNPc1qRwfqNhiXgiA5qfqF/Fg+dVc9zdp2tgAPWvylFClB9
-	2+ddU5JusyWQp31nEY22wJty9p+S2tO20FucQmJI9w==
-X-Google-Smtp-Source: ABdhPJx2CTyMtjzZtEqpCDrkcSjldnfbORgpM/qSp0k2DHY3NvcDR9rxN/2tukKeA/OjpmU7DQnhxeplF/Ybde2s09g=
-X-Received: by 2002:a2e:8844:: with SMTP id z4mr888446ljj.412.1608115205610;
- Wed, 16 Dec 2020 02:40:05 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mPLLKNXJAG8/Z9vUzpaIxCtYoPcdgfTjEKanII9JkjI=;
+        b=AUJ/hCj4DCvYXgtsZc8NurzKBgdZixDVirl6NVnmItGRoo6Bz5wxoStABZONobnQm/
+         G4ZNC+HFRoEyCrCd77TTuGIVnLPWNVoFF3PH7Wq1nbApMJhJnc/qob+elXpOOq/sTOzu
+         dTAA2x8N33pmyR9D1Texs7/IzDPNWzDrRhI9xxl9IX2wWNFskWmpj+IY6LSg+tcfMmMX
+         pH5fqFoWRqLpWlAIH0jbsESpwlgwdL7fTwAarzIp2KL77rJpoKjM8ySPkwqgd6gp/Pdk
+         hUfrxUB1W1SeO5qai8noKuuKKl1HVwna79Sv4Ez5kAgImE53mt0oqCK3L6bXf35zH7+L
+         vPPw==
+X-Gm-Message-State: AOAM530RkrBFykHIBaKzLN5nSa+OUHbja/E1NojhUcrC/HwWblZkFg/U
+	/XQPkbIelD15ZsXhQWSyl2o8sw==
+X-Google-Smtp-Source: ABdhPJxJ1a+NsKJCYvojc04txeA84z1BvlTBJIGs7yt26sCXccQNlNUvR+1P9xzv7nvOfe0zvnxQ7A==
+X-Received: by 2002:a5d:4bc5:: with SMTP id l5mr20240971wrt.15.1608119450045;
+        Wed, 16 Dec 2020 03:50:50 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:15e3:7b39:fc6b:1133])
+        by smtp.gmail.com with ESMTPSA id 125sm2290660wmc.27.2020.12.16.03.50.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Dec 2020 03:50:49 -0800 (PST)
+Message-ID: <fdfd532cceb2c81874e4a0ac6a9a27014a14808a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-oe][PATCH v2] iproute2: split ip to individual package
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Sinan Kaya <okaya@kernel.org>, openembedded-core@lists.openembedded.org
+Date: Wed, 16 Dec 2020 11:50:46 +0000
+In-Reply-To: <20201216024141.22439-1-okaya@kernel.org>
+References: <20201216024141.22439-1-okaya@kernel.org>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-References: <20201211160922.4125554-1-ross.burton@arm.com> <51192976-54f1-a6dc-6be0-0780c3006338@gmail.com>
- <CAAnfSTvfQZWGXCjduUU_1M4ae=vnmqLO95JBsS-ZeNrHf6KbEw@mail.gmail.com> <09e9d4fe00cf8d42f3bb9cef83ae0988452df050.camel@linuxfoundation.org>
-In-Reply-To: <09e9d4fe00cf8d42f3bb9cef83ae0988452df050.camel@linuxfoundation.org>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Wed, 16 Dec 2020 10:39:54 +0000
-Message-ID: <CAAnfSTuEtACqZ1paX9FSBh6o0rHBco-uzfv91vJHg=r9pLGfmg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel: set COMPATIBLE_HOST to *-linux
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Khem Raj <raj.khem@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, 13 Dec 2020 at 23:09, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > Maybe?  Depends on the matching in anchored.  If it does by accident
-> > then explicitly matching would be better.  What machine has a triple
-> > like that for testing?
+On Wed, 2020-12-16 at 02:41 +0000, Sinan Kaya wrote:
+> Move the ip tool into its own package. Useful for size constrained
+> systems that only want the ip tool.
+> 
+> Signed-off-by: Sinan Kaya <okaya@kernel.org>
+> ---
+>  meta/recipes-connectivity/iproute2/iproute2.inc | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc
+> b/meta/recipes-connectivity/iproute2/iproute2.inc
+> index 403d264308c..f4d882d3ece 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+> @@ -46,10 +46,11 @@ do_install () {
+>  # The .so files in iproute2-tc are modules, not traditional
+> libraries
+>  INSANE_SKIP_${PN}-tc = "dev-so"
+>  
+> -PACKAGES =+ "\
+> +IPROUTE2_PACKAGES =+ "\
+>      ${PN}-devlink \
+>      ${PN}-genl \
+>      ${PN}-ifstat \
+> +    ${PN}-ip \
+>      ${PN}-lnstat \
+>      ${PN}-nstat \
+>      ${PN}-rtacct \
+> @@ -58,12 +59,17 @@ PACKAGES =+ "\
+>      ${PN}-tipc \
+>  "
 >
-> Most arm machines I think? :)
+> +PACKAGES += "${IPROUTE2_PACKAGES}"
+> +PROVIDES += "${IPROUTE2_PACKAGES}"
 
-Only old ones, which are dead to me. ;)
+This doesn't look correct. Why do we need to add all the individual
+package splits to PROVIDES?
 
-> It is unanchored, something which I have to wonder about. I also don't
-> like the overhead adding COMPATIBLE_* adds but I guess we just have to
-> live with that :(.
+I'm going to guess this is because you want to do:
 
-So prior art in meta:
+DEPENDS = "iproute2-ip"
 
-meta/recipes-core/systemd/systemd-boot_246.6.bb:COMPATIBLE_HOST =
-"(x86_64.*|i.86.*)-linux"
-meta/recipes-devtools/dmidecode/dmidecode_3.3.bb:COMPATIBLE_HOST =
-"(i.86|x86_64|aarch64|arm|powerpc|powerpc64).*-linux"
-meta/recipes-devtools/gcc/gcc-sanitizers.inc:COMPATIBLE_HOST =
-'(x86_64|i.86|powerpc|sparc|s390|arm|aarch64).*-linux'
-meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb:COMPATIBLE_HOST =
-'(x86_64|i.86).*-(linux|freebsd.*)'
-meta/recipes-devtools/valgrind/valgrind_3.16.1.bb:COMPATIBLE_HOST =
-'(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
+somewhere? If so, that is not how DEPENDS is meant to work, even after
+this split you'd use:
 
-35 users in total and none are anchored, they all implicitly let the
-expression match -linux-gnueabi.
+DEPENDS = "iproute2"
 
-Ross
+If you want iproute2-ip specifically, you'd use the package namespace,
+e.g. 
+
+RDEPENDS = "iproute2-ip".
+
+or is there some other reason for this? This is basically the issue
+with some of the other package splits too, its not using the build time
+verses runtime namespaces correctly.
+
+Cheers,
+
+Richard
+
