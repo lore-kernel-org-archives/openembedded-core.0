@@ -1,110 +1,82 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.6215.1608119451921788158
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web11.6326.1608120717821208246
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 03:50:52 -0800
+ Wed, 16 Dec 2020 04:11:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Isk0N+mn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id r7so22905239wrc.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 03:50:51 -0800 (PST)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=iHmRAsLw;
+ spf=pass (domain: burtonini.com, ip: 209.85.167.52, mailfrom: ross@burtonini.com)
+Received: by mail-lf1-f52.google.com with SMTP id x20so28210327lfe.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 04:11:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=mPLLKNXJAG8/Z9vUzpaIxCtYoPcdgfTjEKanII9JkjI=;
-        b=Isk0N+mnxWqBZkUM43RRTl7O+p/qzjPK7/XEFh/2BYe20WRHoTqr5M1SUSnDCH3io9
-         1AMgV/75nZmbNJeweJglVpfWObm1nns7hM8ixQv/hEbL5w/fdEZ8zxfQQgrfjtfWEwHe
-         qzf9j95ZJCXWLRG8m+lagTMn1HY4qvtKoQdo0=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2Ry2sqzQ9kadF4evoWM0rFMhc9jvgbRZn9TpM3FcV6I=;
+        b=iHmRAsLw+8aJzc7d6cOTfD2/J9Q8kyjJGuHJGvL5BScNa9RZOUpLDeXZWvGXgP8NHd
+         JWBT7J8DdJttdgmN8v+7aNtJOGTNxM4Z4SKfhi2IrJCf/mo5+1sIexPqQgW7FoevxdDw
+         F77RSB0hurXtleda0FhB6izX+NXHd4bClcl+HB3IllIip9obZ39K/liyaTzjRq7YqEAq
+         NVPo9SdMyyGdMx/AqxjQ4hKRIbnpIBG7WWNJ1l+fJ3dV+IX4+hycgsoLG4oQJ6cWwTeS
+         SojnIhy6zRyT2S2RqSbfT1SVxczpJwa6aOYp2rMZTXKFghMGIs7DS0z77RSJpDnveKq2
+         TzFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=mPLLKNXJAG8/Z9vUzpaIxCtYoPcdgfTjEKanII9JkjI=;
-        b=AUJ/hCj4DCvYXgtsZc8NurzKBgdZixDVirl6NVnmItGRoo6Bz5wxoStABZONobnQm/
-         G4ZNC+HFRoEyCrCd77TTuGIVnLPWNVoFF3PH7Wq1nbApMJhJnc/qob+elXpOOq/sTOzu
-         dTAA2x8N33pmyR9D1Texs7/IzDPNWzDrRhI9xxl9IX2wWNFskWmpj+IY6LSg+tcfMmMX
-         pH5fqFoWRqLpWlAIH0jbsESpwlgwdL7fTwAarzIp2KL77rJpoKjM8ySPkwqgd6gp/Pdk
-         hUfrxUB1W1SeO5qai8noKuuKKl1HVwna79Sv4Ez5kAgImE53mt0oqCK3L6bXf35zH7+L
-         vPPw==
-X-Gm-Message-State: AOAM530RkrBFykHIBaKzLN5nSa+OUHbja/E1NojhUcrC/HwWblZkFg/U
-	/XQPkbIelD15ZsXhQWSyl2o8sw==
-X-Google-Smtp-Source: ABdhPJxJ1a+NsKJCYvojc04txeA84z1BvlTBJIGs7yt26sCXccQNlNUvR+1P9xzv7nvOfe0zvnxQ7A==
-X-Received: by 2002:a5d:4bc5:: with SMTP id l5mr20240971wrt.15.1608119450045;
-        Wed, 16 Dec 2020 03:50:50 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (3.3.1.1.b.6.c.f.9.3.b.7.3.e.5.1.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:15e3:7b39:fc6b:1133])
-        by smtp.gmail.com with ESMTPSA id 125sm2290660wmc.27.2020.12.16.03.50.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Dec 2020 03:50:49 -0800 (PST)
-Message-ID: <fdfd532cceb2c81874e4a0ac6a9a27014a14808a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][PATCH v2] iproute2: split ip to individual package
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Sinan Kaya <okaya@kernel.org>, openembedded-core@lists.openembedded.org
-Date: Wed, 16 Dec 2020 11:50:46 +0000
-In-Reply-To: <20201216024141.22439-1-okaya@kernel.org>
-References: <20201216024141.22439-1-okaya@kernel.org>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2Ry2sqzQ9kadF4evoWM0rFMhc9jvgbRZn9TpM3FcV6I=;
+        b=Ypf3Mil1nqEmQ6AkQbl0RcRr8kUE1tkmgqe7aKCYGxqrEVQzUuMfzAyar63pDeMIt5
+         SsHhlOzF58RAvLzXmhwfMVmoPTa30krmeHx18h9eX/uBng9CxpRNO8Gs4MVurxlDGFvt
+         QU3ZtiQ0ORUtvRr+o+1npMAl2YfIUd5fmeLQgzOl6yA77vxCgL0sQU77MVV3JNmEsaqn
+         EFQnt37QjiXsKVfdffkKFM6JpnCyt4sr5pvfxOAWpQDT5fp1gx479FbJMeS6CEtOnG6j
+         9FVGThLXeUJktYdzLvqhvrDgRe3ncyDgVwwuTHTu39hEFHnqwvMycA7w8LTArOYQhrlv
+         MXNA==
+X-Gm-Message-State: AOAM533uYrQfl7aORjiNEKAIspVo8lr2qxWT5Jyk3muCFuSIzo8nxwmJ
+	bYt4dmVF1fMZVO2SObF97qsz5nE/DZhR+RzWvZuBNQ==
+X-Google-Smtp-Source: ABdhPJzsze6ayo/6G+v8O6VYkehYuiaSHhdYyGwfmu40IImmRMSxy16Ri4Grw1oMPfnw85KV/lLuqNfDxvxuECh297k=
+X-Received: by 2002:a2e:6a14:: with SMTP id f20mr1186583ljc.6.1608120715653;
+ Wed, 16 Dec 2020 04:11:55 -0800 (PST)
 MIME-Version: 1.0
+References: <e4085caa6fe95c5d09a23a850fe8748c93323af4.camel@iki.fi>
+In-Reply-To: <e4085caa6fe95c5d09a23a850fe8748c93323af4.camel@iki.fi>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Wed, 16 Dec 2020 12:11:44 +0000
+Message-ID: <CAAnfSTu0t+OOFy6gakZ6UiKUhxf862W5t89B_tHd=Byko=4efQ@mail.gmail.com>
+Subject: Re: [OE-core] I wish to drop my recipe maintainer duties
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-12-16 at 02:41 +0000, Sinan Kaya wrote:
-> Move the ip tool into its own package. Useful for size constrained
-> systems that only want the ip tool.
-> 
-> Signed-off-by: Sinan Kaya <okaya@kernel.org>
-> ---
->  meta/recipes-connectivity/iproute2/iproute2.inc | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc
-> b/meta/recipes-connectivity/iproute2/iproute2.inc
-> index 403d264308c..f4d882d3ece 100644
-> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
-> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-> @@ -46,10 +46,11 @@ do_install () {
->  # The .so files in iproute2-tc are modules, not traditional
-> libraries
->  INSANE_SKIP_${PN}-tc = "dev-so"
->  
-> -PACKAGES =+ "\
-> +IPROUTE2_PACKAGES =+ "\
->      ${PN}-devlink \
->      ${PN}-genl \
->      ${PN}-ifstat \
-> +    ${PN}-ip \
->      ${PN}-lnstat \
->      ${PN}-nstat \
->      ${PN}-rtacct \
-> @@ -58,12 +59,17 @@ PACKAGES =+ "\
->      ${PN}-tipc \
->  "
->
-> +PACKAGES += "${IPROUTE2_PACKAGES}"
-> +PROVIDES += "${IPROUTE2_PACKAGES}"
-
-This doesn't look correct. Why do we need to add all the individual
-package splits to PROVIDES?
-
-I'm going to guess this is because you want to do:
-
-DEPENDS = "iproute2-ip"
-
-somewhere? If so, that is not how DEPENDS is meant to work, even after
-this split you'd use:
-
-DEPENDS = "iproute2"
-
-If you want iproute2-ip specifically, you'd use the package namespace,
-e.g. 
-
-RDEPENDS = "iproute2-ip".
-
-or is there some other reason for this? This is basically the issue
-with some of the other package splits too, its not using the build time
-verses runtime namespaces correctly.
+Thanks for all the work over the years, it's been much appreciated!
 
 Cheers,
+Ross
 
-Richard
-
+On Mon, 14 Dec 2020 at 19:07, Tanu Kaskinen <tanuk@iki.fi> wrote:
+>
+> Hello,
+>
+> I haven't lately had time to do OE work, or maybe the lack of time is
+> more rooted in lack of motivation since I don't objectively have a very
+> busy life, but in any case, I think it's time for me to step down as a
+> recipe maintainer. When in 2015 I transitioned from being paid for the
+> work to a volunteer, I had plans to use OE in hobby projects, but those
+> projects haven't materialized, so I don't really have any connection to
+> OE other than being a recipe maintainer. My experience of the community
+> has been very positive, it has always been nice to work with you, thank
+> you for that!
+>
+> Should I post a maintainers.inc patch that changes all my recipes to to
+> unassigned, or should they or some of them be directly transferred to
+> someone else?
+>
+> I will still post some patches for pulseaudio that convert the recipe
+> from autotools to meson. I've had them ready since the last feature
+> freeze, and I intended to submit them today, but I found out (as I read
+> the mailing list for the first time in three months) that the recipe
+> has had a major version update, so I'll have to redo some tests first.
+>
+> --
+> Tanu
+>
+>
+> 
+>
