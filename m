@@ -1,100 +1,60 @@
-Received: from outbound-relay8.guardedhost.com (outbound-relay8.guardedhost.com [216.239.133.208])
- by mx.groups.io with SMTP id smtpd.web12.2330.1608149164287244663
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by mx.groups.io with SMTP id smtpd.web09.4444.1608156985415350823
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 12:06:04 -0800
+ Wed, 16 Dec 2020 14:16:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: snowmoose.com, ip: 216.239.133.208, mailfrom: alanp@snowmoose.com)
-Received: from mail.guardedhost.com (tev-mx3.omnis.com [216.239.133.143])
-	by outbound-relay5.guardedhost.com (Postfix) with ESMTP id 4Cx5jR6hsdz4XqM;
-	Wed, 16 Dec 2020 20:06:03 +0000 (GMT)
-Received: from Alans-MacBook-Pro.local (c-73-254-147-133.hsd1.wa.comcast.net [73.254.147.133])
-	(Authenticated sender: alanp@snowmoose.com)
-	by mail.guardedhost.com (Postfix) with ESMTPA id 4Cx5jR0Mz3z2xq0;
-	Wed, 16 Dec 2020 20:06:02 +0000 (GMT)
-Subject: Re: [OE-core] [PATCH] binutils: add libopcodes package for perf
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-References: <20201216073754.4371-1-alanp@snowmoose.com>
- <CAMKF1sq+_YGUfaKVDYW8APSFdMDC8BWV+Tdf4mm+XjJ+w4_BvQ@mail.gmail.com>
- <d1e0520e-3321-2ef1-9ba6-9a4a5287998a@snowmoose.com>
- <CAMKF1sr0mDqyrvNg2nLBdKytZv9vLbGNBSn8rH_V0P+rEhRmXw@mail.gmail.com>
-From: "Alan Perry" <alanp@snowmoose.com>
-Message-ID: <53abfe8b-f79d-172b-a63d-52a10e176e4b@snowmoose.com>
-Date: Wed, 16 Dec 2020 12:06:01 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sr0mDqyrvNg2nLBdKytZv9vLbGNBSn8rH_V0P+rEhRmXw@mail.gmail.com>
-Authentication-Results: mail.guardedhost.com;auth=pass
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse-Id: 200352EC-3FDA-11EB-AB37-8B021E24E163
-X-Virus-Scanned: clamav-milter 0.102.2 at tev-mx3.omnis.com
-X-Virus-Status: Clean
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+ dkim=missing; spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
+From: "Sinan Kaya" <okaya@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To: openembedded-core@lists.openembedded.org
+Cc: Sinan Kaya <okaya@kernel.org>
+Subject: [meta-oe][PATCH v5] procps: split ps and sysctl into individual packages
+Date: Wed, 16 Dec 2020 22:16:22 +0000
+Message-Id: <20201216221622.14171-1-okaya@kernel.org>
+X-Mailer: git-send-email 2.17.1
 
+Move the ps and sysctl tools into its own package. Useful for
+size constrained systems that only want the ps and/or sysctl tools.
 
+Signed-off-by: Sinan Kaya <okaya@kernel.org>
+---
+ meta/recipes-extended/procps/procps_3.3.16.bb | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-On 12/16/20 11:00 AM, Khem Raj wrote:
-> On Wed, Dec 16, 2020 at 10:57 AM Alan Perry <alanp@snowmoose.com> wrote:
->>
->>
->> On 12/16/20 10:27 AM, Khem Raj wrote:
->>> On Tue, Dec 15, 2020 at 11:38 PM Alan Perry <alanp@snowmoose.com> wrote:
->>>> Add a package for libopcodes, since, like libbfd, it is needed by
->>>> perf. Without separate packages for these libraries, all of the
->>>> binutil tools get added as well.
->>>>
->>> libopcodes is not an API that binutils publish for wider consumption,
->>> its meant for internal components and
->>> external components can use it from binutils itself knowing very well
->>> that it will change with binutils and therefore
->>> I would prefer to not separate it out into separate package like this
->>> which can appear as if its an external API
->>> that binutils will respect.
->> Currently in binutils, the libbfd package is there "so including perf
->> doesn't include extra stuff".
->>
->> Without this change, including perf includes that extra stuff anyway.
->>
->> If that comment is to be believed, the libbfd is not currently being
->> provided in binutils as an external API.
-> yes libbfd should also have not been done this way as well but I guess
-> there are more than
-> one user for libbfd which tilted in its favor.
-
-As I mentioned, the reason that it is done that way is broken without 
-doing something similar with libopcodes as well.
-
->>>> Signed-off-by: Alan Perry <alanp@snowmoose.com>
->>>> ---
->>>>    meta/recipes-devtools/binutils/binutils_2.35.bb | 6 ++++--
->>>>    1 file changed, 4 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-devtools/binutils/binutils_2.35.bb b/meta/recipes-devtools/binutils/binutils_2.35.bb
->>>> index 2e645e1ed8..976e49765a 100644
->>>> --- a/meta/recipes-devtools/binutils/binutils_2.35.bb
->>>> +++ b/meta/recipes-devtools/binutils/binutils_2.35.bb
->>>> @@ -52,9 +52,11 @@ do_install_class-native () {
->>>>           rmdir ${D}/${libdir}64 || :
->>>>    }
->>>>
->>>> -# Split out libbfd-*.so so including perf doesn't include extra stuff
->>>> -PACKAGE_BEFORE_PN += "libbfd"
->>>> +# Split out libbfd-*.so and libopcodes-*.so so including perf doesn't include
->>>> +# extra stuff
->>>> +PACKAGE_BEFORE_PN += "libbfd libopcodes"
->>>>    FILES_libbfd = "${libdir}/libbfd-*.so.* ${libdir}/libbfd-*.so"
->>>> +FILES_libopcodes = "${libdir}/libopcodes-*.so.* ${libdir}/libopcodes-*.so"
->>>>
->>>>    SRC_URI_append_class-nativesdk =  " file://0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch "
->>>>
->>>> --
->>>> 2.17.1
->>>>
->>>>
->>>> 
->>>>
+diff --git a/meta/recipes-extended/procps/procps_3.3.16.bb b/meta/recipes-extended/procps/procps_3.3.16.bb
+index 2810ebd285a..df340ea183f 100644
+--- a/meta/recipes-extended/procps/procps_3.3.16.bb
++++ b/meta/recipes-extended/procps/procps_3.3.16.bb
+@@ -74,3 +74,28 @@ python __anonymous() {
+ # 'ps' isn't suitable for use as a security tool so whitelist this CVE.
+ # https://bugzilla.redhat.com/show_bug.cgi?id=1575473#c3
+ CVE_CHECK_WHITELIST += "CVE-2018-1121"
++
++PROCPS_PACKAGES = "${PN}-lib \
++                   ${PN}-ps \
++                   ${PN}-sysctl"
++
++PACKAGE_BEFORE_PN = "${PROCPS_PACKAGES}"
++RDEPENDS_${PN} += "${PROCPS_PACKAGES}"
++
++RDEPENDS_${PN}-ps += "${PN}-lib"
++RDEPENDS_${PN}-sysctl += "${PN}-sysctl"
++
++FILES_${PN}-lib = "${libdir}"
++FILES_${PN}-ps = "${base_bindir}/ps.${BPN}"
++FILES_${PN}-sysctl = "${base_sbindir}/sysctl.${BPN} ${sysconfdir}/sysctl.conf ${sysconfdir}/sysctl.d"
++
++ALTERNATIVE_${PN}_remove = "ps"
++ALTERNATIVE_${PN}_remove = "sysctl"
++
++ALTERNATIVE_${PN}-ps = "ps"
++ALTERNATIVE_TARGET[ps] = "${base_bindir}/ps"
++ALTERNATIVE_LINK_NAME[ps] = "${base_bindir}/ps"
++
++ALTERNATIVE_${PN}-sysctl = "sysctl"
++ALTERNATIVE_TARGET[sysctl] = "${base_sbindir}/sysctl"
++ALTERNATIVE_LINK_NAME[sysctl] = "${base_sbindir}/sysctl"
+\ No newline at end of file
+-- 
+2.17.1
 
