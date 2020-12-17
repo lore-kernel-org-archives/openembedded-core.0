@@ -1,30 +1,30 @@
 Received: from forward5-smtp.messagingengine.com (forward5-smtp.messagingengine.com [66.111.4.239])
- by mx.groups.io with SMTP id smtpd.web11.1993.1608233276287405119
+ by mx.groups.io with SMTP id smtpd.web10.1950.1608233278315024232
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Dec 2020 11:27:56 -0800
+ Thu, 17 Dec 2020 11:27:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=SflwJhoU;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=CS8nBjpT;
  spf=neutral (domain: iki.fi, ip: 66.111.4.239, mailfrom: tanuk@iki.fi)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailforward.nyi.internal (Postfix) with ESMTP id 93B57194348E
-	for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 14:27:55 -0500 (EST)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailforward.nyi.internal (Postfix) with ESMTP id 9A16819407BB
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 14:27:57 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 17 Dec 2020 14:27:55 -0500
+  by compute4.internal (MEProxy); Thu, 17 Dec 2020 14:27:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=content-transfer-encoding:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; bh=T0nxR43oTmCcbL/UUJ2Ws+tg+qmedZeA/fq1VqPAxm0=; b=SflwJhoU
-	rcefHwSzZrltQIBr8E/TXqeJm8JeQ6yGCANqxv8ibBbK96a7if+bOgDZbCeymy9o
-	gXhXR2c3Hb7tEiM91vVwV0e5rDZF4qwLZkoksyYRxKfbxtIoGRsH9v93+e+0AVu9
-	yGgA+TQrQ9O+OiOjzhWc9+T9chx3nfy4PJrRV46obJgsZsVs3EyGc2db+6605aTB
-	tsCclvg+ZhxiNYzjF5glMKl+mJpOCC527ZpnqU9+I2YFSoQc+DV3sJ+ItXAkFsDp
-	SFB7z48Hqk7WUhP2IUn8bLyGSOD64uO9PydywbOxbppZyc6QR0xKrCOc3okiI+bX
-	VmVQ/zLqLyLqPw==
-X-ME-Sender: <xms:O7HbXyno3jlis7-ud_tMFWNr3PHcyI9Q6NLf-kjPHnqQpSScKekT9A>
-    <xme:O7HbX53LP8SkZCpxafk1gHjgs_Ix2LPXSi5jgSh3gPs6hiM7FZEIZLlPSny-3cjk5
-    FAbOUbpi8cP7Hak>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelgedguddvudcutefuodetggdotefrod
+	fm1; bh=B/4nDD86m3Yo+VjqAPQ45sVgoSl5XTRR4vjyXqNNeKQ=; b=CS8nBjpT
+	40lPPaTpz6e+Q1fQr7h/PA2E62HUciGvWzMShsMWBGLnYNmtBuAJIo+fHYgo4VeV
+	FYNMD2WUdpLxu9N0JQBq8K5JWi9iEQT4SiLk4AeagMCMdqHYMAp3dCRMg39ZqVPx
+	Spf9zkE2j/zZ6PWUDeEIlyXkzGpVGdcnrRStYq7woJw0kfH6mi6GqLK9cyBx1zzD
+	H6Ev30f46R5mNplLPVymjH/QdoPWCxHx2Q3yUUwYyiLr0ED2AmBAKgICLwUlas1t
+	a9VAvpExQ8MyvQ7sEutwv30TP6UDKMWmu600uzDBjSqKe5IBe4vH1XxP5m3NbiFx
+	Y+uzPsmJf5fXLQ==
+X-ME-Sender: <xms:PbHbXxjQJh-0SM5hknsb2AgNX0njZkX9lHfOqYn51hhLZGa3PCvSeA>
+    <xme:PbHbX6QfwWn6NqNXcmpnrVjeGImZ64OLjeSY_3bKojKp_zPzRZbyITkuBZOUygHTb
+    XweO6MOMDr5-yIl>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelgedguddvvdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
     ertdertddtnecuhfhrohhmpefvrghnuhcumfgrshhkihhnvghnuceothgrnhhukhesihhk
@@ -32,55 +32,46 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudelgedguddvudcutefuodetgg
     ffgeehieeuueefkedvgefffeeifeenucfkphepudekkedruddviedrkeelrdehvdenucfu
     phgrmhfkphfpvghtfihorhhkpedukeekrdduvdeirdekledrhedvnecuvehluhhsthgvrh
     fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepthgrnhhukhesihhkihdrfhhi
-X-ME-Proxy: <xmx:O7HbXwoYNbKj3ecos2LHemXn5fcRHOlCBF-ZBZCUcMM8dwXetuHucg>
-    <xmx:O7HbX2mkT641tSh5v-Ut2TjmEJ9Ny4a3tcat9ysiZ7UsgEUI7XNXjw>
-    <xmx:O7HbXw0br6C8jm3iNDk7NpjBYU3XGJrItN04ueKFm578tUm1Lw90MA>
-    <xmx:O7HbXxDPKnljROWDitfJ83DfClm5IvBGtOYS-OUxGdUdqEAMPFtdSw>
+X-ME-Proxy: <xmx:PbHbX8G9gq6OqvFSKMHJhPXu36aWJi_vMNhi7flXwdcgEpLzn-vZqw>
+    <xmx:PbHbX6k6ER-y43a62yisHQbFT1vXs_Pw9Go6bBvy2hNDRLm-F_2ObQ>
+    <xmx:PbHbX31vaS8mFNW9Sie7hSshWv_36cIgzQfFWWlK3s47HP5UWfA-vA>
+    <xmx:PbHbX-vYXPywzCcUBK3CtTMQmshcsWuGSOZ3SZ-lN3LBkhAf2rl2ig>
 Received: from localhost.localdomain (unknown [188.126.89.52])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 1CB5A1080064
-	for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 14:27:55 -0500 (EST)
+	by mail.messagingengine.com (Postfix) with ESMTPA id 29362108005F
+	for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 14:27:57 -0500 (EST)
 From: "Tanu Kaskinen" <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/4] pulseaudio: Remove OE_LT_RPATH_ALLOW
-Date: Thu, 17 Dec 2020 21:27:35 +0200
-Message-Id: <20201217192738.14311-2-tanuk@iki.fi>
+Subject: [PATCH 2/4] pulseaudio: disable EsounD support
+Date: Thu, 17 Dec 2020 21:27:36 +0200
+Message-Id: <20201217192738.14311-3-tanuk@iki.fi>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201217192738.14311-1-tanuk@iki.fi>
 References: <20201217192738.14311-1-tanuk@iki.fi>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I don't know what these variables were supposed to do, but there doesn't
-seem to be anything that would use these variables, so removing them
-should be safe. The PulseAudio recipe is the only place where these
-appear in the repository.
-
-These lines were included already in the original PulseAudio recipe that
-was added in commit d9a4c588ef24e7e4019fbe5a2314addbcd3a6bb8 in 2007,
-and already at that time there didn't seem to be anything using these
-variables.
+This disables PulseAudio's EsounD emulation and the EsounD sink module.
+EsounD has been obsolete for a long time, and doesn't seem to be
+packaged for OpenEmbedded, so probably there are no applications around
+that would need PulseAudio's EsounD support.
 
 Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 3a26cb59dd..4aea8bc6aa 100644
+index 4aea8bc6aa..ad059404f8 100644
 --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
 +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -129,11 +129,6 @@ EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", "
+@@ -79,6 +79,7 @@ EXTRA_OECONF = "\
+ 		ac_cv_header_valgrind_memcheck_h=no \
+ 		--disable-tests \
+ 		--disable-running-from-build-tree \
++		--disable-esound \
+ "
  
- export TARGET_PFPU = "${TARGET_FPU}"
- 
--# TODO: Use more fine granular version
--#OE_LT_RPATH_ALLOW=":${libdir}/pulse-0.9:"
--OE_LT_RPATH_ALLOW = "any"
--OE_LT_RPATH_ALLOW[export]="1"
--
- set_cfg_value () {
- 	sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
- 	if ! grep -q "^$2 = $3\$" "$1"; then
+ # soxr (the SoX Resampler library) doesn't seem to be currently packaged in
 -- 
 2.20.1
 
