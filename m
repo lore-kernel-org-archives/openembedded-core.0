@@ -1,117 +1,73 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web12.2523.1608173288671326993
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.2569.1608173537013652979
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 18:48:08 -0800
+ Wed, 16 Dec 2020 18:52:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: haSjKw+/9PLns5GQzg9WDikNM+TE7LM0WxppjggYD2sjN3W2GblzDZ1S24jJOSsOzafggfIsRC
- F9x5s5TryO5Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="175321178"
-X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
-   d="scan'208";a="175321178"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 18:48:07 -0800
-IronPort-SDR: KHVhY4qvhncjsOsLtopaQ6uD5GCz/P8Kaulx/pxSX5gTrLQ5JRlmugK5a4kAaxWBvZNs4Z12iC
- gpKaHIHr5cHQ==
-X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
-   d="scan'208";a="413071929"
-Received: from chinghee-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.72.53])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 18:48:06 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=kw0wQ3Vx;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pauleg@linux.microsoft.com)
+Received: by linux.microsoft.com (Postfix, from userid 1054)
+	id 890D120B7187; Wed, 16 Dec 2020 18:52:16 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 890D120B7187
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1608173536;
+	bh=FIYh4+UBOUqO+ZH8tw2+LUd0dWQuwNX1KB3U7FwYasc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=kw0wQ3Vx8C6QtbkSEYjdw6kts07P49uOmWCIfZxsVWMZ/cM2EI6w1zRTrkf63opIQ
+	 DD4AIzBezflNYfnUtH1gAiydGpOCoy/EzBgGh3fbvBk07i7js3i2+807x4bqniwsuO
+	 4gSovbUusJrAQ9zu8lQde9DZWiKVjFammr2S+X4o=
+From: "Paul Eggleton" <paul.eggleton@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 00/19] pull request (cover letter only)
-Date: Thu, 17 Dec 2020 10:48:00 +0800
-Message-Id: <cover.1608173079.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Usama Arif <usama.arif@arm.com>
+Subject: [PATCH 3/8] classes/kernel-fitimage: allow substituting mkimage command
+Date: Wed, 16 Dec 2020 18:51:37 -0800
+Message-Id: <f6dcfa11e8fa750e523b21025589962e1767eda5.1608173226.git.paul.eggleton@linux.microsoft.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1608173226.git.paul.eggleton@linux.microsoft.com>
+References: <cover.1608173226.git.paul.eggleton@linux.microsoft.com>
 
-Please merge these changes in gatesgarth.
+From: Paul Eggleton <paul.eggleton@microsoft.com>
 
-Thanks,
+Add a UBOOT_MKIMAGE and UBOOT_MKIMAGE_SIGN variables to allow specifying
+an alternative uboot-mkimage executable (or wrapper script/function).
 
-Anuj
+Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-The following changes since commit d11ab9cb77bf91f939035417b757773a5d80242c:
-
-  build-appliance-image: Update to gatesgarth head revision (2020-12-07 16:25:27 +0000)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
-
-Alexander Kanavin (3):
-  meta/lib/oe/reproducible.py: gitsm:// works just as fine as git:// for
-    timestamps
-  llvm: fix reproducibility
-  webkitgtk: fix reproducibility
-
-Chandana kalluri (1):
-  populate_sdk_ext: use SDK_CUSTOM_TEPLATECONF variable to enable custom
-    templateconf.cfg
-
-Changqing Li (1):
-  buildtools-tarball: add wic dependency into extended buildtools
-
-Gratian Crisan (1):
-  kernel-module-split.bbclass: fix kernel modules getting marked as
-    CONFFILES
-
-Kai Kang (1):
-  sudo: fix multilib conflict
-
-Li Wang (2):
-  qemu: CVE-2020-29129 CVE-2020-29130
-  qemu: CVE-2020-25624
-
-Mark Jonas (1):
-  libsdl2: Add directfb to PACKAGECONFIG rdepends
-
-Richard Purdie (2):
-  lz4: Use the new branch naming from upstream
-  uninative: Don't use single sstate for pseudo-native
-
-Ross Burton (5):
-  cve-update-db-native: handle all-wildcard versions
-  oeqa/devtool: use Yocto mirror for pv-1.5.3 tarball
-  image_types: sort tarball file listings
-  image_types: remove obsolete tar comment
-  coreutils: add SUSE-specific issues to CVE whitelist
-
-sangeeta jain (1):
-  meta/lib/oeqa/manual/oe-core.json: Update test_bitbake_devshell
-
-zangrc (1):
-  wireless-regdb: upgrade 2020.04.29 -> 2020.11.20
-
- meta/classes/base.bbclass                     |   1 +
- meta/classes/image_types.bbclass              |  12 +--
- meta/classes/kernel-module-split.bbclass      |   5 +-
- meta/classes/populate_sdk_ext.bbclass         |   6 +-
- meta/classes/sstate.bbclass                   |   4 +
- meta/lib/oe/reproducible.py                   |   2 +-
- meta/lib/oe/sstatesig.py                      |   2 +-
- meta/lib/oeqa/manual/oe-core.json             |   2 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |   2 +-
- meta/recipes-core/coreutils/coreutils_8.32.bb |   3 +
- .../meta/buildtools-extended-tarball.bb       |   3 +
- .../recipes-core/meta/cve-update-db-native.bb |   7 +-
- meta/recipes-devtools/llvm/llvm_git.bb        |   5 +
- meta/recipes-devtools/qemu/qemu.inc           |   2 +
- .../qemu/qemu/CVE-2020-25624.patch            | 101 ++++++++++++++++++
- .../qemu/CVE-2020-29129-CVE-2020-29130.patch  |  64 +++++++++++
- ...o.conf.in-fix-conflict-with-multilib.patch |  52 +++++++++
- meta/recipes-extended/sudo/sudo_1.9.3.bb      |   6 +-
- .../libsdl2/libsdl2_2.0.12.bb                 |   2 +-
- ....04.29.bb => wireless-regdb_2020.11.20.bb} |   2 +-
- meta/recipes-sato/webkit/webkitgtk_2.28.4.bb  |  12 +++
- meta/recipes-support/lz4/lz4_1.9.2.bb         |   2 +-
- 22 files changed, 274 insertions(+), 23 deletions(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-25624.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-29129-CVE-2020-29130.patch
- create mode 100644 meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2020.04.29.bb => wireless-regdb_2020.11.20.bb} (94%)
-
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index f3d18e2..08b5db2 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -75,6 +75,10 @@ FIT_KEY_SIGN_PKCS ?= "-x509"
+ # Description string
+ FIT_DESC ?= "U-Boot fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
+ 
++# mkimage command
++UBOOT_MKIMAGE ?= "uboot-mkimage"
++UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
++
+ #
+ # Emit the fitImage ITS header
+ #
+@@ -505,7 +509,7 @@ fitimage_assemble() {
+ 	#
+ 	# Step 6: Assemble the image
+ 	#
+-	uboot-mkimage \
++	${UBOOT_MKIMAGE} \
+ 		${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+ 		-f ${1} \
+ 		arch/${ARCH}/boot/${2}
+@@ -521,7 +525,7 @@ fitimage_assemble() {
+ 			cp -P ${STAGING_DATADIR}/u-boot*.dtb ${B}
+ 			add_key_to_u_boot="-K ${B}/${UBOOT_DTB_BINARY}"
+ 		fi
+-		uboot-mkimage \
++		${UBOOT_MKIMAGE_SIGN} \
+ 			${@'-D "${UBOOT_MKIMAGE_DTCOPTS}"' if len('${UBOOT_MKIMAGE_DTCOPTS}') else ''} \
+ 			-F -k "${UBOOT_SIGN_KEYDIR}" \
+ 			$add_key_to_u_boot \
 -- 
-2.29.2
+1.8.3.1
 
