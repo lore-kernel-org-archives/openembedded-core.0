@@ -1,67 +1,63 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web08.2474.1608173537016031126
+ by mx.groups.io with SMTP id smtpd.web11.2604.1608173537016503916
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Dec 2020 18:52:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=J4SQH9n9;
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=q4aFLXL7;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pauleg@linux.microsoft.com)
 Received: by linux.microsoft.com (Postfix, from userid 1054)
-	id 679A920B717A; Wed, 16 Dec 2020 18:52:16 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 679A920B717A
+	id 7313720B717B; Wed, 16 Dec 2020 18:52:16 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7313720B717B
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1608173536;
-	bh=OD8n+23QrsmuLi123OeWdvEjtSdx9C7z9jwry/6L99E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=J4SQH9n91OUo/8ng4/ppd6BT2W8ArW/3mAuqkOs/TpJn8jYDLxT3A5t9Kdpa5IYzT
-	 slritOnCDN5RB6aN46WIb5sw6HaLsi+QX7hIzyaw4HO+YKzRkcYnGehUweufY8SFeE
-	 vhbc56vvqrYfIxpteZT6MKCRy5VS3nM4AUaXD990=
+	bh=bjyVIngxWhHI/r34pFKQsUqqa98h8itCnsVlHh9uNHk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=q4aFLXL7XMn6ZWQjOXQ3iyDqVFzWeYR+YubKbixxQJEbWnlja8zAV4+aZ3FCY+sy3
+	 nxqL6JWkyvMFzZU6A2gf6TDC6YvpX07278EimiW2iyBnPHzWnmZ5pJVA363BRa2yCR
+	 2Caxd9tOqu20Dl7HkZmGTYrCDcE/VVlIz/dzb6Ps=
 From: "Paul Eggleton" <paul.eggleton@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Usama Arif <usama.arif@arm.com>
-Subject: [PATCH 0/8] kernel-fitimage extensions
-Date: Wed, 16 Dec 2020 18:51:34 -0800
-Message-Id: <cover.1608173226.git.paul.eggleton@linux.microsoft.com>
+Subject: [PATCH 1/8] classes/kernel-fitimage: add variable for description
+Date: Wed, 16 Dec 2020 18:51:35 -0800
+Message-Id: <384aea84fb802a2cb20101887b6c6d82e438ef17.1608173226.git.paul.eggleton@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1608173226.git.paul.eggleton@linux.microsoft.com>
+References: <cover.1608173226.git.paul.eggleton@linux.microsoft.com>
 
-Some minor extensions to the kernel-fitimage class, mostly for signing,
-with associated oe-selftest tests. 
+From: Paul Eggleton <paul.eggleton@microsoft.com>
 
-(Separate docs patch is queued and will follow once these changes are
-pass review).
+Add a FIT_DESC variable to make it possible to change how the
+description is set in the FIT image.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-The following changes since commit 6012fffa99b600956ea1076d60e050d0737b4c4f:
-
-  systemd: Fix reallocarray check (2020-12-16 19:44:45 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/fitimage
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/fitimage
-
-Easwar Hariharan (1):
-  classes/kernel-fitimage: make fitimage_emit_section_config more
-    readable
-
-Luca Boccassi (1):
-  classes/kernel-fitimage: add ability to sign individual images
-
-Paul Eggleton (6):
-  classes/kernel-fitimage: add variable for description
-  classes/kernel-fitimage: allow substituting mkimage command
-  classes/kernel-fitimage: add ability to add additional signing options
-  oe-selftest: move FIT image tests to their own module
-  oe-selftest: fitimage: Test for FIT_DESC
-  oe-selftest: fitimage: add test for signing FIT images
-
- meta-selftest/classes/test-mkimage-wrapper.bbclass |  19 ++
- meta/classes/kernel-fitimage.bbclass               | 114 +++++++---
- meta/lib/oeqa/selftest/cases/fitimage.py           | 233 +++++++++++++++++++++
- meta/lib/oeqa/selftest/cases/imagefeatures.py      |  74 -------
- 4 files changed, 339 insertions(+), 101 deletions(-)
- create mode 100644 meta-selftest/classes/test-mkimage-wrapper.bbclass
- create mode 100644 meta/lib/oeqa/selftest/cases/fitimage.py
-
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index bb2f3c4..f121eee 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -72,6 +72,9 @@ FIT_KEY_REQ_ARGS ?= "-batch -new"
+ # Standard format for public key certificate
+ FIT_KEY_SIGN_PKCS ?= "-x509"
+ 
++# Description string
++FIT_DESC ?= "U-Boot fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
++
+ #
+ # Emit the fitImage ITS header
+ #
+@@ -81,7 +84,7 @@ fitimage_emit_fit_header() {
+ /dts-v1/;
+ 
+ / {
+-        description = "U-Boot fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}";
++        description = "${FIT_DESC}";
+         #address-cells = <1>;
+ EOF
+ }
 -- 
 1.8.3.1
 
