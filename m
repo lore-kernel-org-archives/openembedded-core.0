@@ -1,173 +1,79 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web09.2789.1608175463466096814
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web12.4051.1608183278713279691
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 19:24:23 -0800
+ Wed, 16 Dec 2020 21:34:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ArW0YBTf;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id 4so14364689plk.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Dec 2020 19:24:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=vRVAP5HmM6HVxPM/ZXYlxLtHj7OEfQGPqFDhqkOOAFs=;
-        b=ArW0YBTfMNcBI0YgWT+4NW3z7YmMEjVxwwT/N+vLmk/V/KXVRvx0g0qmgN6LTU+t+N
-         ooi+HVUgUh4QI0GAtCBtT4td7QXR3hHdowzzaWdGvUFfqITmqBrCoII9kMxOb5tIhflQ
-         vWDTHC0PwzbUy1gT3WYES89flrDfKXAS7OxB/20T72rZEUrEpLncMKxyLOqvqCH3Rird
-         Ssvj975tPtQDCQNPsWXK1qpcqofPJ7fQJ2Cv0ebdaK7CeF3LKnlw1dl6Q+X7zBeFBw4k
-         QHh3foICsBubzRuiYhFk8rNX37njKaGx+Ofy8iNjIsIDHqVxAAx9jf9zhZcAVt88VIYY
-         7cWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=vRVAP5HmM6HVxPM/ZXYlxLtHj7OEfQGPqFDhqkOOAFs=;
-        b=WlrxNusMbObAMMoKF8Y0PxDmq2DLu1ZelU0ZW8rXmvAHTHoOZ9tK/S5cyqjUP4U4qM
-         mA18qSnn/1IzTSkSiWUwagFkiwmBS0gHLBv/SSS/hX81XIM6vy7ch1RIxQnqWql1qnLw
-         teo6QJXSNejhrPNVfBKwgxWljqtNG2m/m55ZnWY+7ZOVGVyZ1uVSl/oQ2BHM0ola4kBO
-         GZ/4QAJgl1dw3koVE9xVIhcdzRZ9J6g/6BbLdPFWFoiexB9M/h4k7cW3P2Nj1R+qra03
-         viU/eNjbedpRQvM1R6GgcYpC0qaCrzngzb67BaIPc935bAobek5uZ0NE3rLQb377s9Ce
-         Wykg==
-X-Gm-Message-State: AOAM532l9eh3auQZvJFvTNTyv2sC7AqAZwhMTHEm8ngWIf8Q3kHANhhG
-	5v4z6pRQw8SG8B0SbS0NXOVdx1mM4b7oJ/Fp
-X-Google-Smtp-Source: ABdhPJy0ccAv0Lk8JQLOD13lqN5xm+WEnBadwZrfLViXT1KU8UNoKtvSuEyUYi2QJuS9X1tpIMuwZw==
-X-Received: by 2002:a17:90b:33d1:: with SMTP id lk17mr6060894pjb.174.1608175462183;
-        Wed, 16 Dec 2020 19:24:22 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id m77sm3666144pfd.105.2020.12.16.19.24.20
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Dec 2020 19:24:20 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: jay.shen.teoh@intel.com)
+IronPort-SDR: 120ppdvsqnaxGu8UeoWxPpjfTBLkqBsKnT1wC7mXg2uDaN+S+/I268NFI6Rb1egPo6M3BPt1HW
+ JAtbb2O8Z5Eg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="193582864"
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="193582864"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 21:34:36 -0800
+IronPort-SDR: L8gpTGdZPilmyvBBaaQyJJRfHPSCrXVohYvSk/Q5rP92YHZG+V6VKb6OhmDe5lWjlnWTZmgvih
+ WQCITHXkRL/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="413179891"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by orsmga001.jf.intel.com with ESMTP; 16 Dec 2020 21:34:35 -0800
+From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/28] Pull request (cover letter only)
-Date: Wed, 16 Dec 2020 17:24:07 -1000
-Message-Id: <cover.1608175306.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] oeqa/terminal : improve the test case
+Date: Thu, 17 Dec 2020 13:34:30 +0800
+Message-Id: <1608183270-6229-1-git-send-email-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <16460429C740485C.10479@lists.openembedded.org>
+References: <16460429C740485C.10479@lists.openembedded.org>
 
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-The following changes since commit e216b2223cbe8c459348262f98b3cfbe79d12023:
+-Improve this test case to fulfill the requirements of replacing the click_terminal_icon_on_X_desktop manual test case from oeqa/manual/bsp-hw :
+1) verify that the terminal window is working without problem
+2) verify that there's only 1 terminal window is launched
+3) reduce test case run time
 
-  go: update to 1.14.12 (2020-12-03 07:35:27 -1000)
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
+---
+ meta/lib/oeqa/runtime/cases/terminal.py | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Alexander Kanavin (7):
-  meta/lib/oe/reproducible.py: gitsm:// works just as fine as git:// for
-    timestamps
-  llvm: fix reproducibility
-  ruby: fix reproducibility
-  webkitgtk: fix reproducibility
-  ffmpeg: fix reproducibility
-  serf: do not install the static library
-  llvm: sort the lists in generated source reproducibibly
-
-Andrej Valek (2):
-  kernel-dummy: fix executing unexpected tasks
-  python3: fix CVE-2019-20907
-
-Brett Warren (1):
-  libffi: add patch to revert clang VFP workaround
-
-Changqing Li (1):
-  buildtools-tarball: add wic dependency into extended buildtools
-
-Dmitry Baryshkov (2):
-  linux-firmware: upgrade 20201022 -> 20201118
-  linux-firmware: package ath11k firmware
-
-Gratian Crisan (1):
-  kernel-module-split.bbclass: fix kernel modules getting marked as
-    CONFFILES
-
-Hongxu Jia (1):
-  glib-networking/btrfs-tools/dosfstools/parted/bmap-tools/libsoup-2.4:
-    add nativesdk support
-
-Lee Chee Yang (3):
-  glibc: fix CVE-2020-29562
-  qemu: fix CVE-2020-25723
-  binutils: fix CVE-2020-16592/16598
-
-Mark Jonas (1):
-  libsdl2: Add directfb to PACKAGECONFIG rdepends
-
-Richard Purdie (2):
-  lz4: Use the new branch naming from upstream
-  metadata_scm: Fix signature handling of METADATA_REVISION and
-    METADATA_BRANCH
-
-Ross Burton (5):
-  oeqa/devtool: use Yocto mirror for pv-1.5.3 tarball
-  devtool: remove unused variable
-  image_types: sort tarball file listings
-  cve-update-db-native: handle all-wildcard versions
-  coreutils: add SUSE-specific issues to CVE whitelist
-
-sangeeta jain (1):
-  meta/lib/oeqa/manual/oe-core.json: Update test_bitbake_devshell
-
-zangrc (1):
-  wireless-regdb: upgrade 2020.04.29 -> 2020.11.20
-
- meta/classes/image_types.bbclass              |   2 +-
- meta/classes/kernel-module-split.bbclass      |   5 +-
- meta/classes/metadata_scm.bbclass             |   2 +
- meta/lib/oe/reproducible.py                   |   2 +-
- meta/lib/oeqa/manual/oe-core.json             |   2 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |   2 +-
- meta/recipes-core/coreutils/coreutils_8.31.bb |   3 +
- .../glib-networking/glib-networking_2.62.4.bb |   2 +-
- .../glibc/glibc/CVE-2020-29562.patch          | 156 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
- .../meta/buildtools-extended-tarball.bb       |   3 +
- .../recipes-core/meta/cve-update-db-native.bb |   7 +-
- .../binutils/binutils-2.34.inc                |   2 +
- .../binutils/binutils/CVE-2020-16592.patch    |  61 +++++++
- .../binutils/binutils/CVE-2020-16598.patch    |  32 ++++
- .../btrfs-tools/btrfs-tools_5.4.1.bb          |   2 +-
- .../dosfstools/dosfstools_4.1.bb              |   2 +-
- ...r-sort-ClassInfo-lists-by-name-as-we.patch |  31 ++++
- meta/recipes-devtools/llvm/llvm_git.bb        |   8 +-
- ...20-8492-Fix-AbstractBasicAuthHandler.patch |   0
- .../python/python3/CVE-2019-20907.patch       |  44 +++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2020-25723.patch            |  52 ++++++
- ...e.in-do-not-write-host-cross-cc-item.patch |  32 ++++
- meta/recipes-devtools/ruby/ruby_2.7.1.bb      |   1 +
- meta/recipes-extended/parted/parted_3.3.bb    |   2 +-
- .../libsdl2/libsdl2_2.0.12.bb                 |   2 +-
- ...20201022.bb => linux-firmware_20201118.bb} |  11 +-
- meta/recipes-kernel/linux/linux-dummy.bb      |   4 +-
- ....04.29.bb => wireless-regdb_2020.11.20.bb} |   2 +-
- ...e-assembly-with-full-path-from-sourc.patch |  97 +++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb |   6 +
- meta/recipes-sato/webkit/webkitgtk_2.28.2.bb  |  12 ++
- .../bmap-tools/bmap-tools_3.5.bb              |   2 +-
- ...m-sysv-reverted-clang-VFP-mitigation.patch | 104 ++++++++++++
- meta/recipes-support/libffi/libffi_3.3.bb     |   1 +
- .../libsoup/libsoup-2.4_2.68.4.bb             |   2 +-
- meta/recipes-support/lz4/lz4_1.9.2.bb         |   2 +-
- meta/recipes-support/serf/serf_1.3.9.bb       |   5 +
- scripts/lib/devtool/standard.py               |   1 -
- 41 files changed, 688 insertions(+), 21 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-16592.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-16598.patch
- create mode 100644 meta/recipes-devtools/llvm/llvm/0001-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch
- rename meta/recipes-devtools/python/{files => python3}/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch (100%)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2019-20907.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-25723.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201022.bb => linux-firmware_20201118.bb} (99%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2020.04.29.bb => wireless-regdb_2020.11.20.bb} (94%)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavutil-include-assembly-with-full-path-from-sourc.patch
- create mode 100644 meta/recipes-support/libffi/libffi/0001-arm-sysv-reverted-clang-VFP-mitigation.patch
-
+diff --git a/meta/lib/oeqa/runtime/cases/terminal.py b/meta/lib/oeqa/runtime/cases/terminal.py
+index ea4ef02..c330054 100644
+--- a/meta/lib/oeqa/runtime/cases/terminal.py
++++ b/meta/lib/oeqa/runtime/cases/terminal.py
+@@ -2,21 +2,20 @@ from oeqa.runtime.case import OERuntimeTestCase
+ from oeqa.core.decorator.depends import OETestDepends
+ from oeqa.runtime.decorator.package import OEHasPackage
+ 
+-import re
++import threading
++import time
+ 
+ class TerminalTest(OERuntimeTestCase):
+ 
+     @OEHasPackage(['matchbox-terminal'])
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     def test_terminal_running(self):
+-        status, output = self.target.run("export DISPLAY=:0 && matchbox-terminal",)
+-        check_terminal = re.search("Process killed - no output for 300 seconds.", output)
+-        self.assertTrue(check_terminal, msg='Terminal window should be launched without any problem')  
+-        
+-        status, output = self.target.run('pidof matchbox-terminal | wc -w')
+-        output = int(output)
+-        self.assertEqual(output, 1, 'There should be only one terminal window being launched. Terminal window launched : %s' % output)
++        t_thread = threading.Thread(target=self.target.run, args=("export DISPLAY=:0 && matchbox-terminal -e 'sh -c \"uname -a && exec sh\"'",))
++        t_thread.start()
++        time.sleep(2)
+         
+         status, output = self.target.run('pidof matchbox-terminal')
++        number_of_terminal = len(output.split())
++        self.assertEqual(number_of_terminal, 1, msg='There should be only one terminal being launched. Number of terminal launched : %s' % number_of_terminal)
+         self.target.run('kill -9 %s' % output)
+-        self.assertEqual(status, 0, msg='Not able to find process that runs terminal.')   
++        self.assertEqual(status, 0, msg='Not able to find process that runs terminal.') 
+\ No newline at end of file
 -- 
-2.17.1
+2.7.4
 
