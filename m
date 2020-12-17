@@ -1,169 +1,137 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.2500.1608173537017137393
+ by mx.groups.io with SMTP id smtpd.web12.2570.1608173537549950620
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Dec 2020 18:52:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.microsoft.com header.s=default header.b=mdldB0iL;
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=bpmaQ7Lt;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: pauleg@linux.microsoft.com)
 Received: by linux.microsoft.com (Postfix, from userid 1054)
-	id 7E12120B7185; Wed, 16 Dec 2020 18:52:16 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7E12120B7185
+	id 9F03620B718A; Wed, 16 Dec 2020 18:52:16 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9F03620B718A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
 	s=default; t=1608173536;
-	bh=AAg5ZId+rG06nN0tXqp5JWdAXkKB9SMDnifVk7Xbs2Y=;
+	bh=TX+151Q9sJCtBnpGVMe5EAwQLj671KIkSHTkFEZyyO0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mdldB0iL2qYTskuiAPl6pRord8ejj1xqC0i3yLbIcrE5sLfsgeHAd3N2dgDdtf0a2
-	 Rjtbt/rHDo7zhgidUHQvfY/89PA9vPOSKwG9JxdaZUd1M+2m6gBel0QAf3dd2nvlsK
-	 rcizO/ZysBBvWbGaM8b2/TybvEvz+DEB31fAKqeI=
+	b=bpmaQ7Lt7TOlo10k4/OV29XSvy1RcMlgWc7GgTfvBJlWR8qe4dl2Lq5DJ5xfjOUmU
+	 BzjIEwp3msVPUyuZhNS532L1jSZcIXOTzP4nSDoU2u14FUHFGV+LUhNOusnJCRm5yf
+	 MzmP4TDm/f7yqEfki5tWCbgQJcsOjVp8gnz+VjhY=
 From: "Paul Eggleton" <paul.eggleton@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Usama Arif <usama.arif@arm.com>
-Subject: [PATCH 2/8] classes/kernel-fitimage: make fitimage_emit_section_config more readable
-Date: Wed, 16 Dec 2020 18:51:36 -0800
-Message-Id: <b04aaf22ed12c9a61ce6323446f332c2fd2386fc.1608173226.git.paul.eggleton@linux.microsoft.com>
+Subject: [PATCH 5/8] classes/kernel-fitimage: add ability to sign individual images
+Date: Wed, 16 Dec 2020 18:51:39 -0800
+Message-Id: <80bcf9a995b32f239a043d12cfac44e75f1880a6.1608173226.git.paul.eggleton@linux.microsoft.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1608173226.git.paul.eggleton@linux.microsoft.com>
 References: <cover.1608173226.git.paul.eggleton@linux.microsoft.com>
 
-From: Easwar Hariharan <eahariha@microsoft.com>
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-fitimage_emit_section_config() has a number of arguments, add named
-variables to make the function a bit more readable.
+Add the ability to have the kernel, dtb and ramdisk individually signed
+by setting FIT_SIGN_INDIVIDUAL = "1". This could be useful if you are
+intending to verify signatures before using kexec for example.
 
-Signed-off-by: Easwar Hariharan <eahariha@microsoft.com>
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 Signed-off-by: Paul Eggleton <paul.eggleton@microsoft.com>
 ---
- meta/classes/kernel-fitimage.bbclass | 53 ++++++++++++++++++++----------------
- 1 file changed, 30 insertions(+), 23 deletions(-)
+ meta/classes/kernel-fitimage.bbclass | 42 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index f121eee..f3d18e2 100644
+index 9661b4f..9fa302a 100644
 --- a/meta/classes/kernel-fitimage.bbclass
 +++ b/meta/classes/kernel-fitimage.bbclass
-@@ -273,6 +273,13 @@ fitimage_emit_section_config() {
- 		conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
- 	fi
+@@ -75,6 +75,9 @@ FIT_KEY_SIGN_PKCS ?= "-x509"
+ # Description string
+ FIT_DESC ?= "U-Boot fitImage for ${DISTRO_NAME}/${PV}/${MACHINE}"
  
-+	its_file="${1}"
-+	kernel_id="${2}"
-+	dtb_image="${3}"
-+	ramdisk_id="${4}"
-+	config_id="${5}"
-+	default_flag="${6}"
++# Sign individual images as well
++FIT_SIGN_INDIVIDUAL ?= "0"
 +
- 	# Test if we have any DTBs at all
- 	sep=""
- 	conf_desc=""
-@@ -285,49 +292,49 @@ fitimage_emit_section_config() {
+ # mkimage command
+ UBOOT_MKIMAGE ?= "uboot-mkimage"
+ UBOOT_MKIMAGE_SIGN ?= "${UBOOT_MKIMAGE}"
+@@ -142,6 +145,8 @@ EOF
+ fitimage_emit_section_kernel() {
  
- 	# conf node name is selected based on dtb ID if it is present,
- 	# otherwise its selected based on kernel ID
--	if [ -n "${3}" ]; then
--		conf_node=$conf_node${3}
-+	if [ -n "${dtb_image}" ]; then
-+		conf_node=$conf_node${dtb_image}
- 	else
--		conf_node=$conf_node${2}
-+		conf_node=$conf_node${kernel_id}
- 	fi
+ 	kernel_csum="${FIT_HASH_ALG}"
++	kernel_sign_algo="${FIT_SIGN_ALG}"
++	kernel_sign_keyname="${UBOOT_SIGN_KEYNAME}"
  
--	if [ -n "${2}" ]; then
-+	if [ -n "${kernel_id}" ]; then
- 		conf_desc="Linux kernel"
- 		sep=", "
--		kernel_line="kernel = \"kernel@${2}\";"
-+		kernel_line="kernel = \"kernel@${kernel_id}\";"
- 	fi
- 
--	if [ -n "${3}" ]; then
-+	if [ -n "${dtb_image}" ]; then
- 		conf_desc="${conf_desc}${sep}FDT blob"
- 		sep=", "
--		fdt_line="fdt = \"fdt@${3}\";"
-+		fdt_line="fdt = \"fdt@${dtb_image}\";"
- 	fi
- 
--	if [ -n "${4}" ]; then
-+	if [ -n "${ramdisk_id}" ]; then
- 		conf_desc="${conf_desc}${sep}ramdisk"
- 		sep=", "
--		ramdisk_line="ramdisk = \"ramdisk@${4}\";"
-+		ramdisk_line="ramdisk = \"ramdisk@${ramdisk_id}\";"
- 	fi
- 
--	if [ -n "${5}" ]; then
-+	if [ -n "${config_id}" ]; then
- 		conf_desc="${conf_desc}${sep}setup"
--		setup_line="setup = \"setup@${5}\";"
-+		setup_line="setup = \"setup@${config_id}\";"
- 	fi
- 
--	if [ "${6}" = "1" ]; then
-+	if [ "${default_flag}" = "1" ]; then
- 		# default node is selected based on dtb ID if it is present,
- 		# otherwise its selected based on kernel ID
--		if [ -n "${3}" ]; then
--			default_line="default = \"conf@${3}\";"
-+		if [ -n "${dtb_image}" ]; then
-+			default_line="default = \"conf@${dtb_image}\";"
- 		else
--			default_line="default = \"conf@${2}\";"
-+			default_line="default = \"conf@${kernel_id}\";"
- 		fi
- 	fi
- 
--	cat << EOF >> ${1}
-+	cat << EOF >> ${its_file}
-                 ${default_line}
-                 $conf_node {
--			description = "${6} ${conf_desc}";
-+			description = "${default_flag} ${conf_desc}";
- 			${kernel_line}
- 			${fdt_line}
- 			${ramdisk_line}
-@@ -342,28 +349,28 @@ EOF
- 		sign_line="sign-images = "
- 		sep=""
- 
--		if [ -n "${2}" ]; then
-+		if [ -n "${kernel_id}" ]; then
- 			sign_line="${sign_line}${sep}\"kernel\""
- 			sep=", "
- 		fi
- 
--		if [ -n "${3}" ]; then
-+		if [ -n "${dtb_image}" ]; then
- 			sign_line="${sign_line}${sep}\"fdt\""
- 			sep=", "
- 		fi
- 
--		if [ -n "${4}" ]; then
-+		if [ -n "${ramdisk_id}" ]; then
- 			sign_line="${sign_line}${sep}\"ramdisk\""
- 			sep=", "
- 		fi
- 
--		if [ -n "${5}" ]; then
-+		if [ -n "${config_id}" ]; then
- 			sign_line="${sign_line}${sep}\"setup\""
- 		fi
- 
- 		sign_line="${sign_line};"
- 
--		cat << EOF >> ${1}
-+		cat << EOF >> ${its_file}
-                         signature@1 {
-                                 algo = "${conf_csum},${conf_sign_algo}";
-                                 key-name-hint = "${conf_sign_keyname}";
-@@ -372,7 +379,7 @@ EOF
- EOF
- 	fi
- 
--	cat << EOF >> ${1}
-+	cat << EOF >> ${its_file}
+ 	ENTRYPOINT="${UBOOT_ENTRYPOINT}"
+ 	if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
+@@ -164,6 +169,17 @@ fitimage_emit_section_kernel() {
+                         };
                  };
  EOF
++
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${kernel_sign_keyname}" ] ; then
++		sed -i '$ d' ${1}
++		cat << EOF >> ${1}
++                        signature@1 {
++                                algo = "${kernel_csum},${kernel_sign_algo}";
++                                key-name-hint = "${kernel_sign_keyname}";
++                        };
++                };
++EOF
++	fi
  }
+ 
+ #
+@@ -175,6 +191,8 @@ EOF
+ fitimage_emit_section_dtb() {
+ 
+ 	dtb_csum="${FIT_HASH_ALG}"
++	dtb_sign_algo="${FIT_SIGN_ALG}"
++	dtb_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+ 
+ 	dtb_loadline=""
+ 	dtb_ext=${DTB##*.}
+@@ -198,6 +216,17 @@ fitimage_emit_section_dtb() {
+                         };
+                 };
+ EOF
++
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${dtb_sign_keyname}" ] ; then
++		sed -i '$ d' ${1}
++		cat << EOF >> ${1}
++                        signature@1 {
++                                algo = "${dtb_csum},${dtb_sign_algo}";
++                                key-name-hint = "${dtb_sign_keyname}";
++                        };
++                };
++EOF
++	fi
+ }
+ 
+ #
+@@ -236,6 +265,8 @@ EOF
+ fitimage_emit_section_ramdisk() {
+ 
+ 	ramdisk_csum="${FIT_HASH_ALG}"
++	ramdisk_sign_algo="${FIT_SIGN_ALG}"
++	ramdisk_sign_keyname="${UBOOT_SIGN_KEYNAME}"
+ 	ramdisk_loadline=""
+ 	ramdisk_entryline=""
+ 
+@@ -261,6 +292,17 @@ fitimage_emit_section_ramdisk() {
+                         };
+                 };
+ EOF
++
++	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${FIT_SIGN_INDIVIDUAL}" = "1" -a -n "${ramdisk_sign_keyname}" ] ; then
++		sed -i '$ d' ${1}
++		cat << EOF >> ${1}
++                        signature@1 {
++                                algo = "${ramdisk_csum},${ramdisk_sign_algo}";
++                                key-name-hint = "${ramdisk_sign_keyname}";
++                        };
++                };
++EOF
++	fi
+ }
+ 
+ #
 -- 
 1.8.3.1
 
