@@ -1,104 +1,142 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.10937.1608222083244157187
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web12.12316.1608225910051899144
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Dec 2020 08:21:24 -0800
+ Thu, 17 Dec 2020 09:25:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=NUTtbqOS;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XIhKdjiR;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: luca.boccassi@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id v14so6238196wml.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 09:25:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1608222083;
-  x=1639758083;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=sT5aP4tShA8FCwcAutq6AdJL599MU8gOXxha6Zp48a0=;
-  b=NUTtbqOSNF+kBHeNhr1JeMPNO+lN+mi6itJLN2nlESOLCGKJdZry2s0k
-   JQPb4YwcXrfD0LL9RcljvCYl3bFr3cWIjOvZhaaHWJ6M+6g4YKtU3GVWO
-   Na8h/oZpWCL11bfNY4Nrg5upahoXSqDZzJOs3r18G7LNpube2eg/RvBvS
-   YQEG4mE0oSzHsJqP4C81/QrO102VJ67/UZVBo83oPAKDMbYfDC/tsxOjA
-   jlgbdFaXvNZWxLpo2xjgW9x7bL8p0uirUJQ8eNHCPpFsxivSh3fE2irYV
-   zrV5l3N568lmeuvMudzhwM6+tDJO+5fRSKlojCnPH+W+V7LMcDU+UvLtw
-   g==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Kory Maincent <kory.maincent@bootlin.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "thomas.petazzoni@bootlin.com" <thomas.petazzoni@bootlin.com>
-Subject: Re: [OE-core] [PATCH v2] ltp: fix rpc build error
-Thread-Topic: [OE-core] [PATCH v2] ltp: fix rpc build error
-Thread-Index: AQHW1H4Nn1xWXFMU0EmwWkfaBA2LA6n7ctHg
-Date: Thu, 17 Dec 2020 16:21:20 +0000
-Message-ID: <ce781b6c4aa644f3ba1f322396065bcb@XBOX03.axis.com>
-References: <20201217140756.30688-1-kory.maincent@bootlin.com>
-In-Reply-To: <20201217140756.30688-1-kory.maincent@bootlin.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=A/RH5rhE3+IMs9B3BI5LqYxVzPc4qvfZi6Pb0A9PdVQ=;
+        b=XIhKdjiRL2x2G/8jEA+SXEru2MprDCpiAi0lQi9lS9Y4Sw8KEWPg7OAfhTKv0SRFAU
+         lfNi8IHtY9LzYSVv6thmRxY1hof2w8sOQHv8YBOiKhRMf1ClFS9Shv9D8+U/wzxXkhUE
+         6I7/io+L6w86RqBmLJeg2fJJNLtf7MsV8rsCXcB2fhQHh8iRdPIXHPoIqe8HCUwrlLrD
+         gN71eD1qLOvvIvNgCyEZ396c9VDCNW9jnoKvZPyy52zRVDyS1AFxoVdf/pMf+nwmqKeo
+         baLz7tDEDQ0cn9NsFJUyKunOoHduvnBI3VqM2s7gbT97Z/axpoMTNHeLQliLQYZUCz7P
+         nHJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=A/RH5rhE3+IMs9B3BI5LqYxVzPc4qvfZi6Pb0A9PdVQ=;
+        b=NN1RloO+iYuhNaorXFYuwcYPZGHWaD3BMD5dt/EP5BnVBV5p+Z01ANWRTiOJWlVJ79
+         laOsGyUpcUE5CUyEKy2H8lRlOfmfPqp2txFakfzCagPnvZWTBRwYNninm5rADpvRfknN
+         1GlhbU/h9IwT+GDCqTvxJ0G3zfg26oRgQ/B/zwcVBPZXJgH+9Suw8sk6QqELox/tCkZD
+         xs08rH1d5sX/FfZ/gTLkJ3gPTN5IWQtD43R5jCDcCNhqu8H8W0UfXQQ/KVNLHoyiAp9K
+         D0cRpdlDBbfo/4gKYHd7NKNpZ1olCkVgQTT+KYPO1UW5OCLkmgwpWtj4xpqLQE67ObiY
+         1H4A==
+X-Gm-Message-State: AOAM530rp7JmW5Ci9SD9ErnZFj6KVJ1y703HaQ2lhwaJMyuJO89//YPs
+	q01g9FM9v/fDtwVl89ZI57o=
+X-Google-Smtp-Source: ABdhPJzLvKHbcm4AOCx4bZfR8Qd+nnYp1NF23S1QMBU4BEEI2JLErBku1ZPTSDvwWq8fExDKIGjy7w==
+X-Received: by 2002:a05:600c:2219:: with SMTP id z25mr375804wml.27.1608225908547;
+        Thu, 17 Dec 2020 09:25:08 -0800 (PST)
+Return-Path: <luca.boccassi@gmail.com>
+Received: from bluca-lenovo ([88.98.246.218])
+        by smtp.gmail.com with ESMTPSA id s1sm9759528wrv.97.2020.12.17.09.25.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Dec 2020 09:25:07 -0800 (PST)
+Message-ID: <68d3174ccafddf0732e553e408e8b1c5c62a095f.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/5] systemd: update 246 -> 247
+From: "Luca Bocassi" <luca.boccassi@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 17 Dec 2020 17:25:07 +0000
+In-Reply-To: <7d16bf791179cc0e90fd0172e984eeeacb065112.camel@linuxfoundation.org>
+References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
+	 <20201214123457.122655-1-luca.boccassi@gmail.com>
+	 <7d16bf791179cc0e90fd0172e984eeeacb065112.camel@linuxfoundation.org>
+User-Agent: Evolution 3.30.5-1.2 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Kory Maincent
-> Sent: den 17 december 2020 15:08
-> To: openembedded-core@lists.openembedded.org
-> Cc: thomas.petazzoni@bootlin.com
-> Subject: [OE-core] [PATCH v2] ltp: fix rpc build error
->=20
-> Add support to tirpc tests build.
-> Export incdir and libdir to have the right path.
->=20
-> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
-> ---
->=20
-> Change since v1:
->  - Use PACKAGECONFIG to enable rpc tests
->  - Improve ${libdir} and ${incdir} export
->=20
->=20
->  meta/recipes-extended/ltp/ltp_20200930.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/ltp/ltp_20200930.bb b/meta/recipes-
-> extended/ltp/ltp_20200930.bb
-> index 7acf15b360..9da5d90353 100644
-> --- a/meta/recipes-extended/ltp/ltp_20200930.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20200930.bb
-> @@ -42,14 +42,14 @@ inherit autotools-brokensep pkgconfig
->=20
->  TARGET_CC_ARCH +=3D "${LDFLAGS}"
->=20
-> +export libdir :=3D "${exec_prefix}/${baselib}"
-> +export incdir :=3D "${exec_prefix}/include"
+On Wed, 2020-12-16 at 18:07 +0000, Richard Purdie wrote:
+> On Mon, 2020-12-14 at 12:34 +0000, Luca Bocassi wrote:
+> > From: Luca Boccassi <luca.boccassi@microsoft.com>
+> > 
+> > Update systemd to v247.1.
+> > Add rule for new oomd dbus conf and for new pam.d
+> > conf directory in /usr/lib.
+> > Drop selinux-hook-handling-to-enumerate-nexthop.patch,
+> > merged upstream.
+> > Backport 0001-meson-set-cxx-variable-before-using-it.patch
+> > from v247-stable to fix builds without C++.
+> > Refresh musl patches.
+> > 
+> > Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> > ---
+> > NOTE: the musl build has only been build-tested, and only on x86_64.
+> > The glibc build has been built and runtime-tested on x86_64 and
+> > arm64.
+> 
+> [sorry, hit send early when writing]
+> 
+> Unfortunately there is still something not quite right in this patchset
+> as it failed again during testing. There are a few different problems:
+> 
+> meta-intel in systemd-boot:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/1016
 
-This should be a little bit better:
+Looking into this, thanks
 
-export libdir :=3D "${libdir}"
-export incdir :=3D "${incdir}"
+> a reproducibility issue in oe-selftest:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1651
+> (which did happen last time as well on centos but I don't think was
+> reported on the list, sorry)
+> 
+> These urls may help understand why its not reproducible:
+> 
+> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201215-mhq8wl33/packages/diff-html/
+> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20201215-mhq8wl33/
+> 
+> (looks like the uid of messagebus is changing at a really quick glance)
 
->  export prefix =3D "/opt/${PN}"
-> -export exec_prefix =3D "/opt/${PN}"
->=20
->  PACKAGECONFIG[numa] =3D "--with-numa, --without-numa, numactl,"
-> +PACKAGECONFIG[rpc] =3D ", --without-tirpc, virtual/librpc,"
+Given your follow-up message about host contamination, is there
+anything I can do here to fix it/mitigate it, or is it a CI issue?
 
-I assume there is a --with-tirpc as well, so this should be:
+> and a build issue in world-lsb:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/1189
+> 
+> At the top of the logs you can see the configuration that is being used
+> for a given build, so for example in the last one, the key difference
+> to some of the other builds might be any one of:
+> 
+> DISTRO = "poky-altcfg"
+> DISTRO_FEATURES_append = ' api-documentation'
+> require conf/multilib.conf
+> MULTILIBS = 'multilib:lib32'
+> DEFAULTTUNE_virtclass-multilib-lib32 = 'x86'
+> QEMU_USE_KVM = 'True'
+> INHERIT += 'testimage'
+> SDK_EXT_TYPE = 'minimal'
+> SDK_INCLUDE_TOOLCHAIN = '1'
+> 
+> but given its a pam error, I'd strongly suspect the DISTRO = "poky-
+> altcfg" would be the likely trigger.
 
-PACKAGECONFIG[rpc] =3D "--with-tirpc, --without-tirpc, virtual/librpc,"
+ERROR: systemd-1_247.1-r0 do_package: QA Issue: systemd: Files/directories were installed but not shipped in any packa
+ge:
+  /usr/lib/pam.d
+  /usr/lib/pam.d/systemd-user
 
->  EXTRA_AUTORECONF +=3D "-I ${S}/testcases/realtime/m4"
->  EXTRA_OECONF =3D " --with-realtime-testsuite --with-open-posix-testsuite=
- "
-> -# ltp network/rpc test cases ftbfs when libtirpc is found
-> -EXTRA_OECONF +=3D " --without-tirpc "
->=20
->  do_install(){
->      install -d ${D}${prefix}/
-> --
-> 2.17.1
+But the recipe has:
 
-//Peter
+FILES_${PN} = " ${base_bindir}/* \
+               <...>
+               ${libdir}/pam.d/ \
+
+Shouldn't that match? Did I use the wrong variable?
+
+Thanks!
+
+-- 
+Kind regards,
+Luca Boccassi
 
