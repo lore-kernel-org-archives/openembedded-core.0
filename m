@@ -1,65 +1,117 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web10.1907.1608170315353656495
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web12.2523.1608173288671326993
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 17:58:35 -0800
+ Wed, 16 Dec 2020 18:48:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Au7aJPFX;
- spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
-Subject: Re: [OE-core] [meta-oe][PATCH v4] iproute2: split ip to individual package
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1608170314;
-	bh=P+EiY4N9mGR6+BBVYEhpPHseK6qFgom7X9+ZK1ucGIM=;
-	h=To:References:From:Date:In-Reply-To:From;
-	b=Au7aJPFXWEFrYZtEFGJYK3NWFPe2UQpq8HqJzJkf+12DmanxJ83190FbdvxyDAq8E
-	 f+o8/i1qLa5PLK+Sjnqqs2V2JqumO+p6hljXyjXwgHf1XqWT2zGJZLrX6DLUCd6usm
-	 x3yile1oAcvEiE08vOy6HoGk1mPMXxENflb28nt+PbwJzcCyQe1rZufxr1Fvvcta64
-	 duQa1d/7+LqQ5AZd3103fgecrQE+U8C8fXpPX/2pRFmuNjp1Vhi3b2cBI8xK4g24g4
-	 KTnitjJ6cDRS+Bc3CtQBMI44UdcJPlBk6rzXWL6DtrAmPhLUI4JlI06ZGrDy368Oh1
-	 xU9ehvsjSn9BA==
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-References: <20201216175021.18813-1-okaya@kernel.org>
- <c140c451791b4523b97df878f492fba8@XBOX03.axis.com>
- <998de3f5-13a8-6a77-903b-172d4c542309@kernel.org>
- <c3075328cf4d45ecb2ae76bdbeeae4cc@XBOX03.axis.com>
-From: "Sinan Kaya" <okaya@kernel.org>
-Message-ID: <b0203c25-a954-795e-406c-d46f503c9efa@kernel.org>
-Date: Wed, 16 Dec 2020 20:58:32 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: haSjKw+/9PLns5GQzg9WDikNM+TE7LM0WxppjggYD2sjN3W2GblzDZ1S24jJOSsOzafggfIsRC
+ F9x5s5TryO5Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9837"; a="175321178"
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="175321178"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 18:48:07 -0800
+IronPort-SDR: KHVhY4qvhncjsOsLtopaQ6uD5GCz/P8Kaulx/pxSX5gTrLQ5JRlmugK5a4kAaxWBvZNs4Z12iC
+ gpKaHIHr5cHQ==
+X-IronPort-AV: E=Sophos;i="5.78,425,1599548400"; 
+   d="scan'208";a="413071929"
+Received: from chinghee-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.72.53])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2020 18:48:06 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/19] pull request (cover letter only)
+Date: Thu, 17 Dec 2020 10:48:00 +0800
+Message-Id: <cover.1608173079.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <c3075328cf4d45ecb2ae76bdbeeae4cc@XBOX03.axis.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 12/16/2020 8:20 PM, Peter Kjellerstedt wrote:
->> I do something very similar in my bbappend now. On the other hand, we
->> have an upstream first principle in the company. I would rather try to
->> find an upstream friendly solution that works for everybody without
->> breaking existing users before falling back to bbappend route that I
->> need to maintain forever.
-> Well, the problem as I see it is that some of these changes are pretty 
-> invasive to the recipes. And when most seem fine with them as they are 
-> (based on the fact that there has not been any push to split any of 
-> them before AFAIK), the value of these changes are questionable, given 
-> that more complicated recipes increase the maintenance burden. 
-> 
+Please merge these changes in gatesgarth.
 
-The counter argument is that a user should not be required to rework a
-recipe in bbappend for common tools that everybody uses the same way.
+Thanks,
 
-If I was doing something special for my target, it has no business in
-upstream recipe.
+Anuj
 
-Requesting to have the ip tool out of iproute2 package is a no-brainer
-IMO and should be supported by default.
+The following changes since commit d11ab9cb77bf91f939035417b757773a5d80242c:
 
-I can also go ahead and say that ip tool probably is the most important
-tool in this package and is actually disappointing to see that it has
-not been brought out either by PACKAGECONFIG or PACKAGE options. I
-honestly don't care about the rest of the tools in that package.
+  build-appliance-image: Update to gatesgarth head revision (2020-12-07 16:25:27 +0000)
 
-At the end of the day, there is room for improvement in the recipe.
-Whether we can do it safely or not is for reviewers to help here.
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Alexander Kanavin (3):
+  meta/lib/oe/reproducible.py: gitsm:// works just as fine as git:// for
+    timestamps
+  llvm: fix reproducibility
+  webkitgtk: fix reproducibility
+
+Chandana kalluri (1):
+  populate_sdk_ext: use SDK_CUSTOM_TEPLATECONF variable to enable custom
+    templateconf.cfg
+
+Changqing Li (1):
+  buildtools-tarball: add wic dependency into extended buildtools
+
+Gratian Crisan (1):
+  kernel-module-split.bbclass: fix kernel modules getting marked as
+    CONFFILES
+
+Kai Kang (1):
+  sudo: fix multilib conflict
+
+Li Wang (2):
+  qemu: CVE-2020-29129 CVE-2020-29130
+  qemu: CVE-2020-25624
+
+Mark Jonas (1):
+  libsdl2: Add directfb to PACKAGECONFIG rdepends
+
+Richard Purdie (2):
+  lz4: Use the new branch naming from upstream
+  uninative: Don't use single sstate for pseudo-native
+
+Ross Burton (5):
+  cve-update-db-native: handle all-wildcard versions
+  oeqa/devtool: use Yocto mirror for pv-1.5.3 tarball
+  image_types: sort tarball file listings
+  image_types: remove obsolete tar comment
+  coreutils: add SUSE-specific issues to CVE whitelist
+
+sangeeta jain (1):
+  meta/lib/oeqa/manual/oe-core.json: Update test_bitbake_devshell
+
+zangrc (1):
+  wireless-regdb: upgrade 2020.04.29 -> 2020.11.20
+
+ meta/classes/base.bbclass                     |   1 +
+ meta/classes/image_types.bbclass              |  12 +--
+ meta/classes/kernel-module-split.bbclass      |   5 +-
+ meta/classes/populate_sdk_ext.bbclass         |   6 +-
+ meta/classes/sstate.bbclass                   |   4 +
+ meta/lib/oe/reproducible.py                   |   2 +-
+ meta/lib/oe/sstatesig.py                      |   2 +-
+ meta/lib/oeqa/manual/oe-core.json             |   2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |   2 +-
+ meta/recipes-core/coreutils/coreutils_8.32.bb |   3 +
+ .../meta/buildtools-extended-tarball.bb       |   3 +
+ .../recipes-core/meta/cve-update-db-native.bb |   7 +-
+ meta/recipes-devtools/llvm/llvm_git.bb        |   5 +
+ meta/recipes-devtools/qemu/qemu.inc           |   2 +
+ .../qemu/qemu/CVE-2020-25624.patch            | 101 ++++++++++++++++++
+ .../qemu/CVE-2020-29129-CVE-2020-29130.patch  |  64 +++++++++++
+ ...o.conf.in-fix-conflict-with-multilib.patch |  52 +++++++++
+ meta/recipes-extended/sudo/sudo_1.9.3.bb      |   6 +-
+ .../libsdl2/libsdl2_2.0.12.bb                 |   2 +-
+ ....04.29.bb => wireless-regdb_2020.11.20.bb} |   2 +-
+ meta/recipes-sato/webkit/webkitgtk_2.28.4.bb  |  12 +++
+ meta/recipes-support/lz4/lz4_1.9.2.bb         |   2 +-
+ 22 files changed, 274 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-25624.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-29129-CVE-2020-29130.patch
+ create mode 100644 meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2020.04.29.bb => wireless-regdb_2020.11.20.bb} (94%)
+
+-- 
+2.29.2
+
