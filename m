@@ -1,102 +1,65 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.1470.1608168046565130178
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by mx.groups.io with SMTP id smtpd.web10.1907.1608170315353656495
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Dec 2020 17:20:47 -0800
+ Wed, 16 Dec 2020 17:58:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=iuNChEZN;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1608168047;
-  x=1639704047;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=PJP2OgFH3SSVDCah6ZZqv6TtnpZX2gu0Bg1k3PL7fJc=;
-  b=iuNChEZNtMawJh39mDfcIZictTJneGHBybB5Ka1sxaKCqJSViwJrm8XF
-   a7/ZWSFB0SdhLGVgPt5R9mJFPMffG7JCMSJiD0kkvofXPkVmEcolBmLAE
-   fbJqzlC++Ix+FWhl20C6lHmeQSMVa3AlqFrwyUg4z3mZDetRHRsczqgMM
-   4PAI7bbojVz8htzVevrAZyvN1KqQXu63R0Q4JTkiIsE+wzFJ3zNNB9UI/
-   TBzbi6TOgfkZFGT9ScWxVh49GK7V4ZHn1S+db3aQ4kEkcgqVnbW/Vgxil
-   +OXQdO/CqzLhZQqfVeOBp+sR7bR7tR+7m9AGzXit8eUX4LvvMWTCy6rrZ
-   w==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Sinan Kaya <okaya@kernel.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=Au7aJPFX;
+ spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
 Subject: Re: [OE-core] [meta-oe][PATCH v4] iproute2: split ip to individual package
-Thread-Topic: [OE-core] [meta-oe][PATCH v4] iproute2: split ip to individual
- package
-Thread-Index: AQHW09P4EciF8lhHa0+vZz2Q4JHbcKn6V+KQgAAHboCAABzSIA==
-Date: Thu, 17 Dec 2020 01:20:44 +0000
-Message-ID: <c3075328cf4d45ecb2ae76bdbeeae4cc@XBOX03.axis.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1608170314;
+	bh=P+EiY4N9mGR6+BBVYEhpPHseK6qFgom7X9+ZK1ucGIM=;
+	h=To:References:From:Date:In-Reply-To:From;
+	b=Au7aJPFXWEFrYZtEFGJYK3NWFPe2UQpq8HqJzJkf+12DmanxJ83190FbdvxyDAq8E
+	 f+o8/i1qLa5PLK+Sjnqqs2V2JqumO+p6hljXyjXwgHf1XqWT2zGJZLrX6DLUCd6usm
+	 x3yile1oAcvEiE08vOy6HoGk1mPMXxENflb28nt+PbwJzcCyQe1rZufxr1Fvvcta64
+	 duQa1d/7+LqQ5AZd3103fgecrQE+U8C8fXpPX/2pRFmuNjp1Vhi3b2cBI8xK4g24g4
+	 KTnitjJ6cDRS+Bc3CtQBMI44UdcJPlBk6rzXWL6DtrAmPhLUI4JlI06ZGrDy368Oh1
+	 xU9ehvsjSn9BA==
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
 References: <20201216175021.18813-1-okaya@kernel.org>
  <c140c451791b4523b97df878f492fba8@XBOX03.axis.com>
  <998de3f5-13a8-6a77-903b-172d4c542309@kernel.org>
-In-Reply-To: <998de3f5-13a8-6a77-903b-172d4c542309@kernel.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+ <c3075328cf4d45ecb2ae76bdbeeae4cc@XBOX03.axis.com>
+From: "Sinan Kaya" <okaya@kernel.org>
+Message-ID: <b0203c25-a954-795e-406c-d46f503c9efa@kernel.org>
+Date: Wed, 16 Dec 2020 20:58:32 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
+In-Reply-To: <c3075328cf4d45ecb2ae76bdbeeae4cc@XBOX03.axis.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBTaW5hbiBLYXlhIDxva2F5YUBr
-ZXJuZWwub3JnPg0KPiBTZW50OiBkZW4gMTcgZGVjZW1iZXIgMjAyMCAwMTozMQ0KPiBUbzogUGV0
-ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVuZW1iZWRk
-ZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFttZXRhLW9lXVtQQVRDSCB2NF0gaXByb3V0ZTI6IHNwbGl0IGlwIHRvDQo+IGluZGl2aWR1
-YWwgcGFja2FnZQ0KPiANCj4gT24gMTIvMTYvMjAyMCA2OjE5IFBNLCBQZXRlciBLamVsbGVyc3Rl
-ZHQgd3JvdGU6DQo+ID4+DQo+ID4+IC1QQUNLQUdFUyA9KyAiXA0KPiA+PiArSVBST1VURTJfUEFD
-S0FHRVMgPSsgIlwNCj4gPj4gICAgICAke1BOfS1kZXZsaW5rIFwNCj4gPj4gICAgICAke1BOfS1n
-ZW5sIFwNCj4gPj4gICAgICAke1BOfS1pZnN0YXQgXA0KPiA+PiArICAgICR7UE59LWlwIFwNCj4g
-Pj4gICAgICAke1BOfS1sbnN0YXQgXA0KPiA+PiAgICAgICR7UE59LW5zdGF0IFwNCj4gPj4gICAg
-ICAke1BOfS1ydGFjY3QgXA0KPiA+PiBAQCAtNTgsMTIgKzU5LDE2IEBAIFBBQ0tBR0VTID0rICJc
-DQo+ID4+ICAgICAgJHtQTn0tdGlwYyBcDQo+ID4+ICAiDQo+ID4+DQo+ID4+ICtQQUNLQUdFX0JF
-Rk9SRV9QTiA9ICIke0lQUk9VVEUyX1BBQ0tBR0VTfSINCj4gPj4gK1JERVBFTkRTXyR7UE59ICs9
-ICIke0lQUk9VVEUyX1BBQ0tBR0VTfSINCj4gPg0KPiA+IFRoaXMgYnJlYWtzIGJhY2t3YXJkcyBj
-b21wYXRpYmlsaXR5LiBUaGUgaXByb3V0ZTIgcGFja2FnZSB0b2RheQ0KPiA+IGRvZXMgbm90IGJy
-aW5nIGluIGFsbCB0aGUgc3ViLXBhY2thZ2VzLg0KPiA+DQo+IA0KPiBPSywgTGV0IG1lIGZpeCB0
-aGlzLg0KPiANCj4gPj4gKw0KPiA+PiAgRklMRVNfJHtQTn0tdGMgPSAiJHtiYXNlX3NiaW5kaXJ9
-L3RjKiBcDQo+ID4+ICAgICAgICAgICAgICAgICAgICAke2xpYmRpcn0vdGMvKi5zbyINCj4gPj4g
-IEZJTEVTXyR7UE59LWxuc3RhdCA9ICIke2Jhc2Vfc2JpbmRpcn0vbG5zdGF0IFwNCj4gPj4gICAg
-ICAgICAgICAgICAgICAgICAgICAke2Jhc2Vfc2JpbmRpcn0vY3RzdGF0IFwNCj4gPj4gICAgICAg
-ICAgICAgICAgICAgICAgICAke2Jhc2Vfc2JpbmRpcn0vcnRzdGF0Ig0KPiA+PiAgRklMRVNfJHtQ
-Tn0taWZzdGF0ID0gIiR7YmFzZV9zYmluZGlyfS9pZnN0YXQiDQo+ID4+ICtGSUxFU18ke1BOfS1p
-cCA9ICIke2Jhc2Vfc2JpbmRpcn0vaXAuJHtQTn0gJHtzeXNjb25mZGlyfS9pcHJvdXRlMiINCj4g
-Pj4gIEZJTEVTXyR7UE59LWdlbmwgPSAiJHtiYXNlX3NiaW5kaXJ9L2dlbmwiDQo+ID4+ICBGSUxF
-U18ke1BOfS1ydGFjY3QgPSAiJHtiYXNlX3NiaW5kaXJ9L3J0YWNjdCINCj4gPj4gIEZJTEVTXyR7
-UE59LW5zdGF0ID0gIiR7YmFzZV9zYmluZGlyfS9uc3RhdCINCj4gPj4gQEAgLTcxLDcgKzc2LDcg
-QEAgRklMRVNfJHtQTn0tc3MgPSAiJHtiYXNlX3NiaW5kaXJ9L3NzIg0KPiA+PiAgRklMRVNfJHtQ
-Tn0tdGlwYyA9ICIke2Jhc2Vfc2JpbmRpcn0vdGlwYyINCj4gPj4gIEZJTEVTXyR7UE59LWRldmxp
-bmsgPSAiJHtiYXNlX3NiaW5kaXJ9L2RldmxpbmsiDQo+ID4+DQo+ID4+IC1BTFRFUk5BVElWRV8k
-e1BOfSA9ICJpcCINCj4gPj4gK0FMVEVSTkFUSVZFXyR7UE59LWlwID0gImlwIg0KPiA+PiAgQUxU
-RVJOQVRJVkVfVEFSR0VUW2lwXSA9ICIke2Jhc2Vfc2JpbmRpcn0vaXAuJHtCUE59Ig0KPiA+PiAg
-QUxURVJOQVRJVkVfTElOS19OQU1FW2lwXSA9ICIke2Jhc2Vfc2JpbmRpcn0vaXAiDQo+ID4+ICBB
-TFRFUk5BVElWRV9QUklPUklUWSA9ICIxMDAiDQo+ID4+IC0tDQo+ID4+IDIuMTcuMQ0KPiA+DQo+
-ID4gSWYgeW91IGFyZSB0aGlzIHNwYWNlIGNvbnN0cmFpbmVkLCBJIHdvdWxkIHN1Z2dlc3QgYWRk
-aW5nIGJiYXBwZW5kDQo+IGZpbGVzDQo+ID4gdG8geW91ciBvd24gbGF5ZXIgZm9yIHRoZXNlIHJl
-Y2lwZXMgaW5zdGVhZC4gVGhhdCBpcyB3aGF0IHdlIGRvIHNvIHdlDQo+IGNhbg0KPiA+IGNvbnRy
-b2wgZXhhY3RseSB3aGF0IGZpbGVzIHdlIHdhbnQgb3Igbm90LiBFLmcuLCB0aGlzIGlzIHdoYXQg
-d2UgaGF2ZQ0KPiBpbg0KPiA+IG91ciBpcHJvdXRlMl8lLmJiYXBwZW5kOg0KPiA+DQo+ID4gRVhU
-UkFfT0VNQUtFICs9ICJTVUJESVJTPSdsaWIgdGMgaXAnIg0KPiA+DQo+ID4gZG9faW5zdGFsbF9h
-cHBlbmQoKSB7DQo+ID4gICAgICAgICAjIFJlbW92ZSB1bnVzZWQgZmlsZXMNCj4gPiAgICAgICAg
-IHJtIC1mICR7RH0ke2Jhc2Vfc2JpbmRpcn0vaWZjZmcNCj4gPiAgICAgICAgIHJtIC1mICR7RH0k
-e2Jhc2Vfc2JpbmRpcn0vcnRtb24NCj4gPiAgICAgICAgIHJtIC1mICR7RH0ke2Jhc2Vfc2JpbmRp
-cn0vcm91dGVmDQo+ID4gICAgICAgICBybSAtZiAke0R9JHtiYXNlX3NiaW5kaXJ9L3JvdXRlbA0K
-PiA+ICAgICAgICAgcm0gLWYgJHtEfSR7YmFzZV9zYmluZGlyfS9ydHByDQo+ID4gfQ0KPiA+DQo+
-ID4gV2l0aCB0aGUgYWJvdmUgYmJhcHBlbmQsIHRoZSBvbmx5IGJpbmFyeSBsZWZ0IGluIHRoZSBp
-cHJvdXRlMiBwYWNrYWdlDQo+IGlzIGluDQo+ID4gZmFjdCAiaXAiLg0KPiANCj4gSSBkbyBzb21l
-dGhpbmcgdmVyeSBzaW1pbGFyIGluIG15IGJiYXBwZW5kIG5vdy4gT24gdGhlIG90aGVyIGhhbmQs
-IHdlDQo+IGhhdmUgYW4gdXBzdHJlYW0gZmlyc3QgcHJpbmNpcGxlIGluIHRoZSBjb21wYW55LiBJ
-IHdvdWxkIHJhdGhlciB0cnkgdG8NCj4gZmluZCBhbiB1cHN0cmVhbSBmcmllbmRseSBzb2x1dGlv
-biB0aGF0IHdvcmtzIGZvciBldmVyeWJvZHkgd2l0aG91dA0KPiBicmVha2luZyBleGlzdGluZyB1
-c2VycyBiZWZvcmUgZmFsbGluZyBiYWNrIHRvIGJiYXBwZW5kIHJvdXRlIHRoYXQgSQ0KPiBuZWVk
-IHRvIG1haW50YWluIGZvcmV2ZXIuDQoNCldlbGwsIHRoZSBwcm9ibGVtIGFzIEkgc2VlIGl0IGlz
-IHRoYXQgc29tZSBvZiB0aGVzZSBjaGFuZ2VzIGFyZSBwcmV0dHkgDQppbnZhc2l2ZSB0byB0aGUg
-cmVjaXBlcy4gQW5kIHdoZW4gbW9zdCBzZWVtIGZpbmUgd2l0aCB0aGVtIGFzIHRoZXkgYXJlIA0K
-KGJhc2VkIG9uIHRoZSBmYWN0IHRoYXQgdGhlcmUgaGFzIG5vdCBiZWVuIGFueSBwdXNoIHRvIHNw
-bGl0IGFueSBvZiANCnRoZW0gYmVmb3JlIEFGQUlLKSwgdGhlIHZhbHVlIG9mIHRoZXNlIGNoYW5n
-ZXMgYXJlIHF1ZXN0aW9uYWJsZSwgZ2l2ZW4gDQp0aGF0IG1vcmUgY29tcGxpY2F0ZWQgcmVjaXBl
-cyBpbmNyZWFzZSB0aGUgbWFpbnRlbmFuY2UgYnVyZGVuLiANCg0KPiA+IC8vUGV0ZXINCg0KLy9Q
-ZXRlcg0KDQo=
+On 12/16/2020 8:20 PM, Peter Kjellerstedt wrote:
+>> I do something very similar in my bbappend now. On the other hand, we
+>> have an upstream first principle in the company. I would rather try to
+>> find an upstream friendly solution that works for everybody without
+>> breaking existing users before falling back to bbappend route that I
+>> need to maintain forever.
+> Well, the problem as I see it is that some of these changes are pretty 
+> invasive to the recipes. And when most seem fine with them as they are 
+> (based on the fact that there has not been any push to split any of 
+> them before AFAIK), the value of these changes are questionable, given 
+> that more complicated recipes increase the maintenance burden. 
+> 
+
+The counter argument is that a user should not be required to rework a
+recipe in bbappend for common tools that everybody uses the same way.
+
+If I was doing something special for my target, it has no business in
+upstream recipe.
+
+Requesting to have the ip tool out of iproute2 package is a no-brainer
+IMO and should be supported by default.
+
+I can also go ahead and say that ip tool probably is the most important
+tool in this package and is actually disappointing to see that it has
+not been brought out either by PACKAGECONFIG or PACKAGE options. I
+honestly don't care about the rest of the tools in that package.
+
+At the end of the day, there is room for improvement in the recipe.
+Whether we can do it safely or not is for reviewers to help here.
