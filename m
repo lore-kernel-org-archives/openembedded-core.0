@@ -1,111 +1,103 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.web12.1075.1608317227214313543
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.1094.1608317342788302089
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 10:47:07 -0800
+ Fri, 18 Dec 2020 10:49:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=T13AvDJw;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id z11so2931750qkj.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 10:47:07 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=PM+TvF3n;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1Lqxs0tqZD7gbQstUYlmVqiD/z/7lLGICRPcZVWnuAM=;
-        b=T13AvDJwM9Oy33FRPqs3kgBWtGaa7OvDcmRDls1yHkrI8lgA2r5E6Tlc2gv8zf+M2e
-         6+elUCG99tedWr2tNhoUeqd5W67mlSYAlgedqCMXG563JpmaxgZV/86AQV74/Vw/+Pmc
-         JQKe/kk1IFx4pOAGA2MHDyMvjqDpoP5eO9lAYn4Oq92pLq2URSc+ZihhnyfRYWuZe6gq
-         MasyEaNDvIWHCD08+QONAwwgtPF1Fnj6cnNWqFeo/z210OznYGy07iELKpeSZYP7aMyw
-         eW2VTbZWbcjCPAdJVmWVdgWzuw3gqjggxoLNHkkpEpVO7UhNlqKvB6vjzXB1BTOGCFqP
-         4dMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1Lqxs0tqZD7gbQstUYlmVqiD/z/7lLGICRPcZVWnuAM=;
-        b=CY67osOZJcuTuKdbrQ2pAYp/K/0P4yDj41ZGZ9IqJvbHgl+2VG1v7cNYGAtSR3t9Vb
-         IR66T7nHu0T8p7lzMYjo8LwJR4WV+/d54pK3NlteQisEKrHu68CO9BLkjFdAJq/w5d1R
-         YuV70peEjFLPSdAgfAe+fUTkSL/441sShCWHzxq6BOOI75pA/hSkG2owq8D5Zdua46Bj
-         baGRp0ZD2J7LiptKH5U04v7RY4OSXltJDIP+k/pGTStKmRUu3YCYzqJJviWTFkiTdZV8
-         /9qLuRGCDjixfhlcpq6LZ3eWQNUDHGQD+V+aqu2BzYtxmFatM3rSsTQSscY2xNqP6+DP
-         VbhQ==
-X-Gm-Message-State: AOAM530bP0/v5287t4gGDkS2Z+T3XH1goYMLsVBndxMguhcomtSplfv4
-	o6KlVDpaTNAG4oiImGuAEC0YPPhXREwmQ9nKNRU=
-X-Google-Smtp-Source: ABdhPJxuntarWQa+isuDwtXN4pU18IoUH7VwCjXpGTjn7daqa9wLp3U3EswZA/La93DAc7lsw7NqGYtYl6CmTX169ro=
-X-Received: by 2002:a37:b182:: with SMTP id a124mr6287812qkf.9.1608317226341;
- Fri, 18 Dec 2020 10:47:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20201217225440.2633474-1-raj.khem@gmail.com> <20201217225440.2633474-4-raj.khem@gmail.com>
- <f888a821-9dd9-fd5c-5372-2e7e777adcb7@kernel.org>
-In-Reply-To: <f888a821-9dd9-fd5c-5372-2e7e777adcb7@kernel.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 18 Dec 2020 10:46:55 -0800
-Message-ID: <CAMKF1sqyB+ow5uNd5LDLZt=rNZc_PqdkCkYASHxZyPkHJ0qZgw@mail.gmail.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1608317343;
+  x=1639853343;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=caFXnRMz5DR92IUFGFrbOMxdS0n7cliikBbP9OHkY44=;
+  b=PM+TvF3n44yzSRhKDJG7om6fl34wVltdqvik7bxRm8/0/v3AiJPkxBsw
+   TMhFr748Jj5iSbWh+BsdOwBciniIt4hLftBILyAN+qVz5fG140+FTgnXd
+   mLgv+EBW9xjVsmgLg8R4h911jlRZP6Fys7B4wWOLpLVwZVVrkXG0pnFVl
+   i9dtD0R50QtRBpOW2a6Mu8NfK7uE5BUa2Jsx4TY8YSHNY1lafeBih4FDp
+   2cqMvT8m8rv20x+tAUGJcncx9azK0glMngbdkI02XGHh9AAPqhhIUCA/T
+   Eg0yXKcUJM+LNjmU1wwFw86pagmpcxYbM9Fgw2f+oioPC9iiYu26Wb4kK
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH 4/4] initscripts: Use initctl on sysvinit only
-To: Sinan Kaya <okaya@kernel.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f65caa05b6c188a5"
-
---000000000000f65caa05b6c188a5
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Dec 18, 2020 at 10:29 AM Sinan Kaya <okaya@kernel.org> wrote:
-
-> On 12/17/2020 5:54 PM, Khem Raj wrote:
-> > +if [ ! -p "$INITCTL" ] && [ "$(readlink -- "/sbin/init")" =
-> "/sbin/init.sysvinit" ]; then
->
-> Can this be done at build time for targets using sysvinit only?
->
-
-Yes however It will be lot more obscure
-Hard to read and harder to maintain
-
->
-> > +    # Create new control channel
-> > +             rm -f "$INITCTL"
-> > +             mknod -m 600 "$INITCTL" p
-> > +
-> > +             # Reopen control channel.
-> > +             PID="$(pidof -s /sbin/init || echo 1)"
-> > +             [ -n "$PID" ] && kill -s USR1 "$PID"
-> >  fi
-> > -kill -USR1 1
->
->
-
---000000000000f65caa05b6c188a5
-Content-Type: text/html; charset="UTF-8"
+Thread-Topic: [OE-core] [PATCH 4/4] initscripts: Use initctl on sysvinit only
+Thread-Index: AQHW1Me1K7AX49WG1kyHhXBSy9QVTKn9MrFQ
+Date: Fri, 18 Dec 2020 18:49:00 +0000
+Message-ID: <675d9b3a054b4b018d98b52f7a3524f8@XBOX03.axis.com>
+References: <20201217225440.2633474-1-raj.khem@gmail.com>
+ <20201217225440.2633474-4-raj.khem@gmail.com>
+In-Reply-To: <20201217225440.2633474-4-raj.khem@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Dec 18, 2020 at 10:29 AM Sinan Kaya &lt;<a href=3D"=
-mailto:okaya@kernel.org">okaya@kernel.org</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">On 12/17/2020 5:54 PM, Khem Raj wrote:<br>
-&gt; +if [ ! -p &quot;$INITCTL&quot; ] &amp;&amp; [ &quot;$(readlink -- &qu=
-ot;/sbin/init&quot;)&quot; =3D &quot;/sbin/init.sysvinit&quot; ]; then<br>
-<br>
-Can this be done at build time for targets using sysvinit only?<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Yes however It w=
-ill be lot more obscure=C2=A0</div><div dir=3D"auto">Hard to read and harde=
-r to maintain=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-&gt; +=C2=A0 =C2=A0 # Create new control channel<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f &quot;$INITCTL&=
-quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mknod -m 600 &quot;$I=
-NITCTL&quot; p<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Reopen control chan=
-nel.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PID=3D&quot;$(pidof -=
-s /sbin/init || echo 1)&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[ -n &quot;$PID&quot;=
- ] &amp;&amp; kill -s USR1 &quot;$PID&quot;<br>
-&gt;=C2=A0 fi<br>
-&gt; -kill -USR1 1<br>
-<br>
-</blockquote></div></div>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Khem Raj
+> Sent: den 17 december 2020 23:55
+> To: openembedded-core@lists.openembedded.org
+> Cc: Khem Raj <raj.khem@gmail.com>
+> Subject: [OE-core] [PATCH 4/4] initscripts: Use initctl on sysvinit only
+>=20
+> Check if init system is sysvinit to recreate initctl, this ensures that
+> it can be used with busybox init system as well
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../initscripts/initscripts-1.0/mountall.sh   | 22 ++++++++++++-------
+>  1 file changed, 14 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh b/=
+meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
+> index c719be5d9a..ead4dba46d 100755
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
+> @@ -19,15 +19,21 @@
+>  test "$VERBOSE" !=3D no && echo "Mounting local filesystems..."
+>  mount -at nonfs,nosmbfs,noncpfs 2>/dev/null
+>=20
+> -#
+> -# We might have mounted something over /dev, see if /dev/initctl is ther=
+e.
+> -#
+> -if test ! -p /dev/initctl
+> -then
+> -	rm -f /dev/initctl
+> -	mknod -m 600 /dev/initctl p
+> +
+> +# We might have mounted something over /run; see if
+> +# /dev/initctl is present.  Look for
+> +# /sbin/init.sysvinit to verify that sysvinit (and
+> +# not busybox or systemd) is installed as default init).
+> +INITCTL=3D"/dev/initctl"
+> +if [ ! -p "$INITCTL" ] && [ "$(readlink -- "/sbin/init")" =3D "/sbin/ini=
+t.sysvinit" ]; then
+> +    # Create new control channel
+> +		rm -f "$INITCTL"
+> +		mknod -m 600 "$INITCTL" p
+> +
+> +		# Reopen control channel.
+> +		PID=3D"$(pidof -s /sbin/init || echo 1)"
+> +		[ -n "$PID" ] && kill -s USR1 "$PID"
 
---000000000000f65caa05b6c188a5--
+Change all references for "/sbin" to "${base_sbindir}" to make it correct=20
+if usrmerge is used.
+
+>  fi
+> -kill -USR1 1
+>=20
+>  #
+>  # Execute swapon command again, in case we want to swap to
+> --
+> 2.29.2
+
+//Peter
+
