@@ -1,71 +1,86 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web11.8777.1608293170114915900
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web09.9963.1608298573682439709
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 04:06:11 -0800
+ Fri, 18 Dec 2020 05:36:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=NSCt8+KY;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C0Wnzhjp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f48.google.com with SMTP id t30so2212037wrb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 05:36:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1608293170;
-  x=1639829170;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=1wYiHcpKQBTHO1nqAtQamuD+b5AJLWsuoPejwFJRJCA=;
-  b=NSCt8+KYn8OIq9EPqx1DrZLCrNTBrE2lSwf/u9bL1dRsqIDoG2LJs1U7
-   3ETLsZpV5vgZYefXuyrDuuPjOv1FyQyRdk4dAy/C7ucUb+pB8mZ0MuPrR
-   xLLV3BExf2fB+O5Kq1G0bnYW0xZzXajKwaDSm4psIbiyTkbashlEtd9Vw
-   H/fz7FEjxJWXuFt4VdrRoOg5RydUa8JqyaULAIQsKB1ub8k9azuEx9A9P
-   AopO4vjmMA8xGIci18R8SpGZgSTygF55sS1xVYF4h0/SNa/8fD+cDijCx
-   83PK8uxjizy/B7yyxCBluQ1aGVzPRFQK6PXK0lqGJhu17JOx4+le1CSco
-   Q==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Kory Maincent <kory.maincent@bootlin.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "thomas.petazzoni@bootlin.com"
-	<thomas.petazzoni@bootlin.com>
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Ah+jTf13MFE4OmUa+45COfr5Z+4jw7LTebDPFR2sS1E=;
+        b=C0Wnzhjpl5bFuGs2DfdXgg4AQrrfOoELZUu7IBOG99q9a5l1DG0OuC2RSw6u3BZLQW
+         bclzwjmaGaR7zJnkFFQjTvcIpS1rxpOAXLZ+kAQEIx2e0ihouulOYJ1Wi1PDDehDXdSU
+         k2MsWzCAWM9yL62HWmvttQ/kxY7DK3IFTynYM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Ah+jTf13MFE4OmUa+45COfr5Z+4jw7LTebDPFR2sS1E=;
+        b=H8Vo+TYaZ5o47+fLdT0jsBLm3SHbJJC5Z2WRXlT2m99dayHckKUOXf7RjWzidTjZ8d
+         /1lcUwpIPqMd2uDxV1PkZ+4ZNQKY6LPGh+l3eFpqtXk7cnwrh5vMjjQGF/l9sPJpEOxW
+         +jP7W/952SpvElf+19mGSJ+Pg+cT4Xchuamledyx+7VL9aMCWWKnSDcCZfv6Fw7eZUSY
+         CBY+71J76Tc8MeUkU2H1pouaevrwVGGSChhovnaRLLrImLoEStR0jNY4QgU912dYCl4U
+         6n740kNmc5QcEs5946zf7xUXYDkg1l5Y1hhbMA19HXZJC65lKBgq4XhL9jPJs3KdKMsP
+         Qu6A==
+X-Gm-Message-State: AOAM531VGvNs5z2hYrlCm/AGXbNIqpEfRHBTQPuDqH9Tl2DL5VlTYdJz
+	iPxTrFZPifNXrV3UGm2p4pCT/w==
+X-Google-Smtp-Source: ABdhPJzfS1FZ80rzNTglsMqmqIzqchJwrma6MlLQ6FucwxZjoIJH/+8zZ+wMj8bf+6eIUkyHMuExCw==
+X-Received: by 2002:a05:6000:10c4:: with SMTP id b4mr4679388wrx.170.1608298572087;
+        Fri, 18 Dec 2020 05:36:12 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:912:b4c7:177d:a044])
+        by smtp.gmail.com with ESMTPSA id n9sm13457385wrq.41.2020.12.18.05.36.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Dec 2020 05:36:11 -0800 (PST)
+Message-ID: <befdc92a15ad20dc490201f6f87a56e79fe5714e.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v2] ltp: fix rpc build error
-Thread-Topic: [OE-core] [PATCH v2] ltp: fix rpc build error
-Thread-Index: AQHW1H4Nn1xWXFMU0EmwWkfaBA2LA6n7ctHggAEJmACAAESiMA==
-Date: Fri, 18 Dec 2020 12:06:06 +0000
-Message-ID: <8a74e57385a4497c9e65bb3d433207df@XBOX03.axis.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Kory Maincent <kory.maincent@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: thomas.petazzoni@bootlin.com
+Date: Fri, 18 Dec 2020 13:36:10 +0000
+In-Reply-To: <20201217140756.30688-1-kory.maincent@bootlin.com>
 References: <20201217140756.30688-1-kory.maincent@bootlin.com>
-	<ce781b6c4aa644f3ba1f322396065bcb@XBOX03.axis.com>
- <20201218095214.267d7c2a@kmaincent-XPS-13-7390>
-In-Reply-To: <20201218095214.267d7c2a@kmaincent-XPS-13-7390>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEtvcnkgTWFpbmNlbnQNCj4gU2VudDogZGVuIDE4IGRl
-Y2VtYmVyIDIwMjAgMDk6NTINCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxl
-cnN0ZWR0QGF4aXMuY29tPg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZzsNCj4gdGhvbWFzLnBldGF6em9uaUBib290bGluLmNvbQ0KPiBTdWJqZWN0OiBSZTog
-W09FLWNvcmVdIFtQQVRDSCB2Ml0gbHRwOiBmaXggcnBjIGJ1aWxkIGVycm9yDQo+IA0KPiBIZWxs
-byBQZXRlciwNCj4gDQo+IE9uIFRodSwgMTcgRGVjIDIwMjAgMTY6MjE6MjAgKzAwMDANCj4gUGV0
-ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0KPiAN
-Cj4gPiA+DQo+ID4gPiAgVEFSR0VUX0NDX0FSQ0ggKz0gIiR7TERGTEFHU30iDQo+ID4gPg0KPiA+
-ID4gK2V4cG9ydCBsaWJkaXIgOj0gIiR7ZXhlY19wcmVmaXh9LyR7YmFzZWxpYn0iDQo+ID4gPiAr
-ZXhwb3J0IGluY2RpciA6PSAiJHtleGVjX3ByZWZpeH0vaW5jbHVkZSINCj4gPg0KPiA+IFRoaXMg
-c2hvdWxkIGJlIGEgbGl0dGxlIGJpdCBiZXR0ZXI6DQo+ID4NCj4gPiBleHBvcnQgbGliZGlyIDo9
-ICIke2xpYmRpcn0iDQo+ID4gZXhwb3J0IGluY2RpciA6PSAiJHtpbmNkaXJ9Ig0KPiANCj4gVGhh
-bmtzLA0KPiBJIGRpZCBub3Qgbm90aWNlIGJ1dCBpdCBicmluZ3MgYW4gZXJyb3IgYW5kIEkgc2Vu
-dCBhIFYzIHdpdGggaXQuDQo+IFlvdXIgcmV2aWV3IHJldHVybnMgdGhpcyBlcnJvcjoNCj4gYmIu
-ZGF0YV9zbWFydC5FeHBhbnNpb25FcnJvcjogRmFpbHVyZSBleHBhbmRpbmcgdmFyaWFibGUgaW5j
-ZGlyLA0KPiBleHByZXNzaW9uIHdhcyAke2luY2Rpcn0gd2hpY2ggdHJpZ2dlcmVkIGV4Y2VwdGlv
-biBFeGNlcHRpb246IHZhcmlhYmxlDQo+IGluY2RpciByZWZlcmVuY2VzIGl0c2VsZiENCg0KRHVo
-LCBvZiBjb3Vyc2UuIFRoYXQgaXMgYmVjYXVzZSB0aGVyZSBpcyBubyBpbmNkaXIgdmFyaWFibGUs
-IHNvIA0KIiR7aW5jZGlyfSIgd2lsbCBleHBhbmQgdG8gIlwke2luY2Rpcn0iLiBUaGUgcmVhbCB2
-YXJpYWJsZSBpcyBjYWxsZWQgDQppbmNsdWRlZGlyLiANCg0KVGhpcyBvZiBjb3Vyc2UgYnJpbmdz
-IHRoZSBxdWVzdGlvbiB3aGV0aGVyIGx0cCBleHBlY3RzIGluY2RpciBvciANCmluY2x1ZGVkaXIs
-IGFuZCBpZiBpdCBpcyB0aGUgbGF0dGVyLCB0aGVuIHlvdXIgY2hhbmdlcyBzbyBmYXIgaGF2ZSBu
-b3QgDQptYWRlIGFueSBkaWZmZXJlbmNlIHdoZW4gaXQgY29tZXMgdG8gaW5jbHVkZWRpciwgd2hp
-Y2ggbWVhbnMgdGhleSANCnNob3VsZG4ndCBiZSBuZWVkZWQuDQoNCj4gDQo+IFJlZ2FyZHMsDQo+
-IA0KPiBLw7ZyeSwNCg0KLy9QZXRlcg0KDQo=
+On Thu, 2020-12-17 at 15:07 +0100, Kory Maincent wrote:
+> Add support to tirpc tests build.
+> Export incdir and libdir to have the right path.
+> 
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> ---
+> 
+> Change since v1:
+>  - Use PACKAGECONFIG to enable rpc tests
+>  - Improve ${libdir} and ${incdir} export
+> 
+> 
+>  meta/recipes-extended/ltp/ltp_20200930.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/ltp/ltp_20200930.bb
+> b/meta/recipes-extended/ltp/ltp_20200930.bb
+> index 7acf15b360..9da5d90353 100644
+> --- a/meta/recipes-extended/ltp/ltp_20200930.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20200930.bb
+> @@ -42,14 +42,14 @@ inherit autotools-brokensep pkgconfig
+>  
+>  TARGET_CC_ARCH += "${LDFLAGS}"
+>  
+> +export libdir := "${exec_prefix}/${baselib}"
+> +export incdir := "${exec_prefix}/include"
+
+In general we try and avoid :=, is there a reason its needed here
+rather than just "=" ? If so, it might be something that should be
+mentioned in the commit message?
+
+Cheers,
+Richard
+
