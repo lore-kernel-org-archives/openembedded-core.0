@@ -1,170 +1,269 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web09.1083.1608309224853270620
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web11.1695.1608311235791376084
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 08:33:44 -0800
+ Fri, 18 Dec 2020 09:07:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hWVllA/7;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id x18so1672841pln.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 08:33:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Xmu+KaRn;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id q22so4254983eja.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 09:07:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WiRz4NGkav5g3m8H+1PxmrcDBkV9/FlJ2toE4cgpR/M=;
-        b=hWVllA/7Ve/JxRSgqyKq3ULb3JChKG610pHL/e2Z2GJwEFU6O3xunvVMbJ12K1HIt7
-         3tbz9/klDmgRhu7AOKNkC5qv8j+ZT73wX6zDOyCB/H6ZBZyPhrOOiy9gKaABXS3IeVTS
-         nGm/tBciFkGaHD0cMDdGz1fLC/74PvBRBkL7+z0WjggUD0iWjMJX3cVgRmP66gg3VPu9
-         O5ZGwE0DdJExeMTjb6Karcck1GTXC8Wdoje85XkhMn9AalhR5QMesQAdvGQAENcroVAc
-         I46j/brE3RLxgTOlqSKJS1ejSZKQsMn9w/D+pVnfQ/Qr3LDE7XmqKqRSvFxeQe3XVUEf
-         J1ZQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5sP5uzHEUApHAMXGvb1VnWQr3rgZqOCAJ9mNOjMo0+Q=;
+        b=Xmu+KaRn7tMJ8en0Omd8OgO2PEzgSPPuJl+ptTa6m97nzx4ZAc3aEd92NbAjfbp77C
+         r43+vwECHi2nR2+LVMCnJB6vD1WtHq4FK6L3f5NRJfuJnWRVWSXCOzqk4ZOgxQSqSubK
+         pAJZyylRF2wKUsR2IkZPh3xyrdSOMt/TgqIKd0wCrzZ7GHdKUahfBIz2u2eIxP/u9G4x
+         a4S20Yb5o1w46TV5j4Qwd6eKqR8IqPP7NttZ5IVCWjqp2V0I7o7GVLaDL5tvrNvzId18
+         vf5LcMtYpUijCERiFVHfIlsHjlNi0R/ywRqhJarRhqPl8zUAxnyx6Z234UDdy9qjTI7u
+         lcOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WiRz4NGkav5g3m8H+1PxmrcDBkV9/FlJ2toE4cgpR/M=;
-        b=nEwg8RfKdSPwEdsTzfqmAPHeWCnVQF8GlHauIxn3Q/WxmRPugZngoQ8Qdic8Dk24p9
-         EajzH/nW07aDD5BZHA5ChTwAcCQtC1PHuhz7tQcBUdBDzgk7Fs8gvJRWZzOoFY2Cv7H3
-         qAcv8suTi56nb6DuhaqchUVr7Arm352D50ODhljyUR+V4LuVuAAexDlnzIb5MrRqfcWO
-         DIleXBcEIImFiLAgB3SSqOk2mgT5U7aHFgmwCKJfurdb5Z5Ej6ci+O7mRb+TVgIrgXwz
-         v3FknXelk1iBQOqKr8CLBLzXTBONGqmBLmUpE6qIpiWmxP006w3mmzTF3OqCZ7iti9sx
-         BF1g==
-X-Gm-Message-State: AOAM532BVvM7sRdVLFondXqO9F7ZEdHLM9Q8tf+jMNIkSy/sEvdWXPoE
-	U0pqeEiqOqQYk0Asf/6Bn1xbpIOos02zYw==
-X-Google-Smtp-Source: ABdhPJx2Bz/1Y/tlOxK6Du8MFUA3jchX8VsT/HCSOpuXYyVbMjeGVmqaijUuJjXLcUB9ToaL2DBQjA==
-X-Received: by 2002:a17:90a:a45:: with SMTP id o63mr5144981pjo.146.1608309223916;
-        Fri, 18 Dec 2020 08:33:43 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0::9ac9? ([2601:646:9200:4e0::9ac9])
-        by smtp.gmail.com with ESMTPSA id 193sm9481125pfz.36.2020.12.18.08.33.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Dec 2020 08:33:43 -0800 (PST)
-Subject: Re: [OE-core] [PATCH 3/4] busybox: Run mdev as daemon
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <20201217225440.2633474-1-raj.khem@gmail.com>
- <20201217225440.2633474-3-raj.khem@gmail.com>
- <CAJ86T=VVepAL0d4d9AZnDr0auBYZyKOmz-gn3kExpaHkuOgFWg@mail.gmail.com>
- <CAMKF1sqmcrgG-DhiPCE6k30wEUR_SJNRmbxZ+zdYkCK9xg6c7g@mail.gmail.com>
- <CAJ86T=XE6Woyb7-yXKyQpGi+CqqZOc2PK9vkyBVZypiLa69_dw@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <84681f38-9023-1c0c-7e68-582307f2e63c@gmail.com>
-Date: Fri, 18 Dec 2020 08:33:42 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5sP5uzHEUApHAMXGvb1VnWQr3rgZqOCAJ9mNOjMo0+Q=;
+        b=pwoFg0Oj/Yb6hST8MWmHCEu438V6COo6BwZxo5v1V2Vx7TqGPsKpO1qvYSNt1Zy8ua
+         7KE5sVFJcYAdh4gvjmGhVqJATHvpd7QVdYhHg3+WGFv2/J2TA+b1986C3qs2061RZUyv
+         UO6CbvhjIdHzCLW9ORrMKHgzi/0iB73McZM6HCiQ79D1XP8Dq1qpsTeejg5LKF1cVlDV
+         BSEWM4f12b0V0VipbIt4Mib8lfsIyU3Bw+WHEhjnXqv8TXhnDgtL54pSKuldpdPJYGG8
+         nxUtybZcZcbkhvi/+Mp8UPQI30us/aB69hrrfGILAZgTTvkPGdAmAHOowd8MIyZ45nNO
+         f60A==
+X-Gm-Message-State: AOAM530yS0/PsUDk5D7UVDZN8wqKyMmB6YRVl++LeBPrYyKXg7H1rfwE
+	qPv4Iatulvmj7n5mfHe+JWp5PHmvXBxblTbmSVQ=
+X-Google-Smtp-Source: ABdhPJxZR2b0Vmy2jZfZlQtH1zwm6okT/JqDWLg0+JKYcKA3shDklIlso5R5O+e29NwuC9YlZIR6Mk1Ts8y5GLS7tL8=
+X-Received: by 2002:a17:906:6dd1:: with SMTP id j17mr4993477ejt.357.1608311234305;
+ Fri, 18 Dec 2020 09:07:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=XE6Woyb7-yXKyQpGi+CqqZOc2PK9vkyBVZypiLa69_dw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1606218546-115087-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+ <CAPLtV=qtux0nP429iJqRTCFRpfHN3B8_fpNPSaeGqreWJFK=Dg@mail.gmail.com>
+ <164D60671E1EC649.7952@lists.openembedded.org> <bcd9f08662984ddaa8923c0d3fe13d4c@G08CNEXMBPEKD04.g08.fujitsu.local>
+ <164ECF710AF4F2C7.7121@lists.openembedded.org>
+In-Reply-To: <164ECF710AF4F2C7.7121@lists.openembedded.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Fri, 18 Dec 2020 12:07:03 -0500
+Message-ID: <CADkTA4Oex2Zgumv8uYo2LAha3covL_PM1y2dHyS0ni6AEp74-w@mail.gmail.com>
+Subject: Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: zangrc <zangrc.fnst@cn.fujitsu.com>, 
+	Leonardo Sandoval <leonardo.sandoval@linaro.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Dec 8, 2020 at 12:56 PM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> If that symbol is required, then we'd need to add it to the
+> appropriate fragment in the
+> reference kernel configurations (kernel-cache), and make sure it is
+> built into the
+> various kernel types.
+>
+> Changes like that are submitted to the linux-yocto mailing list.
+>
+> That being said, I went and looked at the error, and the .c that
+> defines the missing
+> symbol is security.c, which is controlled by CONFIG_SECURITY, not
+> CONFIG_SECURITY_LOCKDOWN_LSM. And that option is already enabled in
+> all kernel types.
+>
+> It looks more like a missing .h, versus a missing option to me.
+>
+> Have you looked at the systemtap source for an include of security.h,
+> and traced why
+> it wouldn't be finding the function definition ?
+>
+> If this is the on-target build, versus a cross build test, then maybe
+> we are missing the
+> copy of a .h to the target (but you'd think that we'd get a more
+> obvious compile error
+> if a .h wasn't found).
 
 
+FYI. My 5.10 kernel testing has run into this issue, so I've grabbed
+the uprev patch and am working on a fix.
 
-On 12/17/20 10:07 PM, Andre McCurdy wrote:
-> On Thu, Dec 17, 2020 at 7:52 PM Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Thu, Dec 17, 2020 at 3:59 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->>>
->>> On Thu, Dec 17, 2020 at 2:54 PM Khem Raj <raj.khem@gmail.com> wrote:
->>>>
->>>> When busybox is used for device management, kernel needs to support
->>>> older/obsolete mechanism via CONFIG_UEVENT_HELPER and
->>>> CONFIG_UEVENT_HELPER_PATH to enable /proc/sys/kernel/hotplug but this
->>>> would require kernel defconfig change and will always be needed when
->>>> mdev is used, intead run it in daemon mode
->>>>
->>>> Update mdev init script to run mdev in daemon mode
->>>>
->>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>>> ---
->>>>   meta/recipes-core/busybox/busybox/mdev.cfg |  2 +
->>>>   meta/recipes-core/busybox/files/mdev       | 56 +++++++++++++++-------
->>>>   2 files changed, 41 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-core/busybox/busybox/mdev.cfg b/meta/recipes-core/busybox/busybox/mdev.cfg
->>>> index 6aefe90e43..143e6097cb 100644
->>>> --- a/meta/recipes-core/busybox/busybox/mdev.cfg
->>>> +++ b/meta/recipes-core/busybox/busybox/mdev.cfg
->>>> @@ -9,3 +9,5 @@ CONFIG_SETSID=y
->>>>   CONFIG_CTTYHACK=y
->>>>
->>>>   CONFIG_FEATURE_SHADOWPASSWDS=y
->>>> +CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM=y
->>>> +CONFIG_FEATURE_MDEV_DAEMON=y
->>>> diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
->>>> index 8c9c06e96c..2fbdfb073e 100755
->>>> --- a/meta/recipes-core/busybox/files/mdev
->>>> +++ b/meta/recipes-core/busybox/files/mdev
->>>> @@ -1,21 +1,43 @@
->>>>   #!/bin/sh
->>>> -mount -t proc proc /proc
->>>> -mount -t sysfs sysfs /sys
->>>> -mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
->>>> -mkdir /dev/pts /dev/shm
->>>> -chmod 777 /dev/shm
->>>> -mount -t devpts devpts /dev/pts
->>>> -touch /dev/mdev.seq
->>>> -#sysctl -w kernel.hotplug=/sbin/mdev
->>>> -echo "/sbin/mdev" > /proc/sys/kernel/hotplug
->>>> -mdev -s
->>>> -
->>>>   #
->>>> -# We might have mounted something over /dev, see if /dev/initctl is there.
->>>> +# Run the mdev daemon
->>>>   #
->>>> -if test ! -p /dev/initctl
->>>> -then
->>>> -        rm -f /dev/initctl
->>>> -        mknod -m 600 /dev/initctl p
->>>> -fi
->>>> +
->>>> +DAEMON="mdev"
->>>> +PIDFILE="/var/run/$DAEMON.pid"
->>>> +
->>>> +
->>>> +start() {
->>>> +  echo -n "Starting $DAEMON... "
->>>> +  start-stop-daemon -S -b -m -p $PIDFILE -x /sbin/mdev -- -df
->>>
->>> Where do these start-stop-daemon options come from? Using -b for an
->>> application which is designed to run as a daemon (and deliberately
->>> telling that app to run in the foreground) looks odd, etc.
->>>
->>> Are there bugs or limitations in mdev which you are trying to workaround?
->>
->> its using start-stop-daemon applet from busybox which does have these options
->> implemented, its so that start-stop-daemon takes the control of the daemon
-> 
-> The question is not whether start-stop-daemon supports using PID files
-> but whether the busybox mdev application supports creating them.
-> 
-> It looks like although most of the busybox daemons do, mdev does not:
-> 
+If someone else already has it done, let me know and I'll happily take
+their fix :D
 
-right it does not, letting start-stop-daemon works well though and is 
-used in lot of places
+Bruce
 
-> .../busybox-1.32.0 $ grep -r write_pidfile *
-> debianutils/start_stop_daemon.c:        write_pidfile(pidfile);
-> include/libbb.h:void write_pidfile(const char *path) FAST_FUNC;
-> include/libbb.h:void write_pidfile_std_path_and_ext(const char *path) FAST_FUNC;
-> include/libbb.h:#define write_pidfile_std_path_and_ext(path)  ((void)0)
-> include/libbb.h:#define write_pidfile(path)  ((void)0)
-> libbb/pidfile.c:void FAST_FUNC write_pidfile(const char *path)
-> libbb/pidfile.c:void FAST_FUNC write_pidfile_std_path_and_ext(const char *name)
-> libbb/pidfile.c:    write_pidfile(buf);
-> miscutils/watchdog.c:    write_pidfile_std_path_and_ext("watchdog");
-> miscutils/crond.c:    write_pidfile_std_path_and_ext("crond");
-> networking/ifplugd.c:    write_pidfile(pidfile_name);
-> networking/ntpd.c:        write_pidfile_std_path_and_ext("ntpd");
-> networking/inetd.c:    write_pidfile_std_path_and_ext("inetd");
-> networking/udhcp/dhcpc.c:    write_pidfile(client_data.pidfile);
-> networking/udhcp/dhcpc.c:    write_pidfile(client_data.pidfile);
-> networking/udhcp/dhcpd.c:    write_pidfile(server_data.pidfile);
-> networking/udhcp/d6_dhcpc.c:    write_pidfile(client_data.pidfile);
-> networking/udhcp/d6_dhcpc.c:    write_pidfile(client_data.pidfile);
-> sysklogd/syslogd.c:    write_pidfile_std_path_and_ext("syslogd");
-> sysklogd/klogd.c:    write_pidfile_std_path_and_ext("klogd");
-> util-linux/acpid.c:    write_pidfile(opt_pidfile);
-> 
+>
+> Bruce
+>
+> On Mon, Dec 7, 2020 at 10:03 PM zangrc <zangrc.fnst@cn.fujitsu.com> wrot=
+e:
+> >
+> > Ping
+> >
+> >
+> >
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@list=
+s.openembedded.org> On Behalf Of zangrc
+> > Sent: Friday, December 4, 2020 9:51 AM
+> > To: Leonardo Sandoval <leonardo.sandoval@linaro.org>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+> >
+> >
+> >
+> > I think this problem should be because the kernel does not enable CONF=
+IG_SECURITY_LOCKDOWN_LSM,
+> >
+> > do you need me to submit a patch to open this option of the kernel?
+> >
+> >
+> >
+> > Zangrc
+> >
+> >
+> >
+> > From: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98
+> > Sent: Thursday, November 26, 2020 2:18 PM
+> > To: 'Leonardo Sandoval' <leonardo.sandoval@linaro.org>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: RE: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+> >
+> >
+> >
+> > I will investigate, it may take some time, if the error is resolved, I=
+ will send a patch to the mailing list.
+> >
+> >
+> >
+> > zangrc
+> >
+> >
+> >
+> > From: Leonardo Sandoval <leonardo.sandoval@linaro.org>
+> > Sent: Thursday, November 26, 2020 6:09 AM
+> > To: Zang, Ruochen/=E8=87=A7 =E8=8B=A5=E5=B0=98 <zangrc.fnst@cn.fujitsu=
+.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [PATCH] [OE-core] [PATCHv2] systemtap: upgrade 4.3 -> 4.4
+> >
+> >
+> >
+> > Hi Zangrc,
+> >
+> >
+> >
+> > this patch is now in master-next
+> >
+> >
+> >
+> >   https://patchwork.openembedded.org/series/27030/
+> >
+> >
+> >
+> > but autobuilder detected a compilation error in the upgraded version
+> >
+> >
+> >
+> >   https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/27=
+36/steps/13/logs/stdio
+> >
+> >
+> >
+> > Can you please take a look? (seems like a C macro is not defined).
+> >
+> >
+> >
+> > Thanks,
+> >
+> >
+> >
+> > lsg
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> >
+> > On Mon, 23 Nov 2020 at 20:08, zangrc <zangrc.fnst@cn.fujitsu.com> wrot=
+e:
+> >
+> > The test log of oe-selftest is as follows:
+> > 2020-11-23 15:48:49,144 - oe-selftest - INFO - test_crosstap_helloworl=
+d (runtime_test.SystemTap)
+> > 2020-11-23 17:06:55,949 - oe-selftest - INFO -  ... ok
+> > 2020-11-23 17:06:55,951 - oe-selftest - INFO - test_crosstap_pstree (r=
+untime_test.SystemTap)
+> > 2020-11-23 17:08:07,921 - oe-selftest - INFO -  ... ok
+> > 2020-11-23 17:08:07,922 - oe-selftest - INFO - test_crosstap_syscalls_=
+by_pid (runtime_test.SystemTap)
+> > 2020-11-23 17:09:20,084 - oe-selftest - INFO -  ... ok
+> > 2020-11-23 17:09:20,085 - oe-selftest - INFO - test_crosstap_syscalls_=
+by_proc (runtime_test.SystemTap)
+> > 2020-11-23 17:10:31,349 - oe-selftest - INFO -  ... ok
+> > 2020-11-23 17:12:58,052 - oe-selftest - INFO - -----------------------=
+-----------------------------------------------
+> > 2020-11-23 17:12:58,054 - oe-selftest - INFO - Ran 4 tests in 5051.537=
+s
+> > 2020-11-23 17:12:58,054 - oe-selftest - INFO - OK
+> > 2020-11-23 17:13:08,416 - oe-selftest - INFO - RESULTS:
+> > 2020-11-23 17:13:08,417 - oe-selftest - INFO - RESULTS - runtime_test.=
+SystemTap.test_crosstap_helloworld: PASSED (4686.81s)
+> > 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.=
+SystemTap.test_crosstap_pstree: PASSED (71.97s)
+> > 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.=
+SystemTap.test_crosstap_syscalls_by_pid: PASSED (72.16s)
+> > 2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.=
+SystemTap.test_crosstap_syscalls_by_proc: PASSED (71.26s)
+> > 2020-11-23 17:13:08,432 - oe-selftest - INFO - SUMMARY:
+> > 2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest () - Ran 4 =
+tests in 5051.540s
+> > 2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest - OK - All =
+required tests passed (successes=3D4, skipped=3D0, failures=3D0, errors=3D0=
+)
+> >
+> > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> > ---
+> >  meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/re=
+cipes-kernel/systemtap/systemtap_git.inc
+> > index 56fa51d61e..ae735025b7 100644
+> > --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+> > +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> > @@ -1,7 +1,7 @@
+> >  LICENSE =3D "GPLv2"
+> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf=
+4a4263"
+> > -SRCREV =3D "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
+> > -PV =3D "4.3"
+> > +SRCREV =3D "988f439af39a359b4387963ca4633649866d8275"
+> > +PV =3D "4.4"
+> >
+> >  SRC_URI =3D "git://sourceware.org/git/systemtap.git \
+> >             file://0001-Do-not-let-configure-write-a-python-location-i=
+nto-th.patch \
+> > --
+> > 2.25.1
+> >
+> >
+> >
+> >
+> >
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+>=20
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
