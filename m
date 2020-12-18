@@ -1,149 +1,227 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
- by mx.groups.io with SMTP id smtpd.web11.5943.1608271672518695702
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+ by mx.groups.io with SMTP id smtpd.web09.6825.1608277639880944279
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Dec 2020 22:07:52 -0800
+ Thu, 17 Dec 2020 23:47:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JWA/b+Xx;
- spf=pass (domain: gmail.com, ip: 209.85.217.41, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f41.google.com with SMTP id h6so783371vsr.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 22:07:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nJa8Um3r;
+ spf=pass (domain: gmail.com, ip: 209.85.217.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f52.google.com with SMTP id u7so873414vsg.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 23:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=COYz6NArzplcL7Umg54HPMlO/QKAsS6wYXPXwijKj9A=;
-        b=JWA/b+Xx7ipxFF5O4csueFcdd47kxcbdbC3CND1QmGt01TT5sRH6rh7mJMsLzAgGeI
-         UZgMQNzgAqSzl7GAeFyn+zqsmrxZB5DhuREnW9/JP8Ue3P14ZwmEm4pY0b8gbvP9A7Gw
-         CYlAm7HUDDsfZp648GndGsVsGReD5iRzu5F8uApdSnmEh+81P2uI4hLKS22Nl8JnPLL/
-         TLV4L4aH5e7z37P4fgkMN15P2w+V7XNTEsMgMztDKUChOtKNQfodm1qVy5aw5wF6wI5E
-         PnY3EwH+HMNmwkuGC7bDaapzINQ3G0K9cDTA5VO52wPO/SHIXv+UOZ9gK3w29K4ERTth
-         Aduw==
+        bh=wwHEfB7NMLhPEnKd943SEeMSdgL5ypel1rsglR6IJFI=;
+        b=nJa8Um3rgtX/3XgnF0JwDjI+EkxjIfWApB2bxOi6B9WND7Ohpdx1Ddi4nqDCPnTuwr
+         0g4zCX6z2wl9TSrOJWrWSMiGVDn+vLfVyfE9MSrBSWmVAKAJPQ8ZhKqe0431QhH4lBPR
+         Y6c9jy8fTR7JfKukmxad0jyJErmUxwzspfGe0NcvVGbBM2agLE5rc0VVph/nRk1RN7M2
+         jfQL6Jx4EzZtm8bhA1L+2hbX5gVWsS6G8fY/lAwRm9RMGl6KOEoPxdpw8QGdtHmrRPle
+         15ZputhytASdXPTTTlNigvzNYl5PCCkCfCknd5+y8g5t7UcezKJggu93mEk6X7j7sDq+
+         WG9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=COYz6NArzplcL7Umg54HPMlO/QKAsS6wYXPXwijKj9A=;
-        b=Ccy76eejUJPmJQ/unyhCaqzrPM105T7MOCWit2xWPt81Mvx0HL1tV7AkqFX4rZ2FW2
-         v5EtHVDsqo7th4fLlN2ZRgti/xyychfiMqF46HomZdVDNqt4NxYav6FrgEziyQgTUlO0
-         ptf9kG/qxsKrVxB36laox86a0yJTZrLrECNYdfHo2WY9r5a9RxBK7FA6hzsORCDg6SY6
-         /9DE6Qe73pRjiqlqRaaMy3d7Psr518x6MOEh5w31sTL+gnnogx4fMsdCUIKzyCiohsKv
-         xGHi8oeYCaCsosbjIFB6ZYPgTB7q7FMdK+Zl+x7+6UtMRg3voKB8CvC29JeKCknPt6Cr
-         bJkw==
-X-Gm-Message-State: AOAM530+tl/jYxqshUdRExDIMJdwgcZL6B2JTCkZgCXjRbCZTCXR4YsJ
-	lUsk1wKYc+XZbEXZkttX5qj/LvFpvfMULQDhyQM=
-X-Google-Smtp-Source: ABdhPJyvdmQMB/vkVC2vsl7CI7ZRfIV8rR9MEQ8k2X5e6Tm3wOPsTcDOVtdqD/BD2KcYWUgNSY62QrYCr1TtwcA1KyY=
-X-Received: by 2002:a67:3354:: with SMTP id z81mr2562367vsz.18.1608271671528;
- Thu, 17 Dec 2020 22:07:51 -0800 (PST)
+        bh=wwHEfB7NMLhPEnKd943SEeMSdgL5ypel1rsglR6IJFI=;
+        b=NRZPdsOaHSykq8GyShN7o/fGQU6A6XlxQOq8Ra41eQvBjRMEUSMB355+5YUmmTmBgj
+         83ot4faPwtDtnCnI408kpP9pgvImCMqoUZ8gd+c9G9DPgL95nN6OcjTJqNcgVBoYVESM
+         e0xMDvfZRJaoIDlloVf6U3KViDiaWnRd3LecSRlX/qh2boe3TwJun1r3KJAdDc1VGpY1
+         BHsWL37+I7BOjM74dB8b4Us6luNwn1EIB39ROvHVQBaM8WgTnpXyZrP2vnZY0Ti1eNAI
+         bLXZj0Xf3HfpIIVzbdOO6pUrFWO5etv1K4ycDo5MqAZkChXhVk6UfSLK5V2KTbQGItm/
+         XKRg==
+X-Gm-Message-State: AOAM533KC9WqFG9GrSLlGP66/jpz0C2FvrR27+Aglgiel6GZQM3F2zK3
+	/xmhqu4Z09CfJbyWLazmoLD5+lB8c0q1CY81hP8=
+X-Google-Smtp-Source: ABdhPJxVZ01eZmCRgPekNTLl++OzPs8tqjaa5ZOpl9ttYdvDsgcRFL5crCjX3GhjDJy/uuOx6GM1UsGK+5ucyGwAFKA=
+X-Received: by 2002:a67:4346:: with SMTP id q67mr2357738vsa.51.1608277639076;
+ Thu, 17 Dec 2020 23:47:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20201217225440.2633474-1-raj.khem@gmail.com> <20201217225440.2633474-3-raj.khem@gmail.com>
- <CAJ86T=VVepAL0d4d9AZnDr0auBYZyKOmz-gn3kExpaHkuOgFWg@mail.gmail.com> <CAMKF1sqmcrgG-DhiPCE6k30wEUR_SJNRmbxZ+zdYkCK9xg6c7g@mail.gmail.com>
-In-Reply-To: <CAMKF1sqmcrgG-DhiPCE6k30wEUR_SJNRmbxZ+zdYkCK9xg6c7g@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 17 Dec 2020 22:07:40 -0800
-Message-ID: <CAJ86T=XE6Woyb7-yXKyQpGi+CqqZOc2PK9vkyBVZypiLa69_dw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4] busybox: Run mdev as daemon
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20201218053641.17017-1-mingli.yu@windriver.com>
+In-Reply-To: <20201218053641.17017-1-mingli.yu@windriver.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 18 Dec 2020 08:47:08 +0100
+Message-ID: <CANNYZj9ymh8oCeQjPjY_bM5SCi3qLUNgHD908xbmrApdH7B_LQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] packagegroup-core-base-utils.bb: check the gplv3 license
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000060b3c305b6b851fa"
+
+--00000000000060b3c305b6b851fa
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 17, 2020 at 7:52 PM Khem Raj <raj.khem@gmail.com> wrote:
+I=E2=80=99m not sure I like this approach. It doesn=E2=80=99t look like the=
+ right place to
+decide whether to include or not some packages based on specific licensing
+requirements, licenses for these and other items change over time, and
+there may be more undesirable licenses than just this one.
+
+Why not simply create a new package group?
+
+Alex
+
+On Fri 18. Dec 2020 at 6.37, Yu, Mingli <mingli.yu@windriver.com> wrote:
+
+> From: Mingli Yu <mingli.yu@windriver.com>
 >
-> On Thu, Dec 17, 2020 at 3:59 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-> >
-> > On Thu, Dec 17, 2020 at 2:54 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > When busybox is used for device management, kernel needs to support
-> > > older/obsolete mechanism via CONFIG_UEVENT_HELPER and
-> > > CONFIG_UEVENT_HELPER_PATH to enable /proc/sys/kernel/hotplug but this
-> > > would require kernel defconfig change and will always be needed when
-> > > mdev is used, intead run it in daemon mode
-> > >
-> > > Update mdev init script to run mdev in daemon mode
-> > >
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > ---
-> > >  meta/recipes-core/busybox/busybox/mdev.cfg |  2 +
-> > >  meta/recipes-core/busybox/files/mdev       | 56 +++++++++++++++-------
-> > >  2 files changed, 41 insertions(+), 17 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-core/busybox/busybox/mdev.cfg b/meta/recipes-core/busybox/busybox/mdev.cfg
-> > > index 6aefe90e43..143e6097cb 100644
-> > > --- a/meta/recipes-core/busybox/busybox/mdev.cfg
-> > > +++ b/meta/recipes-core/busybox/busybox/mdev.cfg
-> > > @@ -9,3 +9,5 @@ CONFIG_SETSID=y
-> > >  CONFIG_CTTYHACK=y
-> > >
-> > >  CONFIG_FEATURE_SHADOWPASSWDS=y
-> > > +CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM=y
-> > > +CONFIG_FEATURE_MDEV_DAEMON=y
-> > > diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
-> > > index 8c9c06e96c..2fbdfb073e 100755
-> > > --- a/meta/recipes-core/busybox/files/mdev
-> > > +++ b/meta/recipes-core/busybox/files/mdev
-> > > @@ -1,21 +1,43 @@
-> > >  #!/bin/sh
-> > > -mount -t proc proc /proc
-> > > -mount -t sysfs sysfs /sys
-> > > -mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
-> > > -mkdir /dev/pts /dev/shm
-> > > -chmod 777 /dev/shm
-> > > -mount -t devpts devpts /dev/pts
-> > > -touch /dev/mdev.seq
-> > > -#sysctl -w kernel.hotplug=/sbin/mdev
-> > > -echo "/sbin/mdev" > /proc/sys/kernel/hotplug
-> > > -mdev -s
-> > > -
-> > >  #
-> > > -# We might have mounted something over /dev, see if /dev/initctl is there.
-> > > +# Run the mdev daemon
-> > >  #
-> > > -if test ! -p /dev/initctl
-> > > -then
-> > > -        rm -f /dev/initctl
-> > > -        mknod -m 600 /dev/initctl p
-> > > -fi
-> > > +
-> > > +DAEMON="mdev"
-> > > +PIDFILE="/var/run/$DAEMON.pid"
-> > > +
-> > > +
-> > > +start() {
-> > > +  echo -n "Starting $DAEMON... "
-> > > +  start-stop-daemon -S -b -m -p $PIDFILE -x /sbin/mdev -- -df
-> >
-> > Where do these start-stop-daemon options come from? Using -b for an
-> > application which is designed to run as a daemon (and deliberately
-> > telling that app to run in the foreground) looks odd, etc.
-> >
-> > Are there bugs or limitations in mdev which you are trying to workaround?
+> packagegroup-core-base-utils repends on some packages which are
+> gplv3 compatilbe.
 >
-> its using start-stop-daemon applet from busybox which does have these options
-> implemented, its so that start-stop-daemon takes the control of the daemon
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  .../packagegroups/packagegroup-core-base-utils.bb  | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-extended/packagegroups/
+> packagegroup-core-base-utils.bb b/meta/recipes-extended/packagegroups/
+> packagegroup-core-base-utils.bb
+> index 1e63da7f16..0a3cb63bc2 100644
+> --- a/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.b=
+b
+> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.b=
+b
+> @@ -33,18 +33,18 @@ RDEPENDS_${PN} =3D "\
+>      grep \
+>      gzip \
+>      ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "ifupdown",
+> d)} \
+> -    inetutils \
+> -    inetutils-ping \
+> -    inetutils-telnet \
+> -    inetutils-tftp \
+> -    inetutils-traceroute \
+> +    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '',
+> 'inetutils', d)} \
+> +    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '',
+> 'inetutils-ping', d)} \
+> +    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '',
+> 'inetutils-telnet', d)} \
+> +    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '',
+> 'inetutils-tftp', d)} \
+> +    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '',
+> 'inetutils-traceroute', d)} \
+>      iproute2 \
+>      ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "kbd", "", d)}=
+ \
+>      kmod \
+>      less \
+>      ncurses-tools \
+>      net-tools \
+> -    parted \
+> +    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'parted',
+> d)} \
+>      patch \
+>      procps \
+>      psmisc \
+> @@ -55,7 +55,7 @@ RDEPENDS_${PN} =3D "\
+>      unzip \
+>      util-linux \
+>      ${VIRTUAL-RUNTIME_vim} \
+> -    wget \
+> +    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'wget', d=
+)}
+> \
+>      which \
+>      xz \
+>      "
+> --
+> 2.26.2
+>
+>
+>=20
+>
+>
 
-The question is not whether start-stop-daemon supports using PID files
-but whether the busybox mdev application supports creating them.
+--00000000000060b3c305b6b851fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It looks like although most of the busybox daemons do, mdev does not:
+<div dir=3D"auto">I=E2=80=99m not sure I like this approach. It doesn=E2=80=
+=
+=99t look like the right place to decide whether to include or not some pa=
+ckages based on specific licensing requirements, licenses for these and oth=
+er items change over time, and there may be more undesirable licenses than =
+just this one.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Why not s=
+imply create a new package group?=C2=A0</div><div dir=3D"auto"><br></div><d=
+iv dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Fri 18. Dec 2020 at 6.37, Yu, Mingli &lt;<a hre=
+f=3D"mailto:mingli.yu@windriver.com">mingli.yu@windriver.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-le=
+ft-color:rgb(204,204,204)">From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@=
+windriver.com" target=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+<br>
+packagegroup-core-base-utils repends on some packages which are<br>
+gplv3 compatilbe.<br>
+<br>
+Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" ta=
+rget=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0.../packagegroups/<a href=3D"http://packagegroup-core-base-utils.bb"=
+ rel=3D"noreferrer" target=3D"_blank">packagegroup-core-base-utils.bb</a>=
+=C2=A0 | 14 +++++++-------<br>
+=C2=A01 file changed, 7 insertions(+), 7 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-extended/packagegroups/<a href=3D"http://package=
+group-core-base-utils.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup=
+-core-base-utils.bb</a> b/meta/recipes-extended/packagegroups/<a href=3D"ht=
+tp://packagegroup-core-base-utils.bb" rel=3D"noreferrer" target=3D"_blank">=
+packagegroup-core-base-utils.bb</a><br>
+index 1e63da7f16..0a3cb63bc2 100644<br>
+--- a/meta/recipes-extended/packagegroups/<a href=3D"http://packagegroup-c=
+ore-base-utils.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-b=
+ase-utils.bb</a><br>
++++ b/meta/recipes-extended/packagegroups/<a href=3D"http://packagegroup-c=
+ore-base-utils.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-core-b=
+ase-utils.bb</a><br>
+@@ -33,18 +33,18 @@ RDEPENDS_${PN} =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0grep \<br>
+=C2=A0 =C2=A0 =C2=A0gzip \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&quot;DISTRO_FEATURES&quot;, &quo=
+t;systemd&quot;, &quot;&quot;, &quot;ifupdown&quot;, d)} \<br>
+-=C2=A0 =C2=A0 inetutils \<br>
+-=C2=A0 =C2=A0 inetutils-ping \<br>
+-=C2=A0 =C2=A0 inetutils-telnet \<br>
+-=C2=A0 =C2=A0 inetutils-tftp \<br>
+-=C2=A0 =C2=A0 inetutils-traceroute \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;INCOMPATIBLE_LICENSE&#39;, &#39;G=
+PLv3&#39;, &#39;&#39;, &#39;inetutils&#39;, d)} \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;INCOMPATIBLE_LICENSE&#39;, &#39;G=
+PLv3&#39;, &#39;&#39;, &#39;inetutils-ping&#39;, d)} \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;INCOMPATIBLE_LICENSE&#39;, &#39;G=
+PLv3&#39;, &#39;&#39;, &#39;inetutils-telnet&#39;, d)} \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;INCOMPATIBLE_LICENSE&#39;, &#39;G=
+PLv3&#39;, &#39;&#39;, &#39;inetutils-tftp&#39;, d)} \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;INCOMPATIBLE_LICENSE&#39;, &#39;G=
+PLv3&#39;, &#39;&#39;, &#39;inetutils-traceroute&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0iproute2 \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&quot;MACHINE_FEATURES&quot;, &qu=
+ot;keyboard&quot;, &quot;kbd&quot;, &quot;&quot;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0kmod \<br>
+=C2=A0 =C2=A0 =C2=A0less \<br>
+=C2=A0 =C2=A0 =C2=A0ncurses-tools \<br>
+=C2=A0 =C2=A0 =C2=A0net-tools \<br>
+-=C2=A0 =C2=A0 parted \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;INCOMPATIBLE_LICENSE&#39;, &#39;G=
+PLv3&#39;, &#39;&#39;, &#39;parted&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0patch \<br>
+=C2=A0 =C2=A0 =C2=A0procps \<br>
+=C2=A0 =C2=A0 =C2=A0psmisc \<br>
+@@ -55,7 +55,7 @@ RDEPENDS_${PN} =3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0unzip \<br>
+=C2=A0 =C2=A0 =C2=A0util-linux \<br>
+=C2=A0 =C2=A0 =C2=A0${VIRTUAL-RUNTIME_vim} \<br>
+-=C2=A0 =C2=A0 wget \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;INCOMPATIBLE_LICENSE&#39;, &#39;G=
+PLv3&#39;, &#39;&#39;, &#39;wget&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0which \<br>
+=C2=A0 =C2=A0 =C2=A0xz \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+-- <br>
+2.26.2<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
 
-.../busybox-1.32.0 $ grep -r write_pidfile *
-debianutils/start_stop_daemon.c:        write_pidfile(pidfile);
-include/libbb.h:void write_pidfile(const char *path) FAST_FUNC;
-include/libbb.h:void write_pidfile_std_path_and_ext(const char *path) FAST_FUNC;
-include/libbb.h:#define write_pidfile_std_path_and_ext(path)  ((void)0)
-include/libbb.h:#define write_pidfile(path)  ((void)0)
-libbb/pidfile.c:void FAST_FUNC write_pidfile(const char *path)
-libbb/pidfile.c:void FAST_FUNC write_pidfile_std_path_and_ext(const char *name)
-libbb/pidfile.c:    write_pidfile(buf);
-miscutils/watchdog.c:    write_pidfile_std_path_and_ext("watchdog");
-miscutils/crond.c:    write_pidfile_std_path_and_ext("crond");
-networking/ifplugd.c:    write_pidfile(pidfile_name);
-networking/ntpd.c:        write_pidfile_std_path_and_ext("ntpd");
-networking/inetd.c:    write_pidfile_std_path_and_ext("inetd");
-networking/udhcp/dhcpc.c:    write_pidfile(client_data.pidfile);
-networking/udhcp/dhcpc.c:    write_pidfile(client_data.pidfile);
-networking/udhcp/dhcpd.c:    write_pidfile(server_data.pidfile);
-networking/udhcp/d6_dhcpc.c:    write_pidfile(client_data.pidfile);
-networking/udhcp/d6_dhcpc.c:    write_pidfile(client_data.pidfile);
-sysklogd/syslogd.c:    write_pidfile_std_path_and_ext("syslogd");
-sysklogd/klogd.c:    write_pidfile_std_path_and_ext("klogd");
-util-linux/acpid.c:    write_pidfile(opt_pidfile);
+--00000000000060b3c305b6b851fa--
