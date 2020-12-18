@@ -1,86 +1,66 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web11.4817.1608263904737058044
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.4970.1608263992690253295
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Dec 2020 19:58:25 -0800
+ Thu, 17 Dec 2020 19:59:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TJtcc5X6;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id m25so1899251lfc.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 19:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j3wsmXvfdMG/H9KGckIJ5zLzjF5GWjiSKuB5UfaSgpU=;
-        b=TJtcc5X6IR2M/E9tqoNX2MdeJpDFY+ZRH0MG7qo43Z5KI20liF03xM3R3DUOUNmKqz
-         7E5+vpmRwFfRlR1jup9ufvYp1+0oP7XN06rFJGcV9B9VE58xOftBEVWPtijvYbcVKAch
-         ByNU4U+FYT+IaJcVsNRz8GKlrXyGXYdEpF5Aghx2MiYV8N3btxuAGXrp10H0xZn4UK/E
-         eC3JlOlQ03jxu81hmCIFuiAw0WIv5bLTlBIzmHAaoSiWugASRyigWnJT/9m9fFhQmNZf
-         hT7fEz9rqekUfJZObu2xr016MJhwkvjieKejYCEysx6uhKcjAPkqK2r7t4cl7EQx5kBv
-         9qfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=j3wsmXvfdMG/H9KGckIJ5zLzjF5GWjiSKuB5UfaSgpU=;
-        b=U3RACqY/6y1KnE579c761EIxEJl+nYYQVcD1xwEx19FpNcYMeYroh2WNm/Levvr6Kj
-         2UAU6fpO/z2DJCgp/1oyA2tWaEj7lSlvIFzU0ATGoqu8Wy2cTvd2KRgo9E7h59z3Ty4V
-         GLphNfltSrvX/4FeSa51ro1qasMqkh97h4VppinfwJ59lNP+QivMgdsrJJPtvL8+k/eX
-         OhPZqcDKoKoF6yEamo4bCecx+ud2HAB/yehBM8ytcAuMJAcuvimQaOCnrvH9jw2es1oS
-         RX7u09Y7hYXWkkBp/eT+HBDnYWEPgT6f2fBnCL9O6iEPTag17Mn/xCMKbewTQGqwtiBW
-         mR2Q==
-X-Gm-Message-State: AOAM530aFMDtBg3B6pC1OrjqSSI/60bXRlWEPR91WtPM3HYU2OFnNltr
-	+g5WZXB09Jp+vWlt/026Q3MD9z1Li0vQfA==
-X-Google-Smtp-Source: ABdhPJw+ruDrMdbzDE0hlZ68UXaoCBMYRMSiDWg+F0ECTpQmu6WVYAzkpXwHZQxIPzshc8NBuMztiA==
-X-Received: by 2002:a2e:b8cd:: with SMTP id s13mr928185ljp.26.1608263902905;
-        Thu, 17 Dec 2020 19:58:22 -0800 (PST)
-Return-Path: <dbaryshkov@gmail.com>
-Received: from umbar.lan ([188.162.64.233])
-        by smtp.gmail.com with ESMTPSA id z17sm790534lfg.275.2020.12.17.19.58.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 19:58:22 -0800 (PST)
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
+IronPort-SDR: KfSdP0TUGQ3AOp8LVPMPp6YGKnzaP32wk4rn0ob/TQrL3qlckE++8Ne1P76nnyZGNoWUNIMXST
+ kz0BXVVoScSw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9838"; a="171872421"
+X-IronPort-AV: E=Sophos;i="5.78,429,1599548400"; 
+   d="scan'208";a="171872421"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2020 19:59:50 -0800
+IronPort-SDR: ItLpUi/DEvr5qUxa8HYmNNkcaNW0gHWrsJZ0tTp1x6pA9j8mN8OpYhjhLSQBJTcL82Usx6FPPm
+ dMtySQn2Fwlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,429,1599548400"; 
+   d="scan'208";a="413735473"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by orsmga001.jf.intel.com with ESMTP; 17 Dec 2020 19:59:50 -0800
+From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [dunfell][PATCH] perl: fix installation failure because of shell issue
-Date: Fri, 18 Dec 2020 06:58:21 +0300
-Message-Id: <20201218035821.9917-1-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] curl: Update 7.73.0 -> 7.74.0
+Date: Fri, 18 Dec 2020 11:59:49 +0800
+Message-Id: <1608263989-39605-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 
-On one of my buildservers I noticed perl do_install failing with the
-following message:
+update to version 7.74.0
 
-| rm: cannot remove '<OEROOT>/tmp-rpb-glibc/work/armv8-2a-linaro-linux/perl/5.32.0-r0/image//usr/lib/perl5/5.32.0/*/CORE/libperl.so': No such file or directory
+curl 7.74.0 hsts: add experimental support for Strict-Transport-Security with various bug fixes
 
-I tracked this down to shell being dash rather than bash not being able
-to expand this glob in the middle of the filename. So replace the glob
-expansion with the simpler one which works in all cases.
+Reference:
+https://curl.se/changes.html#7_74_0
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+update includes fix for CVE:
+CVE-2020-8284
+CVE-2020-8285
+CVE-2020-8286
+
+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 ---
- meta/recipes-devtools/perl/perl_5.30.1.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-support/curl/{curl_7.73.0.bb => curl_7.74.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/curl/{curl_7.73.0.bb => curl_7.74.0.bb} (97%)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index b53aff12160e..ee6eb6ef0f01 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -146,8 +146,9 @@ do_install() {
-     install lib/ExtUtils/typemap ${D}${libdir}/perl5/${PV}/ExtUtils/
+diff --git a/meta/recipes-support/curl/curl_7.73.0.bb b/meta/recipes-support/curl/curl_7.74.0.bb
+similarity index 97%
+rename from meta/recipes-support/curl/curl_7.73.0.bb
+rename to meta/recipes-support/curl/curl_7.74.0.bb
+index 0f26b0f..873bbe8 100644
+--- a/meta/recipes-support/curl/curl_7.73.0.bb
++++ b/meta/recipes-support/curl/curl_7.74.0.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
  
-     # Fix up shared library
--    rm ${D}/${libdir}/perl5/${PV}/*/CORE/libperl.so
--    ln -sf ../../../../libperl.so.${PERL_LIB_VER} $(echo ${D}/${libdir}/perl5/${PV}/*/CORE)/libperl.so
-+    dir=$(echo ${D}/${libdir}/perl5/${PV}/*/CORE)
-+    rm $dir/libperl.so
-+    ln -sf ../../../../libperl.so.${PERL_LIB_VER} $dir/libperl.so
- }
+-SRC_URI[sha256sum] = "cf34fe0b07b800f1c01a499a6e8b2af548f6d0e044dca4a29d88a4bee146d131"
++SRC_URI[sha256sum] = "0f4d63e6681636539dc88fa8e929f934cd3a840c46e0bf28c73be11e521b77a5"
  
- do_install_append_class-target() {
+ # Curl has used many names over the years...
+ CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
 -- 
-2.29.2
+2.7.4
 
