@@ -1,131 +1,170 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.1036.1608309130371958787
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web09.1083.1608309224853270620
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 08:32:10 -0800
+ Fri, 18 Dec 2020 08:33:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ELYKE5EL;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id q22so1817061pfk.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 08:32:10 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hWVllA/7;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id x18so1672841pln.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 08:33:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DNr+grUNaVTneJllLk7if2ImUqi/h1/QKCnHcT0riHI=;
-        b=ELYKE5ELsDKsKb1CfIsD5ISsdMqWHoZM9YXNP94X7uuK/DcnkPgglLvoS/E6jEQbET
-         CI0o2EH7Q+FM5kkXWLRHvkjMwGr3iHpNhkotWSbGlrG6UhijnHGHAK7Ocjm7z1zMdPuY
-         Zm4LeFPV9BpFJl/zsinH6ZDsGhz8ZeCJX/EQzoUpSv3R2n8kXnRjoDTv9fO8tG209nCJ
-         cswWoNTrpcY43zN26Xbi48IRVgQXG5OJwt15++i25MYWRLwz9Q5K/FcGsAAvLQ/eueWv
-         OcuQXTAnjuvz0sIXq19Iy5ANNRvC4HFrydNSb/dcPQhJssD/tQNGqzKAWONBt5wqbhZt
-         BWdg==
+        bh=WiRz4NGkav5g3m8H+1PxmrcDBkV9/FlJ2toE4cgpR/M=;
+        b=hWVllA/7Ve/JxRSgqyKq3ULb3JChKG610pHL/e2Z2GJwEFU6O3xunvVMbJ12K1HIt7
+         3tbz9/klDmgRhu7AOKNkC5qv8j+ZT73wX6zDOyCB/H6ZBZyPhrOOiy9gKaABXS3IeVTS
+         nGm/tBciFkGaHD0cMDdGz1fLC/74PvBRBkL7+z0WjggUD0iWjMJX3cVgRmP66gg3VPu9
+         O5ZGwE0DdJExeMTjb6Karcck1GTXC8Wdoje85XkhMn9AalhR5QMesQAdvGQAENcroVAc
+         I46j/brE3RLxgTOlqSKJS1ejSZKQsMn9w/D+pVnfQ/Qr3LDE7XmqKqRSvFxeQe3XVUEf
+         J1ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=DNr+grUNaVTneJllLk7if2ImUqi/h1/QKCnHcT0riHI=;
-        b=EF5ogR7PSoo3LTgUyZ/PmBL08Q8W8HIyvEM1gytJ3laOTeH8fNv/jSpUr6xQoCy6GD
-         FGkWhViO1KdUvJkRSA1TYthz22d9RPuLWx/5vZ4m32vPOntjKXoknr72VsoB6upXz/Lb
-         4eA2kpl6xzFCaIwXs3sdpHGgP31l4aHlQ2VDy+TsMjWLMIrBgC2B7A73vdn7VhCvqdbJ
-         jEza3/Fd9cNflXauBUgbzv/rxOt2jCY5xyEJubP5JkaLfwJ5ctJF5dWnmpWZlybKT422
-         PUJwmSTXrvYjttNEOrTUk9hNjQ7yLPRKxrAR9sSlU7KJhhjDrKYbVkdIeLxMUWRdeymC
-         M8pw==
-X-Gm-Message-State: AOAM531JWjv5Ui2+xCRoIJ6Elorzrs2tz495MyJY/L/ULstJK5tMTyA0
-	hBMHG3DXl5kJnYUam2ZJh7I=
-X-Google-Smtp-Source: ABdhPJyEM+zOv9cLo13ipqXxQzBLF8wtYqRvwf9pAwD6+YgQE2h2rMtK0fuZv+j2iKmme8tGLnN4nA==
-X-Received: by 2002:a63:3d8:: with SMTP id 207mr4707089pgd.215.1608309129782;
-        Fri, 18 Dec 2020 08:32:09 -0800 (PST)
+        bh=WiRz4NGkav5g3m8H+1PxmrcDBkV9/FlJ2toE4cgpR/M=;
+        b=nEwg8RfKdSPwEdsTzfqmAPHeWCnVQF8GlHauIxn3Q/WxmRPugZngoQ8Qdic8Dk24p9
+         EajzH/nW07aDD5BZHA5ChTwAcCQtC1PHuhz7tQcBUdBDzgk7Fs8gvJRWZzOoFY2Cv7H3
+         qAcv8suTi56nb6DuhaqchUVr7Arm352D50ODhljyUR+V4LuVuAAexDlnzIb5MrRqfcWO
+         DIleXBcEIImFiLAgB3SSqOk2mgT5U7aHFgmwCKJfurdb5Z5Ej6ci+O7mRb+TVgIrgXwz
+         v3FknXelk1iBQOqKr8CLBLzXTBONGqmBLmUpE6qIpiWmxP006w3mmzTF3OqCZ7iti9sx
+         BF1g==
+X-Gm-Message-State: AOAM532BVvM7sRdVLFondXqO9F7ZEdHLM9Q8tf+jMNIkSy/sEvdWXPoE
+	U0pqeEiqOqQYk0Asf/6Bn1xbpIOos02zYw==
+X-Google-Smtp-Source: ABdhPJx2Bz/1Y/tlOxK6Du8MFUA3jchX8VsT/HCSOpuXYyVbMjeGVmqaijUuJjXLcUB9ToaL2DBQjA==
+X-Received: by 2002:a17:90a:a45:: with SMTP id o63mr5144981pjo.146.1608309223916;
+        Fri, 18 Dec 2020 08:33:43 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::9ac9? ([2601:646:9200:4e0::9ac9])
-        by smtp.gmail.com with ESMTPSA id b2sm8980531pfo.164.2020.12.18.08.32.08
+        by smtp.gmail.com with ESMTPSA id 193sm9481125pfz.36.2020.12.18.08.33.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Dec 2020 08:32:09 -0800 (PST)
-Subject: Re: [OE-core] [SDK] How to use the gold linker
-To: Christian Eggers <ceggers@arri.de>,
- openembedded-core@lists.openembedded.org
-Cc: Christopher Larson <kergoth@gmail.com>
-References: <5776519.IOBmFsySL6@n95hx1g2>
- <CABcZAN=QdWzV=LObrdHMWfcDx_1VV3Ce-i_nYL3H7WYUcCtSSA@mail.gmail.com>
- <074c7da4-c8d0-680d-d33d-476dcc51c5b7@gmail.com>
- <1664221.2vONSAOZnb@n95hx1g2>
+        Fri, 18 Dec 2020 08:33:43 -0800 (PST)
+Subject: Re: [OE-core] [PATCH 3/4] busybox: Run mdev as daemon
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20201217225440.2633474-1-raj.khem@gmail.com>
+ <20201217225440.2633474-3-raj.khem@gmail.com>
+ <CAJ86T=VVepAL0d4d9AZnDr0auBYZyKOmz-gn3kExpaHkuOgFWg@mail.gmail.com>
+ <CAMKF1sqmcrgG-DhiPCE6k30wEUR_SJNRmbxZ+zdYkCK9xg6c7g@mail.gmail.com>
+ <CAJ86T=XE6Woyb7-yXKyQpGi+CqqZOc2PK9vkyBVZypiLa69_dw@mail.gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <52f8e74e-284e-60d7-757e-843a8b5a7de3@gmail.com>
-Date: Fri, 18 Dec 2020 08:32:08 -0800
+Message-ID: <84681f38-9023-1c0c-7e68-582307f2e63c@gmail.com>
+Date: Fri, 18 Dec 2020 08:33:42 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <1664221.2vONSAOZnb@n95hx1g2>
+In-Reply-To: <CAJ86T=XE6Woyb7-yXKyQpGi+CqqZOc2PK9vkyBVZypiLa69_dw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 12/18/20 3:30 AM, Christian Eggers wrote:
-> Hi Khem, hi Christopher,
-> 
-> On Tuesday, 15 December 2020, 18:15:52 CET, Khem Raj wrote:
+On 12/17/20 10:07 PM, Andre McCurdy wrote:
+> On Thu, Dec 17, 2020 at 7:52 PM Khem Raj <raj.khem@gmail.com> wrote:
 >>
->> On 12/15/20 8:50 AM, Christopher Larson wrote:
->>> This can be fixed via two changes, first removing real-ld, then adding
->>> the missing links to fix -fuse-ld=. I have this in one of my
->>> not-yet-submitted bbappends:
+>> On Thu, Dec 17, 2020 at 3:59 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 >>>
->>>       # Remove real-ld, as it prevents checking for ld or gold in the
->>> search path
->>>       rm -f ${dest}real-ld$suffix
->>>       # Then add links to fix builds with -fuse-ld=
->>>       ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld.gold$suffix
->>> ${dest}ld.gold$suffix
->>>       ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld.bfd$suffix ${dest}ld.bfd$suffix
+>>> On Thu, Dec 17, 2020 at 2:54 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>>>
+>>>> When busybox is used for device management, kernel needs to support
+>>>> older/obsolete mechanism via CONFIG_UEVENT_HELPER and
+>>>> CONFIG_UEVENT_HELPER_PATH to enable /proc/sys/kernel/hotplug but this
+>>>> would require kernel defconfig change and will always be needed when
+>>>> mdev is used, intead run it in daemon mode
+>>>>
+>>>> Update mdev init script to run mdev in daemon mode
+>>>>
+>>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>>> ---
+>>>>   meta/recipes-core/busybox/busybox/mdev.cfg |  2 +
+>>>>   meta/recipes-core/busybox/files/mdev       | 56 +++++++++++++++-------
+>>>>   2 files changed, 41 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-core/busybox/busybox/mdev.cfg b/meta/recipes-core/busybox/busybox/mdev.cfg
+>>>> index 6aefe90e43..143e6097cb 100644
+>>>> --- a/meta/recipes-core/busybox/busybox/mdev.cfg
+>>>> +++ b/meta/recipes-core/busybox/busybox/mdev.cfg
+>>>> @@ -9,3 +9,5 @@ CONFIG_SETSID=y
+>>>>   CONFIG_CTTYHACK=y
+>>>>
+>>>>   CONFIG_FEATURE_SHADOWPASSWDS=y
+>>>> +CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM=y
+>>>> +CONFIG_FEATURE_MDEV_DAEMON=y
+>>>> diff --git a/meta/recipes-core/busybox/files/mdev b/meta/recipes-core/busybox/files/mdev
+>>>> index 8c9c06e96c..2fbdfb073e 100755
+>>>> --- a/meta/recipes-core/busybox/files/mdev
+>>>> +++ b/meta/recipes-core/busybox/files/mdev
+>>>> @@ -1,21 +1,43 @@
+>>>>   #!/bin/sh
+>>>> -mount -t proc proc /proc
+>>>> -mount -t sysfs sysfs /sys
+>>>> -mount -t tmpfs tmpfs /dev  -o size=64k,mode=0755
+>>>> -mkdir /dev/pts /dev/shm
+>>>> -chmod 777 /dev/shm
+>>>> -mount -t devpts devpts /dev/pts
+>>>> -touch /dev/mdev.seq
+>>>> -#sysctl -w kernel.hotplug=/sbin/mdev
+>>>> -echo "/sbin/mdev" > /proc/sys/kernel/hotplug
+>>>> -mdev -s
+>>>> -
+>>>>   #
+>>>> -# We might have mounted something over /dev, see if /dev/initctl is there.
+>>>> +# Run the mdev daemon
+>>>>   #
+>>>> -if test ! -p /dev/initctl
+>>>> -then
+>>>> -        rm -f /dev/initctl
+>>>> -        mknod -m 600 /dev/initctl p
+>>>> -fi
+>>>> +
+>>>> +DAEMON="mdev"
+>>>> +PIDFILE="/var/run/$DAEMON.pid"
+>>>> +
+>>>> +
+>>>> +start() {
+>>>> +  echo -n "Starting $DAEMON... "
+>>>> +  start-stop-daemon -S -b -m -p $PIDFILE -x /sbin/mdev -- -df
 >>>
+>>> Where do these start-stop-daemon options come from? Using -b for an
+>>> application which is designed to run as a daemon (and deliberately
+>>> telling that app to run in the foreground) looks odd, etc.
+>>>
+>>> Are there bugs or limitations in mdev which you are trying to workaround?
 >>
->> right this looks ok. Can you submit this for upstreaming please
+>> its using start-stop-daemon applet from busybox which does have these options
+>> implemented, its so that start-stop-daemon takes the control of the daemon
 > 
-> while this change works "fine for me" (I can now use ld.gold which is about
-> 3 times faster for my project), there are side effects:
+> The question is not whether start-stop-daemon supports using PID files
+> but whether the busybox mdev application supports creating them.
 > 
->> ${CC} -fuse-ld=bfd -print-prog-name=ld
-> /opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld.bfd
-> 
->> ${CC} -fuse-ld=bfd -o test test.c
-> works fine
-> 
->> ${CC} -fuse-ld=gold -print-prog-name=ld
-> /opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld.gold
-> 
->> ${CC} -fuse-ld=gold -o test test.c
-> also works fine
-> 
->> ${CC} print-prog-name=ld
-> /opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld
-> 
->> ${CC} -o test test.c
-> collect2: fatal error: cannot find ‘ld’
-> compilation terminated.
-> 
->> ls -l /opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld
-> /opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld -> ../../../../../bin/arm-poky-linux-gnueabi/arm-poky-linux-gnueabi-ld
+> It looks like although most of the busybox daemons do, mdev does not:
 > 
 
-we could patch it out in gcc sources so always use the real one because 
-the default is one of gold or bfd linker anyway
-> 
-> 
-> regards
-> Christian
-> 
-> 
-> 
-> 
-> ________________________________
->   [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1.jpg] <https://microsites.arri.com/stellar/>
-> 
-> Get all the latest information from www.arri.com<https://www.arri.com/>, Facebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRIChannel>, Instagram<https://instagram.com/arri> and YouTube<https://www.youtube.com/user/ARRIChannel>.
-> 
-> Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-> Sitz: München - Registergericht: Amtsgericht München - Handelsregisternummer: HRA 57918
-> Persönlich haftender Gesellschafter: Arnold & Richter Cine Technik GmbH
-> Sitz: München - Registergericht: Amtsgericht München - Handelsregisternummer: HRB 54477
-> Geschäftsführer: Dr. Michael Neuhäuser; Stephan Schenk; Walter Trauninger; Markus Zeiler
+right it does not, letting start-stop-daemon works well though and is 
+used in lot of places
+
+> .../busybox-1.32.0 $ grep -r write_pidfile *
+> debianutils/start_stop_daemon.c:        write_pidfile(pidfile);
+> include/libbb.h:void write_pidfile(const char *path) FAST_FUNC;
+> include/libbb.h:void write_pidfile_std_path_and_ext(const char *path) FAST_FUNC;
+> include/libbb.h:#define write_pidfile_std_path_and_ext(path)  ((void)0)
+> include/libbb.h:#define write_pidfile(path)  ((void)0)
+> libbb/pidfile.c:void FAST_FUNC write_pidfile(const char *path)
+> libbb/pidfile.c:void FAST_FUNC write_pidfile_std_path_and_ext(const char *name)
+> libbb/pidfile.c:    write_pidfile(buf);
+> miscutils/watchdog.c:    write_pidfile_std_path_and_ext("watchdog");
+> miscutils/crond.c:    write_pidfile_std_path_and_ext("crond");
+> networking/ifplugd.c:    write_pidfile(pidfile_name);
+> networking/ntpd.c:        write_pidfile_std_path_and_ext("ntpd");
+> networking/inetd.c:    write_pidfile_std_path_and_ext("inetd");
+> networking/udhcp/dhcpc.c:    write_pidfile(client_data.pidfile);
+> networking/udhcp/dhcpc.c:    write_pidfile(client_data.pidfile);
+> networking/udhcp/dhcpd.c:    write_pidfile(server_data.pidfile);
+> networking/udhcp/d6_dhcpc.c:    write_pidfile(client_data.pidfile);
+> networking/udhcp/d6_dhcpc.c:    write_pidfile(client_data.pidfile);
+> sysklogd/syslogd.c:    write_pidfile_std_path_and_ext("syslogd");
+> sysklogd/klogd.c:    write_pidfile_std_path_and_ext("klogd");
+> util-linux/acpid.c:    write_pidfile(opt_pidfile);
 > 
