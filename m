@@ -1,113 +1,71 @@
-Received: from mailout01.rmx.de (mailout01.rmx.de [94.199.90.91])
- by mx.groups.io with SMTP id smtpd.web12.8468.1608291024667642870
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.8777.1608293170114915900
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 03:30:26 -0800
+ Fri, 18 Dec 2020 04:06:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arri.de, ip: 94.199.90.91, mailfrom: ceggers@arri.de)
-Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout01.rmx.de (Postfix) with ESMTPS id 4Cy69S0DV2z2SXwt;
-	Fri, 18 Dec 2020 12:30:20 +0100 (CET)
-Received: from mta.arri.de (unknown [217.111.95.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by kdin02.retarus.com (Postfix) with ESMTPS id 4Cy69R0qhfz2TTFb;
-	Fri, 18 Dec 2020 12:30:19 +0100 (CET)
-Received: from n95hx1g2.localnet (192.168.54.185) by mta.arri.de
- (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 18 Dec
- 2020 12:30:18 +0100
-From: "Christian Eggers" <ceggers@arri.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Khem Raj <raj.khem@gmail.com>, Christopher Larson <kergoth@gmail.com>
-Subject: Re: [OE-core] [SDK] How to use the gold linker
-Date: Fri, 18 Dec 2020 12:30:17 +0100
-Message-ID: <1664221.2vONSAOZnb@n95hx1g2>
-Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-In-Reply-To: <074c7da4-c8d0-680d-d33d-476dcc51c5b7@gmail.com>
-References: <5776519.IOBmFsySL6@n95hx1g2> <CABcZAN=QdWzV=LObrdHMWfcDx_1VV3Ce-i_nYL3H7WYUcCtSSA@mail.gmail.com> <074c7da4-c8d0-680d-d33d-476dcc51c5b7@gmail.com>
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=NSCt8+KY;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1608293170;
+  x=1639829170;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=1wYiHcpKQBTHO1nqAtQamuD+b5AJLWsuoPejwFJRJCA=;
+  b=NSCt8+KYn8OIq9EPqx1DrZLCrNTBrE2lSwf/u9bL1dRsqIDoG2LJs1U7
+   3ETLsZpV5vgZYefXuyrDuuPjOv1FyQyRdk4dAy/C7ucUb+pB8mZ0MuPrR
+   xLLV3BExf2fB+O5Kq1G0bnYW0xZzXajKwaDSm4psIbiyTkbashlEtd9Vw
+   H/fz7FEjxJWXuFt4VdrRoOg5RydUa8JqyaULAIQsKB1ub8k9azuEx9A9P
+   AopO4vjmMA8xGIci18R8SpGZgSTygF55sS1xVYF4h0/SNa/8fD+cDijCx
+   83PK8uxjizy/B7yyxCBluQ1aGVzPRFQK6PXK0lqGJhu17JOx4+le1CSco
+   Q==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Kory Maincent <kory.maincent@bootlin.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "thomas.petazzoni@bootlin.com"
+	<thomas.petazzoni@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] ltp: fix rpc build error
+Thread-Topic: [OE-core] [PATCH v2] ltp: fix rpc build error
+Thread-Index: AQHW1H4Nn1xWXFMU0EmwWkfaBA2LA6n7ctHggAEJmACAAESiMA==
+Date: Fri, 18 Dec 2020 12:06:06 +0000
+Message-ID: <8a74e57385a4497c9e65bb3d433207df@XBOX03.axis.com>
+References: <20201217140756.30688-1-kory.maincent@bootlin.com>
+	<ce781b6c4aa644f3ba1f322396065bcb@XBOX03.axis.com>
+ <20201218095214.267d7c2a@kmaincent-XPS-13-7390>
+In-Reply-To: <20201218095214.267d7c2a@kmaincent-XPS-13-7390>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-Originating-IP: [192.168.54.185]
-X-RMX-ID: 20201218-123019-DqjmHDKkCVpQ-0@out02.hq
-X-RMX-SOURCE: 217.111.95.66
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Hi Khem, hi Christopher,
-
-On Tuesday, 15 December 2020, 18:15:52 CET, Khem Raj wrote:
->
-> On 12/15/20 8:50 AM, Christopher Larson wrote:
-> > This can be fixed via two changes, first removing real-ld, then adding
-> > the missing links to fix -fuse-ld=3D. I have this in one of my
-> > not-yet-submitted bbappends:
-> >
-> >      # Remove real-ld, as it prevents checking for ld or gold in the
-> > search path
-> >      rm -f ${dest}real-ld$suffix
-> >      # Then add links to fix builds with -fuse-ld=3D
-> >      ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld.gold$suffix
-> > ${dest}ld.gold$suffix
-> >      ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld.bfd$suffix ${dest}ld.bfd$s=
-uffix
-> >
->
-> right this looks ok. Can you submit this for upstreaming please
-
-while this change works "fine for me" (I can now use ld.gold which is about
-3 times faster for my project), there are side effects:
-
-> ${CC} -fuse-ld=3Dbfd -print-prog-name=3Dld
-/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
-ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld.bfd
-
-> ${CC} -fuse-ld=3Dbfd -o test test.c
-works fine
-
-> ${CC} -fuse-ld=3Dgold -print-prog-name=3Dld
-/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
-ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld.gold
-
-> ${CC} -fuse-ld=3Dgold -o test test.c
-also works fine
-
-> ${CC} print-prog-name=3Dld
-/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
-ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld
-
-> ${CC} -o test test.c
-collect2: fatal error: cannot find =E2=80=98ld=E2=80=99
-compilation terminated.
-
-> ls -l /opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-=
-poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld
-/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
-ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld -> ../../../../../bin/arm-po=
-ky-linux-gnueabi/arm-poky-linux-gnueabi-ld
-
-
-
-regards
-Christian
-
-
-
-
-________________________________
- [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
-.jpg] <https://microsites.arri.com/stellar/>
-
-Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
-cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
-Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
-tube.com/user/ARRIChannel>.
-
-Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRA 57918
-Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
-H
-Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
-isternummer: HRB 54477
-Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
-er Trauninger; Markus Zeiler
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIEtvcnkgTWFpbmNlbnQNCj4gU2VudDogZGVuIDE4IGRl
+Y2VtYmVyIDIwMjAgMDk6NTINCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxl
+cnN0ZWR0QGF4aXMuY29tPg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZzsNCj4gdGhvbWFzLnBldGF6em9uaUBib290bGluLmNvbQ0KPiBTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSCB2Ml0gbHRwOiBmaXggcnBjIGJ1aWxkIGVycm9yDQo+IA0KPiBIZWxs
+byBQZXRlciwNCj4gDQo+IE9uIFRodSwgMTcgRGVjIDIwMjAgMTY6MjE6MjAgKzAwMDANCj4gUGV0
+ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+IHdyb3RlOg0KPiAN
+Cj4gPiA+DQo+ID4gPiAgVEFSR0VUX0NDX0FSQ0ggKz0gIiR7TERGTEFHU30iDQo+ID4gPg0KPiA+
+ID4gK2V4cG9ydCBsaWJkaXIgOj0gIiR7ZXhlY19wcmVmaXh9LyR7YmFzZWxpYn0iDQo+ID4gPiAr
+ZXhwb3J0IGluY2RpciA6PSAiJHtleGVjX3ByZWZpeH0vaW5jbHVkZSINCj4gPg0KPiA+IFRoaXMg
+c2hvdWxkIGJlIGEgbGl0dGxlIGJpdCBiZXR0ZXI6DQo+ID4NCj4gPiBleHBvcnQgbGliZGlyIDo9
+ICIke2xpYmRpcn0iDQo+ID4gZXhwb3J0IGluY2RpciA6PSAiJHtpbmNkaXJ9Ig0KPiANCj4gVGhh
+bmtzLA0KPiBJIGRpZCBub3Qgbm90aWNlIGJ1dCBpdCBicmluZ3MgYW4gZXJyb3IgYW5kIEkgc2Vu
+dCBhIFYzIHdpdGggaXQuDQo+IFlvdXIgcmV2aWV3IHJldHVybnMgdGhpcyBlcnJvcjoNCj4gYmIu
+ZGF0YV9zbWFydC5FeHBhbnNpb25FcnJvcjogRmFpbHVyZSBleHBhbmRpbmcgdmFyaWFibGUgaW5j
+ZGlyLA0KPiBleHByZXNzaW9uIHdhcyAke2luY2Rpcn0gd2hpY2ggdHJpZ2dlcmVkIGV4Y2VwdGlv
+biBFeGNlcHRpb246IHZhcmlhYmxlDQo+IGluY2RpciByZWZlcmVuY2VzIGl0c2VsZiENCg0KRHVo
+LCBvZiBjb3Vyc2UuIFRoYXQgaXMgYmVjYXVzZSB0aGVyZSBpcyBubyBpbmNkaXIgdmFyaWFibGUs
+IHNvIA0KIiR7aW5jZGlyfSIgd2lsbCBleHBhbmQgdG8gIlwke2luY2Rpcn0iLiBUaGUgcmVhbCB2
+YXJpYWJsZSBpcyBjYWxsZWQgDQppbmNsdWRlZGlyLiANCg0KVGhpcyBvZiBjb3Vyc2UgYnJpbmdz
+IHRoZSBxdWVzdGlvbiB3aGV0aGVyIGx0cCBleHBlY3RzIGluY2RpciBvciANCmluY2x1ZGVkaXIs
+IGFuZCBpZiBpdCBpcyB0aGUgbGF0dGVyLCB0aGVuIHlvdXIgY2hhbmdlcyBzbyBmYXIgaGF2ZSBu
+b3QgDQptYWRlIGFueSBkaWZmZXJlbmNlIHdoZW4gaXQgY29tZXMgdG8gaW5jbHVkZWRpciwgd2hp
+Y2ggbWVhbnMgdGhleSANCnNob3VsZG4ndCBiZSBuZWVkZWQuDQoNCj4gDQo+IFJlZ2FyZHMsDQo+
+IA0KPiBLw7ZyeSwNCg0KLy9QZXRlcg0KDQo=
