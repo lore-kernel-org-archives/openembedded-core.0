@@ -1,66 +1,66 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web10.4970.1608263992690253295
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web12.4848.1608264095623634390
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Dec 2020 19:59:53 -0800
+ Thu, 17 Dec 2020 20:01:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: KfSdP0TUGQ3AOp8LVPMPp6YGKnzaP32wk4rn0ob/TQrL3qlckE++8Ne1P76nnyZGNoWUNIMXST
- kz0BXVVoScSw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9838"; a="171872421"
-X-IronPort-AV: E=Sophos;i="5.78,429,1599548400"; 
-   d="scan'208";a="171872421"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Dec 2020 19:59:50 -0800
-IronPort-SDR: ItLpUi/DEvr5qUxa8HYmNNkcaNW0gHWrsJZ0tTp1x6pA9j8mN8OpYhjhLSQBJTcL82Usx6FPPm
- dMtySQn2Fwlg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,429,1599548400"; 
-   d="scan'208";a="413735473"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga001.jf.intel.com with ESMTP; 17 Dec 2020 19:59:50 -0800
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] curl: Update 7.73.0 -> 7.74.0
-Date: Fri, 18 Dec 2020 11:59:49 +0800
-Message-Id: <1608263989-39605-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Yqc6FVlL;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id q22so1235743eja.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 20:01:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Iim9/Knbky4Qj8BYZAe3OlYFBvGDaMsVkaQtDhUdLMo=;
+        b=Yqc6FVlLw6IMe0zDqHvQ3nh1AHzrph+TgvATfbvwoX8+fh74+FBGLWfZIw4Uvxr6AU
+         uCOC1xZGTFcfFBzRnnCiMOqq1tqlJs4Q/IKqlmMFZfFqOupY2H4ojj3uKcSrkjtHtx5B
+         NzvUVX4cpniQKPwlF8hLOGmKk1adUvT7rL+3s5q1IHCJjBKN2MAxnk9ambIZ11sI6VXb
+         3WC0X+rLxvAVy8B92yIjAO36ldqS5SZfjpofeX+90WPb7zCMZB/HNdZDUXkCmyuD1bwa
+         GzBRbFKPTIeXVhpgw4hxKPlVYKYdzhMJ+DV/MSFrSx+pTeOMiAL412ck2GsUy8j3Rjfj
+         iakw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Iim9/Knbky4Qj8BYZAe3OlYFBvGDaMsVkaQtDhUdLMo=;
+        b=AoBYJwOhiBnK0bfXVpt1TA0hF7aYfqW79BJV5oQo9L64Sm2HRAepA+ffERv2irTwsR
+         SziRhkBqPWDJxOdXlx82d7YDd0CDhNP3qaBLM1zSQ62NeoAVMCU1yw0t+y7tqox7Cg+k
+         jD7DAUqe1kLclyyp2SAohWcu+4gkFApv0ZcteSG+AEjquSC3t6jbXuTKt2UEGpAVn/bV
+         mwMi5Dd3mHVb4ZgDBwr6N4Z56e/biPtSD+3ZOo3aUo6UE62uMSJeuYJT5suPHk31fUar
+         Jrno5vs/RMc61hTmLWqzP6FW2gh+ri112yvMyTD20+r6bYztBdlGTGovsh8Y5HRbNMSM
+         fptw==
+X-Gm-Message-State: AOAM531wI/MQ2NC5RObaHQKF/B03UHHSnaBqcbqm9B9y+GMplCTzMClx
+	bj3R8m+VAORXcxBh59RS93dS13DO/aHiWXZVzHcHCEvP1WQ=
+X-Google-Smtp-Source: ABdhPJxT8tSL1WQ7K2gttXhvnRi0j20KPM1dvSh4ebJjyrcqwtg59A01xLvlmphSRESKs+bp8CPSI6r0TJFfT1FcuRw=
+X-Received: by 2002:a17:906:d101:: with SMTP id b1mr2188265ejz.80.1608264094107;
+ Thu, 17 Dec 2020 20:01:34 -0800 (PST)
+MIME-Version: 1.0
+References: <20201218035749.9850-1-dbaryshkov@gmail.com>
+In-Reply-To: <20201218035749.9850-1-dbaryshkov@gmail.com>
+From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
+Date: Fri, 18 Dec 2020 07:01:23 +0300
+Message-ID: <CALT56yOe5ZHuQpMwm6vrz6siNK_oiCqSh9q73sHCfFqTj9Ckew@mail.gmail.com>
+Subject: Re: [dunfell][PATCH] systemd: Fix reallocarray check
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+Hello,
 
-update to version 7.74.0
+=D0=BF=D1=82, 18 =D0=B4=D0=B5=D0=BA. 2020 =D0=B3. =D0=B2 06:57, Dmitry Bary=
+shkov <dbaryshkov@gmail.com>:
+>
+> From: Khem Raj <raj.khem@gmail.com>
+>
+> Musl brought this latent issue to fore
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-curl 7.74.0 hsts: add experimental support for Strict-Transport-Security with various bug fixes
+Please ignore this email, it was sent by mistake.
 
-Reference:
-https://curl.se/changes.html#7_74_0
 
-update includes fix for CVE:
-CVE-2020-8284
-CVE-2020-8285
-CVE-2020-8286
-
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
----
- meta/recipes-support/curl/{curl_7.73.0.bb => curl_7.74.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/curl/{curl_7.73.0.bb => curl_7.74.0.bb} (97%)
-
-diff --git a/meta/recipes-support/curl/curl_7.73.0.bb b/meta/recipes-support/curl/curl_7.74.0.bb
-similarity index 97%
-rename from meta/recipes-support/curl/curl_7.73.0.bb
-rename to meta/recipes-support/curl/curl_7.74.0.bb
-index 0f26b0f..873bbe8 100644
---- a/meta/recipes-support/curl/curl_7.73.0.bb
-+++ b/meta/recipes-support/curl/curl_7.74.0.bb
-@@ -9,7 +9,7 @@ SRC_URI = "https://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
- "
- 
--SRC_URI[sha256sum] = "cf34fe0b07b800f1c01a499a6e8b2af548f6d0e044dca4a29d88a4bee146d131"
-+SRC_URI[sha256sum] = "0f4d63e6681636539dc88fa8e929f934cd3a840c46e0bf28c73be11e521b77a5"
- 
- # Curl has used many names over the years...
- CVE_PRODUCT = "haxx:curl haxx:libcurl curl:curl curl:libcurl libcurl:libcurl daniel_stenberg:curl"
--- 
-2.7.4
-
+--=20
+With best wishes
+Dmitry
