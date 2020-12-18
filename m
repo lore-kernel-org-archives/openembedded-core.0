@@ -1,211 +1,154 @@
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web10.5447.1608267171635299222
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.51])
+ by mx.groups.io with SMTP id smtpd.web09.5846.1608269826674947218
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Dec 2020 20:52:51 -0800
+ Thu, 17 Dec 2020 21:37:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LQqnsp+r;
- spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: twoerner@gmail.com)
-Received: by mail-io1-f50.google.com with SMTP id p187so917361iod.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Dec 2020 20:52:51 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=pwWJYG8z;
+ spf=pass (domain: windriver.com, ip: 40.107.243.51, mailfrom: mingli.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=N/T6sP5c9QmYp7JNlzaujvoElbobeXc0Vay6FY+gXFRFOsvlUvWD3YAmQThK6n56okarAxSoi+OszonvxcVHSRGaupyN0LS7EPe3G6mRoURi42q5N6V1KfAoEVOoEX5CYvbniwQvOdgZ32wvixi4C2lDukTQsxbSr9dDyOOGH1p4pug20U9J3iS5q74C4woMEObzpETLyoA2+fN3Cf/jbouMr24cuIO5wgI9eKCoJK25Xy8TN0y044mWGDabo4s4djFwiKg80SYDS069yMw79LdlmN24BshgM2o/cCnr0O8shZ/sE8zFk3uhojOsksASEwoFwLbmSz+gD1yd7SNKtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=71LJpxu2nEzsVOr0zCoGBHx0A0CnuuUQC4zM/+EuAlY=;
+ b=bAB63CXyV70s/QJsUXGT64+HAJrN6DqnjI69ZXzqIGqtd4V85hBqD6EC0ZAEBgzmjoQPxi1vQEuzRy7sTeYpPulQVc2KSwOt5K4/akNG8dyJITZX01SG4SUXIQ1HHZOThGTtdiDbUreOcQpAVO1F5qrrHoQSLLWfysaBszDVRWDiLHKzwSBv3+hOWksQjXRdqgyTI7jTm5dswHF4ueghlYgn/GxThoq+XEI7rZKQiu8HCE/jL2pQ8UlWvwzqty105Y6Se5hvwmOGt6D+RBfG3yhgRfR18N8pZ1r+G5HSup3yxX8/thSjP2lTVEj9SMcO3nd+5k7NV4hzR16RUfHF3Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y0wycXuky8XwQRxF4iLOrfcFunvYZVR/tUYT3lH3SE8=;
-        b=LQqnsp+rL+PoJbwu1LrupYdClGBAVlQfY0F5T7LXsgYqG+lgayy2e+YoyFmfWFJDpq
-         rCsCUhZvb57Qd+Sr5ebBen5hcDmNDKoUKLCFMJnZrOPolkffDdAuCodHa+eIMRuRegDX
-         D7PS/sFFMtQD+cHudjJc478kiAfPrbyaFHD90KKUctewBku1EEnnQAC4cBpsnEfyTkGT
-         XtRHztReQGwZz5aQWnS4+SlcxkzGj9YVnIgMgY43UFAHyhSTsXn/GapNSmzeWLbHX0Mv
-         COZO14nD8usZZQeqyyJWNRPqKj1Kgw9dxPcXPECb8lVEXP5Jni9qj3j2dPPRmL+JUVkx
-         DmAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y0wycXuky8XwQRxF4iLOrfcFunvYZVR/tUYT3lH3SE8=;
-        b=ApKaWh/scEdtf+vohvnK2OCccvX+qKyyQOvLJdEp/xYa60fKrVKFLHz2C7BTjOpXD4
-         kj41fj4kYDpECz/7GuS98UsL/hrh3PafUKvDVhnwvp9/lH23SRE+VfF4SX65M5485HQ0
-         UTZZSKm/MKrU/IFNciWyEjUKbWK+FrmSrDtWQ09LFy4GUTrS9uGm9s55gOY9e7p+jQmn
-         qEV0fq9IKLGGRjTbbeTAdWtgAEcvg6okotIVpiv56uDH2IUzAahWij2/KdSZMADY4ZPH
-         ZbIZyOMgXLuGdiWJrjq3QlY0nRne1tLKjE9wiCLLY8e7NRm13fiHHFV+GQ8PONr1oJeV
-         4epA==
-X-Gm-Message-State: AOAM53335d4ZQD5BXVN665mOWMgD/2afqj2ifSskpZZUpGGa5TRijcX9
-	iH0SOtEzraMYo3q6sgW9k2wTPnJ+oLWiMg==
-X-Google-Smtp-Source: ABdhPJxLWruzvO5+rcq/Z4SpMSv08d0Vnlp8T8jsVP5ujfIFCfJLZrNXVFEYUBMFol5yZ40T3GBg7Q==
-X-Received: by 2002:a5e:970d:: with SMTP id w13mr2260564ioj.166.1608267170551;
-        Thu, 17 Dec 2020 20:52:50 -0800 (PST)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost.localdomain ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id b6sm4520865ilv.79.2020.12.17.20.52.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Dec 2020 20:52:49 -0800 (PST)
-From: "Trevor Woerner" <twoerner@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=71LJpxu2nEzsVOr0zCoGBHx0A0CnuuUQC4zM/+EuAlY=;
+ b=pwWJYG8zALSeD1QXhLrH9fxjl8r3rx9AisyjXyPHWNZo5hMqRvK7ohk/qZnh47JjoB+oK7Wqxqye4r7jiTQIac5i6t+3dm4edI+lkIUazT0D9yNP09KVcwgQRh2Wwhlrve6MeAM0vgx3px+L2frVS7Q4bJYHaMc115K4rO1j8Hw=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by MWHPR11MB1853.namprd11.prod.outlook.com (2603:10b6:300:112::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.20; Fri, 18 Dec
+ 2020 05:37:04 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::80fa:a14:ee1b:c46f]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::80fa:a14:ee1b:c46f%7]) with mapi id 15.20.3676.025; Fri, 18 Dec 2020
+ 05:37:04 +0000
+From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?W1BBVENIXSBtZXNhOiB1cGRhdGUgMjAuMi40IOKGkiAyMC4zLjE=?=
-Date: Thu, 17 Dec 2020 23:52:45 -0500
-Message-Id: <20201218045245.18876-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.30.0.rc0
+Subject: [PATCH] packagegroup-core-base-utils.bb: check the gplv3 license
+Date: Fri, 18 Dec 2020 13:36:41 +0800
+Message-ID: <20201218053641.17017-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.26.2
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR04CA0073.apcprd04.prod.outlook.com
+ (2603:1096:202:15::17) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by HK2PR04CA0073.apcprd04.prod.outlook.com (2603:1096:202:15::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.28 via Frontend Transport; Fri, 18 Dec 2020 05:37:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fe80fd6e-5bd9-4589-e675-08d8a316f37c
+X-MS-TrafficTypeDiagnostic: MWHPR11MB1853:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB185337EB02A5082F883816DDF1C30@MWHPR11MB1853.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:226;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	B+troBLmAsn5IUlTFEQbmmfxmkAgCnzzT/wdeIxytAOLVS6InZNECpxk/2mQjpGzkhm11C4pSJLpb8EcxNVZG5ZmH3lEszDkR3MjZ3VT0k1N4meosqgyC9eR9mDcDhvLzrif5Re6CbP+rWMHuX1/Hs8dApNFuAF2YgOvaKlhHdUhU8lxg7b3YAOFeFROp3t0HCmVwythEygH6PZ2f9IBO7mSYeIm92w8m5fcQj1yBmhY/mFq9SfiBOOdyXzmEuRVbCUiZPchDzHbq6X8gKBoi2YRVtmxJczsAdHaJrrn2Xa50HfipTBil39KULzGKhuu
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(376002)(346002)(396003)(136003)(478600001)(186003)(66556008)(66476007)(6916009)(2616005)(26005)(1076003)(52116002)(6666004)(956004)(16526019)(8676002)(8936002)(83380400001)(6506007)(66946007)(6486002)(6512007)(86362001)(36756003)(5660300002)(2906002)(9686003)(316002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?24Cson6hoMxxhagsOn2MsKZQPhVECHe7zF4ZGBrlDRsE52fxQwVHzCDHXENK?=
+ =?us-ascii?Q?pAaGsTfpiXlX+XPZo+5YdmP2K2RmEajbqpnJGJNxnfyj+PqvsPijilvsolFw?=
+ =?us-ascii?Q?eun+OHQfP+4+dM3WUJ7uSrmXyJgAavYEr0uiSAiQtKNMnVbRv+ZEQ2omyw45?=
+ =?us-ascii?Q?5OvHf66cogme4NTKPVu+HXPMz42caFXWEAkdnOKvaW84DM1DvjpCj09uqe+Q?=
+ =?us-ascii?Q?DFHWgNE02rtXlucGaXuPqj4x+cNTSl3liU8dvBV04XcIWZRsyRV+P0dfTmbD?=
+ =?us-ascii?Q?V1LXoYadCawOK7LNFRYQancWXu1kAnNMqeOznYTxzarcwoj35Db16T//HELU?=
+ =?us-ascii?Q?YIzB0/hOmTF7xF5OClsnrZU7fnPo9RSQfos7EkBzFXpSHNOhwoKI22YXorXi?=
+ =?us-ascii?Q?/FakQ8pP1KkmGUlmLmyMMx7d/HuktXu71+q9UZBtN6ulhaTe1E61QpZ6dbbx?=
+ =?us-ascii?Q?SnHrzT0EjtJD1xHGwp2E1ElTsyuxAoBfjADbkg6d6DVMzzbSJ+e1vCpkPJ8f?=
+ =?us-ascii?Q?f1BR7Me4F9TTz9RezaEYPwOBvtfopU80/XKxVZ9qfF0Ppp8ea3ebKYeoftyt?=
+ =?us-ascii?Q?pqjnwSyfaxsxzOw+hZ9zdY+ck233CmnVWgOzmfV/Zy88YIrFI/IPig5GxKbI?=
+ =?us-ascii?Q?2BtGfhowlQaCZfQiWhT8BNd33m3H+dcy7DFJqZJ1+ydP8Z6hV0asG0QO/smT?=
+ =?us-ascii?Q?rdhZxoSpDnnXZ5m+CMkho7KVmSL6mJ+KZXk+QQRBuxgL3TxhbLx3QpBbBFzd?=
+ =?us-ascii?Q?DduAaaexR8hXkMtEBFqsqxGc0td20Jl+wbXYl3teaopn1H3K1NuNAP9nXdn4?=
+ =?us-ascii?Q?6UDtFAo40aAJlgjwU5UMIJgh5Gwjox7iKrpAkXU+NsQOHaaEEolH5vYdbeXc?=
+ =?us-ascii?Q?LP81x0jh1m6N+pFQC4yUs9Zp4AfSfWx2RvlK7p3zsTXZmlaCR9muQ0VU+1MJ?=
+ =?us-ascii?Q?iqgXOxbv6CY8QKMRG5o5MLUxYAZwkH0+1PC0xoc/51MZeUxJn+fpG2GF3fK2?=
+ =?us-ascii?Q?pbZc?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2020 05:37:04.1636
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe80fd6e-5bd9-4589-e675-08d8a316f37c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OV5xp7EwEMhJj0dYc0UNJH9WnWm9GU/KFI7FB9grFJ4V7us0CdtxZJfcs4eajCHLaU01+e8CF6iRRKy00EzaTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1853
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Two of the patches have been applied upstream:
-	0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-	0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
+From: Mingli Yu <mingli.yu@windriver.com>
 
-The 'surfaceless' platform is now enabled by default, therefore it is no
-longer a valid choice. The meson build system is intelligent enough now to
-decide if 'drm' needs to be enabled based on whether or not gbm is available.
-Therefore 'drm' also is no longer a valid platform choice:
+packagegroup-core-base-utils repends on some packages which are
+gplv3 compatilbe.
 
-	ERROR: Options "drm, surfaceless" are not in allowed choices: "auto, x11, wayland, haiku, android, windows"
-
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- ...xes-to-loader-when-using-x11-and-dri.patch | 36 -------------
- ...-for-formatted-output-of-timespec-me.patch | 51 -------------------
- meta/recipes-graphics/mesa/mesa.inc           |  8 +--
- .../mesa/{mesa_20.2.4.bb => mesa_20.3.1.bb}   |  0
- 4 files changed, 2 insertions(+), 93 deletions(-)
- delete mode 100644 meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
- delete mode 100644 meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
- rename meta/recipes-graphics/mesa/{mesa_20.2.4.bb => mesa_20.3.1.bb} (100%)
+ .../packagegroups/packagegroup-core-base-utils.bb  | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch b/meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-deleted file mode 100644
-index 9ee72880a2..0000000000
---- a/meta/recipes-graphics/mesa/files/0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From cf17d6251653f4a98e7c4f904ea2f0bc0ecedd5c Mon Sep 17 00:00:00 2001
--From: Duncan Hopkins <duncan@duncanhopkins.me.uk>
--Date: Thu, 15 Oct 2020 12:14:57 +0100
--Subject: [PATCH] meson: Add xcb-fixes to loader when using x11 and dri3. Fixes
-- undefined symbol for xcb_xfixes_create_region in loader_dri3_helper.c
--
--loader_dr3_helper.c uses xcb_xfixes_create_region() that requires dep_xcb_xfixes to link. This is dependent on with_platform_x11 and with_dri3.
--But the source meson file does not set this up dependent on with_dri3.
--The build was initialsed using platforms=x11 and gallium-drivers=zink,swrast.
--
--Reviewed-by: Eric Anholt <eric@anholt.net>
--Part-of: <https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/7164>
--
--Upstream-Status: Backport [cf17d6251653f4a98e7c4f904ea2f0bc0ecedd5c]
--
-----
-- meson.build | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/meson.build b/meson.build
--index cfe02fa6373..3cb3c904927 100644
----- a/meson.build
--+++ b/meson.build
--@@ -1782,7 +1782,8 @@ if with_platform_x11
--       dep_xxf86vm = dependency('xxf86vm')
--     endif
--   endif
---  if (with_egl or (
--+  if (with_egl or 
--+      with_dri3 or (
--       with_gallium_vdpau or with_gallium_xvmc or with_gallium_xa or
--       with_gallium_omx != 'disabled'))
--     dep_xcb_xfixes = dependency('xcb-xfixes')
---- 
--2.17.1
--
-diff --git a/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch b/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
-deleted file mode 100644
-index dacb1ea1c8..0000000000
---- a/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--From 281a636353666bfdd373c62591e744087e750e89 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 4 Dec 2019 14:15:28 -0800
--Subject: [PATCH] vc4: use intmax_t for formatted output of timespec members
--
--32bit architectures which have 64bit time_t does not fit the assumption
--of time_t being same as system long int
--
--Fixes
--error: format specifies type 'long' but the argument has type 'time_t' (aka 'long long') [-Werror,-Wformat]
--                        time.tv_sec);
--                        ^~~~~~~~~~~
--
--Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2966]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- src/gallium/drivers/v3d/v3d_bufmgr.c | 4 ++--
-- src/gallium/drivers/vc4/vc4_bufmgr.c | 4 ++--
-- 2 files changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/src/gallium/drivers/v3d/v3d_bufmgr.c b/src/gallium/drivers/v3d/v3d_bufmgr.c
--index 31a0803..cc2e2af 100644
----- a/src/gallium/drivers/v3d/v3d_bufmgr.c
--+++ b/src/gallium/drivers/v3d/v3d_bufmgr.c
--@@ -80,8 +80,8 @@ v3d_bo_dump_stats(struct v3d_screen *screen)
-- 
--                 struct timespec time;
--                 clock_gettime(CLOCK_MONOTONIC, &time);
---                fprintf(stderr, "  now:               %ld\n",
---                        (long)time.tv_sec);
--+                fprintf(stderr, "  now:               %jd\n",
--+                        (intmax_t)time.tv_sec);
--         }
-- }
-- 
--diff --git a/src/gallium/drivers/vc4/vc4_bufmgr.c b/src/gallium/drivers/vc4/vc4_bufmgr.c
--index a786e8e..975d49e 100644
----- a/src/gallium/drivers/vc4/vc4_bufmgr.c
--+++ b/src/gallium/drivers/vc4/vc4_bufmgr.c
--@@ -99,8 +99,8 @@ vc4_bo_dump_stats(struct vc4_screen *screen)
-- 
--                 struct timespec time;
--                 clock_gettime(CLOCK_MONOTONIC, &time);
---                fprintf(stderr, "  now:               %ld\n",
---                        (long)time.tv_sec);
--+                fprintf(stderr, "  now:               %jd\n",
--+                        (intmax_t)time.tv_sec);
--         }
-- }
-- 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index dba23f586f..2158c9eaf9 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -17,14 +17,12 @@ PE = "2"
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-            file://0002-meson.build-make-TLS-ELF-optional.patch \
--           file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            file://0001-futex.h-Define-__NR_futex-if-it-does-not-exist.patch \
-            file://0001-anv-fix-a-build-race-between-generating-a-header-and.patch \
--           file://0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-dri.patch \
-            "
- 
--SRC_URI[sha256sum] = "0572dc6015d2e1c50f67823edd16855ae9b6feded0a1470598404e75e64aa092"
-+SRC_URI[sha256sum] = "af751b49bb2ab0264d58c31e73d869e80333de02b2d1becc93f1b28c67aa780f"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-@@ -52,9 +50,7 @@ BBCLASSEXTEND = "native nativesdk"
- 
- ANY_OF_DISTRO_FEATURES_class-target = "opengl vulkan"
- 
--PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)} \
--               ${@bb.utils.contains('PACKAGECONFIG', 'gbm', 'drm', '', d)} \
--               surfaceless"
-+PLATFORMS ??= "${@bb.utils.filter('PACKAGECONFIG', 'x11 wayland', d)}"
- 
- export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm${MESA_LLVM_RELEASE}/llvm-config"
- export YOCTO_ALTERNATE_MULTILIB_NAME = "${base_libdir}"
-diff --git a/meta/recipes-graphics/mesa/mesa_20.2.4.bb b/meta/recipes-graphics/mesa/mesa_20.3.1.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_20.2.4.bb
-rename to meta/recipes-graphics/mesa/mesa_20.3.1.bb
--- 
-2.30.0.rc0
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-base-uti=
+ls.bb b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
+index 1e63da7f16..0a3cb63bc2 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-base-utils.bb
+@@ -33,18 +33,18 @@ RDEPENDS_${PN} =3D "\
+     grep \
+     gzip \
+     ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "", "ifupdown", d)}=
+ \
+-    inetutils \
+-    inetutils-ping \
+-    inetutils-telnet \
+-    inetutils-tftp \
+-    inetutils-traceroute \
++    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'inetutils',=
+ d)} \
++    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'inetutils-p=
+ing', d)} \
++    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'inetutils-t=
+elnet', d)} \
++    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'inetutils-t=
+ftp', d)} \
++    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'inetutils-t=
+raceroute', d)} \
+     iproute2 \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "kbd", "", d)} \
+     kmod \
+     less \
+     ncurses-tools \
+     net-tools \
+-    parted \
++    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'parted', d)=
+} \
+     patch \
+     procps \
+     psmisc \
+@@ -55,7 +55,7 @@ RDEPENDS_${PN} =3D "\
+     unzip \
+     util-linux \
+     ${VIRTUAL-RUNTIME_vim} \
+-    wget \
++    ${@bb.utils.contains('INCOMPATIBLE_LICENSE', 'GPLv3', '', 'wget', d)} =
+\
+     which \
+     xz \
+     "
+--=20
+2.26.2
 
