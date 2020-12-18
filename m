@@ -1,89 +1,113 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web08.7738.1608285109852324847
+Received: from mailout01.rmx.de (mailout01.rmx.de [94.199.90.91])
+ by mx.groups.io with SMTP id smtpd.web12.8468.1608291024667642870
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 01:51:50 -0800
+ Fri, 18 Dec 2020 03:30:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dIvDyxcf;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: max.oss.09@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id g24so1695721edw.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 01:51:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=gFl9RAZZz2Qi7p62Gc7TV3aswhyDO5ynnsK4CTqBmP8=;
-        b=dIvDyxcfmyfF7fk2naqJr1oSQ2pUlzw445pPf9jfuel0BLkOQgmWB4L7gEfob1aQ2f
-         QGMxd31qh6H3euKpny/rTjWE2ue7yiFUZ6LwVmR2gEXKwNzwVpB3Xazwveh8SVrWO0ow
-         R2HqMsTrLwMvAMNkMbQcWxsV3ozffq9kFj4x3EWvhEMG7uQAaMle7Kk0/a1rphAYXbiR
-         AGZTISo59BHWWzzk701Q2j9a4M5QACOBgaycy+sfEOvAqGypfH36ONP45Ea5YRhi14uS
-         uAdOMg2booTHXfGQTzwIt6/wCAJrB0VzsYRaeDeKytx5MyUdWUqD6B5mDhxkRCdUDRzp
-         42hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=gFl9RAZZz2Qi7p62Gc7TV3aswhyDO5ynnsK4CTqBmP8=;
-        b=MhIpuq+SHbj6tjbzGhsu/x82FrWrs4XDCToB+detZ6j0iP624E/5HALjPCDxdkiMGn
-         xQM5wWDFmt9rNiltgzG8pMMNvjuW9q+XTfjwhczSrZLa3Y1kYO1Xpc0Kbz57wviWQLTy
-         ZKXx2u2LibXtyAZBXOtmpuywCJOZmZWSnZZS3i2EngYnMhbTAXS/UHVZqLN9veZDYpDP
-         U5t9K3sZUJGev0K4c2FuJs5KRtotDKL3detZBOi3mQDSoRzCVfqRnXUCPzyWVdFbgJMd
-         KQYlNhHbGbqN2scrJVCavbnemaip3UKKIJPCSnhA4HNQHLRNyUSM5HDjRroEYptf2ApN
-         bsDg==
-X-Gm-Message-State: AOAM530bS5TvW1tnTMlA0KhIC7u0KoQJrM/198H7+PCzXas+/055mrni
-	+X4pN7C9a/rTQpLyT54zANw=
-X-Google-Smtp-Source: ABdhPJwTtAlQGrAnPZF4pYEe8K7ND4p5YT/7VWZswJSNls6nrYfpZgrb6ODSdYXdwK1ei9Li+9nYWA==
-X-Received: by 2002:a50:8b66:: with SMTP id l93mr3497034edl.384.1608285108365;
-        Fri, 18 Dec 2020 01:51:48 -0800 (PST)
-Return-Path: <max.oss.09@gmail.com>
-Received: from Saturn.fritz.box ([81.221.211.103])
-        by smtp.googlemail.com with ESMTPSA id o10sm5298748eju.89.2020.12.18.01.51.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 01:51:47 -0800 (PST)
-Message-ID: <64c6a1da3b14ede2c4001a3d2e485bc54e702512.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH] u-boot: set SYSROOT_DIRS to /boot and ${sysconfdir}
-From: "Max Krummenacher" <max.oss.09@gmail.com>
-To: Diego Sueiro <diego.sueiro@arm.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Date: Fri, 18 Dec 2020 10:51:47 +0100
-In-Reply-To: <51459a27f768a62cab37aabf5a5253e2756a0644.1608204009.git.diego.sueiro@arm.com>
-References: 
-	<51459a27f768a62cab37aabf5a5253e2756a0644.1608204009.git.diego.sueiro@arm.com>
-User-Agent: Evolution 3.34.4 
+ dkim=missing; spf=pass (domain: arri.de, ip: 94.199.90.91, mailfrom: ceggers@arri.de)
+Received: from kdin02.retarus.com (kdin02.dmz1.retloc [172.19.17.49])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout01.rmx.de (Postfix) with ESMTPS id 4Cy69S0DV2z2SXwt;
+	Fri, 18 Dec 2020 12:30:20 +0100 (CET)
+Received: from mta.arri.de (unknown [217.111.95.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by kdin02.retarus.com (Postfix) with ESMTPS id 4Cy69R0qhfz2TTFb;
+	Fri, 18 Dec 2020 12:30:19 +0100 (CET)
+Received: from n95hx1g2.localnet (192.168.54.185) by mta.arri.de
+ (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 18 Dec
+ 2020 12:30:18 +0100
+From: "Christian Eggers" <ceggers@arri.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Khem Raj <raj.khem@gmail.com>, Christopher Larson <kergoth@gmail.com>
+Subject: Re: [OE-core] [SDK] How to use the gold linker
+Date: Fri, 18 Dec 2020 12:30:17 +0100
+Message-ID: <1664221.2vONSAOZnb@n95hx1g2>
+Organization: Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+In-Reply-To: <074c7da4-c8d0-680d-d33d-476dcc51c5b7@gmail.com>
+References: <5776519.IOBmFsySL6@n95hx1g2> <CABcZAN=QdWzV=LObrdHMWfcDx_1VV3Ce-i_nYL3H7WYUcCtSSA@mail.gmail.com> <074c7da4-c8d0-680d-d33d-476dcc51c5b7@gmail.com>
 MIME-Version: 1.0
+X-Originating-IP: [192.168.54.185]
+X-RMX-ID: 20201218-123019-DqjmHDKkCVpQ-0@out02.hq
+X-RMX-SOURCE: 217.111.95.66
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-Hi
+Hi Khem, hi Christopher,
 
-Am Donnerstag, den 17.12.2020, 11:23 +0000 schrieb Diego Sueiro:
-> Since do_install is shipping files to /boot and ${sysconfdir}, we can set
-> SYSROOT_DIRS to these dirs and allow recipes which depend on u-boot to use its
-> installed artifacts from RECIPE_SYSROOT instead of DEPLOY_DIR_IMAGE.
-> 
-> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot.inc | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index 251178db33..6af0766571 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -266,6 +266,8 @@ FILES_${PN}-env = " \
->  "
->  
->  FILES_${PN} = "/boot ${datadir}"
-> +SYSROOT_DIRS = "/boot ${sysconfdir}"
+On Tuesday, 15 December 2020, 18:15:52 CET, Khem Raj wrote:
+>
+> On 12/15/20 8:50 AM, Christopher Larson wrote:
+> > This can be fixed via two changes, first removing real-ld, then adding
+> > the missing links to fix -fuse-ld=3D. I have this in one of my
+> > not-yet-submitted bbappends:
+> >
+> >      # Remove real-ld, as it prevents checking for ld or gold in the
+> > search path
+> >      rm -f ${dest}real-ld$suffix
+> >      # Then add links to fix builds with -fuse-ld=3D
+> >      ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld.gold$suffix
+> > ${dest}ld.gold$suffix
+> >      ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld.bfd$suffix ${dest}ld.bfd$s=
+uffix
+> >
+>
+> right this looks ok. Can you submit this for upstreaming please
 
-Wouldn't a += be more future proof. I.e. not dropping the directories which are staged by default.
+while this change works "fine for me" (I can now use ld.gold which is about
+3 times faster for my project), there are side effects:
 
-Max
+> ${CC} -fuse-ld=3Dbfd -print-prog-name=3Dld
+/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
+ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld.bfd
 
-> +
->  RDEPENDS_${PN} += "${PN}-env"
->  
->  do_deploy () {
-> 
-> 
+> ${CC} -fuse-ld=3Dbfd -o test test.c
+works fine
 
+> ${CC} -fuse-ld=3Dgold -print-prog-name=3Dld
+/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
+ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld.gold
+
+> ${CC} -fuse-ld=3Dgold -o test test.c
+also works fine
+
+> ${CC} print-prog-name=3Dld
+/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
+ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld
+
+> ${CC} -o test test.c
+collect2: fatal error: cannot find =E2=80=98ld=E2=80=99
+compilation terminated.
+
+> ls -l /opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-=
+poky-linux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld
+/opt/poky-tiny/3.1.4/sysroots/x86_64-pokysdk-linux/usr/libexec/arm-poky-lin=
+ux-gnueabi/gcc/arm-poky-linux-gnueabi/9.3.0/ld -> ../../../../../bin/arm-po=
+ky-linux-gnueabi/arm-poky-linux-gnueabi-ld
+
+
+
+regards
+Christian
+
+
+
+
+________________________________
+ [http://assets.arri.com/media/sign/2020-04-03-E-mail-signature-Stellar2_V1=
+.jpg] <https://microsites.arri.com/stellar/>
+
+Get all the latest information from www.arri.com<https://www.arri.com/>, Fa=
+cebook<https://www.facebook.com/TeamARRI>, Twitter<https://twitter.com/ARRI=
+Channel>, Instagram<https://instagram.com/arri> and YouTube<https://www.you=
+tube.com/user/ARRIChannel>.
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRA 57918
+Pers=C3=B6nlich haftender Gesellschafter: Arnold & Richter Cine Technik Gmb=
+H
+Sitz: M=C3=BCnchen - Registergericht: Amtsgericht M=C3=BCnchen - Handelsreg=
+isternummer: HRB 54477
+Gesch=C3=A4ftsf=C3=BChrer: Dr. Michael Neuh=C3=A4user; Stephan Schenk; Walt=
+er Trauninger; Markus Zeiler
