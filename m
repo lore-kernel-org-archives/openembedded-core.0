@@ -1,114 +1,108 @@
 Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.7698.1608284585858040351
+ by mx.groups.io with SMTP id smtpd.web11.7502.1608284621517023560
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 01:43:06 -0800
+ Fri, 18 Dec 2020 01:43:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dnDqK+nO;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ihN1N9qX;
  spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: luca.boccassi@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id t16so1437390wra.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 01:43:05 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id a12so1422199wrv.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 01:43:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=OsAtdhZF8gPbx5NSPp4tBfb2wXedxPZyRd3y3N+CWW4=;
-        b=dnDqK+nOnqUVGrF/NBLeifPt9vsHHawYV5hGDvJreM+iIMJPJFdfmkc277+PUEDivq
-         czSE7uV7endSOvDnIe54NORht47XzQG2tp9XP77PCVsHdMF2wyUqTlvB37nH5MS+sfUy
-         DQ7MvK5B46vyzxFICQnWL4UzTH0buOF9P4pdE4wPU1eQjSGka8bX2jX0vwnQudtlcMmZ
-         06f8NVLAep3Vasudq5okyHtd1O33v7TeeshW5oDkGE8tJ0ZtXyNXpy74vUrpv/Saoajd
-         jSmrFKuPC9cHF23y+taK60po+C6WULncHAYWBsjB4HSvZwyKjfxZgzbI2uVy43tdqQik
-         n50Q==
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version;
+        bh=+LONfpQYT4akIGKA1a+uKjIyaEGFrabxqzCPdTXwHvM=;
+        b=ihN1N9qXtdgzINwR9VNcW9PH1WzYRIUMdXUJH6839Zi+FcyCWZyXPxYCmBc4dDg26s
+         z+HjFFU/G9JGBpUu+NSDiu0vFwt43fo3laH1MHhqf63IohCPtZ9joEz+H7SR5NmYUfTu
+         vQ9HgX5WPrE1JTgxqec7XtnUIWswcHRm2fvyZ86RZlke/yCspZzK6mYocBlb7Inf8e7t
+         KTEbDtw4oO6BOMnQBmkRnIe4zgeb5ypnXTCG9HM6wY+Qr17l1V3UXG72Lhy8MKi61ohm
+         p6EWPwIuL5Llc4ULbuJc+3xeLtJgtD2EPR2NNc6OZ5zciVzZwSscZYMy05GQSvivPsT0
+         42Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=OsAtdhZF8gPbx5NSPp4tBfb2wXedxPZyRd3y3N+CWW4=;
-        b=MGUw3ji8XDbnZDinK34FXjYvz9gVdfufkkN910dB34EF91ziYd5rRcuocXun0L3dhy
-         R1MZRX16QaxfP3K9o8XniUbUhHrgI68+11F8nImIyeyFGt6m9Iq5CtFxtNm38MoUsro5
-         gW5JV+8Timtj4sHAYgCd9qVnJNt5Nb1PEGXAy3A5V+uL+E86S2nOfI9Sl6zYqDZERQz1
-         J0E2V4Jn0hjln3TJz49yronTfN/yA38HuwRYZrSuXC3QGkrR1QGL+g83Sbt2GN4IqBu7
-         oEdSXSOHde3srksVVKD70Dj+s2U3mas1i0+F7m24Q+KZ3188BG7RhTa2UbQqaf74/01b
-         zPfA==
-X-Gm-Message-State: AOAM532EKkRjSqUPCypFjV+QBi549SAETMesXkJNVCIpnfjXQ3IhNPdT
-	a5UMe7P9i7OQJppm1LVI8qpArOQlc+Saow==
-X-Google-Smtp-Source: ABdhPJwCebJ3oNJYr5xdXnMFDcLRjzNCka9oZ4yjTKOmdEB9OTu4WmeaZZdPwoawMwCMivsUqu5P0g==
-X-Received: by 2002:adf:ba46:: with SMTP id t6mr3428554wrg.168.1608284584117;
-        Fri, 18 Dec 2020 01:43:04 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=+LONfpQYT4akIGKA1a+uKjIyaEGFrabxqzCPdTXwHvM=;
+        b=Iw1sJ8umntmnJ29279M1lLZq8Edo7cAs0oJyLcuD+Rx4wL6XX/D4gKoUbkWrMjRQ25
+         K0GR75c7vZ0G02/pwx0/M+/fchlxwxTAXE5m4R/40piLv7qbRryERZCpL2grKNIyJR/A
+         Hea5FyV3Hy0y4ucgmI0J7oAae9RS5cmnSU4A7sudA2+SVRZW1n+YHpiv1Nl4DdQKpLK+
+         lQgVeYqJAz82dib2XOu8/+yyk1xuBjtkHVt59PxOsuGOtJA9bBKG4GwjV7JBjXMc2VBW
+         IAO/VoE8S4rdhgvnPfZ4IDepR7pcwdwM9lpYaX9je7era4MYissZvnCngPMk1xTp/VgW
+         kB2Q==
+X-Gm-Message-State: AOAM530yooqlNHkqFnm3vg9hvWet9GigynveUzdOzNu5n6cQESl08hWr
+	v5tSTdi1Y3U+JN1Lbl7suoQ=
+X-Google-Smtp-Source: ABdhPJyPmUmgkrAUz4EQRv0hThQtvySFlpxeKjfOab4P1iPAWonl7TkY9EZipLxVCl4VMeAqOYFDBQ==
+X-Received: by 2002:a5d:6a88:: with SMTP id s8mr3465727wru.118.1608284620163;
+        Fri, 18 Dec 2020 01:43:40 -0800 (PST)
 Return-Path: <luca.boccassi@gmail.com>
-Received: from localhost ([88.98.246.218])
-        by smtp.gmail.com with ESMTPSA id c81sm11788116wmd.6.2020.12.18.01.43.03
-        for <openembedded-core@lists.openembedded.org>
+Received: from bluca-lenovo ([2a01:4b00:f419:6f00:7a8e:ed70:5c52:ea3])
+        by smtp.gmail.com with ESMTPSA id l8sm11605258wmf.35.2020.12.18.01.43.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 01:43:03 -0800 (PST)
+        Fri, 18 Dec 2020 01:43:39 -0800 (PST)
+Message-ID: <722fb1730229ad409a24f77df81037d7f1c69132.camel@gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/5] systemd: update 246 -> 247
 From: "Luca Bocassi" <luca.boccassi@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 5/5] systemd: add RRECOMMENDS for weak dependencies, if enabled
-Date: Fri, 18 Dec 2020 09:42:56 +0000
-Message-Id: <20201218094256.3796401-5-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201218094256.3796401-1-luca.boccassi@gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	"richard.purdie@linuxfoundation.org"
+	 <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 18 Dec 2020 09:43:33 +0000
+In-Reply-To: <d189ccc302adbfa869935c9d5c03ba4af8db2740.camel@intel.com>
 References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
- <20201218094256.3796401-1-luca.boccassi@gmail.com>
+	 <20201214123457.122655-1-luca.boccassi@gmail.com>
+	 <7d16bf791179cc0e90fd0172e984eeeacb065112.camel@linuxfoundation.org>
+	 <d189ccc302adbfa869935c9d5c03ba4af8db2740.camel@intel.com>
+User-Agent: Evolution 3.30.5-1.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Groupsio-MsgNum: 145855
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-ecuWUBOHO/VTA5ElmutO"
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+--=-ecuWUBOHO/VTA5ElmutO
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some libraries are now dlopen'ed and skipped at runtime if
-not available. Add them to the RRECOMMENDS list, to allow
-users to exclude them for smaller images even if generally
-enabled at build time.
+On Fri, 2020-12-18 at 02:00 +0000, Mittal, Anuj wrote:
+> On Wed, 2020-12-16 at 18:07 +0000, Richard Purdie wrote:
+> > Unfortunately there is still something not quite right in this
+> > patchset
+> > as it failed again during testing. There are a few different
+> > problems:
+> >=20
+> > meta-intel in systemd-boot:
+> >=20
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/1016
+>=20
+> It looks like this happened because of systemd-boot change from Ross. I
+> have removed the bbappend from meta-intel so this shouldn't fail now.
+>=20
+> Thanks,
+>=20
+> Anuj
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
-v2: set the rrecommends directly in PACKAGECONFIG
+Thank you! Sent v3 with some other changes, hopefully the CI will be
+happy now.
 
- meta/recipes-core/systemd/systemd_247.2.bb | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+--=20
+Kind regards,
+Luca Boccassi
 
-diff --git a/meta/recipes-core/systemd/systemd_247.2.bb b/meta/recipes-core/systemd/systemd_247.2.bb
-index 7055cc9fca..15f8cb3d71 100644
---- a/meta/recipes-core/systemd/systemd_247.2.bb
-+++ b/meta/recipes-core/systemd/systemd_247.2.bb
-@@ -110,6 +110,9 @@ PACKAGECONFIG_remove_libc-musl = " \
- 
- CFLAGS_append_libc-musl = " -D__UAPI_DEF_ETHHDR=0 "
- 
-+# Some of the dependencies are weak-style recommends - if not available at runtime,
-+# systemd won't fail but the library-related feature will be skipped with a warning.
-+
- # Use the upstream systemd serial-getty@.service and rely on
- # systemd-getty-generator instead of using the OE-core specific
- # systemd-serialgetty.bb - not enabled by default.
-@@ -122,7 +125,7 @@ PACKAGECONFIG[binfmt] = "-Dbinfmt=true,-Dbinfmt=false"
- PACKAGECONFIG[bzip2] = "-Dbzip2=true,-Dbzip2=false,bzip2"
- PACKAGECONFIG[cgroupv2] = "-Ddefault-hierarchy=unified,-Ddefault-hierarchy=hybrid"
- PACKAGECONFIG[coredump] = "-Dcoredump=true,-Dcoredump=false"
--PACKAGECONFIG[cryptsetup] = "-Dlibcryptsetup=true,-Dlibcryptsetup=false,cryptsetup"
-+PACKAGECONFIG[cryptsetup] = "-Dlibcryptsetup=true,-Dlibcryptsetup=false,cryptsetup,,cryptsetup"
- PACKAGECONFIG[dbus] = "-Ddbus=true,-Ddbus=false,dbus"
- PACKAGECONFIG[efi] = "-Defi=true,-Defi=false"
- PACKAGECONFIG[gnu-efi] = "-Dgnu-efi=true -Defi-libdir=${STAGING_LIBDIR} -Defi-includedir=${STAGING_INCDIR}/efi,-Dgnu-efi=false,gnu-efi"
-@@ -143,8 +146,8 @@ PACKAGECONFIG[iptc] = "-Dlibiptc=true,-Dlibiptc=false,iptables"
- PACKAGECONFIG[journal-upload] = "-Dlibcurl=true,-Dlibcurl=false,curl"
- PACKAGECONFIG[kmod] = "-Dkmod=true,-Dkmod=false,kmod"
- PACKAGECONFIG[ldconfig] = "-Dldconfig=true,-Dldconfig=false,,ldconfig"
--PACKAGECONFIG[libidn] = "-Dlibidn=true,-Dlibidn=false,libidn"
--PACKAGECONFIG[libidn2] = "-Dlibidn2=true,-Dlibidn2=false,libidn2"
-+PACKAGECONFIG[libidn] = "-Dlibidn=true,-Dlibidn=false,libidn,,libidn"
-+PACKAGECONFIG[libidn2] = "-Dlibidn2=true,-Dlibidn2=false,libidn2,,libidn2"
- PACKAGECONFIG[localed] = "-Dlocaled=true,-Dlocaled=false"
- PACKAGECONFIG[logind] = "-Dlogind=true,-Dlogind=false"
- PACKAGECONFIG[lz4] = "-Dlz4=true,-Dlz4=false,lz4"
-@@ -162,7 +165,7 @@ PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam,${PAM_PLUGINS}"
- PACKAGECONFIG[pcre2] = "-Dpcre2=true,-Dpcre2=false,libpcre2"
- PACKAGECONFIG[polkit] = "-Dpolkit=true,-Dpolkit=false"
- PACKAGECONFIG[portabled] = "-Dportabled=true,-Dportabled=false"
--PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode"
-+PACKAGECONFIG[qrencode] = "-Dqrencode=true,-Dqrencode=false,qrencode,,qrencode"
- PACKAGECONFIG[quotacheck] = "-Dquotacheck=true,-Dquotacheck=false"
- PACKAGECONFIG[randomseed] = "-Drandomseed=true,-Drandomseed=false"
- PACKAGECONFIG[resolved] = "-Dresolve=true,-Dresolve=false"
--- 
-2.29.2
+--=-ecuWUBOHO/VTA5ElmutO
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAl/cecYACgkQSylmgFB4
+UWJD8Af+LniqqaeGyAl25TC2dGt2fhCXN3vCZaMf/u3bj70lNEHdCvWfiBGYY35O
+I4/7DdSvrM/2TV+p1J2dxYOlZsDP8tbTrJMRo8Y/+uR94LDEACjf2AC0b8ayWNd8
+zMDbON594aDRYQm6evPs45Xv/BzFrKGdeoqp9h9e7VAwoFgVz+socz0W0ThQKc/H
+pxoChyCmEIaSgKZOviHkVApBsVF7TyBHrmWeW2FH6VMpLl7QA+qFpFsbMtyk+ETZ
+auch1Lzf5cX3/mv5crJUSNZcuH4UdZYGXxq/cKzVirLv0KlwB88vGLuD1ipcVnaE
+36l/s+9FpH4LyPEk2fAYv+RFQscSIg==
+=3v1A
+-----END PGP SIGNATURE-----
+
+--=-ecuWUBOHO/VTA5ElmutO--
