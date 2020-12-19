@@ -1,115 +1,110 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web08.8487.1608383059743825565
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web09.9404.1608387003053840011
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Dec 2020 05:04:20 -0800
+ Sat, 19 Dec 2020 06:10:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hHdREC3c;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: dbaryshkov@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id h22so3051620lfu.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 05:04:19 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=TqYEmMsn;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iOKNOTiUnJHKJYJJbdK6fXkBsnkJV6N4EHNRUH3dOgM=;
-        b=hHdREC3cpggx4F1/2ZFq/yb4uuBBD9kkU55GRMBYhWkf8RCko8t3XpnmCZwTgUNcwx
-         WPfQ3q08SFp3n+A9KORvg2hoIUmXBTLarqZJ2tuHGFAUA9eV36NsE8uanaWTBoqEOIgB
-         5U5xZduYvjwkyWacymWUGdX3Cz/8iK0LrLnEv4cNPtojC0uknmb5IMOTEGoei0YsNKrv
-         OccS4hbECC1ZKheA3kxpZsKGWhsa2vuHvuLXBzILeXNXiWsUgWiQf7bIcZc2Be9mb6s1
-         Qg8smKxLWNZQqNaQRjZu0nkF744MLmirbmjB4iB05WGHvy2OLh1XozJcB/+NK5sAhFU2
-         Ht+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iOKNOTiUnJHKJYJJbdK6fXkBsnkJV6N4EHNRUH3dOgM=;
-        b=DovcZzyJJHJ7kWu1XiHaOVWkR7Lc1xlyUWCJku+lKlAPgZPQTMLaAlt3qji23OFWfA
-         SoX+JvagWxFntdvHhUqmhgR0cL5a0t01OiSzK/4ytkQMDu7TY+Iz7cMwKa9qeNglbUgo
-         7yz5P309X6ZhBrTLfwUS0EJcLv+07z9ibcI9B/bSbukAdqNZ8WUrsNJJIUSDzgllYt+l
-         7KgUcB24p7QgcWoH0qYbaoW+3PlO//rIwvK/cOpIESaVa63E9AlEQifpDCvtpDuRc/vP
-         KYzgxv47GOBAdynpExXlUWQCJxYELXBixjyKOmwSpblAzmd32GZnuWehIgy1kIDQ7nJL
-         z07w==
-X-Gm-Message-State: AOAM532oaY/f6VfwG47++riggQKO7JbIKaHTwJTcEg2VtxEdukeS5B9N
-	8zNdWliyPfRZSExjm2XdpkefYRGIkfSjfw==
-X-Google-Smtp-Source: ABdhPJxDy1lvm1hBg+1YPXXwiAyEhfC7PbjBunsYFG6bCtGcYDTiONiRMZ2sA2Am0sJfDAu1doNZ5w==
-X-Received: by 2002:a19:4941:: with SMTP id l1mr3242261lfj.80.1608383057923;
-        Sat, 19 Dec 2020 05:04:17 -0800 (PST)
-Return-Path: <dbaryshkov@gmail.com>
-Received: from umbar.lan ([94.25.228.250])
-        by smtp.gmail.com with ESMTPSA id u30sm1284646lfc.238.2020.12.19.05.04.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Dec 2020 05:04:17 -0800 (PST)
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Subject: [PATCH 2/2] linux-firmware: package firmware for Lontium lt9611uxc bridge
-Date: Sat, 19 Dec 2020 16:04:15 +0300
-Message-Id: <20201219130415.99713-2-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201219130415.99713-1-dbaryshkov@gmail.com>
-References: <20201219130415.99713-1-dbaryshkov@gmail.com>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1608387003;
+  x=1639923003;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=AkdHHAtbnwgkFEhFspxPV3ySO/572gssJU3q4AfPfbk=;
+  b=TqYEmMsn5Nn7IE2BMaCq5k3g/LtPNlSPAAdaWsl6wOC1QARlyJv+2R5v
+   YqT0rk8CITDMFx5pgFqebcaxX352EEXSvnP7hm+5y3wmOvvXaUMd0A3cB
+   K9TbdlY1q4yWWxIjpsa6vqnhJA6hCu/5B3nwXBHMcqgd/OeOO5Oo6sFwN
+   sC79IWUyVIsEgi7n4TiOIihwfcEFUZb+eLIt4fp6sWNXOcZ40uq5iufyx
+   cHRu9LCmvDHw5LpjF+MYqNKtq913H0oJwm/oe69D+R1wiKYgfOAkIbv7j
+   Fby+6t3WVYh8bMvFhS1STii4KwatHOE8QwfIo5rhT4Gtni7W9ftHoNSjQ
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Luca Bocassi
+	<luca.boccassi@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v3 1/5] systemd: update 246 -> 247
+Thread-Topic: [OE-core] [PATCH v3 1/5] systemd: update 246 -> 247
+Thread-Index: AQHW1fi1kZ4bcLlhyUi3GyPkzg+4Qan+bfgA
+Date: Sat, 19 Dec 2020 14:09:59 +0000
+Message-ID: <d6ccfadf560d475bba3e8dae9fe9fde2@XBOX03.axis.com>
+References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
+	 <20201218094256.3796401-1-luca.boccassi@gmail.com>
+	 <165217A789F1A918.13568@lists.openembedded.org>
+	 <1652194C9AF53BB2.13568@lists.openembedded.org>
+ <940d5e33d09579fc46372bfedbd0b76ee285a8e9.camel@linuxfoundation.org>
+In-Reply-To: <940d5e33d09579fc46372bfedbd0b76ee285a8e9.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
-Package firmware for Lontium lt9611uxc DSI to HDMI bridge, found e.g. on
-Qualcomm RB5 platform.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../linux-firmware/linux-firmware_20201218.bb          | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-index bc9daa2d4e7e..700a79b118a7 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-@@ -31,6 +31,7 @@ LICENSE = "\
-     & Firmware-iwlwifi_firmware \
-     & Firmware-IntcSST2 \
-     & Firmware-kaweth \
-+    & Firmware-Lontium \
-     & Firmware-Marvell \
-     & Firmware-moxa \
-     & Firmware-myri10ge_firmware \
-@@ -94,6 +95,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
-                     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
-                     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
-+                    file://LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
-                     file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
-                     file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
-                     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
-@@ -161,6 +163,7 @@ NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
- NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
- NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
- NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
-+NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSE.Lontium"
- NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
- NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
- NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
-@@ -298,6 +301,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-+             ${PN}-lt9611uxc ${PN}-lontium-license \
-              ${PN}-whence-license \
-              ${PN}-license \
-              "
-@@ -402,6 +406,12 @@ FILES_${PN}-radeon = " \
- 
- RDEPENDS_${PN}-radeon += "${PN}-radeon-license"
- 
-+# For lontium
-+LICENSE_${PN}-lt9611uxc = "Firmware-Lontium"
-+
-+FILES_${PN}-lontium-license = "${nonarch_base_libdir}/firmware/LICENSE.Lontium"
-+FILES_${PN}-lt9611uxc = "${nonarch_base_libdir}/firmware/lt9611uxc_fw.bin"
-+
- # For marvell
- LICENSE_${PN}-pcie8897 = "Firmware-Marvell"
- LICENSE_${PN}-pcie8997 = "Firmware-Marvell"
--- 
-2.29.2
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxOSBk
+ZWNlbWJlciAyMDIwIDEyOjE5DQo+IFRvOiBMdWNhIEJvY2Fzc2kgPGx1Y2EuYm9jY2Fzc2lAZ21h
+aWwuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
+U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjMgMS81XSBzeXN0ZW1kOiB1cGRhdGUgMjQ2
+IC0+IDI0Nw0KPiANCj4gT24gU2F0LCAyMDIwLTEyLTE5IGF0IDExOjAzICswMDAwLCBSaWNoYXJk
+IFB1cmRpZSB2aWENCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gPiBPbiBTYXQs
+IDIwMjAtMTItMTkgYXQgMTA6MzMgKzAwMDAsIFJpY2hhcmQgUHVyZGllIHZpYQ0KPiA+IGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo+ID4gPg0KPiBodHRwczovL2F1dG9idWlsZGVyLnlv
+Y3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzg3L2J1aWxkcy8xNjYyL3N0DQo+IGVw
+cy8xNC9sb2dzL3N0ZGlvDQo+ID4gPg0KPiA+ID4gKHRoZXJlIGlzIGEgc2Vjb25kIGlzc3VlIHRo
+ZXJlIGZyb20gb3RoZXIgcGF0Y2hlcyBpbiBtYXN0ZXItbmV4dA0KPiA+ID4gdG9vKS4NCj4gPiA+
+DQo+ID4gPiBXZSBkbyBuZWVkIGEgZ3JlZW4gYnVpbGQgdG8gYmUgYWJsZSB0byBtZXJnZSBzbyB0
+aGlzIG1heSBkZXBlbmQgb24NCj4gPiA+IHNvbWVvbmUgZWxzZSBsb29raW5nIGludG8gdGhhdCBy
+ZXByb2R1Y2liaWxpdHkgaXNzdWUuIEkgZGlkIHRyeSBhbmQNCj4gPiA+IGdpdmUgc29tZSBoaW50
+cyBpbiBteSBwcmV2aW91cyBlbWFpbCwgSSdkIG5lZWQgdG8gbG9vayBhdCB0aGUgY29kZQ0KPiA+
+ID4gdG8NCj4gPiA+IGJlIGFibGUgdG8gZ2l2ZSBhbnkgbW9yZSBwb2ludGVycy4NCj4gPg0KPiA+
+IExvb2tpbmcgYXQgdGhlIG91dHB1dCBpbg0KPiA+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG8u
+aW8vcHViL3JlcHJvLWZhaWwvb2UtcmVwcm9kdWNpYmxlLTIwMjAxMjE5LQ0KPiBmcXh4cWVsOS9w
+YWNrYWdlcy9kaWZmLWh0bWwvDQo+ID4NCj4gPiB5b3UgY2FuIHNlZSB0aGF0IHRoZSAudGV4dCBz
+ZWN0aW9uIGluIHRoZSBiaW5hcnkgY2hhbmdlcyBzaXplLg0KPiA+IElnbm9yaW5nDQo+ID4gdGhl
+IG9mZnNldCBjaGFuZ2VzLCB0aGUgYWN0dWFsIGNoYW5nZSBpcyB0aGUgY2hhbmdlIGluIHNpemUg
+b2YNCj4gPiB0aGUgbWF5YmVfZW1pdF9sb2dpbl9kZWZzX3dhcm5pbmcgZnVuY3Rpb24gZnJvbSAy
+NTYgdG8gMjc1IGJ5dGVzLg0KPiA+DQo+ID4gVGhhdCBmdW5jdGlvbiBpcyBpbiB0aGUgc3lzdGVt
+ZCBzb3VyY2VzIGluDQo+ID4gZ2l0L3NyYy9zeXN1c2Vycy9zeXN1c2Vycy5jLg0KPiA+DQo+ID4g
+SXQgdXNlcyBhIHZhcmlldHkgb2YgY29uZmlndXJhdGlvbiBvcHRpb25zIHN1Y2ggYXM6DQo+ID4N
+Cj4gPiBTWVNURU1fQUxMT0NfVUlEX01JTg0KPiA+IFNZU1RFTV9VSURfTUFYDQo+ID4gU1lTVEVN
+X0FMTE9DX0dJRF9NSU4NCj4gPiBTWVNURU1fR0lEX01BWA0KPiA+DQo+ID4gTXkgYmVzdCBndWVz
+cyBpcyB0aGF0IHdlJ3JlIG5vdCBzZXR0aW5nIG9uZSBvZiB0aGVzZSBhbmQgaXRzIGZhbGxpbmcN
+Cj4gPiBiYWNrIHRvIGEgaG9zdCBzeXN0ZW0gdmFsdWUgd2hpY2ggdmFyaWVzIGJ5IGhvc3QgZGlz
+dHJvLg0KPiA+DQo+ID4gT2J2aW91c2x5IHdlIG5lZWQgdG8gcHJvdmUgdGhhdCBhbmQgZmlndXJl
+IG91dCB0aGUgY29ycmVjdCB2YWx1ZSBmb3INCj4gPiBPRQ0KPiA+IHVzYWdlIGJ1dCBpdHMgbWF5
+YmUgYSBwb2ludGVyIGFzIHRvIHRoZSBwb3NzaWJsZSBwcm9ibGVtIChvciBJIGNvdWxkDQo+ID4g
+YmUNCj4gPiB0b3RhbGx5IHdyb25nISkuDQo+IA0KPiBJIHdhcyBmYXIgZW5vdWdoIGludG8gdGhp
+cyBJIGtlcHQgZ29pbmcuIFRoZSBkZWZhdWx0cyBmb3IgdGhlc2UgYXJlIHNldA0KPiBpbiBtZXNv
+bi5idWlsZCBmcm9tOg0KPiANCj4gZm9yZWFjaCB0dXBsZSA6IFtbJ3N5c3RlbS1hbGxvYy11aWQt
+bWluJywgJ1NZU19VSURfTUlOJywgMV0sICAjIEFsc28gc2VlDQo+IGxvZ2luLmRlZnMoNSkuDQo+
+ICAgICAgICAgICAgICAgICAgWydzeXN0ZW0tdWlkLW1heCcsICAgICAgICdTWVNfVUlEX01BWCcs
+IDk5OV0sDQo+ICAgICAgICAgICAgICAgICAgWydzeXN0ZW0tYWxsb2MtZ2lkLW1pbicsICdTWVNf
+R0lEX01JTicsIDFdLA0KPiAgICAgICAgICAgICAgICAgIFsnc3lzdGVtLWdpZC1tYXgnLCAgICAg
+ICAnU1lTX0dJRF9NQVgnLCA5OTldXQ0KPiANCj4gd2hpY2ggaWYgdGhleSdyZSBub3Qgc2V0LCBs
+b29rcyBhdCB0aGUgaG9zdCBzeXN0ZW0gL2V0Yy9sb2dpbi5kZWZzIGZpbGUNCj4gd2hpY2ggaXMg
+aG9zdCBjb250YW1pbmF0aW9uIGFuZCBpcyBiYWQuIE9uIG15IHVidW50dSBzeXN0ZW0sIHRoZXNl
+DQo+IGFyZW4ndCBzZXQgYnkgZGVmYXVsdC4gRm9yIENlbnRvczcgYW5kIDg6DQoNCk5vdyB0aGlz
+IG1hZGUgbWUgZmVlbCByZWFsbHkgc3R1cGlkLiBXZSBoYXZlIGhhZCB0aGUgZm9sbG93aW5nIGxp
+bmVzIGluIG91ciANCnN5c3RlbWRfJS5iYmFwcGVuZCBmb3IgeWVhcnMgYW5kIEkgbmV2ZXIgZ290
+IGFyb3VuZCB0byB1cHN0cmVhbSB0aGVtOg0KDQojIEZJWE1FOiBUaGVzZSBhcmUgaW5jb3JyZWN0
+bHkgZGV0ZXJtaW5lZCBieSBtZXNvbiBiYXNlZCBvbiB0aGUgaG9zdCdzDQojIC9ldGMvbG9naW4u
+ZGVmcyBmaWxlLiBJZiB0aGVyZSBpcyBhIHdheSB0byBnZXQgbWVzb24gdG8gZG8gdGhlIHJpZ2h0
+IHRoaW5nDQojIHdoZW4gY29uZmlndXJpbmcgZm9yIGNyb3NzIGNvbXBpbGF0aW9uLCB0aGVuIHRo
+YXQgc2hvdWxkIGJlIHVwc3RyZWFtZWQgdG8NCiMgc3lzdGVtZCwgb3RoZXJ3aXNlIHRoaXMgY2hh
+bmdlIHNob3VsZCBiZSB1cHN0cmVhbWVkIHRvIE9FLg0KRVhUUkFfT0VNRVNPTiArPSAiLURzeXN0
+ZW0tdWlkLW1heD05OTkgXA0KICAgICAgICAgICAgICAgICAgLURzeXN0ZW0tZ2lkLW1heD05OTki
+DQoNClNvcnJ5IGFib3V0IHRoYXQuDQoNCj4gW3JwdXJkaWVAY2VudG9zOC10eS0xIH5dJCBncmVw
+IFNZUyAvZXRjL2xvZ2luLmRlZnMNCj4gU1lTX1VJRF9NSU4gICAgICAgICAgICAgICAyMDENCj4g
+U1lTX1VJRF9NQVggICAgICAgICAgICAgICA5OTkNCj4gU1lTX0dJRF9NSU4gICAgICAgICAgICAg
+ICAyMDENCj4gU1lTX0dJRF9NQVggICAgICAgICAgICAgICA5OTkNCj4gDQo+IHNvIEkgdGhpbmsg
+d2UgaGF2ZSBvdXIgdHJpZ2dlci4gSSBoYXZlIGEgc2ltcGx5IHBhdGNoIHRvIHNwZWNpZnkNCj4g
+ZGVmYXVsdHMgaW4gdGhlIHJlY2lwZSB3aGljaCBJIHRoaW5rIHNob3VsZCByZXNvbHZlIHRoaXMu
+IEknbGwgYWRkIGl0DQo+IHRvIG1hc3Rlci1uZXh0IGFuZCBzZWUgaWYgdGhhdCBoZWxwcy4NCg0K
+TG9va2luZyBhdCB5b3VyIHBhdGNoIGluIG1hc3Rlci1uZXh0LCBJIGJlbGlldmUgeW91IHNob3Vs
+ZCBzZXQgDQotRHN5c3RlbS1hbGxvYy11aWQtbWluIGFuZCAtRHN5c3RlbS1hbGxvYy1naWQtbWlu
+IHRvIDEwMSByYXRoZXIgdGhhbiAxIA0KdG8gbWF0Y2ggd2hhdCBpcyBpbiAvZXRjL2xvZ2luLmRl
+ZnMuDQoNCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQo=
