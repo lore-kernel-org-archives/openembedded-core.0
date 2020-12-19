@@ -1,117 +1,82 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web11.10680.1608393906623112560
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+ by mx.groups.io with SMTP id smtpd.web12.11942.1608398693288921053
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Dec 2020 08:05:06 -0800
+ Sat, 19 Dec 2020 09:24:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GEvq3qgR;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id b73so5414115edf.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 08:05:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fRQztJcW;
+ spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f174.google.com with SMTP id w79so5209588qkb.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 09:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=kNZnRhghrg0PuqJlPDsR6epRzhS9QviPxWrOI36zdSQ=;
-        b=GEvq3qgRVqe0XtWx+NfWFX34v0yOdCE6RVAgPeMDsXva2DK1cNZnfjH6ECrI/JiOem
-         ccuYPP7auu9/aoGoJxYV2txmGjm4ojVjlfrHctO5rQi6eSehNEiqtv9MCpyY98z1fUAo
-         dGjHgfhFcBG4tGyQSU9+wDWNvTMpZBx1sGaf3IYYkDcl/nVehsYYZ0FvA9Bh+TCT3mu+
-         M9iwppec8AVrGYOy7wePLAm+BUR2WgguNMyC7b15uZ/i2wpqrJrGTVb3kejVKVWDVB6G
-         QCMMmk3Qd69fxuSlWN2XzeEi92WIGVFujE6FWA5gNb3OgLuWf06SAtnx9fIlUGwquCJw
-         tmaw==
+        bh=slyWN9wD32KCl/4AuweNYToL2dq2Z/F9QN0AuNN0828=;
+        b=fRQztJcWn+PO4zrRz5A3OdBzI7XuMTdcKYz3QnsgC0XhA3sXdhEUuKcCvr5dfA+d5K
+         +UwWXMbI2VTDjzYv5yEJn9+fl3WSmoQBtcGSVG0g8Ifdggj77nMPX+JhUM/XbqKr5nhI
+         KzMTBmb5J6K7StQFZzaOlcDzX+F8CuTei4B894wOwgku+fsMXxg7nY0eP8SghcWnOn7A
+         u1+woiIqc2mAbz35LngXPBzylMB31Ja7v2s16V3EGPBg59mkRZl4/didwGblt3JwyCv2
+         +lbqonsxZZQF7/QrPV7r3nr6cztrAuodq64OX4uvM0spLx6pybw2zby/G7w4l6zTx9H4
+         xA3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kNZnRhghrg0PuqJlPDsR6epRzhS9QviPxWrOI36zdSQ=;
-        b=rr4n/o4qtT0Sgo3q/1XJ8gv7IPvaQ+pLFWM18wvQpQwT/098GxH+7+5lsZ3v1kL09L
-         tWXSa+71JEvxzILszkMAEW5ywTqodrBKH9F3eADnnQlgfwVdkuztc9M8vlrWOK/Q9TLf
-         teaSaVow7SoKf3zL5NFUiGWIJhKYDS7925V4NWmNkfVqTEpfPzJjflovGi9dpQ8JjRPP
-         eJHq0TT8M1Db/8kRiCxfrAbUXBh6RnOVLNTYk1t48/jCmlhVhdL8q3JMx778YTIHTkg8
-         jczmX3A4tct302q7HF8IOlPhJB3a9zUsbxiG1zk1nO0Ah9mDyVa+pNvRfghlwSPuMhNC
-         SeIQ==
-X-Gm-Message-State: AOAM531V0aWyXCiWCb3WTDSMqw/FPn/hW+ufH74TnyTmQGfBezdeSeIG
-	nk15MllniL3sAlYkxBr8q/YqmfYFb6XmTwyudMs=
-X-Google-Smtp-Source: ABdhPJxNnu+GtPCy10/1m1/Up/6K2Tof0ca7BoJ8qb3fPeWzhatuj9OhcZuYbxKhT4pYlACp0iJwC3L4agDuymSQpC8=
-X-Received: by 2002:aa7:d407:: with SMTP id z7mr9766487edq.234.1608393904979;
- Sat, 19 Dec 2020 08:05:04 -0800 (PST)
+        bh=slyWN9wD32KCl/4AuweNYToL2dq2Z/F9QN0AuNN0828=;
+        b=UOFLfTEJ++69ZeoTSLpcZeX1uBf1dXOKqxIJIKtQ8PWMp6guqaPlo8t3VwpbY1rLnG
+         SJ2oX1/H0/L3udNcwYxZHBcvbFpeOZzPICmLoyaWoaiO/0TYZVFK1A0w8L85vXMTuyC8
+         yF9l4sh2COlxURC473Mjw9/LCtbpIYjkLWFmZ+XSR444O1rIud7kXfKceRQxsK4xun+P
+         76iwuA2OE+5zLUrWp3ayukvd+MS2ji3j7Q2Gy5eggiSM26znHzQo1tHldyBRFqwhCP8X
+         96O7HaMELYkQUGDvj7ndZqWYAWJbqTpnIShZPnwpsCsXCwZl5PBcIoPdAu0OKC07o9Nv
+         8kkQ==
+X-Gm-Message-State: AOAM530EmDnXVBXa/UGwVYbB76hXDv1Ss5KkhUVtVSYPZRcNGHbCBH7P
+	PbZNMFdBtST02STBykqj5CWE7L3xvtAIRbdWIx8=
+X-Google-Smtp-Source: ABdhPJxBDgR0ZQu7Tx33h8LecEWU2bIqsPkfRnccWjCoCHl8CPfnR5HWi45q1v9UGLsHFhfxPoxWPqe6F5CLbID39QQ=
+X-Received: by 2002:a37:6189:: with SMTP id v131mr10483168qkb.337.1608398692309;
+ Sat, 19 Dec 2020 09:24:52 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1607958349.git.bruce.ashfield@gmail.com>
- <faff0743666a4ef199d2902a1611a83ee5c2a4a9.camel@linuxfoundation.org>
- <CADkTA4Ou33v4AhB+JTTwxytUr1-UWRrbS8qd562utkiq-a49HQ@mail.gmail.com> <f213eac0f84b71359c5909a54b45d4783574e836.camel@linuxfoundation.org>
-In-Reply-To: <f213eac0f84b71359c5909a54b45d4783574e836.camel@linuxfoundation.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sat, 19 Dec 2020 11:04:53 -0500
-Message-ID: <CADkTA4NMU0ptscSu33BT3MTRw-k7_swhf2MjcXSG_EsbRkm_5A@mail.gmail.com>
-Subject: Re: [PATCH 0/8] linux-yocto: consolidated pull requesrt
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Paul Eggleton <bluelightning@bluelightning.org>
+References: <20201217192738.14311-1-tanuk@iki.fi>
+In-Reply-To: <20201217192738.14311-1-tanuk@iki.fi>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 19 Dec 2020 09:24:26 -0800
+Message-ID: <CAMKF1soQmWKFmpaEkcE7E_as0iKDS01e8mwTiGLKYSSQ3_x5bQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 0/4] pulseaudio: Autotools to Meson
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Dec 19, 2020 at 10:52 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Thu, Dec 17, 2020 at 11:28 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
 >
-> On Sat, 2020-12-19 at 10:48 -0500, Bruce Ashfield wrote:
-> > On Sat, Dec 19, 2020 at 6:31 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > Hi Bruce,
-> > >
-> > > On Mon, 2020-12-14 at 10:09 -0500, bruce.ashfield@gmail.com wrote:
-> > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > >
-> > > > 5.10 dropped this morning, so I'm switching over to the libc-headers
-> > > > and reference kernel upgrade (5.4 and 5.10 will be in master, with
-> > > > 5.8 being dropped).
-> > > >
-> > > > But since that will take a bit to sort out, I wanted to send my queue
-> > > > of patches for other fixes/versions.
-> > > >
-> > > > I didn't pick up any issues with local testing, so hopefully this
-> > > > won't
-> > > > cause any problems.
-> > > >
-> > > > I have the lttng-modules patch from a previous send repeated here,
-> > > > since
-> > > > it may be easier to take it as part of the bulk update. I checked
-> > > > just a few minutes ago, and there isn't a new tagged version of the
-> > > > modules yet, so we still need the backported patches for 5.10+
-> > > > builds.
-> > >
-> > > I was able to merge part of the series but there were some warnings
-> > > that came up:
-> > >
-> > > meta-intel:
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/1020
-> > > poky-tiny:
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/3105
-> > >
-> > > so I've deferred the kernel tooling bit until we can figure these out.
-> > > That means several other patches which depended on that also couldn't
-> > > make it in.
-> >
-> > Nothing else should have depended on the kern-tools ones, it is independent
-> > of the rest. Either way, I'll submit next week!
+> The PulseAudio project plans to drop Autotools support in 15.0, so let's
+> switch to Meson. The first patch removes OE_LT_RPATH_ALLOW, which is
+> some old cruft that sounds like it has something to do Libtool, so it's
+> perhaps relevant for the goal of dropping Autotools. The next two
+> patches disable features that aren't available with Meson. The last
+> patch does the build system switch.
 >
-> The others don't rebase cleanly without it and I wasn't sure if
-> resolving the rejects was going to be a good or a bad idea so I replied
-> on list and asked :)
->
-> Its probably easier for us both if I wait but I can rebase if it makes
-> sense.
+> Tanu Kaskinen (4):
+>   pulseaudio: Remove OE_LT_RPATH_ALLOW
+>   pulseaudio: disable EsounD support
+>   pulseaudio: disable GConf support
+>   pulseaudio: switch build system from Autotools to Meson
 
-Let just wait, I have more 5.4-stable updates and some other fixes
-(systemtap), that I can submit as a new series.
+I am seeing build failures with this patch series while using clang
+for compiler see.
 
-Bruce
-
->
-> Cheers,
->
-> Richard
->
+https://errors.yoctoproject.org/Errors/Details/539474/
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+
+>
+>  .../pulseaudio/pulseaudio.inc                 | 69 ++++++++-----------
+>  ...-option-for-enabling-disabling-Valgr.patch | 67 ++++++++++++++++++
+>  .../pulseaudio/pulseaudio_14.0.bb             |  1 +
+>  3 files changed, 97 insertions(+), 40 deletions(-)
+>  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-Add-an-option-for-enabling-disabling-Valgr.patch
+>
+> --
+> 2.20.1
+>
+>
+> 
+>
