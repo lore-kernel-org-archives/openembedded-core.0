@@ -1,98 +1,111 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web12.9858.1608389751367920971
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web08.10444.1608392556826367918
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Dec 2020 06:55:51 -0800
+ Sat, 19 Dec 2020 07:42:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GFtE/hMm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id y17so6134568wrr.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 06:55:51 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YkdCS2IO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f41.google.com with SMTP id t16so6243256wra.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 07:42:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=mLStwShUTAQb479/oDfxPN2g62g5SX/IMolNTWz7okw=;
-        b=GFtE/hMmOG4argoOrX6fCSXRfIKCIksh4MW0r6f68X/itq++dFE6pSmCxrdz5FD1e6
-         QJJ1+PPm+RcjnE/0Ij6v/lOmYVGmVb8TErQ1+RKkGUbrImJo7lPeXNFSd7kygVMWhuYv
-         1gANN24Z/xOQThxy/6jjmYZfgW2rriMgpafdw=
+        bh=HjZzqcj0AOrevCXz4bAptrO1A8y9L5nfN/6cb86qCGg=;
+        b=YkdCS2IO/s1CRkfhtFMPa3tuILQXiGHsXXKoIZ6SFx90uq8wadbiCbSuichln7TrPl
+         wqFlTQug2pLYsG1VLf1ZAXCMphPVW00jyC20A4UWIH3UQeUmCWRrDfGqY6xcGeUyl9SH
+         F3O6G4avTE384gie/mzxyjqQ5nsXyQBKi7rD4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=mLStwShUTAQb479/oDfxPN2g62g5SX/IMolNTWz7okw=;
-        b=Q03+KVmMD4nVV+eR6OhYi07w2436cqFhqFsKEEBQ4KnTzIJnsHpApIXACTa9J4tYm1
-         BCpUDWKQgiB4g45CnPog+Ag03IiC/giivF+ajfkYcRPf3zISpn8OvwEiKuDG9+7k5w7T
-         SKGfHcjpZBRC5JJvztPEInJ3K/8vP98whb1B0x+2iNgceQojOE7ZowVSA/UUW6804Puj
-         dHR623Sax963qwmStPTRJQKaoWFhVNOU3VlzMFj45csHFpzdI70+n+CvBHM7Yh1MXV2x
-         mb9jiwG0+ewhuKBBjJv2uKJGjTboP8kkU+L78ebN1PTxys75eMUEQV/DhcXAp35kIf8f
-         E9sw==
-X-Gm-Message-State: AOAM530RiKp/J0XrjjtnrzpJXwIHVA8vuynT8LLracI/RDYlbZTsMrdk
-	8q+40AXMSqdT98WFGXpbVxy7tg==
-X-Google-Smtp-Source: ABdhPJypafSvIyceo6yoZIwVEolIi7LS5gTm+ni4upEDUMWQtgvQC+KLTcrxBjUkxbWNe+MPZCPSkA==
-X-Received: by 2002:a5d:4242:: with SMTP id s2mr9718831wrr.187.1608389749842;
-        Sat, 19 Dec 2020 06:55:49 -0800 (PST)
+        bh=HjZzqcj0AOrevCXz4bAptrO1A8y9L5nfN/6cb86qCGg=;
+        b=AvVV61k8tdyLPXLmklRVREvaMGsMnEI0PdIqJ6Gahxxd48KkyLItkifu4/PCS7PTBD
+         7GBazYq+yDU9RFd+EoARiOSK3A6GZs264x/fWX7LjtMyr/9+nmfNyUqKcaBbOX0HMeod
+         ehKHfWgfbRf5Suiv5/iuoskz3ne5a5JWGRnRMCG0LJeFo+qabYjxObE7uSr0kdQlOUPR
+         YD3+GyPwY+z8bThzrSfin/N6YrNGO8Gz4/HkPzknSwqtDADiv9epeGiK80u8idbRhYrQ
+         f50tHhp6DP2rbZmRED5Y2jwPVm5S8c3mtKx0ihb9N+awHa+jxheiS78NLgeiBfBm4Wx9
+         pJ0w==
+X-Gm-Message-State: AOAM531sGTLuTHPvqQYwbDixlwOS6Kye6A4ilb5v8xW+SyuQRyWpVOSv
+	unpdG1SDNWCeb2dTBAl+/jTHpQ==
+X-Google-Smtp-Source: ABdhPJzAg+HiQaUCp+tI9UxMXVPD67KlwWABXnRvB1icvOW5gurvhMwIkUxDpbzgkoWEeYAEbyT9lg==
+X-Received: by 2002:a5d:6751:: with SMTP id l17mr9922720wrw.73.1608392555273;
+        Sat, 19 Dec 2020 07:42:35 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from 4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:912:b4c7:177d:a044])
-        by smtp.gmail.com with ESMTPSA id n3sm18140794wrw.61.2020.12.19.06.55.49
+        by smtp.gmail.com with ESMTPSA id s133sm15654984wmf.38.2020.12.19.07.42.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Dec 2020 06:55:49 -0800 (PST)
-Message-ID: <190234c9f6a3ce6702eebfb9d188a4677d4b94cd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3 1/5] systemd: update 246 -> 247
+        Sat, 19 Dec 2020 07:42:34 -0800 (PST)
+Message-ID: <8a27522c2cbd553adfe6b2a994fdd2951deae657.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4] ltp: add support for tirpc and fix build issue
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Luca Bocassi
-	 <luca.boccassi@gmail.com>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Sat, 19 Dec 2020 14:55:46 +0000
-In-Reply-To: <d6ccfadf560d475bba3e8dae9fe9fde2@XBOX03.axis.com>
-References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
-	 <20201218094256.3796401-1-luca.boccassi@gmail.com>
-	 <165217A789F1A918.13568@lists.openembedded.org>
-	 <1652194C9AF53BB2.13568@lists.openembedded.org>
-	 <940d5e33d09579fc46372bfedbd0b76ee285a8e9.camel@linuxfoundation.org>
-	 <d6ccfadf560d475bba3e8dae9fe9fde2@XBOX03.axis.com>
+To: Kory Maincent <kory.maincent@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 19 Dec 2020 15:42:34 +0000
+In-Reply-To: <20201219110800.5207-1-kory.maincent@bootlin.com>
+References: <20201219110800.5207-1-kory.maincent@bootlin.com>
 User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2020-12-19 at 14:09 +0000, Peter Kjellerstedt wrote:
-> Now this made me feel really stupid. We have had the following lines
-> in our 
-> systemd_%.bbappend for years and I never got around to upstream them:
-
-I do worry people have useful fixes lying around :/.
-
-> # FIXME: These are incorrectly determined by meson based on the
-> host's
-> # /etc/login.defs file. If there is a way to get meson to do the
-> right thing
-> # when configuring for cross compilation, then that should be
-> upstreamed to
-> # systemd, otherwise this change should be upstreamed to OE.
-> EXTRA_OEMESON += "-Dsystem-uid-max=999 \
->                   -Dsystem-gid-max=999"
+On Sat, 2020-12-19 at 12:08 +0100, Kory Maincent wrote:
+> Add support to tirpc tests build.
+> The export of ${prefix} updates all other paths variable and
+> in particular PKG_CONFIG_PATH. This variable beeing updated it could
+> not find the pkgconfig file for tirpc.
+> Use immediate expansion to avoid ${prefix} export overflows on
+> PKG_CONFIG_PATH.
 > 
-> Sorry about that.
+> Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+> ---
 > 
-> > [rpurdie@centos8-ty-1 ~]$ grep SYS /etc/login.defs
-> > SYS_UID_MIN               201
-> > SYS_UID_MAX               999
-> > SYS_GID_MIN               201
-> > SYS_GID_MAX               999
-> > 
-> > so I think we have our trigger. I have a simply patch to specify
-> > defaults in the recipe which I think should resolve this. I'll add
-> > it
-> > to master-next and see if that helps.
+> Change since v1:
+>  - Use PACKAGECONFIG to enable rpc tests
+>  - Improve ${libdir} and ${incdir} export
 > 
-> Looking at your patch in master-next, I believe you should set 
-> -Dsystem-alloc-uid-min and -Dsystem-alloc-gid-min to 101 rather than
-> 1 
-> to match what is in /etc/login.defs.
+> Change since v2:
+>  - Improve ${libdir} and ${incdir} export
+> 
+> Change since v3:
+>  - Use PKG_CONFIG_PATH in place of the ${libdir} ${incdir} variable export
+> 
+>  meta/recipes-extended/ltp/ltp_20200930.bb | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/ltp/ltp_20200930.bb b/meta/recipes-extended/ltp/ltp_20200930.bb
+> index 7acf15b360..1a9c05a7e4 100644
+> --- a/meta/recipes-extended/ltp/ltp_20200930.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20200930.bb
+> @@ -42,14 +42,13 @@ inherit autotools-brokensep pkgconfig
+>  
+>  TARGET_CC_ARCH += "${LDFLAGS}"
+>  
+> +PKG_CONFIG_PATH := "${PKG_CONFIG_PATH}"
+>  export prefix = "/opt/${PN}"
+> -export exec_prefix = "/opt/${PN}"
+>  
+>  PACKAGECONFIG[numa] = "--with-numa, --without-numa, numactl,"
+> +PACKAGECONFIG[rpc] = "--with-tirpc, --without-tirpc, virtual/librpc,"
+>  EXTRA_AUTORECONF += "-I ${S}/testcases/realtime/m4"
+>  EXTRA_OECONF = " --with-realtime-testsuite --with-open-posix-testsuite "
+> -# ltp network/rpc test cases ftbfs when libtirpc is found
+> -EXTRA_OECONF += " --without-tirpc "
 
-Good point, I'll tweak accordingly, thanks.
+I did queue this for testing however we saw:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1639/steps/14/logs/stdio
+
+(and I suspect we'll see the other selftests fail too).
+
+I suspect this is due to hardcoded paths being expanded into
+PKG_CONFIG_PATH which makes the recipe's sstate depend upon the
+directory it was built within which is a real problem we need to fix.
 
 Cheers,
 
 Richard
+
+
+
 
