@@ -1,97 +1,41 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.3687.1608344629781055515
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by mx.groups.io with SMTP id smtpd.web11.3729.1608346332260168333
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 18:23:49 -0800
+ Fri, 18 Dec 2020 18:52:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jLjupuir;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id r4so2362988pls.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 18:23:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TUGE/LfN8lBxVLS9eRS35690cUWNo67ij28TgQRkk7M=;
-        b=jLjupuirUUP/ohwk0PJCVAQzNBaepcN2Ax7nFVB3OouPMwSmsGLKk9XYV/DYAxcq9j
-         JZFTxJMUdS+BF0Ik7zM+fWgFC6PYVMpYa3uU5S8UxNK9q5I7CNza5iySJY+Z3YXsEvG0
-         47vV1h7fzTU0j2S7rv+Z1eAPvZfsWUVKQhJg1aVEcrQG1ddRc+LhMEQvMJk+zqINOVsP
-         N8QFywuqzOjmlcdGGGeV95flecaKQs36owcyzIHTmFD2cpQ2uijdn+ZyH71GUcXhfICF
-         qZFgxIo3CfIgPg8404/xjAMFp7RLQHwK96uxpuDJgKZkL3a6l6kCGBd+t6edPmuntSuh
-         Cyng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TUGE/LfN8lBxVLS9eRS35690cUWNo67ij28TgQRkk7M=;
-        b=T+7v7f6clXj4cQf7OXNYhdFu2x/SdPPvUc9QLVXxDjcaDULGHfLvTbg0F+Z4NxysV8
-         fTVFQnEm2HE3Hy0X4TpdK6EYhMbTDooUwvaxb+qziZnpnyTlb2iYRYVbvHH76LBZVDBp
-         l58yiDMY6wS2tOfiDwQ7eu2f5Y24bMAwzGs+2rqrl42e5gNe3cvNXsiGVp/qDcEFLJ6V
-         I3uEDCeFZ1KtWdcmLo34ryKGqNgtvm/4FIh3UZcwpFEwgu7nu/otl3Td1xVpDRD2GKIv
-         DTzc8ws3xeIdidXdF7UPk0HwB8JXMn9xTmGYtR/dDdP8E/SutVFZN7b+nv5p389Z00d7
-         q4BA==
-X-Gm-Message-State: AOAM530QX1FsLXmVwvxLJ6Q7VmyKazzVEpyFrjlYNCkwaDUt4IMl0UTq
-	6+qUxijxxFEszbjLMXfixsdGsBTjMQFerA==
-X-Google-Smtp-Source: ABdhPJyg8Ri0IKE+l7/kzqIbuI4Y8YGBZAiy4Bv32jZOULdpwEJkDPF33BpsrLQx+lLzYy9ZQIfDbA==
-X-Received: by 2002:a17:90b:1c0d:: with SMTP id oc13mr6883060pjb.113.1608344628884;
-        Fri, 18 Dec 2020 18:23:48 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::9ac9])
-        by smtp.gmail.com with ESMTPSA id s7sm9936514pfh.207.2020.12.18.18.23.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 18:23:48 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] busybox: Sync rcS.default with sysvinit
-Date: Fri, 18 Dec 2020 18:23:43 -0800
-Message-Id: <20201219022343.3362531-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201219022343.3362531-1-raj.khem@gmail.com>
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=V6344LOR;
+ spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
+Subject: Re: [PATCH 1/3] rcS: Define identifier for init system used
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1608346331;
+	bh=RWhFoBDbO21KweaOE5lXjKlFxJX9bhs9tpAKRJDcoGc=;
+	h=To:References:From:Date:In-Reply-To:From;
+	b=V6344LORVbPbLsJY2/vPGW+MsM+2NUz6IIoE5rI4Qzp8Gdof04T55o7JyXKMrla16
+	 QkPtzPhZdOfVtBsUGknmFXXzt82iX7xH0bBGXRdPnQUJHXxJFHVVS9eHmio9DLrz8d
+	 cbZPgXS98rnyJvXS1kdLqVGlNdtao7stAcdPKJrNqs/c8FBUnqnO3ilokM0blV51Kj
+	 YmzHbLjCB/PrmWzIzk83seEeer2E45w5SeZnYvh2xJ9SOcZVRfT5MUdNPMdSvGrhyF
+	 YsQparQR5P29foG7iXwqqhSvKcNa7YxxSVSlFBvTfMkCMLunqnxghMTRUFn7roNaAM
+	 tQbxe0HOC5XPg==
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
 References: <20201219022343.3362531-1-raj.khem@gmail.com>
+From: "Sinan Kaya" <okaya@kernel.org>
+Message-ID: <52df2b4e-a07f-a282-c882-245fcdd3b846@kernel.org>
+Date: Fri, 18 Dec 2020 21:52:06 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201219022343.3362531-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/busybox/files/rcS.default | 29 +++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+On 12/18/2020 9:23 PM, Khem Raj wrote:
+> This will help in defining init system specific portions of initscripts
+> which are shared
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Sinan Kaya <okaya@kernel.org>
 
-diff --git a/meta/recipes-core/busybox/files/rcS.default b/meta/recipes-core/busybox/files/rcS.default
-index 66513daf2d..44c9747e34 100644
---- a/meta/recipes-core/busybox/files/rcS.default
-+++ b/meta/recipes-core/busybox/files/rcS.default
-@@ -1,2 +1,31 @@
-+#
-+#	Defaults for the boot scripts in /etc/rcS.d
-+#
-+
-+# Time files in /tmp are kept in days.
-+TMPTIME=0
-+# Set to yes if you want sulogin to be spawned on bootup
-+SULOGIN=no
-+# Set to no if you want to be able to login over telnet/rlogin
-+# before system startup is complete (as soon as inetd is started)
-+DELAYLOGIN=no
-+# Assume that the BIOS clock is set to UTC time (recommended)
-+UTC=yes
-+# Set VERBOSE to "no" if you would like a more quiet bootup.
-+VERBOSE=no
-+# Set EDITMOTD to "no" if you don't want /etc/motd to be edited automatically
-+EDITMOTD=no
-+# Whether to fsck root on boot
-+ENABLE_ROOTFS_FSCK=no
-+# Set FSCKFIX to "yes" if you want to add "-y" to the fsck at startup.
-+FSCKFIX=yes
-+# Set TICKADJ to the correct tick value for this specific machine
-+#TICKADJ=10000
-+# Enable caching in populate-volatile.sh
-+VOLATILE_ENABLE_CACHE=yes
-+# Indicate whether the rootfs is intended to be read-only or not.
-+# Setting ROOTFS_READ_ONLY to yes and rebooting will give you a read-only rootfs.
-+# Normally you should not change this value.
-+ROOTFS_READ_ONLY=no
- # Indicate init system type
- INIT_SYSTEM=busybox
--- 
-2.29.2
+Reviewed by: Sinan Kaya <okaya@kernel.org>
 
+for Patches 1-3.
