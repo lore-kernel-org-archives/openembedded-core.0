@@ -1,110 +1,98 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web09.9404.1608387003053840011
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web12.9858.1608389751367920971
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Dec 2020 06:10:03 -0800
+ Sat, 19 Dec 2020 06:55:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=TqYEmMsn;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GFtE/hMm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id y17so6134568wrr.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 06:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; q=dns/txt; s=axis-central1; t=1608387003;
-  x=1639923003;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=AkdHHAtbnwgkFEhFspxPV3ySO/572gssJU3q4AfPfbk=;
-  b=TqYEmMsn5Nn7IE2BMaCq5k3g/LtPNlSPAAdaWsl6wOC1QARlyJv+2R5v
-   YqT0rk8CITDMFx5pgFqebcaxX352EEXSvnP7hm+5y3wmOvvXaUMd0A3cB
-   K9TbdlY1q4yWWxIjpsa6vqnhJA6hCu/5B3nwXBHMcqgd/OeOO5Oo6sFwN
-   sC79IWUyVIsEgi7n4TiOIihwfcEFUZb+eLIt4fp6sWNXOcZ40uq5iufyx
-   cHRu9LCmvDHw5LpjF+MYqNKtq913H0oJwm/oe69D+R1wiKYgfOAkIbv7j
-   Fby+6t3WVYh8bMvFhS1STii4KwatHOE8QwfIo5rhT4Gtni7W9ftHoNSjQ
-   w==;
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Luca Bocassi
-	<luca.boccassi@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=mLStwShUTAQb479/oDfxPN2g62g5SX/IMolNTWz7okw=;
+        b=GFtE/hMmOG4argoOrX6fCSXRfIKCIksh4MW0r6f68X/itq++dFE6pSmCxrdz5FD1e6
+         QJJ1+PPm+RcjnE/0Ij6v/lOmYVGmVb8TErQ1+RKkGUbrImJo7lPeXNFSd7kygVMWhuYv
+         1gANN24Z/xOQThxy/6jjmYZfgW2rriMgpafdw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mLStwShUTAQb479/oDfxPN2g62g5SX/IMolNTWz7okw=;
+        b=Q03+KVmMD4nVV+eR6OhYi07w2436cqFhqFsKEEBQ4KnTzIJnsHpApIXACTa9J4tYm1
+         BCpUDWKQgiB4g45CnPog+Ag03IiC/giivF+ajfkYcRPf3zISpn8OvwEiKuDG9+7k5w7T
+         SKGfHcjpZBRC5JJvztPEInJ3K/8vP98whb1B0x+2iNgceQojOE7ZowVSA/UUW6804Puj
+         dHR623Sax963qwmStPTRJQKaoWFhVNOU3VlzMFj45csHFpzdI70+n+CvBHM7Yh1MXV2x
+         mb9jiwG0+ewhuKBBjJv2uKJGjTboP8kkU+L78ebN1PTxys75eMUEQV/DhcXAp35kIf8f
+         E9sw==
+X-Gm-Message-State: AOAM530RiKp/J0XrjjtnrzpJXwIHVA8vuynT8LLracI/RDYlbZTsMrdk
+	8q+40AXMSqdT98WFGXpbVxy7tg==
+X-Google-Smtp-Source: ABdhPJypafSvIyceo6yoZIwVEolIi7LS5gTm+ni4upEDUMWQtgvQC+KLTcrxBjUkxbWNe+MPZCPSkA==
+X-Received: by 2002:a5d:4242:: with SMTP id s2mr9718831wrr.187.1608389749842;
+        Sat, 19 Dec 2020 06:55:49 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:912:b4c7:177d:a044])
+        by smtp.gmail.com with ESMTPSA id n3sm18140794wrw.61.2020.12.19.06.55.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Dec 2020 06:55:49 -0800 (PST)
+Message-ID: <190234c9f6a3ce6702eebfb9d188a4677d4b94cd.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH v3 1/5] systemd: update 246 -> 247
-Thread-Topic: [OE-core] [PATCH v3 1/5] systemd: update 246 -> 247
-Thread-Index: AQHW1fi1kZ4bcLlhyUi3GyPkzg+4Qan+bfgA
-Date: Sat, 19 Dec 2020 14:09:59 +0000
-Message-ID: <d6ccfadf560d475bba3e8dae9fe9fde2@XBOX03.axis.com>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Luca Bocassi
+	 <luca.boccassi@gmail.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Sat, 19 Dec 2020 14:55:46 +0000
+In-Reply-To: <d6ccfadf560d475bba3e8dae9fe9fde2@XBOX03.axis.com>
 References: <20201210125312.3302065-1-luca.boccassi@gmail.com>
 	 <20201218094256.3796401-1-luca.boccassi@gmail.com>
 	 <165217A789F1A918.13568@lists.openembedded.org>
 	 <1652194C9AF53BB2.13568@lists.openembedded.org>
- <940d5e33d09579fc46372bfedbd0b76ee285a8e9.camel@linuxfoundation.org>
-In-Reply-To: <940d5e33d09579fc46372bfedbd0b76ee285a8e9.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	 <940d5e33d09579fc46372bfedbd0b76ee285a8e9.camel@linuxfoundation.org>
+	 <d6ccfadf560d475bba3e8dae9fe9fde2@XBOX03.axis.com>
+User-Agent: Evolution 3.36.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiAxOSBk
-ZWNlbWJlciAyMDIwIDEyOjE5DQo+IFRvOiBMdWNhIEJvY2Fzc2kgPGx1Y2EuYm9jY2Fzc2lAZ21h
-aWwuY29tPjsgb3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
-U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjMgMS81XSBzeXN0ZW1kOiB1cGRhdGUgMjQ2
-IC0+IDI0Nw0KPiANCj4gT24gU2F0LCAyMDIwLTEyLTE5IGF0IDExOjAzICswMDAwLCBSaWNoYXJk
-IFB1cmRpZSB2aWENCj4gbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gPiBPbiBTYXQs
-IDIwMjAtMTItMTkgYXQgMTA6MzMgKzAwMDAsIFJpY2hhcmQgUHVyZGllIHZpYQ0KPiA+IGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcgd3JvdGU6DQo+ID4gPg0KPiBodHRwczovL2F1dG9idWlsZGVyLnlv
-Y3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzg3L2J1aWxkcy8xNjYyL3N0DQo+IGVw
-cy8xNC9sb2dzL3N0ZGlvDQo+ID4gPg0KPiA+ID4gKHRoZXJlIGlzIGEgc2Vjb25kIGlzc3VlIHRo
-ZXJlIGZyb20gb3RoZXIgcGF0Y2hlcyBpbiBtYXN0ZXItbmV4dA0KPiA+ID4gdG9vKS4NCj4gPiA+
-DQo+ID4gPiBXZSBkbyBuZWVkIGEgZ3JlZW4gYnVpbGQgdG8gYmUgYWJsZSB0byBtZXJnZSBzbyB0
-aGlzIG1heSBkZXBlbmQgb24NCj4gPiA+IHNvbWVvbmUgZWxzZSBsb29raW5nIGludG8gdGhhdCBy
-ZXByb2R1Y2liaWxpdHkgaXNzdWUuIEkgZGlkIHRyeSBhbmQNCj4gPiA+IGdpdmUgc29tZSBoaW50
-cyBpbiBteSBwcmV2aW91cyBlbWFpbCwgSSdkIG5lZWQgdG8gbG9vayBhdCB0aGUgY29kZQ0KPiA+
-ID4gdG8NCj4gPiA+IGJlIGFibGUgdG8gZ2l2ZSBhbnkgbW9yZSBwb2ludGVycy4NCj4gPg0KPiA+
-IExvb2tpbmcgYXQgdGhlIG91dHB1dCBpbg0KPiA+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG8u
-aW8vcHViL3JlcHJvLWZhaWwvb2UtcmVwcm9kdWNpYmxlLTIwMjAxMjE5LQ0KPiBmcXh4cWVsOS9w
-YWNrYWdlcy9kaWZmLWh0bWwvDQo+ID4NCj4gPiB5b3UgY2FuIHNlZSB0aGF0IHRoZSAudGV4dCBz
-ZWN0aW9uIGluIHRoZSBiaW5hcnkgY2hhbmdlcyBzaXplLg0KPiA+IElnbm9yaW5nDQo+ID4gdGhl
-IG9mZnNldCBjaGFuZ2VzLCB0aGUgYWN0dWFsIGNoYW5nZSBpcyB0aGUgY2hhbmdlIGluIHNpemUg
-b2YNCj4gPiB0aGUgbWF5YmVfZW1pdF9sb2dpbl9kZWZzX3dhcm5pbmcgZnVuY3Rpb24gZnJvbSAy
-NTYgdG8gMjc1IGJ5dGVzLg0KPiA+DQo+ID4gVGhhdCBmdW5jdGlvbiBpcyBpbiB0aGUgc3lzdGVt
-ZCBzb3VyY2VzIGluDQo+ID4gZ2l0L3NyYy9zeXN1c2Vycy9zeXN1c2Vycy5jLg0KPiA+DQo+ID4g
-SXQgdXNlcyBhIHZhcmlldHkgb2YgY29uZmlndXJhdGlvbiBvcHRpb25zIHN1Y2ggYXM6DQo+ID4N
-Cj4gPiBTWVNURU1fQUxMT0NfVUlEX01JTg0KPiA+IFNZU1RFTV9VSURfTUFYDQo+ID4gU1lTVEVN
-X0FMTE9DX0dJRF9NSU4NCj4gPiBTWVNURU1fR0lEX01BWA0KPiA+DQo+ID4gTXkgYmVzdCBndWVz
-cyBpcyB0aGF0IHdlJ3JlIG5vdCBzZXR0aW5nIG9uZSBvZiB0aGVzZSBhbmQgaXRzIGZhbGxpbmcN
-Cj4gPiBiYWNrIHRvIGEgaG9zdCBzeXN0ZW0gdmFsdWUgd2hpY2ggdmFyaWVzIGJ5IGhvc3QgZGlz
-dHJvLg0KPiA+DQo+ID4gT2J2aW91c2x5IHdlIG5lZWQgdG8gcHJvdmUgdGhhdCBhbmQgZmlndXJl
-IG91dCB0aGUgY29ycmVjdCB2YWx1ZSBmb3INCj4gPiBPRQ0KPiA+IHVzYWdlIGJ1dCBpdHMgbWF5
-YmUgYSBwb2ludGVyIGFzIHRvIHRoZSBwb3NzaWJsZSBwcm9ibGVtIChvciBJIGNvdWxkDQo+ID4g
-YmUNCj4gPiB0b3RhbGx5IHdyb25nISkuDQo+IA0KPiBJIHdhcyBmYXIgZW5vdWdoIGludG8gdGhp
-cyBJIGtlcHQgZ29pbmcuIFRoZSBkZWZhdWx0cyBmb3IgdGhlc2UgYXJlIHNldA0KPiBpbiBtZXNv
-bi5idWlsZCBmcm9tOg0KPiANCj4gZm9yZWFjaCB0dXBsZSA6IFtbJ3N5c3RlbS1hbGxvYy11aWQt
-bWluJywgJ1NZU19VSURfTUlOJywgMV0sICAjIEFsc28gc2VlDQo+IGxvZ2luLmRlZnMoNSkuDQo+
-ICAgICAgICAgICAgICAgICAgWydzeXN0ZW0tdWlkLW1heCcsICAgICAgICdTWVNfVUlEX01BWCcs
-IDk5OV0sDQo+ICAgICAgICAgICAgICAgICAgWydzeXN0ZW0tYWxsb2MtZ2lkLW1pbicsICdTWVNf
-R0lEX01JTicsIDFdLA0KPiAgICAgICAgICAgICAgICAgIFsnc3lzdGVtLWdpZC1tYXgnLCAgICAg
-ICAnU1lTX0dJRF9NQVgnLCA5OTldXQ0KPiANCj4gd2hpY2ggaWYgdGhleSdyZSBub3Qgc2V0LCBs
-b29rcyBhdCB0aGUgaG9zdCBzeXN0ZW0gL2V0Yy9sb2dpbi5kZWZzIGZpbGUNCj4gd2hpY2ggaXMg
-aG9zdCBjb250YW1pbmF0aW9uIGFuZCBpcyBiYWQuIE9uIG15IHVidW50dSBzeXN0ZW0sIHRoZXNl
-DQo+IGFyZW4ndCBzZXQgYnkgZGVmYXVsdC4gRm9yIENlbnRvczcgYW5kIDg6DQoNCk5vdyB0aGlz
-IG1hZGUgbWUgZmVlbCByZWFsbHkgc3R1cGlkLiBXZSBoYXZlIGhhZCB0aGUgZm9sbG93aW5nIGxp
-bmVzIGluIG91ciANCnN5c3RlbWRfJS5iYmFwcGVuZCBmb3IgeWVhcnMgYW5kIEkgbmV2ZXIgZ290
-IGFyb3VuZCB0byB1cHN0cmVhbSB0aGVtOg0KDQojIEZJWE1FOiBUaGVzZSBhcmUgaW5jb3JyZWN0
-bHkgZGV0ZXJtaW5lZCBieSBtZXNvbiBiYXNlZCBvbiB0aGUgaG9zdCdzDQojIC9ldGMvbG9naW4u
-ZGVmcyBmaWxlLiBJZiB0aGVyZSBpcyBhIHdheSB0byBnZXQgbWVzb24gdG8gZG8gdGhlIHJpZ2h0
-IHRoaW5nDQojIHdoZW4gY29uZmlndXJpbmcgZm9yIGNyb3NzIGNvbXBpbGF0aW9uLCB0aGVuIHRo
-YXQgc2hvdWxkIGJlIHVwc3RyZWFtZWQgdG8NCiMgc3lzdGVtZCwgb3RoZXJ3aXNlIHRoaXMgY2hh
-bmdlIHNob3VsZCBiZSB1cHN0cmVhbWVkIHRvIE9FLg0KRVhUUkFfT0VNRVNPTiArPSAiLURzeXN0
-ZW0tdWlkLW1heD05OTkgXA0KICAgICAgICAgICAgICAgICAgLURzeXN0ZW0tZ2lkLW1heD05OTki
-DQoNClNvcnJ5IGFib3V0IHRoYXQuDQoNCj4gW3JwdXJkaWVAY2VudG9zOC10eS0xIH5dJCBncmVw
-IFNZUyAvZXRjL2xvZ2luLmRlZnMNCj4gU1lTX1VJRF9NSU4gICAgICAgICAgICAgICAyMDENCj4g
-U1lTX1VJRF9NQVggICAgICAgICAgICAgICA5OTkNCj4gU1lTX0dJRF9NSU4gICAgICAgICAgICAg
-ICAyMDENCj4gU1lTX0dJRF9NQVggICAgICAgICAgICAgICA5OTkNCj4gDQo+IHNvIEkgdGhpbmsg
-d2UgaGF2ZSBvdXIgdHJpZ2dlci4gSSBoYXZlIGEgc2ltcGx5IHBhdGNoIHRvIHNwZWNpZnkNCj4g
-ZGVmYXVsdHMgaW4gdGhlIHJlY2lwZSB3aGljaCBJIHRoaW5rIHNob3VsZCByZXNvbHZlIHRoaXMu
-IEknbGwgYWRkIGl0DQo+IHRvIG1hc3Rlci1uZXh0IGFuZCBzZWUgaWYgdGhhdCBoZWxwcy4NCg0K
-TG9va2luZyBhdCB5b3VyIHBhdGNoIGluIG1hc3Rlci1uZXh0LCBJIGJlbGlldmUgeW91IHNob3Vs
-ZCBzZXQgDQotRHN5c3RlbS1hbGxvYy11aWQtbWluIGFuZCAtRHN5c3RlbS1hbGxvYy1naWQtbWlu
-IHRvIDEwMSByYXRoZXIgdGhhbiAxIA0KdG8gbWF0Y2ggd2hhdCBpcyBpbiAvZXRjL2xvZ2luLmRl
-ZnMuDQoNCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQo=
+On Sat, 2020-12-19 at 14:09 +0000, Peter Kjellerstedt wrote:
+> Now this made me feel really stupid. We have had the following lines
+> in our 
+> systemd_%.bbappend for years and I never got around to upstream them:
+
+I do worry people have useful fixes lying around :/.
+
+> # FIXME: These are incorrectly determined by meson based on the
+> host's
+> # /etc/login.defs file. If there is a way to get meson to do the
+> right thing
+> # when configuring for cross compilation, then that should be
+> upstreamed to
+> # systemd, otherwise this change should be upstreamed to OE.
+> EXTRA_OEMESON += "-Dsystem-uid-max=999 \
+>                   -Dsystem-gid-max=999"
+> 
+> Sorry about that.
+> 
+> > [rpurdie@centos8-ty-1 ~]$ grep SYS /etc/login.defs
+> > SYS_UID_MIN               201
+> > SYS_UID_MAX               999
+> > SYS_GID_MIN               201
+> > SYS_GID_MAX               999
+> > 
+> > so I think we have our trigger. I have a simply patch to specify
+> > defaults in the recipe which I think should resolve this. I'll add
+> > it
+> > to master-next and see if that helps.
+> 
+> Looking at your patch in master-next, I believe you should set 
+> -Dsystem-alloc-uid-min and -Dsystem-alloc-gid-min to 101 rather than
+> 1 
+> to match what is in /etc/login.defs.
+
+Good point, I'll tweak accordingly, thanks.
+
+Cheers,
+
+Richard
+
