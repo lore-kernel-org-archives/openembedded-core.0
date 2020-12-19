@@ -1,91 +1,88 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web08.7631.1608377505724722622
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web08.8486.1608383059317007263
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Dec 2020 03:31:46 -0800
+ Sat, 19 Dec 2020 05:04:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YsaC7Tbr;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id n16so7454873wmc.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 03:31:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eqZilvr6;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id h22so3051580lfu.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 05:04:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=qBL8S86wG/Lrgnas6UXGE75XzT9LiwDLZoel3ypJRuE=;
-        b=YsaC7Tbr2MBfw1dMoxzcBo/yn+t7mep/CuC2i1H3x5yOtr0zCeoZLbCx0N/SjhyHKf
-         G6R+V1MkF1KXYb6LU4lUlZBWMkUskW3JmJPPEA+tL3DABof/rLR41ZYw+gQabRkXzV6m
-         wcXQFltxakXKN8SgQ0llbXZlrUuFAXKX/EaWw=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cWD8krhP+2ERISbVbHZzIHPuVtOYKmcVJYvo6zAnppA=;
+        b=eqZilvr6Va68ttCRaHg487EJdoQatA7JaP7L4vvmkGUrA8D9JAJ5V3wwoflTeIW8/R
+         ELrqL+IYhVVA+z8+dZx5GMEzjdWVp+74kkI98x7sODQW5Jzpa3Ne/TwXn7LZ8mOC2vlN
+         Md76tGlb6cY/kVa9ne2XM+rw3HQ+ofNxRNEWTqTjC8DVP1PD5kS8Nr3Al183vzJQuAUT
+         WXEAz7Sq44O0QaOTpgSdmvaYvNDAQW3rBSKYmbDhrLJ2YcNmnQO5tHqMvwfuW24bVIKH
+         eg7zlRAM3SrsAr0Mqy7Y/ZRmozUJRpbKuzR2dLSMvfeglFhTKmPxIRVfqJaxADeNW+3q
+         ghqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qBL8S86wG/Lrgnas6UXGE75XzT9LiwDLZoel3ypJRuE=;
-        b=drI5peF96SS0VuzjMZt3mhqhFtD2ExAwvwaNKYgI5Lt4QpJHH2VyJBneuCnXX/D8ay
-         HsKveI8qEKo2shpuHRI92S3dQBJtMw9byira721DuTr21yqymdtGcMRV6W7YQg1ygC7T
-         T1ejzU0CtvVZl9dBN2n0mBGL/CXIRBM722nhxcpjAJIIj74NLSd75NEQGnJ5sUBgGkCm
-         N1bZkeX/1NQSwFUclsbMqOard68MieEj5hZMf/X8vbkDhocdLSKx3D78wBXwzvkqj0P7
-         L8eDOW1CmHspe0nOpYEmJMMoE/Nn8BmMxwEd40TrX4JLtmn9UFRAx491TSzJ1XDMcqcG
-         M26g==
-X-Gm-Message-State: AOAM530HIra3brrUXXmG1B91npjTXdZshuLj6dKaxC8YrO8kYWp+3SQw
-	UrwJOBxZRC3L49aoxKPHN/7tQQ==
-X-Google-Smtp-Source: ABdhPJzsCm5EPNr/YdtGFSY+xOLWeYAWYE2PW+RUq0cJwCZmW5PnkL0Yzo+pRw0zriEEQTF9SCcBVg==
-X-Received: by 2002:a1c:7201:: with SMTP id n1mr7846275wmc.139.1608377504102;
-        Sat, 19 Dec 2020 03:31:44 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (4.4.0.a.d.7.7.1.7.c.4.b.2.1.9.0.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:912:b4c7:177d:a044])
-        by smtp.gmail.com with ESMTPSA id l11sm18185076wrt.23.2020.12.19.03.31.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cWD8krhP+2ERISbVbHZzIHPuVtOYKmcVJYvo6zAnppA=;
+        b=pggVGWR+I7YWFmHWLlsGT8KT0ugnJppQ0rhFMiHMeQgUuquPgAjigiLwp5GprfF3TF
+         Jt/QjeCwnUwu+0QkQbiR4unPwsgR0KQfAy5HiGX0K4HdQPqe2eMGwqebwmgwV8ZiryZs
+         xKaHR/iP33YuF4KtdaQhmiDoaYjUWCkFdPcqXITlsZVK7GPN3BEQM9v1LTq7pnL0FlCD
+         JrDa+2oUBAyurT+roYr3djPsK5b1D18Of/tF7Q2c5VPZTIr6ALDJQ0IXqNM1maRMG0gZ
+         DlcURWg+g4Tg3m+FovA+tbh5me9JEiharBz/yJMshvpMLYuR/dSqQDEYlL2HtUpspxm3
+         w8ow==
+X-Gm-Message-State: AOAM533Oglj+gDQqn2g0fqZkHs69zL4FKO2K0kt7b6cwLG4ILtKlBBKF
+	1d2iz/Ze+o5wUw3gcML/Xlbdl9mE7s+uJw==
+X-Google-Smtp-Source: ABdhPJwObl2VUj5I8c0dXqfp5gtoJQpvdNEhs/gXL+R2doidmxfyqCwjS5i+el+5C6OEtzGn2GuW/Q==
+X-Received: by 2002:ac2:5486:: with SMTP id t6mr3466332lfk.265.1608383056966;
+        Sat, 19 Dec 2020 05:04:16 -0800 (PST)
+Return-Path: <dbaryshkov@gmail.com>
+Received: from umbar.lan ([94.25.228.250])
+        by smtp.gmail.com with ESMTPSA id u30sm1284646lfc.238.2020.12.19.05.04.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Dec 2020 03:31:43 -0800 (PST)
-Message-ID: <faff0743666a4ef199d2902a1611a83ee5c2a4a9.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/8] linux-yocto: consolidated pull requesrt
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: bruce.ashfield@gmail.com
-Cc: openembedded-core@lists.openembedded.org, Paul Eggleton
-	 <bluelightning@bluelightning.org>
-Date: Sat, 19 Dec 2020 11:31:43 +0000
-In-Reply-To: <cover.1607958349.git.bruce.ashfield@gmail.com>
-References: <cover.1607958349.git.bruce.ashfield@gmail.com>
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Sat, 19 Dec 2020 05:04:16 -0800 (PST)
+From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Subject: [PATCH 1/2] linux-firmware: upgrade 20201118 -> 20201218
+Date: Sat, 19 Dec 2020 16:04:14 +0300
+Message-Id: <20201219130415.99713-1-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Bruce,
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-On Mon, 2020-12-14 at 10:09 -0500, bruce.ashfield@gmail.com wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> 
-> 5.10 dropped this morning, so I'm switching over to the libc-headers
-> and reference kernel upgrade (5.4 and 5.10 will be in master, with
-> 5.8 being dropped).
-> 
-> But since that will take a bit to sort out, I wanted to send my queue
-> of patches for other fixes/versions.
-> 
-> I didn't pick up any issues with local testing, so hopefully this
-> won't
-> cause any problems.
-> 
-> I have the lttng-modules patch from a previous send repeated here,
-> since
-> it may be easier to take it as part of the bulk update. I checked
-> just a few minutes ago, and there isn't a new tagged version of the
-> modules yet, so we still need the backported patches for 5.10+
-> builds.
+License-Update: firmware versions/filenames
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ ...{linux-firmware_20201118.bb => linux-firmware_20201218.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201118.bb => linux-firmware_20201218.bb} (99%)
 
-I was able to merge part of the series but there were some warnings
-that came up:
-
-meta-intel:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/1020
-poky-tiny:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/3105
-
-so I've deferred the kernel tooling bit until we can figure these out.
-That means several other patches which depended on that also couldn't
-make it in.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
+index baac26c51053..bc9daa2d4e7e 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
+@@ -126,7 +126,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=ef221e03fc58f4d34a132b801dfa1d68 \
++                    file://WHENCE;md5=03f0fad70b8b557b56084e3090198021 \
+                     "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -198,7 +198,7 @@ PE = "1"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "863d5a31da725b856a917280d1e3014929b3bc3d4e6e5faecf530c13afb7e2b9"
++SRC_URI[sha256sum] = "a1cc1ff72c739f312b095df589e9fd639fc81c3f8f7966377ea35222dc94c04b"
+ 
+ inherit allarch
+ 
+-- 
+2.29.2
 
