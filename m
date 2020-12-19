@@ -1,82 +1,72 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
- by mx.groups.io with SMTP id smtpd.web12.11942.1608398693288921053
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web08.11962.1608398958675383735
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Dec 2020 09:24:53 -0800
+ Sat, 19 Dec 2020 09:29:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fRQztJcW;
- spf=pass (domain: gmail.com, ip: 209.85.222.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f174.google.com with SMTP id w79so5209588qkb.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 09:24:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uRAQ8pXx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id d17so7769423ejy.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Dec 2020 09:29:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=slyWN9wD32KCl/4AuweNYToL2dq2Z/F9QN0AuNN0828=;
-        b=fRQztJcWn+PO4zrRz5A3OdBzI7XuMTdcKYz3QnsgC0XhA3sXdhEUuKcCvr5dfA+d5K
-         +UwWXMbI2VTDjzYv5yEJn9+fl3WSmoQBtcGSVG0g8Ifdggj77nMPX+JhUM/XbqKr5nhI
-         KzMTBmb5J6K7StQFZzaOlcDzX+F8CuTei4B894wOwgku+fsMXxg7nY0eP8SghcWnOn7A
-         u1+woiIqc2mAbz35LngXPBzylMB31Ja7v2s16V3EGPBg59mkRZl4/didwGblt3JwyCv2
-         +lbqonsxZZQF7/QrPV7r3nr6cztrAuodq64OX4uvM0spLx6pybw2zby/G7w4l6zTx9H4
-         xA3w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=M/cTTFS+MkA3C84s02lzcW6j6O7K9lJX2gjF995Cqjw=;
+        b=uRAQ8pXxjo+pPxr+tK3ec5Qi955+xZYYbYuigaMUzkDPZHaHvm04nrYEvZ1eZdLYL7
+         zJDotnuvOuPytz1e2oTrPE4g6rdqscKBO3q/WUFPFjOAzgIJtdJ9sKqMe9KFO+CXK1Cy
+         PsPvLPy7A6/x0rTc9J2Z2evuddkJ1BodTdmS8+Y0LgBkj6/TsGWH4h/DJmRMAaVZHC1V
+         CoK3JSEOgFVC6IP63EY4u1zzGbIjDxqj1C4i2b67cMKEzFr0CJB4Vm7YH6Vm2lumPeVF
+         i11/uZ8wPXbqCYS/TL7PZGc0IuR0OcVSE9VCGm3UEES0TJ8Ch8Z2FVF76vN5lfgk5NNB
+         HHJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=slyWN9wD32KCl/4AuweNYToL2dq2Z/F9QN0AuNN0828=;
-        b=UOFLfTEJ++69ZeoTSLpcZeX1uBf1dXOKqxIJIKtQ8PWMp6guqaPlo8t3VwpbY1rLnG
-         SJ2oX1/H0/L3udNcwYxZHBcvbFpeOZzPICmLoyaWoaiO/0TYZVFK1A0w8L85vXMTuyC8
-         yF9l4sh2COlxURC473Mjw9/LCtbpIYjkLWFmZ+XSR444O1rIud7kXfKceRQxsK4xun+P
-         76iwuA2OE+5zLUrWp3ayukvd+MS2ji3j7Q2Gy5eggiSM26znHzQo1tHldyBRFqwhCP8X
-         96O7HaMELYkQUGDvj7ndZqWYAWJbqTpnIShZPnwpsCsXCwZl5PBcIoPdAu0OKC07o9Nv
-         8kkQ==
-X-Gm-Message-State: AOAM530EmDnXVBXa/UGwVYbB76hXDv1Ss5KkhUVtVSYPZRcNGHbCBH7P
-	PbZNMFdBtST02STBykqj5CWE7L3xvtAIRbdWIx8=
-X-Google-Smtp-Source: ABdhPJxBDgR0ZQu7Tx33h8LecEWU2bIqsPkfRnccWjCoCHl8CPfnR5HWi45q1v9UGLsHFhfxPoxWPqe6F5CLbID39QQ=
-X-Received: by 2002:a37:6189:: with SMTP id v131mr10483168qkb.337.1608398692309;
- Sat, 19 Dec 2020 09:24:52 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=M/cTTFS+MkA3C84s02lzcW6j6O7K9lJX2gjF995Cqjw=;
+        b=U9zS9pCYev/dTcPO3lJulICVlz2bgA9plc3B6japkgqo2R5UzlgGiVe1XF4RyY+NJh
+         DXyHXPTHPYvcuYeCGtci+dHy0w76yASAqe8jlxKYLRhpS1VpLsrKQsQfZAl4LD5/zK+y
+         FXa65ApxXRNHVCeglqztu6lyMokyPFf5NZ7Uz8sht8soDmF5fA1Mb7iMG62bwF8qW8mW
+         fRHPJ/KOJmcPfyycqR+hi1xwA7KbsdvbnPhPrPPCKAuqhY5aPkVo5I72Xyv6Cvk+eZfh
+         /cpsQTFtI3I0sugOGQDZJ9c8BVWXwQO/ubglNY8fzpfr4Dv7uHZXYsIUTGA4jv3uX28c
+         vaSA==
+X-Gm-Message-State: AOAM530vgoiGfomZhqOnmGADnlVf3Y2eKUydq0L1U4fzTVdx2iVDyzNO
+	u2XBmTEaNxM0rfwthwq560JIKPi+N4g=
+X-Google-Smtp-Source: ABdhPJzzCKU23rIal2318itlHwGU9RbT1V2EG2BLiYTl/XSUM70s4Y1na1/b3nhKdyT8laN/YLlLDQ==
+X-Received: by 2002:a17:906:d9cf:: with SMTP id qk15mr9510086ejb.453.1608398957283;
+        Sat, 19 Dec 2020 09:29:17 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
+        by smtp.gmail.com with ESMTPSA id v16sm25995447eds.64.2020.12.19.09.29.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Dec 2020 09:29:16 -0800 (PST)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] oeqa/ptest: print a warning if ptests failed
+Date: Sat, 19 Dec 2020 18:29:08 +0100
+Message-Id: <20201219172908.7338-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20201217192738.14311-1-tanuk@iki.fi>
-In-Reply-To: <20201217192738.14311-1-tanuk@iki.fi>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sat, 19 Dec 2020 09:24:26 -0800
-Message-ID: <CAMKF1soQmWKFmpaEkcE7E_as0iKDS01e8mwTiGLKYSSQ3_x5bQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/4] pulseaudio: Autotools to Meson
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 17, 2020 at 11:28 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
->
-> The PulseAudio project plans to drop Autotools support in 15.0, so let's
-> switch to Meson. The first patch removes OE_LT_RPATH_ALLOW, which is
-> some old cruft that sounds like it has something to do Libtool, so it's
-> perhaps relevant for the goal of dropping Autotools. The next two
-> patches disable features that aren't available with Meson. The last
-> patch does the build system switch.
->
-> Tanu Kaskinen (4):
->   pulseaudio: Remove OE_LT_RPATH_ALLOW
->   pulseaudio: disable EsounD support
->   pulseaudio: disable GConf support
->   pulseaudio: switch build system from Autotools to Meson
+This allows spotting ptest regressions without having hard ptest failures
+(for that full ptest stability should be achieved).
 
-I am seeing build failures with this patch series while using clang
-for compiler see.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/lib/oeqa/runtime/cases/ptest.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-https://errors.yoctoproject.org/Errors/Details/539474/
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index a9572c81f0..0800f3c27f 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -108,4 +108,5 @@ class PtestRunnerTest(OERuntimeTestCase):
+             failmsg = failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
+ 
+         if failmsg:
++            self.logger.warning("There were failing ptests.")
+             self.fail(failmsg)
+-- 
+2.29.2
 
-
-
->
->  .../pulseaudio/pulseaudio.inc                 | 69 ++++++++-----------
->  ...-option-for-enabling-disabling-Valgr.patch | 67 ++++++++++++++++++
->  .../pulseaudio/pulseaudio_14.0.bb             |  1 +
->  3 files changed, 97 insertions(+), 40 deletions(-)
->  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-build-sys-Add-an-option-for-enabling-disabling-Valgr.patch
->
-> --
-> 2.20.1
->
->
-> 
->
