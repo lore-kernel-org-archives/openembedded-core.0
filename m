@@ -1,102 +1,97 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web12.3537.1608344628460814509
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web10.3687.1608344629781055515
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Dec 2020 18:23:48 -0800
+ Fri, 18 Dec 2020 18:23:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b2uM/p1P;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id c22so2445469pgg.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 18:23:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jLjupuir;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id r4so2362988pls.11
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Dec 2020 18:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OCc+rs5hIxh8TGRoum7HW0HjSSqrBQIUkIvcUJ0Fw1c=;
-        b=b2uM/p1P1OoTnt8Q2zV/45u0xN9WnuVaxINeIivRiWSRD0pL42ArAnhAhFvZ2DdVNx
-         O3UFkcQ6dIHd46w6368zUDoHM53Xpz+Dfrx0tl33OmBfvMvZMFh0YkYcatJQUxEyiJ5p
-         nOG5gqw2E2QffseZjWQL4UWKgYj71+9m/sFk0MrOAH0QuWGTI3Ea7gYOsHyK36LFeJtD
-         FkZ3jjV69ehtQkCie7mM2XwMqEpO9UEiTNyW4/RUeMXYkNARgnkCPJy3/WknL0hXbmHE
-         PbQBwFzQxVvIeYmBDVzoUVvcSwrZbVyBhokjTqg4FzHu79FkAnJsdmddu7y/YVixrNJt
-         Y6RA==
+        bh=TUGE/LfN8lBxVLS9eRS35690cUWNo67ij28TgQRkk7M=;
+        b=jLjupuirUUP/ohwk0PJCVAQzNBaepcN2Ax7nFVB3OouPMwSmsGLKk9XYV/DYAxcq9j
+         JZFTxJMUdS+BF0Ik7zM+fWgFC6PYVMpYa3uU5S8UxNK9q5I7CNza5iySJY+Z3YXsEvG0
+         47vV1h7fzTU0j2S7rv+Z1eAPvZfsWUVKQhJg1aVEcrQG1ddRc+LhMEQvMJk+zqINOVsP
+         N8QFywuqzOjmlcdGGGeV95flecaKQs36owcyzIHTmFD2cpQ2uijdn+ZyH71GUcXhfICF
+         qZFgxIo3CfIgPg8404/xjAMFp7RLQHwK96uxpuDJgKZkL3a6l6kCGBd+t6edPmuntSuh
+         Cyng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OCc+rs5hIxh8TGRoum7HW0HjSSqrBQIUkIvcUJ0Fw1c=;
-        b=Noq+aQUwAPHmwTZOY6LTUuWVRUZAfX2zYarn3U/gCQvYHbVAI1GFF2NVx2gxBQAwEk
-         WpIpOBc3A0gDYV62hpY9meyG1oeS+w63J7MKUjYWswESNifZMeRYCWGLmnzXzn6ZNs0b
-         tY6fr9+MFrnT0jg1FbYADfMX/HCwVx3YBSO/QvJFVS98GMgC30TrEILNWGSyMCxWplqv
-         OqMlEZoIChSm3cUHiIcVqFgFp9IsCmlROM4int59RBBibzLH7kzZBbH0vSpDRxJECE9V
-         ViPC9UlOdKrDU1oKCl1D9zuc9kb4rW6wQblunLYdauXeifk398gGgsTbb8jHQekUe+3E
-         PbqA==
-X-Gm-Message-State: AOAM53164+zy9buzD8cYRpxfHst6k+1yqId6dYMFYOG0VNcPShbQx7qp
-	kZT/+KGSG/PdkpP5+NqZjZVAadfx8USydg==
-X-Google-Smtp-Source: ABdhPJy2eMj+aZJw+lM91AN0x77yuCRpL/jDP9MVOAnhJccxlyIi0dlkq/CPRah29w7k0bXUeyZRlQ==
-X-Received: by 2002:a63:4f4c:: with SMTP id p12mr6538599pgl.432.1608344627825;
-        Fri, 18 Dec 2020 18:23:47 -0800 (PST)
+        bh=TUGE/LfN8lBxVLS9eRS35690cUWNo67ij28TgQRkk7M=;
+        b=T+7v7f6clXj4cQf7OXNYhdFu2x/SdPPvUc9QLVXxDjcaDULGHfLvTbg0F+Z4NxysV8
+         fTVFQnEm2HE3Hy0X4TpdK6EYhMbTDooUwvaxb+qziZnpnyTlb2iYRYVbvHH76LBZVDBp
+         l58yiDMY6wS2tOfiDwQ7eu2f5Y24bMAwzGs+2rqrl42e5gNe3cvNXsiGVp/qDcEFLJ6V
+         I3uEDCeFZ1KtWdcmLo34ryKGqNgtvm/4FIh3UZcwpFEwgu7nu/otl3Td1xVpDRD2GKIv
+         DTzc8ws3xeIdidXdF7UPk0HwB8JXMn9xTmGYtR/dDdP8E/SutVFZN7b+nv5p389Z00d7
+         q4BA==
+X-Gm-Message-State: AOAM530QX1FsLXmVwvxLJ6Q7VmyKazzVEpyFrjlYNCkwaDUt4IMl0UTq
+	6+qUxijxxFEszbjLMXfixsdGsBTjMQFerA==
+X-Google-Smtp-Source: ABdhPJyg8Ri0IKE+l7/kzqIbuI4Y8YGBZAiy4Bv32jZOULdpwEJkDPF33BpsrLQx+lLzYy9ZQIfDbA==
+X-Received: by 2002:a17:90b:1c0d:: with SMTP id oc13mr6883060pjb.113.1608344628884;
+        Fri, 18 Dec 2020 18:23:48 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::9ac9])
-        by smtp.gmail.com with ESMTPSA id s7sm9936514pfh.207.2020.12.18.18.23.46
+        by smtp.gmail.com with ESMTPSA id s7sm9936514pfh.207.2020.12.18.18.23.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Dec 2020 18:23:47 -0800 (PST)
+        Fri, 18 Dec 2020 18:23:48 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Sinan Kaya <okaya@kernel.org>
-Subject: [PATCH v2 2/3] initscripts: Use initctl on sysvinit only
-Date: Fri, 18 Dec 2020 18:23:42 -0800
-Message-Id: <20201219022343.3362531-2-raj.khem@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 3/3] busybox: Sync rcS.default with sysvinit
+Date: Fri, 18 Dec 2020 18:23:43 -0800
+Message-Id: <20201219022343.3362531-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201219022343.3362531-1-raj.khem@gmail.com>
 References: <20201219022343.3362531-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check if init system is sysvinit to recreate initctl, this ensures that
-it can be used with busybox init system as well
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Sinan Kaya <okaya@kernel.org>
 ---
-v2: Use INIT_SYSTEM to identify init system
+ meta/recipes-core/busybox/files/rcS.default | 29 +++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
- .../initscripts/initscripts-1.0/mountall.sh   | 22 ++++++++++++-------
- 1 file changed, 14 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
-index c719be5d9a..2839d57cbe 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/mountall.sh
-@@ -19,15 +19,21 @@
- test "$VERBOSE" != no && echo "Mounting local filesystems..."
- mount -at nonfs,nosmbfs,noncpfs 2>/dev/null
- 
--#
--# We might have mounted something over /dev, see if /dev/initctl is there.
--#
--if test ! -p /dev/initctl
--then
--	rm -f /dev/initctl
--	mknod -m 600 /dev/initctl p
+diff --git a/meta/recipes-core/busybox/files/rcS.default b/meta/recipes-core/busybox/files/rcS.default
+index 66513daf2d..44c9747e34 100644
+--- a/meta/recipes-core/busybox/files/rcS.default
++++ b/meta/recipes-core/busybox/files/rcS.default
+@@ -1,2 +1,31 @@
++#
++#	Defaults for the boot scripts in /etc/rcS.d
++#
 +
-+# We might have mounted something over /run; see if
-+# /dev/initctl is present.  Look for
-+# /sbin/init.sysvinit to verify that sysvinit (and
-+# not busybox or systemd) is installed as default init).
-+INITCTL="/dev/initctl"
-+if [ ! -p "$INITCTL" ] && [ "${INIT_SYSTEM}" = "sysvinit" ]; then
-+    # Create new control channel
-+		rm -f "$INITCTL"
-+		mknod -m 600 "$INITCTL" p
-+
-+		# Reopen control channel.
-+		PID="$(pidof -s /sbin/init || echo 1)"
-+		[ -n "$PID" ] && kill -s USR1 "$PID"
- fi
--kill -USR1 1
- 
- #
- # Execute swapon command again, in case we want to swap to
++# Time files in /tmp are kept in days.
++TMPTIME=0
++# Set to yes if you want sulogin to be spawned on bootup
++SULOGIN=no
++# Set to no if you want to be able to login over telnet/rlogin
++# before system startup is complete (as soon as inetd is started)
++DELAYLOGIN=no
++# Assume that the BIOS clock is set to UTC time (recommended)
++UTC=yes
++# Set VERBOSE to "no" if you would like a more quiet bootup.
++VERBOSE=no
++# Set EDITMOTD to "no" if you don't want /etc/motd to be edited automatically
++EDITMOTD=no
++# Whether to fsck root on boot
++ENABLE_ROOTFS_FSCK=no
++# Set FSCKFIX to "yes" if you want to add "-y" to the fsck at startup.
++FSCKFIX=yes
++# Set TICKADJ to the correct tick value for this specific machine
++#TICKADJ=10000
++# Enable caching in populate-volatile.sh
++VOLATILE_ENABLE_CACHE=yes
++# Indicate whether the rootfs is intended to be read-only or not.
++# Setting ROOTFS_READ_ONLY to yes and rebooting will give you a read-only rootfs.
++# Normally you should not change this value.
++ROOTFS_READ_ONLY=no
+ # Indicate init system type
+ INIT_SYSTEM=busybox
 -- 
 2.29.2
 
