@@ -1,98 +1,137 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web08.22924.1608466606247410881
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.23882.1608473713769413906
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 04:16:46 -0800
+ Sun, 20 Dec 2020 06:15:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WqfCq2dm;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id q75so7980263wme.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 04:16:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=soGB8331EZ1ktTwwTKp+9HGbWhOVPZzCcRTcE81DGT0=;
-        b=WqfCq2dmibaYHyf+akGsJSmp8myvyEMZjprIFK2qVzOEpEc5y+WpweOio7w7MSjwRh
-         P/EZJ7H55cmDjFanHmxtFdLhM6SwiXxTkW3SOInfAzTab1boEimlJo/iiTBcusudRnBI
-         UcwIuMTL1PsukiHeDaiiHkNLxQYKnEUHMnGyE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=soGB8331EZ1ktTwwTKp+9HGbWhOVPZzCcRTcE81DGT0=;
-        b=LHUkQnqaojrc/vSYHHVrCXwGXMc7vitcHuzf/pgF4tnrLPy8GcukPhlJGbZY35JmvD
-         sCqjQ3OvIIvayAYCjXiNgMXXq3h/PN1nJlsaNP1GLAC3C6Mk2r7eMBlr5E2Lrj6x57VH
-         24mpnUFJsx4dQscTrMrGl2a0shsVAz8zfiCeXdoNVWbx2NYdvDaIme31lczUW1sFFmPn
-         AEPcv7njRt1eJkdrRxzMy5eHPEdzAOjW9SmITAUWawiNKWgVhzEqUTPjHaif3Pegsdaw
-         2yMyIeWTS8d6o4HrykQgnc+Q14L0spFuW4dLWAAHH/3pcd06MBFE5BnBA6NY98ylAoVk
-         z+rQ==
-X-Gm-Message-State: AOAM532bHeea+lLX8qJzf1jnTIHUKmSnAX5+25nXW7X4EVBSUotm/giy
-	a9umNTCPAFnsFaDrKoZ3zt1WRNrgmiercw==
-X-Google-Smtp-Source: ABdhPJyNvHLDEq7zFndevlvivx3FKh3st+XjSaJMLUhNVml28y2HOqw5kchx3md37qQF6A36ZOQ4dA==
-X-Received: by 2002:a7b:cb54:: with SMTP id v20mr5592713wmj.148.1608466604402;
-        Sun, 20 Dec 2020 04:16:44 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (6.6.5.9.1.e.9.f.7.4.3.6.0.6.1.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:e160:6347:f9e1:9566])
-        by smtp.gmail.com with ESMTPSA id q1sm21305123wrj.8.2020.12.20.04.16.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Dec 2020 04:16:43 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] u-boot-tools: Fix reproducibility issue
-Date: Sun, 20 Dec 2020 12:16:43 +0000
-Message-Id: <20201220121643.9496-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
+	by mail.yoctoproject.org (Postfix) with ESMTP id 5DA1338C1314
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:13 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@auh.yoctoproject.org
+To: Armin Kuster <akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] kea: upgrading to 1.8.2 SUCCEEDED
+Message-ID: <MADEUP.1652725219C62A57.28097@lists.openembedded.org>
+X-Groupsio-MsgNum: 145917
+Content-Type: multipart/mixed; boundary="===============7425533695182418050=="
 
-If you build on a system with git < 2.14 from scratch (e.g. debian9), the
-tree will be marked as "dirty" and the version will include "-dirty", leading
-to a reproducibility problem. The issue is the inode count for Licnses/README
-changing due to do_populate_lic hardlinking a copy of the file. We avoid
-this by ensuring the index is updated with a "git diff" before the
-u-boot machinery tries to determine the version.
+--===============7425533695182418050==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-build$ ../git/scripts/setlocalversion ../git
-""
-build$ ln ../git/
-build$ ln ../git/README ../foo
-build$ ../git/scripts/setlocalversion ../git
-""-dirty
+Hello,
 
-(i.e. creating a hardlink dirties the index)
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe *kea* to *1.8.2* has Succeeded.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Next steps:
+    - apply the patch: git am 0001-kea-upgrade-1.8.1-1.8.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+--===============7425533695182418050==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/kea/kea-dbg: PKGSIZE changed from 259214548 to 259215356 (+0%)
+packages/core2-32-poky-linux/kea/kea-dbg: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17 /usr/lib/libkea-hooks.so.17.0.0"
+packages/core2-32-poky-linux/kea/kea-dbg: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea/kea-dbg: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17 /usr/lib/libkea-hooks.so.17.0.0"
+packages/core2-32-poky-linux/kea/kea-dev: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea/kea-dev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/kea/kea-doc: PKGSIZE changed from 894379 to 895017 (+0%)
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17 /usr/lib/libkea-hooks.so.17.0.0"
+packages/core2-32-poky-linux/kea/kea-doc: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea/kea-doc: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17 /usr/lib/libkea-hooks.so.17.0.0"
+packages/core2-32-poky-linux/kea/kea-locale: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea/kea-locale: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/kea/kea-src: PKGSIZE changed from 8224585 to 8224586 (+0%)
+packages/core2-32-poky-linux/kea/kea-src: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17 /usr/lib/libkea-hooks.so.17.0.0"
+packages/core2-32-poky-linux/kea/kea-src: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea/kea-src: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17 /usr/lib/libkea-hooks.so.17.0.0"
+packages/core2-32-poky-linux/kea/kea-staticdev: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea/kea-staticdev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17 /usr/lib/libkea-hooks.so.17.0.0"
+packages/core2-32-poky-linux/kea/kea: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea/kea: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+packages/core2-32-poky-linux/kea: PV changed from "1.8.1" to "1.8.2"
+packages/core2-32-poky-linux/kea: SRC_URI changed from "http://ftp.isc.org/isc/kea/1.8.1/kea-1.8.1.tar.gz file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch" to "http://ftp.isc.org/isc/kea/1.8.2/kea-1.8.2.tar.gz file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch file://kea-dhcp4.service file://kea-dhcp6.service file://kea-dhcp-ddns.service file://kea-dhcp4-server file://kea-dhcp6-server file://kea-dhcp-ddns-server file://fix-multilib-conflict.patch file://fix_pid_keactrl.patch file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch"
+packages/core2-32-poky-linux/kea: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.16.0.0 to libkea-hooks.so.17.0.0
+  /usr/lib/libkea-hooks.so.16.0.0 moved to /usr/lib/libkea-hooks.so.17.0.0
+  /usr/lib/libkea-hooks.so.16 moved to /usr/lib/libkea-hooks.so.17
+
+--===============7425533695182418050==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="0001-kea-upgrade-1.8.1-1.8.2.patch"
+
+From eea092157a50361cc43b1b8165099d7d49ded380 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sat, 19 Dec 2020 21:15:27 +0000
+Subject: [PATCH] kea: upgrade 1.8.1 -> 1.8.2
+
 ---
- meta/recipes-bsp/u-boot/u-boot-tools.inc | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/recipes-connectivity/kea/{kea_1.8.1.bb => kea_1.8.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/kea/{kea_1.8.1.bb => kea_1.8.2.bb} (97%)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-index 8ae290acc61..4ed936a70d3 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-@@ -23,6 +23,21 @@ SED_CONFIG_EFI_armeb = ''
- SED_CONFIG_EFI_aarch64 = ''
+diff --git a/meta/recipes-connectivity/kea/kea_1.8.1.bb b/meta/recipes-connectivity/kea/kea_1.8.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/kea/kea_1.8.1.bb
+rename to meta/recipes-connectivity/kea/kea_1.8.2.bb
+index 3a2ccf5c1f..3dc4f6af70 100644
+--- a/meta/recipes-connectivity/kea/kea_1.8.1.bb
++++ b/meta/recipes-connectivity/kea/kea_1.8.2.bb
+@@ -19,7 +19,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
+            file://fix_pid_keactrl.patch \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+            "
+-SRC_URI[sha256sum] = "52020cb16889484b661746d7fc4c7cd88974b1af5b7fc436eb6e69c62eb83734"
++SRC_URI[sha256sum] = "486ca7abedb9d6fdf8e4344ad8688d1171f2ef0f5506d118988aadeae80a1d39"
  
- do_compile () {
-+	# Yes, this is crazy. If you build on a system with git < 2.14 from scratch, the tree will
-+	# be marked as "dirty" and the version will include "-dirty", leading to a reproducibility problem.
-+	# The issue is the inode count for Licnses/README changing due to do_populate_lic hardlinking a
-+	# copy of the file. We avoid this by ensuring the index is updated with a "git diff" before the
-+	# u-boot machinery tries to determine the version.
-+	#
-+	# build$ ../git/scripts/setlocalversion ../git
-+	# ""
-+	# build$ ln ../git/
-+	# build$ ln ../git/README ../foo
-+	# build$ ../git/scripts/setlocalversion ../git
-+	# ""-dirty
-+	# (i.e. creating a hardlink dirties the index)
-+	cd ${S}; git diff; cd ${B}
-+
- 	oe_runmake -C ${S} sandbox_defconfig O=${B}
+ inherit autotools systemd update-rc.d upstream-version-is-even
  
- 	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
 -- 
-2.25.1
+2.20.1
 
+
+--===============7425533695182418050==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/kea/kea-dev: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17.0.0 /usr/lib/libkea-hooks.so.17"
+packages/core2-32-poky-linux/kea/kea-doc: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17.0.0 /usr/lib/libkea-hooks.so.17"
+packages/core2-32-poky-linux/kea/kea-locale: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17.0.0 /usr/lib/libkea-hooks.so.17"
+packages/core2-32-poky-linux/kea/kea-staticdev: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17.0.0 /usr/lib/libkea-hooks.so.17"
+packages/core2-32-poky-linux/kea/kea: FILELIST: removed "/usr/lib/libkea-hooks.so.16 /usr/lib/libkea-hooks.so.16.0.0", added "/usr/lib/libkea-hooks.so.17.0.0 /usr/lib/libkea-hooks.so.17"
+Changes to packages/core2-32-poky-linux/kea (sysroot):
+  /usr/lib/libkea-hooks.so changed symlink target from libkea-hooks.so.16.0.0 to libkea-hooks.so.17.0.0
+  /usr/lib/libkea-hooks.so.16.0.0 moved to /usr/lib/libkea-hooks.so.17.0.0
+  /usr/lib/libkea-hooks.so.16 moved to /usr/lib/libkea-hooks.so.17
+
+--===============7425533695182418050==--
