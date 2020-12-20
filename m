@@ -1,21 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.23993.1608473714081492818
+ by mx.groups.io with SMTP id smtpd.web08.23992.1608473714053594195
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Dec 2020 06:15:14 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8ECC538C13A2
+	by mail.yoctoproject.org (Postfix) with ESMTP id 8BCB238C1377
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:13 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemd: upgrading to 247.2 FAILED
-Message-ID: <MADEUP.165272522CA3C340.18165@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============4847341021600290015=="
+Subject: [AUH] ovmf: upgrading to edk2-stable202011 FAILED
+Message-ID: <MADEUP.165272522B56BBB4.5278@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============1656299433490269380=="
 
---===============4847341021600290015==
+--===============1656299433490269380==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,18 +23,18 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemd* to *247.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *ovmf* to *edk2-stable202011* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe systemd failed.
+The following devtool command failed:  upgrade ovmf -V edk2-stable202011 -S 872f953262d68a11da7bc2fb3ded16df234b8700
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
-Loaded 1414 entries from dependency cache.
+Loaded 1413 entries from dependency cache.
 INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -58,30 +58,46 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-WARNING: Command 'git rebase 937118a5b2f27a7913c421ad76893cdda01c5566' failed:
-First, rewinding head to replay your work on top of it...
-Applying: network: wait for previous address removal before configuring static addresses
-Using index info to reconstruct a base tree...
-M	src/network/networkd-link.c
-M	src/network/networkd-link.h
-Falling back to patching base and 3-way merge...
-Auto-merging src/network/networkd-link.h
-Auto-merging src/network/networkd-link.c
-CONFLICT (content): Merge conflict in src/network/networkd-link.c
-error: Failed to merge in the changes.
-hint: Use 'git am --show-current-patch' to see the failed patch
-Patch failed at 0001 network: wait for previous address removal before configuring static addresses
+INFO: Fetching gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https...
+Loading cache...done.
+Loaded 1413 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 807 .bb files complete (805 cached, 2 parsed). 1414 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-203325fe75f4b3396a57bb38fe94bb72190a57f8"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:203325fe75f4b3396a57bb38fe94bb72190a57f8"
+workspace            = "master-next:afec39415be67b6985f0a0c3de041b4f302ffff3"
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/systemd
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/systemd/systemd_247.2.bb
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 334, in <module>
+    ret = main()
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/devtool", line 321, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 557, in upgrade
+    tinfoil, rd)
+  File "/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/upgrade.py", line 218, in _extract_new_source
+    md5 = checksums['md5sum']
+KeyError: 'md5sum'
 
 
 
@@ -91,4 +107,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============4847341021600290015==--
+--===============1656299433490269380==--
