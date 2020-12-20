@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.24455.1608473714802232770
+ by mx.groups.io with SMTP id smtpd.web08.23993.1608473714081492818
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 06:15:17 -0800
+ Sun, 20 Dec 2020 06:15:16 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D79FF38C1574
+	by mail.yoctoproject.org (Postfix) with ESMTP id C07F838C1454
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:15 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libusb1: upgrading to 1.0.24 SUCCEEDED
-Message-ID: <MADEUP.165272530044B147.27420@lists.openembedded.org>
-X-Groupsio-MsgNum: 145978
-Content-Type: multipart/mixed; boundary="===============8903842962288004922=="
+Subject: [AUH] diffoscope: upgrading to 163 SUCCEEDED
+Message-ID: <MADEUP.16527252D3507C75.28097@lists.openembedded.org>
+X-Groupsio-MsgNum: 145979
+Content-Type: multipart/mixed; boundary="===============4219065959960151112=="
 
---===============8903842962288004922==
+--===============4219065959960151112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libusb1* to *1.0.24* has Succeeded.
+that the automatic attempt to upgrade the recipe *diffoscope* to *163* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libusb1-upgrade-1.0.23-1.0.24.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-161-163.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,101 +44,110 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8903842962288004922==
+--===============4219065959960151112==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
+
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 807 .bb files complete (0 cached, 807 parsed). 1416 targets, 41 skipped, 0 masked, 0 errors.
+Removing 133 recipes from the core2-32 sysroot...done.
+Removing 137 recipes from the qemux86 sysroot...done.
+ERROR: Nothing PROVIDES 'diffoscope'
+diffoscope was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
+
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+--===============4219065959960151112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/libusb1: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1: SRC_URI changed from "https://downloads.sourceforge.net/libusb/libusb-1.0.23.tar.bz2 file://run-ptest" to "https://downloads.sourceforge.net/libusb/libusb-1.0.24.tar.bz2 file://run-ptest"
-packages/core2-32-poky-linux/libusb1/libusb1-dbg: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1-dbg: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1-dbg: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-dbg: PKGSIZE changed from 294964 to 308904 (+5%)
-packages/core2-32-poky-linux/libusb1/libusb1-dev: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1-dev: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1-dev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-dev: PKGSIZE changed from 74144 to 75583 (+2%)
-packages/core2-32-poky-linux/libusb1/libusb1-doc: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1-doc: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1-doc: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-locale: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1-locale: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1-locale: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-ptest: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1-ptest: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1-ptest: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-src: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1-src: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1-src: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-src: PKGSIZE changed from 505659 to 519585 (+3%)
-packages/core2-32-poky-linux/libusb1/libusb1-staticdev: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1-staticdev: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1-staticdev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
-packages/core2-32-poky-linux/libusb1/libusb1: PV changed from "1.0.23" to "1.0.24"
-packages/core2-32-poky-linux/libusb1/libusb1: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1: PKGSIZE changed from 116075 to 124267 (+7%)
-Changes to packages/core2-32-poky-linux/libusb1 (sysroot):
-  /lib/libusb-1.0.so.0 changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
-  /lib/libusb-1.0.so changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
-  /lib/libusb-1.0.so.0.2.0 moved to /lib/libusb-1.0.so.0.3.0
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 161 [default] to 163 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 161 [default] to 163 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 161 [default] to 163 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 161 [default] to 163 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-src: PKGV changed from 161 [default] to 163 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 161 [default] to 163 [default]
+packages/core2-32-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 919459 to 923908 (+0%)
+packages/core2-32-poky-linux/diffoscope/diffoscope: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope: PKGV changed from 161 [default] to 163 [default]
+packages/core2-32-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-161.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-163.tar.gz"
+packages/core2-32-poky-linux/diffoscope: PV changed from "161" to "163"
+packages/core2-32-poky-linux/diffoscope: PKGV changed from 161 [default] to 163 [default]
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py was added
 
---===============8903842962288004922==
+--===============4219065959960151112==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-libusb1-upgrade-1.0.23-1.0.24.patch"
+ filename="0001-diffoscope-upgrade-161-163.patch"
 
-From b5e16114c2ce1f61be362b4c2cfb32401c98e309 Mon Sep 17 00:00:00 2001
+From 0c848c328098aed30ca34ec8dec4224ae08ef7ff Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 20 Dec 2020 13:52:47 +0000
-Subject: [PATCH] libusb1: upgrade 1.0.23 -> 1.0.24
+Date: Sun, 20 Dec 2020 13:13:27 +0000
+Subject: [PATCH] diffoscope: upgrade 161 -> 163
 
 ---
- .../libusb/{libusb1_1.0.23.bb => libusb1_1.0.24.bb}            | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-support/libusb/{libusb1_1.0.23.bb => libusb1_1.0.24.bb} (90%)
+ .../diffoscope/{diffoscope_161.bb => diffoscope_163.bb}         | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_161.bb => diffoscope_163.bb} (83%)
 
-diff --git a/meta/recipes-support/libusb/libusb1_1.0.23.bb b/meta/recipes-support/libusb/libusb1_1.0.24.bb
-similarity index 90%
-rename from meta/recipes-support/libusb/libusb1_1.0.23.bb
-rename to meta/recipes-support/libusb/libusb1_1.0.24.bb
-index 2fd658b4ef..4c552ae6c7 100644
---- a/meta/recipes-support/libusb/libusb1_1.0.23.bb
-+++ b/meta/recipes-support/libusb/libusb1_1.0.24.bb
-@@ -12,8 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
-            file://run-ptest \
-           "
+diff --git a/meta/recipes-support/diffoscope/diffoscope_161.bb b/meta/recipes-support/diffoscope/diffoscope_163.bb
+similarity index 83%
+rename from meta/recipes-support/diffoscope/diffoscope_161.bb
+rename to meta/recipes-support/diffoscope/diffoscope_163.bb
+index 0f566a3ec7..2b66d628fd 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_161.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_163.bb
+@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
  
--SRC_URI[md5sum] = "be79ed4a4a440169deec8beaac6aae33"
--SRC_URI[sha256sum] = "4fc17b2ef3502757641bf8fe2c14ad86ec86302a2b785abcb0806fd03aa1201f"
-+SRC_URI[sha256sum] = "7efd2685f7b327326dcfb85cee426d9b871fd70e22caa15bb68d595ce2a2b12a"
+ inherit pypi setuptools3
  
- S = "${WORKDIR}/libusb-${PV}"
+-SRC_URI[sha256sum] = "9c27d60a7bf3984b53c8af3fee86eb3d3e2292c4ddb9449c38b6cba068b8e22c"
++SRC_URI[sha256sum] = "1afeea6e383bdd2626a9e9b827ff487723c0de581d9f9f4d4f5fc9b65728662a"
+ 
+ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
  
 -- 
 2.20.1
 
 
---===============8903842962288004922==
+--===============4219065959960151112==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/libusb1/libusb1-dev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-doc: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-locale: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-ptest: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1-staticdev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-packages/core2-32-poky-linux/libusb1/libusb1: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
-Changes to packages/core2-32-poky-linux/libusb1 (sysroot):
-  /lib/libusb-1.0.so.0 changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
-  /lib/libusb-1.0.so changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
-  /lib/libusb-1.0.so.0.2.0 moved to /lib/libusb-1.0.so.0.3.0
+packages/core2-32-poky-linux/diffoscope/diffoscope-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+packages/core2-32-poky-linux/diffoscope/diffoscope: FILELIST: directory renamed /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info -> /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py"
+Changes to packages/core2-32-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.9/site-packages/diffoscope-161-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/diffoscope-163-py3.9.egg-info
+  /usr/lib/python3.9/site-packages/diffoscope/comparators/__pycache__/uimage.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/diffoscope/comparators/uimage.py was added
 
---===============8903842962288004922==--
+--===============4219065959960151112==--
