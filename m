@@ -1,90 +1,163 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web08.24344.1608475871736204620
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.25233.1608480340850998391
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 06:51:12 -0800
+ Sun, 20 Dec 2020 08:05:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TVoB0hDp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f52.google.com with SMTP id q18so8145877wrn.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 06:51:11 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OM/6LAsU;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id b5so5045554pjk.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 08:05:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=g82/m5EiBgeMUgtA9gbwlFfpeCuyW0Yk7lNCSZj+dgw=;
-        b=TVoB0hDp8DJnCIq+TDL0f0CB2Se44aQZ0tlWiRMimrIrcr4mg6lti5zHk5uPd/CWJ5
-         6PnNOLFDWC1Lue4LfKxz27DZlmUWqoOdAUcWoFIvXbo57WnNk1wKcstaR8Hz/tRnt6p/
-         F8JFaRgSTWiQf9C/utMya1iEdGzDRf7DPC1eE=
+        bh=I9t5NUx7m91oObS5KaNjfWc9WjiXPl8Tip0Y/ZuphpU=;
+        b=OM/6LAsUty0RJrtu7+DTkKWHOfu3g1JV1OOi+7ULDb+U/PZNkRveSlf/BGi0ysmDr+
+         1FepoV4B1HopFYpl44K1LBb1P7DKsIaH3EZ3JFTRI9Ma8CPosQOM/+T3HGVTGQV7RAPr
+         wBXxVAxXg6wDjsKqohYOEQRY54mVR8qsbvvJobG8ClL7EVbscPdl6lgNdWLjbsL0IPkA
+         XpjjhlAqlc+1ZISTfXFzee67FzEAn6WFaEgv+A/ZB/mFVLvOs8KfusyvI/Y77gwBzmqn
+         mZI0uHfr+tlsiWlF/9rUfGdizZb2eHBL7T6j2+ciB5GIecxliddLMtTIukCRCcsghcB/
+         rMMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=g82/m5EiBgeMUgtA9gbwlFfpeCuyW0Yk7lNCSZj+dgw=;
-        b=Rr7mFVkGCTlmUdqEHy5wJQtanty3RwpBIpQDIDTnrl+phTx8U0RXwf7RTl/VqoTAbf
-         NS2u+nNLpH9+v7XBfMjYv7QwA0AJ7crgtaQqNUqB4fTNVaoHyYAUcBZ5W/K/9eCPcrJ1
-         LDmZ7cvSI4ZzxHvI7MIVCRZqLPuiFDXhcXKSKFYNNW18XFEO3HvEnGKH/OQ145hyyslP
-         jytrKe6g4BapR+xM04/QBuRv3+T1bey0EdSsebPS5IuJyavbbNJ4Ypoh1nCYjNgJkGFC
-         WJCQvjFheOwKAqrjwV5pJLQxOKQfauKzxFYCEZAEycs6vAa/ytBQtjCagDRwfez12WqP
-         GLPw==
-X-Gm-Message-State: AOAM531RvWwvIerFKK5xrgdK6ijwbbPKTiJO84wn2P2mok/w6VIVZ9wD
-	MrSpUAAqNg7TtBIJT/kxCfWGQ4BaaygqLg==
-X-Google-Smtp-Source: ABdhPJzAbP4NTopLNFWTKFpYzTEDO87FoklgBF0yTMiMRpwq6pDDLsoc/SA0ECOtW01zAoMtY8JCzg==
-X-Received: by 2002:a5d:4a44:: with SMTP id v4mr14400919wrs.106.1608475870086;
-        Sun, 20 Dec 2020 06:51:10 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (6.6.5.9.1.e.9.f.7.4.3.6.0.6.1.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:e160:6347:f9e1:9566])
-        by smtp.gmail.com with ESMTPSA id b10sm20012603wmj.5.2020.12.20.06.51.09
-        for <openembedded-core@lists.openembedded.org>
+        bh=I9t5NUx7m91oObS5KaNjfWc9WjiXPl8Tip0Y/ZuphpU=;
+        b=LXhgBtFFITXIktVzM1ra4tnnzmdD6ybao75VoMqe01kPTh6z94LwkEwZjTkzqlrpkp
+         SDNGTgNnio9WBdjIP7bYojqyqxadtZ8QfnGHvX09VxY0rLySugo4qZqcMwk8E+WivYcD
+         ApWAoWEsUPhBE/M4wHhkOq02WSE5x3cnPlx7zd79nBWtZiDVqHm0b8plKpyXHPSRIoH5
+         fSB4urHQVljjsRBMPErjrrlW9BC+J6IE3hcLbrZQ/DCpsnTicXtlfhErlG2k6trmpdOH
+         4O1swORtuXuZysoM3W/g3HA9zDn+5FH9iXRijIPztD9oYDrAi1l3h3CF+1SuYNvQndaj
+         xK5A==
+X-Gm-Message-State: AOAM533t8hTtT1Qx2Ji7sBWefQyI4pQclDFYEyCXTeuJKgM0QYHD/MRx
+	hDQX/D2E0KLJHkvRk93yAiwXE2ZDjZsCQg==
+X-Google-Smtp-Source: ABdhPJxr3jWeQO9xLhsIjqeP9Gm7T7xgqoB2CyjpPzPm2Pfsv60DmquT0VS5mcEnCggVjSxD8BFOSw==
+X-Received: by 2002:a17:90b:1a86:: with SMTP id ng6mr13610870pjb.12.1608480340012;
+        Sun, 20 Dec 2020 08:05:40 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d89e])
+        by smtp.gmail.com with ESMTPSA id r20sm6710608pgb.3.2020.12.20.08.05.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Dec 2020 06:51:09 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Sun, 20 Dec 2020 08:05:39 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] grub: Add second fix for determinism issue
-Date: Sun, 20 Dec 2020 14:51:09 +0000
-Message-Id: <20201220145109.13887-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Tanu Kaskinen <tanuk@iki.fi>
+Subject: [PATCH] pulseaudio: Fix build with clang for non-x86 target
+Date: Sun, 20 Dec 2020 08:05:35 -0800
+Message-Id: <20201220160535.746798-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There is a second list sorting problem in a generator script within grub,
-add a sort() of a list to resolve this.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Tanu Kaskinen <tanuk@iki.fi>
 ---
- meta/recipes-bsp/grub/files/determinism.patch | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ .../0001-meson-Check-for-__get_cpuid.patch    | 82 +++++++++++++++++++
+ .../pulseaudio/pulseaudio_14.0.bb             |  1 +
+ 2 files changed, 83 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-meson-Check-for-__get_cpuid.patch
 
-diff --git a/meta/recipes-bsp/grub/files/determinism.patch b/meta/recipes-bsp/grub/files/determinism.patch
-index c4b1d3a2a8d..fac80e7b544 100644
---- a/meta/recipes-bsp/grub/files/determinism.patch
-+++ b/meta/recipes-bsp/grub/files/determinism.patch
-@@ -4,6 +4,10 @@ depending on how awk sorts the values in the array.
- 
- Be deterministic in the output by sorting the dependencies on each line.
- 
-+Also, the output of the SOURCES lines in grub-core/Makefile.core.am, generated
-+from grub-core/Makefile.core.def with gentpl.py is not deterministic due to
-+missing sorting of the list used to generate it. Add such a sort.
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-meson-Check-for-__get_cpuid.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-meson-Check-for-__get_cpuid.patch
+new file mode 100644
+index 0000000000..c9d8abcbf2
+--- /dev/null
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-meson-Check-for-__get_cpuid.patch
+@@ -0,0 +1,82 @@
++From 9d0dc8aedd08d77797f90fa6075a59613f18bf0d Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 20 Dec 2020 07:56:07 -0800
++Subject: [PATCH] meson: Check for __get_cpuid
 +
- Upstream-Status: Pending
- Richard Purdie <richard.purdie@linuxfoundation.org>
- 
-@@ -22,3 +26,15 @@ Index: grub-2.04/grub-core/genmoddep.awk
-        modlist = modlist " " depmod;
-        inverse_dependencies[depmod] = inverse_dependencies[depmod] " " mod
-        depcount[mod]++
-+Index: grub-2.04/gentpl.py
-+===================================================================
-+--- grub-2.04.orig/gentpl.py
-++++ grub-2.04/gentpl.py
-+@@ -568,6 +568,7 @@ def foreach_platform_value(defn, platfor
-+     for group in RMAP[platform]:
-+         for value in defn.find_all(group + suffix):
-+             r.append(closure(value))
-++    r.sort()
-+     return ''.join(r)
++checking for presence of cpuid.h header alone is not sufficient in some case to use
++cpuid related functions. e.g. when using clang which is built for
++multiple targets will have cpuid.h header as part of compiler headers in
++distribution but one maybe compiling pulseaudion for non-x86 target. The
++current check in meson succeeds and then compile fails later because
++cpuid.h is x86-specific header. Therefore checking for symbol that is
++needed makes this robust, so even if header exist it will try to ensure
++the given symbol can be used
++
++Fixes
++src/pulsecore/core-util.c:113:
++| /mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/pulseaudio/14.0-r0/recipe-sysroot-native/usr/lib/clang/11.0.1/include/cpuid.h:11:2: error: this header is for x86 only
++| #error this header is for x86 only
++|  ^
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Cc: Tanu Kaskinen <tanuk@iki.fi>
++---
++ meson.build               | 5 ++++-
++ src/pulsecore/core-util.c | 2 +-
++ src/pulsecore/cpu-x86.c   | 2 +-
++ 3 files changed, 6 insertions(+), 3 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index 2589627..5f5127e 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -185,7 +185,6 @@ endif
++ check_headers = [
++   'arpa/inet.h',
++   'byteswap.h',
++-  'cpuid.h',
++   'dlfcn.h',
++   'execinfo.h',
++   'grp.h',
++@@ -243,6 +242,10 @@ if cc.has_header_symbol('pthread.h', 'PTHREAD_PRIO_INHERIT')
++   cdata.set('HAVE_PTHREAD_PRIO_INHERIT', 1)
++ endif
 + 
-+ def platform_conditional(platform, closure):
+++if cc.has_header_symbol('cpuid.h', '__get_cpuid')
+++  cdata.set('HAVE_GET_CPUID', 1)
+++endif
+++
++ # Functions
++ 
++ check_functions = [
++diff --git a/src/pulsecore/core-util.c b/src/pulsecore/core-util.c
++index 601b1d1..6f34e7c 100644
++--- a/src/pulsecore/core-util.c
+++++ b/src/pulsecore/core-util.c
++@@ -109,7 +109,7 @@
++ #include <sys/personality.h>
++ #endif
++ 
++-#ifdef HAVE_CPUID_H
+++#ifdef HAVE_GET_CPUID
++ #include <cpuid.h>
++ #endif
++ 
++diff --git a/src/pulsecore/cpu-x86.c b/src/pulsecore/cpu-x86.c
++index 4e59e14..86595d4 100644
++--- a/src/pulsecore/cpu-x86.c
+++++ b/src/pulsecore/cpu-x86.c
++@@ -24,7 +24,7 @@
++ 
++ #include <stdint.h>
++ 
++-#ifdef HAVE_CPUID_H
+++#ifdef HAVE_GET_CPUID
++ #include <cpuid.h>
++ #endif
++ 
++-- 
++2.29.2
++
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.0.bb
+index 63ef3a9c12..fccca1ba48 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_14.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_14.0.bb
+@@ -4,6 +4,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
+            file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
+            file://0001-build-sys-Add-an-option-for-enabling-disabling-Valgr.patch \
++           file://0001-meson-Check-for-__get_cpuid.patch \
+            file://volatiles.04_pulse \
+            "
+ SRC_URI[md5sum] = "84a7776e63dd55c40db8fbd7c7e2e18e"
 -- 
-2.25.1
+2.29.2
 
