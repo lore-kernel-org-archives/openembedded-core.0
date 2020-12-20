@@ -1,97 +1,90 @@
-Received: from forward2-smtp.messagingengine.com (forward2-smtp.messagingengine.com [66.111.4.226])
- by mx.groups.io with SMTP id smtpd.web08.24085.1608474361201955797
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.24344.1608475871736204620
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 06:26:01 -0800
+ Sun, 20 Dec 2020 06:51:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=rB733eAR;
- spf=neutral (domain: iki.fi, ip: 66.111.4.226, mailfrom: tanuk@iki.fi)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailforward.nyi.internal (Postfix) with ESMTP id 8AD5F1940B84;
-	Sun, 20 Dec 2020 09:26:00 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 20 Dec 2020 09:26:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=iY9qYKZwS+r9NyAVunOOmIcBY6YLYugRMJ6Lf/vfx
-	+A=; b=rB733eARlWm9X7O3wjnofq/6YFEzz/PtLaLafXtjdXS0u25uKbN0LaF0O
-	ZXwJm0BBSI9Os3MSPxXmUGKCewYRaRRNeuLMA6+8uyYv14rvw9qhosFgGeDLMQ0B
-	mF2fCICjf8/kH73ULBEPJIvB8wCabJYagqcdD88T4ZaoWDjh0W8uQYDeFctfIZmN
-	7g+r+KtIQur3rH0qql/3vDhzLn36Hdog3b0E/5Jnhi8hMz5maptT0frHKLj2Zcj0
-	uPWkHUgkEEJETsFjg4CidA04TueIwejR6jOsEsD8QIy9JO9LQYe8JLw8wtOpsEl+
-	zA6tlWRpUcCZYN8uZIzVCVxn5xhvA==
-X-ME-Sender: <xms:-F7fX1tQsAua08EpoPfuwAUgCV_jDCumyxJ33PRWS-yWm_YBHHsSYw>
-    <xme:-F7fX-cUHqjEJLlaUqvEhMR562qy22HF38RE66pxKI6Q6Ouia9AvZUeDW0i8YdagV
-    UN3j1ytcWHQN-Af>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvddttddgieelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepvfgrnhhu
-    ucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhirdhfiheqnecuggftrfgrthhtvghrnh
-    epteegieevhfefvedtjeffjeeuuefhkeffheegueegleejgfehleegledthfetueevnecu
-    ffhomhgrihhnpeihohgtthhophhrohhjvggtthdrohhrghenucfkphepudekkedruddvie
-    drkeelrdehvdenucfuphgrmhfkphfpvghtfihorhhkpedukeekrdduvdeirdekledrhedv
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepthgrnh
-    hukhesihhkihdrfhhi
-X-ME-Proxy: <xmx:-F7fX4zI6im7RxmQCl6DyPDwFmieLjIn-yOu9Ce53zmCRzh8LxkLww>
-    <xmx:-F7fX8OXGFdb8KdqzyJcUUxcJAULqKP8xZu7mq9xWM3moGj9FbP8Iw>
-    <xmx:-F7fX1-U2WufZ3ylCo-SqNYoNKbU2geQICIqvH64tP79_rq01I3BaQ>
-    <xmx:-F7fX6JdA0nB3jWD1km6LLnmK6V173H3Ak_rJLwc60NwNokKUx9eFA>
-Received: from laptop (unknown [188.126.89.52])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 9CFF324005C;
-	Sun, 20 Dec 2020 09:25:59 -0500 (EST)
-Message-ID: <d09a75fc25bc9d36c6f9227cc94f4e58d7f985fd.camel@iki.fi>
-Subject: Re: [OE-core] [PATCH 0/4] pulseaudio: Autotools to Meson
-From: "Tanu Kaskinen" <tanuk@iki.fi>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Sun, 20 Dec 2020 16:25:55 +0200
-In-Reply-To: <CAMKF1spAAi=rDLYNHQWk3XpsyCv9=qDxJgG0d7nwrpaxSYM6gQ@mail.gmail.com>
-References: <20201217192738.14311-1-tanuk@iki.fi>
-	 <CAMKF1soQmWKFmpaEkcE7E_as0iKDS01e8mwTiGLKYSSQ3_x5bQ@mail.gmail.com>
-	 <CAMKF1spAAi=rDLYNHQWk3XpsyCv9=qDxJgG0d7nwrpaxSYM6gQ@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1.1 
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TVoB0hDp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id q18so8145877wrn.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 06:51:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g82/m5EiBgeMUgtA9gbwlFfpeCuyW0Yk7lNCSZj+dgw=;
+        b=TVoB0hDp8DJnCIq+TDL0f0CB2Se44aQZ0tlWiRMimrIrcr4mg6lti5zHk5uPd/CWJ5
+         6PnNOLFDWC1Lue4LfKxz27DZlmUWqoOdAUcWoFIvXbo57WnNk1wKcstaR8Hz/tRnt6p/
+         F8JFaRgSTWiQf9C/utMya1iEdGzDRf7DPC1eE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=g82/m5EiBgeMUgtA9gbwlFfpeCuyW0Yk7lNCSZj+dgw=;
+        b=Rr7mFVkGCTlmUdqEHy5wJQtanty3RwpBIpQDIDTnrl+phTx8U0RXwf7RTl/VqoTAbf
+         NS2u+nNLpH9+v7XBfMjYv7QwA0AJ7crgtaQqNUqB4fTNVaoHyYAUcBZ5W/K/9eCPcrJ1
+         LDmZ7cvSI4ZzxHvI7MIVCRZqLPuiFDXhcXKSKFYNNW18XFEO3HvEnGKH/OQ145hyyslP
+         jytrKe6g4BapR+xM04/QBuRv3+T1bey0EdSsebPS5IuJyavbbNJ4Ypoh1nCYjNgJkGFC
+         WJCQvjFheOwKAqrjwV5pJLQxOKQfauKzxFYCEZAEycs6vAa/ytBQtjCagDRwfez12WqP
+         GLPw==
+X-Gm-Message-State: AOAM531RvWwvIerFKK5xrgdK6ijwbbPKTiJO84wn2P2mok/w6VIVZ9wD
+	MrSpUAAqNg7TtBIJT/kxCfWGQ4BaaygqLg==
+X-Google-Smtp-Source: ABdhPJzAbP4NTopLNFWTKFpYzTEDO87FoklgBF0yTMiMRpwq6pDDLsoc/SA0ECOtW01zAoMtY8JCzg==
+X-Received: by 2002:a5d:4a44:: with SMTP id v4mr14400919wrs.106.1608475870086;
+        Sun, 20 Dec 2020 06:51:10 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (6.6.5.9.1.e.9.f.7.4.3.6.0.6.1.e.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:e160:6347:f9e1:9566])
+        by smtp.gmail.com with ESMTPSA id b10sm20012603wmj.5.2020.12.20.06.51.09
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Dec 2020 06:51:09 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] grub: Add second fix for determinism issue
+Date: Sun, 20 Dec 2020 14:51:09 +0000
+Message-Id: <20201220145109.13887-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-12-19 at 12:36 -0800, Khem Raj wrote:
-> On Sat, Dec 19, 2020 at 9:24 AM Khem Raj <raj.khem@gmail.com> wrote:
-> > On Thu, Dec 17, 2020 at 11:28 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > > The PulseAudio project plans to drop Autotools support in 15.0, so let's
-> > > switch to Meson. The first patch removes OE_LT_RPATH_ALLOW, which is
-> > > some old cruft that sounds like it has something to do Libtool, so it's
-> > > perhaps relevant for the goal of dropping Autotools. The next two
-> > > patches disable features that aren't available with Meson. The last
-> > > patch does the build system switch.
-> > > 
-> > > Tanu Kaskinen (4):
-> > >   pulseaudio: Remove OE_LT_RPATH_ALLOW
-> > >   pulseaudio: disable EsounD support
-> > >   pulseaudio: disable GConf support
-> > >   pulseaudio: switch build system from Autotools to Meson
-> > 
-> > I am seeing build failures with this patch series while using clang
-> > for compiler see.
-> > 
-> > https://errors.yoctoproject.org/Errors/Details/539474/
-> > 
-> 
-> It turns out that new meson checks are a bit different and if
-> -Qunused-arguments is used with clang then the test for neon passes
-> because its a simple compile time check in meson, So a workaround that
-> I have done is to remove using -Qunused-arguments on clang
-> cmdline and then it works ok.
+There is a second list sorting problem in a generator script within grub,
+add a sort() of a list to resolve this.
 
-Ok, so the Neon check in Meson is somehow too lax if it passes with
--Qunused-arguments. Thanks for the initial debugging! I can look into
-the issue, but I can't promise to do it quickly. I see these patches
-are in master already - should the last patch be reverted for now? Or
-can your workaround be applied to master (or meta-clang, if that's
-where clang workarounds belong)?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-bsp/grub/files/determinism.patch | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
+diff --git a/meta/recipes-bsp/grub/files/determinism.patch b/meta/recipes-bsp/grub/files/determinism.patch
+index c4b1d3a2a8d..fac80e7b544 100644
+--- a/meta/recipes-bsp/grub/files/determinism.patch
++++ b/meta/recipes-bsp/grub/files/determinism.patch
+@@ -4,6 +4,10 @@ depending on how awk sorts the values in the array.
+ 
+ Be deterministic in the output by sorting the dependencies on each line.
+ 
++Also, the output of the SOURCES lines in grub-core/Makefile.core.am, generated
++from grub-core/Makefile.core.def with gentpl.py is not deterministic due to
++missing sorting of the list used to generate it. Add such a sort.
++
+ Upstream-Status: Pending
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+@@ -22,3 +26,15 @@ Index: grub-2.04/grub-core/genmoddep.awk
+        modlist = modlist " " depmod;
+        inverse_dependencies[depmod] = inverse_dependencies[depmod] " " mod
+        depcount[mod]++
++Index: grub-2.04/gentpl.py
++===================================================================
++--- grub-2.04.orig/gentpl.py
+++++ grub-2.04/gentpl.py
++@@ -568,6 +568,7 @@ def foreach_platform_value(defn, platfor
++     for group in RMAP[platform]:
++         for value in defn.find_all(group + suffix):
++             r.append(closure(value))
+++    r.sort()
++     return ''.join(r)
++ 
++ def platform_conditional(platform, closure):
 -- 
-Tanu
+2.25.1
 
