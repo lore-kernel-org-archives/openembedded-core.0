@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.24167.1608473714414042782
+ by mx.groups.io with SMTP id smtpd.web10.24428.1608473714362442627
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Dec 2020 06:15:17 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 81B4738C1428
+	by mail.yoctoproject.org (Postfix) with ESMTP id C5B5138C1483
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:15 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Victor Kamensky <kamensky@cisco.com>
+To: Armin Kuster <akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemtap-uprobes: upgrading to 4.4 SUCCEEDED
-Message-ID: <MADEUP.16527252DE11E4BE.28097@lists.openembedded.org>
-X-Groupsio-MsgNum: 145982
-Content-Type: multipart/mixed; boundary="===============6996744651354341095=="
+Subject: [AUH] gnutls: upgrading to 3.7.0 FAILED
+Message-ID: <MADEUP.16527252DCF23C36.18165@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============0502630287905327043=="
 
---===============6996744651354341095==
+--===============0502630287905327043==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,122 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *systemtap-uprobes* to *4.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *gnutls* to *3.7.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-systemtap-uprobes-upgrade-4.3-4.4.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe gnutls failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1416 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-54b2397d8726aeea305f18dc43da5e8f3d1ca350"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:54b2397d8726aeea305f18dc43da5e8f3d1ca350"
+workspace            = "master-next:afec39415be67b6985f0a0c3de041b4f302ffff3"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.0.tar.xz...
+Loading cache...done.
+Loaded 1416 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 808 .bb files complete (806 cached, 2 parsed). 1417 targets, 31 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-54b2397d8726aeea305f18dc43da5e8f3d1ca350"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:54b2397d8726aeea305f18dc43da5e8f3d1ca350"
+workspace            = "master-next:afec39415be67b6985f0a0c3de041b4f302ffff3"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   3% |#                                   | ETA:  0:00:02
+Adding changed files:   7% |##                                  | ETA:  0:00:01
+Adding changed files:  11% |####                                | ETA:  0:00:01
+Adding changed files:  15% |#####                               | ETA:  0:00:02
+Adding changed files:  19% |######                              | ETA:  0:00:01
+Adding changed files:  23% |########                            | ETA:  0:00:01
+Adding changed files:  26% |#########                           | ETA:  0:00:01
+Adding changed files:  30% |###########                         | ETA:  0:00:01
+Adding changed files:  34% |############                        | ETA:  0:00:01
+Adding changed files:  38% |#############                       | ETA:  0:00:01
+Adding changed files:  42% |###############                     | ETA:  0:00:00
+Adding changed files:  46% |################                    | ETA:  0:00:00
+Adding changed files:  50% |##################                  | ETA:  0:00:00
+Adding changed files:  53% |###################                 | ETA:  0:00:00
+Adding changed files:  57% |####################                | ETA:  0:00:00
+Adding changed files:  61% |######################              | ETA:  0:00:00
+Adding changed files:  65% |#######################             | ETA:  0:00:00
+Adding changed files:  69% |########################            | ETA:  0:00:00
+Adding changed files:  73% |##########################          | ETA:  0:00:00
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  80% |#############################       | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files:  92% |#################################   | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:01
+WARNING: Command 'git rebase ad4dbabd473f14699d1640562c6c41193d063ff4' failed:
+First, rewinding head to replay your work on top of it...
+Applying: gnutls: account for ARM_EABI
+Using index info to reconstruct a base tree...
+M	tests/seccomp.c
+Falling back to patching base and 3-way merge...
+Auto-merging tests/seccomp.c
+CONFLICT (content): Merge conflict in tests/seccomp.c
+error: Failed to merge in the changes.
+hint: Use 'git am --show-current-patch' to see the failed patch
+Patch failed at 0001 gnutls: account for ARM_EABI
+
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/gnutls
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/gnutls/gnutls_3.7.0.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,178 +146,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6996744651354341095==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86_musl.txt"
-
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 807 .bb files complete (0 cached, 807 parsed). 1416 targets, 41 skipped, 0 masked, 0 errors.
-Removing 94 recipes from the core2-32 sysroot...done.
-Removing 100 recipes from the qemux86 sysroot...done.
-ERROR: Nothing PROVIDES 'systemtap-uprobes'
-systemtap-uprobes was skipped: incompatible with host i686-poky-linux-musl (not in COMPATIBLE_HOST)
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
-
---===============6996744651354341095==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/systemtap: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
-Changes to packages/core2-32-poky-linux/systemtap (sysroot):
-  /usr/share/systemtap/examples/general/floatingpoint.meta was added
-  /usr/share/systemtap/examples/general/floatingpoint.stp was added
-  /usr/share/systemtap/examples/general/floatingpoint.txt was added
-  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
-  /usr/share/systemtap/runtime/linux/stp_tls.h was added
-  /usr/share/systemtap/runtime/softfloat was added
-  /usr/share/systemtap/runtime/softfloat.c was added
-  /usr/share/systemtap/runtime/softfloat.h was added
-  /usr/share/systemtap/runtime/softfloat/internals.h was added
-  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
-  /usr/share/systemtap/runtime/softfloat/platform.h was added
-  /usr/share/systemtap/runtime/softfloat/primitives.h was added
-  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
-  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
-  /usr/share/systemtap/runtime/softfloat/specialize.h was added
-  /usr/share/systemtap/tapset/floatingpoint.stp was added
-  /usr/share/systemtap/tapset/linux/errno.stpm was added
-  /usr/share/systemtap/tapset/linux/tls.stp was added
-  /usr/share/systemtap/tapset/sreg_arch.stpm was added
-  /usr/share/systemtap/runtime/transport/relayfs.c was removed
-  /usr/share/systemtap/runtime/transport/relayfs.h was removed
-  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-dbg: PKGSIZE changed from 64079488 to 64266376 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-dev: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-dev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-doc: PKGSIZE changed from 462049 to 465784 (+1%)
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-examples: PKGSIZE changed from 1481625 to 1486917 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-exporter: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-exporter: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-cs: PKGSIZE changed from 85480 to 85339 (-0%)
-packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-en: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-fr: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-locale-pl: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-python: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-python: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-runtime: PKGSIZE changed from 293256 to 280968 (-4%)
-packages/core2-32-poky-linux/systemtap/systemtap-src: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-src: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap-src: PKGSIZE changed from 2860603 to 2867440 (+0%)
-packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap: PV changed from "4.3" to "4.4"
-packages/core2-32-poky-linux/systemtap/systemtap: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/core2-32-poky-linux/systemtap/systemtap: PKGSIZE changed from 8561494 to 8864480 (+4%)
-packages/qemux86-poky-linux/systemtap-uprobes: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dbg: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-dev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-doc: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-locale: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-src: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes-staticdev: PKGV changed from 4.3 [default] to 4.4 [default]
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes: PV changed from "4.3" to "4.4"
-packages/qemux86-poky-linux/systemtap-uprobes/systemtap-uprobes: PKGV changed from 4.3 [default] to 4.4 [default]
-
---===============6996744651354341095==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-systemtap-uprobes-upgrade-4.3-4.4.patch"
-
-From 1852c2643b225101d0a763ee7dad4fdf41ff56e7 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 20 Dec 2020 10:13:05 +0000
-Subject: [PATCH] systemtap-uprobes: upgrade 4.3 -> 4.4
-
----
- meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 56fa51d61e..ae735025b7 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,7 +1,7 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
--PV = "4.3"
-+SRCREV = "988f439af39a359b4387963ca4633649866d8275"
-+PV = "4.4"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
--- 
-2.20.1
-
-
---===============6996744651354341095==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/systemtap (sysroot):
-  /usr/share/systemtap/examples/general/floatingpoint.meta was added
-  /usr/share/systemtap/examples/general/floatingpoint.stp was added
-  /usr/share/systemtap/examples/general/floatingpoint.txt was added
-  /usr/share/systemtap/runtime/linux/autoconf-atomic_fetch_add_unless.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-get_user_pages_remote-notask_struct.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-kernel_read_file_from_path-offset.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-lockdown-debugfs.c was added
-  /usr/share/systemtap/runtime/linux/autoconf-set_fs.c was added
-  /usr/share/systemtap/runtime/linux/stp_tls.h was added
-  /usr/share/systemtap/runtime/softfloat was added
-  /usr/share/systemtap/runtime/softfloat.c was added
-  /usr/share/systemtap/runtime/softfloat.h was added
-  /usr/share/systemtap/runtime/softfloat/internals.h was added
-  /usr/share/systemtap/runtime/softfloat/opt-GCC.h was added
-  /usr/share/systemtap/runtime/softfloat/platform.h was added
-  /usr/share/systemtap/runtime/softfloat/primitives.h was added
-  /usr/share/systemtap/runtime/softfloat/primitiveTypes.h was added
-  /usr/share/systemtap/runtime/softfloat/softfloat_types.h was added
-  /usr/share/systemtap/runtime/softfloat/specialize.h was added
-  /usr/share/systemtap/tapset/floatingpoint.stp was added
-  /usr/share/systemtap/tapset/linux/errno.stpm was added
-  /usr/share/systemtap/tapset/linux/tls.stp was added
-  /usr/share/systemtap/tapset/sreg_arch.stpm was added
-  /usr/share/systemtap/runtime/transport/relayfs.c was removed
-  /usr/share/systemtap/runtime/transport/relayfs.h was removed
-  /usr/share/systemtap/runtime/transport/ring_buffer.c was removed
-
---===============6996744651354341095==--
+--===============0502630287905327043==--
