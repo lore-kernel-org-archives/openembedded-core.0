@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.24453.1608473714068775212
+ by mx.groups.io with SMTP id smtpd.web09.24455.1608473714802232770
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 06:15:16 -0800
+ Sun, 20 Dec 2020 06:15:17 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id BC88B38C1444
+	by mail.yoctoproject.org (Postfix) with ESMTP id D79FF38C1574
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:15 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] boost: upgrading to 1.75.0 FAILED
-Message-ID: <MADEUP.16527252D0DE1EC3.5278@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============0088569639764537342=="
+Subject: [AUH] libusb1: upgrading to 1.0.24 SUCCEEDED
+Message-ID: <MADEUP.165272530044B147.27420@lists.openembedded.org>
+X-Groupsio-MsgNum: 145978
+Content-Type: multipart/mixed; boundary="===============8903842962288004922=="
 
---===============0088569639764537342==
+--===============8903842962288004922==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,230 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *boost* to *1.75.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *libusb1* to *1.0.24* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libusb1-upgrade-1.0.23-1.0.24.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe boost failed.
-NOTE: Starting bitbake server...
-Loading cache...done.
-Loaded 1416 entries from dependency cache.
-INFO: Extracting current version source...
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-eb33bef266ecc2d45beb3d5cf83c348c7bba9e08"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:eb33bef266ecc2d45beb3d5cf83c348c7bba9e08"
-workspace            = "master-next:afec39415be67b6985f0a0c3de041b4f302ffff3"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 9 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching https://dl.bintray.com/boostorg/release/1.75.0/source/boost_1_75_0.tar.bz2...
-Loading cache...done.
-Loaded 1416 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 808 .bb files complete (806 cached, 2 parsed). 1417 targets, 31 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-eb33bef266ecc2d45beb3d5cf83c348c7bba9e08"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:eb33bef266ecc2d45beb3d5cf83c348c7bba9e08"
-workspace            = "master-next:afec39415be67b6985f0a0c3de041b4f302ffff3"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:00:46
-Adding changed files:   1% |                                    | ETA:  0:00:34
-Adding changed files:   2% |                                    | ETA:  0:00:30
-Adding changed files:   3% |#                                   | ETA:  0:00:27
-Adding changed files:   3% |#                                   | ETA:  0:00:30
-Adding changed files:   4% |#                                   | ETA:  0:00:28
-Adding changed files:   5% |#                                   | ETA:  0:00:26
-Adding changed files:   6% |##                                  | ETA:  0:00:24
-Adding changed files:   6% |##                                  | ETA:  0:00:23
-Adding changed files:   7% |##                                  | ETA:  0:00:23
-Adding changed files:   8% |###                                 | ETA:  0:00:22
-Adding changed files:   9% |###                                 | ETA:  0:00:21
-Adding changed files:  10% |###                                 | ETA:  0:00:21
-Adding changed files:  10% |###                                 | ETA:  0:00:23
-Adding changed files:  11% |####                                | ETA:  0:00:22
-Adding changed files:  12% |####                                | ETA:  0:00:21
-Adding changed files:  13% |####                                | ETA:  0:00:21
-Adding changed files:  13% |#####                               | ETA:  0:00:20
-Adding changed files:  14% |#####                               | ETA:  0:00:20
-Adding changed files:  15% |#####                               | ETA:  0:00:19
-Adding changed files:  16% |#####                               | ETA:  0:00:19
-Adding changed files:  17% |######                              | ETA:  0:00:19
-Adding changed files:  17% |######                              | ETA:  0:00:18
-Adding changed files:  18% |######                              | ETA:  0:00:18
-Adding changed files:  19% |######                              | ETA:  0:00:18
-Adding changed files:  20% |#######                             | ETA:  0:00:17
-Adding changed files:  20% |#######                             | ETA:  0:00:17
-Adding changed files:  21% |#######                             | ETA:  0:00:17
-Adding changed files:  22% |########                            | ETA:  0:00:17
-Adding changed files:  23% |########                            | ETA:  0:00:17
-Adding changed files:  23% |########                            | ETA:  0:00:17
-Adding changed files:  24% |########                            | ETA:  0:00:18
-Adding changed files:  25% |#########                           | ETA:  0:00:18
-Adding changed files:  26% |#########                           | ETA:  0:00:18
-Adding changed files:  27% |#########                           | ETA:  0:00:18
-Adding changed files:  27% |##########                          | ETA:  0:00:17
-Adding changed files:  28% |##########                          | ETA:  0:00:17
-Adding changed files:  29% |##########                          | ETA:  0:00:17
-Adding changed files:  30% |##########                          | ETA:  0:00:17
-Adding changed files:  30% |###########                         | ETA:  0:00:17
-Adding changed files:  31% |###########                         | ETA:  0:00:16
-Adding changed files:  32% |###########                         | ETA:  0:00:16
-Adding changed files:  33% |###########                         | ETA:  0:00:16
-Adding changed files:  34% |############                        | ETA:  0:00:16
-Adding changed files:  34% |############                        | ETA:  0:00:16
-Adding changed files:  35% |############                        | ETA:  0:00:16
-Adding changed files:  36% |#############                       | ETA:  0:00:15
-Adding changed files:  37% |#############                       | ETA:  0:00:15
-Adding changed files:  37% |#############                       | ETA:  0:00:15
-Adding changed files:  38% |#############                       | ETA:  0:00:15
-Adding changed files:  39% |##############                      | ETA:  0:00:15
-Adding changed files:  40% |##############                      | ETA:  0:00:15
-Adding changed files:  41% |##############                      | ETA:  0:00:14
-Adding changed files:  41% |###############                     | ETA:  0:00:14
-Adding changed files:  42% |###############                     | ETA:  0:00:14
-Adding changed files:  43% |###############                     | ETA:  0:00:14
-Adding changed files:  44% |###############                     | ETA:  0:00:14
-Adding changed files:  44% |################                    | ETA:  0:00:13
-Adding changed files:  45% |################                    | ETA:  0:00:13
-Adding changed files:  46% |################                    | ETA:  0:00:13
-Adding changed files:  47% |#################                   | ETA:  0:00:13
-Adding changed files:  47% |#################                   | ETA:  0:00:13
-Adding changed files:  48% |#################                   | ETA:  0:00:12
-Adding changed files:  49% |#################                   | ETA:  0:00:12
-Adding changed files:  50% |##################                  | ETA:  0:00:14
-Adding changed files:  51% |##################                  | ETA:  0:00:14
-Adding changed files:  51% |##################                  | ETA:  0:00:13
-Adding changed files:  52% |##################                  | ETA:  0:00:13
-Adding changed files:  53% |###################                 | ETA:  0:00:13
-Adding changed files:  54% |###################                 | ETA:  0:00:12
-Adding changed files:  54% |###################                 | ETA:  0:00:12
-Adding changed files:  55% |####################                | ETA:  0:00:12
-Adding changed files:  56% |####################                | ETA:  0:00:12
-Adding changed files:  57% |####################                | ETA:  0:00:11
-Adding changed files:  58% |####################                | ETA:  0:00:11
-Adding changed files:  58% |#####################               | ETA:  0:00:11
-Adding changed files:  59% |#####################               | ETA:  0:00:11
-Adding changed files:  60% |#####################               | ETA:  0:00:10
-Adding changed files:  61% |######################              | ETA:  0:00:10
-Adding changed files:  61% |######################              | ETA:  0:00:10
-Adding changed files:  62% |######################              | ETA:  0:00:10
-Adding changed files:  63% |######################              | ETA:  0:00:10
-Adding changed files:  64% |#######################             | ETA:  0:00:09
-Adding changed files:  65% |#######################             | ETA:  0:00:09
-Adding changed files:  65% |#######################             | ETA:  0:00:09
-Adding changed files:  66% |#######################             | ETA:  0:00:09
-Adding changed files:  67% |########################            | ETA:  0:00:08
-Adding changed files:  68% |########################            | ETA:  0:00:08
-Adding changed files:  68% |########################            | ETA:  0:00:08
-Adding changed files:  69% |#########################           | ETA:  0:00:08
-Adding changed files:  70% |#########################           | ETA:  0:00:08
-Adding changed files:  71% |#########################           | ETA:  0:00:07
-Adding changed files:  71% |#########################           | ETA:  0:00:07
-Adding changed files:  72% |##########################          | ETA:  0:00:07
-Adding changed files:  73% |##########################          | ETA:  0:00:07
-Adding changed files:  74% |##########################          | ETA:  0:00:07
-Adding changed files:  75% |###########################         | ETA:  0:00:06
-Adding changed files:  75% |###########################         | ETA:  0:00:06
-Adding changed files:  76% |###########################         | ETA:  0:00:06
-Adding changed files:  77% |###########################         | ETA:  0:00:06
-Adding changed files:  78% |############################        | ETA:  0:00:05
-Adding changed files:  78% |############################        | ETA:  0:00:05
-Adding changed files:  79% |############################        | ETA:  0:00:05
-Adding changed files:  80% |############################        | ETA:  0:00:05
-Adding changed files:  81% |#############################       | ETA:  0:00:05
-Adding changed files:  82% |#############################       | ETA:  0:00:04
-Adding changed files:  82% |#############################       | ETA:  0:00:04
-Adding changed files:  83% |##############################      | ETA:  0:00:04
-Adding changed files:  84% |##############################      | ETA:  0:00:04
-Adding changed files:  85% |##############################      | ETA:  0:00:04
-Adding changed files:  85% |##############################      | ETA:  0:00:03
-Adding changed files:  86% |###############################     | ETA:  0:00:03
-Adding changed files:  87% |###############################     | ETA:  0:00:03
-Adding changed files:  88% |###############################     | ETA:  0:00:03
-Adding changed files:  89% |################################    | ETA:  0:00:03
-Adding changed files:  89% |################################    | ETA:  0:00:03
-Adding changed files:  90% |################################    | ETA:  0:00:02
-Adding changed files:  91% |################################    | ETA:  0:00:02
-Adding changed files:  92% |#################################   | ETA:  0:00:02
-Adding changed files:  92% |#################################   | ETA:  0:00:02
-Adding changed files:  93% |#################################   | ETA:  0:00:01
-Adding changed files:  94% |##################################  | ETA:  0:00:01
-Adding changed files:  95% |##################################  | ETA:  0:00:01
-Adding changed files:  95% |##################################  | ETA:  0:00:01
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:30
-WARNING: Command 'git rebase 8bac1b89e9f8725c05822d76e76e743482a03198' failed:
-First, rewinding head to replay your work on top of it...
-Applying: Add boost from OE.dev
-Applying: Reference
-Applying: boost-math: disable pch for gcc
-Applying: Apply boost-1.62.0-no-forced-flags.patch
-Using index info to reconstruct a base tree...
-M	libs/log/build/Jamfile.v2
-M	libs/log/config/x86-ext/Jamfile.jam
-Falling back to patching base and 3-way merge...
-Auto-merging libs/log/config/x86-ext/Jamfile.jam
-CONFLICT (content): Merge conflict in libs/log/config/x86-ext/Jamfile.jam
-Auto-merging libs/log/build/Jamfile.v2
-CONFLICT (content): Merge conflict in libs/log/build/Jamfile.v2
-error: Failed to merge in the changes.
-hint: Use 'git am --show-current-patch' to see the failed patch
-Patch failed at 0004 Apply boost-1.62.0-no-forced-flags.patch
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/boost
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/boost/boost_1.75.0.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -254,4 +44,101 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0088569639764537342==--
+--===============8903842962288004922==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/libusb1: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1: SRC_URI changed from "https://downloads.sourceforge.net/libusb/libusb-1.0.23.tar.bz2 file://run-ptest" to "https://downloads.sourceforge.net/libusb/libusb-1.0.24.tar.bz2 file://run-ptest"
+packages/core2-32-poky-linux/libusb1/libusb1-dbg: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1-dbg: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1-dbg: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-dbg: PKGSIZE changed from 294964 to 308904 (+5%)
+packages/core2-32-poky-linux/libusb1/libusb1-dev: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1-dev: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1-dev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-dev: PKGSIZE changed from 74144 to 75583 (+2%)
+packages/core2-32-poky-linux/libusb1/libusb1-doc: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1-doc: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1-doc: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-locale: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1-locale: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1-locale: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-ptest: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1-ptest: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1-ptest: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-src: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1-src: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1-src: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-src: PKGSIZE changed from 505659 to 519585 (+3%)
+packages/core2-32-poky-linux/libusb1/libusb1-staticdev: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1-staticdev: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1-staticdev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1: PKGV changed from 1.0.23 [default] to 1.0.24 [default]
+packages/core2-32-poky-linux/libusb1/libusb1: PV changed from "1.0.23" to "1.0.24"
+packages/core2-32-poky-linux/libusb1/libusb1: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1: PKGSIZE changed from 116075 to 124267 (+7%)
+Changes to packages/core2-32-poky-linux/libusb1 (sysroot):
+  /lib/libusb-1.0.so.0 changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
+  /lib/libusb-1.0.so changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
+  /lib/libusb-1.0.so.0.2.0 moved to /lib/libusb-1.0.so.0.3.0
+
+--===============8903842962288004922==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-libusb1-upgrade-1.0.23-1.0.24.patch"
+
+From b5e16114c2ce1f61be362b4c2cfb32401c98e309 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 20 Dec 2020 13:52:47 +0000
+Subject: [PATCH] libusb1: upgrade 1.0.23 -> 1.0.24
+
+---
+ .../libusb/{libusb1_1.0.23.bb => libusb1_1.0.24.bb}            | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-support/libusb/{libusb1_1.0.23.bb => libusb1_1.0.24.bb} (90%)
+
+diff --git a/meta/recipes-support/libusb/libusb1_1.0.23.bb b/meta/recipes-support/libusb/libusb1_1.0.24.bb
+similarity index 90%
+rename from meta/recipes-support/libusb/libusb1_1.0.23.bb
+rename to meta/recipes-support/libusb/libusb1_1.0.24.bb
+index 2fd658b4ef..4c552ae6c7 100644
+--- a/meta/recipes-support/libusb/libusb1_1.0.23.bb
++++ b/meta/recipes-support/libusb/libusb1_1.0.24.bb
+@@ -12,8 +12,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libusb/libusb-${PV}.tar.bz2 \
+            file://run-ptest \
+           "
+ 
+-SRC_URI[md5sum] = "be79ed4a4a440169deec8beaac6aae33"
+-SRC_URI[sha256sum] = "4fc17b2ef3502757641bf8fe2c14ad86ec86302a2b785abcb0806fd03aa1201f"
++SRC_URI[sha256sum] = "7efd2685f7b327326dcfb85cee426d9b871fd70e22caa15bb68d595ce2a2b12a"
+ 
+ S = "${WORKDIR}/libusb-${PV}"
+ 
+-- 
+2.20.1
+
+
+--===============8903842962288004922==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/libusb1/libusb1-dev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-doc: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-locale: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-ptest: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1-staticdev: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+packages/core2-32-poky-linux/libusb1/libusb1: FILELIST: removed "/lib/libusb-1.0.so.0.2.0", added "/lib/libusb-1.0.so.0.3.0"
+Changes to packages/core2-32-poky-linux/libusb1 (sysroot):
+  /lib/libusb-1.0.so.0 changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
+  /lib/libusb-1.0.so changed symlink target from libusb-1.0.so.0.2.0 to libusb-1.0.so.0.3.0
+  /lib/libusb-1.0.so.0.2.0 moved to /lib/libusb-1.0.so.0.3.0
+
+--===============8903842962288004922==--
