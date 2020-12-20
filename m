@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.23994.1608473714962596017
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.23887.1608473714903538262
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 06:15:16 -0800
+ Sun, 20 Dec 2020 06:15:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 13DB138C1349
-	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:15 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id E878338C1459
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:13 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] shaderc: upgrading to 2020.4 SUCCEEDED
-Message-ID: <MADEUP.165272529DEDEAC3.18165@lists.openembedded.org>
-X-Groupsio-MsgNum: 145953
-Content-Type: multipart/mixed; boundary="===============6497926481325258858=="
+Subject: [AUH] python3-py: upgrading to 1.10.0 SUCCEEDED
+Message-ID: <MADEUP.165272527A640001.27420@lists.openembedded.org>
+X-Groupsio-MsgNum: 145954
+Content-Type: multipart/mixed; boundary="===============6196401049378032193=="
 
---===============6497926481325258858==
+--===============6196401049378032193==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *shaderc* to *2020.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *python3-py* to *1.10.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-shaderc-upgrade-2020.3-2020.4.patch
+    - apply the patch: git am 0001-python3-py-upgrade-1.9.0-1.10.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,128 +44,198 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6497926481325258858==
-Content-Type: text/x-diff; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-shaderc-upgrade-2020.3-2020.4.patch"
-
-From 993e67b52aa2dce1e4b30375ffeb70b15bdddc1d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 20 Dec 2020 09:00:49 +0000
-Subject: [PATCH] shaderc: upgrade 2020.3 -> 2020.4
-
----
- ...ndor-libs-and-disable-git-versioning.patch | 19 +++++++------------
- .../{shaderc_2020.3.bb => shaderc_2020.4.bb}  |  2 +-
- 2 files changed, 8 insertions(+), 13 deletions(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2020.3.bb => shaderc_2020.4.bb} (95%)
-
-diff --git a/meta/recipes-graphics/shaderc/files/0003-cmake-de-vendor-libs-and-disable-git-versioning.patch b/meta/recipes-graphics/shaderc/files/0003-cmake-de-vendor-libs-and-disable-git-versioning.patch
-index 0d58925adc..30a501a61e 100644
---- a/meta/recipes-graphics/shaderc/files/0003-cmake-de-vendor-libs-and-disable-git-versioning.patch
-+++ b/meta/recipes-graphics/shaderc/files/0003-cmake-de-vendor-libs-and-disable-git-versioning.patch
-@@ -1,11 +1,12 @@
--From e092619a9ef7910ad56acfb8728c66f0125d176a Mon Sep 17 00:00:00 2001
-+From f5ab5533df5c6a0749aa45fb96e3777344dd5465 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 17 Oct 2020 12:51:50 +0100
--Subject: [PATCH 3/3] cmake: de-vendor libs and disable git versioning
-+Subject: [PATCH] cmake: de-vendor libs and disable git versioning
- 
- Upstream-Status: Inappropriate [configuration]
- 
- Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+
- ---
-  CMakeLists.txt              | 2 --
-  glslc/CMakeLists.txt        | 1 -
-@@ -14,18 +15,15 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 glslc/src/build-version.inc
- 
- diff --git a/CMakeLists.txt b/CMakeLists.txt
--index a4e779b..cfa7bd8 100644
-+index 5c74cd8..9451fbc 100644
- --- a/CMakeLists.txt
- +++ b/CMakeLists.txt
--@@ -70,7 +70,6 @@ endif(MSVC)
-+@@ -102,12 +102,10 @@ endif(MSVC)
-  
-  # Configure subdirectories.
-  # We depend on these for later projects, so they should come first.
- -add_subdirectory(third_party)
-  
-- if(SHADERC_ENABLE_SPVC)
-- add_subdirectory(libshaderc_spvc)
--@@ -79,7 +78,6 @@ endif()
-  add_subdirectory(libshaderc_util)
-  add_subdirectory(libshaderc)
-  add_subdirectory(glslc)
-@@ -34,10 +32,10 @@ index a4e779b..cfa7bd8 100644
-  add_custom_target(build-version
-    ${PYTHON_EXECUTABLE}
- diff --git a/glslc/CMakeLists.txt b/glslc/CMakeLists.txt
--index 0f5d888..08686e0 100644
-+index 35b3f19..52006b8 100644
- --- a/glslc/CMakeLists.txt
- +++ b/glslc/CMakeLists.txt
--@@ -26,7 +26,6 @@ shaderc_default_compile_options(glslc_exe)
-+@@ -53,7 +53,6 @@ shaderc_default_compile_options(glslc_exe)
-  target_include_directories(glslc_exe PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/.. ${spirv-tools_SOURCE_DIR}/include)
-  set_target_properties(glslc_exe PROPERTIES OUTPUT_NAME glslc)
-  target_link_libraries(glslc_exe PRIVATE glslc shaderc_util shaderc)
-@@ -48,6 +46,3 @@ index 0f5d888..08686e0 100644
- diff --git a/glslc/src/build-version.inc b/glslc/src/build-version.inc
- new file mode 100644
- index 0000000..e69de29
---- 
--2.28.0
--
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.3.bb b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2020.3.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-index f5edf53caf..ee9b118371 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2020.3.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
- 
--SRCREV = "1fce59794079f90ceb091190adbbb5499acd4e95"
-+SRCREV = "0dbd899941a43ffd55df527d65128b3b66e75c9c"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
-            file://0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch \
-            file://0003-cmake-de-vendor-libs-and-disable-git-versioning.patch \
--- 
-2.20.1
-
-
---===============6497926481325258858==
+--===============6196401049378032193==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/shaderc: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc: PV changed from "2020.3" to "2020.4"
-packages/core2-32-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-dbg: PV changed from "2020.3" to "2020.4"
-packages/core2-32-poky-linux/shaderc/shaderc-dev: PKGSIZE changed from 61064 to 61030 (-0%)
-packages/core2-32-poky-linux/shaderc/shaderc-dev: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-dev: PV changed from "2020.3" to "2020.4"
-packages/core2-32-poky-linux/shaderc/shaderc-doc: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-doc: PV changed from "2020.3" to "2020.4"
-packages/core2-32-poky-linux/shaderc/shaderc-locale: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-locale: PV changed from "2020.3" to "2020.4"
-packages/core2-32-poky-linux/shaderc/shaderc-src: PKGSIZE changed from 314999 to 314965 (-0%)
-packages/core2-32-poky-linux/shaderc/shaderc-src: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-src: PV changed from "2020.3" to "2020.4"
-packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PKGSIZE changed from 2702940 to 2703040 (+0%)
-packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc/shaderc-staticdev: PV changed from "2020.3" to "2020.4"
-packages/core2-32-poky-linux/shaderc/shaderc: PKGV changed from 2020.3 [default] to 2020.4 [default]
-packages/core2-32-poky-linux/shaderc/shaderc: PV changed from "2020.3" to "2020.4"
+packages/core2-32-poky-linux/python3-py: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/py/py-1.9.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/py/py-1.10.0.tar.gz"
+packages/core2-32-poky-linux/python3-py: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py: PV changed from "1.9.0" to "1.10.0"
+packages/core2-32-poky-linux/python3-py/python3-py-dbg: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py/python3-py-dbg: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL /usr/lib/python3.9/s
+ ite-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed /usr/lib/python3.9/site-packages/py/_vendored_pack
+ ages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-
+ info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED"
+packages/core2-32-poky-linux/python3-py/python3-py-dbg: PV changed from "1.9.0" to "1.10.0"
+packages/core2-32-poky-linux/python3-py/python3-py-dev: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py/python3-py-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL /usr/lib/python3.9/s
+ ite-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed /usr/lib/python3.9/site-packages/py/_vendored_pack
+ ages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-
+ info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED"
+packages/core2-32-poky-linux/python3-py/python3-py-dev: PV changed from "1.9.0" to "1.10.0"
+packages/core2-32-poky-linux/python3-py/python3-py-doc: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py/python3-py-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL /usr/lib/python3.9/s
+ ite-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed /usr/lib/python3.9/site-packages/py/_vendored_pack
+ ages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-
+ info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED"
+packages/core2-32-poky-linux/python3-py/python3-py-doc: PV changed from "1.9.0" to "1.10.0"
+packages/core2-32-poky-linux/python3-py/python3-py-locale: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py/python3-py-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL /usr/lib/python3.
+ 9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed /usr/lib/python3.9/site-packages/py/_vendored_p
+ ackages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.di
+ st-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED"
+packages/core2-32-poky-linux/python3-py/python3-py-locale: PV changed from "1.9.0" to "1.10.0"
+packages/core2-32-poky-linux/python3-py/python3-py-src: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py/python3-py-src: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL /usr/lib/python3.9/s
+ ite-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed /usr/lib/python3.9/site-packages/py/_vendored_pack
+ ages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-
+ info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED"
+packages/core2-32-poky-linux/python3-py/python3-py-src: PV changed from "1.9.0" to "1.10.0"
+packages/core2-32-poky-linux/python3-py/python3-py-staticdev: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py/python3-py-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL /usr/lib/pytho
+ n3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed /usr/lib/python3.9/site-packages/py/_vendore
+ d_packages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1
+ .dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED"
+packages/core2-32-poky-linux/python3-py/python3-py-staticdev: PV changed from "1.9.0" to "1.10.0"
+packages/core2-32-poky-linux/python3-py/python3-py: PKGV changed from 1.9.0 [default] to 1.10.0 [default]
+packages/core2-32-poky-linux/python3-py/python3-py: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL /usr/lib/python3.9/site-
+ packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed /usr/lib/python3.9/site-packages/py/_vendored_packages
+ /apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info
+ /INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED"
+packages/core2-32-poky-linux/python3-py/python3-py: PKGSIZE changed from 552353 to 549820 (-0%)
+packages/core2-32-poky-linux/python3-py/python3-py: PV changed from "1.9.0" to "1.10.0"
+Changes to packages/core2-32-poky-linux/python3-py (sysroot):
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info moved to /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info moved to /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/dependency_links.txt was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/not-zip-safe was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/PKG-INFO was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/SOURCES.txt was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/top_level.txt was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__ was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__ was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed was added
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/not-zip-safe was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/PKG-INFO was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/top_level.txt was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc was removed
 
---===============6497926481325258858==--
+--===============6196401049378032193==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/python3-py/python3-py-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3
+ .9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/si
+ te-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.t
+ yped /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-py/python3-py-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3
+ .9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/si
+ te-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.t
+ yped /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-py/python3-py-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/pyth
+ on3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9
+ /site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/p
+ y.typed /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-py/python3-py-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/p
+ ython3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python
+ 3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfi
+ g/py.typed /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc"
+packages/core2-32-poky-linux/python3-py/python3-py: FILELIST: directory renamed /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info -> /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info, removed "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst /usr/lib/python3.9/s
+ ite-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/WHEEL", added "/usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc /usr/lib/python3.9/site-p
+ ackages/py/_vendored_packages/apipkg-1.5.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/METADATA /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/top_level.txt /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/INSTALLER /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/WHEEL /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/RECORD /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc"
+Changes to packages/core2-32-poky-linux/python3-py (sysroot):
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info moved to /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info moved to /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/dependency_links.txt was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/not-zip-safe was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/PKG-INFO was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/SOURCES.txt was added
+  /usr/lib/python3.9/site-packages/py-1.10.0-py3.9.egg-info/top_level.txt was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.5.dist-info/REQUESTED was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__init__.py was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__ was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/__init__.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/__pycache__/version.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg/version.py was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/LICENSE was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.1.1.dist-info/REQUESTED was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.py was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__init__.pyi was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__ was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/__pycache__/__init__.cpython-39.pyc was added
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig/py.typed was added
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/dependency_links.txt was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/not-zip-safe was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/PKG-INFO was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/SOURCES.txt was removed
+  /usr/lib/python3.9/site-packages/py-1.9.0-py3.9.egg-info/top_level.txt was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/DESCRIPTION.rst was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg-1.4.dist-info/metadata.json was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/apipkg.py was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/DESCRIPTION.rst was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig-1.0.0.dist-info/metadata.json was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/iniconfig.py was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/apipkg.cpython-39.pyc was removed
+  /usr/lib/python3.9/site-packages/py/_vendored_packages/__pycache__/iniconfig.cpython-39.pyc was removed
+
+--===============6196401049378032193==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-python3-py-upgrade-1.9.0-1.10.0.patch"
+
+From e0fae7e582960d8ec66cba3330f60b4cbe3bf35e Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 20 Dec 2020 00:34:03 +0000
+Subject: [PATCH] python3-py: upgrade 1.9.0 -> 1.10.0
+
+---
+ .../python/{python3-py_1.9.0.bb => python3-py_1.10.0.bb}       | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-py_1.9.0.bb => python3-py_1.10.0.bb} (72%)
+
+diff --git a/meta/recipes-devtools/python/python3-py_1.9.0.bb b/meta/recipes-devtools/python/python3-py_1.10.0.bb
+similarity index 72%
+rename from meta/recipes-devtools/python/python3-py_1.9.0.bb
+rename to meta/recipes-devtools/python/python3-py_1.10.0.bb
+index 794ec2a87e..4e16ad1743 100644
+--- a/meta/recipes-devtools/python/python3-py_1.9.0.bb
++++ b/meta/recipes-devtools/python/python3-py_1.10.0.bb
+@@ -3,8 +3,7 @@ HOMEPAGE = "http://py.readthedocs.io/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6bb0320b04a0a503f12f69fea479de9"
+ 
+-SRC_URI[md5sum] = "b80db4e61eef724f49feb4d20b649e62"
+-SRC_URI[sha256sum] = "9ca6883ce56b4e8da7e79ac18787889fa5206c79dcc67fb065376cd2fe03f342"
++SRC_URI[sha256sum] = "21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3"
+ 
+ DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
+ 
+-- 
+2.20.1
+
+
+--===============6196401049378032193==--
