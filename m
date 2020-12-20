@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.24431.1608473714742252705
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web12.23885.1608473714120313526
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Dec 2020 06:15:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id D770838C143F
+	by mail.yoctoproject.org (Postfix) with ESMTP id DC02338C1446
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:13 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ninja: upgrading to 1.10.2 SUCCEEDED
-Message-ID: <MADEUP.16527252540BC79E.18165@lists.openembedded.org>
-X-Groupsio-MsgNum: 145938
-Content-Type: multipart/mixed; boundary="===============8362702546412574710=="
+Subject: [AUH] opkg: upgrading to 0.4.4 SUCCEEDED
+Message-ID: <MADEUP.1652725254AFD5D4.27420@lists.openembedded.org>
+X-Groupsio-MsgNum: 145939
+Content-Type: multipart/mixed; boundary="===============1475632068664834063=="
 
---===============8362702546412574710==
+--===============1475632068664834063==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ninja* to *1.10.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *opkg* to *0.4.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ninja-upgrade-1.10.1-1.10.2.patch
+    - apply the patch: git am 0001-opkg-upgrade-0.4.3-0.4.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,66 +44,84 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8362702546412574710==
+--===============1475632068664834063==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/ninja: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/ninja/ninja-dbg: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja/ninja-dbg: PKGSIZE changed from 5842388 to 5842500 (+0%)
-packages/core2-32-poky-linux/ninja/ninja-dbg: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/ninja/ninja-dev: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja/ninja-dev: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/ninja/ninja-doc: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja/ninja-doc: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/ninja/ninja-locale: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja/ninja-locale: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/ninja/ninja-src: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja/ninja-src: PKGSIZE changed from 366669 to 368711 (+1%)
-packages/core2-32-poky-linux/ninja/ninja-src: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/ninja/ninja-staticdev: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja/ninja-staticdev: PV changed from "1.10.1" to "1.10.2"
-packages/core2-32-poky-linux/ninja/ninja: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-32-poky-linux/ninja/ninja: PV changed from "1.10.1" to "1.10.2"
+packages/core2-32-poky-linux/opkg: SRC_URI changed from "http://downloads.yoctoproject.org/releases/opkg/opkg-0.4.3.tar.gz file://opkg.conf file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch file://run-ptest" to "http://downloads.yoctoproject.org/releases/opkg/opkg-0.4.4.tar.gz file://opkg.conf file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch file://run-ptest"
+packages/core2-32-poky-linux/opkg: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/libopkg: PKGSIZE changed from 211376 to 211480 (+0%)
+packages/core2-32-poky-linux/opkg/libopkg: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/libopkg: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg-dbg: PKGSIZE changed from 526740 to 525560 (-0%)
+packages/core2-32-poky-linux/opkg/opkg-dbg: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg-dbg: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg-dev: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg-dev: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg-doc: PKGSIZE changed from 14664 to 15236 (+4%)
+packages/core2-32-poky-linux/opkg/opkg-doc: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg-doc: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg-locale: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg-locale: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg-ptest: PKGSIZE changed from 216514 to 184724 (-15%)
+packages/core2-32-poky-linux/opkg/opkg-ptest: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg-ptest: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg-src: PKGSIZE changed from 511563 to 510881 (-0%)
+packages/core2-32-poky-linux/opkg/opkg-src: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg-src: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg-staticdev: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg-staticdev: PV changed from "0.4.3" to "0.4.4"
+packages/core2-32-poky-linux/opkg/opkg: PKGSIZE changed from 30343 to 30295 (-0%)
+packages/core2-32-poky-linux/opkg/opkg: PKGV changed from 0.4.3 [default] to 0.4.4 [default]
+packages/core2-32-poky-linux/opkg/opkg: PV changed from "0.4.3" to "0.4.4"
 
---===============8362702546412574710==
+--===============1475632068664834063==
 Content-Type: text/x-diff; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
- filename="0001-ninja-upgrade-1.10.1-1.10.2.patch"
+ filename="0001-opkg-upgrade-0.4.3-0.4.4.patch"
 
-From eac7a4e0dd71ca05b95128309bfe7baa0aea0e8d Mon Sep 17 00:00:00 2001
+From 72455f9dd2ddbb1b6af459d35474c29aee10a0c1 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Sun, 20 Dec 2020 00:15:51 +0000
-Subject: [PATCH] ninja: upgrade 1.10.1 -> 1.10.2
+Date: Sun, 20 Dec 2020 00:25:51 +0000
+Subject: [PATCH] opkg: upgrade 0.4.3 -> 0.4.4
 
 ---
- .../recipes-devtools/ninja/{ninja_1.10.1.bb => ninja_1.10.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/ninja/{ninja_1.10.1.bb => ninja_1.10.2.bb} (92%)
+ meta/recipes-devtools/opkg/{opkg_0.4.3.bb => opkg_0.4.4.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/opkg/{opkg_0.4.3.bb => opkg_0.4.4.bb} (95%)
 
-diff --git a/meta/recipes-devtools/ninja/ninja_1.10.1.bb b/meta/recipes-devtools/ninja/ninja_1.10.2.bb
-similarity index 92%
-rename from meta/recipes-devtools/ninja/ninja_1.10.1.bb
-rename to meta/recipes-devtools/ninja/ninja_1.10.2.bb
-index ecb0566f37..88ff843409 100644
---- a/meta/recipes-devtools/ninja/ninja_1.10.1.bb
-+++ b/meta/recipes-devtools/ninja/ninja_1.10.2.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
+diff --git a/meta/recipes-devtools/opkg/opkg_0.4.3.bb b/meta/recipes-devtools/opkg/opkg_0.4.4.bb
+similarity index 95%
+rename from meta/recipes-devtools/opkg/opkg_0.4.3.bb
+rename to meta/recipes-devtools/opkg/opkg_0.4.4.bb
+index 46b7aa2523..078390f8ac 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.4.3.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.4.4.bb
+@@ -17,8 +17,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://run-ptest \
+ "
  
- DEPENDS = "re2c-native ninja-native"
+-SRC_URI[md5sum] = "86ec5eee9362aca0990994a402e077e9"
+-SRC_URI[sha256sum] = "dda452854bc0cd1334f7ba18a66003d1c12a98600c894111b56919b1ea434718"
++SRC_URI[sha256sum] = "2217acc58b8eb31300631ebae75e222ebc700c9c1cf6408088705d19a472c839"
  
--SRCREV = "a1f879b29c9aafe6a2bc0ba885701f8f4f19f772"
-+SRCREV = "e72d1d581c945c158ed68d9bc48911063022a2c6"
- 
- SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+ # This needs to be before ptest inherit, otherwise all ptest files end packaged
+ # in libopkg package if OPKGLIBDIR == libdir, because default
 -- 
 2.20.1
 
 
---===============8362702546412574710==--
+--===============1475632068664834063==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/opkg/opkg-ptest: PKGSIZE changed from 216514 to 184724 (-15%)
+
+--===============1475632068664834063==--
