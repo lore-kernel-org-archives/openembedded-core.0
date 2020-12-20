@@ -1,21 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web08.23992.1608473714053594195
+ by mx.groups.io with SMTP id smtpd.web11.24166.1608473714406093511
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 06:15:15 -0800
+ Sun, 20 Dec 2020 06:15:16 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from debian10-ty-3.yocto.io (unknown [172.29.10.57])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 9802538C1534
+	by mail.yoctoproject.org (Postfix) with ESMTP id 43E2838C14CF
 	for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 14:15:14 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 20.3.1 FAILED
-Message-ID: <MADEUP.1652725295C4B37F.28097@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============6262257164367899562=="
+Subject: [AUH] sudo: upgrading to 1.9.4p1 SUCCEEDED
+Message-ID: <MADEUP.165272529BE26768.18165@lists.openembedded.org>
+X-Groupsio-MsgNum: 145960
+Content-Type: multipart/mixed; boundary="===============8281043190558913289=="
 
---===============6262257164367899562==
+--===============8281043190558913289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,130 +24,19 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *mesa* to *20.3.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *sudo* to *1.9.4p1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-sudo-upgrade-1.9.3p1-1.9.4p1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe mesa failed.
-NOTE: Starting bitbake server...
-NOTE: Reconnecting to bitbake server...
-NOTE: Retrying server connection (#1)...
-Loading cache...done.
-Loaded 1416 entries from dependency cache.
-INFO: Extracting current version source...
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-d0a8b19f202acb2360689a6c50b202544cefde7f"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d0a8b19f202acb2360689a6c50b202544cefde7f"
-workspace            = "master-next:afec39415be67b6985f0a0c3de041b4f302ffff3"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 22 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 102 tasks of which 99 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting upgraded version source...
-INFO: Fetching https://mesa.freedesktop.org/archive/mesa-20.3.1.tar.xz...
-Loading cache...done.
-Loaded 1416 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 808 .bb files complete (806 cached, 2 parsed). 1417 targets, 31 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.49.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-d0a8b19f202acb2360689a6c50b202544cefde7f"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:d0a8b19f202acb2360689a6c50b202544cefde7f"
-workspace            = "master-next:afec39415be67b6985f0a0c3de041b4f302ffff3"
-
-Initialising tasks...done.
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 18 (0% match, 100% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 83 tasks of which 81 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   5% |#                                   | ETA:  0:00:03
-Adding changed files:  10% |###                                 | ETA:  0:00:02
-Adding changed files:  15% |#####                               | ETA:  0:00:02
-Adding changed files:  20% |#######                             | ETA:  0:00:01
-Adding changed files:  25% |#########                           | ETA:  0:00:01
-Adding changed files:  30% |###########                         | ETA:  0:00:01
-Adding changed files:  35% |############                        | ETA:  0:00:01
-Adding changed files:  40% |##############                      | ETA:  0:00:01
-Adding changed files:  45% |################                    | ETA:  0:00:01
-Adding changed files:  51% |##################                  | ETA:  0:00:00
-Adding changed files:  56% |####################                | ETA:  0:00:00
-Adding changed files:  61% |######################              | ETA:  0:00:00
-Adding changed files:  66% |#######################             | ETA:  0:00:00
-Adding changed files:  71% |#########################           | ETA:  0:00:00
-Adding changed files:  76% |###########################         | ETA:  0:00:00
-Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  91% |#################################   | ETA:  0:00:00
-Adding changed files:  97% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:01
-WARNING: Command 'git rebase 2d340d5f899248107f90e55cf83b56d85742796a' failed:
-First, rewinding head to replay your work on top of it...
-Applying: meson.build: check for all linux host_os combinations
-Applying: meson.build: make TLS ELF optional
-Applying: vc4: use intmax_t for formatted output of timespec members
-Using index info to reconstruct a base tree...
-M	src/gallium/drivers/v3d/v3d_bufmgr.c
-M	src/gallium/drivers/vc4/vc4_bufmgr.c
-Falling back to patching base and 3-way merge...
-No changes -- Patch already applied.
-Applying: meson misdetects 64bit atomics on mips/clang
-Applying: futex.h: Define __NR_futex if it does not exist
-Applying: anv: fix a build race between generating a header and using it
-Applying: meson: Add xcb-fixes to loader when using x11 and dri3. Fixes undefined symbol for xcb_xfixes_create_region in loader_dri3_helper.c
-.git/rebase-apply/patch:10: trailing whitespace.
-  if (with_egl or 
-warning: 1 line adds whitespace errors.
-Using index info to reconstruct a base tree...
-M	meson.build
-Falling back to patching base and 3-way merge...
-Auto-merging meson.build
-CONFLICT (content): Merge conflict in meson.build
-error: Failed to merge in the changes.
-hint: Use 'git am --show-current-patch' to see the failed patch
-Patch failed at 0007 meson: Add xcb-fixes to loader when using x11 and dri3. Fixes undefined symbol for xcb_xfixes_create_region in loader_dri3_helper.c
-
-Resolve all conflicts manually, mark them as resolved with
-"git add/rm <conflicted_files>", then run "git rebase --continue".
-You can instead skip this commit: run "git rebase --skip".
-To abort and get back to the state before "git rebase", run "git rebase --abort".
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/mesa
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/mesa/mesa_20.3.1.bb
-
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -154,4 +44,153 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6262257164367899562==--
+--===============8281043190558913289==
+Content-Type: text/x-diff; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-sudo-upgrade-1.9.3p1-1.9.4p1.patch"
+
+From 1d24e325bc7d795e1fcab00524f232e86fb5a058 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@auh.yoctoproject.org>
+Date: Sun, 20 Dec 2020 04:08:07 +0000
+Subject: [PATCH] sudo: upgrade 1.9.3p1 -> 1.9.4p1
+
+---
+ meta/recipes-extended/sudo/{sudo_1.9.3p1.bb => sudo_1.9.4p1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/sudo/{sudo_1.9.3p1.bb => sudo_1.9.4p1.bb} (95%)
+
+diff --git a/meta/recipes-extended/sudo/sudo_1.9.3p1.bb b/meta/recipes-extended/sudo/sudo_1.9.4p1.bb
+similarity index 95%
+rename from meta/recipes-extended/sudo/sudo_1.9.3p1.bb
+rename to meta/recipes-extended/sudo/sudo_1.9.4p1.bb
+index ba61a7f247..040130b49a 100644
+--- a/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
++++ b/meta/recipes-extended/sudo/sudo_1.9.4p1.bb
+@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[sha256sum] = "dcb9de53e45e1c39042074b847f5e0d8ae1890725dd6a9d9101a81569e6eb49e"
++SRC_URI[sha256sum] = "1172099dfcdd2fa497e13a3c274a9f5920abd36ae7d2f7aaacd6bc6bc92fd677"
+ 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+-- 
+2.20.1
+
+
+--===============8281043190558913289==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-32-poky-linux/sudo: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo: SRC_URI changed from "https://www.sudo.ws/dist/sudo-1.9.3p1.tar.gz file://sudo.pam file://0001-sudo.conf.in-fix-conflict-with-multilib.patch" to "https://www.sudo.ws/dist/sudo-1.9.4p1.tar.gz file://sudo.pam file://0001-sudo.conf.in-fix-conflict-with-multilib.patch"
+packages/core2-32-poky-linux/sudo/sudo-dbg: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-dbg: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-dbg: PKGSIZE changed from 3510432 to 3681976 (+5%)
+packages/core2-32-poky-linux/sudo/sudo-dev: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-dev: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-dev: PKGSIZE changed from 11886 to 11939 (+0%)
+packages/core2-32-poky-linux/sudo/sudo-doc: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-doc: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-doc: PKGSIZE changed from 633991 to 642027 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-ast: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-ast: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ca: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-ca: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-cs: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-cs: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-cs: PKGSIZE changed from 85750 to 86538 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-da: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-da: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-de: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-de: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-de: PKGSIZE changed from 89880 to 90665 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-el: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-el: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-eo: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-eo: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-eo: PKGSIZE changed from 82585 to 83324 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-es: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-es: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-eu: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-eu: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-fi: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-fi: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-fr: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-fr: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-fr: PKGSIZE changed from 93555 to 94269 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-fur: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-fur: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-gl: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-gl: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-hr: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-hr: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-hr: PKGSIZE changed from 84922 to 87612 (+3%)
+packages/core2-32-poky-linux/sudo/sudo-locale-hu: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-hu: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-it: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-it: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-it: PKGSIZE changed from 84149 to 86140 (+2%)
+packages/core2-32-poky-linux/sudo/sudo-locale-ja: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-ja: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ja: PKGSIZE changed from 97900 to 98664 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-ko: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-ko: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-lt: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-lt: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-nb: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-nb: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-nl: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-nl: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-nn: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-nn: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-pl: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-pl: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-pl: PKGSIZE changed from 86819 to 87568 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-pt-br: PKGSIZE changed from 87508 to 88240 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-pt: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-pt: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-pt: PKGSIZE changed from 84627 to 85400 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-ro: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-ro: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-ru: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-ru: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sk: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-sk: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sl: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-sl: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sr: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-sr: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-sv: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-sv: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-tr: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-tr: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-uk: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-uk: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-uk: PKGSIZE changed from 117280 to 118241 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-locale-vi: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-vi: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-cn: PKGSIZE changed from 70471 to 72487 (+3%)
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-locale-zh-tw: PKGSIZE changed from 79186 to 79919 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-src: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-src: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo-src: PKGSIZE changed from 2286782 to 2320229 (+1%)
+packages/core2-32-poky-linux/sudo/sudo-staticdev: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo-staticdev: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo: PV changed from "1.9.3p1" to "1.9.4p1"
+packages/core2-32-poky-linux/sudo/sudo: PKGV changed from 1.9.3p1 [default] to 1.9.4p1 [default]
+packages/core2-32-poky-linux/sudo/sudo: PKGSIZE changed from 1946830 to 2062088 (+6%)
+
+--===============8281043190558913289==--
