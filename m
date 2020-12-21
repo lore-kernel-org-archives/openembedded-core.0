@@ -1,130 +1,115 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web09.35081.1608521661469039472
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web12.35724.1608531484456441333
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Dec 2020 19:34:21 -0800
+ Sun, 20 Dec 2020 22:18:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kFA5LH2x;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id y24so7583847edt.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 19:34:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CN1cUhGo;
+ spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f174.google.com with SMTP id 15so5739227pgx.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 20 Dec 2020 22:18:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YM3cQj+Bcr9ixADj4ykodKcbn4WOFt8g5UdvKbFZHDM=;
-        b=kFA5LH2xeXkvSDTGrC1qQCDe9JmH9PFCdOOk0TZ523hM6eA9e7w3P1oK+bFA/Oq2PW
-         pbu5lyKP6302KcYUN0EkaZv5A/Ry5FXoCq3OgKTe12WNetZkj6tDSMCUNU/I8DdhsfF/
-         aJc470LPdZH1EG+3fB6tTyqF0yAAzL/Tih63zjj50FLWxpxNU7e8FdFfYsPCEnBXvpXy
-         d8kkjmJSdDEa1eTwXqEKl7Vh0B0Obi4Z5GL6r5JOdd+wF3cApS4pqn3k6MptHogauTpQ
-         SxejgDTzx1TIqexKnuWYmDkUB+Z4edFi1s14a+C8gMFZQM+LjvOqIZI+L8AJb9sEQL9j
-         v+4g==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5whyaCwbfTevr/PY8GQkeMeOP337GPH5h2ted4qg3CY=;
+        b=CN1cUhGoQ3Pk7t7v2S24XpG5ByyLfUSp+0bWNAdQxfGgxT1mhTSa3m/GW/542Xeyup
+         UrdgQKL2yU84/BEgdu4jnJBQrvvya3nqe/Zy6AN9VZSwjJd+OICqEsZUAw3/QP+Ae1gz
+         bi9G/t/3gizvtaMX8Rzs1W9g/D8CkgFGXJ1qom+Kys+dceBZLeBEe8eHFWN4qiSZ0dy+
+         I5QU34XJfAYBc4RYjQN+pG7Sf6b7+ZlxZm+MY6dZm/rOgH8eFXgQDZfctzhZN5hk4Suy
+         86WTYHVn2ts9jPJnDZghV9csVzL2wnqEWP3ri1NfNeufeWI4fQTcJMbTE/dPZNFESfEk
+         PY1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YM3cQj+Bcr9ixADj4ykodKcbn4WOFt8g5UdvKbFZHDM=;
-        b=b4ioPRix+o6Lw1T4Oh3y+p+eQhZq5uYiRlfoKoSQ/oZbbqbnsIbFtHSxR7+luYVkDL
-         b7J45ZoDU3VkWZ7d4CG8jmUYfSWj1YUnL/34cBuuwvupyy88Fzl7HVxwNZgWTDYuN5xK
-         lRqv0XgJww+Uikz+pLxEeM0MYPYdNSDXOmbrBSrbpll0qaGCB4MI6FERD8edSag8i8c/
-         tjFdxcKxS43yDaQ1ggLb6eH1JKxb1gRFxtmnvcm8Wpt3iSiuupETMg4lKDTV3LCt388k
-         eFgZ/vr0lPl0o9i2TtmK53As+hKr/CGSN60srsiNlXueEXPpUUHjyV9pqxk9BjbJ7LTf
-         CtNw==
-X-Gm-Message-State: AOAM531sWgMSRULV0qCSH/sxySkYe2DUuiRuPrexgNYhOYdV3IgjFw4j
-	QbeLBs2vZJXcu4mIsL/yn1S0G9+aBkbyzG2N6MY=
-X-Google-Smtp-Source: ABdhPJyT0mH0pW1/dfCVVwKf51TiGQvJEtkVrPoYBcdrSvQbrnlVSHpSxOoBomIbyvId9ncZ0eqnQXwJhC/wEN2P91k=
-X-Received: by 2002:a05:6402:3553:: with SMTP id f19mr274598edd.129.1608521659780;
- Sun, 20 Dec 2020 19:34:19 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5whyaCwbfTevr/PY8GQkeMeOP337GPH5h2ted4qg3CY=;
+        b=Np2DYJ0/Gem32tRgHcF9A4M/4cVvkBi92/mjAZS5Yz0UVaDTsnUKB69E4aGW9pw72c
+         59Zr+LIMqtqim9BnzsyuL9K02jr4jYPTvvXBLdzlKGFCJCrDurH9tsfUQBlxHp+a3n5r
+         xxVqHmT6G/lJqo5ptFggIiH6x2tMqb5om35/sNnMBIpgolS7VvppvJsuuoJyl4D1Ixs1
+         1iUDw2aYaYkY3lDfBUCjnEILdZYeH1tTXAZ0H71EpN4dcQ8/hStN5qf4qVjOnV2VaZnG
+         yaqW+k9bfEtT+gfQPr8nyxGAN2TdtPcXgbiLle3zg2B9rZhyVx/4faFmTIOzqjNWy/Ti
+         US7w==
+X-Gm-Message-State: AOAM533xxTbjjDN/AqZG6NEoAUWls53kbOMo2DiWVwF/TqdFkbJaWKkh
+	092gb5Gf3BcVfINHvpyOsAiZm5mWwCE+uw==
+X-Google-Smtp-Source: ABdhPJybi1I5FjDe4Q1b6OGUWD16+dT/EVaqhRmWHWBBEYpDrFR4okxrEt9k3BbP2c+dlqOVxJDS/g==
+X-Received: by 2002:aa7:9d81:0:b029:19d:ca64:3c62 with SMTP id f1-20020aa79d810000b029019dca643c62mr14374965pfq.16.1608531483725;
+        Sun, 20 Dec 2020 22:18:03 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d89e])
+        by smtp.gmail.com with ESMTPSA id er23sm13906556pjb.12.2020.12.20.22.18.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Dec 2020 22:18:03 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] ltp: Fix ltp-pan crash on 32bit arches using 64bit time_t
+Date: Sun, 20 Dec 2020 22:18:01 -0800
+Message-Id: <20201221061801.2540487-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <cover.1607958349.git.bruce.ashfield@gmail.com>
- <faff0743666a4ef199d2902a1611a83ee5c2a4a9.camel@linuxfoundation.org> <cf65e19893f23bd5987ec4d50904e45838ad68d0.camel@intel.com>
-In-Reply-To: <cf65e19893f23bd5987ec4d50904e45838ad68d0.camel@intel.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 20 Dec 2020 22:34:08 -0500
-Message-ID: <CADkTA4Oevbn5KF45Z_3nb0KLtVNFrMbKLW9NX1xy2rYkOyWUag@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/8] linux-yocto: consolidated pull requesrt
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"bluelightning@bluelightning.org" <bluelightning@bluelightning.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Dec 20, 2020 at 9:57 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
-> Hi Bruce,
->
-> On Sat, 2020-12-19 at 11:31 +0000, Richard Purdie wrote:
-> > Hi Bruce,
-> >
-> > On Mon, 2020-12-14 at 10:09 -0500, bruce.ashfield@gmail.com wrote:
-> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >
-> > > 5.10 dropped this morning, so I'm switching over to the libc-
-> > > headers
-> > > and reference kernel upgrade (5.4 and 5.10 will be in master, with
-> > > 5.8 being dropped).
-> > >
-> > > But since that will take a bit to sort out, I wanted to send my
-> > > queue
-> > > of patches for other fixes/versions.
-> > >
-> > > I didn't pick up any issues with local testing, so hopefully this
-> > > won't
-> > > cause any problems.
-> > >
-> > > I have the lttng-modules patch from a previous send repeated here,
-> > > since
-> > > it may be easier to take it as part of the bulk update. I checked
-> > > just a few minutes ago, and there isn't a new tagged version of the
-> > > modules yet, so we still need the backported patches for 5.10+
-> > > builds.
-> >
-> > I was able to merge part of the series but there were some warnings
-> > that came up:
-> >
-> > meta-intel:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/1020
->
-> I think this would need:
->
-> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/commit/features/firmware?id=1bde5ac3c3b324853958c24513a6a949d09138bc
->
-> to be included in v5.4 branch as well. But I am wondering why is it
+ltp-pan crashes on riscv32/musl due to shorter width assigned to time_t
+in printf format
 
-I have a pull request ready that fixes the warning for all the
-branches, I'll send it on Monday.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...an-Use-long-long-int-to-print-time_t.patch | 33 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20200930.bb     |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-ltp-pan-Use-long-long-int-to-print-time_t.patch
 
-> being flagged now. I can't figure out what has changed ...
-
-It's a kern-tools update. Options that were both "hardware" and
-"non-hardware" weren't being properly warned. I fixed it to warn in
-that case, and these popped out.
-
-Bruce
-
->
-> Thanks,
->
-> Anuj
->
-> > poky-tiny:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/3105
-> >
-> > so I've deferred the kernel tooling bit until we can figure these
-> > out.
-> > That means several other patches which depended on that also couldn't
-> > make it in.
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> >
-> > 
-> >
->
-
-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-ltp-pan-Use-long-long-int-to-print-time_t.patch b/meta/recipes-extended/ltp/ltp/0001-ltp-pan-Use-long-long-int-to-print-time_t.patch
+new file mode 100644
+index 0000000000..381ac417ca
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-ltp-pan-Use-long-long-int-to-print-time_t.patch
+@@ -0,0 +1,33 @@
++From 6c2085badea7b461245837c452a0d3d8a8c2afff Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 20 Dec 2020 22:09:28 -0800
++Subject: [PATCH] ltp-pan: Use long long int to print time_t
++
++Some newer 32bit architectures ( e.g. riscv32 ) uses 64bit time_t so
++using %ld is not sufficient to print time_t, this also fixes a crash in
++ltp-pan on riscv32
++
++Upstream-Status: Submitted [https://patchwork.ozlabs.org/project/ltp/patch/20201221061415.2540216-1-raj.khem@gmail.com/]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ pan/ltp-pan.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/pan/ltp-pan.c b/pan/ltp-pan.c
++index 8b9fbe5594..54b7cb8f26 100644
++--- a/pan/ltp-pan.c
+++++ b/pan/ltp-pan.c
++@@ -1389,8 +1389,8 @@ static void write_test_start(struct tag_pgrp *running, int no_kmsg)
++ 	if (!strcmp(reporttype, "rts")) {
++ 
++ 		printf
++-		    ("%s\ntag=%s stime=%ld\ncmdline=\"%s\"\ncontacts=\"%s\"\nanalysis=%s\n%s\n",
++-		     "<<<test_start>>>", running->cmd->name, running->mystime,
+++		    ("%s\ntag=%s stime=%lld\ncmdline=\"%s\"\ncontacts=\"%s\"\nanalysis=%s\n%s\n",
+++		     "<<<test_start>>>", running->cmd->name, (long long)running->mystime,
++ 		     running->cmd->cmdline, "", "exit", "<<<test_output>>>");
++ 	}
++ 	fflush(stdout);
++-- 
++2.29.2
++
+diff --git a/meta/recipes-extended/ltp/ltp_20200930.bb b/meta/recipes-extended/ltp/ltp_20200930.bb
+index 7acf15b360..e3c49fbf53 100644
+--- a/meta/recipes-extended/ltp/ltp_20200930.bb
++++ b/meta/recipes-extended/ltp/ltp_20200930.bb
+@@ -34,6 +34,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0007-Fix-test_proc_kill-hanging.patch \
+            file://0001-Add-more-musl-exclusions.patch \
+            file://0001-Remove-OOM-tests-from-runtest-mm.patch \
++           file://0001-ltp-pan-Use-long-long-int-to-print-time_t.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.29.2
+
