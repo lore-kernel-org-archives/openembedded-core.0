@@ -1,103 +1,98 @@
-Received: from m43-15.mailgun.net (m43-15.mailgun.net [69.72.43.15])
- by mx.groups.io with SMTP id smtpd.web08.3181.1608572042463414056
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web12.291.1608576471456092165
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Dec 2020 09:34:05 -0800
+ Mon, 21 Dec 2020 10:47:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mg.codeaurora.org header.s=smtp header.b=oePMjfu7;
- spf=pass (domain: mg.codeaurora.org, ip: 69.72.43.15, mailfrom: bounce+783715.be9e4a-openembedded-core=lists.openembedded.org@mg.codeaurora.org)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1608572045; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=bmhF13uQBHScZUbqFLVc5JC9Wg+QkuI2CoIDksGogBc=;
- b=oePMjfu7qWyd9fSlzgR8/5nICIhwOPMimtEE5prvJmaACdYOe7Xmx+MEN45anoPeHsu3FlYj
- JQunsPgtBHfTQJ9sMs8740p/mWfd41G7Evp6sHjnLh25D0zJbjPH08p1iJKbfqMsFrY6opcG
- 8odhRTdqhDhIq/wHhYZI9dU7gOk=
-X-Mailgun-Sending-Ip: 69.72.43.15
-X-Mailgun-Sid: WyJkODhiYiIsICJvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
- 5fe0dc837bc801dc4fbfb680 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 21 Dec 2020 17:33:55
- GMT
-Sender: sbanerje=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-	id 2684EC433C6; Mon, 21 Dec 2020 17:33:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-	aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sbanerje)
-	by smtp.codeaurora.org (Postfix) with ESMTPSA id BC9ADC433CA;
-	Mon, 21 Dec 2020 17:33:53 +0000 (UTC)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bFp8Hk/4;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.49, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f49.google.com with SMTP id b9so14917391ejy.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Dec 2020 10:47:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=W+/0iK0tasF9tAmIL+ezeA8kBIPJkTmNpNWAZtBggxU=;
+        b=bFp8Hk/4cRqGve5CApD32KosUup2kHFtNw8qKcBGzUQ1+Fd6cyDi9oNqcaJSnkfa5Y
+         Jsa6VKkmjuYFEBsynKI8IgB8HjzhD9TdL1i12aRxcvejVseTwS3XbMeyastuL92s9AVh
+         XZkKoHYwXc08TIQXd7lIzS4Qm7Ub4j+BKiIhE4hfA8/4sHgfXA8Im+OSykOGSuS7E8rO
+         0aB51sB2ayjdJ7piqVIrnz77Eg01fvwsOwnD/hoEKcRcGC2AYkOwKio80GYhvG+WFxww
+         BNjWtR8jY6MWbeO7IBNZSHj4Gc8wunTJ0fnd4fCqMnKRFpo1QNdGQshUrScB+/IR9FLC
+         rFpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=W+/0iK0tasF9tAmIL+ezeA8kBIPJkTmNpNWAZtBggxU=;
+        b=OrqNA9GTShnB+GTxHiQDYXv6TO0VSexwhC2XSa6wU3NC72gwLHxsNOJbKaNMwRL+fo
+         KW3YQBXTOGUe2MrEadXloBV4GqHFzO8NHBrkmPbnV0VfRbzNzShP+19EgkOvcFUDnYW0
+         vP/z6gO9dew6dJoPI5YK1uxPXyEXsN0a/FV1VTJYqTck7pcmbP5J5dnzySQnTfFnPjGa
+         44JLNuDKqH4b/KJBpHKL8lFt7RaZixZ8FjdD/6TBVb1YlN3KK0tITv38+X14AidwK/DU
+         K2rP10DMg+v58wpAkruijFHpWNqkDtVbJCXoDvYseGW3A78EDlfWmIUofHoh8Xd8tJfq
+         QdvA==
+X-Gm-Message-State: AOAM53172FxSuU34ylhpQ4PBDEr/t2BbdtZzx/HmW18nTh/nBGtkwC/1
+	4qHBXAPNvz379Cls+30KaXopLC8OR13b/g1pDMqkdA==
+X-Google-Smtp-Source: ABdhPJw53c7uZOrYrZIB6UpDhLCFk06I8yH3vQ4WH/xqOxr5JZzCpzjQVhnIu8v4ewgVIpU1JnnD48JIV7cFbRrtBBU=
+X-Received: by 2002:a17:906:fa8b:: with SMTP id lt11mr16740202ejb.94.1608576469952;
+ Mon, 21 Dec 2020 10:47:49 -0800 (PST)
 MIME-Version: 1.0
-Date: Mon, 21 Dec 2020 23:03:53 +0530
-From: "Sourabh Banerjee" <sbanerje@codeaurora.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] How to set the password Hashing Algorithm for root user to SHA256 or SHA512
-In-Reply-To: <CAMKF1sokjzyb0kPZ1tmb1Anr5kD8GPZtVeoeWoWkqSYG=16a2g@mail.gmail.com>
-References: <Groupsio.1.uzea.1608323419985389915.mRo2@lists.openembedded.org>
- <CAMKF1sokjzyb0kPZ1tmb1Anr5kD8GPZtVeoeWoWkqSYG=16a2g@mail.gmail.com>
-Message-ID: <526da86d058f59fcef77cf1ab05af7f0@codeaurora.org>
-X-Sender: sbanerje@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20201221173201.15771-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20201221173201.15771-1-richard.purdie@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Mon, 21 Dec 2020 08:47:38 -1000
+Message-ID: <CAOSpxdYU_zEctoCrjx1mQKkhEQ70h5tNj1p1Eco5PBA4ONBmiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] groff: Fix reproducibility issue
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2020-12-20 10:16, Khem Raj wrote:
-> On Sat, Dec 19, 2020 at 11:58 AM Sourabh Banerjee
-> <sbanerje@codeaurora.org> wrote:
->> 
->> [Edited Message Follows]
->> 
->> The image I generated seems to use MD5 for root password hashing.
->> I understood this from the /etc/shadow file in the image., the file 
->> has following line:
->> 
->>     root:$1$b7X30f8f$au21weqL.9.ExM4N84AtA0:18614:0:99999:7:::
->> 
->> Is there an OE config I can change to change password hashing from MD5 
->> to SHA256?
->> 
-> 
-> somewhere you must be setting the password something like this in 
-> local.conf
-> 
-> EXTRA_USERS_PARAMS += "\
->     useradd admin; \
->     usermod -p 'XXXXXX' admin; \
-> "
-> 
-> Now how you generate the password could be done separately via
-> 
-> something like ( for setting password to me 'test' )
-> 
-> python3 -c 'import crypt; print(crypt.crypt("test",
-> crypt.mksalt(crypt.METHOD_SHA256)))'
-> 
-> Replace XXXXXX with the output of the above cmd
-> 
-> aside from this its perhaps better to use sha512 than sha256
-> 
->> I am using Thud version.
->> 
->> --
->> Regards,
->> Sourabh
->> 
->> 
->> 
+On Mon, Dec 21, 2020 at 7:32 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> groff chooses a default papersize depending on the value from /etc/papersize
+> and failing that, the search domain in /etc/resolv.conf based on the comment
+> in configure:
+>
+> """
+> If the top-level domain is two letters and it's not 'us' or 'ca'
+> then they probably use A4 paper.
+> """
+>
+> Oddly, my system sets to "a4" in /etc/papersize which means it defaults to
+> "letter" since its != "A4".
+>
+> These defaults ripple through to cause the output of man-db to change depending
+> on which default value was selected.
 
-Thanks Khem! I will try this and get back.
+Nice catch!  I just ran into the man-db reproducibility error this
+morning while testing dunfell world reproducibility.  Now I can remove
+man-db from the exclusion list :-)
 
+Steve
 
--- 
-Regards,
-Sourabh
+> To resolve this, set a default of "A4" since that covers the larger population
+> of the two default values.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-extended/groff/groff_1.22.4.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/groff/groff_1.22.4.bb b/meta/recipes-extended/groff/groff_1.22.4.bb
+> index e3984783496..0867452ce7b 100644
+> --- a/meta/recipes-extended/groff/groff_1.22.4.bb
+> +++ b/meta/recipes-extended/groff/groff_1.22.4.bb
+> @@ -28,7 +28,7 @@ MULTILIB_SCRIPTS = "${PN}:${bindir}/gpinyin ${PN}:${bindir}/groffer ${PN}:${bind
+>  EXTRA_OECONF = "--without-x --without-doc"
+>  PARALLEL_MAKE = ""
+>
+> -CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl' ac_cv_path_BASH_PROG='no'"
+> +CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl' ac_cv_path_BASH_PROG='no' PAGE=A4"
+>
+>  do_install_append() {
+>         # Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
+> --
+> 2.27.0
+>
+>
+> 
+>
