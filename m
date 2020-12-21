@@ -1,88 +1,115 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web08.37509.1608547526245783946
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+ by mx.groups.io with SMTP id smtpd.web11.37608.1608547527081205325
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Dec 2020 02:45:26 -0800
+ Mon, 21 Dec 2020 02:45:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=TYFlAt4S;
- spf=pass (domain: linaro.org, ip: 209.85.167.41, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f41.google.com with SMTP id s26so22484911lfc.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Dec 2020 02:45:25 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=n4hCjPtw;
+ spf=pass (domain: linaro.org, ip: 209.85.167.42, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f42.google.com with SMTP id m12so22529520lfo.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Dec 2020 02:45:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KVad/dMHKGz5Jby0Bv+O1/QuCA6CZzJU5kI6ua9Z430=;
-        b=TYFlAt4SEDxnSgzwYes9k8ToHhXEILk+Fep7PhXWrot5F7p1Exl7b958FT0h9CKnLk
-         wzYHMqSjOMhZbPkExzuW/YQ6xbNWd9r8ZkPPjaSorjDRfWJHxJqjJDJViXjOAPoWzcWM
-         JAZYhR960HKd3eXNub74zV7zqsQJaIkOCKtxPft9gVcUauSRjz0nOpjSHOqtCmzHHaMa
-         YAadpw2+blwJ6CVbleKn62ZS7GQyd8tM1CgS2jcS5AAcuRL7KJipvxMgeZ/mT8+Dwj4T
-         Za/0IWsR6pVtk3Zqnv/lfCpAtSF3mJgKnNjOMGJ8u6pSrOR+3KchxzwxMyjc39+mS93D
-         eacQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Vxb3OqYA7kILKSYLMb7QOpkflNs8+1209tNw4IYUuK8=;
+        b=n4hCjPtwz+16GvTG6LFPdojj4HPkH6dBLtf8pwggv85V9UA4yguY5JP/gJoQhnQZZQ
+         D/Xf715WE3S7F7ukHjuDywfFTQRc3NsDVa/f/tJdiE+qqwOic7zTpq/+Azb7dIzqzuRs
+         EnRrmKhZx/9li4dpywwm2aPQ+q8hFfpnfEUR2zlbB56v03X0+fuFwFpBEt/0KBDR72jN
+         UplysRbNo77GuMqLqxN3JeefN+q6FLa/GABPlBhaFY64NCTCcKXsarEDNQsAI1P1uV11
+         71iIlyrMVvDJTwxMtgapQLWilga8R7Il0wRNRxwg3ftA/5aNhmkzUF0csWuKeAPExNYo
+         eN9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KVad/dMHKGz5Jby0Bv+O1/QuCA6CZzJU5kI6ua9Z430=;
-        b=eo5dl8Mih/npn3g/f4yVflA3mzJ/oIJ3vx0QAi0SN/GNLsjPzTlYPSGSoxl9Tc2SwW
-         HMrJzLSKip7g0uZCfwvjSP2EjAF53Cvya4fJoTIZ+di//yiDm8I++ZJUTjrB0orlJOI/
-         y5ueNNGxqlWhzDlk0h+pncv9BpdOqE22rAH7yymMqCMlBKNkuw/akkGkGn4q5U7I8dUd
-         wvEsp5/FAZrOaA84hVPaPZ0LquT3UcN7Mga7UajB3kH3tNUuBqOJ/HqqOYa+OOz4MUo9
-         3Dlgn3QFQf3yoKh0vmdTpXXTOOEG+kP5nrE0cYSSmh5eX+Y30Bf9oPWeWohzMVEJcaDU
-         r4+w==
-X-Gm-Message-State: AOAM531ZTuP/jgUUoZzYr4/V7yz4Aa0pZzUj0I1Rtyt/004Pna7WQ2G7
-	YCAgqUW1aoj1MaM9A7hFzARvZqgdJFE/SA==
-X-Google-Smtp-Source: ABdhPJzRuhyAFVL3VWMiEvOUDsSIiut4iUpislHLMNlIYuC+hFsHgXb7xxiGnzhipuXDZAf7skAxEw==
-X-Received: by 2002:ac2:43d6:: with SMTP id u22mr5997727lfl.596.1608547523566;
-        Mon, 21 Dec 2020 02:45:23 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Vxb3OqYA7kILKSYLMb7QOpkflNs8+1209tNw4IYUuK8=;
+        b=tcDK19rtimM91W4a+g/oCLyWa2mg92cFr4cakP06McaekatDUv9RPPhbycBzEAqVji
+         ITh3lO3Zx920Msk9qGdKpGB5i6Cnw2jb6fdhIYWPaymNydZMY43Lsn+u6f6fZoDKIfT8
+         HIXe1Wu6u6ZvchYxn0Z3qmj22kvL4TGLH42+IT0ceIDaRSg63e1CP7Ae8NM41POgKMQ/
+         EJ7UyzAafnTRBzFUpXnWJ91zL7S4jXfSp2I2fhcns//X8jDg5RWH4TG56JQn7ceLuelm
+         iNS7HTyc9Igu52+e8BdoToxkjHeA3O/tKBkDgIZY03pFodL5FoHky+X/6+cMCn9oHL2K
+         tBxg==
+X-Gm-Message-State: AOAM532eU9pp2c/WfRHUcVJm1aOIpRVhCpbX7STYv4yiY9l41dlPtqDI
+	b656+zKYyPMUORMJExH5qu4MVZODOJWRoQ==
+X-Google-Smtp-Source: ABdhPJw62J7bQgCttgBbRLuL+7PAuZIbicp3ev59cvFABoOG5NTp+lHshwJeqWemzQL14N2gkqRE3A==
+X-Received: by 2002:a05:6512:94f:: with SMTP id u15mr6011668lft.389.1608547525083;
+        Mon, 21 Dec 2020 02:45:25 -0800 (PST)
 Return-Path: <dmitry.baryshkov@linaro.org>
 Received: from umbar.lan ([188.162.64.15])
-        by smtp.gmail.com with ESMTPSA id y124sm1986793lff.104.2020.12.21.02.45.22
+        by smtp.gmail.com with ESMTPSA id y124sm1986793lff.104.2020.12.21.02.45.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 02:45:22 -0800 (PST)
+        Mon, 21 Dec 2020 02:45:24 -0800 (PST)
 From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 1/2] linux-firmware: upgrade 20201118 -> 20201218
-Date: Mon, 21 Dec 2020 13:45:20 +0300
-Message-Id: <20201221104521.3661081-1-dmitry.baryshkov@linaro.org>
+Subject: [dunfell][PATCH 2/2] linux-firmware: package firmware for Lontium lt9611uxc bridge
+Date: Mon, 21 Dec 2020 13:45:21 +0300
+Message-Id: <20201221104521.3661081-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201221104521.3661081-1-dmitry.baryshkov@linaro.org>
+References: <20201221104521.3661081-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: firmware versions/filenames
+Package firmware for Lontium lt9611uxc DSI to HDMI bridge, found e.g. on
+Qualcomm RB5 platform.
+
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c88129ffef320c16722f40426b0d4560274dca4e)
+(cherry picked from commit 4d16922943ffa6003d611c367b934d199c549c4c)
 ---
- ...{linux-firmware_20201118.bb => linux-firmware_20201218.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201118.bb => linux-firmware_20201218.bb} (99%)
+ .../linux-firmware/linux-firmware_20201218.bb          | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-index baac26c51053..bc9daa2d4e7e 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201118.bb
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
+index bc9daa2d4e7e..700a79b118a7 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-@@ -126,7 +126,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=ef221e03fc58f4d34a132b801dfa1d68 \
-+                    file://WHENCE;md5=03f0fad70b8b557b56084e3090198021 \
-                     "
+@@ -31,6 +31,7 @@ LICENSE = "\
+     & Firmware-iwlwifi_firmware \
+     & Firmware-IntcSST2 \
+     & Firmware-kaweth \
++    & Firmware-Lontium \
+     & Firmware-Marvell \
+     & Firmware-moxa \
+     & Firmware-myri10ge_firmware \
+@@ -94,6 +95,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
+                     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
+                     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
++                    file://LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
+                     file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
+                     file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
+                     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
+@@ -161,6 +163,7 @@ NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
+ NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
+ NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
+ NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
++NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSE.Lontium"
+ NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
+ NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
+ NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
+@@ -298,6 +301,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
+              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
++             ${PN}-lt9611uxc ${PN}-lontium-license \
+              ${PN}-whence-license \
+              ${PN}-license \
+              "
+@@ -402,6 +406,12 @@ FILES_${PN}-radeon = " \
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -198,7 +198,7 @@ PE = "1"
+ RDEPENDS_${PN}-radeon += "${PN}-radeon-license"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "863d5a31da725b856a917280d1e3014929b3bc3d4e6e5faecf530c13afb7e2b9"
-+SRC_URI[sha256sum] = "a1cc1ff72c739f312b095df589e9fd639fc81c3f8f7966377ea35222dc94c04b"
- 
- inherit allarch
- 
++# For lontium
++LICENSE_${PN}-lt9611uxc = "Firmware-Lontium"
++
++FILES_${PN}-lontium-license = "${nonarch_base_libdir}/firmware/LICENSE.Lontium"
++FILES_${PN}-lt9611uxc = "${nonarch_base_libdir}/firmware/lt9611uxc_fw.bin"
++
+ # For marvell
+ LICENSE_${PN}-pcie8897 = "Firmware-Marvell"
+ LICENSE_${PN}-pcie8997 = "Firmware-Marvell"
 -- 
 2.29.2
 
