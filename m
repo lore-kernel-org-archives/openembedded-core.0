@@ -1,115 +1,64 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.37608.1608547527081205325
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.38021.1608548425364203371
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Dec 2020 02:45:27 -0800
+ Mon, 21 Dec 2020 03:00:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=n4hCjPtw;
- spf=pass (domain: linaro.org, ip: 209.85.167.42, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f42.google.com with SMTP id m12so22529520lfo.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Dec 2020 02:45:26 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=jDt92DAD;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Vxb3OqYA7kILKSYLMb7QOpkflNs8+1209tNw4IYUuK8=;
-        b=n4hCjPtwz+16GvTG6LFPdojj4HPkH6dBLtf8pwggv85V9UA4yguY5JP/gJoQhnQZZQ
-         D/Xf715WE3S7F7ukHjuDywfFTQRc3NsDVa/f/tJdiE+qqwOic7zTpq/+Azb7dIzqzuRs
-         EnRrmKhZx/9li4dpywwm2aPQ+q8hFfpnfEUR2zlbB56v03X0+fuFwFpBEt/0KBDR72jN
-         UplysRbNo77GuMqLqxN3JeefN+q6FLa/GABPlBhaFY64NCTCcKXsarEDNQsAI1P1uV11
-         71iIlyrMVvDJTwxMtgapQLWilga8R7Il0wRNRxwg3ftA/5aNhmkzUF0csWuKeAPExNYo
-         eN9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Vxb3OqYA7kILKSYLMb7QOpkflNs8+1209tNw4IYUuK8=;
-        b=tcDK19rtimM91W4a+g/oCLyWa2mg92cFr4cakP06McaekatDUv9RPPhbycBzEAqVji
-         ITh3lO3Zx920Msk9qGdKpGB5i6Cnw2jb6fdhIYWPaymNydZMY43Lsn+u6f6fZoDKIfT8
-         HIXe1Wu6u6ZvchYxn0Z3qmj22kvL4TGLH42+IT0ceIDaRSg63e1CP7Ae8NM41POgKMQ/
-         EJ7UyzAafnTRBzFUpXnWJ91zL7S4jXfSp2I2fhcns//X8jDg5RWH4TG56JQn7ceLuelm
-         iNS7HTyc9Igu52+e8BdoToxkjHeA3O/tKBkDgIZY03pFodL5FoHky+X/6+cMCn9oHL2K
-         tBxg==
-X-Gm-Message-State: AOAM532eU9pp2c/WfRHUcVJm1aOIpRVhCpbX7STYv4yiY9l41dlPtqDI
-	b656+zKYyPMUORMJExH5qu4MVZODOJWRoQ==
-X-Google-Smtp-Source: ABdhPJw62J7bQgCttgBbRLuL+7PAuZIbicp3ev59cvFABoOG5NTp+lHshwJeqWemzQL14N2gkqRE3A==
-X-Received: by 2002:a05:6512:94f:: with SMTP id u15mr6011668lft.389.1608547525083;
-        Mon, 21 Dec 2020 02:45:25 -0800 (PST)
-Return-Path: <dmitry.baryshkov@linaro.org>
-Received: from umbar.lan ([188.162.64.15])
-        by smtp.gmail.com with ESMTPSA id y124sm1986793lff.104.2020.12.21.02.45.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 02:45:24 -0800 (PST)
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 2/2] linux-firmware: package firmware for Lontium lt9611uxc bridge
-Date: Mon, 21 Dec 2020 13:45:21 +0300
-Message-Id: <20201221104521.3661081-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201221104521.3661081-1-dmitry.baryshkov@linaro.org>
-References: <20201221104521.3661081-1-dmitry.baryshkov@linaro.org>
+  d=axis.com; q=dns/txt; s=axis-central1; t=1608548426;
+  x=1640084426;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4ihvhyL+kMwdTV7in7MTMZUcWr3D/dkkHfQ6EesPJyI=;
+  b=jDt92DADpiOe3xb+l2B5bmn0UvkBTRXMi0V8DlQXIft72q9zNAJBs8ZE
+   hJSeCZWXKIoolJW+/G7R2E7bzE6+TMbI54rh577uMIPFhaCckbWX9dbnH
+   f+sHw72gOpk/cvBdFWsvN2T+bQSKu8HdjA2hd4NbKeSufYSUWgWHLdA/4
+   Q7EI3EJENXp03vxXICMJqKFh1EqRXe6HfeKIaL04LmXtPMXK4MDE9sWLg
+   xxQNGtwOAjdP7GpZ0cfJk2rLCvY7OD7w4OGsLW2OYTkQ7eSZX4SaLAR5g
+   n4+1JaIB+MyDKAnGj62MbN1pJZOP9QmGzCbVoFspbktBGtmqrbsKGDN1N
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] apr-util: Only specify --with-dbm=gdbm if gdbm support is enabled
+Date: Mon, 21 Dec 2020 12:00:12 +0100
+Message-ID: <20201221110012.6627-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
+Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Package firmware for Lontium lt9611uxc DSI to HDMI bridge, found e.g. on
-Qualcomm RB5 platform.
+Support for gdbm was made optional in 3260ad9e, but it was still being
+used unconditionally.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4d16922943ffa6003d611c367b934d199c549c4c)
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- .../linux-firmware/linux-firmware_20201218.bb          | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-support/apr/apr-util_1.6.1.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-index bc9daa2d4e7e..700a79b118a7 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20201218.bb
-@@ -31,6 +31,7 @@ LICENSE = "\
-     & Firmware-iwlwifi_firmware \
-     & Firmware-IntcSST2 \
-     & Firmware-kaweth \
-+    & Firmware-Lontium \
-     & Firmware-Marvell \
-     & Firmware-moxa \
-     & Firmware-myri10ge_firmware \
-@@ -94,6 +95,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
-                     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
-                     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
-+                    file://LICENSE.Lontium;md5=4ec8dc582ff7295f39e2ca6a7b0be2b6 \
-                     file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
-                     file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
-                     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
-@@ -161,6 +163,7 @@ NO_GENERIC_LICENSE[Firmware-IntcSST2] = "LICENCE.IntcSST2"
- NO_GENERIC_LICENSE[Firmware-it913x] = "LICENCE.it913x"
- NO_GENERIC_LICENSE[Firmware-iwlwifi_firmware] = "LICENCE.iwlwifi_firmware"
- NO_GENERIC_LICENSE[Firmware-kaweth] = "LICENCE.kaweth"
-+NO_GENERIC_LICENSE[Firmware-Lontium] = "LICENSE.Lontium"
- NO_GENERIC_LICENSE[Firmware-Marvell] = "LICENCE.Marvell"
- NO_GENERIC_LICENSE[Firmware-mediatek] = "LICENCE.mediatek"
- NO_GENERIC_LICENSE[Firmware-moxa] = "LICENCE.moxa"
-@@ -298,6 +301,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-+             ${PN}-lt9611uxc ${PN}-lontium-license \
-              ${PN}-whence-license \
-              ${PN}-license \
-              "
-@@ -402,6 +406,12 @@ FILES_${PN}-radeon = " \
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
+index 0dd8f025e8..f7d827a1d8 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
+@@ -19,10 +19,9 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+ SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
+ SRC_URI[sha256sum] = "b65e40713da57d004123b6319828be7f1273fbc6490e145874ee1177e112c459"
  
- RDEPENDS_${PN}-radeon += "${PN}-radeon-license"
+-EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \ 
++EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \
+ 		--without-odbc \
+ 		--without-pgsql \
+-		--with-dbm=gdbm \
+ 		--without-sqlite2 \
+ 		--with-expat=${STAGING_DIR_HOST}${prefix}"
  
-+# For lontium
-+LICENSE_${PN}-lt9611uxc = "Firmware-Lontium"
-+
-+FILES_${PN}-lontium-license = "${nonarch_base_libdir}/firmware/LICENSE.Lontium"
-+FILES_${PN}-lt9611uxc = "${nonarch_base_libdir}/firmware/lt9611uxc_fw.bin"
-+
- # For marvell
- LICENSE_${PN}-pcie8897 = "Firmware-Marvell"
- LICENSE_${PN}-pcie8997 = "Firmware-Marvell"
--- 
-2.29.2
-
+@@ -69,7 +68,7 @@ PACKAGECONFIG ??= "crypto gdbm"
+ PACKAGECONFIG[ldap] = "--with-ldap,--without-ldap,openldap"
+ PACKAGECONFIG[crypto] = "--with-openssl=${STAGING_DIR_HOST}${prefix} --with-crypto,--without-crypto,openssl"
+ PACKAGECONFIG[sqlite3] = "--with-sqlite3=${STAGING_DIR_HOST}${prefix},--without-sqlite3,sqlite3"
+-PACKAGECONFIG[gdbm] = "--with-gdbm=${STAGING_DIR_HOST}${prefix},--without-gdbm,gdbm"
++PACKAGECONFIG[gdbm] = "--with-dbm=gdbm --with-gdbm=${STAGING_DIR_HOST}${prefix},--without-gdbm,gdbm"
+ 
+ #files ${libdir}/apr-util-1/*.so are not symlinks but loadable modules thus they are packaged in ${PN}
+ FILES_${PN}     += "${libdir}/apr-util-1/apr*${SOLIBS} ${libdir}/apr-util-1/apr*${SOLIBSDEV}"
