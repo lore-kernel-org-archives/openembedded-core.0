@@ -1,83 +1,56 @@
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
- by mx.groups.io with SMTP id smtpd.web09.8615.1608620436176651454
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com [209.85.166.43])
+ by mx.groups.io with SMTP id smtpd.web12.8470.1608620666344358923
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Dec 2020 23:00:36 -0800
+ Mon, 21 Dec 2020 23:04:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SqCkXEpW;
- spf=pass (domain: gmail.com, ip: 209.85.166.172, mailfrom: twoerner@gmail.com)
-Received: by mail-il1-f172.google.com with SMTP id r17so11078773ilo.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Dec 2020 23:00:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ApTylFya;
+ spf=pass (domain: gmail.com, ip: 209.85.166.43, mailfrom: twoerner@gmail.com)
+Received: by mail-io1-f43.google.com with SMTP id t8so11114993iov.8
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Dec 2020 23:04:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lQjWmpFsbc33QD+SUEu0pZTn9rA+r5C26rSRM+jeRUI=;
-        b=SqCkXEpWaSFyvxOXhIwRINGJ2YwdOoaj0c49ElNtt10Rr8m9BGh2CnJxauuje/BZIn
-         I217jt2QzBrnPXRrTMAkBfKxHc1U1s1NZ+LpcTbt6s+DM/AVljF11IquC19p+fZAgKBY
-         81QLNTQadqKLzPOzIuT8meQh/Eaj8S55xL3mcDSjPySAblwaE/CB2UUU3t2tPKZbyF8P
-         tPLoazjhwIw3ImNvzqwxbgkjX9KfGWyZfi6dCfk/eVXj1yCMvPPLCWX01ju+BouUrr+x
-         dXH7frFGV+9mRz28ZXh9LqendkUrCHOTu/xYy7YB+dT0apfmTl6wuqrTLdZ5gHCQNExo
-         wE3A==
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=s4aTKWQqZl0wkMfTtwx/pRaUfRxXDaDGZmZyKFbAHTs=;
+        b=ApTylFyalewy/Pd/KxxfMgv8uc1AQuUxxQNyEZ/O8vXbZne4DAWXC9cMk6I8ov5j1S
+         yWlZF8yfSAd3sFYdWhNfstsrFUB8pUY/GgKC9U91+4WVNy55dKNYLW8poguvKNi4ZbEs
+         /YsRnPuiV5bipvuRp0Qz2ma28BTiieZFjhREUku1Vi0WsP+Oi1weMG/k6XzV+mmW4qgs
+         ikrT1FoMTs7o+nRTHadYrqwvNmAdizSln6VjtcK69MWNC/mWv5LUTX5LLCNiLLa0twov
+         ElMCOHgnZym0C4DZX0U1YnaPUraEOJCBxFqXiUXkrr3w974eBkUorTkDrtJOBOKU2HZr
+         jZlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lQjWmpFsbc33QD+SUEu0pZTn9rA+r5C26rSRM+jeRUI=;
-        b=NiDHOkG337mJYw4ch6r4OMaBx3pzYyGP8N35P/3MwuffxRUVXlsIk1TLRF8V27UXHy
-         a5uis20q7mB+VndPHXuf4FOErPrbGHxvCX915RJxhw2voNNgiBgWtt+j3F1SZWwiYCJ7
-         vQYEdIaiGxDe3NqZ6nrt4XiYndSsdY15etNT74pp4qv8oA+bOgOQDxR1foA0PI4a5VMj
-         LUPQV/dwXclPCSgJt0iQ0VT2Xj9EhyDVPNk4ArXL6XbVPGdiDRu+hbIc0X40Vh6F6oPQ
-         fNpZhIo4mVkl3p1dfz9oqFU0dbVb7zXiF5xRv5qsycgqz/M3SATBV1TBfb/s7TIwp18r
-         GjfQ==
-X-Gm-Message-State: AOAM531JiO4919iUuIa/FSJmQw724jySo+YlHeVDvZ3E8G+5oah5r7qa
-	VPMMmYyuIYCgy+9Rj/Zt/PY5UyYfJvPY/Q==
-X-Google-Smtp-Source: ABdhPJwrFZMVDa2K2vuLFY3qrTQOGE8/0sQ340NTs8oPa0GFuLSbJxHWLhQt+8n0Df/lSJ5+E2crUQ==
-X-Received: by 2002:a92:6d12:: with SMTP id i18mr20009780ilc.48.1608620435219;
-        Mon, 21 Dec 2020 23:00:35 -0800 (PST)
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=s4aTKWQqZl0wkMfTtwx/pRaUfRxXDaDGZmZyKFbAHTs=;
+        b=eqfQaVSvuot+5h9+mtehZuIseh81jRT5AQHLlkTht0hNrPYIcFYEO9uAF7NR/9t+4R
+         lsLCDGorRKmL0QsbWX6Txb/rAdWE5ZiWVjnXLAvfZpyANwCwLrNxkhPy0tIu/Ayh0Bpp
+         p9fW7AXnPd2ZB/dm3qTbe/nxgGLuW0I+pkGLeVAXBx9rWUGtulcNCKLEyPrm7dgKus5H
+         I+F2K2FTTPhR99kGGVOkUe0bGgT3bGOJDiTwn9LwTaR9EDZZeCk2K9jRifDUpX/s/U5o
+         gBHJZM8Ji7xsC9D1HJUNR083uC1H57DxX4TCUo5Sv3rVYJaKirCO4Rc8kn3VIJlTh/Aw
+         qgsQ==
+X-Gm-Message-State: AOAM531Ls6CUx/W+7Dt/871uIdKvWP545TarnkhSrTs2kW2cL30LTI1A
+	6LWHhSQfR4HGMJyfniRFR/1Ygn6ennykcA==
+X-Google-Smtp-Source: ABdhPJxClk30XFJaYHwq0ocnW4r0va8LC2Ug4AFLc+haqJ46J1Eo5S/OteQZDiOMTvLbuR/ZYZRk4A==
+X-Received: by 2002:a6b:d21a:: with SMTP id q26mr17025525iob.128.1608620665611;
+        Mon, 21 Dec 2020 23:04:25 -0800 (PST)
 Return-Path: <twoerner@gmail.com>
-Received: from localhost.localdomain ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id p13sm23775533iod.54.2020.12.21.23.00.34
+Received: from localhost ([206.248.190.95])
+        by smtp.gmail.com with ESMTPSA id h70sm23069041iof.31.2020.12.21.23.04.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Dec 2020 23:00:34 -0800 (PST)
+        Mon, 21 Dec 2020 23:04:25 -0800 (PST)
+Date: Tue, 22 Dec 2020 02:04:22 -0500
 From: "Trevor Woerner" <twoerner@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] sysvinit/rc: show text progress
-Date: Tue, 22 Dec 2020 02:00:29 -0500
-Message-Id: <20201222070029.40230-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.30.0.rc0
+Subject: Re: [OE-core] [PATCH 1/2] sysvinit/rc: show text progress
+Message-ID: <20201222070422.GA40685@localhost>
+References: <1652F7C39C28176B.11411@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <1652F7C39C28176B.11411@lists.openembedded.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-In addition to the progress bar, show which startup routine is running by
-using the "MSG" facility of psplash.
-
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/recipes-core/sysvinit/sysvinit/rc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rc b/meta/recipes-core/sysvinit/sysvinit/rc
-index d0d3149821..6995930ee9 100755
---- a/meta/recipes-core/sysvinit/sysvinit/rc
-+++ b/meta/recipes-core/sysvinit/sysvinit/rc
-@@ -27,6 +27,7 @@ startup_progress() {
-     fi
-     #echo "PROGRESS is $progress $runlevel $first_step + ($step of $num_steps) $step_change $progress_size"
-     if type psplash-write >/dev/null 2>&1; then
-+        PSPLASH_FIFO_DIR=/mnt/.psplash psplash-write "MSG $(basename $1 .sh | cut -c 4-)" || true
-         PSPLASH_FIFO_DIR=/mnt/.psplash psplash-write "PROGRESS $progress" || true
-     fi
- }
-@@ -53,7 +54,7 @@ startup() {
- 		"$@"
- 		;;
-   esac
--  startup_progress
-+  startup_progress "$1"
- }
- 
-   # Ignore CTRL-C only in this shell, so we can interrupt subprocesses.
--- 
-2.30.0.rc0
-
+Oops, there is no 2/2, this is a singular patch.
+Should I resend?
