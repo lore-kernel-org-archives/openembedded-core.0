@@ -1,124 +1,82 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web08.11297.1608645007039328023
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+ by mx.groups.io with SMTP id smtpd.web08.11302.1608645047753356751
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 05:50:07 -0800
+ Tue, 22 Dec 2020 05:50:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Pm1aQmdI;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id w1so18306148ejf.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 05:50:06 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Ai2ODWM9;
+ spf=pass (domain: konsulko.com, ip: 209.85.161.42, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oo1-f42.google.com with SMTP id i18so2972969ooh.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 05:50:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=konsulko.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/x3hL+6sYl9OE2rENMIF6+Gc+gSOV58KBCt8v0Ta+Hc=;
-        b=Pm1aQmdIOgCDuLAcsFiHUwOEUUCEXZYWhzu0zsoWK0nVTHm/0iT7yjiOkM9NoGUtCv
-         bZjtwRfKlbDVuQVq7qNjRoV52l+p7s4TZK6q1K3B7iiAeEU+jEGw0ZWVw/OYfMmzI+T4
-         HaalFDtPhX7sPNeUG+P9BD7Op1xkP+k+sI4+fS3MMvJ8Se2Ri7tCLJl/fJj9L0x+/0q4
-         Rdkap39LbWVN5XstqF6vs26fMJKepOLwgiVUQOJqlSJRCCndyiLuuyWQErHiRukjvyE2
-         /IrcsKDK/bKQ9cqa9wLWiONXJXsadrE17Lp7bpCmEIUmm3PxpcP7ebLYu0xUkWlbjqee
-         Sadg==
+        bh=rd07RVAyiVVbhvDW8VJz74ajOUYjej1R5YyXCI7VYaM=;
+        b=Ai2ODWM9lsAPW1Zw7otLbL8u3CY0SiKTk1VZ3Zm2Fqfl9XW9GD6tjswXMgYuvSA9oV
+         fZXxZdIOl3V/npDQLb5ctQEOx3H+tdYh7WO8VBh488iNIuZV2LnNRx04NXbr9R6Kxhb4
+         JO0fiqwRlCDpgxOBccnS/gejCjAP+ZpslEddc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/x3hL+6sYl9OE2rENMIF6+Gc+gSOV58KBCt8v0Ta+Hc=;
-        b=m3eY+Jmiy0MV7xCfJpQE5cYHcatroxLEqSyf3htSFr1wuNs8mh3UguJ2ct/F5n4uG6
-         5ArATpaqeZlnnea1ZjriLJwJ0/qZTjvs948lcOB+5L0l+XamqIhDkQfqxxy8dx72xptp
-         9DkHwKZsvRrxWCcdUA7hJEcN1HNAKbl9ASrxl906OD5hpu6BuKcMDE7YIzTVDzUcg2X7
-         U43TFSXxFPigbrJ11BRea3ezlA4XjR2xtw0Gw7oUxVrgYoVPEKs20zXhEzyyF45sqGAa
-         BsEjYyHgcgpqABwyT5MCQEGVY+3+/lpDpuBfdADEQo5Pg9dUNdDNYGPAdvV7WSQKUh3y
-         J+wQ==
-X-Gm-Message-State: AOAM532iysEBhqaNCG59W9gydcFAi9RbnL6pUYpMyRwyGq+fbU/4GXTX
-	gkDVR0Qy2OgND6HTM4HjvCudLSWtraJl9EZnVRA=
-X-Google-Smtp-Source: ABdhPJwtUkFIMCl5abe3S8KXxlSr72RMSE9Z5pFDZ3OdvvpMVTVdmiOWthi4eGFo644LXDUoc1P+kNSYMJNxhXfA/Ps=
-X-Received: by 2002:a17:906:6dd1:: with SMTP id j17mr20240886ejt.357.1608645005320;
- Tue, 22 Dec 2020 05:50:05 -0800 (PST)
+        bh=rd07RVAyiVVbhvDW8VJz74ajOUYjej1R5YyXCI7VYaM=;
+        b=c+uA4VYsiGzm4lvLZhUGdhRnsFyOZT8kRT1g59or/VMYWKCpkjqc3EZ8nWlssE4k04
+         fqnMf+z2gCLv7ObIxI1WjWGUSLCHKtlQ5Q02NHm0jDc671Z9pBL9R/WsDvexFBfd5JSG
+         AhQGO526zcQtSSIheQa9VlHj/aIIoPDNbUh34CgMLQDwTNEljhtPhW+QzjNdO+ncxr2B
+         9uXmjH/izqdjrQMNG6qhJrRBW40DBOo/QuFTvEkZrF37TWZM/WZ5hHopGOpGiFICnL8H
+         Y+n7EtNvQ/Oec5lMpRZ4JqxLv0RPoezIq5KH1LP5gmx4JBr5wp+86ZQhwTV3Nl/34KpZ
+         c23g==
+X-Gm-Message-State: AOAM532jdMDhvxI01GDkqHxYWbATwSd8LF2ZLF4RcmHnBM2LufIvy4ZN
+	GdTbmvHCd6Od3IQ2+7VtyFlbCRadlkljyNOJvydWww==
+X-Google-Smtp-Source: ABdhPJzvtZsGUrWP05OtxA3N+5LYUAAxLRQuT2azvoNNPIGjVmRnXlZaZHZxZn6mGR+NdsQKQQZ+A3yeXVhvcmNIcTI=
+X-Received: by 2002:a4a:3001:: with SMTP id q1mr14885240oof.88.1608645046847;
+ Tue, 22 Dec 2020 05:50:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20201222104124.39262-1-ovidiu.panait@windriver.com>
-In-Reply-To: <20201222104124.39262-1-ovidiu.panait@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 22 Dec 2020 08:49:54 -0500
-Message-ID: <CADkTA4PYk-jM7jqEBj008zGysEcf6UUVr3RfZuzkANp38-FkZQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel-devicetree: Introduce KERNEL_DEVICETREE_FLAGS to pass dtc flags
-To: Ovidiu Panait <ovidiu.panait@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <cover.1607007208.git.steve@sakoman.com> <CA+chaQeEFu6++N5J2qkEjU9HZPqjAahuDVGZAcfsma-9zjDLZw@mail.gmail.com>
+ <CAOSpxdaJXGM5HMR0yvobzN2sa2cy-+AxLqsa99tD4pn6fiN7+g@mail.gmail.com>
+ <CALNvYWMznudnN+_6yCkxcwxhtv=8M=hRC1nNpQP6Ww7ZTedvPg@mail.gmail.com> <45cc5593b9b9bfbdfde689a5f72a678a99eb5d2b.camel@linuxfoundation.org>
+In-Reply-To: <45cc5593b9b9bfbdfde689a5f72a678a99eb5d2b.camel@linuxfoundation.org>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 22 Dec 2020 13:50:36 +0000
+Message-ID: <CAM9ZRVvCueC0+9b+Tvwv2pHm+44OGwU18O5zDH2wBUgghW_gjg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/28] Patch review - pseudo file mode corruption fix series
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Erik Boto <erik.boto@gmail.com>, Steve Sakoman <steve@sakoman.com>, 
+	Martin Jansa <martin.jansa@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Dec 22, 2020 at 5:43 AM Ovidiu Panait
-<ovidiu.panait@windriver.com> wrote:
+On Tue, 22 Dec 2020 at 10:03, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Currently DTC_FLAGS kernel makefile parameter can be specified directly on the
-> command line by adding it to KERNEL_EXTRA_ARGS. However, this prevents
-> scripts/Makefile.lib logic from appending flags that silence dtc warnings (all
-> assignments done from within a makefile, to a variable specified on the command
-> line, are ignored).
+> On Tue, 2020-12-22 at 10:08 +0100, Erik Boto wrote:
+> > There's a bug affecting wic in combination with --exclude-path /
+> > --include-path that would then be backported into the LTS version.
+> > See
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14129.
+> >
+> > Maybe the issue that is being fixed is more serious then the issue
+> > being introduced so it's a valid trade-off, I just wanted to mention
+> > it so it's known.
 >
-> Because of this, the do_compile log is cluttered with dtc warnings that should
-> only be printed when compiling with W="123":
-> ...
-> /soc: node has a reg or ranges property, but no unit name
-> /soc/gpu: missing or empty reg/ranges property
-> /soc/firmware/gpio: missing or empty reg/ranges property
-> ...
+> I've been suggesting Steve hold off this until we sorted out master,
+> having a patch queue ready is helpful though so we don't lose track of
+> all the patches.
 >
-> To fix this, introduce the dedicated KERNEL_DEVICETREE_FLAGS variable to hold
-> dtc flags and export DTC_FLAGS in the environment before generating the dtbs
-> (make allows "+=" operations on variables that come from the environment, so
-> the warnings are silenced properly).
+> There were some fixes from Peter/Paul around pseudo which we needed and
+> have now merged which leaves the above issue...
 >
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> ---
->  meta/classes/kernel-devicetree.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
+> Cheers,
 >
-> diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
-> index 81dda8003f..2066096a9a 100644
-> --- a/meta/classes/kernel-devicetree.bbclass
-> +++ b/meta/classes/kernel-devicetree.bbclass
-> @@ -9,6 +9,9 @@ FILES_${KERNEL_PACKAGE_NAME}-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-
->  # Generate kernel+devicetree bundle
->  KERNEL_DEVICETREE_BUNDLE ?= "0"
->
-> +# dtc flags passed via DTC_FLAGS env variable
-> +KERNEL_DEVICETREE_FLAGS ?= ""
+> Richard
 
-We should also be updating the docs with the new variable.  I don't
-know how well the other parts of this are documented, but the state of
-the current docs shouldn't prevent this from being documented.
+Looking at that bug (#14129) I wonder why "${WORKDIR}/build-wic" was
+added to PSEUDO_IGNORE_PATHS in
+https://git.openembedded.org/openembedded-core/commit/?id=ad8f5532ffaead9a5ad13e1034fe9e5e1b7979f4.
+Is anything likely to explode if we drop that addition?
 
-> +
->  normalize_dtb () {
->         dtb="$1"
->         if echo $dtb | grep -q '/dts/'; then
-> @@ -50,6 +53,10 @@ do_configure_append() {
->  }
->
->  do_compile_append() {
-> +       if [ ! -z "${KERNEL_DEVICETREE_FLAGS}" ]; then
-
-Does -n work here ? Having a positive test "does this exist ?", is
-almost always easier to read / maintain than "does this not exist ?".
-But someone can correct me, if there's a compatibility concern with -n
-(and if so, I have a lot of scripts to change ;))
-
-Bruce
-
-> +               export DTC_FLAGS="${KERNEL_DEVICETREE_FLAGS}"
-> +       fi
-> +
->         for dtbf in ${KERNEL_DEVICETREE}; do
->                 dtb=`normalize_dtb "$dtbf"`
->                 oe_runmake $dtb CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
-> --
-> 2.17.1
->
->
-> 
->
-
+Thanks,
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Paul Barker
+Konsulko Group
