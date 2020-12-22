@@ -1,133 +1,193 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.69])
- by mx.groups.io with SMTP id smtpd.web09.9202.1608625788022083232
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.9314.1608628144971113802
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 00:29:48 -0800
+ Tue, 22 Dec 2020 01:09:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=WjlZcyLf;
- spf=pass (domain: windriver.com, ip: 40.107.243.69, mailfrom: yi.zhao@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HS8ZiQOkgN7bSJ2ZXZcAtMmXIXmyerLu0hgGMveRS31aaSzi01iQKc6ImkKFNXTV4IhpLgqOSYnxBLvPrUV68wJ7jLcrg5IjQdESfKEEDx4T5Mv9b24SlyqZmSZRjgK+UMHR7KQt3vKz4QwemGHw/vdLfrAOnSVrZRJy1wyvfaLjIEH42skmMGcB+npM8rRsivevGV9InhWE9Hr/2VSIjA29jztAZYVX0O0elH6jrOXNICUIlRWgdAf0rzs24cbnym0nLuFCkEKPsmuZBsxD+0MCtzDMfeSGuZx3K1HXrHtl7x0PgUfrmyeqwV7Ex8XIx0fUfqD10NL5sPLCHvwC5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dY6IwSnNp5RhK92H3bSpp2Hm7GvmeZECSWCX12D8Q8Y=;
- b=MvuJ7QryHVcsTUg6+JaVsqSxQ4mUxjBoqnM8Jw/edF5T0fVzsnmZFqyfF4oapz8rs+QJBbt8a2qI7bez0LrnwJexbscHAAVWdNj5g7LYWqjtQlmsDSkzPDq3kQWaCl8xKaJdsATEik9V/WrMpKZ2JCA6hJ+1f4q9BUtNl4CYGxTQna/VUXxJPNSNjcMFAMyEjoTQ4qLOpzkhrWUNuqyzCsiHmN8CoxLNTegvRMQJgxZkgZoPx2NbKEgMZLTychY4vlo/95Kk1T2lwBRr17aheS05mSUoF7rDvtdvGg81P2Xdp90ENS8/3YvItKQv97YlPseYchczqzocGoWXPzHo/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nr+mDeop;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: erik.boto@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id o17so30309485lfg.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 01:09:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dY6IwSnNp5RhK92H3bSpp2Hm7GvmeZECSWCX12D8Q8Y=;
- b=WjlZcyLfzJ/ezl9+85ywJtOCdoUWWk1B/mYrBXDYh2csgsXDKBS2IwLtFh3NkEsdmTdnAH1raAZuqoyRXsKa1kynsZjmDZ4lxPXicBf6qwfOlUw2sAaBC64XZaUdqWchrsBxWPKWTAUL244Rsz8UYqUo4nXbNYfVH6tjUSvcivc=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO1PR11MB4867.namprd11.prod.outlook.com (2603:10b6:303:9a::13)
- by CO1PR11MB5169.namprd11.prod.outlook.com (2603:10b6:303:95::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.29; Tue, 22 Dec
- 2020 08:29:47 +0000
-Received: from CO1PR11MB4867.namprd11.prod.outlook.com
- ([fe80::21b9:29b6:fd3:bca5]) by CO1PR11MB4867.namprd11.prod.outlook.com
- ([fe80::21b9:29b6:fd3:bca5%7]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 08:29:47 +0000
-From: "Yi Zhao" <yi.zhao@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] inetutils: add dnsdomainname to ALTERNATIVE
-Date: Tue, 22 Dec 2020 16:29:34 +0800
-Message-ID: <20201222082934.208800-2-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201222082934.208800-1-yi.zhao@windriver.com>
-References: <20201222082934.208800-1-yi.zhao@windriver.com>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: BY5PR13CA0005.namprd13.prod.outlook.com
- (2603:10b6:a03:180::18) To CO1PR11MB4867.namprd11.prod.outlook.com
- (2603:10b6:303:9a::13)
-Return-Path: yi.zhao@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oIqrt7bhVkHhUu51SDNQF6qQFrUofMScC90+zllVK3I=;
+        b=nr+mDeopIZ/C+0nWWwPvmC3Fk6ZMtqVZCkQQmUpOFwA9udsx9NgU69mpYX0w3zyRF0
+         zQYc2soH4rjV0iufiUltC/ob6F2qGZqfbbytwABzY8D0SW4jLu/b5QYYnv4pb9p8DnMT
+         JeodT6oQskwZGQAbht/QIXW+PpCgmZuPFqDVvVn0DD7X/5TXKyco4NPJwVNT+rRCOM9g
+         IQaZisxlnKk3wxmU0a0lhwVvmzXZI2ERdhoopPDyFmnsD92Yyg0CtO2GvawEQNnNxG2e
+         yBIaRFD062CnW839NeuyiUCoFR3akz+O/Uc88wh0so9AMbckw1f9iKiNeoK2JdRS04El
+         dLxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oIqrt7bhVkHhUu51SDNQF6qQFrUofMScC90+zllVK3I=;
+        b=iliLdzuKnKW+yuikiD1wZkxDKoPiuDY6/OYgGY53z27w9ZRea4QGhN6yMR4QVlmTwY
+         xkaRFYXqufSpBwz05t+VnrmSAmmVSQWi76Id1kgq4jyNL45NIFsHkvMaxZqn2dkNSeJF
+         U62ySQaxZXVzEcL5ihxyz1lsDyUuSgGzowbh6QtDsxxqrW6LNP0Q/8Rhu+dEsfZvSBsa
+         6248XBfTNbY385q1pfCxpt+CRCTNYxi7oXZ/FkVa1YiJTxhzt+KnGzaN4rWZ2GWi645a
+         up93E5mDRj3FC43eMd8bClT/RZykW5Xm3LntmcMXhVhkmsFlScVVkn7u8hgQn+WPNYVC
+         Jl6w==
+X-Gm-Message-State: AOAM531xI5w52f1nTQduw8GD79g3SabTr4ei1mSA3ugZk4skWOc7EBLV
+	T0OvRTeBq+EJ4Wd+f/KEbU/vrU1hwF9Ifor8y7E=
+X-Google-Smtp-Source: ABdhPJwiCYjRlqEYcPIjcsOTLHX1Imh9Zr+wTMFyGBrYJ5NBsyGO38Y3I6YPPqb+WjMJd60UyJXPmyK9eMw0Vk+Im4I=
+X-Received: by 2002:ac2:5a09:: with SMTP id q9mr7961128lfn.209.1608628142994;
+ Tue, 22 Dec 2020 01:09:02 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-yzhao1-d1.wrs.com (60.247.85.82) by BY5PR13CA0005.namprd13.prod.outlook.com (2603:10b6:a03:180::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.19 via Frontend Transport; Tue, 22 Dec 2020 08:29:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a27d1137-3843-4756-d003-08d8a653bded
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5169:
-X-Microsoft-Antispam-PRVS: 
-	<CO1PR11MB5169EA3B433F7496902CA0F3F9DF0@CO1PR11MB5169.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4vD+vGDrJ/4ynGfGGB/IKP/Nof/2986mTLe1ot8ZXKkBm0T9xXzJE9b7n+plGFl7MhoXW5MC+/lTeEzOZQIJinpB8Sld5FHzUfeAfdCKANXKufczR9Bbv2B4QFzdwtsXw6BfsXrl6whFGjM3BNuIts094xEtsjizNerIVSghjnP3lXqsm+kDoRxWigoTO+F0fwVTvceaRTP3yPhlQmxAmqcUZjNkxcvdceUYHIpmGHWKqlYwGjG/rxmJdhiitZA8rKlq2tM9piL3ntKlcBQpfh3AjMju974LjTrO+kVXzriUw7B1Xj4a4BkbhAOP+85JgimqWobO9VVDemu966GbWorVqj28vyYqQB3UsFCknEfLs+BkvPiAWZcwQrlgE+Win+y+KNxclUDbaf8j7BahFQ==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4867.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(366004)(396003)(39850400004)(2616005)(44832011)(8936002)(956004)(316002)(5660300002)(36756003)(8676002)(66556008)(2906002)(83380400001)(66946007)(66476007)(1076003)(478600001)(6506007)(6486002)(86362001)(52116002)(6916009)(186003)(6666004)(6512007)(26005)(16526019);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?4xGmmUJli9m4XTw3kRm8stpb7ZXhl1OCb4RU0X3YzqR453ayLjGFBr/BQG5w?=
- =?us-ascii?Q?6raD8mKrZ9oo11hMGY6wlCiihecjRe5eb5uO+gIYsKRUsHWdxetJyuWwPLbZ?=
- =?us-ascii?Q?2KYRuPCi6gGCh8bAC4jXey+q6gFi2AMg/boVqS7i46xkTlXM2qRFOPuvQNTb?=
- =?us-ascii?Q?rNg2/0QPoOw6ONxx/JwEx42qDenofKO0EK+M3f37ax71nv/A3yanvkm52158?=
- =?us-ascii?Q?22iebkIgIdVP8jkTmyKJWhAkhkcUR/R/mZTzMQFCGJFWH1mQT/Fr9Wt8j1Cg?=
- =?us-ascii?Q?xk9zM6Wfq+pK562oqsxFDGm68+zDsymbF5afaI4JgMIM6UG+9iyq5h/vpgeD?=
- =?us-ascii?Q?O0mehNRMklOk7xF3H2U1BN7IMEofEAIMPkzRltBm3qaGG04D43Z5DdC2qqYU?=
- =?us-ascii?Q?bcTOIaVbweym2XMYTwB9jUhXwiQcx85MBDBJMvQ9D6IADDgqADY8PgTZzfUO?=
- =?us-ascii?Q?M7d1naJEhStYtfKmgogE1TrFYK1/Kec57GqJ71oLmmJAsusn29nZr/gNIujN?=
- =?us-ascii?Q?Lp27DsNzO7lmRzc5s8wwkoWI+LKZuQrnsp+CCjliqOh2c+ILK7Pij5s9DN7e?=
- =?us-ascii?Q?gtF3zLA0PA9lArOeHjx4Let0PIk5N2bnmigpuAbZLD4bjzFc7Q5ldHmqWtu0?=
- =?us-ascii?Q?ECn6evn3LpZYPdkSYrfJuZig1neG6LSiEL3rWeUT4w7TXD1pKWM9H5NfcTUT?=
- =?us-ascii?Q?yXvrDSJcgUdLp1q3zpLB3M/OhwDpFnw+EdQCHPBWSFNMR7uhe3loUEE4cp9I?=
- =?us-ascii?Q?OIhOIBjTohNqaCIGykBiStS5jnvG6aBkseXCFS9kXEPyA+Ue1rz4ZziGn9lO?=
- =?us-ascii?Q?RwynriT6DwC3/+rUxefQZJ9GgqAowE9O9SgS49eF8InLk4BPiF5v9sIUHTkF?=
- =?us-ascii?Q?eloUMZ7DKaN/uQumouJ2fWRw7rsQkBkSigGQxJzBtZoOe4HZNZoPw2vHv0Wa?=
- =?us-ascii?Q?X3iNRK4qnt6/7Xlv37zHVp0Q/TOIvQRwLr4vq0InJN/eMEMqO1knpS2FA0U9?=
- =?us-ascii?Q?cNYg?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4867.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 08:29:47.0735
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-Network-Message-Id: a27d1137-3843-4756-d003-08d8a653bded
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yodJVSyys0loUoDQz/niD2+ZIcGcyO18ymcQFidJnzTk4wN8DerEEQIjgh2wMxUrbDf4CQ8lhOyqyPx9Hs7uGA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5169
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+References: <cover.1607007208.git.steve@sakoman.com> <CA+chaQeEFu6++N5J2qkEjU9HZPqjAahuDVGZAcfsma-9zjDLZw@mail.gmail.com>
+ <CAOSpxdaJXGM5HMR0yvobzN2sa2cy-+AxLqsa99tD4pn6fiN7+g@mail.gmail.com>
+In-Reply-To: <CAOSpxdaJXGM5HMR0yvobzN2sa2cy-+AxLqsa99tD4pn6fiN7+g@mail.gmail.com>
+From: "Erik Boto" <erik.boto@gmail.com>
+Date: Tue, 22 Dec 2020 10:08:52 +0100
+Message-ID: <CALNvYWMznudnN+_6yCkxcwxhtv=8M=hRC1nNpQP6Ww7ZTedvPg@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/28] Patch review - pseudo file mode corruption fix series
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The dnsdomainname can also be provided by busybox and net-tools. Also
-move it from ${bindir} to ${base_bindir} because the command provided by
-busybox or net-tools is located here.
+There's a bug affecting wic in combination with --exclude-path /
+--include-path that would then be backported into the LTS version. See
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=14129.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Maybe the issue that is being fixed is more serious then the issue
+being introduced so it's a valid trade-off, I just wanted to mention
+it so it's known.
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/=
-recipes-connectivity/inetutils/inetutils_1.9.4.bb
-index adf6d4414e..09a196ad9d 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-@@ -71,6 +71,7 @@ do_install_append () {
-          install -m 0755 -d ${D}${base_bindir}
-          mv ${D}${bindir}/ping* ${D}${base_bindir}/
-          mv ${D}${bindir}/hostname ${D}${base_bindir}/
-+         mv ${D}${bindir}/dnsdomainname ${D}${base_bindir}/
-     fi
-     mv ${D}${bindir}/ifconfig ${D}${base_sbindir}/
-     mv ${D}${libexecdir}/syslogd ${D}${base_sbindir}/
-@@ -118,8 +119,9 @@ PACKAGES =3D+ "${PN}-tftpd-dbg ${PN}-telnetd-dbg ${PN}-=
-rshd-dbg"
- NOAUTOPACKAGEDEBUG =3D "1"
-=20
- ALTERNATIVE_PRIORITY =3D "79"
--ALTERNATIVE_${PN} =3D "whois"
-+ALTERNATIVE_${PN} =3D "whois dnsdomainname"
- ALTERNATIVE_LINK_NAME[uucpd]  =3D "${sbindir}/in.uucpd"
-+ALTERNATIVE_LINK_NAME[dnsdomainname]  =3D "${base_bindir}/dnsdomainname"
-=20
- ALTERNATIVE_PRIORITY_${PN}-logger =3D "60"
- ALTERNATIVE_${PN}-logger =3D "logger"
---=20
-2.25.1
+Cheers,
+Erik
 
+On Mon, Dec 21, 2020 at 4:06 PM Steve Sakoman <steve@sakoman.com> wrote:
+>
+> On Mon, Dec 21, 2020 at 4:33 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+> >
+> > Just curious, is this PR on hold or rejected completely?
+> >
+> > I don't have strong opinion either way, I was just wondering about this one when other newer PRs were already merged.
+>
+> This series is still actively being tested. I've been waiting for a
+> couple of related patches from master to hit before sending a v2.
+>
+> If there are still no objections at that point I'll send a merge request.
+>
+> Steve
+>
+> > On Thu, Dec 3, 2020 at 4:08 PM Steve Sakoman <steve@sakoman.com> wrote:
+> >>
+> >> Issues with undetected file mode corruption in pseudo have been identified.
+> >>
+> >> Fixes have been merged into master and gatesgarth over the past couple of months and
+> >> things seem to have stabilized enough that we can consider backporting these fixes
+> >> to dunfell.
+> >>
+> >> This is a somewhat more invasive change than normal. Specifically the user will
+> >> be required to clean TMPDIR after this merge. It may also expose issues with
+> >> other layers, though master and gategarth have probably helped to pave the way for
+> >> this change.
+> >>
+> >> Personally I think that this fixes a serious enough issue that we should consider
+> >> this series for dunfell.
+> >>
+> >> Please have comments back by Monday morning.
+> >>
+> >> The following changes since commit 071806feb195961e59069f778c9ae8f27a739d9a:
+> >>
+> >>   e2fsprogs: Fix a ptest permissions determinism issue (2020-11-30 12:05:57 -1000)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+> >>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+> >>
+> >> Jacob Kroon (1):
+> >>   bitbake.conf: Remove TERM from default BB_HASHBASE_WHITELIST
+> >>
+> >> Joe Slater (1):
+> >>   pseudo: fix renaming to self
+> >>
+> >> Martin Jansa (1):
+> >>   base.bbclass: use os.path.normpath instead of just comparing WORKDIR
+> >>     and S as strings
+> >>
+> >> Mingli Yu (2):
+> >>   tcl: adapt to potential pseudo changes
+> >>   bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
+> >>
+> >> Ricardo Ribalda Delgado (3):
+> >>   wic: Fix permissions when using exclude or include path
+> >>   wic: Fix multi images .wks with bitbake
+> >>   wic: Avoid creating invalid pseudo directory
+> >>
+> >> Richard Purdie (19):
+> >>   pseudo: Switch to oe-core branch in git repo
+> >>   pseudo: merge in fixes for setfacl issue
+> >>   pseudo: Update to add OFC fcntl lock updates
+> >>   pseudo: Ignore mismatched inodes from the db
+> >>   pseudo: Add support for ignoring paths from the pseudo DB
+> >>   pseudo: Abort on mismatch patch
+> >>   psuedo: Add tracking of linked files for fds
+> >>   pseudo: Fix xattr segfault
+> >>   pseudo: Add may unlink patch
+> >>   pseudo: Add pathfix patch
+> >>   base/bitbake.conf: Enable pseudo path filtering
+> >>   wic: Handle new PSEUDO_IGNORE_PATHS variable
+> >>   pseudo: Fix statx function usage
+> >>   bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+> >>   abi_version,sanity: Tell users TMPDIR must be clean after pseudo
+> >>     changes
+> >>   pseudo: Update to account for patches merged on branch
+> >>   pseudo: Upgrade to include mkostemp64 wrapper
+> >>   oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
+> >>   uninative: Don't use single sstate for pseudo-native
+> >>
+> >> Ross Burton (1):
+> >>   devtool: remove unused variable
+> >>
+> >>  meta/classes/archiver.bbclass                 |   2 +-
+> >>  meta/classes/base.bbclass                     |   6 +
+> >>  meta/classes/image_types_wic.bbclass          |  12 +-
+> >>  meta/classes/populate_sdk_base.bbclass        |   2 +
+> >>  meta/classes/sanity.bbclass                   |   3 +
+> >>  meta/classes/sstate.bbclass                   |   4 +
+> >>  meta/conf/abi_version.conf                    |   2 +-
+> >>  meta/conf/bitbake.conf                        |  13 +-
+> >>  meta/lib/oe/sstatesig.py                      |   4 +-
+> >>  meta/lib/oeqa/selftest/cases/runtime_test.py  |   1 +
+> >>  .../pseudo/files/0001-Add-statx.patch         | 106 --------------
+> >>  ...001-maketables-wrappers-use-Python-3.patch |  34 -----
+> >>  ...ixup-remove-files-that-do-not-exist-.patch |  49 -------
+> >>  .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  |  31 ----
+> >>  ...1-realpath.c-Remove-trailing-slashes.patch |  57 --------
+> >>  ...xattr-adjust-for-attr-2.4.48-release.patch |  48 ------
+> >>  .../pseudo/files/moreretries.patch            |  19 ---
+> >>  .../pseudo/files/seccomp.patch                | 137 ------------------
+> >>  .../pseudo/files/toomanyfiles.patch           |  71 ---------
+> >>  .../pseudo/files/xattr_version.patch          |  54 -------
+> >>  meta/recipes-devtools/pseudo/pseudo_git.bb    |  14 +-
+> >>  meta/recipes-devtools/tcltk/tcl_8.6.10.bb     |   1 +
+> >>  scripts/lib/devtool/standard.py               |   1 -
+> >>  scripts/lib/wic/partition.py                  |  23 +--
+> >>  scripts/lib/wic/plugins/source/rootfs.py      |  37 ++++-
+> >>  scripts/postinst-intercepts/update_font_cache |   2 +
+> >>  26 files changed, 89 insertions(+), 644 deletions(-)
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/moreretries.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
+> >>  delete mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+> >>
+> >> --
+> >> 2.17.1
+> >>
+> >>
+> >>
+> >>
+>
+> 
+>
