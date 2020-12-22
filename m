@@ -1,77 +1,75 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web09.10442.1608636314594545415
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web10.11324.1608643189000632704
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 03:25:14 -0800
+ Tue, 22 Dec 2020 05:19:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=IDKL4St+;
- spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.215.179, mailfrom: mshah@mvista.com)
-Received: by mail-pg1-f179.google.com with SMTP id n25so2672303pgb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 03:25:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rVkEefAy;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id a12so31900585lfl.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 05:19:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=4O/PKdFi8XhB2wdd9YLYmanw7TGR9s9+36Mieo/EG5E=;
-        b=IDKL4St+fZyjnYUTpvSaW6uHVf2L47mCjKXAwPnWr9HrvHP8ZeoEpFXdCU3hgJsuka
-         q3jGN0a+u46ENd2LN1N9d9tU05lQlUjboS0rTcQQBl6FE8ApldCdpmAkhApB1HafYktz
-         5MGT2d2wF213vcf/UK9FdkuHKO+VC7oGfJob+YprJZwaL9aatoqNi/sJB2+FEoEpvh/z
-         4kAu+ea1ej/1GAbyxPk1t/sS8NOL1uTgV/GcXkodD7AlCx72Kpm8mkXGBJVlaPMh88rv
-         uVfikW5Z3t9NJBsKSyUvr2nX1yySA2D8ugo3s3SwGgPg5EzleSp7ouWJQDWE3rDYu/2z
-         it0Q==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FBpctCABcb2vIvF8JVX8gJCeF6OHIQq39FdreBxSNlo=;
+        b=rVkEefAy4qKvKP9DFFhmQqAU2hPAlAkKJGvXDBzbASKrdZZpBoy0WioqF0YVdAmUwX
+         foB/t1uveWYj2qGln2/jojlc8kiaL0UOxat9WvMCuGHuDr5YJZMU4U0NWMks2nPdNB9X
+         muJoKmLiEbBllg5qozS/Jb/w4NBT0pRBGG5/XuLesH7B3SGaDpLkarx+wi4MVzk/ymGa
+         MTWOcnS0gpMoRB855NxORADlSHkJhMOoaqm6YgkpwsXfI3LPrCOJ/zW+IF311HfApPuq
+         rsIHOmtGqduL0Evl5vfTHEyQo/BDo/s+JjxO5Kg01Ye+bKXFQ7Yspq/uyZpFsLbk3m2u
+         S5OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4O/PKdFi8XhB2wdd9YLYmanw7TGR9s9+36Mieo/EG5E=;
-        b=ivQWPMYhoaO2PgaC1tUz2yjAnUYjaobcMtvXW2d4a7CyQTMgj8UProAXkJ1lr6e6d1
-         L3hG99LdH1UMLlyR5mGa3qpJC2bnc/kaHd1HU+r8TwHFkSgibHpVFUDEdk98vBZqSwcM
-         e4Gnp60w9ta3jyRLOOZSimbh5b3kB2D8nZYFBApbx3GePWYRHlOgjt8UD378GKzH1Whl
-         6DTnJNqILYSsxaD476SXa8sdtohToCyor5Gf0UdwIn/DhF8z+4FwZQmT0eAzfmPiOXg/
-         BQlQhiCOtLS4F6GW2EfA401UTJpJhF2JKA30VJs0AzIBt3YB4HvIBWPK47WBz567Cnw+
-         hdEg==
-X-Gm-Message-State: AOAM533doEsE02aEch/BDJk9cqqn5p+4vqOQa2R/bd6KvanFilbZG6sJ
-	Y5CoM5f4zqh0FBgUirmY4jceGHwhY7NWyQ==
-X-Google-Smtp-Source: ABdhPJzOOg9tTs1M6rKqmCF4FMOmt8veAXIAC/ghsbfo13kwYb+uLA+/EMzeGU/2DaNtVqy9Dky3nA==
-X-Received: by 2002:a63:3111:: with SMTP id x17mr19272443pgx.329.1608636313815;
-        Tue, 22 Dec 2020 03:25:13 -0800 (PST)
-Return-Path: <mshah@mvista.com>
-Received: from dell-latitude.mvista.com ([103.102.57.97])
-        by smtp.gmail.com with ESMTPSA id 5sm19661878pff.125.2020.12.22.03.25.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 22 Dec 2020 03:25:13 -0800 (PST)
-From: "Milan Shah" <mshah@mvista.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FBpctCABcb2vIvF8JVX8gJCeF6OHIQq39FdreBxSNlo=;
+        b=fGjtsh+s6OfK8yTq3r0VZGgpB10HvVfxqwMhXE6/U/j8Ua2btsjPcgfztlnrLiSQey
+         sC39upP7Mhy1i5VNXU8KdPPCCQuCxmXwJFO+QYuhI+txcFHthtWdePJQEY+tUp4ED/Wq
+         OLjv+6Jyx1K3EuXs3sdDaGulLLBl+mnxQL9/n6w54p6xSbqcef/ukFXxS5EtKfQlWOAS
+         UmJoyJMXrOis32Tv1FbGCbdtBqtO4cRm3Z1H3qpZOzhvIhXVh5e0NMg6cqlPUsohS5br
+         +mwNyxFgI9IoEmbKliPsZ436C0HZXRYJMZJzAsd9WyEAWOYcdNfV3HVWpdoqUdrsEO5+
+         Rmaw==
+X-Gm-Message-State: AOAM533nHa261Sho9P5N+a04XrTfivdLhfTZEphXJT6UpX2MbS2AhQZU
+	t2RGfpFNVF8BubLwLP5kgf8E99AUCTkPZGNF
+X-Google-Smtp-Source: ABdhPJzLyZEd43WxPqvZDyxv+yVnbE9lzErpZKp1tn2x3dDqwaN1rfLqt/ucLcvq+6jZsMwSzwI7Gg==
+X-Received: by 2002:a2e:a584:: with SMTP id m4mr9365806ljp.247.1608643186830;
+        Tue, 22 Dec 2020 05:19:46 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id v7sm2618276lfg.9.2020.12.22.05.19.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Dec 2020 05:19:45 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Milan Shah <mshah@mvista.com>
-Subject: [meta-oe][PATCH] oe-pkgdata-util: Added a test to verify oe-pkgdata-util without parameters
-Date: Tue, 22 Dec 2020 16:54:45 +0530
-Message-Id: <1608636285-20638-1-git-send-email-mshah@mvista.com>
-X-Mailer: git-send-email 2.7.4
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] populate_sdk_base: Fix condition syntax if SDK_RELOCATE_AFTER_INSTALL is disabled
+Date: Tue, 22 Dec 2020 14:21:54 +0100
+Message-Id: <20201222132154.3033-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-A test is implemented on poky/meta/lib/oeqa/selftest/pkgdata.py to test
-the scenario when oe-pkgdata-util is executed without parameters and
-help is displayed.
+If variable is set to empty string the comparison is "if [ -eq 1 ]"
+which fails with "[: -eq: unary operator expected".
 
-See [YOCTO #10726] for detailed bug information.
-
-Upstream-Status: Submitted
-
-Signed-off-by: Milan Shah <mshah@mvista.com>
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/pkgdata.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/populate_sdk_base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/selftest/cases/pkgdata.py
-index 833a180..d3a5519 100644
---- a/meta/lib/oeqa/selftest/cases/pkgdata.py
-+++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
-@@ -218,3 +218,9 @@ class OePkgdataUtilTests(OESelftestTestCase):
-     def test_specify_pkgdatadir(self):
-         result = runCmd('oe-pkgdata-util -p %s lookup-pkg zlib' % get_bb_var('PKGDATA_DIR'))
-         self.assertEqual(result.output, 'libz1')
-+
-+    def test_no_param(self):
-+        result = runCmd('oe-pkgdata-util', ignore_status=True)
-+        self.assertEqual(result.status, 2, "Status different than 2. output: %s" % result.output)
-+        self.assertIn('oe-pkgdata-util: error: the following arguments are required: <subcommand>', result.output)
-+        self.assertIn('usage: oe-pkgdata-util [-h] [-d] [-p PKGDATA_DIR] <subcommand>', result.output)
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 49b1833265..4db0511dba 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -263,7 +263,7 @@ fakeroot create_shar() {
+ 
+ 	rm -f ${T}/pre_install_command ${T}/post_install_command
+ 
+-	if [ ${SDK_RELOCATE_AFTER_INSTALL} -eq 1 ] ; then
++	if [ "${SDK_RELOCATE_AFTER_INSTALL}" = "1" ] ; then
+ 		cp ${TOOLCHAIN_SHAR_REL_TMPL} ${T}/post_install_command
+ 	fi
+ 	cat << "EOF" >> ${T}/pre_install_command
 -- 
-2.7.4
+2.29.2
 
