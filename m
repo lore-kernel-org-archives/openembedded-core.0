@@ -1,80 +1,120 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web08.9283.1608628735435186417
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web12.9525.1608629889065962207
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 01:18:55 -0800
+ Tue, 22 Dec 2020 01:38:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NLANBLx2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id a12so13783711wrv.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 01:18:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UzgWJ3TA;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id i24so12301994edj.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 01:38:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=+o/0znYw64KzSaRppZspPCJ0QGoVscCFQTTu7gZX7Ss=;
-        b=NLANBLx2PmKDoF1FLrNA1HvM7sHLrs27N9WP8JGXubb2yd5a0Rz9zecjOC6rnz3YCi
-         xEPqKpkxMR3psDDh1eFjF+T3jK5IjJkyGgPFeTZ3E68aySzigtlu9PSpaI9YZIQyOc+0
-         SUtWGPYLfJpE8AWSrd963N3hhSrNS2ld93lUM=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pOkC/7S6Aiinn5gze/krGPOJirNpC8iMciiRoMp+p4I=;
+        b=UzgWJ3TAIIzxlr1W0xcWfJxGpciXeZgmfloWwyMHAx7ZHaFjf27Sd6Ken/g0SyrgQB
+         peHMdoH2Sf89lBV6c0XvYxorKpZ3v5HwbOC578E0UX3egGYjj/sB3twfOQThT+Doi59A
+         Mx//EBgAkZPNW6dH8E9Gx5mGQn4Tq0MNOm/VIxYTFDqvAiiI6EDeQG9AY6GUDlETfUsT
+         swm89xxwZlSPq1JTLngtUIAL95PQdMdasAkd0lJrcs2tGv0NBVBd+ofSpBoudwsaGl+V
+         unf/q4f+0r+dupoSfm+7vpaPrGhQi51DGBkNv6GrKJltsGfaAg99i+ZFfqPym2xONUXm
+         t3iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=+o/0znYw64KzSaRppZspPCJ0QGoVscCFQTTu7gZX7Ss=;
-        b=OmrbCaW1mTkZQUc7Yy3Lwr1UTnO6nMKnYDf+8CapbQNP6le+wS7JlUN7vL8XME6eMj
-         iBtK7V42mh3kFMRngzY4ky9eelpbK07saSjc35cf5GLiqm2FWznEX55t0yKo8qmrrTn/
-         2KQ/N2pTdKAw7OaNMRadcmP2cWq34AfzHTAy/L9UgO0qGpcpPZcEgNT+/aWWt3jcr3YR
-         oxKGBzs4ozPMhy6s3U82c2OOmuMC05c4ZekIFxSNpnOHw7sDcdTw5RUrsHQimP2Gp64Q
-         xn/91x0n9Whv5gZr0UgwpssO7cv9uCw1jK2b7Sw4L9ftvT9esDiJK0LwnZQeWr4HTKrj
-         V4Ug==
-X-Gm-Message-State: AOAM532rMbEhuwqYXKi+/WBp2XsWto/bjZLSC4ikpg/RJ49UgmYPvhRr
-	HEQPh42ydovVv5Xtfcht4/vOkw==
-X-Google-Smtp-Source: ABdhPJysFF45j2kYyl0JRBDwpFHvTE5TUHf5ZMIEOGh+Jb06COuMqjTqGkRATfQrzGAKQsUgI3ZFZw==
-X-Received: by 2002:adf:c986:: with SMTP id f6mr23892165wrh.361.1608628733948;
-        Tue, 22 Dec 2020 01:18:53 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from b.b.4.9.2.e.e.0.9.c.7.7.e.d.7.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (b.b.4.9.2.e.e.0.9.c.7.7.e.d.7.6.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:67de:77c9:ee2:94bb])
-        by smtp.gmail.com with ESMTPSA id c20sm22449712wmb.38.2020.12.22.01.18.53
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=pOkC/7S6Aiinn5gze/krGPOJirNpC8iMciiRoMp+p4I=;
+        b=O5yCy1+5arQAth3Ls/fihQk3wc7k18GQgKeU7EjyZsKdYBilKLrq1LlGOUKBdP/xp4
+         qGc2WkVFQgk8dcF08ZU4SJ4ay4Xdj3Q1m6cUwpMXGUbnP4tf4dG7N3Yr12FlVRkFvvh7
+         C5qI+kdkkDM5XWL8Jl3QjcwvR6SJywjKVJ0ouPRPCXQKUmcsqi2BXtzk0sLz0Qo6Aibn
+         iPIabMjeUAibEYoCWz91Cv25TZwS6n7ZOBEyAywHEnTGQ3luGISyfN9w92WEp5lsx+1k
+         Kz7l2osOzkzjlwAaU8pJB6GlcN2uZS39ONZaQkQ2CtyekmLjLxKr9N62MERlFk7w0FHj
+         GqMA==
+X-Gm-Message-State: AOAM533kwBEQvkpdZbu2UvzKVL02x05WjO9AReW6aGE7r2Bkhcyzr3Tb
+	xYgcciBm4OzB+gw1iaufTdpG99jD+6A=
+X-Google-Smtp-Source: ABdhPJwZdYX8CfjwwgsEPVYnEUCRSSHLbth/Mj/XkDa1++uuwozNkYib2qgnIITNIoRP+2IAd6HSpA==
+X-Received: by 2002:a05:6402:2070:: with SMTP id bd16mr18901906edb.107.1608629887578;
+        Tue, 22 Dec 2020 01:38:07 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.fritz.box ([2a02:2450:1011:4f7:596d:bf31:3950:5bda])
+        by smtp.gmail.com with ESMTPSA id m7sm30151576eds.73.2020.12.22.01.38.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Dec 2020 01:18:53 -0800 (PST)
-Message-ID: <5291abffce231a5dbec49fa24d68a12b07c2c4e9.camel@linuxfoundation.org>
-Subject: =?UTF-8?B?UmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG1lc2E6IHVwZGF0ZSAyMC4yLjQg4oaSIDIwLjMuMQ==?=
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 22 Dec 2020 09:18:51 +0000
-In-Reply-To: <20201218045245.18876-1-twoerner@gmail.com>
-References: <20201218045245.18876-1-twoerner@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Tue, 22 Dec 2020 01:38:07 -0800 (PST)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] glib-2.0: add a patch to increase a test timeout
+Date: Tue, 22 Dec 2020 10:37:57 +0100
+Message-Id: <20201222093758.19030-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-12-17 at 23:52 -0500, Trevor Woerner wrote:
-> Two of the patches have been applied upstream:
->         0001-meson-Add-xcb-fixes-to-loader-when-using-x11-and-
-> dri.patch
->         0005-vc4-use-intmax_t-for-formatted-output-of-timespec-
-> me.patch
-> 
-> The 'surfaceless' platform is now enabled by default, therefore it is
-> no
-> longer a valid choice. The meson build system is intelligent enough
-> now to
-> decide if 'drm' needs to be enabled based on whether or not gbm is
-> available.
-> Therefore 'drm' also is no longer a valid platform choice:
-> 
->         ERROR: Options "drm, surfaceless" are not in allowed choices:
-> "auto, x11, wayland, haiku, android, windows"
-> 
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+There have been intermittent ptest failures in this test;
+I couldn't reproduce the failures in isolation, and
+this is the only reason I can think of from reading code.
 
-FWIW this is missing the rename of mesa-gl to match the mesa recipe.
-I've queued the missing piece for testing.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...degen.py-bump-timeout-to-100-seconds.patch | 26 +++++++++++++++++++
+ .../glib-2.0/glib-2.0/relocate-modules.patch  |  2 +-
+ meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb |  1 +
+ 3 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch
+new file mode 100644
+index 0000000000..508c8c3bad
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch
+@@ -0,0 +1,26 @@
++From b833254bcc9fcf4cdc2572027b1154d799535ca4 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Sun, 20 Dec 2020 22:01:43 +0100
++Subject: [PATCH] gio/tests/codegen.py: bump timeout to 100 seconds
++
++This may be necessary on overloaded CI systems.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ gio/tests/codegen.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/gio/tests/codegen.py b/gio/tests/codegen.py
++index 51de0ed..ca98c9d 100644
++--- a/gio/tests/codegen.py
+++++ b/gio/tests/codegen.py
++@@ -51,7 +51,7 @@ class TestCodegen(unittest.TestCase):
++     cwd = ''
++ 
++     def setUp(self):
++-        self.timeout_seconds = 10  # seconds per test
+++        self.timeout_seconds = 100  # seconds per test
++         self.tmpdir = tempfile.TemporaryDirectory()
++         self.cwd = os.getcwd()
++         os.chdir(self.tmpdir.name)
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+index 2b8e930511..4cbcc29a50 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/relocate-modules.patch
+@@ -1,4 +1,4 @@
+-From 85931fbb981b5aae38f1c1370d5d3c091cb862b8 Mon Sep 17 00:00:00 2001
++From 011c9f024b6475d31e7d5432a38d00fb67eaea40 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Fri, 11 Mar 2016 15:35:55 +0000
+ Subject: [PATCH] glib-2.0: relocate the GIO module directory for native builds
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb
+index 1f83660856..01ed54d06a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.66.2.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
++           file://0001-gio-tests-codegen.py-bump-timeout-to-100-seconds.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+-- 
+2.29.2
 
