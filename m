@@ -1,63 +1,97 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web08.11878.1608647819376326138
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web08.12138.1608649043593239784
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 06:36:59 -0800
+ Tue, 22 Dec 2020 06:57:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ic6rzwA5;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id p14so11995115qke.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 06:36:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YYpo+Qkj;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: erik.boto@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id o19so32704155lfo.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 06:57:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=k7c9DNxlJkdEGlzGMbswvSS5h9L7EpzZf3d+3cqIJ10=;
-        b=Ic6rzwA5jAJlWzMvPPbBTV3G6FT/B+ZDjweWiDrFwFUEQrni/XARq3XlV6DdMs+tSW
-         V56N9Gw7HJrt1lueK1UmTQmMHUcwjy/qypzc7Lim2W2sZf89jKOPRTjCVRuPAkT3VvbZ
-         E0SB8srdXOXwm6xi/PX9nPHGrE+8OJWjpE5G6zpLr9uYa9HQtIQsJLjacK7O2FXWPIat
-         tqElEMd8lcqEENA7iJtYp5LOZdFdffgfc7894m0tkbV15rB2H+woe63FK+2MncP1t1h0
-         dI9WzlVXRvCOWsmzRaTQe3ipH/pjVDPdIWPgn1dBiV525cmAG1KaC7RSLeIn1ePR2zYW
-         UvWw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=eLkxNAbWdQRp47ZFtk4/4Nq7gO9BU/yYfDKPkHn75PY=;
+        b=YYpo+Qkj4AJ5CjIrAXhSpwJA+pRjpMavmJCcqgiEl6goGU3sfTj5xRCTfxKV16tlb2
+         jgnGYsolnshi2apzq1NfPJM4u0mPJlZLcHGwuhPKDfXCqy0dFKkpJNuFu8DBEVvkwJ8j
+         SCDmDmieseQIq3uKzM1Zykl9Kjy4VhWOvgL+GEs7HrlFd8bU4agNqCdIoh2Gjy9btXe2
+         IPk5R+Difm2D03bLcA3IVZPbHb1EtKsXkGxlWopXpBXG3BLIcarud+UJiOstHaBfD1Kg
+         kXC11rMdY6gbSpgGLIR120Z2NLW4ziIdPcQMnES5KB2w1sGdLIAhzMW4iMJf5hMmph8U
+         uEng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=k7c9DNxlJkdEGlzGMbswvSS5h9L7EpzZf3d+3cqIJ10=;
-        b=YpdTu6H0Wki+u5xfRNUYTGoC570z/Bvk3PxL0eK5rDuYfBlEcmuolLVnIrESLh9vGU
-         /lFlS2SB63ksLyK/S9OHU0ct0DIg5iWqNEhi3DonmRQbW4KIVdxlSo8lnTnwmUbZ1i7m
-         RgpcAI/sdxmXccyOWeHTfXFjAMClmjdcJ3YqCCBi8auf5M6cYTkO6DX8FEsBZMSdS5Yk
-         BJ+UtigB2l/CIA0jb41AJnlMcKfIUFjNvy6RvIWI1d1MmNKL2TgD/n/ftkBeiqsKR36W
-         K4erpOwYPjEvOabdNzzhs1dXNY1u8JhqWgXv7aVkxDFeZ12FR8kAEryNJcrzIwKX9DuN
-         iRZA==
-X-Gm-Message-State: AOAM532CIwi7bLqKIjNw5Svh1jnPK8dysTaopVIfF5hc0P5eclClYwOR
-	lDrruw/JB/7frnvHMZm72Ro=
-X-Google-Smtp-Source: ABdhPJwbOdMLqyg09n2nVR2JuIzJCHgtMNUZU//60CI3Jt+rw7jAkP/Kfggz+1uJGd0jyHbyJtqbBg==
-X-Received: by 2002:a37:6f06:: with SMTP id k6mr22624984qkc.347.1608647818595;
-        Tue, 22 Dec 2020 06:36:58 -0800 (PST)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id x185sm13121431qkb.87.2020.12.22.06.36.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Dec 2020 06:36:57 -0800 (PST)
-Date: Tue, 22 Dec 2020 09:36:55 -0500
-From: "Trevor Woerner" <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?UmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG1lc2E6IHVwZGF0ZSAyMC4yLjQg4oaSIDIwLjMuMQ==?=
-Message-ID: <20201222143654.GA30751@localhost>
-References: <20201218045245.18876-1-twoerner@gmail.com>
- <5291abffce231a5dbec49fa24d68a12b07c2c4e9.camel@linuxfoundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=eLkxNAbWdQRp47ZFtk4/4Nq7gO9BU/yYfDKPkHn75PY=;
+        b=X4BPCW/wn0NRAW9pnltsJmVrMhDi7Te9MRYGutpStFcNtAI2uEmTvmfRpERdNdLt+t
+         8uRgKBYvP7V6/LCSSz4m6wrXgXOvc842/flc7AfnHxu4wAWEDXGoftmqI5wjEdMYiHxI
+         4qxlGUYT6JRT+G49VZARcfJeMnVrNEJ07nuZoSsQEBAps5nUHBgSq+8WKVsLqZDK8Oat
+         KnE0rXbbLHdH3gnyRBu0ddFq8vkug+OV0kC17g7dvUBU7DH/4f9tqpF7hBRivz6YY9du
+         hHgqPlGr7elsHRL0qyIC/0oIRS13xW9Cb9AbRHfEow90yqTHRbtotxYEAVxmVCdE+Usc
+         hLsg==
+X-Gm-Message-State: AOAM5318JDFX7jCRZRlTImZ7BlTGqMD99wdgNLewcMGNfs2719ExqhSB
+	u33cKCgEQj4qThdbMOvz83I0CHmKYviAiF7U+IU=
+X-Google-Smtp-Source: ABdhPJzpQzMJjwy8Gd1x6+By54dpsTNHN0ULSSdObEjA6/lNbp4gcvg+gq7CB18IePT/jxwGzb9vr/VsnL17/KZ9pZA=
+X-Received: by 2002:a05:651c:211d:: with SMTP id a29mr4441623ljq.487.1608649041914;
+ Tue, 22 Dec 2020 06:57:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5291abffce231a5dbec49fa24d68a12b07c2c4e9.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <cover.1607007208.git.steve@sakoman.com> <CA+chaQeEFu6++N5J2qkEjU9HZPqjAahuDVGZAcfsma-9zjDLZw@mail.gmail.com>
+ <CAOSpxdaJXGM5HMR0yvobzN2sa2cy-+AxLqsa99tD4pn6fiN7+g@mail.gmail.com>
+ <CALNvYWMznudnN+_6yCkxcwxhtv=8M=hRC1nNpQP6Ww7ZTedvPg@mail.gmail.com>
+ <45cc5593b9b9bfbdfde689a5f72a678a99eb5d2b.camel@linuxfoundation.org> <CAM9ZRVvCueC0+9b+Tvwv2pHm+44OGwU18O5zDH2wBUgghW_gjg@mail.gmail.com>
+In-Reply-To: <CAM9ZRVvCueC0+9b+Tvwv2pHm+44OGwU18O5zDH2wBUgghW_gjg@mail.gmail.com>
+From: "Erik Boto" <erik.boto@gmail.com>
+Date: Tue, 22 Dec 2020 15:57:10 +0100
+Message-ID: <CALNvYWPbzRzC_B7FEUTZX7t5ts_Si+vqPaD8cy99JOsEF4+LUQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 00/28] Patch review - pseudo file mode corruption fix series
+To: Paul Barker <pbarker@konsulko.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman <steve@sakoman.com>, 
+	Martin Jansa <martin.jansa@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue 2020-12-22 @ 09:18:51 AM, Richard Purdie wrote:
-> FWIW this is missing the rename of mesa-gl to match the mesa recipe.
+On Tue, Dec 22, 2020 at 2:50 PM Paul Barker <pbarker@konsulko.com> wrote:
+>
+> On Tue, 22 Dec 2020 at 10:03, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Tue, 2020-12-22 at 10:08 +0100, Erik Boto wrote:
+> > > There's a bug affecting wic in combination with --exclude-path /
+> > > --include-path that would then be backported into the LTS version.
+> > > See
+> > > https://bugzilla.yoctoproject.org/show_bug.cgi?id=14129.
+> > >
+> > > Maybe the issue that is being fixed is more serious then the issue
+> > > being introduced so it's a valid trade-off, I just wanted to mention
+> > > it so it's known.
+> >
+> > I've been suggesting Steve hold off this until we sorted out master,
+> > having a patch queue ready is helpful though so we don't lose track of
+> > all the patches.
+> >
+> > There were some fixes from Peter/Paul around pseudo which we needed and
+> > have now merged which leaves the above issue...
+> >
+> > Cheers,
+> >
+> > Richard
+>
+> Looking at that bug (#14129) I wonder why "${WORKDIR}/build-wic" was
+> added to PSEUDO_IGNORE_PATHS in
+> https://git.openembedded.org/openembedded-core/commit/?id=ad8f5532ffaead9a5ad13e1034fe9e5e1b7979f4.
+> Is anything likely to explode if we drop that addition?
 
-Oops!
+Yes, if you try to build an image a second time it breaks and you have
+to "bitbake -c clean <image>" in order to build it successfully again.
+I don't recall the exact error at this time, but it was related to the
+partition files wic created under build-wic.
 
-> I've queued the missing piece for testing.
+Cheers,
+Erik
 
-Thank you.
+>
+> Thanks,
+>
+> --
+> Paul Barker
+> Konsulko Group
