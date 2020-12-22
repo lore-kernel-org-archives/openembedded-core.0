@@ -1,385 +1,145 @@
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com (EUR03-AM5-obe.outbound.protection.outlook.com [40.107.3.76])
- by mx.groups.io with SMTP id smtpd.web11.9992.1608633654632932195
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.83])
+ by mx.groups.io with SMTP id smtpd.web08.9888.1608633770209434895
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 02:40:57 -0800
+ Tue, 22 Dec 2020 02:42:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@spinetix.com header.s=selector2 header.b=emyp1Nbr;
- spf=pass (domain: spinetix.com, ip: 40.107.3.76, mailfrom: diego.santacruz@spinetix.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Nw0/CbzF;
+ spf=pass (domain: windriver.com, ip: 40.107.236.83, mailfrom: ovidiu.panait@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SmAbGakSwXQW8SjkbTzkWOr21sZPy/uo+5rppH9Vej7L9a28cdAKprJr5gt5qzRNoMcfGuIqdc7FBzURyhbZgqeb5Qblrcph3xUfLoTMHAvgjLXzOTEt4Fq9UMsuQH3vX8zO7ADhLc6IbX+p6gjdBgkjcVAtRHfD3bX5RB1HBzoMns0J68KwA0m061f/1rqlpIOGWCpl9W1lLKt4fMxCSESMa9uzwnrXfzVUKhKcO5TxXkaQGudeyKi86JZQBeZY59M+1fJ8nkpZ5QF2owNI7GpuWHJchLkrRDEsjUYQP7X8zqtvc726+6TA7hOh+cCR/1HJZo6L5PiU+1XePwdQ/A==
+ b=IUmi8RzsjczLDflVO+oTnTRLpFEvYPFbmu2z08RgmPfLxkBIFl75jcZjHAFJBybFKEK3sYaLKSPQOtsIT05SFv3UK0XspQgbxTtTxjSG1DxTzT4nbjj4nhRHOOfli1C8VI5lPY1OEFX8vXplofpo5fByS/AwXWcJSOoCYDt/9Ixf+48rBHbwkrE8Zb1dt49gEW91NLP88991qfG/abv9UpjWRnz19LywMp6gDzAnE9GJFRAYS08p0XSkBH1Y0QlZdtqXenNJO+jSJQ+n4srHO5+g4UorpI4AdqwzYCEukyoOa7W+83OHOBMRM3PI3DUw3jmmxgFXfNjHu+WUt54IKQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2HnZZk+PAFuYx1pBY4OF3oSL0jWPUds11FqdyGBRq0E=;
- b=oAYRylOTV0cvzQGxZ1WePWy0HuqSiybNuIYgdBAgGpi9lnGDChXZFD6QQHmdb3PjvsZ2RX9IeidLFaI5b7sG/CPiAvkQurymsI6IEUeg8Yf6P+RZ2aAygcBaDxRTa/B0tAOMsstmzXiI6gZ5+CtK40WyaojOaw0lNUDxi/Fpgeel6a83B9C6kKXpe34Fk3SBjnij6P/0rk03MfMmH/cYtYIU2x89WOzuKyOGqHMSzRC5VZBkjyW3ppFx0pQ26DuyqwbycjtXbFWYBHYc4vBj4zoP6rur/t4RIw9huEH3QOoKEeqMmsSiShxo205oiyZFrXCWRIXLetk/ADepNeiznQ==
+ bh=iMoFUXi1D+kMkjLpNktPQnIHmnnkRwhHttC+9r1IkU0=;
+ b=KqIqKd3EJsWXnBCpRv8CRYJwY+le5troOzDKleMsJyOh7C5gW+Cn4DCsOsbOlqbY7hZ04HayGfcmrh0jSKeDJY4d9Lj5ips1fDLgMMjqonmdsweeWaVMS4z5JCrPWXNGk99FbELNVfcCyC4x9fnubKeOm2IUfANqV+Gh0wkS7KZVY4j2XbA82hoSm+Zamzf+GO8ZB9l7Xva7Raoeou5+ATe/YYekn1/Te+jhzjWW4IB/HMd2A/9SLHzsXv2SCHbLN+/IcFe0cBoZHbdcvCFzPByghSTrgSEQqHvuB8hr3KHHd2EL/g1ysSO9UK6UowN81O3byOpI92HBm2MHVK7dtw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=spinetix.com; dmarc=pass action=none header.from=spinetix.com;
- dkim=pass header.d=spinetix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
- s=selector2;
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2HnZZk+PAFuYx1pBY4OF3oSL0jWPUds11FqdyGBRq0E=;
- b=emyp1Nbrc+33X1LamnbIlNSkQK+HMptyHe/A9Y0Ay3cRLp7wnLY0CY2ic8/3kfGQnui9uONf/Hntz/d9pmsz6V50eenHPsNCxLlhHtn/GJ+/pDtN29GbxMyV5S34yMMh2ml/p/3EhMOaOno/EG+rT8nEQRpFjfHK2HrsF/TwxKs=
-Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
- (2603:10a6:6:e::19) by DBAPR01MB6838.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:190::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.25; Tue, 22 Dec
- 2020 10:40:48 +0000
-Received: from DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
- ([fe80::c880:793c:c5b1:c7a8]) by
- DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
- ([fe80::c880:793c:c5b1:c7a8%5]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
- 10:40:47 +0000
-From: "Diego Santa Cruz" <diego.santacruz@spinetix.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Changed kernel dependencies cause on target kernel update woes
-Thread-Topic: Changed kernel dependencies cause on target kernel update woes
-Thread-Index: AdbYTtiRUEMarzUxSByEURhpNB++Vw==
-Date: Tue, 22 Dec 2020 10:40:47 +0000
-Message-ID: 
- <DB6PR0102MB26307368C18F3EF58DB5A0F088DF0@DB6PR0102MB2630.eurprd01.prod.exchangelabs.com>
-Accept-Language: en-GB, fr-CH, fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: lists.openembedded.org; dkim=none (message not signed)
+ bh=iMoFUXi1D+kMkjLpNktPQnIHmnnkRwhHttC+9r1IkU0=;
+ b=Nw0/CbzFiWhtqZ6RGKaWHH80UuHRUwZY9bj4tmi0hs7nA67h5PGZ1WFp9B8ZSHwEunITNjhllesjmECkQHGwc5Zh34KDtotqofD95CDDKR/CcMbFvb7SUwsV2eXOJ0e0ddlThcVs3qX7EuM1BxxHQsBb4K4bLJdK5DSo8xt8H5k=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=spinetix.com;
-x-originating-ip: [178.198.240.12]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d61cbef0-dcd7-47a8-6e9a-08d8a6660b52
-x-ms-traffictypediagnostic: DBAPR01MB6838:
-x-microsoft-antispam-prvs: 
- <DBAPR01MB6838A436E757279E03C0DD1188DF0@DBAPR01MB6838.eurprd01.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- rZ73RHS4MhR84Y0toBCuLF4G+E1+4tFOI73SLCiwzGAIHf+KrKBUkyGju4vGr+EAdb2yKb8pVHF9NqTsFPALRHzi7NB9HbuX3tk9t3HP+NOXQkxg7jbk6outCumXEy3leAKEpMnoYWqd/0z55rpyFCDbIQezF/iB8bnPo72iNWtXewuWrh3iVKaMOfYQu2Jw2Nn/uXrzInuJFDvRLYhPmaiWivjBhuyAqhVGQkl++VaiYaMxbbG/PTuF4xNYlHX+zguUr71yn6SBehnuyYQ1euv5C3ysdbmYGjYdEx79ZQNe55OzV9MTiYKZ9eJzTSUX6A8cHmyX011yrxgzYMPrrZQf4PBR5Bd2oIljQiWLR/YmOeKFZB11+EVYbhLPjb0p1o7YDWNAHpbwO9xYLAb4Gw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB6PR0102MB2630.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(39830400003)(366004)(396003)(6916009)(33656002)(83380400001)(66556008)(26005)(316002)(15650500001)(5660300002)(64756008)(66946007)(66446008)(66476007)(7696005)(2906002)(8936002)(186003)(6506007)(9686003)(52536014)(71200400001)(8676002)(76116006)(86362001)(478600001)(55016002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- =?us-ascii?Q?sFyPHPXqzXS4bIYXl7iILQZJrbEr57jMXe1k4UmN0BbN97OimOU+qVEGNdjE?=
- =?us-ascii?Q?RMl+CuSVqAPfb8TceclIj8Bgz6osX0DVEneAF7N2yoW0aWm5pqpzuC3l3oxn?=
- =?us-ascii?Q?0oQGW8NCio5QEu3QXWGXCq7V/zFzh1nVp+/XqHGI03P1VYy3qxAPcHZRM+MN?=
- =?us-ascii?Q?0KCUOCGXbXtnrdli56xjsKdkLXROTwrCUEpAm9ganj9T7pZzgHBFPvbbkzpv?=
- =?us-ascii?Q?+bQqpnwgFggNKR9XZdb9vLmGewcnShE4PgfIvLLBBVV6H4iMz5Lm4JeL3YZ9?=
- =?us-ascii?Q?aP8dr8919RGul2ASjbIIQ3tnNLG448XvU9jVdZp4PizDcdll5XOvj1re1auS?=
- =?us-ascii?Q?EvQc7YY25jTI9Fbr0ndSlSbflKFSYuPRHh5N0+vAAPf2hXcV5HyEPrGkRwjT?=
- =?us-ascii?Q?1Re+Rl0IPwZyfoFEbQHktL2GRHg6lWkcAZZDUgFmI4ATxpsQA/N+H3GtL5k4?=
- =?us-ascii?Q?OJl0iR5y7m6y3WGOR6uVit+mdxB/Dqf7/RUo+dFNg7/c1Jq9Szh08WiqRogd?=
- =?us-ascii?Q?FZoQMZoyY7r0FPE4TTsieFEME9bTMeN4KUUssZm4VbS0yY3wnkVWhIFIMj1z?=
- =?us-ascii?Q?xojFKEzHWLgB0wG7aVeBJrkmg00pt0CTD81Ncv94WDqJZFSXNs2lXw6BniNb?=
- =?us-ascii?Q?9Q349N9bAlf2zjKH1fW7Pom3suJHY52J/pJfT/Dxaim7rfacDT8PPtl8iYTw?=
- =?us-ascii?Q?eTelP2Db4ccZjHGIJeRA3TVApqyBu+fOZBZzei9K3Gove2dDy0OY74H1MAt5?=
- =?us-ascii?Q?xlKu98CHGOLrphC6fSe9UTcPw7HW+VaYAIsIEUFAzTVT8DeKVwi7Naom7IE8?=
- =?us-ascii?Q?xOYS88tLMAXf8qEcqSsIVr9IiVL3tYW/CFdqVmsD0Bgpm0RMaBzkMeI/MPEV?=
- =?us-ascii?Q?hspM7RkzXkZ6+9saZxlbZjCWuLGoVaHSwnMuX5QsHWeXZu2WTU84Z0mz9L08?=
- =?us-ascii?Q?Knb0+IiG7CYvSzacKg808GH6n30YpPG6iBIFu5+ODHI=3D?=
-x-ms-exchange-transport-forked: True
+ header.from=windriver.com;
+Received: from BL0PR11MB3201.namprd11.prod.outlook.com (2603:10b6:208:6b::21)
+ by MN2PR11MB4397.namprd11.prod.outlook.com (2603:10b6:208:190::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.33; Tue, 22 Dec
+ 2020 10:42:48 +0000
+Received: from BL0PR11MB3201.namprd11.prod.outlook.com
+ ([fe80::85d9:7219:6427:fb43]) by BL0PR11MB3201.namprd11.prod.outlook.com
+ ([fe80::85d9:7219:6427:fb43%5]) with mapi id 15.20.3676.033; Tue, 22 Dec 2020
+ 10:42:48 +0000
+From: "Ovidiu Panait" <ovidiu.panait@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] kernel-devicetree: Introduce KERNEL_DEVICETREE_FLAGS to pass dtc flags
+Date: Tue, 22 Dec 2020 12:41:24 +0200
+Message-Id: <20201222104124.39262-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [46.97.150.20]
+X-ClientProxiedBy: VI1PR08CA0108.eurprd08.prod.outlook.com
+ (2603:10a6:800:d3::34) To BL0PR11MB3201.namprd11.prod.outlook.com
+ (2603:10b6:208:6b::21)
+Return-Path: ovidiu.panait@windriver.com
 MIME-Version: 1.0
-X-OriginatorOrg: spinetix.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from otp-linux01.wrs.com (46.97.150.20) by VI1PR08CA0108.eurprd08.prod.outlook.com (2603:10a6:800:d3::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3676.30 via Frontend Transport; Tue, 22 Dec 2020 10:42:46 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b75e9a97-1592-4c13-2312-08d8a6665304
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4397:
+X-Microsoft-Antispam-PRVS: 
+	<MN2PR11MB4397624C859656367ACE3CFFFEDF0@MN2PR11MB4397.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	lz26jE2KacMgX7wY/Sk4e6vx2rCdcsygozeW0TLhGIiwdLfN/pvZPUzIIqNFgtUtkK97gJJAe7AVC3eUnaNY+4Ef16tkdfjmZYWFzF2hnSO2DPQHa7bwNJvExNl+5qgHKY0eeQSZ0964QDKMGuQBzVsfWSuveBi0EX3bdqO1b0X8xolvpRM0ABqLUxDrxe4qNDmM0v7Df2zrZobEGbHpq4aQqIGY8fkzHz3n+0zdAdMz/roSJ6XE3QR2rKmPxJS16u2h5po5Q8zJKJtCk3dUgHCPhZSfmkDT1Br+U25b3NfoMyMTDE8mXAsT+noIxK2nCbcP6Y2AMWaMUD/VpOUgLhnIV68mOUNP/zlWkA6IGuuWRiPhtxQ4RpJ7Yye7u6Y1//BVirjDFQV6h/vkzQUNgQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB3201.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(376002)(366004)(39850400004)(346002)(16526019)(186003)(5660300002)(26005)(6666004)(6486002)(1076003)(478600001)(52116002)(66946007)(83380400001)(2616005)(36756003)(86362001)(8676002)(44832011)(8936002)(956004)(6506007)(2906002)(66556008)(6916009)(66476007)(316002)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?Nqz4OK3zRNmtrCSUVTx001BZZHK69L3MTC7B0JAAp9TDgBBpzusowH9WyVPs?=
+ =?us-ascii?Q?Q70zzL5O7HWtDvia0xPFTx67wTFWdoRbJi+bGhh5L2BX0/WH16FTi4Tu0w7m?=
+ =?us-ascii?Q?HGTtUsTCQnlHvpkQmxHYDLUQ0r57HrTtrjQLVGXSQKawBjOG41dTjqUALskx?=
+ =?us-ascii?Q?uuTFkp6ariGlD9B/Adml7qYFq3TD6uL1rNxxWf7RMqaYOZWd+JH3fKOtgcGJ?=
+ =?us-ascii?Q?VTIUd9DB0rpcudMJjaY6nqMtTi37+KQYWtHCtC7ZXKE05UER33FqA1E+HepW?=
+ =?us-ascii?Q?Il1WgBQPQcXuN5QiLwfLpEPDNROWswHrWpc8e1KKsN/sIlkmY7LGZuzkAldM?=
+ =?us-ascii?Q?QysNCSC4GXG1F3J3733do51SS2FvD+lxMXJhdsC7cTHLKLnJKl2976WuSoIn?=
+ =?us-ascii?Q?SV/uxwLJg7/HnmpJ8nBMHjTzP+r7N0GDo6oiTsCtwXLUu2n5nQzAa+Dk1d48?=
+ =?us-ascii?Q?PZN7OspCUasxX2Ru8lYslF7vQ0CHZf+m7EnAHvOldK4zMI9LTaXgMdhXlc8+?=
+ =?us-ascii?Q?hlvTKZ3CYaE9OBjwen8+151+SCPiPJDSmkO7PMG0XNo65RyDSmiejZ7eQhlJ?=
+ =?us-ascii?Q?U2J98Mz2p4wqsj64AmkvRO31S0BItTAr9e2hrojX17buEPZjGZbVdk5Y/GkS?=
+ =?us-ascii?Q?7C/nisQqK/WK1z5VLR3Msg5LDu8ph/mvJQ+4OrM6scJ3AMCsPPoae7IdaQ2T?=
+ =?us-ascii?Q?QeYOXy1vqGt16Z5K4jUginlHmpAQEeNeR0PMnQ6Tx3SlkrFk1b/ath63Mvxv?=
+ =?us-ascii?Q?ZSdHf8q+Zg7WcAr2nignt5dy4/+xF6F9WE1nZUrKOeOPKR5+ifiCCx7mAKSt?=
+ =?us-ascii?Q?61tFSVcJTiY6Suw3AYdxiVwrEb50Kkq9/kkMZ+muHq37mMrkE50BFcNzjiSE?=
+ =?us-ascii?Q?0p2vm8BoPTZOT5YRmn8or2SUMANBVeFhSVhGx1689tDX5EX+S08xc3RY24Qe?=
+ =?us-ascii?Q?6Uc8ehFoKpzf/YdUIxIzKX2SFPKVdAzHCn/sSkKb8XhpPvyUJegxOSclSMfL?=
+ =?us-ascii?Q?G7IP?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3201.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB6PR0102MB2630.eurprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d61cbef0-dcd7-47a8-6e9a-08d8a6660b52
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Dec 2020 10:40:47.7033
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2020 10:42:48.1410
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: KpOLhy/DeoOjLeSuT5aO1IrNSq9hEA0jTuazqGD0jZaYY27H18tdgBzK6ABnshT6mLTG1zYLSc6V5/rYadsK9rInmEgGS71kdUWA1vogkM8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR01MB6838
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_DB6PR0102MB26307368C18F3EF58DB5A0F088DF0DB6PR0102MB2630_"
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: b75e9a97-1592-4c13-2312-08d8a6665304
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wjbvEzMhL8QS9q9ZjMrxZU60g+f+9ghHjmfjhOC4RMF/UXYj+Yxzi3xHIQ/kWu1qYqVSQlMVYpAiJrNlgm3W6+zA4b/LHeWBu9AZH9w/IjI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4397
+Content-Type: text/plain
 
---_000_DB6PR0102MB26307368C18F3EF58DB5A0F088DF0DB6PR0102MB2630_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Currently DTC_FLAGS kernel makefile parameter can be specified directly on the
+command line by adding it to KERNEL_EXTRA_ARGS. However, this prevents
+scripts/Makefile.lib logic from appending flags that silence dtc warnings (all
+assignments done from within a makefile, to a variable specified on the command
+line, are ignored).
 
-Hi all,
+Because of this, the do_compile log is cluttered with dtc warnings that should
+only be printed when compiling with W="123":
+...
+/soc: node has a reg or ranges property, but no unit name
+/soc/gpu: missing or empty reg/ranges property
+/soc/firmware/gpio: missing or empty reg/ranges property
+...
 
-I am experiencing problems with on target updates of the kernel in dunfell =
-because the way runtime dependencies are generated have changed.
+To fix this, introduce the dedicated KERNEL_DEVICETREE_FLAGS variable to hold
+dtc flags and export DTC_FLAGS in the environment before generating the dtbs
+(make allows "+=" operations on variables that come from the environment, so
+the warnings are silenced properly).
 
-I was on thud before and the resulting runtime dependencies on the packages=
- (rpm and bzImage in my case) where the following
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ meta/classes/kernel-devicetree.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-  *   Package "kernel" requires "kernel-${KERNEL_VERSION_PKG_NAME}"
-  *   Package "kernel-${KERNEL_VERSION_PKG_NAME}" requires "kernel-image-${=
-KERNEL_VERSION_PKG_NAME}"
-  *   Package "kernel-image-${KERNEL_VERSION_PKG_NAME}" requires "kernel-im=
-age-bzimage-${KERNEL_VERSION_PKG_NAME}"
+diff --git a/meta/classes/kernel-devicetree.bbclass b/meta/classes/kernel-devicetree.bbclass
+index 81dda8003f..2066096a9a 100644
+--- a/meta/classes/kernel-devicetree.bbclass
++++ b/meta/classes/kernel-devicetree.bbclass
+@@ -9,6 +9,9 @@ FILES_${KERNEL_PACKAGE_NAME}-image-zimage-bundle = "/${KERNEL_IMAGEDEST}/zImage-
+ # Generate kernel+devicetree bundle
+ KERNEL_DEVICETREE_BUNDLE ?= "0"
+ 
++# dtc flags passed via DTC_FLAGS env variable
++KERNEL_DEVICETREE_FLAGS ?= ""
++
+ normalize_dtb () {
+ 	dtb="$1"
+ 	if echo $dtb | grep -q '/dts/'; then
+@@ -50,6 +53,10 @@ do_configure_append() {
+ }
+ 
+ do_compile_append() {
++	if [ ! -z "${KERNEL_DEVICETREE_FLAGS}" ]; then
++		export DTC_FLAGS="${KERNEL_DEVICETREE_FLAGS}"
++	fi
++
+ 	for dtbf in ${KERNEL_DEVICETREE}; do
+ 		dtb=`normalize_dtb "$dtbf"`
+ 		oe_runmake $dtb CC="${KERNEL_CC} $cc_extra " LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+-- 
+2.17.1
 
-In dunfell the resulting runtime dependencies are instead simply
-
-  *   Package "kernel" requires "kernel-base"
-  *   Package "kernel-${KERNEL_VERSION_PKG_NAME}" requires "kernel-image"
-  *   Package "kernel-image-${KERNEL_VERSION_PKG_NAME}" requires "kernel-im=
-age-bzimage"
-
-But as both the old and new kernel packages provide "kernel-image" and "ker=
-nel-image-bzimage", only the "kernel" package is updated, as it is the only=
- package which increases its version / release (the other packages change n=
-ames since ${KERNEL_VERSION_PKG_NAME} differs) and the "kernel-image" and "=
-kernel-image-bzimage" dependencies are already satisfied by the old kernel.
-
-I traced this change of behavior to OE-Core commit 920beaaeef62b558e046f32c=
-8ef0332250969ef1 (package: get_package_mapping: avoid dependency mapping if=
- renamed package provides original name), included in gatesgarth but also b=
-ackported to dunfell. Before this commit the package mapping took care of r=
-eplacing the dependency on "kernel-image" added by kernel.bbclass to the ac=
-tual package name, which is no longer the case.
-
-What would be the correct way to address this?
-
-One solution could be to have kernel.bbclass add versioned dependencies, li=
-ke the following (the ones for RDEPENDS_${KERNEL_PACKAGE_NAME}-image would =
-also need to be versioned in the same way).
-
-RDEPENDS_${KERNEL_PACKAGE_NAME} =3D "${KERNEL_PACKAGE_NAME}-base (=3D ${EXT=
-ENDPKGV})"
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?=3D "${KERNEL_PACKAGE_NAME}-image (=
-=3D ${EXTENDPKGV})"
-
-Instead of the current
-
-RDEPENDS_${KERNEL_PACKAGE_NAME} =3D "${KERNEL_PACKAGE_NAME}-base"
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?=3D "${KERNEL_PACKAGE_NAME}-image"
-
-That solves the issue for me and it kind of makes sense that the "kernel", =
-"kernel-${KERNEL_VERSION_PKG_NAME}" and "kernel-image-${KERNEL_VERSION_PKG_=
-NAME}" packages always be at the same exact version, but I do not know if t=
-hat would break some existing scenarios.
-
-Best,
-
-Diego
---
-Diego Santa Cruz, PhD
-Technology Architect
-spinetix.com
-
-
---_000_DB6PR0102MB26307368C18F3EF58DB5A0F088DF0DB6PR0102MB2630_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
-	{mso-style-priority:34;
-	margin-top:0cm;
-	margin-right:0cm;
-	margin-bottom:0cm;
-	margin-left:36.0pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:1349679743;
-	mso-list-type:hybrid;
-	mso-list-template-ids:1887079224 67698689 67698691 67698693 67698689 67698=
-691 67698693 67698689 67698691 67698693;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:"Courier New";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:Symbol;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:"Courier New";}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:Symbol;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:"Courier New";}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:none;
-	mso-level-number-position:left;
-	text-indent:-18.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0cm;}
-ul
-	{margin-bottom:0cm;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi all,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I am experiencing problems with on target updates of=
- the kernel in dunfell because the way runtime dependencies are generated h=
-ave changed.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I was on thud before and the resulting runtime depen=
-dencies on the packages (rpm and bzImage in my case) where the following<o:=
-p></o:p></p>
-<ul style=3D"margin-top:0cm" type=3D"disc">
-<li class=3D"MsoListParagraph" style=3D"margin-left:0cm;mso-list:l0 level1 =
-lfo1">Package &#8220;kernel&#8221; requires &#8220;kernel-${KERNEL_VERSION_=
-PKG_NAME}&#8221;<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"mar=
-gin-left:0cm;mso-list:l0 level1 lfo1">Package &#8220;kernel-${KERNEL_VERSIO=
-N_PKG_NAME}&#8221; requires &#8220;kernel-image-${KERNEL_VERSION_PKG_NAME}&=
-#8221;<o:p></o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0=
-cm;mso-list:l0 level1 lfo1">Package &#8220;kernel-image-${KERNEL_VERSION_PK=
-G_NAME}&#8221; requires &#8220;kernel-image-bzimage-${KERNEL_VERSION_PKG_NA=
-ME}&#8221;<o:p></o:p></li></ul>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">In dunfell the resulting runtime dependencies are in=
-stead simply<o:p></o:p></p>
-<ul style=3D"margin-top:0cm" type=3D"disc">
-<li class=3D"MsoListParagraph" style=3D"margin-left:0cm;mso-list:l0 level1 =
-lfo1">Package &#8220;kernel&#8221; requires &#8220;kernel-base&#8221;<o:p><=
-/o:p></li><li class=3D"MsoListParagraph" style=3D"margin-left:0cm;mso-list:=
-l0 level1 lfo1">Package &#8220;kernel-${KERNEL_VERSION_PKG_NAME}&#8221; req=
-uires &#8220;kernel-image&#8221;<o:p></o:p></li><li class=3D"MsoListParagra=
-ph" style=3D"margin-left:0cm;mso-list:l0 level1 lfo1">Package &#8220;kernel=
--image-${KERNEL_VERSION_PKG_NAME}&#8221; requires &#8220;kernel-image-bzima=
-ge&#8221;<o:p></o:p></li></ul>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">But as both the old and new kernel packages provide =
-&#8220;kernel-image&#8221; and &#8220;kernel-image-bzimage&#8221;, only the=
- &#8220;kernel&#8221; package is updated, as it is the only package which i=
-ncreases its version / release (the other packages change names since
- ${KERNEL_VERSION_PKG_NAME} differs) and the &#8220;kernel-image&#8221; and=
- &#8220;kernel-image-bzimage&#8221; dependencies are already satisfied by t=
-he old kernel.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I traced this change of behavior to OE-Core commit 9=
-20beaaeef62b558e046f32c8ef0332250969ef1 (package: get_package_mapping: avoi=
-d dependency mapping if renamed package provides original name), included i=
-n gatesgarth but also backported to
- dunfell. Before this commit the package mapping took care of replacing the=
- dependency on &#8220;kernel-image&#8221; added by kernel.bbclass to the ac=
-tual package name, which is no longer the case.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">What would be the correct way to address this?<o:p><=
-/o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">One solution could be to have kernel.bbclass add ver=
-sioned dependencies, like the following (the ones for RDEPENDS_${KERNEL_PAC=
-KAGE_NAME}-image would also need to be versioned in the same way).<o:p></o:=
-p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">RDEPENDS_${KERNEL_PACKAGE_NAME} =3D &quot;${KERNEL_P=
-ACKAGE_NAME}-base (=3D ${EXTENDPKGV})&quot;<o:p></o:p></p>
-<p class=3D"MsoNormal">RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?=3D &quot;${KE=
-RNEL_PACKAGE_NAME}-image (=3D ${EXTENDPKGV})&quot;<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Instead of the current<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">RDEPENDS_${KERNEL_PACKAGE_NAME} =3D &quot;${KERNEL_P=
-ACKAGE_NAME}-base&quot;<o:p></o:p></p>
-<p class=3D"MsoNormal">RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?=3D &quot;${KE=
-RNEL_PACKAGE_NAME}-image&quot;<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">That solves the issue for me and it kind of makes se=
-nse that the &#8220;kernel&#8221;, &#8220;kernel-${KERNEL_VERSION_PKG_NAME}=
-&#8221; and &#8220;kernel-image-${KERNEL_VERSION_PKG_NAME}&#8221; packages =
-always be at the same exact version, but I do not know if that would break
- some existing scenarios.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Best,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Diego<o:p></o:p></p>
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;mso-margin-bottom-a=
-lt:auto"><span style=3D"font-size:9.0pt;font-family:&quot;Arial&quot;,sans-=
-serif">--
-<br>
-<b>Diego Santa Cruz, PhD<br>
-</b><span style=3D"color:gray">Technology Architect<br>
-spinetix.com</span></span><span style=3D"font-size:12.0pt;font-family:&quot=
-;Times New Roman&quot;,serif;color:gray"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_DB6PR0102MB26307368C18F3EF58DB5A0F088DF0DB6PR0102MB2630_--
