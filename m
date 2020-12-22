@@ -1,48 +1,52 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
- by mx.groups.io with SMTP id smtpd.web12.11459.1608644754520051410
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web08.11297.1608645007039328023
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 05:45:54 -0800
+ Tue, 22 Dec 2020 05:50:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=fKndERAh;
- spf=pass (domain: konsulko.com, ip: 209.85.167.176, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oi1-f176.google.com with SMTP id l207so14796215oib.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 05:45:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Pm1aQmdI;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id w1so18306148ejf.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 05:50:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YtZOu60Hm24tnftsV/MBeGh33q3tn4GYWo2QBSMBNTA=;
-        b=fKndERAhiNqctWfOT6zIH+5FAYbTICycIzqzqnUGPbPxY4ss7d8rJdMvEuRhqQN5cf
-         kib9Oj6Jw3mH/f34liNoxgKe5qWtI1PqExNZO+7J1C/3lmLsR9af0nGBN0ZhrGj8O6si
-         TFGNhKfyWX3h9YqZQhule1/d4NtRVjEqlnUEU=
+        bh=/x3hL+6sYl9OE2rENMIF6+Gc+gSOV58KBCt8v0Ta+Hc=;
+        b=Pm1aQmdIOgCDuLAcsFiHUwOEUUCEXZYWhzu0zsoWK0nVTHm/0iT7yjiOkM9NoGUtCv
+         bZjtwRfKlbDVuQVq7qNjRoV52l+p7s4TZK6q1K3B7iiAeEU+jEGw0ZWVw/OYfMmzI+T4
+         HaalFDtPhX7sPNeUG+P9BD7Op1xkP+k+sI4+fS3MMvJ8Se2Ri7tCLJl/fJj9L0x+/0q4
+         Rdkap39LbWVN5XstqF6vs26fMJKepOLwgiVUQOJqlSJRCCndyiLuuyWQErHiRukjvyE2
+         /IrcsKDK/bKQ9cqa9wLWiONXJXsadrE17Lp7bpCmEIUmm3PxpcP7ebLYu0xUkWlbjqee
+         Sadg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YtZOu60Hm24tnftsV/MBeGh33q3tn4GYWo2QBSMBNTA=;
-        b=kaBe3tsQHu2/w8iLtwsqwQ1e42DfdqBGXzLLw/Ur6QXvjFQC4x3s4Vd7to4vaf65K4
-         SbgI/6vy45sxs9/UcwO/tX+xpel85LZlBXvcn3qIbiITy7SfMqccMndvFPEOxDlqBOOm
-         b7rpsOtXHjYhn8UJn6e8Fw3mzMo9wHNcbbTKThlzkWhHscXI0LDTKpMY2wCYDjvkZIBk
-         IOdlc8XYBEUPuElg01OQvMy2N6X2ZRw5+FY0g4cIqsI8vP7xBd7wG/lQjdusUJXWwi3y
-         uPRnf1WgrlNrh5I0tzkzVsamPnLR55z5RqO6ZlR2E/RqsKbO24/KMdE6YREfxOzll/Se
-         +n2g==
-X-Gm-Message-State: AOAM530SApYs49IBfNzU7gtGzBMYEHv33parMV/D2kbmF/XuoeCYl0T8
-	EvNJCBARsCwPDd3yw1GxpZZuRUV0k1BIzQLSBah2Py7NqOk=
-X-Google-Smtp-Source: ABdhPJxn/8AxxJz6cDWkjJ/qlVixc1Z/Y5Zn7au5REQEsjEmnoSt3fSE0fMTe3fJaugxzdtYwTwB/eKBhWilTiYa7j0=
-X-Received: by 2002:aca:d882:: with SMTP id p124mr7173159oig.152.1608644753934;
- Tue, 22 Dec 2020 05:45:53 -0800 (PST)
+        bh=/x3hL+6sYl9OE2rENMIF6+Gc+gSOV58KBCt8v0Ta+Hc=;
+        b=m3eY+Jmiy0MV7xCfJpQE5cYHcatroxLEqSyf3htSFr1wuNs8mh3UguJ2ct/F5n4uG6
+         5ArATpaqeZlnnea1ZjriLJwJ0/qZTjvs948lcOB+5L0l+XamqIhDkQfqxxy8dx72xptp
+         9DkHwKZsvRrxWCcdUA7hJEcN1HNAKbl9ASrxl906OD5hpu6BuKcMDE7YIzTVDzUcg2X7
+         U43TFSXxFPigbrJ11BRea3ezlA4XjR2xtw0Gw7oUxVrgYoVPEKs20zXhEzyyF45sqGAa
+         BsEjYyHgcgpqABwyT5MCQEGVY+3+/lpDpuBfdADEQo5Pg9dUNdDNYGPAdvV7WSQKUh3y
+         J+wQ==
+X-Gm-Message-State: AOAM532iysEBhqaNCG59W9gydcFAi9RbnL6pUYpMyRwyGq+fbU/4GXTX
+	gkDVR0Qy2OgND6HTM4HjvCudLSWtraJl9EZnVRA=
+X-Google-Smtp-Source: ABdhPJwtUkFIMCl5abe3S8KXxlSr72RMSE9Z5pFDZ3OdvvpMVTVdmiOWthi4eGFo644LXDUoc1P+kNSYMJNxhXfA/Ps=
+X-Received: by 2002:a17:906:6dd1:: with SMTP id j17mr20240886ejt.357.1608645005320;
+ Tue, 22 Dec 2020 05:50:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20201222104124.39262-1-ovidiu.panait@windriver.com>
 In-Reply-To: <20201222104124.39262-1-ovidiu.panait@windriver.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 22 Dec 2020 13:45:43 +0000
-Message-ID: <CAM9ZRVtZproZpv4665dEE15h5p1hngMpi=ZJQNbewZfSgudNHA@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 22 Dec 2020 08:49:54 -0500
+Message-ID: <CADkTA4PYk-jM7jqEBj008zGysEcf6UUVr3RfZuzkANp38-FkZQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] kernel-devicetree: Introduce KERNEL_DEVICETREE_FLAGS to pass dtc flags
 To: Ovidiu Panait <ovidiu.panait@windriver.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 22 Dec 2020 at 10:42, Ovidiu Panait <ovidiu.panait@windriver.com> wrote:
+On Tue, Dec 22, 2020 at 5:43 AM Ovidiu Panait
+<ovidiu.panait@windriver.com> wrote:
 >
 > Currently DTC_FLAGS kernel makefile parameter can be specified directly on the
 > command line by adding it to KERNEL_EXTRA_ARGS. However, this prevents
@@ -62,10 +66,6 @@ On Tue, 22 Dec 2020 at 10:42, Ovidiu Panait <ovidiu.panait@windriver.com> wrote:
 > dtc flags and export DTC_FLAGS in the environment before generating the dtbs
 > (make allows "+=" operations on variables that come from the environment, so
 > the warnings are silenced properly).
-
-I'd prefer KERNEL_DTC_FLAGS but maybe that's just arguing over the
-colour of the bikeshed.
-
 >
 > Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 > ---
@@ -82,6 +82,11 @@ colour of the bikeshed.
 >
 > +# dtc flags passed via DTC_FLAGS env variable
 > +KERNEL_DEVICETREE_FLAGS ?= ""
+
+We should also be updating the docs with the new variable.  I don't
+know how well the other parts of this are documented, but the state of
+the current docs shouldn't prevent this from being documented.
+
 > +
 >  normalize_dtb () {
 >         dtb="$1"
@@ -91,6 +96,14 @@ colour of the bikeshed.
 >
 >  do_compile_append() {
 > +       if [ ! -z "${KERNEL_DEVICETREE_FLAGS}" ]; then
+
+Does -n work here ? Having a positive test "does this exist ?", is
+almost always easier to read / maintain than "does this not exist ?".
+But someone can correct me, if there's a compatibility concern with -n
+(and if so, I have a lot of scripts to change ;))
+
+Bruce
+
 > +               export DTC_FLAGS="${KERNEL_DEVICETREE_FLAGS}"
 > +       fi
 > +
@@ -106,5 +119,6 @@ colour of the bikeshed.
 
 
 -- 
-Paul Barker
-Konsulko Group
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
