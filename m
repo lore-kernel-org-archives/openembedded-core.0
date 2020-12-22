@@ -1,111 +1,99 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
- by mx.groups.io with SMTP id smtpd.web08.11773.1608647317365720087
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web08.11774.1608647318537723224
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Dec 2020 06:28:37 -0800
+ Tue, 22 Dec 2020 06:28:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VLYFcKtW;
- spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f43.google.com with SMTP id l14so6044740qvh.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 06:28:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qkhCIvCF;
+ spf=pass (domain: gmail.com, ip: 209.85.222.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f170.google.com with SMTP id 22so11936235qkf.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Dec 2020 06:28:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AKQkQTvyHPsm5niu1sinwhoOYyUQeEIyg4wfJEi6enA=;
-        b=VLYFcKtWpWBpe22QoffVp0kdGrjxsx/yEBO2UoeKzVQf4dSJeBovnxmu7XLnkjpSgz
-         3sXpPkUR7E1vkT39dbwCIx4tTvMX3ImbU9dgb995zlEaAh1c+rVlvp8afsWzcziOSsqc
-         tfWc4UttCTcxYKNDGnFux8pS5I2avBySLp1PMRFvNKETRVyghiCfzDncRaDh5zAnWiaQ
-         ftPRtxWMYNaWrtWCOYhNcvxh2EstzArIDM/yc5cbfOl/JMhFNr4B5U+In7avr6akIMw3
-         WFl9FsgtZ+eEIAgULe6Akaacz6oxjoQSnkvrdqB6JyUquQIoJz079BXtkPat+aBx5HQK
-         Pauw==
+        bh=Q8pzu+ztbDd+SE3FVGtE37AOb20eVNj7PGo6AESXbak=;
+        b=qkhCIvCFhsJOrmno/0mbUQDntKjvi0AhDPE5SfjvqAHtuLN1H/Z/0+Ts+h4DCCT0ry
+         0bQydz1mMUU5FobukG+nxT0Ka0cAoG8tP66u4sEkHcgukqytJxmszMoEOZeH7fKRboec
+         B4rzagvwd401COymeqwfpZSeiDhOWJdODmhaxWd4Xy1FASBIdpsjIBxVgHbuuJtfkKMo
+         WiL8fb+XVZmROhTCtGW1Azb3SnYvHkrk+jaJZi8QwsRTMLmJOxBf9dW7R/oJTR/3Uh8v
+         RCb7hluUZHkR+QCyGO1ZAEj86LesPRAt77LaqBUgkd6z9P4H3IHlPEQSbppIRJoUl9hF
+         16ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AKQkQTvyHPsm5niu1sinwhoOYyUQeEIyg4wfJEi6enA=;
-        b=h5gAiyXfs6vsfi/71sbaDE43L+maz8ZtT8kQqPXBhdnvd582DA/T1vXaJFZ47mvYpT
-         CH8MYT2ruGhnGW4+NM74zrT32tmHi7XbEqlQUl7cbBrOqIWNX8Ne4UdgDBNQaiK2XuUC
-         9bdJG0eV19lK3HgKghoW00zUHAa81TOoRfQNKRTR7knjIOi/QfKCPZdiHKX+bsCVkMPo
-         6tN4iFxetn1Ua8xpi3njzey6UERU8woEVf2d5CWcGhyUxyIGXg1pWsR9YJwUrw6pA7CV
-         JbUudoP59OPc9jATW2Ouygu5WjGFmG1fOi16e5L2a9fGn4Q5+reK+mRB39BlE92avhFv
-         vmYw==
-X-Gm-Message-State: AOAM530UZblGK2WWVBQcdVzYzzpzZmWhHWhMqq+JNHpGjkc+8t6hlU+g
-	+KzVcAwqGRe05wvqwVRP4w4=
-X-Google-Smtp-Source: ABdhPJyLnxiOjEMR4cKv9wZn9N/vh2QQeltjhTFejdViF6e3m6qQvZNsOFAqdjM4ZDCDHKZZO2uvWQ==
-X-Received: by 2002:a0c:b4d1:: with SMTP id h17mr14522266qvf.53.1608647316478;
-        Tue, 22 Dec 2020 06:28:36 -0800 (PST)
+        bh=Q8pzu+ztbDd+SE3FVGtE37AOb20eVNj7PGo6AESXbak=;
+        b=TOxPhxdG23ZtwpbeBz4PZ6SZw1Dwf+BzDpxyIoX83Dv+KerwNwo2qJLnY3xaku1XAE
+         +g+RluBnxEErqM5QznUXHrRXwziYiwWLcOzHRdtVW6MeuX8r6FmzlJvFXGn1pQAm2jHD
+         4vRj8cD2hCXmVJxE30L1JYqGk5bqRTIu2azWM/Vn/+MvgVnYysb/9Ncstz3jMhkescCt
+         Nw5rOfLaw6FKoLb1TNNI7yq44WtNoaLwvRa8PXjVF4Zc8y8uo9sZ/QdM1sdPUtRGh1PN
+         1x5gE+u+oLvIECJjsrRUSRJjq9bIM+w2XGH8TyUgdcHUq1CUgPLQh5C31KBDSd1sjhYY
+         ijXQ==
+X-Gm-Message-State: AOAM533w0SKuHMn1Jg6xwMwU/ND3GhpF08X6G2/+OAEkud2CSD1N8vVr
+	dO61sDNv0OeWpaz5y9Cf+Bw=
+X-Google-Smtp-Source: ABdhPJwnOmeUz2BKVVbeTLKw/UMEwDwGlxCRYbNQQ4BZ/Q/GF1c0AerhA1TCKwjp3SK/lIGv3iZwzQ==
+X-Received: by 2002:a37:73c6:: with SMTP id o189mr22270726qkc.169.1608647317700;
+        Tue, 22 Dec 2020 06:28:37 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id u65sm13169866qkb.58.2020.12.22.06.28.35
+        by smtp.gmail.com with ESMTPSA id u65sm13169866qkb.58.2020.12.22.06.28.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Dec 2020 06:28:35 -0800 (PST)
+        Tue, 22 Dec 2020 06:28:36 -0800 (PST)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/9] linux-yocto/5.4/cfg: fix -tiny warnings
-Date: Tue, 22 Dec 2020 09:28:24 -0500
-Message-Id: <362fd97b9696f73678401707220581fe1bdc1eae.1608646697.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 8/9] systemtap: upgrade 4.3 -> 4.4
+Date: Tue, 22 Dec 2020 09:28:25 -0500
+Message-Id: <858a185c7f949d4fd92c4e950101b89dc77b7f37.1608646697.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1608646697.git.bruce.ashfield@gmail.com>
 References: <cover.1608646697.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: zangrc <zangrc.fnst@cn.fujitsu.com>
 
-Integrating the following commit(s) to fixup warnings when -tiny is
-build with the latest kern-tools:
+The test log of oe-selftest is as follows:
+2020-11-23 15:48:49,144 - oe-selftest - INFO - test_crosstap_helloworld (runtime_test.SystemTap)
+2020-11-23 17:06:55,949 - oe-selftest - INFO -  ... ok
+2020-11-23 17:06:55,951 - oe-selftest - INFO - test_crosstap_pstree (runtime_test.SystemTap)
+2020-11-23 17:08:07,921 - oe-selftest - INFO -  ... ok
+2020-11-23 17:08:07,922 - oe-selftest - INFO - test_crosstap_syscalls_by_pid (runtime_test.SystemTap)
+2020-11-23 17:09:20,084 - oe-selftest - INFO -  ... ok
+2020-11-23 17:09:20,085 - oe-selftest - INFO - test_crosstap_syscalls_by_proc (runtime_test.SystemTap)
+2020-11-23 17:10:31,349 - oe-selftest - INFO -  ... ok
+2020-11-23 17:12:58,052 - oe-selftest - INFO - ----------------------------------------------------------------------
+2020-11-23 17:12:58,054 - oe-selftest - INFO - Ran 4 tests in 5051.537s
+2020-11-23 17:12:58,054 - oe-selftest - INFO - OK
+2020-11-23 17:13:08,416 - oe-selftest - INFO - RESULTS:
+2020-11-23 17:13:08,417 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_helloworld: PASSED (4686.81s)
+2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_pstree: PASSED (71.97s)
+2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_syscalls_by_pid: PASSED (72.16s)
+2020-11-23 17:13:08,418 - oe-selftest - INFO - RESULTS - runtime_test.SystemTap.test_crosstap_syscalls_by_proc: PASSED (71.26s)
+2020-11-23 17:13:08,432 - oe-selftest - INFO - SUMMARY:
+2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest () - Ran 4 tests in 5051.540s
+2020-11-23 17:13:08,432 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=4, skipped=0, failures=0, errors=0)
 
-    b721178c41a drm: change CONFIG_DRM_KMS_HELPER to =m
-    d9ac6174eaf tiny: enable CONFIG_FW_LOADER on a per-BSP basis
-    a135c720bc7 i915: adust helper to 'm'
-
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index 3754abbc66..f35de787e1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 56fa51d61e..ae735025b7 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,7 +1,7 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "82b8e1a07a31bf37ed05d6ebc5162b054c0be9fd"
+-PV = "4.3"
++SRCREV = "988f439af39a359b4387963ca4633649866d8275"
++PV = "4.4"
  
- SRCREV_machine ?= "7bc8ae3fc04fdc06192d39d725cb18d4c0b78d9f"
--SRCREV_meta ?= "cd9826707f887241a661ea886cfa19f8d282438c"
-+SRCREV_meta ?= "b721178c41a2bffd19cc9be9e33af23b7a4affd9"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index b06db10f9f..2c7ce3621f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "2b6db4fbe53a1986c0249bc663d8ce7d99cbf19c"
- SRCREV_machine ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
--SRCREV_meta ?= "cd9826707f887241a661ea886cfa19f8d282438c"
-+SRCREV_meta ?= "b721178c41a2bffd19cc9be9e33af23b7a4affd9"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 21935ac171..475efbfc93 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-@@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
- SRCREV_machine_qemux86-64 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
- SRCREV_machine_qemumips64 ?= "75c7340de480587c3a6650b46be7b1a2f71501a9"
- SRCREV_machine ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
--SRCREV_meta ?= "cd9826707f887241a661ea886cfa19f8d282438c"
-+SRCREV_meta ?= "b721178c41a2bffd19cc9be9e33af23b7a4affd9"
- 
- # remap qemuarm to qemuarma15 for the 5.4 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
 -- 
 2.19.1
 
