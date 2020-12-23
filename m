@@ -1,79 +1,81 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web12.2536.1608760208672364235
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web10.2751.1608761168282887734
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 13:50:08 -0800
+ Wed, 23 Dec 2020 14:06:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SvTKSiyt;
- spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: twoerner@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id r17so389134ilo.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 13:50:08 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OawOGGhZ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id g185so154969wmf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 14:06:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GXk0+S7KT/GhNJBA9XJ8SU/Er4xNDdltJ3b3Mi9n+8w=;
-        b=SvTKSiytBULjtsxLNi3wtwLTh8c8ljpW1npIGO/npzIDT0fj1R3qtTIz2eWP30tFXN
-         RrwugDPURowg1hT0v7g8dWosIvlN68KRXFps51SJV9WnEW0OVC77LGKVm5DpsXsXYqCv
-         IxbuX1i51PsD2p9RTZgcyNk41iv8/UnkEjyp56UfIA2ntej8crTOvE4UkzXRviEMjK9O
-         PUpijk1818lKqA7PvoXD7pP9dNZQrG44ys+WJyt4Hxt5qg1TlaA9nQjIL7pNfLc/4ayT
-         y6yUk/oPsybJ+lZXlruZX0UYT42kNnKTed33UmcppnGQ7TNmXvA0XzNvwv46N7F8dCDH
-         2b9A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=qtH5xoUY/8s2Ueg9DRjg89B3I8pUYvVPH2AIcHxBX4o=;
+        b=OawOGGhZTmLanUScP/vxyZQFmM7opzIHGs0M+FDSB5r/C6XBaPN5W33adWtCaZo0uK
+         n38aAYMpZR/8Iq+Cx5RkRpPFtcy7RdObH5OO6K/t9TgMtS7ANDqF0Yj3U3uHhRnto/C4
+         +HAtwJ2rft/mAsWwT/EO/AZbpnXNAKnVfxksI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GXk0+S7KT/GhNJBA9XJ8SU/Er4xNDdltJ3b3Mi9n+8w=;
-        b=aqVwuttE1VZZQwtNarfS+c5u6TLaraSUJ1H43cp/HoxRerBRV2XQQk4ToaZRS98Rf1
-         HgCC5uj1afY6aEIlXW8fu2IjIMI6nZhPVFLqb1XyATHzpdRmJAmmPtOKe2rZHwl2u2nJ
-         2WZgL0hWfbTQ0ZH5YlbT4rTeNHeHxAHVqFmCelUWSUEnU1lBWQl/SZ+DXgh0ZYUDHBjf
-         tFjWQsy028q73RAtLVIpLDxukdu9kE5IQzErhmhw+1llLmU0k2IGPjangGxuQWenAWPB
-         p4alWqJ3mbEPHAumoAsOssgH4UP+Jyqi19AM24FgmXGQTeLpvi5xYaJHmrW6/y6p4hCY
-         QrUA==
-X-Gm-Message-State: AOAM531CtQK0EXdPfNPRZ+rZxyTusiJSEPSHmVz0Y9/1hs4Fx6haJD8R
-	pT29+6SPe3U6uItbiM+DtuA=
-X-Google-Smtp-Source: ABdhPJyP22tDCGAKhCj8ZBDVBd/phO9JEeowBBWnYBDFYWTaGfwBAI0bZCV8+ASHsxJNeKJrVrv6hw==
-X-Received: by 2002:a05:6e02:12e4:: with SMTP id l4mr26846725iln.252.1608760208107;
-        Wed, 23 Dec 2020 13:50:08 -0800 (PST)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id b9sm19246246ill.5.2020.12.23.13.50.07
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=qtH5xoUY/8s2Ueg9DRjg89B3I8pUYvVPH2AIcHxBX4o=;
+        b=mrb7+vIXKrCL200kDOttJ4lPlCPeORHT/gyZJA2RBI+AMheYaICxDfhHpdcCjBUTLJ
+         mHVX7HKaCBMwGFmsywo4vjaZ8CRUdjTXdIdj79CBglcdW3W1rtkTCR/NYQRn2D1pQQ/W
+         xcbGas0W7hTVvSpXcMY+Pafnk2Dq8Yw0qG04Yqdt+G3WoQrwvkY2V1XEfVDWj7kpt/6a
+         08XH4raerWrbzn2rIlHLWePNDAS5rhYVdjDsSD4IgazYFxTxCGbtaoOZp6WRu7vaO+Vs
+         crjh2QFiSHwV/S6WqpZOQZw4WVG7fJLebW6hp7ZFIbOSyeTd2MdvzefN9Gdbk02GUqE/
+         atzQ==
+X-Gm-Message-State: AOAM532bFn5tbvBjP6KX4cbuBanhQf/I0bRkldx3lAFxZ8ccA2+mkJz0
+	cZIAuAgp9nBcFtxh4S/BhBdn8g==
+X-Google-Smtp-Source: ABdhPJxDlzLR5MaCSQ0+4v0m0I5O+KSkpv2z3LSQYcs6p+AaZSRvXmh9TvXx7k9tjeO48qfLOF4eiw==
+X-Received: by 2002:a05:600c:2255:: with SMTP id a21mr1568119wmm.122.1608761166749;
+        Wed, 23 Dec 2020 14:06:06 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8bdb:1603:74be:f976])
+        by smtp.gmail.com with ESMTPSA id o8sm36278528wrm.17.2020.12.23.14.06.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Dec 2020 13:50:07 -0800 (PST)
-Date: Wed, 23 Dec 2020 16:50:05 -0500
-From: "Trevor Woerner" <twoerner@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
+        Wed, 23 Dec 2020 14:06:06 -0800 (PST)
+Message-ID: <4a7f64f4a7a6e458974fd411b68a1075ba7204a7.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [master-next][PATCH 2/3] psplash: work on first boot (sysvinit)
-Message-ID: <20201223215005.GA9542@localhost>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Wed, 23 Dec 2020 22:06:05 +0000
+In-Reply-To: <20201223215005.GA9542@localhost>
 References: <20201223170621.35727-1-twoerner@gmail.com>
- <20201223170621.35727-2-twoerner@gmail.com>
- <743d9e91ea6fb99193e315f8b20778e418109da7.camel@linuxfoundation.org>
+	 <20201223170621.35727-2-twoerner@gmail.com>
+	 <743d9e91ea6fb99193e315f8b20778e418109da7.camel@linuxfoundation.org>
+	 <20201223215005.GA9542@localhost>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <743d9e91ea6fb99193e315f8b20778e418109da7.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed 2020-12-23 @ 06:00:21 PM, Richard Purdie wrote:
-> Personally, I don't really like the idea of having a top level
-> directory called .psplash,
+On Wed, 2020-12-23 at 16:50 -0500, Trevor Woerner wrote:
+> On Wed 2020-12-23 @ 06:00:21 PM, Richard Purdie wrote:
+> > Personally, I don't really like the idea of having a top level
+> > directory called .psplash,
+> 
+> Neither do I, which is why I also added the code to remove the
+> directory once
+> the psplash program is done running. Whenever psplash is run the
+> directory is
+> created just before it starts and removed when psplash is done.
+> 
+> > is there a reason it doesn't work in /mnt?
+> 
+> This all works fine (without any changes) on the qemuX machines, but
+> on a real device (e.g. rpi) when the image is booted for the first
+> time everything is mounted, initially, RO, when using sysvinit. At
+> the end of the first boot, and for every subsequent boot, the
+> filesystem is R/W, so everything works on
+> subsequent boots.
 
-Neither do I, which is why I also added the code to remove the directory once
-the psplash program is done running. Whenever psplash is run the directory is
-created just before it starts and removed when psplash is done.
+Right, but why can't psplash create /mnt/.psplash? Why do we need / and
+not /mnt ?
 
-> is there a reason it doesn't work in /mnt?
+Cheers,
 
-This all works fine (without any changes) on the qemuX machines, but on a real
-device (e.g. rpi) when the image is booted for the first time everything is
-mounted, initially, RO, when using sysvinit. At the end of the first boot, and
-for every subsequent boot, the filesystem is R/W, so everything works on
-subsequent boots.
+Richard
 
-On first boot, the error message I get is:
-	mkfifo: read-only filesystem
-When the first boot is done, the last message is something along the lines of
-not being able to umount.
-
-If the directory exists in the filesystem already (as part of the image) then
-psplash can create the fifo in it.
