@@ -1,27 +1,27 @@
 Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.10233.1608736733177759099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 07:19:04 -0800
+ Wed, 23 Dec 2020 07:19:06 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: WNlLa0iUBO4S/C0FQFLJC7TaL73150fskYf4ii4kULIZKDiy5MIdW+/hroAvID3UXh0tbb0Bsp
- ZOXYySHrufqw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155235994"
+IronPort-SDR: AoPkInnX7Po4DS0XB104sR3yNngWgFh3R6mLyHhuWb4RW24bvOcaoRmDX6k95FlMGiz/oE3ioL
+ BSIaDjT85ndg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236010"
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="155235994"
+   d="scan'208";a="155236010"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:04 -0800
-IronPort-SDR: hQxvZqIZj4r+W5DbvPAo+oYIGaSX/aO3NaRm8KXmadfcOZY4OCgj8S/QnIUDawLdB3K5Hj9ZdZ
- GNfAD2YNQLaw==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:05 -0800
+IronPort-SDR: F5q+eWgTMXk02BKgcT0hgw6ZGoWSjDhSsZO7S5NYie5X4lrexjSTppHDnjL353QER+1yQE4Sa3
+ AtNVyr+0Br/Q==
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="374027531"
+   d="scan'208";a="374027535"
 Received: from btang1-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.75.173])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:03 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:04 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 09/35] grub: Fix build reproducibility issue
-Date: Wed, 23 Dec 2020 23:18:19 +0800
-Message-Id: <c494d69efbc9035d6d9ff8dae8a606aeaf378adc.1608735614.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 10/35] grub: Add second fix for determinism issue
+Date: Wed, 23 Dec 2020 23:18:20 +0800
+Message-Id: <5d758a1568e5bd03fc55885d1a26de34aee7ebbd.1608735614.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1608735614.git.anuj.mittal@intel.com>
 References: <cover.1608735614.git.anuj.mittal@intel.com>
@@ -30,60 +30,47 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We're seeing reproducibility issue on the autobuilder due to changing
-module dependency ordering. Add some sorting to an awk script to fix this.
+There is a second list sorting problem in a generator script within grub,
+add a sort() of a list to resolve this.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 925ddd5edccbfec52ff45c1b54ab2ae1bfe0d57c)
+(cherry picked from commit cb5e96e05930eaff4d679166416d6c84d6e3236b)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-bsp/grub/files/determinism.patch | 24 +++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/determinism.patch
+ meta/recipes-bsp/grub/files/determinism.patch | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/meta/recipes-bsp/grub/files/determinism.patch b/meta/recipes-bsp/grub/files/determinism.patch
-new file mode 100644
-index 0000000000..c4b1d3a2a8
---- /dev/null
+index c4b1d3a2a8..fac80e7b54 100644
+--- a/meta/recipes-bsp/grub/files/determinism.patch
 +++ b/meta/recipes-bsp/grub/files/determinism.patch
-@@ -0,0 +1,24 @@
-+The output in moddep.lst generated from syminfo.lst using genmoddep.awk is
-+not deterministic since the order of the dependencies on each line can vary
-+depending on how awk sorts the values in the array.
+@@ -4,6 +4,10 @@ depending on how awk sorts the values in the array.
+ 
+ Be deterministic in the output by sorting the dependencies on each line.
+ 
++Also, the output of the SOURCES lines in grub-core/Makefile.core.am, generated
++from grub-core/Makefile.core.def with gentpl.py is not deterministic due to
++missing sorting of the list used to generate it. Add such a sort.
 +
-+Be deterministic in the output by sorting the dependencies on each line.
-+
-+Upstream-Status: Pending
-+Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: grub-2.04/grub-core/genmoddep.awk
+ Upstream-Status: Pending
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+@@ -22,3 +26,15 @@ Index: grub-2.04/grub-core/genmoddep.awk
+        modlist = modlist " " depmod;
+        inverse_dependencies[depmod] = inverse_dependencies[depmod] " " mod
+        depcount[mod]++
++Index: grub-2.04/gentpl.py
 +===================================================================
-+--- grub-2.04.orig/grub-core/genmoddep.awk
-++++ grub-2.04/grub-core/genmoddep.awk
-+@@ -59,7 +59,9 @@ END {
-+     }
-+     modlist = ""
-+     depcount[mod] = 0
-+-    for (depmod in uniqmods) {
-++    n = asorti(uniqmods, w)
-++    for (i = 1; i <= n; i++) {
-++      depmod = w[i]
-+       modlist = modlist " " depmod;
-+       inverse_dependencies[depmod] = inverse_dependencies[depmod] " " mod
-+       depcount[mod]++
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index ff17dbe8b7..95c25d78f9 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -27,6 +27,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://script-Remove-unused-fields-from-grub_script_functio.patch \
-            file://CVE-2020-15706-script-Avoid-a-use-after-free-when-redefining-a-func.patch \
-            file://CVE-2020-15707-linux-Fix-integer-overflows-in-initrd-size-handling.patch \
-+           file://determinism.patch \
- "
- SRC_URI[md5sum] = "5ce674ca6b2612d8939b9e6abed32934"
- SRC_URI[sha256sum] = "f10c85ae3e204dbaec39ae22fa3c5e99f0665417e91c2cb49b7e5031658ba6ea"
++--- grub-2.04.orig/gentpl.py
+++++ grub-2.04/gentpl.py
++@@ -568,6 +568,7 @@ def foreach_platform_value(defn, platfor
++     for group in RMAP[platform]:
++         for value in defn.find_all(group + suffix):
++             r.append(closure(value))
+++    r.sort()
++     return ''.join(r)
++ 
++ def platform_conditional(platform, closure):
 -- 
 2.29.2
 
