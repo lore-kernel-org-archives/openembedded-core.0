@@ -1,126 +1,172 @@
 Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.10233.1608736733177759099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 07:19:19 -0800
+ Wed, 23 Dec 2020 07:19:20 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: M/AR/OrYX6Gf/hcXXByDDM58zzEcjYqoOa5duGQvkLodJTYXMH7zgLu3CLbEgpNZWmDxxl802M
- oWyAUj9U9cZA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236065"
+IronPort-SDR: 2N6ZiVEnwNpplkPq4bnqU299jTw0Ha671dil+hrN8uCIVO/ZLGLuFH2ckSWYqY/uRdcR8wgXIm
+ PP55RaJyotfA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236071"
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="155236065"
+   d="scan'208";a="155236071"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:18 -0800
-IronPort-SDR: arTpT3e/wugrzgDJbO2VuxdzIuTUex3bjaAhCg53+o4qqpHi1YPExEpsN8ErHjyKjipgC9daIk
- /MQvuwZBl0GQ==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:20 -0800
+IronPort-SDR: CHPll3YMMKjOFW+yrTgM/gkU7/HyJTjucs7yKGLTGv1CjaSqm//vHb4fT1LvfwxjmATYS74rNi
+ /Wx5xM1WYOTg==
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="374027617"
+   d="scan'208";a="374027625"
 Received: from btang1-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.75.173])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:17 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:18 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 19/35] ffmpeg: add srt package config knob
-Date: Wed, 23 Dec 2020 23:18:29 +0800
-Message-Id: <54f8b66ee2439bc6ab68e622f34d451d1bdbfcd9.1608735614.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 20/35] ffmpeg: fix reproducibility
+Date: Wed, 23 Dec 2020 23:18:30 +0800
+Message-Id: <6a4eab303cf56102cf78da07866ac248c6183944.1608735614.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1608735614.git.anuj.mittal@intel.com>
 References: <cover.1608735614.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jose Quaresma <quaresma.jose@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-    * 0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch
-      Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/7c59e1b0f285cd7c7b35fcd71f49c5fd52cf9315]
-
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5b9c0fa129308180d6d3acf0a321433652ecd9dc)
+(cherry picked from commit a4f7c6f831a551e3df503091fdca5c9f4add879d)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...uild-fail-when-used-the-libsrt-1.4.1.patch | 52 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |  2 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch
+ ...e-assembly-with-full-path-from-sourc.patch | 97 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |  6 ++
+ 2 files changed, 103 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavutil-include-assembly-with-full-path-from-sourc.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavutil-include-assembly-with-full-path-from-sourc.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavutil-include-assembly-with-full-path-from-sourc.patch
 new file mode 100644
-index 0000000000..7635c9196a
+index 0000000000..3b503c49c9
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch
-@@ -0,0 +1,52 @@
-+From aebb72e025cbfbd4a6765354f6f565ad4ac89789 Mon Sep 17 00:00:00 2001
-+From: Jun Zhao <barryjzhao@tencent.com>
-+Date: Sun, 12 Jul 2020 05:48:48 +0800
-+Subject: [PATCH] lavf/srt: fix build fail when used the libsrt 1.4.1
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavutil-include-assembly-with-full-path-from-sourc.patch
+@@ -0,0 +1,97 @@
++From 24a58d70cbb3997e471366bd5afe54be9007bfb1 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 10 Nov 2020 15:32:14 +0000
++Subject: [PATCH] libavutil: include assembly with full path from source root
 +
-+lavf/srt: fix build fail when used the libsrt 1.4.1
++Otherwise nasm writes the full host-specific paths into .o
++output, which breaks binary reproducibility.
 +
-+libsrt changed the:
-+SRTO_SMOOTHER   -> SRTO_CONGESTION
-+SRTO_STRICTENC  -> SRTO_ENFORCEDENCRYPTION
-+and removed the front of deprecated options (SRTO_SMOOTHER/SRTO_STRICTENC)
-+in the header, it's lead to build fail
-+
-+fix #8760
-+
-+Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/7c59e1b0f285cd7c7b35fcd71f49c5fd52cf9315]
-+
-+Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-+Signed-off-by: Jun Zhao <barryjzhao@tencent.com>
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ libavformat/libsrt.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ libavutil/x86/cpuid.asm      | 2 +-
++ libavutil/x86/emms.asm       | 2 +-
++ libavutil/x86/fixed_dsp.asm  | 2 +-
++ libavutil/x86/float_dsp.asm  | 2 +-
++ libavutil/x86/lls.asm        | 2 +-
++ libavutil/x86/pixelutils.asm | 2 +-
++ 6 files changed, 6 insertions(+), 6 deletions(-)
 +
-+diff --git a/libavformat/libsrt.c b/libavformat/libsrt.c
-+index 4de575b..4719ce0 100644
-+--- a/libavformat/libsrt.c
-++++ b/libavformat/libsrt.c
-+@@ -313,8 +313,12 @@ static int libsrt_set_options_pre(URLContext *h, int fd)
-+         (s->pbkeylen >= 0 && libsrt_setsockopt(h, fd, SRTO_PBKEYLEN, "SRTO_PBKEYLEN", &s->pbkeylen, sizeof(s->pbkeylen)) < 0) ||
-+         (s->passphrase && libsrt_setsockopt(h, fd, SRTO_PASSPHRASE, "SRTO_PASSPHRASE", s->passphrase, strlen(s->passphrase)) < 0) ||
-+ #if SRT_VERSION_VALUE >= 0x010302
-++#if SRT_VERSION_VALUE >= 0x010401
-++        (s->enforced_encryption >= 0 && libsrt_setsockopt(h, fd, SRTO_ENFORCEDENCRYPTION, "SRTO_ENFORCEDENCRYPTION", &s->enforced_encryption, sizeof(s->enforced_encryption)) < 0) ||
-++#else
-+         /* SRTO_STRICTENC == SRTO_ENFORCEDENCRYPTION (53), but for compatibility, we used SRTO_STRICTENC */
-+         (s->enforced_encryption >= 0 && libsrt_setsockopt(h, fd, SRTO_STRICTENC, "SRTO_STRICTENC", &s->enforced_encryption, sizeof(s->enforced_encryption)) < 0) ||
-++#endif
-+         (s->kmrefreshrate >= 0 && libsrt_setsockopt(h, fd, SRTO_KMREFRESHRATE, "SRTO_KMREFRESHRATE", &s->kmrefreshrate, sizeof(s->kmrefreshrate)) < 0) ||
-+         (s->kmpreannounce >= 0 && libsrt_setsockopt(h, fd, SRTO_KMPREANNOUNCE, "SRTO_KMPREANNOUNCE", &s->kmpreannounce, sizeof(s->kmpreannounce)) < 0) ||
-+ #endif
-+@@ -333,7 +337,11 @@ static int libsrt_set_options_pre(URLContext *h, int fd)
-+         (s->lossmaxttl >= 0 && libsrt_setsockopt(h, fd, SRTO_LOSSMAXTTL, "SRTO_LOSSMAXTTL", &s->lossmaxttl, sizeof(s->lossmaxttl)) < 0) ||
-+         (s->minversion >= 0 && libsrt_setsockopt(h, fd, SRTO_MINVERSION, "SRTO_MINVERSION", &s->minversion, sizeof(s->minversion)) < 0) ||
-+         (s->streamid && libsrt_setsockopt(h, fd, SRTO_STREAMID, "SRTO_STREAMID", s->streamid, strlen(s->streamid)) < 0) ||
-++#if SRT_VERSION_VALUE >= 0x010401
-++        (s->smoother && libsrt_setsockopt(h, fd, SRTO_CONGESTION, "SRTO_CONGESTION", s->smoother, strlen(s->smoother)) < 0) ||
-++#else
-+         (s->smoother && libsrt_setsockopt(h, fd, SRTO_SMOOTHER, "SRTO_SMOOTHER", s->smoother, strlen(s->smoother)) < 0) ||
-++#endif
-+         (s->messageapi >= 0 && libsrt_setsockopt(h, fd, SRTO_MESSAGEAPI, "SRTO_MESSAGEAPI", &s->messageapi, sizeof(s->messageapi)) < 0) ||
-+         (s->payload_size >= 0 && libsrt_setsockopt(h, fd, SRTO_PAYLOADSIZE, "SRTO_PAYLOADSIZE", &s->payload_size, sizeof(s->payload_size)) < 0) ||
-+         ((h->flags & AVIO_FLAG_WRITE) && libsrt_setsockopt(h, fd, SRTO_SENDER, "SRTO_SENDER", &yes, sizeof(yes)) < 0)) {
++diff --git a/libavutil/x86/cpuid.asm b/libavutil/x86/cpuid.asm
++index c3f7866..766f77f 100644
++--- a/libavutil/x86/cpuid.asm
+++++ b/libavutil/x86/cpuid.asm
++@@ -21,7 +21,7 @@
++ ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ ;******************************************************************************
++ 
++-%include "x86util.asm"
+++%include "libavutil/x86/x86util.asm"
++ 
++ SECTION .text
++ 
++diff --git a/libavutil/x86/emms.asm b/libavutil/x86/emms.asm
++index 8611762..df84f22 100644
++--- a/libavutil/x86/emms.asm
+++++ b/libavutil/x86/emms.asm
++@@ -18,7 +18,7 @@
++ ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ ;******************************************************************************
++ 
++-%include "x86util.asm"
+++%include "libavutil/x86/x86util.asm"
++ 
++ SECTION .text
++ 
++diff --git a/libavutil/x86/fixed_dsp.asm b/libavutil/x86/fixed_dsp.asm
++index 979dd5c..2f41185 100644
++--- a/libavutil/x86/fixed_dsp.asm
+++++ b/libavutil/x86/fixed_dsp.asm
++@@ -20,7 +20,7 @@
++ ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ ;******************************************************************************
++ 
++-%include "x86util.asm"
+++%include "libavutil/x86/x86util.asm"
++ 
++ SECTION .text
++ 
++diff --git a/libavutil/x86/float_dsp.asm b/libavutil/x86/float_dsp.asm
++index 517fd63..b773e61 100644
++--- a/libavutil/x86/float_dsp.asm
+++++ b/libavutil/x86/float_dsp.asm
++@@ -20,7 +20,7 @@
++ ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ ;******************************************************************************
++ 
++-%include "x86util.asm"
+++%include "libavutil/x86/x86util.asm"
++ 
++ SECTION_RODATA 32
++ pd_reverse: dd 7, 6, 5, 4, 3, 2, 1, 0
++diff --git a/libavutil/x86/lls.asm b/libavutil/x86/lls.asm
++index 317fba6..d2526d1 100644
++--- a/libavutil/x86/lls.asm
+++++ b/libavutil/x86/lls.asm
++@@ -20,7 +20,7 @@
++ ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ ;******************************************************************************
++ 
++-%include "x86util.asm"
+++%include "libavutil/x86/x86util.asm"
++ 
++ SECTION .text
++ 
++diff --git a/libavutil/x86/pixelutils.asm b/libavutil/x86/pixelutils.asm
++index 36c57c5..8b45ead 100644
++--- a/libavutil/x86/pixelutils.asm
+++++ b/libavutil/x86/pixelutils.asm
++@@ -21,7 +21,7 @@
++ ;* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++ ;******************************************************************************
++ 
++-%include "x86util.asm"
+++%include "libavutil/x86/x86util.asm"
++ 
++ SECTION .text
++ 
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-index 517dac7f05..72c2fe16ec 100644
+index 72c2fe16ec..97b2d21d31 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-@@ -25,6 +25,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- 
+@@ -26,6 +26,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
  SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
             file://mips64_cpu_detection.patch \
-+           file://0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch \
+            file://0001-lavf-srt-fix-build-fail-when-used-the-libsrt-1.4.1.patch \
++           file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
             "
  SRC_URI[sha256sum] = "ad009240d46e307b4e03a213a0f49c11b650e445b1f8be0dda2a9212b34d2ffb"
  
-@@ -70,6 +71,7 @@ PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
- PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
- PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
- PACKAGECONFIG[speex] = "--enable-libspeex,--disable-libspeex,speex"
-+PACKAGECONFIG[srt] = "--enable-libsrt,--disable-libsrt,srt"
- PACKAGECONFIG[theora] = "--enable-libtheora,--disable-libtheora,libtheora libogg"
- PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
- PACKAGECONFIG[vdpau] = "--enable-vdpau,--disable-vdpau,libvdpau"
+@@ -130,6 +131,11 @@ do_configure() {
+     ${S}/configure ${EXTRA_OECONF}
+ }
+ 
++# patch out build host paths for reproducibility
++do_compile_prepend_class-target() {
++        sed -i -e "s,${WORKDIR},,g" ${B}/config.h
++}
++
+ PACKAGES =+ "libavcodec \
+              libavdevice \
+              libavfilter \
 -- 
 2.29.2
 
