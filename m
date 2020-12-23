@@ -1,27 +1,27 @@
 Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.10233.1608736733177759099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 07:19:21 -0800
+ Wed, 23 Dec 2020 07:19:23 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: CR81Pi5XvxTcuSqC2agut58VurLVuklAIzHljTHS9WTXvEoJVFq6pCaInCemBcP1iGUaaL/2ky
- 2Wte2gXE0N/g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236085"
+IronPort-SDR: MSkJkR8dgfTltxpCKiG5g5Mqdw4KmaudymT6vOxKpnnBJGQKGuzSmZ+S9YQwon6und6nUQ707i
+ cT0gCn/KSilA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236095"
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="155236085"
+   d="scan'208";a="155236095"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:21 -0800
-IronPort-SDR: tho8Yfdg/jCSk8MHfs9VCnk3NcHDV4sMewGsNzTeaxe2yTUbvHEjI1Lf+ESwf06+7xwX7roizn
- jDHjDbld6neg==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:22 -0800
+IronPort-SDR: qyfr+4z3bBhqXXeZbnrdcfeG6ytj9L7dmTU76BhiLaxgRhLuFV6gawHNlHE7Zg77zniZQ8rdYy
+ XRLDmuPniZTA==
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="374027632"
+   d="scan'208";a="374027634"
 Received: from btang1-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.75.173])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:20 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:21 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 21/35] u-boot-tools: Fix reproducibility issue
-Date: Wed, 23 Dec 2020 23:18:31 +0800
-Message-Id: <92cfdf6cedb229ca792401bc63c0234e9b7eb33a.1608735614.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 22/35] groff: Fix reproducibility issue
+Date: Wed, 23 Dec 2020 23:18:32 +0800
+Message-Id: <bcf17242fec80b39c5386d0fd7ff0a454850aec7.1608735614.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1608735614.git.anuj.mittal@intel.com>
 References: <cover.1608735614.git.anuj.mittal@intel.com>
@@ -30,55 +30,44 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-If you build on a system with git < 2.14 from scratch (e.g. debian9), the
-tree will be marked as "dirty" and the version will include "-dirty", leading
-to a reproducibility problem. The issue is the inode count for Licnses/README
-changing due to do_populate_lic hardlinking a copy of the file. We avoid
-this by ensuring the index is updated with a "git diff" before the
-u-boot machinery tries to determine the version.
+groff chooses a default papersize depending on the value from /etc/papersize
+and failing that, the search domain in /etc/resolv.conf based on the comment
+in configure:
 
-build$ ../git/scripts/setlocalversion ../git
-""
-build$ ln ../git/
-build$ ln ../git/README ../foo
-build$ ../git/scripts/setlocalversion ../git
-""-dirty
+"""
+If the top-level domain is two letters and it's not 'us' or 'ca'
+then they probably use A4 paper.
+"""
 
-(i.e. creating a hardlink dirties the index)
+Oddly, my system sets to "a4" in /etc/papersize which means it defaults to
+"letter" since its != "A4".
+
+These defaults ripple through to cause the output of man-db to change depending
+on which default value was selected.
+
+To resolve this, set a default of "A4" since that covers the larger population
+of the two default values.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a4de915af9e2c4d365527ad09286483b2ee904fc)
+(cherry picked from commit 6cb511bfbd18258c782ee18f054a2590e4daaddc)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-tools.inc | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ meta/recipes-extended/groff/groff_1.22.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-index 8ae290acc6..4ed936a70d 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-@@ -23,6 +23,21 @@ SED_CONFIG_EFI_armeb = ''
- SED_CONFIG_EFI_aarch64 = ''
+diff --git a/meta/recipes-extended/groff/groff_1.22.4.bb b/meta/recipes-extended/groff/groff_1.22.4.bb
+index e398478349..0867452ce7 100644
+--- a/meta/recipes-extended/groff/groff_1.22.4.bb
++++ b/meta/recipes-extended/groff/groff_1.22.4.bb
+@@ -28,7 +28,7 @@ MULTILIB_SCRIPTS = "${PN}:${bindir}/gpinyin ${PN}:${bindir}/groffer ${PN}:${bind
+ EXTRA_OECONF = "--without-x --without-doc"
+ PARALLEL_MAKE = ""
  
- do_compile () {
-+	# Yes, this is crazy. If you build on a system with git < 2.14 from scratch, the tree will
-+	# be marked as "dirty" and the version will include "-dirty", leading to a reproducibility problem.
-+	# The issue is the inode count for Licnses/README changing due to do_populate_lic hardlinking a
-+	# copy of the file. We avoid this by ensuring the index is updated with a "git diff" before the
-+	# u-boot machinery tries to determine the version.
-+	#
-+	# build$ ../git/scripts/setlocalversion ../git
-+	# ""
-+	# build$ ln ../git/
-+	# build$ ln ../git/README ../foo
-+	# build$ ../git/scripts/setlocalversion ../git
-+	# ""-dirty
-+	# (i.e. creating a hardlink dirties the index)
-+	cd ${S}; git diff; cd ${B}
-+
- 	oe_runmake -C ${S} sandbox_defconfig O=${B}
+-CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl' ac_cv_path_BASH_PROG='no'"
++CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl' ac_cv_path_BASH_PROG='no' PAGE=A4"
  
- 	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
+ do_install_append() {
+ 	# Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
 -- 
 2.29.2
 
