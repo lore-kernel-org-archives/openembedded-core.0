@@ -1,90 +1,68 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web12.3274.1608763386007200764
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web08.3440.1608764155704077866
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 14:43:06 -0800
+ Wed, 23 Dec 2020 14:55:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F4WwXXnJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id c124so187941wma.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 14:43:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=q6GmnzUb;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: twoerner@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id q137so598280iod.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 14:55:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=i3G8hOMaIP2+1AZV+dJjHGH4PoVMpLorL6T0/ZmPg10=;
-        b=F4WwXXnJpxvGOpC6/sqxXzUEyGQ6WZqp5Ecfuz73xnkojfgnDGB84YEnDuwIky/wxg
-         m2M08mFtxOztfQHEJN/iHPllZtJylI1ryeevbe6A0A2dHRgiIqDCl+oqbFYVgJMClpBc
-         5RXOvM7uuFNU5ZimgUprnzfnHMnGM4vTI9pbQ=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=G4HWiVVIaGvZglY/km/xMDgnhv/GSlBq2yhZJ7gH3Bg=;
+        b=q6GmnzUbb0/w3tyn9stzW5IbQk8Y+kRXa5H78O8pEVxWd5Csz7pe7S3Xx/Y98hc1qK
+         BhoiNGHmLvwL4SrJ2QrIaZh2TtgsFtw0pc537jPF9KsCRSLFjZ+MXMyyIIU2ynnVtuvO
+         GY6hVEsZx0dvmGx7twnbmySMCNBR2iKH7kgSyT/WBtXtI2BpLwdZOnXMU4FLW2CU2xtx
+         aqWnCR7CrJNYY4FG2amrqy6zhGUjuTyxeLWrv88L+0GkPQcIoDJ9yF4DbPAcjvmsVK5R
+         AqmXmOmz0U0MBA+0zYPeJLKItRi9eSr2/ZcOafxoCFQCmzybpWZTIp/GZZO77HpWCMKp
+         BTLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=i3G8hOMaIP2+1AZV+dJjHGH4PoVMpLorL6T0/ZmPg10=;
-        b=bshXBdb71DmMXejONhC5otpSxaWrzyHMFw2bZhuPX8WDXXFtKee7RFR87FL+1YINeI
-         SmYuRcJv1P0YI1SkSwqB8fRsxU4nH4N8RbCqyf6dSNFgDS7VaEDiUdepZgMxWkaF1MvI
-         JLkJdx/BaUhg/6TZZwodUG2MQSMohDDk6UljVUDyt7hvmqImf5T/x5JSJKrsYB3z5AyN
-         q0Ue5UvNaKYtNv7nez7NHrIaJqT45jftLYZaFrQXv7Wo2iA29soBv6GZOlGQWJarYtjQ
-         3MDbcunAOZckxh+xzk7efGDcYBReTwYMHyeVh9Fuzc7xkvEjQ3HQeqwgJKY5KgX9U1eb
-         tuGw==
-X-Gm-Message-State: AOAM530BUbVIexu2Iym7ncmEKFKba9F9GbpB0VrUpcC6WkNeblrYFeci
-	0HG9VNJt3hV9I+YDyTsDuAOf9Q==
-X-Google-Smtp-Source: ABdhPJyhzbx5Oy5Y2qI6WAKwX0JhseKq9YypruJdm4gBH0S4i/sA8WPaFqqv5Z9wlONMA6YgqyLakw==
-X-Received: by 2002:a1c:8016:: with SMTP id b22mr1586119wmd.135.1608763384539;
-        Wed, 23 Dec 2020 14:43:04 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8bdb:1603:74be:f976])
-        by smtp.gmail.com with ESMTPSA id m2sm1200177wml.34.2020.12.23.14.43.04
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=G4HWiVVIaGvZglY/km/xMDgnhv/GSlBq2yhZJ7gH3Bg=;
+        b=n8sP5OgdcnslkN+/ne6jQhODQcUnD3DJc3MHB3BnkecslbEftpUmUMMBqmzdGYZH53
+         DH2YY0e2qw2DgawvFB5GRq+qJ2xbMMy0dJWvHdaEJF+gKJlS91W06eJvodm5BKiGW6Na
+         oIuK4+qxGn/BLL7EFk+43XqDMmVyrx1D5j6pIluIx6YIRD/kITJ59R4gTfb2SSWBUAuB
+         G4Abu9yMu+kdR3xCTx0oEdN28S8rHFR4MmLkxaeCt5i7Sqm9YUB28vzl+W2uHEAh6qIP
+         2yacO4F+9JJgjOUEpEM6AioMVkLGJJLVDHqoT67L1GWg3YrRTO1ZmZzmr87qYDF5R4eU
+         i9Kg==
+X-Gm-Message-State: AOAM531GeaDye9joezg6PDyzQbk1BVRzFC93D78jm8tYDVcxw3X+uIMh
+	Ot7xfimUd9ACdt+RfO6yY4A=
+X-Google-Smtp-Source: ABdhPJyyZJbelQ7nLLkUu6TK65jzRkyYwPUhhyTz28XnoFhZj99VVkgsMgCIK6d3x+gRCk/seOu/IA==
+X-Received: by 2002:a05:6638:e8c:: with SMTP id p12mr24303443jas.112.1608764155045;
+        Wed, 23 Dec 2020 14:55:55 -0800 (PST)
+Return-Path: <twoerner@gmail.com>
+Received: from localhost ([206.248.190.95])
+        by smtp.gmail.com with ESMTPSA id j15sm1904403ile.1.2020.12.23.14.55.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Dec 2020 14:43:04 -0800 (PST)
-Message-ID: <595b6989f099f65292ba79446e2dc527b4587aac.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [master-next][PATCH 2/3] psplash: work on first boot (sysvinit)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>
+        Wed, 23 Dec 2020 14:55:54 -0800 (PST)
+Date: Wed, 23 Dec 2020 17:55:51 -0500
+From: "Trevor Woerner" <twoerner@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2020 22:43:03 +0000
-In-Reply-To: <20201223224129.GA1691@localhost>
+Subject: Re: [OE-core] [master-next][PATCH 2/3] psplash: work on first boot (sysvinit)
+Message-ID: <20201223225551.GB1691@localhost>
 References: <20201223170621.35727-1-twoerner@gmail.com>
-	 <20201223170621.35727-2-twoerner@gmail.com>
-	 <743d9e91ea6fb99193e315f8b20778e418109da7.camel@linuxfoundation.org>
-	 <20201223215005.GA9542@localhost> <20201223224129.GA1691@localhost>
-User-Agent: Evolution 3.38.1-1 
+ <20201223170621.35727-2-twoerner@gmail.com>
+ <743d9e91ea6fb99193e315f8b20778e418109da7.camel@linuxfoundation.org>
+ <20201223215005.GA9542@localhost>
+ <20201223224129.GA1691@localhost>
+ <595b6989f099f65292ba79446e2dc527b4587aac.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <595b6989f099f65292ba79446e2dc527b4587aac.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Wed, 2020-12-23 at 17:41 -0500, Trevor Woerner wrote:
-> On Wed 2020-12-23 @ 04:50:05 PM, Trevor Woerner wrote:
-> > On Wed 2020-12-23 @ 06:00:21 PM, Richard Purdie wrote:
-> > > Personally, I don't really like the idea of having a top level
-> > > directory called .psplash,
-> > 
-> > Neither do I, which is why I also added the code to remove the
-> > directory once
-> > the psplash program is done running. Whenever psplash is run the
-> > directory is
-> > created just before it starts and removed when psplash is done.
-> > 
-> > > is there a reason it doesn't work in /mnt?
+On Wed 2020-12-23 @ 10:43:03 PM, Richard Purdie wrote:
+> You're misunderstanding my question. In your patch you create
+> "/.psplash" in the splash recipe.
 > 
-> specifically…
-> 
->         mkdir: can't create directory '/mnt/.psplash': Read-only file
-> system
->         mount: mounting tmpfs on /mnt/.psplash failed: No such file
-> or directory
->         mkfifo: Read-only file system
-> 
-> then
->         umount: can't unmount /mnt/.psplash: No such file or
-> directory
+> Is there a reason the psplash recipe can't create "/mnt/.psplash", i.e.
+> match the original path ?
 
-You're misunderstanding my question. In your patch you create
-"/.psplash" in the splash recipe.
-
-Is there a reason the psplash recipe can't create "/mnt/.psplash", i.e.
-match the original path ?
-
-Cheers,
-
-Richard
-
+Understood. I just wanted to update the email thread with the actual error
+messages (instead of going from memory) for posterity.
