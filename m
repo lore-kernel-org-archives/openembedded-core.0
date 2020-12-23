@@ -1,79 +1,79 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by mx.groups.io with SMTP id smtpd.web09.11517.1608742230508744635
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web12.11683.1608742648021388771
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 08:50:31 -0800
+ Wed, 23 Dec 2020 08:57:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: marex@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 4D1K2T5fJPz1rxcH;
-	Wed, 23 Dec 2020 17:50:25 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 4D1K2T53T4z1tSQv;
-	Wed, 23 Dec 2020 17:50:25 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id 3TkZ7_ZTTY8J; Wed, 23 Dec 2020 17:50:24 +0100 (CET)
-X-Auth-Info: nCGkYbR8OSWz90QBtC3UqSB92oSgbwmcpQ/udCkNeec=
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Wed, 23 Dec 2020 17:50:24 +0100 (CET)
-From: "Marek Vasut" <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Marek Vasut <marex@denx.de>,
-	Joshua Watt <JPEWhacker@gmail.com>,
-	Krzysztof Zawadzki <krzysztof.zawadzki@nokia.com>,
-	Randy Witt <randy.e.witt@linux.intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ross Burton <ross.burton@intel.com>
-Subject: [PATCH 1/2] meta: toolchain-shar-relocate.sh: Do not use $target_sdk_dir as regex
-Date: Wed, 23 Dec 2020 17:50:02 +0100
-Message-Id: <20201223165003.221976-1-marex@denx.de>
-X-Mailer: git-send-email 2.29.2
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: vqiXBqvP7kC2aFu5P+JypnkB599h1EahjdixmRvC8XHXKiVauITRhexbec5Ektww4RVldObEfI
+ GXZG8SwT3Lkw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9844"; a="163763124"
+X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
+   d="scan'208";a="163763124"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 08:57:22 -0800
+IronPort-SDR: 8bE/hTJowBgXwjqEbZHL6a8PRCVUJACBhl8cSfhB7Bi+7D+VGaTGIxYiaMYPM5BD6/zS2MNBXW
+ y8pnHQovhDNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
+   d="scan'208";a="374058340"
+Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
+  by orsmga008.jf.intel.com with ESMTP; 23 Dec 2020 08:57:19 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Thu, 24 Dec 2020 00:57:18 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Thu, 24 Dec 2020 00:57:18 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Jon.Mason@arm.com"
+	<Jon.Mason@arm.com>, "ross.burton@arm.com" <ross.burton@arm.com>
+Subject: Re: [PATCH 0/9] kernel: consolidated pull request
+Thread-Topic: [PATCH 0/9] kernel: consolidated pull request
+Thread-Index: AQHW2Sew0tAV0+Tv6U6ch+9pd828F6oEKScAgAA3xIA=
+Date: Wed, 23 Dec 2020 16:57:18 +0000
+Message-ID: <e5acc8bd1c69b98a98d83328cee9ed33b64c75f7.camel@intel.com>
+References: <cover.1608646697.git.bruce.ashfield@gmail.com>
+	 <ef75b7d902ee23f65adf34742a71b1b8ee8c64cb.camel@linuxfoundation.org>
+	 <CADkTA4NJEXWs3DeXKaM_215Ue5g=ZoCrR6O-7CyvSytRv3z5jg@mail.gmail.com>
+In-Reply-To: <CADkTA4NJEXWs3DeXKaM_215Ue5g=ZoCrR6O-7CyvSytRv3z5jg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4BE5F2D3BDA0114AA227C6DC84EADB90@intel.com>
+Content-Transfer-Encoding: base64
 
-The $target_sdk_dir path might contain special characters, for example if
-the path is /opt/poky/3.2+snapshot . Prevent grep from interpreting those
-as part of the regex by using the -F parameter and multiple -e parameters
-to specify which strings to filter out. Also note that the previous regex
-was using asterisk as wildcard (e.g. environment-setup-*), but that shoul=
-d
-have been regex (e.g. environment-setup-.*, with dot) to match correctly,
-this is also fixed by this change.
-
-Fixes: 9721378688 ("toolchain-shar-template.sh: Make relocation optional.=
-")
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Cc: Krzysztof Zawadzki <krzysztof.zawadzki@nokia.com>
-Cc: Randy Witt <randy.e.witt@linux.intel.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross.burton@intel.com>
----
- meta/files/toolchain-shar-relocate.sh | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain=
--shar-relocate.sh
-index e3c10018ef..9c358a53e2 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -56,7 +56,9 @@ for replace in "$target_sdk_dir -maxdepth 1" "$native_s=
-ysroot"; do
- 	$SUDO_EXEC find $replace -type f
- done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
-     awk -F':' '{printf "\"%s\"\n", $1}' | \
--    grep -Ev "$target_sdk_dir/(environment-setup-*|relocate_sdk*|${0##*/=
-})" | \
-+    grep -Fv -e "$target_sdk_dir/environment-setup-" \
-+             -e "$target_sdk_dir/relocate_sdk" \
-+             -e "$target_sdk_dir/${0##*/}" | \
-     xargs -n100 $SUDO_EXEC sed -i \
-         -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" \
-         -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" \
---=20
-2.29.2
-
+T24gV2VkLCAyMDIwLTEyLTIzIGF0IDA4OjM3IC0wNTAwLCBCcnVjZSBBc2hmaWVsZCB3cm90ZToN
+Cj4gT24gV2VkLCBEZWMgMjMsIDIwMjAgYXQgNzozMiBBTSBSaWNoYXJkIFB1cmRpZQ0KPiA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQo+ID4gDQo+ID4gQW51ai9S
+b3NzL0pvbjogU2VlIGJlbG93DQo+ID4gDQo+ID4gT24gVHVlLCAyMDIwLTEyLTIyIGF0IDA5OjI4
+IC0wNTAwLCBicnVjZS5hc2hmaWVsZEBnbWFpbC5jb23CoHdyb3RlOg0KPiA+ID4gVGhpcyBpcyBs
+YXJnZWx5IGEgcmVzZW5kIG9mIHRoZSBjb25maWd1cmF0aW9uIGNoYW5nZXMgYW5kIGtlcm5lbA0K
+PiA+ID4gdmVyc2lvbiBidW1wIHRoYXQgSSBoYWQgcHJldmlvdXNseSBzZW50Lg0KPiA+ID4gDQo+
+ID4gPiBUaGUga2Vybi10b29scyBTUkNSRVYgYnVtcCBoYXMgYSB0d2VhayBpbiB0aGUgdG9vbHMg
+ZnJvbSB0aGUNCj4gPiA+IHByZXZpb3VzDQo+ID4gPiB2ZXJzaW9uLCBhbmQgdGhlcmUgYXJlIHNw
+ZWNpZmljIGZpeHVwcyBmb3IgdGhlIHdhcm5pbmdzIHRoYXQgdGhlDQo+ID4gPiB0b29scyB3ZXJl
+IG5vdyBleHBvc2luZy4gSSBoYWQgdG8gYmFsYW5jZSB0aW55IGFuZCBzdGFuZGFyZA0KPiA+ID4g
+bmVlZGluZw0KPiA+ID4gZGlmZmVyZW50IHZhbHVlcyBmb3Igc29tZSBjb21tb24gb3B0aW9ucyEN
+Cj4gPiA+IA0KPiA+ID4gVGhlIEFCIHJ1biB0aGF0IEkgZGlkIGlzIGhlcmU6wqAgDQo+ID4gPiBo
+dHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzg1
+L2J1aWxkcy8xMjcwDQo+ID4gPiANCj4gPiA+IEV2ZXJ5dGhpbmcgbG9va3MgZ29vZCB0byBtZSAo
+YnV0IEkgb25seSBqdXN0IHJlYWxpemVkIHRoYXQgdGhlcmUNCj4gPiA+IGFyZQ0KPiA+ID4gbm93
+IG11bHRpcGxlIHBhZ2VzIHRvIGNoZWNrKSA6KS4NCj4gPiANCj4gPiBUaGFua3MgQnJ1Y2UuIFRo
+aXMgZG9lcyBub3cgd29yayBvbiB0aGUgYXV0b2J1aWxkZXIsIGl0IGRvZXMgYWxzbw0KPiA+IGV4
+cG9zZSB3YXJuaW5ncyBpbiBtZXRhLWludGVsIGFuZCBtZXRhLWFybToNCj4gPiANCj4gPiBodHRw
+czovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzExMy9i
+dWlsZHMvNTYwDQo+ID4gaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhv
+b24vIy9idWlsZGVycy8xMDAvYnVpbGRzLzEwMzENCj4gPiANCj4gDQo+IEknbGwgdHdlYWsgdGhl
+IHY1LjQgbWV0YSBkYXRhIGFuZCBzZW5kIGl0IGFzIGEgc2VwYXJhdGUgcGF0Y2guDQo+IA0KDQpU
+aGFua3MgYSBsb3QgQnJ1Y2UhIEkgaGF2ZSB1cGRhdGVkIHRoZSBtZXRhIHJldmlzaW9uIGZvciB0
+aGUgSW50ZWwNCmtlcm5lbCBpbiBtZXRhLWludGVsIHRvIHRoZSBvbmUgdGhhdCB5b3UganVzdCBz
+ZW50LiBUaGlzIGZpeGVzIHRoZQ0Ka2VybmVsIHdhcm5pbmdzIGZvciBtZXRhLWludGVsLg0KDQpU
+aGFua3MsDQoNCkFudWoNCg0K
