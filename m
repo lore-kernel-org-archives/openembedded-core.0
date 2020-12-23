@@ -1,76 +1,79 @@
 Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.10233.1608736733177759099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 07:19:06 -0800
+ Wed, 23 Dec 2020 07:19:07 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: AoPkInnX7Po4DS0XB104sR3yNngWgFh3R6mLyHhuWb4RW24bvOcaoRmDX6k95FlMGiz/oE3ioL
- BSIaDjT85ndg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236010"
+IronPort-SDR: 3+Jrmwslog54KV3PgqJfVhNPfFb+TNKXgm4DbqSh8uDtaRAGI2+HW0uy1JNyAXyWB73vR16idC
+ HIrM45iIT6+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236015"
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="155236010"
+   d="scan'208";a="155236015"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:05 -0800
-IronPort-SDR: F5q+eWgTMXk02BKgcT0hgw6ZGoWSjDhSsZO7S5NYie5X4lrexjSTppHDnjL353QER+1yQE4Sa3
- AtNVyr+0Br/Q==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:07 -0800
+IronPort-SDR: IorESZhQTDZwBihEAQLu+BL7sIYjpzV4Ew4I2rgc/Sc4rgsIwgD16hiZ7kILaLIPXAXqhVuAhJ
+ ziUAOXELLt+A==
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="374027535"
+   d="scan'208";a="374027548"
 Received: from btang1-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.75.173])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:04 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:06 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 10/35] grub: Add second fix for determinism issue
-Date: Wed, 23 Dec 2020 23:18:20 +0800
-Message-Id: <5d758a1568e5bd03fc55885d1a26de34aee7ebbd.1608735614.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 11/35] linux-yocto-rt/5.4: update to -rt44
+Date: Wed, 23 Dec 2020 23:18:21 +0800
+Message-Id: <043d6b0910f378b04185615e851647ebedc439aa.1608735614.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1608735614.git.anuj.mittal@intel.com>
 References: <cover.1608735614.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-There is a second list sorting problem in a generator script within grub,
-add a sort() of a list to resolve this.
+Integrating the following commit(s):
 
+    375e7ee20260 Linux 5.4.78-rt44
+    c948a34d2755 Linux 5.4.77-rt43
+    8189406f8f2b Linux 5.4.74-rt42
+    0856261877e2 timers: Don't block on ->expiry_lock for TIMER_IRQSAFE
+    416edb155e5d ptrace: fix ptrace_unfreeze_traced() race with rt-lock
+    6bd85935ab11 mm/memcontrol: Disable preemption in __mod_memcg_lruvec_state()
+    57ada856a2a8 net: Properly annotate the try-lock for the seqlock
+    1c80ecf69d2d Linux 5.4.74-rt41
+    d4318c110dc6 Linux 5.4.70-rt40
+    bdfc6168388d Linux 5.4.69-rt39
+    b6e0ef250594 Linux 5.4.66-rt38
+    151876f794fc Linux 5.4.61-rt37
+    4bdac3f47b53 Linux 5.4.59-rt36
+    cf9b41798238 Linux 5.4.58-rt35
+    631b98ae597b Linux 5.4.55-rt34
+    77d701a69ebb Linux 5.4.54-rt33
+    130cf1b82691 rwsem: Provide down_read_non_owner() and up_read_non_owner() for -RT
+    6ab4141069fc net: phy: fixed_phy: Remove unused seqcount
+    291d163db65a Bluetooth: Acquire sk_lock.slock without disabling interrupts
+    4c9f5d78fed4 workqueue: Sync with upstream
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cb5e96e05930eaff4d679166416d6c84d6e3236b)
+(cherry picked from commit dfae903dd2538d57cc75e3b8b731515deb7f5526)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-bsp/grub/files/determinism.patch | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/grub/files/determinism.patch b/meta/recipes-bsp/grub/files/determinism.patch
-index c4b1d3a2a8..fac80e7b54 100644
---- a/meta/recipes-bsp/grub/files/determinism.patch
-+++ b/meta/recipes-bsp/grub/files/determinism.patch
-@@ -4,6 +4,10 @@ depending on how awk sorts the values in the array.
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index 104ada2db5..893388ac6b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -11,7 +11,7 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- Be deterministic in the output by sorting the dependencies on each line.
+-SRCREV_machine ?= "97576fb7447efba82eb025bde3ae9ceb29939d5e"
++SRCREV_machine ?= "375e7ee20260d4448761605ae55b5cc50e38d516"
+ SRCREV_meta ?= "d626f9108d590d41e82b97cbffc380aa699e86e1"
  
-+Also, the output of the SOURCES lines in grub-core/Makefile.core.am, generated
-+from grub-core/Makefile.core.def with gentpl.py is not deterministic due to
-+missing sorting of the list used to generate it. Add such a sort.
-+
- Upstream-Status: Pending
- Richard Purdie <richard.purdie@linuxfoundation.org>
- 
-@@ -22,3 +26,15 @@ Index: grub-2.04/grub-core/genmoddep.awk
-        modlist = modlist " " depmod;
-        inverse_dependencies[depmod] = inverse_dependencies[depmod] " " mod
-        depcount[mod]++
-+Index: grub-2.04/gentpl.py
-+===================================================================
-+--- grub-2.04.orig/gentpl.py
-++++ grub-2.04/gentpl.py
-+@@ -568,6 +568,7 @@ def foreach_platform_value(defn, platfor
-+     for group in RMAP[platform]:
-+         for value in defn.find_all(group + suffix):
-+             r.append(closure(value))
-++    r.sort()
-+     return ''.join(r)
-+ 
-+ def platform_conditional(platform, closure):
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
 -- 
 2.29.2
 
