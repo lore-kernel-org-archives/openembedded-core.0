@@ -1,95 +1,85 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web08.9047.1608730675464682088
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web12.9452.1608732729031836388
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 05:37:55 -0800
+ Wed, 23 Dec 2020 06:12:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gPrSW35n;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id b2so16275754edm.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 05:37:55 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=c5HJTekI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id t6so9202041plq.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 06:12:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iyjPRNLlC6UamFBrtiSUPPS2e1ckslrjR/AQUYEgEX4=;
-        b=gPrSW35nc/BIyqQGk6mkfUZzupGX5d7R9fFgzijTbNImNfBfuMP7ctYiWtiboPl9yo
-         DYPgx+9MSrmb4/veLCQq11R1tviAXAJdrX2OvfzoeQ2eU3TGl1CAMep/w5GJYZkFXCmJ
-         X87wtTMvIunKuMH/pgKSpRhPPUPBySqivVe535ysiXtB+r9uO88W2TB38MvH1K2NP31G
-         azb7dZqUlNdv7V2VT7utsyfjhy7s2kTQmKDtw/Duoz651Ywp2gtCUpscb7MR/HFGCJtV
-         I9nqWr/oKhk/4157CoqQfVdNPBH/FYDjU3ahOtxKUvTDAC9d03Hgauh7MX2PWhf6ChDq
-         c2qQ==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=BRBGxOdoccIc0EB8Fgpa3dr4nVLxSMN474Ysc+pF1eg=;
+        b=c5HJTekI0plIJuM4Si6q0k6X6Ti6dcLqRFv5Q7pBke2ustgzdRFbO0BDkVNquUQvwq
+         7BNUR3GzeuJDmVG5n//AFrdEwiBMuGumouqcGB0Muh59YtuEhDAnEAxCY4bIz3cFTlFz
+         huyPhvyPdMKPKx5qI8T48CuZfCMIBVANIdvU3062oRHolkFBladDpjQVCg5AT/e4GngD
+         vD1WaN1+RBVvilk+hvMPmVsmt30NDWWxLaowL9CSZtnPvLJHyJrzw54lKMhhbn9Nd6Th
+         7HciuEQSqYQzf90r4jb2fxvhbUUUgAlf349COPXA56HCQydIi6y1Ws80I0NwEnTIPz80
+         X0ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iyjPRNLlC6UamFBrtiSUPPS2e1ckslrjR/AQUYEgEX4=;
-        b=iNf0YpUUNuaUsNUmTBlHH3rdK4Z21PnxDRo/GO2siK6OoBQytqS9Jz4UNSb5DE6uwH
-         RJLlo0aTLMaUaxm4blK0Bt9qbR5pMb6cmLKitFOAQ/cBUmdPgOYcu1elCYvPc9+bO5O2
-         j9Ia+Erp4QFBllZG+TDAn5znJ+MC++WzuR4rXYEwRiJ19gCUa6PR/F4X9sRaX5LkClTy
-         L7i10EL9weVQUQLzk+J1TvpU8aaPXcbOwcYL77HufTcvve0NMzkQK9JcRlxW0E4r2Xvj
-         5jyUjCGR7gmnqxnC0D0GXBuO2gWo5bXMZI3AsqH30V/dKnTeY0a3uVyY20byD0LOA5tL
-         eQow==
-X-Gm-Message-State: AOAM5306tXus+RYPXDexc5s7ClASm97w+7L+wW95E+D+bvM1Mpn3c7Mn
-	15P9dr1ei4uevdptv/UkKwQxXLakPOqVL6OuwBs=
-X-Google-Smtp-Source: ABdhPJzm+yLMEOen7rhivHGkGKnIScnDriZ8q7bnvQx02kGgIf0mz6Jp3FcF8zctuTrRjL6+SRjEm9GXFbiAcZbFoa4=
-X-Received: by 2002:aa7:d407:: with SMTP id z7mr25879725edq.234.1608730673936;
- Wed, 23 Dec 2020 05:37:53 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1608646697.git.bruce.ashfield@gmail.com> <ef75b7d902ee23f65adf34742a71b1b8ee8c64cb.camel@linuxfoundation.org>
-In-Reply-To: <ef75b7d902ee23f65adf34742a71b1b8ee8c64cb.camel@linuxfoundation.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 23 Dec 2020 08:37:42 -0500
-Message-ID: <CADkTA4NJEXWs3DeXKaM_215Ue5g=ZoCrR6O-7CyvSytRv3z5jg@mail.gmail.com>
-Subject: Re: [PATCH 0/9] kernel: consolidated pull request
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross.burton@arm.com>, Jon Mason <Jon.Mason@arm.com>, 
-	"Mittal, Anuj" <anuj.mittal@intel.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=BRBGxOdoccIc0EB8Fgpa3dr4nVLxSMN474Ysc+pF1eg=;
+        b=KyYQ93u0fxX8WRfESdGz2i6ZuDCHknqNdGlxj9TfyrUNlIxT0e3XN4ZfsSeL/mnLG7
+         b+CXJnEhedFNg15WKqdLIqnkWEZPQyiSARpZTQLK1nUFZeu6YUuda9xowWqFXYq2ZFLP
+         ZE56hVmlgyf0UpxKq6hcgJZtyPDiBXrZ5m0C6IaHGDk+klZc3bslj8CQyVIf/LxrYSna
+         P2oCdwwKr5GjkG9Y6BtmD71UyzTPLx3cbVzvQWL3ZrHYWH9MZPjgN/izNIh7JfTlD4gT
+         zKnf01+sSmMcoSlUX0VkaK20vkwXOYFkZOSSfp5F6Y6mvbFdCE7ExfnTZDmuJ1Jmw6+V
+         uDFg==
+X-Gm-Message-State: AOAM530wXm8+S7jDq6NClKuDlAPp4cgkqW1kXvlIhSMvkJRNZQUEVBnY
+	aZvRkrNOGEcp0bgulFpv7jue9nlhg51HXrVG
+X-Google-Smtp-Source: ABdhPJx8+s55P4vQV1TfkBh799vgKpNFtBdUGdFwfDERmizXPvhBAm37hVpQEUAWxQgzXskC1jAZcQ==
+X-Received: by 2002:a17:902:a401:b029:dc:3e1d:234a with SMTP id p1-20020a170902a401b02900dc3e1d234amr4167154plq.48.1608732726366;
+        Wed, 23 Dec 2020 06:12:06 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id x18sm24101376pfr.158.2020.12.23.06.12.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Dec 2020 06:12:05 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [master] [dunfell] [gatesgarth] oeqa/selftest/cases/devtool.py: fix typo in ignore_patterns call
+Date: Wed, 23 Dec 2020 04:11:49 -1000
+Message-Id: <20201223141149.6954-1-steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-On Wed, Dec 23, 2020 at 7:32 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Anuj/Ross/Jon: See below
->
-> On Tue, 2020-12-22 at 09:28 -0500, bruce.ashfield@gmail.com wrote:
-> > This is largely a resend of the configuration changes and kernel
-> > version bump that I had previously sent.
-> >
-> > The kern-tools SRCREV bump has a tweak in the tools from the previous
-> > version, and there are specific fixups for the warnings that the
-> > tools were now exposing. I had to balance tiny and standard needing
-> > different values for some common options!
-> >
-> > The AB run that I did is here:  https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1270
-> >
-> > Everything looks good to me (but I only just realized that there are
-> > now multiple pages to check) :).
->
-> Thanks Bruce. This does now work on the autobuilder, it does also
-> expose warnings in meta-intel and meta-arm:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/113/builds/560
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/100/builds/1031
->
+Causes intermittent autobuilder errors:
 
-I'll tweak the v5.4 meta data and send it as a separate patch.
+2020-12-21 19:34:23,035 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/devtool.py", line 68, in setUpModule
+    bb.utils.edit_bblayers_conf(bblayers_conf, None, None, bblayers_edit_cb)
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/bitbake/lib/bb/utils.py", line 1460, in edit_bblayers_conf
+    (updated, newlines) = edit_metadata(newlines, ['BBLAYERS'], handle_bblayers)
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/bitbake/lib/bb/utils.py", line 1290, in edit_metadata
+    if handle_var_end():
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/bitbake/lib/bb/utils.py", line 1215, in handle_var_end
+    (newvalue, newop, indent, minbreak) = varfunc(in_var, full_value, op, newlines)
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/bitbake/lib/bb/utils.py", line 1425, in handle_bblayers
+    res = edit_cb(layer, canonicalise_path(layer))
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/devtool.py", line 60, in bblayers_edit_cb
+    shutil.copytree(pth, destdir, ignore=ignore_patterns('*.pyc', '__pycache__'))
+NameError: name 'ignore_patterns' is not defined
 
-Bruce
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> which gives me a bit of a dilemma as I doubt these are going to get
-> fixed in the next couple of weeks...
->
-> Ross/Jon: We also need to talk about the intermittent ptest results on
-> arm...
->
-> Cheers,
->
-> Richard
->
-
-
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index b8edc89768..4eba23890f 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -57,7 +57,7 @@ def setUpModule():
+                         if relpth.endswith('/'):
+                             destdir = os.path.join(corecopydir, relpth)
+                             # avoid race condition by not copying .pyc files YPBZ#13421,13803
+-                            shutil.copytree(pth, destdir, ignore=ignore_patterns('*.pyc', '__pycache__'))
++                            shutil.copytree(pth, destdir, ignore=shutil.ignore_patterns('*.pyc', '__pycache__'))
+                         else:
+                             destdir = os.path.join(corecopydir, os.path.dirname(relpth))
+                             bb.utils.mkdirhier(destdir)
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
