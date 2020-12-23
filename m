@@ -1,161 +1,122 @@
 Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.10233.1608736733177759099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 07:19:12 -0800
+ Wed, 23 Dec 2020 07:19:13 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: gzspged5bASXOTyaLZInb75DD9cNv+OYReLp1QYSMIVdNISmsoWShA2piEFDefaK6h9fgUB4g0
- dcTb3yPW0Y8A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236039"
+IronPort-SDR: +YixbwxQlEXzpTJgxkHkAYi9s5JPr4nFJ/8L9yAO8kjcfWWN6oX0daHtS/QmWNafs7i1m15r/B
+ e+rTZ0hLxgfQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236043"
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="155236039"
+   d="scan'208";a="155236043"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:11 -0800
-IronPort-SDR: xYGUxUzci02HlhTyfTrNF8KyrRPBYHi2Hshjdk4S1PNjmAuA0lB9oEZBjB6wiAue6JA2/Yx2Pn
- iBs4qY2hHPTw==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:13 -0800
+IronPort-SDR: TFGkuD4lAHkeVCDL/x1c3oDtQqlB9GfToc7zPMCig0rfEq4LqPbFoHL5yYhW95rTU6+iAvy2g+
+ oXqw25O4qmWg==
 X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="374027572"
+   d="scan'208";a="374027584"
 Received: from btang1-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.75.173])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:10 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:12 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 14/35] glibc: CVE-2020-29562 and CVE-2020-29573
-Date: Wed, 23 Dec 2020 23:18:24 +0800
-Message-Id: <6f191f803997d74b5d8df0036a65dc548e4a2723.1608735614.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 15/35] glibc: Make adjtime() for 32 bit support being called with delta == NULL
+Date: Wed, 23 Dec 2020 23:18:25 +0800
+Message-Id: <2f8da84311bb0a3b6eb93e4d5fe55914a84e68d7.1608735614.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1608735614.git.anuj.mittal@intel.com>
 References: <cover.1608735614.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Backport the CVE patches from the glibc upstream:
-git://sourceware.org/git/glibc.git
-commit 681900d29683722b1cb0a8e565a0585846ec5a61
-commit 228edd356f03bf62dcf2b1335f25d43c602ee68d
+This backports a fix from glibc's master branch, which solves a
+regression in 2.32 with adjtime() where it would seg fault if being
+called with delta == NULL on 32 bit machines.
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 01d59c49720548d620448f0e812f07aa3c1cc83a)
+(cherry picked from commit aeecccf17c45c840c070e2de95c602a3c7e9d30e)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../glibc/glibc/CVE-2020-29562.patch          | 155 ++++++++++++++++++
- .../glibc/glibc/CVE-2020-29573.patch          |  56 +++++++
- meta/recipes-core/glibc/glibc_2.32.bb         |   2 +
- 3 files changed, 213 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
+ ...-adjtime-with-NULL-argument-BZ-26833.patch | 110 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.32.bb         |   1 +
+ 2 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch b/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
+diff --git a/meta/recipes-core/glibc/glibc/0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch b/meta/recipes-core/glibc/glibc/0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch
 new file mode 100644
-index 0000000000..134b4e3613
+index 0000000000..a458a2a223
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
-@@ -0,0 +1,155 @@
-+From 228edd356f03bf62dcf2b1335f25d43c602ee68d Mon Sep 17 00:00:00 2001
-+From: Michael Colavita <mcolavita@fb.com>
-+Date: Thu, 19 Nov 2020 11:44:40 -0500
-+Subject: [PATCH] iconv: Fix incorrect UCS4 inner loop bounds (BZ#26923)
++++ b/meta/recipes-core/glibc/glibc/0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch
+@@ -0,0 +1,110 @@
++From 75a193b7611bade31a150dfcc528b973e3d46231 Mon Sep 17 00:00:00 2001
++From: Adhemerval Zanella <adhemerval.zanella@linaro.org>
++Date: Mon, 2 Nov 2020 16:18:29 -0300
++Subject: [PATCH] linux: Allow adjtime with NULL argument [BZ #26833]
 +
-+Previously, in UCS4 conversion routines we limit the number of
-+characters we examine to the minimum of the number of characters in the
-+input and the number of characters in the output. This is not the
-+correct behavior when __GCONV_IGNORE_ERRORS is set, as we do not consume
-+an output character when we skip a code unit. Instead, track the input
-+and output pointers and terminate the loop when either reaches its
-+limit.
++The adjtime interface allows return the amount of time remaining
++from any previous adjustment that has not yet been completed by
++passing a NULL as first argument.  This was introduced with y2038
++support 0308077e3a.
 +
-+This resolves assertion failures when resetting the input buffer in a step of
-+iconv, which assumes that the input will be fully consumed given sufficient
-+output space.
++Checked on i686-linux-gnu.
 +
-+Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
-+CVE: CVE-2020-29562
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++Reviewed-by: Lukasz Majewski <lukma@denx.de>
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=75a193b7611bade31a150dfcc528b973e3d46231]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 +---
-+ iconv/Makefile       |  2 +-
-+ iconv/gconv_simple.c | 16 ++++----------
-+ iconv/tst-iconv8.c   | 50 ++++++++++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 55 insertions(+), 13 deletions(-)
-+ create mode 100644 iconv/tst-iconv8.c
++ sysdeps/unix/sysv/linux/adjtime.c | 11 +++++---
++ time/Makefile                     |  3 ++-
++ time/tst-adjtime.c                | 44 +++++++++++++++++++++++++++++++
++ 3 files changed, 54 insertions(+), 4 deletions(-)
++ create mode 100644 time/tst-adjtime.c
 +
-+diff --git a/iconv/Makefile b/iconv/Makefile
-+index 30bf996d3a..f9b51e23ec 100644
-+--- a/iconv/Makefile
-++++ b/iconv/Makefile
-+@@ -44,7 +44,7 @@ CFLAGS-linereader.c += -DNO_TRANSLITERATION
-+ CFLAGS-simple-hash.c += -I../locale
++diff --git a/sysdeps/unix/sysv/linux/adjtime.c b/sysdeps/unix/sysv/linux/adjtime.c
++index 3f9a4ea2eb..6d1d1b6af2 100644
++--- a/sysdeps/unix/sysv/linux/adjtime.c
+++++ b/sysdeps/unix/sysv/linux/adjtime.c
++@@ -68,11 +68,16 @@ libc_hidden_def (__adjtime64)
++ int
++ __adjtime (const struct timeval *itv, struct timeval *otv)
++ {
++-  struct __timeval64 itv64, otv64;
+++  struct __timeval64 itv64, *pitv64 = NULL;
+++  struct __timeval64 otv64;
++   int retval;
 + 
-+ tests	= tst-iconv1 tst-iconv2 tst-iconv3 tst-iconv4 tst-iconv5 tst-iconv6 \
-+-	  tst-iconv7 tst-iconv-mt tst-iconv-opt
-++	  tst-iconv7 tst-iconv8 tst-iconv-mt tst-iconv-opt
++-  itv64 = valid_timeval_to_timeval64 (*itv);
++-  retval = __adjtime64 (&itv64, otv != NULL ? &otv64 : NULL);
+++  if (itv != NULL)
+++    {
+++      itv64 = valid_timeval_to_timeval64 (*itv);
+++      pitv64 = &itv64;
+++    }
+++  retval = __adjtime64 (pitv64, otv != NULL ? &otv64 : NULL);
++   if (otv != NULL)
++     *otv = valid_timeval64_to_timeval (otv64);
 + 
-+ others		= iconv_prog iconvconfig
-+ install-others-programs	= $(inst_bindir)/iconv
-+diff --git a/iconv/gconv_simple.c b/iconv/gconv_simple.c
-+index d4797fba17..963b29f246 100644
-+--- a/iconv/gconv_simple.c
-++++ b/iconv/gconv_simple.c
-+@@ -239,11 +239,9 @@ ucs4_internal_loop (struct __gconv_step *step,
-+   int flags = step_data->__flags;
-+   const unsigned char *inptr = *inptrp;
-+   unsigned char *outptr = *outptrp;
-+-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
-+   int result;
-+-  size_t cnt;
++diff --git a/time/Makefile b/time/Makefile
++index 26aa835166..f27a75a115 100644
++--- a/time/Makefile
+++++ b/time/Makefile
++@@ -47,7 +47,8 @@ tests	:= test_time clocktest tst-posixtz tst-strptime tst_wcsftime \
++ 	   tst-mktime3 tst-strptime2 bug-asctime bug-asctime_r bug-mktime1 \
++ 	   tst-strptime3 bug-getdate1 tst-strptime-whitespace tst-ftime \
++ 	   tst-tzname tst-y2039 bug-mktime4 tst-strftime2 tst-strftime3 \
++-	   tst-clock tst-clock2 tst-clock_nanosleep tst-cpuclock1
+++	   tst-clock tst-clock2 tst-clock_nanosleep tst-cpuclock1 \
+++	   tst-adjtime
 + 
-+-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
-++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
-+     {
-+       uint32_t inval;
++ include ../Rules
 + 
-+@@ -307,11 +305,9 @@ ucs4_internal_loop_unaligned (struct __gconv_step *step,
-+   int flags = step_data->__flags;
-+   const unsigned char *inptr = *inptrp;
-+   unsigned char *outptr = *outptrp;
-+-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
-+   int result;
-+-  size_t cnt;
-+ 
-+-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
-++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
-+     {
-+       if (__glibc_unlikely (inptr[0] > 0x80))
-+ 	{
-+@@ -613,11 +609,9 @@ ucs4le_internal_loop (struct __gconv_step *step,
-+   int flags = step_data->__flags;
-+   const unsigned char *inptr = *inptrp;
-+   unsigned char *outptr = *outptrp;
-+-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
-+   int result;
-+-  size_t cnt;
-+ 
-+-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
-++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
-+     {
-+       uint32_t inval;
-+ 
-+@@ -684,11 +678,9 @@ ucs4le_internal_loop_unaligned (struct __gconv_step *step,
-+   int flags = step_data->__flags;
-+   const unsigned char *inptr = *inptrp;
-+   unsigned char *outptr = *outptrp;
-+-  size_t n_convert = MIN (inend - inptr, outend - outptr) / 4;
-+   int result;
-+-  size_t cnt;
-+ 
-+-  for (cnt = 0; cnt < n_convert; ++cnt, inptr += 4)
-++  for (; inptr + 4 <= inend && outptr + 4 <= outend; inptr += 4)
-+     {
-+       if (__glibc_unlikely (inptr[3] > 0x80))
-+ 	{
-+diff --git a/iconv/tst-iconv8.c b/iconv/tst-iconv8.c
++diff --git a/time/tst-adjtime.c b/time/tst-adjtime.c
 +new file mode 100644
-+index 0000000000..0b92b19f66
++index 0000000000..ae2b37cdab
 +--- /dev/null
-++++ b/iconv/tst-iconv8.c
-+@@ -0,0 +1,50 @@
-++/* Test iconv behavior on UCS4 conversions with //IGNORE.
+++++ b/time/tst-adjtime.c
++@@ -0,0 +1,44 @@
+++/* Basic tests for adjtime.
 ++   Copyright (C) 2020 Free Software Foundation, Inc.
 ++   This file is part of the GNU C Library.
 ++
@@ -171,118 +132,46 @@ index 0000000000..134b4e3613
 ++
 ++   You should have received a copy of the GNU Lesser General Public
 ++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
+++   <https://www.gnu.org/licenses/>.  */
 ++
-++/* Derived from BZ #26923 */
+++#include <sys/time.h>
+++#include <stdlib.h>
+++
 ++#include <errno.h>
-++#include <iconv.h>
-++#include <stdio.h>
 ++#include <support/check.h>
+++
 ++
 ++static int
 ++do_test (void)
 ++{
-++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-10646/UCS4/");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++
-++  /*
-++   * Convert sequence beginning with an irreversible character into buffer that
-++   * is too small.
-++   */
-++  char input[12] = "\xe1\x80\xa1" "AAAAAAAAA";
-++  char *inptr = input;
-++  size_t insize = sizeof (input);
-++  char output[6];
-++  char *outptr = output;
-++  size_t outsize = sizeof (output);
-++
-++  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == -1);
-++  TEST_VERIFY (errno == E2BIG);
-++
-++  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
+++  /* Check if the interface allows getting the amount of time remaining
+++     from any previous adjustment that has not yet been completed.  This
+++     is a non-privileged function of adjtime.  */
+++  struct timeval tv;
+++  int r = adjtime (NULL, &tv);
+++  if (r == -1)
+++    {
+++      if (errno == ENOSYS)
+++	FAIL_UNSUPPORTED ("adjtime unsupported");
+++      FAIL_EXIT1 ("adjtime (NULL, ...) failed: %m");
+++    }
 ++
 ++  return 0;
 ++}
 ++
 ++#include <support/test-driver.c>
-+-- 
-+2.17.0
-+
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch b/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
-new file mode 100644
-index 0000000000..0f54d72cad
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
-@@ -0,0 +1,56 @@
-+From 681900d29683722b1cb0a8e565a0585846ec5a61 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Tue, 22 Sep 2020 19:07:48 +0200
-+Subject: [PATCH] x86: Harden printf against non-normal long double values (bug
-+ 26649)
-+
-+The behavior of isnan/__builtin_isnan on bit patterns that do not
-+correspond to something that the CPU would produce from valid inputs
-+is currently under-defined in the toolchain. (The GCC built-in and
-+glibc disagree.)
-+
-+The isnan check in PRINTF_FP_FETCH in stdio-common/printf_fp.c
-+assumes the GCC behavior that returns true for non-normal numbers
-+which are not specified as NaN. (The glibc implementation returns
-+false for such numbers.)
-+
-+At present, passing non-normal numbers to __mpn_extract_long_double
-+causes this function to produce irregularly shaped multi-precision
-+integers, triggering undefined behavior in __printf_fp_l.
-+
-+With GCC 10 and glibc 2.32, this behavior is not visible because
-+__builtin_isnan is used, which avoids calling
-+__mpn_extract_long_double in this case.  This commit updates the
-+implementation of __mpn_extract_long_double so that regularly shaped
-+multi-precision integers are produced in this case, avoiding
-+undefined behavior in __printf_fp_l.
-+
-+Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
-+CVE: CVE-2020-29573
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+---
-+ sysdeps/i386/ldbl2mpn.c                  |  8 ++++
-+ 1 files changed, 8 insertions(+)
-+
-+diff --git a/sysdeps/i386/ldbl2mpn.c b/sysdeps/i386/ldbl2mpn.c
-+index ec8464eef7..23afedfb67 100644
-+--- a/sysdeps/i386/ldbl2mpn.c
-++++ b/sysdeps/i386/ldbl2mpn.c
-+@@ -115,6 +115,14 @@ __mpn_extract_long_double (mp_ptr res_ptr, mp_size_t size,
-+ 	   && res_ptr[N - 1] == 0)
-+     /* Pseudo zero.  */
-+     *expt = 0;
-++  else
-++    /* Unlike other floating point formats, the most significant bit
-++       is explicit and expected to be set for normal numbers.  Set it
-++       in case it is cleared in the input.  Otherwise, callers will
-++       not be able to produce the expected multi-precision integer
-++       layout by shifting.  */
-++    res_ptr[N - 1] |= (mp_limb_t) 1 << (LDBL_MANT_DIG - 1
-++					- ((N - 1) * BITS_PER_MP_LIMB));
-+ 
-+   return N;
-+ }
-+-- 
-+2.17.0
-+
 diff --git a/meta/recipes-core/glibc/glibc_2.32.bb b/meta/recipes-core/glibc/glibc_2.32.bb
-index 2a0e464385..6d42f33822 100644
+index 6d42f33822..b850c28c78 100644
 --- a/meta/recipes-core/glibc/glibc_2.32.bb
 +++ b/meta/recipes-core/glibc/glibc_2.32.bb
-@@ -43,6 +43,8 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+@@ -43,6 +43,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0028-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
             file://0029-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
             file://0030-powerpc-Do-not-ask-compiler-for-finding-arch.patch \
-+           file://CVE-2020-29562.patch \
-+           file://CVE-2020-29573.patch \
++           file://0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch \
+            file://CVE-2020-29562.patch \
+            file://CVE-2020-29573.patch \
             "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.29.2
 
