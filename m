@@ -1,125 +1,117 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web08.10356.1608736828373082275
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+ by mx.groups.io with SMTP id smtpd.web09.10559.1608738190015537779
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 07:20:28 -0800
+ Wed, 23 Dec 2020 07:43:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 9wcKNbyjtwGrurBNaI+Bptp0jNgP9QLpVmJCqogXdxLnzmcy6iaVXB9V2NgQ2QUtqoo7VMtdYJ
- 6pRPZeUGTfOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9843"; a="155236103"
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="155236103"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:26 -0800
-IronPort-SDR: 2aeZyk+0t1qcIGXobQUWHb+kehgwLd4T7I5fZsD0DoexO9cbj9mBAzvDHQOgg8GbJmi/tKtiiT
- nqM6wI8CczXA==
-X-IronPort-AV: E=Sophos;i="5.78,441,1599548400"; 
-   d="scan'208";a="374027650"
-Received: from btang1-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.249.75.173])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Dec 2020 07:19:24 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 24/35] kea: fix reproducibility
-Date: Wed, 23 Dec 2020 23:18:34 +0800
-Message-Id: <cc7122b8f77efcb3d54c1c8160996cb732702b84.1608735614.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1608735614.git.anuj.mittal@intel.com>
-References: <cover.1608735614.git.anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=f/tGmpdl;
+ spf=pass (domain: gmail.com, ip: 209.85.222.180, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f180.google.com with SMTP id 143so15221244qke.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 07:43:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zuQAGPpj+/+ZzV6PKoI6/tzlFUDzqDkt0aQ0gM8fmIA=;
+        b=f/tGmpdlWXSLp4XiyY0TShd4lrHR/Fk+H7PC6kfQPlUR92efHzh+y78L9iij5Q6c8C
+         xmEauhgWsbu1MDa+PAMG8WZ6mh38t8f0fdp/0e5kZFcaN04ICFpfqoLuucvLvYpXDelG
+         Qt/+TiPeDfuO9DjUpYMEHIgQqZqGgcgaw+M73haxcdhQnbRPLDcFFDCZRx2CyO5Om8QK
+         ErxqwSaylamPTXEwRun35ehZ63fKGgbE6IzWuImZt2J/zwbMJy48F9vmE2NugNlG622D
+         4tug3E8iqb66c/4RibtaQBEf3zisxvGC21VK4XuziYhP3RJqZFOI2u8BiwBY1ojkx+1J
+         6QZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zuQAGPpj+/+ZzV6PKoI6/tzlFUDzqDkt0aQ0gM8fmIA=;
+        b=Veqxv7nOkw8DgjJ0wHx/sj+Gdr6Qz+CKEJAXxa35l7IGqEZN6dHWB/19Zh434wqcFI
+         WttiEF/LBSTD1UnBEj97LLj14z9JDbu+TSE2SRLhfTJITDAiNhEIMtERkt3WeMbxr9dV
+         ghbMJupm+T4g3aR+FlKTFJTT9At0y/qV5+EY7/hdcKKNMFhB3mo15UkrexLsILlzTzQ5
+         8obXhOwg36IoaJmJeffE/6J8DDpZPTeq6J7rPV4i9DgbI+VBCVMhjp1FIjalHXhHJpcr
+         fcBJm3+OngxAGfC1CbUkLiv9tg3sf9mHwtwgavusaXOmJxYLQ51hla59ORvDrbE7jDPn
+         Prkg==
+X-Gm-Message-State: AOAM530PhKP/dI+afYKObBPAHTTd1cr+siBVccB8R2f/VNsbbXs37nGy
+	vs7YtbsvPv9JZx6Y5vfEG5o=
+X-Google-Smtp-Source: ABdhPJx1woXLLZV+z273ItUm9I9l38tUWzCZzq+yqY8CFH07oetbE0zjsLM/bipuKxeS8xtN7qiBcw==
+X-Received: by 2002:a05:620a:62b:: with SMTP id 11mr27527224qkv.229.1608738189120;
+        Wed, 23 Dec 2020 07:43:09 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
+        by smtp.gmail.com with ESMTPSA id r1sm13969914qta.32.2020.12.23.07.43.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Dec 2020 07:43:08 -0800 (PST)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/5.4/cfg: fix FIRMWARE_LOADER warnings
+Date: Wed, 23 Dec 2020 10:43:06 -0500
+Message-Id: <20201223154306.37009-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5f486c39a766f921fb4374165b6e342dd87244ec)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Integrating the following commit(s):
+
+    a1b2d188bdf config: set firmware loader to 'y'
+
+The updated kern-tools are showing us warnings that were previously
+hidden. To silence the fw_loader warning, we need to set the value
+to 'y' (since it is 'y' selected by other options and we can't
+override that).
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- ...er_unittest_support.cc-do-not-write-.patch | 27 +++++++++++++++++
- meta/recipes-connectivity/kea/kea_1.7.10.bb   | 29 +++++++++++--------
- 2 files changed, 44 insertions(+), 12 deletions(-)
- create mode 100644 meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
 
-diff --git a/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-new file mode 100644
-index 0000000000..226bc5b311
---- /dev/null
-+++ b/meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
-@@ -0,0 +1,27 @@
-+From 9985a03f13da4d7bb0a433f7305d2ffae3d82a27 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 10 Nov 2020 15:57:03 +0000
-+Subject: [PATCH] src/lib/log/logger_unittest_support.cc: do not write build
-+ path into binary
-+
-+This breaks reproducibility and is needed only in unit testing.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/lib/log/logger_unittest_support.cc | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/lib/log/logger_unittest_support.cc b/src/lib/log/logger_unittest_support.cc
-+index 58dbef8..9a2929c 100644
-+--- a/src/lib/log/logger_unittest_support.cc
-++++ b/src/lib/log/logger_unittest_support.cc
-+@@ -84,7 +84,7 @@ void initLogger(isc::log::Severity severity, int dbglevel) {
-+     const char* localfile = getenv("KEA_LOGGER_LOCALMSG");
-+ 
-+     // Set a directory for creating lockfiles when running tests
-+-    setenv("KEA_LOCKFILE_DIR", TOP_BUILDDIR, 0);
-++    //setenv("KEA_LOCKFILE_DIR", TOP_BUILDDIR, 0);
-+ 
-+     // Initialize logging
-+     initLogger(root, isc::log::DEBUG, isc::log::MAX_DEBUG_LEVEL, localfile);
-diff --git a/meta/recipes-connectivity/kea/kea_1.7.10.bb b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-index c9a5819e47..dc4482adcc 100644
---- a/meta/recipes-connectivity/kea/kea_1.7.10.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.7.10.bb
-@@ -7,18 +7,18 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=68d95543d2096459290a4e6b9ceccffa"
- 
- DEPENDS = "boost log4cplus openssl"
- 
--SRC_URI = "\
--    http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
--    file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch \
--    file://kea-dhcp4.service \
--    file://kea-dhcp6.service \
--    file://kea-dhcp-ddns.service \
--    file://kea-dhcp4-server \
--    file://kea-dhcp6-server \
--    file://kea-dhcp-ddns-server \
--    file://fix-multilib-conflict.patch \
--    file://fix_pid_keactrl.patch \
--"
-+SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
-+           file://0001-keactrl.in-create-var-lib-kea-and-var-run-kea-folder.patch \
-+           file://kea-dhcp4.service \
-+           file://kea-dhcp6.service \
-+           file://kea-dhcp-ddns.service \
-+           file://kea-dhcp4-server \
-+           file://kea-dhcp6-server \
-+           file://kea-dhcp-ddns-server \
-+           file://fix-multilib-conflict.patch \
-+           file://fix_pid_keactrl.patch \
-+           file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
-+           "
- SRC_URI[sha256sum] = "4e121f0e58b175a827581c69cb1d60778647049fa47f142940dddc9ce58f3c82"
- 
- inherit autotools systemd update-rc.d
-@@ -50,6 +50,11 @@ do_configure_prepend() {
-     sed -i "s:@abs_top_srcdir@:@abs_top_srcdir_placeholder@:g" ${S}/src/bin/admin/kea-admin.in
+With this stacked onto my last queue, it should fix the warnings seen
+in meta-arm and meta-intel BSPs for 5.4 kernels.
+
+Bruce
+
+ meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+index f35de787e1..1fda45f7aa 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+@@ -12,7 +12,7 @@ python () {
  }
  
-+# patch out build host paths for reproducibility
-+do_compile_prepend_class-target() {
-+        sed -i -e "s,${WORKDIR},,g" ${B}/config.report
-+}
-+
- do_install_append() {
-     install -d ${D}${sysconfdir}/init.d
-     install -d ${D}${systemd_system_unitdir}
+ SRCREV_machine ?= "7bc8ae3fc04fdc06192d39d725cb18d4c0b78d9f"
+-SRCREV_meta ?= "b721178c41a2bffd19cc9be9e33af23b7a4affd9"
++SRCREV_meta ?= "a1b2d188bdfc855ff9dff770480a24cecf66285d"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+index 2c7ce3621f..0d29f8f63c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine_qemuarm ?= "2b6db4fbe53a1986c0249bc663d8ce7d99cbf19c"
+ SRCREV_machine ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
+-SRCREV_meta ?= "b721178c41a2bffd19cc9be9e33af23b7a4affd9"
++SRCREV_meta ?= "a1b2d188bdfc855ff9dff770480a24cecf66285d"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+index 032a1a3392..99ca27c26f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+@@ -23,7 +23,7 @@ SRCREV_machine_qemux86 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
+ SRCREV_machine_qemux86-64 ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
+ SRCREV_machine_qemumips64 ?= "75c7340de480587c3a6650b46be7b1a2f71501a9"
+ SRCREV_machine ?= "21f1b92bddf5f6678f2c28da8d1a8a8160e39cf1"
+-SRCREV_meta ?= "b721178c41a2bffd19cc9be9e33af23b7a4affd9"
++SRCREV_meta ?= "a1b2d188bdfc855ff9dff770480a24cecf66285d"
+ 
+ # remap qemuarm to qemuarma15 for the 5.4 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
-2.29.2
+2.19.1
 
