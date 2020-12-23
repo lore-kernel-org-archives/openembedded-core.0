@@ -1,81 +1,74 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.2751.1608761168282887734
+Received: from outbound-relay9.guardedhost.com (outbound-relay9.guardedhost.com [216.239.133.221])
+ by mx.groups.io with SMTP id smtpd.web09.3028.1608762612611064552
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 14:06:08 -0800
+ Wed, 23 Dec 2020 14:30:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OawOGGhZ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id g185so154969wmf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 14:06:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=qtH5xoUY/8s2Ueg9DRjg89B3I8pUYvVPH2AIcHxBX4o=;
-        b=OawOGGhZTmLanUScP/vxyZQFmM7opzIHGs0M+FDSB5r/C6XBaPN5W33adWtCaZo0uK
-         n38aAYMpZR/8Iq+Cx5RkRpPFtcy7RdObH5OO6K/t9TgMtS7ANDqF0Yj3U3uHhRnto/C4
-         +HAtwJ2rft/mAsWwT/EO/AZbpnXNAKnVfxksI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qtH5xoUY/8s2Ueg9DRjg89B3I8pUYvVPH2AIcHxBX4o=;
-        b=mrb7+vIXKrCL200kDOttJ4lPlCPeORHT/gyZJA2RBI+AMheYaICxDfhHpdcCjBUTLJ
-         mHVX7HKaCBMwGFmsywo4vjaZ8CRUdjTXdIdj79CBglcdW3W1rtkTCR/NYQRn2D1pQQ/W
-         xcbGas0W7hTVvSpXcMY+Pafnk2Dq8Yw0qG04Yqdt+G3WoQrwvkY2V1XEfVDWj7kpt/6a
-         08XH4raerWrbzn2rIlHLWePNDAS5rhYVdjDsSD4IgazYFxTxCGbtaoOZp6WRu7vaO+Vs
-         crjh2QFiSHwV/S6WqpZOQZw4WVG7fJLebW6hp7ZFIbOSyeTd2MdvzefN9Gdbk02GUqE/
-         atzQ==
-X-Gm-Message-State: AOAM532bFn5tbvBjP6KX4cbuBanhQf/I0bRkldx3lAFxZ8ccA2+mkJz0
-	cZIAuAgp9nBcFtxh4S/BhBdn8g==
-X-Google-Smtp-Source: ABdhPJxDlzLR5MaCSQ0+4v0m0I5O+KSkpv2z3LSQYcs6p+AaZSRvXmh9TvXx7k9tjeO48qfLOF4eiw==
-X-Received: by 2002:a05:600c:2255:: with SMTP id a21mr1568119wmm.122.1608761166749;
-        Wed, 23 Dec 2020 14:06:06 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8bdb:1603:74be:f976])
-        by smtp.gmail.com with ESMTPSA id o8sm36278528wrm.17.2020.12.23.14.06.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Dec 2020 14:06:06 -0800 (PST)
-Message-ID: <4a7f64f4a7a6e458974fd411b68a1075ba7204a7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [master-next][PATCH 2/3] psplash: work on first boot (sysvinit)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 23 Dec 2020 22:06:05 +0000
-In-Reply-To: <20201223215005.GA9542@localhost>
-References: <20201223170621.35727-1-twoerner@gmail.com>
-	 <20201223170621.35727-2-twoerner@gmail.com>
-	 <743d9e91ea6fb99193e315f8b20778e418109da7.camel@linuxfoundation.org>
-	 <20201223215005.GA9542@localhost>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=pass (domain: snowmoose.com, ip: 216.239.133.221, mailfrom: alanp@snowmoose.com)
+Received: from mail.guardedhost.com (mx03.guardedhost.com [IPv6:2607:fe90:1:1::54:1])
+	by outbound-relay1.guardedhost.com (Postfix) with ESMTP id 4D1SZW6QGMz4x7yG;
+	Wed, 23 Dec 2020 22:30:11 +0000 (GMT)
+Received: from alaperry-ubuntu-build.43vr1hlvonre5le4v1ueig2kyb.xx.internal.cloudapp.net (unknown [52.151.43.11])
+	(Authenticated sender: alanp@snowmoose.com)
+	by mail.guardedhost.com (Postfix) with ESMTPSA id 4D1SZW0yQNz2xpy;
+	Wed, 23 Dec 2020 22:30:11 +0000 (GMT)
+From: "Alan Perry" <alanp@snowmoose.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alan Perry <alanp@snowmoose.com>
+Subject: [PATCH] iproute2: Add subpackage for rdma command
+Date: Wed, 23 Dec 2020 22:29:50 +0000
+Message-Id: <20201223222950.15239-1-alanp@snowmoose.com>
+X-Mailer: git-send-email 2.17.1
+Authentication-Results: mail.guardedhost.com;auth=pass
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse-Id: 6B71F082-456E-11EB-8489-8B021E24E163
+X-Virus-Scanned: clamav-milter 0.102.2 at tev-mx3.omnis.com
+X-Virus-Status: Clean
 
-On Wed, 2020-12-23 at 16:50 -0500, Trevor Woerner wrote:
-> On Wed 2020-12-23 @ 06:00:21 PM, Richard Purdie wrote:
-> > Personally, I don't really like the idea of having a top level
-> > directory called .psplash,
-> 
-> Neither do I, which is why I also added the code to remove the
-> directory once
-> the psplash program is done running. Whenever psplash is run the
-> directory is
-> created just before it starts and removed when psplash is done.
-> 
-> > is there a reason it doesn't work in /mnt?
-> 
-> This all works fine (without any changes) on the qemuX machines, but
-> on a real device (e.g. rpi) when the image is booted for the first
-> time everything is mounted, initially, RO, when using sysvinit. At
-> the end of the first boot, and for every subsequent boot, the
-> filesystem is R/W, so everything works on
-> subsequent boots.
+The rdma command is part of iproute2 and is used to query or set the RDMA
+configuration where applicable. This patch makes it available as an
+iproute2 subpackage.
 
-Right, but why can't psplash create /mnt/.psplash? Why do we need / and
-not /mnt ?
+Signed-off-by: Alan Perry <alanp@snowmoose.com>
+---
+ meta/recipes-connectivity/iproute2/iproute2.inc | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index 7a22fe9252..85e9212eab 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -15,12 +15,13 @@ inherit update-alternatives bash-completion pkgconfig
+ 
+ CLEANBROKEN = "1"
+ 
+-PACKAGECONFIG ??= "tipc elf devlink"
++PACKAGECONFIG ??= "tipc elf devlink rdma"
+ PACKAGECONFIG[tipc] = ",,libmnl,"
+ PACKAGECONFIG[elf] = ",,elfutils,"
+ PACKAGECONFIG[devlink] = ",,libmnl,"
++PACKAGECONFIG[rdma] = ",,libmnl,"
+ 
+-IPROUTE2_MAKE_SUBDIRS = "lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc', d)}"
++IPROUTE2_MAKE_SUBDIRS = "lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink rdma tipc', d)}"
+ 
+ EXTRA_OEMAKE = "\
+     CC='${CC}' \
+@@ -58,6 +59,7 @@ PACKAGES =+ "\
+     ${PN}-ss \
+     ${PN}-tc \
+     ${PN}-tipc \
++    ${PN}-rdma \
+ "
+ 
+ FILES_${PN}-tc = "${base_sbindir}/tc* \
+@@ -72,6 +74,7 @@ FILES_${PN}-nstat = "${base_sbindir}/nstat"
+ FILES_${PN}-ss = "${base_sbindir}/ss"
+ FILES_${PN}-tipc = "${base_sbindir}/tipc"
+ FILES_${PN}-devlink = "${base_sbindir}/devlink"
++FILES_${PN}-rdma = "${base_sbindir}/rdma"
+ 
+ ALTERNATIVE_${PN} = "ip"
+ ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
+-- 
+2.17.1
 
