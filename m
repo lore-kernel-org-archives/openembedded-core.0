@@ -1,86 +1,97 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web08.8305.1608797674063648840
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web08.8353.1608797892745481023
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Dec 2020 00:14:34 -0800
+ Thu, 24 Dec 2020 00:18:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DOuzmoSp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f51.google.com with SMTP id q75so1002861wme.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 00:14:33 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CzRTg+nX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id c133so946728wme.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 00:18:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=pwvZqcyOcLB0p+KVafIs8ufgyLUwcqvyQhw7Eo1/K/I=;
-        b=DOuzmoSpqVJRfuold3NhzOJugCElxg9h5cvEiJfOUoktLOHIlGYHgSftAS8TiE/nmz
-         QITzxjqpiZpuvMV7Emh7+WO+w6DOZ9yja/P6KRQQb0xclgHUaK8UuLWlJgAynilPBVxz
-         boqFQpiuXqzDu22oIT2MZzRuXy760zmYDAMHY=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Lwol46KTBlPBj43s0FHnW2BlgLX54Spuz5f6uMq0+3M=;
+        b=CzRTg+nXdzP8YLT/BauYJj2K0InhHSpeZZmu81rO4H7tQUegVRDwuynl/vP+u9EFMQ
+         MUahgZnix+cIxYnzItdJxpQQlBlU6aTaq+AOhq+eNyB8nOhddB7TPEFkl+YgwYDkIKGt
+         ZeZbaGC78R+WVKU7S6ZtF6weaWEGPDQmlFVvg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=pwvZqcyOcLB0p+KVafIs8ufgyLUwcqvyQhw7Eo1/K/I=;
-        b=nlU62tDV+q7jXQDnwNpKbAj0pXeAlM65hZaSOl/X5jmo2w3VmAVtlaZoMORe+mvo1/
-         SZUzPq5Yimj1djRPYwoeode53o/cllZfuODGpt6aXXWKFTrr6UoVshdUgmGphAC/2Vct
-         9uKiXh/y8H4bQoZJNQiPfYcS6bsBIJ9ciSuAYIuPSpm9jtN5+Uw5arDQrTUbUizazWzP
-         nk5CTrlQNHdYYXtPn4/HAQYBxswxqOMFu3QyUXtVnjtXJ+KxtG6gsEEunVmllzrCouQB
-         WABO1OCxVxaJKGA79DutV7bMrbkOokQUPRaIuxk8n3lbhOGvCReF+vUbHr+GVgKv8isj
-         GNTg==
-X-Gm-Message-State: AOAM531kCMrDC71hg6ftdZzAvyrDQoLEe/sIl9kq47Iczx7W09azk8ke
-	JtfuiwWQIm5psb6OJbIQH+BVJw==
-X-Google-Smtp-Source: ABdhPJyZw5It8FP2PZRaLMfJbdtJehz4RUBU6+KSqeSI258PU3rauuJwWKj9j6GsF/3IxvR8oeUDOA==
-X-Received: by 2002:a1c:3d86:: with SMTP id k128mr3176938wma.66.1608797672527;
-        Thu, 24 Dec 2020 00:14:32 -0800 (PST)
+        bh=Lwol46KTBlPBj43s0FHnW2BlgLX54Spuz5f6uMq0+3M=;
+        b=ZeDkOlOOXE+IuDexjZT1fporORfcBh5wShLbdFSOKeQxZ9vTnSJ6Iw+B+q4uC5UL/H
+         zsob9hyG3MGG9VFD/XXeJRPygPTxeE6p2Wonu72nEYaPZED3L/3SmHZlebhsmu+ba9Ry
+         2H4JjfwzGS7tamr50AKnclFKQq4vxk4BmKn14zOz+qarREoMJV2xq3PoIsRCayGh+Ytc
+         U+D+QtFwDUYgOLsllsrSA2ZNo1UIzxxWvrJCh8bQjMMpVO2U4GjC4/oNdAbEKXw7zPnH
+         2jqDaZ7C9oTKyJxYyNhg2N99z4jeEPkXqRkUWbfd+ck7pj8JdeBwpghPOs7ArhAJl6fE
+         6xyg==
+X-Gm-Message-State: AOAM531b1cOsWO+liLNq+oro80O14copu3qWIWjQXMaplJYyo/gMjEP4
+	pTknmG3nLJNbbzr0fETZM5+m+Q==
+X-Google-Smtp-Source: ABdhPJzusSPVVGrPhVWOw1+TMEm0HGiUHKV7CXBSaV/aiZAe+u8EV2K35rg96r6x22RCgwuuzZ6piw==
+X-Received: by 2002:a7b:cf37:: with SMTP id m23mr3204765wmg.37.1608797891395;
+        Thu, 24 Dec 2020 00:18:11 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from 6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8bdb:1603:74be:f976])
-        by smtp.gmail.com with ESMTPSA id c4sm41242700wrw.72.2020.12.24.00.14.31
+        by smtp.gmail.com with ESMTPSA id w3sm2627188wma.3.2020.12.24.00.18.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Dec 2020 00:14:31 -0800 (PST)
-Message-ID: <bfa1921a87dd29998642a58d3387bb45f1d369db.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/9] kernel: consolidated pull request
+        Thu, 24 Dec 2020 00:18:10 -0800 (PST)
+Message-ID: <938769b18655982b04fbc6db4ab71b17a6da8f44.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] run-postinsts: fix setting pi_dir
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, Jon Mason <Jon.Mason@arm.com>, 
- "Mittal, Anuj" <anuj.mittal@intel.com>, Patches and discussions about the
- oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Thu, 24 Dec 2020 08:14:29 +0000
-In-Reply-To: <CADkTA4MRNQ2ucJ8Ckr3y2CRgx7J2KacEbuU8uV+=MpPv-0f+Aw@mail.gmail.com>
-References: <cover.1608646697.git.bruce.ashfield@gmail.com>
-	 <ef75b7d902ee23f65adf34742a71b1b8ee8c64cb.camel@linuxfoundation.org>
-	 <CADkTA4NJEXWs3DeXKaM_215Ue5g=ZoCrR6O-7CyvSytRv3z5jg@mail.gmail.com>
-	 <AM4PR0802MB2162043FB6BB14A6F02A69E9E8DE0@AM4PR0802MB2162.eurprd08.prod.outlook.com>
-	 <16538A0D49119031.25471@lists.openembedded.org>
-	 <CADkTA4MRNQ2ucJ8Ckr3y2CRgx7J2KacEbuU8uV+=MpPv-0f+Aw@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 24 Dec 2020 08:18:10 +0000
+In-Reply-To: <20201222064640.37970-1-twoerner@gmail.com>
+References: <20201222064640.37970-1-twoerner@gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-12-23 at 22:43 -0500, Bruce Ashfield wrote:
-> On Wed, Dec 23, 2020 at 10:41 PM Bruce Ashfield via
-> lists.openembedded.org
-> <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
-> > 
-> > On Wed, Dec 23, 2020 at 6:03 PM Ross Burton <Ross.Burton@arm.com>
-> > wrote:
-> > > 
-> > > > I'll tweak the v5.4 meta data and send it as a separate patch.
-> > > 
-> > > Will that tweak the metadata sufficiently to fix the problem? 
-> > > That was the Juno machine failing, and that just uses defconfig.
-> > > 
-> > 
-> > Should be.
-> > 
-> > It's explicitly setting the option, which comes after the default
-> > mode. The final .config is compared to the last option, so it will
-> > match.
+On Tue, 2020-12-22 at 01:46 -0500, Trevor Woerner wrote:
+> The pi_dir variable isn't being set properly; it gets set to the
+> value of the
+> *previous* package manager. Given the order of "rpm deb ipk", if the
+> script
+> determines that the package manager is "ipk", pi_dir remains set at
+> SYSCONFDIR/deb-postinsts.
 > 
-> And I should add, if it isn't, the fix is on me. So I started to
-> clone
-> the appropriate layers and will do a local build to check.
+> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 2
+> --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-
+> postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-
+> postinsts
+> index f84a7e18c8..c10fd11e9d 100755
+> --- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+> +++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+> @@ -20,14 +20,12 @@ for pm in $backend_list; do
+>                 "deb")
+>                         if [ -s "#LOCALSTATEDIR#/lib/dpkg/status" ];
+> then
+>                                 pm_installed=true
+> -                               break
+>                         fi
+>                         ;;
+>  
+>                 "ipk")
+>                         if [ -s "#LOCALSTATEDIR#/lib/opkg/status" ];
+> then
+>                                 pm_installed=true
+> -                               break
+>                         fi
+>                         ;;
+>         esac
 
-Bruce's update fixed it, so we're good, thanks!
+Just to confirm, this patch causes:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1668
+
+(and other selftest builds failed the same way)
 
 Cheers,
 
