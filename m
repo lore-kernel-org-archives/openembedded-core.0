@@ -1,122 +1,88 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
- by mx.groups.io with SMTP id smtpd.web08.8091.1608795844912512361
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web08.8305.1608797674063648840
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Dec 2020 23:44:05 -0800
+ Thu, 24 Dec 2020 00:14:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cgKVNpxc;
- spf=pass (domain: gmail.com, ip: 209.85.166.51, mailfrom: twoerner@gmail.com)
-Received: by mail-io1-f51.google.com with SMTP id d9so1400710iob.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Dec 2020 23:44:04 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DOuzmoSp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id q75so1002861wme.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 00:14:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=jF5xwTZCD0PBFmyHKEb0wUf3zii4QKRRIjM/auiEJ1I=;
-        b=cgKVNpxcx62UOkvS1edS3cJFzBWJavvbzjLYNtZzaYMC6s///fe8F6CVc1QErgGf0P
-         yyq9IrfpjHmco9De8+pJK5bFlU0DXKfN46uH+16LqGJCZpK/msGj7Pge9CIkutmmdeLP
-         Aa08RR56FiTZmeXKGOkjM5hGseA5sh+h3ZV2VWivdqxfMfOLYhsHF+ICCX+euiON7xMm
-         8Zf7MCewy5eIbjTwi+oTkOhAHUUYOJmn4gnmpa5jDUBIM5lGb8ybns21ZZipKW5Q20p2
-         ToHIK+gjO0REWnOJjTrYpjHSJO82CtyhvpEpMEhVGRZcSiq8GvCoYBIqsjVhQrg/VTVI
-         8rAg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=pwvZqcyOcLB0p+KVafIs8ufgyLUwcqvyQhw7Eo1/K/I=;
+        b=DOuzmoSpqVJRfuold3NhzOJugCElxg9h5cvEiJfOUoktLOHIlGYHgSftAS8TiE/nmz
+         QITzxjqpiZpuvMV7Emh7+WO+w6DOZ9yja/P6KRQQb0xclgHUaK8UuLWlJgAynilPBVxz
+         boqFQpiuXqzDu22oIT2MZzRuXy760zmYDAMHY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jF5xwTZCD0PBFmyHKEb0wUf3zii4QKRRIjM/auiEJ1I=;
-        b=IhgctOreoC9hpvSPl3/THqnpuzKWenB/6Ef3tRu+oE91LvPuoA+cGj4giwRk1EeLmT
-         hOfPVqO2vA3kja31TDwj4N5Aub2ats3RXcggXcWnU2BUvDeuHPHTvljcG/NHSvHvq4rh
-         dav2+uBRY5mAq/RI4Y1qd6rNPSODOOZ66LnTbOT0OOzShYdkjkKoq5t6wEZkIW5aff4K
-         knTyu2MflyTqyjmvg5gTAE/KVc8FpP+7WOwrFLvk8ZFPUTEgxVduC8gbIgUQcthQ5f1D
-         9ik5fMKTJZ8iUZ7YwmD1L1ebUHmLOtZr3WeQ8xMDnmot+zff3/BvT/crCGxg/FSw8Pir
-         qfQQ==
-X-Gm-Message-State: AOAM533n8Fq95Rwb/yafRtFAc13NLAGBsNqMowd3myVI+BMI+Ob7cDkb
-	SRQ28P984N9bqeh7dnmN/Zgyvy0pFk2F3Q==
-X-Google-Smtp-Source: ABdhPJxBx5nZy7/h7mFAr/F7URMsbutl+PdEh50JFMslsEebetPxvr7jbRO9DBMaZe1rD1PlB13+Ew==
-X-Received: by 2002:a6b:fd03:: with SMTP id c3mr24541952ioi.64.1608795844091;
-        Wed, 23 Dec 2020 23:44:04 -0800 (PST)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost.localdomain ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id e1sm26181020iod.17.2020.12.23.23.44.03
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=pwvZqcyOcLB0p+KVafIs8ufgyLUwcqvyQhw7Eo1/K/I=;
+        b=nlU62tDV+q7jXQDnwNpKbAj0pXeAlM65hZaSOl/X5jmo2w3VmAVtlaZoMORe+mvo1/
+         SZUzPq5Yimj1djRPYwoeode53o/cllZfuODGpt6aXXWKFTrr6UoVshdUgmGphAC/2Vct
+         9uKiXh/y8H4bQoZJNQiPfYcS6bsBIJ9ciSuAYIuPSpm9jtN5+Uw5arDQrTUbUizazWzP
+         nk5CTrlQNHdYYXtPn4/HAQYBxswxqOMFu3QyUXtVnjtXJ+KxtG6gsEEunVmllzrCouQB
+         WABO1OCxVxaJKGA79DutV7bMrbkOokQUPRaIuxk8n3lbhOGvCReF+vUbHr+GVgKv8isj
+         GNTg==
+X-Gm-Message-State: AOAM531kCMrDC71hg6ftdZzAvyrDQoLEe/sIl9kq47Iczx7W09azk8ke
+	JtfuiwWQIm5psb6OJbIQH+BVJw==
+X-Google-Smtp-Source: ABdhPJyZw5It8FP2PZRaLMfJbdtJehz4RUBU6+KSqeSI258PU3rauuJwWKj9j6GsF/3IxvR8oeUDOA==
+X-Received: by 2002:a1c:3d86:: with SMTP id k128mr3176938wma.66.1608797672527;
+        Thu, 24 Dec 2020 00:14:32 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8bdb:1603:74be:f976])
+        by smtp.gmail.com with ESMTPSA id c4sm41242700wrw.72.2020.12.24.00.14.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Dec 2020 23:44:03 -0800 (PST)
-From: "Trevor Woerner" <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [master-next][PATCH 3/3] psplash sysvinit: add knob for verbose progress
-Date: Thu, 24 Dec 2020 02:43:54 -0500
-Message-Id: <20201224074354.18751-3-twoerner@gmail.com>
-X-Mailer: git-send-email 2.30.0.rc0
-In-Reply-To: <20201224074354.18751-1-twoerner@gmail.com>
-References: <20201224074354.18751-1-twoerner@gmail.com>
+        Thu, 24 Dec 2020 00:14:31 -0800 (PST)
+Message-ID: <bfa1921a87dd29998642a58d3387bb45f1d369db.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 0/9] kernel: consolidated pull request
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Ross Burton <Ross.Burton@arm.com>, Jon Mason <Jon.Mason@arm.com>, 
+ "Mittal, Anuj" <anuj.mittal@intel.com>, Patches and discussions about the
+ oe-core layer <openembedded-core@lists.openembedded.org>
+Date: Thu, 24 Dec 2020 08:14:29 +0000
+In-Reply-To: <CADkTA4MRNQ2ucJ8Ckr3y2CRgx7J2KacEbuU8uV+=MpPv-0f+Aw@mail.gmail.com>
+References: <cover.1608646697.git.bruce.ashfield@gmail.com>
+	 <ef75b7d902ee23f65adf34742a71b1b8ee8c64cb.camel@linuxfoundation.org>
+	 <CADkTA4NJEXWs3DeXKaM_215Ue5g=ZoCrR6O-7CyvSytRv3z5jg@mail.gmail.com>
+	 <AM4PR0802MB2162043FB6BB14A6F02A69E9E8DE0@AM4PR0802MB2162.eurprd08.prod.outlook.com>
+	 <16538A0D49119031.25471@lists.openembedded.org>
+	 <CADkTA4MRNQ2ucJ8Ckr3y2CRgx7J2KacEbuU8uV+=MpPv-0f+Aw@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Currently, under sysvinit, the psplash screen shows a graphic, a progress
-bar, and a textual message just above the progress bar showing the user which
-module is currently running during both bootup and shutdown. This way they can
-see, roughly, how much time each module takes to run.
+On Wed, 2020-12-23 at 22:43 -0500, Bruce Ashfield wrote:
+> On Wed, Dec 23, 2020 at 10:41 PM Bruce Ashfield via
+> lists.openembedded.org
+> <bruce.ashfield=gmail.com@lists.openembedded.org> wrote:
+> > 
+> > On Wed, Dec 23, 2020 at 6:03 PM Ross Burton <Ross.Burton@arm.com>
+> > wrote:
+> > > 
+> > > > I'll tweak the v5.4 meta data and send it as a separate patch.
+> > > 
+> > > Will that tweak the metadata sufficiently to fix the problem? 
+> > > That was the Juno machine failing, and that just uses defconfig.
+> > > 
+> > 
+> > Should be.
+> > 
+> > It's explicitly setting the option, which comes after the default
+> > mode. The final .config is compared to the last option, so it will
+> > match.
+> 
+> And I should add, if it isn't, the fix is on me. So I started to
+> clone
+> the appropriate layers and will do a local build to check.
 
-Add a knob, default off, so the user can choose whether or not to display the
-textual message indicating the currently-running module.
+Bruce's update fixed it, so we're good, thanks!
 
-This knob is added as a PACKAGECONFIG to sysvinit:
-	verbose-psplash
+Cheers,
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta/recipes-core/sysvinit/sysvinit/rc          | 4 +++-
- meta/recipes-core/sysvinit/sysvinit/rcS-default | 2 ++
- meta/recipes-core/sysvinit/sysvinit_2.97.bb     | 5 ++++-
- 3 files changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rc b/meta/recipes-core/sysvinit/sysvinit/rc
-index c4a2f50f88..53a5ce31d2 100755
---- a/meta/recipes-core/sysvinit/sysvinit/rc
-+++ b/meta/recipes-core/sysvinit/sysvinit/rc
-@@ -160,7 +160,9 @@ startup() {
- 			#
- 			[ -f $previous_start ] && [ ! -f $stop ] && continue
- 		fi
--		psplash-write "MSG $(basename $i .sh | cut -c 4-)" || true
-+		if [ x"${PSPLASH_VERBOSITY}" = x"yes" ]; then
-+			psplash-write "MSG $(basename $i .sh | cut -c 4-)" || true
-+		fi
- 		case "$runlevel" in
- 			0|6)
- 				startup $i stop
-diff --git a/meta/recipes-core/sysvinit/sysvinit/rcS-default b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-index e4e5782de5..d3a0f32d2a 100644
---- a/meta/recipes-core/sysvinit/sysvinit/rcS-default
-+++ b/meta/recipes-core/sysvinit/sysvinit/rcS-default
-@@ -32,3 +32,5 @@ ROOTFS_READ_ONLY=no
- INIT_SYSTEM=sysvinit
- # set psplash fifo directory
- PSPLASH_FIFO_DIR=/mnt
-+# set the psplash verbosity (sysvinit)
-+PSPLASH_VERBOSITY=#PSPLASH_V#
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.97.bb b/meta/recipes-core/sysvinit/sysvinit_2.97.bb
-index 98916f7f19..562b20327e 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.97.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.97.bb
-@@ -25,6 +25,8 @@ SRC_URI[sha256sum] = "2d5996857519bfd8634d2e1debabb3238fb38440f65fbfdc46420ee8bd
- 
- S = "${WORKDIR}/sysvinit-${PV}"
- 
-+PACKAGECONFIG[verbose-psplash] = ",,"
-+
- inherit update-alternatives features_check
- DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
- do_package_setscene[depends] = "${MLPREFIX}base-passwd:do_populate_sysroot"
-@@ -91,7 +93,8 @@ do_install () {
- 		install -d ${D}${sysconfdir}/rc$level.d
- 	done
- 
--	install -m 0644    ${WORKDIR}/rcS-default	${D}${sysconfdir}/default/rcS
-+	sed -e 's:#PSPLASH_V#:${@bb.utils.contains("PACKAGECONFIG","verbose-psplash","yes","no", d)}:g' ${WORKDIR}/rcS-default > ${D}${sysconfdir}/default/rcS
-+	chmod 0644 ${D}${sysconfdir}/default/rcS
- 	install -m 0755    ${WORKDIR}/rc		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/rcS		${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/bootlogd.init     ${D}${sysconfdir}/init.d/bootlogd
--- 
-2.30.0.rc0
+Richard
 
