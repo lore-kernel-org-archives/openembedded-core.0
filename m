@@ -1,85 +1,158 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
- by mx.groups.io with SMTP id smtpd.web09.10706.1608817096646222005
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+ by mx.groups.io with SMTP id smtpd.web08.11579.1608821311086861853
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Dec 2020 05:38:16 -0800
+ Thu, 24 Dec 2020 06:48:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bfroq5l0;
- spf=pass (domain: gmail.com, ip: 209.85.166.181, mailfrom: twoerner@gmail.com)
-Received: by mail-il1-f181.google.com with SMTP id g1so2026080ilk.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 05:38:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YnlCBJXL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.41, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f41.google.com with SMTP id r5so2279708eda.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 06:48:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=/Uhqy1DeUIs0IRvxQlVFoLmgWnZ6TOuDSnC9Bk6YZkY=;
-        b=bfroq5l0AcM0XXGb/i2T5/OkA1IBl9/qh8zih8iq8CDMafnH6jdd8Vym0AXZvz/G95
-         98vqXJ+cEu4FA9IiDu+WbFVIsOM4vM7SrfbXTjGTEBucdXHm+YOFzCIvrAA9mGaGO5Yq
-         C33+8M4UCxWoEk4dR0F2kjvKRmoxshbfvyv2MvRwhySDrzJa13zxVZfl9AY45ESuRv/p
-         0J7y/D1ZAlI/5OwS2YuhuFcRPc9awxHK3+fRZiL4inmy01WMTDEIff9862Fz3ePu4Gg7
-         7VDCd6kXKY8xRGHxjd/Aq8AHXC40f1H3xTmZlXk9AKKQKrlQF75mj1Z7Y3oGqXe2T888
-         PHDw==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+70Xl5vIFNgJ3d4TAgAbZr05ocRDZ33I9Fcpda9PMY4=;
+        b=YnlCBJXL8LUuFClIh7d0xAblh9NKpdSHPRKqmIbYv6U9D3U/mJUuXkgAAcrNxjQhEO
+         PGAbq0PCIhI6Md17Aip46zb10x6zWUOUOmPGyE6/9sungIlnPvO4DeRmrdikKiY7WrlG
+         j7Vdcac9LVp+w47hhAaEmOZrcIvr2v2tLFZfIS97DhTYvvWrXY37XTn6R9gW17YxVr83
+         slkcyzRoNgZu6F0lMjNgPD4+ZTSQh8ChT8lYlX457m6ZDpVSrkFdAyl0AS1j3y7oT+/r
+         JKDpoHA5O3JWQb1ysT1xngv0VRBp9QU3Fy9NUp8ok+b5LzUEIl6QLgGkbn4DVdtLh74p
+         2ZdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=/Uhqy1DeUIs0IRvxQlVFoLmgWnZ6TOuDSnC9Bk6YZkY=;
-        b=hdQzL/FUn3obagmClkwUc/hQgquCCccVGUS5tQGR9ZWKTf76kvns7tDIkdDWQvbFic
-         3GwW/Z7/AyyYhV8CrqLeE4jH06hnMUWWscGjsEd7cX+pyojZRnVfYfWDGaIXenABjV14
-         LddJBoiEjFijPdGm51obHepMzd2NmSIfoAsJ8QcIhX3zy0YVhD04yyWodfN4n95uDkYv
-         Lo/5VhJfvscTWpXHulUcvYZvPQEARbWj8J9/C9iaDdOcSDn4hiNc8zyEcEDg/jTF56m2
-         wE/4qdqGERRgd1UjGvZgqJ0X/MHm4dP70DdFPJKXJT2KfPJc4xv/MHp4SQyqixjCvPb2
-         LLBw==
-X-Gm-Message-State: AOAM531APetACw7a09xTQcNH6fl/soxU+v12V8RRcsrVUIPibzYrT8HZ
-	5AXDw/AhBFBaUVsz0otc5yI=
-X-Google-Smtp-Source: ABdhPJyYtyfT6zKHyrFqrW0gL1uH3VLshRQ3ztCw8KhzYngRP+YYu64AtB4p2p1x6bgGKTa2RSlQWA==
-X-Received: by 2002:a92:c052:: with SMTP id o18mr29655548ilf.245.1608817096113;
-        Thu, 24 Dec 2020 05:38:16 -0800 (PST)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id e89sm20263722ill.44.2020.12.24.05.38.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Dec 2020 05:38:15 -0800 (PST)
-Date: Thu, 24 Dec 2020 08:38:13 -0500
-From: "Trevor Woerner" <twoerner@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/2] sysvinit/rc: show text progress
-Message-ID: <20201224133813.GA3039@localhost>
-References: <20201222070029.40230-1-twoerner@gmail.com>
- <CAMKF1so1E7Dw8Uwy8epT0UanOv0QcdcPqzobSV+tOMURHPK5uQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+70Xl5vIFNgJ3d4TAgAbZr05ocRDZ33I9Fcpda9PMY4=;
+        b=ZsSBfk+BvBJQma1VRqNqyMg4CT2riSkHZjyX3BTxjsn7ANDY6YIMeXSDUQicAJwAQu
+         4ucgg/Hhx13jMf2yJODVx3QV4+py90OxCEBNICdSDCAtU0R2DRfRMLxn6+jpLiMmJAt9
+         jNAj/PudqjO/zKiVGfr9cpcB1mBXWmFG8+hoEZjIZNBjNTPRDsU7w3EQbOvWUZ7aVTNp
+         tBKMHNO+A3UqDF6JI5KPiWWJjfjCnpuKJwpb13WEqUErd5xqnjFxNo+GtYb6AItd6qws
+         oD/jZiT84mLVO94ghaU+YMdCEv6CYerHsA3GaEkhoc81cEbHC1EaRD3lG5GUcSgYvbpJ
+         fPLw==
+X-Gm-Message-State: AOAM532mVacwyXf5ard/X38T0doHWN0foJQ3K3Bp0057/1DGGCIa+5qi
+	axtC96um0WihIU6OzIB0GIydn4jfCfGxEOreHDFQeg==
+X-Google-Smtp-Source: ABdhPJypEU0oUV/UnLdXyJz5Cl6JXRYfHCGjZWq4a78zX5oF0U5Ty5kO3Se4EcAjCxhXvp8Y+i/7Io8ffhNqpI1Rcdw=
+X-Received: by 2002:a50:d60f:: with SMTP id x15mr28456882edi.224.1608821309489;
+ Thu, 24 Dec 2020 06:48:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1so1E7Dw8Uwy8epT0UanOv0QcdcPqzobSV+tOMURHPK5uQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <cover.1608646697.git.bruce.ashfield@gmail.com> <dc87d7fa7cb4fb8870daf5277aa9b993e371f9d6.1608646697.git.bruce.ashfield@gmail.com>
+In-Reply-To: <dc87d7fa7cb4fb8870daf5277aa9b993e371f9d6.1608646697.git.bruce.ashfield@gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Thu, 24 Dec 2020 04:48:18 -1000
+Message-ID: <CAOSpxdbZ766i_xyxwCAGwr3H8Zfahcjtrwoj-CsnLPWuDq=8RQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/9] linux-yocto/cfg: qemuppc: set CONFIG_SCSI to '=y'
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed 2020-12-23 @ 03:27:50 PM, Khem Raj wrote:
-> On Mon, Dec 21, 2020 at 11:00 PM Trevor Woerner <twoerner@gmail.com> wrote:
-> >
-> > In addition to the progress bar, show which startup routine is running by
-> > using the "MSG" facility of psplash.
-> >
+On Tue, Dec 22, 2020 at 4:28 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Integrating the following configuration commit(s):
+>
+>     72a1fe336d7 qemuppc: configure the CONFIG_SCSI to '=y'
+
+What is the reason behind this change?  Trying to decide if it is
+something I should take for dunfell (minus the 5.8 changes of course)
+
+Thanks!
+
+Steve
+
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb   | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb   | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.4.bb      | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.8.bb      | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+> index d415c3c63a..8bc93bf438 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+> @@ -12,7 +12,7 @@ python () {
+>  }
+>
+>  SRCREV_machine ?= "1ab0814d41526c27888888188d884884c8b4a52d"
+> -SRCREV_meta ?= "dfb689e49ce2b6a1790d0747d6041a961b812db5"
+> +SRCREV_meta ?= "72a1fe336d7a8cead351b894c266a205f23f213c"
+>
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+> index 033dfc76a2..f5f7c87a31 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.8.bb
+> @@ -12,7 +12,7 @@ python () {
+>  }
+>
+>  SRCREV_machine ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
+> -SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
+> +SRCREV_meta ?= "7329d33cf8f25f433ce8ca95787e1743344f7c5d"
+>
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.8;destsuffix=${KMETA}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+> index 33ca5856a3..3b462d5872 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+> @@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+>
+>  SRCREV_machine_qemuarm ?= "9a4d015ce467549f5f587a5001cd333ea7182aa2"
+>  SRCREV_machine ?= "6f1adec8376dc0bbf423afa02d7d9fa12b73d5b5"
+> -SRCREV_meta ?= "dfb689e49ce2b6a1790d0747d6041a961b812db5"
+> +SRCREV_meta ?= "72a1fe336d7a8cead351b894c266a205f23f213c"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+> index 50cee07620..4afddae092 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.8.bb
+> @@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+>
+>  SRCREV_machine_qemuarm ?= "9509db6e3ed6a23b1f7495b53248d1cbfe22710b"
+>  SRCREV_machine ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
+> -SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
+> +SRCREV_meta ?= "7329d33cf8f25f433ce8ca95787e1743344f7c5d"
+>
+>  PV = "${LINUX_VERSION}+git${SRCPV}"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+> index 1a14c8bdb5..456875a7b5 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+> @@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "6f1adec8376dc0bbf423afa02d7d9fa12b73d5b5"
+>  SRCREV_machine_qemux86-64 ?= "6f1adec8376dc0bbf423afa02d7d9fa12b73d5b5"
+>  SRCREV_machine_qemumips64 ?= "f8d0d215cf1a02a1e2915b8d57fb8f9f29e5dc49"
+>  SRCREV_machine ?= "6f1adec8376dc0bbf423afa02d7d9fa12b73d5b5"
+> -SRCREV_meta ?= "dfb689e49ce2b6a1790d0747d6041a961b812db5"
+> +SRCREV_meta ?= "72a1fe336d7a8cead351b894c266a205f23f213c"
+>
+>  # remap qemuarm to qemuarma15 for the 5.4 kernel
+>  # KMACHINE_qemuarm ?= "qemuarma15"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.8.bb b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+> index af576891e2..3f94d22654 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.8.bb
+> @@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
+>  SRCREV_machine_qemux86-64 ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
+>  SRCREV_machine_qemumips64 ?= "01a02b058f9a8941032b298b8d25c673526152f4"
+>  SRCREV_machine ?= "3c5d210805d61bea8f8a8081e0e3a89ea8a61f3f"
+> -SRCREV_meta ?= "7883b60d324029d26020c0b3f826b35c52fd9674"
+> +SRCREV_meta ?= "7329d33cf8f25f433ce8ca95787e1743344f7c5d"
+>
+>  # remap qemuarm to qemuarma15 for the 5.8 kernel
+>  # KMACHINE_qemuarm ?= "qemuarma15"
+> --
+> 2.19.1
+>
+>
 > 
-> This is ok but lets make it optional and controlled via some knob. End
-> products usually want clean graphics
-
-I'll add it with a knob, default off.
-
-I'm not sure what you mean by "clean graphics". To clarify: there's a hidden
-text box already built into the psplash application just above the progress
-bar, any MSG text sent via the fifo appears centred above the progress bar.
-I'm displaying the text-name of the currently-running bootup script (e.g.
-postinsts, networking, sshd, etc) as a means of feedback. As the device boots
-the user is not looking at a slowing moving progress bar and wondering which
-service is taking so long to startup.
-
-For example, on first boot, the sshd service takes a while to startup since it
-may need to generate a bunch of keys. With this enabled the user will see the
-progress bar stop (momentarily), but they'll also know that it's due to sshd
-running. Or if you're using dhcp and there's no dhcp server on your network,
-the user will see the progress bar stop (momentarily) and the text above the
-progress bar will say "network" so they know that's the cause of the pause.
-
-This doesn't mess up the logo/graphics at all. I could make a video of it, or
-you could try giving it a whirl once it's added. I think it should be default
-on :-)
+>
