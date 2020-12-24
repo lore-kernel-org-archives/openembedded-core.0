@@ -1,95 +1,75 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web09.8394.1608798892704931499
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web09.8935.1608804098570026359
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Dec 2020 00:34:53 -0800
+ Thu, 24 Dec 2020 02:01:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bJhCJ1Ek;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 190so988367wmz.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 00:34:52 -0800 (PST)
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=BJR3AkYO;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.215.171, mailfrom: mshah@mvista.com)
+Received: by mail-pg1-f171.google.com with SMTP id n10so1289348pgl.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 02:01:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=rHYS5cbuJcGV/2kBTTGqXYfslbVZcDG1jLqceEjBvbY=;
-        b=bJhCJ1EkMMxFGHG0dBMLa1Y2mH93LQoqsuwchjAgsNryOlMtZcGwR7gRRGFhoLSjOi
-         2djjEQA7fIaZ3c10Wpo4WBf6yvnDEtY4bxeYamF+1cf005So1Auuba1O7+2tbZOWSx5i
-         Lo9cje7lkG4Yde1pMGGexguoggd9BnaQLpFQk=
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=ihtHBD48TRXv7RL2pIIthIdDimZdKSNiDdzo8V/KRwA=;
+        b=BJR3AkYOFyEoYaSMHvEFcsCAXXPxsrdDWlsW0qzbtfWV6eEy8iq6P2pGy1xzJCV/w3
+         mE/YToEQqk3XPSZ9YL/kNoHjlsgaz48UKx9gFVklRqXlZRowCOCjoNATAnWylsirF6MY
+         /AxwzDtC1OIswbIQyFGjWVdT1hMD+hjGbDvdd0e2ebpXJtBPevA5b6NWR0Q4p6S4O/Lh
+         wAs+66F7QnRZzuq1ZE5yZTyS9utAEe/K3veljfk0JDmWttp0enxYZpzHN+QyN4IvtG1b
+         2PvKZKBavplUAOdrLTrGxqnlTbYjAvFoz/Icm4kuCmTlZLaixuT/l8lEeDaZqwrllcIF
+         tKKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=rHYS5cbuJcGV/2kBTTGqXYfslbVZcDG1jLqceEjBvbY=;
-        b=iSpF3rMHNLvi3lywFLO+H1CRTO3QpasZlWWNZ+juwS1qr1VmL2M6fmeAjx9+n33Ea3
-         jmJchW3eYI9/R1Da5S7yYpmvX1SVindGS8ZaemMFSFQWFGX/f/gGYfM/BiRclRUyUcc0
-         Iw1i/rBqnqdAYfy75JC29G39uxp3toJ1eHyNg3fVO+pULOOCrGUwGTrYrJzXVpmOZj0Y
-         GQ4BsYgUVSvp51da2rXgQgt9rJSGwohKGlRlDTglPtkl92RQt6uHpXVrm53BLNBiPDo7
-         kXZwQ7rH9dSf8lRx3B6YoOSaLcAnXPTj+Ar66azJ9iZuLuuIc4HiAfTvzr2hlqh3WKqU
-         32dA==
-X-Gm-Message-State: AOAM5312XoVB91kXpzeW2hdBZubKVe5RRD4mZGXSqNjl5XjUZCLtKPHm
-	krilolTolYZ4Ut05fjJbUBCVJA==
-X-Google-Smtp-Source: ABdhPJx+Sqf9od0D2oU4M+m1BGXgjs0vv3gnVRF4Z2t7HhlwHEVsHlgICPmrZPJq4UvROqT4fl6wNw==
-X-Received: by 2002:a1c:b742:: with SMTP id h63mr3289578wmf.122.1608798891126;
-        Thu, 24 Dec 2020 00:34:51 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from 6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (6.7.9.f.e.b.4.7.3.0.6.1.b.d.b.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8bdb:1603:74be:f976])
-        by smtp.gmail.com with ESMTPSA id k1sm38892854wrn.46.2020.12.24.00.34.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Dec 2020 00:34:50 -0800 (PST)
-Message-ID: <5df655f3130bb4184d9691d4e04c51c350c590be.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [master-next][PATCH 1/3] insane.bbclass: allow fifos
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 24 Dec 2020 08:34:50 +0000
-In-Reply-To: <20201224074354.18751-1-twoerner@gmail.com>
-References: <20201224074354.18751-1-twoerner@gmail.com>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=ihtHBD48TRXv7RL2pIIthIdDimZdKSNiDdzo8V/KRwA=;
+        b=TmAAUoefWhkDyswjR8VcCAKRV1dB6rITjfJ1Ip2RuGH2178ikOK0wMUhldZLp6pYVD
+         zlT8Y642kjHdIG4fp80CY2DklupJ14/xxqwnsViu0g462vWBH9DDjx5nykXtQxWQj5SV
+         hItKEZWCGxEWk2oF5tMzOoYH5owVruNCHzjXTPDG+SnfSD92YB/ZFpnndSUc6LB5sOVF
+         OHKKRfXgd/J5r/vJC+MNx1YFhpa0zJcTTBVuONFHNHX2YDe2lf6Gi9SSEghSlS0l0p9m
+         ZRY7Oxlv3Lf7h1l8niPgOPR7GjhdBInouyzo1CRyINAJansLOIcqcHC9L5PeIRgg1BXG
+         dzWA==
+X-Gm-Message-State: AOAM530n7spgFwuJmbXxyWM1DdwNUPzIdwMdh1FeM1mvz9YOijn0GD4E
+	xIirMI5UF5vQEcfZ+4ruMtIPVElSr0DSkw==
+X-Google-Smtp-Source: ABdhPJx65MzoEOI2YaU+CaxSFbReA//fUtGbgXw0Y/5MYBTB4L2jc9s8g0jMHjs+68NBKz1WeJvHUw==
+X-Received: by 2002:a63:1456:: with SMTP id 22mr24725985pgu.386.1608804097648;
+        Thu, 24 Dec 2020 02:01:37 -0800 (PST)
+Return-Path: <mshah@mvista.com>
+Received: from dell-latitude.mvista.com ([103.102.57.97])
+        by smtp.gmail.com with ESMTPSA id e10sm22910736pgu.42.2020.12.24.02.01.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 24 Dec 2020 02:01:37 -0800 (PST)
+From: "Milan Shah" <mshah@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-Core][PATCH v2] oe-pkgdata-util: Added a test to verify oe-pkgdata-util without parameters
+Date: Thu, 24 Dec 2020 15:31:27 +0530
+Message-Id: <1608804087-15784-1-git-send-email-mshah@mvista.com>
+X-Mailer: git-send-email 2.7.4
 
-On Thu, 2020-12-24 at 02:43 -0500, Trevor Woerner wrote:
-> Allow recipes to create fifos. If insane.bbclass tries to read() a
-> fifo,
-> the process will hang waiting for something to read(). Therefore,
-> skip any
-> check that would try to read() the object, if the object is a fifo.
-> 
-> Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> ---
->  meta/classes/insane.bbclass | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/insane.bbclass
-> b/meta/classes/insane.bbclass
-> index cf2165c517..105d2a5ce8 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -87,7 +87,8 @@ def package_qa_add_message(messages, section,
-> new_msg):
->  
->  QAPATHTEST[shebang-size] = "package_qa_check_shebang_size"
->  def package_qa_check_shebang_size(path, name, d, elf, messages):
-> -    if os.path.islink(path) or elf:
-> +    import stat
-> +    if os.path.islink(path) or stat.S_ISFIFO(os.stat(path).st_mode)
-> or elf:
->          return
->  
->      try:
+A test is implemented on poky/meta/lib/oeqa/selftest/pkgdata.py to test
+the scenario when oe-pkgdata-util is executed without parameters and
+help is displayed.
 
-Good catch, I think there has been a bug open for a while to fix this
-one!
+See [YOCTO #10726] for detailed bug information.
 
-With the rest of the series, I can't get the patches to apply, I think
-there is one that wasn't sent to the list. I've added this fifo fix to
--next since its ready, for the rest could you send a series against
-master please? That should allow some cleanup of the patches now we
-know where we're going too!
+Signed-off-by: Milan Shah <mshah@mvista.com>
+---
+ meta/lib/oeqa/selftest/cases/pkgdata.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Cheers,
-
-Richard
-
+diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/selftest/cases/pkgdata.py
+index 833a180..94ee1f5 100644
+--- a/meta/lib/oeqa/selftest/cases/pkgdata.py
++++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
+@@ -218,3 +218,9 @@ class OePkgdataUtilTests(OESelftestTestCase):
+     def test_specify_pkgdatadir(self):
+         result = runCmd('oe-pkgdata-util -p %s lookup-pkg zlib' % get_bb_var('PKGDATA_DIR'))
+         self.assertEqual(result.output, 'libz1')
++
++    def test_no_param(self):
++        result = runCmd('oe-pkgdata-util', ignore_status=True)
++        self.assertEqual(result.status, 2, "Status different than 2. output: %s" % result.output)
++        currpos = result.output.find('usage: oe-pkgdata-util [-h] [-d] [-p PKGDATA_DIR] <subcommand>')
++        self.assertTrue(currpos != -1, msg = "Test is Failed. Help is not Displayed in %s" % result.output)
+-- 
+2.7.4
 
