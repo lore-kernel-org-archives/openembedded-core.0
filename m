@@ -1,90 +1,160 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
- by mx.groups.io with SMTP id smtpd.web09.1827.1608838802767079789
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.5741.1608859836118174669
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Dec 2020 11:40:02 -0800
+ Thu, 24 Dec 2020 17:30:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ApjPA60J;
- spf=pass (domain: gmail.com, ip: 209.85.222.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f175.google.com with SMTP id d14so2743362qkc.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Dec 2020 11:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r9bCgd24x+Sln5a3/PKY7DlvaXXtvmkFmN0EHFjXL1s=;
-        b=ApjPA60JvtIX3DF7KJWxm/5CKCNC6CDicXFqrxjopzmTk9KIw9WG4vbgJVdV+B/CcM
-         IjBto28DwwifBzoUZK/09NvSp1P86qUVJmFG1iMYjN5IYbt+WlgvXdNfeI7JKzGNRrRK
-         bVMr1GScrEr8axwZxOoi6Z2jxP4m6e/glwsUSpTw2FBBP0qteb0pf870tUzEKscWj1IH
-         PcGmLK9M0M9S9hhqXMYgdgBVkAYvq4bN43R2loLVbDWTf+ci8Emxu1uIu9DNSIYrRySZ
-         KCh/DXw8EJvfyOYOxy4cNLVUL8Z+fzouM9TJ+Z5th4pBCt9oOpVwmW6NoCkKWLYZl5mx
-         5ZlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r9bCgd24x+Sln5a3/PKY7DlvaXXtvmkFmN0EHFjXL1s=;
-        b=MyZn4gcTHO6/N3Ae9mmVG7UyRASlIAFUrQSMST8vBoI0JMQiQVB6UjYCsWmQkbeH5w
-         gP5IgxRvNtKQ/EuuoIcyTYe3LTdMHnoIF/Fib6o6pa4+iaV8Uim0FaY5QKh1YwvnV6Pd
-         gngBHFzrjcOcRq0EMx1/zEw8f3rFW763dTsHHdWqk6WAL8O8UfkALErq1BBmq7Kt2bNT
-         DUxa8TgjLTU9HSTCAcNaRO1ifgELGGf72SOhagDRyEdCMYIQD8u5y5txbT0QopF44hHM
-         S/Lz9CYjnC5/wAKiWz77Rn7xGo1Tous9P01Qf9yDbQpYYs+cdJqI/89p4JK5vd93hUqS
-         JDsA==
-X-Gm-Message-State: AOAM530ajHt7o7Ihbgh4/8ca5d1K6nPUl+fZF8dFaadAD56BTIvnDttC
-	8Uzv18f1iiu1v40LpO+pKIP9Bgz4FPzEDN7ApXs=
-X-Google-Smtp-Source: ABdhPJyAyyXbHCrydFU7Vxl0tVexTkIBKoT2txJw6217M8YXC47C8S3nMp4SCrloRSqj+uft/NvjO/drJwFHejzTKNQ=
-X-Received: by 2002:a37:6189:: with SMTP id v131mr31353729qkb.337.1608838801717;
- Thu, 24 Dec 2020 11:40:01 -0800 (PST)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.78,446,1599494400"; 
+   d="scan'208";a="102919468"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 25 Dec 2020 09:30:18 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 526014CE5468
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Dec 2020 09:30:17 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 25 Dec 2020 09:30:16 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] ell: upgrade 0.33 -> 0.35
+Date: Fri, 25 Dec 2020 09:30:14 +0800
+Message-ID: <1608859814-70850-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20201222070029.40230-1-twoerner@gmail.com> <CAMKF1so1E7Dw8Uwy8epT0UanOv0QcdcPqzobSV+tOMURHPK5uQ@mail.gmail.com>
- <20201224133813.GA3039@localhost>
-In-Reply-To: <20201224133813.GA3039@localhost>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 24 Dec 2020 11:39:34 -0800
-Message-ID: <CAMKF1sq5srLmnvBVGr7=JQ6yW0bgEBjpJJU6p3Eb9pksRp+qWA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] sysvinit/rc: show text progress
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 526014CE5468.A2DF0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-On Thu, Dec 24, 2020 at 5:38 AM Trevor Woerner <twoerner@gmail.com> wrote:
->
-> On Wed 2020-12-23 @ 03:27:50 PM, Khem Raj wrote:
-> > On Mon, Dec 21, 2020 at 11:00 PM Trevor Woerner <twoerner@gmail.com> wrote:
-> > >
-> > > In addition to the progress bar, show which startup routine is running by
-> > > using the "MSG" facility of psplash.
-> > >
-> >
-> > This is ok but lets make it optional and controlled via some knob. End
-> > products usually want clean graphics
->
-> I'll add it with a knob, default off.
->
-> I'm not sure what you mean by "clean graphics". To clarify: there's a hidden
-> text box already built into the psplash application just above the progress
-> bar, any MSG text sent via the fifo appears centred above the progress bar.
-> I'm displaying the text-name of the currently-running bootup script (e.g.
-> postinsts, networking, sshd, etc) as a means of feedback. As the device boots
-> the user is not looking at a slowing moving progress bar and wondering which
-> service is taking so long to startup.
->
-> For example, on first boot, the sshd service takes a while to startup since it
-> may need to generate a bunch of keys. With this enabled the user will see the
-> progress bar stop (momentarily), but they'll also know that it's due to sshd
-> running. Or if you're using dhcp and there's no dhcp server on your network,
-> the user will see the progress bar stop (momentarily) and the text above the
-> progress bar will say "network" so they know that's the cause of the pause.
->
+Add the following patch to solve the compilation error when using musl:
+0001-Fix-bug-caused-by-missing-types.h-file.patch
+0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
 
-I understand that what I am mentioning here is that all this
-information is good for debugging
-diagnostics but not needed when a device is normally booting since
-this information
-is less useful to end-user and sometimes undesired for aesthetics. So
-while you are here
-having this option along with your enhancements is what I am asking
-for. Hope this helps.
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ ...x-bug-caused-by-missing-types.h-file.patch | 48 +++++++++++++++++++
+ ...ed-by-using-functions-not-provided-b.patch | 26 ++++++++++
+ .../ell/{ell_0.33.bb => ell_0.35.bb}          |  9 +++-
+ 3 files changed, 81 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch
+ create mode 100644 meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
+ rename meta/recipes-core/ell/{ell_0.33.bb => ell_0.35.bb} (70%)
 
-> This doesn't mess up the logo/graphics at all. I could make a video of it, or
-> you could try giving it a whirl once it's added. I think it should be default
-> on :-)
+diff --git a/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch
+new file mode 100644
+index 0000000000..6f26ec4e7d
+--- /dev/null
++++ b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch
+@@ -0,0 +1,48 @@
++Subject: [PATCH] Fix bug caused by missing types.h file.
++
++Fix the following error:
++../ell-0.35/ell/dhcp-private.h:75:2: error: unknown type name '__be32'
++|    75 |  __be32 xid;
++|       |  ^~~~~~
++| ../ell-0.35/ell/dhcp-private.h:76:2: error: unknown type name '__be16'
++|    76 |  __be16 secs;
++|       |  ^~~~~~
++| ../ell-0.35/ell/dhcp-private.h:77:2: error: unknown type name '__be16'
++|    77 |  __be16 flags;
++|       |  ^~~~~~
++| ../ell-0.35/ell/dhcp-private.h:85:2: error: unknown type name '__be32'
++|    85 |  __be32 magic;
++
++Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
++---
++ ell/dhcp-private.h  | 1 +
++ ell/dhcp6-private.h | 1 +
++ 2 files changed, 2 insertions(+)
++
++diff --git a/ell/dhcp-private.h b/ell/dhcp-private.h
++index 204e54e..b418535 100644
++--- a/ell/dhcp-private.h
+++++ b/ell/dhcp-private.h
++@@ -19,6 +19,7 @@
++  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++  *
++  */
+++#include <linux/types.h>
++ 
++ struct l_dhcp_client;
++ struct l_dhcp_server;
++diff --git a/ell/dhcp6-private.h b/ell/dhcp6-private.h
++index 2bbd1d3..14dd85c 100644
++--- a/ell/dhcp6-private.h
+++++ b/ell/dhcp6-private.h
++@@ -19,6 +19,7 @@
++  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++  *
++  */
+++#include <linux/types.h>
++ 
++ struct l_dhcp6_client;
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch b/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
+new file mode 100644
+index 0000000000..da0018a8df
+--- /dev/null
++++ b/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
+@@ -0,0 +1,26 @@
++Subject: [PATCH] Fix the bug caused by using functions not provided by musl.
++
++Fix the following error:
++/usr/src/debug/ell/0.35-r0/build/../ell-0.35/ell/pem.c:227: undefined reference to `rawmemchr'
++
++Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
++---
++ ell/pem.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/ell/pem.c b/ell/pem.c
++index 790f2c2..27d47a0 100644
++--- a/ell/pem.c
+++++ b/ell/pem.c
++@@ -224,7 +224,7 @@ static uint8_t *pem_load_buffer(const void *buf, size_t buf_len,
++ 
++ 		/* Check that each header line has a key and a colon */
++ 		while (start < end) {
++-			const char *lf = rawmemchr(start, '\n');
+++			const char *lf = strchr(start, '\n');
++ 			const char *colon = memchr(start, ':', lf - start);
++ 
++ 			if (!colon)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/ell/ell_0.33.bb b/meta/recipes-core/ell/ell_0.35.bb
+similarity index 70%
+rename from meta/recipes-core/ell/ell_0.33.bb
+rename to meta/recipes-core/ell/ell_0.35.bb
+index 2fa05104fb..718b01f5cb 100644
+--- a/meta/recipes-core/ell/ell_0.33.bb
++++ b/meta/recipes-core/ell/ell_0.35.bb
+@@ -13,8 +13,13 @@ DEPENDS = "dbus"
+ 
+ inherit autotools pkgconfig
+ 
+-SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "d9e40e641164150394b74b719b9726fc734f24b2cde679cf5f3be6915c34eded"
++SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
++           file://0001-Fix-bug-caused-by-missing-types.h-file.patch \
++"
++
++SRC_URI_append_libc-musl = "file://0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch"
++
++SRC_URI[sha256sum] = "2bfe9da7781f65f1cb1595a5a068a3ae74d4b68b74f287c6f0c892cfe623913f"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
+-- 
+2.25.1
+
+
+
