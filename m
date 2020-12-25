@@ -1,470 +1,182 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
- by mx.groups.io with SMTP id smtpd.web08.8118.1608883931927331372
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.56])
+ by mx.groups.io with SMTP id smtpd.web11.13186.1608920290432979877
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Dec 2020 00:12:12 -0800
+ Fri, 25 Dec 2020 10:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q5CyDPRH;
- spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f45.google.com with SMTP id h16so2043254qvu.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Dec 2020 00:12:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mzUuX1X9/UK5iJMa4G+xacyWXlRm9zYEMvQHBh9ZlwI=;
-        b=Q5CyDPRHACpwWNwHv+r+ZW11I1mZO5s9ekWlJCBuUNEFUDn+SLYJ1wv5vRCzUTQl5W
-         YQH1RnXRLS5+11Up1UMj+yWfjD7ADU6ZO4sKJRIaV4OtB1Xq6CmJDnLdVl8t4dipnugd
-         Z1/WV2NDUcrCles+ZovW1rODhEOpO+ZVCMrYqbCf64qp0v5YbsKiCLrHzpgsvyzqwT7Q
-         mvcsfY5dsh3nNXfDp75lAOsCUHyIxGNUJPwZ/2Lh7xwAPrPMR6pPYo7FgAPxFwatM1yO
-         D/aRcj5+77q1T/3dKfYdzIiqrNP4SFDRoYZ0B0oN28J5EP2f4qbjBdXMryC/mkaXtP0u
-         Sfxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mzUuX1X9/UK5iJMa4G+xacyWXlRm9zYEMvQHBh9ZlwI=;
-        b=gXErlamPC4At7Qtl7y9Rs2qZDpBKSHjvWcfi8eOZjBxwk9QDLPpx58FrhyeUtOAtmp
-         tV4usRqedU8++57B5n3ZmRa9bX7ETv/7d0+Em1ex9kW9mpNzNm6Z4Tx05QVcc1loCEb/
-         Kjj0YGivxcrV/HFXUnfZ0OvugNnhaRU5qM9K+A88y8Tciv/yxo57XFwYofd4tvcbbLnx
-         tf5kB+vViosb2mbt3EEkeQGQajUo2yMXZPfaeAM4KgfQGxRMnSTb9MnrsyOBtTkZEMp4
-         YpPVylSYbt0i6/ARiclKLJ45uyHcXzktmIsj5uVTnAG4J1y6GeelPdfS3nCutnOduMvZ
-         OM1w==
-X-Gm-Message-State: AOAM533p8xZjdY7tvoS3yuGgQccFkMZoIUaS31gA/aPtr7UvTbvyniId
-	hRbD/LMYbjbQGdfksFejtyZ7h+pZOoVg1Kgzm6u+MeGC
-X-Google-Smtp-Source: ABdhPJzYMBtbmri6G5QApa9EyTMKTgYbcLUoa9Y1cZCYgSLHDq/EGEmc0wHzxwE+DHLOvYo0lmqEbrMHrAwddVorNHI=
-X-Received: by 2002:a1f:dec2:: with SMTP id v185mr24359649vkg.8.1608882124504;
- Thu, 24 Dec 2020 23:42:04 -0800 (PST)
+ dkim=pass header.i=@agilent.com header.s=selector1 header.b=eoib3yLm;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.244.56, mailfrom: chris.laplante@agilent.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WOI/as24mIjwyWSuRIXjudq+PUm8TuHuGaJbJmlJfCoBkQiQhH9KYMzrU2ykl+YZpLdstF1DIRiDjoAOLRqsnZl/24p4u69R76OzsO2i99UnY47ITbTffEWB6lXUPQis+XvBwTW8Ckv/5kei5fzb/EEKbMqFQrOLsfsdP86ZPksez073YgTabM1DU0GThg0sCAqSFld/8tflUfd6sy9LVggJxgMVFCqH2SmgrURAqok/6+E1cRaXxCzHq0OW2PLL/qPWY6iShdIXZFjSQjdWpiIdTWiC1RVqmOXPPFpG82sw+Bd0DHtRIKWTbePr2oSTmfFMP0zlDLXu9k29fT/HbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gtf+tr/MQKp9amefwzUWODgz/P1vaqZzaJfN2jY+634=;
+ b=cypHODQlGVqxVGAAlOtGHnD2IWyHzG1cQNrLpyhezpwXD4oj5CysJ9Q7ouosuQcFWPrUfKnwEX1IVISQL3VWixpFJcYyXwPEtodoZwbbXzY7ArvFwUnmWigO3ybPDqODUbmEAV2/9BjWvqrx+KjWVZczESD5Zns5mrMPaSX6Vhx22J/gW4CK2WkDoHiBAUfoRE+OvBLvuwXbfAb/YIIuZXgeNNwg7n/MHTrgzmpzXps+VmryYBm6mTnJT+16mcKbntT/wwDB5RkhT9W8gGuTSCHi9d+DeO/iJTnT9yc9hxYN8ZL6yvCp92H7bnm8AzldQBUboWksCAxrRYvC2PYDQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.25.218.37) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=agilent.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Gtf+tr/MQKp9amefwzUWODgz/P1vaqZzaJfN2jY+634=;
+ b=eoib3yLmP8lOI9c/S9aV6UV1HMgR1U//PpEXWg708a62V6vELIV03I3E2KGyNR4m5HaxoxtRpBBWtMwwNiyfTUlucK1GQ1QoTPGluCglrB2H8ugZ960tDRZ1IhfBf3vfiZhVZxSSKY+DyoAGh5qOVdYlzPCC94lf64IZ4WplrpYjDp63oVZug6krU8UZhKxwqoM+ZysZm+GWEDUiB4yocFAJzcDBJZ00PYCkwCHT3Sobma1fxHBbHqsD/Lh3gcQj4dRlI7659U9lrVNi9jcv9SoMkDUVvY+6qFuPD9Kb1BcqCoE2U9BVL96StogL6IehcJm4WGctm3xpVDSgZj3kTA==
+Received: from MW2PR16CA0009.namprd16.prod.outlook.com (2603:10b6:907::22) by
+ MN2PR12MB3422.namprd12.prod.outlook.com (2603:10b6:208:ce::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3676.31; Fri, 25 Dec 2020 18:18:08 +0000
+Received: from MW2NAM12FT012.eop-nam12.prod.protection.outlook.com
+ (2603:10b6:907:0:cafe::82) by MW2PR16CA0009.outlook.office365.com
+ (2603:10b6:907::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27 via Frontend
+ Transport; Fri, 25 Dec 2020 18:18:07 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.37)
+ smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
+ signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
+ header.from=agilent.com;
+Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
+ 192.25.218.37 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.25.218.37; helo=edgeappmail.agilent.com;
+Received: from edgeappmail.agilent.com (192.25.218.37) by
+ MW2NAM12FT012.mail.protection.outlook.com (10.13.180.79) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3700.20 via Frontend Transport; Fri, 25 Dec 2020 18:18:07 +0000
+Received: from localhost.localdomain (10.255.85.181) by
+ edgeappmail.agilent.com (192.25.218.37) with Microsoft SMTP Server id
+ 15.1.2044.4; Fri, 25 Dec 2020 11:18:02 -0700
+From: "Chris Laplante" <chris.laplante@agilent.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Chris Laplante <chris.laplante@agilent.com>
+Subject: [PATCH] contrib/git-hooks: add a sendemail-validate example hook that adds FROM: lines to outgoing patch emails
+Date: Fri, 25 Dec 2020 13:16:49 -0500
+Message-ID: <20201225181649.36785-1-chris.laplante@agilent.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <1608859814-70850-1-git-send-email-zangrc.fnst@cn.fujitsu.com> <47c12c7e-9476-cdb2-4b9f-edc728fde815@gmail.com>
-In-Reply-To: <47c12c7e-9476-cdb2-4b9f-edc728fde815@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 25 Dec 2020 08:41:53 +0100
-Message-ID: <CANNYZj9y6onGc_WQhCWL3-+a5-hLz0tgSDuZsAT3VnCTPkh50w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ell: upgrade 0.33 -> 0.35
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	zangrc <zangrc.fnst@cn.fujitsu.com>
-Content-Type: multipart/alternative; boundary="0000000000008443ec05b7450f37"
+Return-Path: chris.laplante@agilent.com
+Received-SPF: SoftFail (wpcosapexchedg1.windmz.agilent.com: domain of
+ transitioning chris.laplante@agilent.com discourages use of 10.255.85.181 as
+ permitted sender)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 972a1488-4196-4c67-abb2-08d8a9016db8
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3422:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MN2PR12MB34220E576E3D8D0989C96FE78BDC0@MN2PR12MB3422.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:765;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	4SI8n2HkJNSk22huOW5iHLwU/6kiFvY0/zi6/AhnxX60VL0WHb4iX7WZFVb7WVyJnQ6Hu5lVWWIwNtv0GOlULs2rEvwPX6rEEWTawWtXXbMlwcHEkx/gJGpReDqtjYUcvJpPVDO/EFdqvB9KC/4jeLVEAYK5Jo5MBALOVfYkB/9VjYxiS5MH/PHZUxAGHAYi/WWbQDispPfvMF0y3INFMVqG5mIOepfbxCbrXfeiOsN3LoXaVwpqcTXa0MEw/jQWxy16i/9bLdS0U5RQtSMTgFJW3KwAzZMscdB+uHohohq0kPo8kjPwDfaBcrAGo9cOfq25HJZHgKi2ymzRsyo3pETUJHSh49UDNwSNW5nmTmDFlwByeQfL0wixxEtsQ7hCvjcfzQwkx/hCFMKhiubAJIuZbTZs2bAvx+Fpa8RsJ+ceqC/GY+oVnbM3PlcUty5tX6UGoZua+aUbT4bdp85l1hZ2coMX/ce3bHTbA1kzne/8+rznO+IJ8cV9pLvOXcWVHN/Uof7v7wz+xXuEsDXrxQ==
+X-Forefront-Antispam-Report: 
+	CIP:192.25.218.37;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg1.windmz.agilent.com;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(29502001)(46966006)(86362001)(83380400001)(36756003)(44832011)(6916009)(5660300002)(82310400003)(7636003)(316002)(8936002)(356005)(186003)(34020700004)(82740400003)(2616005)(426003)(8676002)(336012)(26005)(1076003)(4326008)(15650500001)(107886003)(70206006)(6666004)(47076005)(2906002)(45080400002)(478600001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2020 18:18:07.2636
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 972a1488-4196-4c67-abb2-08d8a9016db8
+X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.37];Helo=[edgeappmail.agilent.com]
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MW2NAM12FT012.eop-nam12.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3422
+Content-Type: text/plain
 
---0000000000008443ec05b7450f37
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Chris Laplante <chris.laplante@agilent.com>
 
-Also, don=E2=80=99t forget upstream-status please. The missing header patch=
- can be
-backported, which is preferred.
+This is useful for people using Microsoft Exchange / Office 360, which
+butchers patches causing author identity to be lost.
 
-Alex
+Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
+---
+ contrib/git-hooks/sendemail-validate.sample | 78 +++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
+ create mode 100755 contrib/git-hooks/sendemail-validate.sample
 
-On Fri 25. Dec 2020 at 4.42, Khem Raj <raj.khem@gmail.com> wrote:
+diff --git a/contrib/git-hooks/sendemail-validate.sample b/contrib/git-hooks/sendemail-validate.sample
+new file mode 100755
+index 0000000000..af5d55cb00
+--- /dev/null
++++ b/contrib/git-hooks/sendemail-validate.sample
+@@ -0,0 +1,78 @@
++#!/usr/bin/env python3
++
++# Copyright (C) 2020  Agilent Technologies, Inc.
++# Author: Chris Laplante <chris.laplante@agilent.com>
++
++# This sendemail-validate hook injects 'From: ' header lines into outgoing
++# emails sent via 'git send-email', to ensure that accurate commit authorship
++# information is present. It was created because some email servers
++# (notably Microsoft Exchange / Office 360) seem to butcher outgoing patches,
++# resulting in incorrect authorship.
++
++# Current limitations:
++#   1. Assumes one per patch per email
++#   2. Minimal error checking
++#
++# Installation:
++#   1. Copy to .git/hooks/sendemail-validate
++#   2. chmod +x .git/hooks/sendemail-validate
++
++
++import enum
++import re
++import subprocess
++import sys
++
++
++class Subject(enum.IntEnum):
++    NOT_SEEN = 0
++    CONSUMING = 1
++    SEEN = 2
++
++
++def make_from_line():
++    cmd = ["git", "var", "GIT_COMMITTER_IDENT"]
++    proc = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, universal_newlines=True)
++    regex = re.compile(r"^(.*>).*$")
++    match = regex.match(proc.stdout)
++    assert match is not None
++    return "From: {0}".format(match.group(1))
++
++
++def main():
++    email = sys.argv[1]
++
++    with open(email, "r") as f:
++        email_lines = f.read().split("\n")
++
++    subject_seen = Subject.NOT_SEEN
++    first_body_line = None
++    for i, line in enumerate(email_lines):
++        if (subject_seen == Subject.NOT_SEEN) and line.startswith("Subject: "):
++            subject_seen = Subject.CONSUMING
++            continue
++        if subject_seen == Subject.CONSUMING:
++            if not line.strip():
++                subject_seen = Subject.SEEN
++                continue
++        if subject_seen == Subject.SEEN:
++            first_body_line = i
++            break
++
++    assert subject_seen == Subject.SEEN
++    assert first_body_line is not None
++
++    from_line = make_from_line()
++    # Only add FROM line if it is not already there
++    if email_lines[first_body_line] != from_line:
++        email_lines.insert(first_body_line, from_line)
++        email_lines.insert(first_body_line + 1, "")
++        with open(email, "w") as f:
++            f.write("\n".join(email_lines))
++
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
++
+-- 
+2.17.1
 
->
->
-> On 12/24/20 5:30 PM, zangrc wrote:
-> > Add the following patch to solve the compilation error when using musl=
-:
-> > 0001-Fix-bug-caused-by-missing-types.h-file.patch
-> > 0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
-> >
-> > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> > ---
-> >   ...x-bug-caused-by-missing-types.h-file.patch | 48 +++++++++++++++++=
-++
-> >   ...ed-by-using-functions-not-provided-b.patch | 26 ++++++++++
-> >   .../ell/{ell_0.33.bb =3D> ell_0.35.bb}          |  9 +++-
-> >   3 files changed, 81 insertions(+), 2 deletions(-)
-> >   create mode 100644
-> meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.pa=
-tch
-> >   create mode 100644
-> meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not=
--provided-b.patch
-> >   rename meta/recipes-core/ell/{ell_0.33.bb =3D> ell_0.35.bb} (70%)
-> >
-> > diff --git
-> a/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.=
-patch
-> b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.=
-patch
-> > new file mode 100644
-> > index 0000000000..6f26ec4e7d
-> > --- /dev/null
-> > +++
-> b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.=
-patch
-> > @@ -0,0 +1,48 @@
-> > +Subject: [PATCH] Fix bug caused by missing types.h file.
-> > +
-> > +Fix the following error:
-> > +../ell-0.35/ell/dhcp-private.h:75:2: error: unknown type name '__be32=
-'
-> > +|    75 |  __be32 xid;
-> > +|       |  ^~~~~~
-> > +| ../ell-0.35/ell/dhcp-private.h:76:2: error: unknown type name '__be=
-16'
-> > +|    76 |  __be16 secs;
-> > +|       |  ^~~~~~
-> > +| ../ell-0.35/ell/dhcp-private.h:77:2: error: unknown type name '__be=
-16'
-> > +|    77 |  __be16 flags;
-> > +|       |  ^~~~~~
-> > +| ../ell-0.35/ell/dhcp-private.h:85:2: error: unknown type name '__be=
-32'
-> > +|    85 |  __be32 magic;
-> > +
-> > +Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> > +---
-> > + ell/dhcp-private.h  | 1 +
-> > + ell/dhcp6-private.h | 1 +
-> > + 2 files changed, 2 insertions(+)
-> > +
-> > +diff --git a/ell/dhcp-private.h b/ell/dhcp-private.h
-> > +index 204e54e..b418535 100644
-> > +--- a/ell/dhcp-private.h
-> > ++++ b/ell/dhcp-private.h
-> > +@@ -19,6 +19,7 @@
-> > +  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-> 02110-1301  USA
-> > +  *
-> > +  */
-> > ++#include <linux/types.h>
-> > +
-> > + struct l_dhcp_client;
-> > + struct l_dhcp_server;
-> > +diff --git a/ell/dhcp6-private.h b/ell/dhcp6-private.h
-> > +index 2bbd1d3..14dd85c 100644
-> > +--- a/ell/dhcp6-private.h
-> > ++++ b/ell/dhcp6-private.h
-> > +@@ -19,6 +19,7 @@
-> > +  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-> 02110-1301  USA
-> > +  *
-> > +  */
-> > ++#include <linux/types.h>
-> > +
-> > + struct l_dhcp6_client;
-> > +
-> > +--
-> > +2.25.1
-> > +
-> > diff --git
-> a/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-n=
-ot-provided-b.patch
-> b/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-n=
-ot-provided-b.patch
-> > new file mode 100644
-> > index 0000000000..da0018a8df
-> > --- /dev/null
-> > +++
-> b/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-n=
-ot-provided-b.patch
-> > @@ -0,0 +1,26 @@
-> > +Subject: [PATCH] Fix the bug caused by using functions not provided b=
-y
-> musl.
-> > +
-> > +Fix the following error:
-> > +/usr/src/debug/ell/0.35-r0/build/../ell-0.35/ell/pem.c:227: undefined
-> reference to `rawmemchr'
-> > +
-> > +Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> > +---
-> > + ell/pem.c | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/ell/pem.c b/ell/pem.c
-> > +index 790f2c2..27d47a0 100644
-> > +--- a/ell/pem.c
-> > ++++ b/ell/pem.c
-> > +@@ -224,7 +224,7 @@ static uint8_t *pem_load_buffer(const void *buf,
-> size_t buf_len,
-> > +
-> > +             /* Check that each header line has a key and a colon */
-> > +             while (start < end) {
-> > +-                    const char *lf =3D rawmemchr(start, '\n');
-> > ++                    const char *lf =3D strchr(start, '\n');
->
-> Lets make this patch like below
->
-> #if defined(__GLIBC__)
->                          const char *lf =3D rawmemchr(start, '\n');
-> #else
->                         const char *lf =3D memchr(start, '\n', end - sta=
-rt);
-> #endif
->
->
-> > +                     const char *colon =3D memchr(start, ':', lf - st=
-art);
-> > +
-> > +                     if (!colon)
-> > +--
-> > +2.25.1
-> > +
-> > diff --git a/meta/recipes-core/ell/ell_0.33.bb b/meta/recipes-core/ell=
-/
-> ell_0.35.bb
-> > similarity index 70%
-> > rename from meta/recipes-core/ell/ell_0.33.bb
-> > rename to meta/recipes-core/ell/ell_0.35.bb
-> > index 2fa05104fb..718b01f5cb 100644
-> > --- a/meta/recipes-core/ell/ell_0.33.bb
-> > +++ b/meta/recipes-core/ell/ell_0.35.bb
-> > @@ -13,8 +13,13 @@ DEPENDS =3D "dbus"
-> >
-> >   inherit autotools pkgconfig
-> >
-> > -SRC_URI =3D "
-> https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.x=
-z"
-> > -SRC_URI[sha256sum] =3D
-> "d9e40e641164150394b74b719b9726fc734f24b2cde679cf5f3be6915c34eded"
-> > +SRC_URI =3D "
-> https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.x=
-z
-> \
-> > +           file://0001-Fix-bug-caused-by-missing-types.h-file.patch \
-> > +"
-> > +
-> > +SRC_URI_append_libc-musl =3D
-> "file://0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch"
->
-> Provided the patch is done like I mentioned this patch is not needed to
-> be musl specific anymore.
->
-> > +
-> > +SRC_URI[sha256sum] =3D
-> "2bfe9da7781f65f1cb1595a5a068a3ae74d4b68b74f287c6f0c892cfe623913f"
-> >
-> >   do_configure_prepend () {
-> >       mkdir -p ${S}/build-aux
-> >
-> >
-> >
-> >
-> >
->
->=20
->
->
-
---0000000000008443ec05b7450f37
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Also, don=E2=80=99t forget upstream-status please. The mi=
-ssing header patch can be backported, which is preferred.</div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri 25. Dec 2020 at 4.42, Khe=
-m Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;bor=
-der-left-color:rgb(204,204,204)"><br>
-<br>
-On 12/24/20 5:30 PM, zangrc wrote:<br>
-&gt; Add the following patch to solve the compilation error when using mus=
-l:<br>
-&gt; 0001-Fix-bug-caused-by-missing-types.h-file.patch<br>
-&gt; 0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch<br>
-&gt; <br>
-&gt; Signed-off-by: Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@cn.fuji=
-tsu.com" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0...x-bug-caused-by-missing-types.h-file.patch | 48 ++++++=
-+++++++++++++<br>
-&gt;=C2=A0 =C2=A0...ed-by-using-functions-not-provided-b.patch | 26 ++++++=
-++++<br>
-&gt;=C2=A0 =C2=A0.../ell/{<a href=3D"http://ell_0.33.bb" rel=3D"noreferrer=
-" target=3D"_blank">ell_0.33.bb</a> =3D&gt; <a href=3D"http://ell_0.35.bb" =
-rel=3D"noreferrer" target=3D"_blank">ell_0.35.bb</a>}=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 9 +++-<br>
-&gt;=C2=A0 =C2=A03 files changed, 81 insertions(+), 2 deletions(-)<br>
-&gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-core/ell/ell/0001-Fix-bug=
--caused-by-missing-types.h-file.patch<br>
-&gt;=C2=A0 =C2=A0create mode 100644 meta/recipes-core/ell/ell/0001-Fix-the=
--bug-caused-by-using-functions-not-provided-b.patch<br>
-&gt;=C2=A0 =C2=A0rename meta/recipes-core/ell/{<a href=3D"http://ell_0.33.=
-bb" rel=3D"noreferrer" target=3D"_blank">ell_0.33.bb</a> =3D&gt; <a href=3D=
-"http://ell_0.35.bb" rel=3D"noreferrer" target=3D"_blank">ell_0.35.bb</a>} =
-(70%)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing=
--types.h-file.patch b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-miss=
-ing-types.h-file.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..6f26ec4e7d<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.=
-h-file.patch<br>
-&gt; @@ -0,0 +1,48 @@<br>
-&gt; +Subject: [PATCH] Fix bug caused by missing types.h file.<br>
-&gt; +<br>
-&gt; +Fix the following error:<br>
-&gt; +../ell-0.35/ell/dhcp-private.h:75:2: error: unknown type name &#39;_=
-_be32&#39;<br>
-&gt; +|=C2=A0 =C2=A0 75 |=C2=A0 __be32 xid;<br>
-&gt; +|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 ^~~~~~<br>
-&gt; +| ../ell-0.35/ell/dhcp-private.h:76:2: error: unknown type name &#39=
-;__be16&#39;<br>
-&gt; +|=C2=A0 =C2=A0 76 |=C2=A0 __be16 secs;<br>
-&gt; +|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 ^~~~~~<br>
-&gt; +| ../ell-0.35/ell/dhcp-private.h:77:2: error: unknown type name &#39=
-;__be16&#39;<br>
-&gt; +|=C2=A0 =C2=A0 77 |=C2=A0 __be16 flags;<br>
-&gt; +|=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 ^~~~~~<br>
-&gt; +| ../ell-0.35/ell/dhcp-private.h:85:2: error: unknown type name &#39=
-;__be32&#39;<br>
-&gt; +|=C2=A0 =C2=A0 85 |=C2=A0 __be32 magic;<br>
-&gt; +<br>
-&gt; +Signed-off-by: Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@cn.fuj=
-itsu.com" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + ell/dhcp-private.h=C2=A0 | 1 +<br>
-&gt; + ell/dhcp6-private.h | 1 +<br>
-&gt; + 2 files changed, 2 insertions(+)<br>
-&gt; +<br>
-&gt; +diff --git a/ell/dhcp-private.h b/ell/dhcp-private.h<br>
-&gt; +index 204e54e..b418535 100644<br>
-&gt; +--- a/ell/dhcp-private.h<br>
-&gt; ++++ b/ell/dhcp-private.h<br>
-&gt; +@@ -19,6 +19,7 @@<br>
-&gt; +=C2=A0 *=C2=A0 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston=
-, MA=C2=A0 02110-1301=C2=A0 USA<br>
-&gt; +=C2=A0 *<br>
-&gt; +=C2=A0 */<br>
-&gt; ++#include &lt;linux/types.h&gt;<br>
-&gt; +<br>
-&gt; + struct l_dhcp_client;<br>
-&gt; + struct l_dhcp_server;<br>
-&gt; +diff --git a/ell/dhcp6-private.h b/ell/dhcp6-private.h<br>
-&gt; +index 2bbd1d3..14dd85c 100644<br>
-&gt; +--- a/ell/dhcp6-private.h<br>
-&gt; ++++ b/ell/dhcp6-private.h<br>
-&gt; +@@ -19,6 +19,7 @@<br>
-&gt; +=C2=A0 *=C2=A0 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston=
-, MA=C2=A0 02110-1301=C2=A0 USA<br>
-&gt; +=C2=A0 *<br>
-&gt; +=C2=A0 */<br>
-&gt; ++#include &lt;linux/types.h&gt;<br>
-&gt; +<br>
-&gt; + struct l_dhcp6_client;<br>
-&gt; +<br>
-&gt; +--<br>
-&gt; +2.25.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-usi=
-ng-functions-not-provided-b.patch b/meta/recipes-core/ell/ell/0001-Fix-the-=
-bug-caused-by-using-functions-not-provided-b.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..da0018a8df<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-func=
-tions-not-provided-b.patch<br>
-&gt; @@ -0,0 +1,26 @@<br>
-&gt; +Subject: [PATCH] Fix the bug caused by using functions not provided =
-by musl.<br>
-&gt; +<br>
-&gt; +Fix the following error:<br>
-&gt; +/usr/src/debug/ell/0.35-r0/build/../ell-0.35/ell/pem.c:227: undefine=
-d reference to `rawmemchr&#39;<br>
-&gt; +<br>
-&gt; +Signed-off-by: Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@cn.fuj=
-itsu.com" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + ell/pem.c | 2 +-<br>
-&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/ell/pem.c b/ell/pem.c<br>
-&gt; +index 790f2c2..27d47a0 100644<br>
-&gt; +--- a/ell/pem.c<br>
-&gt; ++++ b/ell/pem.c<br>
-&gt; +@@ -224,7 +224,7 @@ static uint8_t *pem_load_buffer(const void *buf,=
- size_t buf_len,<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Check that each h=
-eader line has a key and a colon */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (start &lt; en=
-d) {<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 const char *lf =3D rawmemchr(start, &#39;\n&#39;);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 const char *lf =3D strchr(start, &#39;\n&#39;);<br>
-<br>
-Lets make this patch like below<br>
-<br>
-#if defined(__GLIBC__)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0const char *lf =3D rawmemchr(start, &#39;\n&#39;);<br>
-#else<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 const char *lf =3D memchr(start, &#39;\n&#39;, end - start);<br=
->
-#endif<br>
-<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0const char *colon =3D memchr(start, &#39;:&#39;, lf - start);<br=
->
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0if (!colon)<br>
-&gt; +--<br>
-&gt; +2.25.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-core/ell/<a href=3D"http://ell_0.33.bb" rel=
-=
-=3D"noreferrer" target=3D"_blank">ell_0.33.bb</a> b/meta/recipes-core/ell/=
-<a href=3D"http://ell_0.35.bb" rel=3D"noreferrer" target=3D"_blank">ell_0.3=
-5.bb</a><br>
-&gt; similarity index 70%<br>
-&gt; rename from meta/recipes-core/ell/<a href=3D"http://ell_0.33.bb" rel=
-=3D"noreferrer" target=3D"_blank">ell_0.33.bb</a><br>
-&gt; rename to meta/recipes-core/ell/<a href=3D"http://ell_0.35.bb" rel=3D=
-"noreferrer" target=3D"_blank">ell_0.35.bb</a><br>
-&gt; index 2fa05104fb..718b01f5cb 100644<br>
-&gt; --- a/meta/recipes-core/ell/<a href=3D"http://ell_0.33.bb" rel=3D"nor=
-eferrer" target=3D"_blank">ell_0.33.bb</a><br>
-&gt; +++ b/meta/recipes-core/ell/<a href=3D"http://ell_0.35.bb" rel=3D"nor=
-eferrer" target=3D"_blank">ell_0.35.bb</a><br>
-&gt; @@ -13,8 +13,13 @@ DEPENDS =3D &quot;dbus&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0inherit autotools pkgconfig<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; -SRC_URI =3D &quot;<a href=3D"https://mirrors.edge.kernel.org/pub/lin=
-ux/libs/$%7BBPN%7D/$%7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=
-=3D"_blank">https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-$=
-{PV}.tar.xz</a>&quot;<br>
-&gt; -SRC_URI[sha256sum] =3D &quot;d9e40e641164150394b74b719b9726fc734f24b=
-2cde679cf5f3be6915c34eded&quot;<br>
-&gt; +SRC_URI =3D &quot;<a href=3D"https://mirrors.edge.kernel.org/pub/lin=
-ux/libs/$%7BBPN%7D/$%7BBPN%7D-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=
-=3D"_blank">https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-$=
-{PV}.tar.xz</a> \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-bug-caused-=
-by-missing-types.h-file.patch \<br>
-&gt; +&quot;<br>
-&gt; +<br>
-&gt; +SRC_URI_append_libc-musl =3D &quot;file://0001-Fix-the-bug-caused-by=
--using-functions-not-provided-b.patch&quot;<br>
-<br>
-Provided the patch is done like I mentioned this patch is not needed to <b=
-r>
-be musl specific anymore.<br>
-<br>
-&gt; +<br>
-&gt; +SRC_URI[sha256sum] =3D &quot;2bfe9da7781f65f1cb1595a5a068a3ae74d4b68=
-b74f287c6f0c892cfe623913f&quot;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0do_configure_prepend () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${S}/build-aux<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---0000000000008443ec05b7450f37--
