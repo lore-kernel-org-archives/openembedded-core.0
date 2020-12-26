@@ -1,50 +1,50 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web11.19467.1608974881929164837
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.19489.1608974882680577473
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 01:28:02 -0800
+ Sat, 26 Dec 2020 01:28:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OKIK2gGr;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id cw27so5573557edb.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:28:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mKrV3DhB;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id jx16so8270920ejb.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:28:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=av9z9ymbJWhLMSjIWJOITqu+Moh4XhwGstW4uia5w54=;
-        b=OKIK2gGr+JcAiRAnoJKCc1mDozVoc+VFckn/WO9BMqKs3s7QqD6Ju4Fwk8s9+fVmd4
-         wGmu3vlyOeyU5A8dZKsvTxReEVHRjdj+a6O8Ul1ySuZAd2HTEQs9xGoJb5OXvuLTCzCo
-         niq96/8UioSLkolQBiJROk07wJnquEi48cLhyeLf/4QxBghDdP2bUuVT9oeCv32pGA8Y
-         20iM9MNP+X4hU6/Z0VmjG2O9itUzAUXZqxsRRzNLiUm4r31Fd1xzeEMDDJfKj+gZmoGH
-         JS+JVbwe7TvSGU9NoKEk1/cwdZcDGA88u95H8HNtu8zhiN8ypT4YW3812h1tQKYh2ySe
-         LOrQ==
+        bh=sMi5wPFwlL0VfkP+si7zXyTGhFC9Vkikp4dACgXLJwE=;
+        b=mKrV3DhBXyGi+QnaeH/UmCEGh862lwe8H9obYcA3+EvllB8k8YRAEfOcXMNqCr76uV
+         zhuBl1QbfPM0xTj0bt55FcPDjooEP4lrHQE257JXgPJwFKLJjx5o3jfybdhCpZeSGBuE
+         tTkcQxWPK/tMwPpweS9stVwxOmokmTYB7YJVc1ikzrRPICyR6LtDyoHddrlRfMckJCuY
+         9ZBGg7+yvN2p818Ju2xKPFHQTXnyLgIwDMq+1vnXZuSwnMC61v1pC0uAxEBhQip7PzOF
+         JayMttdwgQ5dHxTtjblT5SFkxtR/fAG3yWpQ9qy8/BfLmeHRSvM29AuS6RdRts2f9le2
+         IBFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=av9z9ymbJWhLMSjIWJOITqu+Moh4XhwGstW4uia5w54=;
-        b=gAOw+j2DmOZRme7gE3PAVKl7j7iZJ3EvsCrEVMLCFZtSJMi7KoMtPTUTvKQlwnvJft
-         Gt09VCpEMMSzx8/N/hbhEZzflHd9+sZQHWRVOeLkpEs/pvxPLu+C+b4Ol3lS8C+nSbiv
-         pfo9eMX7ZsYnxptgPdF0vYCCrVq+pjiWcpgaOZVCBGP1GTygqVUHYhIq8ZrBsPKQ0PgM
-         +3OQ2vYiy/TWbjyZqwouuAzpsLLPiL7IXGCRbvmfGUeOkwfwi6C+bUVk6CstX1jz1bML
-         a0D/oNOEjngoW8PR/7g2OQecU8Os8ijc/sKsqGCT/smMZ9rrKvknajj6YUrj/ECrzaMH
-         vXiA==
-X-Gm-Message-State: AOAM530/OPYxFu58uccIowiZxw6Zpg3rgJk/e7QfmkndwpbifIx2JuTP
-	/hq+VMnk7/LBWsciwPB6fZOPUdzyHiU=
-X-Google-Smtp-Source: ABdhPJx0x44OE7MdNKep0WhaiHosw2+CmGAtnqgISnptc/Rky7+Zk5Sb7D0+vBr5bzCfG1obuBU7OA==
-X-Received: by 2002:a05:6402:312c:: with SMTP id dd12mr35363640edb.327.1608974880571;
-        Sat, 26 Dec 2020 01:28:00 -0800 (PST)
+        bh=sMi5wPFwlL0VfkP+si7zXyTGhFC9Vkikp4dACgXLJwE=;
+        b=dWjwyCnkaBj3sTkZE8c5EY2hAo79vJJqNIGjDVSuZ1MAvnJTTgfBAjvqM1rerjBn0f
+         eEaCHgFMn87+5eorLpEPZBNbufQtHTmNnZCA1bp5q3fMf2sIXXwA8+S90r7/LRpTZiYV
+         VaofYToRP3recPLWFJJQVyYlNiDQvPvrXp4QCiydfrf9Q46YqOy9H1gC9/wggrGI0rni
+         ss1j607JhXJYbGFwVxio8zd3K7F2aZbr2FXl0QE7lHZ2+ju30s91byhbHTXXVBg+imLl
+         HKsAHyz7VzirhBZ4YFdN3Q09fP8dt5v7HZybVlP96qM6skkm3uKCdrj+ot09fvwI+9k9
+         cSqQ==
+X-Gm-Message-State: AOAM532+WosCqYXTmbgTZXZBTL2B9QB7BneTCK9YNLPlwNWoMJRbtJVB
+	2ajLy3tw0JMvOC6O19m8swVcuFp1L6g=
+X-Google-Smtp-Source: ABdhPJwlh+VeMoCLuVylITINuY+++mXrCCAhi2lD8STImmGTOucGvZGdRVl5ppivnQhWsoMNGFbPsA==
+X-Received: by 2002:a17:907:1047:: with SMTP id oy7mr34625831ejb.134.1608974881358;
+        Sat, 26 Dec 2020 01:28:01 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.27.59
+        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.28.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sat, 26 Dec 2020 01:28:00 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 23/48] python3-py: upgrade 1.9.0 -> 1.10.0
-Date: Sat, 26 Dec 2020 10:27:07 +0100
-Message-Id: <20201226092732.52323-23-alex.kanavin@gmail.com>
+Subject: [PATCH 24/48] python3-setuptools-scm: upgrade 4.1.2 -> 5.0.1
+Date: Sat, 26 Dec 2020 10:27:08 +0100
+Message-Id: <20201226092732.52323-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201226092732.52323-1-alex.kanavin@gmail.com>
 References: <20201226092732.52323-1-alex.kanavin@gmail.com>
@@ -53,27 +53,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../python/{python3-py_1.9.0.bb => python3-py_1.10.0.bb}       | 3 +--
+ ...setuptools-scm_4.1.2.bb => python3-setuptools-scm_5.0.1.bb} | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-py_1.9.0.bb => python3-py_1.10.0.bb} (72%)
+ rename meta/recipes-devtools/python/{python3-setuptools-scm_4.1.2.bb => python3-setuptools-scm_5.0.1.bb} (80%)
 
-diff --git a/meta/recipes-devtools/python/python3-py_1.9.0.bb b/meta/recipes-devtools/python/python3-py_1.10.0.bb
-similarity index 72%
-rename from meta/recipes-devtools/python/python3-py_1.9.0.bb
-rename to meta/recipes-devtools/python/python3-py_1.10.0.bb
-index 794ec2a87e..4e16ad1743 100644
---- a/meta/recipes-devtools/python/python3-py_1.9.0.bb
-+++ b/meta/recipes-devtools/python/python3-py_1.10.0.bb
-@@ -3,8 +3,7 @@ HOMEPAGE = "http://py.readthedocs.io/"
+diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_4.1.2.bb b/meta/recipes-devtools/python/python3-setuptools-scm_5.0.1.bb
+similarity index 80%
+rename from meta/recipes-devtools/python/python3-setuptools-scm_4.1.2.bb
+rename to meta/recipes-devtools/python/python3-setuptools-scm_5.0.1.bb
+index 5b83b55385..406404ec69 100644
+--- a/meta/recipes-devtools/python/python3-setuptools-scm_4.1.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools-scm_5.0.1.bb
+@@ -2,8 +2,7 @@ SUMMARY = "the blessed package to manage your versions by scm tags"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a6bb0320b04a0a503f12f69fea479de9"
+ LIC_FILES_CHKSUM = "file://PKG-INFO;beginline=8;endline=8;md5=8227180126797a0148f94f483f3e1489"
  
--SRC_URI[md5sum] = "b80db4e61eef724f49feb4d20b649e62"
--SRC_URI[sha256sum] = "9ca6883ce56b4e8da7e79ac18787889fa5206c79dcc67fb065376cd2fe03f342"
-+SRC_URI[sha256sum] = "21b81bda15b66ef5e1a777a21c4dcd9c20ad3efd0b3f817e7a809035269e1bd3"
+-SRC_URI[md5sum] = "e6c9fad17c90516d640868eb833d5150"
+-SRC_URI[sha256sum] = "a8994582e716ec690f33fec70cca0f85bd23ec974e3f783233e4879090a7faa8"
++SRC_URI[sha256sum] = "c85b6b46d0edd40d2301038cdea96bb6adc14d62ef943e75afb08b3e7bcf142a"
  
- DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
- 
+ PYPI_PACKAGE = "setuptools_scm"
+ inherit pypi setuptools3
 -- 
 2.29.2
 
