@@ -1,182 +1,72 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.56])
- by mx.groups.io with SMTP id smtpd.web11.13186.1608920290432979877
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+ by mx.groups.io with SMTP id smtpd.web10.19481.1608974864931003826
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Dec 2020 10:18:11 -0800
+ Sat, 26 Dec 2020 01:27:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=eoib3yLm;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.244.56, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WOI/as24mIjwyWSuRIXjudq+PUm8TuHuGaJbJmlJfCoBkQiQhH9KYMzrU2ykl+YZpLdstF1DIRiDjoAOLRqsnZl/24p4u69R76OzsO2i99UnY47ITbTffEWB6lXUPQis+XvBwTW8Ckv/5kei5fzb/EEKbMqFQrOLsfsdP86ZPksez073YgTabM1DU0GThg0sCAqSFld/8tflUfd6sy9LVggJxgMVFCqH2SmgrURAqok/6+E1cRaXxCzHq0OW2PLL/qPWY6iShdIXZFjSQjdWpiIdTWiC1RVqmOXPPFpG82sw+Bd0DHtRIKWTbePr2oSTmfFMP0zlDLXu9k29fT/HbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gtf+tr/MQKp9amefwzUWODgz/P1vaqZzaJfN2jY+634=;
- b=cypHODQlGVqxVGAAlOtGHnD2IWyHzG1cQNrLpyhezpwXD4oj5CysJ9Q7ouosuQcFWPrUfKnwEX1IVISQL3VWixpFJcYyXwPEtodoZwbbXzY7ArvFwUnmWigO3ybPDqODUbmEAV2/9BjWvqrx+KjWVZczESD5Zns5mrMPaSX6Vhx22J/gW4CK2WkDoHiBAUfoRE+OvBLvuwXbfAb/YIIuZXgeNNwg7n/MHTrgzmpzXps+VmryYBm6mTnJT+16mcKbntT/wwDB5RkhT9W8gGuTSCHi9d+DeO/iJTnT9yc9hxYN8ZL6yvCp92H7bnm8AzldQBUboWksCAxrRYvC2PYDQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.25.218.37) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=agilent.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Gtf+tr/MQKp9amefwzUWODgz/P1vaqZzaJfN2jY+634=;
- b=eoib3yLmP8lOI9c/S9aV6UV1HMgR1U//PpEXWg708a62V6vELIV03I3E2KGyNR4m5HaxoxtRpBBWtMwwNiyfTUlucK1GQ1QoTPGluCglrB2H8ugZ960tDRZ1IhfBf3vfiZhVZxSSKY+DyoAGh5qOVdYlzPCC94lf64IZ4WplrpYjDp63oVZug6krU8UZhKxwqoM+ZysZm+GWEDUiB4yocFAJzcDBJZ00PYCkwCHT3Sobma1fxHBbHqsD/Lh3gcQj4dRlI7659U9lrVNi9jcv9SoMkDUVvY+6qFuPD9Kb1BcqCoE2U9BVL96StogL6IehcJm4WGctm3xpVDSgZj3kTA==
-Received: from MW2PR16CA0009.namprd16.prod.outlook.com (2603:10b6:907::22) by
- MN2PR12MB3422.namprd12.prod.outlook.com (2603:10b6:208:ce::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3676.31; Fri, 25 Dec 2020 18:18:08 +0000
-Received: from MW2NAM12FT012.eop-nam12.prod.protection.outlook.com
- (2603:10b6:907:0:cafe::82) by MW2PR16CA0009.outlook.office365.com
- (2603:10b6:907::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3700.27 via Frontend
- Transport; Fri, 25 Dec 2020 18:18:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.37)
- smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
- header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
- 192.25.218.37 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.25.218.37; helo=edgeappmail.agilent.com;
-Received: from edgeappmail.agilent.com (192.25.218.37) by
- MW2NAM12FT012.mail.protection.outlook.com (10.13.180.79) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3700.20 via Frontend Transport; Fri, 25 Dec 2020 18:18:07 +0000
-Received: from localhost.localdomain (10.255.85.181) by
- edgeappmail.agilent.com (192.25.218.37) with Microsoft SMTP Server id
- 15.1.2044.4; Fri, 25 Dec 2020 11:18:02 -0700
-From: "Chris Laplante" <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Chris Laplante <chris.laplante@agilent.com>
-Subject: [PATCH] contrib/git-hooks: add a sendemail-validate example hook that adds FROM: lines to outgoing patch emails
-Date: Fri, 25 Dec 2020 13:16:49 -0500
-Message-ID: <20201225181649.36785-1-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=S4A41Q7n;
+ spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f44.google.com with SMTP id c7so5571334edv.6
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:27:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=M/cTTFS+MkA3C84s02lzcW6j6O7K9lJX2gjF995Cqjw=;
+        b=S4A41Q7nsgxxXK09lG15C/PSBdSZ9A/ePLoTwL1AV8W9wx6dEbyJdgf4mjRXz54rJf
+         R2zpyaq+w633E2g3bA9FH4vDZXppkFEmLphpqJpbgyJ4iRceoPdtZ24aTRmVTaS1RVqY
+         RIMbItKYF79uyCEeyb/4C1v6Nsi7nnv6dyI4ImwszALqZjPlkkAeDpp/0mf5Gydq60ow
+         CyD70+rXYpg4wG3fHIHfJHD9TD0O3WpAL0YwJlTJgETQETbyAkcNUO9T3Sb6Hv38BkoK
+         dG3G4ElL4L7ww4m5fzxUf9qoUXDltjg+LfCnxTydCS+gSARH6YtQ/vUrk0OLBNJk8Epy
+         L/jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=M/cTTFS+MkA3C84s02lzcW6j6O7K9lJX2gjF995Cqjw=;
+        b=YT6k1J91kg5ZyaQoSOBqrFwh5mW2Xrp6wcexdIqWExsakeDeGymbEGw2qp43kfxWYv
+         CYcLzWlBp7WRbgcbS2m1A5A6U12rDrC/KHSju9+axb77L3XSk4C3StI7/8sVpEkKDG7/
+         JUsc+2kAaTfFT7lFCeGH3QsvXoTpAtFn9Tp1cV7BxF9il3CwmziQE4D3K+MhBzb0mcfN
+         6InmSfdgDYxhkxyJjfudJpGmHtaouph/s+cl/vSOmsCKZHauI9JlgRfxjCgjZi+UcPoL
+         l0LU6Mrf4HQC7MW2qbrltKyT16pgOjk/1VPYkgiLNSctWBX+6JWWpHAwtsKOlA/xeJ+8
+         gpPQ==
+X-Gm-Message-State: AOAM531Hty6uze9UBLjP2SboT/g7/MyA4fM/5ARM+oSxI3YaOtC/9WQs
+	hhTrD9RuDZkbI5l9LlAXJVtOeOBluuw=
+X-Google-Smtp-Source: ABdhPJyxl0is7saCZCZk/ysYteoHzoqV+RK/Xem5bgP+3kjuUD1/QbZ5hcZJ14006eAvskCdIkQx6Q==
+X-Received: by 2002:a05:6402:1045:: with SMTP id e5mr35075561edu.40.1608974863419;
+        Sat, 26 Dec 2020 01:27:43 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
+        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.27.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Dec 2020 01:27:42 -0800 (PST)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 01/48] oeqa/ptest: print a warning if ptests failed
+Date: Sat, 26 Dec 2020 10:26:45 +0100
+Message-Id: <20201226092732.52323-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Return-Path: chris.laplante@agilent.com
-Received-SPF: SoftFail (wpcosapexchedg1.windmz.agilent.com: domain of
- transitioning chris.laplante@agilent.com discourages use of 10.255.85.181 as
- permitted sender)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 972a1488-4196-4c67-abb2-08d8a9016db8
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3422:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MN2PR12MB34220E576E3D8D0989C96FE78BDC0@MN2PR12MB3422.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:765;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4SI8n2HkJNSk22huOW5iHLwU/6kiFvY0/zi6/AhnxX60VL0WHb4iX7WZFVb7WVyJnQ6Hu5lVWWIwNtv0GOlULs2rEvwPX6rEEWTawWtXXbMlwcHEkx/gJGpReDqtjYUcvJpPVDO/EFdqvB9KC/4jeLVEAYK5Jo5MBALOVfYkB/9VjYxiS5MH/PHZUxAGHAYi/WWbQDispPfvMF0y3INFMVqG5mIOepfbxCbrXfeiOsN3LoXaVwpqcTXa0MEw/jQWxy16i/9bLdS0U5RQtSMTgFJW3KwAzZMscdB+uHohohq0kPo8kjPwDfaBcrAGo9cOfq25HJZHgKi2ymzRsyo3pETUJHSh49UDNwSNW5nmTmDFlwByeQfL0wixxEtsQ7hCvjcfzQwkx/hCFMKhiubAJIuZbTZs2bAvx+Fpa8RsJ+ceqC/GY+oVnbM3PlcUty5tX6UGoZua+aUbT4bdp85l1hZ2coMX/ce3bHTbA1kzne/8+rznO+IJ8cV9pLvOXcWVHN/Uof7v7wz+xXuEsDXrxQ==
-X-Forefront-Antispam-Report: 
-	CIP:192.25.218.37;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:wpcosapexchedg1.windmz.agilent.com;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(136003)(39860400002)(29502001)(46966006)(86362001)(83380400001)(36756003)(44832011)(6916009)(5660300002)(82310400003)(7636003)(316002)(8936002)(356005)(186003)(34020700004)(82740400003)(2616005)(426003)(8676002)(336012)(26005)(1076003)(4326008)(15650500001)(107886003)(70206006)(6666004)(47076005)(2906002)(45080400002)(478600001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Dec 2020 18:18:07.2636
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 972a1488-4196-4c67-abb2-08d8a9016db8
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.37];Helo=[edgeappmail.agilent.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MW2NAM12FT012.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3422
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Chris Laplante <chris.laplante@agilent.com>
+This allows spotting ptest regressions without having hard ptest failures
+(for that full ptest stability should be achieved).
 
-This is useful for people using Microsoft Exchange / Office 360, which
-butchers patches causing author identity to be lost.
-
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- contrib/git-hooks/sendemail-validate.sample | 78 +++++++++++++++++++++
- 1 file changed, 78 insertions(+)
- create mode 100755 contrib/git-hooks/sendemail-validate.sample
+ meta/lib/oeqa/runtime/cases/ptest.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/contrib/git-hooks/sendemail-validate.sample b/contrib/git-hooks/sendemail-validate.sample
-new file mode 100755
-index 0000000000..af5d55cb00
---- /dev/null
-+++ b/contrib/git-hooks/sendemail-validate.sample
-@@ -0,0 +1,78 @@
-+#!/usr/bin/env python3
-+
-+# Copyright (C) 2020  Agilent Technologies, Inc.
-+# Author: Chris Laplante <chris.laplante@agilent.com>
-+
-+# This sendemail-validate hook injects 'From: ' header lines into outgoing
-+# emails sent via 'git send-email', to ensure that accurate commit authorship
-+# information is present. It was created because some email servers
-+# (notably Microsoft Exchange / Office 360) seem to butcher outgoing patches,
-+# resulting in incorrect authorship.
-+
-+# Current limitations:
-+#   1. Assumes one per patch per email
-+#   2. Minimal error checking
-+#
-+# Installation:
-+#   1. Copy to .git/hooks/sendemail-validate
-+#   2. chmod +x .git/hooks/sendemail-validate
-+
-+
-+import enum
-+import re
-+import subprocess
-+import sys
-+
-+
-+class Subject(enum.IntEnum):
-+    NOT_SEEN = 0
-+    CONSUMING = 1
-+    SEEN = 2
-+
-+
-+def make_from_line():
-+    cmd = ["git", "var", "GIT_COMMITTER_IDENT"]
-+    proc = subprocess.run(cmd, check=True, stdout=subprocess.PIPE, universal_newlines=True)
-+    regex = re.compile(r"^(.*>).*$")
-+    match = regex.match(proc.stdout)
-+    assert match is not None
-+    return "From: {0}".format(match.group(1))
-+
-+
-+def main():
-+    email = sys.argv[1]
-+
-+    with open(email, "r") as f:
-+        email_lines = f.read().split("\n")
-+
-+    subject_seen = Subject.NOT_SEEN
-+    first_body_line = None
-+    for i, line in enumerate(email_lines):
-+        if (subject_seen == Subject.NOT_SEEN) and line.startswith("Subject: "):
-+            subject_seen = Subject.CONSUMING
-+            continue
-+        if subject_seen == Subject.CONSUMING:
-+            if not line.strip():
-+                subject_seen = Subject.SEEN
-+                continue
-+        if subject_seen == Subject.SEEN:
-+            first_body_line = i
-+            break
-+
-+    assert subject_seen == Subject.SEEN
-+    assert first_body_line is not None
-+
-+    from_line = make_from_line()
-+    # Only add FROM line if it is not already there
-+    if email_lines[first_body_line] != from_line:
-+        email_lines.insert(first_body_line, from_line)
-+        email_lines.insert(first_body_line + 1, "")
-+        with open(email, "w") as f:
-+            f.write("\n".join(email_lines))
-+
-+    return 0
-+
-+
-+if __name__ == "__main__":
-+    sys.exit(main())
-+
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index a9572c81f0..0800f3c27f 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -108,4 +108,5 @@ class PtestRunnerTest(OERuntimeTestCase):
+             failmsg = failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
+ 
+         if failmsg:
++            self.logger.warning("There were failing ptests.")
+             self.fail(failmsg)
 -- 
-2.17.1
+2.29.2
 
