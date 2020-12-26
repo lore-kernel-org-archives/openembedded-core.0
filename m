@@ -1,50 +1,50 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
- by mx.groups.io with SMTP id smtpd.web09.19117.1608974865556326121
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web10.19482.1608974866411327761
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 01:27:45 -0800
+ Sat, 26 Dec 2020 01:27:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sFsVNyp4;
- spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f45.google.com with SMTP id j22so8249950eja.13
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:27:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nqbnfWr5;
+ spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f45.google.com with SMTP id j16so5593964edr.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:27:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=D4iWgwagd8VztPdGh1RwCo6Vh6RgNxp2P1s/gyRd0xA=;
-        b=sFsVNyp4RIeWhp99L8lkdrKORo+7qMLHYsx5q8/jFBmZPDC+jiRoaSWLKHwwT6nulH
-         ReU6AvjzGImN+q5dxF7x3MnuQdmzzOEgalt/jVM23kz6yKoeFsXDEl2Arfg89HmTs8Zo
-         SQRcMXVumuRhvZ3PORsV936SDxYQZqkNJZUaZBf9ii/HleniehvX6xmx+QI+p/rp4ZfG
-         MxO0eZetB3guwybAo9yHXz61uRBQSAANXAhjaSOkpGJTGai1i+ns7PbDvCjdGZw8ukEK
-         bhk/hHEwi8DUfYylTqKMoet6X8K6Un1gVWWbMB1xjY22VdELdj9xorQaWzM/1YS5OMKB
-         +I+A==
+        bh=fZ4MBjeba6eSziUwdUeLHqE3VyJahuki67LvS31gCuw=;
+        b=nqbnfWr5TIIDUGd0ChwHprlqgI/J+zSYHDi4SJVyNXx8SDgiIs6/b0WbqagkaaYrju
+         sCG0ccwKfLWHg/a/dEhrocEKqkCg45XdTuz3gQDg+2s9xjnUudVBqQQXr0z0FaPWTGur
+         qTktH2kuGivKGDxUbX09bc7dlUJt7LAaZ76DE9zfABW+6iCt0rJAVcm1PJwjx2grKrED
+         cCwrBDZT2OIo1WlxRAvDkrYO4P+I7/OlI0k9geow4NxWU07VFT42v0tCTwVxzQGHzMY7
+         L1HvA0yx8vMwO+fV/GIE+7zSGGVHOhcQ7po6TYxTICZPHnf+Zzu5YAOTcccTpRR1lHx/
+         d/Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=D4iWgwagd8VztPdGh1RwCo6Vh6RgNxp2P1s/gyRd0xA=;
-        b=iuvcseBwqxWgBrAkxcq1q9YFTFNDlZJtiPSniRz49UsXi6f4u+/qdRhcm2i5HFP/r0
-         2zluTNYA+QmmlI41h1O/3uRSAcE+MLMdKXhkVeWfDYxNyE9E8rBwclcUAt3I2yVD2WSi
-         JzCp3peUh7CQrxHwL8F/QtzDskMUy7iV3X0OdKkF5zSHoHawiSx9I9/u+lNVmkNu9p7T
-         SwIB/TdVb7vuIyDfKx1wqexxK8xKYfB+Zzgxc0psE9qdtdBKrIMnhvCXHik8vT9ujIzg
-         NGlJdKgHMbTIUb4WXGv6wZaRo8sCxxhWlRUbaKylm+BflyG4qu6pzctXZUSB+b394pNg
-         pN5Q==
-X-Gm-Message-State: AOAM5324E1C9aAZvz+WZQh0oI0JymYcFRMjIxt4Yum+FUYpjwGUZ/ya4
-	ZchkvS72bN9j+Iyw6Szn8Hr9nnZrE+k=
-X-Google-Smtp-Source: ABdhPJxPcMFjzQ/S5jwWXq3NNcUKS1VYlS58pbKv/ehM8VVjmJsaNBSpRSpqokISlhCOUJyhRVckVA==
-X-Received: by 2002:a17:906:c289:: with SMTP id r9mr33105562ejz.311.1608974864222;
-        Sat, 26 Dec 2020 01:27:44 -0800 (PST)
+        bh=fZ4MBjeba6eSziUwdUeLHqE3VyJahuki67LvS31gCuw=;
+        b=V23m7qTj4flzqzmnxekB3NS6S33SJGmR5wNEod56REkleyFvveY5Q0Rcb0fuIwX+ph
+         VRr9ulLDP+5Ms8vunSK476J0uKvKWVvf9X0l9chgIsd5CvcV3GPBnhGQbKDhW5YRgWky
+         05l9ZhGsg31/YefCd6j0OXviJwUFluxBEUq79In2Eyqn0I23BaIQSTh8/kf8M2LWHAEm
+         xvfu+kKxmdAM2Q+sOTdqbtA+pkRSoXIS/2lksEAIfp8DutusHuOuUqQhWYRlP5NDdHdR
+         gmWvCoxnjnIZBj4L6+7koqdbpFk1uu/X70nHvlMe+4z51B9aLrdZ36uhmJuPkwpT1Hba
+         oY8g==
+X-Gm-Message-State: AOAM532oWD4zuOMIOmE1lKozor7J788J2cUYY8xwbg61SmxIKpKAdeGZ
+	E2GtoAHIxFafHBB5kiVTz5XNl+n/7dc=
+X-Google-Smtp-Source: ABdhPJzC1toRq/V4YU67Qxff1O4o75uHQuqrCQf+tB7ZWsSWBRRIHF47sbaKEKMfO5B1/x6bZtyHTg==
+X-Received: by 2002:a05:6402:c4:: with SMTP id i4mr34509722edu.152.1608974865000;
+        Sat, 26 Dec 2020 01:27:45 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.27.43
+        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.27.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Dec 2020 01:27:43 -0800 (PST)
+        Sat, 26 Dec 2020 01:27:44 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 02/48] acpica: upgrade 20201113 -> 20201217
-Date: Sat, 26 Dec 2020 10:26:46 +0100
-Message-Id: <20201226092732.52323-2-alex.kanavin@gmail.com>
+Subject: [PATCH 03/48] bind: upgrade 9.16.9 -> 9.16.10
+Date: Sat, 26 Dec 2020 10:26:47 +0100
+Message-Id: <20201226092732.52323-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201226092732.52323-1-alex.kanavin@gmail.com>
 References: <20201226092732.52323-1-alex.kanavin@gmail.com>
@@ -53,26 +53,80 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../acpica/{acpica_20201113.bb => acpica_20201217.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/acpica/{acpica_20201113.bb => acpica_20201217.bb} (94%)
+ .../0001-avoid-start-failure-with-bind-user.patch               | 0
+ .../0001-named-lwresd-V-and-start-log-hide-build-options.patch  | 0
+ .../bind-ensure-searching-for-json-headers-searches-sysr.patch  | 0
+ .../bind/{bind-9.16.9 => bind-9.16.10}/bind9                    | 0
+ .../bind/{bind-9.16.9 => bind-9.16.10}/conf.patch               | 0
+ .../bind/{bind-9.16.9 => bind-9.16.10}/generate-rndc-key.sh     | 0
+ .../init.d-add-support-for-read-only-rootfs.patch               | 0
+ .../make-etc-initd-bind-stop-work.patch                         | 0
+ .../bind/{bind-9.16.9 => bind-9.16.10}/named.service            | 0
+ .../bind/{bind_9.16.9.bb => bind_9.16.10.bb}                    | 2 +-
+ 10 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/0001-avoid-start-failure-with-bind-user.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/0001-named-lwresd-V-and-start-log-hide-build-options.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/bind-ensure-searching-for-json-headers-searches-sysr.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/bind9 (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/conf.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/generate-rndc-key.sh (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/init.d-add-support-for-read-only-rootfs.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/make-etc-initd-bind-stop-work.patch (100%)
+ rename meta/recipes-connectivity/bind/{bind-9.16.9 => bind-9.16.10}/named.service (100%)
+ rename meta/recipes-connectivity/bind/{bind_9.16.9.bb => bind_9.16.10.bb} (98%)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20201113.bb b/meta/recipes-extended/acpica/acpica_20201217.bb
-similarity index 94%
-rename from meta/recipes-extended/acpica/acpica_20201113.bb
-rename to meta/recipes-extended/acpica/acpica_20201217.bb
-index f2d17ca54e..91bcd8a46d 100644
---- a/meta/recipes-extended/acpica/acpica_20201113.bb
-+++ b/meta/recipes-extended/acpica/acpica_20201217.bb
-@@ -17,7 +17,7 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
- DEPENDS = "m4-native flex-native bison-native"
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.10/0001-avoid-start-failure-with-bind-user.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/0001-avoid-start-failure-with-bind-user.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.10/0001-avoid-start-failure-with-bind-user.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.10/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/bind-ensure-searching-for-json-headers-searches-sysr.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.10/bind-ensure-searching-for-json-headers-searches-sysr.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/bind9 b/meta/recipes-connectivity/bind/bind-9.16.10/bind9
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/bind9
+rename to meta/recipes-connectivity/bind/bind-9.16.10/bind9
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.10/conf.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/conf.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.10/conf.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.10/generate-rndc-key.sh
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/generate-rndc-key.sh
+rename to meta/recipes-connectivity/bind/bind-9.16.10/generate-rndc-key.sh
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.10/init.d-add-support-for-read-only-rootfs.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/init.d-add-support-for-read-only-rootfs.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.10/init.d-add-support-for-read-only-rootfs.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.10/make-etc-initd-bind-stop-work.patch
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/make-etc-initd-bind-stop-work.patch
+rename to meta/recipes-connectivity/bind/bind-9.16.10/make-etc-initd-bind-stop-work.patch
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.9/named.service b/meta/recipes-connectivity/bind/bind-9.16.10/named.service
+similarity index 100%
+rename from meta/recipes-connectivity/bind/bind-9.16.9/named.service
+rename to meta/recipes-connectivity/bind/bind-9.16.10/named.service
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.9.bb b/meta/recipes-connectivity/bind/bind_9.16.10.bb
+similarity index 98%
+rename from meta/recipes-connectivity/bind/bind_9.16.9.bb
+rename to meta/recipes-connectivity/bind/bind_9.16.10.bb
+index be8a294a43..71194a61bf 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.9.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.10.bb
+@@ -19,7 +19,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
  
- SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz"
--SRC_URI[sha256sum] = "48c4e0c07b42581d017487cc9264470e6420605ddd24cbb5d16410d02a771461"
-+SRC_URI[sha256sum] = "df6bb667c60577c89df5abe3270539c1b9716b69409d1074d6a7fc5c2fea087b"
+-SRC_URI[sha256sum] = "bcb292c4d738a46e3cbcb8afaa25ecf54f77652fa575135da9a2a1d525304a5a"
++SRC_URI[sha256sum] = "bc47fc019c6205e6a6bfb839c544a1472321df0537ba905b846a4cbffe3362b3"
  
- UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
- 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.16 follow the ESV versions divisible by 4
 -- 
 2.29.2
 
