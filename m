@@ -1,50 +1,50 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
- by mx.groups.io with SMTP id smtpd.web12.19289.1608974873265165741
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web09.19121.1608974874056606616
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 01:27:53 -0800
+ Sat, 26 Dec 2020 01:27:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aMvkhyfk;
- spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f50.google.com with SMTP id cm17so5579085edb.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lIy6H4k5;
+ spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f43.google.com with SMTP id lt17so8325023ejb.3
         for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=yjGQC5qcxF/FEzsyxOb1Dfz0fJN6y9JtpXr9BPOPUOs=;
-        b=aMvkhyfkxymu/Ug6cMU2q/gLRK3JqqBqwqt1Tw4mMMIB1GWg+h2RjtJrUVdL3NDqFL
-         tagqlCecvmS2fVhGCSxKXzAXv+7dTtcRbpziYjs9k42Cc6xmZ5u4ELP+dHxYn7Kz4CiM
-         p8G1F4kKoRZBl5szIqo+BbUChBnyAR5HmsfoDBG7m5H1d50W+ttLbgvzWqSy7vqBqy+G
-         1yJLLtnPYIJF4SDQLHJgUW41zIg8xnxZAo8GJEfYhZjd4CY6mJyOG1GtIer2hlSyaDgU
-         Z8dXQI93gYEWZaWIV8CiAub8jWMdC0NsLH11/AzsQnq7gu1QV4AOPs0xp8dWruBxz14e
-         +dFQ==
+        bh=bwx/Qew/A6hXW3ZUsZXe0I+NnXu9keKdEtMJAEQP/oA=;
+        b=lIy6H4k561ZNKPJT9WLUHuYNTotBL6B5WQ0zN111TfEl6x8ZTtlGxNZ3Y+xPlkimvM
+         EFE8nTJZVwlZexVows4ZwMQhEkvlBLPCcj6dxtwCwZ/nKxSOWM5oaVOgoHobKRKRBRkk
+         AtR1cwt7sHTfhy/dR7MbiRo3K87ldEe08zwr0BVT3SILPBdlizY7aZM/zzDDmEx5mwSZ
+         pFfmzgd0l1b5/1racXszOX7FqE1ZV6eL8lgpBkFtmYMNloFA4M171d+EI0XdeP9IZdTQ
+         9kIoXKmSisVf+2oHXqUQen/TKlo6/fxzA6+gDYbF+haARnBrO7U3Jqx30gNuPOTQWlbs
+         t0pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=yjGQC5qcxF/FEzsyxOb1Dfz0fJN6y9JtpXr9BPOPUOs=;
-        b=g0I0yU918dMwg2hbJw7v+jxCs5YQ74uMjBlS/flO4yylOns5TDyIfk7UhghXuTNoDy
-         OhxgKWZJHpCG4pAenqX1XLQBWNNgu3n7qhbbJ/P7xC9CXi+JbHXvvuFvA5CoCJnSJLK+
-         bTuJ0+Jz6VgvnAsI/SMdEM3QYLvDOvUZuJIVm038uexawRNQYYvA+lCu6evM+9MwVwV5
-         hRZXfIoJGkwE5gWg84QNPEJZKgocj6swNkfQc4RPM2a2nty+tImGzOrPsZVBA77LtZyz
-         bRwAO0/qXMEFGbt6BUxK/BZJW8H2jLyG2TMLUkUvztNE9tX9nobK6XV/17f9xfcFINCr
-         osIQ==
-X-Gm-Message-State: AOAM531OAPJud/GlmMZ0P0IG1xRaLxdjpI5nME6Sj1RVs8Vs2IzOQRGz
-	HWnFfV0fRvs08yhBJ4M3QgOFs9MgTXk=
-X-Google-Smtp-Source: ABdhPJx+SqyVSNYWvKXp/XGuFKXwcvOJdEyLQUIvhtUUSe1kh+3khJ8apiQkP/LX0naReFshOvO4Fw==
-X-Received: by 2002:a50:8a90:: with SMTP id j16mr33903173edj.334.1608974871945;
-        Sat, 26 Dec 2020 01:27:51 -0800 (PST)
+        bh=bwx/Qew/A6hXW3ZUsZXe0I+NnXu9keKdEtMJAEQP/oA=;
+        b=AESOhs4UpYZK9Ejh/+F7f/gkOQDtXt30rk7h5ebTCnxIVLjsihDWKIcYWvioYrZup0
+         LVRk1gDJw+gUQb0Cj1Dy4bqR8Us7jdTbHQB2kDigyKHnu1HP+2N1hDPtSF4HL2auVt8w
+         l9Y8mxkPqoMRntwIWZ2iBZvADvVXk9Gn0Rz9WPYVXrNl/saV9zjUR3veLcWEfKKjxUzn
+         jLAD0Nicjmirr6+zsuotq3x0bFbV/MFGTI8uvA0XBtlOcj5rN1EnzyjRJzZb+lsIbmts
+         +YalRJhw3Nar2d1KUhv+aXgshU5l0XUT5qRW4XZrZk5+RJ7qkQxS1aZKZ8HgL3fOZGvW
+         N8vw==
+X-Gm-Message-State: AOAM530OeC1YHfvvF/qiQ0ekaG5afxgnzEt/TdIVGkio/bNDGKzW95dA
+	POgzYXBcXUgPA9ws2E4Br0haQc8af/Q=
+X-Google-Smtp-Source: ABdhPJxiIGowcOYYoDoYxvS4NKfaiPV9PhWI+PClQKkLfflMYpldiZ0Py3o30dgUDBYUZLlvCTLNKg==
+X-Received: by 2002:a17:906:4c85:: with SMTP id q5mr34128446eju.375.1608974872727;
+        Sat, 26 Dec 2020 01:27:52 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
         by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.27.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Dec 2020 01:27:51 -0800 (PST)
+        Sat, 26 Dec 2020 01:27:52 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 12/48] kea: upgrade 1.8.1 -> 1.8.2
-Date: Sat, 26 Dec 2020 10:26:56 +0100
-Message-Id: <20201226092732.52323-12-alex.kanavin@gmail.com>
+Subject: [PATCH 13/48] libmodulemd: upgrade 2.9.4 -> 2.11.1
+Date: Sat, 26 Dec 2020 10:26:57 +0100
+Message-Id: <20201226092732.52323-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201226092732.52323-1-alex.kanavin@gmail.com>
 References: <20201226092732.52323-1-alex.kanavin@gmail.com>
@@ -53,25 +53,23 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-connectivity/kea/{kea_1.8.1.bb => kea_1.8.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/kea/{kea_1.8.1.bb => kea_1.8.2.bb} (97%)
+ meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/kea/kea_1.8.1.bb b/meta/recipes-connectivity/kea/kea_1.8.2.bb
-similarity index 97%
-rename from meta/recipes-connectivity/kea/kea_1.8.1.bb
-rename to meta/recipes-connectivity/kea/kea_1.8.2.bb
-index 3a2ccf5c1f..3dc4f6af70 100644
---- a/meta/recipes-connectivity/kea/kea_1.8.1.bb
-+++ b/meta/recipes-connectivity/kea/kea_1.8.2.bb
-@@ -19,7 +19,7 @@ SRC_URI = "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.gz \
-            file://fix_pid_keactrl.patch \
-            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch \
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index 10204acf23..b9a64f00e7 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -6,8 +6,8 @@ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=
+            file://0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch \
             "
--SRC_URI[sha256sum] = "52020cb16889484b661746d7fc4c7cd88974b1af5b7fc436eb6e69c62eb83734"
-+SRC_URI[sha256sum] = "486ca7abedb9d6fdf8e4344ad8688d1171f2ef0f5506d118988aadeae80a1d39"
  
- inherit autotools systemd update-rc.d upstream-version-is-even
+-PV = "2.9.4"
+-SRCREV = "c7254db07b21495fc9bd247c5b17ee20149c05e3"
++PV = "2.11.1"
++SRCREV = "0ead09d0a35b9095e1a01afd540abd7217b31fba"
+ 
+ S = "${WORKDIR}/git"
  
 -- 
 2.29.2
