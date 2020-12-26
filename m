@@ -1,50 +1,50 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web09.19118.1608974869488872886
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.19459.1608974870395348664
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 01:27:49 -0800
+ Sat, 26 Dec 2020 01:27:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b5S8WIGf;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id b2so5588348edm.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:27:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tRtsToas;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id x16so8300878ejj.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:27:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+rzhGLaijr0K5hYFYbMWqlon2tNWFAYmLr8w41Vid8c=;
-        b=b5S8WIGfyKLPId7wa3NpwvCMHrog7ieScKJpJMwlqsmLMEw4C4Q+/M9edq9j74OyQj
-         t12hoV8JqqdRgH0ypXCVb7GYlZQRMHmQkV3hPh1XzZ1Sf9D0fNU60gsoD3fAUzVr/MFN
-         L2keK0ddNT7WlDe1YFgOrVSr1jlpEez5jN54n5OPbd+kYT1KppPnlUlBmgwdOlPiXZq1
-         BA/E486Halk34BWT6i4lO1LvWKmYmh3iLyKj+Cz3EhzzgVh8BNUMaTFaZvBgXY2IICOI
-         Ahrd5GaqlaFKle+iv3s883NuAiM4XQxQDrx/WpetbWsegHzA+B5/VbLI0oEW2/yJwYfp
-         ULmA==
+        bh=NcV72zBFAWxuzcXNo8hXYe7sNv56eo8uMEtbaIZ9JQU=;
+        b=tRtsToasd/tCXn5GyDBSZAwzPDHqcGBtcjkvhinxWCIpGg5g5RgAKN7YRs1bbcrS2C
+         vYuMV5aNgVs3fyM5TeEmuzh/6trXNtoxiI4alIJbTQlcxTAxBdjot3SulPJsqs7WLREA
+         W1UH8MFMRra7W9HGsbd1t/mxXyxO+TKkqgmVhsclkmPJnp+70gZ/HejVYQ46RB0s+o4r
+         xmy6QQbVoWUwe7PdDq1hPJPuOUc79/1KWI01nN8uSWF/pIoOMcPSzka9of73wXN8uPLK
+         W1oz+Q2H/viuBBjsQEro9fdXZP1RI/IJAJx0MjHMPRQd9KEquJoovuL6fb2NUuVo2p8R
+         bItQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+rzhGLaijr0K5hYFYbMWqlon2tNWFAYmLr8w41Vid8c=;
-        b=cnY46/Wiig8VTfV7qnNFcxRcB5ZI7G9lmnR5s13DhW0ojroM6DrfK0WBKaiTvR8Ysg
-         YhtVkQuCZqAM0SBkTfmmryCg6bgvSMPDdRzAoHt32zTOCLscHohPl3+zkhDxCX6T0g/6
-         JfksGxacxlw1tNJrL/xRUhw5wwoYp1WAgbcgt2fvFIwjXO+T4FWOUF/OobreXUTwNoUL
-         9VE8pHhERDWQJ1rwLI4aV9TwnTNghE4/z06uIGGiZOF+MRzqkxA5GEZHXhtsXhZpMvql
-         VOyWMTx+yZtM53d3FBkHL9AvBoRZZiBbjAo8ERJj4mwE5y0R4obm38hEiQ1F5LyDppZH
-         1N9g==
-X-Gm-Message-State: AOAM53159aDPk8on9yb3uUqPbN8cAVmAMBDFRYnYW0tuEWDvUer+sgkk
-	8OFmezY4/cfmcvN8lkdVNkaYXT/BWLQ=
-X-Google-Smtp-Source: ABdhPJwXNJ6Rq30x1CqXQC43/rkx4UvJ59XYbOfOEA/Fd4jyIPfxxTMd8QHj5yRGGxL7juC1VjWarQ==
-X-Received: by 2002:aa7:d407:: with SMTP id z7mr36312330edq.234.1608974868177;
-        Sat, 26 Dec 2020 01:27:48 -0800 (PST)
+        bh=NcV72zBFAWxuzcXNo8hXYe7sNv56eo8uMEtbaIZ9JQU=;
+        b=dtWmHe4F4Z1X/w+QSnBn1tsd35/TgWAyP1IWn0sQ9SOecS7WCSzKeqGxXHQmHsEpNG
+         4Uc4+OVKs87sluhPq0uldWYV2PcWSiwzmJo+OXBvOCPRQwkO8YW0baCp+34+JdhIB+3t
+         pbgnXAZyK08EBcv8sxwlOS4GlpTyYlATqvMkz43Sp1MCye+6Ip1sfU1x6LnvOuNiIJQk
+         AoBuACpvuo9FTD57sjyFxghbmjWUCSpL0LEMYkKzoqDva6W46gFvhkiHTCiyU1J1utt/
+         BXJbkbkGSM+Ys9WKqapvfBTOC15QAkBHenTAd0fRaJ7tB1ULYCm3RuoCDWSy6rY48WSf
+         GNBQ==
+X-Gm-Message-State: AOAM533kdamyoyranLCrIBFve9tqCzM1JcdU8aqbvcmKshkv3kS7P0ha
+	8AkK6EPUBOTnAbsGZUoXozsL79wcTH0=
+X-Google-Smtp-Source: ABdhPJxniKP+uzDI08/VGxTdsLNoiHn3V5/ZjlektDifsXhTyctssmVSY7+uFZyF4LROxmWl3CflNg==
+X-Received: by 2002:a17:906:259a:: with SMTP id m26mr34768238ejb.399.1608974869042;
+        Sat, 26 Dec 2020 01:27:49 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.27.47
+        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.27.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Dec 2020 01:27:47 -0800 (PST)
+        Sat, 26 Dec 2020 01:27:48 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 07/48] epiphany: upgrade 3.38.1 -> 3.38.2
-Date: Sat, 26 Dec 2020 10:26:51 +0100
-Message-Id: <20201226092732.52323-7-alex.kanavin@gmail.com>
+Subject: [PATCH 08/48] ethtool: upgrade 5.9 -> 5.10
+Date: Sat, 26 Dec 2020 10:26:52 +0100
+Message-Id: <20201226092732.52323-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201226092732.52323-1-alex.kanavin@gmail.com>
 References: <20201226092732.52323-1-alex.kanavin@gmail.com>
@@ -53,26 +53,51 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../epiphany/{epiphany_3.38.1.bb => epiphany_3.38.2.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.38.1.bb => epiphany_3.38.2.bb} (90%)
+ .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
+ .../ethtool/{ethtool_5.9.bb => ethtool_5.10.bb}             | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/ethtool/{ethtool_5.9.bb => ethtool_5.10.bb} (93%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
-similarity index 90%
-rename from meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
-index f9daa8bfe2..70148c96d8 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.38.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.38.2.bb
-@@ -14,7 +14,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            "
--SRC_URI[archive.sha256sum] = "59b7576acb11fbb52eaca6dbf6fce28664de5c915ca2580c47f0b08ba83d2843"
-+SRC_URI[archive.sha256sum] = "8b05f2bcc1e80ecf4a10f6f01b3285087eb4cbdf5741dffb8c0355715ef5116d"
+diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+index 673b35033f..54aec01284 100644
+--- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
++++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
+@@ -1,4 +1,4 @@
+-From 538bd5ec36d88f17803cb848cbbfe62ad51fc2f4 Mon Sep 17 00:00:00 2001
++From b493e2fb472307997576eef33cce784594070f44 Mon Sep 17 00:00:00 2001
+ From: Tudor Florea <tudor.florea@enea.com>
+ Date: Wed, 28 May 2014 18:59:54 +0200
+ Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
+@@ -15,11 +15,11 @@ Upstream-Status: Inappropriate
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+ diff --git a/configure.ac b/configure.ac
+-index 0162155..6866e72 100644
++index 13c2bc0..0b6ca1d 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
+- AC_INIT(ethtool, 5.9, netdev@vger.kernel.org)
++ AC_INIT(ethtool, 5.10, netdev@vger.kernel.org)
+  AC_PREREQ(2.52)
+  AC_CONFIG_SRCDIR([ethtool.c])
+ -AM_INIT_AUTOMAKE([gnu subdir-objects])
+diff --git a/meta/recipes-extended/ethtool/ethtool_5.9.bb b/meta/recipes-extended/ethtool/ethtool_5.10.bb
+similarity index 93%
+rename from meta/recipes-extended/ethtool/ethtool_5.9.bb
+rename to meta/recipes-extended/ethtool/ethtool_5.10.bb
+index 2d2f9b77f0..5c0df3acbc 100644
+--- a/meta/recipes-extended/ethtool/ethtool_5.9.bb
++++ b/meta/recipes-extended/ethtool/ethtool_5.10.bb
+@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+            file://avoid_parallel_tests.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "f934a830554c46d7d60b1a9147f4cab15589b7e09344c4b79b1948b740f0a725"
++SRC_URI[sha256sum] = "4b86adb3ed913c1ef14a276301981f696ab4ec360c19f0a5b68235c4756abae5"
+ 
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ 
 -- 
 2.29.2
 
