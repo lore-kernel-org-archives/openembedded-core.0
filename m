@@ -1,50 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web09.19125.1608974885005379802
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+ by mx.groups.io with SMTP id smtpd.web12.19292.1608974885789494288
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 01:28:05 -0800
+ Sat, 26 Dec 2020 01:28:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MMAf2Pyd;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id cm17so5579363edb.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:28:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=d7ymJ8im;
+ spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f46.google.com with SMTP id h16so5557647edt.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:28:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gWgBV87oBvZoJVils9kgn3yUDvTqwIiqbu65o5MhTyQ=;
-        b=MMAf2PydJbRkjjg7Q3zhX13YyS2XaXd2FAQ+UYZhKAXnk2oiUSfFRYOKzFQG3M7TOf
-         gW7r/51ZVgXrjbmTxz4SQr8IlnkwaitsbnftNKGRWblrO652iH8KbM3oqTgbQ3PFyAD+
-         k4pbZXyn5ZzQTiFFOUouTyfMCX6+FEd5t9wPL4zQxdLS52/zN75U3BeKUnEtw6fKn2JE
-         5VyCX03RDtOn2VCAMGxwRNx/lOMaUmt9qXck8UP3nokSA1pB/0UhzTwbXg2L/oPuqAoK
-         4CqXkjKhDJtPNfnD1fm8RkgQW9xugMlNEgKBLBjF9hWhfsE5wGdGnWbU0Fpb49ihEOsN
-         gX/Q==
+        bh=xILJsms81cwHWYaejrw4vOelLinAsQg+7+aNJIvf7/s=;
+        b=d7ymJ8imDv1AE0HFjwAysofP6y2cVxJk35dUk/8XNt+Yy1dIRBp7IZsU3BdWUZhue8
+         /pGYUvrOKFsy/H6DnEIjoMznprpGRQAuuVHSRAtxd5DdV6AtfzNrWH4AdED2kyxQ9BxI
+         bOhdLJv08t2uBWIfbvSzB+TpwgXqApY1IQMHfbRFO1LGITKQJUQTKbST9hdPWxkMgn8C
+         z++wbGv05smuoJlOwGR2kXPzWWXG2HXxkTBvtxUxpB/rv7ZaYc/auPxU4CmEYgFEMiOW
+         I2yo57koLLatD60kG+NgnKD+pxMq63xJE2gdzWOvA7JuLdZt3o/A+EBOAg9nowxdDF+J
+         QwvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gWgBV87oBvZoJVils9kgn3yUDvTqwIiqbu65o5MhTyQ=;
-        b=e9B9uddCeQXckh/HBuucLiloLVwsS627o9mU1PhBYeHgyE9g1bvj8a8P04KILjT+Rj
-         KTsEdxsOp27K48h14HJY1FUJM3gOmDNgILRO3A6wR8nE24/6ohNJ0uZiccHSjyfx+8AT
-         8CEz3HuqFrfhKUj4NSr852ql4HuM3VUuYepHumpzlIJXIrdDKXIBnsuAgHdGAQVXypxN
-         qj9ToCHWZr28iFoz3KkSRpfwo78tCwuKdE6g4rjAWXXvwjNOjCVbQgh2kENcAQFdpY2m
-         YmlLnEF6pav7z1UPtAV9Ufq1JoTTN6qj4j4lp1XHpGng76/abiwmxJXdkLH3nCflEMti
-         7Ogg==
-X-Gm-Message-State: AOAM532lZeRHbuaki4VQyfP+RHAAgT3u0Pu91Guq9zqdYx4n+nDVHVOk
-	DoS8zCf6WATOk779C7s8ogzKx04umAA=
-X-Google-Smtp-Source: ABdhPJzjjsDKSkL15lCoArZn/7HIPpNbyiNik/3TRY68RkP9ipI7YqggYNuQAHo3olWqGqZYTrKCZQ==
-X-Received: by 2002:a50:bb44:: with SMTP id y62mr34703066ede.103.1608974883636;
-        Sat, 26 Dec 2020 01:28:03 -0800 (PST)
+        bh=xILJsms81cwHWYaejrw4vOelLinAsQg+7+aNJIvf7/s=;
+        b=GygmpgdhYbpVdBNC8FkDy39+ciUnsjBqFjXqfaE+12RtcS2IoVd5nGv33Z2R+ETf2p
+         zpk3xcKID8+eRqfTDexZhEU8eh7jKsixWYXB7HgQttTk12Xe86oB2c2pp2Ghhhw6+O0R
+         jGx+4yZR/EpT+76hemMTPOwRmstzX814n0g5KE7mkfrPoiUa2I8nSvD96WMW39fvYOXA
+         dY0fZdr69e1Z1RbFU3FXbRBFPd/TsYDnbtKu8d9iyrwDNRpDzIytCvO+hM9gbiLMWEJG
+         EAa5FcmzyEp/i/irgTQNUpj6SJ71KKK2RU/tjpC/Dzby7UzPc2LJe+1093i1VYBPLh4B
+         01oQ==
+X-Gm-Message-State: AOAM532VT2KwxQEDVHmmo3lW0D/jCKsLKbKUOZxRvMxvrHNv+ehbClxn
+	E1Og7jeX/P3OOX6t+0Fl4gRfO3QEcl4=
+X-Google-Smtp-Source: ABdhPJwJvn7qe2qcNNQ6fbv53wNt4R9ZWKi0AJk/F/Vsmo+vGajhJ8MCFGY3lRv5OjRRZyhm228NPA==
+X-Received: by 2002:a50:d553:: with SMTP id f19mr34103149edj.323.1608974884469;
+        Sat, 26 Dec 2020 01:28:04 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.28.02
+        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.28.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Dec 2020 01:28:03 -0800 (PST)
+        Sat, 26 Dec 2020 01:28:04 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 27/48] sudo: upgrade 1.9.3p1 -> 1.9.4p1
-Date: Sat, 26 Dec 2020 10:27:11 +0100
-Message-Id: <20201226092732.52323-27-alex.kanavin@gmail.com>
+Subject: [PATCH 28/48] sysvinit: upgrade 2.97 -> 2.98
+Date: Sat, 26 Dec 2020 10:27:12 +0100
+Message-Id: <20201226092732.52323-28-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201226092732.52323-1-alex.kanavin@gmail.com>
 References: <20201226092732.52323-1-alex.kanavin@gmail.com>
@@ -53,26 +53,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/sudo/{sudo_1.9.3p1.bb => sudo_1.9.4p1.bb} | 2 +-
+ .../sysvinit/{sysvinit_2.97.bb => sysvinit_2.98.bb}             | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.3p1.bb => sudo_1.9.4p1.bb} (95%)
+ rename meta/recipes-core/sysvinit/{sysvinit_2.97.bb => sysvinit_2.98.bb} (97%)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.3p1.bb b/meta/recipes-extended/sudo/sudo_1.9.4p1.bb
-similarity index 95%
-rename from meta/recipes-extended/sudo/sudo_1.9.3p1.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.4p1.bb
-index ba61a7f247..040130b49a 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.3p1.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.4p1.bb
-@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.97.bb b/meta/recipes-core/sysvinit/sysvinit_2.98.bb
+similarity index 97%
+rename from meta/recipes-core/sysvinit/sysvinit_2.97.bb
+rename to meta/recipes-core/sysvinit/sysvinit_2.98.bb
+index 98916f7f19..fd39c61fb5 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.97.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.98.bb
+@@ -21,7 +21,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.xz \
+            file://bootlogd.init \
+            file://01_bootlogd \
+            "
+-SRC_URI[sha256sum] = "2d5996857519bfd8634d2e1debabb3238fb38440f65fbfdc46420ee8bdf25110"
++SRC_URI[sha256sum] = "7b2c3ffaf19eaf1ca80268762f85f9e4eb8e3c973213d49f9802605b72caa7dc"
  
- PAM_SRC_URI = "file://sudo.pam"
+ S = "${WORKDIR}/sysvinit-${PV}"
  
--SRC_URI[sha256sum] = "dcb9de53e45e1c39042074b847f5e0d8ae1890725dd6a9d9101a81569e6eb49e"
-+SRC_URI[sha256sum] = "1172099dfcdd2fa497e13a3c274a9f5920abd36ae7d2f7aaacd6bc6bc92fd677"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.29.2
 
