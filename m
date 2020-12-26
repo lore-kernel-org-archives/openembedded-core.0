@@ -1,50 +1,50 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web11.19469.1608974886609793301
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web08.19192.1608974887422457131
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 01:28:06 -0800
+ Sat, 26 Dec 2020 01:28:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dKJpl++z;
- spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f48.google.com with SMTP id lt17so8325357ejb.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:28:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iC70okiJ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id g24so5546167edw.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 01:28:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CQIBRw9ED3kFIE9pAd4OnnjMXhrGVYKEyRnUPB1PlOk=;
-        b=dKJpl++zDEazATXy2HxsTV8boQwiTWl4vICBJlqCJ4EvQdqMdYc/e1C8rkLQ+eOZgI
-         Wat0PYA2O0Wubi2zvi2tX3ZoSZJUa4wmqJ/uDRwFzSUWPwFpaTzJG/Wlie9gm0EIgMVo
-         7xpIm5xueQomPezeJ1Natac/26crrE84P59GVs/VG6YaSQSUq1Ul9JR8bJwD2kkQbj/C
-         rf2psKX+OOxlEQ55QxWUiJkftorp8MNLuITAqa9+pERSSJU9SyjcQr8tivnafhktSSdy
-         yMzX0HmLmferokOkiKb4CWfkbzqt7/4uCcKhbMhG6wHeyvvBa+Eu8mRYfTMhrKbKQWr5
-         gjYA==
+        bh=6ayRozqa5cIFaTUcbXV7fYaYBiLiiIiLNKL/Zimkd1I=;
+        b=iC70okiJUz4peVSRvyt3qdxuQffyfDAlRMIwprXmlChJsNYF4Lzchtrm3VTasibvZ/
+         hQvEuzyUvKnjaAf94Jun03mJMyIqe5igGs8KuMIXSGomXiuUzX9kEpaim+VRJJ+q2dpy
+         X1TvPvhpfWBg0AZqv/0fJDb3pl0L54v2rwZE9Yk7W6kIByKkh/iWwsi4oZ9BSdc040cD
+         OmkXj45ct6bZHWzNuVRY97VZe9WDduwJTUcZxVkD+HtBVddGyksGGTfzsfQldGJgWTQg
+         ymjvhlalJ0XXjqpMP0txURv2CR1I0Ns9OEaixm2fV5bJbU+GXmftRMUf+DtBW6iVBGe/
+         PZAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CQIBRw9ED3kFIE9pAd4OnnjMXhrGVYKEyRnUPB1PlOk=;
-        b=OFz7Mmk8KaIgs/d6TeSQQd2RWyn//w28ZxZlfCK/YeCaABCXOy5yg5MrvEk7RmCzBr
-         flMNdeticsJBxMogEviileYe642mlxrorJTbxpiFB20J4M4TGY0ApgmeWAV4ImG1P9jX
-         LQ2dpmzIbTUy/pgCPv0jMmfl6dUrAdYirZfKXXiTt59z3thBIp0Yq4NCP2wvZGIforLw
-         QUU80HdFteKryiZbSnm27ylBXQgdIWafT3UchoTuGhCMEvFw4Rgsy/aXiLrB2uMqe0lP
-         kvGa20l/88UOFnd2Nq5ZFykQ0vH9BgoBIIKIL29XiprC/tGTO4pQ3U+Bo80JWN++kvJ2
-         oLwA==
-X-Gm-Message-State: AOAM533fpeXi9MeUFD16hlMdY904+SwoNMKC+qM4abz9/rde2xZWPtoz
-	98F0d+DDmEmRO9evgrSZcRTwZs95LM8=
-X-Google-Smtp-Source: ABdhPJwAmihjIT0cUXnUXSBngu18u+uefizCwuNqiJS/UAyOsZf+xtWeihcxgr3rQaOYK5rqG4CjLQ==
-X-Received: by 2002:a17:906:d8a1:: with SMTP id qc1mr33912170ejb.294.1608974885281;
-        Sat, 26 Dec 2020 01:28:05 -0800 (PST)
+        bh=6ayRozqa5cIFaTUcbXV7fYaYBiLiiIiLNKL/Zimkd1I=;
+        b=WLkbG+LsXRQFWeJV4FAnXjxBVfDlwhNrp3z3toT8rzKQjMHKRE/tylLY2ADrq/324W
+         oMzaT3q4ZMG4s3cf65MmmhMvwRTgpxC/na1yeUvcN5BdZc4ttB9rycTD7Y2HaAMwLJsc
+         lC86+areXghgPGNTxd0+DOwtyWRTY5i0xhXEHTez9DojqUNKcZcS/ssMR/BsdvmfRBMB
+         L6VmcBfAyFJNlEJ0VkHGCYG0qSQ+7muWBoIFxWDMcNAJUzJKm/9jgttA4mRKgWd+KTdD
+         ws/pNdVuv+R6dGhP2SJeldvpQgalG0s28n0U4D2CMbsX/+HGxLXNUkeAP3DCwkYLULo/
+         1bjg==
+X-Gm-Message-State: AOAM533qCF7szKK2FseHyuavZMEe3spvswLumwJokV1OCyXedz9iYPZm
+	AtHnJjoxAoHzUxVNlrSK/BfK5FyMSQ8=
+X-Google-Smtp-Source: ABdhPJzNoOK2SvBXCmDRJDXM1jjmMsufDDIwXnmEqAtRUOwwrNYGsNAZr66N2zOCdjfgbKW1PAYM/A==
+X-Received: by 2002:a05:6402:1597:: with SMTP id c23mr35086166edv.212.1608974886052;
+        Sat, 26 Dec 2020 01:28:06 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.28.04
+        by smtp.gmail.com with ESMTPSA id u2sm14828406ejb.65.2020.12.26.01.28.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Dec 2020 01:28:04 -0800 (PST)
+        Sat, 26 Dec 2020 01:28:05 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 29/48] util-linux: upgrade 2.36 -> 2.36.1
-Date: Sat, 26 Dec 2020 10:27:13 +0100
-Message-Id: <20201226092732.52323-29-alex.kanavin@gmail.com>
+Subject: [PATCH 30/48] vala: upgrade 0.50.1 -> 0.50.2
+Date: Sat, 26 Dec 2020 10:27:14 +0100
+Message-Id: <20201226092732.52323-30-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201226092732.52323-1-alex.kanavin@gmail.com>
 References: <20201226092732.52323-1-alex.kanavin@gmail.com>
@@ -53,26 +53,23 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../util-linux/{util-linux_2.36.bb => util-linux_2.36.1.bb}     | 2 +-
+ meta/recipes-devtools/vala/{vala_0.50.1.bb => vala_0.50.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/util-linux/{util-linux_2.36.bb => util-linux_2.36.1.bb} (99%)
+ rename meta/recipes-devtools/vala/{vala_0.50.1.bb => vala_0.50.2.bb} (50%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.36.bb b/meta/recipes-core/util-linux/util-linux_2.36.1.bb
-similarity index 99%
-rename from meta/recipes-core/util-linux/util-linux_2.36.bb
-rename to meta/recipes-core/util-linux/util-linux_2.36.1.bb
-index 474f1e188c..8ea0bac9b2 100644
---- a/meta/recipes-core/util-linux/util-linux_2.36.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.36.1.bb
-@@ -40,7 +40,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz
-            file://display_testname_for_subtest.patch \
-            file://avoid_parallel_tests.patch \
-            "
--SRC_URI[sha256sum] = "9e4b1c67eb13b9b67feb32ae1dc0d50e08ce9e5d82e1cccd0ee771ad2fa9e0b1"
-+SRC_URI[sha256sum] = "09fac242172cd8ec27f0739d8d192402c69417617091d8c6e974841568f37eed"
+diff --git a/meta/recipes-devtools/vala/vala_0.50.1.bb b/meta/recipes-devtools/vala/vala_0.50.2.bb
+similarity index 50%
+rename from meta/recipes-devtools/vala/vala_0.50.1.bb
+rename to meta/recipes-devtools/vala/vala_0.50.2.bb
+index cca7eef523..b5913fca8b 100644
+--- a/meta/recipes-devtools/vala/vala_0.50.1.bb
++++ b/meta/recipes-devtools/vala/vala_0.50.2.bb
+@@ -2,4 +2,4 @@ require ${BPN}.inc
  
- PACKAGES =+ "${PN}-swaponoff"
- PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pylibmount', '${PN}-pylibmount', '', d)}"
+ SRC_URI += " file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch"
+ 
+-SRC_URI[sha256sum] = "958d9f06c9c3d7d1b2145512a9bc2a7c6aefbbf0416a04c7a0ecf463f7138f6c"
++SRC_URI[sha256sum] = "2c0d5dc6d65d070f724063075424c403765ab7935c9e6fbcb84981b94d07ceda"
 -- 
 2.29.2
 
