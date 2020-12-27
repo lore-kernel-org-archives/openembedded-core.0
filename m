@@ -1,83 +1,102 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web11.25963.1609019405919381656
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
+ by mx.groups.io with SMTP id smtpd.web12.29668.1609046654010852494
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 13:50:06 -0800
+ Sat, 26 Dec 2020 21:24:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nHxYr+Us;
- spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f54.google.com with SMTP id j18so3461535qvu.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 13:50:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uPu0tGZB;
+ spf=pass (domain: gmail.com, ip: 209.85.166.170, mailfrom: twoerner@gmail.com)
+Received: by mail-il1-f170.google.com with SMTP id v3so6862892ilo.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 21:24:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vVjdNKJMyDBno/MzkbQOaWAAAaiOs3iZK0x3avB9wRE=;
-        b=nHxYr+Us9nBLABs3nPFMDwHCNQY8ncYL9mDYAHIMj4xxzHLJ6LZGG0MVyM/HoMrgpX
-         ogCEOQF9FLZvzkVS0DMOkmGSM9MyS/wRrRGJcaJnKy3o7i+/JTBVAi4/2rLYm9idCe7/
-         QmWHsiLdkbtmrfoPOvpIhfVh2lsYclUbr5my52WhwPgLD/plIN1iA3CM4G2vqyz/SdsY
-         CYjMQ/l4759S473jg5+V1ENKpeXkvLO7yx+CaF9gcF4j1mdxmbo+hdEC+0BpJPSUnj+k
-         PujEp7/56qYiMoQ4HW/KZBAbicWLGYZlXlw+HkFRY9jsxnJE54z+WilBMt2nvwWWic3b
-         q35Q==
+        bh=F4VmZvU1329qUspGmUUFdlHBM8VbkCjfbrlSsSVlVAQ=;
+        b=uPu0tGZBDOXnb3Y2bnZAw/ICxWO/fzsTdh8OqyZH7PhwFwyKXDiLjDqsaiYJCF60dr
+         LvIz5wfSEdSzJCIEGDoad70scST2a4OQvFY7Yo3UJtr9ZH7ZPtjq995aWsZ1U4kxaYMK
+         DAsNKOmPVoMCy0khavW/q5zocv40DIQiIas85tmfTXY3ViQF+3HN3ANnJSC6BcrJwsoD
+         dIilPBNXUFT8zCWpZfxUZUWEdzuVqURtflPyU0l9+6XJhvTTUhvA8wqzUS2MZtzJSujT
+         vcJz2RHSniYqjGxwUmM52JoUa4hqqEFd4WUMI5LmLM5rz1ZlFX6FULPrT1iMaWPFubcG
+         D1sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vVjdNKJMyDBno/MzkbQOaWAAAaiOs3iZK0x3avB9wRE=;
-        b=lQzDQk/ft5CYw8eELwC2dITHBi5tCKrC7E/SxRF6J6Jxl5Ed9rQdkUVW7RUwXph7Jh
-         rHgTpRTHvgRj/A9ZC0kK4M00R9FO+mRr75uxCOxV3zqYEIBLzphK9wnKHsTok9gd/WDn
-         wG5nD8mv7DonGFV6nYtI4a3wL161FVxxjVVvtOCvO1EZb3Bv7j3bZmNzbyjDcGju1QQQ
-         Fj06T8UNwuVdncsVoHhu1m04Zd2XgF/E0j3se5MnZvINDB1frE5dBEPvIT3cY66GKDT6
-         tY57FTB8uIYw3zal3kAlbnnyJFECDEemJ0dMZQDljgid4zxORzihftm1XBQd3yYkPSa3
-         FEbA==
-X-Gm-Message-State: AOAM533mVALtw7uaviZUdD6OqvLPOJe0VFT6yZblBvgWNysx/JI7T0z9
-	D4neF6WXwDZ+8Tn/3y+EIZA=
-X-Google-Smtp-Source: ABdhPJyao7V25fKZhXugZYEGyXU/xEBLC+wv0bM19ntgyzR9kP5dj6c0bqzTZkBEuD1/ad77LhniYw==
-X-Received: by 2002:a0c:8304:: with SMTP id j4mr7475592qva.18.1609019405043;
-        Sat, 26 Dec 2020 13:50:05 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.159.151])
-        by smtp.gmail.com with ESMTPSA id q3sm21070761qkb.73.2020.12.26.13.50.04
+        bh=F4VmZvU1329qUspGmUUFdlHBM8VbkCjfbrlSsSVlVAQ=;
+        b=FjvKS152w3mkImcYfAoJWlwahF+RgKL+xkqQ72XnUDAWKrHMHO+c8eDBMBDfe9NYs5
+         S9Dg0bLjtoHCWhCcTjSQxlBxDSjUgrg+hntPrD1INTqT+SKpqaM//beXj4V5pXEtKndD
+         QGCM84TIRi2FXS+0De0cVHAgUTF/3momO79K8TXIj7Zp+dEIdg+r1+rb/FTWjoOnvm3v
+         dDm7rnZ1jswfYz/4CcFWPReFBYLCuo168NJOZjTfko8tMyIw6cGeQmEjcnU+THtoU6/p
+         +3aOF4QBnlvaNq3kUNUbmr0JoIVR0cAPnhxAgHiT5v2Vbv52yQWRfTUTX1w5VMApoFrb
+         hw2w==
+X-Gm-Message-State: AOAM532ztjvyAj77KdvuukgIbpgyyiFte7Z3EThzenrCi1O2d8Ik9/CJ
+	c84QgrDKS8kHY63B7mKB0n2+C9FhR2SXtA==
+X-Google-Smtp-Source: ABdhPJzjSpcsLZ6JnfeHgTSyXnrowoP8odTqQr1FtjU4xj/mNvOReJ24mDQ8ueDar34HtijeD9NPhA==
+X-Received: by 2002:a92:ad05:: with SMTP id w5mr36862299ilh.96.1609046653084;
+        Sat, 26 Dec 2020 21:24:13 -0800 (PST)
+Return-Path: <twoerner@gmail.com>
+Received: from localhost.localdomain ([206.248.190.95])
+        by smtp.gmail.com with ESMTPSA id e89sm25639803ill.44.2020.12.26.21.24.11
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Dec 2020 13:50:04 -0800 (PST)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] kernel-devsrc: fix 32bit ARM devsrc builds
-Date: Sat, 26 Dec 2020 16:50:02 -0500
-Message-Id: <20201226215002.59944-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+        Sat, 26 Dec 2020 21:24:12 -0800 (PST)
+From: "Trevor Woerner" <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [meta-selftest][PATCH] selftest-chown: add test for fifos
+Date: Sun, 27 Dec 2020 00:24:01 -0500
+Message-Id: <20201227052401.40000-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.30.0.rc0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Verify that fifos are properly handled by the build system.
 
-As a follow up to commit: 0fc66a0b64953 [kernel: provide module.lds
-for out of tree builds in v5.10+], we must not only copy module.lds
-from its new location, we have to not error when it isn't found in
-the old location.
-
-With this tweak, we have coverage on all supported arches for the
-new location of module.lds, and backwards compatibility through
-kernel versions.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-selftest/recipes-test/selftest-chown/selftest-chown.bb | 5 +++++
+ meta/lib/oeqa/selftest/cases/package.py                     | 3 ++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 35bd0ed5c3..23f090bf71 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -200,7 +200,7 @@ do_install() {
- 	        cp -a --parents $SYSCALL_TOOLS $kerneldir/build/
-             fi
+diff --git a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
+index 87bf9438b8..440471fe80 100644
+--- a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
++++ b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
+@@ -3,6 +3,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
  
--            cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/
-+            cp -a --parents arch/arm/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
- 	fi
+ LICENSE = "MIT"
  
- 	if [ -d arch/${ARCH}/include ]; then
++DEPENDS += "coreutils-native"
++
+ S = "${WORKDIR}"
+ 
+ inherit useradd allarch
+@@ -16,10 +18,13 @@ do_install() {
+ 	install -d   ${TESTDIR}/dir
+ 	touch        ${TESTDIR}/file
+ 	ln -s ./file ${TESTDIR}/symlink
++	install -d   ${TESTDIR}/fifotest
++	mkfifo       ${TESTDIR}/fifotest/fifo
+ 
+ 	chown    test:test ${TESTDIR}/file
+ 	chown -R test:test ${TESTDIR}/dir
+ 	chown -h test:test ${TESTDIR}/symlink
++	chown -R test:test ${TESTDIR}/fifotest
+ }
+ 
+ FILES_${PN} = "${sysconfdir}/selftest-chown/*"
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index 3010b1af49..7166c3991f 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -168,6 +168,7 @@ class PackageTests(OESelftestTestCase):
+         with runqemu('core-image-minimal') as qemu:
+             for path in [ sysconfdir + "/selftest-chown/file",
+                           sysconfdir + "/selftest-chown/dir",
+-                          sysconfdir + "/selftest-chown/symlink"]:
++                          sysconfdir + "/selftest-chown/symlink",
++                          sysconfdir + "/selftest-chown/fifotest/fifo"]:
+                 if not check_ownership(qemu, "test", "test", path):
+                     self.fail('Test ownership %s failed' % path)
 -- 
-2.19.1
+2.30.0.rc0
 
