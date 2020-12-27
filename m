@@ -1,134 +1,101 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web11.35705.1609093034442801593
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.36534.1609095870464982665
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Dec 2020 10:17:14 -0800
+ Sun, 27 Dec 2020 11:04:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QF7fNP8x;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.172, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f172.google.com with SMTP id h10so4205082pfo.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Dec 2020 10:17:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Y5+mGYkv;
+ spf=pass (domain: gmail.com, ip: 209.85.215.170, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f170.google.com with SMTP id z21so6107904pgj.4
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Dec 2020 11:04:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=37pSA/NHZZs6IOTffViiV4a21o+wf/DKk3Omr4kLMqc=;
-        b=QF7fNP8xoEJ7jY6FSEFSQUcn2UeFtV81RY+TiKQq9riWpU57XFqAZmpGdXtx8qa/9m
-         3QsOsy2tE/T97Vk+T6u0Viu9Voxr+ZoSjma5EMuQ1rm/JlsW65D20OVOqdPPOhrOrQb5
-         dvraA+OJuehg2WiQzslQ/bu0//Q5xwPlqdP3ewgzCZ0a1UzT00nbJHL3dGRnoP57Wy9v
-         RxeVr27p7NIzDmrEcq3E2ADuOnolIfH0FmkCRbSd6yquAHWctLWxm5a/MsJJ30HGrRqG
-         sfplmQ6EuZ//0hsigSfJ4Wj1ToeMgMRykjlX/5llbryII2nDbhJCBOBVgcMlrIg/tqIc
-         sS6g==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=6mVCDrAK+yKHtBvc1Jer9cizg/Jyjd0zHPraDI96DSw=;
+        b=Y5+mGYkvTKrbWbRd/vXvOLW1Msg5uIP0UbapXa2wWsk9GdW4faNCxoZn52Ah67yRTz
+         ASi0J+IGrI6WGB4KpUHZtFfC2OdXOL76ZlNDHLlceguh37CDMZDC+Tj4mkWRYuZvtAv6
+         PXr7gWenVlhc+0g80PjFCti1psj5jyRVSoMtbD3G2e77dgUtljJXdwNwEeKtQJ0CFIz9
+         qag/C22TYfh9bIXZO+6JtYF79YsdAfz9wmG+w6YeXm8mWYtwb0f8D5VqficKFYvnXAj3
+         sO++HqC6tETGVu6Lk1hGD2hhSyDStvQpc8pC8ZoPGgXxgE8Vm0DE+gKxXUWwAkXrHMOZ
+         6EHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=37pSA/NHZZs6IOTffViiV4a21o+wf/DKk3Omr4kLMqc=;
-        b=Sl2+F+9n5+ztmshwFDD4ocDM3Y6l57C3jWIgystwZxrtcX9zzX+EgUcKL0tSrVXrsO
-         RSB8CrRm3z4nGhPPL+N9Dpe1XV0S9mASAhKL7lISUhXezSJuA/knofgZXvL7Yk3t6Ov8
-         Y+EobiozHz3FawSAjCvMya2xC2/i7FeNZ3DxZhywMPwGNII7Au1wiGXRoj5e/LfMIHo8
-         vbyUnKrH7/ieB0el4V/nHQd5FUiWgqDBxpA/NgxYjKNjcOVk3dElGLOfPgvqd3z/Irjk
-         Qhv2cmElzkIVE2ugvLnQbakVOCstKMqQhVvWSXbDGYwHUYkvwH0xRUjeZ2dNUOg+IGuk
-         C8sQ==
-X-Gm-Message-State: AOAM532U2pcp6dWAv2mWYJwYwWN66bZAinRLVwBd5fb/C+8bQtm/YKF1
-	5F3VX4rLknewBCYuT4nom/CObJPFYjuYOMp5M4o=
-X-Google-Smtp-Source: ABdhPJys+HY9KVKxWanJFZYMaEZoUeSbe1Snq1Vdskg5+swFfwajmf24NXFF+XVqj7dwasUXIBIh2A==
-X-Received: by 2002:a62:8895:0:b029:19e:92ec:6886 with SMTP id l143-20020a6288950000b029019e92ec6886mr10199951pfd.12.1609093033466;
-        Sun, 27 Dec 2020 10:17:13 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d2sm11966867pjd.29.2020.12.27.10.17.11
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=6mVCDrAK+yKHtBvc1Jer9cizg/Jyjd0zHPraDI96DSw=;
+        b=ppgvpM1pDrfzXP6nPwylrzbKPYQzJ2KoaXl+cSpPME+zYI0zcWmPwuS8bum7rITJH5
+         3uiAqo1KTkobI//MP+g4lpOiVDBjVq3HWrcDGblfwgmBi8ImfIIJjyGLAHh6x09UdoXq
+         fi+HaKxVWZKUi8l0W/kS83boHgowzpYUgwduhCjkzxYVSHO2zpQU4d7VRoP9cYL5N8eb
+         cGZ22iYUvp5lcr8JHDJ8n8osC1GCTVpodboUrI1W0SvQKDocF4NYzIDHFhP3UKufbGAu
+         OD+8FvmfgfNXE1HLahxivNVwiW3dHwJfqnmnP23TjSUbY8+9/sHfrYNF7J5HegOf79vG
+         K0tQ==
+X-Gm-Message-State: AOAM533lqa91zlVG94SQ/tDWjS3SuJL/F48pbD13eDAyhMmHQZZyyhCx
+	bof/yoA3vu/bmbLY3JVXP+9U9XkGFBZtHQ==
+X-Google-Smtp-Source: ABdhPJzVnzo8EvU5F3U7X5bCNs7lY27ug7LG0KmlsOQc/BzJpu1OZYjJ6rJ945nS+6EojYalY/qHlg==
+X-Received: by 2002:a63:4c06:: with SMTP id z6mr32653056pga.250.1609095869799;
+        Sun, 27 Dec 2020 11:04:29 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net ([2601:202:4180:a5c0:3c00:c891:9f96:ef06])
+        by smtp.gmail.com with ESMTPSA id f7sm11537034pjs.25.2020.12.27.11.04.28
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Dec 2020 10:17:12 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id DB408962DCA; Sun, 27 Dec 2020 08:17:09 -1000 (HST)
-Subject: OE-core CVE metrics for gatesgarth on Sun 27 Dec 2020 08:15:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20201227181709.DB408962DCA@nuc.router0800d9.com>
-Date: Sun, 27 Dec 2020 08:17:09 -1000 (HST)
+        Sun, 27 Dec 2020 11:04:29 -0800 (PST)
+From: "akuster" <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [Dunfell][meta-oe][PATCH] Revert "mpv: fetch waf in do_fetch"
+Date: Sun, 27 Dec 2020 11:04:27 -0800
+Message-Id: <20201227190427.28926-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Branch: gatesgarth
+This reverts commit 8ce691e47f5b3f795821a439536f4b54b24f887f.
 
-New this week:
-CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
-CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
-CVE-2020-29362: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29362 *
-CVE-2020-29363: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29363 *
+The above commit introduced an issue now being seen on Ubuntu 20.
 
-Removed this week:
-CVE-2007-3387: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-3387 *
-CVE-2007-4045: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4045 *
-CVE-2008-1374: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-1374 *
+ERROR: mpv-0.32.0-r0 do_configure: Error executing a python function in exec_python_func() autogenerated:
 
-Full list:  Found 72 unpatched CVEs
-CVE-2007-0998: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
-CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
-CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
-CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
-CVE-2008-0888: unzip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
-CVE-2008-1033: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-1033 *
-CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
-CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
-CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
-CVE-2008-4539: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
-CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
-CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
-CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
-CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
-CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
-CVE-2013-0221: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
-CVE-2013-0222: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
-CVE-2013-0223: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
-CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2016-2781: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
-CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
-CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
-CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
-CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-12351: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12351 *
-CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
-CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
-CVE-2020-1971: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1971 *
-CVE-2020-25723: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25723 *
-CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-27821: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
-CVE-2020-28362: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28362 *
-CVE-2020-28366: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28366 *
-CVE-2020-28367: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28367 *
-CVE-2020-29361: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29361 *
-CVE-2020-29362: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29362 *
-CVE-2020-29363: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29363 *
-CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
-CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
-CVE-2020-29562: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29562 *
-CVE-2020-35457: glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35457 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2020-8284: curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8284 *
-CVE-2020-8285: curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8285 *
-CVE-2020-8286: curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8286 *
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+      *** 0002:waf_preconfigure(d)
+
+[Gitlab issue #304 ]
+error log: https://errors.yoctoproject.org/Errors/Details/539929/
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta-oe/recipes-multimedia/mplayer/mpv_0.32.0.bb | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/meta-oe/recipes-multimedia/mplayer/mpv_0.32.0.bb b/meta-oe/recipes-multimedia/mplayer/mpv_0.32.0.bb
+index 70a39c7b60b..f7b0f30fb9d 100644
+--- a/meta-oe/recipes-multimedia/mplayer/mpv_0.32.0.bb
++++ b/meta-oe/recipes-multimedia/mplayer/mpv_0.32.0.bb
+@@ -18,9 +18,7 @@ LICENSE_FLAGS = "commercial"
+ SRCREV_mpv = "70b991749df389bcc0a4e145b5687233a03b4ed7"
+ SRC_URI = " \
+     git://github.com/mpv-player/mpv;name=mpv \
+-    https://waf.io/waf-2.0.20;name=waf;subdir=git \
+ "
+-SRC_URI[waf.sha256sum] = "bf971e98edc2414968a262c6aa6b88541a26c3cd248689c89f4c57370955ee7f"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -103,10 +101,14 @@ EXTRA_OECONF = " \
+     ${PACKAGECONFIG_CONFARGS} \
+ "
+ 
+-link_waf() {
+-    ln -s waf-2.0.20 ${S}/waf
++do_patch[postfuncs] += "get_waf"
++
++get_waf() {
++    cd ${S}
++    ./bootstrap.py
++    sed -i -e 's|/usr/bin/env python|/usr/bin/env python3|g' ${S}/waf
++    cd -
+ }
+-do_unpack[postfuncs] += "link_waf"
+ 
+ FILES_${PN} += " \
+     ${datadir}/icons \
+-- 
+2.17.1
+
