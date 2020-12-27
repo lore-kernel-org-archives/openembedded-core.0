@@ -1,446 +1,85 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
- by mx.groups.io with SMTP id smtpd.web08.32394.1609076987456956334
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web12.32648.1609077185783546237
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Dec 2020 05:49:47 -0800
+ Sun, 27 Dec 2020 05:53:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u9HBOL/A;
- spf=pass (domain: gmail.com, ip: 209.85.222.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f41.google.com with SMTP id w7so2560807uap.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Dec 2020 05:49:47 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=atcv1RAV;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id qw4so11127652ejb.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Dec 2020 05:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tyjkUKoNDKbFlzy3IQyc/QWR+RXZr3kQXDMEjqguiFI=;
-        b=u9HBOL/AwmmzdBg9PeYd9PoWuYsp0NJFCcpeLWtasLy2lreB8grbznKRAx+rJyu8wX
-         x2VtO9BLE6UdWBUKqoes6T89+yjsbS6G7eIzs0axiznHmpqKEOMbZKwOfbbtQbPYpqaW
-         7Pr0cTtxcszI6jzhVgpexQLsC5/ciSKsRQVKRX3lZcEVS38icxIU8+ZJJAoagiUaRMQ0
-         bu0J4ubHcF8lyy904Xp4p+auEphZGZcsHFMFAB/+pxrtOC9JAD6hfMonAehqsfEL+HqQ
-         cJ48BpFdVpvh7RY7BAy/oM8QEIVHQBYVbODLhh7JCl+tmLZCY/j+Oj42h7YItglL+Cxq
-         LNFA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rr5PD4Bz9xDrgJHdIFiEeQd/FHmdpUvF+q6bkHbjoUk=;
+        b=atcv1RAV3H57znjn5muJLkL4SKTb7b/gBXTa/a8Uko7f5f5FGdvCsXxJDVOYMvdcgp
+         Q99kNwYBFpqyAwvx2v1isEDXFbTz4nuZX8MrLsj1oPHmDsP8oQ+xbWzVyWaDz7XJ3vl3
+         3KzUrP32CP3DtZxdb8UpTcCQM6kDR5aRhaaorfHvZUYlcp0AL7MukZctCcjf7Is04EfP
+         KS79pKkj0Gh3RMhvWuSU+Dcf5dlFvr9sxG9FJufhM/tl1r05Wh3/WXJVs+XPUU2ujfsC
+         EML/hTng4JLx34P1BVszGqFpREmASsgOucKEYepHXS+LLw7o/PItcCVZRw9yoBy6OP6c
+         OByQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tyjkUKoNDKbFlzy3IQyc/QWR+RXZr3kQXDMEjqguiFI=;
-        b=F4ClLqX55RHawPWHNcGBAz5KzoCbdxbOfYTPNEHnvIsiA8QUMmLmUGAqtbcUqiICn3
-         EFuk3P2IIjeasx5hG9t+dMJxCHCaDwxYGe5NNOHBQRU1e+m6rkFJ9wmmYZwDT5D1L3ug
-         eUh+Z/3RbxIDZYUHAdQIqS2cBsAx9kfySz6OMSBTHTM7BxSYJQ6FhC7o7EUtPEZyHzKC
-         L+K7IBbbmw15rm5lu0zREEKmcGsVLGprseJ/YgfI6khUwfIhJurxadIuvYl0OGZo91mO
-         KEEmUjsTngMZGfvzeQp33B2kXmzThhOXNhOu46zncbni+USlQq1wyqtcGPQp+966FJwQ
-         Cq0Q==
-X-Gm-Message-State: AOAM532VqD7H6vbvfMDZQmgh4l54Uumbcz1ODaM/vQGaK/E8T21PKTJz
-	4ridIJ3cPXbgmwfrM7lGuNFFqsnFEd9BUv0eryA=
-X-Google-Smtp-Source: ABdhPJxJSKlI5mvVezLz7Imi/k8jqPAXYBjA8af2EJhK42GpKPL8Hg4Oclkl34D3o/6gyVJ8Hk20AoShdon0xV2cXQU=
-X-Received: by 2002:ab0:4597:: with SMTP id u23mr28019790uau.100.1609076986657;
- Sun, 27 Dec 2020 05:49:46 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Rr5PD4Bz9xDrgJHdIFiEeQd/FHmdpUvF+q6bkHbjoUk=;
+        b=c7vGKSV5okKiz9t5Hq9vsW7Z8WzPp/NgjTxDVbpmMWI3MTF6/LN+Mn95evjzdTWQ2N
+         NpTfbl9Rrtof2gpmyo39s7FJcTDkbupHU/fCiweUmXp+KKtrqa4HSi1h3Up2cj1iRstP
+         oB9dY8qHmXt2JMwaz1+eRFRuR0xX5osf+tXXFMnDuTY6ec9aZjv/Ys3rD1yRDtaBFirq
+         DHj4wwrQjzcs+8rhikxHVP/AJOCAYTr+bkyuI3NZy2RlA6fvyh08YFCPa2g8KlJKIZdd
+         DmQa6ugnRqcP38MzQnv8LIINqAF8VhU7LQ4qYPTvywazAJNXF6wKDVXzc9Te1Zi1iMg3
+         m3+g==
+X-Gm-Message-State: AOAM532eH5PhlkI/5WPeO2O/TM8HqwtyFfNhZzA4tGWTyOXcBy7sL8jp
+	VdDh9ecTOacEPpTShBbcSqLhd+b9Jv0=
+X-Google-Smtp-Source: ABdhPJwo7Q2jtmEa5Pp7SDofkC3WFebOZzvKL5RRGDcyyI74aaxTohG+qV8OXG1tgOZ36wowYddYDw==
+X-Received: by 2002:a17:906:60c3:: with SMTP id f3mr38031235ejk.65.1609077184145;
+        Sun, 27 Dec 2020 05:53:04 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id a23sm8647933ejg.7.2020.12.27.05.53.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Dec 2020 05:53:03 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] busybox.inc: install rcS, rcK and rcS.default only with busybox in VIRTUAL-RUNTIME_init_manager
+Date: Sun, 27 Dec 2020 14:53:01 +0100
+Message-Id: <20201227135301.1488648-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <MADEUP.1650FA40E6DA26AA.26179@lists.openembedded.org>
-In-Reply-To: <MADEUP.1650FA40E6DA26AA.26179@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 27 Dec 2020 08:49:35 -0500
-Message-ID: <CANNYZj-3HvZVQVUG+BScF6qvT=Qv7=1XOTs0FDj-Xavgt1MLUA@mail.gmail.com>
-Subject: Re: [OE-core] [AUH] autoconf: upgrading to 2.70 FAILED
-To: Ross Burton <ross.burton@arm.com>, Ross Burton <ross@burtonini.com>
-Cc: Robert Yang <liezhi.yang@windriver.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000034bfbe05b7726ea2"
+Content-Transfer-Encoding: 8bit
 
---00000000000034bfbe05b7726ea2
-Content-Type: text/plain; charset="UTF-8"
+* since
+  https://git.openembedded.org/openembedded-core/commit/?id=991394be9e695f9ddb5e2fca167c06f7a56a7449
+  the rcS.default is in SRC_URI only when VIRTUAL-RUNTIME_init_manager is 'busybox'
+  but this section in do_install was controlled by
+  CONFIG_INIT=y in /.config which for busybox-initrd from meta-virtualization
+  caused:
 
-I wish GNU would just let autotools stagnate and die (non-GNU moving to
-meson in droves should've given them a clue). But here we are: first new
-release of autoconf in 8 years.
+  ERROR: busybox-initrd-1.32.0-r0 do_install: Execution of '/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/busybox-initrd/1.32.0-r0/temp/run.do_install.1481880' failed with exit code 1:
+  CONFIG_FEATURE_MDEV_CONF=y
+  install: cannot stat '/OE/build/oe-core/tmp-glibc/work/core2-64-oe-linux/busybox-initrd/1.32.0-r0/rcS.default': No such file or directory
+  WARNING: exit code 1 from a shell command.
 
-Ross, would you be able to look into updating this?
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-core/busybox/busybox.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index c3a97261d5..47fcb59302 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -309,7 +309,7 @@ do_install () {
+ 			install -m 0755 ${WORKDIR}/mdev-mount.sh ${D}${sysconfdir}/mdev
+ 		fi
+ 	fi
+-	if grep -q "CONFIG_INIT=y" ${B}/.config; then
++	if grep -q "CONFIG_INIT=y" ${B}/.config && ${@bb.utils.contains('VIRTUAL-RUNTIME_init_manager','busybox','true','false',d)}; then
+ 		install -D -m 0755 ${WORKDIR}/rcS ${D}${sysconfdir}/init.d/rcS
+ 		install -D -m 0755 ${WORKDIR}/rcK ${D}${sysconfdir}/init.d/rcK
+ 		install -D -m 0755 ${WORKDIR}/rcS.default ${D}${sysconfdir}/default/rcS
+-- 
+2.27.0
 
-On Tue, 15 Dec 2020 at 14:24, <auh@auh.yoctoproject.org> wrote:
-
-> Hello,
->
-> this email is a notification from the Auto Upgrade Helper
-> that the automatic attempt to upgrade the recipe *autoconf* to *2.70* has
-> Failed (devtool error).
->
-> Detailed error information:
->
-> The following devtool command failed:  upgrade autoconf -V 2.70
-> NOTE: Starting bitbake server...
-> NOTE: Reconnecting to bitbake server...
-> NOTE: Retrying server connection (#1)...
-> Loading cache...done.
-> Loaded 1419 entries from dependency cache.
-> INFO: Extracting current version source...
-> INFO: SRC_URI contains some conditional appends/prepends - will create
-> branches to represent these
-> Removing 1 recipes from the x86_64 sysroot...done.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION           = "1.49.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "universal"
-> TARGET_SYS           = "x86_64-poky-linux"
-> MACHINE              = "qemux86-64"
-> DISTRO               = "poky"
-> DISTRO_VERSION       =
-> "3.2+snapshot-e397c67133b19959048a93011992d3fda79edf0d"
-> TUNE_FEATURES        = "m64 core2"
-> TARGET_FPU           = ""
-> meta
-> meta-poky
-> meta-yocto-bsp       =
-> "tmp-auh-upgrades:e397c67133b19959048a93011992d3fda79edf0d"
-> workspace            = "master:796be0593a607938aef3941372a9238b7e895446"
->
-> Initialising tasks...done.
-> Sstate summary: Wanted 6 Found 0 Missed 6 Current 14 (0% match, 70%
-> complete)
-> NOTE: Executing Tasks
-> ERROR: Error executing a python function in exec_python_func()
-> autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure
-> was:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:devtool_post_unpack(d)
->      0003:
-> File:
-> '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/devtool-source.bbclass',
-> lineno: 150, function: devtool_post_unpack
->      0146:                "doesn't use any source or the correct source "
->      0147:                "directory could not be determined" %
-> d.getVar('PN'))
->      0148:
->      0149:    devbranch = d.getVar('DEVTOOL_DEVBRANCH')
->  *** 0150:    setup_git_repo(srcsubdir, d.getVar('PV'), devbranch, d=d)
->      0151:
->      0152:    (stdout, _) = bb.process.run('git rev-parse HEAD',
-> cwd=srcsubdir)
->      0153:    initial_rev = stdout.rstrip()
->      0154:    with open(os.path.join(tempdir, 'initial_rev'), 'w') as f:
-> File:
-> '/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/__init__.py',
-> lineno: 234, function: setup_git_repo
->      0230:        for line in excludes:
->      0231:            f.write(line)
->      0232:
->      0233:    bb.process.run('git checkout -b %s' % devbranch, cwd=repodir)
->  *** 0234:    bb.process.run('git tag -f %s' % basetag, cwd=repodir)
->      0235:
->      0236:def recipe_to_append(recipefile, config, wildcard=False):
->      0237:    """
->      0238:    Convert a recipe file to a bbappend file path within the
-> workspace.
-> File:
-> '/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/process.py',
-> lineno: 184, function: run
->      0180:        if not stderr is None:
->      0181:            stderr = stderr.decode("utf-8")
->      0182:
->      0183:    if pipe.returncode != 0:
->  *** 0184:        raise ExecutionError(cmd, pipe.returncode, stdout,
-> stderr)
->      0185:    return stdout, stderr
-> Exception: bb.process.ExecutionError: Execution of 'git tag -f
-> devtool-base' failed with exit code 128:
-> fatal: Failed to resolve 'HEAD' as a valid ref.
->
->
-> ERROR: Logfile of failure stored in:
-> /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/autoconf/2.69-r11/devtooltmp-ndi0v_y0/temp/log.do_unpack.31654
-> ERROR: Error executing a python function in exec_python_func()
-> autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure
-> was:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:devtool_post_unpack(d)
->      0003:
-> File:
-> '/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/devtool-source.bbclass',
-> lineno: 150, function: devtool_post_unpack
->      0146:                "doesn't use any source or the correct source "
->      0147:                "directory could not be determined" %
-> d.getVar('PN'))
->      0148:
->      0149:    devbranch = d.getVar('DEVTOOL_DEVBRANCH')
->  *** 0150:    setup_git_repo(srcsubdir, d.getVar('PV'), devbranch, d=d)
->      0151:
->      0152:    (stdout, _) = bb.process.run('git rev-parse HEAD',
-> cwd=srcsubdir)
->      0153:    initial_rev = stdout.rstrip()
->      0154:    with open(os.path.join(tempdir, 'initial_rev'), 'w') as f:
-> File:
-> '/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/devtool/__init__.py',
-> lineno: 233, function: setup_git_repo
->      0229:    with open(excludefile, 'w') as f:
->      0230:        for line in excludes:
->      0231:            f.write(line)
->      0232:
->  *** 0233:    bb.process.run('git checkout -b %s' % devbranch, cwd=repodir)
->      0234:    bb.process.run('git tag -f %s' % basetag, cwd=repodir)
->      0235:
->      0236:def recipe_to_append(recipefile, config, wildcard=False):
->      0237:    """
-> File:
-> '/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/bb/process.py',
-> lineno: 184, function: run
->      0180:        if not stderr is None:
->      0181:            stderr = stderr.decode("utf-8")
->      0182:
->      0183:    if pipe.returncode != 0:
->  *** 0184:        raise ExecutionError(cmd, pipe.returncode, stdout,
-> stderr)
->      0185:    return stdout, stderr
-> Exception: bb.process.ExecutionError: Execution of 'git checkout -b
-> devtool-orig' failed with exit code 128:
-> fatal: A branch named 'devtool-orig' already exists.
->
->
-> ERROR: Logfile of failure stored in:
-> /home/pokybuild/yocto-worker/auh/build/build/build/tmp/work/core2-64-poky-linux/autoconf/2.69-r11/devtooltmp-ndi0v_y0/temp/log.do_unpack.31653
-> NOTE: Tasks Summary: Attempted 66 tasks of which 61 didn't need to be
-> rerun and 2 failed.
-> NOTE: Writing buildhistory
-> NOTE: Writing buildhistory took: 2 seconds
-> ERROR: Extracting source for autoconf failed
->
->
->
-> Please review the attached files for further information and build/update
-> failures.
-> Any problem please file a bug at
-> https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
->
-> Regards,
-> The Upgrade Helper
->
-> 
->
->
-
---00000000000034bfbe05b7726ea2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I wish GNU would just let autotools stagnate and die =
-(non-GNU moving to meson in droves should&#39;ve given them a clue). But he=
-re we are: first new release of autoconf in 8 years.</div><div><br></div><d=
-iv>Ross, would you be able to look into updating this?</div><div><br></div>=
-<div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Tue, 15 Dec 2020 at 14:24, &lt;<a href=3D"mailto:auh@=
-auh.yoctoproject.org">auh@auh.yoctoproject.org</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex">Hello,<br>
-<br>
-this email is a notification from the Auto Upgrade Helper<br>
-that the automatic attempt to upgrade the recipe *autoconf* to *2.70* has =
-Failed (devtool error).<br>
-<br>
-Detailed error information:<br>
-<br>
-The following devtool command failed:=C2=A0 upgrade autoconf -V 2.70<br>
-NOTE: Starting bitbake server...<br>
-NOTE: Reconnecting to bitbake server...<br>
-NOTE: Retrying server connection (#1)...<br>
-Loading cache...done.<br>
-Loaded 1419 entries from dependency cache.<br>
-INFO: Extracting current version source...<br>
-INFO: SRC_URI contains some conditional appends/prepends - will create bra=
-nches to represent these<br>
-Removing 1 recipes from the x86_64 sysroot...done.<br>
-NOTE: Resolving any missing task queue dependencies<br>
-<br>
-Build Configuration:<br>
-BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;1.49.0&quot;<=
-br>
-BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;x86_64-linux&=
-quot;<br>
-NATIVELSBSTRING=C2=A0 =C2=A0 =C2=A0 =3D &quot;universal&quot;<br>
-TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x86_64-poky-l=
-inux&quot;<br>
-MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;qemux86-=
-64&quot;<br>
-DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;pok=
-y&quot;<br>
-DISTRO_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;3.2+snapshot-e397c67133=
-b19959048a93011992d3fda79edf0d&quot;<br>
-TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;m64 core2&quot;<br>
-TARGET_FPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;&quot;<br>
-meta=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
-meta-poky=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
-meta-yocto-bsp=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;tmp-auh-upgrades:e397c6=
-7133b19959048a93011992d3fda79edf0d&quot;<br>
-workspace=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;master:796be0=
-593a607938aef3941372a9238b7e895446&quot;<br>
-<br>
-Initialising tasks...done.<br>
-Sstate summary: Wanted 6 Found 0 Missed 6 Current 14 (0% match, 70% comple=
-te)<br>
-NOTE: Executing Tasks<br>
-ERROR: Error executing a python function in exec_python_func() autogenerat=
-ed:<br>
-<br>
-The stack trace of python calls that resulted in this exception/failure wa=
-s:<br>
-File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, function: &lt=
-;module&gt;<br>
-=C2=A0 =C2=A0 =C2=A00001:<br>
-=C2=A0*** 0002:devtool_post_unpack(d)<br>
-=C2=A0 =C2=A0 =C2=A00003:<br>
-File: &#39;/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/=
-devtool-source.bbclass&#39;, lineno: 150, function: devtool_post_unpack<br>
-=C2=A0 =C2=A0 =C2=A00146:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 &quot;doesn&#39;t use any source or the correct source &quot;<br>
-=C2=A0 =C2=A0 =C2=A00147:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 &quot;directory could not be determined&quot; % d.getVar(&#39;PN&#3=
-9;))<br>
-=C2=A0 =C2=A0 =C2=A00148:<br>
-=C2=A0 =C2=A0 =C2=A00149:=C2=A0 =C2=A0 devbranch =3D d.getVar(&#39;DEVTOOL=
-_DEVBRANCH&#39;)<br>
-=C2=A0*** 0150:=C2=A0 =C2=A0 setup_git_repo(srcsubdir, d.getVar(&#39;PV&#3=
-9;), devbranch, d=3Dd)<br>
-=C2=A0 =C2=A0 =C2=A00151:<br>
-=C2=A0 =C2=A0 =C2=A00152:=C2=A0 =C2=A0 (stdout, _) =3D bb.process.run(&#39=
-;git rev-parse HEAD&#39;, cwd=3Dsrcsubdir)<br>
-=C2=A0 =C2=A0 =C2=A00153:=C2=A0 =C2=A0 initial_rev =3D stdout.rstrip()<br>
-=C2=A0 =C2=A0 =C2=A00154:=C2=A0 =C2=A0 with open(os.path.join(tempdir, &#3=
-9;initial_rev&#39;), &#39;w&#39;) as f:<br>
-File: &#39;/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/d=
-evtool/__init__.py&#39;, lineno: 234, function: setup_git_repo<br>
-=C2=A0 =C2=A0 =C2=A00230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in excludes:=
-<br>
-=C2=A0 =C2=A0 =C2=A00231:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write=
-(line)<br>
-=C2=A0 =C2=A0 =C2=A00232:<br>
-=C2=A0 =C2=A0 =C2=A00233:=C2=A0 =C2=A0 bb.process.run(&#39;git checkout -b=
- %s&#39; % devbranch, cwd=3Drepodir)<br>
-=C2=A0*** 0234:=C2=A0 =C2=A0 bb.process.run(&#39;git tag -f %s&#39; % base=
-tag, cwd=3Drepodir)<br>
-=C2=A0 =C2=A0 =C2=A00235:<br>
-=C2=A0 =C2=A0 =C2=A00236:def recipe_to_append(recipefile, config, wildcard=
-=
-=3DFalse):<br>
-=C2=A0 =C2=A0 =C2=A00237:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A00238:=C2=A0 =C2=A0 Convert a recipe file to a bbappend=
- file path within the workspace.<br>
-File: &#39;/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/b=
-b/process.py&#39;, lineno: 184, function: run<br>
-=C2=A0 =C2=A0 =C2=A00180:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not stderr is None=
-:<br>
-=C2=A0 =C2=A0 =C2=A00181:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stderr =
-=
-=3D stderr.decode(&quot;utf-8&quot;)<br>
-=C2=A0 =C2=A0 =C2=A00182:<br>
-=C2=A0 =C2=A0 =C2=A00183:=C2=A0 =C2=A0 if pipe.returncode !=3D 0:<br>
-=C2=A0*** 0184:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise ExecutionError(cmd, pipe.=
-returncode, stdout, stderr)<br>
-=C2=A0 =C2=A0 =C2=A00185:=C2=A0 =C2=A0 return stdout, stderr<br>
-Exception: bb.process.ExecutionError: Execution of &#39;git tag -f devtool=
--base&#39; failed with exit code 128:<br>
-fatal: Failed to resolve &#39;HEAD&#39; as a valid ref.<br>
-<br>
-<br>
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/buil=
-d/build/build/tmp/work/core2-64-poky-linux/autoconf/2.69-r11/devtooltmp-ndi=
-0v_y0/temp/log.do_unpack.31654<br>
-ERROR: Error executing a python function in exec_python_func() autogenerat=
-ed:<br>
-<br>
-The stack trace of python calls that resulted in this exception/failure wa=
-s:<br>
-File: &#39;exec_python_func() autogenerated&#39;, lineno: 2, function: &lt=
-;module&gt;<br>
-=C2=A0 =C2=A0 =C2=A00001:<br>
-=C2=A0*** 0002:devtool_post_unpack(d)<br>
-=C2=A0 =C2=A0 =C2=A00003:<br>
-File: &#39;/home/pokybuild/yocto-worker/auh/build/build/poky/meta/classes/=
-devtool-source.bbclass&#39;, lineno: 150, function: devtool_post_unpack<br>
-=C2=A0 =C2=A0 =C2=A00146:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 &quot;doesn&#39;t use any source or the correct source &quot;<br>
-=C2=A0 =C2=A0 =C2=A00147:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 &quot;directory could not be determined&quot; % d.getVar(&#39;PN&#3=
-9;))<br>
-=C2=A0 =C2=A0 =C2=A00148:<br>
-=C2=A0 =C2=A0 =C2=A00149:=C2=A0 =C2=A0 devbranch =3D d.getVar(&#39;DEVTOOL=
-_DEVBRANCH&#39;)<br>
-=C2=A0*** 0150:=C2=A0 =C2=A0 setup_git_repo(srcsubdir, d.getVar(&#39;PV&#3=
-9;), devbranch, d=3Dd)<br>
-=C2=A0 =C2=A0 =C2=A00151:<br>
-=C2=A0 =C2=A0 =C2=A00152:=C2=A0 =C2=A0 (stdout, _) =3D bb.process.run(&#39=
-;git rev-parse HEAD&#39;, cwd=3Dsrcsubdir)<br>
-=C2=A0 =C2=A0 =C2=A00153:=C2=A0 =C2=A0 initial_rev =3D stdout.rstrip()<br>
-=C2=A0 =C2=A0 =C2=A00154:=C2=A0 =C2=A0 with open(os.path.join(tempdir, &#3=
-9;initial_rev&#39;), &#39;w&#39;) as f:<br>
-File: &#39;/home/pokybuild/yocto-worker/auh/build/build/poky/scripts/lib/d=
-evtool/__init__.py&#39;, lineno: 233, function: setup_git_repo<br>
-=C2=A0 =C2=A0 =C2=A00229:=C2=A0 =C2=A0 with open(excludefile, &#39;w&#39;)=
- as f:<br>
-=C2=A0 =C2=A0 =C2=A00230:=C2=A0 =C2=A0 =C2=A0 =C2=A0 for line in excludes:=
-<br>
-=C2=A0 =C2=A0 =C2=A00231:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write=
-(line)<br>
-=C2=A0 =C2=A0 =C2=A00232:<br>
-=C2=A0*** 0233:=C2=A0 =C2=A0 bb.process.run(&#39;git checkout -b %s&#39; %=
- devbranch, cwd=3Drepodir)<br>
-=C2=A0 =C2=A0 =C2=A00234:=C2=A0 =C2=A0 bb.process.run(&#39;git tag -f %s&#=
-39; % basetag, cwd=3Drepodir)<br>
-=C2=A0 =C2=A0 =C2=A00235:<br>
-=C2=A0 =C2=A0 =C2=A00236:def recipe_to_append(recipefile, config, wildcard=
-=
-=3DFalse):<br>
-=C2=A0 =C2=A0 =C2=A00237:=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
-File: &#39;/home/pokybuild/yocto-worker/auh/build/build/poky/bitbake/lib/b=
-b/process.py&#39;, lineno: 184, function: run<br>
-=C2=A0 =C2=A0 =C2=A00180:=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not stderr is None=
-:<br>
-=C2=A0 =C2=A0 =C2=A00181:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stderr =
-=
-=3D stderr.decode(&quot;utf-8&quot;)<br>
-=C2=A0 =C2=A0 =C2=A00182:<br>
-=C2=A0 =C2=A0 =C2=A00183:=C2=A0 =C2=A0 if pipe.returncode !=3D 0:<br>
-=C2=A0*** 0184:=C2=A0 =C2=A0 =C2=A0 =C2=A0 raise ExecutionError(cmd, pipe.=
-returncode, stdout, stderr)<br>
-=C2=A0 =C2=A0 =C2=A00185:=C2=A0 =C2=A0 return stdout, stderr<br>
-Exception: bb.process.ExecutionError: Execution of &#39;git checkout -b de=
-vtool-orig&#39; failed with exit code 128:<br>
-fatal: A branch named &#39;devtool-orig&#39; already exists.<br>
-<br>
-<br>
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/auh/buil=
-d/build/build/tmp/work/core2-64-poky-linux/autoconf/2.69-r11/devtooltmp-ndi=
-0v_y0/temp/log.do_unpack.31653<br>
-NOTE: Tasks Summary: Attempted 66 tasks of which 61 didn&#39;t need to be =
-rerun and 2 failed.<br>
-NOTE: Writing buildhistory<br>
-NOTE: Writing buildhistory took: 2 seconds<br>
-ERROR: Extracting source for autoconf failed<br>
-<br>
-<br>
-<br>
-Please review the attached files for further information and build/update =
-failures.<br>
-Any problem please file a bug at <a href=3D"https://bugzilla.yoctoproject.=
-org/enter_bug.cgi?product=3DAutomated%20Update%20Handler" rel=3D"noreferrer=
-" target=3D"_blank">https://bugzilla.yoctoproject.org/enter_bug.cgi?product=
-=
-=3DAutomated%20Update%20Handler</a><br>
-<br>
-Regards,<br>
-The Upgrade Helper<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000034bfbe05b7726ea2--
