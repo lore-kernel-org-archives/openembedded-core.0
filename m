@@ -1,102 +1,153 @@
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
- by mx.groups.io with SMTP id smtpd.web12.29668.1609046654010852494
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web12.29861.1609048970126666494
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Dec 2020 21:24:14 -0800
+ Sat, 26 Dec 2020 22:02:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uPu0tGZB;
- spf=pass (domain: gmail.com, ip: 209.85.166.170, mailfrom: twoerner@gmail.com)
-Received: by mail-il1-f170.google.com with SMTP id v3so6862892ilo.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 21:24:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=JvcRdc/3;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id a4so3693820qvd.12
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Dec 2020 22:02:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=F4VmZvU1329qUspGmUUFdlHBM8VbkCjfbrlSsSVlVAQ=;
-        b=uPu0tGZBDOXnb3Y2bnZAw/ICxWO/fzsTdh8OqyZH7PhwFwyKXDiLjDqsaiYJCF60dr
-         LvIz5wfSEdSzJCIEGDoad70scST2a4OQvFY7Yo3UJtr9ZH7ZPtjq995aWsZ1U4kxaYMK
-         DAsNKOmPVoMCy0khavW/q5zocv40DIQiIas85tmfTXY3ViQF+3HN3ANnJSC6BcrJwsoD
-         dIilPBNXUFT8zCWpZfxUZUWEdzuVqURtflPyU0l9+6XJhvTTUhvA8wqzUS2MZtzJSujT
-         vcJz2RHSniYqjGxwUmM52JoUa4hqqEFd4WUMI5LmLM5rz1ZlFX6FULPrT1iMaWPFubcG
-         D1sw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ocfA6zi4KYzFFVh+VT+bJO/JA2jaoNZSbZjoMV4Un0g=;
+        b=JvcRdc/3h8oRi6GMl0RnD5xs+vlzUphLjwA9qhZcWY95UduW4pBfqr2yOxICvezOZY
+         obD3/CJDv36JkYdTcyUuz9ikrfwikmsdzwvjx8EiYTgOapvdLloASBOJeh1kUiYdU+hz
+         bumQiXwyl14gy5W0DJWuOPNAr7pMSOVGWnzy/Tg535Kr+hcysYaBJ7yxphxu5hWMVZCm
+         V89FTzhi3KidVHH+Dtg/ZVFBbLT/XL8mnSUNGiUm+d8Of8hDS61tsisByCaMtIlHs9+J
+         W0cG8g5BLY0tJBNNIk3Cugmjs34nx68EM//qevDPjmtHaKI1+kaOqae1hS4fsG5p3LGk
+         6w/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=F4VmZvU1329qUspGmUUFdlHBM8VbkCjfbrlSsSVlVAQ=;
-        b=FjvKS152w3mkImcYfAoJWlwahF+RgKL+xkqQ72XnUDAWKrHMHO+c8eDBMBDfe9NYs5
-         S9Dg0bLjtoHCWhCcTjSQxlBxDSjUgrg+hntPrD1INTqT+SKpqaM//beXj4V5pXEtKndD
-         QGCM84TIRi2FXS+0De0cVHAgUTF/3momO79K8TXIj7Zp+dEIdg+r1+rb/FTWjoOnvm3v
-         dDm7rnZ1jswfYz/4CcFWPReFBYLCuo168NJOZjTfko8tMyIw6cGeQmEjcnU+THtoU6/p
-         +3aOF4QBnlvaNq3kUNUbmr0JoIVR0cAPnhxAgHiT5v2Vbv52yQWRfTUTX1w5VMApoFrb
-         hw2w==
-X-Gm-Message-State: AOAM532ztjvyAj77KdvuukgIbpgyyiFte7Z3EThzenrCi1O2d8Ik9/CJ
-	c84QgrDKS8kHY63B7mKB0n2+C9FhR2SXtA==
-X-Google-Smtp-Source: ABdhPJzjSpcsLZ6JnfeHgTSyXnrowoP8odTqQr1FtjU4xj/mNvOReJ24mDQ8ueDar34HtijeD9NPhA==
-X-Received: by 2002:a92:ad05:: with SMTP id w5mr36862299ilh.96.1609046653084;
-        Sat, 26 Dec 2020 21:24:13 -0800 (PST)
-Return-Path: <twoerner@gmail.com>
-Received: from localhost.localdomain ([206.248.190.95])
-        by smtp.gmail.com with ESMTPSA id e89sm25639803ill.44.2020.12.26.21.24.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Dec 2020 21:24:12 -0800 (PST)
-From: "Trevor Woerner" <twoerner@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [meta-selftest][PATCH] selftest-chown: add test for fifos
-Date: Sun, 27 Dec 2020 00:24:01 -0500
-Message-Id: <20201227052401.40000-1-twoerner@gmail.com>
-X-Mailer: git-send-email 2.30.0.rc0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ocfA6zi4KYzFFVh+VT+bJO/JA2jaoNZSbZjoMV4Un0g=;
+        b=GLy3upavRu3FSv3h0STngbCxLeX4BkM3cK4x/MFmkhMN7JMGOs2tlSLlCZzGq/O7y5
+         jB1yS57jI2bjW0XCQkp249FXpeE2C8u5vKtuYsS1XKDR/qmbUeGIoKN5IKVIVbMGOoV0
+         YGPc+KIqeIinhuWfl4E8awH5sTkBO9utLlrId4+d/CLSx7kYz/DNcuign/frZTcQ9sEc
+         2bPDPoyKx4YoLCJHoee19B0HqpL5Ken+7g+GZqr1S9KTZca+JMKQ/h83JtHyHYIPOh+V
+         hDveMdLpZXTap1tnZ5/wJsDQq9YpN57OwyT8AvrBGt64O6GvgwVFVLssHUYqCXyrqHpW
+         1/xA==
+X-Gm-Message-State: AOAM531Hw9XNSH4I30bamimKkrPzxXfSV2/nYxREQFVNnu+3y9FLF0yp
+	/FX8dwPB3jNh1Ry+KYx8W6NJu1jCW88TVX4i26s=
+X-Google-Smtp-Source: ABdhPJzeZrlEHlGAokIX5+fhImh804BWTNRD4Pid9Q34QNsL996Vto5P3WpK7DaqgWyHhH70rXpTf1nCD3zoTk2RKO4=
+X-Received: by 2002:ad4:4431:: with SMTP id e17mr41342616qvt.21.1609048969185;
+ Sat, 26 Dec 2020 22:02:49 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201226092732.52323-1-alex.kanavin@gmail.com> <20201226092732.52323-35-alex.kanavin@gmail.com>
+In-Reply-To: <20201226092732.52323-35-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Sat, 26 Dec 2020 22:02:23 -0800
+Message-ID: <CAMKF1sp=O9JCsc3gDJ8Oqh2uXCtVjUZG6kT0syz3sQT7ijVLZg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 35/48] ell: upgrade 0.33 -> 0.35
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Verify that fifos are properly handled by the build system.
+regresses iwd builds see
 
-Signed-off-by: Trevor Woerner <twoerner@gmail.com>
----
- meta-selftest/recipes-test/selftest-chown/selftest-chown.bb | 5 +++++
- meta/lib/oeqa/selftest/cases/package.py                     | 3 ++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+https://errors.yoctoproject.org/Errors/Details/540274/
 
-diff --git a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-index 87bf9438b8..440471fe80 100644
---- a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-+++ b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
-@@ -3,6 +3,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
- 
- LICENSE = "MIT"
- 
-+DEPENDS += "coreutils-native"
-+
- S = "${WORKDIR}"
- 
- inherit useradd allarch
-@@ -16,10 +18,13 @@ do_install() {
- 	install -d   ${TESTDIR}/dir
- 	touch        ${TESTDIR}/file
- 	ln -s ./file ${TESTDIR}/symlink
-+	install -d   ${TESTDIR}/fifotest
-+	mkfifo       ${TESTDIR}/fifotest/fifo
- 
- 	chown    test:test ${TESTDIR}/file
- 	chown -R test:test ${TESTDIR}/dir
- 	chown -h test:test ${TESTDIR}/symlink
-+	chown -R test:test ${TESTDIR}/fifotest
- }
- 
- FILES_${PN} = "${sysconfdir}/selftest-chown/*"
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 3010b1af49..7166c3991f 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -168,6 +168,7 @@ class PackageTests(OESelftestTestCase):
-         with runqemu('core-image-minimal') as qemu:
-             for path in [ sysconfdir + "/selftest-chown/file",
-                           sysconfdir + "/selftest-chown/dir",
--                          sysconfdir + "/selftest-chown/symlink"]:
-+                          sysconfdir + "/selftest-chown/symlink",
-+                          sysconfdir + "/selftest-chown/fifotest/fifo"]:
-                 if not check_ownership(qemu, "test", "test", path):
-                     self.fail('Test ownership %s failed' % path)
--- 
-2.30.0.rc0
-
+On Sat, Dec 26, 2020 at 1:29 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  ...l-add-missing-include-in-dhcp-server.patch | 23 ++++++++++++++++
+>  .../ell/0001-pem.c-do-not-use-rawmemchr.patch | 27 +++++++++++++++++++
+>  .../ell/{ell_0.33.bb => ell_0.35.bb}          |  7 +++--
+>  3 files changed, 55 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-core/ell/ell/0001-ell-add-missing-include-in-dhcp-server.patch
+>  create mode 100644 meta/recipes-core/ell/ell/0001-pem.c-do-not-use-rawmemchr.patch
+>  rename meta/recipes-core/ell/{ell_0.33.bb => ell_0.35.bb} (73%)
+>
+> diff --git a/meta/recipes-core/ell/ell/0001-ell-add-missing-include-in-dhcp-server.patch b/meta/recipes-core/ell/ell/0001-ell-add-missing-include-in-dhcp-server.patch
+> new file mode 100644
+> index 0000000000..2460d26bdc
+> --- /dev/null
+> +++ b/meta/recipes-core/ell/ell/0001-ell-add-missing-include-in-dhcp-server.patch
+> @@ -0,0 +1,23 @@
+> +From dd350f4e2258b5a638bc8fb26a6193147902d292 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?=C3=89rico=20Nogueira?= <ericonr@disroot.org>
+> +Date: Mon, 30 Nov 2020 18:40:33 -0300
+> +Subject: [PATCH] ell: add missing include in dhcp-server.
+> +
+> +Upstream-Status: Backport
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + ell/dhcp-server.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/ell/dhcp-server.c b/ell/dhcp-server.c
+> +index c983ed4..144e83e 100644
+> +--- a/ell/dhcp-server.c
+> ++++ b/ell/dhcp-server.c
+> +@@ -24,6 +24,7 @@
+> + #include <config.h>
+> + #endif
+> +
+> ++#include <linux/types.h>
+> + #include <net/ethernet.h>
+> + #include <sys/socket.h>
+> + #include <arpa/inet.h>
+> diff --git a/meta/recipes-core/ell/ell/0001-pem.c-do-not-use-rawmemchr.patch b/meta/recipes-core/ell/ell/0001-pem.c-do-not-use-rawmemchr.patch
+> new file mode 100644
+> index 0000000000..f0ce6f1364
+> --- /dev/null
+> +++ b/meta/recipes-core/ell/ell/0001-pem.c-do-not-use-rawmemchr.patch
+> @@ -0,0 +1,27 @@
+> +From 277e1eca67fcc23cb31be7b826d83a19d9b89bd2 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Tue, 22 Dec 2020 10:30:54 +0000
+> +Subject: [PATCH] pem.c: do not use rawmemchr()
+> +
+> +This is a glibc-only function, and causes build failures with
+> +alternative libc implementations such as musl.
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + ell/pem.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/ell/pem.c b/ell/pem.c
+> +index 790f2c2..237ae02 100644
+> +--- a/ell/pem.c
+> ++++ b/ell/pem.c
+> +@@ -224,7 +224,7 @@ static uint8_t *pem_load_buffer(const void *buf, size_t buf_len,
+> +
+> +               /* Check that each header line has a key and a colon */
+> +               while (start < end) {
+> +-                      const char *lf = rawmemchr(start, '\n');
+> ++                      const char *lf = memchr(start, '\n', end - start);
+> +                       const char *colon = memchr(start, ':', lf - start);
+> +
+> +                       if (!colon)
+> diff --git a/meta/recipes-core/ell/ell_0.33.bb b/meta/recipes-core/ell/ell_0.35.bb
+> similarity index 73%
+> rename from meta/recipes-core/ell/ell_0.33.bb
+> rename to meta/recipes-core/ell/ell_0.35.bb
+> index 2fa05104fb..ccc54b5ff7 100644
+> --- a/meta/recipes-core/ell/ell_0.33.bb
+> +++ b/meta/recipes-core/ell/ell_0.35.bb
+> @@ -13,8 +13,11 @@ DEPENDS = "dbus"
+>
+>  inherit autotools pkgconfig
+>
+> -SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+> -SRC_URI[sha256sum] = "d9e40e641164150394b74b719b9726fc734f24b2cde679cf5f3be6915c34eded"
+> +SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
+> +           file://0001-ell-add-missing-include-in-dhcp-server.patch \
+> +           file://0001-pem.c-do-not-use-rawmemchr.patch \
+> +           "
+> +SRC_URI[sha256sum] = "2bfe9da7781f65f1cb1595a5a068a3ae74d4b68b74f287c6f0c892cfe623913f"
+>
+>  do_configure_prepend () {
+>      mkdir -p ${S}/build-aux
+> --
+> 2.29.2
+>
+>
+> 
+>
