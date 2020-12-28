@@ -1,81 +1,79 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web08.2395.1609185884400629481
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web12.2454.1609185884958993312
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Dec 2020 12:04:44 -0800
+ Mon, 28 Dec 2020 12:04:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=M2lNNDqP;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id ga15so15590253ejb.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rnQqCOpj;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id h16so10748817edt.7
         for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 12:04:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Us2dpdyyGNP+26WBfhSZNN52f5OYghOD7/0ObbiCIe0=;
-        b=M2lNNDqPd+GVtj8cFGBUoPtkHKVWsBVsj37l3XKG1l5fMT+O2HSPjO1Pog239NI26S
-         ksUKM1zL6gYjYJsjPgkAyxYDziSOGlUyYaMVrcALAnWDN2y9NpOz3eCyp7L3dGCnBMrL
-         N0jQ3y5FpUqMPnE3karsfy9qKtlCesOwJfOuFWh+6vxeEepgxHYcH8csc4UyL529dFWH
-         LRP4NIyNza4XvnIMZcQGgwZ6u/ZpR2J8J38By+4bz8v3w6lKXJ407SQgiOgJJIUldFYX
-         yI8PrKPM7+kR3liKV0hBgMIdjpZ/+bTVwBzvj91dfLTUErCh+sCgfoQBtFXrsGzOAzeR
-         s+cQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=PPJA6Qu9gnNIclqbZXx2pqZNL2aQORGegEZRfYVarr8=;
+        b=rnQqCOpjrvi1I0DguOsPY9UoguE7gAPjzgKBKEq6EU78y4+4PELGZuTKbSuRgeXJc1
+         Wu7WhR129yMd3mw7l+5j3KsK6tumgU3WOn/JQkWUt0NtoCk8ehuZFfcSw9dTDxXTOJBl
+         DA2r1dGKso/SdwAGEzaIFXTn/8r9BjokVuWqwhNm1knXxJpgK31i7q26bNuMDc0AEWYY
+         5KlZ3Et1Wna6aJTor4Ox6pjhsNLz5PhSe+KGvjTm9IsRxuT2UF+N7HzWOE9o0ZPE25cq
+         jAsAHmjRFb439TXbozD3Y8HK7tnzU/eahSWwP3FOp0V9RaH/5A5DkWSMavam54hEMAUj
+         fO4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Us2dpdyyGNP+26WBfhSZNN52f5OYghOD7/0ObbiCIe0=;
-        b=ZAwXyrcGa6iL3MRBT4TASYgQN45o//J9Uy1D9/IMyUXoyFEvbHv9vn+DZRZ8vsiipM
-         JylgJtfXOPPrqcJbYd5nG+3phe9d5m6JWEgj55R/mItXtI1GTLr+dR82eifDF+1L/ZBu
-         E3P+NsSuNMrEXX94vaz3EZ5SDDjjkspPde03ImdaHim0yuPgkdO14u/Vm6RKkG/73lej
-         QApK4UGHRRQ2MoerYLZ82Lv3AB95ZqH+tLXiZPNcrsb+DRgJFuF/4M6A85hNifLg2c+M
-         ocNI75B4ZQY6/UlusxO9Fvi/tWdDIqcNMUzJWCaL9I2EjvK/1SPqHnLXSknOdQdLeVhA
-         we5A==
-X-Gm-Message-State: AOAM533/Rk90tNWAn7XKp8CdeXJBuq5sdoBfC5n1wY6yOwA6QVLKH7k2
-	1P6Wty1Q4oNfhKkAbVO9kodIWeiffyA=
-X-Google-Smtp-Source: ABdhPJy/GkL4Ph+A6+CUvcUTODFzaZ3r5Xwnh/ugdEnG5DRXmu2jfYl2Rbuz9Jp+tBB+DTnbRqSojg==
-X-Received: by 2002:a17:906:e84:: with SMTP id p4mr29984802ejf.141.1609185882813;
-        Mon, 28 Dec 2020 12:04:42 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=PPJA6Qu9gnNIclqbZXx2pqZNL2aQORGegEZRfYVarr8=;
+        b=pW2XJ+UzkTG9BdBjwQVtXGJYPuL3e54xC7zPUIQtRpi25rhAqGS1Fw3VzuRHkujl9p
+         /stI5ib62AYormntWSqG7XmjlwdDndlcxGihk06NZ7+EjFgK3QRyELBT+SjPkub3tUAN
+         kmhmGE28akPlKtAEa7mNNiztWHZ97ynZiKpoRuDe+eYLUaLjR9LuQ9spgNv1R529wA3j
+         C2UPNXpRp8wEnJtSKBf1BcZQXgIrI4K+DYzgXXkYiSzRdVV8chaYO/xXA9GWIgDtmUTT
+         R82QORgWmBC8r1mgjVL4wBeCxxZSclKuvzsPdQkfNEqyQAb4jY3nTMcf7Wk5mfbNgkxW
+         oHpw==
+X-Gm-Message-State: AOAM530VQRKs1TWcSn4Da7WwJuccfrwkzXEUv/IN87Dt8tgwi1gtDyDD
+	vFWuJL5xi8xv8y/yi1f0Q5dx6VcCewY=
+X-Google-Smtp-Source: ABdhPJxfJHT1MeXYDCY+tV5n58iivQa2kc/T68xS3TYO0lV0Iqq682oZbpN+V4yfdahLbwzYelEKRQ==
+X-Received: by 2002:a05:6402:229c:: with SMTP id cw28mr43514989edb.285.1609185883642;
+        Mon, 28 Dec 2020 12:04:43 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.41
+        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 12:04:42 -0800 (PST)
+        Mon, 28 Dec 2020 12:04:43 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 01/22] devtool: gitsm:// should be handled same as git:// in upgrades
-Date: Mon, 28 Dec 2020 21:04:15 +0100
-Message-Id: <20201228200436.78130-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/22] ovmf: upgrade 202008 -> 202011
+Date: Mon, 28 Dec 2020 21:04:16 +0100
+Message-Id: <20201228200436.78130-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201228200436.78130-1-alex.kanavin@gmail.com>
+References: <20201228200436.78130-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/lib/devtool/upgrade.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/ovmf/ovmf_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 0c1de8cdc7..5a057e95f5 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -178,7 +178,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
-     uri, rev = _get_uri(crd)
-     if srcrev:
-         rev = srcrev
--    if uri.startswith('git://'):
-+    if uri.startswith('git://') or uri.startswith('gitsm://'):
-         __run('git fetch')
-         __run('git checkout %s' % rev)
-         __run('git tag -f devtool-base-new')
-@@ -270,7 +270,7 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
-             else:
-                 logger.warning('Command \'%s\' failed:\n%s' % (e.command, e.stdout))
-         if not skiptag:
--            if uri.startswith('git://'):
-+            if uri.startswith('git://') or uri.startswith('gitsm://'):
-                 suffix = 'new'
-             else:
-                 suffix = newpv
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 04c4449ec2..d785ff6700 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -17,10 +17,10 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https \
+            file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
+            file://0003-ovmf-enable-long-path-file.patch \
+            file://0004-ovmf-Update-to-latest.patch \
+-        "
++           "
+ 
+-PV = "edk2-stable202008"
+-SRCREV = "06dc822d045c2bb42e497487935485302486e151"
++PV = "edk2-stable202011"
++SRCREV = "872f953262d68a11da7bc2fb3ded16df234b8700"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
+ 
+ inherit deploy
 -- 
 2.29.2
 
