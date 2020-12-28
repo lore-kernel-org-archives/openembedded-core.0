@@ -1,179 +1,166 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web08.40477.1609120821573294856
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web09.41521.1609126384653956900
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Dec 2020 18:00:21 -0800
+ Sun, 27 Dec 2020 19:33:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Hx1vI6r/kDwaq4EHBVNP6J+t/1HdOa5NDVEbYqjnDZfwTKj0kO5AWl8yHFnntuysgEBTtvb6fN
- ov7RJMdUM9uA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9847"; a="194813748"
-X-IronPort-AV: E=Sophos;i="5.78,453,1599548400"; 
-   d="scan'208";a="194813748"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2020 18:00:12 -0800
-IronPort-SDR: syNUuP9QAuxcniAZWB8A9+vbyBtqvPnr9v8vY2tTh5rnOfwQKP260eG2IIexBe+BUkR4BkXUJY
- OSi00e2rFRWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,453,1599548400"; 
-   d="scan'208";a="343574329"
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
-  by orsmga003.jf.intel.com with ESMTP; 27 Dec 2020 18:00:11 -0800
-Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
- pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 28 Dec 2020 10:00:10 +0800
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
- pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
- Mon, 28 Dec 2020 10:00:10 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "quaresma.jose@gmail.com" <quaresma.jose@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [gatesgarth][PATCH 19/35] ffmpeg: add srt package config knob
-Thread-Topic: [OE-core] [gatesgarth][PATCH 19/35] ffmpeg: add srt package
- config knob
-Thread-Index: AQHW2T3zjdCvuG0UnECl9gg3KVD3XqoEadEAgAbX7YA=
-Date: Mon, 28 Dec 2020 02:00:10 +0000
-Message-ID: <3381a68e8ba8cda175ddb51af53cabe1e452caa9.camel@intel.com>
-References: <cover.1608735614.git.anuj.mittal@intel.com>
-	 <54f8b66ee2439bc6ab68e622f34d451d1bdbfcd9.1608735614.git.anuj.mittal@intel.com>
-	 <CANPvuR=pDJRbU2BboW-nPpcYBWE8jErPSm7dz-K4uapVQab+pA@mail.gmail.com>
-In-Reply-To: <CANPvuR=pDJRbU2BboW-nPpcYBWE8jErPSm7dz-K4uapVQab+pA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.108.32.68]
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.78,453,1599494400"; 
+   d="scan'208";a="102975686"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 28 Dec 2020 11:32:46 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 3D84B4CE601D
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 11:32:44 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 28 Dec 2020 11:32:45 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH v2] ell: upgrade 0.33 -> 0.35
+Date: Mon, 28 Dec 2020 11:32:43 +0800
+Message-ID: <1609126363-6836-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DCE8E97FDFC9EF43B6AA2D6658FA29C9@intel.com>
-Content-Transfer-Encoding: base64
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 3D84B4CE601D.A2414
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-SGkgSm9zZSwNCg0KT24gV2VkLCAyMDIwLTEyLTIzIGF0IDE3OjI5ICswMDAwLCBKb3NlIFF1YXJl
-c21hIHdyb3RlOg0KPiBIaSBBbnVqLA0KPiANCj4gVGhpcyBwYXRjaCByZXF1ZXJlaXMgc3J0IGZy
-b20gbWV0YS1vcGVuZW1iZWRkZWQgYnV0IGl0IGlzIG9ubHkNCj4gcHJlc2VudCBvbiBtYXN0ZXIg
-YnJhbmNoDQo+IGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvbWV0YS1vcGVuZW1iZWRkZWQv
-Y29tbWl0Lz9pZD0yMzM0M2NiOGU5NDk3OTgxZTRlZjE0ZDVlZWFlNWRmOWJmODkxNjI0DQo+IA0K
-PiBUaGlzIG5lZWRzIDIzMzQzY2I4IHRvIGJlIGJhY2twb3J0ZWQgdG/CoGdhdGVzZ2FydGggb27C
-oG1ldGEtDQo+IG9wZW5lbWJlZGRlZC4NCg0KVGhhbmsgeW91IGZvciB0aGUgcmV2aWV3LiBJIGhh
-dmUgZHJvcHBlZCB0aGUgcGF0Y2ggZnJvbSB0aGUgcXVldWUgZm9yDQpub3cuDQoNClRoYW5rcywN
-Cg0KQW51ag0KDQo+IA0KPiBKb3NlDQo+IA0KPiBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
-ZWwuY29tPiBlc2NyZXZldSBubyBkaWEgcXVhcnRhLA0KPiAyMy8xMi8yMDIwIMOgKHMpIDE1OjE5
-Og0KPiA+IEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPg0KPiA+
-IA0KPiA+IMKgIMKgICogMDAwMS1sYXZmLXNydC1maXgtYnVpbGQtZmFpbC13aGVuLXVzZWQtdGhl
-LWxpYnNydC0xLjQuMS5wYXRjaA0KPiA+IMKgIMKgIMKgIFVwc3RyZWFtLVN0YXR1czogQmFja3Bv
-cnQNCj4gPiBbDQo+ID4gaHR0cHM6Ly9naXRodWIuY29tL0ZGbXBlZy9GRm1wZWcvY29tbWl0Lzdj
-NTllMWIwZjI4NWNkN2M3YjM1ZmNkNzFmNDljNWZkNTJjZjkzMTUNCj4gPiBdDQo+ID4gDQo+ID4g
-U2lnbmVkLW9mZi1ieTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+DQo+
-ID4gU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
-bmRhdGlvbi5vcmc+DQo+ID4gKGNoZXJyeSBwaWNrZWQgZnJvbSBjb21taXQNCj4gPiA1YjljMGZh
-MTI5MzA4MTgwZDZkM2FjZjBhMzIxNDMzNjUyZWNkOWRjKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IEFu
-dWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gwqAuLi51aWxk
-LWZhaWwtd2hlbi11c2VkLXRoZS1saWJzcnQtMS40LjEucGF0Y2ggfCA1Mg0KPiA+ICsrKysrKysr
-KysrKysrKysrKysNCj4gPiDCoC4uLi9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180
-LjMuMS5iYiB8wqAgMiArDQo+ID4gwqAyIGZpbGVzIGNoYW5nZWQsIDU0IGluc2VydGlvbnMoKykN
-Cj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9mZm1wZWcv
-ZmZtcGVnLzAwMDEtDQo+ID4gbGF2Zi1zcnQtZml4LWJ1aWxkLWZhaWwtd2hlbi11c2VkLXRoZS1s
-aWJzcnQtMS40LjEucGF0Y2gNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZy8wMDAxLWxhdmYtc3J0LQ0KPiA+IGZpeC1idWlsZC1mYWls
-LXdoZW4tdXNlZC10aGUtbGlic3J0LTEuNC4xLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiA+IG11
-bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZy8wMDAxLWxhdmYtc3J0LWZpeC1idWlsZC1mYWlsLXdoZW4t
-dXNlZC0NCj4gPiB0aGUtbGlic3J0LTEuNC4xLnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2
-NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi43NjM1YzkxOTZhDQo+ID4gLS0tIC9kZXYvbnVsbA0K
-PiA+ICsrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2ZmbXBlZy9mZm1wZWcvMDAwMS1sYXZm
-LXNydC1maXgtDQo+ID4gYnVpbGQtZmFpbC13aGVuLXVzZWQtdGhlLWxpYnNydC0xLjQuMS5wYXRj
-aA0KPiA+IEBAIC0wLDAgKzEsNTIgQEANCj4gPiArRnJvbSBhZWJiNzJlMDI1Y2JmYmQ0YTY3NjUz
-NTRmNmY1NjVhZDRhYzg5Nzg5IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gPiAyMDAxDQo+ID4gK0Zy
-b206IEp1biBaaGFvIDxiYXJyeWp6aGFvQHRlbmNlbnQuY29tPg0KPiA+ICtEYXRlOiBTdW4sIDEy
-IEp1bCAyMDIwIDA1OjQ4OjQ4ICswODAwDQo+ID4gK1N1YmplY3Q6IFtQQVRDSF0gbGF2Zi9zcnQ6
-IGZpeCBidWlsZCBmYWlsIHdoZW4gdXNlZCB0aGUgbGlic3J0DQo+ID4gMS40LjENCj4gPiArDQo+
-ID4gK2xhdmYvc3J0OiBmaXggYnVpbGQgZmFpbCB3aGVuIHVzZWQgdGhlIGxpYnNydCAxLjQuMQ0K
-PiA+ICsNCj4gPiArbGlic3J0IGNoYW5nZWQgdGhlOg0KPiA+ICtTUlRPX1NNT09USEVSwqAgwqAt
-PiBTUlRPX0NPTkdFU1RJT04NCj4gPiArU1JUT19TVFJJQ1RFTkPCoCAtPiBTUlRPX0VORk9SQ0VE
-RU5DUllQVElPTg0KPiA+ICthbmQgcmVtb3ZlZCB0aGUgZnJvbnQgb2YgZGVwcmVjYXRlZCBvcHRp
-b25zDQo+ID4gKFNSVE9fU01PT1RIRVIvU1JUT19TVFJJQ1RFTkMpDQo+ID4gK2luIHRoZSBoZWFk
-ZXIsIGl0J3MgbGVhZCB0byBidWlsZCBmYWlsDQo+ID4gKw0KPiA+ICtmaXggIzg3NjANCj4gPiAr
-DQo+ID4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gPiBbDQo+ID4gaHR0cHM6Ly9naXRo
-dWIuY29tL0ZGbXBlZy9GRm1wZWcvY29tbWl0LzdjNTllMWIwZjI4NWNkN2M3YjM1ZmNkNzFmNDlj
-NWZkNTJjZjkzMTUNCj4gPiBdDQo+ID4gKw0KPiA+ICtTaWduZWQtb2ZmLWJ5OiBKb3NlIFF1YXJl
-c21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4NCj4gPiArU2lnbmVkLW9mZi1ieTogSnVuIFpo
-YW8gPGJhcnJ5anpoYW9AdGVuY2VudC5jb20+DQo+ID4gKy0tLQ0KPiA+ICsgbGliYXZmb3JtYXQv
-bGlic3J0LmMgfCA4ICsrKysrKysrDQo+ID4gKyAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25z
-KCspDQo+ID4gKw0KPiA+ICtkaWZmIC0tZ2l0IGEvbGliYXZmb3JtYXQvbGlic3J0LmMgYi9saWJh
-dmZvcm1hdC9saWJzcnQuYw0KPiA+ICtpbmRleCA0ZGU1NzViLi40NzE5Y2UwIDEwMDY0NA0KPiA+
-ICstLS0gYS9saWJhdmZvcm1hdC9saWJzcnQuYw0KPiA+ICsrKysgYi9saWJhdmZvcm1hdC9saWJz
-cnQuYw0KPiA+ICtAQCAtMzEzLDggKzMxMywxMiBAQCBzdGF0aWMgaW50IGxpYnNydF9zZXRfb3B0
-aW9uc19wcmUoVVJMQ29udGV4dA0KPiA+ICpoLCBpbnQgZmQpDQo+ID4gK8KgIMKgIMKgIMKgIMKg
-KHMtPnBia2V5bGVuID49IDAgJiYgbGlic3J0X3NldHNvY2tvcHQoaCwgZmQsDQo+ID4gU1JUT19Q
-QktFWUxFTiwgIlNSVE9fUEJLRVlMRU4iLCAmcy0+cGJrZXlsZW4sIHNpemVvZihzLT5wYmtleWxl
-bikpDQo+ID4gPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDCoCDCoChzLT5wYXNzcGhyYXNlICYmIGxp
-YnNydF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9fUEFTU1BIUkFTRSwgIlNSVE9fUEFTU1BI
-UkFTRSIsIHMtPnBhc3NwaHJhc2UsIHN0cmxlbihzLQ0KPiA+ID4gcGFzc3BocmFzZSkpIDwgMCkg
-fHwNCj4gPiArICNpZiBTUlRfVkVSU0lPTl9WQUxVRSA+PSAweDAxMDMwMg0KPiA+ICsrI2lmIFNS
-VF9WRVJTSU9OX1ZBTFVFID49IDB4MDEwNDAxDQo+ID4gKyvCoCDCoCDCoCDCoCAocy0+ZW5mb3Jj
-ZWRfZW5jcnlwdGlvbiA+PSAwICYmIGxpYnNydF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9f
-RU5GT1JDRURFTkNSWVBUSU9OLCAiU1JUT19FTkZPUkNFREVOQ1JZUFRJT04iLCAmcy0NCj4gPiA+
-IGVuZm9yY2VkX2VuY3J5cHRpb24sIHNpemVvZihzLT5lbmZvcmNlZF9lbmNyeXB0aW9uKSkgPCAw
-KSB8fA0KPiA+ICsrI2Vsc2UNCj4gPiArwqAgwqAgwqAgwqAgwqAvKiBTUlRPX1NUUklDVEVOQyA9
-PSBTUlRPX0VORk9SQ0VERU5DUllQVElPTiAoNTMpLCBidXQNCj4gPiBmb3IgY29tcGF0aWJpbGl0
-eSwgd2UgdXNlZCBTUlRPX1NUUklDVEVOQyAqLw0KPiA+ICvCoCDCoCDCoCDCoCDCoChzLT5lbmZv
-cmNlZF9lbmNyeXB0aW9uID49IDAgJiYgbGlic3J0X3NldHNvY2tvcHQoaCwgZmQsDQo+ID4gU1JU
-T19TVFJJQ1RFTkMsICJTUlRPX1NUUklDVEVOQyIsICZzLT5lbmZvcmNlZF9lbmNyeXB0aW9uLA0K
-PiA+IHNpemVvZihzLT5lbmZvcmNlZF9lbmNyeXB0aW9uKSkgPCAwKSB8fA0KPiA+ICsrI2VuZGlm
-DQo+ID4gK8KgIMKgIMKgIMKgIMKgKHMtPmttcmVmcmVzaHJhdGUgPj0gMCAmJiBsaWJzcnRfc2V0
-c29ja29wdChoLCBmZCwNCj4gPiBTUlRPX0tNUkVGUkVTSFJBVEUsICJTUlRPX0tNUkVGUkVTSFJB
-VEUiLCAmcy0+a21yZWZyZXNocmF0ZSwNCj4gPiBzaXplb2Yocy0+a21yZWZyZXNocmF0ZSkpIDwg
-MCkgfHwNCj4gPiArwqAgwqAgwqAgwqAgwqAocy0+a21wcmVhbm5vdW5jZSA+PSAwICYmIGxpYnNy
-dF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9fS01QUkVBTk5PVU5DRSwgIlNSVE9fS01QUkVB
-Tk5PVU5DRSIsICZzLT5rbXByZWFubm91bmNlLA0KPiA+IHNpemVvZihzLT5rbXByZWFubm91bmNl
-KSkgPCAwKSB8fA0KPiA+ICsgI2VuZGlmDQo+ID4gK0BAIC0zMzMsNyArMzM3LDExIEBAIHN0YXRp
-YyBpbnQgbGlic3J0X3NldF9vcHRpb25zX3ByZShVUkxDb250ZXh0DQo+ID4gKmgsIGludCBmZCkN
-Cj4gPiArwqAgwqAgwqAgwqAgwqAocy0+bG9zc21heHR0bCA+PSAwICYmIGxpYnNydF9zZXRzb2Nr
-b3B0KGgsIGZkLA0KPiA+IFNSVE9fTE9TU01BWFRUTCwgIlNSVE9fTE9TU01BWFRUTCIsICZzLT5s
-b3NzbWF4dHRsLCBzaXplb2Yocy0NCj4gPiA+IGxvc3NtYXh0dGwpKSA8IDApIHx8DQo+ID4gK8Kg
-IMKgIMKgIMKgIMKgKHMtPm1pbnZlcnNpb24gPj0gMCAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBm
-ZCwNCj4gPiBTUlRPX01JTlZFUlNJT04sICJTUlRPX01JTlZFUlNJT04iLCAmcy0+bWludmVyc2lv
-biwgc2l6ZW9mKHMtDQo+ID4gPiBtaW52ZXJzaW9uKSkgPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDC
-oCDCoChzLT5zdHJlYW1pZCAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBmZCwgU1JUT19TVFJFQU1J
-RCwNCj4gPiAiU1JUT19TVFJFQU1JRCIsIHMtPnN0cmVhbWlkLCBzdHJsZW4ocy0+c3RyZWFtaWQp
-KSA8IDApIHx8DQo+ID4gKysjaWYgU1JUX1ZFUlNJT05fVkFMVUUgPj0gMHgwMTA0MDENCj4gPiAr
-K8KgIMKgIMKgIMKgIChzLT5zbW9vdGhlciAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBmZCwgU1JU
-T19DT05HRVNUSU9OLA0KPiA+ICJTUlRPX0NPTkdFU1RJT04iLCBzLT5zbW9vdGhlciwgc3RybGVu
-KHMtPnNtb290aGVyKSkgPCAwKSB8fA0KPiA+ICsrI2Vsc2UNCj4gPiArwqAgwqAgwqAgwqAgwqAo
-cy0+c21vb3RoZXIgJiYgbGlic3J0X3NldHNvY2tvcHQoaCwgZmQsIFNSVE9fU01PT1RIRVIsDQo+
-ID4gIlNSVE9fU01PT1RIRVIiLCBzLT5zbW9vdGhlciwgc3RybGVuKHMtPnNtb290aGVyKSkgPCAw
-KSB8fA0KPiA+ICsrI2VuZGlmDQo+ID4gK8KgIMKgIMKgIMKgIMKgKHMtPm1lc3NhZ2VhcGkgPj0g
-MCAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBmZCwNCj4gPiBTUlRPX01FU1NBR0VBUEksICJTUlRP
-X01FU1NBR0VBUEkiLCAmcy0+bWVzc2FnZWFwaSwgc2l6ZW9mKHMtDQo+ID4gPiBtZXNzYWdlYXBp
-KSkgPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDCoCDCoChzLT5wYXlsb2FkX3NpemUgPj0gMCAmJiBs
-aWJzcnRfc2V0c29ja29wdChoLCBmZCwNCj4gPiBTUlRPX1BBWUxPQURTSVpFLCAiU1JUT19QQVlM
-T0FEU0laRSIsICZzLT5wYXlsb2FkX3NpemUsIHNpemVvZihzLQ0KPiA+ID4gcGF5bG9hZF9zaXpl
-KSkgPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDCoCDCoCgoaC0+ZmxhZ3MgJiBBVklPX0ZMQUdfV1JJ
-VEUpICYmIGxpYnNydF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9fU0VOREVSLCAiU1JUT19T
-RU5ERVIiLCAmeWVzLCBzaXplb2YoeWVzKSkgPCAwKSkgew0KPiA+IGRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtbXVsdGltZWRpYS9mZm1wZWcvZmZtcGVnXzQuMy4xLmJiDQo+ID4gYi9tZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9mZm1wZWcvZmZtcGVnXzQuMy4xLmJiDQo+ID4gaW5kZXggNTE3ZGFj
-N2YwNS4uNzJjMmZlMTZlYyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
-YS9mZm1wZWcvZmZtcGVnXzQuMy4xLmJiDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVk
-aWEvZmZtcGVnL2ZmbXBlZ180LjMuMS5iYg0KPiA+IEBAIC0yNSw2ICsyNSw3IEBAIExJQ19GSUxF
-U19DSEtTVU0gPQ0KPiA+ICJmaWxlOi8vQ09QWUlORy5HUEx2MjttZDU9YjIzNGVlNGQ2OWY1ZmNl
-NDQ4NmE4MGZkYWY0YTQyNjMgXA0KPiA+IA0KPiA+IMKgU1JDX1VSSSA9ICJodHRwczovL3d3dy5m
-Zm1wZWcub3JnL3JlbGVhc2VzLyR7QlB9LnRhci54eiBcDQo+ID4gwqAgwqAgwqAgwqAgwqAgwqAg
-ZmlsZTovL21pcHM2NF9jcHVfZGV0ZWN0aW9uLnBhdGNoIFwNCj4gPiArwqAgwqAgwqAgwqAgwqAg
-wqBmaWxlOi8vMDAwMS1sYXZmLXNydC1maXgtYnVpbGQtZmFpbC13aGVuLXVzZWQtdGhlLQ0KPiA+
-IGxpYnNydC0xLjQuMS5wYXRjaCBcDQo+ID4gwqAgwqAgwqAgwqAgwqAgwqAgIg0KPiA+IMKgU1JD
-X1VSSVtzaGEyNTZzdW1dID0NCj4gPiAiYWQwMDkyNDBkNDZlMzA3YjRlMDNhMjEzYTBmNDljMTFi
-NjUwZTQ0NWIxZjhiZTBkZGEyYTkyMTJiMzRkMmZmYiINCj4gPiANCj4gPiBAQCAtNzAsNiArNzEs
-NyBAQCBQQUNLQUdFQ09ORklHW21wM2xhbWVdID0gIi0tZW5hYmxlLWxpYm1wM2xhbWUsLS0NCj4g
-PiBkaXNhYmxlLWxpYm1wM2xhbWUsbGFtZSINCj4gPiDCoFBBQ0tBR0VDT05GSUdbb3BlbnNzbF0g
-PSAiLS1lbmFibGUtb3BlbnNzbCwtLWRpc2FibGUtDQo+ID4gb3BlbnNzbCxvcGVuc3NsIg0KPiA+
-IMKgUEFDS0FHRUNPTkZJR1tzZGwyXSA9ICItLWVuYWJsZS1zZGwyLC0tZGlzYWJsZS0NCj4gPiBz
-ZGwyLHZpcnR1YWwvbGlic2RsMiINCj4gPiDCoFBBQ0tBR0VDT05GSUdbc3BlZXhdID0gIi0tZW5h
-YmxlLWxpYnNwZWV4LC0tZGlzYWJsZS0NCj4gPiBsaWJzcGVleCxzcGVleCINCj4gPiArUEFDS0FH
-RUNPTkZJR1tzcnRdID0gIi0tZW5hYmxlLWxpYnNydCwtLWRpc2FibGUtbGlic3J0LHNydCINCj4g
-PiDCoFBBQ0tBR0VDT05GSUdbdGhlb3JhXSA9ICItLWVuYWJsZS1saWJ0aGVvcmEsLS1kaXNhYmxl
-LQ0KPiA+IGxpYnRoZW9yYSxsaWJ0aGVvcmEgbGlib2dnIg0KPiA+IMKgUEFDS0FHRUNPTkZJR1t2
-YWFwaV0gPSAiLS1lbmFibGUtdmFhcGksLS1kaXNhYmxlLXZhYXBpLGxpYnZhIg0KPiA+IMKgUEFD
-S0FHRUNPTkZJR1t2ZHBhdV0gPSAiLS1lbmFibGUtdmRwYXUsLS1kaXNhYmxlLXZkcGF1LGxpYnZk
-cGF1Ig0KPiA+IC0tIA0KPiA+IDIuMjkuMg0KPiA+IA0KPiA+IA0KPiA+IA0KPiA+IA0KPiANCj4g
-DQo+IA0KPiANCj4gDQoNCg==
+Add the following patch to solve the compilation error when using musl:
+ 0001-Fix-bug-caused-by-missing-types.h-file.patch
+ 0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ ...x-bug-caused-by-missing-types.h-file.patch | 50 +++++++++++++++++++
+ ...ed-by-using-functions-not-provided-b.patch | 31 ++++++++++++
+ .../ell/{ell_0.33.bb => ell_0.35.bb}          |  8 +++-
+ 3 files changed, 87 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch
+ create mode 100644 meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
+ rename meta/recipes-core/ell/{ell_0.33.bb => ell_0.35.bb} (72%)
+
+diff --git a/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch
+new file mode 100644
+index 0000000000..039a7c5705
+--- /dev/null
++++ b/meta/recipes-core/ell/ell/0001-Fix-bug-caused-by-missing-types.h-file.patch
+@@ -0,0 +1,50 @@
++Subject: [PATCH] Fix bug caused by missing types.h file.
++
++Fix the following error:
++../ell-0.35/ell/dhcp-private.h:75:2: error: unknown type name '__be32'
++|    75 |  __be32 xid;
++|       |  ^~~~~~
++| ../ell-0.35/ell/dhcp-private.h:76:2: error: unknown type name '__be16'
++|    76 |  __be16 secs;
++|       |  ^~~~~~
++| ../ell-0.35/ell/dhcp-private.h:77:2: error: unknown type name '__be16'
++|    77 |  __be16 flags;
++|       |  ^~~~~~
++| ../ell-0.35/ell/dhcp-private.h:85:2: error: unknown type name '__be32'
++|    85 |  __be32 magic;
++
++Upstream-status: Pending
++
++Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
++---
++ ell/dhcp-private.h  | 1 +
++ ell/dhcp6-private.h | 1 +
++ 2 files changed, 2 insertions(+)
++
++diff --git a/ell/dhcp-private.h b/ell/dhcp-private.h
++index 204e54e..b418535 100644
++--- a/ell/dhcp-private.h
+++++ b/ell/dhcp-private.h
++@@ -19,6 +19,7 @@
++  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++  *
++  */
+++#include <linux/types.h>
++ 
++ struct l_dhcp_client;
++ struct l_dhcp_server;
++diff --git a/ell/dhcp6-private.h b/ell/dhcp6-private.h
++index 2bbd1d3..14dd85c 100644
++--- a/ell/dhcp6-private.h
+++++ b/ell/dhcp6-private.h
++@@ -19,6 +19,7 @@
++  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++  *
++  */
+++#include <linux/types.h>
++ 
++ struct l_dhcp6_client;
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch b/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
+new file mode 100644
+index 0000000000..176fccab40
+--- /dev/null
++++ b/meta/recipes-core/ell/ell/0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch
+@@ -0,0 +1,31 @@
++Subject: [PATCH] Fix the bug caused by using functions not provided by musl.
++
++Fix the following error:
++/usr/src/debug/ell/0.35-r0/build/../ell-0.35/ell/pem.c:227: undefined reference to `rawmemchr'
++
++Upstream-status: Pending
++
++Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
++---
++ ell/pem.c | 4 ++++
++ 1 file changed, 4 insertion(+), 0 deletion(-)
++
++diff --git a/ell/pem.c b/ell/pem.c
++index 790f2c2..27d47a0 100644
++--- a/ell/pem.c
+++++ b/ell/pem.c
++@@ -224,7 +224,11 @@ static uint8_t *pem_load_buffer(const void *buf, size_t buf_len,
++ 
++ 		/* Check that each header line has a key and a colon */
++ 		while (start < end) {
+++#if defined(__GLIBC__)
++			const char *lf = rawmemchr(start, '\n');
+++#else
+++			const char *lf = strchr(start, '\n');
+++#endif
++ 			const char *colon = memchr(start, ':', lf - start);
++ 
++ 			if (!colon)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/ell/ell_0.33.bb b/meta/recipes-core/ell/ell_0.35.bb
+similarity index 72%
+rename from meta/recipes-core/ell/ell_0.33.bb
+rename to meta/recipes-core/ell/ell_0.35.bb
+index 2fa05104fb..3742c90bab 100644
+--- a/meta/recipes-core/ell/ell_0.33.bb
++++ b/meta/recipes-core/ell/ell_0.35.bb
+@@ -13,8 +13,12 @@ DEPENDS = "dbus"
+ 
+ inherit autotools pkgconfig
+ 
+-SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "d9e40e641164150394b74b719b9726fc734f24b2cde679cf5f3be6915c34eded"
++SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz \
++           file://0001-Fix-bug-caused-by-missing-types.h-file.patch \
++           file://0001-Fix-the-bug-caused-by-using-functions-not-provided-b.patch \
++"
++
++SRC_URI[sha256sum] = "2bfe9da7781f65f1cb1595a5a068a3ae74d4b68b74f287c6f0c892cfe623913f"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
+-- 
+2.25.1
+
+
+
