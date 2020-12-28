@@ -1,106 +1,123 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web09.2423.1609185899398395089
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web08.2407.1609185900162889962
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Dec 2020 12:04:59 -0800
+ Mon, 28 Dec 2020 12:05:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZUsgZSI+;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id b2so10781804edm.3
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kE9w79De;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id u19so10784731edx.2
         for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 12:04:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3NhpkSJYwpFzs6ABWIhOrM00aaNm3x9M7lSpzQvWTaA=;
-        b=ZUsgZSI+2wGQsEYtTFPHCrznSndKOTqAlQrp6Zrl5Zp0jihnx3PK6ur/EYpv9+O01v
-         arWcDkxssY2dFiIBHQ1y1+D36SybBMmxGT2LCUZ/a1MKlhVzE1IPi4CZlFQblmInT0v6
-         40kTC31IHUeQh/06nV9Elhsc2LjfKgcwPPyFxIYnsF8pgpvztwZ/TGs9oi2eF9lcXnBY
-         lCYduIXmbhl4l6FCFuEi3N8TTkaNjw2M5pXxribqUmHktaRLBOE53o+kAbqpyRHMlx0p
-         2wexDKdp5oaH9X8CMf0O95ZNeP/1o9SsTN/V0djIceRoxtAYUzZP/oKLEgv3+MC+I8Gc
-         Cd4A==
+        bh=jLP5vfkUOLAXQfl/FksOHHRB2aXnIuhYF09BfYLaO0I=;
+        b=kE9w79Deyqm8PmVudpuEiQ2xWjCfFgPNXz3DS9oPWf3r6Gm+zUlRO6FNGiMeOxg8wE
+         Hx2Y1l6K+U+RLGpShTxiKEoa2ozc9R2qscT3yW1MNgSDJm5mi6wFvOMruP6aEEHpcZdw
+         ddGEbUzRMqhhmsaiCw1krQwsrAUN6mK8vfkUANKD6ihnIv+6v8Gaba2jkrp2sI3mnE5P
+         ejrO2ya2DnDObPYUZfC3gWgsTo/P6JI385+SHqMBgVFvVfs8eHkuSovfoGu1Z3SunndZ
+         goEeWHrP7tXkmsmfoyAT0nYe7gIBjhEpIbiruREMM035OGy+EnqAlx3VWrxiTOvAPwGi
+         zpOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3NhpkSJYwpFzs6ABWIhOrM00aaNm3x9M7lSpzQvWTaA=;
-        b=GDBqzDRYyXSh3XyeKCtT2Le0XaQeqOyERV4JdGUjkZpllwsqLBc1+DvPwWzk7Mrqpa
-         GMWsB1pvVy0k6d/oxTg1WUZlWJ/SlBvuQLOazJw5Bxpqz+QYOt6JwUvBOHIKX6qeB8Gq
-         mHbm1JxMGCm6qoanWYyijrCXzeO+kT5bLeSlxDw7oC6EBBTAqWJ3p8LFbKx3OMFhe8b2
-         s/3MCUi/Cl1EcJo0sHJN/VGNZ0X39x88tZVxHpGHGCZMpzqHRE8XCMB9xeaZZRwnQLTR
-         v8nfesn0s8kQgC2YSH0weVGj/JpQun8Vgsa0ZLpEiUOgBy375IbhTElViplcH5CaiwAi
-         p2yw==
-X-Gm-Message-State: AOAM530/QeT+pWccGBr2TAFKloHNOU7FTZpyu337/dt5sDUG8P+la0YD
-	qPA5ihp2kL9PoMXPMNeAz/LqRLiDsAs=
-X-Google-Smtp-Source: ABdhPJxkG1Gk3GOihkkPuBmCFgJwYle5+K2Aklj4p3PqnBGZWzm8UPgpemuaj2h3cs3HtFO7IxIwmg==
-X-Received: by 2002:aa7:c1c6:: with SMTP id d6mr43642909edp.275.1609185898076;
+        bh=jLP5vfkUOLAXQfl/FksOHHRB2aXnIuhYF09BfYLaO0I=;
+        b=fV8klBXASfvQijn2hPKQE2PicRVk8q/gTMQe/YFuLd+ULlsrZB0BzyjnsOD1WauH9Y
+         WZBrHkybtD+aCJTFlDRdTo0V1l66gMYWtd7eZiSvMx2QbBjUZ2nA216kteuNxfYeQ8uG
+         nC7PEk1+XWMvOad6V3l3uIpbj/zhVRNk8WjnpCFwA8doMQ7c4GZeW1HJ4ebr6rzo4cxo
+         kQ6GrmL4Damx/Khw2yQy94VCP8GUlDhKqJIepox7wr8si8CNpkhTfwgs2A34XjzpJ+bK
+         k6wj+cbLzt44l+teI10Pi6xtKE5rS5rFpQUPrALR14xN4YXf/YqgMJyl+Qq8fNZs0f1j
+         odEg==
+X-Gm-Message-State: AOAM532hwVbB680QWcAPurhaG+Emy9eeoBLZroPuT2pFtTORhRmiDXcg
+	wDRuMi0PF8BLYhotXSLpHMHe/uX+/8Y=
+X-Google-Smtp-Source: ABdhPJxFilX36/C2U+1PyKVraS3MpfcgOX2nnhOJpTXLg2C9eD2vFc4/ycEquEKpkW0iF9DHLs4OMA==
+X-Received: by 2002:aa7:c0d6:: with SMTP id j22mr43219767edp.31.1609185898810;
         Mon, 28 Dec 2020 12:04:58 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.57
+        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 12:04:57 -0800 (PST)
+        Mon, 28 Dec 2020 12:04:58 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 19/22] ccache: upgrade 3.7.11 -> 4.1
-Date: Mon, 28 Dec 2020 21:04:33 +0100
-Message-Id: <20201228200436.78130-19-alex.kanavin@gmail.com>
+Subject: [PATCH 20/22] ccache.bbclass: use ccache from host distribution
+Date: Mon, 28 Dec 2020 21:04:34 +0100
+Message-Id: <20201228200436.78130-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201228200436.78130-1-alex.kanavin@gmail.com>
 References: <20201228200436.78130-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert recipe from autotools to cmake.
+ccache 4.x has hard dependencies on cmake-native (used as
+build system) and zstd, which means inserting ccache-native
+as DEPENDS into everything creates circular dependencies which
+are impossible to break.
 
-zstd is a new hard dependency.
-
-License-Update: formatting
+ccache 3.x did not have this problem as it used plain makefiles
+and an in-tree copy of zlib.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../ccache/{ccache_3.7.11.bb => ccache_4.1.bb}   | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
- rename meta/recipes-devtools/ccache/{ccache_3.7.11.bb => ccache_4.1.bb} (55%)
+ meta/classes/ccache.bbclass                  | 3 ++-
+ meta/conf/bitbake.conf                       | 2 +-
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 8 ++++----
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_3.7.11.bb b/meta/recipes-devtools/ccache/ccache_4.1.bb
-similarity index 55%
-rename from meta/recipes-devtools/ccache/ccache_3.7.11.bb
-rename to meta/recipes-devtools/ccache/ccache_4.1.bb
-index fd004f4c9b..5f7d93b485 100644
---- a/meta/recipes-devtools/ccache/ccache_3.7.11.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.1.bb
-@@ -7,26 +7,18 @@ HOMEPAGE = "http://ccache.samba.org"
- SECTION = "devel"
+diff --git a/meta/classes/ccache.bbclass b/meta/classes/ccache.bbclass
+index b5457359ca..11a3f1cb52 100644
+--- a/meta/classes/ccache.bbclass
++++ b/meta/classes/ccache.bbclass
+@@ -1,5 +1,7 @@
+ #
+ # Usage:
++# - Install ccache package on the host distribution and set up a build directory
++#
+ # - Enable ccache
+ #   Add the following line to a conffile such as conf/local.conf:
+ #   INHERIT += "ccache"
+@@ -47,7 +49,6 @@ python() {
+     # quilt-native doesn't need ccache since no c files
+     if not (pn in ('ccache-native', 'quilt-native') or
+             bb.utils.to_boolean(d.getVar('CCACHE_DISABLE'))):
+-        d.appendVar('DEPENDS', ' ccache-native')
+         d.setVar('CCACHE', 'ccache ')
+ }
  
- LICENSE = "GPLv3+"
--LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=22d514dbc01fdf9a9784334b6b59417a"
-+LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=a66c581f855c1c408730fe5d171e3013"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 92b6866d4d..af614ff347 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -498,7 +498,7 @@ HOSTTOOLS += " \
+ HOSTTOOLS += "${@'ip ping ps scp ssh stty' if (bb.utils.contains_any('IMAGE_CLASSES', 'testimage testsdk', True, False, d) or any(x in (d.getVar("BBINCLUDED") or "") for x in ["testimage.bbclass", "testsdk.bbclass"])) else ''}"
  
--DEPENDS = "zlib"
-+DEPENDS = "zstd"
+ # Link to these if present
+-HOSTTOOLS_NONFATAL += "aws gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh sudo"
++HOSTTOOLS_NONFATAL += "aws ccache gcc-ar gpg ld.bfd ld.gold nc pigz sftp socat ssh sudo"
  
- SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
--SRC_URI[sha256sum] = "34309a59d4b6b6b33756366aa9d3144a4655587be9f914476b4c0e2d36365f01"
-+SRC_URI[sha256sum] = "cdeefb827b3eef3b42b5454858123881a4a90abbd46cc72cf8c20b3bd039deb7"
+ # Temporary add few more detected in bitbake world
+ HOSTTOOLS_NONFATAL += "join nl size yes zcat"
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index e91f0bd18f..d0f6477300 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -33,10 +33,10 @@ class ImageOptionsTests(OESelftestTestCase):
+         self.assertTrue(incremental_removed, msg = "Match failed in:\n%s" % log_data_removed)
  
- UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
- 
--inherit autotools
-+inherit cmake
- 
--# Remove ccache-native's dependencies, so that it can be used widely by
--# other native recipes.
--DEPENDS_class-native = ""
--EXTRA_OECONF_class-native = "--with-bundled-zlib"
--INHIBIT_AUTOTOOLS_DEPS_class-native = "1"
- PATCHTOOL = "patch"
- 
- BBCLASSEXTEND = "native"
- 
--do_configure_class-native() {
--    oe_runconf
--}
+     def test_ccache_tool(self):
+-        bitbake("ccache-native")
+-        bb_vars = get_bb_vars(['SYSROOT_DESTDIR', 'bindir'], 'ccache-native')
+-        p = bb_vars['SYSROOT_DESTDIR'] + bb_vars['bindir'] + "/" + "ccache"
+-        self.assertTrue(os.path.isfile(p), msg = "No ccache found (%s)" % p)
++        bb_vars = get_bb_vars(['HOSTTOOLS_DIR'], 'm4-native')
++        p = bb_vars['HOSTTOOLS_DIR'] + "/" + "ccache"
++        if not os.path.isfile(p):
++            self.skipTest("No ccache binary found in %s" % bb_vars['HOSTTOOLS_DIR'])
+         self.write_config('INHERIT += "ccache"')
+         self.add_command_to_tearDown('bitbake -c clean m4-native')
+         bitbake("m4-native -c clean")
 -- 
 2.29.2
 
