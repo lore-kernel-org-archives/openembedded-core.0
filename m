@@ -1,152 +1,206 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web08.2398.1609185889054917102
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web10.2381.1609185890081417744
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Dec 2020 12:04:49 -0800
+ Mon, 28 Dec 2020 12:04:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=raRqR1kI;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id jx16so15541098ejb.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 12:04:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=H7HzS42o;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id b9so15641667ejy.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 12:04:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OF7KwtXMz/j0i9SM4ZByh+tnHSSsT4pR+Gva0hGc3Ak=;
-        b=raRqR1kICByOW5h2rstR6vNCYFTOXUCTdcwnkObvhsXmnJ/5UCHHnCjr69TXcWyaOF
-         WR0HH6Kv4ewvgDhhOp1N3RRDiRTzTaS4l6AZdPLe4oXZARgej0AsA1uyq+B3eg0RzVy2
-         E/VPgFnTwCaGddD/t5Dk4WVP26jRBLKQyqvRTVigWI1QFgvMvC6EulMQrG7ns8xn8gnB
-         QrXEC0QvYGWh3TEbt1qhcfizTOb5IlVjMXlKWBqDemIjhrdIRmg/ZfmDN2qdK0gmAS3j
-         UwMFtUAqFTNm+Ocr3lW3/d7ve60khUP+cFnDIGYrtm1j/2KUXUpbsqmlX1qZ4Q4TWRtg
-         9Udg==
+        bh=wprcMw2bf/Uy/6Y5hMN/pe+t5wXRJIxf3V+ecZrcPLg=;
+        b=H7HzS42o36Oik3PFcf8uyve9fM2bqGd2Cn6WoaK+4XGhw3PexMpa3VsvohayVSCAe1
+         f8wnhhOk6Lz1DaLepI/GLdP6r38sa+HdmySlpLXUyjy7Bbqu+6Bk0oJiMZkrnVfZ87OL
+         YBVtzn5+k8SBPvs2VNBpgjChOgMTJMMazEaxdAcTiEV/beD5dX3BhbaRrcD911RGxfWv
+         HRcQSjh2uT8tIxUQuMQixHrEevADCz3V9Zjp0FscsG64p/PJqidCzsh6qrc9tbYGAIEq
+         YYcXdbO2lrq+hcAsD+M6p4oVOKZ0c0sSBCZ11x9eLmQGkVFx2X86IB4TeZ0GIwWssumn
+         sTkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OF7KwtXMz/j0i9SM4ZByh+tnHSSsT4pR+Gva0hGc3Ak=;
-        b=r04yfF8vwopTSZ4GlniCraiKMET6NXY0QhfE33y3ZoRGch7GT9azdv+U+BUTC5vxla
-         jzMr6Kxr3QcTWVafLggdOCC6sc583U1P2l2fpxSugZ/wrqQactB0Zhgd0gjPchQmnS7o
-         sKTuPWp67yK/k8vXmQ7Kwtzt7EOSaxx5sU3b7VFHknonoBgqP5Ia/xd+52yvEwURLOtZ
-         9t8xEttySiht0kxqm0Yd+RFL3LfvqqaYJGP0+3IgKCLoxlX4i4fTFP+Rz3I75KGQnx/0
-         Z7AB0zjP9fgRkq4Ns4okOd1LUlun4zjbReavuaPBfQNSL2YkLwez06dJQ11Kyrhqsa83
-         Ghtw==
-X-Gm-Message-State: AOAM5331SFMP6Q1G5dwitZfqOSlQWKkH+3IuT6RHtAhQIx4yPSokpPjr
-	cbDs4ikVfKrOfihnbmpIEDuwOqaeG9Q=
-X-Google-Smtp-Source: ABdhPJxUJrNfpDX8dQq7iplbw3Q+klIpt9HQ0s2uNu9Pg1+hcMmfSlDu73b7knfdBFGdpvxYFmSwbw==
-X-Received: by 2002:a17:906:7a46:: with SMTP id i6mr41585827ejo.257.1609185887656;
-        Mon, 28 Dec 2020 12:04:47 -0800 (PST)
+        bh=wprcMw2bf/Uy/6Y5hMN/pe+t5wXRJIxf3V+ecZrcPLg=;
+        b=L4NJyT9mQGaty3DSuq4oDx4LPpQ1Uz1NM7RvRqdYJ76UyOvzPegrvBqBA9oaXGrgog
+         rr7TZPivdu34+6Wsr8w5qnA6yJS59iVxIHMpmdE048nSYkajbf/aiQ9JR4NrH9zaDjSr
+         VmxQZAWgjwP+95QQK1qD51oRMeaOk7hL4jSVZ725GcR113PeShynkHu+NM0gw+5OPRba
+         IhpQe9bIBdzfnd6kxLERVNCF8+IxG8K26J6HA9D3mafDvoL3WHaRuA/s1FMUwJIakAnv
+         lODIpN2OoQeD3SuXXqM5MQq1/WfyVnqNpepOgZ9ixq4wR4UFaXAcBSKteb0U6NkdJlLQ
+         o/mQ==
+X-Gm-Message-State: AOAM531nr76vczGRupR5tIPyTCeEwfBdpI04cQ8eYMcVIIV+6DAm4SVI
+	okp7iClNltv5uHL/fI12Hx8ClNfdwns=
+X-Google-Smtp-Source: ABdhPJxoG+RbuYZ5njBzM614oKahaAp9Ph8ol/y++WiD4OOHhApiJtYoYce3gOYVDHnlUVMG9GVD8Q==
+X-Received: by 2002:a17:906:ceca:: with SMTP id si10mr42243707ejb.547.1609185888654;
+        Mon, 28 Dec 2020 12:04:48 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.46
+        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 12:04:47 -0800 (PST)
+        Mon, 28 Dec 2020 12:04:48 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 07/22] gnupg: update 2.2.23 -> 2.2.26
-Date: Mon, 28 Dec 2020 21:04:21 +0100
-Message-Id: <20201228200436.78130-7-alex.kanavin@gmail.com>
+Subject: [PATCH 08/22] boost: update 1.74.0 -> 1.75.0
+Date: Mon, 28 Dec 2020 21:04:22 +0100
+Message-Id: <20201228200436.78130-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201228200436.78130-1-alex.kanavin@gmail.com>
 References: <20201228200436.78130-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Remove 0001-Apply-boost-1.62.0-no-forced-flags.patch.patch:
+upstream has refactored the code, purpose of the patch is unclear.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...e-a-custom-value-for-the-location-of-.patch |  6 +++---
- .../gnupg/0003-dirmngr-uses-libgpg-error.patch | 18 ++++++++----------
- .../recipes-support/gnupg/gnupg/relocate.patch |  2 +-
- .../gnupg/{gnupg_2.2.23.bb => gnupg_2.2.26.bb} |  2 +-
- 4 files changed, 13 insertions(+), 15 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.2.23.bb => gnupg_2.2.26.bb} (96%)
+ .../{boost-1.74.0.inc => boost-1.75.0.inc}    |   2 +-
+ ...y-boost-1.62.0-no-forced-flags.patch.patch | 100 ------------------
+ .../{boost_1.74.0.bb => boost_1.75.0.bb}      |   1 -
+ 3 files changed, 1 insertion(+), 102 deletions(-)
+ rename meta/recipes-support/boost/{boost-1.74.0.inc => boost-1.75.0.inc} (90%)
+ delete mode 100644 meta/recipes-support/boost/boost/0001-Apply-boost-1.62.0-no-forced-flags.patch.patch
+ rename meta/recipes-support/boost/{boost_1.74.0.bb => boost_1.75.0.bb} (85%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index c641a19616..a0af2d48dc 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From 56343af532389c31eab32c096c9a989c53c78ce0 Mon Sep 17 00:00:00 2001
-+From abc5c396aaddaef2e6811362e3e0cc0da28c2b34 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/boost/boost-1.74.0.inc b/meta/recipes-support/boost/boost-1.75.0.inc
+similarity index 90%
+rename from meta/recipes-support/boost/boost-1.74.0.inc
+rename to meta/recipes-support/boost/boost-1.75.0.inc
+index b47fdaf099..e5a8488c58 100644
+--- a/meta/recipes-support/boost/boost-1.74.0.inc
++++ b/meta/recipes-support/boost/boost-1.75.0.inc
+@@ -12,7 +12,7 @@ BOOST_MAJ = "${@"_".join(d.getVar("PV").split(".")[0:2])}"
+ BOOST_P = "boost_${BOOST_VER}"
  
- diff --git a/configure.ac b/configure.ac
--index 1d05d39..eaaf33c 100644
-+index 64cb8c6..3fe9027 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1858,7 +1858,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-+@@ -1824,7 +1824,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-  
-  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
-  
-diff --git a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
-index 607a09f188..a13b4d5fb5 100644
---- a/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0003-dirmngr-uses-libgpg-error.patch
-@@ -1,4 +1,4 @@
--From 9a901dbb1c48685f2db6d7b55916c9484e871f16 Mon Sep 17 00:00:00 2001
-+From 6c75656b68cb6e38b039ae532bd39437cd6daec5 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:18:01 +0800
- Subject: [PATCH] dirmngr uses libgpg error
-@@ -11,20 +11,18 @@ Rebase to 2.1.23
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ SRC_URI = "https://dl.bintray.com/boostorg/release/${PV}/source/${BOOST_P}.tar.bz2"
+-SRC_URI[sha256sum] = "83bfc1507731a0906e387fc28b7ef5417d591429e51e788417fe9ff025e116b1"
++SRC_URI[sha256sum] = "953db31e016db7bb207f11432bef7df100516eeb746843fa0486a222e3fd49cb"
  
- ---
-- dirmngr/Makefile.am | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
-+ dirmngr/Makefile.am | 1 +
-+ 1 file changed, 1 insertion(+)
- 
- diff --git a/dirmngr/Makefile.am b/dirmngr/Makefile.am
--index 208a813..292c036 100644
-+index 00d3c42..450d873 100644
- --- a/dirmngr/Makefile.am
- +++ b/dirmngr/Makefile.am
--@@ -90,7 +90,8 @@ endif
-- dirmngr_LDADD = $(libcommonpth) \
-+@@ -101,6 +101,7 @@ dirmngr_LDADD = $(libcommonpth) \
-          $(DNSLIBS) $(LIBASSUAN_LIBS) \
-  	$(LIBGCRYPT_LIBS) $(KSBA_LIBS) $(NPTH_LIBS) \
---	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS)
--+	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS) \
--+	$(GPG_ERROR_LIBS)
-+ 	$(NTBTLS_LIBS) $(LIBGNUTLS_LIBS) $(LIBINTL) $(LIBICONV) $(NETLIBS) \
-++	$(GPG_ERROR_LIBS) \
-+         $(dirmngr_robj)
-  if USE_LDAP
-  dirmngr_LDADD += $(ldaplibs)
-- endif
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index aa8d1e3cc2..7f7812cd46 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From 4005b3342db06749453835720b5a5c2392a90810 Mon Sep 17 00:00:00 2001
-+From bd66af2ac7bb6d9294ac8055a55462ba7c4f9c9b Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.23.bb b/meta/recipes-support/gnupg/gnupg_2.2.26.bb
-similarity index 96%
-rename from meta/recipes-support/gnupg/gnupg_2.2.23.bb
-rename to meta/recipes-support/gnupg/gnupg_2.2.26.bb
-index c624b67a0b..1c6e68b4b1 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.23.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.26.bb
-@@ -20,7 +20,7 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI_append_class-nativesdk = " file://relocate.patch"
- 
--SRC_URI[sha256sum] = "10b55e49d78b3e49f1edb58d7541ecbdad92ddaeeb885b6f486ed23d1cd1da5c"
-+SRC_URI[sha256sum] = "517569e6c9fad22175df16be5900f94c991c41e53612db63c14493e814cfff6d"
- 
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ UPSTREAM_CHECK_URI = "http://www.boost.org/users/download/"
+ UPSTREAM_CHECK_REGEX = "boostorg/release/(?P<pver>.*)/source/"
+diff --git a/meta/recipes-support/boost/boost/0001-Apply-boost-1.62.0-no-forced-flags.patch.patch b/meta/recipes-support/boost/boost/0001-Apply-boost-1.62.0-no-forced-flags.patch.patch
+deleted file mode 100644
+index 169906344f..0000000000
+--- a/meta/recipes-support/boost/boost/0001-Apply-boost-1.62.0-no-forced-flags.patch.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 8845a786598f1d9e83aa1b7d2966b0d1eb765ba0 Mon Sep 17 00:00:00 2001
+-From: Christopher Larson <chris_larson@mentor.com>
+-Date: Tue, 13 Dec 2016 10:14:31 -0700
+-Subject: [PATCH 1/3] Apply boost-1.62.0-no-forced-flags.patch
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+----
+- libs/log/build/Jamfile.v2           |  4 ++--
+- libs/log/config/x86-ext/Jamfile.jam | 16 ++++++++--------
+- libs/log/src/dump_avx2.cpp          |  4 ++++
+- libs/log/src/dump_ssse3.cpp         |  4 ++++
+- 4 files changed, 18 insertions(+), 10 deletions(-)
+-
+-diff --git a/libs/log/build/Jamfile.v2 b/libs/log/build/Jamfile.v2
+-index 4abbdbc..b3016fc 100644
+---- a/libs/log/build/Jamfile.v2
+-+++ b/libs/log/build/Jamfile.v2
+-@@ -373,7 +373,7 @@ rule avx2-targets-cond ( properties * )
+-             }
+-             else if <toolset>clang in $(properties)
+-             {
+--                result = <cxxflags>"-mavx -mavx2" ;
+-+                result = <cxxflags> ;
+-             }
+-             else if <toolset>intel in $(properties)
+-             {
+-@@ -383,7 +383,7 @@ rule avx2-targets-cond ( properties * )
+-                 }
+-                 else
+-                 {
+--                    result = <cxxflags>"-xCORE-AVX2 -fabi-version=0" ;
+-+                    result = <cxxflags>"-fabi-version=0" ;
+-                 }
+-             }
+-             else if <toolset>msvc in $(properties)
+-diff --git a/libs/log/config/x86-ext/Jamfile.jam b/libs/log/config/x86-ext/Jamfile.jam
+-index 0e9695a..dcc394d 100644
+---- a/libs/log/config/x86-ext/Jamfile.jam
+-+++ b/libs/log/config/x86-ext/Jamfile.jam
+-@@ -15,19 +15,19 @@ project /boost/log/x86-extensions
+- 
+- obj ssse3 : ssse3.cpp
+-     :
+--        <toolset>gcc:<cxxflags>"-msse -msse2 -msse3 -mssse3"
+--        <toolset>clang:<cxxflags>"-msse -msse2 -msse3 -mssse3"
+--        <toolset>intel-linux:<cxxflags>"-xSSSE3"
+--        <toolset>intel-darwin:<cxxflags>"-xSSSE3"
+-+        <toolset>gcc:<cxxflags>
+-+        <toolset>clang:<cxxflags>
+-+        <toolset>intel-linux:<cxxflags>
+-+        <toolset>intel-darwin:<cxxflags>
+-         <toolset>intel-win:<cxxflags>"/QxSSSE3"
+-     ;
+- 
+- obj avx2 : avx2.cpp
+-     :
+--        <toolset>gcc:<cxxflags>"-mavx -mavx2 -fabi-version=0"
+--        <toolset>clang:<cxxflags>"-mavx -mavx2"
+--        <toolset>intel-linux:<cxxflags>"-xCORE-AVX2 -fabi-version=0"
+--        <toolset>intel-darwin:<cxxflags>"-xCORE-AVX2 -fabi-version=0"
+-+        <toolset>gcc:<cxxflags>"-fabi-version=0"
+-+        <toolset>clang:<cxxflags>
+-+        <toolset>intel-linux:<cxxflags>"-fabi-version=0"
+-+        <toolset>intel-darwin:<cxxflags>"-fabi-version=0"
+-         <toolset>intel-win:<cxxflags>"/arch:CORE-AVX2"
+-         <toolset>msvc:<cxxflags>"/arch:AVX"
+-     ;
+-diff --git a/libs/log/src/dump_avx2.cpp b/libs/log/src/dump_avx2.cpp
+-index 4ab1250..610fc6d 100644
+---- a/libs/log/src/dump_avx2.cpp
+-+++ b/libs/log/src/dump_avx2.cpp
+-@@ -22,6 +22,10 @@
+- #include <boost/cstdint.hpp>
+- #include <boost/log/detail/header.hpp>
+- 
+-+#if !defined(__AVX2__)
+-+#error "AVX2 Unsupported!"
+-+#endif
+-+
+- #if defined(__x86_64) || defined(__x86_64__) || \
+-     defined(__amd64__) || defined(__amd64) || \
+-     defined(_M_X64)
+-diff --git a/libs/log/src/dump_ssse3.cpp b/libs/log/src/dump_ssse3.cpp
+-index 1325b49..60d4112 100644
+---- a/libs/log/src/dump_ssse3.cpp
+-+++ b/libs/log/src/dump_ssse3.cpp
+-@@ -22,6 +22,10 @@
+- #include <boost/cstdint.hpp>
+- #include <boost/log/detail/header.hpp>
+- 
+-+#if !defined(__SSSE3__)
+-+#error "SSSE3 Unsupported!"
+-+#endif
+-+
+- #if defined(__x86_64) || defined(__x86_64__) || \
+-     defined(__amd64__) || defined(__amd64) || \
+-     defined(_M_X64)
+--- 
+-2.8.0
+diff --git a/meta/recipes-support/boost/boost_1.74.0.bb b/meta/recipes-support/boost/boost_1.75.0.bb
+similarity index 85%
+rename from meta/recipes-support/boost/boost_1.74.0.bb
+rename to meta/recipes-support/boost/boost_1.75.0.bb
+index b01b390a59..33137e236d 100644
+--- a/meta/recipes-support/boost/boost_1.74.0.bb
++++ b/meta/recipes-support/boost/boost_1.75.0.bb
+@@ -4,7 +4,6 @@ require boost.inc
+ SRC_URI += "file://arm-intrinsics.patch \
+            file://boost-CVE-2012-2677.patch \
+            file://boost-math-disable-pch-for-gcc.patch \
+-           file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
+            file://0001-fiber-libs-Define-SYS_futex-if-it-does-not-exist.patch \
 -- 
 2.29.2
 
