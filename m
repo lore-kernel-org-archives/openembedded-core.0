@@ -1,84 +1,84 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web12.4119.1609193799265240384
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web09.4116.1609193802796268472
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Dec 2020 14:16:39 -0800
+ Mon, 28 Dec 2020 14:16:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ysYNJphV;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id h186so6975147pfe.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 14:16:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WHrfJLN0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id x12so6251151plr.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 14:16:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=JXJckKKUraIppam3ygpangO2/safnUVeMUihIMi0ELM=;
-        b=ysYNJphVJ6lriqt6WeRPxWBGEt49O06cSmq8o1l7rqroViBnW6G70bsYCHDs+r+eCe
-         Rg3A3J4oghDl5p/jlQWEFx91qrTWwBX+5xHgTIv14UKMtIDcJyvgVmJuo6CEgWdhToPa
-         XxbjA7i9z9mY+URwR487XoIfLF9rHLi6BvBSeWdRqOtX/nfKBpgsyS1xpkqYGT5kAW00
-         1r1jQiQbHBcqWjFFLoVqeDd6m/imO6SUirT1khIQKxF6+bdxEgR3nHjA7998SdOkGo2d
-         vfUUDh5xGlSnszIE5l4NpJmbUp2FyjEN6P6Jph7hIE6BPwrPWOJTN/qresI29L8yk0G0
-         la0g==
+        bh=gEQ53dTXAzRPabxvLN4WCn4tq4J3jqIcb+jf082Z8sI=;
+        b=WHrfJLN0dPbtrJMKpVGrZaB79cUbDfkis7l4DxKWsLTS0hFG/j5dZ6t/DqCJSIBRcq
+         6iQPDsoUIyZSrFJt/PBexMVnSbJYpEX+Q6bVm6YiBKOw2tv0RkV+6NJJtOVCjIXMeOJ/
+         8yLJWtbS4+BcCxwNkb6+WeV/ngZTn61hH1934G3k2mhEwaCJVNipf5qtcD30sxkfy6QU
+         UxHX1wigas7oae5IH1+jWh+fAE4WUAum7EhkfcA12Px7Th4l6BEIgI6N02xu1IX0bFF1
+         SmL8/4+C6iGZl6HahRwvxNAt5XCdohMPCFj0OL51dIBU/16nv1beFobXsaJGVSgSwnsb
+         clYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=JXJckKKUraIppam3ygpangO2/safnUVeMUihIMi0ELM=;
-        b=rL0IVHdp7pnIW7QAS5LBWa2Y6qmDSk/A48TwVbopf6bb69fyhY/PaHBpz/TACoCftn
-         JVMMy4+QhvSvDNvmAQpHpvhtsM+Z/GXk3EWaG3tv2wm5YdvPyfkssnu53ZCEyG19xEE6
-         ZcwSxfHDHw/FR9A80Mew3g/Rnz0GW9TKKzZDxYBpdD7RVxMSA7mCSXCab56iFsYP6mBa
-         1WfJYDnDK6FBpIIrvzh7AD1NT4uNu8kgP8/oT/9dma9HTlxommATmj20GnM9d9h9cK6w
-         WeJ8W/hlUaRfaWStRSWIHHyKyA0c/TNQLHLDmM0SjsIxSWtnQxAWvggdezxC5QTiNG+3
-         pBSg==
-X-Gm-Message-State: AOAM533Tu83X/XmCJVbY1HrtJgHdhuw4AYiVkvvg6mzgq4TN8HEnuZOP
-	l/UGP4SXFN+9sPLdakGX/Oj0xpxOv9kXuxCOuo8=
-X-Google-Smtp-Source: ABdhPJzHtpLmxliYQG/HGd4jgGLX2qwFkDurTHnxDj2qwd1OARcT8VwG/CdBiSOHLvFn9YQFCrHJgw==
-X-Received: by 2002:aa7:9e52:0:b029:19e:6c32:30d4 with SMTP id z18-20020aa79e520000b029019e6c3230d4mr42302011pfq.21.1609193798498;
-        Mon, 28 Dec 2020 14:16:38 -0800 (PST)
+        bh=gEQ53dTXAzRPabxvLN4WCn4tq4J3jqIcb+jf082Z8sI=;
+        b=RIDBWBUHPF8XPMNZJEuTnh++c8qMA7y/MpwUyeGUrU+BNdTssfJNPy/Pz9C2CXSdS3
+         IKsRqI0fTlZ16T45mDH3ptsfrrLjKjcM9cqbAapdDZ8rdrMaiykBLfwiM28x8hSJvfzB
+         qCFeGVfAtfqn2sTZOZJG7/d3SeTh1i3QloNglXmwFvZuG4DvNjt+YeAMCK6lKMfHjaV1
+         qc3bGfNRCmjqLRMfAPF/62DYWWWawZot9CciLUveDo+VrOGAZJDnTMBBPc3hrWCTcU57
+         ZtPx7oYwTnbbrh7JPamDuJb8fFRVnQGEShehOv8fn43pqJ3kFzQu063mWBQTgWIDPHfZ
+         ljbQ==
+X-Gm-Message-State: AOAM532lVJKC+nyQp4CRvLL3Y5Vhs2GC9nlAdFTbr5IRE2VYiU3X3B7p
+	zQf5SmckdybsYgL3+mb7t8w/eJOsmr3JnEn/2A4=
+X-Google-Smtp-Source: ABdhPJx7By813EcH2foaptLqUlc4BKvtPponmqDHBf3nGhp2yPdn0pWkd8A2D/8Q4BywcvRqQFNZfA==
+X-Received: by 2002:a17:902:8d97:b029:dc:313:ee70 with SMTP id v23-20020a1709028d97b02900dc0313ee70mr46408862plo.82.1609193801965;
+        Mon, 28 Dec 2020 14:16:41 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id o32sm41425455pgm.10.2020.12.28.14.16.36
+        by smtp.gmail.com with ESMTPSA id o32sm41425455pgm.10.2020.12.28.14.16.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 14:16:37 -0800 (PST)
+        Mon, 28 Dec 2020 14:16:40 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/17] bash: Rename patch name
-Date: Mon, 28 Dec 2020 12:15:50 -1000
-Message-Id: <579efc30ef4b7ad81b24e8b04baf18a71322f9c9.1609193554.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/17] cups: whitelist CVE-2018-6553
+Date: Mon, 28 Dec 2020 12:15:51 -1000
+Message-Id: <8a1cc8da3a357a0cf7282c3bc600ff7abf67e848.1609193554.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609193554.git.steve@sakoman.com>
 References: <cover.1609193554.git.steve@sakoman.com>
 
-From: zangrc <zangrc.fnst@cn.fujitsu.com>
+This an Ububtu specific issue:
 
-Because the name of CVE patch is wrong, cve-check-tool cannot get the correct CVE result. Rename the patch name.
+The CUPS AppArmor profile incorrectly confined the dnssd backend
+due to use of hard links. A local attacker could possibly use this
+issue to escape confinement. This flaw affects versions prior to
+2.2.7-1ubuntu2.1 in Ubuntu 18.04 LTS, prior to 2.2.4-7ubuntu3.1
+in Ubuntu 17.10, prior to 2.1.3-4ubuntu0.5 in Ubuntu 16.04 LTS,
+ and prior to 1.7.2-0ubuntu1.10 in Ubuntu 14.04 LTS
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 422f9af7d0f7de7a2e933154853e7a281f98ab93)
+(cherry picked from commit 22e89983a8f83a369d83bc67e4f3492bc50db648)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../bash/{bash-CVE-2019-18276.patch => CVE-2019-18276.patch}    | 0
- meta/recipes-extended/bash/bash_5.0.bb                          | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/bash/bash/{bash-CVE-2019-18276.patch => CVE-2019-18276.patch} (100%)
+ meta/recipes-extended/cups/cups.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch b/meta/recipes-extended/bash/bash/CVE-2019-18276.patch
-similarity index 100%
-rename from meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
-rename to meta/recipes-extended/bash/bash/CVE-2019-18276.patch
-diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
-index 257a03bd8b..53e05869ce 100644
---- a/meta/recipes-extended/bash/bash_5.0.bb
-+++ b/meta/recipes-extended/bash/bash_5.0.bb
-@@ -30,7 +30,7 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://run-ptest \
-            file://run-bash-ptests \
-            file://fix-run-builtins.patch \
--           file://bash-CVE-2019-18276.patch \
-+           file://CVE-2019-18276.patch \
-            "
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index c5a60bde12..9b4b2a9b13 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -18,6 +18,9 @@ SRC_URI = "https://github.com/apple/cups/releases/download/v${PV}/${BP}-source.t
+ UPSTREAM_CHECK_URI = "https://github.com/apple/cups/releases"
+ UPSTREAM_CHECK_REGEX = "cups-(?P<pver>\d+\.\d+(\.\d+)?)-source.tar"
  
- SRC_URI[tarball.md5sum] = "2b44b47b905be16f45709648f671820b"
++# This is an Ubuntu only issue.
++CVE_CHECK_WHITELIST += "CVE-2018-6553"
++
+ LEAD_SONAME = "libcupsdriver.so"
+ 
+ CLEANBROKEN = "1"
 -- 
 2.17.1
 
