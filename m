@@ -1,76 +1,171 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web08.39239.1609112929199032311
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web12.40794.1609120721597340274
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Dec 2020 15:48:49 -0800
+ Sun, 27 Dec 2020 17:58:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=J/32EhvB;
- spf=pass (domain: linaro.org, ip: 209.85.167.46, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lf1-f46.google.com with SMTP id b26so20452921lff.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Dec 2020 15:48:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FRI2opDIIwV6oEDF+S9Km8QS3cP3MJg4fqRVQ8NJJwc=;
-        b=J/32EhvBPeKtEo4+X9G0DACs3kgKCk83T1aA0Fq4rdj+EjQW6eUoLkj4ylxhAZEcSp
-         LlhCuSb5JkvWEuAE9WOgXLd2cwLcByxWFeSfpLFC4y4iGlXTYrtl/q0jM70BIU/338y6
-         CAwJcG2x6qJy6GpA+86uvVuBHGkOWSGPz7hS/OGoSPoHJcavKrnbNuXDLBq3CbsaM37/
-         FlxfSq9U/LMSeQR/XDsuRGcbUXXaWWSAb78VzMYX4+paNHWAX1b1wOvmcmExwZ8lLvTf
-         IL+4i8p4sGXwsnlyDaCLKjeWPSE7efboqbJqa2UpyGVz9aNpI9p0Nmhny/5WeZf7HBEo
-         H5dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=FRI2opDIIwV6oEDF+S9Km8QS3cP3MJg4fqRVQ8NJJwc=;
-        b=bldzNgcK6otk23I5XdvhOnbLXK9hwLttGY2wG32snUQIUsg52dYb3XyGYM66vxb+QS
-         09VePzxxfbplO17XIt3fKOY8V5RX2eapX3j8HrLSyaYdmdHJyMAGhwwdCd449+eB7PC9
-         qxgMlKA1dNF6l5A99Zon+s+prwEr7J5NuD71HPVN9FCpnCtyB/fFOP9lo1cJIILy0Av4
-         sDDa1WacN5VHm9B9NySHai7+7aX6g/hkPiiBIw2gTAv92HfF1Zbmv//UOi8scGLsXk8h
-         KgQdEB7lblBzIqckTSFd/5Aikqt8pzNIsSk/AsXZJQOnAi4ilZv1mL+djq2p33Sap+Hp
-         62JA==
-X-Gm-Message-State: AOAM531gE479DxbfTZGVidrIvtaRsVA+EX4O6eak69G9DgXI/VH6CoLk
-	dsf/vDFEfdVfAe0GY74KmrYe9ls/MvVFyw==
-X-Google-Smtp-Source: ABdhPJweANAzCYZz44iXx8zzvDq5KlmAkTE/el1DRr0Riae1sjbBydsAlkC+v0jo99TmmGw4XE2N8Q==
-X-Received: by 2002:a2e:87cb:: with SMTP id v11mr20231050ljj.218.1609112926966;
-        Sun, 27 Dec 2020 15:48:46 -0800 (PST)
-Return-Path: <dmitry.baryshkov@linaro.org>
-Received: from umbar.lan ([94.25.228.115])
-        by smtp.gmail.com with ESMTPSA id r81sm5153204lff.215.2020.12.27.15.48.45
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Dec 2020 15:48:46 -0800 (PST)
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rxvt-unicode: use RPROVIDES instead of just PROVIDES
-Date: Mon, 28 Dec 2020 02:48:44 +0300
-Message-Id: <20201227234844.2572356-1-dmitry.baryshkov@linaro.org>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: yT/CteiQf1hnWvHvTFuSB8pPBDMnYqOAcmvpPlKYgtyPCKk5PbTtIXYXkhHiZ/aZ5F3r/BufZn
+ bDfaQtiwZYGQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9847"; a="173759355"
+X-IronPort-AV: E=Sophos;i="5.78,453,1599548400"; 
+   d="scan'208";a="173759355"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2020 17:58:40 -0800
+IronPort-SDR: IRlkorIvzgWxOEjdP0JBRhFBZ2Iad830jgPamzH0BPVjbtq4c4jM5Zjv0NPTyl+9giExD6n+xk
+ z4aEBA847Qzw==
+X-IronPort-AV: E=Sophos;i="5.78,453,1599548400"; 
+   d="scan'208";a="375436300"
+Received: from fzon-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.136.9])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2020 17:58:38 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Subject: [gatesgarth][PATCH 00/34] pull request (cover letter only)
+Date: Mon, 28 Dec 2020 09:58:29 +0800
+Message-Id: <cover.1609120493.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change rxvt-unicode from using PROVIDES to RPROVIDES for
-x-terminal-emulator, since the package provides x-terminal-emulator
-functionality at runtime rather than at build time.
+Please merge these changes in gatesgarth.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
 
-diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-index b064a63caa66..6ebd3afcb939 100644
---- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-+++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-@@ -14,7 +14,7 @@ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2
- 
- inherit autotools pkgconfig update-alternatives
- 
--PROVIDES = "virtual/x-terminal-emulator"
-+RPROVIDES_${PN} = "virtual/x-terminal-emulator"
- ALTERNATIVE_${PN} = "x-terminal-emulator"
- ALTERNATIVE_TARGET[x-terminal-emulator] = "${bindir}/rxvt"
- 
+Anuj
+
+The following changes since commit 18642d02ec492366199cf10c0af7fd70224b3c79:
+
+  wireless-regdb: upgrade 2020.04.29 -> 2020.11.20 (2020-12-10 09:20:06 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Alexander Kanavin (6):
+  linux-firmware: upgrade 20200817 -> 20201022
+  ruby: fix reproducibility
+  ffmpeg: fix reproducibility
+  kea: fix reproducibility
+  go: upgrade 1.15.2 -> 1.15.3
+  valgrind: exclude bar_bad/bar_bad_xml from ptests
+
+Bruce Ashfield (3):
+  linux-yocto-rt/5.4: update to -rt44
+  linux-yocto/5.4: update to v5.4.80
+  lttng-modules: fix build against v5.10+
+
+Changqing Li (1):
+  timezone: upgrade to 2020d
+
+Dmitry Baryshkov (5):
+  linux-firmware: upgrade 20201022 -> 20201118
+  linux-firmware: package ath11k firmware
+  linux-firmware: upgrade 20201118 -> 20201218
+  linux-firmware: package firmware for Lontium lt9611uxc bridge
+  perl: fix installation failure because of shell issue
+
+Khairul Rohaizzat Jamaluddin (1):
+  go: Update 1.15.5 -> 1.15.6
+
+Khem Raj (2):
+  go: Update to 1.15.5
+  go.bbclass: Use external linker for native packages
+
+Mark Jonas (1):
+  parted: Make readline dependency optional
+
+Nathan Rossi (1):
+  gcc: Add patch to resolve i*86 tune configuration overrides
+
+Peter Kjellerstedt (2):
+  glibc: Make adjtime() for 32 bit support being called with delta ==
+    NULL
+  apr-util: Only specify --with-dbm=gdbm if gdbm support is enabled
+
+Richard Purdie (7):
+  cups: Mark CVE-2009-0032 as a non-issue
+  cups: Mark CVE-2008-1033 as a non-issue
+  grub: Fix build reproducibility issue
+  grub: Add second fix for determinism issue
+  u-boot-tools: Fix reproducibility issue
+  groff: Fix reproducibility issue
+  man-db: Avoid reproducibility failures after fixing groff-native
+
+Robert Yang (3):
+  ncurses: Make ncurses-tools depend on ncurses-terminfo-base
+  minicom: RDEPENDS on ncurses-terminfo-base
+  archiver.bbclass: Fix --runall=deploy_archives for images
+
+Steve Sakoman (1):
+  cups: whitelist CVE-2018-6553
+
+Zhixiong Chi (1):
+  glibc: CVE-2020-29562 and CVE-2020-29573
+
+ meta/classes/archiver.bbclass                 |   1 +
+ meta/classes/go.bbclass                       |   1 +
+ meta/recipes-bsp/grub/files/determinism.patch |  40 ++++
+ meta/recipes-bsp/grub/grub2.inc               |   1 +
+ meta/recipes-bsp/u-boot/u-boot-tools.inc      |  15 ++
+ ...er_unittest_support.cc-do-not-write-.patch |  27 +++
+ meta/recipes-connectivity/kea/kea_1.7.10.bb   |  29 +--
+ ...-adjtime-with-NULL-argument-BZ-26833.patch | 110 ++++++++++
+ .../glibc/glibc/CVE-2020-29562.patch          | 155 ++++++++++++++
+ .../glibc/glibc/CVE-2020-29573.patch          |  56 +++++
+ meta/recipes-core/glibc/glibc_2.32.bb         |   3 +
+ meta/recipes-core/ncurses/ncurses.inc         |   2 +-
+ meta/recipes-devtools/gcc/gcc-10.2.inc        |   1 +
+ ...0001-lib-Remove-i-86-march-overrides.patch | 113 ++++++++++
+ meta/recipes-devtools/go/go-1.15.inc          |   5 +-
+ ...e_1.15.2.bb => go-binary-native_1.15.6.bb} |   4 +-
+ meta/recipes-devtools/go/go-runtime_1.15.bb   |   1 +
+ meta/recipes-devtools/go/go_1.15.bb           |   3 +
+ meta/recipes-devtools/perl/perl_5.32.0.bb     |   5 +-
+ ...e.in-do-not-write-host-cross-cc-item.patch |  32 +++
+ meta/recipes-devtools/ruby/ruby_2.7.1.bb      |   1 +
+ .../valgrind/valgrind/remove-for-aarch64      |   2 -
+ .../valgrind/valgrind/remove-for-all          |   2 +
+ .../valgrind/valgrind/run-ptest               |  10 +
+ .../valgrind/valgrind_3.16.1.bb               |   2 +
+ meta/recipes-extended/cups/cups.inc           |   7 +
+ meta/recipes-extended/groff/groff_1.22.4.bb   |   2 +-
+ meta/recipes-extended/man-db/man-db_2.9.3.bb  |   5 +
+ .../recipes-extended/minicom/minicom_2.7.1.bb |   2 +
+ meta/recipes-extended/parted/parted_3.3.bb    |   5 +-
+ meta/recipes-extended/timezone/timezone.inc   |   6 +-
+ ...20200817.bb => linux-firmware_20201218.bb} |  21 +-
+ .../linux/linux-yocto-rt_5.4.bb               |   6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
+ ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 ++++++++
+ ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++++++++
+ ...ext4-fast-commit-recovery-path-v5.10.patch |  99 +++++++++
+ ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 ++++++++
+ ...int-Optimize-using-static_call-v5.10.patch | 196 ++++++++++++++++++
+ ...defined-symbols-caused-by-incorrect-.patch |  55 +++++
+ .../lttng/lttng-modules_2.12.3.bb             |  10 +-
+ ...e-assembly-with-full-path-from-sourc.patch |  97 +++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |   6 +
+ meta/recipes-support/apr/apr-util_1.6.1.bb    |   5 +-
+ 45 files changed, 1469 insertions(+), 53 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/determinism.patch
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
+ rename meta/recipes-devtools/go/{go-binary-native_1.15.2.bb => go-binary-native_1.15.6.bb} (83%)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-for-all
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200817.bb => linux-firmware_20201218.bb} (98%)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavutil-include-assembly-with-full-path-from-sourc.patch
+
 -- 
 2.29.2
 
