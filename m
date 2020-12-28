@@ -1,77 +1,113 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web11.2376.1609185901726876969
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.4072.1609193766719404046
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Dec 2020 12:05:02 -0800
+ Mon, 28 Dec 2020 14:16:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=izeXMpJy;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id cw27so10771300edb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 12:05:01 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PSCvXUAP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id l23so391653pjg.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 14:16:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=jWJmef9shkLMnRzbMpFC7Kd40Bn6rMn08hRsTfEq89U=;
-        b=izeXMpJyOfq/LedOXEfCZKcX/IyOSKprWyr2I/M4Cz+/W3RHQLP+hGltOeJkdAVFL5
-         MG09OIGbM9L5qoVoQZ7b5jeZm4QIHn1y07vm7Q+w6oPE4cGba1gLCdeP7sGIP54if7yi
-         X4rtno4QSLVjK+sgMrZHqKs2XrPBkfm+ei0h3jPYbm/n4RJjd9TasQ7yCidQSKdHVKYA
-         ZuIkCtdi4f4pTxiXAHyJ8vJhUO7+IF+FS6Wl8VLIXu0NEhO5so6MfeLoqtY8aKv5Tieb
-         obl7GGTVLwai4nFn/KOYzvp8ji10Xl3mFQemjFGQmTaC1ytZdZt5a0omXyxFIFOllimF
-         4YQA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=xVTu9NdozfAPHcCFd07wfwZKzitfL48s7P6nOyABhYs=;
+        b=PSCvXUAPPLz1wbV2tzFh3V5wFJSMraRfsqzwMTWiYqz1i36L2uUSyvKSm0IACzXTwa
+         Necb1D0tVBqa69VIihtCMC0yI8xQ5GQE5ZfxlH4+B52BGaPa6kV6tfEh6NgnuRKPBGgT
+         rtS0weVP4UANSo6HMJmP8rZ1hy0x08pXCX4Wd0G9N17O+MAZVK4lBAmHPKjmscfEmeJv
+         LtMnJwZl+l7H0gs88MV+ngJUx8LLSftzx+TTVb7v7rwZ9hk7MlOrDOkhEUw+2CCUGewI
+         wcXRUzhqOFsPItwoVAThwbbHRKT/DzXqlS8JbAXEpCvg5Ep9XT4ixJZafp+RccgN1A8n
+         yE0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=jWJmef9shkLMnRzbMpFC7Kd40Bn6rMn08hRsTfEq89U=;
-        b=DxFJZkFcP4Dba/0TmAyZafyyNgnt13rOvaBHKZ8FaK0sQwOy2iPSaTw952cUxBSTvG
-         kM4fNvxM+V3arQ3kojKuA8WCh83PGGNjH8zsqQNBZhLxtSTImmf+lijRuWVEmG5adZ5m
-         jkPJ4Rir2XjyCRyJ3NW9YxdlLZKYlMuwI1fCVdj3QZx1SaUFNu0JG505suTLNnBRpDxK
-         6mA6WhsDglSBWzF3YCECBYSXQkkL2dbgH175QY94tAF0kSY+iS7ctmjYb+zJMBUPVfJl
-         qWT4+Zn1bk1Hifc92Qi8CUgPNouATNNdsIclMBB2rtSreNOxUxYNUyZAmbs8ZFJqEVRW
-         WDxw==
-X-Gm-Message-State: AOAM531v+9xyEA4oNVKmVASIWG3Hi/b0P0tHzhauS/VGNyrZbyryfifL
-	Bn7t39HyritpXk7t7OjIi5LBX2SRjE0=
-X-Google-Smtp-Source: ABdhPJxz2MeR4q9Np3BzaNKwLdhJrQEmSvEzR5XcMzGukDU1I5TK6mnBQpoBIOoPJJ/djCcqWt+5BQ==
-X-Received: by 2002:a05:6402:c95:: with SMTP id cm21mr43836249edb.294.1609185900355;
-        Mon, 28 Dec 2020 12:05:00 -0800 (PST)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.59
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=xVTu9NdozfAPHcCFd07wfwZKzitfL48s7P6nOyABhYs=;
+        b=LBRrX4/YQmCOljRtM+30f1SlHK/47qD9B+NSEzsgFiIdTcbyYuTbkJX0NSPCOKeYmy
+         SFjVGuy0ioNWd3+Dwmk3Ca3X9U0OKfYGeryp2aD/1T6ZrDqu4rc/yzfnexCqeCkaRx/H
+         bZnDOxwCaOhPCg+lzVOpy5k71EB6pVPGNcsuD3Okn8UmwWaZ5EdoIvJeNfcmcpktfDlI
+         cbl+K4KB1DIXWuDamj2bHyX3ucmfJShV5WeDFNZqSFkNe7/DwyeKQpu2Wa0MGAeOGyWq
+         ULyje4DSI4PFSYiKfSmS5jeW5WYvZqq1Ks/M/tVppAcMQ0aYYz0nR3j/gmZh1tb9tddp
+         m50w==
+X-Gm-Message-State: AOAM5303v0IISC4ARrbIwYNX2pypml8ZyJyxLG0lyga7toqOQyc1jdSd
+	xxafkBuHHKsTshJonXjppwexCwzEj+ChKJ3Lp3g=
+X-Google-Smtp-Source: ABdhPJzWiaSATXmX/eNO3duZZlZi0R2vWBURGEOBge/CcTQwxd/nPt0uguQdAeS1akM80YJhptfO+w==
+X-Received: by 2002:a17:90a:5d03:: with SMTP id s3mr906048pji.150.1609193765776;
+        Mon, 28 Dec 2020 14:16:05 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id o32sm41425455pgm.10.2020.12.28.14.16.04
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 12:04:59 -0800 (PST)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Mon, 28 Dec 2020 14:16:04 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 22/22] gawk: add missing ptest dependency
-Date: Mon, 28 Dec 2020 21:04:36 +0100
-Message-Id: <20201228200436.78130-22-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201228200436.78130-1-alex.kanavin@gmail.com>
-References: <20201228200436.78130-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [OE-core][dunfell 00/17] Patch review
+Date: Mon, 28 Dec 2020 12:15:37 -1000
+Message-Id: <cover.1609193554.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-Somewhere between the recipe updates, the needed locale
-is no longer installed to the ptest image implicitly.
+Please review this next set of patches for dunfell and have comments back by
+end of day Wednesday.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-extended/gawk/gawk_5.1.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Passed a-full on autobuilder:
 
-diff --git a/meta/recipes-extended/gawk/gawk_5.1.0.bb b/meta/recipes-extended/gawk/gawk_5.1.0.bb
-index 8c6411c867..ae897be62e 100644
---- a/meta/recipes-extended/gawk/gawk_5.1.0.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.1.0.bb
-@@ -53,4 +53,8 @@ do_install_ptest() {
- 
- RDEPENDS_${PN}-ptest += "make"
- 
-+RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-+     locale-base-en-us.iso-8859-1 \
-+"
-+
- BBCLASSEXTEND = "native nativesdk"
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1710
+
+The following changes since commit 1746f781d541d0b0aa3280ae121068a029294351:
+
+  selftest/reproducible: add packages to exclusion list for dunfell (2020-12-28 04:28:39 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (8):
+  linux-yocto-rt/5.4: update to -rt44
+  linux-yocto/5.4: update to v5.4.80
+  linux-yocto/cfg: qemuppc: set CONFIG_SCSI to '=y'
+  linux-yocto/5.4: update to v5.4.82
+  linux-yocto/cfg: qemuarm64-gfx.cfg: add CONFIG_INPUT_UINPUT
+  linux-yocto/5.4: update to v5.4.83
+  linux-yocto/5.4/cfg: fix -tiny warnings
+  linux-yocto/5.4/cfg: fix FIRMWARE_LOADER warnings
+
+Dmitry Baryshkov (2):
+  linux-firmware: upgrade 20201118 -> 20201218
+  linux-firmware: package firmware for Lontium lt9611uxc bridge
+
+Richard Purdie (2):
+  cups: Mark CVE-2009-0032 as a non-issue
+  cups: Mark CVE-2008-1033 as a non-issue
+
+Robert Joslyn (1):
+  openssl: Update to 1.1.1i
+
+Ross Burton (1):
+  kernel: set COMPATIBLE_HOST to *-linux
+
+Steve Sakoman (2):
+  oeqa/selftest/cases/devtool.py: fix typo in ignore_patterns call
+  cups: whitelist CVE-2018-6553
+
+zangrc (1):
+  bash: Rename patch name
+
+ meta/classes/kernel.bbclass                   |  2 ++
+ meta/lib/oeqa/selftest/cases/devtool.py       |  2 +-
+ .../{openssl_1.1.1g.bb => openssl_1.1.1i.bb}  |  2 +-
+ ...-2019-18276.patch => CVE-2019-18276.patch} |  0
+ meta/recipes-extended/bash/bash_5.0.bb        |  2 +-
+ meta/recipes-extended/cups/cups.inc           |  7 ++++++
+ ...20201118.bb => linux-firmware_20201218.bb} | 14 ++++++++++--
+ meta/recipes-kernel/linux/linux-dummy.bb      |  2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 11 files changed, 43 insertions(+), 24 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1g.bb => openssl_1.1.1i.bb} (98%)
+ rename meta/recipes-extended/bash/bash/{bash-CVE-2019-18276.patch => CVE-2019-18276.patch} (100%)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201118.bb => linux-firmware_20201218.bb} (98%)
+
 -- 
-2.29.2
+2.17.1
 
