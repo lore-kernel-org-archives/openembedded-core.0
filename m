@@ -1,171 +1,179 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web12.40794.1609120721597340274
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web08.40477.1609120821573294856
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Dec 2020 17:58:41 -0800
+ Sun, 27 Dec 2020 18:00:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: yT/CteiQf1hnWvHvTFuSB8pPBDMnYqOAcmvpPlKYgtyPCKk5PbTtIXYXkhHiZ/aZ5F3r/BufZn
- bDfaQtiwZYGQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9847"; a="173759355"
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Hx1vI6r/kDwaq4EHBVNP6J+t/1HdOa5NDVEbYqjnDZfwTKj0kO5AWl8yHFnntuysgEBTtvb6fN
+ ov7RJMdUM9uA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9847"; a="194813748"
 X-IronPort-AV: E=Sophos;i="5.78,453,1599548400"; 
-   d="scan'208";a="173759355"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2020 17:58:40 -0800
-IronPort-SDR: IRlkorIvzgWxOEjdP0JBRhFBZ2Iad830jgPamzH0BPVjbtq4c4jM5Zjv0NPTyl+9giExD6n+xk
- z4aEBA847Qzw==
+   d="scan'208";a="194813748"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2020 18:00:12 -0800
+IronPort-SDR: syNUuP9QAuxcniAZWB8A9+vbyBtqvPnr9v8vY2tTh5rnOfwQKP260eG2IIexBe+BUkR4BkXUJY
+ OSi00e2rFRWQ==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.78,453,1599548400"; 
-   d="scan'208";a="375436300"
-Received: from fzon-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.136.9])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Dec 2020 17:58:38 -0800
+   d="scan'208";a="343574329"
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
+  by orsmga003.jf.intel.com with ESMTP; 27 Dec 2020 18:00:11 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 28 Dec 2020 10:00:10 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Mon, 28 Dec 2020 10:00:10 +0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Subject: [gatesgarth][PATCH 00/34] pull request (cover letter only)
-Date: Mon, 28 Dec 2020 09:58:29 +0800
-Message-Id: <cover.1609120493.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
+To: "quaresma.jose@gmail.com" <quaresma.jose@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [gatesgarth][PATCH 19/35] ffmpeg: add srt package config knob
+Thread-Topic: [OE-core] [gatesgarth][PATCH 19/35] ffmpeg: add srt package
+ config knob
+Thread-Index: AQHW2T3zjdCvuG0UnECl9gg3KVD3XqoEadEAgAbX7YA=
+Date: Mon, 28 Dec 2020 02:00:10 +0000
+Message-ID: <3381a68e8ba8cda175ddb51af53cabe1e452caa9.camel@intel.com>
+References: <cover.1608735614.git.anuj.mittal@intel.com>
+	 <54f8b66ee2439bc6ab68e622f34d451d1bdbfcd9.1608735614.git.anuj.mittal@intel.com>
+	 <CANPvuR=pDJRbU2BboW-nPpcYBWE8jErPSm7dz-K4uapVQab+pA@mail.gmail.com>
+In-Reply-To: <CANPvuR=pDJRbU2BboW-nPpcYBWE8jErPSm7dz-K4uapVQab+pA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DCE8E97FDFC9EF43B6AA2D6658FA29C9@intel.com>
+Content-Transfer-Encoding: base64
 
-Please merge these changes in gatesgarth.
-
-Thanks,
-
-Anuj
-
-The following changes since commit 18642d02ec492366199cf10c0af7fd70224b3c79:
-
-  wireless-regdb: upgrade 2020.04.29 -> 2020.11.20 (2020-12-10 09:20:06 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
-
-Alexander Kanavin (6):
-  linux-firmware: upgrade 20200817 -> 20201022
-  ruby: fix reproducibility
-  ffmpeg: fix reproducibility
-  kea: fix reproducibility
-  go: upgrade 1.15.2 -> 1.15.3
-  valgrind: exclude bar_bad/bar_bad_xml from ptests
-
-Bruce Ashfield (3):
-  linux-yocto-rt/5.4: update to -rt44
-  linux-yocto/5.4: update to v5.4.80
-  lttng-modules: fix build against v5.10+
-
-Changqing Li (1):
-  timezone: upgrade to 2020d
-
-Dmitry Baryshkov (5):
-  linux-firmware: upgrade 20201022 -> 20201118
-  linux-firmware: package ath11k firmware
-  linux-firmware: upgrade 20201118 -> 20201218
-  linux-firmware: package firmware for Lontium lt9611uxc bridge
-  perl: fix installation failure because of shell issue
-
-Khairul Rohaizzat Jamaluddin (1):
-  go: Update 1.15.5 -> 1.15.6
-
-Khem Raj (2):
-  go: Update to 1.15.5
-  go.bbclass: Use external linker for native packages
-
-Mark Jonas (1):
-  parted: Make readline dependency optional
-
-Nathan Rossi (1):
-  gcc: Add patch to resolve i*86 tune configuration overrides
-
-Peter Kjellerstedt (2):
-  glibc: Make adjtime() for 32 bit support being called with delta ==
-    NULL
-  apr-util: Only specify --with-dbm=gdbm if gdbm support is enabled
-
-Richard Purdie (7):
-  cups: Mark CVE-2009-0032 as a non-issue
-  cups: Mark CVE-2008-1033 as a non-issue
-  grub: Fix build reproducibility issue
-  grub: Add second fix for determinism issue
-  u-boot-tools: Fix reproducibility issue
-  groff: Fix reproducibility issue
-  man-db: Avoid reproducibility failures after fixing groff-native
-
-Robert Yang (3):
-  ncurses: Make ncurses-tools depend on ncurses-terminfo-base
-  minicom: RDEPENDS on ncurses-terminfo-base
-  archiver.bbclass: Fix --runall=deploy_archives for images
-
-Steve Sakoman (1):
-  cups: whitelist CVE-2018-6553
-
-Zhixiong Chi (1):
-  glibc: CVE-2020-29562 and CVE-2020-29573
-
- meta/classes/archiver.bbclass                 |   1 +
- meta/classes/go.bbclass                       |   1 +
- meta/recipes-bsp/grub/files/determinism.patch |  40 ++++
- meta/recipes-bsp/grub/grub2.inc               |   1 +
- meta/recipes-bsp/u-boot/u-boot-tools.inc      |  15 ++
- ...er_unittest_support.cc-do-not-write-.patch |  27 +++
- meta/recipes-connectivity/kea/kea_1.7.10.bb   |  29 +--
- ...-adjtime-with-NULL-argument-BZ-26833.patch | 110 ++++++++++
- .../glibc/glibc/CVE-2020-29562.patch          | 155 ++++++++++++++
- .../glibc/glibc/CVE-2020-29573.patch          |  56 +++++
- meta/recipes-core/glibc/glibc_2.32.bb         |   3 +
- meta/recipes-core/ncurses/ncurses.inc         |   2 +-
- meta/recipes-devtools/gcc/gcc-10.2.inc        |   1 +
- ...0001-lib-Remove-i-86-march-overrides.patch | 113 ++++++++++
- meta/recipes-devtools/go/go-1.15.inc          |   5 +-
- ...e_1.15.2.bb => go-binary-native_1.15.6.bb} |   4 +-
- meta/recipes-devtools/go/go-runtime_1.15.bb   |   1 +
- meta/recipes-devtools/go/go_1.15.bb           |   3 +
- meta/recipes-devtools/perl/perl_5.32.0.bb     |   5 +-
- ...e.in-do-not-write-host-cross-cc-item.patch |  32 +++
- meta/recipes-devtools/ruby/ruby_2.7.1.bb      |   1 +
- .../valgrind/valgrind/remove-for-aarch64      |   2 -
- .../valgrind/valgrind/remove-for-all          |   2 +
- .../valgrind/valgrind/run-ptest               |  10 +
- .../valgrind/valgrind_3.16.1.bb               |   2 +
- meta/recipes-extended/cups/cups.inc           |   7 +
- meta/recipes-extended/groff/groff_1.22.4.bb   |   2 +-
- meta/recipes-extended/man-db/man-db_2.9.3.bb  |   5 +
- .../recipes-extended/minicom/minicom_2.7.1.bb |   2 +
- meta/recipes-extended/parted/parted_3.3.bb    |   5 +-
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- ...20200817.bb => linux-firmware_20201218.bb} |  21 +-
- .../linux/linux-yocto-rt_5.4.bb               |   6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |   8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |  22 +-
- ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 ++++++++
- ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++++++++
- ...ext4-fast-commit-recovery-path-v5.10.patch |  99 +++++++++
- ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 ++++++++
- ...int-Optimize-using-static_call-v5.10.patch | 196 ++++++++++++++++++
- ...defined-symbols-caused-by-incorrect-.patch |  55 +++++
- .../lttng/lttng-modules_2.12.3.bb             |  10 +-
- ...e-assembly-with-full-path-from-sourc.patch |  97 +++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |   6 +
- meta/recipes-support/apr/apr-util_1.6.1.bb    |   5 +-
- 45 files changed, 1469 insertions(+), 53 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/determinism.patch
- create mode 100644 meta/recipes-connectivity/kea/files/0001-src-lib-log-logger_unittest_support.cc-do-not-write-.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29562.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
- rename meta/recipes-devtools/go/{go-binary-native_1.15.2.bb => go-binary-native_1.15.6.bb} (83%)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-for-all
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200817.bb => linux-firmware_20201218.bb} (98%)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavutil-include-assembly-with-full-path-from-sourc.patch
-
--- 
-2.29.2
-
+SGkgSm9zZSwNCg0KT24gV2VkLCAyMDIwLTEyLTIzIGF0IDE3OjI5ICswMDAwLCBKb3NlIFF1YXJl
+c21hIHdyb3RlOg0KPiBIaSBBbnVqLA0KPiANCj4gVGhpcyBwYXRjaCByZXF1ZXJlaXMgc3J0IGZy
+b20gbWV0YS1vcGVuZW1iZWRkZWQgYnV0IGl0IGlzIG9ubHkNCj4gcHJlc2VudCBvbiBtYXN0ZXIg
+YnJhbmNoDQo+IGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvbWV0YS1vcGVuZW1iZWRkZWQv
+Y29tbWl0Lz9pZD0yMzM0M2NiOGU5NDk3OTgxZTRlZjE0ZDVlZWFlNWRmOWJmODkxNjI0DQo+IA0K
+PiBUaGlzIG5lZWRzIDIzMzQzY2I4IHRvIGJlIGJhY2twb3J0ZWQgdG/CoGdhdGVzZ2FydGggb27C
+oG1ldGEtDQo+IG9wZW5lbWJlZGRlZC4NCg0KVGhhbmsgeW91IGZvciB0aGUgcmV2aWV3LiBJIGhh
+dmUgZHJvcHBlZCB0aGUgcGF0Y2ggZnJvbSB0aGUgcXVldWUgZm9yDQpub3cuDQoNClRoYW5rcywN
+Cg0KQW51ag0KDQo+IA0KPiBKb3NlDQo+IA0KPiBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
+ZWwuY29tPiBlc2NyZXZldSBubyBkaWEgcXVhcnRhLA0KPiAyMy8xMi8yMDIwIMOgKHMpIDE1OjE5
+Og0KPiA+IEZyb206IEpvc2UgUXVhcmVzbWEgPHF1YXJlc21hLmpvc2VAZ21haWwuY29tPg0KPiA+
+IA0KPiA+IMKgIMKgICogMDAwMS1sYXZmLXNydC1maXgtYnVpbGQtZmFpbC13aGVuLXVzZWQtdGhl
+LWxpYnNydC0xLjQuMS5wYXRjaA0KPiA+IMKgIMKgIMKgIFVwc3RyZWFtLVN0YXR1czogQmFja3Bv
+cnQNCj4gPiBbDQo+ID4gaHR0cHM6Ly9naXRodWIuY29tL0ZGbXBlZy9GRm1wZWcvY29tbWl0Lzdj
+NTllMWIwZjI4NWNkN2M3YjM1ZmNkNzFmNDljNWZkNTJjZjkzMTUNCj4gPiBdDQo+ID4gDQo+ID4g
+U2lnbmVkLW9mZi1ieTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+DQo+
+ID4gU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+DQo+ID4gKGNoZXJyeSBwaWNrZWQgZnJvbSBjb21taXQNCj4gPiA1YjljMGZh
+MTI5MzA4MTgwZDZkM2FjZjBhMzIxNDMzNjUyZWNkOWRjKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IEFu
+dWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+DQo+ID4gLS0tDQo+ID4gwqAuLi51aWxk
+LWZhaWwtd2hlbi11c2VkLXRoZS1saWJzcnQtMS40LjEucGF0Y2ggfCA1Mg0KPiA+ICsrKysrKysr
+KysrKysrKysrKysNCj4gPiDCoC4uLi9yZWNpcGVzLW11bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZ180
+LjMuMS5iYiB8wqAgMiArDQo+ID4gwqAyIGZpbGVzIGNoYW5nZWQsIDU0IGluc2VydGlvbnMoKykN
+Cj4gPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9mZm1wZWcv
+ZmZtcGVnLzAwMDEtDQo+ID4gbGF2Zi1zcnQtZml4LWJ1aWxkLWZhaWwtd2hlbi11c2VkLXRoZS1s
+aWJzcnQtMS40LjEucGF0Y2gNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11
+bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZy8wMDAxLWxhdmYtc3J0LQ0KPiA+IGZpeC1idWlsZC1mYWls
+LXdoZW4tdXNlZC10aGUtbGlic3J0LTEuNC4xLnBhdGNoIGIvbWV0YS9yZWNpcGVzLQ0KPiA+IG11
+bHRpbWVkaWEvZmZtcGVnL2ZmbXBlZy8wMDAxLWxhdmYtc3J0LWZpeC1idWlsZC1mYWlsLXdoZW4t
+dXNlZC0NCj4gPiB0aGUtbGlic3J0LTEuNC4xLnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2
+NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi43NjM1YzkxOTZhDQo+ID4gLS0tIC9kZXYvbnVsbA0K
+PiA+ICsrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2ZmbXBlZy9mZm1wZWcvMDAwMS1sYXZm
+LXNydC1maXgtDQo+ID4gYnVpbGQtZmFpbC13aGVuLXVzZWQtdGhlLWxpYnNydC0xLjQuMS5wYXRj
+aA0KPiA+IEBAIC0wLDAgKzEsNTIgQEANCj4gPiArRnJvbSBhZWJiNzJlMDI1Y2JmYmQ0YTY3NjUz
+NTRmNmY1NjVhZDRhYzg5Nzg5IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gPiAyMDAxDQo+ID4gK0Zy
+b206IEp1biBaaGFvIDxiYXJyeWp6aGFvQHRlbmNlbnQuY29tPg0KPiA+ICtEYXRlOiBTdW4sIDEy
+IEp1bCAyMDIwIDA1OjQ4OjQ4ICswODAwDQo+ID4gK1N1YmplY3Q6IFtQQVRDSF0gbGF2Zi9zcnQ6
+IGZpeCBidWlsZCBmYWlsIHdoZW4gdXNlZCB0aGUgbGlic3J0DQo+ID4gMS40LjENCj4gPiArDQo+
+ID4gK2xhdmYvc3J0OiBmaXggYnVpbGQgZmFpbCB3aGVuIHVzZWQgdGhlIGxpYnNydCAxLjQuMQ0K
+PiA+ICsNCj4gPiArbGlic3J0IGNoYW5nZWQgdGhlOg0KPiA+ICtTUlRPX1NNT09USEVSwqAgwqAt
+PiBTUlRPX0NPTkdFU1RJT04NCj4gPiArU1JUT19TVFJJQ1RFTkPCoCAtPiBTUlRPX0VORk9SQ0VE
+RU5DUllQVElPTg0KPiA+ICthbmQgcmVtb3ZlZCB0aGUgZnJvbnQgb2YgZGVwcmVjYXRlZCBvcHRp
+b25zDQo+ID4gKFNSVE9fU01PT1RIRVIvU1JUT19TVFJJQ1RFTkMpDQo+ID4gK2luIHRoZSBoZWFk
+ZXIsIGl0J3MgbGVhZCB0byBidWlsZCBmYWlsDQo+ID4gKw0KPiA+ICtmaXggIzg3NjANCj4gPiAr
+DQo+ID4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gPiBbDQo+ID4gaHR0cHM6Ly9naXRo
+dWIuY29tL0ZGbXBlZy9GRm1wZWcvY29tbWl0LzdjNTllMWIwZjI4NWNkN2M3YjM1ZmNkNzFmNDlj
+NWZkNTJjZjkzMTUNCj4gPiBdDQo+ID4gKw0KPiA+ICtTaWduZWQtb2ZmLWJ5OiBKb3NlIFF1YXJl
+c21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4NCj4gPiArU2lnbmVkLW9mZi1ieTogSnVuIFpo
+YW8gPGJhcnJ5anpoYW9AdGVuY2VudC5jb20+DQo+ID4gKy0tLQ0KPiA+ICsgbGliYXZmb3JtYXQv
+bGlic3J0LmMgfCA4ICsrKysrKysrDQo+ID4gKyAxIGZpbGUgY2hhbmdlZCwgOCBpbnNlcnRpb25z
+KCspDQo+ID4gKw0KPiA+ICtkaWZmIC0tZ2l0IGEvbGliYXZmb3JtYXQvbGlic3J0LmMgYi9saWJh
+dmZvcm1hdC9saWJzcnQuYw0KPiA+ICtpbmRleCA0ZGU1NzViLi40NzE5Y2UwIDEwMDY0NA0KPiA+
+ICstLS0gYS9saWJhdmZvcm1hdC9saWJzcnQuYw0KPiA+ICsrKysgYi9saWJhdmZvcm1hdC9saWJz
+cnQuYw0KPiA+ICtAQCAtMzEzLDggKzMxMywxMiBAQCBzdGF0aWMgaW50IGxpYnNydF9zZXRfb3B0
+aW9uc19wcmUoVVJMQ29udGV4dA0KPiA+ICpoLCBpbnQgZmQpDQo+ID4gK8KgIMKgIMKgIMKgIMKg
+KHMtPnBia2V5bGVuID49IDAgJiYgbGlic3J0X3NldHNvY2tvcHQoaCwgZmQsDQo+ID4gU1JUT19Q
+QktFWUxFTiwgIlNSVE9fUEJLRVlMRU4iLCAmcy0+cGJrZXlsZW4sIHNpemVvZihzLT5wYmtleWxl
+bikpDQo+ID4gPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDCoCDCoChzLT5wYXNzcGhyYXNlICYmIGxp
+YnNydF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9fUEFTU1BIUkFTRSwgIlNSVE9fUEFTU1BI
+UkFTRSIsIHMtPnBhc3NwaHJhc2UsIHN0cmxlbihzLQ0KPiA+ID4gcGFzc3BocmFzZSkpIDwgMCkg
+fHwNCj4gPiArICNpZiBTUlRfVkVSU0lPTl9WQUxVRSA+PSAweDAxMDMwMg0KPiA+ICsrI2lmIFNS
+VF9WRVJTSU9OX1ZBTFVFID49IDB4MDEwNDAxDQo+ID4gKyvCoCDCoCDCoCDCoCAocy0+ZW5mb3Jj
+ZWRfZW5jcnlwdGlvbiA+PSAwICYmIGxpYnNydF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9f
+RU5GT1JDRURFTkNSWVBUSU9OLCAiU1JUT19FTkZPUkNFREVOQ1JZUFRJT04iLCAmcy0NCj4gPiA+
+IGVuZm9yY2VkX2VuY3J5cHRpb24sIHNpemVvZihzLT5lbmZvcmNlZF9lbmNyeXB0aW9uKSkgPCAw
+KSB8fA0KPiA+ICsrI2Vsc2UNCj4gPiArwqAgwqAgwqAgwqAgwqAvKiBTUlRPX1NUUklDVEVOQyA9
+PSBTUlRPX0VORk9SQ0VERU5DUllQVElPTiAoNTMpLCBidXQNCj4gPiBmb3IgY29tcGF0aWJpbGl0
+eSwgd2UgdXNlZCBTUlRPX1NUUklDVEVOQyAqLw0KPiA+ICvCoCDCoCDCoCDCoCDCoChzLT5lbmZv
+cmNlZF9lbmNyeXB0aW9uID49IDAgJiYgbGlic3J0X3NldHNvY2tvcHQoaCwgZmQsDQo+ID4gU1JU
+T19TVFJJQ1RFTkMsICJTUlRPX1NUUklDVEVOQyIsICZzLT5lbmZvcmNlZF9lbmNyeXB0aW9uLA0K
+PiA+IHNpemVvZihzLT5lbmZvcmNlZF9lbmNyeXB0aW9uKSkgPCAwKSB8fA0KPiA+ICsrI2VuZGlm
+DQo+ID4gK8KgIMKgIMKgIMKgIMKgKHMtPmttcmVmcmVzaHJhdGUgPj0gMCAmJiBsaWJzcnRfc2V0
+c29ja29wdChoLCBmZCwNCj4gPiBTUlRPX0tNUkVGUkVTSFJBVEUsICJTUlRPX0tNUkVGUkVTSFJB
+VEUiLCAmcy0+a21yZWZyZXNocmF0ZSwNCj4gPiBzaXplb2Yocy0+a21yZWZyZXNocmF0ZSkpIDwg
+MCkgfHwNCj4gPiArwqAgwqAgwqAgwqAgwqAocy0+a21wcmVhbm5vdW5jZSA+PSAwICYmIGxpYnNy
+dF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9fS01QUkVBTk5PVU5DRSwgIlNSVE9fS01QUkVB
+Tk5PVU5DRSIsICZzLT5rbXByZWFubm91bmNlLA0KPiA+IHNpemVvZihzLT5rbXByZWFubm91bmNl
+KSkgPCAwKSB8fA0KPiA+ICsgI2VuZGlmDQo+ID4gK0BAIC0zMzMsNyArMzM3LDExIEBAIHN0YXRp
+YyBpbnQgbGlic3J0X3NldF9vcHRpb25zX3ByZShVUkxDb250ZXh0DQo+ID4gKmgsIGludCBmZCkN
+Cj4gPiArwqAgwqAgwqAgwqAgwqAocy0+bG9zc21heHR0bCA+PSAwICYmIGxpYnNydF9zZXRzb2Nr
+b3B0KGgsIGZkLA0KPiA+IFNSVE9fTE9TU01BWFRUTCwgIlNSVE9fTE9TU01BWFRUTCIsICZzLT5s
+b3NzbWF4dHRsLCBzaXplb2Yocy0NCj4gPiA+IGxvc3NtYXh0dGwpKSA8IDApIHx8DQo+ID4gK8Kg
+IMKgIMKgIMKgIMKgKHMtPm1pbnZlcnNpb24gPj0gMCAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBm
+ZCwNCj4gPiBTUlRPX01JTlZFUlNJT04sICJTUlRPX01JTlZFUlNJT04iLCAmcy0+bWludmVyc2lv
+biwgc2l6ZW9mKHMtDQo+ID4gPiBtaW52ZXJzaW9uKSkgPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDC
+oCDCoChzLT5zdHJlYW1pZCAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBmZCwgU1JUT19TVFJFQU1J
+RCwNCj4gPiAiU1JUT19TVFJFQU1JRCIsIHMtPnN0cmVhbWlkLCBzdHJsZW4ocy0+c3RyZWFtaWQp
+KSA8IDApIHx8DQo+ID4gKysjaWYgU1JUX1ZFUlNJT05fVkFMVUUgPj0gMHgwMTA0MDENCj4gPiAr
+K8KgIMKgIMKgIMKgIChzLT5zbW9vdGhlciAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBmZCwgU1JU
+T19DT05HRVNUSU9OLA0KPiA+ICJTUlRPX0NPTkdFU1RJT04iLCBzLT5zbW9vdGhlciwgc3RybGVu
+KHMtPnNtb290aGVyKSkgPCAwKSB8fA0KPiA+ICsrI2Vsc2UNCj4gPiArwqAgwqAgwqAgwqAgwqAo
+cy0+c21vb3RoZXIgJiYgbGlic3J0X3NldHNvY2tvcHQoaCwgZmQsIFNSVE9fU01PT1RIRVIsDQo+
+ID4gIlNSVE9fU01PT1RIRVIiLCBzLT5zbW9vdGhlciwgc3RybGVuKHMtPnNtb290aGVyKSkgPCAw
+KSB8fA0KPiA+ICsrI2VuZGlmDQo+ID4gK8KgIMKgIMKgIMKgIMKgKHMtPm1lc3NhZ2VhcGkgPj0g
+MCAmJiBsaWJzcnRfc2V0c29ja29wdChoLCBmZCwNCj4gPiBTUlRPX01FU1NBR0VBUEksICJTUlRP
+X01FU1NBR0VBUEkiLCAmcy0+bWVzc2FnZWFwaSwgc2l6ZW9mKHMtDQo+ID4gPiBtZXNzYWdlYXBp
+KSkgPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDCoCDCoChzLT5wYXlsb2FkX3NpemUgPj0gMCAmJiBs
+aWJzcnRfc2V0c29ja29wdChoLCBmZCwNCj4gPiBTUlRPX1BBWUxPQURTSVpFLCAiU1JUT19QQVlM
+T0FEU0laRSIsICZzLT5wYXlsb2FkX3NpemUsIHNpemVvZihzLQ0KPiA+ID4gcGF5bG9hZF9zaXpl
+KSkgPCAwKSB8fA0KPiA+ICvCoCDCoCDCoCDCoCDCoCgoaC0+ZmxhZ3MgJiBBVklPX0ZMQUdfV1JJ
+VEUpICYmIGxpYnNydF9zZXRzb2Nrb3B0KGgsIGZkLA0KPiA+IFNSVE9fU0VOREVSLCAiU1JUT19T
+RU5ERVIiLCAmeWVzLCBzaXplb2YoeWVzKSkgPCAwKSkgew0KPiA+IGRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtbXVsdGltZWRpYS9mZm1wZWcvZmZtcGVnXzQuMy4xLmJiDQo+ID4gYi9tZXRhL3Jl
+Y2lwZXMtbXVsdGltZWRpYS9mZm1wZWcvZmZtcGVnXzQuMy4xLmJiDQo+ID4gaW5kZXggNTE3ZGFj
+N2YwNS4uNzJjMmZlMTZlYyAxMDA2NDQNCj4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRp
+YS9mZm1wZWcvZmZtcGVnXzQuMy4xLmJiDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVk
+aWEvZmZtcGVnL2ZmbXBlZ180LjMuMS5iYg0KPiA+IEBAIC0yNSw2ICsyNSw3IEBAIExJQ19GSUxF
+U19DSEtTVU0gPQ0KPiA+ICJmaWxlOi8vQ09QWUlORy5HUEx2MjttZDU9YjIzNGVlNGQ2OWY1ZmNl
+NDQ4NmE4MGZkYWY0YTQyNjMgXA0KPiA+IA0KPiA+IMKgU1JDX1VSSSA9ICJodHRwczovL3d3dy5m
+Zm1wZWcub3JnL3JlbGVhc2VzLyR7QlB9LnRhci54eiBcDQo+ID4gwqAgwqAgwqAgwqAgwqAgwqAg
+ZmlsZTovL21pcHM2NF9jcHVfZGV0ZWN0aW9uLnBhdGNoIFwNCj4gPiArwqAgwqAgwqAgwqAgwqAg
+wqBmaWxlOi8vMDAwMS1sYXZmLXNydC1maXgtYnVpbGQtZmFpbC13aGVuLXVzZWQtdGhlLQ0KPiA+
+IGxpYnNydC0xLjQuMS5wYXRjaCBcDQo+ID4gwqAgwqAgwqAgwqAgwqAgwqAgIg0KPiA+IMKgU1JD
+X1VSSVtzaGEyNTZzdW1dID0NCj4gPiAiYWQwMDkyNDBkNDZlMzA3YjRlMDNhMjEzYTBmNDljMTFi
+NjUwZTQ0NWIxZjhiZTBkZGEyYTkyMTJiMzRkMmZmYiINCj4gPiANCj4gPiBAQCAtNzAsNiArNzEs
+NyBAQCBQQUNLQUdFQ09ORklHW21wM2xhbWVdID0gIi0tZW5hYmxlLWxpYm1wM2xhbWUsLS0NCj4g
+PiBkaXNhYmxlLWxpYm1wM2xhbWUsbGFtZSINCj4gPiDCoFBBQ0tBR0VDT05GSUdbb3BlbnNzbF0g
+PSAiLS1lbmFibGUtb3BlbnNzbCwtLWRpc2FibGUtDQo+ID4gb3BlbnNzbCxvcGVuc3NsIg0KPiA+
+IMKgUEFDS0FHRUNPTkZJR1tzZGwyXSA9ICItLWVuYWJsZS1zZGwyLC0tZGlzYWJsZS0NCj4gPiBz
+ZGwyLHZpcnR1YWwvbGlic2RsMiINCj4gPiDCoFBBQ0tBR0VDT05GSUdbc3BlZXhdID0gIi0tZW5h
+YmxlLWxpYnNwZWV4LC0tZGlzYWJsZS0NCj4gPiBsaWJzcGVleCxzcGVleCINCj4gPiArUEFDS0FH
+RUNPTkZJR1tzcnRdID0gIi0tZW5hYmxlLWxpYnNydCwtLWRpc2FibGUtbGlic3J0LHNydCINCj4g
+PiDCoFBBQ0tBR0VDT05GSUdbdGhlb3JhXSA9ICItLWVuYWJsZS1saWJ0aGVvcmEsLS1kaXNhYmxl
+LQ0KPiA+IGxpYnRoZW9yYSxsaWJ0aGVvcmEgbGlib2dnIg0KPiA+IMKgUEFDS0FHRUNPTkZJR1t2
+YWFwaV0gPSAiLS1lbmFibGUtdmFhcGksLS1kaXNhYmxlLXZhYXBpLGxpYnZhIg0KPiA+IMKgUEFD
+S0FHRUNPTkZJR1t2ZHBhdV0gPSAiLS1lbmFibGUtdmRwYXUsLS1kaXNhYmxlLXZkcGF1LGxpYnZk
+cGF1Ig0KPiA+IC0tIA0KPiA+IDIuMjkuMg0KPiA+IA0KPiA+IA0KPiA+IA0KPiA+IA0KPiANCj4g
+DQo+IA0KPiANCj4gDQoNCg==
