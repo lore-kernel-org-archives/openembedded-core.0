@@ -1,177 +1,122 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web08.2403.1609185895058476424
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web09.2420.1609185895865210121
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Dec 2020 12:04:55 -0800
+ Mon, 28 Dec 2020 12:04:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=k+3dP1uA;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id u19so10784567edx.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 12:04:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RzHdrpgH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id g24so10736181edw.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Dec 2020 12:04:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kKzzbnDAl9rXEzgsi0SMobnHmly1pdBIWFCeGuFLYMk=;
-        b=k+3dP1uAPDYYKuURFRY2jmLb4AScU/X1xth5gGLLv6el+np9nIob5rqJBSNdffH6NP
-         Vsr9BBDv2kVecJgfcfV9JZeWpTlXimE6lJVb+I9PtJCpiTwyhJ96IDSJIcMzWlIYtCyw
-         ikN9/HkxRSOgyu04EeKQmOuSBvtqOqlOxjXmzRSsEljwVsPzCTkF9RGUHD346RjgDrNR
-         NXv/Nu9gt+4WaVrErfpwxGuqPP9IhIc0cOt7ngXwmJAKwD1D7a0YNGnhqPQLRnH6chT3
-         TaujYkOBGAB/tMK8/ftuCrxgYLBMwoYwMq+LHXKW9aBVDi85KnBU9iMHBtK1VV6tO1CZ
-         vQiQ==
+        bh=uuo5Z2PSyhUw2Q+QRYYE/gePFVor/xEgn9mLdDsJ/cA=;
+        b=RzHdrpgHrHj4hPwFpwzqfAMr89W7Hwt0wCQdMvWR8mouw6NNJkKucqSNCrpFWfde5V
+         n0/Lc/hgqBFRFB7Q0P4+yRZEzN3Pn4Gc26v+VrABv9z+TPahfafZwozDb/kdncpKJmPm
+         GC1klJjHLTHlD24HebnhlGw9NleMeZKtL20uMU0Miu9ttSxbZdPbOIIKI11KBEQ29Ks6
+         L3Bzj0MZ7zX+3Ja74GGo5WHNqHRwlwnHG4Yq7KsbHDlCZtKoB2wKq6fTISZrBWIMpuaJ
+         vfanSjcfSTMs8Ms1cOC8eXk4X9Zm5T5HE0mYO3o8XUSzGuXKbn4HrAXqVbf6I5mxLVD8
+         GGpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kKzzbnDAl9rXEzgsi0SMobnHmly1pdBIWFCeGuFLYMk=;
-        b=QiZ7d5y/f23FzYCXrLiJvPWOHiLTVIYenjp7brYXfpcplfiJ7VhomlOEboxGUMtd1j
-         PVHgvv2SMqQx3VxwhQCnY5sCRfNHnXuZay8Dh1CcXbfrdecPQ0BV9uunnzFb77VBwf2e
-         kt+G5/LlCPK4144LdZ4k2H+qSDjUdp3rkpcleJ/2oYAgeFCoa1UIMA+UvxLHOW6uVtzQ
-         +uCBOq/JGq+a996IkAwlLD/sDtkUf29eTksBJVOItZ79Ec9IBWkczQfaeM2g+uejqLuh
-         o/SBUczuj3JD+i+5sDi0LJEoPoAi4LMgV7ibdmSDOYId5wCrUCE6f2QqKW+yPOPhBr9p
-         iEjQ==
-X-Gm-Message-State: AOAM533YIozubZpyihwnsrFUEXGZGcnAqL+nGXep+MbnHZJvWU9MyX4h
-	ydTF9DLxosh1EJefH3xNX9gAyHaM+fg=
-X-Google-Smtp-Source: ABdhPJw0gAf5sHDdWtLHVNHVI8K+mBe6gLRlW3BfzaDuoXBgMmOTZqidKNRLkZPvYgxV4apdzq3hSA==
-X-Received: by 2002:a50:9ee6:: with SMTP id a93mr44058590edf.174.1609185893678;
-        Mon, 28 Dec 2020 12:04:53 -0800 (PST)
+        bh=uuo5Z2PSyhUw2Q+QRYYE/gePFVor/xEgn9mLdDsJ/cA=;
+        b=NodcW3qveZZXhEYkmpKDY8M43W+q1ZXnRyBlP3GbzXT4c7nqIVXpEBoM2wXtGAqPIL
+         yTrrANCfyP0UKy7sK69ugDrKEeQpKUTSOf7jI8alFRaQqvRQdSBrwRNVE085XL0jcirn
+         nqmyjU4k1tEDGFjelKUU1pC6XgIBoieR+YbTllRq9++cp7l4Si/QMUxZTyk3ciVESQVG
+         eT0ej6lZr11riBTOxT64DKhLVCIlUuNzc0hM679FOsAjyalPkjhkoW3itMjc5538YECw
+         /JIbKYMuBy0zcPcFV+MjdIQnP6Sti1tjkZhK7JGP3ZPNv234PsQ3qwXl4y+N1BT96FgD
+         Jglw==
+X-Gm-Message-State: AOAM5337uM7mnXHapZVfsxVby/1M0kUHMOzvdoT05aP/c4Cw+hz4OWQl
+	BJju8XrHWo5KnuteRi/A683TMdua7ek=
+X-Google-Smtp-Source: ABdhPJyZ7W7pdJgCtkFB7atZ+1GLpKarHTPl1n7fWCZCcHNAw1OVhZ4fSkGxM79hrIuxOHjanQME/A==
+X-Received: by 2002:a05:6402:1692:: with SMTP id a18mr42476293edv.321.1609185894516;
+        Mon, 28 Dec 2020 12:04:54 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from localhost-live.fritz.box ([2a02:2450:1011:4f7:a0c9:fd7f:e532:e1ec])
-        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.52
+        by smtp.gmail.com with ESMTPSA id a10sm17447476ejk.92.2020.12.28.12.04.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Dec 2020 12:04:53 -0800 (PST)
+        Mon, 28 Dec 2020 12:04:54 -0800 (PST)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 14/22] strace: update 5.9 -> 5.10
-Date: Mon, 28 Dec 2020 21:04:28 +0100
-Message-Id: <20201228200436.78130-14-alex.kanavin@gmail.com>
+Subject: [PATCH 15/22] python3-pytest: update 6.1.2 -> 6.2.1
+Date: Mon, 28 Dec 2020 21:04:29 +0100
+Message-Id: <20201228200436.78130-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201228200436.78130-1-alex.kanavin@gmail.com>
 References: <20201228200436.78130-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop 0001-xlat-Mark-IPPROTO_MAX-last-in-IPPROTO_-constants.patch
-as upstream has removed IPPROTO_MAX altogether.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...PROTO_MAX-last-in-IPPROTO_-constants.patch | 70 -------------------
- .../strace/{strace_5.9.bb => strace_5.10.bb}  |  9 ++-
- 2 files changed, 6 insertions(+), 73 deletions(-)
- delete mode 100644 meta/recipes-devtools/strace/strace/0001-xlat-Mark-IPPROTO_MAX-last-in-IPPROTO_-constants.patch
- rename meta/recipes-devtools/strace/{strace_5.9.bb => strace_5.10.bb} (88%)
+ ...-the-setup_requires-for-setuptools-scm.patch | 17 +++++++----------
+ ...-pytest_6.1.2.bb => python3-pytest_6.2.1.bb} |  2 +-
+ 2 files changed, 8 insertions(+), 11 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pytest_6.1.2.bb => python3-pytest_6.2.1.bb} (92%)
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-xlat-Mark-IPPROTO_MAX-last-in-IPPROTO_-constants.patch b/meta/recipes-devtools/strace/strace/0001-xlat-Mark-IPPROTO_MAX-last-in-IPPROTO_-constants.patch
-deleted file mode 100644
-index cd53f33f60..0000000000
---- a/meta/recipes-devtools/strace/strace/0001-xlat-Mark-IPPROTO_MAX-last-in-IPPROTO_-constants.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From 387d3b6fba95cb47c4dacc6bcd330148a9168850 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 7 Oct 2020 12:54:03 -0700
--Subject: [PATCH] xlat: Mark IPPROTO_MAX last in IPPROTO_* constants
--
--* xlat/inet_protocols.in (IPPROTO_MAX): It should be the last entry
--  after adding IPPROTO_MPTCP this should have new value as
--  IPPROTO_MPTCP + 1.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Submitted [https://lists.strace.io/pipermail/strace-devel/2020-October/010253.html]
-----
-- xlat/inet_protocols.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
----- a/xlat/inet_protocols.in
--+++ b/xlat/inet_protocols.in
--@@ -32,5 +32,5 @@ IPPROTO_UDPLITE		136
-- IPPROTO_MPLS		137
-- IPPROTO_ETHERNET	143
-- IPPROTO_RAW		255
---IPPROTO_MAX		256
-- IPPROTO_MPTCP		262
--+IPPROTO_MAX		263
----- a/xlat/inet_protocols.h
--+++ b/xlat/inet_protocols.h
--@@ -234,19 +234,19 @@ DIAG_POP_IGNORE_TAUTOLOGICAL_COMPARE
-- #else
-- # define IPPROTO_RAW 255
-- #endif
---#if defined(IPPROTO_MAX) || (defined(HAVE_DECL_IPPROTO_MAX) && HAVE_DECL_IPPROTO_MAX)
--+#if defined(IPPROTO_MPTCP) || (defined(HAVE_DECL_IPPROTO_MPTCP) && HAVE_DECL_IPPROTO_MPTCP)
-- DIAG_PUSH_IGNORE_TAUTOLOGICAL_COMPARE
---static_assert((IPPROTO_MAX) == (256), "IPPROTO_MAX != 256");
--+static_assert((IPPROTO_MPTCP) == (262), "IPPROTO_MPTCP != 262");
-- DIAG_POP_IGNORE_TAUTOLOGICAL_COMPARE
-- #else
---# define IPPROTO_MAX 256
--+# define IPPROTO_MPTCP 262
-- #endif
---#if defined(IPPROTO_MPTCP) || (defined(HAVE_DECL_IPPROTO_MPTCP) && HAVE_DECL_IPPROTO_MPTCP)
--+#if defined(IPPROTO_MAX) || (defined(HAVE_DECL_IPPROTO_MAX) && HAVE_DECL_IPPROTO_MAX)
-- DIAG_PUSH_IGNORE_TAUTOLOGICAL_COMPARE
---static_assert((IPPROTO_MPTCP) == (262), "IPPROTO_MPTCP != 262");
--+static_assert((IPPROTO_MAX) == (263), "IPPROTO_MAX != 263");
-- DIAG_POP_IGNORE_TAUTOLOGICAL_COMPARE
-- #else
---# define IPPROTO_MPTCP 262
--+# define IPPROTO_MAX 263
-- #endif
-- 
-- #ifndef XLAT_MACROS_ONLY
--@@ -353,12 +353,12 @@ static const struct xlat_data inet_proto
--  XLAT(IPPROTO_RAW),
--  #define XLAT_VAL_32 ((unsigned) (IPPROTO_RAW))
--  #define XLAT_STR_32 STRINGIFY(IPPROTO_RAW)
--- XLAT(IPPROTO_MAX),
--- #define XLAT_VAL_33 ((unsigned) (IPPROTO_MAX))
--- #define XLAT_STR_33 STRINGIFY(IPPROTO_MAX)
--  XLAT(IPPROTO_MPTCP),
--- #define XLAT_VAL_34 ((unsigned) (IPPROTO_MPTCP))
--- #define XLAT_STR_34 STRINGIFY(IPPROTO_MPTCP)
--+ #define XLAT_VAL_33 ((unsigned) (IPPROTO_MPTCP))
--+ #define XLAT_STR_33 STRINGIFY(IPPROTO_MPTCP)
--+ XLAT(IPPROTO_MAX),
--+ #define XLAT_VAL_34 ((unsigned) (IPPROTO_MAX))
--+ #define XLAT_STR_34 STRINGIFY(IPPROTO_MAX)
-- };
-- const struct xlat inet_protocols[1] = { {
--  .data = inet_protocols_xdata,
-diff --git a/meta/recipes-devtools/strace/strace_5.9.bb b/meta/recipes-devtools/strace/strace_5.10.bb
-similarity index 88%
-rename from meta/recipes-devtools/strace/strace_5.9.bb
-rename to meta/recipes-devtools/strace/strace_5.10.bb
-index bee2616a44..22572fb935 100644
---- a/meta/recipes-devtools/strace/strace_5.9.bb
-+++ b/meta/recipes-devtools/strace/strace_5.10.bb
-@@ -14,9 +14,8 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://ptest-spacesave.patch \
-            file://uintptr_t.patch \
-            file://0001-strace-fix-reproducibilty-issues.patch \
--           file://0001-xlat-Mark-IPPROTO_MAX-last-in-IPPROTO_-constants.patch \
-            "
--SRC_URI[sha256sum] = "39473eb8465546c3e940fb663cb381eba5613160c7302794699d194a4d5d66d9"
-+SRC_URI[sha256sum] = "fe3982ea4cd9aeb3b4ba35f6279f0b577a37175d3282be24b9a5537b56b8f01c"
+diff --git a/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch b/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
+index 8c5c17247e..1abd531c62 100644
+--- a/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
++++ b/meta/recipes-devtools/python/python3-pytest/0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch
+@@ -1,8 +1,7 @@
+-From ff784f4803ab33f5e3389e40d038d52d1e211843 Mon Sep 17 00:00:00 2001
++From ead04f2da75efeca3369feff6161ea4a8baecbc9 Mon Sep 17 00:00:00 2001
+ From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+ Date: Wed, 28 Aug 2019 16:12:27 +0900
+-Subject: [PATCH] [PATCH] setup.py: remove the setup_requires for
+- setuptools-scm
++Subject: [PATCH] setup.py: remove the setup_requires for setuptools-scm
  
- inherit autotools ptest
+ The setup_requires argument forces the download of the egg file for setuptools-scm
+ during the do_compile phase.  This download is incompatible with the typical fetch
+@@ -18,22 +17,20 @@ Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+ Rebase for pytest 6.1.0.
  
-@@ -47,10 +46,14 @@ do_install_ptest() {
- 	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
- 	install -m 755 ${S}/test-driver ${D}${PTEST_PATH}
- 	install -m 644 ${B}/config.h ${D}${PTEST_PATH}
--        sed -i -e '/^src/s/strace.*[1-9]/ptest/' ${D}/${PTEST_PATH}/${TESTDIR}/Makefile
-+        sed -i -e '/^src/s/strace.*[0-9]/ptest/' ${D}/${PTEST_PATH}/${TESTDIR}/Makefile
- }
- 
- RDEPENDS_${PN}-ptest += "make coreutils grep gawk sed"
- 
-+RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-+     locale-base-en-us.iso-8859-1 \
-+"
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +
- BBCLASSEXTEND = "native"
- TOOLCHAIN = "gcc"
+ ---
+  setup.cfg | 1 -
+  1 file changed, 1 deletion(-)
+ 
+ diff --git a/setup.cfg b/setup.cfg
+-index 60f6564..c4d1471 100644
++index 6ed0792..0137090 100644
+ --- a/setup.cfg
+ +++ b/setup.cfg
+-@@ -55,7 +55,6 @@ package_dir =
++@@ -53,7 +53,6 @@ package_dir =
+  	=src
+  setup_requires = 
+- 	setuptools>=40.0
+--	setuptools-scm
++ 	setuptools>=>=42.0
++-	setuptools-scm>=3.4
+  zip_safe = no
+  
+  [options.entry_points]
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/python/python3-pytest_6.1.2.bb b/meta/recipes-devtools/python/python3-pytest_6.2.1.bb
+similarity index 92%
+rename from meta/recipes-devtools/python/python3-pytest_6.1.2.bb
+rename to meta/recipes-devtools/python/python3-pytest_6.2.1.bb
+index 6fc3b6f328..6843b4da25 100644
+--- a/meta/recipes-devtools/python/python3-pytest_6.1.2.bb
++++ b/meta/recipes-devtools/python/python3-pytest_6.2.1.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=81eb9f71d006c6b268cf4388e3c98f7b"
+ 
+ SRC_URI_append = " file://0001-setup.py-remove-the-setup_requires-for-setuptools-scm.patch "
+ 
+-SRC_URI[sha256sum] = "c0a7e94a8cdbc5422a51ccdad8e6f1024795939cc89159a0ae7f0b316ad3823e"
++SRC_URI[sha256sum] = "66e419b1899bc27346cb2c993e12c5e5e8daba9073c1fbce33b9807abc95c306"
+ 
+ inherit update-alternatives pypi setuptools3
+ 
 -- 
 2.29.2
 
