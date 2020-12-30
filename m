@@ -1,76 +1,117 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.web08.13902.1609368268824915384
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web11.14028.1609368269796327471
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Dec 2020 14:44:29 -0800
+ Wed, 30 Dec 2020 14:44:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=A8XLpRSh;
- spf=pass (domain: konsulko.com, ip: 209.85.160.175, mailfrom: scott.murray@konsulko.com)
-Received: by mail-qt1-f175.google.com with SMTP id h19so11890591qtq.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Dec 2020 14:44:28 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=XqJs4tto;
+ spf=pass (domain: konsulko.com, ip: 209.85.222.171, mailfrom: scott.murray@konsulko.com)
+Received: by mail-qk1-f171.google.com with SMTP id d14so15112981qkc.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Dec 2020 14:44:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=7mT5GCs7sBHi6sKoB1rmWOZU3Pwv8B9kAcr/+S+mSMQ=;
-        b=A8XLpRShZVu9Xr6zeln7812UCNgf0dyiDPEC0OeX8DQu0e1Jbu7dzB5/KZkYXQNRMJ
-         xpIqB2rAccDugolF0Ew2IPX28ai9U8v/9mOXF/xPEz3hI8sYV6p6vve/oy9K5nSffrqM
-         +jIwVxh5/j52pDEU2WwAB/rHppWOJbwE6Qqlg=
+        bh=8inzQ0h3vNJfL8vXDkHLEj6K9nrUceVzS5EirQ/Z43o=;
+        b=XqJs4ttoGJcbu9JEkAlWpk3Pz3HjQMbMBim/VcRnHy4O0chaxJPK7TB6oLbYvWJfmy
+         /mIVOlq7CZ4I6V7z9GWG6LykQdzpIB/UiIVUJXcM4R4NuSBnlExwxuouj1/wNPgo+UmT
+         h3VVpPy6ixwdi2Sj9p7UWRcNr3iP53gJ51D5g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=7mT5GCs7sBHi6sKoB1rmWOZU3Pwv8B9kAcr/+S+mSMQ=;
-        b=CVmdDm0Rdhr30Utuj7vTO+VMzk5dS0Am7T+RrNZfDYonSBwibnSULOe82xX2BHKwJL
-         XITu2ztUhdyWtVVRzb3ysyJZjFQ+6CfaoWyz/KwQCng44TgpeZWLTQY84XZTi3GweBFo
-         hGRXXdvmJfgjoQ11SjDwabJVhQSG1r0GHLQCYdkxk0X6rJNxKLldOXcRHW9KSYAYfRU7
-         meV2fOKzhSlyN4b6hoOmqTX1NQeGlx8q0OnGJeVb+YMaGcdG2Bq3RTpHaK8ybiN0NRrN
-         Sgn7j6To+H0MuFhciR4dhrzZK1Wmvlw2/yWkC9PVboqJhNN2foXsQMV0iFThPV6q2JFe
-         GFRQ==
-X-Gm-Message-State: AOAM531HZbT2H0A5FP8Ny5FqwxU5rI/MquwN+MPpROfnE8io/dHpLI0I
-	e46eCZNHtpnsiPBWyK77K2KOMWoj/wz80A==
-X-Google-Smtp-Source: ABdhPJwSugCQFX/WXTMWTuz6v47jjZxYeh82c+qaSEovRJ6pmpBeiyB8fsbvBYjynki2VsRwtva4KQ==
-X-Received: by 2002:ac8:5ed5:: with SMTP id s21mr55521654qtx.114.1609368267672;
-        Wed, 30 Dec 2020 14:44:27 -0800 (PST)
+        bh=8inzQ0h3vNJfL8vXDkHLEj6K9nrUceVzS5EirQ/Z43o=;
+        b=A/Lr2F79HtM+V6YCthgQnm5iepvB031BbLtTurQKp4ZAPs6egI6jKLijBONULd79iP
+         i6YKLBT7ztc7M5pf20AjkK2EmOmGRXK/DHEw+7q3Per38df5A6qg8bW9IE98A8lN846d
+         Xu2w1daRYcBZKacO6AQo0pjyuxMlYUzk4TwJ4v76FPq41TwDOvsEL/SfwtZOCukBBk6j
+         3+ewbUKOKJwHaj7jbFcEfPXRFjdMbCIPYRMf3Loa627LqGEBp0GCUoqlx25N2MR9I418
+         hjPwgOOnbhF296OhlPIFxYyajvr04T/kd7yRJEuzTglVKPe6Rao9RMKcYOleN8FRTdVj
+         0KwQ==
+X-Gm-Message-State: AOAM53009gGt9gvPM1T1QK4emgh8FikZeJgjpAVZOUUfjEUcO0jMPffS
+	aUxEuE72dnH2Y0vVrmUhcyDwjuHukJQITA==
+X-Google-Smtp-Source: ABdhPJxmTOsJKN/Ps26iegssZ4F5ct2AlFLMczfEAgkqXx5gocacxAz1ukmb0TCkU77xBR2L/4gASw==
+X-Received: by 2002:a37:9583:: with SMTP id x125mr21611463qkd.75.1609368268691;
+        Wed, 30 Dec 2020 14:44:28 -0800 (PST)
 Return-Path: <scott.murray@konsulko.com>
 Received: from ghidorah.spiteful.org (198-84-179-103.cpe.teksavvy.com. [198.84.179.103])
-        by smtp.gmail.com with ESMTPSA id a77sm28315573qkg.77.2020.12.30.14.44.26
+        by smtp.gmail.com with ESMTPSA id a77sm28315573qkg.77.2020.12.30.14.44.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Dec 2020 14:44:27 -0800 (PST)
+        Wed, 30 Dec 2020 14:44:28 -0800 (PST)
 From: "Scott Murray" <scott.murray@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] grub: fix "CVE:" line in one of the patches
-Date: Wed, 30 Dec 2020 17:44:17 -0500
-Message-Id: <b071d8811f548a140949e59c6898a41ac3f47d17.1609367977.git.scott.murray@konsulko.com>
+Subject: [PATCH 2/2] patch: fix CVE-2019-20633
+Date: Wed, 30 Dec 2020 17:44:18 -0500
+Message-Id: <d2f33bcd09b6f55f6f562672753f435a19291cab.1609367977.git.scott.murray@konsulko.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1609367977.git.scott.murray@konsulko.com>
 References: <cover.1609367977.git.scott.murray@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The "CVE:" line in the patch for CVEs 2020-14309, CVE-2020-14310, and
-CVE-2020-14311 had commas between the CVE numbers, which resulted in
-CVE-2020-14310 not being picked up as patched by cve-check.bbclass's
-parsing.  Remove the commas to match cve-check.bbclass's expectations.
+* CVE detail: https://nvd.nist.gov/vuln/detail/CVE-2019-20633
+
+* upstream tracking: https://savannah.gnu.org/bugs/index.php?56683
+
+* Fixes potential for double free after incomplete fix for CVE-2018-6952
+  - src/pch.c (another_hunk): Avoid invalid memory access in context format
+    diffs.
 
 Signed-off-by: Scott Murray <scott.murray@konsulko.com>
 ---
- ...1-malloc-Use-overflow-checking-primitives-where-we-do-.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../patch/patch/CVE-2019-20633.patch          | 31 +++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb    |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-index 896a2145d4..7214ead9a7 100644
---- a/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-@@ -30,7 +30,7 @@ Signed-off-by: Peter Jones <pjones@redhat.com>
- Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch b/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
+new file mode 100644
+index 0000000000..03988a179c
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
+@@ -0,0 +1,31 @@
++From 15b158db3ae11cb835f2eb8d2eb48e09d1a4af48 Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruen@gnu.org>
++Date: Mon, 15 Jul 2019 19:10:02 +0200
++Subject: Avoid invalid memory access in context format diffs
++
++* src/pch.c (another_hunk): Avoid invalid memory access in context format
++diffs.
++
++CVE: CVE-2019-20633
++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=15b158db3ae11cb835f2eb8d2eb48e09d1a4af48]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++
++---
++ src/pch.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/pch.c b/src/pch.c
++index a500ad9..cb54e03 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -1328,6 +1328,7 @@ another_hunk (enum diff difftype, bool rev)
++ 		  ptrn_prefix_context = context;
++ 		ptrn_suffix_context = context;
++ 		if (repl_beginning
+++		    || p_end <= 0
++ 		    || (p_end
++ 			!= p_ptrn_lines + 1 + (p_Char[p_end - 1] == '\n')))
++ 		  {
++-- 
++cgit v1.2.1
++
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index b5897b357a..1997af0c25 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
+             file://0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch \
+             file://0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch \
++            file://CVE-2019-20633.patch \
+ "
  
- Upstream-Status: Backport
--CVE: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
-+CVE: CVE-2020-14309 CVE-2020-14310 CVE-2020-14311
- 
- Reference to upstream patch:
- https://git.savannah.gnu.org/cgit/grub.git/commit/?id=3f05d693d1274965ffbe4ba99080dc2c570944c6
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 -- 
 2.26.2
 
