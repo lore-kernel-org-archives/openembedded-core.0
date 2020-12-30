@@ -1,85 +1,65 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.8330.1609344351572850249
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+ by mx.groups.io with SMTP id smtpd.web08.13901.1609368267852259304
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Dec 2020 08:05:51 -0800
+ Wed, 30 Dec 2020 14:44:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JV90r6iC;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id t16so17829425wra.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Dec 2020 08:05:51 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=r91AszHG;
+ spf=pass (domain: konsulko.com, ip: 209.85.222.170, mailfrom: scott.murray@konsulko.com)
+Received: by mail-qk1-f170.google.com with SMTP id f26so15218808qka.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Dec 2020 14:44:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=aJ6VjuZ8kYmLisMwuhMVYqcbYWHs8NZsfAvfGRdC4ko=;
-        b=JV90r6iCmFWrmyEl/DVIngBw87XZDniJ5Iayodt581jqWmG2WmwgOLD82xy3geue4d
-         7i4E4JWWB6TPb4/8uV4pSieLuD4w6lUxX2jZS6o92SH+OOZ2hcJ21i3cvoV3fRjRvVoX
-         6DEwkorUAxM3NiE0d70DAD7MiifVKDGWzCvPk=
+        d=konsulko.com; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FcOwQ4CsvVrbZ2GanyKEMzDe2/QC1WRdQrmGQA1Tv7E=;
+        b=r91AszHGZg4uGu/XjwpisBtferzv+L2oyxDq/1KwTSfJypFlNwvR9Ak8DomNed7i6n
+         xrKxwyi1BKLqTbL0v4PXDrpOIeWqPb2lTUVpxQiYV5k7NVZ+/uPC2WbvmUi/cnHNP5M4
+         /Fsl86zZaqSg4KJJVxfwIJch79QEMVaMEsvpw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=aJ6VjuZ8kYmLisMwuhMVYqcbYWHs8NZsfAvfGRdC4ko=;
-        b=O2NgtTTJB1cWi2ABbLKuH6/ENsdj7e1doUSTU/zKDd5AHQYZJ4WNu9Tuo8j289dPJJ
-         xiyH4haUlZWGuPWmMEQJZNjj5P06t2riMjeOt8wjXHl3X1JG8Bd9oKhaWa3x+QwyeS6p
-         zsXAP2LwX5oAtoVvh961WwiEXq/yPlbHzMbhNml6GbbgymG5S8RU98Lcz2RSD+eoSg37
-         8mGcma8RyXThTWJB1YJ1lS8+HsJ88bPQBZ13qa2VtpOhFo0neuouWGzOXrfTINvpphZe
-         nK13TFQ1gBBhm3wMaolIQ+/LUxc6cVR7X9ug/uz9lYS/noGJS9JQb9FpjiHSnl5YKpe+
-         5YRg==
-X-Gm-Message-State: AOAM531VvGtKtm+xng1lV6eW84CSzYtNvAv+VBTBruIlc9FMUn2LfTkK
-	q4UjsUZo4nTVcFQewKbayYQOug==
-X-Google-Smtp-Source: ABdhPJzM2rE4I3W2NUwmszrRu19mI8yiydmnv7Xod7eYkXT6hADxj+n4OqCgcdWjhdIv3t92RUOdbw==
-X-Received: by 2002:adf:b359:: with SMTP id k25mr61785921wrd.98.1609344350087;
-        Wed, 30 Dec 2020 08:05:50 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from f.1.0.d.e.9.1.1.f.8.6.d.b.d.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.1.0.d.e.9.1.1.f.8.6.d.b.d.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:3ddb:d68f:119e:d01f])
-        by smtp.gmail.com with ESMTPSA id m21sm7583765wml.13.2020.12.30.08.05.49
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FcOwQ4CsvVrbZ2GanyKEMzDe2/QC1WRdQrmGQA1Tv7E=;
+        b=U/TzmOo/JMwSM9vT83xCW8QXNWE2us0ki0DCGC76flolNimIgoIBUaN9pIuoIE4d0e
+         VJ7rE7yVFHTumy/8vs2I6yulIH262eWdX32cpz7M+ShRBLJHLCcma6YD5yAlQ4n3mn8R
+         HwiqbCZj4A9FtcrEeat76C9vfvMk/W05vt0fynHMwh5qcAVGAiiXrF05PkS3EhBVRo9e
+         U5pJbiLUJUomkB/X7vswizboAU3QnBTCq/oH9aeijImmU3PH/MG9Q6Gkg3LTLLu5AESJ
+         X4fKnL9CerE5W5YzCnjSiG6jb9fTY91Tf8dHhYPFjA0ZLFuqu3cdKJVWbAjDqSNLSNJh
+         OGmg==
+X-Gm-Message-State: AOAM531SSigPPNNzT1noOF95xr5UYpWNqPRkvNoegiMOYMTuwTKKnQ6P
+	TASwBAW06btRos7UH0gl3u4BYAmC76fvwA==
+X-Google-Smtp-Source: ABdhPJzLCGofptXfSX6Y6xBcNjL0AnJy+6Vg1P35Cj6ZZwl4BB5MfTgT5Ftdst9IYUvcMQ0Xdh3PvA==
+X-Received: by 2002:a37:a80f:: with SMTP id r15mr54582514qke.289.1609368266724;
+        Wed, 30 Dec 2020 14:44:26 -0800 (PST)
+Return-Path: <scott.murray@konsulko.com>
+Received: from ghidorah.spiteful.org (198-84-179-103.cpe.teksavvy.com. [198.84.179.103])
+        by smtp.gmail.com with ESMTPSA id a77sm28315573qkg.77.2020.12.30.14.44.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Dec 2020 08:05:49 -0800 (PST)
-Message-ID: <e392eb99f3d142698d2485cb4c31395048f07186.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] wic/direct/ksparser: ensure fsuuid for vfat and msdos align with format
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Lee Chee Yang <chee.yang.lee@intel.com>, 
-	openembedded-core@lists.openembedded.org, Naveen Saini
-	 <naveen.kumar.saini@intel.com>
-Date: Wed, 30 Dec 2020 16:05:47 +0000
-In-Reply-To: <20201230061703.84078-1-chee.yang.lee@intel.com>
-References: <20201230061703.84078-1-chee.yang.lee@intel.com>
-User-Agent: Evolution 3.38.1-1 
+        Wed, 30 Dec 2020 14:44:26 -0800 (PST)
+From: "Scott Murray" <scott.murray@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] A couple of CVE fixes
+Date: Wed, 30 Dec 2020 17:44:16 -0500
+Message-Id: <cover.1609367977.git.scott.murray@konsulko.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-12-30 at 14:17 +0800, Lee Chee Yang wrote:
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+A couple of hopefully straightforward fixes to knock some CVEs off the
+unpatched list.  The grub change does not add a patch but fixes the existing
+"CVE:" line in a patch so all the associated CVEs will be picked up as patched.
 
-vfat/msdos filesystem should have fsuuid in format 0xYYYYYYYY where
-"0x"
-in front follow with 8 hexadecimal number in uppercase. In wic, when
-using
-custom fsuuid for vfat/msdos partition in wks, it is able to set the
-value
-in any length, with or without leading "0x". This can cause fsuuid
-missaligned when fstab updates, fstab expect exactly 10 character
-fsuuid for vfat/msdos partition and all in uppercase.
+Scott Murray (2):
+  grub: fix "CVE:" line in one of the patches
+  patch: fix CVE-2019-20633
 
-if custom fsuuid for vfat/msdos is set, check the length and format,
-error if it exceed the format size. Amend it so it is align with format
-0xYYYYYYYY. This is done before image create and fstab update to ensure
-the
-fsuuid are same in all followup process. if custom fsuuid length less
-than
-expected, fill in "0".
+ ...low-checking-primitives-where-we-do-.patch |  2 +-
+ .../patch/patch/CVE-2019-20633.patch          | 31 +++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb    |  1 +
+ 3 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
 
-[yocto #14161]
-
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-
-There is something not quite right in this change:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/3109
-
-Cheers,
-
-Richard
+-- 
+2.26.2
 
