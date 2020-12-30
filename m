@@ -1,94 +1,63 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.6794.1609336839996519162
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.6729.1609337120509268265
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Dec 2020 06:00:40 -0800
+ Wed, 30 Dec 2020 06:05:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P7XXmhhq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id d13so17491115wrc.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Dec 2020 06:00:39 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OnWwTvTK;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id k10so5051609wmi.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Dec 2020 06:05:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZM2I7JseL1kI4o5lTxC5MjrTs1TTBksTq8YYea4PU7U=;
-        b=P7XXmhhqSM8AHtQsVQTl8Y20uDBogekSsJW8th/oj5/w43QpE0qzrmlJIdoaQr4cEq
-         1Z6uN+ZdXesfYOmlGP8RUDP6t3me1DNQeDQFX6xhzVjE0C68SwyTlolK93Ee4f9q90NL
-         5FBq9AwQJXDWe09ds0GhF2q3/FNbpvW3HE6mg=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=mANUY4Hxli+szg3EWIGziIAUQUqzPDt0V740PyWTYIA=;
+        b=OnWwTvTKpIMJMTZ11O9hUy/jwMtbOrS7MDl45pE+JYRc/waqjP0uNc2OwyApSMJ3uU
+         CDep1y7TXR5ye9hJH02Bdnb7AA0bFaFZyuoOhLVUNb+R9pDhWRbRdkFewS8VHQxUg1Iy
+         iro61QEF5FJz9Hlagi0VeAh0aSDYj0ELg3OrE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZM2I7JseL1kI4o5lTxC5MjrTs1TTBksTq8YYea4PU7U=;
-        b=Se6zLynEYmW3T5x5KO/7eMzovFdOrkBzCmDwt92uyiwaEa8rFUCcRKGkgS5Vkq+BtO
-         JUBAiRNdEJzXv3J8sEeClUrvuE13eMYsEKGv1dMtZP50yNeWBnBeYCCkGf7h+gsERJ7J
-         YNKG3/J+ksjaxp2ZMnPmqV0kAf7dyjfVGsMMjm7EoYhAB9B99ynt4sKzHRgsDbs0txDo
-         kP7l1epF9WvMVK8ZVPOSXC7WhlV6vUdwmDdB5I9QCIZPbLrD/0a0Rm17awN8nKXa3UeR
-         QN9hK1O0srhmNeGJnl3FnDBLsgTbDtz5Sf6fFOHCQmyv7+leoWqxG7hKAeNVzn8DayjP
-         u0Yw==
-X-Gm-Message-State: AOAM531wlVsaeQnm/kcJua0w+utNx1E+5C9QUuO/hTXWCRpUjbotF7S6
-	MbZm09BhCsb6nr35PNNn4YMg5YNBUWvGnw==
-X-Google-Smtp-Source: ABdhPJyEc8AzVIgKgM2txQpqkzUWy8FAZ4sJzDplOrswGUMut2yHmn5MngZkc5OG4JP6yOM0WLYARQ==
-X-Received: by 2002:adf:f605:: with SMTP id t5mr59349950wrp.39.1609336838178;
-        Wed, 30 Dec 2020 06:00:38 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mANUY4Hxli+szg3EWIGziIAUQUqzPDt0V740PyWTYIA=;
+        b=KiFKzZ5t/x0S+vj2I/X8sZuJNl0dAe5NFY2qLvgN6kKCGGlls/YdaAJBU+QHgApKRh
+         kBwKWShpY+2VPKMeeGfTT6oTMU/y+S0bV+8VLpDoPeb08Aeos5rKgPp8Lj5nCjdth2xg
+         sqU0wZB5m60sGthi0v/rabIUji6lG5p4wv1cRb3yJR335FB1vahNZM/NPaINZhVtus3V
+         n04BZ3s12iDVKvlVMup8l3u8f/Jn6je5iRmmz3gJmElVAVmmGCBAl1gmSgtztl8tG6Rt
+         nUhbCP8dc9KOfR0Mxk5CN6VYAw1VrUx0bxvEqXXEwaq9+4Ae1d5kW8EXhdDQsUGUUQgn
+         BeAA==
+X-Gm-Message-State: AOAM533MmqtAa+Vm90Z8+JVbYH1G43GzhNwbsiz3vZQjeO3FISgr2NyX
+	OGUh4wumEJ+TQd1Evq6g477bvVBZ6277+A==
+X-Google-Smtp-Source: ABdhPJx1qHbe8GFpJdhvAq7tN6pxGoikrmaGAI/sL9StgjyTcEqnFl0CKuJ85qhz3Y02XGLtP/0/Fg==
+X-Received: by 2002:a1c:220b:: with SMTP id i11mr7931454wmi.8.1609337119145;
+        Wed, 30 Dec 2020 06:05:19 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (f.1.0.d.e.9.1.1.f.8.6.d.b.d.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:3ddb:d68f:119e:d01f])
-        by smtp.gmail.com with ESMTPSA id z13sm8383926wmz.3.2020.12.30.06.00.37
-        for <openembedded-core@lists.openembedded.org>
+Received: from f.1.0.d.e.9.1.1.f.8.6.d.b.d.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (f.1.0.d.e.9.1.1.f.8.6.d.b.d.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:3ddb:d68f:119e:d01f])
+        by smtp.gmail.com with ESMTPSA id o124sm7844353wmb.5.2020.12.30.06.05.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Dec 2020 06:00:37 -0800 (PST)
+        Wed, 30 Dec 2020 06:05:18 -0800 (PST)
+Message-ID: <0caca27102d49a9897438734f3f0d955ecf17656.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 0/2] meson: fixup nativesdk sysroot
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] meta-selftest/staticids: Add ids for other recipes
-Date: Wed, 30 Dec 2020 14:00:37 +0000
-Message-Id: <20201230140037.214208-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+To: Randy Li <ayaka@soulik.info>, openembedded-core@lists.openembedded.org
+Date: Wed, 30 Dec 2020 14:05:16 +0000
+In-Reply-To: <20201229035550.226617-1-ayaka@soulik.info>
+References: <20201229035550.226617-1-ayaka@soulik.info>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add dhcpc's uid/gid to the static configs used by meta-selftest for
-testing since dhcpc was added to OE-Core.
+On Tue, 2020-12-29 at 11:55 +0800, Randy Li wrote:
+> I still saw the request for this patch from Gstreamer users
+> sometimes. I have verified this version would work fine.
+> 
+> Only the exported SDK would need this patch.
 
-Also realised many other ids were missing for other OE-Core recipes
-so also add those.
+Thanks for the patches, is there something we should add to the
+automated tests (e.g. in meta/lib/oeqa/sdk/cases) to test this?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta-selftest/files/static-group  | 9 ++++++++-
- meta-selftest/files/static-passwd | 6 ++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+Cheers,
 
-diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
-index 9213b8e9bc0..892231b6e03 100644
---- a/meta-selftest/files/static-group
-+++ b/meta-selftest/files/static-group
-@@ -11,4 +11,11 @@ avahi:x:509:
- avahi-autoipd:x:510:
- rpc:x:511:
- rpcuser:x:513:
--
-+dhcpcd:x:514:
-+sshd:x:516:
-+lpadmin:x:517:
-+crontab:x:518:
-+tracing:x:519:
-+pulse:x:520:
-+bind:x:521:
-+builder:x:522:
-diff --git a/meta-selftest/files/static-passwd b/meta-selftest/files/static-passwd
-index 412f85d469f..babbfbc9de1 100644
---- a/meta-selftest/files/static-passwd
-+++ b/meta-selftest/files/static-passwd
-@@ -9,3 +9,9 @@ avahi-autoipd:x:510:510::/:/bin/nologin
- rpc:x:511:511::/:/bin/nologin
- distcc:x:512:nogroup::/:/bin/nologin
- rpcuser:x:513:513::/var/lib/nfs:/bin/nologin
-+dhcpcd:x:514:514::/:/bin/nologin
-+tester:x:515:515::/:/bin/nologin
-+sshd:x:516:516::/:/bin/nologin
-+pulse:x:520:520::/:/bin/nologin
-+bind:x:521:521::/:/bin/nologin
-+builder:x:522:522::/:/bin/nologin
--- 
-2.27.0
+Richard
 
