@@ -1,121 +1,94 @@
-Received: from mga09.intel.com (mga09.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.4406.1609318905711505661
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web12.6794.1609336839996519162
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Dec 2020 01:01:46 -0800
+ Wed, 30 Dec 2020 06:00:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: bFUu5Mlv3qWQX4iA3OheY7GsOSJfBWspn7hxm/LnLAyjl5CzRjklFphMjcHnSIV8QH1sixeULu
- Yc8nMxtSMY+w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9849"; a="176739314"
-X-IronPort-AV: E=Sophos;i="5.78,460,1599548400"; 
-   d="scan'208";a="176739314"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2020 01:01:45 -0800
-IronPort-SDR: YHzW9q1Hk/DewF8RCCtc2gay0dZHXIVqo2uLs97iE8hrlv3twrsGtKK2uRERIqukLEm8EllbgB
- f4dzoNmA/FJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,460,1599548400"; 
-   d="scan'208";a="376356696"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga008.jf.intel.com with ESMTP; 30 Dec 2020 01:01:42 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P7XXmhhq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id d13so17491115wrc.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Dec 2020 06:00:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZM2I7JseL1kI4o5lTxC5MjrTs1TTBksTq8YYea4PU7U=;
+        b=P7XXmhhqSM8AHtQsVQTl8Y20uDBogekSsJW8th/oj5/w43QpE0qzrmlJIdoaQr4cEq
+         1Z6uN+ZdXesfYOmlGP8RUDP6t3me1DNQeDQFX6xhzVjE0C68SwyTlolK93Ee4f9q90NL
+         5FBq9AwQJXDWe09ds0GhF2q3/FNbpvW3HE6mg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZM2I7JseL1kI4o5lTxC5MjrTs1TTBksTq8YYea4PU7U=;
+        b=Se6zLynEYmW3T5x5KO/7eMzovFdOrkBzCmDwt92uyiwaEa8rFUCcRKGkgS5Vkq+BtO
+         JUBAiRNdEJzXv3J8sEeClUrvuE13eMYsEKGv1dMtZP50yNeWBnBeYCCkGf7h+gsERJ7J
+         YNKG3/J+ksjaxp2ZMnPmqV0kAf7dyjfVGsMMjm7EoYhAB9B99ynt4sKzHRgsDbs0txDo
+         kP7l1epF9WvMVK8ZVPOSXC7WhlV6vUdwmDdB5I9QCIZPbLrD/0a0Rm17awN8nKXa3UeR
+         QN9hK1O0srhmNeGJnl3FnDBLsgTbDtz5Sf6fFOHCQmyv7+leoWqxG7hKAeNVzn8DayjP
+         u0Yw==
+X-Gm-Message-State: AOAM531wlVsaeQnm/kcJua0w+utNx1E+5C9QUuO/hTXWCRpUjbotF7S6
+	MbZm09BhCsb6nr35PNNn4YMg5YNBUWvGnw==
+X-Google-Smtp-Source: ABdhPJyEc8AzVIgKgM2txQpqkzUWy8FAZ4sJzDplOrswGUMut2yHmn5MngZkc5OG4JP6yOM0WLYARQ==
+X-Received: by 2002:adf:f605:: with SMTP id t5mr59349950wrp.39.1609336838178;
+        Wed, 30 Dec 2020 06:00:38 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (f.1.0.d.e.9.1.1.f.8.6.d.b.d.d.3.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:3ddb:d68f:119e:d01f])
+        by smtp.gmail.com with ESMTPSA id z13sm8383926wmz.3.2020.12.30.06.00.37
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Dec 2020 06:00:37 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] gdk-pixbuf: fix CVE-2020-29385
-Date: Wed, 30 Dec 2020 17:01:40 +0800
-Message-Id: <20201230090140.85279-2-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201230090140.85279-1-chee.yang.lee@intel.com>
-References: <20201230090140.85279-1-chee.yang.lee@intel.com>
+Subject: [PATCH] meta-selftest/staticids: Add ids for other recipes
+Date: Wed, 30 Dec 2020 14:00:37 +0000
+Message-Id: <20201230140037.214208-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+Add dhcpc's uid/gid to the static configs used by meta-selftest for
+testing since dhcpc was added to OE-Core.
 
-Backport patch from
-https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81
+Also realised many other ids were missing for other OE-Core recipes
+so also add those.
 
-image file in upstream patch is for test purpose only, it cause error during
-do_patch so drop it:
-File tests/test-images/fail/hang_114.gif: git binary diffs are not supported.
-
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../gdk-pixbuf/CVE-2020-29385.patch           | 55 +++++++++++++++++++
- .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+ meta-selftest/files/static-group  | 9 ++++++++-
+ meta-selftest/files/static-passwd | 6 ++++++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
-new file mode 100644
-index 0000000000..3fef2bc1eb
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
-@@ -0,0 +1,55 @@
-+From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001
-+From: Robert Ancell <robert.ancell@canonical.com>
-+Date: Mon, 30 Nov 2020 12:26:12 +1300
-+Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.
-+
-+The code value after a reset wasn't being validated, which means we would
-+accept invalid codes. This could cause an infinite loop in the decoder.
-+
-+Fixes CVE-2020-29385
-+
-+Fixes https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81]
-+CVE: CVE-2020-29385
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ gdk-pixbuf/lzw.c                    |  13 +++++++------
-+ 1 files changed, 7 insertions(+), 6 deletions(-)
-+ create mode 100644 tests/test-images/fail/hang_114.gif
-+
-+diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
-+index 9e052a6f7..105daf2b1 100644
-+--- a/gdk-pixbuf/lzw.c
-++++ b/gdk-pixbuf/lzw.c
-+@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,
-+                                 if (self->last_code != self->clear_code && self->code_table_size < MAX_CODES) {
-+                                         if (self->code < self->code_table_size)
-+                                                 add_code (self, self->code);
-+-                                        else if (self->code == self->code_table_size)
-++                                        else
-+                                                 add_code (self, self->last_code);
-+-                                        else {
-+-                                                /* Invalid code received - just stop here */
-+-                                                self->last_code = self->eoi_code;
-+-                                                return output_length;
-+-                                        }
-+ 
-+                                         /* When table is full increase code size */
-+                                         if (self->code_table_size == (1 << self->code_size) && self->code_size < LZW_CODE_MAX)
-+                                                 self->code_size++;
-+                                 }
-+ 
-++                                /* Invalid code received - just stop here */
-++                                if (self->code >= self->code_table_size) {
-++                                        self->last_code = self->eoi_code;
-++                                        return output_length;
-++                                }
-++
-+                                 /* Convert codeword into indexes */
-+                                 n_written += write_indexes (self, output + n_written, output_length - n_written);
-+                         }
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-index 3dec5ed052..16708fd581 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-@@ -24,6 +24,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0004-Do-not-run-tests-when-building.patch \
-            file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
-            file://missing-test-data.patch \
-+           file://CVE-2020-29385.patch \
-            "
- 
- SRC_URI_append_class-target = " \
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index 9213b8e9bc0..892231b6e03 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -11,4 +11,11 @@ avahi:x:509:
+ avahi-autoipd:x:510:
+ rpc:x:511:
+ rpcuser:x:513:
+-
++dhcpcd:x:514:
++sshd:x:516:
++lpadmin:x:517:
++crontab:x:518:
++tracing:x:519:
++pulse:x:520:
++bind:x:521:
++builder:x:522:
+diff --git a/meta-selftest/files/static-passwd b/meta-selftest/files/static-passwd
+index 412f85d469f..babbfbc9de1 100644
+--- a/meta-selftest/files/static-passwd
++++ b/meta-selftest/files/static-passwd
+@@ -9,3 +9,9 @@ avahi-autoipd:x:510:510::/:/bin/nologin
+ rpc:x:511:511::/:/bin/nologin
+ distcc:x:512:nogroup::/:/bin/nologin
+ rpcuser:x:513:513::/var/lib/nfs:/bin/nologin
++dhcpcd:x:514:514::/:/bin/nologin
++tester:x:515:515::/:/bin/nologin
++sshd:x:516:516::/:/bin/nologin
++pulse:x:520:520::/:/bin/nologin
++bind:x:521:521::/:/bin/nologin
++builder:x:522:522::/:/bin/nologin
 -- 
-2.17.1
+2.27.0
 
