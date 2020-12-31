@@ -1,91 +1,220 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.23873.1609434928567433047
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.26220.1609446022931827804
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Dec 2020 09:15:28 -0800
+ Thu, 31 Dec 2020 12:20:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KW78czgw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id n16so4126826wmc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Dec 2020 09:15:28 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CYb5hOcR;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id s21so11663976pfu.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Dec 2020 12:20:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Z1ZrT8SMPHWjs7NNwjpbMEFSq+wb1PlMZzNqV/Oq/Ns=;
-        b=KW78czgwKyywUaXYjeLhzJMYlfaaIt+Hc9sPs9QnR5u8C77wMs1Rx43ndH9YhVEJWQ
-         EEFggdKyj/vYC1HjjALbRLFRRhPfuEEow3POjr+buRtd0AYRn/VJQPtQqH+k4DzxP3mY
-         m0IO+1Hq8EB3vObntTxdCt8mVGz5uWcpp0jXg=
+        bh=2YCcSIm+MJNV4Cqo8/oZYEdvxXlaj7KRqkShT+Rcus4=;
+        b=CYb5hOcRfT8UcVlViE1I9fw69aYeJXqBbGjSaBQg4c/nzXgL9NHla+5cPeXYAn+Hjg
+         96i86QZWwylM2ZodfeOQeu1LM6F6tY9wgDExhVLv3bULF0OTY9fR4pFv+n1F7WrZza3z
+         TF4wI1DZ/l4rJIhHsKD4ZV0pGGcgQi2dzWqnEPL2UZ4beOBLGsSS9WH3ME3PH0EXjDDW
+         n0ho1NkmXE96IdjBu9yc6k4UALSzZpV7WThNri86NiM7LO6dcrNx7tCW9PE/LTSQ1v4k
+         p1lv+VY0jceYk+CE4hOu4+ni74YtkLNFlqBZSJqyYylZkhVzHLsqMx1S76hbMpiJctwf
+         9TvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Z1ZrT8SMPHWjs7NNwjpbMEFSq+wb1PlMZzNqV/Oq/Ns=;
-        b=DqCU2rTgRniarkYfxT75HR8c5ez7FAdTHGWYwlNK/NAqZhkmbJ97bbdSSzLKuWY0Ol
-         x1mYWaHmAAGlTyosNFP7zsiZbAV5vEZYVy6OTiN8usToMKHrR/0nJj583osObBwreHMe
-         a7KExbC9QI9kJIICOz5vSpcCDziIZfVc3CT0AEf4NRLdH3HpqMBnDwsxDUnUKbnErIXF
-         qV9GzQEf8jh5K21EGKUVjA+FRX3l1GccZbCiVMdppHbxD5EvGPzLxAubrq2B5Q4B41F8
-         Q/9Sn8QNcvPCxNetQ6nBDABdDoHOq+/jqFA9VOevc/aqUvR5FQDnG1ap+xBeY6E9z7jt
-         tDPg==
-X-Gm-Message-State: AOAM531IbhYzXnh44KYI3ybCz1gxKlIwtXQzgHyoDQ0TtT0g/OFirgw8
-	VMybRPLae74sr9N14qT3peuD4/fT4EW2aw==
-X-Google-Smtp-Source: ABdhPJywGCm1QwZ37FAOhOOKvGSLysumwW8Lv1vAGgjq0VeNz2sGZWGBc40ewE3FFGD6eE8/cNne2g==
-X-Received: by 2002:a1c:9a57:: with SMTP id c84mr12273712wme.183.1609434926850;
-        Thu, 31 Dec 2020 09:15:26 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (d.9.0.d.a.8.e.3.c.a.b.0.5.f.b.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2bf5:bac:3e8a:d09d])
-        by smtp.gmail.com with ESMTPSA id u26sm13291906wmm.24.2020.12.31.09.15.26
-        for <openembedded-core@lists.openembedded.org>
+        bh=2YCcSIm+MJNV4Cqo8/oZYEdvxXlaj7KRqkShT+Rcus4=;
+        b=XID1FBUoiirFFUm3S0YYIgRPR+9G+hXB1KS3i1DQ5EQCjVHDUahrm4lDKoxhq0+h/Z
+         NX7PtsapERGjtj6h3cKxLZw3H9A5eL+hKhiaarLrhWShnBSRiBPzaBAUMgvVpD6RMOiA
+         /hNFEz+U7fW3N1CuCWOQyNmfO9nyUSrUx2BFte3tBfcgF1qNXfCV9FYIy9VbAyC6KMw0
+         MZa0vk/aE1k3Lrwt/lDCHJa/aaq3NVpoDaT38iC4E9n2tCSEN9LEOapA+xEftCtNevnI
+         g4CDFJiQ+qA/oPR80jSCJHcxlYZwsXYSoo17ZDcbJG18EkytBFBvT6NQsiQpHEmk10aT
+         A9lA==
+X-Gm-Message-State: AOAM531droHG2SVUsYND3Dkr48dcWH7YM7eFpRFIjg+XWm96ovwdh0MH
+	W9vy85M2t5N709Q5XCBpfoYZNOgd2q3FNA==
+X-Google-Smtp-Source: ABdhPJzpnT5N3WWskHNYfisSEDZx6dsRu+8yR6jTeV8SmA+zdE66hlZpHbo0R/Ng1QAX6ufRIGfjjw==
+X-Received: by 2002:a62:1ad0:0:b029:197:e389:fb26 with SMTP id a199-20020a621ad00000b0290197e389fb26mr54233823pfa.20.1609446021936;
+        Thu, 31 Dec 2020 12:20:21 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::cd68])
+        by smtp.gmail.com with ESMTPSA id d10sm47053661pfn.218.2020.12.31.12.20.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Dec 2020 09:15:26 -0800 (PST)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Thu, 31 Dec 2020 12:20:21 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] grub: Further reproducibility fix
-Date: Thu, 31 Dec 2020 17:15:25 +0000
-Message-Id: <20201231171525.257958-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] libpam: Drop musl patches
+Date: Thu, 31 Dec 2020 12:20:17 -0800
+Message-Id: <20201231202017.4112686-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the ordering in the generated unidata.c file to aid reproducibility.
+These issues are addressed in libpam overtime and no longer needed thusly
+in 1.5.x
 
-[YOCTO #14167]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-bsp/grub/files/determinism.patch | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ ...t-for-defining-missing-funcitonality.patch | 68 -------------------
+ .../pam/libpam/include_paths_header.patch     | 59 ----------------
+ meta/recipes-extended/pam/libpam_1.5.1.bb     |  4 --
+ 3 files changed, 131 deletions(-)
+ delete mode 100644 meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
+ delete mode 100644 meta/recipes-extended/pam/libpam/include_paths_header.patch
 
-diff --git a/meta/recipes-bsp/grub/files/determinism.patch b/meta/recipes-bsp/grub/files/determinism.patch
-index fac80e7b544..3c1f562c717 100644
---- a/meta/recipes-bsp/grub/files/determinism.patch
-+++ b/meta/recipes-bsp/grub/files/determinism.patch
-@@ -8,6 +8,9 @@ Also, the output of the SOURCES lines in grub-core/Makefile.core.am, generated
- from grub-core/Makefile.core.def with gentpl.py is not deterministic due to
- missing sorting of the list used to generate it. Add such a sort.
+diff --git a/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch b/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
+deleted file mode 100644
+index c55b648139..0000000000
+--- a/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
++++ /dev/null
+@@ -1,68 +0,0 @@
+-From 45d1ed58927593968faead7dbb295f3922f41a2f Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 8 Aug 2015 14:16:43 -0700
+-Subject: [PATCH] Add support for defining missing funcitonality
+-
+-In order to support alternative libc on linux ( musl, bioninc ) etc we
+-need to check for glibc-only features and provide alternatives, in this
+-list strndupa is first one, when configure detects that its not included
+-in system C library then the altrnative implementation from missing.h is
+-used
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Pending
+-
+- configure.ac                |  3 +++
+- libpam/include/missing.h    | 12 ++++++++++++
+- modules/pam_exec/pam_exec.c |  1 +
+- 3 files changed, 16 insertions(+)
+- create mode 100644 libpam/include/missing.h
+-
+-diff --git a/configure.ac b/configure.ac
+-index 9e1257f..cbed979 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -599,6 +599,9 @@ dnl
+- AC_CHECK_DECL(__NR_keyctl, [have_key_syscalls=1],[have_key_syscalls=0],[#include <sys/syscall.h>])
+- AC_CHECK_DECL(ENOKEY, [have_key_errors=1],[have_key_errors=0],[#include <errno.h>])
+- 
+-+# musl and bionic don't have strndupa
+-+AC_CHECK_DECLS_ONCE([strndupa])
+-+
+- HAVE_KEY_MANAGEMENT=0
+- if test $have_key_syscalls$have_key_errors = 11
+- then
+-diff --git a/libpam/include/missing.h b/libpam/include/missing.h
+-new file mode 100644
+-index 0000000..3cf011c
+---- /dev/null
+-+++ b/libpam/include/missing.h
+-@@ -0,0 +1,12 @@
+-+#pragma once
+-+
+-+#if !HAVE_DECL_STRNDUPA
+-+#define strndupa(s, n)                                                  \
+-+        ({                                                              \
+-+                const char *__old = (s);                                \
+-+                size_t __len = strnlen(__old, (n));                     \
+-+                char *__new = alloca(__len + 1);                        \
+-+                __new[__len] = '\0';                                    \
+-+                memcpy(__new, __old, __len);                            \
+-+         })
+-+#endif
+-diff --git a/modules/pam_exec/pam_exec.c b/modules/pam_exec/pam_exec.c
+-index 17ba6ca..3aa2694 100644
+---- a/modules/pam_exec/pam_exec.c
+-+++ b/modules/pam_exec/pam_exec.c
+-@@ -59,6 +59,7 @@
+- #include <security/pam_modutil.h>
+- #include <security/pam_ext.h>
+- #include <security/_pam_macros.h>
+-+#include <missing.h>
+- 
+- #define ENV_ITEM(n) { (n), #n }
+- static struct {
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-extended/pam/libpam/include_paths_header.patch b/meta/recipes-extended/pam/libpam/include_paths_header.patch
+deleted file mode 100644
+index e4eb95669b..0000000000
+--- a/meta/recipes-extended/pam/libpam/include_paths_header.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-This patch adds missing include for paths.h which should provide
+-_PATH_LASTLOG definition
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Index: Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
+-===================================================================
+---- Linux-PAM-1.1.6.orig/modules/pam_lastlog/pam_lastlog.c
+-+++ Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
+-@@ -23,9 +23,11 @@
+- #include <stdarg.h>
+- #include <stdio.h>
+- #include <string.h>
+-+#include <sys/file.h>
+- #include <sys/types.h>
+- #include <syslog.h>
+- #include <unistd.h>
+-+#include <paths.h>
+- 
+- #if defined(hpux) || defined(sunos) || defined(solaris)
+- # ifndef _PATH_LASTLOG
+-@@ -332,6 +334,23 @@ last_login_read(pam_handle_t *pamh, int
+-     return retval;
+- }
+- 
+-+#ifndef __GLIBC__
+-+static void logwtmp(const char * line, const char * name, const char * host)
+-+{
+-+    struct utmp u;
+-+    memset(&u, 0, sizeof(u));
+-+
+-+    u.ut_pid = getpid();
+-+    u.ut_type = name[0] ? USER_PROCESS : DEAD_PROCESS;
+-+    strncpy(u.ut_line, line, sizeof(u.ut_line));
+-+    strncpy(u.ut_name, name, sizeof(u.ut_name));
+-+    strncpy(u.ut_host, host, sizeof(u.ut_host));
+-+    gettimeofday(&(u.ut_tv), NULL);
+-+
+-+    updwtmp(_PATH_WTMP, &u);
+-+}
+-+#endif /* __GLIBC__ */
+-+
+- static int
+- last_login_write(pam_handle_t *pamh, int announce, int last_fd,
+- 		 uid_t uid, const char *user)
+-Index: Linux-PAM-1.1.6/modules/Makefile.am
+-===================================================================
+---- Linux-PAM-1.1.6.orig/modules/Makefile.am
+-+++ Linux-PAM-1.1.6/modules/Makefile.am
+-@@ -7,7 +7,7 @@ SUBDIRS = pam_access pam_cracklib pam_de
+- 	pam_group pam_issue pam_keyinit pam_lastlog pam_limits \
+- 	pam_listfile pam_localuser pam_loginuid pam_mail \
+- 	pam_mkhomedir pam_motd pam_namespace pam_nologin \
+--	pam_permit pam_pwhistory pam_rhosts pam_rootok pam_securetty \
+-+	pam_permit pam_pwhistory pam_rootok pam_securetty \
+- 	pam_selinux pam_sepermit pam_shells pam_stress \
+- 	pam_succeed_if pam_tally pam_tally2 pam_time pam_timestamp \
+- 	pam_tty_audit pam_umask \
+diff --git a/meta/recipes-extended/pam/libpam_1.5.1.bb b/meta/recipes-extended/pam/libpam_1.5.1.bb
+index 6af1d43c60..486c9d8aad 100644
+--- a/meta/recipes-extended/pam/libpam_1.5.1.bb
++++ b/meta/recipes-extended/pam/libpam_1.5.1.bb
+@@ -26,10 +26,6 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
  
-+Also ensure the generated unidata.c file is deterministic by sorting the
-+keys of the dict.
-+
- Upstream-Status: Pending
- Richard Purdie <richard.purdie@linuxfoundation.org>
+ SRC_URI[sha256sum] = "201d40730b1135b1b3cdea09f2c28ac634d73181ccd0172ceddee3649c5792fc"
  
-@@ -38,3 +41,16 @@ Index: grub-2.04/gentpl.py
-      return ''.join(r)
-  
-  def platform_conditional(platform, closure):
-+Index: grub-2.04/util/import_unicode.py
-+===================================================================
-+--- grub-2.04.orig/util/import_unicode.py
-++++ grub-2.04/util/import_unicode.py
-+@@ -174,7 +174,7 @@ infile.close ()
-+ 
-+ outfile.write ("struct grub_unicode_arabic_shape grub_unicode_arabic_shapes[] = {\n ")
-+ 
-+-for x in arabicsubst:
-++for x in sorted(arabicsubst):
-+     try:
-+         if arabicsubst[x]['join'] == "DUAL":
-+             outfile.write ("{0x%x, 0x%x, 0x%x, 0x%x, 0x%x},\n " % (arabicsubst[x][0], arabicsubst[x][1], arabicsubst[x][2], arabicsubst[x][3], arabicsubst[x][4]))
+-SRC_URI_append_libc-musl = " file://0001-Add-support-for-defining-missing-funcitonality.patch \
+-                             file://include_paths_header.patch \
+-                           "
+-
+ DEPENDS = "bison-native flex flex-native cracklib libxml2-native virtual/crypt"
+ 
+ EXTRA_OECONF = "--includedir=${includedir}/security \
 -- 
-2.27.0
+2.30.0
 
