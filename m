@@ -1,94 +1,202 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web10.17168.1609389800147658299
+Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
+ by mx.groups.io with SMTP id smtpd.web08.17996.1609395362026586609
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Dec 2020 20:43:20 -0800
+ Wed, 30 Dec 2020 22:16:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: naveen.kumar.saini@intel.com)
-IronPort-SDR: WXU5hDzt5iEbwIy5emd6XrFksZn3rmK1InETevLWr2P3W953fh8tGGb1akQ6u3nG02MjFlCCUM
- 6X/tvpXg674w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9850"; a="240751256"
-X-IronPort-AV: E=Sophos;i="5.78,463,1599548400"; 
-   d="scan'208";a="240751256"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2020 20:43:18 -0800
-IronPort-SDR: AXMPKLBEyg35pOJw5T4cP6glIhmej1rMQrqss/Yok19ykHozouBs5v3HjI+AOyVQLst9xLqw9o
- pY1z8Qjf5b+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,463,1599548400"; 
-   d="scan'208";a="419755961"
-Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136])
-  by orsmga001.jf.intel.com with ESMTP; 30 Dec 2020 20:43:17 -0800
-Received: from kmsmsx603.gar.corp.intel.com (172.21.219.143) by
- pgsmsx601.gar.corp.intel.com (10.108.199.136) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Thu, 31 Dec 2020 12:43:16 +0800
-Received: from kmsmsx603.gar.corp.intel.com ([172.21.219.143]) by
- kmsmsx603.gar.corp.intel.com ([172.21.219.143]) with mapi id 15.01.1713.004;
- Thu, 31 Dec 2020 12:43:16 +0800
-From: "Naveen Saini" <naveen.kumar.saini@intel.com>
-To: Randy Li <ayaka@soulik.info>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+ dkim=missing; spf=pass (domain: soulik.info, ip: 108.61.200.231, mailfrom: ayaka@soulik.info)
+Received: from [192.168.10.145] (unknown [183.129.223.42])
+	by kozue.soulik.info (Postfix) with ESMTPSA id 8B3C2100792;
+	Thu, 31 Dec 2020 15:15:41 +0900 (JST)
+Mime-Version: 1.0 (1.0)
 Subject: Re: [OE-core] [PATCH v2 0/2] meson: fixup nativesdk sysroot
-Thread-Topic: [OE-core] [PATCH v2 0/2] meson: fixup nativesdk sysroot
-Thread-Index: AQHW3ZaO1sRcaUKt6UmloR9cw7eseKoPKE8AgADD0ACAALcSQA==
-Date: Thu, 31 Dec 2020 04:43:16 +0000
-Message-ID: <390f5f92da9944a08fea5c65b5e04a10@intel.com>
-References: <20201229035550.226617-1-ayaka@soulik.info>
- <0caca27102d49a9897438734f3f0d955ecf17656.camel@linuxfoundation.org>
- <E4DB717E-1AD6-4B7D-8A6B-91217F3C5769@soulik.info>
-In-Reply-To: <E4DB717E-1AD6-4B7D-8A6B-91217F3C5769@soulik.info>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-reaction: no-action
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-x-originating-ip: [10.108.32.68]
-MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: "Randy Li" <ayaka@soulik.info>
+X-Mailer: iPad Mail (16D57)
+In-Reply-To: <390f5f92da9944a08fea5c65b5e04a10@intel.com>
+Date: Thu, 31 Dec 2020 14:15:54 +0800
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Message-Id: <5EC7D728-291A-4A57-B6B7-3989DFAE84E6@soulik.info>
+References: <20201229035550.226617-1-ayaka@soulik.info> <0caca27102d49a9897438734f3f0d955ecf17656.camel@linuxfoundation.org> <E4DB717E-1AD6-4B7D-8A6B-91217F3C5769@soulik.info> <390f5f92da9944a08fea5c65b5e04a10@intel.com>
+To: "Saini, Naveen Kumar" <naveen.kumar.saini@intel.com>
+Content-Type: multipart/alternative;
+	boundary=Apple-Mail-A559495A-3854-4340-8618-7FE3F364A3E7
+Content-Transfer-Encoding: 7bit
 
-VGhpcyBmYWlsaW5nIGluIGNhc2Ugb2Ygbm9uLW5hdGl2ZSBzZGsgdG9vLCB3aGVyZSBQS0dfQ09O
-RklHX1NZU1JPT1RfRElSIGlzIGFsc28gZXhwb3J0ZWQuIEl0IGRvZXMgbm90IHByZXBlbmQgUEtH
-X0NPTkZJR19TWVNST09UX0RJUiBwYXRoLiANCg0KSSB0aGluayBpdCBzaG91bGQgYmUgZml4ZWQg
-bWFudWFsbHkgYnkgcHJlcGVuZGluZyBzeXNyb290IHBhdGguIA0KDQorICBwa2djb25mX3N5c3Jv
-b3QgPSBydW5fY29tbWFuZChweXRob24zLCAnLWMnLCAnaW1wb3J0IG9zOyBwcmludChvcy5lbnZp
-cm9uLmdldCgiUEtHX0NPTkZJR19TWVNST09UX0RJUiIpKScpLnN0ZG91dCgpLnN0cmlwKCkNCiAg
-IG1meF9pbmNkaXIgPSBtZnhfZGVwLmdldF9wa2djb25maWdfdmFyaWFibGUoJ2luY2x1ZGVkaXIn
-KQ0KKyAgbWZ4X2luY2RpciA9IHBrZ2NvbmZfc3lzcm9vdCArICBtZnhfaW5jZGlyDQoNClJlZjog
-aHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3kvdHJlZS9tZXRh
-L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAw
-MDQtb3BlbmN2LXJlc29sdmUtbWlzc2luZy1vcGVuY3YtZGF0YS1kaXItaW4teW9jdG8tYnVpbC5w
-YXRjaCNuMjYNCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC0NCj4gY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUmFuZHkgTGkNCj4gU2VudDog
-VGh1cnNkYXksIERlY2VtYmVyIDMxLCAyMDIwIDk6NDYgQU0NCj4gVG86IFJpY2hhcmQgUHVyZGll
-IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPg0KPiBDYzogb3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
-QVRDSCB2MiAwLzJdIG1lc29uOiBmaXh1cCBuYXRpdmVzZGsgc3lzcm9vdA0KPiANCj4gDQo+ID4g
-T24gRGVjIDMwLCAyMDIwLCBhdCAxMDowNSBQTSwgUmljaGFyZCBQdXJkaWUNCj4gPHJpY2hhcmQu
-cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+IHdyb3RlOg0KPiA+DQo+ID4+IE9uIFR1ZSwgMjAy
-MC0xMi0yOSBhdCAxMTo1NSArMDgwMCwgUmFuZHkgTGkgd3JvdGU6DQo+ID4+IEkgc3RpbGwgc2F3
-IHRoZSByZXF1ZXN0IGZvciB0aGlzIHBhdGNoIGZyb20gR3N0cmVhbWVyIHVzZXJzDQo+ID4+IHNv
-bWV0aW1lcy4gSSBoYXZlIHZlcmlmaWVkIHRoaXMgdmVyc2lvbiB3b3VsZCB3b3JrIGZpbmUuDQo+
-ID4+DQo+ID4+IE9ubHkgdGhlIGV4cG9ydGVkIFNESyB3b3VsZCBuZWVkIHRoaXMgcGF0Y2guDQo+
-ID4NCj4gPiBUaGFua3MgZm9yIHRoZSBwYXRjaGVzLCBpcyB0aGVyZSBzb21ldGhpbmcgd2Ugc2hv
-dWxkIGFkZCB0byB0aGUNCj4gPiBhdXRvbWF0ZWQgdGVzdHMgKGUuZy4gaW4gbWV0YS9saWIvb2Vx
-YS9zZGsvY2FzZXMpIHRvIHRlc3QgdGhpcz8NCj4gPg0KPiBUaGUgb3JpZ2luYWwgY2FzZSBpcyB0
-aGF0IHdoZW4gSSB3YXMgY29tcGlsaW5nIHRoZSBHc3RyZWFtZXIgcGx1Z2lucyBiYWQgZm9yDQo+
-IEludGVsIE1lZGlhIFNESywgdGhlIGluY2x1ZGUgcGF0aCBmcm9tIHRoZSBwa2ctY29uZmlnIHdv
-dWxkIGJlIG9uZSB3aXRob3V0DQo+IHN5c3Jvb3QuIE1vc3Qgb2YgcGFja2FnZXMgd29u4oCZdCBt
-ZWV0IHN1Y2ggcHJvYmxlbSwgdGhleSBjYW4ganVzdCBvcmRpbmFyeQ0KPiBpbmNsdWRlZGlyLCB3
-aGljaCBpcyBub3QgZnJvbSBtZXNvbiBidXQgY29tcGlsZXIgSSB0aGluaywgdGhlbiBwcmVwZW5k
-IGENCj4gcGFja2FnZSBuYW1lIHdoZW4gaXRzIGNvZGUgaW5jbHVkZSB0aGVtcy4NCj4gDQo+IEkg
-dGhpbmsgdGhpcyBjYXNlIG9ubHkgZml4IHRob3NlIHBhY2thZ2UgdXNpbmcgbWVzb24gYW5kIG5l
-ZWQgdG8gZ2V0DQo+IHNvbWV0aGluZyBsaWtlcyBwYXRoIGluZm9ybWF0aW9uIGZyb20gdGhlIHBr
-Zy1jb25maWcuDQo+IA0KPiBJIGhhdmUgbm90IHJlYWQgdGhlIFFBIHBhcnQsIHNvIEkgZG9u4oCZ
-dCBrbm93IHdoYXQgaXMgbmVjZXNzYXJ5IGZvciBzdWNoIGNhc2UuDQo+IE1heWJlIGEgY2hlY2sg
-Zm9yIHRoZSBlbnZpcm9ubWVudCB2YXJpYWJsZXMgZnJvbSBhbGwgdGhvc2UgYXV0byBidWlsZCB0
-b29scyA/DQo+IEkgbmVlZCB0byByZWFkIGFuZCBtYWtlIHRoZSByaWdodCBjb21tZW50IGFzIHdl
-bGwgYXMgSSB3ZWxjb21lIHRoZSBpZGVhDQo+IGZyb20gdGhlIG90aGVycy4NCj4gPiBDaGVlcnMs
-DQo+ID4NCj4gPiBSaWNoYXJkDQo+ID4NCj4gU2luY2VyZWx5DQo+IFJhbmR5DQo=
+--Apple-Mail-A559495A-3854-4340-8618-7FE3F364A3E7
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+
+
+> On Dec 31, 2020, at 12:43 PM, Saini, Naveen Kumar <naveen.kumar.saini@inte=
+l.com> wrote:
+>=20
+> This failing in case of non-native sdk too, where PKG_CONFIG_SYSROOT_DIR i=
+s also exported. It does not prepend PKG_CONFIG_SYSROOT_DIR path.=20
+>=20
+> I think it should be fixed manually by prepending sysroot path.=20
+I was having such plan but Gstreamer people said it should be fixed in OE it=
+self
+https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/merge_requests/12=
+53
+
+>=20
+> +  pkgconf_sysroot =3D run_command(python3, '-c', 'import os; print(os.env=
+iron.get("PKG_CONFIG_SYSROOT_DIR"))').stdout().strip()
+>   mfx_incdir =3D mfx_dep.get_pkgconfig_variable('includedir')
+> +  mfx_incdir =3D pkgconf_sysroot +  mfx_incdir
+>=20
+Sorry, I don=E2=80=99t what the non-native sdk means here, since get_pkgconf=
+ig_variable('includedir') from meson would apply the pkgconfig sysroot setti=
+ng from the meson, it would be fine.
+>=20
+> Ref: https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-mul=
+timedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-openc=
+v-data-dir-in-yocto-buil.patch#n26
+>=20
+>=20
+>> -----Original Message-----
+>> From: openembedded-core@lists.openembedded.org <openembedded-
+>> core@lists.openembedded.org> On Behalf Of Randy Li
+>> Sent: Thursday, December 31, 2020 9:46 AM
+>> To: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> Cc: openembedded-core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH v2 0/2] meson: fixup nativesdk sysroot
+>>=20
+>>=20
+>>> On Dec 30, 2020, at 10:05 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>>>=20
+>>>> On Tue, 2020-12-29 at 11:55 +0800, Randy Li wrote:
+>>>> I still saw the request for this patch from Gstreamer users
+>>>> sometimes. I have verified this version would work fine.
+>>>>=20
+>>>> Only the exported SDK would need this patch.
+>>>=20
+>>> Thanks for the patches, is there something we should add to the
+>>> automated tests (e.g. in meta/lib/oeqa/sdk/cases) to test this?
+>>>=20
+>> The original case is that when I was compiling the Gstreamer plugins bad f=
+or
+>> Intel Media SDK, the include path from the pkg-config would be one withou=
+t
+>> sysroot. Most of packages won=E2=80=99t meet such problem, they can just o=
+rdinary
+>> includedir, which is not from meson but compiler I think, then prepend a
+>> package name when its code include thems.
+>>=20
+>> I think this case only fix those package using meson and need to get
+>> something likes path information from the pkg-config.
+>>=20
+>> I have not read the QA part, so I don=E2=80=99t know what is necessary fo=
+r such case.
+>> Maybe a check for the environment variables from all those auto build too=
+ls ?
+>> I need to read and make the right comment as well as I welcome the idea
+>> from the others.
+>>> Cheers,
+>>>=20
+>>> Richard
+>>>=20
+>> Sincerely
+>> Randy
+
+--Apple-Mail-A559495A-3854-4340-8618-7FE3F364A3E7
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto"><br><div dir=3D"ltr"><br>On Dec 31, 2020, a=
+t 12:43 PM, Saini, Naveen Kumar &lt;<a href=3D"mailto:naveen.kumar.saini@int=
+el.com">naveen.kumar.saini@intel.com</a>&gt; wrote:<br><br></div><blockquote=
+ type=3D"cite"><div dir=3D"ltr"><span>This failing in case of non-native sdk=
+ too, where PKG_CONFIG_SYSROOT_DIR is also exported. It does not prepend PKG=
+_CONFIG_SYSROOT_DIR path. </span><br><span></span><br><span>I think it shoul=
+d be fixed manually by prepending sysroot path. </span><br></div></blockquot=
+e>I was having such plan but Gstreamer people said it should be fixed in OE i=
+tself<div><a href=3D"https://gitlab.freedesktop.org/gstreamer/gst-plugins-ba=
+d/-/merge_requests/1253">https://gitlab.freedesktop.org/gstreamer/gst-plugin=
+s-bad/-/merge_requests/1253</a></div><div><br><blockquote type=3D"cite"><div=
+ dir=3D"ltr"><span></span><br><span>+ &nbsp;pkgconf_sysroot =3D run_command(=
+python3, '-c', 'import os; print(os.environ.get("PKG_CONFIG_SYSROOT_DIR"))')=
+.stdout().strip()</span><br><span> &nbsp;&nbsp;mfx_incdir =3D mfx_dep.get_pk=
+gconfig_variable('includedir')</span><br><span>+ &nbsp;mfx_incdir =3D pkgcon=
+f_sysroot + &nbsp;mfx_incdir</span><br><span></span><br></div></blockquote>S=
+orry, I don=E2=80=99t what the non-native sdk means here, since g<span style=
+=3D"background-color: rgba(255, 255, 255, 0);">et_pkgconfig_variable('includ=
+edir') from meson would apply the pkgconfig sysroot setting from the meson, i=
+t would be fine.</span><blockquote type=3D"cite"><div dir=3D"ltr"><span>Ref:=
+ <a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipe=
+s-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-=
+opencv-data-dir-in-yocto-buil.patch#n26">https://git.yoctoproject.org/cgit/c=
+git.cgi/poky/tree/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad=
+/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch#n26</a></sp=
+an><br><span></span><br><span></span><br><blockquote type=3D"cite"><span>---=
+--Original Message-----</span><br></blockquote><blockquote type=3D"cite"><sp=
+an>From: <a href=3D"mailto:openembedded-core@lists.openembedded.org">openemb=
+edded-core@lists.openembedded.org</a> &lt;openembedded-</span><br></blockquo=
+te><blockquote type=3D"cite"><span><a href=3D"mailto:core@lists.openembedded=
+.org">core@lists.openembedded.org</a>&gt; On Behalf Of Randy Li</span><br></=
+blockquote><blockquote type=3D"cite"><span>Sent: Thursday, December 31, 2020=
+ 9:46 AM</span><br></blockquote><blockquote type=3D"cite"><span>To: Richard P=
+urdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purd=
+ie@linuxfoundation.org</a>&gt;</span><br></blockquote><blockquote type=3D"ci=
+te"><span>Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org">op=
+enembedded-core@lists.openembedded.org</a></span><br></blockquote><blockquot=
+e type=3D"cite"><span>Subject: Re: [OE-core] [PATCH v2 0/2] meson: fixup nat=
+ivesdk sysroot</span><br></blockquote><blockquote type=3D"cite"><span></span=
+><br></blockquote><blockquote type=3D"cite"><span></span><br></blockquote><b=
+lockquote type=3D"cite"><blockquote type=3D"cite"><span>On Dec 30, 2020, at 1=
+0:05 PM, Richard Purdie</span><br></blockquote></blockquote><blockquote type=
+=3D"cite"><span>&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">ri=
+chard.purdie@linuxfoundation.org</a>&gt; wrote:</span><br></blockquote><bloc=
+kquote type=3D"cite"><blockquote type=3D"cite"><span></span><br></blockquote=
+></blockquote><blockquote type=3D"cite"><blockquote type=3D"cite"><blockquot=
+e type=3D"cite"><span>On Tue, 2020-12-29 at 11:55 +0800, Randy Li wrote:</sp=
+an><br></blockquote></blockquote></blockquote><blockquote type=3D"cite"><blo=
+ckquote type=3D"cite"><blockquote type=3D"cite"><span>I still saw the reques=
+t for this patch from Gstreamer users</span><br></blockquote></blockquote></=
+blockquote><blockquote type=3D"cite"><blockquote type=3D"cite"><blockquote t=
+ype=3D"cite"><span>sometimes. I have verified this version would work fine.<=
+/span><br></blockquote></blockquote></blockquote><blockquote type=3D"cite"><=
+blockquote type=3D"cite"><blockquote type=3D"cite"><span></span><br></blockq=
+uote></blockquote></blockquote><blockquote type=3D"cite"><blockquote type=3D=
+"cite"><blockquote type=3D"cite"><span>Only the exported SDK would need this=
+ patch.</span><br></blockquote></blockquote></blockquote><blockquote type=3D=
+"cite"><blockquote type=3D"cite"><span></span><br></blockquote></blockquote>=
+<blockquote type=3D"cite"><blockquote type=3D"cite"><span>Thanks for the pat=
+ches, is there something we should add to the</span><br></blockquote></block=
+quote><blockquote type=3D"cite"><blockquote type=3D"cite"><span>automated te=
+sts (e.g. in meta/lib/oeqa/sdk/cases) to test this?</span><br></blockquote><=
+/blockquote><blockquote type=3D"cite"><blockquote type=3D"cite"><span></span=
+><br></blockquote></blockquote><blockquote type=3D"cite"><span>The original c=
+ase is that when I was compiling the Gstreamer plugins bad for</span><br></b=
+lockquote><blockquote type=3D"cite"><span>Intel Media SDK, the include path f=
+rom the pkg-config would be one without</span><br></blockquote><blockquote t=
+ype=3D"cite"><span>sysroot. Most of packages won=E2=80=99t meet such problem=
+, they can just ordinary</span><br></blockquote><blockquote type=3D"cite"><s=
+pan>includedir, which is not from meson but compiler I think, then prepend a=
+</span><br></blockquote><blockquote type=3D"cite"><span>package name when it=
+s code include thems.</span><br></blockquote><blockquote type=3D"cite"><span=
+></span><br></blockquote><blockquote type=3D"cite"><span>I think this case o=
+nly fix those package using meson and need to get</span><br></blockquote><bl=
+ockquote type=3D"cite"><span>something likes path information from the pkg-c=
+onfig.</span><br></blockquote><blockquote type=3D"cite"><span></span><br></b=
+lockquote><blockquote type=3D"cite"><span>I have not read the QA part, so I d=
+on=E2=80=99t know what is necessary for such case.</span><br></blockquote><b=
+lockquote type=3D"cite"><span>Maybe a check for the environment variables fr=
+om all those auto build tools ?</span><br></blockquote><blockquote type=3D"c=
+ite"><span>I need to read and make the right comment as well as I welcome th=
+e idea</span><br></blockquote><blockquote type=3D"cite"><span>from the other=
+s.</span><br></blockquote><blockquote type=3D"cite"><blockquote type=3D"cite=
+"><span>Cheers,</span><br></blockquote></blockquote><blockquote type=3D"cite=
+"><blockquote type=3D"cite"><span></span><br></blockquote></blockquote><bloc=
+kquote type=3D"cite"><blockquote type=3D"cite"><span>Richard</span><br></blo=
+ckquote></blockquote><blockquote type=3D"cite"><blockquote type=3D"cite"><sp=
+an></span><br></blockquote></blockquote><blockquote type=3D"cite"><span>Sinc=
+erely</span><br></blockquote><blockquote type=3D"cite"><span>Randy</span><br=
+></blockquote></div></blockquote></div></body></html>=
+
+--Apple-Mail-A559495A-3854-4340-8618-7FE3F364A3E7--
