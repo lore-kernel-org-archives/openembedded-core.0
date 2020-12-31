@@ -1,124 +1,91 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web08.21372.1609424421039039078
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web12.23873.1609434928567433047
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Dec 2020 06:20:21 -0800
+ Thu, 31 Dec 2020 09:15:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yMSi6RDl;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id c22so13116955pgg.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Dec 2020 06:20:21 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KW78czgw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id n16so4126826wmc.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Dec 2020 09:15:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id;
-        bh=kn7hUXdjqiN2KsIcXW/1miTmhgT925n7iN805Og/E3E=;
-        b=yMSi6RDlBqYyJH2o0jZIUeV2SJIGYgnuN2IXrR2StiBwB/A7cjHFuteSQ2PwJi1NX2
-         nNA/pDwIgkGgx/BuDUYPDo3C8L1O4zqcvfDlvmFY07DHuksSBs/PMSTRyYLHQwoHaPvD
-         vW1UhpjCIGKuFm0Fs1gQISVCiVxJl9p7gYEkVwo2uyZwTXrRwUWa8FmQRIkizd8diQ9a
-         WnmFQUw5rA+aZZ18j5tcWh7Cur13vwZnscNOovKcRG65gSNV0UgWSeAr62dfivengG8K
-         Nx0zu+z9lftbLCvcVSLPaqfmJJ6vtEPPYupBUIbc7Klv8uRfUaxc9PY/pCoOMMG6yslN
-         Wp8g==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z1ZrT8SMPHWjs7NNwjpbMEFSq+wb1PlMZzNqV/Oq/Ns=;
+        b=KW78czgwKyywUaXYjeLhzJMYlfaaIt+Hc9sPs9QnR5u8C77wMs1Rx43ndH9YhVEJWQ
+         EEFggdKyj/vYC1HjjALbRLFRRhPfuEEow3POjr+buRtd0AYRn/VJQPtQqH+k4DzxP3mY
+         m0IO+1Hq8EB3vObntTxdCt8mVGz5uWcpp0jXg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=kn7hUXdjqiN2KsIcXW/1miTmhgT925n7iN805Og/E3E=;
-        b=Eup1aHfVeTI/e/cmNmj0PeHQewoeaJPonU4Bi9U4OAiYYvQfNT8zFtx4N+qHoikyty
-         ZD3VtUyiPClD6Ics6VNa6/MkHzIZ7fF03xobI0bxvsBOAFTnPML1T0xsspLhnOu5f2kt
-         pVbzuLvWuNtl5sbf9n3EeLHQ2NiSraWv3pQQzA+2Ox6PZtrUAIDMFp6KDA0uO8feA0s2
-         tztnWAP8W0wMhSkHi21qmJjOx95DjYZxm1d8g7iwoyv9OznSaklzkd55LD1GXpl7uhvn
-         AkcWe0A+geqoZ95c3N0V80XXJOIyknLAU8r0upApVHJjVTq+9XAjRxYX9VsXabbncewc
-         zgHg==
-X-Gm-Message-State: AOAM532pJMUWNGBRTrpHwKq1sLY+sC4wJgWxrKsoTTRmcpHQbW4WDQ5C
-	pIw3KRGvcZaLVlGWPr02NhzTEgAxo5Mqb9Nv88Y=
-X-Google-Smtp-Source: ABdhPJxIVeCG4fYPGyLDuHMjPWek1FJLRlkud/Bw+ih3qaFc9G1+s+XeBEqFhZSuMk5JBF2W4VXygg==
-X-Received: by 2002:a63:d303:: with SMTP id b3mr35181317pgg.113.1609424419919;
-        Thu, 31 Dec 2020 06:20:19 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id s7sm45051214pfh.207.2020.12.31.06.20.18
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Z1ZrT8SMPHWjs7NNwjpbMEFSq+wb1PlMZzNqV/Oq/Ns=;
+        b=DqCU2rTgRniarkYfxT75HR8c5ez7FAdTHGWYwlNK/NAqZhkmbJ97bbdSSzLKuWY0Ol
+         x1mYWaHmAAGlTyosNFP7zsiZbAV5vEZYVy6OTiN8usToMKHrR/0nJj583osObBwreHMe
+         a7KExbC9QI9kJIICOz5vSpcCDziIZfVc3CT0AEf4NRLdH3HpqMBnDwsxDUnUKbnErIXF
+         qV9GzQEf8jh5K21EGKUVjA+FRX3l1GccZbCiVMdppHbxD5EvGPzLxAubrq2B5Q4B41F8
+         Q/9Sn8QNcvPCxNetQ6nBDABdDoHOq+/jqFA9VOevc/aqUvR5FQDnG1ap+xBeY6E9z7jt
+         tDPg==
+X-Gm-Message-State: AOAM531IbhYzXnh44KYI3ybCz1gxKlIwtXQzgHyoDQ0TtT0g/OFirgw8
+	VMybRPLae74sr9N14qT3peuD4/fT4EW2aw==
+X-Google-Smtp-Source: ABdhPJywGCm1QwZ37FAOhOOKvGSLysumwW8Lv1vAGgjq0VeNz2sGZWGBc40ewE3FFGD6eE8/cNne2g==
+X-Received: by 2002:a1c:9a57:: with SMTP id c84mr12273712wme.183.1609434926850;
+        Thu, 31 Dec 2020 09:15:26 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (d.9.0.d.a.8.e.3.c.a.b.0.5.f.b.2.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:2bf5:bac:3e8a:d09d])
+        by smtp.gmail.com with ESMTPSA id u26sm13291906wmm.24.2020.12.31.09.15.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Dec 2020 06:20:18 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
+        Thu, 31 Dec 2020 09:15:26 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/25] Pull request (cover letter only)
-Date: Thu, 31 Dec 2020 04:20:08 -1000
-Message-Id: <cover.1609424319.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] grub: Further reproducibility fix
+Date: Thu, 31 Dec 2020 17:15:25 +0000
+Message-Id: <20201231171525.257958-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The following changes since commit 02870c7fbaaa1c3869ecb439f5c58fcf40a533be:
+Fix the ordering in the generated unidata.c file to aid reproducibility.
 
-  binutils: fix CVE-2020-16592/16598 (2020-12-14 05:58:27 -1000)
+[YOCTO #14167]
 
-are available in the Git repository at:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-bsp/grub/files/determinism.patch | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Alexander Kanavin (2):
-  selftest/reproducible: enable world reproducibility test
-  selftest/reproducible: add an exclusion list for items that are not
-    yet reproducible
-
-Bruce Ashfield (8):
-  linux-yocto-rt/5.4: update to -rt44
-  linux-yocto/5.4: update to v5.4.80
-  linux-yocto/cfg: qemuppc: set CONFIG_SCSI to '=y'
-  linux-yocto/5.4: update to v5.4.82
-  linux-yocto/cfg: qemuarm64-gfx.cfg: add CONFIG_INPUT_UINPUT
-  linux-yocto/5.4: update to v5.4.83
-  linux-yocto/5.4/cfg: fix -tiny warnings
-  linux-yocto/5.4/cfg: fix FIRMWARE_LOADER warnings
-
-Dmitry Baryshkov (2):
-  linux-firmware: upgrade 20201118 -> 20201218
-  linux-firmware: package firmware for Lontium lt9611uxc bridge
-
-Richard Purdie (7):
-  grub: Fix build reproducibility issue
-  grub: Add second fix for determinism issue
-  u-boot-tools: Fix reproducibility issue
-  groff: Fix reproducibility issue
-  man-db: Avoid reproducibility failures after fixing groff-native
-  cups: Mark CVE-2009-0032 as a non-issue
-  cups: Mark CVE-2008-1033 as a non-issue
-
-Robert Joslyn (1):
-  openssl: Update to 1.1.1i
-
-Ross Burton (1):
-  kernel: set COMPATIBLE_HOST to *-linux
-
-Steve Sakoman (3):
-  selftest/reproducible: add packages to exclusion list for dunfell
-  oeqa/selftest/cases/devtool.py: fix typo in ignore_patterns call
-  cups: whitelist CVE-2018-6553
-
-zangrc (1):
-  bash: Rename patch name
-
- meta/classes/kernel.bbclass                   |  2 +
- meta/lib/oeqa/selftest/cases/devtool.py       |  2 +-
- meta/lib/oeqa/selftest/cases/reproducible.py  | 96 ++++++++++++++++++-
- meta/recipes-bsp/grub/files/determinism.patch | 40 ++++++++
- meta/recipes-bsp/grub/grub2.inc               |  1 +
- meta/recipes-bsp/u-boot/u-boot-tools.inc      | 15 +++
- .../{openssl_1.1.1g.bb => openssl_1.1.1i.bb}  |  2 +-
- ...-2019-18276.patch => CVE-2019-18276.patch} |  0
- meta/recipes-extended/bash/bash_5.0.bb        |  2 +-
- meta/recipes-extended/cups/cups.inc           |  7 ++
- meta/recipes-extended/groff/groff_1.22.4.bb   |  2 +-
- meta/recipes-extended/man-db/man-db_2.9.0.bb  |  5 +
- ...20201118.bb => linux-firmware_20201218.bb} | 14 ++-
- meta/recipes-kernel/linux/linux-dummy.bb      |  2 +-
- .../linux/linux-yocto-rt_5.4.bb               |  6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |  8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++---
- 17 files changed, 197 insertions(+), 29 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/files/determinism.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1g.bb => openssl_1.1.1i.bb} (98%)
- rename meta/recipes-extended/bash/bash/{bash-CVE-2019-18276.patch => CVE-2019-18276.patch} (100%)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20201118.bb => linux-firmware_20201218.bb} (98%)
-
+diff --git a/meta/recipes-bsp/grub/files/determinism.patch b/meta/recipes-bsp/grub/files/determinism.patch
+index fac80e7b544..3c1f562c717 100644
+--- a/meta/recipes-bsp/grub/files/determinism.patch
++++ b/meta/recipes-bsp/grub/files/determinism.patch
+@@ -8,6 +8,9 @@ Also, the output of the SOURCES lines in grub-core/Makefile.core.am, generated
+ from grub-core/Makefile.core.def with gentpl.py is not deterministic due to
+ missing sorting of the list used to generate it. Add such a sort.
+ 
++Also ensure the generated unidata.c file is deterministic by sorting the
++keys of the dict.
++
+ Upstream-Status: Pending
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+ 
+@@ -38,3 +41,16 @@ Index: grub-2.04/gentpl.py
+      return ''.join(r)
+  
+  def platform_conditional(platform, closure):
++Index: grub-2.04/util/import_unicode.py
++===================================================================
++--- grub-2.04.orig/util/import_unicode.py
+++++ grub-2.04/util/import_unicode.py
++@@ -174,7 +174,7 @@ infile.close ()
++ 
++ outfile.write ("struct grub_unicode_arabic_shape grub_unicode_arabic_shapes[] = {\n ")
++ 
++-for x in arabicsubst:
+++for x in sorted(arabicsubst):
++     try:
++         if arabicsubst[x]['join'] == "DUAL":
++             outfile.write ("{0x%x, 0x%x, 0x%x, 0x%x, 0x%x},\n " % (arabicsubst[x][0], arabicsubst[x][1], arabicsubst[x][2], arabicsubst[x][3], arabicsubst[x][4]))
 -- 
-2.17.1
+2.27.0
 
