@@ -1,220 +1,254 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.26220.1609446022931827804
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web09.2584.1609458573236482066
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Dec 2020 12:20:23 -0800
+ Thu, 31 Dec 2020 15:49:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CYb5hOcR;
- spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f176.google.com with SMTP id s21so11663976pfu.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Dec 2020 12:20:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PY+7daYP;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id c132so2459230pga.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Dec 2020 15:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2YCcSIm+MJNV4Cqo8/oZYEdvxXlaj7KRqkShT+Rcus4=;
-        b=CYb5hOcRfT8UcVlViE1I9fw69aYeJXqBbGjSaBQg4c/nzXgL9NHla+5cPeXYAn+Hjg
-         96i86QZWwylM2ZodfeOQeu1LM6F6tY9wgDExhVLv3bULF0OTY9fR4pFv+n1F7WrZza3z
-         TF4wI1DZ/l4rJIhHsKD4ZV0pGGcgQi2dzWqnEPL2UZ4beOBLGsSS9WH3ME3PH0EXjDDW
-         n0ho1NkmXE96IdjBu9yc6k4UALSzZpV7WThNri86NiM7LO6dcrNx7tCW9PE/LTSQ1v4k
-         p1lv+VY0jceYk+CE4hOu4+ni74YtkLNFlqBZSJqyYylZkhVzHLsqMx1S76hbMpiJctwf
-         9TvQ==
+        bh=3VhPUL4oGi9SYpDM29DrfMfPgMX5CQy6SkeVNcJlcSU=;
+        b=PY+7daYPTAPZk+pvDk1oCIBcmRsE5r3G4Fj3XkbK7ZKbiHYWzr4sWKhwaaO13Hkmg1
+         INSu1nyvpbOQYpgSrrrQhlIqJhUPMNiFqG1nzP4rD0Z0gB4PX6bvsM3DQmNsutYdM+M8
+         jUNcFU8VQ3KjTC/mENbVJ7oEN/gihrV91HWsQhoe4cfCzIFN0Rc/RJUIfoOvswDEl7pr
+         ZmDwjJFVS0JlkSV1m8+YaL8yG4ZIxMQWBW8SqOlNtv8GCGEzyCcpDrIt1Jpv48rjDLpD
+         dEXkCIDSm/OH+twbTKR3vU3FGEEe39yHIFG1zAJQvWsMbFhBEjG8iiNosSAWBudWHb/X
+         oErw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=2YCcSIm+MJNV4Cqo8/oZYEdvxXlaj7KRqkShT+Rcus4=;
-        b=XID1FBUoiirFFUm3S0YYIgRPR+9G+hXB1KS3i1DQ5EQCjVHDUahrm4lDKoxhq0+h/Z
-         NX7PtsapERGjtj6h3cKxLZw3H9A5eL+hKhiaarLrhWShnBSRiBPzaBAUMgvVpD6RMOiA
-         /hNFEz+U7fW3N1CuCWOQyNmfO9nyUSrUx2BFte3tBfcgF1qNXfCV9FYIy9VbAyC6KMw0
-         MZa0vk/aE1k3Lrwt/lDCHJa/aaq3NVpoDaT38iC4E9n2tCSEN9LEOapA+xEftCtNevnI
-         g4CDFJiQ+qA/oPR80jSCJHcxlYZwsXYSoo17ZDcbJG18EkytBFBvT6NQsiQpHEmk10aT
-         A9lA==
-X-Gm-Message-State: AOAM531droHG2SVUsYND3Dkr48dcWH7YM7eFpRFIjg+XWm96ovwdh0MH
-	W9vy85M2t5N709Q5XCBpfoYZNOgd2q3FNA==
-X-Google-Smtp-Source: ABdhPJzpnT5N3WWskHNYfisSEDZx6dsRu+8yR6jTeV8SmA+zdE66hlZpHbo0R/Ng1QAX6ufRIGfjjw==
-X-Received: by 2002:a62:1ad0:0:b029:197:e389:fb26 with SMTP id a199-20020a621ad00000b0290197e389fb26mr54233823pfa.20.1609446021936;
-        Thu, 31 Dec 2020 12:20:21 -0800 (PST)
+        bh=3VhPUL4oGi9SYpDM29DrfMfPgMX5CQy6SkeVNcJlcSU=;
+        b=ifMZLGFC1WTI5KPRGM06ofcYx0xfaLVAWd3+MSqsUtqqCNDVqvbVgxPo0M3sqpVsqo
+         q+SUxO4nXM4crZ1nnbFGprJJlNTwwC4ZL5ewXG5jhspJeF6gu2zR1NZRBxqFSQLVjWuU
+         SG+NEfARqt7s4TcK2NqEGHAkDS7xjr5AFPuPMg5/5zFK89El6G9tqz99y/wAZmo81kCN
+         6KzJ79p5vZCGfFbh5BQSFwLfqWxnX7HSvbjph2mvnkzi19G+BxaRpzxG2QL/BM87A3bv
+         E6sjt9bH9+/8q0FU2nimeQ41ggX1RqEPZLiBsZzgD/rsrwx221/bb+pA8Jc52PJp4dM1
+         X39A==
+X-Gm-Message-State: AOAM5307xRgpHhXWHCCSvJLDZcjTZ+qjPrXuzcov0qsUbaVsPPR1ZNXH
+	ydMdVQUp3unxXdQ23b2qogpFGlcdleFnPQ==
+X-Google-Smtp-Source: ABdhPJz3plU1/vxVchQZEWeEgiljlJqfA+KCKjTAwvxgncEbqO6OojsI3Lrc+kX0VMGYt9balqCS2A==
+X-Received: by 2002:a65:6405:: with SMTP id a5mr57875751pgv.389.1609458572315;
+        Thu, 31 Dec 2020 15:49:32 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::cd68])
-        by smtp.gmail.com with ESMTPSA id d10sm47053661pfn.218.2020.12.31.12.20.20
+        by smtp.gmail.com with ESMTPSA id s7sm45726192pfh.207.2020.12.31.15.49.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Dec 2020 12:20:21 -0800 (PST)
+        Thu, 31 Dec 2020 15:49:31 -0800 (PST)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libpam: Drop musl patches
-Date: Thu, 31 Dec 2020 12:20:17 -0800
-Message-Id: <20201231202017.4112686-1-raj.khem@gmail.com>
+Subject: [PATCH] ccache: Build fixes for clang and riscv32
+Date: Thu, 31 Dec 2020 15:49:29 -0800
+Message-Id: <20201231234929.4165627-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These issues are addressed in libpam overtime and no longer needed thusly
-in 1.5.x
+Backport patch to improve AVX detection helps build with clang
+Add proposed patch to fix build with 32bit architectures using 64bit
+time_t
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...t-for-defining-missing-funcitonality.patch | 68 -------------------
- .../pam/libpam/include_paths_header.patch     | 59 ----------------
- meta/recipes-extended/pam/libpam_1.5.1.bb     |  4 --
- 3 files changed, 131 deletions(-)
- delete mode 100644 meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
- delete mode 100644 meta/recipes-extended/pam/libpam/include_paths_header.patch
+ .../0001-Improve-SIMD-detection-735.patch     | 121 ++++++++++++++++++
+ ...002-Always-use-64bit-to-print-time_t.patch |  33 +++++
+ meta/recipes-devtools/ccache/ccache_4.1.bb    |   6 +-
+ 3 files changed, 158 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/ccache/ccache/0001-Improve-SIMD-detection-735.patch
+ create mode 100644 meta/recipes-devtools/ccache/ccache/0002-Always-use-64bit-to-print-time_t.patch
 
-diff --git a/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch b/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
-deleted file mode 100644
-index c55b648139..0000000000
---- a/meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From 45d1ed58927593968faead7dbb295f3922f41a2f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 8 Aug 2015 14:16:43 -0700
--Subject: [PATCH] Add support for defining missing funcitonality
--
--In order to support alternative libc on linux ( musl, bioninc ) etc we
--need to check for glibc-only features and provide alternatives, in this
--list strndupa is first one, when configure detects that its not included
--in system C library then the altrnative implementation from missing.h is
--used
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- configure.ac                |  3 +++
-- libpam/include/missing.h    | 12 ++++++++++++
-- modules/pam_exec/pam_exec.c |  1 +
-- 3 files changed, 16 insertions(+)
-- create mode 100644 libpam/include/missing.h
--
--diff --git a/configure.ac b/configure.ac
--index 9e1257f..cbed979 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -599,6 +599,9 @@ dnl
-- AC_CHECK_DECL(__NR_keyctl, [have_key_syscalls=1],[have_key_syscalls=0],[#include <sys/syscall.h>])
-- AC_CHECK_DECL(ENOKEY, [have_key_errors=1],[have_key_errors=0],[#include <errno.h>])
-- 
--+# musl and bionic don't have strndupa
--+AC_CHECK_DECLS_ONCE([strndupa])
--+
-- HAVE_KEY_MANAGEMENT=0
-- if test $have_key_syscalls$have_key_errors = 11
-- then
--diff --git a/libpam/include/missing.h b/libpam/include/missing.h
--new file mode 100644
--index 0000000..3cf011c
----- /dev/null
--+++ b/libpam/include/missing.h
--@@ -0,0 +1,12 @@
--+#pragma once
--+
--+#if !HAVE_DECL_STRNDUPA
--+#define strndupa(s, n)                                                  \
--+        ({                                                              \
--+                const char *__old = (s);                                \
--+                size_t __len = strnlen(__old, (n));                     \
--+                char *__new = alloca(__len + 1);                        \
--+                __new[__len] = '\0';                                    \
--+                memcpy(__new, __old, __len);                            \
--+         })
--+#endif
--diff --git a/modules/pam_exec/pam_exec.c b/modules/pam_exec/pam_exec.c
--index 17ba6ca..3aa2694 100644
----- a/modules/pam_exec/pam_exec.c
--+++ b/modules/pam_exec/pam_exec.c
--@@ -59,6 +59,7 @@
-- #include <security/pam_modutil.h>
-- #include <security/pam_ext.h>
-- #include <security/_pam_macros.h>
--+#include <missing.h>
-- 
-- #define ENV_ITEM(n) { (n), #n }
-- static struct {
---- 
--2.1.4
--
-diff --git a/meta/recipes-extended/pam/libpam/include_paths_header.patch b/meta/recipes-extended/pam/libpam/include_paths_header.patch
-deleted file mode 100644
-index e4eb95669b..0000000000
---- a/meta/recipes-extended/pam/libpam/include_paths_header.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--This patch adds missing include for paths.h which should provide
--_PATH_LASTLOG definition
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Index: Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
--===================================================================
----- Linux-PAM-1.1.6.orig/modules/pam_lastlog/pam_lastlog.c
--+++ Linux-PAM-1.1.6/modules/pam_lastlog/pam_lastlog.c
--@@ -23,9 +23,11 @@
-- #include <stdarg.h>
-- #include <stdio.h>
-- #include <string.h>
--+#include <sys/file.h>
-- #include <sys/types.h>
-- #include <syslog.h>
-- #include <unistd.h>
--+#include <paths.h>
-- 
-- #if defined(hpux) || defined(sunos) || defined(solaris)
-- # ifndef _PATH_LASTLOG
--@@ -332,6 +334,23 @@ last_login_read(pam_handle_t *pamh, int
--     return retval;
-- }
-- 
--+#ifndef __GLIBC__
--+static void logwtmp(const char * line, const char * name, const char * host)
--+{
--+    struct utmp u;
--+    memset(&u, 0, sizeof(u));
--+
--+    u.ut_pid = getpid();
--+    u.ut_type = name[0] ? USER_PROCESS : DEAD_PROCESS;
--+    strncpy(u.ut_line, line, sizeof(u.ut_line));
--+    strncpy(u.ut_name, name, sizeof(u.ut_name));
--+    strncpy(u.ut_host, host, sizeof(u.ut_host));
--+    gettimeofday(&(u.ut_tv), NULL);
--+
--+    updwtmp(_PATH_WTMP, &u);
--+}
--+#endif /* __GLIBC__ */
--+
-- static int
-- last_login_write(pam_handle_t *pamh, int announce, int last_fd,
-- 		 uid_t uid, const char *user)
--Index: Linux-PAM-1.1.6/modules/Makefile.am
--===================================================================
----- Linux-PAM-1.1.6.orig/modules/Makefile.am
--+++ Linux-PAM-1.1.6/modules/Makefile.am
--@@ -7,7 +7,7 @@ SUBDIRS = pam_access pam_cracklib pam_de
-- 	pam_group pam_issue pam_keyinit pam_lastlog pam_limits \
-- 	pam_listfile pam_localuser pam_loginuid pam_mail \
-- 	pam_mkhomedir pam_motd pam_namespace pam_nologin \
---	pam_permit pam_pwhistory pam_rhosts pam_rootok pam_securetty \
--+	pam_permit pam_pwhistory pam_rootok pam_securetty \
-- 	pam_selinux pam_sepermit pam_shells pam_stress \
-- 	pam_succeed_if pam_tally pam_tally2 pam_time pam_timestamp \
-- 	pam_tty_audit pam_umask \
-diff --git a/meta/recipes-extended/pam/libpam_1.5.1.bb b/meta/recipes-extended/pam/libpam_1.5.1.bb
-index 6af1d43c60..486c9d8aad 100644
---- a/meta/recipes-extended/pam/libpam_1.5.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.1.bb
-@@ -26,10 +26,6 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
+diff --git a/meta/recipes-devtools/ccache/ccache/0001-Improve-SIMD-detection-735.patch b/meta/recipes-devtools/ccache/ccache/0001-Improve-SIMD-detection-735.patch
+new file mode 100644
+index 0000000000..12d4ebc4bc
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache/0001-Improve-SIMD-detection-735.patch
+@@ -0,0 +1,121 @@
++From 05d290165a3b61da09b715e6c8e62cebebab57cc Mon Sep 17 00:00:00 2001
++From: Erik Flodin <erik@ejohansson.se>
++Date: Mon, 7 Dec 2020 19:20:31 +0100
++Subject: [PATCH 1/2] Improve SIMD detection (#735)
++
++* Try to compile code to detect SSE/AVX support. Just checking if the compiler
++  supports the flag isn't enough as e.g. Clang on Apple's new ARM silicon seems
++  to accept the flag but then fails when building.
++* Try to detect and enable BLAKE3's Neon support.
++* Improve detection of AVX2 target attribute support and remove the explicit
++  compiler version check that hopefully shouldn't be needed.
++
++Fixes #734.
++Upstream-Status: Backport [https://github.com/ccache/ccache/commit/b438f50388dd00285083260f60450e6237b7d58f]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ cmake/GenerateConfigurationFile.cmake | 25 +++++++++---------
++ src/third_party/blake3/CMakeLists.txt | 38 ++++++++++++++++++++-------
++ 2 files changed, 42 insertions(+), 21 deletions(-)
++
++diff --git a/cmake/GenerateConfigurationFile.cmake b/cmake/GenerateConfigurationFile.cmake
++index a21861f4..836ff9bb 100644
++--- a/cmake/GenerateConfigurationFile.cmake
+++++ b/cmake/GenerateConfigurationFile.cmake
++@@ -67,18 +67,19 @@ check_struct_has_member("struct stat" st_mtim sys/stat.h
++ check_struct_has_member("struct statfs" f_fstypename sys/mount.h
++                         HAVE_STRUCT_STATFS_F_FSTYPENAME)
++ 
++-include(CheckCXXCompilerFlag)
++-
++-# Old GCC versions don't have the required header support.
++-# Old Apple Clang versions seem to support -mavx2 but not the target
++-# attribute that's used to enable AVX2 for a certain function.
++-if((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
++-   OR (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8.0))
++-  message(STATUS "Detected unsupported compiler for HAVE_AVX2 - disabled")
++-  set(HAVE_AVX2 FALSE)
++-else()
++-  check_cxx_compiler_flag(-mavx2 HAVE_AVX2)
++-endif()
+++include(CheckCXXSourceCompiles)
+++check_cxx_source_compiles(
+++  [=[
+++    #include <immintrin.h>
+++    void func() __attribute__((target("avx2")));
+++    void func() { _mm256_abs_epi8(_mm256_set1_epi32(42)); }
+++    int main()
+++    {
+++      func();
+++      return 0;
+++    }
+++  ]=]
+++  HAVE_AVX2)
++ 
++ list(APPEND CMAKE_REQUIRED_LIBRARIES ws2_32)
++ list(REMOVE_ITEM CMAKE_REQUIRED_LIBRARIES ws2_32)
++diff --git a/src/third_party/blake3/CMakeLists.txt b/src/third_party/blake3/CMakeLists.txt
++index a75e5611..cc24253c 100644
++--- a/src/third_party/blake3/CMakeLists.txt
+++++ b/src/third_party/blake3/CMakeLists.txt
++@@ -13,9 +13,9 @@ else()
++ endif()
++ 
++ include(CheckAsmCompilerFlag)
++-include(CheckCCompilerFlag)
+++include(CheckCSourceCompiles)
++ 
++-function(add_source_if_enabled feature compile_flags)
+++function(add_source_if_enabled feature compile_flags intrinsic)
++   string(TOUPPER "have_${blake_source_type}_${feature}" have_feature)
++ 
++   # AVX512 support fails to compile with old Apple Clang versions even though
++@@ -28,7 +28,14 @@ function(add_source_if_enabled feature compile_flags)
++   elseif(${blake_source_type} STREQUAL "asm")
++     check_asm_compiler_flag(${compile_flags} ${have_feature})
++   else()
++-    check_c_compiler_flag(${compile_flags} ${have_feature})
+++    set(CMAKE_REQUIRED_FLAGS ${compile_flags})
+++    check_c_source_compiles(
+++      [=[
+++        #include <immintrin.h>
+++        int main() { ${intrinsic}; return 0; }
+++      ]=]
+++      ${have_feature})
+++    unset(CMAKE_REQUIRED_FLAGS)
++   endif()
++ 
++   if(${have_feature})
++@@ -42,10 +49,23 @@ function(add_source_if_enabled feature compile_flags)
++   endif()
++ endfunction()
++ 
++-add_source_if_enabled(sse2 "-msse2")
++-add_source_if_enabled(sse41 "-msse4.1")
++-add_source_if_enabled(avx2 "-mavx2")
++-add_source_if_enabled(avx512 "-mavx512f -mavx512vl")
+++# https://software.intel.com/sites/landingpage/IntrinsicsGuide/
+++add_source_if_enabled(sse2 "-msse2" "_mm_set1_epi32(42)")
+++add_source_if_enabled(sse41 "-msse4.1" "_mm_test_all_ones(_mm_set1_epi32(42))")
+++add_source_if_enabled(avx2 "-mavx2" "_mm256_abs_epi8(_mm256_set1_epi32(42))")
+++add_source_if_enabled(avx512 "-mavx512f -mavx512vl" "_mm256_abs_epi64(_mm256_set1_epi32(42))")
++ 
++-# TODO: how to detect ARM NEON support?
++-# If NEON, define BLAKE3_USE_NEON and build blake3_neon.c
+++# Neon is always available on AArch64
+++if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+++  # https://developer.arm.com/architectures/instruction-sets/simd-isas/neon/intrinsics
+++  check_c_source_compiles(
+++    [=[
+++      #include <arm_neon.h>
+++      int main() { vdupq_n_s32(42); return 0; }
+++    ]=]
+++    HAVE_NEON)
+++  if(HAVE_NEON)
+++    target_sources(blake3 PRIVATE blake3_neon.c)
+++    target_compile_definitions(blake3 PRIVATE BLAKE3_USE_NEON)
+++  endif()
+++endif()
++-- 
++2.30.0
++
+diff --git a/meta/recipes-devtools/ccache/ccache/0002-Always-use-64bit-to-print-time_t.patch b/meta/recipes-devtools/ccache/ccache/0002-Always-use-64bit-to-print-time_t.patch
+new file mode 100644
+index 0000000000..85ce2b762d
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache/0002-Always-use-64bit-to-print-time_t.patch
+@@ -0,0 +1,33 @@
++From fa360ca8a457dafcae1d22df2b342d3ee291e8af Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 31 Dec 2020 14:28:39 -0800
++Subject: [PATCH 2/2] Always use 64bit to print time_t
++
++some 32bit architectures e.g. RISCV32 use 64bit time_t from beginning
++which does not fit into long int size on LP32 systems
++
++Upstream-Status: Submitted [https://github.com/ccache/ccache/pull/762]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/Logging.cpp | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/src/Logging.cpp b/src/Logging.cpp
++index 9a5d99b7..1a6e6264 100644
++--- a/src/Logging.cpp
+++++ b/src/Logging.cpp
++@@ -88,7 +88,10 @@ do_log(string_view message, bool bulk)
++     if (tm) {
++       strftime(timestamp, sizeof(timestamp), "%Y-%m-%dT%H:%M:%S", &*tm);
++     } else {
++-      snprintf(timestamp, sizeof(timestamp), "%lu", tv.tv_sec);
+++      snprintf(timestamp,
+++               sizeof(timestamp),
+++               "%llu",
+++               (long long unsigned int)tv.tv_sec);
++     }
++     snprintf(prefix,
++              sizeof(prefix),
++-- 
++2.30.0
++
+diff --git a/meta/recipes-devtools/ccache/ccache_4.1.bb b/meta/recipes-devtools/ccache/ccache_4.1.bb
+index 5f7d93b485..96254a3875 100644
+--- a/meta/recipes-devtools/ccache/ccache_4.1.bb
++++ b/meta/recipes-devtools/ccache/ccache_4.1.bb
+@@ -11,7 +11,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=a66c581f855c1c408730fe5d171e3013"
  
- SRC_URI[sha256sum] = "201d40730b1135b1b3cdea09f2c28ac634d73181ccd0172ceddee3649c5792fc"
+ DEPENDS = "zstd"
  
--SRC_URI_append_libc-musl = " file://0001-Add-support-for-defining-missing-funcitonality.patch \
--                             file://include_paths_header.patch \
--                           "
+-SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz"
++SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz \
++           file://0001-Improve-SIMD-detection-735.patch \
++           file://0002-Always-use-64bit-to-print-time_t.patch \
++           "
+ SRC_URI[sha256sum] = "cdeefb827b3eef3b42b5454858123881a4a90abbd46cc72cf8c20b3bd039deb7"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/ccache/ccache/releases/"
+@@ -21,4 +24,3 @@ inherit cmake
+ PATCHTOOL = "patch"
+ 
+ BBCLASSEXTEND = "native"
 -
- DEPENDS = "bison-native flex flex-native cracklib libxml2-native virtual/crypt"
- 
- EXTRA_OECONF = "--includedir=${includedir}/security \
 -- 
 2.30.0
 
