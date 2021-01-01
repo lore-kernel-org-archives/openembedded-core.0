@@ -1,101 +1,80 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web12.5960.1609481910643116638
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.8032.1609502283808720416
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Dec 2020 22:18:31 -0800
+ Fri, 01 Jan 2021 03:58:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: Socy4QNTFkSilQubkZLshKx2Rqk+sIsDf5ij1oUjtM4RP/u2z2Nm+kYrctYDQLTq3K/OcRn4NZ
- FJ751ke8or7w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9851"; a="174185106"
-X-IronPort-AV: E=Sophos;i="5.78,466,1599548400"; 
-   d="scan'208";a="174185106"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Dec 2020 22:18:29 -0800
-IronPort-SDR: LDWd+Qd/1c8PsOmv/mVCNV3YJVWT9t5DLbnqnGl007oiHpsaQYmVBJfkx9kbxQnM+j7EjAMnbi
- ZW38WlGTmGkQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,466,1599548400"; 
-   d="scan'208";a="342009400"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by fmsmga007.fm.intel.com with ESMTP; 31 Dec 2020 22:18:29 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] wic/direct/kparser: ensure fsuuid for vfat and msdos align with format
-Date: Fri,  1 Jan 2021 14:18:28 +0800
-Message-Id: <20210101061828.25148-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d/uMR6Ss;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f48.google.com with SMTP id g25so4731473wmh.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Jan 2021 03:58:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=DOLK+cY0JFJbiLYZvnFwxfxsutMraOyB3SRSTdR7JE0=;
+        b=d/uMR6Sspnvi3ENtcN1fvkZLYZdhmnisUwuiW9DlYiRKDrQurrfDt+rzR0HYUp+ee4
+         4ol7+FvysKadw5Nzr+mV+wbXDBZZZ3a6T83pXDBCvqSGavGgE9BjJuZme2wUuWal8l5C
+         N9E7iLlpwQRck9bKIugG2iqiX1enL93EQJzQU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=DOLK+cY0JFJbiLYZvnFwxfxsutMraOyB3SRSTdR7JE0=;
+        b=SJHWHQpX4n008oWkfbuPAtTNy7v36k7ZK+z7du8Qzx4c1vy9oPmLaPlZrSFPnk4TG1
+         74bItnPcHaD5voZamqGpj3R9Gobnml8jAAGYKmXj3g5JAacDNQr6IcqmJZLX/8UwyTY+
+         EJIuhNwoMovC+JPb5B7c1efJv9LpUf43kgIl1ajAF5yTtGQYC+A0HjWlx7aRSVFxAUlq
+         CsccSArlT4mypYqqe6QAZYR2hW+p3ZDGgX2CnSkvETcNFwd3kpb4LjMrBTqDpWUxnBwP
+         qkEwMIHvI2WaqnnZfuFx7ZNZq/Hs/zLoKGxUbY1MyNHPVjOd3Y1dRnaP3McMaYgYYozU
+         67Yg==
+X-Gm-Message-State: AOAM532Gr9l6uLAkFYLzj1uXAl7+PDj6Gjv0rBQdvxU3xP2z4nGJlONl
+	MF0IRVolGTpWsxi7ArXOxXlOiw==
+X-Google-Smtp-Source: ABdhPJxylzyvMqpY/K5OCJG71W3oqEQyFlL8a4qurxNpuBoRN9/zwhkrGRbbN3Yhq5uBQwXh+up2WQ==
+X-Received: by 2002:a7b:cd91:: with SMTP id y17mr15020196wmj.171.1609502282065;
+        Fri, 01 Jan 2021 03:58:02 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from 2.7.5.c.1.8.5.6.f.f.4.2.7.7.f.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa (2.7.5.c.1.8.5.6.f.f.4.2.7.7.f.8.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:8f77:24ff:6581:c572])
+        by smtp.gmail.com with ESMTPSA id h20sm79969744wrb.21.2021.01.01.03.58.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Jan 2021 03:58:01 -0800 (PST)
+Message-ID: <0d8414139b060fa0d50bbd3a609513525dc94288.camel@linuxfoundation.org>
+Subject: Re: [OE-core][dunfell 00/25] Pull request (cover letter only)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 01 Jan 2021 11:57:58 +0000
+In-Reply-To: <cover.1609424319.git.steve@sakoman.com>
+References: <cover.1609424319.git.steve@sakoman.com>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+On Thu, 2020-12-31 at 04:20 -1000, Steve Sakoman wrote:
+> The following changes since commit
+> 02870c7fbaaa1c3869ecb439f5c58fcf40a533be:
+> 
+>   binutils: fix CVE-2020-16592/16598 (2020-12-14 05:58:27 -1000)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib
+> stable/dunfell-next
+>   
+> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-vfat/msdos filesystem should have fsuuid in format 0xYYYYYYYY where "0x"
-in front follow with 8 hexadecimal number in uppercase. In wic, when using
-custom fsuuid for vfat/msdos partition in wks, it is able to set the value
-in any length, with or without leading "0x". This can cause fsuuid
-missaligned when fstab updates, fstab expect exactly 10 character
-fsuuid for vfat/msdos partition and all in uppercase.
+I am a bit wary that we're in a holiday period and not many people are
+reviewing things. Most of this is fine but I've deferred the world
+reproducibility patches for now.
 
-if custom fsuuid for vfat/msdos is set, check the length and format,
-error if it exceed the format size. Amend it so it is align with format
-0xYYYYYYYY. This is done before image create and fstab update to ensure the
-fsuuid are same in all followup process. if custom fsuuid length less than
-expected, fill in "0".
+Partly that is due to the holidays and review, its partly as they're
+causing me a lot of pain in master. I note for example you list grub-
+efi but not grub and both are likely affected if one is.
 
-[yocto #14161]
+So I've merged without those bits and we can discuss further next week.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
-v2 check for fsuuid not null before check for size in ksparser 
+Cheers,
 
- scripts/lib/wic/ksparser.py              | 17 +++++++++++++++++
- scripts/lib/wic/plugins/imager/direct.py |  7 +++++++
- 2 files changed, 24 insertions(+)
+Richard
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 913e3283dc..3eb669da39 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -229,6 +229,23 @@ class KickStart():
-                                 err = "%s:%d: SquashFS does not support LABEL" \
-                                        % (confpath, lineno)
-                                 raise KickStartError(err)
-+                        if parsed.fstype == 'msdos' or parsed.fstype == 'vfat':
-+                            if parsed.fsuuid:
-+                                if parsed.fsuuid.upper().startswith('0X'):
-+                                    if len(parsed.fsuuid) > 10:
-+                                        err = "%s:%d: fsuuid %s given in wks kickstart file " \
-+                                              "exceeds the length limit for %s filesystem. " \
-+                                              "It should be in the form of a 32 bit hexadecimal" \
-+                                              "number (for example, 0xABCD1234)." \
-+                                              % (confpath, lineno, parsed.fsuuid, parsed.fstype)
-+                                        raise KickStartError(err)
-+                                elif len(parsed.fsuuid) > 8:
-+                                    err = "%s:%d: fsuuid %s given in wks kickstart file " \
-+                                          "exceeds the length limit for %s filesystem. " \
-+                                          "It should be in the form of a 32 bit hexadecimal" \
-+                                          "number (for example, 0xABCD1234)." \
-+                                          % (confpath, lineno, parsed.fsuuid, parsed.fstype)
-+                                    raise KickStartError(err)
-                         if parsed.use_label and not parsed.label:
-                             err = "%s:%d: Must set the label with --label" \
-                                   % (confpath, lineno)
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 55db826e93..0ca67b77d5 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -343,6 +343,13 @@ class PartitionedImage():
-                     part.fsuuid = '0x' + str(uuid.uuid4())[:8].upper()
-                 else:
-                     part.fsuuid = str(uuid.uuid4())
-+            else:
-+                #make sure the fsuuid for vfat/msdos align with format 0xYYYYYYYY
-+                if part.fstype == 'vfat' or part.fstype == 'msdos':
-+                    if part.fsuuid.upper().startswith("0X"):
-+                        part.fsuuid = '0x' + part.fsuuid.upper()[2:].rjust(8,"0")
-+                    else:
-+                        part.fsuuid = '0x' + part.fsuuid.upper().rjust(8,"0")
- 
-     def prepare(self, imager):
-         """Prepare an image. Call prepare method of all image partitions."""
--- 
-2.17.1
+
 
