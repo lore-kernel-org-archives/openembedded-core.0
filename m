@@ -1,83 +1,83 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web09.957.1609524086958418597
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.14079.1609608473477801986
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Jan 2021 10:01:27 -0800
+ Sat, 02 Jan 2021 09:27:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Ro6GiJn+;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.49, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f49.google.com with SMTP id cw27so20690600edb.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Jan 2021 10:01:26 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KMtgJ/BE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id t16so26797337wra.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 Jan 2021 09:27:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lPaSUho6RhkJrIblH7ydO+k2eMEBrs6tg4lALYVVrxA=;
-        b=Ro6GiJn+LDhI6HwczhU/NNXUuM8PldbFFxq+zH0GbfIOuF89qc9O+wH5+EyEJ8gLCj
-         Je/zsTX2BU8x560huE0Iek9xxUkKA5wQuIBNJrA8ffyVotWG/r/ht6gtfZOMzRYZMjL3
-         Q+KtWk3RiY8E9t4l9mrnDfqJm3w5SpxHQk/r4kgRUE/5GxxjLxloJbPTIXwOxWKYPgS/
-         hpTScYcCSSZQz3ZIItUo+/8Ki0WpE34nJRt2khQn62kPnm1H/pb/tq1jHWCyTC98daGM
-         ioANLNuIKJ6SL6Yuq7L8SrGVLwFIGf6rHvwPyG0xuYAOBaNB7Mvwb45NuCwzw6V/hlZ0
-         AePw==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fklbqIOq6Hz9rugbsZn1+NB3grVU8yhMxqa60fqo+c0=;
+        b=KMtgJ/BE6MpSXfyhwqK8N7waGBsqPCrUvJ7SN9A0LS4FYYZiOCKC1QhtWG2KnNCP5d
+         ERGPDW5xhMxXOsmD1Ajqlrl5JhiXj/C/z2Bz9WAzXdekQ3pUa7Ki/IP3bOA49gX4cnSK
+         8C2JqkOoGKg3+RZLCfDM3Y/KNvIuZQDCsyJyE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lPaSUho6RhkJrIblH7ydO+k2eMEBrs6tg4lALYVVrxA=;
-        b=oULJ991kuBwUM8y6mYkXC2jIiiUe1HeJBcQ6R0ZGH0H36dB6PRb6xdz5FeGmig7BhJ
-         aAUf7qz1xqhPEl1C/fcbeXMYTEgcE96Qi5xfyGAumTWb4+bHyNuZm814zm3zYb1zaJ5z
-         JaSK8ifGzZEsjuOAO3n7/ECLkCwzbg04Sp5ojHqer9OTygcl3oFHSkG2rUeY10ka8wOf
-         ZHPKxXPf+GB0F81wspf/pa4apj2Xpan292PCNINVVQy8NBVJXXRGmGSLPigPkFr0j6+t
-         x3Q7X1dtI8YG+EmjHVwveSCXTjM/M8iWURo6mJNbt60pFa/jyhQmP5sDA5x5cmSAPuE+
-         67+Q==
-X-Gm-Message-State: AOAM533AzX+l7nN9yV7nbb/mw89HwJgKg+cHyULcvGF+o8pDPw172MLj
-	gWGWp6Wgkzf+PWC6mwx8aSv/9jHZDrab9FCyq43ioA==
-X-Google-Smtp-Source: ABdhPJw0Jf3tzbvZ94I/wEqyLIOBzusW99W/OH4UmoXjiHegLuHc4+b/VnWEc2cHoejmiRMFRVdcsSMyUo84IFLVAO4=
-X-Received: by 2002:a50:d60f:: with SMTP id x15mr59190498edi.224.1609524085399;
- Fri, 01 Jan 2021 10:01:25 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fklbqIOq6Hz9rugbsZn1+NB3grVU8yhMxqa60fqo+c0=;
+        b=CQ8C7SBTzB0veEjcs2WnIf0B4uH6l0a7pc6bYjrdOF1PkbHfdCls1yo63M9mx+by54
+         pq/SozvFkiLVw0yJ3bSdSKWHN3rCXD3knBIGIprPytkyiYV0xqLey7PWG/yRwJxJ9XUt
+         Y3MiGzPY93UZiv6KXbX1/i0XkxQ/FiPndeZ/emoLXK9g5iHs2vTyvswQMb8GBX2GV5kQ
+         kHee8CYh+H/NZ2Al0tCxSiz58vRxmZfTzLDqZImLC+Wgoe/SGa5jM/+MfT7af/daEbB0
+         5Msjzq6amd2D5c0Qn4465cwc0gOBqD1wgs/suTYUE6WDbBLNpG3JIc0bmCOtWS4pEPHL
+         5+fg==
+X-Gm-Message-State: AOAM5314r/XTDHe4/DCxLXNPi1DYou39CE2bZQa10iveCQGlOo93uU73
+	g5J2ttA86MZ7JTKaEN8sUWP+mtA4Gy01/Q==
+X-Google-Smtp-Source: ABdhPJxWb2LATAsInVB6fggHiIZQ6lbVQVGRLG/Piu83aPA0GkfzdhfnaEnQErYPh/zfNGmYIC55Iw==
+X-Received: by 2002:a5d:610d:: with SMTP id v13mr73729711wrt.425.1609608471531;
+        Sat, 02 Jan 2021 09:27:51 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (e.1.6.1.5.d.3.a.1.3.2.4.1.d.3.a.c.3.f.5.a.b.a.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:aba:5f3c:a3d1:4231:a3d5:161e])
+        by smtp.gmail.com with ESMTPSA id f77sm22551280wmf.42.2021.01.02.09.27.50
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jan 2021 09:27:50 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] man-db: Fix reproducibility issue
+Date: Sat,  2 Jan 2021 17:27:50 +0000
+Message-Id: <20210102172750.354108-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <cover.1609424319.git.steve@sakoman.com> <0d8414139b060fa0d50bbd3a609513525dc94288.camel@linuxfoundation.org>
-In-Reply-To: <0d8414139b060fa0d50bbd3a609513525dc94288.camel@linuxfoundation.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Fri, 1 Jan 2021 08:01:13 -1000
-Message-ID: <CAOSpxdbPEpxpwOoTWiRU0TM=0wcK+ai8v8dazn_2CUytBgQNBQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 00/25] Pull request (cover letter only)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 1, 2021 at 1:58 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2020-12-31 at 04:20 -1000, Steve Sakoman wrote:
-> > The following changes since commit
-> > 02870c7fbaaa1c3869ecb439f5c58fcf40a533be:
-> >
-> >   binutils: fix CVE-2020-16592/16598 (2020-12-14 05:58:27 -1000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.openembedded.org/openembedded-core-contrib
-> > stable/dunfell-next
-> >
-> > http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
->
-> I am a bit wary that we're in a holiday period and not many people are
-> reviewing things. Most of this is fine but I've deferred the world
-> reproducibility patches for now.
+Executing a sequence like:
 
-OK, not a problem.  We can revisit next week.
+bitbake man-db
+bitbake man-db -c clean
+bitbake man-db -c package_write_deb -f
 
-Steve
+results in the ownership of files in the man-db package changing from "man/man"
+to "6/12". This is due to base-passwd not being installed in the recipe
+sysroot.
 
-> Partly that is due to the holidays and review, its partly as they're
-> causing me a lot of pain in master. I note for example you list grub-
-> efi but not grub and both are likely affected if one is.
->
-> So I've merged without those bits and we can discuss further next week.
->
-> Cheers,
->
-> Richard
->
->
->
+Add the missing dependency so even if a recipe "re-packages", the name
+of the user/group is found and the packages are reproducible.
+
+[YOCTO #14172]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-extended/man-db/man-db_2.9.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-extended/man-db/man-db_2.9.3.bb b/meta/recipes-extended/man-db/man-db_2.9.3.bb
+index a28f77b7500..e8da92bd195 100644
+--- a/meta/recipes-extended/man-db/man-db_2.9.3.bb
++++ b/meta/recipes-extended/man-db/man-db_2.9.3.bb
+@@ -11,6 +11,7 @@ SRC_URI[sha256sum] = "fa5aa11ab0692daf737e76947f45669225db310b2801a5911bceb7551c
+ 
+ DEPENDS = "libpipeline gdbm groff-native base-passwd"
+ RDEPENDS_${PN} += "base-passwd"
++PACKAGE_WRITE_DEPS += "base-passwd"
+ 
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+ USE_NLS_libc-musl = "no"
+-- 
+2.27.0
+
