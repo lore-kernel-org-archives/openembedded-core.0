@@ -1,57 +1,54 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web09.14151.1609771116538387377
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web12.14834.1609772709934719298
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jan 2021 06:38:37 -0800
+ Mon, 04 Jan 2021 07:05:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=ydNYHfno;
- spf=pass (domain: burtonini.com, ip: 209.85.167.50, mailfrom: ross@burtonini.com)
-Received: by mail-lf1-f50.google.com with SMTP id b26so64832604lff.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Jan 2021 06:38:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=00OvuFzPCZqj1HK12o8vTrU7WMJBeHlxAxnaIb9XFWE=;
-        b=ydNYHfnoYXZqaPTxTUfwCIx8/xPt4dGOFmx/1O1r2ApcekR9Bi6g3Do2cjix1Njg7m
-         WQOMNSzygtsx2pZNCtaYjCfnGTbmoTnPVVFmV0zVbTGVHVSw41ra/Di2RsHcv24v8OFB
-         /jRSnzGxrp32a4vHMcy3PDIK9trL9bOPoUD5ASJofIUzF43JL/gGeOjmT3ht0Dl5lzOl
-         SCHqnX/gGTQdSYclRwY08XUgYtqcOrC5ej8s02kmiDizXvxWqtTSn6RyTI9IoYIOjL4D
-         /iaUly//KwNZGpx+ly6fGDJh2Jqt76yskWiBCdHEtNC8cycUc5ge5Y2fzZN6Fc3Vl1oE
-         4ZPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=00OvuFzPCZqj1HK12o8vTrU7WMJBeHlxAxnaIb9XFWE=;
-        b=Wy0ie1ckXV5U62ju5ST0E9tOxHSqlBPY95JClhfEXbiHu4Azo5cQREpWK4OYjGF5TG
-         MRGlUmpmec1DhDI334LT1lJj2Z9gMHPzOIejIFpqBS/H6rb3PgTqOzuW6KKZzUtCnzRh
-         kdKhWF5ieQAsOcpY4myVHHn9VTtJdyvcqXeNHMYT6ofL/KtJ3yMkl0w1YzFJQjJFqYZx
-         9z6VCS2repoUQTX/nGNzWYKF/ZG549LJ91eb/L2Kq+ORRfDQKCdzZx7lW68XLf0MSEvU
-         /7F15tRBs6x1NrkLc8OOe8JSis90vfIDYMBVSQ5FbZMyjM9JX6Y/aqmDowW7U8rchTKl
-         Csfw==
-X-Gm-Message-State: AOAM532Tavv/fJ9p422tcY5aKW1gzDyCmtXJhg8F9+Ehg2KmOKpeoJu4
-	QfJh8kTUCj7igkaaFGdRimc890NOKXp91N7H6/3FCg==
-X-Google-Smtp-Source: ABdhPJxSts7hdxMTiWtsGCAMV985+JD1T/yveotW+NkZkupr7MO0z03zDYkk4SntmshTn6xDFKJoAIc2dx5UbRoeGXw=
-X-Received: by 2002:a2e:8844:: with SMTP id z4mr33259364ljj.412.1609771114870;
- Mon, 04 Jan 2021 06:38:34 -0800 (PST)
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: jR3t1cE1JaG1j30kEiD/csYCs6MFz+0es6Mqimadl8Y0RMDIxTCpkKUkw4+Sr6Rrs8j40wJkMh
+ sxHBwYdRvEcg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9854"; a="177066202"
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="177066202"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 07:05:08 -0800
+IronPort-SDR: 8czNQtUTbUg/TAiusGY0QGr1GxQ3tGjAA/VPd0JxybRvTf4t3CipA8wltE4/zZ994do+QKhHNn
+ C6vB42B+CuHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,474,1599548400"; 
+   d="scan'208";a="565127904"
+Received: from pgsmsx603.gar.corp.intel.com ([10.108.199.138])
+  by orsmga005.jf.intel.com with ESMTP; 04 Jan 2021 07:05:08 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx603.gar.corp.intel.com (10.108.199.138) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 4 Jan 2021 23:05:07 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Mon, 4 Jan 2021 23:05:06 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Lee, Chee Yang"
+	<chee.yang.lee@intel.com>
+Subject: Re: [OE-core] [PATCH v2] p11-kit: upgrade 0.23.21 -> 0.23.22
+Thread-Topic: [OE-core] [PATCH v2] p11-kit: upgrade 0.23.21 -> 0.23.22
+Thread-Index: AQHW4oafshm929qdJkCIfFVvxf0OiKoXCs8A
+Date: Mon, 4 Jan 2021 15:05:06 +0000
+Message-ID: <f41f5b82cb39b40f4ea79490df9c174874dbf1e8.camel@intel.com>
+References: <20210104104440.72633-1-chee.yang.lee@intel.com>
+In-Reply-To: <20210104104440.72633-1-chee.yang.lee@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-References: <20201224074354.18751-1-twoerner@gmail.com> <20201224074354.18751-2-twoerner@gmail.com>
-In-Reply-To: <20201224074354.18751-2-twoerner@gmail.com>
-From: "Ross Burton" <ross@burtonini.com>
-Date: Mon, 4 Jan 2021 14:38:22 +0000
-Message-ID: <CAAnfSTtDYnVKC7qSXnJ3+AXbbL+O3ozgARhBLf3W58braPKr1g@mail.gmail.com>
-Subject: Re: [OE-core] [master-next][PATCH 2/3] psplash: add fifo to initial image (sysvinit)
-To: Trevor Woerner <twoerner@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <11B416FF20A7F94D82CFE46A14D6A9E7@intel.com>
+Content-Transfer-Encoding: base64
 
-On Thu, 24 Dec 2020 at 07:44, Trevor Woerner <twoerner@gmail.com> wrote:
-> -DEPENDS = "gdk-pixbuf-native"
-> +DEPENDS = "gdk-pixbuf-native coreutils-native"
-
-For reasons that I'm still digging into, using coreutils-native's cp
-causes pseudo to crash.
-
-Can we just add mkfifo to HOSTTOOLS?
-
-Ross
+T24gTW9uLCAyMDIxLTAxLTA0IGF0IDE4OjQ0ICswODAwLCBMZWUgQ2hlZSBZYW5nIHdyb3RlOg0K
+PiDCoFBBQ0tBR0VDT05GSUcgPz89ICIiDQo+ICtQQUNLQUdFQ09ORklHW21hbnBhZ2VzXSA9ICIt
+RG1hbj10cnVlLC1EbWFuPWZhbHNlIg0KDQpJIHRoaW5rIHRoaXMgd2lsbCBuZWVkIGF0IGxlYXN0
+IGxpYnhzbHQtbmF0aXZlIHRvIGJlIGFkZGVkIGFzIGEgYnVpbGQNCnRpbWUgZGVwZW5kZW5jeToN
+Cg0KaHR0cHM6Ly9naXRodWIuY29tL3AxMS1nbHVlL3AxMS1raXQvYmxvYi9tYXN0ZXIvZG9jL21h
+bnVhbC9tZXNvbi5idWlsZCNMODgNCg0KVGhhbmtzLA0KDQpBbnVqDQo=
