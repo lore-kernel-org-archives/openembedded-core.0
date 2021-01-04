@@ -1,48 +1,61 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by mx.groups.io with SMTP id smtpd.web09.15490.1609776526948926461
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.16967.1609781967953640637
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jan 2021 08:08:47 -0800
+ Mon, 04 Jan 2021 09:39:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20201202 header.b=RqfipPdx;
- spf=pass (domain: kernel.org, ip: 198.145.29.99, mailfrom: okaya@kernel.org)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1901920578;
-	Mon,  4 Jan 2021 16:08:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1609776526;
-	bh=GRkctPG2+Pcdes7a18mpp6/6vhUovuX/1rAu2PKUhuU=;
-	h=Subject:To:References:From:Date:In-Reply-To:From;
-	b=RqfipPdxbtlhWJY5XawyZth07NXwDyyz4EUgt+MglZc8hH0vHuxHtBKhAueNybdfj
-	 sjgErUJVCSj6aKfidWZVbMojUJ8sBLcIdqHqflR612SOR+RfyHfr99ATfSgGPBWeCO
-	 aa9295Rc68BZzStiY+Yyt8sZLSGeNqjSjeoDH09NRtaE6qTgc4rs0NGhotDrIQjzBe
-	 YTEV9nb8i7ELRopH/Xi0i873Brb8MNYmusfe1ISFbnF7PnLcjXEXm1Al5jUyqkojQa
-	 O3IaWoTiHWwlCbj2+gnCdM7SyLBjGsbeh2npvDheKbrCKETJowujY8fX0xJahD5W0P
-	 J16k3MS6AnjOA==
-Subject: Re: [OE-core] [meta-oe][PATCH v5] net-tools: split mii-tool into its own package
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20201216224837.29524-1-okaya@kernel.org>
- <036d635c9ab0f70b30df61bc65a53ce32de2f13e.camel@linuxfoundation.org>
-From: "Sinan Kaya" <okaya@kernel.org>
-Message-ID: <c3d2d85c-cc9d-d60f-6f5b-1068104c13bd@kernel.org>
-Date: Mon, 4 Jan 2021 11:08:45 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 93F98101E
+	for <openembedded-core@lists.openembedded.org>; Mon,  4 Jan 2021 09:39:27 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 401F43F66E
+	for <openembedded-core@lists.openembedded.org>; Mon,  4 Jan 2021 09:39:27 -0800 (PST)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] diffstat: point the license checksum at the license
+Date: Mon,  4 Jan 2021 17:39:25 +0000
+Message-Id: <20210104173925.2362700-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <036d635c9ab0f70b30df61bc65a53ce32de2f13e.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 12/22/2020 4:51 AM, Richard Purdie wrote:
-> I'm still trying to work through testing of these. This one seems to
-> result in:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/3077/steps/11/logs/warnings
-> 
-> which is from net-tools-native.
-> 
-> NETTOOLS_PACKAGES_class-native = ""
-> 
-> may be the neatest fix for that I can think of offhand.
+Previously install-sh was used, which is installed by autoconf so isn't
+a relevant license.
 
-Thanks for taking care of this.
+Also remove S assignment, as that's the default.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/diffstat/diffstat_1.63.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/diffstat/diffstat_1.63.bb b/meta/recip=
+es-devtools/diffstat/diffstat_1.63.bb
+index 61b2ea5dc2..863f924b22 100644
+--- a/meta/recipes-devtools/diffstat/diffstat_1.63.bb
++++ b/meta/recipes-devtools/diffstat/diffstat_1.63.bb
+@@ -5,7 +5,7 @@ reviewing large, complex patch files."
+ HOMEPAGE =3D "http://invisible-island.net/diffstat/"
+ SECTION =3D "devel"
+ LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://install-sh;endline=3D42;md5=3Db3549726c1022=
+bee09c174c72a0ca4a5"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da3d0bb117493e804b0c1a868ddf23=
+321"
+=20
+ SRC_URI =3D "http://invisible-mirror.net/archives/${BPN}/${BP}.tgz \
+            file://run-ptest \
+@@ -16,8 +16,6 @@ SRC_URI =3D "http://invisible-mirror.net/archives/${BPN=
+}/${BP}.tgz \
+ SRC_URI[md5sum] =3D "b9272ec8af6257103261ec3622692991"
+ SRC_URI[sha256sum] =3D "7eddd53401b99b90bac3f7ebf23dd583d7d99c6106e67a4f=
+1161b7a20110dc6f"
+=20
+-S =3D "${WORKDIR}/diffstat-${PV}"
+-
+ inherit autotools gettext ptest
+=20
+ EXTRA_AUTORECONF +=3D "--exclude=3Daclocal"
+--=20
+2.25.1
+
