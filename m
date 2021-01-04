@@ -1,166 +1,129 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web11.12332.1609760422312500073
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.58])
+ by mx.groups.io with SMTP id smtpd.web11.12875.1609764260830189532
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jan 2021 03:40:22 -0800
+ Mon, 04 Jan 2021 04:44:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CqCjAx6H;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id y17so31837009wrr.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Jan 2021 03:40:22 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=bhEKpzME;
+ spf=pass (domain: windriver.com, ip: 40.107.243.58, mailfrom: ovidiu.panait@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=feaZ9vxac6a6Ivg+g6IW/znxk9XdLqxeZ2VDzCket0O7QbQDYAUdAK6N5QdvyJK1TQgprMNWFzLjWGJg9Wr8quA84eZjQPL2g6XjYKi+D7VY1ZrLy007DLSsMV1zJqnz69+Urbg5zGP4W+q5tu8MyA/VjvHKyXsKkfE54iDD3DZzeuw9e6wWc06+KVSeChbjQ/xK6zScDxA3M19NHOems2hzyWkVzn5gW4ZIGPlfoYKR6paztfHTnI1itEF3h3R56RNxMzjDFbToCARS4Nj6MTWe5eNEXR9MgYQ2nuj+DL83TK9xVV2rXPVLEBH1WSSGyhmQZzUVtyDVaHlz54Z6OA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cGS35J5xhLuDUIbsWDVMSMd8D2l8oOIsJmF3GaXL6cc=;
+ b=fM7EmIRZNzdwt09G6uQOd+uIskKLFRgxlO9c6oM2blqBaKcmA2XcZ8zBZo+iZc+3Nm6LWJe07Wrs/2BAQbmzDDxi7vMq0RqWFWr0o1VAQigKdKmscdWyoQmfgSWZPTvPfvHTclcrX2Hd1A3sr5uMovp24Y9aXqCUNhgabzXPeqktfrinWl4uMrYpLOFlsnyC6eBnvGcoMRiskWmrfys51acY6AANbcm1ebhMqG26w+3IugQxTd7EB9Lrh6H3HvEbomNBLgla7yBn2QTLioTSoGb4UAgyZjvl6VQbA9KGW2nIQsCtn8jpv4sfmInvppAdfffb3IRqlw4e2632u+Bx6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=DsTAYg0RcThQVgxmLDtlpLa2x2BOwvCmLjhlG+6hEtI=;
-        b=CqCjAx6HJ+DVFobwXZocGoeiNYHbkkbcjtk0m4AlpzNveIx6esVJyxo1BYVsPDncmJ
-         6FTt9Ys26czSGbSuRuYwR+JyqBvd+txPqVVFo+n4vwNJjK0Q1Z9vETTZzUH/WUldBzDg
-         bZYRskQRIHnsXyWckXVGIdLNWuuLq/q+VWnyM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=DsTAYg0RcThQVgxmLDtlpLa2x2BOwvCmLjhlG+6hEtI=;
-        b=qzzSdjKCUs2i6uAOyFImMuLhrWwuseVXGDFoU5Su4vesFFuYiE/twSwHrIz+oimOUx
-         WIFBERwRidetnFuGAePcixZsMXxNzkdZz2gGHHZfmKEoGIxu8/nVBtK2/+Mv+dUzzar/
-         76to+KZKB4kLCopVq5SlDcW8vPjTG2Y4n7ztAXQs+lvyX2/BNt9Pa3I/cuqWoo7HdE7R
-         xccAzOv/MYA042yhH9m+w9LDj2Lhwe7KFQX13ALolfbmbNT/cGkYvjYc05YzSXewdIi1
-         D2lsY078kNqZxYdZnBMULog0uAO/PT4asLvUm673jdetuhU44BppuhvE76D21pYhGTin
-         r5dQ==
-X-Gm-Message-State: AOAM532vc8Md0LREq+wuzQ3Rn4pzUE4bg5DoJFRQsNL7Y0iPE0mAwR/N
-	6lCcwPC+lN7slDHg9WwsKwUkEQ==
-X-Google-Smtp-Source: ABdhPJzLHrz6XFGmp2Y/MZVkiBdQd4/+uusLGNZSgxRzkP3SjbBTRcUQbdloVhaJWJo/HzLU6smJTA==
-X-Received: by 2002:adf:d84e:: with SMTP id k14mr79671969wrl.104.1609760420787;
-        Mon, 04 Jan 2021 03:40:20 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4767:d28d:f91a:aa32? ([2001:8b0:aba:5f3c:4767:d28d:f91a:aa32])
-        by smtp.gmail.com with ESMTPSA id h29sm101334869wrc.68.2021.01.04.03.40.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jan 2021 03:40:20 -0800 (PST)
-Message-ID: <121a341052f289cb7d3233dcdcb1e62fc0473284.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] openssl: support for building nativesdk of mingw
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEW.hacker@gmail.com>
-Date: Mon, 04 Jan 2021 11:40:19 +0000
-In-Reply-To: <20210104081324.32745-1-changqing.li@windriver.com>
-References: <20210104081324.32745-1-changqing.li@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cGS35J5xhLuDUIbsWDVMSMd8D2l8oOIsJmF3GaXL6cc=;
+ b=bhEKpzMEC/I93qoakzKSgzfN5TU03nrKROPw625K1/3+vzvTb+FBPNWDlmmCYVg36dq6NVcQsF5w8ihPkYDd84/2wtpQzZgrkwoCxMiIz1/H2vPQDwkN9Fi3LLJQbgy5vzEgQh9Qfdl/igMYN9lDn1BK8m/JeWxZXuCmmg41jLI=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BL0PR11MB3201.namprd11.prod.outlook.com (2603:10b6:208:6b::21)
+ by MN2PR11MB4237.namprd11.prod.outlook.com (2603:10b6:208:195::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.24; Mon, 4 Jan
+ 2021 12:44:18 +0000
+Received: from BL0PR11MB3201.namprd11.prod.outlook.com
+ ([fe80::85d9:7219:6427:fb43]) by BL0PR11MB3201.namprd11.prod.outlook.com
+ ([fe80::85d9:7219:6427:fb43%6]) with mapi id 15.20.3721.024; Mon, 4 Jan 2021
+ 12:44:18 +0000
+From: "Ovidiu Panait" <ovidiu.panait@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] timezone: upgrade to 2020f
+Date: Mon,  4 Jan 2021 14:42:39 +0200
+Message-Id: <20210104124239.14351-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [46.97.150.20]
+X-ClientProxiedBy: VI1PR0502CA0007.eurprd05.prod.outlook.com
+ (2603:10a6:803:1::20) To BL0PR11MB3201.namprd11.prod.outlook.com
+ (2603:10b6:208:6b::21)
+Return-Path: ovidiu.panait@windriver.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from otp-linux01.wrs.com (46.97.150.20) by VI1PR0502CA0007.eurprd05.prod.outlook.com (2603:10a6:803:1::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20 via Frontend Transport; Mon, 4 Jan 2021 12:44:17 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a542def9-6a6f-4149-20ea-08d8b0ae737b
+X-MS-TrafficTypeDiagnostic: MN2PR11MB4237:
+X-Microsoft-Antispam-PRVS: 
+	<MN2PR11MB423743AEE65A3DF0D5ED575EFED20@MN2PR11MB4237.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:361;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	5ELm1AbfZwe8ARVFEABbBTnN6iUgtcPItPsrsevu+9yBdF8MUYFOJyFOiID7v0jz2Sb5a/OEeonVWI9TVvPQnj/OKjuxAjFSavGi8IzFtUHoQiujBGmqlfeuHFglzbADdXK3QrorIsdpD0tQJVmDcVtdnyLkk3FsDbHcEPggOEWfQQJoBzFhbvALQ/A0Fs2Pu46D7534jxArRiI7RxrEWPyrWrX0s12Rkt51Yf3s9M9nzBP0JMxKUriztLV0cdaRhbtab32bcJSsq2AqQsfykjTjJtAJaAIK9qlgiF2VYIc1jO2zCr+Czru/BxgiSCq389Hqxnhl5yrmnyp/usWLp5Pc4o76tr1MWAnP4I0UbnXSua8fgq9cXLwtJaogjlr7dvEwJB071MMzvCiNiVErEJudLcph5XVke+RKDn5cXHZvfHoBpGK13O+eaO0OeZnsp1JLojYbU6EWO2BCid6omw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB3201.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(346002)(396003)(366004)(136003)(39840400004)(8676002)(4001150100001)(26005)(66946007)(2906002)(16526019)(186003)(66476007)(478600001)(66556008)(966005)(6506007)(36756003)(6512007)(6666004)(83380400001)(316002)(6916009)(52116002)(1076003)(44832011)(956004)(2616005)(8936002)(6486002)(5660300002)(86362001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?GACuq+EaC8I19Jwz3HQeWV3o4FEH/Haq6QWHA9vo+gqfZw42NUIikSKj06jj?=
+ =?us-ascii?Q?iTuC7xBNtO7qEnnlFoabGd2SPwrVPkqSY7T4jJcpnNDcAGeoRsvfj/iJI7oC?=
+ =?us-ascii?Q?QLmxeA6AaX31STw9TVu7yruUeArOxwi0+wie4pxI8ROsE8WcgVV0cJl7XSQR?=
+ =?us-ascii?Q?no9Dfr/sJdiHftvEEy8DdXbvnOmROZBFp0R117oSZwo4Xiycf4j/LsHle/bO?=
+ =?us-ascii?Q?Eg5L9PBXoHhKunkQG0df/3bJuid7obQcGEeQCccMIHfXN1a89XTK9s8i451E?=
+ =?us-ascii?Q?kDK1kXdCORY7s61t3SMwUKAmZffKeVeShm+LeSGMLdCRrvBDAAdTQ7GfU9Ow?=
+ =?us-ascii?Q?MHm8EzLZn68jhOJf+y+JIE/PoCXluk8Bk3367VfsXVvf9TJLmeZrDcbQsUir?=
+ =?us-ascii?Q?TZDeoAJz/prtl1MN9oVaSurrnv7uIY8V3oM4ddz4aI4qRhSkl/TJ8GtR6eOa?=
+ =?us-ascii?Q?1K2Y5EyQGChHE7QFRdxBX8TdbvnbxR2gU/bVtuh7afpGgMjO7IGP5EuNSGnX?=
+ =?us-ascii?Q?vjVxLzND1Yo9WsNxAMjAD6senoFFipbci2PPFm3/PyXgdxDCea4hQc+6aSIf?=
+ =?us-ascii?Q?IulvehVROax2Tmx0wgWFs41zj3DJOqWNrfoSvhYPHrEzl5zOa8e6G8gBJjUE?=
+ =?us-ascii?Q?uDVt4kS15o1h8K8DvKad+u7u7d6fYXkcHbxrVsxOUuqP+pn39V/pQQQMAqmf?=
+ =?us-ascii?Q?kPu3O6Rax9X21vQ8qHJC54u4E4I0gpXrilYoHrl+41umGEGh0BHJvskg6mcq?=
+ =?us-ascii?Q?E2GnWqYT+Rk06NjFSpyE8iD8Eme0shaXSeKo2+Kq+9OYfMHhRVPV3C6gXi+5?=
+ =?us-ascii?Q?kNP/2WXJqLSbIB8Zjsh7W2Nc79As8yVvqfT+bOdUTwE+OWJDIw1tCeG89/CY?=
+ =?us-ascii?Q?yTQiomylUPoJPyp7FT6mnOEycla+a4kKOkqVTjtPEyJ0976rclEJ29CjnKlO?=
+ =?us-ascii?Q?ORzp8QRxRAbQ+10GdavFJSSl+lCmIItiR/8OwJv/KG4siGynx1xyGk4LaV5d?=
+ =?us-ascii?Q?QzJt?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3201.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2021 12:44:18.0093
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: a542def9-6a6f-4149-20ea-08d8b0ae737b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K/vt3THh035k/xL3e+oGc3hmNZXm2adyJ5f1un+FLo0rdTwsKHbQZmyUZN+riGce1+wPS5gpew32LfBU0XgInD4CpDjb8kEMx51efB5hVo8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4237
+Content-Type: text/plain
 
-On Mon, 2021-01-04 at 16:13 +0800, Changqing Li wrote:
-* add support for mingw32
-* Engines are installed in a slightly different path, which is
-  urgly, patch it to make the path shorter
+Release 2020f - 2020-12-29 00:17:46 -0800
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+  Change to build procedure
+
+    'make rearguard_tarballs' no longer generates a bad rearguard.zi,
+    fixing a 2020e bug.  (Problem reported by Deborah Goldsmith.)
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 ---
- ...ile.tmpl-don-t-add-prefix-for-libdir.patch | 32 +++++++++++++++++++
- .../openssl/openssl_1.1.1i.bb                 |  9 ++++--
- 2 files changed, 39 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/files/0001-unix-
-Makefile.tmpl-don-t-add-prefix-for-libdir.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/files/0001-unix-
-Makefile.tmpl-don-t-add-prefix-for-libdir.patch b/meta/recipes-
-connectivity/openssl/files/0001-unix-Makefile.tmpl-don-t-add-prefix-
-for-libdir.patch
-new file mode 100644
-index 0000000000..028431b1b2
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/files/0001-unix-Makefile.tmpl-
-don-t-add-prefix-for-libdir.patch
-@@ -0,0 +1,32 @@
-+From 8fe5c9421acfaff35b637e7ad55d1df598bb7081 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Tue, 22 Dec 2020 09:22:10 +0800
-+Subject: [PATCH] unix-Makefile.tmpl: don't add prefix for libdir
-+
-+we pass libdir to Configure, don't use prefix again to
-+avoid engineer dir set to:
-+/opt/poky/3.2+snapshot/sysroots/x86_64-w64-
-mingw32/usr/opt/poky/3.2+snapshot/sysroots/x86_64-w64-
-mingw32/usr/lib/engines-1_1
-+
-+Upstream-Status: Inappropriate[oe-specific]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ Configurations/unix-Makefile.tmpl | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-
-Makefile.tmpl
-+index bbafb98..eecb63e 100644
-+--- a/Configurations/unix-Makefile.tmpl
-++++ b/Configurations/unix-Makefile.tmpl
-+@@ -244,7 +244,7 @@ LIBDIR={- our $libdir = $config{libdir} || "lib";
-+           File::Spec::Win32->file_name_is_absolute($libdir) ? "" :
-$libdir -}
-+ ENGINESDIR_dev={- use File::Spec::Win32;
-+                   our $enginesdir =
-+-                      File::Spec::Win32->catdir($prefix,$libdir,
-++                      File::Spec::Win32->catdir($libdir,
-+                                                 "engines-
-$sover_dirname");
-+                   our ($enginesdir_dev, $enginesdir_dir,
-$enginesdir_file) =
-+                       File::Spec::Win32->splitpath($enginesdir, 1);
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-index c63ba3c8e7..9465166ab1 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
-@@ -22,6 +22,9 @@ SRC_URI = "http://www.openssl.org/source/openssl-
-${PV}.tar.gz \
- SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
-+SRC_URI_append_mingw32_class-nativesdk = " \
-+           file://0001-unix-Makefile.tmpl-don-t-add-prefix-for-
-libdir.patch \
-+           "
- 
- SRC_URI[sha256sum] =
-"e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee00d5242"
- 
-@@ -116,6 +119,9 @@ do_configure () {
-        mingw32-x86_64)
-                target=mingw64
-                ;;
-+       mingw32-i686)
-+               target=mingw
-+               ;;
-        esac
- 
-        useprefix=${prefix}
-@@ -198,8 +204,7 @@ FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf
-\
-                       ${libdir}/ssl-1.1/openssl.cnf* \
-                       "
- FILES_${PN}-engines = "${libdir}/engines-1.1"
--# ${prefix} comes from what we pass into --prefix at configure time
-(which is used for INSTALLTOP)
--FILES_${PN}-engines_append_mingw32_class-nativesdk = "
-${prefix}${libdir}/engines-1_1"
-+FILES_${PN}-engines_mingw32_class-nativesdk = "${libdir}/engines-1_1"
- FILES_${PN}-misc = "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
- FILES_${PN} =+ "${libdir}/ssl-1.1/*"
- FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-
-setup.d/openssl.sh
-
-I'm not really sure we want this kind of patch in OE-Core, it might be
-more suited to meta-mingw. I suspect it will be a bit of a maintenance
-nightmare there too though. Adding Joshua to cc to see if he has any
-thoughts...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index d175f0d4a0..9a19093e24 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+ 
+-PV = "2020e"
++PV = "2020f"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,5 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "3e10308976b09305d15cb4a32ff75483421f2063bfa24a9be366a027e7cd2902"
+-SRC_URI[tzdata.sha256sum] = "0be1ba329eae29ae1b54057c3547b3e672f73b3ae7643aa87dac85122bec037e"
++SRC_URI[tzcode.sha256sum] = "cfeeea2a7745164f64bd9f6d76e47916f4ac820c4434493674adbbd4324329c5"
++SRC_URI[tzdata.sha256sum] = "121131918c3ae6dc5d40f0eb87563a2be920b71a76e2392c09519a5e4a666881"
+-- 
+2.17.1
 
