@@ -1,183 +1,179 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web08.10013.1609740337831927335
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.89])
+ by mx.groups.io with SMTP id smtpd.web09.10765.1609748023147797457
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 Jan 2021 22:05:38 -0800
+ Mon, 04 Jan 2021 00:13:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=G2F2aRF8;
- spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.208.52, mailfrom: mshah@mvista.com)
-Received: by mail-ed1-f52.google.com with SMTP id u19so26166719edx.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 Jan 2021 22:05:37 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=AKyJ5yKY;
+ spf=pass (domain: windriver.com, ip: 40.107.93.89, mailfrom: changqing.li@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mkCfjlpc9mXAV8hcn+7ZLtnz5p2x5TCZ94oqCAqMXFZUdDrAOyNon2va4M78jjLeuDVliaGOzK6mASCr6JgvcjrN+Lb7WRD2ETYlfCowQ4z9LKMz5HXd8ljjfRRLzcN72OVMm8u6JK6+0zmYUA14qw1LqfZqkvQ1QgTHXeLhfovlLojtrX66nqLo+u8WLHLRbRh268/3moABg/CPJuvXCq6mVPdl/BlGrJ6+8H2mIvWi+VlsEerpCljTQbBaqtWMxhf7OhbhIbFdRTOQisySWIKrqHFhlb6DhyEnVHLev2eyBHQnunG/GA8oCzua0h1xET8r5MTiI9UFGglJNggDxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6n3WhCcm0+ZJef1tpi2Vfsh8M51sZd1CArGnA+Gfj0k=;
+ b=eIm3tghHRRt3GcSXKPt+gbqNvo6oQdEiYfQ6Go5ITza5jZXi6hGWvAV8GGvU0rbp2hR12THWqSiszWjvzzz79E2/xpI/VEzC8S+KhvgrqJ03Mqq0Rpdk/k0H0Yx7okz+XUghTf04m8gyLMpecOaqIcCtOpVyAj+dXLJjfc7FiiOaGzgOHYBbiQY1/ai6bfPxtk/lBV/4wJP4zMBiICRMQLX8oXAlEeI+wFonj3Ef5WTwdnGymjNG642Md3L3xL/9+suHrj17ZIz/9GdXRNr3tlPVCSy9sjWLZdBgd5fjIKVxmzgRDkTZV6UsDUW3sgmg4CTrdiw9Yb7TLw/yIpTrZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/cYaVONC/M+CXtuSmcxjdx2OX9FSx9QvVuVq7TUGasM=;
-        b=G2F2aRF8S6Y9EF7eh5hH8LLsq7UeLt3Gn+Ck0JRL/reqqp5L90JEsqzNUGizzH/ooM
-         LlbRNMXJH0zAlAhimaIfGFHeyXby1XjUMaixV8AgR7fp1M+w5QHJRIYS6ld3EezY5Yf/
-         w1bpGqND1j4szWBwynDS/hRNjc7yFhyN4RkMUWvL9HAdBcKJt3fcam7lXmCbh2JhPclz
-         ts1nARLk0zyBJU30xi6TX9E3Cd3e6qOHiwlQwsBp0O3ffzQc/A4IomPWMp7Nw7lKNlMq
-         XMEP/ES0H3RCw3viIP4kR2hRauuNVfNtcTgo0i6V03Rfa9UraILfXWejz3WJ/k09H2nd
-         6jmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/cYaVONC/M+CXtuSmcxjdx2OX9FSx9QvVuVq7TUGasM=;
-        b=mTJ7+GPIC7QcRzy7ZkeMcOGNrIAs87o0GJXORiY9/m8nEF2HrpV3y0gPp5sspZ+0AY
-         TPM9qJZXoqYCsxEhuL+pFUIDRBF8pAi8Zpu+TwWobR5lqk4xCpLuQV5OOuwGH69oFZt2
-         iUZsNW4PMEFCPIXNzILAqdaZDSJtjNVqfBC13IKXIRMOiymVpyR4Gs55IcRwvWJDCx5i
-         Uq4+uO7DHHEO3fPyUSaqHQmC1B/46h0qwr43fd+OIB2ytLnlxtUWLsSyHlLIxHO77mYx
-         LQ6XtsRcleJL6ubqROteGe6fOL6NEdngOQCqTp8XnLBdTnlCoBvTLujL1r1/9V0ryhjK
-         yinw==
-X-Gm-Message-State: AOAM531ZUpYHHZDuvuPvDgP2TCxnvQoDdJkoTFHmH+UCrgl+3O4eFipn
-	1jEWZcm/+0MQ61AIYsml45TgpTIUXBBkxTowwSIpQg==
-X-Google-Smtp-Source: ABdhPJzTWG4CdmCEhfPuMr6WFwhF8HlTaAIPw+AdQdSV8F9PhCFKXlhP69pxLcrkVeeHTR2pKv4LgAajwqRSLK1mEIA=
-X-Received: by 2002:a50:d552:: with SMTP id f18mr64306897edj.168.1609740336125;
- Sun, 03 Jan 2021 22:05:36 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6n3WhCcm0+ZJef1tpi2Vfsh8M51sZd1CArGnA+Gfj0k=;
+ b=AKyJ5yKYqGpSWk/Qkpv8vjxOi6CkG5oZn1t2u8wp/qz6vQWG9dl1UsecIFj6g1FhU2YhVaBdUSSaib1EyAJz6l+VmcioEqyG6O3hn/4vLonZRDQPmH/3xrnDukvHaQFhTd6Mr7pcQ4Dpy1nfp0MjdSEehsM1+i0RyXHeCI1cfpY=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+ by SA2PR11MB5148.namprd11.prod.outlook.com (2603:10b6:806:11e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.19; Mon, 4 Jan
+ 2021 08:13:40 +0000
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::3832:57b1:4d51:5781]) by SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::3832:57b1:4d51:5781%7]) with mapi id 15.20.3721.024; Mon, 4 Jan 2021
+ 08:13:40 +0000
+From: "Changqing Li" <changqing.li@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] openssl: support for building nativesdk of mingw
+Date: Mon,  4 Jan 2021 16:13:24 +0800
+Message-Id: <20210104081324.32745-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: YTXPR0101CA0051.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:1::28) To SN6PR11MB2557.namprd11.prod.outlook.com
+ (2603:10b6:805:56::33)
+Return-Path: changqing.li@windriver.com
 MIME-Version: 1.0
-References: <1608804087-15784-1-git-send-email-mshah@mvista.com> <CAM9ZRVuPpM3HT0oRyMDo9viO7gpwsQONoQaY7MoaCkXahmWU1Q@mail.gmail.com>
-In-Reply-To: <CAM9ZRVuPpM3HT0oRyMDo9viO7gpwsQONoQaY7MoaCkXahmWU1Q@mail.gmail.com>
-From: "Milan Shah" <mshah@mvista.com>
-Date: Mon, 4 Jan 2021 11:34:59 +0530
-Message-ID: <CA+=qD9Os=9t1jPO70J2h3hH=3ad5-+QfoKibmO09E3iFhADb=Q@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v2] oe-pkgdata-util: Added a test to verify oe-pkgdata-util without parameters
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000ea68b105b80ce0e2"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by YTXPR0101CA0051.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:1::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.19 via Frontend Transport; Mon, 4 Jan 2021 08:13:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c5b3c1d8-b09f-4a0b-b75c-08d8b088a53b
+X-MS-TrafficTypeDiagnostic: SA2PR11MB5148:
+X-Microsoft-Antispam-PRVS: 
+	<SA2PR11MB5148846D5DC935C87771EE1782D20@SA2PR11MB5148.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	3ALhz6FRYplM38zpM1hrg5VwiFyCm7y2UHyJZBkhl1Du9BuV0TgS/b6hkrio4Jm7ha9zAaPJd9Z9iBmL0dSEjEKVpGl5DaoBigytmimYWKDvSfmjBvm6rStBZOyThpugzCtZ/UboUi78XZQhNyd6z0Q9BbZskHhAWjSd5lzgLPcHubiY8omrbrwIh8xh7iY3Bo56fuKx2SHNv2hdNoAUPv0NDhUGVchcJh5nNf+RhkwfSadKSFhhrqKWdP46GWG/KN1Fl0WMBSO1VzpfE6drDmMqJXLciO8QXM1YpDoxFsS83IozsTl/WkQqRVhhzw5+3A47gnNARhFLpMVsNYCsCC813ImurUaFUCzRa5KP3C20cWbNWPEnMFAWiKev/DN97cpeorQSjGY8AjgjJQAlxhp6MgZSbolZbe78Q+TY2+98DqWTlHQwmg42jAbEQSH35Uy9Dp74AMDz691UDpBk/g==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39840400004)(376002)(346002)(396003)(136003)(6916009)(36756003)(16526019)(186003)(2616005)(26005)(86362001)(6506007)(44832011)(956004)(66946007)(66556008)(66476007)(1076003)(8936002)(6486002)(6512007)(478600001)(83380400001)(6666004)(2906002)(8676002)(52116002)(316002)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?5rRbisyYt217gyNxmwivzntS82A00UgI/KvTI7yVnKYldYsjLXt0JULEAxRw?=
+ =?us-ascii?Q?aaqRBHWb1uYv7GZKCgjVBa3Jim1h6vfvJtll8wsuxiy5sVUrzBhGtrg+ztVh?=
+ =?us-ascii?Q?Bloe1mN3QRTgQ2uAEWgXEIXT4jLVd3qJtiuSgpGK4rJpMLnTqlZyNSjfczO6?=
+ =?us-ascii?Q?qt2BuFMVlhJpcyBiIJgWoAnZi5ZNUB+2KXUhfUYMWdi//8zdiOVGXdAGQKjc?=
+ =?us-ascii?Q?MWmdvHTVBfdx4g+ti+0DqoDvc3FXXYVhgufFj18nNy4Yd1rBpq+yBkD+4njY?=
+ =?us-ascii?Q?gv6iynB4p0+06hrXnKm/3f9dNZ+54eTJBGMnwLNjvvQXB1lnkhpCUo0zfp+K?=
+ =?us-ascii?Q?6PrNYI0Q5KYdF/Z5nR7AnLDx6IliGt0O9VRLlaKdnCMQvE6TOwtRRXJJG235?=
+ =?us-ascii?Q?no7e0Eon8NvVlUcrPu8kYmwXILAYWPsr02Ofgv+bejGuHHYZrTv2se8DsJKI?=
+ =?us-ascii?Q?O0ZQFyFSl02qqxi2i8EY4Jhj8sGUbHSikri9Wc32hE6dQ92vZSBEilVSI62Y?=
+ =?us-ascii?Q?TWrC3yRE98i2QVyY0lkaq5/3eURdsjRY7uixzU3lknp3hDC0ZYVoUPdfjJEw?=
+ =?us-ascii?Q?07h96QK9HiokGP7BvHq+ddk24Tt88ipHMASSZyDdw1DQrdFa0sJpoexmX6tW?=
+ =?us-ascii?Q?89F4G/cow6zGqYhZDg9rw7mAp59ufv8TRVBgaaK9jNZwOt7vfBZmvC2eqVX3?=
+ =?us-ascii?Q?oGU8I435CmYo0BK0rBxbkDczJQnVpsxP7rOx1MhKPY2G//l2JuRn41JPtxeV?=
+ =?us-ascii?Q?m+3qH0Zx9s4rOcXA2xIkGGQKtjBUM6HLHEfETLDgKwTSOjtKa/lpm6p9oTYn?=
+ =?us-ascii?Q?eXWGcy1hZfDeRunRh2wd34ZAyLxDPQb/ZCw4YtQNxgshp5BsCVasyO2UKAoQ?=
+ =?us-ascii?Q?25OzQWNGi6rZDocdJEgkekbMArrcJpgdisvNg4ur8X5ipK5cb97wbRhteLEN?=
+ =?us-ascii?Q?lx0MUDZevZCIsUUT9Yb83/npvRqiRyhiXYFGTne9jIya0ad6GIv+ZjqdCK9m?=
+ =?us-ascii?Q?JXL0?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jan 2021 08:13:40.5810
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: c5b3c1d8-b09f-4a0b-b75c-08d8b088a53b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A6wxMeU8/utVh7QCYKftyDFdr+aCPJ/FdGtWAHKegfiO/B57hGCUBDsOXg1mfeLxOuHNEwo4CLqSV6cyllbzSIcHDPvF+HV8TxwoKb4kaCc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5148
+Content-Type: text/plain
 
---000000000000ea68b105b80ce0e2
-Content-Type: text/plain; charset="UTF-8"
+* add support for mingw32
+* Engines are installed in a slightly different path, which is
+  urgly, patch it to make the path shorter
 
-Hi Paul,
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ ...ile.tmpl-don-t-add-prefix-for-libdir.patch | 32 +++++++++++++++++++
+ .../openssl/openssl_1.1.1i.bb                 |  9 ++++--
+ 2 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/openssl/files/0001-unix-Makefile.tmpl-don-t-add-prefix-for-libdir.patch
 
-Thanks for the review. Review comments are addressed and the new Patch
-<https://lists.openembedded.org/g/openembedded-core/topic/patch_v3_oe_pkgdata_util/79418977?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,79418977>
-is sent again for review.
+diff --git a/meta/recipes-connectivity/openssl/files/0001-unix-Makefile.tmpl-don-t-add-prefix-for-libdir.patch b/meta/recipes-connectivity/openssl/files/0001-unix-Makefile.tmpl-don-t-add-prefix-for-libdir.patch
+new file mode 100644
+index 0000000000..028431b1b2
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/files/0001-unix-Makefile.tmpl-don-t-add-prefix-for-libdir.patch
+@@ -0,0 +1,32 @@
++From 8fe5c9421acfaff35b637e7ad55d1df598bb7081 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Tue, 22 Dec 2020 09:22:10 +0800
++Subject: [PATCH] unix-Makefile.tmpl: don't add prefix for libdir
++
++we pass libdir to Configure, don't use prefix again to
++avoid engineer dir set to:
++/opt/poky/3.2+snapshot/sysroots/x86_64-w64-mingw32/usr/opt/poky/3.2+snapshot/sysroots/x86_64-w64-mingw32/usr/lib/engines-1_1
++
++Upstream-Status: Inappropriate[oe-specific]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ Configurations/unix-Makefile.tmpl | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makefile.tmpl
++index bbafb98..eecb63e 100644
++--- a/Configurations/unix-Makefile.tmpl
+++++ b/Configurations/unix-Makefile.tmpl
++@@ -244,7 +244,7 @@ LIBDIR={- our $libdir = $config{libdir} || "lib";
++           File::Spec::Win32->file_name_is_absolute($libdir) ? "" : $libdir -}
++ ENGINESDIR_dev={- use File::Spec::Win32;
++                   our $enginesdir =
++-                      File::Spec::Win32->catdir($prefix,$libdir,
+++                      File::Spec::Win32->catdir($libdir,
++                                                 "engines-$sover_dirname");
++                   our ($enginesdir_dev, $enginesdir_dir, $enginesdir_file) =
++                       File::Spec::Win32->splitpath($enginesdir, 1);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+index c63ba3c8e7..9465166ab1 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+@@ -22,6 +22,9 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
++SRC_URI_append_mingw32_class-nativesdk = " \
++           file://0001-unix-Makefile.tmpl-don-t-add-prefix-for-libdir.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee00d5242"
+ 
+@@ -116,6 +119,9 @@ do_configure () {
+ 	mingw32-x86_64)
+ 		target=mingw64
+ 		;;
++	mingw32-i686)
++		target=mingw
++		;;
+ 	esac
+ 
+ 	useprefix=${prefix}
+@@ -198,8 +204,7 @@ FILES_openssl-conf = "${sysconfdir}/ssl/openssl.cnf \
+                       ${libdir}/ssl-1.1/openssl.cnf* \
+                       "
+ FILES_${PN}-engines = "${libdir}/engines-1.1"
+-# ${prefix} comes from what we pass into --prefix at configure time (which is used for INSTALLTOP)
+-FILES_${PN}-engines_append_mingw32_class-nativesdk = " ${prefix}${libdir}/engines-1_1"
++FILES_${PN}-engines_mingw32_class-nativesdk = "${libdir}/engines-1_1"
+ FILES_${PN}-misc = "${libdir}/ssl-1.1/misc ${bindir}/c_rehash"
+ FILES_${PN} =+ "${libdir}/ssl-1.1/*"
+ FILES_${PN}_append_class-nativesdk = " ${SDKPATHNATIVE}/environment-setup.d/openssl.sh"
+-- 
+2.17.1
 
------------------------
-Thanks & Regards,
-*Milan Shah*
-MontaVista Software, Bangalore, India
-
-
-On Sun, Jan 3, 2021 at 5:18 PM Paul Barker <pbarker@konsulko.com> wrote:
-
-> On Thu, 24 Dec 2020 at 10:01, Milan Shah <mshah@mvista.com> wrote:
-> >
-> > A test is implemented on poky/meta/lib/oeqa/selftest/pkgdata.py to test
-> > the scenario when oe-pkgdata-util is executed without parameters and
-> > help is displayed.
-> >
-> > See [YOCTO #10726] for detailed bug information.
-> >
-> > Signed-off-by: Milan Shah <mshah@mvista.com>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/pkgdata.py | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py
-> b/meta/lib/oeqa/selftest/cases/pkgdata.py
-> > index 833a180..94ee1f5 100644
-> > --- a/meta/lib/oeqa/selftest/cases/pkgdata.py
-> > +++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
-> > @@ -218,3 +218,9 @@ class OePkgdataUtilTests(OESelftestTestCase):
-> >      def test_specify_pkgdatadir(self):
-> >          result = runCmd('oe-pkgdata-util -p %s lookup-pkg zlib' %
-> get_bb_var('PKGDATA_DIR'))
-> >          self.assertEqual(result.output, 'libz1')
-> > +
-> > +    def test_no_param(self):
-> > +        result = runCmd('oe-pkgdata-util', ignore_status=True)
-> > +        self.assertEqual(result.status, 2, "Status different than 2.
-> output: %s" % result.output)
-> > +        currpos = result.output.find('usage: oe-pkgdata-util [-h] [-d]
-> [-p PKGDATA_DIR] <subcommand>')
->
-> In my opinion this is still too restrictive a test, it would need
-> updating when any further arguments are added to the oe-pkgdata-util
-> tool. I'd recommend just checking for "usage: oe-pkgdata-util" and
-> ignoring the rest of the line.
->
-> Thanks,
->
-> --
-> Paul Barker
-> Konsulko Group
->
-
---000000000000ea68b105b80ce0e2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Paul,</div><div><br></div><div>Thanks for the revi=
-ew. Review comments are addressed and the new <a href=3D"https://lists.open=
-embedded.org/g/openembedded-core/topic/patch_v3_oe_pkgdata_util/79418977?p=
-=3D,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,0,79418977">Patch</a> is sen=
-t again for review.<br></div><div><div><div dir=3D"ltr" class=3D"gmail_sign=
-ature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D=
-"ltr"><font face=3D"times new roman, serif"><br></font></div><div dir=3D"lt=
-r"><font face=3D"times new roman, serif">-----------------------<br></font>=
-</div><div dir=3D"ltr"><font face=3D"times new roman, serif">Thanks &amp; R=
-egards,</font><div><font face=3D"times new roman, serif"><b>Milan Shah</b><=
-/font></div><div><span style=3D"background-color:rgb(255,255,255)"><font co=
-lor=3D"#ff0000"><font face=3D"times new roman, serif">MontaVista Software, =
-</font></font></span><span style=3D"background-color:rgb(255,255,255)"><fon=
-t color=3D"#ff0000"><font face=3D"times new roman, serif"><span style=3D"fo=
-nt-family:&quot;times new roman&quot;,serif">Bangalore</span></font><span s=
-tyle=3D"font-family:&quot;times new roman&quot;,serif">, India</span></font=
-></span><br></div></div></div></div></div></div><br></div></div><br><div cl=
-ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 3, 20=
-21 at 5:18 PM Paul Barker &lt;<a href=3D"mailto:pbarker@konsulko.com">pbark=
-er@konsulko.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">On Thu, 24 Dec 2020 at 10:01, Milan Shah &lt;<a href=3D"mail=
-to:mshah@mvista.com" target=3D"_blank">mshah@mvista.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; A test is implemented on poky/meta/lib/oeqa/selftest/pkgdata.py to tes=
-t<br>
-&gt; the scenario when oe-pkgdata-util is executed without parameters and<b=
-r>
-&gt; help is displayed.<br>
-&gt;<br>
-&gt; See [YOCTO #10726] for detailed bug information.<br>
-&gt;<br>
-&gt; Signed-off-by: Milan Shah &lt;<a href=3D"mailto:mshah@mvista.com" targ=
-et=3D"_blank">mshah@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/lib/oeqa/selftest/cases/pkgdata.py | 6 ++++++<br>
-&gt;=C2=A0 1 file changed, 6 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/s=
-elftest/cases/pkgdata.py<br>
-&gt; index 833a180..94ee1f5 100644<br>
-&gt; --- a/meta/lib/oeqa/selftest/cases/pkgdata.py<br>
-&gt; +++ b/meta/lib/oeqa/selftest/cases/pkgdata.py<br>
-&gt; @@ -218,3 +218,9 @@ class OePkgdataUtilTests(OESelftestTestCase):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 def test_specify_pkgdatadir(self):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D runCmd(&#39;oe-pkgdata-ut=
-il -p %s lookup-pkg zlib&#39; % get_bb_var(&#39;PKGDATA_DIR&#39;))<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(result.output, &#39=
-;libz1&#39;)<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 def test_no_param(self):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 result =3D runCmd(&#39;oe-pkgdata-util&#3=
-9;, ignore_status=3DTrue)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(result.status, 2, &quot;=
-Status different than 2. output: %s&quot; % result.output)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 currpos =3D result.output.find(&#39;usage=
-: oe-pkgdata-util [-h] [-d] [-p PKGDATA_DIR] &lt;subcommand&gt;&#39;)<br>
-<br>
-In my opinion this is still too restrictive a test, it would need<br>
-updating when any further arguments are added to the oe-pkgdata-util<br>
-tool. I&#39;d recommend just checking for &quot;usage: oe-pkgdata-util&quot=
-; and<br>
-ignoring the rest of the line.<br>
-<br>
-Thanks,<br>
-<br>
--- <br>
-Paul Barker<br>
-Konsulko Group<br>
-</blockquote></div>
-
---000000000000ea68b105b80ce0e2--
