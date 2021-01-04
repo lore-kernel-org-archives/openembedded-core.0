@@ -1,95 +1,90 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.11838.1609756108815277503
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web11.11864.1609757083088116423
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jan 2021 02:28:29 -0800
+ Mon, 04 Jan 2021 02:44:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MXgxrzWS;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id y17so31611843wrr.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Jan 2021 02:28:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=TM/OhjaWT7QcKzyEbgGUsQIhC3g63mSx9W0IoWbheoQ=;
-        b=MXgxrzWSRxFXXT8Z72rJ+1sf9q76rqjT/Ci0sQgosAOHMWrF+49d914O3fRisrprZ6
-         vI+SbdaPxZa3lSjrJEmIrhEbw7TtAe3NhU6W19kRLhKtAO2OT9TwpO3b2czKTxcr2GqS
-         SCikj1bIpPYCjaRe6IdVak8qS+w+qDUK50LDI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=TM/OhjaWT7QcKzyEbgGUsQIhC3g63mSx9W0IoWbheoQ=;
-        b=ajK1I9TLy44osFlF94CcEi4vXq2i7DtPy9dhOsbLIsq8+t2g39m92cSb7Y/p+mpfW2
-         gjgUkMZfxd1AyS3ZxcOLM5i485Qtid1kdlxItM2frBCpKdLYzuK7Baa8wlKRVnU/tRI0
-         gL6iuOB4Qvksnm0cnTrX8ONzXohrcloEHfKUboGPchtRmbmfVKaWv1rRqOXwGCiKr5Aw
-         2fpPvzo1bp29MnAX2dmOG9T+XqX/rn8UxNWdAGdu/+TLvBH4+BFGNeWVKpERJooWhq3f
-         d05iWWr7eBiy/sgvt+6agU+To4p1GTvs6uDxILjpQeNsV8xjlfLdp7ze3IPYHmlSg4Lf
-         ivKw==
-X-Gm-Message-State: AOAM532wHV+3RjVE2X6VL4hN3xQSQpurszMEz3EKi5DtJNrAo7ofaYpd
-	+9hx/PVlrsVYGxw25YNY6HJnlw==
-X-Google-Smtp-Source: ABdhPJy7ZmWq7oAPTMgMJ2JoG23TqPfDxDGj/AIHSSMEXEz9SCKFDBuhPeIx4CNUvuua7FcV7eaLKQ==
-X-Received: by 2002:adf:b359:: with SMTP id k25mr80440224wrd.98.1609756107255;
-        Mon, 04 Jan 2021 02:28:27 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:4767:d28d:f91a:aa32? ([2001:8b0:aba:5f3c:4767:d28d:f91a:aa32])
-        by smtp.gmail.com with ESMTPSA id h13sm87984307wrm.28.2021.01.04.02.28.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jan 2021 02:28:26 -0800 (PST)
-Message-ID: <56b88a5513085b38781e02327537289d2fdd8203.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] u-boot: add /boot and ${sysconfdir} to SYSROOT_DIRS
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Diego Sueiro <diego.sueiro@arm.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: nd@arm.com
-Date: Mon, 04 Jan 2021 10:28:26 +0000
-In-Reply-To: <9c29138b53742ac268b54768773f72a2279f3f49.1609748975.git.diego.sueiro@arm.com>
-References: 
-	<9c29138b53742ac268b54768773f72a2279f3f49.1609748975.git.diego.sueiro@arm.com>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: sone4NyyWu9QLf6MaYIRFx1hLn4srx0nZmPMa/ACMiPNE7mMUD/bfgggA2LkESxQKmGlcaHRm0
+ FpHnzma9x7wg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9853"; a="173429156"
+X-IronPort-AV: E=Sophos;i="5.78,473,1599548400"; 
+   d="scan'208";a="173429156"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jan 2021 02:44:42 -0800
+IronPort-SDR: kAE9vh79hkUzAPIMOqMqka8cdsuDl3COvQh3L0UC+X3Kv+6qq50IfxjnBchUWtxubXVRoTjtT3
+ rU0It14UPYHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,473,1599548400"; 
+   d="scan'208";a="345861480"
+Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
+  by orsmga003.jf.intel.com with ESMTP; 04 Jan 2021 02:44:41 -0800
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] p11-kit: upgrade 0.23.21 -> 0.23.22
+Date: Mon,  4 Jan 2021 18:44:40 +0800
+Message-Id: <20210104104440.72633-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, 2021-01-04 at 08:30 +0000, Diego Sueiro wrote:
-> Since do_install is shipping files to /boot and ${sysconfdir}, we can
-> include
-> these dirs to SYSROOT_DIRS and allow recipes which depend on u-boot
-> to use its
-> installed artifacts from RECIPE_SYSROOT instead of DEPLOY_DIR_IMAGE.
-> 
-> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot.inc | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-
-> boot/u-boot.inc
-> index 251178db33..c53bcd05cc 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -266,6 +266,8 @@ FILES_${PN}-env = " \
->  "
->  
->  FILES_${PN} = "/boot ${datadir}"
-> +SYSROOT_DIRS += "/boot ${sysconfdir}"
-> +
->  RDEPENDS_${PN} += "${PN}-env"
->  
->  do_deploy () {
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-I think I did ask about this on irc but we never managed to discuss.
+https://github.com/p11-glue/p11-kit/releases/tag/0.23.22
 
-I'm a bit worried about this creating confusion about where files are
-placed (deploy or sysroot). I particularly want to avoid placing files
-in both.
+Release notes:
+Fix memory-safety issues that affect the RPC protocol (CVE-2020-29361, CVE-2020-29362, and CVE-2020-29363), discovered and fixed by David Cook
+anchor: Prefer persistent format when storing anchor [#329]
+common: Fix infloop in p11_path_build [#326, #327]
+proxy: C_CloseAllSessions: Make sure that calloc args are non-zero [#325]
+common: Check for a NULL locale before freeing it [#321]
+Build and test fixes [#313, #315, #317, #318, #319, #323, #330, #333, #334, #335, #338, #339]
 
-Are these files in /boot normally available in the rootfs at this
-location? If so, the patch probably makes sense but if not, I think its
-creating disparity between the target filesystem and the build one and
-I'm a lot more reluctant to do that.
+https://github.com/p11-glue/p11-kit/commit/c4e75e10021ce86ab42682ea4936dce94ced2f77
+patch to fix trailing newline using custom_target() caused error
+with DISTRO_FEATURES api-documentation due to meson bugs, enable
+manpages PACKAGECONFIG should prevent this error.
+| warning: failed to load external entity "../version.xml"
+| ../p11-kit-docs.xml:11: parser error : Failure to process entity version
+| 		<releaseinfo>for p11-kit &version;</releaseinfo>
+| 		                                  ^
+| ../p11-kit-docs.xml:11: parser error : Entity 'version' not defined
+| 		<releaseinfo>for p11-kit &version;</releaseinfo>
+| 		                                  ^
+| unable to parse ../p11-kit-docs.xml
 
-Cheers,
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../p11-kit/{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb}     | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/p11-kit/{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb} (76%)
 
-Richard
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb b/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
+similarity index 76%
+rename from meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
+rename to meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
+index b1fd2334b2..173a30a5e6 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
+@@ -2,17 +2,18 @@ SUMMARY = "Provides a way to load and enumerate PKCS#11 modules"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=02933887f609807fbb57aa4237d14a50"
+ 
+-inherit meson gettext pkgconfig gtk-doc bash-completion
++inherit meson gettext pkgconfig gtk-doc bash-completion manpages
+ 
+ DEPENDS = "libtasn1 libtasn1-native libffi"
+ 
+ DEPENDS_append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
+ 
+-SRC_URI = "git://github.com/p11-glue/p11-kit"
+-SRCREV = "fd8b56f3ee971f94dc6fc95411fc01e1c12153ab"
++SRC_URI = "git://github.com/p11-glue/p11-kit;branch=0.23"
++SRCREV = "bd97afbfe28d5fbbde95ce36ff7a8834fc0291ee"
+ S = "${WORKDIR}/git"
+ 
+ PACKAGECONFIG ??= ""
++PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false"
+ PACKAGECONFIG[trust-paths] = "-Dtrust_paths=/etc/ssl/certs/ca-certificates.crt,,,ca-certificates"
+ 
+ GTKDOC_MESON_OPTION = 'gtk_doc'
+-- 
+2.17.1
 
