@@ -1,137 +1,132 @@
-Received: from wforward2-smtp.messagingengine.com (wforward2-smtp.messagingengine.com [64.147.123.31])
- by mx.groups.io with SMTP id smtpd.web08.1646.1609873483213940874
+Received: from EUR06-DB8-obe.outbound.protection.outlook.com (EUR06-DB8-obe.outbound.protection.outlook.com [40.92.51.104])
+ by mx.groups.io with SMTP id smtpd.web12.1876.1609874253997961749
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 11:04:43 -0800
+ Tue, 05 Jan 2021 11:17:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=gPTbTaes;
- spf=neutral (domain: iki.fi, ip: 64.147.123.31, mailfrom: tanuk@iki.fi)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailforward.west.internal (Postfix) with ESMTP id 165D61097;
-	Tue,  5 Jan 2021 14:04:42 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 05 Jan 2021 14:04:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=lBgGQ+/6kFpICQgWs2N+ijXTOFNznYFdnXnKMH07k
-	lw=; b=gPTbTaes4C5x68J0vVZMRzl4aaJoRYs6P/OkpTZE1mDCJoLJhbcuhxImh
-	FvE3uA7bb3Temfji5KSWO+zPb0/yyxTG1mQA4URUfqe2tQwymRYsC2xmx11tb8Nn
-	bV+K3axlz/uZI2fXpFDuxlkzqPN9ab14ayVjg6hDAxXMm/DR1Bk5tBvZIcw36V9u
-	YZcv5h4gzt84e5sKb3Un1iRvnEEl8JiT+hQj76KkYMak4l3DIYWJidPlHnqr62Fy
-	e4UMd+iypB8be4lSgs6ziYbTCFy8INo0zHFPFMkHVKCEuelFrcRHuPRQvvgGaIjr
-	rAi7Q5zqXOZep2sjjVdINVcEzb3ww==
-X-ME-Sender: <xms:SLj0Xy3vcY9TmM8LjY4ED7hI96OVaaigkC2FsppThtEtegb6gH1vFg>
-    <xme:SLj0X1Fg1zviJZa8gN9-0-sO17w6FTEiuRoreMXUgdQZxjbECJ9QLiqG9cNL_nBzd
-    IN00EjSuyvfWk7S>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrvdefjedgkeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepkffuhffvffgjfhgtfggggfesthejredttderjeenucfhrhhomhepvfgrnhhu
-    ucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhirdhfiheqnecuggftrfgrthhtvghrnh
-    epveeiledtudekhefflefhhfejudfhleefgfekieejffeuveeiuedugeeuhfeviedvnecu
-    ffhomhgrihhnpehgihhthhhusgdrtghomhdpfhhrvggvuggvshhkthhophdrohhrghenuc
-    fkphepudekkedruddviedrkeelrdeivdenucfuphgrmhfkphfpvghtfihorhhkpedukeek
-    rdduvdeirdekledriedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepthgrnhhukhesihhkihdrfhhi
-X-ME-Proxy: <xmx:SLj0X64gSfuQIax5arqgcjq-thva9AQtTxhulc5McXj9ZGvkY5r6Jw>
-    <xmx:SLj0Xz2qyvpz7ojxJLFA7hR0Smg4G9wnmnAO9DcVDu4fSDQ8TcVpfA>
-    <xmx:SLj0X1EOve-2Hr7IkNwag2CmrxbdgkJrV2yCejnxF1qFuFw-bS-Arg>
-    <xmx:Sbj0XzPgA8010_m5dzoijT9VkWX_9Kcx8RbqkhVdTWi0ewsikNiQOK05xTE>
-Received: from laptop (unknown [188.126.89.62])
-	by mail.messagingengine.com (Postfix) with ESMTPA id D1504240057;
-	Tue,  5 Jan 2021 14:04:39 -0500 (EST)
-Message-ID: <25433ae4028ee7784430c585a71bf503a4a1d37d.camel@iki.fi>
-Subject: Re: [OE-core] [PATCH v2] pulseaudio: define -mfloat-abi=softfp for CC on armv5
-From: "Tanu Kaskinen" <tanuk@iki.fi>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Yu, Mingli"
-	 <mingli.yu@windriver.com>, openembedded-core@lists.openembedded.org, 
-	armccurdy@gmail.com
-Date: Tue, 05 Jan 2021 21:04:35 +0200
-In-Reply-To: <89cb1de79cc242d0545829a3138685ebc4ffe8cd.camel@linuxfoundation.org>
-References: 
-	<CAJ86T=VZtAHf2cP==VnVK1mM4XEY+DaJqyokmzPfCzGT0UvwAQ@mail.gmail.com>
-	 <20210105033719.809-1-mingli.yu@windriver.com>
-	 <89cb1de79cc242d0545829a3138685ebc4ffe8cd.camel@linuxfoundation.org>
-User-Agent: Evolution 3.30.5-1.1 
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=oJICHVAc;
+ spf=pass (domain: outlook.com, ip: 40.92.51.104, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iCXuIDML/MnReDsHPNZuO+LSdX4O2BmJVZKp6OqR7Ye/RZlrhqt3o/Nnt2BOGPBRpKf53iXqz7Y2guWTo78/VRWZrp3Ik/NMmmE9qZpc/3CjNTvdDfHGz4VZHzSkWqUjB1CBlwGUZnhEl76UfIm4XZPBLb++F9JlbzfcWE5zCj5UWeC5lMJ3/iDjnoTa+FV6je+rbSBtDg8xR8X4eN5OA38MoEuyNvxNE9IZiIHndCbgPdThLtQo3+qdxM9fVVAewQXWO4hf61M7igZXnEa+RhcDIPLvIEOZfJ5sH5djSs33gHF2WdlCrndoxgjbjqs32ZPXU70xvaZbQAWL+pjWgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L+eFaaB7DYCMDsufgIk+cSFjmWeTqx+sKtIz+RcYwZw=;
+ b=cyP6iayQ/yh+LZZWeRP6nIaD0l0DStiFPtHT+E9fzLRQDeDfWT8zQ41CQHeuqS9+fWuH3aImHSVI55RiPWvGjYXptE83N5q5EcluUpWikvluj0m9BGScAv5q21oxvAl4pxJBtVhZCMwNe9zykiumoRs7kcmn/ClD0H/XvZUPahjnALdEEWx21vM5SXj2ly2DDPnAHmJlMLO52mRorQkClHbBsQHuJSrqMzCmzYgXZl/5fK1psxjycgW47Emtx3jsXGr93gBKFNj7lyH2pfc1t7Mfb+XsB4u+EeQyxN37Plpi7SL+CjGyGbt0PNs1HKXpoIB5+eitd71aLTEhUwTL3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L+eFaaB7DYCMDsufgIk+cSFjmWeTqx+sKtIz+RcYwZw=;
+ b=oJICHVAcoPkuRxf8JvL/pviXQ9/qk7HhCWAbCrlaB8SkVnlEKwNN0JpCH/17y6DwEcLl6i/rwucVM+lTkO7tK7qfUEHj5sXm67Ni8RQSc7jnbDr4hfuT+xMLI1Uct8S81eDA+R8r4TJ8mZLrNWJOoEGoFzkttc/yxMqtxbCMYtvYDIHyaMnsn2ZAkR8QvEgD3oDk9LisXuE7iucVGAaE8BQ0KnqmaXq4IAzJwYplPFadz7wc0/iOOIZyJwi6tgq3gvHhdov0SJp0WUvbuiShy1s75EtBkqRas+Otri097nmKQ3FS+KpNX5DvcWe58GtmkJA0apJkmnoeNdw47huE+Q==
+Received: from DB8EUR06FT003.eop-eur06.prod.protection.outlook.com
+ (2a01:111:e400:fc35::48) by
+ DB8EUR06HT023.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc35::492)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20; Tue, 5 Jan
+ 2021 19:17:32 +0000
+Received: from DBBPR09MB4748.eurprd09.prod.outlook.com
+ (2a01:111:e400:fc35::47) by DB8EUR06FT003.mail.protection.outlook.com
+ (2a01:111:e400:fc35::217) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
+ Transport; Tue, 5 Jan 2021 19:17:32 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:C849D6ABDF9A5156D576D2DFD6462D27A118CA519F30B52F1FD89C60677A270F;UpperCasedChecksum:6FB835C2AC3C7C54471433A4D742CA1CD18E1D298ACF9418CD25542B294A4EC7;SizeAsReceived:7260;Count:45
+Received: from DBBPR09MB4748.eurprd09.prod.outlook.com
+ ([fe80::d4e6:adb9:cf8:ea64]) by DBBPR09MB4748.eurprd09.prod.outlook.com
+ ([fe80::d4e6:adb9:cf8:ea64%6]) with mapi id 15.20.3721.024; Tue, 5 Jan 2021
+ 19:17:32 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [RFC][PATCH 1/2] oeqa: add OETestPriority decorator
+Date: Tue,  5 Jan 2021 20:16:55 +0100
+Message-ID: <DBBPR09MB4748488AFABBB0B74D5E3151A8D10@DBBPR09MB4748.eurprd09.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [mLPeQzWBODEe2RwZ3czRGixbCI5Tuc9f]
+X-ClientProxiedBy: BEXP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::19)
+ To DBBPR09MB4748.eurprd09.prod.outlook.com (2603:10a6:10:20a::11)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20210105191656.10222-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (87.141.89.138) by BEXP281CA0009.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.2 via Frontend Transport; Tue, 5 Jan 2021 19:17:31 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 14891317-3727-424b-816f-08d8b1ae8d16
+X-MS-Exchange-SLBlob-MailProps: 
+	7MJMDUNTCtyMQ35sLTzGn5u3A92afXyI2fELmf2IARFH7/w/CYMDRQga3W/d9JctSPwWWEdgv7/QnQcUjElEkTb9k5nfO5eSUImO7nI+S5z8K20EMRSaBP9OAhGHNcvFfkeLAJM/NrKDSsMNtg+/jqIy8+fE966S5qMOiD6v96hKYaCwDKUUKvycakdHGBa4VAh0c+SPkWjWGAE1lQPpmcs0cSdOMXBnSX69t/EXggFQ4DyYRe0go7KNdjrgfM/tj3XVJxuUtN4lByzBuOgI4GSyvqU1I1E1wZomqfcIEMSYW8X0b29LThEzYfsTw9/bHiUY2tOtw0ma99n3i5kqDciBsoJ/gOmEZ8PYBNGZZvxqzC2MrfB4cpKr0yo62CS1rx44T2PlNwDRFtK1oqRyExCt7AXrTGJ9JhzZkuFeNuPtg10NaituReTnft24GnQkYUbIYmDF36eJxFfWRBaAPJiUOCYl+eXfLpTRVclICUFsyucjrpC4OJ703G9lcR4CWPzNE2/bBJvk59gcSJxDf/8iBXJQ8yF8HJZMihfcy/6eVd3yGPihZlb1D4cEAvmkrOxGC8IEKf3crqfISmL1J+S+y4tMIfNqA2goixZb1Om5ZIJkI7OPimgJB9AUpD4CpFMrC4L3E7RGSvc5rAyc7El7QP18o3hdKbJWs0v0LjAKuZ7Pa/+ADrdxJ7re5mXWLrm3kiiZVudVy6swokOP0zyeXzeLCZWZVXpcm9s+CAJbIJsgZbA/yw==
+X-MS-TrafficTypeDiagnostic: DB8EUR06HT023:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	TrC0ikgvkH+KREOuhvC2VRfubJUMu6p4RYMBjglCvBAGikBkqAxhy7hZsZaJrjK0dsnkinEc/C5y+TDPzcI28ZAwG9CLQbtG54yl2VKOIL9ce699NIH/2jVO5kq1P7KvEXSry20RxI4U5d+azdnV/gBdPgUbGraAKXWQRe9RrwZZbZyYpg5tDscLR24kSPiuMHK6tHw9vEO8M6GPrviYjm/0IycFy/lkINvNo7KHQTujwzICJEakPFnaAMSIMVv3
+X-MS-Exchange-AntiSpam-MessageData: 
+	YtbaPyrq/6vXRm0c9Ob8UHRpGhR01SaFiq+XNZWt/EDBOZxIaL2rebD7/JqixnG9ge2N/APU47Kk+uJ05egjzzjRPU55Uatfo3JNlpmR1dMry7vTFg99N5fqTh5HszkylNMH3wBq8zhZqpiQXKVQPQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2021 19:17:32.1397
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14891317-3727-424b-816f-08d8b1ae8d16
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB8EUR06FT003.eop-eur06.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR06HT023
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, 2021-01-05 at 12:37 +0000, Richard Purdie wrote:
-> On Tue, 2021-01-05 at 11:37 +0800, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> After pulseaudio upgrades from 13.0 to 14.0, it also switches from
-> autotools
-> to meson. In autotools, there is --disable-neon-opt option for
-> disabling NEON
-> optimizations, but there is no counterpart in meson.
-> 
-> And the meson build system adds -mfpu=neon at the end of the compiler
-> command
-> line which overrids any earlier -mfpu options and result below build
-> failure
-> on armv5:
-> 
-> > /prj/tmp-glibc/work/armv5e-wrs-linux-gnueabi/pulseaudio/14.0-
-> > r0/recipe-sysroot-native/usr/lib/arm-wrs-linux-gnueabi/gcc/arm-wrs-
-> > linux-gnueabi/10.2.0/include/arm_neon.h:31:2: error: #error "NEON
-> > intrinsics not available with the soft-float ABI.  Please use -
-> > mfloat-abi=softfp or -mfloat-abi=hard"
-> >  31 | #error "NEON intrinsics not available with the soft-float ABI. 
-> > Please use -mfloat-abi=softfp or -mfloat-abi=hard"
->       |  ^~~~~
-> > ../pulseaudio-14.0/src/pulsecore/mix_neon.c: In function
-> > 'pa_mix_ch2_s16ne_neon':
-> > ../pulseaudio-14.0/src/pulsecore/mix_neon.c:38:9: error: unknown type
-> > name 'int32x4_t'; did you mean 'int32_t'?
-> >   38 |         int32x4_t sum0, sum1;
-> 
-> Define -mfloat-abi=softfp for CC on armv5 to fix the above issue.
-> 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index e40b8c1c40..761e4f74dc 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -123,6 +123,11 @@ PACKAGECONFIG[ipv6] = "-Dipv6=true,-Dipv6=false,"
->  PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,"
->  
->  export TARGET_PFPU = "${TARGET_FPU}"
-> +# workaround build failure on qemuarmv5 as the neon optimizations is
-> +# enabled by default and no option to disable neon with meson build
-> +# system
-> +CC_append_armv5 = " -mfloat-abi=softfp"
-> +export CC
->  
->  set_cfg_value () {
->         sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
-> 
-> I really don't want to add things like this to the recipe, I think it
-> will interfere with other parts of the compilation. In many ways I'd
-> prefer an option added to meson. Do we know what upstream are thinking
-> in relation to this?
+This modifies an implicit default priority.
+Can be used to move the test case either to the front
+or to the end of the test suite.
+Value can be between 0 and 99, implicit default is 50.
+Lower values move are run at the beginning of the list,
+higher values at the end.
+Within a single priority ordering remains unchanged.
 
-I think Meson should be fixed, but it may be necessary to add a build
-option to PulseAudio to disable the neon code while waiting for Meson
-to get fixed.
+It enables use cases such as shutdown tests, which
+should always run at the end of the overall test suite,
+no matter what test suites/cases are set in the current
+test suite list.
 
-I now filed a bug for Meson: 
-https://github.com/mesonbuild/meson/issues/8156
+This avoids also using test suite naming hacks, such as
+usage of zzz_foo_test.FooClass.test_foo to move it to
+the end of the test suite list.
 
-and another for PulseAudio: 
-https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/1088
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/lib/oeqa/core/decorator/priority.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/decorator/priority.py
 
-so at least the relevant projects know about the issue now. I may work
-on fixing these myself if nobody else does, but I don't expect that to
-happen quickly.
-
--- 
-Tanu
+diff --git a/meta/lib/oeqa/core/decorator/priority.py b/meta/lib/oeqa/core/=
+decorator/priority.py
+new file mode 100644
+index 0000000000..bca4675db0
+--- /dev/null
++++ b/meta/lib/oeqa/core/decorator/priority.py
+@@ -0,0 +1,17 @@
++#
++# SPDX-License-Identifier: MIT
++#
++
++from . import OETestDecorator, registerDecorator
++from oeqa.core.exception import OEQADependency
++
++@registerDecorator
++class OETestPriority(OETestDecorator):
++    attrs =3D ('priority',)
++
++    def bind(self, registry, case):
++        if not isinstance(self.priority, int) or self.priority < 0 or self=
+.priority > 99:
++            raise OEQADependency("OETestPriority must be an integer value =
+between 0-99")
++        self.case =3D case
++        self.logger =3D case.tc.logger
++        self.case.decorators.append(self)       =20
+--=20
+2.25.1
 
