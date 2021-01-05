@@ -1,130 +1,118 @@
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web09.3394.1609841911668644456
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web08.4614.1609850228002611555
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 02:18:32 -0800
+ Tue, 05 Jan 2021 04:37:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1kwjQ5-0002zr-SW; Tue, 05 Jan 2021 12:18:30 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1kwjQ5-000Bri-R5; Tue, 05 Jan 2021 12:18:29 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@bmw.de>
-Subject: [dunfell][PATCH] glib-2.0: add patch for CVE-2020-35457
-Date: Tue,  5 Jan 2021 12:18:20 +0200
-Message-Id: <20210105101820.44432-1-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KAGpAzfl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id a12so36004044wrv.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 04:37:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Iwy1hnc+MIiew86VFTpcy3wdxvjR79oOcjQtuDU2eXU=;
+        b=KAGpAzfl09WGtEwBTV7TcTMph5dm+G/LuerepN/p70fLDNj4H7aA/feo4zVK5coIqJ
+         KJLeI6Uii4zKPwhH4MJHYvXpr0dq4GpqDxNAIUcMzAepM3Ulo7zfLMD3Ldn4IPIKW0ev
+         CYJH0PcjNYONuPmmZd+MYVSaYZobopzI5baKc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Iwy1hnc+MIiew86VFTpcy3wdxvjR79oOcjQtuDU2eXU=;
+        b=dZQkQOOKBSRGN6MbzTowpwsZEjpaov2o48bD5/SV+0PiLQWKoi+RhFEdxvPC/6vBD7
+         lRGv1xCyl+SZUnXMPnCfVQuwxAULkLabksqyJ1UDfeNG+z2+zabMU96/x40kjCjS0lcR
+         s6awUzf/SnsMYwclHUaUnDk97pc0teHtPRwQQyF6rQ0KZYzVtTxzL6BwRvQYIoHPQMR5
+         dUrBRHnKn+llSJy5jiPBzyRUlzvy15EOtEmeLhVog9VcF0Pv8N6S0KA4DqzGSS743Gnf
+         DgzPrhUzjkZyI2k7T6lKrEEzLFcM+ntHFS/S372mW+wzkXzMZ7Q6wo0oIaBfgG2RdRwj
+         +jVQ==
+X-Gm-Message-State: AOAM530H5n/pvbnz35ZOpWgRFhOTbvUNlyD/KKU+20f+A34LLwwMM2Le
+	v9ZyZqkr0rE7/PA41BgTUNnlQw==
+X-Google-Smtp-Source: ABdhPJxDF2kzqPEmFHiJlosZMRLSXaFEuFAyA31Cib09vRlQ1ao8SM4xteEgnxGRSLMVPDqCJH/lMA==
+X-Received: by 2002:a5d:570e:: with SMTP id a14mr83644529wrv.126.1609850226143;
+        Tue, 05 Jan 2021 04:37:06 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:fe9c:e0b5:40a1:adaf? ([2001:8b0:aba:5f3c:fe9c:e0b5:40a1:adaf])
+        by smtp.gmail.com with ESMTPSA id v11sm95038926wrt.25.2021.01.05.04.37.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jan 2021 04:37:05 -0800 (PST)
+Message-ID: <89cb1de79cc242d0545829a3138685ebc4ffe8cd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] pulseaudio: define -mfloat-abi=softfp for CC on armv5
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Yu, Mingli" <mingli.yu@windriver.com>, 
+ openembedded-core@lists.openembedded.org, armccurdy@gmail.com, Tanu
+ Kaskinen <tanuk@iki.fi>
+Date: Tue, 05 Jan 2021 12:37:02 +0000
+In-Reply-To: <20210105033719.809-1-mingli.yu@windriver.com>
+References: 
+	<CAJ86T=VZtAHf2cP==VnVK1mM4XEY+DaJqyokmzPfCzGT0UvwAQ@mail.gmail.com>
+	 <20210105033719.809-1-mingli.yu@windriver.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-X-Rspam-Score: -1.7 (-)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20210105101820.44432-1-mikko.rapeli@bmw.de
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Upstream has disputed CVE-2020-35457 claiming it's not exploitable but
-the patch is simple to add.
+On Tue, 2021-01-05 at 11:37 +0800, Yu, Mingli wrote:
+From: Mingli Yu <mingli.yu@windriver.com>
 
-https://security-tracker.debian.org/tracker/CVE-2020-35457
+After pulseaudio upgrades from 13.0 to 14.0, it also switches from
+autotools
+to meson. In autotools, there is --disable-neon-opt option for
+disabling NEON
+optimizations, but there is no counterpart in meson.
 
-"https://gitlab.gnome.org/GNOME/glib/-/commit/63c5b62f0a984fac9a9700b12f54fe878e016a5d
-https://gitlab.gnome.org/GNOME/glib/-/issues/2197
-Upstream position is that it is not realistically a security issue."
+And the meson build system adds -mfpu=neon at the end of the compiler
+command
+line which overrids any earlier -mfpu options and result below build
+failure
+on armv5:
 
-For master branch this CVE is not reported by CVE checker:
+> /prj/tmp-glibc/work/armv5e-wrs-linux-gnueabi/pulseaudio/14.0-
+> r0/recipe-sysroot-native/usr/lib/arm-wrs-linux-gnueabi/gcc/arm-wrs-
+> linux-gnueabi/10.2.0/include/arm_neon.h:31:2: error: #error "NEON
+> intrinsics not available with the soft-float ABI.  Please use -
+> mfloat-abi=softfp or -mfloat-abi=hard"
+>  31 | #error "NEON intrinsics not available with the soft-float ABI. 
+> Please use -mfloat-abi=softfp or -mfloat-abi=hard"
+      |  ^~~~~
+> ../pulseaudio-14.0/src/pulsecore/mix_neon.c: In function
+> 'pa_mix_ch2_s16ne_neon':
+> ../pulseaudio-14.0/src/pulsecore/mix_neon.c:38:9: error: unknown type
+> name 'int32x4_t'; did you mean 'int32_t'?
+>   38 |         int32x4_t sum0, sum1;
 
-NOTE: glib-2.0-2.66.4 is not vulnerable to CVE-2020-35457
+Define -mfloat-abi=softfp for CC on armv5 to fix the above issue.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- ...econdition-to-avoid-GOptionEntry-lis.patch | 41 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch
-new file mode 100644
-index 0000000000..17dcada613
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch
-@@ -0,0 +1,41 @@
-+From 63c5b62f0a984fac9a9700b12f54fe878e016a5d Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <withnall@endlessm.com>
-+Date: Wed, 2 Sep 2020 12:38:09 +0100
-+Subject: [PATCH] goption: Add a precondition to avoid GOptionEntry list
-+ overflow
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+If the calling code adds more option entries than `G_MAXSIZE` then
-+there’ll be an integer overflow. This seems vanishingly unlikely (given
-+that all callers use static option entry lists), but add a precondition
-+anyway.
-+
-+Signed-off-by: Philip Withnall <withnall@endlessm.com>
-+
-+Fixes: #2197
-+---
-+ glib/goption.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+CVE: CVE-2020-35457
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/63c5b62f0a984fac9a9700b12f54fe878e016a5d]
-+Comment: adjusted offset by -5 to fix patch fuzz warning
-+
-+diff --git a/glib/goption.c b/glib/goption.c
-+index 9f5b977c4..bb9093a33 100644
-+--- a/glib/goption.c
-++++ b/glib/goption.c
-+@@ -2417,6 +2417,8 @@ g_option_group_add_entries (GOptionGroup       *group,
-+ 
-+   for (n_entries = 0; entries[n_entries].long_name != NULL; n_entries++) ;
-+ 
-++  g_return_if_fail (n_entries <= G_MAXSIZE - group->n_entries);
-++
-+   group->entries = g_renew (GOptionEntry, group->entries, group->n_entries + n_entries);
-+ 
-+   /* group->entries could be NULL in the trivial case where we add no
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
-index 09d253fbfb..0ad14a0878 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-            file://tzdata-update.patch \
-+           file://0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch \
-            "
- 
- SRC_URI_append_class-native = " file://relocate-modules.patch"
--- 
-2.20.1
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index e40b8c1c40..761e4f74dc 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -123,6 +123,11 @@ PACKAGECONFIG[ipv6] = "-Dipv6=true,-Dipv6=false,"
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,"
+ 
+ export TARGET_PFPU = "${TARGET_FPU}"
++# workaround build failure on qemuarmv5 as the neon optimizations is
++# enabled by default and no option to disable neon with meson build
++# system
++CC_append_armv5 = " -mfloat-abi=softfp"
++export CC
+ 
+ set_cfg_value () {
+        sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
+
+I really don't want to add things like this to the recipe, I think it
+will interfere with other parts of the compilation. In many ways I'd
+prefer an option added to meson. Do we know what upstream are thinking
+in relation to this?
+
+Cheers,
+
+Richard
+
 
