@@ -1,197 +1,145 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web08.6016.1609856791487948036
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web12.5895.1609856795643588401
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:26:31 -0800
+ Tue, 05 Jan 2021 06:26:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cjioUU7B;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id c79so18453362pfc.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:31 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=nhf6i7S/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id c132so10048560pga.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Jr0rHKwohSDjsnkhDSlzkyZ51GZzvHrFpQSRlggOWfA=;
-        b=cjioUU7B7OMw7PzCoBQcJZMThi+do71bSLYcK9UlWeskprCBKmeQkcylRc29wD/npF
-         OeEIFj112x+sj7gXmlXE5nhDBkoHRVcLihzHjUGFZ5jfd4BhMyZwz5RpRjA23Y/0Xhkr
-         6mkGS+trQE1t4KN7bn1a+iXuJz4oOc6Z5j50uataK5NNwo9LocJuErpq43s1B2tZi4kB
-         7z+G83GMV1PQj0abZZ06q7PYinBFXYTC8Cwhy+3ULrOWFcjNYDyhbvJ5tcvuL0UwBMoy
-         gUQWA48BFfZDL+70kDmgkiV+k520XEhqKRuU0v8mkwtaMGYDFi/fP4JMyWa1JA3HgZUA
-         YukQ==
+        bh=e6Mozz9QWBuw4c0rWvRaTymZYY0G61h6pyPqDjsmzKo=;
+        b=nhf6i7S/p08kro1mk6EZy2v5oROjGkWnhD6Fe8/5cz+g0CJnBhm2t/uKxn7FZ+VXus
+         OQkCU7uH483LFbWvKe3EmNdxptH7kNxvukOjcTa3MlVff1N44MSN3m6anVjsDmPX2u7e
+         On/dgV7vP5tpUM2LZZWPxqC0Rjs+9YV5QLGYkQOzgW88kjFDMYqscP+OyjiC4Ikm+FER
+         7xA3DUknZfSyiHL0EGTnL0YscDTUwlTybeNqGCj70mRtaoCI2ns07OonqIIXou8Dn6cE
+         /h/kLe8yb2FYBI9+YchoNjq2r11OnBJ1q/oSPHY2FZgT5uOu4SsoLkOGkXbk5YxCi+cD
+         Jidw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=Jr0rHKwohSDjsnkhDSlzkyZ51GZzvHrFpQSRlggOWfA=;
-        b=RNBjGMMUJ4HalX0UhY6JGm3lLk5xxYegyLauR/xltVnGKqSuXw4EJtqnwr9DP+qjZD
-         sAig+ej61lCB2AJ43Hbg25lzJPSTCwjE+xCzPaDfgrrIi/LqARPD1lkxM96T2n5p+74R
-         rTZa5dVg46DSsQMJoXQ5YShekNteo7KTTMcMCARakxeOK17V0cUUsESEvhTarSj2zMHk
-         VAf02+n+Nknu9L+GseTE5f4yMObSiqrB5juGbW2tiGoS/aX0zjtqshcHzxuVYFNnWBVL
-         apmRizKHeHYLXQbvHNHWwNPnF2UfSnU5rDD7aCB4lNMdz2HqNlxt+RKkyEqPpCw0qyp7
-         qr+Q==
-X-Gm-Message-State: AOAM533WEa1OhYunCdHagsQG0R3I0uYlam25JSmgd6IxDCNlSAHSldiG
-	//8jPVc3YF9/DLdgziBrk7cymSHtevAg9TSCewU=
-X-Google-Smtp-Source: ABdhPJykHlOw+iOUviOrP57BvaXLyYGgUFu0gX2flRkMRBh2NE6mFt2Jx/kMtbi2lEU3ydCOdTkPSg==
-X-Received: by 2002:a63:1a10:: with SMTP id a16mr54664339pga.317.1609856790586;
-        Tue, 05 Jan 2021 06:26:30 -0800 (PST)
+        bh=e6Mozz9QWBuw4c0rWvRaTymZYY0G61h6pyPqDjsmzKo=;
+        b=ai07I7IOJMgiv19HfC1fujcSqnD0MOr6XUr/C2HwOenpfARgApKDJ4lf8m06/mel+F
+         mEvmxUaIKCYQiCDJwmb0E5FcbGYun8gBvQlpteaXOv8hetzPUK4Sa5IqddtHaeDjRtfB
+         DCiY6R3hUi0Ks7KfgxLphbbjbFAlwazuse2Pu0BKrXBbScG+cg81tq0iDk9qvy2Yamh6
+         +GrdeRJay8vkQ0mX4pdCDPNJMv0nzOUGELBelgVymglo2vGuOubTcx6eC2CgYXca8Q/k
+         Vk+761BFj3Sca7M6ZXfucFrocVFAi0xHA5hiBUxIA4cTc7tmkaNKC9o2BrElph8hemrE
+         ptdw==
+X-Gm-Message-State: AOAM5309bHW5Cubpfmdhm40NRmeCrkyzUnar8hrzuwnwovdwgxNW3S+9
+	63Unb1viJmVTt4w8XETKnAw4kdRD5xxntEyjo9g=
+X-Google-Smtp-Source: ABdhPJz4I3hUE7qL3mS29Dzxr00Mdu0t4HlZZ+p+q3XXvJq+eQ9uYTtuQw/hk8btTqvIRBX52lizpw==
+X-Received: by 2002:a62:c504:0:b029:1a5:b198:18dc with SMTP id j4-20020a62c5040000b02901a5b19818dcmr50376789pfg.79.1609856794801;
+        Tue, 05 Jan 2021 06:26:34 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.29
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:26:29 -0800 (PST)
+        Tue, 05 Jan 2021 06:26:34 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 27/30] libexif: fix CVE-2020-0198; CVE-2020-0452
-Date: Tue,  5 Jan 2021 04:23:52 -1000
-Message-Id: <2c25bdd3624002f04be2cf188d8df5d3a0b48dcb.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 28/30] gdk-pixbuf: fix CVE-2020-29385
+Date: Tue,  5 Jan 2021 04:23:53 -1000
+Message-Id: <710aa67534d569a19fbe371e87e758bb08499ecc.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Backport patch from
+https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81
+
+image file in upstream patch is for test purpose only, it cause error during
+do_patch so drop it:
+File tests/test-images/fail/hang_114.gif: git binary diffs are not supported.
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 46d837442ab216941df2d02f60c69155463e02d8)
+(cherry picked from commit 7cd401b7c60dba91f6fb10395ab4a10a267cf23d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libexif/files/CVE-2020-0198.patch         | 66 +++++++++++++++++++
- .../libexif/files/CVE-2020-0452.patch         | 39 +++++++++++
- .../recipes-support/libexif/libexif_0.6.22.bb |  2 +
- 3 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-support/libexif/files/CVE-2020-0198.patch
- create mode 100644 meta/recipes-support/libexif/files/CVE-2020-0452.patch
+ .../gdk-pixbuf/CVE-2020-29385.patch           | 55 +++++++++++++++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
 
-diff --git a/meta/recipes-support/libexif/files/CVE-2020-0198.patch b/meta/recipes-support/libexif/files/CVE-2020-0198.patch
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
 new file mode 100644
-index 0000000000..2a48844cb2
+index 0000000000..3fef2bc1eb
 --- /dev/null
-+++ b/meta/recipes-support/libexif/files/CVE-2020-0198.patch
-@@ -0,0 +1,66 @@
-+From ca71eda33fe8421f98fbe20eb4392473357c1c43 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 30 Dec 2020 10:22:47 +0800
-+Subject: [PATCH] fixed another unsigned integer overflow
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+@@ -0,0 +1,55 @@
++From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001
++From: Robert Ancell <robert.ancell@canonical.com>
++Date: Mon, 30 Nov 2020 12:26:12 +1300
++Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.
 +
-+first fixed by google in android fork,
-+https://android.googlesource.com/platform/external/libexif/+/1e187b62682ffab5003c702657d6d725b4278f16%5E%21/#F0
++The code value after a reset wasn't being validated, which means we would
++accept invalid codes. This could cause an infinite loop in the decoder.
 +
-+(use a more generic overflow check method, also check second overflow instance.)
++Fixes CVE-2020-29385
 +
-+https://security-tracker.debian.org/tracker/CVE-2020-0198
++Fixes https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164
 +
-+Upstream-Status: Backport[https://github.com/libexif/libexif/commit/ce03ad7ef4e8aeefce79192bf5b6f69fae396f0c]
-+CVE: CVE-2020-0198
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81]
++CVE: CVE-2020-29385
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 +
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ libexif/exif-data.c | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
++ gdk-pixbuf/lzw.c                    |  13 +++++++------
++ 1 files changed, 7 insertions(+), 6 deletions(-)
++ create mode 100644 tests/test-images/fail/hang_114.gif
 +
-+diff --git a/libexif/exif-data.c b/libexif/exif-data.c
-+index 8b280d3..34d58fc 100644
-+--- a/libexif/exif-data.c
-++++ b/libexif/exif-data.c
-+@@ -47,6 +47,8 @@
-+ #undef JPEG_MARKER_APP1
-+ #define JPEG_MARKER_APP1 0xe1
++diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
++index 9e052a6f7..105daf2b1 100644
++--- a/gdk-pixbuf/lzw.c
+++++ b/gdk-pixbuf/lzw.c
++@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,
++                                 if (self->last_code != self->clear_code && self->code_table_size < MAX_CODES) {
++                                         if (self->code < self->code_table_size)
++                                                 add_code (self, self->code);
++-                                        else if (self->code == self->code_table_size)
+++                                        else
++                                                 add_code (self, self->last_code);
++-                                        else {
++-                                                /* Invalid code received - just stop here */
++-                                                self->last_code = self->eoi_code;
++-                                                return output_length;
++-                                        }
 + 
-++#define CHECKOVERFLOW(offset,datasize,structsize) (( offset >= datasize) || (structsize > datasize) || (offset > datasize - structsize ))
++                                         /* When table is full increase code size */
++                                         if (self->code_table_size == (1 << self->code_size) && self->code_size < LZW_CODE_MAX)
++                                                 self->code_size++;
++                                 }
++ 
+++                                /* Invalid code received - just stop here */
+++                                if (self->code >= self->code_table_size) {
+++                                        self->last_code = self->eoi_code;
+++                                        return output_length;
+++                                }
 ++
-+ static const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
-+ 
-+ struct _ExifDataPrivate
-+@@ -327,7 +329,7 @@ exif_data_load_data_thumbnail (ExifData *data, const unsigned char *d,
-+ 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData", "Bogus thumbnail offset (%u).", o);
-+ 		return;
-+ 	}
-+-	if (s > ds - o) {
-++	if (CHECKOVERFLOW(o,ds,s)) {
-+ 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData", "Bogus thumbnail size (%u), max would be %u.", s, ds-o);
-+ 		return;
-+ 	}
-+@@ -420,9 +422,9 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
-+ 	}
-+ 
-+ 	/* Read the number of entries */
-+-	if ((offset + 2 < offset) || (offset + 2 < 2) || (offset + 2 > ds)) {
-++	if (CHECKOVERFLOW(offset, ds, 2)) {
-+ 		exif_log (data->priv->log, EXIF_LOG_CODE_CORRUPT_DATA, "ExifData",
-+-			  "Tag data past end of buffer (%u > %u)", offset+2, ds);
-++			  "Tag data past end of buffer (%u+2 > %u)", offset, ds);
-+ 		return;
-+ 	}
-+ 	n = exif_get_short (d + offset, data->priv->order);
-+@@ -431,7 +433,7 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
-+ 	offset += 2;
-+ 
-+ 	/* Check if we have enough data. */
-+-	if (offset + 12 * n > ds) {
-++	if (CHECKOVERFLOW(offset, ds, 12*n)) {
-+ 		n = (ds - offset) / 12;
-+ 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData",
-+ 				  "Short data; only loading %hu entries...", n);
++                                 /* Convert codeword into indexes */
++                                 n_written += write_indexes (self, output + n_written, output_length - n_written);
++                         }
 +-- 
-+2.17.1
++2.25.1
 +
-diff --git a/meta/recipes-support/libexif/files/CVE-2020-0452.patch b/meta/recipes-support/libexif/files/CVE-2020-0452.patch
-new file mode 100644
-index 0000000000..a117b8b369
---- /dev/null
-+++ b/meta/recipes-support/libexif/files/CVE-2020-0452.patch
-@@ -0,0 +1,39 @@
-+From 302acd49eba0a125b0f20692df6abc6f7f7ca53e Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 30 Dec 2020 10:18:51 +0800
-+Subject: [PATCH] fixed a incorrect overflow check that could be optimized
-+ away.
-+
-+inspired by:
-+https://android.googlesource.com/platform/external/libexif/+/8e7345f3bc0bad06ac369d6cbc1124c8ceaf7d4b
-+
-+https://source.android.com/security/bulletin/2020-11-01
-+
-+CVE-2020-0452
-+
-+Upsteam-Status: Backport[https://github.com/libexif/libexif/commit/9266d14b5ca4e29b970fa03272318e5f99386e06]
-+CVE: CVE-2020-0452
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ libexif/exif-entry.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libexif/exif-entry.c b/libexif/exif-entry.c
-+index 5de215f..3a6ce84 100644
-+--- a/libexif/exif-entry.c
-++++ b/libexif/exif-entry.c
-+@@ -1371,8 +1371,8 @@ exif_entry_get_value (ExifEntry *e, char *val, unsigned int maxlen)
-+ 	{
-+ 		unsigned char *utf16;
-+ 
-+-		/* Sanity check the size to prevent overflow */
-+-		if (e->size+sizeof(uint16_t)+1 < e->size) break;
-++		/* Sanity check the size to prevent overflow. Note EXIF files are 64kb at most. */
-++		if (e->size >= 65536 - sizeof(uint16_t)*2) break;
-+ 
-+ 		/* The tag may not be U+0000-terminated , so make a local
-+ 		   U+0000-terminated copy before converting it */
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/libexif/libexif_0.6.22.bb b/meta/recipes-support/libexif/libexif_0.6.22.bb
-index a520d5c9f9..3b08dc52be 100644
---- a/meta/recipes-support/libexif/libexif_0.6.22.bb
-+++ b/meta/recipes-support/libexif/libexif_0.6.22.bb
-@@ -8,6 +8,8 @@ def version_underscore(v):
-     return "_".join(v.split("."))
- 
- SRC_URI = "https://github.com/libexif/libexif/releases/download/libexif-${@version_underscore("${PV}")}-release/libexif-${PV}.tar.xz \
-+           file://CVE-2020-0198.patch \
-+           file://CVE-2020-0452.patch \
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+index 0405fa78b5..54861e83c6 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+@@ -24,6 +24,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0004-Do-not-run-tests-when-building.patch \
+            file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
+            file://missing-test-data.patch \
++           file://CVE-2020-29385.patch \
             "
  
- SRC_URI[sha256sum] = "5048f1c8fc509cc636c2f97f4b40c293338b6041a5652082d5ee2cf54b530c56"
+ SRC_URI_append_class-target = " \
 -- 
 2.17.1
 
