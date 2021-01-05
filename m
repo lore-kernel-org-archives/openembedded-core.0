@@ -1,81 +1,82 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web11.5850.1609856713448657374
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web10.5944.1609856719686464238
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:25:13 -0800
+ Tue, 05 Jan 2021 06:25:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Iuza9Grl;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id z12so1779308pjn.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kGAq/Cum;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id lb18so1771139pjb.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=C65oe+YQUL/cqYRcrDqcQHtv5UzINsrf4A+rnlRyrts=;
-        b=Iuza9GrlzjdX1QF7MI3KF5CSnbUEzZrzZBRSw8MYTPK832lhaYUj6NJ2sVwDSz4H1X
-         unvHFP/Nf+/q2EsSl1TA4N77KwhOGKmUxnHOOUOBDiNbhwiFao3CmDgGhx2pAfhBjK4d
-         /A6M4zak0fmocoy+dSsFHI49K+DQf19BeAQZ+iNDlCXoccz+L1+XxQmN2pg4ldwi3KOO
-         MwCy9nOURENVzOl/BNM6+ueD+poKZfy8DFkKdZDeN9v8Yta23oIYwQCdDW9G69xj8/US
-         MeEB6sIeoPPmWiQ1ePQGmzfC/qwArE9VaZwpLHoBsWNOSj+2Cu4zCzvIhXXurD3mbvgT
-         KY3g==
+        bh=Z8mBIMG3a94MPv21swnuzetJfBVVdR2tVk/1KkGhaTs=;
+        b=kGAq/Cumh6N5CpPPNbwcPtRt3bjC0YdVoQwMp72IAogXhH1bQj21tHmjZxoFP+DxY+
+         RKVCv/wpSX3Mu5jp+StxzUFm3k2LXamhteRbiLhNMd7IovHTayPabUo+LiRdrPwhcUJ1
+         KdY9M8er8Eq4akVUxSIPb5D0MI0SwFk9TvGSneqbspBT9DSeamFDkKIX0GNPVMVb1r0E
+         L+Yf7oRj1ikH61eWHnxkMRgwWJuNXsBc4PmS4cXlkdRgZ1iyZPrmihWOi+4jBoDMNyKZ
+         Vb0IqfS5GaUF8ssGeFJ1XUuaP3KI2iNBejM1MBmFX9VhNs9X4kUIWpBDeIBjf3JPUaMa
+         57fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=C65oe+YQUL/cqYRcrDqcQHtv5UzINsrf4A+rnlRyrts=;
-        b=HvDstrvQvY/IF+8lDgycfNBT+bVsszQ11moWM7O+9Vp+GbccBp8OX/CUnaH6bmqvYS
-         LHENWXMhAHtMl8oCIMTWH0cuhbX0m3ci574vc6g1MXr0NrEPZNSzeYwiYQM162bM1Chy
-         0wOiQ/CGhrqhxWx6zZIObNgEh5XasTiKW8WD3y2RU7/9Qhdb5SRp8dKPs4AHvvFgbYgr
-         tpD2ppWgdLWOmLKDfFpX8XeXxEWl58Vg40FOWnqEdo3asFulqA/xCrO4Kx6AET9i3KwT
-         MrczbS6yn4se5YbSli+VqmQMYfFF6a+6tvR5FkF5bQ/Ev04Xjo1FrSsuz1jmwmuxkewc
-         FGAg==
-X-Gm-Message-State: AOAM531kqCAr1T0XOHCnybtA7H7YVqeV76+Vtpp6p3kpRE1XtMGC2aRn
-	pEFCQsPqcj0MCu4gfx+fvm9e973C6sipRjL/vR4=
-X-Google-Smtp-Source: ABdhPJxVnWZetw7zbNqaJ+hBye+TH6Fv6UJychg2X/l7n0dvWgxWMynxRkkvt37D8cHzbdCcSXG2EQ==
-X-Received: by 2002:a17:90a:be17:: with SMTP id a23mr4278843pjs.236.1609856712681;
-        Tue, 05 Jan 2021 06:25:12 -0800 (PST)
+        bh=Z8mBIMG3a94MPv21swnuzetJfBVVdR2tVk/1KkGhaTs=;
+        b=J93GeZSlzFCdByzZGowVXdmpDA5ccbKdkDdOq8zuY459cIHIWrY5mFpsMRHE5g5HBy
+         qCQ5VE2vJo1xpLKDXpf51JSYilhyAua/18/CJlHsMZE8N8pjx+KxJU5DIkylxLN8exoa
+         40+zsaahIKoFIYk7CixkVTTmr4metFXVjKVgp2g5MiSdkeaokw2zH1bEdX7RBsydl9gH
+         SAve8aI3btySQj6w3RuQ6ntuziG2k+dZN0Co0GyfGUh5taICWMOtnrZNg5Al4QW/R7BA
+         t0LJ9HJGAlyh9zcSi7UyN/8Oxrl4U5+Wdl4nXlbW2lDZDSAQ7b1UStJfevsnRV0Bj5Dx
+         9+pA==
+X-Gm-Message-State: AOAM530ZHawy9BcvtItSP/MPfEch8pGRpM9E9hXJmzDN2VWH5ny5DCKr
+	zRdjEn+2U+o70h6QeWMVnB/DlNGxalmDCoyM35E=
+X-Google-Smtp-Source: ABdhPJz8EhXhXaL+1uTnRtEWSZAcWX3PNEHIu0Ml7JW1zvEB/9uZk7uywlQV72E5kBvX8lMQYg1uxw==
+X-Received: by 2002:a17:902:ee0b:b029:db:c808:ccef with SMTP id z11-20020a170902ee0bb02900dbc808ccefmr77095321plb.85.1609856718888;
+        Tue, 05 Jan 2021 06:25:18 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.11
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:25:12 -0800 (PST)
+        Tue, 05 Jan 2021 06:25:18 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/30] wic-image-minimal: only depend on syslinux on x86 targets
-Date: Tue,  5 Jan 2021 04:23:37 -1000
-Message-Id: <4d4b907554ab964e6b68f3d588d398174b5d5459.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/30] coreutils: enable xattrs by default for nativesdk
+Date: Tue,  5 Jan 2021 04:23:38 -1000
+Message-Id: <93856de6814a013eccbfac6b3b9bb75cf0655964.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Ross Burton <ross@burtonini.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
 
-Following other examples, only depend on syslinux when targetting x86.
+When using coreutils nativesdk (e.g. with buildtools-tarball) for
+running oe-core builds, a number of recipes/classes/etc. expect xattr
+support. This requirement is also expressed by the existing
+PACKAGECONFIG_class-native default including xattrs.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c58fcc1379ca5755a5b670f79b75e94370d4943c)
+(cherry picked from commit 80d7debffdeed165006b26dcb89cffafaaecca06)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-core/coreutils/coreutils_8.31.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-index e1da203b59..1cb019898d 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-@@ -6,7 +6,10 @@ IMAGE_INSTALL = "packagegroup-core-boot"
+diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+index bd7a8a2f35..7dd9e41def 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.31.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+@@ -39,6 +39,9 @@ PACKAGECONFIG_class-target ??= "\
+ # The lib/oe/path.py requires xattr
+ PACKAGECONFIG_class-native ??= "xattr"
  
- IMAGE_FSTYPES = "wic"
- 
--WKS_FILE_DEPENDS = "syslinux syslinux-native dosfstools-native mtools-native gptfdisk-native"
-+WKS_FILE_DEPENDS = "dosfstools-native mtools-native gptfdisk-native"
-+WKS_FILE_DEPENDS_append_x86 = " syslinux-native syslinux"
-+WKS_FILE_DEPENDS_append_x86-64 = " syslinux-native syslinux"
-+WKS_FILE_DEPENDS_append_x86-x32 = " syslinux-native syslinux"
- 
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
- 
++# oe-core builds need xattr support
++PACKAGECONFIG_class-nativesdk ??= "xattr"
++
+ # with, without, depends, rdepends
+ #
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
 -- 
 2.17.1
 
