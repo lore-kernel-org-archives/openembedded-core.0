@@ -1,89 +1,197 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web11.5867.1609856787734926798
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web08.6016.1609856791487948036
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:26:27 -0800
+ Tue, 05 Jan 2021 06:26:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=alOPn9k8;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id v19so21345157pgj.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cjioUU7B;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id c79so18453362pfc.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=PcOMmxvJgFiMxdoEUhY/XvW1sh5NB3w6pQTYYGq9yDo=;
-        b=alOPn9k8Naf5HGJTDQEPIoiW/0F/NCjReV11ebRHIJDvt7PahBRG5QG4ddjKxjQEub
-         aYikY92ixlfwBRnq6F//zOmyPXiO5EY1bijjgQItKqw9V9hEySKxcMG1bwwaTpMElJxi
-         7rrDGd1kImpP7/2MiW1ruX/TyleshqkcSG+2C39z82fWruxlCv9KTfpLWkCiTy1waj61
-         8BGdBbvkXeLvDBcfDbYFaNVLGjLJFiV1l6ZsXUi4wflAvDVrkFK3cnpzEfrovyr6xJVk
-         G//y0cod6Wd8flwd7/6oN5ymd9fASecwAjeXDy1itcY8j7adKCORi/0O+6I/oXTa8T91
-         NsOg==
+        bh=Jr0rHKwohSDjsnkhDSlzkyZ51GZzvHrFpQSRlggOWfA=;
+        b=cjioUU7B7OMw7PzCoBQcJZMThi+do71bSLYcK9UlWeskprCBKmeQkcylRc29wD/npF
+         OeEIFj112x+sj7gXmlXE5nhDBkoHRVcLihzHjUGFZ5jfd4BhMyZwz5RpRjA23Y/0Xhkr
+         6mkGS+trQE1t4KN7bn1a+iXuJz4oOc6Z5j50uataK5NNwo9LocJuErpq43s1B2tZi4kB
+         7z+G83GMV1PQj0abZZ06q7PYinBFXYTC8Cwhy+3ULrOWFcjNYDyhbvJ5tcvuL0UwBMoy
+         gUQWA48BFfZDL+70kDmgkiV+k520XEhqKRuU0v8mkwtaMGYDFi/fP4JMyWa1JA3HgZUA
+         YukQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=PcOMmxvJgFiMxdoEUhY/XvW1sh5NB3w6pQTYYGq9yDo=;
-        b=r6r8z56iBaKlb+zVt+gRPTNJk2Lfffm8xX6ORy0LK4vgJd+znF+lZUyC8lvvFQ9K/e
-         aPCmidid9RLSDKBELM1nFJJ36H6Bf+mcEr54gZSP5PFE3XbW90BrLuhyIv5mc1+yHPVi
-         /cn3qLZ10GYovXiR85M58oYjMOszXiGx6ULW+dQCgX60e0WeF1Ujibn17h8ld26fxeQj
-         q1OgUPICtvh2wla8JVSCSkIcW/F3KLxf4aVcebBa0AH6YxY80Uw5ehjBXw4bL6OuNQMq
-         6/72ZTajFg7LI73ZX6CkayFy2t6kXAVJfW4pTocB1nod+S75P9Vnv6jGaGzjPS7ryZKl
-         LvoA==
-X-Gm-Message-State: AOAM532PR0eCmA5u2h/Ph/8wlHKOIKXQph/d6XaGZXyqD7c5Y5sx7gOn
-	Rlj2UIm22TBKCDlWtSI7OCcmHSLW/5KGB+MsIZw=
-X-Google-Smtp-Source: ABdhPJwMGrt659S9pyhUnK3Vr1T+6lOyRIQ/9jlXAEKg6t2KmB5E4TjTqt+5Y5ntrR4OJiArfmchfA==
-X-Received: by 2002:a05:6a00:15ca:b029:1aa:7d8f:3ca4 with SMTP id o10-20020a056a0015cab02901aa7d8f3ca4mr69490985pfu.79.1609856786941;
-        Tue, 05 Jan 2021 06:26:26 -0800 (PST)
+        bh=Jr0rHKwohSDjsnkhDSlzkyZ51GZzvHrFpQSRlggOWfA=;
+        b=RNBjGMMUJ4HalX0UhY6JGm3lLk5xxYegyLauR/xltVnGKqSuXw4EJtqnwr9DP+qjZD
+         sAig+ej61lCB2AJ43Hbg25lzJPSTCwjE+xCzPaDfgrrIi/LqARPD1lkxM96T2n5p+74R
+         rTZa5dVg46DSsQMJoXQ5YShekNteo7KTTMcMCARakxeOK17V0cUUsESEvhTarSj2zMHk
+         VAf02+n+Nknu9L+GseTE5f4yMObSiqrB5juGbW2tiGoS/aX0zjtqshcHzxuVYFNnWBVL
+         apmRizKHeHYLXQbvHNHWwNPnF2UfSnU5rDD7aCB4lNMdz2HqNlxt+RKkyEqPpCw0qyp7
+         qr+Q==
+X-Gm-Message-State: AOAM533WEa1OhYunCdHagsQG0R3I0uYlam25JSmgd6IxDCNlSAHSldiG
+	//8jPVc3YF9/DLdgziBrk7cymSHtevAg9TSCewU=
+X-Google-Smtp-Source: ABdhPJykHlOw+iOUviOrP57BvaXLyYGgUFu0gX2flRkMRBh2NE6mFt2Jx/kMtbi2lEU3ydCOdTkPSg==
+X-Received: by 2002:a63:1a10:: with SMTP id a16mr54664339pga.317.1609856790586;
+        Tue, 05 Jan 2021 06:26:30 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.25
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:26:26 -0800 (PST)
+        Tue, 05 Jan 2021 06:26:29 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 26/30] man-db: Fix reproducibility issue
-Date: Tue,  5 Jan 2021 04:23:51 -1000
-Message-Id: <b8c71ab1bd8519dde77b38955473bc3b45976d48.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 27/30] libexif: fix CVE-2020-0198; CVE-2020-0452
+Date: Tue,  5 Jan 2021 04:23:52 -1000
+Message-Id: <2c25bdd3624002f04be2cf188d8df5d3a0b48dcb.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
 
-Executing a sequence like:
-
-bitbake man-db
-bitbake man-db -c clean
-bitbake man-db -c package_write_deb -f
-
-results in the ownership of files in the man-db package changing from "man/man"
-to "6/12". This is due to base-passwd not being installed in the recipe
-sysroot.
-
-Add the missing dependency so even if a recipe "re-packages", the name
-of the user/group is found and the packages are reproducible.
-
-[YOCTO #14172]
-
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 769f8be29a192fd4fa0c4752f851fa3728d71179)
+(cherry picked from commit 46d837442ab216941df2d02f60c69155463e02d8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/man-db/man-db_2.9.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../libexif/files/CVE-2020-0198.patch         | 66 +++++++++++++++++++
+ .../libexif/files/CVE-2020-0452.patch         | 39 +++++++++++
+ .../recipes-support/libexif/libexif_0.6.22.bb |  2 +
+ 3 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-support/libexif/files/CVE-2020-0198.patch
+ create mode 100644 meta/recipes-support/libexif/files/CVE-2020-0452.patch
 
-diff --git a/meta/recipes-extended/man-db/man-db_2.9.0.bb b/meta/recipes-extended/man-db/man-db_2.9.0.bb
-index 493fe817e5..333fbfa76d 100644
---- a/meta/recipes-extended/man-db/man-db_2.9.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.9.0.bb
-@@ -12,6 +12,7 @@ SRC_URI[sha256sum] = "5d4aacd9e8876d6a3203a889860c3524c293c38f04111a3350deab8a6c
+diff --git a/meta/recipes-support/libexif/files/CVE-2020-0198.patch b/meta/recipes-support/libexif/files/CVE-2020-0198.patch
+new file mode 100644
+index 0000000000..2a48844cb2
+--- /dev/null
++++ b/meta/recipes-support/libexif/files/CVE-2020-0198.patch
+@@ -0,0 +1,66 @@
++From ca71eda33fe8421f98fbe20eb4392473357c1c43 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 30 Dec 2020 10:22:47 +0800
++Subject: [PATCH] fixed another unsigned integer overflow
++
++first fixed by google in android fork,
++https://android.googlesource.com/platform/external/libexif/+/1e187b62682ffab5003c702657d6d725b4278f16%5E%21/#F0
++
++(use a more generic overflow check method, also check second overflow instance.)
++
++https://security-tracker.debian.org/tracker/CVE-2020-0198
++
++Upstream-Status: Backport[https://github.com/libexif/libexif/commit/ce03ad7ef4e8aeefce79192bf5b6f69fae396f0c]
++CVE: CVE-2020-0198
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ libexif/exif-data.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
++
++diff --git a/libexif/exif-data.c b/libexif/exif-data.c
++index 8b280d3..34d58fc 100644
++--- a/libexif/exif-data.c
+++++ b/libexif/exif-data.c
++@@ -47,6 +47,8 @@
++ #undef JPEG_MARKER_APP1
++ #define JPEG_MARKER_APP1 0xe1
++ 
+++#define CHECKOVERFLOW(offset,datasize,structsize) (( offset >= datasize) || (structsize > datasize) || (offset > datasize - structsize ))
+++
++ static const unsigned char ExifHeader[] = {0x45, 0x78, 0x69, 0x66, 0x00, 0x00};
++ 
++ struct _ExifDataPrivate
++@@ -327,7 +329,7 @@ exif_data_load_data_thumbnail (ExifData *data, const unsigned char *d,
++ 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData", "Bogus thumbnail offset (%u).", o);
++ 		return;
++ 	}
++-	if (s > ds - o) {
+++	if (CHECKOVERFLOW(o,ds,s)) {
++ 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData", "Bogus thumbnail size (%u), max would be %u.", s, ds-o);
++ 		return;
++ 	}
++@@ -420,9 +422,9 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
++ 	}
++ 
++ 	/* Read the number of entries */
++-	if ((offset + 2 < offset) || (offset + 2 < 2) || (offset + 2 > ds)) {
+++	if (CHECKOVERFLOW(offset, ds, 2)) {
++ 		exif_log (data->priv->log, EXIF_LOG_CODE_CORRUPT_DATA, "ExifData",
++-			  "Tag data past end of buffer (%u > %u)", offset+2, ds);
+++			  "Tag data past end of buffer (%u+2 > %u)", offset, ds);
++ 		return;
++ 	}
++ 	n = exif_get_short (d + offset, data->priv->order);
++@@ -431,7 +433,7 @@ exif_data_load_data_content (ExifData *data, ExifIfd ifd,
++ 	offset += 2;
++ 
++ 	/* Check if we have enough data. */
++-	if (offset + 12 * n > ds) {
+++	if (CHECKOVERFLOW(offset, ds, 12*n)) {
++ 		n = (ds - offset) / 12;
++ 		exif_log (data->priv->log, EXIF_LOG_CODE_DEBUG, "ExifData",
++ 				  "Short data; only loading %hu entries...", n);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/libexif/files/CVE-2020-0452.patch b/meta/recipes-support/libexif/files/CVE-2020-0452.patch
+new file mode 100644
+index 0000000000..a117b8b369
+--- /dev/null
++++ b/meta/recipes-support/libexif/files/CVE-2020-0452.patch
+@@ -0,0 +1,39 @@
++From 302acd49eba0a125b0f20692df6abc6f7f7ca53e Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 30 Dec 2020 10:18:51 +0800
++Subject: [PATCH] fixed a incorrect overflow check that could be optimized
++ away.
++
++inspired by:
++https://android.googlesource.com/platform/external/libexif/+/8e7345f3bc0bad06ac369d6cbc1124c8ceaf7d4b
++
++https://source.android.com/security/bulletin/2020-11-01
++
++CVE-2020-0452
++
++Upsteam-Status: Backport[https://github.com/libexif/libexif/commit/9266d14b5ca4e29b970fa03272318e5f99386e06]
++CVE: CVE-2020-0452
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ libexif/exif-entry.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libexif/exif-entry.c b/libexif/exif-entry.c
++index 5de215f..3a6ce84 100644
++--- a/libexif/exif-entry.c
+++++ b/libexif/exif-entry.c
++@@ -1371,8 +1371,8 @@ exif_entry_get_value (ExifEntry *e, char *val, unsigned int maxlen)
++ 	{
++ 		unsigned char *utf16;
++ 
++-		/* Sanity check the size to prevent overflow */
++-		if (e->size+sizeof(uint16_t)+1 < e->size) break;
+++		/* Sanity check the size to prevent overflow. Note EXIF files are 64kb at most. */
+++		if (e->size >= 65536 - sizeof(uint16_t)*2) break;
++ 
++ 		/* The tag may not be U+0000-terminated , so make a local
++ 		   U+0000-terminated copy before converting it */
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/libexif/libexif_0.6.22.bb b/meta/recipes-support/libexif/libexif_0.6.22.bb
+index a520d5c9f9..3b08dc52be 100644
+--- a/meta/recipes-support/libexif/libexif_0.6.22.bb
++++ b/meta/recipes-support/libexif/libexif_0.6.22.bb
+@@ -8,6 +8,8 @@ def version_underscore(v):
+     return "_".join(v.split("."))
  
- DEPENDS = "libpipeline gdbm groff-native base-passwd"
- RDEPENDS_${PN} += "base-passwd"
-+PACKAGE_WRITE_DEPS += "base-passwd"
+ SRC_URI = "https://github.com/libexif/libexif/releases/download/libexif-${@version_underscore("${PV}")}-release/libexif-${PV}.tar.xz \
++           file://CVE-2020-0198.patch \
++           file://CVE-2020-0452.patch \
+            "
  
- # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
- USE_NLS_libc-musl = "no"
+ SRC_URI[sha256sum] = "5048f1c8fc509cc636c2f97f4b40c293338b6041a5652082d5ee2cf54b530c56"
 -- 
 2.17.1
 
