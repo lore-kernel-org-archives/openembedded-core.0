@@ -1,125 +1,89 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.5964.1609856784779923002
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web11.5867.1609856787734926798
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:26:24 -0800
+ Tue, 05 Jan 2021 06:26:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LYbISSFa;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f178.google.com with SMTP id e2so21387712pgi.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:24 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=alOPn9k8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id v19so21345157pgj.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=7KKW4KOt8J5pOw7QiGkfFs0GpAEw8F0FQaJkpc08q3I=;
-        b=LYbISSFa1M9FzRP+V4RSRgAsqCYjKweznmn2X/gOB/kFOJhqrTV0E4QRKd0ueuLCdn
-         HztSUcVwv2iYI0kXGxpSFSVaA7ji9NyXF06Mpux35tfJVMF2uu9JxvPL5qgXlbHrXOmU
-         JWY2DSGqFA3FK2OW0QoOqBrDVI96jARGv94/+vpRxh6goMPU5GJyDIH0L4PU24G69ZFa
-         boQwxms64P6E+US74hLarP8cU6ORe/w1cjlhztjRAN5ml7rQv8ARNYECfCL3kaVvNjJC
-         nwFV905WKLRVLS80ffvKmiN20+FnjE22BDQlZFNSaMu8l0EDhjtJvCLEyYRj6HxaoT8i
-         BCJg==
+        bh=PcOMmxvJgFiMxdoEUhY/XvW1sh5NB3w6pQTYYGq9yDo=;
+        b=alOPn9k8Naf5HGJTDQEPIoiW/0F/NCjReV11ebRHIJDvt7PahBRG5QG4ddjKxjQEub
+         aYikY92ixlfwBRnq6F//zOmyPXiO5EY1bijjgQItKqw9V9hEySKxcMG1bwwaTpMElJxi
+         7rrDGd1kImpP7/2MiW1ruX/TyleshqkcSG+2C39z82fWruxlCv9KTfpLWkCiTy1waj61
+         8BGdBbvkXeLvDBcfDbYFaNVLGjLJFiV1l6ZsXUi4wflAvDVrkFK3cnpzEfrovyr6xJVk
+         G//y0cod6Wd8flwd7/6oN5ymd9fASecwAjeXDy1itcY8j7adKCORi/0O+6I/oXTa8T91
+         NsOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=7KKW4KOt8J5pOw7QiGkfFs0GpAEw8F0FQaJkpc08q3I=;
-        b=t5HystqO66MRUAHxWLGdQQoWdbuCsRkrwggdA2Lbq76PTyIt08/rypX+0iS6u29OVf
-         qmBCyTEA2ryiFiNNGR7qHq7mVz8/GSHzPOz40KggX5E23n+fZ6A9AxsNplX7IJuABUNW
-         w2wZeqNwvikAJk/6vUwz30wVqNoE7ODvUAc1z1KCGt9EkGV0wbrn9aVARAiFOqTSY4dr
-         cCEUL+Y1eg7xkCtvoPFqKHEk15KsetKBsEdYxjrRe5mRIntyrKfPZhpNd/buHQV2TdgJ
-         vPGO/jwFAFxThrEZ0+aJzkgeLODQeH0ExSyuF4KCYBsJC02Mf4d0FYYO/6YbPqLxe2kv
-         snzQ==
-X-Gm-Message-State: AOAM533rInSSwnKGwTm9Z9OfxON4N+Q8/sH8xSiqJvQvE758o2gsPnvp
-	1EINOHML3u2CSiG5VKjWCozpWSrglh8eC8NdjTc=
-X-Google-Smtp-Source: ABdhPJwTN15nSuACMgY5mjaXZuNga4YDipnYtnjGqCbJXUKKOlTfOYXeqUyXywvUe9yjKl80UAwbTg==
-X-Received: by 2002:a62:380a:0:b029:1a9:5aa1:6d0d with SMTP id f10-20020a62380a0000b02901a95aa16d0dmr68585021pfa.45.1609856783936;
-        Tue, 05 Jan 2021 06:26:23 -0800 (PST)
+        bh=PcOMmxvJgFiMxdoEUhY/XvW1sh5NB3w6pQTYYGq9yDo=;
+        b=r6r8z56iBaKlb+zVt+gRPTNJk2Lfffm8xX6ORy0LK4vgJd+znF+lZUyC8lvvFQ9K/e
+         aPCmidid9RLSDKBELM1nFJJ36H6Bf+mcEr54gZSP5PFE3XbW90BrLuhyIv5mc1+yHPVi
+         /cn3qLZ10GYovXiR85M58oYjMOszXiGx6ULW+dQCgX60e0WeF1Ujibn17h8ld26fxeQj
+         q1OgUPICtvh2wla8JVSCSkIcW/F3KLxf4aVcebBa0AH6YxY80Uw5ehjBXw4bL6OuNQMq
+         6/72ZTajFg7LI73ZX6CkayFy2t6kXAVJfW4pTocB1nod+S75P9Vnv6jGaGzjPS7ryZKl
+         LvoA==
+X-Gm-Message-State: AOAM532PR0eCmA5u2h/Ph/8wlHKOIKXQph/d6XaGZXyqD7c5Y5sx7gOn
+	Rlj2UIm22TBKCDlWtSI7OCcmHSLW/5KGB+MsIZw=
+X-Google-Smtp-Source: ABdhPJwMGrt659S9pyhUnK3Vr1T+6lOyRIQ/9jlXAEKg6t2KmB5E4TjTqt+5Y5ntrR4OJiArfmchfA==
+X-Received: by 2002:a05:6a00:15ca:b029:1aa:7d8f:3ca4 with SMTP id o10-20020a056a0015cab02901aa7d8f3ca4mr69490985pfu.79.1609856786941;
+        Tue, 05 Jan 2021 06:26:26 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.22
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:26:23 -0800 (PST)
+        Tue, 05 Jan 2021 06:26:26 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 25/30] wic/direct/kparser: ensure fsuuid for vfat and msdos align with format
-Date: Tue,  5 Jan 2021 04:23:50 -1000
-Message-Id: <974e09f3460a27c85a599d8269e3dea66df5ddd2.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 26/30] man-db: Fix reproducibility issue
+Date: Tue,  5 Jan 2021 04:23:51 -1000
+Message-Id: <b8c71ab1bd8519dde77b38955473bc3b45976d48.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-vfat/msdos filesystem should have fsuuid in format 0xYYYYYYYY where "0x"
-in front follow with 8 hexadecimal number in uppercase. In wic, when using
-custom fsuuid for vfat/msdos partition in wks, it is able to set the value
-in any length, with or without leading "0x". This can cause fsuuid
-missaligned when fstab updates, fstab expect exactly 10 character
-fsuuid for vfat/msdos partition and all in uppercase.
+Executing a sequence like:
 
-if custom fsuuid for vfat/msdos is set, check the length and format,
-error if it exceed the format size. Amend it so it is align with format
-0xYYYYYYYY. This is done before image create and fstab update to ensure the
-fsuuid are same in all followup process. if custom fsuuid length less than
-expected, fill in "0".
+bitbake man-db
+bitbake man-db -c clean
+bitbake man-db -c package_write_deb -f
 
-[YOCTO #14161]
+results in the ownership of files in the man-db package changing from "man/man"
+to "6/12". This is due to base-passwd not being installed in the recipe
+sysroot.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Add the missing dependency so even if a recipe "re-packages", the name
+of the user/group is found and the packages are reproducible.
+
+[YOCTO #14172]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d9686ae511ef10a504becfd81bfe296b788e1456)
+(cherry picked from commit 769f8be29a192fd4fa0c4752f851fa3728d71179)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/ksparser.py              | 17 +++++++++++++++++
- scripts/lib/wic/plugins/imager/direct.py |  7 +++++++
- 2 files changed, 24 insertions(+)
+ meta/recipes-extended/man-db/man-db_2.9.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 76cc55b848..127ca79ade 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -228,6 +228,23 @@ class KickStart():
-                                 err = "%s:%d: SquashFS does not support LABEL" \
-                                        % (confpath, lineno)
-                                 raise KickStartError(err)
-+                        if parsed.fstype == 'msdos' or parsed.fstype == 'vfat':
-+                            if parsed.fsuuid:
-+                                if parsed.fsuuid.upper().startswith('0X'):
-+                                    if len(parsed.fsuuid) > 10:
-+                                        err = "%s:%d: fsuuid %s given in wks kickstart file " \
-+                                              "exceeds the length limit for %s filesystem. " \
-+                                              "It should be in the form of a 32 bit hexadecimal" \
-+                                              "number (for example, 0xABCD1234)." \
-+                                              % (confpath, lineno, parsed.fsuuid, parsed.fstype)
-+                                        raise KickStartError(err)
-+                                elif len(parsed.fsuuid) > 8:
-+                                    err = "%s:%d: fsuuid %s given in wks kickstart file " \
-+                                          "exceeds the length limit for %s filesystem. " \
-+                                          "It should be in the form of a 32 bit hexadecimal" \
-+                                          "number (for example, 0xABCD1234)." \
-+                                          % (confpath, lineno, parsed.fsuuid, parsed.fstype)
-+                                    raise KickStartError(err)
-                         if parsed.use_label and not parsed.label:
-                             err = "%s:%d: Must set the label with --label" \
-                                   % (confpath, lineno)
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 55db826e93..0ca67b77d5 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -343,6 +343,13 @@ class PartitionedImage():
-                     part.fsuuid = '0x' + str(uuid.uuid4())[:8].upper()
-                 else:
-                     part.fsuuid = str(uuid.uuid4())
-+            else:
-+                #make sure the fsuuid for vfat/msdos align with format 0xYYYYYYYY
-+                if part.fstype == 'vfat' or part.fstype == 'msdos':
-+                    if part.fsuuid.upper().startswith("0X"):
-+                        part.fsuuid = '0x' + part.fsuuid.upper()[2:].rjust(8,"0")
-+                    else:
-+                        part.fsuuid = '0x' + part.fsuuid.upper().rjust(8,"0")
+diff --git a/meta/recipes-extended/man-db/man-db_2.9.0.bb b/meta/recipes-extended/man-db/man-db_2.9.0.bb
+index 493fe817e5..333fbfa76d 100644
+--- a/meta/recipes-extended/man-db/man-db_2.9.0.bb
++++ b/meta/recipes-extended/man-db/man-db_2.9.0.bb
+@@ -12,6 +12,7 @@ SRC_URI[sha256sum] = "5d4aacd9e8876d6a3203a889860c3524c293c38f04111a3350deab8a6c
  
-     def prepare(self, imager):
-         """Prepare an image. Call prepare method of all image partitions."""
+ DEPENDS = "libpipeline gdbm groff-native base-passwd"
+ RDEPENDS_${PN} += "base-passwd"
++PACKAGE_WRITE_DEPS += "base-passwd"
+ 
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+ USE_NLS_libc-musl = "no"
 -- 
 2.17.1
 
