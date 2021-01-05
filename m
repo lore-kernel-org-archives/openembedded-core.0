@@ -1,118 +1,82 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.556.1609884402667951909
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web08.224.1609888671942700265
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 14:06:42 -0800
+ Tue, 05 Jan 2021 15:17:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sP89+QRD;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id i7so793028pgc.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 14:06:42 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C/bU/XOg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id y17so765296wrr.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 15:17:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qS4lErOKjS8Ms7deoMKlZFEYoY4V9Kn3FiC7zMIrb68=;
-        b=sP89+QRDpdXkwwilnAkE7ni5DSVR7qlGtJ11NzTn0ucG8se14Nw4MM3xgQVLYMWxj7
-         MRIoFHRQisfv0HmIAKMjf1/Jq7BZHN/aU+A8ZG++LWSwkmxbUrJWZUpAfoDupvtInECd
-         s+CSR5vuRR83Xq/9FWfZ9v28QvU3WxfVbnOPg5eY6WzUlGwSW3Gtmrb1TdSm3axXwc9b
-         BHINy/ET4k95sZrE9IChWRuLXRADS6SDeet64dwDQlLvjd3GMAs35hh44theiCeItwNL
-         tBAS9mAN6DRb4olbiSDGciNVJCsDgQhvmEotuV/heADVDvfaFrfABOIBnt30u8DXJB87
-         +/ww==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=EtpAAbnmCficNO19o0sprCLDPs6hbVmX+/ITzhpav/4=;
+        b=C/bU/XOg1XOT68YPezELFNLhTK7Cw6gXaFlEDm/AO/a1kghMURTn6+Z8UW1SpgJde/
+         CTZiKEzuS0/N+MAMtK6uoONPh6LVKMIGqNm5m1otFHfC57HMIgktJYQiUZyAuMoN7M1A
+         PovnJc3qWVMO6NeaY6jcGwPLF6WFPiQSwm8Bo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=qS4lErOKjS8Ms7deoMKlZFEYoY4V9Kn3FiC7zMIrb68=;
-        b=h8KSHVpA77OXE/r/Yngj3MONB9cmDWh+Wbfn7Gel1z8zxJSzgXaIl+ORpU76E+9Gts
-         m1C2RzaNqwrzNZMTJY8cJlqG5+vMk60P7saAbUY+u3A7u5top5ttfvwpZN1l74vPaID5
-         UqDrHws+934LNQ3h+BwqIPBHkLDXZXhulIA14rhoAgDteZ8WT2tI2uNMU7aeOPXx+BRh
-         cDF7z7Jhog4CEiGqDIoGWgVt7pE1KLKHz0ikEVDOPNm2a9c6oFgtcZ2ifvs4FVwc5YgK
-         K15qEHZaof81VyqfH0V3TVNv4JOV05lto0dtDJpYzjuXUYLy+tlQ2lny3QiaybeSjIpt
-         nVsQ==
-X-Gm-Message-State: AOAM532+dMO7ZWGOKKvzExtRjy8kJQCNnpTOHt1DMOo+oqDA3wnV0V3p
-	O0xduMyk3h70dT0e4mv1f2G/MWYxzrkn7A==
-X-Google-Smtp-Source: ABdhPJyQzXkUgzJTKIXYvUbkFUvuVM07Bh8Bu8LYL6Vhq8nKsejeapaD0jy9BEUeERBbSqPKzmNJAA==
-X-Received: by 2002:a63:751c:: with SMTP id q28mr1206334pgc.231.1609884401895;
-        Tue, 05 Jan 2021 14:06:41 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::8fb0])
-        by smtp.gmail.com with ESMTPSA id i6sm168182pgc.58.2021.01.05.14.06.41
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EtpAAbnmCficNO19o0sprCLDPs6hbVmX+/ITzhpav/4=;
+        b=bjcItYiTBOQboR8FZnQXuTgTkWD5Quu2HnRG6viK/xKPdPb1rfzCpu+adMHDALZAYD
+         9VRQu1IPYpE3p9/q4Ng/q5LP4Vhp5AndfGltogPuzK+FdHasKbALsDMKFXNzkoWf59ag
+         gwmbjpXuJ9aMQBAAAjEJi9nS8BTRUO74p5zQ51VfGQm0peKosXkTcBuNgZzZpzSzsdYz
+         6Pv6i1DCoPawhFgkHik/0JcZhqA6pKATysdrekjubE9frAIJjE5eIC3I/twTYRZXNoxm
+         8u1JInD/qSluTUj75la1aP/F34vPAQgTIbzfE5klyR4eE6GGcXSf4a89aFPQFma4axSO
+         hcSQ==
+X-Gm-Message-State: AOAM531suNPrmJ0hvDmsS+kUasWopDJ+LhqZcujrrwV7mkExMPelJD+/
+	zPwYdWjRCv3epF9/lCDhgJaUiQ==
+X-Google-Smtp-Source: ABdhPJwDQKf/AeSnuA4KwPhU2233vlmuME/ZUP+lYtYyNgELo/X9bA6K0MbGNC2RjYD0R9Bncvlc6Q==
+X-Received: by 2002:adf:8185:: with SMTP id 5mr1610340wra.44.1609888670214;
+        Tue, 05 Jan 2021 15:17:50 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f056:12a7:edca:60f8? ([2001:8b0:aba:5f3c:f056:12a7:edca:60f8])
+        by smtp.gmail.com with ESMTPSA id x25sm790328wmc.3.2021.01.05.15.17.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 14:06:41 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] ccache: Fix build on aarch64/clang
-Date: Tue,  5 Jan 2021 14:06:38 -0800
-Message-Id: <20210105220638.3544107-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        Tue, 05 Jan 2021 15:17:49 -0800 (PST)
+Message-ID: <5334acfaebf83a1a6f918572ad9581afecde2493.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC][PATCH 1/2] oeqa: add OETestPriority decorator
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Konrad Weihmann <kweihmann@outlook.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 05 Jan 2021 23:17:48 +0000
+In-Reply-To: <DBBPR09MB4748488AFABBB0B74D5E3151A8D10@DBBPR09MB4748.eurprd09.prod.outlook.com>
+References: 
+	<DBBPR09MB4748488AFABBB0B74D5E3151A8D10@DBBPR09MB4748.eurprd09.prod.outlook.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-asm option checks in cmake gets it wrong to just check compiler options
-to decide if SSE/AVX is supported, this accidentally then succeeds on
-aarch64 and ends up compiler failures on aarch64 with clang
+On Tue, 2021-01-05 at 20:16 +0100, Konrad Weihmann wrote:
+This modifies an implicit default priority.
+Can be used to move the test case either to the front
+or to the end of the test suite.
+Value can be between 0 and 99, implicit default is 50.
+Lower values move are run at the beginning of the list,
+higher values at the end.
+Within a single priority ordering remains unchanged.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...blake3-Remove-asm-checks-for-sse-avx.patch | 35 +++++++++++++++++++
- meta/recipes-devtools/ccache/ccache_4.1.bb    |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/ccache/ccache/0001-blake3-Remove-asm-checks-for-sse-avx.patch
+It enables use cases such as shutdown tests, which
+should always run at the end of the overall test suite,
+no matter what test suites/cases are set in the current
+test suite list.
 
-diff --git a/meta/recipes-devtools/ccache/ccache/0001-blake3-Remove-asm-checks-for-sse-avx.patch b/meta/recipes-devtools/ccache/ccache/0001-blake3-Remove-asm-checks-for-sse-avx.patch
-new file mode 100644
-index 0000000000..bdabb381aa
---- /dev/null
-+++ b/meta/recipes-devtools/ccache/ccache/0001-blake3-Remove-asm-checks-for-sse-avx.patch
-@@ -0,0 +1,35 @@
-+From 0448eddcf2863ebf911e7dd445bca1c7eee2a239 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 5 Jan 2021 13:55:34 -0800
-+Subject: [PATCH] blake3: Remove asm checks for sse/avx
-+
-+This ends up passing on clang/linux wrongly when building for aarch64
-+the check in else part is good to detect the feature support and this
-+check can be removed, it was setting
-+
-+HAVE_ASM_AVX* and HAVE_ASM_SSE* macros which are not used in the build
-+anyway
-+
-+Upstream-Status: Submitted [https://github.com/ccache/ccache/pull/768]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/third_party/blake3/CMakeLists.txt | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/src/third_party/blake3/CMakeLists.txt b/src/third_party/blake3/CMakeLists.txt
-+index cc24253c..856b5721 100644
-+--- a/src/third_party/blake3/CMakeLists.txt
-++++ b/src/third_party/blake3/CMakeLists.txt
-+@@ -25,8 +25,6 @@ function(add_source_if_enabled feature compile_flags intrinsic)
-+       AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9.0)
-+     message(STATUS "Detected unsupported compiler for ${have_feature} - disabled")
-+     set(${have_feature} FALSE)
-+-  elseif(${blake_source_type} STREQUAL "asm")
-+-    check_asm_compiler_flag(${compile_flags} ${have_feature})
-+   else()
-+     set(CMAKE_REQUIRED_FLAGS ${compile_flags})
-+     check_c_source_compiles(
-+-- 
-+2.30.0
-+
-diff --git a/meta/recipes-devtools/ccache/ccache_4.1.bb b/meta/recipes-devtools/ccache/ccache_4.1.bb
-index 96254a3875..551b4c7e5c 100644
---- a/meta/recipes-devtools/ccache/ccache_4.1.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.1.bb
-@@ -14,6 +14,7 @@ DEPENDS = "zstd"
- SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.gz \
-            file://0001-Improve-SIMD-detection-735.patch \
-            file://0002-Always-use-64bit-to-print-time_t.patch \
-+           file://0001-blake3-Remove-asm-checks-for-sse-avx.patch \
-            "
- SRC_URI[sha256sum] = "cdeefb827b3eef3b42b5454858123881a4a90abbd46cc72cf8c20b3bd039deb7"
- 
--- 
-2.30.0
+This avoids also using test suite naming hacks, such as
+usage of zzz_foo_test.FooClass.test_foo to move it to
+the end of the test suite list.
+
+I have to admit I'm not 100% convinced we want to do this but I can see
+why you might want it for log tests for example.
+
+I did throw it into the pile of patches to run regression tests
+against, it didn't get far unfortunately, it breaks check-layer:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/39/builds/2905
+
+Cheers,
+
+Richard
 
