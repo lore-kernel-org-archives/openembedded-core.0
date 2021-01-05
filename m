@@ -1,80 +1,81 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web12.5880.1609856707715770146
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.5850.1609856713448657374
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:25:07 -0800
+ Tue, 05 Jan 2021 06:25:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tUUetaeI;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id n25so21390386pgb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:07 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Iuza9Grl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id z12so1779308pjn.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=kpx9TrZqTeg8/mjbSGObWC6LdeFVmk737DnXVeQ6LVI=;
-        b=tUUetaeI0L91gqvgmKASerJnhtLS+ruyNFJcleYMqHww2qLmb1ecNdYwEHKbXaaFNb
-         WRqODC0FjzZTRCqxFQEyGTCeYZLE6kv6kzBFLHQifmc1HJIG6f+09DeWH7PWekzZVeBS
-         TCbz37yvE3eZ7gwi51h3oLiYNWK3O/xWQPXg9c2yGe6Hpo/LDEEk/2t0IZq8hbOiOWyk
-         tVL54Mp0b+zGZVBYE0VSMEReDUZpgpeFRGPL7b6G6M+wHEQa29hwKzeyacsqSxSDlGtS
-         EfY4ZuQ+ed3ou07gbIg5Uhucfe3dDwCBvBDdjCpX8rckox3luw4WC2DowVRiF5CELI1c
-         zXNw==
+        bh=C65oe+YQUL/cqYRcrDqcQHtv5UzINsrf4A+rnlRyrts=;
+        b=Iuza9GrlzjdX1QF7MI3KF5CSnbUEzZrzZBRSw8MYTPK832lhaYUj6NJ2sVwDSz4H1X
+         unvHFP/Nf+/q2EsSl1TA4N77KwhOGKmUxnHOOUOBDiNbhwiFao3CmDgGhx2pAfhBjK4d
+         /A6M4zak0fmocoy+dSsFHI49K+DQf19BeAQZ+iNDlCXoccz+L1+XxQmN2pg4ldwi3KOO
+         MwCy9nOURENVzOl/BNM6+ueD+poKZfy8DFkKdZDeN9v8Yta23oIYwQCdDW9G69xj8/US
+         MeEB6sIeoPPmWiQ1ePQGmzfC/qwArE9VaZwpLHoBsWNOSj+2Cu4zCzvIhXXurD3mbvgT
+         KY3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=kpx9TrZqTeg8/mjbSGObWC6LdeFVmk737DnXVeQ6LVI=;
-        b=TctEIo4Lo2yTOIg+aBsAGi6CDrKteko+S2Gsz7uiLDujAs+1OsSSu1Mb/H45TOjm80
-         X1oejO8TOad6R1MXYZBOAMUkq0dDV+nzcQuxKUsw61mtFmB+rUNLoZJdlKFVMHg0IgDZ
-         x0lznKHUw3WufG4Iudq8hlJ1ySS9+DDxsI7Vevw18KnQNKbgSAlspOYTFAOI8EjW+U80
-         xSgUEeXPCAlAQcFGhApbOK0ecagO/w/2TIIdZLu0gShWZdVNpgR7e3UqPyX9sJhcs+Cn
-         obCeOYNtQtOou3ZKd5uGCi3zK5Q0A97tlcYmu9qtjcBGe67qVnVOEkqVfn4W7mxe9Qs5
-         zJrg==
-X-Gm-Message-State: AOAM533cFRy6idFKut3TON1dMoMxqeDaumjPdIk2yBWRjFG7k63L15Bn
-	tNum52oCYot5CB6D5Y9sXgC1XDQGZFHt0MXqXbI=
-X-Google-Smtp-Source: ABdhPJxHrbirU+2GNuToWCnj6E+Ree3wlQh9N2W3PyJu6+ROtoZGxyqAoBPcdiQA4j4aGR4w/ZJc1Q==
-X-Received: by 2002:a05:6a00:148d:b029:19d:9622:bf7 with SMTP id v13-20020a056a00148db029019d96220bf7mr70566658pfu.11.1609856706868;
-        Tue, 05 Jan 2021 06:25:06 -0800 (PST)
+        bh=C65oe+YQUL/cqYRcrDqcQHtv5UzINsrf4A+rnlRyrts=;
+        b=HvDstrvQvY/IF+8lDgycfNBT+bVsszQ11moWM7O+9Vp+GbccBp8OX/CUnaH6bmqvYS
+         LHENWXMhAHtMl8oCIMTWH0cuhbX0m3ci574vc6g1MXr0NrEPZNSzeYwiYQM162bM1Chy
+         0wOiQ/CGhrqhxWx6zZIObNgEh5XasTiKW8WD3y2RU7/9Qhdb5SRp8dKPs4AHvvFgbYgr
+         tpD2ppWgdLWOmLKDfFpX8XeXxEWl58Vg40FOWnqEdo3asFulqA/xCrO4Kx6AET9i3KwT
+         MrczbS6yn4se5YbSli+VqmQMYfFF6a+6tvR5FkF5bQ/Ev04Xjo1FrSsuz1jmwmuxkewc
+         FGAg==
+X-Gm-Message-State: AOAM531kqCAr1T0XOHCnybtA7H7YVqeV76+Vtpp6p3kpRE1XtMGC2aRn
+	pEFCQsPqcj0MCu4gfx+fvm9e973C6sipRjL/vR4=
+X-Google-Smtp-Source: ABdhPJxVnWZetw7zbNqaJ+hBye+TH6Fv6UJychg2X/l7n0dvWgxWMynxRkkvt37D8cHzbdCcSXG2EQ==
+X-Received: by 2002:a17:90a:be17:: with SMTP id a23mr4278843pjs.236.1609856712681;
+        Tue, 05 Jan 2021 06:25:12 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.05
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:25:06 -0800 (PST)
+        Tue, 05 Jan 2021 06:25:12 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/30] uboot-extlinux-config: exclude OVERRIDES from do_create_extlinux_config vardeps
-Date: Tue,  5 Jan 2021 04:23:36 -1000
-Message-Id: <4e95f91f4a65cb97b37529e49d18279772858308.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/30] wic-image-minimal: only depend on syslinux on x86 targets
+Date: Tue,  5 Jan 2021 04:23:37 -1000
+Message-Id: <4d4b907554ab964e6b68f3d588d398174b5d5459.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Christopher Larson <chris_larson@mentor.com>
+From: Ross Burton <ross@burtonini.com>
 
-This function is primarily *appending* configuration entries to the
-overrides, it only gets it to ensure it's set at all, so doesn't belong
-in the vardeps. Having a dependency on OVERRIDES means you cannot use a
-bbclass like distrooverrides without changing the signatures of recipes
-using this class.
+Following other examples, only depend on syslinux when targetting x86.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fef74d3651d432977caef8fea54fc54bf2784a74)
+(cherry picked from commit c58fcc1379ca5755a5b670f79b75e94370d4943c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/uboot-extlinux-config.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta-selftest/recipes-test/images/wic-image-minimal.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/uboot-extlinux-config.bbclass b/meta/classes/uboot-extlinux-config.bbclass
-index f4bf94be04..be285daa01 100644
---- a/meta/classes/uboot-extlinux-config.bbclass
-+++ b/meta/classes/uboot-extlinux-config.bbclass
-@@ -153,5 +153,6 @@ python do_create_extlinux_config() {
- }
- UBOOT_EXTLINUX_VARS = "CONSOLE MENU_DESCRIPTION ROOT KERNEL_IMAGE FDTDIR FDT KERNEL_ARGS INITRD"
- do_create_extlinux_config[vardeps] += "${@' '.join(['UBOOT_EXTLINUX_%s_%s' % (v, l) for v in d.getVar('UBOOT_EXTLINUX_VARS').split() for l in d.getVar('UBOOT_EXTLINUX_LABELS').split()])}"
-+do_create_extlinux_config[vardepsexclude] += "OVERRIDES"
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+index e1da203b59..1cb019898d 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.bb
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
+@@ -6,7 +6,10 @@ IMAGE_INSTALL = "packagegroup-core-boot"
  
- addtask create_extlinux_config before do_install do_deploy after do_compile
+ IMAGE_FSTYPES = "wic"
+ 
+-WKS_FILE_DEPENDS = "syslinux syslinux-native dosfstools-native mtools-native gptfdisk-native"
++WKS_FILE_DEPENDS = "dosfstools-native mtools-native gptfdisk-native"
++WKS_FILE_DEPENDS_append_x86 = " syslinux-native syslinux"
++WKS_FILE_DEPENDS_append_x86-64 = " syslinux-native syslinux"
++WKS_FILE_DEPENDS_append_x86-x32 = " syslinux-native syslinux"
+ 
+ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
 -- 
 2.17.1
 
