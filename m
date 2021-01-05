@@ -1,89 +1,89 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web08.5994.1609856737093940722
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web12.5888.1609856743342503571
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:25:37 -0800
+ Tue, 05 Jan 2021 06:25:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=htRDvDW5;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id 30so16675618pgr.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:37 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yss30sc3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id e2so16421923plt.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=McERkokuYP8yGOVZ+Y7TYg7AaeJ5WZSoCFdJBgJfydw=;
-        b=htRDvDW5c+DaHCTEUo189VZhfw748vGFQYP0nAgbWvqiXjivr6ULoZEcS4G6PJ6qqZ
-         1AYpS47BE/dwKSj5V5LoQ4xY1DTC3MID3y9ocflRpTtBTyoztQpJ5I/DNTvHLfTK/2sQ
-         gfyd0LWJ6P8oLhPgXgbDacUfRmKkDbq1tM8MzWbRfhmwEDdRNIsLGEocxfz1tR7UCLR2
-         mW2B42yTH2bkIpbs7+w+XG9M9bk9Xa9VpV2j6Gmv3hDd6olW+9YCgJ3t6FAUflbkodxC
-         vKuVgp8aqYEZcFBRH0sKZewZRNICNNhtJU+/Am4EJrHJaUU3jryZXHg+dPXW3UANCHP5
-         R+qw==
+        bh=Uk/xGBi6SGRi2w6TW1j3TZNUynZP0Ktp/hh6sGOYxaY=;
+        b=yss30sc3QbjP3cnnzfVpX/oPkNDoVoG0m/WfOr0/r33VFYfAu3vdX89p9zlL/XUN9Z
+         1aU0W0+eoC41UpU9AAcOJOAZTrTNHLRBpTqbHAkLKEG5Zs9seRPSiRmJ843kLZ7z1QjK
+         bqRt8qlmzhMNowxMuQWrRX8HiuSftsV3vhE1nN84o17VIW/DOnEUEqZ7+awllcQNwHgN
+         cMTG7jiB520ROmm20Lql4dFY2SrKd/4xsPy3yJdeUIuKABZgQpEK7vsrcaV9rffWd80T
+         bM7EVeVprZJceDpZY4b//0Ry1+gbjaIp/lPshGf2tJdM3bXb3+7itMRglgQ6X2vOeLyu
+         71Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=McERkokuYP8yGOVZ+Y7TYg7AaeJ5WZSoCFdJBgJfydw=;
-        b=Uy3TNjabsPtOzyggyGu4E+b4HJeRYiqRBI4flFajzL1ig0fpvRPbylwza5aF9sCTtM
-         Lu8CNcKDiMNU8tS9SFqN0iJiOknINMx+tZCdCDC8HgAhOYdJCmF1868KOUkz369f71N6
-         eqZjsQYypWPmWVmdrW4Zf4aH95X7NRPO4tpirMiLW1Ggy3tEreWSt05iryw4x/kXG93F
-         6Dp91LNBPIB+B0J8n4jDOmZ3cQJG0VEpkUGs5iY7eOFmUc50IDXbrNwSvesOOozJEfj5
-         KZIEiYdfohiP3mvQ0O/dcplHl0VzFt9lIoTZFLpnMefDBWJ1BZU0P9GyglvBVl3Phe+e
-         PE/A==
-X-Gm-Message-State: AOAM5310UKYoHDlLGEwXaK/GZHOYopbdxjQ34doz+0FpiS9WsOb/SrIv
-	rgNp0kw9Ev9A+F77qbHUk5hW9Slz3zXbAPP+22k=
-X-Google-Smtp-Source: ABdhPJxg/0mEnbkYnhO79QiJaPfYG6KU9NNbhXUXopdz1bMSKS6MfUJKAJGUVDxMTJjI/wfWywMXvA==
-X-Received: by 2002:a63:b18:: with SMTP id 24mr17241800pgl.160.1609856736204;
-        Tue, 05 Jan 2021 06:25:36 -0800 (PST)
+        bh=Uk/xGBi6SGRi2w6TW1j3TZNUynZP0Ktp/hh6sGOYxaY=;
+        b=O9ExSTnKvun4LiWolpeVt3nWqSoFofHydd9ZysVNfSQ/AuJ8afxByWnm6PPyZfDStM
+         ob3ofQM/W3UDTYzlko2O3HoDvjDWl/Gpct7tWqBpnmY8zajUDOktnR8MS5flRG+L8/AL
+         HeYnsDRsZ9wET6YJaNU5mfEQ4ReEZrczbq5Q2PdOjtGUH986tjD1gMYcmXZxRAdBrn0b
+         7wxniwrO4+AQd3JC2hoGqss4UvEHZVBSYTOfgsq3BJCCKaW6bi2yd9pYHfLxEseS5z51
+         RAu/u9a/MYR65hjJ9wPIexFe+RuRunXYStL4oQf8QTyM9VBiXJJEAA7zjrmi7OHiWjrA
+         sqQg==
+X-Gm-Message-State: AOAM533dyVX5/t/z8IqwYOoH7AAUEagxWe7TDrX8Fbie8VdV/4vUQPNr
+	+AthMEp9HcFoljgtCTLHT3wbMz0fzAKAK2/D2JM=
+X-Google-Smtp-Source: ABdhPJzDGSVPeUV58TYUZ9uYTcFcnDmGp5bjv+1JssSyNi21VRXTkYMQeC7cNErvLGVm5BYLkwcmvA==
+X-Received: by 2002:a17:902:a412:b029:db:cf5a:8427 with SMTP id p18-20020a170902a412b02900dbcf5a8427mr77665783plq.48.1609856742521;
+        Tue, 05 Jan 2021 06:25:42 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.34
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:25:35 -0800 (PST)
+        Tue, 05 Jan 2021 06:25:41 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 16/30] pulseaudio: Remove OE_LT_RPATH_ALLOW
-Date: Tue,  5 Jan 2021 04:23:41 -1000
-Message-Id: <0e0b43bf902963677c03b8e3ce7b976ae81158ae.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 17/30] lib/oe/qa: handle the 'no specific instruction set' ELF e_machine value
+Date: Tue,  5 Jan 2021 04:23:42 -1000
+Message-Id: <a4339b1c958b736be951ae3142e6be72702ecad2.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Tanu Kaskinen <tanuk@iki.fi>
+From: Ross Burton <ross@burtonini.com>
 
-I don't know what these variables were supposed to do, but there doesn't
-seem to be anything that would use these variables, so removing them
-should be safe. The PulseAudio recipe is the only place where these
-appear in the repository.
-
-These lines were included already in the original PulseAudio recipe that
-was added in commit d9a4c588ef24e7e4019fbe5a2314addbcd3a6bb8 in 2007,
-and already at that time there didn't seem to be anything using these
-variables.
-
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
+[RP: Update OEQA selftest to match change]
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7a0b9209a366de7a2aed9b23a337b4ffdba61abe)
+(cherry picked from commit b7cfc0f51cc0b4866f913f6eae4fcc6f72d2578c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/lib/oe/qa.py                         | 1 +
+ meta/lib/oeqa/selftest/cases/oelib/elf.py | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index c7f3e67022..417eb1d9d3 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -137,11 +137,6 @@ EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", "
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index ea831b930a..e8a854a302 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -156,6 +156,7 @@ def elf_machine_to_string(machine):
+     """
+     try:
+         return {
++            0x00: "Unset",
+             0x02: "SPARC",
+             0x03: "x86",
+             0x08: "MIPS",
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/elf.py b/meta/lib/oeqa/selftest/cases/oelib/elf.py
+index d0a28090f2..5a5f9b4fdf 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/elf.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/elf.py
+@@ -21,6 +21,6 @@ class TestElf(TestCase):
+         self.assertEqual(oe.qa.elf_machine_to_string(0xB7), "AArch64")
+         self.assertEqual(oe.qa.elf_machine_to_string(0xF7), "BPF")
  
- export TARGET_PFPU = "${TARGET_FPU}"
- 
--# TODO: Use more fine granular version
--#OE_LT_RPATH_ALLOW=":${libdir}/pulse-0.9:"
--OE_LT_RPATH_ALLOW = "any"
--OE_LT_RPATH_ALLOW[export]="1"
--
- set_cfg_value () {
- 	sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
- 	if ! grep -q "^$2 = $3\$" "$1"; then
+-        self.assertEqual(oe.qa.elf_machine_to_string(0x00), "Unknown (0)")
++        self.assertEqual(oe.qa.elf_machine_to_string(0x00), "Unset")
+         self.assertEqual(oe.qa.elf_machine_to_string(0xDEADBEEF), "Unknown (3735928559)")
+         self.assertEqual(oe.qa.elf_machine_to_string("foobar"), "Unknown ('foobar')")
 -- 
 2.17.1
 
