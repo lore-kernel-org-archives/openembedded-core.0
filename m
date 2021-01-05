@@ -1,122 +1,87 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web08.2401.1609832404399040292
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web08.3453.1609841890543111176
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Jan 2021 23:40:04 -0800
+ Tue, 05 Jan 2021 02:18:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.78,476,1599494400"; 
-   d="scan'208";a="103193265"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 05 Jan 2021 15:40:03 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id A2C754CE1505
-	for <openembedded-core@lists.openembedded.org>; Tue,  5 Jan 2021 15:39:58 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 5 Jan 2021 15:39:59 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] gdbm: upgrade 1.18.1 -> 1.19
-Date: Tue, 5 Jan 2021 15:38:42 +0800
-Message-ID: <1609832322-108198-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1kwjPh-0002t7-UX; Tue, 05 Jan 2021 12:18:06 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1kwjPh-000BNw-T3; Tue, 05 Jan 2021 12:18:05 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@bmw.de>
+Subject: [dunfell][PATCH] glibc: update to 2.31 stable tree head
+Date: Tue,  5 Jan 2021 12:17:52 +0200
+Message-Id: <20210105101752.41854-1-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: A2C754CE1505.A7228
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+X-Rspam-Score: 2.3 (++)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: R_MISSING_CHARSET(2.50)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: BROKEN_CONTENT_TYPE(1.50)
+ Symbol: RCPT_COUNT_TWO(0.00)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Message-ID: 20210105101752.41854-1-mikko.rapeli@bmw.de
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Transfer-Encoding: 8bit
 
-gdbm-fix-link-failure-against-gcc-10.patch
-Removed since this is included in 1.19
+Includes fixes:
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+$ git log --format="%h %s" 6fdf971c9dbf7dac9bea552113fe4694015bbc4d..df31c7ca927242d5d4eee97f93a01e23ff47e332
+df31c7ca92 iconv: Accept redundant shift sequences in IBM1364 [BZ #26224]
+7df507808c sh: Add sh4 fpu Implies folder
+8dc7605665 aarch64: Fix DT_AARCH64_VARIANT_PCS handling [BZ #26798]
+48cf525f4b x86: Optimizing memcpy for AMD Zen architecture.
+8d730cb25a Reversing calculation of __x86_shared_non_temporal_threshold
+4bc9918c99 AArch64: Use __memcpy_simd on Neoverse N2/V1
+4722d1fb9d [AArch64] Improve integer memcpy
+bea507a3f5 AArch64: Rename IS_ARES to IS_NEOVERSE_N1
+d0a5b76902 AArch64: Improve backwards memmove performance
+24a30c5959 AArch64: Add optimized Q-register memcpy
+88db98fa6e AArch64: Align ENTRY to a cacheline
+32965a46ce intl: Handle translation output codesets with suffixes [BZ #26383]
+
+Tested on aarch64 target with CI and long running tests.
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
 ---
- ...gdbm-fix-link-failure-against-gcc-10.patch | 47 -------------------
- .../gdbm/{gdbm_1.18.1.bb => gdbm_1.19.bb}     |  5 +-
- 2 files changed, 2 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch
- rename meta/recipes-support/gdbm/{gdbm_1.18.1.bb => gdbm_1.19.bb} (85%)
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch b/meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch
-deleted file mode 100644
-index c1580418dc..0000000000
---- a/meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From f993697af81c37df9c55e0ebedeb1b8b880506ae Mon Sep 17 00:00:00 2001
--From: Richard Leitner <richard.leitner@skidata.com>
--Date: Tue, 5 May 2020 11:59:42 +0200
--Subject: [PATCH] gdbm: fix link failure against gcc-10
--
--Copied from gentoo's solution at https://bugs.gentoo.org/show_bug.cgi?id=705898
--Original patch by Sergei Trofimovich <slyfox@gentoo.org>
--
--Original description:
--
--Before the change on gcc-10 link failed as:
--```
--  CCLD     gdbmtool
--ld: ./libgdbmapp.a(parseopt.o):(.bss+0x8): multiple definition of `parseopt_program_args';
--  gdbmtool.o:(.data.rel.local+0x260): first defined here
--ld: ./libgdbmapp.a(parseopt.o):(.bss+0x10): multiple definition of `parseopt_program_doc';
--  gdbmtool.o:(.data.rel.local+0x268): first defined here
--```
--
--gcc-10 will change the default from -fcommon to fno-common:
--    https://gcc.gnu.org/PR85678.
--
--The fix is to avoid multiple definition and rely on
--declarations only.
--
--Upstream-Status: Pending
--Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
-----
-- src/parseopt.c | 2 --
-- 1 file changed, 2 deletions(-)
--
--diff --git a/src/parseopt.c b/src/parseopt.c
--index 268e080..a4c8576 100644
----- a/src/parseopt.c
--+++ b/src/parseopt.c
--@@ -255,8 +255,6 @@ print_option_descr (const char *descr, size_t lmargin, size_t rmargin)
-- }
-- 
-- char *parseopt_program_name;
---char *parseopt_program_doc;
---char *parseopt_program_args;
-- const char *program_bug_address = "<" PACKAGE_BUGREPORT ">";
-- void (*parseopt_help_hook) (FILE *stream);
-- 
---- 
--2.26.2
--
-diff --git a/meta/recipes-support/gdbm/gdbm_1.18.1.bb b/meta/recipes-support/gdbm/gdbm_1.19.bb
-similarity index 85%
-rename from meta/recipes-support/gdbm/gdbm_1.18.1.bb
-rename to meta/recipes-support/gdbm/gdbm_1.19.bb
-index fbb1fe72d7..1f390a4aa2 100644
---- a/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-+++ b/meta/recipes-support/gdbm/gdbm_1.19.bb
-@@ -8,11 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=241da1b9fe42e642cbb2c24d5e0c4d24"
- SRC_URI = "${GNU_MIRROR}/gdbm/gdbm-${PV}.tar.gz \
-            file://run-ptest \
-            file://ptest.patch \
--           file://gdbm-fix-link-failure-against-gcc-10.patch \
-           "
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 3bcd336de4..5f726537ff 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.31/master"
+ PV = "2.31+git${SRCPV}"
+-SRCREV_glibc ?= "6fdf971c9dbf7dac9bea552113fe4694015bbc4d"
++SRCREV_glibc ?= "df31c7ca927242d5d4eee97f93a01e23ff47e332"
+ SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
  
--SRC_URI[md5sum] = "988dc82182121c7570e0cb8b4fcd5415"
--SRC_URI[sha256sum] = "86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f745b91dc"
-+SRC_URI[md5sum] = "aeb29c6a90350a4c959cd1df38cd0a7e"
-+SRC_URI[sha256sum] = "37ed12214122b972e18a0d94995039e57748191939ef74115b1d41d8811364bc"
- 
- inherit autotools gettext texinfo lib_package ptest
- 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
 -- 
-2.25.1
-
-
+2.20.1
 
