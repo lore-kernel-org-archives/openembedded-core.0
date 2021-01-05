@@ -1,81 +1,122 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web12.5898.1609856798879047399
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+ by mx.groups.io with SMTP id smtpd.web08.6019.1609856802096291043
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:26:38 -0800
+ Tue, 05 Jan 2021 06:26:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=VjHHDSMm;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id h10so17501201pfo.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:38 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=I/a/0GCd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.53, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f53.google.com with SMTP id iq13so1776153pjb.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=UB4rkOKGE8EmRtzU7v6XFcN/ngHf8qunOUhLih4cYPA=;
-        b=VjHHDSMmbOeEVVJ/IiDXqxvg98CPU4kqvdRFH2k00ocxXDAVF/R3n85DTi1bF4VzKS
-         WAQAvvu1kE5fbGM+I0a5zHLbSNiuvnnsoBkx/TbqqkCIuZmsGjt6Y7YMr+jyKFiOK0DK
-         Sz1FcHLlWZp/EgIN26dxLX1jaKzX7NmyEW1aNZqLUETShmmMM4xBuOplA6vT9MyYKW+Y
-         Scw3IzxouiPkqwckciQvEXCyXt++h2NNfWcIpY0ANWpRCpPlX2UxW2HSXMExJhsvTMCq
-         BpwZ1RXjozDa1h5DRVA4BEc5+G5E7cSLQA8kagax8scqt93SKOU4diBQmS7ZFTHiVPAe
-         pfAA==
+        bh=CRmYGdjaCQKAf+S9xq8/v3SWOUrFbwC04PbeU9Z44VU=;
+        b=I/a/0GCdoq+i6duZsLrzuVoMMHsszM4BldJHIwdoK95P90iQN8qG+PuxCGtyUrwjiL
+         IBMYetvRZEsErTAaP+9pnQaTZ8DBX+q7iVvs5fzLsnqwQ1gddMza46Hzu/sAlmd9S6UG
+         Xk+rEzT8Yddfe+wGzdtqdq+psOj1ut8U5Zxtv9g95hH3tFRLYtBnG8eJ1lvbs02cFJMd
+         zz/9KPjMu+39mnnB3+tBSyAtc76wLceGJbFRRnWp7sDQ30sRT/LaNxw5jDCILSTt3xfI
+         GomMxohWfAqrsN6YF3omVAx9cAmOzhF89ofYEAsqFYEGj3D4lGwNygwtHtWPRzwq+uhX
+         h2Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=UB4rkOKGE8EmRtzU7v6XFcN/ngHf8qunOUhLih4cYPA=;
-        b=pWsA0Wdftv04McmphmbI2Fw6GnGvUPUrmhboUJrpRzqlYp/aMZPOI2UvJ02fivGGwQ
-         sAIuddyTbvVVQtv1IpZb/ieJJx0fAHds5/xuRF2NciEMwe6sTjeSATHGu5jie+iC0HaL
-         3sL4eIw67XS8iGEZqAP5Q+swpg0illqDS6SCePgthm7qCK2ZVZA0pQcewFOBYnL2smlp
-         I1dwSi1YgKbYtCyVNxwetfENscF4S3zq9SaBug2duEAAZFGwjDRQlfIXS7R6bmgIJhil
-         MqvTSfWxG9xBL2pNtiMtqZONTV0hk4EAHw/Hv21fAUOfG5r0gT4BwveDdR/EaArAFHil
-         ma2w==
-X-Gm-Message-State: AOAM53343JIeNfvl/zGuaYLCrzAXTwwRA+19rh+VJUNGf8qcovokwdIt
-	pyVewbSsFLki2lM+d+EF5710DfoxROXOwJlcb5Q=
-X-Google-Smtp-Source: ABdhPJw+yObRbzWziq3GJVoSt9cfkN1uHNiEVgXWFX4CBWPXX1n414/BO0a5nDGKe7l/hxGbCNiIgg==
-X-Received: by 2002:aa7:9a86:0:b029:1a6:d998:922a with SMTP id w6-20020aa79a860000b02901a6d998922amr69911971pfi.80.1609856798068;
-        Tue, 05 Jan 2021 06:26:38 -0800 (PST)
+        bh=CRmYGdjaCQKAf+S9xq8/v3SWOUrFbwC04PbeU9Z44VU=;
+        b=KErAysm4Rh66gJlDgC0jkuRhV1pnYjhHdnc80qSEdyidtwUjwMW18F9BKklHKRpddO
+         gkLWxc1vtmc0XIreQlcx4zt1D8dLY0u5sTNYGEhpvZCy32gPb+g35DY7A+43Ki1pLZk7
+         yRagTZqES2ZMmC43R4JCCykjSrWVRH7Ya6WeZ1NnvxD3F3rOjbfeGcwUaXr2RDC1xjNd
+         4ZzLO5spkKcCEESlpSREIqV45l7y54DdpT2wD1pa2CsTVMeWpsLa0eeTw23B+p1n+s3C
+         /09+BNhDolRNBn/wiOAQvItMFPcf9CXXBbeGA68+hL/78KTY5ro8qELIPI7Fv5tE++xU
+         eLsQ==
+X-Gm-Message-State: AOAM5324vgkwtFzgOB/XpGNGJ4HVY88NQmQLP6x62jyNRwn4xn0IG5Fj
+	A6ZP0GfbdYkSQKZHFMCDsuBRMj/RudmBHl4wp+g=
+X-Google-Smtp-Source: ABdhPJw9P5q5R3eEzZcDbtmkNT57B8Ze6Tw94PBUkSPVTGkTXxWusog+6NPYsSS6j3TSPFIC50sGDg==
+X-Received: by 2002:a17:90a:fcc:: with SMTP id 70mr4217196pjz.168.1609856801332;
+        Tue, 05 Jan 2021 06:26:41 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.36
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:26:37 -0800 (PST)
+        Tue, 05 Jan 2021 06:26:40 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 29/30] grub: fix "CVE:" line in one of the patches
-Date: Tue,  5 Jan 2021 04:23:54 -1000
-Message-Id: <d686a3eb928d316a4e53979fda48b205ba9104bc.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 30/30] patch: fix CVE-2019-20633
+Date: Tue,  5 Jan 2021 04:23:55 -1000
+Message-Id: <af4fbea9a1656bdf95d85831cae13cae3a60d5ee.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
 From: Scott Murray <scott.murray@konsulko.com>
 
-The "CVE:" line in the patch for CVEs 2020-14309, CVE-2020-14310, and
-CVE-2020-14311 had commas between the CVE numbers, which resulted in
-CVE-2020-14310 not being picked up as patched by cve-check.bbclass's
-parsing.  Remove the commas to match cve-check.bbclass's expectations.
+* CVE detail: https://nvd.nist.gov/vuln/detail/CVE-2019-20633
+
+* upstream tracking: https://savannah.gnu.org/bugs/index.php?56683
+
+* Fixes potential for double free after incomplete fix for CVE-2018-6952
+  - src/pch.c (another_hunk): Avoid invalid memory access in context format
+    diffs.
 
 Signed-off-by: Scott Murray <scott.murray@konsulko.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 396d5c0f9cffa4b54ae94738b1ef2b6fb545f082)
+(cherry picked from commit be71dd2cc16a4c0d244a76a748f08ca0d9bfeba0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...1-malloc-Use-overflow-checking-primitives-where-we-do-.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../patch/patch/CVE-2019-20633.patch          | 31 +++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb    |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-index 896a2145d4..7214ead9a7 100644
---- a/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-+++ b/meta/recipes-bsp/grub/files/CVE-2020-14309-CVE-2020-14310-CVE-2020-14311-malloc-Use-overflow-checking-primitives-where-we-do-.patch
-@@ -30,7 +30,7 @@ Signed-off-by: Peter Jones <pjones@redhat.com>
- Reviewed-by: Daniel Kiper <daniel.kiper@oracle.com>
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch b/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
+new file mode 100644
+index 0000000000..03988a179c
+--- /dev/null
++++ b/meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
+@@ -0,0 +1,31 @@
++From 15b158db3ae11cb835f2eb8d2eb48e09d1a4af48 Mon Sep 17 00:00:00 2001
++From: Andreas Gruenbacher <agruen@gnu.org>
++Date: Mon, 15 Jul 2019 19:10:02 +0200
++Subject: Avoid invalid memory access in context format diffs
++
++* src/pch.c (another_hunk): Avoid invalid memory access in context format
++diffs.
++
++CVE: CVE-2019-20633
++Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=15b158db3ae11cb835f2eb8d2eb48e09d1a4af48]
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++
++---
++ src/pch.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/pch.c b/src/pch.c
++index a500ad9..cb54e03 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -1328,6 +1328,7 @@ another_hunk (enum diff difftype, bool rev)
++ 		  ptrn_prefix_context = context;
++ 		ptrn_suffix_context = context;
++ 		if (repl_beginning
+++		    || p_end <= 0
++ 		    || (p_end
++ 			!= p_ptrn_lines + 1 + (p_Char[p_end - 1] == '\n')))
++ 		  {
++-- 
++cgit v1.2.1
++
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index b5897b357a..1997af0c25 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0001-Invoke-ed-directly-instead-of-using-the-shell.patch \
+             file://0001-Don-t-leak-temporary-file-on-failed-ed-style-patch.patch \
+             file://0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch \
++            file://CVE-2019-20633.patch \
+ "
  
- Upstream-Status: Backport
--CVE: CVE-2020-14309, CVE-2020-14310, CVE-2020-14311
-+CVE: CVE-2020-14309 CVE-2020-14310 CVE-2020-14311
- 
- Reference to upstream patch:
- https://git.savannah.gnu.org/cgit/grub.git/commit/?id=3f05d693d1274965ffbe4ba99080dc2c570944c6
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 -- 
 2.17.1
 
