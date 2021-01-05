@@ -1,78 +1,91 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web08.6002.1609856762187007570
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web09.5894.1609856767118480620
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:26:02 -0800
+ Tue, 05 Jan 2021 06:26:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=RQC4MyLS;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id x18so16449927pln.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:02 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=cWA+2PPC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id m5so1777411pjv.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:26:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=F4Bn7LBsjnySbtex2EprvIagRj/B+0u/oMO/OygnM30=;
-        b=RQC4MyLScSoaofUJe/JF5emOJxB2R3lnYpA4atAHz0mPlfniaJHppVy9cAI9yxaT5A
-         avy6RAuytFuFYUHjbAgKGT8JZxfYELj8tCk3tTkxBj5dFGqTRLOBZjo8HT4AIYCl74cR
-         HcOzGQeqY0ptFxfr8znU1inKdWnw4oM9dX0hia3IoaGR1LowexS6mE3FjhwR4GvCcwMk
-         DrEugthT2hEhbTDAAE25fsAM9mDW4doINp/7iZ6LRSne938ZpDILjUbv3qcMEJzmZM19
-         /NpFgSUKWjTtht62vs7Zr9C87DxHK3e9tnLFfhU8NmQVAbOxG/jqYmCPp4f4OubqZ3ql
-         9PnA==
+        bh=0aAonZ88I7mIk+GQTtDVzVrFBgvXf9zpqhTrnpWnWZ8=;
+        b=cWA+2PPCrZKfIvtE7kqabLOPSO8za4W9O+LKTySl7Ge7c9LcW4225yMt5odHyM/8D7
+         u8jnX+gvjtobj/VDyE3Lo+VioVvYvnPk1Vi+LyUaG1F/eQroLMK89zUN4QdOIk3mNpf4
+         AGSQfsVoNglB5NridTPyyamj1P68dF15UN2lF4s4/Rf2bkrx7hAn7XDdSDbGWw74Ww6U
+         QpqShKTWr3sbPtsA6O8B6OKZ6g8KjaHAxDGaAW8tM/VB0xA6CRUy+NyMBGeqarwPsu3l
+         8IlXmmfJ4GuwzlQIUNf0gresSGmQ09YK1fq4j5ZQe+DRrkhPmS4rm2mXREEKS/XkNstp
+         A6Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=F4Bn7LBsjnySbtex2EprvIagRj/B+0u/oMO/OygnM30=;
-        b=rzwhKUiLFN6wMSlSc5LMTn34zevKnB+xxbnviljm546rvly1hL4mqYrETHKud6/ffb
-         xeB9XB76gGRER5Yr9z7rZtBFhZcNsQbC5J+JGSWBxLvI2oJ45yBoB558LTzyLV7/vVme
-         FTN0tiHFnQdRdhh/w5sXOb2C7hUADtuRHncFo3a6rKAfWloiBPnULgm3XPVRUYKZ+Sjb
-         US2Qj0MsUyXSnRGN35VpIFiVLOSmAG6t+VctT6ffItqR7jZ87TalRB9j7P6hSinkY9hK
-         93WV+md7wL2iRLevnsvh2JJTH8FpIWvpO/YREYU2VbPz9MRyVn/IfkErJ7p1ebhPnyeT
-         D9tA==
-X-Gm-Message-State: AOAM530ZZQBnpjQOggtBCWCZP+9RHSD5QUUMTgzNGoYHHUOBAlHimdGR
-	cQCE5bBaTgqx6J23tQl9z4D1tabFGR1l+8fPMgI=
-X-Google-Smtp-Source: ABdhPJyDWukkluZEIE632CHR2zByj6ZddTW9V0jHjPKlO0hlcmjyoql8RyeElPg8x3OnL4PC1LD1Ow==
-X-Received: by 2002:a17:90a:6809:: with SMTP id p9mr4192149pjj.112.1609856761416;
-        Tue, 05 Jan 2021 06:26:01 -0800 (PST)
+        bh=0aAonZ88I7mIk+GQTtDVzVrFBgvXf9zpqhTrnpWnWZ8=;
+        b=lG3q/qeaZPnQ4If81ZItcMHUhTSK2bkVz8PROgJ+uzdLXZb53fxeos9MRx6TsuV3Ll
+         EV75Kg/Pmf0b6C7bob1lZtsoJlx/TSXM3+NIdevB97YxmK5o16BFeIz+I+Sgl2qvh4OH
+         wXo4Rj9lNrmdOFRzHw/E0R+YzdYbU4AjfNSQa879SiJUDdW72WrnnBROSUeTUNxrbUHz
+         6vqwgYAtsvOIq/0Oq2UCngKfPlBxzf7t8SKN78X2eaZW1yP6XF52ou1aRxVfLy9c4EsD
+         1KGwd7xvBJAbvrrADhTwT8x/6tK0eWx2d4c+yJX7/6TJQuEND4r3FIyx/93H5CmV0EDJ
+         8hyQ==
+X-Gm-Message-State: AOAM531GNTcTCw0kPEEOcPP6R+027VG7fZiYL3+xQSjDOxAVe8Jgfr6m
+	K1yTJ8CBHGzWAV8BqtCw/Qty6PSHb8M38jGQNwc=
+X-Google-Smtp-Source: ABdhPJwMhoZO97OpahpVOV3hFAK0HUfui9X7ix/1Hi0FZD11WcxQY5qGSMMNRXLpkrtydNk43O2cjQ==
+X-Received: by 2002:a17:90a:6ba4:: with SMTP id w33mr4465809pjj.32.1609856766293;
+        Tue, 05 Jan 2021 06:26:06 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.00
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.26.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:26:00 -0800 (PST)
+        Tue, 05 Jan 2021 06:26:05 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 20/30] weston: Fix PACKAGECONFIG for remoting
-Date: Tue,  5 Jan 2021 04:23:45 -1000
-Message-Id: <74611d0438a30b48f6d830763e747d6d93c4ea68.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 21/30] apr-util: Only specify --with-dbm=gdbm if gdbm support is enabled
+Date: Tue,  5 Jan 2021 04:23:46 -1000
+Message-Id: <d4efeada4b8011f18a1ba9464c70e1a2ebe33d3b.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Fix a typo: gstreamer-1.0 -> gstreamer1.0.
+Support for gdbm was made optional in 3260ad9e, but it was still being
+used unconditionally.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d5b030dd9b9ada796f90919c97c887b00612cfc0)
+(cherry picked from commit 09d303ca295dc27874c72b30c37a64d1fdf4c5c0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/wayland/weston_8.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/apr/apr-util_1.6.1.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-index 8fef864827..0b383f25f3 100644
---- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
-@@ -70,7 +70,7 @@ PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-color
- # Clients support
- PACKAGECONFIG[clients] = "-Dsimple-clients=all -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
- # Virtual remote output with GStreamer on DRM backend
--PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer-1.0"
-+PACKAGECONFIG[remoting] = "-Dremoting=true,-Dremoting=false,gstreamer1.0"
- # Weston with PAM support
- PACKAGECONFIG[pam] = "-Dpam=true,-Dpam=false,libpam"
- # Weston with screen-share support
+diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
+index 0dd8f025e8..f7d827a1d8 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.1.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
+@@ -19,10 +19,9 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+ SRC_URI[md5sum] = "bd502b9a8670a8012c4d90c31a84955f"
+ SRC_URI[sha256sum] = "b65e40713da57d004123b6319828be7f1273fbc6490e145874ee1177e112c459"
+ 
+-EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \ 
++EXTRA_OECONF = "--with-apr=${STAGING_BINDIR_CROSS}/apr-1-config \
+ 		--without-odbc \
+ 		--without-pgsql \
+-		--with-dbm=gdbm \
+ 		--without-sqlite2 \
+ 		--with-expat=${STAGING_DIR_HOST}${prefix}"
+ 
+@@ -69,7 +68,7 @@ PACKAGECONFIG ??= "crypto gdbm"
+ PACKAGECONFIG[ldap] = "--with-ldap,--without-ldap,openldap"
+ PACKAGECONFIG[crypto] = "--with-openssl=${STAGING_DIR_HOST}${prefix} --with-crypto,--without-crypto,openssl"
+ PACKAGECONFIG[sqlite3] = "--with-sqlite3=${STAGING_DIR_HOST}${prefix},--without-sqlite3,sqlite3"
+-PACKAGECONFIG[gdbm] = "--with-gdbm=${STAGING_DIR_HOST}${prefix},--without-gdbm,gdbm"
++PACKAGECONFIG[gdbm] = "--with-dbm=gdbm --with-gdbm=${STAGING_DIR_HOST}${prefix},--without-gdbm,gdbm"
+ 
+ #files ${libdir}/apr-util-1/*.so are not symlinks but loadable modules thus they are packaged in ${PN}
+ FILES_${PN}     += "${libdir}/apr-util-1/apr*${SOLIBS} ${libdir}/apr-util-1/apr*${SOLIBSDEV}"
 -- 
 2.17.1
 
