@@ -1,878 +1,1021 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web10.6763.1609859649430989183
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.7319.1609861686955338497
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 07:14:09 -0800
+ Tue, 05 Jan 2021 07:48:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cEIeBAJZ;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id lt17so155175ejb.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 07:14:09 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hy9wgZSp;
+ spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f177.google.com with SMTP id s15so16554479plr.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 07:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vTwmewIvg/eOoYzgWibHEZtEso4Z5ce40ntrJk5GN84=;
-        b=cEIeBAJZQHmgT33hEJ6HV4WI1mJ9BfK4DILMQqiLBWYHMEPNpEc4S2hkPAtpmXSrPG
-         TwpGdrH002PkFHsUpMR/5V9/PR64awnmg1XXhScGU0OFd7vN+aiQrq6FXwkMtsZnZ7nH
-         PfvFhmbmTsPrTM5zld/VHWSBaeMXlD8QEOZF8w4/U6ak1xajVF5T16prK5MwHXVa8zoQ
-         yowGS/5G5lIldZ4KBpDPJy60dkrbDAaOvlxty9+LSlTIIxvn9uMCY029cBfJrCwvaMwq
-         +PQeIT2UIXP4WvaoJRUvLBl+x9ojBnw4WxXihfsQe3NYSWdyJWijOlBrVysTT6x7eIJf
-         RT3w==
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=xG5Uc0m6Zu7Pr4dBY7hu9bI2pnbmQU22PoG8TpKityc=;
+        b=hy9wgZSpVNb+5gdou71gefMh9TI8XuqQ7cngk0QVSx2OGWch4L56vHzhuuWjdKZ6lQ
+         XAaLW5FlcZd5EG9mSjwwgv4vThfVBx8ZnMvuWTufhkX46YdoLb3bYun9GBKPVLEVgTSr
+         +6ihnFwak/j64wB6PQufrF75MvrNQ7ZIODFG13B6QoItQEvLiws7MMHod7O5/c73vCrf
+         wWNBlq3NwQ6j23KN8RoYCW6lACxzSnrhn0DmkZ9Ij+ZKyUQlKSurREjb6DIlSdLufBmX
+         iQ2U2v41n2+yVEzXEvLVpDBC8xD4wCAboovxKQqr7Lz+50/H4MezgZ26/L938okhl87D
+         VAjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vTwmewIvg/eOoYzgWibHEZtEso4Z5ce40ntrJk5GN84=;
-        b=hmg1S5VV+Az/bW1oItnqqIy9zvTzFv5Pq0vZqKwrtC+TkpaXdIo/4tTiPGUhUjvoQw
-         /ayKjBo3df9EPjel3CnhDEzuW2HmPc7WKVszf0/C8BACuncpA44tozuguXnTkn54gRuT
-         y7pNGUzsjAYEsp5V0233SKWLEd2sTAhl6iKr0ELeu/hz2apTVbYnPYX5XVf/SJ1pZXR2
-         uovK1NBBIR7KQuwCSOCCl42PzbXNyziWX1WQ+FgSCMpk9AW/UvmjnU405U00hwxxzudj
-         nW8m4aK19g7Y7NgvgslM7yq6cIvM5qrGrKgoUvsdOaeZO95rVX85qgD8UvNhIEAxCvkI
-         hn3g==
-X-Gm-Message-State: AOAM530sET5u08FAcbglHX9bVLL7uFXcNOmzHqgIq6BQSJ6JSnaePH4L
-	DcIXu7JNqucKu+PmFXIXFS6xrM0gFdcVLmactLc=
-X-Google-Smtp-Source: ABdhPJwB4rIQqFEHz5Y/N6Uydtohst8fnDHbGyDa72C6CnUjTW+iH4AhbAHy3/r8ZopRjr5aMdaj1k7XNi+fNW1Lxag=
-X-Received: by 2002:a17:907:373:: with SMTP id rs19mr67519012ejb.298.1609859647753;
- Tue, 05 Jan 2021 07:14:07 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=xG5Uc0m6Zu7Pr4dBY7hu9bI2pnbmQU22PoG8TpKityc=;
+        b=FTKxcul5MqmXePQs4MJ1SH0fnh9azmUXL8OI8HXukmg8DfKOpY0URuvlu/z2Ktk1An
+         kJDaZkkWnx9WHXh1CIBC1M7xAiPoN37+8EBAJf98NFvfEWScEY+ZFiU7RyGqDv9NRu8a
+         IEQubakVbS9i+j1DuakbT1HC43OpbXLANXcfJuNSXBQD60DAQeDa+fhA/uJnycFqQaHl
+         F/sHnmJabq/KE0KcjS6MndI7g8cMdX8U+RvRK3SgaJ4h+igEgZbkKoEXniA7xXaYrTEF
+         3JaAzhEMXs3IjfmB258pZ+69PmURlvnJJS3/zK2A/JVubtRaaUqNRqJj4yiggInVEW+c
+         ocCA==
+X-Gm-Message-State: AOAM531SWrCWZ4WOTwdzWxweE9QMzaAfjitlQ8vBjpJaHSJRIGXtNZhm
+	V1HKC4djdBugVqqu3HBuXzbZ3mBgsxU=
+X-Google-Smtp-Source: ABdhPJxoJEa7YSe9XWsj6ed+ekE1Vu4Z1MlAXCJowy7yfJTkXmc9PFHsyFaNkYh05AXwOI4kzZxEgQ==
+X-Received: by 2002:a17:90b:3d3:: with SMTP id go19mr4499814pjb.201.1609861686080;
+        Tue, 05 Jan 2021 07:48:06 -0800 (PST)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id o193sm91273pfg.27.2021.01.05.07.48.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 Jan 2021 07:48:05 -0800 (PST)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Status WW01`21
+Date: Tue, 5 Jan 2021 07:48:05 -0800
+Message-ID: <09cb01d6e37a$28907780$79b16680$@gmail.com>
 MIME-Version: 1.0
-References: <20201208155311.20551-1-bruce.ashfield@gmail.com> <CAMKF1soytEW=nFf9D1_i8uH9=pV=Dqs_84MyDeBmeDbJfd5qOg@mail.gmail.com>
-In-Reply-To: <CAMKF1soytEW=nFf9D1_i8uH9=pV=Dqs_84MyDeBmeDbJfd5qOg@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 5 Jan 2021 10:13:56 -0500
-Message-ID: <CADkTA4P+r2W1beX0VeKCRgtYdSwdPD1nPwuF+JHOdbsJ4W4BdA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lttng-modules: fix build against v5.10+
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdbjehQdL2anZQXOTv+esFUDKAmepg==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_09CC_01D6E337.1A712F20"
+Content-Language: en-us
 
-On Mon, Jan 4, 2021 at 9:26 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> it seems vboxguestdrivers 6.1.16 also needs some love to work with 5.10 see
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/844/steps/12/logs/stdio
->
+------=_NextPart_000_09CC_01D6E337.1A712F20
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-I went ahead and backported some patches for this, and have it
-building against 5.10.
+Current Dev Position: YP 3.3 M2 development
 
-I'll send the patch to oe-devel shortly.
+Next Deadline: 18th January 2021 YP 3.3 M2 build 
 
-Bruce
+ 
 
-> On Tue, Dec 8, 2020 at 7:53 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > lttng-modules doesn't currently build against the lastest 5.10-rc
-> > versions.
-> >
-> > Upstream lttng does have fixes for the issues, but hasn't done a
-> > release that contains them yet. There are other patches on the
-> > 2.12.x branch, but I've skipped them for now as they aren't
-> > necessary for 5.10 builds, and can be picked up with the next
-> > full update.
-> >
-> > We also bump the dev-upstream hash to make them easier to pickup
-> > for those building from git.
-> >
-> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > ---
-> >
-> > As part of my prep for v5.10 to be the next reference kernel, I'm
-> > building all the coupled packages. lttng blew up (as usual). We'll
-> > likely have a release of lttng before the next project release, but
-> > I'd rather not leave it broken until then!
-> >
-> > Bruce
-> >
-> >  ...jtool-Rename-frame.h-objtool.h-v5.10.patch |  88 ++++++++
-> >  ...rdered-extent-tracepoint-take-btrfs_.patch | 179 ++++++++++++++++
-> >  ...ext4-fast-commit-recovery-path-v5.10.patch |  99 +++++++++
-> >  ...x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch |  82 ++++++++
-> >  ...int-Optimize-using-static_call-v5.10.patch | 196 ++++++++++++++++++
-> >  ...defined-symbols-caused-by-incorrect-.patch |  55 +++++
-> >  .../lttng/lttng-modules_2.12.3.bb             |  10 +-
-> >  7 files changed, 707 insertions(+), 2 deletions(-)
-> >  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
-> >  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
-> >  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch
-> >  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
-> >  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch
-> >  create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch
-> >
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
-> > new file mode 100644
-> > index 0000000000..fde9398394
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules/0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch
-> > @@ -0,0 +1,88 @@
-> > +From 37b9cb0e6cb92181b7a25583849a9d161a558982 Mon Sep 17 00:00:00 2001
-> > +From: Michael Jeanson <mjeanson@efficios.com>
-> > +Date: Mon, 26 Oct 2020 13:41:02 -0400
-> > +Subject: [PATCH 07/19] fix: objtool: Rename frame.h -> objtool.h (v5.10)
-> > +
-> > +See upstream commit :
-> > +
-> > +  commit 00089c048eb4a8250325efb32a2724fd0da68cce
-> > +  Author: Julien Thierry <jthierry@redhat.com>
-> > +  Date:   Fri Sep 4 16:30:25 2020 +0100
-> > +
-> > +    objtool: Rename frame.h -> objtool.h
-> > +
-> > +    Header frame.h is getting more code annotations to help objtool analyze
-> > +    object files.
-> > +
-> > +    Rename the file to objtool.h.
-> > +
-> > +Upstream-Status: Backport
-> > +
-> > +Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-> > +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +Change-Id: Ic2283161bebcbf1e33b72805eb4d2628f4ae3e89
-> > +---
-> > + lttng-filter-interpreter.c     |  2 +-
-> > + wrapper/{frame.h => objtool.h} | 19 ++++++++++++-------
-> > + 2 files changed, 13 insertions(+), 8 deletions(-)
-> > + rename wrapper/{frame.h => objtool.h} (50%)
-> > +
-> > +diff --git a/lttng-filter-interpreter.c b/lttng-filter-interpreter.c
-> > +index 21169f01..5d572437 100644
-> > +--- a/lttng-filter-interpreter.c
-> > ++++ b/lttng-filter-interpreter.c
-> > +@@ -8,7 +8,7 @@
-> > +  */
-> > +
-> > + #include <wrapper/uaccess.h>
-> > +-#include <wrapper/frame.h>
-> > ++#include <wrapper/objtool.h>
-> > + #include <wrapper/types.h>
-> > + #include <linux/swab.h>
-> > +
-> > +diff --git a/wrapper/frame.h b/wrapper/objtool.h
-> > +similarity index 50%
-> > +rename from wrapper/frame.h
-> > +rename to wrapper/objtool.h
-> > +index 6e6dc811..3b997cae 100644
-> > +--- a/wrapper/frame.h
-> > ++++ b/wrapper/objtool.h
-> > +@@ -1,18 +1,23 @@
-> > +-/* SPDX-License-Identifier: (GPL-2.0 or LGPL-2.1)
-> > ++/* SPDX-License-Identifier: (GPL-2.0-only or LGPL-2.1-only)
-> > +  *
-> > +- * wrapper/frame.h
-> > ++ * wrapper/objtool.h
-> > +  *
-> > +  * Copyright (C) 2016 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +  */
-> > +
-> > +-#ifndef _LTTNG_WRAPPER_FRAME_H
-> > +-#define _LTTNG_WRAPPER_FRAME_H
-> > ++#ifndef _LTTNG_WRAPPER_OBJTOOL_H
-> > ++#define _LTTNG_WRAPPER_OBJTOOL_H
-> > +
-> > + #include <linux/version.h>
-> > +
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,6,0))
-> > +-
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++#include <linux/objtool.h>
-> > ++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,6,0))
-> > + #include <linux/frame.h>
-> > ++#endif
-> > ++
-> > ++
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,6,0))
-> > +
-> > + #define LTTNG_STACK_FRAME_NON_STANDARD(func) \
-> > +       STACK_FRAME_NON_STANDARD(func)
-> > +@@ -23,4 +28,4 @@
-> > +
-> > + #endif
-> > +
-> > +-#endif /* _LTTNG_WRAPPER_FRAME_H */
-> > ++#endif /* _LTTNG_WRAPPER_OBJTOOL_H */
-> > +--
-> > +2.19.1
-> > +
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch b/meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
-> > new file mode 100644
-> > index 0000000000..bc87c7174e
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules/0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch
-> > @@ -0,0 +1,179 @@
-> > +From ddad4e82bc2cc48c0eb56d2daf69409026e8b31a Mon Sep 17 00:00:00 2001
-> > +From: Michael Jeanson <mjeanson@efficios.com>
-> > +Date: Tue, 27 Oct 2020 12:10:05 -0400
-> > +Subject: [PATCH 09/19] fix: btrfs: make ordered extent tracepoint take
-> > + btrfs_inode (v5.10)
-> > +
-> > +See upstream commit :
-> > +
-> > +  commit acbf1dd0fcbd10c67826a19958f55a053b32f532
-> > +  Author: Nikolay Borisov <nborisov@suse.com>
-> > +  Date:   Mon Aug 31 14:42:40 2020 +0300
-> > +
-> > +    btrfs: make ordered extent tracepoint take btrfs_inode
-> > +
-> > +Upstream-Status: Backport
-> > +
-> > +Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-> > +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +Change-Id: I096d0801ffe0ad826cfe414cdd1c0857cbd2b624
-> > +---
-> > + instrumentation/events/lttng-module/btrfs.h | 120 +++++++++++++++-----
-> > + 1 file changed, 90 insertions(+), 30 deletions(-)
-> > +
-> > +diff --git a/instrumentation/events/lttng-module/btrfs.h b/instrumentation/events/lttng-module/btrfs.h
-> > +index 52fcfd0d..d47f3280 100644
-> > +--- a/instrumentation/events/lttng-module/btrfs.h
-> > ++++ b/instrumentation/events/lttng-module/btrfs.h
-> > +@@ -346,7 +346,29 @@ LTTNG_TRACEPOINT_EVENT(btrfs_handle_em_exist,
-> > + )
-> > + #endif
-> > +
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0))
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__ordered_extent,
-> > ++
-> > ++      TP_PROTO(const struct btrfs_inode *inode,
-> > ++               const struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered),
-> > ++
-> > ++      TP_FIELDS(
-> > ++              ctf_array(u8, fsid, inode->root->lttng_fs_info_fsid, BTRFS_UUID_SIZE)
-> > ++              ctf_integer(ino_t, ino, btrfs_ino(inode))
-> > ++              ctf_integer(u64, file_offset, ordered->file_offset)
-> > ++              ctf_integer(u64, start, ordered->disk_bytenr)
-> > ++              ctf_integer(u64, len, ordered->num_bytes)
-> > ++              ctf_integer(u64, disk_len, ordered->disk_num_bytes)
-> > ++              ctf_integer(u64, bytes_left, ordered->bytes_left)
-> > ++              ctf_integer(unsigned long, flags, ordered->flags)
-> > ++              ctf_integer(int, compress_type, ordered->compress_type)
-> > ++              ctf_integer(int, refs, refcount_read(&ordered->refs))
-> > ++              ctf_integer(u64, root_objectid, inode->root->root_key.objectid)
-> > ++      )
-> > ++)
-> > ++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0))
-> > + LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__ordered_extent,
-> > +
-> > +       TP_PROTO(const struct inode *inode,
-> > +@@ -458,7 +480,39 @@ LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__ordered_extent,
-> > + )
-> > + #endif
-> > +
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0) || \
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_add,
-> > ++
-> > ++      TP_PROTO(const struct btrfs_inode *inode,
-> > ++               const struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > ++
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_remove,
-> > ++
-> > ++      TP_PROTO(const struct btrfs_inode *inode,
-> > ++               const struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > ++
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_start,
-> > ++
-> > ++      TP_PROTO(const struct btrfs_inode *inode,
-> > ++               const struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > ++
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
-> > ++
-> > ++      TP_PROTO(const struct btrfs_inode *inode,
-> > ++               const struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > ++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0) || \
-> > +       LTTNG_SLE_KERNEL_RANGE(4,4,73,5,0,0, 4,4,73,6,0,0) || \
-> > +       LTTNG_SLE_KERNEL_RANGE(4,4,82,6,0,0, 4,4,82,7,0,0) || \
-> > +       LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
-> > +@@ -494,7 +548,41 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
-> > +
-> > +       TP_ARGS(inode, ordered)
-> > + )
-> > ++#else
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_add,
-> > ++
-> > ++      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > ++
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_remove,
-> > ++
-> > ++      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > ++
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_start,
-> > ++
-> > ++      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > +
-> > ++LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
-> > ++
-> > ++      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > ++
-> > ++      TP_ARGS(inode, ordered)
-> > ++)
-> > ++#endif
-> > ++
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,14,0) || \
-> > ++      LTTNG_SLE_KERNEL_RANGE(4,4,73,5,0,0, 4,4,73,6,0,0) || \
-> > ++      LTTNG_SLE_KERNEL_RANGE(4,4,82,6,0,0, 4,4,82,7,0,0) || \
-> > ++      LTTNG_SLE_KERNEL_RANGE(4,4,92,6,0,0, 4,4,92,7,0,0) || \
-> > ++      LTTNG_SLE_KERNEL_RANGE(4,4,103,6,0,0, 4,5,0,0,0,0))
-> > + LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__writepage,
-> > +
-> > +       TP_PROTO(const struct page *page, const struct inode *inode,
-> > +@@ -563,34 +651,6 @@ LTTNG_TRACEPOINT_EVENT(btrfs_sync_file,
-> > +       )
-> > + )
-> > + #else
-> > +-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_add,
-> > +-
-> > +-      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > +-
-> > +-      TP_ARGS(inode, ordered)
-> > +-)
-> > +-
-> > +-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_remove,
-> > +-
-> > +-      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > +-
-> > +-      TP_ARGS(inode, ordered)
-> > +-)
-> > +-
-> > +-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_start,
-> > +-
-> > +-      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > +-
-> > +-      TP_ARGS(inode, ordered)
-> > +-)
-> > +-
-> > +-LTTNG_TRACEPOINT_EVENT_INSTANCE(btrfs__ordered_extent, btrfs_ordered_extent_put,
-> > +-
-> > +-      TP_PROTO(struct inode *inode, struct btrfs_ordered_extent *ordered),
-> > +-
-> > +-      TP_ARGS(inode, ordered)
-> > +-)
-> > +-
-> > + LTTNG_TRACEPOINT_EVENT_CLASS(btrfs__writepage,
-> > +
-> > +       TP_PROTO(struct page *page, struct inode *inode,
-> > +--
-> > +2.19.1
-> > +
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch
-> > new file mode 100644
-> > index 0000000000..fb00a44b31
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules/0010-fix-ext4-fast-commit-recovery-path-v5.10.patch
-> > @@ -0,0 +1,99 @@
-> > +From a28235f8ffa3c961640a835686dddb5ca600dfaf Mon Sep 17 00:00:00 2001
-> > +From: Michael Jeanson <mjeanson@efficios.com>
-> > +Date: Mon, 26 Oct 2020 17:03:23 -0400
-> > +Subject: [PATCH 10/19] fix: ext4: fast commit recovery path (v5.10)
-> > +
-> > +See upstream commit :
-> > +
-> > +  commit 8016e29f4362e285f0f7e38fadc61a5b7bdfdfa2
-> > +  Author: Harshad Shirwadkar <harshadshirwadkar@gmail.com>
-> > +  Date:   Thu Oct 15 13:37:59 2020 -0700
-> > +
-> > +    ext4: fast commit recovery path
-> > +
-> > +    This patch adds fast commit recovery path support for Ext4 file
-> > +    system. We add several helper functions that are similar in spirit to
-> > +    e2fsprogs journal recovery path handlers. Example of such functions
-> > +    include - a simple block allocator, idempotent block bitmap update
-> > +    function etc. Using these routines and the fast commit log in the fast
-> > +    commit area, the recovery path (ext4_fc_replay()) performs fast commit
-> > +    log recovery.
-> > +
-> > +Upstream-Status: Backport
-> > +
-> > +Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-> > +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +Change-Id: Ia65cf44e108f2df0b458f0d335f33a8f18f50baa
-> > +---
-> > + instrumentation/events/lttng-module/ext4.h | 41 ++++++++++++++++++++++
-> > + 1 file changed, 41 insertions(+)
-> > +
-> > +diff --git a/instrumentation/events/lttng-module/ext4.h b/instrumentation/events/lttng-module/ext4.h
-> > +index b172c8d9..6e74abad 100644
-> > +--- a/instrumentation/events/lttng-module/ext4.h
-> > ++++ b/instrumentation/events/lttng-module/ext4.h
-> > +@@ -1274,6 +1274,18 @@ LTTNG_TRACEPOINT_EVENT(ext4_ext_load_extent,
-> > +       )
-> > + )
-> > +
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
-> > ++      TP_PROTO(struct super_block *sb, unsigned long ino),
-> > ++
-> > ++      TP_ARGS(sb, ino),
-> > ++
-> > ++      TP_FIELDS(
-> > ++              ctf_integer(dev_t, dev, sb->s_dev)
-> > ++              ctf_integer(ino_t, ino, ino)
-> > ++      )
-> > ++)
-> > ++#else
-> > + LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
-> > +       TP_PROTO(struct inode *inode),
-> > +
-> > +@@ -1284,6 +1296,7 @@ LTTNG_TRACEPOINT_EVENT(ext4_load_inode,
-> > +               ctf_integer(ino_t, ino, inode->i_ino)
-> > +       )
-> > + )
-> > ++#endif
-> > +
-> > + #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,5,0))
-> > +
-> > +@@ -1895,6 +1908,34 @@ LTTNG_TRACEPOINT_EVENT(ext4_es_shrink_exit,
-> > +
-> > + #endif
-> > +
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++LTTNG_TRACEPOINT_EVENT(ext4_fc_replay_scan,
-> > ++      TP_PROTO(struct super_block *sb, int error, int off),
-> > ++
-> > ++      TP_ARGS(sb, error, off),
-> > ++
-> > ++      TP_FIELDS(
-> > ++              ctf_integer(dev_t, dev, sb->s_dev)
-> > ++              ctf_integer(int, error, error)
-> > ++              ctf_integer(int, off, off)
-> > ++      )
-> > ++)
-> > ++
-> > ++LTTNG_TRACEPOINT_EVENT(ext4_fc_replay,
-> > ++      TP_PROTO(struct super_block *sb, int tag, int ino, int priv1, int priv2),
-> > ++
-> > ++      TP_ARGS(sb, tag, ino, priv1, priv2),
-> > ++
-> > ++      TP_FIELDS(
-> > ++              ctf_integer(dev_t, dev, sb->s_dev)
-> > ++              ctf_integer(int, tag, tag)
-> > ++              ctf_integer(int, ino, ino)
-> > ++              ctf_integer(int, priv1, priv1)
-> > ++              ctf_integer(int, priv2, priv2)
-> > ++      )
-> > ++)
-> > ++#endif
-> > ++
-> > + #endif /* LTTNG_TRACE_EXT4_H */
-> > +
-> > + /* This part must be outside protection */
-> > +--
-> > +2.19.1
-> > +
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
-> > new file mode 100644
-> > index 0000000000..8651bded99
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules/0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch
-> > @@ -0,0 +1,82 @@
-> > +From e30866f96b3ab02639f429e4bd34e59b3a336579 Mon Sep 17 00:00:00 2001
-> > +From: Michael Jeanson <mjeanson@efficios.com>
-> > +Date: Mon, 26 Oct 2020 14:28:35 -0400
-> > +Subject: [PATCH 12/19] fix: kvm: x86/mmu: Add TDP MMU PF handler (v5.10)
-> > +
-> > +See upstream commit :
-> > +
-> > +  commit bb18842e21111a979e2e0e1c5d85c09646f18d51
-> > +  Author: Ben Gardon <bgardon@google.com>
-> > +  Date:   Wed Oct 14 11:26:50 2020 -0700
-> > +
-> > +    kvm: x86/mmu: Add TDP MMU PF handler
-> > +
-> > +    Add functions to handle page faults in the TDP MMU. These page faults
-> > +    are currently handled in much the same way as the x86 shadow paging
-> > +    based MMU, however the ordering of some operations is slightly
-> > +    different. Future patches will add eager NX splitting, a fast page fault
-> > +    handler, and parallel page faults.
-> > +
-> > +    Tested by running kvm-unit-tests and KVM selftests on an Intel Haswell
-> > +    machine. This series introduced no new failures.
-> > +
-> > +Upstream-Status: Backport
-> > +
-> > +Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-> > +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +Change-Id: Ie56959cb6c77913d2f1188b0ca15da9114623a4e
-> > +---
-> > + .../lttng-module/arch/x86/kvm/mmutrace.h      | 20 ++++++++++++++++++-
-> > + probes/lttng-probe-kvm-x86-mmu.c              |  5 +++++
-> > + 2 files changed, 24 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
-> > +index e5470400..86717835 100644
-> > +--- a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
-> > ++++ b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
-> > +@@ -163,7 +163,25 @@ LTTNG_TRACEPOINT_EVENT_INSTANCE(kvm_mmu_page_class, kvm_mmu_prepare_zap_page,
-> > +       TP_ARGS(sp)
-> > + )
-> > +
-> > +-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0))
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++
-> > ++LTTNG_TRACEPOINT_EVENT_MAP(
-> > ++      mark_mmio_spte,
-> > ++
-> > ++      kvm_mmu_mark_mmio_spte,
-> > ++
-> > ++      TP_PROTO(u64 *sptep, gfn_t gfn, u64 spte),
-> > ++      TP_ARGS(sptep, gfn, spte),
-> > ++
-> > ++      TP_FIELDS(
-> > ++              ctf_integer_hex(void *, sptep, sptep)
-> > ++              ctf_integer(gfn_t, gfn, gfn)
-> > ++              ctf_integer(unsigned, access, spte & ACC_ALL)
-> > ++              ctf_integer(unsigned int, gen, get_mmio_spte_generation(spte))
-> > ++      )
-> > ++)
-> > ++
-> > ++#elif (LINUX_VERSION_CODE >= KERNEL_VERSION(3,11,0))
-> > +
-> > + LTTNG_TRACEPOINT_EVENT_MAP(
-> > +       mark_mmio_spte,
-> > +diff --git a/probes/lttng-probe-kvm-x86-mmu.c b/probes/lttng-probe-kvm-x86-mmu.c
-> > +index 8f981865..5043c776 100644
-> > +--- a/probes/lttng-probe-kvm-x86-mmu.c
-> > ++++ b/probes/lttng-probe-kvm-x86-mmu.c
-> > +@@ -31,6 +31,11 @@
-> > + #include <../../arch/x86/kvm/mmutrace.h>
-> > + #endif
-> > +
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++#include <../arch/x86/kvm/mmu.h>
-> > ++#include <../arch/x86/kvm/mmu/spte.h>
-> > ++#endif
-> > ++
-> > + #undef TRACE_INCLUDE_PATH
-> > + #undef TRACE_INCLUDE_FILE
-> > +
-> > +--
-> > +2.19.1
-> > +
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch b/meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch
-> > new file mode 100644
-> > index 0000000000..5892a408b3
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules/0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch
-> > @@ -0,0 +1,196 @@
-> > +From bb346792c2cb6995ffc08d2084121935c6384865 Mon Sep 17 00:00:00 2001
-> > +From: Michael Jeanson <mjeanson@efficios.com>
-> > +Date: Mon, 26 Oct 2020 17:09:05 -0400
-> > +Subject: [PATCH 14/19] fix: tracepoint: Optimize using static_call() (v5.10)
-> > +
-> > +See upstream commit :
-> > +
-> > +  commit d25e37d89dd2f41d7acae0429039d2f0ae8b4a07
-> > +  Author: Steven Rostedt (VMware) <rostedt@goodmis.org>
-> > +  Date:   Tue Aug 18 15:57:52 2020 +0200
-> > +
-> > +    tracepoint: Optimize using static_call()
-> > +
-> > +    Currently the tracepoint site will iterate a vector and issue indirect
-> > +    calls to however many handlers are registered (ie. the vector is
-> > +    long).
-> > +
-> > +    Using static_call() it is possible to optimize this for the common
-> > +    case of only having a single handler registered. In this case the
-> > +    static_call() can directly call this handler. Otherwise, if the vector
-> > +    is longer than 1, call a function that iterates the whole vector like
-> > +    the current code.
-> > +
-> > +Upstream-Status: Backport
-> > +
-> > +Change-Id: I739dd84d62cc1a821b8bd8acff74fa29aa25d22f
-> > +Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-> > +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +---
-> > + lttng-statedump-impl.c    | 80 +++++++++++++++++++++++++++++++--------
-> > + probes/lttng.c            |  7 +++-
-> > + tests/probes/lttng-test.c |  7 +++-
-> > + wrapper/tracepoint.h      |  8 ++++
-> > + 4 files changed, 84 insertions(+), 18 deletions(-)
-> > +
-> > +diff --git a/lttng-statedump-impl.c b/lttng-statedump-impl.c
-> > +index a6fa71a5..67ecd33c 100644
-> > +--- a/lttng-statedump-impl.c
-> > ++++ b/lttng-statedump-impl.c
-> > +@@ -55,26 +55,76 @@
-> > + #define LTTNG_INSTRUMENTATION
-> > + #include <instrumentation/events/lttng-module/lttng-statedump.h>
-> > +
-> > +-DEFINE_TRACE(lttng_statedump_block_device);
-> > +-DEFINE_TRACE(lttng_statedump_end);
-> > +-DEFINE_TRACE(lttng_statedump_interrupt);
-> > +-DEFINE_TRACE(lttng_statedump_file_descriptor);
-> > +-DEFINE_TRACE(lttng_statedump_start);
-> > +-DEFINE_TRACE(lttng_statedump_process_state);
-> > +-DEFINE_TRACE(lttng_statedump_process_pid_ns);
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_block_device,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              dev_t dev, const char *diskname),
-> > ++      TP_ARGS(session, dev, diskname));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_end,
-> > ++      TP_PROTO(struct lttng_session *session),
-> > ++      TP_ARGS(session));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_interrupt,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              unsigned int irq, const char *chip_name,
-> > ++              struct irqaction *action),
-> > ++      TP_ARGS(session, irq, chip_name, action));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_file_descriptor,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct files_struct *files,
-> > ++              int fd, const char *filename,
-> > ++              unsigned int flags, fmode_t fmode),
-> > ++      TP_ARGS(session, files, fd, filename, flags, fmode));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_start,
-> > ++      TP_PROTO(struct lttng_session *session),
-> > ++      TP_ARGS(session));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_state,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              int type, int mode, int submode, int status,
-> > ++              struct files_struct *files),
-> > ++      TP_ARGS(session, p, type, mode, submode, status, files));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_pid_ns,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              struct pid_namespace *pid_ns),
-> > ++      TP_ARGS(session, p, pid_ns));
-> > ++
-> > + #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4,6,0))
-> > +-DEFINE_TRACE(lttng_statedump_process_cgroup_ns);
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_cgroup_ns,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              struct cgroup_namespace *cgroup_ns),
-> > ++      TP_ARGS(session, p, cgroup_ns));
-> > + #endif
-> > +-DEFINE_TRACE(lttng_statedump_process_ipc_ns);
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_ipc_ns,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              struct ipc_namespace *ipc_ns),
-> > ++      TP_ARGS(session, p, ipc_ns));
-> > ++
-> > + #ifndef LTTNG_MNT_NS_MISSING_HEADER
-> > +-DEFINE_TRACE(lttng_statedump_process_mnt_ns);
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_mnt_ns,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              struct mnt_namespace *mnt_ns),
-> > ++      TP_ARGS(session, p, mnt_ns));
-> > + #endif
-> > +-DEFINE_TRACE(lttng_statedump_process_net_ns);
-> > +-DEFINE_TRACE(lttng_statedump_process_user_ns);
-> > +-DEFINE_TRACE(lttng_statedump_process_uts_ns);
-> > +-DEFINE_TRACE(lttng_statedump_network_interface);
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_network_interface,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct net_device *dev, struct in_ifaddr *ifa),
-> > ++      TP_ARGS(session, dev, ifa));
-> > ++
-> > + #ifdef LTTNG_HAVE_STATEDUMP_CPU_TOPOLOGY
-> > +-DEFINE_TRACE(lttng_statedump_cpu_topology);
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_cpu_topology,
-> > ++      TP_PROTO(struct lttng_session *session, struct cpuinfo_x86 *c),
-> > ++      TP_ARGS(session, c));
-> > + #endif
-> > +
-> > + struct lttng_fd_ctx {
-> > +diff --git a/probes/lttng.c b/probes/lttng.c
-> > +index 05bc1388..7ddaa69f 100644
-> > +--- a/probes/lttng.c
-> > ++++ b/probes/lttng.c
-> > +@@ -8,7 +8,7 @@
-> > +  */
-> > +
-> > + #include <linux/module.h>
-> > +-#include <linux/tracepoint.h>
-> > ++#include <wrapper/tracepoint.h>
-> > + #include <linux/uaccess.h>
-> > + #include <linux/gfp.h>
-> > + #include <linux/fs.h>
-> > +@@ -32,7 +32,10 @@
-> > + #define LTTNG_LOGGER_COUNT_MAX        1024
-> > + #define LTTNG_LOGGER_FILE     "lttng-logger"
-> > +
-> > +-DEFINE_TRACE(lttng_logger);
-> > ++LTTNG_DEFINE_TRACE(lttng_logger,
-> > ++      PARAMS(const char __user *text, size_t len),
-> > ++      PARAMS(text, len)
-> > ++);
-> > +
-> > + static struct proc_dir_entry *lttng_logger_dentry;
-> > +
-> > +diff --git a/tests/probes/lttng-test.c b/tests/probes/lttng-test.c
-> > +index b450e7d7..a4fa0645 100644
-> > +--- a/tests/probes/lttng-test.c
-> > ++++ b/tests/probes/lttng-test.c
-> > +@@ -25,7 +25,12 @@
-> > + #define LTTNG_INSTRUMENTATION
-> > + #include <instrumentation/events/lttng-module/lttng-test.h>
-> > +
-> > +-DEFINE_TRACE(lttng_test_filter_event);
-> > ++LTTNG_DEFINE_TRACE(lttng_test_filter_event,
-> > ++      PARAMS(int anint, int netint, long *values,
-> > ++              char *text, size_t textlen,
-> > ++              char *etext, uint32_t * net_values),
-> > ++      PARAMS(anint, netint, values, text, textlen, etext, net_values)
-> > ++);
-> > +
-> > + #define LTTNG_TEST_FILTER_EVENT_FILE  "lttng-test-filter-event"
-> > +
-> > +diff --git a/wrapper/tracepoint.h b/wrapper/tracepoint.h
-> > +index c4ba0123..bc19d8c1 100644
-> > +--- a/wrapper/tracepoint.h
-> > ++++ b/wrapper/tracepoint.h
-> > +@@ -14,6 +14,14 @@
-> > + #include <linux/tracepoint.h>
-> > + #include <linux/module.h>
-> > +
-> > ++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,10,0))
-> > ++#define LTTNG_DEFINE_TRACE(name, proto, args)         \
-> > ++      DEFINE_TRACE(name, PARAMS(proto), PARAMS(args))
-> > ++#else
-> > ++#define LTTNG_DEFINE_TRACE(name, proto, args)         \
-> > ++      DEFINE_TRACE(name)
-> > ++#endif
-> > ++
-> > + #ifndef HAVE_KABI_2635_TRACEPOINT
-> > +
-> > + #define kabi_2635_tracepoint_probe_register tracepoint_probe_register
-> > +--
-> > +2.19.1
-> > +
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch b/meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch
-> > new file mode 100644
-> > index 0000000000..e848e16f59
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules/0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch
-> > @@ -0,0 +1,55 @@
-> > +From 31f8bf794172102e9758928b481856c4a8800a7f Mon Sep 17 00:00:00 2001
-> > +From: He Zhe <zhe.he@windriver.com>
-> > +Date: Mon, 23 Nov 2020 18:14:25 +0800
-> > +Subject: [PATCH 16/19] fix: statedump: undefined symbols caused by incorrect
-> > + patch backport
-> > +
-> > +bb346792c2cb ("fix: tracepoint: Optimize using static_call() (v5.10)")
-> > +misses three definitions and causes the following build failures.
-> > +
-> > +ERROR: "__tracepoint_lttng_statedump_process_net_ns" [lttng-statedump.ko] undefined!
-> > +ERROR: "__tracepoint_lttng_statedump_process_user_ns" [lttng-statedump.ko] undefined!
-> > +ERROR: "__tracepoint_lttng_statedump_process_uts_ns" [lttng-statedump.ko] undefined!
-> > +
-> > +Fixes: #1290
-> > +
-> > +Upstream-Status: Backport
-> > +
-> > +Signed-off-by: He Zhe <zhe.he@windriver.com>
-> > +Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> > +---
-> > + lttng-statedump-impl.c | 18 ++++++++++++++++++
-> > + 1 file changed, 18 insertions(+)
-> > +
-> > +diff --git a/lttng-statedump-impl.c b/lttng-statedump-impl.c
-> > +index 67ecd33c..cf803a73 100644
-> > +--- a/lttng-statedump-impl.c
-> > ++++ b/lttng-statedump-impl.c
-> > +@@ -116,6 +116,24 @@ LTTNG_DEFINE_TRACE(lttng_statedump_process_mnt_ns,
-> > +       TP_ARGS(session, p, mnt_ns));
-> > + #endif
-> > +
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_net_ns,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              struct net *net_ns),
-> > ++      TP_ARGS(session, p, net_ns));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_user_ns,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              struct user_namespace *user_ns),
-> > ++      TP_ARGS(session, p, user_ns));
-> > ++
-> > ++LTTNG_DEFINE_TRACE(lttng_statedump_process_uts_ns,
-> > ++      TP_PROTO(struct lttng_session *session,
-> > ++              struct task_struct *p,
-> > ++              struct uts_namespace *uts_ns),
-> > ++      TP_ARGS(session, p, uts_ns));
-> > ++
-> > + LTTNG_DEFINE_TRACE(lttng_statedump_network_interface,
-> > +       TP_PROTO(struct lttng_session *session,
-> > +               struct net_device *dev, struct in_ifaddr *ifa),
-> > +--
-> > +2.19.1
-> > +
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-> > index ca79e27df6..3515e4f51e 100644
-> > --- a/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.3.bb
-> > @@ -12,6 +12,12 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-> >             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-> >             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> >             file://0001-fix-btrfs-tracepoints-output-proper-root-owner-for-t.patch \
-> > +           file://0007-fix-objtool-Rename-frame.h-objtool.h-v5.10.patch \
-> > +           file://0009-fix-btrfs-make-ordered-extent-tracepoint-take-btrfs_.patch \
-> > +           file://0010-fix-ext4-fast-commit-recovery-path-v5.10.patch \
-> > +           file://0012-fix-kvm-x86-mmu-Add-TDP-MMU-PF-handler-v5.10.patch \
-> > +           file://0014-fix-tracepoint-Optimize-using-static_call-v5.10.patch \
-> > +           file://0016-fix-statedump-undefined-symbols-caused-by-incorrect-.patch \
-> >             "
-> >
-> >  SRC_URI[sha256sum] = "673ef85c9f03e9b8fed10795e09d4e68add39404b70068d08b10f7b85754d7f0"
-> > @@ -37,7 +43,7 @@ SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.1
-> >             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-> >             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> >             "
-> > -SRCREV_class-devupstream = "ad594e3a953db1b0c3c059fde45b5a5494f6be78"
-> > -PV_class-devupstream = "2.12.2+git${SRCPV}"
-> > +SRCREV_class-devupstream = "be71b60a327d7ad2588abc5cad2861177119972b"
-> > +PV_class-devupstream = "2.12.3+git${SRCPV}"
-> >  S_class-devupstream = "${WORKDIR}/git"
-> >  SRCREV_FORMAT ?= "lttng_git"
-> > --
-> > 2.19.1
-> >
-> >
-> > 
-> >
+Next Team Meetings:
+
+*	Bug Triage meeting Thursday Jan. 7th at 7:30am PDT (
+<https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09>
+https://zoom.us/j/454367603?pwd=ZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
+*	Monthly Project Meeting Tuesday Jan. 5th at 8am PDT (
+<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
+https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+<https://zoom.us/j/990892712> )
+*	Weekly Engineering Sync Tuesday Jan. 12th at 8am PDT (
+<https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09>
+https://zoom.us/j/990892712?pwd=cHU1MjhoM2x6ck81bkcrYjRrcmJsUT09
+<https://zoom.us/j/990892712> )
+*	Twitch -  See https://www.twitch.tv/theyoctojester
+
+ 
+
+Key Status/Updates:
+
+*	YP 3.2.1 and YP 3.3 M1 were released
+*	Patches for 3.3 M2 development are being tested and merged. We have
+two weeks before M2 is due to be built.
+*	Many version upgrades have been merged and the project has worked
+closely with the upcoming autoconf and ppp releases to reduce our patch
+deficit and ensure we're ready for them.
+*	We have seen a number of reproducibility failures from the increased
+test coverage on the autobuilder, several of the issues have had fixes.
+*	We are now tracking intermittent ptest failures and a number of bugs
+have been opened for these, we don't as yet have people able to work on them
+though.
+*	CVE metrics have trended slowly downwards, thanks to everyone
+sending patches and quietly improving things either through patches or
+better CVE definitions upstream.
+*	Intermittent autobuilder issues continue to occur. You can see the
+list of failures we're continuing to see by searching for the "AB-INT" tag
+in bugzilla:
+<https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT>
+https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=AB-INT
+*	The LTS release has changed documentation format from docbook over
+to sphinx to match master as it should be more maintainable and consistent
+with the project over the planned life of the LTS.
+*	For the LTS, there is also discussion on whether the wider
+reproducibility testing should be enabled as recently done in master due to
+the number of potential issues which may need to be fixed (master isn't 100%
+working yet) as well as whether the pseudo path filtering should be
+backported. Please do give input to discussions on these topics on the
+mailing lists.
+
+ 
+
+Ways to contribute:
+
+*	There are bugs identified as possible for newcomers to the project:
+<https://wiki.yoctoproject.org/wiki/Newcomers>
+https://wiki.yoctoproject.org/wiki/Newcomers
+*	There are bugs that are currently unassigned for YP 3.3. See:
+<https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unassigned_Enha
+ncements.2FBugs>
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unassigned_Enhan
+cements.2FBugs
+*	We'd welcome new maintainers for recipes in OE-Core. Please see the
+list at:
+<http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/mai
+ntainers.inc>
+http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/include/main
+tainers.inc and discuss with the existing maintainer, or ask on the OE-Core
+mailing list. We will likely move a chunk of these to "Unassigned" soon to
+help facilitate this.
+
+ 
+
+YP 3.3 Milestone Dates:
+
+*	YP 3.3 M1 is released
+*	YP 3.3 M2 build date 2021/01/18
+*	YP 3.3 M2 Release date 2021/01/29
+*	YP 3.3 M3 build date 2021/03/01
+*	YP 3.3 M3 Release date 2021/03/12
+*	YP 3.3 M4 build date 2021/04/05
+*	YP 3.3 M4 Release date 2021/04/30
+
+ 
+
+Planned upcoming dot releases:
+
+*	YP 3.2.1 is released
+*	YP 3.1.5 build date 2021/01/11
+*	YP 3.1.5 release date 2021/01/22
+*	YP 3.2.2 build date 2021/02/08
+*	YP 3.2.2 release date 2021/02/19
+*	YP 3.1.6 build date 2021/02/22
+*	YP 3.1.6 release date 2021/03/05
+*	YP 3.1.7 build date 2021/03/22
+*	YP 3.1.7 release date 2021/04/02
+
+ 
+
+Tracking Metrics:
+
+*	WDD 2598 (last week 2523) (
+<https://wiki.yoctoproject.org/charts/combo.html>
+https://wiki.yoctoproject.org/charts/combo.html)
+*	Poky Patch Metrics  
+
+*	Total patches found: 1311 (last week 1310)
+*	Patches in the Pending State: 507 (39%) [last week 507 (39%)]
+
+ 
+
+The Yocto Project's technical governance is through its Technical Steering
+Committee, more information is available at:
+
+ <https://wiki.yoctoproject.org/wiki/TSC>
+https://wiki.yoctoproject.org/wiki/TSC
 
 
+The Status reports are now stored on the wiki at:
+<https://wiki.yoctoproject.org/wiki/Weekly_Status>
+https://wiki.yoctoproject.org/wiki/Weekly_Status
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+ 
+
+[If anyone has suggestions for other information you'd like to see on this
+weekly status update, let us know!]
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:               <mailto:sjolley.yp.pm@gmail.com>
+sjolley.yp.pm@gmail.com
+
+ 
+
+
+------=_NextPart_000_09CC_01D6E337.1A712F20
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
+HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:243146026;
+	mso-list-template-ids:1000631622;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:770782280;
+	mso-list-template-ids:-250723442;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:1076629986;
+	mso-list-template-ids:1771352244;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:1287736723;
+	mso-list-template-ids:-1799829966;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:1503619559;
+	mso-list-template-ids:284715838;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:2051763979;
+	mso-list-template-ids:1904650214;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
+Position: YP 3.3 M2 development</span><o:p></o:p></p><p =
+style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: 18th =
+January 2021 YP 3.3 M2 build&nbsp;</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
+Meetings:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level1 =
+lfo1;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday =
+Jan. 7th at 7:30am PDT (<a =
+href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz0=
+9"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y=
+0bFd5aVpHVVZ6dz09</span></a>)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level1 =
+lfo1;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Monthly Project Meeting Tuesday =
+Jan. 5th at 8am PDT (<a =
+href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
+9"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
+1bkcrYjRrcmJsUT09</span></a><a =
+href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level1 =
+lfo1;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Weekly Engineering Sync Tuesday =
+Jan. 12th at 8am PDT (<a =
+href=3D"https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT0=
+9"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck8=
+1bkcrYjRrcmJsUT09</span></a><a =
+href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>)</span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l0 level1 =
+lfo1;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See =
+https://www.twitch.tv/theyoctojester<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key =
+Status/Updates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2.1 and YP 3.3 M1 were =
+released<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches for 3.3 M2 development =
+are being tested and merged. We have two weeks before M2 is due to be =
+built.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Many version upgrades have been =
+merged and the project has worked closely with the upcoming autoconf and =
+ppp releases to reduce our patch deficit and ensure we&#8217;re ready =
+for them.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We have seen a number of =
+reproducibility failures from the increased test coverage on the =
+autobuilder, several of the issues have had =
+fixes.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We are now tracking =
+intermittent ptest failures and a number of bugs have been opened for =
+these, we don&#8217;t as yet have people able to work on them =
+though.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>CVE metrics have trended slowly =
+downwards, thanks to everyone sending patches and quietly improving =
+things either through patches or better CVE definitions =
+upstream.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Intermittent autobuilder issues =
+continue to occur. You can see the list of failures we&#8217;re =
+continuing to see by searching for the &#8220;AB-INT&#8221; tag in =
+bugzilla: <a =
+href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DAB-IN=
+T"><span =
+style=3D'color:#1155CC'>https://bugzilla.yoctoproject.org/buglist.cgi?qui=
+cksearch=3DAB-INT</span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>The LTS release has changed =
+documentation format from docbook over to sphinx to match master as it =
+should be more maintainable and consistent with the project over the =
+planned life of the LTS.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l3 level1 =
+lfo2;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>For the LTS, there is also =
+discussion on whether the wider reproducibility testing should be =
+enabled as recently done in master due to the number of potential issues =
+which may need to be fixed (master isn&#8217;t 100% working yet) as well =
+as whether the pseudo path filtering should be backported. Please do =
+give input to discussions on these topics on the mailing =
+lists.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Ways to =
+contribute:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l5 level1 =
+lfo3;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There are bugs identified as =
+possible for newcomers to the project: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Newcomers"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Newcomers</spa=
+n></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l5 level1 =
+lfo3;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>There are bugs that are =
+currently unassigned for YP 3.3. See: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.3_Unass=
+igned_Enhancements.2FBugs"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Bug_Triage#Med=
+ium.2B_3.3_Unassigned_Enhancements.2FBugs</span></a><o:p></o:p></span></l=
+i><li style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l5 =
+level1 lfo3;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We&#8217;d welcome new =
+maintainers for recipes in OE-Core. Please see the list at: <a =
+href=3D"http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/conf/distro/i=
+nclude/maintainers.inc"><span =
+style=3D'color:#1155CC'>http://git.yoctoproject.org/cgit.cgi/poky/tree/me=
+ta/conf/distro/include/maintainers.inc</span></a> and discuss with the =
+existing maintainer, or ask on the OE-Core mailing list. We will likely =
+move a chunk of these to &#8220;Unassigned&#8221; soon to help =
+facilitate this.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>YP 3.3 Milestone =
+Dates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo4;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.3 M1 is =
+released<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo4;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.3 M2 build date =
+2021/01/18<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo4;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.3 M2 Release date =
+2021/01/29<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo4;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.3 M3 build date =
+2021/03/01<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo4;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.3 M3 Release date =
+2021/03/12<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo4;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.3 M4 build date =
+2021/04/05<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l4 level1 =
+lfo4;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.3 M4 Release date =
+2021/04/30<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
+dot releases:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2.1 is =
+released<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.5 build date =
+2021/01/11<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.5 release date =
+2021/01/22<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2.2 build date =
+2021/02/08<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2.2 release date =
+2021/02/19<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.6 build date =
+2021/02/22<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.6 release date =
+2021/03/05<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.7 build date =
+2021/03/22<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l2 level1 =
+lfo5;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.7 release date =
+2021/04/02<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
+Metrics:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>WDD 2598 (last week =
+2523)</span><span style=3D'font-family:Consolas'> (</span><span =
+style=3D'font-family:"Arial",sans-serif'><a =
+href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
+span></a></span><span style=3D'font-family:Consolas'>)</span><span =
+style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level1 =
+lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Poky Patch =
+Metrics&nbsp;&nbsp;</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
+style=3D'margin-top:0in' type=3Dcircle><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level2 =
+lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Total patches found: 1311 (last =
+week 1310)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;mso-list:l1 level2 =
+lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
+507 (39%) [last week 507 (39%)]</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p style=3D'margin:0in'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
+Project&#8217;s technical governance is through its Technical Steering =
+Committee, more information is available at:</span><o:p></o:p></p><p =
+style=3D'margin:0in'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/TSC</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><br><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
+are now stored on the wiki at: </span><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
+suggestions for other information you&#8217;d like to see on this weekly =
+status update, let us know!]</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
+244-4460</span><span style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:black'><o:p></o:p></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com"><span =
+style=3D'color:#0563C1'>sjolley.yp.pm@gmail.com</span></a></span></u></sp=
+an><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_09CC_01D6E337.1A712F20--
