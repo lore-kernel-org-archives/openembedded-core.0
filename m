@@ -1,78 +1,80 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web10.5952.1609856749300823540
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.5859.1609856755590106194
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Jan 2021 06:25:49 -0800
+ Tue, 05 Jan 2021 06:25:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=MlWiQwzD;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id w1so1250364pjc.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:49 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=iQrHxL+u;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id c12so18431339pfo.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Jan 2021 06:25:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Y+igB6KT5dKesqTD+VmH+iMxx3tRJnZHbKnGOssi/6E=;
-        b=MlWiQwzDxkkjRXz7fyiryTnsJpY0ZMkMCQrX+ZAwt6DlR3D3wN2xdSwq5wm2/omVUy
-         iE8gICkPMqt651DTXPOM3GSFBoXQvYyuHLpkl61NePvOKP/0+0FUxo1dYxjZsp7tJppU
-         NbLch86qtolZ9dw/+UL8GJdVy41IwTsmODUbB31x1FesnjCKbjFrAY3786gZqFSFFyg8
-         dxC/iiY7gtNU+yLujicny60z/atBVlNS/Dfgend7MueI7s7oJ5sAPGhjOH/yQFPa68PO
-         +yQ9xxIr3YjI0dXb1Y5bv5FY+2NrvKnFtZtgHsmgWOidMgbDLFh5vpyiZTkc3XngtVOz
-         +h6g==
+        bh=rkhdiOw+Ow6eWA5skDNUeL4GhoiRBV0fVKzRZ2K2OTg=;
+        b=iQrHxL+uQqDezXexbVi17j+4cRkaD/BqA6osm+nrL9fSQOMIMVT7Y/xy6uTWus4YMM
+         h4RnauvRZxwxCeBaAlzs3vX6MdFyEEHXi8KnXcxZuuswA+dMYjo854omyoOiIOPPJuKb
+         ej+ZfeEzCYMoL/zg29gJ9PS1EbTNKI0obyVwvDD+382mMdXC3oiTRRZZ3MFDlFbQHJDG
+         qyiVFRKaNav79AUV8pQI14UrGatOoovT3t+JBNZJsVyhgNyiV7XIH+vmEk2HOTe7/lL2
+         7FR+44x1+nSOP5snremhIUFK+ExPL+uJBByvUFR7LUsdMmhEBYfUAVkH6hrlBPj2eGNJ
+         nGtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=Y+igB6KT5dKesqTD+VmH+iMxx3tRJnZHbKnGOssi/6E=;
-        b=b6+yTb+hqFIb07snamSN+IoUMYod+hEJIadSSMq8c/XPZqqGuu36BW1WyPExft0mj1
-         UWT0SHH0kNG1xKmGnB7bBxZV4U2iIz3y7Tk8pZRvUlhUpGMTiUdmI9q/3srLArtH0Z7H
-         7snx9feFAY9gmVLLAXusppm+Igjp1YAahYNi0W+XhYYibDkLiffTqar1Lk1M/xlDRcHi
-         E9+RxxbWCj27XMbvHH5O5otH7eI5TwvVLYL24IXe5BisGv9utVlVq9nhHot1FzV4Z2KS
-         co4W/sHPfey8oYeq1Q4AoBdCMTucozXb6HpM1pf5R9ZH8YbZU0ZVHDxf13By2UiGCFO7
-         NGTQ==
-X-Gm-Message-State: AOAM530VB8UZDyAf7axFfDCHTZCNg/RjRFT86Byv82D6dp6o8k0lj/Er
-	zz0PTlve+0ig940nP3xN7cGhP/1kM9lrRg+Bfjc=
-X-Google-Smtp-Source: ABdhPJxSYHYEJ0HS8T2RWTaLD2XyDbDnN4pfAxwBV5jiBHXISv6vZX82skZU3xsoQzL0if/DXydy1A==
-X-Received: by 2002:a17:90b:3355:: with SMTP id lm21mr4229673pjb.115.1609856748486;
-        Tue, 05 Jan 2021 06:25:48 -0800 (PST)
+        bh=rkhdiOw+Ow6eWA5skDNUeL4GhoiRBV0fVKzRZ2K2OTg=;
+        b=ivntXK7qJhgl5+Xz31b/1Zh3W75RsdVqhc1QOwJbCRi+4QBwKPdY5JXG87AwMFQ81L
+         e2erK0EEzOl+UQL50gTmd9TM4vDPnep9uc0EM3iki2Jck//AgKu4PEU1Itr7IbgeqYl5
+         N/97uldB2l+Zmp6MdKR5MdomkOAC263CmELcaCSE9SpjaZthaiT+uX1dmXozeF3lj9/V
+         wS2yHpKxYqlqpUr4NwV/5Tdt3cs86HOwPE0+GzSfNBCTiVrgQBaS/2gFtbNfib5xuK/R
+         DuVYKzeXKEQd/cz1Q7AVHem8sqkBtxDyK+bAl9W8myq10aGhRXua2HrIqnt3cLM2IKvI
+         0n2w==
+X-Gm-Message-State: AOAM530RTms+E+oGOgCkq5OB6Pa9coa08oK3qzW188wrrij+jiBK/eYq
+	uSiaLJbvEEDBC9FsxFuJTmsJY2KQu4sz1u8sIH4=
+X-Google-Smtp-Source: ABdhPJxLUaP0SwR/N3HFr5HYOr2p/hMjuwp1WeGIc/Qu3rfJxveaG883uIk+k3B86UzlJJOBiJI8pA==
+X-Received: by 2002:aa7:9ac9:0:b029:19e:19b6:6e09 with SMTP id x9-20020aa79ac90000b029019e19b66e09mr69242873pfp.49.1609856754779;
+        Tue, 05 Jan 2021 06:25:54 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.47
+        by smtp.gmail.com with ESMTPSA id i130sm57552465pfe.94.2021.01.05.06.25.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jan 2021 06:25:47 -0800 (PST)
+        Tue, 05 Jan 2021 06:25:54 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 18/30] initscripts: use quotes for shell variable comparision
-Date: Tue,  5 Jan 2021 04:23:43 -1000
-Message-Id: <4e7338614f9c02a0a846645a51a78ddb69253f60.1609856435.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 19/30] oeqa/commands: Ensure sync can be found regardless of PATH
+Date: Tue,  5 Jan 2021 04:23:44 -1000
+Message-Id: <e2814ca1105e6ed9b688f2e8e6a48dff0c7d402f.1609856435.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609856435.git.steve@sakoman.com>
 References: <cover.1609856435.git.steve@sakoman.com>
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Helps to execute it with busybox shell
+Avoid command not found errors shown in selftest logs due to changes to PATH
+settings which also risks intermittent problems due to IO load.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 45ba0ca0352bca46f974d28781ac935d8e9ec3ea)
+(cherry picked from commit 40bcae01b0be2f293dea9ab42c6b7f8f47827cf5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/utils/commands.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh b/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
-index 02f0351fcb..a63e71b780 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
-@@ -74,7 +74,7 @@ test "$VERBOSE" != no && echo "Activating swap"
- #
- # Check the root filesystem.
- #
--if test -f /fastboot || test $rootcheck = no
-+if test -f /fastboot || test "$rootcheck" = "no"
- then
-   test $rootcheck = yes && echo "Fast boot, no filesystem check"
- else
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index 8059cbce3e..8b3e12038d 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -188,7 +188,10 @@ def runCmd(command, ignore_status=False, timeout=None, assert_error=True, sync=T
+     # call sync around the tests to ensure the IO queue doesn't get too large, taking any IO
+     # hit here rather than in bitbake shutdown.
+     if sync:
++        p = os.environ['PATH']
++        os.environ['PATH'] = "/usr/bin:/bin:/usr/sbin:/sbin:" + p
+         os.system("sync")
++        os.environ['PATH'] = p
+ 
+     result.command = command
+     result.status = cmd.status
 -- 
 2.17.1
 
