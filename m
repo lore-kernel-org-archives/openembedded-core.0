@@ -3,15 +3,15 @@ Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outb
  for <openembedded-core@lists.openembedded.org>;
  Wed, 06 Jan 2021 04:10:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=cVygz4RT;
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=R2xrlT6G;
  spf=softfail (domain: windriver.com, ip: <nil>, mailfrom: liezhi.yang@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=giNjnJ3JqzcXq8zYeuLerQEoYCS4a7nk4OjwQTJX6Bcw1+8kw9UaXBh7kNg7zLcVhTnISxlZPWoep1bGJF2xeYnWxVRWSX89vf9uDlQw+1jPHqBGayUdVTcffL1RC1RC5K3B083nv2DKZjlNluFcgXB446aoxt1xN9N0+p6ijsGSPhm4S71eFBo++1HXIO7/mVuz8Inkr6e4+q/U2HSluY5EvpZlXxLvH78OWFAFAMm9jvBPMgQpoyeWUj4K27qV9180xlf8oWGIHSkJCXb0Fn18GOvBvHN4GN1e5hsLFsORG8KWP88d8xfQiDE2JjW+rnDhAoRKJltvVB9Bn3BGTg==
+ b=NZ9kh8Ywul/K6G4YTxtNc7WBSjh8Wsl+KD7x/4mNqwaQNnnrjIGeRuuIp66lMrL8Ug1Apnbfe+8lthri9eFVEx0UGiabxp3wMCbW443jod7HQ6dqtAOsofltNUO2VvkWXRHkX7hFlU20g6nV/Rl/E8Naea2V7Kcd/ap7Qvy4NNvVS5WAYR4Il/RFGjxSDIqgqC5jGZlanb61YZ98JPSmLFmqCXL4j6cIf77390vwEF6jRJ0sg7sYw8vrcnfmFgL2n620VhQmt8msdFiIm1vqoJKUJll0vIVYA8XsnSfZaBsxzRgPXytDkpbZZ3RBgfoBUi1yhXFD+6+nzd/EVOC3lA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=byyZgRaqPGDERl7FyHoSmaI/Uw5nylpNrewJoWtlIxo=;
- b=fSrI73oyr6KSB5vsWh+9hq0oZQRTevY3PdNJWuDFet0srArMTa3dss5N78VysN2qO7ExkANP1uS4dyI3Iuj/Bmz/rZ2nKxJtbUNeIeimFQ9wiDtF8wgxpYBBndCVNOtJb96PeHo7/FnPDDYJu2up7cxKzPkEWwRk97GdtcJucYMS56+r0GhGecqBMbTWQvkdMb6oN5xXpYn52WEKeTLDvu1I48BXfaaEwj5zEQ1Kmt/XZHt184ZFfQLIvlwsKtH2ZPHLBCBsb7owGF8O/9paWhk7xWiYI8aJhX+UTUG3tv9YaSV28ptkMEKp7T++0OjMPM2TuJImpfApGnlRAFzuRw==
+ bh=fLt0MPf71YSxj0dvZbbLYJf1M09vCePW3KPhHogT+uU=;
+ b=hSUg9GQJdnXnFYH8nZo8PcHGiNiNppq3tPQHbzPJE/CGvZdQMzNYjKSFmol61hrrkM0dLshNmVUCnHgUfKPIYtaCHKfwZafMKGAjOKSjAX8ggm/T7CczxchGiVihe7FPpec+CztFdLRA0Ofj2SuV+zt3f+8uxUpDAXtxxMcHfRRykuYDFwutwDOANf+umH6lv9rLw+mxpZUENUJbe2xP2bmbAtOFks5lemzG1Rr0/4zBTVVzJsjkSMRjEqE0k27D1zt2xkGRgW4fVUAhTmxE/sNK4xNThks0rtYgA0yjRS+6x3nEqp4fyM04rOw8X/8gSqE7ARMfmE+Ccxm0t8DC3A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,24 +19,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=byyZgRaqPGDERl7FyHoSmaI/Uw5nylpNrewJoWtlIxo=;
- b=cVygz4RTks8h1bqDDb/k7s8I7NXx12AwDspdJENvoLp3RLE2nj6NFC+GLasiEERU/9CRwozBs93DC31qksB0ZZ5TuAMDXNDbocnG9fS5yGtzX+mBqdNonPO+P3/R8AVOw9gnS1+94bYzTE9Q6Y6bN7SF6g/vqE/fp1Jo0lYpneA=
+ bh=fLt0MPf71YSxj0dvZbbLYJf1M09vCePW3KPhHogT+uU=;
+ b=R2xrlT6GcP5EmWDsIDfpwfdHYHhdFLV1NRprLyJ6JDygr+dSK4ln5vY1eUnC/yQ6LRLwXpg/gcg98aoUSflQtjEICQsEbvew81XwKwop3exxGjzTE6QbHp6i3Mi/D8CQQOs+js9hEvjqELv18+TyzTi/AufsMDR/kSkWE13pmo4=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from SN6PR11MB2909.namprd11.prod.outlook.com (52.135.126.77) by
  SN6PR11MB3088.namprd11.prod.outlook.com (52.135.124.150) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3721.20; Wed, 6 Jan 2021 12:10:06 +0000
+ 15.20.3721.20; Wed, 6 Jan 2021 12:10:07 +0000
 Received: from SN6PR11MB2909.namprd11.prod.outlook.com
  ([fe80::acc9:68df:558c:94e1]) by SN6PR11MB2909.namprd11.prod.outlook.com
  ([fe80::acc9:68df:558c:94e1%6]) with mapi id 15.20.3742.006; Wed, 6 Jan 2021
- 12:10:06 +0000
+ 12:10:07 +0000
 From: "Robert Yang" <liezhi.yang@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] ccache: Extend to nativesdk
-Date: Wed,  6 Jan 2021 04:09:50 -0800
-Message-Id: <45da26f2bf615b09d4b69341c5696d07568170d9.1609934927.git.liezhi.yang@windriver.com>
+Subject: [PATCH 2/3] buildtools-tarball: Add nativesdk-ccache
+Date: Wed,  6 Jan 2021 04:09:51 -0800
+Message-Id: <0f8505614d5562aa94dea17eb6beea772c25e1d3.1609934927.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1609934927.git.liezhi.yang@windriver.com>
 References: <cover.1609934927.git.liezhi.yang@windriver.com>
@@ -47,71 +47,71 @@ X-ClientProxiedBy: YT1PR01CA0110.CANPRD01.PROD.OUTLOOK.COM
 Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by YT1PR01CA0110.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Wed, 6 Jan 2021 12:10:05 +0000
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by YT1PR01CA0110.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:2c::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Wed, 6 Jan 2021 12:10:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 60d89b7b-ae99-45f0-de72-08d8b23c0161
+X-MS-Office365-Filtering-Correlation-Id: f54dceb9-4074-4430-359d-08d8b23c01d8
 X-MS-TrafficTypeDiagnostic: SN6PR11MB3088:
 X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB3088AF8246EC33943624554DFFD00@SN6PR11MB3088.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
+	<SN6PR11MB30882F0385B51600D18CD49EFFD00@SN6PR11MB3088.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1201;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	s1IFTj6Ui5zTH7qtL28bMG6rJwhfaa12w+bWsUI6JMN5E1fjShRT3GAtlDq4OSxleUTK3PSHQDyvZzHJ8dbcRaspO+ZimjdxPR4ZBS18PzqpqSbXf+F7kMOVSefwCtIVwEUriqGYTQkGjxHgwV6ImWn3pB2tarqN7+cTkpYbW4vtSJUmVYofKzsMmcsYcr2GptP94RCYiQEwq9VwCeQHZWaBD9V16zhqyL2FKukvaWNtDXvmFp/HtMKh2XWOtrx/9A9Vs46lMe4beYpJ01lbPhlz03+m7QAULXwb9cSIVXzhM/EZ4IfMC3KzuSzvaKwYUQ/5Pp/xIHkbo5Z/4Pr1O7g4B2paSKq5JLiutxhcbQk/2hHo8c0V8t9oOWv49fSSQ7aPkLWMt02nslDpEs6pzg==
+	RmXB9CDXltiDD8JWAIU6ia6CWly8aGw8cGTMCSnfsOoN96uiw7G80UdIjkON9FOMsIcq8+0N7Rb3Kw+OkdPcmnGlaEclPDGVA9w8mTwYZiwpigZq6n+zrsCSmVO0MEIAahTfVSKUK/V/5t5m6kIl/6wz8Zc+N8+X+dfh1d3YBfLCKzjTSTNm4L9p0g4+pfaq3xPmNCh2j1bR0T77vM2zBP5i0VaF/htNGcjhyzPU4qhHdX7p1o8v1k8xof1mfZ7p2xAX7CYaovakOsqSOvgKHZt7nLBRf+gHixKjaDBshU/AOepIzl09aEw0ID/E6Fn9kjDkvY1XYZmgSV2JK0pSxAVdzrv6Xzq50YT/Z9EXu//im7KUNGrTtU+/ZI4Al4Fvy6u+WJwzZDSc3Xx6Y/7R4Q==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(39850400004)(366004)(136003)(5660300002)(478600001)(8676002)(956004)(8936002)(2616005)(6486002)(36756003)(83380400001)(6512007)(4744005)(26005)(186003)(66476007)(66556008)(66946007)(6916009)(52116002)(6666004)(16526019)(2906002)(6506007)(86362001)(316002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(39850400004)(366004)(136003)(5660300002)(478600001)(8676002)(956004)(8936002)(2616005)(6486002)(36756003)(6512007)(4744005)(26005)(186003)(66476007)(66556008)(66946007)(6916009)(52116002)(6666004)(16526019)(2906002)(6506007)(86362001)(316002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?1o9nT1Nup7RDQQGaNeH+5yQnHe/4PY88jd2HMa7XrbDKUKAHi/9Gb3yIvAI7?=
- =?us-ascii?Q?qHUqmB1GsQuNDRYPmWPbTVGlDw9Lq1KoovZeNHfZD7RVPmr7AtRnvK4n6TZi?=
- =?us-ascii?Q?ezasSvzCNqKw3tKO9YzMyx6anqtYbvVAui43Hb14bYUDeM0BWcxz8GbbmSUH?=
- =?us-ascii?Q?10OvfC87vVqRk/kmhARLeXXknhqseA1ID9t82k8E0iaBnaSIp8fZuoALq7LA?=
- =?us-ascii?Q?Y4/6Oe24bYNIMVDTCkRU5NnSTWH3ET6iipEToYyMMVLnvgR1YrKKXssLnpGM?=
- =?us-ascii?Q?QhK9EHxVqRRJkJjK1dGTBB0dzw0FzsEitnBe4OJDWG4hapTJXoD9pWg7PGDW?=
- =?us-ascii?Q?ujpxEyneHBtQarEZ39GPdZ2J9aJz7Z+Qo2hHM9jKyB+ZzKNYU9aTTuPTTEv3?=
- =?us-ascii?Q?K3Jqn5Oz1f7oGFS9NjW/oUN9WxWCw5bT6U2MzR4rTKNRL1gwJ16o07FFYctR?=
- =?us-ascii?Q?x8iI9V4lzlaGMb5Hwr1zccT1dnBfgE5MfrxiHL2NXkaUhbr+e399MMLKKxCL?=
- =?us-ascii?Q?LRf+2I6OAVlttkwDnEttATm/J7Jdrkc26NzeILWD9ccPb9QDqiFa/5kOeP1M?=
- =?us-ascii?Q?o0R4/48fSLlUknWhrB4FG5sV7STBzQlHBCDouUN2KlETz63YzmGI0W00gjhX?=
- =?us-ascii?Q?4IbuNg2bHwim42PvCjW4Y184iWOwzvt8Nh1nCQQ1HkKp2lKcO0K5GSkpN1Uo?=
- =?us-ascii?Q?6DYT0FNYa17L9AS7tD6RIgFBwpWD2L43TjEpoZVNQ7P5OXbNtfFKLOJAnya4?=
- =?us-ascii?Q?qKXJTJX8qCRay1jhIAujbcDmRu+X6WcW5LDbeMoIxw6SurCDrmu+9/TXaKLo?=
- =?us-ascii?Q?phqwnwhT27pHBwzL0tG+RTFP0+FoFwAlL9pg6W7r2qP/RxdzwO1gvpgAkFfe?=
- =?us-ascii?Q?G4YGk7azA7Pv8B9/CoxbRDqqEzGf3yjSt26ShQxXF0CDrSWUs8x685qcULbs?=
- =?us-ascii?Q?LpGUbB7hH0IqMVram5KPatS8owQsVcbLULDaEyTbLfkzvfexcysMi8YKgAYM?=
- =?us-ascii?Q?nMoL?=
+	=?us-ascii?Q?C38MVZXLlvlGZhxB6KJgFqxTcrYV01NkzayqZr8r+oJ2rv4ibLojvCO1tjhg?=
+ =?us-ascii?Q?aR7awpUwONUr4k39iT00cMn10kACWK3YanTIrF40VfrDDPQ5mOQd8uJhHp/J?=
+ =?us-ascii?Q?SIwVuUy1R8ScNPQj4LdKvuDsZ9ia6GMves0EVBSC9qI/GydE6eje/dYPjI/5?=
+ =?us-ascii?Q?nu83Uq2ycPb/dtnY53Iy8IcqbVZbcVJ73zBsySyLUR72kATPXGMPa/MSDUp0?=
+ =?us-ascii?Q?UGh0Qrsxt2ACdny/+11ypsQgv9Ygiqr3enGaLEjumTiBZjjZy8XEnRmpKIou?=
+ =?us-ascii?Q?FlYJVhPbOn9zajJuP2JyLOYPHPErIPlD6oapgkSM/rwpsfLFaTGyrLxffXBQ?=
+ =?us-ascii?Q?q4lINveaPBd48okSlaS6JM+qGJYVlKefr+NGNIuSpUMipAgzvkHcEgDoBmPC?=
+ =?us-ascii?Q?eqKzpiK5wncTwvMbbB8DWVOse/4LilKLwMVJhs02ZY76aqRRlHGroZvJhLb8?=
+ =?us-ascii?Q?trG+oO6uyrlOhril9aFCrMcKx1yb54c3OmRxSB7LXljp+BE5KAyvtde40F5P?=
+ =?us-ascii?Q?+uEOpsfOgJb8/g5zN5qJoJiqJ5/R0M+2nzxl3K1RLojKUcO2NSBdqUBwO72O?=
+ =?us-ascii?Q?6rVn9aUXKWKtXjWHkG1Orx0dl5fZCmpPvkvzSeGv38obNlTvWgRaDADJyefv?=
+ =?us-ascii?Q?ZyGDxgni8LvKyPMJXB8UKL4NA6ii3e3wFO89I6L6s8eC1ZGz/oQpqlhWNJZF?=
+ =?us-ascii?Q?qAi41ChYpNMIcUEWTUQvSxUB8zVXtJ4/YXMAlzSJ0IhgOI2Tj8fgPldDsjta?=
+ =?us-ascii?Q?JZS9e7o87yLc01eyLI3R6yOStbeqUajhKTs/rbNPBCDnI9T40jQ3IHd7ylPT?=
+ =?us-ascii?Q?V+GiY2cD8dXqzfeLnuHOuYzX1yTiWiXhBTpT2TRNt9Bgg3dwRX8mIEfd9o0A?=
+ =?us-ascii?Q?muZpCJYffW7HG7JsX4Lg1yzm5vmwHQ3DJToEqucVrNM1t8tGC+kM/NF/4Z7Z?=
+ =?us-ascii?Q?zI+IoMp62W/PeTCcsaHqYq0FBurQm2EWuVdDStMnqr7i+LYbQXToYQfosStT?=
+ =?us-ascii?Q?GchI?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2021 12:10:06.2818
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2021 12:10:07.0794
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60d89b7b-ae99-45f0-de72-08d8b23c0161
+X-MS-Exchange-CrossTenant-Network-Message-Id: f54dceb9-4074-4430-359d-08d8b23c01d8
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Uz3By72Eqa5RZ5kJdzTx8kng962rpqFJl4/1pxCGc2lDrypwIPdKUkPz85eZ1wS3PO8Jvb/0t4RktvnfXswj1CteyTVNjhjY+7AaggztWOc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: HLE6f4ISVhVoRYmKCBo3JQI22ttvQlH9PO5DdLbpYpoTSPoSkjvTbkf5N3L2Cg1kr5LX91lhm9D++caZGxsCKxHqbfDeipIs9okWV5Rspzk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3088
 Content-Type: text/plain
 
-Now we have to use host's ccache as described by:
-f5b29367af ccache.bbclass: use ccache from host distribution
-
-So extend it to nativesdk and will add it to buildtools-tarball.
+Add it to buildtools-tarball so that there will be a unify version of ccache,
+which can help avoid various compile errors.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-devtools/ccache/ccache_4.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_4.1.bb b/meta/recipes-devtools/ccache/ccache_4.1.bb
-index 96254a38753..1205f4996cb 100644
---- a/meta/recipes-devtools/ccache/ccache_4.1.bb
-+++ b/meta/recipes-devtools/ccache/ccache_4.1.bb
-@@ -23,4 +23,4 @@ inherit cmake
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 9da81d55235..2ffdd7c7253 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -29,6 +29,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-rpcsvc-proto \
+     nativesdk-patch \
+     nativesdk-mtools \
++    nativesdk-ccache \
+     "
  
- PATCHTOOL = "patch"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+ MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
 -- 
 2.17.1
 
