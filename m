@@ -1,85 +1,83 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web12.494.1609968188102626859
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.195.1609972590823921655
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jan 2021 13:23:08 -0800
+ Wed, 06 Jan 2021 14:36:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fCJyi99T;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id n16so3842629wmc.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Jan 2021 13:23:07 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TUCFxepR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id g185so3925422wmf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Jan 2021 14:36:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=4+lVkYkPQleqpzDHJjOsw2Ss2I87s8uVO55H4BBQ8XQ=;
-        b=fCJyi99Tpv6s9XfmZ7oy/Qw795gmLQehlXD258HvQaIbkjeKzecFzJ11L51NpfZVUD
-         0w7Bx0wH2RQwPacC+7ZYr9UugJx47TfK0Cr/VGmCAIFYYx9elW3KCA1UVQKTN/rmP8KR
-         kQNTGX01xNF8PEjA32RthmXcy3+YPb7D3fNIk=
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KCyGFVwQOg1mb3t6F5wcc+8wQWXbvaQfatmZvK9Vc7M=;
+        b=TUCFxepRmwvOST/XzlnrB85QLaodn3ykUjDJV3c5s7oSFK65//Vl3XTqN8/XIk3rzL
+         Wf9ccpEa7vy6RJimPUeZE8qnSa6Raa93p0ncktvZKK9kOshS8UJqrheFJdGLjoufYxRc
+         0nzaGJiPUaeTI9kGV/Q7Km+BaW4W+SWZfnQfY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4+lVkYkPQleqpzDHJjOsw2Ss2I87s8uVO55H4BBQ8XQ=;
-        b=uP1o23X8oiM2e+N7A4ynfCNLupU1MMa939tP+oWU3FJXYpwNq8qFMZGbMLYnh6tczk
-         zRYjC0UlIdIQQBcKnxdpOSNYavE6OexViwTnXml2DEximvd3gt7cql1nfRuENitayj5F
-         VlP8AynRaULDdBZuBddA10iaR39z+Rf6OIduvHI6JD2jHYwMLCo6km8XQRf9oEeypLDu
-         As/kA9DKhJTAulbXY7fv17jrjP/iOeOtnSCBooulBguK0lV7mV7B75Px3LNtmtOeDGMq
-         Bx7hUJikN6J8pUFP9KJfi+5amWshwnx/U4yHbHObmBpS7JA/zs2gvtogWdDQ8DPYuDXR
-         S32Q==
-X-Gm-Message-State: AOAM532Y61MFF0XEMwq/Rt2JHna7OIsCY0abxy89glfFO8fj24aixNly
-	JkvBjtKRNOI2CAAbfKVf5eWicQ==
-X-Google-Smtp-Source: ABdhPJyxUbcSaSBXl6Zcj+tw2uXjoeeqXzrG0bXR4jgZ7rFXIyRD2SPoVL5mMQihzrAqgRYhPexs/A==
-X-Received: by 2002:a05:600c:218a:: with SMTP id e10mr5303374wme.27.1609968186446;
-        Wed, 06 Jan 2021 13:23:06 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KCyGFVwQOg1mb3t6F5wcc+8wQWXbvaQfatmZvK9Vc7M=;
+        b=Ycqs2Ax6Trt97ZobYRyleXz5LRseX0mWoJY7Y6Z2crb78o95wPFI5YAF9JZ6dhoVCP
+         If+ILD1N6pMjutpcdEzUlChIZJbrLokwzNOYD6ylyK4m1dqDicCu5rSa4kl0AtyRdySB
+         HhgJrrhANrmj71pDK2suOj3QbOPmlA/lykrZATML5+fwv5gctjvQDOzRcB7QbySt1sGh
+         WKdEfLEAAe3Woh5lLTBe4TpPSS6o6ehEZsWDip01Go5vhldMEkf8FTRcFXJvleEE9bui
+         PyV+v8g866fRKJJfvuXrDB3+TKRLdnCecP6KsdOPLAFI46oyihEvHoC+dtx+aRKP3223
+         P4SQ==
+X-Gm-Message-State: AOAM5332Ks4YOYJHomhb+ImZpn9XU3GfkbDEnPFUYQFr6K7CUHbsqV/w
+	/5yU/TQA/Xj6+KhFCJy6TwzuqkX1tEWUDA==
+X-Google-Smtp-Source: ABdhPJzD36aFP9FX4tPuaSDCD/7POxqvE0biZJEVAcU1HnmAZnPZE+u8N4SR0vpruh2I9pJIJPUKsA==
+X-Received: by 2002:a1c:1fc2:: with SMTP id f185mr5586368wmf.134.1609972589035;
+        Wed, 06 Jan 2021 14:36:29 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f082:51:8822:ee14? ([2001:8b0:aba:5f3c:f082:51:8822:ee14])
-        by smtp.gmail.com with ESMTPSA id b200sm4625266wmb.10.2021.01.06.13.23.05
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:f082:51:8822:ee14])
+        by smtp.gmail.com with ESMTPSA id o8sm4765510wrm.17.2021.01.06.14.36.28
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jan 2021 13:23:06 -0800 (PST)
-Message-ID: <afabe035831b1987521868bfda74a6dc43298aa7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] pulseaudio: define -mfloat-abi=softfp for CC on armv5
+        Wed, 06 Jan 2021 14:36:28 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Tanu Kaskinen <tanuk@iki.fi>, "Yu, Mingli" <mingli.yu@windriver.com>, 
-	openembedded-core@lists.openembedded.org, armccurdy@gmail.com
-Date: Wed, 06 Jan 2021 21:23:05 +0000
-In-Reply-To: <25433ae4028ee7784430c585a71bf503a4a1d37d.camel@iki.fi>
-References: 
-	<CAJ86T=VZtAHf2cP==VnVK1mM4XEY+DaJqyokmzPfCzGT0UvwAQ@mail.gmail.com>
-	 <20210105033719.809-1-mingli.yu@windriver.com>
-	 <89cb1de79cc242d0545829a3138685ebc4ffe8cd.camel@linuxfoundation.org>
-	 <25433ae4028ee7784430c585a71bf503a4a1d37d.camel@iki.fi>
-User-Agent: Evolution 3.38.1-1 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] sanity: Bump min python version to 3.6
+Date: Wed,  6 Jan 2021 22:36:25 +0000
+Message-Id: <20210106223628.561432-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-05 at 21:04 +0200, Tanu Kaskinen wrote:
-> On Tue, 2021-01-05 at 12:37 +0000, Richard Purdie wrote:
-> > sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
-> > 
-> > I really don't want to add things like this to the recipe, I think it
-> > will interfere with other parts of the compilation. In many ways I'd
-> > prefer an option added to meson. Do we know what upstream are thinking
-> > in relation to this?
-> 
-> I think Meson should be fixed, but it may be necessary to add a build
-> option to PulseAudio to disable the neon code while waiting for Meson
-> to get fixed.
-> 
-> I now filed a bug for Meson: 
-> https://github.com/mesonbuild/meson/issues/8156
-> 
-> and another for PulseAudio: 
-> https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/1088
-> 
-> so at least the relevant projects know about the issue now. I may work
-> on fixing these myself if nobody else does, but I don't expect that to
-> happen quickly.
+There are a number of reasons 3.6 is a good minimum version. Of our supported/tested
+distros, only debian 9 still had python 3.5, the others have 3.6+ or already
+required buildtools-tarball.
 
-Thanks for that, it does seem to be getting a little attention so
-hopefully a solution will emerge!
+New versions of qemu need python 3.6 as a minimum. We could work around that
+but it seems simper to require 3.6 which will allow other improvements.
 
-Cheers,
+As such, bump the minimum python version requirement to 3.6.
 
-Richard
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/sanity.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 3262d08fbfe..d134b40a87b 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -770,10 +770,10 @@ def check_sanity_everybuild(status, d):
+     if 0 == os.getuid():
+         raise_sanity_error("Do not use Bitbake as root.", d)
+ 
+-    # Check the Python version, we now have a minimum of Python 3.4
++    # Check the Python version, we now have a minimum of Python 3.6
+     import sys
+-    if sys.hexversion < 0x030500F0:
+-        status.addresult('The system requires at least Python 3.5 to run. Please update your Python interpreter.\n')
++    if sys.hexversion < 0x030600F0:
++        status.addresult('The system requires at least Python 3.6 to run. Please update your Python interpreter.\n')
+ 
+     # Check the bitbake version meets minimum requirements
+     from distutils.version import LooseVersion
+-- 
+2.27.0
 
