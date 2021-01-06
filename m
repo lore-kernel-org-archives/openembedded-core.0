@@ -1,306 +1,292 @@
-Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.88])
- by mx.groups.io with SMTP id smtpd.web12.6127.1609929238021782187
+Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.48])
+ by mx.groups.io with SMTP id smtpd.web11.6340.1609930198488311236
  for <Openembedded-core@lists.openembedded.org>;
- Wed, 06 Jan 2021 02:33:58 -0800
+ Wed, 06 Jan 2021 02:49:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=mwEFibYT;
- spf=pass (domain: kpit.com, ip: 40.107.139.88, mailfrom: sana.kazi@kpit.com)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=BKES2xTx;
+ spf=pass (domain: kpit.com, ip: 40.107.139.48, mailfrom: rahul.taya@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mtRq8YoCmC3ak9T3qIhUjbnDKEyU8sZHG0r45iWkG1wunuHnsF8dqLgildzKYFELWzaJAYV84P77SmHHzp8GZ46/jYk0WiyIsMVSfC5k64+zOzf5B30FRfHRFWYRvG9rBFnrWuzh+RHgw9K4He8yo5M9pKk0OxainCXXaoZO42D8hwyxmNrM4E0XWe+aKrB8q8iM3scHvHCSG0OMHopd6VsUd7rKJBge63+1oll05f3/UegWoM3SJ7FGUvmAjY1J8cvoU52CehAHX3AEPaaKVPgjdc7WLPaA7rEpP/lEcW9CDLktU8z9aVBYoyNxTnX+UzbYy13IEswKh4Rz2Gxqbg==
+ b=GMkVg2zY2QHIlbd5AcSFJv1LdpBmNbfdp5koh8cRAtmZH3V39zd8ovSanJdsXGXND4sC34QghEU6PN0OijDQbmaEJd7L0DDIwUyvSN2isDdfwGXGUu0/TmGF/GZCRMlRGaUFCmi5CJiU262y08yfXSTH8J7KurWjtvHcmX41iDhTOover45xcpvmjfd+H5XOIVdzePn+uBjKalibgK3cE3gBkLMm/y0GEJAB1+3Qd+WouqwiBww8oK4q8cdPHbTsicDBwW7dFb30wfeI8qE3JYmfkY/n0MReMNLqU5UzIroIRaih7Q+e0RIacxLZ09kN5Q9ymEqWRR/kZfKskBCvOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lyyRknBQ1X5fuihbDPI3C1//hqGqgrUNiPYCSIatOF4=;
- b=lFAaWuvwhTkItIuIdvUA2ZRxPYsc9S41WthEzxlkCMDkiP2dwPEMM4PgcK/5td4wReincF3dECtWEVq8LtWxi945rRfTCdqPvkV9BFU91wQ4UOVbc81LtM/Cpz2nxNlmDKoiXLFv/k4hT2FerjTGTvqGDL4vnNH+6scBxtHvj082fz+IrDM73UM2raSUzkGqUhQcQXQmFnpTsQeTSh7nw7bfvnsAKKHmf7J7izDLYwShMKTNtjhNMraTzccjQeSXBQXf9Bj27zxVGD01wHEDQI6xQJ1axT6VU5Dj9QLpdmXqzfoo36CcVF9XkjCIUZjd++04T+wrMuYy7avGaum5rA==
+ bh=BFeU2Eaqug/mvpq+fLvr9L4s7W2EVuEPIGAklLOp+K8=;
+ b=iwrIBpXHI3UDQt9mLIIdWwCzq1D/QqLJ1LAm3p+VnlTBY6zIG/0fIJeOYTosmHm6ji9jo9EAsR7H3Nw7Amm79TikmW1Ia5l27DmgiUSTZN4BwzGaY7znoKtg/TGtDhPMhot01g3G/L6ylM37YpCP1meTnGehff+gTVv7MOYDT8IJilKJ0nj1nLSAnRFlixhp+pGT9+QRqiBWJ5qX6vDEAa+WK9rPqTCarb4cZGOI5l6HY+QMdlGae7DolxdXF/LqtstZpJjbbpFR89/ghbVNRDH7KWmz5FS40Dg+lBN9+c2tbGMn/aWufQYQMBimvJXVB2hbxqvefzqeqOqV+bzQeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
  dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lyyRknBQ1X5fuihbDPI3C1//hqGqgrUNiPYCSIatOF4=;
- b=mwEFibYTsroL+Gj/CRZDkJ7VDsKEAHtcLlytYFKUP187bs+6ZfR0K1aVraXAUX3/wLSQjpH0If7WeDUnK7gZgUN26pAM01E/yjGhvIJZRwgXVULTBlCSDY0SVUQtZAUiF7i5q4Lq9KSkL1MOf09dpHWH9rsNSJzdGkaOV+xETC4=
+ bh=BFeU2Eaqug/mvpq+fLvr9L4s7W2EVuEPIGAklLOp+K8=;
+ b=BKES2xTxej8fZO1Zw3Axis4PbNNj10MkRJ92fNUr8jultaznTuB1BqW1L75Gabh/sv1Zr1zODuy9aEvTtXHLhOVKBCmQMEgVv8iZ11ywBmz8F02TKa0+3K5/yOx6CsAdOxUd8CJ96Zpk9eUlZptBL2SJEWYyS2qAG8PmF0CF6iE=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=kpit.com;
-Received: from BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:58::17)
- by BM1PR01MB2994.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:4e::16) with
+Received: from BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:58::18)
+ by BM1PR01MB2562.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:52::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20; Wed, 6 Jan
- 2021 10:33:49 +0000
-Received: from BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::68af:77fc:86a1:7a9d]) by BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::68af:77fc:86a1:7a9d%5]) with mapi id 15.20.3721.024; Wed, 6 Jan 2021
- 10:33:49 +0000
-From: "Sana Kazi" <Sana.Kazi@kpit.com>
+ 2021 10:49:55 +0000
+Received: from BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::416e:68e1:481b:f7a0]) by BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::416e:68e1:481b:f7a0%7]) with mapi id 15.20.3721.024; Wed, 6 Jan 2021
+ 10:49:55 +0000
+From: "Rahul Taya" <Rahul.Taya@kpit.com>
 To: Openembedded-core@lists.openembedded.org,
 	raj.khem@gmail.com
 Cc: nisha.parrakat@kpit.com,
 	Aditya.Tayade@kpit.com,
-	Trevor Gamblin <trevor.gamblin@windriver.com>,
-	Armin Kuster <akuster808@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Sana Kazi <Sana.Kazi@kpit.com>
-Subject: [poky][sumo][PATCH] ncurses: fix CVE-2019-17594, CVE-2019-17595
-Date: Wed,  6 Jan 2021 16:03:04 +0530
-Message-Id: <20210106103304.13276-1-sanak@kpit.com>
+	Rahul Taya <Rahul.Taya@kpit.com>
+Subject: [poky][sumo][PATCH] libjpeg-turbo: add security fix for CVE-2018-14498
+Date: Wed,  6 Jan 2021 16:19:43 +0530
+Message-Id: <20210106104943.27489-1-Rahul.Taya@kpit.com>
 X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [2401:4900:1ff7:321a:8d2f:524c:b2dc:b8ba]
-X-ClientProxiedBy: PN1PR0101CA0029.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c00:c::15) To BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:b00:58::17)
-Return-Path: sanak@kpit.com
+X-Originating-IP: [122.169.2.142]
+X-ClientProxiedBy: BM1PR0101CA0002.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:18::12) To BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:58::18)
+Return-Path: Rahul.Taya@kpit.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2401:4900:1ff7:321a:8d2f:524c:b2dc:b8ba) by PN1PR0101CA0029.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c00:c::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Wed, 6 Jan 2021 10:33:42 +0000
+Received: from localhost.localdomain (122.169.2.142) by BM1PR0101CA0002.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:18::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Wed, 6 Jan 2021 10:49:55 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 37f8fbe2-c3d0-4de9-3a78-08d8b22e8e1e
-X-MS-TrafficTypeDiagnostic: BM1PR01MB2994:
+X-MS-Office365-Filtering-Correlation-Id: d2b52cce-43a8-461b-2eb2-08d8b230cddf
+X-MS-TrafficTypeDiagnostic: BM1PR01MB2562:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<BM1PR01MB299496D6545374640E487C8999D00@BM1PR01MB2994.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:107;
+	<BM1PR01MB256262A5505DD1F4F2A82769F2D00@BM1PR01MB2562.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:466;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	+ZO/gk/fKfa6L6snKk5vYmwh5ka1cLf/VjKVlW9ULOoHISXqt1+uLmpdNqsSZpRE2U6Yq3duzzRqiVXYC8szrsKEPbhzhCObdxdlNW/l1gIr/S0gNpmch/aYi74lUa+yNq8KZ3nSZnqJw0sicqQLfIKdzs4oYTI14nFtTP9rKU3IvM6cJzRba/xDyq5kiUxqgcf/LRH9P9Ul53/u4zIaO0z24jESLZgWgMr85I7EuTV+eRl6LgH7U8+DL36V43Vg16lDQMJAx6CljLtELuhnZjC+DyCqfhTX1Gv55HtPnRCQegpymEseJD8X1JwOQOs9sEHoQbaefgLLuXf7SNqiKh0kX9JeglL4KpwUxL5I/K+cTmf7MkeUuRIrZm3li+zPKW9tRFu5XZiw3jvo/M4XRh8vSM0dInMkoUm1aiwmWP2/r9M6a3Ocjk+1DLjPHtdoZwxh5mCrXiDQa0S22scjDsEE6UfB5nAIdmGT67Ow793rPAOzJ/zavoB513OEbi27t1FxsP4JTssvI1a5/mu5tg==
+	zzf/S4ME8DyN9ijHpg2dgDja9hsE4qR/+zjZ8MDzzoE6XSNHA5cRozf/DMZ4siLXaajiq/YE3XXR/JYPkHJyviIJ3c0CNiKWPR86BRvI0tOpJ5KSCYTGxbNZ1c3FTKTnPMw4Ji5r+r4RPlknSQ68rVIulZ3j04vsi/y+GJgnIL1l8FQgJwnIlAxuBNsBUHNwHJ/sPfCeQXih1JmqGDDC5QGQzk4aPkEGh7NSlP3VvdPCSY50g4cqYYE/SofEDBzc3323C8KAWjYfhvdAZyRnau1ht8nb8bcYeFmXhOP4+WK7oyMOLUqe9flf8kIrrUQHHHxdE7/x5GLjfKZjf5CO57hOoelcTWd47hV1X8Ga3Q5TfBx8zlQ7LFUarLK9b0O0s5J2XAEr5O8U6WKV2bP6kmnHC2q/th5rm8p0v8ulT6Y5j0/Wzws3qu8sn7r3U99WWnnbWuJsCHKQpZMsIc6V7y83e060ZokahrQGMGnprYZ/Ku+anNurSiQPkACmt17kYNc2kP5J5EpXVXDzYNxeTA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(396003)(136003)(376002)(346002)(366004)(66556008)(2616005)(66476007)(186003)(6512007)(66946007)(5660300002)(54906003)(478600001)(6666004)(8676002)(316002)(8936002)(107886003)(69590400011)(52116002)(6506007)(36756003)(6486002)(4326008)(1076003)(16526019)(2906002)(66574015)(83380400001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(39850400004)(346002)(396003)(376002)(316002)(8676002)(83380400001)(52116002)(2616005)(6506007)(107886003)(66574015)(8936002)(2906002)(1076003)(26005)(5660300002)(36756003)(956004)(66476007)(66556008)(16526019)(186003)(478600001)(4326008)(6486002)(6512007)(15650500001)(66946007)(6666004)(69590400011)(86362001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?dBVErolxXlC+GbL0WH3l19u5qRePwtOX+HoUH5+mtfLkdvBzLlZVOQBgf1RC?=
- =?us-ascii?Q?iFqWpK6nSD5gRczGh4vVlgN3i5+6HizG/lzqBWlp0XocyECE02eBm4cJ4STd?=
- =?us-ascii?Q?Yuxi/bO/VjQ6gJU1CpT+s7Uk1qJptMlWlioUOD+c3zSShaY3VT/LpKacyEpD?=
- =?us-ascii?Q?TXOzIf2CEmzplPQL5j4uk9t+ORcB43U8vYHsjhKCO1hTv8E7FNlYSKRQqwdo?=
- =?us-ascii?Q?dYRrrEbHGtXAsuDDNEIMbp5Ld369bZTOxGUi8iWh/bvTXhOZEC7rqtxY5xcV?=
- =?us-ascii?Q?PyFb5/xbKUVtHpUedEpHoagMqK/9fQvwHJtz5n0dtRs3NEB/k3EuzaX511F0?=
- =?us-ascii?Q?OEsd1h4AtKSpoU25sPQlYQunHhBIYA8Ct/BBprZN4L6p8mNFsB6+6AiYiRyC?=
- =?us-ascii?Q?h8loQNhJ5XiTSaRXI0SQrRf2zHNvnvGnz6o0ExB8OkJCaNHGLGnewUPwwVZL?=
- =?us-ascii?Q?Ymd2VFC8CezXgeldUnUqPBzpz3AsuCf4uN1eXPKZXiyZ7evsvxTWxk/Eut4X?=
- =?us-ascii?Q?J9IW2vatqpgJ2qH/HpB0mz56mKEx3LgaIVT9OHlv1ip4Syfcvz816qRQfPhF?=
- =?us-ascii?Q?IwqecsJDycTW7TV+yN9+U+U/XeHCLB0HB9Brf5W+15emRb9WM2iQeJUEFo5K?=
- =?us-ascii?Q?kjPSiLHe0RGUncaKjkl2kh3VnorZ7aWme5LgX5NtOo8err+vp3Uy0WRhaCRJ?=
- =?us-ascii?Q?CWdNleyt8D+6lnaFN4ycBJ1pXQuZISykMJMdLCmdjbDhzL56EFKX8A23F9Q6?=
- =?us-ascii?Q?0tgL4W42H883LphpCMgpJjpxYOrBTvzKqLhmN69fb3AfaifNsTsjd7GDG0Ak?=
- =?us-ascii?Q?lXuNCYJJA3OmF4nip5g0W44B2wmVRVZkZ4Cq4pYp9DRZk/fhZACIoXDNIr2e?=
- =?us-ascii?Q?Bb68OPUG9ef70hh/WZEngL8oORFPIILsBBxHTDGPI4ptdslkwkPp8ihzc2tR?=
- =?us-ascii?Q?VptAsBj7+DqYyuBojy6IuXYNwyjbVaVD501YahjS5rBWoo6CHQbawhKXI0Z5?=
- =?us-ascii?Q?UL+oXEIrEIjpcDaSsIt4pIyJ7Fz7jaG0RI5h8Bpj/T/iMw6J7A2Xq7LeXOOu?=
- =?us-ascii?Q?3HzWnPgp?=
+	=?us-ascii?Q?6EG9YmJgtmp0dnanef/SJgbl52P7EbCupDQeV/hbdGEDsRjAQJKV0oTStaPs?=
+ =?us-ascii?Q?mB16LCH1/rr9H2tgFQwY0AdpkP9X/vyR4uh5NaZMlIIQyysdXX1dTyNgUWyT?=
+ =?us-ascii?Q?qHxPNWNPJK6nf7i5xcR/pN7QnqOqQm8TXgHHea5mbO+kp3CQPC5w4TdpiQvs?=
+ =?us-ascii?Q?IpZ0qOCI+5x5SbBy8qrS08trubTmoCyUj1S4T37PnwiLRplqYoyQKGs09BbU?=
+ =?us-ascii?Q?KbpVqq1BCOrXbsokgxtWlwUE/+Md09p9RpVQpUa7tumD1hNUQIo96+Cw3yWM?=
+ =?us-ascii?Q?TuTT4Ts2kJ2nrqCMiE7Z5XpIdAfCkphqFNQMN0c2/bHpvY20fRJf9DSEN5M/?=
+ =?us-ascii?Q?PnOlyFA+WVyL9UuNbT093wiPE7rdhhbxV5PinEFLlp4k42tdwOJKxJj+/3Ej?=
+ =?us-ascii?Q?pET5fJlLfGxOhvS7o80J+ON2iIh+fcoaGvmFpfCZZfWo5CeLn0cIEnyRHZoe?=
+ =?us-ascii?Q?NasBseQNINWuyhqYHBNKDb8poIPSeMFbsBEcK7b0c2vklnmmue+63QtD6zCd?=
+ =?us-ascii?Q?3iOH3oQ0WcvochwwV3/1iPYdizqmxXh8atgNLVh4u7yctjEvLP3HZPlRXGRV?=
+ =?us-ascii?Q?1aMNJ36Gr7FpzQP0qdWKAq6tAvj8HYnUwG+sHhJ3COTogIqHcBYIndjT+cff?=
+ =?us-ascii?Q?pLpblImi2QWKaRr42lewRttRFQDfmT1ouFZlENrU7WEj28ViCMrqltRTCN13?=
+ =?us-ascii?Q?oIkTmQsBHwZs880A6im5A+oUeDEmto8ArmPI2KJHAUZ5oZqCKHWw36X6GW6t?=
+ =?us-ascii?Q?1MkhSGDQxV+T0TRhMhuRdCyNzlHOPOV6o7zq1ZpTB7bilbTgQ00y0IrElOhQ?=
+ =?us-ascii?Q?ZMtXURYocmDYKu4GL9HsowS/uBP8Z6OV8RsWaDcJKxA4mTgy7IQAGYIQRh7r?=
+ =?us-ascii?Q?3CaqjvlAO5+OVmGGMva9kQZks6zcbE8hxtsnV5cTrExtunkPrAZsAjxAza8E?=
+ =?us-ascii?Q?19rxCqwbwf8Mm9EDdbRk2cMs4gACX6PfDcgCeJxrQJZ7zomsltVrmRj7f4NM?=
+ =?us-ascii?Q?zlXb?=
 X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-AuthSource: BMXPR01MB3221.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthSource: BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2021 10:33:49.3781
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2021 10:49:55.3556
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37f8fbe2-c3d0-4de9-3a78-08d8b22e8e1e
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2b52cce-43a8-461b-2eb2-08d8b230cddf
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wgNDkKOR9QhTkC2MSlk03DI/LzzQvxlNQdQae1E72hcUUte6uE3o1BKC9MKbexL0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB2994
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6rC0Duz+ROUpU4LhXaFqWJ61Kh79bFDCZ3rd36TRcy0w3jixgKDR4D3Gt8GhFA/Nvx68JjHnt1iOrlf72/ik6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB2562
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+From: Rahul Taya <Rahul.Taya@kpit.com>
 
-Backport changes to tinfo/comp_hash.c, tinfo/parse_entry.c,
-and progs/dump_entry.c from upstream to fix CVEs.
+This patch fixes OOB read caused by malformed 8-bit BMP
 
-(From OE-Core rev: 7ec70aeb0c6f6080523efa0f983fa36b92cb5558)
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
+Signed-off-by: Rahul.Taya <Rahul.Taya@kpit.com>
 ---
- ...selective-backport-of-20191012-patch.patch | 158 ++++++++++++++++++
- .../ncurses/ncurses_6.0+20171125.bb           |   1 +
- 2 files changed, 159 insertions(+)
- create mode 100644 meta/recipes-core/ncurses/files/0001-ncurses-selective-=
-backport-of-20191012-patch.patch
+ .../jpeg/files/CVE-2018-14498.patch           | 145 ++++++++++++++++++
+ .../jpeg/libjpeg-turbo_1.5.3.bb               |   4 +-
+ 2 files changed, 148 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/jpeg/files/CVE-2018-14498.patch
 
-diff --git a/meta/recipes-core/ncurses/files/0001-ncurses-selective-backpor=
-t-of-20191012-patch.patch b/meta/recipes-core/ncurses/files/0001-ncurses-se=
-lective-backport-of-20191012-patch.patch
+diff --git a/meta/recipes-graphics/jpeg/files/CVE-2018-14498.patch b/meta/r=
+ecipes-graphics/jpeg/files/CVE-2018-14498.patch
 new file mode 100644
-index 0000000000..989a8ccd4e
+index 0000000000..8e77be6960
 --- /dev/null
-+++ b/meta/recipes-core/ncurses/files/0001-ncurses-selective-backport-of-20=
-191012-patch.patch
-@@ -0,0 +1,158 @@
-+From 064b77f173337aa790f1cec0d741bfbc61a33d31 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <trevor.gamblin@windriver.com>
-+Date: Fri, 18 Oct 2019 09:57:43 -0400
-+Subject: [PATCH] ncurses: selective backport of 20191012 patch
++++ b/meta/recipes-graphics/jpeg/files/CVE-2018-14498.patch
+@@ -0,0 +1,145 @@
++From 9c78a04df4e44ef6487eee99c4258397f4fdca55 Mon Sep 17 00:00:00 2001
++From: DRC <information@libjpeg-turbo.org>
++Date: Fri, 20 Jul 2018 17:21:36 -0500
++Subject: [PATCH] cjpeg: Fix OOB read caused by malformed 8-bit BMP
 +
-+Upstream-Status: Backport [https://salsa.debian.org/debian/ncurses/commit/=
-243908b1e3d81]
++... in which one or more of the color indices is out of range for the
++number of palette entries.
 +
-+Contents of the upstream patch that are not applied to comp_hash.c,
-+parse_entry.c, or dump_entry.c have been omitted.
++Fix partly borrowed from jpeg-9c.  This commit also adopts Guido's
++JERR_PPM_OUTOFRANGE enum value in lieu of our project-specific
++JERR_PPM_TOOLARGE enum value.
 +
-+CVE: CVE-2019-17594
-+CVE: CVE-2019-17595
++Fixes #258
++CVE: CVE-2018-14498
++Upstream-Status: Backport [https://github.com/libjpeg-turbo/libjpeg-turbo/=
+commit/9c78a04df4e44ef6487eee99c4258397f4fdca55]
 +
-+Signed-off-by: Trevor Gamblin  <trevor.gamblin@windriver.com>
++diff --git a/cderror.h b/cderror.h
++index 63de498..e57a8c8 100644
++--- a/cderror.h
+++++ b/cderror.h
++@@ -2,7 +2,7 @@
++  * cderror.h
++  *
++  * Copyright (C) 1994-1997, Thomas G. Lane.
++- * Modified 2009 by Guido Vollbeding.
+++ * Modified 2009-2017 by Guido Vollbeding.
++  * This file is part of the Independent JPEG Group's software.
++  * For conditions of distribution and use, see the accompanying README.ij=
+g
++  * file.
++@@ -49,6 +49,7 @@ JMESSAGE(JERR_BMP_COLORSPACE, "BMP output must be graysc=
+ale or RGB")
++ JMESSAGE(JERR_BMP_COMPRESSED, "Sorry, compressed BMPs not yet supported")
++ JMESSAGE(JERR_BMP_EMPTY, "Empty BMP image")
++ JMESSAGE(JERR_BMP_NOT, "Not a BMP file - does not start with BM")
+++JMESSAGE(JERR_BMP_OUTOFRANGE, "Numeric value out of range in BMP file")
++ JMESSAGE(JTRC_BMP, "%ux%u 24-bit BMP image")
++ JMESSAGE(JTRC_BMP_MAPPED, "%ux%u 8-bit colormapped BMP image")
++ JMESSAGE(JTRC_BMP_OS2, "%ux%u 24-bit OS2 BMP image")
++@@ -75,8 +76,8 @@ JMESSAGE(JWRN_GIF_NOMOREDATA, "Ran out of GIF bits")
++ #ifdef PPM_SUPPORTED
++ JMESSAGE(JERR_PPM_COLORSPACE, "PPM output must be grayscale or RGB")
++ JMESSAGE(JERR_PPM_NONNUMERIC, "Nonnumeric data in PPM file")
++-JMESSAGE(JERR_PPM_TOOLARGE, "Integer value too large in PPM file")
++ JMESSAGE(JERR_PPM_NOT, "Not a PPM/PGM file")
+++JMESSAGE(JERR_PPM_OUTOFRANGE, "Numeric value out of range in PPM file")
++ JMESSAGE(JTRC_PGM, "%ux%u PGM image")
++ JMESSAGE(JTRC_PGM_TEXT, "%ux%u text PGM image")
++ JMESSAGE(JTRC_PPM, "%ux%u PPM image")
++diff --git a/rdbmp.c b/rdbmp.c
++index eaa7086..5e6dbc3 100644
++--- a/rdbmp.c
+++++ b/rdbmp.c
++@@ -3,7 +3,7 @@
++  *
++  * This file was part of the Independent JPEG Group's software:
++  * Copyright (C) 1994-1996, Thomas G. Lane.
++- * Modified 2009-2010 by Guido Vollbeding.
+++ * Modified 2009-2017 by Guido Vollbeding.
++  * libjpeg-turbo Modifications:
++  * Modified 2011 by Siarhei Siamashka.
++  * Copyright (C) 2015, D. R. Commander.
++@@ -66,6 +66,7 @@ typedef struct _bmp_source_struct {
++   JDIMENSION row_width;         /* Physical width of scanlines in file */
 +
-+---
-+ ncurses/tinfo/comp_hash.c   | 14 ++++++++++----
-+ ncurses/tinfo/parse_entry.c | 32 ++++++++++++++++----------------
-+ progs/dump_entry.c          |  7 ++++---
-+ 3 files changed, 30 insertions(+), 23 deletions(-)
++   int bits_per_pixel;           /* remembers 8- or 24-bit format */
+++  int cmap_length;              /* colormap length */
++ } bmp_source_struct;
 +
-+diff --git a/ncurses/tinfo/comp_hash.c b/ncurses/tinfo/comp_hash.c
-+index 21f165ca..a62d38f9 100644
-+--- a/ncurses/tinfo/comp_hash.c
-++++ b/ncurses/tinfo/comp_hash.c
-+@@ -44,7 +44,7 @@
-+ #include <tic.h>
-+ #include <hashsize.h>
 +
-+-MODULE_ID("$Id: comp_hash.c,v 1.48 2009/08/08 17:36:21 tom Exp $")
-++MODULE_ID("$Id: comp_hash.c,v 1.51 2019/10/12 16:32:13 tom Exp $")
-+
-+ /*
-+  * Finds the entry for the given string in the hash table if present.
-+@@ -63,7 +63,9 @@ _nc_find_entry(const char *string,
-+
-+     hashvalue =3D data->hash_of(string);
-+
-+-    if (data->table_data[hashvalue] >=3D 0) {
-++    if (hashvalue >=3D 0
-++      && (unsigned) hashvalue < data->table_size
-++      && data->table_data[hashvalue] >=3D 0) {
-+
-+       real_table =3D _nc_get_table(termcap);
-+       ptr =3D real_table + data->table_data[hashvalue];
-+@@ -96,7 +98,9 @@ _nc_find_type_entry(const char *string,
-+     const HashData *data =3D _nc_get_hash_info(termcap);
-+     int hashvalue =3D data->hash_of(string);
-+
-+-    if (data->table_data[hashvalue] >=3D 0) {
-++    if (hashvalue >=3D 0
-++      && (unsigned) hashvalue < data->table_size
-++      && data->table_data[hashvalue] >=3D 0) {
-+       const struct name_table_entry *const table =3D _nc_get_table(termca=
-p);
-+
-+       ptr =3D table + data->table_data[hashvalue];
-+diff --git a/ncurses/tinfo/parse_entry.c b/ncurses/tinfo/parse_entry.c
-+index f8cca8b5..064376c5 100644
-+--- a/ncurses/tinfo/parse_entry.c
-++++ b/ncurses/tinfo/parse_entry.c
-+@@ -47,7 +47,7 @@
-+ #include <ctype.h>
-+ #include <tic.h>
-+
-+-MODULE_ID("$Id: parse_entry.c,v 1.91 2017/08/26 16:13:34 tom Exp $")
-++MODULE_ID("$Id: parse_entry.c,v 1.98 2019/10/12 00:50:31 tom Exp $")
-+
-+ #ifdef LINT
-+ static short const parametrized[] =3D
-+@@ -654,12 +654,12 @@ _nc_capcmp(const char *s, const char *t)
-+ }
-+
-+ static void
-+-append_acs0(string_desc * dst, int code, int src)
-++append_acs0(string_desc * dst, int code, char *src, size_t off)
++@@ -126,6 +127,7 @@ get_8bit_row (j_compress_ptr cinfo, cjpeg_source_ptr s=
+info)
 + {
-+-    if (src !=3D 0) {
-++    if (src !=3D 0 && off < strlen(src)) {
-+       char temp[3];
-+       temp[0] =3D (char) code;
-+-      temp[1] =3D (char) src;
-++      temp[1] =3D src[off];
-+       temp[2] =3D 0;
-+       _nc_safe_strcat(dst, temp);
-+     }
-+@@ -669,7 +669,7 @@ static void
-+ append_acs(string_desc * dst, int code, char *src)
-+ {
-+     if (VALID_STRING(src) && strlen(src) =3D=3D 1) {
-+-      append_acs0(dst, code, *src);
-++      append_acs0(dst, code, src, 0);
-+     }
++   bmp_source_ptr source =3D (bmp_source_ptr) sinfo;
++   register JSAMPARRAY colormap =3D source->colormap;
+++  int cmaplen =3D source->cmap_length;
++   JSAMPARRAY image_ptr;
++   register int t;
++   register JSAMPROW inptr, outptr;
++@@ -142,6 +144,8 @@ get_8bit_row (j_compress_ptr cinfo, cjpeg_source_ptr s=
+info)
++   outptr =3D source->pub.buffer[0];
++   for (col =3D cinfo->image_width; col > 0; col--) {
++     t =3D GETJSAMPLE(*inptr++);
+++      if (t >=3D cmaplen)
+++        ERREXIT(cinfo, JERR_BMP_OUTOFRANGE);
++     *outptr++ =3D colormap[0][t]; /* can omit GETJSAMPLE() safely */
++     *outptr++ =3D colormap[1][t];
++     *outptr++ =3D colormap[2][t];
++@@ -401,6 +405,7 @@ start_input_bmp (j_compress_ptr cinfo, cjpeg_source_pt=
+r sinfo)
++     source->colormap =3D (*cinfo->mem->alloc_sarray)
++       ((j_common_ptr) cinfo, JPOOL_IMAGE,
++        (JDIMENSION) biClrUsed, (JDIMENSION) 3);
+++    source->cmap_length =3D (int)biClrUsed;
++     /* and read it from the file */
++     read_colormap(source, (int) biClrUsed, mapentrysize);
++     /* account for size of colormap */
++diff --git a/rdppm.c b/rdppm.c
++index 33ff749..c0c0962 100644
++--- a/rdppm.c
+++++ b/rdppm.c
++@@ -69,7 +69,7 @@ typedef struct {
++   JSAMPROW pixrow;              /* compressor input buffer */
++   size_t buffer_width;          /* width of I/O buffer */
++   JSAMPLE *rescale;             /* =3D> maxval-remapping array, or NULL *=
+/
++-  int maxval;
+++  unsigned int maxval;
++ } ppm_source_struct;
++
++ typedef ppm_source_struct *ppm_source_ptr;
++@@ -119,7 +119,7 @@ read_pbm_integer (j_compress_ptr cinfo, FILE *infile, =
+unsigned int maxval)
++   }
++
++   if (val > maxval)
++-    ERREXIT(cinfo, JERR_PPM_TOOLARGE);
+++    ERREXIT(cinfo, JERR_PPM_OUTOFRANGE);
++
++   return val;
 + }
-+
-+@@ -1038,17 +1038,17 @@ postprocess_terminfo(TERMTYPE2 *tp)
-+       _nc_str_init(&result, buf2, sizeof(buf2));
-+       _nc_safe_strcat(&result, acs_chars);
-+
-+-      append_acs0(&result, 'l', box_chars_1[0]);      /* ACS_ULCORNER */
-+-      append_acs0(&result, 'q', box_chars_1[1]);      /* ACS_HLINE */
-+-      append_acs0(&result, 'k', box_chars_1[2]);      /* ACS_URCORNER */
-+-      append_acs0(&result, 'x', box_chars_1[3]);      /* ACS_VLINE */
-+-      append_acs0(&result, 'j', box_chars_1[4]);      /* ACS_LRCORNER */
-+-      append_acs0(&result, 'm', box_chars_1[5]);      /* ACS_LLCORNER */
-+-      append_acs0(&result, 'w', box_chars_1[6]);      /* ACS_TTEE */
-+-      append_acs0(&result, 'u', box_chars_1[7]);      /* ACS_RTEE */
-+-      append_acs0(&result, 'v', box_chars_1[8]);      /* ACS_BTEE */
-+-      append_acs0(&result, 't', box_chars_1[9]);      /* ACS_LTEE */
-+-      append_acs0(&result, 'n', box_chars_1[10]);     /* ACS_PLUS */
-++      append_acs0(&result, 'l', box_chars_1, 0);      /* ACS_ULCORNER */
-++      append_acs0(&result, 'q', box_chars_1, 1);      /* ACS_HLINE */
-++      append_acs0(&result, 'k', box_chars_1, 2);      /* ACS_URCORNER */
-++      append_acs0(&result, 'x', box_chars_1, 3);      /* ACS_VLINE */
-++      append_acs0(&result, 'j', box_chars_1, 4);      /* ACS_LRCORNER */
-++      append_acs0(&result, 'm', box_chars_1, 5);      /* ACS_LLCORNER */
-++      append_acs0(&result, 'w', box_chars_1, 6);      /* ACS_TTEE */
-++      append_acs0(&result, 'u', box_chars_1, 7);      /* ACS_RTEE */
-++      append_acs0(&result, 'v', box_chars_1, 8);      /* ACS_BTEE */
-++      append_acs0(&result, 't', box_chars_1, 9);      /* ACS_LTEE */
-++      append_acs0(&result, 'n', box_chars_1, 10);     /* ACS_PLUS */
-+
-+       if (buf2[0]) {
-+           acs_chars =3D _nc_save_str(buf2);
-+diff --git a/progs/dump_entry.c b/progs/dump_entry.c
-+index d0e420ec..8a47084a 100644
-+--- a/progs/dump_entry.c
-++++ b/progs/dump_entry.c
-+@@ -39,7 +39,7 @@
-+ #include "termsort.c"         /* this C file is generated */
-+ #include <parametrized.h>     /* so is this */
-+
-+-MODULE_ID("$Id: dump_entry.c,v 1.168 2017/09/02 21:01:54 tom Exp $")
-++MODULE_ID("$Id: dump_entry.c,v 1.175 2019/10/12 15:59:07 tom Exp $")
-+
-+ #define DISCARD(string) string =3D ABSENT_STRING
-+ #define PRINTF (void) printf
-+@@ -1136,7 +1136,8 @@ fmt_entry(TERMTYPE2 *tterm,
-+                               *d++ =3D '\\';
-+                               *d =3D ':';
-+                           } else if (*d =3D=3D '\\') {
-+-                              *++d =3D *s++;
-++                              if ((*++d =3D *s++) =3D=3D '\0')
-++                                  break;
-+                           }
-+                           d++;
-+                           *d =3D '\0';
-+@@ -1396,7 +1397,7 @@ one_one_mapping(const char *mapping)
-+
-+     if (VALID_STRING(mapping)) {
-+       int n =3D 0;
-+-      while (mapping[n] !=3D '\0') {
-++      while (mapping[n] !=3D '\0' && mapping[n + 1] !=3D '\0') {
-+           if (isLine(mapping[n]) &&
-+               mapping[n] !=3D mapping[n + 1]) {
-+               result =3D FALSE;
-+--
-+2.17.1
-+
-diff --git a/meta/recipes-core/ncurses/ncurses_6.0+20171125.bb b/meta/recip=
-es-core/ncurses/ncurses_6.0+20171125.bb
-index 6c4b96f428..ed5181f74f 100644
---- a/meta/recipes-core/ncurses/ncurses_6.0+20171125.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.0+20171125.bb
-@@ -3,6 +3,7 @@ require ncurses.inc
- SRC_URI +=3D "file://0001-tic-hang.patch \
-             file://0002-configure-reproducible.patch \
-             file://config.cache \
-+            file://0001-ncurses-selective-backport-of-20191012-patch.patch=
- \
- "
- # commit id corresponds to the revision in package version
- SRCREV =3D "5d849e836052459901cfe0b85a0b2939ff8d2b2a"
++@@ -255,7 +255,7 @@ get_word_gray_row (j_compress_ptr cinfo, cjpeg_source_=
+ptr sinfo)
++     temp  =3D UCH(*bufferptr++) << 8;
++     temp |=3D UCH(*bufferptr++);
++     if (temp > maxval)
++-      ERREXIT(cinfo, JERR_PPM_TOOLARGE);
+++      ERREXIT(cinfo, JERR_PPM_OUTOFRANGE);
++     *ptr++ =3D rescale[temp];
++   }
++   return 1;
++@@ -282,17 +282,17 @@ get_word_rgb_row (j_compress_ptr cinfo, cjpeg_source=
+_ptr sinfo)
++     temp  =3D UCH(*bufferptr++) << 8;
++     temp |=3D UCH(*bufferptr++);
++     if (temp > maxval)
++-      ERREXIT(cinfo, JERR_PPM_TOOLARGE);
+++      ERREXIT(cinfo, JERR_PPM_OUTOFRANGE);
++     *ptr++ =3D rescale[temp];
++     temp  =3D UCH(*bufferptr++) << 8;
++     temp |=3D UCH(*bufferptr++);
++     if (temp > maxval)
++-      ERREXIT(cinfo, JERR_PPM_TOOLARGE);
+++      ERREXIT(cinfo, JERR_PPM_OUTOFRANGE);
++     *ptr++ =3D rescale[temp];
++     temp  =3D UCH(*bufferptr++) << 8;
++     temp |=3D UCH(*bufferptr++);
++     if (temp > maxval)
++-      ERREXIT(cinfo, JERR_PPM_TOOLARGE);
+++      ERREXIT(cinfo, JERR_PPM_OUTOFRANGE);
++     *ptr++ =3D rescale[temp];
++   }
++   return 1;
+diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb b/meta/recip=
+es-graphics/jpeg/libjpeg-turbo_1.5.3.bb
+index 50a5ae0850..53dbcb68f7 100644
+--- a/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
++++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_1.5.3.bb
+@@ -10,7 +10,9 @@ LIC_FILES_CHKSUM =3D "file://cdjpeg.h;endline=3D13;md5=3D=
+8184bcc7c4ac7b9edc6a7bc00f231
+ DEPENDS_append_x86-64_class-target =3D " nasm-native"
+ DEPENDS_append_x86_class-target    =3D " nasm-native"
+
+-SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
++SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
++           file://CVE-2018-14498.patch \
++"
+
+ SRC_URI[md5sum] =3D "7c82f0f6a3130ec06b8a4d0b321cbca3"
+ SRC_URI[sha256sum] =3D "b24890e2bb46e12e72a79f7e965f409f4e16466d00e1dd15d9=
+3d73ee6b592523"
 --
 2.17.1
 
