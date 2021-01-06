@@ -1,24 +1,24 @@
-Received: from IND01-MA1-obe.outbound.protection.outlook.com (IND01-MA1-obe.outbound.protection.outlook.com [40.107.138.58])
- by mx.groups.io with SMTP id smtpd.web11.6368.1609930413126722855
+Received: from IND01-BO1-obe.outbound.protection.outlook.com (IND01-BO1-obe.outbound.protection.outlook.com [40.107.139.80])
+ by mx.groups.io with SMTP id smtpd.web11.6396.1609930627493300896
  for <Openembedded-core@lists.openembedded.org>;
- Wed, 06 Jan 2021 02:53:33 -0800
+ Wed, 06 Jan 2021 02:57:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kpit.com header.s=selector1 header.b=eX3wgWh6;
- spf=pass (domain: kpit.com, ip: 40.107.138.58, mailfrom: rahul.taya@kpit.com)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=PNs1G0iM;
+ spf=pass (domain: kpit.com, ip: 40.107.139.80, mailfrom: rahul.taya@kpit.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QaG1WPdbcg6Uq0tldzq8MyyGOWIKB8fBfH7lprHyCDVLfwPdolq8Z12m9GKKwQDGpHeExBwgVUMSHDlBRK02IWOHnD0Q+WF0qIpDXRVmKWdNlzwTkFZFpmYBhHBR7iqj79NjvrCTFfj+NbU/H8Nh8/D49uump7Dpb0qMK+WEpEsORV/ruwOvvrmRG50E3AlgtI6DU+mHprF7N3TI3arMU1E5tHh2itlg2fDHnKmnbzu0dByvkX71ochQWeFsw2AeEakQQfT0YVUq+UA4tF8/yJo4x9Nwc76sRRVOLmNlrkIczVcyTilymhuLXmipEUvA4rVaKZ5eOAn7nsBagVOFnQ==
+ b=KMZrDX0LWWq3VpJsXdjKZX+w7KSfl35LpIb49W7fGyO2Bb5AAzT0BGy7HMsvPjI5rorOVzSCpj0yvlOpZUuU6yUdUQTpC71ulVZ7NLiKYIEQP+1sSL9i+JTt5NknRI/WmIERp+s4sBRlyZjw88tD23k37CCXb/GKFVGtJnzQWWDYxwWIgq6gdY6ZQ11e7Q9gi7jQq+JLJiNhKZtVTxoKPwj16Te7wQx8pqjhziS2W1A4amVYxdcFsufBMgnP+QdrydpiMc4VZQttncoDFV2JbqWs371ea1IWAE4tWzfcMjLLVNHYKyAx6tYQ3b8rfw7RWdGBx1xlPJw9TBOBoUCriQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13burvoMSHHfTOOGcHo8GgUVJVtc5at2knyUQpE+0RQ=;
- b=Jg4EZ1EC6ViM1pOko6rVkGKqtG7n9Xjn+JTSAxu+5z9rlznZR/liaQsrUSCOXXEaMdGD8xcqqzbd4EKTzLXTOFQmEqCECmf/Mq5/ZcReMFDoAYhnYLYIKMCBZMOMTmTrJLveOFURqjYUbXYoPtUEI0vqX278IYg7eccUHQAhiicXJsB/SjaMAOehpqamefmNf5itv6RD71bMOck4G8eRYmWGJCkUaNuCK5yRB0ERmz9Cjvp/4L+r3DsmTRW06kSO7sn7Ygu0IMAwrf8ums9Fq6l5nlcF+NPJTKhkuugOrh0dVoDw1gXkMoT1zxzFMKLlef4u+bbAtNeK1aIKqVJ5KQ==
+ bh=8m8c3s4eM/gMDBZdHLE/gQnGNtB2KDVpQNlVjSNDIVA=;
+ b=L8b1pDpy/ED+IHY6WuluITWW2jmcjWpemej9Iv78NWL6zFC6TKV7Nvy90QzrlDFRc2rYR7fxqP8aP/HxU0zwlu6hCQ0XELuO6xwRQu6W+CBfpEngbnIRCE4HwK612Z77AKU37SsT7kIsGhd5iZHcG6wEjWmdE4vbLbpGF87fh3f9wxb0MNFuksf/qeONw9nSV6eXn6DDmCZ9D/reH6W3Oro2eLCFjf63jo0uXTvI+rz0zhke7fG+w9VKjJPu7rcekoBcMDQmWdztsdh+FmEuSVoaCo6qQZfOGqQHGHC+7guelS1IYiEkTQkQfvjtQLSUAN9CfnYigHPGA5QUBZlsSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
  dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=13burvoMSHHfTOOGcHo8GgUVJVtc5at2knyUQpE+0RQ=;
- b=eX3wgWh66SWC5bANcvUTMDOIILahcu9WsgC9GnWfJu3fr/+CguS0UqGOY/eXRtNnQsaVZwqszK7MncpoldNT99F2muZPgz+otj6Lg2nKMhEoCKoOhr4YVDP+e0YoAAH77I+KeeDAIE4mdt+6wIivYettW1xA8ZyuixGRRRGeKBw=
+ bh=8m8c3s4eM/gMDBZdHLE/gQnGNtB2KDVpQNlVjSNDIVA=;
+ b=PNs1G0iMx3Nf51/M1C23CbhFdFOlvvPK2dOFIkEQrwcQPglZUU3nG5OaEtR0Mgo+mEsbGKNgBvxWRLRdhdhlYA9XIxhiA9fyCycFxNPuD+NW98yiWdvxT3O1AzRzIwGR0hC3bbc/NWQ9D/xCJfOGdObdSypIu0m44AnctWOca+w=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=kpit.com;
@@ -26,144 +26,190 @@ Received: from BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:58::18)
  by BM1PR01MB2161.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:4a::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.23; Wed, 6 Jan
- 2021 10:53:29 +0000
+ 2021 10:57:01 +0000
 Received: from BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::416e:68e1:481b:f7a0]) by BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
  ([fe80::416e:68e1:481b:f7a0%7]) with mapi id 15.20.3721.024; Wed, 6 Jan 2021
- 10:53:29 +0000
+ 10:57:01 +0000
 From: "Rahul Taya" <Rahul.Taya@kpit.com>
 To: Openembedded-core@lists.openembedded.org,
 	raj.khem@gmail.com
 Cc: nisha.parrakat@kpit.com,
-	Aditya.Tayade@kpit.com,
-	Rahul Taya <Rahul.Taya@kpit.com>
-Subject: [poky][sumo][PATCH] libxml2: add patch for CVE-2019-19956
-Date: Wed,  6 Jan 2021 16:23:16 +0530
-Message-Id: <20210106105316.27655-1-Rahul.Taya@kpit.com>
+	Aditya.Tayade@kpit.com
+Subject: [poky][sumo][PATCH] busybox: Add fix for CVE-2019-5747
+Date: Wed,  6 Jan 2021 16:25:28 +0530
+Message-Id: <20210106105528.27786-1-Rahul.Taya@kpit.com>
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [122.169.2.142]
-X-ClientProxiedBy: PN2PR01CA0168.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26::23) To BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
+X-ClientProxiedBy: BMXPR01CA0075.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:b00:54::15) To BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
  (2603:1096:b00:58::18)
 Return-Path: Rahul.Taya@kpit.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (122.169.2.142) by PN2PR01CA0168.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:26::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20 via Frontend Transport; Wed, 6 Jan 2021 10:53:28 +0000
+Received: from localhost.localdomain (122.169.2.142) by BMXPR01CA0075.INDPRD01.PROD.OUTLOOK.COM (2603:1096:b00:54::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Wed, 6 Jan 2021 10:57:00 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 485592ee-2fa5-412e-8a6f-08d8b2314d2e
+X-MS-Office365-Filtering-Correlation-Id: 627460a5-e843-44ee-e7f2-08d8b231cbcd
 X-MS-TrafficTypeDiagnostic: BM1PR01MB2161:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<BM1PR01MB216164E1BE1FF373B1C3DD8EF2D00@BM1PR01MB2161.INDPRD01.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:510;
+	<BM1PR01MB2161DBC5141008087F9FC4A0F2D00@BM1PR01MB2161.INDPRD01.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	C6Vzn0M4OT+C7Pw4uGN8jW1CbAccbdDJv6BKRJqoBVmyhXHwqdf0BnspCOwcDlATkOe6aRgrXoA7Xoawug0+UL4Yn3Sd83sPSMNLJuyA0FGoC7Uu8N1OwyEthTUYYfLLXXCJ+WUf+jWyWGJNfkR+5mteQreJPnHElTX97lkiiqibEBCiO3XbM7HS1LIUleT6G0PpiohsqTf+ESdnVEALVDfBGNTGrE1aTjTFGNVFyqmWLy595ZFSkzjiw7UnQ0t8ASMW/Ks9qbrLXXRBG+5YWswlyB0irC9TrL9LMk8u8ID11Fv9Mye9JAerT+k2Z8FFczE0HWS8s/G9+agXX2GE+ti5uOxc1Uq9IaiwBdYRal1KI/NfPngWhwc1m5MPSr92NDe3LReAJhUPPJa+IFKaku/TyFfAQ6sG8bd6swdqMCN6XG1C+EKMryDyv23YipXND/pfiWlpyrIsDlw9W307Y2hvoXY64bvrzq5zVsDojX8PR7HAH7Ipn4sL0eccVtK+z7KBh9smVw2Htioeu9bRyA==
+	jX0rLRoqV0c8gW3AA8yCde7qzN1zwfvt07msu/1O5NUve1T+3vkS30zXzUlMghY6XQdBtP+FvKsi2UzunafuSeI/gx9CXXDUC6IvkV4AT5vdex2L6LWBEAAqcttgCoXRGLR7VLWXNwQ2z37F7QxF8Zh31kSCLiw5cXpJ9PO3e032uSxgVC4WXCxabNYEIoDFCoAAirnWb6pM3r40++jPk4egjgnHKDos/bRWJWolsQhfSvLnp477naSEV1ZH+S6kzoawBP+uZhCkiLLTFnA6feWph9kkM5XopekeOQJse3rjlKnASYJKh3s2yTJJHCYjTDi7N2IDoRThuwTAYsVwVUcSNbBmEDrzFazIB/OXu5vD+B0JyGyH4fh9XAVcqgf1tY5yceviVmEEEVG0hOgBE0KBm3itKrfzMvCO5qEs+FiW+yLf90pWcFiBclaC7csznlm84NrYJWXIPPOqan7G53zjHBlZ+uOKZAneNsuw09p1WkNdQrtz8doqE6OS7nGAn8reMdB8eZsaBV6nyqZSnw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(396003)(39850400004)(346002)(376002)(8936002)(478600001)(316002)(6512007)(966005)(186003)(16526019)(5660300002)(107886003)(4326008)(52116002)(69590400011)(956004)(8676002)(6486002)(2616005)(66946007)(66556008)(66476007)(36756003)(26005)(6666004)(1076003)(6506007)(2906002)(66574015)(83380400001)(86362001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(396003)(376002)(346002)(39850400004)(366004)(136003)(6506007)(6666004)(1076003)(66946007)(26005)(66556008)(66476007)(36756003)(83380400001)(86362001)(2906002)(66574015)(186003)(16526019)(5660300002)(107886003)(316002)(8936002)(478600001)(6512007)(966005)(8676002)(956004)(2616005)(6486002)(69590400011)(4326008)(52116002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?bwiSC33qmE3x6o92sKxRU+0J4qq3QaB4iwVKOGJdKcM6zJm40I1dPXM65mSt?=
- =?us-ascii?Q?IUkmYFLcagyHc9cf938eVvNrdMLqngkngV/vEa8Z6k19EbKBV350BClmASM6?=
- =?us-ascii?Q?RAjWjcrbzQdoUIBGPK6MeX3NG1tpV49HzrG4q2xmDK/ERHeqz34AP5i+YGAY?=
- =?us-ascii?Q?NxOIr8IX4dfvZsFF3H3eKgduJxCnUmzSNBHjwE8egAWTKcGP/oZrPuna0BnX?=
- =?us-ascii?Q?RNgkmHpINCUR2Ij9lKaFLDVNp+bXb/foYHtwp5Sr7FZ+aXVTc+DsJ5P41//s?=
- =?us-ascii?Q?ODfCFgmM6WyLC43auGHTsvncIcDwRaDd2c6BtN041lDikZgeedYUBdZ1i1tA?=
- =?us-ascii?Q?shU+pqVHF57bDhWYghAr2wu6tc+WEYpmcQmFuu7ewb5AC8xRem0uGxW/EqWk?=
- =?us-ascii?Q?KLjeij9bST/Ju+suRCofg5VnbSmrSAtiQvaU4lpORXia/5Z0RN0OsWS04ofF?=
- =?us-ascii?Q?pc+6dOeLjYjAH0XQm8FuNb6/B5DILkZBwwRDe9OoE7EAEeZzebTRySpiNOmX?=
- =?us-ascii?Q?6BO//y1a6eOYx2bZw3HGY22YmtSnOdcO8Jt+SqsFogvh3ULsSjFlvw3cjsew?=
- =?us-ascii?Q?dEGlvAEkzQ4+Jj7BpogqQbsYA5KZDAF74AcnlhMAF+KXe53VgFdFk/2ok2Vi?=
- =?us-ascii?Q?j51WXDIwlfmNnqx+YRFFJ6pprojzKpZmbWwSEhbFQA1yJQ5c56D6a2SuUKRE?=
- =?us-ascii?Q?18pvQhVH2kaqkuu0OugdIvae8/kQbgjEjVXZGh7WgLEKj0tzJ3eJGcyViR9N?=
- =?us-ascii?Q?TY/IN6qpcXiBsFuP30TLxybrmXCFIAD9BtCxas4xXPPSdzWCEFo0rPBXi7BG?=
- =?us-ascii?Q?ru8/+/Gk9Ol5unOTRsMsTo/IwvMJLZmkj75Fo8UYy7ohk2RruhM37CheIKMV?=
- =?us-ascii?Q?R2gJynIlL5GWhwHDbt+oy4afEJBB+KNLKKuQoodGhT4NCZ5m06RpED5XNczv?=
- =?us-ascii?Q?lQj/P3p8XvizlaAcLSEoJp0WEfgagV5ib9IYlR3mlBvFCJ6nCDUu5hU6x5f6?=
- =?us-ascii?Q?0Cbp?=
+	=?us-ascii?Q?VPWkp9ThawbkLEEEUM5ggV6QDfMSq45mV4LX4E0QtPp8pkConennPn2MiAl5?=
+ =?us-ascii?Q?xwjn1/58dzXwuOPrzmLfM0JnwzKceY9Co5JjppRnpZTtwMTbFpsiQH0z3G2p?=
+ =?us-ascii?Q?tk7HTx3uYfBZgJR16WcxqdWZHq6c7d3ZNtNw8cgJSERO9FN5bBcErDvpcXrb?=
+ =?us-ascii?Q?6TwhLtKKfwS9lMoZT6QaPvqGc9zduYFoSNTC8zRa5HDfIkJVkveSkct9K/Vu?=
+ =?us-ascii?Q?ewqcUvyqkGHahxTXIfV6OkuiDb6XezkBLnL7BrL0OkE+RDRSwrvI+EbA/9CY?=
+ =?us-ascii?Q?oG0YOvQGTPpNvkROZ0ergGTM1tm5Mf3Wg4r3ChSfSA5RHYVExsECIpBJm4iY?=
+ =?us-ascii?Q?yl8DMpPIZqeUEk5cVPtwhM/3hulVHDHcTQ9IAMvRmkJ7/Xd9QTqbfoY7fNNj?=
+ =?us-ascii?Q?OdvA2+z1G64VWv3o5koBH12v4phKqvJyWdE1pieXAE2m6KctR+9TG4XU+Gcv?=
+ =?us-ascii?Q?K+zbq8biiSjdxvTEeHmaS/m/VSIvMNcr4VaKa5L5zWDj/abtV8MoYS3nOier?=
+ =?us-ascii?Q?/+9AZ1v1f0AaUD8y+szyos1oozk57otEQMPPBhBzu6iKWoloQG+y4Vjih2V2?=
+ =?us-ascii?Q?uGHYW4qfYVwK73RELPp/zfVDv9nMTpinTdgOrdosJYubGJO3hLHV92u8I0Of?=
+ =?us-ascii?Q?XRc0Blbm2iGsh0GMzitnNWsXNQMJPOMrZVm3Pge8BgfTnLNtvTCogSFb5OAV?=
+ =?us-ascii?Q?9PClo3iQIvwchuFIyR4A8bUfOJeYugeMPOYJLmO5viyqdrAAkSLxjvJ5o7lZ?=
+ =?us-ascii?Q?jl3tmEsSS+0xo+NHBfb6D0VH407iwIBwGoZ7Kl5+fRWJOaUPs4A9q7J642ez?=
+ =?us-ascii?Q?maIzVA5EfLw2lrqLg086hM5ifeyle47ts80d0uIITriv8T0OTia4lmogNba1?=
+ =?us-ascii?Q?rpZw2Un5aAAce2hOEbGcwr2ZIT/pRvMetIxmZf38TqA615WhfGeFNwW+PzAw?=
+ =?us-ascii?Q?7HT6ka6QOP3OnWXfMiWxVBXbz7p9cm7MklTeV+omavlmuXlB54CDQdTx2Uxa?=
+ =?us-ascii?Q?223Y?=
 X-OriginatorOrg: kpit.com
 X-MS-Exchange-CrossTenant-AuthSource: BMXPR01MB3431.INDPRD01.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2021 10:53:28.9743
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2021 10:57:01.3247
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3539451e-b46e-4a26-a242-ff61502855c7
-X-MS-Exchange-CrossTenant-Network-Message-Id: 485592ee-2fa5-412e-8a6f-08d8b2314d2e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 627460a5-e843-44ee-e7f2-08d8b231cbcd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4R7/oNoi7/uPUQsDupPwYQCMpJBQlB0E6a/mY3b5TEeTFIT6kSYleDpxtQgQaH2IuEGjxTOb6PKs53rYinsPhw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7gpuhoNlzha4LRHcGPj3n3oun7FUh7Rq8DeL69uWrbGnYUv4DrVyiXEoTLF03zLiRT4xRjfI5FsSFSwGp5xzag==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BM1PR01MB2161
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
 
-From: Rahul Taya <Rahul.Taya@kpit.com>
+Applied patch that Ubuntu applied to busybox 1.27.2
 
-Fixes memory leak.
+The patch is available from file:
+http://archive.ubuntu.com/ubuntu/pool/main/b/busybox/busybox_1.27.2-2ubuntu=
+3.2.debian.tar.xz
+in path debian/patches/.
 
-https://security-tracker.debian.org/tracker/CVE-2019-19956
-https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641=
-d8d9b0d0549
+The below patch is added:
+
+CVE-2019-5747.patch
 
 Signed-off-by: Rahul.Taya <Rahul.Taya@kpit.com>
 ---
- .../libxml/libxml2/CVE-2019-19956.patch       | 29 +++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.7.bb     |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2019-19956.patch
+ .../busybox/busybox/CVE-2019-5747.patch       | 57 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.27.2.bb   |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2019-19956.patch b/meta/r=
-ecipes-core/libxml/libxml2/CVE-2019-19956.patch
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch b/meta/r=
+ecipes-core/busybox/busybox/CVE-2019-5747.patch
 new file mode 100644
-index 0000000000..8dd9dd82db
+index 0000000000..c209e48e73
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2019-19956.patch
-@@ -0,0 +1,29 @@
-+Fix memory leak in xmlParseBalancedChunkMemoryRecover
++++ b/meta/recipes-core/busybox/busybox/CVE-2019-5747.patch
+@@ -0,0 +1,57 @@
++From 74d9f1ba37010face4bd1449df4d60dd84450b06 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Mon, 7 Jan 2019 15:33:42 +0100
++Subject: udhcpc: when decoding DHCP_SUBNET, ensure it is 4 bytes long
 +
-+When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
-+is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
-+NULL and free newDoc will cause a memory leak.
++function                                             old     new   delta
++udhcp_run_script                                     795     801      +6
 +
-+Found with libFuzzer.
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++CVE-2019-5747
++[http://archive.ubuntu.com/ubuntu/pool/main/b/busybox/busybox_1.27.2-2ubun=
+tu3.2.debian.tar.xz]
++Upstream-Status: Backport
++---
++ networking/udhcp/common.c | 2 +-
++ networking/udhcp/common.h | 2 +-
++ networking/udhcp/dhcpc.c  | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
 +
-+Closes #82.
-+
-+https://security-tracker.debian.org/tracker/CVE-2019-19956
-+https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd9064=
-1d8d9b0d0549
-+
-+Upstream-Status: Backport [http://security.debian.org/debian-security/pool=
-/updates/main/libx/libxml2/libxml2_2.9.1+dfsg1-5+deb8u8.debian.tar.xz]
-+
-+CVE: CVE-2019-19956
-+
-+--- libxml2-2.9.1+dfsg1.orig/parser.c
-++++ libxml2-2.9.1+dfsg1/parser.c
-+@@ -13892,7 +13892,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDo
-+     xmlFreeParserCtxt(ctxt);
-+     newDoc->intSubset =3D NULL;
-+     newDoc->extSubset =3D NULL;
-+-    newDoc->oldNs =3D NULL;
-++    if(doc !=3D NULL)
-++      newDoc->oldNs =3D NULL;
-+     xmlFreeDoc(newDoc);
-+
-+     return(ret);
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.7.bb b/meta/recipes-core/=
-libxml/libxml2_2.9.7.bb
-index c749a81657..7c1fa4ceb3 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.7.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.7.bb
-@@ -22,6 +22,7 @@ SRC_URI =3D "http://www.xmlsoft.org/sources/libxml2-${PV}=
-.tar.gz;name=3Dlibtar \
-            file://0001-Make-ptest-run-the-python-tests-if-python-is-enable=
-d.patch \
-            file://fix-execution-of-ptests.patch \
-            file://CVE-2018-14404.patch \
-+           file://CVE-2019-19956.patch \
-            "
++Index: busybox-1.27.2/networking/udhcp/common.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- busybox-1.27.2.orig/networking/udhcp/common.c      2019-03-06 15:10:51=
+.569626885 -0500
+++++ busybox-1.27.2/networking/udhcp/common.c   2019-03-06 15:10:51.5696268=
+85 -0500
++@@ -300,7 +300,7 @@ uint8_t* FAST_FUNC udhcp_get_option32(st
++ {
++       uint8_t *r =3D udhcp_get_option(packet, code);
++       if (r) {
++-              if (r[-1] !=3D 4)
+++              if (r[-OPT_DATA + OPT_LEN] !=3D 4)
++                       r =3D NULL;
++       }
++       return r;
++Index: busybox-1.27.2/networking/udhcp/common.h
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- busybox-1.27.2.orig/networking/udhcp/common.h      2019-03-06 15:10:51=
+.569626885 -0500
+++++ busybox-1.27.2/networking/udhcp/common.h   2019-03-06 15:10:51.5696268=
+85 -0500
++@@ -119,7 +119,7 @@ enum {
++ //#define DHCP_TIME_SERVER      0x04 /* RFC 868 time server (32-bit, 0 =
+=3D 1.1.1900) */
++ //#define DHCP_NAME_SERVER      0x05 /* IEN 116 _really_ ancient kind of =
+NS */
++ //#define DHCP_DNS_SERVER       0x06
++-//#define DHCP_LOG_SERVER       0x07 /* port 704 UDP log (not syslog)
+++//#define DHCP_LOG_SERVER       0x07 /* port 704 UDP log (not syslog) */
++ //#define DHCP_COOKIE_SERVER    0x08 /* "quote of the day" server */
++ //#define DHCP_LPR_SERVER       0x09
++ #define DHCP_HOST_NAME          0x0c /* either client informs server or s=
+erver gives name to client */
++Index: busybox-1.27.2/networking/udhcp/dhcpc.c
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- busybox-1.27.2.orig/networking/udhcp/dhcpc.c       2019-03-06 15:10:51=
+.569626885 -0500
+++++ busybox-1.27.2/networking/udhcp/dhcpc.c    2019-03-06 15:10:51.5696268=
+85 -0500
++@@ -524,7 +524,7 @@ static char **fill_envp(struct dhcp_pack
++               temp =3D udhcp_get_option(packet, code);
++               *curr =3D xmalloc_optname_optval(temp, &dhcp_optflags[i], o=
+pt_name);
++               putenv(*curr++);
++-              if (code =3D=3D DHCP_SUBNET) {
+++              if (code =3D=3D DHCP_SUBNET && temp[-OPT_DATA + OPT_LEN] =
+=3D=3D 4) {
++                       /* Subnet option: make things like "$ip/$mask" poss=
+ible */
++                       uint32_t subnet;
++                       move_from_unaligned32(subnet, temp);
+diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-cor=
+e/busybox/busybox_1.27.2.bb
+index 716a0650fc..4f0b0db69c 100644
+--- a/meta/recipes-core/busybox/busybox_1.27.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
+@@ -49,6 +49,7 @@ SRC_URI =3D "http://www.busybox.net/downloads/busybox-${P=
+V}.tar.bz2;name=3Dtarball \
+            file://busybox-fix-lzma-segfaults.patch \
+            file://umount-ignore-c.patch \
+            file://CVE-2017-15874.patch \
++           file://CVE-2019-5747.patch \
+ "
+ SRC_URI_append_libc-musl =3D " file://musl.cfg "
 
- SRC_URI[libtar.md5sum] =3D "896608641a08b465098a40ddf51cefba"
 --
 2.17.1
 
