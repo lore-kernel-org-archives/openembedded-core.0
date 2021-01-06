@@ -1,115 +1,131 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.web10.11508.1609954074072132494
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.86])
+ by mx.groups.io with SMTP id smtpd.web09.13284.1609961305477918524
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jan 2021 09:27:54 -0800
+ Wed, 06 Jan 2021 11:28:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NNaSKKHZ;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.48, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f48.google.com with SMTP id w1so5987331ejf.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Jan 2021 09:27:53 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=h1RrD5X7;
+ spf=pass (domain: windriver.com, ip: 40.107.244.86, mailfrom: saul.wold@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OcO1QT1medDUlLGDm+8LNg2zhNy6ekDXoM+YgDLiWb+QUCSkZRzAnx3zW3+76npai13b3SxgWPgkNt1mTP35bntTzPmwtcu3hLSXHrjwyZAXtNLAM041uQ/Dj5cAyf6urUASgeBhXSM2LCxqbfO/cHK8NI4nDzxMlG+5WfYaDPJ9v7mDAvwHyCyLO9AHvbXGkMxPYKU6UNGsva8wpPhxCKJ21hU89mjssIu/rJyjtPT/yt+kEYypxzvUaVC/Qg9cWNpmPhE3v+1pt0pWvbfUTQda/i+HJ2DSykOoLZkhYZDL+kPKs4Wf+ossRurfiV5hHdeIy2GN5oYjVVvTVQDh5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+a7NiOY43xsZhX927/Deu4zWjjDN/+25TD7fqLiUsdk=;
+ b=IuSK7OO9eNINK5uEDPzJVt4SowQ5XV6fXQ7HOhCGYtmRWSxXc4Wdy497one7PbXcgX9RNwzH+vBr9U9e261IHJrYlvm2kTu1mYhzyGsBJjkH3ncAUJCS3xE7IV1oCO/HKwSgAXEv73fD9gK3XqfSrO5vKvwTE1uGDEpdWNEolVI+WXFV9TMoDEgbTlH/S8+A3JdEMOPkuFBfccgTnqN+BP5rEs4ZV2Mr2SXgn5pBHIlUmu2w+R0OYEsQPX4YkpsbzM4GSY19wfpHzEdsscRBe0GSVyBDyU4v36ixUhtGhcj1mK0EdFDvQybfiBiiML4hDbXWnjoDX8NQAp8oqhN+1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=LBYBHs5CnDG0YqZPY1gGKRKd111ZuhJa1ri3d9fEavw=;
-        b=NNaSKKHZc1iLcIU9VOAArSWFqi8W/8CxQIBIrLh5noaeKxQ6PEaawwvJj7h9Yz2m4z
-         JaKLgAwyisBXW0KAr3aztDgfcM5i93iezd/vvcxnMBYF3c5dAjNBNv6TthLa0r+TRR3t
-         YH+BiXKtKbBNVyznwmasjvM1sdG3SZXF22GM/SWiv2O/vdh4vxtzIIp/V+cBNctLKPfu
-         9bMQAwkPtRpurdECYaYdXoBUrR0L3JGIs4GbXoHYsIUIxRW5IEU2x3UaXvS7H04qMZyJ
-         bBlnG9KeiZJtikITxHeUIfd+bpT7LPyO3XAKuKdhzGZZDcbewTHezePTwqwgar7rsHEL
-         pbcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=LBYBHs5CnDG0YqZPY1gGKRKd111ZuhJa1ri3d9fEavw=;
-        b=rzL9Pu50Y2ZgZpQshiQtY1sNtwPBdc1dpYxiaW8uPSPTJxP2buyj6TNgzNVNakmoBb
-         knecCgERUQJbyTyd69ObhCFI9zbnPwkIQdyZyqXTHuO3MLgd6fmRpARJQLK1StEhkMDB
-         QLGRbkmIwljDVN1xEBlKn+dxCBw/n6M4MuK6mukdTKMnAEKqs2xuUHMIWg895CAMaCmI
-         S7mv5btg0DlEXtsWAJGzs8DbwNNZzn2GLGNARPsvuVxHIyaHYwny6cylPwRX/r7DGa8d
-         9PdEdgCTrFUBQfsd6XKlPd6KPGqC0QcbuiKJDsJPS4QbfYHnZh9pJ0JYmFjwLcAxaia/
-         G9vA==
-X-Gm-Message-State: AOAM530aaJ7PNfso4iP5/cEr7UEurDY+2zay8SP3MlyFp9qZSiBSrBsJ
-	+5SNsd2C9y5aZwybsEZCEgg0btWZJX6C6nyCg03QecnhHi7YPPBghtY=
-X-Google-Smtp-Source: ABdhPJySHukmZqFYdiZq4GUGd+196/0EvMQWBeMYEUgv8mtxHW4/JMTVZgxX1+rr8rnLVgLm2BkvAiLMFMWw5Tvy8Ms=
-X-Received: by 2002:a17:906:c45:: with SMTP id t5mr3508555ejf.370.1609954072118;
- Wed, 06 Jan 2021 09:27:52 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+a7NiOY43xsZhX927/Deu4zWjjDN/+25TD7fqLiUsdk=;
+ b=h1RrD5X7rz9NHMTxpWK5mdCX4w/xOnBRjh9+N2EmzN4l1pQH3bOXsEiFJDYjkxcGBRumJHR1Tolr4Krtsyowadoykd3C6f1j1JD3EXsgMHEyNW+Eq42s00ROWFxB9QA/ulJ7c3W1k4RJOvTTN7yv092ck2P2kwzAnZMfcvMfm7M=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
+ by MWHPR11MB2031.namprd11.prod.outlook.com (2603:10b6:300:29::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3721.20; Wed, 6 Jan
+ 2021 19:28:24 +0000
+Received: from CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::1910:aec9:8c56:2264]) by CO1PR11MB5076.namprd11.prod.outlook.com
+ ([fe80::1910:aec9:8c56:2264%5]) with mapi id 15.20.3721.024; Wed, 6 Jan 2021
+ 19:28:24 +0000
+From: "Saul Wold" <Saul.Wold@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [RFC PATCH 0/2] Enable QMP Dumping for testimage
+Date: Wed,  6 Jan 2021 11:28:03 -0800
+Message-ID: <20210106192806.1335560-1-saul.wold@windriver.com>
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [71.238.119.71]
+X-ClientProxiedBy: MWHPR21CA0070.namprd21.prod.outlook.com
+ (2603:10b6:300:db::32) To CO1PR11MB5076.namprd11.prod.outlook.com
+ (2603:10b6:303:90::7)
+Return-Path: saul.wold@windriver.com
 MIME-Version: 1.0
-References: <CAOSpxdZ8PdqOkiGqvhFRmQMH814kMj0RRC5shpZDP4yHoJOsYQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdZ8PdqOkiGqvhFRmQMH814kMj0RRC5shpZDP4yHoJOsYQ@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 6 Jan 2021 07:27:41 -1000
-Message-ID: <CAOSpxda4WpQRkgWQF3QVrB6+8Z=9d1CXFszHZYj86+aq4AqAAQ@mail.gmail.com>
-Subject: Re: Dunfell CVE reduction fun: December raffle -- Winner announcement!
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Robert Joslyn <robert.joslyn@redrectangle.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from yocto-hs.bigsur.com.localdomain (71.238.119.71) by MWHPR21CA0070.namprd21.prod.outlook.com (2603:10b6:300:db::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.0 via Frontend Transport; Wed, 6 Jan 2021 19:28:23 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e60a2635-9442-48e5-8fa6-08d8b2793c40
+X-MS-TrafficTypeDiagnostic: MWHPR11MB2031:
+X-Microsoft-Antispam-PRVS: 
+	<MWHPR11MB20314B7930A2D2A721501ED1EED00@MWHPR11MB2031.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	0v4N7PHeYp9YihAswxn1CQzDNgoRhNxOkGYtvgEgwtH5aksHuBAoz5ZTa/7xV4LRUsc0cWXJ/TezMn+foJoNhgM5jckc2jP6iIgdMBGOBGCjeanIzDGym7SEKV6ozL5dKIl/cpQmtRzBvHhfcNiAqeT05HhJCrrrj/jkstAmOax/zxm9FpXZPg7RWSopJziBUkVx4jU78rQWObeC7+g5MxP5y48KV5MMFcYQI9RmnXjlkk1BvGeLyctUmPg5g0iWGsBrVOlcP4kFWIDqMAcGvqpgtLW/MXO8v7rgmHxBVqv1QnX0yb2cU5FugCcFJ5o7+xKjYOfAmoOZqOdv2eI8mfUeTCc2nu2VZkNAxIeFbQ5DdfH+r2+11Ov2kInjzKEqDprBXlHBe0WaVEqj1qUzCw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(136003)(366004)(39850400004)(66556008)(66476007)(6916009)(5660300002)(316002)(26005)(6506007)(2906002)(66946007)(52116002)(8676002)(83380400001)(36756003)(478600001)(1076003)(956004)(2616005)(8936002)(86362001)(6666004)(6512007)(44832011)(6486002)(186003)(16526019);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?+tD9JCUddigcxszn0y9Nwc0XRXpSS1PWFc7BC8+JHLrwMj5lXed6w0n+TUfe?=
+ =?us-ascii?Q?TDnW1vCg+hGqGVh5aVCG///AS6qhQoh3vVRgCGU+yt7W003meNQ/WCFNpkK+?=
+ =?us-ascii?Q?3BORN0dwJjK1OP7EXHtjpAQCfMxM4KyAySAzthwHiizQRHWeC14kUajjHD9C?=
+ =?us-ascii?Q?py55BEhZrClCRZgLmtXmtlonC2zofAjQX+BvUs5989Z8x1YOIan+AOm5r+Cr?=
+ =?us-ascii?Q?+ZFwkbeBj40SVlqiMZ/aUermeQb7ytOEXOCRqU3TjhM0jideh+FfV5wr53gv?=
+ =?us-ascii?Q?pI+mArs3wb/qEVkv0iEkrtSiWpkWdJFmQrNn0pTYcppRxKEIJMApzlEfITLh?=
+ =?us-ascii?Q?f1ELSMxXM1OywepMWxzyERHJoqvsvWs260937fS/NrOw7LIN1nEaXkf/SoJm?=
+ =?us-ascii?Q?sG5V2G22vSsLl2u6nHiKIELR1K7kIrgiHzGZDSMrt8dnWkxA+boE2RxPsNpe?=
+ =?us-ascii?Q?WJkjzwnL00BOlcYm3s6KvC8MDVeDUqAVIa3j/ux0J6D6NKVz+E/cPyfhifYO?=
+ =?us-ascii?Q?4IHFo+qZP1ChhnsYKQsKPK2df0weGdT4iBCbtL93dA38uqxOuB63XOyquhin?=
+ =?us-ascii?Q?GjgdhZUU55OzUp0VkLLzXolzle2kGafWlSH6LhMBg/OSjXMJ3EH/II2/6ytQ?=
+ =?us-ascii?Q?SFJqUwyvg/8JkO0Jg69qhwh8D8Dc2407emZe7XJLPUD2FNfcsOacUecj7rsg?=
+ =?us-ascii?Q?ZnJynzJ86IA2JFwjdCj6hQsneNPA53Ae3m6YASucWPkQPNA44J6jTp+7SrOF?=
+ =?us-ascii?Q?/P6cKq0oywrXF8YdLwNGwzkLvv/9UHO0DLYuaaMhCQ5VFfObcLpT0tsCRtNi?=
+ =?us-ascii?Q?u0g8eFw/Lo02vp5jjIgsdNL36A9NKumUnGVLEVc6tJ2PJxDNrFJhNnJpe+w5?=
+ =?us-ascii?Q?ijWlDfqPC+z6/Ssw0tFMPQBCmumW8BGl4kzBXs4poBTZU/H8yl5LCpJ4sM6/?=
+ =?us-ascii?Q?JSEfSbC5+3CXUIe/e4xn7thMIY13Ur7oOE46/kJXoaDsVsHjwGMAxpG4Z6ol?=
+ =?us-ascii?Q?NjJa?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2021 19:28:24.3719
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: e60a2635-9442-48e5-8fa6-08d8b2793c40
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HzXLNO33+1j7ECE+mqh01p4bVWf0KLeU1MvPRf2b2xGWhL9FwTWr/3QRsriKFFcZOZpW1klBgUyu0JZx4m5AzQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB2031
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The winner was selected live on the #yocto irc channel this morning:
+This is the second pass at enabling getting debug information from
+QEMU via the Qemu Machine Protocol interface. The Qemu source provides
+a qmp.py module which I current install in tmp/hosttools as a known
+location. I am sure there are various possible locations.
 
-(07:10:59 AM) sakoman: **** Time to select the CVE raffle winner ****
-(07:11:38 AM) sakoman: Looks like there are 50 entries:
-(07:11:42 AM) sakoman: steve@octo:~/Desktop$ wc -l cve-raffle-sorted-nodups
-(07:11:42 AM) sakoman: 50 cve-raffle-sorted-nodups
-(07:12:04 AM) sakoman: And the winner by random selection is:
-(07:12:21 AM) sakoman: steve@octo:~/Desktop$ shuf -n 1 cve-raffle-sorted-nodups
-(07:12:21 AM) sakoman: CVE-2020-1971: Robert Joslyn
-<robert.joslyn@redrectangle.org>
+The initial commands that I issue to qmp with a failure is detected
+is: query-status and query-block. The output goes into formated json
+files as follows:
 
-Congrats Robert! And thanks for helping reduce the number of CVEs.
-Please contact me off list with your shipping address and choice of
-coffee or tea.
+tmp/log/runtime-hostdump/202101061054_qmp
+=E2=94=9C=E2=94=80=E2=94=80 qmp_00_query-block
+=E2=94=9C=E2=94=80=E2=94=80 qmp_00_query-status
+=E2=94=9C=E2=94=80=E2=94=80 qmp_01_query-block
+=E2=94=94=E2=94=80=E2=94=80 qmp_01_query-status
 
-Thanks to all who participated, I really appreciate the help!
+Comments welcome, I tested this by calling the monitor_dump code=20
+directly in the target/ssh.py code instead of waiting for a given
+failure.
 
-Steve
+Sau!
 
-On Mon, Nov 30, 2020 at 7:12 AM Steve Sakoman <steve@sakoman.com> wrote:
->
-> We've been making good progress on reducing the number of issues
-> reported by the CVE checker.  We went from 202 on August 16 to 59 on
-> November 29.
->
-> Some of these reductions have come from sending in corrections to the
-> CVE database where there were errors in version matching, and others
-> have come from backported fixes or whitelisting..  Many thanks to all
-> who have helped!
->
-> To encourage more folks to contribute to this effort I'm going to be
-> holding a raffle during the month of December.  You'll get one entry
-> for each CVE fix patch that I merge into dunfell.  And a database
-> update that results in a reduction in dunell reported issues will also
-> get you an entry.
->
-> The prize?  A bag of fresh roasted whole bean coffee from my small
-> coffee orchard here on the Big Island of Hawaii.  If the winner isn't
-> a coffee drinker I'll try to get some locally grown tea as a
-> substitute prize.
->
-> The fine print:
->
-> 1. Patches and database update requests must be submitted during the
-> month of December to receive a raffle entry.
->
-> 2. CVE patch submissions should follow the guidelines in the "Patch
-> name convention and commit message" section of
-> https://wiki.yoctoproject.org/wiki/Security
->
-> 3. If the patch also applies to master please send the patch for
-> master and note that it should be backported to dunfell/gatesgarth as
-> appropriate.  I'll pull this type of patch into dunfell only after it
-> hits master.
->
-> 4. CVE database update requests should be sent to:
-> cpe_dictionary@nist.gov  You should note the CVE number and provide
-> supporting links for why you think an update is appropriate. When you
-> receive a "Thank you for bringing this to our attention. We appreciate
-> community input" response please forward a copy to me.  I'll add your
-> raffle entry to the pool when the database is updated and the dunfell
-> cve count reduced.
->
-> 5. To help avoid people working on the same CVE's I'll start a "CVE
-> raffle: collision avoidance" thread on this list.  Just do a quick
-> reply noting which CVE you plan to work on.  Please don't claim one
-> unless you really intend to follow through!
->
-> Steve
+Saul Wold (2):
+  qemu-system-native: install qmp python module
+  qemurunner: Add support for qmp commands
+
+ meta/classes/testimage.bbclass                |  6 ++++
+ meta/lib/oeqa/core/target/qemu.py             |  6 ++++
+ meta/lib/oeqa/core/target/ssh.py              | 17 +++++++++-
+ meta/lib/oeqa/targetcontrol.py                |  3 ++
+ meta/lib/oeqa/utils/dump.py                   | 31 +++++++++++++++++--
+ meta/lib/oeqa/utils/qemurunner.py             | 29 ++++++++++++++++-
+ .../qemu/qemu-system-native_5.1.0.bb          |  4 +++
+ 7 files changed, 91 insertions(+), 5 deletions(-)
+
+--=20
+2.25.1
+
