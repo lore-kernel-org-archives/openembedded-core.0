@@ -1,130 +1,104 @@
-Received: from bsmtp3.bon.at (bsmtp3.bon.at [213.33.87.17])
- by mx.groups.io with SMTP id smtpd.web09.6442.1610014889258255037
- for <Openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 02:21:30 -0800
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web08.6500.1610016022436409957
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 07 Jan 2021 02:40:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.17, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp3.bon.at (Postfix) with ESMTPSA id 4DBMhj4Hc6z5tlC;
-	Thu,  7 Jan 2021 11:21:25 +0100 (CET)
-Date: Thu, 7 Jan 2021 11:21:24 +0100
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Sana Kazi <Sana.Kazi@kpit.com>
-Cc: Openembedded-core@lists.openembedded.org, raj.khem@gmail.com,
-	nisha.parrakat@kpit.com, Aditya.Tayade@kpit.com,
-	Harpritkaur.Bhandari@kpit.com
-Subject: Re: [OE-core] [poky][sumo][PATCH 4/4] libsndfile1: fix CVE-2019-3832
-Message-ID: <20210107102124.whs2taob6gt3losh@qschulz>
-References: <20210107101101.31004-1-sanak@kpit.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OvPYye3R;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id y17so5112851wrr.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 02:40:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=whl3JpmX533i7iB6ztf8zGAmx+/iqGJ6MlPwcnyz3B4=;
+        b=OvPYye3RmIzg+9BVI/6pa5vz4ED+lpdm6VRL/Iwq5jAIisZFlhxflvqnsZr2geJNkv
+         AcQd009Afrm7sl9T+8KnB5pWuXI2VSZWXlrDVd8RxdZpVgyZRAJUnSRDkYHMTh6KRwH/
+         eL+SxMh6f1eQUQo8gNYLvptMy8Da5TpdNBF1g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=whl3JpmX533i7iB6ztf8zGAmx+/iqGJ6MlPwcnyz3B4=;
+        b=b8eBMICCZ9DunWOyzTH3IpNaEl/8iCmaew9D2HrUq9G42qCwow30yWyzcVQCbblefO
+         +OuK0AyyNgtj+E2hVQal+gySZEDWue/NtPWzireUVAZonotkIp31hQRL5oNVGs6ffq3g
+         usxIQ+HstI5Z9qO6osxa+YGOpqA2aEMhFiTbxT/PXg5fVEqa5vYDdm2QPLydn/EAoJN0
+         0uPc322a4dMV6Zb4kMSUHkqGF7EjkUDaulgmvGMo6U0FKJI1eyia7JWFXGaJ8akut8/C
+         gy+F4vDLSMoTNmL1lbotoTfrozBawG969I+y6c7XDRqdMgAYFIwQF7MYOKpOFYH+zrXu
+         4KXA==
+X-Gm-Message-State: AOAM530jvWUmep8X5L5zf5gwcAcJF/hyqGO4KTtnVqCfDMozeI80Fb5O
+	RTh2s36FAx85SA6oA4p47DtsTg==
+X-Google-Smtp-Source: ABdhPJzKP65VVU7InWFi06x+dDcwe474C1Ub42qhjIkpcx1qfPk9dsmwN2kP95rG9EEhWfkij6TYsQ==
+X-Received: by 2002:a5d:6502:: with SMTP id x2mr8506432wru.254.1610016020880;
+        Thu, 07 Jan 2021 02:40:20 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f082:51:8822:ee14? ([2001:8b0:aba:5f3c:f082:51:8822:ee14])
+        by smtp.gmail.com with ESMTPSA id e15sm7549214wrx.86.2021.01.07.02.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Jan 2021 02:40:20 -0800 (PST)
+Message-ID: <3966f6f4c6c748f36c73bfccaaa36fdea6b34e63.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/3] buildtools-tarball: Add nativesdk-ccache
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 07 Jan 2021 10:40:19 +0000
+In-Reply-To: <c37107e5-a877-8b85-46b8-c984466c31a6@windriver.com>
+References: <cover.1609934927.git.liezhi.yang@windriver.com>
+	 <0f8505614d5562aa94dea17eb6beea772c25e1d3.1609934927.git.liezhi.yang@windriver.com>
+	 <0dbe9f701d6c6344adb0561e10dc2aed8ddb4b7a.camel@linuxfoundation.org>
+	 <c37107e5-a877-8b85-46b8-c984466c31a6@windriver.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <20210107101101.31004-1-sanak@kpit.com>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Sana,
-
-Unless I'm mistaken, sumo is EOL and not supported anymore.
-
-The latest version that is still maintained by the community is zeus
-(3.0). The latest version officially maintained is dunfell (3.1),
-meaning this one will still receive dot releases, not the community one
-though commits can be pushed to the "community-maintained" branch.
-
-Please stop sending patches for sumo. Maintain it on your own, ask to
-become a community maintainer or upgrade to current/maintained versions.
-
-Best regards,
-Quentin
-
-On Thu, Jan 07, 2021 at 03:41:01PM +0530, Sana Kazi wrote:
-> From: Ross Burton <ross.burton@intel.com>
+On Thu, 2021-01-07 at 10:44 +0800, Robert Yang wrote:
+> Hi RP,
 > 
-> The previous fix for CVE-2018-19758 wasn't complete, so backport another patch
-> to solve it properly.
-> 
-> (From OE-Core rev: aeaca9bb1b1c8bf44818945dc4b2cbd6d4b5cef2)
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Sana Kazi <Sana.Kazi@kpit.com>
-> ---
->  .../libsndfile1/CVE-2019-3832.patch           | 37 +++++++++++++++++++
->  .../libsndfile/libsndfile1_1.0.28.bb          |  5 +++
->  2 files changed, 42 insertions(+)
->  create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch
-> 
-> diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch
-> new file mode 100644
-> index 0000000000..ab37211399
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2019-3832.patch
-> @@ -0,0 +1,37 @@
-> +From 43886efc408c21e1e329086ef70c88860310f25b Mon Sep 17 00:00:00 2001
-> +From: Emilio Pozuelo Monfort <pochu27@gmail.com>
-> +Date: Tue, 5 Mar 2019 11:27:17 +0100
-> +Subject: [PATCH] wav_write_header: don't read past the array end
-> +
-> +CVE-2018-19758 wasn't entirely fixed in the fix, so fix it harder.
-> +
-> +CVE: CVE-2019-3832
-> +Upstream-Status: Backport [7408c4c788ce047d4e652b60a04e7796bcd7267e]
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +If loop_count is bigger than the array, truncate it to the array
-> +length (and not to 32k).
-> +
-> +CVE-2019-3832
-> +
-> +---
-> + src/wav.c | 6 ++++--
-> + 1 file changed, 4 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/src/wav.c b/src/wav.c
-> +index daae3cc..8851549 100644
-> +--- a/src/wav.c
-> ++++ b/src/wav.c
-> +@@ -1094,8 +1094,10 @@ wav_write_header (SF_PRIVATE *psf, int calc_length)
-> +               psf_binheader_writef (psf, "44", 0, 0) ; /* SMTPE format */
-> +               psf_binheader_writef (psf, "44", psf->instrument->loop_count, 0) ;
-> +
-> +-              /* Loop count is signed 16 bit number so we limit it range to something sensible. */
-> +-              psf->instrument->loop_count &= 0x7fff ;
-> ++              /* Make sure we don't read past the loops array end. */
-> ++              if (psf->instrument->loop_count > ARRAY_LEN (psf->instrument->loops))
-> ++                      psf->instrument->loop_count = ARRAY_LEN (psf->instrument->loops) ;
-> ++
-> +               for (tmp = 0 ; tmp < psf->instrument->loop_count ; tmp++)
-> +               {       int type ;
-> +
-> diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-> index b28f675286..e52105fa2b 100644
-> --- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-> +++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-> @@ -13,6 +13,11 @@ SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
->             file://CVE-2017-14245-14246.patch \
->             file://CVE-2017-14634.patch \
->             file://CVE-2018-13139.patch \
-> +           file://0001-a-ulaw-fix-multiple-buffer-overflows-432.patch \
-> +           file://CVE-2018-19432.patch \
-> +           file://CVE-2017-12562.patch \
-> +           file://CVE-2018-19758.patch \
-> +           file://CVE-2019-3832.patch \
->            "
-> 
->  SRC_URI[md5sum] = "646b5f98ce89ac60cdb060fcd398247c"
-> --
-> 2.17.1
-> 
-> This message contains information that may be privileged or confidential and is the property of the KPIT Technologies Ltd. It is intended only for the person to whom it is addressed. If you are not the intended recipient, you are not authorized to read, print, retain copy, disseminate, distribute, or use this message or any part thereof. If you receive this message in error, please notify the sender immediately and delete all copies of this message. KPIT Technologies Ltd. does not accept any liability for virus infected mails.
-
+> On 1/6/21 9:56 PM, Richard Purdie wrote:
+> > On Wed, 2021-01-06 at 04:09 -0800, Robert Yang wrote:
+> > > Add it to buildtools-tarball so that there will be a unify version of ccache,
+> > > which can help avoid various compile errors.
+> > > 
+> > > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> > > ---
+> > >   meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+> > >   1 file changed, 1 insertion(+)
+> > > 
+> > > diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+> > > index 9da81d55235..2ffdd7c7253 100644
+> > > --- a/meta/recipes-core/meta/buildtools-tarball.bb
+> > > +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+> > > @@ -29,6 +29,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+> > >       nativesdk-rpcsvc-proto \
+> > >       nativesdk-patch \
+> > >       nativesdk-mtools \
+> > > +    nativesdk-ccache \
+> > >       "
+> > 
+> > My view is we should not start to ship ccache with buildtools by
+> > default. Its something that the user can install if they want/need it
 > 
 > 
+> The problem is that user installed ccache may not work with our recipes, for
+> example, we found the following recipes failed to build with ccache on different
+> hosts:
 > 
+> cdrtools-native
+> fribidi
+> rocksdb
+> 
+> 
+> So have a fixed version of ccache can make sure the recipes work well, it also 
+> helps us to reproduce the errors easily when user reported a bug.
+
+I really do not want ccache in buildtools. If this is such a problem,
+we need to work out how to resolve the circular dependency issues so
+ccache-native can work again.
+
+Cheers,
+
+Richard
 
 
--- 
-StreamUnlimited Engineering GmbH
-High Tech Campus Vienna, Gutheil-Schoder-Gasse 10, 1100 Vienna, Austria
-Fax: +43 1 667 20 02 4401
-quentin.schulz@streamunlimited.com, www.streamunlimited.com
+
