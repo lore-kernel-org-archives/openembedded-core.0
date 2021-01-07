@@ -1,283 +1,183 @@
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
- by mx.groups.io with SMTP id smtpd.web12.452.1609973661716829182
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.58])
+ by mx.groups.io with SMTP id smtpd.web10.1690.1609979602430164702
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Jan 2021 14:54:21 -0800
+ Wed, 06 Jan 2021 16:33:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=o50Uw08a;
- spf=pass (domain: gmail.com, ip: 209.85.166.54, mailfrom: alistair23@gmail.com)
-Received: by mail-io1-f54.google.com with SMTP id o6so4283857iob.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Jan 2021 14:54:21 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=QI6aWiyp;
+ spf=pass (domain: windriver.com, ip: 40.107.244.58, mailfrom: changqing.li@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=je8VqL3SoZdEA4gxFT6+FEiPVut1Ni/rMWWqbn896ypADrDN/EUALBg+gxd37yH20/gTm3ofGqzbs/S9MOxKFOIkdroJMVspHQG8xvv53UgjgMxMCvTjm76KN9h3PEGzr8ot7VVkV1/41ZnGwskJjHAoVD1O+/yLgnL13+Pecgr+Llmo9sRCPIn4j5sfd1CWpKSqhG0Jq+CnZM+hXcoPshfiYYUqQ4XUV+k8wJOMchsKw+Y+tjzDTfXLVli3gG9OhVs9K9c7fKLC7BIjlgn0IxGl5FPp8ApVPrs+1kgTfyhgILAzQC67mJQDs4eCjSLwie/X/FsqBI2PIzD7eoooLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=umJmr3UaoQFPVdkWP0Qu8DfzGpGAGqq2eIco9mGmhj0=;
+ b=a+PIov66LtvZ0wWRCYnIl9F2qcyh/SDLkUmU+st+aUZJpCuDMOViCELZyLKBz7X6NjxwSgewEgK/4drz+pm9W1CNYamloEWsiyZ+O7gXkgFElQbHYvlSrf2CID9UvkoPkOvkb012eAIYFcIRDdqX+ckruuWV0vrnp0MYd1P2/DSoESN1esnS5kp50dnwh2uL54AobIRLXbHLzYzC3u/NZjDWOUAf0oiygx/Ow/vvWHPJjFQQLYd1dYvX7+Ur8j3WsdfJsr9dVaeVa+4Ulf98Y1n5v7xJ7gr+YENzuif0b3BD0MknBOn4Xhs/1COlOcot4YPjIzeLiWIz7iBdGKPxWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IpDiWz+h55i4l1YJGNsnfgFPpEUdMUfneB0qZC5XAyw=;
-        b=o50Uw08aW+qulyW4Jcf+2+LkSE3yQew6MJIs+G3Iy9L6bPikIKUubB0jpUTfVubcbV
-         cZvr9g+4ArJVq+QqCF2GwbMpFVODHKBa3qMdr4v8Q1whSbmOIGOyk9VYo1X5Ee3MAwQU
-         c9u9HgkxDze02oU0kpH/pU0npgvGm3ZxmCtXZFz6z8yluR3DnIEb0mJdrQYzDwdUNkrX
-         4524WjMIqYoFtCpaAo4J5DuEHgBD0sWVA70ObfWHHc52HqLxgyUWe35CBzJumBxpssnO
-         FVIA8nD/EtipDx+B/Gqc9ERzdSpJQESWWIADevwtw8bQD9Zdkr/ZdlkcFr6t8txQmSFQ
-         M7bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IpDiWz+h55i4l1YJGNsnfgFPpEUdMUfneB0qZC5XAyw=;
-        b=BaBcUzRNgRKEm4Sy4kwa0Z2+TiXjKBS1/o5Epa+bMeHW1g6q5hzjtbVzNjr72v11Kc
-         PnUJQwINN6n2yLXEqHoz1rjehGQbC/xH0PE/ScSdnPpmppOZgsXXoVwg4gL8iRKGIBLf
-         f5hEs/v0mI8KFUpFNKER5vXQTPR0wFzYQQFhXMPr88OnrV7TdVlkhrk/mqzDVIsR6l1W
-         nu8+BxzSdoDh/4q5RF/wLRgjaQcYQHLqRnP2rVPmxBheSXWTEihaLm6n4JSg6FWMrmmg
-         7/pefdgMRl9eZOcmlw5GUvpFduj23TbfS8B1vAopkhmXNpdXmGKUCZKUvpmp6GxO8jrf
-         vL6Q==
-X-Gm-Message-State: AOAM533oJsKRQegcLmSTtxjr7MdrpyUNiF7fHA4Mom3nskzHIqsL3Ggm
-	ZeEPQhn5sMTAsXOs1fii/jD8h5hvVYpLBhppz00=
-X-Google-Smtp-Source: ABdhPJwB4rmgVLqD6+GzRNkrSXcTNZGT8B/KSjLJ2QNxoefL6drk0EeJI38jwmQZMc276rQ4+4bqiFPFhtZelvym1+8=
-X-Received: by 2002:a02:ca09:: with SMTP id i9mr5406890jak.135.1609973661005;
- Wed, 06 Jan 2021 14:54:21 -0800 (PST)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=umJmr3UaoQFPVdkWP0Qu8DfzGpGAGqq2eIco9mGmhj0=;
+ b=QI6aWiypRT/CogWiCgXAJSUaWJl/lBJZ4ABTPOLRVOR9fiZJcbRVasp17EqmVQrLVfPCxubWTVsBQxVhhos1Pp1NBqazck/pizYgyYU8QomN2BgDKxj1d0kDVELudL+eARI+SMaYkYLr+PTgQMbMPjbVy6QI9kuykXZWShounKc=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
+ by SA2PR11MB5148.namprd11.prod.outlook.com (2603:10b6:806:11e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Thu, 7 Jan
+ 2021 00:33:20 +0000
+Received: from SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::3832:57b1:4d51:5781]) by SN6PR11MB2557.namprd11.prod.outlook.com
+ ([fe80::3832:57b1:4d51:5781%7]) with mapi id 15.20.3721.024; Thu, 7 Jan 2021
+ 00:33:20 +0000
+Subject: Re: [OE-core] [PATCH] libpam: support usrmerge
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20210106084927.30657-1-changqing.li@windriver.com>
+ <5b9e857b70fe4e4c346d1f28789bd11a9e9d2beb.camel@linuxfoundation.org>
+From: "Changqing Li" <changqing.li@windriver.com>
+Message-ID: <bc3c12ce-bf78-be7b-6692-d310e56b660b@windriver.com>
+Date: Thu, 7 Jan 2021 08:33:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <5b9e857b70fe4e4c346d1f28789bd11a9e9d2beb.camel@linuxfoundation.org>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR03CA0055.apcprd03.prod.outlook.com
+ (2603:1096:202:17::25) To SN6PR11MB2557.namprd11.prod.outlook.com
+ (2603:10b6:805:56::33)
+Return-Path: changqing.li@windriver.com
 MIME-Version: 1.0
-References: <20210106223628.561432-1-richard.purdie@linuxfoundation.org> <20210106223628.561432-3-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20210106223628.561432-3-richard.purdie@linuxfoundation.org>
-From: "Alistair Francis" <alistair23@gmail.com>
-Date: Wed, 6 Jan 2021 14:53:55 -0800
-Message-ID: <CAKmqyKM9UtUSs6sQReZqzoy8=kPGmOyGNG4+BJx5vU0gFvhWVA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4] qemu: Drop vm reservation changes to resolve build issues
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.189] (60.247.85.82) by HK2PR03CA0055.apcprd03.prod.outlook.com (2603:1096:202:17::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.2 via Frontend Transport; Thu, 7 Jan 2021 00:33:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e3c27213-2ccb-4e83-8b71-08d8b2a3d59d
+X-MS-TrafficTypeDiagnostic: SA2PR11MB5148:
+X-Microsoft-Antispam-PRVS: 
+	<SA2PR11MB5148E445CFBF2E9E5AA9EA2982AF0@SA2PR11MB5148.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	fN3to0gPHQXQ3U/SVKimIot+1mkxj0UV+faAj8BxKKqGIYSRexvDAf40tvZ6tNeFj51lWBjryYOKJ7VtmY7wxslbyVckSzhCdUYqxyOYbQjtFvz3Hu9StE2fLhhooPOM9F+MvNymEpAH7cYufKjln6b55/XmPy/0sdIVCsZ03IbPDxRGa/WN8J+br0uKSqZRXXpRyaaUDDSGtzYJ69rlyGR2od47X4lgcTaE+KLJh09eMQDJGta0hhcHItL2eAvnSMRqYogd6kxaB8K12mYnRpudXETrZ6eqT1OggBQB4ymwfjxQpUBU3xlN93y4QPd6BLvTInhCPL39x7AuOPFoo2/4ZxJWO3ZBrFSul6dKRMB9vmgtCZhbUT7ArL8gnimIa94vWegxS0Sa7YC+LTUPUyZu6p2G089ToijX1nv5w5TUiSIqH+gD4lNUf6iuJObzyRp4Q0Gi15AJYx3bZJuA+1oyRfZwUz847TGSRBYfXAYrYGlAM0tcl0nGIe0jiNKt5KT0yG+G0FKAg2pSLbZkf23AnjseF3ulItfKbDnJJ0IJHGfcE2rJesuqzHbIV1qBf9OBwVU4Udqnb0csiJeYXQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(376002)(396003)(346002)(136003)(366004)(66556008)(66476007)(66946007)(53546011)(26005)(5660300002)(8936002)(31686004)(52116002)(6666004)(16576012)(36756003)(44832011)(8676002)(956004)(2616005)(186003)(316002)(6706004)(6486002)(2906002)(478600001)(31696002)(83380400001)(16526019)(86362001)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?0aNHyTpFjlk/7GlSh5JnxpYHGZm9Cq1LkEsMfqOCJrAU/dxwlEmPgqK0fMpU?=
+ =?us-ascii?Q?JK9T7Us9+MwB7syz0+dFa/GvmYWuwO8L/+9DGBIow8XR3XRfgyEhcOW445WH?=
+ =?us-ascii?Q?lTyy0MB90E+v6KcxKW07gJqhzAeMAlgxjWTj6XTyrZzh88kNZE1vYZq4RTDE?=
+ =?us-ascii?Q?GUDUF6xrw9UmIvx7tFEtxjaq3wVBmzOFuQoVAi96muF3jQQce0cDenpXAIIH?=
+ =?us-ascii?Q?mFZ13YcVYp7AsjqoK0AEkka5MIWJzVTvQV/aHz6uiK5LeIqQsYXeVsw1eioS?=
+ =?us-ascii?Q?gIFTALpvXXvADh5aUxes9AKKA3YMOO0IZO0QZn5FE3G19/XVFLABV5RTv+tU?=
+ =?us-ascii?Q?0totjiRWHdXAntCvMySyhtHpGN9cx7FeVmRmhjIhKvvg1G5Ul/FTXvnKoa+P?=
+ =?us-ascii?Q?CV8o09cfz+i2WZxHnV650o+brjkFJlZj6KVnr3l8IxjZAIbPwsXIKRcjP+ir?=
+ =?us-ascii?Q?Yvw4ud6p6VpV2vKz5Ab78FiFo2mLub3hk8if/IaJo+U8oyxsEpgsvKgGgvmy?=
+ =?us-ascii?Q?IZtGCaqWQVnSNh1fxAhqs4Yb8/GvqU4E/HYSOc4PJg58lQiSukjn9BO2bizA?=
+ =?us-ascii?Q?zJkMFnK9gb90yPifQ3dycQtmVnGC9Ig2nQY9KJaHDYGTi5nfzjxMfG0BLgeD?=
+ =?us-ascii?Q?wi0L92uUm92Oi7wrpJBWN0BRNO3Mp3N3oCY/21V/Qwiv89adRfpErDR9d1U2?=
+ =?us-ascii?Q?n+2BjhnpWxXBH4WHZWkrngWFiTntwhIXWZc6ESkUXR6TNzR+Y3PkBSTmRpqO?=
+ =?us-ascii?Q?rqBzm9NN3B4kUVjP/wHygzkS1BcVo1nnbQ/vhhUSMCdMeefMbcJqcQvZlL8c?=
+ =?us-ascii?Q?KJ2EGdV81i761qc33o7G27+BaqtFJkeAtzZkuRyDvTi3zS7LWrH5VZ/7XPeD?=
+ =?us-ascii?Q?DICMt8x9es7Mcl+CrwjZzHLvczVU+i3jZD00/3X54BIqcQWH+M6EWuxjSyGm?=
+ =?us-ascii?Q?xg3ziGChHs/2Izd/L9ULsHsj5khGSi7N34bMMmGparTDXgAjsKpFchpANMTl?=
+ =?us-ascii?Q?ctvn?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2557.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jan 2021 00:33:20.5300
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3c27213-2ccb-4e83-8b71-08d8b2a3d59d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4zzwZNQZr/rUkJEHmyTbl9PPAZS9yvM0APHzYSPl0usP2xzmZmv+sdwnz8v71KZpyn+PBcil0hRahxLEcT/tGvAQWdS291+8uGk7FDHAuXo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5148
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-On Wed, Jan 6, 2021 at 2:36 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> When building with the new version of qemu we see errors like:
->
-> """
-> qemu-i386: Unable to reserve 0x7ffff000 bytes of virtual address space at
-> 0x1000 (Success) for use as guest address space (check your virtual memory
-> ulimit setting, min_mmap_addr or reserve less using -R option)
->
-> ERROR: The postinstall intercept hook 'update_gio_module_cache-nativesdk' failed
-> """
->
-> The VM reseration patches we're carrying look suspicious in this context.
-> Drop them since we don't appear to be seeing those issues any more on the
-> autobuilder and I suspect the patches have become broken and a liability.
-> webkitgtk builds seem to be ok now.
 
-Yes! Getting rid of these patches is great!
-
+On 1/6/21 9:58 PM, Richard Purdie wrote:
+> On Wed, 2021-01-06 at 16:49 +0800, Changqing Li wrote:
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>  =C2=A0.../0001-Makefile.am-support-usrmage.patch    | 28 ++++++++++++++=
++++++
+>>  =C2=A0meta/recipes-extended/pam/libpam_1.5.1.bb     |  1 +
+>>  =C2=A02 files changed, 29 insertions(+)
+>>  =C2=A0create mode 100644 meta/recipes-extended/pam/libpam/0001-Makefile=
+.am-support-usrmage.patch
+>>
+>> diff --git a/meta/recipes-extended/pam/libpam/0001-Makefile.am-support-u=
+srmage.patch b/meta/recipes-extended/pam/libpam/0001-Makefile.am-support-us=
+rmage.patch
+>> new file mode 100644
+>> index 0000000000..5c6bc92705
+>> --- /dev/null
+>> +++ b/meta/recipes-extended/pam/libpam/0001-Makefile.am-support-usrmage.=
+patch
+>> @@ -0,0 +1,28 @@
+>> +From c09e012590c1ec2d3b622b64f1bfc10a2286c9ea Mon Sep 17 00:00:00 2001
+>> +From: Changqing Li <changqing.li@windriver.com>
+>> +Date: Wed, 6 Jan 2021 12:08:20 +0800
+>> +Subject: [PATCH] Makefile.am: support usrmage
+>> +
+>> +Upstream-Status: Inappropriate [oe-specific]
+>> +
+>> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> +---
+>> + modules/pam_namespace/Makefile.am | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/modules/pam_namespace/Makefile.am b/modules/pam_namespace/=
+Makefile.am
+>> +index ddd5fc0..a1f1bec 100644
+>> +--- a/modules/pam_namespace/Makefile.am
+>> ++++ b/modules/pam_namespace/Makefile.am
+>> +@@ -18,7 +18,7 @@ TESTS =3D $(dist_check_SCRIPTS)
+>> + securelibdir =3D $(SECUREDIR)
+>> + secureconfdir =3D $(SCONFIGDIR)
+>> + namespaceddir =3D $(SCONFIGDIR)/namespace.d
+>> +-servicedir =3D /lib/systemd/system
+>> ++servicedir =3D $(systemd_system_unitdir)
+>> +
+>> + AM_CFLAGS =3D -I$(top_srcdir)/libpam/include -I$(top_srcdir)/libpamc/i=
+nclude \
+>> +         -DSECURECONF_DIR=3D\"$(SCONFIGDIR)/\" $(WARN_CFLAGS)
+>> +--
+>> +2.17.1
+>> +
+>> diff --git a/meta/recipes-extended/pam/libpam_1.5.1.bb b/meta/recipes-ex=
+tended/pam/libpam_1.5.1.bb
+>> index 486c9d8aad..8c008a9701 100644
+>> --- a/meta/recipes-extended/pam/libpam_1.5.1.bb
+>> +++ b/meta/recipes-extended/pam/libpam_1.5.1.bb
+>> @@ -22,6 +22,7 @@ SRC_URI =3D "https://github.com/linux-pam/linux-pam/re=
+leases/download/v${PV}/Linux
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0file://pam.d/other \
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0file://libpam-xtests.patch \
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0file://0001-modules-pam_namespace-Makefile.am-correctly-install-.patch \
+>> +           file://0001-Makefile.am-support-usrmage.patch \
+>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0"
+>>  =20
+>>
+>>
+>>
+>>  =C2=A0SRC_URI[sha256sum] =3D "201d40730b1135b1b3cdea09f2c28ac634d73181c=
+cd0172ceddee3649c5792fc"
+> I think we meed to create a patch which stands some better chance of
+> making it upstream. Can we add something to allow servicedir to be set
+> through configure? That patch might then be acceptable upstream?
+Thanks for the comments, I will try to upstream it with more proper=20
+change for upstream.
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  meta/recipes-devtools/qemu/qemu.inc           |   2 -
->  ...webkitgtk-hangs-on-32-bit-x86-target.patch |  33 -----
->  .../qemu/qemu/0009-Fix-webkitgtk-builds.patch | 137 ------------------
->  3 files changed, 172 deletions(-)
->  delete mode 100644 meta/recipes-devtools/qemu/qemu/0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
->  delete mode 100644 meta/recipes-devtools/qemu/qemu/0009-Fix-webkitgtk-builds.patch
+> Cheers,
 >
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> index 23d0adb901a..4c1502da7f1 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -23,8 +23,6 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
->             file://0004-qemu-disable-Valgrind.patch \
->             file://0006-chardev-connect-socket-to-a-spawned-command.patch \
->             file://0007-apic-fixup-fallthrough-to-PIC.patch \
-> -           file://0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch \
-> -           file://0009-Fix-webkitgtk-builds.patch \
->             file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
->             file://0001-Add-enable-disable-udev.patch \
->             file://0001-qemu-Do-not-include-file-if-not-exists.patch \
-> diff --git a/meta/recipes-devtools/qemu/qemu/0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch b/meta/recipes-devtools/qemu/qemu/0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
-> deleted file mode 100644
-> index 74621a08e80..00000000000
-> --- a/meta/recipes-devtools/qemu/qemu/0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -From cf8c9aac5243f506a1a3e8e284414f311cde04f5 Mon Sep 17 00:00:00 2001
-> -From: Alistair Francis <alistair.francis@xilinx.com>
-> -Date: Wed, 17 Jan 2018 10:51:49 -0800
-> -Subject: [PATCH] linux-user: Fix webkitgtk hangs on 32-bit x86 target
-> -
-> -Since commit "linux-user: Tidy and enforce reserved_va initialization"
-> -(18e80c55bb6ec17c05ec0ba717ec83933c2bfc07) the Yocto webkitgtk build
-> -hangs when cross compiling for 32-bit x86 on a 64-bit x86 machine using
-> -musl.
-> -
-> -To fix the issue reduce the MAX_RESERVED_VA macro to be a closer match
-> -to what it was before the problematic commit.
-> -
-> -Upstream-Status: Submitted http://lists.gnu.org/archive/html/qemu-devel/2018-01/msg04185.html
-> -Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
-> -
-> ----
-> - linux-user/main.c | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -Index: qemu-5.2.0/linux-user/main.c
-> -===================================================================
-> ---- qemu-5.2.0.orig/linux-user/main.c
-> -+++ qemu-5.2.0/linux-user/main.c
-> -@@ -92,7 +92,7 @@ static int last_log_mask;
-> -       (TARGET_LONG_BITS == 32 || defined(TARGET_ABI32))
-> - /* There are a number of places where we assign reserved_va to a variable
-> -    of type abi_ulong and expect it to fit.  Avoid the last page.  */
-> --#   define MAX_RESERVED_VA(CPU)  (0xfffffffful & TARGET_PAGE_MASK)
-> -+#   define MAX_RESERVED_VA(CPU)  (0x7ffffffful & TARGET_PAGE_MASK)
-> - #  else
-> - #   define MAX_RESERVED_VA(CPU)  (1ul << TARGET_VIRT_ADDR_SPACE_BITS)
-> - #  endif
-> diff --git a/meta/recipes-devtools/qemu/qemu/0009-Fix-webkitgtk-builds.patch b/meta/recipes-devtools/qemu/qemu/0009-Fix-webkitgtk-builds.patch
-> deleted file mode 100644
-> index 2ddc09966c4..00000000000
-> --- a/meta/recipes-devtools/qemu/qemu/0009-Fix-webkitgtk-builds.patch
-> +++ /dev/null
-> @@ -1,137 +0,0 @@
-> -From 815c97ba0de02da9dace3fcfcbdf9b20e029f0d7 Mon Sep 17 00:00:00 2001
-> -From: Martin Jansa <martin.jansa@lge.com>
-> -Date: Fri, 1 Jun 2018 08:41:07 +0000
-> -Subject: [PATCH] Fix webkitgtk builds
-> -
-> -This is a partial revert of "linux-user: fix mmap/munmap/mprotect/mremap/shmat".
-> -
-> -This patch fixes qemu-i386 hangs during gobject-introspection in webkitgtk build
-> -when musl is used on qemux86. This is the same issue that
-> -0008-linux-user-Fix-webkitgtk-hangs-on-32-bit-x86-target.patch was
-> -fixing in the 2.11 release.
-> -
-> -This patch also fixes a build failure when building webkitgtk for
-> -qemumips. A QEMU assert is seen while building webkitgtk:
-> -page_check_range: Assertion `start < ((target_ulong)1 << L1_MAP_ADDR_SPACE_BITS)' failed.
-> -
-> -This reverts commit ebf9a3630c911d0cfc9c20f7cafe9ba4f88cf583.
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> -
-> -[update patch context]
-> -Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> ----
-> - include/exec/cpu-all.h  |  6 +-----
-> - include/exec/cpu_ldst.h |  5 ++++-
-> - linux-user/mmap.c       | 17 ++++-------------
-> - linux-user/syscall.c    |  5 +----
-> - 4 files changed, 10 insertions(+), 23 deletions(-)
-> -
-> -Index: qemu-5.2.0/include/exec/cpu-all.h
-> -===================================================================
-> ---- qemu-5.2.0.orig/include/exec/cpu-all.h
-> -+++ qemu-5.2.0/include/exec/cpu-all.h
-> -@@ -176,11 +176,8 @@ extern unsigned long reserved_va;
-> -  * avoid setting bits at the top of guest addresses that might need
-> -  * to be used for tags.
-> -  */
-> --#define GUEST_ADDR_MAX_                                                 \
-> --    ((MIN_CONST(TARGET_VIRT_ADDR_SPACE_BITS, TARGET_ABI_BITS) <= 32) ?  \
-> --     UINT32_MAX : ~0ul)
-> --#define GUEST_ADDR_MAX    (reserved_va ? reserved_va - 1 : GUEST_ADDR_MAX_)
-> --
-> -+#define GUEST_ADDR_MAX (reserved_va ? reserved_va : \
-> -+                                     (1ul << TARGET_VIRT_ADDR_SPACE_BITS) - 1)
-> - #else
-> -
-> - #include "exec/hwaddr.h"
-> -Index: qemu-5.2.0/include/exec/cpu_ldst.h
-> -===================================================================
-> ---- qemu-5.2.0.orig/include/exec/cpu_ldst.h
-> -+++ qemu-5.2.0/include/exec/cpu_ldst.h
-> -@@ -75,7 +75,10 @@ typedef uint64_t abi_ptr;
-> - #if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
-> - #define guest_addr_valid(x) (1)
-> - #else
-> --#define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
-> -+#define guest_addr_valid(x) ({ \
-> -+    ((x) < (1ul << TARGET_VIRT_ADDR_SPACE_BITS)) && \
-> -+    (!reserved_va || ((x) < reserved_va)); \
-> -+})
-> - #endif
-> - #define h2g_valid(x) guest_addr_valid((unsigned long)(x) - guest_base)
-> -
-> -Index: qemu-5.2.0/linux-user/mmap.c
-> -===================================================================
-> ---- qemu-5.2.0.orig/linux-user/mmap.c
-> -+++ qemu-5.2.0/linux-user/mmap.c
-> -@@ -119,7 +119,7 @@ int target_mprotect(abi_ulong start, abi
-> -     }
-> -     len = TARGET_PAGE_ALIGN(len);
-> -     end = start + len;
-> --    if (!guest_range_valid(start, len)) {
-> -+    if (end < start) {
-> -         return -TARGET_ENOMEM;
-> -     }
-> -     if (len == 0) {
-> -@@ -527,8 +527,8 @@ abi_long target_mmap(abi_ulong start, ab
-> -          * It can fail only on 64-bit host with 32-bit target.
-> -          * On any other target/host host mmap() handles this error correctly.
-> -          */
-> --        if (end < start || !guest_range_valid(start, len)) {
-> --            errno = ENOMEM;
-> -+        if (end < start || ((unsigned long)start + len - 1 > (abi_ulong) -1)) {
-> -+            errno = EINVAL;
-> -             goto fail;
-> -         }
-> -
-> -@@ -664,10 +664,8 @@ int target_munmap(abi_ulong start, abi_u
-> -     if (start & ~TARGET_PAGE_MASK)
-> -         return -TARGET_EINVAL;
-> -     len = TARGET_PAGE_ALIGN(len);
-> --    if (len == 0 || !guest_range_valid(start, len)) {
-> -+    if (len == 0)
-> -         return -TARGET_EINVAL;
-> --    }
-> --
-> -     mmap_lock();
-> -     end = start + len;
-> -     real_start = start & qemu_host_page_mask;
-> -@@ -722,13 +720,6 @@ abi_long target_mremap(abi_ulong old_add
-> -     int prot;
-> -     void *host_addr;
-> -
-> --    if (!guest_range_valid(old_addr, old_size) ||
-> --        ((flags & MREMAP_FIXED) &&
-> --         !guest_range_valid(new_addr, new_size))) {
-> --        errno = ENOMEM;
-> --        return -1;
-> --    }
-> --
-> -     mmap_lock();
-> -
-> -     if (flags & MREMAP_FIXED) {
-> -Index: qemu-5.2.0/linux-user/syscall.c
-> -===================================================================
-> ---- qemu-5.2.0.orig/linux-user/syscall.c
-> -+++ qemu-5.2.0/linux-user/syscall.c
-> -@@ -4590,9 +4590,6 @@ static inline abi_ulong do_shmat(CPUArch
-> -             return -TARGET_EINVAL;
-> -         }
-> -     }
-> --    if (!guest_range_valid(shmaddr, shm_info.shm_segsz)) {
-> --        return -TARGET_EINVAL;
-> --    }
-> -
-> -     mmap_lock();
-> -
-> -@@ -7790,7 +7787,7 @@ static int open_self_maps(void *cpu_env,
-> -             const char *path;
-> -
-> -             max = h2g_valid(max - 1) ?
-> --                max : (uintptr_t) g2h(GUEST_ADDR_MAX) + 1;
-> -+                max : (uintptr_t) g2h(GUEST_ADDR_MAX);
-> -
-> -             if (page_check_range(h2g(min), max - min, flags) == -1) {
-> -                 continue;
-> --
-> 2.27.0
->
->
-> 
+> Richard
 >
