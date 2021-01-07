@@ -1,79 +1,51 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web08.11414.1610039420726883989
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web09.11636.1610040042693316972
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 09:10:21 -0800
+ Thu, 07 Jan 2021 09:20:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ue1zgU7j;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id w5so6334926wrm.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 09:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=JFDSngeErmYx6393p8v0ARdVfG8jyD5TYWBFWc3/DqQ=;
-        b=Ue1zgU7jww2huiukE7PUSRa965SfMyrjgaFADgmSXa4V2XnxXjAY1fguy2RBAxZKQw
-         QKvaJJBFH9RPCE78cwiIgwrQoasZ5VPxTYRgKc5F+H23EuY+NKlXKGBc0UxRCNVSANFh
-         +/vP31OIKPnWNQx6QuJIVaIDO/yFkjLUPSco4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JFDSngeErmYx6393p8v0ARdVfG8jyD5TYWBFWc3/DqQ=;
-        b=ftmOg6V2CfalQU4teju+8T+GFhsvMVwE7zh5m9GP9ABFCFcrsywcV/VhQat2Jv81oS
-         5yiJvGdzG4n3R2wUff1/Zb00J+x8osGrEEk1WCQ+TBBRsb6CsjcsmGyk9RB2gNxcE4qo
-         1HPA36QkhmU2Wr6TMS4WHSC3sEbUT1aT8b9ytQ/bO7RoqQVPNBxW5tHkmqhXFUutsic9
-         RIK4ca9n68Sa/8Wok6wScsPANwv2HJNZBO0CcGNlUfU/gOuwugCGIx9KCISdrMsxsgzw
-         hdAsTTZPQFQUfGN8e1QZNMlviciIVfZ1qG/QPzP48QFyG29JhS3ON8FB1kS6BBZOQIFE
-         81Wg==
-X-Gm-Message-State: AOAM531mc7IS2mFM/R+s/9qwBR++zyZbdDM9Yc1Fv+ez1OH1nYh3OZdC
-	tTPZo1S1RmnpwlHTfmJsCXo3kg==
-X-Google-Smtp-Source: ABdhPJx0ZLuXks6AeKAovHz2ziO95p6wGT6GvPEKlR3vzr+PeUwp2stHQEy0H2gzpBsacguEZPqGCg==
-X-Received: by 2002:a5d:54cc:: with SMTP id x12mr10009747wrv.132.1610039419208;
-        Thu, 07 Jan 2021 09:10:19 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f082:51:8822:ee14? ([2001:8b0:aba:5f3c:f082:51:8822:ee14])
-        by smtp.gmail.com with ESMTPSA id h184sm8707591wmh.23.2021.01.07.09.10.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 09:10:18 -0800 (PST)
-Message-ID: <180e76098a5349241c44436e0a146dbbd2fbdf46.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/3] buildtools-tarball: Add nativesdk-ccache
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 07 Jan 2021 17:10:17 +0000
-In-Reply-To: <8eb45b12-acb2-ce3e-c821-3c381c1107f7@windriver.com>
-References: <cover.1609934927.git.liezhi.yang@windriver.com>
-	 <0f8505614d5562aa94dea17eb6beea772c25e1d3.1609934927.git.liezhi.yang@windriver.com>
-	 <0dbe9f701d6c6344adb0561e10dc2aed8ddb4b7a.camel@linuxfoundation.org>
-	 <c37107e5-a877-8b85-46b8-c984466c31a6@windriver.com>
-	 <3966f6f4c6c748f36c73bfccaaa36fdea6b34e63.camel@linuxfoundation.org>
-	 <8eb45b12-acb2-ce3e-c821-3c381c1107f7@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7649031B
+	for <openembedded-core@lists.openembedded.org>; Thu,  7 Jan 2021 09:20:41 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 178133F719
+	for <openembedded-core@lists.openembedded.org>; Thu,  7 Jan 2021 09:20:40 -0800 (PST)
+From: "Ross Burton" <ross@burtonini.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] ruby: remove tcl DEPENDS
+Date: Thu,  7 Jan 2021 17:20:39 +0000
+Message-Id: <20210107172039.790825-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2021-01-07 at 18:59 +0800, Robert Yang wrote:
-> There are two problems to use cache-native now:
-> * ccache-native depends on cmake-native and zstd-native which makes it requires
->    more time to build, so it might be a bottleneck for the build
-> 
-> * We need disable ccache-native for about 20 native recipes to resolve the 
-> circular dependency.
-> 
-> It seems that there isn't a good way to fix the problem, or we have to disable
-> ccache for native recipes, only make other recipes (cross, target and nativesdk)
-> use ccache-native.
-> 
-> Host's ccache isn't reliable from the history.
+The integrated Tcl/Tk module was removed in Ruby 2.4[1] back in 2016, so =
+this
+build dependency can be removed.
 
-Thanks for the analysis. I think I'd be inclined to disable ccache for
-native recipes then. If anyone does want to use it for native recipes,
-they can build a buildtools tarball of their own that contains it but I
-don't want to default to that.
+[1] https://github.com/ruby/ruby/commit/303dc3c591e324b6bbc691326d8bea76f=
+e3b8fda
 
-Cheers,
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-devtools/ruby/ruby.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/=
+ruby/ruby.inc
+index a38b3fe624..7b6d4edc61 100644
+--- a/meta/recipes-devtools/ruby/ruby.inc
++++ b/meta/recipes-devtools/ruby/ruby.inc
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D "\
+     file://LEGAL;md5=3D2b6d62dc0d608f34d510ca3f428110ec \
+ "
+=20
+-DEPENDS =3D "ruby-native zlib openssl tcl libyaml gdbm readline libffi"
++DEPENDS =3D "ruby-native zlib openssl libyaml gdbm readline libffi"
+ DEPENDS_class-native =3D "openssl-native libyaml-native readline-native =
+zlib-native"
+=20
+ SHRT_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
+--=20
+2.25.1
 
