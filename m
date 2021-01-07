@@ -1,120 +1,71 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.1443.1610056909977615855
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web08.1614.1610057784168633501
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 14:01:50 -0800
+ Thu, 07 Jan 2021 14:16:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iXdyNS3X;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f46.google.com with SMTP id i9so7099036wrc.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 14:01:49 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z427WBZC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id t16so7129117wra.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 14:16:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=ZwRVX+zJTrIXKA6yPM23Z6gK1PbUpfyZuo/1tgZAO/Q=;
-        b=iXdyNS3X290em+qbhoWcmiGky0omPEUSmu5PEayRRaiB5XvVJmHdMeNENrqxfVeeP3
-         ++2Y6kTvFs24Qrm2QdturYj6HwWZu8XFONCPGW4dp2HLYjavQ2zvCjHTgCtT3OmySby5
-         7M1/MyBF11XH6ljqR9Hh/QcMxphNBD0d9Lz4M=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=qpLIRbh0GkWZGsSMuR0Vb+034uKc0NFU0SkA9QZJDt0=;
+        b=Z427WBZCIXmEJ8NQzavNybkyLjNjoAYcH1D7zc9Xk3Nenke3L0inNEnsr2f2GbrIYG
+         nBU+/01LV8sYV220Nbi5ddaL1RjchmDKT03kyuGVguOu5YH8AIuKjaWdnfIfJasaVX0w
+         qL7ijvCQve5UznXt8DXh2IqP1Rr+B9QwvQQ84=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZwRVX+zJTrIXKA6yPM23Z6gK1PbUpfyZuo/1tgZAO/Q=;
-        b=B+2YptQaskoVqVARtSkP0/QozI8johr4+48Xr9cZI/YC0Y3yE8QJQHPLRN+WVSxe7L
-         Wh7AI9YGBGp3XVgQgWfAsN3ptRpqIji1KLzVRsyG2esmF91pTi8qHLg2soDlJztTjUDA
-         ern4hWsKOagTmdUVolrAiMWRf4x0AtYxsbo+AtpmRYX+O7pniRg1mnUNnH6GRpo13Jet
-         yARpHl35a4xBwBOoOJngaHrscVvOBSNGoWfFJoAUv94sOSRzJF8fF5lyLk4OL/dDZ17W
-         iTG1q05bcq0GaCUC/KGaddobI4OE5j/2/zya8zIEe1sP0UrUeYGc9ytqY7TUFjw17jtR
-         GvbA==
-X-Gm-Message-State: AOAM5337DTEYIG/PTo6I3rY+Su/BnJbhxFl5ZN94YD3BbId7hysmoZ6l
-	O7+zX1Uy2D1upHAokhDXnz9vk56K9QmD9w==
-X-Google-Smtp-Source: ABdhPJzLbPH4+qQpfeqNehT0rJenGfjgTxgWYew5dpAZLPJn2CqRe3e7B5Go1aQlmKqji12XeIV4cw==
-X-Received: by 2002:a05:6000:1d1:: with SMTP id t17mr656969wrx.164.1610056908436;
-        Thu, 07 Jan 2021 14:01:48 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=qpLIRbh0GkWZGsSMuR0Vb+034uKc0NFU0SkA9QZJDt0=;
+        b=Hw4cJwGTb1Btfcu4OzVWUAcZIZUsoKX5DUZGPIxe8mYtMx2DumyL6GWza7GQ8K7bub
+         Ejh2DT0JxQAlnNWOSoMGaAW0wzfaXw9m4w0Eh/Op+E7s8NpK2rx/Itu/trjq4z9ThqeB
+         xAfrWyIViSOFIoba0D5iBYOpdCTe7rrAgNZIyK1EO7O5a+U8bYfYsri/xsIFy7I8yfbE
+         31z6kF8qpIkjVIysf75l+MnN/neUGeYHPwcyv+CmQP45jjeAKO94DuVuNGmDMgHBBWnF
+         a+PbmgeCZeFOZHyK75L3vO1IkmB5AbmOmE5O6i3XD0v/x+qkNLVenc+oc65rm5OOw8lJ
+         A1xw==
+X-Gm-Message-State: AOAM530dfF8sUXqu3GfdxWagVa3UKcoqr8vRP8LG03KfuWdbP96evEOd
+	w/u1Tf4RiMNfTrqDFOl24qwsqw==
+X-Google-Smtp-Source: ABdhPJw6Jrl21LfzOx7qGmV2Y1D0XWhUrZiyf1FU7TGwsVeusMJdmoj4EnS0W9kULVYZ4LVwWWEzcQ==
+X-Received: by 2002:a5d:470d:: with SMTP id y13mr631187wrq.309.1610057782698;
+        Thu, 07 Jan 2021 14:16:22 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8262:2156:a38b:824c])
-        by smtp.gmail.com with ESMTPSA id j59sm10962686wrj.13.2021.01.07.14.01.48
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:8262:2156:a38b:824c? ([2001:8b0:aba:5f3c:8262:2156:a38b:824c])
+        by smtp.gmail.com with ESMTPSA id n11sm11654067wra.9.2021.01.07.14.16.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 14:01:48 -0800 (PST)
+        Thu, 07 Jan 2021 14:16:22 -0800 (PST)
+Message-ID: <63d70805b829d08faf3e73865ed7f9c2ad9a1366.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky][PATCH] bitbake: remove /usr from pseudo ignore paths
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] ppp: Fix reproducibility issue
-Date: Thu,  7 Jan 2021 22:01:46 +0000
-Message-Id: <20210107220146.594812-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210107220146.594812-1-richard.purdie@linuxfoundation.org>
-References: <20210107220146.594812-1-richard.purdie@linuxfoundation.org>
+To: rnouse@google.com, openembedded-core@lists.openembedded.org
+Date: Thu, 07 Jan 2021 22:16:21 +0000
+In-Reply-To: <CADVsX8924shMc+PFUQ6jsmnUqsF+VAeRfn0xM+4G406EgvGFCg@mail.gmail.com>
+References: <20210107215121.3901938-1-gmouse@google.com>
+	 <CADVsX8-dMLvuccRjzU73=-reDjEBRq5PZZ+S6ZeugSvTy-iqog@mail.gmail.com>
+	 <CADVsX8924shMc+PFUQ6jsmnUqsF+VAeRfn0xM+4G406EgvGFCg@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Depending on which patches the make program has, the internal or external
-utmp could would be used. Add add a patch which avoids the issue and makes
-the build determnistic. We saw the regression on ubuntu1604.
+On Thu, 2021-01-07 at 22:58 +0100, Anton Kachalov via lists.openembedded.org wrote:
+> Allow the Yocto's building tree to be placed under /usr.
+> 
+> Relevant issue: https://github.com/openbmc/openbmc/issues/3724
+> 
+> Signed-off-by: Anton D. Kachalov <rnouse@google.com>
+> ---
+>  meta/conf/bitbake.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../ppp/ppp/bashfix.patch                     | 38 +++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.9.bb    |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/bashfix.patch
+Do you really need to build under /usr? We probably should make this
+more of a hard error if someone attempts it. I commented on the issue,
+could you just remove this from PSEUDO_IGNORE_PATHS locally if you
+really have to use /usr?
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/bashfix.patch b/meta/recipes-connectivity/ppp/ppp/bashfix.patch
-new file mode 100644
-index 00000000000..d557fe1902f
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/bashfix.patch
-@@ -0,0 +1,38 @@
-+We were seeing reproducibility issues where one host would use the internal 
-+logwtmp wrapper, another would use the one in libutil. The issue was that in
-+some cases the "\#include" was making it to CC, in others, "#include". The
-+issue seems to be related to shell escaping.
-+
-+The root cause looks to be:
-+http://git.savannah.gnu.org/cgit/make.git/commit/?id=c6966b323811c37acedff05b576b907b06aea5f4
-+
-+Instead of relying on shell quoting, use make to indirect the variable
-+and avoid the problem.
-+
-+Upstream-Status: Submitted [https://github.com/paulusmack/ppp/issues/233]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: ppp-2.4.9/pppd/Makefile.linux
-+===================================================================
-+--- ppp-2.4.9.orig/pppd/Makefile.linux
-++++ ppp-2.4.9/pppd/Makefile.linux
-+@@ -80,7 +80,8 @@ PLUGIN=y
-+ #USE_SRP=y
-+ 
-+ # Use libutil; test if logwtmp is declared in <utmp.h> to detect
-+-ifeq ($(shell echo '\#include <utmp.h>' | $(CC) -E - 2>/dev/null | grep -q logwtmp && echo yes),yes)
-++UTMPHEADER = "\#include <utmp.h>"
-++ifeq ($(shell echo $(UTMPHEADER) | $(CC) -E - 2>/dev/null | grep -q logwtmp && echo yes),yes)
-+ USE_LIBUTIL=y
-+ endif
-+ 
-+@@ -143,7 +144,8 @@ CFLAGS   += -DHAS_SHADOW
-+ #LIBS     += -lshadow $(LIBS)
-+ endif
-+ 
-+-ifeq ($(shell echo '\#include <crypt.h>' | $(CC) -E - >/dev/null 2>&1 && echo yes),yes)
-++CRYPTHEADER = "\#include <utmp.h>"
-++ifeq ($(shell echo $(CRYPTHEADER) | $(CC) -E - >/dev/null 2>&1 && echo yes),yes)
-+ CFLAGS  += -DHAVE_CRYPT_H=1
-+ LIBS	+= -lcrypt
-+ endif
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-index f05f40dd06f..72e7ae5e9db 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.9.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=e2c43fe6e81ff77
-                     file://chat/chat.c;beginline=1;endline=15;md5=0d374b8545ee5c62d7aff1acbd38add2"
- 
- SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-+           file://bashfix.patch \
-            file://pon \
-            file://poff \
-            file://init \
--- 
-2.27.0
+Cheers,
+
+Richard
 
