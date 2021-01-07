@@ -1,88 +1,81 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.7031.1610018979754211614
- for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 03:29:40 -0800
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web09.7087.1610019277250136752
+ for <Openembedded-core@lists.openembedded.org>;
+ Thu, 07 Jan 2021 03:34:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ae6IMduG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id g185so5235344wmf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 03:29:39 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=faBxlc/V;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id r4so5222504wmh.5
+        for <Openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 03:34:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=d0S6VlCAa5/ayoLr2KmvQo1u7yhrg49SMUrGfiBhGwc=;
-        b=Ae6IMduGKx72HjBvkt10kpu7dLFo3NzcaC2r/nfnWD9p9XG6tYJbcC+XhSSbfXCATp
-         F7UKVQULaHGgkQZ205Q/oPgBalmpL2yNGE42pHoP25YHqkP/mlVs4l7TkYpvHQwFz1mA
-         qhJWgtlI5PEQsreta3+89a0Yh2uMw8Zh1246s=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=04Y1NOOAorxXR44JFAjoMzuToS0vD7e4zVpabqcTis8=;
+        b=faBxlc/VtqWZp4d0/GhbOSMeE1Cj1r7lB6mXTEmcAXfUTmpZ4ehxqpme2LPK/9MuMA
+         VbKBbE4a8ngEcvrErhvbWBJEXq1+GT8XytEyisPvPtFE1lhu+YVbYmUuHOxqcJvRSn1B
+         xafn73rry4K801oznW90LUoaVkH6CoeepYYJM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=d0S6VlCAa5/ayoLr2KmvQo1u7yhrg49SMUrGfiBhGwc=;
-        b=LpL1Q4YtGW87M6ubhMmQCvbhPDFWoarHNA/h3LykgymtG7hfZt3uxQBHhr4qi1p83v
-         CNqRSmelHf6v+2FbeV8a/Tcq1aUaLE6c0XgBcAFiNHmbg//vQaesGFvLBzaa4Ln6Mg+X
-         qHOLX69/0bPRolqMgTPm8JrS6B6SKjf/rBE30lKI5/57+EpdP3xgg1sagdsXVArXlatZ
-         8hn6Xl4cVAJCdC1YeUGAWlYjfMC65CKsAmFLNPw+vtkfdoLZPRqDI+aY7RLx7It1mzDU
-         ezIMi/mTMFc+5ISzH5tnHaRkug1NHGT+oZ+OlWXqKbtjYwUeVQgMOvyWytayK49iLC8L
-         U0JA==
-X-Gm-Message-State: AOAM533/bRKrJbVIhp9uxH8wauS378mo7vHYWz0mPW0tE735oOaJxcao
-	x9JFa/rmDz7u5a0F9VLidW9Fvw==
-X-Google-Smtp-Source: ABdhPJzm7GlyBcG2AdDtrariqhKDuhJYhCsf3zjI0aulh1FpvOT8lf8ag73udxPeVNzsR/dYw6wotQ==
-X-Received: by 2002:a1c:9609:: with SMTP id y9mr7470745wmd.75.1610018978099;
-        Thu, 07 Jan 2021 03:29:38 -0800 (PST)
+        bh=04Y1NOOAorxXR44JFAjoMzuToS0vD7e4zVpabqcTis8=;
+        b=YudKjdaWmwv8X4dTT00B5Nl+uW1EOMhBJfzXNIV+XxBW21lhWoHoRgpNxnED1SOA1v
+         /plTSvvWrTQaLUDnfxqLgfh1gXmr+esYa6jRCOxTqezh5MPRQi78pwwCtd/nuoB4aHJa
+         WP1q2lZ3T/aQTZnZj7cgACMVTHSATOIw0naqvQBNCF5ynIDx+5+Ya+rMwe4t/m2kwqZh
+         Fuz5tjhRwSAAveErR+tWNT14Ndx8PRvi3XQ8PzPkcZN3rVUISKD6GDpfb2vXIFaX6UDQ
+         8SGL3KA7HOyu6o3GyAWMHftR/DdBUOtPS+I0PKl2k9toJRrEgXViWZhrEc5VLQCEBUqG
+         et+g==
+X-Gm-Message-State: AOAM531N5SFdVf05aEm+AcqOgR39rXH3E1j464n0TNCWiG6q6GXgdie7
+	qz9EAu7HnPmvssFXIx5igjbOVw==
+X-Google-Smtp-Source: ABdhPJxxAIEFYJFSgps91x9i/CsL7VyevrOnJ5FtQzsgOVc/Md4qt+HIjQD+r6K3NV8f4RRbsuVzoQ==
+X-Received: by 2002:a7b:c212:: with SMTP id x18mr7649935wmi.113.1610019275918;
+        Thu, 07 Jan 2021 03:34:35 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:f082:51:8822:ee14? ([2001:8b0:aba:5f3c:f082:51:8822:ee14])
-        by smtp.gmail.com with ESMTPSA id m18sm7614087wrw.43.2021.01.07.03.29.37
+        by smtp.gmail.com with ESMTPSA id m14sm7673406wrh.94.2021.01.07.03.34.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 03:29:37 -0800 (PST)
-Message-ID: <b4307af4a02b5d302e06ed776cab0cf84d5ced30.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] systemd: use the absolute path in service file
+        Thu, 07 Jan 2021 03:34:35 -0800 (PST)
+Message-ID: <39c99b8315d520565f0f8ab99af8b8b037c3910b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky][sumo][PATCH 4/4] libsndfile1: fix CVE-2019-3832
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Yu, Mingli" <mingli.yu@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 07 Jan 2021 11:29:36 +0000
-In-Reply-To: <20210107095630.32609-1-mingli.yu@windriver.com>
-References: <20210107095630.32609-1-mingli.yu@windriver.com>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>, Sana Kazi
+	 <Sana.Kazi@kpit.com>
+Cc: Openembedded-core@lists.openembedded.org, raj.khem@gmail.com, 
+ nisha.parrakat@kpit.com, Aditya.Tayade@kpit.com,
+ Harpritkaur.Bhandari@kpit.com
+Date: Thu, 07 Jan 2021 11:34:34 +0000
+In-Reply-To: <20210107102124.whs2taob6gt3losh@qschulz>
+References: <20210107101101.31004-1-sanak@kpit.com>
+	 <20210107102124.whs2taob6gt3losh@qschulz>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2021-01-07 at 17:56 +0800, Yu, Mingli wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
+On Thu, 2021-01-07 at 11:21 +0100, Quentin Schulz wrote:
+> Hi Sana,
 > 
-> Fixes:
->  # systemd-analyze --man=false verify /lib/systemd/system/systemd-kexec.service
->  systemd-kexec.service: Command systemctl is not executable: No such file or directory
+> Unless I'm mistaken, sumo is EOL and not supported anymore.
 > 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  .../0001-service-use-the-abosolute-path.patch | 253 ++++++++++++++++++
->  meta/recipes-core/systemd/systemd_247.2.bb    |   5 +
->  2 files changed, 258 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0001-service-use-the-abosolute-path.patch
+> The latest version that is still maintained by the community is zeus
+> (3.0). The latest version officially maintained is dunfell (3.1),
+> meaning this one will still receive dot releases, not the community one
+> though commits can be pushed to the "community-maintained" branch.
 > 
-> diff --git a/meta/recipes-core/systemd/systemd/0001-service-use-the-abosolute-path.patch b/meta/recipes-core/systemd/systemd/0001-service-use-the-abosolute-path.patch
-> new file mode 100644
-> index 0000000000..dc8e8b3052
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0001-service-use-the-abosolute-path.patch
-> @@ -0,0 +1,253 @@
-> +From 98a60faaca7f1a6b753f73556705cc68aa19e383 Mon Sep 17 00:00:00 2001
-> +From: Mingli Yu <mingli.yu@windriver.com>
-> +Date: Thu, 7 Jan 2021 06:40:29 +0000
-> +Subject: [PATCH] service: use the abosolute path
-> +
-> +Fixes:
-> + # systemd-analyze --man=false verify /lib/systemd/system/systemd-kexec.service
-> + systemd-kexec.service: Command systemctl is not executable: No such file or directory
-> +
-> +Upstream-Status: Inappropriate [OE specific]
+> Please stop sending patches for sumo. Maintain it on your own, ask to
+> become a community maintainer or upgrade to current/maintained versions.
 
-At the very least you need to explain why this is OE specific and
-doesn't affect upstream. I strongly suspect there is a different issue
-at work here and it should be fixed differently.
+I think if someone wanted to step up and collect sumo patches, we'd be
+ok with that. There is nobody who's doing that at present though.
+
+We did go through some effort to get sumo building again on the
+infrastructure too but again, nobody stepped forward to look after it
+and I suspect it would be broken again now. To be clear, we cannot
+merge patches without testing and we need builds on the infrastructure
+to do that which is why it was important.
+
+It would be good to understand why the patches are being posted.
 
 Cheers,
 
