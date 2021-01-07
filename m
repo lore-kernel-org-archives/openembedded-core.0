@@ -1,74 +1,102 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web12.1441.1610056909113043895
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web12.1442.1610056909539657039
  for <openembedded-core@lists.openembedded.org>;
  Thu, 07 Jan 2021 14:01:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z7Cy2wxg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id y23so6800406wmi.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 14:01:48 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Btb7OuMC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 190so6343106wmz.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 14:01:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=U7+p5L/taeJU1qvgD89OUBGeqlSAc4z8DPGIEU+gQpw=;
-        b=Z7Cy2wxggHbX4MYVshBzw5pwbvbtyVE/epycEftAnb88a+0WOWhbwN4I3G4Fs9rIzz
-         yZ0CAwyZ7oqT3WmIOYp3pmzPPbcRFIz9jaYBmQqhJ+GYY/5CKdn0VTBXSB2VXre2BZ0F
-         6aw3k8vJC4833K33LKIOnnus3iLgPIQUBnLkg=
+        bh=ndSFjxUyn/c3Elg1UnSenatl/OKeU9cRwAuTDjz/Gc4=;
+        b=Btb7OuMCKD6k2941pFVvhPQ6WkvHzwyeDjw1eXMNxI/pIjDsrtEx7qJt5+NEafLpiO
+         vkuEycs6qV0EfBa0v9ZweRqKvjnc7Zw+zAr8L5f65FMcNedmSw5OQI+D53njUZlAaVeZ
+         ayU3sny4PNu6J3HSrW37zTyLW6XXRSlZmW0TM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=U7+p5L/taeJU1qvgD89OUBGeqlSAc4z8DPGIEU+gQpw=;
-        b=o//N2G1odw/vOo/LyXFwAxpyO+TOaQhqDKpJPC0LkB548CFUip+t/DacM62u4BpLAx
-         KuM/fFanDhT3iR1enf03mD3qVrmmM1EsZSNxTQYEwF1RTFjrQLhB42iDF6lwDmlccYyt
-         ge6F8PObLLBRkk77bG8udnMhats0EQ5SsSmG5Fiien19/EksVZ62qD725bMvMX0ogiUW
-         gPWgRFB74675X1g165d+kxbEZQ1q/giYq2hP8u1o3ueeD/0g8W6lNb6tsMBYB9i+IFZJ
-         11uskevHIYM2WI/Wd1ADJEsT5XiUIr5Q7r1atUFbH9SscXUgUXonc0K15lRkPT1xmrCU
-         gKqQ==
-X-Gm-Message-State: AOAM533KjXF9oHKVoiUiAGwG5b/+OROgm0B2T8fi5la9aKyZNj+upuL1
-	eQlmMymkH8BLgQ7UEFhHe+7+3yBg07wbpQ==
-X-Google-Smtp-Source: ABdhPJx68AjxDIIMRCWvDdfZR/dYetHoH/v/7+E88jAYUQ4d6cZzp6UuwZkld4oRoFl4bU/9FOUOaQ==
-X-Received: by 2002:a1c:3d55:: with SMTP id k82mr446889wma.57.1610056907413;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ndSFjxUyn/c3Elg1UnSenatl/OKeU9cRwAuTDjz/Gc4=;
+        b=uOlgJY0+El1DvBfXNdxeRLCvTU1IrJ3zODq9b3FK+gDUMM3YQf6Ssv3oj3ZyQ1pmQJ
+         v9C8EuQJxbqlotvC+qF/wSZ6nEk4UFYDpiMnfItXRwyY7fTFHB7UHHa9ct3oYCoHldMN
+         lHEJYJBiWYzd7hdWW34je2rQjR6p9JEabz+RoeNaDOHSwc47ObJLIlSq2Tjiq/BdIvH8
+         KO+bq5mAvDsSQUGvCThpNgCqRN0daeCejw0XVO6IojJrS1gSW1wEvIXrPyCtEy/l478L
+         ucnzhjOso8ZIAbhPiWCe4Hyt8XNw0g7IUi8i7nYMRvfCjDvROH/DdfIkRtAwA1fg80KA
+         xwVA==
+X-Gm-Message-State: AOAM530/xxMaPRG8H2zXq9hWWv+Lc4MobDh1XVzYK+/q/e9gh/ylN2hF
+	4p2GT/yd1od1KzSZ15AQy5kOUIN47hfohg==
+X-Google-Smtp-Source: ABdhPJyuKzaRpZ/6Fs1/d9CzCFLi6vidRJLsIt234YaxHiG16uuT6o7sAW1qAeiTJA+Xp+JojcScvg==
+X-Received: by 2002:a1c:8d:: with SMTP id 135mr431081wma.177.1610056907894;
         Thu, 07 Jan 2021 14:01:47 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:8262:2156:a38b:824c])
-        by smtp.gmail.com with ESMTPSA id j59sm10962686wrj.13.2021.01.07.14.01.46
+        by smtp.gmail.com with ESMTPSA id j59sm10962686wrj.13.2021.01.07.14.01.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 07 Jan 2021 14:01:47 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] bash: Set HEREDOC_PIPESIZE deterministically
-Date: Thu,  7 Jan 2021 22:01:44 +0000
-Message-Id: <20210107220146.594812-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/3] qemu: Fix mingw builds
+Date: Thu,  7 Jan 2021 22:01:45 +0000
+Message-Id: <20210107220146.594812-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210107220146.594812-1-richard.purdie@linuxfoundation.org>
+References: <20210107220146.594812-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We had reproducibility issues where the pipe size appears to vary on some build
-hosts between 65535 and 4096. It should be the former on Linux in general so
-standarise on that. Easiest way is to pass in CFLAGS.
+After the recent upgrade, mingw builds failed. Add a hack whilst a solution
+is discussed upstream.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/bash/bash.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../recipes-devtools/qemu/qemu/mingwfix.patch | 21 +++++++++++++++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/mingwfix.patch
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index feb7483dc34..b0281dadbc2 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -15,6 +15,9 @@ INHIBIT_PRUNE_M4 = "1"
- # This is what other major distros do. And this is what we wanted. See bug#5359 and bug#7137.
- CFLAGS += "-DNON_INTERACTIVE_LOGIN_SHELLS"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 4c1502da7f1..286901fb1f0 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -26,6 +26,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
+            file://0001-Add-enable-disable-udev.patch \
+            file://0001-qemu-Do-not-include-file-if-not-exists.patch \
++           file://mingwfix.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-+# This can vary depending upon the host
-+CFLAGS += "-DHEREDOC_PIPESIZE=65536"
+diff --git a/meta/recipes-devtools/qemu/qemu/mingwfix.patch b/meta/recipes-devtools/qemu/qemu/mingwfix.patch
+new file mode 100644
+index 00000000000..8d76cef6388
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/mingwfix.patch
+@@ -0,0 +1,21 @@
++OE assumes that mingw files are in a unix like file layout. The
++'flattening' done by configure in qemu for mingw32 breaks things
++for us. We are discussing with upstream but for now, hack this to
++disable it and use the unix like layout everywhere.
 +
- ALTERNATIVE_${PN} = "bash sh"
- ALTERNATIVE_LINK_NAME[bash] = "${base_bindir}/bash"
- ALTERNATIVE_TARGET[bash] = "${base_bindir}/bash"
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Submitted [https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg01073.html]
++
++Index: qemu-5.2.0/configure
++===================================================================
++--- qemu-5.2.0.orig/configure
+++++ qemu-5.2.0/configure
++@@ -1541,7 +1541,7 @@ libdir="${libdir:-$prefix/lib}"
++ libexecdir="${libexecdir:-$prefix/libexec}"
++ includedir="${includedir:-$prefix/include}"
++ 
++-if test "$mingw32" = "yes" ; then
+++if test "$mingw32" = "dontwantthis" ; then
++     mandir="$prefix"
++     datadir="$prefix"
++     docdir="$prefix"
 -- 
 2.27.0
 
