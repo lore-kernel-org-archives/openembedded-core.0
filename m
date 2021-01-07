@@ -1,86 +1,138 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.1352.1610056541167025717
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+ by mx.groups.io with SMTP id smtpd.web12.1396.1610056701399391810
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 13:55:41 -0800
+ Thu, 07 Jan 2021 13:58:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=c9nMg7Eg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id r7so7062053wrc.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 13:55:40 -0800 (PST)
+ dkim=pass header.i=@google.com header.s=20161025 header.b=U8OSO9aP;
+ spf=pass (domain: google.com, ip: 209.85.166.177, mailfrom: gmouse@google.com)
+Received: by mail-il1-f177.google.com with SMTP id e7so8236024ile.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Jan 2021 13:58:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=dCJ3HCGP29lDYW54JZ1uxaMqjTRTQXHhk3ZbqrpILl8=;
-        b=c9nMg7EgGcD0uIRZMXKXBRMAw0RNwEUgluW5/wIbdRo8RyOAketh4T9se5luWLNv5O
-         pUbfnpvDnN26Bbcs11k84lLegvIN+5Gopb6FQ5ynjsXhcZ1ZVUu7tT8S5ZNYgPWob9Qs
-         41BIvWvzgbC4I/UHYhIJ6QIxdF3hF4nWau43U=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=M1NxPZhp/pr2zTjeXch0+r5Q4syTd4t5kvTGGdnks6g=;
+        b=U8OSO9aPMGPsXai3/sZYXiJnJjeMIG3LNjUIDddVSciIXM0DZ4fd1nEhbnJFQFMLCW
+         ohT7mrY7LPDfQhZgJpgUznvWYrCDQNZ8Ud4SD6Ow/Hs6RuwLsphfzaII4Cq4fZ+MBbWm
+         lTp7l0p9Mab2bb/0ZcgcEV6hGkhDr4wXPojDKvIgCp8vvFoF09EGthyNZjjC3WZB+BMv
+         Eq2FpCIJdI0dj/WJOT8QI63bOndlbaEEpc61ljjZ0qW6KPQdKYYfMEVyaBc5pJ2Yv5BS
+         D9LzYhurtt9OCYUb1RDC0tTOVi4PqXLaTB2xMIEuSYVmi1DqfoYomyxQ7PRAINFqiG5S
+         KVLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=dCJ3HCGP29lDYW54JZ1uxaMqjTRTQXHhk3ZbqrpILl8=;
-        b=imVnhR1ExsEseYPsFjr36t6m47SCEfJOp1e+2X+MP52VUVpTUZIj18Bu96rtp3P+dQ
-         Wjs+HMzGymdryDilMAoJGZAnxfVdQsxc6nM8YZEdms4KGXcJ9Tf/1mMsEe5Bu/+drR6O
-         ocA0KsWQwLvc+x/UwcgX4Sxl2Bnp+u3oVr0LoywEaFCbQiT1BHRi8uF0G5UoQmVhuzAr
-         1YPO/a7eMo1EhBuOkrfoVrAaVWglrnbkvAC83IHiHsyjOQa5EJV0xU8ETey1ZPAPYkYo
-         jRF/eLglSs0QTuHt0vbIjbmiIb/o54uPUp3N9eWG+1JxPCf1rzzG2UopD1R2C937h2he
-         XpAA==
-X-Gm-Message-State: AOAM530hgV1MQSUY162dyDSRW/vzmpHmBTndXjgTfLpm6HApo2L9I1bN
-	2ZowASSz80YV6QGFl/5naJ5zdg==
-X-Google-Smtp-Source: ABdhPJwigknPc5LKFXuuah8oBb+FDzWy6Kz+qIqcyBCv4yzd+Fjrix8CADp8RS8Mz0ng+V9e+UHaZA==
-X-Received: by 2002:a5d:4a44:: with SMTP id v4mr638164wrs.106.1610056539704;
-        Thu, 07 Jan 2021 13:55:39 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:8262:2156:a38b:824c? ([2001:8b0:aba:5f3c:8262:2156:a38b:824c])
-        by smtp.gmail.com with ESMTPSA id o124sm9910461wmb.5.2021.01.07.13.55.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jan 2021 13:55:39 -0800 (PST)
-Message-ID: <1a82dc66535b887eb4611580d7a773eebbef4c43.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 13/22] bash: update 5.0 -> 5.1
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>, Alexander Kanavin
-	 <alex.kanavin@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 07 Jan 2021 21:55:38 +0000
-In-Reply-To: <a75c31fd-9617-1bc0-e895-ac40802245ce@gmail.com>
-References: <20201228200436.78130-1-alex.kanavin@gmail.com>
-	 <20201228200436.78130-13-alex.kanavin@gmail.com>
-	 <1b8809a765eb36211ecc39a9e096ac207178884d.camel@linuxfoundation.org>
-	 <a75c31fd-9617-1bc0-e895-ac40802245ce@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=M1NxPZhp/pr2zTjeXch0+r5Q4syTd4t5kvTGGdnks6g=;
+        b=a5BUH+ruq3GpMLl295DzRbMQ96l1IyX4sKfeQG2munnEQz2hKVz35v8Zpq90WtbpmC
+         X0kwHcq3LcrtezTT7hKQDMmqDS24C8bcp7toHIeOtAcx0UQa5TPucnZKhtkFj1PrDnr6
+         YuihGz3RQQHrKF2TzIYHdz0aPwwlFJIiKLurwILWKnwQRDRtLFXg3qpuTGtIBzOh1Uxb
+         u8A8jyhMqNZhbqVOrz0eQDZUN3F1FsbUyKuA5fEsoYhFV2qn0Sg5U/aX4dwi7ueZcvJO
+         VuKgLSEt+dVXKHjDMypAS7iWEqVq+TqMRC2fpchHR09UuAdw5xSe4rXTWL2i7kyMLmno
+         ImYQ==
+X-Gm-Message-State: AOAM5335RQtxrQDAMLwojPmxKxBRhy8sSRwJSy/CNQbOJy0FZj4EJSo8
+	9iW1grbYL9Wx7NdlFe5WD9W5fOHcxEaP192kkfSTaF1KWaKU5Q==
+X-Google-Smtp-Source: ABdhPJytIqf/8zoHQ3KQKJXdD2Y/zSS6KQNDhRwC66TG1s6uKQ7Ip5ncb/0/4MzToMO4HhbPHlIcKRYBy8CyNHnT3C0=
+X-Received: by 2002:a05:6e02:20cc:: with SMTP id 12mr940540ilq.91.1610056700450;
+ Thu, 07 Jan 2021 13:58:20 -0800 (PST)
 MIME-Version: 1.0
+References: <20210107215121.3901938-1-gmouse@google.com> <CADVsX8-dMLvuccRjzU73=-reDjEBRq5PZZ+S6ZeugSvTy-iqog@mail.gmail.com>
+In-Reply-To: <CADVsX8-dMLvuccRjzU73=-reDjEBRq5PZZ+S6ZeugSvTy-iqog@mail.gmail.com>
+From: "Anton Kachalov" <rnouse@google.com>
+Date: Thu, 7 Jan 2021 22:58:08 +0100
+Message-ID: <CADVsX8924shMc+PFUQ6jsmnUqsF+VAeRfn0xM+4G406EgvGFCg@mail.gmail.com>
+Subject: [poky][PATCH] bitbake: remove /usr from pseudo ignore paths
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000b33b9f05b85689d2"
+
+--000000000000b33b9f05b85689d2
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2021-01-07 at 12:43 -0600, Joshua Watt wrote:
->  On 1/7/21 11:57 AM, Richard Purdie wrote: 
-> > There is a reproducibility issue in bash 5.1:
-> 
-> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210107-8jzr3hc5/packages/diff-html/
-> 
-> > looks like the issue in in redir.c and I think at a really quick
-> > glance, the computation of PIPESIZE. Seems to tbe 0x1000 on some
-> > systems and 0x10000 on others.
-> 
-> > bash 5.1 hasn't merged yet and is in master-next. 
-> 
-> > If nobody else gets to it I will dig further when I have time but
-> > wanted to mention it.
->  
-> I looked at this. It appears that bash runs a host program to
-> determine the pipe size by writing to a pipe until it gets SIGPIPE
-> (builtin/psize.c). I'm not sure why this would result in a different
-> size on different hosts... perhaps the pipe size is configurable in
-> the kernel? Anyway, I suspect that the fix is to add -
-> DHEREDOC_PIPESIZE=4096 to CFLAGS in the recipe.... it's not my
-> favorite fix, but the bash configure script does the same thing to
-> set the pipe size for FreeBSD.
->  
-Thanks, I've queued a patch in master-next for testing.
+Allow the Yocto's building tree to be placed under /usr.
 
-Cheers,
+Relevant issue: https://github.com/openbmc/openbmc/issues/3724
 
-Richard
+Signed-off-by: Anton D. Kachalov <rnouse@google.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index a04005b0f5..77c8148aa1 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -685,7 +685,7 @@ SRC_URI =3D ""
+ PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS =3D
+"/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAM=
+PS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},$=
+{WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${W=
+ORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TM=
+PDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/c=
+ache,${COREBASE}/scripts,${CCACHE_DIR}"
++PSEUDO_IGNORE_PATHS =3D
+"/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR=
+},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKD=
+IR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR=
+}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/=
+sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,$=
+{COREBASE}/scripts,${CCACHE_DIR}"
 
+ export PSEUDO_DISABLED =3D "1"
+ #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
+--=20
+2.29.2.729.g45daf8777d-goog
 
+--000000000000b33b9f05b85689d2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr"><div class=3D"=
+gmail_quote">Allow the Yocto&#39;s building tree to be placed under /usr.<b=
+r>
+<br>
+Relevant issue: <a href=3D"https://github.com/openbmc/openbmc/issues/3724" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/openbmc/openbmc/iss=
+ues/3724</a><br>
+<br>
+Signed-off-by: Anton D. Kachalov &lt;<a href=3D"mailto:rnouse@google.com" t=
+arget=3D"_blank">rnouse@google.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/bitbake.conf | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf<br>
+index a04005b0f5..77c8148aa1 100644<br>
+--- a/meta/conf/bitbake.conf<br>
++++ b/meta/conf/bitbake.conf<br>
+@@ -685,7 +685,7 @@ SRC_URI =3D &quot;&quot;<br>
+=C2=A0PSEUDO_LOCALSTATEDIR ?=3D &quot;${WORKDIR}/pseudo/&quot;<br>
+=C2=A0PSEUDO_PASSWD ?=3D &quot;${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}&quot=
+;<br>
+=C2=A0PSEUDO_SYSROOT =3D &quot;${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-nativ=
+e&quot;<br>
+-PSEUDO_IGNORE_PATHS =3D &quot;/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recip=
+e-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/=
+sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORK=
+DIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/ss=
+tate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR}=
+,${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}&quot;<=
+br>
++PSEUDO_IGNORE_PATHS =3D &quot;/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysr=
+oot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate=
+-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/s=
+state-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-b=
+uild-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMP=
+DIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}&quot;<br>
+<br>
+=C2=A0export PSEUDO_DISABLED =3D &quot;1&quot;<br>
+=C2=A0#export PSEUDO_PREFIX =3D &quot;${STAGING_DIR_NATIVE}${prefix_native}=
+&quot;<br>
+-- <br>
+2.29.2.729.g45daf8777d-goog<br>
+<br>
+</div></div>
+</div></div>
+
+--000000000000b33b9f05b85689d2--
