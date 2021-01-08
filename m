@@ -1,416 +1,188 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web09.2035.1610102351096793643
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web11.193.1610113684317868060
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Jan 2021 02:39:11 -0800
+ Fri, 08 Jan 2021 05:48:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TQ6UGWCa;
- spf=pass (domain: gmail.com, ip: 209.85.217.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f49.google.com with SMTP id s85so5296101vsc.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Jan 2021 02:39:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ozkKbEuH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id f14so3660007pju.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Jan 2021 05:48:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OyfRg5Udeqjs7dm5kwQv6xMFY00W1j/19hxfx8feqUs=;
-        b=TQ6UGWCaANW8UzoFANYoAxTqIS/7JukFkhIAASROIk54GsPfBFlRsofPa+216s6w8e
-         20xfmZ3hHDprhHv7/wd4C2wpgXOfF8ju5s+rzcvIjmtJlWMVEvz+1RG8vhLdFX1tYxEi
-         k++Z4Zo/qG2VX3tW6uases4ZkL9UN5bilSRlSyJ6/bmcWdiCvYYs2N6yXDwtpumJqW1e
-         lAZERkUJPu0CYEfSODIf6+yXYhf1zwVzzgSg+1aJResm5VqmaCiMKpJfFPQqDuRakLi7
-         sLjG/VYY8CLxfUb+W3ARw10axhx3X9O/2YKDBDWM4Nup4bQbqwFEhs59Oo+IS27JQAMb
-         K5BA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7O9YYKAfXsayET7lVUFmYzOB0dXUYw+oiytrn4OBb0s=;
+        b=ozkKbEuH6VW/57QeUXkrqp1kTf7igj/41TB/XlmAzRZvvAaEWBBKokGiX5oKiJGxI7
+         0kSHHLBtQUaVp7j6hrJjf45z7cFL5WZwsIGTqyuXHUFQBjpLh2X2i08Er5AB1WsOdLbW
+         VwskRZR2cJnA6DIl+hruS1+LBSIlQTyQt/6X189k4JabkQGi405shRdFiyUoaWalsIUe
+         Vcl0NGccjGBtSmwL0U+o36/3r+o0uETpOUhBxdFukL88N/wKIV7/41WRVd2C6WCz1Eoy
+         d3wfDaEfSigSAHT/ooHEVO2oAkJoYUrs4Ki8j3ZmX5hjgnrSsLkzYepfmVN5q6XCzcpN
+         risg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OyfRg5Udeqjs7dm5kwQv6xMFY00W1j/19hxfx8feqUs=;
-        b=FUSQfrXYa0tC/3ETyY7LZvgMkTyLjuAul35RTg2YvjuorFyZjird34kYMm11YWMCBt
-         mKFeB9Tz2jBEoScvzkY0i+6ldnAMrqY8I1rVOm/RmVY7rwAIfJa0ld5P/rzzqkAMzohF
-         LrTkxU5bPJkVOT2HURI+Ftkn5+2QXB4K/Ym4Ic7kt8BLT5W1OUc9kDgy2mm8iziMRxXC
-         MtZ5YsqqL72JNTCntfWr/dVTWxLB1hY8HwIZfcyqHEfK5uIF2hVV1dtCGz8cZBZ0MEge
-         k1VKytwPpTgg1SesClbFxbOGA/PkxQ4Nhgq34rjZ/oB92OYnTwrO8+OlcjJCT/5pjHf2
-         oxrg==
-X-Gm-Message-State: AOAM530cgBNVgkLD53EJYmVukVVWeibDNdobtePQiVYztXGT0Uz9DCch
-	NFbfaQGmyKRVMNYUfKU2+vfqqxWuxleQOpf6voE=
-X-Google-Smtp-Source: ABdhPJyDs92EkOHbudh/kdXMiw+UQtp8YIiH55AyVipBGZ0K8ZGSYXcdNBNAI9Dow5J0erCsNO26gbMwCHrTW02gDUE=
-X-Received: by 2002:a67:af19:: with SMTP id v25mr2099057vsl.41.1610102350176;
- Fri, 08 Jan 2021 02:39:10 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7O9YYKAfXsayET7lVUFmYzOB0dXUYw+oiytrn4OBb0s=;
+        b=QnPOl2kggcIfsalzNMcJF82G0/eVSHXDoj5n6s79Aad7z4x3VIZBH2wYHjpo4wykeH
+         r/5OBN/xuDB/VKeKCAbDt+FLv0/7kTSL7Krb2UaSp5CeOwB9eYOd/1+35hMqohtglpVw
+         ICvosilOTVsiIHO4PfHdg07m/cgC3Tt/huMgvo45KCLjN4QFidGJHJnLu4+6pAtEq1E1
+         AyHzVsMoGBkMNgAmeloFNNJcPy0IRspvK2X8diLXZFqWje6qAb/0VBiohVXgZ7IEoiyv
+         CNqJsuqAqmln3A7ctkAVgI+K7yqh9McxhFVRGwamHpHAS7rbyOJUiR3c0Bezt1Gv3V77
+         gLuA==
+X-Gm-Message-State: AOAM531huchklyfmpO2RhNWIQTmaR05ZQeXK+DR4vf86aL7rDScW821u
+	YaqK0KUiWYjtzRg4f+MZREzGY0Gds/7DUV52z58=
+X-Google-Smtp-Source: ABdhPJxiTWscXeUvuAJvwRx9mkz2xUbJ3pHwkgg268sfpX43TOnGa40LT1quTJ7g3tw0pilTPY6yLQ==
+X-Received: by 2002:a17:90a:e60d:: with SMTP id j13mr3941527pjy.52.1610113683225;
+        Fri, 08 Jan 2021 05:48:03 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id t206sm9088462pgb.84.2021.01.08.05.48.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jan 2021 05:48:02 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/30] Pull request (cover letter only)
+Date: Fri,  8 Jan 2021 03:47:52 -1000
+Message-Id: <cover.1610113592.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <1610072945-7114-1-git-send-email-wangmy@cn.fujitsu.com> <AM0PR10MB39713697D8C50860BAD4745892AE0@AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AM0PR10MB39713697D8C50860BAD4745892AE0@AM0PR10MB3971.EURPRD10.PROD.OUTLOOK.COM>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 8 Jan 2021 11:38:58 +0100
-Message-ID: <CANNYZj9oYpphbo4NfqyHwN-aLY_zDGuRwWd82X4JhgQN58QTDw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] busybox: upgrade 1.32.0 ->1.33.0
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000a266a005b8612a38"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000a266a005b8612a38
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit fcd335e2a721d8db6e2fdac483798ced0ff3e1ad:
 
-Or wait for 1.33.1. Maybe UPSTREAM_CHECK_REGEX should be set up to exclude
-x.y.0 versions.
+  openssl: Update to 1.1.1i (2021-01-01 11:55:26 +0000)
 
-Alex
+are available in the Git repository at:
 
-On Fri, 8 Jan 2021 at 07:43, Andrej Valek <andrej.valek@siemens.com> wrote:
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-> Hello,
-> Do we have to continue with unstable version? Isn't the stable version
-> (1.32.1) a better choice?
->
-> Cheers,
-> Andrej
->
-> > 0001-hwclock-make-glibc-2.31-compatible.patch
-> > removed sincie it is not available in 1.33.0
-> >
-> > Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> > ---
-> >  ...1-hwclock-make-glibc-2.31-compatible.patch | 83 -------------------
-> .../{busybox_1.32.0.bb => busybox_1.33.0.bb}  |  5 +-
-> >  2 files changed, 2 insertions(+), 86 deletions(-)  delete mode 100644
-> meta/recipes-core/busybox/busybox/0001-hwclock->
-> make-glibc-2.31-compatible.patch
-> >  rename meta/recipes-core/busybox/{busybox_1.32.0.bb =>
-> busybox_1.33.0.bb} (90%)
-> >
-> > diff --git
-> a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
-> b/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
-> > deleted file mode 100644
-> > index 8d1f272120..0000000000
-> > ---
-> a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
-> > +++ /dev/null
-> > @@ -1,83 +0,0 @@
-> > -From 5b2fc5746c352eb2b27bfc9fb224580d9852d0fa Mon Sep 17 00:00:00 2001
-> > -From: Sakib Sajal <sakib.sajal@windriver.com>
-> > -Date: Fri, 17 Jul 2020 17:27:21 +0000
-> > -Subject: [PATCH] hwclock: make glibc 2.31 compatible
-> > -
-> > -NEWS for glibc version 2.31
-> > -===========================
-> > -
-> > -Deprecated and removed features, and other changes affecting
-> compatibility:
-> > -
-> > -* The settimeofday function can still be used to set a system-wide
-> > -  time zone when the operating system supports it.  This is because
-> > -  the Linux kernel reused the API, on some architectures, to describe
-> > -  a system-wide time-zone-like offset between the software clock
-> > -  maintained by the kernel, and the "RTC" clock that keeps time when
-> > -  the system is shut down.
-> > -
-> > -  However, to reduce the odds of this offset being set by accident,
-> > -  settimeofday can no longer be used to set the time and the offset
-> > -  simultaneously.  If both of its two arguments are non-null, the call
-> > -  will fail (setting errno to EINVAL).
-> > -
-> > -  Callers attempting to set this offset should also be prepared for
-> > -  the call to fail and set errno to ENOSYS; this already happens on
-> > -  the Hurd and on some Linux architectures.  The Linux kernel
-> > -  maintainers are discussing a more principled replacement for the
-> > -  reused API.  After a replacement becomes available, we will change
-> > -  settimeofday to fail with ENOSYS on all platforms when its 'tzp'
-> > -  argument is not a null pointer.
-> > -
-> > -  settimeofday itself is obsolescent according to POSIX.  Programs
-> > -  that set the system time should use clock_settime and/or the adjtime
-> > -  family of functions instead.  We may cease to make settimeofday
-> > -  available to newly linked binaries after there is a replacement for
-> > -  Linux's time-zone-like offset API.
-> > -
-> > -hwclock had two calls to settimeofday, in functions to_sys_clock and
-> -set_system_clock_timezone, where both the arguments to settimeofday -were
-> valid (non-null).
-> > -Therefore, split the call, once for timezone and once for timeval.
-> > -
-> > -Fixes #12756
-> > -
-> > -Upstream-Status: Pending
-> > -
-> > -Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> > ----
-> > - util-linux/hwclock.c | 12 ++++++++----
-> > - 1 file changed, 8 insertions(+), 4 deletions(-)
-> > -
-> > -diff --git a/util-linux/hwclock.c b/util-linux/hwclock.c -index
-> dc97d8f..cf346e8 100644
-> > ---- a/util-linux/hwclock.c
-> > -+++ b/util-linux/hwclock.c
-> > -@@ -131,8 +131,10 @@ static void to_sys_clock(const char **pp_rtcname,
-> int utc)
-> > -
-> > -     tv.tv_sec = read_rtc(pp_rtcname, NULL, utc);
-> > -     tv.tv_usec = 0;
-> > --    if (settimeofday(&tv, &tz))
-> > --            bb_simple_perror_msg_and_die("settimeofday");
-> > -+    if (settimeofday(NULL, &tz))
-> > -+            bb_simple_perror_msg_and_die("settimeofday: timezone");
-> > -+    if (settimeofday(&tv, NULL))
-> > -+            bb_simple_perror_msg_and_die("settimeofday: timeval");
-> > - }
-> > -
-> > - static void from_sys_clock(const char **pp_rtcname, int utc) -@@
-> -283,8 +285,10 @@ static void set_system_clock_timezone(int utc)
-> > -     gettimeofday(&tv, NULL);
-> > -     if (!utc)
-> > -             tv.tv_sec += tz.tz_minuteswest * 60;
-> > --    if (settimeofday(&tv, &tz))
-> > --            bb_simple_perror_msg_and_die("settimeofday");
-> > -+    if (settimeofday(NULL, &tz))
-> > -+            bb_simple_perror_msg_and_die("settimeofday: timezone");
-> > -+    if (settimeofday(&tv, NULL))
-> > -+            bb_simple_perror_msg_and_die("settimeofday: timeval");
-> > - }
-> > -
-> > - //usage:#define hwclock_trivial_usage
-> > ---
-> > -2.24.1
-> > -
-> > diff --git a/meta/recipes-core/busybox/busybox_1.32.0.bb
-> b/meta/recipes-core/busybox/busybox_1.33.0.bb
-> > similarity index 90%
-> > rename from meta/recipes-core/busybox/busybox_1.32.0.bb
-> > rename to meta/recipes-core/busybox/busybox_1.33.0.bb
-> > index 3a669444dd..ec8f350955 100644
-> > --- a/meta/recipes-core/busybox/busybox_1.32.0.bb
-> > +++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
-> > @@ -44,11 +44,10 @@ SRC_URI = "
-> https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-> >             file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
-> >
->  file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
-> > -           file://0001-hwclock-make-glibc-2.31-compatible.patch \
-> >             file://rev.cfg \
-> >             file://pgrep.cfg \
-> >  "
-> >  SRC_URI_append_libc-musl = " file://musl.cfg "
-> >
-> > -SRC_URI[tarball.md5sum] = "9576986f1a960da471d03b72a62f13c7"
-> > -SRC_URI[tarball.sha256sum] =
-> "c35d87f1d04b2b153d33c275c2632e40d388a88f19a9e71727e0bbbff51fe689"
-> > +SRC_URI[tarball.md5sum] = "eb0e85d59015ddcd8d2219f42c8844ac"
-> > +SRC_URI[tarball.sha256sum] =
-> "d568681c91a85edc6710770cebc1e80e042ad74d305b5c2e6d57a5f3de3b8fbd"
-> > --
-> > 2.25.1
->
->
->
->
-> 
->
->
+Alexander Kanavin (1):
+  valgrind: exclude bar_bad/bar_bad_xml from ptests
 
---000000000000a266a005b8612a38
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Anuj Mittal (1):
+  mesa: add more details to elf-tls patch
 
-<div dir=3D"ltr"><div>Or wait for 1.33.1. Maybe UPSTREAM_CHECK_REGEX should=
- be set up to exclude x.y.0 versions.</div><div><br></div><div>Alex<br></di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Fri, 8 Jan 2021 at 07:43, Andrej Valek &lt;<a href=3D"mailto:andrej.va=
-lek@siemens.com">andrej.valek@siemens.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">Hello,<br>
-Do we have to continue with unstable version? Isn&#39;t the stable version=
- (1.32.1) a better choice?<br>
-<br>
-Cheers,<br>
-Andrej<br>
-<br>
-&gt; 0001-hwclock-make-glibc-2.31-compatible.patch<br>
-&gt; removed sincie it is not available in 1.33.0<br>
-&gt;<br>
-&gt; Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.co=
-m" target=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 ...1-hwclock-make-glibc-2.31-compatible.patch | 83 ------------=
--------=C2=A0 .../{<a href=3D"http://busybox_1.32.0.bb" rel=3D"noreferrer" =
-target=3D"_blank">busybox_1.32.0.bb</a> =3D&gt; <a href=3D"http://busybox_1=
-.33.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox_1.33.0.bb</a>}=C2=A0=
- |=C2=A0 5 +-<br>
-&gt;=C2=A0 2 files changed, 2 insertions(+), 86 deletions(-)=C2=A0 delete =
-mode 100644 meta/recipes-core/busybox/busybox/0001-hwclock-&gt; make-glibc-=
-2.31-compatible.patch<br>
-&gt;=C2=A0 rename meta/recipes-core/busybox/{<a href=3D"http://busybox_1.3=
-2.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox_1.32.0.bb</a> =3D&gt; =
-<a href=3D"http://busybox_1.33.0.bb" rel=3D"noreferrer" target=3D"_blank">b=
-usybox_1.33.0.bb</a>} (90%)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glib=
-c-2.31-compatible.patch b/meta/recipes-core/busybox/busybox/0001-hwclock-ma=
-ke-glibc-2.31-compatible.patch<br>
-&gt; deleted file mode 100644<br>
-&gt; index 8d1f272120..0000000000<br>
-&gt; --- a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-=
-compatible.patch<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,83 +0,0 @@<br>
-&gt; -From 5b2fc5746c352eb2b27bfc9fb224580d9852d0fa Mon Sep 17 00:00:00 20=
-01<br>
-&gt; -From: Sakib Sajal &lt;<a href=3D"mailto:sakib.sajal@windriver.com" t=
-arget=3D"_blank">sakib.sajal@windriver.com</a>&gt;<br>
-&gt; -Date: Fri, 17 Jul 2020 17:27:21 +0000<br>
-&gt; -Subject: [PATCH] hwclock: make glibc 2.31 compatible<br>
-&gt; -<br>
-&gt; -NEWS for glibc version 2.31<br>
-&gt; -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D<br>
-&gt; -<br>
-&gt; -Deprecated and removed features, and other changes affecting compati=
-bility:<br>
-&gt; -<br>
-&gt; -* The settimeofday function can still be used to set a system-wide<b=
-r>
-&gt; -=C2=A0 time zone when the operating system supports it.=C2=A0 This i=
-s because<br>
-&gt; -=C2=A0 the Linux kernel reused the API, on some architectures, to de=
-scribe<br>
-&gt; -=C2=A0 a system-wide time-zone-like offset between the software cloc=
-k<br>
-&gt; -=C2=A0 maintained by the kernel, and the &quot;RTC&quot; clock that =
-keeps time when<br>
-&gt; -=C2=A0 the system is shut down.<br>
-&gt; -<br>
-&gt; -=C2=A0 However, to reduce the odds of this offset being set by accid=
-ent,<br>
-&gt; -=C2=A0 settimeofday can no longer be used to set the time and the of=
-fset<br>
-&gt; -=C2=A0 simultaneously.=C2=A0 If both of its two arguments are non-nu=
-ll, the call<br>
-&gt; -=C2=A0 will fail (setting errno to EINVAL).<br>
-&gt; -<br>
-&gt; -=C2=A0 Callers attempting to set this offset should also be prepared=
- for<br>
-&gt; -=C2=A0 the call to fail and set errno to ENOSYS; this already happen=
-s on<br>
-&gt; -=C2=A0 the Hurd and on some Linux architectures.=C2=A0 The Linux ker=
-nel<br>
-&gt; -=C2=A0 maintainers are discussing a more principled replacement for =
-the<br>
-&gt; -=C2=A0 reused API.=C2=A0 After a replacement becomes available, we w=
-ill change<br>
-&gt; -=C2=A0 settimeofday to fail with ENOSYS on all platforms when its &#=
-39;tzp&#39;<br>
-&gt; -=C2=A0 argument is not a null pointer.<br>
-&gt; -<br>
-&gt; -=C2=A0 settimeofday itself is obsolescent according to POSIX.=C2=A0 =
-Programs<br>
-&gt; -=C2=A0 that set the system time should use clock_settime and/or the =
-adjtime<br>
-&gt; -=C2=A0 family of functions instead.=C2=A0 We may cease to make setti=
-meofday<br>
-&gt; -=C2=A0 available to newly linked binaries after there is a replaceme=
-nt for<br>
-&gt; -=C2=A0 Linux&#39;s time-zone-like offset API.<br>
-&gt; -<br>
-&gt; -hwclock had two calls to settimeofday, in functions to_sys_clock and=
- -set_system_clock_timezone, where both the arguments to settimeofday -were=
- valid (non-null).<br>
-&gt; -Therefore, split the call, once for timezone and once for timeval.<b=
-r>
-&gt; -<br>
-&gt; -Fixes #12756<br>
-&gt; -<br>
-&gt; -Upstream-Status: Pending<br>
-&gt; -<br>
-&gt; -Signed-off-by: Sakib Sajal &lt;<a href=3D"mailto:sakib.sajal@windriv=
-er.com" target=3D"_blank">sakib.sajal@windriver.com</a>&gt;<br>
-&gt; ----<br>
-&gt; - util-linux/hwclock.c | 12 ++++++++----<br>
-&gt; - 1 file changed, 8 insertions(+), 4 deletions(-)<br>
-&gt; -<br>
-&gt; -diff --git a/util-linux/hwclock.c b/util-linux/hwclock.c -index dc97=
-d8f..cf346e8 100644<br>
-&gt; ---- a/util-linux/hwclock.c<br>
-&gt; -+++ b/util-linux/hwclock.c<br>
-&gt; -@@ -131,8 +131,10 @@ static void to_sys_clock(const char **pp_rtcnam=
-e, int utc)<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0tv.tv_sec =3D read_rtc(pp_rtcname, NULL, utc);<b=
-r>
-&gt; -=C2=A0 =C2=A0 =C2=A0tv.tv_usec =3D 0;<br>
-&gt; --=C2=A0 =C2=A0 if (settimeofday(&amp;tv, &amp;tz))<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb_simple_perror_msg_and_=
-die(&quot;settimeofday&quot;);<br>
-&gt; -+=C2=A0 =C2=A0 if (settimeofday(NULL, &amp;tz))<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb_simple_perror_msg_and_=
-die(&quot;settimeofday: timezone&quot;);<br>
-&gt; -+=C2=A0 =C2=A0 if (settimeofday(&amp;tv, NULL))<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb_simple_perror_msg_and_=
-die(&quot;settimeofday: timeval&quot;);<br>
-&gt; - }<br>
-&gt; -<br>
-&gt; - static void from_sys_clock(const char **pp_rtcname, int utc) -@@ -2=
-83,8 +285,10 @@ static void set_system_clock_timezone(int utc)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0gettimeofday(&amp;tv, NULL);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (!utc)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tv.tv_sec +=3D tz.tz=
-_minuteswest * 60;<br>
-&gt; --=C2=A0 =C2=A0 if (settimeofday(&amp;tv, &amp;tz))<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb_simple_perror_msg_and_=
-die(&quot;settimeofday&quot;);<br>
-&gt; -+=C2=A0 =C2=A0 if (settimeofday(NULL, &amp;tz))<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb_simple_perror_msg_and_=
-die(&quot;settimeofday: timezone&quot;);<br>
-&gt; -+=C2=A0 =C2=A0 if (settimeofday(&amp;tv, NULL))<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb_simple_perror_msg_and_=
-die(&quot;settimeofday: timeval&quot;);<br>
-&gt; - }<br>
-&gt; -<br>
-&gt; - //usage:#define hwclock_trivial_usage<br>
-&gt; ---<br>
-&gt; -2.24.1<br>
-&gt; -<br>
-&gt; diff --git a/meta/recipes-core/busybox/<a href=3D"http://busybox_1.32=
-.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox_1.32.0.bb</a> b/meta/re=
-cipes-core/busybox/<a href=3D"http://busybox_1.33.0.bb" rel=3D"noreferrer" =
-target=3D"_blank">busybox_1.33.0.bb</a><br>
-&gt; similarity index 90%<br>
-&gt; rename from meta/recipes-core/busybox/<a href=3D"http://busybox_1.32.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">busybox_1.32.0.bb</a><br>
-&gt; rename to meta/recipes-core/busybox/<a href=3D"http://busybox_1.33.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">busybox_1.33.0.bb</a><br>
-&gt; index 3a669444dd..ec8f350955 100644<br>
-&gt; --- a/meta/recipes-core/busybox/<a href=3D"http://busybox_1.32.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">busybox_1.32.0.bb</a><br>
-&gt; +++ b/meta/recipes-core/busybox/<a href=3D"http://busybox_1.33.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">busybox_1.33.0.bb</a><br>
-&gt; @@ -44,11 +44,10 @@ SRC_URI =3D &quot;<a href=3D"https://busybox.net/=
-downloads/busybox-$%7BPV%7D.tar.bz2;name=3Dtarball" rel=3D"noreferrer" targ=
-et=3D"_blank">https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=3Dta=
-rball</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-du-l-works=
--fix-to-use-145-instead-of-144.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-sysctl-ign=
-ore-EIO-of-stable_secret-below-proc-sys-ne.patch \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-hwclock-make-gl=
-ibc-2.31-compatible.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://rev.cfg \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://pgrep.cfg \<br>
-&gt;=C2=A0 &quot;<br>
-&gt;=C2=A0 SRC_URI_append_libc-musl =3D &quot; file://musl.cfg &quot;<br>
-&gt;=C2=A0 <br>
-&gt; -SRC_URI[tarball.md5sum] =3D &quot;9576986f1a960da471d03b72a62f13c7&q=
-uot;<br>
-&gt; -SRC_URI[tarball.sha256sum] =3D &quot;c35d87f1d04b2b153d33c275c2632e4=
-0d388a88f19a9e71727e0bbbff51fe689&quot;<br>
-&gt; +SRC_URI[tarball.md5sum] =3D &quot;eb0e85d59015ddcd8d2219f42c8844ac&q=
-uot;<br>
-&gt; +SRC_URI[tarball.sha256sum] =3D &quot;d568681c91a85edc6710770cebc1e80=
-e042ad74d305b5c2e6d57a5f3de3b8fbd&quot;<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
+Changqing Li (1):
+  libexif: fix CVE-2020-0198; CVE-2020-0452
 
---000000000000a266a005b8612a38--
+Christopher Larson (2):
+  grub-efi-cfg: exclude OVERRIDES from build_efi_cfg vardeps
+  uboot-extlinux-config: exclude OVERRIDES from
+    do_create_extlinux_config vardeps
+
+Diego Sueiro (1):
+  modutils-initscripts: Use depmod -a when modules.dep is empty
+
+Dmitry Baryshkov (1):
+  perl: fix installation failure because of shell issue
+
+Khem Raj (1):
+  initscripts: use quotes for shell variable comparision
+
+Lee Chee Yang (2):
+  wic/direct/kparser: ensure fsuuid for vfat and msdos align with format
+  gdk-pixbuf: fix CVE-2020-29385
+
+Maxime Roussin-Bélanger (1):
+  meta: add missing descriptions in some support recipes
+
+Nathan Rossi (2):
+  ncurses: Prevent LDFLAGS being emitted in .pc files
+  coreutils: enable xattrs by default for nativesdk
+
+Ovidiu Panait (1):
+  timezone: upgrade to 2020e
+
+Peter Kjellerstedt (1):
+  apr-util: Only specify --with-dbm=gdbm if gdbm support is enabled
+
+Richard Purdie (3):
+  oeqa/commands: Ensure sync can be found regardless of PATH
+  grub: Further reproducibility fix
+  man-db: Fix reproducibility issue
+
+Robert Yang (5):
+  buildtools-tarball.bb: Fix PATH for environment setup script
+  ncurses: Make ncurses-tools depend on ncurses-terminfo-base
+  minicom: RDEPENDS on ncurses-terminfo-base
+  archiver.bbclass: Fix --runall=deploy_archives for images
+  weston: Fix PACKAGECONFIG for remoting
+
+Ross Burton (3):
+  ncurses: remove config.cache
+  wic-image-minimal: only depend on syslinux on x86 targets
+  lib/oe/qa: handle the 'no specific instruction set' ELF e_machine
+    value
+
+Scott Murray (2):
+  grub: fix "CVE:" line in one of the patches
+  patch: fix CVE-2019-20633
+
+Tanu Kaskinen (1):
+  pulseaudio: Remove OE_LT_RPATH_ALLOW
+
+Tomasz Dziendzielski (1):
+  populate_sdk_base: Fix condition syntax if SDK_RELOCATE_AFTER_INSTALL
+    is disabled
+
+ .../recipes-test/images/wic-image-minimal.bb  |  5 +-
+ meta/classes/archiver.bbclass                 |  1 +
+ meta/classes/grub-efi-cfg.bbclass             |  1 +
+ meta/classes/populate_sdk_base.bbclass        |  2 +-
+ meta/classes/uboot-extlinux-config.bbclass    |  1 +
+ meta/lib/oe/qa.py                             |  1 +
+ meta/lib/oeqa/selftest/cases/oelib/elf.py     |  2 +-
+ meta/lib/oeqa/utils/commands.py               |  3 +
+ ...low-checking-primitives-where-we-do-.patch |  2 +-
+ meta/recipes-bsp/grub/files/determinism.patch | 16 +++++
+ meta/recipes-core/coreutils/coreutils_8.31.bb |  3 +
+ .../initscripts/initscripts-1.0/checkroot.sh  |  2 +-
+ meta/recipes-core/meta/buildtools-tarball.bb  |  2 +-
+ ...-Do-not-include-LDFLAGS-in-generated.patch | 29 ++++++++
+ meta/recipes-core/ncurses/files/config.cache  |  4 --
+ meta/recipes-core/ncurses/ncurses.inc         |  5 +-
+ meta/recipes-core/ncurses/ncurses_6.2.bb      |  4 +-
+ .../patch/patch/CVE-2019-20633.patch          | 31 +++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb    |  1 +
+ meta/recipes-devtools/perl/perl_5.30.1.bb     |  5 +-
+ .../valgrind/valgrind/remove-for-aarch64      |  2 -
+ .../valgrind/valgrind/remove-for-all          |  2 +
+ .../valgrind/valgrind/run-ptest               | 10 +++
+ .../valgrind/valgrind_3.15.0.bb               |  2 +
+ meta/recipes-extended/man-db/man-db_2.9.0.bb  |  1 +
+ .../recipes-extended/minicom/minicom_2.7.1.bb |  2 +
+ meta/recipes-extended/timezone/timezone.inc   |  6 +-
+ .../gdk-pixbuf/CVE-2020-29385.patch           | 55 ++++++++++++++++
+ .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
+ ...02-meson.build-make-TLS-ELF-optional.patch | 15 +++++
+ meta/recipes-graphics/wayland/weston_8.0.0.bb |  2 +-
+ .../modutils-initscripts/files/modutils.sh    |  2 +-
+ .../pulseaudio/pulseaudio.inc                 |  5 --
+ meta/recipes-support/apr/apr-util_1.6.1.bb    |  5 +-
+ meta/recipes-support/apr/apr_1.7.0.bb         |  4 ++
+ meta/recipes-support/aspell/aspell_0.60.8.bb  |  4 ++
+ .../atk/at-spi2-core_2.34.0.bb                |  2 +
+ meta/recipes-support/attr/acl_2.2.53.bb       |  2 +
+ meta/recipes-support/attr/attr.inc            |  4 ++
+ .../bash-completion/bash-completion_2.10.bb   |  2 +
+ .../libexif/files/CVE-2020-0198.patch         | 66 +++++++++++++++++++
+ .../libexif/files/CVE-2020-0452.patch         | 39 +++++++++++
+ .../recipes-support/libexif/libexif_0.6.22.bb |  2 +
+ meta/recipes-support/nettle/nettle_3.5.1.bb   |  3 +
+ scripts/lib/wic/ksparser.py                   | 17 +++++
+ scripts/lib/wic/plugins/imager/direct.py      |  7 ++
+ 46 files changed, 351 insertions(+), 31 deletions(-)
+ create mode 100644 meta/recipes-core/ncurses/files/0003-gen-pkgconfig.in-Do-not-include-LDFLAGS-in-generated.patch
+ delete mode 100644 meta/recipes-core/ncurses/files/config.cache
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2019-20633.patch
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/remove-for-all
+ create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+ create mode 100644 meta/recipes-support/libexif/files/CVE-2020-0198.patch
+ create mode 100644 meta/recipes-support/libexif/files/CVE-2020-0452.patch
+
+-- 
+2.17.1
+
