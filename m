@@ -1,159 +1,143 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web10.2639.1610072958646749346
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.59])
+ by mx.groups.io with SMTP id smtpd.web12.2888.1610074088004974674
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 18:29:19 -0800
+ Thu, 07 Jan 2021 18:48:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.79,330,1602518400"; 
-   d="scan'208";a="103293823"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 08 Jan 2021 10:29:16 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2FF0D4CE6026
-	for <openembedded-core@lists.openembedded.org>; Fri,  8 Jan 2021 10:29:12 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Fri, 8 Jan 2021 10:29:08 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] busybox: upgrade 1.32.0 ->1.33.0
-Date: Fri, 8 Jan 2021 10:29:05 +0800
-Message-ID: <1610072945-7114-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=lgI45aYn;
+ spf=pass (domain: windriver.com, ip: 40.107.92.59, mailfrom: liezhi.yang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UyaaxBE/N1/f7oFZ4c5YKWcXUz2CbkEDnFxCzhbX1e5ofl9JkL4P3Kox+0c6lFQg7MmYQc+mybx5mKFBEmHMgk5ZSNsKykqd3q3ltRl0LuWE/kW+QJf/SyK5tKta3krAPIMag0tpKhwpUiKCg2o/PwjPuMacUShSM/yvYYicJ+JfBkYMP9myme0dNl9PCriw3SgjL4+S3jGBLIWPzdw1YzppgrMq+TZk/OrAcDstgHFO05Zh0UORKy1Uz5x+/1TmFQ6vBKyzh9faVX7bDLLX7a0woykhPTtksV2IUKtnX9KfXd6XRj0k6nU3BJgKlvB7kay/5AiHRdVx/Dd/vojyQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MDl+Mx+XddjtyOyIvXQzHnPdpB8MHUyhU+1lgN9OYdY=;
+ b=XJNRi6UIpBs6kaEsi7+4EAMu37BnAao597LncCe1FmuKVMnL4+uNEmdqmvfyma5v5s/NcA21LJGZoWj2YSMiuKsXdxlMxRIY2o1lPEaTBiMhU8lpXiCAQMWNFR1b6ZCfO8RpZf8bR6uAXjTlGN8iXF8Xb/dUqvqAQbvTZc4zLVee9eDoKCYTYUebm6w4nGbp4tGS7zqpUm4QAwTZWlTtmVa4X0GWJtOmlgCZyEMnidz7WthIowVvak8AuF+9GvE66ybD0/2HSl+TUbReMM1HgdiPvpPWZLSwMBAmgIPsMYixFKHmJ3HQC6gOShnR/uorCKxTyIzoT2TiEZzCp6/AXQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MDl+Mx+XddjtyOyIvXQzHnPdpB8MHUyhU+1lgN9OYdY=;
+ b=lgI45aYni5pdsN93NDSG6e1nNqz9jgX8h5XyftfCgfGjJ0WVky8C/WgPN1t4AwJbc95AdhJVndDlWWxTQe9rdD+zSFMvINLJopfXUpzhjmVODPbfw2kRx3rYD7JLpqvBN+IkEcrutY8Va0i3+Y3XP0Fbij+TpvM1E4i+utDwojo=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SN6PR11MB2909.namprd11.prod.outlook.com (2603:10b6:805:d5::13)
+ by SN6PR11MB2654.namprd11.prod.outlook.com (2603:10b6:805:54::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.8; Fri, 8 Jan
+ 2021 02:48:05 +0000
+Received: from SN6PR11MB2909.namprd11.prod.outlook.com
+ ([fe80::acc9:68df:558c:94e1]) by SN6PR11MB2909.namprd11.prod.outlook.com
+ ([fe80::acc9:68df:558c:94e1%6]) with mapi id 15.20.3742.006; Fri, 8 Jan 2021
+ 02:48:05 +0000
+Subject: Re: [OE-core] [PATCH 2/3] buildtools-tarball: Add nativesdk-ccache
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <cover.1609934927.git.liezhi.yang@windriver.com>
+ <0f8505614d5562aa94dea17eb6beea772c25e1d3.1609934927.git.liezhi.yang@windriver.com>
+ <0dbe9f701d6c6344adb0561e10dc2aed8ddb4b7a.camel@linuxfoundation.org>
+ <c37107e5-a877-8b85-46b8-c984466c31a6@windriver.com>
+ <3966f6f4c6c748f36c73bfccaaa36fdea6b34e63.camel@linuxfoundation.org>
+ <8eb45b12-acb2-ce3e-c821-3c381c1107f7@windriver.com>
+ <180e76098a5349241c44436e0a146dbbd2fbdf46.camel@linuxfoundation.org>
+From: "Robert Yang" <liezhi.yang@windriver.com>
+Message-ID: <3ab16d01-971f-3b44-dbe4-2b0fbe52a02e@windriver.com>
+Date: Fri, 8 Jan 2021 18:48:18 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <180e76098a5349241c44436e0a146dbbd2fbdf46.camel@linuxfoundation.org>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR0302CA0022.apcprd03.prod.outlook.com
+ (2603:1096:202::32) To SN6PR11MB2909.namprd11.prod.outlook.com
+ (2603:10b6:805:d5::13)
+Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 2FF0D4CE6026.A2CD1
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
-
-0001-hwclock-make-glibc-2.31-compatible.patch
-removed sincie it is not available in 1.33.0
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- ...1-hwclock-make-glibc-2.31-compatible.patch | 83 -------------------
- .../{busybox_1.32.0.bb => busybox_1.33.0.bb}  |  5 +-
- 2 files changed, 2 insertions(+), 86 deletions(-)
- delete mode 100644 meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
- rename meta/recipes-core/busybox/{busybox_1.32.0.bb => busybox_1.33.0.bb} (90%)
-
-diff --git a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch b/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
-deleted file mode 100644
-index 8d1f272120..0000000000
---- a/meta/recipes-core/busybox/busybox/0001-hwclock-make-glibc-2.31-compatible.patch
-+++ /dev/null
-@@ -1,83 +0,0 @@
--From 5b2fc5746c352eb2b27bfc9fb224580d9852d0fa Mon Sep 17 00:00:00 2001
--From: Sakib Sajal <sakib.sajal@windriver.com>
--Date: Fri, 17 Jul 2020 17:27:21 +0000
--Subject: [PATCH] hwclock: make glibc 2.31 compatible
--
--NEWS for glibc version 2.31
--===========================
--
--Deprecated and removed features, and other changes affecting compatibility:
--
--* The settimeofday function can still be used to set a system-wide
--  time zone when the operating system supports it.  This is because
--  the Linux kernel reused the API, on some architectures, to describe
--  a system-wide time-zone-like offset between the software clock
--  maintained by the kernel, and the "RTC" clock that keeps time when
--  the system is shut down.
--
--  However, to reduce the odds of this offset being set by accident,
--  settimeofday can no longer be used to set the time and the offset
--  simultaneously.  If both of its two arguments are non-null, the call
--  will fail (setting errno to EINVAL).
--
--  Callers attempting to set this offset should also be prepared for
--  the call to fail and set errno to ENOSYS; this already happens on
--  the Hurd and on some Linux architectures.  The Linux kernel
--  maintainers are discussing a more principled replacement for the
--  reused API.  After a replacement becomes available, we will change
--  settimeofday to fail with ENOSYS on all platforms when its 'tzp'
--  argument is not a null pointer.
--
--  settimeofday itself is obsolescent according to POSIX.  Programs
--  that set the system time should use clock_settime and/or the adjtime
--  family of functions instead.  We may cease to make settimeofday
--  available to newly linked binaries after there is a replacement for
--  Linux's time-zone-like offset API.
--
--hwclock had two calls to settimeofday, in functions to_sys_clock and
--set_system_clock_timezone, where both the arguments to settimeofday
--were valid (non-null).
--Therefore, split the call, once for timezone and once for timeval.
--
--Fixes #12756
--
--Upstream-Status: Pending
--
--Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-----
-- util-linux/hwclock.c | 12 ++++++++----
-- 1 file changed, 8 insertions(+), 4 deletions(-)
--
--diff --git a/util-linux/hwclock.c b/util-linux/hwclock.c
--index dc97d8f..cf346e8 100644
----- a/util-linux/hwclock.c
--+++ b/util-linux/hwclock.c
--@@ -131,8 +131,10 @@ static void to_sys_clock(const char **pp_rtcname, int utc)
-- 
-- 	tv.tv_sec = read_rtc(pp_rtcname, NULL, utc);
-- 	tv.tv_usec = 0;
---	if (settimeofday(&tv, &tz))
---		bb_simple_perror_msg_and_die("settimeofday");
--+	if (settimeofday(NULL, &tz))
--+		bb_simple_perror_msg_and_die("settimeofday: timezone");
--+	if (settimeofday(&tv, NULL))
--+		bb_simple_perror_msg_and_die("settimeofday: timeval");
-- }
-- 
-- static void from_sys_clock(const char **pp_rtcname, int utc)
--@@ -283,8 +285,10 @@ static void set_system_clock_timezone(int utc)
-- 	gettimeofday(&tv, NULL);
-- 	if (!utc)
-- 		tv.tv_sec += tz.tz_minuteswest * 60;
---	if (settimeofday(&tv, &tz))
---		bb_simple_perror_msg_and_die("settimeofday");
--+	if (settimeofday(NULL, &tz))
--+		bb_simple_perror_msg_and_die("settimeofday: timezone");
--+	if (settimeofday(&tv, NULL))
--+		bb_simple_perror_msg_and_die("settimeofday: timeval");
-- }
-- 
-- //usage:#define hwclock_trivial_usage
---- 
--2.24.1
--
-diff --git a/meta/recipes-core/busybox/busybox_1.32.0.bb b/meta/recipes-core/busybox/busybox_1.33.0.bb
-similarity index 90%
-rename from meta/recipes-core/busybox/busybox_1.32.0.bb
-rename to meta/recipes-core/busybox/busybox_1.33.0.bb
-index 3a669444dd..ec8f350955 100644
---- a/meta/recipes-core/busybox/busybox_1.32.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.33.0.bb
-@@ -44,11 +44,10 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://0001-testsuite-use-www.example.org-for-wget-test-cases.patch \
-            file://0001-du-l-works-fix-to-use-145-instead-of-144.patch \
-            file://0001-sysctl-ignore-EIO-of-stable_secret-below-proc-sys-ne.patch \
--           file://0001-hwclock-make-glibc-2.31-compatible.patch \
-            file://rev.cfg \
-            file://pgrep.cfg \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
- 
--SRC_URI[tarball.md5sum] = "9576986f1a960da471d03b72a62f13c7"
--SRC_URI[tarball.sha256sum] = "c35d87f1d04b2b153d33c275c2632e40d388a88f19a9e71727e0bbbff51fe689"
-+SRC_URI[tarball.md5sum] = "eb0e85d59015ddcd8d2219f42c8844ac"
-+SRC_URI[tarball.sha256sum] = "d568681c91a85edc6710770cebc1e80e042ad74d305b5c2e6d57a5f3de3b8fbd"
--- 
-2.25.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.198] (60.247.85.82) by HK2PR0302CA0022.apcprd03.prod.outlook.com (2603:1096:202::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.2 via Frontend Transport; Fri, 8 Jan 2021 02:48:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4b4c06ce-86d3-4878-87f3-08d8b37fd2b9
+X-MS-TrafficTypeDiagnostic: SN6PR11MB2654:
+X-Microsoft-Antispam-PRVS: 
+	<SN6PR11MB2654247BE1FFCB9E67459862FFAE0@SN6PR11MB2654.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ItuM6Hi99RIMnFO6f22FUoUJZc8PS7V8dJIus6g/EWQf3jmPLmSG5G3DxHlNh0LBgmM3uMVy3n6pI7q3U/Is8jEl6BBUWHBiTUYHUpXRyGcBQe2roRNImqn3gKDGJVt2rdU1ShW0k/QETrN9dLw5dnH4K9xyYRCySttdVwNaZIZ8yom9TB+9/KeKf5uThEfpCDqYLPbS2KiGadvhAszOZDG3vNJD2iCQYv/T48Z48rkUQ8zGmWnZDT4GUP34aMesgxxCdytPCgbCRjF+6J2jVOGjZwHPquYNUkhgQvcDOLpZSrNxVFcAcFPKt38rOakahhloc1n1CjMe3y3Xemc+mGylmV9F1jcvU1gEDUt6SFpVfRRUkajDNZyHF7EeyRpksJ3SKRU2qYmR7rSz/vhuRPDhBzt44A3Bib0YVieTNMbYp16YNrB/yxfYRG4g8yHvNsXsyXSAevL+5Th9CvN2ppV2C5ZuhZlNDS3Isr8YcO0E1jwKzghgueMdGGy0KftZ
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(346002)(39850400004)(376002)(366004)(66476007)(2616005)(956004)(31686004)(2906002)(186003)(66556008)(5660300002)(66946007)(8936002)(26005)(6666004)(8676002)(36756003)(16576012)(316002)(52116002)(86362001)(478600001)(53546011)(6706004)(16526019)(6486002)(31696002)(78286007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?geq6FEWBBOjPSgP9c4MSAQRba/m3HcqJMErhuJ9A/UK1IcXhpQZ1y5RTSjzM?=
+ =?us-ascii?Q?a4405B1lE5N+wT8HoyPP1/HopAjPEI2rNdQilIF7sIvdvLqSm3zCDwlSLOdp?=
+ =?us-ascii?Q?1ZCVEUmz6BvlbNV0iNFMFTJr8WQE1wqQYGhZtAtl4ZKEbAqQssxDaokELwel?=
+ =?us-ascii?Q?w0RY+RQiGEU41jx+lp/As4VEmgBYJimTFV8EkpSfNVbkoFZTj4RVV5Dwc1sx?=
+ =?us-ascii?Q?HxlGMbfUY4b+GFm8jRxX10zQ4tVY41mIT+lmgJqpfqXyZyQN00pXN86+TuAu?=
+ =?us-ascii?Q?EhHhRPcT9DUHN0j8FzrWfLXK4jaIz1GJsPaY7PgvFBmNDEl4WYaOQItzHNl2?=
+ =?us-ascii?Q?arbspUURZPOcXnSYZYHKlLAaEWot1DaTO/2DhDlqj1PRiz7DUyr3wGCLiM1M?=
+ =?us-ascii?Q?HxjEIeH0wF0f8bs24ZJczUnVxP9QESFr40YCoDLSVrpIEBoYFICteTdh0Fia?=
+ =?us-ascii?Q?ALmEv/hAV2YICrfAQ4s2bfeMGAUYjbZGXgSYcfB7C8kHr7oaXyHzHMzVXtfC?=
+ =?us-ascii?Q?ouoCIWkhoGMy1gtQhVxcvJA5Wi/WrMvm9O1Ju5GfKQAuFb4FPy/74IIS8p4D?=
+ =?us-ascii?Q?21QaIvkO1EbRxr+7PJGUbSgOnbFwiV2p81J7DW9bgE5SWmXuiOUO2uEzxrsr?=
+ =?us-ascii?Q?a1eOV6OM4HFskAsfWAJNJJarMXjoYK6x9DQnuQ/Ge/nX/4q73AaES1q/9mki?=
+ =?us-ascii?Q?iWveDLVAxu1kvBaaJ5yo31HoQ7++0kVDz30zEv8mVT84tg3iP3C5Orz5ScYW?=
+ =?us-ascii?Q?5wXFr9W9rZB3j5ubdcRMJXGsEUaj3pY2xyZ2stQ+1Da8gre4HEGU+yCl9RTt?=
+ =?us-ascii?Q?/uA3c5RVYeAPaJPPQJlXdvL9rDsBFHPcbb1rOHEW7Cjs0blZvpexWZC+67+E?=
+ =?us-ascii?Q?dLNeFCpPfV1HwXcNFSPp2OZefXA/xrlZnE9sJXB4dySEoE8qdf/VSDQx7xyq?=
+ =?us-ascii?Q?czbh3vDyFI3hnkSRIRLFhs/5YakK/E8Fy5guM1gggNIWa9FO+WVki/4mHPDf?=
+ =?us-ascii?Q?rt87?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jan 2021 02:48:04.9508
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b4c06ce-86d3-4878-87f3-08d8b37fd2b9
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: K4LVu/humYW+M0QFtF9U+9kvPTDuid4C1V/gJ4FSaL1UwTwvy2rVI6VDmYFVje3hpjaa7FWfUzuaGBvrdHpY7WeFWMvXAr2OzVVV2gC/+UU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2654
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
 
 
+On 1/8/21 1:10 AM, Richard Purdie wrote:
+> On Thu, 2021-01-07 at 18:59 +0800, Robert Yang wrote:
+>> There are two problems to use cache-native now:
+>> * ccache-native depends on cmake-native and zstd-native which makes it r=
+equires
+>>  =C2=A0=C2=A0=C2=A0more time to build, so it might be a bottleneck for t=
+he build
+>>
+>> * We need disable ccache-native for about 20 native recipes to resolve t=
+he
+>> circular dependency.
+>>
+>> It seems that there isn't a good way to fix the problem, or we have to d=
+isable
+>> ccache for native recipes, only make other recipes (cross, target and na=
+tivesdk)
+>> use ccache-native.
+>>
+>> Host's ccache isn't reliable from the history.
+>=20
+> Thanks for the analysis. I think I'd be inclined to disable ccache for
+> native recipes then. If anyone does want to use it for native recipes,
+> they can build a buildtools tarball of their own that contains it but I
+> don't want to default to that.
+
+Yes, make sense, I will send a patch to disable ccache for native recipes a=
+nd=20
+enable ccache-native for other recipes.
+
+// Robert
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
