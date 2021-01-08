@@ -1,105 +1,69 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.3706.1610079500392423505
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 20:18:32 -0800
+ Thu, 07 Jan 2021 20:18:34 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: /VXTtfPwvILRQataLosBKraBU9BgolEPalg+KzEo+7yy+1hBeOlsuf0VTLAdtAJ59Nx2Vt9xIh
- tnm/YEJ6u89w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="164613662"
+IronPort-SDR: HmGm9FbbbL2wf5Gd5YNfzW/yRYguk9pfN9O4oZxXgb12dii5xh9yZChE1bzBImdxu2v0McpF3P
+ cWTGeB1rDf9w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="164613666"
 X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; 
-   d="scan'208";a="164613662"
+   d="scan'208";a="164613666"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:32 -0800
-IronPort-SDR: dQv+157P2HYcOk99k5iZgSqZxaL5ZwpNFkqq1oaVP2/dnylBtedmeyLrVUgEZ6c6WyiLF8SmuG
- vKAGGnpGCRxg==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:33 -0800
+IronPort-SDR: 32RRQtXki4GmSpQCMO5YiDTFpJe2Zc224vHW3uAi0txKbVGmBka7gdhM/qSSR58JZCcz26gbDP
+ UOaBWlCGk+HA==
 X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; 
-   d="scan'208";a="362209414"
+   d="scan'208";a="362209426"
 Received: from nshamsan-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.135.192])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:31 -0800
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:32 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 10/30] wic/direct/kparser: ensure fsuuid for vfat and msdos align with format
-Date: Fri,  8 Jan 2021 12:17:52 +0800
-Message-Id: <e71365fe128fe5e7d01232a1da62a3989e0d8eb2.1610079279.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 11/30] man-db: Fix reproducibility issue
+Date: Fri,  8 Jan 2021 12:17:53 +0800
+Message-Id: <ba0797130d60d168ea85be4e5928492a73fa4e7b.1610079279.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610079278.git.anuj.mittal@intel.com>
 References: <cover.1610079278.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-vfat/msdos filesystem should have fsuuid in format 0xYYYYYYYY where "0x"
-in front follow with 8 hexadecimal number in uppercase. In wic, when using
-custom fsuuid for vfat/msdos partition in wks, it is able to set the value
-in any length, with or without leading "0x". This can cause fsuuid
-missaligned when fstab updates, fstab expect exactly 10 character
-fsuuid for vfat/msdos partition and all in uppercase.
+Executing a sequence like:
 
-if custom fsuuid for vfat/msdos is set, check the length and format,
-error if it exceed the format size. Amend it so it is align with format
-0xYYYYYYYY. This is done before image create and fstab update to ensure the
-fsuuid are same in all followup process. if custom fsuuid length less than
-expected, fill in "0".
+bitbake man-db
+bitbake man-db -c clean
+bitbake man-db -c package_write_deb -f
 
-[YOCTO #14161]
+results in the ownership of files in the man-db package changing from "man/man"
+to "6/12". This is due to base-passwd not being installed in the recipe
+sysroot.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Add the missing dependency so even if a recipe "re-packages", the name
+of the user/group is found and the packages are reproducible.
+
+[YOCTO #14172]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d9686ae511ef10a504becfd81bfe296b788e1456)
+(cherry picked from commit 769f8be29a192fd4fa0c4752f851fa3728d71179)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/lib/wic/ksparser.py              | 17 +++++++++++++++++
- scripts/lib/wic/plugins/imager/direct.py |  7 +++++++
- 2 files changed, 24 insertions(+)
+ meta/recipes-extended/man-db/man-db_2.9.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 913e3283dc..3eb669da39 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -229,6 +229,23 @@ class KickStart():
-                                 err = "%s:%d: SquashFS does not support LABEL" \
-                                        % (confpath, lineno)
-                                 raise KickStartError(err)
-+                        if parsed.fstype == 'msdos' or parsed.fstype == 'vfat':
-+                            if parsed.fsuuid:
-+                                if parsed.fsuuid.upper().startswith('0X'):
-+                                    if len(parsed.fsuuid) > 10:
-+                                        err = "%s:%d: fsuuid %s given in wks kickstart file " \
-+                                              "exceeds the length limit for %s filesystem. " \
-+                                              "It should be in the form of a 32 bit hexadecimal" \
-+                                              "number (for example, 0xABCD1234)." \
-+                                              % (confpath, lineno, parsed.fsuuid, parsed.fstype)
-+                                        raise KickStartError(err)
-+                                elif len(parsed.fsuuid) > 8:
-+                                    err = "%s:%d: fsuuid %s given in wks kickstart file " \
-+                                          "exceeds the length limit for %s filesystem. " \
-+                                          "It should be in the form of a 32 bit hexadecimal" \
-+                                          "number (for example, 0xABCD1234)." \
-+                                          % (confpath, lineno, parsed.fsuuid, parsed.fstype)
-+                                    raise KickStartError(err)
-                         if parsed.use_label and not parsed.label:
-                             err = "%s:%d: Must set the label with --label" \
-                                   % (confpath, lineno)
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 55db826e93..0ca67b77d5 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -343,6 +343,13 @@ class PartitionedImage():
-                     part.fsuuid = '0x' + str(uuid.uuid4())[:8].upper()
-                 else:
-                     part.fsuuid = str(uuid.uuid4())
-+            else:
-+                #make sure the fsuuid for vfat/msdos align with format 0xYYYYYYYY
-+                if part.fstype == 'vfat' or part.fstype == 'msdos':
-+                    if part.fsuuid.upper().startswith("0X"):
-+                        part.fsuuid = '0x' + part.fsuuid.upper()[2:].rjust(8,"0")
-+                    else:
-+                        part.fsuuid = '0x' + part.fsuuid.upper().rjust(8,"0")
+diff --git a/meta/recipes-extended/man-db/man-db_2.9.3.bb b/meta/recipes-extended/man-db/man-db_2.9.3.bb
+index a28f77b750..e8da92bd19 100644
+--- a/meta/recipes-extended/man-db/man-db_2.9.3.bb
++++ b/meta/recipes-extended/man-db/man-db_2.9.3.bb
+@@ -11,6 +11,7 @@ SRC_URI[sha256sum] = "fa5aa11ab0692daf737e76947f45669225db310b2801a5911bceb7551c
  
-     def prepare(self, imager):
-         """Prepare an image. Call prepare method of all image partitions."""
+ DEPENDS = "libpipeline gdbm groff-native base-passwd"
+ RDEPENDS_${PN} += "base-passwd"
++PACKAGE_WRITE_DEPS += "base-passwd"
+ 
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+ USE_NLS_libc-musl = "no"
 -- 
 2.29.2
 
