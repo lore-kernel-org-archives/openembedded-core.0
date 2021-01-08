@@ -1,108 +1,107 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.3706.1610079500392423505
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Jan 2021 20:18:23 -0800
+ Thu, 07 Jan 2021 20:18:24 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: mYDBSI1GS9K/7LK0I/Y08CrLWUIsLj6O8stRKISDWUZuPkYx4QoECnkTKXO0WMRcLBgRrMh4T6
- 0y1heasWSgDQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="164613630"
+IronPort-SDR: Zm/+KC9gi2nKO88oyFLGEy/aBhaUV/UJOZ9sBvcDm4VCEHFUXraRsnHO0TDLkq0Jfc+sT4d3OG
+ emU0d1/ZDNhw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9857"; a="164613634"
 X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; 
-   d="scan'208";a="164613630"
+   d="scan'208";a="164613634"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:22 -0800
-IronPort-SDR: AlJgPlIW/wgCO8Qk5HyfpkpGrO8KM5F4uNDK2yxk2bvs2SPLdgZChXIMPNZ5nLEjJL2TNxD8bd
- ZrtEPNC3Y/zQ==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:24 -0800
+IronPort-SDR: Ho4X22/vwC/kn6+BFzw3MQO/32H821mGZCfsFwRuh/riexu+7IxU7yuOQMpNPMbItsLMdz1t1r
+ X1GJ5eA9cS/Q==
 X-IronPort-AV: E=Sophos;i="5.79,330,1602572400"; 
-   d="scan'208";a="362209350"
+   d="scan'208";a="362209352"
 Received: from nshamsan-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.135.192])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:21 -0800
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jan 2021 20:18:23 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 03/30] glib-2.0: fix CVE-2020-35457
-Date: Fri,  8 Jan 2021 12:17:45 +0800
-Message-Id: <122f93d68ee0e9b418da0dcc99cb7cdcb7b3f643.1610079279.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 04/30] timezone: upgrade to 2020e
+Date: Fri,  8 Jan 2021 12:17:46 +0800
+Message-Id: <9b291019c128652951e4ddd569813cd89843f6bb.1610079279.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610079278.git.anuj.mittal@intel.com>
 References: <cover.1610079278.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 
-https://gitlab.gnome.org/GNOME/glib/-/issues/2197
+Briefly:
+  Volgograd switches to Moscow time on 2020-12-27 at 02:00.
 
-upstream claim it is not security issue, but no harm to fix it since
-this is still a valid issue.
+Changes to future timestamps
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+  Volgograd changes time zone from +04 to +03 on 2020-12-27 at 02:00.
+  (Thanks to Alexander Krivenyshev and Stepan Golosunov.)
+
+Changes to past timestamps
+
+  Correct many pre-1986 transitions, fixing entries originally
+  derived from Shanks.  The fixes include:
+    - Australia: several 1917 through 1971 transitions
+    - Bahamas: several 1941 through 1945 transitions
+    - Bermuda: several 1917 through 1956 transitions
+    - Belize: several 1942 through 1968 transitions
+    - Ghana: several 1915 through 1956 transitions
+    - Israel and Palestine: several 1940 through 1985 transitions
+    - Kenya and adjacent: several 1908 through 1960 transitions
+    - Nigeria and adjacent: correcting LMT in Lagos, and several 1905
+      through 1919 transitions
+    - Seychelles: the introduction of standard time in 1907, not 1906
+    - Vanuatu: DST in 1973-1974, and a corrected 1984 transition
+  (Thanks to P Chan.)
+
+  Because of the Australia change, Australia/Currie (King Island) is
+  no longer needed, as it is identical to Australia/Hobart for all
+  timestamps since 1970 and was therefore created by mistake.
+  Australia/Currie has been moved to the 'backward' file and its
+  corrected data moved to the 'backzone' file.
+
+Changes to past time zone abbreviations and DST flags
+
+  To better match legislation in Turks and Caicos, the 2015 shift to
+  year-round observance of -04 is now modeled as AST throughout before
+  returning to Eastern Time with US DST in 2018, rather than as
+  maintaining EDT until 2015-11-01.  (Thanks to P Chan.)
+
+Changes to documentation
+
+  The zic man page now documents zic's coalescing of transitions
+  when a zone falls back just before DST springs forward.
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9d7643339b4db6609b2bad1f76599a54da9d17f2)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../glib-2.0/glib-2.0/CVE-2020-35457.patch    | 41 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-35457.patch
+ meta/recipes-extended/timezone/timezone.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-35457.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-35457.patch
-new file mode 100644
-index 0000000000..828f9fcb96
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-35457.patch
-@@ -0,0 +1,41 @@
-+From 63c5b62f0a984fac9a9700b12f54fe878e016a5d Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <withnall@endlessm.com>
-+Date: Wed, 2 Sep 2020 12:38:09 +0100
-+Subject: [PATCH] goption: Add a precondition to avoid GOptionEntry list
-+ overflow
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+If the calling code adds more option entries than `G_MAXSIZE` then
-+there’ll be an integer overflow. This seems vanishingly unlikely (given
-+that all callers use static option entry lists), but add a precondition
-+anyway.
-+
-+Signed-off-by: Philip Withnall <withnall@endlessm.com>
-+
-+Fixes: #2197
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/63c5b62f0a984fac9a9700b12f54fe878e016a5d]
-+CVE: CVE-2020-35457
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ glib/goption.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/glib/goption.c b/glib/goption.c
-+index 9f5b977c4..bb9093a33 100644
-+--- a/glib/goption.c
-++++ b/glib/goption.c
-+@@ -2422,6 +2422,8 @@ g_option_group_add_entries (GOptionGroup       *group,
-+ 
-+   for (n_entries = 0; entries[n_entries].long_name != NULL; n_entries++) ;
-+ 
-++  g_return_if_fail (n_entries <= G_MAXSIZE - group->n_entries);
-++
-+   group->entries = g_renew (GOptionEntry, group->entries, group->n_entries + n_entries);
-+ 
-+   /* group->entries could be NULL in the trivial case where we add no
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb
-index a30c5215be..b9462bc945 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.64.5.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
-            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-            file://tzdata-update.patch \
-+           file://CVE-2020-35457.patch \
-            "
+diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
+index 5368464f30..d175f0d4a0 100644
+--- a/meta/recipes-extended/timezone/timezone.inc
++++ b/meta/recipes-extended/timezone/timezone.inc
+@@ -6,7 +6,7 @@ SECTION = "base"
+ LICENSE = "PD & BSD & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
  
- SRC_URI_append_class-native = " file://relocate-modules.patch"
+-PV = "2020d"
++PV = "2020e"
+ 
+ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
+            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
+@@ -14,5 +14,5 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+ 
+ UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ 
+-SRC_URI[tzcode.sha256sum] = "6cf050ba28e8053029d3f32d71341d11a794c6b5dd51a77fc769d6dae364fad5"
+-SRC_URI[tzdata.sha256sum] = "8d813957de363387696f05af8a8889afa282ab5016a764c701a20758d39cbaf3"
++SRC_URI[tzcode.sha256sum] = "3e10308976b09305d15cb4a32ff75483421f2063bfa24a9be366a027e7cd2902"
++SRC_URI[tzdata.sha256sum] = "0be1ba329eae29ae1b54057c3547b3e672f73b3ae7643aa87dac85122bec037e"
 -- 
 2.29.2
 
