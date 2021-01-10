@@ -1,130 +1,87 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web11.21758.1610302731811800677
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web10.25995.1610321103697317283
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jan 2021 10:18:51 -0800
+ Sun, 10 Jan 2021 15:25:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EdmG46T4;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.173, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f173.google.com with SMTP id s2so17840795oij.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Jan 2021 10:18:51 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=eBOlXcgl;
+ spf=pass (domain: linaro.org, ip: 209.85.210.52, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-ot1-f52.google.com with SMTP id x13so15289605oto.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Jan 2021 15:25:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:message-id:date;
-        bh=PHoIXPl9hhdDgpeRK/FopgoMmeFcWDEZ2qPUNm7bPnw=;
-        b=EdmG46T4vZqZU94zAhcdM5/4EKz1UoXLdc8MTHOoMFwpOwrcvVjL4C058bHaQXybvG
-         EO4hPfpq+cYr4yEIbFOwAgOFR/s07Yn55Ojgk+t74EL/4BDJhKF6QpMu+Syq8K1KPzgM
-         njWhqX2kcbRsD49u7SLHbQcTNU+Ewsv8Jf0qJSn89FLJxEfVi5tRTUfPQXU4bPT9VcIF
-         kjklwj7IjXAW7f05AbmQOr5gdYkeIYqROVgO3XtD6F9NaOfa/1/y3AfAmcjkaeLwt+Y8
-         sGS67/aAUPOcd4hl3Ap1iqEGvf8GN0rDY+Zd/8dGgNKndoyMKKtf+27WAlZq9XsTT9Hf
-         zxZw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=8yGbhGal+XJw54VGY3lCQz19BhO9YGT9chK+qULHy4c=;
+        b=eBOlXcgletYaggoOs4Za/TVbRmQ+vtWHTe99u29bjTIwuwzNATMsYdFdMFMFHaYbpx
+         vWCAUayh66HhPVgOGoCDALZLf2k1AbdJQ+zVquza6XjeS47WXdvZlgwLE7LY4HgZiaic
+         gV+x65GXBlzbEz17VCCnknuvK4sj/4Q5n0isoFvZFt4LwByKn/IZxebO0pPSxT7/lVJR
+         bRVhibeB9l1QolRBURoCZwsHZ+j+0UPgRdwsTJL/vf6s660rzK3f4wXyk5x/azmGgMyg
+         TAOTOlpvJHS+48lTditJbUn1L2M52oYjvjJAaD6K/LsQcy4olIARPlQEugag8hIKi7/U
+         OOrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:message-id:date;
-        bh=PHoIXPl9hhdDgpeRK/FopgoMmeFcWDEZ2qPUNm7bPnw=;
-        b=pZt+hJpq+J9GLqPSWy9ZAWB5tjEJmQh4IWIsytiTkfBlLVwGxosl9KfUNVYaWYWuSa
-         8Nb5MFCS/DnV10jY2dNjcpcpRJjgqR4dARQxLMEKfqxV5hF09B46fEb6/uVubbTOcqdQ
-         qAOPnu1RGdfygoFcByoZI4MVlrw4wZeIxWyRqfzrHVrLzlcPBBAsseQsPuyUQM5YmBuL
-         cHfBMA6y0/LnxXYHsVbzN6ajuRu0OQWVW+GhhNhwb4NcI/O+5e+fjy6R28qCkJyxkCDV
-         SJl2/DvOe6c8hhJCjY6shnBRW3vEYcHzjiKh+UdKJbKAgMdxV4mTxuyL5OARhEYn1vli
-         Y4QQ==
-X-Gm-Message-State: AOAM531/fF9ONhG1f+P5p7XJZpadpT/n3ukgrfvFAKjuqSUYufM/9HUJ
-	qCYQUauzqz0MPSziDZMmc3oquAS3dmd+Vp7HvcM=
-X-Google-Smtp-Source: ABdhPJxxHBHiUJIJXOLNgb7ntInc1BX0+CicrA61NsMThkxrD6QJzv3n1SQo503zr0JCekSJcm5iNg==
-X-Received: by 2002:aca:5792:: with SMTP id l140mr8344581oib.175.1610302730598;
-        Sun, 10 Jan 2021 10:18:50 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from nuc.router0800d9.com ([99.197.43.150])
-        by smtp.gmail.com with ESMTPSA id e10sm3068265otl.38.2021.01.10.10.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jan 2021 10:18:49 -0800 (PST)
-Received: by nuc.router0800d9.com (Postfix, from userid 1000)
-	id F15FE962E3C; Sun, 10 Jan 2021 08:18:37 -1000 (HST)
-Subject: OE-core CVE metrics for gatesgarth on Sun 10 Jan 2021 08:15:01 AM HST
-From: "Steve Sakoman" <steve@sakoman.com>
-To: <steve@sakoman.com>,<openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
-X-Mailer: mail (GNU Mailutils 3.7)
-Message-Id: <20210110181837.F15FE962E3C@nuc.router0800d9.com>
-Date: Sun, 10 Jan 2021 08:18:37 -1000 (HST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=8yGbhGal+XJw54VGY3lCQz19BhO9YGT9chK+qULHy4c=;
+        b=SfH2iokSuhNObI+IfI4gz0RGx4ynAm7i1hlPitQ7Id7d00fggadt94VQAD7PTUIeRI
+         yZKbFWJrpkflNCucGpobw+d3g5sdjp4Gcl5jufLSln1UmnCBqzHQC/T0u0fVvZDvvyYi
+         Pg+Cn/bTIxT644n24rWwRzyCOGa7GTKIr9/c9hf7uIOPy+4BJ33nWK/QY+iN8hAzd6pb
+         oSTax88MMAvMDFBZYLUnbqjgpONnVjPo9wcbeP7T96P7yKqvsnt9Cgwb/m5fZdyduYbi
+         wBpGv/IiYdXGFxWw3yTc4ZJbKzQwdJ0vzjS0BbIUjPCz1H+rqcdjMrRN4RfGaCCnGN8B
+         zGeQ==
+X-Gm-Message-State: AOAM533t1nRVhSmHqLndvNRRKDRmaRSUWaT7ObhvB84pJGNHfrXdvpJ2
+	IFOTejhYeH82F4tsxA0oWaonjWpq/Di3Y9WeYkscUrd7FA1NoQ==
+X-Google-Smtp-Source: ABdhPJyqvUvsdQ4GqCTGg3LkwA3vcpTK2T83SnImclEFvnkcRfb7CqzOf6Zb+HXnc7Mi2oSkFqpIXZOTRD2j6sMXjjo=
+X-Received: by 2002:a9d:7411:: with SMTP id n17mr9135828otk.262.1610321102635;
+ Sun, 10 Jan 2021 15:25:02 -0800 (PST)
+MIME-Version: 1.0
+References: <20201227234844.2572356-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20201227234844.2572356-1-dmitry.baryshkov@linaro.org>
+From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
+Date: Mon, 11 Jan 2021 02:24:51 +0300
+Message-ID: <CAA8EJpqLeNYFs1qwEkj_L9D3e_zVVZ3M48LjpELyd0PNdmqotQ@mail.gmail.com>
+Subject: Re: [PATCH] rxvt-unicode: use RPROVIDES instead of just PROVIDES
+To: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 
-Branch: gatesgarth
+Hello,
 
-New this week:
-CVE-2019-25013: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-25013 *
+On Mon, 28 Dec 2020 at 02:48, Dmitry Baryshkov
+<dmitry.baryshkov@linaro.org> wrote:
+>
+> Change rxvt-unicode from using PROVIDES to RPROVIDES for
+> x-terminal-emulator, since the package provides x-terminal-emulator
+> functionality at runtime rather than at build time.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-Removed this week:
-CVE-2008-1033: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-1033 *
-CVE-2018-6553: cups https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-6553 *
-CVE-2019-20446: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20446 *
-CVE-2020-28362: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28362 *
-CVE-2020-28366: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28366 *
-CVE-2020-28367: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-28367 *
-CVE-2020-29562: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29562 *
+I'd like to ping for this patch. Is there something wrong with it?
+Having "virtual/x-terminal-emulator" in PROVIDES is the wrong idea in
+my opinion.
+Other recipes can require virtual/x-terminal-emulator in runtime,
+rather than at the build time.
 
-Full list:  Found 67 unpatched CVEs
-CVE-2007-0998: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-0998 *
-CVE-2007-2379: jquery https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2379 *
-CVE-2007-2768: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-2768 *
-CVE-2007-4476: tar https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2007-4476 *
-CVE-2008-0888: unzip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-0888 *
-CVE-2008-3188: libxcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3188 *
-CVE-2008-3844: openssh https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-3844 *
-CVE-2008-4178: builder https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4178 *
-CVE-2008-4539: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2008-4539 *
-CVE-2010-4226: cpio https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4226 *
-CVE-2010-4756: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2010-4756 *
-CVE-2011-1548: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1548 *
-CVE-2011-1549: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1549 *
-CVE-2011-1550: logrotate https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2011-1550 *
-CVE-2013-0221: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0221 *
-CVE-2013-0222: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0222 *
-CVE-2013-0223: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0223 *
-CVE-2013-0800: cairo https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
-CVE-2013-4235: shadow-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4235 *
-CVE-2013-4342: xinetd https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4342 *
-CVE-2013-6629: ghostscript https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-6629 *
-CVE-2013-7381: libnotify https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-7381 *
-CVE-2015-7313: tiff https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-7313 *
-CVE-2016-2781: coreutils-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-2781 *
-CVE-2016-6328: libexif https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2016-6328 *
-CVE-2017-3139: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-3139 *
-CVE-2017-5957: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2017-5957 *
-CVE-2018-1000041: librsvg https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-1000041 *
-CVE-2018-12433: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12433 *
-CVE-2018-12437: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12437 *
-CVE-2018-12438: libgcrypt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-12438 *
-CVE-2018-13410: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13410 *
-CVE-2018-13684: zip https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-13684 *
-CVE-2018-18438: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2018-18438 *
-CVE-2019-1010022: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010022 *
-CVE-2019-1010023: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010023 *
-CVE-2019-1010024: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010024 *
-CVE-2019-1010025: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1010025 *
-CVE-2019-14865: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14865 *
-CVE-2019-20633: patch-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-20633 *
-CVE-2019-25013: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-25013 *
-CVE-2019-6293: flex-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6293 *
-CVE-2019-6470: bind https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-6470 *
-CVE-2020-12351: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12351 *
-CVE-2020-12352: bluez5 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12352 *
-CVE-2020-12825: libcroco https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-12825 *
-CVE-2020-14310: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14310 *
-CVE-2020-15705: grub-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15705 *
-CVE-2020-15863: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15863 *
-CVE-2020-15900: ghostscript-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-15900 *
-CVE-2020-1752: glibc https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1752 *
-CVE-2020-1971: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1971 *
-CVE-2020-25723: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25723 *
-CVE-2020-25742: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25742 *
-CVE-2020-25743: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-25743 *
-CVE-2020-27821: qemu https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-27821 *
-CVE-2020-29361: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29361 *
-CVE-2020-29362: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29362 *
-CVE-2020-29363: p11-kit https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29363 *
-CVE-2020-29385: gdk-pixbuf-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29385 *
-CVE-2020-29509: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29509 *
-CVE-2020-29511: go https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-29511 *
-CVE-2020-35457: glib-2.0-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-35457 *
-CVE-2020-3810: apt https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-3810 *
-CVE-2020-8284: curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8284 *
-CVE-2020-8285: curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8285 *
-CVE-2020-8286: curl-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-8286 *
+> ---
+>  meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+> index b064a63caa66..6ebd3afcb939 100644
+> --- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+> +++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+> @@ -14,7 +14,7 @@ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2
+>
+>  inherit autotools pkgconfig update-alternatives
+>
+> -PROVIDES = "virtual/x-terminal-emulator"
+> +RPROVIDES_${PN} = "virtual/x-terminal-emulator"
+>  ALTERNATIVE_${PN} = "x-terminal-emulator"
+>  ALTERNATIVE_TARGET[x-terminal-emulator] = "${bindir}/rxvt"
+>
+> --
+> 2.29.2
+>
+
+
+-- 
+With best wishes
+Dmitry
