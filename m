@@ -1,83 +1,90 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web10.27038.1610325984911519919
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web12.27430.1610325988657494294
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jan 2021 16:46:25 -0800
+ Sun, 10 Jan 2021 16:46:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=uPwbADVj;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id g15so11515994pgu.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Jan 2021 16:46:24 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zYuFs0KL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id x126so9974911pfc.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Jan 2021 16:46:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=oDIJts6dZeewdueYFABJdx/a0I9OseaU7XTtKDBebKE=;
-        b=uPwbADVjbWobdF+MixmeshFhpm0S0vP869u1BmX13L5JA8aBCQYsZ4YdecqHBkb6pL
-         FGwj+vsABR52e7fNhG+OH404vmoQ7bkaggCGnO82lfMjrSw450U2WGLFDm3IcLy241JK
-         GTJNqconcDn91150+w5EvsycaGPLAnW7G/B+lMoydpnxVMCj6m7XyjdNznNVAutwr9UN
-         ltKP5WgatXD8aaz7dosM1KZTXRKyphXoZ3dJ/bwgJg66r0/9RTOjdxkNUP1i49ZzcLGm
-         //GDqZsRiy7Yr4+I0oXc6+miQTdfxwu/R8NHdQVsgImtl0uIOz7vgI0DWuglUcfUB9AQ
-         p3+A==
+        bh=AEFXvVHYG/XQi2Qu9k9DTuM04n9n4UKjzetVWvtPYSE=;
+        b=zYuFs0KLV7QX+4WmFM9qc0R9KQe3z/dPkLvssDoPW+nCgH3wrBGppogCCzcvhwM4WB
+         oWXsHV5bDcEgeCqfjBIBw9ELESkZbS4rRzN29BOmmQz0K4sGPQdA1tPFsaXswdrFbb8h
+         VpZh0BTOgTdHQsXWQT+DVEtBoKjM2dXF9VbG1eZMiUBZHnN6Zcv85q+0hSXTulptYsd3
+         GwvwnfODS2nKVp2Nov4T925uEqB+0Tx+Vi0QwdVijWIWLmyc6VnDIhxDp/uCViJWtKAW
+         rctrfVfKYD6nYlJNTt977/X13N3w3K70FCTHGX+00kyNjaxNcQ8RuiLy2GAwdJs5xhEf
+         24Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=oDIJts6dZeewdueYFABJdx/a0I9OseaU7XTtKDBebKE=;
-        b=ueNWW525VLJarcI+EpDQjHFJVfrKt8RtZ3CZpgS6MSUWFWHpy5zNG3PqWW3fnEquZi
-         YaxFyTlTrNpvAkoM/hDkeGTeul6gnXwJTxD12OeMFiJGLXKF/xzYzoNmcSIIOck1E1nU
-         LYRk59G+dPhcPgYIsXBQ6MQQfoyCcLzUyfmgzxVLhX+U1sruIYF+gIPJIZLHdBO8z+pc
-         WlEFsNY3UQ3BDztFTYFdxytIli6V9VnqPrZqBuF6VE65iZQN0gQzqzk/jBaaIpjkPt7z
-         MCVXuP8JZj5EtcuKU2gxAV5tgxU2ZzsD23GAgBKQrVyfdJssSv5N1xC2Vgcg1BlCuZRu
-         GVoQ==
-X-Gm-Message-State: AOAM533cLIHzgP7qspvVvNbmckSKF5Z3k27JOY7+OgU419pJ3speKqR3
-	ZGpue7V4oRbHddAxK/5MAIcFBWFcTY930XxXa9k=
-X-Google-Smtp-Source: ABdhPJyuvoZ86EIOgPvwJrcF2/VfZ1jiRD6owBEJh/FXBPd10Yn4cRVAapix0d3f7Ix/orAsXUlrhA==
-X-Received: by 2002:a63:4b5c:: with SMTP id k28mr17239791pgl.294.1610325984106;
-        Sun, 10 Jan 2021 16:46:24 -0800 (PST)
+        bh=AEFXvVHYG/XQi2Qu9k9DTuM04n9n4UKjzetVWvtPYSE=;
+        b=WM98J7hIqgvminFaAqAfDOU0QPDkbDR70C9HmGQIup7D0Ec9qm34JuvgSkUS0BBEmM
+         JzG6kbpfqOFFB8d+7eST/Lrt0HjEbTfycjuQATkw5FdoG5PBbXpmoXJo8sJpsJZZ7wFF
+         li8VRB2CVnEF3UpdQ3IzVZVvhk03+aquH9OZrQEOv+oKZ1uOlCuRtjLPziiPxVekpuAU
+         iFqr2q79RjRWerpRbYBRVbb92oBOx/VAr1pgLpcu2LVAuSs8U7xhUZkp6yDYPtdXEuQi
+         WzriDbnrD742UMklTT6sLgmMMV8vWfrsfQKDNNyvkoLh2KLhfUqc4drIX11qFxKGFfD9
+         UStQ==
+X-Gm-Message-State: AOAM533OIjKuFO/0UrfABcJcyd45iinMKRb+7k9P2zfhbJNughmbbdzl
+	Gcf9xSzIG3lbsAPMbZ30zvFX7WxXy+h4GGQn3aM=
+X-Google-Smtp-Source: ABdhPJyaInN7WFFs9Sk5D/ZEWT534OI0gfmAWwP1ZlAbCM5v6cYFkHbjSDti7Fpu4kVIgTKseFj4TA==
+X-Received: by 2002:a63:5843:: with SMTP id i3mr17429323pgm.209.1610325987869;
+        Sun, 10 Jan 2021 16:46:27 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id v125sm17729079pgv.6.2021.01.10.16.46.22
+        by smtp.gmail.com with ESMTPSA id v125sm17729079pgv.6.2021.01.10.16.46.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jan 2021 16:46:23 -0800 (PST)
+        Sun, 10 Jan 2021 16:46:26 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/12] oe-pkgdata-util: Added a test to verify oe-pkgdata-util without parameters
-Date: Sun, 10 Jan 2021 14:45:45 -1000
-Message-Id: <59272d46d61b3328ebd5c72d702d7e5b368afeb4.1610325804.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/12] diffstat: point the license checksum at the license
+Date: Sun, 10 Jan 2021 14:45:46 -1000
+Message-Id: <017d9626a7b7f2cb72d3215be8242aea52f1e4c5.1610325804.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1610325804.git.steve@sakoman.com>
 References: <cover.1610325804.git.steve@sakoman.com>
 
-From: Milan Shah <mshah@mvista.com>
+From: Ross Burton <ross@burtonini.com>
 
-A test is implemented on poky/meta/lib/oeqa/selftest/pkgdata.py to test
-the scenario when oe-pkgdata-util is executed without parameters and
-help is displayed.
+Previously install-sh was used, which is installed by autoconf so isn't
+a relevant license.
 
-See [YOCTO #10726] for detailed bug information.
+Also remove S assignment, as that's the default.
 
-Signed-off-by: Milan Shah <mshah@mvista.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6b4e2eafa6eb71ca94ccc8a18d05b473b352367c)
+(cherry picked from commit 23cb39a5fa2a55681e7bc2605f435135cec9173b)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/pkgdata.py | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-devtools/diffstat/diffstat_1.63.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/selftest/cases/pkgdata.py
-index 833a1803ba..254abc40c6 100644
---- a/meta/lib/oeqa/selftest/cases/pkgdata.py
-+++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
-@@ -218,3 +218,9 @@ class OePkgdataUtilTests(OESelftestTestCase):
-     def test_specify_pkgdatadir(self):
-         result = runCmd('oe-pkgdata-util -p %s lookup-pkg zlib' % get_bb_var('PKGDATA_DIR'))
-         self.assertEqual(result.output, 'libz1')
-+
-+    def test_no_param(self):
-+        result = runCmd('oe-pkgdata-util', ignore_status=True)
-+        self.assertEqual(result.status, 2, "Status different than 2. output: %s" % result.output)
-+        currpos = result.output.find('usage: oe-pkgdata-util')
-+        self.assertTrue(currpos != -1, msg = "Test is Failed. Help is not Displayed in %s" % result.output)
+diff --git a/meta/recipes-devtools/diffstat/diffstat_1.63.bb b/meta/recipes-devtools/diffstat/diffstat_1.63.bb
+index 61b2ea5dc2..863f924b22 100644
+--- a/meta/recipes-devtools/diffstat/diffstat_1.63.bb
++++ b/meta/recipes-devtools/diffstat/diffstat_1.63.bb
+@@ -5,7 +5,7 @@ reviewing large, complex patch files."
+ HOMEPAGE = "http://invisible-island.net/diffstat/"
+ SECTION = "devel"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://install-sh;endline=42;md5=b3549726c1022bee09c174c72a0ca4a5"
++LIC_FILES_CHKSUM = "file://COPYING;md5=a3d0bb117493e804b0c1a868ddf23321"
+ 
+ SRC_URI = "http://invisible-mirror.net/archives/${BPN}/${BP}.tgz \
+            file://run-ptest \
+@@ -16,8 +16,6 @@ SRC_URI = "http://invisible-mirror.net/archives/${BPN}/${BP}.tgz \
+ SRC_URI[md5sum] = "b9272ec8af6257103261ec3622692991"
+ SRC_URI[sha256sum] = "7eddd53401b99b90bac3f7ebf23dd583d7d99c6106e67a4f1161b7a20110dc6f"
+ 
+-S = "${WORKDIR}/diffstat-${PV}"
+-
+ inherit autotools gettext ptest
+ 
+ EXTRA_AUTORECONF += "--exclude=aclocal"
 -- 
 2.17.1
 
