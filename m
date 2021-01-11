@@ -1,59 +1,102 @@
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
- by mx.groups.io with SMTP id smtpd.web12.33667.1610368751244305018
+Received: from esa11.hc324-48.eu.iphmx.com (esa11.hc324-48.eu.iphmx.com [207.54.69.30])
+ by mx.groups.io with SMTP id smtpd.web11.33284.1610369132224812695
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jan 2021 04:39:11 -0800
+ Mon, 11 Jan 2021 04:45:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=fSnOpJ1V;
- spf=pass (domain: konsulko.com, ip: 209.85.161.44, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oo1-f44.google.com with SMTP id o5so4056448oop.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Jan 2021 04:39:11 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=k8V2byFo;
+ spf=pass (domain: bmw.de, ip: 207.54.69.30, mailfrom: prvs=638ffc773=michael.ho@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MQtNKQIq0fQz38q2v5SRcUgGDBD0ZKAT1cQTtjJuD6Y=;
-        b=fSnOpJ1VOEjjvkaEjbPL4Aor+4LYH+vkteBxDc8HpUFhdyx5ab1lHnekFheLkN37AA
-         gbMF/FpamqXYVHH4aNJjEIrifVBG2/Gt8jhUd1kYxXw3pR8s8wyZE2iN4xbMVQXzjOVf
-         vqZQt3i6fjnuATYK34tayb0vylO9M8TuQtqhw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MQtNKQIq0fQz38q2v5SRcUgGDBD0ZKAT1cQTtjJuD6Y=;
-        b=TEOb03zrHd9NS+ZKov4gbZEp9k6i00OqZMMqcbUPza/VfK+Ep4GEwo+pWzGPIanJya
-         O0dgobfHvoBn1vTBA1WE8wtNw4yAQNgLrYRh5s8zprXrdziDD2AOgrCYQ91p4jEdx1kX
-         GZ+lwMuTCtM2HkePrM502tc6HwO7KXd3xjcaOdhvgwNn33gB6OPZ1GZQa9xZnnWYZ+DE
-         QUK/kzGfNimHAW5tNEpuP7iebj7xuw+APiUj4RkE7oKPl9GTOUF1PthF5I96QUvJZBdt
-         OVJFQryPG6KfiUxDzSDqsUuSU5j9sSQUeoZE3ANGJ3M+MBSMktL/GaOmUMGOYLaJB/Pi
-         o9JQ==
-X-Gm-Message-State: AOAM532bppzdDnJE59jrwAde2j9e4OIvZK2KEsMNKgQG8WJYCRezhwJd
-	KROldx8aZ4WeH4MZDwajkhZLFeTYEwv2t1oNWWOCJj83Frmfrg==
-X-Google-Smtp-Source: ABdhPJz2w7kU9TiG7F/dO/MUzcd6qkui8uTdJgcqtrTYtfZHWcw+Frc/dLx3lhuZvy1AWBMfRXvjsSATSIarf4z5COE=
-X-Received: by 2002:a4a:b244:: with SMTP id i4mr11778596ooo.5.1610368750653;
- Mon, 11 Jan 2021 04:39:10 -0800 (PST)
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1610369132; x=1641905132;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=RO1HbAE47+PT6otAp6kkwbCVOyfV0C5tQI4yk1Ot67g=;
+  b=k8V2byFoCc4UXz3Sgu2+PmqoQsViW0wkTWi7ttXGyGchaxtNT3MSHYu5
+   fuO1upwBq0G9NXG9Mw2+IRbazzIE2tiROp1UD/mI3UL2xC3uiZyhBMxs5
+   3/fQBurRQ3cr8Fyw/MZgU2rnEx2UBrOC73prRXf15t4yHpdVBzgac7jKg
+   Q=;
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+ esa11.hc324-48.eu.iphmx.com with ESMTP/TLS; 11 Jan 2021 13:45:29 +0100
+Received: from esabb1.muc ([160.50.100.31])  by esagw6.muc with ESMTP/TLS;
+ 11 Jan 2021 13:45:29 +0100
+Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
+ by esabb1.muc with ESMTP/TLS; 11 Jan 2021 13:45:29 +0100
+Received: from michael-pcx.bmw-carit.intra (192.168.221.45) by
+ smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
+ Mon, 11 Jan 2021 13:45:29 +0100
+From: "Michael Ho" <Michael.Ho@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Michael Ho <Michael.Ho@bmw.de>
+Subject: [PATCH] rootfs_ipk: allow do_populate_sdk in parallel to do_rootfs
+Date: Mon, 11 Jan 2021 13:45:23 +0100
+Message-ID: <1610369123-220800-1-git-send-email-michael.ho@bmw.de>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <1609739642-25372-1-git-send-email-mshah@mvista.com> <CA+=qD9MRuL5902aOE+An63_ScRN-je9Q0kecdeMJ_HQsz882gw@mail.gmail.com>
-In-Reply-To: <CA+=qD9MRuL5902aOE+An63_ScRN-je9Q0kecdeMJ_HQsz882gw@mail.gmail.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Mon, 11 Jan 2021 12:39:00 +0000
-Message-ID: <CAM9ZRVuf68QRocmxq2B4_XVg3aeQ2QF9WCf6osG+h84LYvVCxw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH v3] oe-pkgdata-util: Added a test to verify oe-pkgdata-util without parameters
-To: Milan Shah <mshah@mvista.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, jose.perez.carranza@intel.com, 
-	Randy MacLeod <randy.macleod@windriver.com>, stephano.cetola@intel.com, 
-	paul.eggleton@linux.intel.com, joshua.g.lock@intel.com, 
-	benjamin.esquivel@intel.com
-Content-Type: text/plain; charset="UTF-8"
+Return-Path: michael.ho@bmw.de
+X-ClientProxiedBy: smucm15m.europe.bmw.corp (160.48.96.69) To
+ smucm09k.europe.bmw.corp (160.48.96.43)
+Content-Type: text/plain
 
-On Mon, 11 Jan 2021 at 12:19, Milan Shah <mshah@mvista.com> wrote:
->
-> Hi All,
->
-> This is a gentle reminder to review this patch.
+From: Michael Ho <Michael.Ho@bmw.de>
 
-Looks like this is also in master already:
-https://git.openembedded.org/openembedded-core/commit/?id=6b4e2eafa6eb71ca94ccc8a18d05b473b352367c
+Switch do_populate_sdk for the ipk package manager to use a separate target
+opkg config file and separate the lockfiles restricting do_rootfs and
+do_populate_sdk from running in parallel.
 
+This way if an image recipe includes a dependency to do_populate_sdk by
+default then it will run in parallel to do_rootfs saving time compared to the
+sequential execution.
+
+Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
+---
+ meta/classes/package_ipk.bbclass       | 1 +
+ meta/classes/rootfs_ipk.bbclass        | 4 ++--
+ meta/lib/oe/package_manager/ipk/sdk.py | 6 ++++++
+ 3 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 79cb36c..d31dba0 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -4,6 +4,7 @@ IMAGE_PKGTYPE ?= "ipk"
+ 
+ IPKGCONF_TARGET = "${WORKDIR}/opkg.conf"
+ IPKGCONF_SDK =  "${WORKDIR}/opkg-sdk.conf"
++IPKGCONF_SDK_TARGET = "${WORKDIR}/opkg-sdk-target.conf"
+ 
+ PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
+ 
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index f1e0219..245c256 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -14,8 +14,8 @@ do_rootfs[recrdeptask] += "do_package_write_ipk do_package_qa"
+ do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS PACKAGE_FEED_ARCHS"
+ 
+ do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
+-do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
+-do_populate_sdk_ext[lockfiles] += "${WORKDIR}/ipk.lock"
++do_populate_sdk[lockfiles] += "${WORKDIR}/sdk-ipk.lock"
++do_populate_sdk_ext[lockfiles] += "${WORKDIR}/sdk-ipk.lock"
+ 
+ OPKG_PREPROCESS_COMMANDS = ""
+ 
+diff --git a/meta/lib/oe/package_manager/ipk/sdk.py b/meta/lib/oe/package_manager/ipk/sdk.py
+index 37af034..e2ca415 100644
+--- a/meta/lib/oe/package_manager/ipk/sdk.py
++++ b/meta/lib/oe/package_manager/ipk/sdk.py
+@@ -14,6 +14,12 @@ class PkgSdk(Sdk):
+     def __init__(self, d, manifest_dir=None):
+         super(PkgSdk, self).__init__(d, manifest_dir)
+ 
++        # In sdk_list_installed_packages the call to opkg is hardcoded to
++        # always use IPKGCONF_TARGET and there's no exposed API to change this
++        # so simply override IPKGCONF_TARGET to use this separated config file.
++        ipkgconf_sdk_target = d.getVar("IPKGCONF_SDK_TARGET")
++        d.setVar("IPKGCONF_TARGET", ipkgconf_sdk_target)
++
+         self.target_conf = self.d.getVar("IPKGCONF_TARGET")
+         self.host_conf = self.d.getVar("IPKGCONF_SDK")
+ 
 -- 
-Paul Barker
-Konsulko Group
+2.7.4
+
