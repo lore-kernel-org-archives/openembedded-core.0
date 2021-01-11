@@ -1,69 +1,44 @@
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by mx.groups.io with SMTP id smtpd.web08.27430.1610328069832532064
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+ by mx.groups.io with SMTP id smtpd.web12.31651.1610356508929970871
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jan 2021 17:21:09 -0800
+ Mon, 11 Jan 2021 01:15:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: jay.shen.teoh@intel.com)
-IronPort-SDR: /tbAS5Yj1NtK+n6VUQh7wDaRdOgu27CXMHYasFqNQOu1xi/6U/zcfSq9JD+eHIzrGzxW8J1l7D
- d9Bu+ejsZoOw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9860"; a="177011148"
-X-IronPort-AV: E=Sophos;i="5.79,337,1602572400"; 
-   d="scan'208";a="177011148"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2021 17:21:07 -0800
-IronPort-SDR: yvDJ02qvdDmrnbuXGYEOigd/KM7iJdQUxaOhf4H38F7Jr9rSryNBPZy6Ds0KT0VKROrXuTBb9n
- QmvL85pVpm2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,337,1602572400"; 
-   d="scan'208";a="344754593"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga007.fm.intel.com with ESMTP; 10 Jan 2021 17:21:06 -0800
-From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] oeqa/cpu_utilization_test : add test for cpu utilization after standby state
-Date: Mon, 11 Jan 2021 09:21:03 +0800
-Message-Id: <1610328063-33463-1-git-send-email-jay.shen.teoh@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.16, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 4DDp280l5pz5tlP;
+	Mon, 11 Jan 2021 10:14:56 +0100 (CET)
+Date: Mon, 11 Jan 2021 10:14:54 +0100
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] rxvt-unicode: use RPROVIDES instead of just PROVIDES
+Message-ID: <20210111091454.jkikeoltgeo52uhb@qschulz>
+References: <20201227234844.2572356-1-dmitry.baryshkov@linaro.org>
+ <CAA8EJpqLeNYFs1qwEkj_L9D3e_zVVZ3M48LjpELyd0PNdmqotQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAA8EJpqLeNYFs1qwEkj_L9D3e_zVVZ3M48LjpELyd0PNdmqotQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Teoh Jay Shen <jay.shen.teoh@intel.com>
+Hi Dmitry,
 
-This test is checking the cpu utilization before and after standby state. The check_CPU_utilization_after_standby manual test case from oeqa/manual/bsp-hw can be replace by this runtime test.
+On Mon, Jan 11, 2021 at 02:24:51AM +0300, Dmitry Baryshkov wrote:
+> Hello,
+> 
+> On Mon, 28 Dec 2020 at 02:48, Dmitry Baryshkov
+> <dmitry.baryshkov@linaro.org> wrote:
+> >
+> > Change rxvt-unicode from using PROVIDES to RPROVIDES for
+> > x-terminal-emulator, since the package provides x-terminal-emulator
+> > functionality at runtime rather than at build time.
+> >
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> 
+> I'd like to ping for this patch. Is there something wrong with it?
 
-Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
----
- .../lib/oeqa/runtime/cases/cpu_utilization_test.py | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/cpu_utilization_test.py
+Richard answered the same day you sent your patch, see:
+https://lists.openembedded.org/g/openembedded-core/message/146248
 
-diff --git a/meta/lib/oeqa/runtime/cases/cpu_utilization_test.py b/meta/lib/oeqa/runtime/cases/cpu_utilization_test.py
-new file mode 100644
-index 0000000..a44b4ec
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/cpu_utilization_test.py
-@@ -0,0 +1,23 @@
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.core.decorator.data import skipIfQemu
-+
-+
-+class CPU_utilization_test(OERuntimeTestCase):
-+      
-+    def set_standby(self): 
-+        (status, output) = self.target.run('rtcwake -m mem -s 10')
-+        self.assertEqual(status, 0,  msg = 'Failed to set your system into standby mode, output : %s' % output)
-+    
-+    @skipIfQemu('qemuall', 'Test only runs on real hardware')
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    def test_CPU_utilization_after_standby(self):
-+        (status, cpu_usage_before_standby) = self.target.run("export TERM=xterm && top -b -n2 | grep 'Cpu(s)' | tail -n 1 | awk '{print $2 + $6}'")
-+        self.assertEqual(status, 0,  msg = 'Failed to run the top command, output : %s' % cpu_usage_before_standby)
-+        self.set_standby()
-+        (status, cpu_usage_after_standby) = self.target.run("export TERM=xterm && top -b -n2 | grep 'Cpu(s)' | tail -n 1 | awk '{print $2 + $6}'")
-+        self.assertEqual(status, 0,  msg = 'Failed to run the top command, output : %s' % cpu_usage_after_standby)
-+        cpu_usage_before_standby = int(float(cpu_usage_before_standby))
-+        cpu_usage_after_standby = int(float(cpu_usage_after_standby))
-+        cpu_usage_comparison = ((cpu_usage_before_standby - 5) <= cpu_usage_after_standby <= (cpu_usage_before_standby + 5))
-+        self.assertTrue(cpu_usage_comparison, msg='There should be no big difference in the cpu utilization before/after standby, cpu usage before standby : % s, cpu usage after standby : % s' % (cpu_usage_before_standby , cpu_usage_after_standby))
--- 
-2.7.4
-
+Cheers,
+Quentin
