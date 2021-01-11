@@ -1,87 +1,128 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web10.25995.1610321103697317283
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.27000.1610325968136026672
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jan 2021 15:25:03 -0800
+ Sun, 10 Jan 2021 16:46:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=eBOlXcgl;
- spf=pass (domain: linaro.org, ip: 209.85.210.52, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-ot1-f52.google.com with SMTP id x13so15289605oto.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Jan 2021 15:25:03 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mR5AtlFU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id h10so9965093pfo.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 Jan 2021 16:46:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=8yGbhGal+XJw54VGY3lCQz19BhO9YGT9chK+qULHy4c=;
-        b=eBOlXcgletYaggoOs4Za/TVbRmQ+vtWHTe99u29bjTIwuwzNATMsYdFdMFMFHaYbpx
-         vWCAUayh66HhPVgOGoCDALZLf2k1AbdJQ+zVquza6XjeS47WXdvZlgwLE7LY4HgZiaic
-         gV+x65GXBlzbEz17VCCnknuvK4sj/4Q5n0isoFvZFt4LwByKn/IZxebO0pPSxT7/lVJR
-         bRVhibeB9l1QolRBURoCZwsHZ+j+0UPgRdwsTJL/vf6s660rzK3f4wXyk5x/azmGgMyg
-         TAOTOlpvJHS+48lTditJbUn1L2M52oYjvjJAaD6K/LsQcy4olIARPlQEugag8hIKi7/U
-         OOrA==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zhRL1p3mTakno8NhlcG2dje12fBtuu6bqS2xLSZruPA=;
+        b=mR5AtlFUw42utOKOIG3wbFqPZNnto65rLFHjNpBN6YGoSJ9FYJIfo6KnaeX+SPSk6l
+         Sf4IHvmQVsRo2pdiHltEfQZSAa1fYpDS23KGsJo9kW0GFA3a/zOF5gi3oBnqUk3c2D5S
+         FY3Ha/X3TuQf8Ai17312Aq8nQV1w5j2FbrQPyLnuUjjKLx/jMRp3Zp/ayNvJiQHukH/n
+         bqocpkpEeBdbsz/47zpbi18H3NqGaX7ZnzWKCjyH7ZCgYfBEL33wevI0SgbzOyAp5USD
+         NzlSXMGgeK412VgPjfC6IPtyWHpEE1yxaZZuaHLUJP50h0jDlcqyZOmlaADarItZACdj
+         kAqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=8yGbhGal+XJw54VGY3lCQz19BhO9YGT9chK+qULHy4c=;
-        b=SfH2iokSuhNObI+IfI4gz0RGx4ynAm7i1hlPitQ7Id7d00fggadt94VQAD7PTUIeRI
-         yZKbFWJrpkflNCucGpobw+d3g5sdjp4Gcl5jufLSln1UmnCBqzHQC/T0u0fVvZDvvyYi
-         Pg+Cn/bTIxT644n24rWwRzyCOGa7GTKIr9/c9hf7uIOPy+4BJ33nWK/QY+iN8hAzd6pb
-         oSTax88MMAvMDFBZYLUnbqjgpONnVjPo9wcbeP7T96P7yKqvsnt9Cgwb/m5fZdyduYbi
-         wBpGv/IiYdXGFxWw3yTc4ZJbKzQwdJ0vzjS0BbIUjPCz1H+rqcdjMrRN4RfGaCCnGN8B
-         zGeQ==
-X-Gm-Message-State: AOAM533t1nRVhSmHqLndvNRRKDRmaRSUWaT7ObhvB84pJGNHfrXdvpJ2
-	IFOTejhYeH82F4tsxA0oWaonjWpq/Di3Y9WeYkscUrd7FA1NoQ==
-X-Google-Smtp-Source: ABdhPJyqvUvsdQ4GqCTGg3LkwA3vcpTK2T83SnImclEFvnkcRfb7CqzOf6Zb+HXnc7Mi2oSkFqpIXZOTRD2j6sMXjjo=
-X-Received: by 2002:a9d:7411:: with SMTP id n17mr9135828otk.262.1610321102635;
- Sun, 10 Jan 2021 15:25:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20201227234844.2572356-1-dmitry.baryshkov@linaro.org>
-In-Reply-To: <20201227234844.2572356-1-dmitry.baryshkov@linaro.org>
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
-Date: Mon, 11 Jan 2021 02:24:51 +0300
-Message-ID: <CAA8EJpqLeNYFs1qwEkj_L9D3e_zVVZ3M48LjpELyd0PNdmqotQ@mail.gmail.com>
-Subject: Re: [PATCH] rxvt-unicode: use RPROVIDES instead of just PROVIDES
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zhRL1p3mTakno8NhlcG2dje12fBtuu6bqS2xLSZruPA=;
+        b=ankiVP7vcaXEl1/03/KXB+ibuEYP3VJx3iyZGwdANq0478SaXE1CALAD+l/J7J0UcW
+         pnCOWYOu3/P4z5HMQjSzULi1BPQnKhJyK2dIqHroCYAu05JuNmbalqYQc3TvKx99wEWY
+         nU/L4cBuxQuRWwWU1depXnjxG9RSiLCBalE7HWBnpp/adL/4S9arfqLie6hxBqt7ESzf
+         o4TlTDDSBZJi7wEyEIE4/apb33OJnbVyh7FeMjGOG2mJZbnzKHb+eEsKEa93uW6MHGgS
+         XqYagwoWl/XyF2Az+Z6BO+fvT8EH2HjXbSPpSRDwy2OL7+2QqtW11Vnb5S3tafSAptKc
+         J69g==
+X-Gm-Message-State: AOAM532BVP+osx7Yg/J7j0C+3qXooMyEkGpl4yyJYQztrdeR0ydowdxD
+	gH4aFsUWW5hTJU3I6reMa209Qwk1/vZh9/G8/s8=
+X-Google-Smtp-Source: ABdhPJzgJdNgnQhGGhn68nsND70E0P/mjcyOOxnjrUvQow/+RLXuMNGmLFgMVr8voEKIns/kj16KSg==
+X-Received: by 2002:aa7:9ac9:0:b029:19e:19b6:6e09 with SMTP id x9-20020aa79ac90000b029019e19b66e09mr17144327pfp.49.1610325966002;
+        Sun, 10 Jan 2021 16:46:06 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id v125sm17729079pgv.6.2021.01.10.16.46.03
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Jan 2021 16:46:05 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: [OE-core][dunfell 00/12] Patch review
+Date: Sun, 10 Jan 2021 14:45:41 -1000
+Message-Id: <cover.1610325804.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Please review this next set of patches for dunfell and have comments back by
+end of day Tuesday.
 
-On Mon, 28 Dec 2020 at 02:48, Dmitry Baryshkov
-<dmitry.baryshkov@linaro.org> wrote:
->
-> Change rxvt-unicode from using PROVIDES to RPROVIDES for
-> x-terminal-emulator, since the package provides x-terminal-emulator
-> functionality at runtime rather than at build time.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Passed a-full on autobuilder:
 
-I'd like to ping for this patch. Is there something wrong with it?
-Having "virtual/x-terminal-emulator" in PROVIDES is the wrong idea in
-my opinion.
-Other recipes can require virtual/x-terminal-emulator in runtime,
-rather than at the build time.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1739
 
-> ---
->  meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-> index b064a63caa66..6ebd3afcb939 100644
-> --- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-> +++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
-> @@ -14,7 +14,7 @@ SRC_URI = "http://dist.schmorp.de/rxvt-unicode/Attic/rxvt-unicode-${PV}.tar.bz2
->
->  inherit autotools pkgconfig update-alternatives
->
-> -PROVIDES = "virtual/x-terminal-emulator"
-> +RPROVIDES_${PN} = "virtual/x-terminal-emulator"
->  ALTERNATIVE_${PN} = "x-terminal-emulator"
->  ALTERNATIVE_TARGET[x-terminal-emulator] = "${bindir}/rxvt"
->
-> --
-> 2.29.2
->
+The following changes since commit af4fbea9a1656bdf95d85831cae13cae3a60d5ee:
 
+  patch: fix CVE-2019-20633 (2021-01-04 04:50:23 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (1):
+  linux-yocto/5.4: update to v5.4.85
+
+Daniel Ammann (1):
+  wic: fix typo
+
+Mikko Rapeli (3):
+  glibc: update to 2.31 stable tree head
+  glib-2.0: add patch for CVE-2020-35457
+  systemd: update from 244.3 to 244.5 stable release
+
+Milan Shah (1):
+  oe-pkgdata-util: Added a test to verify oe-pkgdata-util without
+    parameters
+
+Ovidiu Panait (1):
+  timezone: upgrade to 2020f
+
+Paul Barker (1):
+  selftest: Add argument to keep build dir
+
+Richard Purdie (1):
+  gcc: Fix mangled patch
+
+Ross Burton (2):
+  diffstat: point the license checksum at the license
+  ruby: remove tcl DEPENDS
+
+Wang Mingyu (1):
+  mobile-broadband-provider-info: upgrade 20190618 ->20201225
+
+ meta/lib/oeqa/selftest/cases/pkgdata.py       |  6 ++
+ meta/lib/oeqa/selftest/context.py             | 17 +++-
+ .../mobile-broadband-provider-info_git.bb     |  4 +-
+ ...econdition-to-avoid-GOptionEntry-lis.patch | 41 ++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.62.6.bb |  1 +
+ meta/recipes-core/glibc/glibc-version.inc     |  2 +-
+ ...md-boot_244.3.bb => systemd-boot_244.5.bb} |  0
+ meta/recipes-core/systemd/systemd.inc         |  2 +-
+ .../systemd/systemd/CVE-2020-13776.patch      | 96 -------------------
+ ...temd-udev-seclabel-options-crash-fix.patch | 30 ------
+ .../{systemd_244.3.bb => systemd_244.5.bb}    |  5 +-
+ .../diffstat/diffstat_1.63.bb                 |  4 +-
+ ...gcc-Fix-argument-list-too-long-error.patch |  6 +-
+ meta/recipes-devtools/ruby/ruby.inc           |  2 +-
+ meta/recipes-extended/timezone/timezone.inc   |  6 +-
+ .../linux/linux-yocto-rt_5.4.bb               |  6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 ++---
+ .../wic/plugins/source/bootimg-partition.py   |  2 +-
+ 19 files changed, 97 insertions(+), 163 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-goption-Add-a-precondition-to-avoid-GOptionEntry-lis.patch
+ rename meta/recipes-core/systemd/{systemd-boot_244.3.bb => systemd-boot_244.5.bb} (100%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/systemd-udev-seclabel-options-crash-fix.patch
+ rename meta/recipes-core/systemd/{systemd_244.3.bb => systemd_244.5.bb} (99%)
 
 -- 
-With best wishes
-Dmitry
+2.17.1
+
