@@ -1,233 +1,310 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
- by mx.groups.io with SMTP id smtpd.web12.33751.1610369203594619788
+Received: from esa13.hc324-48.eu.iphmx.com (esa13.hc324-48.eu.iphmx.com [207.54.72.35])
+ by mx.groups.io with SMTP id smtpd.web10.34249.1610373700675186434
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jan 2021 04:46:43 -0800
+ Mon, 11 Jan 2021 06:01:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HUCgjSr5;
- spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f48.google.com with SMTP id z16so9602287vsp.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Jan 2021 04:46:43 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=kKE7qUsM;
+ spf=pass (domain: bmw.de, ip: 207.54.72.35, mailfrom: prvs=638ffc773=michael.ho@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rFNRq2iY077hOZEoeWV5fJMFEEWUONBtOvXqZe80MB4=;
-        b=HUCgjSr5/CYSZxQQhATqpQ+R48rs/JLYB2pS0pvCi+33Gbs3KV9/yi4TjZN7H9LJvj
-         MaT7rjmjwx7apmRt/RX5di+dP+oB9QTJW1eYTQ2YxwXZzK5QAw3O48Tlc0xGietbNlJf
-         VF+hgUId+06OTp1djr8ePttzFntPv3hhLGySZqZlRM/0tr7RWZgLnkwAdaqJw6pmqFTs
-         zBPEqjLiWm/eAd+F0UtzPkOECDQylqY19984AGPQ18bwgu1H1eTP9dWZWVtMGWKCl25d
-         ZG+mYOtp88TGh3gwEPQRDZgdiEqsSfOpga+60FcOkIJbFj9y+AbM/QEkwFCdmfGtrctR
-         eeXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rFNRq2iY077hOZEoeWV5fJMFEEWUONBtOvXqZe80MB4=;
-        b=qe23rAq6NtvBDDVXnWlGBzR2vcxNU57DnKmgAGJzqIjUHyo1aeGhnfdZYFhweTzqB+
-         pNpnZYminqVYzc7+MvndfbE9qFk1IcYBgcjyJ7nKRrta6MCg7i0/kmZ3+NKkli+UGVeS
-         9mQeQA50sr0YLULXpYqSmbA+QI5dRmm/0b/+wHnrWBP6VnAmnzhXbmZmWtsQCKCxyS4s
-         gxpIKjNj1HPN0Wx/M/1Qo5XCWDf5j0CFyw+l5VnBcnUw1PQgxg/OXGrylj2pY5gRjKEM
-         dbkqqUSSKClEMvji07p4TLioq1Quf14ZTe76S04E0Tz1Th109ZfnMNbnBGV7a9ZpRCzl
-         Tdmw==
-X-Gm-Message-State: AOAM532DoVPwYJ2K8re9sCGo1YNLplyaGyU8OT27inzqBubnncTTP6Xh
-	NUnEmc4Z1uA36LsWxPphqliA2JtDNhxuI+NqZ1Y=
-X-Google-Smtp-Source: ABdhPJySDEnLRSnm9r4ryA7m+91MoYBc1X6KNwS1JfkF1ugzm4gJQD6h0Hk4Q7QyrLPRuKrOL+4lxAdEKYPdLvrMgEI=
-X-Received: by 2002:a67:c85:: with SMTP id 127mr7246607vsm.41.1610369202723;
- Mon, 11 Jan 2021 04:46:42 -0800 (PST)
-MIME-Version: 1.0
-References: <1610369123-220800-1-git-send-email-michael.ho@bmw.de>
-In-Reply-To: <1610369123-220800-1-git-send-email-michael.ho@bmw.de>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 11 Jan 2021 13:46:31 +0100
-Message-ID: <CANNYZj994v93KxdpRZrpQ3p2sCTkhk6DJDRGhCPh4uw6fDMo3g@mail.gmail.com>
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1610373700; x=1641909700;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=hDIw99tm5qnzhYZB2c4g/GvESfXh6dUUvBNfynf31ZM=;
+  b=kKE7qUsM6MAp872AaaHocY1LDaZAMGrTFYhW+x7r+7MDsTSQmbJnaSLy
+   p8qkfxp2CCxkdcJVtKycZKXDJ3k8ZTo4w5KwvcAEb2vn6LFibc/u+M5gc
+   viVQndnp2YgQTq8ZOA4bD87aHQBe89Hd36Cymvz8/RsuX0FQuaHvVOUKV
+   Q=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa13.hc324-48.eu.iphmx.com with ESMTP/TLS; 11 Jan 2021 15:01:37 +0100
+Received: from esabb6.muc ([160.50.100.50])  by esagw4.muc with ESMTP/TLS;
+ 11 Jan 2021 15:01:37 +0100
+Received: from smucm09l.bmwgroup.net (HELO smucm09l.europe.bmw.corp) ([160.48.96.44])
+ by esabb6.muc with ESMTP/TLS; 11 Jan 2021 15:01:35 +0100
+Received: from smucm09k.europe.bmw.corp (160.48.96.43) by smucm09l.europe.bmw.corp
+ (160.48.96.44) with Microsoft SMTP Server (TLS;
+ Mon, 11 Jan 2021 15:01:33 +0100
+Received: from smucm09k.europe.bmw.corp ([160.48.96.43]) by
+ smucm09k.europe.bmw.corp ([160.48.96.43]) with mapi id 15.00.1497.010; Mon,
+ 11 Jan 2021 15:01:33 +0100
+From: "Michael Ho" <Michael.Ho@bmw.de>
+To: <alex.kanavin@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] rootfs_ipk: allow do_populate_sdk in parallel to do_rootfs
-To: Michael Ho <Michael.Ho@bmw.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000491dea05b89f4c72"
+Thread-Topic: [OE-core] [PATCH] rootfs_ipk: allow do_populate_sdk in parallel
+ to do_rootfs
+Thread-Index: AQHW6Bekw9jQyyp1EkquA2hgXCHpfKoiTp+AgAAluoA=
+Date: Mon, 11 Jan 2021 14:01:33 +0000
+Message-ID: <B5AACA79-EC38-460D-BA56-6BB7350CF7C5@bmw.de>
+References: <1610369123-220800-1-git-send-email-michael.ho@bmw.de>
+ <CANNYZj994v93KxdpRZrpQ3p2sCTkhk6DJDRGhCPh4uw6fDMo3g@mail.gmail.com>
+In-Reply-To: <CANNYZj994v93KxdpRZrpQ3p2sCTkhk6DJDRGhCPh4uw6fDMo3g@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+MIME-Version: 1.0
+Content-Language: en-GB
+Content-Type: multipart/alternative;
+	boundary="_000_B5AACA79EC38460DBA566BB7350CF7C5bmwde_"
 
---000000000000491dea05b89f4c72
-Content-Type: text/plain; charset="UTF-8"
+--_000_B5AACA79EC38460DBA566BB7350CF7C5bmwde_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Does deb/rpm packaging already have this feature?
+SGVsbG8gQWxleGFuZGVyLA0KDQpEaWQgYSBxdWljayB0ZXN0IGFuZCBpdCBzZWVtcyB0aGUgcnBt
+IHBhY2thZ2luZyBjbGFzc2VzIGRvbuKAmXQgaGF2ZSB0aGlzIGlzc3VlLiBUaGUgcm9vdGZzX2Rl
+YiBiYmNsYXNzIGhvd2V2ZXIgaGFzIHRoZSBzYW1lIGxvY2sgZmlsZXMgbGlrZSB3aXRoIHJvb3Rm
+c19pcGsuDQoNClNob3VsZCBJIHRyeSB0byBwYXRjaCB0aGlzIHRvbyB0byBrZWVwIHRoZW0gYWxp
+Z25lZD8NCg0KS2luZCByZWdhcmRzLA0KTWljaGFlbA0KDQotLQ0KQk1XIENhciBJVCBHbWJIDQpN
+aWNoYWVsIEhvDQpTcGV6aWFsaXN0IEVudHdpY2tsdW5nIOKAkyBCdWlsZCBhbmQgUmVsZWFzZSBF
+bmdpbmVlcmluZw0KTGlzZS1NZWl0bmVyLVN0cmHDn2UgMTQNCjg5MDgxIFVsbQ0KDQpUZWwuOiDC
+rSs0OS03MzEtMzc4MDQtMDcxDQpNb2JpbDogKzQ5LTE1Mi01NDk4MC00NzENCkZheDogKzQ5LTcz
+MS0zNzgwNC0wMDENCk1haWw6IG1pY2hhZWwuaG9AYm13LWNhcml0LmRlPG1haWx0bzptaWNoYWVs
+LmhvQGJtdy1jYXJpdC5kZT4NCldlYjogaHR0cDovL3d3dy5ibXctY2FyaXQuZGU8aHR0cDovL3d3
+dy5ibXctY2FyaXQuZGUvPg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KQk1XIENhciBJVCBHbWJIDQpHZXNj
+aMOkZnRzZsO8aHJlcjogS2FpLVV3ZSBCYWxzenV3ZWl0IHVuZCBNaWNoYWVsIELDtnR0cmljaA0K
+U2l0eiB1bmQgUmVnaXN0ZXJnZXJpY2h0OiBNw7xuY2hlbiBIUkIgMTM0ODEwDQotLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tDQoNCg0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
+b20+DQpEYXRlOiBNb25kYXksIDExLiBKYW51YXJ5IDIwMjEgYXQgMTM6NDYNClRvOiAiSG8gTWlj
+aGFlbCwgSkMtM1VMIiA8TWljaGFlbC5Ib0BibXcuZGU+DQpDYzogT0UtY29yZSA8b3BlbmVtYmVk
+ZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0g
+W1BBVENIXSByb290ZnNfaXBrOiBhbGxvdyBkb19wb3B1bGF0ZV9zZGsgaW4gcGFyYWxsZWwgdG8g
+ZG9fcm9vdGZzDQoNCkRvZXMgZGViL3JwbSBwYWNrYWdpbmcgYWxyZWFkeSBoYXZlIHRoaXMgZmVh
+dHVyZT8NCg0KQWxleA0KDQpPbiBNb24sIDExIEphbiAyMDIxIGF0IDEzOjQ1LCBNaWNoYWVsIEhv
+IDxNaWNoYWVsLkhvQGJtdy5kZTxtYWlsdG86TWljaGFlbC5Ib0BibXcuZGU+PiB3cm90ZToNCkZy
+b206IE1pY2hhZWwgSG8gPE1pY2hhZWwuSG9AYm13LmRlPG1haWx0bzpNaWNoYWVsLkhvQGJtdy5k
+ZT4+DQoNClN3aXRjaCBkb19wb3B1bGF0ZV9zZGsgZm9yIHRoZSBpcGsgcGFja2FnZSBtYW5hZ2Vy
+IHRvIHVzZSBhIHNlcGFyYXRlIHRhcmdldA0Kb3BrZyBjb25maWcgZmlsZSBhbmQgc2VwYXJhdGUg
+dGhlIGxvY2tmaWxlcyByZXN0cmljdGluZyBkb19yb290ZnMgYW5kDQpkb19wb3B1bGF0ZV9zZGsg
+ZnJvbSBydW5uaW5nIGluIHBhcmFsbGVsLg0KDQpUaGlzIHdheSBpZiBhbiBpbWFnZSByZWNpcGUg
+aW5jbHVkZXMgYSBkZXBlbmRlbmN5IHRvIGRvX3BvcHVsYXRlX3NkayBieQ0KZGVmYXVsdCB0aGVu
+IGl0IHdpbGwgcnVuIGluIHBhcmFsbGVsIHRvIGRvX3Jvb3RmcyBzYXZpbmcgdGltZSBjb21wYXJl
+ZCB0byB0aGUNCnNlcXVlbnRpYWwgZXhlY3V0aW9uLg0KDQpTaWduZWQtb2ZmLWJ5OiBNaWNoYWVs
+IEhvIDxNaWNoYWVsLkhvQGJtdy5kZTxtYWlsdG86TWljaGFlbC5Ib0BibXcuZGU+Pg0KLS0tDQog
+bWV0YS9jbGFzc2VzL3BhY2thZ2VfaXBrLmJiY2xhc3MgICAgICAgfCAxICsNCiBtZXRhL2NsYXNz
+ZXMvcm9vdGZzX2lway5iYmNsYXNzICAgICAgICB8IDQgKystLQ0KIG1ldGEvbGliL29lL3BhY2th
+Z2VfbWFuYWdlci9pcGsvc2RrLnB5IHwgNiArKysrKysNCiAzIGZpbGVzIGNoYW5nZWQsIDkgaW5z
+ZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9w
+YWNrYWdlX2lway5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2VfaXBrLmJiY2xhc3MNCmlu
+ZGV4IDc5Y2IzNmMuLmQzMWRiYTAgMTAwNjQ0DQotLS0gYS9tZXRhL2NsYXNzZXMvcGFja2FnZV9p
+cGsuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2VfaXBrLmJiY2xhc3MNCkBAIC00
+LDYgKzQsNyBAQCBJTUFHRV9QS0dUWVBFID89ICJpcGsiDQoNCiBJUEtHQ09ORl9UQVJHRVQgPSAi
+JHtXT1JLRElSfS9vcGtnLmNvbmYiDQogSVBLR0NPTkZfU0RLID0gICIke1dPUktESVJ9L29wa2ct
+c2RrLmNvbmYiDQorSVBLR0NPTkZfU0RLX1RBUkdFVCA9ICIke1dPUktESVJ9L29wa2ctc2RrLXRh
+cmdldC5jb25mIg0KDQogUEtHV1JJVEVESVJJUEsgPSAiJHtXT1JLRElSfS9kZXBsb3ktaXBrcyIN
+Cg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9yb290ZnNfaXBrLmJiY2xhc3MgYi9tZXRhL2Ns
+YXNzZXMvcm9vdGZzX2lway5iYmNsYXNzDQppbmRleCBmMWUwMjE5Li4yNDVjMjU2IDEwMDY0NA0K
+LS0tIGEvbWV0YS9jbGFzc2VzL3Jvb3Rmc19pcGsuYmJjbGFzcw0KKysrIGIvbWV0YS9jbGFzc2Vz
+L3Jvb3Rmc19pcGsuYmJjbGFzcw0KQEAgLTE0LDggKzE0LDggQEAgZG9fcm9vdGZzW3JlY3JkZXB0
+YXNrXSArPSAiZG9fcGFja2FnZV93cml0ZV9pcGsgZG9fcGFja2FnZV9xYSINCiBkb19yb290ZnNb
+dmFyZGVwc10gKz0gIlBBQ0tBR0VfRkVFRF9VUklTIFBBQ0tBR0VfRkVFRF9CQVNFX1BBVEhTIFBB
+Q0tBR0VfRkVFRF9BUkNIUyINCg0KIGRvX3Jvb3Rmc1tsb2NrZmlsZXNdICs9ICIke1dPUktESVJ9
+L2lway5sb2NrIg0KLWRvX3BvcHVsYXRlX3Nka1tsb2NrZmlsZXNdICs9ICIke1dPUktESVJ9L2lw
+ay5sb2NrIg0KLWRvX3BvcHVsYXRlX3Nka19leHRbbG9ja2ZpbGVzXSArPSAiJHtXT1JLRElSfS9p
+cGsubG9jayINCitkb19wb3B1bGF0ZV9zZGtbbG9ja2ZpbGVzXSArPSAiJHtXT1JLRElSfS9zZGst
+aXBrLmxvY2siDQorZG9fcG9wdWxhdGVfc2RrX2V4dFtsb2NrZmlsZXNdICs9ICIke1dPUktESVJ9
+L3Nkay1pcGsubG9jayINCg0KIE9QS0dfUFJFUFJPQ0VTU19DT01NQU5EUyA9ICIiDQoNCmRpZmYg
+LS1naXQgYS9tZXRhL2xpYi9vZS9wYWNrYWdlX21hbmFnZXIvaXBrL3Nkay5weSBiL21ldGEvbGli
+L29lL3BhY2thZ2VfbWFuYWdlci9pcGsvc2RrLnB5DQppbmRleCAzN2FmMDM0Li5lMmNhNDE1IDEw
+MDY0NA0KLS0tIGEvbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyL2lway9zZGsucHkNCisrKyBi
+L21ldGEvbGliL29lL3BhY2thZ2VfbWFuYWdlci9pcGsvc2RrLnB5DQpAQCAtMTQsNiArMTQsMTIg
+QEAgY2xhc3MgUGtnU2RrKFNkayk6DQogICAgIGRlZiBfX2luaXRfXyhzZWxmLCBkLCBtYW5pZmVz
+dF9kaXI9Tm9uZSk6DQogICAgICAgICBzdXBlcihQa2dTZGssIHNlbGYpLl9faW5pdF9fKGQsIG1h
+bmlmZXN0X2RpcikNCg0KKyAgICAgICAgIyBJbiBzZGtfbGlzdF9pbnN0YWxsZWRfcGFja2FnZXMg
+dGhlIGNhbGwgdG8gb3BrZyBpcyBoYXJkY29kZWQgdG8NCisgICAgICAgICMgYWx3YXlzIHVzZSBJ
+UEtHQ09ORl9UQVJHRVQgYW5kIHRoZXJlJ3Mgbm8gZXhwb3NlZCBBUEkgdG8gY2hhbmdlIHRoaXMN
+CisgICAgICAgICMgc28gc2ltcGx5IG92ZXJyaWRlIElQS0dDT05GX1RBUkdFVCB0byB1c2UgdGhp
+cyBzZXBhcmF0ZWQgY29uZmlnIGZpbGUuDQorICAgICAgICBpcGtnY29uZl9zZGtfdGFyZ2V0ID0g
+ZC5nZXRWYXIoIklQS0dDT05GX1NES19UQVJHRVQiKQ0KKyAgICAgICAgZC5zZXRWYXIoIklQS0dD
+T05GX1RBUkdFVCIsIGlwa2djb25mX3Nka190YXJnZXQpDQorDQogICAgICAgICBzZWxmLnRhcmdl
+dF9jb25mID0gc2VsZi5kLmdldFZhcigiSVBLR0NPTkZfVEFSR0VUIikNCiAgICAgICAgIHNlbGYu
+aG9zdF9jb25mID0gc2VsZi5kLmdldFZhcigiSVBLR0NPTkZfU0RLIikNCg0KLS0NCjIuNy40DQoN
+Cg0KDQo=
 
-Alex
+--_000_B5AACA79EC38460DBA566BB7350CF7C5bmwde_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <0BB9D08333299D4AA1646D9074EA8CDC@bmwmail.corp>
+Content-Transfer-Encoding: base64
 
-On Mon, 11 Jan 2021 at 13:45, Michael Ho <Michael.Ho@bmw.de> wrote:
+PGh0bWwgeG1sbnM6bz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6b2ZmaWNlIiB4
+bWxuczp3PSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTp3b3JkIiB4bWxuczptPSJo
+dHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL29mZmljZS8yMDA0LzEyL29tbWwiIHhtbG5zPSJo
+dHRwOi8vd3d3LnczLm9yZy9UUi9SRUMtaHRtbDQwIj4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVp
+dj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPG1l
+dGEgbmFtZT0iR2VuZXJhdG9yIiBjb250ZW50PSJNaWNyb3NvZnQgV29yZCAxNSAoZmlsdGVyZWQg
+bWVkaXVtKSI+DQo8c3R5bGU+PCEtLQ0KLyogRm9udCBEZWZpbml0aW9ucyAqLw0KQGZvbnQtZmFj
+ZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2
+IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToy
+IDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJCTVdUeXBl
+IFYyIExpZ2h0IjsNCglwYW5vc2UtMTowIDAgMCAwIDAgMCAwIDAgMCAwO30NCi8qIFN0eWxlIERl
+ZmluaXRpb25zICovDQpwLk1zb05vcm1hbCwgbGkuTXNvTm9ybWFsLCBkaXYuTXNvTm9ybWFsDQoJ
+e21hcmdpbjowY207DQoJZm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlv
+cml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bh
+bi5FbWFpbFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1m
+YW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6d2luZG93dGV4dDt9DQouTXNvQ2hw
+RGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LXNpemU6MTAuMHB0
+O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46
+NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpX
+b3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9ImVuLURFIiBs
+aW5rPSJibHVlIiB2bGluaz0icHVycGxlIiBzdHlsZT0id29yZC13cmFwOmJyZWFrLXdvcmQiPg0K
+PGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
+bmc9IkVOLUFVIiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPkhlbGxvIEFsZXhh
+bmRlciw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
+YW5nPSJFTi1BVSIgc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNw
+OzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1B
+VSIgc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5EaWQgYSBxdWljayB0ZXN0IGFu
+ZCBpdCBzZWVtcyB0aGUgcnBtIHBhY2thZ2luZyBjbGFzc2VzIGRvbuKAmXQgaGF2ZSB0aGlzIGlz
+c3VlLiBUaGUgcm9vdGZzX2RlYiBiYmNsYXNzIGhvd2V2ZXIgaGFzIHRoZSBzYW1lIGxvY2sgZmls
+ZXMgbGlrZSB3aXRoIHJvb3Rmc19pcGsuPGJyPg0KPGJyPg0KPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tQVUiIHN0eWxlPSJtc28tZmFy
+ZWFzdC1sYW5ndWFnZTpFTi1VUyI+U2hvdWxkIEkgdHJ5IHRvIHBhdGNoIHRoaXMgdG9vIHRvIGtl
+ZXAgdGhlbSBhbGlnbmVkPzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxzcGFuIGxhbmc9IkVOLUFVIiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IGxhbmc9IkVOLUFVIiBzdHlsZT0ibXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPktpbmQgcmVn
+YXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
+YW5nPSJFTi1BVSIgc3R5bGU9Im1zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5NaWNoYWVsPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
+bmc9IkVOLUFVIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBsYW5nPSJFTi1BVSI+LS0mbmJzcDs8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tQVUiIHN0eWxlPSJm
+b250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWY7
+Y29sb3I6IzMzMzMzMyI+Qk1XIENhciBJVCBHbWJIPC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1B
+VSIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDss
+c2Fucy1zZXJpZjtjb2xvcjojMzMzMzMzIj48YnI+DQo8c3BhbiBzdHlsZT0iYmFja2dyb3VuZDp3
+aGl0ZSI+TWljaGFlbCBIbzwvc3Bhbj48YnI+DQpTcGV6aWFsaXN0IEVudHdpY2tsdW5nIOKAkyBC
+dWlsZCBhbmQgUmVsZWFzZSBFbmdpbmVlcmluZzxicj4NCjxzcGFuIHN0eWxlPSJiYWNrZ3JvdW5k
+OndoaXRlIj5MaXNlLU1laXRuZXItU3RyYcOfZSAxNDwvc3Bhbj48YnI+DQo8c3BhbiBzdHlsZT0i
+YmFja2dyb3VuZDp3aGl0ZSI+ODkwODEgVWxtPC9zcGFuPjxicj4NCjxicj4NCjxzcGFuIHN0eWxl
+PSJiYWNrZ3JvdW5kOndoaXRlIj5UZWwuOiZuYnNwO8KtJiM0Mzs0OS03MzEtMzc4MDQtMDcxPG86
+cD48L286cD48L3NwYW4+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
+bmc9IkVOLUFVIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtBcmlh
+bCZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMzMzMzMzM7YmFja2dyb3VuZDp3aGl0ZSI+TW9iaWw6
+ICYjNDM7NDktMTUyLTU0OTgwLTQ3MTwvc3Bhbj48c3BhbiBsYW5nPSJFTi1BVSIgc3R5bGU9ImZv
+bnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJpZjtj
+b2xvcjojMzMzMzMzIj48YnI+DQo8c3BhbiBzdHlsZT0iYmFja2dyb3VuZDp3aGl0ZSI+RmF4OiAm
+IzQzOzQ5LTczMS0zNzgwNC0wMDE8L3NwYW4+PGJyPg0KPHNwYW4gc3R5bGU9ImJhY2tncm91bmQ6
+d2hpdGUiPk1haWw6Jm5ic3A7PC9zcGFuPjwvc3Bhbj48c3BhbiBsYW5nPSJFTi1BVSIgc3R5bGU9
+ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssc2Fucy1zZXJp
+ZiI+PGEgaHJlZj0ibWFpbHRvOm1pY2hhZWwuaG9AYm13LWNhcml0LmRlIj48c3BhbiBzdHlsZT0i
+Y29sb3I6IzA1NjNDMSI+bWljaGFlbC5ob0BibXctY2FyaXQuZGU8L3NwYW4+PC9hPjxzcGFuIHN0
+eWxlPSJjb2xvcjojMzMzMzMzO2JhY2tncm91bmQ6d2hpdGUiPiZuYnNwOzwvc3Bhbj48c3BhbiBz
+dHlsZT0iY29sb3I6IzMzMzMzMyI+PGJyPg0KPHNwYW4gc3R5bGU9ImJhY2tncm91bmQ6d2hpdGUi
+PldlYjombmJzcDs8L3NwYW4+PC9zcGFuPjwvc3Bhbj48c3BhbiBsYW5nPSJFTi1BVSI+PGEgaHJl
+Zj0iaHR0cDovL3d3dy5ibXctY2FyaXQuZGUvIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjVw
+dDtmb250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMzMjZDQTYi
+Pmh0dHA6Ly93d3cuYm13LWNhcml0LmRlPC9zcGFuPjwvYT48L3NwYW4+PHNwYW4gbGFuZz0iRU4t
+QVUiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7
+LHNhbnMtc2VyaWY7Y29sb3I6IzMzMzMzMyI+PGJyPg0KPHNwYW4gc3R5bGU9ImJhY2tncm91bmQ6
+d2hpdGUiPi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L3NwYW4+PGJyPg0KPHNwYW4gc3R5bGU9ImJhY2tncm91
+bmQ6d2hpdGUiPkJNVyBDYXIgSVQgR21iSDwvc3Bhbj48YnI+DQo8c3BhbiBzdHlsZT0iYmFja2dy
+b3VuZDp3aGl0ZSI+R2VzY2jDpGZ0c2bDvGhyZXI6Jm5ic3A7S2FpLVV3ZSBCYWxzenV3ZWl0IHVu
+ZDwvc3Bhbj48L3NwYW4+PHNwYW4gbGFuZz0iRU4tQVUiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6Izk5OTk5OSI+
+Jm5ic3A7PC9zcGFuPjxzcGFuIGxhbmc9IkVOLUFVIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtm
+b250LWZhbWlseTomcXVvdDtBcmlhbCZxdW90OyxzYW5zLXNlcmlmIj5NaWNoYWVsDQogQsO2dHRy
+aWNoPHNwYW4gc3R5bGU9ImNvbG9yOiMzMzMzMzMiPjxicj4NCjxzcGFuIHN0eWxlPSJiYWNrZ3Jv
+dW5kOndoaXRlIj5TaXR6IHVuZCBSZWdpc3RlcmdlcmljaHQ6IE3DvG5jaGVuIEhSQiAxMzQ4MTA8
+L3NwYW4+PGJyPg0KPHNwYW4gc3R5bGU9ImJhY2tncm91bmQ6d2hpdGUiPi0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS08L3NwYW4+PC9zcGFuPjwvc3Bhbj48c3BhbiBsYW5nPSJFTi1BVSIgc3R5bGU9ImZvbnQtc2l6
+ZTo4LjBwdDtmb250LWZhbWlseTomcXVvdDtCTVdUeXBlIFYyIExpZ2h0JnF1b3Q7Ij48bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iRU4tQVUiIHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+RU4tQVUiIHN0eWxlPSJtc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAj
+QjVDNERGIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQ7Y29sb3I6YmxhY2siPkZyb206
+IDwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMi4wcHQ7Y29sb3I6YmxhY2siPkFs
+ZXhhbmRlciBLYW5hdmluICZsdDthbGV4LmthbmF2aW5AZ21haWwuY29tJmd0Ozxicj4NCjxiPkRh
+dGU6IDwvYj5Nb25kYXksIDExLiBKYW51YXJ5IDIwMjEgYXQgMTM6NDY8YnI+DQo8Yj5UbzogPC9i
+PiZxdW90O0hvIE1pY2hhZWwsIEpDLTNVTCZxdW90OyAmbHQ7TWljaGFlbC5Ib0BibXcuZGUmZ3Q7
+PGJyPg0KPGI+Q2M6IDwvYj5PRS1jb3JlICZsdDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnJmd0Ozxicj4NCjxiPlN1YmplY3Q6IDwvYj5SZTogW09FLWNvcmVdIFtQQVRD
+SF0gcm9vdGZzX2lwazogYWxsb3cgZG9fcG9wdWxhdGVfc2RrIGluIHBhcmFsbGVsIHRvIGRvX3Jv
+b3RmczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPkRvZXMgZGViL3JwbSBwYWNrYWdpbmcgYWxyZWFkeSBoYXZlIHRoaXMg
+ZmVhdHVyZT88bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+QWxleDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5PbiBNb24sIDExIEphbiAyMDIxIGF0IDEzOjQ1LCBNaWNoYWVsIEhvICZsdDs8YSBo
+cmVmPSJtYWlsdG86TWljaGFlbC5Ib0BibXcuZGUiPk1pY2hhZWwuSG9AYm13LmRlPC9hPiZndDsg
+d3JvdGU6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6
+bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20g
+Ni4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIiBzdHlsZT0ibWFyZ2luLWJvdHRvbToxMi4wcHQiPkZyb206IE1pY2hhZWwgSG8gJmx0
+OzxhIGhyZWY9Im1haWx0bzpNaWNoYWVsLkhvQGJtdy5kZSIgdGFyZ2V0PSJfYmxhbmsiPk1pY2hh
+ZWwuSG9AYm13LmRlPC9hPiZndDs8YnI+DQo8YnI+DQpTd2l0Y2ggZG9fcG9wdWxhdGVfc2RrIGZv
+ciB0aGUgaXBrIHBhY2thZ2UgbWFuYWdlciB0byB1c2UgYSBzZXBhcmF0ZSB0YXJnZXQ8YnI+DQpv
+cGtnIGNvbmZpZyBmaWxlIGFuZCBzZXBhcmF0ZSB0aGUgbG9ja2ZpbGVzIHJlc3RyaWN0aW5nIGRv
+X3Jvb3RmcyBhbmQ8YnI+DQpkb19wb3B1bGF0ZV9zZGsgZnJvbSBydW5uaW5nIGluIHBhcmFsbGVs
+Ljxicj4NCjxicj4NClRoaXMgd2F5IGlmIGFuIGltYWdlIHJlY2lwZSBpbmNsdWRlcyBhIGRlcGVu
+ZGVuY3kgdG8gZG9fcG9wdWxhdGVfc2RrIGJ5PGJyPg0KZGVmYXVsdCB0aGVuIGl0IHdpbGwgcnVu
+IGluIHBhcmFsbGVsIHRvIGRvX3Jvb3RmcyBzYXZpbmcgdGltZSBjb21wYXJlZCB0byB0aGU8YnI+
+DQpzZXF1ZW50aWFsIGV4ZWN1dGlvbi48YnI+DQo8YnI+DQpTaWduZWQtb2ZmLWJ5OiBNaWNoYWVs
+IEhvICZsdDs8YSBocmVmPSJtYWlsdG86TWljaGFlbC5Ib0BibXcuZGUiIHRhcmdldD0iX2JsYW5r
+Ij5NaWNoYWVsLkhvQGJtdy5kZTwvYT4mZ3Q7PGJyPg0KLS0tPGJyPg0KJm5ic3A7bWV0YS9jbGFz
+c2VzL3BhY2thZ2VfaXBrLmJiY2xhc3MmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt8IDEgJiM0
+Mzs8YnI+DQombmJzcDttZXRhL2NsYXNzZXMvcm9vdGZzX2lway5iYmNsYXNzJm5ic3A7ICZuYnNw
+OyAmbmJzcDsgJm5ic3A7IHwgNCAmIzQzOyYjNDM7LS08YnI+DQombmJzcDttZXRhL2xpYi9vZS9w
+YWNrYWdlX21hbmFnZXIvaXBrL3Nkay5weSB8IDYgJiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYj
+NDM7PGJyPg0KJm5ic3A7MyBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoJiM0MzspLCAyIGRl
+bGV0aW9ucygtKTxicj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvcGFja2FnZV9p
+cGsuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdlX2lway5iYmNsYXNzPGJyPg0KaW5kZXgg
+NzljYjM2Yy4uZDMxZGJhMCAxMDA2NDQ8YnI+DQotLS0gYS9tZXRhL2NsYXNzZXMvcGFja2FnZV9p
+cGsuYmJjbGFzczxicj4NCiYjNDM7JiM0MzsmIzQzOyBiL21ldGEvY2xhc3Nlcy9wYWNrYWdlX2lw
+ay5iYmNsYXNzPGJyPg0KQEAgLTQsNiAmIzQzOzQsNyBAQCBJTUFHRV9QS0dUWVBFID89ICZxdW90
+O2lwayZxdW90Ozxicj4NCjxicj4NCiZuYnNwO0lQS0dDT05GX1RBUkdFVCA9ICZxdW90OyR7V09S
+S0RJUn0vb3BrZy5jb25mJnF1b3Q7PGJyPg0KJm5ic3A7SVBLR0NPTkZfU0RLID0mbmJzcDsgJnF1
+b3Q7JHtXT1JLRElSfS9vcGtnLXNkay5jb25mJnF1b3Q7PGJyPg0KJiM0MztJUEtHQ09ORl9TREtf
+VEFSR0VUID0gJnF1b3Q7JHtXT1JLRElSfS9vcGtnLXNkay10YXJnZXQuY29uZiZxdW90Ozxicj4N
+Cjxicj4NCiZuYnNwO1BLR1dSSVRFRElSSVBLID0gJnF1b3Q7JHtXT1JLRElSfS9kZXBsb3ktaXBr
+cyZxdW90Ozxicj4NCjxicj4NCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvcm9vdGZzX2lway5i
+YmNsYXNzIGIvbWV0YS9jbGFzc2VzL3Jvb3Rmc19pcGsuYmJjbGFzczxicj4NCmluZGV4IGYxZTAy
+MTkuLjI0NWMyNTYgMTAwNjQ0PGJyPg0KLS0tIGEvbWV0YS9jbGFzc2VzL3Jvb3Rmc19pcGsuYmJj
+bGFzczxicj4NCiYjNDM7JiM0MzsmIzQzOyBiL21ldGEvY2xhc3Nlcy9yb290ZnNfaXBrLmJiY2xh
+c3M8YnI+DQpAQCAtMTQsOCAmIzQzOzE0LDggQEAgZG9fcm9vdGZzW3JlY3JkZXB0YXNrXSAmIzQz
+Oz0gJnF1b3Q7ZG9fcGFja2FnZV93cml0ZV9pcGsgZG9fcGFja2FnZV9xYSZxdW90Ozxicj4NCiZu
+YnNwO2RvX3Jvb3Rmc1t2YXJkZXBzXSAmIzQzOz0gJnF1b3Q7UEFDS0FHRV9GRUVEX1VSSVMgUEFD
+S0FHRV9GRUVEX0JBU0VfUEFUSFMgUEFDS0FHRV9GRUVEX0FSQ0hTJnF1b3Q7PGJyPg0KPGJyPg0K
+Jm5ic3A7ZG9fcm9vdGZzW2xvY2tmaWxlc10gJiM0Mzs9ICZxdW90OyR7V09SS0RJUn0vaXBrLmxv
+Y2smcXVvdDs8YnI+DQotZG9fcG9wdWxhdGVfc2RrW2xvY2tmaWxlc10gJiM0Mzs9ICZxdW90OyR7
+V09SS0RJUn0vaXBrLmxvY2smcXVvdDs8YnI+DQotZG9fcG9wdWxhdGVfc2RrX2V4dFtsb2NrZmls
+ZXNdICYjNDM7PSAmcXVvdDske1dPUktESVJ9L2lway5sb2NrJnF1b3Q7PGJyPg0KJiM0Mztkb19w
+b3B1bGF0ZV9zZGtbbG9ja2ZpbGVzXSAmIzQzOz0gJnF1b3Q7JHtXT1JLRElSfS9zZGstaXBrLmxv
+Y2smcXVvdDs8YnI+DQomIzQzO2RvX3BvcHVsYXRlX3Nka19leHRbbG9ja2ZpbGVzXSAmIzQzOz0g
+JnF1b3Q7JHtXT1JLRElSfS9zZGstaXBrLmxvY2smcXVvdDs8YnI+DQo8YnI+DQombmJzcDtPUEtH
+X1BSRVBST0NFU1NfQ09NTUFORFMgPSAmcXVvdDsmcXVvdDs8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0
+IGEvbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyL2lway9zZGsucHkgYi9tZXRhL2xpYi9vZS9w
+YWNrYWdlX21hbmFnZXIvaXBrL3Nkay5weTxicj4NCmluZGV4IDM3YWYwMzQuLmUyY2E0MTUgMTAw
+NjQ0PGJyPg0KLS0tIGEvbWV0YS9saWIvb2UvcGFja2FnZV9tYW5hZ2VyL2lway9zZGsucHk8YnI+
+DQomIzQzOyYjNDM7JiM0MzsgYi9tZXRhL2xpYi9vZS9wYWNrYWdlX21hbmFnZXIvaXBrL3Nkay5w
+eTxicj4NCkBAIC0xNCw2ICYjNDM7MTQsMTIgQEAgY2xhc3MgUGtnU2RrKFNkayk6PGJyPg0KJm5i
+c3A7ICZuYnNwOyAmbmJzcDtkZWYgX19pbml0X18oc2VsZiwgZCwgbWFuaWZlc3RfZGlyPU5vbmUp
+Ojxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtzdXBlcihQa2dTZGssIHNl
+bGYpLl9faW5pdF9fKGQsIG1hbmlmZXN0X2Rpcik8YnI+DQo8YnI+DQomIzQzOyZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAjIEluIHNka19saXN0X2luc3RhbGxlZF9wYWNrYWdlcyB0aGUgY2Fs
+bCB0byBvcGtnIGlzIGhhcmRjb2RlZCB0bzxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7ICMgYWx3YXlzIHVzZSBJUEtHQ09ORl9UQVJHRVQgYW5kIHRoZXJlJ3Mgbm8gZXhwb3Nl
+ZCBBUEkgdG8gY2hhbmdlIHRoaXM8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAjIHNvIHNpbXBseSBvdmVycmlkZSBJUEtHQ09ORl9UQVJHRVQgdG8gdXNlIHRoaXMgc2VwYXJh
+dGVkIGNvbmZpZyBmaWxlLjxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGlw
+a2djb25mX3Nka190YXJnZXQgPSBkLmdldFZhcigmcXVvdDtJUEtHQ09ORl9TREtfVEFSR0VUJnF1
+b3Q7KTxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGQuc2V0VmFyKCZxdW90
+O0lQS0dDT05GX1RBUkdFVCZxdW90OywgaXBrZ2NvbmZfc2RrX3RhcmdldCk8YnI+DQomIzQzOzxi
+cj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtzZWxmLnRhcmdldF9jb25mID0g
+c2VsZi5kLmdldFZhcigmcXVvdDtJUEtHQ09ORl9UQVJHRVQmcXVvdDspPGJyPg0KJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3NlbGYuaG9zdF9jb25mID0gc2VsZi5kLmdldFZhcigm
+cXVvdDtJUEtHQ09ORl9TREsmcXVvdDspPGJyPg0KPGJyPg0KLS0gPGJyPg0KMi43LjQ8YnI+DQo8
+YnI+DQo8YnI+DQo8bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-> From: Michael Ho <Michael.Ho@bmw.de>
->
-> Switch do_populate_sdk for the ipk package manager to use a separate target
-> opkg config file and separate the lockfiles restricting do_rootfs and
-> do_populate_sdk from running in parallel.
->
-> This way if an image recipe includes a dependency to do_populate_sdk by
-> default then it will run in parallel to do_rootfs saving time compared to
-> the
-> sequential execution.
->
-> Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
-> ---
->  meta/classes/package_ipk.bbclass       | 1 +
->  meta/classes/rootfs_ipk.bbclass        | 4 ++--
->  meta/lib/oe/package_manager/ipk/sdk.py | 6 ++++++
->  3 files changed, 9 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/package_ipk.bbclass
-> b/meta/classes/package_ipk.bbclass
-> index 79cb36c..d31dba0 100644
-> --- a/meta/classes/package_ipk.bbclass
-> +++ b/meta/classes/package_ipk.bbclass
-> @@ -4,6 +4,7 @@ IMAGE_PKGTYPE ?= "ipk"
->
->  IPKGCONF_TARGET = "${WORKDIR}/opkg.conf"
->  IPKGCONF_SDK =  "${WORKDIR}/opkg-sdk.conf"
-> +IPKGCONF_SDK_TARGET = "${WORKDIR}/opkg-sdk-target.conf"
->
->  PKGWRITEDIRIPK = "${WORKDIR}/deploy-ipks"
->
-> diff --git a/meta/classes/rootfs_ipk.bbclass
-> b/meta/classes/rootfs_ipk.bbclass
-> index f1e0219..245c256 100644
-> --- a/meta/classes/rootfs_ipk.bbclass
-> +++ b/meta/classes/rootfs_ipk.bbclass
-> @@ -14,8 +14,8 @@ do_rootfs[recrdeptask] += "do_package_write_ipk
-> do_package_qa"
->  do_rootfs[vardeps] += "PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PATHS
-> PACKAGE_FEED_ARCHS"
->
->  do_rootfs[lockfiles] += "${WORKDIR}/ipk.lock"
-> -do_populate_sdk[lockfiles] += "${WORKDIR}/ipk.lock"
-> -do_populate_sdk_ext[lockfiles] += "${WORKDIR}/ipk.lock"
-> +do_populate_sdk[lockfiles] += "${WORKDIR}/sdk-ipk.lock"
-> +do_populate_sdk_ext[lockfiles] += "${WORKDIR}/sdk-ipk.lock"
->
->  OPKG_PREPROCESS_COMMANDS = ""
->
-> diff --git a/meta/lib/oe/package_manager/ipk/sdk.py
-> b/meta/lib/oe/package_manager/ipk/sdk.py
-> index 37af034..e2ca415 100644
-> --- a/meta/lib/oe/package_manager/ipk/sdk.py
-> +++ b/meta/lib/oe/package_manager/ipk/sdk.py
-> @@ -14,6 +14,12 @@ class PkgSdk(Sdk):
->      def __init__(self, d, manifest_dir=None):
->          super(PkgSdk, self).__init__(d, manifest_dir)
->
-> +        # In sdk_list_installed_packages the call to opkg is hardcoded to
-> +        # always use IPKGCONF_TARGET and there's no exposed API to change
-> this
-> +        # so simply override IPKGCONF_TARGET to use this separated config
-> file.
-> +        ipkgconf_sdk_target = d.getVar("IPKGCONF_SDK_TARGET")
-> +        d.setVar("IPKGCONF_TARGET", ipkgconf_sdk_target)
-> +
->          self.target_conf = self.d.getVar("IPKGCONF_TARGET")
->          self.host_conf = self.d.getVar("IPKGCONF_SDK")
->
-> --
-> 2.7.4
->
->
-> 
->
->
-
---000000000000491dea05b89f4c72
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Does deb/rpm packaging already have this feature?</di=
-v><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><d=
-iv dir=3D"ltr" class=3D"gmail_attr">On Mon, 11 Jan 2021 at 13:45, Michael H=
-o &lt;<a href=3D"mailto:Michael.Ho@bmw.de">Michael.Ho@bmw.de</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Michael H=
-o &lt;<a href=3D"mailto:Michael.Ho@bmw.de" target=3D"_blank">Michael.Ho@bmw=
-.de</a>&gt;<br>
-<br>
-Switch do_populate_sdk for the ipk package manager to use a separate targe=
-t<br>
-opkg config file and separate the lockfiles restricting do_rootfs and<br>
-do_populate_sdk from running in parallel.<br>
-<br>
-This way if an image recipe includes a dependency to do_populate_sdk by<br=
->
-default then it will run in parallel to do_rootfs saving time compared to =
-the<br>
-sequential execution.<br>
-<br>
-Signed-off-by: Michael Ho &lt;<a href=3D"mailto:Michael.Ho@bmw.de" target=
-=3D"_blank">Michael.Ho@bmw.de</a>&gt;<br>
----<br>
-=C2=A0meta/classes/package_ipk.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
-=C2=A0meta/classes/rootfs_ipk.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<=
-br>
-=C2=A0meta/lib/oe/package_manager/ipk/sdk.py | 6 ++++++<br>
-=C2=A03 files changed, 9 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.b=
-bclass<br>
-index 79cb36c..d31dba0 100644<br>
---- a/meta/classes/package_ipk.bbclass<br>
-+++ b/meta/classes/package_ipk.bbclass<br>
-@@ -4,6 +4,7 @@ IMAGE_PKGTYPE ?=3D &quot;ipk&quot;<br>
-<br>
-=C2=A0IPKGCONF_TARGET =3D &quot;${WORKDIR}/opkg.conf&quot;<br>
-=C2=A0IPKGCONF_SDK =3D=C2=A0 &quot;${WORKDIR}/opkg-sdk.conf&quot;<br>
-+IPKGCONF_SDK_TARGET =3D &quot;${WORKDIR}/opkg-sdk-target.conf&quot;<br>
-<br>
-=C2=A0PKGWRITEDIRIPK =3D &quot;${WORKDIR}/deploy-ipks&quot;<br>
-<br>
-diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbc=
-lass<br>
-index f1e0219..245c256 100644<br>
---- a/meta/classes/rootfs_ipk.bbclass<br>
-+++ b/meta/classes/rootfs_ipk.bbclass<br>
-@@ -14,8 +14,8 @@ do_rootfs[recrdeptask] +=3D &quot;do_package_write_ipk d=
-o_package_qa&quot;<br>
-=C2=A0do_rootfs[vardeps] +=3D &quot;PACKAGE_FEED_URIS PACKAGE_FEED_BASE_PA=
-THS PACKAGE_FEED_ARCHS&quot;<br>
-<br>
-=C2=A0do_rootfs[lockfiles] +=3D &quot;${WORKDIR}/ipk.lock&quot;<br>
--do_populate_sdk[lockfiles] +=3D &quot;${WORKDIR}/ipk.lock&quot;<br>
--do_populate_sdk_ext[lockfiles] +=3D &quot;${WORKDIR}/ipk.lock&quot;<br>
-+do_populate_sdk[lockfiles] +=3D &quot;${WORKDIR}/sdk-ipk.lock&quot;<br>
-+do_populate_sdk_ext[lockfiles] +=3D &quot;${WORKDIR}/sdk-ipk.lock&quot;<b=
-r>
-<br>
-=C2=A0OPKG_PREPROCESS_COMMANDS =3D &quot;&quot;<br>
-<br>
-diff --git a/meta/lib/oe/package_manager/ipk/sdk.py b/meta/lib/oe/package_=
-manager/ipk/sdk.py<br>
-index 37af034..e2ca415 100644<br>
---- a/meta/lib/oe/package_manager/ipk/sdk.py<br>
-+++ b/meta/lib/oe/package_manager/ipk/sdk.py<br>
-@@ -14,6 +14,12 @@ class PkgSdk(Sdk):<br>
-=C2=A0 =C2=A0 =C2=A0def __init__(self, d, manifest_dir=3DNone):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0super(PkgSdk, self).__init__(d, manifest=
-_dir)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # In sdk_list_installed_packages the call to =
-opkg is hardcoded to<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # always use IPKGCONF_TARGET and there&#39;s =
-no exposed API to change this<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # so simply override IPKGCONF_TARGET to use t=
-his separated config file.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ipkgconf_sdk_target =3D d.getVar(&quot;IPKGCO=
-NF_SDK_TARGET&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;IPKGCONF_TARGET&quot;, ipkgcon=
-f_sdk_target)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.target_conf =3D self.d.getVar(&quot=
-;IPKGCONF_TARGET&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.host_conf =3D self.d.getVar(&quot;I=
-PKGCONF_SDK&quot;)<br>
-<br>
--- <br>
-2.7.4<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000491dea05b89f4c72--
+--_000_B5AACA79EC38460DBA566BB7350CF7C5bmwde_--
