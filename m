@@ -1,78 +1,69 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web09.27254.1610326010562921660
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by mx.groups.io with SMTP id smtpd.web08.27430.1610328069832532064
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Jan 2021 16:46:50 -0800
+ Sun, 10 Jan 2021 17:21:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=myz0y2WM;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id c79so9974075pfc.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 Jan 2021 16:46:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=dOJBeFHykCJEPKOfHuS3tTwGPAJFqEn4BOybhE40O9M=;
-        b=myz0y2WMHIk1ozz0/8bL4qyyyNkGn32amADqy5nyV94LA/zTfwj+kEaYTbwaZ9cemL
-         1KTW5vTBEcSEuyWzGDYrUr8tu4CmcRLrPoR97xCwSrdhfMTml3Z1HC1jWKvsuAvQoeSb
-         fV9kCkCaGJ3G7LPAyXWfKcXRkm4tQMLiBEH6S9nYWtJ+LpjkWzAR+LGhK9ICTCSn8516
-         utao3KXWoR2rs3Ya34St8+W3WpwrUrsPTtUZwlpv0cjKKoSRHIML19v6dEU41ZZ4Aa6y
-         qUHsVvJkt/jFY6SAb7NARDAb5AvJTfccz/X21Epl4RHLEXFKSXYQLtj90va/9ZtLOQc3
-         4xfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=dOJBeFHykCJEPKOfHuS3tTwGPAJFqEn4BOybhE40O9M=;
-        b=C0rC/Hc+egIrEm0l+kKiz/PEn5wAoX2PiuBzzcWqdzv7qps+rvbP32Igugm6Yg7ZR8
-         fQZ4nwRFcxF6adM/xd7aVIus4eR6f53m4+I9ZH8N1/leEG/Eeb9g1U1mtoCYvfTMh0Vk
-         7pbFktQJ5Jm7hrs64boFHqOFqGhwIa+JdFePdEkuxcNYXisqEyWrnPTVm8ZaAbYv/osY
-         Gj9Fd1M4VpWLt9n2VdeMKaCiGwKSnNJmPVTv57ZBmsdNBn0PP1p3eGPokNo8h7T4G7MI
-         ZwrohL6R5aSUN1EV2+0t0as+9Fk4pDZ/4QydqQ9dmvGxcPfOg5txhmWYl9blE8Uj0tn+
-         HqXg==
-X-Gm-Message-State: AOAM5319ahzim0F36fO9qlBOWP2ylreJg3o6yxrkYaX2Kt9TVlU2Noyc
-	R/pYDxucXB5v3nUkcLmlvCbYvUsnt4+FH3BGXpU=
-X-Google-Smtp-Source: ABdhPJzvnBadd7ht+mPzvbgPGx1DOU6JLox7wjIvCAZMqUFhMl/rWWdrgN59ZXOniSTIkx55/Qey1g==
-X-Received: by 2002:a62:5b07:0:b029:1ae:177d:69e1 with SMTP id p7-20020a625b070000b02901ae177d69e1mr14028893pfb.25.1610326009455;
-        Sun, 10 Jan 2021 16:46:49 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id v125sm17729079pgv.6.2021.01.10.16.46.47
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jan 2021 16:46:48 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.115, mailfrom: jay.shen.teoh@intel.com)
+IronPort-SDR: /tbAS5Yj1NtK+n6VUQh7wDaRdOgu27CXMHYasFqNQOu1xi/6U/zcfSq9JD+eHIzrGzxW8J1l7D
+ d9Bu+ejsZoOw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9860"; a="177011148"
+X-IronPort-AV: E=Sophos;i="5.79,337,1602572400"; 
+   d="scan'208";a="177011148"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jan 2021 17:21:07 -0800
+IronPort-SDR: yvDJ02qvdDmrnbuXGYEOigd/KM7iJdQUxaOhf4H38F7Jr9rSryNBPZy6Ds0KT0VKROrXuTBb9n
+ QmvL85pVpm2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,337,1602572400"; 
+   d="scan'208";a="344754593"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga007.fm.intel.com with ESMTP; 10 Jan 2021 17:21:06 -0800
+From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/12] mobile-broadband-provider-info: upgrade 20190618 ->20201225
-Date: Sun, 10 Jan 2021 14:45:53 -1000
-Message-Id: <72431ee8de5e3a53d259cebf420a7713ac9e1f14.1610325804.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1610325804.git.steve@sakoman.com>
-References: <cover.1610325804.git.steve@sakoman.com>
+Subject: [PATCH] oeqa/cpu_utilization_test : add test for cpu utilization after standby state
+Date: Mon, 11 Jan 2021 09:21:03 +0800
+Message-Id: <1610328063-33463-1-git-send-email-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 812eb3121e0aabe4e3de9a8c61b1e62c87f55aa4)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+This test is checking the cpu utilization before and after standby state. The check_CPU_utilization_after_standby manual test case from oeqa/manual/bsp-hw can be replace by this runtime test.
+
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
 ---
- .../mobile-broadband-provider-info_git.bb                     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../lib/oeqa/runtime/cases/cpu_utilization_test.py | 23 ++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/cpu_utilization_test.py
 
-diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-index 0b0bbab168..7dccc15e03 100644
---- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-+++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
-@@ -3,8 +3,8 @@ HOMEPAGE = "http://live.gnome.org/NetworkManager/MobileBroadband/ServiceProvider
- SECTION = "network"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
--SRCREV = "22b49d86fb7aded2c195a9d49e5924da696b3228"
--PV = "20190618"
-+SRCREV = "90f3fe28aa25135b7e4a54a7816388913bfd4a2a"
-+PV = "20201225"
- PE = "1"
- 
- SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https"
+diff --git a/meta/lib/oeqa/runtime/cases/cpu_utilization_test.py b/meta/lib/oeqa/runtime/cases/cpu_utilization_test.py
+new file mode 100644
+index 0000000..a44b4ec
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/cpu_utilization_test.py
+@@ -0,0 +1,23 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.data import skipIfQemu
++
++
++class CPU_utilization_test(OERuntimeTestCase):
++      
++    def set_standby(self): 
++        (status, output) = self.target.run('rtcwake -m mem -s 10')
++        self.assertEqual(status, 0,  msg = 'Failed to set your system into standby mode, output : %s' % output)
++    
++    @skipIfQemu('qemuall', 'Test only runs on real hardware')
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_CPU_utilization_after_standby(self):
++        (status, cpu_usage_before_standby) = self.target.run("export TERM=xterm && top -b -n2 | grep 'Cpu(s)' | tail -n 1 | awk '{print $2 + $6}'")
++        self.assertEqual(status, 0,  msg = 'Failed to run the top command, output : %s' % cpu_usage_before_standby)
++        self.set_standby()
++        (status, cpu_usage_after_standby) = self.target.run("export TERM=xterm && top -b -n2 | grep 'Cpu(s)' | tail -n 1 | awk '{print $2 + $6}'")
++        self.assertEqual(status, 0,  msg = 'Failed to run the top command, output : %s' % cpu_usage_after_standby)
++        cpu_usage_before_standby = int(float(cpu_usage_before_standby))
++        cpu_usage_after_standby = int(float(cpu_usage_after_standby))
++        cpu_usage_comparison = ((cpu_usage_before_standby - 5) <= cpu_usage_after_standby <= (cpu_usage_before_standby + 5))
++        self.assertTrue(cpu_usage_comparison, msg='There should be no big difference in the cpu utilization before/after standby, cpu usage before standby : % s, cpu usage after standby : % s' % (cpu_usage_before_standby , cpu_usage_after_standby))
 -- 
-2.17.1
+2.7.4
 
