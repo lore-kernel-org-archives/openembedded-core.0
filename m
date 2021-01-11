@@ -1,75 +1,83 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web09.38489.1610387574825549521
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.544.1610389362226084364
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jan 2021 09:52:55 -0800
+ Mon, 11 Jan 2021 10:22:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LNB4FbYL;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: mostthingsweb@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id z20so322025qtq.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Jan 2021 09:52:54 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=PiuXAk8A;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4NwEbwbPb/h9ERLawJw4YBQOZtirIZ6y7XdKidw3kv0=;
-        b=LNB4FbYLT5C0c2247Q2XvnDSKtnX4vGmXApdf1UZJrSOupkQ321R9+9VgE5XfaMvuX
-         8mmpqtZbyKm8Hj0vxP+FJbq3ZvU75Ab12bOJ8NiryaOSccXEEEdaiFALF+4OfkD695BP
-         ouBSrp03xOe3JlwD8JVlMl//ETbT/xuSs9Ego+sWQ2TomYHedVI5ClDo7qIwCE6G8DYk
-         8UNNxw9u273FirpstMF2aL1rESFy5SHNFFKJuFOUDWjAy+nug+5GIedcF8hcF9iWpT8D
-         C6CSugg4FLJSARbTbviaxnK5PQyUyNgoGR7feB3rsBv4wCa8g3OTaaaV9SJwmKPvFnhn
-         wSUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4NwEbwbPb/h9ERLawJw4YBQOZtirIZ6y7XdKidw3kv0=;
-        b=o9NsPk82oxGQYkUxAd9wKDsYx1FThFyOy0mLQxvqBMdUVzL2Q11N8HG8hdRjQsKo0U
-         HvwWQt+ocnoVGWtDraAhx6sEbT9G9yStp3Vl8k1v1SCSvnpRVwPwNxJNGbQAopqwJjg1
-         EnR7YqguVNJ5+l1fUzQjjsLwkaQbcEKbpU6p+JkrJWA+5wizCbhiDFYEg5yeAsQmGqNo
-         GGwUU9Hp5Ljgdud2Y6OXcypFlno4Lxc94LJUNayXSzGcTdS5xliGNj5UeM8ADbDMum5U
-         RgcmVsB+D+mofWxtu0TJ1d2AVpzA+UFeOF0VmYzQTKF5x0c5U+uvZsoIziWX2XLcMxvb
-         lgmw==
-X-Gm-Message-State: AOAM5306NJJ7y1qQfyXBnRhwbV4jeC3mv2LAsliK4KnSugGlMVV1OoVL
-	hz0LTIpMdbrUNfn0r8iGIuR+J3Ei1hSt/reo
-X-Google-Smtp-Source: ABdhPJy6FKEoji/2L6tHI6M037X27iG07SP3D1c3ay64UL9OOBX1yopLUCm25A3dxjQuJZ4nQ7sYNQ==
-X-Received: by 2002:ac8:7c8e:: with SMTP id y14mr699481qtv.161.1610387573587;
-        Mon, 11 Jan 2021 09:52:53 -0800 (PST)
-Return-Path: <mostthingsweb@gmail.com>
-Received: from localhost.localdomain (c-76-99-179-205.hsd1.de.comcast.net. [76.99.179.205])
-        by smtp.gmail.com with ESMTPSA id g3sm186303qtc.3.2021.01.11.09.52.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Jan 2021 09:52:52 -0800 (PST)
-From: "Chris Laplante" <mostthingsweb@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Chris Laplante <mostthingsweb@gmail.com>
-Subject: [PATCH] systemd.bbclass: improve error message when a service unit specified in SYSTEMD_SERVICE is not found
-Date: Mon, 11 Jan 2021 12:52:49 -0500
-Message-Id: <20210111175249.1067914-1-mostthingsweb@gmail.com>
-X-Mailer: git-send-email 2.30.0
+  d=axis.com; q=dns/txt; s=axis-central1; t=1610389362;
+  x=1641925362;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=lWhmk6KtndTDX8AN5GHK9uysPpS2X2foK1viLavzIsg=;
+  b=PiuXAk8A0JnYwwHFoBEO0PHmziWcdrMTqP1jYOQ3U8RqbnVODwji0RUM
+   O7LHMrSMQ8r+FfycTyG8A5I088RfoCNonUcJtmAlqgVzmhdA2GWVgEVrB
+   p4dQ6EweeYOOsKduoXTw8+y+y5qOjDGzckXZgY68VsdmCWCh2el7QHhD+
+   s093G5RGfYw5GEHsmFXQDwLjtd/l5Q4z87zhdqc+I1/lTwz5LlBsdo0F8
+   rNOVX/ocRyMBESeL+amrUvamOfw4GPEYi4Y4tubTxQLOeNoYsdWZ757+4
+   1O/alIm0MCz8CxRXde4Zdri/BNq2ApcUpGL7XDe3F5Yq/x/GtA+uNLr/c
+   w==;
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Anton Kachalov
+	<rnouse@google.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [poky][PATCH] bitbake: remove /usr from pseudo ignore paths
+Thread-Topic: [OE-core] [poky][PATCH] bitbake: remove /usr from pseudo ignore
+ paths
+Thread-Index: AQHW5UA/U4QVrsBaxUC0ftXAsYepTaocqjCAgAAs0ACAAH2pAIAFZpfA
+Date: Mon, 11 Jan 2021 18:22:40 +0000
+Message-ID: <3810611592a344cbaeb1b907e150c2c5@XBOX03.axis.com>
+References: <20210107215121.3901938-1-gmouse@google.com>
+	 <CADVsX8-dMLvuccRjzU73=-reDjEBRq5PZZ+S6ZeugSvTy-iqog@mail.gmail.com>
+	 <CADVsX8924shMc+PFUQ6jsmnUqsF+VAeRfn0xM+4G406EgvGFCg@mail.gmail.com>
+	 <63d70805b829d08faf3e73865ed7f9c2ad9a1366.camel@linuxfoundation.org>
+	 <CADVsX89HCqKYNOyDMK1czkfaOw_TdrwVLK=bi_RanOKgDd=ZuQ@mail.gmail.com>
+ <bfb21f1ec874e5d9638885885eb2530104c28ac5.camel@linuxfoundation.org>
+In-Reply-To: <bfb21f1ec874e5d9638885885eb2530104c28ac5.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-The previous message was fairly useless without diving into the bbclass.
-
-Signed-off-by: Chris Laplante <mostthingsweb@gmail.com>
----
- meta/classes/systemd.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 9ec465c759..db5d109545 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -174,7 +174,8 @@ python systemd_populate_packages() {
-                 if path_found != '':
-                     systemd_add_files_and_parse(pkg_systemd, path_found, service, keys)
-                 else:
--                    bb.fatal("SYSTEMD_SERVICE_%s value %s does not exist" % (pkg_systemd, service))
-+                    bb.fatal("Didn't find service unit '{0}', specified in SYSTEMD_SERVICE_{1}. {2}".format(
-+                        service, pkg_systemd, "Also looked for service unit '{0}'.".format(base) if base is not None else ""))
- 
-     def systemd_create_presets(pkg, action):
-         presetf = oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdir"), "system-preset/98-%s.preset" % pkg)
--- 
-2.30.0
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnIDxvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
+YmVkZGVkLm9yZz4gT24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IGRlbiA4IGph
+bnVhcmkgMjAyMSAwOToyNw0KPiBUbzogQW50b24gS2FjaGFsb3YgPHJub3VzZUBnb29nbGUuY29t
+Pg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJq
+ZWN0OiBSZTogW09FLWNvcmVdIFtwb2t5XVtQQVRDSF0gYml0YmFrZTogcmVtb3ZlIC91c3IgZnJv
+bSBwc2V1ZG8NCj4gaWdub3JlIHBhdGhzDQo+IA0KPiBPbiBGcmksIDIwMjEtMDEtMDggYXQgMDE6
+NTYgKzAxMDAsIEFudG9uIEthY2hhbG92IHdyb3RlOg0KPiA+IEhlbGxvLCBSaWNoYXJkLg0KPiA+
+IFllcywgZm9yIHZhcmlvdXMgcmVhc29ucyB3ZSBjYW4gbm90IG1vdmUgb3V0IGZyb20gL3Vzci9s
+b2NhbC4NCg0KVXNpbmcgYSBidWlsZCBkaXJlY3RvcnkgYW55d2hlcmUgdW5kZXIgL3VzciBzb3Vu
+ZHMgbGlrZSBhIHZlcnkgdW51c3VhbCANCnNldHVwIGFuZCBJIGRvIG5vdCB0aGluayBpdCBpcyBh
+IHNpdHVhdGlvbiB0aGF0IHdhcnJhbnRzIHNwZWNpYWwgDQp0cmVhdG1lbnQgaW4gdGhlIGNvbW1v
+biBjb25maWd1cmF0aW9uLiBXb3JrYXJvdW5kcyBhcmUgYmV0dGVyIGRvbmUgaW4gDQp0aGUgbG9j
+YWwgZW52aXJvbm1lbnQuDQoNCj4gPiBCZWZvcmUgdGhlIGNoYW5nZSBpdCB3b3JrcyBzbW9vdGhs
+eSBhbmQgd2UgZGlkbid0IG5vdGljZSBhYm91dCBhbnkNCj4gPiBraW5kIG9mIHBlcmZvcm1hbmNl
+IGlzc3Vlcy4NCj4gPiBNYXkgYmUgd2UgY2FuIGV4cGxpY2l0bHkgYWRkIHZhcmlvdXMgc3RhbmRh
+cmQgc3ViZGlycyB1bmRlciAvdXNyDQo+ID4gZXhjbHVkaW5nIC91c3IvbG9jYWw/DQoNCkkgYmVs
+aWV2ZSBpdCB3b3VsZCBiZSBoYXJkIHRvIG1haW50YWluIGEgc3VpdGFibGUgbGlzdCBvZiBzdWJk
+aXJlY3RvcmllcyANCm9mIC91c3IgKGluY2x1ZGluZyAvdXNyL2xvY2FsKSB0aGF0IHBzZXVkbyBz
+aG91bGQgaWdub3JlLiBIb3dldmVyLCANCmRvIHdlIGFjdHVhbGx5IGtub3cgaWYgcHNldWRvIGlz
+IG5vcm1hbGx5IGFjY2Vzc2luZyBwYXRocyB1bmRlciAvdXNyLCANCm9yIHdhcyBpdCBqdXN0IGFk
+ZGVkIGFzIGEgInBzZXVkbyBzaG91bGQgbmV2ZXIgY2FyZSBhYm91dCBhbnl0aGluZyBoZXJlIA0K
+c28gd2UgbWF5IGFzIHdlbGwgYWRkIGl0Ij8NCg0KPiBDYW4geW91IGFkZCBsb2NhbCBjb25maWcg
+bGlrZToNCj4gDQo+IFBTRVVET19JR09OUkVfUEFUSFNfcmVtb3ZlID0gIi91c3IvLCINCj4gDQo+
+IHdoaWNoIHNob3VsZCBhbGxvdyB0aGluZ3MgdG8gd29yayBmb3IgeW91Pw0KDQpDb3JyZWN0IG1l
+IGlmIEkgYW0gd3JvbmcsIGJ1dCBBRkFJSyB5b3UgY2Fubm90IHVzZSB0aGUgX3JlbW92ZSBvcGVy
+YXRvciANCnRvIHJlbW92ZSBhIHBhcnQgb2YgYSBzdHJpbmcuIEl0IG9ubHkgd29ya3Mgb24gc3Bh
+Y2Ugc2VwYXJhdGVkIHdvcmRzLiANCllvdSB3aWxsIGhhdmUgdG8gcmVkZWZpbmUgdGhlIGVudGly
+ZSBQU0VVRE9fSUdPTlJFX1BBVEhTIHRvIHJlbW92ZSBhbnkgDQpwYXJ0cyBvZiBpdC4NCg0KVGhp
+cyBpcyBhIGRyYXdiYWNrIG9mIHVzaW5nIGEgbGlzdCBpbiBhIGJpdGJha2UgdmFyaWFibGUgdGhh
+dCBpcyBzZXBhcmF0ZWQgDQp1c2luZyBzb21ldGhpbmcgb3RoZXIgdGhhbiBzcGFjZXMuIEkgZ3Vl
+c3MgY29tbWFzIHdlcmUgY2hvc2VuIGFzIHNlcGFyYXRvciANCmZvciB0aGlzIHZhcmlhYmxlIHNp
+bmNlIHNwYWNlcyBhcmUgbW9yZSBjb21tb24gKGlmIHN0aWxsIHJhcmUpIGluIHBhdGhzIA0KdGhh
+biBjb21tYXMsIGJ1dCBpdCBjYXVzZXMgcHJvYmxlbXMgbGlrZSB0aGlzLg0KDQo+IA0KPiBDaGVl
+cnMsDQo+IA0KPiBSaWNoYXJkDQoNCi8vUGV0ZXINCg0K
