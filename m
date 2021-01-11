@@ -1,482 +1,55 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
- by mx.groups.io with SMTP id smtpd.web11.32080.1610361463103112880
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+ by mx.groups.io with SMTP id smtpd.web08.31964.1610361644012793260
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Jan 2021 02:37:43 -0800
+ Mon, 11 Jan 2021 02:40:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ntdWTMeL;
- spf=pass (domain: gmail.com, ip: 209.85.222.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f49.google.com with SMTP id y25so5785062uaq.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Jan 2021 02:37:42 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=pPEj84hS;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.174, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f174.google.com with SMTP id l200so19600286oig.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 Jan 2021 02:40:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=konsulko.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=tCG+h+AwXoIvpFZraN3YpoffoOAeMTTzrgoHlE5P30A=;
-        b=ntdWTMeL7ak+7vN2wCX9QLDSArxep5tuW+mLBYJ4MeFNJlskw8PUl58/7NOsKzImLs
-         FkVsU1Y4gVq5MdppAuOkBb1bTW366Z7ot3jgYAoF/X9ikETb0j6OUH9jffWAQe3VAUZr
-         71uZodIO70kKxbaeKOE7T7rz1Q/eIWglBuCSaVwLrZ+joR73B5QivH3hkzBBruoqKlYl
-         CnsZcaEPrYWaMCJIa5F0VAR9mf3Qyt2mZp5PCdzXFbsFF58CMA5FQT1lN5F/zqKeWLzT
-         qyqMhg6D4747n2V7RCXMQrE5221ujFgzqdOa94tP9JtnvudbqQ5WOYi9PHMAIaRvED+y
-         YgwA==
+        bh=Iwz+tTnJARQAJ/vLseoJ6/e5ppfMqeeHeyeiP1srPJI=;
+        b=pPEj84hSYAV2XkobhzKEavEoeynSg+CL9kp/CtskRAA5hTTTRymUjbjNTZOJTEhHDN
+         g4z9I0JozrdfnrrIjWGMjpoWEJL5lFveFwJ8hrQq1eu5EerCFPN3gelbMpthutHqbUKv
+         qgcCSD5x3Z0w5gxgVkJrHhjgJvm3JPksh9DPI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tCG+h+AwXoIvpFZraN3YpoffoOAeMTTzrgoHlE5P30A=;
-        b=UGDXOp2OV6cVlHgfWVaBZhAa1iVmdcNCcIB+2BZf5tM2eq1igDylBqqX+UMHAf+8nh
-         qmUZeKfscvu5y2W1B9saA4Zb1CZ8XneKf/2n7GY2bVbE/tnmuTIgScetVywJSXzESxD8
-         oFjQ3YPOCGNz9vba2lAXRYWeMI2/ZAvQGEw91S2NQsNglO2b/iQEDqbyFaVe6Lor9//y
-         86D0J/LaS/8XFoQpAH6rA2C44X14EW5nlnHen6wauk1ewF73lbpiLBf/cDxee5L6zPg0
-         u567wWVSKgLMYRCieWSEXBSDZEU44hgeEbfdxrteCotE0oIP8VGVc9MfT0C7hQWgb09p
-         FgOA==
-X-Gm-Message-State: AOAM5338UBinYoDqdZSpnJtmlw97TgsaH74fIpfU6wb1aj5yWMCyuysE
-	hOaJ/2uCP8ChqCrz+jL00fohHhCE7eSX89ajh7c=
-X-Google-Smtp-Source: ABdhPJwIS/0WPzhcUv27a4HlbAu4w1KkpFU57QgNN7EbfyKQwrz40bW5EsLSvYIPRBLJWjaffzYW3smSkHOFtgipqyk=
-X-Received: by 2002:ab0:6703:: with SMTP id q3mr11393204uam.93.1610361462280;
- Mon, 11 Jan 2021 02:37:42 -0800 (PST)
+        bh=Iwz+tTnJARQAJ/vLseoJ6/e5ppfMqeeHeyeiP1srPJI=;
+        b=RXs2y6jmDlEybPakp6o+9fJDJnWNIi5kjzSpdFDUtpLXHeUuW9wtWUxfeHZnQEhRxv
+         L8YooD++TWlqNSAZKOBpoOaWDbudqNq6b0k68OA4W8cRKUmqnhkkmUgk00dZJjdsD8O/
+         sxL6jpyU0LK4pYkeLonh7D7wM3IOVKLkQP61/Y3FM0DGlWptCadAgerb1PDVI4LK8lNI
+         UDBEOFuqyOox2zKrjHxkTEFDugobcFtz7Vb7Fs1dxPYkmEi5nrk/T4BmA82b3Z4wQ4EP
+         jngj0GcBqV/b92J9NBWxAyCa9fxpZkJpNhhcFcyfs3YJBn4wPb/4F1LkzG3979x5uDTY
+         Xbrw==
+X-Gm-Message-State: AOAM531nxHKJmxUQOOOpSkI0Z0mOtivkW8DfieM02JFUbrORMPhTyREN
+	3Dz803te7UhIH4p6UC1Cr5oFd2xsu2NcZF18SpfZBA==
+X-Google-Smtp-Source: ABdhPJyFVH62KTLg7eYqbSeeISQg2Y9+Z9iZN3PLM+JCyciXTS2IcNjj+ESdOpXmcz+mFyFHu7YTGRPY4mVMio//zl4=
+X-Received: by 2002:a05:6808:a95:: with SMTP id q21mr9887910oij.6.1610361643400;
+ Mon, 11 Jan 2021 02:40:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20210111103247.11685-1-pbarker@konsulko.com> <20210111103247.11685-6-pbarker@konsulko.com>
- <16592723997B4DF6.2879@lists.openembedded.org>
-In-Reply-To: <16592723997B4DF6.2879@lists.openembedded.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 11 Jan 2021 11:37:31 +0100
-Message-ID: <CANNYZj8tG8yB28sXryqkWnj_KMYxczoByR6vNv810vhpogvx0g@mail.gmail.com>
+ <16592723997B4DF6.2879@lists.openembedded.org> <CANNYZj8tG8yB28sXryqkWnj_KMYxczoByR6vNv810vhpogvx0g@mail.gmail.com>
+In-Reply-To: <CANNYZj8tG8yB28sXryqkWnj_KMYxczoByR6vNv810vhpogvx0g@mail.gmail.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Mon, 11 Jan 2021 10:40:34 +0000
+Message-ID: <CAM9ZRVuUm5RdxYtYXEvAL7Fe7P40S3z9f+mjKmVCDYAMGOPzTQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 6/6] wic: Optimise fstab modification for ext2/3/4 and msdos partitions
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Paul Barker <pbarker@konsulko.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000eb566f05b89d7e4f"
-
---000000000000eb566f05b89d7e4f
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Oh right nevermind - it's an optimization, not an actual fix which is
-elsewhere.
-
-Alex
-
-On Mon, 11 Jan 2021 at 11:36, Alexander Kanavin via lists.openembedded.org
-<alex.kanavin=gmail.com@lists.openembedded.org> wrote:
-
-> Can there be a warning if the filesystem is not one of the supported ones?
+On Mon, 11 Jan 2021 at 10:37, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> Alex
->
-> On Mon, 11 Jan 2021 at 11:33, Paul Barker <pbarker@konsulko.com> wrote:
->
->> The fix for [Yocto #13994] required the rootfs directory to be copied
->> (using hardlinks if possible) when modifying the fstab file under wic.
->>
->> We can optimise this copy away for filesystems where we have the tools
->> to modify the contents of the partition image after it is created. For
->> ext2/3/4 filesystems we have the debugfs tool and for msdos/vfat
->> filesystems we have the mcopy tool. So for any of these filesystems we
->> skip the modification of the fstab file in the rootfs directory (and
->> skip the associated copy unless it is otherwise necessary) and update
->> the contents of fstab directly in the partition image.
->>
->> Signed-off-by: Paul Barker <pbarker@konsulko.com>
->> ---
->>  scripts/lib/wic/partition.py             | 27 +++++++++++++++++++-----
->>  scripts/lib/wic/plugins/source/rootfs.py |  9 +++++---
->>  2 files changed, 28 insertions(+), 8 deletions(-)
->>
->> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
->> index f59eceb23d..e574f40c47 100644
->> --- a/scripts/lib/wic/partition.py
->> +++ b/scripts/lib/wic/partition.py
->> @@ -55,6 +55,8 @@ class Partition():
->>          self.fsuuid = args.fsuuid
->>          self.type = args.type
->>          self.updated_fstab_path = None
->> +        self.has_fstab = False
->> +        self.update_fstab_in_rootfs = False
->>
->>          self.lineno = lineno
->>          self.source_file = ""
->> @@ -125,6 +127,8 @@ class Partition():
->>          partition command parameters.
->>          """
->>          self.updated_fstab_path = updated_fstab_path
->> +        if self.updated_fstab_path and not
->> (self.fstype.startswith("ext") or self.fstype == "msdos"):
->> +            self.update_fstab_in_rootfs = True
->>
->>          if not self.source:
->>              if not self.size and not self.fixed_size:
->> @@ -250,7 +254,7 @@ class Partition():
->>
->>          prefix = "ext" if self.fstype.startswith("ext") else self.fstype
->>          method = getattr(self, "prepare_rootfs_" + prefix)
->> -        method(rootfs, oe_builddir, rootfs_dir, native_sysroot, pseudo)
->> +        method(rootfs, cr_workdir, oe_builddir, rootfs_dir,
->> native_sysroot, pseudo)
->>          self.source_file = rootfs
->>
->>          # get the rootfs size in the right units for kickstart (kB)
->> @@ -258,7 +262,7 @@ class Partition():
->>          out = exec_cmd(du_cmd)
->>          self.size = int(out.split()[0])
->>
->> -    def prepare_rootfs_ext(self, rootfs, oe_builddir, rootfs_dir,
->> +    def prepare_rootfs_ext(self, rootfs, cr_workdir, oe_builddir,
->> rootfs_dir,
->>                             native_sysroot, pseudo):
->>          """
->>          Prepare content for an ext2/3/4 rootfs partition.
->> @@ -282,10 +286,19 @@ class Partition():
->>              (self.fstype, extraopts, rootfs, label_str, self.fsuuid,
->> rootfs_dir)
->>          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
->>
->> +        if self.updated_fstab_path and self.has_fstab:
->> +            debugfs_script_path = os.path.join(cr_workdir,
->> "debugfs_script")
->> +            with open(debugfs_script_path, "w") as f:
->> +                f.write("cd etc\n")
->> +                f.write("rm fstab\n")
->> +                f.write("write %s fstab\n" % (self.updated_fstab_path))
->> +            debugfs_cmd = "debugfs -w -f %s %s" % (debugfs_script_path,
->> rootfs)
->> +            exec_native_cmd(debugfs_cmd, native_sysroot)
->> +
->>          mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
->>          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
->>
->> -    def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
->> +    def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_builddir,
->> rootfs_dir,
->>                               native_sysroot, pseudo):
->>          """
->>          Prepare content for a btrfs rootfs partition.
->> @@ -308,7 +321,7 @@ class Partition():
->>               self.mkfs_extraopts, self.fsuuid, rootfs)
->>          exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
->>
->> -    def prepare_rootfs_msdos(self, rootfs, oe_builddir, rootfs_dir,
->> +    def prepare_rootfs_msdos(self, rootfs, cr_workdir, oe_builddir,
->> rootfs_dir,
->>                               native_sysroot, pseudo):
->>          """
->>          Prepare content for a msdos/vfat rootfs partition.
->> @@ -337,12 +350,16 @@ class Partition():
->>          mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
->>          exec_native_cmd(mcopy_cmd, native_sysroot)
->>
->> +        if self.updated_fstab_path and self.has_fstab:
->> +            mcopy_cmd = "mcopy -i %s %s ::/etc/fstab" % (rootfs,
->> self.updated_fstab_path)
->> +            exec_native_cmd(mcopy_cmd, native_sysroot)
->> +
->>          chmod_cmd = "chmod 644 %s" % rootfs
->>          exec_cmd(chmod_cmd)
->>
->>      prepare_rootfs_vfat = prepare_rootfs_msdos
->>
->> -    def prepare_rootfs_squashfs(self, rootfs, oe_builddir, rootfs_dir,
->> +    def prepare_rootfs_squashfs(self, rootfs, cr_workdir, oe_builddir,
->> rootfs_dir,
->>                                  native_sysroot, pseudo):
->>          """
->>          Prepare content for a squashfs rootfs partition.
->> diff --git a/scripts/lib/wic/plugins/source/rootfs.py
->> b/scripts/lib/wic/plugins/source/rootfs.py
->> index 6fd415af5b..96d940a91d 100644
->> --- a/scripts/lib/wic/plugins/source/rootfs.py
->> +++ b/scripts/lib/wic/plugins/source/rootfs.py
->> @@ -94,6 +94,7 @@ class RootfsPlugin(SourcePlugin):
->>                                 "it is not a valid path, exiting" %
->> part.rootfs_dir)
->>
->>          part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
->> +        part.has_fstab = os.path.exists(os.path.join(part.rootfs_dir,
->> "etc/fstab"))
->>          pseudo_dir = os.path.join(part.rootfs_dir, "../pseudo")
->>          if not os.path.lexists(pseudo_dir):
->>              logger.warn("%s folder does not exist. "
->> @@ -103,7 +104,7 @@ class RootfsPlugin(SourcePlugin):
->>          new_rootfs = None
->>          new_pseudo = None
->>          # Handle excluded paths.
->> -        if part.exclude_path or part.include_path or
->> part.change_directory or part.updated_fstab_path:
->> +        if part.exclude_path or part.include_path or
->> part.change_directory or part.update_fstab_in_rootfs:
->>              # We need a new rootfs directory we can safely modify without
->>              # interfering with other tasks. Copy to workdir.
->>              new_rootfs = os.path.realpath(os.path.join(cr_workdir,
->> "rootfs%d" % part.lineno))
->> @@ -214,8 +215,10 @@ class RootfsPlugin(SourcePlugin):
->>                      rm_cmd = "rm -rf %s" % (full_path)
->>                      exec_native_cmd(rm_cmd, native_sysroot, pseudo)
->>
->> -            has_fstab = os.path.exists(os.path.join(new_rootfs,
->> "etc/fstab"))
->> -            if part.updated_fstab_path and has_fstab:
->> +            # Update part.has_fstab here as fstab may have been added or
->> +            # removed by the above modifications.
->> +            part.has_fstab = os.path.exists(os.path.join(new_rootfs,
->> "etc/fstab"))
->> +            if part.update_fstab_in_rootfs and part.has_fstab:
->>                  fstab_path = os.path.join(new_rootfs, "etc/fstab")
->>                  # Assume that fstab should always be owned by root with
->> fixed permissions
->>                  install_cmd = "install -m 0644 %s %s" %
->> (part.updated_fstab_path, fstab_path)
->> --
->> 2.26.2
->>
->>
->>
->>
->>
-> 
->
->
+> Oh right nevermind - it's an optimization, not an actual fix which is elsewhere.
 
---000000000000eb566f05b89d7e4f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Yes, for other fstypes we just fallback on copying the rootfs
+directory (using hardlinks if possible).
 
-<div dir=3D"ltr"><div>Oh right nevermind - it&#39;s an optimization, not an=
- actual fix which is elsewhere.</div><div><br></div><div>Alex<br></div></di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On M=
-on, 11 Jan 2021 at 11:36, Alexander Kanavin via <a href=3D"http://lists.ope=
-nembedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mai=
-lto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
-dir=3D"ltr"><div>Can there be a warning if the filesystem is not one of the=
- supported ones?</div><div><br></div><div>Alex<br></div></div><br><div clas=
-s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 11 Jan 2021=
- at 11:33, Paul Barker &lt;<a href=3D"mailto:pbarker@konsulko.com" target=
-=3D"_blank">pbarker@konsulko.com</a>&gt; wrote:<br></div><blockquote class=
-=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">The fix for [Yocto #13994] required the r=
-ootfs directory to be copied<br>
-(using hardlinks if possible) when modifying the fstab file under wic.<br>
-<br>
-We can optimise this copy away for filesystems where we have the tools<br>
-to modify the contents of the partition image after it is created. For<br>
-ext2/3/4 filesystems we have the debugfs tool and for msdos/vfat<br>
-filesystems we have the mcopy tool. So for any of these filesystems we<br>
-skip the modification of the fstab file in the rootfs directory (and<br>
-skip the associated copy unless it is otherwise necessary) and update<br>
-the contents of fstab directly in the partition image.<br>
-<br>
-Signed-off-by: Paul Barker &lt;<a href=3D"mailto:pbarker@konsulko.com" tar=
-get=3D"_blank">pbarker@konsulko.com</a>&gt;<br>
----<br>
-=C2=A0scripts/lib/wic/partition.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 27 +++++++++++++++++++-----<br>
-=C2=A0scripts/lib/wic/plugins/source/rootfs.py |=C2=A0 9 +++++---<br>
-=C2=A02 files changed, 28 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py<b=
-r>
-index f59eceb23d..e574f40c47 100644<br>
---- a/scripts/lib/wic/partition.py<br>
-+++ b/scripts/lib/wic/partition.py<br>
-@@ -55,6 +55,8 @@ class Partition():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.fsuuid =3D args.fsuuid<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.type =3D args.type<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.updated_fstab_path =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.has_fstab =3D False<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.update_fstab_in_rootfs =3D False<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.lineno =3D lineno<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.source_file =3D &quot;&quot;<br>
-@@ -125,6 +127,8 @@ class Partition():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0partition command parameters.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.updated_fstab_path =3D updated_fsta=
-b_path<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.updated_fstab_path and not (self.fsty=
-pe.startswith(&quot;ext&quot;) or self.fstype =3D=3D &quot;msdos&quot;):<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.update_fstab_in_rootfs =3D=
- True<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not self.source:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not self.size and not s=
-elf.fixed_size:<br>
-@@ -250,7 +254,7 @@ class Partition():<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prefix =3D &quot;ext&quot; if self.fstyp=
-e.startswith(&quot;ext&quot;) else self.fstype<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0method =3D getattr(self, &quot;prepare_r=
-ootfs_&quot; + prefix)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 method(rootfs, oe_builddir, rootfs_dir, nativ=
-e_sysroot, pseudo)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 method(rootfs, cr_workdir, oe_builddir, rootf=
-s_dir, native_sysroot, pseudo)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.source_file =3D rootfs<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# get the rootfs size in the right units=
- for kickstart (kB)<br>
-@@ -258,7 +262,7 @@ class Partition():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0out =3D exec_cmd(du_cmd)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.size =3D int(out.split()[0])<br>
-<br>
--=C2=A0 =C2=A0 def prepare_rootfs_ext(self, rootfs, oe_builddir, rootfs_di=
-r,<br>
-+=C2=A0 =C2=A0 def prepare_rootfs_ext(self, rootfs, cr_workdir, oe_builddi=
-r, rootfs_dir,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 native_sysroot, pseudo):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Prepare content for an ext2/3/4 rootfs p=
-artition.<br>
-@@ -282,10 +286,19 @@ class Partition():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(self.fstype, extraopts, r=
-ootfs, label_str, self.fsuuid, rootfs_dir)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_native_cmd(mkfs_cmd, native_sysroot=
-, pseudo=3Dpseudo)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.updated_fstab_path and self.has_fstab=
-:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debugfs_script_path =3D os.path=
-.join(cr_workdir, &quot;debugfs_script&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 with open(debugfs_script_path, =
-&quot;w&quot;) as f:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&quot;cd =
-etc\n&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&quot;rm =
-fstab\n&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 f.write(&quot;wri=
-te %s fstab\n&quot; % (self.updated_fstab_path))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 debugfs_cmd =3D &quot;debugfs -=
-w -f %s %s&quot; % (debugfs_script_path, rootfs)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_native_cmd(debugfs_cmd, na=
-tive_sysroot)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkfs_cmd =3D &quot;fsck.%s -pvfD %s&quot=
-; % (self.fstype, rootfs)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_native_cmd(mkfs_cmd, native_sysroot=
-, pseudo=3Dpseudo)<br>
-<br>
--=C2=A0 =C2=A0 def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_=
-dir,<br>
-+=C2=A0 =C2=A0 def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_build=
-dir, rootfs_dir,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 native_sysroot, pseudo):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Prepare content for a btrfs rootfs parti=
-tion.<br>
-@@ -308,7 +321,7 @@ class Partition():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.mkfs_extraopts, self=
-.fsuuid, rootfs)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_native_cmd(mkfs_cmd, native_sysroot=
-, pseudo=3Dpseudo)<br>
-<br>
--=C2=A0 =C2=A0 def prepare_rootfs_msdos(self, rootfs, oe_builddir, rootfs_=
-dir,<br>
-+=C2=A0 =C2=A0 def prepare_rootfs_msdos(self, rootfs, cr_workdir, oe_build=
-dir, rootfs_dir,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 native_sysroot, pseudo):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Prepare content for a msdos/vfat rootfs =
-partition.<br>
-@@ -337,12 +350,16 @@ class Partition():<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mcopy_cmd =3D &quot;mcopy -i %s -s %s/* =
-::/&quot; % (rootfs, rootfs_dir)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_native_cmd(mcopy_cmd, native_sysroo=
-t)<br>
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.updated_fstab_path and self.has_fstab=
-:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mcopy_cmd =3D &quot;mcopy -i %s=
- %s ::/etc/fstab&quot; % (rootfs, self.updated_fstab_path)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 exec_native_cmd(mcopy_cmd, nati=
-ve_sysroot)<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chmod_cmd =3D &quot;chmod 644 %s&quot; %=
- rootfs<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exec_cmd(chmod_cmd)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0prepare_rootfs_vfat =3D prepare_rootfs_msdos<br>
-<br>
--=C2=A0 =C2=A0 def prepare_rootfs_squashfs(self, rootfs, oe_builddir, root=
-fs_dir,<br>
-+=C2=A0 =C2=A0 def prepare_rootfs_squashfs(self, rootfs, cr_workdir, oe_bu=
-ilddir, rootfs_dir,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0native_sysroot, pseudo):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;&quot;&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Prepare content for a squashfs rootfs pa=
-rtition.<br>
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/pl=
-ugins/source/rootfs.py<br>
-index 6fd415af5b..96d940a91d 100644<br>
---- a/scripts/lib/wic/plugins/source/rootfs.py<br>
-+++ b/scripts/lib/wic/plugins/source/rootfs.py<br>
-@@ -94,6 +94,7 @@ class RootfsPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;it is not a valid path, exiti=
-ng&quot; % part.rootfs_dir)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0part.rootfs_dir =3D cls.__get_rootfs_dir=
-(rootfs_dir)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 part.has_fstab =3D os.path.exists(os.path.joi=
-n(part.rootfs_dir, &quot;etc/fstab&quot;))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pseudo_dir =3D os.path.join(part.rootfs_=
-dir, &quot;../pseudo&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if not os.path.lexists(pseudo_dir):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.warn(&quot;%s folde=
-r does not exist. &quot;<br>
-@@ -103,7 +104,7 @@ class RootfsPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0new_rootfs =3D None<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0new_pseudo =3D None<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Handle excluded paths.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if part.exclude_path or part.include_path or =
-part.change_directory or part.updated_fstab_path:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if part.exclude_path or part.include_path or =
-part.change_directory or part.update_fstab_in_rootfs:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# We need a new rootfs dir=
-ectory we can safely modify without<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# interfering with other t=
-asks. Copy to workdir.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0new_rootfs =3D os.path.rea=
-lpath(os.path.join(cr_workdir, &quot;rootfs%d&quot; % part.lineno))<br>
-@@ -214,8 +215,10 @@ class RootfsPlugin(SourcePlugin):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0rm_cmd =3D &quot;rm -rf %s&quot; % (full_path)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0exec_native_cmd(rm_cmd, native_sysroot, pseudo)<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 has_fstab =3D os.path.exists(os=
-.path.join(new_rootfs, &quot;etc/fstab&quot;))<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if part.updated_fstab_path and =
-has_fstab:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Update part.has_fstab here as=
- fstab may have been added or<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # removed by the above modifica=
-tions.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 part.has_fstab =3D os.path.exis=
-ts(os.path.join(new_rootfs, &quot;etc/fstab&quot;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if part.update_fstab_in_rootfs =
-and part.has_fstab:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fstab_path =
-=3D os.path.join(new_rootfs, &quot;etc/fstab&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Assume tha=
-t fstab should always be owned by root with fixed permissions<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install_cmd =
-=
-=3D &quot;install -m 0644 %s %s&quot; % (part.updated_fstab_path, fstab_pa=
-th)<br>
--- <br>
-2.26.2<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000eb566f05b89d7e4f--
+-- 
+Paul Barker
+Konsulko Group
