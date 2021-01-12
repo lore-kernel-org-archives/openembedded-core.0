@@ -1,122 +1,90 @@
-Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com [207.54.72.34])
- by mx.groups.io with SMTP id smtpd.web09.12213.1610470932790963515
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.12978.1610473772651924539
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jan 2021 09:02:14 -0800
+ Tue, 12 Jan 2021 09:49:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=nR0LQReT;
- spf=pass (domain: bmw.de, ip: 207.54.72.34, mailfrom: prvs=63925506f=michael.ho@bmw.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Sst7aKvW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id r7so3420058wrc.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Jan 2021 09:49:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1610470932; x=1642006932;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-id:content-transfer-encoding:mime-version;
-  bh=KcW1RfsCFFOW3GgogCMc22FkpUziAWEgtbrqISz20qw=;
-  b=nR0LQReT7iiK9ymVG6VKPXtHZsLN/+mFX2Dll6EB1I/MQeyaM9c1UOzs
-   ApluHK8s73JQAaTWnfQH/SL/V3CzpFImbapehbX6LpFrU5Nipe5hS7bmq
-   ew7/m6H4N5Q24roJHRA1v6MODKO+zoohHE5fqoui5FToKf1e6c6YljHYV
-   Q=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
- esa12.hc324-48.eu.iphmx.com with ESMTP/TLS; 12 Jan 2021 18:02:09 +0100
-Received: from esabb6.muc ([160.50.100.50])  by esagw6.muc with ESMTP/TLS;
- 12 Jan 2021 18:02:09 +0100
-Received: from smucm09l.bmwgroup.net (HELO smucm09l.europe.bmw.corp) ([160.48.96.44])
- by esabb6.muc with ESMTP/TLS; 12 Jan 2021 18:02:09 +0100
-Received: from smucm09k.europe.bmw.corp (160.48.96.43) by smucm09l.europe.bmw.corp
- (160.48.96.44) with Microsoft SMTP Server (TLS;
- Tue, 12 Jan 2021 18:02:09 +0100
-Received: from smucm09k.europe.bmw.corp ([160.48.96.43]) by
- smucm09k.europe.bmw.corp ([160.48.96.43]) with mapi id 15.00.1497.010; Tue,
- 12 Jan 2021 18:02:09 +0100
-From: "Michael Ho" <Michael.Ho@bmw.de>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>, <pbarker@konsulko.com>
-Subject: Re: [OE-core] [PATCH] rootfs_ipk: allow do_populate_sdk in parallel to do_rootfs
-Thread-Topic: [OE-core] [PATCH] rootfs_ipk: allow do_populate_sdk in parallel
- to do_rootfs
-Thread-Index: AQHW6Noxw9jQyyp1EkquA2hgXCHpfKokN56A
-Date: Tue, 12 Jan 2021 17:02:09 +0000
-Message-ID: <C659DA1E-41D0-4C28-A2AB-E69D7386969D@bmw.de>
-References: <1610369123-220800-1-git-send-email-michael.ho@bmw.de>
- <1659719EDE2CEAAC.30796@lists.openembedded.org>
- <5d950e39a38c70e665a6473f3a799587e8a9c353.camel@linuxfoundation.org>
-In-Reply-To: <5d950e39a38c70e665a6473f3a799587e8a9c353.camel@linuxfoundation.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=nxqgUX1hb40ro9vh+y0svgxhNpXparS21VH0rbcJ+xo=;
+        b=Sst7aKvWObhYfbi5wMrRcqwNqTdU+6jjShUgB2V0ew4I/DGIBRr34uSUfBXHe0XrmJ
+         Anpb+2uNraL/wQ2verzF1eKzlxeluWjQmeuAOPPr6vsXdRFxtF0B2GzPCWLcHHvd+5p6
+         ZxAOiCROjvzCPIfImkSewxLCId+jNjbOK4eRA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=nxqgUX1hb40ro9vh+y0svgxhNpXparS21VH0rbcJ+xo=;
+        b=VQOhdz7bS//BIDo1VPbI6fKtpsdAlMgme9fhLCI60v3VZ8PjMmmxvZoGLL5Qe3uLGs
+         wmAGyYwowuQf6uv3jb0hhxpN2ld2feB03IzqBC32CHI9/e/cLG/jRJapNNu0s36YCe7D
+         lFxk1njoLhKC/nVDL7eClpAbLdKXp3TWgv6QiuUIM3hA4YEouaWiqSaFx4Jrump2s4mf
+         pGeK4VoXJx5gawViMsTzAsMH6mWJA+XHCsGivMvI8G7V2tsRBQO9NGjKlRjUKj7muESw
+         mVwIy6CoRXdnu00bz3pQFqmdUGw6TS0cAYACj28uU0GQtyKZNcfL7q9kXbUA9fVIEmVU
+         6Uhg==
+X-Gm-Message-State: AOAM5320XHarJLjT5UK5FJk+Zucgn7P79JtjFByeEaz478AkKYj6bbdJ
+	Sg19uW7il6iPJMG0nLgjClIZPg==
+X-Google-Smtp-Source: ABdhPJzsHm2ogtMVA2spiLlYHllFoarc3OKPDdy0vUtRvM3o+468yVEJ7AYnfuxpxMD92wzXZVOwKA==
+X-Received: by 2002:a5d:61c4:: with SMTP id q4mr18401wrv.304.1610473771140;
+        Tue, 12 Jan 2021 09:49:31 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:281a:af36:8e71:af21? ([2001:8b0:aba:5f3c:281a:af36:8e71:af21])
+        by smtp.gmail.com with ESMTPSA id g1sm6173031wrq.30.2021.01.12.09.49.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jan 2021 09:49:30 -0800 (PST)
+Message-ID: <c283c960deec844c48af3e0be41ff2c05e8a0665.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [RFC PATCH 1/1] classes/npm: utilize lockfile in do_fetch to avoid multiconfig problems
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: chris.laplante@agilent.com, openembedded-core@lists.openembedded.org
+Cc: jean-marie.lemetayer@savoirfairelinux.com
+Date: Tue, 12 Jan 2021 17:49:29 +0000
+In-Reply-To: <20210112165341.3723-2-chris.laplante@agilent.com>
+References: <20210112165341.3723-1-chris.laplante@agilent.com>
+	 <20210112165341.3723-2-chris.laplante@agilent.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Language: en-GB
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <13E92591FFACAF48B6F720EBA911B444@bmwmail.corp>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-SGkgUlAsDQoNCkkgd291bGQgdHJ1c3QgeW91ciBqdWRnZW1lbnQgY2FsbCBoZXJlLCBJIHVuZGVy
-c3RhbmQgbm90IHRha2luZyB0aGlzIHR5cGUgb2YgcGF0Y2ggaW4NCnRvIGF2b2lkIGNvbXBsaWNh
-dGluZyB0aGUgaXBrIHBhY2thZ2UgbWFuYWdlbWVudC4NCg0KV2Ugd2lsbCBzb29uIHN0YXJ0IHJ1
-bm5pbmcgaW4gb3VyIENJIGVzc2VudGlhbGx5IHRoZSBkdW5mZWxsIHBhdGNoIHNvb24gc28gd2Ug
-Y2FuDQp0ZXN0IGZvciByYWNlIGNvbmRpdGlvbnMgcXVpdGUgaGVhdmlseSB0aGVyZS4gQnV0IGdp
-dmVuIHRoZSByZWZhY3RvcmluZyBvZiB0aGUgcGFja2FnZQ0KbWFuYWdlcnMgaW4gWW9jdG8sIGl0
-IHdvbid0IGJlIHRoZSBzYW1lIGFzIHRoZSBtYXN0ZXIgYnJhbmNoIHBhdGNoLg0KDQpJJ20gbm90
-IHNvIGRlZXAgaW50byB0aGUgb2Uuc2VsZnRlc3Qgc3R1ZmYuIFdvdWxkIGl0IGhlbHAgaWYgSSB0
-cnkgdG8gYWRkIGEgdGVzdCB0aGF0IGNhbGxzDQpjb3JlLWltYWdlLW1pbmltYWw6ZG9fcm9vdGZz
-IGFuZCBjb3JlLWltYWdlLW1pbmltYWw6ZG9fcG9wdWxhdGVfc2RrIGF0IHRoZQ0Kc2FtZSB0aW1l
-IGFuZCBjaGVjayB0aGUgYnVpbGQgZG9lc24ndCBjcmFzaCBhbmQgdHJ5IHJ1bm5pbmcgdGhhdCBh
-IGZldyBodW5kcmVkIHRpbWVzPw0KDQpLaW5kIHJlZ2FyZHMsDQpNaWNoYWVsDQoNCi0tIA0KQk1X
-IENhciBJVCBHbWJIDQpNaWNoYWVsIEhvDQpTcGV6aWFsaXN0IEVudHdpY2tsdW5nIOKAkyBCdWls
-ZCBhbmQgUmVsZWFzZSBFbmdpbmVlcmluZw0KTGlzZS1NZWl0bmVyLVN0cmHDn2UgMTQNCjg5MDgx
-IFVsbQ0KDQpUZWwuOiDCrSs0OS03MzEtMzc4MDQtMDcxDQpNb2JpbDogKzQ5LTE1Mi01NDk4MC00
-NzENCkZheDogKzQ5LTczMS0zNzgwNC0wMDENCk1haWw6IG1pY2hhZWwuaG9AYm13LWNhcml0LmRl
-IA0KV2ViOiBodHRwOi8vd3d3LmJtdy1jYXJpdC5kZSA8aHR0cDovL3d3dy5ibXctY2FyaXQuZGUv
-Pg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQ0KQk1XIENhciBJVCBHbWJIDQpHZXNjaMOkZnRzZsO8aHJlcjog
-S2FpLVV3ZSBCYWxzenV3ZWl0IHVuZCBNaWNoYWVsIELDtnR0cmljaA0KU2l0eiB1bmQgUmVnaXN0
-ZXJnZXJpY2h0OiBNw7xuY2hlbiBIUkIgMTM0ODEwDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQogDQoNCu+7
-v09uIDEyLjAxLjIxLCAxMjo1OCwgIlJpY2hhcmQgUHVyZGllIiA8cmljaGFyZC5wdXJkaWVAbGlu
-dXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBUdWUsIDIwMjEtMDEtMTIgYXQgMDk6
-MjEgKzAwMDAsIFJpY2hhcmQgUHVyZGllIHZpYQ0KICAgIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcg
-d3JvdGU6DQogICAgPiBPbiBNb24sIDIwMjEtMDEtMTEgYXQgMTM6NDUgKzAxMDAsIE1pY2hhZWwg
-SG8gd3JvdGU6DQogICAgPiA+IEZyb206IE1pY2hhZWwgSG8gPE1pY2hhZWwuSG9AYm13LmRlPg0K
-ICAgID4gPiANCiAgICA+ID4gU3dpdGNoIGRvX3BvcHVsYXRlX3NkayBmb3IgdGhlIGlwayBwYWNr
-YWdlIG1hbmFnZXIgdG8gdXNlIGEgc2VwYXJhdGUgdGFyZ2V0DQogICAgPiA+IG9wa2cgY29uZmln
-IGZpbGUgYW5kIHNlcGFyYXRlIHRoZSBsb2NrZmlsZXMgcmVzdHJpY3RpbmcgZG9fcm9vdGZzIGFu
-ZA0KICAgID4gPiBkb19wb3B1bGF0ZV9zZGsgZnJvbSBydW5uaW5nIGluIHBhcmFsbGVsLg0KICAg
-ID4gPiANCiAgICA+ID4gVGhpcyB3YXkgaWYgYW4gaW1hZ2UgcmVjaXBlIGluY2x1ZGVzIGEgZGVw
-ZW5kZW5jeSB0byBkb19wb3B1bGF0ZV9zZGsgYnkNCiAgICA+ID4gZGVmYXVsdCB0aGVuIGl0IHdp
-bGwgcnVuIGluIHBhcmFsbGVsIHRvIGRvX3Jvb3RmcyBzYXZpbmcgdGltZSBjb21wYXJlZCB0byB0
-aGUNCiAgICA+ID4gc2VxdWVudGlhbCBleGVjdXRpb24uDQogICAgPiA+IA0KICAgID4gPiBTaWdu
-ZWQtb2ZmLWJ5OiBNaWNoYWVsIEhvIDxNaWNoYWVsLkhvQGJtdy5kZT4NCiAgICA+ID4gLS0tDQog
-ICAgPiA+ICBtZXRhL2NsYXNzZXMvcGFja2FnZV9pcGsuYmJjbGFzcyAgICAgICB8IDEgKw0KICAg
-ID4gPiAgbWV0YS9jbGFzc2VzL3Jvb3Rmc19pcGsuYmJjbGFzcyAgICAgICAgfCA0ICsrLS0NCiAg
-ICA+ID4gIG1ldGEvbGliL29lL3BhY2thZ2VfbWFuYWdlci9pcGsvc2RrLnB5IHwgNiArKysrKysN
-CiAgICA+ID4gIDMgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
-KQ0KICAgID4gDQogICAgPiBJIGhhdmUgdG8gYWRtaXQgSSdtIHZlcnkgbmVydm91cyBhYm91dCB0
-aGlzIGNoYW5nZS4gVGhlIHJhY2VzIHdlJ3ZlDQogICAgPiBzZWVuIGJldHdlZW0gcm9vdGZzIGFu
-ZCBzZGsgY2FuIGJlIHF1aXRlIHVudXN1YWwuDQogICAgPiANCiAgICA+IEkgZGlkIHB1dCB0aGlz
-IGluIGZvciB0ZXN0aW5nIGFuZCB3ZSBzYXc6DQogICAgPiANCiAgICA+IGh0dHBzOi8vYXV0b2J1
-aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvNjUvYnVpbGRzLzI5MzgN
-CiAgICA+IA0KICAgID4gd2hpY2ggaW4gdGhlIHBzZXVkby5sb2cgc2hvd3M6DQogICAgPiANCiAg
-ICA+IHBhdGggbWlzbWF0Y2ggWzIgbGlua3NdOiBpbm8gMzcyNzA2OTEzIGRiICcvaG9tZS9wb2t5
-YnVpbGQveW9jdG8td29ya2VyL2JlYWdsZWJvbmUvYnVpbGQvYnVpbGQvdG1wL3dvcmsvYmVhZ2xl
-Ym9uZV95b2N0by1wb2t5LWxpbnV4LWdudWVhYmkvY29yZS1pbWFnZS1zYXRvLzEuMC1yMC90bXAt
-d2ljJyByZXEgJy9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYmVhZ2xlYm9uZS9idWlsZC9i
-dWlsZC90bXAvd29yay9iZWFnbGVib25lX3lvY3RvLXBva3ktbGludXgtZ251ZWFiaS9jb3JlLWlt
-YWdlLXNhdG8vMS4wLXIwL3Nkay9pbWFnZS9vcHQvcG9reS8zLjIrc25hcHNob3Qvc3lzcm9vdHMv
-Y29ydGV4YThoZi1uZW9uLXBva3ktbGludXgtZ251ZWFiaS91c3Ivc3JjL2RlYnVnL3B1enpsZXMn
-Lg0KICAgID4gcGF0aCBtaXNtYXRjaCBbMiBsaW5rc106IGlubyAzNzI3MDY5MTMgZGIgJy9ob21l
-L3Bva3lidWlsZC95b2N0by13b3JrZXIvYmVhZ2xlYm9uZS9idWlsZC9idWlsZC90bXAvd29yay9i
-ZWFnbGVib25lX3lvY3RvLXBva3ktbGludXgtZ251ZWFiaS9jb3JlLWltYWdlLXNhdG8vMS4wLXIw
-L3RtcC13aWMnIHJlcSAnL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9iZWFnbGVib25lL2J1
-aWxkL2J1aWxkL3RtcC93b3JrL2JlYWdsZWJvbmVfeW9jdG8tcG9reS1saW51eC1nbnVlYWJpL2Nv
-cmUtaW1hZ2Utc2F0by8xLjAtcjAvc2RrL2ltYWdlL29wdC9wb2t5LzMuMitzbmFwc2hvdC9zeXNy
-b290cy9jb3J0ZXhhOGhmLW5lb24tcG9reS1saW51eC1nbnVlYWJpL3Vzci9zcmMvZGVidWcvcHV6
-emxlcycuDQogICAgPiANCiAgICA+IGl0cyBoYXJkIHRvIGtub3cgaWYgdGhpcyBpcyBkdWUgdG8g
-dGhpcyBwYXRjaCBvciBwb3NzaWJseSBQYXVsJ3Mgd2ljDQogICAgPiBjaGFuZ2VzIGFzIGJvdGgg
-d2VyZSBpbiB0aGlzIHRlc3Qgc2VyaWVzLiBJIHN1c3BlY3QgaXQgd29uJ3QgcmVwcm9kdWNlDQog
-ICAgPiBldmVyeSB0aW1lIHNpbmNlIGl0cyBhIHJhY2UuDQoNCiAgICBKdXN0IHRvIGNvbmZpcm0s
-IHRoaXMgaXMgUGF1bCdzIHBhdGNoIGFzIGl0IHdhcyBzZWVuIHdpdGggcnBtIHBhY2thZ2luZw0K
-ICAgIGFuZCB0aGVyZWZvcmUgY291bGRuJ3QgYmUgdGhlIGlwayBjaGFuZ2UuDQoNCiAgICBJIGFt
-IHdvcnJpZWQgd2UgZG9uJ3QgdGVzdCBpcGsgZXh0ZW5zaXZlbHkgZW5vdWdoIHRvIHNwb3QgdGhl
-IHJhY2VzIGluDQogICAgdGhlIGlwayBjb2RlIHRob3VnaCwgSSBrbm93IEkndmUgaGFkIHRvIGZp
-eCBxdWl0ZSBhIGZldyBvdmVyIHRoZSB5ZWFycw0KICAgIDooLiANCg0KICAgIENoZWVycywNCg0K
-ICAgIFJpY2hhcmQNCg0K
+On Tue, 2021-01-12 at 11:53 -0500, Chris Laplante via
+lists.openembedded.org wrote:
+> From: Chris Laplante <chris.laplante@agilent.com>
+> 
+> The npmsw fetcher doesn't play nice with multiconfig for some reason.
+> Concurrent do_fetch tasks for npm recipes can try to download modules at
+> the same time to ${DL_DIR}/npm2, resulting in races and failed
+> downloads.
+> 
+> Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
+> ---
+>  meta/classes/npm.bbclass | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+> index 068032a1e5..3e56765a2f 100644
+> --- a/meta/classes/npm.bbclass
+> +++ b/meta/classes/npm.bbclass
+> @@ -41,6 +41,8 @@ NPM_PACKAGE = "${WORKDIR}/npm-package"
+>  NPM_CACHE = "${WORKDIR}/npm-cache"
+>  NPM_BUILD = "${WORKDIR}/npm-build"
+>  
+> 
+> 
+> 
+> +do_fetch[lockfiles] += "${DL_DIR}/npm2_fetch.lock"
+> +
+>  def npm_global_configs(d):
+>      """Get the npm global configuration"""
+>      configs = []
+
+If its just multilib, you could put a ${BPN} in the lock name? or is it
+conflicting general recipes?
+
+Cheers,
+
+Richard
+
