@@ -1,116 +1,122 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.88])
- by mx.groups.io with SMTP id smtpd.web10.11903.1610470448206612086
+Received: from esa12.hc324-48.eu.iphmx.com (esa12.hc324-48.eu.iphmx.com [207.54.72.34])
+ by mx.groups.io with SMTP id smtpd.web09.12213.1610470932790963515
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jan 2021 08:54:08 -0800
+ Tue, 12 Jan 2021 09:02:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=SXqQa9dc;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.243.88, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hhUHpdbDWSfNuA4p3FI7B0O9QiMds4delv+ZSV3SQ8v5Co4CmIfuD8hlNRwvw+5Pd3iMM2ehqmE56k5rGKQW9q/0UVXgIjJ/xNo0aB8NOQ2usbXCj1Kj+LPA6gh6v6k3EF4ayW+C+N4kMOANyFkkK/kCZ3l/6RJyewnKtL7IsQkKrx5M8n+Vh9+MQrH9Z9ilcfreL5/HCFyTTusOYyOCET61r2uUqLsooiAN1amDlk+b8tOixuJaBmNE6IRjCnMb9oOruqUWPoP3N4RKpznMXkp1lvSC9+ZaagEBcEaJWU5/vPVZXuuZb39eP26R0uvwIDgSE3/8SHuBRp4TUrSqlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U3uDGYFUsBP5IZoKGWhcwS6pa1vZS6znWcUVj7llI+Y=;
- b=MyKh38fuzvx786lm94oLGQPm+KZYteaLdSx8xGtU87MuJonFV5yWbWfq92A1qvYvF4KdZ2Y8EwypJ1PO6tPo7ti4faUN75W6ggj4uNNGYwUrcGycWre1eCn5Fwy4yNv9aKYU3Z2mobQOXpKu8sbrEAcJBOJzmH11y5N3HJYjHME95Vnr07AHs/FWXYmEF3/L9PVVM28y20ATdvVTcKonhxbcIf8762P+X3iz1ETWfPTqp4R5p/mSJuOmbkANhihky2DcyA0wlSW33lbp5v+lJMVsAe6cDWR9IRinDqzRCVWcDItxjMuQMU/hWtD/agAGe0A1/NCH3x3V47qL4VW1Aw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.25.218.41) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=agilent.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U3uDGYFUsBP5IZoKGWhcwS6pa1vZS6znWcUVj7llI+Y=;
- b=SXqQa9dcZ0lT+Zk7sF9/6MGE8zxTwHYBQjBlBrvRxpVshKycH8WupKAK+rpqvWOrSECqePKGBr9uli8uyZCggZTLCZ1Xxc9+jxRk3tfUUbRG+P5BN4LoRBdj689ztm57Zh6jCkNBSV6pXDwolccmzs0Es5hmAbwrZ8XcPasrJVpPJ1Q7dGOGtGYPO2Ds2T2Plkv0D0501L85FB9z7vwci/MtXYN8P4Iyp6a9dGjNOOlke/Y4UDD2wcODunbJaLnbqApxX47wXeS7J8gIlyjXsH/rlh5Z5ScPxm4YMe+/ayzs1PJK7E2kJjo8EP9pGK9HhdtWzj6Y7K15IMnKdbyi3Q==
-Received: from MW4PR04CA0374.namprd04.prod.outlook.com (2603:10b6:303:81::19)
- by BY5PR12MB3748.namprd12.prod.outlook.com (2603:10b6:a03:1ad::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6; Tue, 12 Jan
- 2021 16:54:05 +0000
-Received: from MW2NAM12FT033.eop-nam12.prod.protection.outlook.com
- (2603:10b6:303:81:cafe::e3) by MW4PR04CA0374.outlook.office365.com
- (2603:10b6:303:81::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9 via Frontend
- Transport; Tue, 12 Jan 2021 16:54:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.41)
- smtp.mailfrom=agilent.com; lists.openembedded.org; dkim=none (message not
- signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
- header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
- 192.25.218.41 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.25.218.41; helo=edgeappmail.agilent.com;
-Received: from edgeappmail.agilent.com (192.25.218.41) by
- MW2NAM12FT033.mail.protection.outlook.com (10.13.181.41) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3763.2 via Frontend Transport; Tue, 12 Jan 2021 16:54:04 +0000
-Received: from laplante-lm-19.localdomain (10.255.85.221) by
- edgeappmail.agilent.com (192.25.218.41) with Microsoft SMTP Server id
- 15.1.2044.4; Tue, 12 Jan 2021 09:53:50 -0700
-From: "Chris Laplante" <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <jean-marie.lemetayer@savoirfairelinux.com>, Chris Laplante
-	<chris.laplante@agilent.com>
-Subject: [RFC PATCH 1/1] classes/npm: utilize lockfile in do_fetch to avoid multiconfig problems
-Date: Tue, 12 Jan 2021 11:53:41 -0500
-Message-ID: <20210112165341.3723-2-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210112165341.3723-1-chris.laplante@agilent.com>
-References: <20210112165341.3723-1-chris.laplante@agilent.com>
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=nR0LQReT;
+ spf=pass (domain: bmw.de, ip: 207.54.72.34, mailfrom: prvs=63925506f=michael.ho@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1610470932; x=1642006932;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-id:content-transfer-encoding:mime-version;
+  bh=KcW1RfsCFFOW3GgogCMc22FkpUziAWEgtbrqISz20qw=;
+  b=nR0LQReT7iiK9ymVG6VKPXtHZsLN/+mFX2Dll6EB1I/MQeyaM9c1UOzs
+   ApluHK8s73JQAaTWnfQH/SL/V3CzpFImbapehbX6LpFrU5Nipe5hS7bmq
+   ew7/m6H4N5Q24roJHRA1v6MODKO+zoohHE5fqoui5FToKf1e6c6YljHYV
+   Q=;
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+ esa12.hc324-48.eu.iphmx.com with ESMTP/TLS; 12 Jan 2021 18:02:09 +0100
+Received: from esabb6.muc ([160.50.100.50])  by esagw6.muc with ESMTP/TLS;
+ 12 Jan 2021 18:02:09 +0100
+Received: from smucm09l.bmwgroup.net (HELO smucm09l.europe.bmw.corp) ([160.48.96.44])
+ by esabb6.muc with ESMTP/TLS; 12 Jan 2021 18:02:09 +0100
+Received: from smucm09k.europe.bmw.corp (160.48.96.43) by smucm09l.europe.bmw.corp
+ (160.48.96.44) with Microsoft SMTP Server (TLS;
+ Tue, 12 Jan 2021 18:02:09 +0100
+Received: from smucm09k.europe.bmw.corp ([160.48.96.43]) by
+ smucm09k.europe.bmw.corp ([160.48.96.43]) with mapi id 15.00.1497.010; Tue,
+ 12 Jan 2021 18:02:09 +0100
+From: "Michael Ho" <Michael.Ho@bmw.de>
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>, <pbarker@konsulko.com>
+Subject: Re: [OE-core] [PATCH] rootfs_ipk: allow do_populate_sdk in parallel to do_rootfs
+Thread-Topic: [OE-core] [PATCH] rootfs_ipk: allow do_populate_sdk in parallel
+ to do_rootfs
+Thread-Index: AQHW6Noxw9jQyyp1EkquA2hgXCHpfKokN56A
+Date: Tue, 12 Jan 2021 17:02:09 +0000
+Message-ID: <C659DA1E-41D0-4C28-A2AB-E69D7386969D@bmw.de>
+References: <1610369123-220800-1-git-send-email-michael.ho@bmw.de>
+ <1659719EDE2CEAAC.30796@lists.openembedded.org>
+ <5d950e39a38c70e665a6473f3a799587e8a9c353.camel@linuxfoundation.org>
+In-Reply-To: <5d950e39a38c70e665a6473f3a799587e8a9c353.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Return-Path: chris.laplante@agilent.com
-Received-SPF: SoftFail (wpcosapexchedg2.windmz.agilent.com: domain of
- transitioning chris.laplante@agilent.com discourages use of 10.255.85.221 as
- permitted sender)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 52eac254-2e43-4be8-84f5-08d8b71aab72
-X-MS-TrafficTypeDiagnostic: BY5PR12MB3748:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<BY5PR12MB3748F35BA95D96DA0540920F8BAA0@BY5PR12MB3748.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	vTRBS6b3Fa2vKqTVMnCeJ4AySDDrD6CZSVMPSUk9PRD97XZecIe1tWrnZJPBZoIZ6WoEDvOrXJMBiei/087oyLlEoSsQghudwp27B3JqZ52/kH82ZWKkFR+JwnTskK9eGbmxPHsENog10uMQccOjAn1tBsHwRHR25fyMM8HiiT54cAnszYhyJ5pSurCOYbuxz5waOBeRKJS1M1iXEdL7h04UzkrU2+JI6DXafCNyNIdUGTcpTXKqUT+DiRcvyPBppA0P3Y3G+XbW1uwCJCBrZlIvKBDiqQ1vKqfVH01JRScuKN/A8osdMQvHblPNniLfWdmVaLzlHiYyqA0YTF5Kp/tj53LlY91hG1cLe96rOmbDfCiW9mD39sqSmnx4SmvCwpYg0tVYQhIOrpl6l0yORAY6a7vP8iqGIArElmQw8TNx6Zfe3CrgwLwJFz6rpgVahgHLMg5i9+7Y+2iWYdsiAH62S9ZLmks6LlAQhQ5U9wg2S8N44c1kHWhCJDVuh8PCNTEHgoAwTzc3rgiW1vv1YQ==
-X-Forefront-Antispam-Report: 
-	CIP:192.25.218.41;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:edgeappmail.agilent.com;PTR:cos.smtp.agilent.com;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(39860400002)(376002)(29502001)(46966006)(83380400001)(336012)(4744005)(47076005)(86362001)(5660300002)(7636003)(36756003)(2616005)(26005)(82310400003)(6666004)(426003)(70206006)(44832011)(34020700004)(1076003)(54906003)(8676002)(316002)(8936002)(478600001)(186003)(107886003)(4326008)(356005)(2906002)(82740400003)(6916009);DIR:OUT;SFP:1101;
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2021 16:54:04.5077
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52eac254-2e43-4be8-84f5-08d8b71aab72
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.41];Helo=[edgeappmail.agilent.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-MW2NAM12FT033.eop-nam12.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB3748
-Content-Type: text/plain
+Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <13E92591FFACAF48B6F720EBA911B444@bmwmail.corp>
+Content-Transfer-Encoding: base64
 
-From: Chris Laplante <chris.laplante@agilent.com>
-
-The npmsw fetcher doesn't play nice with multiconfig for some reason.
-Concurrent do_fetch tasks for npm recipes can try to download modules at
-the same time to ${DL_DIR}/npm2, resulting in races and failed
-downloads.
-
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
----
- meta/classes/npm.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 068032a1e5..3e56765a2f 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -41,6 +41,8 @@ NPM_PACKAGE = "${WORKDIR}/npm-package"
- NPM_CACHE = "${WORKDIR}/npm-cache"
- NPM_BUILD = "${WORKDIR}/npm-build"
- 
-+do_fetch[lockfiles] += "${DL_DIR}/npm2_fetch.lock"
-+
- def npm_global_configs(d):
-     """Get the npm global configuration"""
-     configs = []
--- 
-2.17.1
-
+SGkgUlAsDQoNCkkgd291bGQgdHJ1c3QgeW91ciBqdWRnZW1lbnQgY2FsbCBoZXJlLCBJIHVuZGVy
+c3RhbmQgbm90IHRha2luZyB0aGlzIHR5cGUgb2YgcGF0Y2ggaW4NCnRvIGF2b2lkIGNvbXBsaWNh
+dGluZyB0aGUgaXBrIHBhY2thZ2UgbWFuYWdlbWVudC4NCg0KV2Ugd2lsbCBzb29uIHN0YXJ0IHJ1
+bm5pbmcgaW4gb3VyIENJIGVzc2VudGlhbGx5IHRoZSBkdW5mZWxsIHBhdGNoIHNvb24gc28gd2Ug
+Y2FuDQp0ZXN0IGZvciByYWNlIGNvbmRpdGlvbnMgcXVpdGUgaGVhdmlseSB0aGVyZS4gQnV0IGdp
+dmVuIHRoZSByZWZhY3RvcmluZyBvZiB0aGUgcGFja2FnZQ0KbWFuYWdlcnMgaW4gWW9jdG8sIGl0
+IHdvbid0IGJlIHRoZSBzYW1lIGFzIHRoZSBtYXN0ZXIgYnJhbmNoIHBhdGNoLg0KDQpJJ20gbm90
+IHNvIGRlZXAgaW50byB0aGUgb2Uuc2VsZnRlc3Qgc3R1ZmYuIFdvdWxkIGl0IGhlbHAgaWYgSSB0
+cnkgdG8gYWRkIGEgdGVzdCB0aGF0IGNhbGxzDQpjb3JlLWltYWdlLW1pbmltYWw6ZG9fcm9vdGZz
+IGFuZCBjb3JlLWltYWdlLW1pbmltYWw6ZG9fcG9wdWxhdGVfc2RrIGF0IHRoZQ0Kc2FtZSB0aW1l
+IGFuZCBjaGVjayB0aGUgYnVpbGQgZG9lc24ndCBjcmFzaCBhbmQgdHJ5IHJ1bm5pbmcgdGhhdCBh
+IGZldyBodW5kcmVkIHRpbWVzPw0KDQpLaW5kIHJlZ2FyZHMsDQpNaWNoYWVsDQoNCi0tIA0KQk1X
+IENhciBJVCBHbWJIDQpNaWNoYWVsIEhvDQpTcGV6aWFsaXN0IEVudHdpY2tsdW5nIOKAkyBCdWls
+ZCBhbmQgUmVsZWFzZSBFbmdpbmVlcmluZw0KTGlzZS1NZWl0bmVyLVN0cmHDn2UgMTQNCjg5MDgx
+IFVsbQ0KDQpUZWwuOiDCrSs0OS03MzEtMzc4MDQtMDcxDQpNb2JpbDogKzQ5LTE1Mi01NDk4MC00
+NzENCkZheDogKzQ5LTczMS0zNzgwNC0wMDENCk1haWw6IG1pY2hhZWwuaG9AYm13LWNhcml0LmRl
+IA0KV2ViOiBodHRwOi8vd3d3LmJtdy1jYXJpdC5kZSA8aHR0cDovL3d3dy5ibXctY2FyaXQuZGUv
+Pg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQ0KQk1XIENhciBJVCBHbWJIDQpHZXNjaMOkZnRzZsO8aHJlcjog
+S2FpLVV3ZSBCYWxzenV3ZWl0IHVuZCBNaWNoYWVsIELDtnR0cmljaA0KU2l0eiB1bmQgUmVnaXN0
+ZXJnZXJpY2h0OiBNw7xuY2hlbiBIUkIgMTM0ODEwDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQogDQoNCu+7
+v09uIDEyLjAxLjIxLCAxMjo1OCwgIlJpY2hhcmQgUHVyZGllIiA8cmljaGFyZC5wdXJkaWVAbGlu
+dXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBUdWUsIDIwMjEtMDEtMTIgYXQgMDk6
+MjEgKzAwMDAsIFJpY2hhcmQgUHVyZGllIHZpYQ0KICAgIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcg
+d3JvdGU6DQogICAgPiBPbiBNb24sIDIwMjEtMDEtMTEgYXQgMTM6NDUgKzAxMDAsIE1pY2hhZWwg
+SG8gd3JvdGU6DQogICAgPiA+IEZyb206IE1pY2hhZWwgSG8gPE1pY2hhZWwuSG9AYm13LmRlPg0K
+ICAgID4gPiANCiAgICA+ID4gU3dpdGNoIGRvX3BvcHVsYXRlX3NkayBmb3IgdGhlIGlwayBwYWNr
+YWdlIG1hbmFnZXIgdG8gdXNlIGEgc2VwYXJhdGUgdGFyZ2V0DQogICAgPiA+IG9wa2cgY29uZmln
+IGZpbGUgYW5kIHNlcGFyYXRlIHRoZSBsb2NrZmlsZXMgcmVzdHJpY3RpbmcgZG9fcm9vdGZzIGFu
+ZA0KICAgID4gPiBkb19wb3B1bGF0ZV9zZGsgZnJvbSBydW5uaW5nIGluIHBhcmFsbGVsLg0KICAg
+ID4gPiANCiAgICA+ID4gVGhpcyB3YXkgaWYgYW4gaW1hZ2UgcmVjaXBlIGluY2x1ZGVzIGEgZGVw
+ZW5kZW5jeSB0byBkb19wb3B1bGF0ZV9zZGsgYnkNCiAgICA+ID4gZGVmYXVsdCB0aGVuIGl0IHdp
+bGwgcnVuIGluIHBhcmFsbGVsIHRvIGRvX3Jvb3RmcyBzYXZpbmcgdGltZSBjb21wYXJlZCB0byB0
+aGUNCiAgICA+ID4gc2VxdWVudGlhbCBleGVjdXRpb24uDQogICAgPiA+IA0KICAgID4gPiBTaWdu
+ZWQtb2ZmLWJ5OiBNaWNoYWVsIEhvIDxNaWNoYWVsLkhvQGJtdy5kZT4NCiAgICA+ID4gLS0tDQog
+ICAgPiA+ICBtZXRhL2NsYXNzZXMvcGFja2FnZV9pcGsuYmJjbGFzcyAgICAgICB8IDEgKw0KICAg
+ID4gPiAgbWV0YS9jbGFzc2VzL3Jvb3Rmc19pcGsuYmJjbGFzcyAgICAgICAgfCA0ICsrLS0NCiAg
+ICA+ID4gIG1ldGEvbGliL29lL3BhY2thZ2VfbWFuYWdlci9pcGsvc2RrLnB5IHwgNiArKysrKysN
+CiAgICA+ID4gIDMgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
+KQ0KICAgID4gDQogICAgPiBJIGhhdmUgdG8gYWRtaXQgSSdtIHZlcnkgbmVydm91cyBhYm91dCB0
+aGlzIGNoYW5nZS4gVGhlIHJhY2VzIHdlJ3ZlDQogICAgPiBzZWVuIGJldHdlZW0gcm9vdGZzIGFu
+ZCBzZGsgY2FuIGJlIHF1aXRlIHVudXN1YWwuDQogICAgPiANCiAgICA+IEkgZGlkIHB1dCB0aGlz
+IGluIGZvciB0ZXN0aW5nIGFuZCB3ZSBzYXc6DQogICAgPiANCiAgICA+IGh0dHBzOi8vYXV0b2J1
+aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvNjUvYnVpbGRzLzI5MzgN
+CiAgICA+IA0KICAgID4gd2hpY2ggaW4gdGhlIHBzZXVkby5sb2cgc2hvd3M6DQogICAgPiANCiAg
+ICA+IHBhdGggbWlzbWF0Y2ggWzIgbGlua3NdOiBpbm8gMzcyNzA2OTEzIGRiICcvaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2JlYWdsZWJvbmUvYnVpbGQvYnVpbGQvdG1wL3dvcmsvYmVhZ2xl
+Ym9uZV95b2N0by1wb2t5LWxpbnV4LWdudWVhYmkvY29yZS1pbWFnZS1zYXRvLzEuMC1yMC90bXAt
+d2ljJyByZXEgJy9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvYmVhZ2xlYm9uZS9idWlsZC9i
+dWlsZC90bXAvd29yay9iZWFnbGVib25lX3lvY3RvLXBva3ktbGludXgtZ251ZWFiaS9jb3JlLWlt
+YWdlLXNhdG8vMS4wLXIwL3Nkay9pbWFnZS9vcHQvcG9reS8zLjIrc25hcHNob3Qvc3lzcm9vdHMv
+Y29ydGV4YThoZi1uZW9uLXBva3ktbGludXgtZ251ZWFiaS91c3Ivc3JjL2RlYnVnL3B1enpsZXMn
+Lg0KICAgID4gcGF0aCBtaXNtYXRjaCBbMiBsaW5rc106IGlubyAzNzI3MDY5MTMgZGIgJy9ob21l
+L3Bva3lidWlsZC95b2N0by13b3JrZXIvYmVhZ2xlYm9uZS9idWlsZC9idWlsZC90bXAvd29yay9i
+ZWFnbGVib25lX3lvY3RvLXBva3ktbGludXgtZ251ZWFiaS9jb3JlLWltYWdlLXNhdG8vMS4wLXIw
+L3RtcC13aWMnIHJlcSAnL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9iZWFnbGVib25lL2J1
+aWxkL2J1aWxkL3RtcC93b3JrL2JlYWdsZWJvbmVfeW9jdG8tcG9reS1saW51eC1nbnVlYWJpL2Nv
+cmUtaW1hZ2Utc2F0by8xLjAtcjAvc2RrL2ltYWdlL29wdC9wb2t5LzMuMitzbmFwc2hvdC9zeXNy
+b290cy9jb3J0ZXhhOGhmLW5lb24tcG9reS1saW51eC1nbnVlYWJpL3Vzci9zcmMvZGVidWcvcHV6
+emxlcycuDQogICAgPiANCiAgICA+IGl0cyBoYXJkIHRvIGtub3cgaWYgdGhpcyBpcyBkdWUgdG8g
+dGhpcyBwYXRjaCBvciBwb3NzaWJseSBQYXVsJ3Mgd2ljDQogICAgPiBjaGFuZ2VzIGFzIGJvdGgg
+d2VyZSBpbiB0aGlzIHRlc3Qgc2VyaWVzLiBJIHN1c3BlY3QgaXQgd29uJ3QgcmVwcm9kdWNlDQog
+ICAgPiBldmVyeSB0aW1lIHNpbmNlIGl0cyBhIHJhY2UuDQoNCiAgICBKdXN0IHRvIGNvbmZpcm0s
+IHRoaXMgaXMgUGF1bCdzIHBhdGNoIGFzIGl0IHdhcyBzZWVuIHdpdGggcnBtIHBhY2thZ2luZw0K
+ICAgIGFuZCB0aGVyZWZvcmUgY291bGRuJ3QgYmUgdGhlIGlwayBjaGFuZ2UuDQoNCiAgICBJIGFt
+IHdvcnJpZWQgd2UgZG9uJ3QgdGVzdCBpcGsgZXh0ZW5zaXZlbHkgZW5vdWdoIHRvIHNwb3QgdGhl
+IHJhY2VzIGluDQogICAgdGhlIGlwayBjb2RlIHRob3VnaCwgSSBrbm93IEkndmUgaGFkIHRvIGZp
+eCBxdWl0ZSBhIGZldyBvdmVyIHRoZSB5ZWFycw0KICAgIDooLiANCg0KICAgIENoZWVycywNCg0K
+ICAgIFJpY2hhcmQNCg0K
