@@ -1,78 +1,96 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.6801.1610443792613989365
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+ by mx.groups.io with SMTP id smtpd.web10.6899.1610443876843442337
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jan 2021 01:29:52 -0800
+ Tue, 12 Jan 2021 01:31:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aWtwdHWY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id t30so1734727wrb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Jan 2021 01:29:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SUVUKs7i;
+ spf=pass (domain: gmail.com, ip: 209.85.222.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f42.google.com with SMTP id t15so605701ual.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Jan 2021 01:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=9YxqycHypmLDgpDqJzBc9HE9WKi3GyaOlezSg98Sovg=;
-        b=aWtwdHWYkP6w5D2zeL/JYYFnVghtifzmovLnxfGk+7QIokCeuisOtn/Sd/N6zYHoIV
-         fn50c6913BXefXjvPN1eP6+8HzN+oVr5C9C253ZZ9PHR1ini6HKHIL+wh3twovTe2bRJ
-         OGvmuGIA0aQiSVNyzGjKPyzSEGbNezfEKifBQ=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7uNrM/lFTRv8V+vKfjJy2I460jIGCkYGE/2XcGH90c0=;
+        b=SUVUKs7igzKV4rFeJA9p+6TnSiftw/xGNSP2PDJ92p3MHxF37wNdCylqThZITkKan1
+         O5bQaZeilgSIVgJdkQawB783ilmtVWuEalgvfuRxgYohnhKF7TBNIpHlDIxJm8GBMaW8
+         DqXa8aBI2ki4ycYxneIoxNByZBeyc0AJUvcihdaLRUAwZUIk4Il1y76TWNugEpiJfIbv
+         bA7E3KJg1Fn7ASWWX1pFOlbOsqxlwnra9cIHlaeKSN1LubNz/cD8JktsU+NY7o4WS25F
+         Ds3lHxIle4NsIb1h3WqhkAGwWK3L8B57AcTNB6/HfJnP+Ny2xq0MK/fKhw4/sRGZIZeJ
+         KFzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=9YxqycHypmLDgpDqJzBc9HE9WKi3GyaOlezSg98Sovg=;
-        b=dh32Hq4x2QrjwtfPoFHR5EhdJEd8yh32coxDH09mX5aMmkrRiqWiu7KbUteiax4ZAC
-         azhPqt/YDzX+vqjf/JHytZeS7p9QPEAFCPmUBGuxurp/cEoScYn3nuHqv5/YCNCeXnAa
-         GdK2V3kSTscLNVNPtY5zUJjcyjTPEAhEehYustzg2F1wxm84ySgMxlgkmimI01uwmsfV
-         7zy9TZNzVZev+tYKdO1gbVVOfn5rjym45xWrOpxpwBVVNQNaQMkUltOjKXyI8PByetFD
-         CL2CCUj+88JvnTFQDMjGlY1zkgysloy+qkl4kpTyfQHEurAXouJ0j/++RrhSOIttjV2a
-         VhcQ==
-X-Gm-Message-State: AOAM5310chC6psUhBnzV/MsKOzrop4C99qce5supKC1ththKtyMXd1c+
-	/unM8qQNf+TqkstC6qR6Lk8lSA==
-X-Google-Smtp-Source: ABdhPJxjglpmLPEbOsU7rEZ+7/9iTlLfJKyPkFG0DtgbJbqa89XM89xKQxfl3vCAfX2GNA/FHj/6QA==
-X-Received: by 2002:adf:ee51:: with SMTP id w17mr3331167wro.97.1610443791147;
-        Tue, 12 Jan 2021 01:29:51 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:281a:af36:8e71:af21? ([2001:8b0:aba:5f3c:281a:af36:8e71:af21])
-        by smtp.gmail.com with ESMTPSA id o14sm266909wri.48.2021.01.12.01.29.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 01:29:50 -0800 (PST)
-Message-ID: <4835fbae4a7172d0a6cf807b732f5ba8220c190d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] systemd: use the absolute path in service file
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Yu, Mingli" <mingli.yu@windriver.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 12 Jan 2021 09:29:49 +0000
-In-Reply-To: <1daa7957-d969-1db0-9bd6-83304c74a46c@windriver.com>
-References: <20210107095630.32609-1-mingli.yu@windriver.com>
-	 <b4307af4a02b5d302e06ed776cab0cf84d5ced30.camel@linuxfoundation.org>
-	 <CO1PR11MB5009BC95B4E3E7547D01CFF1F1AE0@CO1PR11MB5009.namprd11.prod.outlook.com>
-	 <56862538e3b73683149fcba749ea5dfcedd26012.camel@linuxfoundation.org>
-	 <1daa7957-d969-1db0-9bd6-83304c74a46c@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7uNrM/lFTRv8V+vKfjJy2I460jIGCkYGE/2XcGH90c0=;
+        b=HwUeyoVjcTwCqZDDqg9BMJ2FksX28P/FPcSPotMXBuQx1X2EdW/uwkJ8eXlu1r+KDl
+         15YKD0Dl37KlzWjUvJJUrmkuNvrb6Z17WjzWlbBSQ/bnyEO0RuLs0jloVFZukZLYewLg
+         6HkfzJEjKz37NpIq96FRDyYMA/JPGxyeZxp8OilETuk1HNdaSaqzhywDQGreyGrgmQ7U
+         dV1qsMQYfcRWJfCsx3iQyqnsV8ChBubwJluk3aXHe53PAQ3b72I5gga3iMRCM1nNLImN
+         PjU//DvdlqHuPCkW7WOZbxPXmPRE/vU/GGN1H9m10+1aLkm62twmuftsCqddiTDOJlme
+         StDQ==
+X-Gm-Message-State: AOAM532bgzShGUfhCUD4lpc9InFa+QG8DOW1gPZ63yyuVRmPEQX3uolr
+	ejtt+Uaia7AbsOaA9baBvWbt3aSPwEPBT7IAXyM=
+X-Google-Smtp-Source: ABdhPJz5u0krQi9lZ26SCvcdv9BbbdtMo1cMEB2pKBt4sdX5F4CfKsY0+orNcjgbFaEczItm9sVReKgbdFzAesVeNtI=
+X-Received: by 2002:ab0:113:: with SMTP id 19mr2656841uak.71.1610443875939;
+ Tue, 12 Jan 2021 01:31:15 -0800 (PST)
 MIME-Version: 1.0
+References: <1610413372-17701-1-git-send-email-wangmy@cn.fujitsu.com>
+In-Reply-To: <1610413372-17701-1-git-send-email-wangmy@cn.fujitsu.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 12 Jan 2021 10:31:04 +0100
+Message-ID: <CANNYZj-SJ7VQaZQknqwc1M7gJ5LbLX=_tgc-SRpGaEhafnS47w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] socat: upgrade 1.7.3.4 ->1.7.4.0
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000027f8ac05b8b0afb4"
+
+--00000000000027f8ac05b8b0afb4
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2021-01-12 at 15:42 +0800, Yu, Mingli wrote:
-> Hi RP,
-> 
-> On 1/8/21 4:52 PM, Richard Purdie wrote:
-> > On Fri, 2021-01-08 at 08:40 +0000, Yu, Mingli wrote:
-> > > This is just configuration change which defines the absolute path for
-> > > the command to silence the warning when systemd-analyze verify the
-> > > unit files and the command may be installed in different place
-> > > between OE and non-OE, so it should be OE specific, will resend v2 to
-> > > mark it is configuration specific.
-> > 
-> > Why wouldn't systemd-analyze show warnings for upstream too though?
-> 
-> I also checked the service file on other linux distribution such as 
-> Ubuntu and it also use the absolute path.
+On Tue, 12 Jan 2021 at 02:03, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
 
-Do they carry patches to systemd to do that?
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+> -
+> file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
+> +
+> file://README;beginline=257;endline=287;md5=82520b052f322ac2b5b3dfdc7c7eea86"
+>
 
-Cheers,
+This change needs to be explained. Say something like:
 
-Richard
+License-Update: copyright years updated
 
+or similar in the commit message.
+
+'devtool upgrade' will put the diff of the license snippet to the updated
+recipe by the way, which you can then edit out and summarize in the commit.
+
+Alex
+
+Alex
+
+--00000000000027f8ac05b8b0afb4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, 12 Jan 2021 at 02:03, Wang Mingyu &lt;<a href=3D"mailto:wang=
+my@cn.fujitsu.com">wangmy@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">=C2=A0LIC_FILES_CHKSUM =3D &quot;fi=
+le://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://README;beginline=3D257;endline=3D287;md5=3D338c05eadd013872abb1d6e198e10=
+a3f&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://README;beginline=3D257;endline=3D287;md5=3D82520b052f322ac2b5b3dfdc7c7ee=
+a86&quot;<br></blockquote><div><br></div><div>This change needs to be expla=
+ined. Say something like:</div><div><br></div><div>License-Update: copyrigh=
+t years updated<br></div><div><br></div><div>or similar in the commit messa=
+ge.</div><div><br></div><div>&#39;devtool upgrade&#39; will put the diff of=
+ the license snippet to the updated recipe by the way, which you can then e=
+dit out and summarize in the commit.</div><div><br></div><div>Alex<br></div=
+><div><br></div><div>Alex<br></div></div></div>
+
+--00000000000027f8ac05b8b0afb4--
