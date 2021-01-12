@@ -1,117 +1,100 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
- by mx.groups.io with SMTP id smtpd.web11.6989.1610445461269072768
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.8010.1610452693946761955
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jan 2021 01:57:41 -0800
+ Tue, 12 Jan 2021 03:58:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=JIF80wKo;
- spf=pass (domain: konsulko.com, ip: 209.85.167.173, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oi1-f173.google.com with SMTP id 9so1766602oiq.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Jan 2021 01:57:41 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fqx00+6e;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id c5so2208529wrp.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Jan 2021 03:58:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mkYAj28UgXZXLLqRC1EIh4EXNXrEuiS0J3B09ZGKYxw=;
-        b=JIF80wKoSiL0NTR6LkxYq0g6EFKNAeLESiUEEHBgq40LxbkZazOfJ1LFiykOeupIs6
-         3zYLh1NOc54csYSLSqkyCNXPQE/1EJ+ZuZ+W9GSFGSdzFc0JLbX5sHvubnKO5DQEhUYg
-         48xfNGzpL4KawSI0hLGuxmZhuPNbzODxpO0yI=
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=lonjv+FQWG/ffzdwhSBA4Hldl50Q8mwct0SzBHM4wfU=;
+        b=fqx00+6ef7PSnwxMfLNVI+ZFa7XuO0hA1yZYhhsRMkd3RyJhYn7rhYr2pzILB/VTEt
+         Ev851hzfNV5GkWRN3RP3lEJMAp/T5TZgKganEO+nn0IW/o9COPQBeTQhjKbZJgCIIuaN
+         0zJDHlNF/UR5DfqHmRgcHnxZpSCjzhGSe3N7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mkYAj28UgXZXLLqRC1EIh4EXNXrEuiS0J3B09ZGKYxw=;
-        b=gpEdM8bT/ppWafvnhrqw28KEaTLnpJKd9cJofFMNpynaMQRBe2LVesV9vnNEx4ypJV
-         Nt19RJ7odEKLr1SkRwBxL0grREXbt0SqzjHHnuMMAuvQzlprMKp6OA0Jzjt/m8OrGCBM
-         BMYszKFsAdLe8gHXZFoIXqAPHZshi42YN7Rw94h5Gqgx6hZ3Xx8s0J7jUQ4dPeT0uT4i
-         /I8RKnofe+zOoTd5rDMZu0mb70amvj6SAOEZGR2P9+eVD0U3cxHSN1pRD3KSPMOcU0fl
-         oSGr5hPSEg3fM5LAO1bP0tm3b8YMQ7ipTgdhw1iHNTK6EtYf0/ZuMGvMU91VPrJd8RIv
-         tTdw==
-X-Gm-Message-State: AOAM5303zUq6ulKNQitZd4HSbdrRTiNNLGXBC3XClMhEkfBJVYTgKKyy
-	GzZw3dgUjDCPb5PbNvTPsFAKema07XwJnyF/h1wR4A==
-X-Google-Smtp-Source: ABdhPJwcAeOYbEqow4IXHovK/sSRzxwy9SS8LTqqP8YdM8zgQqQXE8dQiW3wiZF7jEa8lMxsq0hjtRiMFLOikM9Ctgo=
-X-Received: by 2002:aca:fd0d:: with SMTP id b13mr1800020oii.27.1610445460585;
- Tue, 12 Jan 2021 01:57:40 -0800 (PST)
-MIME-Version: 1.0
-References: <1610369123-220800-1-git-send-email-michael.ho@bmw.de> <0badccec72779f05f2480c4320902c5b73b4d156.camel@linuxfoundation.org>
-In-Reply-To: <0badccec72779f05f2480c4320902c5b73b4d156.camel@linuxfoundation.org>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 12 Jan 2021 09:57:30 +0000
-Message-ID: <CAM9ZRVt-CUsk=AFjQuORScVkFpcQhBCNkj78tsUPi43FBPFxWQ@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=lonjv+FQWG/ffzdwhSBA4Hldl50Q8mwct0SzBHM4wfU=;
+        b=X9RFYD1cnRrdQQxZuUX/W4dz7EXsUGlF81F5R49Obu0n9Smunzlp39rpkxHt+9ZPdm
+         OaiZBZknN3CBKr0EK5TLkk8zVM7/RElkyvj8Fhm7h2hVL5gbAGNxEkkhMU+xJdVBs7Ox
+         F6N8WkZP/7snVva2V7fRDOEMcDIW1z9oTwr6hQinuBjeZUYkRPAwDPaxNgp46nCV3ZSN
+         BHEPSZOatPEB40eoLQg9XRaLiH4oqfzNWA8rZuCrxoHizX0Xx3z1UHpi7j2+IWms/Oxq
+         uOS47ERydmxqrCE6w+AviHzJMPgED+atiOhNKlCi5LiCndrQEmql75rV1oJwlb7/1Okx
+         HElQ==
+X-Gm-Message-State: AOAM531xbRLIQ8r8TSX+wF6vdDXgDOQQyP56uFM2jAjFjH35OIQCm7Kt
+	ND/OzvKY67jIbKBR+hCmB5glLQ==
+X-Google-Smtp-Source: ABdhPJwdMZVLCVHA1PXPMZb+arqKOpSu5mBhb4YKOkb/v2GtWr+M3TKs1Ded4Fk5wU9j8PHArIT/mw==
+X-Received: by 2002:a05:6000:1624:: with SMTP id v4mr4073734wrb.210.1610452692204;
+        Tue, 12 Jan 2021 03:58:12 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:281a:af36:8e71:af21? ([2001:8b0:aba:5f3c:281a:af36:8e71:af21])
+        by smtp.gmail.com with ESMTPSA id y6sm3652826wrp.6.2021.01.12.03.58.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jan 2021 03:58:11 -0800 (PST)
+Message-ID: <5d950e39a38c70e665a6473f3a799587e8a9c353.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] rootfs_ipk: allow do_populate_sdk in parallel to do_rootfs
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Michael Ho <Michael.Ho@bmw.de>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Michael Ho <Michael.Ho@bmw.de>,
+ openembedded-core@lists.openembedded.org,  Paul Barker
+ <pbarker@konsulko.com>
+Date: Tue, 12 Jan 2021 11:58:09 +0000
+In-Reply-To: <1659719EDE2CEAAC.30796@lists.openembedded.org>
+References: <1610369123-220800-1-git-send-email-michael.ho@bmw.de>
+	 <1659719EDE2CEAAC.30796@lists.openembedded.org>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 12 Jan 2021 at 09:21, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
+On Tue, 2021-01-12 at 09:21 +0000, Richard Purdie via
+lists.openembedded.org wrote:
 > On Mon, 2021-01-11 at 13:45 +0100, Michael Ho wrote:
 > > From: Michael Ho <Michael.Ho@bmw.de>
-> >
-> > Switch do_populate_sdk for the ipk package manager to use a separate ta=
-rget
+> > 
+> > Switch do_populate_sdk for the ipk package manager to use a separate target
 > > opkg config file and separate the lockfiles restricting do_rootfs and
 > > do_populate_sdk from running in parallel.
-> >
+> > 
 > > This way if an image recipe includes a dependency to do_populate_sdk by
-> > default then it will run in parallel to do_rootfs saving time compared =
-to the
+> > default then it will run in parallel to do_rootfs saving time compared to the
 > > sequential execution.
-> >
+> > 
 > > Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
 > > ---
-> >  meta/classes/package_ipk.bbclass       | 1 +
-> >  meta/classes/rootfs_ipk.bbclass        | 4 ++--
-> >  meta/lib/oe/package_manager/ipk/sdk.py | 6 ++++++
-> >  3 files changed, 9 insertions(+), 2 deletions(-)
->
+> >  meta/classes/package_ipk.bbclass       | 1 +
+> >  meta/classes/rootfs_ipk.bbclass        | 4 ++--
+> >  meta/lib/oe/package_manager/ipk/sdk.py | 6 ++++++
+> >  3 files changed, 9 insertions(+), 2 deletions(-)
+> 
 > I have to admit I'm very nervous about this change. The races we've
 > seen betweem rootfs and sdk can be quite unusual.
->
+> 
 > I did put this in for testing and we saw:
->
+> 
 > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2938
->
+> 
 > which in the pseudo.log shows:
->
-> path mismatch [2 links]: ino 372706913 db '/home/pokybuild/yocto-worker/b=
-eaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-ima=
-ge-sato/1.0-r0/tmp-wic' req '/home/pokybuild/yocto-worker/beaglebone/build/=
-build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0-r0/s=
-dk/image/opt/poky/3.2+snapshot/sysroots/cortexa8hf-neon-poky-linux-gnueabi/=
-usr/src/debug/puzzles'.
-> path mismatch [2 links]: ino 372706913 db '/home/pokybuild/yocto-worker/b=
-eaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-ima=
-ge-sato/1.0-r0/tmp-wic' req '/home/pokybuild/yocto-worker/beaglebone/build/=
-build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0-r0/s=
-dk/image/opt/poky/3.2+snapshot/sysroots/cortexa8hf-neon-poky-linux-gnueabi/=
-usr/src/debug/puzzles'.
->
+> 
+> path mismatch [2 links]: ino 372706913 db '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0-r0/tmp-wic' req '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0-r0/sdk/image/opt/poky/3.2+snapshot/sysroots/cortexa8hf-neon-poky-linux-gnueabi/usr/src/debug/puzzles'.
+> path mismatch [2 links]: ino 372706913 db '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0-r0/tmp-wic' req '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0-r0/sdk/image/opt/poky/3.2+snapshot/sysroots/cortexa8hf-neon-poky-linux-gnueabi/usr/src/debug/puzzles'.
+> 
 > its hard to know if this is due to this patch or possibly Paul's wic
 > changes as both were in this test series. I suspect it won't reproduce
 > every time since its a race.
 
-Those path mismatches do seem to show that the `tmp-wic` directory was
-removed outside of a pseudo context. That would point the finger at my
-patches.
+Just to confirm, this is Paul's patch as it was seen with rpm packaging
+and therefore couldn't be the ipk change.
 
-wic does delete its temporary working directory when exiting
-(http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/scripts/lib/wic/plugin=
-s/imager/direct.py?h=3Dmaster-next&id=3Db86e5b32f767b69bb770f6060cb784b15b1=
-47f22#n268)
-but that should be ok as wic itself is running under pseudo when
-invoked by bitbake. So when do_image_wic finishes, the path to
-`tmp-wic` should no longer be present in the pseudo db. The error seen
-here may be due to a race condition but the underlying question of
-whether `tmp-wic` is removed outside a pseudo context (leaving the
-path in the db) should hopefully be deterministic. Is there a way to
-query the pseudo db to see if a path is present or not? I'd like to
-try that after running do_image_wic.
+I am worried we don't test ipk extensively enough to spot the races in
+the ipk code though, I know I've had to fix quite a few over the years
+:(. 
 
-Thanks,
+Cheers,
 
---=20
-Paul Barker
-Konsulko Group
+Richard
+
