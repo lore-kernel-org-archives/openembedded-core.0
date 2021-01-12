@@ -1,17 +1,17 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.47])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [])
  by mx.groups.io with SMTP id smtpd.web10.14.1610493101961372097
  for <openembedded-core@lists.openembedded.org>;
  Tue, 12 Jan 2021 15:11:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=kcvSVPn9;
- spf=pass (domain: windriver.com, ip: 40.107.220.47, mailfrom: saul.wold@windriver.com)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=TP7dtst8;
+ spf=softfail (domain: windriver.com, ip: <nil>, mailfrom: saul.wold@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IopJBBnSUfE5XRVF0ZXZDCAYKdPWVTTpVA8trRWC8wzDqhHEDotVXgqrdgz8sd9clZ5Wnsa/mwppAh/lweNZl3xW395WcrgK+pk9rlMF+hw/vB/GhI9fPiwRlDvQlQoNLdpzRRHOq2NLM7QNxg7HB9kJIy2hDnOhN0KInC2CVgC/WYjwDZ3vudLZgHWmxTYqTy589vz+aqbUdwzAhmi2x43fu4D9Dhg0V+K6erYGLJFsEjrB33rI97jAYVyzMbx8Gq/B7WQWyaMb0Uf9hue4nV2oOX3+Cz9v9TLQT1z2TQCOTQo1HLPbCWaXlNBQE3vg2QusiccxQ91W0fvkjXwIAw==
+ b=FlgAOcQ/CnjxhHXlNXOAN9g7yX0nq48NTgWBUfTs7lf+dFe7yZBEgzzHm+MVXTGCusd6KQ07j5g3uevl/JgKZ9CE+ttjwwAf/nCy/EAe+z8gF5xdqF0jbTdmDEBzDPcKszxT9r91dr0Z1Yprs2Svt/4JgJd+ZH37hrrunPtNZ4fZT4bt9Qf0xzP53iJ7av1mU5XHkVziL3l/kNZvM8HbTgm3CEoeBNmMjMjYTtwMG4yYHXy+Bz8ZoQHG+1ZKTA54aBhtaSPWl+3I9AWl14w+aXA6YTDH9YDH9DyG91q9UxMTPlDxZsc937VUH/K/K8fLoyX801UYh70IRQfUebXpxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BqWqhSbrdXk2ieBwpQx9fOSIsQW1wRF/hfSo1m6EaOw=;
- b=FSWvqsvFjqMhELsAcrpWKefy94LBgXITeI5crBAj6b94h4kWlLdRtxl4NsLJkprv61eaSklzraYhdBXQ6oWgs4btzFhC+1J7LzU1LaXz5sTrfWxMV5YvyTEUKq5kXz0fd4wjEgAIjnWnKbIKb9SE1BXg3Lo/b3onJf9BfAASKYwnR8iVjWYVW9/xXJHgGUjp22qrBKQRQaYzWfcmPrl41ay9Cp+WEI2jeaTYhwctLe3uw421NReCbHdSboeM2I4qF8snv/XfC7tIh/XYZYRunvI3mmiYL8hprWsQmIxqOSbETSHVNa36cwkww2eCv+nF+6BObZTaEDeIQtcx0YHhcA==
+ bh=rXpCe2PzX81XmnblXXuUdI9uCNZtud50LfBVn6FlVFE=;
+ b=eK6RDRtSRF05a0LelsaW2b8sXYNIxfXJOkMcg5cYAWPSjpQ48YHCmwwofu0CLHNUPq+YVVK3ugtad/0FX/dqwUSjBqk1s/dYlYM8zIuyhGySEEdMgyvpBq3qDgZ0ZpvMDfplR8aMkVqp+WJLkI1EOh6cFp2bnGYplFLZ/6kXq0sJTIHwX1dVCpZnc2E5/PWsuS6ExAtEgkdZlA8AchR6cBVzXPGQimHaGPA6wXjv4Lp+CJ0Y1WLHDw7dgecnN+ngrWtHoeO5iODfJjFP/RRMEerXqEAFJdChmYSgsma5nwV3P860lWDPTc0GaBy9WBjKIrlDEOk6xDPSA+kZgp24xA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,8 +19,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BqWqhSbrdXk2ieBwpQx9fOSIsQW1wRF/hfSo1m6EaOw=;
- b=kcvSVPn9A7Yp7RnakkUkhQYv7bTOJ6Uh1ivNlb4bIyB4jRFGA+Tr5SOU24mLsI89gszYisUJE8KLsLwbVTvX1udAmrNM8URxZj/KAzbl233UbYzJgY3DAiJ2fqN2uNU6nXW9Zar635KBflOy5ZxYKqCHQx/zmM1V/hMnv5fNFOc=
+ bh=rXpCe2PzX81XmnblXXuUdI9uCNZtud50LfBVn6FlVFE=;
+ b=TP7dtst8Lu3yso2K83yAUrg6ElWq0QY7MTWvAFpZPEGAYMJEvf5/dHz5im1nVct9spwuqoFu0c3+uayuo5kJTuryrWfPWDizVvTwXDas3To9wlZk/YuwACoLL3wEDmgTvSB0aTXrPbyUunjQzcxLpTdVh038HhoCilp5DYMgRUs=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
@@ -28,17 +28,19 @@ Received: from CO1PR11MB5076.namprd11.prod.outlook.com (2603:10b6:303:90::7)
  by MWHPR11MB1534.namprd11.prod.outlook.com (2603:10b6:301:c::14) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 12 Jan
- 2021 23:11:39 +0000
+ 2021 23:11:41 +0000
 Received: from CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::1864:f651:3f8a:f71f]) by CO1PR11MB5076.namprd11.prod.outlook.com
  ([fe80::1864:f651:3f8a:f71f%4]) with mapi id 15.20.3742.012; Tue, 12 Jan 2021
- 23:11:39 +0000
+ 23:11:41 +0000
 From: "Saul Wold" <Saul.Wold@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] Enable QMP Dumping for testimage
-Date: Tue, 12 Jan 2021 15:11:06 -0800
-Message-ID: <20210112231109.4048330-1-saul.wold@windriver.com>
+Subject: [PATCH 1/2] qemu-system-native: install qmp python module
+Date: Tue, 12 Jan 2021 15:11:07 -0800
+Message-ID: <20210112231109.4048330-2-saul.wold@windriver.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210112231109.4048330-1-saul.wold@windriver.com>
+References: <20210112231109.4048330-1-saul.wold@windriver.com>
 X-Originating-IP: [71.238.119.71]
 X-ClientProxiedBy: MW4PR03CA0389.namprd03.prod.outlook.com
  (2603:10b6:303:114::34) To CO1PR11MB5076.namprd11.prod.outlook.com
@@ -46,86 +48,89 @@ X-ClientProxiedBy: MW4PR03CA0389.namprd03.prod.outlook.com
 Return-Path: saul.wold@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yocto-hs.bigsur.com.localdomain (71.238.119.71) by MW4PR03CA0389.namprd03.prod.outlook.com (2603:10b6:303:114::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Tue, 12 Jan 2021 23:11:39 +0000
+Received: from yocto-hs.bigsur.com.localdomain (71.238.119.71) by MW4PR03CA0389.namprd03.prod.outlook.com (2603:10b6:303:114::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend Transport; Tue, 12 Jan 2021 23:11:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 22bc61fe-4178-41de-d419-08d8b74f6af7
+X-MS-Office365-Filtering-Correlation-Id: 6b48a33a-2061-4c1f-86d8-08d8b74f6bb9
 X-MS-TrafficTypeDiagnostic: MWHPR11MB1534:
 X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB153432432AFDF44D5CE3AB37EEAA0@MWHPR11MB1534.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+	<MWHPR11MB15343E147F92C98C7F54909AEEAA0@MWHPR11MB1534.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	Nkhndtlm9+uvjeywxYVsgB5Vj+lMtO0hzB6VSe/MDc6s4KhSASoF8a8DcqMX/aTpuwdrZlgHIkn6ZS0s4CeuJQcIcnByp8DgJhhB8Dfhgy9+USaCDb0NeffMt0rbUbcPZVc4eayd19WriAmj6b74MtJ3qyrEhLUOG2iXimeNjullYUHGgYQ3x79x3EWeX9LYuj5NglQrn4/aFWqgWZa3eH7p315fhPfE/FPHPbk/yi8Iz10+iDCczfLr/19XMpKLFhmcTfm9/4ebomMs76Hzo/3yI7Q/9bIgrcIwxWeOoDZ20O/UTKp4nl9OyHb0njAZlqK/88wMfxEgdrJC/1Z3LLV7pOMSm75gbHPBCaL9hkhKNpsFxGdMQa7RhkX9jEKI1ypw11Sh8Td1o9Aqrmlaaw==
+	dkc1hcAH+L+YYjxT1z44r6aA+CLBuRLJ6vgiwKPCwE75HHUGN4K0DTphGcYufN+VwNRVEgil03m8XvCE9gtIw+L5aJ2vJXYcSXv7TmkyimUdf8lZw3axmWtD8cbCGZFy3PrSNYkzGnSN2xMrl/4b6lAkHclHpbKroTtvl2p21KS1erBwliAOh1oHY+710lit+fIGe0bMdIQ70vz/AvciACw6ekWBo5HfluWh7HrLpTlgqe2MjM05o0nass0j26OUJrET2Kc8ZL0PMlMKb+cFRtuaJ227eSmL2FWTahu3+HhJSFIDENiYKhFOR1FsUaNvtN7IvBuQ+Sm9p6xA7Lk48ZGp1S42jzr1vJgHYhXz2TvlVmXZmlsbXKvSGlcfNW4nr21FFQXtu9l/y0LCkKGyu+YYcOJlgTiawZeRTSsLtU87Cik39aUOmz7rBZsXg8CCUfnxwfK0UzP0+nrRbT58kQ==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39840400004)(396003)(376002)(366004)(136003)(186003)(26005)(6506007)(16526019)(66946007)(83380400001)(8676002)(36756003)(316002)(2906002)(52116002)(6486002)(86362001)(6666004)(956004)(478600001)(2616005)(6916009)(44832011)(8936002)(6512007)(5660300002)(1076003)(66476007)(66556008);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5076.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39840400004)(396003)(376002)(366004)(136003)(186003)(26005)(6506007)(16526019)(66946007)(8676002)(36756003)(316002)(2906002)(52116002)(6486002)(86362001)(6666004)(956004)(478600001)(2616005)(966005)(6916009)(44832011)(8936002)(6512007)(5660300002)(1076003)(66476007)(66556008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?0Nl6S9jbCutEDXUSyuYF/2RTL1uh0HKUlfV2N2jP7ZxbpikGwl6QvftakQmb?=
- =?us-ascii?Q?eoK/K6chiX7ymB6fnK4UT98w9FXtuO50dTcNV6jP6w6PUOe9vkCZSyZIr/Iu?=
- =?us-ascii?Q?I1neoXa998K3ym+TdbArDZKnSCW4w4K2S3F57XDwH+gZpPGufy0wbXAE22TI?=
- =?us-ascii?Q?IdsT+rjUUFYFYR/rB1hyMCSFdt1jJm6zoevK9yXO70cvBlKWcAPdmKNx7x0a?=
- =?us-ascii?Q?ANNRuvHBpYbr7weLygcPPYyNyZzShvFJUN3Bw3K5rvQo7lXWQ8oNClvnaqTP?=
- =?us-ascii?Q?UNW2BbaW5GvX9x3Z3vu6jCiEKWJFbNZa9HtTEzrFia+urMOm/mKkGePlZk01?=
- =?us-ascii?Q?DRt4WKbvy/7NanE/BD3dGpUupAJJsTt7fFNbCxUONk4XG8tQOnZa21M7xlxK?=
- =?us-ascii?Q?te5frLrVsAvAQYyitQUVOp+2au5FReUzVKlHuhPurPxmkcp1eSJenF2i0X77?=
- =?us-ascii?Q?uWj6MIfS1/Ouk0qdeS8tQ3XUJfolS5Htj5cI2rvOP0hZi/g0v/j3ldk4KGFu?=
- =?us-ascii?Q?Zg4BwGmPPTmawS2iFiVYD/c4KSeEp4PLewIcNcD4gzCltNRXOepAP88omAzS?=
- =?us-ascii?Q?Rupl6eUS/si+N/A5jR2nQ4GSsajtrZ1n0/dpnV7WQ2cvH4/zLZfG2qpQhdOu?=
- =?us-ascii?Q?F3Vi4P49JW7qpIT4Fg3dMFYwOBBXHoHbfx1qePP+yGsRa3wEUJTN+MFpsvTu?=
- =?us-ascii?Q?Ix2l5y2mMtCAsgXrWymZ+n9w1RHGtZt+mOMwWEZLtek803c5HcP7UmIGI9I3?=
- =?us-ascii?Q?ZXmv7giYp9HvsjsiBC2/EFqvhXckp6O9ulJ7G9u5xQ1geOER36Gth2rtTrZu?=
- =?us-ascii?Q?KoWKiozPI3s0sz+gwjTVDdpztnBDJLp9IhTGDpO/xs+oGgg1D1iXt14hDpW2?=
- =?us-ascii?Q?EbKFPovArzpOZ6bqxt/isbRUbxp9crasjM7C5mQJTncLWxWkrWQu76z7pyVV?=
- =?us-ascii?Q?Yqlo5WYXg0L4g9Tx6u9stLbgiufviihX2dXW8RoCzXAKMaWsiwF14Dh09PLk?=
- =?us-ascii?Q?w3aR?=
+	=?us-ascii?Q?FY4z8g2GadbN+Gd/tFOvZtu5vI97pdMRt8oyYl+fVPczj7Td+kY4t6O4FKs5?=
+ =?us-ascii?Q?iNxhrJ1rPVLK4RKE5lcItlk+y5+Y3Txb4APyLHsKyClMFt6pvg5gruc6x+h3?=
+ =?us-ascii?Q?v+3nmIzup8cMwh50t0PM3zkYmBdf/N2J1bGApE0jDSu5dHkpNsQ1nFGIlsWB?=
+ =?us-ascii?Q?QocY4OTYqjO0QdNXGungVFwoEYyjDKfF/0JwQvLQzTCRP/IECFX16S+7i9xY?=
+ =?us-ascii?Q?dkRQqccPrDBWTi7jyYBLNzzeALEtmdAHCA7x8cyYHdzvZc9PyPU8IutnrYst?=
+ =?us-ascii?Q?hMKetu4tEp36BB/NIx2CcrfiR8NeVudrusAx9b8Y2SU0T273cShlV6kQ8bkq?=
+ =?us-ascii?Q?JBjdeEWFIYjddLHECxA828RZq/PBuXJel0vymXY2h26JsDaTv4qD1Jmhg2Sg?=
+ =?us-ascii?Q?Id+tPSBaWGzT//cQAbcp9uxy9TCxDovUsZytzREwYZOE4EfRGyYPG56X/4zi?=
+ =?us-ascii?Q?atwZ32H6v7VhMItTlv5oG3jb0TNc3HjZFpXF4iupzirY060EefITDHNBqHwP?=
+ =?us-ascii?Q?KTVgZqDeE/yI4heq3LCDZhM3YWz1I4sq6ZOIot4pKKP/rxUvx3+JbPqKHcax?=
+ =?us-ascii?Q?xgwpNjqtO+3Gkrrp7oYJ6e2tx29PvD9UHNa4Blfi2RXiG8NCS8acFHLiFhuO?=
+ =?us-ascii?Q?DD2uX/0bF8plzufLMSVkgGIrLhQS/EKBNwCnUPrCSD8gWmQh9+2KEIeyia3W?=
+ =?us-ascii?Q?IxVB9WrMqDnQETVTDuBwKiLeJWGb9VhWEOoWVHW64HSfRN7C+3ZRc62qLVFS?=
+ =?us-ascii?Q?/9bDXO9JHLCXFT3zawVJusNEBny77QZsVB8p2qkM0eYrNjJCnd5CI1eRgnLJ?=
+ =?us-ascii?Q?67cmTiXMtS06+FNWhmBtCs7SMBr6TTGWGwF6g2GZDG+QypARE/i8RE5MVtwG?=
+ =?us-ascii?Q?6kpTiIv6uOI03yLzFFhkoWuxk8HspA59eT29pE+u3k2i4VYsGEQj5O/V9/Jk?=
+ =?us-ascii?Q?kttQ4bJ1/Jnljj0HVaPPpljMVlbUX6tHSlQAilRYA7i/bCF+Zp5JTpSNEopA?=
+ =?us-ascii?Q?4BGx?=
 X-OriginatorOrg: windriver.com
 X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5076.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2021 23:11:39.6795
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jan 2021 23:11:40.9599
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22bc61fe-4178-41de-d419-08d8b74f6af7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b48a33a-2061-4c1f-86d8-08d8b74f6bb9
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QvEObGSNLxdfGjW1suua3T/wxnRLK7TkJ6BgJBeRLkB5vYddnUjmKAmojo5SZEYbiS/2H+jKMBPchHj17HlMKg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6+vfYT7+s2Uxdv5m26kfoFFLL/pgpov5wzE3b2GzmoidaxY2ak3oZ48nKI5ZnRSeTGCUyQ6/XVz+4zXVGo3ucQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1534
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-This is the second pass at enabling getting debug information from
-QEMU via the Qemu Machine Protocol interface. The Qemu source provides
-a qmp.py module which I install in the recipe-sysroot-native location.
+The qmp python module supports the Qemu Machine Protocol [0].
+This module needs to be installed in a known location so the
+qemurunner python script can find the qmp module.
 
-The initial commands that I issue to qmp with a failure is detected
-is: query-status and query-block. The output goes into formated json
-files as follows:
+This change causes it to be installed in the recipe-sysroot-native
+of the target image and that directory can be added to the python
+sys.path that needs to use the qmp.py module.
 
-tmp/log/runtime-hostdump/202101061054_qmp
-=E2=94=9C=E2=94=80=E2=94=80 qmp_00_query-block
-=E2=94=9C=E2=94=80=E2=94=80 qmp_00_query-status
-=E2=94=9C=E2=94=80=E2=94=80 qmp_01_query-block
-=E2=94=94=E2=94=80=E2=94=80 qmp_01_query-status
+[0] https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt
 
-Comments welcome, I tested this by calling the monitor_dump code=20
-directly in the target/ssh.py code instead of waiting for a given
-failure.
+Signed-off-by: Saul Wold <saul.wold@windriver.com>
+---
+ meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Sau!
-
-
-Saul Wold (2):
-  qemu-system-native: install qmp python module
-  qemurunner: Add support for qmp commands
-
- meta/classes/testimage.bbclass                |  6 ++++
- meta/lib/oeqa/core/target/qemu.py             |  6 ++++
- meta/lib/oeqa/core/target/ssh.py              | 17 +++++++++-
- meta/lib/oeqa/targetcontrol.py                |  3 ++
- meta/lib/oeqa/utils/dump.py                   | 31 +++++++++++++++--
- meta/lib/oeqa/utils/qemurunner.py             | 34 ++++++++++++++++++-
- .../qemu/qemu-system-native_5.2.0.bb          |  4 +++
- 7 files changed, 96 insertions(+), 5 deletions(-)
-
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb b/meta/=
+recipes-devtools/qemu/qemu-system-native_5.2.0.bb
+index 222b55cbc6..4a58bf9055 100644
+--- a/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
++++ b/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
+@@ -2,6 +2,7 @@ BPN =3D "qemu"
+=20
+ require qemu-native.inc
+=20
++inherit python3-dir
+ # As some of the files installed by qemu-native and qemu-system-native
+ # are the same, we depend on qemu-native to get the full installation set
+ # and avoid file clashes
+@@ -23,4 +24,7 @@ do_install_append() {
+     rm -f ${D}${datadir}/qemu/trace-events-all
+     rm -rf ${D}${datadir}/qemu/keymaps
+     rm -rf ${D}${datadir}/icons/
++
++    # Install qmp.py to be used with testimage
++    install -D ${S}/python/qemu/qmp.py ${D}${PYTHON_SITEPACKAGES_DIR}/qmp.=
+py
+ }
 --=20
 2.25.1
 
