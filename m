@@ -1,97 +1,127 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
- by mx.groups.io with SMTP id smtpd.web10.3399.1610573628237416296
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web08.233.1610580138575626665
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 13:33:48 -0800
+ Wed, 13 Jan 2021 15:22:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=pE6kNtLh;
- spf=pass (domain: konsulko.com, ip: 209.85.161.51, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oo1-f51.google.com with SMTP id v19so892288ooj.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 13:33:48 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SB7DuXAh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id a6so3038877wmc.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 15:22:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=Zj0/qWam75SV4xy8sueU1j1Ks+lemFhNRNFEYmUigRE=;
-        b=pE6kNtLhvys7jJujTMBK69FVJyLV90fCKV/IaI1TQ76FTpaDCZX1A9S1d7HHc63eSg
-         mhZXK3Qbv7t7RnbSvQr4Toy/KcOsyAqceKOaKYXjqNKphXxLDxQZljWwLTFO1m31nNPe
-         GVYP0xLzL/f92pAM98WKG2DzMTzY1tQi+fxRY=
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vzi3F4xLnqnSvlgmggSy6UVW02xeK+LuFMt+7/z9jtc=;
+        b=SB7DuXAh2fvy3xBQXy8jBEdzhub4lY2MHNICzk0tSUvWUQtpHoIwhmi5n22nCMGD1I
+         +w5FKKMKQBL6/7nvZqWvgP2PyV/ykjd8FjUczUWkjA1xyrBKWIddMK2zAGauSGAj874i
+         o8Jl4sNRuMKJFYNuX0cMSQ4d1hS0GQBFMhsRY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=Zj0/qWam75SV4xy8sueU1j1Ks+lemFhNRNFEYmUigRE=;
-        b=DrF+j8EWLMUZlF0hIzSoXrgqhZVtSiJVHHn2N0PBn3ZPsQbDeaN2oauCva64QTctTl
-         +AG8FoLe//YJODw3PqnTeEeedk6hiqTg6PU51qvOppt9XDbRhRU85KJ1MQUQ7cTa612q
-         HqS17izWi3xWs03g8V2Z3EyQL+JiomA4Cw47tVI13hQWeHE2qSvQQ97mJ3l8r2WDWRJA
-         CXcfr+59t8ndF07msn6iLwuer9SFEZpfB97SaYYUnmVJUJWoRUY4gQjSghSBohjBh5Np
-         HYRHXda2Yesg9PKkBBWWtpZgoQMtgaWswLntQxzNzGfZfUfzbfMF0mIY1OVSiktjv57v
-         ILnw==
-X-Gm-Message-State: AOAM533xR9KfkbMX9MDuy0oujpph0R1RkrfoyHNT7aFPacpXd8OYrbOZ
-	C7AeZMAo7IyZlTuAjsN3+dZsaly5h3WdvXVkVm1mUXJpPe8asw==
-X-Google-Smtp-Source: ABdhPJzgvPLpnxBaNfkZsDkgrqbahW8Xazc+gOnRavqSrI3q0DSvmXY2P1X8T4N1KF5XbJIo41Kn8ZrBm6rGfojHDQo=
-X-Received: by 2002:a4a:3001:: with SMTP id q1mr2631354oof.88.1610573627267;
- Wed, 13 Jan 2021 13:33:47 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vzi3F4xLnqnSvlgmggSy6UVW02xeK+LuFMt+7/z9jtc=;
+        b=RJ975FOPCxqnJNxNIdUiZeuwSez9L2TNm/KiWOJoIZJbHc5PsKY+VxadA/bVWbiUbQ
+         FhZq3liAdYEVNmS24mmG7t0zxL2lO1bfMGP6BVZREC+073OxxzL8S2++mAUhIuKjMLcK
+         qD/IgqtwcSICLt5KkRo33ZFekkfV1DbUke5hC+dxUN+16QHJUp9lC2GI6Ulrcp2w4LFI
+         tagyFwf0JR26/77NUR/YvL9BrXCULOPFj+6J0nvnM6uekf3jq0sZo3u7uDV2LZ/vsOIM
+         mu+iajBXUHGMRk2JiOg1xD1HxwH1gbj37QXU7bQgKinxgB8uQ5SUk1feW0aX3c9lViPq
+         ligQ==
+X-Gm-Message-State: AOAM531fN8VE5nbNdT0WiS7I7OdT/9tq3CUiP854pnzO6FbyZJnvvGGy
+	MbxUjMpqqE5mVkt9ZENmCZBFgZMJP5Wx7w==
+X-Google-Smtp-Source: ABdhPJwBPE6YUuFfGloB/KEj7NWOfgKAstTDqLSEtaIcPiwjYwX9XDSagoD/9RKjjVWBF7WoXA45VQ==
+X-Received: by 2002:a7b:ce0f:: with SMTP id m15mr1285901wmc.56.1610580136687;
+        Wed, 13 Jan 2021 15:22:16 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:b0e3:c052:eb93:5c3])
+        by smtp.gmail.com with ESMTPSA id a12sm6360902wrh.71.2021.01.13.15.22.15
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 15:22:16 -0800 (PST)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] vulkan-samples: Fix reproducibility issue
+Date: Wed, 13 Jan 2021 23:22:15 +0000
+Message-Id: <20210113232215.799303-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Wed, 13 Jan 2021 21:33:37 +0000
-Message-ID: <CAM9ZRVuEaZLvg4trA-LhNyz8=yMs=cYhRzSR-emzmEGo8BdMhw@mail.gmail.com>
-Subject: OpenEmbedded Virtual Stand at FOSDEM 2021
-To: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org, 
-	Yocto-mailing-list <yocto@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi folks,
+There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
+used for logging with LOGE() in the code. We need to make this match the value we use
+in the debug source remapping from CFLAGS. If we don't, the code is firstly removing
+the incorrect prefix and possibly moving outside the string, secondly, it causes a
+reproducibility issue depending on the length of path the build happens in.
 
-OpenEmbedded has been accepted to hold a "virtual stand" at FOSDEM
-2021 which is taking place online this year on Sat 6th Feb & Sun 7th
-Feb, based around the CET timezone.
+Add a small patch and configuration to avoid the issue.
 
-Most of you will be familiar with FOSDEM by now, but if not let me
-give a quick bit of background on the event. This is the Free and Open
-Source Developers' European Meeting and usually takes place in
-Brussels in early February each year. The event won't be happening
-in-person in Brussels this year due to the current pandemic but I
-think it's still important to take advantage of this opportunity of
-connecting with other contributors to OpenEmbedded & Yocto Project as
-well as other members and projects within the wider open source
-community. For more information see the FOSDEM 2021 website at
-https://fosdem.org/2021/.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../vulkan/vulkan-samples/debugfix.patch      | 31 +++++++++++++++++++
+ .../vulkan/vulkan-samples_git.bb              |  8 +++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
 
-This virtual stand will consist of a Matrix chat room (likely with
-Jitsi video chat) along with hosting space for static web pages &
-video within the FOSDEM 2021 website. The details on all of this are
-still being figured out but right now we've got enough information to
-start planning our involvement. What we're looking for is:
-
-* Any participants in the project who want to help host the Matrix
-chat room between 09:00 and 18:00 each day of the event. This will
-likely involve introducing the project to folks dropping in the chat
-who aren't familiar with OpenEmbedded, answering basic questions and
-chatting about example uses of the project. You don't need to be a
-long-standing expert in the project to help out here! If you can do a
-couple of hours or a half day please let us know.
-
-* Any folks who would like to help build the static web pages for the
-stands section of the FOSDEM 2021 website. FOSDEM is using the Hugo
-static website generator so the content will be written as Markdown
-files which are converted to html by hugo. Further information is
-available in the README file at
-https://github.com/FOSDEM/stands-website/blob/master/README.md. I'm
-hoping that someone is willing to take the lead on this as I'm already
-very busy in the runup to FOSDEM. I'm available to help set up git
-repositories, test things out and review content.
-
-* Any contributions of video content to go along with the static web
-pages. I'm planning to record some short introductory video content
-but other contributions would also be welcome. Details on how to
-upload videos is expected in the near future but for now it would be
-good to just collect folks who are interested so we can discuss this
-further.
-
-If you're interested in any of the above please reply to me and/or the
-list. I look forward to virtually seeing many of you at FOSDEM 2021!
-
-Thanks,
-
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch b/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
+new file mode 100644
+index 00000000000..d723fcc19ad
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
+@@ -0,0 +1,31 @@
++There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
++used for logging with LOGE() in the code. We need to make this match the value we use
++in the debug source remapping from CFLAGS
++
++We export the right path to use in the recipe with:
++
++EXTRA_OECMAKE = "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/"
++
++and we then patch this into the code instead of the broken use
++of CMAKE_SOURCE_DIR since __FILENAME__ will match our path prefix
++changes.
++
++This also breaks reproducibility since the path length of the build directory
++will currently change the output!
++
++Upstream-Status: Pending [needs to be discussed upstream]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: git/bldsys/cmake/global_options.cmake
++===================================================================
++--- git.orig/bldsys/cmake/global_options.cmake
+++++ git/bldsys/cmake/global_options.cmake
++@@ -47,7 +47,7 @@ set(CMAKE_CXX_STANDARD 14)
++ set(CMAKE_DISABLE_SOURCE_CHANGES ON)
++ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
++ 
++-string(LENGTH "${CMAKE_SOURCE_DIR}/" ROOT_PATH_SIZE)
+++string(LENGTH "${CMAKE_DEBUG_SRCDIR}/" ROOT_PATH_SIZE)
++ add_definitions(-DROOT_PATH_SIZE=${ROOT_PATH_SIZE})
++ 
++ set(CMAKE_C_FLAGS_DEBUG   "-DDEBUG=0 ${CMAKE_C_FLAGS_DEBUG}")
+diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+index 896b2483272..447d498fb34 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
+ SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git \
+            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
+            file://0001-support-link-against-libatomic-if-no-built-in-atomic.patch \
++           file://debugfix.patch \
+            "
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+@@ -19,3 +20,10 @@ REQUIRED_DISTRO_FEATURES = 'vulkan'
+ inherit cmake features_check
+ 
+ FILES_${PN} += "${datadir}"
++
++#
++# There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
++# used for logging with LOGE in the code. We need to make this match the value we use
++# in the debug source remapping from CFLAGS
++#
++EXTRA_OECMAKE = "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/"
+\ No newline at end of file
 -- 
-Paul Barker
-Konsulko Group
+2.27.0
+
