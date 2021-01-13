@@ -1,84 +1,116 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web09.9293.1610550593581696122
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web09.10009.1610553227338885079
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 07:09:53 -0800
+ Wed, 13 Jan 2021 07:53:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qMntoLmE;
- spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id g5so770603uak.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 07:09:53 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HiceGO7c;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id d13so2618149wrc.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 07:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=t6ZRh1JKHltvTD1PvfuqBwZNHBsndpQ/GM0MXUCglK4=;
-        b=qMntoLmEX8yu0HfDafRyFLNMGsuuxMkFmjbv0Xp3CRRYgwb6QCpJ8BRdTbNiZFQMjP
-         mloochxAKRdQPiBlrnmGbNtpBgSY7TuVFJkQChLGNz0YxvdZPa/a0oR2hlMLQpIAqUGf
-         7swn06WFUUEXoFj65jTokxgtDFdX2e0P8ExWg+Yfb5YAnjz/7mg3MQBfB6JvqXX78SjV
-         kID478V3Yb3xlPYirhdkXkEnIRu9lMlCtD1Jn4q/OLmYmnVf/vb1ODBgsR4wRuwgrvSy
-         ZRcvv9IZ/+v+4u0bYSycAyf+DDrbxtZ0aFYhKMPfNb7IUKs2lqVtxF+LJsaOdottHib4
-         SEAQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=zbFC9NeU5gYyvA71ImrhYE5zJkhBq1m6udsZRvPHj/k=;
+        b=HiceGO7clokOMPX/RqMtJZ5LqKzOJSy06pzpIGiPN5lRM4MxQmSJpk3o/3FcduW1pW
+         S553Zkv/Wx4wtp5t62a6IZHvcDlndS0gO+uL1vp99C9JCZN18cMCOrwL/a6eXHWE/rT6
+         x87uQN4Cg6szltepsjuVaDczhnYEYsNGS4kXg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t6ZRh1JKHltvTD1PvfuqBwZNHBsndpQ/GM0MXUCglK4=;
-        b=ciI98jF6CjMBrf2sRPqzlRW1nOTrZcDM4kd8EBh2yQj7/9Tml+qFTMFxvpAI7phxJx
-         1aJdzjADPCnpaOHVMM5KqVCGsm+8LAUiz7Dl7c9Lvyr8DKylXON5wn6N26MqiVE5NbKC
-         G/FDw+8HJjppp+i021ZwvrzeLMjrCjy3laQEN9Ojh/Seay3m514XoM+Jht7R/ZX3o2At
-         R2A0dqEs8nrgeIPrcJSXIUVdZla0+TBJmvDQlYBWusmVGm7xM7WgdZRnbSmQrs/sVVvj
-         kA1zl2s9Flk2H5hL7p6EZmDqxAEqxJqCZkjl9syKf6I2WP30AjUyd9fHOCTeK0jN0k/6
-         tF3g==
-X-Gm-Message-State: AOAM533kUBvVPqDd0Mmvv9tpJKPe8AGFhQ7IqO8Ss+CYl0OKybUBYD7J
-	CbDCW9bCqBepC4RjyQ66EP5gGE8m1jpST3kJP0Y=
-X-Google-Smtp-Source: ABdhPJwMYn181FqhUdDL7lQJGbaRgSCKGeXs1MvfI3AoFo5wL4so1G6jbE1lRY28us9TNjjr5tR497jLr05R4wcsEtk=
-X-Received: by 2002:ab0:4597:: with SMTP id u23mr2323393uau.100.1610550591528;
- Wed, 13 Jan 2021 07:09:51 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=zbFC9NeU5gYyvA71ImrhYE5zJkhBq1m6udsZRvPHj/k=;
+        b=FyXja1PhCKwBbCs4j816Eo+OLldS5mcP5vG+5MpL9mgzZ/kNqISnJ6q73iTK4jf17o
+         aTo0nJcYOZenmV5eW36UftOa2WNiU2S/Vow29gGnxzi+SQ+mJAaVOM/2jsaOzs71AvqJ
+         tgUgsyHyskboD50mZADCLlhw+sdHfzmEGj1bceh5gttTGezFTCygnNT697iTy2YjX/CD
+         nqEw+hs0cB9lTOzAsnbpHq+cE0CYVIITaNCNGWgWYFsJSccBbvhPtzNp9OQbAf2E6OmT
+         Alr3vCBmUnsjP/xcu/66Ry0fO47qIl9Cu7G5RZkeSZ04fwkZNcPBGN/78ANhAH+uCAaM
+         IfWg==
+X-Gm-Message-State: AOAM5306pqspTViyOwsbVgC1ZbzLuaHHWdfTWR0npNIXnPn60BzvVkwQ
+	vlA/UTUJ+21c/K4uoluHuwFeKw==
+X-Google-Smtp-Source: ABdhPJxWSSUzVWyKNz/l5FDbXTNYoDvt5IbKsMCEeir8q+KsFCDqehGLR3JPrQScBlUz6RKBI92GuA==
+X-Received: by 2002:a5d:6852:: with SMTP id o18mr3190154wrw.371.1610553225734;
+        Wed, 13 Jan 2021 07:53:45 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:13d8:a80b:9a6d:1409? ([2001:8b0:aba:5f3c:13d8:a80b:9a6d:1409])
+        by smtp.gmail.com with ESMTPSA id b19sm3352471wmj.37.2021.01.13.07.53.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Jan 2021 07:53:45 -0800 (PST)
+Message-ID: <f8bbeea124b17c5aa5a97d9e40be4b879b6f9407.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] qemurunner: Add support for qmp commands
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Saul Wold <Saul.Wold@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jan 2021 15:53:41 +0000
+In-Reply-To: <305572bc-83d8-986a-2e11-367470149930@windriver.com>
+References: <20210112231109.4048330-1-saul.wold@windriver.com>
+	 <20210112231109.4048330-3-saul.wold@windriver.com>
+	 <4cde6b73149d57c967f77d213baf3b33e0cfd63b.camel@linuxfoundation.org>
+	 <305572bc-83d8-986a-2e11-367470149930@windriver.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <1610545059-22137-1-git-send-email-wangmy@cn.fujitsu.com> <1610545059-22137-2-git-send-email-wangmy@cn.fujitsu.com>
-In-Reply-To: <1610545059-22137-2-git-send-email-wangmy@cn.fujitsu.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 13 Jan 2021 16:09:39 +0100
-Message-ID: <CANNYZj8vHOseGKh8gcVEL_0xMKqbZQKkCxoGJLRwkZ1Jk-a-kg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gpgme: upgrade 1.15.0 -> 1.15.1
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000e6a1d505b8c987b0"
-
---000000000000e6a1d505b8c987b0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 13 Jan 2021 at 14:40, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
+On Wed, 2021-01-13 at 07:09 -0800, Saul Wold wrote:
+> 
+> On 1/13/21 3:45 AM, Richard Purdie wrote:
+> > On Tue, 2021-01-12 at 15:11 -0800, Saul Wold wrote:
+> > > This adds support for the Qemu Machine Protocol [0] extending
+> > > the current dump process for Host and Target. The commands are
+> > > added in the testimage.bbclass.
+> > > 
+> > > Currently, we setup qemu to stall until qmp gets connected and
+> > > sends the initialization and continue commands, this works
+> > > correctly.
+> > > 
+> > > With this version, the monitor_dumper is created in OEQemuTarget
+> > > but then set in OESSHTarget as that's where we get the SSH failure
+> > > happens. Python's @property is used to create a setter/getter type
+> > > of setup in OESSHTarget to get overridden by OEQemuTarget.
+> > > 
+> > > By default the data is currently dumped to files for each command in
+> > > TMPDIR/log/runtime-hostdump/<date>_qmp/unknown_<seq>_qemu_monitor as
+> > > this is the naming convenstion in the dump.py code.
+> > > 
+> > > We use the qmp.py from qemu, which needs to get installed in the
+> > > recipe-sysroot-native of the target image.
+> > > 
+> > > [0] https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt
+> > > 
+> > > Signed-off-by: Saul Wold <saul.wold@windriver.com>
+> > > ---
+> > >   meta/classes/testimage.bbclass    |  6 ++++++
+> > >   meta/lib/oeqa/core/target/qemu.py |  6 ++++++
+> > >   meta/lib/oeqa/core/target/ssh.py  | 17 +++++++++++++++-
+> > >   meta/lib/oeqa/targetcontrol.py    |  3 +++
+> > >   meta/lib/oeqa/utils/dump.py       | 31 +++++++++++++++++++++++++---
+> > >   meta/lib/oeqa/utils/qemurunner.py | 34 ++++++++++++++++++++++++++++++-
+> > >   6 files changed, 92 insertions(+), 5 deletions(-)
+> > 
+> > For fun I thought I'd try this on the autobuilder:
+> > 
+> Seems it was too much fun, looks like I will need to be able to start at 
+> least one build on the AB.
+> 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1748
+> > 
+> > Looks like we may need to use importlib to import the qmp module as
+> > otherwise oe-selftest can't launch (and the qmp module may not be
+> > installed yet).
+> > 
+> Ok, I will look into this, it worked correctly for me doing a locally, 
+> with do_testimage, but clearly I missed something that between the 
+> qemu-system-native install and the testimage.
 
-> - configure.ac            |   1 +
-> - src/Makefile.am         |   4 +-
-> + configure.ac            | 125 ++++++++++++++++++++--------------------
-> + src/Makefile.am         |  80 ++++++++++++-------------
->
+The issue will be that oe-selftest loads the python modules before
+qemu-system-native has been built so it can't import qmp at that time.
+This is why I was thinking it may need a later import at runtime using
+importlib?
 
-This does not look right at all. Did you try rebasing the patches with
-'devtool upgrade'?
+oe-selftest on a clean TMPDIR should reproduce.
 
-Alex
+Cheers,
 
---000000000000e6a1d505b8c987b0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Wed, 13 Jan 2021 at 14:40, Wang Mingyu &lt;<a href=3D"mailto:wang=
-my@cn.fujitsu.com">wangmy@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex">- <a href=3D"http://configure.ac" r=
-el=3D"noreferrer" target=3D"_blank">configure.ac</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-- src/Makefile.am=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A04 +-<br>+ =
-<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">config=
-ure.ac</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 125 +++++++++++++++++=
-+++--------------------<br>
-+ src/Makefile.am=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 80 ++++++++++++-=
-------------<br></blockquote><div><br></div><div>This does not look right a=
-t all. Did you try rebasing the patches with &#39;devtool upgrade&#39;?</di=
-v><div><br></div><div>Alex<br></div></div></div>
-
---000000000000e6a1d505b8c987b0--
