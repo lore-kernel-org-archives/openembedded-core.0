@@ -1,309 +1,285 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web12.10834.1610556098249642481
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web11.611.1610562602223899110
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 08:41:38 -0800
+ Wed, 13 Jan 2021 10:30:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=uLgu8RBe;
- spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
-IronPort-SDR: ESJYc70tnn1GjiXIt1Comcnj1rwoID057EJBeseRfqSIi1cI9elhr1DNH4hLlmx4ma4W/pE+dV
- pBLsL2iNyAaA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="239771934"
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
-   d="scan'208";a="239771934"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2021 08:41:37 -0800
-IronPort-SDR: KDy+kq3YQwzwDGNXBfSm9PMAxxQVv/VFA2Xt8y7BRSaSO0PrGHWXAlAaVF/xfC0GYcP9M3YJRR
- kc066pxUM/7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
-   d="scan'208";a="499319620"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by orsmga004.jf.intel.com with ESMTP; 13 Jan 2021 08:41:37 -0800
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 13 Jan 2021 08:41:37 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Wed, 13 Jan 2021 08:41:36 -0800
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Wed, 13 Jan 2021 08:41:36 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.47) by
- edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Wed, 13 Jan 2021 08:41:35 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BLbJMfwv9Zxq+ir6+GLSZf4/RR5gnn3ZNhQCtlJRuVLxJ67a7zyMhgAlikPZ/fQ8chPPehbfDA9VADCHN/c2SFe7XCp1R+ze/7ZXc1674fA4zltwKGdLevKCfpQ4f83KzyVBEUsGIvdgmJtcxdKbQ5hNUpN7pVJH6Ax9+sFOKsDdqFPvD4d+rr8ltydy/ZOdJDH56nWizLU6lyP40m3WIuKjKife5zEAnN1qc2Ta+8QreMhB6FLfmkNK37PZTQZYHeGOYIc+/g614q+94Muk8S4EQgDwxM1nOAqX0EDI7f9xxu4Cz6AQjV7q4lBTrpSrTOsvq1VCI/4A0sE+wvTHNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tR50+Xz3xxv4aTEaJicHpeqByU9Ml0KjvP7xcLsCTfc=;
- b=Hup36u1q333aH9UqCwJeRj4yovwIwpSF3JRZgVMfej0ZU5SVim/xAEK8yzwERJLAWOioEZRDSMBaZFlKrFe1c71ShtASsPasqp+/pgHcpfo8SJRWtA6l5Ulz09ILZenf1NhBlVDhI1ubdn5VchHtcxkSoj7CPF+ui7gZiFZrmmHsLDWR06cMVKoKAQ2f+7mlLP4eitbtgMlZ1cwgRwGNSCDxXHgdzp//d7tLrSfN9Y+h7B2kCOC4ovoYSegHY45l3ACa4gaY9MDqkiw/CetyLJpDXnqD1QS+AdK8o+tIYLmxuLOKQR+jc1iojJx4pHvJtjs3MZ5c5crwtjqF4Vwyeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tR50+Xz3xxv4aTEaJicHpeqByU9Ml0KjvP7xcLsCTfc=;
- b=uLgu8RBeDqm/5qtc+RIkjB+Qnbq6h01gDdZPceQ0W5F+KFD+o5pX8pR8cM30lMj+OY1TVa+czT5ZvKYwbtaLBReieKuIh7KbOf9QgtJHnEp+r11tS7+n17xuRJMlvK2aq2UM/sY2M2Y9EepCoGkb1F9oRUmnrd05CUUqRpSlJ74=
-Received: from DM5PR11MB1993.namprd11.prod.outlook.com (2603:10b6:3:12::18) by
- DM6PR11MB4441.namprd11.prod.outlook.com (2603:10b6:5:200::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.9; Wed, 13 Jan 2021 16:41:34 +0000
-Received: from DM5PR11MB1993.namprd11.prod.outlook.com
- ([fe80::1091:a42d:eb3b:aed9]) by DM5PR11MB1993.namprd11.prod.outlook.com
- ([fe80::1091:a42d:eb3b:aed9%5]) with mapi id 15.20.3742.012; Wed, 13 Jan 2021
- 16:41:34 +0000
-From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
-To: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH][gatesgarth] ffmpeg: Fix CVE-2020-35964, CVE-2020-35965
-Thread-Topic: [OE-core] [PATCH][gatesgarth] ffmpeg: Fix CVE-2020-35964,
- CVE-2020-35965
-Thread-Index: AQHW6creZcAjLRSUgUCz73QUXRNA16olwjhA
-Date: Wed, 13 Jan 2021 16:41:34 +0000
-Message-ID: <DM5PR11MB199313CD10CED3EFEE61F8E8DEA90@DM5PR11MB1993.namprd11.prod.outlook.com>
-References: <1659D82CE05AD697.26130@lists.openembedded.org>
-In-Reply-To: <1659D82CE05AD697.26130@lists.openembedded.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.5.1.3
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [115.164.89.69]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 72220122-847d-4703-d5e9-08d8b7e216d9
-x-ms-traffictypediagnostic: DM6PR11MB4441:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR11MB44419E0AC956D9C468856BF8DEA90@DM6PR11MB4441.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:62;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NuslKkgyQJZcoMQi7JbtVDKVwGsiiAYR7pNd8YtHnFW3tAG/4lvXdAqEHoPhuAg9cZh4GaXGWApPqwF4MjeCaV8q4/aeti/2KXeDgJP/Jwf4iUr39uGOxxM2IK+3IT3frmC6n+Dx5IYg2YCjciYmm+oKSy1kI9T/+nwQz2H6t45E/8oCJ0iarSGpyy/CL8ayY9I87zd6ckZ6X6lr6fCS4szLGeWg4TxoqjnDQwXsGqkDfZgdx7W5MJGylRcqVlE1DzXzDmyhkZt72Xj1BcWbhjIgEldbFQ+DgAUFvB+xzIfoUZaNNZrPWZGqzLG4F/pm9wlR+BBsxAqbWkf9T3ICJDnUIktBG+30B4ivEfWE+av2+/CMT7aU7BcsLvDT/tP5ANM+TCpBFYO8l8+Zgks1XFItsIQi+EjuT0ccNOgSKifTlZtJ0LUDO+fNonIpoaDk2OacznduvmPY8R9PwVeKi1fgxsdv5NDq4R8pwOpDUhzaadAh10UJUcOjQH2lNOTLh9dI643+GBqrJVziTryuBA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM5PR11MB1993.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(346002)(39860400002)(396003)(376002)(83380400001)(66946007)(15188155005)(8936002)(66476007)(966005)(55236004)(66556008)(2906002)(110136005)(52536014)(16799955002)(26005)(186003)(6506007)(66446008)(55016002)(8676002)(86362001)(71200400001)(33656002)(9686003)(7696005)(76116006)(53546011)(478600001)(5660300002)(316002)(64756008)(19623215001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?EwbmJWZ43fzBHn0Gw7G0krbgbVoBeZ1bmnLtRLObeeFcqOoiD52ZeTz7eseX?=
- =?us-ascii?Q?Z1UOo88kL8toTGhNU+A8RMD6kG80TY/7TRZILOQ7JBNxhrOU3ZEZiYWszBdh?=
- =?us-ascii?Q?LoDz60siRykFXzXusU/C7j983YAOEVvNgvcfdqhl6lAt65bqKf631CN8yNP4?=
- =?us-ascii?Q?FYGqrhRESM4V2Gp7wxDOXsxmSQ+1ujWgn8Po0uimjHd+CrPZLxLIGFuow6Nb?=
- =?us-ascii?Q?iCW//CLQfzr3UUya4ivnqJetysYzSdkMeP7DWhDOMe5eZvxNpC9qzCLADNpv?=
- =?us-ascii?Q?OGPv3DufGRmkZNWF2uv1vrv5uBQCWgkx2IR5ONpOYIkuTslpD6ea0F4JOYhY?=
- =?us-ascii?Q?b1dmdakY6bsFMkwBnxLjxoN517HnirB/hjN5u3yDbO4aQLutpD2SznOEpdlU?=
- =?us-ascii?Q?miPohhTcXDqkjS7B4MuhZTuxdWg33Yxou74G54M/Sy1lXcUIC/Snk/850TpX?=
- =?us-ascii?Q?56njMP3MWGppSoYr9+asBXp2JINodiO/9W+T/OTnASlqXYgSNXYbBsD9iDs+?=
- =?us-ascii?Q?BSP4EuGRHuwWiAL982Li/IpHDz6tuVQNGmEV2SgcEZTLvnkurqKv8zyFtC8O?=
- =?us-ascii?Q?FCSQt+a/ltYFPA+QwFe0LQUils3WXgmxZ1Ca25MU3ClWMLaTNw9l1S54f6cn?=
- =?us-ascii?Q?K/JJ+mTSjCU4azAWYIG91BXjDNFDmn2fmDI6dTHf2Q5w+kb26Jsi9C1Qjk+g?=
- =?us-ascii?Q?Rp8HM+p+AciNciHQG4C2DHqPx/TIHro/lH0wXlDWAEFJFkamx+vRJq4YPVLa?=
- =?us-ascii?Q?Zs7fKdVvLl215UmMXO/buO7HIn2HUxhWyibWRkPC9f1MVST0b6f8ZGWNCeFS?=
- =?us-ascii?Q?NPodg9b4liubOwUqvNrX8KQZ2vavGe88g2ftWH913rbyA3tdaofkdHzw3RDu?=
- =?us-ascii?Q?7h2OE3aHgWb+3odN/58oUQBODVjDiFW+brPH/GgpRFCOu9ujS9xDCmQptsGL?=
- =?us-ascii?Q?OJgP96HGB0OOO5+RixScizONDrJWTrzaOmb07Va9baM=3D?=
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gM/eKViR;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id p14so3191833qke.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 10:30:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=j9JIfVW1jrwMVE2z5RgGEm5tZFG8bYJpwtEmMdOkEbs=;
+        b=gM/eKViRUIbPx/0XhKA969Ox1mSn2o9z+nVGvqbx16//Kklf+w+lZkTJvtq7JHNU+u
+         kUqrZ55T/5/c/TIneoBW6xUwJGhu/+zahRTUdfrM1k8aRqCweaiAAaYtHGK6qoq728l4
+         6BlsEjmO/qyXptFgQBGI+/8W/HZM+sydN9/AA3c1hgSkKOjSJMFso0FatvikLQiDbVg1
+         dPo08cqkQ3Hr7Qc310aNKhIEuwSAntb4WwCEAxeNoPsbhs1pACsPQMMrN0sBEjURVQbI
+         /nOPdV/fZSWZ9c/v9Y6rxK5ofGeU74V+vJyMPVueR/28XAG9/Te0LXBc029iRAgugh61
+         nZCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=j9JIfVW1jrwMVE2z5RgGEm5tZFG8bYJpwtEmMdOkEbs=;
+        b=Y2WZZy8OPLs4IK0zeX4zklWtCjZvEjQbzbmXVH2Mfxd1f1drlYJR4LXtobDZqwhafN
+         NYpkChVvgqqJsi8s+SD9Iol1pkI1QfB/DXDaWJv7TKQ9ht3P+plR6u/izVdo7Q6SPeqm
+         AnowSlaz74ruAJJ4dHvLDAec7HVq932rK0EOsJRBCTi3GbNGvykAq1UDwGDYTb862B+1
+         TC7hWFg8VnYdTGsfSD2nQJkLR4vwr2grUD50MDr3sgMDOYv7Um8aZn4cUocZtps8Xs2d
+         V5p18swFcX31U5d2Ch/ixcNz7/GVZ2Bz3r2Q11Wd53QD1IuFZJ24PJr8X813CsSH5mbD
+         jFuA==
+X-Gm-Message-State: AOAM533Ahg3kmib0ohm/+Am77S2wBy6q+6GkmyJDVoD71d9ytMFjn3sz
+	/AY1zQ1clytSUUDOEVAdN8M+st4UFSlETsLa2Ng=
+X-Google-Smtp-Source: ABdhPJzVhZH19c5Eiu8A/Z+fKw2q1CGe0dEEuKqoQZia/3f1QXAJLb1wTbIFFl5aFdUCOhPFh/c3xtu5FDJW89bMIf0=
+X-Received: by 2002:a05:620a:1139:: with SMTP id p25mr3369061qkk.9.1610562601114;
+ Wed, 13 Jan 2021 10:30:01 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR11MB1993.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72220122-847d-4703-d5e9-08d8b7e216d9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2021 16:41:34.5842
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zbOW6MQMKUgivrzkx+cFb1hf8Qe8aV4j6w2B/ytrEGZ0uPqTPfZnxd/sjgPIUsvXGr3Rn5FX1DYPT72x/rvGL+ms1k3hEGBZn9leAMJ0LeqZTuisADX6wRuxDZSfkfuI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4441
-Return-Path: khairul.rohaizzat.jamaluddin@intel.com
-X-OriginatorOrg: intel.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+References: <1610522931-30226-1-git-send-email-Harpritkaur.Bhandari@kpit.com>
+In-Reply-To: <1610522931-30226-1-git-send-email-Harpritkaur.Bhandari@kpit.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 13 Jan 2021 10:29:34 -0800
+Message-ID: <CAMKF1srootS+Nb8yfzjhHW9_MwtspchscLHuOj7YgutQ7R+4rw@mail.gmail.com>
+Subject: Re: [meta-oe][master][PATCH] rapidjson: Upgrade SRCREV to latest
+To: Harpritkaur Bhandari <Harpritkaur.Bhandari@kpit.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Nisha Parrakat <nisha.parrakat@kpit.com>, Aditya Tayade <aditya.tayade@kpit.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Please ignore this. Wrongly sent.
+On Tue, Jan 12, 2021 at 11:29 PM Harpritkaur Bhandari
+<Harpritkaur.Bhandari@kpit.com> wrote:
+>
+> Upgrade SRCREV to latest as it fixes the below issue:
+> Running UndefinedBehaviorSanitizer on projects that use
+> rapidjson triggers 'applying non-zero offset <NN> to null
+> pointer' findings in 'internal/stack.h' which are hard
+> to suppress by library users.
+> Removed "0001-CMake-remove-hardcoded-CMAKECONFIG_INSTALL_DIR-path.patch"
+> as the changes are already incorporated in the latest
+> codebase.
+> As per abi-compliance-checker report the source compatibility
+> and binary compatibility between previous SRCREV
+> 6a905f9311f82d306da77bd963ec5aa5da07da9c and current
+> SRCREV 0ccdbf364c577803e2a751f5aededce935314313
+> is 100% and this patch is already tested on 64bit
+> ARM (aarch64) in a product with on target CI tests.
+>
+> Below commits are added in upgrade:
+>
+> git log --format=3D"%h %s" 6a905f9311f82d306da77bd963ec5aa5da07da9c..0ccd=
+bf364c577803e2a751f5aededce935314313
+> 0ccdbf3 Merge pull request #1786 from ssb22/master
+> b7734d9 Remove unnecessary wording from BSD license not needed for MIT li=
+cense (fixes #528)
+> ice81bc9 Merge pull request #1760 from escherstair/fix_ce6_support
+> 5fbf8bf fix unit test
+> 7f559ec fix naive implementation for clzll()
+> 58e2964 add unit test for clzll()
+> aa5dd60 fix naive version implementation
+> 91940e8 fallback to the naive version for CE6
+> 6364c8e fix _BitScanReverse() usage for CE6
+> f56928d Merge pull request #1744 from lklein53/improve-surrogate-handling
+> 6694c99 Add test case for low surrogate handling
+> ed73d7b Improve surrogate handling
+> 88bd956 Merge pull request #1453 from eidosmontreal/custom_malloc
+> 004e8e6 Merge branch 'master' into custom_malloc
+> 1a80382 Merge pull request #1720 from madeso/master
+> ac0fc79 Fixes issue #1718
+> 8f4c021 Merge pull request #1689 from g199209/master
+> 1ce28f4 Add CMake minimum version required.
+> f376690 Add a target to RapidJSONConfig.cmake.in (#1350)
+> 234ff04 ci: upgrade distro to xenial and add arm64 test cases (#1662)
+> 36481c3 Update Visual Studio Visualizer (#1665)
+> d4f03d0 Doc: Fix some typos. (#1675)
+> ebcbd04 Three-way comparison for CLang 10 fix (#1679)
+> 2661a17 Avoid warnings when using -std=3Dc++20 and clang 10: use three wa=
+y comparision for iterators when possible. (#1667)
+> 814bb27 Replace RAPIDJSON_CLZLL with internal clzll (#1660)
+> 563fe5b PrettyWriter constructor uninitialized member (#1654)
+> 2bed293 Update biginteger.h (#1652)
+> b16cec1 Closes #1643 (#1644)
+> 98f52b6 Fix simple typo: drived -> derived (#1646)
+> a895ce1 Allow escaped apostrophe in values (#1639)
+> 418331e Merge pull request #1631 from PhoebeHui/dev/Phoebe/vcpkg_instruct=
+ions
+> b4cf6e7 Add vcpkg installation instructions
+> dfbe1db Merge pull request #1502 from ylavic/compilation_fixes
+> eeb9d55 Merge pull request #1617 from JPEWdev/master
+> 134af9d Remove shadow typedef
+> 35e480f Merge pull request #1609 from piratf/readme_contributing
+> 6cadd4b add contributing section in readme.md, introduced the basic coope=
+ration process.
+> 6534506 Merge pull request #1603 from piratf/cmakelist_upgrade
+> 46d980b fix CMake policy CMP0048 warning #1154
+> c4c6a65 Merge pull request #1548 from TranslucentTB/master
+> e54aca7 Merge branch 'master' of https://github.com/Tencent/rapidjson
+> bb5f966 Merge pull request #1591 from veekxt/patch-1
+> 67b245e doc: fix a typo
+> 1a825d2 Merge pull request #1529 from rkoshy/master
+> 6a6bed2 Merge pull request #1582 from crazyscot/master
+> 5592c2e Merge pull request #1544 from fredgan/master
+> 39db117 fix some misspellings
+> 4116912 Use C++17 fallthrough tag instead of disabling warning
+> d67a69a Merge pull request #1490 from MalcolmTyrrell/fixCompileErrorInPoi=
+nterH
+> 5777291 Merge pull request #1579 from Tencent/vs2010
+> 88a1ba9 Provide default implementations for move constructor/assignment i=
+n GenericMember
+> c36b713 Disable copy constructor in GenericMember
+> 6006d6b Merge pull request #1573 from esrrhs/master
+> 02d4ae8 Update travis-doxygen.sh
+> 4c1d9ed Update travis-doxygen.sh
+> c136acf Update travis-doxygen.sh
+> b286156 Update travis-doxygen.sh
+> ed234bf Update .travis.yml
+> d3c4b2b Update .travis.yml
+> fcec773 Merge pull request #1567 from AtnNn/master
+> 123d7c8 add test for non-null-terminated token
+> 6102f0b fix template parameter
+> 6fe9977 Allow pointer tokens to have non-null-terminated strings
+> 2648a73 Merge pull request #1557 from MBoldyrev/doc/fix-uint-case
+> 8973b27 fixed Uint case in docs
+> 02230fe Change #ifdef to #if defined
+> dfc0b35 Update comment
+> 0d671a2 Fix signedness error
+> 07e1d78 Fix build error under non-Clang compilers
+> d5d7171 Fix ARM NEON under MSVC
+> a133b16 Merge pull request #1 from Tencent/master
+> d87b698 Change all GenericMemberIterator from struct to class
+> c43697c - Fixed a build issue by initializing "index" in the header file
+> 4b3d7c2 Merge pull request #1506 from ylavic/CreatePattern
+> 92f99bc RAPIDJSON_NOEXCEPT_ASSERT() should never throw.
+> b4538b5 Fix compilation of sortkeys.cpp with MSVC 2013 (hopefully).
+> 94fc463 Add missing curly brackets in STDREGEX's CreatePattern().
+> c840a7a Fix vs2017 compile error C2105: '--' needs l-value
+> 01950eb Merge pull request #1488 from somone23412/somone23412-fix-typo-1
+> 0798d5b fix typo
+> e80257a Merge pull request #1481 from liangdzou/patch-1
+> 13687a6 add missing header "ios"
+> e123f65 Merge pull request #1479 from MaxXSoft/patch-tutorial
+> d5c5b87 doc/tutorial.zh-cn: fixed some typos
+> 55c3c24 Merge pull request #1477 from eisaev/patch-1
+> 9264a9a Update allocators.h
+> 091de04 Merge pull request #1462 from ra1u/master
+> 40cae03 Allow user to define custom RAPIDJSON_NOEXCEPT_ASSERT macro
+> 3cf4f7c Merge pull request #727 from mapbox/silence-dereference-null-poin=
+ter
+> 7484e06 Update doxygen download URL
+> 1ede098 Workaround of sortkeys example
+> cef07fb Added parameters to RAPIDJSON_MALLOC, RAPIDJSON_REALLOC and RAPID=
+JSON_FREE
+> ad2e536 Adding a single customization point that ensures all allocations =
+within rapidjson can be performed with a custom memory allocator; Introduce=
+s the macros RAPIDJSON_MALLOC, RAPIDJSON_REALLOC, and RAPIDJSON_FREE.
+> b94c2a1 Adding swap() for GenericMember
+> 0739a3e Fix gcc compilation error in sortkeys
+> f595f8a Update sortkeys.cpp
+> 1892013 Merge pull request #1421 from HomeControlAS/sort_by_name_example
+> 79a6dab Merge pull request #1439 from ylavic/schema_pointer_allocator
+> 93cb84a Merge pull request #1442 from rbilovol/cmake-fixup
+> efad259 Merge pull request #1444 from leolchat/patch-1
+> bf09397 Correct complexity claim
+> 8d272e5 CMake: remove hardcoded CMAKECONFIG_INSTALL_DIR path
+> dbb594b Use the allocator of the Schema for its Pointer.
+> bfdcf49 Merge pull request #1426 from ylavic/pointer_less_than
+> b56eb28 Merge branch 'master' into pointer_less_than
+> 8549e3d Merge pull request #1431 from ylavic/pointer_swap
+> 2ce91b8 Pointer tests now need <algorithm> (for std::swap), but no tabs.
+> a66cf79 Allow to (std::)Swap two pointers.
+> eb6ee17 Speed up Pointer::operator<().
+> 0e34ed4 Rework Pointer::operator<() loop.
+> af17f19 Unit test for Pointer::operator<().
+> 055f1fa Add less than operator to Pointer.
+> 66eb606 Merge pull request #1425 from ylavic/filereadstream_peek4
+> b4b0e13 Merge pull request #1424 from ylavic/file_input_streams
+> eea3e57 Merge pull request #1416 from ylavic/regex_syntax_noassert
+> 38d25d7 Fix FileReadStream::Peek4().
+> 8aab3db Base buffered BasicIStreamWrapper on the original (better perform=
+ing) FileReadStream algorithm.
+> 124e8b6 Possibly std::ios::binary helps with streams on Windows
+> 2498c57 Optimize FileReadStream and BasicIStreamWrapper.
+> d018846 removed std::string and receiving const Value in printIt
+> c9060b4 added example for sorting keys
+> 8c14787 Unit test for invalid GenericRegex (unclosed parenthesis).
+> be96f4d GenericRegex: don't throw/abort on syntax error (unclosed parenth=
+esis).
+> 30d92a6 Merge pull request #1413 from ylavic/schema_regex_leak
+> 1c5b90f Merge pull request #1414 from ylavic/regex_allocator
+> 3e69567 Fix a memory leak for invalid std::regex in Schema.
+> b0c96f9 Use passed in allocator for internal regex parser.
+> a632160 Merge pull request #1388 from yhager/yhager/clang-7
+> 595ed48 Merge pull request #1403 from jcmonnin/fix-warning
+> 51ca982 Fix warning when NDEBUG is defined [-Wunused-variable]
+> 0cc44c8 Update test/unittest/pointertest.cpp
+> a77b49d silence clang-7 self-assign-overloaded warning
+> 67fac85 Merge pull request #1373 from lelit/issue1368
+> 91d50c8 Add test case on kParseNumbersAsStringsFlag being able to load bi=
+g ints
+> 16872af Avoid pointer arithmetic on null pointer to remove undefined beha=
+vior
+> 663f076 Merge pull request #1362 from jiapengwen/master
+> 2a5e733 Merge pull request #1364 from jcourtat/fixfaq
+> 68349ed faq: fix document insertion example
+> 1cfa861 fix tutorial error
+> c0ca05f Merge pull request #1329 from pah/fix-noexcept
+> c2aa79d Merge pull request #1356 from gongminmin/AppVeyor2017
+> 783b819 Update rapidjson.h
+> a6be583 Update appveyor rule to support VS2017.
+> 8a96a95 Merge branch 'master' into fix-noexcept
+> f5f6052 Merge pull request #1327 from gongminmin/FixCompileInVS
+> 08b1a8a Merge pull request #1302 from chwarr/min-max-guard
+> 81af404 Merge pull request #1284 from mobileben/noexcept-assert
+> 73063f5 Merge pull request #1340 from lelit/issue1336
+> c9eabf9 Extend the test on issue #1336 to cover all basic types
+> 3fc9299 Add simple test for issue #1336
+> 11defb7 Wrap all WriteXxx() calls within EndValue(), to ensure a flush af=
+ter root-level scalar value
+> f54f6b5 Add RAPIDJSON_NOEXCEPT_ASSERT
+> ff76343 Update the code to adapt the new gtest.
+> 960b9cf Guard against min/max being macros in reader.h
+> fdd2db9 Updated google test to latest commit
+> 5b0610a Handle non-throwing exception specifications that can still throw=
+ #1280
+>
 
-Thank you & Kind regards,
-Khairul
+I think the commit it too detailed. It will be better to either
+summarize it. or point to release notes should be sufficient.
 
------Original Message-----
-From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
-nembedded.org> On Behalf Of Jamaluddin, Khairul Rohaizzat
-Sent: Thursday, January 14, 2021 12:40 AM
-To: openembedded-core@lists.openembedded.org
-Cc: Jamaluddin, Khairul Rohaizzat <khairul.rohaizzat.jamaluddin@intel.com>
-Subject: [OE-core] [PATCH][gatesgarth] ffmpeg: Fix CVE-2020-35964, CVE-2020=
--35965
 
-From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
-
-Backport the CVE patches from upstream:
-https://github.com/FFmpeg/FFmpeg/commit/27a99e2c7d450fef15594671eef4465c8a1=
-66bd7
-https://github.com/FFmpeg/FFmpeg/commit/3e5959b3457f7f1856d997261e6ac672bba=
-49e8b
-
-CVE:
-CVE-2020-35964
-CVE-2020-35965
-
-Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@i=
-ntel.com>
----
- .../ffmpeg/ffmpeg/CVE-2020-35964.patch             | 68 ++++++++++++++++++=
-++++
- .../ffmpeg/ffmpeg/CVE-2020-35965.patch             | 28 +++++++++
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb     |  2 +
- 3 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.pa=
-tch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.pa=
-tch
-
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch b/m=
-eta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
-new file mode 100644
-index 0000000..eaee3a9
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
-@@ -0,0 +1,68 @@
-+From 27a99e2c7d450fef15594671eef4465c8a166bd7 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Wed, 28 Oct 2020 20:11:54 +0100
-+Subject: [PATCH] avformat/vividas: improve extradata packing checks in
-+ track_header()
-+
-+Fixes: out of array accesses
-+Fixes:=20
-+26622/clusterfuzz-testcase-minimized-ffmpeg_dem_VIVIDAS_fuzzer-65812003
-+38288640
-+
-+Found-by: continuous fuzzing process=20
-+https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+---
-+ libavformat/vividas.c | 12 ++++++------
-+ 1 file changed, 6 insertions(+), 6 deletions(-)
-+
-+diff --git a/libavformat/vividas.c b/libavformat/vividas.c index=20
-+83d0ed116787..46c66bf9a0ae 100644
-+--- a/libavformat/vividas.c
-++++ b/libavformat/vividas.c
-+@@ -28,6 +28,7 @@
-+  * @sa http://wiki.multimedia.cx/index.php?title=3DVividas_VIV
-+  */
-+=20
-++#include "libavutil/avassert.h"
-+ #include "libavutil/intreadwrite.h"
-+ #include "avio_internal.h"
-+ #include "avformat.h"
-+@@ -379,7 +380,7 @@ static int track_header(VividasDemuxContext *viv,=20
-+AVFormatContext *s,  uint8_t *
-+=20
-+         if (avio_tell(pb) < off) {
-+             int num_data;
-+-            int xd_size =3D 0;
-++            int xd_size =3D 1;
-+             int data_len[256];
-+             int offset =3D 1;
-+             uint8_t *p;
-+@@ -393,10 +394,10 @@ static int track_header(VividasDemuxContext *viv, AV=
-FormatContext *s,  uint8_t *
-+                     return AVERROR_INVALIDDATA;
-+                 }
-+                 data_len[j] =3D len;
-+-                xd_size +=3D len;
-++                xd_size +=3D len + 1 + len/255;
-+             }
-+=20
-+-            ret =3D ff_alloc_extradata(st->codecpar, 64 + xd_size + xd_si=
-ze / 255);
-++            ret =3D ff_alloc_extradata(st->codecpar, xd_size);
-+             if (ret < 0)
-+                 return ret;
-+=20
-+@@ -405,9 +406,7 @@ static int track_header(VividasDemuxContext *viv,=20
-+AVFormatContext *s,  uint8_t *
-+=20
-+             for (j =3D 0; j < num_data - 1; j++) {
-+                 unsigned delta =3D av_xiphlacing(&p[offset], data_len[j])=
-;
-+-                if (delta > data_len[j]) {
-+-                    return AVERROR_INVALIDDATA;
-+-                }
-++                av_assert0(delta <=3D xd_size - offset);
-+                 offset +=3D delta;
-+             }
-+=20
-+@@ -418,6 +417,7 @@ static int track_header(VividasDemuxContext *viv, AVFo=
-rmatContext *s,  uint8_t *
-+                     av_freep(&st->codecpar->extradata);
-+                     break;
-+                 }
-++                av_assert0(data_len[j] <=3D xd_size - offset);
-+                 offset +=3D data_len[j];
-+             }
-+=20
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch b/m=
-eta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
-new file mode 100644
-index 0000000..b3ecc45b
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
-@@ -0,0 +1,28 @@
-+From 3e5959b3457f7f1856d997261e6ac672bba49e8b Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sat, 24 Oct 2020 22:21:48 +0200
-+Subject: [PATCH] avcodec/exr: Check ymin vs. h
-+
-+Fixes: out of array access
-+Fixes:=20
-+26532/clusterfuzz-testcase-minimized-ffmpeg_AV_CODEC_ID_EXR_fuzzer-5613
-+925708857344
-+Fixes:=20
-+27443/clusterfuzz-testcase-minimized-ffmpeg_AV_CODEC_ID_EXR_fuzzer-5631
-+239813595136
-+
-+Found-by: continuous fuzzing process=20
-+https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+---
-+ libavcodec/exr.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libavcodec/exr.c b/libavcodec/exr.c index=20
-+e907c5c46401..8b701d1cd298 100644
-+--- a/libavcodec/exr.c
-++++ b/libavcodec/exr.c
-+@@ -1830,7 +1830,7 @@ static int decode_frame(AVCodecContext *avctx, void =
-*data,
-+     // Zero out the start if ymin is not 0
-+     for (i =3D 0; i < planes; i++) {
-+         ptr =3D picture->data[i];
-+-        for (y =3D 0; y < s->ymin; y++) {
-++        for (y =3D 0; y < FFMIN(s->ymin, s->h); y++) {
-+             memset(ptr, 0, out_line_size);
-+             ptr +=3D picture->linesize[i];
-+         }
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb b/meta/recipes-=
-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-index 37647e8..f902b08 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
-@@ -26,6 +26,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING.GPLv2;md5=3Db234ee4d=
-69f5fce4486a80fdaf4a4263 \  SRC_URI =3D "https://www.ffmpeg.org/releases/${=
-BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
-            file://0001-libavutil-include-assembly-with-full-path-from-sour=
-c.patch \
-+           file://CVE-2020-35964.patch \
-+           file://CVE-2020-35965.patch \
-            "
- SRC_URI[sha256sum] =3D "ad009240d46e307b4e03a213a0f49c11b650e445b1f8be0dda=
-2a9212b34d2ffb"
-=20
---
-2.7.4
-
+> Signed-off-by: Harpritkaur Bhandari <Harpritkaur.Bhandari@kpit.com>
+> ---
+>  meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb b/meta-o=
+e/recipes-devtools/rapidjson/rapidjson_git.bb
+> index e3ed9c6..5b5c8b2 100644
+> --- a/meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb
+> +++ b/meta-oe/recipes-devtools/rapidjson/rapidjson_git.bb
+> @@ -4,10 +4,9 @@ SECTION =3D "libs"
+>  LICENSE =3D "MIT"
+>  LIC_FILES_CHKSUM =3D "file://license.txt;md5=3Dba04aa8f65de1396a7e59d1d7=
+46c2125"
+>
+> -SRC_URI =3D "git://github.com/miloyip/rapidjson.git;nobranch=3D1 \
+> -           file://0001-CMake-remove-hardcoded-CMAKECONFIG_INSTALL_DIR-pa=
+th.patch"
+> +SRC_URI =3D "git://github.com/miloyip/rapidjson.git;nobranch=3D1"
+>
+> -SRCREV =3D "6a905f9311f82d306da77bd963ec5aa5da07da9c"
+> +SRCREV =3D "0ccdbf364c577803e2a751f5aededce935314313"
+>
+>  PV =3D "1.1.0+git${SRCPV}"
+>
+> --
+> 2.7.4
+>
+> This message contains information that may be privileged or confidential =
+and is the property of the KPIT Technologies Ltd. It is intended only for t=
+he person to whom it is addressed. If you are not the intended recipient, y=
+ou are not authorized to read, print, retain copy, disseminate, distribute,=
+ or use this message or any part thereof. If you receive this message in er=
+ror, please notify the sender immediately and delete all copies of this mes=
+sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
+ed mails.
