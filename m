@@ -1,56 +1,87 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.7987.1610545506358620998
+ by mx.groups.io with SMTP id smtpd.web12.8022.1610545506734126492
  for <openembedded-core@lists.openembedded.org>;
  Wed, 13 Jan 2021 05:45:06 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B4D47D6E
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 05:45:05 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4646C1042
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 05:45:06 -0800 (PST)
 Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5DC493F70D
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E56943F70D
 	for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 05:45:05 -0800 (PST)
 From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] scripts: oe-run-native, fix *-native directories
-Date: Wed, 13 Jan 2021 13:44:59 +0000
-Message-Id: <20210113134500.1571067-1-ross.burton@arm.com>
+Subject: [PATCH 2/2] common-licenses: add BSD-3-Clause-Clear license
+Date: Wed, 13 Jan 2021 13:45:00 +0000
+Message-Id: <20210113134500.1571067-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210113134500.1571067-1-ross.burton@arm.com>
+References: <20210113134500.1571067-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 From: Adrian Herrera <adrian.herrera@arm.com>
 
-This fixes a crash with "find" when running a native tool and *-native
-directories do not exist under the binary directory in the sysroot.
-This happened because the directory wildcard was passed as part of the
-root directory.
-The directory wildcard is now passed by "-name", which returns an empty
-result if no matching directory.
+See https://spdx.org/licenses/BSD-3-Clause-Clear.html
 
 Signed-off-by: Adrian Herrera <adrian.herrera@arm.com>
-Change-Id: Iba7acd8bbd7e0beb4d25c984f6af7a4fd21486e6
+Change-Id: I2b7e0ad060fac6b473ce4d0bab839253aee9873d
 ---
- scripts/oe-run-native | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/files/common-licenses/BSD-3-Clause-Clear | 32 +++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 meta/files/common-licenses/BSD-3-Clause-Clear
 
-diff --git a/scripts/oe-run-native b/scripts/oe-run-native
-index 4e63e69cc4..22958d97e7 100755
---- a/scripts/oe-run-native
-+++ b/scripts/oe-run-native
-@@ -43,7 +43,7 @@ fi
- OLD_PATH=3D$PATH
-=20
- # look for a tool only in native sysroot
--PATH=3D$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE=
-_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin$(find $OECORE_NATIVE=
-_SYSROOT/usr/bin/*-native -maxdepth 1 -type d -printf ":%p")
-+PATH=3D$OECORE_NATIVE_SYSROOT/usr/bin:$OECORE_NATIVE_SYSROOT/bin:$OECORE=
-_NATIVE_SYSROOT/usr/sbin:$OECORE_NATIVE_SYSROOT/sbin$(find $OECORE_NATIVE=
-_SYSROOT/usr/bin -maxdepth 1 -name "*-native" -type d -printf ":%p")
- tool_find=3D`/usr/bin/which $tool 2>/dev/null`
-=20
- if [ -n "$tool_find" ] ; then
+diff --git a/meta/files/common-licenses/BSD-3-Clause-Clear b/meta/files/c=
+ommon-licenses/BSD-3-Clause-Clear
+new file mode 100644
+index 0000000000..c6e95da6aa
+--- /dev/null
++++ b/meta/files/common-licenses/BSD-3-Clause-Clear
+@@ -0,0 +1,32 @@
++The Clear BSD License
++
++Copyright (c) [xxxx]-[xxxx] [Owner Organization]
++All rights reserved.
++
++Redistribution and use in source and binary forms, with or without
++modification, are permitted (subject to the limitations in the disclaime=
+r
++below) provided that the following conditions are met:
++
++     * Redistributions of source code must retain the above copyright no=
+tice,
++     this list of conditions and the following disclaimer.
++
++     * Redistributions in binary form must reproduce the above copyright
++     notice, this list of conditions and the following disclaimer in the
++     documentation and/or other materials provided with the distribution=
+.
++
++     * Neither the name of [Owner Organization] nor the names of its
++     contributors may be used to endorse or promote products derived fro=
+m this
++     software without specific prior written permission.
++
++NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED =
+BY
++THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
++CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, B=
+UT NOT
++LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
++PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDE=
+R OR
++CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
++EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
++PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFI=
+TS; OR
++BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WH=
+ETHER
++IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWIS=
+E)
++ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF T=
+HE
++POSSIBILITY OF SUCH DAMAGE.
 --=20
 2.25.1
 
