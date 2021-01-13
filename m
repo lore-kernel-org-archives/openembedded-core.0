@@ -1,84 +1,86 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web12.7020.1610540014666362913
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.7847.1610544401790764794
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 04:13:35 -0800
+ Wed, 13 Jan 2021 05:26:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lvs+wMdQ;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id lt17so2768992ejb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 04:13:34 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=JKb69bK/;
+ spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f177.google.com with SMTP id n8so2536331ljg.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 05:26:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=utSl+V92pjd7RCZl2vHT1PO6INJYOhfxDOu+c/bTAdM=;
-        b=lvs+wMdQj8phmCKOgELnYW0u2ymJuDA3UGXwy3L/XEvtFZVgK8SQ5mXIvImTtU91a5
-         y7l22MkWHogzOPfO9I72IqcPHetPCNN1QkBf8dFknJB1UwDY5sLKWul/f/0MoE3hIhPh
-         6uyV7TRVuxp0EwzvqwKoqwAZ/jRj7IeQ2oyn1nQz31mECN3rGRwpgwomDJlJTVrddpfc
-         G9VmtCd7UYe+iS6yltCtGpTmrmbSJtQ2YIbxiqEmi5EWip4IcukBQyIlgwQfSB77ck9e
-         kZUSsjSWtiZT7Rta5L/hH3gtT3aDyhfQFqRaGxkwWoOJwpfDvFA4yNCqW8RxoHGd6LKU
-         wH6Q==
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LrPzuYUWndgRkKlusedtgvVuzQOnsaoTD9wkMbrgOOE=;
+        b=JKb69bK/9JwjbojiSN5kXrtmVpkbtS8RmeRYsySs126FVM8LDrCh6T+A1t1rWUJxHn
+         bSH9QPmm/FBOZEnJxm0ZHsoYNxtoL1sRPlJNyeCmPTAjBujsq02sshM+zfaox2c/RkPQ
+         /6ACU/HEUAzJO02qyx6ZP+/GxtcPrpSz8d8Cg/5TNHrfr93140Gn1l2c/+MK4v5VCOUo
+         dE/RkE3CDseDeQg4EPEN6dlzrBDoL0xqmqNaeCGtmS5KIgyY+l5GuFKt92FIzR2VwnWa
+         wl5FIHexJ6EtkNFlFlRhSx/RJhcDchcFeOupKRwoEwPx+ZxE2BZUBUcZAuim6BLZ6Jch
+         9/JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=utSl+V92pjd7RCZl2vHT1PO6INJYOhfxDOu+c/bTAdM=;
-        b=snH0kqNZ+xRiOXoegHLO1ai2JFGTPTvKk19es5bdnCoR2ZPlSsjn7LbX4kiKzZ2gwz
-         q+r6JjjnOxKAPkUgCnpsk+VxL5Wt3Zs7Lps2GW4jEn3JumEMoi+j5XrqjXs1j3YBUjr6
-         tw8K6JeyScqTO2+ByyUYZkKzry5yVTepo0LYrvFOHOvM7sXHQIsjbFyjQnHtAXVXO0G+
-         Xs0G1e12kGMRox3eZtn4SFA+iaaxocvSNG1ZmJe4YyYczIjDrCvu4t87/idECAkhlZvU
-         K+CwMBsPqFuTHskdZ+IjzT6dhlt8RlSovupeSa5LTxZ6Pte3+sA8UbcUGF/EhoTE2guk
-         EQdw==
-X-Gm-Message-State: AOAM5338L7tG7U52T3VhTrw4+Y+Sakdur3bqdkqbqEH4BbAyq7f/Qj8k
-	poxIXwL3CicMl2EA+afPG47O5TS2WvQ=
-X-Google-Smtp-Source: ABdhPJwIQV7lQ0hNmLJS5loDw1Y+uPil80zzm3kkom/faU2B9K9YI2a4V1eMX+2cn0BGIMpxm+4PSQ==
-X-Received: by 2002:a17:906:6449:: with SMTP id l9mr1453279ejn.320.1610540013172;
-        Wed, 13 Jan 2021 04:13:33 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id n13sm637320ejr.93.2021.01.13.04.13.32
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LrPzuYUWndgRkKlusedtgvVuzQOnsaoTD9wkMbrgOOE=;
+        b=nmVddmzSZ76C5Zd1vDYPDNYrHgwMIfqnXPRvQb3Ck9C+wnw7LmqfdvJilNFOxEXfli
+         agCAqAhHpuihx5PtDQdxDkTFKpghRB+meiRyR+gN2tbgcd+vyNwpVrKKvUdaPc+Sa8Kb
+         09zxKjc2ilyfcSZ7KjVeuVWUXRfZdQMl82kDdvpRe5eY57u3FG4mi8bVFllNFaF6Pna9
+         txEvbi8DuQDCYX/qBOJnR65iG3Qjw7rR4Qi9XUrmpW+284ORy+f9L/GQJkQogXUXLSlh
+         6UzMj4y6dVIPoOReRx9XlkRTgruN11jJprVtTckBrE7/jnZkkqcX++Ps/t3XhHwUHifg
+         Gq/A==
+X-Gm-Message-State: AOAM5329wI396WdYW6SBjzUzo2K7FG9iCo8Joc+eKAp5DjHRk1tUjG72
+	0QfZLyuaAPFQTPB6qBYjzaGRHAdAG4dM6A==
+X-Google-Smtp-Source: ABdhPJxi5afreg71z33rAsZ8FJ/yh+D8Yzu6Yo3pDe+NluEzSPqwuMNUnIGMeIZq3+s/cbWV5U7p0w==
+X-Received: by 2002:a2e:894c:: with SMTP id b12mr934425ljk.401.1610544399142;
+        Wed, 13 Jan 2021 05:26:39 -0800 (PST)
+Return-Path: <dmitry.baryshkov@linaro.org>
+Received: from umbar.lan ([94.25.228.189])
+        by smtp.gmail.com with ESMTPSA id c5sm212944lfh.160.2021.01.13.05.26.37
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 04:13:32 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Wed, 13 Jan 2021 05:26:38 -0800 (PST)
+From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: anuj.mittal@intel.com,
-	Martin Jansa <Martin.Jansa@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [gatesgarth][PATCH] license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to PSEUDO_IGNORE_PATHS
-Date: Wed, 13 Jan 2021 13:07:28 +0100
-Message-Id: <20210113120728.2356542-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <1659C9354D6DFE03.26130@lists.openembedded.org>
-References: <1659C9354D6DFE03.26130@lists.openembedded.org>
+Subject: [PATCH] mesa,mesa-gl: upgrade to 20.3.2
+Date: Wed, 13 Jan 2021 16:26:36 +0300
+Message-Id: <20210113132636.43671-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* now without ${COREBASE}/meta in PSEUDO_IGNORE_PATHS after:
-  73d538f207 bitbake.conf: Prevent pyc file generation in pseudo context
-  the do_package tasks are failing when LICENSE_CREATE_PACKAGE is enabled
-  pseudo.log shows that it's because of license texts copied from
-  ${COREBASE}/meta:
-  path mismatch [46 links]: ino 96733640 db '/OE/build/tmp-glibc/work/all-oe-linux/foo/1.0/image/usr/share/licenses/foo/generic_Apache-2.0' req '/OE/build/openembedded-core/meta/files/common-licenses/Apache-2.0'.
+Upgrade mesa and mesa-gl recipes to version 20.3.2.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- meta/classes/license.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ .../mesa/{mesa-gl_20.3.1.bb => mesa-gl_20.3.2.bb}               | 0
+ meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
+ meta/recipes-graphics/mesa/{mesa_20.3.1.bb => mesa_20.3.2.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_20.3.1.bb => mesa-gl_20.3.2.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_20.3.1.bb => mesa_20.3.2.bb} (100%)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index f90176d6c0..dc91118340 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -31,6 +31,7 @@ python do_populate_lic() {
-             f.write("%s: %s\n" % (key, info[key]))
- }
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_20.3.1.bb b/meta/recipes-graphics/mesa/mesa-gl_20.3.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_20.3.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_20.3.2.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 883c244471bf..efb12e573f8a 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-anv-fix-a-build-race-between-generating-a-header-and.patch \
+            "
  
-+PSEUDO_IGNORE_PATHS .= ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' + (d.getVar('LICENSE_PATH') or '')).split())}"
- # it would be better to copy them in do_install_append, but find_license_filesa is python
- python perform_packagecopy_prepend () {
-     enabled = oe.data.typed_value('LICENSE_CREATE_PACKAGE', d)
+-SRC_URI[sha256sum] = "af751b49bb2ab0264d58c31e73d869e80333de02b2d1becc93f1b28c67aa780f"
++SRC_URI[sha256sum] = "cce001b685d23afb976b04138714906abcf7e7f996da6355e6a43e5ca486533d"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_20.3.1.bb b/meta/recipes-graphics/mesa/mesa_20.3.2.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa_20.3.1.bb
+rename to meta/recipes-graphics/mesa/mesa_20.3.2.bb
 -- 
-2.27.0
+2.29.2
 
