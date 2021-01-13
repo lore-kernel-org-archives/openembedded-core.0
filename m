@@ -1,86 +1,60 @@
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.7847.1610544401790764794
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web09.7916.1610545082222254138
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 05:26:42 -0800
+ Wed, 13 Jan 2021 05:38:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=JKb69bK/;
- spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f177.google.com with SMTP id n8so2536331ljg.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 05:26:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LrPzuYUWndgRkKlusedtgvVuzQOnsaoTD9wkMbrgOOE=;
-        b=JKb69bK/9JwjbojiSN5kXrtmVpkbtS8RmeRYsySs126FVM8LDrCh6T+A1t1rWUJxHn
-         bSH9QPmm/FBOZEnJxm0ZHsoYNxtoL1sRPlJNyeCmPTAjBujsq02sshM+zfaox2c/RkPQ
-         /6ACU/HEUAzJO02qyx6ZP+/GxtcPrpSz8d8Cg/5TNHrfr93140Gn1l2c/+MK4v5VCOUo
-         dE/RkE3CDseDeQg4EPEN6dlzrBDoL0xqmqNaeCGtmS5KIgyY+l5GuFKt92FIzR2VwnWa
-         wl5FIHexJ6EtkNFlFlRhSx/RJhcDchcFeOupKRwoEwPx+ZxE2BZUBUcZAuim6BLZ6Jch
-         9/JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LrPzuYUWndgRkKlusedtgvVuzQOnsaoTD9wkMbrgOOE=;
-        b=nmVddmzSZ76C5Zd1vDYPDNYrHgwMIfqnXPRvQb3Ck9C+wnw7LmqfdvJilNFOxEXfli
-         agCAqAhHpuihx5PtDQdxDkTFKpghRB+meiRyR+gN2tbgcd+vyNwpVrKKvUdaPc+Sa8Kb
-         09zxKjc2ilyfcSZ7KjVeuVWUXRfZdQMl82kDdvpRe5eY57u3FG4mi8bVFllNFaF6Pna9
-         txEvbi8DuQDCYX/qBOJnR65iG3Qjw7rR4Qi9XUrmpW+284ORy+f9L/GQJkQogXUXLSlh
-         6UzMj4y6dVIPoOReRx9XlkRTgruN11jJprVtTckBrE7/jnZkkqcX++Ps/t3XhHwUHifg
-         Gq/A==
-X-Gm-Message-State: AOAM5329wI396WdYW6SBjzUzo2K7FG9iCo8Joc+eKAp5DjHRk1tUjG72
-	0QfZLyuaAPFQTPB6qBYjzaGRHAdAG4dM6A==
-X-Google-Smtp-Source: ABdhPJxi5afreg71z33rAsZ8FJ/yh+D8Yzu6Yo3pDe+NluEzSPqwuMNUnIGMeIZq3+s/cbWV5U7p0w==
-X-Received: by 2002:a2e:894c:: with SMTP id b12mr934425ljk.401.1610544399142;
-        Wed, 13 Jan 2021 05:26:39 -0800 (PST)
-Return-Path: <dmitry.baryshkov@linaro.org>
-Received: from umbar.lan ([94.25.228.189])
-        by smtp.gmail.com with ESMTPSA id c5sm212944lfh.160.2021.01.13.05.26.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 05:26:38 -0800 (PST)
-From: "Dmitry Baryshkov" <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] mesa,mesa-gl: upgrade to 20.3.2
-Date: Wed, 13 Jan 2021 16:26:36 +0300
-Message-Id: <20210113132636.43671-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.29.2
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.79,344,1602518400"; 
+   d="scan'208";a="103445258"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 13 Jan 2021 21:37:46 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 1F69F4CE4B3E
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 21:37:43 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 13 Jan 2021 21:37:44 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] gnupg: upgrade 2.2.26 -> 2.2.27
+Date: Wed, 13 Jan 2021 21:37:38 +0800
+Message-ID: <1610545059-22137-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
+X-yoursite-MailScanner-ID: 1F69F4CE4B3E.A3DEA
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Upgrade mesa and mesa-gl recipes to version 20.3.2.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../mesa/{mesa-gl_20.3.1.bb => mesa-gl_20.3.2.bb}               | 0
- meta/recipes-graphics/mesa/mesa.inc                             | 2 +-
- meta/recipes-graphics/mesa/{mesa_20.3.1.bb => mesa_20.3.2.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_20.3.1.bb => mesa-gl_20.3.2.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_20.3.1.bb => mesa_20.3.2.bb} (100%)
+ meta/recipes-support/gnupg/{gnupg_2.2.26.bb => gnupg_2.2.27.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.26.bb => gnupg_2.2.27.bb} (96%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_20.3.1.bb b/meta/recipes-graphics/mesa/mesa-gl_20.3.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_20.3.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_20.3.2.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 883c244471bf..efb12e573f8a 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-anv-fix-a-build-race-between-generating-a-header-and.patch \
-            "
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.26.bb b/meta/recipes-support/gnupg/gnupg_2.2.27.bb
+similarity index 96%
+rename from meta/recipes-support/gnupg/gnupg_2.2.26.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.27.bb
+index 1c6e68b4b1..8b5fc9983a 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.26.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.27.bb
+@@ -20,7 +20,7 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ SRC_URI_append_class-nativesdk = " file://relocate.patch"
  
--SRC_URI[sha256sum] = "af751b49bb2ab0264d58c31e73d869e80333de02b2d1becc93f1b28c67aa780f"
-+SRC_URI[sha256sum] = "cce001b685d23afb976b04138714906abcf7e7f996da6355e6a43e5ca486533d"
+-SRC_URI[sha256sum] = "517569e6c9fad22175df16be5900f94c991c41e53612db63c14493e814cfff6d"
++SRC_URI[sha256sum] = "34e60009014ea16402069136e0a5f63d9b65f90096244975db5cea74b3d02399"
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_20.3.1.bb b/meta/recipes-graphics/mesa/mesa_20.3.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa_20.3.1.bb
-rename to meta/recipes-graphics/mesa/mesa_20.3.2.bb
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
-2.29.2
+2.25.1
+
+
 
