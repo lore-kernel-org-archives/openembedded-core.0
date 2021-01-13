@@ -1,76 +1,96 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web10.730.1610496241506202237
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web11.2868.1610506630181400222
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Jan 2021 16:04:01 -0800
+ Tue, 12 Jan 2021 18:57:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=g4y0xDza;
- spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f47.google.com with SMTP id md11so21133pjb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Jan 2021 16:04:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uo4ZWoTZ7JMJsm7ihyZatpRTWWQS3v/HUWkVcs/mtzg=;
-        b=g4y0xDzaWNOxOIiaWJP4U8EtwlGS3tT4xgkGJ2/p80GCkj678KqqEv8WD4PmA5QpCI
-         6xiszifsDt1IaYgXFzA5j0UattJrLqkSokCIYKNLOCBPMoE8f0VGtrXWvXCcK1gS0z9L
-         ErVrjxNlY4AKATjBHEz14MP2HBOAxwUPgkQ7/Gfzj/GZBI6h6NvrkhrDVQHdcM1CmxxH
-         pgsGII+edTUgdElvfKBWWcRxuQDmp4pMy1UiwufwxZ2gc/BXLG50ZSO8X5o8JX/ZkDp1
-         vtzFmniAx0BlDHiCz5DaKjneGTx7r4WKtzmQme8yy2HQ+JhllHU/T0GqSrBfnk+HY6a+
-         AtIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uo4ZWoTZ7JMJsm7ihyZatpRTWWQS3v/HUWkVcs/mtzg=;
-        b=WRmDjyEbLvwlfW+hAp3HSB2yc30TmcHfYdsIuZgZMW9bs4oh9Mnl/9kloNZ8qiBSA8
-         s9NcO0FSyNCgGb5sOae15v7yRQFU3HF3MDX5aWWDvqoOsuav/77tbYKMp1tzzYr5Jv1B
-         xOqp6DQgDAaW1YTocvHVzcF/+hwUS48g1pMoRYeBd9eQOu9A7BxCXZvLPmA9gbSIJjid
-         4EF1v/onhr7DA9HOSbJ9jox7TTFSZo8W+sonkGqbZtx8QDEk7w2bM8/gzuPLt2m6K0AB
-         jI84FpMIoMjjvVFhv/OeVrXXOp8UD2whJu9S9jXNaSlVbKj11rVLghjhLQBqiUpsvoAy
-         wnLA==
-X-Gm-Message-State: AOAM531CgzmONXRHZoRrNwQfIUiD4BfBgI2d3D4KwWQtb2yk4Ztsk32I
-	j2PHGxt3aTBYo3LXBZmNsD2yZR8R1ONOuQ==
-X-Google-Smtp-Source: ABdhPJxMpox1iLBBd8fdbh/Ei01iSg2Wp6AytME1MaB43VErz0HC7Be+4ekaR65nZ6RgC0pIxer/QQ==
-X-Received: by 2002:a17:90a:fc83:: with SMTP id ci3mr166151pjb.145.1610496240731;
-        Tue, 12 Jan 2021 16:04:00 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::248c])
-        by smtp.gmail.com with ESMTPSA id u24sm163607pjx.56.2021.01.12.16.03.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jan 2021 16:04:00 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: naveen.kumar.saini@intel.com)
+IronPort-SDR: +SQfeRBvCSOB4n8J3tO//JlDAE0bWRAqQrKY32OyZsVYPbFTXJ+aMOppN2A+Ptn8JF0nsvbplK
+ BB2BnIpFcSBg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9862"; a="165818756"
+X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; 
+   d="scan'208";a="165818756"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 18:57:09 -0800
+IronPort-SDR: kYZIpQWJ0DX6k13MoNEFPmSPftQ8iDofRv6gf5XH2rlxXN9HcwbzqOR0XoBMcLTAwe+yvrlmRc
+ xwyfa7XFSdpg==
+X-IronPort-AV: E=Sophos;i="5.79,343,1602572400"; 
+   d="scan'208";a="499123722"
+Received: from saininav-desk1.png.intel.com ([172.30.199.23])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jan 2021 18:57:08 -0800
+From: "Naveen Saini" <naveen.kumar.saini@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] libyaml: Enable static lib on native/nativesdk
-Date: Tue, 12 Jan 2021 16:03:56 -0800
-Message-Id: <20210113000356.3976908-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] gstreamer1.0-plugins-bad: fix msdk pkgconfig build failure
+Date: Wed, 13 Jan 2021 11:07:22 +0800
+Message-Id: <20210113030722.9267-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-Helps building static tools which depend on libyaml during build or
-shipped with SDK
+Error log:
+| Run-time dependency libmfx found: YES 1.34
+| Has header "mfx/mfxdefs.h" : YES
+|
+| ../gst-plugins-bad-1.18.2/sys/msdk/meson.build:75:2: ERROR: Include dir /usr/include/mfx does not exist.
+|
+| A full log can be found at /home/s
 
-libyaml is MIT licensed so static linking would not be as prohibitive
+When msdk is enable in PACKAGECONFIG, plugin fails to locate includedir, so
+adding a patch which prepend PKG_CONFIG_SYSROOT_DIR to the dir path
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---
- meta/recipes-support/libyaml/libyaml_0.2.5.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ .../0005-msdk-fix-includedir-path.patch       | 31 +++++++++++++++++++
+ .../gstreamer1.0-plugins-bad_1.18.2.bb        |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-msdk-fix-includedir-path.patch
 
-diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-index e39a7b9083..778e091638 100644
---- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-+++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-@@ -15,4 +15,7 @@ S = "${WORKDIR}/yaml-${PV}"
- 
- inherit autotools
- 
-+DISABLE_STATIC_class-nativesdk = ""
-+DISABLE_STATIC_class-native = ""
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-msdk-fix-includedir-path.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-msdk-fix-includedir-path.patch
+new file mode 100644
+index 0000000000..cb3bb7d361
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-msdk-fix-includedir-path.patch
+@@ -0,0 +1,31 @@
++From 1f00d5026118ebd48e4ccf83d32d67155c4e7f60 Mon Sep 17 00:00:00 2001
++From: Naveen Saini <naveen.kumar.saini@intel.com>
++Date: Wed, 30 Dec 2020 16:37:47 +0800
++Subject: [PATCH] msdk: fix includedir path
 +
- BBCLASSEXTEND = "native nativesdk"
++In cross compilation, need to prepend PKG_CONFIG_SYSROOT_DIR to the dir path.
++
++Upstream-Status: Inappropriate [OE-specific]
++
++Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
++---
++ sys/msdk/meson.build | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/sys/msdk/meson.build b/sys/msdk/meson.build
++index 6346c9451..068f38548 100644
++--- a/sys/msdk/meson.build
+++++ b/sys/msdk/meson.build
++@@ -40,7 +40,9 @@ endif
++ 
++ mfx_dep = dependency('libmfx', required: false)
++ if mfx_dep.found()
+++  pkgconf_sysroot = run_command(python3, '-c', 'import os; print(os.environ.get("PKG_CONFIG_SYSROOT_DIR"))').stdout().strip()
++   mfx_incdir = mfx_dep.get_pkgconfig_variable('includedir')
+++  mfx_incdir = pkgconf_sysroot +  mfx_incdir
++   mfx_inc = []
++ else
++   # Old versions of MediaSDK don't provide a pkg-config file
++-- 
++2.17.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
+index d37a223254..6d0c988b7a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.18.2.bb
+@@ -5,6 +5,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0002-avoid-including-sys-poll.h-directly.patch \
+            file://0003-ensure-valid-sentinals-for-gst_structure_get-etc.patch \
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
++           file://0005-msdk-fix-includedir-path.patch \
+            "
+ SRC_URI[sha256sum] = "8ad5822f1118fe46a19af54422b74e3a16d79a6800dcb173b49e199a496b341a"
+ 
 -- 
-2.30.0
+2.17.1
 
