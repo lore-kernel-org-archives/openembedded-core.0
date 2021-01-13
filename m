@@ -1,116 +1,171 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web09.10009.1610553227338885079
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web09.10774.1610556028724491724
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 07:53:47 -0800
+ Wed, 13 Jan 2021 08:40:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HiceGO7c;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id d13so2618149wrc.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 07:53:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=zbFC9NeU5gYyvA71ImrhYE5zJkhBq1m6udsZRvPHj/k=;
-        b=HiceGO7clokOMPX/RqMtJZ5LqKzOJSy06pzpIGiPN5lRM4MxQmSJpk3o/3FcduW1pW
-         S553Zkv/Wx4wtp5t62a6IZHvcDlndS0gO+uL1vp99C9JCZN18cMCOrwL/a6eXHWE/rT6
-         x87uQN4Cg6szltepsjuVaDczhnYEYsNGS4kXg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=zbFC9NeU5gYyvA71ImrhYE5zJkhBq1m6udsZRvPHj/k=;
-        b=FyXja1PhCKwBbCs4j816Eo+OLldS5mcP5vG+5MpL9mgzZ/kNqISnJ6q73iTK4jf17o
-         aTo0nJcYOZenmV5eW36UftOa2WNiU2S/Vow29gGnxzi+SQ+mJAaVOM/2jsaOzs71AvqJ
-         tgUgsyHyskboD50mZADCLlhw+sdHfzmEGj1bceh5gttTGezFTCygnNT697iTy2YjX/CD
-         nqEw+hs0cB9lTOzAsnbpHq+cE0CYVIITaNCNGWgWYFsJSccBbvhPtzNp9OQbAf2E6OmT
-         Alr3vCBmUnsjP/xcu/66Ry0fO47qIl9Cu7G5RZkeSZ04fwkZNcPBGN/78ANhAH+uCAaM
-         IfWg==
-X-Gm-Message-State: AOAM5306pqspTViyOwsbVgC1ZbzLuaHHWdfTWR0npNIXnPn60BzvVkwQ
-	vlA/UTUJ+21c/K4uoluHuwFeKw==
-X-Google-Smtp-Source: ABdhPJxWSSUzVWyKNz/l5FDbXTNYoDvt5IbKsMCEeir8q+KsFCDqehGLR3JPrQScBlUz6RKBI92GuA==
-X-Received: by 2002:a5d:6852:: with SMTP id o18mr3190154wrw.371.1610553225734;
-        Wed, 13 Jan 2021 07:53:45 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:13d8:a80b:9a6d:1409? ([2001:8b0:aba:5f3c:13d8:a80b:9a6d:1409])
-        by smtp.gmail.com with ESMTPSA id b19sm3352471wmj.37.2021.01.13.07.53.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 07:53:45 -0800 (PST)
-Message-ID: <f8bbeea124b17c5aa5a97d9e40be4b879b6f9407.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] qemurunner: Add support for qmp commands
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Saul Wold <Saul.Wold@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 13 Jan 2021 15:53:41 +0000
-In-Reply-To: <305572bc-83d8-986a-2e11-367470149930@windriver.com>
-References: <20210112231109.4048330-1-saul.wold@windriver.com>
-	 <20210112231109.4048330-3-saul.wold@windriver.com>
-	 <4cde6b73149d57c967f77d213baf3b33e0cfd63b.camel@linuxfoundation.org>
-	 <305572bc-83d8-986a-2e11-367470149930@windriver.com>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: khairul.rohaizzat.jamaluddin@intel.com)
+IronPort-SDR: UkWOXVAqUwei2nY0AmS/qC9eB8XyPY2GuiI7Ax+y5tc1TPOmsydHv+JplUucJoVgW1cjDHyWoL
+ Fb5+6OBLz7dg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9863"; a="263020727"
+X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
+   d="scan'208";a="263020727"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jan 2021 08:40:16 -0800
+IronPort-SDR: 2BCDqtCkkTkqSfL4cPH8IJ0UkiqUkVdQyoajdD9FRzzWajEDDN80quUQFrUInAHO0Nb84gwgrT
+ TuYb2aY2W4ag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,344,1602572400"; 
+   d="scan'208";a="353544883"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga008.fm.intel.com with ESMTP; 13 Jan 2021 08:40:09 -0800
+From: "Jamaluddin, Khairul Rohaizzat" <khairul.rohaizzat.jamaluddin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: khairul.rohaizzat.jamaluddin@intel.com
+Subject: [PATCH][gatesgarth] ffmpeg: Fix CVE-2020-35964, CVE-2020-35965
+Date: Thu, 14 Jan 2021 00:40:08 +0800
+Message-Id: <1610556008-20721-1-git-send-email-khairul.rohaizzat.jamaluddin@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-On Wed, 2021-01-13 at 07:09 -0800, Saul Wold wrote:
-> 
-> On 1/13/21 3:45 AM, Richard Purdie wrote:
-> > On Tue, 2021-01-12 at 15:11 -0800, Saul Wold wrote:
-> > > This adds support for the Qemu Machine Protocol [0] extending
-> > > the current dump process for Host and Target. The commands are
-> > > added in the testimage.bbclass.
-> > > 
-> > > Currently, we setup qemu to stall until qmp gets connected and
-> > > sends the initialization and continue commands, this works
-> > > correctly.
-> > > 
-> > > With this version, the monitor_dumper is created in OEQemuTarget
-> > > but then set in OESSHTarget as that's where we get the SSH failure
-> > > happens. Python's @property is used to create a setter/getter type
-> > > of setup in OESSHTarget to get overridden by OEQemuTarget.
-> > > 
-> > > By default the data is currently dumped to files for each command in
-> > > TMPDIR/log/runtime-hostdump/<date>_qmp/unknown_<seq>_qemu_monitor as
-> > > this is the naming convenstion in the dump.py code.
-> > > 
-> > > We use the qmp.py from qemu, which needs to get installed in the
-> > > recipe-sysroot-native of the target image.
-> > > 
-> > > [0] https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt
-> > > 
-> > > Signed-off-by: Saul Wold <saul.wold@windriver.com>
-> > > ---
-> > >   meta/classes/testimage.bbclass    |  6 ++++++
-> > >   meta/lib/oeqa/core/target/qemu.py |  6 ++++++
-> > >   meta/lib/oeqa/core/target/ssh.py  | 17 +++++++++++++++-
-> > >   meta/lib/oeqa/targetcontrol.py    |  3 +++
-> > >   meta/lib/oeqa/utils/dump.py       | 31 +++++++++++++++++++++++++---
-> > >   meta/lib/oeqa/utils/qemurunner.py | 34 ++++++++++++++++++++++++++++++-
-> > >   6 files changed, 92 insertions(+), 5 deletions(-)
-> > 
-> > For fun I thought I'd try this on the autobuilder:
-> > 
-> Seems it was too much fun, looks like I will need to be able to start at 
-> least one build on the AB.
-> 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1748
-> > 
-> > Looks like we may need to use importlib to import the qmp module as
-> > otherwise oe-selftest can't launch (and the qmp module may not be
-> > installed yet).
-> > 
-> Ok, I will look into this, it worked correctly for me doing a locally, 
-> with do_testimage, but clearly I missed something that between the 
-> qemu-system-native install and the testimage.
+From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 
-The issue will be that oe-selftest loads the python modules before
-qemu-system-native has been built so it can't import qmp at that time.
-This is why I was thinking it may need a later import at runtime using
-importlib?
+Backport the CVE patches from upstream:
+https://github.com/FFmpeg/FFmpeg/commit/27a99e2c7d450fef15594671eef4465c8a166bd7
+https://github.com/FFmpeg/FFmpeg/commit/3e5959b3457f7f1856d997261e6ac672bba49e8b
 
-oe-selftest on a clean TMPDIR should reproduce.
+CVE:
+CVE-2020-35964
+CVE-2020-35965
 
-Cheers,
+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
+---
+ .../ffmpeg/ffmpeg/CVE-2020-35964.patch             | 68 ++++++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2020-35965.patch             | 28 +++++++++
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb     |  2 +
+ 3 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
 
-Richard
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
+new file mode 100644
+index 0000000..eaee3a9
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
+@@ -0,0 +1,68 @@
++From 27a99e2c7d450fef15594671eef4465c8a166bd7 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Wed, 28 Oct 2020 20:11:54 +0100
++Subject: [PATCH] avformat/vividas: improve extradata packing checks in
++ track_header()
++
++Fixes: out of array accesses
++Fixes: 26622/clusterfuzz-testcase-minimized-ffmpeg_dem_VIVIDAS_fuzzer-6581200338288640
++
++Found-by: continuous fuzzing process https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++---
++ libavformat/vividas.c | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
++
++diff --git a/libavformat/vividas.c b/libavformat/vividas.c
++index 83d0ed116787..46c66bf9a0ae 100644
++--- a/libavformat/vividas.c
+++++ b/libavformat/vividas.c
++@@ -28,6 +28,7 @@
++  * @sa http://wiki.multimedia.cx/index.php?title=Vividas_VIV
++  */
++ 
+++#include "libavutil/avassert.h"
++ #include "libavutil/intreadwrite.h"
++ #include "avio_internal.h"
++ #include "avformat.h"
++@@ -379,7 +380,7 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
++ 
++         if (avio_tell(pb) < off) {
++             int num_data;
++-            int xd_size = 0;
+++            int xd_size = 1;
++             int data_len[256];
++             int offset = 1;
++             uint8_t *p;
++@@ -393,10 +394,10 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
++                     return AVERROR_INVALIDDATA;
++                 }
++                 data_len[j] = len;
++-                xd_size += len;
+++                xd_size += len + 1 + len/255;
++             }
++ 
++-            ret = ff_alloc_extradata(st->codecpar, 64 + xd_size + xd_size / 255);
+++            ret = ff_alloc_extradata(st->codecpar, xd_size);
++             if (ret < 0)
++                 return ret;
++ 
++@@ -405,9 +406,7 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
++ 
++             for (j = 0; j < num_data - 1; j++) {
++                 unsigned delta = av_xiphlacing(&p[offset], data_len[j]);
++-                if (delta > data_len[j]) {
++-                    return AVERROR_INVALIDDATA;
++-                }
+++                av_assert0(delta <= xd_size - offset);
++                 offset += delta;
++             }
++ 
++@@ -418,6 +417,7 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
++                     av_freep(&st->codecpar->extradata);
++                     break;
++                 }
+++                av_assert0(data_len[j] <= xd_size - offset);
++                 offset += data_len[j];
++             }
++ 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
+new file mode 100644
+index 0000000..b3ecc45b
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
+@@ -0,0 +1,28 @@
++From 3e5959b3457f7f1856d997261e6ac672bba49e8b Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sat, 24 Oct 2020 22:21:48 +0200
++Subject: [PATCH] avcodec/exr: Check ymin vs. h
++
++Fixes: out of array access
++Fixes: 26532/clusterfuzz-testcase-minimized-ffmpeg_AV_CODEC_ID_EXR_fuzzer-5613925708857344
++Fixes: 27443/clusterfuzz-testcase-minimized-ffmpeg_AV_CODEC_ID_EXR_fuzzer-5631239813595136
++
++Found-by: continuous fuzzing process https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++---
++ libavcodec/exr.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libavcodec/exr.c b/libavcodec/exr.c
++index e907c5c46401..8b701d1cd298 100644
++--- a/libavcodec/exr.c
+++++ b/libavcodec/exr.c
++@@ -1830,7 +1830,7 @@ static int decode_frame(AVCodecContext *avctx, void *data,
++     // Zero out the start if ymin is not 0
++     for (i = 0; i < planes; i++) {
++         ptr = picture->data[i];
++-        for (y = 0; y < s->ymin; y++) {
+++        for (y = 0; y < FFMIN(s->ymin, s->h); y++) {
++             memset(ptr, 0, out_line_size);
++             ptr += picture->linesize[i];
++         }
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
+index 37647e8..f902b08 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
+@@ -26,6 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
++           file://CVE-2020-35964.patch \
++           file://CVE-2020-35965.patch \
+            "
+ SRC_URI[sha256sum] = "ad009240d46e307b4e03a213a0f49c11b650e445b1f8be0dda2a9212b34d2ffb"
+ 
+-- 
+2.7.4
 
