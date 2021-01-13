@@ -1,127 +1,82 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web08.233.1610580138575626665
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.web08.250.1610580240068080369
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 15:22:18 -0800
+ Wed, 13 Jan 2021 15:24:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SB7DuXAh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id a6so3038877wmc.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 15:22:18 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZfRd2Fw0;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 190so3035781wmz.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Jan 2021 15:23:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vzi3F4xLnqnSvlgmggSy6UVW02xeK+LuFMt+7/z9jtc=;
-        b=SB7DuXAh2fvy3xBQXy8jBEdzhub4lY2MHNICzk0tSUvWUQtpHoIwhmi5n22nCMGD1I
-         +w5FKKMKQBL6/7nvZqWvgP2PyV/ykjd8FjUczUWkjA1xyrBKWIddMK2zAGauSGAj874i
-         o8Jl4sNRuMKJFYNuX0cMSQ4d1hS0GQBFMhsRY=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=vzt2I8cL9U+uZ3tHk82FrwfuYcbeAH9wwkBYt2m78Vk=;
+        b=ZfRd2Fw0uY2gk7+mrnQtOkS3m7SUKTAnmf3+uzS8I0X3+tC1xaR16RwiMvbvVqbzyV
+         48zc1L4qauibkjbpu1saEgSjHee9ZAeLSXvXR4rJNUwmpIGxDYvD+yFamQEvoTwKq3+W
+         Iq85mXkNfO4++RFPYznC+vVMGtSbbxQcN5DUs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Vzi3F4xLnqnSvlgmggSy6UVW02xeK+LuFMt+7/z9jtc=;
-        b=RJ975FOPCxqnJNxNIdUiZeuwSez9L2TNm/KiWOJoIZJbHc5PsKY+VxadA/bVWbiUbQ
-         FhZq3liAdYEVNmS24mmG7t0zxL2lO1bfMGP6BVZREC+073OxxzL8S2++mAUhIuKjMLcK
-         qD/IgqtwcSICLt5KkRo33ZFekkfV1DbUke5hC+dxUN+16QHJUp9lC2GI6Ulrcp2w4LFI
-         tagyFwf0JR26/77NUR/YvL9BrXCULOPFj+6J0nvnM6uekf3jq0sZo3u7uDV2LZ/vsOIM
-         mu+iajBXUHGMRk2JiOg1xD1HxwH1gbj37QXU7bQgKinxgB8uQ5SUk1feW0aX3c9lViPq
-         ligQ==
-X-Gm-Message-State: AOAM531fN8VE5nbNdT0WiS7I7OdT/9tq3CUiP854pnzO6FbyZJnvvGGy
-	MbxUjMpqqE5mVkt9ZENmCZBFgZMJP5Wx7w==
-X-Google-Smtp-Source: ABdhPJwBPE6YUuFfGloB/KEj7NWOfgKAstTDqLSEtaIcPiwjYwX9XDSagoD/9RKjjVWBF7WoXA45VQ==
-X-Received: by 2002:a7b:ce0f:: with SMTP id m15mr1285901wmc.56.1610580136687;
-        Wed, 13 Jan 2021 15:22:16 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=vzt2I8cL9U+uZ3tHk82FrwfuYcbeAH9wwkBYt2m78Vk=;
+        b=U4psUyHYhzi8F4p2SR/HfgFOYuNSkWxK+VxSsqM1qK8B2j3IRUD3S/X245WRSNmf/u
+         lAEhqbAQfQMSnl/6p+AeDklJwEUQd+I8twXRywFumJdXwnDGqFf21ZofO3RyZKRqOs+f
+         /JMb7k0rw8IEVGAhCQHQcpJP/KXWlWB4GPopFNHCgYmE2h/4J+87VpKsWMXZFqTLO+lY
+         ZiOlBsk9/bTUet9Wj92I8hYcRYMdV7UNPlhBhpTm3HoVI5sPBqTwjX7EOHFlFZEHQESj
+         kmvJK2yse7zwa5fcIi31GJfGYYJpejG9PrINe21BubxCTCBi6nBmmheRdT+KngQfQTP5
+         LjZw==
+X-Gm-Message-State: AOAM532JzXPPu/BSzYrkkGcs5+bzBwe7ijtzRTWO7gsdGU646c9f9bVM
+	ezvJ5P5VXQbfgK0QFD+9hFjXtg==
+X-Google-Smtp-Source: ABdhPJzs2cyYg3yIC5a7AC+kgBjDP82FdMwPPl6BrS3Icp6ILzUZZj3h/ViKIXzuZgJiRIzysMlc5A==
+X-Received: by 2002:a7b:ce17:: with SMTP id m23mr1269438wmc.117.1610580238682;
+        Wed, 13 Jan 2021 15:23:58 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:b0e3:c052:eb93:5c3])
-        by smtp.gmail.com with ESMTPSA id a12sm6360902wrh.71.2021.01.13.15.22.15
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:b0e3:c052:eb93:5c3? ([2001:8b0:aba:5f3c:b0e3:c052:eb93:5c3])
+        by smtp.gmail.com with ESMTPSA id y13sm5921295wrl.63.2021.01.13.15.23.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jan 2021 15:22:16 -0800 (PST)
+        Wed, 13 Jan 2021 15:23:58 -0800 (PST)
+Message-ID: <85783eea9b8cec5df8258a0adc5aaa675f3bc052.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libpam: remove entries for pam_tally and pam_tally2
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] vulkan-samples: Fix reproducibility issue
-Date: Wed, 13 Jan 2021 23:22:15 +0000
-Message-Id: <20210113232215.799303-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 13 Jan 2021 23:23:55 +0000
+In-Reply-To: <20210112204332.3506294-1-schnitzeltony@gmail.com>
+References: <20210112204332.3506294-1-schnitzeltony@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
-used for logging with LOGE() in the code. We need to make this match the value we use
-in the debug source remapping from CFLAGS. If we don't, the code is firstly removing
-the incorrect prefix and possibly moving outside the string, secondly, it causes a
-reproducibility issue depending on the length of path the build happens in.
+On Tue, 2021-01-12 at 21:43 +0100, Andreas Müller wrote:
+> Both were removed in 1.5.0 and one should use pam_faillock [1]
+> 
+> [1] https://github.com/linux-pam/linux-pam/releases/tag/v1.5.0
+> 
+> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+> ---
+>  meta/recipes-extended/pam/libpam_1.5.1.bb | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/pam/libpam_1.5.1.bb b/meta/recipes-extended/pam/libpam_1.5.1.bb
+> index 8c008a9701..f2f4fd91d6 100644
+> --- a/meta/recipes-extended/pam/libpam_1.5.1.bb
+> +++ b/meta/recipes-extended/pam/libpam_1.5.1.bb
+> @@ -118,8 +118,6 @@ python populate_packages_prepend () {
+>                        'PAM plugin for %s', hook=pam_plugin_hook, extra_depends='')
+>      pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_chkpwd')
+>      pam_plugin_append_file('%spam-plugin-unix' % mlprefix, pam_sbindir, 'unix_update')
+> -    pam_plugin_append_file('%spam-plugin-tally' % mlprefix, pam_sbindir, 'pam_tally')
+> -    pam_plugin_append_file('%spam-plugin-tally2' % mlprefix, pam_sbindir, 'pam_tally2')
+>      pam_plugin_append_file('%spam-plugin-timestamp' % mlprefix, pam_sbindir, 'pam_timestamp_check')
+>      pam_plugin_append_file('%spam-plugin-mkhomedir' % mlprefix, pam_sbindir, 'mkhomedir_helper')
+>      pam_plugin_append_file('%spam-plugin-console' % mlprefix, pam_sbindir, 'pam_console_apply')
 
-Add a small patch and configuration to avoid the issue.
+Just for info, this entire code block was removed by a different patch
+that came in a little earlier!
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../vulkan/vulkan-samples/debugfix.patch      | 31 +++++++++++++++++++
- .../vulkan/vulkan-samples_git.bb              |  8 +++++
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
+Cheers,
 
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch b/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
-new file mode 100644
-index 00000000000..d723fcc19ad
---- /dev/null
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples/debugfix.patch
-@@ -0,0 +1,31 @@
-+There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
-+used for logging with LOGE() in the code. We need to make this match the value we use
-+in the debug source remapping from CFLAGS
-+
-+We export the right path to use in the recipe with:
-+
-+EXTRA_OECMAKE = "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/"
-+
-+and we then patch this into the code instead of the broken use
-+of CMAKE_SOURCE_DIR since __FILENAME__ will match our path prefix
-+changes.
-+
-+This also breaks reproducibility since the path length of the build directory
-+will currently change the output!
-+
-+Upstream-Status: Pending [needs to be discussed upstream]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: git/bldsys/cmake/global_options.cmake
-+===================================================================
-+--- git.orig/bldsys/cmake/global_options.cmake
-++++ git/bldsys/cmake/global_options.cmake
-+@@ -47,7 +47,7 @@ set(CMAKE_CXX_STANDARD 14)
-+ set(CMAKE_DISABLE_SOURCE_CHANGES ON)
-+ set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-+ 
-+-string(LENGTH "${CMAKE_SOURCE_DIR}/" ROOT_PATH_SIZE)
-++string(LENGTH "${CMAKE_DEBUG_SRCDIR}/" ROOT_PATH_SIZE)
-+ add_definitions(-DROOT_PATH_SIZE=${ROOT_PATH_SIZE})
-+ 
-+ set(CMAKE_C_FLAGS_DEBUG   "-DDEBUG=0 ${CMAKE_C_FLAGS_DEBUG}")
-diff --git a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-index 896b2483272..447d498fb34 100644
---- a/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-+++ b/meta/recipes-graphics/vulkan/vulkan-samples_git.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=48aa35cefb768436223a6e7f18dc2a2a"
- SRC_URI = "gitsm://github.com/KhronosGroup/Vulkan-Samples.git \
-            file://0001-CMakeLists.txt-do-not-hardcode-lib-as-installation-t.patch \
-            file://0001-support-link-against-libatomic-if-no-built-in-atomic.patch \
-+           file://debugfix.patch \
-            "
- 
- UPSTREAM_CHECK_COMMITS = "1"
-@@ -19,3 +20,10 @@ REQUIRED_DISTRO_FEATURES = 'vulkan'
- inherit cmake features_check
- 
- FILES_${PN} += "${datadir}"
-+
-+#
-+# There is code to remove the prefix CMAKE_SOURCE_DIR from __FILENAME__ paths
-+# used for logging with LOGE in the code. We need to make this match the value we use
-+# in the debug source remapping from CFLAGS
-+#
-+EXTRA_OECMAKE = "-DCMAKE_DEBUG_SRCDIR=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/"
-\ No newline at end of file
--- 
-2.27.0
+Richard
 
