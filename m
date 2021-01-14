@@ -1,64 +1,58 @@
 Received: from mga18.intel.com (mga18.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.3701.1610640599644781266
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 08:10:06 -0800
+ Thu, 14 Jan 2021 08:10:07 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: DbUZjcqXjMjchUS5+m8MJZBcVzEeTQUCiQdNrtrekQe2U10JTbVoJrW8ZaHxXTWW3Fpheatwig
- 1Lism1SptTKA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062669"
+IronPort-SDR: 3HpJDxAjLvavTaur1MVU4vP5xJXBTENU34UEaCJEOsfvgRcNA8VuL/oc456V54RAAg1nt25lJs
+ YaMpDR5MZ35A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062673"
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="166062669"
+   d="scan'208";a="166062673"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:05 -0800
-IronPort-SDR: Z1KvWYgBipi+J/dVJfVOIEa/cxLbZte1NIE0Y4lO+son53Bsly2JHf28DaU+uXxvXa0cNMjOgE
- 0gwM+N5s2EOA==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:07 -0800
+IronPort-SDR: fsJzWUFGX40XrbuSWg2kSIc0j8VZPNWum1QMB8xKMODxna5RxSLL5W6DB9mfqQmSrX289HVOtR
+ MkuGrFLwpSIw==
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="424986591"
+   d="scan'208";a="424986602"
 Received: from ykoh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.50])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:04 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:06 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 08/14] pseudo: Update for arm host and memleak fixes/cleanup
-Date: Fri, 15 Jan 2021 00:09:42 +0800
-Message-Id: <50b2695919af0db846e91dc8c328fa86225bf17d.1610639458.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 09/14] mobile-broadband-provider-info: upgrade 20190618 ->20201225
+Date: Fri, 15 Jan 2021 00:09:43 +0800
+Message-Id: <d813abdb9170325dfbf8085f92869fd7d80c3547.1610639458.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610639458.git.anuj.mittal@intel.com>
 References: <cover.1610639458.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-Pulls in:
-
-makewrappers: support architecture-overrides in wrapper modifiers
-makewrappers: fix Python 2 hangover
-Fix some memory leaks
-Disable deprecated function warnings
-Silence switch block warnings
-pseudo_util: don't overrun strings when looking for keys
-
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 11a3a9203ad595e7fa92acf442a7f3216d6e3830)
+(cherry picked from commit 812eb3121e0aabe4e3de9a8c61b1e62c87f55aa4)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../mobile-broadband-provider-info_git.bb                     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 7fa11a54e7..29fa9152e2 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://fallback-group \
-            "
+diff --git a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+index 0b0bbab168..7dccc15e03 100644
+--- a/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
++++ b/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb
+@@ -3,8 +3,8 @@ HOMEPAGE = "http://live.gnome.org/NetworkManager/MobileBroadband/ServiceProvider
+ SECTION = "network"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=87964579b2a8ece4bc6744d2dc9a8b04"
+-SRCREV = "22b49d86fb7aded2c195a9d49e5924da696b3228"
+-PV = "20190618"
++SRCREV = "90f3fe28aa25135b7e4a54a7816388913bfd4a2a"
++PV = "20201225"
+ PE = "1"
  
--SRCREV = "1ee9a1e05e200f189f6644411ba9304e8a479b0b"
-+SRCREV = "f9754ac14672c4af19b77bc698a1a808b0828265"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
+ SRC_URI = "git://gitlab.gnome.org/GNOME/mobile-broadband-provider-info.git;protocol=https"
 -- 
 2.29.2
 
