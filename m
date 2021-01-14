@@ -1,55 +1,99 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web09.4747.1610608375363214384
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.4756.1610608379515697268
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Jan 2021 23:12:56 -0800
+ Wed, 13 Jan 2021 23:12:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: kamel.bouhara@bootlin.com)
+ dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: kamel.bouhara@bootlin.com)
 X-Originating-IP: 78.193.40.249
 Received: from localhost (unknown [78.193.40.249])
 	(Authenticated sender: kamel.bouhara@bootlin.com)
-	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id D33A9240008;
-	Thu, 14 Jan 2021 07:12:52 +0000 (UTC)
-From: kamel.bouhara@bootlin.com
+	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id CCC9240005;
+	Thu, 14 Jan 2021 07:12:56 +0000 (UTC)
+From: "Kamel Bouhara" <kamel.bouhara@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Kamel Bouhara <kamel.bouhara@bootlin.com>
-Subject: [PATCH 0/2] Fix issue with npm shrinkwrap fetcher
-Date: Thu, 14 Jan 2021 08:12:33 +0100
-Message-Id: <20210114071235.2210763-1-kamel.bouhara@bootlin.com>
+Subject: [PATCH 1/2] npm.bbclass: make shrinkwrap file optional
+Date: Thu, 14 Jan 2021 08:12:34 +0100
+Message-Id: <20210114071235.2210763-2-kamel.bouhara@bootlin.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210114071235.2210763-1-kamel.bouhara@bootlin.com>
+References: <20210114071235.2210763-1-kamel.bouhara@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello all,
+Some packages don't have shrinkwrap file which
+means no npmsw uri is provided in the recipe.
 
-This small patch series aims to fix the following build issue faced
-with some npm packages:
+Signed-off-by: Kamel Bouhara <kamel.bouhara@bootlin.com>
+---
+ meta/classes/npm.bbclass | 31 +++++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
-DEBUG: Executing python function do_fetch
-DEBUG: Executing python function base_do_fetch
-DEBUG: Python function base_do_fetch finished
-DEBUG: Python function do_fetch finished
-ERROR: Failure expanding variable TUNE_FEATURES_tune-armv7at-neon, expression was ${TUNE_FEATURES_tune-armv7at} neon which triggered exception RecursionError: maximum recursion depth exceeded while calling a Python object
-
-After struggling a lot, I figured out that this only happen for npm
-packages not having dependencies listed in their shrinkwrap file (e.g. bcryptjs).
-
-Yet I still didn't got how is the json parsing impacting
-the python context here ?
-
-Please feel free to comment.
-
-Thanks.
-
-Kamel Bouhara (2):
-  npm.bbclass: make shrinkwrap file optional
-  recipetool: create: only add npmsw url if required
-
- meta/classes/npm.bbclass             | 31 +++++++++++++++++++++----------
- scripts/lib/recipetool/create_npm.py |  6 +++++-
- 2 files changed, 26 insertions(+), 11 deletions(-)
-
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index 068032a1e5..d3dd1a9ab8 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -130,11 +130,17 @@ python npm_do_configure() {
+     cached_manifest.pop("dependencies", None)
+     cached_manifest.pop("devDependencies", None)
+ 
+-    with open(orig_shrinkwrap_file, "r") as f:
+-        orig_shrinkwrap = json.load(f)
++    has_shrinkwrap_file = True
+ 
+-    cached_shrinkwrap = copy.deepcopy(orig_shrinkwrap)
+-    cached_shrinkwrap.pop("dependencies", None)
++    try:
++        with open(orig_shrinkwrap_file, "r") as f:
++            orig_shrinkwrap = json.load(f)
++    except IOError:
++        has_shrinkwrap_file = False
++
++    if has_shrinkwrap_file:
++       cached_shrinkwrap = copy.deepcopy(orig_shrinkwrap)
++       cached_shrinkwrap.pop("dependencies", None)
+ 
+     # Manage the dependencies
+     progress = OutOfProgressHandler(d, r"^(\d+)/(\d+)$")
+@@ -165,8 +171,10 @@ python npm_do_configure() {
+             progress.write("%d/%d" % (progress_done, progress_total))
+ 
+     dev = bb.utils.to_boolean(d.getVar("NPM_INSTALL_DEV"), False)
+-    foreach_dependencies(orig_shrinkwrap, _count_dependency, dev)
+-    foreach_dependencies(orig_shrinkwrap, _cache_dependency, dev)
++
++    if has_shrinkwrap_file:
++        foreach_dependencies(orig_shrinkwrap, _count_dependency, dev)
++        foreach_dependencies(orig_shrinkwrap, _cache_dependency, dev)
+ 
+     # Configure the main package
+     with tempfile.TemporaryDirectory() as tmpdir:
+@@ -181,16 +189,19 @@ python npm_do_configure() {
+                 cached_manifest[depkey] = {}
+             cached_manifest[depkey][name] = version
+ 
+-    _update_manifest("dependencies")
++    if has_shrinkwrap_file:
++        _update_manifest("dependencies")
+ 
+     if dev:
+-        _update_manifest("devDependencies")
++        if has_shrinkwrap_file:
++            _update_manifest("devDependencies")
+ 
+     with open(cached_manifest_file, "w") as f:
+         json.dump(cached_manifest, f, indent=2)
+ 
+-    with open(cached_shrinkwrap_file, "w") as f:
+-        json.dump(cached_shrinkwrap, f, indent=2)
++    if has_shrinkwrap_file:
++        with open(cached_shrinkwrap_file, "w") as f:
++            json.dump(cached_shrinkwrap, f, indent=2)
+ }
+ 
+ python npm_do_compile() {
 -- 
 2.11.0
 
