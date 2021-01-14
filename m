@@ -1,113 +1,61 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga18.intel.com (mga18.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.3701.1610640599644781266
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 08:09:59 -0800
+ Thu, 14 Jan 2021 08:10:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: I8O5JK6eDrqgu2evIwT6lwXGRyqFCYvDIs1EQ6ve7E8wzNXlABDAWUsp4ikvSvUwro4G1faSKD
- CKsXZoqJxzyg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062611"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: rs9CLZtU7cK9xlAFul3aXg8wKh8MGT/od024vAygy1TI+5xhBZzuxuoK4EQShEXhz7ynRDYIuR
+ atdEkfD/Q1SA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062624"
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="166062611"
+   d="scan'208";a="166062624"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:09:59 -0800
-IronPort-SDR: bIaAnUH1UdIzopsaikRyCzEsQS9efVK4WyZWcGKGPWLeSsB9oQHc99gxzvPfKrLtv7/jWrlQoE
- k/y2LF7W00Lw==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:00 -0800
+IronPort-SDR: JNU5FQ4YL7DJfsKXvjU6LrCHfTG8GHrnuhh8U7E+/RorBpu24kGONYj69QThg57YBuDE3QilPR
+ RJANKmPTwg4Q==
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="424986493"
+   d="scan'208";a="424986503"
 Received: from ykoh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.50])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:09:57 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:09:59 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 03/14] selftest: Add argument to keep build dir
-Date: Fri, 15 Jan 2021 00:09:37 +0800
-Message-Id: <f41c17a155e9bfd233bc2166c6ab7f5e547f39fa.1610639458.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 04/14] bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
+Date: Fri, 15 Jan 2021 00:09:38 +0800
+Message-Id: <604899b3c8265da12aa4906cd7211849f46f32fe.1610639458.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610639458.git.anuj.mittal@intel.com>
 References: <cover.1610639458.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Paul Barker <pbarker@konsulko.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The oe-selftest code already keeps the selftest build directory in place
-if any tests failed. By default the build directory is deleted if all
-tests pass but there may be cases where it's desirable to keep this
-directory around, for example to compare intermediate files between
-passing and failing test runs.
+Builds were failing on WSL2 which turns out to be due to accesses to
+/run/ on those systems. Add this to PSEUDO_IGNORE_PATHS to fix
+builds on WSL2.
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
+[YOCTO #14175]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 67aa7069dbe8f5f5f186eb67708ece5c4bd42976)
+(cherry picked from commit 1d1bf51217e8b4d54af28739d3271484ee5a7974)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/lib/oeqa/selftest/context.py | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index dd3609c1d6..1659926975 100644
---- a/meta/lib/oeqa/selftest/context.py
-+++ b/meta/lib/oeqa/selftest/context.py
-@@ -34,7 +34,7 @@ class NonConcurrentTestSuite(unittest.TestSuite):
-         (builddir, newbuilddir) = self.setupfunc("-st", None, self.suite)
-         ret = super().run(result)
-         os.chdir(builddir)
--        if newbuilddir and ret.wasSuccessful():
-+        if newbuilddir and ret.wasSuccessful() and self.removefunc:
-             self.removefunc(newbuilddir)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index da6db9f595..8e0a0ec4b4 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -685,7 +685,7 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
  
- def removebuilddir(d):
-@@ -54,7 +54,7 @@ def removebuilddir(d):
-     bb.utils.prunedir(d, ionice=True)
- 
- class OESelftestTestContext(OETestContext):
--    def __init__(self, td=None, logger=None, machines=None, config_paths=None, newbuilddir=None):
-+    def __init__(self, td=None, logger=None, machines=None, config_paths=None, newbuilddir=None, keep_builddir=None):
-         super(OESelftestTestContext, self).__init__(td, logger)
- 
-         self.machines = machines
-@@ -62,6 +62,11 @@ class OESelftestTestContext(OETestContext):
-         self.config_paths = config_paths
-         self.newbuilddir = newbuilddir
- 
-+        if keep_builddir:
-+            self.removebuilddir = None
-+        else:
-+            self.removebuilddir = removebuilddir
-+
-     def setup_builddir(self, suffix, selftestdir, suite):
-         builddir = os.environ['BUILDDIR']
-         if not selftestdir:
-@@ -119,9 +124,9 @@ class OESelftestTestContext(OETestContext):
-         if processes:
-             from oeqa.core.utils.concurrencytest import ConcurrentTestSuite
- 
--            return ConcurrentTestSuite(suites, processes, self.setup_builddir, removebuilddir)
-+            return ConcurrentTestSuite(suites, processes, self.setup_builddir, self.removebuilddir)
-         else:
--            return NonConcurrentTestSuite(suites, processes, self.setup_builddir, removebuilddir)
-+            return NonConcurrentTestSuite(suites, processes, self.setup_builddir, self.removebuilddir)
- 
-     def runTests(self, processes=None, machine=None, skips=[]):
-         if machine:
-@@ -179,6 +184,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-                 action='append', default=None,
-                 help='Exclude all (unhidden) tests that match any of the specified tag(s). (exclude applies before select)')
- 
-+        parser.add_argument('-K', '--keep-builddir', action='store_true',
-+                help='Keep the test build directory even if all tests pass')
-+
-         parser.add_argument('-B', '--newbuilddir', help='New build directory to use for tests.')
-         parser.add_argument('-v', '--verbose', action='store_true')
-         parser.set_defaults(func=self.run)
-@@ -236,6 +244,7 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
-         self.tc_kwargs['init']['config_paths']['localconf'] = os.path.join(builddir, "conf/local.conf")
-         self.tc_kwargs['init']['config_paths']['bblayers'] = os.path.join(builddir, "conf/bblayers.conf")
-         self.tc_kwargs['init']['newbuilddir'] = args.newbuilddir
-+        self.tc_kwargs['init']['keep_builddir'] = args.keep_builddir
- 
-         def tag_filter(tags):
-             if args.exclude_tags:
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
 -- 
 2.29.2
 
