@@ -1,60 +1,84 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web08.5485.1610615000836776545
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web12.357.1610625433410096707
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 01:03:21 -0800
+ Thu, 14 Jan 2021 03:57:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.79,346,1602518400"; 
-   d="scan'208";a="103475382"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 14 Jan 2021 17:03:03 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 186874CE602D
-	for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 17:03:01 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 14 Jan 2021 17:03:02 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] libdrm: upgrade 2.4.103 -> 2.4.104
-Date: Thu, 14 Jan 2021 17:02:57 +0800
-Message-ID: <1610614977-24935-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=RFYqSGu2;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.177, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f177.google.com with SMTP id a6so3259885qtw.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 03:57:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=oVHOpSBFkfCohq9ouFVGxeUTf6VZPVIuuYVvq073oHw=;
+        b=RFYqSGu2TgmAAo//XTodMcyMIPIWlMQMXfT60TIImC8UGQvXnmZqNr2KFHqQYl2wju
+         jhZFepdflkQT63xD7ZZKEpn29l3DvIXBF4zU9QjXiI4Pan0QLO96wnyTrMicQL9w82bo
+         5pYGN03hWaATK9vj9d04eHu6qMO3XF8EBJfQtKkuqptD6qyJkSLqmKbRpTvZvqggnNMy
+         8naFBeTjsIlxUuvNtW1HSy73OLe+H2jtDYRM8utBmnjfsmjpxhgqgXcV7SY3hnk6aRgM
+         y4NMMQXgzuo+gS31VWt1L8TxMSPxO74EzBG2fvAdKc9zdScOpnpo1hAQb5lQyDg30LWS
+         PJ7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=oVHOpSBFkfCohq9ouFVGxeUTf6VZPVIuuYVvq073oHw=;
+        b=OY0WZza/t6dXh8V7e/EuxsETi9uNOuaWOqfUUxBHHRlS6+H8SmSIXlOsjk46KfewxB
+         FHEvRQuMlN0YaanKWp6a4WJQi87iTA1BPj5RFM6T9JTATVx3y/a0w/3Cf+pvAYkTN6Dh
+         Xe+rfFIFkVO+/Y6LmvblKlrnK5DITDZJXV++lY8UD3Hp+PDIEaW78yd8J2z7JYNHlJcH
+         GQlZTm/vbEvzPZ/Gq9VLBMwM9oh7ctCcvZeOgoaMCqVF11q9ChVx+tirADI3nKe8KdD+
+         oOr6bBeZs9A/xYGKKP5J8PhibeWGoKk4umK5HE0eo0vTZiUOfbh+1EPVU6BC8VHoR/eB
+         mDdA==
+X-Gm-Message-State: AOAM530DOM+yfJxqJ0pw3Q2YzzxcaPz+OPeKofFPnQkntvUHsWdRxhoj
+	oGfSsA2shkjuN9NLbcADIhhmnQd+MD7gcFqy
+X-Google-Smtp-Source: ABdhPJzVdYdqZqX9Fap071cRCW0MQHXT3r89xJD+mY1SU8nqoFadTejDvC9qmkM6DuVJL6E2nj3n+A==
+X-Received: by 2002:ac8:4e0a:: with SMTP id c10mr6714418qtw.312.1610625432221;
+        Thu, 14 Jan 2021 03:57:12 -0800 (PST)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
+        by smtp.gmail.com with ESMTPSA id a206sm2821260qkc.30.2021.01.14.03.57.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 Jan 2021 03:57:11 -0800 (PST)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f173.google.com with SMTP id c7so7219982qke.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 03:57:10 -0800 (PST)
+X-Received: by 2002:a37:a510:: with SMTP id o16mr6679026qke.383.1610625430293;
+ Thu, 14 Jan 2021 03:57:10 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 186874CE602D.A577A
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+References: <830757c5aad2db5f7524e7a99f3b97e309592517.1610611154.git.diego.sueiro@arm.com>
+In-Reply-To: <830757c5aad2db5f7524e7a99f3b97e309592517.1610611154.git.diego.sueiro@arm.com>
+Date: Thu, 14 Jan 2021 08:56:58 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrAHAYfPvF=xjZk1aPPXuwP2_zOcg11U71sKiiR1o6kRw@mail.gmail.com>
+Message-ID: <CAP9ODKrAHAYfPvF=xjZk1aPPXuwP2_zOcg11U71sKiiR1o6kRw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] classes: Introduce intermediate-deploy.bbclass
+To: Diego Sueiro <diego.sueiro@arm.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../drm/{libdrm_2.4.103.bb => libdrm_2.4.104.bb}                | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.103.bb => libdrm_2.4.104.bb} (97%)
+Em qui., 14 de jan. de 2021 =C3=A0s 05:06, Diego Sueiro
+<diego.sueiro@arm.com> escreveu:
+>
+> The intermediate-deploy class is to be inherited by recipes that
+> install intermediate artifacts which are not present in the filesystem
+> to be further processed by other recipes.
+>
+> The INTERMEDIATE_DEPLOY_DIRS variable is a space separated list of dirnam=
+es
+> from ${D} which include the intermediate artifacts.
+>
+> Change-Id: I314987587c1cf0e4cdb28fbf11463f1feb37504b
+...
+> +        for dir in ${INTERMEDIATE_DEPLOY_DIRS}; do
+> +            dir=3D"${dir%/}"
+> +            dir=3D"${dir#/}"
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.103.bb b/meta/recipes-graphics/drm/libdrm_2.4.104.bb
-similarity index 97%
-rename from meta/recipes-graphics/drm/libdrm_2.4.103.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.104.bb
-index 1028d618ae..90b7150835 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.103.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.104.bb
-@@ -12,7 +12,7 @@ DEPENDS = "libpthread-stubs"
- 
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz"
- 
--SRC_URI[sha256sum] = "3fe0affdba6460166a7323290c18cf68e9b59edcb520722826cb244e9cb50222"
-+SRC_URI[sha256sum] = "d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb"
- 
- inherit meson pkgconfig manpages
- 
--- 
-2.25.1
+Does this work with dash? I believe this is bashism.
 
-
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
