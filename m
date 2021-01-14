@@ -1,84 +1,82 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web12.357.1610625433410096707
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.web09.409.1610625846123519542
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 03:57:14 -0800
+ Thu, 14 Jan 2021 04:04:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=RFYqSGu2;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.177, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f177.google.com with SMTP id a6so3259885qtw.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 03:57:13 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O8Th97Gk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id c5so5497769wrp.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 04:04:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=oVHOpSBFkfCohq9ouFVGxeUTf6VZPVIuuYVvq073oHw=;
-        b=RFYqSGu2TgmAAo//XTodMcyMIPIWlMQMXfT60TIImC8UGQvXnmZqNr2KFHqQYl2wju
-         jhZFepdflkQT63xD7ZZKEpn29l3DvIXBF4zU9QjXiI4Pan0QLO96wnyTrMicQL9w82bo
-         5pYGN03hWaATK9vj9d04eHu6qMO3XF8EBJfQtKkuqptD6qyJkSLqmKbRpTvZvqggnNMy
-         8naFBeTjsIlxUuvNtW1HSy73OLe+H2jtDYRM8utBmnjfsmjpxhgqgXcV7SY3hnk6aRgM
-         y4NMMQXgzuo+gS31VWt1L8TxMSPxO74EzBG2fvAdKc9zdScOpnpo1hAQb5lQyDg30LWS
-         PJ7w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=UkalohFMzy1kRAi2xQkpp20RJqWuT2FttvunWvnNiyE=;
+        b=O8Th97GkrZZeJbUbs0tcS/fnjyMFS2a+jWbWE/RqkVbgD2R0sNHvCGTxmRiO3fTAM3
+         /wEAC4jKt6pnjsESb1VOHgnyXRws+EGNGJjw01s8V3DtzTFZWuuPusNyJrcdnan6kh4N
+         hJY8Q3vMzRcj7K2DLIQbri0MZi2+F1yYsWSIs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=oVHOpSBFkfCohq9ouFVGxeUTf6VZPVIuuYVvq073oHw=;
-        b=OY0WZza/t6dXh8V7e/EuxsETi9uNOuaWOqfUUxBHHRlS6+H8SmSIXlOsjk46KfewxB
-         FHEvRQuMlN0YaanKWp6a4WJQi87iTA1BPj5RFM6T9JTATVx3y/a0w/3Cf+pvAYkTN6Dh
-         Xe+rfFIFkVO+/Y6LmvblKlrnK5DITDZJXV++lY8UD3Hp+PDIEaW78yd8J2z7JYNHlJcH
-         GQlZTm/vbEvzPZ/Gq9VLBMwM9oh7ctCcvZeOgoaMCqVF11q9ChVx+tirADI3nKe8KdD+
-         oOr6bBeZs9A/xYGKKP5J8PhibeWGoKk4umK5HE0eo0vTZiUOfbh+1EPVU6BC8VHoR/eB
-         mDdA==
-X-Gm-Message-State: AOAM530DOM+yfJxqJ0pw3Q2YzzxcaPz+OPeKofFPnQkntvUHsWdRxhoj
-	oGfSsA2shkjuN9NLbcADIhhmnQd+MD7gcFqy
-X-Google-Smtp-Source: ABdhPJzVdYdqZqX9Fap071cRCW0MQHXT3r89xJD+mY1SU8nqoFadTejDvC9qmkM6DuVJL6E2nj3n+A==
-X-Received: by 2002:ac8:4e0a:: with SMTP id c10mr6714418qtw.312.1610625432221;
-        Thu, 14 Jan 2021 03:57:12 -0800 (PST)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
-        by smtp.gmail.com with ESMTPSA id a206sm2821260qkc.30.2021.01.14.03.57.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Jan 2021 03:57:11 -0800 (PST)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f173.google.com with SMTP id c7so7219982qke.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 03:57:10 -0800 (PST)
-X-Received: by 2002:a37:a510:: with SMTP id o16mr6679026qke.383.1610625430293;
- Thu, 14 Jan 2021 03:57:10 -0800 (PST)
-MIME-Version: 1.0
-References: <830757c5aad2db5f7524e7a99f3b97e309592517.1610611154.git.diego.sueiro@arm.com>
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=UkalohFMzy1kRAi2xQkpp20RJqWuT2FttvunWvnNiyE=;
+        b=LcMyW28Gfn8/JuCLNttdrBvSuP96Xx2eai/A7oK94XYycsnvimWfSiklYfCm4TWd4b
+         mTD6PmNZ1up+zyuRCvwnf/SxoZHaoElVsFXl2UvQiFrj0wA+Bn6YOE7FkTnMUj9yKfQZ
+         Mw02yMYqQHE1XJVZ+7MeYU5BW49BD+o+KnClVcUBpGa1BEb7Q2a+0WLMZ72mzUC5uBHq
+         7/rJGPfBZklZDCle7VrHDc/pAz1sUuMfK8+oro+2911Fhdz6Iv+jz79hQEh7oe4iI17H
+         qILqa+vW7AuTytivEoGAxhaJOEExLBbouUYNrI4nu/V7n2Z78Kgu8UOb9lCPUo+WFF7+
+         z8JA==
+X-Gm-Message-State: AOAM532afwGiiqd+f0uEoXm7Dgevykm10Zr5G/AD6HDtC815jYnHLR1G
+	BcQNO7CNe6eZpYKoLv5F4yMG2A==
+X-Google-Smtp-Source: ABdhPJzyKEELV4KdL8BAVZrn2g2T5awNBSJLuIA3Lr+XdZdKogO86m+KmBc7KtFoh7U1FWdNH5EcQQ==
+X-Received: by 2002:adf:a1d5:: with SMTP id v21mr7598546wrv.24.1610625844463;
+        Thu, 14 Jan 2021 04:04:04 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:b0e3:c052:eb93:5c3? ([2001:8b0:aba:5f3c:b0e3:c052:eb93:5c3])
+        by smtp.gmail.com with ESMTPSA id w21sm7618509wmi.45.2021.01.14.04.04.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Jan 2021 04:04:03 -0800 (PST)
+Message-ID: <01f36254e19849396ad43d6eed745b178f2080fd.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] classes: Introduce intermediate-deploy.bbclass
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Diego Sueiro <diego.sueiro@arm.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 14 Jan 2021 12:04:01 +0000
 In-Reply-To: <830757c5aad2db5f7524e7a99f3b97e309592517.1610611154.git.diego.sueiro@arm.com>
-Date: Thu, 14 Jan 2021 08:56:58 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrAHAYfPvF=xjZk1aPPXuwP2_zOcg11U71sKiiR1o6kRw@mail.gmail.com>
-Message-ID: <CAP9ODKrAHAYfPvF=xjZk1aPPXuwP2_zOcg11U71sKiiR1o6kRw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] classes: Introduce intermediate-deploy.bbclass
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
+References: 
+	<830757c5aad2db5f7524e7a99f3b97e309592517.1610611154.git.diego.sueiro@arm.com>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Em qui., 14 de jan. de 2021 =C3=A0s 05:06, Diego Sueiro
-<diego.sueiro@arm.com> escreveu:
->
+On Thu, 2021-01-14 at 08:06 +0000, Diego Sueiro wrote:
 > The intermediate-deploy class is to be inherited by recipes that
 > install intermediate artifacts which are not present in the filesystem
 > to be further processed by other recipes.
->
-> The INTERMEDIATE_DEPLOY_DIRS variable is a space separated list of dirnam=
-es
+> 
+> The INTERMEDIATE_DEPLOY_DIRS variable is a space separated list of dirnames
 > from ${D} which include the intermediate artifacts.
->
+> 
 > Change-Id: I314987587c1cf0e4cdb28fbf11463f1feb37504b
-...
-> +        for dir in ${INTERMEDIATE_DEPLOY_DIRS}; do
-> +            dir=3D"${dir%/}"
-> +            dir=3D"${dir#/}"
+> ---
+>  meta/classes/intermediate-deploy.bbclass | 25 ++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>  create mode 100644 meta/classes/intermediate-deploy.bbclass
 
-Does this work with dash? I believe this is bashism.
+I think I should have been clearer about what I was thinking, sorry.
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+I was wondering about an "intermediate-deploy" directory within the
+existing SYSROOT_DIRS, so the sysroot could contain an "intermediate-
+deploy/boot/" and "intermediate-deploy/firmware".
+
+I'm not particularly liking the name. Maybe "unpackaged/boot" or "non-
+target/boot"? I'm open to ideas.
+
+The idea is to make it really clear these are files which are not part
+of the target rootfs though...
+
+Cheers,
+
+Richard
+
