@@ -1,188 +1,189 @@
-Received: from EUR02-AM5-obe.outbound.protection.outlook.com (EUR02-AM5-obe.outbound.protection.outlook.com [40.107.0.71])
- by mx.groups.io with SMTP id smtpd.web12.823.1610628319337572483
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web11.1024.1610629296097787306
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 04:45:20 -0800
+ Thu, 14 Jan 2021 05:01:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=M36jE9Ed;
- spf=pass (domain: arm.com, ip: 40.107.0.71, mailfrom: diego.sueiro@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZLYQnmyRWx9yv6zmArFU9bWQiS36pysd3RMMsSCnSs4=;
- b=M36jE9Ed6fh9uXhhaKu68BU9K/6Z3JgPwR+F3korxeAeltiitRoHO9ry4kzKsTFInmYi4ChtXTEW9A9ZIq0vfTyCkU+ScA7sizSncoePOtEVzHQauf0dQNraipF7T3S/Yvi1MkzDO3lFDBVYyIxwlpiK4SkOUIceSlLs3VG2aNs=
-Received: from DU2PR04CA0015.eurprd04.prod.outlook.com (2603:10a6:10:3b::20)
- by PA4PR08MB6032.eurprd08.prod.outlook.com (2603:10a6:102:e4::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Thu, 14 Jan
- 2021 12:45:16 +0000
-Received: from DB5EUR03FT009.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:3b:cafe::fa) by DU2PR04CA0015.outlook.office365.com
- (2603:10a6:10:3b::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10 via Frontend
- Transport; Thu, 14 Jan 2021 12:45:16 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.openembedded.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.openembedded.org; dmarc=pass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT009.mail.protection.outlook.com (10.152.20.117) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3742.6 via Frontend Transport; Thu, 14 Jan 2021 12:45:16 +0000
-Received: ("Tessian outbound 28c96a6c9d2e:v71"); Thu, 14 Jan 2021 12:45:16 +0000
-X-CR-MTA-TID: 64aa7808
-Received: from a97262b72c9b.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 66974F3F-17CE-4F90-B909-92C3DA495CBB.1;
-	Thu, 14 Jan 2021 12:45:11 +0000
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a97262b72c9b.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 14 Jan 2021 12:45:11 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZRss1BO35YX24CcdOFt2d/fmmukGGPjAS3YxwOw2i0yvPoqwOwR5ZbAplwHqM600SRot9yFErbUKpqhAz7WIj967YKNV/voJbU50N5rV27JGDE/ymQ1S5BeNBdKwGVzan3B2FwRtq6cQ4zwGIIfSaBOJ/71VsWgeyvD237I0NKaVz9UnhH5+aWzJ09zymeZggr+KHXbcELHQ7+t3SIAz5Hw/kESh7IiHbnaLMqQL6RqMENDArw5wraRqADmGkx9+AHg9RGP7PdGCyP492tNd6D1UEK5JaeQajvgwa+ZkYwqv3mt4fXBAeuAad4flpi0VN8hCMqJGQkJAiYf16Ls07w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZLYQnmyRWx9yv6zmArFU9bWQiS36pysd3RMMsSCnSs4=;
- b=gUqyAYCgEP5FKAWx/TYk/HOF6JPd1Slneod9hFpRXFWkRfXr47E65jU55MnOnoZxw/+wXss5B+XX3oqdUoOj45Mmxrt/Ziwo6R/KrvxLk0mvHsWLLEx/cWtybtewWouquKwTLMzI147QmTNeyeK5ihxoB/jtnA6BkIeGzHCiwUpKBnKuBRHvPBinmw0G8MzB+Ntq22nf0YKaX3apU5Ooy9M5Hl8pTq1yMaKGu8PpZfEKyVbtFp6gwaqNpQNcKVHlFjryllnxfh7DZsQkPh1tLuHQfDHuouwK8Z2iLMsW+bGg+mdekcL09ESGRV18bvPd5xmU5oyniDQfR8vm5FHbXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZLYQnmyRWx9yv6zmArFU9bWQiS36pysd3RMMsSCnSs4=;
- b=M36jE9Ed6fh9uXhhaKu68BU9K/6Z3JgPwR+F3korxeAeltiitRoHO9ry4kzKsTFInmYi4ChtXTEW9A9ZIq0vfTyCkU+ScA7sizSncoePOtEVzHQauf0dQNraipF7T3S/Yvi1MkzDO3lFDBVYyIxwlpiK4SkOUIceSlLs3VG2aNs=
-Received: from AM6PR08MB3461.eurprd08.prod.outlook.com (2603:10a6:20b:47::28)
- by AS8PR08MB6535.eurprd08.prod.outlook.com (2603:10a6:20b:336::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Thu, 14 Jan
- 2021 12:45:10 +0000
-Received: from AM6PR08MB3461.eurprd08.prod.outlook.com
- ([fe80::f500:d160:ee9e:f578]) by AM6PR08MB3461.eurprd08.prod.outlook.com
- ([fe80::f500:d160:ee9e:f578%4]) with mapi id 15.20.3763.011; Thu, 14 Jan 2021
- 12:45:10 +0000
-From: "Diego Sueiro" <diego.sueiro@arm.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, "Purdie, Richard"
-	<richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] classes: Introduce intermediate-deploy.bbclass
-Thread-Topic: [OE-core] [PATCH 1/2] classes: Introduce
- intermediate-deploy.bbclass
-Thread-Index: AQHW6kwiRO4QiKORbUO6hCOIylydsaonBCAAgAANMdA=
-Date: Thu, 14 Jan 2021 12:45:09 +0000
-Message-ID: 
- <AM6PR08MB3461999C01D85C12EECF933192A80@AM6PR08MB3461.eurprd08.prod.outlook.com>
-References: 
- <830757c5aad2db5f7524e7a99f3b97e309592517.1610611154.git.diego.sueiro@arm.com>
- <CAP9ODKrAHAYfPvF=xjZk1aPPXuwP2_zOcg11U71sKiiR1o6kRw@mail.gmail.com>
-In-Reply-To: 
- <CAP9ODKrAHAYfPvF=xjZk1aPPXuwP2_zOcg11U71sKiiR1o6kRw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ts-tracking-id: F376E79EA791C8479FBF513263A4ACFA.0
-x-checkrecipientchecked: true
-Authentication-Results-Original: ossystems.com.br; dkim=none (message not
- signed) header.d=none;ossystems.com.br; dmarc=none action=none
- header.from=arm.com;
-x-originating-ip: [217.140.99.251]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 07f698e5-78be-4b62-4fe1-08d8b88a3e61
-x-ms-traffictypediagnostic: AS8PR08MB6535:|PA4PR08MB6032:
-X-Microsoft-Antispam-PRVS: 
-	<PA4PR08MB603278FBF3C0036B77DA05E592A80@PA4PR08MB6032.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:8882;OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- rYX2DDgW32p4HBXoWrcL3bNqLZlKzuhTHq1TZOtwMrWnybWEyMoP0FR9GVm3xor7+ANBmpENTnbiDqDcUcpHxcqlFcUkpZdiC5qK33NII6+otYuWAUoHuDnxCKG7b6YbnocrUxPiFg/EEM9bd/dx6qMqqpY6durlQW75b13nLielowZBegSgnRL6keBpbCbrbp6VgpnFDIxQpb+0WqjZcpUzortQr2/mFHLa26nRXH3ILdGUJEDqZqdqrXfrxE7e6V1dJhC/HBL+Y+9ut6LiBiwwY3oUmzm2JSWTas5pQB1yOv0sLG2Iw6/0Qb0elVBBaLul0gosbicjYQ6mD9ZAdhjk5fWDtXQ8jF5vZjBhcjo/FgMEw6EYePTqe0vzqdyo1MXSDmwDVHx/qmK1gboMdw==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3461.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(366004)(39860400002)(136003)(346002)(2906002)(316002)(8936002)(52536014)(33656002)(86362001)(26005)(71200400001)(4326008)(6916009)(54906003)(186003)(5660300002)(66476007)(55016002)(66556008)(66946007)(9686003)(8676002)(7696005)(64756008)(478600001)(6506007)(66446008)(76116006)(83380400001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- =?utf-8?B?eUQwVkdjNURNLzl0ZlNkY2R6YkxtR2RXWFY1S25SOC8vTEw2UnR3dDNqa3hH?=
- =?utf-8?B?V2Z6TzkzaUNBNDBTL1YyVWhWdG0rOGU2VWJKNExFU3VHY25sNENyTVRON2dY?=
- =?utf-8?B?YzVHcXZZQStrVzR3OFNGRkdVOUdxRC8zcTRicW1qYVM2Rm1COHcvTGpOV3BD?=
- =?utf-8?B?NDdGWEpkL01rQ1hza3pJcDRNSUw0cHVxSFI2ZnhFeEZkQTFrckwwY09IVmZW?=
- =?utf-8?B?MjV6Rk56dDhSTjNDbWtoWXlwUFFWUEtVU2xWaWNJYS9hQngxU29vYUFtdjB0?=
- =?utf-8?B?QTBsclQzNWJsOERrSXNIckZtbFBpVHg4Z1dCZHJUTzQxSktzMzVJRVBjeVdH?=
- =?utf-8?B?UENQRFhIZzlFWFJoalYveWw5Y1Awc3FXWStjL3llODFndUZ3U2d2MUk0azNu?=
- =?utf-8?B?eVNuSWxQQlpLcFBmQjY2QTQ3ZDkrT0RsWGhoREJjWmNHRTFlZFZhdDA2TUx6?=
- =?utf-8?B?V1dCVGtqMzJhd0wzNUVkVFE3amtROEZQTWE0THVGQUVxdFUxb1hTbzlMam5o?=
- =?utf-8?B?NlhLaU5sWWhJTFZGQnFVdnRud1k1ZjI5VCtWTXBnWU9ZNE5SV1V1aGJ3VmVP?=
- =?utf-8?B?eTRkYjJmemtyNFFqMkg4TElReDlNMTRSVitpSDFHd00wWEg5RVh0QnhCU1lL?=
- =?utf-8?B?LzRXVEVxdHBITUl0TS9EK3hKN1M5KzBMYTdtdWpYNGNuRXdjelhKT3VTTDBU?=
- =?utf-8?B?Z1hYeWp1MEdPRng4S2VtWkVROGpzMGEzTkVzNHBxc3JyTEJRT0wyWm9UczFC?=
- =?utf-8?B?R2lKNTRjQXpIWnU5TVYwNkFNYW1EMkQxSUNqSkJFdHhsVHBxV2RYY0pxUThD?=
- =?utf-8?B?SlEvTFRwdjRyWUxGUWxoTkhQRTFReGVPbVAzelFKR25YRlFaSFhQb1VQWFZM?=
- =?utf-8?B?SDVLSnBma2pINE1VWFVUMkNKMm1heWlDR0FpUWJCZnBuKzZBZXFLdFBxTkFF?=
- =?utf-8?B?Rm4vWC9mMVd3Y3JKVGpGUE0wTGVkMW44dWdkdjNsQTJwM3JzYzU4d0hySUd6?=
- =?utf-8?B?Z0R4dU1sTUJRb2lpQUh3c3o0UW8vbEpMTzhhcVpueTIwV0czdmovOHNHWVp4?=
- =?utf-8?B?aVZ3Q1ZUd3I2eDNRdGZiSzJVbnQxdTJRL0tnTXhIT204VFZ4Unh0Tk5mSE9o?=
- =?utf-8?B?azRabE1WTUFLMWpGcTlZZ3FXYzVzN0tlaFZaSkU4RkVPc3gvamdlR3ZRYnJ4?=
- =?utf-8?B?OW1Ub0JTYnZTc1hyZktCaXcvVE16amlyMEZnT3dQS1pIT2Z0Q1RubGFneC9M?=
- =?utf-8?B?SU5vTXc0clcwK1kvY2JRK2laVittSHBOSTNoWlhGUlBKOWlTM2hRUHltcjY5?=
- =?utf-8?Q?THmmRhnL7Jpaw=3D?=
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6535
-Original-Authentication-Results: ossystems.com.br; dkim=none (message not signed)
- header.d=none;ossystems.com.br; dmarc=none action=none header.from=arm.com;
-Return-Path: Diego.Sueiro@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	bbdaddd6-8407-4110-cc49-08d8b88a3a92
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	niNYZa3LKJfzg3ddhViMyltsB0IhPkf9C4Qbuu44eFMxN2w0QvTDBfkENsuqdeS4yU8VXsElVBuKl5OdSfJbyePoRD/gbZ/93pwr8KrIZJJnc5RPiGmrllanLzVefc4mugERJJF4CBjTnm+u4YcmwhW4n30SbBruhnYEMlpFn9AFjvvMs33HaxOw+7TkpWhkIa+RgtkWTtqaLov8w5WMygQ2yd7hFrALwNT7AUgPf8tX6gQMF6dNZB4gJMNQ+lcoHFJWoeujJ49kVlz/LuCqIIAgREE8ZIQqcUsZrftXyIj8HknoU2aVAanhOtUHZN+jT+4i/G1QYsiJDDgfidHf4Zwxp0v0x8u6v8VW3WRVGt/mRmFoYU3hE4jpzHlaS/xHSodit5YNKUnDF32svJC3l8I8RDnDMVH+E35D6iISlG7FUMp8+6hG55DbyfVCIvCi5uCDPGTffROWYhAqGl8dQZjLbji+1kjNqS3nZZtwrgXb8q8OVOWd+kXPR/LiR1tJ
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(46966006)(33656002)(47076005)(2906002)(8676002)(316002)(70586007)(336012)(26005)(478600001)(52536014)(81166007)(356005)(107886003)(82310400003)(55016002)(7696005)(6506007)(70206006)(186003)(82740400003)(8936002)(34020700004)(9686003)(6862004)(4326008)(5660300002)(54906003)(86362001)(83380400001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jan 2021 12:45:16.4427
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 07f698e5-78be-4b62-4fe1-08d8b88a3e61
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT009.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR08MB6032
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=i1cLcwE7;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from anbelski-lsg-linux-yocto-1.irsgb21fvobu5fvmalxug44hib.xx.internal.cloudapp.net (unknown [52.247.218.173])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5C06B20B6C40;
+	Thu, 14 Jan 2021 05:01:35 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5C06B20B6C40
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1610629295;
+	bh=qLcOzj/mgcRx4v0nYyI1xJJb3CEJlhrLNwR8h6b9ZJI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=i1cLcwE7gOBP+176lxUIIO+l4Ru1JOlpLovHJS9lGpkVjBsTzBN1QHIdN1w9IJchI
+	 +ZK8+G1Zj7EMeTDvZfwMdEipUr92HA3boViwhF9eqXg/grnkugd0om1MnkbyjRcFqw
+	 69TOG4wGMbakPcWRrv8wSrZ2Tl9dXR2wtWUjA8e0=
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sinan Kaya <okaya@kernel.org>
+Subject: [PATCH] appliance: Add vhd & vhdx support
+Date: Thu, 14 Jan 2021 13:01:23 +0000
+Message-Id: <20210114130123.20507-1-anbelski@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogT3RhdmlvIFNhbHZhZG9yIDxvdGF2
-aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4NCj5TZW50OiAxNCBKYW51YXJ5IDIwMjEgMTE6
-NTcNCj5UbzogRGllZ28gU3VlaXJvIDxEaWVnby5TdWVpcm9AYXJtLmNvbT4NCj5DYzogUGF0Y2hl
-cyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC0N
-Cj5jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBQdXJkaWUsIFJpY2hhcmQNCj48cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj5TdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
-QVRDSCAxLzJdIGNsYXNzZXM6IEludHJvZHVjZSBpbnRlcm1lZGlhdGUtDQo+ZGVwbG95LmJiY2xh
-c3MNCj4NCj5FbSBxdWkuLCAxNCBkZSBqYW4uIGRlIDIwMjEgw6BzIDA1OjA2LCBEaWVnbyBTdWVp
-cm8gPGRpZWdvLnN1ZWlyb0Bhcm0uY29tPg0KPmVzY3JldmV1Og0KPj4NCj4+IFRoZSBpbnRlcm1l
-ZGlhdGUtZGVwbG95IGNsYXNzIGlzIHRvIGJlIGluaGVyaXRlZCBieSByZWNpcGVzIHRoYXQNCj4+
-IGluc3RhbGwgaW50ZXJtZWRpYXRlIGFydGlmYWN0cyB3aGljaCBhcmUgbm90IHByZXNlbnQgaW4g
-dGhlIGZpbGVzeXN0ZW0NCj4+IHRvIGJlIGZ1cnRoZXIgcHJvY2Vzc2VkIGJ5IG90aGVyIHJlY2lw
-ZXMuDQo+Pg0KPj4gVGhlIElOVEVSTUVESUFURV9ERVBMT1lfRElSUyB2YXJpYWJsZSBpcyBhIHNw
-YWNlIHNlcGFyYXRlZCBsaXN0IG9mDQo+PiBkaXJuYW1lcyBmcm9tICR7RH0gd2hpY2ggaW5jbHVk
-ZSB0aGUgaW50ZXJtZWRpYXRlIGFydGlmYWN0cy4NCj4+DQo+PiBDaGFuZ2UtSWQ6IEkzMTQ5ODc1
-ODdjMWNmMGU0Y2RiMjhmYmYxMTQ2M2YxZmViMzc1MDRiDQo+Li4uDQo+PiArICAgICAgICBmb3Ig
-ZGlyIGluICR7SU5URVJNRURJQVRFX0RFUExPWV9ESVJTfTsgZG8NCj4+ICsgICAgICAgICAgICBk
-aXI9IiR7ZGlyJS99Ig0KPj4gKyAgICAgICAgICAgIGRpcj0iJHtkaXIjL30iDQo+DQo+RG9lcyB0
-aGlzIHdvcmsgd2l0aCBkYXNoPyBJIGJlbGlldmUgdGhpcyBpcyBiYXNoaXNtLg0KPg0KDQpJIHRo
-aW5rIHNvIHNpbmNlIG9uIG15IGhvc3QgSSBoYXZlICIvYmluL3NoIC0+IGRhc2giLg0KSU1QT1JU
-QU5UIE5PVElDRTogVGhlIGNvbnRlbnRzIG9mIHRoaXMgZW1haWwgYW5kIGFueSBhdHRhY2htZW50
-cyBhcmUgY29uZmlkZW50aWFsIGFuZCBtYXkgYWxzbyBiZSBwcml2aWxlZ2VkLiBJZiB5b3UgYXJl
-IG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50LCBwbGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXIgaW1t
-ZWRpYXRlbHkgYW5kIGRvIG5vdCBkaXNjbG9zZSB0aGUgY29udGVudHMgdG8gYW55IG90aGVyIHBl
-cnNvbiwgdXNlIGl0IGZvciBhbnkgcHVycG9zZSwgb3Igc3RvcmUgb3IgY29weSB0aGUgaW5mb3Jt
-YXRpb24gaW4gYW55IG1lZGl1bS4gVGhhbmsgeW91Lg0K
+From: Sinan Kaya <okaya@kernel.org>
+
+This patch brings support for generating VHD/VHDX from WIC. It touches
+different areas but it needs to be applied at once for all the parts to
+concert. The patch could be split, if needed, otherwise considering
+OE-Core as target.
+
+Signed-off-by: Sinan Kaya <okaya@kernel.org>
+Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+---
+ bitbake/lib/toaster/orm/models.py                  |  4 ++--
+ meta/classes/image-live.bbclass                    |  2 +-
+ meta/classes/image_types.bbclass                   | 14 ++++++++++++--
+ .../images/build-appliance-image_15.0.0.bb         |  4 +++-
+ scripts/runqemu                                    |  8 +++++---
+ 5 files changed, 23 insertions(+), 9 deletions(-)
+
+diff --git a/bitbake/lib/toaster/orm/models.py b/bitbake/lib/toaster/orm/models.py
+index 7f7e922ade..49dc7dae36 100644
+--- a/bitbake/lib/toaster/orm/models.py
++++ b/bitbake/lib/toaster/orm/models.py
+@@ -583,7 +583,7 @@ class Build(models.Model):
+         note that this is the actual list of extensions stored on Target objects
+         for this build, and not the value of IMAGE_FSTYPES.
+ 
+-        Returns comma-separated string, e.g. "vmdk, ext4"
++        Returns comma-separated string, e.g. "vmdk, vhd, vhdx, ext4"
+         """
+         extensions = []
+ 
+@@ -970,7 +970,7 @@ class Target_Image_File(models.Model):
+         'ext3', 'ext3.gz', 'ext4', 'ext4.gz', 'f2fs', 'hddimg', 'iso', 'jffs2',
+         'jffs2.sum', 'multiubi', 'squashfs', 'squashfs-lz4', 'squashfs-lzo',
+         'squashfs-xz', 'tar', 'tar.bz2', 'tar.gz', 'tar.lz4', 'tar.xz', 'ubi',
+-        'ubifs', 'wic', 'wic.bz2', 'wic.gz', 'wic.lzma'
++        'ubifs', "vhd", 'vhdx', 'wic', 'wic.bz2', 'wic.gz', 'wic.lzma'
+     }
+ 
+     target = models.ForeignKey(Target, on_delete=models.CASCADE)
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index 9ea5ddc312..1b2183eadd 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -234,7 +234,7 @@ build_hddimg() {
+ 				bberror "${HDDDIR}/rootfs.img rootfs size is greather than or equal to 4GB,"
+ 				bberror "and this doesn't work on a FAT filesystem. You can either:"
+ 				bberror "1) Reduce the size of rootfs.img, or,"
+-				bbfatal "2) Use wic, vmdk or vdi instead of hddimg\n"
++				bbfatal "2) Use wic, vmdk,vhd, vhdx or vdi instead of hddimg\n"
+ 			fi
+ 		fi
+ 
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 286009057e..0586c040bc 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -269,7 +269,7 @@ IMAGE_TYPES = " \
+ # CONVERSION_CMD/DEPENDS.
+ COMPRESSIONTYPES ?= ""
+ 
+-CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
++CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 ${COMPRESSIONTYPES}"
+ CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+ CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+@@ -288,6 +288,8 @@ CONVERSION_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+ CONVERSION_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
+ CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
+ CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
++CONVERSION_CMD_vhdx = "qemu-img convert -O vhdx -o subformat=dynamic ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhdx"
++CONVERSION_CMD_vhd = "qemu-img convert -O vpc -o subformat=fixed ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhd"
+ CONVERSION_CMD_vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
+ CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
+ CONVERSION_CMD_base64 = "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
+@@ -303,9 +305,17 @@ CONVERSION_DEPENDS_sum = "mtd-utils-native"
+ CONVERSION_DEPENDS_bmap = "bmap-tools-native"
+ CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
+ CONVERSION_DEPENDS_vmdk = "qemu-system-native"
++CONVERSION_DEPENDS_vhdx = "qemu-native"
++CONVERSION_DEPENDS_vhd = "qemu-native"
+ CONVERSION_DEPENDS_vdi = "qemu-system-native"
+ CONVERSION_DEPENDS_qcow2 = "qemu-system-native"
+ CONVERSION_DEPENDS_base64 = "coreutils-native"
++CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
++CONVERSION_DEPENDS_vmdk = "qemu-native"
++CONVERSION_DEPENDS_vhdx = "qemu-native"
++CONVERSION_DEPENDS_vhd = "qemu-native"
++CONVERSION_DEPENDS_vdi = "qemu-native"
++CONVERSION_DEPENDS_qcow2 = "qemu-native"
+ 
+ RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+ RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+@@ -313,7 +323,7 @@ RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso" 
+ 
+ # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+-# images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hddimg, iso, etc.
++# images that will not be built at do_rootfs time: vmdk, vhd, vhdx, vdi, qcow2, hddimg, iso, etc.
+ IMAGE_TYPES_MASKED ?= ""
+ 
+ # bmap requires python3 to be in the PATH
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index 8b95026218..c5c9d385ef 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -20,7 +20,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+ APPEND += "rootfstype=ext4 quiet"
+ 
+ DEPENDS = "zip-native python3-pip-native"
+-IMAGE_FSTYPES = "wic.vmdk"
++IMAGE_FSTYPES = "wic.vmdk wic.vhd wic.vhdx"
+ 
+ inherit core-image module-base setuptools3
+ 
+@@ -129,6 +129,8 @@ create_bundle_files () {
+ 	mkdir -p Yocto_Build_Appliance
+ 	cp *.vmx* Yocto_Build_Appliance
+ 	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
++	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vhdx Yocto_Build_Appliance/Yocto_Build_Appliance.vhdx
++	ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vhd Yocto_Build_Appliance/Yocto_Build_Appliance.vhd
+ 	zip -r ${IMGDEPLOYDIR}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
+ 	ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${IMGDEPLOYDIR}/Yocto_Build_Appliance.zip
+ }
+diff --git a/scripts/runqemu b/scripts/runqemu
+index e5e66f3453..dd92a64553 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -94,11 +94,13 @@ Examples:
+   runqemu qemux86-64 core-image-sato ext4
+   runqemu qemux86-64 wic-image-minimal wic
+   runqemu path/to/bzImage-qemux86.bin path/to/nfsrootdir/ serial
+-  runqemu qemux86 iso/hddimg/wic.vmdk/wic.qcow2/wic.vdi/ramfs/cpio.gz...
++  runqemu qemux86 iso/hddimg/wic.vmdk/wic.vhd/wic.vhdx/wic.qcow2/wic.vdi/ramfs/cpio.gz...
+   runqemu qemux86 qemuparams="-m 256"
+   runqemu qemux86 bootparams="psplash=false"
+   runqemu path/to/<image>-<machine>.wic
+   runqemu path/to/<image>-<machine>.wic.vmdk
++  runqemu path/to/<image>-<machine>.wic.vhdx
++  runqemu path/to/<image>-<machine>.wic.vhd
+ """)
+ 
+ def check_tun():
+@@ -179,7 +181,7 @@ class BaseConfig(object):
+         self.portlocks = {}
+         self.bitbake_e = ''
+         self.snapshot = False
+-        self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi')
++        self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "wic.vhd", "wic.vhdx")
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
+                         'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz')
+         self.vmtypes = ('hddimg', 'iso')
+@@ -1203,7 +1205,7 @@ class BaseConfig(object):
+             return
+         if 'wic.' in self.fstype:
+             self.fstype = self.fstype[4:]
+-        rootfs_format = self.fstype if self.fstype in ('vmdk', 'qcow2', 'vdi') else 'raw'
++        rootfs_format = self.fstype if self.fstype in ('vmdk', 'vhd', 'vhdx', 'qcow2', 'vdi') else 'raw'
+ 
+         qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
+         if qb_rootfs_opt:
+-- 
+2.17.1
+
