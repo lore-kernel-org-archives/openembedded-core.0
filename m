@@ -1,208 +1,190 @@
 Received: from mga18.intel.com (mga18.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.3701.1610640599644781266
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 08:10:08 -0800
+ Thu, 14 Jan 2021 08:10:10 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: F7Rq601nquwfzM34QKvu8CFdhTrW0g+Yw0gfu5hHlS8i5ddESZdKFRL8WZ1s6XcTCzlVSI/0Nc
- Uji2qP1HJhjQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062681"
+IronPort-SDR: 4ljQHEyHQt+UhZZcscGGdbnQM5Gdt3Mdxi6UT6soOCfa82xyrVZP3HUHFN0/2kCe1yOQRXcjsw
+ W0VbIm6TMVrw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062693"
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="166062681"
+   d="scan'208";a="166062693"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:08 -0800
-IronPort-SDR: nPvfu1hnpBDNa+9Xbw9SyQg57j0NQokIBAd8tlvafYTupfckTnOSaZiuZdd2vgljY3OMyRa8M5
- uza9jGV0OnAA==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:10 -0800
+IronPort-SDR: VvAnAD+WZ8ZdSal3PtnA8Wxo1Uinj0UtYOJInZBo7zKMSniNKIsy9LF7LI+GHbilFxQxldPdhj
+ FQLhvlkBWTCQ==
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="424986627"
+   d="scan'208";a="424986649"
 Received: from ykoh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.50])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:07 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:08 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 10/14] glibc: CVE-2019-25013
-Date: Fri, 15 Jan 2021 00:09:44 +0800
-Message-Id: <b067f78a116b9c6cd75bdffe568a1f801f7ed9a2.1610639458.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 11/14] ffmpeg: Fix CVE-2020-35964, CVE-2020-35965
+Date: Fri, 15 Jan 2021 00:09:45 +0800
+Message-Id: <efe5a17b8ffca9f8a0f4d4b75cd3383f2491017d.1610639458.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610639458.git.anuj.mittal@intel.com>
 References: <cover.1610639458.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Scott Murray <scott.murray@konsulko.com>
+From: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 
-* CVE detail: https://nvd.nist.gov/vuln/detail/CVE-2019-25013
+Backport the CVE patches from upstream:
+https://github.com/FFmpeg/FFmpeg/commit/27a99e2c7d450fef15594671eef4465c8a166bd7
+https://github.com/FFmpeg/FFmpeg/commit/3e5959b3457f7f1856d997261e6ac672bba49e8b
 
-* upstream tracking: https://sourceware.org/bugzilla/show_bug.cgi?id=24973
+CVE:
+CVE-2020-35964
+CVE-2020-35965
 
-* patch from upstream:
-    https://sourceware.org/git/?p=glibc.git;a=patch;
-    h=ee7a3144c9922808181009b7b3e50e852fb4999b
-
-Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 53d149df4d8832e34ace2470c31ddc688176faf7)
+(cherry picked from commit 526ee4ca2c493de1ac494b69e5ce9a9e55835c3a)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../glibc/glibc/CVE-2019-25013.patch          | 137 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.32.bb         |   1 +
- 2 files changed, 138 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+ .../ffmpeg/ffmpeg/CVE-2020-35964.patch        | 75 +++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2020-35965.patch        | 35 +++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |  2 +
+ 3 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch b/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
 new file mode 100644
-index 0000000000..987e959db2
+index 0000000000..6b96bd674f
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
-@@ -0,0 +1,137 @@
-+From ee7a3144c9922808181009b7b3e50e852fb4999b Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@suse.de>
-+Date: Mon, 21 Dec 2020 08:56:43 +0530
-+Subject: [PATCH] Fix buffer overrun in EUC-KR conversion module (bz #24973)
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
+@@ -0,0 +1,75 @@
++From 27a99e2c7d450fef15594671eef4465c8a166bd7 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Wed, 28 Oct 2020 20:11:54 +0100
++Subject: [PATCH] avformat/vividas: improve extradata packing checks in
++ track_header()
 +
-+The byte 0xfe as input to the EUC-KR conversion denotes a user-defined
-+area and is not allowed.  The from_euc_kr function used to skip two bytes
-+when told to skip over the unknown designation, potentially running over
-+the buffer end.
++Fixes: out of array accesses
++Fixes: 26622/clusterfuzz-testcase-minimized-ffmpeg_dem_VIVIDAS_fuzzer-6581200338288640
 +
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=ee7a3144c9922808181009b7b3e50e852fb4999b]
-+CVE: CVE-2019-25013
-+Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++Found-by: continuous fuzzing process https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/27a99e2c7d450fef15594671eef4465c8a166bd7]
++
++CVE: CVE-2020-35964
++
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
 +---
-+ iconvdata/Makefile      |  3 ++-
-+ iconvdata/bug-iconv13.c | 53 +++++++++++++++++++++++++++++++++++++++++
-+ iconvdata/euc-kr.c      |  6 +----
-+ iconvdata/ksc5601.h     |  6 ++---
-+ 4 files changed, 59 insertions(+), 9 deletions(-)
-+ create mode 100644 iconvdata/bug-iconv13.c
++ libavformat/vividas.c | 12 ++++++------
++ 1 file changed, 6 insertions(+), 6 deletions(-)
 +
-+diff --git a/iconvdata/Makefile b/iconvdata/Makefile
-+index 4ec2741cdc..85009f3390 100644
-+--- a/iconvdata/Makefile
-++++ b/iconvdata/Makefile
-+@@ -73,7 +73,8 @@ modules.so := $(addsuffix .so, $(modules))
-+ ifeq (yes,$(build-shared))
-+ tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
-+ 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
-+-	bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4
-++	bug-iconv10 bug-iconv11 bug-iconv12 tst-iconv-big5-hkscs-to-2ucs4 \
-++	bug-iconv13
-+ ifeq ($(have-thread-library),yes)
-+ tests += bug-iconv3
-+ endif
-+diff --git a/iconvdata/bug-iconv13.c b/iconvdata/bug-iconv13.c
-+new file mode 100644
-+index 0000000000..87aaff398e
-+--- /dev/null
-++++ b/iconvdata/bug-iconv13.c
-+@@ -0,0 +1,53 @@
-++/* bug 24973: Test EUC-KR module
-++   Copyright (C) 2020 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <errno.h>
-++#include <iconv.h>
-++#include <stdio.h>
-++#include <support/check.h>
-++
-++static int
-++do_test (void)
-++{
-++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "EUC-KR");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++
-++  /* 0xfe (->0x7e : row 94) and 0xc9 (->0x49 : row 41) are user-defined
-++     areas, which are not allowed and should be skipped over due to
-++     //IGNORE.  The trailing 0xfe also is an incomplete sequence, which
-++     should be checked first.  */
-++  char input[4] = { '\xc9', '\xa1', '\0', '\xfe' };
-++  char *inptr = input;
-++  size_t insize = sizeof (input);
-++  char output[4];
-++  char *outptr = output;
-++  size_t outsize = sizeof (output);
-++
-++  /* This used to crash due to buffer overrun.  */
-++  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == (size_t) -1);
-++  TEST_VERIFY (errno == EINVAL);
-++  /* The conversion should produce one character, the converted null
-++     character.  */
-++  TEST_VERIFY (sizeof (output) - outsize == 1);
-++
-++  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/iconvdata/euc-kr.c b/iconvdata/euc-kr.c
-+index b0d56cf3ee..1045bae926 100644
-+--- a/iconvdata/euc-kr.c
-++++ b/iconvdata/euc-kr.c
-+@@ -80,11 +80,7 @@ euckr_from_ucs4 (uint32_t ch, unsigned char *cp)
-+ 									      \
-+     if (ch <= 0x9f)							      \
-+       ++inptr;								      \
-+-    /* 0xfe(->0x7e : row 94) and 0xc9(->0x59 : row 41) are		      \
-+-       user-defined areas.  */						      \
-+-    else if (__builtin_expect (ch == 0xa0, 0)				      \
-+-	     || __builtin_expect (ch > 0xfe, 0)				      \
-+-	     || __builtin_expect (ch == 0xc9, 0))			      \
-++    else if (__glibc_unlikely (ch == 0xa0))				      \
-+       {									      \
-+ 	/* This is illegal.  */						      \
-+ 	STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
-+diff --git a/iconvdata/ksc5601.h b/iconvdata/ksc5601.h
-+index d3eb3a4ff8..f5cdc72797 100644
-+--- a/iconvdata/ksc5601.h
-++++ b/iconvdata/ksc5601.h
-+@@ -50,15 +50,15 @@ ksc5601_to_ucs4 (const unsigned char **s, size_t avail, unsigned char offset)
-+   unsigned char ch2;
-+   int idx;
++diff --git a/libavformat/vividas.c b/libavformat/vividas.c
++index 83d0ed116787..46c66bf9a0ae 100644
++--- a/libavformat/vividas.c
+++++ b/libavformat/vividas.c
++@@ -28,6 +28,7 @@
++  * @sa http://wiki.multimedia.cx/index.php?title=Vividas_VIV
++  */
 + 
-++  if (avail < 2)
-++    return 0;
-++
-+   /* row 94(0x7e) and row 41(0x49) are user-defined area in KS C 5601 */
+++#include "libavutil/avassert.h"
++ #include "libavutil/intreadwrite.h"
++ #include "avio_internal.h"
++ #include "avformat.h"
++@@ -379,7 +380,7 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
 + 
-+   if (ch < offset || (ch - offset) <= 0x20 || (ch - offset) >= 0x7e
-+       || (ch - offset) == 0x49)
-+     return __UNKNOWN_10646_CHAR;
++         if (avio_tell(pb) < off) {
++             int num_data;
++-            int xd_size = 0;
+++            int xd_size = 1;
++             int data_len[256];
++             int offset = 1;
++             uint8_t *p;
++@@ -393,10 +394,10 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
++                     return AVERROR_INVALIDDATA;
++                 }
++                 data_len[j] = len;
++-                xd_size += len;
+++                xd_size += len + 1 + len/255;
++             }
 + 
-+-  if (avail < 2)
-+-    return 0;
-+-
-+   ch2 = (*s)[1];
-+   if (ch2 < offset || (ch2 - offset) <= 0x20 || (ch2 - offset) >= 0x7f)
-+     return __UNKNOWN_10646_CHAR;
-+-- 
-+2.27.0
++-            ret = ff_alloc_extradata(st->codecpar, 64 + xd_size + xd_size / 255);
+++            ret = ff_alloc_extradata(st->codecpar, xd_size);
++             if (ret < 0)
++                 return ret;
++ 
++@@ -405,9 +406,7 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
++ 
++             for (j = 0; j < num_data - 1; j++) {
++                 unsigned delta = av_xiphlacing(&p[offset], data_len[j]);
++-                if (delta > data_len[j]) {
++-                    return AVERROR_INVALIDDATA;
++-                }
+++                av_assert0(delta <= xd_size - offset);
++                 offset += delta;
++             }
++ 
++@@ -418,6 +417,7 @@ static int track_header(VividasDemuxContext *viv, AVFormatContext *s,  uint8_t *
++                     av_freep(&st->codecpar->extradata);
++                     break;
++                 }
+++                av_assert0(data_len[j] <= xd_size - offset);
++                 offset += data_len[j];
++             }
++ 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
+new file mode 100644
+index 0000000000..ddab8e9aca
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
+@@ -0,0 +1,35 @@
++From 3e5959b3457f7f1856d997261e6ac672bba49e8b Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sat, 24 Oct 2020 22:21:48 +0200
++Subject: [PATCH] avcodec/exr: Check ymin vs. h
 +
-diff --git a/meta/recipes-core/glibc/glibc_2.32.bb b/meta/recipes-core/glibc/glibc_2.32.bb
-index b850c28c78..d43c8c56cb 100644
---- a/meta/recipes-core/glibc/glibc_2.32.bb
-+++ b/meta/recipes-core/glibc/glibc_2.32.bb
-@@ -46,6 +46,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0031-linux-Allow-adjtime-with-NULL-argument-BZ-26833.patch \
-            file://CVE-2020-29562.patch \
-            file://CVE-2020-29573.patch \
-+           file://CVE-2019-25013.patch \
++Fixes: out of array access
++Fixes: 26532/clusterfuzz-testcase-minimized-ffmpeg_AV_CODEC_ID_EXR_fuzzer-5613925708857344
++Fixes: 27443/clusterfuzz-testcase-minimized-ffmpeg_AV_CODEC_ID_EXR_fuzzer-5631239813595136
++
++Found-by: continuous fuzzing process https://github.com/google/oss-fuzz/tree/master/projects/ffmpeg
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/3e5959b3457f7f1856d997261e6ac672bba49e8b]
++
++CVE: CVE-2020-35965
++
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++Signed-off-by: Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>
++---
++ libavcodec/exr.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libavcodec/exr.c b/libavcodec/exr.c
++index e907c5c46401..8b701d1cd298 100644
++--- a/libavcodec/exr.c
+++++ b/libavcodec/exr.c
++@@ -1830,7 +1830,7 @@ static int decode_frame(AVCodecContext *avctx, void *data,
++     // Zero out the start if ymin is not 0
++     for (i = 0; i < planes; i++) {
++         ptr = picture->data[i];
++-        for (y = 0; y < s->ymin; y++) {
+++        for (y = 0; y < FFMIN(s->ymin, s->h); y++) {
++             memset(ptr, 0, out_line_size);
++             ptr += picture->linesize[i];
++         }
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
+index 37647e8ec5..f902b08811 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb
+@@ -26,6 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+            file://0001-libavutil-include-assembly-with-full-path-from-sourc.patch \
++           file://CVE-2020-35964.patch \
++           file://CVE-2020-35965.patch \
             "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+ SRC_URI[sha256sum] = "ad009240d46e307b4e03a213a0f49c11b650e445b1f8be0dda2a9212b34d2ffb"
+ 
 -- 
 2.29.2
 
