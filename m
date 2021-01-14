@@ -1,61 +1,56 @@
 Received: from mga18.intel.com (mga18.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.3701.1610640599644781266
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 08:10:00 -0800
+ Thu, 14 Jan 2021 08:10:02 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: rs9CLZtU7cK9xlAFul3aXg8wKh8MGT/od024vAygy1TI+5xhBZzuxuoK4EQShEXhz7ynRDYIuR
- atdEkfD/Q1SA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062624"
+IronPort-SDR: SHyGShczp2394AI102LgJmdkM/cl2lMtcwI10PElqt3++KKlYQhP9RGKamU2mRm3bVcGQ8NXXt
+ jHxau+14YHAg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9864"; a="166062637"
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="166062624"
+   d="scan'208";a="166062637"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:00 -0800
-IronPort-SDR: JNU5FQ4YL7DJfsKXvjU6LrCHfTG8GHrnuhh8U7E+/RorBpu24kGONYj69QThg57YBuDE3QilPR
- RJANKmPTwg4Q==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:01 -0800
+IronPort-SDR: dwH0aRIlNvA2OqprXhEr9YVc3EhHM4Q0Xy7hrglxG86zhXRxd7cEha+nFcv2mB4TB+BHfz11Wd
+ Yb7+dM/F2/FQ==
 X-IronPort-AV: E=Sophos;i="5.79,347,1602572400"; 
-   d="scan'208";a="424986503"
+   d="scan'208";a="424986515"
 Received: from ykoh-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.50])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:09:59 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jan 2021 08:10:00 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 04/14] bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
-Date: Fri, 15 Jan 2021 00:09:38 +0800
-Message-Id: <604899b3c8265da12aa4906cd7211849f46f32fe.1610639458.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 05/14] pseudo: Update to print PSEUDO_LOGFILE in abort message on path mismatches
+Date: Fri, 15 Jan 2021 00:09:39 +0800
+Message-Id: <f3f88700ee6e8995c264c802337f492d3447bd6a.1610639458.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1610639458.git.anuj.mittal@intel.com>
 References: <cover.1610639458.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 
-Builds were failing on WSL2 which turns out to be due to accesses to
-/run/ on those systems. Add this to PSEUDO_IGNORE_PATHS to fix
-builds on WSL2.
-
-[YOCTO #14175]
-
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1d1bf51217e8b4d54af28739d3271484ee5a7974)
+(cherry picked from commit 9259d684415e3e7923de74359a4ed3487e0e9da7)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/conf/bitbake.conf | 2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index da6db9f595..8e0a0ec4b4 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -685,7 +685,7 @@ SRC_URI = ""
- PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
-+PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 2e13fec540..600885b5c2 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -6,7 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+            file://fallback-group \
+            "
  
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+-SRCREV = "cca0d7f15b7197095cd587420d31b187620c3093"
++SRCREV = "69f205c41902e17933b81b1450636848e8da2126"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
+ 
 -- 
 2.29.2
 
