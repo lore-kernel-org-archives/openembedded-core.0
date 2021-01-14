@@ -1,136 +1,131 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web09.896.1610653880319693745
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web12.1250.1610655199468310933
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 11:51:20 -0800
+ Thu, 14 Jan 2021 12:13:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jdE9CEH5;
- spf=pass (domain: gmail.com, ip: 209.85.210.174, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2so4000700pfq.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 11:51:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RruEx6tP;
+ spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f182.google.com with SMTP id g15so4508722pgu.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Jan 2021 12:13:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=geioWZ+XUAIj/sRYfyh7ayVpRloOGzBzkcZSRtajbh4=;
-        b=jdE9CEH5QPTCXHGGpzXJt/9oazRSVkhcERis40XFw24PZCjvyuwnzHxb3QeYssnprV
-         fJsI93+zMUk8+3F4ym1ZzUq8qma2+Ej3UOFZdr/njfGpXbUNCEOLjC0ddtoxhcGKmrmx
-         qt2xIA/0aSlYOiAQpVh9I6CEiruo7r2ueAafkhe0LOe9/YPys7xwYD4i8K7q3dlNwApV
-         sgk3QiVublgQeDcv0iEbMX57brYWKfCV1dKNYfAkTTk2rhuk5W2yDSv1Tk/Ry633LNos
-         gi/d0G/vzUP0Ehp07tseAUJTF9kQ3EtWMfx6sBZyPoVnWmCkGgDNuqfEv0RaRYcjkCvG
-         5yeA==
+        bh=df2l6QQqGSL9c5kBSWE54wG7MxtWr1FYPR3j+nO7xco=;
+        b=RruEx6tPc7meNC51YmMuhAD3V2C5SHT+MNOIe3hDhM9TxJ7160gSlYg7HAKH4Ky0qm
+         aDRZ6Pq+rbVt+y2Ep/WQIg2u+fqrGUWxz3JdHb7BvaXRobyjTExqPG2Zf+IM9JwI2M0I
+         0Iw5wzPWmPaeJcG+5dkqKf56SRSkAWnRNa7kFBHpOlE1OFKP5BLJN02WRj9lqT5Aij2A
+         psECpXpbjTlQ+cFXpq6f6qMuRLTyrxr474JVy3KxIfgfeQ96QzprT01lyaLuoupQmz+o
+         GDbz7JTbuWQVI6WM35Pc8gqAGtt0g84xgUPxjWvVT+Z0HA8SdaqpUIxZcgf/mIy5Up6t
+         FhYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=geioWZ+XUAIj/sRYfyh7ayVpRloOGzBzkcZSRtajbh4=;
-        b=Cgwv1sJLXTcPTMLCNE3Q0h2tKUctbd+d0btKDFqMyRVsvpTLasD5e+z7jeUHvUGkn8
-         yWk4FPvvo+vXVSwt4MqBctKEdJhE0kB3DOX3c/gs8rLrKn6ViQVjiSh9bUD2R0SB3YF1
-         jEzn6/ymsZyoFhymy4gzD5jDCSs5EPj266e2IW8c0a9UcBQYJPg95R7xcvI/8SYV6UGu
-         EctStzsPgpz6iLC4UY9IZIcxi5FwrCahVE1K6PityhCz4ry/LqnuwlwamcMLZ8A8U49n
-         Vpy0napcT8d/BrnwssmlMQhFGgz0jI7LijEKVQmtlabdtOpgjOPi/uX+/T4mdUhVXSz4
-         oQig==
-X-Gm-Message-State: AOAM531JkpiA9NhOz0sm1FC0LCyRcYRI4wXBcwNSYFybEyxUnBWigfoy
-	p25dXyNJEdb+zTh06bWFbDBxavDw+/Q6bw==
-X-Google-Smtp-Source: ABdhPJwvV6na/2nzMUoR+qgh8n1IPLdJYsNvx16twz/Q+mkaYSK81X5lssYPUqhvKFY47SRboOLkfA==
-X-Received: by 2002:a63:3549:: with SMTP id c70mr8994109pga.361.1610653879473;
-        Thu, 14 Jan 2021 11:51:19 -0800 (PST)
+        bh=df2l6QQqGSL9c5kBSWE54wG7MxtWr1FYPR3j+nO7xco=;
+        b=LmDgB79AgTcUqZQbVDl99V7DtFcJau26lhYEmEE9U7wZHchJy9j2k09qg/WxtUH1hh
+         f+9aS916hv9fO3HWha0DJDG2xEph9TdbzlBfpJP0clHlo+YZNsqke9eudSds2+Huy1JP
+         bkrFol/fnlsj+76aaryh+KB8SaKvNW/dRzajVW4kIh+Q21UqpPD1IobcjsWZlrqFvUBG
+         PSMhFxfc/9sv7oPN9kRThxPixmBsAkxjfeSqrijwJi0ra9ImrXY4HWq5j7JtYOq7xHVS
+         3eEP+Ab8+xnY8vcAIg0p9olAkgOPn/EkJX1/rlbNsbAFSZSKLWF3QpYlDAw+uUDWfh/S
+         1nDg==
+X-Gm-Message-State: AOAM5302AJc62udx3Y6CFjEAKGUUHs3+YeSP5oDR5ooYdBcHU7UOe4xr
+	IYNBXOKyb//u6mpIb9JVUHBF1y18Nzg+rg==
+X-Google-Smtp-Source: ABdhPJywv0JMaBw9ZU3ALIStLxn9Sh4/cNXU8F32qtHAVz0txW1QWvi3w2WzDriuoOe/ZMVdhfniig==
+X-Received: by 2002:a62:7ed2:0:b029:19d:9461:2b30 with SMTP id z201-20020a627ed20000b029019d94612b30mr9107955pfc.14.1610655198468;
+        Thu, 14 Jan 2021 12:13:18 -0800 (PST)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:19ce:8609:7a34:860])
-        by smtp.gmail.com with ESMTPSA id u68sm5573617pfb.70.2021.01.14.11.51.18
+        by smtp.gmail.com with ESMTPSA id np7sm5809966pjb.10.2021.01.14.12.13.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jan 2021 11:51:19 -0800 (PST)
+        Thu, 14 Jan 2021 12:13:17 -0800 (PST)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [dunfell][PATCH] glibc: Security fix for CVE-2020-29573
-Date: Thu, 14 Jan 2021 11:51:17 -0800
-Message-Id: <20210114195117.16142-1-akuster808@gmail.com>
+Cc: Scott Murray <scott.murray@konsulko.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Armin Kuster <akuster@mvista.com>
+Subject: [dunfell][PATCH] glibc: CVE-2019-25013
+Date: Thu, 14 Jan 2021 12:13:16 -0800
+Message-Id: <20210114201316.23953-1-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 
-From: Armin Kuster <akuster@mvista.com>
+From: Scott Murray <scott.murray@konsulko.com>
 
-Source: glibc.org
-MR: 107580
+Source: openembedded.org
+MR: 107928
 Type: Security Fix
-Disposition: Backport from https://sourceware.org/git/?p=glibc.git;a=commit;h=681900d29683722b1cb0a8e565a0585846ec5a61
-
-ChangeID: 7bc5edb2e1947ac0774a453000a1568bbe3bb7d2
+Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-core/glibc?id=53d149df4d8832e34ace2470c31ddc688176faf7
+ChangeID: 462441a4a91cb481401e170876c25dcdbd00f1e0
 Description:
 
-Fixedup to match 2.31 context. ldbl2mpn.c is in i386 for this version
+* CVE detail: https://nvd.nist.gov/vuln/detail/CVE-2019-25013
 
+* upstream tracking: https://sourceware.org/bugzilla/show_bug.cgi?id=24973
+
+* patch from upstream:
+    https://sourceware.org/git/?p=glibc.git;a=patch;
+    h=ee7a3144c9922808181009b7b3e50e852fb4999b
+
+(From OE-Core rev: 53d149df4d8832e34ace2470c31ddc688176faf7)
+
+Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 164b3e63612b40e984aec19c5a54c8ae408725ec)
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../glibc/glibc/CVE-2020-29573.patch          | 128 ++++++++++++++++++
+ .../glibc/glibc/CVE-2019-25013.patch          | 135 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
+ 2 files changed, 136 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch b/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch b/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
 new file mode 100644
-index 00000000000..1e75f2d29d4
+index 00000000000..73df1da868c
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
-@@ -0,0 +1,128 @@
-+From 681900d29683722b1cb0a8e565a0585846ec5a61 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Tue, 22 Sep 2020 19:07:48 +0200
-+Subject: [PATCH] x86: Harden printf against non-normal long double values (bug
-+ 26649)
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+@@ -0,0 +1,135 @@
++From ee7a3144c9922808181009b7b3e50e852fb4999b Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <schwab@suse.de>
++Date: Mon, 21 Dec 2020 08:56:43 +0530
++Subject: [PATCH] Fix buffer overrun in EUC-KR conversion module (bz #24973)
 +
-+The behavior of isnan/__builtin_isnan on bit patterns that do not
-+correspond to something that the CPU would produce from valid inputs
-+is currently under-defined in the toolchain. (The GCC built-in and
-+glibc disagree.)
++The byte 0xfe as input to the EUC-KR conversion denotes a user-defined
++area and is not allowed.  The from_euc_kr function used to skip two bytes
++when told to skip over the unknown designation, potentially running over
++the buffer end.
 +
-+The isnan check in PRINTF_FP_FETCH in stdio-common/printf_fp.c
-+assumes the GCC behavior that returns true for non-normal numbers
-+which are not specified as NaN. (The glibc implementation returns
-+false for such numbers.)
-+
-+At present, passing non-normal numbers to __mpn_extract_long_double
-+causes this function to produce irregularly shaped multi-precision
-+integers, triggering undefined behavior in __printf_fp_l.
-+
-+With GCC 10 and glibc 2.32, this behavior is not visible because
-+__builtin_isnan is used, which avoids calling
-+__mpn_extract_long_double in this case.  This commit updates the
-+implementation of __mpn_extract_long_double so that regularly shaped
-+multi-precision integers are produced in this case, avoiding
-+undefined behavior in __printf_fp_l.
-+
-+Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
-+CVE: CVE-2020-29573
-+Signed-off-By: Armin Kuster <akuster@mvista.com>
++Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=ee7a3144c9922808181009b7b3e50e852fb4999b]
++CVE: CVE-2019-25013
++Signed-off-by: Scott Murray <scott.murray@konsulko.com>
++[Refreshed for Dundell context; Makefile changes]
++Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ sysdeps/x86/Makefile                    |  4 ++
-+ sysdeps/x86/ldbl2mpn.c                  |  8 ++++
-+ sysdeps/x86/tst-ldbl-nonnormal-printf.c | 52 +++++++++++++++++++++++++
-+ 3 files changed, 64 insertions(+)
-+ create mode 100644 sysdeps/x86/tst-ldbl-nonnormal-printf.c
++ iconvdata/Makefile      |  3 ++-
++ iconvdata/bug-iconv13.c | 53 +++++++++++++++++++++++++++++++++++++++++
++ iconvdata/euc-kr.c      |  6 +----
++ iconvdata/ksc5601.h     |  6 ++---
++ 4 files changed, 59 insertions(+), 9 deletions(-)
++ create mode 100644 iconvdata/bug-iconv13.c
 +
-+Index: git/sysdeps/x86/Makefile
++Index: git/iconvdata/Makefile
 +===================================================================
-+--- git.orig/sysdeps/x86/Makefile
-++++ git/sysdeps/x86/Makefile
-+@@ -9,6 +9,10 @@ tests += tst-get-cpu-features tst-get-cp
-+ tests-static += tst-get-cpu-features-static
++--- git.orig/iconvdata/Makefile
+++++ git/iconvdata/Makefile
++@@ -73,7 +73,7 @@ modules.so := $(addsuffix .so, $(modules
++ ifeq (yes,$(build-shared))
++ tests = bug-iconv1 bug-iconv2 tst-loading tst-e2big tst-iconv4 bug-iconv4 \
++ 	tst-iconv6 bug-iconv5 bug-iconv6 tst-iconv7 bug-iconv8 bug-iconv9 \
++-	bug-iconv10 bug-iconv11 bug-iconv12
+++	bug-iconv10 bug-iconv11 bug-iconv12 bug-iconv13
++ ifeq ($(have-thread-library),yes)
++ tests += bug-iconv3
 + endif
-+ 
-++ifeq ($(subdir),math)
-++tests += tst-ldbl-nonnormal-printf
-++endif # $(subdir) == math
-++
-+ ifeq ($(subdir),setjmp)
-+ gen-as-const-headers += jmp_buf-ssp.sym
-+ sysdep_routines += __longjmp_cancel
-+Index: git/sysdeps/x86/tst-ldbl-nonnormal-printf.c
++Index: git/iconvdata/bug-iconv13.c
 +===================================================================
 +--- /dev/null
-++++ git/sysdeps/x86/tst-ldbl-nonnormal-printf.c
-+@@ -0,0 +1,52 @@
-++/* Test printf with x86-specific non-normal long double value.
+++++ git/iconvdata/bug-iconv13.c
++@@ -0,0 +1,53 @@
+++/* bug 24973: Test EUC-KR module
 ++   Copyright (C) 2020 Free Software Foundation, Inc.
-++
 ++   This file is part of the GNU C Library.
 ++
 ++   The GNU C Library is free software; you can redistribute it and/or
@@ -147,66 +142,90 @@ index 00000000000..1e75f2d29d4
 ++   License along with the GNU C Library; if not, see
 ++   <https://www.gnu.org/licenses/>.  */
 ++
+++#include <errno.h>
+++#include <iconv.h>
 ++#include <stdio.h>
-++#include <string.h>
 ++#include <support/check.h>
-++
-++/* Fill the stack with non-zero values.  This makes a crash in
-++   snprintf more likely.  */
-++static void __attribute__ ((noinline, noclone))
-++fill_stack (void)
-++{
-++  char buffer[65536];
-++  memset (buffer, 0xc0, sizeof (buffer));
-++  asm ("" ::: "memory");
-++}
 ++
 ++static int
 ++do_test (void)
 ++{
-++  fill_stack ();
+++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "EUC-KR");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
 ++
-++  long double value;
-++  memcpy (&value, "\x00\x04\x00\x00\x00\x00\x00\x00\x00\x04", 10);
+++  /* 0xfe (->0x7e : row 94) and 0xc9 (->0x49 : row 41) are user-defined
+++     areas, which are not allowed and should be skipped over due to
+++     //IGNORE.  The trailing 0xfe also is an incomplete sequence, which
+++     should be checked first.  */
+++  char input[4] = { '\xc9', '\xa1', '\0', '\xfe' };
+++  char *inptr = input;
+++  size_t insize = sizeof (input);
+++  char output[4];
+++  char *outptr = output;
+++  size_t outsize = sizeof (output);
 ++
-++  char buf[30];
-++  int ret = snprintf (buf, sizeof (buf), "%Lg", value);
-++  TEST_COMPARE (ret, strlen (buf));
-++  if (strcmp (buf, "nan") != 0)
-++    /* If snprintf does not recognize the non-normal number as a NaN,
-++       it has added the missing explicit MSB.  */
-++    TEST_COMPARE_STRING (buf, "3.02201e-4624");
+++  /* This used to crash due to buffer overrun.  */
+++  TEST_VERIFY (iconv (cd, &inptr, &insize, &outptr, &outsize) == (size_t) -1);
+++  TEST_VERIFY (errno == EINVAL);
+++  /* The conversion should produce one character, the converted null
+++     character.  */
+++  TEST_VERIFY (sizeof (output) - outsize == 1);
+++
+++  TEST_VERIFY_EXIT (iconv_close (cd) != -1);
+++
 ++  return 0;
 ++}
 ++
 ++#include <support/test-driver.c>
-+Index: git/sysdeps/i386/ldbl2mpn.c
++Index: git/iconvdata/euc-kr.c
 +===================================================================
-+--- git.orig/sysdeps/i386/ldbl2mpn.c
-++++ git/sysdeps/i386/ldbl2mpn.c
-+@@ -115,6 +115,12 @@ __mpn_extract_long_double (mp_ptr res_pt
-+ 	   && res_ptr[N - 1] == 0)
-+     /* Pseudo zero.  */
-+     *expt = 0;
++--- git.orig/iconvdata/euc-kr.c
+++++ git/iconvdata/euc-kr.c
++@@ -80,11 +80,7 @@ euckr_from_ucs4 (uint32_t ch, unsigned c
++ 									      \
++     if (ch <= 0x9f)							      \
++       ++inptr;								      \
++-    /* 0xfe(->0x7e : row 94) and 0xc9(->0x59 : row 41) are		      \
++-       user-defined areas.  */						      \
++-    else if (__builtin_expect (ch == 0xa0, 0)				      \
++-	     || __builtin_expect (ch > 0xfe, 0)				      \
++-	     || __builtin_expect (ch == 0xc9, 0))			      \
+++    else if (__glibc_unlikely (ch == 0xa0))				      \
++       {									      \
++ 	/* This is illegal.  */						      \
++ 	STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
++Index: git/iconvdata/ksc5601.h
++===================================================================
++--- git.orig/iconvdata/ksc5601.h
+++++ git/iconvdata/ksc5601.h
++@@ -50,15 +50,15 @@ ksc5601_to_ucs4 (const unsigned char **s
++   unsigned char ch2;
++   int idx;
++ 
+++  if (avail < 2)
+++    return 0;
+++
++   /* row 94(0x7e) and row 41(0x49) are user-defined area in KS C 5601 */
++ 
++   if (ch < offset || (ch - offset) <= 0x20 || (ch - offset) >= 0x7e
++       || (ch - offset) == 0x49)
++     return __UNKNOWN_10646_CHAR;
++ 
++-  if (avail < 2)
++-    return 0;
 +-
-++  else
-++    /* The sign bit is explicit, but add it in case it is missing in
-++       the input.  Otherwise, callers will not be able to produce the
-++       expected multi-precision integer layout by shifting the sign
-++       bit into the MSB.  */
-++    res_ptr[N - 1] |= (mp_limb_t) 1 << (LDBL_MANT_DIG - 1
-++                   - ((N - 1) * BITS_PER_MP_LIMB));
-+   return N;
-+ }
++   ch2 = (*s)[1];
++   if (ch2 < offset || (ch2 - offset) <= 0x20 || (ch2 - offset) >= 0x7f)
++     return __UNKNOWN_10646_CHAR;
 diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 3a0d60abf8d..067d4de64a6 100644
+index 067d4de64a6..b75bbb41960 100644
 --- a/meta/recipes-core/glibc/glibc_2.31.bb
 +++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -42,6 +42,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0028-inject-file-assembly-directives.patch \
+@@ -43,6 +43,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
             file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
             file://CVE-2020-29562.patch \
-+           file://CVE-2020-29573.patch \
+            file://CVE-2020-29573.patch \
++           file://CVE-2019-25013.patch \
             "
  S = "${WORKDIR}/git"
  B = "${WORKDIR}/build-${TARGET_SYS}"
