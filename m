@@ -1,267 +1,380 @@
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.92.89.23])
- by mx.groups.io with SMTP id smtpd.web12.396.1610690539175834007
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web08.765.1610694015907161277
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 22:02:19 -0800
+ Thu, 14 Jan 2021 23:00:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=VwyKUcSE;
- spf=pass (domain: outlook.com, ip: 40.92.89.23, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JV2G59IHIhvLVR5WxAu56v06uRO9v6HR8gHC0YPC7ZyVCKyyOLZNfzh3R/0dIv83YZPZcDkAJmAraW47IohYPe3b16tj074T/kRq8hAxiSmn8PqW1x08W5b898shtIJDjtvOjgqjGRobpDD6TXWazaF2iAXiQl2t8QVaiS9lRXM6pRtSSjUbkt8LKyHofb1L45JeYV//STxQnC0hdaS4pobjSky6hAPz7uHfSljtLiSzYP2biNXnufxmlc1wYo39PXuR265vYYQFlSlccH5tRNvKzq85Gy8rnRzLTURVkpzFSEmQNg/Pw24FINo/RxNlrm5jC9kE4FPquqmAZfm5Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bJGAJwEvS+s8H8vyUS8nY+WjfXe+35bIBQlRGl+iLSA=;
- b=Gv/cHoR3AAclBHMNflg7DEGLkCwbcaz1tTL3ZmhZ8Eww9NMPb73TX49K9VDV9iAPSVQ1rAQuddzdF0EN467ceNLQOezKqbuOpc8LSw3XCnKcj20Jdbxd+85JS42lN/G7AP4ragVGfT7tn7/6EYeMQB/ON5lvzpQiA2/5eIdoRMhgX4BXGgQ2GD0CKHewmd5/u65Tm6XTrcKb1JbOT8detuqLK+GongH7YuOPiERYun8AckNaunzqpUW2bALujaFWDsG7TjDvTRkw/1LsgO70cUn4BgKAkXZXpXcc+wFegzHUXkI04fACQMdM3HVnytOTMeYaJrtZRD2RqoNbsKBJSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bJGAJwEvS+s8H8vyUS8nY+WjfXe+35bIBQlRGl+iLSA=;
- b=VwyKUcSEub4c1ASqa5Y0i1WhVae5VfToF0woq0gdpF5z33JFjaWSuZM9xXH7OUwFSPxGOFzw4EM0WgCZd9gKF5iIXQkv832RZy/d8XTikre+HsNhro0hzmz8AeqHfameEMKlW2zA0xspPumPZdohzy/0p+Uj+V6bY4TWOMZZJ3+AzN9qIsZSygwutyQU8CBU0xxWDD6y/gB0o2Mk02jJalOYLdKFPS4f5F0lSpBnBdMy+1RwVisjBZqD65DWnKaPWfW3hODz9hlO0Euko7ZFvLIrFk1SmOt3lsD/GQjJtYbi1uv7+V0iz7rM+7AOUizGvPd+l6Ss583S9fXaXXLiIw==
-Received: from AM6EUR05FT062.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::49) by
- AM6EUR05HT110.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::277)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Fri, 15 Jan
- 2021 06:02:17 +0000
-Received: from AM9PR09MB4739.eurprd09.prod.outlook.com
- (2a01:111:e400:fc11::46) by AM6EUR05FT062.mail.protection.outlook.com
- (2a01:111:e400:fc11::254) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.6 via Frontend
- Transport; Fri, 15 Jan 2021 06:02:16 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:CA58914B00576A5AB8B8CAAEFB90AF9F08BF9E420EFB1FAD6C53DD8ECC36AB00;UpperCasedChecksum:11F60E91A7FD47393DE33F495234DD1B1B44B9CBCF3E63CCC32A7BBDB61250A2;SizeAsReceived:8662;Count:47
-Received: from AM9PR09MB4739.eurprd09.prod.outlook.com
- ([fe80::404f:17dc:be86:de0b]) by AM9PR09MB4739.eurprd09.prod.outlook.com
- ([fe80::404f:17dc:be86:de0b%7]) with mapi id 15.20.3763.012; Fri, 15 Jan 2021
- 06:02:16 +0000
-Subject: Re: [OE-core] [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8
-To: openembedded-core@lists.openembedded.org
-References: <20210115052615.29893-1-paul.gortmaker@windriver.com>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM9PR09MB47391E7ECA1AA0257910D38DA8A70@AM9PR09MB4739.eurprd09.prod.outlook.com>
-Date: Fri, 15 Jan 2021 07:02:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210115052615.29893-1-paul.gortmaker@windriver.com>
-X-TMN: [elw9rX8HEu6AdoTprFf8a5XgaQ5/TpS4]
-X-ClientProxiedBy: AM5PR0402CA0015.eurprd04.prod.outlook.com
- (2603:10a6:203:90::25) To AM9PR09MB4739.eurprd09.prod.outlook.com
- (2603:10a6:20b:282::12)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <212aca77-32dc-6243-3f29-3467ba890465@outlook.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.79,348,1602518400"; 
+   d="scan'208";a="103508295"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 15 Jan 2021 15:00:02 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id E5EF64CE6036
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 14:59:55 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 15 Jan 2021 14:59:57 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] gdk-pixbuf: upgrade 2.40.0 -> 2.42.2
+Date: Fri, 15 Jan 2021 14:59:52 +0800
+Message-ID: <1610693992-27561-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.23] (87.141.94.202) by AM5PR0402CA0015.eurprd04.prod.outlook.com (2603:10a6:203:90::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9 via Frontend Transport; Fri, 15 Jan 2021 06:02:16 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: cb32c42c-af3e-4cc0-05a7-08d8b91b1c52
-X-MS-TrafficTypeDiagnostic: AM6EUR05HT110:
-X-MS-Exchange-MinimumUrlDomainAge: github.com#4847
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	LNt0q7TJUFr59VEPh8qy71RfV91INUSWJi9vii2uWBIYT7brwq9h4sPjs2fVziiIGpMfD33MgD2QLYwn1wkRK+phckFPFQV5ixUQYbwJrUxi6SFkG33iJcory/F3jxaakqRcfSGacLPKMg97IVVsB+7Jyog4mLJaRzrbc4ZiluOmKvQXxSGFdeJ2uuAFkbR5IeihLGWlayZ5IwMP+bN0ByAn+SER/BhYLPl6YqN/j0GBZ2Qbx6ZtFYW2IlX+NrH5gYoDPbytl8I0OiUPEv8iFCfOppWpBj6jvYOhPGx8nfI=
-X-MS-Exchange-AntiSpam-MessageData: 
-	VJ8ECPr+FgOWMffBce4R0Fz+gh7tw7rsRCyX2ktN1PsoHbK8ILZbHrP4wa0QFy9u6GkD/hftrlRJyTV6TrSQNH9c/xZ3PUhohmfxFWll3zKncGNlAxrvAw6jdAKnP1/FCaO3Qjt1qifPj7mF/+i2zg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cb32c42c-af3e-4cc0-05a7-08d8b91b1c52
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 06:02:16.9391
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM6EUR05FT062.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT110
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
+X-yoursite-MailScanner-ID: E5EF64CE6036.A6393
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
+
+refresh the following patches:
+0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+
+remove the following patches since they are included in 2.42.2:
+0004-Do-not-run-tests-when-building.patch
+missing-test-data.patch
+CVE-2020-29385.patch
+
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ ...-around-thumbnailer-cross-compile-fa.patch | 70 ++++++++++---------
+ .../0004-Do-not-run-tests-when-building.patch | 39 -----------
+ ...ailer-and-tests-also-in-cross-builds.patch |  9 ++-
+ .../gdk-pixbuf/CVE-2020-29385.patch           | 55 ---------------
+ .../gdk-pixbuf/missing-test-data.patch        | 30 --------
+ ...-pixbuf_2.40.0.bb => gdk-pixbuf_2.42.2.bb} | 14 ++--
+ 6 files changed, 48 insertions(+), 169 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+ delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.40.0.bb => gdk-pixbuf_2.42.2.bb} (91%)
+
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+index a9c7600eb3..f12c178696 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+@@ -18,9 +18,9 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ 
+ ---
+  build-aux/gen-thumbnailer.py |  2 --
+- tests/meson.build            | 11 +++++++++--
++ tests/meson.build            | 10 ++++++++--
+  thumbnailer/meson.build      |  5 +----
+- 3 files changed, 10 insertions(+), 8 deletions(-)
++ 3 files changed, 9 insertions(+), 8 deletions(-)
+ 
+ diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnailer.py
+ index 05ac821..c5b99ab 100644
+@@ -36,41 +36,40 @@ index 05ac821..c5b99ab 100644
+  if os.name == 'nt':
+      gdk_pixbuf_dll_buildpath = os.path.dirname(args.pixdata)
+ diff --git a/tests/meson.build b/tests/meson.build
+-index 8ed7cc1..e011b77 100644
++index c9cf25c..c82d9f7 100644
+ --- a/tests/meson.build
+ +++ b/tests/meson.build
+-@@ -1,12 +1,19 @@
+- # Resources; we cannot use gnome.compile_resources() here, because we need to
+- # override the environment in order to use the utilities we just built instead
+- # of the system ones
++@@ -4,12 +4,18 @@ if enabled_loaders.contains('png') and enabled_loaders.contains('bmp')
++   # Resources; we cannot use gnome.compile_resources() here, because we need to
++   # override the environment in order to use the utilities we just built instead
++   # of the system ones
+++  if not meson.is_cross_build()
+++  pixdata_binary = gdk_pixbuf_pixdata.full_path()
+++  else
+++  pixdata_binary = 'gdk-pixbuf-pixdata'
+++  endif
+ +
+-+if not meson.is_cross_build()
+-+pixdata_binary = gdk_pixbuf_pixdata.full_path()
+-+else
+-+pixdata_binary = 'gdk-pixbuf-pixdata'
+-+endif
+-+
+- resources_c = custom_target('resources.c',
+-   input: 'resources.gresource.xml',
+-   output: 'resources.c',
+-   command: [
+-     gen_resources,
+--    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+-+    '--pixdata=@0@'.format(pixdata_binary),
+-     '--loaders=@0@'.format(loaders_cache.full_path()),
+-     '--sourcedir=@0@'.format(meson.current_source_dir()),
+-     '--source',
+-@@ -24,7 +31,7 @@ resources_h = custom_target('resources.h',
+-   output: 'resources.h',
+-   command: [
+-     gen_resources,
+--    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+-+    '--pixdata=@0@'.format(pixdata_binary),
+-     '--loaders=@0@'.format(loaders_cache.full_path()),
+-     '--sourcedir=@0@'.format(meson.current_source_dir()),
+-     '--header',
++   resources_c = custom_target('resources.c',
++     input: 'resources.gresource.xml',
++     output: 'resources.c',
++     command: [
++       gen_resources,
++-      '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+++      '--pixdata=@0@'.format(pixdata_binary),
++       '--loaders=@0@'.format(loaders_cache.full_path()),
++       '--sourcedir=@0@'.format(meson.current_source_dir()),
++       '--source',
++@@ -27,7 +33,7 @@ if enabled_loaders.contains('png') and enabled_loaders.contains('bmp')
++     output: 'resources.h',
++     command: [
++       gen_resources,
++-      '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+++      '--pixdata=@0@'.format(pixdata_binary),
++       '--loaders=@0@'.format(loaders_cache.full_path()),
++       '--sourcedir=@0@'.format(meson.current_source_dir()),
++       '--header',
+ diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
+-index aaafec8..71bd61b 100644
++index aaafec8..6abfda4 100644
+ --- a/thumbnailer/meson.build
+ +++ b/thumbnailer/meson.build
+ @@ -18,9 +18,7 @@ custom_target('thumbnailer',
+@@ -80,7 +79,7 @@ index aaafec8..71bd61b 100644
+ -                '--printer=@0@'.format(gdk_pixbuf_print_mime_types.full_path()),
+ -                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+ -                '--loaders=@0@'.format(loaders_cache.full_path()),
+-+                '--printer=gdk-pixbuf-print-mime-types',
+++		'--printer=gdk-pixbuf-print-mime-types',
+                  '--bindir=@0@'.format(gdk_pixbuf_bindir),
+                  '@INPUT@',
+                  '@OUTPUT@',
+@@ -92,3 +91,6 @@ index aaafec8..71bd61b 100644
+                ],
+                install: true,
+                install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
++-- 
++2.25.1
++
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
+deleted file mode 100644
+index 96c546f271..0000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From 3c4a6c147ae8a0962ba9194373d8a41d14eed44f Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Fri, 22 Feb 2019 13:23:55 +0100
+-Subject: [PATCH] Do not run tests when building
+-
+-Upstream-Status: Inappropriate [cross-compile specific]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- tests/meson.build | 17 -----------------
+- 1 file changed, 17 deletions(-)
+-
+-diff --git a/tests/meson.build b/tests/meson.build
+-index 4fa3fbc..6ef7884 100644
+---- a/tests/meson.build
+-+++ b/tests/meson.build
+-@@ -138,23 +138,6 @@ foreach t: installed_tests
+-     install_dir: installed_test_bindir,
+-   )
+- 
+--  # Two particularly slow tests
+--  if test_suites.contains('slow')
+--    timeout = 300
+--  else
+--    timeout = 30
+--  endif
+--
+--  test(test_name, test_bin,
+--    suite: test_suites,
+--    args: [ '-k', '--tap' ],
+--    env: [
+--      'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
+--      'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
+--      'GDK_PIXBUF_MODULE_FILE=@0@'.format(loaders_cache.full_path()),
+--    ],
+--    timeout: timeout,
+--  )
+- endforeach
+- 
+- executable('pixbuf-read',
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+index 0fe13a387a..6a7fd02501 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 4 deletions(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index d104cea..7acb88a 100644
++index c386070..15f16a6 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -397,10 +397,8 @@ endif
++@@ -378,10 +378,8 @@ subdir('gdk-pixbuf')
+  # i18n
+  subdir('po')
+  
+@@ -25,4 +25,7 @@ index d104cea..7acb88a 100644
+ +subdir('thumbnailer')
+  
+  # Documentation
+- subdir('docs')
++ build_docs = get_option('gtk_doc') or get_option('docs')
++-- 
++2.25.1
++
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+deleted file mode 100644
+index 3fef2bc1eb..0000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001
+-From: Robert Ancell <robert.ancell@canonical.com>
+-Date: Mon, 30 Nov 2020 12:26:12 +1300
+-Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.
+-
+-The code value after a reset wasn't being validated, which means we would
+-accept invalid codes. This could cause an infinite loop in the decoder.
+-
+-Fixes CVE-2020-29385
+-
+-Fixes https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164
+-
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81]
+-CVE: CVE-2020-29385
+-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+-
+----
+- gdk-pixbuf/lzw.c                    |  13 +++++++------
+- 1 files changed, 7 insertions(+), 6 deletions(-)
+- create mode 100644 tests/test-images/fail/hang_114.gif
+-
+-diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
+-index 9e052a6f7..105daf2b1 100644
+---- a/gdk-pixbuf/lzw.c
+-+++ b/gdk-pixbuf/lzw.c
+-@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,
+-                                 if (self->last_code != self->clear_code && self->code_table_size < MAX_CODES) {
+-                                         if (self->code < self->code_table_size)
+-                                                 add_code (self, self->code);
+--                                        else if (self->code == self->code_table_size)
+-+                                        else
+-                                                 add_code (self, self->last_code);
+--                                        else {
+--                                                /* Invalid code received - just stop here */
+--                                                self->last_code = self->eoi_code;
+--                                                return output_length;
+--                                        }
+- 
+-                                         /* When table is full increase code size */
+-                                         if (self->code_table_size == (1 << self->code_size) && self->code_size < LZW_CODE_MAX)
+-                                                 self->code_size++;
+-                                 }
+- 
+-+                                /* Invalid code received - just stop here */
+-+                                if (self->code >= self->code_table_size) {
+-+                                        self->last_code = self->eoi_code;
+-+                                        return output_length;
+-+                                }
+-+
+-                                 /* Convert codeword into indexes */
+-                                 n_written += write_indexes (self, output + n_written, output_length - n_written);
+-                         }
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
+deleted file mode 100644
+index 6c758fd61c..0000000000
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From d8d231c01ef2e59856da8a5c26ace955e5f29370 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Mon, 25 Nov 2019 17:05:46 +0000
+-Subject: [PATCH] tests: install circular-table.gif
+-
+-This test data was added for the pixbuf-gif-circular-table test (added October
+-2018 in 0b9d004) but because the file was never actually installed the installed
+-test suite never passes.
+----
+- tests/meson.build | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/tests/meson.build b/tests/meson.build
+-index 5116fc2b9..80ed3e8b2 100644
+---- a/tests/meson.build
+-+++ b/tests/meson.build
+-@@ -97,6 +97,7 @@ test_data = [
+-   'bug775693.pixdata',
+-   'bug775229.pixdata',
+-   'aero.gif',
+-+  'circular-table.gif'
+- ]
+- 
+- installed_test_bindir = join_paths(gdk_pixbuf_libexecdir, 'installed-tests', meson.project_name())
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.2.bb
+similarity index 91%
+rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.2.bb
+index 16708fd581..bcdd8f0526 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.2.bb
+@@ -21,10 +21,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://fatal-loader.patch \
+            file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
+            file://0001-Fix-a-couple-of-decisions-around-cross-compilation.patch \
+-           file://0004-Do-not-run-tests-when-building.patch \
+            file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
+-           file://missing-test-data.patch \
+-           file://CVE-2020-29385.patch \
+            "
+ 
+ SRC_URI_append_class-target = " \
+@@ -34,12 +31,15 @@ SRC_URI_append_class-nativesdk = " \
+            file://0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch \
+            "
+ 
+-SRC_URI[md5sum] = "05eb1ebc258ba905f1c8644ef49de064"
+-SRC_URI[sha256sum] = "1582595099537ca8ff3b99c6804350b4c058bb8ad67411bbaae024ee7cead4e6"
++SRC_URI[md5sum] = "7d7617db8dae8ce313160384ab0a71db"
++SRC_URI[sha256sum] = "83c66a1cfd591d7680c144d2922c5955d38b4db336d7cd3ee109f7bcf9afef15"
+ 
+ inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-version-is-even gobject-introspection gtk-doc lib_package
+ 
+-GIR_MESON_OPTION = 'gir'
++GIR_MESON_ENABLE_FLAG = "enabled"
++GIR_MESON_DISABLE_FLAG = "disabled"
++
++GIR_MESON_OPTION = 'introspection'
+ 
+ LIBV = "2.10.0"
+ 
+@@ -53,9 +53,7 @@ PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
+ PACKAGECONFIG[png] = "-Dpng=true,-Dpng=false,libpng"
+ PACKAGECONFIG[jpeg] = "-Djpeg=true,-Djpeg=false,jpeg"
+ PACKAGECONFIG[tiff] = "-Dtiff=true,-Dtiff=false,tiff"
+-PACKAGECONFIG[jpeg2000] = "-Djasper=true,-Djasper=false,jasper"
+ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+-PACKAGECONFIG[x11] = "-Dx11=true,-Dx11=false,virtual/libx11"
+ 
+ PACKAGES =+ "${PN}-xlib"
+ 
+-- 
+2.25.1
 
 
 
-On 15.01.21 06:26, Paul Gortmaker wrote:
-> Recent systemd started using ascii args to "hidepid=" mount options
-> for proc fs - unconditionally -- even though kernels older than v5.8
-> emit an error message on each attempt:
-> 
-> root@qemux86-64:~# cat /proc/version
-> Linux version 5.4.87-yocto-standard (oe-user@oe-host) (gcc version 10.2.0 (GCC)) #1 SMP PREEMPT Fri Jan 8 01:47:13 UTC 2021
-> root@qemux86-64:~# dmesg|grep proc:
-> [   29.487995] proc: Bad value for 'hidepid'
-> [   43.170571] proc: Bad value for 'hidepid'
-> [   44.175615] proc: Bad value for 'hidepid'
-> [   46.213300] proc: Bad value for 'hidepid'
-> root@qemux86-64:~#
-> 
-> Simply ignoring them as the systemd maintainer unconditionally says
-> is the resolution is clearly not acceptable, given the above.
-> 
-> Add a kernel version check to avoid calling mount with invalid args.
-> Further details are within the enclosed systemd commit.
-> 
-> Cc: Luca Boccassi <luca.boccassi@microsoft.com>
-> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
-> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> 
-> diff --git a/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch b/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch
-> new file mode 100644
-> index 000000000000..65e7eca32d05
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch
-> @@ -0,0 +1,126 @@
-> +From 297aba739cd689e4dc9f43bb1422ec88d481099a Mon Sep 17 00:00:00 2001
-> +From: Paul Gortmaker <paul.gortmaker@windriver.com>
-> +Date: Wed, 13 Jan 2021 21:09:33 +0000
-> +Subject: [PATCH] proc: dont trigger mount error with invalid options on old
-> + kernels
-> +
-> +As of commit 4e39995371738b04d98d27b0d34ea8fe09ec9fab ("core: introduce
-> +ProtectProc= and ProcSubset= to expose hidepid= and subset= procfs
-> +mount options") kernels older than v5.8 generate multple warnings at
-> +boot, as seen in this Yocto build from today:
-> +
-> +     qemux86-64 login: root
-> +     [   65.829009] proc: Bad value for 'hidepid'
-> +     root@qemux86-64:~# dmesg|grep proc:
-> +     [   16.990706] proc: Bad value for 'hidepid'
-> +     [   28.060178] proc: Bad value for 'hidepid'
-> +     [   28.874229] proc: Bad value for 'hidepid'
-> +     [   32.685107] proc: Bad value for 'hidepid'
-> +     [   65.829009] proc: Bad value for 'hidepid'
-> +     root@qemux86-64:~#
-> +
-> +The systemd maintainer has dismissed this as something people should
-> +simply ignore[1] and has no interest in trying to avoid it by
-> +proactively checking the kernel version, so people can safely assume
-> +that they will never see this version check commit upstream.
-> +
-> +However, as can be seen above, telling people to just ignore it is not
-> +an option, as we'll end up answering the same question and dealing with
-> +the same bug over and over again.
-> +
-> +The commit that triggers this is systemd v247-rc1~378^2~3 -- so any
-> +systemd 247 and above plus kernel v5.7 or older will need this.
-> +
-> +[1] https://github.com/systemd/systemd/issues/16896
-> +
-> +Upstream-Status: Actively hostile
-
-Just a tiny bit of nitpick, although I really like this new 
-classification (as it pretty much sums up many things when it comes to 
-systemd), it should be `Denied`
-Nonetheless I think that this is a very useful patch
-
-> +Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> +
-> +diff --git a/src/core/namespace.c b/src/core/namespace.c
-> +index cdf427a6ea93..f8fc33a89fc2 100644
-> +--- a/src/core/namespace.c
-> ++++ b/src/core/namespace.c
-> +@@ -4,7 +4,9 @@
-> + #include <linux/loop.h>
-> + #include <sched.h>
-> + #include <stdio.h>
-> ++#include <stdlib.h>
-> + #include <sys/mount.h>
-> ++#include <sys/utsname.h>
-> + #include <unistd.h>
-> + #include <linux/fs.h>
-> +
-> +@@ -859,14 +861,34 @@ static int mount_sysfs(const MountEntry *m) {
-> + }
-> +
-> + static int mount_procfs(const MountEntry *m, const NamespaceInfo *ns_info) {
-> ++        _cleanup_free_ char *opts = NULL;
-> +         const char *entry_path;
-> +-        int r;
-> ++        int r, major, minor;
-> ++        struct utsname uts;
-> ++        bool old = false;
-> +
-> +         assert(m);
-> +         assert(ns_info);
-> +
-> +         entry_path = mount_entry_path(m);
-> +
-> ++        /* If uname says that the system is older than v5.8, then the textual hidepid= stuff is not
-> ++         * supported by the kernel, and thus the per-instance hidepid= neither, which means we
-> ++         * really don't want to use it, since it would affect our host's /proc * mount. Hence let's
-> ++         * gracefully fallback to a classic, unrestricted version. */
-> ++
-> ++        r = uname(&uts);
-> ++        if (r < 0)
-> ++               return errno;
-> ++
-> ++        major = atoi(uts.release);
-> ++        minor = atoi(strchr(uts.release, '.') + 1);
-> ++
-> ++        if (major < 5 || (major == 5 && minor < 8)) {
-> ++                log_debug("Pre v5.8 kernel detected [v%d.%d] - skipping hidepid=", major, minor);
-> ++                old = true;
-> ++        }
-> ++
-> +         /* Mount a new instance, so that we get the one that matches our user namespace, if we are running in
-> +          * one. i.e we don't reuse existing mounts here under any condition, we want a new instance owned by
-> +          * our user namespace and with our hidepid= settings applied. Hence, let's get rid of everything
-> +@@ -875,9 +897,8 @@ static int mount_procfs(const MountEntry *m, const NamespaceInfo *ns_info) {
-> +         (void) mkdir_p_label(entry_path, 0755);
-> +         (void) umount_recursive(entry_path, 0);
-> +
-> +-        if (ns_info->protect_proc != PROTECT_PROC_DEFAULT ||
-> +-            ns_info->proc_subset != PROC_SUBSET_ALL) {
-> +-                _cleanup_free_ char *opts = NULL;
-> ++        if (!old && (ns_info->protect_proc != PROTECT_PROC_DEFAULT ||
-> ++            ns_info->proc_subset != PROC_SUBSET_ALL)) {
-> +
-> +                 /* Starting with kernel 5.8 procfs' hidepid= logic is truly per-instance (previously it
-> +                  * pretended to be per-instance but actually was per-namespace), hence let's make use of it
-> +@@ -891,21 +912,9 @@ static int mount_procfs(const MountEntry *m, const NamespaceInfo *ns_info) {
-> +                                ns_info->proc_subset == PROC_SUBSET_PID ? ",subset=pid" : "");
-> +                 if (!opts)
-> +                         return -ENOMEM;
-> +-
-> +-                r = mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc", MS_NOSUID|MS_NOEXEC|MS_NODEV, opts);
-> +-                if (r < 0) {
-> +-                        if (r != -EINVAL)
-> +-                                return r;
-> +-
-> +-                        /* If this failed with EINVAL then this likely means the textual hidepid= stuff is
-> +-                         * not supported by the kernel, and thus the per-instance hidepid= neither, which
-> +-                         * means we really don't want to use it, since it would affect our host's /proc
-> +-                         * mount. Hence let's gracefully fallback to a classic, unrestricted version. */
-> +-                } else
-> +-                        return 1;
-> +         }
-> +
-> +-        r = mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc", MS_NOSUID|MS_NOEXEC|MS_NODEV, NULL);
-> ++        r = mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc", MS_NOSUID|MS_NOEXEC|MS_NODEV, opts);
-> +         if (r < 0)
-> +                 return r;
-> +
-> +--
-> +2.29.2
-> +
-> diff --git a/meta/recipes-core/systemd/systemd_247.2.bb b/meta/recipes-core/systemd/systemd_247.2.bb
-> index 5eea78eff353..84d997196cb6 100644
-> --- a/meta/recipes-core/systemd/systemd_247.2.bb
-> +++ b/meta/recipes-core/systemd/systemd_247.2.bb
-> @@ -23,6 +23,7 @@ SRC_URI += "file://touchscreen.rules \
->              file://0003-implment-systemd-sysv-install-for-OE.patch \
->              file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash.patch \
->              file://0001-logind-Restore-chvt-as-non-root-user-without-polkit.patch \
-> +           file://0027-proc-dont-trigger-mount-error-with-invalid-options-o.patch \
->              "
->   
->   # patches needed by musl
-> 
-> 
-> 
-> 
-> 
