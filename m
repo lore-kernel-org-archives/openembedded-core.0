@@ -1,22 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web12.720.1610713822581751963
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.691.1610713823119434818
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jan 2021 04:30:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 3F4B938C139D
+	by mail.yoctoproject.org (Postfix) with ESMTP id 34FF338C1368
 	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Denys Dmytriyenko <denys@ti.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lzip: upgrading to 1.22 SUCCEEDED
-Message-ID: <MADEUP.165A67B03EDDEF6B.24772@lists.openembedded.org>
-X-Groupsio-MsgNum: 146778
-Content-Type: multipart/mixed; boundary="===============5972130180735257097=="
+Subject: [AUH] bash: upgrading to 5.1 FAILED
+Message-ID: <MADEUP.165A67B0459346CA.6799@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============6381356479321632425=="
 
---===============5972130180735257097==
+--===============6381356479321632425==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,102 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lzip* to *1.22* has Succeeded.
+that the automatic attempt to upgrade the recipe *bash* to *5.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-lzip-upgrade-1.21-1.22.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe bash failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1420 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-9523ded49f83f49ec10c075eebf0a5dcd1c3915b"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9523ded49f83f49ec10c075eebf0a5dcd1c3915b"
+workspace            = "master:09c7fc6e5341bfadb0f6037e7294aee2454eedef"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/bash/bash-5.1.tar.gz;name=tarball...
+Loading cache...done.
+Loaded 1420 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 811 .bb files complete (809 cached, 2 parsed). 1421 targets, 33 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-9523ded49f83f49ec10c075eebf0a5dcd1c3915b"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:9523ded49f83f49ec10c075eebf0a5dcd1c3915b"
+workspace            = "master:09c7fc6e5341bfadb0f6037e7294aee2454eedef"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  12% |####                                | ETA:  0:00:01
+Adding changed files:  24% |########                            | ETA:  0:00:00
+Adding changed files:  36% |############                        | ETA:  0:00:00
+Adding changed files:  48% |#################                   | ETA:  0:00:00
+Adding changed files:  60% |#####################               | ETA:  0:00:00
+Adding changed files:  72% |#########################           | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  96% |##################################  | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase de3e883bbc2bc1b6781605bd9889e51c0ed29580' failed:
+Rebasing (1/24)
+error: could not apply 7194112... 			     BASH PATCH REPORT
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply 7194112... BASH PATCH REPORT 			     =================
+Auto-merging lib/glob/glob_loop.c
+CONFLICT (content): Merge conflict in lib/glob/glob_loop.c
+Auto-merging bashline.c
+CONFLICT (content): Merge conflict in bashline.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/bash
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/bash/bash_5.1.bb
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,113 +126,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============5972130180735257097==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment; filename="0001-lzip-upgrade-1.21-1.22.patch"
-
-From e6b9ed25b91fd7b7acc0606c22de7948c0bc5d43 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 15 Jan 2021 06:41:27 +0000
-Subject: [PATCH] lzip: upgrade 1.21 -> 1.22
-
----
- .../lzip/{lzip_1.21.bb => lzip_1.22.bb}       | 44 +++++++++++++++++--
- 1 file changed, 41 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/lzip/{lzip_1.21.bb => lzip_1.22.bb} (35%)
-
-diff --git a/meta/recipes-extended/lzip/lzip_1.21.bb b/meta/recipes-extended/lzip/lzip_1.22.bb
-similarity index 35%
-rename from meta/recipes-extended/lzip/lzip_1.21.bb
-rename to meta/recipes-extended/lzip/lzip_1.22.bb
-index bb3d2a6fe3..05bfb6956a 100644
---- a/meta/recipes-extended/lzip/lzip_1.21.bb
-+++ b/meta/recipes-extended/lzip/lzip_1.22.bb
-@@ -1,13 +1,51 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- decoder.cc
-+# +++ decoder.cc
-+# @@ -1,14 +1,14 @@
-+#  
-+# -    This program is free software: you can redistribute it and/or modify
-+# -    it under the terms of the GNU General Public License as published by
-+# -    the Free Software Foundation, either version 2 of the License, or
-+# -    (at your option) any later version.
-+# +   This program is free software: you can redistribute it and/or modify
-+# +   it under the terms of the GNU General Public License as published by
-+# +   the Free Software Foundation, either version 2 of the License, or
-+# +   (at your option) any later version.
-+#  
-+# -    This program is distributed in the hope that it will be useful,
-+# -    but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# -    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# -    GNU General Public License for more details.
-+# +   This program is distributed in the hope that it will be useful,
-+# +   but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# +   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# +   GNU General Public License for more details.
-+#  
-+# -    You should have received a copy of the GNU General Public License
-+# -    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+# +   You should have received a copy of the GNU General Public License
-+# +   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#  */
-+# 
-+#
-+
- SUMMARY = "Lossless data compressor based on the LZMA algorithm"
- HOMEPAGE = "http://lzip.nongnu.org/lzip.html"
- SECTION = "console/utils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
--                    file://decoder.cc;beginline=3;endline=16;md5=db09fe3f9573f94d0076f7f07959e6e1"
-+                    file://decoder.cc;beginline=3;endline=16;md5=18c279060cd0be128188404b45837f88 \
-+                    "
- 
- SRC_URI = "${SAVANNAH_GNU_MIRROR}/lzip/lzip-${PV}.tar.gz"
--SRC_URI[md5sum] = "c0061730d017ea593a09308edc547128"
--SRC_URI[sha256sum] = "e48b5039d3164d670791f9c5dbaa832bf2df080cb1fbb4f33aa7b3300b670d8b"
-+SRC_URI[sha256sum] = "c3342d42e67139c165b8b128d033b5c96893a13ac5f25933190315214e87a948"
- 
- B = "${WORKDIR}/build"
- do_configure[cleandirs] = "${B}"
--- 
-2.27.0
-
-
---===============5972130180735257097==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/lzip: SRC_URI changed from "https://download.savannah.gnu.org/releases/lzip/lzip-1.21.tar.gz" to "https://download.savannah.gnu.org/releases/lzip/lzip-1.22.tar.gz"
-packages/core2-32-poky-linux/lzip: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip: PV changed from "1.21" to "1.22"
-packages/core2-32-poky-linux/lzip/lzip-dbg: PKGSIZE changed from 1085032 to 1097160 (+1%)
-packages/core2-32-poky-linux/lzip/lzip-dbg: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip/lzip-dbg: PV changed from "1.21" to "1.22"
-packages/core2-32-poky-linux/lzip/lzip-dev: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip/lzip-dev: PV changed from "1.21" to "1.22"
-packages/core2-32-poky-linux/lzip/lzip-doc: PKGSIZE changed from 65677 to 70680 (+8%)
-packages/core2-32-poky-linux/lzip/lzip-doc: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip/lzip-doc: PV changed from "1.21" to "1.22"
-packages/core2-32-poky-linux/lzip/lzip-locale: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip/lzip-locale: PV changed from "1.21" to "1.22"
-packages/core2-32-poky-linux/lzip/lzip-src: PKGSIZE changed from 145017 to 146842 (+1%)
-packages/core2-32-poky-linux/lzip/lzip-src: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip/lzip-src: PV changed from "1.21" to "1.22"
-packages/core2-32-poky-linux/lzip/lzip-staticdev: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip/lzip-staticdev: PV changed from "1.21" to "1.22"
-packages/core2-32-poky-linux/lzip/lzip: PKGSIZE changed from 132928 to 137028 (+3%)
-packages/core2-32-poky-linux/lzip/lzip: PKGV changed from 1.21 [default] to 1.22 [default]
-packages/core2-32-poky-linux/lzip/lzip: PV changed from "1.21" to "1.22"
-
---===============5972130180735257097==--
+--===============6381356479321632425==--
