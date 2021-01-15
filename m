@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.701.1610713822866013454
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.723.1610713823240905993
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jan 2021 04:30:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 3AE7C38C137A
+	by mail.yoctoproject.org (Postfix) with ESMTP id 3821138C1377
 	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lighttpd: upgrading to 1.4.58 SUCCEEDED
-Message-ID: <MADEUP.165A67B03A6FD036.6799@lists.openembedded.org>
-X-Groupsio-MsgNum: 146771
-Content-Type: multipart/mixed; boundary="===============8618595558484557544=="
+Subject: [AUH] libarchive: upgrading to 3.5.1 SUCCEEDED
+Message-ID: <MADEUP.165A67B03AA42E47.6799@lists.openembedded.org>
+X-Groupsio-MsgNum: 146772
+Content-Type: multipart/mixed; boundary="===============8756046296973651089=="
 
---===============8618595558484557544==
+--===============8756046296973651089==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *lighttpd* to *1.4.58* has Succeeded.
+that the automatic attempt to upgrade the recipe *libarchive* to *3.5.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-lighttpd-upgrade-1.4.57-1.4.58.patch
+    - apply the patch: git am 0001-libarchive-upgrade-3.4.3-3.5.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,145 +44,136 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8618595558484557544==
+--===============8756046296973651089==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGSIZE changed from 25872 to 21776 (-16%)
+packages/core2-32-poky-linux/libarchive/bsdcpio: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/bsdtar: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-dev: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-doc: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-locale: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-staticdev: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+Changes to packages/core2-32-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.4.3 to libarchive.so.13.5.1
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.4.3 to libarchive.so.13.5.1
+  /usr/lib/libarchive.so.13.4.3 moved to /usr/lib/libarchive.so.13.5.1
 
---===============8618595558484557544==
+--===============8756046296973651089==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-lighttpd-upgrade-1.4.57-1.4.58.patch"
+ filename="0001-libarchive-upgrade-3.4.3-3.5.1.patch"
 
-From d008eb4cbbcedc023b39074e9a06b12673d82224 Mon Sep 17 00:00:00 2001
+From 07d9e448b271ed0352d8adba8ca5f76415088030 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 15 Jan 2021 06:33:02 +0000
-Subject: [PATCH] lighttpd: upgrade 1.4.57 -> 1.4.58
+Date: Fri, 15 Jan 2021 06:27:38 +0000
+Subject: [PATCH] libarchive: upgrade 3.4.3 -> 3.5.1
 
 ---
- .../lighttpd/{lighttpd_1.4.57.bb => lighttpd_1.4.58.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/lighttpd/{lighttpd_1.4.57.bb => lighttpd_1.4.58.bb} (97%)
+ ...ibarchive_3.4.3.bb => libarchive_3.5.1.bb} | 25 +++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.4.3.bb => libarchive_3.5.1.bb} (70%)
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.57.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.58.bb
-similarity index 97%
-rename from meta/recipes-extended/lighttpd/lighttpd_1.4.57.bb
-rename to meta/recipes-extended/lighttpd/lighttpd_1.4.58.bb
-index 9a9cad68c8..f0589e94c0 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.57.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.58.bb
-@@ -19,7 +19,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
-         "
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.3.bb b/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
+similarity index 70%
+rename from meta/recipes-extended/libarchive/libarchive_3.4.3.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.5.1.bb
+index dbfc067b93..c0258a91ef 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.3.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.5.1.bb
+@@ -1,9 +1,30 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -15,7 +15,6 @@
++#  * The following source files are also subject in whole or in part to
++#    a 3-clause UC Regents copyright; please read the individual source
++#    files for details:
++# -   libarchive/archive_entry.c
++#     libarchive/archive_read_support_filter_compress.c
++#     libarchive/archive_write_add_filter_compress.c
++#     libarchive/mtree.5
++# 
++#
++
+ SUMMARY = "Support for reading various archive formats"
+ DESCRIPTION = "C library and command-line tools for reading and writing tar, cpio, zip, ISO, and other archive formats"
+ HOMEPAGE = "http://www.libarchive.org/"
+ SECTION = "devel"
+ LICENSE = "BSD-2-Clause"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=fe01f5e02b1f0cc934d593a7b0ddceb6"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d499814247adaee08d88080841cb5665"
  
--SRC_URI[sha256sum] = "52ca961b89c12f7ecbb2e4e0c5a9e79b2863c64e33c42832a165e7f894d6217f"
-+SRC_URI[sha256sum] = "267feffda13a190ebdce7b15172d8be16da98008457f30fddecd72832d126d0e"
+ DEPENDS = "e2fsprogs-native"
  
- PACKAGECONFIG ??= "openssl pcre zlib \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+@@ -34,7 +55,7 @@ EXTRA_OECONF += "--enable-largefile"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "ee1e749213c108cb60d53147f18c31a73d6717d7e3d2481c157e1b34c881ea39"
++SRC_URI[sha256sum] = "9015d109ec00bb9ae1a384b172bf2fc1dff41e2c66e5a9eeddf933af9db37f5a"
+ 
+ inherit autotools update-alternatives pkgconfig
+ 
 -- 
 2.27.0
 
 
---===============8618595558484557544==
+--===============8756046296973651089==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/lighttpd: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.57.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.58.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch"
-packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2692404 to 2706664 (+1%)
-packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGSIZE changed from 25872 to 21776 (-16%)
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-flv-streaming: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-flv-streaming: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGSIZE changed from 46356 to 42260 (-9%)
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGSIZE changed from 2622550 to 2631657 (+0%)
-packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
-packages/core2-32-poky-linux/lighttpd/lighttpd: PV changed from "1.4.57" to "1.4.58"
-packages/core2-32-poky-linux/lighttpd/lighttpd: PKGSIZE changed from 453776 to 457936 (+1%)
-packages/core2-32-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/libarchive/bsdcpio: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/bsdcpio: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/bsdcpio: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive/bsdtar: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/bsdtar: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/bsdtar: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive: SRC_URI changed from "http://libarchive.org/downloads/libarchive-3.4.3.tar.gz" to "http://libarchive.org/downloads/libarchive-3.5.1.tar.gz"
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: PKGSIZE changed from 2664768 to 2681024 (+1%)
+packages/core2-32-poky-linux/libarchive/libarchive-dbg: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-dev: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-dev: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-dev: PKGSIZE changed from 86300 to 87251 (+1%)
+packages/core2-32-poky-linux/libarchive/libarchive-dev: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-doc: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-doc: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-doc: PKGSIZE changed from 359190 to 360394 (+0%)
+packages/core2-32-poky-linux/libarchive/libarchive-doc: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-locale: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-locale: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-locale: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-src: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-src: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-src: PKGSIZE changed from 3452003 to 3470278 (+1%)
+packages/core2-32-poky-linux/libarchive/libarchive-src: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-staticdev: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/libarchive-staticdev: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive-staticdev: PV changed from "3.4.3" to "3.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive: PKGV changed from 3.4.3 [default] to 3.5.1 [default]
+packages/core2-32-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.4.3", added "/usr/lib/libarchive.so.13.5.1"
+packages/core2-32-poky-linux/libarchive/libarchive: PKGSIZE changed from 871088 to 875184 (+0%)
+packages/core2-32-poky-linux/libarchive/libarchive: PV changed from "3.4.3" to "3.5.1"
+Changes to packages/core2-32-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.4.3 to libarchive.so.13.5.1
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.4.3 to libarchive.so.13.5.1
+  /usr/lib/libarchive.so.13.4.3 moved to /usr/lib/libarchive.so.13.5.1
 
---===============8618595558484557544==--
+--===============8756046296973651089==--
