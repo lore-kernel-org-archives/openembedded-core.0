@@ -1,179 +1,117 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web10.4456.1610729645322221233
+Received: from esa11.hc324-48.eu.iphmx.com (esa11.hc324-48.eu.iphmx.com [207.54.69.30])
+ by mx.groups.io with SMTP id smtpd.web11.4459.1610729942071269957
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 08:54:05 -0800
+ Fri, 15 Jan 2021 08:59:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EMWC8Ho/;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.43, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f43.google.com with SMTP id s11so2961472edd.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 08:54:05 -0800 (PST)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=JkBdhTHd;
+ spf=pass (domain: bmw.de, ip: 207.54.69.30, mailfrom: prvs=642ee8af7=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8AW+0FxUwugVde+zyTjAwNukdBHbEceSAY6oTVC0u1E=;
-        b=EMWC8Ho/sohASqS7irYBuK5a3a+EzLpuHccdawAoz6IhJ88egGNHmPJ5PWy8vLVGeH
-         0hhJozjeOssRgpG9c3LX3cXR0QpbJEJV+9xYzEJErWiZvKQ2CcxTu+7UGNj3IJRi/l/Z
-         uwdWJGJx+B2bxlnujwEGGAI2GrfvGZtMranjCmDXWO4iDOuQmOqYfnPogfk7nxCVswtu
-         dsJeEeHk+LecBB636si44bXCXiQ6Dt/q5usF3HSuQ66eR8lxcvwivPNmULCqoFXw2oqH
-         TKlEtB8VEhGxd0+Z/NANjUPtI0I96mGwW+VvSgGMiA8kBAhmau0MC3wt2LLEtP0doF4D
-         0Xww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8AW+0FxUwugVde+zyTjAwNukdBHbEceSAY6oTVC0u1E=;
-        b=Tj2unefbj+GeS8kbwYQN5bdUxcc5B3HWgf2ve9d9zIlEpN/8nXZIaF6FAyR7rXp594
-         su9eQ4QgIQMRWa8j1kFWdL1HjuR27lh8uywsDk7SafjxUSPBlWFs0D1pbLyFXAFWjhLX
-         Tt6djT5FiNihm24XyFmke2aKGOSDQTho6FzjPcB1V/My+RVN58UhAyMxOHf0lvKMUhfw
-         oWOIadBNwnTkbREOJ9gmqIlf4CTIRI/Ercnf6lmDKrxkQ1JL0/dkIzM08qDNuFIW+rw2
-         80PKfVFZmuOSod4ZqOP2GIkq8/fs/gPwDE4YkFmuaYhOdAj3HOf/cGe3XJQpDjeNtrof
-         dlxw==
-X-Gm-Message-State: AOAM533kFlJHE3SmRVggovgw8hdwyFhTHdM3TaJEalI5QkStxDsfDFBu
-	HfQ4Wi2PZoUqcuSmpDojnVC63swELsnH0Od3pGOeKA==
-X-Google-Smtp-Source: ABdhPJz3G8j2sGX6NFXbOujgA5xlY9jjIMUEusoZUFwC2AuCEbXaWjLFQrEZFIQzIslia0CjWEfJtU35AXS3W5FCSfg=
-X-Received: by 2002:aa7:c44b:: with SMTP id n11mr10044901edr.216.1610729643685;
- Fri, 15 Jan 2021 08:54:03 -0800 (PST)
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1610729942; x=1642265942;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=MPtuq4ixtIXi8gsVOgjFJFjwT0f/czLoMeYnET3MrpM=;
+  b=JkBdhTHd019AmeG8HLjyHCMf4OWL4F8jLCDB2Ly9bR9moYZKENqN+Eb5
+   m8WaRZURMe5kIYI37fP33YMpYVz8O/rIXdCa1yr95QXFTyJdRN9Znf+8n
+   Pb9QjkuN5WGCiRNUEzUWfzS9A7JOI/w9lYzCdoazNOEaa/K6MxWdqeuTT
+   Q=;
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+ esa11.hc324-48.eu.iphmx.com with ESMTP/TLS; 15 Jan 2021 17:58:59 +0100
+Received: from esabb2.muc ([160.50.100.34])  by esagw3.muc with ESMTP/TLS;
+ 15 Jan 2021 17:58:59 +0100
+Received: from smucm33j.bmwgroup.net (HELO smucm33j.europe.bmw.corp) ([160.46.167.66])
+ by esabb2.muc with ESMTP/TLS; 15 Jan 2021 17:58:59 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33j.europe.bmw.corp
+ (160.46.167.66) with Microsoft SMTP Server (TLS;
+ Fri, 15 Jan 2021 17:58:59 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Fri,
+ 15 Jan 2021 17:58:59 +0100
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH][dunfell][gatesgarth][master] zip: whitelist CVE-2018-13410 and CVE-2018-13684
+Thread-Topic: [OE-core] [PATCH][dunfell][gatesgarth][master] zip: whitelist
+ CVE-2018-13410 and CVE-2018-13684
+Thread-Index: AQHW6yv1qPn0KnbFCU2frI+rpzZg+aoo1VGAgAADAIA=
+Date: Fri, 15 Jan 2021 16:58:59 +0000
+Message-ID: <YAHJ0TSKnUuczvAQ@korppu>
+References: <20210115104807.40671-1-mikko.rapeli@bmw.de>
+ <49b9decc4cf96646d8bb616931548966ac9f37f6.camel@linuxfoundation.org>
+In-Reply-To: <49b9decc4cf96646d8bb616931548966ac9f37f6.camel@linuxfoundation.org>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-References: <20210115143224.38513-1-yifan.yu@windriver.com>
-In-Reply-To: <20210115143224.38513-1-yifan.yu@windriver.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Fri, 15 Jan 2021 06:53:51 -1000
-Message-ID: <CAOSpxdZ0yGs7MQbR5Fw6UcJGwp0saLVwbTcbDgM9rJ0OT=Ak7Q@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] binutils: Fix CVE-2020-35448
-To: Yi Fan Yu <yifan.yu@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"MacLeod, Randy" <randy.macleod@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <C33EF94C1DCB0148AB26DB090DE33794@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 15, 2021 at 4:32 AM Yi Fan Yu <yifan.yu@windriver.com> wrote:
->
-> Fix related to a buffer overflow in bfd library
->
-> CVE Details https://nvd.nist.gov/vuln/detail/CVE-2020-35448
->
-> Upstream Tracking https://sourceware.org/bugzilla/show_bug.cgi?id=26574
->
-> Patch from Upstream
->     https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;
->     h=8642dafaef21aa6747cec01df1977e9c52eb4679
->
-> Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
-> ---
->  .../binutils/binutils-2.35.1.inc              |  1 +
->  .../binutils/binutils/CVE-2020-35448.patch    | 78 +++++++++++++++++++
->  2 files changed, 79 insertions(+)
->  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
->
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.35.1.inc b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-> index c92cb75543..775af2b8f2 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-> @@ -43,5 +43,6 @@ SRC_URI = "\
->       file://0016-Check-for-clang-before-checking-gcc-version.patch \
->       file://0017-gas-improve-reproducibility-for-stabs-debugging-data.patch \
->       file://0001-aarch64-Return-an-error-on-conditional-branch-to-an-.patch \
-> +     file://CVE-2020-35448.patch \
->  "
->  S  = "${WORKDIR}/git"
-> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch b/meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
-> new file mode 100644
-> index 0000000000..3b0f18bdb1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
-> @@ -0,0 +1,78 @@
-> +From dc40540e4b4b1771182a9c0fc6ba5f1a830802bc Mon Sep 17 00:00:00 2001
-> +From: Alan Modra <amodra@gmail.com>
-> +Date: Fri, 4 Sep 2020 19:19:18 +0930
-> +Subject: [PATCH] PR26574, heap buffer overflow in
-> + _bfd_elf_slurp_secondary_reloc_section
-> +
-> +A horribly fuzzed object with section headers inside the ELF header.
-> +Disallow that, and crazy reloc sizes.
-> +
-> +   PR 26574
-> +   * elfcode.h (elf_object_p): Sanity check section header offset.
-> +   * elf.c (_bfd_elf_slurp_secondary_reloc_section): Sanity check
-> +   sh_entsize.
-> +
-> +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=8642dafaef21aa6747cec01df1977e9c52eb4679]
+On Fri, Jan 15, 2021 at 04:48:13PM +0000, Richard Purdie wrote:
+> On Fri, 2021-01-15 at 12:48 +0200, Mikko Rapeli wrote:
+> > https://nvd.nist.gov/vuln/detail/CVE-2018-13410 is disputed and
+> > also Debian considers it not a vulnerability:
+> >=20
+> > https://security-tracker.debian.org/tracker/CVE-2018-13410
+> >=20
+> > http://seclists.org/fulldisclosure/2018/Jul/24
+> > "Negligible security impact, would involve that a untrusted party contr=
+ols the -TT value."
+> >=20
+> > https://nvd.nist.gov/vuln/detail/CVE-2018-13684 is not for zip, also De=
+bian concludes this:
+> >=20
+> > https://security-tracker.debian.org/tracker/CVE-2018-13684
+> >=20
+> > "NOT-FOR-US: smart contract implementation for ZIP"
+> >=20
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> > ---
+> > =A0meta/recipes-extended/zip/zip_3.0.bb | 3 +++
+> > =A01 file changed, 3 insertions(+)
+> >=20
+> > diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extend=
+ed/zip/zip_3.0.bb
+> > index c00a932763..47e6fc5278 100644
+> > --- a/meta/recipes-extended/zip/zip_3.0.bb
+> > +++ b/meta/recipes-extended/zip/zip_3.0.bb
+> > @@ -19,6 +19,9 @@ UPSTREAM_VERSION_UNKNOWN =3D "1"
+> > =A0SRC_URI[md5sum] =3D "7b74551e63f8ee6aab6fbc86676c0d37"
+> > =A0SRC_URI[sha256sum] =3D "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c176=
+5a8f1aeedf63c0806369"
+> >=20
+> >=20
+> > +CVE_CHECK_WHITELIST +=3D "CVE-2018-13410"
+> > +CVE_CHECK_WHITELIST +=3D "CVE-2018-13684"
+> > +
+>=20
+> Where we're adding these can we put a small comment in as well just
+> saying why we're whitelisting it?
 
-First of all, thanks for helping with CVEs!
+Sure, but lets try to be consistent then.
 
-You are missing the CVE and Signed-off-by tags in the patch.
+> I appreciate the info is in the commit but I think its important enough
+> to list in the recipe as a comment too.
 
-Please see the "Patch name convention and commit message" section at:
+I agree.
 
-https://wiki.yoctoproject.org/wiki/Security
+Though it's not clear if these should be removed when updating recipe versi=
+ons.
+Sometimes NVD data is good, sometimes bad, sometimes it's not clear howto f=
+ix...
+Doing local builds with
 
-Steve
+INHERIT +=3D "cve-check"
 
-> +---
-> + bfd/elf.c     | 4 +++-
-> + bfd/elfcode.h | 8 ++++----
-> + 2 files changed, 7 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/bfd/elf.c b/bfd/elf.c
-> +index fe375e7346..9f29166399 100644
-> +--- a/bfd/elf.c
-> ++++ b/bfd/elf.c
-> +@@ -12527,7 +12527,9 @@ _bfd_elf_slurp_secondary_reloc_section (bfd *      abfd,
-> +       Elf_Internal_Shdr * hdr = & elf_section_data (relsec)->this_hdr;
-> +
-> +       if (hdr->sh_type == SHT_SECONDARY_RELOC
-> +-    && hdr->sh_info == (unsigned) elf_section_data (sec)->this_idx)
-> ++    && hdr->sh_info == (unsigned) elf_section_data (sec)->this_idx
-> ++    && (hdr->sh_entsize == ebd->s->sizeof_rel
-> ++        || hdr->sh_entsize == ebd->s->sizeof_rela))
-> +   {
-> +     bfd_byte * native_relocs;
-> +     bfd_byte * native_reloc;
-> +diff --git a/bfd/elfcode.h b/bfd/elfcode.h
-> +index f4a7829f27..54ef890637 100644
-> +--- a/bfd/elfcode.h
-> ++++ b/bfd/elfcode.h
-> +@@ -568,7 +568,7 @@ elf_object_p (bfd *abfd)
-> +
-> +   /* If this is a relocatable file and there is no section header
-> +      table, then we're hosed.  */
-> +-  if (i_ehdrp->e_shoff == 0 && i_ehdrp->e_type == ET_REL)
-> ++  if (i_ehdrp->e_shoff < sizeof (x_ehdr) && i_ehdrp->e_type == ET_REL)
-> +     goto got_wrong_format_error;
-> +
-> +   /* As a simple sanity check, verify that what BFD thinks is the
-> +@@ -578,7 +578,7 @@ elf_object_p (bfd *abfd)
-> +     goto got_wrong_format_error;
-> +
-> +   /* Further sanity check.  */
-> +-  if (i_ehdrp->e_shoff == 0 && i_ehdrp->e_shnum != 0)
-> ++  if (i_ehdrp->e_shoff < sizeof (x_ehdr) && i_ehdrp->e_shnum != 0)
-> +     goto got_wrong_format_error;
-> +
-> +   ebd = get_elf_backend_data (abfd);
-> +@@ -615,7 +615,7 @@ elf_object_p (bfd *abfd)
-> +       && ebd->elf_osabi != ELFOSABI_NONE)
-> +     goto got_wrong_format_error;
-> +
-> +-  if (i_ehdrp->e_shoff != 0)
-> ++  if (i_ehdrp->e_shoff >= sizeof (x_ehdr))
-> +     {
-> +       file_ptr where = (file_ptr) i_ehdrp->e_shoff;
-> +
-> +@@ -807,7 +807,7 @@ elf_object_p (bfd *abfd)
-> +   }
-> +     }
-> +
-> +-  if (i_ehdrp->e_shstrndx != 0 && i_ehdrp->e_shoff != 0)
-> ++  if (i_ehdrp->e_shstrndx != 0 && i_ehdrp->e_shoff >= sizeof (x_ehdr))
-> +     {
-> +       unsigned int num_sec;
-> +
-> +--
-> +2.29.2
-> +
-> --
-> 2.29.2
->
->
-> 
->
+is the only way to find out, I guess.
+
+Cheers,
+
+-Mikko
+
+> Cheers,
+>=20
+> Richard=
