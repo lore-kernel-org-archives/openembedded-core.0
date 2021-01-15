@@ -1,17 +1,17 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.76])
- by mx.groups.io with SMTP id smtpd.web10.4571.1610681009077750937
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (NAM10-BN7-obe.outbound.protection.outlook.com [40.107.92.82])
+ by mx.groups.io with SMTP id smtpd.web10.197.1610688403942460191
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Jan 2021 19:23:30 -0800
+ Thu, 14 Jan 2021 21:26:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=M6/1mQ0C;
- spf=pass (domain: windriver.com, ip: 40.107.223.76, mailfrom: mingli.yu@windriver.com)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=E7owgb7s;
+ spf=pass (domain: windriver.com, ip: 40.107.92.82, mailfrom: paul.gortmaker@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCPhpJq8IFDXzEShMhuA24BZm1saKJJzOmspfFR3CyZUu0/puIFQnNAkZ76cIUlvBxl5eNPHxe6VnWuiwN/2Ppv00zgfY5thOkfyN2ylrJ2mHAEkjQPZnlXTMBta86lZFikRtSkzTUO/oy0QljOXZTJD/2bSvxkYXiVrd5NbegTv27ZT/vEDb7HVtyg9QWHnBq9yyR+EcwxUNx+JHIKdOfATzY+c1iTO9M6bfZWoco4iEg5Qy6lrXsSdTit8v27JO8chn7etVYLFNc+3pyWm6ctftiDcX3MDwKukB6Kmphexa827UaVA/p1NhKupYlnytyOx1GS1QwNOEdLUKoriTg==
+ b=ZBc55nDOYvuU69ZSCMoEG2hmClzpfYqCRG4q1QrTGHVF+EIvO9D2caPdsRxKeE16Iks1OJFxvMlHs7oP6r8W26yflikgWU5t9xOwf351yBTlOEvwz96yZSglGfTZ5HT1cCQs4Thwf5ib9GbbcGw7FwUav5L/Mb3cFEKvywITYIIc2L/9R2M468xngwQD2n7HHmVvx8+TzpsoNdNGpUxlNUJ0KUX70FxdCFG8TPkWi6nlSljuJfuXMwDSmr9fEfkc4lxNLp1pyE5AYscZze5EUMJMA57aa42n+A6Idi00xHw5jywGkiv0ALxiLs6jeleS2K3/5x1QUirt8e0wNxoq7w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RnGFGmE26ebMUIzEuFVdV4oZM3pkSp6F/8AGbClGr34=;
- b=CHhJZc5QujmEyJsEvhL+tP2XVy6k7SaG5YXqVDY9sCIFXl2Zzs/50pv6MllsxwQ5bTRyx4Y2VurcAZ/9lM6/fI/yr94Wft8TtmYpZpDecKtJteGrk2kGJ+Vmt28fpxYVCPAf/nyxeEjDNc4DaX5up31gsmUZi4Q8jHXo2xt4ADhyOlBL+QE+EF1YqS4FZ6tT34FLB+fps40GR21b5ngPkgoH83hV1D4SBwjaEylzpziskzVCp/YT6/UVG+ahwYFFyvS299ouE3cXv5SzuhLoRtDIs25o9569zvabcyKYL+6Fo+2M6+Q37G206YvTh8ObiSn7veBmzGGTW5+mQSCNFw==
+ bh=MKw3dE/pWzDMN/ttPbzjPbDdpxmZUit5OBCxVqZPn3c=;
+ b=fh6p/vpTt4Fq6gBxuabBlsRwitR9uPexSSMYQ7HK0yeSF2SsSMRbX83Q5/oDWh1QTvQRFwMHczCrZ/FuxhC3gFLpQGy5MoBEm+O1/E67trzh71sCMcWrZC7lcTWR9lt8FprqRJnlxyMBhPxWHdglfa/CwN2LDSOnuh5lKS3iy5cuuUQpjfCwBfE0P0gIpidnwgMyH0pM+0FpERdeJfrqTu/cAUAyOloTmleDsKM0AMrQaCdBqvLO+IPr0xBvEyJTkfhywXVkUcnhNqcI45PNL5JevbiofL6zUtGC6ndLtADK68GoC7G2DnnlNjb6sqgINBQ7m/s6/R8zUDIAGxCBTg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,153 +19,279 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RnGFGmE26ebMUIzEuFVdV4oZM3pkSp6F/8AGbClGr34=;
- b=M6/1mQ0C9JxGStMPmvIM/FF6jeL1bLGpiYzsFeW6/cQpoXl83L7lJJbbWv/vlOXvM90A2Tge8jcBvU43DpWvd/P2yspXmS+CF6EfKgwsWdmiaVtGfb1bUVkbMcsKKIZUXZeGj5cZxJ3Wn8YHYCc66fsBarJVo2v6NH4f2yQDlkI=
+ bh=MKw3dE/pWzDMN/ttPbzjPbDdpxmZUit5OBCxVqZPn3c=;
+ b=E7owgb7shPazl1MzK51nVyMHW64dOxDDUc8BlxEzfEjuRoRuoRSG54TBUulyk1Jz/czPFOiipUpe3PLHFJ164fi8StFu5O7rhmndvu+qontI8XCY0ddajVvJ+YAw4VWFUDh/dx2NWZlpfbmcUNjkCQnz/0rEB6RxUPATzJHgu2U=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by MWHPR1101MB2189.namprd11.prod.outlook.com (2603:10b6:301:51::18) with
+Received: from DM6PR11MB4545.namprd11.prod.outlook.com (2603:10b6:5:2ae::14)
+ by DM5PR1101MB2092.namprd11.prod.outlook.com (2603:10b6:4:5a::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3742.12; Fri, 15 Jan
- 2021 03:23:26 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::80fa:a14:ee1b:c46f]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::80fa:a14:ee1b:c46f%7]) with mapi id 15.20.3763.012; Fri, 15 Jan 2021
- 03:23:26 +0000
-From: "Yu, Mingli" <mingli.yu@windriver.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Fri, 15 Jan
+ 2021 05:26:40 +0000
+Received: from DM6PR11MB4545.namprd11.prod.outlook.com
+ ([fe80::87:8baa:7135:501d]) by DM6PR11MB4545.namprd11.prod.outlook.com
+ ([fe80::87:8baa:7135:501d%4]) with mapi id 15.20.3763.012; Fri, 15 Jan 2021
+ 05:26:40 +0000
+From: "Paul Gortmaker" <paul.gortmaker@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] bitbake.conf: use ${RECIPE_SYSROOT} for PSEUDO_IGNORE_PATHS
-Date: Fri, 15 Jan 2021 11:23:09 +0800
-Message-ID: <20210115032309.24983-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.26.2
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR03CA0057.apcprd03.prod.outlook.com
- (2603:1096:202:17::27) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
-Return-Path: mingli.yu@windriver.com
+CC: Paul Gortmaker <paul.gortmaker@windriver.com>,
+	Luca Boccassi <luca.boccassi@microsoft.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8
+Date: Fri, 15 Jan 2021 00:26:15 -0500
+Message-ID: <20210115052615.29893-1-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.30.0
+X-Originating-IP: [128.224.252.2]
+X-ClientProxiedBy: YTBPR01CA0001.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::14) To DM6PR11MB4545.namprd11.prod.outlook.com
+ (2603:10b6:5:2ae::14)
+Return-Path: paul.gortmaker@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by HK2PR03CA0057.apcprd03.prod.outlook.com (2603:1096:202:17::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.6 via Frontend Transport; Fri, 15 Jan 2021 03:23:25 +0000
+Received: from yow-cube1.wrs.com (128.224.252.2) by YTBPR01CA0001.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.20.3763.9 via Frontend Transport; Fri, 15 Jan 2021 05:26:39 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 66443acb-b9cf-4cf6-0c48-08d8b904ebf0
-X-MS-TrafficTypeDiagnostic: MWHPR1101MB2189:
+X-MS-Office365-Filtering-Correlation-Id: f639f81b-a78b-4351-cd53-08d8b91622f9
+X-MS-TrafficTypeDiagnostic: DM5PR1101MB2092:
+X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<MWHPR1101MB2189D6C26474882D3B131389F1A70@MWHPR1101MB2189.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+	<DM5PR1101MB2092073DAA161D0B0CA2409283A70@DM5PR1101MB2092.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	i/nRTxVUVjQEcnNu4oUfrohRrxR415v7fGSQngunr6wpa4whtKgcxY/dxvQY77aQlGcKGwHWfzlkuuM8Cpwtv6JZs+XXPB8v8MsmRP3LcrKPDxBMgaIxOxi7avl2B/nvCFxNqhCGrjb6zAhMMl0icGVzu2ZGzF915N+RCohFtkc2s/8AV2EmnO+q9XKelO8n5MUnMUpG9SUvpBexePu4PDIBDhA0PZ9pA6LmeSDEBxHZg133brzMhxtcAna2aa9ocPwgMtcyzIe0iZaBsU24LuC1XJQLpdYPI5j4xZb9jWxkIag4PNOwqFjH1txefDqMvxMTmNpVsCultDrRNuzH1HC3PvXDpKCrXChntQoH+V9cNV2FIF+Ln5S92gKFJ9df1zP9er30BHoPlnbDj4Y9G48813CgobZ5b7sGURST2pNk4licyLodsY+Ti8uEvvt6qsg4KasscQIXOlTl4i0qUDmPEEQZH4PUKdk7RrwEwcNePZK5Noa7pJw/ow78Jmki5+I+2Z8yFOA0hXFvQ9RvrA==
+	h2ai1P9N29bDqnsYkT7sMJ63zRW6xYEvAJsAI6efNT840wZFoxSARlZy08gW9w7SBBLlPWJjVe9cZDB1Mdlxj3dW/yn9TYhS5OaboOgs1wvrCeTYkzEbjihrKhZqx5gW/cI7J1CBpZdOed+WZmP/YocC8eGfhgyZ51fB7Bg+4rZNLFAfZO0yTQHrtP88tvktluDbVyxvgaGrBO9nUqa+319aZCdwrM9bFDdFJIuGRP6OImBTh9ZdU1Xhqd/a3tYg7XfptwWxB9JcA3Drmj8r9puTZccRFaPESy5oOeIAmqf97uAHnk4HRKags59wN3ICnUEbA7ie/zpEf1+DcvJ5caSGjmKuq2RMm7WWnaPcNjoTB0D1GIsEnw3xXHqoKj/qoL4WUzDrf5HJw07D19iSOyB0zMJeFgpagF2MAJ19ULrOzSA/7k0Hp7cRuMATSjfwQ3GzhB3yZi0GwNbJ7iR3XAH1s7ConaPtL0lylqOIgQnnlkBLDTGokUFeyt3M02HqimBrii0AONA7bt9gwXu8rw==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(396003)(376002)(346002)(366004)(136003)(966005)(5660300002)(6916009)(9686003)(6512007)(36756003)(86362001)(6486002)(66946007)(66556008)(52116002)(8936002)(2906002)(1076003)(956004)(8676002)(6506007)(16526019)(186003)(316002)(26005)(478600001)(6666004)(2616005)(66476007)(83380400001)(228453006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4545.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(39850400004)(376002)(136003)(346002)(66946007)(4326008)(6506007)(6512007)(66556008)(8936002)(966005)(8676002)(54906003)(6486002)(316002)(1076003)(6916009)(5660300002)(66476007)(2906002)(44832011)(956004)(2616005)(478600001)(36756003)(45080400002)(6666004)(186003)(52116002)(86362001)(83380400001)(16526019)(26005)(192303002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?LBMg155J0quIMK2HDAttgBcTuBgQ8ym6h8RjpT/qxQ3T0ARk8KzNsBCclK5R?=
- =?us-ascii?Q?UHkCI5IRsukzwvaFHV1/Sli4yWzFHG98f2zELu+UwOtNjuAuBmZ5m0M2bsrg?=
- =?us-ascii?Q?CvF+e2LnbOZrf7Cs6Bex4XaV4fMTk8FR4wjfBphmt8Hx2/3PXKYRdd/t2Yel?=
- =?us-ascii?Q?b4jeYy10uVI0Lqe9Ctlgq3Ld4mgMZ6aI1XeZiyCSDI8++eQ3rdaZzExvwUne?=
- =?us-ascii?Q?8lyKAmuCD9mNR02pajumRF0GeyWCOqIsU+VNvYsV/BZ661dm1e1Z2K3V/MPw?=
- =?us-ascii?Q?G0TLqlPaDwikPH9RW9/ljTq1+8CeBxW4aTtl7N91hSeELVStWRR3adkKaU9q?=
- =?us-ascii?Q?6KQDvsHlCeItpQGjZHUgHCtWkFpFSPgdWn3giLeu0AS8cxoJ+ZLerrbSWWN5?=
- =?us-ascii?Q?LVbYALNk3qELmgNkHpqHFcULOXNW/XIKGnbljLPv4nyo4+paps0HcuYYhWzZ?=
- =?us-ascii?Q?VELrnIDxJbC3Ouc4buNkLECo/1vF1YqF6XaUtczkmNwQCHV5af2+mn0hyH9F?=
- =?us-ascii?Q?xWGgfYNK6CvqIR/Ych40bXs1qO6BcpA2Balm5se9HYRqL3/cuT1L2n0H2f2v?=
- =?us-ascii?Q?VQKy/tMeHHc3Eq4sX/6UPk+ZXVAX8N7xINvZwXAt17hvB5JyAGyHD95St4R4?=
- =?us-ascii?Q?dbnpRNpwyCxo0IZMppzuPvg0l4eqpkFcjAwiDpQjxw3oxFLCZE5J3H8mkmnH?=
- =?us-ascii?Q?/vs5pqNA6pabHEKgsiB82tTLCWD6mAW0V+j+Dgi3YSY2wqr/G+Pk5lGUrwoX?=
- =?us-ascii?Q?i3CE86wyTR34lxs66QU8hC0vduH+U8rvRxafV93lSntD8icvspbW/1TfD3iO?=
- =?us-ascii?Q?DdKR19flW0NrDdcNwFabKCJ+mqszHHr21u/zpaDc6NYnTMFMUJsRLmtEhVOe?=
- =?us-ascii?Q?WwFNJlXJhTybkvoQu90WAC4wrIAEQBOvmI3kN41Nxx1GiX+zYdKbv6uuB/7j?=
- =?us-ascii?Q?2GdiG8O5b6BShoJVeTsWVkJXNyoiDOCD/p+9Tl8vQBw2GfMJ6Mdg8j6uVgDZ?=
- =?us-ascii?Q?K1+Q?=
+	=?us-ascii?Q?QmgtJQkI/JPblbR6BbCQyjwMBBIGSeM4h/uNvOuSIlw0tq6cfAGUVaSahAi1?=
+ =?us-ascii?Q?DX/GRkEzlXJoIuUaYlDDjmDohrml9pQEMsUDH7E0yC7bWPXhcSFOplpNRBlc?=
+ =?us-ascii?Q?er+ANT3CtwiJk+t/5f9BYI3O4anCrZt+i7gJyMxmGO9Zg+h91cjLNPXzYJwE?=
+ =?us-ascii?Q?OEcFo3TpKYNP37xe1swxWODf5Atbh5lq+hxZwgoxbaugb5xKIyQQO3LMFqzs?=
+ =?us-ascii?Q?biebaH0PMM6VS5gprUatBoY8rnxYtX4xvWwnURHzIjROlv5yUG0MPTN3k6bn?=
+ =?us-ascii?Q?OZkpYG5xlwPfRdcpQiDuyLsxqTPhCXHcA6R/JskFlG0m6c/kCOwaby43RyHq?=
+ =?us-ascii?Q?O7riYZa9uzbfgs8LUgXEFdQML55og//GYLOdLgfy0TXwg5jooWhVdrDY5yud?=
+ =?us-ascii?Q?+lgMiTjl/sxp2T03ePRiHHOkZLT4GkaoLXzYhNAcA0yDggHm+r2tFyp33YGq?=
+ =?us-ascii?Q?IIbCD2oYbFuY9CPxqRIJPLhIm97+5Lb6NVGcT1FkXtV+Pum8XL/bNnbw/Opd?=
+ =?us-ascii?Q?jMssipNt6qZ13e4Yx34lgzJJoKR05Oed64lF2E6rC70gp8hmyss3iDKkpCKw?=
+ =?us-ascii?Q?TNu9W5ZMccQBSgLxTM9sRvWRoffalb8jcI63uGzDNyYJZ90pBILdCu4VACNR?=
+ =?us-ascii?Q?+pp6BR7oBGfobRJkXLWifkjfnefNYN1uI5QEXPOpkvt30oRu7qGXJK9+5bX9?=
+ =?us-ascii?Q?w//w4UQ1M2gAWfDf778UkyN+FYXZLbysZzd6ST1wo1h/HLswRwSgj7f5p32t?=
+ =?us-ascii?Q?s/+ZdbmPwFekBSbmYipkDmA9nHcqbD2V6IYEKI+OUChEp7ZxKFCUDNNDusaT?=
+ =?us-ascii?Q?SuwGCeW+3Kh1i7Uyt6ZK8wS7pOgX7vHz6llWPXgeP95nfngHgUltPhlg7Eib?=
+ =?us-ascii?Q?GR1uzhyZojvwN/NGRIfEl9fMSWApW6zhgHm7/SaY2WwHHHWQDA2SfVzF7FIu?=
+ =?us-ascii?Q?ghzJa34Pw3u8/Hz/YWLOyBFyXkz0FWWXd15mrsl3y3rr4XGz4oCEQgu51XRI?=
+ =?us-ascii?Q?L0+Z?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66443acb-b9cf-4cf6-0c48-08d8b904ebf0
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f639f81b-a78b-4351-cd53-08d8b91622f9
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4545.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 03:23:26.6701
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 05:26:40.1972
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: McppwOdBksCvcUAYQVcsLEXY1fJBiYm8/tBk6cqDyrU4PTJwIKI6Kvi5067manWcJH5js7+R3eCKCxvTLxAP8w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2189
+X-MS-Exchange-CrossTenant-UserPrincipalName: BP3ffRxU9KhRzAAKf6HH1znvotF3MgFMfmhhPqiOgJRs/Vs4PpYncQBQf0bZ3MIcjlVmmFppJRyr9FMO8zbIlhM+XaYIB2QaeJ+rF/J+RtM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2092
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Recent systemd started using ascii args to "hidepid=3D" mount options
+for proc fs - unconditionally -- even though kernels older than v5.8
+emit an error message on each attempt:
 
-When multilib enabled, there comes below error for packages which
-inherit useradd bbclass randomly when build eSDK.
- $ bitbake image-name -c populate_sdk_ext
- Exception: subprocess.CalledProcessError: Command '/prj/tmp-glibc/work/int=
-el_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/lib32-recipe-sysroot/usr/bin/p=
-ostinst-useradd-lib32-avahi' returned non-zero exit status 1.
- Subprocess output:
- /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/recipe=
--sysroot-native/usr/sbin/useradd
- Running useradd commands...
- NOTE: lib32-avahi: Performing useradd with [--root /prj/tmp-glibc/work/int=
-el_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/recipe-sysroot --system --home=
- /run/avahi-daemon                               --no-create-home --shell /=
-bin/false                               --user-group avahi]
- useradd: Warning: missing or non-executable shell '/bin/false'
- abort()ing pseudo client by server request. See https://wiki.yoctoproject.=
-org/wiki/Pseudo_Abort for more details on this.
- Check logfile: /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-st=
-d/1.0-r5/pseudo//pseudo.log
- ERROR: lib32-avahi: useradd command did not succeed.
- ERROR: Logfile of failure stored in: /prj/tmp-glibc/work/intel_x86_64-wrs-=
-linux/wrlinux-image-std/1.0-r5/temp/log.do_sdk_depends.20567
+root@qemux86-64:~# cat /proc/version
+Linux version 5.4.87-yocto-standard (oe-user@oe-host) (gcc version 10.2.0 (=
+GCC)) #1 SMP PREEMPT Fri Jan 8 01:47:13 UTC 2021
+root@qemux86-64:~# dmesg|grep proc:
+[   29.487995] proc: Bad value for 'hidepid'
+[   43.170571] proc: Bad value for 'hidepid'
+[   44.175615] proc: Bad value for 'hidepid'
+[   46.213300] proc: Bad value for 'hidepid'
+root@qemux86-64:~#
 
- $ cat  /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-r5=
-/pseudo//pseudo.log
- [snip]
- path mismatch [1 link]: ino 26553244 db '/prj/tmp-glibc/work/intel_x86_64-=
-wrs-linux/wrlinux-image-std/1.0-r5/recipe-sysroot/etc/group'
-req '/prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/re=
-cipe-sysroot/etc/group.33605'.
- [snip]
+Simply ignoring them as the systemd maintainer unconditionally says
+is the resolution is clearly not acceptable, given the above.
 
- Check the PSEUDO_IGNORE_PATHS in [1], the recipe-sysroot part is
- /prj/tmp-glibc/work/corei7-32-wrsmllib32-linux/lib32-avahi/0.8-r0/recipe-s=
-ysroot.
+Add a kernel version check to avoid calling mount with invalid args.
+Further details are within the enclosed systemd commit.
 
- Use ${RECIPE_SYSROOT} for PSEUDO_IGNORE_PATHS to guarantee the
- recipe-syroot part to be /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinu=
-x-image-std/1.0-r5/recipe-sysroot
- to fix the above issue.
+Cc: Luca Boccassi <luca.boccassi@microsoft.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 
- [1] /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/li=
-b32-recipe-sysroot/usr/bin/postinst-useradd-lib32-avahi
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 96c1c62b10..1dc08344ca 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -686,7 +686,7 @@ SRC_URI =3D ""
- PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/reci=
-pe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}=
-/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WOR=
-KDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/s=
-state-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR=
-},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
-+PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,/run/,${T},${RECIPE_SYSROO=
-T},${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-=
-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/ss=
-tate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-bu=
-ild-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPD=
-IR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+diff --git a/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount=
+-error-with-invalid-options-o.patch b/meta/recipes-core/systemd/systemd/002=
+7-proc-dont-trigger-mount-error-with-invalid-options-o.patch
+new file mode 100644
+index 000000000000..65e7eca32d05
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0027-proc-dont-trigger-mount-error-=
+with-invalid-options-o.patch
+@@ -0,0 +1,126 @@
++From 297aba739cd689e4dc9f43bb1422ec88d481099a Mon Sep 17 00:00:00 2001
++From: Paul Gortmaker <paul.gortmaker@windriver.com>
++Date: Wed, 13 Jan 2021 21:09:33 +0000
++Subject: [PATCH] proc: dont trigger mount error with invalid options on ol=
+d
++ kernels
++
++As of commit 4e39995371738b04d98d27b0d34ea8fe09ec9fab ("core: introduce
++ProtectProc=3D and ProcSubset=3D to expose hidepid=3D and subset=3D procfs
++mount options") kernels older than v5.8 generate multple warnings at
++boot, as seen in this Yocto build from today:
++
++     qemux86-64 login: root
++     [   65.829009] proc: Bad value for 'hidepid'
++     root@qemux86-64:~# dmesg|grep proc:
++     [   16.990706] proc: Bad value for 'hidepid'
++     [   28.060178] proc: Bad value for 'hidepid'
++     [   28.874229] proc: Bad value for 'hidepid'
++     [   32.685107] proc: Bad value for 'hidepid'
++     [   65.829009] proc: Bad value for 'hidepid'
++     root@qemux86-64:~#
++
++The systemd maintainer has dismissed this as something people should
++simply ignore[1] and has no interest in trying to avoid it by
++proactively checking the kernel version, so people can safely assume
++that they will never see this version check commit upstream.
++
++However, as can be seen above, telling people to just ignore it is not
++an option, as we'll end up answering the same question and dealing with
++the same bug over and over again.
++
++The commit that triggers this is systemd v247-rc1~378^2~3 -- so any
++systemd 247 and above plus kernel v5.7 or older will need this.
++
++[1] https://github.com/systemd/systemd/issues/16896
++
++Upstream-Status: Actively hostile
++Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++
++diff --git a/src/core/namespace.c b/src/core/namespace.c
++index cdf427a6ea93..f8fc33a89fc2 100644
++--- a/src/core/namespace.c
+++++ b/src/core/namespace.c
++@@ -4,7 +4,9 @@
++ #include <linux/loop.h>
++ #include <sched.h>
++ #include <stdio.h>
+++#include <stdlib.h>
++ #include <sys/mount.h>
+++#include <sys/utsname.h>
++ #include <unistd.h>
++ #include <linux/fs.h>
++=20
++@@ -859,14 +861,34 @@ static int mount_sysfs(const MountEntry *m) {
++ }
++=20
++ static int mount_procfs(const MountEntry *m, const NamespaceInfo *ns_info=
+) {
+++        _cleanup_free_ char *opts =3D NULL;
++         const char *entry_path;
++-        int r;
+++        int r, major, minor;
+++        struct utsname uts;
+++        bool old =3D false;
++=20
++         assert(m);
++         assert(ns_info);
++=20
++         entry_path =3D mount_entry_path(m);
++=20
+++        /* If uname says that the system is older than v5.8, then the tex=
+tual hidepid=3D stuff is not
+++         * supported by the kernel, and thus the per-instance hidepid=3D =
+neither, which means we
+++         * really don't want to use it, since it would affect our host's =
+/proc * mount. Hence let's
+++         * gracefully fallback to a classic, unrestricted version. */
+++
+++        r =3D uname(&uts);
+++        if (r < 0)
+++               return errno;
+++
+++        major =3D atoi(uts.release);
+++        minor =3D atoi(strchr(uts.release, '.') + 1);
+++
+++        if (major < 5 || (major =3D=3D 5 && minor < 8)) {
+++                log_debug("Pre v5.8 kernel detected [v%d.%d] - skipping h=
+idepid=3D", major, minor);
+++                old =3D true;
+++        }
+++
++         /* Mount a new instance, so that we get the one that matches our =
+user namespace, if we are running in
++          * one. i.e we don't reuse existing mounts here under any conditi=
+on, we want a new instance owned by
++          * our user namespace and with our hidepid=3D settings applied. H=
+ence, let's get rid of everything
++@@ -875,9 +897,8 @@ static int mount_procfs(const MountEntry *m, const Nam=
+espaceInfo *ns_info) {
++         (void) mkdir_p_label(entry_path, 0755);
++         (void) umount_recursive(entry_path, 0);
++=20
++-        if (ns_info->protect_proc !=3D PROTECT_PROC_DEFAULT ||
++-            ns_info->proc_subset !=3D PROC_SUBSET_ALL) {
++-                _cleanup_free_ char *opts =3D NULL;
+++        if (!old && (ns_info->protect_proc !=3D PROTECT_PROC_DEFAULT ||
+++            ns_info->proc_subset !=3D PROC_SUBSET_ALL)) {
++=20
++                 /* Starting with kernel 5.8 procfs' hidepid=3D logic is t=
+ruly per-instance (previously it
++                  * pretended to be per-instance but actually was per-name=
+space), hence let's make use of it
++@@ -891,21 +912,9 @@ static int mount_procfs(const MountEntry *m, const Na=
+mespaceInfo *ns_info) {
++                                ns_info->proc_subset =3D=3D PROC_SUBSET_PI=
+D ? ",subset=3Dpid" : "");
++                 if (!opts)
++                         return -ENOMEM;
++-
++-                r =3D mount_nofollow_verbose(LOG_DEBUG, "proc", entry_pat=
+h, "proc", MS_NOSUID|MS_NOEXEC|MS_NODEV, opts);
++-                if (r < 0) {
++-                        if (r !=3D -EINVAL)
++-                                return r;
++-
++-                        /* If this failed with EINVAL then this likely me=
+ans the textual hidepid=3D stuff is
++-                         * not supported by the kernel, and thus the per-=
+instance hidepid=3D neither, which
++-                         * means we really don't want to use it, since it=
+ would affect our host's /proc
++-                         * mount. Hence let's gracefully fallback to a cl=
+assic, unrestricted version. */
++-                } else
++-                        return 1;
++         }
++=20
++-        r =3D mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc=
+", MS_NOSUID|MS_NOEXEC|MS_NODEV, NULL);
+++        r =3D mount_nofollow_verbose(LOG_DEBUG, "proc", entry_path, "proc=
+", MS_NOSUID|MS_NOEXEC|MS_NODEV, opts);
++         if (r < 0)
++                 return r;
++=20
++--=20
++2.29.2
++
+diff --git a/meta/recipes-core/systemd/systemd_247.2.bb b/meta/recipes-core=
+/systemd/systemd_247.2.bb
+index 5eea78eff353..84d997196cb6 100644
+--- a/meta/recipes-core/systemd/systemd_247.2.bb
++++ b/meta/recipes-core/systemd/systemd_247.2.bb
+@@ -23,6 +23,7 @@ SRC_URI +=3D "file://touchscreen.rules \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0001-systemd.pc.in-use-ROOTPREFIX-without-suffixed-slash=
+.patch \
+            file://0001-logind-Restore-chvt-as-non-root-user-without-polkit=
+.patch \
++           file://0027-proc-dont-trigger-mount-error-with-invalid-options-=
+o.patch \
+            "
 =20
- export PSEUDO_DISABLED =3D "1"
- #export PSEUDO_PREFIX =3D "${STAGING_DIR_NATIVE}${prefix_native}"
+ # patches needed by musl
 --=20
-2.26.2
+2.30.0
 
