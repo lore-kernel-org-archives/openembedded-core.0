@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web11.703.1610713823269131175
+ by mx.groups.io with SMTP id smtpd.web09.723.1610713823079428216
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 04:30:25 -0800
+ Fri, 15 Jan 2021 04:30:26 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 06A4D38C1419
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:23 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id EA97C38C140D
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libevdev: upgrading to 1.10.1 SUCCEEDED
-Message-ID: <MADEUP.165A67B0CDCD2B77.32579@lists.openembedded.org>
-X-Groupsio-MsgNum: 146815
-Content-Type: multipart/mixed; boundary="===============6547693562954464581=="
+Subject: [AUH] rt-tests: upgrading to 1.10 FAILED
+Message-ID: <MADEUP.165A67B0DCB87FF6.6799@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============2122084105610431174=="
 
---===============6547693562954464581==
+--===============2122084105610431174==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,59 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *libevdev* to *1.10.1* has Succeeded.
+that the automatic attempt to upgrade the recipe *rt-tests* to *1.10* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-libevdev-upgrade-1.10.0-1.10.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe rt-tests failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1420 entries from dependency cache.
+INFO: Extracting current version source...
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-d8ff1eb59fe7498e55fb1b84f13f282eb05dc087"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:d8ff1eb59fe7498e55fb1b84f13f282eb05dc087"
+workspace            = "master:09c7fc6e5341bfadb0f6037e7294aee2454eedef"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+WARNING: Command 'git rebase 32819581cc0509c9d58c33c3061f57abe0c40c88' failed:
+Rebasing (1/1)
+error: could not apply b5f997e... Makefile: Allow for CC and AR to be overridden
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply b5f997e... Makefile: Allow for CC and AR to be overridden
+Auto-merging Makefile
+CONFLICT (content): Merge conflict in Makefile
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/rt-tests
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/rt-tests/rt-tests_1.10.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,66 +83,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6547693562954464581==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-libevdev-upgrade-1.10.0-1.10.1.patch"
-
-From 22e6f505f2ff6f22a92d010e453866fdab99f50e Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 15 Jan 2021 12:12:14 +0000
-Subject: [PATCH] libevdev: upgrade 1.10.0 -> 1.10.1
-
----
- .../libevdev/{libevdev_1.10.0.bb => libevdev_1.10.1.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libevdev/{libevdev_1.10.0.bb => libevdev_1.10.1.bb} (85%)
-
-diff --git a/meta/recipes-support/libevdev/libevdev_1.10.0.bb b/meta/recipes-support/libevdev/libevdev_1.10.1.bb
-similarity index 85%
-rename from meta/recipes-support/libevdev/libevdev_1.10.0.bb
-rename to meta/recipes-support/libevdev/libevdev_1.10.1.bb
-index 2620cbe9f7..353ded6f28 100644
---- a/meta/recipes-support/libevdev/libevdev_1.10.0.bb
-+++ b/meta/recipes-support/libevdev/libevdev_1.10.1.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
- 
- SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz \
-            file://determinism.patch"
--SRC_URI[sha256sum] = "3522c26e2c148be0ad68ce26fbced408a4185dea90bfe8079dc82b8ace962d4a"
-+SRC_URI[sha256sum] = "0330fe8357ece915db9366c1b9a6648941aea6f724b73ad6e71401127aa08932"
- 
- inherit autotools pkgconfig
- 
--- 
-2.27.0
-
-
---===============6547693562954464581==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/libevdev: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev: SRC_URI changed from "http://www.freedesktop.org/software/libevdev/libevdev-1.10.0.tar.xz file://determinism.patch" to "http://www.freedesktop.org/software/libevdev/libevdev-1.10.1.tar.xz file://determinism.patch"
-packages/core2-32-poky-linux/libevdev: PV changed from "1.10.0" to "1.10.1"
-packages/core2-32-poky-linux/libevdev/libevdev-dbg: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-dbg: PV changed from "1.10.0" to "1.10.1"
-packages/core2-32-poky-linux/libevdev/libevdev-dev: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-dev: PKGSIZE changed from 97579 to 97536 (-0%)
-packages/core2-32-poky-linux/libevdev/libevdev-dev: PV changed from "1.10.0" to "1.10.1"
-packages/core2-32-poky-linux/libevdev/libevdev-doc: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-doc: PV changed from "1.10.0" to "1.10.1"
-packages/core2-32-poky-linux/libevdev/libevdev-locale: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-locale: PV changed from "1.10.0" to "1.10.1"
-packages/core2-32-poky-linux/libevdev/libevdev-src: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-src: PKGSIZE changed from 290688 to 291113 (+0%)
-packages/core2-32-poky-linux/libevdev/libevdev-src: PV changed from "1.10.0" to "1.10.1"
-packages/core2-32-poky-linux/libevdev/libevdev-staticdev: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev/libevdev-staticdev: PV changed from "1.10.0" to "1.10.1"
-packages/core2-32-poky-linux/libevdev/libevdev: PKGV changed from 1.10.0 [default] to 1.10.1 [default]
-packages/core2-32-poky-linux/libevdev/libevdev: PV changed from "1.10.0" to "1.10.1"
-
---===============6547693562954464581==--
+--===============2122084105610431174==--
