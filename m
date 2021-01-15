@@ -1,145 +1,171 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
- by mx.groups.io with SMTP id smtpd.web10.1141.1610740466788228628
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web12.1400.1610741578236459893
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 11:54:26 -0800
+ Fri, 15 Jan 2021 12:12:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=G5eWyB9h;
- spf=pass (domain: google.com, ip: 209.85.166.51, mailfrom: gmouse@google.com)
-Received: by mail-io1-f51.google.com with SMTP id q2so18771646iow.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 11:54:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ESeIeMmB;
+ spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: andrey.z@gmail.com)
+Received: by mail-lj1-f170.google.com with SMTP id w26so11728081ljo.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:12:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=EXRsCgZ5dtDGn6mOdsOIrK/kkyfZQVpgClUmOfSLtKM=;
-        b=G5eWyB9hK7BVPCngnTV7KcIC2GnApMh2jVVUaXadebRHVf3GUjq49DgH8/SHgxVlgr
-         33Xwx05PtrOrYweCP2rljFHcxl2Tc03otIlRT6BUdYo9B06ZAJ6s6zngRr7prAvbiJf8
-         OPSRwLLt3BRnWfJavfyifT8apsQRLi+oVj36MMrEkhTZsUcgb+QmYFsGGsbh6fe8u3cI
-         iAiUhTFsnL3+DhgBx8nLPy2X6PCtpvlug/7Nxp2XHCJjQZaAEmTvNRktEhkGAN1yekc6
-         krrMWaFiKaSjnaBZqbMHiWij+NrVtUhw2pxRUbUiHDjJR1VWxceWeabfDWswFXjppWI3
-         LmNA==
+        bh=MGwot5V7oV8XkTiQMjmzlaBRpDZIUDUR6lIRZt0UQn8=;
+        b=ESeIeMmBpckCnerA1KIxynHee4g+Jo3OVlov90WJXEwPZL42xVaGtP/bm11bGmp4et
+         rPwvlCueARRA4C/An2skKWZ4AX5DFsU4yiy+tA0wqGb0yVIydedPB4WnS7eHevMf0Rux
+         PB/nXCQcGvKhXrLBSxgIrQJk+E2YxSgm+9MHFLNM6Zo7GCZCkyZVQRDBzyadmWvp0TOx
+         /3vX3+iIpArZjbGB8G1BMzOOxPOziMgJENdgc95mg4dTs+ouowJDmIf5HgbMuLWBEZXM
+         mH1ddHRTh22wJg7Ji0VVuILGTjdsj2kFgbZ133Wy9KLdyAQRo9aK0iV/uuvRVTgb/7US
+         aSkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=EXRsCgZ5dtDGn6mOdsOIrK/kkyfZQVpgClUmOfSLtKM=;
-        b=eGSEPrH81tBFpMfAbK0BAXrVzr7V7gufqKF1agXx2Y/ZsY6p+bVuwQWcDTpl6eLwiA
-         sCHp1nR3qeMT4Z9cXz3iOsEv8rlxdAfRurU5m1Bh7Dk6GUMo14ugIUrJKJPXp5icYBlo
-         sQhUXfHkAGbMUsVp68kXGBYghxhapPMFbj93LIQNdktpAgnoDbjn+NbQ8q72JSNwXenl
-         Ooe6Z6OKVB0x9h9Y4jCZrEu8vpjn7O3eQTJS/lHm+eO8hGCitTVf+GnvIB7eNhd26mUf
-         y2neRWStUC0wPVX19cgJ2JVzSBhsV0XOM2iE/fFgeeMAcNtWN8oQTIXuzafEWORZfr5e
-         DxNw==
-X-Gm-Message-State: AOAM531d7i1i39avuArpw1A+2Sd1FUOGmnVhvBMY99ZaU/KJDOV0GcKK
-	dGor5VczJ+PCsfuHMXycu8rF7Nr+8rpPfykXTPSZUQ==
-X-Google-Smtp-Source: ABdhPJyxXtFU6wTNSmPr/K/UqiYhflkBRv766N5h3A0FCDB73zz+cNYgHirdtm+v6O8G8Fv+KWZWKlNrXV5GKATjlGM=
-X-Received: by 2002:a6b:dc17:: with SMTP id s23mr5123677ioc.170.1610740465924;
- Fri, 15 Jan 2021 11:54:25 -0800 (PST)
+        bh=MGwot5V7oV8XkTiQMjmzlaBRpDZIUDUR6lIRZt0UQn8=;
+        b=lmVT8F/63A/9LhnXmna0cXL7C+QDkdXwDX8NFz9Q0Ihy69NJIOUJwKpJs6/4W6QGZl
+         WElJArjoCon4AT3r/FYQaBeTSXJ8fKmelHD+U1t96AX7Xtzj7TdgKvIWrJOjHc+9huhj
+         UV36mhdxl9qayCw/k03QwtlrE/0a0Kg8dxWJYHlLsE9eNUfHZaVX9HCONthdKX+qoZc9
+         uJqm+lpLgKFSDPNk+jaCd/roB3j/mEhlLfqClO27t0pkEXd+yPtOJGiTa9zkMwbiRC5u
+         b/5hKxQ4FZMDm/vL6QYMZ2cPR3dk7lUgEpxjG0XwQWMdpigo7riDa3HLQFGz/34O/Swv
+         C+XA==
+X-Gm-Message-State: AOAM530mcSUlZ+c5Zk6HNsL+ZA8L9zOyty9uGOltPppJPIvIdeUslqdq
+	x1IhF8GIPgP8DBOPXVAUsMHSjQqlLqneEcWFf1M=
+X-Google-Smtp-Source: ABdhPJwJwpzO09gkSd3XacgqSTaUPJv5QHRKE2GXB1Dmh44mtOhl8aqkVYy/3CKz9ie4zpP69v9bOU/0vos5GoL6sjU=
+X-Received: by 2002:a2e:50c:: with SMTP id 12mr6096025ljf.226.1610741576260;
+ Fri, 15 Jan 2021 12:12:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20210107215121.3901938-1-gmouse@google.com> <CADVsX8-dMLvuccRjzU73=-reDjEBRq5PZZ+S6ZeugSvTy-iqog@mail.gmail.com>
- <CADVsX8924shMc+PFUQ6jsmnUqsF+VAeRfn0xM+4G406EgvGFCg@mail.gmail.com>
- <63d70805b829d08faf3e73865ed7f9c2ad9a1366.camel@linuxfoundation.org>
- <CADVsX89HCqKYNOyDMK1czkfaOw_TdrwVLK=bi_RanOKgDd=ZuQ@mail.gmail.com>
- <bfb21f1ec874e5d9638885885eb2530104c28ac5.camel@linuxfoundation.org>
- <3810611592a344cbaeb1b907e150c2c5@XBOX03.axis.com> <CADVsX8_otuGr+Ct3pAWHmSAPwEGgXMxpA8=qUdQ1N3-Z1S+nsg@mail.gmail.com>
- <05fabb770ffbd897dfb0771efc9ed62c7637fa89.camel@linuxfoundation.org> <dd7b90af3a41bd76856c1610309e7657336db343.camel@linuxfoundation.org>
-In-Reply-To: <dd7b90af3a41bd76856c1610309e7657336db343.camel@linuxfoundation.org>
-From: "Anton Kachalov" <rnouse@google.com>
-Date: Fri, 15 Jan 2021 20:54:14 +0100
-Message-ID: <CADVsX8_czjA4pVQ=WqG3WzSsNzphXz5bOVnZ5Pa=y2Pk85wYuA@mail.gmail.com>
-Subject: Re: [OE-core] [poky][PATCH] bitbake: remove /usr from pseudo ignore paths
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004c5e8b05b8f5bd5d"
-
---0000000000004c5e8b05b8f5bd5d
+References: <CAA=hcWR+nsKAEH+Y9+U+3j21QtpdnBTenLdd65-yt0zpYPzX0g@mail.gmail.com>
+ <CAA=hcWRXRDe6vu38PcFTc6oS+vU2DPqLRik_D3zTKiex99bX5g@mail.gmail.com>
+In-Reply-To: <CAA=hcWRXRDe6vu38PcFTc6oS+vU2DPqLRik_D3zTKiex99bX5g@mail.gmail.com>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Fri, 15 Jan 2021 21:12:45 +0100
+Message-ID: <CAHtQpK4OgZ5Qm6sFUiQavg6gd0taVUB2XiLHv8RG3q7O59B_TA@mail.gmail.com>
+Subject: Re: [meta-freescale] MTD UBI undefined reference failed to build OE gatesgarth branch
+To: JH <jupiter.hce@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	meta-freescale@lists.yoctoproject.org, 
+	linux-mtd <linux-mtd@lists.infradead.org>, U-Boot Mailing List <u-boot@lists.denx.de>
 Content-Type: text/plain; charset="UTF-8"
 
-Perhaps, I'm doing something wrong, but setting this variable in
-build/conf/local.conf makes packages fail to build (do_install): only those
-which fail with pseudo before (linux-libc-headers and base-files).
+Hello Jupiter,
 
-On Fri, 15 Jan 2021 at 18:15, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Fri, Jan 15, 2021 at 8:32 PM JH <jupiter.hce@gmail.com> wrote:
+>
+> Hello,
+>
+> The mtd build was fine, what could be missing not to link mtd?
+>
+> $ ls 2020.04-r0/build/mx6ull_14x14_evk_nand_config/drivers/mtd
 
-> On Fri, 2021-01-15 at 17:09 +0000, Richard Purdie wrote:
-> > On Fri, 2021-01-15 at 18:04 +0100, Anton Kachalov wrote:
-> > > nope, setting the entire PSEUDO_IGNORE_PATHS without "/usr" doesn't
-> > > work. The do_install task fails with error code 134 without any log
-> > > file. Neither temp/run.do_install file exists. The pseudo.log doesn't
-> > > have any errors.
+From all the build logs you have, it look to me that you're trying to
+build the U-Boot delivered by NXP as a part of their BSP release.
+
+In this case, I suggest you'd rather contact NXP support in order to
+address this failure, since it is a vendor BSP you're trying to
+upgrade.
+
+In addition, I do not think that all mailing lists you've cross-posted
+your question to would be able to help you here:
+- linux-mtd list is not really appropriate to solve U-Boot build issues;
+- u-boot list is for upstream U-Boot patches and discussions, which is
+way past over 2020.04 version (not even considering that you're
+building U-Boot from NXP fork);
+- oe-core is not a proper list to post questions specific to one SOC vendor;
+- meta-freescale 'gatesgarth' branch does not have any U-Boot build
+configuration for mx6ull_14x14_evk_nand_config, the only available
+build config provided is for sd card;
+
+Having all those points above, I'd suggest you contact NXP support at
+first to see if they can solve those build errors for you.
+
+If you would find a solution, you can send a PR to meta-freescale to
+address it - this would be much appreciated.
+
+>
+> built-in.o  mtdcore.su  mtdpart.o   mtd_uboot.o   mtd-uclass.o   nand     spi
+> mtdcore.o   mtd.o       mtdpart.su  mtd_uboot.su  mtd-uclass.su  onenand  ubi
+>
+>
+>
+> On 1/15/21, Jupiter <jupiter.hce@gmail.com> wrote:
+> > Hello,
 > >
-> > Right, Peter is correct and _remove is space delimited, the variable is
-> > comma delimited. Sorry, I'm getting confused.
+> > I was able to build MTD, UBI and u-boot on OE version Zeus branch, but
+> > failed in gatesgarth branch. Here are errors, what could I be missing?
 > >
-> > There is the rather uglier:
+> > u-boot-imx/2020.04-r0/git/cmd/ubi.c:478: undefined reference to
+> > `mtd_probe_devices'
+> > u-boot-imx/2020.04-r0/git/cmd/ubi.c:484: undefined reference to
+> > `put_mtd_device'
+> > u-boot-imx/2020.04-r0/git/drivers/mtd/ubi/build.c:1161: undefined
+> > reference to `put_mtd_device'
+> > u-boot-imx/2020.04-r0/git/drivers/mtd/ubi/build.c:1229: undefined
+> > reference to `get_mtd_device_nm'
+> > u-boot-imx/2020.04-r0/git/drivers/mtd/ubi/io.c:1407: undefined
+> > reference to `mtd_read'
+> > u-boot-imx/2020.04-r0/git/drivers/mtd/ubi/io.c:279: undefined
+> > reference to `mtd_write'
 > >
-> > PSEUDO_IGNORE_PATHS :=
-> "${@d.getVar('PSEUDO_IGNORE_PATHS').replace('/usr/,','')}"
+> > u-boot-imx/2020.04-r0/git/drivers/video/cfb_console.c:2025: undefined
+> > reference to `video_hw_init'
+> > u-boot-imx/2020.04-r0/git/drivers/gpio/74x164_gpio.c:51: undefined
+> > reference to `dm_spi_claim_bus'
+> > u-boot-imx/2020.04-r0/git/drivers/gpio/74x164_gpio.c:55: undefined
+> > reference to `dm_spi_xfer'
+> > u-boot-imx/2020.04-r0/git/drivers/gpio/74x164_gpio.c:58: undefined
+> > reference to `dm_spi_release_bus'
+> > u-boot-imx/2020.04-r0/git/Makefile:1701: recipe for target 'u-boot' failed
+> > make[1]: *** [u-boot] Error 1
+> > WARNING: exit code 1 from a shell command.
 > >
-> > which should work (I did test this time!).
+> > There are a couple of warning messages I am not sure if they are
+> > important or just nonsense, like CONFIG_DEFAULT_DEVICE_TREE has
+> > already been defined but it complained:
+> >
+> > Device Tree Source is not correctly specified.
+> > Please define 'CONFIG_DEFAULT_DEVICE_TREE'
+> > or build with 'DEVICE_TREE=<device_tree>' argument
+> >
+> > u-boot-imx/2020.04-r0/git/drivers/gpio/74x164_gpio.c:51:8: warning:
+> > implicit declaration of function 'dm_spi_claim_bus'; did you mean
+> > 'spi_claim_bus'? [-Wimplicit-function-declaration]
+> >    51 |  ret = dm_spi_claim_bus(dev);
+> >       |        ^~~~~~~~~~~~~~~~
+> >       |        spi_claim_bus
+> > @
+> > u-boot-imx/2020.04-r0/git/drivers/gpio/74x164_gpio.c:55:8: warning:
+> > implicit declaration of function 'dm_spi_xfer'; did you mean
+> > 'spi_xfer'? [-Wimplicit-function-declaration]
+> >    55 |  ret = dm_spi_xfer(dev, priv->nregs * 8, priv->buffer, NULL,
+> >       |        ^~~~~~~~~~~
+> >       |        spi_xfer
+> > u-boot-imx/2020.04-r0/git/drivers/gpio/74x164_gpio.c:58:2: warning:
+> > implicit declaration of function 'dm_spi_release_bus'; did you mean
+> > 'spi_release_bus'? [-Wimplicit-function-declaration]
+> >    58 |  dm_spi_release_bus(dev);
+> >       |  ^~~~~~~~~~~~~~~~~~
+> >       |  spi_release_bus
+> >
+> > Appreciate your advice.
+> >
+> > Thank you very much.
+> >
+> > Kind regards,
+> >
+> > - jupiter
+> >
 >
-> Thinking more, this is safer:
 >
-> PSEUDO_IGNORE_PATHS := "${@d.getVar('PSEUDO_IGNORE_PATHS',
-> False).replace('/usr/,','')}"
+> --
+> "A man can fail many times, but he isn't a failure until he begins to
+> blame somebody else."
+> -- John Burroughs
 >
-> I did test it parses and gave the right value with bitbake -e however I
-> not expanding it will be much safer as I suspect the first version
-> won't work in recipe context at build time.
->
-> Cheers,
->
-> Richard
->
+> 
 >
 
---0000000000004c5e8b05b8f5bd5d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Perhaps, I&#39;m doing something=C2=A0wrong, but setting t=
-his variable in build/conf/local.conf makes packages fail to build (do_inst=
-all): only those which fail=C2=A0with pseudo before (linux-libc-headers and=
- base-files).</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Fri, 15 Jan 2021 at 18:15, Richard Purdie &lt;<a href=3D"ma=
-ilto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-On Fri, 2021-01-15 at 17:09 +0000, Richard Purdie wrote:<br>
-&gt; On Fri, 2021-01-15 at 18:04 +0100, Anton Kachalov wrote:<br>
-&gt; &gt; nope, setting the entire PSEUDO_IGNORE_PATHS without &quot;/usr&q=
-uot; doesn&#39;t<br>
-&gt; &gt; work. The do_install task fails with error code 134 without any l=
-og<br>
-&gt; &gt; file. Neither temp/run.do_install file exists. The pseudo.log doe=
-sn&#39;t<br>
-&gt; &gt; have any errors.<br>
-&gt; <br>
-&gt; Right, Peter is correct and _remove is space delimited, the variable i=
-s<br>
-&gt; comma delimited. Sorry, I&#39;m getting confused.<br>
-&gt; <br>
-&gt; There is the rather uglier:<br>
-&gt; <br>
-&gt; PSEUDO_IGNORE_PATHS :=3D &quot;${@d.getVar(&#39;PSEUDO_IGNORE_PATHS&#3=
-9;).replace(&#39;/usr/,&#39;,&#39;&#39;)}&quot;<br>
-&gt; <br>
-&gt; which should work (I did test this time!).<br>
-<br>
-Thinking more, this is safer:<br>
-<br>
-PSEUDO_IGNORE_PATHS :=3D &quot;${@d.getVar(&#39;PSEUDO_IGNORE_PATHS&#39;, F=
-alse).replace(&#39;/usr/,&#39;,&#39;&#39;)}&quot;<br>
-<br>
-I did test it parses and gave the right value with bitbake -e however I<br>
-not expanding it will be much safer as I suspect the first version<br>
-won&#39;t work in recipe context at build time.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-
---0000000000004c5e8b05b8f5bd5d--
+-- 
+Regards,
+Andrey.
