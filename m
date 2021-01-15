@@ -1,156 +1,78 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.720.1610713822628656440
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web12.1448.1610718030285203728
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 04:30:26 -0800
+ Fri, 15 Jan 2021 05:40:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
-Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 0E04938C143F
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:23 +0000 (UTC)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mMSwa6wc;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id f17so10369164ljg.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 05:40:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hm7XZMfoN8/aXDIrN2AwMEqvVaFFKBe9vGxP+TAOSkI=;
+        b=mMSwa6wcfkqKAspp0NaDNaFw5mbvkwYK6LyUM6kXZj0UQz5KXFaQ3akDCeNSskuiMP
+         WZeGZtFJ8XFHBSYU25vmHR05LlFxMEcdlqXF5KcQmCrPbVipHjQvumkxYTD9+gPXx6DP
+         /Ud+wYNwgzbiN4oS+Nz9f9zgzcB9IykFHisHUy5IRnbUxSDtmU8zVP3kD0OLpzcV2jP7
+         YfF550KF2oTBAIlup1HXYe5DFKfrmLvGXzmZqhoag2vfQfJI0Aui5jVf+Lh29V55H885
+         j8WrthQlu6Gks8cKbmuGY9maucYBcgpubGpvSA7zIiX8KhiDVdYPMqI0X1jxymRo9PDB
+         k13g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hm7XZMfoN8/aXDIrN2AwMEqvVaFFKBe9vGxP+TAOSkI=;
+        b=smGC4kiyhJ1kD1FOyV7Za0CHDmkZCE++a6pAC1KURxmRp3MawAdwRnJ4qsWwHSdRxU
+         Cj3PqInYcfezxb/QIpMBIlQNteKH3HlB1vTkJx4dsawjXHcMsBU86K9VYwYREmkDjTbp
+         W7EN1YXp0FL9gs3hWBt0cKqqEEVOqiDyUziRVMCqt68ICqXey8gtouPE9Mk1QKVXpzfN
+         AoOZsDpy553l8WeTfmFKtWoUPm7Yy1tqYfk5XHK9Lo3u0sD9RxciW5vuqMslu+O/kTlV
+         kxm5S4g21GWjo9rbuKBHw6IsTI2TefS7KDM/VbskhsDp1YxrfrGDiMAKlmjipA6JX8zj
+         vuQA==
+X-Gm-Message-State: AOAM531ZQ1dR3caITR5WElp4QianjKO20SQ703NWE+hHnaFI17Qyhb+f
+	EMsFdAmFZioG3PEdR54RzWo8qNhUnis=
+X-Google-Smtp-Source: ABdhPJwAMZB+4G8BMqg9DK5WX6ePfGQyYum/vgelp3F7M2XUtF2+upH1ZsPtygaKuMAyK106z2BSlQ==
+X-Received: by 2002:a05:651c:114:: with SMTP id a20mr5282739ljb.392.1610718028071;
+        Fri, 15 Jan 2021 05:40:28 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id r18sm904337lfm.184.2021.01.15.05.40.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jan 2021 05:40:27 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2021-01-15
-Message-ID: <MADEUP.165A67B0FDA6AE3E.24772@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============3221175046373793412=="
-
---===============3221175046373793412==
-Content-Type: text/plain; charset="utf-8"
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] lib/oe/utils: Return empty string in parallel_make
+Date: Fri, 15 Jan 2021 14:42:31 +0100
+Message-Id: <20210115134231.5824-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIFN1Y2NlZWRlZDogNTUKICAgICAgICB1
-LWJvb3QtdG9vbHMsIDIwMjEuMDEsIE1hcmVrIFZhc3V0IDxtYXJlay52YXN1dEBnbWFpbC5jb20+
-CiAgICAgICAgaXByb3V0ZTIsIDUuMTAuMCwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFl
-QGdtYWlsLmNvbT4KICAgICAgICBsaWJwY2FwLCAxLjEwLjAsIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbEBpbnRlbC5jb20+CiAgICAgICAgcmVzb2x2Y29uZiwgMS44NywgQ2hlbiBRaSA8UWkuQ2hl
-bkB3aW5kcml2ZXIuY29tPgogICAgICAgIHNvY2F0LCAxLjcuNC4xLCBIb25neHUgSmlhIDxob25n
-eHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgYXB0LCAxLjguMi4yLCBBbsOtYmFsIExpbcOz
-biA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBkaWZmc3RhdCwgMS42NCwgQ2hlbiBR
-aSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYm1vZHVsZW1kLCAyLjExLjIsIEFs
-ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIG1lc29uLCAw
-LjU2LjIsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAg
-IHB5dGhvbjMtbnVtcHksIDEuMTkuNSwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBv
-bGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5dGhvbjMtZGJ1c21vY2ssIDAuMjIuMCwg
-T2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgog
-ICAgICAgIHB5dGhvbjMtZ2l0LCAzLjEuMTIsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3Vy
-Y2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBweXRob24zLWh5cG90aGVzaXMsIDYu
-MC4yLCBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nQGxpbnV4LmludGVsLmNvbT4KICAgICAg
-ICBweXRob24zLWltcG9ydGxpYi1tZXRhZGF0YSwgMy40LjAsIFRpbSBPcmxpbmcgPHRpbW90aHku
-dC5vcmxpbmdAbGludXguaW50ZWwuY29tPgogICAgICAgIHB5dGhvbjMtbWFrbywgMS4xLjQsIE9s
-ZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAg
-ICAgICBweXRob24zLXB5Z21lbnRzLCAyLjcuNCwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNv
-dXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHZhbGEsIDAuNTAuMywgQWxleGFu
-ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgYWNwaWNhLCAyMDIx
-MDEwNSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgbGliYXJjaGl2
-ZSwgMy41LjEsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20u
-YnI+CiAgICAgICAgbGlnaHR0cGQsIDEuNC41OCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
-YXZpbkBnbWFpbC5jb20+CiAgICAgICAgbG9ncm90YXRlLCAzLjE4LjAsIFlpIFpoYW8gPHlpLnpo
-YW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBsemlwLCAxLjIyLCBEZW55cyBEbXl0cml5ZW5rbyA8
-ZGVueXNAdGkuY29tPgogICAgICAgIG5ldC10b29scywgMi4xMCwgQXJtaW4gS3VzdGVyIDxha3Vz
-dGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBzdHJlc3MtbmcsIDAuMTIuMDEsIEFudWogTWl0dGFs
-IDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgc3VkbywgMS45LjVwMSwgQ2hlbiBRaSA8
-UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHdnZXQsIDEuMjEuMSwgWWkgWmhhbyA8eWku
-emhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGdjciwgMy4zOC4xLCBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJkcm0sIDIuNC4xMDQsIE90YXZp
-byBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgZ2xz
-bGFuZywgMTEuMS4wLCBKb3NlIFF1YXJlc21hIDxxdWFyZXNtYS5qb3NlQGdtYWlsLmNvbT4KICAg
-ICAgICBsaWJlcG94eSwgMS41LjUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+
-CiAgICAgICAgbWVzYSwgMjAuMy4zLCBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRvckBv
-c3N5c3RlbXMuY29tLmJyPgogICAgICAgIHBpZ2xpdCwgMS4wLW5ldy1jb21taXRzLWF2YWlsYWJs
-ZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgdnVsa2FuLXRvb2xz
-LCAxLjIuMTYyLjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAg
-a21vZCwgMjgsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnc3QtZGV2
-dG9vbHMsIDEuMTguMywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAg
-ICBnc3QtZXhhbXBsZXMsIDEuMTguMywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
-bT4KICAgICAgICBnc3RyZWFtZXIxLjAtbGliYXYsIDEuMTguMywgQW51aiBNaXR0YWwgPGFudWou
-bWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAtb214LCAxLjE4LjMsIEFudWog
-TWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdp
-bnMtYmFkLCAxLjE4LjMsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAg
-ICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSwgMS4xOC4zLCBBbnVqIE1pdHRhbCA8YW51ai5t
-aXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2QsIDEuMTgu
-MywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnc3RyZWFtZXIx
-LjAtcGx1Z2lucy11Z2x5LCAxLjE4LjMsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5j
-b20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXB5dGhvbiwgMS4xOC4zLCBBbnVqIE1pdHRhbCA8YW51
-ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1ydHNwLXNlcnZlciwgMS4x
-OC4zLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1l
-cjEuMC12YWFwaSwgMS4xOC4zLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgog
-ICAgICAgIGdzdHJlYW1lcjEuMCwgMS4xOC4zLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
-ZWwuY29tPgogICAgICAgIG1wZzEyMywgMS4yNi40LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
-YW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBod2xhdGRldGVjdCwgMS4xMCwgQWxleGFuZGVyIEth
-bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZGlmZm9zY29wZSwgMTY0LCBK
-b3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+CiAgICAgICAgZW5jaGFudDIsIDIuMi4x
-NSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnbnVwZywgMi4y
-LjI3LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGliZXZk
-ZXYsIDEuMTAuMSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBs
-aWJwcm94eSwgMC40LjE3LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAg
-ICAgIHAxMS1raXQsIDAuMjMuMjIsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
-aWwuY29tPgogICAgICAgIHJuZy10b29scywgNi4xMSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFs
-QGludGVsLmNvbT4KICAgICogRmFpbGVkKGRvX2NvbXBpbGUpOiA2CiAgICAgICAgdS1ib290LCAy
-MDIxLjAxLCBNYXJlayBWYXN1dCA8bWFyZWsudmFzdXRAZ21haWwuY29tPgogICAgICAgIGNtYWtl
-LCAzLjE5LjMsIFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNvbT4KICAgICAgICBk
-cGtnLCAxLjIwLjcuMSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+CiAg
-ICAgICAgZ2l0LCAyLjMwLjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29t
-PgogICAgICAgIGxpYmhhbmR5LCAxLjAuMywgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
-bkBnbWFpbC5jb20+CiAgICAgICAgbGlic2RsMiwgMi4wLjE0LCBZaSBaaGFvIDx5aS56aGFvQHdp
-bmRyaXZlci5jb20+CiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6IDIxCiAgICAgICAgYnVz
-eWJveCwgMS4zMy4wLCBBbmRyZWogVmFsZWsgPGFuZHJlai52YWxla0BzaWVtZW5zLmNvbT4KICAg
-ICAgICBhdXRvY29uZiwgMi43MCwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgYXV0b21ha2UsIDEuMTYuMywgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgZGlzdGNjLCAzLjQsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFA
-d2luZHJpdmVyLmNvbT4KICAgICAgICBncHRmZGlzaywgMS4wLjYsIEFsZXhhbmRlciBLYW5hdmlu
-IDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdudS1jb25maWcsIDIwMjAxMjI3LW5l
-dy1jb21taXRzLWF2YWlsYWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgbGx2bSwgMTEuMC4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgog
-ICAgICAgIHB5dGhvbjMtc2V0dXB0b29scywgNTEuMS4yLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9w
-ZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcnVieSwgMy4wLjAsIFJv
-c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIGJhc2gsIDUuMSwgSG9uZ3h1
-IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIGdvLWhlbGxvd29ybGQsIDAu
-MS1uZXctY29tbWl0cy1hdmFpbGFibGUsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAg
-ICAgICAgdGFyLCAxLjMzLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAg
-Z2RrLXBpeGJ1ZiwgMi40Mi4yLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAg
-ICAgICBoYXJmYnV6eiwgMi43LjQsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+
-CiAgICAgICAgdnVsa2FuLXNhbXBsZXMsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3Mg
-QnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIHdheWxhbmQsIDEuMTguOTIsIERl
-bnlzIERteXRyaXllbmtvIDxkZW55c0B0aS5jb20+CiAgICAgICAgbHR0bmctbW9kdWxlcywgMi4x
-Mi40LCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4K
-ICAgICAgICBwdWxzZWF1ZGlvLCAxNC4xLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJv
-amVjdC5vcmc+CiAgICAgICAgcnQtdGVzdHMsIDEuMTAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
-LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdwZ21lLCAxLjE1LjEsIEhvbmd4dSBKaWEgPGhv
-bmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJncGctZXJyb3IsIDEuNDEsIEhvbmd4
-dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KCiAgICBUT1RBTDogYXR0ZW1wdGVkPTgy
-IHN1Y2NlZWRlZD01NSg2Ny4wNyUpIGZhaWxlZD0yNygzMi45MyUpCgpSZWNpcGUgdXBncmFkZSBz
-dGF0aXN0aWNzIHBlciBNYWludGFpbmVyOgoKICAgIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1
-cmRpZTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAg
-ICBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluOiBhdHRlbXB0ZWQ9MTEgc3VjY2VlZGVk
-PTgoNzIuNzMlKSBmYWlsZWQ9MygyNy4yNyUpCiAgICBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b246
-IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0yKDQwLjAwJSkgZmFpbGVkPTMoNjAuMDAlKQogICAgQW5k
-cmVqIFZhbGVrIDxhbmRyZWoudmFsZWs6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBm
-YWlsZWQ9MSgxMDAuMDAlKQogICAgSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXI6IGF0dGVtcHRlZD0x
-IHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgT3RhdmlvIFNhbHZhZG9y
-IDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0zKDEwMC4wMCUpIGZhaWxl
-ZD0wKDAuMDAlKQogICAgQ2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTQo
-ODAuMDAlKSBmYWlsZWQ9MSgyMC4wMCUpCiAgICBIb25neHUgSmlhIDxob25neHUuamlhOiBhdHRl
-bXB0ZWQ9NiBzdWNjZWVkZWQ9MigzMy4zMyUpIGZhaWxlZD00KDY2LjY3JSkKICAgIEFudWogTWl0
-dGFsIDxhbnVqLm1pdHRhbDogYXR0ZW1wdGVkPTIxIHN1Y2NlZWRlZD0yMCg5NS4yNCUpIGZhaWxl
-ZD0xKDQuNzYlKQogICAgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoOiBhdHRlbXB0ZWQ9MSBzdWNj
-ZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIEFuw61iYWwgTGltw7NuIDxsaW1v
-bi5hbmliYWw6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAl
-KQogICAgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4w
-MCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDg6IGF0dGVt
-cHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgTWFyZWsgVmFz
-dXQgPG1hcmVrLnZhc3V0OiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MSg1MC4wMCUpIGZhaWxlZD0x
-KDUwLjAwJSkKICAgIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2U6IGF0dGVtcHRlZD02
-IHN1Y2NlZWRlZD01KDgzLjMzJSkgZmFpbGVkPTEoMTYuNjclKQogICAgSm9zZSBRdWFyZXNtYSA8
-cXVhcmVzbWEuam9zZTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAo
-MC4wMCUpCiAgICBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nOiBhdHRlbXB0ZWQ9MiBzdWNj
-ZWVkZWQ9MigxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTog
-YXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBDaGFu
-Z2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWU6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4w
-MCUpIGZhaWxlZD0wKDAuMDAlKQogICAgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0
-ZWQ9NCBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTQoMTAwLjAwJSkKICAgIERlbnlzIERteXRy
-aXllbmtvIDxkZW55czogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTEoNTAuMDAlKSBmYWlsZWQ9MSg1
-MC4wMCUpCiAgICBZaSBaaGFvIDx5aS56aGFvOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9Mig2Ni42
-NyUpIGZhaWxlZD0xKDMzLjMzJSkK
+In cmake.bbclass we set CMAKE_BUILD_PARALLEL_LEVEL using parallel_make
+function and if PARALLEL_MAKE is set to empty string then this variable
+is exported as "None" causing cmake to fail with:
+"'CMAKE_BUILD_PARALLEL_LEVEL' environment variable
+invalid number 'None' given."
 
---===============3221175046373793412==--
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+---
+ meta/lib/oe/utils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 468c76f30f..9a2187e36f 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -193,7 +193,7 @@ def parallel_make(d, makeinst=False):
+ 
+         return int(v)
+ 
+-    return None
++    return ''
+ 
+ def parallel_make_argument(d, fmt, limit=None, makeinst=False):
+     """
+-- 
+2.29.2
+
