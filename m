@@ -1,21 +1,21 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.723.1610713823079428216
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web12.722.1610713822916136885
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jan 2021 04:30:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 3047638C1355
+	by mail.yoctoproject.org (Postfix) with ESMTP id 4998938C13AB
 	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ruby: upgrading to 3.0.0 FAILED
-Message-ID: <MADEUP.165A67B039C8B888.4055@lists.openembedded.org>
-Content-Type: multipart/mixed; boundary="===============8315519450499918296=="
+Subject: [AUH] tar: upgrading to 1.33 FAILED
+Message-ID: <MADEUP.165A67B0461870BF.4055@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============6797620547201845999=="
 
---===============8315519450499918296==
+--===============6797620547201845999==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -23,18 +23,17 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *ruby* to *3.0.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe *tar* to *1.33* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe ruby failed.
+Running 'devtool upgrade' for recipe tar failed.
 NOTE: Starting bitbake server...
 NOTE: Reconnecting to bitbake server...
 NOTE: Retrying server connection (#1)...
 Loading cache...done.
 Loaded 1420 entries from dependency cache.
 INFO: Extracting current version source...
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -44,12 +43,12 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+DISTRO_VERSION       = "3.2+snapshot-f64a29415831c1236394cc1813514f010670da9d"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+meta-yocto-bsp       = "tmp-auh-upgrades:f64a29415831c1236394cc1813514f010670da9d"
 workspace            = "master:09c7fc6e5341bfadb0f6037e7294aee2454eedef"
 
 Initialising tasks...done.
@@ -58,9 +57,8 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-INFO: Adding local source files to srctree...
 INFO: Extracting upgraded version source...
-INFO: Fetching http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.0.tar.gz...
+INFO: Fetching https://ftp.gnu.org/gnu/tar/tar-1.33.tar.bz2...
 Loading cache...done.
 Loaded 1420 entries from dependency cache.
 Parsing recipes...done.
@@ -74,12 +72,12 @@ NATIVELSBSTRING      = "universal"
 TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "3.2+snapshot-5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+DISTRO_VERSION       = "3.2+snapshot-f64a29415831c1236394cc1813514f010670da9d"
 TUNE_FEATURES        = "m64 core2"
 TARGET_FPU           = ""
 meta                 
 meta-poky            
-meta-yocto-bsp       = "tmp-auh-upgrades:5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+meta-yocto-bsp       = "tmp-auh-upgrades:f64a29415831c1236394cc1813514f010670da9d"
 workspace            = "master:09c7fc6e5341bfadb0f6037e7294aee2454eedef"
 
 Initialising tasks...done.
@@ -92,82 +90,31 @@ NOTE: Writing buildhistory took: 1 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   1% |                                    | ETA:  0:00:04
-Adding changed files:   3% |#                                   | ETA:  0:00:03
-Adding changed files:   5% |#                                   | ETA:  0:00:02
-Adding changed files:   7% |##                                  | ETA:  0:00:02
-Adding changed files:   9% |###                                 | ETA:  0:00:02
-Adding changed files:  10% |###                                 | ETA:  0:00:02
-Adding changed files:  12% |####                                | ETA:  0:00:01
-Adding changed files:  14% |#####                               | ETA:  0:00:01
-Adding changed files:  16% |#####                               | ETA:  0:00:01
-Adding changed files:  18% |######                              | ETA:  0:00:01
-Adding changed files:  19% |#######                             | ETA:  0:00:01
-Adding changed files:  21% |#######                             | ETA:  0:00:01
-Adding changed files:  23% |########                            | ETA:  0:00:01
-Adding changed files:  25% |#########                           | ETA:  0:00:01
-Adding changed files:  27% |#########                           | ETA:  0:00:01
-Adding changed files:  28% |##########                          | ETA:  0:00:01
-Adding changed files:  30% |###########                         | ETA:  0:00:01
-Adding changed files:  32% |###########                         | ETA:  0:00:01
-Adding changed files:  34% |############                        | ETA:  0:00:01
-Adding changed files:  36% |############                        | ETA:  0:00:01
-Adding changed files:  37% |#############                       | ETA:  0:00:02
-Adding changed files:  39% |##############                      | ETA:  0:00:02
-Adding changed files:  41% |##############                      | ETA:  0:00:01
-Adding changed files:  43% |###############                     | ETA:  0:00:01
-Adding changed files:  45% |################                    | ETA:  0:00:01
-Adding changed files:  46% |################                    | ETA:  0:00:01
-Adding changed files:  48% |#################                   | ETA:  0:00:01
-Adding changed files:  50% |##################                  | ETA:  0:00:01
-Adding changed files:  52% |##################                  | ETA:  0:00:01
-Adding changed files:  54% |###################                 | ETA:  0:00:01
-Adding changed files:  55% |####################                | ETA:  0:00:01
-Adding changed files:  57% |####################                | ETA:  0:00:01
-Adding changed files:  59% |#####################               | ETA:  0:00:01
-Adding changed files:  61% |######################              | ETA:  0:00:01
-Adding changed files:  63% |######################              | ETA:  0:00:01
-Adding changed files:  64% |#######################             | ETA:  0:00:01
-Adding changed files:  66% |########################            | ETA:  0:00:01
-Adding changed files:  68% |########################            | ETA:  0:00:00
-Adding changed files:  70% |#########################           | ETA:  0:00:00
-Adding changed files:  72% |#########################           | ETA:  0:00:00
-Adding changed files:  73% |##########################          | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files:  77% |###########################         | ETA:  0:00:00
-Adding changed files:  79% |############################        | ETA:  0:00:00
+Adding changed files:   9% |###                                 | ETA:  0:00:01
+Adding changed files:  18% |######                              | ETA:  0:00:00
+Adding changed files:  27% |#########                           | ETA:  0:00:00
+Adding changed files:  36% |#############                       | ETA:  0:00:00
+Adding changed files:  45% |################                    | ETA:  0:00:00
+Adding changed files:  54% |###################                 | ETA:  0:00:00
+Adding changed files:  63% |######################              | ETA:  0:00:00
+Adding changed files:  72% |##########################          | ETA:  0:00:00
 Adding changed files:  81% |#############################       | ETA:  0:00:00
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |###############################     | ETA:  0:00:00
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  91% |#################################   | ETA:  0:00:00
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:02
-WARNING: Command 'git rebase 5a761c73eef0261d7b6936c203166afd8778c4a5' failed:
-Rebasing (1/5)
-warning: inexact rename detection was skipped due to too many files.
-warning: you may want to set your merge.renamelimit variable to at least 1555 and retry the command.
-Rebasing (2/5)
-warning: inexact rename detection was skipped due to too many files.
-warning: you may want to set your merge.renamelimit variable to at least 1555 and retry the command.
-error: could not apply 04af25f... Obey LDFLAGS for the link of libruby
+Adding changed files:  91% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+WARNING: Command 'git rebase 74b9f36f6a986a97bd77aa16fd834e69afff3568' failed:
+Rebasing (1/1)
+error: could not apply 2b4b5dd... musl has valid d_ino implementation
 Resolve all conflicts manually, mark them as resolved with
 "git add/rm <conflicted_files>", then run "git rebase --continue".
 You can instead skip this commit: run "git rebase --skip".
 To abort and get back to the state before "git rebase", run "git rebase --abort".
-Could not apply 04af25f... Obey LDFLAGS for the link of libruby
-Auto-merging template/Makefile.in
-CONFLICT (content): Merge conflict in template/Makefile.in
+Could not apply 2b4b5dd... musl has valid d_ino implementation
+Auto-merging m4/d-ino.m4
+CONFLICT (content): Merge conflict in m4/d-ino.m4
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/ruby
-INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/ruby/ruby_3.0.0.bb
-INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/tar
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/tar/tar_1.33.bb
 
 
 
@@ -178,4 +125,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8315519450499918296==--
+--===============6797620547201845999==--
