@@ -1,92 +1,81 @@
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web09.4753.1610730355243191408
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web08.4683.1610730545875659444
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 09:05:56 -0800
+ Fri, 15 Jan 2021 09:09:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1l0SXl-0006qL-Ok; Fri, 15 Jan 2021 19:05:51 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1l0SXl-00036M-NF; Fri, 15 Jan 2021 19:05:49 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@bmw.de>
-Subject: [PATCH v2][dunfell][gatesgarth][master] zip: whitelist CVE-2018-13410 and CVE-2018-13684
-Date: Fri, 15 Jan 2021 19:05:44 +0200
-Message-Id: <20210115170544.11615-1-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.20.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EzszY1TE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id s24so1297605wmj.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 09:09:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=DDHyDHvDGh8i6Rd3TZ8mslaTLaJgwGGCbYlGYQAYjvY=;
+        b=EzszY1TEABgvLHSJPT/+PvdYjPuQyk8l5DBOurKx/NpCiOZhUaRpCI/m2I7qd8D94U
+         td+2nG/HLgazhZgqG/8ok9zffdWyceOUGRtK+Nceew8CcB0cvzfOH5M2ZOxeNBehP05f
+         ON7gaQVxHhFEZvYg0uGwyUGarhHtqjxuYN5Dc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=DDHyDHvDGh8i6Rd3TZ8mslaTLaJgwGGCbYlGYQAYjvY=;
+        b=BJjqI+Bgk7q3HTFZ5HKYf7Z0TiIpdKLKlgk+P7Avsz6B49lE8UZa5zTk7snQeYAjgF
+         8AcioBsETvuWdW7YFk96Dw3/Ivw3o/VjW1LBAvi6HK5QQ8vubRYDo6jkNvTfIcas5LRQ
+         QG3wkiU6HMWxvHxWFg3+NOlGU5uWqeJSV0Ri74fJwRDqcH2eXqDEAX2P49yQ1tJc+KNk
+         9AtL1ElLZi4WejbIffm3L0f/zEwh8exsObFTiL1Rnqeeoz6fkn1UajJbXJAk1Zp8UTiH
+         w+LSHO9yIew425LFDqmDFaz+LIPsfqIBQeAbvjVEAxWSAXG9Sf156+hxzc3vgAbK9tXL
+         0dgQ==
+X-Gm-Message-State: AOAM531wR5OUL5vdjM94ht0PE6m9ZYgVAwF+FanbryLfIpEoHR6pGE08
+	wQF0HoRE0mgy7ZsYnWxOGh5NKw==
+X-Google-Smtp-Source: ABdhPJx9J00ZkzBjnSRq2MpO0INAMBGk8QMZG8jI7X8hjjngN9RS8oLRj3vYn3qRixT8dOWGAi4eSg==
+X-Received: by 2002:a1c:acc9:: with SMTP id v192mr9401242wme.174.1610730544347;
+        Fri, 15 Jan 2021 09:09:04 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:974a:2423:c71:b423? ([2001:8b0:aba:5f3c:974a:2423:c71:b423])
+        by smtp.gmail.com with ESMTPSA id m82sm13702434wmf.29.2021.01.15.09.09.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jan 2021 09:09:03 -0800 (PST)
+Message-ID: <05fabb770ffbd897dfb0771efc9ed62c7637fa89.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [poky][PATCH] bitbake: remove /usr from pseudo ignore paths
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Anton Kachalov <rnouse@google.com>, Peter Kjellerstedt
+	 <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Jan 2021 17:09:03 +0000
+In-Reply-To: <CADVsX8_otuGr+Ct3pAWHmSAPwEGgXMxpA8=qUdQ1N3-Z1S+nsg@mail.gmail.com>
+References: <20210107215121.3901938-1-gmouse@google.com>
+	 <CADVsX8-dMLvuccRjzU73=-reDjEBRq5PZZ+S6ZeugSvTy-iqog@mail.gmail.com>
+	 <CADVsX8924shMc+PFUQ6jsmnUqsF+VAeRfn0xM+4G406EgvGFCg@mail.gmail.com>
+	 <63d70805b829d08faf3e73865ed7f9c2ad9a1366.camel@linuxfoundation.org>
+	 <CADVsX89HCqKYNOyDMK1czkfaOw_TdrwVLK=bi_RanOKgDd=ZuQ@mail.gmail.com>
+	 <bfb21f1ec874e5d9638885885eb2530104c28ac5.camel@linuxfoundation.org>
+	 <3810611592a344cbaeb1b907e150c2c5@XBOX03.axis.com>
+	 <CADVsX8_otuGr+Ct3pAWHmSAPwEGgXMxpA8=qUdQ1N3-Z1S+nsg@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-X-Rspam-Score: 2.3 (++)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(2.50)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: BROKEN_CONTENT_TYPE(1.50)
- Symbol: RCPT_COUNT_TWO(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Message-ID: 20210115170544.11615-1-mikko.rapeli@bmw.de
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-https://nvd.nist.gov/vuln/detail/CVE-2018-13410 is disputed and
-also Debian considers it not a vulnerability:
+On Fri, 2021-01-15 at 18:04 +0100, Anton Kachalov wrote:
+> nope, setting the entire PSEUDO_IGNORE_PATHS without "/usr" doesn't
+> work. The do_install task fails with error code 134 without any log
+> file. Neither temp/run.do_install file exists. The pseudo.log doesn't
+> have any errors.
 
-https://security-tracker.debian.org/tracker/CVE-2018-13410
+Right, Peter is correct and _remove is space delimited, the variable is
+comma delimited. Sorry, I'm getting confused.
 
-http://seclists.org/fulldisclosure/2018/Jul/24
-"Negligible security impact, would involve that a untrusted party controls the -TT value."
+There is the rather uglier:
 
-https://nvd.nist.gov/vuln/detail/CVE-2018-13684 is not for zip, also Debian concludes this:
+PSEUDO_IGNORE_PATHS := "${@d.getVar('PSEUDO_IGNORE_PATHS').replace('/usr/,','')}"
 
-https://security-tracker.debian.org/tracker/CVE-2018-13684
+which should work (I did test this time!).
 
-"NOT-FOR-US: smart contract implementation for ZIP"
+Cheers,
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/recipes-extended/zip/zip_3.0.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+Richard
 
-v2: added comments to recipe for each whitelisted CVE
 
-v1: https://lists.openembedded.org/g/openembedded-core/message/146737
-
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index c00a932763..97e5e57533 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -19,6 +19,12 @@ UPSTREAM_VERSION_UNKNOWN = "1"
- SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
- SRC_URI[sha256sum] = "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369"
- 
-+# Disputed and also Debian doesn't consider a vulnerability
-+CVE_CHECK_WHITELIST += "CVE-2018-13410"
-+
-+# Not for zip but for smart contract implementation for it
-+CVE_CHECK_WHITELIST += "CVE-2018-13684"
-+
- # zip.inc sets CFLAGS, but what Makefile actually uses is
- # CFLAGS_NOOPT.  It will also force -O3 optimization, overriding
- # whatever we set.
--- 
-2.20.1
 
