@@ -1,92 +1,75 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.4361.1610729296647272589
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.4396.1610729488989621871
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 08:48:17 -0800
+ Fri, 15 Jan 2021 08:51:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VzcwHRX/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id a9so6485477wrt.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 08:48:16 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b1lbf/kO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id u14so3971346wmq.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 08:51:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=srUdZtW30tjis3xySsZGtZsuM0qA8g1Clzt0toJUXDk=;
-        b=VzcwHRX/QQsY616TB0IL/IRdhBd6EPlgzbKNhtjzWKS9k7z3YhsUuOLvEnZprQsAYf
-         Ragiszh7TzH4WooyZqOZY7OFEOHi3/4ItlUyQX98bx/QwDU7Zha4SJQ8WdiCFlmSNf9Q
-         XkpbPYV83GN/QnygPAkk7XVUd/WI0GybBV9R8=
+        bh=aCVY1lMQqlds9cbT4YRI1mCBCWom0blbPAzd/rzM8Zk=;
+        b=b1lbf/kOW6jAv8qpvCgswVcAYFJL20gTwcMVoQCaMI5/3UMyfm9xvgJURMMy3xsfei
+         9TQj81bw5eVMTYwUqg6TT2TXp+BkMTYDxSVVGX8wUL2qF1uDMisdL9OjiU6xlZFqNmGb
+         9IUnuEBA+X58uyWbKgQtrCHvGoMzpRIIe3DSw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=srUdZtW30tjis3xySsZGtZsuM0qA8g1Clzt0toJUXDk=;
-        b=ssylzM3TMkjkW7yhTnVCrFK7FdSPloTpYri++YvfMcDu5tVqpcN+FS8a+5HfyoZkQF
-         iCsuhI+y0klzu+YKslHC7H5cnnPf7kHkM0E/t9LybZJRs/Xm3cCwe6qgXKwer8ngmxuQ
-         aFF7hWTJsO2JGi3aTBgx0xovoKcGlagce0+kLnFLP+f9qVOigRVtTRE/H6jZSWpIANA+
-         ZR23gsxY34IAMF9GKfsEpwFPFo9byPYtK6ySszEea60yhC+jvcdb0cKBvR4O1nfG0WqC
-         24M99INACNgkM1pOtYdpgoU2JpG3zzOMkFJfHK2qIS1+koYvMmjswkuJ5iH8aX5Ar9sk
-         JWnQ==
-X-Gm-Message-State: AOAM533T1PRiqNkNMqU0NZnRlrGlTjzvG1JVwN/8W03VKIs3Ms8mz6Cd
-	VfOHGAFQusYLE6MUhIzcflN4XA==
-X-Google-Smtp-Source: ABdhPJy4782sHuVdN23X9a/xE4oZe3SN72FEiHWfmhfIDFWDtnFMMu9HwnDOBqng3q89xlC1TT1SrQ==
-X-Received: by 2002:adf:f78e:: with SMTP id q14mr14037347wrp.320.1610729295264;
-        Fri, 15 Jan 2021 08:48:15 -0800 (PST)
+        bh=aCVY1lMQqlds9cbT4YRI1mCBCWom0blbPAzd/rzM8Zk=;
+        b=fw/ssCpviTdjOhf3d1iW2VOR9BokyL6awdwjSVA4gjsSlGcySoxavDDN9RDReIz93q
+         wuLF6101+jaf6o6qKKhl4ABiajKZfukrFKbr9aWiiFpnhCq33g5+5D1hvAA8q6ccLfkt
+         eIRg8NRkoywmxK2RXTfmG1w7YX9Z9dsVDswsOxuZlVC28NPnXcj6nMcc7pZiLR3QiXF4
+         CqhFwkiRidoMlXMsULkiKBTMO/Fxz97fg8P2QQvPKAALn5jB+qsPAOuuMPHHXleN930d
+         EFCSAdQZUnvJy1mQPoTrQRkMr3WvQkYyCiSmBRH+XWLZCyZcKL+eGXOl7mHq+Kn3OcmI
+         zX4g==
+X-Gm-Message-State: AOAM530fPPo8vN8dD3e70zGM1sZIm26d4T/+2PoOQGLNhdc3CJFjpGpN
+	v2wv22IYHNNWPO0mr8DejkwdrV/ppMx5YQ==
+X-Google-Smtp-Source: ABdhPJz0KrZEufLSnFdBty9nRciihI8zj/XGgNlTDE7GXTsf96LsItty6S8nNzZVFxlDWqjQImnvPQ==
+X-Received: by 2002:a1c:6a10:: with SMTP id f16mr9563556wmc.106.1610729487567;
+        Fri, 15 Jan 2021 08:51:27 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:974a:2423:c71:b423? ([2001:8b0:aba:5f3c:974a:2423:c71:b423])
-        by smtp.gmail.com with ESMTPSA id u17sm12817297wmj.35.2021.01.15.08.48.14
+        by smtp.gmail.com with ESMTPSA id r2sm15857348wrn.83.2021.01.15.08.51.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 08:48:14 -0800 (PST)
-Message-ID: <49b9decc4cf96646d8bb616931548966ac9f37f6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH][dunfell][gatesgarth][master] zip: whitelist CVE-2018-13410 and CVE-2018-13684
+        Fri, 15 Jan 2021 08:51:27 -0800 (PST)
+Message-ID: <fb1e48e9b2cca8a0acb5d9da2081e091620253f2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/3] apt: add nativesdk support
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Mikko Rapeli <mikko.rapeli@bmw.de>, 
+To: hongxu <hongxu.jia@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Fri, 15 Jan 2021 16:48:13 +0000
-In-Reply-To: <20210115104807.40671-1-mikko.rapeli@bmw.de>
-References: <20210115104807.40671-1-mikko.rapeli@bmw.de>
+Date: Fri, 15 Jan 2021 16:51:26 +0000
+In-Reply-To: <165A643B5E417599.21794@lists.openembedded.org>
+References: <20210115094536.18651-1-hongxu.jia@windriver.com>
+	 <20210115094536.18651-2-hongxu.jia@windriver.com>
+	 <165A643B5E417599.21794@lists.openembedded.org>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2021-01-15 at 12:48 +0200, Mikko Rapeli wrote:
-> https://nvd.nist.gov/vuln/detail/CVE-2018-13410 is disputed and
-> also Debian considers it not a vulnerability:
+On Fri, 2021-01-15 at 11:26 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> On Fri, 2021-01-15 at 17:45 +0800, hongxu wrote:
+> > 
+> > 
+> > -inherit cmake perlnative bash-completion upstream-version-is-even
+> > +inherit cmake perlnative bash-completion upstream-version-is-even useradd
+> > +
+> > +USERADD_PACKAGES = "${PN}"
+> > +USERADD_PARAM_${PN} = "--system --home /nonexistent --no-create-home _apt"
+> > 
 > 
-> https://security-tracker.debian.org/tracker/CVE-2018-13410
-> 
-> http://seclists.org/fulldisclosure/2018/Jul/24
-> "Negligible security impact, would involve that a untrusted party controls the -TT value."
-> 
-> https://nvd.nist.gov/vuln/detail/CVE-2018-13684 is not for zip, also Debian concludes this:
-> 
-> https://security-tracker.debian.org/tracker/CVE-2018-13684
-> 
-> "NOT-FOR-US: smart contract implementation for ZIP"
-> 
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> ---
->  meta/recipes-extended/zip/zip_3.0.bb | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-> index c00a932763..47e6fc5278 100644
-> --- a/meta/recipes-extended/zip/zip_3.0.bb
-> +++ b/meta/recipes-extended/zip/zip_3.0.bb
-> @@ -19,6 +19,9 @@ UPSTREAM_VERSION_UNKNOWN = "1"
->  SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
->  SRC_URI[sha256sum] = "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369"
-> 
-> 
-> +CVE_CHECK_WHITELIST += "CVE-2018-13410"
-> +CVE_CHECK_WHITELIST += "CVE-2018-13684"
-> +
+> I think meta-selftest/files/static-passwd  will need this adding for
+> the selftests to pass?
 
-Where we're adding these can we put a small comment in as well just
-saying why we're whitelisting it?
+I've tweaked the patch I've queued in master-next for testing.
 
-I appreciate the info is in the commit but I think its important enough
-to list in the recipe as a comment too.
+I also added a comment here to say why we need this user (it used to
+exist but was removed as it wasn't realised what it was for).
 
 Cheers,
 
