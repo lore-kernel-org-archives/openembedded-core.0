@@ -1,22 +1,21 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.690.1610713822970266237
+ by mx.groups.io with SMTP id smtpd.web09.723.1610713823079428216
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jan 2021 04:30:23 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 25AA638C12CE
+	by mail.yoctoproject.org (Postfix) with ESMTP id 3047638C1355
 	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Tim Orling <timothy.t.orling@linux.intel.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.0.2 SUCCEEDED
-Message-ID: <MADEUP.165A67B02CFC911A.4055@lists.openembedded.org>
-X-Groupsio-MsgNum: 146765
-Content-Type: multipart/mixed; boundary="===============6188947967283611646=="
+Subject: [AUH] ruby: upgrading to 3.0.0 FAILED
+Message-ID: <MADEUP.165A67B039C8B888.4055@lists.openembedded.org>
+Content-Type: multipart/mixed; boundary="===============8315519450499918296=="
 
---===============6188947967283611646==
+--===============8315519450499918296==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,19 +23,154 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-hypothesis* to *6.0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe *ruby* to *3.0.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-5.43.3-6.0.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe ruby failed.
+NOTE: Starting bitbake server...
+NOTE: Reconnecting to bitbake server...
+NOTE: Retrying server connection (#1)...
+Loading cache...done.
+Loaded 1420 entries from dependency cache.
+INFO: Extracting current version source...
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+workspace            = "master:09c7fc6e5341bfadb0f6037e7294aee2454eedef"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 20 (0% match, 100% complete)
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Adding local source files to srctree...
+INFO: Extracting upgraded version source...
+INFO: Fetching http://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.0.tar.gz...
+Loading cache...done.
+Loaded 1420 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 811 .bb files complete (809 cached, 2 parsed). 1421 targets, 33 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "1.49.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "3.2+snapshot-5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       = "tmp-auh-upgrades:5e7a3a4d70ca8d0cee9980f3e5ba700bdffa3dc1"
+workspace            = "master:09c7fc6e5341bfadb0f6037e7294aee2454eedef"
+
+Initialising tasks...done.
+Sstate summary: Wanted 0 Found 0 Missed 0 Current 0 (0% match, 0% complete)
+NOTE: No setscene tasks
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   1% |                                    | ETA:  0:00:04
+Adding changed files:   3% |#                                   | ETA:  0:00:03
+Adding changed files:   5% |#                                   | ETA:  0:00:02
+Adding changed files:   7% |##                                  | ETA:  0:00:02
+Adding changed files:   9% |###                                 | ETA:  0:00:02
+Adding changed files:  10% |###                                 | ETA:  0:00:02
+Adding changed files:  12% |####                                | ETA:  0:00:01
+Adding changed files:  14% |#####                               | ETA:  0:00:01
+Adding changed files:  16% |#####                               | ETA:  0:00:01
+Adding changed files:  18% |######                              | ETA:  0:00:01
+Adding changed files:  19% |#######                             | ETA:  0:00:01
+Adding changed files:  21% |#######                             | ETA:  0:00:01
+Adding changed files:  23% |########                            | ETA:  0:00:01
+Adding changed files:  25% |#########                           | ETA:  0:00:01
+Adding changed files:  27% |#########                           | ETA:  0:00:01
+Adding changed files:  28% |##########                          | ETA:  0:00:01
+Adding changed files:  30% |###########                         | ETA:  0:00:01
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  34% |############                        | ETA:  0:00:01
+Adding changed files:  36% |############                        | ETA:  0:00:01
+Adding changed files:  37% |#############                       | ETA:  0:00:02
+Adding changed files:  39% |##############                      | ETA:  0:00:02
+Adding changed files:  41% |##############                      | ETA:  0:00:01
+Adding changed files:  43% |###############                     | ETA:  0:00:01
+Adding changed files:  45% |################                    | ETA:  0:00:01
+Adding changed files:  46% |################                    | ETA:  0:00:01
+Adding changed files:  48% |#################                   | ETA:  0:00:01
+Adding changed files:  50% |##################                  | ETA:  0:00:01
+Adding changed files:  52% |##################                  | ETA:  0:00:01
+Adding changed files:  54% |###################                 | ETA:  0:00:01
+Adding changed files:  55% |####################                | ETA:  0:00:01
+Adding changed files:  57% |####################                | ETA:  0:00:01
+Adding changed files:  59% |#####################               | ETA:  0:00:01
+Adding changed files:  61% |######################              | ETA:  0:00:01
+Adding changed files:  63% |######################              | ETA:  0:00:01
+Adding changed files:  64% |#######################             | ETA:  0:00:01
+Adding changed files:  66% |########################            | ETA:  0:00:01
+Adding changed files:  68% |########################            | ETA:  0:00:00
+Adding changed files:  70% |#########################           | ETA:  0:00:00
+Adding changed files:  72% |#########################           | ETA:  0:00:00
+Adding changed files:  73% |##########################          | ETA:  0:00:00
+Adding changed files:  75% |###########################         | ETA:  0:00:00
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  79% |############################        | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files:  84% |##############################      | ETA:  0:00:00
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files:  91% |#################################   | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  95% |##################################  | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files:  99% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
+WARNING: Command 'git rebase 5a761c73eef0261d7b6936c203166afd8778c4a5' failed:
+Rebasing (1/5)
+warning: inexact rename detection was skipped due to too many files.
+warning: you may want to set your merge.renamelimit variable to at least 1555 and retry the command.
+Rebasing (2/5)
+warning: inexact rename detection was skipped due to too many files.
+warning: you may want to set your merge.renamelimit variable to at least 1555 and retry the command.
+error: could not apply 04af25f... Obey LDFLAGS for the link of libruby
+Resolve all conflicts manually, mark them as resolved with
+"git add/rm <conflicted_files>", then run "git rebase --continue".
+You can instead skip this commit: run "git rebase --skip".
+To abort and get back to the state before "git rebase", run "git rebase --abort".
+Could not apply 04af25f... Obey LDFLAGS for the link of libruby
+Auto-merging template/Makefile.in
+CONFLICT (content): Merge conflict in template/Makefile.in
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /home/pokybuild/yocto-worker/auh/build/build/build/workspace/sources/ruby
+INFO: New recipe is /home/pokybuild/yocto-worker/auh/build/build/build/workspace/recipes/ruby/ruby_3.0.0.bb
+INFO: License checksums have been updated in the new recipe; please refer to it for the difference between the old and the new license texts.
+
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
@@ -44,122 +178,4 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============6188947967283611646==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py /usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py /usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py /usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py /usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py /usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc"
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/dependency_links.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/entry_points.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/not-zip-safe was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/PKG-INFO was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/requires.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/SOURCES.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/top_level.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py was added
-  /usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc was added
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/dependency_links.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/entry_points.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/not-zip-safe was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/PKG-INFO was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/requires.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/SOURCES.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/top_level.txt was removed
-
---===============6188947967283611646==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-5.43.3-6.0.2.patch"
-
-From 11e492964492b492e37c40d98fc286c232b5e177 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 15 Jan 2021 05:47:27 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 5.43.3 -> 6.0.2
-
----
- ...python3-hypothesis_5.43.3.bb => python3-hypothesis_6.0.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_5.43.3.bb => python3-hypothesis_6.0.2.bb} (81%)
-
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_5.43.3.bb b/meta/recipes-devtools/python/python3-hypothesis_6.0.2.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-hypothesis_5.43.3.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.0.2.bb
-index 4d93cba868..fd163401a3 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_5.43.3.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.0.2.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "hypothesis"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "d97ba7ae2cfe7096b0c045fdb611ee9850ccdd6050a9b36cb96812242062c2cc"
-+SRC_URI[sha256sum] = "ae616551c8ebe897454e2de5183e325f6a109f70d45b7380154ed974ce8d4772"
- 
- RDEPENDS_${PN} += "python3-attrs python3-core python3-sortedcontainers"
- 
--- 
-2.27.0
-
-
---===============6188947967283611646==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-32-poky-linux/python3-hypothesis: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-5.43.3.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.0.2.tar.gz"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "5.43.3" to "6.0.2"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info -> /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info, added "/usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py"
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 5.43.3 [default] to 6.0.2 [default]
-packages/core2-32-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 1783895 to 1815227 (+2%)
-Changes to packages/core2-32-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/dependency_links.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/entry_points.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/not-zip-safe was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/PKG-INFO was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/requires.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/SOURCES.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis-6.0.2-py3.9.egg-info/top_level.txt was added
-  /usr/lib/python3.9/site-packages/hypothesis/extra/codemods.py was added
-  /usr/lib/python3.9/site-packages/hypothesis/extra/__pycache__/codemods.cpython-39.pyc was added
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/dependency_links.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/entry_points.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/not-zip-safe was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/PKG-INFO was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/requires.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/SOURCES.txt was removed
-  /usr/lib/python3.9/site-packages/hypothesis-5.43.3-py3.9.egg-info/top_level.txt was removed
-
---===============6188947967283611646==--
+--===============8315519450499918296==--
