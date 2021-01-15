@@ -1,173 +1,1003 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.117])
- by mx.groups.io with SMTP id smtpd.web11.2051.1610706050782737399
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+ by mx.groups.io with SMTP id smtpd.web12.2033.1610706219136902220
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 02:20:51 -0800
+ Fri, 15 Jan 2021 02:23:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@microsoft.com header.s=selector2 header.b=UZcY1Xie;
- spf=pass (domain: microsoft.com, ip: 40.107.21.117, mailfrom: luca.boccassi@microsoft.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AdY/g+X7h3QixTMcfJ+f9vp79i46OOIUDt2NOKSTJmYW+XCfQtsIXoGZ0Mva6O7Bn77sOJz+7Glt4sX1gTvocd+x5IEkDc+7iLs+h4BKVpYzeQn7ADAi8poEj9RHWlTKV/DhV34OgooQditH/bb9RkwvXqcEiQjNJ9H7le1XFlTFn1t6wf/8wg/cMfrSqej38hxaTnYWUugE3UYBDxTlFDszvaIkRRUBt/83X1n6pRQmmsB4RMw513IMNaxFxWKhJwiWOK86vyO/9ypre/JI0wdUfURkvK7yVzsWn+z3/oT1ytiBc2ITej/oaULmTIEeauY/BlB2P1QiDzBbFHKsxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7naxX+5q8toh5NMApZKXWw5bwlHHiCmFHjQ96EKOYwY=;
- b=OkvnAzrQ5r1A7GEum2CDS+Sh4QuRnjJV+Ohjy3p23kCgVep/rx7tOhqZRuUjKnCckIX53lEqiDgNFSBo777Jidq4k8H2fzWgPBob0oTEdyCVpnb3Qw+j5i/5rzaf3mf9niPhW34k3PhSNTcuYWGzxrqKczubTu9VR584e5WBtcHICxnPJad5A4HFReVf2ukKg/o4uiexytLrDCPGt8TtYEK9qfHw5BvXBbxA4GM8ITH+C+rxsIBatdHGhATNNcwjYTItD6OoCgGutYg9ENGYFvumKRqa444FsCRG+hbzBShqzC3u7R5EwajL5pQuOLvd9PS3Su9GXhbKViMX97/Ewg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7naxX+5q8toh5NMApZKXWw5bwlHHiCmFHjQ96EKOYwY=;
- b=UZcY1XieYeKs2PST3j+UH+GLvH3WN7syMNvbBWz5Ud9uvAC3y8D0cngzyJXbIRw0+J+RhpUJRuD/OitUyGbHVTp+c0lL5iruvfT8Ck1Auui0jBnwnS/fhpAQPyMTZanbCuWpK3GJoTIX5957f9wwB3N7lT9itmkTZe9jq+64U3M=
-Received: from (2603:10a6:821:7::20) by
- VI1PR83MB0272.EURPRD83.prod.outlook.com (2603:10a6:802:79::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.1; Fri, 15 Jan 2021 10:20:47 +0000
-Received: from VI1PR83MB0205.EURPRD83.prod.outlook.com
- ([fe80::ac81:d73d:aee2:ab62]) by VI1PR83MB0205.EURPRD83.prod.outlook.com
- ([fe80::ac81:d73d:aee2:ab62%3]) with mapi id 15.20.3784.003; Fri, 15 Jan 2021
- 10:20:47 +0000
-From: "Luca Boccassi" <luca.boccassi@microsoft.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "paul.gortmaker@windriver.com"
-	<paul.gortmaker@windriver.com>
-Subject: Re: [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8
-Thread-Topic: [PATCH] systemd: dont spew hidepid mount errors for kernels <
- v5.8
-Thread-Index: AQHW6v8fqMq71K27ak2LTnjm7Qp9qKooXVEAgAAWQYCAAATsAIAAAa+A
-Date: Fri, 15 Jan 2021 10:20:46 +0000
-Message-ID: <f6e14fd5e4dcbbe5a67e6588eb6eba1b890102b6.camel@microsoft.com>
-References: <20210115052615.29893-1-paul.gortmaker@windriver.com>
-	 <12145df57b9fdec6933497849a2d8b40fcb8a023.camel@linuxfoundation.org>
-	 <a81ea7e632a26636d966540a86ec1978f557e63c.camel@microsoft.com>
-	 <45a86d715c0f75f28f38cf8883204d819c3a9d0f.camel@linuxfoundation.org>
-In-Reply-To: 
- <45a86d715c0f75f28f38cf8883204d819c3a9d0f.camel@linuxfoundation.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.30.5-1.2 
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=microsoft.com;
-x-originating-ip: [88.98.246.218]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 4c9b2b2c-5034-43c1-8974-08d8b93f397e
-x-ms-traffictypediagnostic: VI1PR83MB0272:
-x-microsoft-antispam-prvs: 
- <VI1PR83MB02722DFF64F7DF7CEBBDBC04F1A79@VI1PR83MB0272.EURPRD83.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- eleMe66I0UAgrleqp3a7EvLYLsHcYVOa5FhA/MRgQ40TwpJtdTnvla/W/HQdTzzbHMBf9TP5YsUjWbTW7DrAXY+NZpqi/eaoGY1Qnza1IdxeSVHFN532tzBCnnl3umcRhVk+jcZJN1YAv0dySgkljdv0Pis0FImLgjnxCKe+GsixFz2bl6XKSXXf+M0h+SdEpwmkybHikXjVjb7FSx9/0BGMaIHhipEnlAf8BrbRvz/uA537CchwC2Y6ui1AsiSAQMmYt8zChI+MkGx0ZmbiZRZy3tcB4KIJvOyuVftH8IDOZd+E+vCUZD/T7jFJ4cTRgPT49JRLqOpUU+mnLYZ7Hh9UNCkoTR+exu9egCgb+6QnZD6l1c1k015wsPY8IcunE+r2ly/6UadXXEbL7AuQbs6F348VmD6PswWKIN6GV34xoIxi7kNyB6XRQBmZf287ppGMOKDZySzlrKH1h965eSKVC1IaB17Z/05SzwnkxlgIHikZrFxd+e6BcVmXXL+q2CkS+c6TUytBdu9BI5MRTDrDeYweqK05kQHt7clbZ6UGqGmxTmfeistfM36lLB3lbNlKyG1O1F4gJHmRl3L948/Tv+GUxcs9hINQgcCZYfBy5qDWEe7Renx3y/Jk3CCKEd7bodGPn0gQAKYyGH+bmA==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR83MB0205.EURPRD83.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(366004)(136003)(376002)(346002)(76116006)(5660300002)(66446008)(10290500003)(66616009)(26005)(8676002)(66556008)(64756008)(478600001)(66476007)(966005)(2906002)(2616005)(36756003)(6506007)(8936002)(82950400001)(316002)(6486002)(99936003)(82960400001)(110136005)(71200400001)(86362001)(186003)(6512007)(66946007)(192303002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 
- =?utf-8?B?M1hKVnRrYUw0T05OT3hrVVBNakFDZ2tnUnk0NENxelZyc0FkZzYyV0VHb2ZX?=
- =?utf-8?B?QU53eitEY25pQmVxeFA4NmxoVXlpdE9YVno4bndub3A2bXFiZzBVZG9wMXBO?=
- =?utf-8?B?Q2o3MVBFMjJ6YnVucTltakRFcmphNStWT2VnVjdVN3lJalFTUE0vZ1BPN21E?=
- =?utf-8?B?REgySlRzRjYxaTdzdGRXeXN3dXY0KzUxWm1hNEVna3BMdDdZcjJFN0NxRmhj?=
- =?utf-8?B?aW0yeHlJOEZYSnhvVWxrcGV2R2QwVDgvZkVGeXBUTWlsb1Q2T1JxdmZwV0o2?=
- =?utf-8?B?S1p5cG4zUTR6bXZROUJ6R2RSMWM1bDRHQlhWWFNhSCszbWZaRnNOSmZKd0R5?=
- =?utf-8?B?Y3gydWhjKzZXbFRLWXkrRUNJTjVlM3pDc3h0Zm00enBqdmdVYys4cVBiZytM?=
- =?utf-8?B?QVN1K0xGcmxKVjdzbDJPbkFoQ0NwQUsveFRJS0ZLbzNLbFhkNjlRVEFJYThY?=
- =?utf-8?B?UDhVbk5YYWhuNXJWVFJLeGNHTDIxSW80YzI4ODlUZWpYdTJrZGVpc2dVN0hC?=
- =?utf-8?B?a1czNGxXZ1FYbU52ZGcvT3NhZlIxRkx0NGM3c3p4SlNNZlJtOWRvRFVQZXFn?=
- =?utf-8?B?UGRpeW5SeFMydEVBeFdjZlg3K0lvZVJ5ckN0VG1xZ05zWitmTkxPNWE3WVZl?=
- =?utf-8?B?ekZxRTRjN01VaTRkSUxGaHB6SUVONHIzVnAvL3FyNllLSVBWaS9PWklDWUJT?=
- =?utf-8?B?enRVZHovSG9Nbm1iWEFTd2s3dDZJMlpJRWRPcHlHMXd6NVBYNytnb3dJY2Zs?=
- =?utf-8?B?MkdYa0hRd3FBNHdFMmRWWWlXbGxLUHkyUnJ1eVl6eWZVcHhCQkI2dkZ1dUJC?=
- =?utf-8?B?V3NReFZvbkFVNHJSYUdJczBtbGwyY0diWlVvUjRjU1Axb01pQ3RseGNQRVQr?=
- =?utf-8?B?MXpNSUlVeUh3OUQ1bEdWKzFYRmtRdjl2T0tqcWRUK2U3L3lJTzJMUHR5ZEpk?=
- =?utf-8?B?Ynh4K2ROY1NxaXRZU2I5ZTRaSDZORVpmWjJQUVp5VjRzUEdua0krVFM2SlBt?=
- =?utf-8?B?RkR4UC9CMzNjSGhFUS96alg3TndTQzJRRWFzQmRSNVB0dStyOXA4SlJPb0Js?=
- =?utf-8?B?S1FtWlNTR3ZwaVZ2RjFndGdrRzUwYVljNnNteVNjbExtRDlmSE9BeFdtbHNn?=
- =?utf-8?B?VTVXWlZ4RXJWazE3QTF2cTF5a2lSVmVtWk9rdThxaXJIU0dUWjIxUWVMeU02?=
- =?utf-8?B?ZldpamZqRGNkYlU4dVNDc3NWRU16NUl3eTAxRTZhM2pFT0o2Y0t1eldzbXBM?=
- =?utf-8?B?OEtTUE5xaWN3K2dsV3c0UEZSZnludHpiMGpwUVovMjFyRjZlRDJ4WGtnczdq?=
- =?utf-8?B?UWxQa3hqWkhyK0hERWxEbE1uSSs0eHBLSDFveFVxYlNGTmpjcVBBSEZnL1gv?=
- =?utf-8?B?UlR6eEVDR21XeGM1ZndkSEwybnRVQ0lLb01tM2dhRysxOUJ3WGZ3RHdFT0J6?=
- =?utf-8?B?YjArMTN1N0VhYzRDMnpFNXhsV3M5YXZpZzJ6N3RnPT0=?=
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QlrYsxSL;
+ spf=pass (domain: gmail.com, ip: 209.85.217.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f53.google.com with SMTP id s2so4735460vsk.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 02:23:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ptLDfE0efwUpbIw7ZeGglROut3XOQDcP/VWT94ZAbyE=;
+        b=QlrYsxSLd3yaANoMYo+u2t1uSthwwiszrO5b+lFie+RLG3VejxylDDXtkbmzhFTxzB
+         pxXAtGWPCrloBkyyQ/LxSP5HFUcx3i5ETe0/eWe0BIG2lWYf7370Jn0P2E2V7F9rMDfC
+         OqMREsDYdm6lhwjpFBweBwXJ6d8KpylHTnQJdVc7UQNZiacMkJeFAmKbBazEbOOsst/D
+         +CirRGXmKUog8NlFtRK4hdBd7bdtJacFaB9FFTVQ8VvX+A87jeHN6uvrzWNhVa6voUnT
+         kg+/xwCSouEhshyumgRuz1VtCwHkT4vzZXnRVDGsHDynYpgnk71HUkl49iMu3eFF5ckX
+         +tLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ptLDfE0efwUpbIw7ZeGglROut3XOQDcP/VWT94ZAbyE=;
+        b=j74nEb23/1s84NNBe8mF+FFnh9jjiFw5Ea4Lo62LW/7czslMli36SckUFExmw864JO
+         yGIBM1Yllfrb+FCGKpCSBjO3HxznE2EOuRwpJbXpYfcn4xTdS7XUixgYzIA+WG04ONkK
+         9zG/oUqsNzeMaP2eCYkDKsnS7g7tUtZJ593BlqdRKvJprgqtvoDHclAmuz/TX5cbsqe6
+         0qzO9uQBfwGr3aHTiMTHW9Q3lY3CPwn35V0A7oVwjo7LfGe4hkKzhXYjyDOPZZDR/qRo
+         /S7QM4Zg0Sqfok2FZmSj/Fpb9eH+b96iKtDJy0zflzCWKdL8hJT4+f3IUV/6bquAUwyb
+         KXdQ==
+X-Gm-Message-State: AOAM531Q7Unwzw/f/BGXFWV4ko5+00mz7bK0CTQ9klWZho0AGJClpsE+
+	zlLnxBCpNzoPuHHIyRyMc2Wx2S9iiftBEW8etqOqJp9K09I=
+X-Google-Smtp-Source: ABdhPJx5DByQnrb0QvT5nsPEX5Er48zW60+hslfDpBWkUA9CUxlWH/GQHQaHMp8U+VPcncg2sHySPvjwlhsCazxybLI=
+X-Received: by 2002:a67:6813:: with SMTP id d19mr2278905vsc.51.1610706218141;
+ Fri, 15 Jan 2021 02:23:38 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR83MB0205.EURPRD83.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4c9b2b2c-5034-43c1-8974-08d8b93f397e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2021 10:20:46.9338
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rvzNu+1k/cOOjpfev5XBqGUD8OgeF1lE837ngdzutWMCsa1D9CsS/ZY2nP8WPOZmqgsuqpkNKbaCaJzefVxKwg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR83MB0272
-X-Groupsio-MsgNum: 146734
-Content-Language: en-US
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-nHRM1PDE1HIdiJQhdAQ+"
+References: <1610693992-27561-1-git-send-email-wangmy@cn.fujitsu.com>
+In-Reply-To: <1610693992-27561-1-git-send-email-wangmy@cn.fujitsu.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Fri, 15 Jan 2021 11:23:26 +0100
+Message-ID: <CANNYZj9hh1ajketWVK+mnuzgqYR4AUrC3BB=H4n2X0GgTJyamQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gdk-pixbuf: upgrade 2.40.0 -> 2.42.2
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f84b0c05b8edc328"
 
---=-nHRM1PDE1HIdiJQhdAQ+
+--000000000000f84b0c05b8edc328
 Content-Type: text/plain; charset="UTF-8"
+
+I believe ptest regresses with this update - we need to wait until 2.42.3.
+I have a patch in progress as well.
+
+Alex
+
+On Fri, 15 Jan 2021 at 08:00, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
+
+> refresh the following patches:
+> 0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+> 0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+>
+> remove the following patches since they are included in 2.42.2:
+> 0004-Do-not-run-tests-when-building.patch
+> missing-test-data.patch
+> CVE-2020-29385.patch
+>
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  ...-around-thumbnailer-cross-compile-fa.patch | 70 ++++++++++---------
+>  .../0004-Do-not-run-tests-when-building.patch | 39 -----------
+>  ...ailer-and-tests-also-in-cross-builds.patch |  9 ++-
+>  .../gdk-pixbuf/CVE-2020-29385.patch           | 55 ---------------
+>  .../gdk-pixbuf/missing-test-data.patch        | 30 --------
+>  ...-pixbuf_2.40.0.bb => gdk-pixbuf_2.42.2.bb} | 14 ++--
+>  6 files changed, 48 insertions(+), 169 deletions(-)
+>  delete mode 100644
+> meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
+>  delete mode 100644
+> meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+>  delete mode 100644
+> meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
+>  rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.40.0.bb =>
+> gdk-pixbuf_2.42.2.bb} (91%)
+>
+> diff --git
+> a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+> index a9c7600eb3..f12c178696 100644
+> ---
+> a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+> +++
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch
+> @@ -18,9 +18,9 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com
+> >
+>
+>  ---
+>   build-aux/gen-thumbnailer.py |  2 --
+> - tests/meson.build            | 11 +++++++++--
+> + tests/meson.build            | 10 ++++++++--
+>   thumbnailer/meson.build      |  5 +----
+> - 3 files changed, 10 insertions(+), 8 deletions(-)
+> + 3 files changed, 9 insertions(+), 8 deletions(-)
+>
+>  diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnailer.py
+>  index 05ac821..c5b99ab 100644
+> @@ -36,41 +36,40 @@ index 05ac821..c5b99ab 100644
+>   if os.name == 'nt':
+>       gdk_pixbuf_dll_buildpath = os.path.dirname(args.pixdata)
+>  diff --git a/tests/meson.build b/tests/meson.build
+> -index 8ed7cc1..e011b77 100644
+> +index c9cf25c..c82d9f7 100644
+>  --- a/tests/meson.build
+>  +++ b/tests/meson.build
+> -@@ -1,12 +1,19 @@
+> - # Resources; we cannot use gnome.compile_resources() here, because we
+> need to
+> - # override the environment in order to use the utilities we just built
+> instead
+> - # of the system ones
+> +@@ -4,12 +4,18 @@ if enabled_loaders.contains('png') and
+> enabled_loaders.contains('bmp')
+> +   # Resources; we cannot use gnome.compile_resources() here, because we
+> need to
+> +   # override the environment in order to use the utilities we just built
+> instead
+> +   # of the system ones
+> ++  if not meson.is_cross_build()
+> ++  pixdata_binary = gdk_pixbuf_pixdata.full_path()
+> ++  else
+> ++  pixdata_binary = 'gdk-pixbuf-pixdata'
+> ++  endif
+>  +
+> -+if not meson.is_cross_build()
+> -+pixdata_binary = gdk_pixbuf_pixdata.full_path()
+> -+else
+> -+pixdata_binary = 'gdk-pixbuf-pixdata'
+> -+endif
+> -+
+> - resources_c = custom_target('resources.c',
+> -   input: 'resources.gresource.xml',
+> -   output: 'resources.c',
+> -   command: [
+> -     gen_resources,
+> --    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+> -+    '--pixdata=@0@'.format(pixdata_binary),
+> -     '--loaders=@0@'.format(loaders_cache.full_path()),
+> -     '--sourcedir=@0@'.format(meson.current_source_dir()),
+> -     '--source',
+> -@@ -24,7 +31,7 @@ resources_h = custom_target('resources.h',
+> -   output: 'resources.h',
+> -   command: [
+> -     gen_resources,
+> --    '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+> -+    '--pixdata=@0@'.format(pixdata_binary),
+> -     '--loaders=@0@'.format(loaders_cache.full_path()),
+> -     '--sourcedir=@0@'.format(meson.current_source_dir()),
+> -     '--header',
+> +   resources_c = custom_target('resources.c',
+> +     input: 'resources.gresource.xml',
+> +     output: 'resources.c',
+> +     command: [
+> +       gen_resources,
+> +-      '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+> ++      '--pixdata=@0@'.format(pixdata_binary),
+> +       '--loaders=@0@'.format(loaders_cache.full_path()),
+> +       '--sourcedir=@0@'.format(meson.current_source_dir()),
+> +       '--source',
+> +@@ -27,7 +33,7 @@ if enabled_loaders.contains('png') and
+> enabled_loaders.contains('bmp')
+> +     output: 'resources.h',
+> +     command: [
+> +       gen_resources,
+> +-      '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+> ++      '--pixdata=@0@'.format(pixdata_binary),
+> +       '--loaders=@0@'.format(loaders_cache.full_path()),
+> +       '--sourcedir=@0@'.format(meson.current_source_dir()),
+> +       '--header',
+>  diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build
+> -index aaafec8..71bd61b 100644
+> +index aaafec8..6abfda4 100644
+>  --- a/thumbnailer/meson.build
+>  +++ b/thumbnailer/meson.build
+>  @@ -18,9 +18,7 @@ custom_target('thumbnailer',
+> @@ -80,7 +79,7 @@ index aaafec8..71bd61b 100644
+>  -                '--printer=@0@
+> '.format(gdk_pixbuf_print_mime_types.full_path()),
+>  -                '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+>  -                '--loaders=@0@'.format(loaders_cache.full_path()),
+> -+                '--printer=gdk-pixbuf-print-mime-types',
+> ++              '--printer=gdk-pixbuf-print-mime-types',
+>                   '--bindir=@0@'.format(gdk_pixbuf_bindir),
+>                   '@INPUT@',
+>                   '@OUTPUT@',
+> @@ -92,3 +91,6 @@ index aaafec8..71bd61b 100644
+>                 ],
+>                 install: true,
+>                 install_dir: join_paths(gdk_pixbuf_datadir,
+> 'thumbnailers'))
+> +--
+> +2.25.1
+> +
+> diff --git
+> a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
+> deleted file mode 100644
+> index 96c546f271..0000000000
+> ---
+> a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-building.patch
+> +++ /dev/null
+> @@ -1,39 +0,0 @@
+> -From 3c4a6c147ae8a0962ba9194373d8a41d14eed44f Mon Sep 17 00:00:00 2001
+> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Date: Fri, 22 Feb 2019 13:23:55 +0100
+> -Subject: [PATCH] Do not run tests when building
+> -
+> -Upstream-Status: Inappropriate [cross-compile specific]
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ----
+> - tests/meson.build | 17 -----------------
+> - 1 file changed, 17 deletions(-)
+> -
+> -diff --git a/tests/meson.build b/tests/meson.build
+> -index 4fa3fbc..6ef7884 100644
+> ---- a/tests/meson.build
+> -+++ b/tests/meson.build
+> -@@ -138,23 +138,6 @@ foreach t: installed_tests
+> -     install_dir: installed_test_bindir,
+> -   )
+> -
+> --  # Two particularly slow tests
+> --  if test_suites.contains('slow')
+> --    timeout = 300
+> --  else
+> --    timeout = 30
+> --  endif
+> --
+> --  test(test_name, test_bin,
+> --    suite: test_suites,
+> --    args: [ '-k', '--tap' ],
+> --    env: [
+> --      'G_TEST_SRCDIR=@0@'.format(meson.current_source_dir()),
+> --      'G_TEST_BUILDDIR=@0@'.format(meson.current_build_dir()),
+> --      'GDK_PIXBUF_MODULE_FILE=@0@'.format(loaders_cache.full_path()),
+> --    ],
+> --    timeout: timeout,
+> --  )
+> - endforeach
+> -
+> - executable('pixbuf-read',
+> diff --git
+> a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+> index 0fe13a387a..6a7fd02501 100644
+> ---
+> a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+> +++
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch
+> @@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin <
+> alex.kanavin@gmail.com>
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+>
+>  diff --git a/meson.build b/meson.build
+> -index d104cea..7acb88a 100644
+> +index c386070..15f16a6 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -397,10 +397,8 @@ endif
+> +@@ -378,10 +378,8 @@ subdir('gdk-pixbuf')
+>   # i18n
+>   subdir('po')
+>
+> @@ -25,4 +25,7 @@ index d104cea..7acb88a 100644
+>  +subdir('thumbnailer')
+>
+>   # Documentation
+> - subdir('docs')
+> + build_docs = get_option('gtk_doc') or get_option('docs')
+> +--
+> +2.25.1
+> +
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+> deleted file mode 100644
+> index 3fef2bc1eb..0000000000
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001
+> -From: Robert Ancell <robert.ancell@canonical.com>
+> -Date: Mon, 30 Nov 2020 12:26:12 +1300
+> -Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.
+> -
+> -The code value after a reset wasn't being validated, which means we would
+> -accept invalid codes. This could cause an infinite loop in the decoder.
+> -
+> -Fixes CVE-2020-29385
+> -
+> -Fixes https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164
+> -
+> -Upstream-Status: Backport [
+> https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81
+> ]
+> -CVE: CVE-2020-29385
+> -Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+> -
+> ----
+> - gdk-pixbuf/lzw.c                    |  13 +++++++------
+> - 1 files changed, 7 insertions(+), 6 deletions(-)
+> - create mode 100644 tests/test-images/fail/hang_114.gif
+> -
+> -diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c
+> -index 9e052a6f7..105daf2b1 100644
+> ---- a/gdk-pixbuf/lzw.c
+> -+++ b/gdk-pixbuf/lzw.c
+> -@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,
+> -                                 if (self->last_code != self->clear_code
+> && self->code_table_size < MAX_CODES) {
+> -                                         if (self->code <
+> self->code_table_size)
+> -                                                 add_code (self,
+> self->code);
+> --                                        else if (self->code ==
+> self->code_table_size)
+> -+                                        else
+> -                                                 add_code (self,
+> self->last_code);
+> --                                        else {
+> --                                                /* Invalid code received
+> - just stop here */
+> --                                                self->last_code =
+> self->eoi_code;
+> --                                                return output_length;
+> --                                        }
+> -
+> -                                         /* When table is full increase
+> code size */
+> -                                         if (self->code_table_size == (1
+> << self->code_size) && self->code_size < LZW_CODE_MAX)
+> -                                                 self->code_size++;
+> -                                 }
+> -
+> -+                                /* Invalid code received - just stop
+> here */
+> -+                                if (self->code >= self->code_table_size)
+> {
+> -+                                        self->last_code = self->eoi_code;
+> -+                                        return output_length;
+> -+                                }
+> -+
+> -                                 /* Convert codeword into indexes */
+> -                                 n_written += write_indexes (self, output
+> + n_written, output_length - n_written);
+> -                         }
+> ---
+> -2.25.1
+> -
+> diff --git
+> a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
+> deleted file mode 100644
+> index 6c758fd61c..0000000000
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -Upstream-Status: Backport
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -From d8d231c01ef2e59856da8a5c26ace955e5f29370 Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@intel.com>
+> -Date: Mon, 25 Nov 2019 17:05:46 +0000
+> -Subject: [PATCH] tests: install circular-table.gif
+> -
+> -This test data was added for the pixbuf-gif-circular-table test (added
+> October
+> -2018 in 0b9d004) but because the file was never actually installed the
+> installed
+> -test suite never passes.
+> ----
+> - tests/meson.build | 1 +
+> - 1 file changed, 1 insertion(+)
+> -
+> -diff --git a/tests/meson.build b/tests/meson.build
+> -index 5116fc2b9..80ed3e8b2 100644
+> ---- a/tests/meson.build
+> -+++ b/tests/meson.build
+> -@@ -97,6 +97,7 @@ test_data = [
+> -   'bug775693.pixdata',
+> -   'bug775229.pixdata',
+> -   'aero.gif',
+> -+  'circular-table.gif'
+> - ]
+> -
+> - installed_test_bindir = join_paths(gdk_pixbuf_libexecdir,
+> 'installed-tests', meson.project_name())
+> ---
+> -2.20.1
+> -
+> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.2.bb
+> similarity index 91%
+> rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+> rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.2.bb
+> index 16708fd581..bcdd8f0526 100644
+> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
+> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.2.bb
+> @@ -21,10 +21,7 @@ SRC_URI =
+> "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+>             file://fatal-loader.patch \
+>
+> file://0001-Work-around-thumbnailer-cross-compile-failure.patch \
+>
+> file://0001-Fix-a-couple-of-decisions-around-cross-compilation.patch \
+> -           file://0004-Do-not-run-tests-when-building.patch \
+>
+> file://0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch \
+> -           file://missing-test-data.patch \
+> -           file://CVE-2020-29385.patch \
+>             "
+>
+>  SRC_URI_append_class-target = " \
+> @@ -34,12 +31,15 @@ SRC_URI_append_class-nativesdk = " \
+>
+> file://0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch \
+>             "
+>
+> -SRC_URI[md5sum] = "05eb1ebc258ba905f1c8644ef49de064"
+> -SRC_URI[sha256sum] =
+> "1582595099537ca8ff3b99c6804350b4c058bb8ad67411bbaae024ee7cead4e6"
+> +SRC_URI[md5sum] = "7d7617db8dae8ce313160384ab0a71db"
+> +SRC_URI[sha256sum] =
+> "83c66a1cfd591d7680c144d2922c5955d38b4db336d7cd3ee109f7bcf9afef15"
+>
+>  inherit meson pkgconfig gettext pixbufcache ptest-gnome
+> upstream-version-is-even gobject-introspection gtk-doc lib_package
+>
+> -GIR_MESON_OPTION = 'gir'
+> +GIR_MESON_ENABLE_FLAG = "enabled"
+> +GIR_MESON_DISABLE_FLAG = "disabled"
+> +
+> +GIR_MESON_OPTION = 'introspection'
+>
+>  LIBV = "2.10.0"
+>
+> @@ -53,9 +53,7 @@ PACKAGECONFIG_class-native = "${GDK_PIXBUF_LOADERS}"
+>  PACKAGECONFIG[png] = "-Dpng=true,-Dpng=false,libpng"
+>  PACKAGECONFIG[jpeg] = "-Djpeg=true,-Djpeg=false,jpeg"
+>  PACKAGECONFIG[tiff] = "-Dtiff=true,-Dtiff=false,tiff"
+> -PACKAGECONFIG[jpeg2000] = "-Djasper=true,-Djasper=false,jasper"
+>  PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+> -PACKAGECONFIG[x11] = "-Dx11=true,-Dx11=false,virtual/libx11"
+>
+>  PACKAGES =+ "${PN}-xlib"
+>
+> --
+> 2.25.1
+>
+>
+>
+>
+> 
+>
+>
+
+--000000000000f84b0c05b8edc328
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2021-01-15 at 10:14 +0000, Richard Purdie wrote:
-> On Fri, 2021-01-15 at 09:57 +0000, Luca Boccassi wrote:
-> > > https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fw=
-iki.yoctoproject.org%2Fwiki%2FBest_Known_Methods%23Patch_Comments&amp;data=
-=3D04%7C01%7CLuca.Boccassi%40microsoft.com%7Cd96a07e0ec0740e98b9a08d8b93e64=
-09%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C637463024985923638%7CUnknow=
-n%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI=
-6Mn0%3D%7C1000&amp;sdata=3DaK4%2F8oasYb3NJ84rVUq6ptf0nRnwDKniKj4jIB283EY%3D=
-&amp;reserved=3D0
-> >=20
-> > Richard, FYI this appears to be an empty page.
->=20
-> That wasn't the link in my email, the link was:
->=20
-> https://nam06.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwiki.=
-yoctoproject.org%2Fwiki%2FBest_Known_Methods_&amp;data=3D04%7C01%7CLuca.Boc=
-cassi%40microsoft.com%7Cd96a07e0ec0740e98b9a08d8b93e6409%7C72f988bf86f141af=
-91ab2d7cd011db47%7C1%7C0%7C637463024985933630%7CUnknown%7CTWFpbGZsb3d8eyJWI=
-joiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sd=
-ata=3DTOAqow8KyiRT6i3LtpEeS46T0Dq8iixSNc3l6XpDzhk%3D&amp;reserved=3D0(BKMs)=
-_for_Package_Updating#Patch_Comments
->=20
-> The brackets in there may be causing some kind of issue?
->=20
-> In case it doesn't work, the page in question is titled=20
-> "Best Known Methods (BKMs) for Package Updating"
->=20
-> Cheers,
->=20
-> Richard
+<div dir=3D"ltr"><div>I believe ptest regresses with this update - we need =
+to wait until 2.42.3. I have a patch in progress as well.</div><div><br></d=
+iv><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
+ class=3D"gmail_attr">On Fri, 15 Jan 2021 at 08:00, Wang Mingyu &lt;<a href=
+=
+=3D"mailto:wangmy@cn.fujitsu.com">wangmy@cn.fujitsu.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">refresh the followi=
+ng patches:<br>
+0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch<br>
+0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch<br>
+<br>
+remove the following patches since they are included in 2.42.2:<br>
+0004-Do-not-run-tests-when-building.patch<br>
+missing-test-data.patch<br>
+CVE-2020-29385.patch<br>
+<br>
+Signed-off-by: Wang Mingyu &lt;<a href=3D"mailto:wangmy@cn.fujitsu.com" ta=
+rget=3D"_blank">wangmy@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0...-around-thumbnailer-cross-compile-fa.patch | 70 ++++++++++-------=
+--<br>
+=C2=A0.../0004-Do-not-run-tests-when-building.patch | 39 -----------<br>
+=C2=A0...ailer-and-tests-also-in-cross-builds.patch |=C2=A0 9 ++-<br>
+=C2=A0.../gdk-pixbuf/CVE-2020-29385.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| 55 ---------------<br>
+=C2=A0.../gdk-pixbuf/missing-test-data.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 | =
+30 --------<br>
+=C2=A0...-<a href=3D"http://pixbuf_2.40.0.bb" rel=3D"noreferrer" target=3D=
+"_blank">pixbuf_2.40.0.bb</a> =3D&gt; <a href=3D"http://gdk-pixbuf_2.42.2.b=
+b" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.42.2.bb</a>} | 14 ++--=
+<br>
+=C2=A06 files changed, 48 insertions(+), 169 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-=
+not-run-tests-when-building.patch<br>
+=C2=A0delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020=
+-29385.patch<br>
+=C2=A0delete mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-=
+test-data.patch<br>
+=C2=A0rename meta/recipes-gnome/gdk-pixbuf/{<a href=3D"http://gdk-pixbuf_2=
+.40.0.bb" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a> =3D=
+&gt; <a href=3D"http://gdk-pixbuf_2.42.2.bb" rel=3D"noreferrer" target=3D"_=
+blank">gdk-pixbuf_2.42.2.bb</a>} (91%)<br>
+<br>
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Wor=
+k-around-thumbnailer-cross-compile-fa.patch b/meta/recipes-gnome/gdk-pixbuf=
+/gdk-pixbuf/0003-target-only-Work-around-thumbnailer-cross-compile-fa.patch=
+<br>
+index a9c7600eb3..f12c178696 100644<br>
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-aroun=
+d-thumbnailer-cross-compile-fa.patch<br>
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0003-target-only-Work-aroun=
+d-thumbnailer-cross-compile-fa.patch<br>
+@@ -18,9 +18,9 @@ Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:a=
+lex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+<br>
+=C2=A0---<br>
+=C2=A0 build-aux/gen-thumbnailer.py |=C2=A0 2 --<br>
+- tests/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 11 ++++++++=
++--<br>
++ tests/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 10 ++++++++=
+--<br>
+=C2=A0 thumbnailer/meson.build=C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 +----<br>
+- 3 files changed, 10 insertions(+), 8 deletions(-)<br>
++ 3 files changed, 9 insertions(+), 8 deletions(-)<br>
+<br>
+=C2=A0diff --git a/build-aux/gen-thumbnailer.py b/build-aux/gen-thumbnaile=
+r.py<br>
+=C2=A0index 05ac821..c5b99ab 100644<br>
+@@ -36,41 +36,40 @@ index 05ac821..c5b99ab 100644<br>
+=C2=A0 if <a href=3D"http://os.name" rel=3D"noreferrer" target=3D"_blank">=
+os.name</a> =3D=3D &#39;nt&#39;:<br>
+=C2=A0 =C2=A0 =C2=A0 gdk_pixbuf_dll_buildpath =3D os.path.dirname(args.pix=
+data)<br>
+=C2=A0diff --git a/tests/meson.build b/tests/meson.build<br>
+-index 8ed7cc1..e011b77 100644<br>
++index c9cf25c..c82d9f7 100644<br>
+=C2=A0--- a/tests/meson.build<br>
+=C2=A0+++ b/tests/meson.build<br>
+-@@ -1,12 +1,19 @@<br>
+- # Resources; we cannot use gnome.compile_resources() here, because we ne=
+ed to<br>
+- # override the environment in order to use the utilities we just built i=
+nstead<br>
+- # of the system ones<br>
++@@ -4,12 +4,18 @@ if enabled_loaders.contains(&#39;png&#39;) and enabled_=
+loaders.contains(&#39;bmp&#39;)<br>
++=C2=A0 =C2=A0# Resources; we cannot use gnome.compile_resources() here, b=
+ecause we need to<br>
++=C2=A0 =C2=A0# override the environment in order to use the utilities we =
+just built instead<br>
++=C2=A0 =C2=A0# of the system ones<br>
+++=C2=A0 if not meson.is_cross_build()<br>
+++=C2=A0 pixdata_binary =3D gdk_pixbuf_pixdata.full_path()<br>
+++=C2=A0 else<br>
+++=C2=A0 pixdata_binary =3D &#39;gdk-pixbuf-pixdata&#39;<br>
+++=C2=A0 endif<br>
+=C2=A0+<br>
+-+if not meson.is_cross_build()<br>
+-+pixdata_binary =3D gdk_pixbuf_pixdata.full_path()<br>
+-+else<br>
+-+pixdata_binary =3D &#39;gdk-pixbuf-pixdata&#39;<br>
+-+endif<br>
+-+<br>
+- resources_c =3D custom_target(&#39;resources.c&#39;,<br>
+-=C2=A0 =C2=A0input: &#39;resources.gresource.xml&#39;,<br>
+-=C2=A0 =C2=A0output: &#39;resources.c&#39;,<br>
+-=C2=A0 =C2=A0command: [<br>
+-=C2=A0 =C2=A0 =C2=A0gen_resources,<br>
+--=C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(gdk_pixbuf_pixdata.full_p=
+ath()),<br>
+-+=C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(pixdata_binary),<br>
+-=C2=A0 =C2=A0 =C2=A0&#39;--loaders=3D@0@&#39;.format(loaders_cache.full_p=
+ath()),<br>
+-=C2=A0 =C2=A0 =C2=A0&#39;--sourcedir=3D@0@&#39;.format(meson.current_sour=
+ce_dir()),<br>
+-=C2=A0 =C2=A0 =C2=A0&#39;--source&#39;,<br>
+-@@ -24,7 +31,7 @@ resources_h =3D custom_target(&#39;resources.h&#39;,<br=
+>
+-=C2=A0 =C2=A0output: &#39;resources.h&#39;,<br>
+-=C2=A0 =C2=A0command: [<br>
+-=C2=A0 =C2=A0 =C2=A0gen_resources,<br>
+--=C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(gdk_pixbuf_pixdata.full_p=
+ath()),<br>
+-+=C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(pixdata_binary),<br>
+-=C2=A0 =C2=A0 =C2=A0&#39;--loaders=3D@0@&#39;.format(loaders_cache.full_p=
+ath()),<br>
+-=C2=A0 =C2=A0 =C2=A0&#39;--sourcedir=3D@0@&#39;.format(meson.current_sour=
+ce_dir()),<br>
+-=C2=A0 =C2=A0 =C2=A0&#39;--header&#39;,<br>
++=C2=A0 =C2=A0resources_c =3D custom_target(&#39;resources.c&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0input: &#39;resources.gresource.xml&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0output: &#39;resources.c&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0command: [<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0gen_resources,<br>
++-=C2=A0 =C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(gdk_pixbuf_pixdata=
+.full_path()),<br>
+++=C2=A0 =C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(pixdata_binary),<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;--loaders=3D@0@&#39;.format(loaders_cache=
+.full_path()),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;--sourcedir=3D@0@&#39;.format(meson.curre=
+nt_source_dir()),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;--source&#39;,<br>
++@@ -27,7 +33,7 @@ if enabled_loaders.contains(&#39;png&#39;) and enabled_=
+loaders.contains(&#39;bmp&#39;)<br>
++=C2=A0 =C2=A0 =C2=A0output: &#39;resources.h&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0command: [<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0gen_resources,<br>
++-=C2=A0 =C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(gdk_pixbuf_pixdata=
+.full_path()),<br>
+++=C2=A0 =C2=A0 =C2=A0 &#39;--pixdata=3D@0@&#39;.format(pixdata_binary),<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;--loaders=3D@0@&#39;.format(loaders_cache=
+.full_path()),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;--sourcedir=3D@0@&#39;.format(meson.curre=
+nt_source_dir()),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;--header&#39;,<br>
+=C2=A0diff --git a/thumbnailer/meson.build b/thumbnailer/meson.build<br>
+-index aaafec8..71bd61b 100644<br>
++index aaafec8..6abfda4 100644<br>
+=C2=A0--- a/thumbnailer/meson.build<br>
+=C2=A0+++ b/thumbnailer/meson.build<br>
+=C2=A0@@ -18,9 +18,7 @@ custom_target(&#39;thumbnailer&#39;,<br>
+@@ -80,7 +79,7 @@ index aaafec8..71bd61b 100644<br>
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;--prin=
+ter=3D@0@&#39;.format(gdk_pixbuf_print_mime_types.full_path()),<br>
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;--pixd=
+ata=3D@0@&#39;.format(gdk_pixbuf_pixdata.full_path()),<br>
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;--load=
+ers=3D@0@&#39;.format(loaders_cache.full_path()),<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;--printer=
+=3Dgdk-pixbuf-print-mime-types&#39;,<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;--printer=3Dgdk-pi=
+xbuf-print-mime-types&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;--bind=
+ir=3D@0@&#39;.format(gdk_pixbuf_bindir),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;@INPUT=
+@&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;@OUTPU=
+T@&#39;,<br>
+@@ -92,3 +91,6 @@ index aaafec8..71bd61b 100644<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install: true,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install_dir: join_=
+paths(gdk_pixbuf_datadir, &#39;thumbnailers&#39;))<br>
++-- <br>
++2.25.1<br>
++<br>
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-test=
+s-when-building.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-no=
+t-run-tests-when-building.patch<br>
+deleted file mode 100644<br>
+index 96c546f271..0000000000<br>
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0004-Do-not-run-tests-when-=
+building.patch<br>
++++ /dev/null<br>
+@@ -1,39 +0,0 @@<br>
+-From 3c4a6c147ae8a0962ba9194373d8a41d14eed44f Mon Sep 17 00:00:00 2001<br=
+>
+-From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" tar=
+get=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+-Date: Fri, 22 Feb 2019 13:23:55 +0100<br>
+-Subject: [PATCH] Do not run tests when building<br>
+-<br>
+-Upstream-Status: Inappropriate [cross-compile specific]<br>
+-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail=
+.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+----<br>
+- tests/meson.build | 17 -----------------<br>
+- 1 file changed, 17 deletions(-)<br>
+-<br>
+-diff --git a/tests/meson.build b/tests/meson.build<br>
+-index 4fa3fbc..6ef7884 100644<br>
+---- a/tests/meson.build<br>
+-+++ b/tests/meson.build<br>
+-@@ -138,23 +138,6 @@ foreach t: installed_tests<br>
+-=C2=A0 =C2=A0 =C2=A0install_dir: installed_test_bindir,<br>
+-=C2=A0 =C2=A0)<br>
+- <br>
+--=C2=A0 # Two particularly slow tests<br>
+--=C2=A0 if test_suites.contains(&#39;slow&#39;)<br>
+--=C2=A0 =C2=A0 timeout =3D 300<br>
+--=C2=A0 else<br>
+--=C2=A0 =C2=A0 timeout =3D 30<br>
+--=C2=A0 endif<br>
+--<br>
+--=C2=A0 test(test_name, test_bin,<br>
+--=C2=A0 =C2=A0 suite: test_suites,<br>
+--=C2=A0 =C2=A0 args: [ &#39;-k&#39;, &#39;--tap&#39; ],<br>
+--=C2=A0 =C2=A0 env: [<br>
+--=C2=A0 =C2=A0 =C2=A0 &#39;G_TEST_SRCDIR=3D@0@&#39;.format(meson.current_=
+source_dir()),<br>
+--=C2=A0 =C2=A0 =C2=A0 &#39;G_TEST_BUILDDIR=3D@0@&#39;.format(meson.curren=
+t_build_dir()),<br>
+--=C2=A0 =C2=A0 =C2=A0 &#39;GDK_PIXBUF_MODULE_FILE=3D@0@&#39;.format(loade=
+rs_cache.full_path()),<br>
+--=C2=A0 =C2=A0 ],<br>
+--=C2=A0 =C2=A0 timeout: timeout,<br>
+--=C2=A0 )<br>
+- endforeach<br>
+- <br>
+- executable(&#39;pixbuf-read&#39;,<br>
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnail=
+er-and-tests-also-in-cross-builds.patch b/meta/recipes-gnome/gdk-pixbuf/gdk=
+-pixbuf/0006-Build-thumbnailer-and-tests-also-in-cross-builds.patch<br>
+index 0fe13a387a..6a7fd02501 100644<br>
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-=
+tests-also-in-cross-builds.patch<br>
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0006-Build-thumbnailer-and-=
+tests-also-in-cross-builds.patch<br>
+@@ -10,10 +10,10 @@ Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto=
+:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<b=
+r>
+=C2=A0 1 file changed, 2 insertions(+), 4 deletions(-)<br>
+<br>
+=C2=A0diff --git a/meson.build b/meson.build<br>
+-index d104cea..7acb88a 100644<br>
++index c386070..15f16a6 100644<br>
+=C2=A0--- a/meson.build<br>
+=C2=A0+++ b/meson.build<br>
+-@@ -397,10 +397,8 @@ endif<br>
++@@ -378,10 +378,8 @@ subdir(&#39;gdk-pixbuf&#39;)<br>
+=C2=A0 # i18n<br>
+=C2=A0 subdir(&#39;po&#39;)<br>
+<br>
+@@ -25,4 +25,7 @@ index d104cea..7acb88a 100644<br>
+=C2=A0+subdir(&#39;thumbnailer&#39;)<br>
+<br>
+=C2=A0 # Documentation<br>
+- subdir(&#39;docs&#39;)<br>
++ build_docs =3D get_option(&#39;gtk_doc&#39;) or get_option(&#39;docs&#39=
+;)<br>
++-- <br>
++2.25.1<br>
++<br>
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch=
+ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch<br>
+deleted file mode 100644<br>
+index 3fef2bc1eb..0000000000<br>
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/CVE-2020-29385.patch<br>
++++ /dev/null<br>
+@@ -1,55 +0,0 @@<br>
+-From bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81 Mon Sep 17 00:00:00 2001<br=
+>
+-From: Robert Ancell &lt;<a href=3D"mailto:robert.ancell@canonical.com" ta=
+rget=3D"_blank">robert.ancell@canonical.com</a>&gt;<br>
+-Date: Mon, 30 Nov 2020 12:26:12 +1300<br>
+-Subject: [PATCH 02/13] gif: Fix LZW decoder accepting invalid LZW code.<b=
+r>
+-<br>
+-The code value after a reset wasn&#39;t being validated, which means we w=
+ould<br>
+-accept invalid codes. This could cause an infinite loop in the decoder.<b=
+r>
+-<br>
+-Fixes CVE-2020-29385<br>
+-<br>
+-Fixes <a href=3D"https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/issues/164" =
+rel=3D"noreferrer" target=3D"_blank">https://gitlab.gnome.org/GNOME/gdk-pix=
+buf/-/issues/164</a><br>
+-<br>
+-Upstream-Status: Backport [<a href=3D"https://gitlab.gnome.org/GNOME/gdk-=
+pixbuf/-/commit/bdd3acbd48a575d418ba6bf1b32d7bda2fae1c81" rel=3D"noreferrer=
+" target=3D"_blank">https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/bdd3=
+acbd48a575d418ba6bf1b32d7bda2fae1c81</a>]<br>
+-CVE: CVE-2020-29385<br>
+-Signed-off-by: Chee Yang Lee &lt;<a href=3D"mailto:chee.yang.lee@intel.co=
+m" target=3D"_blank">chee.yang.lee@intel.com</a>&gt;<br>
+-<br>
+----<br>
+- gdk-pixbuf/lzw.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 |=C2=A0 13 +++++++------<br>
+- 1 files changed, 7 insertions(+), 6 deletions(-)<br>
+- create mode 100644 tests/test-images/fail/hang_114.gif<br>
+-<br>
+-diff --git a/gdk-pixbuf/lzw.c b/gdk-pixbuf/lzw.c<br>
+-index 9e052a6f7..105daf2b1 100644<br>
+---- a/gdk-pixbuf/lzw.c<br>
+-+++ b/gdk-pixbuf/lzw.c<br>
+-@@ -195,19 +195,20 @@ lzw_decoder_feed (LZWDecoder *self,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (self-&gt;last_code !=3D s=
+elf-&gt;clear_code &amp;&amp; self-&gt;code_table_size &lt; MAX_CODES) {<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i=
+f (self-&gt;code &lt; self-&gt;code_table_size)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0add_code (self, self-&gt;code);<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else=
+ if (self-&gt;code =3D=3D self-&gt;code_table_size)<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0add_code (self, self-&gt;last_code);<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else=
+ {<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 /* Invalid code received - just stop here */<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 self-&gt;last_code =3D self-&gt;eoi_code;<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 return output_length;<br>
+--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br=
+>
+- <br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/=
+* When table is full increase code size */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i=
+f (self-&gt;code_table_size =3D=3D (1 &lt;&lt; self-&gt;code_size) &amp;&am=
+p; self-&gt;code_size &lt; LZW_CODE_MAX)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0self-&gt;code_size++;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+- <br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Invalid code received - just =
+stop here */<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (self-&gt;code &gt;=3D self-&=
+gt;code_table_size) {<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
+-&gt;last_code =3D self-&gt;eoi_code;<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 retu=
+rn output_length;<br>
+-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+-+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Convert codeword into inde=
+xes */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0n_written +=3D write_indexes =
+(self, output + n_written, output_length - n_written);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0}<br>
+--- <br>
+-2.25.1<br>
+-<br>
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.pa=
+tch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch<br>
+deleted file mode 100644<br>
+index 6c758fd61c..0000000000<br>
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/missing-test-data.patch<br>
++++ /dev/null<br>
+@@ -1,30 +0,0 @@<br>
+-Upstream-Status: Backport<br>
+-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" t=
+arget=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+-<br>
+-From d8d231c01ef2e59856da8a5c26ace955e5f29370 Mon Sep 17 00:00:00 2001<br=
+>
+-From: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"=
+_blank">ross.burton@intel.com</a>&gt;<br>
+-Date: Mon, 25 Nov 2019 17:05:46 +0000<br>
+-Subject: [PATCH] tests: install circular-table.gif<br>
+-<br>
+-This test data was added for the pixbuf-gif-circular-table test (added Oc=
+tober<br>
+-2018 in 0b9d004) but because the file was never actually installed the in=
+stalled<br>
+-test suite never passes.<br>
+----<br>
+- tests/meson.build | 1 +<br>
+- 1 file changed, 1 insertion(+)<br>
+-<br>
+-diff --git a/tests/meson.build b/tests/meson.build<br>
+-index 5116fc2b9..80ed3e8b2 100644<br>
+---- a/tests/meson.build<br>
+-+++ b/tests/meson.build<br>
+-@@ -97,6 +97,7 @@ test_data =3D [<br>
+-=C2=A0 =C2=A0&#39;bug775693.pixdata&#39;,<br>
+-=C2=A0 =C2=A0&#39;bug775229.pixdata&#39;,<br>
+-=C2=A0 =C2=A0&#39;aero.gif&#39;,<br>
+-+=C2=A0 &#39;circular-table.gif&#39;<br>
+- ]<br>
+- <br>
+- installed_test_bindir =3D join_paths(gdk_pixbuf_libexecdir, &#39;install=
+ed-tests&#39;, meson.project_name())<br>
+--- <br>
+-2.20.1<br>
+-<br>
+diff --git a/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.=
+40.0.bb" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a> b/me=
+ta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.42.2.bb" rel=3D"=
+noreferrer" target=3D"_blank">gdk-pixbuf_2.42.2.bb</a><br>
+similarity index 91%<br>
+rename from meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.4=
+0.0.bb" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>
+rename to meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.42.=
+2.bb" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.42.2.bb</a><br>
+index 16708fd581..bcdd8f0526 100644<br>
+--- a/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>
++++ b/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.42.2.bb=
+" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.42.2.bb</a><br>
+@@ -21,10 +21,7 @@ SRC_URI =3D &quot;${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${B=
+PN}-${PV}.tar.xz \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fatal-loader.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Work-around-thumbnai=
+ler-cross-compile-failure.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Fix-a-couple-of-deci=
+sions-around-cross-compilation.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-Do-not-run-tests-whe=
+n-building.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0006-Build-thumbnailer-an=
+d-tests-also-in-cross-builds.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://missing-test-data.patch \=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2020-29385.patch \<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI_append_class-target =3D &quot; \<br>
+@@ -34,12 +31,15 @@ SRC_URI_append_class-nativesdk =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0003-target-only-Work-aro=
+und-thumbnailer-cross-compile-fa.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;05eb1ebc258ba905f1c8644ef49de064&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;1582595099537ca8ff3b99c6804350b4c058bb8ad674=
+11bbaae024ee7cead4e6&quot;<br>
++SRC_URI[md5sum] =3D &quot;7d7617db8dae8ce313160384ab0a71db&quot;<br>
++SRC_URI[sha256sum] =3D &quot;83c66a1cfd591d7680c144d2922c5955d38b4db336d7=
+cd3ee109f7bcf9afef15&quot;<br>
+<br>
+=C2=A0inherit meson pkgconfig gettext pixbufcache ptest-gnome upstream-ver=
+sion-is-even gobject-introspection gtk-doc lib_package<br>
+<br>
+-GIR_MESON_OPTION =3D &#39;gir&#39;<br>
++GIR_MESON_ENABLE_FLAG =3D &quot;enabled&quot;<br>
++GIR_MESON_DISABLE_FLAG =3D &quot;disabled&quot;<br>
++<br>
++GIR_MESON_OPTION =3D &#39;introspection&#39;<br>
+<br>
+=C2=A0LIBV =3D &quot;2.10.0&quot;<br>
+<br>
+@@ -53,9 +53,7 @@ PACKAGECONFIG_class-native =3D &quot;${GDK_PIXBUF_LOADER=
+S}&quot;<br>
+=C2=A0PACKAGECONFIG[png] =3D &quot;-Dpng=3Dtrue,-Dpng=3Dfalse,libpng&quot;=
+<br>
+=C2=A0PACKAGECONFIG[jpeg] =3D &quot;-Djpeg=3Dtrue,-Djpeg=3Dfalse,jpeg&quot=
+;<br>
+=C2=A0PACKAGECONFIG[tiff] =3D &quot;-Dtiff=3Dtrue,-Dtiff=3Dfalse,tiff&quot=
+;<br>
+-PACKAGECONFIG[jpeg2000] =3D &quot;-Djasper=3Dtrue,-Djasper=3Dfalse,jasper=
+&quot;<br>
+=C2=A0PACKAGECONFIG[tests] =3D &quot;-Dinstalled_tests=3Dtrue,-Dinstalled_=
+tests=3Dfalse&quot;<br>
+-PACKAGECONFIG[x11] =3D &quot;-Dx11=3Dtrue,-Dx11=3Dfalse,virtual/libx11&qu=
+ot;<br>
+<br>
+=C2=A0PACKAGES =3D+ &quot;${PN}-xlib&quot;<br>
+<br>
+-- <br>
+2.25.1<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-Sorry my bad, it looks like the Exchange mail server mangling of the
-link ("safelinks" feature) removes the brackets and makes it invalid. I
-should really stop using the Microsoft address...
-
---=20
-Kind regards,
-Luca Boccassi
-
---=-nHRM1PDE1HIdiJQhdAQ+
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEE6g0RLAGYhL9yp9G8SylmgFB4UWIFAmABbH0ACgkQSylmgFB4
-UWJoagf8DACl5YLG0OUs4xy5xim+4HG0s1ul1uFHHE300u1mLiSOJVxcaHdon05A
-I282EjxceSeRtKSN44toWXuYNWhzPu9W6hQ80bbrr1vdBbnxQVpua9nzHEF33ryj
-xmI9vzSzxc5lgMNbvUYIeHodV5Qt3EqKIM3b+5+MLl5rsU+S3Gq9pft6sVLHmyYb
-f5zb/lgAgKeYpoSsDLhZQlT5DytwkKLEJg4JJHToVpeWDm/vW5VXGXEph8IqMDde
-gemiOj4BfxwIF4rdKy0CvTWoYir9voGEbYQMsyKLrdpb0rcNzs2EWOdkreKLHnix
-aCX8aUoyZkUIw+Ga2EPpdDB50M/G6A==
-=sFmX
------END PGP SIGNATURE-----
-
---=-nHRM1PDE1HIdiJQhdAQ+--
+--000000000000f84b0c05b8edc328--
