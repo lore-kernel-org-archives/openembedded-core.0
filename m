@@ -1,22 +1,22 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.672.1610713823010997419
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
+ by mx.groups.io with SMTP id smtpd.web09.722.1610713822881228403
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jan 2021 04:30:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2B8DC38C130C
+	by mail.yoctoproject.org (Postfix) with ESMTP id 4470C38C13A5
 	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-mako: upgrading to 1.1.4 SUCCEEDED
-Message-ID: <MADEUP.165A67B02E5D9783.6799@lists.openembedded.org>
-X-Groupsio-MsgNum: 146769
-Content-Type: multipart/mixed; boundary="===============8326065941452174743=="
+Subject: [AUH] stress-ng: upgrading to 0.12.01 SUCCEEDED
+Message-ID: <MADEUP.165A67B051EB363D.32579@lists.openembedded.org>
+X-Groupsio-MsgNum: 146770
+Content-Type: multipart/mixed; boundary="===============0803664480741612270=="
 
---===============8326065941452174743==
+--===============0803664480741612270==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *python3-mako* to *1.1.4* has Succeeded.
+that the automatic attempt to upgrade the recipe *stress-ng* to *0.12.01* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-mako-upgrade-1.1.3-1.1.4.patch
+    - apply the patch: git am 0001-stress-ng-upgrade-0.12.00-0.12.01.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,76 +44,70 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============8326065941452174743==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
-  /usr/lib/python3.9/site-packages/Mako-1.1.3-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/Mako-1.1.4-py3.9.egg-info
-
---===============8326065941452174743==
+--===============0803664480741612270==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-python3-mako-upgrade-1.1.3-1.1.4.patch"
+ filename="0001-stress-ng-upgrade-0.12.00-0.12.01.patch"
 
-From e6e148fe612060199e709ff0af8dfc0f8a68a1ea Mon Sep 17 00:00:00 2001
+From 815a58bf47d6d907768c299498436428d3bf7e04 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 15 Jan 2021 05:52:58 +0000
-Subject: [PATCH] python3-mako: upgrade 1.1.3 -> 1.1.4
+Date: Fri, 15 Jan 2021 06:51:40 +0000
+Subject: [PATCH] stress-ng: upgrade 0.12.00 -> 0.12.01
 
 ---
- .../python/{python3-mako_1.1.3.bb => python3-mako_1.1.4.bb}     | 2 +-
+ .../stress-ng/{stress-ng_0.12.00.bb => stress-ng_0.12.01.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-mako_1.1.3.bb => python3-mako_1.1.4.bb} (83%)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.12.00.bb => stress-ng_0.12.01.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-mako_1.1.3.bb b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-mako_1.1.3.bb
-rename to meta/recipes-devtools/python/python3-mako_1.1.4.bb
-index cda4e99220..531fc6a3c0 100644
---- a/meta/recipes-devtools/python/python3-mako_1.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
-@@ -8,7 +8,7 @@ PYPI_PACKAGE = "Mako"
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.01.bb
+similarity index 90%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.12.00.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.12.01.bb
+index 3b38b39893..79157c738b 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.12.00.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.01.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            file://no_daddr_t.patch \
+            "
+-SRC_URI[sha256sum] = "b2b738f574671926654b1623103a7aa58ee6911894ac78760ee188c4bfa96fe2"
++SRC_URI[sha256sum] = "d354bbbb1500cfe043c761014dc9c3f62779747fafea8a19af94402327f6d3fc"
  
- inherit pypi setuptools3
+ DEPENDS = "coreutils-native"
  
--SRC_URI[sha256sum] = "8195c8c1400ceb53496064314c6736719c6f25e7479cd24c77be3d9361cddc27"
-+SRC_URI[sha256sum] = "17831f0b7087c313c0ffae2bcbbd3c1d5ba9eeac9c38f2eb7b50e8c99fe9d5ab"
- 
- RDEPENDS_${PN} = "${PYTHON_PN}-html \
-                   ${PYTHON_PN}-netclient \
 -- 
 2.27.0
 
 
---===============8326065941452174743==
+--===============0803664480741612270==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/python3-mako: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako: SRC_URI changed from "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.1.3.tar.gz" to "https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.1.4.tar.gz"
-packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako/python3-mako-dbg: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako/python3-mako-dev: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako/python3-mako-doc: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako/python3-mako-locale: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-src: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako/python3-mako-src: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako/python3-mako-staticdev: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako: PV changed from "1.1.3" to "1.1.4"
-packages/core2-32-poky-linux/python3-mako/python3-mako: PKGV changed from 1.1.3 [default] to 1.1.4 [default]
-packages/core2-32-poky-linux/python3-mako/python3-mako: PKGSIZE changed from 493234 to 494305 (+0%)
-Changes to packages/core2-32-poky-linux/python3-mako (sysroot):
-  /usr/lib/python3.9/site-packages/Mako-1.1.3-py3.9.egg-info moved to /usr/lib/python3.9/site-packages/Mako-1.1.4-py3.9.egg-info
+packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng: SRC_URI changed from "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.00.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch" to "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.01.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch"
+packages/core2-32-poky-linux/stress-ng: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 5649060 to 5676956 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 49890 to 50109 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 2787168 to 2797548 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 4089736 to 4093896 (+0%)
+packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.12.00" to "0.12.01"
+packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
 
---===============8326065941452174743==--
+--===============0803664480741612270==--
