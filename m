@@ -1,185 +1,122 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web09.4647.1610729999842189924
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web11.4555.1610730234027719731
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 09:00:00 -0800
+ Fri, 15 Jan 2021 09:03:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PBkLYiwI;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id b21so1461675edy.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 08:59:59 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RG52BZDC;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id s24so1289339wmj.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 09:03:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aN2FSyZXTn5yTUrwBApWShHrOM2pM/3fCWZCggiW3VM=;
-        b=PBkLYiwIGEeXwV410e+JKysltemGXtGU36vnGr0lcyakxS7ScmvWPytI8p0qnXuksJ
-         xo6UHJ0i7/3peD0N+Oa9iPxMH+g5gpVsVMkXJoTgnsZmg4s255sGEBAi1be6PzaIPRN+
-         ZA5gPa9tMyktgdX36ol4pNXtfGSKw04xg6vCPH7nZ9YfLwsEG2HRTWS3AFKO+CeZ8hnr
-         JMX5NDx4OrjjefQb9EjDue2mGtUiJnl+79ueTqA1invieiMHYceGwwMnvbXOYOpXSeXM
-         JV4sR7Ns+8fCkY5Z1ILZDQoMLmOoU+9iPz5RVgHuqMANJSmv17NK0E28+VkK4zyir2Gg
-         DeIA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=3GKtJOgLxp/tZdGFHtMCDiPR8a2Rvu/KcNpUeXMwQV4=;
+        b=RG52BZDCIfOWR68wLR2h55xyaEpq5xNH+OY77VQRrhPrZ0v026N/khO5dc2XU6jS7v
+         y0/4AFKDH22GiN+zm1c1iN/A7ZJeaYwCd6rOmuan4+F0K0ErXPSQbojhyUmqGiXegtcx
+         Hk8k6J+Lxr6DkWafFd5sL3pRCpVG4GZF1TNvI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aN2FSyZXTn5yTUrwBApWShHrOM2pM/3fCWZCggiW3VM=;
-        b=Bz0O7920iZMN0g6UFyhjLqv0VaRRA476LnxwJUKUmCtW64zgWhGpmpf4QcQlCHsY32
-         bzuoUYNnB2BEViyrXIgw0gYPBJO3mZljUt9kerW1Bp6QiNw/+7dD9VETs8wn3nihMWeY
-         dBtihANIMDivoQ1iKT7x2rXRuoe2onxG6gjUydfotIV4AN05McROVJVreHBd5kqbEDgp
-         +EJXI5J76dLN1BQgXlEnoXi1sWJ2RBJMYIW1KyRjCwEZnkM4Wy8nHRoDdk1ln0vRkQuH
-         UhBoau5kPbRiokZjd0wQ0orDB9iZt/qOouK4574bHz39a+v8GHS+uZ0OkAT2bM/A3vK4
-         kWsQ==
-X-Gm-Message-State: AOAM531cPHMI+CNNGoZq9RECFsLhkn8/dIX3Pkq4QkLf5I+gMXEOuIzq
-	kYEphYmolErJCJUS+CT/cdDOp5GBEDTGicYAtlM=
-X-Google-Smtp-Source: ABdhPJyEdmsGu/rTTzmk8xyFxvOuLiqnoTtTtRV3FQGSVXUw/2iJo4gMXgmbiSkYM5FrC/JJfTZoltFsV1lz6na5bag=
-X-Received: by 2002:a05:6402:22e1:: with SMTP id dn1mr10733503edb.347.1610729998311;
- Fri, 15 Jan 2021 08:59:58 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=3GKtJOgLxp/tZdGFHtMCDiPR8a2Rvu/KcNpUeXMwQV4=;
+        b=Lw8t1Pbf7txORPakvKBqgoof8MFOp2+HokBl6e9sep3Po/WJJ+/6ofV/pStmTbEnb1
+         M16vdxcf5JDe3DNBgkIS54iwnJDNpTCJF3edoJI38ILUEAdW1MG/3TCTmMr0b1Zdtx4d
+         rsAu3oFFdLDjr1lWk7gVKqjI6VwYQQ/PdDQY5cJDDBfdb4hi4ONduWrbWuYW6McQNVQh
+         EOfxUxwVAYr9w6CkDFX6aMWo0d/qhfeUG8MN6xb1Wy/mSH5AuyzyL++mE7rOzuiRYcA/
+         D24jF4ZDN7Ypimm2PUyJqbYF9VhG5QXUKiq6y+ul+F0J8mQNXHuRy3r9DchSkdk81NBy
+         jxMw==
+X-Gm-Message-State: AOAM532cjTailc0mPI7vthoPj4J5ghVbvkoJYhcn8JVu2OKIMOABDPl9
+	RttW8ZCpx6+xO3qr5sWBiGk++Q==
+X-Google-Smtp-Source: ABdhPJwgdgdr0/MEFLP970UPjzN7nEtZjgtNngI+SSEdLrodWV1qwNTszUHhvxOSJRV6xV4Mi7yvUg==
+X-Received: by 2002:a05:600c:22c6:: with SMTP id 6mr9558935wmg.33.1610730232518;
+        Fri, 15 Jan 2021 09:03:52 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:974a:2423:c71:b423? ([2001:8b0:aba:5f3c:974a:2423:c71:b423])
+        by smtp.gmail.com with ESMTPSA id f14sm13756142wme.14.2021.01.15.09.03.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Jan 2021 09:03:52 -0800 (PST)
+Message-ID: <8968526a57263a7b19d993073a2b477047d22766.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH][dunfell][gatesgarth][master] zip: whitelist CVE-2018-13410 and CVE-2018-13684
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Mikko.Rapeli@bmw.de
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 15 Jan 2021 17:03:51 +0000
+In-Reply-To: <YAHJ0TSKnUuczvAQ@korppu>
+References: <20210115104807.40671-1-mikko.rapeli@bmw.de>
+	 <49b9decc4cf96646d8bb616931548966ac9f37f6.camel@linuxfoundation.org>
+	 <YAHJ0TSKnUuczvAQ@korppu>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210115052615.29893-1-paul.gortmaker@windriver.com>
- <12145df57b9fdec6933497849a2d8b40fcb8a023.camel@linuxfoundation.org>
- <a81ea7e632a26636d966540a86ec1978f557e63c.camel@microsoft.com>
- <20210115144724.GM16838@windriver.com> <96b7ff9f43b96d80021b3f797a6295de210711ea.camel@microsoft.com>
- <CADkTA4MHjfrAf01PDVY8hyR9r_f5mqheLomuWKuUZY-+Rgi0=g@mail.gmail.com> <6b4797ffe82f0ddd48352363ad85b3e5a52c3f7e.camel@microsoft.com>
-In-Reply-To: <6b4797ffe82f0ddd48352363ad85b3e5a52c3f7e.camel@microsoft.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 15 Jan 2021 11:59:46 -0500
-Message-ID: <CADkTA4PrQefBMme_z6JAquZCv=7CYMsq8OA4+Y7xVHwL=VjseA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8
-To: Luca Boccassi <Luca.Boccassi@microsoft.com>
-Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"paul.gortmaker@windriver.com" <paul.gortmaker@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 15, 2021 at 11:31 AM Luca Boccassi
-<Luca.Boccassi@microsoft.com> wrote:
->
-> On Fri, 2021-01-15 at 11:07 -0500, Bruce Ashfield wrote:
-> > On Fri, Jan 15, 2021 at 10:37 AM Luca Boccassi via
-> > lists.openembedded.org
-> > <luca.boccassi=microsoft.com@lists.openembedded.org> wrote:
-> > > On Fri, 2021-01-15 at 09:47 -0500, Paul Gortmaker wrote:
-> > > > [Re: [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8] On 15/01/2021 (Fri 09:57) Luca Boccassi wrote:
-> > > >
-> > > > > On Fri, 2021-01-15 at 08:37 +0000, Richard Purdie wrote:
-> > > > > > On Fri, 2021-01-15 at 00:26 -0500, Paul Gortmaker wrote:
-> > > > > > > Recent systemd started using ascii args to "hidepid=" mount options
-> > > > > > > for proc fs - unconditionally -- even though kernels older than v5.8
-> > > > > > > emit an error message on each attempt:
-> > > > > > >
-> > > > > > > root@qemux86-64:~# cat /proc/version
-> > > > > > > Linux version 5.4.87-yocto-standard (oe-user@oe-host) (gcc version 10.2.0 (GCC)) #1 SMP PREEMPT Fri Jan 8 01:47:13 UTC 2021
-> > > > > > > root@qemux86-64:~# dmesg|grep proc:
-> > > > > > > [   29.487995] proc: Bad value for 'hidepid'
-> > > > > > > [   43.170571] proc: Bad value for 'hidepid'
-> > > > > > > [   44.175615] proc: Bad value for 'hidepid'
-> > > > > > > [   46.213300] proc: Bad value for 'hidepid'
-> > > > > > > root@qemux86-64:~#
-> > > > >
-> > > > > Wouldn't it be better to patch the kernel to downgrade that message to
-> > > > > debug level?
-> > > >
-> > > > The problem is that the breakage is forced upon older kernels, so you'd
-> > > > have to effectively mainline that kind of "fix" to v5.12 (where there is
-> > > > no problem) and then you could in theory request it for v5.4 linux-stable
-> > > > according to "stable rules".
-> > >
-> > > The patch could be downstream for older kernels, just like this one is.
-> > > With the difference that it would be temporary.
-> >
-> > But the coverage is impossible, since there are so many
-> > different kernel trees. So a kernel solution is a non-starter.
->
-> IMHO a long term solution can only go through the kernel. There will be
-> more instances like this in the future, given the fundamental issue is
-> the lack of a clear EOPNOTSUPP-like interface. I realise the mount
-> interface is ancient at this point, and difficult to change. We are
-> keeping an eye on the evolution of the new interface, but it's not
-> there yet (eg: no read-only bind mounts).
+On Fri, 2021-01-15 at 16:58 +0000, Mikko.Rapeli@bmw.de wrote:
+> On Fri, Jan 15, 2021 at 04:48:13PM +0000, Richard Purdie wrote:
+> > On Fri, 2021-01-15 at 12:48 +0200, Mikko Rapeli wrote:
+> > > https://nvd.nist.gov/vuln/detail/CVE-2018-13410 is disputed and
+> > > also Debian considers it not a vulnerability:
+> > > 
+> > > https://security-tracker.debian.org/tracker/CVE-2018-13410
+> > > 
+> > > http://seclists.org/fulldisclosure/2018/Jul/24
+> > > "Negligible security impact, would involve that a untrusted party controls the -TT value."
+> > > 
+> > > https://nvd.nist.gov/vuln/detail/CVE-2018-13684 is not for zip, also Debian concludes this:
+> > > 
+> > > https://security-tracker.debian.org/tracker/CVE-2018-13684
+> > > 
+> > > "NOT-FOR-US: smart contract implementation for ZIP"
+> > > 
+> > > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> > > ---
+> > >  meta/recipes-extended/zip/zip_3.0.bb | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+> > > index c00a932763..47e6fc5278 100644
+> > > --- a/meta/recipes-extended/zip/zip_3.0.bb
+> > > +++ b/meta/recipes-extended/zip/zip_3.0.bb
+> > > @@ -19,6 +19,9 @@ UPSTREAM_VERSION_UNKNOWN = "1"
+> > >  SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
+> > >  SRC_URI[sha256sum] = "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369"
+> > > 
+> > > 
+> > > +CVE_CHECK_WHITELIST += "CVE-2018-13410"
+> > > +CVE_CHECK_WHITELIST += "CVE-2018-13684"
+> > > +
+> > 
+> > Where we're adding these can we put a small comment in as well just
+> > saying why we're whitelisting it?
+> 
+> Sure, but lets try to be consistent then.
 
-I don't disagree .. but I'm only commenting on this one older kernel
-issue, so there's nothing to see in the new kernels where I spend
-99% of my time. The interfaces in the kernel will absolutely evolve
-in the newer kernels, and that's a good thing.
+I am trying to be, I did add comments with the recently whitelist
+entries I added! :)
 
->
-> > > > Besides, if something with root/mount priv. is consistently trying to
-> > > > drive a square peg into a round hole - by trying to mount something and
-> > > > failing -- it should be something that a sysadmin would want to
-> > > > investigate.  Which is precisely why I am here now.  I think burying it
-> > > > at debug level is counterproductive to that.
-> > >
-> > > Well the real issue is that there's no way to get a clean "we don't
-> > > support this option" out of certain kernel APIs, so one has to guess
-> > > and see what happens. Sometimes it's even worse, and flags like
-> > > NOSYMFOLLOW get silently ignored if they are not supported, which is
-> > > not great for security-related settings...
-> > >
-> > > Anyway, these warnings only appear if ProtectProc and/or ProcSubset are
-> > > set to something other than the default value. Why not simply add a
-> > > top-level drop-in in /etc that forces them to be disabled in all
-> > > services if you have an older kernel? Something like this:
-> > >
-> > > /etc/systemd/system/service.d/10-override-protect-proc.conf
-> > > [Service]
-> > > ProtectProc=default
-> > > ProcSubset=all
-> > >
-> > > And then you can drop it when you upgrade your kernel. Isn't this a
-> > > better option than taking on permanent technical debt?
-> >
-> > That's even more fiddly than Paul's patch. It relies on much more
-> > of someone's distro configuration.
->
-> But what is the combination of a kernel version + systemd version if
-> not someone's distro configuration?
-> I mean, it could even be added dynamically by the poky recipe at build
-> time, given the kernel version is known at that point.
+There are probably some older ones which don't have it but we should
+probably try and improve that over time if we can too.
+> 
 
-The kernel isn't currently a dependency of systemd and you'd be going
-outside of the recipe namespace (but maybe I'm missing something, I
-spent about a minute refreshing my memory on the recipes) .
-Something at the image/rootfs level, gets brittle and doesn't scale
-(but again, maybe I'm overlooking some technique).
+> > I appreciate the info is in the commit but I think its important enough
+> > to list in the recipe as a comment too.
+> 
+> I agree.
+> 
+> Though it's not clear if these should be removed when updating recipe versions.
+> Sometimes NVD data is good, sometimes bad, sometimes it's not clear howto fix...
+> Doing local builds with
+> 
+> INHERIT += "cve-check"
+> 
+> is the only way to find out, I guess.
 
->
-> Surely a three lines piece of configuration is better to handle than a
-> downstream patch?
->
-
-Not in my opinion. I have no interest in extra moving parts and having
-something injected into my userspace/init config.
-
-> > But it is true that you can throw it away eventually, assuming
-> > someone actually knows that it is there.
-> >
-> > I wouldn't call this patch much of a technical debt, but if it starts
-> > gumming up systemd upgrades, it's easy to revisit.
->
-> It's in a security-critical area that we are constantly improving and
-> expanding.
-
-That code block isn't particularly complex and it is self contained,
-so really, there's not much to see there. But I'm not in the business
-of predicting anything, I'm in the wait and see camp (AUH will be the
-first to pick it up if it causes patch problems, etc).
-
-Richard can either take the change or not, I'm just supporting how
-it has currently been submitted as chances are that no further
-revisions are coming from Paul, so it can live or die as-is.
+Yes, if upstream are no longer listing it as being relevant, we could
+drop the WHITELIST entry but in general I think they'll be in cases
+where the upstream entry can't be changed. That means for recipe
+upgrading, we probably end up keeping them.
 
 Cheers,
 
-Bruce
+Richard
 
->
-> --
-> Kind regards,
-> Luca Boccassi
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
