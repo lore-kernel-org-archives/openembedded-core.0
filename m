@@ -1,80 +1,83 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
- by mx.groups.io with SMTP id smtpd.web10.334.1610747356531748961
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.716.1610748759295792371
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 13:49:16 -0800
+ Fri, 15 Jan 2021 14:12:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rqbm/eV4;
- spf=pass (domain: gmail.com, ip: 209.85.161.54, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f54.google.com with SMTP id o5so2573991oop.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 13:49:16 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qg+YLyXu;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id c5so10740748wrp.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 14:12:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rUx+woasZT0Z2cEr/sGwizsZSVk69wk+yJRDe0EXTe0=;
-        b=rqbm/eV4DXeG1Sy3QXZO43cPBTEcaMgCwzReGVBz7rogHhI22wVGKxqkPsYlYwkZii
-         34sgh3GNg/4OYwbvfjBc64mI1VThUcxi3VToFk8uCYevTb/0ymwo3sbQweklK8Jl1GPq
-         UzlYUOP/ojqbw5RJHsYg9TL5roQ0db60/Id4iOfv3JF5hRk+HyzBABHWd/in4+ZO8arQ
-         tRhYl+s1AgByW4n4K4DQTW4JPuxHHyJjanDpCwU9kAactxXpoYbtUdmyvySLfiLgnM2b
-         TvSr6W2LiPz4+nXoTPZNzC7+D5qO5HxeNFywP/NRoeU2h66f47PnzibleXKeopa7ECHB
-         094w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=E77tFEeY4HwI8UrQ1DqLpM4FNfDY/iCXwEIPzR+S4dA=;
+        b=Qg+YLyXub2bxJ+aAKLEZkZXNjICizV26xIXpuYMWFZ7NJ49VpWnzloeOVxjUGpE50D
+         CcJuYJx5Dvm+SIaxlBb7hLWoJ3+XzknwkCex0W/FZiQdj51a1RYhv7hQwaR0o1JNx8RH
+         qzBlmC37+IdeWsHe86UGoNq0FRxH20WyEj2dM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rUx+woasZT0Z2cEr/sGwizsZSVk69wk+yJRDe0EXTe0=;
-        b=HwiMTWaD6kTWaQl2LlWd8efmbgn0bZwhUePOpysQq2DOnAjWvrsbugl7iLv6TcrEB/
-         G091YC53qzqnzPCuG3VtRIrrg+f6y6qsNW8lfU2Bj2n/0FwJtSJIeqDHqLavB5NGQ/ru
-         VzRYG0k/36RCr6g2WbnxfhaNCZuNeY1q7PxZIw97RfsA1S+HLuKn+yEyWbIdnevmAU9Z
-         aQ7xZ/DS6U3PtRHU0H43HKK0A7C+j8iplSTag05feGd8alfnyCArrjKidSDecMhC3V0m
-         xpbh0aapgYlGsCbbsZ34IvdWFafG+ofUs1HT06ZqlHCBsLzt9hvxrznaIcPxkDABmHe3
-         wObQ==
-X-Gm-Message-State: AOAM533yYUwLcD3H23/r8mAzhajy+lPfDrnElIqWvIljLBjI8bBWWu/E
-	DiEq2Vw1h2RLkzpF9Fgjt340NozenK3KSA==
-X-Google-Smtp-Source: ABdhPJyjTWyRTgBEEmYICOzLiZZAhJqA2KrhkJl7zjPn67IA4PLjshUOVLoUA+f/CfLAuVjBrHm0Zw==
-X-Received: by 2002:a4a:d148:: with SMTP id o8mr9824040oor.16.1610747355647;
-        Fri, 15 Jan 2021 13:49:15 -0800 (PST)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:e3e8:d9:3a56:e27d])
-        by smtp.gmail.com with ESMTPSA id a18sm1903533oia.29.2021.01.15.13.49.14
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=E77tFEeY4HwI8UrQ1DqLpM4FNfDY/iCXwEIPzR+S4dA=;
+        b=ZdeQBR8sUWHi/TUlIqKmJrqZ+kRN8tNDHpqVo8U3focbtVNtebnv+GMewXBS7GfOwR
+         Evu2DXsbEXyxeM0Ft8xOsuoLdW3Sul2NfAjRr8U4Jwto4+KyBdlde24M78DPwVZRUKhi
+         ucX3Pu1FcBULQAI6crdKXvCQ5nFDuShHbLkxhEdu+t6nZ/LVS6yQxlBdR9TJnHllLtIf
+         x+fHvEgIbJkiZ4aJMzLhEWjCDbtwigHcPn8qQQbiWD7PG/xx7ZxtG24bIE4ozrO04LW1
+         LbfpQtW/Em/vZ+xNEYnwDIVouyGE7ptKiLc5belYoITyJ3gWl6RAGq3sEVFAuDRcJK2l
+         BpPw==
+X-Gm-Message-State: AOAM531IwqIHgJqeXz9Cb62SwVFuCjcXn4FsctKhSOm6MVLHmmR2i2j+
+	Q79RT/1vd/HkO+8oAjA+3//Xtg==
+X-Google-Smtp-Source: ABdhPJwzZTT4oC/eSGNkb3N8VR2jz/DZrpMopb5rsCILYJBjVBTUj3mDDHxQuFsRTVNq9/8ficbGJg==
+X-Received: by 2002:adf:e941:: with SMTP id m1mr9936481wrn.240.1610748757449;
+        Fri, 15 Jan 2021 14:12:37 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:b202:f78f:5317:247f? ([2001:8b0:aba:5f3c:b202:f78f:5317:247f])
+        by smtp.gmail.com with ESMTPSA id d2sm15957508wre.39.2021.01.15.14.12.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Jan 2021 13:49:15 -0800 (PST)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] systemd-conf: Allow systemd to manage QEMU wired networks
-Date: Fri, 15 Jan 2021 15:49:03 -0600
-Message-Id: <20210115214903.11811-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        Fri, 15 Jan 2021 14:12:36 -0800 (PST)
+Message-ID: <c045063783cf4d1abf831aed2845cc651446062d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] appliance: Add vhd & vhdx support
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Anatol Belski <anbelski@linux.microsoft.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Sinan Kaya <okaya@kernel.org>
+Date: Fri, 15 Jan 2021 22:12:36 +0000
+In-Reply-To: <20210114130123.20507-1-anbelski@linux.microsoft.com>
+References: <20210114130123.20507-1-anbelski@linux.microsoft.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Allows systemd to manage wired network interfaces just like on actual
-hardware. Systemd seems to be smart enough to not enable DHCP if the
-interface was assigned a IP address in the kernel (e.g. by runqemu), so
-the existing use cases should continue to work.
+On Thu, 2021-01-14 at 13:01 +0000, Anatol Belski wrote:
+> From: Sinan Kaya <okaya@kernel.org>
+> 
+> This patch brings support for generating VHD/VHDX from WIC. It touches
+> different areas but it needs to be applied at once for all the parts to
+> concert. The patch could be split, if needed, otherwise considering
+> OE-Core as target.
+> 
+> Signed-off-by: Sinan Kaya <okaya@kernel.org>
+> Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+> ---
+>  bitbake/lib/toaster/orm/models.py                  |  4 ++--
+>  meta/classes/image-live.bbclass                    |  2 +-
+>  meta/classes/image_types.bbclass                   | 14 ++++++++++++--
+>  .../images/build-appliance-image_15.0.0.bb         |  4 +++-
+>  scripts/runqemu                                    |  8 +++++---
+>  5 files changed, 23 insertions(+), 9 deletions(-)
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-core/systemd/systemd-conf_247.2.bb | 3 ---
- 1 file changed, 3 deletions(-)
+I had to split the patch into two pieces, one for bitbake and one for
+oe-core. In testing we see:
 
-diff --git a/meta/recipes-core/systemd/systemd-conf_247.2.bb b/meta/recipes-core/systemd/systemd-conf_247.2.bb
-index 944b56ff82..ea35e83f4f 100644
---- a/meta/recipes-core/systemd/systemd-conf_247.2.bb
-+++ b/meta/recipes-core/systemd/systemd-conf_247.2.bb
-@@ -29,9 +29,6 @@ do_install() {
- # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
- do_install_append_qemuall() {
- 	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
--
--	# Do not install wired.network for qemu bsps
--	rm -rf ${D}${systemd_unitdir}/network
- }
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
--- 
-2.30.0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/3166
+
+which looks like there may be a missing qemuXXX-native dependency?
+
+(not quite sure which native recipe provides qemu-img)
+
+Cheers,
+
+Richard
 
