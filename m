@@ -1,119 +1,57 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
- by mx.groups.io with SMTP id smtpd.web11.211.1610742946950550224
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
+ by mx.groups.io with SMTP id smtpd.web10.341.1610743457824622000
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 12:35:47 -0800
+ Fri, 15 Jan 2021 12:44:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NM38eI60;
- spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f171.google.com with SMTP id c14so7018586qtn.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:35:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=B+Pxtu9L;
+ spf=pass (domain: gmail.com, ip: 209.85.219.175, mailfrom: jupiter.hce@gmail.com)
+Received: by mail-yb1-f175.google.com with SMTP id y4so6256536ybn.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:44:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MA/fXvVaIGwZFGbul6Xvoel8B0tSFrRDnDb3AWLtntc=;
-        b=NM38eI60dX9+oXUGOwk3SLfe4NEXi4qtq8edZoS6zpkMy2PcRgbRZg89pHi17a+jan
-         rjfV0yiov5X6gGvAfrpWxMkeO43NS6NrsCHMPJJTHdd17xbtvOI3TUTz/U3whTfRR+cG
-         WySnonx/Jnt18HzWBvAH0WXnVUznTIIdzY8zWB4PPsyy8oDmHLP93G+JT/gIsNy95DKh
-         tT1XoKgWGYOHKdTQ/iVOL7fQ7IZ80b0Wmxo+lHwQqW2ykPZMc9ALSMCtm2JGk01IuTcM
-         GKSLCOMKPMzq2w7w/3BUOHZAbQYr+ZmIsiJgSBa1eLSag9j87V2DqiBuFMiawNBWTVBf
-         Y9qQ==
+         :cc;
+        bh=y7C90DjWgUV7XgKSXqKIispBhNGlgIgzofLCZKm+wL4=;
+        b=B+Pxtu9LMBr5FDcHZbu9iPulmsuLN8wXAZJKj+izKMOlNy22GDeq9TF78IlGy4Buc0
+         QN1ovMiABtBCJ5H18TgTJo54mn1ecenRbreQmCqccpzV79ZLB4ndbdwWYR1omEIYB0lK
+         KxJedbeGLWMAx1se5qKNAW8aoiwLqXrqk4aplB1YeOii2KtKLc1h4ts72+TvisUKZyBF
+         rPMvIlnKILWhzXSoYJud4YZ8zpYyCZnJHePDKP6FQeI/YOwkOrZoZgAe0hxVDAASQbl+
+         aicNq79Knip6QtmQJ1TZ0up/SdXxqFTVbHvDo70wHqQUQT8G/HuGPYG+zpI19Y6LmquV
+         Es4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MA/fXvVaIGwZFGbul6Xvoel8B0tSFrRDnDb3AWLtntc=;
-        b=bI4HYpNvKHd432MPXpBIxX3p8NQAvVLsNWTEWxZW0IO9nyKgAtJhV5hlbxA/X88HFe
-         Ka7ITRVpYHFdeEOVdFLg9GVvFZzZntep+UvhtXQfyxityDY9WE6NyNmYZ/y0OJF9fpjs
-         l87P2uXfObPFrlTmgqPRWFQ5GgAdldJ1FYog85CAhH3wbSiH7PMjByIoHIprIUVYyWHS
-         y1frACYy+TCCGccYU1SyOG4VEbXtaI+PLbcH8mZ42fwM0gavDcgXqyf1EVkOoHVFGk4o
-         bcq7PdVPuOE1clT/+mwECqGpOHHYiAuONpswLDSjK4BA24/DZTikqFEHy184Ro+Z3xt6
-         Vdow==
-X-Gm-Message-State: AOAM530tS3yD/ZHZ2Rrf36y5ONYjB00INJ366ofvoKwRor50d8tGEQ0Z
-	jspKKTGWugjVZfZ76x6+SYCpKWU6exOxdpUm+3E=
-X-Google-Smtp-Source: ABdhPJxLKK9StUgBI3hDuR9P4c0nq3iebvvr0dnUgJdUJgTtJa3s2vhmcKG4OImgnHm1C6ZnEFKXcz4PAOSUzc01Bss=
-X-Received: by 2002:aed:2ec6:: with SMTP id k64mr13720925qtd.194.1610742945989;
- Fri, 15 Jan 2021 12:35:45 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=y7C90DjWgUV7XgKSXqKIispBhNGlgIgzofLCZKm+wL4=;
+        b=X7JXRDupH5wLxa4HQxQlQtnWaHpeImlY2F7jqd39PTBewYjVuxUXLLc4ZzsVKJAacF
+         mfDa36gDekFLOICKjEGBtM82ct0ypTmqY1HegEjbmgVKeSzFA5K2AARZ/J2ST6dBOUXz
+         BE+ruxLE9OPOEGPe8iRnjsCicyH/oHwktY2dTwrg/oHL+K3s0PE1d35KjO7PvU9ipuTP
+         /IoUXyweX3ud9M9sz8o6zSS+6diSQFn5/n5tHHAeC1TIe+KJKsaCsk4fXfuwXLuAshZ6
+         Okkylf4wKg4R7ayMEH6xE6U069uZu05OyD7gFV9KOCE3uKpazFEvphlDghVAZus8ZyOZ
+         DEAA==
+X-Gm-Message-State: AOAM530Mm+wWZgjrQcfpxof5ou+5WSJ6VHYCT67vyGuhtxtgxBtapvZV
+	zmuKaIcAemjekbrvEnj7f4+Wv6ogWOT85ZzkgTQ=
+X-Google-Smtp-Source: ABdhPJxSIW4o/cMEtrjCt+tC9HRfMLUQIrhLs/IxwWXt0tnAAmzTuDS+CKOP6Fv1kcBJ188fw3tcS9NvM2sZpddf+iI=
+X-Received: by 2002:a25:c615:: with SMTP id k21mr4128615ybf.330.1610743457077;
+ Fri, 15 Jan 2021 12:44:17 -0800 (PST)
 MIME-Version: 1.0
-References: <CBE0B95A-C2E7-4FAF-AD1D-E0EEBCB177C2@bmw.de> <ee564b97e176be05739442e9c271bbce565da4d5.camel@linuxfoundation.org>
-In-Reply-To: <ee564b97e176be05739442e9c271bbce565da4d5.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 15 Jan 2021 12:35:19 -0800
-Message-ID: <CAMKF1sp-tFGr12OBL+J0d4-Ykf7es5JJoY-eeicLJkGP0UHEfA@mail.gmail.com>
-Subject: Re: [OE-core] Question about security_flags.inc and CC_ARCH
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Michael Ho <Michael.Ho@bmw.de>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <CAA=hcWR+nsKAEH+Y9+U+3j21QtpdnBTenLdd65-yt0zpYPzX0g@mail.gmail.com>
+ <CAA=hcWRXRDe6vu38PcFTc6oS+vU2DPqLRik_D3zTKiex99bX5g@mail.gmail.com> <CAHtQpK4OgZ5Qm6sFUiQavg6gd0taVUB2XiLHv8RG3q7O59B_TA@mail.gmail.com>
+In-Reply-To: <CAHtQpK4OgZ5Qm6sFUiQavg6gd0taVUB2XiLHv8RG3q7O59B_TA@mail.gmail.com>
+From: "JH" <jupiter.hce@gmail.com>
+Date: Sat, 16 Jan 2021 07:43:40 +1100
+Message-ID: <CAA=hcWR9mYsUbeCRB0eU1X56M7iM+=Twx77hQDdSbiOpOWsTXg@mail.gmail.com>
+Subject: Re: [meta-freescale] MTD UBI undefined reference failed to build OE gatesgarth branch
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	meta-freescale@lists.yoctoproject.org, 
+	linux-mtd <linux-mtd@lists.infradead.org>, U-Boot Mailing List <u-boot@lists.denx.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jan 15, 2021 at 8:05 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2021-01-15 at 13:46 +0000, Michael Ho wrote:
-> > I wanted to get a bit more understanding of why security_flags.inc
-> > tweaks CC_ARCH instead of CFLAGS.
-> >
-> > Some developers who consume an SDK we produce using Yocto noticed
-> > that CC and
-> > CXX has FORTIFY_SOURCE embedded in the variables. These developers
-> > sometimes
-> > want to compile software in the SDK with compiler optimisations
-> > turned off in order
-> > to run code coverage tools like gcov. Typically they drop
-> > CFLAGS/CXXFLAGS in order
-> > to do this but they noted that with the SDK they also have to
-> > manually tweak CC/CXX
-> > to remove the FORTIFY_SOURCE references (because compilation fails
-> > without
-> > optimisation flags when using FORTIFY_SOURCE).
-> >
-> > This comes from:
-> > https://patchwork.openembedded.org/patch/167198/ and
-> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=3D6733a7873ca12129=
-5a2e309a6915b9816e1ae36b
-> >
-> > I would=E2=80=99ve expected actually that FORTIFY_SOURCE bundles itself=
- with
-> > CFLAGS/CXXFLAGS as it is dependent on being with the compiler
-> > optimisations. This is also how the Debian hardening wiki seems to
-> > describe it used [1].
-> >
-> > I am guessing that this is moved to CC_ARCH to ensure FORTIFY_SOURCE
-> > is being enforced around the build system in case components are
-> > skipping out on CFLAGS and CXXFLAGS. Is that right?
->
-> In theory we should be giving an error if CFLAGS or LDFLAGS aren't
-> being used to compile our output. You're right that we probably don't
-> detect every case though and that was probably why we did that. I don't
-> really remember though. Khem might remember more, I suspect he'd have
-> done that for a reason.
+Thanks for your response.
 
-many packages don't use these flags ( -fPIE etc. ) directly but the
-toolchain is automatically
-configured to use them, which means their configure tests etc. get
-them without considering
-cflags, whereas for us where we want to accommodate external
-toolchains which may not have
-these options compiled-in etc we add them externally via cmdline and
-best place for us to do
-so is the CC itself since thats whats used by these configure checks.
-
-Ideally, we should perhaps just change the toolchain to have these
-defaults perhaps controlled via buildtime knobs
-controlled via distro feature.
-
->
-> > Would there be some objection to moving the security flags to
-> > CFLAGS/CXXFLAGS for the cross-canadian target (sdk)?
->
-> Yes, I'm fairly against people getting a different view of the flags in
-> the SDK compared to the main build environment, that just creates a
-> different set of problems unfortunately.
->
-> Cheers,
->
-> Richard
->
->
->
+I am sorry, I thought that is what meta-freescale for, right? NXP
+might involve the coding, but is it integrated and released by Yocto /
+OE https://git.yoctoproject.org/cgit/cgit.cgi/meta-freescale/, right?
+I cloned meta-freescale from Yocto project:
+git://git.yoctoproject.org/meta-freescale, I am sorry, I really lost.
