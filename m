@@ -1,22 +1,22 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [])
- by mx.groups.io with SMTP id smtpd.web09.722.1610713822881228403
+ by mx.groups.io with SMTP id smtpd.web11.701.1610713822866013454
  for <openembedded-core@lists.openembedded.org>;
  Fri, 15 Jan 2021 04:30:23 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: <nil>, mailfrom: auh@auh.yoctoproject.org)
 Received: from centos8-ty-2.yocto.io (unknown [172.29.10.62])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 4470C38C13A5
+	by mail.yoctoproject.org (Postfix) with ESMTP id 3AE7C38C137A
 	for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 12:30:22 +0000 (UTC)
 MIME-Version: 1.0
 From: auh@auh.yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] stress-ng: upgrading to 0.12.01 SUCCEEDED
-Message-ID: <MADEUP.165A67B051EB363D.32579@lists.openembedded.org>
-X-Groupsio-MsgNum: 146770
-Content-Type: multipart/mixed; boundary="===============0803664480741612270=="
+Subject: [AUH] lighttpd: upgrading to 1.4.58 SUCCEEDED
+Message-ID: <MADEUP.165A67B03A6FD036.6799@lists.openembedded.org>
+X-Groupsio-MsgNum: 146771
+Content-Type: multipart/mixed; boundary="===============8618595558484557544=="
 
---===============0803664480741612270==
+--===============8618595558484557544==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -24,10 +24,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe *stress-ng* to *0.12.01* has Succeeded.
+that the automatic attempt to upgrade the recipe *lighttpd* to *1.4.58* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-stress-ng-upgrade-0.12.00-0.12.01.patch
+    - apply the patch: git am 0001-lighttpd-upgrade-1.4.57-1.4.58.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -44,70 +44,145 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 Regards,
 The Upgrade Helper
 
---===============0803664480741612270==
+--===============8618595558484557544==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGSIZE changed from 25872 to 21776 (-16%)
+
+--===============8618595558484557544==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Disposition: attachment;
- filename="0001-stress-ng-upgrade-0.12.00-0.12.01.patch"
+ filename="0001-lighttpd-upgrade-1.4.57-1.4.58.patch"
 
-From 815a58bf47d6d907768c299498436428d3bf7e04 Mon Sep 17 00:00:00 2001
+From d008eb4cbbcedc023b39074e9a06b12673d82224 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@auh.yoctoproject.org>
-Date: Fri, 15 Jan 2021 06:51:40 +0000
-Subject: [PATCH] stress-ng: upgrade 0.12.00 -> 0.12.01
+Date: Fri, 15 Jan 2021 06:33:02 +0000
+Subject: [PATCH] lighttpd: upgrade 1.4.57 -> 1.4.58
 
 ---
- .../stress-ng/{stress-ng_0.12.00.bb => stress-ng_0.12.01.bb}    | 2 +-
+ .../lighttpd/{lighttpd_1.4.57.bb => lighttpd_1.4.58.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.12.00.bb => stress-ng_0.12.01.bb} (90%)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.57.bb => lighttpd_1.4.58.bb} (97%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.12.00.bb b/meta/recipes-extended/stress-ng/stress-ng_0.12.01.bb
-similarity index 90%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.12.00.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.12.01.bb
-index 3b38b39893..79157c738b 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.12.00.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.12.01.bb
-@@ -9,7 +9,7 @@ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
-            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
-            file://no_daddr_t.patch \
-            "
--SRC_URI[sha256sum] = "b2b738f574671926654b1623103a7aa58ee6911894ac78760ee188c4bfa96fe2"
-+SRC_URI[sha256sum] = "d354bbbb1500cfe043c761014dc9c3f62779747fafea8a19af94402327f6d3fc"
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.57.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.58.bb
+similarity index 97%
+rename from meta/recipes-extended/lighttpd/lighttpd_1.4.57.bb
+rename to meta/recipes-extended/lighttpd/lighttpd_1.4.58.bb
+index 9a9cad68c8..f0589e94c0 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.57.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.58.bb
+@@ -19,7 +19,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
+         "
  
- DEPENDS = "coreutils-native"
+-SRC_URI[sha256sum] = "52ca961b89c12f7ecbb2e4e0c5a9e79b2863c64e33c42832a165e7f894d6217f"
++SRC_URI[sha256sum] = "267feffda13a190ebdce7b15172d8be16da98008457f30fddecd72832d126d0e"
  
+ PACKAGECONFIG ??= "openssl pcre zlib \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
 -- 
 2.27.0
 
 
---===============0803664480741612270==
+--===============8618595558484557544==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-32-poky-linux/stress-ng: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng: SRC_URI changed from "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.00.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch" to "https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.12.01.tar.xz file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch file://no_daddr_t.patch"
-packages/core2-32-poky-linux/stress-ng: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-bash-completion: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGSIZE changed from 5649060 to 5676956 (+0%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-dbg: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-dev: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGSIZE changed from 49890 to 50109 (+0%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-doc: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-locale: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGSIZE changed from 2787168 to 2797548 (+0%)
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-src: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng-staticdev: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
-packages/core2-32-poky-linux/stress-ng/stress-ng: PKGSIZE changed from 4089736 to 4093896 (+0%)
-packages/core2-32-poky-linux/stress-ng/stress-ng: PV changed from "0.12.00" to "0.12.01"
-packages/core2-32-poky-linux/stress-ng/stress-ng: PKGV changed from 0.12.00 [default] to 0.12.01 [default]
+packages/core2-32-poky-linux/lighttpd: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd: SRC_URI changed from "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.57.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch" to "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.58.tar.xz file://index.html.lighttpd file://lighttpd.conf file://lighttpd file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGSIZE changed from 2692404 to 2706664 (+1%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-dbg: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-dev: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-doc: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-locale: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-access: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-accesslog: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-alias: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-auth: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-authn-file: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGSIZE changed from 25872 to 21776 (-16%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-cgi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-deflate: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-dirlisting: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evasive: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-evhost: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-expire: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-extforward: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-fastcgi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-flv-streaming: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-flv-streaming: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-indexfile: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-openssl: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-proxy: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-redirect: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rewrite: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-rrdtool: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-scgi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-secdownload: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-setenv: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-simple-vhost: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-sockproxy: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-ssi: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-staticfile: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-status: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-uploadprogress: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-userdir: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-usertrack: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-vhostdb: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGSIZE changed from 46356 to 42260 (-9%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-webdav: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-module-wstunnel: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGSIZE changed from 2622550 to 2631657 (+0%)
+packages/core2-32-poky-linux/lighttpd/lighttpd-src: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd-staticdev: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
+packages/core2-32-poky-linux/lighttpd/lighttpd: PV changed from "1.4.57" to "1.4.58"
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGSIZE changed from 453776 to 457936 (+1%)
+packages/core2-32-poky-linux/lighttpd/lighttpd: PKGV changed from 1.4.57 [default] to 1.4.58 [default]
 
---===============0803664480741612270==--
+--===============8618595558484557544==--
