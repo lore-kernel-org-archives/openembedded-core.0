@@ -1,51 +1,57 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
- by mx.groups.io with SMTP id smtpd.web10.291.1610734602832391338
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
+ by mx.groups.io with SMTP id smtpd.web08.30.1610735129234602584
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 10:16:43 -0800
+ Fri, 15 Jan 2021 10:25:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=n3SQcVxa;
- spf=pass (domain: gmail.com, ip: 209.85.219.174, mailfrom: sakoman@gmail.com)
-Received: by mail-yb1-f174.google.com with SMTP id f6so5824348ybq.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 10:16:42 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=E9K2BZJZ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.177, mailfrom: sakoman@gmail.com)
+Received: by mail-yb1-f177.google.com with SMTP id r63so5892415ybf.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Jan 2021 10:25:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NFUUUk5/XHZehgAKVJa5l+INGb8QqtH0ur8rKPACWCM=;
-        b=n3SQcVxaTiMaEgHX9n35p5lf/1+wz+hgjKXLIrUY5JQJ/Faz9+oqThHx0q7mEnD1Ae
-         wXs+5xdahaj9wvjJtH5pXf1MrC1f8gYNL2hLkpdZwz+dcjIc6Nq9mCiLxn3if3CasmW2
-         WHdL+52MviEi5LRv0Ru6v4tUj+OX1a9u4BX+cMMzrK2YtOZfMO4C2x1hfmTniRlu3a2G
-         CTUunFm89lbx/8CX7vSnZiAMDwrDN3fVhfO31CsC1EDvKf+0HlRYuhpzdOJfMUy1uadm
-         SU3UqWm45E9h0EbHAZbd1k/WGo4QSUOELFynIlIVRdvQkdpfrFfspWfm+lUEZHSvOsFG
-         HDMQ==
+        bh=eaFxL3KrH6mK3Jvuyn45MRBgaAnBXCHjYsUFlKkRpRw=;
+        b=E9K2BZJZlUThHh2bS2euLdqA4FDmGo2JGXWou71f/Z+25Rk5Np5n+Fp2v2rGGlv4sD
+         qf5mMXS33oc0iAq986eo/3q8oWeFXGrkoApl1ZT6umUZnSws+BHCGhyH5/+BxqzsUeHg
+         C+HWDx5Srb3+IcR+IJ+FcA0sGGa4kaFwkGHqW2iU7wNkgn3/3P8+dP69jVMKq/jcsA/f
+         6d72zZLed7ApE8jInGG4aqnUQbc89n9AQww3j8csa7g01dvA+zwMMhhFnckFgUjECXFj
+         eyj8v/hN3CTwwE76rVv4IX0N3v3LjKvmI91TeR5csNFKu8Nb0tYHlpC33Wurf/n46J7j
+         LI3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NFUUUk5/XHZehgAKVJa5l+INGb8QqtH0ur8rKPACWCM=;
-        b=egnMjXbCO27C/8P1tdv8ZJQ6x9IGqa+8m4kgiOdsrlzYRoeL9UtPE+UppZEBzYc3tj
-         XnZTS56DEwpSqR2xY44fYXuOt2FRaRDp3cWYSmaVAvyoW5x2t6ATjvyBtXxBIS9Rf5sG
-         c3UA5X8NE0Aon6tqtxz9dEi6hMTePc0Sm4UWC1PN2ew1FvQSU1KgbFqjW0mPmZkvh+4v
-         v+S5F902Jlcizf1r50bOd+jw2nxSEIxzT1KUVmmuFnWDljid7MEmddUE4btklCE6n4+O
-         eSA9PImgLAjAHyQstJNn/JbYtjkHQXk2wZdNk0Klp5QTPPz28HI+e4/WQXavBfE2HodF
-         mu3g==
-X-Gm-Message-State: AOAM533Q3C7GwSY/kc+idv77Azohy+UGhCrdv7XQ9prIlSnr+Sb2jztT
-	C6P59WqTXJfGSWUyUjtq1Sd666fV8f/jSiQIbfhA+9kF
-X-Google-Smtp-Source: ABdhPJxKBozvD7Ev9iC07itC0QfpuNKiShZzH+dIUZUPgW1sBGDnZ1ykfkKP5aUhbQWLkfGBXVAjTwTRLSSszXJkkkc=
-X-Received: by 2002:a25:81c7:: with SMTP id n7mr17636860ybm.290.1610734601050;
- Fri, 15 Jan 2021 10:16:41 -0800 (PST)
+        bh=eaFxL3KrH6mK3Jvuyn45MRBgaAnBXCHjYsUFlKkRpRw=;
+        b=W7gL4duP+1JA5pJvPd/IVEigp1D0OP1ztUGkVcr36/1wxXh4Fd4YYQM5Qj0tSSw9aG
+         jGGzdBWNB1pEE5TTMNq4u7ae6GZundSg6bzovfLCsC3XFA/XotMQNtyWusGiFjUqdG+n
+         u63GDYuHUGkUXHRemwbVH+jmAtE6ySUt/uz4n2DuzXFMuDIayMBrGcEJQ3niTavOHUrX
+         NF9naMgzfEhV+SjkTa9C+YACsFZfXjU0sOOWjbQvYvinEr/snB/jwAijENPy920PQ2aS
+         YOrpwuM0lkR7IuYA8b/yqMfReyELczNUIQUWQmoslnjV3lhNEZVZ3G2WdinhGhhq9y/G
+         aHHw==
+X-Gm-Message-State: AOAM5308txfk6RQYw5T4KGMJ0xG4Rc59F4ZxSrfThpjf9FexBit9NOgG
+	upQI32DKeeGZRyIUgQZptXMwiHDnfvABMEL9UbQ=
+X-Google-Smtp-Source: ABdhPJyNlWzR+xPYpo30p+ksImI5x0PagnZSCGOzbrPXcXQyY8OU8RgDA2nXaUz6Ub79o4h+UTJk5ZydEkK+Z1FJ/aM=
+X-Received: by 2002:a25:4049:: with SMTP id n70mr20549754yba.472.1610735127503;
+ Fri, 15 Jan 2021 10:25:27 -0800 (PST)
 MIME-Version: 1.0
 References: <20210115180246.503-1-akuster808@gmail.com>
 In-Reply-To: <20210115180246.503-1-akuster808@gmail.com>
 From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Fri, 15 Jan 2021 08:16:26 -1000
-Message-ID: <CAGDS+n=_1zg-g0OrPJBkxzDwTVyL99a-nDRyJar6TrS=s+cf3g@mail.gmail.com>
+Date: Fri, 15 Jan 2021 08:25:14 -1000
+Message-ID: <CAGDS+nmXhmKHBoDuv9Es-jKW+P3xKdKXyy_-MY6grt4wmORUaQ@mail.gmail.com>
 Subject: Re: [OE-core] [dunfell][PATCH 1/2] curl: Fix CVE-2020-8284, CVE-2020-8285, CVE-2020-8286
 To: akuster <akuster808@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
 	Khairul Rohaizzat Jamaluddin <khairul.rohaizzat.jamaluddin@intel.com>, 
 	Anuj Mittal <anuj.mittal@intel.com>
 Content-Type: text/plain; charset="UTF-8"
+
+I've already merged "curl: fix CVE-2020-8231/8284/8285/8286" from Lee
+Chee Yang <chee.yang.lee@intel.com>, so these CVE's are already taken
+care of!
+
+Steve
 
 On Fri, Jan 15, 2021 at 8:03 AM akuster <akuster808@gmail.com> wrote:
 >
@@ -68,11 +74,6 @@ On Fri, Jan 15, 2021 at 8:03 AM akuster <akuster808@gmail.com> wrote:
 > dependent on it.
 >
 > CVE:
-
-I assume this blank tag was unintentional and I can remove it?
-
-Steve
-
 > CVE-2020-8284
 > CVE-2020-8285
 > CVE-2020-8286
