@@ -1,17 +1,17 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.51])
- by mx.groups.io with SMTP id smtpd.web08.2091.1610721162005018532
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.82])
+ by mx.groups.io with SMTP id smtpd.web09.2422.1610722050494973356
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 06:32:42 -0800
+ Fri, 15 Jan 2021 06:47:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=pmoI+jbP;
- spf=pass (domain: windriver.com, ip: 40.107.243.51, mailfrom: yifan.yu@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=SVTLe8Pl;
+ spf=pass (domain: windriver.com, ip: 40.107.220.82, mailfrom: paul.gortmaker@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DYQmzg/AoPkHNUxuI7Yv0Bx3gj8+k6CjhFLO0b2dhp/Wn6gmc7e0W4HxGOo6ZUa+wqdo/GQyWL8OJ7gJm77KLuTP6uY1aHybDJlvD12nZjwZzy2NVhum5kTIAxJObr7rEZ/sDEf3JpqfI14WBIl3xsn/t8IOrFBmM64S5icmDQqA3bnaBg9jO+X/nYGGwc/RFESHVSICQpvns0NvBNiG16BbqKTTBSWkAPNJR5LNT0F92eL/L+45GxKJWS3HiDXfzE8GA6Cf3Is8O+rwmcLUJau1zweX+tHTOimUkax2nw5v457T5c4zldHbL73iw+/xWGB1frFnlUkrTqxNiBYpeQ==
+ b=OhWT5xXYIUMNMmK82XTJOTNGj2QaUOuExmNZ4Pq/einGnchGoYDXRbow6/PzTbwFTljEt9r0m3yb+iB/HtAE6C+GO02xbfFxnzkfiLs+eYbdzMiXWYDdbQvsgm143yM2yZ/dock2N1lqXi/DVhjzF3NilCYviiOugTixFttcu3U7i4SUaaAr6zgbYeKh+FI985WxAcVZdvwM4iN7gO6b4RzCA3Q0kD37MZu5RP+I4kJV0FAKXVBnQLR7EhQpHSSgqkItl3korMejCTU8xSRin92r4WZrPv9ngSr56Bfo34qR+8c5n2nGqYCBJOMyUvS4+rZ5e+oDUAiXIvtFqyxWuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LN/7XwteiSLOU+zlcJAl3OsMAgZqWLYHxnwJQIDdUvg=;
- b=TFYCjM1+8mT/+FAzNiGpAz8LUmKbABCAmE6cnDOpP5KpIaPooMgWlUAnUDrcMO30qCbDi7CFg7Ak/EQGkSmOmGCfTjwdHf6928otPsM4725+YVreIAAgDAAXOsY7Hsi/7bmqWn4+fcSIA/MzVb4pieXMQG5GaauUS/UlLIk/eQKhlGP35NLZkiFm0ZUMWNFZ8qZrOPkq8CIVc/f6xRoBYF0QCLBZdFBihYAcJXqBrQKBcfB7yzs9jYIkcqm26s6+CLRmWrE3r6oBgVcbcXEI13wOUNt8dRDilPp3W2+6KMmgTITxwXMu5EsIzCG2kPtXosMmeqv36BTmIwQSWRD75A==
+ bh=DJUfVEbC/ZApgyI85mF8KOLuaCd628KjU5mDGsuCCzE=;
+ b=c2ByFJWMWgG9XbMlsFAIta3AR/vmWXWBzY2IHaqKzzVDE8MIRfC0cnxXLVIEMGdl5aZOIVoWwWr9hRec6flZG+tXc0CJWkOUE9cI7mJanUxqgJGOamoxla9k3EQbMWYrei+AdWewAzUY+Sh0N2VHZOAKb9WRg7AESQ6DDvQzgxyeGLX9K7DZ2un2JnpESEuGyrl9jJRTGzFIR6YZRY39OU5P/YXJVptDVZuglEkxR39nOQCuvkGd+YR0b2h3bQa+KqFPkh6MI4ffYEMpJfvLJv56BvZG1QIpil74qIz/4fP9RBNamjU3iSC7F04q6Z72BIpLyRGpZwo9DdL5u8A8Yw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,202 +19,174 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LN/7XwteiSLOU+zlcJAl3OsMAgZqWLYHxnwJQIDdUvg=;
- b=pmoI+jbPDmSNpO8V1BB7aRd3seQcPueu6VYoAb9MRr2FK/dTjTbVJoT94eCDBaJxzLdyOjv6dT+lA45CyDd2oIU+WDJl5jydK1V97tgiSVyazS9BPBR7KSMvS0mvbOgJjZLbHd6H17NhjkK1d6Fm7s6FFiJd9e0fMqUCt4UpYY0=
-Authentication-Results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none
+ bh=DJUfVEbC/ZApgyI85mF8KOLuaCd628KjU5mDGsuCCzE=;
+ b=SVTLe8PlJZ3dZlBvUSmaSN1lsyy9UDa7WryQeyQDboceaUF9ue8C9BPpp/YaP3arBmIHnLIdebXQdiH+Wtbwu/EofcVetUTBHdJT7zTJ4Y1TOpNiV9u52KDk1DNY8cICn2hgXT1QC8rqZmVOwm9eUc/NnGikAcOxK0WCuYMjYcs=
+Authentication-Results: microsoft.com; dkim=none (message not signed)
+ header.d=none;microsoft.com; dmarc=none action=none
  header.from=windriver.com;
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
- by SN6PR11MB2686.namprd11.prod.outlook.com (2603:10b6:805:59::12) with
+Received: from DM6PR11MB4545.namprd11.prod.outlook.com (2603:10b6:5:2ae::14)
+ by DM6PR11MB3899.namprd11.prod.outlook.com (2603:10b6:5:19c::31) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Fri, 15 Jan
- 2021 14:32:39 +0000
-Received: from SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::1c2f:159e:f6f6:36f3]) by SA0PR11MB4719.namprd11.prod.outlook.com
- ([fe80::1c2f:159e:f6f6:36f3%9]) with mapi id 15.20.3763.010; Fri, 15 Jan 2021
- 14:32:39 +0000
-From: yifan.yu@windriver.com
-To: yifan.yu@windriver.com,
-	openembedded-core@lists.openembedded.org,
-	randy.macleod@windriver.com
-Subject: [oe-core][PATCH] binutils: Fix CVE-2020-35448
-Date: Fri, 15 Jan 2021 09:32:24 -0500
-Message-ID: <20210115143224.38513-1-yifan.yu@windriver.com>
-X-Mailer: git-send-email 2.29.2
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Fri, 15 Jan
+ 2021 14:47:28 +0000
+Received: from DM6PR11MB4545.namprd11.prod.outlook.com
+ ([fe80::87:8baa:7135:501d]) by DM6PR11MB4545.namprd11.prod.outlook.com
+ ([fe80::87:8baa:7135:501d%4]) with mapi id 15.20.3763.012; Fri, 15 Jan 2021
+ 14:47:28 +0000
+Date: Fri, 15 Jan 2021 09:47:25 -0500
+From: "Paul Gortmaker" <paul.gortmaker@windriver.com>
+To: Luca Boccassi <Luca.Boccassi@microsoft.com>
+Cc: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8
+Message-ID: <20210115144724.GM16838@windriver.com>
+References: <20210115052615.29893-1-paul.gortmaker@windriver.com>
+ <12145df57b9fdec6933497849a2d8b40fcb8a023.camel@linuxfoundation.org>
+ <a81ea7e632a26636d966540a86ec1978f557e63c.camel@microsoft.com>
+In-Reply-To: <a81ea7e632a26636d966540a86ec1978f557e63c.camel@microsoft.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YT1PR01CA0006.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::19)
- To SA0PR11MB4719.namprd11.prod.outlook.com (2603:10b6:806:95::17)
-Return-Path: yifan.yu@windriver.com
+X-ClientProxiedBy: YTBPR01CA0012.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::25) To DM6PR11MB4545.namprd11.prod.outlook.com
+ (2603:10b6:5:2ae::14)
+Return-Path: paul.gortmaker@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-lpggp3.wrs.com (128.224.252.2) by YT1PR01CA0006.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9 via Frontend Transport; Fri, 15 Jan 2021 14:32:38 +0000
+Received: from windriver.com (128.224.252.2) by YTBPR01CA0012.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10 via Frontend Transport; Fri, 15 Jan 2021 14:47:27 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a679e10-5b20-40f3-471f-08d8b96268bd
-X-MS-TrafficTypeDiagnostic: SN6PR11MB2686:
-X-MS-Exchange-Transport-Forked: True
+X-MS-Office365-Filtering-Correlation-Id: c2e94e50-e0ff-44b6-bf4f-08d8b9647aae
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3899:
 X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB268652E0583ACCF4A7AA94B280A70@SN6PR11MB2686.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:923;
+	<DM6PR11MB389974182FEEC37806F241DF83A70@DM6PR11MB3899.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	m+1aLjWEKbG7i1kJYZfzHOhG3eRmS3APU15tDmFk4GMg68PkMeJv5J3eYhGyBhUYC4tt0KVplFsz9kWu1gZKJHFYQYx5nwInx4ProPC+OHugMkAYUXFvVXaxlAFhNp/uldFFDopuYWiz/J1ZIUA15+T8DrUWNv+HbsZ6aqKT3tlBV0vNWl5T5o5LzPlzXlo3wHsKnu4IZBM+j4FX0EacLW4UGqTTdC0wZRXEhmeTC+EQRyxXzqlCLeHCn+YkgmGFNhohri2i4KM4a2msSHqMxcUMapYIKY1Mxp/w/WeNaoAj4de8mFn+RimmML8hMc20MYj+bWpHmm6Nj1HmbRfUvH5t5ozxo4ZGR1K/eXd9Yt0vPo1XlcKMeyOvWxpsHZBXvIpxfv4Jx4RpxJUPOVBBITh9yopq2MmE3vczIZUhvwvZAfuRge0DSwjXM2ETu552DgBPr9dXab1Gm0kTHouQ3gpalwZdLNFiggbSLmyZr5MB5RpvgVkuoSWOsUH0r4BMLANiClZ+Z6rKvKW0RT7NCw==
+	J4v+GtvC3ukH0nSOjiFC15oT5Mussf6G0XDpCoiaQ28GwMUlz8RRSb/f0q2+KCwfPhiA8r4Avea3M2XQ4ohdu42O2wnOm0BdSq5VqVXpllkkr69Q4J9uAD4jnnfAgQp+hJ7Ur6kf0hhNsIE2FiFjtI7ZvisjUxEzj1d0zHvDNpyveYyPs2Ch45y2B5PVeWbMnEGRdMQNN1J17Xc69Uf+hn/I2WQKN7O8+uq9XAFEqBzs9GKG5x5aoOvUztCfJDE2PahA/9e226/d62g2HVT47uomCf/snFgWiPmvOZ+PHhGrhG+ortHZPQIkNbyk+Qp2Lmq8ksSz/S3sOVuEbxdgfMz1rQaWkcy9CmZE+Cn523B23rDd4nzhhT0sPI97rzJSjgW/477uFVM9Wbm0/AlTDCikrXLM7KIsI6/QFjwh02D8gpVf+TTfknXTewPfcxaHOb+ttWMp04lq1qlAEgQFaaTyN2mMC6pD5N6wY1OsyG5YBnMaiGDZs0KddrxJygoubvIs7oh+QQqEQNMUdDo5fg==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR11MB4719.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(376002)(39850400004)(366004)(6636002)(36756003)(6666004)(966005)(66946007)(8676002)(6486002)(2616005)(316002)(956004)(2906002)(52116002)(86362001)(6512007)(83380400001)(1076003)(83080400002)(8936002)(16526019)(186003)(5660300002)(478600001)(26005)(6506007)(66556008)(66476007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4545.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(366004)(136003)(39850400004)(346002)(186003)(55016002)(66946007)(44832011)(66556008)(2906002)(66476007)(6916009)(26005)(2616005)(8886007)(8936002)(83380400001)(5660300002)(16526019)(478600001)(52116002)(36756003)(86362001)(8676002)(33656002)(54906003)(7696005)(316002)(4326008)(1076003)(966005)(956004)(192303002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?aAPa54ELVqr1aHLyv7vjgDTbQ8PCVYB/FtHLbOcT1EN/UlLowPpjQxYwJvaL?=
- =?us-ascii?Q?iNvkgeHlBTHanz0oG4GtOvS4hWpD7EyMK+cgDQOd2RBv8HNyKeWuupN4JFMA?=
- =?us-ascii?Q?s1/Qhlgf+hmcfaSpMRxeBO93C/jRWwK8GlkbUmCatLYwDlCWfIPbcH6qoTRM?=
- =?us-ascii?Q?r6kDtp7r6pc6lACTbQTWqW+9hNUO30v10nqV8n9kb9t53sakCt6Oz5sBmuTH?=
- =?us-ascii?Q?e0MAA2DP6ctPCHhf1MwGxmhQ7dIP2TJnzBYykJBeVZW0mGd0OqGLU7sag42d?=
- =?us-ascii?Q?3FQMZq3aeUQZk22Ky13y0aqXUpzRV3I/vCT2Qxtw+rbUwl9brFH9UzVE7RFd?=
- =?us-ascii?Q?GLk9YgWYs/ltU23weuemo8p7+p/G9QFWwh281jtiffGiYGLCXa7rqUDR4TWj?=
- =?us-ascii?Q?7KjnFWL05UgkW1l0iP3sovwUOCddBGXyO58O5qk+26EjX3iowXNjLFIxSXRC?=
- =?us-ascii?Q?ZPfdrEEvJzRaExuNxD66l+3fjKyBTFsbpbU6eXtHi3yHik4vl+lQH7iUCM7F?=
- =?us-ascii?Q?GikEu5tJES9py7ggmzECUiGyMb3S8RvYdhRxfZtDFuX806JMbAEy7G2DdY53?=
- =?us-ascii?Q?sZYMvRDyi1/uNfB0qOmZucLYFtTSaQknNSn+S1EPHqfaMmPZ6W/Fmj/E1mJe?=
- =?us-ascii?Q?KnyTz5yot3Ur3Hj3/imK60lMGlPHUeaqsriDczxGKRhIzIZHo45sAuT6J2V3?=
- =?us-ascii?Q?3qnxg+JL8SuFfHg48lmAWIK2iqqMsCfw00FDrXZEzm/Sn3FWX+L8v2AAU/Q8?=
- =?us-ascii?Q?hbOx/pmYf/yWnHB8Pmt4ZlYts1xAYWnQbUaD/QpmSS/P7auXUlXvRQmnu+c9?=
- =?us-ascii?Q?uGnUqLgTFFleHD7az/8L3QJMekUjiq67JEx9DDvnQWNta+L2FlOFgY1d1hif?=
- =?us-ascii?Q?/BurTt/yHmNFoyAVuU39ojBNKDM1DpBwKa9L7ljHGVbysh/Mrg1B+eYAAbqd?=
- =?us-ascii?Q?WYpscGzNKovmYmwqxqdkZnOGlUqUWupxO119Un3JoEFWSef/m//s3Av7gNpx?=
- =?us-ascii?Q?wbF5?=
+	=?us-ascii?Q?Cga3Xk7/rEo0SeZjFD6mjR1c1olM5WcJGqMWikVYDFnahIL/Hhud6jdjL7ge?=
+ =?us-ascii?Q?VepjylEDmBf4P7yndhtsAH33pzB7Qahs9n4t7USDAS/Ma8pYgENQoUaYEjCH?=
+ =?us-ascii?Q?xEDxZdD8pFLq49DWS6Iuznikli8ElhscvXQfS+j06kSP6Mk8+ewKG61zTlPV?=
+ =?us-ascii?Q?eZQNSz50rve+VHlAqAFBsEIKyR5jM9N7qFsBDf2PeIi5HeObP+aknfm3L/kx?=
+ =?us-ascii?Q?uZCXbb0SuukrvEFRXfVXkzjTIQxbjLPzLeWlE1iCt86EyPmspiSy+0pXXXLC?=
+ =?us-ascii?Q?Hc7yi45aH5/8F2bnVVmkYqtK5mYPuolvYGFCTMQjcyqceXAwIdtlphHWwzua?=
+ =?us-ascii?Q?rVGlqzlolEw0u5ggtq/CBRua72Mv5jrqALJaQi+kAufWRkdamDVHgh8SLjTC?=
+ =?us-ascii?Q?F0tvesN84x3OmnuG8DHkMZ13vtVViQ/H/c0jmdrjcBO1VslesWKquWU3o3Wy?=
+ =?us-ascii?Q?QxCy93xGxY4nJe4NyTol8ogZ2Iv67IXJfGNrqU6gjP4kScCOnb/nlBm3qnQK?=
+ =?us-ascii?Q?hlJGKEJMiROB4IkhnB7Qlly9Qmk1qvj1qSjqu3PlkbJCTaCgwaRpEUgEIdFA?=
+ =?us-ascii?Q?8zwuRt25QcEa5ivhwe0zfwKIfdmorNWCV03ThsXYNNh973Iq9t5YOt8e7AnI?=
+ =?us-ascii?Q?KF9KWiSOLUFZxqQGQYQWo1CaK5YNmuv2R7vfGgFKvfIfrg1TGPss5Ixc2wta?=
+ =?us-ascii?Q?6aJbgvgSHfSe5alLAtLHIaIks7X6IIDjERA23zaQg1gYvIWdHeVQUV4Vc/CT?=
+ =?us-ascii?Q?dpHLS7XArp3e21gBVik/n1NTmn5ru8eVTQ8e7Vt/9nKkkPu8vUXKDfRQuQxH?=
+ =?us-ascii?Q?Yfn4tCtJqE5HnEKGu6bInfin+3WWhb1k3mL51QbvmH04hKAQKjCZPqZs3+wB?=
+ =?us-ascii?Q?rZUTUohfdlH9dkWtLtqcAd6ePpot7xIIgmvaTUk3Vv+DVpfy/MK+i4LpkH+6?=
+ =?us-ascii?Q?WhQKqvIatjFfrGMvhbkudQ7gYUojh9XoKrBo82cJLOnvReohndnXjOBTKw8E?=
+ =?us-ascii?Q?GKgh?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a679e10-5b20-40f3-471f-08d8b96268bd
-X-MS-Exchange-CrossTenant-AuthSource: SA0PR11MB4719.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2e94e50-e0ff-44b6-bf4f-08d8b9647aae
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4545.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 14:32:39.0084
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jan 2021 14:47:28.0728
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TcNCJ84F0h54v9K8mD08OcbypJ6iTjINZjFuTROKwgaiWDnEj+R0HRS8789VmCRLYdpdjuyJjkWdSQf+kvGUaw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB2686
+X-MS-Exchange-CrossTenant-UserPrincipalName: XLMJ6pqDp5Qv1tB8Z9HPh9T3pEV2jc6vhf6FZ8WtR4/Xd8Cme6mHLlEKiwK8e0z1sSDVfMJ4ZC9ixbz5RB5QRLJ2y9gC0e3mxAH5ZgqzYzs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3899
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 
-Fix related to a buffer overflow in bfd library
+[Re: [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8] On=
+ 15/01/2021 (Fri 09:57) Luca Boccassi wrote:
 
-CVE Details https://nvd.nist.gov/vuln/detail/CVE-2020-35448
+> On Fri, 2021-01-15 at 08:37 +0000, Richard Purdie wrote:
+> > On Fri, 2021-01-15 at 00:26 -0500, Paul Gortmaker wrote:
+> > > Recent systemd started using ascii args to "hidepid=3D" mount options
+> > > for proc fs - unconditionally -- even though kernels older than v5.8
+> > > emit an error message on each attempt:
+> > >=20
+> > > root@qemux86-64:~# cat /proc/version
+> > > Linux version 5.4.87-yocto-standard (oe-user@oe-host) (gcc version 10=
+.2.0 (GCC)) #1 SMP PREEMPT Fri Jan 8 01:47:13 UTC 2021
+> > > root@qemux86-64:~# dmesg|grep proc:
+> > > [   29.487995] proc: Bad value for 'hidepid'
+> > > [   43.170571] proc: Bad value for 'hidepid'
+> > > [   44.175615] proc: Bad value for 'hidepid'
+> > > [   46.213300] proc: Bad value for 'hidepid'
+> > > root@qemux86-64:~#
+>=20
+> Wouldn't it be better to patch the kernel to downgrade that message to
+> debug level?
 
-Upstream Tracking https://sourceware.org/bugzilla/show_bug.cgi?id=3D26574
+The problem is that the breakage is forced upon older kernels, so you'd
+have to effectively mainline that kind of "fix" to v5.12 (where there is
+no problem) and then you could in theory request it for v5.4 linux-stable
+according to "stable rules".
 
-Patch from Upstream
-    https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;
-    h=3D8642dafaef21aa6747cec01df1977e9c52eb4679
+Besides, if something with root/mount priv. is consistently trying to
+drive a square peg into a round hole - by trying to mount something and
+failing -- it should be something that a sysadmin would want to
+investigate.  Which is precisely why I am here now.  I think burying it
+at debug level is counterproductive to that.
 
-Signed-off-by: Yi Fan Yu <yifan.yu@windriver.com>
----
- .../binutils/binutils-2.35.1.inc              |  1 +
- .../binutils/binutils/CVE-2020-35448.patch    | 78 +++++++++++++++++++
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-35448.=
-patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.35.1.inc b/meta/reci=
-pes-devtools/binutils/binutils-2.35.1.inc
-index c92cb75543..775af2b8f2 100644
---- a/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.35.1.inc
-@@ -43,5 +43,6 @@ SRC_URI =3D "\
-      file://0016-Check-for-clang-before-checking-gcc-version.patch \
-      file://0017-gas-improve-reproducibility-for-stabs-debugging-data.patc=
-h \
-      file://0001-aarch64-Return-an-error-on-conditional-branch-to-an-.patc=
-h \
-+     file://CVE-2020-35448.patch \
- "
- S  =3D "${WORKDIR}/git"
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
-new file mode 100644
-index 0000000000..3b0f18bdb1
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
-@@ -0,0 +1,78 @@
-+From dc40540e4b4b1771182a9c0fc6ba5f1a830802bc Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Fri, 4 Sep 2020 19:19:18 +0930
-+Subject: [PATCH] PR26574, heap buffer overflow in
-+ _bfd_elf_slurp_secondary_reloc_section
-+
-+A horribly fuzzed object with section headers inside the ELF header.
-+Disallow that, and crazy reloc sizes.
-+
-+   PR 26574
-+   * elfcode.h (elf_object_p): Sanity check section header offset.
-+   * elf.c (_bfd_elf_slurp_secondary_reloc_section): Sanity check
-+   sh_entsize.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
-ils-gdb.git;h=3D8642dafaef21aa6747cec01df1977e9c52eb4679]
-+---
-+ bfd/elf.c     | 4 +++-
-+ bfd/elfcode.h | 8 ++++----
-+ 2 files changed, 7 insertions(+), 5 deletions(-)
-+
-+diff --git a/bfd/elf.c b/bfd/elf.c
-+index fe375e7346..9f29166399 100644
-+--- a/bfd/elf.c
-++++ b/bfd/elf.c
-+@@ -12527,7 +12527,9 @@ _bfd_elf_slurp_secondary_reloc_section (bfd *     =
- abfd,
-+       Elf_Internal_Shdr * hdr =3D & elf_section_data (relsec)->this_hdr;
-+=20
-+       if (hdr->sh_type =3D=3D SHT_SECONDARY_RELOC
-+-    && hdr->sh_info =3D=3D (unsigned) elf_section_data (sec)->this_idx)
-++    && hdr->sh_info =3D=3D (unsigned) elf_section_data (sec)->this_idx
-++    && (hdr->sh_entsize =3D=3D ebd->s->sizeof_rel
-++        || hdr->sh_entsize =3D=3D ebd->s->sizeof_rela))
-+   {
-+     bfd_byte * native_relocs;
-+     bfd_byte * native_reloc;
-+diff --git a/bfd/elfcode.h b/bfd/elfcode.h
-+index f4a7829f27..54ef890637 100644
-+--- a/bfd/elfcode.h
-++++ b/bfd/elfcode.h
-+@@ -568,7 +568,7 @@ elf_object_p (bfd *abfd)
-+=20
-+   /* If this is a relocatable file and there is no section header
-+      table, then we're hosed.  */
-+-  if (i_ehdrp->e_shoff =3D=3D 0 && i_ehdrp->e_type =3D=3D ET_REL)
-++  if (i_ehdrp->e_shoff < sizeof (x_ehdr) && i_ehdrp->e_type =3D=3D ET_REL=
-)
-+     goto got_wrong_format_error;
-+=20
-+   /* As a simple sanity check, verify that what BFD thinks is the
-+@@ -578,7 +578,7 @@ elf_object_p (bfd *abfd)
-+     goto got_wrong_format_error;
-+=20
-+   /* Further sanity check.  */
-+-  if (i_ehdrp->e_shoff =3D=3D 0 && i_ehdrp->e_shnum !=3D 0)
-++  if (i_ehdrp->e_shoff < sizeof (x_ehdr) && i_ehdrp->e_shnum !=3D 0)
-+     goto got_wrong_format_error;
-+=20
-+   ebd =3D get_elf_backend_data (abfd);
-+@@ -615,7 +615,7 @@ elf_object_p (bfd *abfd)
-+       && ebd->elf_osabi !=3D ELFOSABI_NONE)
-+     goto got_wrong_format_error;
-+=20
-+-  if (i_ehdrp->e_shoff !=3D 0)
-++  if (i_ehdrp->e_shoff >=3D sizeof (x_ehdr))
-+     {
-+       file_ptr where =3D (file_ptr) i_ehdrp->e_shoff;
-+=20
-+@@ -807,7 +807,7 @@ elf_object_p (bfd *abfd)
-+   }
-+     }
-+=20
-+-  if (i_ehdrp->e_shstrndx !=3D 0 && i_ehdrp->e_shoff !=3D 0)
-++  if (i_ehdrp->e_shstrndx !=3D 0 && i_ehdrp->e_shoff >=3D sizeof (x_ehdr)=
-)
-+     {
-+       unsigned int num_sec;
-+=20
-+--=20
-+2.29.2
-+
---=20
-2.29.2
+> > > +The systemd maintainer has dismissed this as something people should
+> > > +simply ignore[1] and has no interest in trying to avoid it by
+> > > +proactively checking the kernel version, so people can safely assume
+> > > +that they will never see this version check commit upstream.
+> > > +
+> > > +However, as can be seen above, telling people to just ignore it is n=
+ot
+> > > +an option, as we'll end up answering the same question and dealing w=
+ith
+> > > +the same bug over and over again.
+> > > +
+> > > +The commit that triggers this is systemd v247-rc1~378^2~3 -- so any
+> > > +systemd 247 and above plus kernel v5.7 or older will need this.
+> > > +
+> > > +[1] https://github.com/systemd/systemd/issues/16896
+> > > +
+> > > +Upstream-Status: Actively hostile
+> >=20
+> > The status needs to be
+> >=20
+> > Upstream-Status: Denied [Actively hostile=20
+> > https://github.com/systemd/systemd/issues/16896]
+> >=20
+> > (so our tools have an idea of what status patches are in)
+>=20
+> Paul, please, let's avoid loaded language - Denied is fine by itself
+> and conveys what it needs to. I understand it can be frustrating when
+> upstream maintainers do not agree with user assessments, but the linked
+> discussion was polite and professional and there's no need to call it
+> "hostile".
+
+Normally I'd agree with you, but it isn't just this one thread/instance,
+but instead *years* of continued "my way or the highway" behaviour
+demonstrated by systemd on various lists like LKML, for all to see.  In
+any case, in the interest of not breaking existing tooling, and getting
+the fix to our users, I am fine with it being changed to simply be:
+
+Upstream-Status: Denied [https://github.com/systemd/systemd/issues/16896]
+
+Paul.
+--
+
+>=20
+> Also, speaking as an upstream maintainer, I'd be willing to review a
+> patch that adds a log_debug notice to advise to ignore the error if the
+> fallback path is taken. It's low cost and reasonable, so I don't think
+> it would be a problem to merge it.
+>=20
+> > https://wiki.yoctoproject.org/wiki/Best_Known_Methods#Patch_Comments
+>=20
+> Richard, FYI this appears to be an empty page.
+>=20
+> --=20
+> Kind regards,
+> Luca Boccassi
+
 
