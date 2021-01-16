@@ -1,104 +1,238 @@
-Received: from forward100o.mail.yandex.net (forward100o.mail.yandex.net [37.140.190.180])
- by mx.groups.io with SMTP id smtpd.web12.1722.1610785150166871390
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web08.2153.1610788979791683164
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Jan 2021 00:19:10 -0800
+ Sat, 16 Jan 2021 01:23:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@yandex.ru header.s=mail header.b=qoXyCKSE;
- spf=pass (domain: yandex.ru, ip: 37.140.190.180, mailfrom: amozzhuhin@yandex.ru)
-Received: from sas1-ad61ad785433.qloud-c.yandex.net (sas1-ad61ad785433.qloud-c.yandex.net [IPv6:2a02:6b8:c08:37a4:0:640:ad61:ad78])
-	by forward100o.mail.yandex.net (Yandex) with ESMTP id A25334AC17CA
-	for <openembedded-core@lists.openembedded.org>; Sat, 16 Jan 2021 11:19:06 +0300 (MSK)
-Received: from sas1-37da021029ee.qloud-c.yandex.net (sas1-37da021029ee.qloud-c.yandex.net [2a02:6b8:c08:1612:0:640:37da:210])
-	by sas1-ad61ad785433.qloud-c.yandex.net (mxback/Yandex) with ESMTP id eGbglxeGSB-J6D4Hq0L;
-	Sat, 16 Jan 2021 11:19:06 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail; t=1610785146;
-	bh=3af8VdVY00+YdRSTspcMZ/dihbB4dz1hhQH4imfE3AI=;
-	h=Date:Subject:To:From:Message-Id:Cc;
-	b=qoXyCKSEXEoS7J6OMaRDqYbp2MDUod+0X7scCjhkU8TjPxN+zDBsceW44BT4rBjiL
-	 zfLrjy3KwHKgXF7wiDMkEhjr/7iyeuNcW8BKlP5SNaHJ4H575On5a7fpkVJbjXHIv6
-	 QWaNrF13w1udV/bmhD1bxrWThhpxryxKyvQZapCw=
-Authentication-Results: sas1-ad61ad785433.qloud-c.yandex.net; dkim=pass header.i=@yandex.ru
-Received: by sas1-37da021029ee.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id 3Q3xuDszHK-J5JKvLW1;
-	Sat, 16 Jan 2021 11:19:05 +0300
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(Client certificate not present)
-From: amozzhuhin@yandex.ru
-To: openembedded-core@lists.openembedded.org
-Cc: Andrey Mozzhuhin <amozzhuhin@yandex.ru>
-Subject: [PATCH] toolchain-shar-extract.sh: Handle special characters in script path
-Date: Sat, 16 Jan 2021 11:18:41 +0300
-Message-Id: <20210116081841.2600301-1-amozzhuhin@yandex.ru>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@konsulko.com header.s=google header.b=GNICIiQB;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.53, mailfrom: paul.barker@konsulko.com)
+Received: by mail-ot1-f53.google.com with SMTP id i20so3304682otl.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 16 Jan 2021 01:22:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CIwHvf5G2nkfSETrtR8sQGEWVIHDmUubXSQ8u0vuwNw=;
+        b=GNICIiQBtEzQK+r2k6tyrnC1s0ont6CANvft2dMD6w8Rt1saJPZvQcZiyB8TYtqs/u
+         WPxbIibweIn/V2dNZjCA0u3YWBB+rdZf4FdhTuyHatEzRULd5ciehI8Jr67dEsLqnWX1
+         lNVgvh3gO0DZ0F9fXzLJ/6mWpW92v1rJLRaVQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CIwHvf5G2nkfSETrtR8sQGEWVIHDmUubXSQ8u0vuwNw=;
+        b=ThioJILXzS1H1vC33lon7up0/11F0zTs89Swkvkfir0Nsyngb04oAv21SsXW/S28IB
+         4fUx9fHzyE1xv4oa1Z2bkjJhlhT6A8Pwh5nPVKGcg/Yplw0e27TBji8xdRP5SNMRmIZc
+         kZKLhASAE/lGLDiXpC1scCsuyinFC0aES5OVwpVvbcqzhwxerpvmWQM9yGuWREudKMMw
+         C+763lTqmoNOMuSkAzoEEE9bNgOWUtgIX+Nm5WwMT0kZpEtk5br6GFdbWZmqxLwLHoyG
+         HDkTq9rQT0/xhsHctFbyqBvs/qVkaniaMNyBaWwp93lbxFXrrP/+mkO5d22P/SgWtZNB
+         ds3A==
+X-Gm-Message-State: AOAM533nYu+w267lcyQmT7fkrAJERmwKZdLg4GGubB/X6D20mzZuunzS
+	pr0+iHBdwK3ScbxP5Tb/0ZUZevqpzXiltCQZZh75zuaKi0OiYw==
+X-Google-Smtp-Source: ABdhPJytJnsgQm3BUbzKPvpyUg2DGHFJg5kH5zWaPZqgrp0xiLy6gSxGUzt1Mj4/C8ASQlpR3D6/l/VEkjTY0rtITaE=
+X-Received: by 2002:a9d:7a4b:: with SMTP id z11mr11389348otm.305.1610788979023;
+ Sat, 16 Jan 2021 01:22:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20210114130123.20507-1-anbelski@linux.microsoft.com>
+In-Reply-To: <20210114130123.20507-1-anbelski@linux.microsoft.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Sat, 16 Jan 2021 09:22:48 +0000
+Message-ID: <CAM9ZRVsrJDWKdG0MhGybaWqOYztH_6D9zcvCaoTQ5HO5Gt7hbA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] appliance: Add vhd & vhdx support
+To: Anatol Belski <anbelski@linux.microsoft.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Sinan Kaya <okaya@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Extracting SDK archive may fail if the script is run using a path with
-special characters such as space or asterisk. This is because the shell
-interprets such characters after expanding the $0 variable.
+On Thu, 14 Jan 2021 at 13:01, Anatol Belski
+<anbelski@linux.microsoft.com> wrote:
+>
+> From: Sinan Kaya <okaya@kernel.org>
+>
+> This patch brings support for generating VHD/VHDX from WIC. It touches
+> different areas but it needs to be applied at once for all the parts to
+> concert. The patch could be split, if needed, otherwise considering
+> OE-Core as target.
+>
+> Signed-off-by: Sinan Kaya <okaya@kernel.org>
+> Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+> ---
+>  bitbake/lib/toaster/orm/models.py                  |  4 ++--
+>  meta/classes/image-live.bbclass                    |  2 +-
+>  meta/classes/image_types.bbclass                   | 14 ++++++++++++--
+>  .../images/build-appliance-image_15.0.0.bb         |  4 +++-
+>  scripts/runqemu                                    |  8 +++++---
+>  5 files changed, 23 insertions(+), 9 deletions(-)
+>
+> diff --git a/bitbake/lib/toaster/orm/models.py b/bitbake/lib/toaster/orm/models.py
+> index 7f7e922ade..49dc7dae36 100644
+> --- a/bitbake/lib/toaster/orm/models.py
+> +++ b/bitbake/lib/toaster/orm/models.py
+> @@ -583,7 +583,7 @@ class Build(models.Model):
+>          note that this is the actual list of extensions stored on Target objects
+>          for this build, and not the value of IMAGE_FSTYPES.
+>
+> -        Returns comma-separated string, e.g. "vmdk, ext4"
+> +        Returns comma-separated string, e.g. "vmdk, vhd, vhdx, ext4"
+>          """
+>          extensions = []
+>
+> @@ -970,7 +970,7 @@ class Target_Image_File(models.Model):
+>          'ext3', 'ext3.gz', 'ext4', 'ext4.gz', 'f2fs', 'hddimg', 'iso', 'jffs2',
+>          'jffs2.sum', 'multiubi', 'squashfs', 'squashfs-lz4', 'squashfs-lzo',
+>          'squashfs-xz', 'tar', 'tar.bz2', 'tar.gz', 'tar.lz4', 'tar.xz', 'ubi',
+> -        'ubifs', 'wic', 'wic.bz2', 'wic.gz', 'wic.lzma'
+> +        'ubifs', "vhd", 'vhdx', 'wic', 'wic.bz2', 'wic.gz', 'wic.lzma'
+>      }
+>
+>      target = models.ForeignKey(Target, on_delete=models.CASCADE)
 
-Added quotes to all uses of the shell variable $0 to fix this.
+The above changes to bitbake need to be submitted to the bitbake-devel
+list (https://lists.openembedded.org/g/bitbake-devel) and should be
+based on the bitbake repository
+(https://git.openembedded.org/bitbake/), i.e. the leading "bitbake/"
+in the path should be dropped.
 
-Signed-off-by: Andrey Mozzhuhin <amozzhuhin@yandex.ru>
----
- meta/files/toolchain-shar-extract.sh | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+> diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+> index 9ea5ddc312..1b2183eadd 100644
+> --- a/meta/classes/image-live.bbclass
+> +++ b/meta/classes/image-live.bbclass
+> @@ -234,7 +234,7 @@ build_hddimg() {
+>                                 bberror "${HDDDIR}/rootfs.img rootfs size is greather than or equal to 4GB,"
+>                                 bberror "and this doesn't work on a FAT filesystem. You can either:"
+>                                 bberror "1) Reduce the size of rootfs.img, or,"
+> -                               bbfatal "2) Use wic, vmdk or vdi instead of hddimg\n"
+> +                               bbfatal "2) Use wic, vmdk,vhd, vhdx or vdi instead of hddimg\n"
+>                         fi
+>                 fi
+>
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 286009057e..0586c040bc 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -269,7 +269,7 @@ IMAGE_TYPES = " \
+>  # CONVERSION_CMD/DEPENDS.
+>  COMPRESSIONTYPES ?= ""
+>
+> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
+> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vhd vhdx vdi qcow2 base64 ${COMPRESSIONTYPES}"
+>  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>  CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+>  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> @@ -288,6 +288,8 @@ CONVERSION_CMD_sha512sum = "sha512sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}
+>  CONVERSION_CMD_bmap = "bmaptool create ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.bmap"
+>  CONVERSION_CMD_u-boot = "mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C none -n ${IMAGE_NAME} -d ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.u-boot"
+>  CONVERSION_CMD_vmdk = "qemu-img convert -O vmdk ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vmdk"
+> +CONVERSION_CMD_vhdx = "qemu-img convert -O vhdx -o subformat=dynamic ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhdx"
+> +CONVERSION_CMD_vhd = "qemu-img convert -O vpc -o subformat=fixed ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vhd"
+>  CONVERSION_CMD_vdi = "qemu-img convert -O vdi ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.vdi"
+>  CONVERSION_CMD_qcow2 = "qemu-img convert -O qcow2 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.qcow2"
+>  CONVERSION_CMD_base64 = "base64 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.base64"
+> @@ -303,9 +305,17 @@ CONVERSION_DEPENDS_sum = "mtd-utils-native"
+>  CONVERSION_DEPENDS_bmap = "bmap-tools-native"
+>  CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
+>  CONVERSION_DEPENDS_vmdk = "qemu-system-native"
+> +CONVERSION_DEPENDS_vhdx = "qemu-native"
+> +CONVERSION_DEPENDS_vhd = "qemu-native"
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-=
-shar-extract.sh
-index bea6d4189a..dd9342758b 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -95,7 +95,7 @@ while getopts ":yd:npDRSl" OPT; do
- 		listcontents=3D1
- 		;;
- 	*)
--		echo "Usage: $(basename $0) [-y] [-d <dir>]"
-+		echo "Usage: $(basename "$0") [-y] [-d <dir>]"
- 		echo "  -y         Automatic yes to all prompts"
- 		echo "  -d <dir>   Install the SDK to <dir>"
- 		echo "=3D=3D=3D=3D=3D=3D=3D=3D Extensible SDK only options =3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D"
-@@ -111,17 +111,17 @@ while getopts ":yd:npDRSl" OPT; do
- 	esac
- done
-=20
--payload_offset=3D$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
-+payload_offset=3D$(($(grep -na -m1 "^MARKER:$" "$0"|cut -d':' -f1) + 1))
- if [ "$listcontents" =3D "1" ] ; then
-     if [ @SDK_ARCHIVE_TYPE@ =3D "zip" ]; then
--        tail -n +$payload_offset $0 > sdk.zip
-+        tail -n +$payload_offset "$0" > sdk.zip
-         if unzip -l sdk.zip;then
-             rm sdk.zip
-         else
-             rm sdk.zip && exit 1
-         fi
-     else
--        tail -n +$payload_offset $0| tar tvJ || exit 1
-+        tail -n +$payload_offset "$0"| tar tvJ || exit 1
-     fi
-     exit
- fi
-@@ -242,14 +242,14 @@ fi
-=20
- printf "Extracting SDK..."
- if [ @SDK_ARCHIVE_TYPE@ =3D "zip" ]; then
--    tail -n +$payload_offset $0 > sdk.zip
-+    tail -n +$payload_offset "$0" > sdk.zip
-     if $SUDO_EXEC unzip $EXTRA_TAR_OPTIONS sdk.zip -d $target_sdk_dir;th=
-en
-         rm sdk.zip
-     else
-         rm sdk.zip && exit 1
-     fi
- else
--    tail -n +$payload_offset $0| $SUDO_EXEC tar mxJ -C $target_sdk_dir -=
--checkpoint=3D.2500 $EXTRA_TAR_OPTIONS || exit 1
-+    tail -n +$payload_offset "$0"| $SUDO_EXEC tar mxJ -C $target_sdk_dir=
- --checkpoint=3D.2500 $EXTRA_TAR_OPTIONS || exit 1
- fi
- echo "done"
-=20
---=20
-2.25.1
+Is this intended to be different from the dependencies from vmdk
+above? You've got "qemu-native", vmdk has "qemu-system-native".
 
+>  CONVERSION_DEPENDS_vdi = "qemu-system-native"
+>  CONVERSION_DEPENDS_qcow2 = "qemu-system-native"
+>  CONVERSION_DEPENDS_base64 = "coreutils-native"
+> +CONVERSION_DEPENDS_u-boot = "u-boot-mkimage-native"
+> +CONVERSION_DEPENDS_vmdk = "qemu-native"
+> +CONVERSION_DEPENDS_vhdx = "qemu-native"
+> +CONVERSION_DEPENDS_vhd = "qemu-native"
+> +CONVERSION_DEPENDS_vdi = "qemu-native"
+> +CONVERSION_DEPENDS_qcow2 = "qemu-native"
+
+This looks like it overwrites the above assignments. It also modifies
+the dependencies for other image types like u-boot and qcow2. What's
+the reason for these lines?
+
+>
+>  RUNNABLE_IMAGE_TYPES ?= "ext2 ext3 ext4"
+>  RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+> @@ -313,7 +323,7 @@ RUNNABLE_MACHINE_PATTERNS ?= "qemu"
+>  DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+>
+>  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+> -# images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hddimg, iso, etc.
+> +# images that will not be built at do_rootfs time: vmdk, vhd, vhdx, vdi, qcow2, hddimg, iso, etc.
+>  IMAGE_TYPES_MASKED ?= ""
+>
+>  # bmap requires python3 to be in the PATH
+> diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+> index 8b95026218..c5c9d385ef 100644
+> --- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+> +++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+> @@ -20,7 +20,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+>  APPEND += "rootfstype=ext4 quiet"
+>
+>  DEPENDS = "zip-native python3-pip-native"
+> -IMAGE_FSTYPES = "wic.vmdk"
+> +IMAGE_FSTYPES = "wic.vmdk wic.vhd wic.vhdx"
+
+Do we need to generate vhd and vhdx images for the build appliance?
+Are you actually using these or just trying to build all relevant
+images?
+
+>
+>  inherit core-image module-base setuptools3
+>
+> @@ -129,6 +129,8 @@ create_bundle_files () {
+>         mkdir -p Yocto_Build_Appliance
+>         cp *.vmx* Yocto_Build_Appliance
+>         ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vmdk Yocto_Build_Appliance/Yocto_Build_Appliance.vmdk
+> +       ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vhdx Yocto_Build_Appliance/Yocto_Build_Appliance.vhdx
+> +       ln -sf ${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.wic.vhd Yocto_Build_Appliance/Yocto_Build_Appliance.vhd
+>         zip -r ${IMGDEPLOYDIR}/Yocto_Build_Appliance-${DATETIME}.zip Yocto_Build_Appliance
+>         ln -sf Yocto_Build_Appliance-${DATETIME}.zip ${IMGDEPLOYDIR}/Yocto_Build_Appliance.zip
+>  }
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index e5e66f3453..dd92a64553 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -94,11 +94,13 @@ Examples:
+>    runqemu qemux86-64 core-image-sato ext4
+>    runqemu qemux86-64 wic-image-minimal wic
+>    runqemu path/to/bzImage-qemux86.bin path/to/nfsrootdir/ serial
+> -  runqemu qemux86 iso/hddimg/wic.vmdk/wic.qcow2/wic.vdi/ramfs/cpio.gz...
+> +  runqemu qemux86 iso/hddimg/wic.vmdk/wic.vhd/wic.vhdx/wic.qcow2/wic.vdi/ramfs/cpio.gz...
+>    runqemu qemux86 qemuparams="-m 256"
+>    runqemu qemux86 bootparams="psplash=false"
+>    runqemu path/to/<image>-<machine>.wic
+>    runqemu path/to/<image>-<machine>.wic.vmdk
+> +  runqemu path/to/<image>-<machine>.wic.vhdx
+> +  runqemu path/to/<image>-<machine>.wic.vhd
+>  """)
+>
+>  def check_tun():
+> @@ -179,7 +181,7 @@ class BaseConfig(object):
+>          self.portlocks = {}
+>          self.bitbake_e = ''
+>          self.snapshot = False
+> -        self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi')
+> +        self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "wic.vhd", "wic.vhdx")
+>          self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
+>                          'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz')
+>          self.vmtypes = ('hddimg', 'iso')
+> @@ -1203,7 +1205,7 @@ class BaseConfig(object):
+>              return
+>          if 'wic.' in self.fstype:
+>              self.fstype = self.fstype[4:]
+> -        rootfs_format = self.fstype if self.fstype in ('vmdk', 'qcow2', 'vdi') else 'raw'
+> +        rootfs_format = self.fstype if self.fstype in ('vmdk', 'vhd', 'vhdx', 'qcow2', 'vdi') else 'raw'
+>
+>          qb_rootfs_opt = self.get('QB_ROOTFS_OPT')
+>          if qb_rootfs_opt:
+
+I actually recommend splitting the runqemu changes off into another
+patch. So you'd have one patch for image_types, one patch for bitbake
+and one patch for runqemu.
+
+Thanks,
+
+-- 
+Paul Barker
+Konsulko Group
