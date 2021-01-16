@@ -1,17 +1,17 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.73])
- by mx.groups.io with SMTP id smtpd.web10.4648.1610768856358667157
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.45])
+ by mx.groups.io with SMTP id smtpd.web12.4737.1610768964399833033
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Jan 2021 19:47:41 -0800
+ Fri, 15 Jan 2021 19:49:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=pLQqG2WJ;
- spf=pass (domain: windriver.com, ip: 40.107.94.73, mailfrom: hongxu.jia@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Zw4cCGn4;
+ spf=pass (domain: windriver.com, ip: 40.107.223.45, mailfrom: hongxu.jia@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MLUEmQNm6svHTGh9MeoJq5VOq9uG01cAmNhjW60BKVJk+mxD43bSPcPzOVH7XCniAQa62o4bqEpXPbvVYiG8f/jOnmArQ75C2OJFu2KP5TW91vKwfaom5Hff4xCTxts5g8iC14Vau1/NM+uoPLjJHhyZH5YJv29qhpmDj/PPgCPo8186CSMVj4ilfT+Td1E22x5bTuf+skbl/DIRd2sx1LW96EVw+GE7P1QWHlq3uijZk8fp24zIpT7E0qnWfkbs3hRZYiCRNdSBIfvHCDzuK17wSpDntZicwZJzVMDhnxWGxF7GPUAeNL9a7Zk34ZB+Av913PC4LYCZ46Qj6Eo0Pg==
+ b=laucJaXCB7DbSE/ZalGu+2mgy3M/k8B/beNbTU9HLe8Pb0lVdFn6ZA6hQ0U8IyZnEaRMEZTEhDYK9rGAiyL3u3Mln2HRWpK9RLfJVQZgXKFhulW6/i0HrJtHQlhHaEmIC5oxeHH2SZ8QU4ipsEll3IStrre5YN6RyVI9E7/QP9uzzoL5uTlnIZmD6t6vQkJeNF2VIvsPKmyqsyAQ8BB6P0KPWlOMJ749OcxINaQkLtpz5Svbkeh+AVOiHXV5YwBwJADgI7ytV8+WnAcYil1ReoI9SsAAfXGsSHJ80k9xyWMKVW8rNEOPRbivPJ9rL3ND7wvg20++/kYDkvF3ibv4bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UjLeLw5PBd3UW9aMjFJdHHXrNJSn04ZXqWFpn/3I2h8=;
- b=INb0qXEKUAq3qD//v1fmKU/vXPiX14dj5NqKQZL4Wbv4XJteOiiy0LyAYvCI7B6AOU9cPsidgWw3fNTrXcxfb7QeXqFQ+OLGnaEgE4lt0G64aKyykCaPzsz3f8FsCj7nr38E/IBkvsKf5SyxdJxiFhYdKa6IUxiq18OhoBoCjhkd8+nzR/6lIR8OpMOvocd0MSLDNSvVAYF/4qZLEyF2swnVZvL+OEW9JU/s1Zt3WCvs+XpV4kQDwTQbuyyPZlnf6YPWRWgc7RLEPWwd7lDrBoKtwbfGNQTrPWyroh02/cKh+8Hg1fLzaPJTVjgL8sxW4FJVWXkEAnSoYuCdjdgbhw==
+ bh=rm8jM1AaF8kfc5Pf6xO0a1Bi2nNByJpBnM8nt518Bfc=;
+ b=jg1CavgUqXvLUJv79uQ+VIvpPw8Fwo/3RuWXZDRzieoV2v83PSvEnIj61Is13YiaJN5TnX8MhyYHex6Rfcf2mXPXIVD7ay1PvdE0boHZsHfSTxmjJXp85x7lP1J2YSPeIWpnjNvsoIRZE2X/KHOxSBqIYfyeAj5VobE8ynIlYs9g7BEX+8YU+1sxy1TQ9wAvUqGy4Q34qKBs8vZZLrJDLbFC7+iUR8EJMlAKA455y+hgba/tlqmYBZJd4Bhc0pYyToYQWOWIyP4/cEfpJ7lIRo19J3WvMrs7W19AcPRV4Kr2JZoidtRQB+jyvzBflYb4EGVKy8uZzeNqZcM13KfcpA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,8 +19,8 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UjLeLw5PBd3UW9aMjFJdHHXrNJSn04ZXqWFpn/3I2h8=;
- b=pLQqG2WJO1CjtxBHK6f68ERNs8R0MiJ0i6tslejIWylhfHp2R/VBqkFM85QLi6QYuefBb0basb6HDPe0ZCKdFXDHOhCzWoGxQz+ua9W1rGJ/5Wy97TppMFEAsTVIn4NDM15eQDP94YdOPn7micLZU2QY5Q9AAw9riA1OZAuaV/U=
+ bh=rm8jM1AaF8kfc5Pf6xO0a1Bi2nNByJpBnM8nt518Bfc=;
+ b=Zw4cCGn48DoPpd0OZbbHO0EAgXAnGXfbaxw7pJcAAhtE9vxskhm2Zd8N+m5hoQhzFeRSecHLlOLYPolEvyIOW3Tuqdb7jLyw5zUPIXEZe+FzaU29iXLYwoi5mG+9T3f8y/CJpa/8ZS+8T003IqoFbLS1MM+usZyM9M2YfpRcalA=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
@@ -28,137 +28,141 @@ Received: from DM6PR11MB4380.namprd11.prod.outlook.com (2603:10b6:5:14e::20)
  by DM5PR11MB2012.namprd11.prod.outlook.com (2603:10b6:3:10::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.12; Sat, 16 Jan
- 2021 03:47:34 +0000
+ 2021 03:49:23 +0000
 Received: from DM6PR11MB4380.namprd11.prod.outlook.com
  ([fe80::a816:b4fb:846e:9417]) by DM6PR11MB4380.namprd11.prod.outlook.com
  ([fe80::a816:b4fb:846e:9417%6]) with mapi id 15.20.3763.012; Sat, 16 Jan 2021
- 03:47:34 +0000
+ 03:49:23 +0000
 From: "hongxu" <hongxu.jia@windriver.com>
 To: openembedded-core@lists.openembedded.org,
 	richard.purdie@linuxfoundation.org
-Subject: [PATCH V2] dpkg: add nativesdk support
-Date: Sat, 16 Jan 2021 11:47:19 +0800
-Message-Id: <20210116034719.30846-1-hongxu.jia@windriver.com>
+Subject: [PATCH V2] deb: do not insert feed uris if apt not installed
+Date: Sat, 16 Jan 2021 11:49:11 +0800
+Message-Id: <20210116034911.31032-1-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.18.2
-In-Reply-To: <4221b98b05e228a26d42acd2dc1db9e992e3b41b.camel@linuxfoundation.org>
-References: <4221b98b05e228a26d42acd2dc1db9e992e3b41b.camel@linuxfoundation.org>
+In-Reply-To: <32c70df536b241c06742c5e75a4aaab8f02f9d88.camel@linuxfoundation.org>
+References: <32c70df536b241c06742c5e75a4aaab8f02f9d88.camel@linuxfoundation.org>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR0401CA0019.apcprd04.prod.outlook.com
- (2603:1096:202:2::29) To DM6PR11MB4380.namprd11.prod.outlook.com
+X-ClientProxiedBy: HK2PR0302CA0024.apcprd03.prod.outlook.com
+ (2603:1096:202::34) To DM6PR11MB4380.namprd11.prod.outlook.com
  (2603:10b6:5:14e::20)
 Return-Path: hongxu.jia@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpggp1.wrs.com (60.247.85.82) by HK2PR0401CA0019.apcprd04.prod.outlook.com (2603:1096:202:2::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11 via Frontend Transport; Sat, 16 Jan 2021 03:47:33 +0000
+Received: from pek-lpggp1.wrs.com (60.247.85.82) by HK2PR0302CA0024.apcprd03.prod.outlook.com (2603:1096:202::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.7 via Frontend Transport; Sat, 16 Jan 2021 03:49:22 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0448ec48-1024-49a9-1703-08d8b9d17547
+X-MS-Office365-Filtering-Correlation-Id: 924982fd-7921-4eef-873a-08d8b9d1b64b
 X-MS-TrafficTypeDiagnostic: DM5PR11MB2012:
 X-Microsoft-Antispam-PRVS: 
-	<DM5PR11MB2012A2723371AE90C207650D94A60@DM5PR11MB2012.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
+	<DM5PR11MB2012FD7FCC35A09C6075D58B94A60@DM5PR11MB2012.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	mER6PN3CZqFv3f2RXAY6vpuK01MZIEYOhvvA4IT6MjTmOEDH7jWhgRyn/ao8UQDmHNibgYk+Cn89LXbGb5nos08OmpZWvJveZ7qS+rzgfVDdLfXGPw2Df7z2r1B8tNCpB0916qPSzJG3rzPah++Zuh/lxptq4HK6nCuo2OxT8qZz6jYQ20+UuuKdXkXul7ALrmlyvifE2+EoHLsTLgO2VypNlV36kngdcZsx93sNcjJTkfkLbAf7dYSz/xq9ELpmuJaVET/duagfSV39znFdRyPMND546nDR+CVRICbLkeVk4H4ScOw81Ascctck0eDCdVe/Xo3HALCw1FqtlIPxZWN7IT+hAtO1Gn6tpRxe1wqiOxcVgBg5J1ldOH8QBTK9
+	jkz/lWC3txPevwUiu/vkigZyDavC71f0N1aUrITBy6V+upz4riJvdFc5H0Sgutc3UvsuBwZlyi+upy0YqP19qIsbNq8NQyNHI89dR04pEhfknHBfaGFO7n1XgqX4odyttSYNHGKRxLqvu5aOZ0yaILVvmMeJvIeJ53UEi9SojJGB83uCvKB4eu9L9bA1DMv38MkyDO1xNKYY9t7K/4SlwONZdlw9XO9V9NxMdu+JwkuarfXZdav1C+u/uh9Xw3LcAO4xLxm8M/9URlQUBjWdoSPcPCxgmT8J/qrFtWcHF+Zzz435CTczliaHMQjCxphSsqWjLBEvN2Uuexgc/KAJ7ZDl629PsGZvcIBvhx1ETFSUw5d0Oxaqg3lr7BBSnzqqdMLC4OsVkmDAQecOtfObGw==
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4380.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(366004)(136003)(376002)(396003)(346002)(83380400001)(16526019)(8676002)(52116002)(5660300002)(36756003)(66946007)(186003)(6506007)(6666004)(956004)(44832011)(26005)(2906002)(2616005)(1076003)(66476007)(6512007)(8936002)(316002)(478600001)(6486002)(86362001)(66556008);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?0WgVPBXB19l+RSbX1iV4SbCjw2mWey7mVSA8T/60XWvyWlkzs9xFFbz6CK6t?=
- =?us-ascii?Q?UNcGzmWK1vmQdHTQOhtkrzb4pB6l+iexqmZUtxzbZ3jw70Q8wWa8NCSZoNA9?=
- =?us-ascii?Q?1ct7J1maW0p4Jp3hHcXpgIqWScbg9+uNjJZWO781eEoU96v2iPv+utftAWhh?=
- =?us-ascii?Q?lrOsUm5yGxewyVcP5gQIU0b+uDP4SgBS4p5wCaNWZ2OsYj53lyaG5WHZ9PyN?=
- =?us-ascii?Q?qeIjWYKsmKzhfKUPg2/wK/1aCj1AuxLWmjg4vcsJtL3LNNGo/YIJjpehSBCo?=
- =?us-ascii?Q?m+1MtVhq0Bc507LReLkRpCLQl7qfRqMoSV0Ay83f8YWvpJCcUeR+/WXl7szM?=
- =?us-ascii?Q?4fp6PHo8FHIRj4kRbfM8MkI0fmsRVFv6dPFM5bWEqxUDlEgUEyJmJ920HV8g?=
- =?us-ascii?Q?znBgg8qT1frxMQnWK5iz+hG6LSnepFIlZwEu1lN+UZ8lghUSEksmrF5Y7z4i?=
- =?us-ascii?Q?wsxuWyq67AB/yJroR+GwWVfH4tpIyGAQnYASdGW4TlDk+rHGqqRJkzQ56W6l?=
- =?us-ascii?Q?29mX+K+CeyVFmLukjiez0+rutLCWGE/tUkc8k6LEC9n5q4kNmfY1JUlldUBJ?=
- =?us-ascii?Q?Yb9sWjc2eUyr0dvhADoZ57qwXeWR7fnTa9meld/HgJJn/KNyRDOh2CBuWf+q?=
- =?us-ascii?Q?bYthxD7fVGdH2kmwZdN3zs+jTeo68/el0+s/gLQmirUfsTwpWapx1OimvF4j?=
- =?us-ascii?Q?I3FPDW+KsRYmkFJ5fWcxl/FGtvl2qVOYMIjiZIU+s+jofbpTdTLEG6RRQ7xU?=
- =?us-ascii?Q?NaKVir0cHBiuf5MUHkmu8GwVozFvAcc/Jd5hq3YybZ0wHHWzWI/6UDFF+Ghz?=
- =?us-ascii?Q?kCzjmOWLlEyNlpB/6KFjnMIRlmRVWYnpgB5saWccJql6BTYDofJJJj1nL+1w?=
- =?us-ascii?Q?RWmAiAsn134b7VvxZAi+Eugyy0V+MklwZy1U2tR4vwXZ22TVM0srlzhE/B4D?=
- =?us-ascii?Q?kIe6B5jAWYx6+LdJFOtQxasY3cNhAig2HULhdTv8k5lXcLVUCKYe30qIjupj?=
- =?us-ascii?Q?dWWR?=
+	=?us-ascii?Q?9bjOvO/d2RFVOexiQkEu/bK77bSjGut6SHlGiLEcK29Bz2f4PorpKxehDo4F?=
+ =?us-ascii?Q?CAj2dpmFWyu0iEksRGMUxeijgprXHUrZnTeQFEvKjE/y0qbKzbTYWg1nwtKD?=
+ =?us-ascii?Q?8uJ+8VHv+aYt4XGDguHWCOHVqTZd1W9gnh4LPZJCSPrk447N/JQxNqxkBnVG?=
+ =?us-ascii?Q?o3XGMNAQkwil3UrL7aZS/SHXV7BFVeCN2lAzM3IEIK3c9tTyPxAhEMcQ2jIh?=
+ =?us-ascii?Q?ToGeHurSpjR+NB2eprG/zkkSgffj46DheiV7d3B+ax+/SID9gOIKKwvfyipL?=
+ =?us-ascii?Q?YS9DcEj7A+BPaV6Yr8NKO4F0xSng93ME6UXRhF/nW/xIYSKs6lTRzzp/QiJc?=
+ =?us-ascii?Q?SRlSAU49n7GZVb4IxIRdiZGGcm8/XL+okKcZ3SFLPJ7j9vRJ4FzYJKCGHmKg?=
+ =?us-ascii?Q?7bNDVw0lCBZvwjZOSzP8uNLrWGb3dP/RSwjyKIUxy4LL894l3CG3NiUKmHBo?=
+ =?us-ascii?Q?HdlHXI+Guw4rLjml5zDn5b9fGtDZKMZx6RZ2SYpDYMc6mXgBqmsYbuWD7vPN?=
+ =?us-ascii?Q?OHGrMD63pVyHgHiCTY2ICh/lWhjIsUqCGti8fjhRuFqnu85pANwqOwOdZoBn?=
+ =?us-ascii?Q?ctFcSZ95u6ncUpuJHYrgIAdxBOe8QIZMJlbHuxU/ooGRKOhrq/aiL+tM1hHy?=
+ =?us-ascii?Q?wOpPry0tMARXv52f6aju3Kd7vuSb4XvGaR1t9kqPnbdduImMTXSGl5TnEi46?=
+ =?us-ascii?Q?Y2of1xOKiJK0MxFNc8M00FWSJIDK1s3vfUz3Ega7XhSeog8K0agwnPCyIELH?=
+ =?us-ascii?Q?fHdgSnIZhNbBaer2rEci72K4HBV4MsU64DShCvofzYdotlLAO3W9SJ3Im50N?=
+ =?us-ascii?Q?OUgi8bDZO6RxjNoqb6bHmwvj7CLBEixCcdBjyGdxNP51PgsnGYgZvwc4KIgc?=
+ =?us-ascii?Q?XemCxNtebxMIFsd+nevh+vHPBnIX0DN1mbUOW6+jOosAcrQVrBDR7rLmuk4r?=
+ =?us-ascii?Q?PJgRUDcO3PiokGu8UMtU3PGSjOzotQY5w2+y5xcrxD0FY822bVSTtOZqmhUu?=
+ =?us-ascii?Q?KNMD?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0448ec48-1024-49a9-1703-08d8b9d17547
+X-MS-Exchange-CrossTenant-Network-Message-Id: 924982fd-7921-4eef-873a-08d8b9d1b64b
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4380.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2021 03:47:34.1690
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jan 2021 03:49:23.2540
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DlPZd22gZC6sPB33tYappAAhJ6Iify/rCRmdCPfPa/xkMqISpdyUIFLtiumrnaRSMxnHVwMWyR8RmqnFuJuOkStsEdOpLB7e02iRSHK04Qc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZhBEKetdCzrMOeZVRb0DWrXmR1uD6bYCMfx39qZL5L/CjbTPg+5sp6TAEOKQhHi3G58IE4A3Lgb1I/gY2Q5I37rfqX1laF64PFhJkSGfnLg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB2012
 Content-Type: text/plain
 
-From: hongxu <hongxu.jia@windriver.com>
+- The dir /etc/apt was created in package apt, if package apt was not
+installed, there is no need to insert package feed. Otherwise, it
+will fail with no such dir
 
-- Add nativesdk support and override EXTRA_OECONF and PROV for
-nativesdk
+- Output the result of apt install
 
-- Replace ${bindir} with ${STAGING_BINDIR_NATIVE} for perl-native
-shebang to fix QA error of shebang too long in nativesdk build
-
-- Conditionally (except musl) add ldconfig to runtime depends to
-fix the following issue on target
-[snip]
+- Explicitly trust the deb package repository from build
+This could avoid apt install warning:
 ...
-dpkg: warning: 'ldconfig' not found in PATH or not executable
-dpkg: error: 1 expected program not found in PATH or not executable
-Note: root's PATH should usually contain /usr/local/sbin, /usr/sbin and/sbin
-E: Sub-process /usr/bin/dpkg returned an error code (2)
-[snip]
+WARNING: The following packages cannot be authenticated!
+...
+
+- Also trust the inserted deb package repository from PACKAGE_FEED_URIS
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ meta/lib/oe/package_manager/deb/__init__.py | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 04fe85c4a8..3419aa56bf 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -26,6 +26,7 @@ EXTRA_OECONF = "\
- 		"
+diff --git a/meta/lib/oe/package_manager/deb/__init__.py b/meta/lib/oe/package_manager/deb/__init__.py
+index 10ad707c23..7fdfdaa4fa 100644
+--- a/meta/lib/oe/package_manager/deb/__init__.py
++++ b/meta/lib/oe/package_manager/deb/__init__.py
+@@ -287,7 +287,8 @@ class DpkgPM(OpkgDpkgPM):
  
- EXTRA_OECONF_append_class-target = " --disable-update-alternatives DEB_HOST_ARCH=${DPKG_ARCH}"
-+EXTRA_OECONF_append_class-nativesdk = " --disable-update-alternatives DEB_HOST_ARCH=${DPKG_ARCH}"
+         try:
+             bb.note("Installing the following packages: %s" % ' '.join(pkgs))
+-            subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
++            output = subprocess.check_output(cmd.split(), stderr=subprocess.STDOUT)
++            bb.note(output.decode("utf-8"))
+         except subprocess.CalledProcessError as e:
+             (bb.fatal, bb.warn)[attempt_only]("Unable to install packages. "
+                                               "Command '%s' returned %d:\n%s" %
+@@ -343,8 +344,12 @@ class DpkgPM(OpkgDpkgPM):
+         if feed_uris == "":
+             return
  
- PACKAGECONFIG = "liblzma"
- PACKAGECONFIG[liblzma] = "--with-liblzma,--without-liblzma, xz"
-@@ -46,14 +47,15 @@ do_install_append () {
- 	if [ "${PN}" = "dpkg-native" ]; then
- 		# update-alternatives doesn't have an offline mode
- 		rm ${D}${bindir}/update-alternatives
--		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-*
-+		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-*
- 	else
--		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
-+		sed -i -e 's|^#!.*${STAGING_BINDIR_NATIVE}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
- 	fi
- }
++
+         sources_conf = os.path.join("%s/etc/apt/sources.list"
+                                     % self.target_rootfs)
++        if not os.path.exists(os.path.dirname(sources_conf)):
++            return
++
+         arch_list = []
  
- PROV = "virtual/update-alternatives"
- PROV_class-native = ""
-+PROV_class-nativesdk = ""
+         if feed_archs is None:
+@@ -362,11 +367,11 @@ class DpkgPM(OpkgDpkgPM):
+                 if arch_list:
+                     for arch in arch_list:
+                         bb.note('Adding dpkg channel at (%s)' % uri)
+-                        sources_file.write("deb %s/%s ./\n" %
++                        sources_file.write("deb [trusted=yes] %s/%s ./\n" %
+                                            (uri, arch))
+                 else:
+                     bb.note('Adding dpkg channel at (%s)' % uri)
+-                    sources_file.write("deb %s ./\n" % uri)
++                    sources_file.write("deb [trusted=yes] %s ./\n" % uri)
  
- PROVIDES += "${PROV}"
+     def _create_configs(self, archs, base_archs):
+         base_archs = re.sub(r"_", r"-", base_archs)
+@@ -406,7 +411,7 @@ class DpkgPM(OpkgDpkgPM):
  
-@@ -93,7 +95,8 @@ ALTERNATIVE_${PN}-start-stop = "start-stop-daemon"
- ALTERNATIVE_LINK_NAME[start-stop-daemon] = "${sbindir}/start-stop-daemon"
- ALTERNATIVE_PRIORITY = "100"
+         with open(os.path.join(self.apt_conf_dir, "sources.list"), "w+") as sources_file:
+             for arch in arch_list:
+-                sources_file.write("deb file:%s/ ./\n" %
++                sources_file.write("deb [trusted=yes] file:%s/ ./\n" %
+                                    os.path.join(self.deploy_dir, arch))
  
--RDEPENDS_${PN} += "${PN}-start-stop"
-+EXTRA_RDPENDS = "ldconfig"
-+EXTRA_RDPENDS_libc-musl = ""
-+RDEPENDS_${PN} += "${PN}-start-stop ${EXTRA_RDPENDS}"
- 
--
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+         base_arch_list = base_archs.split()
 -- 
 2.18.2
 
