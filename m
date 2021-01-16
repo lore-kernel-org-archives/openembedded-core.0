@@ -1,128 +1,164 @@
-Received: from smtp7.emailarray.com (smtp7.emailarray.com [65.39.216.66])
- by mx.groups.io with SMTP id smtpd.web08.4327.1610805401767282091
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web09.5251.1610810208874009368
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Jan 2021 05:56:42 -0800
+ Sat, 16 Jan 2021 07:16:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: balister.org, ip: 65.39.216.66, mailfrom: philip@balister.org)
-Received: (qmail 62445 invoked by uid 89); 16 Jan 2021 13:56:16 -0000
-Received: from unknown (HELO ?192.168.11.139?) (cGhpbGlwQG9wZW5zZHIuY29tQDczLjI1MS4xMC4xNDM=) (POLARISLOCAL)  
-  by smtp7.emailarray.com with SMTP; 16 Jan 2021 13:56:16 -0000
-Subject: Re: [OE-core] [PATCH] boost: drop arm-intrinsics.patch
-To: Mans Rullgard <mans@mansr.com>, openembedded-core@lists.openembedded.org
-References: <20210116133408.16089-1-mans@mansr.com>
-From: "Philip Balister" <philip@balister.org>
-Message-ID: <1cc86f41-5e83-0a90-97de-8f88d324194d@balister.org>
-Date: Sat, 16 Jan 2021 08:55:59 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=AOTLwOwi;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from [192.168.178.23] (i59F77213.versanet.de [89.247.114.19])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3451020B7192;
+	Sat, 16 Jan 2021 07:16:46 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3451020B7192
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1610810208;
+	bh=h1k5shg/SSSIwx58DpztJorQA3dOdRjifuR22v8TbYo=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=AOTLwOwiSPuH69TeozQywaaWvmTonC5hNoKE4qvlxQge6cDos1g0hg5a81Tp4cbg2
+	 ATiNVxHc6cqA1R8tA/tTXpoyx1VW1JPIFHrOx85AP/OA5Ae7ldbJtNZsc9gMn3tRJi
+	 3b0Lj4h4u9LCB7ONYmbFCIZARLeLmhZnTXG+nzXQ=
+Subject: Re: [OE-core] [PATCH] appliance: Add vhd & vhdx support
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Sinan Kaya <okaya@kernel.org>
+References: <20210114130123.20507-1-anbelski@linux.microsoft.com>
+ <c045063783cf4d1abf831aed2845cc651446062d.camel@linuxfoundation.org>
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
+Message-ID: <726a21a5-18f7-5463-c072-ecbeabf98f83@linux.microsoft.com>
+Date: Sat, 16 Jan 2021 16:16:44 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210116133408.16089-1-mans@mansr.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <c045063783cf4d1abf831aed2845cc651446062d.camel@linuxfoundation.org>
+Content-Type: multipart/alternative;
+ boundary="------------888818CFF3F71FE5073B3F29"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-On 1/16/21 8:34 AM, Mans Rullgard wrote:
-> This patch makes gcc produce broken code.  It is unclear why it is there
-> in the first place.  Drop it.
+--------------888818CFF3F71FE5073B3F29
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-I'm having flashbacks to a time where gcc didn't support
-__sync_add_and_fetch and friends, so code that looks like this was
-copedi around as a work around. Compilers caught up and this patch
-should have been dropped years ago :)
 
-I looked around and can't find any similar patterns in oe-core.
+On 1/15/2021 11:12 PM, Richard Purdie wrote:
+> On Thu, 2021-01-14 at 13:01 +0000, Anatol Belski wrote:
+>> From: Sinan Kaya <okaya@kernel.org>
+>>
+>> This patch brings support for generating VHD/VHDX from WIC. It touches
+>> different areas but it needs to be applied at once for all the parts to
+>> concert. The patch could be split, if needed, otherwise considering
+>> OE-Core as target.
+>>
+>> Signed-off-by: Sinan Kaya <okaya@kernel.org>
+>> Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+>> ---
+>>  =C2=A0bitbake/lib/toaster/orm/models.py                  |  4 ++--
+>>  =C2=A0meta/classes/image-live.bbclass                    |  2 +-
+>>  =C2=A0meta/classes/image_types.bbclass                   | 14 ++++++++=
+++++--
+>>  =C2=A0.../images/build-appliance-image_15.0.0.bb         |  4 +++-
+>>  =C2=A0scripts/runqemu                                    |  8 +++++---
+>>  =C2=A05 files changed, 23 insertions(+), 9 deletions(-)
+> I had to split the patch into two pieces, one for bitbake and one for
+> oe-core. In testing we see:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/3166
+>
+> which looks like there may be a missing qemuXXX-native dependency?
+>
+> (not quite sure which native recipe provides qemu-img)
 
-For amusement I looked in oe-classic and there are hints of this issue.
-And this specific patch comes from oe-classic.
+Thanks for the test run, I'll check the issue and will split the patch.
 
-Thanks for finding this Mans!
+Regards
 
-Philip
+Anatol
 
-> 
-> Signed-off-by: Mans Rullgard <mans@mansr.com>
-> ---
->  .../boost/boost/arm-intrinsics.patch          | 55 -------------------
->  meta/recipes-support/boost/boost_1.75.0.bb    |  2 +-
->  2 files changed, 1 insertion(+), 56 deletions(-)
->  delete mode 100644 meta/recipes-support/boost/boost/arm-intrinsics.patch
-> 
-> diff --git a/meta/recipes-support/boost/boost/arm-intrinsics.patch b/meta/recipes-support/boost/boost/arm-intrinsics.patch
-> deleted file mode 100644
-> index fe85c69a827a..000000000000
-> --- a/meta/recipes-support/boost/boost/arm-intrinsics.patch
-> +++ /dev/null
-> @@ -1,55 +0,0 @@
-> -Upstream-Status: Backport
-> -
-> -8/17/2010 - rebased to 1.44 by Qing He <qing.he@intel.com>
-> -
-> -diff --git a/boost/smart_ptr/detail/atomic_count_sync.hpp b/boost/smart_ptr/detail/atomic_count_sync.hpp
-> -index b6359b5..78b1cc2 100644
-> ---- a/boost/smart_ptr/detail/atomic_count_sync.hpp
-> -+++ b/boost/smart_ptr/detail/atomic_count_sync.hpp
-> -@@ -33,17 +33,46 @@ public:
-> - 
-> -     long operator++()
-> -     {
-> -+#ifdef __ARM_ARCH_7A__
-> -+       int v1, tmp;
-> -+       asm volatile ("1:                 \n\t"
-> -+                     "ldrex   %0, %1     \n\t"
-> -+                     "add     %0 ,%0, #1 \n\t"
-> -+                     "strex   %2, %0, %1 \n\t"
-> -+                     "cmp     %2, #0     \n\t"
-> -+                     "bne     1b         \n\t"
-> -+                     : "=&r" (v1), "+Q"(value_), "=&r"(tmp)
-> -+                    );
-> -+#else
-> -         return __sync_add_and_fetch( &value_, 1 );
-> -+#endif
-> -     }
-> - 
-> -     long operator--()
-> -     {
-> -+#ifdef __ARM_ARCH_7A__
-> -+       int v1, tmp;
-> -+       asm volatile ("1:                 \n\t"
-> -+                     "ldrex   %0, %1     \n\t"
-> -+                     "sub     %0 ,%0, #1 \n\t"
-> -+                     "strex   %2, %0, %1 \n\t"
-> -+                     "cmp     %2, #0     \n\t"
-> -+                     "bne     1b         \n\t"
-> -+                     : "=&r" (v1), "+Q"(value_), "=&r"(tmp)
-> -+                    );
-> -+       return value_;
-> -+#else
-> -         return __sync_add_and_fetch( &value_, -1 );
-> -+#endif
-> -     }
-> - 
-> -     operator long() const
-> -     {
-> -+#if __ARM_ARCH_7A__
-> -+        return value_;
-> -+#else
-> -         return __sync_fetch_and_add( &value_, 0 );
-> -+#endif
-> -     }
-> - 
-> - private:
-> diff --git a/meta/recipes-support/boost/boost_1.75.0.bb b/meta/recipes-support/boost/boost_1.75.0.bb
-> index 33137e236dba..23b0ffc67e29 100644
-> --- a/meta/recipes-support/boost/boost_1.75.0.bb
-> +++ b/meta/recipes-support/boost/boost_1.75.0.bb
-> @@ -1,7 +1,7 @@
->  require boost-${PV}.inc
->  require boost.inc
->  
-> -SRC_URI += "file://arm-intrinsics.patch \
-> +SRC_URI += " \
->             file://boost-CVE-2012-2677.patch \
->             file://boost-math-disable-pch-for-gcc.patch \
->             file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
-> 
-> 
-> 
-> 
-> 
+> Cheers,
+>
+> Richard
+>
+>
+>=20
+>
+
+--------------888818CFF3F71FE5073B3F29
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
+8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 1/15/2021 11:12 PM, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:c045063783cf4d1abf831aed2845cc651446062d.camel@linuxfoundation=
+.org">
+      <pre class=3D"moz-quote-pre" wrap=3D"">On Thu, 2021-01-14 at 13:01 +=
+0000, Anatol Belski wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">From: Sinan Kaya <a class=
+=3D"moz-txt-link-rfc2396E" href=3D"mailto:okaya@kernel.org">&lt;okaya@kern=
+el.org&gt;</a>
+
+This patch brings support for generating VHD/VHDX from WIC. It touches
+different areas but it needs to be applied at once for all the parts to
+concert. The patch could be split, if needed, otherwise considering
+OE-Core as target.
+
+Signed-off-by: Sinan Kaya <a class=3D"moz-txt-link-rfc2396E" href=3D"mailt=
+o:okaya@kernel.org">&lt;okaya@kernel.org&gt;</a>
+Signed-off-by: Anatol Belski <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
+ilto:anbelski@linux.microsoft.com">&lt;anbelski@linux.microsoft.com&gt;</a>
+---
+=C2=A0bitbake/lib/toaster/orm/models.py                  |  4 ++--
+=C2=A0meta/classes/image-live.bbclass                    |  2 +-
+=C2=A0meta/classes/image_types.bbclass                   | 14 ++++++++++++=
+--
+=C2=A0.../images/build-appliance-image_15.0.0.bb         |  4 +++-
+=C2=A0scripts/runqemu                                    |  8 +++++---
+=C2=A05 files changed, 23 insertions(+), 9 deletions(-)
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+I had to split the patch into two pieces, one for bitbake and one for
+oe-core. In testing we see:
+
+<a class=3D"moz-txt-link-freetext" href=3D"https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/23/builds/3166">https://autobuilder.yoctoproject.o=
+rg/typhoon/#/builders/23/builds/3166</a>
+
+which looks like there may be a missing qemuXXX-native dependency?
+
+(not quite sure which native recipe provides qemu-img)
+</pre>
+    </blockquote>
+    <p>Thanks for the test run, I'll check the issue and will split the
+      patch.</p>
+    <p>Regards</p>
+    <p>Anatol</p>
+    <blockquote type=3D"cite"
+cite=3D"mid:c045063783cf4d1abf831aed2845cc651446062d.camel@linuxfoundation=
+.org">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+Cheers,
+
+Richard
+
+</pre>
+      <br>
+      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+
+
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------888818CFF3F71FE5073B3F29--
