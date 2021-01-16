@@ -1,125 +1,193 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web10.7430.1610819060506144218
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web09.7317.1610819076202394309
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Jan 2021 09:44:20 -0800
+ Sat, 16 Jan 2021 09:44:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bM8lHjSk;
- spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f171.google.com with SMTP id c12so7569721pfo.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 16 Jan 2021 09:44:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QNLnpIWv;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id l9so12151232ejx.3;
+        Sat, 16 Jan 2021 09:44:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=YTiJZ4HRvatK0fNZUpF1B04w0bSGT4mK/Hu92czp0WY=;
-        b=bM8lHjSk0DrGn2fN2ZzHL19OymqAIqAFp3JQ8/5vImY1CTMRtqhM/fRPWjWWFv0vux
-         iyAqrAGJyFXN50Njhc8ExOWMWptGsFAw6Fuf5QkFU1G5RBnKjtw6cX26ICfLTGduDZBp
-         RTcqbSYIBC9aBPY7KiQqjpY364PiZIAHa5+S45Wz92LhV2zOu9NOR6jkClRmN/Y2AbwU
-         HzEWGH6XUjldBK7BPXLBmuq+fQM6vrBbDlVQ+dBWX8hieLBRlv0VH6ZHgDVse5YsC397
-         p7hsBrg69ou0AohPwUx0ZNtreo0ZV5Gps1snn1EWRGwrGXFa4vSRqp3BHlYXfM7BHHAL
-         q65A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8iU+ufHHyPSENGTa9HZFTXWeJirjmXY7vfAwSLg1uh8=;
+        b=QNLnpIWvsfx5wE9Db0h2OCTTGEjqZUcJP1Ob2Xc5LAj/smDeKk6Iyzo6j3Trs7mwas
+         vgp/amdkPt3Q2TZGehqVob19Ic3xgghibYaVMdUEQF+/FXdCgUMobEmVEMYZhJNUTUfJ
+         /sO7/j54cnIeisWJpcx/SAmlIk6vK6y67qHCiS8L6HtcDrNPM6gbcyDL4rCBtxhIz1fO
+         ev8+DMnpaKhFWRGooxh9JB0pLJAFWi6KJC1cAUB7BhpTpsXL+a8zg2xVYrd3CKi5310g
+         UvVzdD0AAnJTRpcW2rMmDTvOH+agR95qpe07wzx+GMxaO1llpowlkC35NiyJJgbmAY53
+         /Hcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=YTiJZ4HRvatK0fNZUpF1B04w0bSGT4mK/Hu92czp0WY=;
-        b=mV81prPUzQN2xTgUN69wqSJXri9cSArMQlCX2OqNc79pwdRaYwyU8sZb/wKliYUyJU
-         qvOojiHy6rbOWYXhNy8kemzIFkWfMn6RF9hIQBmZD46z8XOcA9L19kBL6vUbrJcVxMr8
-         gYnIPdREJWSb1wMd1fBYm/bJhv4KGFGvbKkJ4gnPdBJHzUssGoXqpTqF98gMofsOeJUN
-         MMDhkd7WHB2elBfLKay7rCmZKj+Jzz53PByk8Ye6FqCbGGBrJdltIW50tfLvbcWFu8r0
-         zyckm0o/P7CLPgNdNttoZblTBtNxuhrWrPD5gdGJ1rPJgRtqfwMk/85QtUI45UZ40/J1
-         BPeQ==
-X-Gm-Message-State: AOAM530HVQS49eFLn1PMg2g1wfpV4ibGEgb1vdkTzM8pOf9taMfSKE4a
-	kqWw+cxh4AJpE8KTIB9Fpt5HraqoPxBIig==
-X-Google-Smtp-Source: ABdhPJy+G2PQ853ZoXxV7vHIQBweouSazdSEx13NtuFwmsdtO1ZG71vOG39ai5DGq3Fn5tYLef3O0w==
-X-Received: by 2002:a63:5463:: with SMTP id e35mr18527149pgm.151.1610819059653;
-        Sat, 16 Jan 2021 09:44:19 -0800 (PST)
-Return-Path: <akuster808@gmail.com>
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net ([2601:202:4180:a5c0:9c08:d62e:30e8:e4f])
-        by smtp.gmail.com with ESMTPSA id i25sm11495278pgb.33.2021.01.16.09.44.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Jan 2021 09:44:19 -0800 (PST)
-From: "akuster" <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross@burtonini.com>,
-	Ross Burton <ross.burton@arm.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 2/2] waf: don't assume the waf intepretter is good
-Date: Sat, 16 Jan 2021 09:44:14 -0800
-Message-Id: <20210116174414.23584-3-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210116174414.23584-1-akuster808@gmail.com>
-References: <20210116174414.23584-1-akuster808@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8iU+ufHHyPSENGTa9HZFTXWeJirjmXY7vfAwSLg1uh8=;
+        b=phK1LloczMs/V6xRwUgx6fyqkEp1tM1AsOylGE/THvlfLvfW2kTaOVIUo8Xl6hN6Sq
+         S24/NAskMU1w329m3UxBtG0/NIgMFf82jI0KrRq1u6Jw8P5/TvAWFj3agzV9m+rIy+Wa
+         CKNAhm8XH+3xQGibXT5KKSWiiYrWSYFjPapHXLjADnE28gEfuD/L549U22X9YO4pKVmj
+         XnnAovPcUAkyhgZNSdwRkU2Oz/J4FUNRaXGMm7kC/bqbd34LfBfk4Sxp3NnsC+mzuoX8
+         q7sS9EXkRhcS9nOqZblEIMPcxSrqO6HjUQISEQugjNngU4kCrGm1rqKrBmkUSlnzih/+
+         p2wg==
+X-Gm-Message-State: AOAM531aYuEYXahgZg9GNTqX/sX86WAyCfAzvACdVNd9PKJbNJOPdEpK
+	MY36uwap5QlDgkcdvXKJtN3eP+HOt3FyZGdKZEE=
+X-Google-Smtp-Source: ABdhPJw1LI5YFET8O702Oy2yJnOJoY9TnMdtffSHr9GaRkTPWDOqXtXKyPHSwCubm4unnHGAOTG65qomTjn7V/79rzY=
+X-Received: by 2002:a17:906:94d2:: with SMTP id d18mr12513976ejy.94.1610819074603;
+ Sat, 16 Jan 2021 09:44:34 -0800 (PST)
+MIME-Version: 1.0
+References: <17b543581ffb421b812323891405dcfb@XBOX03.axis.com>
+In-Reply-To: <17b543581ffb421b812323891405dcfb@XBOX03.axis.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Sat, 16 Jan 2021 18:44:23 +0100
+Message-ID: <CA+chaQc0anOg2E=o1ouEca-QJDGqKxDoXm6aPVXzsc8TELW3zA@mail.gmail.com>
+Subject: Re: [bitbake-devel] Backport changes for _PYTHON_SYSCONFIGDATA_NAME to Gatesgarth and Dunfell
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Steve Sakoman <steve@sakoman.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	Armin Kuster <akuster808@gmail.com>, 
+	"OE Core (openembedded-core@lists.openembedded.org)" <openembedded-core@lists.openembedded.org>, 
+	"OE Development (openembedded-devel@lists.openembedded.org)" <openembedded-devel@lists.openembedded.org>, 
+	"BitBake Development (bitbake-devel@lists.openembedded.org)" <bitbake-devel@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000bd3c6d05b9080acb"
 
-From: Ross Burton <ross@burtonini.com>
+--000000000000bd3c6d05b9080acb
+Content-Type: text/plain; charset="UTF-8"
 
-Waf typically uses `python` as the intepretter but inside a task this
-does not exist.  Typically this is solved by patching waf (see the
-glmark2 recipe) but not all versionf of Waf support Python 3 so we can't
-assume a specific interpretter.
+Aren't the missing spaces in appends fixes also needed for meta-oe recipes?
 
-Instead, create a new variable WAF_PYTHON for the correct interpretter,
-and default this to `python3`.  If the user has a recipe that needs
-Python 2 then this can be changed in the recipe.
+I think at least top 5 commits from:
+https://git.openembedded.org/meta-openembedded/log/?qt=grep&q=space.*append
+were also follow-up from these changes in oe-core.
 
-(From OE-Core rev: 802e80d35e6374b9b80f89068d00b84fe2d04ca1)
+On Thu, Jan 14, 2021 at 6:50 PM Peter Kjellerstedt <
+peter.kjellerstedt@axis.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 85b6301c6190a1d1823de9bfe7285f7a7d15a46f)
-[Fixes build issue on Ubuntu 20 with mvp
-https://github.com/openembedded/meta-openembedded/issues/304 ]
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/classes/waf.bbclass | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+> [ Cross-posting since these changes affect all of bitbake,
+> openembedded-core
+>   and meta-openembedded and need to be made (at least somewhat) in sync. ]
+>
+> Can the solution for _PYTHON_SYSCONFIGDATA_NAME please be backported to
+> Gatesgarth and Dunfell? We are seeing problems for developers who have
+> updated the python3 version on their hosts when they try to do devtool
+> modify on recipes that inherit python3native. The following relevant
+> changes should cherry-pick cleanly to the respective repositories for
+> both gatesgarth and dunfell:
+>
+> openembedded-core:
+> 5a118d4e python3: split python target configuration into own class
+> dadf001c python3-pycairo: use python3targetconfig
+> 9c8f6660 distutils3-base.bbclass: use python3targetconfig
+> d3a81dd0 meta: drop _PYTHON_SYSCONFIGDATA_NAME hacks
+> 38ecb83c gpgme: use python3targetconfig
+> c99bb790 python3targetconfig.bbclass: Make py3 dep and tasks only for
+> target recipes
+>
+> bitbake:
+> 47b64cfa lib/bb/fetch2/__init__.py: drop _PYTHON_SYSCONFIGDATA_NAME
+> unsetting
+>
+> meta-openembedded:
+> a06cdf5a gedit: Inherit python3targetconfig
+> 59f817bb openipmi: Inherit python3targetconfig
+> be7d2286 libplist: Inherit python3targetconfig
+> c499aaee postgresql: Inherit python3targetconfig
+>
+> I guess there may be some controversy regarding whether these changes
+> should
+> be backported to the stable branches since they modify what python3native
+> does and may require existing recipes to be modified to inherit the new
+> python3targetconfig class. However, I believe that having devtool modify
+> fail on random recipes without an easy solution for the user is much worse
+> than having to update a recipe or two once due to a build failure after
+> upgrading to a new version of OE-Core (in my book that is pretty normal
+> and
+> something I always have to do anyway when we update OE-Core). And based on
+> the number of recipes in openembedded-core and meta-openembedded that
+> needed
+> to be updated (2+4), I do not expect there to be many other recipes in the
+> first place that actually need to be updated.
+>
+> //Peter
+>
+>
+> 
+>
+>
 
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-index 309f625a40f..8fa5063645c 100644
---- a/meta/classes/waf.bbclass
-+++ b/meta/classes/waf.bbclass
-@@ -1,6 +1,10 @@
- # avoids build breaks when using no-static-libs.inc
- DISABLE_STATIC = ""
- 
-+# What Python interpretter to use.  Defaults to Python 3 but can be
-+# overridden if required.
-+WAF_PYTHON ?= "python3"
-+
- B = "${WORKDIR}/build"
- 
- EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
-@@ -40,9 +44,10 @@ python waf_preconfigure() {
-     import subprocess
-     from distutils.version import StrictVersion
-     subsrcdir = d.getVar('S')
-+    python = d.getVar('WAF_PYTHON')
-     wafbin = os.path.join(subsrcdir, 'waf')
-     try:
--        result = subprocess.check_output([wafbin, '--version'], cwd=subsrcdir, stderr=subprocess.STDOUT)
-+        result = subprocess.check_output([python, wafbin, '--version'], cwd=subsrcdir, stderr=subprocess.STDOUT)
-         version = result.decode('utf-8').split()[1]
-         if StrictVersion(version) >= StrictVersion("1.8.7"):
-             d.setVar("WAF_EXTRA_CONF", "--bindir=${bindir} --libdir=${libdir}")
-@@ -55,16 +60,16 @@ python waf_preconfigure() {
- do_configure[prefuncs] += "waf_preconfigure"
- 
- waf_do_configure() {
--	(cd ${S} && ./waf configure -o ${B} --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF})
-+	(cd ${S} && ${WAF_PYTHON} ./waf configure -o ${B} --prefix=${prefix} ${WAF_EXTRA_CONF} ${EXTRA_OECONF})
- }
- 
- do_compile[progress] = "outof:^\[\s*(\d+)/\s*(\d+)\]\s+"
- waf_do_compile()  {
--	(cd ${S} && ./waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)} ${EXTRA_OEWAF_BUILD})
-+	(cd ${S} && ${WAF_PYTHON} ./waf build ${@oe.utils.parallel_make_argument(d, '-j%d', limit=64)} ${EXTRA_OEWAF_BUILD})
- }
- 
- waf_do_install() {
--	(cd ${S} && ./waf install --destdir=${D} ${EXTRA_OEWAF_INSTALL})
-+	(cd ${S} && ${WAF_PYTHON} ./waf install --destdir=${D} ${EXTRA_OEWAF_INSTALL})
- }
- 
- EXPORT_FUNCTIONS do_configure do_compile do_install
--- 
-2.17.1
+--000000000000bd3c6d05b9080acb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Aren&#39;t the missing spaces in appends fixes also needed=
+ for meta-oe recipes?<div><br></div><div>I think at least top 5 commits fro=
+m:</div><div><a href=3D"https://git.openembedded.org/meta-openembedded/log/=
+?qt=3Dgrep&amp;q=3Dspace.*append">https://git.openembedded.org/meta-openemb=
+edded/log/?qt=3Dgrep&amp;q=3Dspace.*append</a><br></div><div>were also foll=
+ow-up from these changes in oe-core.</div></div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 14, 2021 at 6:50 PM P=
+eter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.=
+kjellerstedt@axis.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">[ Cross-posting since these changes affect all of bitb=
+ake, openembedded-core <br>
+=C2=A0 and meta-openembedded and need to be made (at least somewhat) in sy=
+nc. ]<br>
+<br>
+Can the solution for _PYTHON_SYSCONFIGDATA_NAME please be backported to <b=
+r>
+Gatesgarth and Dunfell? We are seeing problems for developers who have <br=
+>
+updated the python3 version on their hosts when they try to do devtool <br=
+>
+modify on recipes that inherit python3native. The following relevant <br>
+changes should cherry-pick cleanly to the respective repositories for <br>
+both gatesgarth and dunfell:<br>
+<br>
+openembedded-core:<br>
+5a118d4e python3: split python target configuration into own class<br>
+dadf001c python3-pycairo: use python3targetconfig<br>
+9c8f6660 distutils3-base.bbclass: use python3targetconfig<br>
+d3a81dd0 meta: drop _PYTHON_SYSCONFIGDATA_NAME hacks<br>
+38ecb83c gpgme: use python3targetconfig<br>
+c99bb790 python3targetconfig.bbclass: Make py3 dep and tasks only for targ=
+et recipes<br>
+<br>
+bitbake:<br>
+47b64cfa lib/bb/fetch2/__init__.py: drop _PYTHON_SYSCONFIGDATA_NAME unsett=
+ing<br>
+<br>
+meta-openembedded:<br>
+a06cdf5a gedit: Inherit python3targetconfig<br>
+59f817bb openipmi: Inherit python3targetconfig<br>
+be7d2286 libplist: Inherit python3targetconfig<br>
+c499aaee postgresql: Inherit python3targetconfig<br>
+<br>
+I guess there may be some controversy regarding whether these changes shou=
+ld <br>
+be backported to the stable branches since they modify what python3native =
+<br>
+does and may require existing recipes to be modified to inherit the new <b=
+r>
+python3targetconfig class. However, I believe that having devtool modify <=
+br>
+fail on random recipes without an easy solution for the user is much worse=
+ <br>
+than having to update a recipe or two once due to a build failure after <b=
+r>
+upgrading to a new version of OE-Core (in my book that is pretty normal an=
+d <br>
+something I always have to do anyway when we update OE-Core). And based on=
+ <br>
+the number of recipes in openembedded-core and meta-openembedded that need=
+ed <br>
+to be updated (2+4), I do not expect there to be many other recipes in the=
+ <br>
+first place that actually need to be updated.<br>
+<br>
+//Peter<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000bd3c6d05b9080acb--
