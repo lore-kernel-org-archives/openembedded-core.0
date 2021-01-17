@@ -1,87 +1,138 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.16460.1610875167400243268
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web08.16769.1610878747984347565
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jan 2021 01:19:27 -0800
+ Sun, 17 Jan 2021 02:19:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dGjjIm/X;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id a9so10087852wrt.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Jan 2021 01:19:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kXpSd7n3;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: ahawadaboel@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id q20so8422541pfu.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 Jan 2021 02:19:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=eqZsVlwVTxlxShpajcwkhvoMZCEka9FiIjO1sBrj08c=;
-        b=dGjjIm/X6XE9XVZ4CoBuh0egwlzyFHnJ+RY44oLZT9O44d+QLWBd/tJGe1Xu1BMd0a
-         vMRQtAex93pkVqnfWLAKm4OhOAfT991FiEs3jly79ip96B0dKDv4aBgBTc2mm1tTf7T+
-         HSXsvZNhhnMjL1ndJ18ygNHpjcQLHUYl7CVX8=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=5ip+BRqcQ/QYpNLU2gx1z0Ny1QXDovMf45jNAPpit4o=;
+        b=kXpSd7n3bOBVNnx5Sn4wf0wYxsMbvsKNRL5EwV7GcDH9zrRrOPguu9Ep4VIv1td5ap
+         KTPy8aNhgvX4oanNFr/TsJ3jan7uL2H6rJoMwrXhgh2RckJ+TZjLrJL1tx4zoRHlKqBE
+         qjckC2y/mEuvcIDuUNeUuzBD//FesULlYQliM7yztfTiWmi1OZ273DhoJ2KQjwduK7i8
+         HywRWv/6v4QvJHtDU7njxvdjzcLgx7w7c+b82VonAnhzcTrDfWiu45upI+7n8LNU0gI5
+         Tx92txpBOlkUuJDEuEFRXhmHDXz6vVrOXn2iE3MfYgPJhSK3b03YO2RR//DsFE1yKU7L
+         cTkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=eqZsVlwVTxlxShpajcwkhvoMZCEka9FiIjO1sBrj08c=;
-        b=hFKoepdflNFEOKAsuGf3906TD5L25dHcNlHurRHiNTzwAPLA3NhJ80/0UiP2RnATzc
-         ddCF8uvw9eE1/K8hM2uVZZPXd6wodaiy/6Z3CbXaiIN2IVZoEtPmmgQBSicGV0EgChxJ
-         c1LJm+D/2PSKrx/lvnYZHPZ7snNYN34pK5D5VPf/UJEkuv4AHpHoPidM2qGQXi4SOhQk
-         cX70IIZuR2FFN3Nj5Do33SgHIggvH4sjEr/X8f3DOnO8P8WJo8a2c1ekVEPOFhngq1NC
-         VKRYreInK4Prk+8xZYCdEVGPRDKRDXXMjyDwDvf76UzNeEt/onc4MynXI276AITR2Nar
-         s/WQ==
-X-Gm-Message-State: AOAM532OHcGcqL/Airx4aTfVy///NnUyUOZqlxfZChQRVuTzS0cinOSg
-	SuK18HiyqjFl9h9E3JLkXrPAJw==
-X-Google-Smtp-Source: ABdhPJw9gFRuTB+VGcaNhbTp/Ocn5rJU/Gjas+B0JJ8C+pffEekyeh7xd6LuYBusJ4H832YcrU8c7g==
-X-Received: by 2002:a05:6000:1ce:: with SMTP id t14mr15829500wrx.297.1610875165633;
-        Sun, 17 Jan 2021 01:19:25 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:bfb4:a7c0:34bb:ed0e? ([2001:8b0:aba:5f3c:bfb4:a7c0:34bb:ed0e])
-        by smtp.gmail.com with ESMTPSA id x18sm25500910wrg.55.2021.01.17.01.19.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Jan 2021 01:19:25 -0800 (PST)
-Message-ID: <468148270ddf4d915287e381785974d4319ab2ef.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] systemd-conf: Allow systemd to manage QEMU wired networks
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <JPEWhacker@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com
-Date: Sun, 17 Jan 2021 09:19:22 +0000
-In-Reply-To: <20210115214903.11811-1-JPEWhacker@gmail.com>
-References: <20210115214903.11811-1-JPEWhacker@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=5ip+BRqcQ/QYpNLU2gx1z0Ny1QXDovMf45jNAPpit4o=;
+        b=naul9Vdba2Cm0ayqHPMylq0AWgPVeRU0ikUpYcuMDeN0ynd2C0JhPgaIidR4/DklIW
+         VY/uWISLNMW0pOnxwgxXxNRXV0JlTyS5aU4HE7McNjkfFqMmXFylaLfh0F6DIvAhmdHt
+         IIfrAqZxVIimrAhwDTEVj9EsVXJXvFGVGxAIatfu+S/p0kWXQL9ho18SVXT7gEeR19nP
+         gGl+CoEr09m7qY0VuRlIqaHLsDa2wHGZ/1kQl+aOnx6vFNBl4f3+wDDNCOls+n5g2KRa
+         yk7iRkdMRILDO2djE/fokgosGygz79iXAeaY+61Xa9+zea7oDNTT0rNrrih5Uh828qRJ
+         Xnig==
+X-Gm-Message-State: AOAM5333ozc1meEQrrYvK2gxOf60hzRLtH4K1j9ira6OfM7p5rhwK2El
+	PDgJu8HZkKShljrTrnmVuUM7g5TIwtQpIOjO8kzSW8UR
+X-Google-Smtp-Source: ABdhPJzNt/fbhTUj3i4k2zizOWuXi5CBEGHuvoVd1hLgd4jbXWnJWLqNewSb25yFXJ9t2nd/wrSvhBSlNUuxl+hT6m0=
+X-Received: by 2002:a63:ce58:: with SMTP id r24mr21230029pgi.192.1610878747278;
+ Sun, 17 Jan 2021 02:19:07 -0800 (PST)
 MIME-Version: 1.0
+References: <zm5m.1610828972541863381.YecW@groups.io>
+In-Reply-To: <zm5m.1610828972541863381.YecW@groups.io>
+From: ahawadaboel@gmail.com
+Date: Sun, 17 Jan 2021 11:18:55 +0100
+Message-ID: <CAEjLLgYDxdWiETjCDHFyAHmCONOyCz63STHmK-TJ0Zmgxh2dfA@mail.gmail.com>
+Subject: Re: [OE-core] Confirm your ahawadaboel@gmail.com email address
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008200ca05b915efc6"
+
+--0000000000008200ca05b915efc6
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-01-15 at 15:49 -0600, Joshua Watt wrote:
-> Allows systemd to manage wired network interfaces just like on actual
-> hardware. Systemd seems to be smart enough to not enable DHCP if the
-> interface was assigned a IP address in the kernel (e.g. by runqemu), so
-> the existing use cases should continue to work.
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/recipes-core/systemd/systemd-conf_247.2.bb | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd-conf_247.2.bb b/meta/recipes-core/systemd/systemd-conf_247.2.bb
-> index 944b56ff82..ea35e83f4f 100644
-> --- a/meta/recipes-core/systemd/systemd-conf_247.2.bb
-> +++ b/meta/recipes-core/systemd/systemd-conf_247.2.bb
-> @@ -29,9 +29,6 @@ do_install() {
->  # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
->  do_install_append_qemuall() {
->  	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
-> -
-> -	# Do not install wired.network for qemu bsps
-> -	rm -rf ${D}${systemd_unitdir}/network
->  }
+Confirm
 
-We did this for a reason. In testing we're seeing:
+Open Embedded <noreply@lists.openembedded.org> schrieb am Sa., 16. Jan.
+2021, 21:29:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/1831
-https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/1830
+> Hello,
+>
+> Thank you for your interest in the
+> https://lists.openembedded.org/g/openembedded-core group at Open
+> Embedded. If you did not request or do not want to join
+> openembedded-core@lists.openembedded.org, please ignore this message.
+>
+> If you only want to send and receive messages from
+> openembedded-core@lists.openembedded.org, reply to this email to confirm
+> your email address and activate your membership.
+>
+>    - Messages will be sent to you at ahawadaboel@gmail.com
+>    - Send messages to openembedded-core@lists.openembedded.org
+>
+> If you want to use the resources and read messages on the website, please
+> click on the link below to confirm your email address, set up a password,
+> and choose other subscription settings:
+>
+> Confirm account
+> <https://lists.openembedded.org/confirm?email=ahawadaboel%40gmail.com&cookie=507529339154400419>
+>
+>
+> Cheers,
+> The Open Embedded Team
+>
 
-which I suspect could be related to this.
+--0000000000008200ca05b915efc6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"auto">Confirm</div><br><div class=3D"gmail_quote"><div dir=3D"l=
+tr" class=3D"gmail_attr">Open Embedded &lt;<a href=3D"mailto:noreply@lists.=
+openembedded.org">noreply@lists.openembedded.org</a>&gt; schrieb am Sa., 16=
+. Jan. 2021, 21:29:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<div>
+<p>Hello,</p>
 
-Richard
+<p>Thank you for your interest in the <a href=3D"https://lists.openembedded=
+.org/g/openembedded-core" target=3D"_blank" rel=3D"noreferrer">https://list=
+s.openembedded.org/g/openembedded-core</a> group at Open Embedded.
+If you did not request or do not want to join <a href=3D"mailto:openembedde=
+d-core@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">openemb=
+edded-core@lists.openembedded.org</a>, please ignore this message.</p>
 
+<p>If you only want to send and receive messages from <a href=3D"mailto:ope=
+nembedded-core@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer"=
+>openembedded-core@lists.openembedded.org</a>, reply to this email to confi=
+rm your email address and activate your membership.</p>
+
+<ul>
+<li>Messages will be sent to you at <a href=3D"mailto:ahawadaboel@gmail.com=
+" target=3D"_blank" rel=3D"noreferrer">ahawadaboel@gmail.com</a></li>
+
+<li>Send messages to <a href=3D"mailto:openembedded-core@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core@lists.openembe=
+dded.org</a></li>
+
+</ul>
+
+<p>If you want to use the resources and read messages on the website, pleas=
+e click on the link below to confirm your email address, set up a password,=
+ and choose other subscription settings:</p>
+
+<p><a href=3D"https://lists.openembedded.org/confirm?email=3Dahawadaboel%40=
+gmail.com&amp;cookie=3D507529339154400419" target=3D"_blank" rel=3D"norefer=
+rer">Confirm account</a></p>
+
+<p><br>
+Cheers,<br>
+The Open Embedded Team
+
+<div>
+  <div>
+   =20
+    <div>
+     =20
+    </div>
+  </div>
+ =20
+</div>
+</p></div>
+</blockquote></div>
+
+--0000000000008200ca05b915efc6--
