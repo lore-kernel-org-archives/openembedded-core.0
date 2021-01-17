@@ -1,48 +1,56 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web08.22320.1610909049841283914
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+ by mx.groups.io with SMTP id smtpd.web10.24393.1610918166547675149
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jan 2021 10:44:10 -0800
+ Sun, 17 Jan 2021 13:16:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: redrectangle.org, ip: 217.70.183.198, mailfrom: robert.joslyn@redrectangle.org)
+ dkim=missing; spf=none, err=permanent DNS error (domain: redrectangle.org, ip: 217.70.183.193, mailfrom: robert.joslyn@redrectangle.org)
 X-Originating-IP: 173.197.191.182
 Received: from loomas.localdomain (rrcs-173-197-191-182.west.biz.rr.com [173.197.191.182])
 	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 232B9C0003;
-	Sun, 17 Jan 2021 18:44:06 +0000 (UTC)
+	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 11BAF240003;
+	Sun, 17 Jan 2021 21:16:02 +0000 (UTC)
 From: "Robert Joslyn" <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Robert Joslyn <robert.joslyn@redrectangle.org>
-Subject: [dunfell][PATCH] ppp: Whitelist CVE-2020-15704
-Date: Sun, 17 Jan 2021 10:42:33 -0800
-Message-Id: <20210117184233.2340125-1-robert.joslyn@redrectangle.org>
+Subject: [master][gatesgarth][dunfell][PATCH] bluez: Whitelist CVE-2020-12351 and CVE-2020-12352
+Date: Sun, 17 Jan 2021 13:14:45 -0800
+Message-Id: <20210117211445.2341303-1-robert.joslyn@redrectangle.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This CVE only applies to the load_ppp_generic_if_needed patch applied by
-Ubuntu. This patch is not used by OpenEmbedded, so the CVE does not
-apply.
+According to the Intel security advisory [1], these CVEs are mitigated by
+the following kernel commits:
+
+eddb7732119d53400f48a02536a84c509692faa8 Bluetooth: A2MP: Fix not initializing all members
+f19425641cb2572a33cb074d5e30283720bd4d22 Bluetooth: L2CAP: Fix calling sk_filter on non-socket based channel
+b560a208cda0297fef6ff85bbfd58a8f0a52a543 Bluetooth: MGMT: Fix not checking if BT_HS is enabled
+a2ec905d1e160a33b2e210e45ad30445ef26ce0e Bluetooth: fix kernel oops in store_pending_adv_report
+
+The latest of these commits were backported from 5.10 to the stable kernel
+tree in the 5.8.16 and 5.4.72 releases. Since the kernels provied by OE-core
+contain these fixes, mark them as whitelisted.
+
+[1]: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00435.html?wapkw=CVE-2020-12351
 
 Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-connectivity/bluez5/bluez5_5.55.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index 60c56dd0bd..76c1cc62a7 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -42,6 +42,10 @@ SRC_URI_append_libc-musl = "\
- SRC_URI[md5sum] = "78818f40e6d33a1d1de68a1551f6595a"
- SRC_URI[sha256sum] = "02e0a3dd3e4799e33103f70ec7df75348c8540966ee7c948e4ed8a42bbccfb30"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.55.bb b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
+index 8190924562..051fdef8ce 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
+@@ -3,6 +3,8 @@ require bluez5.inc
+ SRC_URI[md5sum] = "94972b8bc7ade60c72b0ffa6ccff2c0a"
+ SRC_URI[sha256sum] = "8863717113c4897e2ad3271fc808ea245319e6fd95eed2e934fae8e0894e9b88"
  
-+# This CVE is specific to a patch applied by Ubuntu that is not used by
-+# OpenEmbedded.
-+CVE_CHECK_WHITELIST += "CVE-2020-15704"
++CVE_CHECK_WHITELIST += "CVE-2020-12351 CVE-2020-12352"
 +
- inherit autotools-brokensep systemd
- 
- TARGET_CC_ARCH += " ${LDFLAGS}"
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
+ NOINST_TOOLS_READLINE ?= " \
 -- 
 2.26.2
 
