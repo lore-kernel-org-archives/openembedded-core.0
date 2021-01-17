@@ -1,138 +1,83 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web08.16769.1610878747984347565
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web08.18825.1610893539632166747
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Jan 2021 02:19:08 -0800
+ Sun, 17 Jan 2021 06:25:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kXpSd7n3;
- spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: ahawadaboel@gmail.com)
-Received: by mail-pf1-f173.google.com with SMTP id q20so8422541pfu.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 Jan 2021 02:19:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=5ip+BRqcQ/QYpNLU2gx1z0Ny1QXDovMf45jNAPpit4o=;
-        b=kXpSd7n3bOBVNnx5Sn4wf0wYxsMbvsKNRL5EwV7GcDH9zrRrOPguu9Ep4VIv1td5ap
-         KTPy8aNhgvX4oanNFr/TsJ3jan7uL2H6rJoMwrXhgh2RckJ+TZjLrJL1tx4zoRHlKqBE
-         qjckC2y/mEuvcIDuUNeUuzBD//FesULlYQliM7yztfTiWmi1OZ273DhoJ2KQjwduK7i8
-         HywRWv/6v4QvJHtDU7njxvdjzcLgx7w7c+b82VonAnhzcTrDfWiu45upI+7n8LNU0gI5
-         Tx92txpBOlkUuJDEuEFRXhmHDXz6vVrOXn2iE3MfYgPJhSK3b03YO2RR//DsFE1yKU7L
-         cTkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=5ip+BRqcQ/QYpNLU2gx1z0Ny1QXDovMf45jNAPpit4o=;
-        b=naul9Vdba2Cm0ayqHPMylq0AWgPVeRU0ikUpYcuMDeN0ynd2C0JhPgaIidR4/DklIW
-         VY/uWISLNMW0pOnxwgxXxNRXV0JlTyS5aU4HE7McNjkfFqMmXFylaLfh0F6DIvAhmdHt
-         IIfrAqZxVIimrAhwDTEVj9EsVXJXvFGVGxAIatfu+S/p0kWXQL9ho18SVXT7gEeR19nP
-         gGl+CoEr09m7qY0VuRlIqaHLsDa2wHGZ/1kQl+aOnx6vFNBl4f3+wDDNCOls+n5g2KRa
-         yk7iRkdMRILDO2djE/fokgosGygz79iXAeaY+61Xa9+zea7oDNTT0rNrrih5Uh828qRJ
-         Xnig==
-X-Gm-Message-State: AOAM5333ozc1meEQrrYvK2gxOf60hzRLtH4K1j9ira6OfM7p5rhwK2El
-	PDgJu8HZkKShljrTrnmVuUM7g5TIwtQpIOjO8kzSW8UR
-X-Google-Smtp-Source: ABdhPJzNt/fbhTUj3i4k2zizOWuXi5CBEGHuvoVd1hLgd4jbXWnJWLqNewSb25yFXJ9t2nd/wrSvhBSlNUuxl+hT6m0=
-X-Received: by 2002:a63:ce58:: with SMTP id r24mr21230029pgi.192.1610878747278;
- Sun, 17 Jan 2021 02:19:07 -0800 (PST)
-MIME-Version: 1.0
-References: <zm5m.1610828972541863381.YecW@groups.io>
-In-Reply-To: <zm5m.1610828972541863381.YecW@groups.io>
-From: ahawadaboel@gmail.com
-Date: Sun, 17 Jan 2021 11:18:55 +0100
-Message-ID: <CAEjLLgYDxdWiETjCDHFyAHmCONOyCz63STHmK-TJ0Zmgxh2dfA@mail.gmail.com>
-Subject: Re: [OE-core] Confirm your ahawadaboel@gmail.com email address
+ dkim=fail reason="body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=sv/CJJfG;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: anbelski@linux.microsoft.com)
+Received: from dom0.fritz.box (unknown [87.123.119.238])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 0C7FB20B7192;
+	Sun, 17 Jan 2021 06:25:35 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 0C7FB20B7192
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1610893538;
+	bh=UG67tUk2OYfL/a2Uc/ShHe7/QWoBE5LAfcpGa0pskJY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sv/CJJfGo60RNTllyLWudzEfIJynI5xj1BzqInq4YcHQtf0uTWekHQ4eailf6TDWm
+	 PkE8ZzNPETfO9vsFtzwiZQSYEEIY/VMjiUuOem10u84CEc05A2WUQeeXBod15yrG/s
+	 llEWzrfWmr58yYxRB9gwmouTUj8PnkBeT2IvRaAw=
+From: "Anatol Belski" <anbelski@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000008200ca05b915efc6"
-
---0000000000008200ca05b915efc6
-Content-Type: text/plain; charset="UTF-8"
-
-Confirm
-
-Open Embedded <noreply@lists.openembedded.org> schrieb am Sa., 16. Jan.
-2021, 21:29:
-
-> Hello,
->
-> Thank you for your interest in the
-> https://lists.openembedded.org/g/openembedded-core group at Open
-> Embedded. If you did not request or do not want to join
-> openembedded-core@lists.openembedded.org, please ignore this message.
->
-> If you only want to send and receive messages from
-> openembedded-core@lists.openembedded.org, reply to this email to confirm
-> your email address and activate your membership.
->
->    - Messages will be sent to you at ahawadaboel@gmail.com
->    - Send messages to openembedded-core@lists.openembedded.org
->
-> If you want to use the resources and read messages on the website, please
-> click on the link below to confirm your email address, set up a password,
-> and choose other subscription settings:
->
-> Confirm account
-> <https://lists.openembedded.org/confirm?email=ahawadaboel%40gmail.com&cookie=507529339154400419>
->
->
-> Cheers,
-> The Open Embedded Team
->
-
---0000000000008200ca05b915efc6
-Content-Type: text/html; charset="UTF-8"
+Cc: Sinan Kaya <okaya@kernel.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Paul Barker <pbarker@konsulko.com>
+Subject: [meta-oe][PATCH v2 1/3] runqemu: Add support for VHD/VHDX rootfs
+Date: Sun, 17 Jan 2021 15:25:17 +0100
+Message-Id: <20210117142519.21297-1-anbelski@linux.microsoft.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Confirm</div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">Open Embedded &lt;<a href=3D"mailto:noreply@lists.=
-openembedded.org">noreply@lists.openembedded.org</a>&gt; schrieb am Sa., 16=
-. Jan. 2021, 21:29:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div>
-<p>Hello,</p>
+From: Sinan Kaya <okaya@kernel.org>
 
-<p>Thank you for your interest in the <a href=3D"https://lists.openembedded=
-.org/g/openembedded-core" target=3D"_blank" rel=3D"noreferrer">https://list=
-s.openembedded.org/g/openembedded-core</a> group at Open Embedded.
-If you did not request or do not want to join <a href=3D"mailto:openembedde=
-d-core@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer">openemb=
-edded-core@lists.openembedded.org</a>, please ignore this message.</p>
+Signed-off-by: Sinan Kaya <okaya@kernel.org>
+Signed-off-by: Anatol Belski <anbelski@linux.microsoft.com>
+---
+ scripts/runqemu | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-<p>If you only want to send and receive messages from <a href=3D"mailto:ope=
-nembedded-core@lists.openembedded.org" target=3D"_blank" rel=3D"noreferrer"=
->openembedded-core@lists.openembedded.org</a>, reply to this email to confi=
-rm your email address and activate your membership.</p>
+diff --git a/scripts/runqemu b/scripts/runqemu
+index e5e66f3453..dd92a64553 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -94,11 +94,13 @@ Examples:
+   runqemu qemux86-64 core-image-sato ext4
+   runqemu qemux86-64 wic-image-minimal wic
+   runqemu path/to/bzImage-qemux86.bin path/to/nfsrootdir/ serial
+-  runqemu qemux86 iso/hddimg/wic.vmdk/wic.qcow2/wic.vdi/ramfs/cpio.gz...
++  runqemu qemux86 iso/hddimg/wic.vmdk/wic.vhd/wic.vhdx/wic.qcow2/wic.vdi=
+/ramfs/cpio.gz...
+   runqemu qemux86 qemuparams=3D"-m 256"
+   runqemu qemux86 bootparams=3D"psplash=3Dfalse"
+   runqemu path/to/<image>-<machine>.wic
+   runqemu path/to/<image>-<machine>.wic.vmdk
++  runqemu path/to/<image>-<machine>.wic.vhdx
++  runqemu path/to/<image>-<machine>.wic.vhd
+ """)
+=20
+ def check_tun():
+@@ -179,7 +181,7 @@ class BaseConfig(object):
+         self.portlocks =3D {}
+         self.bitbake_e =3D ''
+         self.snapshot =3D False
+-        self.wictypes =3D ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi')
++        self.wictypes =3D ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi', "w=
+ic.vhd", "wic.vhdx")
+         self.fstypes =3D ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs=
+',
+                         'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz')
+         self.vmtypes =3D ('hddimg', 'iso')
+@@ -1203,7 +1205,7 @@ class BaseConfig(object):
+             return
+         if 'wic.' in self.fstype:
+             self.fstype =3D self.fstype[4:]
+-        rootfs_format =3D self.fstype if self.fstype in ('vmdk', 'qcow2'=
+, 'vdi') else 'raw'
++        rootfs_format =3D self.fstype if self.fstype in ('vmdk', 'vhd', =
+'vhdx', 'qcow2', 'vdi') else 'raw'
+=20
+         qb_rootfs_opt =3D self.get('QB_ROOTFS_OPT')
+         if qb_rootfs_opt:
+--=20
+2.29.2
 
-<ul>
-<li>Messages will be sent to you at <a href=3D"mailto:ahawadaboel@gmail.com=
-" target=3D"_blank" rel=3D"noreferrer">ahawadaboel@gmail.com</a></li>
-
-<li>Send messages to <a href=3D"mailto:openembedded-core@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core@lists.openembe=
-dded.org</a></li>
-
-</ul>
-
-<p>If you want to use the resources and read messages on the website, pleas=
-e click on the link below to confirm your email address, set up a password,=
- and choose other subscription settings:</p>
-
-<p><a href=3D"https://lists.openembedded.org/confirm?email=3Dahawadaboel%40=
-gmail.com&amp;cookie=3D507529339154400419" target=3D"_blank" rel=3D"norefer=
-rer">Confirm account</a></p>
-
-<p><br>
-Cheers,<br>
-The Open Embedded Team
-
-<div>
-  <div>
-   =20
-    <div>
-     =20
-    </div>
-  </div>
- =20
-</div>
-</p></div>
-</blockquote></div>
-
---0000000000008200ca05b915efc6--
