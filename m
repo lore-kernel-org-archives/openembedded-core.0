@@ -1,272 +1,219 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.3406.1611009504999388380
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.3407.1611009511155657803
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 14:38:25 -0800
+ Mon, 18 Jan 2021 14:38:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zWC/7dnf;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f174.google.com with SMTP id be12so9402603plb.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 14:38:24 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NXBaQPA+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id n7so11827453pgg.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 14:38:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=12Bi/bqWkjVYeM/AgaV4JWA7o8Os4v2iEoklO54+Ri0=;
-        b=zWC/7dnfhouzsYJhTR4aQnkWoHqylt83W2ldfErlJVtEYrjd7pSq/KkWZTfkCvmqF+
-         Db7/rC5/d7H5XTP1E/t6UD8v3p/vNGGRYjif2aKmTcnHIyAasQxtHSyrUiM7I+uV/ifP
-         jO4ys0d3wXc+GpTLACKnZpwEUDAlQQ0N85fWpUUPLFBpP0FH9ESs5boDiXhVogFnQ1Ia
-         yJwOdm5sF8QmNj5pNd53qxCbt84F1BDQaRKroUC0cQj8rUjTaJdczpRYNI+rnovfBZIp
-         ULuahGIuDeSQQBIxOr8uHzhZxELs8n8Jmg5GDyUlwt01ZGAi1GfYuRC/zjz5SMC26BkB
-         XE9w==
+        bh=6v3BB2uNIxLQ0+N2Fn0sXdd7fM3tPJ6bZ++fxoUJIXQ=;
+        b=NXBaQPA+GSnak6gKzAeg3FWqRTq8Q9y96fr+N+PrqIX33SUw8jVAxhIm24cRUSULgb
+         QEPBN4UF0UULqugYqGx7evkqnfgzmPOfitWln+ibKvwL5EM3iI4XISY4pCRNpMCohq6g
+         Bt/7ZOkGc8yzdMRoeU/bZTCPsb5LTu7Cp5cyp7YGKepV8R4N6egLHY+bhQE+ASXagB/Y
+         UwcfVfoGAJEzHFRx0ZWNP/9ATZgQCLII0cbhWNTEhHLWobWhGep9BI+YVGWGvu6HvO+7
+         pJ95hopGgN2gMg8x0vxAfnDHTVZ6nmCv/vsb7WBvB4iF6YLkzipAk8Gr6a7zWTJnJiv8
+         cq+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=12Bi/bqWkjVYeM/AgaV4JWA7o8Os4v2iEoklO54+Ri0=;
-        b=KDwj4aKsPwMPzxB9iGTPdzZQQQUsV/90d6N5lAhwmUVcP0LR1JCscwShsYyqaOVeH8
-         ZR65uuDpHHSBoB6K9q56VOTdrlNqIw5n0SA0meK6+jQCKPs0SoUsUrmZkgkGuBepmCUv
-         rAj4URKy77YLZOnH4/zgqPe7VmWmkJ3b3Yu5ZtAydXhsYytvT5IDMwYfjlaUx1WS+Kaq
-         mqxFX6ix5fDv6ZiuSBKeNgD9wIeMTAQ8rw9/dUsnH4SmgocVMB32uOkeJSNLwfHAJtfs
-         CNq8Mtd4/piBYiQ2l3RaloCQuWa/m1s0sfNXn9D3FnGy4qPOAUjk0BftyHYcUdzV5qFz
-         P6og==
-X-Gm-Message-State: AOAM531QG1QXjr3tsY9VsHL294jnV99QNQQlv5+C07n+lmr+qESh3aYU
-	kFzBdhARLyhUrlpZLJ94iMO+4KBT3KoNcAcaYhM=
-X-Google-Smtp-Source: ABdhPJwmZwCFij1z2Fd8E1JJdq0lKQEt6t08QTH6vxMovTF2ryJg3A5xba9MN+rA6sSW03UesqhTFQ==
-X-Received: by 2002:a17:902:26a:b029:da:af47:77c7 with SMTP id 97-20020a170902026ab02900daaf4777c7mr1640740plc.10.1611009503922;
-        Mon, 18 Jan 2021 14:38:23 -0800 (PST)
+        bh=6v3BB2uNIxLQ0+N2Fn0sXdd7fM3tPJ6bZ++fxoUJIXQ=;
+        b=GTQO5pHUXplFbK2fBjFD+oEem6p7TSiX4Gl/o3yOYfY7BfPtKG3LaDYJKjUhu7nMHP
+         3AuZrzntxgpht2k6TI0aDhbrvgB+FGRqJ5Nou9gvV95IcJHKjPuDZevBbBZValU4jpdQ
+         CttuWWLTayOWDtBbkoo5gfydXYisSST0MUJ3EekVPiw2xr8Bt0zkJhQuhtVDCnaMiIec
+         HD5lfNnC7KcUOyBmgFo0vhL5Up4N86n7GP1pBF2nuRT9sXjq+nzof2sg2lLNFmOb0UA0
+         sNsgli9mdzSxCNcZej+Z4ihNJFYjhf/gGOXeDb/qm0ocOIpoUnRi9NlbWynOQTsJiMH4
+         VcrA==
+X-Gm-Message-State: AOAM530gZ7EswnNatzyY6wnSHR1O57ZPYHyoi5rLxoU9J/GtFN0AZmg1
+	vwVmITClKotk1IxVUD4MrlCSz9Sw5LJusWetnJQ=
+X-Google-Smtp-Source: ABdhPJyzFRQ6a7q9xTBDk7W4vps+MabPCL/3a8QJ7HN+mgftRGQt5AdKAnmoOv/3ITrBzIXsAy5x4g==
+X-Received: by 2002:a65:67cf:: with SMTP id b15mr1657584pgs.429.1611009510007;
+        Mon, 18 Jan 2021 14:38:30 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.150])
-        by smtp.gmail.com with ESMTPSA id a12sm16835556pgq.5.2021.01.18.14.38.20
+        by smtp.gmail.com with ESMTPSA id a12sm16835556pgq.5.2021.01.18.14.38.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 14:38:23 -0800 (PST)
+        Mon, 18 Jan 2021 14:38:29 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/19] xorg: Security fix for CVE-2020-14345
-Date: Mon, 18 Jan 2021 12:36:23 -1000
-Message-Id: <212ac89db81df64b9a0b428ded422fef9f4c0e61.1611009050.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/19] glibc: Security fix for CVE-2020-29573
+Date: Mon, 18 Jan 2021 12:36:24 -1000
+Message-Id: <f67ada971e6065fc5179059df3a8cd57fe6b0220.1611009050.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1611009050.git.steve@sakoman.com>
 References: <cover.1611009050.git.steve@sakoman.com>
 
 From: Armin Kuster <akuster@mvista.com>
 
-Source: freedesktop.org
-MR: 105894
+Source: glibc.org
+MR: 107580
 Type: Security Fix
-Disposition: Backport from https://gitlab.freedesktop.org/xorg/xserver/-/commit/f7cd1276bbd4fe3a9700096dec33b52b8440788d
-ChangeID: 2c6b7553d8e5bc152258ad1794d95cb7d8b215eb
+Disposition: Backport from https://sourceware.org/git/?p=glibc.git;a=commit;h=681900d29683722b1cb0a8e565a0585846ec5a61
+
+ChangeID: 7bc5edb2e1947ac0774a453000a1568bbe3bb7d2
 Description:
 
-CVE-2020-14345 fix
+Fixedup to match 2.31 context. ldbl2mpn.c is in i386 for this version
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../xserver-xorg/CVE-2020-14345.patch         | 182 ++++++++++++++++++
- .../xorg-xserver/xserver-xorg_1.20.8.bb       |   1 +
- 2 files changed, 183 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14345.patch
+ .../glibc/glibc/CVE-2020-29573.patch          | 128 ++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
+ 2 files changed, 129 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14345.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14345.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch b/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
 new file mode 100644
-index 0000000000..fb3a37c474
+index 0000000000..1e75f2d29d
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14345.patch
-@@ -0,0 +1,182 @@
-+From f7cd1276bbd4fe3a9700096dec33b52b8440788d Mon Sep 17 00:00:00 2001
-+From: Matthieu Herrb <matthieu@herrb.eu>
-+Date: Tue, 18 Aug 2020 14:46:32 +0200
-+Subject: [PATCH] Correct bounds checking in XkbSetNames()
++++ b/meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
+@@ -0,0 +1,128 @@
++From 681900d29683722b1cb0a8e565a0585846ec5a61 Mon Sep 17 00:00:00 2001
++From: Florian Weimer <fweimer@redhat.com>
++Date: Tue, 22 Sep 2020 19:07:48 +0200
++Subject: [PATCH] x86: Harden printf against non-normal long double values (bug
++ 26649)
 +
-+CVE-2020-14345 / ZDI 11428
++The behavior of isnan/__builtin_isnan on bit patterns that do not
++correspond to something that the CPU would produce from valid inputs
++is currently under-defined in the toolchain. (The GCC built-in and
++glibc disagree.)
 +
-+This vulnerability was discovered by:
-+Jan-Niklas Sohn working with Trend Micro Zero Day Initiative
++The isnan check in PRINTF_FP_FETCH in stdio-common/printf_fp.c
++assumes the GCC behavior that returns true for non-normal numbers
++which are not specified as NaN. (The glibc implementation returns
++false for such numbers.)
 +
-+Signed-off-by: Matthieu Herrb <matthieu@herrb.eu>
++At present, passing non-normal numbers to __mpn_extract_long_double
++causes this function to produce irregularly shaped multi-precision
++integers, triggering undefined behavior in __printf_fp_l.
 +
-+Upstream-Status: Backport
-+CVE: CVE-2020-14345
-+Affects < 1.20.9
++With GCC 10 and glibc 2.32, this behavior is not visible because
++__builtin_isnan is used, which avoids calling
++__mpn_extract_long_double in this case.  This commit updates the
++implementation of __mpn_extract_long_double so that regularly shaped
++multi-precision integers are produced in this case, avoiding
++undefined behavior in __printf_fp_l.
 +
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
++Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
++CVE: CVE-2020-29573
++Signed-off-By: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ xkb/xkb.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 48 insertions(+)
++ sysdeps/x86/Makefile                    |  4 ++
++ sysdeps/x86/ldbl2mpn.c                  |  8 ++++
++ sysdeps/x86/tst-ldbl-nonnormal-printf.c | 52 +++++++++++++++++++++++++
++ 3 files changed, 64 insertions(+)
++ create mode 100644 sysdeps/x86/tst-ldbl-nonnormal-printf.c
 +
-+Index: xorg-server-1.20.8/xkb/xkb.c
++Index: git/sysdeps/x86/Makefile
 +===================================================================
-+--- xorg-server-1.20.8.orig/xkb/xkb.c
-++++ xorg-server-1.20.8/xkb/xkb.c
-+@@ -152,6 +152,19 @@ static RESTYPE RT_XKBCLIENT;
-+ #define	CHK_REQ_KEY_RANGE(err,first,num,r)  \
-+ 	CHK_REQ_KEY_RANGE2(err,first,num,r,client->errorValue,BadValue)
++--- git.orig/sysdeps/x86/Makefile
+++++ git/sysdeps/x86/Makefile
++@@ -9,6 +9,10 @@ tests += tst-get-cpu-features tst-get-cp
++ tests-static += tst-get-cpu-features-static
++ endif
 + 
-++static Bool
-++_XkbCheckRequestBounds(ClientPtr client, void *stuff, void *from, void *to) {
-++    char *cstuff = (char *)stuff;
-++    char *cfrom = (char *)from;
-++    char *cto = (char *)to;
+++ifeq ($(subdir),math)
+++tests += tst-ldbl-nonnormal-printf
+++endif # $(subdir) == math
 ++
-++    return cfrom < cto &&
-++           cfrom >= cstuff &&
-++           cfrom < cstuff + ((size_t)client->req_len << 2) &&
-++           cto >= cstuff &&
-++           cto <= cstuff + ((size_t)client->req_len << 2);
++ ifeq ($(subdir),setjmp)
++ gen-as-const-headers += jmp_buf-ssp.sym
++ sysdep_routines += __longjmp_cancel
++Index: git/sysdeps/x86/tst-ldbl-nonnormal-printf.c
++===================================================================
++--- /dev/null
+++++ git/sysdeps/x86/tst-ldbl-nonnormal-printf.c
++@@ -0,0 +1,52 @@
+++/* Test printf with x86-specific non-normal long double value.
+++   Copyright (C) 2020 Free Software Foundation, Inc.
+++
+++   This file is part of the GNU C Library.
+++
+++   The GNU C Library is free software; you can redistribute it and/or
+++   modify it under the terms of the GNU Lesser General Public
+++   License as published by the Free Software Foundation; either
+++   version 2.1 of the License, or (at your option) any later version.
+++
+++   The GNU C Library is distributed in the hope that it will be useful,
+++   but WITHOUT ANY WARRANTY; without even the implied warranty of
+++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+++   Lesser General Public License for more details.
+++
+++   You should have received a copy of the GNU Lesser General Public
+++   License along with the GNU C Library; if not, see
+++   <https://www.gnu.org/licenses/>.  */
+++
+++#include <stdio.h>
+++#include <string.h>
+++#include <support/check.h>
+++
+++/* Fill the stack with non-zero values.  This makes a crash in
+++   snprintf more likely.  */
+++static void __attribute__ ((noinline, noclone))
+++fill_stack (void)
+++{
+++  char buffer[65536];
+++  memset (buffer, 0xc0, sizeof (buffer));
+++  asm ("" ::: "memory");
 ++}
 ++
-+ /***====================================================================***/
-+ 
-+ int
-+@@ -4045,6 +4058,8 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+             client->errorValue = _XkbErrCode2(0x04, stuff->firstType);
-+             return BadAccess;
-+         }
-++        if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + stuff->nTypes))
-++            return BadLength;
-+         old = tmp;
-+         tmp = _XkbCheckAtoms(tmp, stuff->nTypes, client->swapped, &bad);
-+         if (!tmp) {
-+@@ -4074,6 +4089,8 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+         }
-+         width = (CARD8 *) tmp;
-+         tmp = (CARD32 *) (((char *) tmp) + XkbPaddedSize(stuff->nKTLevels));
-++        if (!_XkbCheckRequestBounds(client, stuff, width, tmp))
-++            return BadLength;
-+         type = &xkb->map->types[stuff->firstKTLevel];
-+         for (i = 0; i < stuff->nKTLevels; i++, type++) {
-+             if (width[i] == 0)
-+@@ -4083,6 +4100,8 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+                                                   type->num_levels, width[i]);
-+                 return BadMatch;
-+             }
-++            if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + width[i]))
-++                return BadLength;
-+             tmp = _XkbCheckAtoms(tmp, width[i], client->swapped, &bad);
-+             if (!tmp) {
-+                 client->errorValue = bad;
-+@@ -4095,6 +4114,9 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+             client->errorValue = 0x08;
-+             return BadMatch;
-+         }
-++        if (!_XkbCheckRequestBounds(client, stuff, tmp,
-++                                    tmp + Ones(stuff->indicators)))
-++            return BadLength;
-+         tmp = _XkbCheckMaskedAtoms(tmp, XkbNumIndicators, stuff->indicators,
-+                                    client->swapped, &bad);
-+         if (!tmp) {
-+@@ -4107,6 +4129,9 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+             client->errorValue = 0x09;
-+             return BadMatch;
-+         }
-++        if (!_XkbCheckRequestBounds(client, stuff, tmp,
-++                                    tmp + Ones(stuff->virtualMods)))
-++            return BadLength;
-+         tmp = _XkbCheckMaskedAtoms(tmp, XkbNumVirtualMods,
-+                                    (CARD32) stuff->virtualMods,
-+                                    client->swapped, &bad);
-+@@ -4120,6 +4145,9 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+             client->errorValue = 0x0a;
-+             return BadMatch;
-+         }
-++        if (!_XkbCheckRequestBounds(client, stuff, tmp,
-++                                    tmp + Ones(stuff->groupNames)))
-++            return BadLength;
-+         tmp = _XkbCheckMaskedAtoms(tmp, XkbNumKbdGroups,
-+                                    (CARD32) stuff->groupNames,
-+                                    client->swapped, &bad);
-+@@ -4141,9 +4169,14 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+                              stuff->nKeys);
-+             return BadValue;
-+         }
-++        if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + stuff->nKeys))
-++            return BadLength;
-+         tmp += stuff->nKeys;
-+     }
-+     if ((stuff->which & XkbKeyAliasesMask) && (stuff->nKeyAliases > 0)) {
-++        if (!_XkbCheckRequestBounds(client, stuff, tmp,
-++                                    tmp + (stuff->nKeyAliases * 2)))
-++            return BadLength;
-+         tmp += stuff->nKeyAliases * 2;
-+     }
-+     if (stuff->which & XkbRGNamesMask) {
-+@@ -4151,6 +4184,9 @@ _XkbSetNamesCheck(ClientPtr client, Devi
-+             client->errorValue = _XkbErrCode2(0x0d, stuff->nRadioGroups);
-+             return BadValue;
-+         }
-++        if (!_XkbCheckRequestBounds(client, stuff, tmp,
-++                                    tmp + stuff->nRadioGroups))
-++            return BadLength;
-+         tmp = _XkbCheckAtoms(tmp, stuff->nRadioGroups, client->swapped, &bad);
-+         if (!tmp) {
-+             client->errorValue = bad;
-+@@ -4344,6 +4380,8 @@ ProcXkbSetNames(ClientPtr client)
-+     /* check device-independent stuff */
-+     tmp = (CARD32 *) &stuff[1];
-+ 
-++    if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + 1))
-++        return BadLength;
-+     if (stuff->which & XkbKeycodesNameMask) {
-+         tmp = _XkbCheckAtoms(tmp, 1, client->swapped, &bad);
-+         if (!tmp) {
-+@@ -4351,6 +4389,8 @@ ProcXkbSetNames(ClientPtr client)
-+             return BadAtom;
-+         }
-+     }
-++    if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + 1))
-++        return BadLength;
-+     if (stuff->which & XkbGeometryNameMask) {
-+         tmp = _XkbCheckAtoms(tmp, 1, client->swapped, &bad);
-+         if (!tmp) {
-+@@ -4358,6 +4398,8 @@ ProcXkbSetNames(ClientPtr client)
-+             return BadAtom;
-+         }
-+     }
-++    if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + 1))
-++        return BadLength;
-+     if (stuff->which & XkbSymbolsNameMask) {
-+         tmp = _XkbCheckAtoms(tmp, 1, client->swapped, &bad);
-+         if (!tmp) {
-+@@ -4365,6 +4407,8 @@ ProcXkbSetNames(ClientPtr client)
-+             return BadAtom;
-+         }
-+     }
-++    if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + 1))
-++        return BadLength;
-+     if (stuff->which & XkbPhysSymbolsNameMask) {
-+         tmp = _XkbCheckAtoms(tmp, 1, client->swapped, &bad);
-+         if (!tmp) {
-+@@ -4372,6 +4416,8 @@ ProcXkbSetNames(ClientPtr client)
-+             return BadAtom;
-+         }
-+     }
-++    if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + 1))
-++        return BadLength;
-+     if (stuff->which & XkbTypesNameMask) {
-+         tmp = _XkbCheckAtoms(tmp, 1, client->swapped, &bad);
-+         if (!tmp) {
-+@@ -4379,6 +4425,8 @@ ProcXkbSetNames(ClientPtr client)
-+             return BadAtom;
-+         }
-+     }
-++    if (!_XkbCheckRequestBounds(client, stuff, tmp, tmp + 1))
-++        return BadLength;
-+     if (stuff->which & XkbCompatNameMask) {
-+         tmp = _XkbCheckAtoms(tmp, 1, client->swapped, &bad);
-+         if (!tmp) {
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-index 51d959f86c..2af1b6f307 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.8.bb
-@@ -9,6 +9,7 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
-            file://CVE-2020-14346.patch \
-            file://CVE-2020-14361.patch \
-            file://CVE-2020-14362.patch \
-+           file://CVE-2020-14345.patch \
+++static int
+++do_test (void)
+++{
+++  fill_stack ();
+++
+++  long double value;
+++  memcpy (&value, "\x00\x04\x00\x00\x00\x00\x00\x00\x00\x04", 10);
+++
+++  char buf[30];
+++  int ret = snprintf (buf, sizeof (buf), "%Lg", value);
+++  TEST_COMPARE (ret, strlen (buf));
+++  if (strcmp (buf, "nan") != 0)
+++    /* If snprintf does not recognize the non-normal number as a NaN,
+++       it has added the missing explicit MSB.  */
+++    TEST_COMPARE_STRING (buf, "3.02201e-4624");
+++  return 0;
+++}
+++
+++#include <support/test-driver.c>
++Index: git/sysdeps/i386/ldbl2mpn.c
++===================================================================
++--- git.orig/sysdeps/i386/ldbl2mpn.c
+++++ git/sysdeps/i386/ldbl2mpn.c
++@@ -115,6 +115,12 @@ __mpn_extract_long_double (mp_ptr res_pt
++ 	   && res_ptr[N - 1] == 0)
++     /* Pseudo zero.  */
++     *expt = 0;
++-
+++  else
+++    /* The sign bit is explicit, but add it in case it is missing in
+++       the input.  Otherwise, callers will not be able to produce the
+++       expected multi-precision integer layout by shifting the sign
+++       bit into the MSB.  */
+++    res_ptr[N - 1] |= (mp_limb_t) 1 << (LDBL_MANT_DIG - 1
+++                   - ((N - 1) * BITS_PER_MP_LIMB));
++   return N;
++ }
+diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
+index 3a0d60abf8..067d4de64a 100644
+--- a/meta/recipes-core/glibc/glibc_2.31.bb
++++ b/meta/recipes-core/glibc/glibc_2.31.bb
+@@ -42,6 +42,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-inject-file-assembly-directives.patch \
+            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://CVE-2020-29562.patch \
++           file://CVE-2020-29573.patch \
             "
- SRC_URI[md5sum] = "a770aec600116444a953ff632f51f839"
- SRC_URI[sha256sum] = "d17b646bee4ba0fb7850c1cc55b18e3e8513ed5c02bdf38da7e107f84e2d0146"
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.17.1
 
