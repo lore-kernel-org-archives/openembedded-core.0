@@ -1,92 +1,127 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web08.4164.1611012885344071477
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web12.4317.1611013186187212884
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 15:34:45 -0800
+ Mon, 18 Jan 2021 15:39:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C/StZE1R;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id q18so18018582wrn.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 15:34:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Jxa8YlvQG/wHi1ngao3diBg+c3dovU1EYwWdA5cp3yA=;
-        b=C/StZE1RO8fKhZRO6uKcdpT0D81c44g54Chm2E4kR6ngZcVxa4xnk81TS+AEAi/ckp
-         hrCFSpK7FoPDb/A2+UD2YDLM5C0jrS21nXy2XhaASRXJC0MguLj4uU0+C0IibuybqMtk
-         7omCjVgdRIB8sENVGKBow43OXVUR4o4KKTV0U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Jxa8YlvQG/wHi1ngao3diBg+c3dovU1EYwWdA5cp3yA=;
-        b=nHV8o2Qc7iATw093ZDtcLrN5DHmWalXSV2jPF+bsnQjhowy89VN496y0ZI3zY0sbsD
-         lPaIHP4niCiEuXwyu/gO7pdzU83Nb2kcXIgmIkUS5rIJgNbWbjAR1ByMmHXSrdZz2Fki
-         9xD5mZHqQeQYGmQvtTKFMJPWoNLZETgzkjuxQsdlIzKBb4WdzTLz+A2iLWHKskIemDNZ
-         xE/keBM3trmyJnCLY+KaenwN78nbJonOQGacQ7VCxHZk0wGIcP5OqzxYCZK7VWMj6IFG
-         6b2v/TZYkd+dD64Mb0DmdyrjFyMP4CTSgAb6YLIJvTs0oHxkOjpoPnK6SvDJdykL569t
-         SKCw==
-X-Gm-Message-State: AOAM531bYLWKYI6i4qKB4FP0jRV5uXec3k8UX1EQf57QixBWDfr+w2iY
-	kJJcxPDQmde3d/QvlhoQaRyptw==
-X-Google-Smtp-Source: ABdhPJwh8mkOkKJtnGxMoqcCl2knhlF0K1CmsJYQIw2u7uxjo9aHJEQuKBfV0c+J0twIsDLQ4gjH3w==
-X-Received: by 2002:adf:f081:: with SMTP id n1mr1605086wro.228.1611012883880;
-        Mon, 18 Jan 2021 15:34:43 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id o8sm31532384wrm.17.2021.01.18.15.34.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 15:34:43 -0800 (PST)
-Message-ID: <1ad7a514c13dacf9169e27e18f309b78ca5c3621.camel@linuxfoundation.org>
-Subject: Re: [OE-core][dunfell 08/19] buildstats.bbclass: add functionality to collect build system stats
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 18 Jan 2021 23:34:42 +0000
-In-Reply-To: <d01d149f6cb6fb86b8fafd1424bd37682aa9e76b.1611009050.git.steve@sakoman.com>
-References: <cover.1611009050.git.steve@sakoman.com>
-	 <d01d149f6cb6fb86b8fafd1424bd37682aa9e76b.1611009050.git.steve@sakoman.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: +iyReeYsHMulU6+09lm6o7tJB7NPqayzyrCzxwNqbxd/9ROj8k1KXEgjzDKDbNI8KW5IQokXm5
+ N4UHxFU9WDPQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="176286940"
+X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
+   d="scan'208";a="176286940"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 15:39:45 -0800
+IronPort-SDR: SeHR94Y15PCq5+xEm3TpsASdQioeaNAtAZd6fWOnEgy+RxIBw9cp76QOO6Udu+i69clRzIxnGC
+ x4mmUHuufRtw==
+X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
+   d="scan'208";a="355337713"
+Received: from yonshuta-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.144.190])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 15:39:44 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [gatesgarth][PATCH 00/14] pull request (cover letter only)
+Date: Tue, 19 Jan 2021 07:39:38 +0800
+Message-Id: <cover.1610944455.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-01-18 at 12:36 -1000, Steve Sakoman wrote:
-> From: Sakib Sajal <sakib.sajal@windriver.com>
-> 
-> There are a number of timeout and hang defects where
-> it would be useful to collect statistics about what
-> is running on a build host when that condition occurs.
-> 
-> This adds functionality to collect build system stats
-> on a regular interval and/or on task failure. Both
-> features are disabled by default.
-> 
-> To enable logging on a regular interval, set:
-> BB_HEARTBEAT_EVENT = "<interval>"
-> BB_LOG_HOST_STAT_ON_INTERVAL = <boolean>
-> Logs are stored in ${BUILDSTATS_BASE}/<build_name>/host_stats
-> 
-> To enable logging on a task failure, set:
-> BB_LOG_HOST_STAT_ON_FAILURE = "<boolean>"
-> Logs are stored in ${BUILDSTATS_BASE}/<build_name>/build_stats
-> 
-> The list of commands, along with the desired options, need
-> to be specified in the BB_LOG_HOST_STAT_CMDS variable
-> delimited by ; as such:
-> BB_LOG_HOST_STAT_CMDS = "command1 ; command2 ;... ;"
-> 
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit edb7098e9e0a8978568a45057c1c3ad2c6cacd67)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/classes/buildstats.bbclass | 40 ++++++++++++++++++++++++++++++---
->  1 file changed, 37 insertions(+), 3 deletions(-)
+Please merge these changes in gatesgarth.
 
-Not sure this is backport material. We should probably see how it goes
-in master and try using it there first?
+Thanks,
 
-Cheers,
+Anuj
 
-Richard
+The following changes since commit 7aa1ae139b9131faff04c0ed156fd8efcde114f6:
+
+  bitbake.conf: Prevent pyc file generation in pseudo context (2021-01-07 16:06:52 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
+
+Anuj Mittal (1):
+  systemd: upgrade 246.6 -> 246.9
+
+Bruce Ashfield (1):
+  linux-yocto/5.4: update to v5.4.87
+
+Khairul Rohaizzat Jamaluddin (2):
+  curl: Fix CVE-2020-8284, CVE-2020-8285, CVE-2020-8286
+  ffmpeg: Fix CVE-2020-35964, CVE-2020-35965
+
+Martin Jansa (1):
+  license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to
+    PSEUDO_IGNORE_PATHS
+
+Paul Barker (1):
+  selftest: Add argument to keep build dir
+
+Richard Purdie (4):
+  bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
+  pseudo: Drop patches merged into upstream branch
+  pseudo: Add lchmod wrapper
+  pseudo: Update for arm host and memleak fixes/cleanup
+
+Scott Murray (1):
+  glibc: CVE-2019-25013
+
+Tomasz Dziendzielski (1):
+  pseudo: Update to print PSEUDO_LOGFILE in abort message on path
+    mismatches
+
+Wang Mingyu (2):
+  mobile-broadband-provider-info: upgrade 20190618 ->20201225
+  binutils: upgrade 2.35 -> 2.35.1
+
+ meta/classes/license.bbclass                  |    1 +
+ meta/conf/bitbake.conf                        |    2 +-
+ meta/lib/oeqa/selftest/context.py             |   17 +-
+ .../mobile-broadband-provider-info_git.bb     |    4 +-
+ .../glibc/glibc/CVE-2019-25013.patch          |  137 ++
+ meta/recipes-core/glibc/glibc_2.32.bb         |    1 +
+ ...md-boot_246.2.bb => systemd-boot_246.9.bb} |    0
+ ...md-conf_246.1.bb => systemd-conf_246.9.bb} |    0
+ meta/recipes-core/systemd/systemd.inc         |    2 +-
+ ...tall-dependency-links-at-install-tim.patch |   36 +-
+ ...002-don-t-use-glibc-specific-qsort_r.patch |   55 +-
+ .../{systemd_246.6.bb => systemd_246.9.bb}    |    0
+ ...{binutils-2.35.inc => binutils-2.35.1.inc} |    6 +-
+ ...5.bb => binutils-cross-canadian_2.35.1.bb} |    0
+ ....bb => binutils-cross-testsuite_2.35.1.bb} |    0
+ ...cross_2.35.bb => binutils-cross_2.35.1.bb} |    0
+ ...dk_2.35.bb => binutils-crosssdk_2.35.1.bb} |    0
+ .../{binutils_2.35.bb => binutils_2.35.1.bb}  |    0
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |    2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |    6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
+ .../ffmpeg/ffmpeg/CVE-2020-35964.patch        |   75 +
+ .../ffmpeg/ffmpeg/CVE-2020-35965.patch        |   35 +
+ .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |    2 +
+ ...02-remove-void-protop-create-union-p.patch | 1609 +++++++++++++++++
+ .../curl/curl/CVE-2020-8284.patch             |  210 +++
+ .../curl/curl/CVE-2020-8285.patch             |  257 +++
+ .../curl/curl/CVE-2020-8286.patch             |  131 ++
+ meta/recipes-support/curl/curl_7.72.0.bb      |    4 +
+ 30 files changed, 2547 insertions(+), 75 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+ rename meta/recipes-core/systemd/{systemd-boot_246.2.bb => systemd-boot_246.9.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_246.1.bb => systemd-conf_246.9.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_246.6.bb => systemd_246.9.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-2.35.inc => binutils-2.35.1.inc} (96%)
+ rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.35.bb => binutils-cross-canadian_2.35.1.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-cross-testsuite_2.35.bb => binutils-cross-testsuite_2.35.1.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-cross_2.35.bb => binutils-cross_2.35.1.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.35.bb => binutils-crosssdk_2.35.1.bb} (100%)
+ rename meta/recipes-devtools/binutils/{binutils_2.35.bb => binutils_2.35.1.bb} (100%)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
+ create mode 100644 meta/recipes-support/curl/curl/0002-remove-void-protop-create-union-p.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8284.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8285.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8286.patch
+
+-- 
+2.29.2
 
