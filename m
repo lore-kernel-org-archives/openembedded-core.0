@@ -1,64 +1,66 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web08.3377.1611009424602700464
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.3385.1611009433061217421
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 14:37:04 -0800
+ Mon, 18 Jan 2021 14:37:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=f8wpBhwN;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id m5so10823452pjv.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 14:37:04 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fJvNHfx2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id f63so3215645pfa.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 14:37:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=NXeKAhh9F/liCfi/hAWda4kye9oXhfN0z98MODF6rsQ=;
-        b=f8wpBhwNNK+6Dz24fctJtlDhHdxRc4JG1WXS3sg7EZIIrvaF+kmq+Y6urO6ZURPLPX
-         l4AFhVmruuU7dT/SYQTIsXkjNb1tdSBnparqfTPaLkEVpyeHIGvNbwWGcGDYtiHLtLFD
-         Wf0gIR5oF6ixXtRows6POAOaStTDLDZeqqRWXegDU/ZgOaqKonmmyHzsSXPIN+hEHHtX
-         iU4Y8knT2ltmiFRr/ST9pjVLyMMWifH6J1/nFjUbs2H1uT8L/VyTBucaBPHldL9pUYoV
-         g8Ic6TvvLY9BI7IqNtH1quD2eXKXhXj5rLwah0IM21+oqAcG89AWGRNefAKAeAhiCobe
-         F3ZQ==
+        bh=BWkpwhUQZejktBlK+/g4Hkr2B+q7w4rHWurNBI34f3U=;
+        b=fJvNHfx23/Wn5ALikAgnQU5IMm0HGPxdX81w0vD462tebyfcE/YV4FS/Fz9WfEd6M8
+         g4jCqNvbEb4Pa+9HPoL1ULr41R3Tn1o5TQTJbq7gszvFmcRPIpzGRLMxxGaHGFQUemI3
+         sDa7PbUQpSx5TOJUffoZ1K2r81I0irEEORPhkGtfjNZbkxIWKNytuoaoKc8NMYohrBzq
+         UNaliTMkPciw1Vqrll5qPQDDWfh+0B2Xue5/tXjrl8mxAjNOr9957qKcrqXsJzYs29WV
+         6M6uAU1QEXJPTA7p2eUlKAZmAPISGTX8NkbY3zgbgW1XZXRWBgDRfyHmdbsgzKNGDSSa
+         nQDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=NXeKAhh9F/liCfi/hAWda4kye9oXhfN0z98MODF6rsQ=;
-        b=CG4JjIw+dbv281w2NO/Adt6IPN7H3+i4ojL7eCkwasVqrOcy5pjXZWBXcoGTZ7OV17
-         ZIbp5NBVMwMS+WHjn03mpOi/532nrqKzdJVBylWuMOKdr8rDSpRYlRxdrztB2hJtvgeO
-         xKuvF/kwGc5lZLnPyPVucE+/LO3K5ms3UOByZFZNyJlmE2qD7T98gxZ0pD9DJ6G1JDxI
-         33W5/qvO44w362KJPotLrMJmdCbk0Q59iBaSJnSAsZHIpV9Q15sdsVV+UK+5345tIg1q
-         ac6hnEKDbov61bWvD4eN/uCg8FJGm2UPDHTT4dO2lXYE3/lQZUbzGAf1+dHcMcynQSas
-         zUVA==
-X-Gm-Message-State: AOAM5330pvj/XwkAFXxEpFm1oEi/q2KLL/NSQlrXW5SYPSvVRMkPF4eE
-	d/qupJmijCtTC9dcFmreUz+5+wUks3Ira3XF1vI=
-X-Google-Smtp-Source: ABdhPJyrNgQ5y7lt8m6dsIAeQPsoqxR9CmZUSvfRodygVeDT5SJ4S4vYSgZg7GWvdwAfrA+04KX52g==
-X-Received: by 2002:a17:90b:1483:: with SMTP id js3mr1618591pjb.121.1611009423598;
-        Mon, 18 Jan 2021 14:37:03 -0800 (PST)
+        bh=BWkpwhUQZejktBlK+/g4Hkr2B+q7w4rHWurNBI34f3U=;
+        b=ebOjvRu3VTqceJuxW/SsO1Yt/WZRgL10ogUAgahqWewhIvGaeo3FkXVutNlX8Sn8fn
+         5k8Q7UD7MfqUBK7hw3hBEALlTRv7qtx73s6c08n8lUnMQGA50JK9IwdpO6DlMRkM1/Z2
+         /YBpQLcf2GMaU5feTQN2V3tGFuWcfRyb/awXhiHlbBOLZSO4hdztqWzZOh7TksYrYBWc
+         qDBHFSnRoj7TkuLjvIG73OY36A37FWRyiG7OsRv+wo0YKDOI6vmaUkV+a6WWJI/tE1dM
+         NogR+9HTR5E1sGP5OUWvOnUYgx3NHAh6Bt0Z0tHgZNJTF8W6yhVv/z6l1P5D6SSJfIKu
+         AYVg==
+X-Gm-Message-State: AOAM533YAqlXL/Hemq2z+puug0mIvgSDXK5XuPradMCJRnm/8vPNsRDG
+	x63JS7fcJcqHXHDrlHHGU3VM+LQ0Fg/wi6Q665c=
+X-Google-Smtp-Source: ABdhPJwgqtn/79imw03q6KbHYRtXf3aj0ae/Ljc9c/mayWJH6ff6kcDkgx/M3MFX5HhicCWJaPOk0A==
+X-Received: by 2002:a62:8c89:0:b029:1b6:5ce9:7084 with SMTP id m131-20020a628c890000b02901b65ce97084mr1375428pfd.45.1611009432062;
+        Mon, 18 Jan 2021 14:37:12 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com ([99.197.43.150])
-        by smtp.gmail.com with ESMTPSA id a12sm16835556pgq.5.2021.01.18.14.36.59
+        by smtp.gmail.com with ESMTPSA id a12sm16835556pgq.5.2021.01.18.14.37.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 14:37:02 -0800 (PST)
+        Mon, 18 Jan 2021 14:37:10 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/19] meta: toolchain-shar-relocate.sh: Do not use $target_sdk_dir as regex
-Date: Mon, 18 Jan 2021 12:36:10 -1000
-Message-Id: <cf21f0c99676793c7adf95b3dc72c42ab24e13a2.1611009050.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/19] meta: toolchain-shar-relocate.sh: Filter out post-relocate-setup script
+Date: Mon, 18 Jan 2021 12:36:11 -1000
+Message-Id: <6c3c6d9c3addaaf942e8f029b44dc17fb3aa19fd.1611009050.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1611009050.git.steve@sakoman.com>
 References: <cover.1611009050.git.steve@sakoman.com>
 
 From: Marek Vasut <marex@denx.de>
 
-The $target_sdk_dir path might contain special characters, for example if
-the path is /opt/poky/3.2+snapshot . Prevent grep from interpreting those
-as part of the regex by using the -F parameter and multiple -e parameters
-to specify which strings to filter out. Also note that the previous regex
-was using asterisk as wildcard (e.g. environment-setup-*), but that should
-have been regex (e.g. environment-setup-.*, with dot) to match correctly,
-this is also fixed by this change.
+The toolchain-shar-extract.sh script updates the SDK relocation paths in
+post-relocate-setup.sh, so avoid doing this twice. This is generally not
+a problem, unless the SDK path is a subset of the SDK relocation path, in
+which case the resulting path is substituted twice. To trigger the issue,
+  $ ./tmp/deploy/sdk/poky-glibc-x86_64-core-image-base-core2-64-qemux86-64-toolchain-3.2+snapshot.sh -y -d /home/oe/.local/opt/poky/3.2+snapshot
+which generates relocation path
+  /home/oe/.local/home/oe/.local/opt/poky/3.2+snapshot
+instead of
+  /home/oe/.local/opt/poky/3.2+snapshot
 
-Fixes: 9721378688 ("toolchain-shar-template.sh: Make relocation optional.")
+Fixes: 93ec145f42 ("toolchain-shar-extract: Add post-relocate scripts")
 Signed-off-by: Marek Vasut <marex@denx.de>
 Cc: Joshua Watt <JPEWhacker@gmail.com>
 Cc: Krzysztof Zawadzki <krzysztof.zawadzki@nokia.com>
@@ -66,27 +68,24 @@ Cc: Randy Witt <randy.e.witt@linux.intel.com>
 Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 19d9fa7ab6c851000bc5d24281739e1b2bb8f057)
+(cherry picked from commit 5000aabe6ac336e7b424dafa1bf76271dee6a6f1)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/files/toolchain-shar-relocate.sh | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/files/toolchain-shar-relocate.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-index e3c10018ef..9c358a53e2 100644
+index 9c358a53e2..94d288ce05 100644
 --- a/meta/files/toolchain-shar-relocate.sh
 +++ b/meta/files/toolchain-shar-relocate.sh
-@@ -56,7 +56,9 @@ for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
- 	$SUDO_EXEC find $replace -type f
- done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
+@@ -58,6 +58,7 @@ done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
      awk -F':' '{printf "\"%s\"\n", $1}' | \
--    grep -Ev "$target_sdk_dir/(environment-setup-*|relocate_sdk*|${0##*/})" | \
-+    grep -Fv -e "$target_sdk_dir/environment-setup-" \
-+             -e "$target_sdk_dir/relocate_sdk" \
-+             -e "$target_sdk_dir/${0##*/}" | \
+     grep -Fv -e "$target_sdk_dir/environment-setup-" \
+              -e "$target_sdk_dir/relocate_sdk" \
++             -e "$target_sdk_dir/post-relocate-setup" \
+              -e "$target_sdk_dir/${0##*/}" | \
      xargs -n100 $SUDO_EXEC sed -i \
          -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" \
-         -e "s:^#! */usr/bin/perl.*:#! /usr/bin/env perl:g" \
 -- 
 2.17.1
 
