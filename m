@@ -1,91 +1,131 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web08.31489.1610962662701946233
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.web08.32171.1610968074640970247
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 01:37:42 -0800
+ Mon, 18 Jan 2021 03:07:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: 0yQAfX1bf5amq1mXjmZt/+1BY2lxVKEoikK2K9yoEBHqsc2HiTc/PfsVG90p2NlOZRIx/UqxKf
- CJrIzlvYrjZw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9867"; a="176208986"
-X-IronPort-AV: E=Sophos;i="5.79,356,1602572400"; 
-   d="scan'208";a="176208986"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 01:37:37 -0800
-IronPort-SDR: pDaxJxbkBNUkc7OZzbS+pYP8+E1jwmiE2tTCLyfUBj8w/mY53V1OWnJkcXcnxBS4ROJ0+aiPq8
- wRHlFcGjVhHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,356,1602572400"; 
-   d="scan'208";a="573227461"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by fmsmga005.fm.intel.com with ESMTP; 18 Jan 2021 01:37:32 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] p11-kit: upgrade 0.23.21 -> 0.23.22
-Date: Mon, 18 Jan 2021 17:37:31 +0800
-Message-Id: <20210118093731.1377-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@sidebranch-com.20150623.gappssmtp.com header.s=20150623 header.b=SMI3Iymv;
+ spf=softfail (domain: sidebranch.com, ip: 209.85.219.48, mailfrom: leon@sidebranch.com)
+Received: by mail-qv1-f48.google.com with SMTP id l7so7290504qvt.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 03:07:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sidebranch-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KAriMlJtrkM2arLS4gLzSFfZ2KeVZJSnJay+i1ABBMM=;
+        b=SMI3IymvcC8yvk7OjRd6WKQbU1vgnaHnJDs2OV/nedvsq8qI3P/RzgmLGXu6Jwim/y
+         Qv8WkJQfBdz5/X8xVjh7c0kxZ6/GtOZtKhuTCoyiiCq5BGsJa/f2dLrmt6BnF3ONB672
+         PCRc8KQtIpCKxjybVLN+y0n6+RlFR6FyjaHw/X+FEMjXfjlT2/RTBishqAJOpPueXaha
+         oKhFgyYbOH1m2Te4lLwrOiIcRyb3UY4odv3eHGPj4pb7PlR1mdHs2phNZgxmumnbjIXF
+         fr85CeyVT1zBmBMsIUlYV3Ekf2YswJpAU1+tdpTAlSyyblGsapgpf8iAJ29rgQOSrkOk
+         S/oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KAriMlJtrkM2arLS4gLzSFfZ2KeVZJSnJay+i1ABBMM=;
+        b=GHZY3woB9Kg5JnDJgo1CYX9plNu5521RblpG/USRCaST4cKXEpu4Ckq6ggZQFJoe8k
+         u1YaMSB7qq2WhbqWI9V7OmhL2wwngzp7qdk3XFCki1cMbktbpEsrN2o2h0vNWvD8ARY6
+         NWiKlLueZ9yxgz3W1lw8ZSv1DS5NqRF35nMmG/FhrRUrAZ3SoqmRvfB05/uIxuBexYFD
+         7p1RH8fm805DjXIH+waPYf7StDV19nGygK6Tpqn9ysSlk25BDvOBQP0qUZ9q4qlULvIs
+         qRimznDNBHQcEiLLDw9bm7DIiLcrwinmDeFKNaP4mCQ9M1qlz/HZpl783SdyODMEJN+R
+         Q2XA==
+X-Gm-Message-State: AOAM533HB3WH0rXW90YvejKfdSOfcJibRtGKqakku//CvNvNIx9js7Ah
+	ScxUAHOYNnQ55pTogjl3msfIJ9m1cooJBnGCOSjszA==
+X-Google-Smtp-Source: ABdhPJw0b0BTzKy/qC7SK/JybdgzE0HVhWDufAByb0XpcjhiL70BB5Obx25q6JJt+4yxS3HTYBepCqRO3yP/+V5Osb4=
+X-Received: by 2002:ad4:55f2:: with SMTP id bu18mr23906871qvb.27.1610968073642;
+ Mon, 18 Jan 2021 03:07:53 -0800 (PST)
+MIME-Version: 1.0
+References: <20210115052615.29893-1-paul.gortmaker@windriver.com>
+ <12145df57b9fdec6933497849a2d8b40fcb8a023.camel@linuxfoundation.org>
+ <a81ea7e632a26636d966540a86ec1978f557e63c.camel@microsoft.com>
+ <20210115144724.GM16838@windriver.com> <96b7ff9f43b96d80021b3f797a6295de210711ea.camel@microsoft.com>
+ <CADkTA4MHjfrAf01PDVY8hyR9r_f5mqheLomuWKuUZY-+Rgi0=g@mail.gmail.com>
+ <6b4797ffe82f0ddd48352363ad85b3e5a52c3f7e.camel@microsoft.com>
+ <CADkTA4PrQefBMme_z6JAquZCv=7CYMsq8OA4+Y7xVHwL=VjseA@mail.gmail.com> <9fa544389d040b0fbacd14a1861cac0721d7d2c0.camel@microsoft.com>
+In-Reply-To: <9fa544389d040b0fbacd14a1861cac0721d7d2c0.camel@microsoft.com>
+From: "Leon Woestenberg" <leon@sidebranch.com>
+Date: Mon, 18 Jan 2021 12:07:42 +0100
+Message-ID: <CAMjhiJiOnsaHHS47m_mT_k+7-W9eABW8S2Qm+KE2U2cqR4E3Aw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8
+To: luca.boccassi@microsoft.com
+Cc: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"paul.gortmaker@windriver.com" <paul.gortmaker@windriver.com>, 
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="000000000000c63a5205b92abb20"
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+--000000000000c63a5205b92abb20
+Content-Type: text/plain; charset="UTF-8"
 
-https://github.com/p11-glue/p11-kit/releases/tag/0.23.22
+On Fri, 15 Jan 2021 at 18:35, Luca Boccassi via lists.openembedded.org
+<luca.boccassi=microsoft.com@lists.openembedded.org> wrote:
 
-Release notes:
-Fix memory-safety issues that affect the RPC protocol (CVE-2020-29361, CVE-2020-29362, and CVE-2020-29363), discovered and fixed by David Cook
-anchor: Prefer persistent format when storing anchor [#329]
-common: Fix infloop in p11_path_build [#326, #327]
-proxy: C_CloseAllSessions: Make sure that calloc args are non-zero [#325]
-common: Check for a NULL locale before freeing it [#321]
-Build and test fixes [#313, #315, #317, #318, #319, #323, #330, #333, #334, #335, #338, #339]
+>
+>
+> There's the get_kernelversion* functions available to recipes,
+> reasonably widely used already - so something that checks it and
+> conditionally installs the drop-in should work fine, in theory?
+>
 
-https://github.com/p11-glue/p11-kit/commit/c4e75e10021ce86ab42682ea4936dce94ced2f77
-patch to fix trailing newline using custom_target() caused error
-with DISTRO_FEATURES api-documentation due to meson bugs, enable
-manpages PACKAGECONFIG should prevent this error.
-| warning: failed to load external entity "../version.xml"
-| ../p11-kit-docs.xml:11: parser error : Failure to process entity version
-| 		<releaseinfo>for p11-kit &version;</releaseinfo>
-| 		                                  ^
-| ../p11-kit-docs.xml:11: parser error : Entity 'version' not defined
-| 		<releaseinfo>for p11-kit &version;</releaseinfo>
-| 		                                  ^
-| unable to parse ../p11-kit-docs.xml
+That would make the workaround a initial build-time dependency. As I
+understand the proposed solution was a run-time check.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
-v3 add libxslt-native to PACKAGECONFIG[manpages] 
- .../p11-kit/{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb}     | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-support/p11-kit/{p11-kit_0.23.21.bb => p11-kit_0.23.22.bb} (75%)
+What if the kernel is upgraded in the field?
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb b/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
-similarity index 75%
-rename from meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
-index b1fd2334b2..c539ecdbc6 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.23.21.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.23.22.bb
-@@ -2,17 +2,18 @@ SUMMARY = "Provides a way to load and enumerate PKCS#11 modules"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=02933887f609807fbb57aa4237d14a50"
- 
--inherit meson gettext pkgconfig gtk-doc bash-completion
-+inherit meson gettext pkgconfig gtk-doc bash-completion manpages
- 
- DEPENDS = "libtasn1 libtasn1-native libffi"
- 
- DEPENDS_append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''}"
- 
--SRC_URI = "git://github.com/p11-glue/p11-kit"
--SRCREV = "fd8b56f3ee971f94dc6fc95411fc01e1c12153ab"
-+SRC_URI = "git://github.com/p11-glue/p11-kit;branch=0.23"
-+SRCREV = "bd97afbfe28d5fbbde95ce36ff7a8834fc0291ee"
- S = "${WORKDIR}/git"
- 
- PACKAGECONFIG ??= ""
-+PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
- PACKAGECONFIG[trust-paths] = "-Dtrust_paths=/etc/ssl/certs/ca-certificates.crt,,,ca-certificates"
- 
- GTKDOC_MESON_OPTION = 'gtk_doc'
+>
+>
+> --
 -- 
-2.17.1
+Leon Woestenberg
+leon@sidebranch.com
+T: +31 40 711 42 76
+M: +31 6 472 30 372
 
+Sidebranch Embedded Systems
+Eindhoven, The Netherlands
+http://www.sidebranch.com
+
+--000000000000c63a5205b92abb20
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Fri, 15 Jan 2021 at 18:35, Luca Boccassi via <a href=3D"http://list=
+s.openembedded.org">lists.openembedded.org</a> &lt;luca.boccassi=3D<a href=
+=3D"mailto:microsoft.com@lists.openembedded.org">microsoft.com@lists.openem=
+bedded.org</a>&gt; wrote:<br></div><div><div class=3D"gmail_quote"><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
+th:1px;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,2=
+04,204)" dir=3D"auto"><br>
+<br>
+There&#39;s the get_kernelversion* functions available to recipes,<br>
+reasonably widely used already - so something that checks it and<br>
+conditionally installs the drop-in should work fine, in theory?<br></blockq=
+uote><div dir=3D"auto"><br></div><div dir=3D"auto">That would make the work=
+around a initial build-time dependency. As I understand the proposed soluti=
+on was a run-time check.</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+>What if the kernel is upgraded in the field?</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-le=
+ft-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"=
+auto"><br>
+<br>
+</blockquote></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" =
+data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><=
+div style=3D"color:rgb(0,0,0)"><span style=3D"font-family:-webkit-standard;=
+font-size:medium">--=C2=A0</span><br><span style=3D"font-family:-webkit-sta=
+ndard;font-size:medium">Leon Woestenberg</span><br><span style=3D"font-fami=
+ly:-webkit-standard;font-size:medium"><a href=3D"mailto:leon@sidebranch.com=
+" target=3D"_blank">leon@sidebranch.com</a></span><br><span style=3D"font-f=
+amily:-webkit-standard;font-size:medium">T: +31 40 711 42 76</span><br><spa=
+n style=3D"font-family:-webkit-standard;font-size:medium">M: +31 6 472 30 3=
+72</span><div style=3D"font-family:Helvetica"><img src=3D"http://www.sidebr=
+anch.eu/en/images/sidebranch-logo.png" width=3D"96" height=3D"53"><br></div=
+><span style=3D"font-family:-webkit-standard;font-size:medium">Sidebranch</=
+span><font face=3D"Helvetica">=C2=A0</font><span style=3D"font-family:-webk=
+it-standard;font-size:medium">Embedded Systems</span><br><span style=3D"fon=
+t-family:-webkit-standard;font-size:medium">Eindhoven, The Netherlands</spa=
+n><br><span style=3D"font-family:-webkit-standard;font-size:medium"><a href=
+=3D"http://www.sidebranch.com" target=3D"_blank">http://www.sidebranch.com<=
+/a></span><div style=3D"font-family:Helvetica"><br></div></div></div></div>=
+</div></div>
+
+--000000000000c63a5205b92abb20--
