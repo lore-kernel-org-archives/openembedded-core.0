@@ -1,127 +1,92 @@
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by mx.groups.io with SMTP id smtpd.web12.4317.1611013186187212884
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web11.4241.1611013463006667713
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 15:39:46 -0800
+ Mon, 18 Jan 2021 15:44:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: +iyReeYsHMulU6+09lm6o7tJB7NPqayzyrCzxwNqbxd/9ROj8k1KXEgjzDKDbNI8KW5IQokXm5
- N4UHxFU9WDPQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="176286940"
-X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
-   d="scan'208";a="176286940"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 15:39:45 -0800
-IronPort-SDR: SeHR94Y15PCq5+xEm3TpsASdQioeaNAtAZd6fWOnEgy+RxIBw9cp76QOO6Udu+i69clRzIxnGC
- x4mmUHuufRtw==
-X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
-   d="scan'208";a="355337713"
-Received: from yonshuta-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.144.190])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 15:39:44 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 00/14] pull request (cover letter only)
-Date: Tue, 19 Jan 2021 07:39:38 +0800
-Message-Id: <cover.1610944455.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WEIx7O8+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.43, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f43.google.com with SMTP id gx5so6751141ejb.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 15:44:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j5BLxAvGx8DTE765deH2BkcamyRZXILABm0KMW26faY=;
+        b=WEIx7O8+yOYomqk8gPd6ub+d4jMtS1XmD49jQBuEGByq+WfAU2PLQgxWnIMtp/9Ni6
+         g2gNZEVIZHQUW4+kTWHFWWTcCrv7nGEWE/Jthaef+OS1hWFdpfGKHuoj90lPk6vIsVSv
+         yNUYsQi8WKD+NQ80Vd3vEtpbzjeUZXWAXg7Rnb6tcdfsGETQrezdV5vG2RPUjPMGPWCT
+         fl+t588Rcd+Vw6bXSMKzC3mDm0qd5Dd1ZpAfEshSqrppxRaGkPYBudAdK9EpTBi01cz9
+         FOwBgRWCzhX6BYHaYFUtB4Dj69+FnGw3L3c2Dco499G0qtEDmGJbwndW1b5ATI9RsQyl
+         M+cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j5BLxAvGx8DTE765deH2BkcamyRZXILABm0KMW26faY=;
+        b=NPtYOwctUkmUdwF3mwK3T2OQMJWngJUB2Y7j8s2ojdHM04V1DVIGIiiCk6vBJj+aGq
+         rr8go5xq38itveBm6AgYwccHpsLjbzGhlvaej7+KPBAGG6SN6U5uRAwailc0QMi974iB
+         cgcKJmAVmE7471nZBC09cFUHd1YmzygsnIqpWpy9r+G/EgevcapwAIQ4xD7JHSwtpNXt
+         iJ5kmOes1y7tEOPlWAYwpdqZcc9otI94NZ9GseL/NJV08kQ0X1UupCFxzZdybSCNsNB3
+         hl1fcfGF8RlWLrmt0OrqPhu/C2uSLu5JGIBU87YuAEIHl6fbDc+Gd2vXJnt7daf8BcPh
+         ZoJA==
+X-Gm-Message-State: AOAM531h0rDFmn7p5EHGtqkM71ZsAASG+RKvRc/Vyi3siOnfRQSYIElw
+	XC52nMmsDypymSGnqM6vzZk9E7Hogro+NG6DUxgV8A==
+X-Google-Smtp-Source: ABdhPJyy4Od3MKpY/Y3hROIvI4yGSeyT46bw3hTUKMVYRWVRBtzbpD30rXAZopisht4+NvV45154EPaw3zvqGFsaJgc=
+X-Received: by 2002:a17:907:948d:: with SMTP id dm13mr1184209ejc.545.1611013461396;
+ Mon, 18 Jan 2021 15:44:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1611009050.git.steve@sakoman.com> <d01d149f6cb6fb86b8fafd1424bd37682aa9e76b.1611009050.git.steve@sakoman.com>
+ <1ad7a514c13dacf9169e27e18f309b78ca5c3621.camel@linuxfoundation.org>
+In-Reply-To: <1ad7a514c13dacf9169e27e18f309b78ca5c3621.camel@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Mon, 18 Jan 2021 13:44:09 -1000
+Message-ID: <CAOSpxdbn4P7Otj6xKL=Hw12Fswb-hmgZOT1+9igTLm_n+87++A@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 08/19] buildstats.bbclass: add functionality to collect build system stats
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Please merge these changes in gatesgarth.
+On Mon, Jan 18, 2021 at 1:34 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2021-01-18 at 12:36 -1000, Steve Sakoman wrote:
+> > From: Sakib Sajal <sakib.sajal@windriver.com>
+> >
+> > There are a number of timeout and hang defects where
+> > it would be useful to collect statistics about what
+> > is running on a build host when that condition occurs.
+> >
+> > This adds functionality to collect build system stats
+> > on a regular interval and/or on task failure. Both
+> > features are disabled by default.
+> >
+> > To enable logging on a regular interval, set:
+> > BB_HEARTBEAT_EVENT = "<interval>"
+> > BB_LOG_HOST_STAT_ON_INTERVAL = <boolean>
+> > Logs are stored in ${BUILDSTATS_BASE}/<build_name>/host_stats
+> >
+> > To enable logging on a task failure, set:
+> > BB_LOG_HOST_STAT_ON_FAILURE = "<boolean>"
+> > Logs are stored in ${BUILDSTATS_BASE}/<build_name>/build_stats
+> >
+> > The list of commands, along with the desired options, need
+> > to be specified in the BB_LOG_HOST_STAT_CMDS variable
+> > delimited by ; as such:
+> > BB_LOG_HOST_STAT_CMDS = "command1 ; command2 ;... ;"
+> >
+> > Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > (cherry picked from commit edb7098e9e0a8978568a45057c1c3ad2c6cacd67)
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  meta/classes/buildstats.bbclass | 40 ++++++++++++++++++++++++++++++---
+> >  1 file changed, 37 insertions(+), 3 deletions(-)
+>
+> Not sure this is backport material. We should probably see how it goes
+> in master and try using it there first?
 
-Thanks,
+OK, I thought it was safe since the features are disabled by default.
+Seemed like something good to have if needed, but I'll remove this
+from the pull request and revisit later.
 
-Anuj
-
-The following changes since commit 7aa1ae139b9131faff04c0ed156fd8efcde114f6:
-
-  bitbake.conf: Prevent pyc file generation in pseudo context (2021-01-07 16:06:52 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
-
-Anuj Mittal (1):
-  systemd: upgrade 246.6 -> 246.9
-
-Bruce Ashfield (1):
-  linux-yocto/5.4: update to v5.4.87
-
-Khairul Rohaizzat Jamaluddin (2):
-  curl: Fix CVE-2020-8284, CVE-2020-8285, CVE-2020-8286
-  ffmpeg: Fix CVE-2020-35964, CVE-2020-35965
-
-Martin Jansa (1):
-  license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to
-    PSEUDO_IGNORE_PATHS
-
-Paul Barker (1):
-  selftest: Add argument to keep build dir
-
-Richard Purdie (4):
-  bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
-  pseudo: Drop patches merged into upstream branch
-  pseudo: Add lchmod wrapper
-  pseudo: Update for arm host and memleak fixes/cleanup
-
-Scott Murray (1):
-  glibc: CVE-2019-25013
-
-Tomasz Dziendzielski (1):
-  pseudo: Update to print PSEUDO_LOGFILE in abort message on path
-    mismatches
-
-Wang Mingyu (2):
-  mobile-broadband-provider-info: upgrade 20190618 ->20201225
-  binutils: upgrade 2.35 -> 2.35.1
-
- meta/classes/license.bbclass                  |    1 +
- meta/conf/bitbake.conf                        |    2 +-
- meta/lib/oeqa/selftest/context.py             |   17 +-
- .../mobile-broadband-provider-info_git.bb     |    4 +-
- .../glibc/glibc/CVE-2019-25013.patch          |  137 ++
- meta/recipes-core/glibc/glibc_2.32.bb         |    1 +
- ...md-boot_246.2.bb => systemd-boot_246.9.bb} |    0
- ...md-conf_246.1.bb => systemd-conf_246.9.bb} |    0
- meta/recipes-core/systemd/systemd.inc         |    2 +-
- ...tall-dependency-links-at-install-tim.patch |   36 +-
- ...002-don-t-use-glibc-specific-qsort_r.patch |   55 +-
- .../{systemd_246.6.bb => systemd_246.9.bb}    |    0
- ...{binutils-2.35.inc => binutils-2.35.1.inc} |    6 +-
- ...5.bb => binutils-cross-canadian_2.35.1.bb} |    0
- ....bb => binutils-cross-testsuite_2.35.1.bb} |    0
- ...cross_2.35.bb => binutils-cross_2.35.1.bb} |    0
- ...dk_2.35.bb => binutils-crosssdk_2.35.1.bb} |    0
- .../{binutils_2.35.bb => binutils_2.35.1.bb}  |    0
- meta/recipes-devtools/pseudo/pseudo_git.bb    |    2 +-
- .../linux/linux-yocto-rt_5.4.bb               |    6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
- .../ffmpeg/ffmpeg/CVE-2020-35964.patch        |   75 +
- .../ffmpeg/ffmpeg/CVE-2020-35965.patch        |   35 +
- .../recipes-multimedia/ffmpeg/ffmpeg_4.3.1.bb |    2 +
- ...02-remove-void-protop-create-union-p.patch | 1609 +++++++++++++++++
- .../curl/curl/CVE-2020-8284.patch             |  210 +++
- .../curl/curl/CVE-2020-8285.patch             |  257 +++
- .../curl/curl/CVE-2020-8286.patch             |  131 ++
- meta/recipes-support/curl/curl_7.72.0.bb      |    4 +
- 30 files changed, 2547 insertions(+), 75 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
- rename meta/recipes-core/systemd/{systemd-boot_246.2.bb => systemd-boot_246.9.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-conf_246.1.bb => systemd-conf_246.9.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_246.6.bb => systemd_246.9.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-2.35.inc => binutils-2.35.1.inc} (96%)
- rename meta/recipes-devtools/binutils/{binutils-cross-canadian_2.35.bb => binutils-cross-canadian_2.35.1.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-cross-testsuite_2.35.bb => binutils-cross-testsuite_2.35.1.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-cross_2.35.bb => binutils-cross_2.35.1.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils-crosssdk_2.35.bb => binutils-crosssdk_2.35.1.bb} (100%)
- rename meta/recipes-devtools/binutils/{binutils_2.35.bb => binutils_2.35.1.bb} (100%)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35964.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2020-35965.patch
- create mode 100644 meta/recipes-support/curl/curl/0002-remove-void-protop-create-union-p.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8284.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8285.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8286.patch
-
--- 
-2.29.2
-
+Steve
