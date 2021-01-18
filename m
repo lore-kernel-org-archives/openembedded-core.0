@@ -1,96 +1,157 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web09.32539.1610973393931997669
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web12.3433.1611009411259442596
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 04:36:34 -0800
+ Mon, 18 Jan 2021 14:36:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=calFdWOY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id m4so16288695wrx.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 04:36:33 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=LTvEeiZo;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f180.google.com with SMTP id r4so9381860pls.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 14:36:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=AAlxMKxusKtQzfwQYq4yo6izsOu0F4ImUYeLLeaUOR8=;
-        b=calFdWOY6MjB5Hdn0v786rPuuRNUBxYXbz+zxhFu/PbuqdJvCPvglB8LBagtVN0lMq
-         DoZXL38Op13uNwblWINnbXN/CWGIihmTcvLRKPuRM6doT041FCZOH14Mz9HWpKsIgXWM
-         KPzVipCRj1IdyRu2ekjRIQDyPoHgxkE17ZUUk=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=JgWIgK+EN8QoY7y+4h2kKQjUAdJR3euJmkPitpVpouA=;
+        b=LTvEeiZoVfKUvx5KyHq/WDWYN93uGUns0uI9Go72FW4uUiaQxrPBQsjf9AgxHAdoC5
+         1eUdxTeF77WSxZR2cbXMMOYkjPHFV7JXq66Myblb714kfJVWEApxuk1XmUALf9hiVya+
+         XfmadeJVl4hwOcs8nYu4zwj3QP0f3FjnC/6wPt9U2FO7xmmwPh8SfAK7Qkc6WrPvSYzh
+         XwCkkNXYZAf+j6HPwtdgNIBs/JG5TqFLBD9ZJxZYW7WM+ttlGLtwkYtgCGnnXCMee3TU
+         f4ddv13bDaeqj8Xwi3uhELOeGxUHDjmlFG4ZVzznyoWFPEGicdXaTWlJHWeHM++jdnyF
+         mSlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AAlxMKxusKtQzfwQYq4yo6izsOu0F4ImUYeLLeaUOR8=;
-        b=DN+VzPbv/KBUbiDOtCLAj3FANZ1zKA7LTmesu2q2o/2ejUOfRXj/xQcVWWlZ9slpf6
-         ES58ZF7bCB2C38vwW2llp+if8ev3rYCSGygEVau8I2OLvuOldENwm2lmeSOG33RTBfdx
-         YPS58Kxi4+lxotIKoEpvAg4TelMqsf5KvQqwRVXQ3jP/vpu0hxG0kNjwa8hX35zdcHrJ
-         LsrVG8lxo8UvRMKh+riAiGhPj3AEcyh4EUIts47uLuWKpDBasvm151lp8bijSQCIyWuC
-         KrEtdEvjuRm3vauI4widZ6x9aP2CGA7v13Df9/ic9ORrSJfG8YwIQU8tnI0TrwPjw7bB
-         VpiA==
-X-Gm-Message-State: AOAM533E24wnZlEaGtXiSDPYZkLVcWypIXJMMYRmSHrYyg+J2gPHdhgs
-	+fnwcnQU1qupoctURniqa1BoKA==
-X-Google-Smtp-Source: ABdhPJwgIVswVj+Sm5sQE6MLJe54DEAoejoxRDYu6L7uvAwMrHBaav63lazX3A8DWP6pJE2Mq1Zu7Q==
-X-Received: by 2002:a5d:4683:: with SMTP id u3mr25992226wrq.19.1610973392458;
-        Mon, 18 Jan 2021 04:36:32 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:cbf2:64a0:76c7:1d6a? ([2001:8b0:aba:5f3c:cbf2:64a0:76c7:1d6a])
-        by smtp.gmail.com with ESMTPSA id u26sm25069068wmm.24.2021.01.18.04.36.31
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=JgWIgK+EN8QoY7y+4h2kKQjUAdJR3euJmkPitpVpouA=;
+        b=pr5dpBb6arsDqgMqDuXgltDgKjcFtmIpIyFb3uJyf7qUY0hr9yCy6Du6o+e4Y704OW
+         SZfseFVXHkRtvRerVNPU6/bXqqrCuSE0t+RYlA2D5eZ6eFwsLg8VG0R/aytQ+bfDAZU4
+         v4wr+LhQv875OvLOxEnz/V6BllxvoCyRkFL5HUcsg4/9u4vtCDMeggOyFs028L4XpRkJ
+         YHtYviJY169J9il8kPg8YltgkIVNb1tD0lwYGaifex6xFWzA+sOQqr259B+d5v47ftQC
+         tDJlwtAklJd/PE5MqVk955FjOmZvoKaUs4eMTMGM5tlRYEVTUAt6bn5amGV3iPil6PKN
+         rzuQ==
+X-Gm-Message-State: AOAM532GRlmUsE+mWaGveIGFslJZw2FfSxiVCFirnUg5lgNkOEe6fUXb
+	7F863s1wZ+tZ10k6YOg8gn/CC3FSU3w/mFjgFKI=
+X-Google-Smtp-Source: ABdhPJwLJb/qukBVAzhImhZrKP19H9uq1w9iT1ea6Tve//c/ZhU1bpH86yrf3UQYJPvLv036NrkMiQ==
+X-Received: by 2002:a17:902:ee14:b029:de:19f0:91b4 with SMTP id z20-20020a170902ee14b02900de19f091b4mr1592912plb.78.1611009409674;
+        Mon, 18 Jan 2021 14:36:49 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com ([99.197.43.150])
+        by smtp.gmail.com with ESMTPSA id a12sm16835556pgq.5.2021.01.18.14.36.45
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jan 2021 04:36:32 -0800 (PST)
-Message-ID: <532ac1990efd985355f28d565233af87f65db51f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] systemd: dont spew hidepid mount errors for kernels < v5.8
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Luca Boccassi <Luca.Boccassi@microsoft.com>, "bruce.ashfield@gmail.com"
-	 <bruce.ashfield@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, "paul.gortmaker@windriver.com"
-	 <paul.gortmaker@windriver.com>
-Date: Mon, 18 Jan 2021 12:36:31 +0000
-In-Reply-To: <9fa544389d040b0fbacd14a1861cac0721d7d2c0.camel@microsoft.com>
-References: <20210115052615.29893-1-paul.gortmaker@windriver.com>
-	 <12145df57b9fdec6933497849a2d8b40fcb8a023.camel@linuxfoundation.org>
-	 <a81ea7e632a26636d966540a86ec1978f557e63c.camel@microsoft.com>
-	 <20210115144724.GM16838@windriver.com>
-	 <96b7ff9f43b96d80021b3f797a6295de210711ea.camel@microsoft.com>
-	 <CADkTA4MHjfrAf01PDVY8hyR9r_f5mqheLomuWKuUZY-+Rgi0=g@mail.gmail.com>
-	 <6b4797ffe82f0ddd48352363ad85b3e5a52c3f7e.camel@microsoft.com>
-	 <CADkTA4PrQefBMme_z6JAquZCv=7CYMsq8OA4+Y7xVHwL=VjseA@mail.gmail.com>
-	 <9fa544389d040b0fbacd14a1861cac0721d7d2c0.camel@microsoft.com>
-User-Agent: Evolution 3.38.1-1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+        Mon, 18 Jan 2021 14:36:48 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/19] Patch review
+Date: Mon, 18 Jan 2021 12:36:08 -1000
+Message-Id: <cover.1611009050.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-On Fri, 2021-01-15 at 17:35 +0000, Luca Boccassi wrote:
-> On Fri, 2021-01-15 at 11:59 -0500, Bruce Ashfield wrote:
-> > That code block isn't particularly complex and it is self contained,
-> > so really, there's not much to see there. But I'm not in the business
-> > of predicting anything, I'm in the wait and see camp (AUH will be the
-> > first to pick it up if it causes patch problems, etc).
-> > 
-> > Richard can either take the change or not, I'm just supporting how
-> > it has currently been submitted as chances are that no further
-> > revisions are coming from Paul, so it can live or die as-is.
-> 
-> Even if a patch was preferred to a config, the current patch changes
-> too much and should really be reduced in scope, as commented in the
-> other email.
+Please review this next set of patches for dunfell and have comments back by
+end of day Wednesday.
 
-Doing this with a patch is probably 'safer' or less ugly than the other
-options.
+Passed a-full on autobuilder:
 
-I had meant to test this whilst as the same time,  suggest we reduce
-the context in the patch as mentioned, then merge. Unfortunately I
-confused the systemd patches and this has sneaked in without that
-tweak.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1763
 
-If we could reduce the noise in the diff, that would be useful though. 
+The following changes since commit 72431ee8de5e3a53d259cebf420a7713ac9e1f14:
 
-Cheers,
+  mobile-broadband-provider-info: upgrade 20190618 ->20201225 (2021-01-08 03:57:37 -1000)
 
-Richard
+are available in the Git repository at:
 
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
+Adrian Herrera (1):
+  scripts: oe-run-native, fix *-native directories
 
+Andrey Mozzhuhin (1):
+  toolchain-shar-extract.sh: Handle special characters in script path
 
+Armin Kuster (2):
+  xorg: Security fix for CVE-2020-14345
+  glibc: Security fix for CVE-2020-29573
 
+Bruce Ashfield (1):
+  linux-yocto/5.4: update to v5.4.87
+
+Chris Laplante (1):
+  systemd.bbclass: improve error message when a service unit specified
+    in SYSTEMD_SERVICE is not found
+
+Joshua Watt (1):
+  classes/waf: Add build and install arguments
+
+Lee Chee Yang (1):
+  curl: fix CVE-2020-8231/8284/8285/8286
+
+Mans Rullgard (1):
+  boost: drop arm-intrinsics.patch
+
+Marek Vasut (2):
+  meta: toolchain-shar-relocate.sh: Do not use $target_sdk_dir as regex
+  meta: toolchain-shar-relocate.sh: Filter out post-relocate-setup
+    script
+
+Michael Ho (1):
+  license_image.bbclass: fix missing recipeinfo on self
+
+Mikko Rapeli (1):
+  zip: whitelist CVE-2018-13410 and CVE-2018-13684
+
+Robert Joslyn (1):
+  ppp: Whitelist CVE-2020-15704
+
+Ross Burton (1):
+  waf: don't assume the waf intepretter is good
+
+Sakib Sajal (1):
+  buildstats.bbclass: add functionality to collect build system stats
+
+Scott Murray (1):
+  glibc: CVE-2019-25013
+
+Thomas Perrot (1):
+  go.bbclass: don't stage test data with sources of dependencies
+
+Tomasz Dziendzielski (1):
+  lib/oe/utils: Return empty string in parallel_make
+
+ meta/classes/buildstats.bbclass               |   40 +-
+ meta/classes/go.bbclass                       |    3 +-
+ meta/classes/license_image.bbclass            |    3 +-
+ meta/classes/systemd.bbclass                  |    3 +-
+ meta/classes/waf.bbclass                      |   18 +-
+ meta/files/toolchain-shar-extract.sh          |   12 +-
+ meta/files/toolchain-shar-relocate.sh         |    5 +-
+ meta/lib/oe/utils.py                          |    2 +-
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |    4 +
+ .../glibc/glibc/CVE-2019-25013.patch          |  135 ++
+ .../glibc/glibc/CVE-2020-29573.patch          |  128 ++
+ meta/recipes-core/glibc/glibc_2.31.bb         |    2 +
+ meta/recipes-extended/zip/zip_3.0.bb          |    6 +
+ .../xserver-xorg/CVE-2020-14345.patch         |  182 +++
+ .../xorg-xserver/xserver-xorg_1.20.8.bb       |    1 +
+ .../linux/linux-yocto-rt_5.4.bb               |    6 +-
+ .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
+ .../boost/boost/arm-intrinsics.patch          |   55 -
+ meta/recipes-support/boost/boost_1.72.0.bb    |    2 +-
+ .../curl/curl/CVE-2020-8231.patch             | 1092 +++++++++++++++++
+ .../curl/curl/CVE-2020-8284.patch             |  209 ++++
+ .../curl/curl/CVE-2020-8285.patch             |  260 ++++
+ .../curl/curl/CVE-2020-8286.patch             |  133 ++
+ meta/recipes-support/curl/curl_7.69.1.bb      |    4 +
+ scripts/oe-run-native                         |    2 +-
+ 26 files changed, 2244 insertions(+), 93 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
+ create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14345.patch
+ delete mode 100644 meta/recipes-support/boost/boost/arm-intrinsics.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8231.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8284.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8285.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8286.patch
+
+-- 
+2.17.1
 
