@@ -1,412 +1,117 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.8735.1611043982812880037
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.45])
+ by mx.groups.io with SMTP id smtpd.web08.9280.1611048234720859363
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 00:13:02 -0800
+ Tue, 19 Jan 2021 01:23:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nathanrossi.com header.s=google header.b=MtGJ4q2P;
- spf=pass (domain: nathanrossi.com, ip: 209.85.214.179, mailfrom: nathan@nathanrossi.com)
-Received: by mail-pl1-f179.google.com with SMTP id be12so10055531plb.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 00:13:02 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=lWw2yOme;
+ spf=pass (domain: windriver.com, ip: 40.107.94.45, mailfrom: liezhi.yang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lcUfPqwHcHvrukS9BXm24q4uJyW2wGEyEeGHCeDnscKJ2+iCDpPiONRu6BufPLpc0KbQ4l8I+bnzx5JIKR8Y25vObisUoGfndumWit4GXKuZ4ajk5D/4EhHfYum5nL5fzq0D9dK2jsI9ZyfkAVMCA1z7eLwbVMoSIJV2Cmq3B92hogMvo3UndHx5s2+2EO17v3sh1713YpabREo0dEChV5lhc+k/9ah0bJkL2LlljRsIHlXgcQPmsHA5nc/3VDDyu8gusz9JuheADKR9UxYX13uBWR4t1UuEQfg0q37aW9Jnm5XedJq/u6hlWSUcGtLiqUa7KfNNBsS45qT5gCtu+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZkL8o/AlAMGu+HhQ6GqGlGBn7b9bnyqXhu23PAfGFHc=;
+ b=nu8i1R5kO9kyMvMCz+iulW1AyD/FpSTSBR9xKjTWRXFgjouSm9X1vX4gb34a8xEDHIDaeWBJvy6SQb7TWWwue2AgD0Xq6hACWsPYkSPK3VfgdqWWCvRrK2wngqavCOB0m6G1JPff22s4RuDOX5dpBbSXAOahvJuveCKBmHHBdxlclXecsrSpRSBmJxfJj+2xVZxwewbNIgm0XdwPpfsr0tlTyqyH9LbBZTXDghzYys5IP6yexQQWNYFxplu+UElbbiqiiNpLVchPYNzwRdpQWPgrqHqYzIJZGwp5VjApiO9krnSLp16APgSovj6QMvoA79e+bQG9OYVJLwwAL2ebfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nathanrossi.com; s=google;
-        h=date:message-id:from:to:cc:subject:content-transfer-encoding
-         :mime-version;
-        bh=uojA38UQ5IJUoOSwiRI9ICgkJ9SwDvls6mv5YRrbvI4=;
-        b=MtGJ4q2PM7AIXxnmhsnfmAbNvYCJF2HOAtSZj9lX7gZmDj8z/Weu4pGH+2bDIoS9fh
-         jsWeWDh48nYSC8ZXnXlgN8p257J4V10Qp56nnJum9tANtT4sLcqJOkuJRaI0VxrMnD+p
-         zFQuOiNbOFzzlnrU+uhE6ixmy8pJM9cyDzSbxa8sxsW6Zggd6Ys692AFlwrJK+ylm8VC
-         7vpoiomwxqEgweHXgD2xeHH4YxJobNqSYoBtXK21iRXO4qOHj0va8+EgAO5gd0CDGZhR
-         LKsmaUr9aHfXxd/jnu7vsYsj3tDxy0WoHFP4LpFsV1GrfGncQ3q3NmaLgv6IdiKxyO5o
-         6ENg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:from:to:cc:subject
-         :content-transfer-encoding:mime-version;
-        bh=uojA38UQ5IJUoOSwiRI9ICgkJ9SwDvls6mv5YRrbvI4=;
-        b=qKc4Bcwq+3lg42I8Nq+kLwLzMGhPoJqFG7RXYP5Ooa6uP3B241mjCp/qRXee9WZA71
-         RT3N+vl5Isl6Gq5iwhk6nJPJHub6FKJnqxcbk4ve2gCeVMwdOOsdKSWsVOQ4qItzVLIs
-         zeSTzZE6HqFstVXYjpvhfPN1w3D1g0qs7/VwdXRkHQQaQZnHOI5rJE1fFGsDog8/9LHW
-         kJxEFGjz6MPxSUbqVe289Ct/unzY0qJUf8iLWId8qIb0+9VlcypedSsp52TlBVP9XRbo
-         dV6FJMb2UKPgPrGIJtTlCspF+fjZ+ZNSY8MwEZTk9kIThBEczEhlZCSge6uvw5a8GhWo
-         ueDg==
-X-Gm-Message-State: AOAM5313rriGNx0QfJCGlo3tRgmwJSQopJ/+SnVAhZjv6BD6vYNvD1r3
-	RaXPsQMN14TR3kcP9Hml2W5lVQ==
-X-Google-Smtp-Source: ABdhPJxzqiGUmQcOFxxDaFKxJbKV3JXY2enu43mvFJUkNiuvfJY62Pe/WzhcBBu7r0YrynF3bENtVg==
-X-Received: by 2002:a17:90a:bd13:: with SMTP id y19mr3995558pjr.24.1611043982233;
-        Tue, 19 Jan 2021 00:13:02 -0800 (PST)
-Return-Path: <nathan@nathanrossi.com>
-Received: from [127.0.1.1] (117-20-70-209.751446.bne.nbn.aussiebb.net. [117.20.70.209])
-        by smtp.gmail.com with UTF8SMTPSA id gg22sm1932387pjb.24.2021.01.19.00.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 00:13:01 -0800 (PST)
-Date: Tue, 19 Jan 2021 08:12:51 +0000
-Message-Id: <20210119081251.253018-1-nathan@nathanrossi.com>
-From: "Nathan Rossi" <nathan@nathanrossi.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZkL8o/AlAMGu+HhQ6GqGlGBn7b9bnyqXhu23PAfGFHc=;
+ b=lWw2yOme8ucWe+2Ed96vlYKUO3QWH5nR0e8RN+yoVX5qjHxw7DT50UTKx93FRqDH5190cUUUYYti3j5hzseRrPV1UnfjxX61MrhRVSW/1XeO+X1wcCnLfCzf8zQO9NpgX4d2HY8khu109Sg6cfvQbQoIjybsnidAowsG46+ETsY=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SN6PR11MB2909.namprd11.prod.outlook.com (2603:10b6:805:d5::13)
+ by SA0PR11MB4541.namprd11.prod.outlook.com (2603:10b6:806:94::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.12; Tue, 19 Jan
+ 2021 09:23:52 +0000
+Received: from SN6PR11MB2909.namprd11.prod.outlook.com
+ ([fe80::acc9:68df:558c:94e1]) by SN6PR11MB2909.namprd11.prod.outlook.com
+ ([fe80::acc9:68df:558c:94e1%6]) with mapi id 15.20.3784.011; Tue, 19 Jan 2021
+ 09:23:52 +0000
+From: "Robert Yang" <liezhi.yang@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Nathan Rossi <nathan@nathanrossi.com>
-Subject: [PATCH] gcc: Backport patch to resolve i*86 tune configuration overrides
+Subject: [PATCH 0/3] ccahe: ccache.bbclass: Use ccache-native and disable ccache for native recipes
+Date: Tue, 19 Jan 2021 01:23:42 -0800
+Message-Id: <cover.1611048144.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [147.11.105.124]
+X-ClientProxiedBy: SJ0PR03CA0122.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::7) To SN6PR11MB2909.namprd11.prod.outlook.com
+ (2603:10b6:805:d5::13)
+Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by SJ0PR03CA0122.namprd03.prod.outlook.com (2603:10b6:a03:33c::7) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10 via Frontend Transport; Tue, 19 Jan 2021 09:23:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 6b8bd773-e258-44d9-4f28-08d8bc5befb6
+X-MS-TrafficTypeDiagnostic: SA0PR11MB4541:
+X-Microsoft-Antispam-PRVS: 
+	<SA0PR11MB45410EC44C5B474D6D03F832FFA30@SA0PR11MB4541.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:449;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	np79guqPkOz49TGLAIY8fRJFLpLDRdGAr+2gY+PH+42rr9EQCCjwwVOY5IOD55bu2/dNGeAAJGimsZ9QwVRAw7u0Be0XUfIyVBTa+7eH7YWDRJVRGD3kAgPXtPvm10MKIDGi0a6RFtAH7Wi37zno5g+nag3iCaKY6lSUuWMNV7JcBAxBKbnpH7GXps3jfIoAiChJTYFD0CQpjlKy7gEFpq6/bLnY5F8snUUpJM9LaIbHX3+t2etYIUOzatf28xwYE4/qeFopL01sjIL3G4+Z16FwtGzR9LeVQLmZzMk2vZuvcnXeKUXYesQzNy8Y0HKUos8MzzMcqiN7b5H7cPL+Mq8sqgTfDBnGUyE+W0wO0WG50SbqnyB9u1hsSlHy4V5X57NDJ54rXsZK9hG+hmc1y5Zo95iu7zjD0okLKli6HC+KAtK7nXKF/0jtARHvm/fAyqjXzr+uP+RC0ExugSBdow==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(366004)(346002)(136003)(396003)(39850400004)(6916009)(6666004)(86362001)(66946007)(66476007)(4744005)(2616005)(956004)(6486002)(6506007)(66556008)(83380400001)(26005)(52116002)(186003)(5660300002)(478600001)(316002)(16526019)(8676002)(966005)(2906002)(36756003)(8936002)(6512007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	=?us-ascii?Q?UIneR2lEm2tAzSHq64Bq0MX+UTK9lBEgtHtpbIfVF1LSJ8yhRRqULA+5/aIB?=
+ =?us-ascii?Q?VS/OJgiygSrzfiWCMZn/NG6T4nVqrU7XDT+Px5CUMGcd2i0hzYfPG9Gjdx8l?=
+ =?us-ascii?Q?TiEaDvBQcQlqqMfiuSo+A4PxyWXJLS5rmLrH+Jp47ixCXgrrdrwvQ38iv6YJ?=
+ =?us-ascii?Q?vslDguOE5neI6wuUEdrYu9akkXflhJ/jRfDGMBVe1m4jqFRynFeoLaoAubNx?=
+ =?us-ascii?Q?YQ7gQLPBuKNDbAL9UoGz43kenbv6jpfnH5z6XGvR6l0L9eyNrBX+O6TPKhEe?=
+ =?us-ascii?Q?wDidi+aw8y4G4E7HqafbozpMcj47e11/JbYELrELdqFzchzVCp+5u804EHIe?=
+ =?us-ascii?Q?IVZ73489lQQfqtGL3BDvv2kjYV/8Da63HOkUnGB7T487uSjKiBD9HPjIi8jC?=
+ =?us-ascii?Q?9sbO43kePF6wJnharUIU6E7r20/lhF5aJBOwc6p9yWlZJACJBSN8zZfRXsaO?=
+ =?us-ascii?Q?ltEUGO4+8Si6NdRbZ1ByNECaNVQRlThiBSKxFGQYanNdQ0oYbmIlRTLycQRh?=
+ =?us-ascii?Q?oLnKjpBE4d66aJIP1SGdbUPxW1D3ZDz99qeDao9vh67O1yALqWkgat6ZNu5+?=
+ =?us-ascii?Q?RXN2uqpSiETXA6Pxlag0txHtnhcXf+vyXIoA5nTLL1ypVDkKegD4aNBwYrJX?=
+ =?us-ascii?Q?zbGY6Kt8GQrVLYOyxbKVv1COvO1P0k7JlpaSlyF+Gn0gJJ6C8gigJvC5ModG?=
+ =?us-ascii?Q?bBCgEYiHWeiUR6hjaQrYWfAKP6iIPm77/gXWSL4CxmHHROQvHYClItmvMAKV?=
+ =?us-ascii?Q?JRnUPoN6DEy0glHLE2dTztX+vvN6SQxnINL6I+Wrv1UxYo9CdEMDl27NeV9T?=
+ =?us-ascii?Q?4SNiHI5Y+q60U6O8QiR1C2zuxIGus1QCnH0uKaRSP6Y+0WlEfssWvDUOo3zh?=
+ =?us-ascii?Q?VNIWUiXaxIceLLVK4STGcv7o1H+z+BbYIrwKYqSZc8tIsoo+dVHyx6xvgax2?=
+ =?us-ascii?Q?3YDgSq+ZuOQxUcqWPePwycHkj4aVidGtZNPpL4rz6ecw5JAIZF8egSIXZKF9?=
+ =?us-ascii?Q?KcLL?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b8bd773-e258-44d9-4f28-08d8bc5befb6
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 09:23:52.4652
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ns3DWd3GLjQK4IXua+qpRDWxaMRAw7fKb4tBtmYpgV/94TAKZDfp3lP9NzfIjoIlKjrAKQeUSDkXc6fmMYS2yrjQLjo7lsGY1Y6+aFmlIYI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4541
+Content-Type: text/plain
 
-Upstream has merged a change to handle detection of target overrides so
-that they are only applied as required. Backport this patch from
-upstream and remove the OE specific patch.
+The following changes since commit 5f3cace37496fe1dc4fd045f688f7d441505c437:
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
- meta/recipes-devtools/gcc/gcc-10.2.inc             |   2 +-
- .../gcc/0001-lib-Remove-i-86-march-overrides.patch | 113 -----------
- ...omic-libgomp-libitc-Fix-bootstrap-PR70454.patch | 208 +++++++++++++++++++++
- 3 files changed, 209 insertions(+), 114 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch
+  boost: drop arm-intrinsics.patch (2021-01-17 11:27:59 +0000)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-10.2.inc b/meta/recipes-devtools/gcc/gcc-10.2.inc
-index 1e69c91311..c0cd8b31d5 100644
---- a/meta/recipes-devtools/gcc/gcc-10.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-10.2.inc
-@@ -69,7 +69,7 @@ SRC_URI = "\
-            file://0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch \
-            file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
-            file://0001-aarch64-Fix-up-__aarch64_cas16_acq_rel-fallback.patch \
--           file://0001-lib-Remove-i-86-march-overrides.patch \
-+           file://0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch \
- "
- SRC_URI[sha256sum] = "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch b/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
-deleted file mode 100644
-index 3f04e121ba..0000000000
---- a/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
-+++ /dev/null
-@@ -1,113 +0,0 @@
--From 3776789cde95916f95deef48acf9532b0ebf91ae Mon Sep 17 00:00:00 2001
--From: Nathan Rossi <nathan@nathanrossi.com>
--Date: Tue, 15 Dec 2020 11:43:36 +1000
--Subject: [PATCH] lib*: Remove i*86 march overrides
--
--OE does not pass the '--with-arch' option to gccs configure, as such
--some gcc-runtime libraries try to override the value of '-march' and
--'-mtune' which OE already provides. This causes conflicts with other
--i*86 instruction/architecture flags (e.g. -msse* and -mfpmath=*).
--Additionally this caused the following libraries to be built with less
--optimized tune configurations.
--
--Upstream suggests that this should be detecting or otherwise checking if
--the target supports the desired functionality before overriding.
--
--    https://gcc.gnu.org/legacy-ml/gcc-patches/2016-04/msg01344.html
--
--libatomic also overrides the '-march' specifically for IFUNC objects.
--OE already supplies the correct march flag, so remove setting.
--
--Upstream-Status: Inappropriate [OE Specific]
--Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-----
-- libatomic/Makefile.am   | 1 -
-- libatomic/Makefile.in   | 1 -
-- libatomic/configure.tgt | 9 ---------
-- libgomp/configure.tgt   | 8 --------
-- libitm/configure.tgt    | 9 ---------
-- 5 files changed, 28 deletions(-)
--
--diff --git a/libatomic/Makefile.am b/libatomic/Makefile.am
--index ac1ca64587..5aa16e0699 100644
----- a/libatomic/Makefile.am
--+++ b/libatomic/Makefile.am
--@@ -133,7 +133,6 @@ libatomic_la_LIBADD += $(foreach s,$(SIZES),$(addsuffix _$(s)_1_.lo,$(SIZEOBJS))
-- libatomic_la_LIBADD += $(addsuffix _8_2_.lo,$(SIZEOBJS))
-- endif
-- if ARCH_I386
---IFUNC_OPTIONS	     = -march=i586
-- libatomic_la_LIBADD += $(addsuffix _8_1_.lo,$(SIZEOBJS))
-- endif
-- if ARCH_X86_64
--diff --git a/libatomic/Makefile.in b/libatomic/Makefile.in
--index 97df2d7ff0..82c511d420 100644
----- a/libatomic/Makefile.in
--+++ b/libatomic/Makefile.in
--@@ -432,7 +432,6 @@ libatomic_la_LIBADD = $(foreach s,$(SIZES),$(addsuffix \
-- 	_$(s)_.lo,$(SIZEOBJS))) $(am__append_1) $(am__append_2) \
-- 	$(am__append_3) $(am__append_4)
-- @ARCH_ARM_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv7-a+fp -DHAVE_KERNEL64
---@ARCH_I386_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=i586
-- @ARCH_X86_64_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -mcx16
-- libatomic_convenience_la_SOURCES = $(libatomic_la_SOURCES)
-- libatomic_convenience_la_LIBADD = $(libatomic_la_LIBADD)
--diff --git a/libatomic/configure.tgt b/libatomic/configure.tgt
--index 5dd0926d20..3cc41773c3 100644
----- a/libatomic/configure.tgt
--+++ b/libatomic/configure.tgt
--@@ -82,15 +82,6 @@ case "${target_cpu}" in
-- 	;;
-- 
--   i[3456]86)
---	case " ${CC} ${CFLAGS} " in
---	  *" -m64 "*|*" -mx32 "*)
---	    ;;
---	  *)
---	    if test -z "$with_arch"; then
---	      XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
---	      XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
---	    fi
---	esac
-- 	ARCH=x86
-- 	# ??? Detect when -march=i686 is already enabled.
-- 	try_ifunc=yes
--diff --git a/libgomp/configure.tgt b/libgomp/configure.tgt
--index 4790a31e39..46c4c958e6 100644
----- a/libgomp/configure.tgt
--+++ b/libgomp/configure.tgt
--@@ -72,14 +72,6 @@ if test x$enable_linux_futex = xyes; then
--     # Note that bare i386 is not included here.  We need cmpxchg.
--     i[456]86-*-linux*)
-- 	config_path="linux/x86 linux posix"
---	case " ${CC} ${CFLAGS} " in
---	  *" -m64 "*|*" -mx32 "*)
---	    ;;
---	  *)
---	    if test -z "$with_arch"; then
---	      XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
---	    fi
---	esac
-- 	;;
-- 
--     # Similar jiggery-pokery for x86_64 multilibs, except here we
--diff --git a/libitm/configure.tgt b/libitm/configure.tgt
--index 04109160e9..3d78ea609d 100644
----- a/libitm/configure.tgt
--+++ b/libitm/configure.tgt
--@@ -59,15 +59,6 @@ case "${target_cpu}" in
--   arm*)		ARCH=arm ;;
-- 
--   i[3456]86)
---	case " ${CC} ${CFLAGS} " in
---	  *" -m64 "*|*" -mx32 "*)
---	    ;;
---	  *)
---	    if test -z "$with_arch"; then
---	      XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
---	      XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
---	    fi
---	esac
-- 	XCFLAGS="${XCFLAGS} -mrtm"
-- 	ARCH=x86
-- 	;;
-diff --git a/meta/recipes-devtools/gcc/gcc/0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch b/meta/recipes-devtools/gcc/gcc/0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch
-new file mode 100644
-index 0000000000..addecb4bd8
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch
-@@ -0,0 +1,208 @@
-+From 2824d2418605e092899117e77bc8ebf332321807 Mon Sep 17 00:00:00 2001
-+From: Jakub Jelinek <jakub@redhat.com>
-+Date: Fri, 15 Jan 2021 13:12:59 +0100
-+Subject: [PATCH] libatomic, libgomp, libitc: Fix bootstrap [PR70454]
-+
-+The recent changes to error on mixing -march=i386 and -fcf-protection broke
-+bootstrap.  This patch changes lib{atomic,gomp,itm} configury, so that it
-+only adds -march=i486 to flags if really needed (i.e. when 486 or later isn't
-+on by default already).  Similarly, it will not use ifuncs if -mcx16
-+(or -march=i686 for 32-bit) is on by default.
-+
-+2021-01-15  Jakub Jelinek  <jakub@redhat.com>
-+
-+	PR target/70454
-+libatomic/
-+	* configure.tgt: For i?86 and x86_64 determine if -march=i486 needs to
-+	be added through preprocessor check on
-+	__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4.  Determine if try_ifunc is needed
-+	based on preprocessor check on __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16
-+	or __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8.
-+libgomp/
-+	* configure.tgt: For i?86 and x86_64 determine if -march=i486 needs to
-+	be added through preprocessor check on
-+	__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4.
-+libitm/
-+	* configure.tgt: For i?86 and x86_64 determine if -march=i486 needs to
-+	be added through preprocessor check on
-+	__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4.
-+
-+Upstream-Status: Backport [master post 10.x release]
-+---
-+ libatomic/configure.tgt | 56 +++++++++++++++++++++++------------------
-+ libgomp/configure.tgt   | 35 +++++++++++---------------
-+ libitm/configure.tgt    | 37 +++++++++++++--------------
-+ 3 files changed, 64 insertions(+), 64 deletions(-)
-+
-+diff --git a/libatomic/configure.tgt b/libatomic/configure.tgt
-+index 5dd0926d20..6ea082a29b 100644
-+--- a/libatomic/configure.tgt
-++++ b/libatomic/configure.tgt
-+@@ -81,32 +81,40 @@ case "${target_cpu}" in
-+ 	ARCH=sparc
-+ 	;;
-+ 
-+-  i[3456]86)
-+-	case " ${CC} ${CFLAGS} " in
-+-	  *" -m64 "*|*" -mx32 "*)
-+-	    ;;
-+-	  *)
-+-	    if test -z "$with_arch"; then
-+-	      XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-+-	      XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-+-	    fi
-+-	esac
-+-	ARCH=x86
-+-	# ??? Detect when -march=i686 is already enabled.
-+-	try_ifunc=yes
-+-	;;
-+-  x86_64)
-+-	case " ${CC} ${CFLAGS} " in
-+-	  *" -m32 "*)
-++  i[3456]86 | x86_64)
-++	cat > conftestx.c <<EOF
-++#ifndef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
-++#error need -march=i486
-++#endif
-++EOF
-++	if ${CC} ${CFLAGS} -E conftestx.c > /dev/null 2>&1; then
-++	  :
-++	else
-++	  if test "${target_cpu}" = x86_64; then
-+ 	    XCFLAGS="${XCFLAGS} -march=i486 -mtune=generic"
-+-	    XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-+-	    ;;
-+-	  *)
-+-	    ;;
-+-	esac
-++	  else
-++	    XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-++	  fi
-++	  XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-++	fi
-++	cat > conftestx.c <<EOF
-++#ifdef __x86_64__
-++#ifndef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_16
-++#error need -mcx16
-++#endif
-++#else
-++#ifndef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8
-++#error need -march=i686
-++#endif
-++#endif
-++EOF
-++	if ${CC} ${CFLAGS} -E conftestx.c > /dev/null 2>&1; then
-++	  try_ifunc=no
-++	else
-++	  try_ifunc=yes
-++	fi
-++	rm -f conftestx.c
-+ 	ARCH=x86
-+-	# ??? Detect when -mcx16 is already enabled.
-+-	try_ifunc=yes
-+ 	;;
-+ 
-+   *)			ARCH="${target_cpu}" ;;
-+diff --git a/libgomp/configure.tgt b/libgomp/configure.tgt
-+index 4790a31e39..761ef2a7db 100644
-+--- a/libgomp/configure.tgt
-++++ b/libgomp/configure.tgt
-+@@ -70,28 +70,23 @@ if test x$enable_linux_futex = xyes; then
-+ 	;;
-+ 
-+     # Note that bare i386 is not included here.  We need cmpxchg.
-+-    i[456]86-*-linux*)
-++    i[456]86-*-linux* | x86_64-*-linux*)
-+ 	config_path="linux/x86 linux posix"
-+-	case " ${CC} ${CFLAGS} " in
-+-	  *" -m64 "*|*" -mx32 "*)
-+-	    ;;
-+-	  *)
-+-	    if test -z "$with_arch"; then
-+-	      XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-+-	    fi
-+-	esac
-+-	;;
-+-
-+-    # Similar jiggery-pokery for x86_64 multilibs, except here we
-+-    # can't rely on the --with-arch configure option, since that
-+-    # applies to the 64-bit side.
-+-    x86_64-*-linux*)
-+-	config_path="linux/x86 linux posix"
-+-	case " ${CC} ${CFLAGS} " in
-+-	  *" -m32 "*)
-++	cat > conftestx.c <<EOF
-++#ifndef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
-++#error need -march=i486
-++#endif
-++EOF
-++	if ${CC} ${CFLAGS} -E conftestx.c > /dev/null 2>&1; then
-++	  :
-++	else
-++	  if test "${target_cpu}" = x86_64; then
-+ 	    XCFLAGS="${XCFLAGS} -march=i486 -mtune=generic"
-+-	    ;;
-+-	esac
-++	  else
-++	    XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-++	  fi
-++	fi
-++	rm -f conftestx.c
-+ 	;;
-+ 
-+     # Note that sparcv7 and sparcv8 is not included here.  We need cas.
-+diff --git a/libitm/configure.tgt b/libitm/configure.tgt
-+index 04109160e9..ca62bac627 100644
-+--- a/libitm/configure.tgt
-++++ b/libitm/configure.tgt
-+@@ -58,16 +58,23 @@ case "${target_cpu}" in
-+ 
-+   arm*)		ARCH=arm ;;
-+ 
-+-  i[3456]86)
-+-	case " ${CC} ${CFLAGS} " in
-+-	  *" -m64 "*|*" -mx32 "*)
-+-	    ;;
-+-	  *)
-+-	    if test -z "$with_arch"; then
-+-	      XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-+-	      XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-+-	    fi
-+-	esac
-++  i[3456]86 | x86_64)
-++	cat > conftestx.c <<EOF
-++#ifndef __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
-++#error need -march=i486
-++#endif
-++EOF
-++	if ${CC} ${CFLAGS} -E conftestx.c > /dev/null 2>&1; then
-++	  :
-++	else
-++	  if test "${target_cpu}" = x86_64; then
-++	    XCFLAGS="${XCFLAGS} -march=i486 -mtune=generic"
-++	  else
-++	    XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-++	  fi
-++	  XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-++	fi
-++	rm -f conftestx.c
-+ 	XCFLAGS="${XCFLAGS} -mrtm"
-+ 	ARCH=x86
-+ 	;;
-+@@ -102,16 +109,6 @@ case "${target_cpu}" in
-+ 	ARCH=sparc
-+ 	;;
-+ 
-+-  x86_64)
-+-	case " ${CC} ${CFLAGS} " in
-+-	  *" -m32 "*)
-+-	    XCFLAGS="${XCFLAGS} -march=i486 -mtune=generic"
-+-	    XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-+-	    ;;
-+-	esac
-+-	XCFLAGS="${XCFLAGS} -mrtm"
-+-	ARCH=x86
-+-	;;
-+   s390|s390x)
-+ 	XCFLAGS="${XCFLAGS} -mzarch -mhtm"
-+ 	ARCH=s390
----
-2.30.0
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/ccache
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/ccache
+
+Robert Yang (3):
+  Revert "ccache.bbclass: use ccache from host distribution"
+  ccache.bbclass: Use ccache-native and disable ccache for native
+    recipes
+  apt: Fix do_compile error when enable ccache
+
+ meta/classes/ccache.bbclass                  |  5 ++---
+ meta/conf/bitbake.conf                       |  2 +-
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 19 ++++++++++---------
+ meta/recipes-devtools/apt/apt_1.8.2.1.bb     |  6 +++++-
+ 4 files changed, 18 insertions(+), 14 deletions(-)
+
+-- 
+2.17.1
+
