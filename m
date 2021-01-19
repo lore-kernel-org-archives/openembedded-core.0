@@ -1,101 +1,72 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web12.17808.1611089566266943551
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+ by mx.groups.io with SMTP id smtpd.web12.17899.1611089959610844646
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 12:52:46 -0800
+ Tue, 19 Jan 2021 12:59:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=icOoLQ8p;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id j18so1003102wmi.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 12:52:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=fHr4yXOYWb3eU2a0DEzoTka9Jut1ZRq4m7u2Eq+Sd/I=;
-        b=icOoLQ8puWR39UaWO4VJqyaj0x8vH6sT/03M72vkU0jJR0D4GzibW+jOKaSy6jA2qY
-         QIgIYEb0upVBNRwHuKc6wvxPTs9sV6mFZkXRHvO0SY1QhzUNWA0qoz+US3eLgp8tOW6h
-         BTdDIp9m/SXVERi724nd0+RB1pyrC1E7b3oxU=
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: aehs29@gmail.com)
+Received: by mail-ot1-f52.google.com with SMTP id i30so8279567ota.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 12:59:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=fHr4yXOYWb3eU2a0DEzoTka9Jut1ZRq4m7u2Eq+Sd/I=;
-        b=Q522Wy2pr08dN8iYDU7llsaVWya/Dv5IQRhM81vINGL+ML9TEU9fg5n5Ha50vEX9d6
-         08Rf8h1BTZaDkNfOwTxbTLb6ZflPphTXW2HWTvpS3qPBTkEZOOLuN453zqk1W+GZjzuK
-         CTBJlI1qIpvRFr5CC5xrQodL6DF6BiSFeBQcZn6ytLgdVrhFY221TEhg9ZzcmD+gGygC
-         3KZ3a5tBhxyrvciRm6A4GYiTbQqsio1TTVYbXmlSF0g1xD4IFgH0AEdyQgjsDadzu6wQ
-         GnbYrurBrBjWXTVSa8KvUBn0RhnekhWjXYL6x/YuzCw0nC0i2Iq8M6WHdnViGlX3vgGh
-         2pAg==
-X-Gm-Message-State: AOAM531x0n4FSuc6iv9m5oeyUPqrn7dIP55yS3nZRUAUOfe3yruXoy4Q
-	i9xU3toTlzS73VKJpXk94Fna5A==
-X-Google-Smtp-Source: ABdhPJz5iAv9VMclJ1cNjs0CV9ovY1sbo7UXJi7YRy5QhZrZOz2q6iKemsblIyjEaybhdDV+cMePFg==
-X-Received: by 2002:a7b:c35a:: with SMTP id l26mr1232572wmj.182.1611089564733;
-        Tue, 19 Jan 2021 12:52:44 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id j9sm38001267wrm.14.2021.01.19.12.52.43
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fqit2SEFDpSLvCNZrXfP8ECnbTwXbde9X6tsxma9HbU=;
+        b=I2pCLP9mxSXRipwF9LAIFSR2IfC/8rpWtIivehJSHZsN0uu+Q5AgJI2WMGTlZRjBfz
+         RT4+exioqttqodK8RivHLQflvgsdz6QVQo5P4Zq1nYmNxpV+cxOLgDA1paKxWCDyVrto
+         NniueL2ny0AxLxUGNG/uSKosyAHCiltkAH9P+0Enj4JbDiMvNtd6ByzvOWjxHr+809Yl
+         u1obudpfXRdOZpvZqEmFQmu/hzbHB/tjLpPUgSc4+rl4wqhFn5CNzGw2gwZWNvdZbt/L
+         /tTJRpK0/KNRus1w27yPZHX6nBn2x8OdWRQildXDhDlpThp0OZd4UEbytHD5D45LfOiQ
+         2/4g==
+X-Gm-Message-State: AOAM530p4f4WSDTejQ1CGrmMGce9GYl4l8z+XcMi6+XGHYr+ORVrCLu2
+	Qbgq0C5b9V6zugVGP0qT7s9j1Id1grgS/jQm
+X-Google-Smtp-Source: ABdhPJw/mClvFXPXqRs8DAjQGJwioV96euv5kw+Z09Ztzr3sFQH6QU5KokJU5J/OTL+xDHRHh/YPTQ==
+X-Received: by 2002:a05:6830:1d79:: with SMTP id l25mr4783172oti.17.1611089958561;
+        Tue, 19 Jan 2021 12:59:18 -0800 (PST)
+Return-Path: <aehs29@gmail.com>
+Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com. [68.201.52.49])
+        by smtp.gmail.com with ESMTPSA id p28sm4728118ota.14.2021.01.19.12.59.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 12:52:44 -0800 (PST)
-Message-ID: <066f346a8d1c643650bf814cc3c18c363b820d5f.camel@linuxfoundation.org>
-Subject: Re: [PATCH v4] util-linux: split uuid in separate recipe to allow bootstrapping
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2021 20:52:41 +0000
-In-Reply-To: <20201210184632.3448265-1-luca.boccassi@gmail.com>
-References: <20201123132823.3996355-1-luca.boccassi@gmail.com>
-	 <20201210184632.3448265-1-luca.boccassi@gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Tue, 19 Jan 2021 12:59:17 -0800 (PST)
+From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Subject: [OE-core][PATCH] newlib: Upgrade 3.3.0 -> 4.1.0
+Date: Tue, 19 Jan 2021 13:59:12 -0700
+Message-Id: <20210119205912.2497213-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-12-10 at 18:46 +0000, luca.boccassi@gmail.com wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> In the next release util-linux will gain an (optional) build
-> dependency on libcryptsetup. But libcryptsetup build-depends on
-> util-linux for blkid (optional, can be disabled) and uuid (mandatory).
-> Split out util-linux-uuid in a different recipe to break the cycle.
-> 
-> https://github.com/karelzak/util-linux/pull/898
-> 
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
-> v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
->     underway as I'm not sure if this is the best approach or if there are
->     alternatives. Suggestions and comments very welcome. Thanks!
-> v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
->     and leave uuid build enable in main recipe to allow for uuidgen build to happen,
->     as it does not have its own autoconf switch. Delete the library manualy from
->     the main recipe after build instead, and add dependency.
->     Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
->     only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
-> v3: rebased and refactored to have a common util-linux.inc file
-> v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+---
+ .../newlib/{libgloss_3.3.0.bb => libgloss_4.1.0.bb}             | 0
+ meta/recipes-core/newlib/newlib.inc                             | 2 +-
+ meta/recipes-core/newlib/{newlib_3.3.0.bb => newlib_4.1.0.bb}   | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/newlib/{libgloss_3.3.0.bb => libgloss_4.1.0.bb} (100%)
+ rename meta/recipes-core/newlib/{newlib_3.3.0.bb => newlib_4.1.0.bb} (100%)
 
-This patch got a bit lost before the holidays but I've been reminded we
-need to resolve it.
-
-I think the one remaining issue here is the need to change the DEPENDS
-of so many other recipes, likely not just here in this patch but in
-other layers. I think if util-linux DEPENDS on util-linux-uuid that
-might remove the need for those changes? That should still allow you to
-break the circular dependency problem?
-
-I suspect libuuid should really be maintained/built as a separate
-software project given the dependency problems but that isn't my
-decision, we just have to deal with it.
-
-I am also worried this is going to break AUH and mean we have to
-manually handle this recipe but again, I suspect there is little to be
-done and we just have to deal with it.
-
-Could you resend it with the above DEPENDS change if that will work ok,
-refreshed against OE-Core since we have util-linux 2.36.1 now and then
-hopefully we can resolve this.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-core/newlib/libgloss_3.3.0.bb b/meta/recipes-core/newlib/libgloss_4.1.0.bb
+similarity index 100%
+rename from meta/recipes-core/newlib/libgloss_3.3.0.bb
+rename to meta/recipes-core/newlib/libgloss_4.1.0.bb
+diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
+index 96e230f985..c1d8687380 100644
+--- a/meta/recipes-core/newlib/newlib.inc
++++ b/meta/recipes-core/newlib/newlib.inc
+@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = " \
+ 		"
+ 
+ SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "58dd9e3eaedf519360d92d84205c3deef0b3fc286685d1c562e245914ef72c66"
++SRC_URI[sha256sum] = "f296e372f51324224d387cc116dc37a6bd397198756746f93a2b02e9a5d40154"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ DEPENDS = "virtual/${TARGET_PREFIX}gcc"
+diff --git a/meta/recipes-core/newlib/newlib_3.3.0.bb b/meta/recipes-core/newlib/newlib_4.1.0.bb
+similarity index 100%
+rename from meta/recipes-core/newlib/newlib_3.3.0.bb
+rename to meta/recipes-core/newlib/newlib_4.1.0.bb
+-- 
+2.25.1
 
