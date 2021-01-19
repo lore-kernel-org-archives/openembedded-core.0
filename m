@@ -1,103 +1,101 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web08.15968.1611082486596687232
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web12.17808.1611089566266943551
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 10:54:46 -0800
+ Tue, 19 Jan 2021 12:52:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=L2NWt8v+;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id h11so1892331ioh.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 10:54:46 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=icOoLQ8p;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id j18so1003102wmi.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 12:52:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=awajYC8QbTZESG60ObznkU1YvDt2nJAX4kXFRjYgxL0=;
-        b=L2NWt8v+OH9ljVW0KxNRLhcfz2EI1LFrEUY2v1L7oFkkeLgdI+6V9QDyRF6dEu86Fn
-         7cK78PhiA9Hw6d2pb90jbU/q5BrLAI6lYbXI5JhZDgHy+JeM+jHZCsGM5TsbVnkyXCYs
-         XZsgNBA16xYFO+q9uPVcYDam3rITT3EOwAKxCYPgKKVKEs4cicNhAx477vhPLi3PNPqd
-         iTlDS51wfOsd0xpo8YR1lH6DCMp+SYt1xDPmpzsAfp150q4a/iA2Q14GRxhyUaJh7HP+
-         kOKyg25DzxTaM7cl4tKl72GNL8Swoe//WZ7RTjL7wo+Ua77qarN/7ftbPD/cr3qllH9h
-         BGfQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=fHr4yXOYWb3eU2a0DEzoTka9Jut1ZRq4m7u2Eq+Sd/I=;
+        b=icOoLQ8puWR39UaWO4VJqyaj0x8vH6sT/03M72vkU0jJR0D4GzibW+jOKaSy6jA2qY
+         QIgIYEb0upVBNRwHuKc6wvxPTs9sV6mFZkXRHvO0SY1QhzUNWA0qoz+US3eLgp8tOW6h
+         BTdDIp9m/SXVERi724nd0+RB1pyrC1E7b3oxU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=awajYC8QbTZESG60ObznkU1YvDt2nJAX4kXFRjYgxL0=;
-        b=Tp3uYuQoy8l5FB51+cPZ1PK2qlamaH8i7UcFYM2DL2Efbp1Px2Py336BL3DC/qnrEN
-         Lm+uLaLIOtqP1ShqydC8OFQj1uzau+gv0MiW/OTJojn0t7fnPwHc1EqJe19mQ4BxYZTG
-         vyjtlpZCRHiR6DmbWhlDHWP/22DbW58xQlJlShj/X9dDM/sFGdZItUJwLismAjugWhK8
-         BfbJhXT/TGKSw7jeVzd/gmVXFGueS0CZqlzyS6FRymLyv+niKS5J2Eqpi2Sv4u98Yfse
-         uSyN/BCzUdJTBqLNjdIRCplKP7jt/CHa+MiO79YInu9W2QVZyqG9sHKPzZJ8IqxuCnSX
-         optw==
-X-Gm-Message-State: AOAM5303TzOlVz4bKH1V0zc/cLx+nEc3RYCWua+daUhb/XDQfBhf1pkO
-	VMn2Zq6Vfb7sU/1TjxrZ4WYin1RHXQ78lATSUzU=
-X-Google-Smtp-Source: ABdhPJzgU4U92YqoiKC5BGaBo9gd4rmpoPsXSBeox1+5CdJniDjdNghW/diXlGh62edq5pKpNneRagiBFi9G8wRKNoc=
-X-Received: by 2002:a02:3b4e:: with SMTP id i14mr4738496jaf.36.1611082485813;
- Tue, 19 Jan 2021 10:54:45 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=fHr4yXOYWb3eU2a0DEzoTka9Jut1ZRq4m7u2Eq+Sd/I=;
+        b=Q522Wy2pr08dN8iYDU7llsaVWya/Dv5IQRhM81vINGL+ML9TEU9fg5n5Ha50vEX9d6
+         08Rf8h1BTZaDkNfOwTxbTLb6ZflPphTXW2HWTvpS3qPBTkEZOOLuN453zqk1W+GZjzuK
+         CTBJlI1qIpvRFr5CC5xrQodL6DF6BiSFeBQcZn6ytLgdVrhFY221TEhg9ZzcmD+gGygC
+         3KZ3a5tBhxyrvciRm6A4GYiTbQqsio1TTVYbXmlSF0g1xD4IFgH0AEdyQgjsDadzu6wQ
+         GnbYrurBrBjWXTVSa8KvUBn0RhnekhWjXYL6x/YuzCw0nC0i2Iq8M6WHdnViGlX3vgGh
+         2pAg==
+X-Gm-Message-State: AOAM531x0n4FSuc6iv9m5oeyUPqrn7dIP55yS3nZRUAUOfe3yruXoy4Q
+	i9xU3toTlzS73VKJpXk94Fna5A==
+X-Google-Smtp-Source: ABdhPJz5iAv9VMclJ1cNjs0CV9ovY1sbo7UXJi7YRy5QhZrZOz2q6iKemsblIyjEaybhdDV+cMePFg==
+X-Received: by 2002:a7b:c35a:: with SMTP id l26mr1232572wmj.182.1611089564733;
+        Tue, 19 Jan 2021 12:52:44 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
+        by smtp.gmail.com with ESMTPSA id j9sm38001267wrm.14.2021.01.19.12.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 12:52:44 -0800 (PST)
+Message-ID: <066f346a8d1c643650bf814cc3c18c363b820d5f.camel@linuxfoundation.org>
+Subject: Re: [PATCH v4] util-linux: split uuid in separate recipe to allow bootstrapping
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
+Date: Tue, 19 Jan 2021 20:52:41 +0000
+In-Reply-To: <20201210184632.3448265-1-luca.boccassi@gmail.com>
+References: <20201123132823.3996355-1-luca.boccassi@gmail.com>
+	 <20201210184632.3448265-1-luca.boccassi@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210119155325.351554-1-tomasz.dziendzielski@gmail.com>
- <107314c0428cf791bc195dd27d3cfe11bb9a4c3e.camel@linuxfoundation.org>
- <CAJkqNs2jU7FVs5zdeBto2CysdyDUBgyFsWe2gDQKKxLR9UEgQw@mail.gmail.com> <75dd1f1859c454c2f3ddf14707292f5ab444a834.camel@linuxfoundation.org>
-In-Reply-To: <75dd1f1859c454c2f3ddf14707292f5ab444a834.camel@linuxfoundation.org>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Tue, 19 Jan 2021 19:57:15 +0100
-Message-ID: <CAJkqNs0uwQBpRa2F9nMV9gioHP8thYWzem42uhXwgOPO7N+PQA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] devtool: Fix source extraction for gcc shared source
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004555b705b9455f27"
-
---0000000000004555b705b9455f27
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
->Try checking if the "task" flag is set for "do_patch"
-Good idea, thanks! It's working correctly. I can see both 'noexec' and
-'task' flags can be set separately, so to make it more general (and make it
-work for similar recipes without sources) I will check both 'noexec' and
-'task' flags.
-I will submit another patchset with suggested change  (see below) and with
-another condition check to not affect kernel build.:
+On Thu, 2020-12-10 at 18:46 +0000, luca.boccassi@gmail.com wrote:
+> From: Luca Boccassi <luca.boccassi@microsoft.com>
+> 
+> In the next release util-linux will gain an (optional) build
+> dependency on libcryptsetup. But libcryptsetup build-depends on
+> util-linux for blkid (optional, can be disabled) and uuid (mandatory).
+> Split out util-linux-uuid in a different recipe to break the cycle.
+> 
+> https://github.com/karelzak/util-linux/pull/898
+> 
+> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+> ---
+> v1: util-linux 2.35 is not out yet, but I'd like to get the preparatory work
+>     underway as I'm not sure if this is the best approach or if there are
+>     alternatives. Suggestions and comments very welcome. Thanks!
+> v2: changed packages names to reflect old ones (eg: libuuid1 -> util-linux-libuuid)
+>     and leave uuid build enable in main recipe to allow for uuidgen build to happen,
+>     as it does not have its own autoconf switch. Delete the library manualy from
+>     the main recipe after build instead, and add dependency.
+>     Might help to break loop python3 -> util-linux -> libselinux -> python3, as it's
+>     only libuuid that is needed, see https://lists.yoctoproject.org/g/yocto/message/47570
+> v3: rebased and refactored to have a common util-linux.inc file
+> v4: added RDEPENDS on util-linux-libuuid on various packages to fix QA warnings
 
-diff --git a/scripts/lib/devtool/standard.py
-b/scripts/lib/devtool/standard.py
-index 8b80fb8bfa..6f4cbbe219 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
+This patch got a bit lost before the holidays but I've been reminded we
+need to resolve it.
 
--                if 'noexec' in (d.getVarFlags(task, False) or []):
-+                if 'noexec' in (d.getVarFlags(task, False) or []) or
-'task' not in (d.getVarFlags(task, False) or []):
-...
--        if 'noexec' in (d.getVarFlags('do_patch', False) or []):
-+        if not is_kernel_yocto and ('noexec' in (d.getVarFlags('do_patch',
-False) or []) or 'task' not in (d.getVarFlags('do_patch', False) or []):
+I think the one remaining issue here is the need to change the DEPENDS
+of so many other recipes, likely not just here in this patch but in
+other layers. I think if util-linux DEPENDS on util-linux-uuid that
+might remove the need for those changes? That should still allow you to
+break the circular dependency problem?
 
-Best regards,
-Tomasz Dziendzielski
+I suspect libuuid should really be maintained/built as a separate
+software project given the dependency problems but that isn't my
+decision, we just have to deal with it.
 
---0000000000004555b705b9455f27
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I am also worried this is going to break AUH and mean we have to
+manually handle this recipe but again, I suspect there is little to be
+done and we just have to deal with it.
 
-<div dir=3D"ltr"><div>&gt;Try checking if the &quot;task&quot; flag is set =
-for &quot;do_patch&quot;</div><div>Good idea, thanks! It&#39;s working corr=
-ectly. I can  see both &#39;noexec&#39; and &#39;task&#39; flags can be set=
- separately, so to make it more general (and make it work for similar recip=
-es without sources) I will check both &#39;noexec&#39; and &#39;task&#39; f=
-lags.<br></div><div>I will submit another patchset with suggested change=C2=
-=A0 (see below) and with another condition check to not affect kernel build=
-.:<br></div><div dir=3D"ltr"><br>diff --git a/scripts/lib/devtool/standard.=
-py b/scripts/lib/devtool/standard.py<br>index 8b80fb8bfa..6f4cbbe219 100644=
-<br>--- a/scripts/lib/devtool/standard.py<br>+++ b/scripts/lib/devtool/stan=
-dard.py<br>=C2=A0<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0if &#39;noexec&#39; in (d.getVarFlags(task, False) or []):</div><div dir=
-=3D"ltr">+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &#39;n=
-oexec&#39; in (d.getVarFlags(task, False) or []) or &#39;task&#39; not in (=
-d.getVarFlags(task, False) or []):<br>...<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0i=
-f &#39;noexec&#39; in (d.getVarFlags(&#39;do_patch&#39;, False) or []):<br>=
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0if not is_kernel_yocto and (&#39;noexec&#39; i=
-n (d.getVarFlags(&#39;do_patch&#39;, False) or []) or &#39;task&#39; not in=
- (d.getVarFlags(&#39;do_patch&#39;, False) or []):<br><br></div><div>Best r=
-egards,</div><div>Tomasz Dziendzielski<br></div></div>
+Could you resend it with the above DEPENDS change if that will work ok,
+refreshed against OE-Core since we have util-linux 2.36.1 now and then
+hopefully we can resolve this.
 
---0000000000004555b705b9455f27--
+Cheers,
+
+Richard
+
+
