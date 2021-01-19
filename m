@@ -1,93 +1,104 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.15079.1611078845919534086
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+ by mx.groups.io with SMTP id smtpd.web12.15223.1611079394048567729
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 09:54:06 -0800
+ Tue, 19 Jan 2021 10:03:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WDfr6uSw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id d13so20569435wrc.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 09:54:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KtWo81ea;
+ spf=pass (domain: gmail.com, ip: 209.85.166.42, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-io1-f42.google.com with SMTP id h11so1545352ioh.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 10:03:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=wuZyNzGDv3sEpveQaDC88UV1Z1vspxbRRHUD7yY2RKQ=;
-        b=WDfr6uSwz53aBJ+lssYzehpMymH0GDAWVgzAcD61y5r5tMT2rHj3npNR2t4sGjYIa/
-         B+1mH1Jes0bjGs+fBazmzgxUD3TN/QSBa3DgATGzdmBBdwa9yHKnCZqO6T71VzSu7dnn
-         eg67R+hA89IrqRpjpbVJUFVJYbWz7FIJqYWdA=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Go5KlQsshpx//5zXaJkH6MlalCrbfdHV/EAGYLANAWY=;
+        b=KtWo81eae5dr6BS2Lzr8N1sKcfU3rPEQK0/+Ut2TUurR696J0FfoRkfTMqAJiL5991
+         hQ7Z5lWC1TL5pwH7cynuXOeKPC2h8anw2/OtbL8tN22StdvRuWsnQT3FR0AYjBJg0/Lk
+         OOXMsCaWeC3EqFHp0LM7Voai6OiklSu1y+LuxST4TL5cwNJzrnQXn7Vg3hLKhEKgs8qN
+         8z+2oJdR3NFhPhMBor3ctvUcvomxkqAmb5FaUMNTnq3NoVdLNrB3gHXh+LHxJnGALkkv
+         icxEcUs+3P0Cn8z4X5PbTHu1vrtUXYRs/8GBdlcYs476Gk6IuupO47gZKJE5qGvb9WpH
+         HcEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=wuZyNzGDv3sEpveQaDC88UV1Z1vspxbRRHUD7yY2RKQ=;
-        b=hCeEKPi9zuSlWF3YREAnObxnzpZEC3nLmOS9kIMNtZdz/Y860Ie68kZci9I9JwPuLr
-         JXscBpRBl3DYhA8OQqfaoZEgzmJX/nwnDaeACYVWxHg3AgJeRU7amGr6xrm7nkWUuT4B
-         okfu9g++Ow8N65Ew99/6QIFKcgtU4OLWtCXZLtHvs/YSH2py2TPHuzDLhxACsqa1x3hN
-         hEkml9Ifcga2RZ/KcM/8RIsG510OqFkJzKnjkAchMEyl3Rwc44Bsp5pnFuTc5YsGm2Lu
-         Oacmsyt7aUMxbrgUYRJvPURgOFl76TBCH4YYN7JvqsGIM/bRxKUtXmghQTVcdGA1OR8m
-         NQiw==
-X-Gm-Message-State: AOAM531rWzvs9Ik/iiQY7PfAn4ZKdy1JcuRYPfZIeQnr9f2U950N6CCb
-	Hjkwr8XDAlk82yulZlSGWRTl4A==
-X-Google-Smtp-Source: ABdhPJzJ4y62yublgWvQ8dOgIiA+hEKI81mn0xQd3lp+YliVmNUOUlmTMQV9xt9OMPjSFB4J3n8VxQ==
-X-Received: by 2002:a5d:4f10:: with SMTP id c16mr5396668wru.398.1611078844517;
-        Tue, 19 Jan 2021 09:54:04 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id m82sm5783025wmf.29.2021.01.19.09.54.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 09:54:04 -0800 (PST)
-Message-ID: <45d63db6a8595ed5e74975e874e4a24c610228bc.camel@linuxfoundation.org>
-Subject: Re: [OE-core] uninative limitation: UNINATIVE_MAXGLIBCVERSION
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alan Kozlay <alan.kozlay@ves.solutions>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2021 17:54:03 +0000
-In-Reply-To: <CAJE9sGmu6VUQGBtxpDHh6RH9B44DRfeuSNrMrB4Ea5N1GWLFhw@mail.gmail.com>
-References: 
-	<CAJE9sGmu6VUQGBtxpDHh6RH9B44DRfeuSNrMrB4Ea5N1GWLFhw@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Go5KlQsshpx//5zXaJkH6MlalCrbfdHV/EAGYLANAWY=;
+        b=GhPT6Fvoi5SiuwvEVwiZEhdQ3+f8xwcbT5XJX2DcnnjwVXv26B2vetmbE1gkYQT+38
+         v9eU7M7wt2NA2YxAkYfl2vfVBbuYTIOtXTxZrYIOTP2NWOD4riYDG4IIucX9LRbUkmMx
+         ghh+enR6+RW3f9f0ae/zcbMqhU9QV/I/uBbY4LSZoSEEZVdrQRKbucazvfhnKxOqxAY0
+         5dHOy3oCNgZ0GZn08YQvHIC4XpUx56irWvdb7NzbiTrkQ6ry7cEyDzsrNz97Kx3bvbVY
+         7g30LSD+0VqRKPXF4TUwp+oaoHw5psMwH3ZV7SrRUSEts++XJvaHMdtBzJTcQ3XKiWFS
+         XcDQ==
+X-Gm-Message-State: AOAM5307uRyfrUzcwQ6QwVZLzdMlsNiI/KgG4WYpJaSw2JqCjOz/nabB
+	yDXBMJQMbgzS5d665ZyIssZtUWOYRV90pXNszeo=
+X-Google-Smtp-Source: ABdhPJzMVImnEVsGIEhBmlJc2fGz0ftRIg8E9NzImC3oDZy0wJUi2gJyv8J8w0ZFFY8oMucPr/RxwxWdsM9lN+uQffY=
+X-Received: by 2002:a05:6e02:10d1:: with SMTP id s17mr4524186ilj.12.1611079393469;
+ Tue, 19 Jan 2021 10:03:13 -0800 (PST)
 MIME-Version: 1.0
+References: <20210119155325.351554-1-tomasz.dziendzielski@gmail.com> <107314c0428cf791bc195dd27d3cfe11bb9a4c3e.camel@linuxfoundation.org>
+In-Reply-To: <107314c0428cf791bc195dd27d3cfe11bb9a4c3e.camel@linuxfoundation.org>
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+Date: Tue, 19 Jan 2021 19:05:42 +0100
+Message-ID: <CAJkqNs2jU7FVs5zdeBto2CysdyDUBgyFsWe2gDQKKxLR9UEgQw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devtool: Fix source extraction for gcc shared source
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f3e8f105b944a62e"
+
+--000000000000f3e8f105b944a62e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-19 at 12:15 -0500, Alan Kozlay wrote:
-> All,
-> Why does uninative.bbclass (around line 86) revert to my hosts glibc
-> if that version is above the uninative version but our sstate-cache
-> is only local (not hosted/shared)?
-> 
-> I want to know in general terms (what could go wrong), but in case
-> you're wondering, my specific environment is:
-> 
-> Building with "zeus" release but can't update, at this time.  The
-> "zeus" release provides glibc 2.31 uninative glibc.
-> 
-> My build machine is running Fedora 33 (glibc 2.32) and I'm leveraging
-> the x86_64-buildtools-extended-nativesdk-standalone-3.1 tool.  Yes, I
-> know that "zeus" is 3.0 but the "extended" version (also provides a
-> compatible native gcc) wasn't introduced until the 3.1 version of the
-> standalone tools.  But 3.1 seems to work after back porting some 3.1
-> fixes into some bbappend files I made.
-> 
-> But, again, my question is about the general case and not
-> specifically my environment.
-> 
-> Anyone?
+>> diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc
+b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+>> index aac4b49313..9ef80f2074 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+>> @@ -2,6 +2,7 @@ do_fetch() {
+>>       :
+>>  }
+>>  do_fetch[noexec] = "1"
+>> +do_patch[noexec] = "1"
+>>  deltask do_unpack
+>>  deltask do_patch
 
-Your build will generate binaries that link to glibc 2.32 specific
-symbols. These can then be added to sstate and since uninative only has
-2.31, they won't work on a system that doesn't have glibc 2.32. This
-means that it would break the promises about being able to share sstate
-between distros.
+>This is in itself a little odd. The "deltask do_patch" line deletes the
+>task, so there is no task to set as noexec?
 
-glibc is only backwards compatible, not forwards compatible so there
-isn't anything we can do to fix this limitation, only detect and avoid
-problems by separating the binaries.
+This was added because from the devtool script I couldn't find another way
+to determine if the task is run or not. If I add "do_patch[noexec]" (which
+logically doesn't change anything) even if task is deleted, I can check "if
+'noexec' in d.getVarFlags(task, False)" and tell devtool to execute
+do_configure task dependencies (to prepare gcc sources).
 
-I'd note that upgrading just uninative to a new version should be a
-safe operation and should be able to be cherry-picked alone safely.
+Best regards,
+Tomasz Dziendzielski
 
-Cheers,
+--000000000000f3e8f105b944a62e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div dir=3D"ltr"><span class=3D"gmail-im">&gt;&gt; diff --=
+git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-shared-source.inc<br>
+&gt;&gt; index aac4b49313..9ef80f2074 100644<br>
+&gt;&gt; --- a/meta/recipes-devtools/gcc/gcc-shared-source.inc<br>
+&gt;&gt; +++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc<br>
+&gt;&gt; @@ -2,6 +2,7 @@ do_fetch() {<br>
+&gt;&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0:<br>
+&gt;&gt; =C2=A0}<br>
+&gt;&gt; =C2=A0do_fetch[noexec] =3D &quot;1&quot;<br>
+&gt;&gt; +do_patch[noexec] =3D &quot;1&quot;<br>
+&gt;&gt; =C2=A0deltask do_unpack<br>
+&gt;&gt; =C2=A0deltask do_patch<br>
+<br></span>
+&gt;This is in itself a little odd. The &quot;deltask do_patch&quot; line d=
+eletes the<br>&gt;task, so there is no task to set as noexec?</div><div><br=
+></div><div>This was added because  from the devtool script I couldn&#39;t =
+find another way to determine  if the task is run or not. If I add &quot;do=
+_patch[noexec]&quot; (which  logically doesn&#39;t change anything) even if=
+ task is deleted, I can check &quot;if &#39;noexec&#39; in d.getVarFlags(ta=
+sk, False)&quot; and tell devtool to execute do_configure task dependencies=
+ (to prepare gcc sources).</div><div><br></div><div>Best regards,</div><div=
+>Tomasz Dziendzielski<br></div></div>
 
+--000000000000f3e8f105b944a62e--
