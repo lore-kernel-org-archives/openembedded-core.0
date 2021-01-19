@@ -1,86 +1,119 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web08.10667.1611060127817440320
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web08.10674.1611060179719584244
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 04:42:08 -0800
+ Tue, 19 Jan 2021 04:43:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Ll6BTz10;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id d13so19551031wrc.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 04:42:07 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hw09wZDq;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id l12so14358048wry.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 04:42:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=yG4TdI6HqWDvZykOeFtuWjiow91BvdFPKmlOYH8E9Xw=;
-        b=Ll6BTz10/p0az/fjGs7ErtRf/v0182wsB+Bzma0eLfyntuRAIzJcROpoyM41v3CztK
-         eDfqMnmCEiXmG8fDD8mHA71NXU0jII3UrCcEnr6kvhaSkaxaVClT2j4XzRUV8yYMKKec
-         2kXmKlgrJG5S+53KppNEbT+hDgAQtd3jXrZPY=
+        bh=dWS3HgDre3r37I8F6yGO0attajHS15DTKvhg2B3Latg=;
+        b=Hw09wZDqs68DNcz/6tY76oA5iBDDRqic3DTBe96RW4Mcdd9xPJAkfpYV7nB9hledQQ
+         oQv/659eN77Bk5JVlLQMuVZHRKXJqqq6OLwQUeHxXG5RYH9QrHrxzgEVkK3Of/ndlyXZ
+         e1ZRtIE9E8gkaKwN1MYWKuyXiBGWcGWWLHF1Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=yG4TdI6HqWDvZykOeFtuWjiow91BvdFPKmlOYH8E9Xw=;
-        b=VtsyQcMqlsUYqpAJBn40d53vPNX15WumfqfyM4xrI2td81uPa1LcFHX3Wo4rwzkT2A
-         NWL7Ms3wDRBW7zQd/2UGz1X+MYukcZX8HeUM9plqhuD3ZXiF2zVUuIlJ7R5XOG6Cb6gG
-         CQUmGJkEYniiFdVElA2iBPANFjXRG4MIB6FIw+NTV4NwT2R+FBYTm2pQmIDdxwHm4CEo
-         Y4i9012kENBnXznTX9D3etqKtvnjTNqEqptwwoCbROv3BpgSxttdEyIkeSHKoNXQND/U
-         1bn9FBszrMCP8NE0Sn8z4Ka87pZUSD3Aexsm0e4IcS9DsnekbPSBKJSYYam6ngwaPxvU
-         bfvw==
-X-Gm-Message-State: AOAM533i5u623kzXYSbYWzApi7JEPaaE42ctzmLpvGPs1hrtoLXLvX+f
-	F07Vu3sFM9RAWRDD3/xMLXenxg==
-X-Google-Smtp-Source: ABdhPJxGk3CMQ7SoaRCzNFxPqP/EiksQ6Ux+fOlt0zQ3jR1IJo9C7E0IrOmuUXduJjaDjHFfbRdr3A==
-X-Received: by 2002:a5d:4905:: with SMTP id x5mr4177813wrq.75.1611060126432;
-        Tue, 19 Jan 2021 04:42:06 -0800 (PST)
+        bh=dWS3HgDre3r37I8F6yGO0attajHS15DTKvhg2B3Latg=;
+        b=iamLzw98vY6Zs9I0wHHhhhXXhPr4ont3Tm+d9q/g8f/U3EwGwybe2g+tOpNH1WwDX4
+         y/LBXi5SCfGytrsus1+7HPQUCaTPpI8RZfx088T5u9qW1b1ppPSoEIbXx2I2lY9QIFFA
+         5pG0nFIjlmyavVKxGMTUk20S4p+5/YFPhMhfrBMPs9NVNHUkD0bgpZ6yAbrTvk9RyuO5
+         tycaV7XttWeN/1n2IcGs7RsWMzRnF5lzjvfcd9ol0qg+xA1XIqZQ+Os7XC6w3LB7iVeO
+         hTypt4NckuBjCUhi+h7HFUhjYGWzkwth2So2veskTEnYkxFl9bRLp9uUW6FSrbLxp8K/
+         l2Vw==
+X-Gm-Message-State: AOAM5313D756ROIZeMOKNP3XmoGVaJNQsaydBGuVsiR9hScQOsSYdRwv
+	QbELFncz2QoKhPlYYrhZ5/MTwQzpn2/HCA==
+X-Google-Smtp-Source: ABdhPJxEFqzRpQYX84Zq9CgR1lb14ws95DwXV24xgIqllgHajDEn0JNVkXgXqZXwnW1b6Hw8LXdDdQ==
+X-Received: by 2002:a5d:4e89:: with SMTP id e9mr4175148wru.201.1611060178361;
+        Tue, 19 Jan 2021 04:42:58 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id d13sm35803802wrx.93.2021.01.19.04.42.05
+        by smtp.gmail.com with ESMTPSA id g132sm4695074wmg.2.2021.01.19.04.42.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 04:42:06 -0800 (PST)
-Message-ID: <2373028965f82731c9ed64b4366ba8ba85c8f35b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 01/30] enchant2: upgrade 2.2.14 -> 2.2.15
+        Tue, 19 Jan 2021 04:42:57 -0800 (PST)
+Message-ID: <1d7e0c43f5afc2b5f1497b26cd3e48434157b6a0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ghostscript: CVE-2013-6629 Security Advisory
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Anuj Mittal <anuj.mittal@intel.com>, 
+To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2021 12:41:50 +0000
-In-Reply-To: <20210119064552.115692-1-anuj.mittal@intel.com>
-References: <20210119064552.115692-1-anuj.mittal@intel.com>
+Date: Tue, 19 Jan 2021 12:42:57 +0000
+In-Reply-To: <1611035125-38834-2-git-send-email-wangmy@cn.fujitsu.com>
+References: <1611035125-38834-1-git-send-email-wangmy@cn.fujitsu.com>
+	 <1611035125-38834-2-git-send-email-wangmy@cn.fujitsu.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-19 at 14:45 +0800, Anuj Mittal wrote:
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> ---
->  .../enchant/{enchant2_2.2.14.bb => enchant2_2.2.15.bb}          | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-support/enchant/{enchant2_2.2.14.bb => enchant2_2.2.15.bb} (90%)
-> 
-> diff --git a/meta/recipes-support/enchant/enchant2_2.2.14.bb b/meta/recipes-support/enchant/enchant2_2.2.15.bb
-> similarity index 90%
-> rename from meta/recipes-support/enchant/enchant2_2.2.14.bb
-> rename to meta/recipes-support/enchant/enchant2_2.2.15.bb
-> index a5080d9c78..05e84fc726 100644
-> --- a/meta/recipes-support/enchant/enchant2_2.2.14.bb
-> +++ b/meta/recipes-support/enchant/enchant2_2.2.15.bb
-> @@ -9,7 +9,7 @@ DEPENDS = "glib-2.0"
->  inherit autotools pkgconfig
->  
-> 
-> 
-> 
->  SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
-> -SRC_URI[sha256sum] = "bf7cc9a410b54c29648c7711dc8f210e7b13768508aaf43cc9c4527d5a9c7a8e"
-> +SRC_URI[sha256sum] = "3b0f2215578115f28e2a6aa549b35128600394304bd79d6f28b0d3b3d6f46c03"
-> 
+On Tue, 2021-01-19 at 13:45 +0800, Wang Mingyu wrote:
+References
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-6629
 
-Hi Anuj,
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../ghostscript/CVE-2013-6629.patch           | 28 +++++++++++++++++++
+ .../ghostscript/ghostscript_9.53.3.bb         |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch
 
-There seem to be a lot of point version upgrades in this series. How
-sure are we they are all bugfixes?
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch
+new file mode 100644
+index 0000000000..dffd215b4d
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch
+@@ -0,0 +1,28 @@
++Subject: [PATCH] CVE-2013-6629
++
++Author: pchelko 
++---
++ jpeg/jdmarker.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/jpeg/jdmarker.c b/jpeg/jdmarker.c
++index 3fbe5c1..ea3ef4a 100644
++--- a/jpeg/jdmarker.c
+++++ b/jpeg/jdmarker.c
++@@ -382,6 +382,13 @@ get_sos (j_decompress_ptr cinfo)
++ 
++     TRACEMS3(cinfo, 1, JTRC_SOS_COMPONENT, compptr->component_id,
++ 	     compptr->dc_tbl_no, compptr->ac_tbl_no);
+++
+++    /* This CSi (cc) should differ from the previous CSi */
+++    for (ci = 0; ci < i; ci++) {
+++      if (cinfo->cur_comp_info[ci] == compptr) {
+++        ERREXIT1(cinfo, JERR_BAD_COMPONENT_ID, cc);
+++      }
+++    }
++   }
++ 
++   /* Collect the additional scan parameters Ss, Se, Ah/Al. */
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
+index cbf60c8c85..24d17da263 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
+@@ -29,6 +29,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://do-not-check-local-libpng-source.patch \
+                 file://avoid-host-contamination.patch \
+                 file://mkdir-p.patch \
++                file://CVE-2013-6629.patch \
+ "
+ 
+
+ SRC_URI = "${SRC_URI_BASE} \
+
+Does ghostscript still have an open issue from 2013? I'd like to
+understand a bit more about the background to this patch and why
+upstream haven't taken it...
 
 Cheers,
 
 Richard
-
 
