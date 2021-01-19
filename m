@@ -1,63 +1,55 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web08.8245.1611038800307577894
+Received: from mga09.intel.com (mga09.intel.com [])
+ by mx.groups.io with SMTP id smtpd.web08.8244.1611038799087798389
  for <openembedded-core@lists.openembedded.org>;
  Mon, 18 Jan 2021 22:46:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: bvRmSda7LT+IROdHV0lSAnZGRHcvxNKcQ4lgzLhH7xyBCEvNTgqciSuDj/QTrOBGBPgsmw+xzy
- oEN2Wf42WnMw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179035656"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: jbq+8Esvp6vPw9V3LgHqwbG6isV6WDocnTIqbUbafv1iNfN1Sh00pKJG4E16y5WphZGwC+fSmu
+ 2XKZyQ1wIyWw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179035659"
 X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="179035656"
+   d="scan'208";a="179035659"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:29 -0800
-IronPort-SDR: BmqS3ebkjUZdSSwEpXvapxThWTR2xnYXKWjYf/RrOoqssHurR7WkD8dH7jH4FI5U/VLXFMgbrQ
- ANU4NAvLLtdQ==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:30 -0800
+IronPort-SDR: MXl0JqjDfzBPBZEtzGFQiHsjfN6Ev7y4/EJluU3ipgL/ArKD5VvZid0jNEc8GfllS36fPD0wZi
+ vWExhAbM2/xA==
 X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="355441824"
+   d="scan'208";a="355441827"
 Received: from jchen110-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.183.94])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:28 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:29 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 25/30] lzip: upgrade 1.21 -> 1.22
-Date: Tue, 19 Jan 2021 14:45:47 +0800
-Message-Id: <20210119064552.115692-25-anuj.mittal@intel.com>
+Subject: [PATCH 26/30] python3-mako: upgrade 1.1.3 -> 1.1.4
+Date: Tue, 19 Jan 2021 14:45:48 +0800
+Message-Id: <20210119064552.115692-26-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119064552.115692-1-anuj.mittal@intel.com>
 References: <20210119064552.115692-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years, formatting changes
-
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-extended/lzip/{lzip_1.21.bb => lzip_1.22.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/lzip/{lzip_1.21.bb => lzip_1.22.bb} (85%)
+ .../python/{python3-mako_1.1.3.bb => python3-mako_1.1.4.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.1.3.bb => python3-mako_1.1.4.bb} (83%)
 
-diff --git a/meta/recipes-extended/lzip/lzip_1.21.bb b/meta/recipes-extended/lzip/lzip_1.22.bb
-similarity index 85%
-rename from meta/recipes-extended/lzip/lzip_1.21.bb
-rename to meta/recipes-extended/lzip/lzip_1.22.bb
-index bb3d2a6fe3..d21c36a3f4 100644
---- a/meta/recipes-extended/lzip/lzip_1.21.bb
-+++ b/meta/recipes-extended/lzip/lzip_1.22.bb
-@@ -3,11 +3,11 @@ HOMEPAGE = "http://lzip.nongnu.org/lzip.html"
- SECTION = "console/utils"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=76d6e300ffd8fb9d18bd9b136a9bba13 \
--                    file://decoder.cc;beginline=3;endline=16;md5=db09fe3f9573f94d0076f7f07959e6e1"
-+                    file://decoder.cc;beginline=3;endline=16;md5=18c279060cd0be128188404b45837f88 \
-+                    "
+diff --git a/meta/recipes-devtools/python/python3-mako_1.1.3.bb b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
+similarity index 83%
+rename from meta/recipes-devtools/python/python3-mako_1.1.3.bb
+rename to meta/recipes-devtools/python/python3-mako_1.1.4.bb
+index cda4e99220..531fc6a3c0 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.1.3.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
+@@ -8,7 +8,7 @@ PYPI_PACKAGE = "Mako"
  
- SRC_URI = "${SAVANNAH_GNU_MIRROR}/lzip/lzip-${PV}.tar.gz"
--SRC_URI[md5sum] = "c0061730d017ea593a09308edc547128"
--SRC_URI[sha256sum] = "e48b5039d3164d670791f9c5dbaa832bf2df080cb1fbb4f33aa7b3300b670d8b"
-+SRC_URI[sha256sum] = "c3342d42e67139c165b8b128d033b5c96893a13ac5f25933190315214e87a948"
+ inherit pypi setuptools3
  
- B = "${WORKDIR}/build"
- do_configure[cleandirs] = "${B}"
+-SRC_URI[sha256sum] = "8195c8c1400ceb53496064314c6736719c6f25e7479cd24c77be3d9361cddc27"
++SRC_URI[sha256sum] = "17831f0b7087c313c0ffae2bcbbd3c1d5ba9eeac9c38f2eb7b50e8c99fe9d5ab"
+ 
+ RDEPENDS_${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-netclient \
 -- 
 2.29.2
 
