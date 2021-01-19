@@ -1,102 +1,105 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web12.13635.1611073580199265661
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web09.13473.1611073581147626222
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 08:26:20 -0800
+ Tue, 19 Jan 2021 08:26:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=SO1osn4D;
- spf=pass (domain: konsulko.com, ip: 209.85.221.51, mailfrom: pbarker@konsulko.com)
-Received: by mail-wr1-f51.google.com with SMTP id v15so16683128wrx.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 08:26:19 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=jN0Arwbh;
+ spf=pass (domain: konsulko.com, ip: 209.85.221.44, mailfrom: pbarker@konsulko.com)
+Received: by mail-wr1-f44.google.com with SMTP id c12so1803976wrc.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 08:26:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=mvoEAv5G93J06x7ebcGwCRqMVDCYtVtCop9Muf37Q6k=;
-        b=SO1osn4DRk+E63CZE2tKfLF6uAXdROT2z0qbXIojnkRWWoxaGSP7tYFzK3hWnSoYZV
-         XLY5sVqLsh7gtU2rIThNxczypoG9cnByt/x39KeSzvl/5jFaWB76wdz4+iqdGUo98opd
-         LyyYNCF3roGgW/4bLpg9Hp1VCADbRmkTL0ovE=
+        bh=nDSNwDtbrXbeOcq8rz2RhiYRB2M0xm/mxCeyTgaatM8=;
+        b=jN0Arwbh4+Q0qqvZ+QU3KpOyG8zVCI0xFh4GA+WCB2cwXKuuiIlnP4dswEslY5jO9Z
+         p87oYraoPXwed32jge0cKEhE57JcE4eJS394NW3BZlmVr/NEcVN1PeMMla2n0naR5XEd
+         rbfzaCu1C6FEv8WY/uXBlWnd9VyC58N428kDM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=mvoEAv5G93J06x7ebcGwCRqMVDCYtVtCop9Muf37Q6k=;
-        b=PfsPQZLmX8x8YJPllzUUS8IOQohMsuhczbTo+EFwD80pBIvUN2jxfWDEbqEqUoAtbw
-         zciK0m2n9hVPbFgvMQc5jOD9hcXW1S7mwYclhE6vyvd+1nefTh1lCbGKqHj2vcbLE4vA
-         fomQnrqP9IVpbsN/AGtyWNrRr01MsgONxTQJiRS35iOsf84j/6KsPK1aia5qLSlydTzq
-         JShS2eKBllYdEyzsl8TYMZ4tGooXvnbeN5z9a0XR2cZoLWcm6X0jV7JiKfy/ZZhSDjDC
-         qHF9ZUkG1Cw9hl4hpx/x2tk8BUYXNsJQ06W0r0/wv7F5aL8HasH3yD+BLEyq78UWeAJ2
-         +g/A==
-X-Gm-Message-State: AOAM532538Bt5eSXI6CRAkyYYtuLBXPoJNYAludZKHs5DwkI4+929qhU
-	kB5QNuZI36e16eOPmq3ytLJm0Wv+zmeBDw==
-X-Google-Smtp-Source: ABdhPJxw6nRFCtJdy7plWVvLeb3PMYaDzCgL0jraCbva4T0Rr8rGSQ4Zt9qCbFZiqq5vYTo3aAV9Qw==
-X-Received: by 2002:a5d:5049:: with SMTP id h9mr5346165wrt.404.1611073578534;
-        Tue, 19 Jan 2021 08:26:18 -0800 (PST)
+        bh=nDSNwDtbrXbeOcq8rz2RhiYRB2M0xm/mxCeyTgaatM8=;
+        b=rJyXr5qZi2CWUo+dd1dVA4xwnhmDK1IawGoN+utJn1T380zsv0K2E1A0yuwWYd90Xv
+         fIaNxjj0xuytooYvOidM7Uot5TlEQIPmxBsDrjmiEZNxBHYW9CyfoawSYs8ImLwS58AZ
+         Ypd42Gh3kMlpCLQmllEm5NbZaFGZjLgKiSZmBoQhR3QJLDb8oHVi1O4orkQ3PqXRSA16
+         2uPpAx88lzRzHxAWu3F+Zcc32oZHHQ6Ydez8zAK3KE1IgfyhEzs7SCTTUyE5iYO5Lrxi
+         fyj9tl7bFY2lZw8tIL29kXpwUVgmZVOvImt5G3DTkOkIFgH6yeKScybedykTRfP2COK5
+         5uZA==
+X-Gm-Message-State: AOAM5314OjMk2WU2qZI/IjRrk8im/ImHevAFlgtX807a+rTUsJ5IxP9j
+	vQnhOm82GPUfNoNsWclLptkd3q86Zvi2Vg==
+X-Google-Smtp-Source: ABdhPJzs2jxkZn1QY7tX1lQFVXreK8hGPEBK1Q1ypxqNhOPbOIjRRbx7h2kCOqfcqk0W10scgDOKkw==
+X-Received: by 2002:adf:fb05:: with SMTP id c5mr5089708wrr.69.1611073579549;
+        Tue, 19 Jan 2021 08:26:19 -0800 (PST)
 Return-Path: <pbarker@konsulko.com>
 Received: from alpha.home.b5net.uk (cpc76132-clif11-2-0-cust80.12-4.cable.virginm.net. [80.7.160.81])
-        by smtp.gmail.com with ESMTPSA id d85sm9223754wmd.2.2021.01.19.08.26.17
+        by smtp.gmail.com with ESMTPSA id d85sm9223754wmd.2.2021.01.19.08.26.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 08:26:17 -0800 (PST)
+        Tue, 19 Jan 2021 08:26:18 -0800 (PST)
 From: "Paul Barker" <pbarker@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <pbarker@konsulko.com>
-Subject: [PATCH v2 2/5] image_types_wic: Move wic working directory
-Date: Tue, 19 Jan 2021 16:26:07 +0000
-Message-Id: <20210119162610.13104-2-pbarker@konsulko.com>
+Subject: [PATCH v2 3/5] wic: Update pseudo db when excluding content from rootfs
+Date: Tue, 19 Jan 2021 16:26:08 +0000
+Message-Id: <20210119162610.13104-3-pbarker@konsulko.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210119162610.13104-1-pbarker@konsulko.com>
 References: <20210119162610.13104-1-pbarker@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-By default the wic working directory is placed under the output
-directory. When invoking wic under bitbake, the wic output directory is
-added to PSEUDO_PATHS_IGNORE to avoid issues with files being removed
-from outside a pseudo environment (see oe-core commit ad8f5532ff).
+To exclude content from the rootfs, wic makes a copy (using hardlinks if
+possible) of the rootfs directory and associated pseudo db, then removes
+files & directories as needed. However if these files and directories
+are removed using the python functions os.remove and shutil.rmtree, the
+copied pseudo db will not be updated correctly. For files copied from
+the original rootfs, if hardlinks were used successfully when copying
+the rootfs this should mean that the relevant inodes can't be reused and
+so the risk of pseudo aborts should be avoided. However, this logic
+doesn't apply for directories (as they can't be hardlinked) or for files
+added via the '--include-path' argument (as they weren't present in the
+original rootfs) and so there remains some risk of inodes being reused
+and the pseudo db becoming corrupted.
 
-However, wic will copy the rootfs directory into its working directory
-if it needs to add or remove content before creating a filesystem image.
-This copy of the rootfs directory must be tracked by pseudo in order to
-keep the permissions correct in the resulting image. So we can't have
-the wic working directory under a path in PSEUDO_PATHS_IGNORE unless
-we like broken permissions.
-
-To fix this the new '-w' argument to wic is used to move the working
-directory away from the output directory.
-
-Note that wic deletes the temporary working directory automatically
-when it finishes creating an image so users won't normally see the
-'tmp-wic' directory under WORKDIR.
-
-Fixes [Yocto #14129]
+To fix this, use the 'rm' command under pseudo when removing files &
+directories from the copied rootfs to ensure that the copied pseudo db
+is updated.
 
 Signed-off-by: Paul Barker <pbarker@konsulko.com>
 ---
- meta/classes/image_types_wic.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ scripts/lib/wic/plugins/source/rootfs.py | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 000ee4249f..49be1da77a 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -29,11 +29,17 @@ WIC_CREATE_EXTRA_ARGS ?= ""
- IMAGE_CMD_wic () {
- 	out="${IMGDEPLOYDIR}/${IMAGE_NAME}"
- 	build_wic="${WORKDIR}/build-wic"
-+	tmp_wic="${WORKDIR}/tmp-wic"
- 	wks="${WKS_FULL_PATH}"
-+	if [ -e "$tmp_wic" ]; then
-+		# Ensure we don't have any junk leftover from a previously interrupted
-+		# do_image_wic execution
-+		rm -rf "$tmp_wic"
-+	fi
- 	if [ -z "$wks" ]; then
- 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
- 	fi
--	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" ${WIC_CREATE_EXTRA_ARGS}
-+	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" -w "$tmp_wic" ${WIC_CREATE_EXTRA_ARGS}
- 	mv "$build_wic/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
- }
- IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index f1db83f8a1..afb1eb9202 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -199,17 +199,20 @@ class RootfsPlugin(SourcePlugin):
+                 if not os.path.lexists(full_path):
+                     continue
+ 
++                if new_pseudo:
++                    pseudo = cls.__get_pseudo(native_sysroot, new_rootfs, new_pseudo)
++                else:
++                    pseudo = None
+                 if path.endswith(os.sep):
+                     # Delete content only.
+                     for entry in os.listdir(full_path):
+                         full_entry = os.path.join(full_path, entry)
+-                        if os.path.isdir(full_entry) and not os.path.islink(full_entry):
+-                            shutil.rmtree(full_entry)
+-                        else:
+-                            os.remove(full_entry)
++                        rm_cmd = "rm -rf %s" % (full_entry)
++                        exec_native_cmd(rm_cmd, native_sysroot, pseudo)
+                 else:
+                     # Delete whole directory.
+-                    shutil.rmtree(full_path)
++                    rm_cmd = "rm -rf %s" % (full_path)
++                    exec_native_cmd(rm_cmd, native_sysroot, pseudo)
+ 
+         part.prepare_rootfs(cr_workdir, oe_builddir,
+                             new_rootfs or part.rootfs_dir, native_sysroot,
 -- 
 2.26.2
 
