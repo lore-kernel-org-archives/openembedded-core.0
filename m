@@ -1,224 +1,189 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.5618.1611020417212731521
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web12.7582.1611030584318794975
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 17:40:17 -0800
+ Mon, 18 Jan 2021 20:29:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nathanrossi.com header.s=google header.b=c1bTa1uB;
- spf=pass (domain: nathanrossi.com, ip: 209.85.128.53, mailfrom: nathan@nathanrossi.com)
-Received: by mail-wm1-f53.google.com with SMTP id c124so15098372wma.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 17:40:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nathanrossi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=x7bA7Xi+9ZEX2c/Hhv3Tunu3T9AytIcpKl8Uwdt3HBU=;
-        b=c1bTa1uBZ7WHDoziJ0J4MFtbWW+ZKlVP4o//boAKngwP4pbDh3iyGLiSWoxGaQBPpi
-         oBDSHa+4c6nF7HM6SZ196ZAnMH8pEtHadVjsbtC2iibolUi6lopb7OCmCK9I3wDss+c1
-         eYPzcXYJ6uktQ0VZxFS7OGT7UrnUNd5kWIuAkQgj7+zLA7meGHjD8nnr8g4aNCMxP3vi
-         4SPdxU2Bir+3/EcjzpQe3PsMhXzcqOzKOQ9L4wGRF7ySppK//q2GDcB1lyWnhiv3A7cY
-         hYxAPU02ouTJ/IPnmAlWPgMvRlzE3BxXfhkV5YThElpRfmwuAUTO3b8a2Bg5ZmD2dH6b
-         Whag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x7bA7Xi+9ZEX2c/Hhv3Tunu3T9AytIcpKl8Uwdt3HBU=;
-        b=jZGRSW+kGvHevBG4W8cQdD3KpjeqrXR9rAOT4fZlcBD2dWSYMW+/RReBSj7AU4RDRi
-         iBvG8YcypZP+07IPtMkYa/my3dWeWvUqEr8HgxvJ8mayHspKwEanneOCeJOT5FmVMS50
-         xzy8jWAfS31xOdZ8e8ch04//Xdmz5k/infUYRoGxir79ZgBOEkoXFABSDyWUXq2jxYdR
-         JCxDBco2am2efDs7yRBm6vuzCes8pxka3pjKF9FsA7g4CjdcF1TlWuPx6/wDphUH6UxB
-         GLyBUit7ALZ3m7FrhRkDos+VUPDzQFfuie/NmXCdkIcMm+Wuvr+so4rAeJoiUtoBT/CP
-         omnw==
-X-Gm-Message-State: AOAM531VjxVhDi3ZHDo3t2Qu2R2e5S/6K9j6PK6pJTvfhIXr72T8LyM2
-	b4sN3D3QW4Lt3fYQbzV8QIq65DohurD2unYngGc41g==
-X-Google-Smtp-Source: ABdhPJxXMqGy55AZMtbPUmNb8BMvtnOqkQNfi7vOZciGrjY11m9Gb7JmWJwv66Bm+cu7Gj1OI+49LKk0QqXckQkCDfM=
-X-Received: by 2002:a1c:46c5:: with SMTP id t188mr1739579wma.170.1611020415632;
- Mon, 18 Jan 2021 17:40:15 -0800 (PST)
+ dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=roGPoBLp;
+ spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: sangeeta.jain@intel.com)
+IronPort-SDR: vfkKu+yQCoWe13lhkrFQlrfnUx51J3JS8Umi4IwsyKWyVc7yIjDxyRh8cIVcXwTYbFfMkheIGZ
+ VGy/z3m6ho2A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="165966489"
+X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
+   d="scan'208";a="165966489"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 20:29:31 -0800
+IronPort-SDR: hL1KEr5Oe+cTtViVl1DpsVy809WjAwztopDFuhP1WzqTF7QK6XiOzwyUGE6Kz5dclOsPCoVXlI
+ FSooeKczWshA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,357,1602572400"; 
+   d="scan'208";a="402234660"
+Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
+  by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2021 20:29:31 -0800
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 18 Jan 2021 20:29:31 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Mon, 18 Jan 2021 20:29:30 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
+ via Frontend Transport; Mon, 18 Jan 2021 20:29:30 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.176)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.1713.5; Mon, 18 Jan 2021 20:29:27 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=a0ExLCnAagXRS/c7Wb00fnqTrVzOlbmjTjpVqo6Nhxm+nql6pjwvP7dOjRpYv8CFJUvMTR1kHUYl5CUYw5MJGlFOX5ItyNgNts5DF1TaNGBe9jMf64TqTuK5FeH/cRgAQRXKxLWWKMAaXYfP68FSVn1oJZ05Lg+MQju65zSLi3WG+Eswf8WdY0oXlNieFQm3iLPjBim1t0waAQBinZIGE56yW8aMmdg+LixXY+G3hZULsh+jUH/s3etHUIC5Hl6pnLaK9N2mug6hxd/ZGb5t2cr0X5lAWGJaylavMm827CewMK+wDTDOJJJTQ3NMEJX84I6594/hmCllDGp/b01NOw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9uMyL9ofHfugHbxU9TXcxyGAAIM+4+IUm9YpoycGuww=;
+ b=XnMVZczy9mqk6zjfZeiOoj6PHRC1B+4Ao3y3NVTB3jLkM1JMFmR3trWxn4NaLIBsUBX3GjbfsAUDHJrORRVPAb1E6IUdO7b0hg2cBgq1RYdk9IjT2CrOuvvE3jNVggyyU4ilWEzXJ8C/9Tz3f2EpgK3QRSRTQZLajH/T579wFeg1ha1A+xFDHJoGcM9+mXIaOWRtVAJgPrhV2BI4XjtQD3fYwnI0VJcQlO/aUaZhWqB5WSdC4vAEfg7mmSWDUBks3pAwcKV4hytpXqw5NYUSVxwhJ67scPNBXBwVWt/SnJyALgjeRrCzgWyHylqcbnkVLoWqo8rpYrO2wCaXpnPqhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9uMyL9ofHfugHbxU9TXcxyGAAIM+4+IUm9YpoycGuww=;
+ b=roGPoBLpEvYi3XbgaxJLsf50i9pfqgaAA7catk7OfZAyeVJhSj0c9K++0nnFR6ZCdG1WyiCFmSuq3QH90CGOpgRoY5MIna0KmAuZBBUX5/ho1k9jJyrfUvrVju+R8hBlnYyJ2tDQMrWL4MHWrN29uInca0ovOB32eG3v+QAR3HM=
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com (2603:10b6:a03:b1::33)
+ by BYAPR11MB2839.namprd11.prod.outlook.com (2603:10b6:a02:c8::33) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.14; Tue, 19 Jan
+ 2021 04:29:23 +0000
+Received: from BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::6417:be76:6b3c:213d]) by BYAPR11MB3624.namprd11.prod.outlook.com
+ ([fe80::6417:be76:6b3c:213d%6]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
+ 04:29:23 +0000
+From: "Sangeeta Jain" <sangeeta.jain@intel.com>
+To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+CC: "otavio@ossystems.com.br" <otavio@ossystems.com.br>,
+	"yi.zhao@windriver.com" <yi.zhao@windriver.com>, "Sangal, Apoorv"
+	<apoorv.sangal@intel.com>, "Chan, Aaron Chun Yew"
+	<aaron.chun.yew.chan@intel.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>, "akuster808@gmail.com"
+	<akuster808@gmail.com>, "sjolley.yp.pm@gmail.com" <sjolley.yp.pm@gmail.com>,
+	"steve@sakoman.com" <steve@sakoman.com>, "Tummalapalli, Vineela"
+	<vineela.tummalapalli@intel.com>
+Subject: Re: QA notification for completed autobuilder build (yocto-3.1.5.rc1)
+Thread-Topic: QA notification for completed autobuilder build
+ (yocto-3.1.5.rc1)
+Thread-Index: AQHW6dshOp04f8huakuurSyZfnEcpaouY1GA
+Date: Tue, 19 Jan 2021 04:29:23 +0000
+Message-ID: <BYAPR11MB362411C2FCA348B153EB1A4AE3A30@BYAPR11MB3624.namprd11.prod.outlook.com>
+References: <20210113183711.2C0AF5C0221@ubuntu1804-ty.yocto.io>
+In-Reply-To: <20210113183711.2C0AF5C0221@ubuntu1804-ty.yocto.io>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+authentication-results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=intel.com;
+x-originating-ip: [175.138.41.97]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a7a91555-59eb-4bb0-a796-08d8bc32cc3c
+x-ms-traffictypediagnostic: BYAPR11MB2839:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR11MB283942990126F1DF27562E01E3A30@BYAPR11MB2839.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 5k+9tRAx05IrCtjIDVkMuuCqu3dwMwVTQnpWa/Q/CSHHKK98443yz6EPFmcETxm1pkWmalm+GIUQU0AS5sScBht+vj5UErZPhzLHukafHhhdORX9RX8zHpE0kMiHpaSaMJmoBuTfldSvaiWzSzQi3TKrywPB+XBUlIV+4NNVxGKzyXJcg+MQUB5sXE7CNaSga6eW6JdDls5rZH8rJB/OUH9T0zmUR7PBo+7Tgp4BW8kG7JFEPDmdfgGQC7JAIZ38OZ3xkVsAlrBBbUX/gOggG/T+3f5EvdXvd+U2JtKrsWjLMhzwbeqgEU9ESlVy0sGPrDIZvPHbwhhcmbm9PhaAlOx5mVx6Xp89NUMnH2qNu22Xl5Ia+WVzOAG5HNFq6Do1QXKpkYPZM9HVAOP/Az09KZtWJhbrr+acMx+ctbEPkcsdePxE/8bDq1Os/pIvtMAMwOxlyyt5mzklf1q4RWvyGA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3624.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39860400002)(136003)(376002)(396003)(366004)(316002)(54906003)(26005)(52536014)(186003)(8936002)(110136005)(55016002)(86362001)(966005)(9686003)(478600001)(7696005)(76116006)(66446008)(66476007)(66556008)(66946007)(64756008)(71200400001)(5660300002)(33656002)(4326008)(6506007)(107886003)(8676002)(55236004)(83380400001)(53546011)(15650500001)(2906002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?us-ascii?Q?R6rFySmBtLLQ7qwpL5zHdh4eAamTCT6xgCKvmt1ynkmDZQe4MZBATDYWzO6E?=
+ =?us-ascii?Q?BdeaYO6KtY0g1NfKdBDwVeIJRRfwf/A7mdp2v5Q/VqVk/N859jkrvuLT0RRB?=
+ =?us-ascii?Q?TxTvgLKUrRHvQ0iThyKvubEwODxpLAB7jC890APwaKWEoo7muKH9lj3lihCK?=
+ =?us-ascii?Q?ljpNyG+CSICW8EM68H7stS/ea+rW467XYUbRByxivS4iqRc7RiQmFkt1YSO8?=
+ =?us-ascii?Q?W9fZ1zEYUu8pa6f7K1lYJZJAfRw+rI90cJTdzEcFHoyLcPSeo/YJ9UH17E3q?=
+ =?us-ascii?Q?TuPlR9gimWtzGhxw/0pUhV7vgzfBTG2ifvOQ32DH45V1LauzX0xvBSaGzNRO?=
+ =?us-ascii?Q?xbADu2c1eqEe3irtCkTf8Y98sas8KUuCRYlVpNC1p77A1DeAY0hVIOE1tKHv?=
+ =?us-ascii?Q?lL2h6sJWU2oLYAkueOGwGgRVZkb3pcvnLRZvfXdgA45K5XFlcuaBubsymTQ1?=
+ =?us-ascii?Q?6QDZyEtyQPThTgr/6K355ikmtP+FBHmXzpR1AJx+ur05cSEBvd4RBNMuCulm?=
+ =?us-ascii?Q?/nKk3i8QvzeqUbT3OVGzCUmojVhcRNdg17iqv4Yb0PA3uR45Uu2CIzJX44mJ?=
+ =?us-ascii?Q?s6UsA58ZB2EVqhCYWPl4iDFUP00pnURm7RQabNbcGuyDmuzBZrEmQ1takSb3?=
+ =?us-ascii?Q?Va3axiFEmSjP/M51laGT27mU9Pt0JX6Orm+SEkp76cCFOlE85VTREIQGldG6?=
+ =?us-ascii?Q?uvhPNiQS/+/fe8eHuO44bqapT4YggZZka7ykxYGsTXPxWa08rZblDtzvg0/A?=
+ =?us-ascii?Q?scPL9VYCj+NXqIjNZOzVu7xMjCU253F1DBWxeKDkHUy7O6qSyz+SyHV5MnI4?=
+ =?us-ascii?Q?GXfzNpXz5CRXp3BhsTOG1WkLUuJ2sWu+p3sUkISZob3GaV8I1DwE7VFdf5/s?=
+ =?us-ascii?Q?vqDhVgZPfDkUWly4ziKJi6FEexiblB2ZedYNAR3B9lZAGiXTRf+TYHfDtufa?=
+ =?us-ascii?Q?NsVqrNp2NB6E2dxhbKqNrGeNpJWGt5gMlBV9rsygzA4=3D?=
 MIME-Version: 1.0
-References: <20201215083458.1360882-1-nathan@nathanrossi.com> <CAMKF1sqxHgujjbZ+D0u15gtu4Pqae+9LCpjgvaanV3ts1vvCig@mail.gmail.com>
-In-Reply-To: <CAMKF1sqxHgujjbZ+D0u15gtu4Pqae+9LCpjgvaanV3ts1vvCig@mail.gmail.com>
-From: "Nathan Rossi" <nathan@nathanrossi.com>
-Date: Tue, 19 Jan 2021 11:40:04 +1000
-Message-ID: <CA+aJhH07k50aF3v6XxO56HTJWTkaw=6o+0o2apUz1XaYEynsFg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc: Add patch to resolve i*86 tune configuration overrides
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3624.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7a91555-59eb-4bb0-a796-08d8bc32cc3c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2021 04:29:23.2919
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 7praCWMAcaON2QLEAgox8obOn+ZeLMtVPhxfdrl9CHhA2exuEC84YNTpLX+fY31LJE0cyMzUad4XUHSjl1pmwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2839
+Return-Path: sangeeta.jain@intel.com
+X-OriginatorOrg: intel.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 16 Jan 2021 at 03:40, Khem Raj <raj.khem@gmail.com> wrote:
->
-> Nathan
->
-> Can you check if your patch is still needed after
->
-> https://github.com/kraj/gcc/commit/0411ae7f08e0f5a8b02ff313d26d27a0f6d1bb34
+Hi All,
 
-Hi Khem,
+This is the full report for yocto-3.1.5.rc1: =20
+https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tree/?=
+h=3Dintel-yocto-testresults
 
-I tested this change and it resolves the configuration issue. Did you
-want the above change backported to replace the oe specific patch?
-Since that oe specific patch has already been backported to a number
-of releases.
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+No high milestone defects.=20
+
+no new issue found
 
 Thanks,
-Nathan
+Sangeeta
 
->
-> On Tue, Dec 15, 2020 at 12:35 AM Nathan Rossi <nathan@nathanrossi.com> wrote:
-> >
-> > When compiling gcc-runtime for i686 libatomic, libgomp and libitm are
-> > compiled with additional '-march' and '-mtune' overrides. This typically
-> > does not cause build errors (e.g. core2-32 tune), and results in less
-> > optimally tuned outputs. However with specific TUNE_CCARGS (e.g. has
-> > '-mfpmath=sse' but not '-msse*'), the build errors with conflicting
-> > '-mfpmath' options.
-> >
-> > This is caused by gcc-runtime specific configure scripts and Makefile
-> > options that override by adding additional '-march'/'-mtune' args. OE
-> > builds gcc-runtime differently to other build systems, and provides
-> > target specific arch/tune options directly. As such, this change adds a
-> > patch for gcc to remove the specific cases where the args are added.
-> >
-> > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> > ---
-> >  meta/recipes-devtools/gcc/gcc-10.2.inc             |   1 +
-> >  .../gcc/0001-lib-Remove-i-86-march-overrides.patch | 113 +++++++++++++++++++++
-> >  2 files changed, 114 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
-> >
-> > diff --git a/meta/recipes-devtools/gcc/gcc-10.2.inc b/meta/recipes-devtools/gcc/gcc-10.2.inc
-> > index e88f2ade6d..1e69c91311 100644
-> > --- a/meta/recipes-devtools/gcc/gcc-10.2.inc
-> > +++ b/meta/recipes-devtools/gcc/gcc-10.2.inc
-> > @@ -69,6 +69,7 @@ SRC_URI = "\
-> >             file://0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch \
-> >             file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
-> >             file://0001-aarch64-Fix-up-__aarch64_cas16_acq_rel-fallback.patch \
-> > +           file://0001-lib-Remove-i-86-march-overrides.patch \
-> >  "
-> >  SRC_URI[sha256sum] = "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
-> >
-> > diff --git a/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch b/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
-> > new file mode 100644
-> > index 0000000000..3f04e121ba
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
-> > @@ -0,0 +1,113 @@
-> > +From 3776789cde95916f95deef48acf9532b0ebf91ae Mon Sep 17 00:00:00 2001
-> > +From: Nathan Rossi <nathan@nathanrossi.com>
-> > +Date: Tue, 15 Dec 2020 11:43:36 +1000
-> > +Subject: [PATCH] lib*: Remove i*86 march overrides
-> > +
-> > +OE does not pass the '--with-arch' option to gccs configure, as such
-> > +some gcc-runtime libraries try to override the value of '-march' and
-> > +'-mtune' which OE already provides. This causes conflicts with other
-> > +i*86 instruction/architecture flags (e.g. -msse* and -mfpmath=*).
-> > +Additionally this caused the following libraries to be built with less
-> > +optimized tune configurations.
-> > +
-> > +Upstream suggests that this should be detecting or otherwise checking if
-> > +the target supports the desired functionality before overriding.
-> > +
-> > +    https://gcc.gnu.org/legacy-ml/gcc-patches/2016-04/msg01344.html
-> > +
-> > +libatomic also overrides the '-march' specifically for IFUNC objects.
-> > +OE already supplies the correct march flag, so remove setting.
-> > +
-> > +Upstream-Status: Inappropriate [OE Specific]
-> > +Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> > +---
-> > + libatomic/Makefile.am   | 1 -
-> > + libatomic/Makefile.in   | 1 -
-> > + libatomic/configure.tgt | 9 ---------
-> > + libgomp/configure.tgt   | 8 --------
-> > + libitm/configure.tgt    | 9 ---------
-> > + 5 files changed, 28 deletions(-)
-> > +
-> > +diff --git a/libatomic/Makefile.am b/libatomic/Makefile.am
-> > +index ac1ca64587..5aa16e0699 100644
-> > +--- a/libatomic/Makefile.am
-> > ++++ b/libatomic/Makefile.am
-> > +@@ -133,7 +133,6 @@ libatomic_la_LIBADD += $(foreach s,$(SIZES),$(addsuffix _$(s)_1_.lo,$(SIZEOBJS))
-> > + libatomic_la_LIBADD += $(addsuffix _8_2_.lo,$(SIZEOBJS))
-> > + endif
-> > + if ARCH_I386
-> > +-IFUNC_OPTIONS      = -march=i586
-> > + libatomic_la_LIBADD += $(addsuffix _8_1_.lo,$(SIZEOBJS))
-> > + endif
-> > + if ARCH_X86_64
-> > +diff --git a/libatomic/Makefile.in b/libatomic/Makefile.in
-> > +index 97df2d7ff0..82c511d420 100644
-> > +--- a/libatomic/Makefile.in
-> > ++++ b/libatomic/Makefile.in
-> > +@@ -432,7 +432,6 @@ libatomic_la_LIBADD = $(foreach s,$(SIZES),$(addsuffix \
-> > +       _$(s)_.lo,$(SIZEOBJS))) $(am__append_1) $(am__append_2) \
-> > +       $(am__append_3) $(am__append_4)
-> > + @ARCH_ARM_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv7-a+fp -DHAVE_KERNEL64
-> > +-@ARCH_I386_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=i586
-> > + @ARCH_X86_64_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -mcx16
-> > + libatomic_convenience_la_SOURCES = $(libatomic_la_SOURCES)
-> > + libatomic_convenience_la_LIBADD = $(libatomic_la_LIBADD)
-> > +diff --git a/libatomic/configure.tgt b/libatomic/configure.tgt
-> > +index 5dd0926d20..3cc41773c3 100644
-> > +--- a/libatomic/configure.tgt
-> > ++++ b/libatomic/configure.tgt
-> > +@@ -82,15 +82,6 @@ case "${target_cpu}" in
-> > +       ;;
-> > +
-> > +   i[3456]86)
-> > +-      case " ${CC} ${CFLAGS} " in
-> > +-        *" -m64 "*|*" -mx32 "*)
-> > +-          ;;
-> > +-        *)
-> > +-          if test -z "$with_arch"; then
-> > +-            XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-> > +-            XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-> > +-          fi
-> > +-      esac
-> > +       ARCH=x86
-> > +       # ??? Detect when -march=i686 is already enabled.
-> > +       try_ifunc=yes
-> > +diff --git a/libgomp/configure.tgt b/libgomp/configure.tgt
-> > +index 4790a31e39..46c4c958e6 100644
-> > +--- a/libgomp/configure.tgt
-> > ++++ b/libgomp/configure.tgt
-> > +@@ -72,14 +72,6 @@ if test x$enable_linux_futex = xyes; then
-> > +     # Note that bare i386 is not included here.  We need cmpxchg.
-> > +     i[456]86-*-linux*)
-> > +       config_path="linux/x86 linux posix"
-> > +-      case " ${CC} ${CFLAGS} " in
-> > +-        *" -m64 "*|*" -mx32 "*)
-> > +-          ;;
-> > +-        *)
-> > +-          if test -z "$with_arch"; then
-> > +-            XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-> > +-          fi
-> > +-      esac
-> > +       ;;
-> > +
-> > +     # Similar jiggery-pokery for x86_64 multilibs, except here we
-> > +diff --git a/libitm/configure.tgt b/libitm/configure.tgt
-> > +index 04109160e9..3d78ea609d 100644
-> > +--- a/libitm/configure.tgt
-> > ++++ b/libitm/configure.tgt
-> > +@@ -59,15 +59,6 @@ case "${target_cpu}" in
-> > +   arm*)               ARCH=arm ;;
-> > +
-> > +   i[3456]86)
-> > +-      case " ${CC} ${CFLAGS} " in
-> > +-        *" -m64 "*|*" -mx32 "*)
-> > +-          ;;
-> > +-        *)
-> > +-          if test -z "$with_arch"; then
-> > +-            XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
-> > +-            XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
-> > +-          fi
-> > +-      esac
-> > +       XCFLAGS="${XCFLAGS} -mrtm"
-> > +       ARCH=x86
-> > +       ;;
-> > ---
-> > 2.29.2
-> >
-> > 
-> >
+> -----Original Message-----
+> From: Pokybuild User <pokybuild@ubuntu1804-ty-1.yocto.io>
+> Sent: Thursday, 14 January, 2021 2:37 AM
+> To: yocto@lists.yoctoproject.org
+> Cc: otavio@ossystems.com.br; yi.zhao@windriver.com; Sangal, Apoorv
+> <apoorv.sangal@intel.com>; Yeoh, Ee Peng <ee.peng.yeoh@intel.com>; Chan,
+> Aaron Chun Yew <aaron.chun.yew.chan@intel.com>;
+> richard.purdie@linuxfoundation.org; akuster808@gmail.com;
+> sjolley.yp.pm@gmail.com; Jain, Sangeeta <sangeeta.jain@intel.com>;
+> steve@sakoman.com
+> Subject: QA notification for completed autobuilder build (yocto-3.1.5.rc1=
+)
+>=20
+>=20
+> A build flagged for QA (yocto-3.1.5.rc1) was completed on the autobuilder=
+ and is
+> available at:
+>=20
+>=20
+>     https://autobuilder.yocto.io/pub/releases/yocto-3.1.5.rc1
+>=20
+>=20
+> Build hash information:
+>=20
+> bitbake: a394eeec6aeb98c6395cb5da2036ce936bdaa0a0
+> meta-arm: 9e2ff72858c1744217195ca4a728e0044ac28af1
+> meta-gplv2: 60b251c25ba87e946a0ca4cdc8d17b1cb09292ac
+> meta-intel: 4922e10c7b8169585ff9322b0d913dadc525c68e
+> meta-kernel: 8349870943ba44bbd688656897372e881f32c741
+> meta-mingw: 524de686205b5d6736661d4532f5f98fee8589b7
+> oecore: 72431ee8de5e3a53d259cebf420a7713ac9e1f14
+> poky: e32d854e33bc86c2a616df8708e021a098afcf73
+>=20
+>=20
+>=20
+> This is an automated message from the Yocto Project Autobuilder
+> Git: git://git.yoctoproject.org/yocto-autobuilder2
+> Email: richard.purdie@linuxfoundation.org
+>=20
+>=20
+>=20
