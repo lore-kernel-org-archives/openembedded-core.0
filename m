@@ -1,52 +1,54 @@
 Received: from mga09.intel.com (mga09.intel.com [])
- by mx.groups.io with SMTP id smtpd.web09.8124.1611038764033174121
+ by mx.groups.io with SMTP id smtpd.web12.8467.1611038763704006868
  for <openembedded-core@lists.openembedded.org>;
  Mon, 18 Jan 2021 22:46:04 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: f12YmoY0LiFsZ57FSViev30FeTw8+wc373DnfM/oKsHDH5YpAzXr6dOsT1u+h6z2ro8AY6o5pU
- Ws239oZ/D2hw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179035577"
+IronPort-SDR: t9dogFhcWDimANKTZq3GN/i2SEhh5B6MVWfb0Nt4E7Okt1h3DEXDQmw8GxnOiOxdaeZjYNauq9
+ Sf7RfnqHduWg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179035580"
 X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="179035577"
+   d="scan'208";a="179035580"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:45:57 -0800
-IronPort-SDR: elroSI/eID41So1NBaoRrOMoRkSRGYx3KpTEKX8oMtYlKLUpunvZafRfeqJ9XuXqJnEe+/apZq
- jYolIDZEAYMA==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:00 -0800
+IronPort-SDR: m8+HYJwrrd1CrOY0D1Oxag7qCW6rEh9pSjrsf5a5XDtL1/bPXZ/7vVEA541G0O/HCBSo/apw7j
+ ikUDTVD7bz6w==
 X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="355441555"
+   d="scan'208";a="355441578"
 Received: from jchen110-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.183.94])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:45:56 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:45:59 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 01/30] enchant2: upgrade 2.2.14 -> 2.2.15
-Date: Tue, 19 Jan 2021 14:45:23 +0800
-Message-Id: <20210119064552.115692-1-anuj.mittal@intel.com>
+Subject: [PATCH 03/30] gstreamer1.0-plugins-base: upgrade 1.18.2 -> 1.18.3
+Date: Tue, 19 Jan 2021 14:45:25 +0800
+Message-Id: <20210119064552.115692-3-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210119064552.115692-1-anuj.mittal@intel.com>
+References: <20210119064552.115692-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../enchant/{enchant2_2.2.14.bb => enchant2_2.2.15.bb}          | 2 +-
+ ...ugins-base_1.18.2.bb => gstreamer1.0-plugins-base_1.18.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/enchant/{enchant2_2.2.14.bb => enchant2_2.2.15.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.18.2.bb => gstreamer1.0-plugins-base_1.18.3.bb} (97%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.2.14.bb b/meta/recipes-support/enchant/enchant2_2.2.15.bb
-similarity index 90%
-rename from meta/recipes-support/enchant/enchant2_2.2.14.bb
-rename to meta/recipes-support/enchant/enchant2_2.2.15.bb
-index a5080d9c78..05e84fc726 100644
---- a/meta/recipes-support/enchant/enchant2_2.2.14.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.2.15.bb
-@@ -9,7 +9,7 @@ DEPENDS = "glib-2.0"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.3.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.3.bb
+index 531d577b0c..84602246c9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.18.3.bb
+@@ -9,7 +9,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            file://0004-glimagesink-Downrank-to-marginal.patch \
+            "
+-SRC_URI[sha256sum] = "dd04fb1f7826e2f6d9b4d66fc22f19cc6a47c301e13041f0ee3d7f65c89b05ac"
++SRC_URI[sha256sum] = "dbfa20283848f0347a223dd8523dfb62e09e5220b21b1d157a8b0c8b67ba9f52"
  
- SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[sha256sum] = "bf7cc9a410b54c29648c7711dc8f210e7b13768508aaf43cc9c4527d5a9c7a8e"
-+SRC_URI[sha256sum] = "3b0f2215578115f28e2a6aa549b35128600394304bd79d6f28b0d3b3d6f46c03"
- 
- UPSTREAM_CHECK_URI = "https://github.com/AbiWord/enchant/releases"
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
  
 -- 
 2.29.2
