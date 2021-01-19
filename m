@@ -1,27 +1,27 @@
-Received: from mga09.intel.com (mga09.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.8470.1611038797016909098
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web08.8244.1611038799087798389
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 22:46:37 -0800
+ Mon, 18 Jan 2021 22:46:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: nAbVGxDy/PiZBZzi/PSdlJCUZznKSeS8jv2He+dGS6CrnjdxEMDOK7M2lfkLt6kUUoQ9gTNBwH
- SeOnr48qpXiA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179035649"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: CN+Wsy9kEuJs7l+qVpYmpFvtw45jCxWn/2smt4lLLI+JLEqJ6VPW5jWg+RnB0KvalT2oFweBDO
+ jQ76EF/xDIIA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179035651"
 X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="179035649"
+   d="scan'208";a="179035651"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:23 -0800
-IronPort-SDR: FDaXVdm0SorwQ9QTzEHIRJc5Um0tGLANAAPqipNo2IeyvPYbcIOEJGR7mrOBaM3XFXV6IOLRAt
- zApf3+qBtDoA==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:24 -0800
+IronPort-SDR: 851/vwoH57OxirSEV4gFE9vConILqsND7RMPzzKbMyR6XJZaiUfY3sLw8Wn5an1ehCamn85seV
+ WlHlgk6l2UYw==
 X-IronPort-AV: E=Sophos;i="5.79,358,1602572400"; 
-   d="scan'208";a="355441694"
+   d="scan'208";a="355441789"
 Received: from jchen110-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.183.94])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:22 -0800
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2021 22:46:23 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 20/30] piglit: upgrade to latest revision
-Date: Tue, 19 Jan 2021 14:45:42 +0800
-Message-Id: <20210119064552.115692-20-anuj.mittal@intel.com>
+Subject: [PATCH 21/30] vala: upgrade 0.50.2 -> 0.50.3
+Date: Tue, 19 Jan 2021 14:45:43 +0800
+Message-Id: <20210119064552.115692-21-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119064552.115692-1-anuj.mittal@intel.com>
 References: <20210119064552.115692-1-anuj.mittal@intel.com>
@@ -30,58 +30,23 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...nder-ops.c-add-missing-format-string.patch | 24 -------------------
- meta/recipes-graphics/piglit/piglit_git.bb    |  3 +--
- 2 files changed, 1 insertion(+), 26 deletions(-)
- delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-render-ops.c-add-missing-format-string.patch
+ meta/recipes-devtools/vala/{vala_0.50.2.bb => vala_0.50.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/vala/{vala_0.50.2.bb => vala_0.50.3.bb} (50%)
 
-diff --git a/meta/recipes-graphics/piglit/piglit/0001-render-ops.c-add-missing-format-string.patch b/meta/recipes-graphics/piglit/piglit/0001-render-ops.c-add-missing-format-string.patch
-deleted file mode 100644
-index 261d98d8f6..0000000000
---- a/meta/recipes-graphics/piglit/piglit/0001-render-ops.c-add-missing-format-string.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--From e21e68f6aa0f5249fce613e8fd4ac0edbd5cb7b0 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 22 Dec 2020 13:35:11 +0100
--Subject: [PATCH] render-ops.c: add missing format string
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- tests/spec/ati_fragment_shader/render-ops.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tests/spec/ati_fragment_shader/render-ops.c b/tests/spec/ati_fragment_shader/render-ops.c
--index 131334ba2..19a353d67 100644
----- a/tests/spec/ati_fragment_shader/render-ops.c
--+++ b/tests/spec/ati_fragment_shader/render-ops.c
--@@ -393,7 +393,7 @@ piglit_display(void)
-- 		bool ok = piglit_probe_rect_halves_equal_rgba(get_test_x(i), get_test_y(i),
-- 							      w * 2, h);
-- 		enum piglit_result sub_result = ok ? PIGLIT_PASS : PIGLIT_FAIL;
---		piglit_report_subtest_result(sub_result, test->name);
--+		piglit_report_subtest_result(sub_result, "%s", test->name);
-- 		piglit_merge_result(&result, sub_result);
-- 	}
-- 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 442c1a3c62..484b59df00 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -13,11 +13,10 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https \
-            file://0001-serializer.py-make-.gz-files-reproducible.patch \
-            file://0001-framework-profile.py-make-test-lists-reproducible.patch \
-            file://0001-tests-shader.py-sort-the-file-list-before-working-on.patch \
--           file://0001-render-ops.c-add-missing-format-string.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
+diff --git a/meta/recipes-devtools/vala/vala_0.50.2.bb b/meta/recipes-devtools/vala/vala_0.50.3.bb
+similarity index 50%
+rename from meta/recipes-devtools/vala/vala_0.50.2.bb
+rename to meta/recipes-devtools/vala/vala_0.50.3.bb
+index b5913fca8b..302f562549 100644
+--- a/meta/recipes-devtools/vala/vala_0.50.2.bb
++++ b/meta/recipes-devtools/vala/vala_0.50.3.bb
+@@ -2,4 +2,4 @@ require ${BPN}.inc
  
--SRCREV = "603deba4ab66e2a8948693a14d715e536caddcc5"
-+SRCREV = "d3a6e1293c43a6d989d4bcd59132317195d420c6"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
+ SRC_URI += " file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch"
  
+-SRC_URI[sha256sum] = "2c0d5dc6d65d070f724063075424c403765ab7935c9e6fbcb84981b94d07ceda"
++SRC_URI[sha256sum] = "6165c1b42beca4856e2fb9a31c5e81949d76fa670e2f0cfc8389ce9b95eca5db"
 -- 
 2.29.2
 
