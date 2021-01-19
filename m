@@ -1,95 +1,99 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web12.10679.1611059847160938006
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web12.10700.1611060005377394983
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 04:37:27 -0800
+ Tue, 19 Jan 2021 04:40:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U/9MTF9R;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id u14so12363585wmq.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 04:37:26 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FKjpi7NP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id a12so19559898wrv.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 04:40:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=4dGzn4t4msHf4a+DhD/1D7oaBuMznMRx2kIHxRM6UeE=;
-        b=U/9MTF9RGn3/hGPHZrOUM8bBDnDujZs5bnsM9tQ5oJyfb+ML0jVoaZ0taJsDbl3YSE
-         u5YohC52jh8ToQjeuMErDKH6a2eL9nxkYa42cxtVSkkzirYlmmGaLU8fuXRF5IHiuDFe
-         gIsrlSoeU7ro8HATG5FMef8BOpT0p8cEP4LT8=
+        bh=dDq5Pevh1Ti4cVCIJ5IPSf525Tk/73muDoWvLZJzuvU=;
+        b=FKjpi7NPXcGPHjXht1eMvTpDmzlFyRjVo026Sp85/Kgfyyj8rr89qxAUSMp1tlNOxU
+         2b1YGwSjZHgvgEspzDbVj8lelARp488oe/IHZQ7tbCYfXT4IlwEUJpHAngC+9tDNqAfF
+         bctiy8JcumunzSO56O81k+IPd4KRz75TKlPVw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4dGzn4t4msHf4a+DhD/1D7oaBuMznMRx2kIHxRM6UeE=;
-        b=g/YoLCQ7upzoQ1SyRgb3H1CYmP44PsXwfaKy49umnoK1NIom1dZicZ2ZosubRg0CwY
-         e8T0KsTd7u0AlECJArql8jpaWZH7QNpinu+z9We1xVcxAxLsh+odWRe/rZDBRttbMS+v
-         RKwOi/mNc3W7+Xl94B7EK1h8imtmzXQBYLPgn1DA+Ku3t0RzAENd0wlVf7dl3+st5FHM
-         UeghmMnoOAY1sSTPG7uHMA52aA04OO5r0iNDHEXiz2vOVoMGvF5ylp8QMhmzLcNUGUmQ
-         N/vjsrczatX5iegQqo/+jjPNxTrNJOpWAb8t0Iwh78XrD7Yo/AfoFFwjf3zSPW5J9gnc
-         9Faw==
-X-Gm-Message-State: AOAM530+9NRdCZrrcqyz67NkR9CDPsY3A9sX2tczS5hQxdl3MquG1con
-	OQAmlYyx040jItxmRcgpacUW5Q==
-X-Google-Smtp-Source: ABdhPJxNWz4HygMEdxEJnc18JMQqNlqMpWZ5FzlAm3Q+VN9r3pj84wMcDG2Zga5IBf+VZg1oS35Llg==
-X-Received: by 2002:a1c:2341:: with SMTP id j62mr3983493wmj.34.1611059845541;
-        Tue, 19 Jan 2021 04:37:25 -0800 (PST)
+        bh=dDq5Pevh1Ti4cVCIJ5IPSf525Tk/73muDoWvLZJzuvU=;
+        b=eKxppCkDe5xm+m3LDQDm1TMEbHRf+BSD6QFTqUZS+CwCZkrNH/iMbMEcl4I+UAgFGz
+         hMJVdz6Ktj0FuECrqGmkuUIy1eqDlEzxtljcLQo/aWd3N5OsjHagKEorDUXnWbXYRttP
+         dSJZitZN9coLjqdBydXINw3JRGV/cwjB0R3CiIhBLnWF53vkk6aAsnIlPHlJEDHtgLyK
+         q+VYtTiKsbRKuMsYucz+vHBMyhX/A8AF/kYGt0iVFuHxxxp0KbWNlMSGZuEwCFh6a006
+         H8KOom6nFbcfr4dTj0v+X/GzZ6gRnbp0ZFWiMb6zk7vIPhiOJ+W8LRSF6qPDqam4AvZQ
+         vpWA==
+X-Gm-Message-State: AOAM533sTaMAxLcTFkbDbRk8vRr3MP5IoJx0bs0KAqIEpkkU1Ipf0+fh
+	z8Nl2zU070F2CxRM7qKvl9LeXw==
+X-Google-Smtp-Source: ABdhPJzRsV7LnAvPxjO7/HvWCPhGOFg/ny3/tseqZ3gMCng5GbhgxeDbLYkTBofvHbzUzhIdFHdbOQ==
+X-Received: by 2002:adf:d20b:: with SMTP id j11mr4119618wrh.318.1611060003976;
+        Tue, 19 Jan 2021 04:40:03 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id z6sm36957717wrw.58.2021.01.19.04.37.24
+        by smtp.gmail.com with ESMTPSA id k9sm4654135wma.17.2021.01.19.04.40.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 04:37:24 -0800 (PST)
-Message-ID: <926f9b256f3f8700caf9d4e31f49e68044c0cc64.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] tcp-wrappers: Update checksum for SRC_URI
+        Tue, 19 Jan 2021 04:40:03 -0800 (PST)
+Message-ID: <d36f56ea7d0ad862d7ed8fe3aafe64b680aead56.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] libxml2: Update checksum for testtar
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: zhengjunling@huawei.com, openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2021 12:37:14 +0000
-In-Reply-To: <20210119062545.625-1-zhengjunling@huawei.com>
+Date: Tue, 19 Jan 2021 12:39:44 +0000
+In-Reply-To: <20210119062545.625-2-zhengjunling@huawei.com>
 References: <20210119062545.625-1-zhengjunling@huawei.com>
+	 <20210119062545.625-2-zhengjunling@huawei.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-19 at 14:25 +0800, Junling Zheng via lists.openembedded.org wrote:
-> Commit a11edd68b2 (Change ftp:// URIs to http(s)://) changed the URI
-> from ftp to http without updating tarball's checksum, which is
-> different between them unfortunately.
+On Tue, 2021-01-19 at 14:25 +0800, Junling Zheng via
+lists.openembedded.org wrote:
+> For some unknown factor, the checksum of testtar(xmlts20080827.tar.gz)
+> is mismatch with that of remote. Let's fix it.
+> 
+> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+> ---
+>  meta/recipes-core/libxml/libxml2_2.9.10.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+> index 07ae68610c..cab234f9b7 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+> @@ -28,8 +28,8 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+>  
+> 
+> 
+> 
+>  SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
+>  SRC_URI[libtar.sha256sum] = "aafee193ffb8fe0c82d4afef6ef91972cbaf5feea100edc2f262750611b4be1f"
+> -SRC_URI[testtar.md5sum] = "ae3d1ebe000a3972afa104ca7f0e1b4a"
+> -SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
+> +SRC_URI[testtar.md5sum] = "3a944b972f2da90b97d8a57c6f939fa8"
+> +SRC_URI[testtar.sha256sum] = "9b2c865aba66c6429ca301a7ef048d7eca2cdb7a9106184416710853c7b37d0d"
 
-That seems strange. I tried to reproduce:
-
-$ wget http://ftp.porcupine.org/pub/security/tcp_wrappers_7.6.tar.gz
---2021-01-19 12:33:34--  http://ftp.porcupine.org/pub/security/tcp_wrappers_7.6.tar.gz
-Resolving ftp.porcupine.org (ftp.porcupine.org)... 168.100.185.123
-Connecting to ftp.porcupine.org (ftp.porcupine.org)|168.100.185.123|:80... connected.
+$ wget http://www.w3.org/XML/Test/xmlts20080827.tar.gz
+--2021-01-19 12:38:58--  http://www.w3.org/XML/Test/xmlts20080827.tar.gz
+Resolving www.w3.org (www.w3.org)... 128.30.52.100
+Connecting to www.w3.org (www.w3.org)|128.30.52.100|:80... connected.
 HTTP request sent, awaiting response... 200 OK
-Length: 99438 (97K) [application/x-tar]
-Saving to: ‘tcp_wrappers_7.6.tar.gz’
+Length: 638940 (624K) [application/gzip]
+Saving to: ‘xmlts20080827.tar.gz’
 
-tcp_wrappers_7.6.tar.gz               100%[=======================================================================>]  97.11K   295KB/s    in 0.3s    
+xmlts20080827.tar.gz                  100%[=======================================================================>] 623.96K  1.27MB/s    in 0.5s    
 
-2021-01-19 12:33:35 (295 KB/s) - ‘tcp_wrappers_7.6.tar.gz’ saved [99438/99438]
+2021-01-19 12:38:59 (1.27 MB/s) - ‘xmlts20080827.tar.gz’ saved [638940/638940]
 
-$ wget ftp://ftp.porcupine.org/pub/security/tcp_wrappers_7.6.tar.gz
---2021-01-19 12:33:46--  ftp://ftp.porcupine.org/pub/security/tcp_wrappers_7.6.tar.gz
-           => ‘tcp_wrappers_7.6.tar.gz.1’
-Resolving ftp.porcupine.org (ftp.porcupine.org)... 168.100.185.123
-Connecting to ftp.porcupine.org (ftp.porcupine.org)|168.100.185.123|:21... connected.
-Logging in as anonymous ... Logged in!
-==> SYST ... done.    ==> PWD ... done.
-==> TYPE I ... done.  ==> CWD (1) /pub/security ... done.
-==> SIZE tcp_wrappers_7.6.tar.gz ... 99438
-==> PASV ... done.    ==> RETR tcp_wrappers_7.6.tar.gz ... done.
-Length: 99438 (97K) (unauthoritative)
+$ md5sum xmlts20080827.tar.gz 
+ae3d1ebe000a3972afa104ca7f0e1b4a  xmlts20080827.tar.gz
 
-tcp_wrappers_7.6.tar.gz.1             100%[=======================================================================>]  97.11K   295KB/s    in 0.3s    
-
-2021-01-19 12:33:47 (295 KB/s) - ‘tcp_wrappers_7.6.tar.gz.1’ saved [99438]
-
-$ md5sum tcp_wrappers_7.6.tar.gz*
-e6fa25f71226d090f34de3f6b122fb5a  tcp_wrappers_7.6.tar.gz
-e6fa25f71226d090f34de3f6b122fb5a  tcp_wrappers_7.6.tar.gz.1
-
-So the checksums seem the same to me and match the recipe?
+So seems ok to me?
 
 Cheers,
 
 Richard
+
 
