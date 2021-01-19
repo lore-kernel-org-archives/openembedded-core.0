@@ -1,72 +1,55 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
- by mx.groups.io with SMTP id smtpd.web12.17899.1611089959610844646
+Received: from linuxplesk15.openhost.net.nz (linuxplesk15.openhost.net.nz [119.47.118.83])
+ by mx.groups.io with SMTP id smtpd.web08.20184.1611098036469136204
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 12:59:19 -0800
+ Tue, 19 Jan 2021 15:13:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.210.52, mailfrom: aehs29@gmail.com)
-Received: by mail-ot1-f52.google.com with SMTP id i30so8279567ota.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 12:59:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fqit2SEFDpSLvCNZrXfP8ECnbTwXbde9X6tsxma9HbU=;
-        b=I2pCLP9mxSXRipwF9LAIFSR2IfC/8rpWtIivehJSHZsN0uu+Q5AgJI2WMGTlZRjBfz
-         RT4+exioqttqodK8RivHLQflvgsdz6QVQo5P4Zq1nYmNxpV+cxOLgDA1paKxWCDyVrto
-         NniueL2ny0AxLxUGNG/uSKosyAHCiltkAH9P+0Enj4JbDiMvNtd6ByzvOWjxHr+809Yl
-         u1obudpfXRdOZpvZqEmFQmu/hzbHB/tjLpPUgSc4+rl4wqhFn5CNzGw2gwZWNvdZbt/L
-         /tTJRpK0/KNRus1w27yPZHX6nBn2x8OdWRQildXDhDlpThp0OZd4UEbytHD5D45LfOiQ
-         2/4g==
-X-Gm-Message-State: AOAM530p4f4WSDTejQ1CGrmMGce9GYl4l8z+XcMi6+XGHYr+ORVrCLu2
-	Qbgq0C5b9V6zugVGP0qT7s9j1Id1grgS/jQm
-X-Google-Smtp-Source: ABdhPJw/mClvFXPXqRs8DAjQGJwioV96euv5kw+Z09Ztzr3sFQH6QU5KokJU5J/OTL+xDHRHh/YPTQ==
-X-Received: by 2002:a05:6830:1d79:: with SMTP id l25mr4783172oti.17.1611089958561;
-        Tue, 19 Jan 2021 12:59:18 -0800 (PST)
-Return-Path: <aehs29@gmail.com>
-Received: from alsamon-xub.lan (cpe-68-201-52-49.elp.res.rr.com. [68.201.52.49])
-        by smtp.gmail.com with ESMTPSA id p28sm4728118ota.14.2021.01.19.12.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 12:59:17 -0800 (PST)
-From: "Alejandro Hernandez Samaniego" <alejandro@enedino.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Subject: [OE-core][PATCH] newlib: Upgrade 3.3.0 -> 4.1.0
-Date: Tue, 19 Jan 2021 13:59:12 -0700
-Message-Id: <20210119205912.2497213-1-alejandro@enedino.org>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 119.47.118.83, mailfrom: bluelightning@bluelightning.org)
+Received: from linc.localnet (unknown [151.210.230.112])
+	by linuxplesk15.openhost.net.nz (Postfix) with ESMTPSA id 7B7AAA254A;
+	Wed, 20 Jan 2021 12:13:52 +1300 (NZDT)
+From: "Paul Eggleton" <bluelightning@bluelightning.org>
+To: openembedded-core@lists.openembedded.org, Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: luca.boccassi@gmail.com
+Subject: Re: [OE-core] [PATCH v4] util-linux: split uuid in separate recipe to allow bootstrapping
+Date: Wed, 20 Jan 2021 12:13:51 +1300
+Message-ID: <2056926.Mh6RI2rZIc@linc>
+In-Reply-To: <066f346a8d1c643650bf814cc3c18c363b820d5f.camel@linuxfoundation.org>
+References: <20201123132823.3996355-1-luca.boccassi@gmail.com> <20201210184632.3448265-1-luca.boccassi@gmail.com> <066f346a8d1c643650bf814cc3c18c363b820d5f.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
----
- .../newlib/{libgloss_3.3.0.bb => libgloss_4.1.0.bb}             | 0
- meta/recipes-core/newlib/newlib.inc                             | 2 +-
- meta/recipes-core/newlib/{newlib_3.3.0.bb => newlib_4.1.0.bb}   | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/newlib/{libgloss_3.3.0.bb => libgloss_4.1.0.bb} (100%)
- rename meta/recipes-core/newlib/{newlib_3.3.0.bb => newlib_4.1.0.bb} (100%)
+Hi Richard
 
-diff --git a/meta/recipes-core/newlib/libgloss_3.3.0.bb b/meta/recipes-core/newlib/libgloss_4.1.0.bb
-similarity index 100%
-rename from meta/recipes-core/newlib/libgloss_3.3.0.bb
-rename to meta/recipes-core/newlib/libgloss_4.1.0.bb
-diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
-index 96e230f985..c1d8687380 100644
---- a/meta/recipes-core/newlib/newlib.inc
-+++ b/meta/recipes-core/newlib/newlib.inc
-@@ -16,7 +16,7 @@ LIC_FILES_CHKSUM = " \
- 		"
+On Wednesday, 20 January 2021 09:52:41 NZDT Richard Purdie wrote:
+> I think the one remaining issue here is the need to change the DEPENDS
+> of so many other recipes, likely not just here in this patch but in
+> other layers. I think if util-linux DEPENDS on util-linux-uuid that
+> might remove the need for those changes? That should still allow you to
+> break the circular dependency problem?
+
+I have to admit to a gap in my own knowledge of how our build system handles 
+transitive dependencies. Of course the recipe sysroot should still get 
+everything it needs in it even if the dependency is only indirectly included, 
+in the back of my mind I have the impression that there are expectations that 
+all dependencies are explicitly called out and there are subtle issues if they 
+aren't, but that could be a mistaken impression on my part.
  
- SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}.tar.gz"
--SRC_URI[sha256sum] = "58dd9e3eaedf519360d92d84205c3deef0b3fc286685d1c562e245914ef72c66"
-+SRC_URI[sha256sum] = "f296e372f51324224d387cc116dc37a6bd397198756746f93a2b02e9a5d40154"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = "virtual/${TARGET_PREFIX}gcc"
-diff --git a/meta/recipes-core/newlib/newlib_3.3.0.bb b/meta/recipes-core/newlib/newlib_4.1.0.bb
-similarity index 100%
-rename from meta/recipes-core/newlib/newlib_3.3.0.bb
-rename to meta/recipes-core/newlib/newlib_4.1.0.bb
--- 
-2.25.1
+> I suspect libuuid should really be maintained/built as a separate
+> software project given the dependency problems but that isn't my
+> decision, we just have to deal with it.
+
+I agree that it would be better being separate, FWIW.
+
+> I am also worried this is going to break AUH and mean we have to
+> manually handle this recipe but again, I suspect there is little to be
+> done and we just have to deal with it.
+
+Could we perhaps fix the AUH to handle this properly? Do we need some kind of 
+mechanism to get it to always upgrade the two recipes together or is that only 
+part of the issue?
+
+Cheers
+Paul
+
 
