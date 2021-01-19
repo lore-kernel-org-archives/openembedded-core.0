@@ -1,104 +1,64 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web09.11114.1611064103810978919
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.11315.1611064705550204928
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 05:48:23 -0800
+ Tue, 19 Jan 2021 05:58:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=EXliCVaE;
- spf=pass (domain: google.com, ip: 209.85.166.48, mailfrom: gmouse@google.com)
-Received: by mail-io1-f48.google.com with SMTP id q2so37966026iow.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 05:48:23 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SPf+icAG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id a9so16369808wrt.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 05:58:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CMVl9aprrKu8bpe8JC0NTCQd+S3fnrEbm8chmuoV/DI=;
-        b=EXliCVaE7vFnzk8JeS4d9gfuxXBMKBvgio3UZdKNr9HZFmXdUR0X8iwS4mjiXLK5Tu
-         jkITgQguB3ZrfVb4Ri2wFpTR9ZjBN5144oBqnJLPz3fUDBo6UiZqu58x3Rf4x51+CfNN
-         FGeaD/xeQyUXVxTurxRSQ0Ay2iwdOHEdJ38qXJbDqEjowZEfoo/Ubt9ri7tOhjlFVEvL
-         KFz+SDl7XKlkrn22c/AB9i3NfEpWmepiMWeUA4ljBdYV1ZZG6Lk6MIAkYk9+0fNUYZAF
-         SSgo4x4rmVjTDRq7fZ5sRchIq4mKVrSof2sA3Gn/cYW0Ve/9AiEgTveZb/oNOWrAtvLj
-         rskw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=52/G6qdJZ95k3RaIfaCJVeW7p8vHDu3G6jyZWd11xBE=;
+        b=SPf+icAGekBWnQiUjha6OHFQ9JfYiLX38C+xJ6tj+9CQOFA2+b/XyrlKxQGOLNpr0z
+         Q5TFXTnNZU0k6KjpuoROzlj7E0Rk8ZHw63zhnzKZc9oKCAEkVUwKCmn7ePcy+jLqcUU9
+         iIQiTMgvkl+DjWdK9wMbD3cPOUFwSxg3L6cIg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CMVl9aprrKu8bpe8JC0NTCQd+S3fnrEbm8chmuoV/DI=;
-        b=JGA2Bl/XenGpNeBYIINZRKkYtBGOixVFAEmmygZ0eKyWxqYTg0AkKQMg8N5GBHEaAm
-         eDokMYh2j3rlCPjQwYYvE5lcDlH/0AGABadc6p5aiDj0Tv3FgFUD0vMdxqkH85HXBCQ0
-         K+AtdkLPsgeIXo+B7RkKfr5xUzJQPyc+BAW7tYi7KHPtiPFFkBLXkH1Vbl0FR0uxYKdY
-         m0+reN40U9+gRPIm+nFvE/SrGDtRyuIAgkBbKu/W/54aOmUp5ZYUkc4wJeVBff1y3txi
-         Mv/UJUtUaup+Lb5hVG6Ri2TgQmYVdtXZpkehLf7yK+kEVOPH2OyEku4cawBcDbiGE4wA
-         5ugQ==
-X-Gm-Message-State: AOAM5314GF5FcuUNr9Qhi87crkhYkBQ5Q6xU/KWW3pXBPcDKqBUhMaKN
-	RCt1CNqRSLHXpdlz8jdrCzT2RDODOn5h43Ew9HJwag==
-X-Google-Smtp-Source: ABdhPJyDcSUllUnUrYOfSQ5rdmMRYk4qBcQNAQ3uVumRJ1ANN2Nno6WitGiXG8sWKhYybH5jzYSt5HHvCgdYoj0OepQ=
-X-Received: by 2002:a6b:dc17:: with SMTP id s23mr2928914ioc.170.1611064103092;
- Tue, 19 Jan 2021 05:48:23 -0800 (PST)
-MIME-Version: 1.0
-References: <165A723B7A040876.29781@lists.openembedded.org>
- <CADVsX8-aLgbLwqT_zVAh3jBG11KrPMvGKR8Kpi087y75Ao__ow@mail.gmail.com> <7d05167fb80882dea83fb8c4ec0da8f28a61243a.camel@linuxfoundation.org>
-In-Reply-To: <7d05167fb80882dea83fb8c4ec0da8f28a61243a.camel@linuxfoundation.org>
-From: "Anton Kachalov" <rnouse@google.com>
-Date: Tue, 19 Jan 2021 14:48:11 +0100
-Message-ID: <CADVsX8_hASp4VjXO0Dk3HmLW3d6TdWiDzzZHdQfAzRRCBz1KAw@mail.gmail.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=52/G6qdJZ95k3RaIfaCJVeW7p8vHDu3G6jyZWd11xBE=;
+        b=XxTRqNLFRE6OXU8XQmkXHvfWh4ihXiX+kZyl9zYiTFARy+CZPTKGzy+nwLfEL8Bv+c
+         f/m51t3vJ33kyzzPUrMytLd74/BLrO1MAFfp/fdEQwl41nwlL4FcMJFCzL6oCMhZQF1P
+         lrazKk9C+XORCEEZ9VQZWqmOR4DCybiHb9001Tl/irK9WbGJWzY3aIHzOX5/LHsTiCqV
+         QiSjqS2oZ8sTYwBKm5SnAzLXFMpqYOKSH3vwN2suB8ZwDxN03fgIqo6vOSlkybw9yZif
+         5RjNR6+2KSFHGYizmx1gaXm1TMKl+BSgIvCyGx5d3syOjbaLnb/QaWamfva1t6hVISWh
+         ByjA==
+X-Gm-Message-State: AOAM531FapMsqKeBLfDzDP/Sc7VWDsJUNh2UJfsLQm+yJ+ayPOULvx73
+	lXpBJ5SZnv+lPrHihqQCEQHG0g==
+X-Google-Smtp-Source: ABdhPJx9myc0yY9FQxDChBJP2BE7kLAnlUwiLP59lnWy7PvWUuB7MKc3uFNfjGQYp57lpNvOYzb0Vg==
+X-Received: by 2002:adf:ef49:: with SMTP id c9mr4502483wrp.172.1611064703912;
+        Tue, 19 Jan 2021 05:58:23 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
+        by smtp.gmail.com with ESMTPSA id z63sm4921161wme.8.2021.01.19.05.58.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 05:58:23 -0800 (PST)
+Message-ID: <ec9dfc865a596ddb88f11f280b2ca2dcad5737b1.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [poky][PATCH] rootfs: add option to allow delayed postinsts on read-only rootfs
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Anton Kachalov <rnouse@google.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000093ad9305b94117aa"
-
---00000000000093ad9305b94117aa
+Date: Tue, 19 Jan 2021 13:58:22 +0000
+In-Reply-To: <CADVsX8_hASp4VjXO0Dk3HmLW3d6TdWiDzzZHdQfAzRRCBz1KAw@mail.gmail.com>
+References: <165A723B7A040876.29781@lists.openembedded.org>
+	 <CADVsX8-aLgbLwqT_zVAh3jBG11KrPMvGKR8Kpi087y75Ao__ow@mail.gmail.com>
+	 <7d05167fb80882dea83fb8c4ec0da8f28a61243a.camel@linuxfoundation.org>
+	 <CADVsX8_hASp4VjXO0Dk3HmLW3d6TdWiDzzZHdQfAzRRCBz1KAw@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi, Richard.
+On Tue, 2021-01-19 at 14:48 +0100, Anton Kachalov wrote:
+> Thanks! I've expected some kind of ack :)
 
-Thanks! I've expected some kind of ack :)
+That would add a lot of mailing list noise and work for me when its
+relatively obvious looking at the git tree! :)
 
-On Tue, 19 Jan 2021 at 13:51, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Cheers,
 
-> On Tue, 2021-01-19 at 12:39 +0100, Anton Kachalov via
-> lists.openembedded.org wrote:
-> > Ping on the patch
->
-> It merged a couple of days ago:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=49c4fdcb884057c0fc713925c8040e36fd26af8d
->
-> ?
->
-> Cheers,
->
-> Richard
->
->
+Richard
 
---00000000000093ad9305b94117aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi, Richard.<div><br></div><div>Thanks! I&#39;ve expected =
-some kind of ack=C2=A0:)</div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, 19 Jan 2021 at 13:51, Richard Purdie =
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@li=
-nuxfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">On Tue, 2021-01-19 at 12:39 +0100, Anton Kachalov via <a h=
-ref=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">=
-lists.openembedded.org</a> wrote:<br>
-&gt; Ping on the patch<br>
-<br>
-It merged a couple of days ago:=C2=A0<br>
-<a href=3D"http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=3Dmaster-nex=
-t&amp;id=3D49c4fdcb884057c0fc713925c8040e36fd26af8d" rel=3D"noreferrer" tar=
-get=3D"_blank">http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=3Dmaster=
--next&amp;id=3D49c4fdcb884057c0fc713925c8040e36fd26af8d</a> <br>
-<br>
-?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-
---00000000000093ad9305b94117aa--
