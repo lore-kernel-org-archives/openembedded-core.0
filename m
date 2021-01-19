@@ -1,83 +1,80 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
- by mx.groups.io with SMTP id smtpd.web08.10057.1611055283119266013
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web08.10166.1611056228498665710
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 03:21:23 -0800
+ Tue, 19 Jan 2021 03:37:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=d8LedmTl;
- spf=pass (domain: konsulko.com, ip: 209.85.167.170, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oi1-f170.google.com with SMTP id 15so20769849oix.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 03:21:23 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UTNtW2Ud;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id e15so10001766wme.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 03:37:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=akp80Qy1dUIye+z29+uyvBWiT5xye0d3gCnJsbdXjks=;
-        b=d8LedmTlO8u36UEnPaovX+kQ/aSG9gROp8hKcGiEnQLDW2pDiHWmKHhyBP80Nf3wxE
-         F5ojYJHb0d3kCrwwb2jC2Qhv6cUVRT3BpNxDHi2J+QT68lw1jRSTMiw4SFHUwTH0N8uT
-         ogo8S1lnvpwVV3Fu+RBLVyTvagO9fdt/3egw4=
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=9SWeASUMwv1/YdYEZrMT04YldPFUXZHGhPYzNRrp4Ao=;
+        b=UTNtW2UdXnT6yJh9efJRvtl+erl+rXH/TxyGDZGadhIqHtcZFOmwS9Hk1O5ZhFcnf7
+         Bzd6DPq31V9nqJl20zggL+4NVcmyZWoUIzukjva6Of59fJnYsD2f/3B4pBgJMZcRBt++
+         rgOTAKPbN2BUcY0aeR2u7/21BppYCj4T27CEs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=akp80Qy1dUIye+z29+uyvBWiT5xye0d3gCnJsbdXjks=;
-        b=K0vpwydw/r4BxsM9QdbID2fPD5ZiT5IZwMIxj88ciWwWOOM/yv01raDZxIRvsJWov0
-         JDNNiF1Oje05HR81TgFtw7AGjLPudp59TbqY/+ZEL4XBs2wWsFw6yvM22Mwo6JllFvIw
-         WpQvhW1n/lG6xzva4NvxT1eQmPcSHu0fbpATr0jRRsQ7VkujIIPgAZFZP2yKMa6o6EiT
-         fGc7kNa/CI3Zs4JhZqBFZaN4g9jzFtOxewz94gfuZviKFfrw7inOJJxm5UgwUmqA+gNm
-         DinhFCrzPUT3fXLUTSBAj6s+s8KYJpIN+ogD2QxQM/CvSNxxjTkN4CQt+JyUPhCSy/El
-         WBjQ==
-X-Gm-Message-State: AOAM531lJvJ1DKGMwFGn4A4iadfuyBAd67XeBIsdtRXeYhKvwooE8Zvj
-	EcUI8VAvXWQB8dQGEl0BlcIzeuiEIMEEZQPdz3b7EA==
-X-Google-Smtp-Source: ABdhPJzXmNE4tuPjbHERrLHugc6j4XWnNV8HedTyD6Ejmg08zIE+AfSid0NXpEaJaQ4LXyqvCx71n+OU8gYC48oCDmk=
-X-Received: by 2002:a05:6808:a95:: with SMTP id q21mr2204160oij.6.1611055282508;
- Tue, 19 Jan 2021 03:21:22 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=9SWeASUMwv1/YdYEZrMT04YldPFUXZHGhPYzNRrp4Ao=;
+        b=ee39vYF62uDfDZGKns7FWhmK/5di8JgcW45OKYqJJk0eduJtVJddp0mP7Tkx4eYC9p
+         I1fkNju2eeKwNRV+k0YrwYinIpCkkKSFM3g1vVhtFQUPQ6moNeo8eZVeBNkp32YyNPEF
+         c2quy21c5v4hFjDVifse9vBcJOVZvVsn9h5b+joDZ8Xwr3xbzd0v+M9KOlOQUG9PGiaE
+         Qca1zN2Xf6BnPw7fehxqZ3FqIC6FqjSTLONSwaVYaRhBkDyZRzZx9W4KGPTzJdnTZFio
+         sRs4UJAU/zqp6cUIoTXAUSdnJb1b+3D1Q9dhKj/zTdVl0RzDRT3f8fhnu7qKirlAejYZ
+         JKTQ==
+X-Gm-Message-State: AOAM530/FGmXFt0XKdofrdH/mxK5EiWVIT5f/9jaeoyEiEgnNdTdpM1s
+	3fRUHz2iZTvIQbezn4YjbieH7yQf+y4D1w==
+X-Google-Smtp-Source: ABdhPJy8Ev+NroqHH8shHVeEZ6SoytJ6JUPuz62xh3iHk9a4SKdd5f9dGCjXB540+wJ997/gBAzo5g==
+X-Received: by 2002:a1c:a406:: with SMTP id n6mr3703522wme.53.1611056226840;
+        Tue, 19 Jan 2021 03:37:06 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
+        by smtp.gmail.com with ESMTPSA id d30sm2702701wrc.92.2021.01.19.03.37.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Jan 2021 03:37:06 -0800 (PST)
+Message-ID: <72c1c6b8c90c6415c08d7b53f6f5a648c9508744.camel@linuxfoundation.org>
+Subject: Build and Integration help from Bootlin
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, swat
+	 <swat@lists.yoctoproject.org>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, Thomas Petazzoni
+	 <thomas.petazzoni@bootlin.com>
+Date: Tue, 19 Jan 2021 11:37:04 +0000
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210119105303.20592-1-abdellatif.elkhlifi@arm.com>
-In-Reply-To: <20210119105303.20592-1-abdellatif.elkhlifi@arm.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 19 Jan 2021 11:21:12 +0000
-Message-ID: <CAM9ZRVtZBM=3ByycjcWw86Vg55U_J3guAY1bUL6w=sM52xSgxg@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2 0/3] kernel-fitimage: adding support for Initramfs bundle and u-boot script
-To: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Lakshmi.Kailasanathan@arm.com, 
-	Ross Burton <Ross.Burton@arm.com>, nd <nd@arm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, 19 Jan 2021 at 10:53, Abdellatif El Khlifi
-<abdellatif.elkhlifi@arm.com> wrote:
->
-> From: Abdellatif El Khlifi <abdellatif.elkhlifi@arm.com>
->
-> This is the version 2 of adding support to Initramfs bundles and u-boot script in the FIT image.
->
-> This patchset provides the following:
->
-> - Initramfs bundle support in the FIT image kernel class
-> - Allowing to use the Initramfs bundle with the FIT image in the kernel class
-> - A self-contained test case allowing to validate the Initramfs bundle support in the FIT image
-> - u-boot script support in the FIT image kernel class
->
-> A 4th patch will be sent to the Yocto documentation which describes the new features.
->
-> Abdellatif El Khlifi (3):
->   kernel-fitimage: adding support for Initramfs bundle and u-boot script
->   kernel: skip installing fitImage when using Initramfs bundles
->   oeqa/selftest/imagefeatures: adding fitImage initramfs bundle testcase
->
->  meta/classes/kernel-fitimage.bbclass     | 160 +++++++++++++++++++----
->  meta/classes/kernel.bbclass              |  16 ++-
->  meta/lib/oeqa/selftest/cases/fitimage.py | 132 +++++++++++++++++++
->  3 files changed, 284 insertions(+), 24 deletions(-)
->
-> --
-> 2.17.1
+Hi All,
 
-I think the `[meta-oe]` tag in the email subject is wrong here. You
-don't need to resend the patch though as that isn't included in the
-commit message. This is just a note for next time.
+I'm pleased to be able to announce that Alexandre Belloni and some of
+his colleagues from Bootlin are going to be helping us with the process
+for testing and integrating patches within the project.
 
-Thanks,
+There are multiple reasons for this, not least that it helps not to
+have a single point of failure and that I could do with the help and a
+break! :)
 
--- 
-Paul Barker
-Konsulko Group
+As such, they are are going to be leading the SWAT process and you'll
+therefore be seeing them giving initial responses on patches and
+helping with the autobuilder failures.
+
+I'd like to welcome them on board and hope everyone will support them
+as we figure out how the finer details of this will work.
+
+This is being made possible by support from the Yocto Project members
+which is very much appreciated, thanks!
+
+I will be continuing to do the final patch review and merge and am not
+going anywhere, this is some very much welcomed support to try and
+ensure we continue to scale and maintain our quality and testing.
+
+Cheers,
+
+Richard
+
+
