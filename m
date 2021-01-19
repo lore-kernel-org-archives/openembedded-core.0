@@ -1,274 +1,224 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
- by mx.groups.io with SMTP id smtpd.web09.5329.1611018881233817887
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.5618.1611020417212731521
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Jan 2021 17:14:41 -0800
+ Mon, 18 Jan 2021 17:40:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rmc2HWi9;
- spf=pass (domain: gmail.com, ip: 209.85.216.54, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pj1-f54.google.com with SMTP id g15so6732511pjd.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 17:14:41 -0800 (PST)
+ dkim=pass header.i=@nathanrossi.com header.s=google header.b=c1bTa1uB;
+ spf=pass (domain: nathanrossi.com, ip: 209.85.128.53, mailfrom: nathan@nathanrossi.com)
+Received: by mail-wm1-f53.google.com with SMTP id c124so15098372wma.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Jan 2021 17:40:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=ZcbrMLXlQCI1C2UaOdktoBX/hFdAhJ/MQgqFMSjZWYU=;
-        b=Rmc2HWi9ZEetbni+hZR9jYykhdK+OEL3KCRr5B7MuFjCPQIyqak1BaFzZqCqNHImPi
-         KcqmQfhPmRYTGTd79kcjbI0RVZwvztQ0tkpSX/Gz+RRKLmZwJ2uLMJoZ9SurWdVSCpy9
-         JE8GPhtQ9ZleXvNSzJk7Z/r3GuwBrs6NteEXC78JNiSB+WJuRP/4KEtzK0RFgvc9nCkx
-         dhHk9qqfOlryJuyK12h7sndG2vxMnnSna7l2OAPcj3/yiiNa0jnCxJabCFLhDu6nWmq5
-         TCljh5VXdX2lALKmKEIjqPG70/VGAQcP8mm1eZMthec3xY5S+p14cvfJdaI7x7WGgkDp
-         PZlQ==
+        d=nathanrossi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=x7bA7Xi+9ZEX2c/Hhv3Tunu3T9AytIcpKl8Uwdt3HBU=;
+        b=c1bTa1uBZ7WHDoziJ0J4MFtbWW+ZKlVP4o//boAKngwP4pbDh3iyGLiSWoxGaQBPpi
+         oBDSHa+4c6nF7HM6SZ196ZAnMH8pEtHadVjsbtC2iibolUi6lopb7OCmCK9I3wDss+c1
+         eYPzcXYJ6uktQ0VZxFS7OGT7UrnUNd5kWIuAkQgj7+zLA7meGHjD8nnr8g4aNCMxP3vi
+         4SPdxU2Bir+3/EcjzpQe3PsMhXzcqOzKOQ9L4wGRF7ySppK//q2GDcB1lyWnhiv3A7cY
+         hYxAPU02ouTJ/IPnmAlWPgMvRlzE3BxXfhkV5YThElpRfmwuAUTO3b8a2Bg5ZmD2dH6b
+         Whag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=ZcbrMLXlQCI1C2UaOdktoBX/hFdAhJ/MQgqFMSjZWYU=;
-        b=jMgbiCbOdZ5Lf4AkzU3Xby7y54KoT8xFzgsY94qYlQkntdGvjMGtA4GRi2S+7FYV23
-         nW9anT3b3TyHmyD/NzjEv3jEo9Daj3YKgL1wPwDmp+eBUoTeQwbryKC3HMQgspTjq9xO
-         L7V8Cg+uBPPhRtATvqkKv4dDKE1Mb89VNxR5e5uSpVonL1rYk32zZGvbFPOFOoUyf/YU
-         Tt7flBULf+fXPQeJk9LavKbDuiRNXcCO6mgFT9RvW856sGtfv90QtGKNqhFNd1WbC3ba
-         JtHcpRUgoKtduvUMhYl/ZBXd01SKmHO2ipTA6FV59VQ3O/q2xsVJ2e9Cz/A3nb3wPYSC
-         XR6g==
-X-Gm-Message-State: AOAM5300dN3VXoQUuUxqzRZbmiFHgYzJExvAL7UsgKBkgrbWm2CjrkPs
-	13O5slH3hfkEFa1NtTCK2Sk=
-X-Google-Smtp-Source: ABdhPJz/yMGvc40KAkp/p2YW06nvU4LPkcpBz+q4Ar7YqdBD/gdl2AGGd5+EH3lfMCGnzLkS9QcNMQ==
-X-Received: by 2002:a17:902:ed88:b029:de:86f9:3e09 with SMTP id e8-20020a170902ed88b02900de86f93e09mr1948427plj.38.1611018880663;
-        Mon, 18 Jan 2021 17:14:40 -0800 (PST)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id w18sm16832358pfj.120.2021.01.18.17.14.39
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 18 Jan 2021 17:14:40 -0800 (PST)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 18 Jan 2021 17:14:40 -0800
-Message-ID: <0e5c01d6ee00$76b0d780$64128680$@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=x7bA7Xi+9ZEX2c/Hhv3Tunu3T9AytIcpKl8Uwdt3HBU=;
+        b=jZGRSW+kGvHevBG4W8cQdD3KpjeqrXR9rAOT4fZlcBD2dWSYMW+/RReBSj7AU4RDRi
+         iBvG8YcypZP+07IPtMkYa/my3dWeWvUqEr8HgxvJ8mayHspKwEanneOCeJOT5FmVMS50
+         xzy8jWAfS31xOdZ8e8ch04//Xdmz5k/infUYRoGxir79ZgBOEkoXFABSDyWUXq2jxYdR
+         JCxDBco2am2efDs7yRBm6vuzCes8pxka3pjKF9FsA7g4CjdcF1TlWuPx6/wDphUH6UxB
+         GLyBUit7ALZ3m7FrhRkDos+VUPDzQFfuie/NmXCdkIcMm+Wuvr+so4rAeJoiUtoBT/CP
+         omnw==
+X-Gm-Message-State: AOAM531VjxVhDi3ZHDo3t2Qu2R2e5S/6K9j6PK6pJTvfhIXr72T8LyM2
+	b4sN3D3QW4Lt3fYQbzV8QIq65DohurD2unYngGc41g==
+X-Google-Smtp-Source: ABdhPJxXMqGy55AZMtbPUmNb8BMvtnOqkQNfi7vOZciGrjY11m9Gb7JmWJwv66Bm+cu7Gj1OI+49LKk0QqXckQkCDfM=
+X-Received: by 2002:a1c:46c5:: with SMTP id t188mr1739579wma.170.1611020415632;
+ Mon, 18 Jan 2021 17:40:15 -0800 (PST)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQIeVS20R5PAE/PfaOYKwMG2uLkYtw==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0E5D_01D6EDBD.688F1E20"
-Content-Language: en-us
+References: <20201215083458.1360882-1-nathan@nathanrossi.com> <CAMKF1sqxHgujjbZ+D0u15gtu4Pqae+9LCpjgvaanV3ts1vvCig@mail.gmail.com>
+In-Reply-To: <CAMKF1sqxHgujjbZ+D0u15gtu4Pqae+9LCpjgvaanV3ts1vvCig@mail.gmail.com>
+From: "Nathan Rossi" <nathan@nathanrossi.com>
+Date: Tue, 19 Jan 2021 11:40:04 +1000
+Message-ID: <CA+aJhH07k50aF3v6XxO56HTJWTkaw=6o+0o2apUz1XaYEynsFg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc: Add patch to resolve i*86 tune configuration overrides
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-------=_NextPart_000_0E5D_01D6EDBD.688F1E20
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+On Sat, 16 Jan 2021 at 03:40, Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Nathan
+>
+> Can you check if your patch is still needed after
+>
+> https://github.com/kraj/gcc/commit/0411ae7f08e0f5a8b02ff313d26d27a0f6d1bb34
 
-All,
+Hi Khem,
 
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
-review:
-https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
-how to create a bugzilla account at:
-<https://bugzilla.yoctoproject.org/createaccount.cgi>
-https://bugzilla.yoctoproject.org/createaccount.cgi
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 336
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
-being in "3.2" and then "3.3".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
+I tested this change and it resolves the configuration issue. Did you
+want the above change backported to replace the oe specific patch?
+Since that oe specific patch has already been backported to a number
+of releases.
 
 Thanks,
+Nathan
 
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0E5D_01D6EDBD.688F1E20
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0691_01D6E834.279DBA40";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
-class=3DWordSection1><p class=3DMsoNormal =
-style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The triage team is starting to try and =
-collect up and classify bugs which a newcomer to the project would be =
-able to work on in a way which means people can find them. They're being =
-listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
-please review: <a =
-href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
-bedded</a> and how to create a bugzilla account at: <a =
-href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
-style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
-/span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 336 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_0E5D_01D6EDBD.688F1E20--
+>
+> On Tue, Dec 15, 2020 at 12:35 AM Nathan Rossi <nathan@nathanrossi.com> wrote:
+> >
+> > When compiling gcc-runtime for i686 libatomic, libgomp and libitm are
+> > compiled with additional '-march' and '-mtune' overrides. This typically
+> > does not cause build errors (e.g. core2-32 tune), and results in less
+> > optimally tuned outputs. However with specific TUNE_CCARGS (e.g. has
+> > '-mfpmath=sse' but not '-msse*'), the build errors with conflicting
+> > '-mfpmath' options.
+> >
+> > This is caused by gcc-runtime specific configure scripts and Makefile
+> > options that override by adding additional '-march'/'-mtune' args. OE
+> > builds gcc-runtime differently to other build systems, and provides
+> > target specific arch/tune options directly. As such, this change adds a
+> > patch for gcc to remove the specific cases where the args are added.
+> >
+> > Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-10.2.inc             |   1 +
+> >  .../gcc/0001-lib-Remove-i-86-march-overrides.patch | 113 +++++++++++++++++++++
+> >  2 files changed, 114 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-10.2.inc b/meta/recipes-devtools/gcc/gcc-10.2.inc
+> > index e88f2ade6d..1e69c91311 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-10.2.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-10.2.inc
+> > @@ -69,6 +69,7 @@ SRC_URI = "\
+> >             file://0002-aarch64-Introduce-SLS-mitigation-for-RET-and-BR-inst.patch \
+> >             file://0003-aarch64-Mitigate-SLS-for-BLR-instruction.patch \
+> >             file://0001-aarch64-Fix-up-__aarch64_cas16_acq_rel-fallback.patch \
+> > +           file://0001-lib-Remove-i-86-march-overrides.patch \
+> >  "
+> >  SRC_URI[sha256sum] = "b8dd4368bb9c7f0b98188317ee0254dd8cc99d1e3a18d0ff146c855fe16c1d8c"
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch b/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
+> > new file mode 100644
+> > index 0000000000..3f04e121ba
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
+> > @@ -0,0 +1,113 @@
+> > +From 3776789cde95916f95deef48acf9532b0ebf91ae Mon Sep 17 00:00:00 2001
+> > +From: Nathan Rossi <nathan@nathanrossi.com>
+> > +Date: Tue, 15 Dec 2020 11:43:36 +1000
+> > +Subject: [PATCH] lib*: Remove i*86 march overrides
+> > +
+> > +OE does not pass the '--with-arch' option to gccs configure, as such
+> > +some gcc-runtime libraries try to override the value of '-march' and
+> > +'-mtune' which OE already provides. This causes conflicts with other
+> > +i*86 instruction/architecture flags (e.g. -msse* and -mfpmath=*).
+> > +Additionally this caused the following libraries to be built with less
+> > +optimized tune configurations.
+> > +
+> > +Upstream suggests that this should be detecting or otherwise checking if
+> > +the target supports the desired functionality before overriding.
+> > +
+> > +    https://gcc.gnu.org/legacy-ml/gcc-patches/2016-04/msg01344.html
+> > +
+> > +libatomic also overrides the '-march' specifically for IFUNC objects.
+> > +OE already supplies the correct march flag, so remove setting.
+> > +
+> > +Upstream-Status: Inappropriate [OE Specific]
+> > +Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> > +---
+> > + libatomic/Makefile.am   | 1 -
+> > + libatomic/Makefile.in   | 1 -
+> > + libatomic/configure.tgt | 9 ---------
+> > + libgomp/configure.tgt   | 8 --------
+> > + libitm/configure.tgt    | 9 ---------
+> > + 5 files changed, 28 deletions(-)
+> > +
+> > +diff --git a/libatomic/Makefile.am b/libatomic/Makefile.am
+> > +index ac1ca64587..5aa16e0699 100644
+> > +--- a/libatomic/Makefile.am
+> > ++++ b/libatomic/Makefile.am
+> > +@@ -133,7 +133,6 @@ libatomic_la_LIBADD += $(foreach s,$(SIZES),$(addsuffix _$(s)_1_.lo,$(SIZEOBJS))
+> > + libatomic_la_LIBADD += $(addsuffix _8_2_.lo,$(SIZEOBJS))
+> > + endif
+> > + if ARCH_I386
+> > +-IFUNC_OPTIONS      = -march=i586
+> > + libatomic_la_LIBADD += $(addsuffix _8_1_.lo,$(SIZEOBJS))
+> > + endif
+> > + if ARCH_X86_64
+> > +diff --git a/libatomic/Makefile.in b/libatomic/Makefile.in
+> > +index 97df2d7ff0..82c511d420 100644
+> > +--- a/libatomic/Makefile.in
+> > ++++ b/libatomic/Makefile.in
+> > +@@ -432,7 +432,6 @@ libatomic_la_LIBADD = $(foreach s,$(SIZES),$(addsuffix \
+> > +       _$(s)_.lo,$(SIZEOBJS))) $(am__append_1) $(am__append_2) \
+> > +       $(am__append_3) $(am__append_4)
+> > + @ARCH_ARM_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv7-a+fp -DHAVE_KERNEL64
+> > +-@ARCH_I386_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=i586
+> > + @ARCH_X86_64_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -mcx16
+> > + libatomic_convenience_la_SOURCES = $(libatomic_la_SOURCES)
+> > + libatomic_convenience_la_LIBADD = $(libatomic_la_LIBADD)
+> > +diff --git a/libatomic/configure.tgt b/libatomic/configure.tgt
+> > +index 5dd0926d20..3cc41773c3 100644
+> > +--- a/libatomic/configure.tgt
+> > ++++ b/libatomic/configure.tgt
+> > +@@ -82,15 +82,6 @@ case "${target_cpu}" in
+> > +       ;;
+> > +
+> > +   i[3456]86)
+> > +-      case " ${CC} ${CFLAGS} " in
+> > +-        *" -m64 "*|*" -mx32 "*)
+> > +-          ;;
+> > +-        *)
+> > +-          if test -z "$with_arch"; then
+> > +-            XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
+> > +-            XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
+> > +-          fi
+> > +-      esac
+> > +       ARCH=x86
+> > +       # ??? Detect when -march=i686 is already enabled.
+> > +       try_ifunc=yes
+> > +diff --git a/libgomp/configure.tgt b/libgomp/configure.tgt
+> > +index 4790a31e39..46c4c958e6 100644
+> > +--- a/libgomp/configure.tgt
+> > ++++ b/libgomp/configure.tgt
+> > +@@ -72,14 +72,6 @@ if test x$enable_linux_futex = xyes; then
+> > +     # Note that bare i386 is not included here.  We need cmpxchg.
+> > +     i[456]86-*-linux*)
+> > +       config_path="linux/x86 linux posix"
+> > +-      case " ${CC} ${CFLAGS} " in
+> > +-        *" -m64 "*|*" -mx32 "*)
+> > +-          ;;
+> > +-        *)
+> > +-          if test -z "$with_arch"; then
+> > +-            XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
+> > +-          fi
+> > +-      esac
+> > +       ;;
+> > +
+> > +     # Similar jiggery-pokery for x86_64 multilibs, except here we
+> > +diff --git a/libitm/configure.tgt b/libitm/configure.tgt
+> > +index 04109160e9..3d78ea609d 100644
+> > +--- a/libitm/configure.tgt
+> > ++++ b/libitm/configure.tgt
+> > +@@ -59,15 +59,6 @@ case "${target_cpu}" in
+> > +   arm*)               ARCH=arm ;;
+> > +
+> > +   i[3456]86)
+> > +-      case " ${CC} ${CFLAGS} " in
+> > +-        *" -m64 "*|*" -mx32 "*)
+> > +-          ;;
+> > +-        *)
+> > +-          if test -z "$with_arch"; then
+> > +-            XCFLAGS="${XCFLAGS} -march=i486 -mtune=${target_cpu}"
+> > +-            XCFLAGS="${XCFLAGS} -fomit-frame-pointer"
+> > +-          fi
+> > +-      esac
+> > +       XCFLAGS="${XCFLAGS} -mrtm"
+> > +       ARCH=x86
+> > +       ;;
+> > ---
+> > 2.29.2
+> >
+> > 
+> >
