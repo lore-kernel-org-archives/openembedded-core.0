@@ -1,64 +1,64 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web08.10753.1611060696084514363
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.web10.10780.1611061388367833027
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 04:51:36 -0800
+ Tue, 19 Jan 2021 05:03:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y0OqMSab;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id c5so19610806wrp.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 04:51:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=lMxDhKcKjj6cL8GU5ewdQy/Dgs00Z9Et2HSw+Fh2AQ8=;
-        b=Y0OqMSabxiyZg87r4osgG6i7AfOc4w6tgw0UF++TXk8hbSBPTgijOKgjR4S7o7qB0x
-         ySARnVwz0pyFNS4TKPFW9UxxJGh7l8CerJVM/P90Fa09Rqc7ap5HdcgadQuEU5mzsc9s
-         fvZDsucc6n7Ydix08gLOKYs5puvNLIshdD3wA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=lMxDhKcKjj6cL8GU5ewdQy/Dgs00Z9Et2HSw+Fh2AQ8=;
-        b=pBl70eKmqaUMRRcN9bPz1RWzTDKrI+so/yGAQVX46O3yn7AVKGjKOBZ3dlkeDCRIRo
-         Pp6JGb1zC/sUEFhctlOQqt7w3ft1nkHJ5QSKJAgIliqo3z203h27VJOY3KVCJUTQRfbF
-         F3OlkD0X/WjDePI38uSRZA+tnSVzQ4GTkKzHeyswTv07DLhw9miPJVcxVbA41J7gkAFC
-         DYE4I8VAHDlJ1xxP/NtvUvIAloMcScNmoTS2RFy8ya2c5geRXsSXsky0ZXmcJzUXBiCC
-         dP81wEEAEdXH+u7eI/QgKElyt7OrawCgGSizIUGQl8E4N21ijf4igJvRG8055sUo2LVc
-         pHtQ==
-X-Gm-Message-State: AOAM5331aImnOuxbKY2faHzDZeMHi7WhD7K4KmMU0aJwz3eH+/q4v/d0
-	b23GGbNfQJo5L8dw31eKTbuRbQ==
-X-Google-Smtp-Source: ABdhPJwyf1/V0fFLA+aaWaQico9R9uX2P63+esLt3ZA00Axj5iNfLpTMvJyjNGVLEBNqQc36FDmyWw==
-X-Received: by 2002:adf:c109:: with SMTP id r9mr4309506wre.261.1611060694610;
-        Tue, 19 Jan 2021 04:51:34 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id n9sm35064461wrq.41.2021.01.19.04.51.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 04:51:34 -0800 (PST)
-Message-ID: <7d05167fb80882dea83fb8c4ec0da8f28a61243a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky][PATCH] rootfs: add option to allow delayed postinsts on read-only rootfs
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: rnouse@google.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2021 12:51:33 +0000
-In-Reply-To: <CADVsX8-aLgbLwqT_zVAh3jBG11KrPMvGKR8Kpi087y75Ao__ow@mail.gmail.com>
-References: <165A723B7A040876.29781@lists.openembedded.org>
-	 <CADVsX8-aLgbLwqT_zVAh3jBG11KrPMvGKR8Kpi087y75Ao__ow@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=pass header.i=@cisco.com header.s=iport header.b=GHA47Nj2;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: oobitots@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=1000; q=dns/txt; s=iport;
+  t=1611061388; x=1612270988;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=SmVLaMvp75FLA3xmZfAYq2bNe2X/xXek7dVsOZRZgS0=;
+  b=GHA47Nj2MdnXoF4C0zwUI6yDVrOQc0KieX1OuN4X1OwZ+bctwPSY5uXy
+   DopoidOYpYg4dnXUutBZNvPZZaCyN3LibMAXFifDChZ7fkSJE90D0d5mp
+   AeNXYrXl26fzz0ftBQw0pDFAKw7VV1XQneCVuNOvBaA7PZCZCk0pidEhb
+   M=;
+X-IronPort-AV: E=Sophos;i="5.79,358,1602547200"; 
+   d="scan'208";a="630755528"
+Received: from alln-core-3.cisco.com ([173.36.13.136])
+  by alln-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 19 Jan 2021 13:03:06 +0000
+Received: from sjc-ads-8148.cisco.com (sjc-ads-8148.cisco.com [171.68.208.186])
+	by alln-core-3.cisco.com (8.15.2/8.15.2) with ESMTPS id 10JD32mx021263
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 19 Jan 2021 13:03:04 GMT
+Received: by sjc-ads-8148.cisco.com (Postfix, from userid 500841)
+	id 96BF0CC1251; Tue, 19 Jan 2021 05:03:01 -0800 (PST)
+From: "Oleksiy Obitotskyy" <oobitots@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
+Subject: [PATCH] toolchain-shar-relocate.sh: Fix handling files with colons
+Date: Tue, 19 Jan 2021 05:02:59 -0800
+Message-Id: <20210119130300.101286-1-oobitots@cisco.com>
+X-Mailer: git-send-email 2.26.2.Cisco
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Outbound-SMTP-Client: 171.68.208.186, sjc-ads-8148.cisco.com
+X-Outbound-Node: alln-core-3.cisco.com
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-19 at 12:39 +0100, Anton Kachalov via lists.openembedded.org wrote:
-> Ping on the patch
+Files could contain colons in name and we should not use
+colons (':') as field separator. E.g. perl/python man
+pages packages.
 
-It merged a couple of days ago: 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=49c4fdcb884057c0fc713925c8040e36fd26af8d 
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+---
+ meta/files/toolchain-shar-relocate.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-?
-
-Cheers,
-
-Richard
+diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
+index e3c10018ef..80b27b931e 100644
+--- a/meta/files/toolchain-shar-relocate.sh
++++ b/meta/files/toolchain-shar-relocate.sh
+@@ -55,7 +55,7 @@ fi
+ for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
+ 	$SUDO_EXEC find $replace -type f
+ done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
+-    awk -F':' '{printf "\"%s\"\n", $1}' | \
++    awk -F': ' '{printf "\"%s\"\n", $1}' | \
+     grep -Ev "$target_sdk_dir/(environment-setup-*|relocate_sdk*|${0##*/})" | \
+     xargs -n100 $SUDO_EXEC sed -i \
+         -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" \
+-- 
+2.26.2.Cisco
 
