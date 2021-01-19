@@ -1,132 +1,75 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
- by mx.groups.io with SMTP id smtpd.web12.13072.1611071463839984549
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+ by mx.groups.io with SMTP id smtpd.web08.13054.1611071659057053664
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 07:51:04 -0800
+ Tue, 19 Jan 2021 07:54:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sbx7xuQQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-lj1-f181.google.com with SMTP id 3so2253889ljc.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 07:51:03 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Age14TLe;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.43, mailfrom: paul.barker@konsulko.com)
+Received: by mail-ot1-f43.google.com with SMTP id v1so2146697ott.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 07:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XJQtwyx+jNIK5NP+0uIqcH/Kq7w96YQ7msGYJxnZONE=;
-        b=sbx7xuQQG5rnMmZ4gRSlMeepBi4rF0VI+tdA9Tm+mljTyL7ckjDRfMfelU6AvQq7H4
-         iLnP+8cTF2bKIb8Gei/G/5TngdQ0UWrR2mQArTOfsUMOrqfonBJhCjbWU74214Ub0jTC
-         hhnrLoAQ0J19rL3Qc0Om+uqRLkOaxVTowno5lrNxOZHDUP7YpMq/n1Kn4mYk7U19ij3f
-         PU9yGoZ8OmdprZW38UUcWptHp724BtRiWmBnsTs05mXHnTGbnKMAtsFSbXVPSfkyABM2
-         NNKLAgZPuzqr8vGyNDbh6sdIHds0qUIvI3vmwLr9bdIB/7g9J2GmfAmKusf8eGjeVxvJ
-         xqsA==
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=T/bJ1RSuTkCaNprctsUd1G3w+V/olOh1d43rUz1lgOY=;
+        b=Age14TLepBbFU64HJHp7ZRGYTFpqMGbY9JDJP7tLdHFPTM3RkEmMADtuRT6E3JoAEX
+         qmYOJ4Jnv2sIfjaHdgd4pGnxm6+ZCVlCuZjCdJJyYjr4q6CocVrqz6PEmo1t+2aIWJDQ
+         g4ba0gX+4McIN7zR39pkwcLf4iMlYorWbMiS4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XJQtwyx+jNIK5NP+0uIqcH/Kq7w96YQ7msGYJxnZONE=;
-        b=ak2a7eDqGJm3W/anG2QOSGi42OM+WanMIEWeP6fe09wa7XRxnwKs+Sptak4OYdRji6
-         Rmw/PuU/jY2pxaURhUGE9XnjLXaiBjH2+ysT1UTzHucZdE5Al06GlnOJRbzs/AdWL8PV
-         N2moWVaCOcbLeacgcfWg6G9MHrP7iFPzLpSx0jOrAuTst/EK+K4ULxO++iKbk1zex1Ab
-         IiE0eBit+kPQRzjKvruCUqJkwRdbntzyf6tpEgLjRW57MdNLLCpb9T8oURefGws0jGSK
-         hzDXdG/YhMiKOsuZz9qhETan8rjH1tg0xNirnaQJrzi4QSoT/vDELiqrgvJmPk0oduIw
-         acGg==
-X-Gm-Message-State: AOAM533UerrEYYnKBzLTwtcZBL52ei1HS2z+ZKre8g30UA4XOMtl+YqN
-	aAUZv0gPY3VVwY6aBjYZqDBnHDCUZZU=
-X-Google-Smtp-Source: ABdhPJw+symofO/ns78cT82rptP3l/d08ZQPPAFwK1yVUKTAtN97+Owu6gYSLUj1/CFvjMIWuPfetA==
-X-Received: by 2002:a2e:9b8a:: with SMTP id z10mr2171162lji.126.1611071461685;
-        Tue, 19 Jan 2021 07:51:01 -0800 (PST)
-Return-Path: <tomasz.dziendzielski@gmail.com>
-Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
-        by smtp.gmail.com with ESMTPSA id b3sm2383377lff.190.2021.01.19.07.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 07:51:00 -0800 (PST)
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [PATCH] devtool: Fix source extraction for gcc shared source
-Date: Tue, 19 Jan 2021 16:53:25 +0100
-Message-Id: <20210119155325.351554-1-tomasz.dziendzielski@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=T/bJ1RSuTkCaNprctsUd1G3w+V/olOh1d43rUz1lgOY=;
+        b=RYHuNN4g2nWYgw2NID1zU9Jph2mu65RagJV5efKqaSvuDuWV25GweODuiRbJKaXgh1
+         ZZuTMdl1pD+qcvuDMG9UFVPYmIk2F/RXUU9GrzI0siAmOVR51ehlvgWyQkaXhnebk2CO
+         Wa/r6Bxl4fGUhsDJ73WsOnSPjG2mBkUF06WKPy7BFvNzrnbuY8uhT6ZFJEs57k22sL1i
+         EwGpKKLoYOx4vCb76tAeNKx9kcYzEN+YiMoF0xdDIQJ/l6DBfLgvtoGcqRRrq3g/bgi6
+         fTV4KhXdvYiysRo9G6GCTqdQw9mz+cijX6JSi4jbp2JxK8nCXHs4cvf2GeCsCJuO3WkV
+         J3bg==
+X-Gm-Message-State: AOAM531l8P019FXN791QHQ6sF8f53Iu7u5uhSyI46xTQU4GCU5hRfoxb
+	97ek/RVBsmeYfyBfp4GygY0on3ZBoAvGt2egw7U/ng==
+X-Google-Smtp-Source: ABdhPJyeL71JVZIduzh3Si9rQ4dJxgjxws9+PktmF1oDI8WdGpXPIkiKy8cstQKX5bBkyOMq7hsVX6tTlqpe75W/Iqk=
+X-Received: by 2002:a9d:2f08:: with SMTP id h8mr3829362otb.258.1611071658479;
+ Tue, 19 Jan 2021 07:54:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210119155325.351554-1-tomasz.dziendzielski@gmail.com>
+In-Reply-To: <20210119155325.351554-1-tomasz.dziendzielski@gmail.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 19 Jan 2021 15:54:08 +0000
+Message-ID: <CAM9ZRVtdsL=v4mbUWT-tVqJyC5US4+cNK7Lfm=YAKLbz9ip3VA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devtool: Fix source extraction for gcc shared source
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-If do_patch task is disabled then prepare do_configure dependencies to
-fetch external sources and create symlink to ${S} in devtool workspace.
+On Tue, 19 Jan 2021 at 15:51, Tomasz Dziendzielski
+<tomasz.dziendzielski@gmail.com> wrote:
+>
+> If do_patch task is disabled then prepare do_configure dependencies to
+> fetch external sources and create symlink to ${S} in devtool workspace.
+>
+> [YOCTO #13036]
+>
+> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> ---
+>  .../gcc/gcc-shared-source.inc                 |  1 +
+>  scripts/lib/devtool/standard.py               | 30 ++++++++++++++++---
+>  2 files changed, 27 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+> index aac4b49313..9ef80f2074 100644
+> --- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
+> @@ -2,6 +2,7 @@ do_fetch() {
+>         :
+>  }
+>  do_fetch[noexec] = "1"
+> +do_patch[noexec] = "1"
 
-[YOCTO #13036]
+Have you tested whether the archiver class is still working after this
+change? If not it'd be helpful to run `oe-selftest -r archiver` to
+check.
 
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- .../gcc/gcc-shared-source.inc                 |  1 +
- scripts/lib/devtool/standard.py               | 30 ++++++++++++++++---
- 2 files changed, 27 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-shared-source.inc b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-index aac4b49313..9ef80f2074 100644
---- a/meta/recipes-devtools/gcc/gcc-shared-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-shared-source.inc
-@@ -2,6 +2,7 @@ do_fetch() {
- 	:
- }
- do_fetch[noexec] = "1"
-+do_patch[noexec] = "1"
- deltask do_unpack
- deltask do_patch
- 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 261d642d4a..8b80fb8bfa 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -589,6 +589,16 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-             else:
-                 task = 'do_patch'
- 
-+                if 'noexec' in (d.getVarFlags(task, False) or []):
-+                    logger.info('The %s recipe has %s disabled. Running only '
-+                                       'do_configure task dependencies' % (pn, task))
-+
-+                    if 'depends' in d.getVarFlags('do_configure', False):
-+                        pn = d.getVarFlags('do_configure', False)['depends']
-+                        pn = pn.replace('${PV}', d.getVar('PV'))
-+                        pn = pn.replace('${COMPILERDEP}', d.getVar('COMPILERDEP'))
-+                        task = None
-+
-             # Run the fetch + unpack tasks
-             res = tinfoil.build_targets(pn,
-                                         task,
-@@ -600,6 +610,17 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-         if not res:
-             raise DevtoolError('Extracting source for %s failed' % pn)
- 
-+        if 'noexec' in (d.getVarFlags('do_patch', False) or []):
-+            workshareddir = d.getVar('S')
-+            if os.path.islink(srctree):
-+                os.unlink(srctree)
-+
-+            os.symlink(workshareddir, srctree)
-+
-+            # The initial_rev file is created in devtool_post_unpack function that will not be executed if
-+            # do_unpack/do_patch tasks are disabled so we have to directly say that source extraction was successful
-+            return True, True
-+
-         try:
-             with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
-                 initial_rev = f.read()
-@@ -847,10 +868,11 @@ def modify(args, config, basepath, workspace):
-             if not initial_rev:
-                 return 1
-             logger.info('Source tree extracted to %s' % srctree)
--            # Get list of commits since this revision
--            (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
--            commits = stdout.split()
--            check_commits = True
-+            if os.path.exists(os.path.join(srctree, '.git')):
-+                # Get list of commits since this revision
-+                (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
-+                commits = stdout.split()
-+                check_commits = True
-         else:
-             if os.path.exists(os.path.join(srctree, '.git')):
-                 # Check if it's a tree previously extracted by us. This is done
 -- 
-2.29.2
-
+Paul Barker
+Konsulko Group
