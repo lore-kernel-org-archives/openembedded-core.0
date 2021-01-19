@@ -1,64 +1,57 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.11315.1611064705550204928
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web10.12165.1611068316375433328
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 05:58:25 -0800
+ Tue, 19 Jan 2021 06:58:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SPf+icAG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id a9so16369808wrt.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 05:58:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=52/G6qdJZ95k3RaIfaCJVeW7p8vHDu3G6jyZWd11xBE=;
-        b=SPf+icAGekBWnQiUjha6OHFQ9JfYiLX38C+xJ6tj+9CQOFA2+b/XyrlKxQGOLNpr0z
-         Q5TFXTnNZU0k6KjpuoROzlj7E0Rk8ZHw63zhnzKZc9oKCAEkVUwKCmn7ePcy+jLqcUU9
-         iIQiTMgvkl+DjWdK9wMbD3cPOUFwSxg3L6cIg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=52/G6qdJZ95k3RaIfaCJVeW7p8vHDu3G6jyZWd11xBE=;
-        b=XxTRqNLFRE6OXU8XQmkXHvfWh4ihXiX+kZyl9zYiTFARy+CZPTKGzy+nwLfEL8Bv+c
-         f/m51t3vJ33kyzzPUrMytLd74/BLrO1MAFfp/fdEQwl41nwlL4FcMJFCzL6oCMhZQF1P
-         lrazKk9C+XORCEEZ9VQZWqmOR4DCybiHb9001Tl/irK9WbGJWzY3aIHzOX5/LHsTiCqV
-         QiSjqS2oZ8sTYwBKm5SnAzLXFMpqYOKSH3vwN2suB8ZwDxN03fgIqo6vOSlkybw9yZif
-         5RjNR6+2KSFHGYizmx1gaXm1TMKl+BSgIvCyGx5d3syOjbaLnb/QaWamfva1t6hVISWh
-         ByjA==
-X-Gm-Message-State: AOAM531FapMsqKeBLfDzDP/Sc7VWDsJUNh2UJfsLQm+yJ+ayPOULvx73
-	lXpBJ5SZnv+lPrHihqQCEQHG0g==
-X-Google-Smtp-Source: ABdhPJx9myc0yY9FQxDChBJP2BE7kLAnlUwiLP59lnWy7PvWUuB7MKc3uFNfjGQYp57lpNvOYzb0Vg==
-X-Received: by 2002:adf:ef49:: with SMTP id c9mr4502483wrp.172.1611064703912;
-        Tue, 19 Jan 2021 05:58:23 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id z63sm4921161wme.8.2021.01.19.05.58.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 05:58:23 -0800 (PST)
-Message-ID: <ec9dfc865a596ddb88f11f280b2ca2dcad5737b1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [poky][PATCH] rootfs: add option to allow delayed postinsts on read-only rootfs
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Anton Kachalov <rnouse@google.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2021 13:58:22 +0000
-In-Reply-To: <CADVsX8_hASp4VjXO0Dk3HmLW3d6TdWiDzzZHdQfAzRRCBz1KAw@mail.gmail.com>
-References: <165A723B7A040876.29781@lists.openembedded.org>
-	 <CADVsX8-aLgbLwqT_zVAh3jBG11KrPMvGKR8Kpi087y75Ao__ow@mail.gmail.com>
-	 <7d05167fb80882dea83fb8c4ec0da8f28a61243a.camel@linuxfoundation.org>
-	 <CADVsX8_hASp4VjXO0Dk3HmLW3d6TdWiDzzZHdQfAzRRCBz1KAw@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 2QS+lvZ0kD1cWzEZf7s1KotcixDZ9xY5v6RJaulVgR3RJjKV6qxzI3ridVjFpzFeEGUsYiBb7p
+ LRVdx+fQ7iSA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9868"; a="179023950"
+X-IronPort-AV: E=Sophos;i="5.79,359,1602572400"; 
+   d="scan'208";a="179023950"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 06:58:35 -0800
+IronPort-SDR: bVXzbhCOQpEA8GXotAumfyZSE1tq6RANhPKEGCvXy81e6Ll8Ot+CvcuqaTUKwHiwgIQdwjgbrw
+ Dn8E3wcGSLYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,359,1602572400"; 
+   d="scan'208";a="426495114"
+Received: from kmsmsx601.gar.corp.intel.com ([172.21.219.141])
+  by orsmga001.jf.intel.com with ESMTP; 19 Jan 2021 06:58:34 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ kmsmsx601.gar.corp.intel.com (172.21.219.141) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Tue, 19 Jan 2021 22:58:33 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Tue, 19 Jan 2021 22:58:33 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 01/30] enchant2: upgrade 2.2.14 -> 2.2.15
+Thread-Topic: [OE-core] [PATCH 01/30] enchant2: upgrade 2.2.14 -> 2.2.15
+Thread-Index: AQHW7mB04x/fnGwnZk+st3mA+NmCDqouhD4A
+Date: Tue, 19 Jan 2021 14:58:33 +0000
+Message-ID: <adb50d1a2339dea30b615d0d54ee734c525f5a4a.camel@intel.com>
+References: <20210119064552.115692-1-anuj.mittal@intel.com>
+	 <2373028965f82731c9ed64b4366ba8ba85c8f35b.camel@linuxfoundation.org>
+In-Reply-To: <2373028965f82731c9ed64b4366ba8ba85c8f35b.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <528A506601711144A04DBAFF62690B04@intel.com>
+Content-Transfer-Encoding: base64
 
-On Tue, 2021-01-19 at 14:48 +0100, Anton Kachalov wrote:
-> Thanks! I've expected some kind of ack :)
-
-That would add a lot of mailing list noise and work for me when its
-relatively obvious looking at the git tree! :)
-
-Cheers,
-
-Richard
-
+SGkgUmljaGFyZCwNCg0KT24gVHVlLCAyMDIxLTAxLTE5IGF0IDEyOjQxICswMDAwLCBSaWNoYXJk
+IFB1cmRpZSB3cm90ZToNCj4gT24gVHVlLCAyMDIxLTAxLTE5IGF0IDE0OjQ1ICswODAwLCBBbnVq
+IE1pdHRhbCB3cm90ZToNCj4gDQo+IFRoZXJlIHNlZW0gdG8gYmUgYSBsb3Qgb2YgcG9pbnQgdmVy
+c2lvbiB1cGdyYWRlcyBpbiB0aGlzIHNlcmllcy4gSG93DQo+IHN1cmUgYXJlIHdlIHRoZXkgYXJl
+IGFsbCBidWdmaXhlcz8NCj4gDQoNCkkgYW0gbm90IHN1cmUuIEkgZGlkbid0IGNoZWNrIGVhY2gg
+b25lIG9mIHRoZW0uIFRoZXkganVzdCB3ZXJlIHRoZQ0KbGF0ZXN0IHZlcnNpb25zIGF2YWlsYWJs
+ZSBhbmQgdGVzdGVkIGJ5IHRoaXMgbW9udGgncyBBVUggcnVuLg0KDQpUaGFua3MsDQoNCkFudWoN
+Cg==
