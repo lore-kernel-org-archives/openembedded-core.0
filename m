@@ -1,119 +1,104 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web08.10674.1611060179719584244
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.web08.10736.1611060582389932432
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 04:43:00 -0800
+ Tue, 19 Jan 2021 04:49:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Hw09wZDq;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id l12so14358048wry.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 04:42:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=dWS3HgDre3r37I8F6yGO0attajHS15DTKvhg2B3Latg=;
-        b=Hw09wZDqs68DNcz/6tY76oA5iBDDRqic3DTBe96RW4Mcdd9xPJAkfpYV7nB9hledQQ
-         oQv/659eN77Bk5JVlLQMuVZHRKXJqqq6OLwQUeHxXG5RYH9QrHrxzgEVkK3Of/ndlyXZ
-         e1ZRtIE9E8gkaKwN1MYWKuyXiBGWcGWWLHF1Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=dWS3HgDre3r37I8F6yGO0attajHS15DTKvhg2B3Latg=;
-        b=iamLzw98vY6Zs9I0wHHhhhXXhPr4ont3Tm+d9q/g8f/U3EwGwybe2g+tOpNH1WwDX4
-         y/LBXi5SCfGytrsus1+7HPQUCaTPpI8RZfx088T5u9qW1b1ppPSoEIbXx2I2lY9QIFFA
-         5pG0nFIjlmyavVKxGMTUk20S4p+5/YFPhMhfrBMPs9NVNHUkD0bgpZ6yAbrTvk9RyuO5
-         tycaV7XttWeN/1n2IcGs7RsWMzRnF5lzjvfcd9ol0qg+xA1XIqZQ+Os7XC6w3LB7iVeO
-         hTypt4NckuBjCUhi+h7HFUhjYGWzkwth2So2veskTEnYkxFl9bRLp9uUW6FSrbLxp8K/
-         l2Vw==
-X-Gm-Message-State: AOAM5313D756ROIZeMOKNP3XmoGVaJNQsaydBGuVsiR9hScQOsSYdRwv
-	QbELFncz2QoKhPlYYrhZ5/MTwQzpn2/HCA==
-X-Google-Smtp-Source: ABdhPJxEFqzRpQYX84Zq9CgR1lb14ws95DwXV24xgIqllgHajDEn0JNVkXgXqZXwnW1b6Hw8LXdDdQ==
-X-Received: by 2002:a5d:4e89:: with SMTP id e9mr4175148wru.201.1611060178361;
-        Tue, 19 Jan 2021 04:42:58 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:f7a4:851a:48d5:440b? ([2001:8b0:aba:5f3c:f7a4:851a:48d5:440b])
-        by smtp.gmail.com with ESMTPSA id g132sm4695074wmg.2.2021.01.19.04.42.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 04:42:57 -0800 (PST)
-Message-ID: <1d7e0c43f5afc2b5f1497b26cd3e48434157b6a0.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ghostscript: CVE-2013-6629 Security Advisory
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 19 Jan 2021 12:42:57 +0000
-In-Reply-To: <1611035125-38834-2-git-send-email-wangmy@cn.fujitsu.com>
-References: <1611035125-38834-1-git-send-email-wangmy@cn.fujitsu.com>
-	 <1611035125-38834-2-git-send-email-wangmy@cn.fujitsu.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=pass header.i=@cisco.com header.s=iport header.b=ii4s33uB;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: oobitots@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=2684; q=dns/txt; s=iport;
+  t=1611060582; x=1612270182;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6tTBZfZwSJCIV0ZgGzIJmFN0bqtlof3bAWb8+/nkT4o=;
+  b=ii4s33uBaWgKO5w7FrtSGOmcYJbZoT65FJ5S0x0oU+fonEMTcmsGkKv9
+   3aU8S4xq5myGyM+Erw+5nMoA5eZNaWy9AEJXpnkvSygdbve3ACLNIgl41
+   ICRxBy3czV0EYh3YXYIzqLZyepyzqcGCP79omkNhT7Ujx75i4HQiN0nyY
+   g=;
+X-IronPort-AV: E=Sophos;i="5.79,358,1602547200"; 
+   d="scan'208";a="647398514"
+Received: from rcdn-core-12.cisco.com ([173.37.93.148])
+  by alln-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 19 Jan 2021 12:49:41 +0000
+Received: from sjc-ads-8148.cisco.com (sjc-ads-8148.cisco.com [171.68.208.186])
+	by rcdn-core-12.cisco.com (8.15.2/8.15.2) with ESMTPS id 10JCnf4f028639
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 19 Jan 2021 12:49:41 GMT
+Received: by sjc-ads-8148.cisco.com (Postfix, from userid 500841)
+	id C5065CC1251; Tue, 19 Jan 2021 04:49:40 -0800 (PST)
+From: "Oleksiy Obitotskyy" <oobitots@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
+Subject: [PATCH] flex: Fix --noline option behavior
+Date: Tue, 19 Jan 2021 04:49:38 -0800
+Message-Id: <20210119124938.99101-1-oobitots@cisco.com>
+X-Mailer: git-send-email 2.26.2.Cisco
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Outbound-SMTP-Client: 171.68.208.186, sjc-ads-8148.cisco.com
+X-Outbound-Node: rcdn-core-12.cisco.com
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-19 at 13:45 +0800, Wang Mingyu wrote:
-References
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2013-6629
+Option --noline or -L does not handled properly.
+So generated code contains #line directives with
+file absolute path and prevents to create
+reproducible builds.
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
 ---
- .../ghostscript/CVE-2013-6629.patch           | 28 +++++++++++++++++++
- .../ghostscript/ghostscript_9.53.3.bb         |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch
+ ...directives-if-gen_line_dirs-is-false.patch | 32 +++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch
+diff --git a/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
 new file mode 100644
-index 0000000000..dffd215b4d
+index 0000000000..230953cbde
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2013-6629.patch
-@@ -0,0 +1,28 @@
-+Subject: [PATCH] CVE-2013-6629
++++ b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+@@ -0,0 +1,32 @@
++From 440f3f55739468cd26e22f31871eca8cbbd53294 Mon Sep 17 00:00:00 2001
++From: Oleksiy Obitotskyy <oobitots@cisco.com>
++Date: Wed, 6 Jan 2021 06:12:14 -0800
++Subject: [PATCH] Emit no #line directives if gen_line_dirs is false
 +
-+Author: pchelko 
++If we set --noline we should not print line directives.
++But setting --noline means gen_line_dirs is false.
++
++Upstream-Status: Submitted
++Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
 +---
-+ jpeg/jdmarker.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ src/buf.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/jpeg/jdmarker.c b/jpeg/jdmarker.c
-+index 3fbe5c1..ea3ef4a 100644
-+--- a/jpeg/jdmarker.c
-++++ b/jpeg/jdmarker.c
-+@@ -382,6 +382,13 @@ get_sos (j_decompress_ptr cinfo)
++diff --git a/src/buf.c b/src/buf.c
++index 185083c..4439e28 100644
++--- a/src/buf.c
+++++ b/src/buf.c
++@@ -95,8 +95,8 @@ struct Buf *buf_linedir (struct Buf *buf, const char* filename, int lineno)
++     const char *src;
++     size_t tsz;
 + 
-+     TRACEMS3(cinfo, 1, JTRC_SOS_COMPONENT, compptr->component_id,
-+ 	     compptr->dc_tbl_no, compptr->ac_tbl_no);
-++
-++    /* This CSi (cc) should differ from the previous CSi */
-++    for (ci = 0; ci < i; ci++) {
-++      if (cinfo->cur_comp_info[ci] == compptr) {
-++        ERREXIT1(cinfo, JERR_BAD_COMPONENT_ID, cc);
-++      }
-++    }
-+   }
++-    if (gen_line_dirs)
++-	return buf;
+++    if (!gen_line_dirs)
+++        return buf;
 + 
-+   /* Collect the additional scan parameters Ss, Se, Ah/Al. */
++     tsz = strlen("#line \"\"\n")                +   /* constant parts */
++                2 * strlen (filename)            +   /* filename with possibly all backslashes escaped */
 +-- 
-+2.25.1
++2.26.2.Cisco
 +
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-index cbf60c8c85..24d17da263 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.53.3.bb
-@@ -29,6 +29,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://do-not-check-local-libpng-source.patch \
-                 file://avoid-host-contamination.patch \
-                 file://mkdir-p.patch \
-+                file://CVE-2013-6629.patch \
- "
- 
-
- SRC_URI = "${SRC_URI_BASE} \
-
-Does ghostscript still have an open issue from 2013? I'd like to
-understand a bit more about the background to this patch and why
-upstream haven't taken it...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index 3d57572865..1d43d2228a 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.ta
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
+            file://check-funcs.patch \
++           file://0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
+-- 
+2.26.2.Cisco
 
