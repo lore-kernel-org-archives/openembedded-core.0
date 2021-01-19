@@ -1,119 +1,103 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.15867.1611082485995745489
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+ by mx.groups.io with SMTP id smtpd.web08.15968.1611082486596687232
  for <openembedded-core@lists.openembedded.org>;
  Tue, 19 Jan 2021 10:54:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RtGeNQJ5;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id m10so23155485lji.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 10:54:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=L2NWt8v+;
+ spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-io1-f52.google.com with SMTP id h11so1892331ioh.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 10:54:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aYx2cggqX0AQD+attGZEK5yO8PuCNTG6d2fdqIfKS9c=;
-        b=RtGeNQJ5Ik3t6NbWYvSzK7BeQTvJBvwaen+DVCyQsK5TlrTzyk9SABHAhUnSLDyEao
-         zTlVitx7YXMrZ7Rg0sHq4e0cvHsTXFIO6aGOJRkb2b5NolZ6fdRBVgmdaXVbgZnUeX4g
-         VuhTQwGIvt1qY7hovzGo9OxFTLFJsTt6+o8q+1VPZVQJSAuuKC2InaPd1ZLSQiQtaVaM
-         uefNgaixzWPfT+ZCtW5ZJPTG1kVQ6Mv1h+tCCJ4dWBIshS3n0J97si+ugaewKMgcuSCz
-         5Ci2GuHqP6KLfexzyXvjvTCV9MgW7eHZzhbLgPoxJ9cXGmTLjGQ0ZxlaxSeudmFDw6sA
-         aJ7g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=awajYC8QbTZESG60ObznkU1YvDt2nJAX4kXFRjYgxL0=;
+        b=L2NWt8v+OH9ljVW0KxNRLhcfz2EI1LFrEUY2v1L7oFkkeLgdI+6V9QDyRF6dEu86Fn
+         7cK78PhiA9Hw6d2pb90jbU/q5BrLAI6lYbXI5JhZDgHy+JeM+jHZCsGM5TsbVnkyXCYs
+         XZsgNBA16xYFO+q9uPVcYDam3rITT3EOwAKxCYPgKKVKEs4cicNhAx477vhPLi3PNPqd
+         iTlDS51wfOsd0xpo8YR1lH6DCMp+SYt1xDPmpzsAfp150q4a/iA2Q14GRxhyUaJh7HP+
+         kOKyg25DzxTaM7cl4tKl72GNL8Swoe//WZ7RTjL7wo+Ua77qarN/7ftbPD/cr3qllH9h
+         BGfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=aYx2cggqX0AQD+attGZEK5yO8PuCNTG6d2fdqIfKS9c=;
-        b=fqljYwJ+sZCXCD6RgH5VXM9XSdSaoYVCDZqR9jCaYZtjIfWy7Xj8lNid1+oeeLazmL
-         qrbOTLPwuzsRNfG5RKyfxfklnMIatXsNVndfN4Z5WEB3NvyMU+cSnM+GE8ZxgwVOzRE8
-         YEKfoRAckguw95gJH7mFt5jza4NK+ejSbh+ZzX9vGxjYVGO42uy2f2B3rK1HxDnOFNOr
-         6eOx0//6H24/nF97pGq5lcxyW7zQT4KfdDb8JW+gP0fa67z5tMEXYmRYC/O7NQBOcZb0
-         iViR19eM9kj7zneDIwhaXlXWEbvFJQG8SBBLhKgeqy29MKvrvaBm4jSeucYgDuY6id8v
-         FYhA==
-X-Gm-Message-State: AOAM531pYdJIyo7vxQTH7+EMoAo8ztu5NlkGILXrBZ0Dzrc77yfwn2hn
-	x0Ldzw4mLsHHXOcswLGqxvY7phg2flNQQw==
-X-Google-Smtp-Source: ABdhPJy5TyFKEPii6w/ioZ6NSILn6g9p8MJ1qc/sqYBiNkWWnzvdyVWEdX0pVuxC8s0+Lnz6su+chA==
-X-Received: by 2002:a2e:7c12:: with SMTP id x18mr2503302ljc.324.1611082483827;
-        Tue, 19 Jan 2021 10:54:43 -0800 (PST)
-Return-Path: <tomasz.dziendzielski@gmail.com>
-Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
-        by smtp.gmail.com with ESMTPSA id f18sm2354449lfh.137.2021.01.19.10.54.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jan 2021 10:54:43 -0800 (PST)
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [PATCH v2] devtool: Fix source extraction for gcc shared source
-Date: Tue, 19 Jan 2021 19:56:29 +0100
-Message-Id: <20210119185629.402243-1-tomasz.dziendzielski@gmail.com>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=awajYC8QbTZESG60ObznkU1YvDt2nJAX4kXFRjYgxL0=;
+        b=Tp3uYuQoy8l5FB51+cPZ1PK2qlamaH8i7UcFYM2DL2Efbp1Px2Py336BL3DC/qnrEN
+         Lm+uLaLIOtqP1ShqydC8OFQj1uzau+gv0MiW/OTJojn0t7fnPwHc1EqJe19mQ4BxYZTG
+         vyjtlpZCRHiR6DmbWhlDHWP/22DbW58xQlJlShj/X9dDM/sFGdZItUJwLismAjugWhK8
+         BfbJhXT/TGKSw7jeVzd/gmVXFGueS0CZqlzyS6FRymLyv+niKS5J2Eqpi2Sv4u98Yfse
+         uSyN/BCzUdJTBqLNjdIRCplKP7jt/CHa+MiO79YInu9W2QVZyqG9sHKPzZJ8IqxuCnSX
+         optw==
+X-Gm-Message-State: AOAM5303TzOlVz4bKH1V0zc/cLx+nEc3RYCWua+daUhb/XDQfBhf1pkO
+	VMn2Zq6Vfb7sU/1TjxrZ4WYin1RHXQ78lATSUzU=
+X-Google-Smtp-Source: ABdhPJzgU4U92YqoiKC5BGaBo9gd4rmpoPsXSBeox1+5CdJniDjdNghW/diXlGh62edq5pKpNneRagiBFi9G8wRKNoc=
+X-Received: by 2002:a02:3b4e:: with SMTP id i14mr4738496jaf.36.1611082485813;
+ Tue, 19 Jan 2021 10:54:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210119155325.351554-1-tomasz.dziendzielski@gmail.com>
+ <107314c0428cf791bc195dd27d3cfe11bb9a4c3e.camel@linuxfoundation.org>
+ <CAJkqNs2jU7FVs5zdeBto2CysdyDUBgyFsWe2gDQKKxLR9UEgQw@mail.gmail.com> <75dd1f1859c454c2f3ddf14707292f5ab444a834.camel@linuxfoundation.org>
+In-Reply-To: <75dd1f1859c454c2f3ddf14707292f5ab444a834.camel@linuxfoundation.org>
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+Date: Tue, 19 Jan 2021 19:57:15 +0100
+Message-ID: <CAJkqNs0uwQBpRa2F9nMV9gioHP8thYWzem42uhXwgOPO7N+PQA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devtool: Fix source extraction for gcc shared source
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004555b705b9455f27"
 
-If do_patch task is disabled then prepare do_configure dependencies to
-fetch external sources and create symlink to ${S} in devtool workspace.
+--0000000000004555b705b9455f27
+Content-Type: text/plain; charset="UTF-8"
 
-[YOCTO #13036]
+>Try checking if the "task" flag is set for "do_patch"
+Good idea, thanks! It's working correctly. I can see both 'noexec' and
+'task' flags can be set separately, so to make it more general (and make it
+work for similar recipes without sources) I will check both 'noexec' and
+'task' flags.
+I will submit another patchset with suggested change  (see below) and with
+another condition check to not affect kernel build.:
 
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- scripts/lib/devtool/standard.py | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
-
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 261d642d4a..f7d8a82117 100644
+diff --git a/scripts/lib/devtool/standard.py
+b/scripts/lib/devtool/standard.py
+index 8b80fb8bfa..6f4cbbe219 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -589,6 +589,16 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-             else:
-                 task = 'do_patch'
- 
-+                if 'noexec' in (d.getVarFlags(task, False) or []) or 'task' not in (d.getVarFlags(task, False) or []):
-+                    logger.info('The %s recipe has %s disabled. Running only '
-+                                       'do_configure task dependencies' % (pn, task))
-+
-+                    if 'depends' in d.getVarFlags('do_configure', False):
-+                        pn = d.getVarFlags('do_configure', False)['depends']
-+                        pn = pn.replace('${PV}', d.getVar('PV'))
-+                        pn = pn.replace('${COMPILERDEP}', d.getVar('COMPILERDEP'))
-+                        task = None
-+
-             # Run the fetch + unpack tasks
-             res = tinfoil.build_targets(pn,
-                                         task,
-@@ -600,6 +610,17 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-         if not res:
-             raise DevtoolError('Extracting source for %s failed' % pn)
- 
-+        if not is_kernel_yocto and ('noexec' in (d.getVarFlags('do_patch', False) or []) or 'task' not in (d.getVarFlags('do_patch', False) or [])):
-+            workshareddir = d.getVar('S')
-+            if os.path.islink(srctree):
-+                os.unlink(srctree)
-+
-+            os.symlink(workshareddir, srctree)
-+
-+            # The initial_rev file is created in devtool_post_unpack function that will not be executed if
-+            # do_unpack/do_patch tasks are disabled so we have to directly say that source extraction was successful
-+            return True, True
-+
-         try:
-             with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
-                 initial_rev = f.read()
-@@ -847,10 +868,11 @@ def modify(args, config, basepath, workspace):
-             if not initial_rev:
-                 return 1
-             logger.info('Source tree extracted to %s' % srctree)
--            # Get list of commits since this revision
--            (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
--            commits = stdout.split()
--            check_commits = True
-+            if os.path.exists(os.path.join(srctree, '.git')):
-+                # Get list of commits since this revision
-+                (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
-+                commits = stdout.split()
-+                check_commits = True
-         else:
-             if os.path.exists(os.path.join(srctree, '.git')):
-                 # Check if it's a tree previously extracted by us. This is done
--- 
-2.29.2
 
+-                if 'noexec' in (d.getVarFlags(task, False) or []):
++                if 'noexec' in (d.getVarFlags(task, False) or []) or
+'task' not in (d.getVarFlags(task, False) or []):
+...
+-        if 'noexec' in (d.getVarFlags('do_patch', False) or []):
++        if not is_kernel_yocto and ('noexec' in (d.getVarFlags('do_patch',
+False) or []) or 'task' not in (d.getVarFlags('do_patch', False) or []):
+
+Best regards,
+Tomasz Dziendzielski
+
+--0000000000004555b705b9455f27
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>&gt;Try checking if the &quot;task&quot; flag is set =
+for &quot;do_patch&quot;</div><div>Good idea, thanks! It&#39;s working corr=
+ectly. I can  see both &#39;noexec&#39; and &#39;task&#39; flags can be set=
+ separately, so to make it more general (and make it work for similar recip=
+es without sources) I will check both &#39;noexec&#39; and &#39;task&#39; f=
+lags.<br></div><div>I will submit another patchset with suggested change=C2=
+=A0 (see below) and with another condition check to not affect kernel build=
+.:<br></div><div dir=3D"ltr"><br>diff --git a/scripts/lib/devtool/standard.=
+py b/scripts/lib/devtool/standard.py<br>index 8b80fb8bfa..6f4cbbe219 100644=
+<br>--- a/scripts/lib/devtool/standard.py<br>+++ b/scripts/lib/devtool/stan=
+dard.py<br>=C2=A0<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0if &#39;noexec&#39; in (d.getVarFlags(task, False) or []):</div><div dir=
+=3D"ltr">+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &#39;n=
+oexec&#39; in (d.getVarFlags(task, False) or []) or &#39;task&#39; not in (=
+d.getVarFlags(task, False) or []):<br>...<br>- =C2=A0 =C2=A0 =C2=A0 =C2=A0i=
+f &#39;noexec&#39; in (d.getVarFlags(&#39;do_patch&#39;, False) or []):<br>=
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0if not is_kernel_yocto and (&#39;noexec&#39; i=
+n (d.getVarFlags(&#39;do_patch&#39;, False) or []) or &#39;task&#39; not in=
+ (d.getVarFlags(&#39;do_patch&#39;, False) or []):<br><br></div><div>Best r=
+egards,</div><div>Tomasz Dziendzielski<br></div></div>
+
+--0000000000004555b705b9455f27--
