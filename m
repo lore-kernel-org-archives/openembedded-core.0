@@ -1,77 +1,119 @@
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
- by mx.groups.io with SMTP id smtpd.web12.13919.1611074576564040558
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+ by mx.groups.io with SMTP id smtpd.web11.14365.1611076593899690262
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 08:42:56 -0800
+ Tue, 19 Jan 2021 09:16:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IRuP66YG;
- spf=pass (domain: gmail.com, ip: 209.85.166.54, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-io1-f54.google.com with SMTP id e22so17135667iog.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 08:42:56 -0800 (PST)
+ dkim=pass header.i=@ves-solutions.com header.s=google header.b=HDXir4OY;
+ spf=pass (domain: ves.solutions, ip: 209.85.160.176, mailfrom: alan.kozlay@ves.solutions)
+Received: by mail-qt1-f176.google.com with SMTP id e17so5100862qto.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 09:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sE7NoeH9EfankzqmNUUXIJecy5my9GTgKLZnvtJVmQQ=;
-        b=IRuP66YGes7S7MTQ0sAcYMAuA0sFgevB2Xl36fwC+R0Bi3ITm1oms9HZaVuT2iieoK
-         oM9QTiczK8qgI7O9Rc55xkymygJzD5SuEXY7JTjim4SPkcXyZJxFUnekxDtR1uyxM1QR
-         2j/U8r4fXg1gbtUvukbKrUP9k9CXaYY22dOyzX4gF4WrXDKv/8TqXgVOoUvfUHd+3FPt
-         dlu/bf6/Jcun+ylMMULwx4ZhBUutUmDP172CSsRj0Pagu/YHlguAresxF4ZwIX+LDEuq
-         EZFCjfetzewEKpQHL+FxbJ7Vgqyt8FYMoeygx/ldMFAQwqw132cGOp/8edvI0FF5oMcx
-         2LcQ==
+        d=ves-solutions.com; s=google;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=aKFUJrBjvMiAY3Nd104+w7D2I6RaOFov0T+BkB/+fJ8=;
+        b=HDXir4OYoU4H1VUkSPfPm3Wt9P9gXcL+4jXHTy3hyi8PMXeQbftCmDD+TkqUfj8onV
+         FX2wXGf8fp8Q01d13jqe7UO+raksdhdkvX29SWI0DTdY/YpeS7vaq/oZ++hSnrG5X5KU
+         5ixrJ23ZXNRe98w9gYXfgX1EpJhf0eo0shFBkujZWLtl7z2zy0AfjxatJVLIdCAiOsif
+         WIUhKEZdSJT0gfbHo82A4yNLIrtKy+CO5Sa6cVQtyVY6ila4JvvW+WRYhP29Kg+so3au
+         7J7/2PpVoFOhPEYPlm3e9kbaH9+HAn/WdWXtD6rXefBW7V2nc/Zu2jd9d+2bj8TXOlxo
+         VglA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sE7NoeH9EfankzqmNUUXIJecy5my9GTgKLZnvtJVmQQ=;
-        b=tfBq6KZcb81RAeGUsczmp5U6tvsj28rWYPf7iS4L0BzRDXLlfHC9fdKnGW7u2IW890
-         QmbfMFSuZ2xfDHucIRU88z9GNd23f37CcSJHsuBBxbXsbCGB4jhOabC9TFtps2C1JpTe
-         E0THdBH9cAQ8DSJ1/LUI1ZfvTuEIUl98NszlBriWJ1MpDLLoBB9fj4RltKEd7BdN5ddK
-         uos3yB6bNNf+L5xrUD1ouMo6+kjhN2xGyIgAnsuMUXTo58M+a0cBdbNv4yrEzPWyNu41
-         kB+keyT8qo9hI/S2diJHXika91RsZTIOhhn6v1HidgOcJcBMFM8u3wpzBXhzw2YD64TY
-         GQgw==
-X-Gm-Message-State: AOAM533stwJ/+KNdQ1nnvh1jrYCQIg7ysCFz1y08CyyftOx1btC4J1fR
-	WrreRPEJf3ML3l09s/KRBADAsP3kOU+HfCfsQOY=
-X-Google-Smtp-Source: ABdhPJwgqeXKAVhqxwtN+tUMKC2x+02Sd0/kTc7ihBm5q9EgaYvVd4zZwF8QjflotQGJn34S4Am6OaDQnZfrbf9e89I=
-X-Received: by 2002:a5d:9418:: with SMTP id v24mr3545836ion.61.1611074575995;
- Tue, 19 Jan 2021 08:42:55 -0800 (PST)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=aKFUJrBjvMiAY3Nd104+w7D2I6RaOFov0T+BkB/+fJ8=;
+        b=AJzbcIlRb4UWr41xNUGWQaupJozbB85ixqaEOZ3bvJ2Bv2ud+w7B0AxSens6Glct8G
+         7Dj26aLRQdWMl4eqrJT8f622K8Q0jfkExIno6mP5V18BPPf5h87ssrMj+CteqZgAsJqH
+         SiEABsX/k8PEdS0rSg/AsDgQjx0zvqA2xdf8dXUtntcVW2+xOOnvwF5mj4zPkulgVGpN
+         Y3cfPypvVnNJI468SF3UORW0/thYfVAAEoRb0kufAj0aOVAs6R+Og9O9cVdKSX1Q0UZI
+         bdpIPGIRY6shYGnwo7Mw8H9pk5FMoEosgfN6jQBEa4h27tlF7LXjQOfh+LNRvvEoq9Ug
+         br0g==
+X-Gm-Message-State: AOAM533CFa9rhesa87CjQpZfDUm7SBsrvbTnVt3TxTPBMhdmM/z1EvL0
+	2juN4OFWjn/+V3f4qszVTcGVmVgKpoS5WjOWb5L4nVAYL5mOZcnDuPDwcZyagp6HMphUoNbZ3XU
+	P+PG6GyHiF0T0ultuOxa/bns/Svp0TChKxaTpnWy+wY2jHI3D15o8WGdYRg==
+X-Google-Smtp-Source: ABdhPJz9ZRkoPBBnpVnmCkjs1uHtbVY33pBBdVwe2EWD2szQSjw6brtSkJQWXmjM0SN7bMzsa18kznrjaq0S9DM+Kao=
+X-Received: by 2002:aed:3064:: with SMTP id 91mr5115993qte.151.1611076592769;
+ Tue, 19 Jan 2021 09:16:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20210119155325.351554-1-tomasz.dziendzielski@gmail.com> <CAM9ZRVtdsL=v4mbUWT-tVqJyC5US4+cNK7Lfm=YAKLbz9ip3VA@mail.gmail.com>
-In-Reply-To: <CAM9ZRVtdsL=v4mbUWT-tVqJyC5US4+cNK7Lfm=YAKLbz9ip3VA@mail.gmail.com>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Tue, 19 Jan 2021 17:44:02 +0100
-Message-ID: <CAJkqNs2ztg6wwQqGfQkiDBkiUgrHG3-XDB9z+jOAFZCUQ0TD6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] devtool: Fix source extraction for gcc shared source
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cf15b805b94387b8"
+From: "Alan Kozlay" <alan.kozlay@ves.solutions>
+Date: Tue, 19 Jan 2021 12:15:56 -0500
+Message-ID: <CAJE9sGmu6VUQGBtxpDHh6RH9B44DRfeuSNrMrB4Ea5N1GWLFhw@mail.gmail.com>
+Subject: uninative limitation: UNINATIVE_MAXGLIBCVERSION
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000004b08905b9440007"
 
---000000000000cf15b805b94387b8
+--00000000000004b08905b9440007
 Content-Type: text/plain; charset="UTF-8"
 
->Have you tested whether the archiver class is still working after this
->change? If not it'd be helpful to run `oe-selftest -r archiver` to
->check.
+All,
 
-Hi Paul,
-I have just run that script and it passed with no errors:
-oe-selftest - OK - All required tests passed (successes=13, skipped=0,
-failures=0, errors=0)
+Why does uninative.bbclass (around line 86) revert to my hosts glibc if
+that version is above the uninative version but our sstate-cache is only
+local (not hosted/shared)?
 
-Best regards,
-Tomasz Dziendzielski
+I want to know in general terms (what could go wrong), but in case you're
+wondering, my specific environment is:
 
---000000000000cf15b805b94387b8
+Building with "zeus" release but can't update, at this time.  The "zeus"
+release provides glibc *2.31* uninative glibc.
+
+My build machine is running Fedora 33 (glibc *2.32*) and I'm leveraging
+the x86_64-buildtools-extended-nativesdk-standalone-3.1 tool.  Yes, I know
+that "zeus" is 3.0 but the "extended" version (also provides a compatible
+native gcc) wasn't introduced until the 3.1 version of the standalone
+tools.  But 3.1 seems to work after back porting some 3.1 fixes into some
+bbappend files I made.
+
+But, again, my question is about the general case and not specifically my
+environment.
+
+Anyone?
+-Alan
+
+-- 
+NOTICE: This communication (including any attachments) may contain 
+information that is proprietary, confidential or exempt from disclosure. If 
+you are not the intended recipient, please note that further dissemination, 
+distribution, use or copying of this communication is strictly prohibited. 
+Anyone who received this message in error should notify the sender 
+immediately by telephone or by return email and delete it from his or her 
+computer.
+
+--00000000000004b08905b9440007
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>&gt;<span class=3D"=
-gmail-im"></span>Have you tested whether the archiver class is still workin=
-g after this<br>
-&gt;change? If not it&#39;d be helpful to run `oe-selftest -r archiver` to<=
-br>&gt;check.<font color=3D"#888888"><br></font><br>Hi Paul,</div><div>I ha=
-ve just run that script and it passed with no errors:<br>oe-selftest - OK -=
- All required tests passed (successes=3D13, skipped=3D0, failures=3D0, erro=
-rs=3D0)</div><div><br></div><div>Best regards,</div><div>Tomasz Dziendziels=
-ki<br></div></div></div><br></div>
+<div dir=3D"ltr">All,<div><br></div><div>Why does uninative.bbclass (around=
+ line 86) revert to my hosts glibc if that version is above the uninative v=
+ersion but our sstate-cache is only local (not hosted/shared)?</div><div><b=
+r></div><div>I want to know in general terms (what could go wrong), but in =
+case you&#39;re wondering, my specific environment is:</div><div><br></div>=
+<div>Building with &quot;zeus&quot; release but can&#39;t update, at this t=
+ime.=C2=A0 The &quot;zeus&quot; release provides glibc <b>2.31</b> uninativ=
+e glibc.</div><div><br></div><div>My build machine is running Fedora 33 (gl=
+ibc <b>2.32</b>) and I&#39;m leveraging the=C2=A0x86_64-buildtools-extended=
+-nativesdk-standalone-3.1 tool.=C2=A0 Yes, I know that &quot;zeus&quot; is =
+3.0 but the &quot;extended&quot; version (also provides a compatible native=
+ gcc) wasn&#39;t introduced until the 3.1 version of the standalone tools.=
+=C2=A0 But 3.1 seems to work after back porting some 3.1 fixes into some bb=
+append files I made.</div><div><br></div><div>But, again, my question is ab=
+out the general case and not specifically my environment.</div><div><br></d=
+iv><div>Anyone?</div><div>-Alan<input name=3D"virtru-metadata" type=3D"hidd=
+en" value=3D"{&quot;email-policy&quot;:{&quot;state&quot;:&quot;closed&quot=
+;,&quot;expirationUnit&quot;:&quot;days&quot;,&quot;disableCopyPaste&quot;:=
+false,&quot;disablePrint&quot;:false,&quot;disableForwarding&quot;:false,&q=
+uot;enableNoauth&quot;:false,&quot;persistentProtection&quot;:false,&quot;e=
+xpandedWatermarking&quot;:false,&quot;expires&quot;:false,&quot;isManaged&q=
+uot;:false},&quot;attachments&quot;:{},&quot;compose-id&quot;:&quot;1&quot;=
+,&quot;compose-window&quot;:{&quot;secure&quot;:false}}"></div></div>
 
---000000000000cf15b805b94387b8--
+<br>
+<span style=3D"color:rgb(128,128,128);background-color:rgb(255,255,255)"><f=
+ont size=3D"2">NOTICE: This communication (including any attachments) may c=
+ontain information that is proprietary, confidential or exempt from disclos=
+ure. If you are not the intended recipient, please note that further dissem=
+ination, distribution, use or copying of this communication is strictly pro=
+hibited. Anyone who received this message in error should notify the sender=
+ immediately by telephone or by return email and delete it from his or her =
+computer.</font></span>
+
+--00000000000004b08905b9440007--
