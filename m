@@ -1,17 +1,17 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.76])
- by mx.groups.io with SMTP id smtpd.web10.23769.1611119020421835635
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.63])
+ by mx.groups.io with SMTP id smtpd.web09.24788.1611125887474299150
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 21:03:41 -0800
+ Tue, 19 Jan 2021 22:58:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ifUVddgm;
- spf=pass (domain: windriver.com, ip: 40.107.93.76, mailfrom: qi.chen@windriver.com)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=DnLtDRwb;
+ spf=pass (domain: windriver.com, ip: 40.107.93.63, mailfrom: mingli.yu@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J5+XyZZ7o/EV+3gxX37DTogJuwlUecVAa7ChPg05+UO27j+Eqm67+rgB7916om/+jtr6DGIcWyzcrb2vXZtLRmD5Iw2IQqgFrm+2zoI+O+Qy3o/MmdtT8fYh8eugjT47K1jMAZvA5hnOSrLjx0lV7/e8jpTXJiKCEyJN17GJNY4IZoDuV78wqpPDrCi1pSuE4uxFYGNgaDgOaLqJJcrHHNHxCtr1OiMrguBkQlY1mKE/4bLpfysvjtJLSCFpZ3AuZaEZzZEB67j8/vywlzh1xteyMS8XXHL7q1sa5mTSsiCkHxyLz/tf4Kd5/XTBFL7RQWFRYcFKo3GwwrmkP6QGCw==
+ b=bKswxH4PFZENZtYR4wjfMmwGCeC1o6TxNeMHl/VnfKqj/+zMOUda83ZjogcXMobv1GA6T50MAdGJUX1lcLk7g9vXjjljGz2yDRQafOeh06U17lpqJ3i1vadBGv+TCq53mJhBwYTgn7+A2X9h2t5rK+dguWLEthlZ25Ut35C5VziFDwBIF4dmocbGxyEZy2kaVMP5JDSSOpR/NWdHD00RUfcflFTaxO5oqKfsuIm2mtf2xsw2TAzPKcQ76cOpxexqNJWEKP7HPO4V/VbWG0hEpCGkaRbj7pNhPgXx4c07Lu9Dv/DgTMZpb++hrh6gvsV7xZmLq43YqGIB+VyuAASyhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hjhrwk0X71bVzr9UNcmpQL3b2JoGbL3+Y5d+nCVkGso=;
- b=Ff6PDemWPQld/UkJvfpF7krf1a9+55ufWCAO7iVJu6tLIOqDFUYfUNJo9r+MWO5S5xj+Oe6gZ8LTmreP6vrEqHRd8dd93jjCHyA5HMW8jCugFUGsokVNw7YC7KhfLhypxbuiZUlyvCcN5epEiMWbZv3gv/WcrKzpDyLBlem1r6EaMMBrAbJPIHBI1J7yLCftnHz5U99dATuTNFxWlfZFAX2l46o+DrNqVUqOxqgGfmPa9ufFrtZH9dP6EgcZtNFCbieuBgCKGzy1MZVSxvGIF3NioRuOBMaWX2DVn+aHWhPaL98xmKjG08SxsUQQQAhzjZnDXmQTDMiG5gbkEG6uoQ==
+ bh=U051kO309aXBB+9o3yxpqcl2oJHFxjG2ey247BrKIcQ=;
+ b=X/cNn0aoh94Nje79iSwy/gGlGTv1SZzYQAjf9uVY4bZBHlwv95L3re5jm7vCxHKOTN0UucJHSt2CcjwYPTD2jsYhl3j+oecdpQLYEc8aaGFho+7lbmhBjKioUt2vdOWDzcF+lnFPAbjV/Y0YMqIlU0mFYYiVTrYurnvgbpMWce1uJhCOk1NI+fvus/h/23VzyHldgjdSdiRrbkftfJsq6bB1WpbcVheiXRcsdK80cBaGavNFVrrzmEh3/j9xhSsFo32+Ia6rrDbgsCooWDti2wyRPrk3UFHZ51Dn4JZwrkfaAvutv/QhrMWfasDklat/QCK0c5XuXZJyoJh+Jvr3kA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,105 +19,245 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hjhrwk0X71bVzr9UNcmpQL3b2JoGbL3+Y5d+nCVkGso=;
- b=ifUVddgm4pR+nd6/WE++jFJPZK9qGjD5pvZdLb8vh/8MDcs+qW3x/Fxd4vcUK0cUNzCOk1HMfPal+TgrXJBC2/B+dT1qiwvtnQuEhae6edzrxGC6IgQUBwtgbFJAGCA4xRrDMdug5uAR5E0TeCCsRMNz8nfeOzZqxdKTQEdJ/nc=
+ bh=U051kO309aXBB+9o3yxpqcl2oJHFxjG2ey247BrKIcQ=;
+ b=DnLtDRwbNhdPD6MY5TeJDoc7R5A3jG9C87O0+yGyRQufRvFsykXFG6z6dKF7ewf7ZQzV+UAEe+cR8WPHGjO7DH5b0djnjIWlJEj+OaM59SAeHch1COryMqbcQPdBJdKwhveqCitJJ2KFYPUw2UCf6M0yuynrrZYVZN04cMRXjPs=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
-Received: from BL0PR11MB3474.namprd11.prod.outlook.com (2603:10b6:208:67::17)
- by MN2PR11MB4678.namprd11.prod.outlook.com (2603:10b6:208:264::11) with
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
+ by MWHPR1101MB2110.namprd11.prod.outlook.com (2603:10b6:301:4f::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Wed, 20 Jan
- 2021 05:03:39 +0000
-Received: from BL0PR11MB3474.namprd11.prod.outlook.com
- ([fe80::2548:a42b:4216:731c]) by BL0PR11MB3474.namprd11.prod.outlook.com
- ([fe80::2548:a42b:4216:731c%6]) with mapi id 15.20.3763.014; Wed, 20 Jan 2021
- 05:03:39 +0000
-From: "Chen Qi" <Qi.Chen@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] igt-gpu-tools: add procps-lib to RDEPENDS
-Date: Wed, 20 Jan 2021 13:03:18 +0800
-Message-Id: <20210120050318.10376-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.12; Wed, 20 Jan
+ 2021 06:58:05 +0000
+Received: from CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::80fa:a14:ee1b:c46f]) by CO1PR11MB5009.namprd11.prod.outlook.com
+ ([fe80::80fa:a14:ee1b:c46f%7]) with mapi id 15.20.3763.014; Wed, 20 Jan 2021
+ 06:58:05 +0000
+Subject: Re: [OE-core] [PATCH] bitbake.conf: use ${RECIPE_SYSROOT} for PSEUDO_IGNORE_PATHS
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20210115032309.24983-1-mingli.yu@windriver.com>
+ <4e34eedd6cd84c361e5a316325c508499a7d75a6.camel@linuxfoundation.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <80c15732-548c-020a-4ac1-0993c2a00fd0@windriver.com>
+Date: Wed, 20 Jan 2021 14:56:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <4e34eedd6cd84c361e5a316325c508499a7d75a6.camel@linuxfoundation.org>
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR04CA0075.apcprd04.prod.outlook.com
- (2603:1096:202:15::19) To BL0PR11MB3474.namprd11.prod.outlook.com
- (2603:10b6:208:67::17)
-Return-Path: Qi.Chen@windriver.com
+X-ClientProxiedBy: HK2PR03CA0060.apcprd03.prod.outlook.com
+ (2603:1096:202:17::30) To CO1PR11MB5009.namprd11.prod.outlook.com
+ (2603:10b6:303:9e::11)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HK2PR04CA0075.apcprd04.prod.outlook.com (2603:1096:202:15::19) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10 via Frontend Transport; Wed, 20 Jan 2021 05:03:38 +0000
+Received: from [128.224.162.139] (60.247.85.82) by HK2PR03CA0060.apcprd03.prod.outlook.com (2603:1096:202:17::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.7 via Frontend Transport; Wed, 20 Jan 2021 06:58:02 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 54eba72c-fcc2-4a75-00e4-08d8bd00bfc2
-X-MS-TrafficTypeDiagnostic: MN2PR11MB4678:
+X-MS-Office365-Filtering-Correlation-Id: 657087b4-e14d-41c2-f44b-08d8bd10bc1d
+X-MS-TrafficTypeDiagnostic: MWHPR1101MB2110:
 X-Microsoft-Antispam-PRVS: 
-	<MN2PR11MB4678F4E2FBAC54EB74AA97D0EDA20@MN2PR11MB4678.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
+	<MWHPR1101MB21108C7B28D93A44591CC806F1A20@MWHPR1101MB2110.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	OOio16zZFQlb7/pU+sd0ZU433FrZ50l8TcHZMBFJJbP79oOsKWgONwVb4Q3PMCobzTyGcN1TyPWFGf1HVRcqdflc/S9xjI7IcJLtfpClUxNQr6OAL6IpLgVjwQja1cHH4GoKEirkV8zVXxLWejrlMLpUiBPZ0mi61AQ9Psnyfs4nrIj2v0dn0QyEiMlYxSbe+1QIHBIYeQTbwFn0uFGD+SjSQq+zGeDgDBOvslI+kOuQiw4MQpQGWoxRZzJqgFyj1Cui3AVgRCQQimj1MX8xibGS9IeMUCHD0jWxhBToRESCpYHrmiiEAWS2WZjdxAD+SFEHnzIs4CIQRq8js0VfZdpjtjeoOwoSbe8y7Iyf3X+XbFfn/cNKO2zoYValVun/dEAOCLr8+jnAgoUk9cKGjA==
+	EvUxUe5tNIXHhVDnfqKOdKnoeRhwZNQOq2iwBvMWCtgXvN6FVP9CW2cEu1V9VMTH7XqWfqAXZsQW53iMdsh+jQFRNQpVd/fDqf1vMXG3lB4UpftPhPUeX0Ez88+ZzFMPkgs6T4ctZUm2XSS1xysCQgQIHBsUug9fhw6hCDL6VXJHPikC8A9dcj5pwSvQQcP7UZBW5duGlITG9Vnzqi0CryCItCy+zSI8lOqo/z4nE/uCb0DaacqpnilNRXfxUmPyTl5ztw7sx+qaUGOW5xTqxi0+dwnIqGb6+plOOkcTdB9VhAdSVHtqURhk5Nq48wjRMG1CigNrr2Ex1q26Xw9j26K3bVDguAZ/Kpg8U8MjEnRQ3rTsdzK4TQEVjyzQre0ieV+oQ7uNGm1YF7Wx13veoW03hguJ65yWuc7UKOTMt9Cq6ohV25R520zFDxhA/FXqACBglaUGFReguw7WnG+BfGiW98z4xMee+UoKU7qIo/VOKIxwtvIM2GLDnhmiXErdRV21s44Co/Q3SAhP0W+jkOrNprazCL8stNiWqJF9+THJ0XcdePx3uksJwVxIDOsnVaF4dTSMQgTCBCl8vgJqRoZaW4EpSykLvTODCOdqiLY=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB3474.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(39850400004)(376002)(346002)(396003)(6916009)(36756003)(26005)(186003)(1076003)(16526019)(66946007)(478600001)(66556008)(956004)(83380400001)(2616005)(66476007)(52116002)(6666004)(6512007)(5660300002)(6486002)(8676002)(86362001)(6506007)(316002)(2906002)(8936002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39840400004)(346002)(366004)(396003)(136003)(376002)(186003)(31686004)(26005)(2616005)(66476007)(16526019)(53546011)(31696002)(86362001)(956004)(52116002)(478600001)(6706004)(16576012)(2906002)(8676002)(6486002)(5660300002)(8936002)(83380400001)(66946007)(316002)(6666004)(36756003)(66556008)(966005)(78286007)(45980500001)(228453006)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?9k+beo2Y0nau+7N0MR4g6E3RT7/ODs6uFb2DHmVGMqHC55joS/vVhoM7hOJX?=
- =?us-ascii?Q?9CvWgruC2IYwqx8PdptQnUkZPfeCvlvkJxxf54E+wJ3gnJXnizi5/wwguvja?=
- =?us-ascii?Q?3d5MczPjUvoJ7QJ6mIman3gvCYaw7BlLXL8HDTSPVQLfms5DXcKwlQTYUPCk?=
- =?us-ascii?Q?+4lYpsV0fvAXeEmG6DpJhX5A8SjNaGj3cYSvBHHkQ9ipB6ytzaIyMrFfulH7?=
- =?us-ascii?Q?IxmoLCpkIF0+CHbovrqgBZ0LNyeBilANRbVQXKXecMMznrVaz6jshBHiEPDa?=
- =?us-ascii?Q?68Nl9kv5griMNRxqjxIkQsAxK7I78vWq/xSfg8Wj7FI9pVI4woef6lWRuTm7?=
- =?us-ascii?Q?3wDz3VXAnSPqhYURTVU+5VbR23t8v9M8jOMOW/tvIXIygFfcpOV3dis6o05D?=
- =?us-ascii?Q?5Nj9T81n4HMClgRVm9epcVpYyUfZxDhNB7taPLhpBKnETdTABUK2Q4fX2KrS?=
- =?us-ascii?Q?l5IkwETtHEwk8jseP8AmRVFlV1eIdsIZBb+iXs9KtFpsfPGLIOUl4CvukX4A?=
- =?us-ascii?Q?KYrl0dD5S0jPvh6b2UbHOQpxHa7e+O/otE9yZQokQBE0sRbVXRhjHSTW3hm0?=
- =?us-ascii?Q?yIvrKO/jrGKRpzHuS71d5KkRcgEhaOvIhkp8UyEOPmxBHHyu14p2SnrBcFDW?=
- =?us-ascii?Q?1LqmNhX/hrs3Ml0BP7aWZeFmFUKD/0xP+8iDfcpaGdkrdTXZrsfY1PyXblfr?=
- =?us-ascii?Q?bFM3o2zUPY9eUnInJjWmBB1WWtQs6onGZqnhwGouXCmJqYTshcZY0Po9P3xO?=
- =?us-ascii?Q?lMvZOgN65yn/KyJ0pl3HSWlQyTP46lvtuudAhkrV8sEHuGTxaxetzHCX26qA?=
- =?us-ascii?Q?30d9tR+PXZP3YfcJBtJOuXGpSHrKP7guZPxrfGt1637sAtBJjn+e7nuUvq7p?=
- =?us-ascii?Q?LzxviwjzQM3uD8t/aza39D3shhia1KHjV9pVPUbcSDwoG3PzykcxvT4Doa74?=
- =?us-ascii?Q?l9RxFyW5A9hKg/IEAa9of0CcBI/04aXLr5Ww/5H2Br0rBKV5HRs8hG2aqu9o?=
- =?us-ascii?Q?gmHA?=
+	=?us-ascii?Q?sL3k+5+7aQbjYxm3CiZnfv4woJsu0iRV7aQWfexdXfDI9O6dofjvazm91WQp?=
+ =?us-ascii?Q?qeoDZYFxAaA3tfAYGxRU+NedAAg/l9RN9NDluX8x5wzjTr+VY62aeD1oEjso?=
+ =?us-ascii?Q?B2f+AKEJ+05oqHS3ZpuRuX4hW1/hrNO3I3uwuJgLqpHSDpaZhD0WA+Eto9Kg?=
+ =?us-ascii?Q?exdbUJM2tEw6C/3xctRDcA3GBJPWURieMAnNVZ75pJhySEX4GDas1H3TV5/N?=
+ =?us-ascii?Q?cv930zQYXw9jW0jEXMCXQoPFygFF2jcYpdQ7zGpMQdsFMwH6vwIi9vYazJuP?=
+ =?us-ascii?Q?ttGH2LMRKYXHPuRM7XhtiKoOB4ONx+6VUAn0wc3qh01UfrKS7QY6RG7S/Yc2?=
+ =?us-ascii?Q?QtsI5kt8cFfdWdJNvLeciO3ChsuRbQ02ZUviNo1ZPiUdV1tZ/GoUkyUkXrAE?=
+ =?us-ascii?Q?7dSnUh5VUFuy2v+OpgqvnvzBU2W5sLwq/mSfIh0EConUDxTibZKaF1WPt2l6?=
+ =?us-ascii?Q?MoSR16QP+f3BGCesQquO9xZpNiBEuiuBeSILSDMQXpm/ZVzH0E7BPzLdXB+G?=
+ =?us-ascii?Q?Qbt5fN4ZOxsuHmSDOKB3e/F5bUu/LC5izjAFpGenjwChp3ZVuXYZ4EpKlrYY?=
+ =?us-ascii?Q?s0iUWKa6TPBGkSHqQWdYP12IlCptMGVZRMMLHOX48PNXYq8OyM7lmRoR6AA/?=
+ =?us-ascii?Q?3BCFckdqYoQtw0Iv9jN9zJnAI+IELDNi/6VkrMV2/8m4GrkTbEGep3NvBjS3?=
+ =?us-ascii?Q?SFAk45smK4Hw9IwIpxwnocrhH3KrbsLVf1KTKVjO9/BZrTRfXzhdY6YP7+LH?=
+ =?us-ascii?Q?YmuwvHJCE5xB/rlDrSOxvUtRqt80aPYOPn12fyPay9apyvJ1XDVf1hEfYDQi?=
+ =?us-ascii?Q?d8XCNPIKrBCQjfX3AqLO3d49PvlewfDOefXh0MmAojqxoDLdrvnbcpnUnBUU?=
+ =?us-ascii?Q?9k7HEyRcqaNYHKwRsOQlDSotLSLllSyACLJW97E2VYDrsWdXNHoQ4hZ2SC2Q?=
+ =?us-ascii?Q?5dZsQNDVlcpdP2qtQVGfGXjVnKOJvuTPct4j4SeSSHc=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54eba72c-fcc2-4a75-00e4-08d8bd00bfc2
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR11MB3474.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 657087b4-e14d-41c2-f44b-08d8bd10bc1d
+X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 05:03:39.1784
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 06:58:04.9914
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 03eUtFXxoXSUwl2v318KRwgvUMIVNPXBM6FzZkoITJSYVZa/5kp4gWDuwCFNyshTKk24TTYWorWuK8nOiajolA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4678
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: XOnZrs8wcQWmrKfbhq2kxncGocAAk7G2BsZf5a1eFJ3kd03Ui6TvOomJzmiKvqRqTP257xjQQcX6kI9GDbw5Zg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1101MB2110
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Build error occurs as below:
+Hi RP,
 
-  ERROR: igt-gpu-tools-1.25+gitAUTOINC+d16ad07e7f-r0 do_package_qa:
-         QA Issue: /usr/lib/libigt.so.0 contained in package igt-gpu-tools
-	 requires libprocps.so.8(LIBPROCPS_0)(64bit), but no providers
-	 found in RDEPENDS_igt-gpu-tools? [file-rdeps]
+On 1/15/21 4:45 PM, Richard Purdie wrote:
+> On Fri, 2021-01-15 at 11:23 +0800, Yu, Mingli wrote:
+>> From: Mingli Yu <mingli.yu@windriver.com>
+>>
+>> When multilib enabled, there comes below error for packages which
+>> inherit useradd bbclass randomly when build eSDK.
+>>  =C2=A0$ bitbake image-name -c populate_sdk_ext
+>>  =C2=A0Exception: subprocess.CalledProcessError: Command '/prj/tmp-glibc=
+/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/lib32-recipe-sysroot/=
+usr/bin/postinst-useradd-lib32-avahi' returned non-zero exit status 1.
+>>  =C2=A0Subprocess output:
+>>  =C2=A0/prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-=
+r5/recipe-sysroot-native/usr/sbin/useradd
+>>  =C2=A0Running useradd commands...
+>>  =C2=A0NOTE: lib32-avahi: Performing useradd with [--root /prj/tmp-glibc=
+/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/recipe-sysroot --syst=
+em --home /run/avahi-daemon                               --no-create-home =
+--shell /bin/false                               --user-group avahi]
+>>  =C2=A0useradd: Warning: missing or non-executable shell '/bin/false'
+>>  =C2=A0abort()ing pseudo client by server request. See https://wiki.yoct=
+oproject.org/wiki/Pseudo_Abort for more details on this.
+>>  =C2=A0Check logfile: /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux=
+-image-std/1.0-r5/pseudo//pseudo.log
+>>  =C2=A0ERROR: lib32-avahi: useradd command did not succeed.
+>>  =C2=A0ERROR: Logfile of failure stored in: /prj/tmp-glibc/work/intel_x8=
+6_64-wrs-linux/wrlinux-image-std/1.0-r5/temp/log.do_sdk_depends.20567
+>>
+>>  =C2=A0$ cat  /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-s=
+td/1.0-r5/pseudo//pseudo.log
+>>  =C2=A0[snip]
+>>  =C2=A0path mismatch [1 link]: ino 26553244 db '/prj/tmp-glibc/work/inte=
+l_x86_64-wrs-linux/wrlinux-image-std/1.0-r5/recipe-sysroot/etc/group'
+>> req '/prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std/1.0-r5=
+/recipe-sysroot/etc/group.33605'.
+>>  =C2=A0[snip]
+>>
+>>  =C2=A0Check the PSEUDO_IGNORE_PATHS in [1], the recipe-sysroot part is
+>>  =C2=A0/prj/tmp-glibc/work/corei7-32-wrsmllib32-linux/lib32-avahi/0.8-r0=
+/recipe-sysroot.
+>>
+>>  =C2=A0Use ${RECIPE_SYSROOT} for PSEUDO_IGNORE_PATHS to guarantee the
+>>  =C2=A0recipe-syroot part to be /prj/tmp-glibc/work/intel_x86_64-wrs-lin=
+ux/wrlinux-image-std/1.0-r5/recipe-sysroot
+>>  =C2=A0to fix the above issue.
+>>
+>>  =C2=A0[1] /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std/=
+1.0-r5/lib32-recipe-sysroot/usr/bin/postinst-useradd-lib32-avahi
+>>
+>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+>> ---
+>>  =C2=A0meta/conf/bitbake.conf | 2 +-
+>>  =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>> index 96c1c62b10..1dc08344ca 100644
+>> --- a/meta/conf/bitbake.conf
+>> +++ b/meta/conf/bitbake.conf
+>> @@ -686,7 +686,7 @@ SRC_URI =3D ""
+>>  =C2=A0PSEUDO_LOCALSTATEDIR ?=3D "${WORKDIR}/pseudo/"
+>>  =C2=A0PSEUDO_PASSWD ?=3D "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+>>  =C2=A0PSEUDO_SYSROOT =3D "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native=
+"
+>> -PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/r=
+ecipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPD=
+IR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${=
+WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR=
+}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_=
+DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+>> +PSEUDO_IGNORE_PATHS =3D "/usr/,/etc/,/lib,/dev/,/run/,${T},${RECIPE_SYS=
+ROOT},${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/ssta=
+te-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}=
+/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate=
+-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${T=
+MPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+>=20
+> This isn't correct since we're aiming to ignore both WORKDIR/recipe-
 
-Add procps-lib to RDEPENDS to solve this issue.
+Will send out V2 to also ignore ${RECIPE_SYSROOT_NATIVE} altogether.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> sysroot and WORKDIR/recipe-sysroot-native which the above does since
+> the paths can be thought of to end with "*".
+>=20
+> I'm also confused by your mention of corei7-32-wrsmllib32-linux above
+> in:
+>=20
+> /prj/tmp-glibc/work/corei7-32-wrsmllib32-linux/lib32-avahi/0.8-r0/recipe-=
+sysroot.
+>=20
+> since I thought you were working in:
+>=20
+> /prj/tmp-glibc/work/intel_x86_64-wrs-linux/wrlinux-image-std
+>=20
+> ?
 
-diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-index 89480d79d2..b012dbf58e 100644
---- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-+++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_git.bb
-@@ -15,7 +15,7 @@ SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https"
- S = "${WORKDIR}/git"
- 
- DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native"
--RDEPENDS_${PN} += "bash"
-+RDEPENDS_${PN} += "bash procps-lib"
- RDEPENDS_${PN}-tests += "bash"
- 
- PACKAGE_BEFORE_PN = "${PN}-benchmarks ${PN}-tests"
--- 
-2.17.1
+Steps to reproduce:
+Add below logic to enable multilib and also install some package which=20
+inherit useradd bbclass.
+require conf/multilib.conf
+MULTILIBS ?=3D "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 ?=3D "core2-32"
+IMAGE_INSTALL_append +=3D " bind lib32-bind openssh lib32-openssh dhcpcd=20
+lib32-dhcpcd postfix lib32-postfix nfs-utils lib32-nfs-utils cronie=20
+lib32-cronie dbus lib32-dbus systemd lib32-systemd rpcbind lib32-rpcbind"
 
+And it fails when build extend sdk randomly.
+$ bitbake core-image-minimal -c populate_sdk_ext
+  Exception: subprocess.CalledProcessError: Command=20
+'/prj/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r5/lib32-recipe=
+-sysroot/usr/bin/postinst-useradd-lib32-avahi'=20
+returned non-zero exit status 1.
+ >>   Subprocess output:
+ >>=20
+/prj/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r5/recipe-sysroo=
+t-native/usr/sbin/useradd
+ >>   Running useradd commands...
+ >>   NOTE: lib32-avahi: Performing useradd with [--root=20
+/prj/tmp/qemux86_64-poky-linux/core-image-minimal/1.0-r5/recipe-sysroot=20
+--system --home /run/avahi-daemon=20
+--no-create-home --shell /bin/false=20
+--user-group avahi]
+ >>   useradd: Warning: missing or non-executable shell '/bin/false'
+ >>   abort()ing pseudo client by server request. See=20
+https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.
+ >>   Check logfile:=20
+/prj/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r5/pseudo//pseud=
+o.log
+ >>   ERROR: lib32-avahi: useradd command did not succeed.
+ >>   ERROR: Logfile of failure stored in:=20
+/prj/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r5/temp/log.do_s=
+dk_depends.30554
+
+
+Check the PSEUDO_IGNORE_PATHS in=20
+/prj/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/lib32-recipe-=
+sysroot/usr/bin/postinst-useradd-lib32-avahi,=20
+and the recipe sysroot part is=20
+/prj/tmp/work/core2-32-pokymllib32-linux/lib32-avahi/0.8-r0/recipe-sysroot.=
+=20
+And meanwhile check PSEUDO_IGNORE_PATHS in=20
+/prj/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/recipe-sysroo=
+t/usr/bin/postinst-useradd-avahi,=20
+the recipe sysroot part is=20
+/prj/tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/recipe-sysroo=
+t.
+
+So set ${RECIPE_SYSROOT} for PSEUDO_IGNORE_PATHS to fix the recipe=20
+sysroot part is incorrect in multilib env.
+
+Thanks,
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
+>=20
