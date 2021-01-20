@@ -1,99 +1,114 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web11.31765.1611166702190994889
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.web11.31787.1611166807542364160
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jan 2021 10:18:22 -0800
+ Wed, 20 Jan 2021 10:20:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=HCNEg6LK;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.50, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f50.google.com with SMTP id r12so23475999ejb.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Jan 2021 10:18:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jo3PHsUMZ6rpSHzFfYgxFIj9nbgtgwAjTxphV4rWyDA=;
-        b=HCNEg6LKuIyfvOrwZCYB/n5piciuC1JnxhMBw+UubN+yQCLesg1+4pST1R9fn3m6cs
-         BQ5xjb2JH0byDoM0Sg6SVxxzzToEyQmzFyd3UohCZ6WLEYbWNL3G4MWA0MKNL4jdp+U4
-         c4Ahobpd4p/rkI6sQgqjBlLEWnQ7nynvRQIWyf08CZ61bcMmfqWbl7l82/IiLeG/YoN6
-         U7UniYafF5siWN/gqDen0w3t4f6NOzjUvORldFk76vlPQQoGytZPAn9weL1UnvoVAkCV
-         F8komyv6EBSiRHHslr5H2/AZ18t8PlkuRDjsqFazGvqxGcJ4yZafIKt28r1nY2aZulSV
-         F2vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jo3PHsUMZ6rpSHzFfYgxFIj9nbgtgwAjTxphV4rWyDA=;
-        b=r+Kc92IHkY4Clr3PzwhTJc1dPxUVYOXrdDiBJ2JCWMu9luHExiNgM7wLbQtBaAGmQw
-         lCtXNFhGUiA6tUuGg07wJOp7HaUxx0RwwpyiknHpbHcsRrIAi+thKlRdWWlDQDMTgdM+
-         OZ+ONs1RTl+F1vwcBfYFlknLjOuuSMVyXf83mx6fkuACVPbBWUnwZzHgIFe/NjGc/eNW
-         jzajqg7e32imBSQJFz+mAvTncxo4L9F9BixXVvJk9CY0YjSMLOgRXDpqlzxOdWv0c4aw
-         1j8IgWSwDXHDAqZ0oBdWIFfueJZugqsiSzNgHdS+iE49kzYecLPgyDrFvJdNp4lgf1Ha
-         39Og==
-X-Gm-Message-State: AOAM531P3fnxOrawfh49U5t14URd+SirFFODgiIaZFR0St5z/2rJP/Nx
-	eGcgb8n5tNFHqeOoQb4voCKDHLLMku2GhLiAf2qSaQ==
-X-Google-Smtp-Source: ABdhPJyTSqdgqNGYrosGCInNd1+/SXmnd8GnatT7qkUrvdNO5YBUKpx62FSAmU8j29bm6L+zOgTBPsTyoOYLl7GGgqo=
-X-Received: by 2002:a17:906:4e0c:: with SMTP id z12mr6798270eju.370.1611166700479;
- Wed, 20 Jan 2021 10:18:20 -0800 (PST)
+ dkim=pass header.i=@cisco.com header.s=iport header.b=ENWwBOrk;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: oobitots@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=2860; q=dns/txt; s=iport;
+  t=1611166807; x=1612376407;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ztESBNGnWMD6yBkI1LxCBApqZDI43kL3JbGDSf0PtP0=;
+  b=ENWwBOrkxLC0gAFyxd9AU/EbjOkfrFpxDLcUOvtlwtajgXd60CNdip4d
+   8f0NSOmyxb3lZoL470i+dKQxBGAMpfEMNkKhbom+4MrOzj/dKrVM4X15f
+   m/CN4iwau7KIydygWZu4velKf47KeEgMfcHPiu1V1oZPnRl6RX8ULvFWn
+   0=;
+X-IronPort-AV: E=Sophos;i="5.79,361,1602547200"; 
+   d="scan'208";a="839385950"
+Received: from rcdn-core-11.cisco.com ([173.37.93.147])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 20 Jan 2021 18:20:06 +0000
+Received: from sjc-ads-8148.cisco.com (sjc-ads-8148.cisco.com [171.68.208.186])
+	by rcdn-core-11.cisco.com (8.15.2/8.15.2) with ESMTPS id 10KIK45c021189
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 20 Jan 2021 18:20:05 GMT
+Received: by sjc-ads-8148.cisco.com (Postfix, from userid 500841)
+	id C56CFCC1251; Wed, 20 Jan 2021 10:20:03 -0800 (PST)
+From: "Oleksiy Obitotskyy" <oobitots@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
+Subject: [PATCH] dtc: improve reproducibility
+Date: Wed, 20 Jan 2021 10:20:01 -0800
+Message-Id: <20210120182001.20523-1-oobitots@cisco.com>
+X-Mailer: git-send-email 2.26.2.Cisco
 MIME-Version: 1.0
-References: <20210117211445.2341303-1-robert.joslyn@redrectangle.org>
-In-Reply-To: <20210117211445.2341303-1-robert.joslyn@redrectangle.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Wed, 20 Jan 2021 08:18:08 -1000
-Message-ID: <CAOSpxdYiKrtF0t0wMJxp0rKqGz0bNHfbQ9XayjdgTtVNhQaoGg@mail.gmail.com>
-Subject: Re: [OE-core] [master][gatesgarth][dunfell][PATCH] bluez: Whitelist CVE-2020-12351 and CVE-2020-12352
-To: Robert Joslyn <robert.joslyn@redrectangle.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Outbound-SMTP-Client: 171.68.208.186, sjc-ads-8148.cisco.com
+X-Outbound-Node: rcdn-core-11.cisco.com
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jan 17, 2021 at 11:16 AM Robert Joslyn
-<robert.joslyn@redrectangle.org> wrote:
->
-> According to the Intel security advisory [1], these CVEs are mitigated by
-> the following kernel commits:
->
-> eddb7732119d53400f48a02536a84c509692faa8 Bluetooth: A2MP: Fix not initializing all members
-> f19425641cb2572a33cb074d5e30283720bd4d22 Bluetooth: L2CAP: Fix calling sk_filter on non-socket based channel
-> b560a208cda0297fef6ff85bbfd58a8f0a52a543 Bluetooth: MGMT: Fix not checking if BT_HS is enabled
-> a2ec905d1e160a33b2e210e45ad30445ef26ce0e Bluetooth: fix kernel oops in store_pending_adv_report
->
-> The latest of these commits were backported from 5.10 to the stable kernel
-> tree in the 5.8.16 and 5.4.72 releases. Since the kernels provied by OE-core
-> contain these fixes, mark them as whitelisted.
+Makefile override CFLAGS, so -fmacro/debug-prefix-map
+optiions was omitted and binaries contains absolute
+patch to sources.
 
-This seems to be a good candidate for having the cpe database updated.
-Currently it is flagging all versions of bluez and Linux.
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
+---
+ meta/recipes-kernel/dtc/dtc.inc               | 10 +++++-
+ ...-Makefile-to-add-CFLAGS-not-override.patch | 36 +++++++++++++++++++
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
 
-I sent a request to have the entry updated.  If they accept the
-request then we won't need this patch.  If they deny it we can merge
-the patch.
+diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
+index 0650e3c82e..59badd4951 100644
+--- a/meta/recipes-kernel/dtc/dtc.inc
++++ b/meta/recipes-kernel/dtc/dtc.inc
+@@ -8,6 +8,14 @@ DEPENDS = "flex-native bison-native"
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
+            file://make_install.patch \
+            "
++
++def get_reproducibility_patches(d):
++     if bb.data.inherits_class("reproducible_build", d):
++        return "file://0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch"
++     return ""
++
++SRC_URI += "${@get_reproducibility_patches(d)}"
++
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ 
+ EXTRA_OEMAKE='NO_PYTHON=1 PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
+diff --git a/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch b/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
+new file mode 100644
+index 0000000000..6ac83929b9
+--- /dev/null
++++ b/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
+@@ -0,0 +1,36 @@
++From d684b031967ee7055d5719476ef578fe2c37401c Mon Sep 17 00:00:00 2001
++From: Oleksiy Obitotskyy <oobitots@cisco.com>
++Date: Thu, 24 Sep 2020 05:12:42 -0700
++Subject: [PATCH] dtc: Fix Makefile to add CFLAGS not override
++
++Makefile override CFLAGS not extend them, so some of them
++missing. Sources builds out of kernel tree and probably not all
++options could be used (?). We need at least -fmacro-prefix-map/
++debug-prefix-map to eliminate absolute path in binaries.
++
++Upstream-Status: Pending
++Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
++---
++ Makefile | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index f729bf6..bb51a92 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -16,10 +16,10 @@ EXTRAVERSION =
++ LOCAL_VERSION =
++ CONFIG_LOCALVERSION =
++ 
++-CPPFLAGS = -I libfdt -I .
+++CPPFLAGS += -I libfdt -I .
++ WARNINGS = -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
++ 	-Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wshadow
++-CFLAGS = -g -Os $(SHAREDLIB_CFLAGS) -Werror $(WARNINGS) $(EXTRA_CFLAGS)
+++CFLAGS += -g -Os $(SHAREDLIB_CFLAGS) -Werror $(WARNINGS) $(EXTRA_CFLAGS)
++ 
++ BISON = bison
++ LEX = flex
++-- 
++2.19.0.dirty
++
+-- 
+2.26.2.Cisco
 
-Thanks for doing the research on this one!
-
-Steve
-
-> [1]: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00435.html?wapkw=CVE-2020-12351
->
-> Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5_5.55.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.55.bb b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-> index 8190924562..051fdef8ce 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-> @@ -3,6 +3,8 @@ require bluez5.inc
->  SRC_URI[md5sum] = "94972b8bc7ade60c72b0ffa6ccff2c0a"
->  SRC_URI[sha256sum] = "8863717113c4897e2ad3271fc808ea245319e6fd95eed2e934fae8e0894e9b88"
->
-> +CVE_CHECK_WHITELIST += "CVE-2020-12351 CVE-2020-12352"
-> +
->  # noinst programs in Makefile.tools that are conditional on READLINE
->  # support
->  NOINST_TOOLS_READLINE ?= " \
-> --
-> 2.26.2
->
->
-> 
->
