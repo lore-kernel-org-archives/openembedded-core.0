@@ -1,27 +1,27 @@
 Received: from mga12.intel.com (mga12.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.24792.1611128477823315504
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 23:41:21 -0800
+ Tue, 19 Jan 2021 23:41:22 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Z+m0xEdu14urBOBw0Yqdnq0RRL4k+/fUewkuES9X91tJ8hHr/eEGdzGhK8JfVPqf51ul4kpPkO
- yRhY8DbGhmEw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="158240453"
+IronPort-SDR: bLJG7zE36XWT5andEx2HITXS5J7v3Ip4Bh9Pb3e0GpyBQLy7XTEWisuHvvKAZtDNtxzjWoaK9E
+ rnDk8A8NhjMg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="158240460"
 X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
-   d="scan'208";a="158240453"
+   d="scan'208";a="158240460"
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 23:41:20 -0800
-IronPort-SDR: iupcJs8vOtbKcjpqSGfQSy3QLp8JpTUs8B9NuC6eog5tD1VQEBnQhft+lDlGb9W8Nd7dqMc7ef
- 7v9MudHgbevg==
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 23:41:22 -0800
+IronPort-SDR: eGfpkjts4huIC4OgEkGTqLKMyGC43zstHwKn/ReE01teYz/suQGDEF8FymQfDFG0j9mg4ISwxg
+ 0LZMAIc5nXIw==
 X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
-   d="scan'208";a="350958513"
+   d="scan'208";a="350958516"
 Received: from mrengasa-mobl2.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.144.190])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 23:41:19 -0800
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 23:41:20 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 04/10] python3-hypothesis: upgrade 5.43.3 -> 6.0.2
-Date: Wed, 20 Jan 2021 15:40:52 +0800
-Message-Id: <20210120074058.252462-4-anuj.mittal@intel.com>
+Subject: [PATCH 05/10] python3-numpy: upgrade 1.19.4 -> 1.19.5
+Date: Wed, 20 Jan 2021 15:40:53 +0800
+Message-Id: <20210120074058.252462-5-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210120074058.252462-1-anuj.mittal@intel.com>
 References: <20210120074058.252462-1-anuj.mittal@intel.com>
@@ -30,26 +30,26 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...python3-hypothesis_5.43.3.bb => python3-hypothesis_6.0.2.bb} | 2 +-
+ .../{python3-numpy_1.19.4.bb => python3-numpy_1.19.5.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_5.43.3.bb => python3-hypothesis_6.0.2.bb} (81%)
+ rename meta/recipes-devtools/python-numpy/{python3-numpy_1.19.4.bb => python3-numpy_1.19.5.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_5.43.3.bb b/meta/recipes-devtools/python/python3-hypothesis_6.0.2.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-hypothesis_5.43.3.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.0.2.bb
-index 4d93cba868..fd163401a3 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_5.43.3.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.0.2.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "hypothesis"
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
+similarity index 95%
+rename from meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
+rename to meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
+index 2bfc913aa0..5037d2a422 100644
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.4.bb
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
+@@ -10,7 +10,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+            file://0001-numpy-core-Define-RISCV-32-support.patch \
+            file://run-ptest \
+ "
+-SRC_URI[sha256sum] = "fe836a685d6838dbb3f603caef01183ea98e88febf4ce956a2ea484a75378413"
++SRC_URI[sha256sum] = "d1654047d75fb9d55cc3d46f312d5247eec5f4999039874d2f571bb8021d8f0b"
  
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "d97ba7ae2cfe7096b0c045fdb611ee9850ccdd6050a9b36cb96812242062c2cc"
-+SRC_URI[sha256sum] = "ae616551c8ebe897454e2de5183e325f6a109f70d45b7380154ed974ce8d4772"
- 
- RDEPENDS_${PN} += "python3-attrs python3-core python3-sortedcontainers"
- 
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
 -- 
 2.29.2
 
