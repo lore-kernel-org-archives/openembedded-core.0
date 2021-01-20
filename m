@@ -1,85 +1,67 @@
-Received: from linuxplesk15.openhost.net.nz (linuxplesk15.openhost.net.nz [119.47.118.83])
- by mx.groups.io with SMTP id smtpd.web11.20240.1611098897574114471
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web09.23529.1611115269076249582
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 15:28:18 -0800
+ Tue, 19 Jan 2021 20:01:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: bluelightning.org, ip: 119.47.118.83, mailfrom: bluelightning@bluelightning.org)
-Received: from linc.localnet (unknown [151.210.230.112])
-	by linuxplesk15.openhost.net.nz (Postfix) with ESMTPSA id 48D8DA25E6;
-	Wed, 20 Jan 2021 12:28:15 +1300 (NZDT)
-From: "Paul Eggleton" <bluelightning@bluelightning.org>
-To: openembedded-core@lists.openembedded.org, Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: luca.boccassi@gmail.com
-Subject: Re: [OE-core] [PATCH v4] util-linux: split uuid in separate recipe to allow bootstrapping
-Date: Wed, 20 Jan 2021 12:28:14 +1300
-Message-ID: <1814214.taCxCBeP46@linc>
-In-Reply-To: <45331765fb689a78bb52363d4fc8f5970693c763.camel@linuxfoundation.org>
-References: <20201123132823.3996355-1-luca.boccassi@gmail.com> <2056926.Mh6RI2rZIc@linc> <45331765fb689a78bb52363d4fc8f5970693c763.camel@linuxfoundation.org>
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.79,359,1602518400"; 
+   d="scan'208";a="103645944"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 20 Jan 2021 12:00:59 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 2DDEA4CE6018;
+	Wed, 20 Jan 2021 12:00:57 +0800 (CST)
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 20 Jan 2021 12:00:56 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::102a:9d25:2025:53fa])
+ by G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::102a:9d25:2025:53fa%14]) with
+ mapi id 15.00.1497.010; Wed, 20 Jan 2021 12:00:56 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] libdrm: upgrade 2.4.103 -> 2.4.104
+Thread-Topic: [OE-core] [PATCH] libdrm: upgrade 2.4.103 -> 2.4.104
+Thread-Index: AQHW6lQQHf/KaoQxdkGH+5UuAl2jBqoqVOMAgAWXcCA=
+Date: Wed, 20 Jan 2021 04:00:56 +0000
+Message-ID: <bf3fcde55b1740e3b95f0cf20632e900@G08CNEXMBPEKD05.g08.fujitsu.local>
+References: <1610614977-24935-1-git-send-email-wangmy@cn.fujitsu.com>
+ <859d5ae812f49d2300c805866001715329d2b851.camel@linuxfoundation.org>
+In-Reply-To: <859d5ae812f49d2300c805866001715329d2b851.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.167.225.33]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-yoursite-MailScanner-ID: 2DDEA4CE6018.AACF1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wednesday, 20 January 2021 12:23:34 NZDT Richard Purdie wrote:
-> On Wed, 2021-01-20 at 12:13 +1300, Paul Eggleton wrote:
-> > On Wednesday, 20 January 2021 09:52:41 NZDT Richard Purdie wrote:
-> > > I think the one remaining issue here is the need to change the DEPENDS
-> > > of so many other recipes, likely not just here in this patch but in
-> > > other layers. I think if util-linux DEPENDS on util-linux-uuid that
-> > > might remove the need for those changes? That should still allow you to
-> > > break the circular dependency problem?
-> > 
-> > I have to admit to a gap in my own knowledge of how our build system
-> > handles transitive dependencies. Of course the recipe sysroot should
-> > still get everything it needs in it even if the dependency is only
-> > indirectly included, in the back of my mind I have the impression that
-> > there are expectations that all dependencies are explicitly called out
-> > and there are subtle issues if they aren't, but that could be a mistaken
-> > impression on my part.
-> 
-> I do wonder a little about that as well. As you say, sysroot
-> dependencies should handle this. Anything linking against libuuid
-> should also establish an package level runtime dependency through the
-> linkage so I think this should work.
-> 
-> We definitely don't explicitly list every dependency in every recipe.
-> 
-> If this can work, it makes the migration path for people easier so I
-> think its at least worth investigating/testing.
-
-OK, sure thing.
-
-> Just while I'm thinking, the PACKAGES_remove also bothers me a little.
-> Can we rearrange the variables so libuuid is only added in the libuuid
-> recipe variant?
-> 
-> [the idea being that since we control the metadata in oe-core, we
-> shouldn't need to use _remove and can restructure so we don't need to,
-> they're hard to undo. I know we do use it in places sadly even in core]
-
-Yes, that is a good point. We should be able to avoid using _remove and I 
-don't like using it either given how heavy a hammer it is.
-
-> > I agree that it would be better being separate, FWIW.
-> > 
-> > > I am also worried this is going to break AUH and mean we have to
-> > > manually handle this recipe but again, I suspect there is little to be
-> > > done and we just have to deal with it.
-> > 
-> > Could we perhaps fix the AUH to handle this properly? Do we need some kind
-> > of mechanism to get it to always upgrade the two recipes together or is
-> > that only part of the issue?
-> 
-> I don't know for sure that AUH won't handle it, I just worry about it.
-> If it doesn't it definitely could be something we could fix there. I
-> just don't know of anyone with the time to spend on what is a marginal
-> corner case if it doesn't work.
-
-Well, on the other hand if we're "causing" a problem with the AUH with this 
-change it does behoove us to try to resolve that. It is something I'd be 
-prepared to look into at least.
-
-Cheers
-Paul
-
-
-
+SGksIFJpY2hhcmQNCg0KQ2FuIHlvdSB0ZWxsIG1lIHdoZXJlIGFuZCB3aGF0
+IHNldHRpbmdzIGRvIEkgbmVlZCB0byBhZGQgdG8gbWFrZSBkb2NzIGVuYWJs
+ZWQ/DQoNClRoYW5rIHlvde+8gQ0KDQpCZXN0IHJlZ2FyZHMNCldhbmdteQ0K
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJpY2hh
+cmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3Jn
+Pg0KPiBTZW50OiBTdW5kYXksIEphbnVhcnkgMTcsIDIwMjEgNjozNSBBTQ0K
+PiBUbzogV2FuZywgTWluZ3l1L+eOiyDpuKPnkZwgPHdhbmdteUBjbi5mdWpp
+dHN1LmNvbT47DQo+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGxp
+YmRybTogdXBncmFkZSAyLjQuMTAzIC0+IDIuNC4xMDQNCj4gDQo+IE9uIFRo
+dSwgMjAyMS0wMS0xNCBhdCAxNzowMiArMDgwMCwgV2FuZyBNaW5neXUgd3Jv
+dGU6DQo+ID4gU2lnbmVkLW9mZi1ieTogV2FuZyBNaW5neXUgPHdhbmdteUBj
+bi5mdWppdHN1LmNvbT4NCj4gPiAtLS0NCj4gPiDCoC4uLi9kcm0ve2xpYmRy
+bV8yLjQuMTAzLmJiID0+IGxpYmRybV8yLjQuMTA0LmJifSAgICAgICAgICAg
+ICAgICB8IDINCj4gKy0NCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+IMKgcmVuYW1lIG1ldGEvcmVj
+aXBlcy1ncmFwaGljcy9kcm0ve2xpYmRybV8yLjQuMTAzLmJiID0+DQo+IGxp
+YmRybV8yLjQuMTA0LmJifSAoOTclKQ0KPiA+DQo+IA0KPiBodHRwczovL2F1
+dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJz
+LzEwOC9idWlsZHMvMTI2Ni9zDQo+IHRlcHMvMTIvbG9ncy9zdGRpbw0KPiAN
+Cj4gRmFpbHMgd2hlbiBkb2NzIGFyZSBlbmFibGVkLg0KPiANCj4gQ2hlZXJz
+LA0KPiANCj4gUmljaGFyZA0KPiANCj4gDQo+IA0KPiANCg0KCgo=
