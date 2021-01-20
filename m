@@ -1,184 +1,83 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.26519.1611142561367449445
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web12.26897.1611143902435256749
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jan 2021 03:36:01 -0800
+ Wed, 20 Jan 2021 03:58:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K3ex+E5J;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f43.google.com with SMTP id m187so2566339wme.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Jan 2021 03:36:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fti+Lhod;
+ spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lj1-f169.google.com with SMTP id p13so25796904ljg.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Jan 2021 03:58:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=xcnhhhx8E0w922dxpVGdIfweBpYoTxmw2MprzupjTBU=;
-        b=K3ex+E5Juq6kZ+IyxCs+uiaYc1wYFATeSzlzbo+Y8JFR4f04cGMMrgVW1oqBUwAW32
-         Z6vWDMe8p8pJ8PCz3PRtmCFKDBVFLVq6OBsYz4NM1LtculMIGC4IcQiNjLWr9ZCTtvg0
-         4KQ8ylu+bvcrCHRgOnMU7GJmwKJWelWUVXWYU=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q0k9PAxhuyLz4zXc8aBcjUcyqcF6hBFDUr2Hhn04SfA=;
+        b=fti+LhodygDW6XriA2jFAAU9iJybETqNCP0WuBlWOt9AfBIer5yyBP9i7kEJst2iKU
+         oiSjShsCMn+uRceM7LjGw2xRz1jNsdjkSnbu8A58SAdEQ2M2gCd7Lw5cw9KakHjXdJBh
+         YDdBUWTLfPLTlmF96Gh/wgBncODkJrPvmKV41L7fdYeW+Uag3Xm9NgdcehBXEZ6jU7Hx
+         XTz5Na544ovBHTqf/L7nsN0fc+0X2+mW+VfM/veznnjQZqOYgQFrxS6RGusMNbiH5SdM
+         yNEFwlpqa0tC53x2O8zQ6ABTYujLlEMwqex0JbLjklO6xYeh5c/F28a2uwCJLbL0vAxC
+         ih0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=xcnhhhx8E0w922dxpVGdIfweBpYoTxmw2MprzupjTBU=;
-        b=k2XsmvSELjX7RfiOl2WtPaIs0wtyRqWeTf9vzhtyFel/Wd8irhbdAstA8vCL0EA8qI
-         piYo36N8MgFXJG97ymBivuRRtCyiaFe4yHG8dBX1LcG/wt8ZELbRTTN3Vsq6UwnZ4XtJ
-         jHCnwXw6oPowseWsNfOmCMQIaMlZ9q4kIVbMzmT73b9wziqfQ5N2esfNgiikyHVT2R2h
-         EWhnJzrwWYVid0naStOPMmCdk/Z9Q8tjngN8tjj5FUQuxvr/iBhurygvRIjK9LUikULB
-         A5nQqdGXE7Q4Z/m0iNV6qNF2fnWSJfk/4XBVJEl6TQ719vKqYH4ljQpjWQ6KTPH/1RIu
-         eznw==
-X-Gm-Message-State: AOAM532K1ryaPVRxfWTGZCm6R1BWSxlKNTKpd00OUzWW/nWTHBu18dER
-	eN3xfIdOkcBi7pP9oQudnMwNbA==
-X-Google-Smtp-Source: ABdhPJygO/5W2LLtLBgUngDw3jTZQQkhmbF8NVXTjqHtcQAvazYxybg71IYo86LSJouJrLLOGNPn2Q==
-X-Received: by 2002:a1c:2783:: with SMTP id n125mr3912222wmn.74.1611142559776;
-        Wed, 20 Jan 2021 03:35:59 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:be6:bfa3:56e8:18f1? ([2001:8b0:aba:5f3c:be6:bfa3:56e8:18f1])
-        by smtp.gmail.com with ESMTPSA id l20sm3800639wrh.82.2021.01.20.03.35.59
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q0k9PAxhuyLz4zXc8aBcjUcyqcF6hBFDUr2Hhn04SfA=;
+        b=NyfMEHsHX9KNhKTltR0yC+JEJvyjqxOn4lfDsKkuCCCcXxXEJsrX6nP4ERSskc/P1a
+         9zXx0O4qRpVwzr4D2C657MNhTiHBGVyVdfLfPK4MmhmeRAxMJz7dnkTCOg2NSw7pGz9I
+         6iv3LmEZxcOZUYRVWlIEiHVTVb1MWrFQXxWhRRBKK6qOw1tNtcIMKww8tleGtgmYT3eF
+         jStNYhwzhKYgMmvAVcx9mrrTxd5g284RNdXdecJp3gPuUIx926/17nFZLsgrpPLKe8u8
+         YxHlOzn95a6X2ENQ+xxsgfXj78Nl5d6pxEsMWLA7vaq+ovGfDRlNqbCGr7w/OJtC/aQP
+         981g==
+X-Gm-Message-State: AOAM533M6nir3kNp0oqRtC0KkD0BlrsEW0tQlZ6IPgY3RXpwSMqWwG56
+	ERLbFdEeTrt0cnivDzmXRqfnq5SCGAVK9A==
+X-Google-Smtp-Source: ABdhPJzSCLyU5u7YdJHfBWLzwFy3q6x3j6My9ntRMhZIwPpidBWEFqikFzOsh3zQC5Bxkw6faxIEjg==
+X-Received: by 2002:a2e:990c:: with SMTP id v12mr1360957lji.8.1611143900337;
+        Wed, 20 Jan 2021 03:58:20 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id w17sm178622lfe.247.2021.01.20.03.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 03:35:59 -0800 (PST)
-Message-ID: <2b853566d649604651e498ba9f465f265cf36d37.camel@linuxfoundation.org>
-Subject: Re: Reformat PSEUDO_IGNORE_PATHS ?
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "Yu, Mingli" <mingli.yu@windriver.com>
-Date: Wed, 20 Jan 2021 11:35:56 +0000
-In-Reply-To: <f76710e0703d4ab287f379ffcfbbf17e@XBOX03.axis.com>
-References: <f76710e0703d4ab287f379ffcfbbf17e@XBOX03.axis.com>
-User-Agent: Evolution 3.38.1-1 
+        Wed, 20 Jan 2021 03:58:19 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] externalsrc: Fix parsing error with devtool non-git sources
+Date: Wed, 20 Jan 2021 13:00:54 +0100
+Message-Id: <20210120120054.963690-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2021-01-20 at 11:27 +0000, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Yu, Mingli
-> > Sent: den 20 januari 2021 08:05
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH v2] bitbake.conf: use ${RECIPE_SYSROOT}
-> > for PSEUDO_IGNORE_PATHS
-> > 
-> > From: Mingli Yu <mingli.yu@windriver.com>
-> 
-> [cut]
-> 
-> > Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> > ---
-> >  meta/conf/bitbake.conf | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index af1b3b8c3e..312b544d41 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -686,7 +686,7 @@ SRC_URI = ""
-> >  PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
-> >  PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
-> >  PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
-> > -PSEUDO_IGNORE_PATHS =
-> > "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-
-> > sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-
-> > sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-
-> > ,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-
-> > package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-
-> > build-image_complete,${TMPDIR}/sysroots-
-> > components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${
-> > COREBASE}/scripts,${CCACHE_DIR}"
-> > +PSEUDO_IGNORE_PATHS =
-> > "/usr/,/etc/,/lib,/dev/,/run/,${T},${RECIPE_SYSROOT},${RECIPE_SYSRO
-> > OT_NATIVE},${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-
-> > sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-
-> > ,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-
-> > package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-
-> > build-image_complete,${TMPDIR}/sysroots-
-> > components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${
-> > COREBASE}/scripts,${CCACHE_DIR}"
-> 
-> This is not related to the actual change of the above patch, but
-> rather 
-> triggered by it. Given how long the above lines are, and the fact
-> that 
-> it is nearly impossible to see what paths actually make them up and 
-> what is being changed, would it make sense to reformat the definition
-> of PSEUDO_IGNORE_PATHS like this:
-> 
-> PSEUDO_IGNORE_PATHS  = ""
-> PSEUDO_IGNORE_PATHS .= "/usr/,"
-> PSEUDO_IGNORE_PATHS .= "/etc/,"
-> PSEUDO_IGNORE_PATHS .= "/lib,"
-> PSEUDO_IGNORE_PATHS .= "/dev/,"
-> PSEUDO_IGNORE_PATHS .= "/run/,"
-> PSEUDO_IGNORE_PATHS .= "${T},"
-> PSEUDO_IGNORE_PATHS .= "${RECIPE_SYSROOT},"
-> PSEUDO_IGNORE_PATHS .= "${RECIPE_SYSROOT_NATIVE},"
-> PSEUDO_IGNORE_PATHS .= "${SSTATE_DIR},"
-> PSEUDO_IGNORE_PATHS .= "${STAMPS_DIR},"
-> PSEUDO_IGNORE_PATHS .= "${WORKDIR}/pkgdata-sysroot,"
-> PSEUDO_IGNORE_PATHS .= "${TMPDIR}/sstate-control,"
-> PSEUDO_IGNORE_PATHS .= "${DEPLOY_DIR},"
-> PSEUDO_IGNORE_PATHS .= "${WORKDIR}/deploy-,"
-> PSEUDO_IGNORE_PATHS .= "${TMPDIR}/buildstats,"
-> PSEUDO_IGNORE_PATHS .= "${WORKDIR}/sstate-build-package_,"
-> PSEUDO_IGNORE_PATHS .= "${WORKDIR}/sstate-install-package_,"
-> PSEUDO_IGNORE_PATHS .= "${WORKDIR}/sstate-build-image_complete,"
-> PSEUDO_IGNORE_PATHS .= "${TMPDIR}/sysroots-components,"
-> PSEUDO_IGNORE_PATHS .= "${BUILDHISTORY_DIR},"
-> PSEUDO_IGNORE_PATHS .= "${TMPDIR}/pkgdata,"
-> PSEUDO_IGNORE_PATHS .= "${TOPDIR}/cache,"
-> PSEUDO_IGNORE_PATHS .= "${COREBASE}/scripts,"
-> PSEUDO_IGNORE_PATHS .= "${CCACHE_DIR},"
-> 
-> If this is acceptable, then I can send a patch to do it.
+If srcdir is under poky directory (e.g. devtool poky/build/workspace/sources)
+and is not a git repository then ${@srctree_hash_files(d)} will run "git
+rev-parse --git-dir" and detect poky directory as git-dir and run "'git', 'add',
+'-A', '.'], cwd=s_dir" trying to add srcdir but build dir is in .gitignore and
+latest git will fail with "The following paths are ignored by one of your
+.gitignore files: build" which will end with "ExpansionError during parsing".
 
-One reason we've not done that is primarily parse overhead, this adds
-both more to parse and makes the variable history a lot more complex. I
-do try and keep half an eye on the performance situation as whilst one
-change might not make that much of a difference, it does all add up and
-we have a nightmare there already.
+In this commit I added a check if git_dir is the same as git-dir from
+TOPDIR (which will detect poky directory) and if yes, then treat srcdir
+as non-git sources.
+---
+ meta/classes/externalsrc.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I do admit the variable is a lot more complex than I'd originally
-thought/hoped.
-
-I am also hoping that once we do get this sorted, it becomes something
-we don't have to alter often.
-
-> I would prefer to add that comma to the last line so that all 
-> lines follow the same format, which avoids having to modify 
-> multiple lines when adding/removing entries. I have verified the 
-> code in pseudo and it is ok to have a trailing comma (or multiple 
-> consecutive commas for that matter). The recently added 
-> oe.path.canonicalize() function needs to be modified to skip 
-> empty paths as well (no idea why I missed that when I added it).
-
-I'm not sure the trailing comma is a good idea to encourage like this
-as it will cause code churn, it also implies CWD may be in the ignore
-path due to the behaviour of PATH (although ignore does work
-differently for good reason).
-
-> That leaves a question of what to do with other classes that add 
-> to the PSEUDO_IGNORE_PATHS variable. They currently typically do
-> PSEUDO_IGNORE_PATHS .= ",foo", but if a trailing comma is added 
-> above, it would be more appropriate to change them to do 
-> PSEUDO_IGNORE_PATHS .= "foo,". They will continue to work as they 
-> are, however, there is the risk that someone wanting to add to the 
-> PSEUDO_IGNORE_PATHS variable in their own layer looks at the above 
-> code and then adds something like PSEUDO_IGNORE_PATHS_append = "foo,"
-> without realizing there are other classes adding paths using ",foo". 
-> My guess is that there are not many users of PSEUDO_IGNORE_PATHS 
-> outside of OE-Core yet that we can still change this without 
-> adverse effects.
-
-I think there are deeper issues this patch hints at with the
-code/approach itself and I worry this is going to distract from those
-issues :(
-
-With the queued patches to add this to dunfell, I'm also concerned in
-that direction.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index dd09395788..7a7d31e311 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -197,6 +197,10 @@ def srctree_hash_files(d, srcdir=None):
+     try:
+         git_dir = os.path.join(s_dir,
+             subprocess.check_output(['git', '-C', s_dir, 'rev-parse', '--git-dir'], stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
++        top_git_dir = os.path.join(s_dir, subprocess.check_output(['git', '-C', d.getVar("TOPDIR"), 'rev-parse', '--git-dir'],
++            stderr=subprocess.DEVNULL).decode("utf-8").rstrip())
++        if git_dir == top_git_dir:
++            git_dir = None
+     except subprocess.CalledProcessError:
+         pass
+ 
+-- 
+2.29.2
 
