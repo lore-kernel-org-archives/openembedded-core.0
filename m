@@ -1,170 +1,180 @@
-Received: from mga12.intel.com (mga12.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.24792.1611128477823315504
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+ by mx.groups.io with SMTP id smtpd.web12.25102.1611129075025490091
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 23:41:29 -0800
+ Tue, 19 Jan 2021 23:51:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: xU4+Ax4pubHhpMG2YAqpfHwZGtrYUTIgQuSfNGCdX4hcb+HE5+fFIHDW8aZTxKyJxswTqUKmXG
- 53WT7DaRQAKw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="158240483"
-X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
-   d="scan'208";a="158240483"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 23:41:28 -0800
-IronPort-SDR: 6rs3HCIz5ngFG4/AlA11/xVufyQGnoatI91h0y/DW17e3HN5DFnORHN1Vd7ppPZWFmpKbDFjNx
- cwCkb10hvu4Q==
-X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
-   d="scan'208";a="350958545"
-Received: from mrengasa-mobl2.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.144.190])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 23:41:27 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/10] rt-tests/hwlatdetect: upgrade 1.9 -> 1.10
-Date: Wed, 20 Jan 2021 15:40:58 +0800
-Message-Id: <20210120074058.252462-10-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210120074058.252462-1-anuj.mittal@intel.com>
-References: <20210120074058.252462-1-anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tBKePdmD;
+ spf=pass (domain: gmail.com, ip: 209.85.217.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f47.google.com with SMTP id o19so12583085vsn.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Jan 2021 23:51:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3Qw3NPK8ZuimjWxJbyYNFuAl8bsyxNoLgVQzX1qlIhI=;
+        b=tBKePdmDm/YbOTA55oxKS2VCg9pbfjxi8Mny2xgN7XVGXPhCSUvKYPuG1FntjeAGHo
+         5ad7EtFD1n05AhFV/dIoFHWtZmwD6LnJ13uXudeKIKodkx+t14DeYtVDHKziUD1IMy56
+         9G4b3gUhjnuOFuwOWdsJUf5CFIvPBt6mDeF3O/JCJdUHBH+QRhiw287rGMVyqjfrPFId
+         FFw0gUHUYXrKGJSLTYJlh+1dArVx6W30t8DejwPgOrfi6/fY9SJ/LdaYPm8JmrL3ujFl
+         q6kyvd7x+KAESyV+cqg5IzcZDjasaSIDU65RhZC+Yj7XnXBfjs4G+1Q/4w9CaTxe05H2
+         CPLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3Qw3NPK8ZuimjWxJbyYNFuAl8bsyxNoLgVQzX1qlIhI=;
+        b=CHVZ/unjArkovngeuM9oAfQImRdX3MHKX8+qA56ZvSUhfbANQjjoJgxYY1VsWh3N+5
+         5hmRZBs8Tg4p4MY6TJiQdJay22xYLBM3+zlZlrQxScTwP6+azUXjWTRRO9sdjSTTvWIS
+         IWJrHFPiLIK7HRoepdC7AwViLCdlxAUP3YGG7v18JkEs+lSvzqMlQFdPi4xRW9A69SO4
+         RKQlH7858vUa2KijQM5TSgODkJwzwMClNtG/1QiiuiSzU0rphgvvxRxLqsDa9fhnvKvQ
+         ZcQb9in2qWApNjxqlFdktyftr63oXxBQJ11zNDns+nabq2pJMZkEz4w0I3s+hev+YqUH
+         gkWA==
+X-Gm-Message-State: AOAM533qpwa8KUVNvj/FRP2gRdglGQdEOBVHLpSTR+2KXPSy9Egm8j6R
+	NwUldmka5ejd5KhhLzXMdO3KUlxkQwvhxIfvLEQ=
+X-Google-Smtp-Source: ABdhPJxR1eFQLxyfT0MYTfnwKdvWcqMysBrxRl8MrW+Hn40IPVvueCR95JK+vMYNw/KlqWk1rikgBmilcVsX9RIosz8=
+X-Received: by 2002:a67:7750:: with SMTP id s77mr5696213vsc.31.1611129073474;
+ Tue, 19 Jan 2021 23:51:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210120074058.252462-1-anuj.mittal@intel.com>
+In-Reply-To: <20210120074058.252462-1-anuj.mittal@intel.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Wed, 20 Jan 2021 08:51:01 +0100
+Message-ID: <CANNYZj-hdZcV1emWWncrBsxrpEGACnCv-hZAYxGhNOD3Za8RsA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/10] acpica: upgrade 20201217 -> 20210105
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000001c9e2905b950389f"
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- ...Allow-for-CC-and-AR-to-be-overridden.patch | 10 ++--
- ...-Allow-build-for-not-supported-archs.patch | 52 -------------------
- ...hwlatdetect_1.9.bb => hwlatdetect_1.10.bb} |  0
- meta/recipes-rt/rt-tests/rt-tests.inc         |  2 +-
- .../{rt-tests_1.9.bb => rt-tests_1.10.bb}     |  1 -
- 5 files changed, 7 insertions(+), 58 deletions(-)
- delete mode 100644 meta/recipes-rt/rt-tests/files/0001-rt-tests-oslat-Allow-build-for-not-supported-archs.patch
- rename meta/recipes-rt/rt-tests/{hwlatdetect_1.9.bb => hwlatdetect_1.10.bb} (100%)
- rename meta/recipes-rt/rt-tests/{rt-tests_1.9.bb => rt-tests_1.10.bb} (92%)
+--0000000000001c9e2905b950389f
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-index 8fd94b176c..b177ff7c5f 100644
---- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-+++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-@@ -1,4 +1,4 @@
--From f89d6d6d23e0dacfd0008f686a457d536edc406a Mon Sep 17 00:00:00 2001
-+From b608a817df2b652cd5fa1b5a7cf14b7d2d8afd5f Mon Sep 17 00:00:00 2001
- From: Randy Witt <randy.e.witt@intel.com>
- Date: Fri, 16 Oct 2020 16:54:30 -0700
- Subject: [PATCH] Makefile: Allow for CC and AR to be overridden
-@@ -9,17 +9,16 @@ commit 7763cf316d7896fa05b816a46998f0827ab6e6eb.
- Signed-off-by: Randy Witt <randy.e.witt@intel.com>
- 
- Upstream-Status: Inappropriate [other]
--
- ---
-  Makefile | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile b/Makefile
--index c3ebbd7..2176835 100644
-+index 636f191..9f57d2c 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -1,6 +1,6 @@
-- VERSION = 1.9
-+ VERSION = 1.10
- -CC = $(CROSS_COMPILE)gcc
- -AR = $(CROSS_COMPILE)ar
- +CC ?= $(CROSS_COMPILE)gcc
-@@ -27,3 +26,6 @@ index c3ebbd7..2176835 100644
-  
-  OBJDIR = bld
-  
-+-- 
-+2.29.2
-+
-diff --git a/meta/recipes-rt/rt-tests/files/0001-rt-tests-oslat-Allow-build-for-not-supported-archs.patch b/meta/recipes-rt/rt-tests/files/0001-rt-tests-oslat-Allow-build-for-not-supported-archs.patch
-deleted file mode 100644
-index 1ee7539f7d..0000000000
---- a/meta/recipes-rt/rt-tests/files/0001-rt-tests-oslat-Allow-build-for-not-supported-archs.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 165b597e3003c6870f5980e8902014d9344e6cf3 Mon Sep 17 00:00:00 2001
--From: Peter Xu <peterx@redhat.com>
--Date: Thu, 1 Oct 2020 14:47:26 -0400
--Subject: [PATCH] rt-tests: oslat: Allow build for not supported archs
--
--Now rt-tests won't build for archs other than x86/i386/ppc64 after oslat is
--merged.  Instead of failing the build, let's make it pass.  However, whenever
--oslat is executed, instead of running the real program, dump an error message,
--so that people can try to implement the frc() function for it when there's a
--real need for the new arch.
--
--Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git/commit/?id=165b597e3003c6870f5980e8902014d9344e6cf3]
--
--Signed-off-by: Peter Xu <peterx@redhat.com>
--Signed-off-by: John Kacur <jkacur@redhat.com>
--Signed-off-by: Peter Bergin <peter@berginkonsult.se>
--
-----
-- src/oslat/oslat.c | 10 +++++++++-
-- 1 file changed, 9 insertions(+), 1 deletion(-)
--
--diff --git a/src/oslat/oslat.c b/src/oslat/oslat.c
--index f1a82f2..a8b6155 100644
----- a/src/oslat/oslat.c
--+++ b/src/oslat/oslat.c
--@@ -69,7 +69,9 @@ static inline void frc(uint64_t *pval)
-- 	__asm__ __volatile__("mfspr %0, 268\n" : "=r" (*pval));
-- }
-- # else
---#  error Need frc() for this platform.
--+#  define relax()          do { } while (0)
--+#  define frc(x)
--+#  define FRC_MISSING
-- # endif
-- #else
-- # error Need to add support for this compiler.
--@@ -810,6 +812,12 @@ int main(int argc, char *argv[])
-- 	int i, n_cores;
-- 	cpu_set_t cpu_set;
-- 
--+#ifdef FRC_MISSING
--+	printf("This architecture is not yet supported. "
--+	       "Please implement frc() function first for %s.\n", argv[0]);
--+	return 0;
--+#endif
--+
-- 	CPU_ZERO(&cpu_set);
-- 
-- 	g.app_name = argv[0];
---- 
--2.25.1
--
-diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_1.9.bb b/meta/recipes-rt/rt-tests/hwlatdetect_1.10.bb
-similarity index 100%
-rename from meta/recipes-rt/rt-tests/hwlatdetect_1.9.bb
-rename to meta/recipes-rt/rt-tests/hwlatdetect_1.10.bb
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 2dd890cf95..9358f13d06 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,5 +1,5 @@
- # Version 1.8
--SRCREV = "21c1df7d2ee199ac619cbb1806a38d15e7e95c09"
-+SRCREV = "32819581cc0509c9d58c33c3061f57abe0c40c88"
- PE = "1"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;branch=unstable/devel/latest"
-diff --git a/meta/recipes-rt/rt-tests/rt-tests_1.9.bb b/meta/recipes-rt/rt-tests/rt-tests_1.10.bb
-similarity index 92%
-rename from meta/recipes-rt/rt-tests/rt-tests_1.9.bb
-rename to meta/recipes-rt/rt-tests/rt-tests_1.10.bb
-index b916a7fe60..2834cabcd4 100644
---- a/meta/recipes-rt/rt-tests/rt-tests_1.9.bb
-+++ b/meta/recipes-rt/rt-tests/rt-tests_1.10.bb
-@@ -12,7 +12,6 @@ SRC_URI += " \
-             file://run-ptest \
-             file://rt_bmark.py \
-             file://0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch \
--            file://0001-rt-tests-oslat-Allow-build-for-not-supported-archs.patch \
-            "
- 
- # rt-tests needs PI mutex support in libc
--- 
-2.29.2
+Thanks for picking these up Anuj, much appreciated! I'd like version
+updates to not be only 'Alex's problem', and spread the work a bit more.
 
+Alex
+
+On Wed, 20 Jan 2021 at 08:41, Anuj Mittal <anuj.mittal@intel.com> wrote:
+
+> License-Update: copyright years changed
+>
+> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>  .../acpica/{acpica_20201217.bb => acpica_20210105.bb}         | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-extended/acpica/{acpica_20201217.bb =>
+> acpica_20210105.bb} (91%)
+>
+> diff --git a/meta/recipes-extended/acpica/acpica_20201217.bb
+> b/meta/recipes-extended/acpica/acpica_20210105.bb
+> similarity index 91%
+> rename from meta/recipes-extended/acpica/acpica_20201217.bb
+> rename to meta/recipes-extended/acpica/acpica_20210105.bb
+> index 91bcd8a46d..48b560db53 100644
+> --- a/meta/recipes-extended/acpica/acpica_20201217.bb
+> +++ b/meta/recipes-extended/acpica/acpica_20210105.bb
+> @@ -10,14 +10,14 @@ HOMEPAGE = "http://www.acpica.org/"
+>  SECTION = "console/tools"
+>
+>  LICENSE = "Intel | BSD | GPLv2"
+> -LIC_FILES_CHKSUM =
+> "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=6adbcb81e9ee6ae50c569b94fe12f7c5"
+> +LIC_FILES_CHKSUM =
+> "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=c33ce358fdcd142684e41e336b7992e8"
+>
+>  COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+>
+>  DEPENDS = "m4-native flex-native bison-native"
+>
+>  SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz
+> "
+> -SRC_URI[sha256sum] =
+> "df6bb667c60577c89df5abe3270539c1b9716b69409d1074d6a7fc5c2fea087b"
+> +SRC_URI[sha256sum] =
+> "a9be7b749025e60f93fde2fe531bfe0d84a33641d3e0c9b0f6049f996dbb1ff8"
+>
+>  UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
+>
+> --
+> 2.29.2
+>
+>
+> 
+>
+>
+
+--0000000000001c9e2905b950389f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks for picking these up Anuj, much appreciated! I=
+&#39;d like version updates to not be only &#39;Alex&#39;s problem&#39;, an=
+d spread the work a bit more.</div><div><br></div><div>Alex<br></div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed=
+, 20 Jan 2021 at 08:41, Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel=
+.com">anuj.mittal@intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">License-Update: copyright years changed<br>
+<br>
+Signed-off-by: Anuj Mittal &lt;<a href=3D"mailto:anuj.mittal@intel.com" ta=
+rget=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
+---<br>
+=C2=A0.../acpica/{<a href=3D"http://acpica_20201217.bb" rel=3D"noreferrer"=
+ target=3D"_blank">acpica_20201217.bb</a> =3D&gt; <a href=3D"http://acpica_=
+20210105.bb" rel=3D"noreferrer" target=3D"_blank">acpica_20210105.bb</a>}=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-extended/acpica/{<a href=3D"http://acpica_202012=
+17.bb" rel=3D"noreferrer" target=3D"_blank">acpica_20201217.bb</a> =3D&gt; =
+<a href=3D"http://acpica_20210105.bb" rel=3D"noreferrer" target=3D"_blank">=
+acpica_20210105.bb</a>} (91%)<br>
+<br>
+diff --git a/meta/recipes-extended/acpica/<a href=3D"http://acpica_2020121=
+7.bb" rel=3D"noreferrer" target=3D"_blank">acpica_20201217.bb</a> b/meta/re=
+cipes-extended/acpica/<a href=3D"http://acpica_20210105.bb" rel=3D"noreferr=
+er" target=3D"_blank">acpica_20210105.bb</a><br>
+similarity index 91%<br>
+rename from meta/recipes-extended/acpica/<a href=3D"http://acpica_20201217=
+.bb" rel=3D"noreferrer" target=3D"_blank">acpica_20201217.bb</a><br>
+rename to meta/recipes-extended/acpica/<a href=3D"http://acpica_20210105.b=
+b" rel=3D"noreferrer" target=3D"_blank">acpica_20210105.bb</a><br>
+index 91bcd8a46d..48b560db53 100644<br>
+--- a/meta/recipes-extended/acpica/<a href=3D"http://acpica_20201217.bb" r=
+el=3D"noreferrer" target=3D"_blank">acpica_20201217.bb</a><br>
++++ b/meta/recipes-extended/acpica/<a href=3D"http://acpica_20210105.bb" r=
+el=3D"noreferrer" target=3D"_blank">acpica_20210105.bb</a><br>
+@@ -10,14 +10,14 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.acpica.org/" =
+rel=3D"noreferrer" target=3D"_blank">http://www.acpica.org/</a>&quot;<br>
+=C2=A0SECTION =3D &quot;console/tools&quot;<br>
+<br>
+=C2=A0LICENSE =3D &quot;Intel | BSD | GPLv2&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://source/compiler/aslcompile.c;beginline=
+=3D7;endline=3D150;md5=3D6adbcb81e9ee6ae50c569b94fe12f7c5&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://source/compiler/aslcompile.c;beginline=
+=3D7;endline=3D150;md5=3Dc33ce358fdcd142684e41e336b7992e8&quot;<br>
+<br>
+=C2=A0COMPATIBLE_HOST =3D &quot;(i.86|x86_64|arm|aarch64).*-linux&quot;<br=
+>
+<br>
+=C2=A0DEPENDS =3D &quot;m4-native flex-native bison-native&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"https://acpica.org/sites/acpica/files/a=
+cpica-unix-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">https://a=
+cpica.org/sites/acpica/files/acpica-unix-${PV}.tar.gz</a>&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;df6bb667c60577c89df5abe3270539c1b9716b69409d=
+1074d6a7fc5c2fea087b&quot;<br>
++SRC_URI[sha256sum] =3D &quot;a9be7b749025e60f93fde2fe531bfe0d84a33641d3e0=
+c9b0f6049f996dbb1ff8&quot;<br>
+<br>
+=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://acpica.org/downloads=
+" rel=3D"noreferrer" target=3D"_blank">https://acpica.org/downloads</a>&quo=
+t;<br>
+<br>
+-- <br>
+2.29.2<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000001c9e2905b950389f--
