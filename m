@@ -1,50 +1,50 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web12.26897.1611143902435256749
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web11.28662.1611154372282913485
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Jan 2021 03:58:22 -0800
+ Wed, 20 Jan 2021 06:52:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fti+Lhod;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id p13so25796904ljg.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Jan 2021 03:58:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=T/3doTPC;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id f11so26397109ljm.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Jan 2021 06:52:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Q0k9PAxhuyLz4zXc8aBcjUcyqcF6hBFDUr2Hhn04SfA=;
-        b=fti+LhodygDW6XriA2jFAAU9iJybETqNCP0WuBlWOt9AfBIer5yyBP9i7kEJst2iKU
-         oiSjShsCMn+uRceM7LjGw2xRz1jNsdjkSnbu8A58SAdEQ2M2gCd7Lw5cw9KakHjXdJBh
-         YDdBUWTLfPLTlmF96Gh/wgBncODkJrPvmKV41L7fdYeW+Uag3Xm9NgdcehBXEZ6jU7Hx
-         XTz5Na544ovBHTqf/L7nsN0fc+0X2+mW+VfM/veznnjQZqOYgQFrxS6RGusMNbiH5SdM
-         yNEFwlpqa0tC53x2O8zQ6ABTYujLlEMwqex0JbLjklO6xYeh5c/F28a2uwCJLbL0vAxC
-         ih0w==
+        bh=Fro5yERxJKzci4r99EjK9l/rrmX2WC2QaWlgBnpLQG8=;
+        b=T/3doTPC7Dp6deSuyXYVXDqs3bp01E/19CB1Ib2V7XSF9z4ryl4IogEsxU0Lm0QiR4
+         ZCGXLwraTIFnzyb5wnDUom/NFehUH5exztiac+Owkc/JOQLg74Lj2LUgsdc5PnqJvkzf
+         EpRbw57EOZPBT2zDWVEeiP4QGAOgPt8R8d+jlH6TL9zqvj8vi3Yscm1zngL8rbOPBUC/
+         Ik0ggjJKJwtIG1y2cCldGZRjBZxSXj0akGcAaNPYY/XqAtYZYffV6Md3y9QsQ7I3xOqk
+         dnp/Mmgb2WmReiwVamoQObkqk9SxlhQEUWQJEfL7mqrt6C69EDgcGApPqe5WHdLzZIqW
+         +Gcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=Q0k9PAxhuyLz4zXc8aBcjUcyqcF6hBFDUr2Hhn04SfA=;
-        b=NyfMEHsHX9KNhKTltR0yC+JEJvyjqxOn4lfDsKkuCCCcXxXEJsrX6nP4ERSskc/P1a
-         9zXx0O4qRpVwzr4D2C657MNhTiHBGVyVdfLfPK4MmhmeRAxMJz7dnkTCOg2NSw7pGz9I
-         6iv3LmEZxcOZUYRVWlIEiHVTVb1MWrFQXxWhRRBKK6qOw1tNtcIMKww8tleGtgmYT3eF
-         jStNYhwzhKYgMmvAVcx9mrrTxd5g284RNdXdecJp3gPuUIx926/17nFZLsgrpPLKe8u8
-         YxHlOzn95a6X2ENQ+xxsgfXj78Nl5d6pxEsMWLA7vaq+ovGfDRlNqbCGr7w/OJtC/aQP
-         981g==
-X-Gm-Message-State: AOAM533M6nir3kNp0oqRtC0KkD0BlrsEW0tQlZ6IPgY3RXpwSMqWwG56
-	ERLbFdEeTrt0cnivDzmXRqfnq5SCGAVK9A==
-X-Google-Smtp-Source: ABdhPJzSCLyU5u7YdJHfBWLzwFy3q6x3j6My9ntRMhZIwPpidBWEFqikFzOsh3zQC5Bxkw6faxIEjg==
-X-Received: by 2002:a2e:990c:: with SMTP id v12mr1360957lji.8.1611143900337;
-        Wed, 20 Jan 2021 03:58:20 -0800 (PST)
+        bh=Fro5yERxJKzci4r99EjK9l/rrmX2WC2QaWlgBnpLQG8=;
+        b=Maq/MTy5U3FicYuFnOnZa+DdtaB6lJ0ZZx8wK4qokV4SRW3hZPPwhwFWrbJhuznYUC
+         h+TRGlPzs5qPReMETJbozzQkU99/sviJuFKJEYFA6K5YXdI5ZmMSeRfkOfADmXDy8snd
+         RN4oLZfmPiSw7fPS1ZyvqFQDozTAlo9Qf2+hbqVWv2HFV41RhoGoXF3c/436cHGkqyNF
+         rk7iXZdanTsRbgSx4KzoboxhFv+Vf3nH530/xtQl9tHt5Ctk7j+OQgwvQO0hLT8u1Z0I
+         Y5sW+snTJD3gA1CDJLXe2r1rMaIZfOso502sByNgP6l9DBHRa/VQXGVk4X87k/oze+5y
+         bnDw==
+X-Gm-Message-State: AOAM530jdHe8x/bpDUPvN1wFGbQLDXm8f3EOXYQyS9h1nGsPHm8FpWrH
+	pU0pHc5tvxSvBulkm63pb+P3YgHxnWcDAw==
+X-Google-Smtp-Source: ABdhPJwnWXOHY4rUBiAbMr0iY6NiT/ZiVPRtTHE3BuVSuuC7OJOcMAdChtNQYStqFxsFvo1qm19MoQ==
+X-Received: by 2002:a2e:3008:: with SMTP id w8mr4642144ljw.59.1611154370193;
+        Wed, 20 Jan 2021 06:52:50 -0800 (PST)
 Return-Path: <tomasz.dziendzielski@gmail.com>
 Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
-        by smtp.gmail.com with ESMTPSA id w17sm178622lfe.247.2021.01.20.03.58.19
+        by smtp.gmail.com with ESMTPSA id v23sm247395ljd.78.2021.01.20.06.52.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Jan 2021 03:58:19 -0800 (PST)
+        Wed, 20 Jan 2021 06:52:49 -0800 (PST)
 From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [PATCH] externalsrc: Fix parsing error with devtool non-git sources
-Date: Wed, 20 Jan 2021 13:00:54 +0100
-Message-Id: <20210120120054.963690-1-tomasz.dziendzielski@gmail.com>
+Subject: [PATCH v2] externalsrc: Fix parsing error with devtool non-git sources
+Date: Wed, 20 Jan 2021 15:55:25 +0100
+Message-Id: <20210120145525.966023-1-tomasz.dziendzielski@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -59,6 +59,8 @@ latest git will fail with "The following paths are ignored by one of your
 In this commit I added a check if git_dir is the same as git-dir from
 TOPDIR (which will detect poky directory) and if yes, then treat srcdir
 as non-git sources.
+
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
 ---
  meta/classes/externalsrc.bbclass | 4 ++++
  1 file changed, 4 insertions(+)
