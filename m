@@ -1,67 +1,60 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web09.23529.1611115269076249582
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web10.23614.1611117683940563896
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Jan 2021 20:01:09 -0800
+ Tue, 19 Jan 2021 20:41:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.79,359,1602518400"; 
-   d="scan'208";a="103645944"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 20 Jan 2021 12:00:59 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2DDEA4CE6018;
-	Wed, 20 Jan 2021 12:00:57 +0800 (CST)
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 20 Jan 2021 12:00:56 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::102a:9d25:2025:53fa])
- by G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::102a:9d25:2025:53fa%14]) with
- mapi id 15.00.1497.010; Wed, 20 Jan 2021 12:00:56 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.20, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 311UqVZS1bIhF1tC0AlBZBhcTBf39FbFC8AFtQFI9ebP+MQuNDc/Sc4ewyR5pwHKQLzq1IIcy3
+ IcOy3fSyHDXA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9869"; a="166137008"
+X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
+   d="scan'208";a="166137008"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jan 2021 20:41:22 -0800
+IronPort-SDR: dV/4h7nXtt2YeTNcDQCUIw2l0DPWRLQ9ig2lobxCObJ+7kJquwHYZGemkN6fZhvyk8yHfZ5czC
+ V6TgDjKUpP1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.79,360,1602572400"; 
+   d="scan'208";a="426768247"
+Received: from pgsmsx602.gar.corp.intel.com ([10.108.199.137])
+  by orsmga001.jf.intel.com with ESMTP; 19 Jan 2021 20:41:21 -0800
+Received: from pgsmsx601.gar.corp.intel.com (10.108.199.136) by
+ pgsmsx602.gar.corp.intel.com (10.108.199.137) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Wed, 20 Jan 2021 12:41:20 +0800
+Received: from pgsmsx601.gar.corp.intel.com ([10.108.199.136]) by
+ pgsmsx601.gar.corp.intel.com ([10.108.199.136]) with mapi id 15.01.1713.004;
+ Wed, 20 Jan 2021 12:41:20 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
 	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+	<openembedded-core@lists.openembedded.org>, "wangmy@cn.fujitsu.com"
+	<wangmy@cn.fujitsu.com>
 Subject: Re: [OE-core] [PATCH] libdrm: upgrade 2.4.103 -> 2.4.104
 Thread-Topic: [OE-core] [PATCH] libdrm: upgrade 2.4.103 -> 2.4.104
-Thread-Index: AQHW6lQQHf/KaoQxdkGH+5UuAl2jBqoqVOMAgAWXcCA=
-Date: Wed, 20 Jan 2021 04:00:56 +0000
-Message-ID: <bf3fcde55b1740e3b95f0cf20632e900@G08CNEXMBPEKD05.g08.fujitsu.local>
+Thread-Index: AQHW6lQg9kqsG8ihZU6Nj8342lEhr6oqVOMAgAUSDQCAAAtIgA==
+Date: Wed, 20 Jan 2021 04:41:20 +0000
+Message-ID: <d74c930fa47cda1cc63a15f5bcdea035827c9a74.camel@intel.com>
 References: <1610614977-24935-1-git-send-email-wangmy@cn.fujitsu.com>
- <859d5ae812f49d2300c805866001715329d2b851.camel@linuxfoundation.org>
-In-Reply-To: <859d5ae812f49d2300c805866001715329d2b851.camel@linuxfoundation.org>
-Accept-Language: zh-CN, en-US
+	 <859d5ae812f49d2300c805866001715329d2b851.camel@linuxfoundation.org>
+	 <bf3fcde55b1740e3b95f0cf20632e900@G08CNEXMBPEKD05.g08.fujitsu.local>
+In-Reply-To: <bf3fcde55b1740e3b95f0cf20632e900@G08CNEXMBPEKD05.g08.fujitsu.local>
+Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.33]
+x-originating-ip: [10.108.32.68]
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 2DDEA4CE6018.AACF1
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
+Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
+Content-ID: <058847B3221B884892F60F2431572D85@intel.com>
 Content-Transfer-Encoding: base64
 
-SGksIFJpY2hhcmQNCg0KQ2FuIHlvdSB0ZWxsIG1lIHdoZXJlIGFuZCB3aGF0
-IHNldHRpbmdzIGRvIEkgbmVlZCB0byBhZGQgdG8gbWFrZSBkb2NzIGVuYWJs
-ZWQ/DQoNClRoYW5rIHlvde+8gQ0KDQpCZXN0IHJlZ2FyZHMNCldhbmdteQ0K
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJpY2hh
-cmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3Jn
-Pg0KPiBTZW50OiBTdW5kYXksIEphbnVhcnkgMTcsIDIwMjEgNjozNSBBTQ0K
-PiBUbzogV2FuZywgTWluZ3l1L+eOiyDpuKPnkZwgPHdhbmdteUBjbi5mdWpp
-dHN1LmNvbT47DQo+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGxp
-YmRybTogdXBncmFkZSAyLjQuMTAzIC0+IDIuNC4xMDQNCj4gDQo+IE9uIFRo
-dSwgMjAyMS0wMS0xNCBhdCAxNzowMiArMDgwMCwgV2FuZyBNaW5neXUgd3Jv
-dGU6DQo+ID4gU2lnbmVkLW9mZi1ieTogV2FuZyBNaW5neXUgPHdhbmdteUBj
-bi5mdWppdHN1LmNvbT4NCj4gPiAtLS0NCj4gPiDCoC4uLi9kcm0ve2xpYmRy
-bV8yLjQuMTAzLmJiID0+IGxpYmRybV8yLjQuMTA0LmJifSAgICAgICAgICAg
-ICAgICB8IDINCj4gKy0NCj4gPiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+IMKgcmVuYW1lIG1ldGEvcmVj
-aXBlcy1ncmFwaGljcy9kcm0ve2xpYmRybV8yLjQuMTAzLmJiID0+DQo+IGxp
-YmRybV8yLjQuMTA0LmJifSAoOTclKQ0KPiA+DQo+IA0KPiBodHRwczovL2F1
-dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJz
-LzEwOC9idWlsZHMvMTI2Ni9zDQo+IHRlcHMvMTIvbG9ncy9zdGRpbw0KPiAN
-Cj4gRmFpbHMgd2hlbiBkb2NzIGFyZSBlbmFibGVkLg0KPiANCj4gQ2hlZXJz
-LA0KPiANCj4gUmljaGFyZA0KPiANCj4gDQo+IA0KPiANCg0KCgo=
+T24gV2VkLCAyMDIxLTAxLTIwIGF0IDA0OjAwICswMDAwLCBXYW5nIE1pbmd5dSB3cm90ZToNCj4g
+SGksIFJpY2hhcmQNCj4gDQo+IENhbiB5b3UgdGVsbCBtZSB3aGVyZSBhbmQgd2hhdCBzZXR0aW5n
+cyBkbyBJIG5lZWQgdG8gYWRkIHRvIG1ha2UgZG9jcw0KPiBlbmFibGVkPw0KDQpZb3UgY2FuIGNo
+ZWNrIHRoaXMgc3BlY2lmaWMgY29uZmlndXJhdGlvbiBoZXJlOg0KDQpodHRwczovL2dpdC55b2N0
+b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kveW9jdG8tYXV0b2J1aWxkZXItaGVscGVyL3RyZWUv
+Y29uZmlnLmpzb24jbjQ0Ng0KDQpZb3UnbGwganVzdCBuZWVkIHRvIGFkZCBESVNUUk9fRkVBVFVS
+RVNfYXBwZW5kID0gJyBhcGktZG9jdW1lbnRhdGlvbicNCmFuZCB3aWxsIHByb2JhYmx5IG5lZWQg
+dG8gYWRkIGRlcGVuZGVuY3kgb24gcHl0aG9uMy1kb2N1dGlscy1uYXRpdmUgaW4NCm1hbnBhZ2Vz
+IFBBQ0tBR0VDT05GSUcgb2YgdGhlIHJlY2lwZS4NCg0KVGhhbmtzLA0KDQpBbnVqDQoNCg==
