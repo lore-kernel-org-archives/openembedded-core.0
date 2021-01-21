@@ -1,27 +1,27 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.1397.1611246150445140456
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 08:22:38 -0800
+ Thu, 21 Jan 2021 08:22:39 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Gk2USckXq012XePaF4jFz/rpM3ni06b/qodvqEwPdXDJV7csBMn1dm2tjqRmvyydLr3+k9/S+F
- JG6+56hDC21g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="166392495"
+IronPort-SDR: s8JaCF5j2zAmPmcK1iRKQ170mnu0BlQ8rhEw7BzyWBwSWdLz+ggyk9/1BtQR4RXnPoDL1mkmZr
+ PoVM2GCcpR3w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="166392500"
 X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="166392495"
+   d="scan'208";a="166392500"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:37 -0800
-IronPort-SDR: JyCjsyegAm5jTWvZhoXxkJCN8hBmsJ3yXNNF4dqI61hFVfIluzcoj8zayCaCxqFSuAJhaq3SbN
- ZZyCfhvl8yKA==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:39 -0800
+IronPort-SDR: l/3PYFZViUrDXmqTKMKXhPB97jn9m8bQUir5ggWpgD8oDsqOFVBRvrxTATr6mQAiWQZ2xm+nlu
+ zE6u+hFLe7ow==
 X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="427413853"
+   d="scan'208";a="427413882"
 Received: from yonshuta-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.18])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:36 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:37 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 16/20] wic: Copy rootfs dir if fstab needs updating
-Date: Fri, 22 Jan 2021 00:22:01 +0800
-Message-Id: <39f98ef8c1f6b0259deb43ea902f5ac8e5b069cd.1611245974.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 17/20] wic: Optimise fstab modification for ext2/3/4 and msdos partitions
+Date: Fri, 22 Jan 2021 00:22:02 +0800
+Message-Id: <a56b9dbfeb410d235b5af2c5a846b3f1360d2d1d.1611245974.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1611245974.git.anuj.mittal@intel.com>
 References: <cover.1611245974.git.anuj.mittal@intel.com>
@@ -30,202 +30,148 @@ Content-Transfer-Encoding: 8bit
 
 From: Paul Barker <pbarker@konsulko.com>
 
-By default, wic updates the /etc/fstab in the rootfs to include details
-of additional partitions described in the selected wks file. If this
-modification is performed in place, other tasks which create an image
-file from the rootfs directory (e.g. do_image_tar and do_image_ext4)
-will pick up the modified fstab file which would not be appropriate for
-those images as they do not include the additional partitions described
-in the wks file. wic does undo modifications to the fstab file once it
-has finished creating the filesystem image, however this leaves open a
-race condition if one of the other tasks reads the contents of the fstab
-file from the rootfs directory between the point where wic modifies the
-fstab file and the point where wic restores the files original content.
+The fix for [Yocto #13994] required the rootfs directory to be copied
+(using hardlinks if possible) when modifying the fstab file under wic.
 
-This could be solved by adding a lockfile for tasks which use the rootfs
-directory to ensure that no other such task is reading the rootfs
-directory while do_image_wic is running. This would serialize several
-do_image_* tasks and result in slower builds, especially for large
-images. Another drawback of this solution is that it is hard to
-selectively optimise - adding lockfiles to do_image_* tasks would result
-in these tasks always being serialized even if no fstab modification
-will take place.
-
-An alternative solution is to copy the rootfs directory when fstab needs
-to be modified. The code to do this in wic already exists as it is
-needed when including or excluding content in the rootfs. This still
-results in an impact on build times but the copy uses hardlinks if
-possible (so little data is actually copied) and we can make selective
-optimisations to improve things. The rootfs copy will only take place if
-fstab modification is required (or if it was already needed to include
-or exclude rootfs content). We can also follow up with further
-optimisations after this commit. So this second solution is chosen.
-
-Fixes [Yocto #13994]
+We can optimise this copy away for filesystems where we have the tools
+to modify the contents of the partition image after it is created. For
+ext2/3/4 filesystems we have the debugfs tool and for msdos/vfat
+filesystems we have the mcopy tool. So for any of these filesystems we
+skip the modification of the fstab file in the rootfs directory (and
+skip the associated copy unless it is otherwise necessary) and update
+the contents of fstab directly in the partition image.
 
 Signed-off-by: Paul Barker <pbarker@konsulko.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ce682a73b7447652f898ce1d1d0416a456df5416)
+(cherry picked from commit 5fb8ae0e9159597d7eaa9307a3a8543800bf9405)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/lib/wic/partition.py             |  5 +++-
- scripts/lib/wic/plugins/imager/direct.py | 36 ++++++++----------------
- scripts/lib/wic/plugins/source/rootfs.py | 17 +++++++++--
- 3 files changed, 29 insertions(+), 29 deletions(-)
+ scripts/lib/wic/partition.py             | 27 +++++++++++++++++++-----
+ scripts/lib/wic/plugins/source/rootfs.py |  9 +++++---
+ 2 files changed, 28 insertions(+), 8 deletions(-)
 
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 286c7867cb..f59eceb23d 100644
+index f59eceb23d..e574f40c47 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -54,6 +54,7 @@ class Partition():
-         self.uuid = args.uuid
+@@ -55,6 +55,8 @@ class Partition():
          self.fsuuid = args.fsuuid
          self.type = args.type
-+        self.updated_fstab_path = None
+         self.updated_fstab_path = None
++        self.has_fstab = False
++        self.update_fstab_in_rootfs = False
  
          self.lineno = lineno
          self.source_file = ""
-@@ -118,11 +119,13 @@ class Partition():
-         return self.fixed_size if self.fixed_size else self.size
- 
-     def prepare(self, creator, cr_workdir, oe_builddir, rootfs_dir,
--                bootimg_dir, kernel_dir, native_sysroot):
-+                bootimg_dir, kernel_dir, native_sysroot, updated_fstab_path):
-         """
-         Prepare content for individual partitions, depending on
+@@ -125,6 +127,8 @@ class Partition():
          partition command parameters.
          """
-+        self.updated_fstab_path = updated_fstab_path
-+
+         self.updated_fstab_path = updated_fstab_path
++        if self.updated_fstab_path and not (self.fstype.startswith("ext") or self.fstype == "msdos"):
++            self.update_fstab_in_rootfs = True
+ 
          if not self.source:
              if not self.size and not self.fixed_size:
-                 raise WicError("The %s partition has a size of zero. Please "
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index f107e60089..7e1c1c03ab 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -58,7 +58,7 @@ class DirectPlugin(ImagerPlugin):
-         self.compressor = options.compressor
-         self.bmap = options.bmap
-         self.no_fstab_update = options.no_fstab_update
--        self.original_fstab = None
-+        self.updated_fstab_path = None
+@@ -250,7 +254,7 @@ class Partition():
  
-         self.name = "%s-%s" % (os.path.splitext(os.path.basename(wks_file))[0],
-                                strftime("%Y%m%d%H%M"))
-@@ -100,11 +100,8 @@ class DirectPlugin(ImagerPlugin):
-         finally:
-             self.cleanup()
+         prefix = "ext" if self.fstype.startswith("ext") else self.fstype
+         method = getattr(self, "prepare_rootfs_" + prefix)
+-        method(rootfs, oe_builddir, rootfs_dir, native_sysroot, pseudo)
++        method(rootfs, cr_workdir, oe_builddir, rootfs_dir, native_sysroot, pseudo)
+         self.source_file = rootfs
  
--    def _write_fstab(self, image_rootfs):
--        """overriden to generate fstab (temporarily) in rootfs. This is called
--        from _create, make sure it doesn't get called from
--        BaseImage.create()
--        """
-+    def update_fstab(self, image_rootfs):
-+        """Assume partition order same as in wks"""
-         if not image_rootfs:
-             return
+         # get the rootfs size in the right units for kickstart (kB)
+@@ -258,7 +262,7 @@ class Partition():
+         out = exec_cmd(du_cmd)
+         self.size = int(out.split()[0])
  
-@@ -114,18 +111,9 @@ class DirectPlugin(ImagerPlugin):
- 
-         with open(fstab_path) as fstab:
-             fstab_lines = fstab.readlines()
--            self.original_fstab = fstab_lines.copy()
--
--        if self._update_fstab(fstab_lines, self.parts):
--            with open(fstab_path, "w") as fstab:
--                fstab.writelines(fstab_lines)
--        else:
--            self.original_fstab = None
- 
--    def _update_fstab(self, fstab_lines, parts):
--        """Assume partition order same as in wks"""
-         updated = False
--        for part in parts:
-+        for part in self.parts:
-             if not part.realnum or not part.mountpoint \
-                or part.mountpoint == "/":
-                 continue
-@@ -154,7 +142,10 @@ class DirectPlugin(ImagerPlugin):
-             fstab_lines.append(line)
-             updated = True
- 
--        return updated
-+        if updated:
-+            self.updated_fstab_path = os.path.join(self.workdir, "fstab")
-+            with open(self.updated_fstab_path, "w") as f:
-+                f.writelines(fstab_lines)
- 
-     def _full_path(self, path, name, extention):
-         """ Construct full file path to a file we generate. """
-@@ -170,7 +161,7 @@ class DirectPlugin(ImagerPlugin):
-         a partitioned image.
+-    def prepare_rootfs_ext(self, rootfs, oe_builddir, rootfs_dir,
++    def prepare_rootfs_ext(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
+                            native_sysroot, pseudo):
          """
-         if not self.no_fstab_update:
--            self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
-+            self.update_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+         Prepare content for an ext2/3/4 rootfs partition.
+@@ -282,10 +286,19 @@ class Partition():
+             (self.fstype, extraopts, rootfs, label_str, self.fsuuid, rootfs_dir)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
  
-         for part in self.parts:
-             # get rootfs size from bitbake variable if it's not set in .ks file
-@@ -283,12 +274,6 @@ class DirectPlugin(ImagerPlugin):
-             if os.path.isfile(path):
-                 shutil.move(path, os.path.join(self.outdir, fname))
++        if self.updated_fstab_path and self.has_fstab:
++            debugfs_script_path = os.path.join(cr_workdir, "debugfs_script")
++            with open(debugfs_script_path, "w") as f:
++                f.write("cd etc\n")
++                f.write("rm fstab\n")
++                f.write("write %s fstab\n" % (self.updated_fstab_path))
++            debugfs_cmd = "debugfs -w -f %s %s" % (debugfs_script_path, rootfs)
++            exec_native_cmd(debugfs_cmd, native_sysroot)
++
+         mkfs_cmd = "fsck.%s -pvfD %s" % (self.fstype, rootfs)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
  
--        #Restore original fstab
--        if self.original_fstab:
--            fstab_path = self.rootfs_dir.get("ROOTFS_DIR") + "/etc/fstab"
--            with open(fstab_path, "w") as fstab:
--                fstab.writelines(self.original_fstab)
--
-         # remove work directory
-         shutil.rmtree(self.workdir, ignore_errors=True)
+-    def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
++    def prepare_rootfs_btrfs(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
+                              native_sysroot, pseudo):
+         """
+         Prepare content for a btrfs rootfs partition.
+@@ -308,7 +321,7 @@ class Partition():
+              self.mkfs_extraopts, self.fsuuid, rootfs)
+         exec_native_cmd(mkfs_cmd, native_sysroot, pseudo=pseudo)
  
-@@ -368,7 +353,8 @@ class PartitionedImage():
-             # sizes before we can add them and do the layout.
-             part.prepare(imager, imager.workdir, imager.oe_builddir,
-                          imager.rootfs_dir, imager.bootimg_dir,
--                         imager.kernel_dir, imager.native_sysroot)
-+                         imager.kernel_dir, imager.native_sysroot,
-+                         imager.updated_fstab_path)
+-    def prepare_rootfs_msdos(self, rootfs, oe_builddir, rootfs_dir,
++    def prepare_rootfs_msdos(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
+                              native_sysroot, pseudo):
+         """
+         Prepare content for a msdos/vfat rootfs partition.
+@@ -337,12 +350,16 @@ class Partition():
+         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (rootfs, rootfs_dir)
+         exec_native_cmd(mcopy_cmd, native_sysroot)
  
-             # Converting kB to sectors for parted
-             part.size_sec = part.disk_size * 1024 // self.sector_size
++        if self.updated_fstab_path and self.has_fstab:
++            mcopy_cmd = "mcopy -i %s %s ::/etc/fstab" % (rootfs, self.updated_fstab_path)
++            exec_native_cmd(mcopy_cmd, native_sysroot)
++
+         chmod_cmd = "chmod 644 %s" % rootfs
+         exec_cmd(chmod_cmd)
+ 
+     prepare_rootfs_vfat = prepare_rootfs_msdos
+ 
+-    def prepare_rootfs_squashfs(self, rootfs, oe_builddir, rootfs_dir,
++    def prepare_rootfs_squashfs(self, rootfs, cr_workdir, oe_builddir, rootfs_dir,
+                                 native_sysroot, pseudo):
+         """
+         Prepare content for a squashfs rootfs partition.
 diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index afb1eb9202..6fd415af5b 100644
+index 6fd415af5b..96d940a91d 100644
 --- a/scripts/lib/wic/plugins/source/rootfs.py
 +++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -103,9 +103,9 @@ class RootfsPlugin(SourcePlugin):
+@@ -94,6 +94,7 @@ class RootfsPlugin(SourcePlugin):
+                                "it is not a valid path, exiting" % part.rootfs_dir)
+ 
+         part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
++        part.has_fstab = os.path.exists(os.path.join(part.rootfs_dir, "etc/fstab"))
+         pseudo_dir = os.path.join(part.rootfs_dir, "../pseudo")
+         if not os.path.lexists(pseudo_dir):
+             logger.warn("%s folder does not exist. "
+@@ -103,7 +104,7 @@ class RootfsPlugin(SourcePlugin):
          new_rootfs = None
          new_pseudo = None
          # Handle excluded paths.
--        if part.exclude_path or part.include_path or part.change_directory:
--            # We need a new rootfs directory we can delete files from. Copy to
--            # workdir.
-+        if part.exclude_path or part.include_path or part.change_directory or part.updated_fstab_path:
-+            # We need a new rootfs directory we can safely modify without
-+            # interfering with other tasks. Copy to workdir.
+-        if part.exclude_path or part.include_path or part.change_directory or part.updated_fstab_path:
++        if part.exclude_path or part.include_path or part.change_directory or part.update_fstab_in_rootfs:
+             # We need a new rootfs directory we can safely modify without
+             # interfering with other tasks. Copy to workdir.
              new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d" % part.lineno))
- 
-             if os.path.lexists(new_rootfs):
-@@ -214,6 +214,17 @@ class RootfsPlugin(SourcePlugin):
+@@ -214,8 +215,10 @@ class RootfsPlugin(SourcePlugin):
                      rm_cmd = "rm -rf %s" % (full_path)
                      exec_native_cmd(rm_cmd, native_sysroot, pseudo)
  
-+            has_fstab = os.path.exists(os.path.join(new_rootfs, "etc/fstab"))
-+            if part.updated_fstab_path and has_fstab:
-+                fstab_path = os.path.join(new_rootfs, "etc/fstab")
-+                # Assume that fstab should always be owned by root with fixed permissions
-+                install_cmd = "install -m 0644 %s %s" % (part.updated_fstab_path, fstab_path)
-+                if new_pseudo:
-+                    pseudo = cls.__get_pseudo(native_sysroot, new_rootfs, new_pseudo)
-+                else:
-+                    pseudo = None
-+                exec_native_cmd(install_cmd, native_sysroot, pseudo)
-+
-         part.prepare_rootfs(cr_workdir, oe_builddir,
-                             new_rootfs or part.rootfs_dir, native_sysroot,
-                             pseudo_dir = new_pseudo or pseudo_dir)
+-            has_fstab = os.path.exists(os.path.join(new_rootfs, "etc/fstab"))
+-            if part.updated_fstab_path and has_fstab:
++            # Update part.has_fstab here as fstab may have been added or
++            # removed by the above modifications.
++            part.has_fstab = os.path.exists(os.path.join(new_rootfs, "etc/fstab"))
++            if part.update_fstab_in_rootfs and part.has_fstab:
+                 fstab_path = os.path.join(new_rootfs, "etc/fstab")
+                 # Assume that fstab should always be owned by root with fixed permissions
+                 install_cmd = "install -m 0644 %s %s" % (part.updated_fstab_path, fstab_path)
 -- 
 2.29.2
 
