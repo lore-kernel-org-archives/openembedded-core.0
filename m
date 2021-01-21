@@ -1,112 +1,80 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.2282.1611261598229259528
+Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
+ by mx.groups.io with SMTP id smtpd.web08.192.1611265515060390264
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 12:39:58 -0800
+ Thu, 21 Jan 2021 13:45:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fLFXsips;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: dorindabassey@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id a9so3041749wrt.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 12:39:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=/tU2y9BF8cZdGpXZmp405PsbYJWiTIPshRZZt40bXwc=;
-        b=fLFXsips1Na0wGi2OxGMVDUsTNTTH6b+i2MIFcdsjGDLVukYSU60B2R9fvWa21P2fi
-         7nAlwh/gaxhdBBNylOcMA3CcGFQGO5kkXeUSpEY1MPUs/1YuXjl7trTsooIvkMBgxy0U
-         Jk7XsTxt+DUUCxmrkA1d9P6mrq34EA1018WQBMK+Uzx8vv5DrO288qjF/YpmMxSBsxB6
-         wyd9AKCZ+25cTlMQA7LhwJNt1XOMli3fiHs72JWFCkac717Y4WmRRG/DDD7WabQGVSqF
-         gWniOp2Gz9FaY212tOo8QK8yzrBID0IoV5YLoUl8XwmkyHfjCNT3pb1eU54NaWXVEkOx
-         kWeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=/tU2y9BF8cZdGpXZmp405PsbYJWiTIPshRZZt40bXwc=;
-        b=eWmFqBBRqbdff6wuyXArB/amduU0yaxEz5kqGg2Tbe98TN6pq5dhlkPnTJpR644MLg
-         0lJGqnn2ED0beQBqyZOZpJWkc0XqMsRrJ4BIsXb5Be7sSBoA1A8VTI2nOpgMTKGzoQq+
-         XxoOI0viDdYFqbbF/JXgKeF4dx4x5/kLfO7lYrMgwyYSytknA1q7JxrdbdttFDMlFZL8
-         crhRWpA+qrVtcv6UCiBSlmW1RsGtTNxOaamguSDMKx+ZgrpgdcHmnroqyJ9cNH1UBhl8
-         w7fJntak+xZN7TFjMUN5aB/50SV7OJ3kaYzilHQzykBNDaacMsTQKFOeXXXBPPQsF1/4
-         ptjA==
-X-Gm-Message-State: AOAM531xwizS+PJa5XxU5X3aEB8IkSTbT4zbQ4l3fteIkFGGkWS6F012
-	hSR2bD5JvzeoPhKfc1+KoE8a+Ps2x+G8kA==
-X-Google-Smtp-Source: ABdhPJx2Nm2nzYV0e1WA+sUmptLJhrs6mTGQXlHdLwrGP4t+gfcJ5e4owpADOaYmuqDE9fFWuBAx2w==
-X-Received: by 2002:adf:ecc1:: with SMTP id s1mr1290469wro.146.1611261596633;
-        Thu, 21 Jan 2021 12:39:56 -0800 (PST)
-Return-Path: <dorindabassey@gmail.com>
-Received: from localhost.localdomain ([105.112.33.157])
-        by smtp.gmail.com with ESMTPSA id o124sm9782456wmb.5.2021.01.21.12.39.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 12:39:55 -0800 (PST)
-From: "Dorinda" <dorindabassey@gmail.com>
+ dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=XQP0sATT;
+ spf=pass (domain: wdc.com, ip: 216.71.154.42, mailfrom: prvs=648e1bbf7=alistair.francis@wdc.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+  t=1611265515; x=1642801515;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=2fj8SmfvtY77sxzB99yf0JqBjAUwqcDcumPZtaTVHNI=;
+  b=XQP0sATTMAuD9QjQXRX3lXaLV5hbqoGEG7jL1K6Qi/7XSvogtU/1fY66
+   oSXdUc+Op/k0Fiojvq+R0mBeTtFXAalipiusua96vH2wg9yUpbw+IF6AX
+   GPa584RzVz/9epNzjdrSD8XsfUcr+k5kThJfXDW/zFj0RZyv+g7nPPhxd
+   YRjPDfyCx+XFSSPiJ9eER/MsxE0Z/JISxfat5uXe2icf8i3AHowh7pO+i
+   H8+1DLOqOpUwnX+pbDdFp8oI4RneWs6No24YMwGnGdebbPBQd/hrQyVPO
+   tXFJiHIQjq9q/EBdF4U6FZOHthZoMMjcLBygwupynk34oSOQOymlncEkw
+   Q==;
+IronPort-SDR: eO0VaeC9ETSK4RUxPVJ6hvhKlf4R9sXl/xz85+6HH4JKkzPn7x5hPuxXhJpLIjwsUdBUI7yWXY
+ 1ZhuMDHStvzdgd5/utFCVvI48YIfOOUiUwUkSB22McRhC/ZcQgQnmEGhXqj+NtiQtK+k9ifhFn
+ s0Ojt3mBhUOo+I6Cs1+shGde4Q+oJIYs0RBlKMKd4HRWm2aTBdgqM9mBiBF8X+Ap9pNJZHGuwQ
+ Iy75+CTvQpA8icl0l0M0voGKL2TmiXWQELyjn2vi+itf3NPKvfpVAnbmjyngj2ohER1uDaxB+v
+ pW4=
+X-IronPort-AV: E=Sophos;i="5.79,365,1602518400"; 
+   d="scan'208";a="158027685"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
+  by ob1.hgst.iphmx.com with ESMTP; 22 Jan 2021 05:45:13 +0800
+IronPort-SDR: MH4HEi/zSliT4qFiCcUwo1iTcQDZuAaZ1dpPbjZolBE30ALBg7A6usmnZttz1daqmEPwYxg1GA
+ DG1IhzrTvT1yiA/FCeCBCL+cIHd3Kj2Hosg8OSTgwSIRoKxLJKvBYD1v6/k1Gu0nHyIf2yQo4G
+ q2R/+SHwm6TOTBb3OwLAtUW58msh1PAMNbQ5gT6Tbvcic+5VSAx+aOlB1mbsyQtKlrHaTiLWL2
+ Kwa6b7LJ/O741vWYw7VcK1i/SjA75H6FEnEzlZqAjgY8mddVryLD5Z0RbfuGxtHKQZ5vyjRbVi
+ KbNJ/W5ZdxIHd9Gfua1oULbR
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 13:29:47 -0800
+IronPort-SDR: /X6PYMCQMXU+PfRiomOgLJtm/iJt3usOhbsRghbsfkHllxX7g+AZe+n7ju3nSS18/7To1hqmWG
+ 4fX7mDX5irXuI4HlNydqBGvVowSmly9gCuDML9YyydWM8JJhhxYPhGJw7MsCrIj16jNSeYFjIV
+ Nq7KyYPlFpvbTtxfq1ysr4ZoEn4p7yo5qz8qFUYRZEvHlJE2ID1tVXsy/BU31TeiEk7HYr2kxD
+ rDA9GG7/jSt9ID3x4j2kITr4sUmixvz2ERebRKSZIxR9xqlQbIMgm7Xj4ilAT/KJFHqA7KXiml
+ YGM=
+WDCIronportException: Internal
+Received: from jpf004744.ad.shared (HELO risc6-mainframe.hgst.com) ([10.86.63.63])
+  by uls-op-cesaip01.wdc.com with ESMTP; 21 Jan 2021 13:45:13 -0800
+From: "Alistair Francis" <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Cc: dorindabassey <dorindabassey@gmail.com>
-Subject: [PATCH 3/3] elfutils: add support for ipkg
-Date: Thu, 21 Jan 2021 21:38:53 +0100
-Message-Id: <20210121203853.1461-3-dorindabassey@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210121203853.1461-1-dorindabassey@gmail.com>
-References: <20210121203853.1461-1-dorindabassey@gmail.com>
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH] opensbi: Bump from 0.8 to 0.9
+Date: Thu, 21 Jan 2021 13:45:08 -0800
+Message-Id: <20210121214508.1512242-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-debuginfod scanner 0.181 could only support RPM and scan .debs, it can now scan .ipk
-
-Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- .../elfutils/elfutils_0.181.bb                |  1 +
- ...d-support-for-ipkg-to-debuginfod.cxx.patch | 32 +++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+ meta/recipes-bsp/opensbi/{opensbi_0.8.bb => opensbi_0.9.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-bsp/opensbi/{opensbi_0.8.bb => opensbi_0.9.bb} (97%)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.181.bb b/meta/recipes-devtools/elfutils/elfutils_0.181.bb
-index c18de53b1e..ee97f06b87 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.181.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.181.bb
-@@ -20,6 +20,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://run-ptest \
-            file://ptest.patch \
-            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
-+           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
-            "
+diff --git a/meta/recipes-bsp/opensbi/opensbi_0.8.bb b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
+similarity index 97%
+rename from meta/recipes-bsp/opensbi/opensbi_0.8.bb
+rename to meta/recipes-bsp/opensbi/opensbi_0.9.bb
+index 818efac733..9f17258edb 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_0.8.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
+@@ -7,7 +7,7 @@ require opensbi-payloads.inc
  
- SRC_URI_append_libc-musl = " \
-diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-new file mode 100644
-index 0000000000..4bb39c91e8
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
-@@ -0,0 +1,32 @@
-+From b647d1df55c20772a9cc7ce96fcf323c500481bf Mon Sep 17 00:00:00 2001
-+From: dorindabassey <dorindabassey@gmail.com>
-+Date: Sat, 19 Dec 2020 01:11:46 +0100
-+Subject: [PATCH] add support for ipkg to debuginfod.cxx
-+
-+added support for ipkg to the debuginfod scanner. 0.181 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
-+
-+Upstream-status: Pending
-+
-+Signed-off-by: dorindabassey <dorindabassey@gmail.com>
-+---
-+ debuginfod/debuginfod.cxx | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
-+index 5621030..cc78c93 100644
-+--- a/debuginfod/debuginfod.cxx
-++++ b/debuginfod/debuginfod.cxx
-+@@ -442,11 +442,13 @@ parse_opt (int key, char *arg,
-+         {
-+           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
-+           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
-++          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
-+         }
-+       else
-+         {
-+           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
-+           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
-++          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
-+         }
-+       // .udeb too?
-+       break;
+ inherit autotools-brokensep deploy
+ 
+-SRCREV = "a98258d0b537a295f517bbc8d813007336731fa9"
++SRCREV = "234ed8e427f4d92903123199f6590d144e0d9351"
+ SRC_URI = "git://github.com/riscv/opensbi.git;branch=master \
+            file://0001-Makefile-Don-t-specify-mabi-or-march.patch \
+           "
 -- 
-2.17.1
+2.29.2
 
