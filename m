@@ -1,73 +1,110 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web11.1599.1611246853016617174
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web12.2084.1611248710419353683
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 08:34:13 -0800
+ Thu, 21 Jan 2021 09:05:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kw6h0F+i;
- spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f181.google.com with SMTP id z21so1695013pgj.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 08:34:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FfL6KH9s;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: andrey.z@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id v24so3510521lfr.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 09:05:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id;
-        bh=2rbpVUVMvrxl5ebN68szlyAIVFB53gGMWFRcZCKyrCk=;
-        b=kw6h0F+ipc5kDLhuPp5G8bNB1xWzWVzRF3FoyryIHSt3svWjYWy54KOjVhyZQR2mLB
-         VN0jb+eY7ljWSpJChhaC6JhYIwx4aIjgFbGylCiBcdhPvFfjipqpOmfLmgALO4rJqwG1
-         tvKXr+2SiVpQmDWyKDnLCQUlY2KFTA928gskBGCz+r4VSG3jfv7TkAq02d9RwWmMH1uW
-         UpAcRb+xMOvTkPKvWHm6O7IPQPrrBuSEhfo8dffHemOqke2rsTFDZG0Qbf6UmvAkp8iZ
-         qbLXcBRRwFFi5/XiGa459oKctKUNwJsrWIP7X23l81gseg6lm5RaQVNe/crb7PAXB+lU
-         e93Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y/95puVxOj8BOc0VDpNxJa2m8xb2JuHln1rdwC2rUsQ=;
+        b=FfL6KH9sKSZ+5QEprzRu4d7qsbTljCBIhP8qpz5/pYYXtOCSHb4YcmZOm3EdklaeSi
+         8j4M30pCzWmCaXDEjqdP6jah3LtWz6FY/O+dgGCDuYrWIROnYvBOTh2zZQdjBgrIjg9c
+         nwynpyIw0lxvvxCobAq3g8YglJHwCj7if/L+7r9TdD3+V/a9A9Q6Jx4wLZwme3K7NKIC
+         P6BpvZ8rDE0k5L7+fKJgFY7ZPJba1h/5kLz6CoTcykp37Gr6L5jhWabE7hse6g8Yw23W
+         DCpGeey6IYpSPfC4nag4HOy9hlD5e44ajWmGlq0s0OaDAU53ELNEj975Ujml2qnsWn/g
+         gJeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=2rbpVUVMvrxl5ebN68szlyAIVFB53gGMWFRcZCKyrCk=;
-        b=UNnmPsDlLP8VHNSX+97mUBIlt5YBEOnufCA30kXDHksN/uOHpaRrk73AKtwub+NLVL
-         IRdGiI0NoxqJhWwlYd/pjrQFGHvcVjyTrHTup65KF70FJ0ciN6h7Lzgm9gAVUEeskq6I
-         +NTCd91kr1P8tFzNDmnLQuHg9ybDOad4/7e1vh2ZDUAbM6EHEU8/G9HYhf/cQMiPYmGZ
-         ygKontpmx38MfFboPcHefwsXIllwwEfkGNdIISMc+Obn9eTP1O0KYBV8KJhiDMFSHaf+
-         3aaOnglJaGKjGOhCROd8BtzFXLqip6nuY1T3RC8wJoDbTM83NM/oJtQ6OxaJS5FFoKAI
-         2JUg==
-X-Gm-Message-State: AOAM533+Iy8uS4RIaRyXNHAPCYdTYhojohmJkbNKQVQhYhgBTdPLQU8Y
-	cdyqjj1raUXsbuk3BtQ1WCshLxCsNAsnzg==
-X-Google-Smtp-Source: ABdhPJwXusboCJbcm9g1ZMWU5s8gh+xNISx+Zst5ucpf1C628uHZDHLGBJMjTMPQ7YXDZrAxfLFqVw==
-X-Received: by 2002:a63:e814:: with SMTP id s20mr52439pgh.365.1611246852023;
-        Thu, 21 Jan 2021 08:34:12 -0800 (PST)
-Return-Path: <akuster808@gmail.com>
-Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:c089:d7d0:f232:b36f])
-        by smtp.gmail.com with ESMTPSA id d11sm6556234pjz.29.2021.01.21.08.34.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 08:34:10 -0800 (PST)
-From: "akuster" <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] git: update to 2.30.0
-Date: Thu, 21 Jan 2021 08:34:09 -0800
-Message-Id: <20210121163409.27382-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y/95puVxOj8BOc0VDpNxJa2m8xb2JuHln1rdwC2rUsQ=;
+        b=NeEGehiqi4mFC8lOf11seGAkewy42160zK3m0eqluz+H5qOmb0TX7P3TeRGXFgP13D
+         MeT5phPf/IJa1E+48+8Y2tX0GPxOlUX0FXjye/PVxZkOLFVuQFDphnle1eV+Y0e9h/ND
+         UYTvVQgmjczw5K5nq1wb7ae0Mb0Nyo9J+LkTRfvqisb67tpiubwiDc5fp9S2rYeRNqm7
+         XTxXKwVVWGhYVKCMWbbnW4RSSbPMd1ZdavU1nPDlPhcX+8kX0rIRpUHwdX9UGvJ9Bg24
+         zFG4iIbtsnnS3qStzMeLtbIn7H1jIi23v29eI5v1hEDh5B14edUI4J7lnjSKuxb+WOJE
+         UxXg==
+X-Gm-Message-State: AOAM530ambdz198IOWGwVb3iSX3AQtQuaGTq+k6qdGmvzqQ+ta4r8VH+
+	FYVpdCsV++ioneNq2BaS/sEQdWc+Nns7/VJD2s8=
+X-Google-Smtp-Source: ABdhPJy4X1P3s1E0MOMv9N9+nPPfciSCFRE4SPPvkZhXqJ5v5AeeMxpowHmzBnVwH29mqd2R6FVCnzP97z0JHoMiZuA=
+X-Received: by 2002:ac2:5b49:: with SMTP id i9mr97963lfp.50.1611248708609;
+ Thu, 21 Jan 2021 09:05:08 -0800 (PST)
+MIME-Version: 1.0
+References: <20210121152650.618875-1-quaresma.jose@gmail.com>
+In-Reply-To: <20210121152650.618875-1-quaresma.jose@gmail.com>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Thu, 21 Jan 2021 18:04:57 +0100
+Message-ID: <CAHtQpK6HNN34iJY6aQ9iEcyKRfUC7YF2tsoMcMODA4gKJiOJ_g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] glslang: upgrade 8.13.3743 -> 11.1.0
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-For your info see: https://lore.kernel.org/lkml/xmqqk0t1g326.fsf@gitster.c.googlers.com/T/
+Hello Jose,
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-devtools/git/{git_2.29.2.bb => git_2.30.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/git/{git_2.29.2.bb => git_2.30.0.bb} (51%)
+On Thu, Jan 21, 2021 at 4:26 PM Jose Quaresma <quaresma.jose@gmail.com> wrote:
+>
+> License-Update: Add additional licenses
+>
+> - [1] BSD-2-Clause & MIT & Apache-2.0
+> - [2] GPL-2-with-bison-exception
 
-diff --git a/meta/recipes-devtools/git/git_2.29.2.bb b/meta/recipes-devtools/git/git_2.30.0.bb
-similarity index 51%
-rename from meta/recipes-devtools/git/git_2.29.2.bb
-rename to meta/recipes-devtools/git/git_2.30.0.bb
-index 6433a2e2b70..93f8ed298b5 100644
---- a/meta/recipes-devtools/git/git_2.29.2.bb
-+++ b/meta/recipes-devtools/git/git_2.30.0.bb
-@@ -5,5 +5,5 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
- 
--SRC_URI[tarball.sha256sum] = "869a121e1d75e4c28213df03d204156a17f02fce2dc77be9795b327830f54195"
--SRC_URI[manpages.sha256sum] = "68b258e6d590cb78e02c0df741bbaeab94cbbac6d25de9da4fb3882ee098307b"
-+SRC_URI[tarball.sha256sum] = "d24c4fa2a658318c2e66e25ab67cc30038a35696d2d39e6b12ceccf024de1e5e"
-+SRC_URI[manpages.sha256sum] = "e23035ae232c9a5eda57db258bc3b7f1c1060cfd66920f92c7d388b6439773a6"
+This should be rather GPL-3-with-bison-exception, according to the
+commit link you've posted.
+
+As this license does not exist in OE-Core - I'd suggest you introduce
+it as well.
+
+>
+> [1] https://github.com/KhronosGroup/glslang/commit/2962be40baff69848fd786c609289666b60741b8
+> [2] https://github.com/KhronosGroup/glslang/commit/14a2cfbc72f2bb2e060fdfe3fbe6a4d54e3817a8
+>
+> Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> ---
+>  .../glslang/{glslang_8.13.3743.bb => glslang_11.1.0.bb}   | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>  rename meta/recipes-graphics/glslang/{glslang_8.13.3743.bb => glslang_11.1.0.bb} (75%)
+>
+> diff --git a/meta/recipes-graphics/glslang/glslang_8.13.3743.bb b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
+> similarity index 75%
+> rename from meta/recipes-graphics/glslang/glslang_8.13.3743.bb
+> rename to meta/recipes-graphics/glslang/glslang_11.1.0.bb
+> index 2c4f4be5a2..1afa46954c 100644
+> --- a/meta/recipes-graphics/glslang/glslang_8.13.3743.bb
+> +++ b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
+> @@ -5,15 +5,15 @@ of the specifications for these languages. It is open and free for anyone to use
+>  either from a command line or programmatically."
+>  SECTION = "graphics"
+>  HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
+> -LICENSE = "BSD-3-Clause"
+> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=918e668376010a04448a312fb37ae69b"
+> +LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPLv2"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5ce49c0456e9b413b98a4368c378229"
+>
+> -SRCREV = "e05cc20ec20a154d94256c744a3837c23719c0f9"
+> +SRCREV = "c594de23cdd790d64ad5f9c8b059baae0ee2941d"
+>  SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https"
+>  UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
+>  S = "${WORKDIR}/git"
+>
+> -PV = "8.13.3743+git${SRCPV}"
+> +PV = "11.1.0"
+>
+>  inherit cmake python3native
+>
+> --
+> 2.30.0
+>
+>
+> 
+>
+
+
 -- 
-2.17.1
-
+Regards,
+Andrey.
