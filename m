@@ -1,134 +1,121 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web12.1173.1611245366474993949
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web12.1379.1611246138081873702
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 08:09:26 -0800
+ Thu, 21 Jan 2021 08:22:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70EB611D4
-	for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 08:09:25 -0800 (PST)
-Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A2433F68F
-	for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 08:09:24 -0800 (PST)
-From: "Ross Burton" <ross@burtonini.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: pdV3/yFTQg/aZQNeqJ/iRuyzSh8h24QyqiploEC9WYlqN7ygo6SRtQnz4kJTv4GrRcWWHCU4Vr
+ CCtWUmohCz1A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="179446318"
+X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
+   d="scan'208";a="179446318"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:16 -0800
+IronPort-SDR: lXGLvNQdd4mLOcSOc0LsYCplZbgmbHbEtrVv9O8RUVIQCJfBJJm+9L+qHcy1zH3TAYmqPUE3Wt
+ n6cz9bKwY47g==
+X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
+   d="scan'208";a="427413567"
+Received: from yonshuta-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.18])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:14 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] base: use URI instead of decodeurl when detecting unpack dependencies
-Date: Thu, 21 Jan 2021 16:09:22 +0000
-Message-Id: <20210121160922.3935165-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [gatesgarth][PATCH 00/20] patch review request
+Date: Fri, 22 Jan 2021 00:21:45 +0800
+Message-Id: <cover.1611245974.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-decodeurl() has limitations, primarily that it doesn't handle query
-parameters at all. If a SRC_URI looks like this:
+Please review these next set of changes for gatesgarth. Builds cleanly
+on autobuilder.
 
-  http://example.com/download.tar.gz?something
+Thanks,
 
-Then the returned path attribute is download.tar.gz?something.  This mean=
-s
-the filename extension detection fails and required tools are not added
-to the dependencies.
+Anuj
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes/base.bbclass | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+The following changes since commit c7bf9aebd002fc6bc23a57bc5e9863382bd17ae7:
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 78ae28bb0f..d287065e08 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -596,62 +596,62 @@ python () {
-=20
-     needsrcrev =3D False
-     srcuri =3D d.getVar('SRC_URI')
--    for uri in srcuri.split():
--        (scheme, _ , path) =3D bb.fetch.decodeurl(uri)[:3]
-+    for uri_string in srcuri.split():
-+        uri =3D bb.fetch.URI(uri_string)
-=20
-         # HTTP/FTP use the wget fetcher
--        if scheme in ("http", "https", "ftp"):
-+        if uri.scheme in ("http", "https", "ftp"):
-             d.appendVarFlag('do_fetch', 'depends', ' wget-native:do_popu=
-late_sysroot')
-=20
-         # Svn packages should DEPEND on subversion-native
--        if scheme =3D=3D "svn":
-+        if uri.scheme =3D=3D "svn":
-             needsrcrev =3D True
-             d.appendVarFlag('do_fetch', 'depends', ' subversion-native:d=
-o_populate_sysroot')
-=20
-         # Git packages should DEPEND on git-native
--        elif scheme in ("git", "gitsm"):
-+        elif uri.scheme in ("git", "gitsm"):
-             needsrcrev =3D True
-             d.appendVarFlag('do_fetch', 'depends', ' git-native:do_popul=
-ate_sysroot')
-=20
-         # Mercurial packages should DEPEND on mercurial-native
--        elif scheme =3D=3D "hg":
-+        elif uri.scheme =3D=3D "hg":
-             needsrcrev =3D True
-             d.appendVar("EXTRANATIVEPATH", ' python3-native ')
-             d.appendVarFlag('do_fetch', 'depends', ' mercurial-native:do=
-_populate_sysroot')
-=20
-         # Perforce packages support SRCREV =3D "${AUTOREV}"
--        elif scheme =3D=3D "p4":
-+        elif uri.scheme =3D=3D "p4":
-             needsrcrev =3D True
-=20
-         # OSC packages should DEPEND on osc-native
--        elif scheme =3D=3D "osc":
-+        elif uri.scheme =3D=3D "osc":
-             d.appendVarFlag('do_fetch', 'depends', ' osc-native:do_popul=
-ate_sysroot')
-=20
--        elif scheme =3D=3D "npm":
-+        elif uri.scheme =3D=3D "npm":
-             d.appendVarFlag('do_fetch', 'depends', ' nodejs-native:do_po=
-pulate_sysroot')
-=20
-         # *.lz4 should DEPEND on lz4-native for unpacking
--        if path.endswith('.lz4'):
-+        if uri.path.endswith('.lz4'):
-             d.appendVarFlag('do_unpack', 'depends', ' lz4-native:do_popu=
-late_sysroot')
-=20
-         # *.lz should DEPEND on lzip-native for unpacking
--        elif path.endswith('.lz'):
-+        elif uri.path.endswith('.lz'):
-             d.appendVarFlag('do_unpack', 'depends', ' lzip-native:do_pop=
-ulate_sysroot')
-=20
-         # *.xz should DEPEND on xz-native for unpacking
--        elif path.endswith('.xz') or path.endswith('.txz'):
-+        elif uri.path.endswith('.xz') or uri.path.endswith('.txz'):
-             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_popul=
-ate_sysroot')
-=20
-         # .zip should DEPEND on unzip-native for unpacking
--        elif path.endswith('.zip') or path.endswith('.jar'):
-+        elif uri.path.endswith('.zip') or uri.path.endswith('.jar'):
-             d.appendVarFlag('do_unpack', 'depends', ' unzip-native:do_po=
-pulate_sysroot')
-=20
-         # Some rpm files may be compressed internally using xz (for exam=
-ple, rpms from Fedora)
--        elif path.endswith('.rpm'):
-+        elif uri.path.endswith('.rpm'):
-             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_popul=
-ate_sysroot')
-=20
-         # *.deb should DEPEND on xz-native for unpacking
--        elif path.endswith('.deb'):
-+        elif uri.path.endswith('.deb'):
-             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_popul=
-ate_sysroot')
-=20
-     if needsrcrev:
---=20
-2.25.1
+  systemd: upgrade 246.6 -> 246.9 (2021-01-15 00:05:41 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
+
+Adrian Herrera (1):
+  scripts: oe-run-native, fix *-native directories
+
+Andrey Mozzhuhin (1):
+  toolchain-shar-extract.sh: Handle special characters in script path
+
+Chris Laplante (1):
+  systemd.bbclass: improve error message when a service unit specified
+    in SYSTEMD_SERVICE is not found
+
+Mans Rullgard (1):
+  boost: drop arm-intrinsics.patch
+
+Marek Vasut (2):
+  meta: toolchain-shar-relocate.sh: Do not use $target_sdk_dir as regex
+  meta: toolchain-shar-relocate.sh: Filter out post-relocate-setup
+    script
+
+Mikko Rapeli (1):
+  zip: whitelist CVE-2018-13410 and CVE-2018-13684
+
+Nathan Rossi (1):
+  gcc: Backport patch to resolve i*86 tune configuration overrides
+
+Oleksiy Obitotskyy (1):
+  flex: Fix --noline option behavior
+
+Oleksiy Obitotskyy yIEf0zt.mo (1):
+  toolchain-shar-relocate.sh: Fix handling files with colons
+
+Paul Barker (7):
+  wic: Add workdir argument
+  wic: Ensure internal workdir is not reused
+  wic: Allow exec_native_cmd to run HOSTTOOLS
+  image_types_wic: Move wic working directory
+  wic: Update pseudo db when excluding content from rootfs
+  wic: Copy rootfs dir if fstab needs updating
+  wic: Optimise fstab modification for ext2/3/4 and msdos partitions
+
+Tomasz Dziendzielski (2):
+  lib/oe/utils: Return empty string in parallel_make
+  devtool: Fix source extraction for gcc shared source
+
+Yi Fan Yu (1):
+  binutils: Fix CVE-2020-35448
+
+ meta/classes/image_types_wic.bbclass          |  10 +-
+ meta/classes/systemd.bbclass                  |   3 +-
+ meta/files/toolchain-shar-extract.sh          |  12 +-
+ meta/files/toolchain-shar-relocate.sh         |   7 +-
+ meta/lib/oe/utils.py                          |   2 +-
+ .../binutils/binutils-2.35.1.inc              |   1 +
+ .../binutils/binutils/CVE-2020-35448.patch    |  85 +++++++
+ ...directives-if-gen_line_dirs-is-false.patch |  32 +++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |   1 +
+ meta/recipes-devtools/gcc/gcc-10.2.inc        |   2 +-
+ ...0001-lib-Remove-i-86-march-overrides.patch | 113 ----------
+ ...libgomp-libitc-Fix-bootstrap-PR70454.patch | 208 ++++++++++++++++++
+ meta/recipes-extended/zip/zip_3.0.bb          |   6 +
+ .../boost/boost/arm-intrinsics.patch          |  55 -----
+ meta/recipes-support/boost/boost_1.74.0.bb    |   2 +-
+ scripts/lib/devtool/standard.py               |  30 ++-
+ scripts/lib/wic/misc.py                       |   7 +-
+ scripts/lib/wic/partition.py                  |  32 ++-
+ scripts/lib/wic/plugins/imager/direct.py      |  48 ++--
+ scripts/lib/wic/plugins/source/rootfs.py      |  33 ++-
+ scripts/oe-run-native                         |   2 +-
+ scripts/wic                                   |   2 +
+ 22 files changed, 464 insertions(+), 229 deletions(-)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
+ create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+ delete mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch
+ delete mode 100644 meta/recipes-support/boost/boost/arm-intrinsics.patch
+
+-- 
+2.29.2
 
