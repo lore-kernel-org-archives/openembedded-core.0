@@ -1,80 +1,80 @@
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
- by mx.groups.io with SMTP id smtpd.web08.192.1611265515060390264
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web12.543.1611267645862258211
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 13:45:15 -0800
+ Thu, 21 Jan 2021 14:20:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=XQP0sATT;
- spf=pass (domain: wdc.com, ip: 216.71.154.42, mailfrom: prvs=648e1bbf7=alistair.francis@wdc.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1611265515; x=1642801515;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=2fj8SmfvtY77sxzB99yf0JqBjAUwqcDcumPZtaTVHNI=;
-  b=XQP0sATTMAuD9QjQXRX3lXaLV5hbqoGEG7jL1K6Qi/7XSvogtU/1fY66
-   oSXdUc+Op/k0Fiojvq+R0mBeTtFXAalipiusua96vH2wg9yUpbw+IF6AX
-   GPa584RzVz/9epNzjdrSD8XsfUcr+k5kThJfXDW/zFj0RZyv+g7nPPhxd
-   YRjPDfyCx+XFSSPiJ9eER/MsxE0Z/JISxfat5uXe2icf8i3AHowh7pO+i
-   H8+1DLOqOpUwnX+pbDdFp8oI4RneWs6No24YMwGnGdebbPBQd/hrQyVPO
-   tXFJiHIQjq9q/EBdF4U6FZOHthZoMMjcLBygwupynk34oSOQOymlncEkw
-   Q==;
-IronPort-SDR: eO0VaeC9ETSK4RUxPVJ6hvhKlf4R9sXl/xz85+6HH4JKkzPn7x5hPuxXhJpLIjwsUdBUI7yWXY
- 1ZhuMDHStvzdgd5/utFCVvI48YIfOOUiUwUkSB22McRhC/ZcQgQnmEGhXqj+NtiQtK+k9ifhFn
- s0Ojt3mBhUOo+I6Cs1+shGde4Q+oJIYs0RBlKMKd4HRWm2aTBdgqM9mBiBF8X+Ap9pNJZHGuwQ
- Iy75+CTvQpA8icl0l0M0voGKL2TmiXWQELyjn2vi+itf3NPKvfpVAnbmjyngj2ohER1uDaxB+v
- pW4=
-X-IronPort-AV: E=Sophos;i="5.79,365,1602518400"; 
-   d="scan'208";a="158027685"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 22 Jan 2021 05:45:13 +0800
-IronPort-SDR: MH4HEi/zSliT4qFiCcUwo1iTcQDZuAaZ1dpPbjZolBE30ALBg7A6usmnZttz1daqmEPwYxg1GA
- DG1IhzrTvT1yiA/FCeCBCL+cIHd3Kj2Hosg8OSTgwSIRoKxLJKvBYD1v6/k1Gu0nHyIf2yQo4G
- q2R/+SHwm6TOTBb3OwLAtUW58msh1PAMNbQ5gT6Tbvcic+5VSAx+aOlB1mbsyQtKlrHaTiLWL2
- Kwa6b7LJ/O741vWYw7VcK1i/SjA75H6FEnEzlZqAjgY8mddVryLD5Z0RbfuGxtHKQZ5vyjRbVi
- KbNJ/W5ZdxIHd9Gfua1oULbR
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 13:29:47 -0800
-IronPort-SDR: /X6PYMCQMXU+PfRiomOgLJtm/iJt3usOhbsRghbsfkHllxX7g+AZe+n7ju3nSS18/7To1hqmWG
- 4fX7mDX5irXuI4HlNydqBGvVowSmly9gCuDML9YyydWM8JJhhxYPhGJw7MsCrIj16jNSeYFjIV
- Nq7KyYPlFpvbTtxfq1ysr4ZoEn4p7yo5qz8qFUYRZEvHlJE2ID1tVXsy/BU31TeiEk7HYr2kxD
- rDA9GG7/jSt9ID3x4j2kITr4sUmixvz2ERebRKSZIxR9xqlQbIMgm7Xj4ilAT/KJFHqA7KXiml
- YGM=
-WDCIronportException: Internal
-Received: from jpf004744.ad.shared (HELO risc6-mainframe.hgst.com) ([10.86.63.63])
-  by uls-op-cesaip01.wdc.com with ESMTP; 21 Jan 2021 13:45:13 -0800
-From: "Alistair Francis" <alistair.francis@wdc.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=X3IRpkEa;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id n11so4322381lji.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 14:20:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TDk7V5xYKAAuNdUcrLjBi0HN8BgDEZ/Z3tqzGQk8UoY=;
+        b=X3IRpkEaGguXwyM8eghjw7aoSRz+0/MfS6Hx7HJ8HNZKzx0gN3efXcXvfBtqfC5wbX
+         uFTB48gGwuN4x5s5PWALfb3Uz2XhqGm1HmwgiijGTGL97bdkKVlMngPzwA4juBdgvm9y
+         QdeVNjJX2ghS62Vorly+AhYYC6zldzvF8fwIOXd0Pfzs3zCwP/Pjm9IhMsCDPjSzNJ+5
+         i6JnW0gx6GL2hrSxgOB6wQnT4BmGIiVIhsqamyKq6T3sT8o16/1/6RNeJRWCepTQywT9
+         LfqkfC7i6XpJJgn2TEhyjJ6O/NurkqPHJsv0bPOrP+dLTG3sNCud9SD9DXNRJHJ4RkUK
+         mRig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TDk7V5xYKAAuNdUcrLjBi0HN8BgDEZ/Z3tqzGQk8UoY=;
+        b=d0X6hRApvQEvz4g7ixyodqNWttX4tNSF27JHPySRmd4ZzTuet7FTA7Qu+9KuHYKbRu
+         dlGO5VncvdkRiHmizZy6/1ot3cI5j6mePg4/7G8WUUBaHaNW+WpJ7yAntNSAqnT85kfD
+         BfZYNJ3l6OEw6Jjy3SCH/JVl5Crf5pkf03t5N14WQU1CJbYoPFa27kPq5Dw/+cZ/BGOC
+         Yj+t3X1MleLC6U/9s/+A4yb5RLnkyUQ0xEK2/Y+9QNbCL9IK3OAIiffzjjtpEqTtwOZm
+         n/bcrtbf/6wnF0RSBXaz7KoDm0qR4lQa58pDU+gjIoICxBe5d99IWqXJbOvzGUo6sNDw
+         9VAQ==
+X-Gm-Message-State: AOAM531+aUVV4IOe+45sy98yjgbyJbhbb+r7q93BCE/6F0M++OENPqUW
+	ARBGxrsYBBjmNnZAxaBzII0xTCDOTF8=
+X-Google-Smtp-Source: ABdhPJz8jiS/bSPrkNidYS/FJPRQQq0vgUTQgwMy0aatITetEasBH3SodFVSHmq6QWS/TK3zHKKh3Q==
+X-Received: by 2002:a2e:90cb:: with SMTP id o11mr792382ljg.60.1611267643868;
+        Thu, 21 Jan 2021 14:20:43 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id n10sm733037lji.99.2021.01.21.14.20.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jan 2021 14:20:43 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: alistair23@gmail.com,
-	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH] opensbi: Bump from 0.8 to 0.9
-Date: Thu, 21 Jan 2021 13:45:08 -0800
-Message-Id: <20210121214508.1512242-1-alistair.francis@wdc.com>
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] devtool: Fix file:// fetcher symlink directory structure
+Date: Thu, 21 Jan 2021 23:23:13 +0100
+Message-Id: <20210121222313.34874-1-tomasz.dziendzielski@gmail.com>
 X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- meta/recipes-bsp/opensbi/{opensbi_0.8.bb => opensbi_0.9.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/opensbi/{opensbi_0.8.bb => opensbi_0.9.bb} (97%)
+Add backward relative path if file is under directory.
 
-diff --git a/meta/recipes-bsp/opensbi/opensbi_0.8.bb b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
-similarity index 97%
-rename from meta/recipes-bsp/opensbi/opensbi_0.8.bb
-rename to meta/recipes-bsp/opensbi/opensbi_0.9.bb
-index 818efac733..9f17258edb 100644
---- a/meta/recipes-bsp/opensbi/opensbi_0.8.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_0.9.bb
-@@ -7,7 +7,7 @@ require opensbi-payloads.inc
- 
- inherit autotools-brokensep deploy
- 
--SRCREV = "a98258d0b537a295f517bbc8d813007336731fa9"
-+SRCREV = "234ed8e427f4d92903123199f6590d144e0d9351"
- SRC_URI = "git://github.com/riscv/opensbi.git;branch=master \
-            file://0001-Makefile-Don-t-specify-mabi-or-march.patch \
-           "
+[YOCTO #13738]
+
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+---
+ scripts/lib/devtool/standard.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index f7d8a82117..7b62b7e7b8 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -474,7 +474,11 @@ def symlink_oelocal_files_srctree(rd,srctree):
+                 destpth = os.path.join(srctree, relpth, fn)
+                 if os.path.exists(destpth):
+                     os.unlink(destpth)
+-                os.symlink('oe-local-files/%s' % fn, destpth)
++                if relpth != '.':
++                    back_relpth = os.path.relpath(local_files_dir, root)
++                    os.symlink('%s/oe-local-files/%s/%s' % (back_relpth, relpth, fn), destpth)
++                else:
++                    os.symlink('oe-local-files/%s' % fn, destpth)
+                 addfiles.append(os.path.join(relpth, fn))
+         if addfiles:
+             bb.process.run('git add %s' % ' '.join(addfiles), cwd=srctree)
 -- 
 2.29.2
 
