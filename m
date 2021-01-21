@@ -1,100 +1,73 @@
-Received: from mga02.intel.com (mga02.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.1397.1611246150445140456
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web11.1599.1611246853016617174
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 08:22:45 -0800
+ Thu, 21 Jan 2021 08:34:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: b6taH0QE5Wf2AGos3xV00RsUtRbher3m4+vF2SkezPUq8clqyhenR/e28VReJwGNJbcx90EtT0
- kju+f+S4nNgA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="166392523"
-X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="166392523"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:43 -0800
-IronPort-SDR: d1HLxcf1dJlDYgEZkMrVzGbGmESS6bomWqig2LV3I8R0cH9Oe88MJ5Pjw4joZPIeQtbanWOyPj
- H14g+m3u+jhw==
-X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="427413946"
-Received: from yonshuta-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.18])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:42 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kw6h0F+i;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id z21so1695013pgj.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 08:34:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id;
+        bh=2rbpVUVMvrxl5ebN68szlyAIVFB53gGMWFRcZCKyrCk=;
+        b=kw6h0F+ipc5kDLhuPp5G8bNB1xWzWVzRF3FoyryIHSt3svWjYWy54KOjVhyZQR2mLB
+         VN0jb+eY7ljWSpJChhaC6JhYIwx4aIjgFbGylCiBcdhPvFfjipqpOmfLmgALO4rJqwG1
+         tvKXr+2SiVpQmDWyKDnLCQUlY2KFTA928gskBGCz+r4VSG3jfv7TkAq02d9RwWmMH1uW
+         UpAcRb+xMOvTkPKvWHm6O7IPQPrrBuSEhfo8dffHemOqke2rsTFDZG0Qbf6UmvAkp8iZ
+         qbLXcBRRwFFi5/XiGa459oKctKUNwJsrWIP7X23l81gseg6lm5RaQVNe/crb7PAXB+lU
+         e93Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=2rbpVUVMvrxl5ebN68szlyAIVFB53gGMWFRcZCKyrCk=;
+        b=UNnmPsDlLP8VHNSX+97mUBIlt5YBEOnufCA30kXDHksN/uOHpaRrk73AKtwub+NLVL
+         IRdGiI0NoxqJhWwlYd/pjrQFGHvcVjyTrHTup65KF70FJ0ciN6h7Lzgm9gAVUEeskq6I
+         +NTCd91kr1P8tFzNDmnLQuHg9ybDOad4/7e1vh2ZDUAbM6EHEU8/G9HYhf/cQMiPYmGZ
+         ygKontpmx38MfFboPcHefwsXIllwwEfkGNdIISMc+Obn9eTP1O0KYBV8KJhiDMFSHaf+
+         3aaOnglJaGKjGOhCROd8BtzFXLqip6nuY1T3RC8wJoDbTM83NM/oJtQ6OxaJS5FFoKAI
+         2JUg==
+X-Gm-Message-State: AOAM533+Iy8uS4RIaRyXNHAPCYdTYhojohmJkbNKQVQhYhgBTdPLQU8Y
+	cdyqjj1raUXsbuk3BtQ1WCshLxCsNAsnzg==
+X-Google-Smtp-Source: ABdhPJwXusboCJbcm9g1ZMWU5s8gh+xNISx+Zst5ucpf1C628uHZDHLGBJMjTMPQ7YXDZrAxfLFqVw==
+X-Received: by 2002:a63:e814:: with SMTP id s20mr52439pgh.365.1611246852023;
+        Thu, 21 Jan 2021 08:34:12 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:c089:d7d0:f232:b36f])
+        by smtp.gmail.com with ESMTPSA id d11sm6556234pjz.29.2021.01.21.08.34.10
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Jan 2021 08:34:10 -0800 (PST)
+From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 20/20] flex: Fix --noline option behavior
-Date: Fri, 22 Jan 2021 00:22:05 +0800
-Message-Id: <e02c02459b35129402b2a77b592896c787e590ff.1611245974.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.1611245974.git.anuj.mittal@intel.com>
-References: <cover.1611245974.git.anuj.mittal@intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] git: update to 2.30.0
+Date: Thu, 21 Jan 2021 08:34:09 -0800
+Message-Id: <20210121163409.27382-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-From: Oleksiy Obitotskyy <oobitots@cisco.com>
+For your info see: https://lore.kernel.org/lkml/xmqqk0t1g326.fsf@gitster.c.googlers.com/T/
 
-Option --noline or -L does not handled properly.
-So generated code contains #line directives with
-file absolute path and prevents to create
-reproducible builds.
-
-Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0bf2cb7dc2123f220accf1542c2ae4c4b4b8275a)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...directives-if-gen_line_dirs-is-false.patch | 32 +++++++++++++++++++
- meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+ meta/recipes-devtools/git/{git_2.29.2.bb => git_2.30.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/git/{git_2.29.2.bb => git_2.30.0.bb} (51%)
 
-diff --git a/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
-new file mode 100644
-index 0000000000..c8202b6bd5
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
-@@ -0,0 +1,32 @@
-+From 440f3f55739468cd26e22f31871eca8cbbd53294 Mon Sep 17 00:00:00 2001
-+From: Oleksiy Obitotskyy <oobitots@cisco.com>
-+Date: Wed, 6 Jan 2021 06:12:14 -0800
-+Subject: [PATCH] Emit no #line directives if gen_line_dirs is false
-+
-+If we set --noline we should not print line directives.
-+But setting --noline means gen_line_dirs is false.
-+
-+Upstream-Status: Submitted
-+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-+---
-+ src/buf.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/buf.c b/src/buf.c
-+index 185083c..4439e28 100644
-+--- a/src/buf.c
-++++ b/src/buf.c
-+@@ -95,8 +95,8 @@ struct Buf *buf_linedir (struct Buf *buf, const char* filename, int lineno)
-+     const char *src;
-+     size_t tsz;
-+ 
-+-    if (gen_line_dirs)
-+-	return buf;
-++    if (!gen_line_dirs)
-++        return buf;
-+ 
-+     tsz = strlen("#line \"\"\n")                +   /* constant parts */
-+                2 * strlen (filename)            +   /* filename with possibly all backslashes escaped */
-+-- 
-+2.26.2.Cisco
-+
-diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-index 3d57572865..1d43d2228a 100644
---- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.ta
-            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
-            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
-            file://check-funcs.patch \
-+           file://0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch \
-            "
+diff --git a/meta/recipes-devtools/git/git_2.29.2.bb b/meta/recipes-devtools/git/git_2.30.0.bb
+similarity index 51%
+rename from meta/recipes-devtools/git/git_2.29.2.bb
+rename to meta/recipes-devtools/git/git_2.30.0.bb
+index 6433a2e2b70..93f8ed298b5 100644
+--- a/meta/recipes-devtools/git/git_2.29.2.bb
++++ b/meta/recipes-devtools/git/git_2.30.0.bb
+@@ -5,5 +5,5 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
  
- SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
+-SRC_URI[tarball.sha256sum] = "869a121e1d75e4c28213df03d204156a17f02fce2dc77be9795b327830f54195"
+-SRC_URI[manpages.sha256sum] = "68b258e6d590cb78e02c0df741bbaeab94cbbac6d25de9da4fb3882ee098307b"
++SRC_URI[tarball.sha256sum] = "d24c4fa2a658318c2e66e25ab67cc30038a35696d2d39e6b12ceccf024de1e5e"
++SRC_URI[manpages.sha256sum] = "e23035ae232c9a5eda57db258bc3b7f1c1060cfd66920f92c7d388b6439773a6"
 -- 
-2.29.2
+2.17.1
 
