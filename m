@@ -1,150 +1,86 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web12.319.1611254583687873511
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.2153.1611261580978984731
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 10:43:04 -0800
+ Thu, 21 Jan 2021 12:39:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BHHAUq2A;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id y8so1775340plp.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 10:43:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZFOPZvX4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id v184so2625611wma.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 12:39:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dn6DhcQd4KBghfGTtn+IfYRg7E/mKt0sVCC6xuTIVJY=;
-        b=BHHAUq2Af2lulj/gsSApNWjDnBnCSQQZd/aU8OizOg86OXdBVmQYAKi4Hq5qamYMCo
-         tiuan+EgUuZDeE9fpWINCmiHQ0M87nKEnHNzCwbpdPjAlXR+DUv8ops9VhoS54CJN3HP
-         Vv5xTj0ndCg5kvICQyz4v+ybPinGwWG3GMroIukngwf+54pe5XErnJW/fKS1tcF4ISB3
-         OS3T94C8K8l1tfdL0YuTzsF/+DNw2TqyE6ZGQPewbTyTJRpgAV4CWB1UeCdA78kRk7PX
-         6cJuD1eLttEQ4GasR42z+UrfKvvYUxiM6Z1ihG7T5wzTRCA3T+4Wr9MZLjEG80rHDK8D
-         vgoQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=zF71ng8gJvsN3vfr/6RSRQP4GjlEvJWhAsnudC5ZgrM=;
+        b=ZFOPZvX4m/qHqPt1c/3BudfkxIlZXisnMZSOmQh+mIioVekAdbEJZ/0MFtie0R8Uug
+         TVXMglQNTHHyO04gLwi1A936c0RHqpjmP9HjQcXgoSXY+qLqJVpMnvArSEhrGljTFfdb
+         oHjg73i/gFUWaIAGYN2m9SWHwGcPmLkxlFpsK/5RgzhRBr7AuodKfgNj135Rm3v7bBft
+         rOh/xqJSn64hO19XRlbbC5vUaUaZwtWX1dINAz++ssNue4gpJMcrRldnhv5ArBZj17RI
+         mRMcb0TN5ZYuPZPtOJCiy6ZEwOCnsnFkBHL4xDAvNAcW5FOvOIwb9ljOJ061Vxg3rvRe
+         urnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Dn6DhcQd4KBghfGTtn+IfYRg7E/mKt0sVCC6xuTIVJY=;
-        b=f7X6KyMW78yrSbdfPmjOBjsP4WR43THIjunNUmKPuvUX/uItN4dIMr0zhjTcs9oWN9
-         rkjEPIjMo5rAIl1SSyfnX1Od1n3Blv+VtclhEujEx4YeoqbvH3AVbgSJvcQOw9Uv/ri2
-         ROC2OvTTDIcX93JuGTpuVLNRcHevKL82n/XLciTeYFfPwC1XUdlORHJW+urA74bi/7GJ
-         KXWcAMxgoomsSIBbT8de9B9fxHVkg+iGYlDfuMv8xFtgQODUZkpTaBequ7oX3Z54zmES
-         VL+/ALYB3Oo4/gsNn8MjG7wXJeT1lOIjRw0g4cIOz/fAfdQBdhLXZdX2yGrqD+vxCAEv
-         od8Q==
-X-Gm-Message-State: AOAM531dfmu2J52jmAlH1Aa+ZD9nH+UAouk3xalp3RnC+PdYKKw4IRYD
-	osJRs6Iihai/UPDQZJdapJFhDfU6n50dwJwXrQA=
-X-Google-Smtp-Source: ABdhPJwXxQ8c4SuiXjchKDS1lztL70x83K9U5nFSs2plQPLMHQkdEFhWW8PWLY4v8Z458axdOAcVOQ==
-X-Received: by 2002:a17:902:d48f:b029:de:8c5b:656 with SMTP id c15-20020a170902d48fb02900de8c5b0656mr1020472plg.51.1611254582363;
-        Thu, 21 Jan 2021 10:43:02 -0800 (PST)
-Return-Path: <steve@sakoman.com>
-Received: from hexa.router0800d9.com ([99.197.43.150])
-        by smtp.gmail.com with ESMTPSA id k15sm6096237pfh.40.2021.01.21.10.42.57
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=zF71ng8gJvsN3vfr/6RSRQP4GjlEvJWhAsnudC5ZgrM=;
+        b=FNMOVbGkHZHbujJIplZ2p3tT0qzmKWJNM2HLRbdFKNezraAQezX4pTNMBHERDak3+I
+         4B238svO2cxiedOuohd4qA+h1cfQ0mYQivOdn/QnnQy3x9biABDHlSU5o7no1LtnkOxF
+         JLoiWw9AjsOhKzUDQIb0EYmgva5g2gl30/5TGf0BabhRh7HTnJGFmlxm+JZBaNQBHc1V
+         qMmk0dDKr0hbZAjhNU6fLNd2AeLLLQKHdAeNJps4w1h/hB9WepOk/1UJ0ow7ANk5NjsO
+         qE8wlij6eUEHH5PLtwVbGN+kyuEylbG1pACqNsVluWRhrf6/wPVCVxi0TJd1q6wBR5UW
+         OMQA==
+X-Gm-Message-State: AOAM530AP6sghFQR7hAk1uhSeDEf0/LJIX5j9PdS+Jjvj01n8u4NAxNL
+	4mKSoTikDc6UH/CCIozvgluRQLuw2gFqgw==
+X-Google-Smtp-Source: ABdhPJzPUqVAK4p+LFbhyBs4Aeb3npNJkoFwWyOj1mVKctbjMuiRmF9OXIUUz0lGyYFFGhHSzV4MQg==
+X-Received: by 2002:a05:600c:210b:: with SMTP id u11mr1045929wml.16.1611261579313;
+        Thu, 21 Jan 2021 12:39:39 -0800 (PST)
+Return-Path: <dorindabassey@gmail.com>
+Received: from localhost.localdomain ([105.112.33.157])
+        by smtp.gmail.com with ESMTPSA id o124sm9782456wmb.5.2021.01.21.12.39.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 10:43:01 -0800 (PST)
-From: "Steve Sakoman" <steve@sakoman.com>
+        Thu, 21 Jan 2021 12:39:38 -0800 (PST)
+From: "Dorinda" <dorindabassey@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/18] Pull request (cover letter only)
-Date: Thu, 21 Jan 2021 08:42:40 -1000
-Message-Id: <cover.1611254395.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: dorindabassey <dorindabassey@gmail.com>
+Subject: [PATCH 1/3] elfutils: split libdebuginfod into its own package
+Date: Thu, 21 Jan 2021 21:38:51 +0100
+Message-Id: <20210121203853.1461-1-dorindabassey@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-The following changes since commit 72431ee8de5e3a53d259cebf420a7713ac9e1f14:
+add package options for libdebuginfod
 
-  mobile-broadband-provider-info: upgrade 20190618 ->20201225 (2021-01-08 03:57:37 -1000)
+Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+---
+ meta/recipes-devtools/elfutils/elfutils_0.181.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Adrian Herrera (1):
-  scripts: oe-run-native, fix *-native directories
-
-Andrey Mozzhuhin (1):
-  toolchain-shar-extract.sh: Handle special characters in script path
-
-Armin Kuster (2):
-  xorg: Security fix for CVE-2020-14345
-  glibc: Security fix for CVE-2020-29573
-
-Bruce Ashfield (1):
-  linux-yocto/5.4: update to v5.4.87
-
-Chris Laplante (1):
-  systemd.bbclass: improve error message when a service unit specified
-    in SYSTEMD_SERVICE is not found
-
-Joshua Watt (1):
-  classes/waf: Add build and install arguments
-
-Lee Chee Yang (1):
-  curl: fix CVE-2020-8231/8284/8285/8286
-
-Mans Rullgard (1):
-  boost: drop arm-intrinsics.patch
-
-Marek Vasut (2):
-  meta: toolchain-shar-relocate.sh: Do not use $target_sdk_dir as regex
-  meta: toolchain-shar-relocate.sh: Filter out post-relocate-setup
-    script
-
-Michael Ho (1):
-  license_image.bbclass: fix missing recipeinfo on self
-
-Mikko Rapeli (1):
-  zip: whitelist CVE-2018-13410 and CVE-2018-13684
-
-Robert Joslyn (1):
-  ppp: Whitelist CVE-2020-15704
-
-Ross Burton (1):
-  waf: don't assume the waf intepretter is good
-
-Scott Murray (1):
-  glibc: CVE-2019-25013
-
-Thomas Perrot (1):
-  go.bbclass: don't stage test data with sources of dependencies
-
-Tomasz Dziendzielski (1):
-  lib/oe/utils: Return empty string in parallel_make
-
- meta/classes/go.bbclass                       |    3 +-
- meta/classes/license_image.bbclass            |    3 +-
- meta/classes/systemd.bbclass                  |    3 +-
- meta/classes/waf.bbclass                      |   18 +-
- meta/files/toolchain-shar-extract.sh          |   12 +-
- meta/files/toolchain-shar-relocate.sh         |    5 +-
- meta/lib/oe/utils.py                          |    2 +-
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |    4 +
- .../glibc/glibc/CVE-2019-25013.patch          |  135 ++
- .../glibc/glibc/CVE-2020-29573.patch          |  128 ++
- meta/recipes-core/glibc/glibc_2.31.bb         |    2 +
- meta/recipes-extended/zip/zip_3.0.bb          |    6 +
- .../xserver-xorg/CVE-2020-14345.patch         |  182 +++
- .../xorg-xserver/xserver-xorg_1.20.8.bb       |    1 +
- .../linux/linux-yocto-rt_5.4.bb               |    6 +-
- .../linux/linux-yocto-tiny_5.4.bb             |    8 +-
- meta/recipes-kernel/linux/linux-yocto_5.4.bb  |   22 +-
- .../boost/boost/arm-intrinsics.patch          |   55 -
- meta/recipes-support/boost/boost_1.72.0.bb    |    2 +-
- .../curl/curl/CVE-2020-8231.patch             | 1092 +++++++++++++++++
- .../curl/curl/CVE-2020-8284.patch             |  209 ++++
- .../curl/curl/CVE-2020-8285.patch             |  260 ++++
- .../curl/curl/CVE-2020-8286.patch             |  133 ++
- meta/recipes-support/curl/curl_7.69.1.bb      |    4 +
- scripts/oe-run-native                         |    2 +-
- 25 files changed, 2207 insertions(+), 90 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-25013.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-29573.patch
- create mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/CVE-2020-14345.patch
- delete mode 100644 meta/recipes-support/boost/boost/arm-intrinsics.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8231.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8284.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8285.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2020-8286.patch
-
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.181.bb b/meta/recipes-devtools/elfutils/elfutils_0.181.bb
+index 6c49a5fc26..c5bb62e961 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.181.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.181.bb
+@@ -91,7 +91,7 @@ EXTRA_OEMAKE_class-nativesdk = ""
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ # Package utilities separately
+-PACKAGES =+ "${PN}-binutils libelf libasm libdw"
++PACKAGES =+ "${PN}-binutils libelf libasm libdw libdebuginfod"
+ 
+ # shared libraries are licensed GPLv2 or GPLv3+, binaries GPLv3+
+ # according to NEWS file:
+@@ -103,6 +103,7 @@ LICENSE_${PN} = "GPLv3+"
+ LICENSE_libelf = "GPLv2 | LGPLv3+"
+ LICENSE_libasm = "GPLv2 | LGPLv3+"
+ LICENSE_libdw = "GPLv2 | LGPLv3+"
++LICENSE_libdebuginfod = "GPLv2+ | LGPLv3+"
+ 
+ FILES_${PN}-binutils = "\
+     ${bindir}/eu-addr2line \
+@@ -115,6 +116,7 @@ FILES_${PN}-binutils = "\
+ FILES_libelf = "${libdir}/libelf-${PV}.so ${libdir}/libelf.so.*"
+ FILES_libasm = "${libdir}/libasm-${PV}.so ${libdir}/libasm.so.*"
+ FILES_libdw  = "${libdir}/libdw-${PV}.so ${libdir}/libdw.so.* ${libdir}/elfutils/lib*"
++FILES_libdebuginfod = "${libdir}/libdebuginfod-${PV}.so ${libdir}/libdebuginfod.so.*"
+ # Some packages have the version preceeding the .so instead properly
+ # versioned .so.<version>, so we need to reorder and repackage.
+ #FILES_${PN} += "${libdir}/*-${PV}.so ${base_libdir}/*-${PV}.so"
 -- 
-2.25.1
+2.17.1
 
