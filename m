@@ -1,121 +1,72 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from mga09.intel.com (mga09.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.1379.1611246138081873702
  for <openembedded-core@lists.openembedded.org>;
  Thu, 21 Jan 2021 08:22:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: pdV3/yFTQg/aZQNeqJ/iRuyzSh8h24QyqiploEC9WYlqN7ygo6SRtQnz4kJTv4GrRcWWHCU4Vr
- CCtWUmohCz1A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="179446318"
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Z3/5xnI7vokEVCPzKAXS1cYtzCnYidwTgF8OS2lc+CssF3YzauxPTomYfWNkQPfmUbXBqZSYpC
+ Od4fbHcps4rg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="179446324"
 X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="179446318"
+   d="scan'208";a="179446324"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:16 -0800
-IronPort-SDR: lXGLvNQdd4mLOcSOc0LsYCplZbgmbHbEtrVv9O8RUVIQCJfBJJm+9L+qHcy1zH3TAYmqPUE3Wt
- n6cz9bKwY47g==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:17 -0800
+IronPort-SDR: Jrs0QwTKnVu7f9KTgMt3rz9mXNYymAwPgYrRr4M1dsLdcLf/KDATRj0EscwIU92QJpGLsLDdvR
+ ia47ZL5kclYA==
 X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="427413567"
+   d="scan'208";a="427413584"
 Received: from yonshuta-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.18])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:14 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:16 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 00/20] patch review request
-Date: Fri, 22 Jan 2021 00:21:45 +0800
-Message-Id: <cover.1611245974.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 01/20] zip: whitelist CVE-2018-13410 and CVE-2018-13684
+Date: Fri, 22 Jan 2021 00:21:46 +0800
+Message-Id: <f0314a6937a63b3274bcd84817476834c1de876e.1611245974.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <cover.1611245974.git.anuj.mittal@intel.com>
+References: <cover.1611245974.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review these next set of changes for gatesgarth. Builds cleanly
-on autobuilder.
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
 
-Thanks,
+https://nvd.nist.gov/vuln/detail/CVE-2018-13410 is disputed and
+also Debian considers it not a vulnerability:
 
-Anuj
+https://security-tracker.debian.org/tracker/CVE-2018-13410
 
-The following changes since commit c7bf9aebd002fc6bc23a57bc5e9863382bd17ae7:
+http://seclists.org/fulldisclosure/2018/Jul/24
+"Negligible security impact, would involve that a untrusted party controls the -TT value."
 
-  systemd: upgrade 246.6 -> 246.9 (2021-01-15 00:05:41 +0800)
+https://nvd.nist.gov/vuln/detail/CVE-2018-13684 is not for zip, also Debian concludes this:
 
-are available in the Git repository at:
+https://security-tracker.debian.org/tracker/CVE-2018-13684
 
-  git://push.openembedded.org/openembedded-core-contrib anujm/gatesgarth
+"NOT-FOR-US: smart contract implementation for ZIP"
 
-Adrian Herrera (1):
-  scripts: oe-run-native, fix *-native directories
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/recipes-extended/zip/zip_3.0.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Andrey Mozzhuhin (1):
-  toolchain-shar-extract.sh: Handle special characters in script path
-
-Chris Laplante (1):
-  systemd.bbclass: improve error message when a service unit specified
-    in SYSTEMD_SERVICE is not found
-
-Mans Rullgard (1):
-  boost: drop arm-intrinsics.patch
-
-Marek Vasut (2):
-  meta: toolchain-shar-relocate.sh: Do not use $target_sdk_dir as regex
-  meta: toolchain-shar-relocate.sh: Filter out post-relocate-setup
-    script
-
-Mikko Rapeli (1):
-  zip: whitelist CVE-2018-13410 and CVE-2018-13684
-
-Nathan Rossi (1):
-  gcc: Backport patch to resolve i*86 tune configuration overrides
-
-Oleksiy Obitotskyy (1):
-  flex: Fix --noline option behavior
-
-Oleksiy Obitotskyy yIEf0zt.mo (1):
-  toolchain-shar-relocate.sh: Fix handling files with colons
-
-Paul Barker (7):
-  wic: Add workdir argument
-  wic: Ensure internal workdir is not reused
-  wic: Allow exec_native_cmd to run HOSTTOOLS
-  image_types_wic: Move wic working directory
-  wic: Update pseudo db when excluding content from rootfs
-  wic: Copy rootfs dir if fstab needs updating
-  wic: Optimise fstab modification for ext2/3/4 and msdos partitions
-
-Tomasz Dziendzielski (2):
-  lib/oe/utils: Return empty string in parallel_make
-  devtool: Fix source extraction for gcc shared source
-
-Yi Fan Yu (1):
-  binutils: Fix CVE-2020-35448
-
- meta/classes/image_types_wic.bbclass          |  10 +-
- meta/classes/systemd.bbclass                  |   3 +-
- meta/files/toolchain-shar-extract.sh          |  12 +-
- meta/files/toolchain-shar-relocate.sh         |   7 +-
- meta/lib/oe/utils.py                          |   2 +-
- .../binutils/binutils-2.35.1.inc              |   1 +
- .../binutils/binutils/CVE-2020-35448.patch    |  85 +++++++
- ...directives-if-gen_line_dirs-is-false.patch |  32 +++
- meta/recipes-devtools/flex/flex_2.6.4.bb      |   1 +
- meta/recipes-devtools/gcc/gcc-10.2.inc        |   2 +-
- ...0001-lib-Remove-i-86-march-overrides.patch | 113 ----------
- ...libgomp-libitc-Fix-bootstrap-PR70454.patch | 208 ++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |   6 +
- .../boost/boost/arm-intrinsics.patch          |  55 -----
- meta/recipes-support/boost/boost_1.74.0.bb    |   2 +-
- scripts/lib/devtool/standard.py               |  30 ++-
- scripts/lib/wic/misc.py                       |   7 +-
- scripts/lib/wic/partition.py                  |  32 ++-
- scripts/lib/wic/plugins/imager/direct.py      |  48 ++--
- scripts/lib/wic/plugins/source/rootfs.py      |  33 ++-
- scripts/oe-run-native                         |   2 +-
- scripts/wic                                   |   2 +
- 22 files changed, 464 insertions(+), 229 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
- create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch
- delete mode 100644 meta/recipes-support/boost/boost/arm-intrinsics.patch
-
+diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+index c00a932763..97e5e57533 100644
+--- a/meta/recipes-extended/zip/zip_3.0.bb
++++ b/meta/recipes-extended/zip/zip_3.0.bb
+@@ -19,6 +19,12 @@ UPSTREAM_VERSION_UNKNOWN = "1"
+ SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
+ SRC_URI[sha256sum] = "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369"
+ 
++# Disputed and also Debian doesn't consider a vulnerability
++CVE_CHECK_WHITELIST += "CVE-2018-13410"
++
++# Not for zip but for smart contract implementation for it
++CVE_CHECK_WHITELIST += "CVE-2018-13684"
++
+ # zip.inc sets CFLAGS, but what Makefile actually uses is
+ # CFLAGS_NOOPT.  It will also force -O3 optimization, overriding
+ # whatever we set.
 -- 
 2.29.2
 
