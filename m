@@ -1,112 +1,77 @@
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
- by mx.groups.io with SMTP id smtpd.web10.6275.1611232045632086611
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.6716.1611234140214588079
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 04:27:25 -0800
+ Thu, 21 Jan 2021 05:02:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cisco.com header.s=iport header.b=eVDUuh31;
- spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: oobitots@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=2762; q=dns/txt; s=iport;
-  t=1611232045; x=1612441645;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=0trhqh+KfZATZQFlx+4AHci+2wcjANw18yKWV8d9rx0=;
-  b=eVDUuh3157BM876EaqkEvWuStYlTkAo7hU0ue/JRkmh13dH6Vdiw4fVQ
-   AlNP0lu+D6tfvhVQ77zrT/00rElB0MqgFEbZphaAOwTKC53/WYxabqqFg
-   1DMmfQf53VViQeTIdYCgKSb/2V2Bp2JgqNHgYz51kAjSvog/ka9EfLouI
-   c=;
-X-IronPort-AV: E=Sophos;i="5.79,363,1602547200"; 
-   d="scan'208";a="630151057"
-Received: from rcdn-core-11.cisco.com ([173.37.93.147])
-  by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 21 Jan 2021 12:27:24 +0000
-Received: from sjc-ads-8148.cisco.com (sjc-ads-8148.cisco.com [171.68.208.186])
-	by rcdn-core-11.cisco.com (8.15.2/8.15.2) with ESMTPS id 10LCRNUC028630
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Thu, 21 Jan 2021 12:27:23 GMT
-Received: by sjc-ads-8148.cisco.com (Postfix, from userid 500841)
-	id 2214CCC1251; Thu, 21 Jan 2021 04:27:23 -0800 (PST)
-From: "Oleksiy Obitotskyy" <oobitots@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksiy Obitotskyy <oobitots@cisco.com>
-Subject: [PATCH][V2] dtc: improve reproducibility
-Date: Thu, 21 Jan 2021 04:27:21 -0800
-Message-Id: <20210121122721.98421-1-oobitots@cisco.com>
-X-Mailer: git-send-email 2.26.2.Cisco
+ dkim=pass header.i=@konsulko.com header.s=google header.b=ooYiy6rv;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.53, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-wm1-f53.google.com with SMTP id m187so1380389wme.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 05:02:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=x375UBIEr5fSE90aoUdO6NULqNFFjG9r0Ake+yY7q+g=;
+        b=ooYiy6rvD9Ipbwo4txjHgapYzYNAeWctLwKxievuLSl9lmRs9yA+293lFjJ08lfWaX
+         wX8RwKQbWVes90+tdHCcP/6ge6usEX3MEl5954ztSMdY8WCD4+yPeRMM6kLI0Ufvxyn0
+         vMQaGGtIOBWGrljIWHCCD9lV8iNUQptIftTss=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=x375UBIEr5fSE90aoUdO6NULqNFFjG9r0Ake+yY7q+g=;
+        b=TLTjyW4zDLGVGi/A/1eXXq79RDpYhFWn7eI6faad7Fua6Qvt7dAJmlxj3aCCsH9V2L
+         Nbyf+Dzn5tsIPBbHFMEPPuAgdzFujyDmDTcWQ/V2LBbHnaEZWRigyMrrO2TJ8+NlqbNs
+         z8uJLXDTuP5DuQ3dvr90i7nTfJyvQ6rEO+9PfE0qvvKKUXYCzvQViVgGNGQlKsnSEYlS
+         ay8bP+Bi/B7R8lxfCBQS8PbhzBlnlcQdGBksAJCwRommaOzkL3qKUIUGFZv5WOaFH1u+
+         2QL9vBTG12FF8CxVunXAOxP8BWTOBt7/w0H2IMoxnI5ngGuEegYN9CdlJGzxyt2nEPGb
+         rAvw==
+X-Gm-Message-State: AOAM530+2MXeenOjdjG3jf/kS3UZmhkkvIT3vAeMLHygmxucoLkpfr4D
+	J1zCoxkEFSLTFN0cstvriPIq5w==
+X-Google-Smtp-Source: ABdhPJztTfFdbqbk1vJQAvyjOf5rTvbjbzJGTAMEmGd78LqCDSMbx5wKDiYNZQURnmEcd7Bi5E1oyw==
+X-Received: by 2002:a1c:7c03:: with SMTP id x3mr8835709wmc.103.1611234138574;
+        Thu, 21 Jan 2021 05:02:18 -0800 (PST)
+Return-Path: <leon.anavi@konsulko.com>
+Received: from [192.168.4.166] ([78.130.197.211])
+        by smtp.gmail.com with ESMTPSA id h13sm8236175wrm.28.2021.01.21.05.02.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 Jan 2021 05:02:17 -0800 (PST)
+Subject: Re: [oe] OpenEmbedded Virtual Stand at FOSDEM 2021
+To: Paul Barker <pbarker@konsulko.com>,
+ openembedded-core <openembedded-core@lists.openembedded.org>,
+ openembedded-devel@lists.openembedded.org,
+ Yocto-mailing-list <yocto@lists.yoctoproject.org>
+References: <CAM9ZRVuEaZLvg4trA-LhNyz8=yMs=cYhRzSR-emzmEGo8BdMhw@mail.gmail.com>
+From: "Leon Anavi" <leon.anavi@konsulko.com>
+Message-ID: <e12afb9d-9074-05b1-d7f1-60bd36645ae8@konsulko.com>
+Date: Thu, 21 Jan 2021 15:02:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 171.68.208.186, sjc-ads-8148.cisco.com
-X-Outbound-Node: rcdn-core-11.cisco.com
+In-Reply-To: <CAM9ZRVuEaZLvg4trA-LhNyz8=yMs=cYhRzSR-emzmEGo8BdMhw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Makefile override CFLAGS, so -fmacro/debug-prefix-map
-optiions was omitted and binaries contains absolute
-patch to sources.
+Hi Paul,
 
-Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
----
- V2 - apply patch unconditionally
- V1 - apply patch only if reproducibility is turned on
+On 13.01.21 г. 23:33 ч., Paul Barker wrote:
+> * Any participants in the project who want to help host the Matrix
+> chat room between 09:00 and 18:00 each day of the event. This will
+> likely involve introducing the project to folks dropping in the chat
+> who aren't familiar with OpenEmbedded, answering basic questions and
+> chatting about example uses of the project. You don't need to be a
+> long-standing expert in the project to help out here! If you can do a
+> couple of hours or a half day please let us know.
+I will be happy to help with this task as a volunteer for a couple of 
+hours during FOSDEM 2021.
 
- meta/recipes-kernel/dtc/dtc.inc               |  2 ++
- ...-Makefile-to-add-CFLAGS-not-override.patch | 36 +++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
+Best regards,
+Leon
 
-diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-index 0650e3c82e..5da6c24fbf 100644
---- a/meta/recipes-kernel/dtc/dtc.inc
-+++ b/meta/recipes-kernel/dtc/dtc.inc
-@@ -7,7 +7,9 @@ DEPENDS = "flex-native bison-native"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
-            file://make_install.patch \
-+           file://0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch \
-            "
-+
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
- EXTRA_OEMAKE='NO_PYTHON=1 PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
-diff --git a/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch b/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
-new file mode 100644
-index 0000000000..6ac83929b9
---- /dev/null
-+++ b/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
-@@ -0,0 +1,36 @@
-+From d684b031967ee7055d5719476ef578fe2c37401c Mon Sep 17 00:00:00 2001
-+From: Oleksiy Obitotskyy <oobitots@cisco.com>
-+Date: Thu, 24 Sep 2020 05:12:42 -0700
-+Subject: [PATCH] dtc: Fix Makefile to add CFLAGS not override
-+
-+Makefile override CFLAGS not extend them, so some of them
-+missing. Sources builds out of kernel tree and probably not all
-+options could be used (?). We need at least -fmacro-prefix-map/
-+debug-prefix-map to eliminate absolute path in binaries.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-+---
-+ Makefile | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index f729bf6..bb51a92 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -16,10 +16,10 @@ EXTRAVERSION =
-+ LOCAL_VERSION =
-+ CONFIG_LOCALVERSION =
-+ 
-+-CPPFLAGS = -I libfdt -I .
-++CPPFLAGS += -I libfdt -I .
-+ WARNINGS = -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
-+ 	-Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wshadow
-+-CFLAGS = -g -Os $(SHAREDLIB_CFLAGS) -Werror $(WARNINGS) $(EXTRA_CFLAGS)
-++CFLAGS += -g -Os $(SHAREDLIB_CFLAGS) -Werror $(WARNINGS) $(EXTRA_CFLAGS)
-+ 
-+ BISON = bison
-+ LEX = flex
-+-- 
-+2.19.0.dirty
-+
 -- 
-2.26.2.Cisco
+Leon Anavi
+Software Engineer
+konsulko.com
 
