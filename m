@@ -1,103 +1,100 @@
 Received: from mga02.intel.com (mga02.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.1397.1611246150445140456
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 08:22:42 -0800
+ Thu, 21 Jan 2021 08:22:45 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: fIFc3n+gkN81l8PloseF2hu1LC2LDgMYql90/FW17YaSDpSDEJU90KHWWpsTDMre49a0o59F5z
- 42H4N2X/om5g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="166392516"
+IronPort-SDR: b6taH0QE5Wf2AGos3xV00RsUtRbher3m4+vF2SkezPUq8clqyhenR/e28VReJwGNJbcx90EtT0
+ kju+f+S4nNgA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="166392523"
 X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="166392516"
+   d="scan'208";a="166392523"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:42 -0800
-IronPort-SDR: PBANEFux3PAytsNSQ+qh5i4rffzohMIW9/FN261g0KJXt1FRzGm5fR1fIfQfL9b1dEttllrJNC
- rLndzdgqWFVg==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:43 -0800
+IronPort-SDR: d1HLxcf1dJlDYgEZkMrVzGbGmESS6bomWqig2LV3I8R0cH9Oe88MJ5Pjw4joZPIeQtbanWOyPj
+ H14g+m3u+jhw==
 X-IronPort-AV: E=Sophos;i="5.79,364,1602572400"; 
-   d="scan'208";a="427413923"
+   d="scan'208";a="427413946"
 Received: from yonshuta-mobl.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.145.18])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:40 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 08:22:42 -0800
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [gatesgarth][PATCH 19/20] devtool: Fix source extraction for gcc shared source
-Date: Fri, 22 Jan 2021 00:22:04 +0800
-Message-Id: <9a1bcf47f0242215610ddf917e8bd87e86fdf419.1611245974.git.anuj.mittal@intel.com>
+Subject: [gatesgarth][PATCH 20/20] flex: Fix --noline option behavior
+Date: Fri, 22 Jan 2021 00:22:05 +0800
+Message-Id: <e02c02459b35129402b2a77b592896c787e590ff.1611245974.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1611245974.git.anuj.mittal@intel.com>
 References: <cover.1611245974.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+From: Oleksiy Obitotskyy <oobitots@cisco.com>
 
-If do_patch task is disabled then prepare do_configure dependencies to
-fetch external sources and create symlink to ${S} in devtool workspace.
+Option --noline or -L does not handled properly.
+So generated code contains #line directives with
+file absolute path and prevents to create
+reproducible builds.
 
-[YOCTO #13036]
-
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9e47319bfe62d289b90f7545a64dbdc1cbde7f1d)
+(cherry picked from commit 0bf2cb7dc2123f220accf1542c2ae4c4b4b8275a)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- scripts/lib/devtool/standard.py | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ ...directives-if-gen_line_dirs-is-false.patch | 32 +++++++++++++++++++
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 261d642d4a..f7d8a82117 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -589,6 +589,16 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-             else:
-                 task = 'do_patch'
+diff --git a/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+new file mode 100644
+index 0000000000..c8202b6bd5
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
+@@ -0,0 +1,32 @@
++From 440f3f55739468cd26e22f31871eca8cbbd53294 Mon Sep 17 00:00:00 2001
++From: Oleksiy Obitotskyy <oobitots@cisco.com>
++Date: Wed, 6 Jan 2021 06:12:14 -0800
++Subject: [PATCH] Emit no #line directives if gen_line_dirs is false
++
++If we set --noline we should not print line directives.
++But setting --noline means gen_line_dirs is false.
++
++Upstream-Status: Submitted
++Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
++---
++ src/buf.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/buf.c b/src/buf.c
++index 185083c..4439e28 100644
++--- a/src/buf.c
+++++ b/src/buf.c
++@@ -95,8 +95,8 @@ struct Buf *buf_linedir (struct Buf *buf, const char* filename, int lineno)
++     const char *src;
++     size_t tsz;
++ 
++-    if (gen_line_dirs)
++-	return buf;
+++    if (!gen_line_dirs)
+++        return buf;
++ 
++     tsz = strlen("#line \"\"\n")                +   /* constant parts */
++                2 * strlen (filename)            +   /* filename with possibly all backslashes escaped */
++-- 
++2.26.2.Cisco
++
+diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+index 3d57572865..1d43d2228a 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.4.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.ta
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
+            file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
+            file://check-funcs.patch \
++           file://0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch \
+            "
  
-+                if 'noexec' in (d.getVarFlags(task, False) or []) or 'task' not in (d.getVarFlags(task, False) or []):
-+                    logger.info('The %s recipe has %s disabled. Running only '
-+                                       'do_configure task dependencies' % (pn, task))
-+
-+                    if 'depends' in d.getVarFlags('do_configure', False):
-+                        pn = d.getVarFlags('do_configure', False)['depends']
-+                        pn = pn.replace('${PV}', d.getVar('PV'))
-+                        pn = pn.replace('${COMPILERDEP}', d.getVar('COMPILERDEP'))
-+                        task = None
-+
-             # Run the fetch + unpack tasks
-             res = tinfoil.build_targets(pn,
-                                         task,
-@@ -600,6 +610,17 @@ def _extract_source(srctree, keep_temp, devbranch, sync, config, basepath, works
-         if not res:
-             raise DevtoolError('Extracting source for %s failed' % pn)
- 
-+        if not is_kernel_yocto and ('noexec' in (d.getVarFlags('do_patch', False) or []) or 'task' not in (d.getVarFlags('do_patch', False) or [])):
-+            workshareddir = d.getVar('S')
-+            if os.path.islink(srctree):
-+                os.unlink(srctree)
-+
-+            os.symlink(workshareddir, srctree)
-+
-+            # The initial_rev file is created in devtool_post_unpack function that will not be executed if
-+            # do_unpack/do_patch tasks are disabled so we have to directly say that source extraction was successful
-+            return True, True
-+
-         try:
-             with open(os.path.join(tempdir, 'initial_rev'), 'r') as f:
-                 initial_rev = f.read()
-@@ -847,10 +868,11 @@ def modify(args, config, basepath, workspace):
-             if not initial_rev:
-                 return 1
-             logger.info('Source tree extracted to %s' % srctree)
--            # Get list of commits since this revision
--            (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
--            commits = stdout.split()
--            check_commits = True
-+            if os.path.exists(os.path.join(srctree, '.git')):
-+                # Get list of commits since this revision
-+                (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
-+                commits = stdout.split()
-+                check_commits = True
-         else:
-             if os.path.exists(os.path.join(srctree, '.git')):
-                 # Check if it's a tree previously extracted by us. This is done
+ SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
 -- 
 2.29.2
 
