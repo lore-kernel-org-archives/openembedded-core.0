@@ -1,95 +1,134 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.480.1611242807063655430
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web12.1173.1611245366474993949
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 07:26:47 -0800
+ Thu, 21 Jan 2021 08:09:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YRg73A5m;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id a1so2139664wrq.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 07:26:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KvN4OKt1nD37rFx00RAWzZ28KSoxe2cUlnWb1hHYm+8=;
-        b=YRg73A5mlHWMw9xgmlkMlluLX0rKeF4UqU+zjN3Xl2nP6dVqdy4lMzDic+4qrT84DT
-         eMSWedpShrOXnTSrzNAptKdVBSdbEJHeJL+AG+Hdxndrz76elH2rBkZk4lj8Pe1a0mgp
-         9AfnKfCmn6Ub/D8XVqr8MdknTByVXwhg0Gukk4rCur+oVb/I4p5YdGD76qPEAq3fUH4O
-         8r90f4mT7Jf13Ya/w3wz2ISD0uT271yU6xw1SSGlZF0CzpFgVa4mYretk0MR+Ms+5Uq6
-         tAEJ0hY4w37evyTQcFvILWgs3X0RR+l9177fRIZZ6TcXp3yPfNvwX4x98fU5p4H3qg3/
-         IwIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KvN4OKt1nD37rFx00RAWzZ28KSoxe2cUlnWb1hHYm+8=;
-        b=r+ASDhzqA/4F2kG/RY4ffbVm6HiAtNh0wwDdE3K37r2AO8+oY9tROmR4/s6GmAyiru
-         xkTqDSw+0KVV+dMyh3rPvMMaRk/wFJkZive1is6m6MirC32lbRjbpMLJ960holxuOJAq
-         wuFilqNL4kfHM6cDSXP8e8EJkxoeV3bVMmpKoLd82Zp8lRhajGKi3CUbvSuqd/hZiQ+Z
-         ojxFLkyEPs9YbGEYJ56kGCWKSVkLm1OnMkjYmzDoI6Q3oc+Cjc0DbPqJrEMOlIl0/aiL
-         ajeQnPNmwHNcGmZXKCJQj/5UzfOiKaAKznS3oB3C+TU5Q8i9DEWbUBldHPAhgyAo9b/t
-         DWdQ==
-X-Gm-Message-State: AOAM531bk3aE+HtOLlN23XoKghq05wE7XTvCb2OdZ1S1WY6q6EhfYUIJ
-	jWcm6/o5/cNioWU3dVD+P+Tmz1BdKq5Wsw==
-X-Google-Smtp-Source: ABdhPJw7z7i1Q2xdwC20CeGyGcloLN4ZM+0niP3t4VBwlDUlwbkeY9QFphgSZYr3dLkpXtHepRd/cQ==
-X-Received: by 2002:a5d:4112:: with SMTP id l18mr8789wrp.116.1611242805445;
-        Thu, 21 Jan 2021 07:26:45 -0800 (PST)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id z184sm9186711wmg.7.2021.01.21.07.26.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 07:26:44 -0800 (PST)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
+ dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70EB611D4
+	for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 08:09:25 -0800 (PST)
+Received: from oss-tx204.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A2433F68F
+	for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 08:09:24 -0800 (PST)
+From: "Ross Burton" <ross@burtonini.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH v2] glslang: upgrade 8.13.3743 -> 11.1.0
-Date: Thu, 21 Jan 2021 15:26:50 +0000
-Message-Id: <20210121152650.618875-1-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.30.0
+Subject: [PATCH] base: use URI instead of decodeurl when detecting unpack dependencies
+Date: Thu, 21 Jan 2021 16:09:22 +0000
+Message-Id: <20210121160922.3935165-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-License-Update: Add additional licenses
+decodeurl() has limitations, primarily that it doesn't handle query
+parameters at all. If a SRC_URI looks like this:
 
-- [1] BSD-2-Clause & MIT & Apache-2.0
-- [2] GPL-2-with-bison-exception
+  http://example.com/download.tar.gz?something
 
-[1] https://github.com/KhronosGroup/glslang/commit/2962be40baff69848fd786c609289666b60741b8
-[2] https://github.com/KhronosGroup/glslang/commit/14a2cfbc72f2bb2e060fdfe3fbe6a4d54e3817a8
+Then the returned path attribute is download.tar.gz?something.  This mean=
+s
+the filename extension detection fails and required tools are not added
+to the dependencies.
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../glslang/{glslang_8.13.3743.bb => glslang_11.1.0.bb}   | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_8.13.3743.bb => glslang_11.1.0.bb} (75%)
+ meta/classes/base.bbclass | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
-diff --git a/meta/recipes-graphics/glslang/glslang_8.13.3743.bb b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
-similarity index 75%
-rename from meta/recipes-graphics/glslang/glslang_8.13.3743.bb
-rename to meta/recipes-graphics/glslang/glslang_11.1.0.bb
-index 2c4f4be5a2..1afa46954c 100644
---- a/meta/recipes-graphics/glslang/glslang_8.13.3743.bb
-+++ b/meta/recipes-graphics/glslang/glslang_11.1.0.bb
-@@ -5,15 +5,15 @@ of the specifications for these languages. It is open and free for anyone to use
- either from a command line or programmatically."
- SECTION = "graphics"
- HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
--LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=918e668376010a04448a312fb37ae69b"
-+LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c5ce49c0456e9b413b98a4368c378229"
- 
--SRCREV = "e05cc20ec20a154d94256c744a3837c23719c0f9"
-+SRCREV = "c594de23cdd790d64ad5f9c8b059baae0ee2941d"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https"
- UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
- S = "${WORKDIR}/git"
- 
--PV = "8.13.3743+git${SRCPV}"
-+PV = "11.1.0"
- 
- inherit cmake python3native
- 
--- 
-2.30.0
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 78ae28bb0f..d287065e08 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -596,62 +596,62 @@ python () {
+=20
+     needsrcrev =3D False
+     srcuri =3D d.getVar('SRC_URI')
+-    for uri in srcuri.split():
+-        (scheme, _ , path) =3D bb.fetch.decodeurl(uri)[:3]
++    for uri_string in srcuri.split():
++        uri =3D bb.fetch.URI(uri_string)
+=20
+         # HTTP/FTP use the wget fetcher
+-        if scheme in ("http", "https", "ftp"):
++        if uri.scheme in ("http", "https", "ftp"):
+             d.appendVarFlag('do_fetch', 'depends', ' wget-native:do_popu=
+late_sysroot')
+=20
+         # Svn packages should DEPEND on subversion-native
+-        if scheme =3D=3D "svn":
++        if uri.scheme =3D=3D "svn":
+             needsrcrev =3D True
+             d.appendVarFlag('do_fetch', 'depends', ' subversion-native:d=
+o_populate_sysroot')
+=20
+         # Git packages should DEPEND on git-native
+-        elif scheme in ("git", "gitsm"):
++        elif uri.scheme in ("git", "gitsm"):
+             needsrcrev =3D True
+             d.appendVarFlag('do_fetch', 'depends', ' git-native:do_popul=
+ate_sysroot')
+=20
+         # Mercurial packages should DEPEND on mercurial-native
+-        elif scheme =3D=3D "hg":
++        elif uri.scheme =3D=3D "hg":
+             needsrcrev =3D True
+             d.appendVar("EXTRANATIVEPATH", ' python3-native ')
+             d.appendVarFlag('do_fetch', 'depends', ' mercurial-native:do=
+_populate_sysroot')
+=20
+         # Perforce packages support SRCREV =3D "${AUTOREV}"
+-        elif scheme =3D=3D "p4":
++        elif uri.scheme =3D=3D "p4":
+             needsrcrev =3D True
+=20
+         # OSC packages should DEPEND on osc-native
+-        elif scheme =3D=3D "osc":
++        elif uri.scheme =3D=3D "osc":
+             d.appendVarFlag('do_fetch', 'depends', ' osc-native:do_popul=
+ate_sysroot')
+=20
+-        elif scheme =3D=3D "npm":
++        elif uri.scheme =3D=3D "npm":
+             d.appendVarFlag('do_fetch', 'depends', ' nodejs-native:do_po=
+pulate_sysroot')
+=20
+         # *.lz4 should DEPEND on lz4-native for unpacking
+-        if path.endswith('.lz4'):
++        if uri.path.endswith('.lz4'):
+             d.appendVarFlag('do_unpack', 'depends', ' lz4-native:do_popu=
+late_sysroot')
+=20
+         # *.lz should DEPEND on lzip-native for unpacking
+-        elif path.endswith('.lz'):
++        elif uri.path.endswith('.lz'):
+             d.appendVarFlag('do_unpack', 'depends', ' lzip-native:do_pop=
+ulate_sysroot')
+=20
+         # *.xz should DEPEND on xz-native for unpacking
+-        elif path.endswith('.xz') or path.endswith('.txz'):
++        elif uri.path.endswith('.xz') or uri.path.endswith('.txz'):
+             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_popul=
+ate_sysroot')
+=20
+         # .zip should DEPEND on unzip-native for unpacking
+-        elif path.endswith('.zip') or path.endswith('.jar'):
++        elif uri.path.endswith('.zip') or uri.path.endswith('.jar'):
+             d.appendVarFlag('do_unpack', 'depends', ' unzip-native:do_po=
+pulate_sysroot')
+=20
+         # Some rpm files may be compressed internally using xz (for exam=
+ple, rpms from Fedora)
+-        elif path.endswith('.rpm'):
++        elif uri.path.endswith('.rpm'):
+             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_popul=
+ate_sysroot')
+=20
+         # *.deb should DEPEND on xz-native for unpacking
+-        elif path.endswith('.deb'):
++        elif uri.path.endswith('.deb'):
+             d.appendVarFlag('do_unpack', 'depends', ' xz-native:do_popul=
+ate_sysroot')
+=20
+     if needsrcrev:
+--=20
+2.25.1
 
