@@ -1,138 +1,93 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web09.1405.1611271710116221562
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web09.3494.1611282630196437417
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 15:28:30 -0800
+ Thu, 21 Jan 2021 18:30:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZyZzt8kL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f54.google.com with SMTP id m4so3374712wrx.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Jan 2021 15:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=836jPq+/3ka1slVqC9jMqvkNiEi+1gbY3cY7CaELuTY=;
-        b=ZyZzt8kLnLwzDC/7UbOQOwEfVLV1ipifJjK3xOBSuPKz9KAYo9EzMoB+xDMwAq+31Q
-         szLDGw0jh8LiG1PVpriU/aT6CVhtyGdIpyGpALE56+o4VEtIY+QgtYLAH+cokMbmmlNI
-         Lwg3zGiL+CnaXf8r3qMbJdPfTy5yj74VYE5qw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=836jPq+/3ka1slVqC9jMqvkNiEi+1gbY3cY7CaELuTY=;
-        b=DqE8AX4IHQuqmJawPhow05omUap2vKY7bWO+JV46O4YusHc0n3YfOamXApd+KUVQOA
-         lngA5d4fbiarCWVKVDerUIHo7atnH5hYX+K9Jb17uEJSrccFctYLW2XbVBDYf4z+Xe9E
-         PFNB+obpfA+WCD6rPqP2JSgJC8OOZU8MVWrZvY1KvYVzb/UIyQZskPHyYxuwn43ICNeP
-         k1AjCMFgtClWQXbxCHHXPk6RhvjelH6OXAYSoJeBn4eEfIK/PSIlfp+U3aVNZvb4CPHJ
-         7JypikWy3VCR7t9EJn4e9en+YCmQXuhlnSRvN3DE+KmAS3hM9LZc/CKANSuRDGF9fcjz
-         MLFQ==
-X-Gm-Message-State: AOAM532P7NagpWoEUg0IdB0c6Q/TmIUauM7LUk2pRj17XyABDBY2c3sn
-	+ulR+r38AygrkFwUAHOjLrMR0A==
-X-Google-Smtp-Source: ABdhPJw/ohvkLph1WqkeIegub/Ne46094aab8hLZJ3xhXKKLLiawnWlydSdaFd7iAQXgq1BdULKAUg==
-X-Received: by 2002:a5d:6289:: with SMTP id k9mr1756614wru.200.1611271708468;
-        Thu, 21 Jan 2021 15:28:28 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:6d8b:661b:50ff:3a78? ([2001:8b0:aba:5f3c:6d8b:661b:50ff:3a78])
-        by smtp.gmail.com with ESMTPSA id v6sm9071223wrx.32.2021.01.21.15.28.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Jan 2021 15:28:28 -0800 (PST)
-Message-ID: <f07c4072dbb724260aa7196f94a513a78af5e3f4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH][V2] dtc: improve reproducibility
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: oobitots@cisco.com, openembedded-core@lists.openembedded.org
-Date: Thu, 21 Jan 2021 23:28:27 +0000
-In-Reply-To: <20210121122721.98421-1-oobitots@cisco.com>
-References: <20210121122721.98421-1-oobitots@cisco.com>
-User-Agent: Evolution 3.38.1-1 
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: 3Vmp9a5OLM138aTJYnMtPrYUnTkDabOI/za94E49EPtuIDXLpCKIYTzbTSoA3zeTcAiIvFzo7/
+ fItHDIXZ0HbQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9871"; a="198125699"
+X-IronPort-AV: E=Sophos;i="5.79,365,1602572400"; 
+   d="scan'208";a="198125699"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 18:30:28 -0800
+IronPort-SDR: 69SYBO8hvLsjoqQ1oG7EIpL7CtfDaKdol0p5xrEeSVX9Q9iZy3sk2wNfqu2qFnyeuW5Qz8BaBl
+ giga/mAEAMcw==
+X-IronPort-AV: E=Sophos;i="5.79,365,1602572400"; 
+   d="scan'208";a="574480989"
+Received: from bchon-mobl3.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.183.238])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jan 2021 18:30:26 -0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gstreamer1.0: fix failing ptest
+Date: Fri, 22 Jan 2021 10:30:21 +0800
+Message-Id: <20210122023021.583568-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-01-21 at 04:27 -0800, Oleksiy Obitotskyy via
-lists.openembedded.org wrote:
-> Makefile override CFLAGS, so -fmacro/debug-prefix-map
-> optiions was omitted and binaries contains absolute
-> patch to sources.
-> 
-> Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-> ---
->  V2 - apply patch unconditionally
->  V1 - apply patch only if reproducibility is turned on
-> 
->  meta/recipes-kernel/dtc/dtc.inc               |  2 ++
->  ...-Makefile-to-add-CFLAGS-not-override.patch | 36 +++++++++++++++++++
->  2 files changed, 38 insertions(+)
->  create mode 100644 meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
-> 
-> diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
-> index 0650e3c82e..5da6c24fbf 100644
-> --- a/meta/recipes-kernel/dtc/dtc.inc
-> +++ b/meta/recipes-kernel/dtc/dtc.inc
-> @@ -7,7 +7,9 @@ DEPENDS = "flex-native bison-native"
->  
-> 
-> 
-> 
->  SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git \
->             file://make_install.patch \
-> +           file://0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch \
->             "
-> +
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
->  
-> 
-> 
-> 
->  EXTRA_OEMAKE='NO_PYTHON=1 PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
-> diff --git a/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch b/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
-> new file mode 100644
-> index 0000000000..6ac83929b9
-> --- /dev/null
-> +++ b/meta/recipes-kernel/dtc/dtc/0001-dtc-Fix-Makefile-to-add-CFLAGS-not-override.patch
-> @@ -0,0 +1,36 @@
-> +From d684b031967ee7055d5719476ef578fe2c37401c Mon Sep 17 00:00:00 2001
-> +From: Oleksiy Obitotskyy <oobitots@cisco.com>
-> +Date: Thu, 24 Sep 2020 05:12:42 -0700
-> +Subject: [PATCH] dtc: Fix Makefile to add CFLAGS not override
-> +
-> +Makefile override CFLAGS not extend them, so some of them
-> +missing. Sources builds out of kernel tree and probably not all
-> +options could be used (?). We need at least -fmacro-prefix-map/
-> +debug-prefix-map to eliminate absolute path in binaries.
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
-> +---
-> + Makefile | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index f729bf6..bb51a92 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -16,10 +16,10 @@ EXTRAVERSION =
-> + LOCAL_VERSION =
-> + CONFIG_LOCALVERSION =
-> + 
-> +-CPPFLAGS = -I libfdt -I .
-> ++CPPFLAGS += -I libfdt -I .
-> + WARNINGS = -Wall -Wpointer-arith -Wcast-qual -Wnested-externs \
-> + 	-Wstrict-prototypes -Wmissing-prototypes -Wredundant-decls -Wshadow
-> +-CFLAGS = -g -Os $(SHAREDLIB_CFLAGS) -Werror $(WARNINGS) $(EXTRA_CFLAGS)
-> ++CFLAGS += -g -Os $(SHAREDLIB_CFLAGS) -Werror $(WARNINGS) $(EXTRA_CFLAGS)
-> + 
-> + BISON = bison
-> + LEX = flex
-> +-- 
-> +2.19.0.dirty
-> +
+Backport a patch to increase the timeout that might help with the
+intermittent seek test failure.
 
-I did try building this but it failed in testing with issues applying
-the patch e.g.:
+[YOCTO #14194]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/3235/steps/12/logs/stdio
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ ...-use-too-strict-timeout-for-validati.patch | 32 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.18.3.bb          |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch
+new file mode 100644
+index 0000000000..e0e64e2c7a
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch
+@@ -0,0 +1,32 @@
++From 1db36347d05d88835519368442e9aa89c64091ad Mon Sep 17 00:00:00 2001
++From: Seungha Yang <seungha@centricular.com>
++Date: Tue, 15 Sep 2020 00:54:58 +0900
++Subject: [PATCH] tests: seek: Don't use too strict timeout for validation
++
++Expected segment-done message might not be seen within expected
++time if system is not powerful enough.
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/625>
++
++Upstream-Status: Backport [https://cgit.freedesktop.org/gstreamer/gstreamer/commit?id=f44312ae5d831438fcf8041162079c65321c588c]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ tests/check/pipelines/seek.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tests/check/pipelines/seek.c b/tests/check/pipelines/seek.c
++index 28bb8846d..5f7447bc5 100644
++--- a/tests/check/pipelines/seek.c
+++++ b/tests/check/pipelines/seek.c
++@@ -521,7 +521,7 @@ GST_START_TEST (test_loopback_2)
++ 
++   GST_INFO ("wait for segment done message");
++ 
++-  msg = gst_bus_timed_pop_filtered (bus, (GstClockTime) 2 * GST_SECOND,
+++  msg = gst_bus_timed_pop_filtered (bus, GST_CLOCK_TIME_NONE,
++       GST_MESSAGE_SEGMENT_DONE | GST_MESSAGE_ERROR);
++   fail_unless (msg, "no message within the timed window");
++   fail_unless_equals_string (GST_MESSAGE_TYPE_NAME (msg), "segment-done");
++-- 
++2.29.2
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.3.bb
+index 7ad0248b7c..9cb07726ed 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.18.3.bb
+@@ -19,6 +19,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
+            file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
+            file://0002-Remove-unused-valgrind-detection.patch \
+            file://0003-meson-Add-option-for-installed-tests.patch \
++           file://0001-tests-seek-Don-t-use-too-strict-timeout-for-validati.patch \
+            "
+ SRC_URI[sha256sum] = "0c2e09e18f2df69a99b5cb3bd53c597b3cc2e35cf6c98043bb86a66f3d312100"
+ 
+-- 
+2.29.2
 
