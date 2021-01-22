@@ -1,193 +1,764 @@
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.61])
- by mx.groups.io with SMTP id smtpd.web09.5269.1611295839845089272
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web09.5681.1611299766265547091
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Jan 2021 22:10:40 -0800
+ Thu, 21 Jan 2021 23:16:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=g1dBuWjr;
- spf=pass (domain: windriver.com, ip: 40.107.94.61, mailfrom: mingli.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PGtEoQmQP5msp+ihxCcjTq6JXFIyygMUMZd7VDGVmnLRT5o1L9ws8CHKGo1iif7IeyautZXirF7GScYuYhJDfGb4uqSCRH/DCqaeYvunL57vQXNplYOtywWLriQNpEf6WtXyy8rFZCJVoyPnTfN9WaRvRVOgcPt7OZQyBViy5Nq5VXLI5RYX0jyZX+CMQ+8JqcsjkDsV+im5w27Kd2wNGMd/O/0M7GjBpbNwGbOiZMcLzAPhJUi8aJTHvKKQBM3d9Mkl2V6xqiMytiqtNFD2vDRFKNEIJXfyV/AbZ2j01WVBdJ983PeQ3mwK8Fux8s4A7vQJsbzqWKdya9rNwtVWHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=umPx/FGtjkgSFxm7HWxLPh3jobp9PT/L8R1+XTL6MOc=;
- b=FHejcXYVDzX8q21Gi3p6krScAelFfbBEh+hvI3PhdgBwobg8EWGC+WCUqVXVk5j9hK7hdiCN60ilHpAbT2C5mbxS3fTjbtAn1FazxHaF+6cYSjm2C5mTFX8W2UzD+mDhj+v7qCbSr/3IjO4wscTYVD6Le9pebf8EMI9IK/Jbs3wa6JuZyjI7lgNKBHS88PyPCeLoaa4ghaV9HJ+S/qZek8Ppo7VLVuO17G92J+ZMKYvqvLW6cZ2UcOSVXWIwj7ZYufTKZmPd/aZ++jEgUvaWV0XDue4Kt+sZ/42Q+UHyijBH0v8uS/XZtCGGJvI7kltWhvwYZhK7EFOe90V6M0R6QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=umPx/FGtjkgSFxm7HWxLPh3jobp9PT/L8R1+XTL6MOc=;
- b=g1dBuWjrH8+RH59S9rBvbPlX2DnZnBoMMKulS1TL1Wp9FyfH3mRRY80A6ty9lw+A+0Hy1o67X08lWWX/pRJ3UEzDm3Fv5WIxXCRwYJNI+E+27r9o4OGRyJaES5BwmhB3pInUWvaJ7frkB64hSx5T38Jvik+xtfbCaviE/pi8RS8=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com (2603:10b6:303:9e::11)
- by MWHPR11MB1488.namprd11.prod.outlook.com (2603:10b6:301:c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Fri, 22 Jan
- 2021 06:10:37 +0000
-Received: from CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::80fa:a14:ee1b:c46f]) by CO1PR11MB5009.namprd11.prod.outlook.com
- ([fe80::80fa:a14:ee1b:c46f%7]) with mapi id 15.20.3763.014; Fri, 22 Jan 2021
- 06:10:37 +0000
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] libpam: add ptest support
-Date: Fri, 22 Jan 2021 14:10:19 +0800
-Message-Id: <20210122061019.17032-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK0PR03CA0104.apcprd03.prod.outlook.com
- (2603:1096:203:b0::20) To CO1PR11MB5009.namprd11.prod.outlook.com
- (2603:10b6:303:9e::11)
-Return-Path: mingli.yu@windriver.com
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.79,365,1602518400"; 
+   d="scan'208";a="103729830"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 22 Jan 2021 15:15:54 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id D0E3C4CE602D
+	for <openembedded-core@lists.openembedded.org>; Fri, 22 Jan 2021 15:15:50 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 22 Jan 2021 15:15:50 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] qemu: CVE-2018-18438 Security Advisory
+Date: Fri, 22 Jan 2021 15:15:45 +0800
+Message-ID: <1611299746-47965-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from pek-lpg-core2.corp.ad.wrs.com (60.247.85.82) by HK0PR03CA0104.apcprd03.prod.outlook.com (2603:1096:203:b0::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11 via Frontend Transport; Fri, 22 Jan 2021 06:10:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3b26133a-71fd-4504-2896-08d8be9c6fe8
-X-MS-TrafficTypeDiagnostic: MWHPR11MB1488:
-X-Microsoft-Antispam-PRVS: 
-	<MWHPR11MB1488AB6723EEFD2EE994A5CEF1A00@MWHPR11MB1488.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:98;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	7JS1cPlFBZjjhvnaetp9CAoV6BGsL+KWOq9akF8oX/Z0RwT3tNUV9otYC5gKEnjkbz/OUWjQAf4/8sOpb4XfcSu4J/K4n+fzliY6fIexrYx3Qroq1zKFB69UjB12GkkbLKRdIYR2e5etkQNhZWS8NsPZxt9dxNYwc+vfwrH/ZSJ5ZNXROwpn24vbluUePLHGbKS9ySJUnS7OdTfGUpgBbx8oP8BKgJJQEqAny1qTFuUAUArfzlu556ROw38I1AOJ/jjS/AN5h0O0WgZ9YKUqoROZj0j9FtqfXJes7EN77/U9BJgffHokyt986UW5y2TyKQRDTNldSbYZ61UDg4WigAp838wa+MpeVNcenBri/VsDwdlQ4JZcZaRkuVSNisHPAHHJABjIVS+ijR0gW1x4sEyQbq928SS6VLWS8cdQacE+7dwSmbwFRYzTmiOxpHgOsEMWoJcfSdAsKE5QGTtJ8W3dccgOvyMaMbEAWUWhOc4Hf1cDsG5LclR7+fKeu4r9THQj3i7wLHi6PAzEPEGiIQf4vPRHFQiaLmxglMMIpChlOkR73wHLPIzPMcNPIet49h2+JFdfAj1XrzMBIMiyYM+ecmYLcJTwHUpD+oM6Ugg=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5009.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(366004)(396003)(39850400004)(6506007)(8676002)(2906002)(6486002)(186003)(83380400001)(66946007)(52116002)(86362001)(1076003)(8936002)(316002)(16526019)(6916009)(9686003)(36756003)(5660300002)(478600001)(66556008)(26005)(2616005)(6666004)(66476007)(956004)(6512007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?us-ascii?Q?BLgPB85soapMKfEG9h8hlRd+T3Rkz8Fp4MKq81OqP4X/D7ezpuxQb2IlFN9D?=
- =?us-ascii?Q?VXqMphJn7kYJATq0t933XNWwKf0lHsOGWI4+b6zzH4vtWVWhSTm1xqDo7KaP?=
- =?us-ascii?Q?sgZ/t2hxsDLlRJxIyjRjFC0S+U2EWNCAAey9bWfrbXNHiAuGEkZOlkf03L4O?=
- =?us-ascii?Q?A8Wt6CTuWu1MgBV0V0U8tXOLrB1Weip9GYzMHj5A3WyH9Cxef8STKCBsSlPQ?=
- =?us-ascii?Q?CiWuS+Fm2/OqAAg6nCeAjNXloLL3sZSCpE23DKgzv6hHfvQ78cXcmAKteHRo?=
- =?us-ascii?Q?c92jqA6Pt0ZDhEv+Xj0JW7FDe/3c990IjiRa2BjKZVnePHvP9O40uiHoTHS6?=
- =?us-ascii?Q?cLBmMmVZnGmqpea+JN2PvdkF9ZCpGuOHsqUXluKZgJ7zG6mbT+HEo5SYJiVb?=
- =?us-ascii?Q?EHC93XFWBtlw/nf5hNRndcDpPir+gbmN6kMqCytBGtDyAbKrktXalVDAHF3m?=
- =?us-ascii?Q?zepJ/UPfNW3G9V0l8S8Ce84w02XEkdTQV3pTfWZA20evvxG2wY176MwST32g?=
- =?us-ascii?Q?uhiFJ2e+xHM+flk2BylzZJfyc7pw9dvLEQLg1/Jeapq68BzYD8JtlotPdVEk?=
- =?us-ascii?Q?I4AQO/xY+SvcuOa2nQvu7ecmnGUru1oSd2zQbcoN+qUckZjMZt9gWkNpZ/on?=
- =?us-ascii?Q?eI+8RUMFr08cVJwSR7kgxaY5J9iyXqzx7EFIigbBoGq+ZvucZ3rSRYomZmb9?=
- =?us-ascii?Q?g9H8DvyI2SmXqW1CuXXZaA9kw9Mtd11h0lr3b3Uf33ZAgVJ1LFgxLW4jtZ0k?=
- =?us-ascii?Q?Cgpe+A8bnkWPp6HDuAUoWEv8JIQ6QRLLY4Es3fO4lzrIywf4eixJa7UCfXCX?=
- =?us-ascii?Q?jgtfZhSYTFEyLoC0qVLhzF6AbZ5AIPl5NUuu5unt5yOnKrinyRcEcDW+55sY?=
- =?us-ascii?Q?wQg2OVCowy4UkHqgAno5g+P0Fw16+b0ucL8knCcjBJ4J2UW3vWNM6juqYR/t?=
- =?us-ascii?Q?PtSzRJEFDGb7L7d7Z5Ee03vhughJrF4ua1vC3L8dRjvYJdKNJVX9N7eM7aGT?=
- =?us-ascii?Q?X5HP?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b26133a-71fd-4504-2896-08d8be9c6fe8
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5009.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2021 06:10:37.7493
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dabJ6Z3FOxb0Q5Yd7JjWS+hWyiSw2xNx6bGGH/mX0988puJ/kbw7bHGQkk8ZfIruiPz/VtjU9mN5VGpT8L3Cmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1488
-Content-Type: text/plain
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
+X-yoursite-MailScanner-ID: D0E3C4CE602D.AEC69
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+References
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-18438
 
-Add ptest support.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- meta/recipes-extended/pam/libpam/run-ptest | 31 ++++++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.5.1.bb  | 17 +++++++++++-
- 2 files changed, 47 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/pam/libpam/run-ptest
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2018-18438.patch            | 697 ++++++++++++++++++
+ 2 files changed, 698 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-18438.patch
 
-diff --git a/meta/recipes-extended/pam/libpam/run-ptest b/meta/recipes-extended/pam/libpam/run-ptest
-new file mode 100644
-index 0000000000..69e729ce2a
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/run-ptest
-@@ -0,0 +1,31 @@
-+#! /bin/sh
-+
-+cd tests
-+
-+failed=0
-+all=0
-+
-+for f in tst-*; do
-+    "./$f" > /dev/null 2>&1
-+    case "$?" in
-+        0)
-+            echo "PASS: $f"
-+            all=$((all + 1))
-+            ;;
-+        77)
-+            echo "SKIP: $f"
-+            ;;
-+        *)
-+            echo "FAIL: $f"
-+            failed=$((failed + 1))
-+            all=$((all + 1))
-+            ;;
-+    esac
-+done
-+
-+if [ "$failed" -eq 0 ] ; then
-+  echo "All $all tests passed"
-+else
-+  echo "$failed of $all tests failed"
-+fi
-+
-diff --git a/meta/recipes-extended/pam/libpam_1.5.1.bb b/meta/recipes-extended/pam/libpam_1.5.1.bb
-index d6612bb936..f225487688 100644
---- a/meta/recipes-extended/pam/libpam_1.5.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.5.1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux
-            file://libpam-xtests.patch \
-            file://0001-modules-pam_namespace-Makefile.am-correctly-install-.patch \
-            file://0001-Makefile.am-support-usrmage.patch \
-+           file://run-ptest \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index c894b81b10..d7f3613c3f 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://mmap.patch \
+            file://mmap2.patch \
+            file://0001-tests-meson.build-use-relative-path-to-refer-to-file.patch \
++	   file://CVE-2018-18438.patch \
             "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI[sha256sum] = "201d40730b1135b1b3cdea09f2c28ac634d73181ccd0172ceddee3649c5792fc"
-@@ -40,7 +41,7 @@ CFLAGS_append = " -fPIC "
- 
- S = "${WORKDIR}/Linux-PAM-${PV}"
- 
--inherit autotools gettext pkgconfig systemd
-+inherit autotools gettext pkgconfig systemd ptest
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[audit] = "--enable-audit,--disable-audit,audit,"
-@@ -112,6 +113,13 @@ python populate_packages_prepend () {
-     do_split_packages(d, pam_filterdir, r'^(.*)$', 'pam-filter-%s', 'PAM filter for %s', extra_depends='')
- }
- 
-+do_compile_ptest() {
-+        cd tests
-+        sed -i -e 's/$(MAKE) $(AM_MAKEFLAGS) check-TESTS//' Makefile
-+        oe_runmake check-am
-+        cd -
-+}
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-18438.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-18438.patch
+new file mode 100644
+index 0000000000..b6ce8fa57d
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-18438.patch
+@@ -0,0 +1,697 @@
++From:	Philippe Mathieu-Daudé
++Subject:	[Qemu-devel] [PATCH v2 07/11] chardev: Let IOReadHandler use unsigned type
++Date:	Fri, 12 Oct 2018 02:22:13 +0200
 +
- do_install() {
- 	autotools_do_install
- 
-@@ -131,6 +139,13 @@ do_install() {
- 	fi
- }
- 
-+do_install_ptest() {
-+    if [ ${PTEST_ENABLED} = "1" ]; then
-+        mkdir -p ${D}${PTEST_PATH}/tests
-+        install -m 0755 ${B}/tests/.libs/* ${D}${PTEST_PATH}/tests
-+    fi
-+}
++The number of bytes can not be negative nor zero.
 +
- inherit features_check
- REQUIRED_DISTRO_FEATURES = "pam"
- 
++Fixed 2 format string:
++- hw/char/spapr_vty.c
++- hw/usb/ccid-card-passthru.c
++
++Suggested-by: Paolo Bonzini <address@hidden>
++Signed-off-by: Philippe Mathieu-Daudé <address@hidden>
++Acked-by: Alberto Garcia <address@hidden>
++---
++ backends/rng-egd.c          | 2 +-
++ chardev/char-mux.c          | 2 +-
++ gdbstub.c                   | 2 +-
++ hw/arm/pxa2xx.c             | 2 +-
++ hw/arm/strongarm.c          | 3 ++-
++ hw/char/bcm2835_aux.c       | 2 +-
++ hw/char/cadence_uart.c      | 2 +-
++ hw/char/cmsdk-apb-uart.c    | 2 +-
++ hw/char/digic-uart.c        | 2 +-
++ hw/char/escc.c              | 2 +-
++ hw/char/etraxfs_ser.c       | 2 +-
++ hw/char/exynos4210_uart.c   | 3 ++-
++ hw/char/grlib_apbuart.c     | 3 ++-
++ hw/char/imx_serial.c        | 2 +-
++ hw/char/ipoctal232.c        | 2 +-
++ hw/char/lm32_juart.c        | 2 +-
++ hw/char/lm32_uart.c         | 2 +-
++ hw/char/mcf_uart.c          | 2 +-
++ hw/char/milkymist-uart.c    | 2 +-
++ hw/char/pl011.c             | 2 +-
++ hw/char/riscv_htif.c        | 2 +-
++ hw/char/sclpconsole-lm.c    | 2 +-
++ hw/char/sclpconsole.c       | 2 +-
++ hw/char/serial.c            | 4 ++--
++ hw/char/sh_serial.c         | 2 +-
++ hw/char/sifive_uart.c       | 2 +-
++ hw/char/spapr_vty.c         | 4 ++--
++ hw/char/stm32f2xx_usart.c   | 3 ++-
++ hw/char/terminal3270.c      | 2 +-
++ hw/char/virtio-console.c    | 2 +-
++ hw/char/xen_console.c       | 2 +-
++ hw/char/xilinx_uartlite.c   | 2 +-
++ hw/ipmi/ipmi_bmc_extern.c   | 2 +-
++ hw/misc/ivshmem.c           | 4 ++--
++ hw/usb/ccid-card-passthru.c | 5 +++--
++ hw/usb/dev-serial.c         | 2 +-
++ hw/usb/redirect.c           | 3 ++-
++ include/qemu/main-loop.h    | 2 +-
++ monitor/hmp.c               | 2 +-
++ monitor/qmp.c               | 2 +-
++ net/colo-compare.c          | 4 ++--
++ net/filter-mirror.c         | 2 +-
++ net/slirp.c                 | 2 +-
++ softmmu/qtest.c             | 2 +-
++ target/xtensa/xtensa-semi.c | 2 +-
++ 45 files changed, 56 insertions(+), 50 deletions(-)
++
++diff --git a/backends/rng-egd.c b/backends/rng-egd.c
++index 4de142b9d..56292104a 100644
++--- a/backends/rng-egd.c
+++++ b/backends/rng-egd.c
++@@ -62,7 +62,7 @@ static int rng_egd_chr_can_read(void *opaque)
++     return size;
++ }
++ 
++-static void rng_egd_chr_read(void *opaque, const uint8_t *buf, int size)
+++static void rng_egd_chr_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     RngEgd *s = RNG_EGD(opaque);
++     size_t buf_offset = 0;
++diff --git a/chardev/char-mux.c b/chardev/char-mux.c
++index 6f980bb83..574a39074 100644
++--- a/chardev/char-mux.c
+++++ b/chardev/char-mux.c
++@@ -210,7 +210,7 @@ static int mux_chr_can_read(void *opaque)
++     return 0;
++ }
++ 
++-static void mux_chr_read(void *opaque, const uint8_t *buf, int size)
+++static void mux_chr_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     Chardev *chr = CHARDEV(opaque);
++     MuxChardev *d = MUX_CHARDEV(opaque);
++diff --git a/gdbstub.c b/gdbstub.c
++index f19f98ab1..98c75e31e 100644
++--- a/gdbstub.c
+++++ b/gdbstub.c
++@@ -3296,7 +3296,7 @@ static int gdb_chr_can_receive(void *opaque)
++   return MAX_PACKET_LENGTH;
++ }
++ 
++-static void gdb_chr_receive(void *opaque, const uint8_t *buf, int size)
+++static void gdb_chr_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     int i;
++ 
++diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
++index 1a98f3bd5..393d98633 100644
++--- a/hw/arm/pxa2xx.c
+++++ b/hw/arm/pxa2xx.c
++@@ -1963,7 +1963,7 @@ static int pxa2xx_fir_is_empty(void *opaque)
++     return (s->rx_len < 64);
++ }
++ 
++-static void pxa2xx_fir_rx(void *opaque, const uint8_t *buf, int size)
+++static void pxa2xx_fir_rx(void *opaque, const uint8_t *buf, size_t size)
++ {
++     PXA2xxFIrState *s = (PXA2xxFIrState *) opaque;
++     if (!(s->control[0] & (1 << 4)))			/* RXE */
++diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
++index ca7c385f3..8557f9a31 100644
++--- a/hw/arm/strongarm.c
+++++ b/hw/arm/strongarm.c
++@@ -1076,7 +1076,8 @@ static int strongarm_uart_can_receive(void *opaque)
++     return 1;
++ }
++ 
++-static void strongarm_uart_receive(void *opaque, const uint8_t *buf, int size)
+++static void strongarm_uart_receive(void *opaque, const uint8_t *buf,
+++                                   size_t size)
++ {
++     StrongARMUARTState *s = opaque;
++     int i;
++diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
++index dade2ab5f..3ac94f09f 100644
++--- a/hw/char/bcm2835_aux.c
+++++ b/hw/char/bcm2835_aux.c
++@@ -240,7 +240,7 @@ static void bcm2835_aux_put_fifo(void *opaque, uint8_t value)
++     bcm2835_aux_update(s);
++ }
++ 
++-static void bcm2835_aux_receive(void *opaque, const uint8_t *buf, int size)
+++static void bcm2835_aux_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     bcm2835_aux_put_fifo(opaque, *buf);
++ }
++diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
++index e196906c9..c1b5214df 100644
++--- a/hw/char/cadence_uart.c
+++++ b/hw/char/cadence_uart.c
++@@ -347,7 +347,7 @@ static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf,
++     cadence_uart_xmit(NULL, G_IO_OUT, s);
++ }
++ 
++-static void uart_receive(void *opaque, const uint8_t *buf, int size)
+++static void uart_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     CadenceUARTState *s = opaque;
++     uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
++diff --git a/hw/char/cmsdk-apb-uart.c b/hw/char/cmsdk-apb-uart.c
++index 626b68f2e..316426a84 100644
++--- a/hw/char/cmsdk-apb-uart.c
+++++ b/hw/char/cmsdk-apb-uart.c
++@@ -122,7 +122,7 @@ static int uart_can_receive(void *opaque)
++     return 0;
++ }
++ 
++-static void uart_receive(void *opaque, const uint8_t *buf, int size)
+++static void uart_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     CMSDKAPBUART *s = CMSDK_APB_UART(opaque);
++ 
++diff --git a/hw/char/digic-uart.c b/hw/char/digic-uart.c
++index e130cb469..bcc265714 100644
++--- a/hw/char/digic-uart.c
+++++ b/hw/char/digic-uart.c
++@@ -121,7 +121,7 @@ static int uart_can_rx(void *opaque)
++     return !(s->reg_st & ST_RX_RDY);
++ }
++ 
++-static void uart_rx(void *opaque, const uint8_t *buf, int size)
+++static void uart_rx(void *opaque, const uint8_t *buf, size_t size)
++ {
++     DigicUartState *s = opaque;
++ 
++diff --git a/hw/char/escc.c b/hw/char/escc.c
++index 7d16ee868..2bd650ea8 100644
++--- a/hw/char/escc.c
+++++ b/hw/char/escc.c
++@@ -628,7 +628,7 @@ static void serial_receive_break(ESCCChannelState *s)
++     escc_update_irq(s);
++ }
++ 
++-static void serial_receive1(void *opaque, const uint8_t *buf, int size)
+++static void serial_receive1(void *opaque, const uint8_t *buf, size_t size)
++ {
++     ESCCChannelState *s = opaque;
++     serial_receive_byte(s, buf[0]);
++diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
++index d9fba2ae6..af3b1d30e 100644
++--- a/hw/char/etraxfs_ser.c
+++++ b/hw/char/etraxfs_ser.c
++@@ -171,7 +171,7 @@ static Property etraxfs_ser_properties[] = {
++     DEFINE_PROP_END_OF_LIST(),
++ };
++ 
++-static void serial_receive(void *opaque, const uint8_t *buf, int size)
+++static void serial_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     ETRAXSerial *s = opaque;
++     int i;
++diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
++index 96afe3580..11b9d18b9 100644
++--- a/hw/char/exynos4210_uart.c
+++++ b/hw/char/exynos4210_uart.c
++@@ -555,7 +555,8 @@ static int exynos4210_uart_can_receive(void *opaque)
++     return fifo_empty_elements_number(&s->rx);
++ }
++ 
++-static void exynos4210_uart_receive(void *opaque, const uint8_t *buf, int size)
+++static void exynos4210_uart_receive(void *opaque, const uint8_t *buf,
+++                                    size_t size)
++ {
++     Exynos4210UartState *s = (Exynos4210UartState *)opaque;
++     int i;
++diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
++index 3f80f6824..a5a210537 100644
++--- a/hw/char/grlib_apbuart.c
+++++ b/hw/char/grlib_apbuart.c
++@@ -140,7 +140,8 @@ static int grlib_apbuart_can_receive(void *opaque)
++     return FIFO_LENGTH - uart->len;
++ }
++ 
++-static void grlib_apbuart_receive(void *opaque, const uint8_t *buf, int size)
+++static void grlib_apbuart_receive(void *opaque, const uint8_t *buf, size_t
+++size)
++ {
++     UART *uart = opaque;
++ 
++diff --git a/hw/char/imx_serial.c b/hw/char/imx_serial.c
++index 731b8fc64..ca52724a8 100644
++--- a/hw/char/imx_serial.c
+++++ b/hw/char/imx_serial.c
++@@ -318,7 +318,7 @@ static void imx_put_data(void *opaque, uint32_t value)
++     imx_update(s);
++ }
++ 
++-static void imx_receive(void *opaque, const uint8_t *buf, int size)
+++static void imx_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     imx_put_data(opaque, *buf);
++ }
++diff --git a/hw/char/ipoctal232.c b/hw/char/ipoctal232.c
++index ad000a39b..14da6c383 100644
++--- a/hw/char/ipoctal232.c
+++++ b/hw/char/ipoctal232.c
++@@ -472,7 +472,7 @@ static int hostdev_can_receive(void *opaque)
++     return ch->rx_enabled ? available_bytes : 0;
++ }
++ 
++-static void hostdev_receive(void *opaque, const uint8_t *buf, int size)
+++static void hostdev_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     SCC2698Channel *ch = opaque;
++     IPOctalState *dev = ch->ipoctal;
++diff --git a/hw/char/lm32_juart.c b/hw/char/lm32_juart.c
++index aced35701..3e7d1e52a 100644
++--- a/hw/char/lm32_juart.c
+++++ b/hw/char/lm32_juart.c
++@@ -90,7 +90,7 @@ void lm32_juart_set_jrx(DeviceState *d, uint32_t jtx)
++     s->jrx &= ~JRX_FULL;
++ }
++ 
++-static void juart_rx(void *opaque, const uint8_t *buf, int size)
+++static void juart_rx(void *opaque, const uint8_t *buf, size_t size)
++ {
++     LM32JuartState *s = opaque;
++ 
++diff --git a/hw/char/lm32_uart.c b/hw/char/lm32_uart.c
++index 2f58e2943..eb14db77c 100644
++--- a/hw/char/lm32_uart.c
+++++ b/hw/char/lm32_uart.c
++@@ -214,7 +214,7 @@ static const MemoryRegionOps uart_ops = {
++     },
++ };
++ 
++-static void uart_rx(void *opaque, const uint8_t *buf, int size)
+++static void uart_rx(void *opaque, const uint8_t *buf, size_t size)
++ {
++     LM32UartState *s = opaque;
++ 
++diff --git a/hw/char/mcf_uart.c b/hw/char/mcf_uart.c
++index e6814faff..28c03cd9a 100644
++--- a/hw/char/mcf_uart.c
+++++ b/hw/char/mcf_uart.c
++@@ -279,7 +279,7 @@ static int mcf_uart_can_receive(void *opaque)
++     return s->rx_enabled && (s->sr & MCF_UART_FFULL) == 0;
++ }
++ 
++-static void mcf_uart_receive(void *opaque, const uint8_t *buf, int size)
+++static void mcf_uart_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     mcf_uart_state *s = (mcf_uart_state *)opaque;
++ 
++diff --git a/hw/char/milkymist-uart.c b/hw/char/milkymist-uart.c
++index a817c51eb..4cc05f6fd 100644
++--- a/hw/char/milkymist-uart.c
+++++ b/hw/char/milkymist-uart.c
++@@ -160,7 +160,7 @@ static const MemoryRegionOps uart_mmio_ops = {
++     .endianness = DEVICE_NATIVE_ENDIAN,
++ };
++ 
++-static void uart_rx(void *opaque, const uint8_t *buf, int size)
+++static void uart_rx(void *opaque, const uint8_t *buf, size_t size)
++ {
++     MilkymistUartState *s = opaque;
++ 
++diff --git a/hw/char/pl011.c b/hw/char/pl011.c
++index ede16c781..95216add1 100644
++--- a/hw/char/pl011.c
+++++ b/hw/char/pl011.c
++@@ -297,7 +297,7 @@ static void pl011_put_fifo(void *opaque, uint32_t value)
++     }
++ }
++ 
++-static void pl011_receive(void *opaque, const uint8_t *buf, int size)
+++static void pl011_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     pl011_put_fifo(opaque, *buf);
++ }
++diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
++index ba1af1cfc..4e8e9dfae 100644
++--- a/hw/char/riscv_htif.c
+++++ b/hw/char/riscv_htif.c
++@@ -74,7 +74,7 @@ static int htif_can_recv(void *opaque)
++  * Called by the char dev to supply input to HTIF console.
++  * We assume that we will receive one character at a time.
++  */
++-static void htif_recv(void *opaque, const uint8_t *buf, int size)
+++static void htif_recv(void *opaque, const uint8_t *buf, size_t size)
++ {
++     HTIFState *htifstate = opaque;
++ 
++diff --git a/hw/char/sclpconsole-lm.c b/hw/char/sclpconsole-lm.c
++index 81f6d0ed4..41e8c076b 100644
++--- a/hw/char/sclpconsole-lm.c
+++++ b/hw/char/sclpconsole-lm.c
++@@ -75,7 +75,7 @@ static int chr_can_read(void *opaque)
++     return 1;
++ }
++ 
++-static void chr_read(void *opaque, const uint8_t *buf, int size)
+++static void chr_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     SCLPConsoleLM *scon = opaque;
++ 
++diff --git a/hw/char/sclpconsole.c b/hw/char/sclpconsole.c
++index aa72ab40b..cae77319b 100644
++--- a/hw/char/sclpconsole.c
+++++ b/hw/char/sclpconsole.c
++@@ -63,7 +63,7 @@ static int chr_can_read(void *opaque)
++ }
++ 
++ /* Send data from a char device over to the guest */
++-static void chr_read(void *opaque, const uint8_t *buf, int size)
+++static void chr_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     SCLPConsole *scon = opaque;
++ 
++diff --git a/hw/char/serial.c b/hw/char/serial.c
++index 97f71879f..0f8fcf189 100644
++--- a/hw/char/serial.c
+++++ b/hw/char/serial.c
++@@ -100,7 +100,7 @@
++ 
++ #define MAX_XMIT_RETRY      4
++ 
++-static void serial_receive1(void *opaque, const uint8_t *buf, int size);
+++static void serial_receive1(void *opaque, const uint8_t *buf, size_t size);
++ static void serial_xmit(SerialState *s);
++ 
++ static inline void recv_fifo_put(SerialState *s, uint8_t chr)
++@@ -599,7 +599,7 @@ static int serial_can_receive1(void *opaque)
++     return serial_can_receive(s);
++ }
++ 
++-static void serial_receive1(void *opaque, const uint8_t *buf, int size)
+++static void serial_receive1(void *opaque, const uint8_t *buf, size_t size)
++ {
++     SerialState *s = opaque;
++ 
++diff --git a/hw/char/sh_serial.c b/hw/char/sh_serial.c
++index 167f4d8cb..4752e18af 100644
++--- a/hw/char/sh_serial.c
+++++ b/hw/char/sh_serial.c
++@@ -328,7 +328,7 @@ static void sh_serial_timeout_int(void *opaque)
++     }
++ }
++ 
++-static void sh_serial_receive1(void *opaque, const uint8_t *buf, int size)
+++static void sh_serial_receive1(void *opaque, const uint8_t *buf, size_t size)
++ {
++     sh_serial_state *s = opaque;
++ 
++diff --git a/hw/char/sifive_uart.c b/hw/char/sifive_uart.c
++index 3a00ba7f0..84961efb2 100644
++--- a/hw/char/sifive_uart.c
+++++ b/hw/char/sifive_uart.c
++@@ -141,7 +141,7 @@ static const MemoryRegionOps uart_ops = {
++     }
++ };
++ 
++-static void uart_rx(void *opaque, const uint8_t *buf, int size)
+++static void uart_rx(void *opaque, const uint8_t *buf, size_t size)
++ {
++     SiFiveUARTState *s = opaque;
++ 
++diff --git a/hw/char/spapr_vty.c b/hw/char/spapr_vty.c
++index e726d4d91..c3aa4cd15 100644
++--- a/hw/char/spapr_vty.c
+++++ b/hw/char/spapr_vty.c
++@@ -29,7 +29,7 @@ static int vty_can_receive(void *opaque)
++     return VTERM_BUFSIZE - (dev->in - dev->out);
++ }
++ 
++-static void vty_receive(void *opaque, const uint8_t *buf, int size)
+++static void vty_receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     SpaprVioVty *dev = VIO_SPAPR_VTY_DEVICE(opaque);
++     int i;
++@@ -43,7 +43,7 @@ static void vty_receive(void *opaque, const uint8_t *buf, int size)
++             static bool reported;
++             if (!reported) {
++                 error_report("VTY input buffer exhausted - characters dropped."
++-                             " (input size = %i)", size);
+++				" (input size = %zu)", size);
++                 reported = true;
++             }
++             break;
++diff --git a/hw/char/stm32f2xx_usart.c b/hw/char/stm32f2xx_usart.c
++index 0d661be6d..801614097 100644
++--- a/hw/char/stm32f2xx_usart.c
+++++ b/hw/char/stm32f2xx_usart.c
++@@ -52,7 +52,8 @@ static int stm32f2xx_usart_can_receive(void *opaque)
++     return 0;
++ }
++ 
++-static void stm32f2xx_usart_receive(void *opaque, const uint8_t *buf, int size)
+++static void stm32f2xx_usart_receive(void *opaque, const uint8_t *buf,
+++                                    size_t size)
++ {
++     STM32F2XXUsartState *s = opaque;
++ 
++diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
++index d77981bb6..78870e061 100644
++--- a/hw/char/terminal3270.c
+++++ b/hw/char/terminal3270.c
++@@ -93,7 +93,7 @@ static gboolean send_timing_mark_cb(gpointer opaque)
++  * As of now, for such case, we simply terminate the connection,
++  * and we should come back here later with a better solution.
++  */
++-static void terminal_read(void *opaque, const uint8_t *buf, int size)
+++static void terminal_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     Terminal3270 *t = opaque;
++     CcwDevice *ccw_dev = CCW_DEVICE(t);
++diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
++index bc752cf90..f7bdbffcf 100644
++--- a/hw/char/virtio-console.c
+++++ b/hw/char/virtio-console.c
++@@ -138,7 +138,7 @@ static int chr_can_read(void *opaque)
++ }
++ 
++ /* Send data from a char device over to the guest */
++-static void chr_read(void *opaque, const uint8_t *buf, int size)
+++static void chr_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     VirtConsole *vcon = opaque;
++     VirtIOSerialPort *port = VIRTIO_SERIAL_PORT(vcon);
++diff --git a/hw/char/xen_console.c b/hw/char/xen_console.c
++index 63153dfde..9450ea322 100644
++--- a/hw/char/xen_console.c
+++++ b/hw/char/xen_console.c
++@@ -122,7 +122,7 @@ static int xencons_can_receive(void *opaque)
++     return ring_free_bytes(con);
++ }
++ 
++-static void xencons_receive(void *opaque, const uint8_t *buf, int len)
+++static void xencons_receive(void *opaque, const uint8_t *buf, size_t len)
++ {
++     struct XenConsole *con = opaque;
++     struct xencons_interface *intf = con->sring;
++diff --git a/hw/char/xilinx_uartlite.c b/hw/char/xilinx_uartlite.c
++index 2e773ec4c..f2b6751f5 100644
++--- a/hw/char/xilinx_uartlite.c
+++++ b/hw/char/xilinx_uartlite.c
++@@ -182,7 +182,7 @@ static Property xilinx_uartlite_properties[] = {
++     DEFINE_PROP_END_OF_LIST(),
++ };
++ 
++-static void uart_rx(void *opaque, const uint8_t *buf, int size)
+++static void uart_rx(void *opaque, const uint8_t *buf, size_t size)
++ {
++     XilinxUARTLite *s = opaque;
++ 
++diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
++index c3f3306e6..c0d810275 100644
++--- a/hw/ipmi/ipmi_bmc_extern.c
+++++ b/hw/ipmi/ipmi_bmc_extern.c
++@@ -313,7 +313,7 @@ static int can_receive(void *opaque)
++     return 1;
++ }
++ 
++-static void receive(void *opaque, const uint8_t *buf, int size)
+++static void receive(void *opaque, const uint8_t *buf, size_t size)
++ {
++     IPMIBmcExtern *ibe = opaque;
++     int i;
++diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
++index e321e5cb6..8743caed4 100644
++--- a/hw/misc/ivshmem.c
+++++ b/hw/misc/ivshmem.c
++@@ -580,14 +580,14 @@ static int ivshmem_can_receive(void *opaque)
++     return sizeof(s->msg_buf) - s->msg_buffered_bytes;
++ }
++ 
++-static void ivshmem_read(void *opaque, const uint8_t *buf, int size)
+++static void ivshmem_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     IVShmemState *s = opaque;
++     Error *err = NULL;
++     int fd;
++     int64_t msg;
++ 
++-    assert(size >= 0 && s->msg_buffered_bytes + size <= sizeof(s->msg_buf));
+++    assert(s->msg_buffered_bytes + size <= sizeof(s->msg_buf));
++     memcpy((unsigned char *)&s->msg_buf + s->msg_buffered_bytes, buf, size);
++     s->msg_buffered_bytes += size;
++     if (s->msg_buffered_bytes < sizeof(s->msg_buf)) {
++diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
++index e8e9d37e8..d419071a1 100644
++--- a/hw/usb/ccid-card-passthru.c
+++++ b/hw/usb/ccid-card-passthru.c
++@@ -275,13 +275,14 @@ static void ccid_card_vscard_drop_connection(PassthruState *card)
++     card->vscard_in_pos = card->vscard_in_hdr = 0;
++ }
++ 
++-static void ccid_card_vscard_read(void *opaque, const uint8_t *buf, int size)
+++static void ccid_card_vscard_read(void *opaque, const uint8_t *buf, size_t
+++size)
++ {
++     PassthruState *card = opaque;
++     VSCMsgHeader *hdr;
++ 
++     if (card->vscard_in_pos + size > VSCARD_IN_SIZE) {
++-        error_report("no room for data: pos %u +  size %d > %" PRId64 "."
+++        error_report("no room for data: pos %u +  size %zu > %" PRId64 "."
++                      " dropping connection.",
++                      card->vscard_in_pos, size, VSCARD_IN_SIZE);
++         ccid_card_vscard_drop_connection(card);
++diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
++index 19e1933f0..8d760f3fa 100644
++--- a/hw/usb/dev-serial.c
+++++ b/hw/usb/dev-serial.c
++@@ -524,7 +524,7 @@ static int usb_serial_can_read(void *opaque)
++     return RECV_BUF - s->recv_used;
++ }
++ 
++-static void usb_serial_read(void *opaque, const uint8_t *buf, int size)
+++static void usb_serial_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     USBSerialState *s = opaque;
++     int first_size, start;
++diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
++index 3238de6bb..e60b2ab25 100644
++--- a/hw/usb/redirect.c
+++++ b/hw/usb/redirect.c
++@@ -1351,7 +1351,8 @@ static int usbredir_chardev_can_read(void *opaque)
++     return 1 * MiB;
++ }
++ 
++-static void usbredir_chardev_read(void *opaque, const uint8_t *buf, int size)
+++static void usbredir_chardev_read(void *opaque, const uint8_t *buf, size_t
+++size)
++ {
++     USBRedirDevice *dev = opaque;
++ 
++diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
++index d6892fd20..5de3d7d61 100644
++--- a/include/qemu/main-loop.h
+++++ b/include/qemu/main-loop.h
++@@ -167,7 +167,7 @@ void qemu_del_wait_object(HANDLE handle, WaitObjectFunc *func, void *opaque);
++ 
++ /* async I/O support */
++ 
++-typedef void IOReadHandler(void *opaque, const uint8_t *buf, int size);
+++typedef void IOReadHandler(void *opaque, const uint8_t *buf, size_t size);
++ 
++ /**
++  * IOCanReadHandler: Return the number of bytes that #IOReadHandler can accept
++diff --git a/monitor/hmp.c b/monitor/hmp.c
++index 120423399..3b0301a4e 100644
++--- a/monitor/hmp.c
+++++ b/monitor/hmp.c
++@@ -1330,7 +1330,7 @@ cleanup:
++     free_cmdline_args(args, nb_args);
++ }
++ 
++-static void monitor_read(void *opaque, const uint8_t *buf, int size)
+++static void monitor_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     MonitorHMP *mon = container_of(opaque, MonitorHMP, common);
++     int i;
++diff --git a/monitor/qmp.c b/monitor/qmp.c
++index b42f8c6af..6ce2f777f 100644
++--- a/monitor/qmp.c
+++++ b/monitor/qmp.c
++@@ -368,7 +368,7 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
++     }
++ }
++ 
++-static void monitor_qmp_read(void *opaque, const uint8_t *buf, int size)
+++static void monitor_qmp_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     MonitorQMP *mon = opaque;
++ 
++diff --git a/net/colo-compare.c b/net/colo-compare.c
++index 337025b44..342283cbe 100644
++--- a/net/colo-compare.c
+++++ b/net/colo-compare.c
++@@ -854,7 +854,7 @@ static int compare_chr_can_read(void *opaque)
++  * Called from the main thread on the primary for packets
++  * arriving over the socket from the primary.
++  */
++-static void compare_pri_chr_in(void *opaque, const uint8_t *buf, int size)
+++static void compare_pri_chr_in(void *opaque, const uint8_t *buf, size_t size)
++ {
++     CompareState *s = COLO_COMPARE(opaque);
++     int ret;
++@@ -871,7 +871,7 @@ static void compare_pri_chr_in(void *opaque, const uint8_t *buf, int size)
++  * Called from the main thread on the primary for packets
++  * arriving over the socket from the secondary.
++  */
++-static void compare_sec_chr_in(void *opaque, const uint8_t *buf, int size)
+++static void compare_sec_chr_in(void *opaque, const uint8_t *buf, size_t size)
++ {
++     CompareState *s = COLO_COMPARE(opaque);
++     int ret;
++diff --git a/net/filter-mirror.c b/net/filter-mirror.c
++index 088d4dcac..001ba9316 100644
++--- a/net/filter-mirror.c
+++++ b/net/filter-mirror.c
++@@ -119,7 +119,7 @@ static int redirector_chr_can_read(void *opaque)
++     return REDIRECTOR_MAX_LEN;
++ }
++ 
++-static void redirector_chr_read(void *opaque, const uint8_t *buf, int size)
+++static void redirector_chr_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     NetFilterState *nf = opaque;
++     MirrorState *s = FILTER_REDIRECTOR(nf);
++diff --git a/net/slirp.c b/net/slirp.c
++index 77042e6df..a4a8f1450 100644
++--- a/net/slirp.c
+++++ b/net/slirp.c
++@@ -908,7 +908,7 @@ static int guestfwd_can_read(void *opaque)
++     return slirp_socket_can_recv(fwd->slirp, fwd->server, fwd->port);
++ }
++ 
++-static void guestfwd_read(void *opaque, const uint8_t *buf, int size)
+++static void guestfwd_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     struct GuestFwd *fwd = opaque;
++     slirp_socket_recv(fwd->slirp, fwd->server, fwd->port, buf, size);
++diff --git a/softmmu/qtest.c b/softmmu/qtest.c
++index 7965dc9a1..2312c9f81 100644
++--- a/softmmu/qtest.c
+++++ b/softmmu/qtest.c
++@@ -801,7 +801,7 @@ static void qtest_process_inbuf(CharBackend *chr, GString *inbuf)
++     }
++ }
++ 
++-static void qtest_read(void *opaque, const uint8_t *buf, int size)
+++static void qtest_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     CharBackend *chr = opaque;
++ 
++diff --git a/target/xtensa/xtensa-semi.c b/target/xtensa/xtensa-semi.c
++index 25f57a650..ffbbe4624 100644
++--- a/target/xtensa/xtensa-semi.c
+++++ b/target/xtensa/xtensa-semi.c
++@@ -169,7 +169,7 @@ static int sim_console_can_read(void *opaque)
++ }
++ 
++ static IOReadHandler sim_console_read;
++-static void sim_console_read(void *opaque, const uint8_t *buf, int size)
+++static void sim_console_read(void *opaque, const uint8_t *buf, size_t size)
++ {
++     XtensaSimConsole *p = opaque;
++     size_t copy = sizeof(p->input.buffer) - p->input.offset;
++-- 
++2.25.1
++
 -- 
-2.17.1
+2.25.1
+
+
 
