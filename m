@@ -1,74 +1,80 @@
 Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.24748.1611512817641262340
+ by mx.groups.io with SMTP id smtpd.web08.28947.1611530452197379993
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Jan 2021 10:26:57 -0800
+ Sun, 24 Jan 2021 15:20:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hKlZ6nsq;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id 6so10069971wri.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Jan 2021 10:26:57 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VSA5v3Yt;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id q7so10471039wre.13
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 Jan 2021 15:20:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aASLy6h1dQUAPXmn4jI+8/6Y18KDAlhh5oVnM3k0xCM=;
-        b=hKlZ6nsqJEUAbkclP9T7iwKSM3wEdJGDAoe9oKvMAh1XPJG+rAEnj0KoF774LHQKag
-         xUyoWD2LsaJTojBXIjFqUDRdrR82LGO+vh2fV3QQufH27Q6qfJo9Y0daqsPdswxU0ht9
-         oWtSPlimyafkCln5YjiXARaqHe1FmkXEVHZZMBbaehsfuhFHXmNogmIKhn2AC1v+yBfa
-         lTOW2Brd6J+FM/eNTCBau/bjFIwGqd/K60rMNwWl/5q5tejpp/RkFrgHp7+EknPLTGpW
-         MhLFeHw7+XQVPYNq2uFdmADm6hHiPrgiqjEIaMv0UTNzcjIZr3RFYqqtymbkUUW5bqj7
-         Qs4w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=VY5lPtLIY3Qw+Q/mwG6t2UeHn3Q0p80o5ltOzt3tOr4=;
+        b=VSA5v3YtSV+U3NSD5yFxbQOq4W0Q6wL+y2BzPvTNaf29f7zWzhFROB8grzH0AgcOWI
+         t2WnmxanT/R2I9xgeKhDDUWjDJzd3YlJblcnmlfZBjRg2OiFGY0MwnqQh/pyjCQv4r5n
+         FsPvtN+A+opYr8wkwwC7p4Eqk+5xwkWu0TWZg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aASLy6h1dQUAPXmn4jI+8/6Y18KDAlhh5oVnM3k0xCM=;
-        b=PMy4WbahtEAXlPQho7CZexV5wvKNWcyLSzwx0LHjZeUlLEJ9iJG3GvTaS5k3xAhh3u
-         gN9j9ChC2S5GDmr683dCFgupzhh15FlPcmbHab5hckICVbLSLusWOyJ8qfDofnG7nTQh
-         J80/tONqASA8h77ezQRIuvncZo4wdnVwdrvulXU+kQXuAEHV78Ba9xX67tk8oPO2lFHs
-         kf7diLB1P5E+f9mh0Hv2JMu5VpCbyrrJghLJmy0Yy7/yQCmpOqfZ+Qq/o7Lmepaj62AF
-         L+7DJhJnSgt47l/MyFvHePPpR7aqvlxffAnY5D+yMpqKWjhDOCuSIoD1RhpaeSQQztOg
-         zitg==
-X-Gm-Message-State: AOAM530Pl5uTCkyZIA2Q/Iu+L1xxt1n3Af7Y2MNcDd76N/WDMeicrJTH
-	b+fetK9xTpat2duH8wnI2CAUr0EcdGqhCw==
-X-Google-Smtp-Source: ABdhPJzoL4/DF7vCY2dTIaYtYD1pTMXQjGN77aLutqVWZVUOWT23C1FIdR9Q9ZlxD0twEGrqU3oHkw==
-X-Received: by 2002:a5d:4b8e:: with SMTP id b14mr2013725wrt.130.1611512816344;
-        Sun, 24 Jan 2021 10:26:56 -0800 (PST)
-Return-Path: <quaresma.jose@gmail.com>
-Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id p18sm18365509wmc.31.2021.01.24.10.26.55
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=VY5lPtLIY3Qw+Q/mwG6t2UeHn3Q0p80o5ltOzt3tOr4=;
+        b=YvrzoYldHwYv3DHy1kU/A27PDRoN5pavfNpjJAP48x/gL3hsEiqpQixpWHF0Pts3SE
+         jag5/e54fqeeteaNjSjxZ8/oehd32VyctSQvAtR1PnZZXDJPfIbn2L2wc7fcD8czr6ai
+         beQ+w+mbTEJlp/MO2prsluaH687+aDj/wQElzm03cyRj37co7iet5tGQn6DmWXKK+bnj
+         VeKRi0PUuNa6ayVj+zwa1eairZyf4xqQJF+pySLY9s3a1ywNbKL9EdhN0FZSxUHZlNxm
+         9LkzbyxLEmR2hg2FKYQkZllN6W7db8ikzvHJrgd8ezo+vOiTY94OyMcI23yqXvx701Hh
+         X7yQ==
+X-Gm-Message-State: AOAM531cvCVFoL2ywPN/SIzdJg9QfSQ1V+gjF9DZnFgOBa4H0C/d2JK1
+	MEDDJ3XlKP6uh+0NWOiROYTSZw==
+X-Google-Smtp-Source: ABdhPJzfy6WKZhUk5divwv4LGcQtMwMmy4Qh0bqn4KQUgCmkGT1xA4TxYMD5sSeJGWIzWBDBgd+lzQ==
+X-Received: by 2002:a05:6000:1189:: with SMTP id g9mr2743380wrx.230.1611530450561;
+        Sun, 24 Jan 2021 15:20:50 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:cbb3:266e:4b67:be20? ([2001:8b0:aba:5f3c:cbb3:266e:4b67:be20])
+        by smtp.gmail.com with ESMTPSA id s19sm22987615wrf.72.2021.01.24.15.20.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jan 2021 10:26:55 -0800 (PST)
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 4/4] shaderc: add spirv-headers as dependencie
-Date: Sun, 24 Jan 2021 18:26:47 +0000
-Message-Id: <20210124182647.1613511-4-quaresma.jose@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210124182647.1613511-1-quaresma.jose@gmail.com>
-References: <20210124182647.1613511-1-quaresma.jose@gmail.com>
+        Sun, 24 Jan 2021 15:20:50 -0800 (PST)
+Message-ID: <cc80f8541aeef99a4625420fbf7d27dcc6abf341.camel@linuxfoundation.org>
+Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 24 Jan 2021 07:15:01 AM HST
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Steve Sakoman <steve@sakoman.com>, 
+	openembedded-core@lists.openembedded.org, 
+	yocto-security@lists.yoctoproject.org
+Cc: Lee Chee Yang <chee.yang.lee@intel.com>
+Date: Sun, 24 Jan 2021 23:20:46 +0000
+In-Reply-To: <20210124171809.D838F960256@nuc.router0800d9.com>
+References: <20210124171809.D838F960256@nuc.router0800d9.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
----
- meta/recipes-graphics/shaderc/shaderc_2020.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sun, 2021-01-24 at 07:18 -1000, Steve Sakoman wrote:
+> Branch: master
+> 
+> New this week:
+> CVE-2013-0800: pixman https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-0800 *
+> CVE-2019-1543: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1543 *
+> CVE-2019-1547: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1547 *
+> CVE-2019-1549: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1549 *
+> CVE-2019-1551: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1551 *
+> CVE-2019-1552: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1552 *
+> CVE-2019-1563: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-1563 *
+> CVE-2020-14409: libsdl2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14409 *
+> CVE-2020-14410: libsdl2 https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-14410 *
+> CVE-2020-1967: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1967 *
+> CVE-2020-1971: openssl https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2020-1971 *
 
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-index 18a08ee6c5..8658a5737b 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
-@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
- 
- inherit cmake python3native
- 
--DEPENDS = "spirv-tools glslang"
-+DEPENDS = "spirv-headers spirv-tools glslang"
- 
- EXTRA_OECMAKE = " \
-     -DCMAKE_BUILD_TYPE=Release \
--- 
-2.30.0
+Adding Chee Yang, did the recent cve-check change mean some version
+comparisons regressed and exposed CVEs that shouldn't be in this list,
+or were we making some we need to fix? Or did some other change expose
+these?
+
+Cheers,
+
+Richard
+
+
 
