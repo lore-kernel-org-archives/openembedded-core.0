@@ -1,96 +1,117 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web12.24866.1611512815157708930
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web12.24868.1611512816033822516
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Jan 2021 10:26:55 -0800
+ Sun, 24 Jan 2021 10:26:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qvlIrQvl;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id p15so3414677wrq.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Jan 2021 10:26:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Pj3MruyM;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id c12so10061451wrc.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 Jan 2021 10:26:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CbtK+tY+P/gRWTI7oNHXaIJdcMHYpt54fI+etZm9PyA=;
-        b=qvlIrQvlRBhhSWCMY65kYudXvUdNZCixht0dUrS6A2WMr9jngtNoVpfODJMeyOOyXw
-         lvaf7xfiYFkCAgHz/bKXmnJ3MyaaX4zu7o2robjYMY+OCk+5/GMkOQHOMgmQDlxcsEsl
-         IJmYDbINqMQLLE2oNnWN2l29zcVWUZF6jcxQEHQKe/+kyVxc2dSqdVgOtkpNMUFecZ1+
-         w6z3VeYzr4CxTYgvXoa6ybA1+NNIs/5ul6zwLv+eNAh9eXpTRw6Nze4lMTP+ksv/WlQV
-         j6+LX5uZfrqRbDGltSuSC4VqPWqOL0FqxHzJIjGHttBJbGkP0sqH0kmPWF547UvB0cXO
-         Unmw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=IUpJgk/qQtbV13/G7lv00+Y5EPoWv2EtbUM/E0AVQQk=;
+        b=Pj3MruyMSYyDpNFvWGgC7xbJveHlBPz1sbv0WWtYZq6DkNOmJNad7Tunb+znlNi4pQ
+         Jzf5XkoYLgxUvxeTXrYdu/g+n+1DW/vM5RvkMRtHyfH5NoRXXpAGMMqfcE9kSRkJyfBW
+         +YMFjJuw1gEvf6I71pZbgtI/loGvVX6VDLtBlAaqkZhCbyVnIHm2pTWSg0WCK/9DDsSr
+         S5dJ7oBf7bRdAp25IV2JbLH1KB3RsEuGDZKw9ZhQDIyS8v5tve5HeVk0IJTul+28FPZW
+         lywhLn2I4+uIxo71zQFRHJillCGxRMAvBvP0/U4/tUt5pXN7QfxE3Jy2HKii6lW5jp1V
+         SQvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CbtK+tY+P/gRWTI7oNHXaIJdcMHYpt54fI+etZm9PyA=;
-        b=gdhSzCss8YhPyzrSQpjLJp5CJHc8/GyEdQEvKGRU2oLOkzCSflF2whR+7EQOdXPu2v
-         tBdCr1AD6qGJYCTKo1/wlczNw6mYFLb9yhiOlnkoA1rlJSzhhD+f1eGilpeMhsciRdyu
-         AT6h8iHpKf2jfoSJUlF9qIXWUysCIkxgKyQbQmodkKlX222wcup0gLEcpq3nkNVkqNWP
-         lMQchNT5KAKBwXVVf2rLLC4rQk9IzTZ3PvMe45l/k376fARKfRw8LuyRljNAtihIgczh
-         IRstfWMZ70sxkhOG1sRfyasF38NPkEjDJDp+xB8mGvJ2z2pdyxwZYQebN7u4nRbjHBvI
-         agnA==
-X-Gm-Message-State: AOAM533uMIGwegctY2JSID3Ix8ON3XZs502nSzG1L02NTMdYWvBUcMmS
-	S+kQZQwAl8axgRs5+c+alBM/8IoxyCG9yw==
-X-Google-Smtp-Source: ABdhPJzuCo7l+ppI6PUojU510ikv+An/jhps6jr2YWsHPr+U5u/wLSDhYgATrsGuhfcDuz+Cfmmv1g==
-X-Received: by 2002:adf:f8c9:: with SMTP id f9mr185328wrq.104.1611512813671;
-        Sun, 24 Jan 2021 10:26:53 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=IUpJgk/qQtbV13/G7lv00+Y5EPoWv2EtbUM/E0AVQQk=;
+        b=V0VRUtByIWFeSGXutKOp4f5aV1NscaVi8FL7cjxufKHotBFuVaHi1NDLMuxk/s75zg
+         +01Edu64jfOq7xmW8oCqlCoH3zdQdR3SOZ3xYpmQ243y8dHDuxDVT4qUVdSmNU4J3l5I
+         DLd3I0IPBxd+IppCKjwToX3olZi+z+rmJNiO4I1XTkgFt05WlrKzU9fRgLioXXR6qkH9
+         xkbLVUiMl+sxRNeHIR9HSPCk6CnsmhSAZSuAy7drkLkaHDzNhHTPGNKJV7mjq29rHWtX
+         aHBvssFZE4M2hckUprE6KevA/i/5xp+1N0Lvz701y/ZZl9jPvK5ymC/dbHUoEzM9YJ1A
+         69Xg==
+X-Gm-Message-State: AOAM532NCedwf8Ihf4WIBE57wLnRyD7sxX2TfZ3AXgwFEO6mQQAhmcMT
+	02tpoXxgE5jjnqTCCFX9UCS2HnSgdB+RSg==
+X-Google-Smtp-Source: ABdhPJzT9jAbXaMD2BRWl1CFXabAyq5qkk/9NMpWnJCFA+nHOvK2B4Jno2+R56udwuVjLj0l69Corw==
+X-Received: by 2002:a5d:62c1:: with SMTP id o1mr2769698wrv.275.1611512814592;
+        Sun, 24 Jan 2021 10:26:54 -0800 (PST)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id p18sm18365509wmc.31.2021.01.24.10.26.52
+        by smtp.gmail.com with ESMTPSA id p18sm18365509wmc.31.2021.01.24.10.26.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jan 2021 10:26:53 -0800 (PST)
+        Sun, 24 Jan 2021 10:26:54 -0800 (PST)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 1/4] spirv-headers: Add receipe
-Date: Sun, 24 Jan 2021 18:26:44 +0000
-Message-Id: <20210124182647.1613511-1-quaresma.jose@gmail.com>
+Subject: [PATCH 2/4] spirv-tools: cleanup
+Date: Sun, 24 Jan 2021 18:26:45 +0000
+Message-Id: <20210124182647.1613511-2-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210124182647.1613511-1-quaresma.jose@gmail.com>
+References: <20210124182647.1613511-1-quaresma.jose@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+- spirv-headers is provived in a separete receipe, so add it as dependencie
+- add a new package spirv-tools-lesspipe that needs bash
+- remove unneeded external sources
+
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc        |  1 +
- .../spir/spirv-headers_1.5.4.bb                 | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+)
- create mode 100644 meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
+ .../spir/spirv-tools_2020.6.bb                | 31 ++++++-------------
+ 1 file changed, 10 insertions(+), 21 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index b0ddfb89a8..baad4a351f 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -668,6 +668,7 @@ RECIPE_MAINTAINER_pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-speex = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER_pn-speexdsp = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER_pn-spirv-headers = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
- RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
-diff --git a/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb b/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
-new file mode 100644
-index 0000000000..14723f951b
---- /dev/null
-+++ b/meta/recipes-graphics/spir/spirv-headers_1.5.4.bb
-@@ -0,0 +1,17 @@
-+SUMMARY = "Machine-readable files for the SPIR-V Registry"
-+DESCRIPTION = "Headers are provided in the include directory, with up-to-date \
-+headers in the unified1 subdirectory. Older headers are provided according to \
-+their version."
+diff --git a/meta/recipes-graphics/spir/spirv-tools_2020.6.bb b/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
+index eb07833f22..2c855d8d8e 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_2020.6.bb
+@@ -2,37 +2,26 @@ SUMMARY  = "The SPIR-V Tools project provides an API and commands for \
+ processing SPIR-V modules"
+ DESCRIPTION = "The project includes an assembler, binary module parser, \
+ disassembler, validator, and optimizer for SPIR-V."
 +SECTION = "graphics"
-+HOMEPAGE = "https://www.khronos.org/registry/spir-v"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c938b85bceb8fb26c1a807f28a52ae2d"
-+
-+SRCREV = "f027d53ded7e230e008d37c8b47ede7cd308e19d"
-+SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https"
+ LICENSE  = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+-SECTION = "graphics"
+ 
++SRCREV = "b27b1afd12d05bf238ac7368bb49de73cd620a8e"
++SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git"
 +UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
-+S = "${WORKDIR}/git"
+ S = "${WORKDIR}/git"
+-DEST_DIR = "${S}/external" 
+-SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;name=spirv-tools \
+-           git://github.com/KhronosGroup/SPIRV-Headers.git;name=spirv-headers;destsuffix=${DEST_DIR}/spirv-headers \
+-           git://github.com/google/effcee.git;name=effcee;destsuffix=${DEST_DIR}/effcee \
+-           git://github.com/google/re2.git;name=re2;destsuffix=${DEST_DIR}/re2 \
+-           git://github.com/google/googletest.git;name=googletest;destsuffix=${DEST_DIR}/googletest \
+-           file://0001-Respect-CMAKE_INSTALL_LIBDIR-in-installed-CMake-file.patch;destsuffix=${DEST_DIR}/effcee \
+-"
+-SRCREV_spirv-tools = "b27b1afd12d05bf238ac7368bb49de73cd620a8e"
+-SRCREV_spirv-headers = "f027d53ded7e230e008d37c8b47ede7cd308e19d"
+-SRCREV_effcee = "cd25ec17e9382f99a895b9ef53ff3c277464d07d"
+-SRCREV_re2 = "5bd613749fd530b576b890283bfb6bc6ea6246cb"
+-SRCREV_googletest = "f2fb48c3b3d79a75a88a99fba6576b25d42ec528"
+ 
+ inherit cmake python3native
+ 
+-EXTRA_OECMAKE += "-DSPIRV_WERROR=OFF"
++DEPENDS = "spirv-headers"
+ 
+-do_install_append() {
+-	install -d ${D}/${includedir}/spirv
+-	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/1.2/* ${D}${includedir}/spirv
+-	install -d ${D}/${includedir}/spirv/unified1
+-	install -m 0644 ${DEST_DIR}/spirv-headers/include/spirv/unified1/* ${D}${includedir}/spirv/unified1
+-}
++EXTRA_OECMAKE += "-DSPIRV-Headers_SOURCE_DIR=${STAGING_EXECPREFIXDIR}"
+ 
+ FILES_SOLIBSDEV = ""
+ FILES_${PN} += "${libdir}/*.so"
+ 
++PACKAGES =+ "${PN}-lesspipe"
++FILES_${PN}-lesspipe = "${base_bindir}/spirv-lesspipe.sh"
++RDEPENDS_${PN}-lesspipe += "${PN} bash"
 +
-+inherit cmake
-+
-+BBCLASSEXTEND = "native nativesdk"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.30.0
 
