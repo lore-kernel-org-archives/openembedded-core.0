@@ -1,50 +1,50 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.24869.1611512816784889816
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.24748.1611512817641262340
  for <openembedded-core@lists.openembedded.org>;
  Sun, 24 Jan 2021 10:26:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Oq94JiYW;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id g10so10084215wrx.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Jan 2021 10:26:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hKlZ6nsq;
+ spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-wr1-f53.google.com with SMTP id 6so10069971wri.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 Jan 2021 10:26:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MJ1Q5R7PtiUybFoGei4VJ0MHgzVcmmCb4l7V/4qMP2Q=;
-        b=Oq94JiYWBm39mVIDkry+K6NMb1SXMnwZFJahlGaCr6S/HdNV7LkC28A5lsr22YaVep
-         Q8i7LYzgtRSVxP3c1naXoX1+g4rXvO50cswUOiHzktaW9MswO67UCx7ZIiOY7/ONbkOb
-         m+BzygIZQnbIhJUHgs9ouZhy2+lr+oCfx4wZ7e3Wp/5Hrq6U8OGhqG2kw00wBZ6OVfZc
-         CjIWu6ImgPwIw7BfYIa4HusW1twa0dNRYcLZipWDH5DDNVFMIPZyTQZooRr5yA6PiPry
-         CfN095ngIHU5CiWzdkT939F7WEGIfBcX/b43uW9c2JtYusxpksaYNc5ReAnjkb4gsxSd
-         VyMQ==
+        bh=aASLy6h1dQUAPXmn4jI+8/6Y18KDAlhh5oVnM3k0xCM=;
+        b=hKlZ6nsqJEUAbkclP9T7iwKSM3wEdJGDAoe9oKvMAh1XPJG+rAEnj0KoF774LHQKag
+         xUyoWD2LsaJTojBXIjFqUDRdrR82LGO+vh2fV3QQufH27Q6qfJo9Y0daqsPdswxU0ht9
+         oWtSPlimyafkCln5YjiXARaqHe1FmkXEVHZZMBbaehsfuhFHXmNogmIKhn2AC1v+yBfa
+         lTOW2Brd6J+FM/eNTCBau/bjFIwGqd/K60rMNwWl/5q5tejpp/RkFrgHp7+EknPLTGpW
+         MhLFeHw7+XQVPYNq2uFdmADm6hHiPrgiqjEIaMv0UTNzcjIZr3RFYqqtymbkUUW5bqj7
+         Qs4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MJ1Q5R7PtiUybFoGei4VJ0MHgzVcmmCb4l7V/4qMP2Q=;
-        b=Xa5vQPPnvnwssgSdP6EejQqIrTxS5nG226qi0rzfN3R06NkL5C+oXZmOZgkp/b4d7o
-         Gp3eUcJWacB/vXGg+gPKLezYsQlpN3dr0zgCX+8MA8PTZwnPmTBgqgp34at8x5sw/GPl
-         ffkt7+aRTIudrfCGJvAmLFTYk/7mHUYyNC13ubqXpt5di2HoZJCslnBeWa/TJzFAfEN4
-         /PY+S0GXlnFZK9smYh1rnXyTjtch9iIFY5cCPh4pQmNgnc4xchvagFHLDfPu7NtP12jW
-         vHBYhfsjNf/xpr8/jznwNdTgGpOgH9uEzpcJY5V4ZEdEmHVE5PzcDMOhc5fJc8tBa9JP
-         8p/w==
-X-Gm-Message-State: AOAM530u2je5hHmr4mRQT0tTRyVZ1C8mpvL7hDD1Tx9VKoD3zUMNie8R
-	+daCqYOtiymepIeXr/X4cLgOHHRtpqyR/w==
-X-Google-Smtp-Source: ABdhPJx63pSBMSkd/oJ23r3DDzn+Pt0jdPpHHph09EDGhcoxOwrlr+xTuMfwlPkLjFZL7m/eoTZI4Q==
-X-Received: by 2002:a5d:68c1:: with SMTP id p1mr880904wrw.325.1611512815490;
-        Sun, 24 Jan 2021 10:26:55 -0800 (PST)
+        bh=aASLy6h1dQUAPXmn4jI+8/6Y18KDAlhh5oVnM3k0xCM=;
+        b=PMy4WbahtEAXlPQho7CZexV5wvKNWcyLSzwx0LHjZeUlLEJ9iJG3GvTaS5k3xAhh3u
+         gN9j9ChC2S5GDmr683dCFgupzhh15FlPcmbHab5hckICVbLSLusWOyJ8qfDofnG7nTQh
+         J80/tONqASA8h77ezQRIuvncZo4wdnVwdrvulXU+kQXuAEHV78Ba9xX67tk8oPO2lFHs
+         kf7diLB1P5E+f9mh0Hv2JMu5VpCbyrrJghLJmy0Yy7/yQCmpOqfZ+Qq/o7Lmepaj62AF
+         L+7DJhJnSgt47l/MyFvHePPpR7aqvlxffAnY5D+yMpqKWjhDOCuSIoD1RhpaeSQQztOg
+         zitg==
+X-Gm-Message-State: AOAM530Pl5uTCkyZIA2Q/Iu+L1xxt1n3Af7Y2MNcDd76N/WDMeicrJTH
+	b+fetK9xTpat2duH8wnI2CAUr0EcdGqhCw==
+X-Google-Smtp-Source: ABdhPJzoL4/DF7vCY2dTIaYtYD1pTMXQjGN77aLutqVWZVUOWT23C1FIdR9Q9ZlxD0twEGrqU3oHkw==
+X-Received: by 2002:a5d:4b8e:: with SMTP id b14mr2013725wrt.130.1611512816344;
+        Sun, 24 Jan 2021 10:26:56 -0800 (PST)
 Return-Path: <quaresma.jose@gmail.com>
 Received: from dragon.lan (176.57.115.89.rev.vodafone.pt. [89.115.57.176])
-        by smtp.gmail.com with ESMTPSA id p18sm18365509wmc.31.2021.01.24.10.26.54
+        by smtp.gmail.com with ESMTPSA id p18sm18365509wmc.31.2021.01.24.10.26.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Jan 2021 10:26:54 -0800 (PST)
+        Sun, 24 Jan 2021 10:26:55 -0800 (PST)
 From: "Jose Quaresma" <quaresma.jose@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jose Quaresma <quaresma.jose@gmail.com>
-Subject: [PATCH 3/4] selftest/reproducible: remove spirv-tools-dev from exclusion list
-Date: Sun, 24 Jan 2021 18:26:46 +0000
-Message-Id: <20210124182647.1613511-3-quaresma.jose@gmail.com>
+Subject: [PATCH 4/4] shaderc: add spirv-headers as dependencie
+Date: Sun, 24 Jan 2021 18:26:47 +0000
+Message-Id: <20210124182647.1613511-4-quaresma.jose@gmail.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210124182647.1613511-1-quaresma.jose@gmail.com>
 References: <20210124182647.1613511-1-quaresma.jose@gmail.com>
@@ -53,21 +53,22 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-graphics/shaderc/shaderc_2020.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index eee494e5cc..deddf6e50b 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -65,7 +65,6 @@ exclude_packages = [
- 	'quilt-ptest',
- 	'rsync',
- 	'ruby',
--	'spirv-tools-dev',
- 	'swig',
- 	'syslinux-misc',
- 	'systemd-bootchart',
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
+index 18a08ee6c5..8658a5737b 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2020.4.bb
+@@ -15,7 +15,7 @@ S = "${WORKDIR}/git"
+ 
+ inherit cmake python3native
+ 
+-DEPENDS = "spirv-tools glslang"
++DEPENDS = "spirv-headers spirv-tools glslang"
+ 
+ EXTRA_OECMAKE = " \
+     -DCMAKE_BUILD_TYPE=Release \
 -- 
 2.30.0
 
