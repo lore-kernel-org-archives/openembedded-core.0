@@ -1,115 +1,225 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web11.36968.1611583991458777928
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web09.306.1611586294650635293
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 06:13:11 -0800
+ Mon, 25 Jan 2021 06:51:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JIesL2yL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id 7so12699756wrz.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:13:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=z1zxaU84;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id t29so8499085pfg.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:51:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Nys5YTXlVVrkd05l/2X/LzPBtbxmwo69UuIsE8J0TnU=;
-        b=JIesL2yLAq6AIeQnQZiqgtyHucg+dwOGPnHJ/bw9LRnC8rI+aPsaSatCRxG/vVypmh
-         lxX7jSatHegs/1ox46OkAg3E04iFIDmFaUK/a0O+UvNtOBb0NrIYdyUeiji+cd0XjXLn
-         ezD9QnnXHPRuXvFDK2NoCi4cbCzmzKAJqwMko=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gB6NoaZzm43Jc2rgh7JLq1mOJuD66F39xqbo9TP7L3A=;
+        b=z1zxaU84PPjpCGhrBTZW3iYQv9p+6ogNctl4ZZiEkl6omURbL+0zRrAsZWaWFnDnxM
+         jF/TeP3takez7YAnozfbwKX1vh5V8RQh8j40QKo47nVmSJHyR0uFSrXxU4TJwKGk/hu0
+         CSGpDVmNJ4IcBaYdzFmJeUv9iI2TqLZ7sYvwYWi83c1gvkG69POezwnqKsdSePecd1S2
+         Z4lDNJ/4cFeTPaNR24RIL1S12vLM9zlJUNsNSQdG1bmQJWX4/dYdG67rjCrplS1LH27u
+         i1gBpuM45XCvfS/42Vu00T2Ulr2QeX0PbUE1mN/G8ez+ucc7zlPOqPkf+17Dp1hs+bkL
+         2xLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Nys5YTXlVVrkd05l/2X/LzPBtbxmwo69UuIsE8J0TnU=;
-        b=H7XFVrF9YHUv013wKUwmq81ocW7tVGvEnTVUYDre4FhAvkoSS5fKmSp2qcwRQrx35u
-         M0xM8/CloNBNuJBLBgssbaY0w0kVUHqbGtbqc5frZDiHo5YuR7/ZJO5A6Yu0nq4eMO0w
-         tInuu8MeG18C+86XpqaN/9/ATvnruGdPSZSLMax6weNjKdNi2MrzX9eJPoow8MY6Pb7D
-         CXalsFunwfTi4F4FTEvN/APZdiFNMHn9Is8njz4FYs7bIYp0YTKUYLcXump9SWMjf9pp
-         Nd6sDw8cGfddz6L5tWacvFxur96ZU84QbSY7+Cpj89a4XtyVIiwVxvG/QztmiTt8JIGc
-         4JqA==
-X-Gm-Message-State: AOAM530Pk/XIEyJNzGRtn72ZarPchPaSoDuitQwpp9xtoaVHxKci/io9
-	kfQq86J0X0cPVJuraLyQwx84Hg==
-X-Google-Smtp-Source: ABdhPJxj0mEGyOyXLhuyo+D+pgccm0T1kMAmO0ZbokciYpiyYnNHaJq8Up/Gcmf9l/iPos2NgkqZIw==
-X-Received: by 2002:adf:f60f:: with SMTP id t15mr1224157wrp.53.1611583989856;
-        Mon, 25 Jan 2021 06:13:09 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:cbb3:266e:4b67:be20? ([2001:8b0:aba:5f3c:cbb3:266e:4b67:be20])
-        by smtp.gmail.com with ESMTPSA id q2sm21108036wma.6.2021.01.25.06.13.09
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gB6NoaZzm43Jc2rgh7JLq1mOJuD66F39xqbo9TP7L3A=;
+        b=TNxKHfG2HNpXEpolSbqtHF0VZj31UUlxE+fBHKAlvw+gGuT8inV7NjyTHWoyGhtNw0
+         wuO+CfFQCYuYVpnHvUfSN7cIw9aD2MA9mMbnK673l7eK0rzNjiGQty/0cXy+dGiDLZYr
+         U9fu/xVN93cdiPo8vgpHmCPfRe61bHv7aeOI9Dh4EZTT8wz8wBQbTFMfPt71RyFu4Bs3
+         5B+EDl6g/FKfimnpnXBtWaMoUPjIwTRGuJWuHBRvuTYsB9st5UlvKDMQASdkD0sp31y3
+         nSSZbQdB7WhBm1XZH0BnY0zwpxIyybWrcPaVx8ilVpbmtfrOH76gMVBrG+0cnYkxHyCT
+         fBoA==
+X-Gm-Message-State: AOAM5333ul+xph7FehXgnmSpSeWq7Iqlxr/o2ExY6/Q7i21W7uR+XQ/k
+	CrIA4lbgNQEFU20dcYptxeM/X0eMT3QnHD3ddLg=
+X-Google-Smtp-Source: ABdhPJyM9wb43n55k4IrzVBP162OX76sTcZRXnvBV1mTfQIfNLywi9ilRAM8aJdwnUpJa+7pSz6lDQ==
+X-Received: by 2002:a63:2902:: with SMTP id p2mr980112pgp.274.1611586293359;
+        Mon, 25 Jan 2021 06:51:33 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.51.32
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:13:09 -0800 (PST)
-Message-ID: <7f9a02225a43da51e13814d479fbfd663620e401.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] libdrm: upgrade 2.4.103 -> 2.4.104
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2021 14:13:08 +0000
-In-Reply-To: <165D7DCBB82BF446.2229@lists.openembedded.org>
-References: <1611541232-1991-1-git-send-email-wangmy@cn.fujitsu.com>
-	 <1611541232-1991-2-git-send-email-wangmy@cn.fujitsu.com>
-	 <165D7DCBB82BF446.2229@lists.openembedded.org>
-User-Agent: Evolution 3.38.1-1 
+        Mon, 25 Jan 2021 06:51:32 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/47] Patch review - pseudo file mode corruption fix V2
+Date: Mon, 25 Jan 2021 04:50:32 -1000
+Message-Id: <cover.1611585425.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-01-25 at 13:49 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Mon, 2021-01-25 at 10:20 +0800, Wang Mingyu wrote:
-> > Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> > ---
-> >  .../drm/{libdrm_2.4.103.bb => libdrm_2.4.104.bb}              | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-graphics/drm/{libdrm_2.4.103.bb => libdrm_2.4.104.bb} (95%)
-> > 
-> > diff --git a/meta/recipes-graphics/drm/libdrm_2.4.103.bb b/meta/recipes-graphics/drm/libdrm_2.4.104.bb
-> > similarity index 95%
-> > rename from meta/recipes-graphics/drm/libdrm_2.4.103.bb
-> > rename to meta/recipes-graphics/drm/libdrm_2.4.104.bb
-> > index 1028d618ae..e7007e1330 100644
-> > --- a/meta/recipes-graphics/drm/libdrm_2.4.103.bb
-> > +++ b/meta/recipes-graphics/drm/libdrm_2.4.104.bb
-> > @@ -12,7 +12,7 @@ DEPENDS = "libpthread-stubs"
-> >  
-> > 
-> > 
-> > 
-> >  SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz"
-> >  
-> > 
-> > 
-> > 
-> > -SRC_URI[sha256sum] = "3fe0affdba6460166a7323290c18cf68e9b59edcb520722826cb244e9cb50222"
-> > +SRC_URI[sha256sum] = "d66ad8b5c2441015ac1333e40137bb803c3bde3612ff040286fcc12158ea1bcb"
-> >  
-> > 
-> > 
-> > 
-> >  inherit meson pkgconfig manpages
-> >  
-> > 
-> > 
-> > 
-> > @@ -34,7 +34,7 @@ PACKAGECONFIG[valgrind] = "-Dvalgrind=true,-Dvalgrind=false,valgrind"
-> >  PACKAGECONFIG[install-test-programs] = "-Dinstall-test-programs=true,-Dinstall-test-programs=false"
-> >  PACKAGECONFIG[cairo-tests] = "-Dcairo-tests=true,-Dcairo-tests=false"
-> >  PACKAGECONFIG[udev] = "-Dudev=true,-Dudev=false,udev"
-> > -PACKAGECONFIG[manpages] = "-Dman-pages=true,-Dman-pages=false,libxslt-native xmlto-native"
-> > +PACKAGECONFIG[manpages] = "-Dman-pages=true,-Dman-pages=false,libxslt-native xmlto-native python3-docutils-native"
-> >  
-> > 
-> > 
-> > 
-> >  ALLOW_EMPTY_${PN}-drivers = "1"
-> >  PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
-> 
-> Still fails I'm afraid:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/1291
+Issues with undetected file mode corruption in pseudo have been identified.
 
-I see this likely needs the first patch which Alex has commented on, if
-we can get that as backport we can likely fix this, thanks. If there
-are patch dependencies, please mention them in commit messages.
+Fixes have been merged into master and gatesgarth over the past several months and
+things seem to have stabilized enough that we can consider backporting these fixes
+to dunfell.
 
-Cheers,
+This is a somewhat more invasive change than normal. Specifically the user will
+be required to clean TMPDIR after this merge. It may also expose issues with
+other layers, though master and gategarth have probably helped to pave the way for
+this change.
 
-Richard
+Personally I think that this fixes a serious enough issue that we should consider
+this series for dunfell.
+
+This second version includes the wic patches which have been the gating item for
+merging this series.
+
+Note also that there is an associated bitbake patch for stable/1.46:
+
+lib/bb/utils.py: Do not preserve TERM in the environment
+
+This is due to taking:
+
+bitbake.conf: Remove TERM from default BB_HASHBASE_WHITELIST
+
+which was needed to do clean cherry-picks of the pseudo changes.
+
+Let me know if you think this is an issue, or if you are aware of any other pseudo
+issues which would necessitate delaying the merge of this series.
+
+Please have comments back by Wednesday evening.
+
+Passed a-full on autobuilder:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1779
+
+The following changes since commit 897822233faef0f8f35dc1d8a39e1c4bc0550f1e:
+
+  ppp: Whitelist CVE-2020-15704 (2021-01-19 04:22:10 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Jack Mitchell (1):
+  distutils3: allow setup.py to be run from a different directory to
+    ${S}
+
+Jacob Kroon (1):
+  bitbake.conf: Remove TERM from default BB_HASHBASE_WHITELIST
+
+Joe Slater (1):
+  pseudo: fix renaming to self
+
+Martin Jansa (2):
+  base.bbclass: use os.path.normpath instead of just comparing WORKDIR
+    and S as strings
+  license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to
+    PSEUDO_IGNORE_PATHS
+
+Mingli Yu (2):
+  tcl: adapt to potential pseudo changes
+  bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
+
+Paul Barker (8):
+  bitbake.conf: Prevent pyc file generation in pseudo context
+  wic: Add workdir argument
+  wic: Allow exec_native_cmd to run HOSTTOOLS
+  wic: Ensure internal workdir is not reused
+  image_types_wic: Move wic working directory
+  wic: Update pseudo db when excluding content from rootfs
+  wic: Copy rootfs dir if fstab needs updating
+  wic: Optimise fstab modification for ext2/3/4 and msdos partitions
+
+Peter Kjellerstedt (4):
+  pseudo: Simplify pseudo_client_ignore_path_chroot()
+  lib/oe/path: Add canonicalize()
+  bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+  wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
+
+Ricardo Ribalda Delgado (4):
+  wic: Fix permissions when using exclude or include path
+  wic: Fix multi images .wks with bitbake
+  wic: Avoid creating invalid pseudo directory
+  wic: Add --change-directory argument
+
+Richard Purdie (23):
+  pseudo: Switch to oe-core branch in git repo
+  pseudo: merge in fixes for setfacl issue
+  pseudo: Update to add OFC fcntl lock updates
+  pseudo: Ignore mismatched inodes from the db
+  pseudo: Add support for ignoring paths from the pseudo DB
+  pseudo: Abort on mismatch patch
+  psuedo: Add tracking of linked files for fds
+  pseudo: Fix xattr segfault
+  pseudo: Add may unlink patch
+  pseudo: Add pathfix patch
+  base/bitbake.conf: Enable pseudo path filtering
+  wic: Handle new PSEUDO_IGNORE_PATHS variable
+  pseudo: Fix statx function usage
+  bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+  abi_version,sanity: Tell users TMPDIR must be clean after pseudo
+    changes
+  pseudo: Update to account for patches merged on branch
+  pseudo: Upgrade to include mkostemp64 wrapper
+  oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
+  uninative: Don't use single sstate for pseudo-native
+  pseudo: Drop patches merged into upstream branch
+  bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
+  pseudo: Add lchmod wrapper
+  pseudo: Update for arm host and memleak fixes/cleanup
+
+Tomasz Dziendzielski (1):
+  pseudo: Update to print PSEUDO_LOGFILE in abort message on path
+    mismatches
+
+ meta-selftest/lib/pseudo_pyc_test1.py         |   1 +
+ meta-selftest/lib/pseudo_pyc_test2.py         |   1 +
+ .../pseudo-pyc-test/pseudo-pyc-test.bb        |  15 ++
+ meta/classes/archiver.bbclass                 |   2 +-
+ meta/classes/base.bbclass                     |   6 +
+ meta/classes/distutils3.bbclass               |  10 +-
+ meta/classes/image_types_wic.bbclass          |  20 ++-
+ meta/classes/license.bbclass                  |   1 +
+ meta/classes/populate_sdk_base.bbclass        |   2 +
+ meta/classes/sanity.bbclass                   |   3 +
+ meta/classes/sstate.bbclass                   |   4 +
+ meta/conf/abi_version.conf                    |   2 +-
+ meta/conf/bitbake.conf                        |  13 +-
+ meta/lib/oe/path.py                           |  21 +++
+ meta/lib/oe/sstatesig.py                      |   4 +-
+ meta/lib/oeqa/selftest/cases/pseudo.py        |  27 ++++
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   1 +
+ .../pseudo/files/0001-Add-statx.patch         | 106 --------------
+ ...001-maketables-wrappers-use-Python-3.patch |  34 -----
+ ...ixup-remove-files-that-do-not-exist-.patch |  49 -------
+ .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  |  31 ----
+ ...1-realpath.c-Remove-trailing-slashes.patch |  57 --------
+ ...xattr-adjust-for-attr-2.4.48-release.patch |  48 ------
+ .../pseudo/files/moreretries.patch            |  19 ---
+ .../pseudo/files/seccomp.patch                | 137 ------------------
+ .../pseudo/files/toomanyfiles.patch           |  71 ---------
+ .../pseudo/files/xattr_version.patch          |  54 -------
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  14 +-
+ meta/recipes-devtools/tcltk/tcl_8.6.10.bb     |   1 +
+ scripts/lib/wic/help.py                       |   6 +
+ scripts/lib/wic/ksparser.py                   |   1 +
+ scripts/lib/wic/misc.py                       |   7 +-
+ scripts/lib/wic/partition.py                  |  66 ++++++---
+ scripts/lib/wic/plugins/imager/direct.py      |  48 +++---
+ scripts/lib/wic/plugins/source/rootfs.py      |  85 +++++++++--
+ scripts/postinst-intercepts/update_font_cache |   2 +
+ scripts/wic                                   |   2 +
+ 37 files changed, 281 insertions(+), 690 deletions(-)
+ create mode 100644 meta-selftest/lib/pseudo_pyc_test1.py
+ create mode 100644 meta-selftest/lib/pseudo_pyc_test2.py
+ create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/pseudo.py
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/moreretries.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+
+-- 
+2.25.1
 
