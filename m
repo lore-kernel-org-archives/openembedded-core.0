@@ -1,50 +1,50 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web08.337.1611586317189274928
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web09.315.1611586319820700658
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 06:51:57 -0800
+ Mon, 25 Jan 2021 06:51:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1Pfao2gV;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id md11so8558933pjb.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:51:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=s4GZLplx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id q131so8500796pfq.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:51:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=jEWEWGqqVgemRvAX/I6qpZXO7MHww2Ln3FQqO8f60f0=;
-        b=1Pfao2gV+JSa/Gl+LoxO+yTcr+acC6UCe0jKZHzHf6OATW2fKKtddx3irtxN2l8EpA
-         XDACxypDNNZNzOX31wucmt9qT1ARuds8ykNgg9f/1Kk/S5YTVDFAp/Zmv63/U1BTHwwi
-         P5bd3T6MlYTJKOxFvcOWvNfVGPqhO65Fj5MceGDgICZOaky+OtHKYOXriQWs04YgEy+w
-         t2vlhuoMhbtViggnncydbrrjoQrvzShiVxNOIohHjGmm2X3WVJzCFvOE6zSZoowGOQKi
-         YUQw0k7ZlGpdW9llzvZthpf50OGgx3AMDd0Xx17Y2uQ9r1jNX1QR/oktscYsQbpjjKJw
-         RDfQ==
+        bh=OS/NZc7BfhtlfAQNtnhDMBiK21S+kmzpnDB7BHIODdE=;
+        b=s4GZLplxu0g/nM2tjnon0chYyyeYYWWxfmHyy861EoWhFP+byoEWCvqs/5/ZPsx4Fg
+         Wqxvaqet4Z2YJPuE2I+zrX2Fkv/bPVCXAhdqzvkHnvzjTD+bEdKd2a38kV8aFn51Ja0R
+         76u9w5Oll3OriwssoVgvDHxLfON0wB8mrmckd2h/0tdnYHcEpW5s/1RbnJ1SAGFzR82U
+         UrOHtxdLmyoY0UiA40AZKbAcdsXziNme5lZMETjN3/+0BDdNl4h0DqBUFwgDm1pebOH3
+         Dek39xgm2wnlcQO3I0sTevkpAVXa1Exsy0/MkN5HV4B5mE81vLSqSNMFwkVIUdEP1YaY
+         SU9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jEWEWGqqVgemRvAX/I6qpZXO7MHww2Ln3FQqO8f60f0=;
-        b=ouibxN6WET61HM4iufGjh7CSk2Zu3FqUpDzGVfJJAMG5lYSz0RfOZX6JVavorNtLQE
-         XC7Rm76Yw8jbUF+iPZUiz8z/km1gVzoPVrJ1i0/Gxa/jI5pmo90WkWocJr2+F//R1n6e
-         uaoaCDtAbGuLfuHykMVU5EE1wpf+CwppfQNHToGWcEBL1qBkeO2aYO60BIGEmR4YuvXt
-         ylTvOuApWpR4PR5Ns06FoBadGuNmT47/jnTs+QS14gVl6ppYP1KM0XE1dHL3+2W9j6lo
-         rRAUPim3/MnDLOUScOCnPFROcHk+PIzzzDgjPfDlVlUAGDh5OzszMk1z/2Z8ueBXcLOv
-         2qyQ==
-X-Gm-Message-State: AOAM532WdogmXkE2NBpui3PtGj00ESJOn6kquyzjXdJ5H+FiT8oAhbAW
-	IX7Lpu1if1dNCTfhapnRaFjfyVta4d6PTSspX+E=
-X-Google-Smtp-Source: ABdhPJx+mzzkhMIs33uIGgIUazipOVOKx2vrWzWPiPrc2rvoL/ThlM99+JuRo4sNqz7wLYfNmPsCzQ==
-X-Received: by 2002:a17:902:e54e:b029:de:8c70:2ed0 with SMTP id n14-20020a170902e54eb02900de8c702ed0mr1035918plf.3.1611586316225;
-        Mon, 25 Jan 2021 06:51:56 -0800 (PST)
+        bh=OS/NZc7BfhtlfAQNtnhDMBiK21S+kmzpnDB7BHIODdE=;
+        b=ZADoaIp5vcDfTsI6WIv8DEyoDBtPQsqLJDn4Aw/YSeQLbshDO2FoXz4iD/WaP5C3Js
+         u+4qC6ngyObsDGTOXLoZBu0/y/qJ9gYGDnE4LkAyd4F3TpaCy1zSyM/+GFyrGb/hRB4u
+         EO9z1+0ny/FitwrwS0We1VzhiIyce+LdswD4/AxsyUsJ4yNkW5vXNQt3oXRxvYckVvBS
+         IxgCT/Pw4g6iVFmfhFN/DzS5osxsh0pplRyRGXHHhEwHlczS9+sSg5j14XayifQMD6J3
+         eFhTQrNlxBmvaCVBzcMHDUNwOwA0dm1dJdDgYuHUvQv7/U1q5nxfcrdPMIj/6WU5eOWr
+         Jh2Q==
+X-Gm-Message-State: AOAM532UJQY3p0cV8BLt3x+IbKYURf6/UaYSFxqxDBD36V/cNRrPbN/9
+	3fV8y32/dkWcNN4Z50asuGdqZjH2NyRyDDNZoXo=
+X-Google-Smtp-Source: ABdhPJzHKZzlpabAxXoHAlE8hHgfG6LjUdVmS+1ZoSr4DeCRXqxSL/ZbB1PJtcHud2xHbz/eo+VCIA==
+X-Received: by 2002:a63:e5e:: with SMTP id 30mr969063pgo.181.1611586318890;
+        Mon, 25 Jan 2021 06:51:58 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.51.54
+        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.51.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:51:55 -0800 (PST)
+        Mon, 25 Jan 2021 06:51:58 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/47] psuedo: Add tracking of linked files for fds
-Date: Mon, 25 Jan 2021 04:50:40 -1000
-Message-Id: <2579bab3048d5e995dc7e14ca9cca1975adb44ed.1611585425.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/47] pseudo: Fix xattr segfault
+Date: Mon, 25 Jan 2021 04:50:41 -1000
+Message-Id: <c1ac0f01a817a52525503e7e4a72ae2310f6346a.1611585425.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611585425.git.steve@sakoman.com>
 References: <cover.1611585425.git.steve@sakoman.com>
@@ -53,189 +53,73 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Where files are link()'d and one is unlink()'d, pseudo's fd mappings
-can become confused. Add a patch to try and improve this for the common
-usecases we see.
+Fix a NULL pointer dereference exposed by the path ignore code in
+xattr handling.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9ce621fa2099608ca0ccbb8420b31d71cdd7b00e)
+(cherry picked from commit 929a27bf6cbca94d1141d2094ae0c915d93bd3f4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pseudo/files/track_link_fds.patch         | 155 ++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
- 2 files changed, 156 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/track_link_fds.patch
+ .../pseudo/files/xattr_fix.patch              | 40 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/xattr_fix.patch
 
-diff --git a/meta/recipes-devtools/pseudo/files/track_link_fds.patch b/meta/recipes-devtools/pseudo/files/track_link_fds.patch
+diff --git a/meta/recipes-devtools/pseudo/files/xattr_fix.patch b/meta/recipes-devtools/pseudo/files/xattr_fix.patch
 new file mode 100644
-index 0000000000..a3a9eb3f23
+index 0000000000..61d0030b10
 --- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/track_link_fds.patch
-@@ -0,0 +1,155 @@
-+Consider what happens if a program does:
++++ b/meta/recipes-devtools/pseudo/files/xattr_fix.patch
+@@ -0,0 +1,40 @@
 +
-+fd = fopen("A")
-+link("A", "B")
-+unlink("A")
-+fchown(fd)
-+
-+Assuming we can't use the database, in order to handle this correctly, 
-+we need to change the open fd to point at B when A us unlinked.
++In the xattr handling functions, if result is NULL, which it can be 
++with the path ignore code, there is a NULL pointer dereference and 
++segfault. Everywhere else checks result first, this appears to just 
++be an omission.
 +
 +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +Upstream-Status: Pending
 +
-+Index: git/ports/unix/guts/linkat.c
++Index: git/ports/linux/xattr/pseudo_wrappers.c
 +===================================================================
-+--- git.orig/ports/unix/guts/linkat.c
-++++ git/ports/unix/guts/linkat.c
-+@@ -116,6 +116,7 @@
-+ 	 * if the thing linked is a symlink.
-+ 	 */
-+ 	pseudo_client_op(OP_LINK, 0, -1, -1, newpath, &buf);
-++	pseudo_client_linked_paths(oldpath, newpath);
-+ 
-+ 	errno = save_errno;
-+ 
-+Index: git/pseudo_client.c
-+===================================================================
-+--- git.orig/pseudo_client.c
-++++ git/pseudo_client.c
-+@@ -70,6 +70,8 @@ int pseudo_umask = 022;
-+ 
-+ static char **fd_paths = NULL;
-+ static int nfds = 0;
-++static char **linked_fd_paths = NULL;
-++static int linked_nfds = 0;
-+ static const char **passwd_paths = NULL;
-+ static int npasswd_paths = 0;
-+ #ifdef PSEUDO_PROFILING
-+@@ -889,39 +891,70 @@ fd_path(int fd) {
-+ }
-+ 
-+ static void
-+-pseudo_client_path(int fd, const char *path) {
-++pseudo_client_path_set(int fd, const char *path, char ***patharray, int *len) {
-+ 	if (fd < 0)
-+ 		return;
-+ 
-+-	if (fd >= nfds) {
-++	if (fd >= *len) {
-+ 		int i;
-+ 		pseudo_debug(PDBGF_CLIENT, "expanding fds from %d to %d\n",
-+-			nfds, fd + 1);
-+-		fd_paths = realloc(fd_paths, (fd + 1) * sizeof(char *));
-+-		for (i = nfds; i < fd + 1; ++i)
-+-			fd_paths[i] = 0;
-+-		nfds = fd + 1;
-++			*len, fd + 1);
-++		(*patharray) = realloc((*patharray), (fd + 1) * sizeof(char *));
-++		for (i = *len; i < fd + 1; ++i)
-++			(*patharray)[i] = 0;
-++		*len = fd + 1;
-+ 	} else {
-+-		if (fd_paths[fd]) {
-++		if ((*patharray)[fd]) {
-+ 			pseudo_debug(PDBGF_CLIENT, "reopening fd %d [%s] -- didn't see close\n",
-+-				fd, fd_paths[fd]);
-++				fd, (*patharray)[fd]);
-+ 		}
-+ 		/* yes, it is safe to free null pointers. yay for C89 */
-+-		free(fd_paths[fd]);
-+-		fd_paths[fd] = 0;
-++		free((*patharray)[fd]);
-++		(*patharray)[fd] = 0;
++--- git.orig/ports/linux/xattr/pseudo_wrappers.c
+++++ git/ports/linux/xattr/pseudo_wrappers.c
++@@ -134,7 +134,7 @@ static ssize_t shared_getxattr(const cha
++ 	pseudo_debug(PDBGF_XATTR, "getxattr(%s [fd %d], %s)\n",
++ 		path ? path : "<no path>", fd, name);
++ 	pseudo_msg_t *result = pseudo_client_op(OP_GET_XATTR, 0, fd, -1, path, &buf, name);
++-	if (result->result != RESULT_SUCCEED) {
+++	if (!result || result->result != RESULT_SUCCEED) {
++ 		errno = ENOATTR;
++ 		return -1;
 + 	}
-+ 	if (path) {
-+-		fd_paths[fd] = strdup(path);
-++		(*patharray)[fd] = strdup(path);
-++	}
-++}
-++
-++static void
-++pseudo_client_path(int fd, const char *path) {
-++	pseudo_client_path_set(fd, path, &fd_paths, &nfds);
-++}
-++
-++void
-++pseudo_client_linked_paths(const char *oldpath, const char *newpath) {
-++	int fd;
-++	for (fd = 3; fd < nfds; ++fd) {
-++		if (fd_paths[fd] && !strcmp(oldpath, fd_paths[fd])) {
-++			pseudo_client_path_set(fd, newpath, &linked_fd_paths, &linked_nfds);
-++		}
-+ 	}
-+ }
++@@ -254,7 +254,7 @@ static int shared_setxattr(const char *p
++ static ssize_t shared_listxattr(const char *path, int fd, char *list, size_t size) {
++ 	RC_AND_BUF
++ 	pseudo_msg_t *result = pseudo_client_op(OP_LIST_XATTR, 0, fd, -1, path, &buf);
++-	if (result->result != RESULT_SUCCEED) {
+++	if (!result || result->result != RESULT_SUCCEED) {
++ 		pseudo_debug(PDBGF_XATTR, "listxattr: no success.\n");
++ 		errno = ENOATTR;
++ 		return -1;
++@@ -276,7 +276,7 @@ static int shared_removexattr(const char
++ 	RC_AND_BUF
++ 	pseudo_msg_t *result = pseudo_client_op(OP_REMOVE_XATTR, 0, fd, -1, path, &buf, name);
 + 
-+ static void
-++pseudo_client_unlinked_path(const char *path) {
-++	int fd;
-++	for (fd = 0; fd < linked_nfds; ++fd) {
-++		if (linked_fd_paths[fd] && fd_paths[fd] && !strcmp(path, fd_paths[fd])) {
-++			pseudo_client_path(fd, linked_fd_paths[fd]);
-++		}
-++	}
-++}
-++
-++
-++static void
-+ pseudo_client_close(int fd) {
-+ 	if (fd < 0 || fd >= nfds)
-+ 		return;
-+ 
-+ 	free(fd_paths[fd]);
-+ 	fd_paths[fd] = 0;
-++
-++	if (fd < linked_nfds) {
-++		free(linked_fd_paths[fd]);
-++		linked_fd_paths[fd] = 0;
-++	}
-+ }
-+ 
-+ /* spawn server */
-+@@ -1860,6 +1893,12 @@ pseudo_client_op(pseudo_op_t op, int acc
-+ 			dirfd);
-+ 		pseudo_client_path(dirfd, fd_path(fd));
-+ 		break;
-++	case OP_UNLINK:
-++	case OP_DID_UNLINK:
-++		if (path)
-++			pseudo_client_unlinked_path(path);
-++		do_request = 1;
-++		break;
-+ 	/* operations for which we should use the magic uid/gid */
-+ 	case OP_CHMOD:
-+ 	case OP_CREAT:
-+@@ -1882,8 +1921,6 @@ pseudo_client_op(pseudo_op_t op, int acc
-+ 	case OP_LINK:
-+ 	case OP_RENAME:
-+ 	case OP_STAT:
-+-	case OP_UNLINK:
-+-	case OP_DID_UNLINK:
-+ 	case OP_CANCEL_UNLINK:
-+ 	case OP_MAY_UNLINK:
-+ 	case OP_GET_XATTR:
-+Index: git/pseudo_client.h
-+===================================================================
-+--- git.orig/pseudo_client.h
-++++ git/pseudo_client.h
-+@@ -9,6 +9,7 @@
-+ extern pseudo_msg_t *pseudo_client_op(pseudo_op_t op, int access, int fd, int dirfd, const char *path, const PSEUDO_STATBUF *buf, ...);
-+ extern int pseudo_client_ignore_path(const char *path);
-+ extern int pseudo_client_ignore_fd(int fd);
-++extern void pseudo_client_linked_paths(const char *oldpath, const char *newpath);
-+ #if PSEUDO_STATBUF_64
-+ #define base_lstat real_lstat64
-+ #define base_fstat real_fstat64
++-	if (result->result != RESULT_SUCCEED) {
+++	if (!result || result->result != RESULT_SUCCEED) {
++ 		/* docs say ENOATTR, but I don't have one */
++ 		errno = ENOENT;
++ 		return -1;
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 56c9b4e232..a5e79ec9a5 100644
+index a5e79ec9a5..7857b4f1b1 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -5,6 +5,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://delete_mismatches.patch \
+@@ -6,6 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
             file://add_ignore_paths.patch \
             file://abort_on_mismatch.patch \
-+           file://track_link_fds.patch \
+            file://track_link_fds.patch \
++           file://xattr_fix.patch \
             file://fallback-passwd \
             file://fallback-group \
             "
