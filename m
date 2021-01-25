@@ -1,113 +1,168 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web08.378.1611586424420595514
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.369.1611586427217885970
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 06:53:44 -0800
+ Mon, 25 Jan 2021 06:53:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IWYQGRac;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id p15so8552108pjv.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:53:44 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=G/Nq8erM;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id cq1so8539637pjb.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=DyD4gGVB2S8YNI3gIXKvnLBFr+RC9x8Fn3u6k6dSBnc=;
-        b=IWYQGRacu3EEJrhi0M97Te7GVgaOYgE3DfUM2dkvS3xmN4lyaW9HgYY5aQPwLxGpur
-         ke4mb6K8oqEngU5zu+pAruNuTxRWfzXKuk3wa9+ZWALHTvks+rqEqamDA+qVDNKx9N4d
-         1DiglvXOHykyHxncSOmbG6Qug0Yh//ZR3/D8q/jhkXLqTK5IOSZ49WP7qEwIXFTi33hL
-         2DGbD2gLWjWkmKtk+3h7iIqY5SoDCn0LudwY5wKn3q8RUPKqSyUH7xFLyn1T1CnIHib5
-         HVX5OG+KWXwVljMlrEsSP9lK/lU6Iff/81bum6YAyTBiKJJzdO6GrUYySucaX4MXE9To
-         nTlQ==
+        bh=KEXnp4RMI0UOh+JN7kSFtdGD7KBZmQdSoBI16dtVMRg=;
+        b=G/Nq8erMhb4CuyQZrohGIZJLcTPYyaotjqwkr6Qi/1EzS6shg5eH4CUfCL0OS5wzGd
+         VU0mKr8TSu9v9QFNaJ3c3lig9VNYo6BQ/l+9NKt201CeUszXostEHt5kkkD4EPg34Axa
+         bEO9btiWEVU3LxzyHsL7AfJG/0V14ZHlaphCmlauaQgoJyVAg6tExCvINQ1tTE44xtjV
+         5Xgh9aNlrRNrOq+HR6vY+MdqXQ7y3SJmLrmwiYc7jEef3bGIXKuqm5f5Za/2RH752RDm
+         kYH8fNBqtUYEbYdi8V5WJJrUlOA6p+e25kAGAwlW+NgpSlpU5NHQj0SYylOUdRMZoAMb
+         QH3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DyD4gGVB2S8YNI3gIXKvnLBFr+RC9x8Fn3u6k6dSBnc=;
-        b=k4QIkOfdgLrl+L3jBroejovyEu0I1Lg6YJAfrP4jjPPK3/T1XA+3/nyg6pTmwlrhCY
-         QB4kAR/ZjxNY54DYwvpY4ZCyrb1zotSV3zHdkmLbV3sc1AGQP/s06FyAVYOnT5m80zXz
-         hbvvcWVWCg+cEwltIlhny2nLzOOk6Chx0+UBc/Y9LnVGrsgQx8G9wLkIZ5rOFoD/Sw1d
-         pxpahZSfbun/QNJ34g7umw3bJLVGAAGAJKMbjvWK0fbt5ediFJjr5TAU5OnMMcIJS3Sj
-         bpawY4XchPUnwBuVSnBDohPdr/hDKlI/QbdZwuX9oX+t2sezvD3NhCVm5DBr0krEKSs3
-         vt3Q==
-X-Gm-Message-State: AOAM532W9PSxoPINy96c+5+Mzg0zFRgYrFzWsFscI9YCiYnbFiklkC3K
-	hVa+1uhjhpHtMNXEp1huxhTES8dq/7C+37y4JcE=
-X-Google-Smtp-Source: ABdhPJygFC5J/7n/hgbE1RFWtlfbo12qD3JfFo3+kPpWs2GMEtJbh2Ftvwo+3sUdutTZEWhZeWsgAw==
-X-Received: by 2002:a17:90a:b78a:: with SMTP id m10mr578980pjr.164.1611586423542;
-        Mon, 25 Jan 2021 06:53:43 -0800 (PST)
+        bh=KEXnp4RMI0UOh+JN7kSFtdGD7KBZmQdSoBI16dtVMRg=;
+        b=g1HsvfP2mU7D/mz83hSRLK09YU2OJp03BZAn5XyeMYSwDqnRllKBgrdGBQSjr0rHzv
+         8GLZ4PptLgkIs46g4wq1ERbTRFBFJLaIbFaZalCvkEWqnLEKZeZ2uOb7Zm17oW+4FM6X
+         5uEZ3VqZenx0aYlpCsCTyIbAtdl4ZnmJfc6xJbWWhZNjsu/ScBDOyhylpSOhN0tu265o
+         mBb22cid+r9gb4sCnD+nhL3wwyY0Wd4EerMKzp1MEmqk0Qx7zZpOkA2ss4OwWs05+bEa
+         C0+FBQ/CO/79SGf3SU828S1grhLJxPrmmnskSqBW94gu3FlSIMCfOlPUtD0Y4lK9IVrR
+         Swjw==
+X-Gm-Message-State: AOAM530LmIjsVZD41kF75cIfUcuwLqy0VjJMu/OWc+t0A+RrZPHTNS+g
+	HTJ/fVXy2hspVcywB3bL8clAsOFhhQIujbMql3w=
+X-Google-Smtp-Source: ABdhPJz4vz+8wYonrp92Z67dZBu/ULknhgE0rHhK7KUJEo+Qk9gU12n5BQ8j/K3ApFyVgGKC4JlA9g==
+X-Received: by 2002:a17:902:9309:b029:db:c725:d19c with SMTP id bc9-20020a1709029309b02900dbc725d19cmr814151plb.39.1611586426292;
+        Mon, 25 Jan 2021 06:53:46 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.53.42
+        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.53.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:53:42 -0800 (PST)
+        Mon, 25 Jan 2021 06:53:45 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 44/47] wic: Update pseudo db when excluding content from rootfs
-Date: Mon, 25 Jan 2021 04:51:16 -1000
-Message-Id: <da0d410ff0c0a952bb4a133b8821a061ddcad798.1611585425.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 45/47] wic: Add --change-directory argument
+Date: Mon, 25 Jan 2021 04:51:17 -1000
+Message-Id: <5d88e1ff90973357ec3ac7d84f48974a443e4e86.1611585425.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611585425.git.steve@sakoman.com>
 References: <cover.1611585425.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Paul Barker <pbarker@konsulko.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 
-To exclude content from the rootfs, wic makes a copy (using hardlinks if
-possible) of the rootfs directory and associated pseudo db, then removes
-files & directories as needed. However if these files and directories
-are removed using the python functions os.remove and shutil.rmtree, the
-copied pseudo db will not be updated correctly. For files copied from
-the original rootfs, if hardlinks were used successfully when copying
-the rootfs this should mean that the relevant inodes can't be reused and
-so the risk of pseudo aborts should be avoided. However, this logic
-doesn't apply for directories (as they can't be hardlinked) or for files
-added via the '--include-path' argument (as they weren't present in the
-original rootfs) and so there remains some risk of inodes being reused
-and the pseudo db becoming corrupted.
+This option allows to specify which part of a rootfs is going to be
+included, the same way the -C argument on tar.
 
-To fix this, use the 'rm' command under pseudo when removing files &
-directories from the copied rootfs to ensure that the copied pseudo db
-is updated.
+Thanks to this option we can make sure the permissions and usernames
+on the target partition are respected, and also simplify the creation of
+splitted partitons, not neeting to invoke external vars or using .wks.in
+files. Eg:
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
+part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/   
+part /etc --source rootfs --fstype=ext4 --change-directory=etc
+
+Cc: Paul Barker <pbarker@konsulko.com>
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d5db7e268947f0392c2126137571a44acd29ccd6)
+(cherry picked from commit 2265d089a58e1f78f26d623ee667c420cb1c3bd4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/plugins/source/rootfs.py | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ scripts/lib/wic/help.py                  |  6 ++++++
+ scripts/lib/wic/ksparser.py              |  1 +
+ scripts/lib/wic/partition.py             |  1 +
+ scripts/lib/wic/plugins/source/rootfs.py | 21 ++++++++++++++++++---
+ 4 files changed, 26 insertions(+), 3 deletions(-)
 
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index 1e3d06a87b..62a2a90e79 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -980,6 +980,12 @@ DESCRIPTION
+                          copies. This option only has an effect with the rootfs
+                          source plugin.
+ 
++         --change-directory: This option is specific to wic. It changes to the
++                             given directory before copying the files. This
++                             option is useful when we want to split a rootfs in
++                             multiple partitions and we want to keep the right
++                             permissions and usernames in all the partitions.
++
+          --extra-space: This option is specific to wic. It adds extra
+                         space after the space filled by the content
+                         of the partition. The final size can go
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 127ca79ade..452a160232 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -152,6 +152,7 @@ class KickStart():
+         part.add_argument('--offset', type=sizetype("K", True))
+         part.add_argument('--exclude-path', nargs='+')
+         part.add_argument('--include-path', nargs='+')
++        part.add_argument('--change-directory')
+         part.add_argument("--extra-space", type=sizetype("M"))
+         part.add_argument('--fsoptions', dest='fsopts')
+         part.add_argument('--fstype', default='vfat',
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index cc0382ce54..286c7867cb 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -31,6 +31,7 @@ class Partition():
+         self.extra_space = args.extra_space
+         self.exclude_path = args.exclude_path
+         self.include_path = args.include_path
++        self.change_directory = args.change_directory
+         self.fsopts = args.fsopts
+         self.fstype = args.fstype
+         self.label = args.label
 diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 8b2a067385..c96c539d03 100644
+index c96c539d03..ff1313717e 100644
 --- a/scripts/lib/wic/plugins/source/rootfs.py
 +++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -129,17 +129,20 @@ class RootfsPlugin(SourcePlugin):
-                     logger.error("'%s' points to a path outside the rootfs" % orig_path)
-                     sys.exit(1)
+@@ -86,14 +86,29 @@ class RootfsPlugin(SourcePlugin):
+         new_rootfs = None
+         new_pseudo = None
+         # Handle excluded paths.
+-        if part.exclude_path or part.include_path:
++        if part.exclude_path or part.include_path or part.change_directory:
+             # We need a new rootfs directory we can delete files from. Copy to
+             # workdir.
+             new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d" % part.lineno))
  
-+                if new_pseudo:
-+                    pseudo = cls.__get_pseudo(native_sysroot, new_rootfs, new_pseudo)
-+                else:
-+                    pseudo = None
-                 if path.endswith(os.sep):
-                     # Delete content only.
-                     for entry in os.listdir(full_path):
-                         full_entry = os.path.join(full_path, entry)
--                        if os.path.isdir(full_entry) and not os.path.islink(full_entry):
--                            shutil.rmtree(full_entry)
--                        else:
--                            os.remove(full_entry)
-+                        rm_cmd = "rm -rf %s" % (full_entry)
-+                        exec_native_cmd(rm_cmd, native_sysroot, pseudo)
-                 else:
-                     # Delete whole directory.
--                    shutil.rmtree(full_path)
-+                    rm_cmd = "rm -rf %s" % (full_path)
-+                    exec_native_cmd(rm_cmd, native_sysroot, pseudo)
+             if os.path.lexists(new_rootfs):
+                 shutil.rmtree(os.path.join(new_rootfs))
+-            copyhardlinktree(part.rootfs_dir, new_rootfs)
++
++            if part.change_directory:
++                cd = part.change_directory
++                if cd[-1] == '/':
++                    cd = cd[:-1]
++                if os.path.isabs(cd):
++                    logger.error("Must be relative: --change-directory=%s" % cd)
++                    sys.exit(1)
++                orig_dir = os.path.realpath(os.path.join(part.rootfs_dir, cd))
++                if not orig_dir.startswith(part.rootfs_dir):
++                    logger.error("'%s' points to a path outside the rootfs" % orig_dir)
++                    sys.exit(1)
++
++            else:
++                orig_dir = part.rootfs_dir
++            copyhardlinktree(orig_dir, new_rootfs)
  
-         part.prepare_rootfs(cr_workdir, oe_builddir,
-                             new_rootfs or part.rootfs_dir, native_sysroot,
+             # Convert the pseudo directory to its new location
+             if (pseudo_dir):
+@@ -108,7 +123,7 @@ class RootfsPlugin(SourcePlugin):
+                 pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,
+                                                                      new_rootfs,
+                                                                      new_pseudo),
+-                                                    part.rootfs_dir, new_rootfs)
++                                                    orig_dir, new_rootfs)
+                 exec_native_cmd(pseudo_cmd, native_sysroot)
+ 
+             for path in part.include_path or []:
 -- 
 2.25.1
 
