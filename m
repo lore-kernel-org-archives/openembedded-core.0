@@ -1,50 +1,50 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web11.345.1611586349557691051
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.347.1611586352675965893
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 06:52:29 -0800
+ Mon, 25 Jan 2021 06:52:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wvDGt9+X;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.178, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f178.google.com with SMTP id s15so7725662plr.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:52:29 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=VQBM9GDE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id j12so8495684pfj.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=88PNtJtoVogqTXFWXk6k7vo/DdMlrzyC/5kY7CYNExQ=;
-        b=wvDGt9+X4b+z7qrq7T18zf7huzLBaOL5NOeonNuEQRAHhD7eaI/ge0uX4eDXr2AnHy
-         g3Azd0dou1zPO7C+gdgIYd3ayGsBQRh3Um61MfmuP+Gkg8fFxN3koQRVmDCzeTSM0RxX
-         nqR8pTiwqwumgXnbSnWQyjFjZDZvCmv2rBEoaUFeuLS9AmYZclIwC7VgLBY4QtmFRBCX
-         1v0YtEjcYixululvFcSrc9XkR2t0aiNSFTdrS4KGnJ71ifRRwWqq2Rq445iR3fvK9HOX
-         2GwrcRosF4MN3KTzIHAy5qAVVoasf7DbLZJBB+pcDjr4+CGVaxAF/gDN9AMNZwBbQud4
-         kqIA==
+        bh=4tuP/a59Jaf6wKscwMOB/+brrjAJ6ErkBJPUFFA76GY=;
+        b=VQBM9GDE8taMCDZrvzfSbYcQWBm4aj5rf/pPdJjU6EdQVL9+CO3gBDa2OJpH44T7Te
+         HZ3cpNROIhk4Ho8WGnJPWjK6X1RH8WxQp/vIJG8ApGNDefatd2nbzoNZfW0fL0J0YNd2
+         N7f+kzW7HrLAhLLrU5Oh+elAKUFEMf0gBcqngftvbbVaIFSbukQehjeLVMo+jT5NVA5y
+         fPRGCFtmKymdqScjuz6qG3bVQ07xPOtZMelfyXbF05W8bZsLZZhh8bQWxTItCm/axhGF
+         nHcJ/R5qPhg8oRagjXPyGvzFZYv+qQXlh8wUNGNH4M5VvjA3MWshQzisp9/Qybrczmu0
+         CBqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=88PNtJtoVogqTXFWXk6k7vo/DdMlrzyC/5kY7CYNExQ=;
-        b=UAXR+8m3JSCR2hpM6IR6As/LOh3fRSj2WnDxUtE5JniXsoBnqWs63YfLwrJtC2ljSQ
-         DS1KA7+w/gz+aGRrQbb35OXDAdUPvyIUDf1xAWj/8cAaeJyHwLbn/bfLgaQWylDMbfGs
-         4avJwosIKc0HFrzwj9cwZfCz88FXeI4FzROv1KZuaQtnkPtXGQPEPnt0E0cZd1v9A/n3
-         +3rEJZGLOS/HnsC8edP/yQhoOhgqJlqwhnA9wn/0TGiU9PKyLq7Cp7eqGHbib1s/JA20
-         ZCciIffi6ITfulyxArz29S1bQdJTI4hqQXZF/JY+NJIyq0Mvp/Z/wXRHCTaOtfCaoqbi
-         2zvQ==
-X-Gm-Message-State: AOAM530QwVpCKphy2NtKjEgQhywn5LGGb5EScq6cS3qqvpiXuzl5xDaX
-	WC8Vk0emTC4tcy3jSvklucSLChArhrmLMZVCEH8=
-X-Google-Smtp-Source: ABdhPJzXNCGGlVQrBZg05t9yfG/5FEcNKgtQ8UwOJaA1/gdyw510Pt1+Q3+rV8E/7AEgWLrDMoToqw==
-X-Received: by 2002:a17:902:d510:b029:de:72a4:ebf1 with SMTP id b16-20020a170902d510b02900de72a4ebf1mr795417plg.11.1611586348686;
-        Mon, 25 Jan 2021 06:52:28 -0800 (PST)
+        bh=4tuP/a59Jaf6wKscwMOB/+brrjAJ6ErkBJPUFFA76GY=;
+        b=G+mCUtYEZ1mOyOVzfr8XwTB8pQintvHmTUjl+x7h2gUdIzFmh22bEUyd/BViqYd5ne
+         LfwHB7AIu5Sth2a1wpb6YJdIohKTruYYHly2kUkO9N8fLwC9TNEst+0BsG8/MTCt/ex/
+         5UyjP4hlGbiH/AyGSsLKakIuqT/7S/skZFxg4385sz7Jn0nvkk/4LAl6vEkmvCdJ1lhZ
+         2dprvimSokoDHe7jJgXeZaPFmh7GK/NKOsoCfl9PGk85W2/3b6fXWdEIBj/0ozS1Zn2Z
+         BgIi6yMVyxVPXphG8ES3tnqBSVJKhY1oU/1OpLyL7EuVAzoK7Fe++EXWYMBkOcsNrWTo
+         kRpA==
+X-Gm-Message-State: AOAM531EL2h6CHxeY3qnC7DY8vmQqP2ykbDqBRMslbWGjQvlsxYzphIf
+	yFMAYZidDxxy/yl1BkXHyp/wRfEBt7M/gG882QM=
+X-Google-Smtp-Source: ABdhPJyPl4QB+4MMX24BRHGT94UjEtrTDu/2OSZiGgA8OVloTIbhipUlIq5qDg7wu/pdQZw9aOQNpg==
+X-Received: by 2002:aa7:842b:0:b029:1bf:3390:5c82 with SMTP id q11-20020aa7842b0000b02901bf33905c82mr804928pfn.36.1611586351742;
+        Mon, 25 Jan 2021 06:52:31 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.52.27
+        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.52.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:52:28 -0800 (PST)
+        Mon, 25 Jan 2021 06:52:31 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/47] wic: Handle new PSEUDO_IGNORE_PATHS variable
-Date: Mon, 25 Jan 2021 04:50:49 -1000
-Message-Id: <5a91101eda920968f23e52b05991504db1bcbda6.1611585425.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 18/47] pseudo: Fix statx function usage
+Date: Mon, 25 Jan 2021 04:50:50 -1000
+Message-Id: <1b9737bf9ae8a621ebe018710c3dba2d058e2207.1611585425.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611585425.git.steve@sakoman.com>
 References: <cover.1611585425.git.steve@sakoman.com>
@@ -53,63 +53,94 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Adjust wic to correctly handle the new PSEUDO_IGNORE_PATH variable and avoid
-inode corruption issues.
+There is magic in the posts where specific variable names have specific
+magic. For that magic to work, "path" needs to be used not "pathname" as
+is currently there. Fix this, which fixes path issues on systems using
+statx (Ubuntu 20.04 in particular).
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 13500f5234361385c365c7c35e83f99435500481)
+(cherry picked from commit f9ae80aee98a7bb59c83ac9ebf9d317302507cec)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/image_types_wic.bbclass |  2 +-
- scripts/lib/wic/partition.py         | 12 +++++++-----
- 2 files changed, 8 insertions(+), 6 deletions(-)
+ .../pseudo/files/statxfix.patch               | 56 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/statxfix.patch
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 82f0985eeb..f27f29c663 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -5,7 +5,7 @@ WICVARS ?= "\
-            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
-            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
-            KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND \
--           ASSUME_PROVIDED"
-+           ASSUME_PROVIDED PSEUDO_IGNORE_PATHS"
- 
- inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
- 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 1347571aa0..4ec0608fe4 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -198,21 +198,23 @@ class Partition():
- 
-         Currently handles ext2/3/4, btrfs, vfat and squashfs.
-         """
+diff --git a/meta/recipes-devtools/pseudo/files/statxfix.patch b/meta/recipes-devtools/pseudo/files/statxfix.patch
+new file mode 100644
+index 0000000000..c47ff27f9f
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/statxfix.patch
+@@ -0,0 +1,56 @@
++There is magic in the posts where specific variable names have specific
++magic. For that magic to work, "path" needs to be used not "pathname" as
++is currently there. Fix this, which fixes path issues on systems using 
++statx (Ubuntu 20.04 in particular).
 +
-+        rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
-+                                         self.lineno, self.fstype)
-+        if os.path.isfile(rootfs):
-+            os.remove(rootfs)
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Pending
 +
-         p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
-         if (pseudo_dir):
-             pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
-             pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-             pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-             pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-+            pseudo += "export PSEUDO_IGNORE_PATHS=%s;" % (rootfs + "," + (get_bitbake_var("PSEUDO_IGNORE_PATHS") or ""))
-             pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-         else:
-             pseudo = None
- 
--        rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
--                                         self.lineno, self.fstype)
--        if os.path.isfile(rootfs):
--            os.remove(rootfs)
--
-         if not self.size and real_rootfs:
-             # The rootfs size is not set in .ks file so try to get it
-             # from bitbake variable
++Index: git/ports/linux/statx/guts/statx.c
++===================================================================
++--- git.orig/ports/linux/statx/guts/statx.c
+++++ git/ports/linux/statx/guts/statx.c
++@@ -5,14 +5,14 @@
++  * SPDX-License-Identifier: LGPL-2.1-only
++  *
++  * int
++- * statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf) {
+++ * statx(int dirfd, const char *path, int flags, unsigned int mask, struct statx *statxbuf) {
++  *	int rc = -1;
++  */
++ 	pseudo_msg_t *msg;
++ 	PSEUDO_STATBUF buf;
++ 	int save_errno;
++ 
++-	rc = real_statx(dirfd, pathname, flags, mask, statxbuf);
+++	rc = real_statx(dirfd, path, flags, mask, statxbuf);
++ 	save_errno = errno;
++ 	if (rc == -1) {
++ 		return rc;
++@@ -25,16 +25,16 @@
++ 	buf.st_mode = statxbuf->stx_mode;
++ 	buf.st_rdev = makedev(statxbuf->stx_rdev_major, statxbuf->stx_rdev_minor);
++ 	buf.st_nlink = statxbuf->stx_nlink;
++-	msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, pathname, &buf);
+++	msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, path, &buf);
++ 	if (msg && msg->result == RESULT_SUCCEED) {
++-		pseudo_debug(PDBGF_FILE, "statx(path %s), flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
+++		pseudo_debug(PDBGF_FILE, "statx(path %s), flags %o, stat rc %d, stat uid %o\n", path, flags, rc, statxbuf->stx_uid);
++ 		statxbuf->stx_uid = msg->uid;
++ 		statxbuf->stx_gid = msg->gid;
++ 		statxbuf->stx_mode = msg->mode;
++ 		statxbuf->stx_rdev_major = major(msg->rdev);
++ 		statxbuf->stx_rdev_minor = minor(msg->rdev);
++ 	} else {
++-		pseudo_debug(PDBGF_FILE, "statx(path %s) failed, flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
+++		pseudo_debug(PDBGF_FILE, "statx(path %s) failed, flags %o, stat rc %d, stat uid %o\n", path, flags, rc, statxbuf->stx_uid);
++ 	}
++ 	errno = save_errno;
++ /*	return rc;
++Index: git/ports/linux/statx/wrapfuncs.in
++===================================================================
++--- git.orig/ports/linux/statx/wrapfuncs.in
+++++ git/ports/linux/statx/wrapfuncs.in
++@@ -1 +1 @@
++-int statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf);
+++int statx(int dirfd, const char *path, int flags, unsigned int mask, struct statx *statxbuf);
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index bc20a2f134..c79fe92bc3 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -9,6 +9,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+            file://xattr_fix.patch \
+            file://mayunlink.patch \
+            file://pathfix.patch \
++           file://statxfix.patch \
+            file://fallback-passwd \
+            file://fallback-group \
+            "
 -- 
 2.25.1
 
