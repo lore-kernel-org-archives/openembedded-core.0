@@ -1,64 +1,69 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web09.32521.1611553384081000145
+Received: from outbound-relay8.guardedhost.com (outbound-relay8.guardedhost.com [216.239.133.208])
+ by mx.groups.io with SMTP id smtpd.web12.33500.1611559314241960888
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Jan 2021 21:43:04 -0800
+ Sun, 24 Jan 2021 23:21:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.79,372,1602518400"; 
-   d="scan'208";a="103790678"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 25 Jan 2021 13:42:49 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 15A2E4CE6787
-	for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 13:42:45 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 25 Jan 2021 13:42:45 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libmodulemd: upgrade 2.11.2 -> 2.12.0
-Date: Mon, 25 Jan 2021 13:42:39 +0800
-Message-ID: <1611553359-78953-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 15A2E4CE6787.A6139
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+ dkim=missing; spf=pass (domain: snowmoose.com, ip: 216.239.133.208, mailfrom: alanp@snowmoose.com)
+Received: from mail.guardedhost.com (mx02.guardedhost.com [IPv6:2607:fe90:1:1::53:1])
+	by outbound-relay5.guardedhost.com (Postfix) with ESMTP id 4DPLsF5Mpyz8Tx;
+	Mon, 25 Jan 2021 07:21:53 +0000 (GMT)
+Received: from alaperry-ubuntu-build.43vr1hlvonre5le4v1ueig2kyb.xx.internal.cloudapp.net (unknown [52.151.43.11])
+	(Authenticated sender: alanp@snowmoose.com)
+	by mail.guardedhost.com (Postfix) with ESMTPSA id 4DPLsD6TB8z30M2;
+	Mon, 25 Jan 2021 07:21:52 +0000 (GMT)
+From: "Alan Perry" <alanp@snowmoose.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alan Perry <alanp@snowmoose.com>
+Subject: [PATCH v2] iproute2: Add subpackage for rdma command
+Date: Mon, 25 Jan 2021 07:21:19 +0000
+Message-Id: <20210125072119.10063-1-alanp@snowmoose.com>
+X-Mailer: git-send-email 2.17.1
+Authentication-Results: mail.guardedhost.com;auth=pass
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse-Id: FF93369E-5EDD-11EB-8241-D7E9943AA0FD
+X-Virus-Scanned: clamav-milter 0.102.2 at tev-mx2.omnis.com
+X-Virus-Status: Clean
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+The rdma command is part of iproute2 and is used to query or set the RDMA
+configuration where applicable. This patch adds options to build it
+and include it.
+
+Signed-off-by: Alan Perry <alanp@snowmoose.com>
 ---
- meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-connectivity/iproute2/iproute2.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-index 5664df051e..fd49399cb8 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-@@ -6,14 +6,14 @@ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=
-            file://0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch \
-            "
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index 6a5dafaa35..6c8eea6799 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -19,8 +19,9 @@ PACKAGECONFIG ??= "tipc elf devlink"
+ PACKAGECONFIG[tipc] = ",,libmnl,"
+ PACKAGECONFIG[elf] = ",,elfutils,"
+ PACKAGECONFIG[devlink] = ",,libmnl,"
++PACKAGECONFIG[rdma] = ",,libmnl,"
  
--PV = "2.11.2"
--SRCREV = "169136d708eb4df10e76247c5cc6189f0de0c13e"
-+PV = "2.12.0"
-+SRCREV = "aaed38c899a958a88a6a368a70510e350ebe336c"
+-IPROUTE2_MAKE_SUBDIRS = "lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc', d)}"
++IPROUTE2_MAKE_SUBDIRS = "lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc rdma', d)}"
  
- S = "${WORKDIR}/git"
+ EXTRA_OEMAKE = "\
+     CC='${CC}' \
+@@ -59,6 +60,7 @@ IPROUTE2_PACKAGES =+ "\
+     ${PN}-ss \
+     ${PN}-tc \
+     ${PN}-tipc \
++    ${PN}-rdma \
+ "
  
- inherit meson gobject-introspection python3-dir
+ PACKAGE_BEFORE_PN = "${IPROUTE2_PACKAGES}"
+@@ -77,6 +79,7 @@ FILES_${PN}-nstat = "${base_sbindir}/nstat"
+ FILES_${PN}-ss = "${base_sbindir}/ss"
+ FILES_${PN}-tipc = "${base_sbindir}/tipc"
+ FILES_${PN}-devlink = "${base_sbindir}/devlink"
++FILES_${PN}-rdma = "${base_sbindir}/rdma"
  
--EXTRA_OEMESON = "-Ddeveloper_build=false -Dwith_docs=false -Drpmio=disabled -Dlibmagic=disabled -Dwith_manpages=disabled -Dgobject_overrides_dir_py3=${PYTHON_SITEPACKAGES_DIR}/gi/overrides"
-+EXTRA_OEMESON = "-Dwith_docs=false -Drpmio=disabled -Dlibmagic=disabled -Dwith_manpages=disabled -Dgobject_overrides_dir_py3=${PYTHON_SITEPACKAGES_DIR}/gi/overrides"
- 
- DEPENDS += "glib-2.0 libyaml glib-2.0-native python3"
- 
+ ALTERNATIVE_${PN}-ip = "ip"
+ ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
 -- 
-2.25.1
-
-
+2.17.1
 
