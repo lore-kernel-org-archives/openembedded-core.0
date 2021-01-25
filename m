@@ -1,170 +1,85 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.4989.1611618784356540782
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web09.4933.1611618839443154692
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 15:53:04 -0800
+ Mon, 25 Jan 2021 15:53:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CAbWloEJ;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id by1so20570961ejc.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 15:53:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I8FWRQ0U;
+ spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lf1-f50.google.com with SMTP id q8so20326544lfm.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 15:53:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CSt/XmKYSqdDnOBqxk4pB2ahP4+QPDsyNBF/KdSo7vw=;
-        b=CAbWloEJb/TQsC1Uu97tx7rcn+CZ7qXR6THy+xA+x78FFjhi2VlOByo1CuEcXnmTpR
-         BW3aobWh9gDRsEhYu2enNObd5emEbl4yrExSf60BwaAJ2jPYJc9YbnjcVz/d9V7eXWMb
-         veFcpKPASdyXPQOoKuBUcFov1TAON7hbwvuauyYiP6jXBykxkpdnIvY4wHAm6HmzIZcT
-         U0ZIMbTie+PQKX1/tf02MELj+5Nk2RlU6jR+Az6fZN0w4gD6FaTXLoWqcV8mXqd6j2Le
-         wAzeoBfb5W49f0a2kbxPRsIlbtPJte7DZICyljBD/j/IFbKAyPRmYbjT35fLdzzg1013
-         qDyA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C/iU+zFK49NuddWQt6IW2W62UwL4Fl9/0sjchLmvFKI=;
+        b=I8FWRQ0UV5+nq3PDuZf/2IJTwf8ONWqDmT2iitB2+mEwotOutuhJ7218XTok2KMO/u
+         DZVBj5wHelyiCljzqQmVv9WVIEQvq60wxZEkkrngGB/Zc67eh5GckqXSxrLnH9PMxdK8
+         7IBERkw9MIojyqhboGWlQiMV7IPUIMhPvlgi3uI3SWAEjXkw8akzEzcVGmKCoMRDj6EA
+         ONfAmkLiZloAwWLTjVIWLBcMuPmWB0qpk1CWhwDxtehscWjVxkMeeDZ8L993N2IcHHhg
+         rN7B7mgP3nS/ZlhR4Wf7qaEZVVmKS1Wcb/W5ICKD8OZ19AGPaT3dZiHRbExNdUzJRpOH
+         KZ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CSt/XmKYSqdDnOBqxk4pB2ahP4+QPDsyNBF/KdSo7vw=;
-        b=DNjqWcgNWmkA8Q6MlU/ckTFo0jmi/ZgTXEWakysW8OAbamn0WRAQxiRUueLKr+79p+
-         5o0Oq7MgQZ/culQslKUGXKLq80Vvai0GRJK644ni8jWAFZintGYlfd4Y/5S82I9ph4Bn
-         NWz8gI9G1f/yd99Sa7F5n7I3mHNZ4cLuau/wLQPswAZZXxQsDBAnIRa1YybLPxXZrp5z
-         fOuHUnLlHFwCnyZ34DeMEHKQPlFCtL0pYF+isQ61jv1MciCWK9BO2yxN6PWA8rVnrDUI
-         6rBA3Upjdf4h2vxMIWssqy4+BpnfK1LN/lOpFYY8DA27e74TCe9Vpt+VADfBMrwfiuzs
-         gtDw==
-X-Gm-Message-State: AOAM531BgjHsG9K0OamCbjca1dJKVi2LLWR5gRT+epiwub7CEMtdpFX3
-	h/jidsXoRuSXtcqFKVwQLb5APoFent+mbFWqHoU=
-X-Google-Smtp-Source: ABdhPJyhHR9OHh1aY3dR7pCMiFZG9/LY3OmS7ZsndbHfVay6jwO9sLboqZ19ygNoeam0lkHloNS2jyJ/J5lGK99izME=
-X-Received: by 2002:a17:906:76c9:: with SMTP id q9mr1873217ejn.484.1611618782730;
- Mon, 25 Jan 2021 15:53:02 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C/iU+zFK49NuddWQt6IW2W62UwL4Fl9/0sjchLmvFKI=;
+        b=mpet1ykNbvGkenoXQruru8wcGory81RxF+tXTgznTZQqSCjCSYpGRWHZ0uUAgltKmw
+         NqWDSGtY2AOirtH05imRggxtim8Ef4sQRdJW5exLe+1S37z7hDwJtx4trizwv+7ji1/V
+         q5lzFmaTjE7bkU+c02KHetqn5QiSoBR8xbZqzf2xedCehvDVRiK045leswxYQALZfVvE
+         NP6xGKTJ6Gn0ly9SdKxC7GyPDHxhCKowPMv4wsKcO74r3Gec9/E8OmklkYfz7t7ic92H
+         MxVtHMyX3mPxG9KiaebQjx0dpZq8bRrgySuQ8MeU+YUKZdbWp3RQ+mpimWTMF3+SMJuN
+         FNKw==
+X-Gm-Message-State: AOAM531FbJuXPkelqCFA5zJFs13FAmAHcReIYAY3z/r6epFalC9mclLq
+	eySZJ91JKXi0vzPQwCk9psZu9zNga34=
+X-Google-Smtp-Source: ABdhPJxnvdAs15JXgDGjFiLl2zoJnSkkDP+Pi0GIyGkG1UguMEPe28jAoHxBPp1KfIoy5iDTB1k/AA==
+X-Received: by 2002:a19:838c:: with SMTP id f134mr1296288lfd.424.1611618837361;
+        Mon, 25 Jan 2021 15:53:57 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id y10sm2659306ljk.10.2021.01.25.15.53.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Jan 2021 15:53:56 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] python3: Use addtask statement instead of task dependencies
+Date: Tue, 26 Jan 2021 00:56:26 +0100
+Message-Id: <20210125235626.41707-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-References: <20210124182647.1613511-1-quaresma.jose@gmail.com>
- <20210124182647.1613511-3-quaresma.jose@gmail.com> <37e34b2d593317b1910784a988fe14de1d32c232.camel@linuxfoundation.org>
-In-Reply-To: <37e34b2d593317b1910784a988fe14de1d32c232.camel@linuxfoundation.org>
-From: "Jose Quaresma" <quaresma.jose@gmail.com>
-Date: Mon, 25 Jan 2021 23:52:51 +0000
-Message-ID: <CANPvuR=3dY1KvoPcjrpAzdMnr2o5kSfR_M7PcVQEnFmhQn3wTw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4] selftest/reproducible: remove spirv-tools-dev from exclusion list
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Content-Type: multipart/alternative; boundary="0000000000000edc6f05b9c23d34"
+Content-Transfer-Encoding: 8bit
 
---0000000000000edc6f05b9c23d34
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The externalsrc class deletes do_patch task which results with:
+| ERROR: Task do_create_manifest in <PATH>/python3_3.8.2.bb depends upon
+| non-existent task do_patch in <PATH>/python3_3.8.2.bb
 
-Hi Richard,
+Use addtask to define correct order to prevent this error, since addtask
+mechanism accepts deleted tasks.
 
-librt.so is part of the glibc and are allays present on staging sysroot.
-how does the cmake can find the librt.so outside of the sysroot if it are
-present on that.
+[YOCTO #14151]
 
-The problem is at:
-https://github.com/KhronosGroup/SPIRV-Tools/blob/b27b1afd12d05bf238ac7368bb=
-49de73cd620a8e/source/CMakeLists.txt#L397
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+---
+ meta/recipes-devtools/python/python3_3.9.1.bb | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Probably I need to force the find_library to search first on
-STAGING_DIR_HOST
+diff --git a/meta/recipes-devtools/python/python3_3.9.1.bb b/meta/recipes-devtools/python/python3_3.9.1.bb
+index 17d0c032f7..093ebfe7ef 100644
+--- a/meta/recipes-devtools/python/python3_3.9.1.bb
++++ b/meta/recipes-devtools/python/python3_3.9.1.bb
+@@ -315,11 +315,8 @@ do_create_manifest() {
+ }
+ 
+ # bitbake python -c create_manifest
+-addtask do_create_manifest
+-
+ # Make sure we have native python ready when we create a new manifest
+-do_create_manifest[depends] += "${PN}:do_prepare_recipe_sysroot"
+-do_create_manifest[depends] += "${PN}:do_patch"
++addtask do_create_manifest after do_patch do_prepare_recipe_sysroot
+ 
+ # manual dependency additions
+ RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
+-- 
+2.30.0
 
-Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
-segunda, 25/01/2021 =C3=A0(s) 20:13:
-
-> On Sun, 2021-01-24 at 18:26 +0000, Jose Quaresma wrote:
-> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-> > ---
-> >  meta/lib/oeqa/selftest/cases/reproducible.py | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
-> b/meta/lib/oeqa/selftest/cases/reproducible.py
-> > index eee494e5cc..deddf6e50b 100644
-> > --- a/meta/lib/oeqa/selftest/cases/reproducible.py
-> > +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-> > @@ -65,7 +65,6 @@ exclude_packages =3D [
-> >       'quilt-ptest',
-> >       'rsync',
-> >       'ruby',
-> > -     'spirv-tools-dev',
-> >       'swig',
-> >       'syslinux-misc',
-> >       'systemd-bootchart',
->
-> Thanks for looking at this, unfortunately in testing it shows there is
-> still some kind of issue:
->
->
-> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210125-8161=
-_obd/packages/diff-html/
->
-> Looks like it shouldn't be too hard to fix though!
->
-> Cheers,
->
-> Richard
->
->
->
->
-
---=20
-best regards,
-Jos=C3=A9 Quaresma
-
---0000000000000edc6f05b9c23d34
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Richard,</div><div><br></div><div>librt.so is part=
- of the glibc and are allays present on staging sysroot.</div><div>how does=
- the cmake can find the librt.so outside of the sysroot if it are present o=
-n that.<br></div><div><br></div><div>The problem is at:</div><div><a href=
-=3D"https://github.com/KhronosGroup/SPIRV-Tools/blob/b27b1afd12d05bf238ac73=
-68bb49de73cd620a8e/source/CMakeLists.txt#L397">https://github.com/KhronosGr=
-oup/SPIRV-Tools/blob/b27b1afd12d05bf238ac7368bb49de73cd620a8e/source/CMakeL=
-ists.txt#L397</a><br></div><div><br></div><div>Probably I need to force the=
- find_library=C2=A0to search first on STAGING_DIR_HOST</div><div><br></div>=
-<div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Richa=
-rd Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard=
-.purdie@linuxfoundation.org</a>&gt; escreveu no dia segunda, 25/01/2021 =C3=
-=A0(s) 20:13:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- Sun, 2021-01-24 at 18:26 +0000, Jose Quaresma wrote:<br>
-&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail=
-.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/lib/oeqa/selftest/cases/reproducible.py | 1 -<br>
-&gt; =C2=A01 file changed, 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/o=
-eqa/selftest/cases/reproducible.py<br>
-&gt; index eee494e5cc..deddf6e50b 100644<br>
-&gt; --- a/meta/lib/oeqa/selftest/cases/reproducible.py<br>
-&gt; +++ b/meta/lib/oeqa/selftest/cases/reproducible.py<br>
-&gt; @@ -65,7 +65,6 @@ exclude_packages =3D [<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;quilt-ptest&#39;,<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;rsync&#39;,<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;ruby&#39;,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0&#39;spirv-tools-dev&#39;,<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;swig&#39;,<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;syslinux-misc&#39;,<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;systemd-bootchart&#39;,<br>
-<br>
-Thanks for looking at this, unfortunately in testing it shows there is<br>
-still some kind of issue:<br>
-<br>
-<a href=3D"https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2021=
-0125-8161_obd/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210125-8161_obd/=
-packages/diff-html/</a><br>
-<br>
-Looks like it shouldn&#39;t be too hard to fix though!<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature"><div dir=3D"ltr">best regards,<br>Jos=C3=A9 Quar=
-esma</div></div></div></div>
-
---0000000000000edc6f05b9c23d34--
