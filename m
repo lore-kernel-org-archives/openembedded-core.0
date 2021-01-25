@@ -1,93 +1,170 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web09.4669.1611617601400192039
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web11.4989.1611618784356540782
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 15:33:21 -0800
+ Mon, 25 Jan 2021 15:53:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=u8IlQScG;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id j21so4026430pls.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 15:33:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CAbWloEJ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id by1so20570961ejc.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 15:53:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:organization:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Rn0WkfDA+x3altYm9RHmK3JnhSs6o/CAUuVfpvkKJeU=;
-        b=u8IlQScGbCa1bSg8ybGV6IUpNZtCh+fr8VoZ1N29vtkFEWLv4cijgJDlO1sbY8Ke0+
-         juIJXlfKm7k+nW+zl2Shcnff5TpRxOBiL26Ka4M71t+ZnaXgZIWxnb0q01nkgBQ9ODRh
-         8PTtBJDxDmnjqT+yFkAnyGqYRHXdJmBtmIlrU8reimc/2IS1vjl2nc1P4JP3uyTYq1MC
-         4wSjQti8KIopEkeKS2RYEpbbN1VO2P6QVkgN8kZl5F11zG6XJApCe2tv7gKK+YdXPA4x
-         My/3bT2MlKAmvGgJIpCyBQiyLdly2cWOZKs3KSMdJI4nPLoDwu00kgZcCyqrbAq1qpbu
-         Q9Bg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=CSt/XmKYSqdDnOBqxk4pB2ahP4+QPDsyNBF/KdSo7vw=;
+        b=CAbWloEJb/TQsC1Uu97tx7rcn+CZ7qXR6THy+xA+x78FFjhi2VlOByo1CuEcXnmTpR
+         BW3aobWh9gDRsEhYu2enNObd5emEbl4yrExSf60BwaAJ2jPYJc9YbnjcVz/d9V7eXWMb
+         veFcpKPASdyXPQOoKuBUcFov1TAON7hbwvuauyYiP6jXBykxkpdnIvY4wHAm6HmzIZcT
+         U0ZIMbTie+PQKX1/tf02MELj+5Nk2RlU6jR+Az6fZN0w4gD6FaTXLoWqcV8mXqd6j2Le
+         wAzeoBfb5W49f0a2kbxPRsIlbtPJte7DZICyljBD/j/IFbKAyPRmYbjT35fLdzzg1013
+         qDyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Rn0WkfDA+x3altYm9RHmK3JnhSs6o/CAUuVfpvkKJeU=;
-        b=YXFIyHgtAWEp0s/TppszRpJAGq9C71By09AJB2fhdcqVzufvHmNOD6a8r91EianXNd
-         8+bJuMhBJK5MCUfPiQ2pXqn4I3VsB5Z0fyh/InEPpAtmAc+FHs/zTTlSCNJrMnk2zEnq
-         phv7fUAiaLyEWO4LP+WgiGbT5o0qcRkG0ob9Y+aeNilhu0OomY2Fyt4/oQR78/Bldm3z
-         Df81PXAHAz9kOFD+QEccMMIbOx5h+8UeiX7G+uZo6haApfVzfG15Tt5FRQWLlQcHpeCF
-         eWa14gIQzCTQFHQKKfCqvYcwSnRREw7zMwfOkL4iyx06pjdSiVSkHdbjLk6YIy2hx7X7
-         BRfA==
-X-Gm-Message-State: AOAM530bX5Gdj86m00NdpvGjMaHPxMq61laC9nC687WXwNj1fl4BHtE2
-	Aek78t46rCVgTkWEu7ddbPJiFIn6LhG9dA==
-X-Google-Smtp-Source: ABdhPJxMwXYmMM1Xm7aUCBo1/01ZZLn9++u8N2x16/LlWeOCfeIY8q5g5APfIzVXgK175GXvWmH/Xg==
-X-Received: by 2002:a17:90a:8817:: with SMTP id s23mr2726900pjn.67.1611617600438;
-        Mon, 25 Jan 2021 15:33:20 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:a0f0:b0f2:af7b:8412:cef7? ([2601:646:9200:a0f0:b0f2:af7b:8412:cef7])
-        by smtp.gmail.com with ESMTPSA id oa10sm384041pjb.45.2021.01.25.15.33.19
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Jan 2021 15:33:19 -0800 (PST)
-Subject: Re: [OE-core] [PATCH] libmodulemd: upgrade 2.11.2 -> 2.12.0
-To: openembedded-core@lists.openembedded.org
-References: <1611553359-78953-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <afedafbd-96aa-311f-0497-3cf1b66b4858@gmail.com>
-Date: Mon, 25 Jan 2021 15:33:18 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=CSt/XmKYSqdDnOBqxk4pB2ahP4+QPDsyNBF/KdSo7vw=;
+        b=DNjqWcgNWmkA8Q6MlU/ckTFo0jmi/ZgTXEWakysW8OAbamn0WRAQxiRUueLKr+79p+
+         5o0Oq7MgQZ/culQslKUGXKLq80Vvai0GRJK644ni8jWAFZintGYlfd4Y/5S82I9ph4Bn
+         NWz8gI9G1f/yd99Sa7F5n7I3mHNZ4cLuau/wLQPswAZZXxQsDBAnIRa1YybLPxXZrp5z
+         fOuHUnLlHFwCnyZ34DeMEHKQPlFCtL0pYF+isQ61jv1MciCWK9BO2yxN6PWA8rVnrDUI
+         6rBA3Upjdf4h2vxMIWssqy4+BpnfK1LN/lOpFYY8DA27e74TCe9Vpt+VADfBMrwfiuzs
+         gtDw==
+X-Gm-Message-State: AOAM531BgjHsG9K0OamCbjca1dJKVi2LLWR5gRT+epiwub7CEMtdpFX3
+	h/jidsXoRuSXtcqFKVwQLb5APoFent+mbFWqHoU=
+X-Google-Smtp-Source: ABdhPJyhHR9OHh1aY3dR7pCMiFZG9/LY3OmS7ZsndbHfVay6jwO9sLboqZ19ygNoeam0lkHloNS2jyJ/J5lGK99izME=
+X-Received: by 2002:a17:906:76c9:: with SMTP id q9mr1873217ejn.484.1611618782730;
+ Mon, 25 Jan 2021 15:53:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1611553359-78953-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210124182647.1613511-1-quaresma.jose@gmail.com>
+ <20210124182647.1613511-3-quaresma.jose@gmail.com> <37e34b2d593317b1910784a988fe14de1d32c232.camel@linuxfoundation.org>
+In-Reply-To: <37e34b2d593317b1910784a988fe14de1d32c232.camel@linuxfoundation.org>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Mon, 25 Jan 2021 23:52:51 +0000
+Message-ID: <CANPvuR=3dY1KvoPcjrpAzdMnr2o5kSfR_M7PcVQEnFmhQn3wTw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/4] selftest/reproducible: remove spirv-tools-dev from exclusion list
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Content-Type: multipart/alternative; boundary="0000000000000edc6f05b9c23d34"
 
-In commit msg Can you mention why -Ddeveloper_build=false is dropped?
+--0000000000000edc6f05b9c23d34
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/24/21 9:42 PM, zhengruoqin wrote:
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->   meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-> index 5664df051e..fd49399cb8 100644
-> --- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-> +++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-> @@ -6,14 +6,14 @@ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https;branch=
->              file://0001-modulemd-generate-the-manpage-only-if-the-feature-is.patch \
->              "
->   
-> -PV = "2.11.2"
-> -SRCREV = "169136d708eb4df10e76247c5cc6189f0de0c13e"
-> +PV = "2.12.0"
-> +SRCREV = "aaed38c899a958a88a6a368a70510e350ebe336c"
->   
->   S = "${WORKDIR}/git"
->   
->   inherit meson gobject-introspection python3-dir
->   
-> -EXTRA_OEMESON = "-Ddeveloper_build=false -Dwith_docs=false -Drpmio=disabled -Dlibmagic=disabled -Dwith_manpages=disabled -Dgobject_overrides_dir_py3=${PYTHON_SITEPACKAGES_DIR}/gi/overrides"
-> +EXTRA_OEMESON = "-Dwith_docs=false -Drpmio=disabled -Dlibmagic=disabled -Dwith_manpages=disabled -Dgobject_overrides_dir_py3=${PYTHON_SITEPACKAGES_DIR}/gi/overrides"
->   
->   DEPENDS += "glib-2.0 libyaml glib-2.0-native python3"
->   
-> 
-> 
-> 
-> 
-> 
+Hi Richard,
+
+librt.so is part of the glibc and are allays present on staging sysroot.
+how does the cmake can find the librt.so outside of the sysroot if it are
+present on that.
+
+The problem is at:
+https://github.com/KhronosGroup/SPIRV-Tools/blob/b27b1afd12d05bf238ac7368bb=
+49de73cd620a8e/source/CMakeLists.txt#L397
+
+Probably I need to force the find_library to search first on
+STAGING_DIR_HOST
+
+Richard Purdie <richard.purdie@linuxfoundation.org> escreveu no dia
+segunda, 25/01/2021 =C3=A0(s) 20:13:
+
+> On Sun, 2021-01-24 at 18:26 +0000, Jose Quaresma wrote:
+> > Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+> > ---
+> >  meta/lib/oeqa/selftest/cases/reproducible.py | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
+> b/meta/lib/oeqa/selftest/cases/reproducible.py
+> > index eee494e5cc..deddf6e50b 100644
+> > --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> > +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> > @@ -65,7 +65,6 @@ exclude_packages =3D [
+> >       'quilt-ptest',
+> >       'rsync',
+> >       'ruby',
+> > -     'spirv-tools-dev',
+> >       'swig',
+> >       'syslinux-misc',
+> >       'systemd-bootchart',
+>
+> Thanks for looking at this, unfortunately in testing it shows there is
+> still some kind of issue:
+>
+>
+> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210125-8161=
+_obd/packages/diff-html/
+>
+> Looks like it shouldn't be too hard to fix though!
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+
+--=20
+best regards,
+Jos=C3=A9 Quaresma
+
+--0000000000000edc6f05b9c23d34
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Richard,</div><div><br></div><div>librt.so is part=
+ of the glibc and are allays present on staging sysroot.</div><div>how does=
+ the cmake can find the librt.so outside of the sysroot if it are present o=
+n that.<br></div><div><br></div><div>The problem is at:</div><div><a href=
+=3D"https://github.com/KhronosGroup/SPIRV-Tools/blob/b27b1afd12d05bf238ac73=
+68bb49de73cd620a8e/source/CMakeLists.txt#L397">https://github.com/KhronosGr=
+oup/SPIRV-Tools/blob/b27b1afd12d05bf238ac7368bb49de73cd620a8e/source/CMakeL=
+ists.txt#L397</a><br></div><div><br></div><div>Probably I need to force the=
+ find_library=C2=A0to search first on STAGING_DIR_HOST</div><div><br></div>=
+<div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Richa=
+rd Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard=
+.purdie@linuxfoundation.org</a>&gt; escreveu no dia segunda, 25/01/2021 =C3=
+=A0(s) 20:13:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ Sun, 2021-01-24 at 18:26 +0000, Jose Quaresma wrote:<br>
+&gt; Signed-off-by: Jose Quaresma &lt;<a href=3D"mailto:quaresma.jose@gmail=
+.com" target=3D"_blank">quaresma.jose@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0meta/lib/oeqa/selftest/cases/reproducible.py | 1 -<br>
+&gt; =C2=A01 file changed, 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/o=
+eqa/selftest/cases/reproducible.py<br>
+&gt; index eee494e5cc..deddf6e50b 100644<br>
+&gt; --- a/meta/lib/oeqa/selftest/cases/reproducible.py<br>
+&gt; +++ b/meta/lib/oeqa/selftest/cases/reproducible.py<br>
+&gt; @@ -65,7 +65,6 @@ exclude_packages =3D [<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;quilt-ptest&#39;,<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;rsync&#39;,<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;ruby&#39;,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0&#39;spirv-tools-dev&#39;,<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;swig&#39;,<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;syslinux-misc&#39;,<br>
+&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0&#39;systemd-bootchart&#39;,<br>
+<br>
+Thanks for looking at this, unfortunately in testing it shows there is<br>
+still some kind of issue:<br>
+<br>
+<a href=3D"https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2021=
+0125-8161_obd/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">htt=
+ps://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210125-8161_obd/=
+packages/diff-html/</a><br>
+<br>
+Looks like it shouldn&#39;t be too hard to fix though!<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr">best regards,<br>Jos=C3=A9 Quar=
+esma</div></div></div></div>
+
+--0000000000000edc6f05b9c23d34--
