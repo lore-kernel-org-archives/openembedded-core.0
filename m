@@ -1,83 +1,230 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.341.1611586330713546730
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web08.348.1611586336073771616
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 06:52:10 -0800
+ Mon, 25 Jan 2021 06:52:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bwRr6Jtw;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id e9so7753574plh.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:52:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=SYU5kxUz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f47.google.com with SMTP id u4so8867875pjn.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:52:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=vyNWvAlR3ZqX7+kc4IocixC1Z3xZvTnfSDEhgkd7M7E=;
-        b=bwRr6JtwaFzhy+WoygaE21IGQATAazSmsQhArCfLHYA3mOkxWCDb76N5Z+QUwkiZnH
-         kIDFrMZFNtlSoiSvLHy1L6DVWWh1fCOgCvFbTk5eaOtMrHPECXzUpE3hJrw8JY3zlXKa
-         3klyRnEWr/cT8uj4vGSn8Tgw5K5g205UZtA4vrOHjrVndStgmqUzdpnMTStb5Lu8DZbk
-         2dIitw84MFwb14Mo3We0W5ZXUOJSIbyh8S2Ic/Ezz6bXqC76lJoEnefvn1alquWrE84+
-         C5+UvQRtMK9c4T5Ceu/hynm6ibeSM9usY/Upl9uhJ/XNK5q6S+Xwf8P1RvoyJPA9N5MC
-         5LBg==
+        bh=dXNsW3YKtwv/WgFe+rPCWlc2ZCwkiGEMUp0wobMYUS4=;
+        b=SYU5kxUzNAzCGi/HKzVtMpQCXJW59etCEjiAQ5gtNtXesYd1fOQfgWQg+P4S9ML7nz
+         KLA8RoWYn0TSl3pUmj2dvWqbavfFX2chDJ9XhQyZa3Ahw7R4nwWlNDNi+frqeXIHYyyi
+         WSm8ga0SdijSqIrtu1jxgNZF5FnjawMFrqmFT3RGEA8qDBM8lOX56nvhpkWv7DA7yQ13
+         /VXiKNz4l013kXSvnDxQHcVW2A+sYSGvnnTeYqZSqoECK4cyw8ibgfGnd2jfV1gNhmMK
+         Ve1IeLJy9S9NXhnh3Dm+x8eWKzUHAlSN/c5Rn49HLfuck517ahMz0h3a7q0RFS5+zHt0
+         exCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vyNWvAlR3ZqX7+kc4IocixC1Z3xZvTnfSDEhgkd7M7E=;
-        b=d6dRpDkrHfA1MbRHBcoOMyI0r8Ay5+XlXSmxW+HdCD22tf6L+kC4bKM/i8h9fD97Tk
-         OF0MUM+oaD0ofuMrRZNGAqoRs33jw3RXDp7V0fh4fg2hG02r2qwWcVInDq3P+pLpiPhS
-         6CzmHzr1G3UkOPBMpMcLvlZ3+kqjNtlH7Ms2T6QtOjjRo7Zyc6c2EX49DjwEr+BjcOZ+
-         clCAzmJXUTW957Ebg914Ysi0YpK7WKXl7lNqVNlCHaBSD6tjxZNBHs8Xujui8XHpI9/j
-         B5k1YzEjMNuW0Ve8MW1HaXFvW964mW8kMNNXEDz9EjOuEI9XPycQyt4OWpp+YAv4t4gV
-         zHOg==
-X-Gm-Message-State: AOAM530vpVj0SsKkTh68IZohm1YzEumnpLZ388+H8TYrC8I/+06zuVd/
-	pTk8UYPpFRS/q+7q5yz36GWXlMnHadNItXnkjRk=
-X-Google-Smtp-Source: ABdhPJyGQHNqzWN9yW42lLNqPG9HLWTM7VLxTBiIH7Sg/u/p56jrSNNx4M39BQ5MaQTajaah3mkYZw==
-X-Received: by 2002:a17:90a:e508:: with SMTP id t8mr579778pjy.90.1611586329606;
-        Mon, 25 Jan 2021 06:52:09 -0800 (PST)
+        bh=dXNsW3YKtwv/WgFe+rPCWlc2ZCwkiGEMUp0wobMYUS4=;
+        b=EnWrzZ3DSSng2Rz5sRPNFI4Vo9KuVnfebllqcLSKxS+40tcp5F9kU7eiUeTxkPw44I
+         FUrXhCXuOiWk9t6OwWFxbzsEV8qFSW4S4dUvl8vQA3kztutUN+Qus9msB4qvwTqo1+Sr
+         wwvDfZ5mF/T9XuM9iYz5mUlZGEf0yTvvj+M8VWbxIp/QXqajHMPbqaUC7X55POGLziZV
+         M7LNxO1A84Lu2CJlOkUw2vgMnIh3RcTYCmzLJwvvFB6jnXzV6maiZynEDHG87ypkbXaO
+         Uds9ZxNNkDugUjnYSt4oAlQhohRLh1SOPxNT1SLNwNz6JPsL7+wAUQI2MAkcUbiwDy0p
+         ulNQ==
+X-Gm-Message-State: AOAM531kKyj2qISsQWacXjv9q9B5T5AJObXvoy8HRP67ENOyGIhWS4BI
+	ur8hDBmVU1FhAOrCfg7TzDHpvzQsv2GXxW87pvA=
+X-Google-Smtp-Source: ABdhPJxJ7Vvhm6C3SsVTnu7ISLDDhDaNUEG8lKxaIXPHHyDLHd3ZMVTkdRqwVky0w2ud8b39NtYYXw==
+X-Received: by 2002:a17:902:123:b029:dc:27b:3c62 with SMTP id 32-20020a1709020123b02900dc027b3c62mr1038837plb.16.1611586335082;
+        Mon, 25 Jan 2021 06:52:15 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.52.08
+        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.52.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:52:09 -0800 (PST)
+        Mon, 25 Jan 2021 06:52:14 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 12/47] bitbake.conf: Remove TERM from default BB_HASHBASE_WHITELIST
-Date: Mon, 25 Jan 2021 04:50:44 -1000
-Message-Id: <9293a306640ee6bfbda6848e744aab352cd8c1a5.1611585425.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 13/47] base/bitbake.conf: Enable pseudo path filtering
+Date: Mon, 25 Jan 2021 04:50:45 -1000
+Message-Id: <4757ac3f9f2a044284184bd963c8e287e3f06bc0.1611585425.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611585425.git.steve@sakoman.com>
 References: <cover.1611585425.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jacob Kroon <jacob.kroon@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Since BitBake commit 0d5cdd0c0d65f2f81c3af0f3767fee86c4142c3a
-TERM is no longer preserved in the environment by BitBake, so there
-should be no need to whitelist it by default.
+This is a pretty big change to the way pseudo operates when used in OpenEmbedded.
+Normally, pseudo monitors and logs (adds to its database) any file created or
+modified whilst in a fakeroot environment. There are large numbers of files
+we simply don't care about the permissions of whilst in that fakeroot context,
+for example ${S}, ${B}, ${T}, ${SSTATE_DIR}, the central sstate control
+directories,
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+This change uses new functionality in pseudo to ignore these directory trees,
+resulting in a cleaner database with less chance of "stray" mismatches if files
+are modified outside pseudo context. It also should reduce some overhead from
+pseudo as the interprocess round trip to the server is avoided.
+
+There is a possible complication where some existing recipe may break, for
+example, we found a recipe which was writing to "${B}/install" for
+"make install" in do_install and since we listed ${B} as not to be tracked,
+there were errors trying to chown root for files in this location.
+
+This patch fixes a few corner cases in OE-Core when used with this new
+ignore list:
+
+* The archiver directory matched a "${WORKDIR}/deploy*" pattern so was renamed
+  to something else since that directory does need its root permissions
+* The ${S} and ${B} ignoring is conditional on them being different to ${WORKDIR}
+* package_write_* task output (the debs/rpms/ipks) are now owned by the build
+  user so we don't want the file ownership information in the hashequiv outhash
+  calculation even if they are built under pseudo.
+* The fontcache postinstall intercept is run under qemu outside of pseudo context
+  so delete files it may delete up front where pseudo can see this.
+* SSTATE_DIR is in PSEUDO_PATHS_IGNORE, which is in FAKEROOTENV which is cached
+  by bitbake. We therefore need to trigger reparsing if this changes, which means
+  SSTATE_DIR can be in BB_HASHBASE_WHITELIST but not BB_HASHCONFIG_WHITELIST.
+  Rework the variables to handle this. This otherwise breaks some of our sstate
+  tests in oe-selftest.
+* Ignore the temp directory wic uses for rebuilding rootfs.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 72c4222b095a49d5ba8252abbae5025196519cd5)
+(cherry picked from commit ad8f5532ffaead9a5ad13e1034fe9e5e1b7979f4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/archiver.bbclass                 |  2 +-
+ meta/classes/base.bbclass                     |  5 +++++
+ meta/classes/image_types_wic.bbclass          |  2 ++
+ meta/classes/populate_sdk_base.bbclass        |  2 ++
+ meta/conf/bitbake.conf                        | 13 ++++++++-----
+ meta/lib/oe/sstatesig.py                      |  2 ++
+ scripts/postinst-intercepts/update_font_cache |  2 ++
+ 7 files changed, 22 insertions(+), 6 deletions(-)
 
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 990f1d4674..7ca35a573b 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -53,7 +53,7 @@ ARCHIVER_MODE[recipe] ?= "0"
+ ARCHIVER_MODE[mirror] ?= "split"
+ 
+ DEPLOY_DIR_SRC ?= "${DEPLOY_DIR}/sources"
+-ARCHIVER_TOPDIR ?= "${WORKDIR}/deploy-sources"
++ARCHIVER_TOPDIR ?= "${WORKDIR}/archiver-sources"
+ ARCHIVER_OUTDIR = "${ARCHIVER_TOPDIR}/${TARGET_SYS}/${PF}/"
+ ARCHIVER_RPMTOPDIR ?= "${WORKDIR}/deploy-sources-rpm"
+ ARCHIVER_RPMOUTDIR = "${ARCHIVER_RPMTOPDIR}/${TARGET_SYS}/${PF}/"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 7aa2e144eb..a710abdbd7 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -388,6 +388,11 @@ python () {
+     oe.utils.features_backfill("DISTRO_FEATURES", d)
+     oe.utils.features_backfill("MACHINE_FEATURES", d)
+ 
++    if d.getVar("WORKDIR") != d.getVar("S"):
++        d.appendVar("PSEUDO_IGNORE_PATHS", ",${S}")
++    if d.getVar("WORKDIR") != d.getVar("B"):
++        d.appendVar("PSEUDO_IGNORE_PATHS", ",${B}")
++
+     # Handle PACKAGECONFIG
+     #
+     # These take the form:
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 196c86814e..70ea46ef5b 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -40,6 +40,8 @@ IMAGE_CMD_wic () {
+ IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
+ do_image_wic[cleandirs] = "${WORKDIR}/build-wic"
+ 
++PSEUDO_IGNORE_PATHS .= ",${WORKDIR}/build-wic"
++
+ # Rebuild when the wks file or vars in WICVARS change
+ USING_WIC = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'wic ' + ' '.join('wic.%s' % c for c in '${CONVERSIONTYPES}'.split()), '1', '', d)}"
+ WKS_FILE_CHECKSUM = "${@'${WKS_FULL_PATH}:%s' % os.path.exists('${WKS_FULL_PATH}') if '${USING_WIC}' else ''}"
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 39a7cadaf8..dea272c441 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -178,6 +178,8 @@ do_populate_sdk[sstate-inputdirs] = "${SDKDEPLOYDIR}"
+ do_populate_sdk[sstate-outputdirs] = "${SDK_DEPLOY}"
+ do_populate_sdk[stamp-extra-info] = "${MACHINE_ARCH}${SDKMACHINE}"
+ 
++PSEUDO_IGNORE_PATHS .= ",${SDKDEPLOYDIR}"
++
+ fakeroot create_sdk_files() {
+ 	cp ${COREBASE}/scripts/relocate_sdk.py ${SDK_OUTPUT}/${SDKPATH}/
+ 
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bdade79abe..9e6b68b6b6 100644
+index 9e6b68b6b6..93a27521fd 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -875,7 +875,7 @@ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+@@ -686,13 +686,15 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts"
++
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+ #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
+ #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
+-FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_DISABLED=1"
++FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=1"
+ FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
+-FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_DISABLED=0"
++FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${PSEUDO_IGNORE_PATHS} PSEUDO_DISABLED=0"
+ FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
+ FAKEROOTDIRS = "${PSEUDO_LOCALSTATEDIR}"
+ PREFERRED_PROVIDER_virtual/fakeroot-native ?= "pseudo-native"
+@@ -874,8 +876,8 @@ BB_CONSOLELOG ?= "${LOG_DIR}/cooker/${MACHINE}/${DATETIME}.log"
+ 
  # Setup our default hash policy
  BB_SIGNATURE_HANDLER ?= "OEBasicHash"
- BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DIR \
--    SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM \
-+    SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL \
+-BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DIR \
+-    SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL \
++BB_HASHEXCLUDE_COMMON ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DIR \
++    THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL \
      USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
      STAMPS_DIR PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
      CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_NOHASHDIR LICENSE_PATH SDKPKGSUFFIX \
+@@ -883,7 +885,8 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
+     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
+     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
+     SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES"
+-BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
++BB_HASHBASE_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} PSEUDO_IGNORE_PATHS BUILDHISTORY_DIR SSTATE_DIR "
++BB_HASHCONFIG_WHITELIST ?= "${BB_HASHEXCLUDE_COMMON} DATE TIME SSH_AGENT_PID \
+     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
+     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
+     GIT_PROXY_COMMAND ALL_PROXY all_proxy NO_PROXY no_proxy FTP_PROXY ftp_proxy \
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index d5a6200562..beaccdc909 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -477,6 +477,8 @@ def OEOuthashBasic(path, sigfile, task, d):
+     h = hashlib.sha256()
+     prev_dir = os.getcwd()
+     include_owners = os.environ.get('PSEUDO_DISABLED') == '0'
++    if "package_write_" in task or task == "package_qa":
++        include_owners = False
+     include_timestamps = False
+     if task == "package":
+         include_timestamps = d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1'
+diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
+index 46bdb8c572..900db042d6 100644
+--- a/scripts/postinst-intercepts/update_font_cache
++++ b/scripts/postinst-intercepts/update_font_cache
+@@ -5,6 +5,8 @@
+ 
+ set -e
+ 
++rm -f $D${fontconfigcachedir}/CACHEDIR.TAG
++
+ PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv} $D${libexecdir}/${binprefix}fc-cache --sysroot=$D --system-only ${fontconfigcacheparams}
+ 
+ chown -R root:root $D${fontconfigcachedir}
 -- 
 2.25.1
 
