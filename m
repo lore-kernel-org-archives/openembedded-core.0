@@ -1,154 +1,216 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web09.335.1611586379124038952
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web12.352.1611586381920554716
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 06:52:59 -0800
+ Mon, 25 Jan 2021 06:53:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dJ7qCkYq;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id u11so7714031plg.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:52:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=073yQQqI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id l18so2743741pji.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 06:53:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=zNWD8heFzNX6ZIAFDMxtz1+m1cA+kcnidAMQOX7TKWU=;
-        b=dJ7qCkYqHPv0yGMlmTcZOwQgVxr4h32zJtQgjPfGliR01OJX+Xfkd+GbjsK8dHvaNT
-         W6J5OchXwTat6ns0ld5dwm1H0sNmooGdh2E4TC0nAQ09DA+gGMOdBGhmPssLc6pJPs5a
-         CyAwq0VUah+gFRRnUoF1OgCP1/K8gfGHWmLUjJqCDe8on7U2qRQ0eCUrlHUEs/5ca9xq
-         PBIb8iObF5HbQTFmK3fIzb0i9ubMFVpKonybPpt/g080hFQXi7OOjkdDD1v/cCXda28o
-         lkCttbyDJYG0f1emPzZRDFvxwaMYPzk9lvl46IcGdOjE2RmHipCQ6j7lMBDmXIGWq4cQ
-         T3cQ==
+        bh=2uaThd8TASlgo7qT2wJU4QLaYD1DIpuf5LNY5FHCOuA=;
+        b=073yQQqIiPSsa900HyutpZKDvYy4hraPDdbb2iXIKyg2XwZU+zeno5Wu0rsRFI9z+/
+         Bs19J1oMqYKaniv1pDM9Dro6dtHBv5OWMP1jI1j7KvDRyj8iJtj3eyvxg9M7guTsKYvc
+         c+bM9CfbRpQwzCDsoz9zpYRSu24Hdm2Vsy78QD+b6T4hyEZzE5DVqmqv6tNLQXHo0jJv
+         gL/QlkOXWNf79e7byVQfwvwLtjSJiuTLS2jHEsX5Ny3lKWNBUG431zK6d+oulL70sPWX
+         SPF3bDyBKvMLnni9Js+/O9p0wGIchmowzXGDRaph77s488RftEp3ReYeTdQqsjdDb4p9
+         r28w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zNWD8heFzNX6ZIAFDMxtz1+m1cA+kcnidAMQOX7TKWU=;
-        b=oiR3tWsgvMRI7d7UL+tr04Sq1yxZiuyQfjyzoq8mmCc3txBAyMREZAvyeVapgfc9Ki
-         vaF1GK63T1rNz+Bd4YNS20iK0lpgFZQVQrqZo1aW7lxvYFWQdMFRzYNBGT66gQkVDGIn
-         rwRJ4CHbzbr92Douf7e3Gipcih0YEVK40nlhWF2djKKqZ+PQix6kv1oq9rTYOy2PYDNN
-         GBq6oXVAsgRPiYO4aa4QeClkOj+/shswByeFlMF9DBQSQ5RYkThyGLbapc7c0ZDQtl+u
-         aFU2VAhMXiP/dFri4Xc1wHm83Lz/KlcFn4+WSFu+bxr2tCCLSUvddb2CkivY1jaET/05
-         I7mA==
-X-Gm-Message-State: AOAM531BfAtesZrxtdHhHY75T1V2A6iAw1HIDDJd20L/L6h6mVgcbrQz
-	WA9HZFT9JsT5oLQMNo8LsTTmT/iABiSu7cnLnPY=
-X-Google-Smtp-Source: ABdhPJxiBYqdJgZkqDU/8u28HbypeqQwnV/VOIu+Zw2WVPhWplwsoUgHajNSFyhiFc1gjnQrXtk3jA==
-X-Received: by 2002:a17:90a:9318:: with SMTP id p24mr559643pjo.123.1611586378234;
-        Mon, 25 Jan 2021 06:52:58 -0800 (PST)
+        bh=2uaThd8TASlgo7qT2wJU4QLaYD1DIpuf5LNY5FHCOuA=;
+        b=lmAHEFgzQo2kKoAF1Jrf+sP5NN79ASHcZuX4VwfuJOHoCUwzHGSZtntiuiZqBfgVbm
+         E6CWZkaLNEY7Viny2XUkLAE54+SVe4fMTGPM+vUOeX0dsKh9VKbHQKBZ8e+TstfS7ngY
+         sREk58zeV/U24H9MgLbFGOdSUo+tGiitQmLS4H+jKl3qo/sM8L8B80FWbjLEyL8/t56O
+         J6ZLiZjyrtu6RJkzI58ZKPeAoh4uQU18a7djbVQj0zWZAWNhbIAviU0YP1d9lCOQ5ZAk
+         HNo4sUdB0JUZACeFn0Vq58Rt61h2Nko6F/nir/1QMZdGf9gLZuu6ZxIWjLinQtqSM5yH
+         5vFA==
+X-Gm-Message-State: AOAM531LYhXjd7rySZydSdsPvk95CqFn5BwaPXj9MfRsvXViDfdqcLI+
+	PsHThxdScQiqw7Wti22tux8Tf1CwHvzS5aPYvmA=
+X-Google-Smtp-Source: ABdhPJxVvPf8jQCkUfuuXw/7yvfKPTAFNwPAE8q/2QZwUh6XlI8AgUZdMqLzEkc/1m+s9yHSqjuAIg==
+X-Received: by 2002:a17:902:44d:b029:de:c063:85c9 with SMTP id 71-20020a170902044db02900dec06385c9mr786539ple.35.1611586380990;
+        Mon, 25 Jan 2021 06:53:00 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.52.56
+        by smtp.gmail.com with ESMTPSA id x8sm17574354pfn.27.2021.01.25.06.52.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 06:52:57 -0800 (PST)
+        Mon, 25 Jan 2021 06:53:00 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 27/47] uninative: Don't use single sstate for pseudo-native
-Date: Mon, 25 Jan 2021 04:50:59 -1000
-Message-Id: <dec120261f9828554beb970aa5108c8b522e179a.1611585425.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 28/47] pseudo: Simplify pseudo_client_ignore_path_chroot()
+Date: Mon, 25 Jan 2021 04:51:00 -1000
+Message-Id: <07efc77586dc455c53f2d3f3f182000d32066a56.1611585425.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611585425.git.steve@sakoman.com>
 References: <cover.1611585425.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-pseudo-native is a bit special. It conditionally compiles in support for
-xattr, statx and statvfs amongst other options. If a pseudo-native binary is
-used on a system where these functions are present but it wasn't compiled in
-we see hard to debug permissions problems.
+This also plugs a memory leak in pseudo_client_ignore_path_chroot().
 
-An example is the devtool.DevtoolExtractTests.test_devtool_deploy_target
-oe-selftest which shows a cryptic error:
-
-  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/selftest/cases/devtool.py", line 1388, in test_devtool_deploy_target
-    self.assertEqual(filelist1, filelist2)
-  File "/usr/lib64/python3.9/unittest/case.py", line 831, in assertEqual
-    assertion_func(first, second, msg=msg)
-  File "/usr/lib64/python3.9/unittest/case.py", line 1037, in assertListEqual
-    self.assertSequenceEqual(list1, list2, msg, seq_type=list)
-  File "/usr/lib64/python3.9/unittest/case.py", line 1019, in assertSequenceEqual
-    self.fail(msg)
-  File "/usr/lib64/python3.9/unittest/case.py", line 670, in fail
-    raise self.failureException(msg)
-
-AssertionError: Lists differ: ['-rwxr-xr-x 6000 6000 /etc/init.d/mdmonitor', '-rw-r-[10124 chars]n.8'] != ['-rwxr-xr-x root root /etc/init.d/mdmonitor', '-rw-r-[10124 chars]n.8']
-
-First differing element 0:
-'-rwxr-xr-x 6000 6000 /etc/init.d/mdmonitor'
-'-rwxr-xr-x root root /etc/init.d/mdmonitor'
-
-This is due to a version of pseudo without statx being used on a system where
-ls uses statx, hence the files are displayed as 6000.6000 instead of root.root.
-
-Avoid this by always building pseudo-native for the specific distro in question rather
-than using a universal sstate feed.
-
-This hopefully fixes one of the mysterious AB-INT issues.
-
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6e3785a3f1f3cf68f5fe101cd6bebe91db165973)
+(cherry picked from commit d8dddd5054a1c4e20a3e32fa9ab31f5859d6fbb6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/base.bbclass   | 1 +
- meta/classes/sstate.bbclass | 4 ++++
- meta/lib/oe/sstatesig.py    | 2 +-
- 3 files changed, 6 insertions(+), 1 deletion(-)
+ ...ssen-indentation-of-pseudo_client_ig.patch | 69 +++++++++++++++++++
+ ...mplify-pseudo_client_ignore_path_chr.patch | 50 ++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +
+ 3 files changed, 121 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
+ create mode 100644 meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 65b9d954c7..8a1b5f79c1 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -231,6 +231,7 @@ python base_eventhandler() {
-     if isinstance(e, bb.event.ConfigParsed):
-         if not d.getVar("NATIVELSBSTRING", False):
-             d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
-+        d.setVar("ORIGNATIVELSBSTRING", d.getVar("NATIVELSBSTRING", False))
-         d.setVar('BB_VERSION', bb.__version__)
+diff --git a/meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch b/meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
+new file mode 100644
+index 0000000000..e4a5356f5c
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch
+@@ -0,0 +1,69 @@
++From 28c760542eecd7c5b35ea88aa2b14d62afbda961 Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Sat, 21 Nov 2020 17:22:38 +0100
++Subject: [PATCH] pseudo_client: Lessen indentation of
++ pseudo_client_ignore_path_chroot()
++
++Change-Id: I739b18efb7a95ce2d2d907d0faf7df539ab9af1c
++---
++ pseudo_client.c | 45 +++++++++++++++++++++++++--------------------
++ 1 file changed, 25 insertions(+), 20 deletions(-)
++
++diff --git a/pseudo_client.c b/pseudo_client.c
++index 116d926..a8bc3dc 100644
++--- a/pseudo_client.c
+++++ b/pseudo_client.c
++@@ -1527,28 +1527,33 @@ int pseudo_client_ignore_fd(int fd) {
++ 
++ int pseudo_client_ignore_path_chroot(const char *path, int ignore_chroot) {
++ 	char *env;
++-	if (path) {
++-		if (ignore_chroot && pseudo_chroot && strncmp(path, pseudo_chroot, pseudo_chroot_len) == 0)
++-			return 0;
++-		env = pseudo_get_value("PSEUDO_IGNORE_PATHS");
++-		if (env) {
++-			char *p = env;
++-        	        while (*p) {
++-				char *next = strchr(p, ',');
++-				if (!next)
++-				    next = strchr(p, '\0');
++-				if ((next - p) && !strncmp(path, p, next - p)) {
++-		 			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
++-					return 1;
++-				}
++-				if (next && *next != '\0')
++-					p = next+1;
++-				else
++-					break;
++-			}
++-			free(env);
+++
+++	if (!path)
+++		return 0;
+++
+++	if (ignore_chroot && pseudo_chroot && strncmp(path, pseudo_chroot, pseudo_chroot_len) == 0)
+++		return 0;
+++
+++	env = pseudo_get_value("PSEUDO_IGNORE_PATHS");
+++	if (!env)
+++		return 0;
+++
+++	char *p = env;
+++	while (*p) {
+++		char *next = strchr(p, ',');
+++		if (!next)
+++			next = strchr(p, '\0');
+++		if ((next - p) && !strncmp(path, p, next - p)) {
+++ 			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
+++			return 1;
++ 		}
+++		if (next && *next != '\0')
+++			p = next+1;
+++		else
+++			break;
++ 	}
+++	free(env);
+++
++ 	return 0;
++ }
++ 
+diff --git a/meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch b/meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
+new file mode 100644
+index 0000000000..a657a27f28
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch
+@@ -0,0 +1,50 @@
++From a1d61d68777373a50ae23b9dd83b428abe2f748d Mon Sep 17 00:00:00 2001
++From: Peter Kjellerstedt <pkj@axis.com>
++Date: Sat, 21 Nov 2020 17:30:33 +0100
++Subject: [PATCH] pseudo_client: Simplify pseudo_client_ignore_path_chroot()
++
++This also plugs a memory leak by making sure env is freed.
++
++Change-Id: Ia8635fd2c6b1e85919e4743713a85e0b52c28fac
++---
++ pseudo_client.c | 21 ++++++++++-----------
++ 1 file changed, 10 insertions(+), 11 deletions(-)
++
++diff --git a/pseudo_client.c b/pseudo_client.c
++index a8bc3dc..7dc0345 100644
++--- a/pseudo_client.c
+++++ b/pseudo_client.c
++@@ -1538,23 +1538,22 @@ int pseudo_client_ignore_path_chroot(const char *path, int ignore_chroot) {
++ 	if (!env)
++ 		return 0;
++ 
+++	int ret = 0;
++ 	char *p = env;
++-	while (*p) {
+++	while (p) {
++ 		char *next = strchr(p, ',');
++-		if (!next)
++-			next = strchr(p, '\0');
++-		if ((next - p) && !strncmp(path, p, next - p)) {
++- 			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
++-			return 1;
++-		}
++-		if (next && *next != '\0')
++-			p = next+1;
++-		else
+++		if (next)
+++			*next++ = '\0';
+++		if (*p && !strncmp(path, p, strlen(p))) {
+++			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
+++			ret = 1;
++ 			break;
+++		}
+++		p = next;
++ 	}
++ 	free(env);
++ 
++-	return 0;
+++	return ret;
++ }
++ 
++ int pseudo_client_ignore_path(const char *path) {
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 2e13fec540..50933c4bc1 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -4,6 +4,8 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+            file://0001-configure-Prune-PIE-flags.patch \
+            file://fallback-passwd \
+            file://fallback-group \
++           file://0002-pseudo_client-Lessen-indentation-of-pseudo_client_ig.patch \
++           file://0003-pseudo_client-Simplify-pseudo_client_ignore_path_chr.patch \
+            "
  
-     # There might be no bb.event.ConfigParsed event if bitbake server is
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 66a96a7603..a8e169a10b 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -72,6 +72,7 @@ BB_HASHFILENAME = "False ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
- 
- SSTATE_ARCHS = " \
-     ${BUILD_ARCH} \
-+    ${BUILD_ARCH}_${ORIGNATIVELSBSTRING} \
-     ${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS} \
-     ${BUILD_ARCH}_${TARGET_ARCH} \
-     ${SDK_ARCH}_${SDK_OS} \
-@@ -80,6 +81,7 @@ SSTATE_ARCHS = " \
-     ${PACKAGE_ARCH} \
-     ${PACKAGE_EXTRA_ARCHS} \
-     ${MACHINE_ARCH}"
-+SSTATE_ARCHS[vardepsexclude] = "ORIGNATIVELSBSTRING"
- 
- SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
- 
-@@ -121,6 +123,8 @@ SSTATE_HASHEQUIV_REPORT_TASKDATA[doc] = "Report additional useful data to the \
- python () {
-     if bb.data.inherits_class('native', d):
-         d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH', False))
-+        if d.getVar("PN") == "pseudo-native":
-+            d.appendVar('SSTATE_PKGARCH', '_${ORIGNATIVELSBSTRING}')
-     elif bb.data.inherits_class('crosssdk', d):
-         d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"))
-     elif bb.data.inherits_class('cross', d):
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index beaccdc909..f98543cc46 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -434,7 +434,7 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
-         d2 = multilibcache[variant]
- 
-     if taskdata.endswith("-native"):
--        pkgarchs = ["${BUILD_ARCH}"]
-+        pkgarchs = ["${BUILD_ARCH}", "${BUILD_ARCH}_${ORIGNATIVELSBSTRING}"]
-     elif taskdata.startswith("nativesdk-"):
-         pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
-     elif "-cross-canadian" in taskdata:
+ SRCREV = "cca0d7f15b7197095cd587420d31b187620c3093"
 -- 
 2.25.1
 
