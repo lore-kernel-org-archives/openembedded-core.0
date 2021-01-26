@@ -1,101 +1,115 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web12.12979.1611672174408289990
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.13166.1611672177207213957
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:42:54 -0800
+ Tue, 26 Jan 2021 06:42:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Xib50fXn;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id i63so10523174pfg.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:54 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Z2ARHtnh;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id s24so774240pjp.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=BcmNTvT5qIpThUGGd0ih8RCSyXRxCqpOAdfnJlZxAg0=;
-        b=Xib50fXnYq7+31IytSKG9fdHAoGDlPw/4khjGIL9RZV5zqtoXQGjcJAyla0KjYIrgN
-         jlly4mBkEQuolUMpm2pyZC+/9mN5bXLuR8Nq42GPbwPrH9Do+bSI2dT1w6/4YRN/EZAt
-         u7NJ2rI7jEFoIOUGdUhulJFk5PGxtdZRr6BdkEKwXYqyfhD9h5IQl8VKVorsunCc5dUg
-         ZoEDS5e/iYM4eUJKfgxI4xDGBLEqhQbAbH4XkYW440Sr6xNkI1G/knRYQQy2bhh/0lBf
-         gx1VQh4BRxeL6vQa7rBG5a/CRU85zisRTfYVBPKJ9kf5lHvbVcu7CHhhq6PjZMYV+Wrr
-         Bxww==
+        bh=88PNtJtoVogqTXFWXk6k7vo/DdMlrzyC/5kY7CYNExQ=;
+        b=Z2ARHtnhtg2iB3yOUzwFmqi5Qvy3ZSfAWOlb5Iw5sbihLmXZaqOuHmovfGmAuxi0AH
+         HPPS0iO4QWvvo4nFJ7/gg/uqDwBKGckjFT0yZq5iVsEZZ1LcF89r4hZuHAbDTl9QVerK
+         Ahv1McSRXDiTVZ3PvfAbanVE7d9ohKMmqDFMofzfGOjh+Bb3FjNdMwY5KtOTSBz/Bay8
+         njabbnG8/Bj0jPctrtMpUcfWZY+Xns4LcWGYrwuGXBdzwApmN5rLrVtWpMxBFugX79ds
+         BIyeoClyYKDBL2YRuC8tnDXgtGGHE1qtJal55nKzjChMmnQvPt3z87R5PcarqjheiZ8X
+         d2rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BcmNTvT5qIpThUGGd0ih8RCSyXRxCqpOAdfnJlZxAg0=;
-        b=KfcYOVtpaYD+ueEFPa6cKS+O2ScvDgCboM+s3Yc9ur6ZKAncVlHtmK4zdqZSeat69G
-         hO7rTnxpBGuwcQaA0ROVk7rTPxbhevKH3RsG+d/zTtrPOcPBDRRFe8UPIW2xmct89a07
-         ePipyCdhih+yZPuVxeN2STJXkZl6X6yov7qUEQy+TZWjwgf7RViMa6B6h15TqzRv14/G
-         pY4RZaGLh1o9D1MqF37HOjRF4J3UmZTKHpDmEuV/lwdeplNHm19mZ6e4Fs7GJbgucgwi
-         r5vfcXB8VD9aE46IN6P8BOAOvFDL+KCKccqW+T7ugy/Aq2G9+9Czc8+JH0Dq7MSlCm5b
-         hHjQ==
-X-Gm-Message-State: AOAM530iO5BZB3kZdfAZLeq315/Ej14+UsCTQEMdIHk/roKqyvqPYIjz
-	4ynUODMh1nQMvKi8LBiuFIzuJ4TqyjdC9WuUJ+A=
-X-Google-Smtp-Source: ABdhPJzB0g13UDKgLFdVQ5lmKs7mp8bZ2oL7dtc+QiB3ToBp17TVcGrXOvwGsHiaRXkLzFvnWUrTow==
-X-Received: by 2002:a63:4764:: with SMTP id w36mr5852796pgk.127.1611672173511;
-        Tue, 26 Jan 2021 06:42:53 -0800 (PST)
+        bh=88PNtJtoVogqTXFWXk6k7vo/DdMlrzyC/5kY7CYNExQ=;
+        b=Pvjj8wOx8yMq0eJfu8A+B9iduI5sJdZrombH2awXR2CeHgxLJEXabI09/28bMrbuCr
+         qJ7evIVvViuS+ABUEE/0OnX6F7aAw6hAsE0/Z6D15ICuYpqqgxFQ81C1sAU3KNMcnIan
+         VP67KwIOaqj8smrFql1O7/VJKp8ICA1ZdKOzMyHghSLzwOOgoMUCu3ysCcLXjWcCYrOC
+         kU6bJNG04fEcgwzrjzrBhUcnnbwIgiM8ixuNxpayTv6/HVPPWeVGiE50UHlYQa1zBDBi
+         rORtejx/IlCq2r18LMYpUAjiilL1v9uA7yRHLkhRrexAR7YAa0yIwyo0yzMS4QXv/PmE
+         KA0g==
+X-Gm-Message-State: AOAM531gsXmS+52I7QMXJ/qEFGOO7+REDe+iHO8WFnUEOhs9pEBtaPNz
+	vWtivre6NuOk4dAixqcSd+AAxD9EyXhlV17sQQQ=
+X-Google-Smtp-Source: ABdhPJzUJczcLGKqMWK0W301tYmOZrDIdmOqWx92ipb+G5uEFDKw416/xR1u69+H2o+fUuCHeeWShg==
+X-Received: by 2002:a17:90a:4083:: with SMTP id l3mr74946pjg.109.1611672176297;
+        Tue, 26 Jan 2021 06:42:56 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.52
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:42:52 -0800 (PST)
+        Tue, 26 Jan 2021 06:42:55 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 15/46] wic: Avoid creating invalid pseudo directory
-Date: Tue, 26 Jan 2021 04:41:26 -1000
-Message-Id: <92eed9dcaf57cb2aa1535e7199c96e2f1f49bda1.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 16/46] wic: Handle new PSEUDO_IGNORE_PATHS variable
+Date: Tue, 26 Jan 2021 04:41:27 -1000
+Message-Id: <e37671f6fbdf103b507f00778bd3cde136a25b94.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-If the source of the rootfs is not a bitbake cooked image, or it is not
-pointing to the root of one, we call pseudo again, which will produce
-a new pseudo folder at rootfs/../pseudo
+Adjust wic to correctly handle the new PSEUDO_IGNORE_PATH variable and avoid
+inode corruption issues.
 
-Eg:
-
-part /etc --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/home --fstype=ext4
-
-Cc: Paul Barker <pbarker@konsulko.com>
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 799a24ae78655f7a3eda7456b1a0ffaf3e43ec16)
+(cherry picked from commit 13500f5234361385c365c7c35e83f99435500481)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/partition.py | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ meta/classes/image_types_wic.bbclass |  2 +-
+ scripts/lib/wic/partition.py         | 12 +++++++-----
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 82f0985eeb..f27f29c663 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -5,7 +5,7 @@ WICVARS ?= "\
+            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
+            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
+            KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND \
+-           ASSUME_PROVIDED"
++           ASSUME_PROVIDED PSEUDO_IGNORE_PATHS"
+ 
+ inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
+ 
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 18ecec2de9..1347571aa0 100644
+index 1347571aa0..4ec0608fe4 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -199,13 +199,14 @@ class Partition():
+@@ -198,21 +198,23 @@ class Partition():
+ 
          Currently handles ext2/3/4, btrfs, vfat and squashfs.
          """
++
++        rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
++                                         self.lineno, self.fstype)
++        if os.path.isfile(rootfs):
++            os.remove(rootfs)
++
          p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
--        if (pseudo_dir == None):
--            pseudo_dir = "%s/../pseudo" %  rootfs_dir
--        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
--        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
--        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
--        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
--        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-+        if (pseudo_dir):
-+            pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
-+            pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-+            pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-+            pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-+            pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-+        else:
-+            pseudo = None
+         if (pseudo_dir):
+             pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
+             pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
+             pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
+             pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
++            pseudo += "export PSEUDO_IGNORE_PATHS=%s;" % (rootfs + "," + (get_bitbake_var("PSEUDO_IGNORE_PATHS") or ""))
+             pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
+         else:
+             pseudo = None
  
-         rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
-                                          self.lineno, self.fstype)
+-        rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
+-                                         self.lineno, self.fstype)
+-        if os.path.isfile(rootfs):
+-            os.remove(rootfs)
+-
+         if not self.size and real_rootfs:
+             # The rootfs size is not set in .ks file so try to get it
+             # from bitbake variable
 -- 
 2.25.1
 
