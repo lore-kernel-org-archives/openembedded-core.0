@@ -1,92 +1,80 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
- by mx.groups.io with SMTP id smtpd.web09.12882.1611672194463557750
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web09.12883.1611672197559251216
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:43:14 -0800
+ Tue, 26 Jan 2021 06:43:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YBUM7HP1;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f173.google.com with SMTP id w14so10535780pfi.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:14 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qzNt8tPC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id 11so10541623pfu.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=TtumOSJ9i/2uUjXHdWAGoz81J974N3hbXNq7TOtNPKw=;
-        b=YBUM7HP1XR5hd4ilgIKQVFvhlT4pbUemxNnUdcyRl0ZRmJEXBWU43fXjpUwNMp15EY
-         SDVdrR6O1wQEXF+qzWLkoxwnwu0fpl68hj/MoF5MipjQHEy+XAxg3bFVkEPgPchOyUQo
-         cLS50UEbfhK+wnjMKM41Rq1IVw6YLqnkXDtyqDe64cfMvI8Y3+VjR4I+yctDy+t917bR
-         XZEdSkQZS6huec984WJMTzSTWL4SoUHKkqQdzOkgviOVSzGhHhtUnClXPzvz7tUhqtb0
-         cXV0acWIkjUYsDEjdAs7r7zTiYso/LBlog9DwAE46fnR6x9McniIGmbhOpKdmFYWDXkx
-         yc2A==
+        bh=IiIHEfKSx5l4VQC39XsjRxCtvMZl1po89lo5b4xqeSY=;
+        b=qzNt8tPC1dAD9Ywum2GL0AwAKIFFQVsxsXknCqV3N1lZqQgNBWQq4Af8OOTdWSnfrH
+         NJb2Tn+m1KNnxcugW4tmJ3LRxYojY4xZ7Hw6yloEKWGPi8EUZofrlGri5JJwLqOJJXSM
+         w683fqkf6+tVFLQjRL+2Q7U3acq+NTCExmfIZvNt3bKI3RplidsCTto4yRIXTIhdWNsk
+         XgO1S6ZLahBwGxAZ8nIA+FlT5cMzfpm7rIC4bWdgTUF4ABF4V/43T4JlLimKZAVLokJA
+         Za0VuxSLPNObKwytcgORxpaHG+nel+q0w6NpUi32MM68nBfmBkJdDu7dC4XPaIk68sho
+         IekA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TtumOSJ9i/2uUjXHdWAGoz81J974N3hbXNq7TOtNPKw=;
-        b=la7TFQJyL35S15qNdIpgK3o80qY00plBZw04oBP0JBsqJCl380kv6eUPkniWK8UxCU
-         U9eWthAG7nGQuKhwou5rFPhK6OHJTL9B5PNMocxzcXl6dsuwkCPxN3+UPSPS3cEE6BWs
-         Uaooch4RAUFqZrXU3ChrUPRSqPeGABJYKuIvBXovWYgiHvPKVXNCfz5NLy0Tw9k8JlWH
-         wpsnmxYvJFCpE9f22I9rkwUyDCRy96VxCJPHTaSyzrdUiUd/YpMe92EFUjbf1ryOqbdu
-         pk//XhLbkSp1MFzslEHmsBb0no8gO63h3IlHEZOzP3EqRS834soolmeo86FD4aNftvSs
-         2sjQ==
-X-Gm-Message-State: AOAM530O9dTJBdvH94zxkiaVjwFv+PMxalIarMoJ3Z8SjLLAm2SOAmg1
-	6IlzGL8zV471MlXjhF4KFlIlOV5Opmm4Hh05vNI=
-X-Google-Smtp-Source: ABdhPJwrQ04/GTiCZ81v5P1MNWZuPBhKgNikJ7SY+rJD5QFSyXBB3PfcwVrXg4IX8UyZH7jABTfURg==
-X-Received: by 2002:a65:5349:: with SMTP id w9mr5867800pgr.250.1611672193560;
-        Tue, 26 Jan 2021 06:43:13 -0800 (PST)
+        bh=IiIHEfKSx5l4VQC39XsjRxCtvMZl1po89lo5b4xqeSY=;
+        b=LkUbq+TLOSfKsQ6jM/Py7CEHTPAb4/ZUdGpiaaBafqliPj5U8PRANnrQzChqhXq0n+
+         gwAwanLfOz6sGYNvP+2WXP3sc2SMXpwJu9v1i9i2Fv6BHAbi2Phk/qlViH9RCLdOUQDN
+         9r5iwXqFFZ1B8MoE8zXoXsB+YHFRHERGmN4Fz4pIvifQ1w9ke0j84CJIhzPEnsxbh94P
+         ravLkxl82mCgLm/120mVujzIyJTCx1tqjYigYN//YOZ4UmofEuHtPgFn2ylm+9+mv8jv
+         i+aosvbA9ATfRfG5O2s35SBchj4See6L90pYZjT4+dQyPQGOtvXD6a1kurFSssYi76Bj
+         7ABw==
+X-Gm-Message-State: AOAM530GtBluGzYM/MpneBWE7hfc91ElG285U1/U8bKY1iKhUbgbJXaV
+	EwxytR0jDWcpiDH4aA7iogZZlGDJivN+RQClr1s=
+X-Google-Smtp-Source: ABdhPJwZNHJV16pgjmg7vnRdlaT7CH8cFICwXATPSqttIvREtHPcxKMr940V2iTokPZyqwZ24B7evQ==
+X-Received: by 2002:a65:6713:: with SMTP id u19mr5899774pgf.364.1611672196566;
+        Tue, 26 Jan 2021 06:43:16 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.11
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:43:12 -0800 (PST)
+        Tue, 26 Jan 2021 06:43:15 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 22/46] base.bbclass: use os.path.normpath instead of just comparing WORKDIR and S as strings
-Date: Tue, 26 Jan 2021 04:41:33 -1000
-Message-Id: <6df6b19712580a7ae1d2d6a1e15dd39e704d23bd.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 23/46] oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
+Date: Tue, 26 Jan 2021 04:41:34 -1000
+Message-Id: <391b7d3d4f31c6a3f09ff3555d027b583c09a50a.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-* cannot use os.path.samefile, because S/B might not exist at this time yet
+Avoid pseudo abort()s like:
+path mismatch [1 link]: ino 6295376 db '/tmp/oeqa-feed-sign-2mw7z81v/S.gpg-agent.yocto-native' req '/tmp/jwkivmu6'.
 
-* there is issue with PSEUDO_IGNORE_PATHS when some recipe sets e.g.
-  S = "${WORKDIR}/"
-  whole WORKDIR gets added to PSEUDO_IGNORE_PATHS and then the build
-  can fail with various strange errors, in my case do_package was
-  failing when do_package calls:
-  fix_perms(.../1.0-r0/package/etc, 755, 0, 0, /etc)
-  and fails with "[Errno 1] Operation not permitted:"
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 50b11a61ab29acb8ec990668353e0b7305114628)
+(cherry picked from commit 189630ca6cdf7ceb6cf9b8f9d86c58997f505efc)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/base.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index a710abdbd7..65b9d954c7 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -388,9 +388,9 @@ python () {
-     oe.utils.features_backfill("DISTRO_FEATURES", d)
-     oe.utils.features_backfill("MACHINE_FEATURES", d)
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index cd03069340..976b513727 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -161,6 +161,7 @@ class TestImage(OESelftestTestCase):
+         features += 'PACKAGE_FEED_GPG_NAME = "testuser"\n'
+         features += 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "%s"\n' % os.path.join(signing_key_dir, 'key.passphrase')
+         features += 'GPG_PATH = "%s"\n' % self.gpg_home
++        features += 'PSEUDO_IGNORE_PATHS .= ",%s"\n' % self.gpg_home
+         self.write_config(features)
  
--    if d.getVar("WORKDIR") != d.getVar("S"):
-+    if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("S")):
-         d.appendVar("PSEUDO_IGNORE_PATHS", ",${S}")
--    if d.getVar("WORKDIR") != d.getVar("B"):
-+    if os.path.normpath(d.getVar("WORKDIR")) != os.path.normpath(d.getVar("B")):
-         d.appendVar("PSEUDO_IGNORE_PATHS", ",${B}")
- 
-     # Handle PACKAGECONFIG
+         # Build core-image-sato and testimage
 -- 
 2.25.1
 
