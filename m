@@ -1,88 +1,84 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.5029.1611619490975233813
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web09.5624.1611622207853986515
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 16:04:51 -0800
+ Mon, 25 Jan 2021 16:50:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tzd79RX7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id y187so1143264wmd.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 16:04:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=P5vVyZ7N;
+ spf=pass (domain: gmail.com, ip: 209.85.214.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f180.google.com with SMTP id j21so4119780pls.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 16:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=B6olUnhoVhMDLaciZ3hnylJFQ0NUDesWG8M2+4mIYsg=;
-        b=Tzd79RX7aLj0hmtSlaiePmHSkjBqbg58yGuRlgYgxHYDxRyV6/psjKgaLN/lmq6FC2
-         i+gV5g9BpNnKeB1ZUhecsilNL51FoqNV1hsNT5QASCOcT+wY3QkhpAg9thPG89p16QxC
-         nw7CxiBcB6jl6+6KhXYHVpROmLuLUS8ZLrge8=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nq/XbqG0nDlqiuAhlTXMHNBtvxovpGdQKsHnjEI/5pA=;
+        b=P5vVyZ7NlqHf6OrDqBJ0W9EHBGqIWibOLx0uXgX5l9mnTOcw/RFw2mh2tUngp76GJd
+         VdaL+zFQlkI4/kRgHeaxeflRAG5V930zWEkMlIXFbQqe3HO6AXuOBLq2omrSP/svgdmj
+         EJQ8nYy+w3MfTZOOpvK9B+sdNL15tiG4uN4RdQNn/JaK/uBCUN1MrYWhK3h4YXBiqI4T
+         9Mlot3qvCWJn91rDCDOnDLRpVSI0VZhZUfDZFyRexo8yCeghrJGNPX9d578dg6r1K6wF
+         diZfHMKt+RSlwys2uzTSFKdVJQ3olI8hXa9xAA8fyiyEOUZsUwfJM0I76JGKWqZmTV77
+         97DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=B6olUnhoVhMDLaciZ3hnylJFQ0NUDesWG8M2+4mIYsg=;
-        b=JLSUqMHOdEZZWvofGe0+lL+Y6Zb5KHju5HQIPuH94uAhwhYCzA4WhRZxv6sc9CfC7Q
-         V39h3+p7CZxNRI6APCc/GzkzGMhPouch1b558MSwKofHPAm1tjHW8OwLjpj+rqnZLyQj
-         A+3Zr4UgR81mCHatoqOblHGjHHupr2Oh4At5TTh6LEM7H5h0km+BCQj8k4K7VHGkd42L
-         jWUxfDNA+CR9ZK038P4qHx+bs1enB+UJXKu+9IaNzvem2cj2m2aL1fr2Yj6R7ztOyXzV
-         vE2YklgF1p0t5RyVw4rN+O2A9h8P+2FEG9484wqoikd9RvWw0Vhhdo+MWR/5xvG+C9Jl
-         GgNQ==
-X-Gm-Message-State: AOAM5320kMARrQR6B1NQmYNcIwDAfeitQLjbP5ej+fdSLZdWWdAokCMk
-	Ta2vkpaAmPqHoUaZzC6c/RlRDA==
-X-Google-Smtp-Source: ABdhPJw45cCmmE3QE0EmB4IGeBpROcuBrHl8cnRZnGYFfyjzS6EjwuJ+OCuMcckVuvvnP0dKSKgeJQ==
-X-Received: by 2002:a1c:98c6:: with SMTP id a189mr2182035wme.88.1611619489495;
-        Mon, 25 Jan 2021 16:04:49 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:b393:1589:56b4:ccf1? ([2001:8b0:aba:5f3c:b393:1589:56b4:ccf1])
-        by smtp.gmail.com with ESMTPSA id d199sm920329wmd.1.2021.01.25.16.04.48
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nq/XbqG0nDlqiuAhlTXMHNBtvxovpGdQKsHnjEI/5pA=;
+        b=JLyKpnclBilZ9FVD7Jrt8FCXCfEdt2PxcGujF1n3LV/9wXJuLofr0exgt+tV6+TsGS
+         elq80/cpeaQDweqSc/F5UfUZ3d1myuDz9XJxOY4lavKpufmky0DBJhJFLYh8dBwvEX2R
+         I+D/El/IBOJLKd+9yPOYvZU0SO8caMzILjVNLR6iEXN+mkkuQZMPeXAts4NMHmYMF6Gt
+         qSkYUyLAk3Ohj5QBi+xqCrAt43wTbCbPCnFa9OWa9l0suNdYLkSEhW+liSEDrg/tHEhE
+         7Y7ncnqOtWyElOQX8LLF6O3QnRWbcXRXEQHmYBRheDAeLgV/uCwPb0NVB0KeUXioJlf8
+         iRRA==
+X-Gm-Message-State: AOAM530GX8poFOz7O7LXZex4RsJACU1lJ1PTnEwWA5m0DB0HQW75wNNv
+	+ZfKQ1Ler/ZYPzJjHLKVwzDpBFcUWJ8WAg==
+X-Google-Smtp-Source: ABdhPJwo2HKdoGTQinvxvaiRqXjE4PmSXGygmbmGS7XQwTutZwm7fb51eKZh/J0Mrt4o/LqowhX74Q==
+X-Received: by 2002:a17:90b:4905:: with SMTP id kr5mr3076023pjb.1.1611622207225;
+        Mon, 25 Jan 2021 16:50:07 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::b408])
+        by smtp.gmail.com with ESMTPSA id fv19sm492344pjb.20.2021.01.25.16.50.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 16:04:49 -0800 (PST)
-Message-ID: <d49db6f343cc465a25909c516d5618c403b9098d.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/4] selftest/reproducible: remove spirv-tools-dev from exclusion list
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexandre Belloni
-	 <alexandre.belloni@bootlin.com>
-Date: Tue, 26 Jan 2021 00:04:48 +0000
-In-Reply-To: <CANPvuR=3dY1KvoPcjrpAzdMnr2o5kSfR_M7PcVQEnFmhQn3wTw@mail.gmail.com>
-References: <20210124182647.1613511-1-quaresma.jose@gmail.com>
-	 <20210124182647.1613511-3-quaresma.jose@gmail.com>
-	 <37e34b2d593317b1910784a988fe14de1d32c232.camel@linuxfoundation.org>
-	 <CANPvuR=3dY1KvoPcjrpAzdMnr2o5kSfR_M7PcVQEnFmhQn3wTw@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        Mon, 25 Jan 2021 16:50:06 -0800 (PST)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] musl: Update to 1.2.2 release
+Date: Mon, 25 Jan 2021 16:50:04 -0800
+Message-Id: <20210126005004.2429001-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2021-01-25 at 23:52 +0000, Jose Quaresma wrote:
-> Hi Richard,
-> 
-> librt.so is part of the glibc and are allays present on staging
-> sysroot.
-> how does the cmake can find the librt.so outside of the sysroot if it
-> are present on that.
-> 
-> The problem is at:
-> https://github.com/KhronosGroup/SPIRV-Tools/blob/b27b1afd12d05bf238ac7368bb49de73cd620a8e/source/CMakeLists.txt#L397
-> 
-> Probably I need to force the find_library to search first on
-> STAGING_DIR_HOST
+Detailed logs are here [1]
 
-I think somehow we need to replace the full sysroot path with a
-variable, or make cmake do that itself if we can. It may be possible to
-have cmake evaluate the variable with reference to the sysroot too but
-that is likely more complex. I'm afraid cmake isn't one of my strong
-areas.
+* 85e0e351 release 1.2.2
+* 3953aecb fix VIDIOC_DQEVENT (v4l2) ioctl fallback for pre-5.6 kernels
+* 30f55067 fix v4l2 buffer ioctl fallbacks for pre-5.6 kernels
+* db981ffb sh: fix incorrect mcontext_t member naming
 
-We do have a second issue too the autobuilder has shown up:
+[1] https://git.musl-libc.org/cgit/musl/log/?qt=range&q=1e4204d522670a1d8b8ab85f1cfefa960547e8af..85e0e3519655220688e757b9d5bfd314923548bd
 
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210125-3iawhiyz/packages/diff-html/
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/musl/musl_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Does something in glslang or spriv-tools use precompiled headers? We
-had problems with that in the vulkan-samples recipe that looked like
-this (a cmake based C++ project where there were changes in the
-debug_loc section) so we may need to disable PCH here too...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 0a43ca2826..249ce53521 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,9 +4,9 @@
+ require musl.inc
+ inherit linuxloader
+ 
+-SRCREV = "1e4204d522670a1d8b8ab85f1cfefa960547e8af"
++SRCREV = "85e0e3519655220688e757b9d5bfd314923548bd"
+ 
+-BASEVER = "1.2.1"
++BASEVER = "1.2.2"
+ 
+ PV = "${BASEVER}+git${SRCPV}"
+ 
+-- 
+2.30.0
 
