@@ -1,50 +1,50 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web09.12875.1611672179848515120
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web08.12957.1611672182278746598
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:42:59 -0800
+ Tue, 26 Jan 2021 06:43:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=pFY11SSO;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id n10so11546397pgl.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jVVz+2sE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id o16so1940873pgg.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=4tuP/a59Jaf6wKscwMOB/+brrjAJ6ErkBJPUFFA76GY=;
-        b=pFY11SSO93csgBjPBLxEEbn2YXlsO2tOj+IAdQaLexPmhY/xTwBsyDMgoOg+16gr3v
-         vNX+EPRRZV+lkmhrbe6V8Xr5DvXMQiaZBROOldIKJuoI1WNzupjYv1ZSuaJdc3X1ZWUg
-         LNSJwH0LxGTJ0Sce10N+YtCBuSoNGfZeEiNwU5PlkCZTtC8ZE8v7W6bT9gonL7lSnakG
-         qgmW/uz/VVAej1lUvADjdMVe1MDYbBCnfM+1i2gKDuGcE+oRNrNqhaXAlwHX2uxbU9Nd
-         yo9SmMT+OxYJGbNeMRhQ/cMkTSXo4arh35NqExNSGTluwQbfkf83TQgGthi2ZY844hyu
-         LsMw==
+        bh=snnoSIngspfsu0nrxKzxxV6NpJFG0xl2cFy9M6VFWY0=;
+        b=jVVz+2sEeuNESsXd0EK8yGA0lu1U8iK4Gsz4gopmSs+EPPT9ycYMJrLQKhDvvG3C/Y
+         U68zN1hyY3F8Y0W8XLGU6xrlRpuTgvW4p3ef64BSYoq3Sg9xGUz9+0Zc2Nw2ab0iIIdI
+         oCo2nQDUXhMN5r90qVdPFapVe1o8+qRUPEBySijDIzc4jPQ2vq+YEIeRkxGrigzAlOmI
+         ojGEc/f4CGsOdXft7Cd0kgreOvGrOspvR1ZAVoPdwzhu2p8O+Tj6a5fH/PH3uS3ZRoIY
+         b1VNcjGP7ZfGvkHMEffQpsMZa88BqHKIkJZHZ7azFCfwaIeviQFhckBCqQM5DZ+wQP+Y
+         wVfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4tuP/a59Jaf6wKscwMOB/+brrjAJ6ErkBJPUFFA76GY=;
-        b=YfG0nrDAVb0c3t146HTPyhRqK8VVtp0ieCL9eq4snT82u0FjIUU5y17FHdAqPPZClP
-         9Q/YxAY+ZL/O/UZwYVSPnc8Df+LoS/H2jBYuvnGGgLv9crBNeOb6eRLC7grKk6281/g1
-         Ir+86TAdXlFTEpN04fPJzVZJ2UyVtlCQfJiweWGkHWSrjBXJS716PFUaH+RnDq52C1tl
-         LqHQd3JLWcQxXMHnRUOIklQ6yAFIvFLiVdJq8yDwoug2zbexVNwxG6nrzwJIh/onINMI
-         AkxMpAyXz/6RHQ/1BJLf1DZvJFeHVJb7DrbSyw9mS/bgUQ1Rmtjrk4MJXkNFs0ibHXmB
-         7fQg==
-X-Gm-Message-State: AOAM5303x7YL5GAT/2/nWxz2/9v5eaUNOy4PEeIJmdqvFDQ08JDYCvXJ
-	hchMBXxN32jH81jxwUU1UqiMxv+NZ0xO77i6Syo=
-X-Google-Smtp-Source: ABdhPJzdr/Kz41GHQMwPzyOIsbQT/38ZQEmu2Ybg70E+jNSQgfv84NrraP0So/LksGXXrgrQlQO0vw==
-X-Received: by 2002:aa7:9a48:0:b029:1b7:bb17:38c9 with SMTP id x8-20020aa79a480000b02901b7bb1738c9mr5573145pfj.51.1611672178918;
-        Tue, 26 Jan 2021 06:42:58 -0800 (PST)
+        bh=snnoSIngspfsu0nrxKzxxV6NpJFG0xl2cFy9M6VFWY0=;
+        b=W54Ic1pW7lBD1dPHPIlT+3ajkJ3sKZ+i896tozyc6jKmJJlp256GnNxtPswH09JZYt
+         hm3OcmXS/fC6Rhf56GpeKTrNCFESEsdtvkXnMcTNHvhLktH4RRbe4+/FpT5aKvHZaepT
+         8jCu3XIzPpAQ4y4EGTWmGdwlTMrbkOT2mhzRpW9/5qA/nOswVZKhKdhMc4cljgL3DZZ5
+         v/57CFBaQ7e3mAB+MQ9Dg921os+CXQFAWnoLSnEkW0QwdxfwZJmtEne+GzqLuP5tQo75
+         V6i9N9R0DWH6pzzGAL0yNjlX0BVAeH9pEX4hg/gVI8Z+kwm3T5Jn9l90ym+0J7iLisZ2
+         hhpQ==
+X-Gm-Message-State: AOAM531DBqZdWa4+n94YZ8kEc1WbtiMJNkyfWLTqGlC5Z4ulC+eWz+vT
+	nEY3MfS2tKN4EXQaa/nZPPwhg7BK7z+XrZkEEsU=
+X-Google-Smtp-Source: ABdhPJwj9Epya6LlcMDKJA+2x5KpzTBho6332ODYJx7kGODj4Blrqjl3bGprm+juIsOatG6Su6JaYQ==
+X-Received: by 2002:a62:f943:0:b029:1a5:43f9:9023 with SMTP id g3-20020a62f9430000b02901a543f99023mr5526244pfm.75.1611672181378;
+        Tue, 26 Jan 2021 06:43:01 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.57
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:42:58 -0800 (PST)
+        Tue, 26 Jan 2021 06:43:00 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 17/46] pseudo: Fix statx function usage
-Date: Tue, 26 Jan 2021 04:41:28 -1000
-Message-Id: <f13fe2e1598614209c9c71099637ad4a22d82419.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 18/46] bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+Date: Tue, 26 Jan 2021 04:41:29 -1000
+Message-Id: <cc2130323eb6ce7f37010cd5eb4290ebdc1b9d64.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
@@ -53,94 +53,29 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-There is magic in the posts where specific variable names have specific
-magic. For that magic to work, "path" needs to be used not "pathname" as
-is currently there. Fix this, which fixes path issues on systems using
-statx (Ubuntu 20.04 in particular).
+Unfortunately, .pyc files can be generated in meta/lib/oe which corrupt the pseudo
+database so we need to extend the ignore list to cover this as well.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f9ae80aee98a7bb59c83ac9ebf9d317302507cec)
+(cherry picked from commit e0cb6dd689a362d8433caa14cc5a9fdd5eb44923)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pseudo/files/statxfix.patch               | 56 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/statxfix.patch
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/pseudo/files/statxfix.patch b/meta/recipes-devtools/pseudo/files/statxfix.patch
-new file mode 100644
-index 0000000000..c47ff27f9f
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/statxfix.patch
-@@ -0,0 +1,56 @@
-+There is magic in the posts where specific variable names have specific
-+magic. For that magic to work, "path" needs to be used not "pathname" as
-+is currently there. Fix this, which fixes path issues on systems using 
-+statx (Ubuntu 20.04 in particular).
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Upstream-Status: Pending
-+
-+Index: git/ports/linux/statx/guts/statx.c
-+===================================================================
-+--- git.orig/ports/linux/statx/guts/statx.c
-++++ git/ports/linux/statx/guts/statx.c
-+@@ -5,14 +5,14 @@
-+  * SPDX-License-Identifier: LGPL-2.1-only
-+  *
-+  * int
-+- * statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf) {
-++ * statx(int dirfd, const char *path, int flags, unsigned int mask, struct statx *statxbuf) {
-+  *	int rc = -1;
-+  */
-+ 	pseudo_msg_t *msg;
-+ 	PSEUDO_STATBUF buf;
-+ 	int save_errno;
-+ 
-+-	rc = real_statx(dirfd, pathname, flags, mask, statxbuf);
-++	rc = real_statx(dirfd, path, flags, mask, statxbuf);
-+ 	save_errno = errno;
-+ 	if (rc == -1) {
-+ 		return rc;
-+@@ -25,16 +25,16 @@
-+ 	buf.st_mode = statxbuf->stx_mode;
-+ 	buf.st_rdev = makedev(statxbuf->stx_rdev_major, statxbuf->stx_rdev_minor);
-+ 	buf.st_nlink = statxbuf->stx_nlink;
-+-	msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, pathname, &buf);
-++	msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, path, &buf);
-+ 	if (msg && msg->result == RESULT_SUCCEED) {
-+-		pseudo_debug(PDBGF_FILE, "statx(path %s), flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
-++		pseudo_debug(PDBGF_FILE, "statx(path %s), flags %o, stat rc %d, stat uid %o\n", path, flags, rc, statxbuf->stx_uid);
-+ 		statxbuf->stx_uid = msg->uid;
-+ 		statxbuf->stx_gid = msg->gid;
-+ 		statxbuf->stx_mode = msg->mode;
-+ 		statxbuf->stx_rdev_major = major(msg->rdev);
-+ 		statxbuf->stx_rdev_minor = minor(msg->rdev);
-+ 	} else {
-+-		pseudo_debug(PDBGF_FILE, "statx(path %s) failed, flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
-++		pseudo_debug(PDBGF_FILE, "statx(path %s) failed, flags %o, stat rc %d, stat uid %o\n", path, flags, rc, statxbuf->stx_uid);
-+ 	}
-+ 	errno = save_errno;
-+ /*	return rc;
-+Index: git/ports/linux/statx/wrapfuncs.in
-+===================================================================
-+--- git.orig/ports/linux/statx/wrapfuncs.in
-++++ git/ports/linux/statx/wrapfuncs.in
-+@@ -1 +1 @@
-+-int statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf);
-++int statx(int dirfd, const char *path, int flags, unsigned int mask, struct statx *statxbuf);
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index bc20a2f134..c79fe92bc3 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -9,6 +9,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://xattr_fix.patch \
-            file://mayunlink.patch \
-            file://pathfix.patch \
-+           file://statxfix.patch \
-            file://fallback-passwd \
-            file://fallback-group \
-            "
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 9cdadb1269..a2fb9e2c6f 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -686,7 +686,7 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta"
+ 
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
 -- 
 2.25.1
 
