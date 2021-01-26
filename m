@@ -1,93 +1,86 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web08.4846.1611618886986393986
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web12.5029.1611619490975233813
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Jan 2021 15:54:47 -0800
+ Mon, 25 Jan 2021 16:04:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VlJcgUJx;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id a1so14700655wrq.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 15:54:46 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tzd79RX7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id y187so1143264wmd.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Jan 2021 16:04:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=DvGypSb1kf12UkdLo3/m3oyg/9imK1YfDMtZeyxjH4Q=;
-        b=VlJcgUJxtBREWpKl/wLAdZHwE12fZ+f1/F6m5HYcwfXnYWlsrp0nRQHUBeTU3L/GVx
-         8JoIZGQxtY30PgYRqebPziA0CbyFn0EGWEnjDPa6qBXfCS6WWE62+fmSYtdTKrIJX3od
-         UVFMfRD5mq7IQP3COftTiTObY5mUOamoTljtI=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=B6olUnhoVhMDLaciZ3hnylJFQ0NUDesWG8M2+4mIYsg=;
+        b=Tzd79RX7aLj0hmtSlaiePmHSkjBqbg58yGuRlgYgxHYDxRyV6/psjKgaLN/lmq6FC2
+         i+gV5g9BpNnKeB1ZUhecsilNL51FoqNV1hsNT5QASCOcT+wY3QkhpAg9thPG89p16QxC
+         nw7CxiBcB6jl6+6KhXYHVpROmLuLUS8ZLrge8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=DvGypSb1kf12UkdLo3/m3oyg/9imK1YfDMtZeyxjH4Q=;
-        b=RNTQbaBASe3Xawd3NOltXjw6pOHERilnvIgURj+f0rSABzHTWLr3YgbQXSVY7cP4AW
-         bOCkNeN6bKSZADMNZK12Vn83vllbYia2uF+WUNF8VYM1fc0WeGznnw7htCXyWjwNUySY
-         5DSNdzPxwakrgdSXiZlafv0dZpiP6t6gysasEHOWsCdPq0S4tWnoml8Z5P6Ndczh0tcP
-         7MmVLDyD3C2FHu5s/1KYiyampbkAP1VcStxNDCq+0LFzre/DFAMaiWTt6/CLhy8Svuyu
-         5uJpRWvEXcd1hJ2tktq+POWgc/RvDl0VG3cS5VHZpxIhaIzsXc1rvxBWWNlqs3vaHDzY
-         ygyQ==
-X-Gm-Message-State: AOAM5316iKvfO/iuJk5q0nNl3wWOfHPzWgt3XdtG5Defx1yxjCuROjYO
-	JL/clY1ZBHIty98tU44QsixbTQ==
-X-Google-Smtp-Source: ABdhPJwG3IeM5iEZdHXAldUQ+aMN0T8PxWicgTowDnFkmh6dDP89LjkGyupjkeoSn6K2aOIVK1rz/g==
-X-Received: by 2002:adf:eed0:: with SMTP id a16mr3241189wrp.107.1611618885584;
-        Mon, 25 Jan 2021 15:54:45 -0800 (PST)
+        bh=B6olUnhoVhMDLaciZ3hnylJFQ0NUDesWG8M2+4mIYsg=;
+        b=JLSUqMHOdEZZWvofGe0+lL+Y6Zb5KHju5HQIPuH94uAhwhYCzA4WhRZxv6sc9CfC7Q
+         V39h3+p7CZxNRI6APCc/GzkzGMhPouch1b558MSwKofHPAm1tjHW8OwLjpj+rqnZLyQj
+         A+3Zr4UgR81mCHatoqOblHGjHHupr2Oh4At5TTh6LEM7H5h0km+BCQj8k4K7VHGkd42L
+         jWUxfDNA+CR9ZK038P4qHx+bs1enB+UJXKu+9IaNzvem2cj2m2aL1fr2Yj6R7ztOyXzV
+         vE2YklgF1p0t5RyVw4rN+O2A9h8P+2FEG9484wqoikd9RvWw0Vhhdo+MWR/5xvG+C9Jl
+         GgNQ==
+X-Gm-Message-State: AOAM5320kMARrQR6B1NQmYNcIwDAfeitQLjbP5ej+fdSLZdWWdAokCMk
+	Ta2vkpaAmPqHoUaZzC6c/RlRDA==
+X-Google-Smtp-Source: ABdhPJw45cCmmE3QE0EmB4IGeBpROcuBrHl8cnRZnGYFfyjzS6EjwuJ+OCuMcckVuvvnP0dKSKgeJQ==
+X-Received: by 2002:a1c:98c6:: with SMTP id a189mr2182035wme.88.1611619489495;
+        Mon, 25 Jan 2021 16:04:49 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:b393:1589:56b4:ccf1? ([2001:8b0:aba:5f3c:b393:1589:56b4:ccf1])
-        by smtp.gmail.com with ESMTPSA id x25sm867535wmk.20.2021.01.25.15.54.45
+        by smtp.gmail.com with ESMTPSA id d199sm920329wmd.1.2021.01.25.16.04.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jan 2021 15:54:45 -0800 (PST)
-Message-ID: <77ad8e184576449791b56fe9c6e0fc872cc98a42.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sanity.bbclass: verify that user isn't building in PSEUDO_IGNORE_PATHS
+        Mon, 25 Jan 2021 16:04:49 -0800 (PST)
+Message-ID: <d49db6f343cc465a25909c516d5618c403b9098d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/4] selftest/reproducible: remove spirv-tools-dev from exclusion list
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Dorinda <dorindabassey@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 25 Jan 2021 23:54:42 +0000
-In-Reply-To: <20210125230811.21862-1-dorindabassey@gmail.com>
-References: <20210125230811.21862-1-dorindabassey@gmail.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, Alexandre Belloni
+	 <alexandre.belloni@bootlin.com>
+Date: Tue, 26 Jan 2021 00:04:48 +0000
+In-Reply-To: <CANPvuR=3dY1KvoPcjrpAzdMnr2o5kSfR_M7PcVQEnFmhQn3wTw@mail.gmail.com>
+References: <20210124182647.1613511-1-quaresma.jose@gmail.com>
+	 <20210124182647.1613511-3-quaresma.jose@gmail.com>
+	 <37e34b2d593317b1910784a988fe14de1d32c232.camel@linuxfoundation.org>
+	 <CANPvuR=3dY1KvoPcjrpAzdMnr2o5kSfR_M7PcVQEnFmhQn3wTw@mail.gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-26 at 00:08 +0100, Dorinda wrote:
-> If a user builds in a path in PSEUDO_IGNORE_PATHS, random failures are generated. Hence this patch adds a sanity check in sanity.bbclass to ensure that a user isn't building in PSEUDO_IGNORE_PATHS.
+On Mon, 2021-01-25 at 23:52 +0000, Jose Quaresma wrote:
+> Hi Richard,
 > 
-> [YOCTO #14179]
+> librt.so is part of the glibc and are allays present on staging
+> sysroot.
+> how does the cmake can find the librt.so outside of the sysroot if it
+> are present on that.
 > 
-> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
-> ---
->  meta/classes/sanity.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
+> The problem is at:
+> https://github.com/KhronosGroup/SPIRV-Tools/blob/b27b1afd12d05bf238ac7368bb49de73cd620a8e/source/CMakeLists.txt#L397
 > 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 2040b48595..14271c1ca9 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -703,6 +703,13 @@ def check_sanity_version_change(status, d):
->      if (tmpdirmode & stat.S_ISUID):
->          status.addresult("TMPDIR is setuid, please don't build in a setuid directory")
->  
-> 
-> 
-> 
-> +    # Check that a user isn't building in a path in PSEUDO_IGNORE_PATHS
-> +    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
-> +    workdir = d.getVar('WORKDIR', expand=True)
-> +    for i in pseudoignorepaths:
-> +        if i and workdir.startswith(i):
-> +            status.addresult("You are building in a path in PSEUDO_IGNORE_PATHS: " + str(i) + " please don't build in this directory: " + str(workdir) + "\n")
-> 
+> Probably I need to force the find_library to search first on
+> STAGING_DIR_HOST
 
-To ensure the user fully understands this, should this be something
-like:
+I think somehow we need to replace the full sysroot path with a
+variable, or make cmake do that itself if we can. It may be possible to
+have cmake evaluate the variable with reference to the sysroot too but
+that is likely more complex. I'm afraid cmake isn't one of my strong
+areas.
 
+We do have a second issue too the autobuilder has shown up:
 
-status.addresult("You are building in a path included in
-PSEUDO_IGNORE_PATHS " + str(i) + " which will not work, please locate
-the build outside this path.\n")
+https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20210125-3iawhiyz/packages/diff-html/
 
-as we then tell the user what to do (and don't repeat effectively the
-same information twice).
+Does something in glslang or spriv-tools use precompiled headers? We
+had problems with that in the vulkan-samples recipe that looked like
+this (a cmake based C++ project where there were changes in the
+debug_loc section) so we may need to disable PCH here too...
 
 Cheers,
 
