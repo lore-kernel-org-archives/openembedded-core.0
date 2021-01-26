@@ -1,50 +1,50 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web08.12954.1611672172081569215
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web12.12979.1611672174408289990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:42:52 -0800
+ Tue, 26 Jan 2021 06:42:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tK97qbR6;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id s24so774098pjp.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:52 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=Xib50fXn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id i63so10523174pfg.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=+me/bbTvivw9lhsE1krhs8yJqPVhx8Ifs49hIl5R+V4=;
-        b=tK97qbR6bBZoErjZsus5RZJBytoeRGM6Tp18WsPxioadlwOHHmGGNlyPWhAqEUER3/
-         yHAIRPh84buAPgv+eAtJ0JfeuQ/vCE8nzYtIJOqca1XyCak3NJt3jq7QFHlR1wNBm7nn
-         gTR5CivNN2m0vJVVsMB3x2nkYOv4YPZ7QoItj5kYhCSZWAXHw+iwPXLmot/EvfWEwQS5
-         4IGPUko2IuRyuJ0132W7fQ4n+jVIpg3MWbpav5jFLorMOonMORpUfuH3YwSBzSfo4foD
-         gpR49AywW+1xl4dd1KzE4+b7JMSPOAwNg8xoubmuOsrFlVNKfBa8WP6asEyyKpeVXQKY
-         yozw==
+        bh=BcmNTvT5qIpThUGGd0ih8RCSyXRxCqpOAdfnJlZxAg0=;
+        b=Xib50fXnYq7+31IytSKG9fdHAoGDlPw/4khjGIL9RZV5zqtoXQGjcJAyla0KjYIrgN
+         jlly4mBkEQuolUMpm2pyZC+/9mN5bXLuR8Nq42GPbwPrH9Do+bSI2dT1w6/4YRN/EZAt
+         u7NJ2rI7jEFoIOUGdUhulJFk5PGxtdZRr6BdkEKwXYqyfhD9h5IQl8VKVorsunCc5dUg
+         ZoEDS5e/iYM4eUJKfgxI4xDGBLEqhQbAbH4XkYW440Sr6xNkI1G/knRYQQy2bhh/0lBf
+         gx1VQh4BRxeL6vQa7rBG5a/CRU85zisRTfYVBPKJ9kf5lHvbVcu7CHhhq6PjZMYV+Wrr
+         Bxww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+me/bbTvivw9lhsE1krhs8yJqPVhx8Ifs49hIl5R+V4=;
-        b=at3R71q3pal27WSCvaijCNP162OrwwS6XRLyE/7bUFQ7JaizchE+/tjzF8zBSL98qw
-         KAGYB8moec8+L7tltHN/RXz9PM+iYM5KB3kRfwT+txWL8iaXppQ5zEAufr/2pbnmFn5T
-         eMRSsLnaO/eQLug8j9jQcn5aGdVuVfDepPxVHL/X6CoMYeOJWqtSZagLMu+cFd35hi7l
-         oVIWtfPxCOSc8yOnLMXaNv8BqXKnnYk8YZ1h7PJZDO1NeOc+cD0FCXidMcfqgOs5hHws
-         tADDdZtqxf6Kr18QEu+HZ/lHvRL4Hy/hxhCnHgkkDoleKO8J7M0ID+5hNaVuB+IEjtMQ
-         uz3w==
-X-Gm-Message-State: AOAM532L2jFDmTLQcH/5yAkK5lJGvTDn2vAI/dmr0F6pF909b3ioiD3s
-	TZFfkND9rR95kOf0P4e/0l0+dwLOWziYmh/mJ5g=
-X-Google-Smtp-Source: ABdhPJx/iL/KDOrWw49jykG0MUPcTFgc669WCeNFzOFqYjVnhWRFU1fbP1KO3tbKrEXSoq7Q2WYvyg==
-X-Received: by 2002:a17:902:7205:b029:db:d2d5:fe79 with SMTP id ba5-20020a1709027205b02900dbd2d5fe79mr6370935plb.30.1611672171044;
-        Tue, 26 Jan 2021 06:42:51 -0800 (PST)
+        bh=BcmNTvT5qIpThUGGd0ih8RCSyXRxCqpOAdfnJlZxAg0=;
+        b=KfcYOVtpaYD+ueEFPa6cKS+O2ScvDgCboM+s3Yc9ur6ZKAncVlHtmK4zdqZSeat69G
+         hO7rTnxpBGuwcQaA0ROVk7rTPxbhevKH3RsG+d/zTtrPOcPBDRRFe8UPIW2xmct89a07
+         ePipyCdhih+yZPuVxeN2STJXkZl6X6yov7qUEQy+TZWjwgf7RViMa6B6h15TqzRv14/G
+         pY4RZaGLh1o9D1MqF37HOjRF4J3UmZTKHpDmEuV/lwdeplNHm19mZ6e4Fs7GJbgucgwi
+         r5vfcXB8VD9aE46IN6P8BOAOvFDL+KCKccqW+T7ugy/Aq2G9+9Czc8+JH0Dq7MSlCm5b
+         hHjQ==
+X-Gm-Message-State: AOAM530iO5BZB3kZdfAZLeq315/Ej14+UsCTQEMdIHk/roKqyvqPYIjz
+	4ynUODMh1nQMvKi8LBiuFIzuJ4TqyjdC9WuUJ+A=
+X-Google-Smtp-Source: ABdhPJzB0g13UDKgLFdVQ5lmKs7mp8bZ2oL7dtc+QiB3ToBp17TVcGrXOvwGsHiaRXkLzFvnWUrTow==
+X-Received: by 2002:a63:4764:: with SMTP id w36mr5852796pgk.127.1611672173511;
+        Tue, 26 Jan 2021 06:42:53 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.49
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:42:50 -0800 (PST)
+        Tue, 26 Jan 2021 06:42:52 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 14/46] wic: Fix multi images .wks with bitbake
-Date: Tue, 26 Jan 2021 04:41:25 -1000
-Message-Id: <4ce1e304279581f592c77b0e254801d13fa10caa.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 15/46] wic: Avoid creating invalid pseudo directory
+Date: Tue, 26 Jan 2021 04:41:26 -1000
+Message-Id: <92eed9dcaf57cb2aa1535e7199c96e2f1f49bda1.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
@@ -53,83 +53,49 @@ Content-Transfer-Encoding: 8bit
 
 From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 
-In order to support .wks files with multiple images inside bitbake we
-need to explicitly set the pseudo database in use.
+If the source of the rootfs is not a bitbake cooked image, or it is not
+pointing to the root of one, we call pseudo again, which will produce
+a new pseudo folder at rootfs/../pseudo
 
-Eg: If we try this .mks:
-part / --source rootfs --ondisk sda --fstype=ext4
-part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
+Eg:
 
-The username for all the files under /export will be set to the runner
-of bitbake (usually UID 1000).
-
-Before we run wic, we need to make sure that the pseudo database will be
-flushed, and contains all the data needed.
+part /etc --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/home --fstype=ext4
 
 Cc: Paul Barker <pbarker@konsulko.com>
 Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dde90a5dd2b22a539095d1bac82acc15c6380ac8)
+(cherry picked from commit 799a24ae78655f7a3eda7456b1a0ffaf3e43ec16)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/image_types_wic.bbclass | 8 ++++++--
- scripts/lib/wic/partition.py         | 9 +++------
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ scripts/lib/wic/partition.py | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 70ea46ef5b..82f0985eeb 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -33,8 +33,7 @@ IMAGE_CMD_wic () {
- 	if [ -z "$wks" ]; then
- 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
- 	fi
--
--	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" ${WIC_CREATE_EXTRA_ARGS}
-+	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" ${WIC_CREATE_EXTRA_ARGS}
- 	mv "$build_wic/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
- }
- IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
-@@ -89,6 +88,10 @@ python do_write_wks_template () {
-     bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
- }
- 
-+do_flush_pseudodb() {
-+	${FAKEROOTENV} ${FAKEROOTCMD} -S
-+}
-+
- python () {
-     if d.getVar('USING_WIC'):
-         wks_file_u = d.getVar('WKS_FULL_PATH', False)
-@@ -142,6 +145,7 @@ python do_rootfs_wicenv () {
-     depdir = d.getVar('IMGDEPLOYDIR')
-     bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
- }
-+addtask do_flush_pseudodb after do_image before do_image_wic
- addtask do_rootfs_wicenv after do_image before do_image_wic
- do_rootfs_wicenv[vardeps] += "${WICVARS}"
- do_rootfs_wicenv[prefuncs] = 'set_image_size'
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 6e87770f3a..18ecec2de9 100644
+index 18ecec2de9..1347571aa0 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -201,13 +201,10 @@ class Partition():
+@@ -199,13 +199,14 @@ class Partition():
+         Currently handles ext2/3/4, btrfs, vfat and squashfs.
+         """
          p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
-         if (pseudo_dir == None):
-             pseudo_dir = "%s/../pseudo" %  rootfs_dir
--        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR", pseudo_dir)
--        p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
--        p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
-         pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
--        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
--        pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
--        pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
-+        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-+        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-+        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-         pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
+-        if (pseudo_dir == None):
+-            pseudo_dir = "%s/../pseudo" %  rootfs_dir
+-        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
+-        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
+-        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
+-        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
+-        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
++        if (pseudo_dir):
++            pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
++            pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
++            pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
++            pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
++            pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
++        else:
++            pseudo = None
  
          rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
+                                          self.lineno, self.fstype)
 -- 
 2.25.1
 
