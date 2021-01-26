@@ -1,417 +1,378 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web12.14583.1611677978993529728
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+ by mx.groups.io with SMTP id smtpd.web11.15019.1611678664134656213
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 08:19:39 -0800
+ Tue, 26 Jan 2021 08:31:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=blweSLvn;
- spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: 6zmHrW1vxcXIYv7BGCcgcMf8jhAYEWkWV3hkLTEsE6MfSueBd5rvuGHX2N0IfTwNV73vQe363R
- gIz5Xj6zSH6Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="244007707"
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208,217";a="244007707"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 08:19:37 -0800
-IronPort-SDR: MAoJQKZuHega4GJrRidMkO6FxKmR2FkTddQQ0tXVFpWKg7K7kx5gnlZzjMAKnkq5HdTRjzkH92
- 5HtFkA0XcPcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,375,1602572400"; 
-   d="scan'208,217";a="387879665"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
-  by orsmga008.jf.intel.com with ESMTP; 26 Jan 2021 08:19:36 -0800
-Received: from orsmsx609.amr.corp.intel.com (10.22.229.22) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 26 Jan 2021 08:19:36 -0800
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX609.amr.corp.intel.com (10.22.229.22) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Tue, 26 Jan 2021 08:19:35 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
- via Frontend Transport; Tue, 26 Jan 2021 08:19:35 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Tue, 26 Jan 2021 08:19:35 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cZsbiHaZHHZ8UoqlijgoduS0rbcmzu+8+upVgGd3Be3tEDUHFOaZbpgVFbAZNPylzjknWgnWMY1UNbKzlPdmNSXQ/AjvW6alCaZ/M9rzpidg/++qtdKsRMUWHLbdvVkxllrNCYSLnljCn+go0a+qOANlmCSw9NhgyPg0gfmuZZM/Ag+YkWkVjh2bV0WCxAQu8Nj65+GqT6b+EhWyNTMoxHwNGmBGL2aGq9X9sotTRSVG5WR4bJMfocull+mkw0A3Q1jDMUFwvYGDxWkpnvXdvZALzdQMqmayq4Gzdypt3rag8+IWP64LYFYhTLBgi1u7qtWWJviKaH3kztjuh35Jsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PoT0fEvJV1cuoov/Fbje34wOTSeSreljzMFczBvnZzo=;
- b=oXqPG9uipq9kpWNCHjmc5oQQZmR/K4HImqSvWkyh5gW61yxc1ultuATXwNrCAd58jT7vf7ikSqpEcQfkbeAOR6JQh7xlhJvoqZPH0LOmQ4YGCrgX/G2WfdnwIMjl11Xe/sNVQ8iBiaRJjW/P8eG/fjDw8u+huN9NxjeC+9MQqg93Z58IPUOy9XY1y+D4SvtlitBcMk5IXbSjKy5s81fiZAA5KKzgLqUKQMXI5qrmxNgpdA8bzsAcmRjXWWAUhi0ntnSD8O2+vk2N5t/BuQNCLm3UtBcRrCdKhs6nda5mqjbRMDue+0w2yuL6kOmH2Ay7EHX4NlVb2kZbEZ21KTZUnA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PoT0fEvJV1cuoov/Fbje34wOTSeSreljzMFczBvnZzo=;
- b=blweSLvnGQoAnBHvRMclRNb79T/AO70IYwbe2ybSsqb0/EtssLth13FXwLh8wEhM7aXd73BbwXJ2pFZSFJENucByGdWwwRukLex22QEfFkpD7+zlQu+pNitU2QWNAL4DuBlTZmvKOivw5xYpr6gANZCjH5H5pysI88Ja9tnIN4w=
-Received: from MWHPR11MB2000.namprd11.prod.outlook.com (2603:10b6:300:2b::23)
- by MWHPR11MB1373.namprd11.prod.outlook.com (2603:10b6:300:25::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12; Tue, 26 Jan
- 2021 16:19:34 +0000
-Received: from MWHPR11MB2000.namprd11.prod.outlook.com
- ([fe80::68d5:9f61:8df6:9a36]) by MWHPR11MB2000.namprd11.prod.outlook.com
- ([fe80::68d5:9f61:8df6:9a36%5]) with mapi id 15.20.3784.019; Tue, 26 Jan 2021
- 16:19:34 +0000
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: Ross Burton <ross@burtonini.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>, Steve Sakoman
-	<steve@sakoman.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"yocto-security@lists.yoctoproject.org"
-	<yocto-security@lists.yoctoproject.org>
-Subject: Re: [OE-core] [yocto-security] OE-core CVE metrics for master on Sun 24 Jan 2021 07:15:01 AM HST
-Thread-Topic: [OE-core] [yocto-security] OE-core CVE metrics for master on Sun
- 24 Jan 2021 07:15:01 AM HST
-Thread-Index: AQHW8qeVVGI7k19FiUOLS537Ba5Krao3fTwAgAFrLoCAAC6ZMIAAlhmAgAA3cqA=
-Date: Tue, 26 Jan 2021 16:19:34 +0000
-Message-ID: <MWHPR11MB200003E4ED93C922C896F758B9BC9@MWHPR11MB2000.namprd11.prod.outlook.com>
-References: <20210124171809.D838F960256@nuc.router0800d9.com>
- <cc80f8541aeef99a4625420fbf7d27dcc6abf341.camel@linuxfoundation.org>
- <MWHPR11MB20005F089BE21737CFA246E7B9BD9@MWHPR11MB2000.namprd11.prod.outlook.com>
- <0d314728a5aceabe78e9d61bfe257d69396b23e3.camel@linuxfoundation.org>
- <MWHPR11MB2000D61465E2D74D9209E7DDB9BC9@MWHPR11MB2000.namprd11.prod.outlook.com>
- <CAAnfSTuE45wUNr2BSDa3GfL2etkEvh9GDpEThCju5B-wFYD6Ew@mail.gmail.com>
-In-Reply-To: <CAAnfSTuE45wUNr2BSDa3GfL2etkEvh9GDpEThCju5B-wFYD6Ew@mail.gmail.com>
-Accept-Language: en-SG, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: burtonini.com; dkim=none (message not signed)
- header.d=none;burtonini.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [115.133.6.180]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 60403b16-80ac-4a7f-bb5a-08d8c2162b37
-x-ms-traffictypediagnostic: MWHPR11MB1373:
-x-microsoft-antispam-prvs: <MWHPR11MB13739CF9B16C86D8DB678950B9BC9@MWHPR11MB1373.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: DbsOSMxAsVBEip6sETHCIk5xg8cjkPW9cRkGHZJpNyzP1ZRT7W+OWmmVkOQwALxpPY9yaXDq3QtWjh6YAZFZjqgvQBtP2EZKrH1sB9QBvLdkOIsj1VVIq5trkJM0Ta6I7kL4/2STdoOi9WAMQA+WwvFCDuGYRXaVfbFPJvrr4NGwp73AcHmkcduDyqttDOXE8IaBqdx0qHmYJhssSacRrhmoEdNF6xb4Xj0MPYdAqCTwcz+7uObkRUWoiVSbPC0LdtdElv62n3A1lMMDgocoTyj4IgWDyiACHMPcX+rv+HT5MbfsxiT0hiLV3CIOJjTBWFYzJgMt1xrSNMW+dR98NDBszF0xImUCZwapNeCsQmCieLiks/S7u3eNG2Io//5x77npMkQ4LgQ/0b5tk32rbExcKUNKJSMrfn2xnKOCwNvHzIDJcYZNfaj/QATFteVRaCq9HFy9puFpFFc5GqZ+MmWxt4EyUp8e5ONz3v+3ccDL4czciczWyoLzEGWMt1fwyafxJbnwk7/rNwoSaY39Yw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB2000.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(396003)(366004)(346002)(136003)(376002)(316002)(8936002)(76116006)(33656002)(71200400001)(6916009)(8676002)(64756008)(66446008)(15650500001)(66946007)(66556008)(66476007)(2906002)(86362001)(54906003)(5660300002)(7696005)(55016002)(83080400002)(478600001)(52536014)(4326008)(166002)(6506007)(53546011)(186003)(26005)(83380400001)(9686003)(966005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?utf-8?B?SC84QTZpazVoTTJuY0VoS0hOU2dTMXdtbGloYVkwdlVTUWNOandtMkEwVC94?=
- =?utf-8?B?czBuZGVLR2cwSW9NcXZpc3B2cDdPNCtpTCtOUTVzUVJxQVV2SzFJZlNDQ3Nw?=
- =?utf-8?B?NUhZeVJ3bnRWTnpmNVNQSUQyMEdqdy8yVmtBRXpHcFd1dkpSa3lPWTFzN0h4?=
- =?utf-8?B?OHpxMzVuY2NaUEdXSkhqQUdsU2JSTE1lWW1wODV3bnFaWFljVjFUdktxNE9k?=
- =?utf-8?B?WDRKeUR3cGpRNGhUaUdMb3ZXL25LUWsxSzBGMmU5OG91TFJISXBUK29WNUF1?=
- =?utf-8?B?cnNFbWpQRHZsbHNoOVZlb1VxSHl1aDVkS1BIaWFWcXloa1A1ZzhXelBHYmcx?=
- =?utf-8?B?cm1Zd2p3KzFIVWMwMXZOamhGd2RQc2d3SWxmZVNWejEvS3BlQ0lHKzdkZU5G?=
- =?utf-8?B?bGliUXREVU5TcWIrMEdXTDdkNmVCREVzdkloZGhMYXVGWU9SSklmMld4TTRj?=
- =?utf-8?B?WGs3LzVxa2dXSHY1c1cxclBqY2xZcXBFK2Q2MzE3ZHQxWndxNlZndGJWOHcr?=
- =?utf-8?B?Zm53Qk55NGxpbWtaaDBiVG5PREtxL21LbDRWV3NnUkh3djJMQ01TaDFyZVNm?=
- =?utf-8?B?MFR0M2E2OXlrVzYyS3lWV3N1bm9LOGpxS3grdHpDVzMzYmZucElOSFZGdEVh?=
- =?utf-8?B?WXN1d09lcGxpNHlqd0gyUjJpb2dnSFdzc2pWS3dwZEQ5R3pRbVRHa1h3WTUy?=
- =?utf-8?B?dS9Ed0pXaU50cVRudHRSRElLY0RYeGlmK29UYm1yRVNMNDJ5S0U1REM4bE1m?=
- =?utf-8?B?bTVGRDZFUHlTK0RiT29vRWpmUGdkaFEyV2tldTg1dGJPSFU4bzRRcmdrSVgw?=
- =?utf-8?B?U1dldE9FT3EwUGNWZVZ1bXQyQS9LTmw2L2hxSE5EUlpYT1BnVDQzU1pvMjBv?=
- =?utf-8?B?WlloOVR5YlhFWGJUNW10RWtsdDJZRkxnSGdGaWRkUVNxTTdOT1FkbWRwVWc1?=
- =?utf-8?B?eFRFdFdwQzBsUU8wRFJaSHZteVFuMTdRbllGak12dW9uNjcwMjgybExaYnd1?=
- =?utf-8?B?MTFWUkhyb0pCNktoQVB4SmZoWEZtUFk0aVIvSlZZYUZBUTlUZGFsdWo1Q08x?=
- =?utf-8?B?YUR6RTBOUVY5Y0pXZEpLU1RQbUhLaHdaa3VQRUhwVHpYcVRNYzRjTkRhQU9m?=
- =?utf-8?B?NEZVQWowVmlwZHN1ZnVCMjM1dVB5Y0ZtazN4UGgzdzJtbjJ0WjdTeloyWnlj?=
- =?utf-8?B?M3M0ejJCY1lUV1dWOUVoQStMQVFyUjMrclhPRFcwQXlMZ0dHY1lyckEzTnk2?=
- =?utf-8?B?K0wrRVBpUDJPSXFjVStxNklZNDFwUHR6Y2lnYVZmdy9seUtMMmtqK2NUMEpr?=
- =?utf-8?B?d0grL1FHWTFPVnFOS2Rsd0NSNG9PeGFxUWg0Mm85bENoQmhOcGhDK3VVZzlH?=
- =?utf-8?B?SU1iNlNCMlZ5cE9KeXFIbjU4TTNFaDJWUERKMEpRUXZtRXVldFlhN0hxdFhr?=
- =?utf-8?Q?iFxE4l4G?=
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=k8wz+yUb;
+ spf=pass (domain: gmail.com, ip: 209.85.208.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f50.google.com with SMTP id dj23so20492892edb.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 08:31:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DURBHFPw55TKftTNioIaQY0eWwXLJP5B5uplcOwxW2I=;
+        b=k8wz+yUb9JGaiA+x1VsWFkgAP14JVce5dcAyPLkgp7UUE4hvxqwGscGaB9PunC7FrV
+         CzRdCDg92FSaFJdh8v64dosbcb0naSKOCGA7IXsZvIBvuH7OSQoQw9j+WY380MoyXKSm
+         jQt1iLFo62FOJnqj3BIYhAWb0Y/n5AYSp5sN1f8am9/XVjdGHt0yoBPVj5uu+/W/CCoU
+         dCw9BK3v7FKgnjhKZ/Ce4EA+mg0XPF8FaNfz4s8c8d2btfltP7ZRX3ev8dBpzdELaRuZ
+         VK7bsYZpMXLWsuxxavGJVF4hAtPV6PpYfywqlfd2KvrDdrvNH7J/+Fh4ivqZrbVeME3w
+         0Dhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DURBHFPw55TKftTNioIaQY0eWwXLJP5B5uplcOwxW2I=;
+        b=aFv0CAZIlWm/SGO5GK0Zo+va6oJdKypWfreZtwByfalMZR8am50+xZWkzd9r8wpwBY
+         ks9O7rOU6vsBkR+on3nLI03wUe9apSc72NfQVv43DLE9QAfbF+8HwmZK40LGnSxZixgO
+         zZIFgAItAo5hWU/8qG80RKg9gC60PFQXp0UTZwf8Q0q040af5OgLaZAWJgC2JiVZJ6Aa
+         tEPVArvI+nV0mPa2V9RirAX7gk4glsxto88hCr34Pbs9F0VcogcQHuMfhbQP0kVP4aAX
+         cFgjvLDdaFVd45awP3DcxmJH1QcrYEV4S/Um1i48YibMo92dchDatAz3wxWD6kK3zAXw
+         +evQ==
+X-Gm-Message-State: AOAM531zKMwS5fuF6rAAICCH4fmv0r+cV/ffDKRBgTNaG4+JcJW8esdx
+	rrWFfyVJaQn+c7peMCD+LqaWVdMJT+r7N9w05PU=
+X-Google-Smtp-Source: ABdhPJxIOmMRDFmMIR/Fn4k0l4W6MUaqXhTEs+H50G0m6Eol1gmggK/HX6DyOM0YIDW3vt7cOVTzko4HRYn9pUhFiu4=
+X-Received: by 2002:a05:6402:60a:: with SMTP id n10mr5138854edv.230.1611678662529;
+ Tue, 26 Jan 2021 08:31:02 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB2000.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60403b16-80ac-4a7f-bb5a-08d8c2162b37
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jan 2021 16:19:34.2187
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 71I5yXPhL019vyVRWsWe+GY+uxmeZ2CJU/p6eaV3sZ3V9e2QjRqdswqqiPqK6sRiEGFjLj63R5OsBjL/YlwI1w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR11MB1373
-Return-Path: chee.yang.lee@intel.com
-X-OriginatorOrg: intel.com
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_MWHPR11MB200003E4ED93C922C896F758B9BC9MWHPR11MB2000namp_"
+References: <CAHtQpK71uAoq_hwDGJCvt5O_=kNXHkWFkmHC-BQkzcSCM3ys7A@mail.gmail.com>
+ <CAOSpxdZ_0+QOwnpaCMMm=+1WUcedQ7aqnm=rmg1=_bU8TWOELQ@mail.gmail.com>
+ <CAHtQpK7N-vmpvTpm2Jt-3Q4i+WXtMHfNSq4Jf+BsgsjkETwv7Q@mail.gmail.com> <559613c2-7d69-8ec6-a341-84ebf036d1b9@actia.se>
+In-Reply-To: <559613c2-7d69-8ec6-a341-84ebf036d1b9@actia.se>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Tue, 26 Jan 2021 08:30:50 -0800
+Message-ID: <CA+chaQffacKr+9M5ibjui4Xt69+7vz3xLWdSpbO=hA5JcNW20Q@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell]: gpsd recipe (3.19) build is broken
+To: John Ernberg <john.ernberg@actia.se>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000002c1b3205b9d02e4f"
 
---_000_MWHPR11MB200003E4ED93C922C896F758B9BC9MWHPR11MB2000namp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--0000000000002c1b3205b9d02e4f
+Content-Type: text/plain; charset="UTF-8"
 
-QSB2YXJpYWJsZSBpbiByZWNpcGUgdG8gaW5kaWNhdGUgdGhlIGNoYXJhY3RlciBhcyBwYXRjaCBs
-ZXZlbD8NCmxpa2UgQ1ZFX1ZFUlNJT05fU1VGRklYICBpbiAg4oCcYWxwaGFiZXRpY2Fs4oCdICBz
-byB0aGUgcGFyc2VyIHVuZGVyc3RhbmQgdGhlIGxhc3QgYWxwaGFiZXRpY2FsIGNoYXJhY3RlciBh
-cyBwYXRjaGVkIHJlbGVhc2UNCg0KDQoNCg0KRnJvbTogUm9zcyBCdXJ0b24gPHJvc3NAYnVydG9u
-aW5pLmNvbT4NClNlbnQ6IFR1ZXNkYXksIDI2IEphbnVhcnksIDIwMjEgNTo1NCBQTQ0KVG86IExl
-ZSwgQ2hlZSBZYW5nIDxjaGVlLnlhbmcubGVlQGludGVsLmNvbT4NCkNjOiBSaWNoYXJkIFB1cmRp
-ZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz47IFN0ZXZlIFNha29tYW4gPHN0
-ZXZlQHNha29tYW4uY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-ZzsgeW9jdG8tc2VjdXJpdHlAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbeW9jdG8tc2VjdXJpdHldIE9FLWNvcmUgQ1ZFIG1ldHJpY3MgZm9yIG1hc3RlciBv
-biBTdW4gMjQgSmFuIDIwMjEgMDc6MTU6MDEgQU0gSFNUDQoNClZlcnNpb25zIHVzaW5nIGEgc2lu
-Z2xlIGNoYXJhY3RlciBmb3IgcGF0Y2ggbGV2ZWwgaXNu4oCZdCByYXJlLCBhbmQgT3BlblNTTCBp
-cyBoaWdoIGltcGFjdC4gQ2FuIHdlIHNwZWNpYWwgY2FzZSB0aGVzZSBpbiB0aGUgcGFyc2VyPw0K
-DQpSb3NzDQoNCk9uIFR1ZSwgMjYgSmFuIDIwMjEgYXQgMDM6NTUsIExlZSBDaGVlIFlhbmcgPGNo
-ZWUueWFuZy5sZWVAaW50ZWwuY29tPG1haWx0bzpjaGVlLnlhbmcubGVlQGludGVsLmNvbT4+IHdy
-b3RlOg0KZm9yIHRoaXMgY2FzZSB0aGUgbmV3IGNoYW5nZXMgb25seSBjb25zaWRlciAxLjEuMSBm
-cm9tIGJvdGggMS4xLjFpICBhbmQgMS4xLjFiICwgZG8gbm90IHRha2VzIHRoZSB0cmFpbGluZyAi
-aSIgYW5kICJiIiB3aGVuIGNvbXBhcmluZyB0aGVtICwgc28gdGhlc2UgMiB2ZXJzaW9uIGFyZSB0
-cmVhdGVkIGFzIHNhbWUgdmVyc2lvbiAoIDEuMS4xICkgd2hlbiBjb21wYXJpbmcgdGhlbS4NCg0K
-SSBleHBlY3RlZCB0aGlzIGFsdGhvdWdoIGtub3dpbmcgdGhhdCBjb21wYXJlIHZlcnNpb24gaW4g
-dGhpcyB3YXkgY2FuIGZhbHNlbHkgcmVwb3J0IG1vcmUgQ1ZFLCBidXQgdGhpcyBjYW4gY2FwdHVy
-ZSBzb21lIGNvcm5lciBjYXNlLg0KDQo+LS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj5Gcm9t
-OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzxtYWls
-dG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4+DQo+U2VudDogVHVlc2RheSwg
-MjYgSmFudWFyeSwgMjAyMSA2OjEwIEFNDQo+VG86IExlZSwgQ2hlZSBZYW5nIDxjaGVlLnlhbmcu
-bGVlQGludGVsLmNvbTxtYWlsdG86Y2hlZS55YW5nLmxlZUBpbnRlbC5jb20+PjsgU3RldmUgU2Fr
-b21hbg0KPjxzdGV2ZUBzYWtvbWFuLmNvbTxtYWlsdG86c3RldmVAc2Frb21hbi5jb20+Pjsgb3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86b3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz47IHlvY3RvLQ0KPnNlY3VyaXR5QGxpc3RzLnlv
-Y3RvcHJvamVjdC5vcmc8bWFpbHRvOnNlY3VyaXR5QGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+DQo+
-U3ViamVjdDogUmU6IFt5b2N0by1zZWN1cml0eV0gT0UtY29yZSBDVkUgbWV0cmljcyBmb3IgbWFz
-dGVyIG9uIFN1biAyNCBKYW4gMjAyMQ0KPjA3OjE1OjAxIEFNIEhTVA0KPg0KPkknbSBub3Qgc3Vy
-ZSBpdHMgd29ya2luZy4gRm9yIGV4YW1wbGU6DQo+DQo+aHR0cHM6Ly9udmQubmlzdC5nb3YvdnVs
-bi9kZXRhaWwvQ1ZFLTIwMTktMTU0Mw0KPg0KPndoaWNoIHNheXMgaXQgYXBwbGllcyB0bzoNCj4N
-Cj4xLjEuMCB0byAxLjEuMGoNCj5hbmQNCj4xLjEuMSB0byAxLjEuMWINCj4NCj5NYXN0ZXIgaGFz
-IDEuMS4xaSB3aGljaCBpcyBncmVhdGVyIHRoYW4gMS4xLjFiIHNvIHdlIHNob3VsZG4ndCBiZSBz
-aG93biBhcyBhdCByaXNrDQo+eWV0IHRoZSBDVkUgaXMgbGlzdGVkLg0KPg0KPkNoZWVycywNCj4N
-Cj5SaWNoYXJkDQo+DQo+T24gTW9uLCAyMDIxLTAxLTI1IGF0IDAyOjM5ICswMDAwLCBMZWUsIENo
-ZWUgWWFuZyB3cm90ZToNCj4+IFRoZSBjaGFuZ2VzIGV4cG9zZSB0aGVzZSwgaXQgaWdub3JlZCB0
-cmFpbGluZyBjaGFyYWN0ZXIgaW4gdGhpcw0KPj4gdmVyc2lvbiBjb21wYXJlICggImkiIGluIHRo
-aXMgY2FzZSBmb3Igb3BlbnNzbF8xLjEuMWkgKQ0KPj4gKENWRS0yMDE5LTE1NDMsIENWRS0yMDE5
-LTE1NDcsIENWRS0yMDE5LTE1NDksIENWRS0yMDE5LTE1NTEsDQo+PiBDVkUtMjAxOS0xNTUyLCBD
-VkUtMjAxOS0xNTYzLCBDVkUtMjAyMC0xOTY3LCBDVkUtMjAyMC0xOTcxKSBiZWhhdmUNCj4+IHRo
-aXMgd2F5IGJlY2F1c2UgaXRzIGRpZmZpY3VsdCB0byBkZWZpbmUgdGhlIHRyYWlsaW5nIGNoYXJh
-Y3RlcnMgKGxpa2UNCj4+IHZlcnNpb24gMS4xYiBjYW4gYmUgMS4xIGJldGEgb3IgcGF0Y2hlZCBy
-ZWxlYXNlIDEuMWIpDQo+Pg0KPj4NCj4+IE5WRCBqdXN0IHVwZGF0ZWQgdGhlc2UgcmVjZW50bHkN
-Cj4+IENWRS0yMDEzLTA4MDAsIENWRS0yMDIwLTE0NDA5LCBDVkUtMjAyMC0xNDQxMA0KPj4NCj4+
-DQo+Pg0KPj4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4gPiBGcm9tOiBSaWNoYXJk
-IFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzxtYWlsdG86cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4+DQo+PiA+IFNlbnQ6IE1vbmRheSwgMjUgSmFu
-dWFyeSwgMjAyMSA3OjIxIEFNDQo+PiA+IFRvOiBTdGV2ZSBTYWtvbWFuIDxzdGV2ZUBzYWtvbWFu
-LmNvbTxtYWlsdG86c3RldmVAc2Frb21hbi5jb20+Pjsgb3BlbmVtYmVkZGVkLQ0KPj4gPiBjb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOmNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zz47IHlvY3RvLXNlY3VyaXR5QGxpc3RzLnlvY3RvcHJvamVjdC5vcmc8bWFpbHRvOnlvY3RvLXNl
-Y3VyaXR5QGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+DQo+PiA+IENjOiBMZWUsIENoZWUgWWFuZyA8
-Y2hlZS55YW5nLmxlZUBpbnRlbC5jb208bWFpbHRvOmNoZWUueWFuZy5sZWVAaW50ZWwuY29tPj4N
-Cj4+ID4gU3ViamVjdDogUmU6IFt5b2N0by1zZWN1cml0eV0gT0UtY29yZSBDVkUgbWV0cmljcyBm
-b3IgbWFzdGVyIG9uIFN1bg0KPj4gPiAyNCBKYW4gMjAyMQ0KPj4gPiAwNzoxNTowMSBBTSBIU1QN
-Cj4+ID4NCj4+ID4gT24gU3VuLCAyMDIxLTAxLTI0IGF0IDA3OjE4IC0xMDAwLCBTdGV2ZSBTYWtv
-bWFuIHdyb3RlOg0KPj4gPiA+IEJyYW5jaDogbWFzdGVyDQo+PiA+ID4NCj4+ID4gPiBOZXcgdGhp
-cyB3ZWVrOg0KPj4gPiA+IENWRS0yMDEzLTA4MDA6IHBpeG1hbg0KPj4gPiA+IGh0dHBzOi8vd2Vi
-Lm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxMy0wODAwICoNCj4+
-ID4gPiBDVkUtMjAxOS0xNTQzOiBvcGVuc3NsDQo+PiA+ID4gaHR0cHM6Ly93ZWIubnZkLm5pc3Qu
-Z292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0yMDE5LTE1NDMgKg0KPj4gPiA+IENWRS0y
-MDE5LTE1NDc6IG9wZW5zc2wNCj4+ID4gPiBodHRwczovL3dlYi5udmQubmlzdC5nb3Yvdmlldy92
-dWxuL2RldGFpbD92dWxuSWQ9Q1ZFLTIwMTktMTU0NyAqDQo+PiA+ID4gQ1ZFLTIwMTktMTU0OTog
-b3BlbnNzbA0KPj4gPiA+IGh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWls
-P3Z1bG5JZD1DVkUtMjAxOS0xNTQ5ICoNCj4+ID4gPiBDVkUtMjAxOS0xNTUxOiBvcGVuc3NsDQo+
-PiA+ID4gaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNW
-RS0yMDE5LTE1NTEgKg0KPj4gPiA+IENWRS0yMDE5LTE1NTI6IG9wZW5zc2wNCj4+ID4gPiBodHRw
-czovL3dlYi5udmQubmlzdC5nb3Yvdmlldy92dWxuL2RldGFpbD92dWxuSWQ9Q1ZFLTIwMTktMTU1
-MiAqDQo+PiA+ID4gQ1ZFLTIwMTktMTU2Mzogb3BlbnNzbA0KPj4gPiA+IGh0dHBzOi8vd2ViLm52
-ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxOS0xNTYzICoNCj4+ID4g
-PiBDVkUtMjAyMC0xNDQwOTogbGlic2RsMg0KPj4gPiA+IGh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdv
-di92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAyMC0xNDQwOSAqDQo+PiA+ID4gQ1ZFLTIw
-MjAtMTQ0MTA6IGxpYnNkbDINCj4+ID4gPiBodHRwczovL3dlYi5udmQubmlzdC5nb3Yvdmlldy92
-dWxuL2RldGFpbD92dWxuSWQ9Q1ZFLTIwMjAtMTQ0MTAgKg0KPj4gPiA+IENWRS0yMDIwLTE5Njc6
-IG9wZW5zc2wNCj4+ID4gPiBodHRwczovL3dlYi5udmQubmlzdC5nb3Yvdmlldy92dWxuL2RldGFp
-bD92dWxuSWQ9Q1ZFLTIwMjAtMTk2NyAqDQo+PiA+ID4gQ1ZFLTIwMjAtMTk3MTogb3BlbnNzbA0K
-Pj4gPiA+IGh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1D
-VkUtMjAyMC0xOTcxICoNCj4+ID4NCj4+ID4gQWRkaW5nIENoZWUgWWFuZywgZGlkIHRoZSByZWNl
-bnQgY3ZlLWNoZWNrIGNoYW5nZSBtZWFuIHNvbWUgdmVyc2lvbg0KPj4gPiBjb21wYXJpc29ucyBy
-ZWdyZXNzZWQgYW5kIGV4cG9zZWQgQ1ZFcyB0aGF0IHNob3VsZG4ndCBiZSBpbiB0aGlzDQo+PiA+
-IGxpc3QsIG9yIHdlcmUgd2UgbWFraW5nIHNvbWUgd2UgbmVlZCB0byBmaXg/IE9yIGRpZCBzb21l
-IG90aGVyIGNoYW5nZQ0KPmV4cG9zZSB0aGVzZT8NCj4+ID4NCj4+ID4gQ2hlZXJzLA0KPj4gPg0K
-Pj4gPiBSaWNoYXJkDQo+PiA+DQo+PiA+DQo+Pg0KPj4NCj4NCg0KDQoNCg==
+Yes, it's related to rebuilding in the same WORKDIR and the only fix which
+is needed to be backported to dunfell should be:
+04afc692a gpsd: mark CLEANBROKEN
 
---_000_MWHPR11MB200003E4ED93C922C896F758B9BC9MWHPR11MB2000namp_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+see the previous discussion about this issue:
+https://lists.openembedded.org/g/openembedded-devel/topic/74225704#84379
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkRlbmdYaWFuOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAx
-IDE7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDYWxpYnJpOw0KCXBhbm9zZS0xOjIgMTUg
-NSAyIDIgMiA0IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IlxARGVuZ1hpYW4i
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBj
-bTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlm
-O30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0K
-CWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5
-bGUxOA0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2Fs
-aWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJ
-e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
-YXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
-cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
-CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
-IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
-PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
-b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iRU4tTVkiIGxpbms9
-ImJsdWUiIHZsaW5rPSJwdXJwbGUiIHN0eWxlPSJ3b3JkLXdyYXA6YnJlYWstd29yZCI+DQo8ZGl2
-IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+QSB2YXJpYWJsZSBp
-biByZWNpcGUgdG8gaW5kaWNhdGUgdGhlIGNoYXJhY3RlciBhcyBwYXRjaCBsZXZlbD88YnI+DQps
-aWtlIENWRV9WRVJTSU9OX1NVRkZJWCAmbmJzcDtpbiAmbmJzcDvigJxhbHBoYWJldGljYWzigJ0g
-Jm5ic3A7c28gdGhlIHBhcnNlciB1bmRlcnN0YW5kIHRoZSBsYXN0IGFscGhhYmV0aWNhbCBjaGFy
-YWN0ZXIgYXMgcGF0Y2hlZCByZWxlYXNlDQo8YnI+DQo8YnI+DQo8YnI+DQo8YnI+DQo8bzpwPjwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRp
-diBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5n
-OjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3Jk
-ZXItdG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyI+RnJvbTo8L3NwYW4+PC9i
-PjxzcGFuIGxhbmc9IkVOLVVTIj4gUm9zcyBCdXJ0b24gJmx0O3Jvc3NAYnVydG9uaW5pLmNvbSZn
-dDsNCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCAyNiBKYW51YXJ5LCAyMDIxIDU6NTQgUE08
-YnI+DQo8Yj5Ubzo8L2I+IExlZSwgQ2hlZSBZYW5nICZsdDtjaGVlLnlhbmcubGVlQGludGVsLmNv
-bSZndDs8YnI+DQo8Yj5DYzo8L2I+IFJpY2hhcmQgUHVyZGllICZsdDtyaWNoYXJkLnB1cmRpZUBs
-aW51eGZvdW5kYXRpb24ub3JnJmd0OzsgU3RldmUgU2Frb21hbiAmbHQ7c3RldmVAc2Frb21hbi5j
-b20mZ3Q7OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyB5b2N0by1z
-ZWN1cml0eUBsaXN0cy55b2N0b3Byb2plY3Qub3JnPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBb
-T0UtY29yZV0gW3lvY3RvLXNlY3VyaXR5XSBPRS1jb3JlIENWRSBtZXRyaWNzIGZvciBtYXN0ZXIg
-b24gU3VuIDI0IEphbiAyMDIxIDA3OjE1OjAxIEFNIEhTVDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
-CjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwv
-cD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5WZXJzaW9ucyB1c2luZyBhIHNpbmdsZSBj
-aGFyYWN0ZXIgZm9yIHBhdGNoIGxldmVsIGlzbuKAmXQgcmFyZSwgYW5kIE9wZW5TU0wgaXMgaGln
-aCBpbXBhY3QuIENhbiB3ZSBzcGVjaWFsIGNhc2UgdGhlc2UgaW4gdGhlIHBhcnNlcj88bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJz
-cDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIFR1ZSwg
-MjYgSmFuIDIwMjEgYXQgMDM6NTUsIExlZSBDaGVlIFlhbmcgJmx0OzxhIGhyZWY9Im1haWx0bzpj
-aGVlLnlhbmcubGVlQGludGVsLmNvbSI+Y2hlZS55YW5nLmxlZUBpbnRlbC5jb208L2E+Jmd0OyB3
-cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpu
-b25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2
-LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiIHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+Zm9yIHRoaXMgY2FzZSB0aGUgbmV3
-IGNoYW5nZXMgb25seSBjb25zaWRlciAxLjEuMSBmcm9tIGJvdGggMS4xLjFpJm5ic3A7IGFuZCAx
-LjEuMWIgLCBkbyBub3QgdGFrZXMgdGhlIHRyYWlsaW5nICZxdW90O2kmcXVvdDsgYW5kICZxdW90
-O2ImcXVvdDsgd2hlbiBjb21wYXJpbmcgdGhlbSAsIHNvIHRoZXNlIDIgdmVyc2lvbiBhcmUgdHJl
-YXRlZCBhcyBzYW1lIHZlcnNpb24gKCAxLjEuMSApIHdoZW4gY29tcGFyaW5nDQogdGhlbS4gPGJy
-Pg0KPGJyPg0KSSBleHBlY3RlZCB0aGlzIGFsdGhvdWdoIGtub3dpbmcgdGhhdCBjb21wYXJlIHZl
-cnNpb24gaW4gdGhpcyB3YXkgY2FuIGZhbHNlbHkgcmVwb3J0IG1vcmUgQ1ZFLCBidXQgdGhpcyBj
-YW4gY2FwdHVyZSBzb21lIGNvcm5lciBjYXNlLjxicj4NCjxicj4NCiZndDstLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLTxicj4NCiZndDtGcm9tOiBSaWNoYXJkIFB1cmRpZSAmbHQ7PGEgaHJlZj0i
-bWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmciIHRhcmdldD0iX2JsYW5r
-Ij5yaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPC9hPiZndDs8YnI+DQomZ3Q7U2Vu
-dDogVHVlc2RheSwgMjYgSmFudWFyeSwgMjAyMSA2OjEwIEFNPGJyPg0KJmd0O1RvOiBMZWUsIENo
-ZWUgWWFuZyAmbHQ7PGEgaHJlZj0ibWFpbHRvOmNoZWUueWFuZy5sZWVAaW50ZWwuY29tIiB0YXJn
-ZXQ9Il9ibGFuayI+Y2hlZS55YW5nLmxlZUBpbnRlbC5jb208L2E+Jmd0OzsgU3RldmUgU2Frb21h
-bjxicj4NCiZndDsmbHQ7PGEgaHJlZj0ibWFpbHRvOnN0ZXZlQHNha29tYW4uY29tIiB0YXJnZXQ9
-Il9ibGFuayI+c3RldmVAc2Frb21hbi5jb208L2E+Jmd0OzsgPGEgaHJlZj0ibWFpbHRvOm9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciIHRhcmdldD0iX2JsYW5rIj4NCm9w
-ZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+OyB5b2N0by08YnI+DQom
-Z3Q7PGEgaHJlZj0ibWFpbHRvOnNlY3VyaXR5QGxpc3RzLnlvY3RvcHJvamVjdC5vcmciIHRhcmdl
-dD0iX2JsYW5rIj5zZWN1cml0eUBsaXN0cy55b2N0b3Byb2plY3Qub3JnPC9hPjxicj4NCiZndDtT
-dWJqZWN0OiBSZTogW3lvY3RvLXNlY3VyaXR5XSBPRS1jb3JlIENWRSBtZXRyaWNzIGZvciBtYXN0
-ZXIgb24gU3VuIDI0IEphbiAyMDIxPGJyPg0KJmd0OzA3OjE1OjAxIEFNIEhTVDxicj4NCiZndDs8
-YnI+DQomZ3Q7SSdtIG5vdCBzdXJlIGl0cyB3b3JraW5nLiBGb3IgZXhhbXBsZTo8YnI+DQomZ3Q7
-PGJyPg0KJmd0OzxhIGhyZWY9Imh0dHBzOi8vbnZkLm5pc3QuZ292L3Z1bG4vZGV0YWlsL0NWRS0y
-MDE5LTE1NDMiIHRhcmdldD0iX2JsYW5rIj5odHRwczovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFp
-bC9DVkUtMjAxOS0xNTQzPC9hPjxicj4NCiZndDs8YnI+DQomZ3Q7d2hpY2ggc2F5cyBpdCBhcHBs
-aWVzIHRvOjxicj4NCiZndDs8YnI+DQomZ3Q7MS4xLjAgdG8gMS4xLjBqPGJyPg0KJmd0O2FuZDxi
-cj4NCiZndDsxLjEuMSB0byAxLjEuMWI8YnI+DQomZ3Q7PGJyPg0KJmd0O01hc3RlciBoYXMgMS4x
-LjFpIHdoaWNoIGlzIGdyZWF0ZXIgdGhhbiAxLjEuMWIgc28gd2Ugc2hvdWxkbid0IGJlIHNob3du
-IGFzIGF0IHJpc2s8YnI+DQomZ3Q7eWV0IHRoZSBDVkUgaXMgbGlzdGVkLjxicj4NCiZndDs8YnI+
-DQomZ3Q7Q2hlZXJzLDxicj4NCiZndDs8YnI+DQomZ3Q7UmljaGFyZDxicj4NCiZndDs8YnI+DQom
-Z3Q7T24gTW9uLCAyMDIxLTAxLTI1IGF0IDAyOjM5ICswMDAwLCBMZWUsIENoZWUgWWFuZyB3cm90
-ZTo8YnI+DQomZ3Q7Jmd0OyBUaGUgY2hhbmdlcyBleHBvc2UgdGhlc2UsIGl0IGlnbm9yZWQgdHJh
-aWxpbmcgY2hhcmFjdGVyIGluIHRoaXM8YnI+DQomZ3Q7Jmd0OyB2ZXJzaW9uIGNvbXBhcmUgKCAm
-cXVvdDtpJnF1b3Q7IGluIHRoaXMgY2FzZSBmb3Igb3BlbnNzbF8xLjEuMWkgKTxicj4NCiZndDsm
-Z3Q7IChDVkUtMjAxOS0xNTQzLCBDVkUtMjAxOS0xNTQ3LCBDVkUtMjAxOS0xNTQ5LCBDVkUtMjAx
-OS0xNTUxLDxicj4NCiZndDsmZ3Q7IENWRS0yMDE5LTE1NTIsIENWRS0yMDE5LTE1NjMsIENWRS0y
-MDIwLTE5NjcsIENWRS0yMDIwLTE5NzEpIGJlaGF2ZTxicj4NCiZndDsmZ3Q7IHRoaXMgd2F5IGJl
-Y2F1c2UgaXRzIGRpZmZpY3VsdCB0byBkZWZpbmUgdGhlIHRyYWlsaW5nIGNoYXJhY3RlcnMgKGxp
-a2U8YnI+DQomZ3Q7Jmd0OyB2ZXJzaW9uIDEuMWIgY2FuIGJlIDEuMSBiZXRhIG9yIHBhdGNoZWQg
-cmVsZWFzZSAxLjFiKTxicj4NCiZndDsmZ3Q7PGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7Jmd0OyBO
-VkQganVzdCB1cGRhdGVkIHRoZXNlIHJlY2VudGx5PGJyPg0KJmd0OyZndDsgQ1ZFLTIwMTMtMDgw
-MCwgQ1ZFLTIwMjAtMTQ0MDksIENWRS0yMDIwLTE0NDEwPGJyPg0KJmd0OyZndDs8YnI+DQomZ3Q7
-Jmd0Ozxicj4NCiZndDsmZ3Q7PGJyPg0KJmd0OyZndDsgJmd0OyAtLS0tLU9yaWdpbmFsIE1lc3Nh
-Z2UtLS0tLTxicj4NCiZndDsmZ3Q7ICZndDsgRnJvbTogUmljaGFyZCBQdXJkaWUgJmx0OzxhIGhy
-ZWY9Im1haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIiB0YXJnZXQ9Il9i
-bGFuayI+cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzwvYT4mZ3Q7PGJyPg0KJmd0
-OyZndDsgJmd0OyBTZW50OiBNb25kYXksIDI1IEphbnVhcnksIDIwMjEgNzoyMSBBTTxicj4NCiZn
-dDsmZ3Q7ICZndDsgVG86IFN0ZXZlIFNha29tYW4gJmx0OzxhIGhyZWY9Im1haWx0bzpzdGV2ZUBz
-YWtvbWFuLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnN0ZXZlQHNha29tYW4uY29tPC9hPiZndDs7IG9w
-ZW5lbWJlZGRlZC08YnI+DQomZ3Q7Jmd0OyAmZ3Q7IDxhIGhyZWY9Im1haWx0bzpjb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmciIHRhcmdldD0iX2JsYW5rIj5jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmc8L2E+Ow0KPGEgaHJlZj0ibWFpbHRvOnlvY3RvLXNlY3VyaXR5QGxpc3RzLnlvY3RvcHJv
-amVjdC5vcmciIHRhcmdldD0iX2JsYW5rIj55b2N0by1zZWN1cml0eUBsaXN0cy55b2N0b3Byb2pl
-Y3Qub3JnPC9hPjxicj4NCiZndDsmZ3Q7ICZndDsgQ2M6IExlZSwgQ2hlZSBZYW5nICZsdDs8YSBo
-cmVmPSJtYWlsdG86Y2hlZS55YW5nLmxlZUBpbnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5jaGVl
-LnlhbmcubGVlQGludGVsLmNvbTwvYT4mZ3Q7PGJyPg0KJmd0OyZndDsgJmd0OyBTdWJqZWN0OiBS
-ZTogW3lvY3RvLXNlY3VyaXR5XSBPRS1jb3JlIENWRSBtZXRyaWNzIGZvciBtYXN0ZXIgb24gU3Vu
-PGJyPg0KJmd0OyZndDsgJmd0OyAyNCBKYW4gMjAyMTxicj4NCiZndDsmZ3Q7ICZndDsgMDc6MTU6
-MDEgQU0gSFNUPGJyPg0KJmd0OyZndDsgJmd0Ozxicj4NCiZndDsmZ3Q7ICZndDsgT24gU3VuLCAy
-MDIxLTAxLTI0IGF0IDA3OjE4IC0xMDAwLCBTdGV2ZSBTYWtvbWFuIHdyb3RlOjxicj4NCiZndDsm
-Z3Q7ICZndDsgJmd0OyBCcmFuY2g6IG1hc3Rlcjxicj4NCiZndDsmZ3Q7ICZndDsgJmd0Ozxicj4N
-CiZndDsmZ3Q7ICZndDsgJmd0OyBOZXcgdGhpcyB3ZWVrOjxicj4NCiZndDsmZ3Q7ICZndDsgJmd0
-OyBDVkUtMjAxMy0wODAwOiBwaXhtYW48YnI+DQomZ3Q7Jmd0OyAmZ3Q7ICZndDsgPGEgaHJlZj0i
-aHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0yMDEz
-LTA4MDAiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1
-bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxMy0wODAwPC9hPiAqPGJyPg0KJmd0OyZndDsgJmd0OyAm
-Z3Q7IENWRS0yMDE5LTE1NDM6IG9wZW5zc2w8YnI+DQomZ3Q7Jmd0OyAmZ3Q7ICZndDsgPGEgaHJl
-Zj0iaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0y
-MDE5LTE1NDMiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3
-L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxOS0xNTQzPC9hPiAqPGJyPg0KJmd0OyZndDsgJmd0
-OyAmZ3Q7IENWRS0yMDE5LTE1NDc6IG9wZW5zc2w8YnI+DQomZ3Q7Jmd0OyAmZ3Q7ICZndDsgPGEg
-aHJlZj0iaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNW
-RS0yMDE5LTE1NDciIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92
-aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxOS0xNTQ3PC9hPiAqPGJyPg0KJmd0OyZndDsg
-Jmd0OyAmZ3Q7IENWRS0yMDE5LTE1NDk6IG9wZW5zc2w8YnI+DQomZ3Q7Jmd0OyAmZ3Q7ICZndDsg
-PGEgaHJlZj0iaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklk
-PUNWRS0yMDE5LTE1NDkiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdv
-di92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxOS0xNTQ5PC9hPiAqPGJyPg0KJmd0OyZn
-dDsgJmd0OyAmZ3Q7IENWRS0yMDE5LTE1NTE6IG9wZW5zc2w8YnI+DQomZ3Q7Jmd0OyAmZ3Q7ICZn
-dDsgPGEgaHJlZj0iaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVs
-bklkPUNWRS0yMDE5LTE1NTEiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vd2ViLm52ZC5uaXN0
-Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxOS0xNTUxPC9hPiAqPGJyPg0KJmd0
-OyZndDsgJmd0OyAmZ3Q7IENWRS0yMDE5LTE1NTI6IG9wZW5zc2w8YnI+DQomZ3Q7Jmd0OyAmZ3Q7
-ICZndDsgPGEgaHJlZj0iaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/
-dnVsbklkPUNWRS0yMDE5LTE1NTIiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vd2ViLm52ZC5u
-aXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxOS0xNTUyPC9hPiAqPGJyPg0K
-Jmd0OyZndDsgJmd0OyAmZ3Q7IENWRS0yMDE5LTE1NjM6IG9wZW5zc2w8YnI+DQomZ3Q7Jmd0OyAm
-Z3Q7ICZndDsgPGEgaHJlZj0iaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRh
-aWw/dnVsbklkPUNWRS0yMDE5LTE1NjMiIHRhcmdldD0iX2JsYW5rIj4NCmh0dHBzOi8vd2ViLm52
-ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAxOS0xNTYzPC9hPiAqPGJy
-Pg0KJmd0OyZndDsgJmd0OyAmZ3Q7IENWRS0yMDIwLTE0NDA5OiBsaWJzZGwyPGJyPg0KJmd0OyZn
-dDsgJmd0OyAmZ3Q7IDxhIGhyZWY9Imh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4v
-ZGV0YWlsP3Z1bG5JZD1DVkUtMjAyMC0xNDQwOSIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0cHM6Ly93
-ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0yMDIwLTE0NDA5PC9h
-PiAqPGJyPg0KJmd0OyZndDsgJmd0OyAmZ3Q7IENWRS0yMDIwLTE0NDEwOiBsaWJzZGwyPGJyPg0K
-Jmd0OyZndDsgJmd0OyAmZ3Q7IDxhIGhyZWY9Imh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3
-L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAyMC0xNDQxMCIgdGFyZ2V0PSJfYmxhbmsiPg0KaHR0
-cHM6Ly93ZWIubnZkLm5pc3QuZ292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0yMDIwLTE0
-NDEwPC9hPiAqPGJyPg0KJmd0OyZndDsgJmd0OyAmZ3Q7IENWRS0yMDIwLTE5Njc6IG9wZW5zc2w8
-YnI+DQomZ3Q7Jmd0OyAmZ3Q7ICZndDsgPGEgaHJlZj0iaHR0cHM6Ly93ZWIubnZkLm5pc3QuZ292
-L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0yMDIwLTE5NjciIHRhcmdldD0iX2JsYW5rIj4N
-Cmh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUtMjAy
-MC0xOTY3PC9hPiAqPGJyPg0KJmd0OyZndDsgJmd0OyAmZ3Q7IENWRS0yMDIwLTE5NzE6IG9wZW5z
-c2w8YnI+DQomZ3Q7Jmd0OyAmZ3Q7ICZndDsgPGEgaHJlZj0iaHR0cHM6Ly93ZWIubnZkLm5pc3Qu
-Z292L3ZpZXcvdnVsbi9kZXRhaWw/dnVsbklkPUNWRS0yMDIwLTE5NzEiIHRhcmdldD0iX2JsYW5r
-Ij4NCmh0dHBzOi8vd2ViLm52ZC5uaXN0Lmdvdi92aWV3L3Z1bG4vZGV0YWlsP3Z1bG5JZD1DVkUt
-MjAyMC0xOTcxPC9hPiAqPGJyPg0KJmd0OyZndDsgJmd0Ozxicj4NCiZndDsmZ3Q7ICZndDsgQWRk
-aW5nIENoZWUgWWFuZywgZGlkIHRoZSByZWNlbnQgY3ZlLWNoZWNrIGNoYW5nZSBtZWFuIHNvbWUg
-dmVyc2lvbjxicj4NCiZndDsmZ3Q7ICZndDsgY29tcGFyaXNvbnMgcmVncmVzc2VkIGFuZCBleHBv
-c2VkIENWRXMgdGhhdCBzaG91bGRuJ3QgYmUgaW4gdGhpczxicj4NCiZndDsmZ3Q7ICZndDsgbGlz
-dCwgb3Igd2VyZSB3ZSBtYWtpbmcgc29tZSB3ZSBuZWVkIHRvIGZpeD8gT3IgZGlkIHNvbWUgb3Ro
-ZXIgY2hhbmdlPGJyPg0KJmd0O2V4cG9zZSB0aGVzZT88YnI+DQomZ3Q7Jmd0OyAmZ3Q7PGJyPg0K
-Jmd0OyZndDsgJmd0OyBDaGVlcnMsPGJyPg0KJmd0OyZndDsgJmd0Ozxicj4NCiZndDsmZ3Q7ICZn
-dDsgUmljaGFyZDxicj4NCiZndDsmZ3Q7ICZndDs8YnI+DQomZ3Q7Jmd0OyAmZ3Q7PGJyPg0KJmd0
-OyZndDs8YnI+DQomZ3Q7Jmd0Ozxicj4NCiZndDs8YnI+DQo8YnI+DQo8YnI+DQo8bzpwPjwvbzpw
-PjwvcD4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9i
-b2R5Pg0KPC9odG1sPg0K
+On Tue, Jan 26, 2021 at 7:58 AM John Ernberg <john.ernberg@actia.se> wrote:
 
---_000_MWHPR11MB200003E4ED93C922C896F758B9BC9MWHPR11MB2000namp_--
+> Hi Andrey, Steve,
+>
+> On 1/26/21 4:25 PM, Andrey Zhizhikin wrote:
+> > Hello Steve,
+> >
+> > On Tue, Jan 26, 2021 at 3:29 PM Steve Sakoman <steve@sakoman.com> wrote:
+> >>
+> >> Hi Andrey,
+> >>
+> >> Thanks for reporting this issue.
+> >>
+> >> I'm the maintainer for the dunfell branch of oe-core.  The gpsd recipe
+> >> is part of meta-openembedded. I'm copying Armin, who is the maintainer
+> >> for the dunfell branch of meta-openembedded.
+> >
+> > True, I've realized the recipe is not part of OE-Core.
+> >
+> >>
+> >> That said, I'm surprised you are seeing this issue since the gpsd
+> >> recipe has been fairly stable for quite some time.  I know that Armin
+> >> does test builds quite frequently.
+> >>
+> >> FWIW, I tried doing a gpsd build with oe-core, meta-openembedded,
+> >> meta-freescale, and meta-freescale-distro on an Ubuntu 20.04 and it
+> >> completed successfully.
+> >
+> > Arghh, got the same setup now - and the build issue was gone! :( Looks
+> > like this was an intermittent one
+> >
+> > I went ahead and invalidated the sstate for the recipe, and build went
+> > through alright.
+> >
+> > With that said: please discard this message, and thanks for responding
+> here!
+> >
+> >>
+> >> Perhaps more information on your environment might help.  What
+> >> distro/version is the OS on your build machine? What other layers are
+> >> enabled in your build? What are you using for MACHINE and DISTRO?  Do
+> >> any of your layers have a .bbappend for gpsd?
+> >
+> > For the record: had nothing fancy, same setup as you've indicated above:
+> >
+> > Build Configuration:
+> > BB_VERSION           = "1.46.0"
+> > BUILD_SYS            = "x86_64-linux"
+> > NATIVELSBSTRING      = "universal"
+> > TARGET_SYS           = "aarch64-fsl-linux"
+> > MACHINE              = "imx8mmevk"
+> > DISTRO               = "fsl-wayland"
+> > DISTRO_VERSION       = "3.1"
+> > TUNE_FEATURES        = "aarch64 cortexa53 crc crypto"
+> > TARGET_FPU           = ""
+> > meta
+> > meta-poky            = "HEAD:bb7747497adbc7c99f6fc9b48b643eecb4cb1408"
+> > meta-oe
+> > meta-multimedia
+> > meta-python
+> > meta-networking
+> > meta-filesystems     = "dunfell:5bba79488b7d393d2258d6e917f7bf7b0d7c4073"
+> > meta-freescale       =
+> > "update-kernel-dunfell:184ee6b12d1c06db9327535ad1ae84d4709cfdb0"
+> > meta-freescale-3rdparty = "HEAD:ed841161a97307ebd901c31c62f8ecbee6baaacf"
+> > meta-freescale-distro = "HEAD:5d882cdf079b3bde0bd9869ce3ca3db411acbf3b"
+> >
+> >>
+> >> Regards,
+> >>
+> >> Steve
+> >>
+> >> On Tue, Jan 26, 2021 at 2:13 AM Andrey Zhizhikin <andrey.z@gmail.com>
+> wrote:
+> >>>
+> >>> Hello Steve,
+> >>>
+> >>> gpsd recipe build breaks on the dunfell branch with following error
+> messages:
+> >>>
+> >>> |
+> /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
+> >>> ./libgpsd.a(ppsthread.o): undefined reference to symbol
+> >>> 'pthread_create@@GLIBC_2.17'
+> >>> |
+> /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
+> >>>
+> /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot/lib/libpthread.so.0:
+> >>> error adding symbols: DSO missing from command line
+>
+> We have seen this one as well, we have not identified why it happens,
+> but we believe it is triggered by an incremental rebuild of the recipe.
+>
+> We have enabled systemd for gpsd, and if systemd is rebuilt due to a
+> patch or whatever, gpsd appears to error out exactly like this.
+>
+> A very quick analysis we did when it first happened seem to indicate
+> that Scons (when using a cache) gets confused about the pthread
+> capability in the environment.
+>
+> We have not been able to research the error further yet.
+>
+> Best regards // John Ernberg
+> >>>
+> >>> This cannot be reproduced on the current master branch, where the
+> >>> version of gpsd recipe has been bumped up from 3.19 to 3.20.
+> >>>
+> >>> Can you please consider to cherry-pick following commits from master
+> >>> in order to upgrade the gspd version on dunfell branch:
+> >>>
+> >>> 98e61961c gpsd: add new init script
+> >>> 04afc692a gpsd: mark CLEANBROKEN
+> >>> 33a15c790 gpsd: fix build on aarch64
+> >>> cecab9c4c gpsd: Upgrade 3.19 -> 3.20
+> >>>
+> >>> I've tried to cherry-pick them locally and they do apply clean. Also
+> >>> the build of gpsd is successful after this upgrade.
+> >>>
+> >>> --
+> >>> Regards,
+> >>> Andrey.
+> >
+> >
+> > --
+> > Regards,
+> > Andrey.
+> >
+> >
+> >
+> >
+> >
+>
+> 
+>
+>
+
+--0000000000002c1b3205b9d02e4f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Yes, it&#39;s related to rebuilding in the same WORKDIR an=
+d the only fix which is needed to be backported to dunfell should be:<div>0=
+4afc692a gpsd: mark CLEANBROKEN=C2=A0</div><div><br></div><div>see the prev=
+ious discussion about this issue:=C2=A0<br><div><a href=3D"https://lists.op=
+enembedded.org/g/openembedded-devel/topic/74225704#84379">https://lists.ope=
+nembedded.org/g/openembedded-devel/topic/74225704#84379</a><br></div></div>=
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+On Tue, Jan 26, 2021 at 7:58 AM John Ernberg &lt;<a href=3D"mailto:john.ern=
+berg@actia.se">john.ernberg@actia.se</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">Hi Andrey, Steve,<br>
+<br>
+On 1/26/21 4:25 PM, Andrey Zhizhikin wrote:<br>
+&gt; Hello Steve,<br>
+&gt; <br>
+&gt; On Tue, Jan 26, 2021 at 3:29 PM Steve Sakoman &lt;<a href=3D"mailto:s=
+teve@sakoman.com" target=3D"_blank">steve@sakoman.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Hi Andrey,<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks for reporting this issue.<br>
+&gt;&gt;<br>
+&gt;&gt; I&#39;m the maintainer for the dunfell branch of oe-core.=C2=A0 T=
+he gpsd recipe<br>
+&gt;&gt; is part of meta-openembedded. I&#39;m copying Armin, who is the m=
+aintainer<br>
+&gt;&gt; for the dunfell branch of meta-openembedded.<br>
+&gt; <br>
+&gt; True, I&#39;ve realized the recipe is not part of OE-Core.<br>
+&gt; <br>
+&gt;&gt;<br>
+&gt;&gt; That said, I&#39;m surprised you are seeing this issue since the =
+gpsd<br>
+&gt;&gt; recipe has been fairly stable for quite some time.=C2=A0 I know t=
+hat Armin<br>
+&gt;&gt; does test builds quite frequently.<br>
+&gt;&gt;<br>
+&gt;&gt; FWIW, I tried doing a gpsd build with oe-core, meta-openembedded,=
+<br>
+&gt;&gt; meta-freescale, and meta-freescale-distro on an Ubuntu 20.04 and =
+it<br>
+&gt;&gt; completed successfully.<br>
+&gt; <br>
+&gt; Arghh, got the same setup now - and the build issue was gone! :( Look=
+s<br>
+&gt; like this was an intermittent one<br>
+&gt; <br>
+&gt; I went ahead and invalidated the sstate for the recipe, and build wen=
+t<br>
+&gt; through alright.<br>
+&gt; <br>
+&gt; With that said: please discard this message, and thanks for respondin=
+g here!<br>
+&gt; <br>
+&gt;&gt;<br>
+&gt;&gt; Perhaps more information on your environment might help.=C2=A0 Wh=
+at<br>
+&gt;&gt; distro/version is the OS on your build machine? What other layers=
+ are<br>
+&gt;&gt; enabled in your build? What are you using for MACHINE and DISTRO?=
+=
+=C2=A0 Do<br>
+&gt;&gt; any of your layers have a .bbappend for gpsd?<br>
+&gt; <br>
+&gt; For the record: had nothing fancy, same setup as you&#39;ve indicated=
+ above:<br>
+&gt; <br>
+&gt; Build Configuration:<br>
+&gt; BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;1.46.0&q=
+uot;<br>
+&gt; BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;x86_64-l=
+inux&quot;<br>
+&gt; NATIVELSBSTRING=C2=A0 =C2=A0 =C2=A0 =3D &quot;universal&quot;<br>
+&gt; TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;aarch64-=
+fsl-linux&quot;<br>
+&gt; MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;imx=
+8mmevk&quot;<br>
+&gt; DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quo=
+t;fsl-wayland&quot;<br>
+&gt; DISTRO_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;3.1&quot;<br>
+&gt; TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;aarch64 cortexa53 =
+crc crypto&quot;<br>
+&gt; TARGET_FPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;&quot;<b=
+r>
+&gt; meta<br>
+&gt; meta-poky=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;HEAD:bb7=
+747497adbc7c99f6fc9b48b643eecb4cb1408&quot;<br>
+&gt; meta-oe<br>
+&gt; meta-multimedia<br>
+&gt; meta-python<br>
+&gt; meta-networking<br>
+&gt; meta-filesystems=C2=A0 =C2=A0 =C2=A0=3D &quot;dunfell:5bba79488b7d393=
+d2258d6e917f7bf7b0d7c4073&quot;<br>
+&gt; meta-freescale=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D<br>
+&gt; &quot;update-kernel-dunfell:184ee6b12d1c06db9327535ad1ae84d4709cfdb0&=
+quot;<br>
+&gt; meta-freescale-3rdparty =3D &quot;HEAD:ed841161a97307ebd901c31c62f8ec=
+bee6baaacf&quot;<br>
+&gt; meta-freescale-distro =3D &quot;HEAD:5d882cdf079b3bde0bd9869ce3ca3db4=
+11acbf3b&quot;<br>
+&gt; <br>
+&gt;&gt;<br>
+&gt;&gt; Regards,<br>
+&gt;&gt;<br>
+&gt;&gt; Steve<br>
+&gt;&gt;<br>
+&gt;&gt; On Tue, Jan 26, 2021 at 2:13 AM Andrey Zhizhikin &lt;<a href=3D"m=
+ailto:andrey.z@gmail.com" target=3D"_blank">andrey.z@gmail.com</a>&gt; wrot=
+e:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Hello Steve,<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; gpsd recipe build breaks on the dunfell branch with following=
+ error messages:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; | /development/dunfell/build-output/work/aarch64-fsl-linux/gp=
+sd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aa=
+rch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:<br>
+&gt;&gt;&gt; ./libgpsd.a(ppsthread.o): undefined reference to symbol<br>
+&gt;&gt;&gt; &#39;pthread_create@@GLIBC_2.17&#39;<br>
+&gt;&gt;&gt; | /development/dunfell/build-output/work/aarch64-fsl-linux/gp=
+sd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aa=
+rch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:<br>
+&gt;&gt;&gt; /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd=
+/3.19-r0/recipe-sysroot/lib/libpthread.so.0:<br>
+&gt;&gt;&gt; error adding symbols: DSO missing from command line<br>
+<br>
+We have seen this one as well, we have not identified why it happens, <br>
+but we believe it is triggered by an incremental rebuild of the recipe.<br=
+>
+<br>
+We have enabled systemd for gpsd, and if systemd is rebuilt due to a <br>
+patch or whatever, gpsd appears to error out exactly like this.<br>
+<br>
+A very quick analysis we did when it first happened seem to indicate <br>
+that Scons (when using a cache) gets confused about the pthread <br>
+capability in the environment.<br>
+<br>
+We have not been able to research the error further yet.<br>
+<br>
+Best regards // John Ernberg<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; This cannot be reproduced on the current master branch, where=
+ the<br>
+&gt;&gt;&gt; version of gpsd recipe has been bumped up from 3.19 to 3.20.<=
+br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Can you please consider to cherry-pick following commits from=
+ master<br>
+&gt;&gt;&gt; in order to upgrade the gspd version on dunfell branch:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; 98e61961c gpsd: add new init script<br>
+&gt;&gt;&gt; 04afc692a gpsd: mark CLEANBROKEN<br>
+&gt;&gt;&gt; 33a15c790 gpsd: fix build on aarch64<br>
+&gt;&gt;&gt; cecab9c4c gpsd: Upgrade 3.19 -&gt; 3.20<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I&#39;ve tried to cherry-pick them locally and they do apply =
+clean. Also<br>
+&gt;&gt;&gt; the build of gpsd is successful after this upgrade.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; --<br>
+&gt;&gt;&gt; Regards,<br>
+&gt;&gt;&gt; Andrey.<br>
+&gt; <br>
+&gt; <br>
+&gt; --<br>
+&gt; Regards,<br>
+&gt; Andrey.<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000002c1b3205b9d02e4f--
