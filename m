@@ -1,179 +1,85 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.13112.1611672226007379527
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web08.12975.1611672228545547686
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:43:46 -0800
+ Tue, 26 Jan 2021 06:43:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=r4WXNiT7;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f177.google.com with SMTP id g3so9901991plp.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:45 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=A6Vlunby;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id lw17so1386518pjb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=RGV0xFWjrYcs5M6+5UeJKO7jwDNsh+hl8/qRZS+7ScM=;
-        b=r4WXNiT7b+wgzYX6UOOWWG6GYKor4dO5LWbWhTe+kwwkHlauk/SstQHXCEQDKkYQ6N
-         30P7w8J1CWpte52rXLUz5u8PXrt2+1Opm+DqiEmzY95Uia6j5Go0gzYtmmhjSla4ei85
-         BQ8na1DxtQacmy+sq1bAbHMCfencnlphoUQBpNsm4QKp8gzeVDdvCF1pi48d8fX1AtSc
-         6ViyhDSRUsci+6kOczB/qQUvsaUTBBJqh281ftu4WGXRyH22s5IUIZvq3mXRFbsK0Wrz
-         0BD+FoFU1KoHdKS48USxX+87CJIsvWQ5POZdFpoOVeIfoC2iPxpFs+JOcQPK7sOZdvSB
-         HsSg==
+        bh=ZybtsxAb13vGH6sGv8RSSy6yLNsGj+tp62aV5u57oHc=;
+        b=A6Vlunby+TPPrMRg2dtxKHH261cSEqMoLdoZWbRqICLA0v8fdmhSS+720eJZbj2z30
+         +N9SIJMj9zPh7KdsduIHbVJPMnsEl2k9qrBNIlbVERq9+NdAsu67q0xD8zXZ/IU7YP8O
+         j4zZXx5V1LA/026dda0rDc6TT2u1C9HM0kLMUWvNjdIZwX4mONh5pTS9CnmPyAi6cpCv
+         4bQOXW89AXAt5w+UKF7c48/YtrvhiLxSf2+MKVap3gpsP239yQmGhyae2jfI3P27I1pe
+         e173XCooFoBrx2mNIlddhuxBOGGR5JGmPO/Hyc9UeS//IVaU0kxw074wFy4UrRv/MN1g
+         HO5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=RGV0xFWjrYcs5M6+5UeJKO7jwDNsh+hl8/qRZS+7ScM=;
-        b=GxBkFsCiQieQeG16f5XhUzvgwm1u52b5+QZcd49fgYbbYTTKFf+diqtyxtrAQTJCLc
-         0v7ujoWwpkoMmlJeVSgVvDYGJgVSTL8Ui3BPd2l0TPkgR8paJzM64VYBO/xD045pdmJi
-         sU9EqWyTGMcHMNmkhajUFsfIfDixBuNMcu3gaSC2l4ikVgOscX5FS2lelyh1/afyDa8l
-         beCUftdBYl5PMYQsnTvMO4ONVW4Gnugo79mkFNpG1gDiJaPKhBe8Hjh7UYYFt1ywb6Hn
-         3dfxueKQuI+d1IQiVOX62jljxrbaeRmd4Prkhp6nQMzObkk/j7c7CU7xeG0jTlA2dpJf
-         cAbQ==
-X-Gm-Message-State: AOAM532vaE9+TdsiD3mPc3dfDxdoh/+HXbRHl98lQZBjN/9KdfvqIVBt
-	uGCh3wGFTlW2r6STWwRzQ5DYVtvfhZ0Ln0Pw5C0=
-X-Google-Smtp-Source: ABdhPJyECepdblKWOszDSShqNWRlHDrrUbojTpGBlTe7eNeA3A2nuqYOSOrH8J8yTX8UShgckvtuNg==
-X-Received: by 2002:a17:90a:4083:: with SMTP id l3mr78751pjg.109.1611672225088;
-        Tue, 26 Jan 2021 06:43:45 -0800 (PST)
+        bh=ZybtsxAb13vGH6sGv8RSSy6yLNsGj+tp62aV5u57oHc=;
+        b=D3ei8zOZp5RTUsB7Pn79tJivGm8fUrjnW2KNu+wwWmXKY0qFeXIGVwRhzSVx+gembd
+         sOkR0kk8XgjVKxMl06MaFBKbb4qT68OFRhQfqQ0XMw2kUdlA8eS1PXxsiFU3sKnXugTZ
+         ZCK0+A3OdT4+qcoAB2trs1xIL/vsjLrbOM8QJXF6PNl+0mg2fLIwJUD8WMKisap00QmE
+         9HIF2c+BljPBjmU3kxhAfer2Pg68Cj1Lq3AqqnEgyYK4ZdrXZD1Ogr5XRRa6Xp1ael3d
+         +jFaN6tDTJq5NIc+wh7VcD6s6oQnNE6LNU7BnFbNZ+IwzLC66j22gxpqNvRye8cIn24h
+         aerA==
+X-Gm-Message-State: AOAM531Vd8Bl9yCK3PlI50vrAjkS/on7QNgDO0RQS+RRK3hXRmYPmTx2
+	x8vQfQxKjPD335LXhHiX2vQVyo+1168sNIxqpg8=
+X-Google-Smtp-Source: ABdhPJy9HVR0afVeyJAng5fwN+c3bWWuJtR/ozOmsl8K7Rkn7Pkgxe3xqp1jWVnKKAG+Zf7/kZsHgA==
+X-Received: by 2002:a17:90a:a084:: with SMTP id r4mr108209pjp.190.1611672227624;
+        Tue, 26 Jan 2021 06:43:47 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.43
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:43:44 -0800 (PST)
+        Tue, 26 Jan 2021 06:43:46 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 34/46] bitbake.conf: Prevent pyc file generation in pseudo context
-Date: Tue, 26 Jan 2021 04:41:45 -1000
-Message-Id: <63814aa30f1d3168b57337de4d506be511f7c58e.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 35/46] license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to PSEUDO_IGNORE_PATHS
+Date: Tue, 26 Jan 2021 04:41:46 -1000
+Message-Id: <57abdccfba799fc1308477ea2e7b65d0894cbeb7.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Paul Barker <pbarker@konsulko.com>
+From: Martin Jansa <Martin.Jansa@gmail.com>
 
-This also effectively reverts commit b6d30c21b0:
-    bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+* now without ${COREBASE}/meta in PSEUDO_IGNORE_PATHS after:
+  73d538f207 bitbake.conf: Prevent pyc file generation in pseudo context
+  the do_package tasks are failing when LICENSE_CREATE_PACKAGE is enabled
+  pseudo.log shows that it's because of license texts copied from
+  ${COREBASE}/meta:
+  path mismatch [46 links]: ino 96733640 db '/OE/build/tmp-glibc/work/all-oe-linux/foo/1.0/image/usr/share/licenses/foo/generic_Apache-2.0' req '/OE/build/openembedded-core/meta/files/common-licenses/Apache-2.0'.
 
-The contents of ${COREBASE}/meta were ignored as pyc files could be
-generated for the contents of the lib subdirectory if python modules
-were imported within a pseudo context. However this doesn't protect us
-from pyc files being generated in the lib directories for other layers.
-It's far better to tell python not to produce pyc files when running
-under pseudo (by setting the PYTHONDONTWRITEBYTECODE variable) as this
-will cover any location where pyc files could possibly be created. This
-variable is set in FAKEROOTBASEENV so that it applies to the
-bitbake-worker instance for fakeroot tasks, preventing pyc files from
-being generated for imports in python tasks themselves.
-
-Also add a test case to ensure that pyc files are not created in tasks
-which are executed under pseudo.
-
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 73d538f20743017a44cea4c20dbe09a0327cfc71)
+(cherry picked from commit 39423a33595e7ade82fc88f55823660f8532cb84)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta-selftest/lib/pseudo_pyc_test1.py         |  1 +
- meta-selftest/lib/pseudo_pyc_test2.py         |  1 +
- .../pseudo-pyc-test/pseudo-pyc-test.bb        | 15 +++++++++++
- meta/conf/bitbake.conf                        |  4 +--
- meta/lib/oeqa/selftest/cases/pseudo.py        | 27 +++++++++++++++++++
- 5 files changed, 46 insertions(+), 2 deletions(-)
- create mode 100644 meta-selftest/lib/pseudo_pyc_test1.py
- create mode 100644 meta-selftest/lib/pseudo_pyc_test2.py
- create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
- create mode 100644 meta/lib/oeqa/selftest/cases/pseudo.py
+ meta/classes/license.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta-selftest/lib/pseudo_pyc_test1.py b/meta-selftest/lib/pseudo_pyc_test1.py
-new file mode 100644
-index 0000000000..b59abdd536
---- /dev/null
-+++ b/meta-selftest/lib/pseudo_pyc_test1.py
-@@ -0,0 +1 @@
-+STRING = "pseudo_pyc_test1"
-diff --git a/meta-selftest/lib/pseudo_pyc_test2.py b/meta-selftest/lib/pseudo_pyc_test2.py
-new file mode 100644
-index 0000000000..fb67a978e0
---- /dev/null
-+++ b/meta-selftest/lib/pseudo_pyc_test2.py
-@@ -0,0 +1 @@
-+STRING = "pseudo_pyc_test2"
-diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-new file mode 100644
-index 0000000000..12dc91a8f3
---- /dev/null
-+++ b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-@@ -0,0 +1,15 @@
-+SUMMARY = "pseudo env test"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+
-+python do_compile() {
-+    import pseudo_pyc_test1
-+    print(pseudo_pyc_test1.STRING)
-+}
-+
-+python do_install() {
-+    import pseudo_pyc_test2
-+    print(pseudo_pyc_test2.STRING)
-+}
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d8ef39027e..8224c05ac9 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -686,13 +686,13 @@ SRC_URI = ""
- PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE_DIR}"
-+PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index f90176d6c0..dc91118340 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -31,6 +31,7 @@ python do_populate_lic() {
+             f.write("%s: %s\n" % (key, info[key]))
+ }
  
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
- #export PSEUDO_BINDIR = "${STAGING_DIR_NATIVE}${bindir_native}"
- #export PSEUDO_LIBDIR = "${STAGING_DIR_NATIVE}$PSEUDOBINDIR/../lib/pseudo/lib
--FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1"
-+FAKEROOTBASEENV = "PSEUDO_BINDIR=${PSEUDO_SYSROOT}${bindir_native} PSEUDO_LIBDIR=${PSEUDO_SYSROOT}${prefix_native}/lib/pseudo/lib PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=1 PYTHONDONTWRITEBYTECODE=1"
- FAKEROOTCMD = "${PSEUDO_SYSROOT}${bindir_native}/pseudo"
- FAKEROOTENV = "PSEUDO_PREFIX=${PSEUDO_SYSROOT}${prefix_native} PSEUDO_LOCALSTATEDIR=${PSEUDO_LOCALSTATEDIR} PSEUDO_PASSWD=${PSEUDO_PASSWD} PSEUDO_NOSYMLINKEXP=1 PSEUDO_IGNORE_PATHS=${@oe.path.canonicalize(d.getVar('PSEUDO_IGNORE_PATHS'))} PSEUDO_DISABLED=0"
- FAKEROOTNOENV = "PSEUDO_UNLOAD=1"
-diff --git a/meta/lib/oeqa/selftest/cases/pseudo.py b/meta/lib/oeqa/selftest/cases/pseudo.py
-new file mode 100644
-index 0000000000..33593d5ce9
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/pseudo.py
-@@ -0,0 +1,27 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import glob
-+import os
-+import shutil
-+from oeqa.utils.commands import bitbake, get_test_layer
-+from oeqa.selftest.case import OESelftestTestCase
-+
-+class Pseudo(OESelftestTestCase):
-+
-+    def test_pseudo_pyc_creation(self):
-+        self.write_config("")
-+
-+        metaselftestpath = get_test_layer()
-+        pycache_path = os.path.join(metaselftestpath, 'lib/__pycache__')
-+        if os.path.exists(pycache_path):
-+            shutil.rmtree(pycache_path)
-+
-+        bitbake('pseudo-pyc-test -c install')
-+
-+        test1_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test1.*.pyc')))
-+        self.assertTrue(test1_pyc_present, 'test1 pyc file missing, should be created outside of pseudo context.')
-+
-+        test2_pyc_present = len(glob.glob(os.path.join(pycache_path, 'pseudo_pyc_test2.*.pyc')))
-+        self.assertFalse(test2_pyc_present, 'test2 pyc file present, should not be created in pseudo context.')
++PSEUDO_IGNORE_PATHS .= ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' + (d.getVar('LICENSE_PATH') or '')).split())}"
+ # it would be better to copy them in do_install_append, but find_license_filesa is python
+ python perform_packagecopy_prepend () {
+     enabled = oe.data.typed_value('LICENSE_CREATE_PACKAGE', d)
 -- 
 2.25.1
 
