@@ -1,86 +1,83 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web12.9422.1611649240846118440
+Received: from esa2.hc324-48.eu.iphmx.com (esa2.hc324-48.eu.iphmx.com [207.54.68.120])
+ by mx.groups.io with SMTP id smtpd.web11.9812.1611651203751358219
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 00:20:41 -0800
+ Tue, 26 Jan 2021 00:53:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NddZmUMa;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id m187so1688195wme.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 00:20:40 -0800 (PST)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=U+X3bdC4;
+ spf=pass (domain: bmw.de, ip: 207.54.68.120, mailfrom: prvs=6532865c5=michael.ho@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=12+Kk+O34SYBnLXxMVIQU64oHY35gUoE4kjJz7oWUoU=;
-        b=NddZmUMa2yADeffNb4Vs4EMaXHYHjGcQsAvHYoZLmLAVwAQy3Y2xqYfk3DKOXU7DVh
-         M2Oi/ydw9ZkYioJF2TxacxKg7CuFduEvr1K0WkIAxYxMLYl8muV/jm4J40bLNtKw3azU
-         jfS2WlRXFJ0lFeZyUd5/2y3kvYDyjXGUUxoV8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=12+Kk+O34SYBnLXxMVIQU64oHY35gUoE4kjJz7oWUoU=;
-        b=FqS8mZwbv+N7HHOEp7mlDtmg1JoN8kIL+99rdsjhuiFr+MKxhfTbq/k37oFr/77svV
-         pl4EeOURWV9CMvYsp//xaQKZDatQ55the4UAPMBqJIP5qh1pWwl498GrNlQrH4C7ZSeq
-         hEmgGDYvA/gMK9AWEUJHxJ8QmC3LFLBkKYd8Ji4Dmcb8+Wi42zfGPLzQXOUPpcMhAgDc
-         V4pSQI3ig+lv1ZcuthNWzmb5XK9qeSafJu+zQgE1Lyq2orxcsWGxRuXQFPQSzH6ZS/kT
-         /GE74oup5HR4fJIuEkZulqZEybM/cTyGjRymPN8m2gffqfDdcNrH4e97AU0y22/X78ux
-         0J+w==
-X-Gm-Message-State: AOAM531UR9AQAClAAkZgUtR8v7S28+Q6Y4kEx4bycfgMI6xX83XojouZ
-	N+kSq7Yho2s/ra705qvNbjKmAw==
-X-Google-Smtp-Source: ABdhPJxV6y80jDVi6CzOUg9M6wX2L7NEBWMNggM3jImuVG70sWJ7AMN/7Wkgz1SlG1V77XvCUKFhnQ==
-X-Received: by 2002:a1c:2b05:: with SMTP id r5mr3468722wmr.179.1611649239364;
-        Tue, 26 Jan 2021 00:20:39 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:b393:1589:56b4:ccf1? ([2001:8b0:aba:5f3c:b393:1589:56b4:ccf1])
-        by smtp.gmail.com with ESMTPSA id u7sm13398537wrr.80.2021.01.26.00.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 00:20:38 -0800 (PST)
-Message-ID: <5e3acf487208372321ba28aec286fdb7fef7e6bf.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] core-image-sato-sdk-ptest: use 3G of RAM
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Changqing Li <changqing.li@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 26 Jan 2021 08:20:34 +0000
-In-Reply-To: <20210126053605.2003-1-changqing.li@windriver.com>
-References: <20210126053605.2003-1-changqing.li@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1611651204; x=1643187204;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=k9u5T311SWV2Qq6JljKpEj2rrAx9/mXAA06p4Olqh+0=;
+  b=U+X3bdC4OLrd68I6IcRE8OeY204GfNo7mg0x+oznCmjz/6QPgpjo6H8k
+   E17xciF2+diXzvk8TL0Hvaai69vADMxIboMrdA0w6cGJn8WoJjms/2wRs
+   K5XPb7q8TGQD5ULrXR/PHqBAB9AKhhPYPW3pNf1XtT7FhAroIwbqB8G4b
+   s=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa2.hc324-48.eu.iphmx.com with ESMTP/TLS; 26 Jan 2021 09:53:21 +0100
+Received: from esabb3.muc ([160.50.100.30])  by esagw4.muc with ESMTP/TLS;
+ 26 Jan 2021 09:53:21 +0100
+Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
+ by esabb3.muc with ESMTP/TLS; 26 Jan 2021 09:53:18 +0100
+Received: from michael-pcx.bmw-carit.intra (192.168.221.34) by
+ smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
+ Tue, 26 Jan 2021 09:53:16 +0100
+From: "Michael Ho" <Michael.Ho@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Michael Ho <Michael.Ho@bmw.de>
+Subject: [pseudo][PATCH] pseudo_client.c: Rebuild passwd paths after chroot
+Date: Tue, 26 Jan 2021 09:53:10 +0100
+Message-ID: <1611651190-330622-1-git-send-email-michael.ho@bmw.de>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Return-Path: michael.ho@bmw.de
+X-ClientProxiedBy: SMUCM29L.europe.bmw.corp (160.46.167.43) To
+ smucm09k.europe.bmw.corp (160.48.96.43)
+Content-Type: text/plain
 
-On Tue, 2021-01-26 at 13:36 +0800, Changqing Li wrote:
-> [YOCTO #14164]
-> 
-> Some ptest cases, for example, libinput ptest intermittent failure on
-> arm64, this should caused by OOM Killer.
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-> index bf749acd79..b3ce859d76 100644
-> --- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-> +++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-> @@ -17,7 +17,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "1124288"
->  
-> 
-> 
-> 
->  # ptests need more memory than standard to avoid the OOM killer
->  # also lttng-tools needs /tmp that has at least 1G
-> -QB_MEM = "-m 2048"
-> +QB_MEM = "-m 3072"
-> 
+From: Michael Ho <Michael.Ho@bmw.de>
 
-What is libinput doing that needs 3GB of memory? Is this because its
-loading a whole graphics stack for testing or something? It seems odd
-that we need that much memory for input drivers!
+Pseudo will calculate the search paths used for passwd operations such
+as lckpwdf and ulckpwdf using build_passwd_paths when it initiates. This
+takes into account the chroot at the time.
 
-Cheers,
+The problem is that after a chroot is performed, pseudo continues to use
+the search paths calculated from the start for lckpwdf and ulckpwdf.
+This makes it write the pwd.lock files to a different sysroot if a chroot
+is called during runtime.
 
-Richard
+This commit resolves that by calling build_passwd_paths again after
+intercepting chroot calls so the search paths are up to date.
 
+This bug manifests in Yocto when shadow is installed into an SDK target
+rootfs. The postinst triggered will call shadow-native with -R to point
+to the SDK target rootfs which in turn makes shadow call chroot to the
+SDK target rootfs before it perform its actions including lckpwdf() and
+ulckpwdf(). The lock files however will write instead to the normal image
+target rootfs because it was specified in PSEUDO_PASSWD and was the first
+path set when the pseudo environment was initiated. By rebuilding the
+search path after chroot is applied, the lockfiles appear in the correct
+rootfs.
+
+Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
+---
+ pseudo_client.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/pseudo_client.c b/pseudo_client.c
+index 478e450..60cd0d1 100644
+--- a/pseudo_client.c
++++ b/pseudo_client.c
+@@ -822,6 +822,8 @@ pseudo_client_chroot(const char *path) {
+ 	}
+ 	memcpy(pseudo_chroot, path, pseudo_chroot_len + 1);
+ 	pseudo_set_value("PSEUDO_CHROOT", pseudo_chroot);
++	/* Rebuild passwd paths since we've done a chroot */
++	build_passwd_paths();
+ 	return 0;
+ }
+ 
+-- 
+2.7.4
 
