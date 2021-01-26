@@ -1,50 +1,50 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web12.12975.1611672162315651796
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web09.12871.1611672164404209300
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:42:42 -0800
+ Tue, 26 Jan 2021 06:42:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=bmUs4XBL;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id 11so10540556pfu.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=A+pno/h+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d13so4129726plg.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=VukY38o4tUYdyIy8Itp8/QO03nYdhWeLvpWMigojKvU=;
-        b=bmUs4XBLEhi3KZE2dv4aB/5rgzmaSBO+f2o7HSF8o6AFGRVw+I5BQ0dOr7IlBkxHQg
-         HSDLV1w7Py+OBV8x8Qgn4QzO1U3bZMBF1yM+EwCumabfP8MlMuOIudrGFZbxLFTh7XIV
-         jKERALpzyZQ24FhI2CDIqIXlieMfVNZ/J76bjTnxaXojLBIbZBAE3m7aGMapaGq+yM+b
-         TclhNBqzC7zGKWQ717nalW1POY1E49ucEkuKjm2BGhYe22DN38NoLJ0T459zYvRzmEx1
-         ISxkFOzmMPccOIuc3OApwUHCh4Z+dIlNhZpY63DO+lrjyVzwfESCnV8p9GvZZcO7oXzp
-         d65w==
+        bh=p2Fr57bgryJtBAigQG5iZJiksbNM+MXvV7HJEM/fgEg=;
+        b=A+pno/h+bjOSVOWYMtz/ZwRETo7UjHkEsCZEAljNha8j/bTGWBxz2g39OqXtbLYTS5
+         3iix1MHvzwEW76fXcdbOD9RQf1ipQPKjgmVD4LVJffPB5nQJSrDhu5z79lJGDDpSP+/V
+         2MV0Ue05KbcsPdtmxs6t0BEbHNgNJZrWWgWDG5B4LBhNRjr4wvCL0GgivTvTGPpBBQTv
+         HdQF+840msQ/3KxS9ibWId1bp08mMh2DlK2KsTjhwrsPNhyrmR7CSUyeGPNePfNY9m6O
+         y2ilvEwueyLajbvIQDHTrSvZmJudM4LD4AYmO+dpC3QkcJMIQEESkcQSOtEXTq08bJdQ
+         LVxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VukY38o4tUYdyIy8Itp8/QO03nYdhWeLvpWMigojKvU=;
-        b=avj31G90fnAoMx6Q4cxgCzG9yeNaDwpZGdzJ7vCLGjxUEB5GNw1jEZiJIKL5ib7MWh
-         F6+lPSlyPXwPz4N444NSR5f1tf4hXrRayoXL3KCY3F6+5Io4NCo5sLo9OlK/hZWIlceY
-         gbOzvrI1UN0QaF8R3SHSYRxQWix04BQFI7mZ+TpVLSVxn6c/MtOAhegOMxqjIxdwhKUW
-         AhzNBCzC4KoGz+mi54B69Yqd52dxunSH8p4YZBxrEnlwRx4cHWVmhxfHclQVpGgqTp7e
-         vTqxsZkN7n3O9/7oNEXDnIcdCVvL3kudGE+CHveCxcvPs17w+YeWwMET0WSdmVRX6gi1
-         n/tA==
-X-Gm-Message-State: AOAM530Lqx7U6OrmR58UTtuKy4uKTLJSesOst67bVkkUkTVw+Mw44kdP
-	IW8QNvfyeABwYrFTcgeAoaDXBTsfK6mOPGjLVCY=
-X-Google-Smtp-Source: ABdhPJyY9GXb+zhhppA7t5uBmppreryDsx2NAHcbvhzo+iJJooZdKzj4d8u8+AkUcxc1svdDFfGuJQ==
-X-Received: by 2002:a62:2c50:0:b029:1b9:1846:b490 with SMTP id s77-20020a622c500000b02901b91846b490mr5492922pfs.76.1611672161193;
-        Tue, 26 Jan 2021 06:42:41 -0800 (PST)
+        bh=p2Fr57bgryJtBAigQG5iZJiksbNM+MXvV7HJEM/fgEg=;
+        b=t6IV0sB9NAhRQXndzrLG69mEH4MHo0psQDyb/okvuc1CcsYR7WbWdcGLmglapsIfde
+         awCes6IJTET37HUaZoWgtodzpPh9u05dcy3AMwYDIDu8KdtFG07s6G4jzc6GmhOaMMs1
+         1MrgOS8yQV0Nl4fFNq4Fh66M6W+yFsy/kbONBRlFaixS+xK0UD/cv6VVSLeA0AyBG0Bv
+         29Lz0QDOa6BksbStEqzyqJPazEAJQFuQDkeBW7T5A6h4B06r0cdijVl9PpPkA7y7T46W
+         AD7BlfGG/6c45TDTRga3X+6upFC0zqNA1frI24ttOD4eJMNxY2qPzubqDh1TTP3SEXCH
+         zTuA==
+X-Gm-Message-State: AOAM531DzQnkly2KFN12a6NoE+lkBrwgmUsQQphu7/PN1VGy7C7rKFU+
+	XisXGaY75CmobqF9xv1oBfPIhH8nK1jH30Hi0/8=
+X-Google-Smtp-Source: ABdhPJxXXOfZ44lL0cJ0RD6qh6BtahZJyhCZf/iQWLhgjeWF/VE24/1xoFXFVhj1ftwm/zGd9Xn8Bw==
+X-Received: by 2002:a17:902:b688:b029:dc:240a:2bd7 with SMTP id c8-20020a170902b688b02900dc240a2bd7mr6231667pls.50.1611672163496;
+        Tue, 26 Jan 2021 06:42:43 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.39
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:42:40 -0800 (PST)
+        Tue, 26 Jan 2021 06:42:42 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 10/46] pseudo: Add may unlink patch
-Date: Tue, 26 Jan 2021 04:41:21 -1000
-Message-Id: <87d836d3c04d4669ed0b188d6f2dff80818a8d08.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 11/46] pseudo: Add pathfix patch
+Date: Tue, 26 Jan 2021 04:41:22 -1000
+Message-Id: <b75a950dc9c21a9edbfe113ceff439e156476b5c.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
@@ -53,70 +53,58 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Mark files which are unlinked (nlink == 0) but open with fd's as
-"may-unlink" to avoid problematic database entries.
+Add a path to fix up handling of dirfd being passed as a full file
+and with path="".
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e1e481f3608c05ab14c61bf45cd0837d7287b6a5)
+(cherry picked from commit 3006bbe7768e4efe33d3d2d3f5786a561ecbe96f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pseudo/files/mayunlink.patch              | 37 +++++++++++++++++++
+ .../pseudo/files/pathfix.patch                | 25 +++++++++++++++++++
  meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/mayunlink.patch
+ 2 files changed, 26 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/pathfix.patch
 
-diff --git a/meta/recipes-devtools/pseudo/files/mayunlink.patch b/meta/recipes-devtools/pseudo/files/mayunlink.patch
+diff --git a/meta/recipes-devtools/pseudo/files/pathfix.patch b/meta/recipes-devtools/pseudo/files/pathfix.patch
 new file mode 100644
-index 0000000000..9d54e40dd9
+index 0000000000..b3e63fa28f
 --- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/mayunlink.patch
-@@ -0,0 +1,37 @@
-+Some operations may call unlink() on an open fd, then call fchown/fchmod/fstat
-+on that fd. This would currently readd its entry to the database, which
-+is necessary to preserve its permissions information however since that 
-+file will be lost when it is closed, we don't want the DB entry to persist.
-+Marking it as may_unlink means the code will know its likely been deleted 
-+and ignore the entry later, giving improved behaviour that simple path
-+mismatch warnings. We can use an nlink of zero to detect this.
++++ b/meta/recipes-devtools/pseudo/files/pathfix.patch
+@@ -0,0 +1,25 @@
++We're seeing systems in the wild (e.g. ubuntu 20.04) which call
++with a dirfd set to the full filename and path set to "". Since
++this seems to be expected to work, handle it accordingly.
 +
 +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +Upstream-Status: Pending
 +
-+Index: git/pseudo.c
++Index: git/pseudo_client.c
 +===================================================================
-+--- git.orig/pseudo.c
-++++ git/pseudo.c
-+@@ -1100,6 +1100,21 @@ pseudo_op(pseudo_msg_t *msg, const char
-+ 		break;
-+ 	}
++--- git.orig/pseudo_client.c
+++++ git/pseudo_client.c
++@@ -1549,8 +1549,12 @@ base_path(int dirfd, const char *path, i
 + 
-++	switch (msg->op) {
-++	case OP_FCHOWN:		/* FALLTHROUGH */
-++	case OP_FCHMOD:		/* FALLTHROUGH */
-++	case OP_FSTAT:
-++		if (!found_path && !found_ino && (msg->nlink == 0)) {
-++			/* If nlink is 0 for an fchown/fchmod/fstat, we probably have an fd which is 
-++			 * unlinked and we don't want to do inode/path matching against it. Marking it 
-++ 			 * as may unlink gives the right hints in the database to ensure we
-++			 * handle correctly whilst maintaining the permissions whilst the 
-++			 * file exists for the fd.  */
-++			pdb_may_unlink_file(msg, msg->client);
-++		}
-++		break;
-++	}
++ 	if (!path)
++ 		return NULL;
++-	if (!*path)
 ++
-+ op_exit:
-+ 	/* in the case of an exact match, we just used the pointer
-+ 	 * rather than allocating space.
+++	if (!*path) {
+++		if (dirfd != -1 && dirfd != AT_FDCWD)
+++			return fd_path(dirfd);
++ 		return "";
+++	}
++ 
++ 	if (path[0] != '/') {
++ 		if (dirfd != -1 && dirfd != AT_FDCWD) {
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 7857b4f1b1..c5040f5f7f 100644
+index c5040f5f7f..bc20a2f134 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -7,6 +7,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://abort_on_mismatch.patch \
+@@ -8,6 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
             file://track_link_fds.patch \
             file://xattr_fix.patch \
-+           file://mayunlink.patch \
+            file://mayunlink.patch \
++           file://pathfix.patch \
             file://fallback-passwd \
             file://fallback-group \
             "
