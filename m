@@ -1,93 +1,154 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.13176.1611672202415814850
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.13103.1611672205112955429
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:43:22 -0800
+ Tue, 26 Jan 2021 06:43:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yHbs4qFq;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id b21so4730462pgk.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:22 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PiMX0cps;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id a20so2100565pjs.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=x2Fz/ZsbxY80eJvi/+zbHLDPYC0fOLewfZaNrj+L89A=;
-        b=yHbs4qFqVkOBcRYGV+6RSRlZoCPpYR7WaeFsCSoJF7gzAzWUD1k5vdWF03yuVEcXdA
-         qiHyWTviCECi2mcNUl7+gu8G4gq2himdFYcwMEvKwHz/Z8buvPek1aSHkizkba7KGHH4
-         pdrzUJeZuEk5fmLU/KPQLjd3yYHmXaF49Y3qco3l+ilD/25nH/N+pVukyQaDSW4lVQvD
-         1dkPGuBzb6LnmoMC2r3uuDNiQasik7SSmpNSC/+OTVoV6ST09pFMwCLSz78CnEKQDo6d
-         ojdfvYqKAXLbuZeBkAeY3GBZWEpucJaJfj1jE1Z78OM+tezRavKTTikLmdz6PdS9Ik2N
-         h3NA==
+        bh=zNWD8heFzNX6ZIAFDMxtz1+m1cA+kcnidAMQOX7TKWU=;
+        b=PiMX0cpsOEpxHM0RVhkgkeF894OlTTGGFYPNz2WGSkBKcgSuF85NUOkoofukwBaRNx
+         Mra4UDXvNNT5LclJnzyFOV7qW672gBzmhWAAyVOLGp5hCxvAwi7FDIvNc7htuXzxblQk
+         LcwnUFWLwHSw2s+XS7Wa9WiFHsASEfDdv6MMRqgN7H/6bCrfcyCPvmsKoVe21zI/RPOR
+         4MK3m3HC3vjbCR4NYYPm4FBwHNlFBfZjyvB4itBPsDC9RPLPs8ooU4M9s1yfctBkFRT0
+         a99YFzJQXmY1k0eQ4dK4S6IckTSlcZyCXMJlAXiUVWesqunxKwo3zC8Dh1GCHUcy+2aj
+         SzCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=x2Fz/ZsbxY80eJvi/+zbHLDPYC0fOLewfZaNrj+L89A=;
-        b=lIVrSZfG6WndqJvOBzPsIttEsRDIxLvXO1Qik53dumr36pOg7JcIbXKiSfza5m7AwZ
-         2J0i4SdT+SJsXX8QGiq5ThJDZBJRANtWVs6D3WEo3e6K1672evVh23/Ok9x9mPmqYZLv
-         gPTlXi5tcq4Fr44k1K0ljb/7j0OOFpcLLJ04rtF6rUUMG+ywMUrzVl/XFkA4dZJ4CnLd
-         OOgTFS/K5slcJRkSXmpu7lEqRr/WUjLzxQpv0dMzZlL869uLl5FjYnao2DfOfDjmH+JX
-         VYW21oJxl9Dx+jwl5EOex67GsdK07jXNl9hArEwe8OBGAQNOW796VUcioMof0C3JfRNA
-         eSQA==
-X-Gm-Message-State: AOAM530kGn5glqCdTifZ9ERPXRP9DcfTZ4SIdr4Nqcs2U89AhVI/M/1l
-	2kAHj+xLXdZH56pFZ67+noDKTFiUyRPa78cm310=
-X-Google-Smtp-Source: ABdhPJyjswL8/T68UhyEZIzRDRoFAxyY7MfpvsWl80rlf9umQvCUGnKSt0K32/5aGZgzx6vk6x8ZWA==
-X-Received: by 2002:a63:6686:: with SMTP id a128mr5858375pgc.109.1611672201499;
-        Tue, 26 Jan 2021 06:43:21 -0800 (PST)
+        bh=zNWD8heFzNX6ZIAFDMxtz1+m1cA+kcnidAMQOX7TKWU=;
+        b=T4wByTRtcYcCRp52JYhfy8GDUSPziV90tplm3UsmXq9H2SyBySOz3/E9WQVGNbSko7
+         jp91gImLU1pZVddHMiAGtb1qXXKjeShIwpmH4kCFRbjoNgD3r1QZMVNYsMgEYhmHmixQ
+         pJZAdxdA8a5jNOypkekL8UB+k7oQ6GeEZD9ClEq1Ao1IKHQEiSxNGQbKBJvKPQZ1g3t9
+         xMBqTgE43UVt4Cl32bnMsXz4lketH0IvzumoqQxV64OjKbWTGMXVftr0Qfv/E1J9t1Xn
+         UYO0HsF2CFoTiGo28R9DcIpF0HOeu7G5XvlNtEgeWfoNUHeu80GExAOs1q2EmZXovdAZ
+         NH5g==
+X-Gm-Message-State: AOAM532Zg7ZIT081HKCIdZCMgUZrEVMyZTq5FQdOq9Nx1U7m2ZX0U2YJ
+	ceYh3WrZP3xxlohxT6XKhSgs0fvLUOI0FHtU6pY=
+X-Google-Smtp-Source: ABdhPJxyDVnoCW+jwVoNw0k8MuqMZ3IaAwQS+0LGHJlDtgjGp1RILDYHc6YuqBO0isjqJP0rv+e7dw==
+X-Received: by 2002:a17:90a:c787:: with SMTP id gn7mr100629pjb.222.1611672204170;
+        Tue, 26 Jan 2021 06:43:24 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.20
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:43:20 -0800 (PST)
+        Tue, 26 Jan 2021 06:43:23 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 25/46] bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
-Date: Tue, 26 Jan 2021 04:41:36 -1000
-Message-Id: <c7962179c621f090a1bea7292d3f3d3fff2ecab3.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 26/46] uninative: Don't use single sstate for pseudo-native
+Date: Tue, 26 Jan 2021 04:41:37 -1000
+Message-Id: <005f87b5bfd372b6f6c947897c61b7ae9b327abd.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When ccache enabled as below:
-INHERIT += "ccache"
-CCACHE_DIR = "/path/build/ccache"
+pseudo-native is a bit special. It conditionally compiles in support for
+xattr, statx and statvfs amongst other options. If a pseudo-native binary is
+used on a system where these functions are present but it wasn't compiled in
+we see hard to debug permissions problems.
 
-There comes do_install failure for some recipes randomly, take
-linux-libc-headerswhen as example.
- $ cat /path/build/tmp/work/corei7-64-wrs-linux/linux-libc-headers/5.8-r0/pseudo/pseudo.log
- [snip]
- path mismatch [1 link]: ino 243004209 db '/path/build/ccache/6/stats' req '/path/build/ccache/7/stats.lock'.
- [snip]
+An example is the devtool.DevtoolExtractTests.test_devtool_deploy_target
+oe-selftest which shows a cryptic error:
 
-Exclude ${CCACHE_DIR} from pseudo database to fix the potential
-do_install failure.
+  File "/home/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/lib/oeqa/selftest/cases/devtool.py", line 1388, in test_devtool_deploy_target
+    self.assertEqual(filelist1, filelist2)
+  File "/usr/lib64/python3.9/unittest/case.py", line 831, in assertEqual
+    assertion_func(first, second, msg=msg)
+  File "/usr/lib64/python3.9/unittest/case.py", line 1037, in assertListEqual
+    self.assertSequenceEqual(list1, list2, msg, seq_type=list)
+  File "/usr/lib64/python3.9/unittest/case.py", line 1019, in assertSequenceEqual
+    self.fail(msg)
+  File "/usr/lib64/python3.9/unittest/case.py", line 670, in fail
+    raise self.failureException(msg)
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+AssertionError: Lists differ: ['-rwxr-xr-x 6000 6000 /etc/init.d/mdmonitor', '-rw-r-[10124 chars]n.8'] != ['-rwxr-xr-x root root /etc/init.d/mdmonitor', '-rw-r-[10124 chars]n.8']
+
+First differing element 0:
+'-rwxr-xr-x 6000 6000 /etc/init.d/mdmonitor'
+'-rwxr-xr-x root root /etc/init.d/mdmonitor'
+
+This is due to a version of pseudo without statx being used on a system where
+ls uses statx, hence the files are displayed as 6000.6000 instead of root.root.
+
+Avoid this by always building pseudo-native for the specific distro in question rather
+than using a universal sstate feed.
+
+This hopefully fixes one of the mysterious AB-INT issues.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b65e5280bf9e7f1f9c8e6acabab79bcf209e5342)
+(cherry picked from commit 6e3785a3f1f3cf68f5fe101cd6bebe91db165973)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/base.bbclass   | 1 +
+ meta/classes/sstate.bbclass | 4 ++++
+ meta/lib/oe/sstatesig.py    | 2 +-
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a2fb9e2c6f..38ee6aa277 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -686,7 +686,7 @@ SRC_URI = ""
- PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta"
-+PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${COREBASE}/meta,${CCACHE_DIR}"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 65b9d954c7..8a1b5f79c1 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -231,6 +231,7 @@ python base_eventhandler() {
+     if isinstance(e, bb.event.ConfigParsed):
+         if not d.getVar("NATIVELSBSTRING", False):
+             d.setVar("NATIVELSBSTRING", lsb_distro_identifier(d))
++        d.setVar("ORIGNATIVELSBSTRING", d.getVar("NATIVELSBSTRING", False))
+         d.setVar('BB_VERSION', bb.__version__)
  
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+     # There might be no bb.event.ConfigParsed event if bitbake server is
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 66a96a7603..a8e169a10b 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -72,6 +72,7 @@ BB_HASHFILENAME = "False ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
+ 
+ SSTATE_ARCHS = " \
+     ${BUILD_ARCH} \
++    ${BUILD_ARCH}_${ORIGNATIVELSBSTRING} \
+     ${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS} \
+     ${BUILD_ARCH}_${TARGET_ARCH} \
+     ${SDK_ARCH}_${SDK_OS} \
+@@ -80,6 +81,7 @@ SSTATE_ARCHS = " \
+     ${PACKAGE_ARCH} \
+     ${PACKAGE_EXTRA_ARCHS} \
+     ${MACHINE_ARCH}"
++SSTATE_ARCHS[vardepsexclude] = "ORIGNATIVELSBSTRING"
+ 
+ SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
+ 
+@@ -121,6 +123,8 @@ SSTATE_HASHEQUIV_REPORT_TASKDATA[doc] = "Report additional useful data to the \
+ python () {
+     if bb.data.inherits_class('native', d):
+         d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH', False))
++        if d.getVar("PN") == "pseudo-native":
++            d.appendVar('SSTATE_PKGARCH', '_${ORIGNATIVELSBSTRING}')
+     elif bb.data.inherits_class('crosssdk', d):
+         d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS}"))
+     elif bb.data.inherits_class('cross', d):
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index beaccdc909..f98543cc46 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -434,7 +434,7 @@ def find_sstate_manifest(taskdata, taskdata2, taskname, d, multilibcache):
+         d2 = multilibcache[variant]
+ 
+     if taskdata.endswith("-native"):
+-        pkgarchs = ["${BUILD_ARCH}"]
++        pkgarchs = ["${BUILD_ARCH}", "${BUILD_ARCH}_${ORIGNATIVELSBSTRING}"]
+     elif taskdata.startswith("nativesdk-"):
+         pkgarchs = ["${SDK_ARCH}_${SDK_OS}", "allarch"]
+     elif "-cross-canadian" in taskdata:
 -- 
 2.25.1
 
