@@ -1,85 +1,84 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web08.12975.1611672228545547686
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web12.13000.1611672230975319937
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:43:48 -0800
+ Tue, 26 Jan 2021 06:43:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=A6Vlunby;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id lw17so1386518pjb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:48 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=aaJWZfYZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id m6so10556445pfk.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:43:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=ZybtsxAb13vGH6sGv8RSSy6yLNsGj+tp62aV5u57oHc=;
-        b=A6Vlunby+TPPrMRg2dtxKHH261cSEqMoLdoZWbRqICLA0v8fdmhSS+720eJZbj2z30
-         +N9SIJMj9zPh7KdsduIHbVJPMnsEl2k9qrBNIlbVERq9+NdAsu67q0xD8zXZ/IU7YP8O
-         j4zZXx5V1LA/026dda0rDc6TT2u1C9HM0kLMUWvNjdIZwX4mONh5pTS9CnmPyAi6cpCv
-         4bQOXW89AXAt5w+UKF7c48/YtrvhiLxSf2+MKVap3gpsP239yQmGhyae2jfI3P27I1pe
-         e173XCooFoBrx2mNIlddhuxBOGGR5JGmPO/Hyc9UeS//IVaU0kxw074wFy4UrRv/MN1g
-         HO5A==
+        bh=yc7Bcudw7YIh5mUPyyX64SC/ZQYdwas3EpoLdNRFVgg=;
+        b=aaJWZfYZZP0b/iK9TrDcpnrOD16Wg8j53hy22mnl8UqutIsXTrKvT6ULuKgf7Vza5y
+         5S5/BXiaZEhyJJZIqEGv3rB8s8IVGs5W98moEy6XO+mM+J1C2BtR/AgBjbUepg5meCSk
+         ndHloqdByFhItKF60tnzldFNtV+2zTI1mvhtdN6Z4COrm4NSr6I4RAsGGhFx3FWk6Qfg
+         D3QCUwADq5phsq4OUV59VgvSXXH+AZFhlqkNszAYsWwoaBl06dJrsRIPSiMHlrTjYiGR
+         xHp+oPmW4ejcQG/S14xv4nvv4SaTO11nPLimYlApQ3RX21PZA0ZF9me+YxTe7nTxbBWd
+         I4aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ZybtsxAb13vGH6sGv8RSSy6yLNsGj+tp62aV5u57oHc=;
-        b=D3ei8zOZp5RTUsB7Pn79tJivGm8fUrjnW2KNu+wwWmXKY0qFeXIGVwRhzSVx+gembd
-         sOkR0kk8XgjVKxMl06MaFBKbb4qT68OFRhQfqQ0XMw2kUdlA8eS1PXxsiFU3sKnXugTZ
-         ZCK0+A3OdT4+qcoAB2trs1xIL/vsjLrbOM8QJXF6PNl+0mg2fLIwJUD8WMKisap00QmE
-         9HIF2c+BljPBjmU3kxhAfer2Pg68Cj1Lq3AqqnEgyYK4ZdrXZD1Ogr5XRRa6Xp1ael3d
-         +jFaN6tDTJq5NIc+wh7VcD6s6oQnNE6LNU7BnFbNZ+IwzLC66j22gxpqNvRye8cIn24h
-         aerA==
-X-Gm-Message-State: AOAM531Vd8Bl9yCK3PlI50vrAjkS/on7QNgDO0RQS+RRK3hXRmYPmTx2
-	x8vQfQxKjPD335LXhHiX2vQVyo+1168sNIxqpg8=
-X-Google-Smtp-Source: ABdhPJy9HVR0afVeyJAng5fwN+c3bWWuJtR/ozOmsl8K7Rkn7Pkgxe3xqp1jWVnKKAG+Zf7/kZsHgA==
-X-Received: by 2002:a17:90a:a084:: with SMTP id r4mr108209pjp.190.1611672227624;
-        Tue, 26 Jan 2021 06:43:47 -0800 (PST)
+        bh=yc7Bcudw7YIh5mUPyyX64SC/ZQYdwas3EpoLdNRFVgg=;
+        b=eg759pmdsiQtIuOoA2LbAYGfeRKLJ7sGYUKOnyBIzG1MPP5UEtHGk3EbxBwJMneY35
+         0lssXbrWRbY8yEcHHcsNoAZ6iAl07me6mLnHczTF6RzWQ2WJ2+NfCg46vedkaZQpG7eb
+         RaF1O87mYoHyuZvTg4FMAW+M7LMaSojcXl7eCy+kkEg8a7pprp0E9muq7420dWyXwZP7
+         5ASJXVeYzdZEhKn2hUQl2+MeVrZ81a6PBHeD+raFZ5D5JKz4b1H9CTsyZnePp8C571vu
+         evCVFergHTBlrd1kTb7KutOmryO7OaS8qT2tl/b4jUQFdBYtRytVRt45Nx3IWOgBzNwf
+         4Hhg==
+X-Gm-Message-State: AOAM5335ACjuUNtAB9IUZpmN5JaMeF6hHkR01+HURwW1Jbhz5kps7RTc
+	hN0g6ixaFyOkZbc5RNPueT4XGfcuAjGxPGaIVEQ=
+X-Google-Smtp-Source: ABdhPJyvBHcMTiHFSuFY4WcXpj2uRWt6YKN+Wo+F+O7MOUHIJv4EZMhIJnac9hT4e7qBq9ojURBj9A==
+X-Received: by 2002:a65:480c:: with SMTP id h12mr5900972pgs.169.1611672230026;
+        Tue, 26 Jan 2021 06:43:50 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.46
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.43.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:43:46 -0800 (PST)
+        Tue, 26 Jan 2021 06:43:49 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 35/46] license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to PSEUDO_IGNORE_PATHS
-Date: Tue, 26 Jan 2021 04:41:46 -1000
-Message-Id: <57abdccfba799fc1308477ea2e7b65d0894cbeb7.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 36/46] bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
+Date: Tue, 26 Jan 2021 04:41:47 -1000
+Message-Id: <2369281241a28067c938aec80f848693832facef.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-* now without ${COREBASE}/meta in PSEUDO_IGNORE_PATHS after:
-  73d538f207 bitbake.conf: Prevent pyc file generation in pseudo context
-  the do_package tasks are failing when LICENSE_CREATE_PACKAGE is enabled
-  pseudo.log shows that it's because of license texts copied from
-  ${COREBASE}/meta:
-  path mismatch [46 links]: ino 96733640 db '/OE/build/tmp-glibc/work/all-oe-linux/foo/1.0/image/usr/share/licenses/foo/generic_Apache-2.0' req '/OE/build/openembedded-core/meta/files/common-licenses/Apache-2.0'.
+Builds were failing on WSL2 which turns out to be due to accesses to
+/run/ on those systems. Add this to PSEUDO_IGNORE_PATHS to fix
+builds on WSL2.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+[YOCTO #14175]
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 39423a33595e7ade82fc88f55823660f8532cb84)
+(cherry picked from commit 1d1bf51217e8b4d54af28739d3271484ee5a7974)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/license.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index f90176d6c0..dc91118340 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -31,6 +31,7 @@ python do_populate_lic() {
-             f.write("%s: %s\n" % (key, info[key]))
- }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 8224c05ac9..01020c9823 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -686,7 +686,7 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
++PSEUDO_IGNORE_PATHS = "/usr/,/etc/,/lib,/dev/,/run/,${T},${WORKDIR}/recipe-sysroot,${SSTATE_DIR},${STAMPS_DIR},${WORKDIR}/pkgdata-sysroot,${TMPDIR}/sstate-control,${DEPLOY_DIR},${WORKDIR}/deploy-,${TMPDIR}/buildstats,${WORKDIR}/sstate-build-package_,${WORKDIR}/sstate-install-package_,${WORKDIR}/sstate-build-image_complete,${TMPDIR}/sysroots-components,${BUILDHISTORY_DIR},${TMPDIR}/pkgdata,${TOPDIR}/cache,${COREBASE}/scripts,${CCACHE_DIR}"
  
-+PSEUDO_IGNORE_PATHS .= ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' + (d.getVar('LICENSE_PATH') or '')).split())}"
- # it would be better to copy them in do_install_append, but find_license_filesa is python
- python perform_packagecopy_prepend () {
-     enabled = oe.data.typed_value('LICENSE_CREATE_PACKAGE', d)
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
 -- 
 2.25.1
 
