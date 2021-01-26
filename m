@@ -1,70 +1,43 @@
-Received: from bsmtp1.bon.at (bsmtp1.bon.at [213.33.87.15])
- by mx.groups.io with SMTP id smtpd.web12.9855.1611652824413506892
+Received: from bsmtp3.bon.at (bsmtp3.bon.at [213.33.87.17])
+ by mx.groups.io with SMTP id smtpd.web08.9825.1611653098052649858
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 01:20:25 -0800
+ Tue, 26 Jan 2021 01:24:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.15, mailfrom: quentin.schulz@streamunlimited.com)
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.17, mailfrom: quentin.schulz@streamunlimited.com)
 Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp1.bon.at (Postfix) with ESMTPSA id 4DQ1RH3XYvz5tlC;
-	Tue, 26 Jan 2021 10:20:11 +0100 (CET)
-Date: Tue, 26 Jan 2021 10:20:10 +0100
+	by bsmtp3.bon.at (Postfix) with ESMTPSA id 4DQ1XZ2x0Kz5tlH;
+	Tue, 26 Jan 2021 10:24:46 +0100 (CET)
+Date: Tue, 26 Jan 2021 10:24:45 +0100
 From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
 To: Dorinda <dorindabassey@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] sanity.bbclass: verify that user isn't building in PSEUDO_IGNORE_PATHS
-Message-ID: <20210126092010.oxyjs253ndo2j3ta@qschulz>
-References: <20210126005347.7452-1-dorindabassey@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] sanity.bbclass: sanity check for if bitbake is present in PATH
+Message-ID: <20210126092445.q6gjzwloghpwyfrc@qschulz>
+References: <20210126013400.9752-1-dorindabassey@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210126005347.7452-1-dorindabassey@gmail.com>
+In-Reply-To: <20210126013400.9752-1-dorindabassey@gmail.com>
 User-Agent: NeoMutt/20180716
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 Hi Dorinda,
 
-On Tue, Jan 26, 2021 at 01:53:47AM +0100, Dorinda wrote:
-> If a user builds in a path in PSEUDO_IGNORE_PATHS, random failures are generated. Hence this patch adds a sanity check in sanity.bbclass to ensure that a user isn't building in PSEUDO_IGNORE_PATHS.
+On Tue, Jan 26, 2021 at 02:33:59AM +0100, Dorinda wrote:
+> If a user executes the environment script instead of sourcing it, there's an error about an empty element in PATH. This is because bitbake isn't present in environment variable PATH. Hence, this patch adds a sanity check to verify if bitbake is present in PATH and if bitbake isn't present issue a warning message.
 > 
 
-Commit log is usually wraped when reaching a given length. I personally
-have it set to 72 characters which IIRC is what's used for kernel
-contribution.
+Same remarks as your other patch for the pseudo related fix.
 
-This does not apply to actual logs provided in the commit log.
+=> v2 + commit log wrap
 
-It's just nitpick, as I saw a commit or two not following this implicit
-"rule" in poky, I'd say there's no need to resend a patch just for this.
+Your patch also has [PATCH 1/2] but there's no second patch AFAICT, you
+might want to check the content of the patch before sending it (you can
+read the patch with your favorite text editor, it's just text). I think
+git send-email also asks you if you want to send the mail with the
+subject being "<insert commit title>" before actually sending it but I'm
+not sure anymore.
 
-Also, please add a version tag when you send revamped patches.
-
-You can do that by adding -v 2 to git format-patch.
-
-> [YOCTO #14179]
-> 
-> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
-> ---
-
-And if you want to do it really the very nice way (IMO, as always), you
-can provide below the --- (the one above this) and the list of files
-changed (the one below this), you can list what has changed between v
-N-1 and v N.
-
-e.g.
-
- v2:
-  - rephrased error log,
-  - added a check for empty paths in pseudoignorepaths,
-
->  meta/classes/sanity.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index e527c13746..c6842ff549 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-
-Only nitpicks, so nothing to be done on my side if no new change is
-requested by other reviewers.
+Still only nitpicks so no need to send a v3 on my side.
 
 Cheers,
 Quentin
