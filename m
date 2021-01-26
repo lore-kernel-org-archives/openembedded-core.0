@@ -1,50 +1,50 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.13079.1611672151834007194
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.13082.1611672154310915231
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:42:31 -0800
+ Tue, 26 Jan 2021 06:42:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ckZ7dCM7;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id o16so1940114pgg.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:31 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EZfSUdB+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id lw17so1385038pjb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=LZ3E5ooj3uu9pWubFuOVPvNrJvnOvH1UOPntAgZjeII=;
-        b=ckZ7dCM7PeRW1/GQBybkPeUcLVwp+w1mTzTPRiITua3QwQsOMVEF9qLnXdVRHpDStK
-         o/zeygIrpg9S4sFlL9cg4lYLdl7T81jMxmbY+F6ct01j0TuJJHwox7cECOH/Hhmsef6q
-         RkaYRAJhxBjOdHa1H95pJXEqW2PEtYk2d4+WUSEQ/coOy/o0dU3qJ/4PDc4HGUYAbf3i
-         rn7/2QpbEA0/HwS8UZ8uFu7KUIBi8uGWH0Kpzk8FqCK/NxtAYkZ6Kib7NhOV3JeDvzL2
-         CU7PI4vYTY7IDqy/5gFVHQr8pJcLEr3VpSKb6wXiEOVwnE/D54YM6AnXvzLKYLlZcQKw
-         4dwA==
+        bh=N+mMWPZBDhSeHvQEA3R3OPIxG3GAdfqN8hf1f4AA/Ic=;
+        b=EZfSUdB+XFuAANWi3/pprb40QdyfNPyn5j0Iu9wxuzSSneN8fy3+6PDkCB+xFWO195
+         UWl/y9AW5igkezCst6yuPBXCJPPNctDaKsPUXPXzkLRcGne7H+C079GitrDX9BfBEFzl
+         1U6pPm9fUeTlPGmnbNR9N03PS/54rbZ2EiyrbR2ka9qJwAGMd/VQ5GFD+s09KQEP0lVu
+         M5XCtMkw4gHGZ/vqaSrTSA1+VCzRUJf+4UazYfRU2qVjUn5k2JHpV4x792OsF+jp8Bi5
+         l2CpmUChWyePBdKT4hz3qAS2Yp35AudwvcC1f6IdlcKFZXtaZjTxpWQRerUiAm1ymzlJ
+         os5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LZ3E5ooj3uu9pWubFuOVPvNrJvnOvH1UOPntAgZjeII=;
-        b=UoMCQ9o9cRmMO2M3cGAeMP8nOonFQjEw3r1dv+Yhbh+WRhq7knBe0LwhEQgbWsjYNQ
-         Zc6qgPV5l7Hl5FCWIaDDDaap3yClEICsv7ddNECmKoNKHGXVIX1NIm99zCj3R7uZRVXD
-         4hh7j/vTaG0rxAbFyYL+UzZ4qokLUBPzgdaLWFVY4kNXJYMutiwRS/nhcv9peK6MHCZL
-         tDPdKQRF/OIKn387UjvbOS1r997fHCRcSjG4FdYMunZKx7JgPfqV0ukrI7dOsc4YkZX4
-         woEAivG3KC1VlBj+qn0oSiwm874zsb/h64nBiZBX9fEUbsv89BB1jD/8LbfuOEnKMOP7
-         bRLw==
-X-Gm-Message-State: AOAM530LSQgaITNs+rxRl8kL6pUq4rSNC6RQfxSxA2EzM6pf8mryNKUQ
-	0UjSjHFSe6KdQN8OJAIQ88btMwNGQtyx7Vaij6M=
-X-Google-Smtp-Source: ABdhPJwSS5qJ5KgSQGcqwxxqhPwYf31DT2vqW7bJ7SHgkbUspcaltlWQhC3lj1HxGNL/K1W6K5lmmA==
-X-Received: by 2002:a63:2d46:: with SMTP id t67mr5886652pgt.242.1611672150580;
-        Tue, 26 Jan 2021 06:42:30 -0800 (PST)
+        bh=N+mMWPZBDhSeHvQEA3R3OPIxG3GAdfqN8hf1f4AA/Ic=;
+        b=SxbWha3m2BFVrsJe6S76pu3QAmRMdO1+txRXMaKj7FvlXB+6g385A2Egrieb58nqsw
+         BOxiiMjmRzFZ/rxpyoLlaXUrcEUfthCUPJz1h2dYi6jxbootb4Ny0b16VJmIOa9zseAa
+         29YsakeVGGjZ+o3XnCrofKJhALZ2aZ64eJz6aQEdBvnWb996ysYxyST1Tbodv3zMB91y
+         R0YGWjUaZK+8l3KKX0z+n8AkBEEaXaDtBbi1MUxe8C3A7zFrh0aYwG0wDP9hx5oBdM64
+         HXEhfSugMw9JqP7XbXUm81PkaI21BUFVmmqMBSvJKJHicDumBO5n7BxL/071R2S+0H/F
+         5Dvg==
+X-Gm-Message-State: AOAM531PePJN/FCVgQ3s8tOJ0H4i5tV+Z0X7TspMY2FgsoOFZTZRAjYM
+	o5TsVEwBMn4X/YPajCOJ4PvWqhp9O6JMZaAjUlg=
+X-Google-Smtp-Source: ABdhPJxbClCu7RBiZLJ1r5+4WSVt9qyUn+/HzDhcWy2U4vs4UiUd0LN9jl4Y4e6huTrLzYmNvxmy4A==
+X-Received: by 2002:a17:90b:1b50:: with SMTP id nv16mr63844pjb.153.1611672153343;
+        Tue, 26 Jan 2021 06:42:33 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.28
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:42:29 -0800 (PST)
+        Tue, 26 Jan 2021 06:42:32 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 06/46] pseudo: Add support for ignoring paths from the pseudo DB
-Date: Tue, 26 Jan 2021 04:41:17 -1000
-Message-Id: <483c95943a0699243a2f8b17fab39fac317e0466.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 07/46] pseudo: Abort on mismatch patch
+Date: Tue, 26 Jan 2021 04:41:18 -1000
+Message-Id: <2ebe58df3390a3610505bf573fb9de52f5418d4d.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
@@ -53,334 +53,99 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Add PSEUDO_IGNORE_PATHS, a comma separated list of path prefixes, where
-any files underneath are not handled by pseudo. This allows files to
-be left out of the pseudo datanase where we know we don't need the
-fake root emulation. This is particularly useful if we know these files
-can be deleted outside of pseudo context.
+Rather than doing what turns out to be a rather dangerous "fixup" if
+we see a file with a different path but the same inode as another file
+we've previously seen, throw and abort. Direct the user to a wiki page
+where we can maintain information about what this error means.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8defb687a2c0ffac232c4d0d63a590871c453a2e)
+(cherry picked from commit 2db491d97da08d44ebd257f98489550a82a7935c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pseudo/files/add_ignore_paths.patch       | 298 ++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
- 2 files changed, 299 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/add_ignore_paths.patch
+ .../pseudo/files/abort_on_mismatch.patch      | 64 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch
 
-diff --git a/meta/recipes-devtools/pseudo/files/add_ignore_paths.patch b/meta/recipes-devtools/pseudo/files/add_ignore_paths.patch
+diff --git a/meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch b/meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch
 new file mode 100644
-index 0000000000..eddfdb8674
+index 0000000000..1737269ec8
 --- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/add_ignore_paths.patch
-@@ -0,0 +1,298 @@
-+Currently, pseudo considers any path accessed whist its running to be
-+a valid entry to track in its database. The way OpenEmbedded uses pseudo,
-+there are paths we care about accesses to from a pseudo perspective and paths
-+which we simply don't care about.
-+
-+This patch adds a PSEUDO_IGNORE_PATHS environment variable which is a comma
-+separated list of path prefixes to ignore accesses to.
-+
-+To do this, we add some functions which can check a path argument or a file
-+descriptor argument and use these in the pseudo wrappers where path or fd
-+arguments are present. Where paths are being ignored, we skip straight to
-+the underlying real function.
-+
-+Psuedo needs to keep track of the open fd mappings to files so we still need
-+to allow those cases into the pseudo_op function. Specficially this means
-+OP_CLOSE, OP_OPEN, OP_DUP and OP_CHDIR.
-+
-+Apart from OP_OPEN which could call the server, the other operations are client
-+side only so passed through. We 'tag' the functions using these operations so
-+that the path ignore code isn't triggered. For OP_OPEN we exit early and skip
-+the server op. We also have a catch all in client_op to ensure any operatings
-+we didn't manage to skip early still get skipped correctly.
-+
-+OP_CHROOT is a special case. Where ignored path prefixes are used as a chroot,
-+for the lifetime of the chroot, the path is effectively dropped from the
-+PSEUDO_IGNORE_PATHS list. Whilst slightly counter intuaitive, this turned out
-+to be the most effective way to do things due to commands like useradd and
-+their use of chroots.
-+
-+For sqlite3 and appropriate path filtering in OE, this took the database from
-+45,000 entries to about 180. For dbus this was 88,000 down to 760. Given the
-+number of client to server trips these numbers of paths involves, the win
-+is seemingly worthwhile.
++++ b/meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch
+@@ -0,0 +1,64 @@
++Rather than mapping mismatched inode entries to paths, thrown an abort() 
++instead. Add a new result type to allow the server to pass back
++this instruction to the client.
 +
 +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +Upstream-Status: Pending
 +
++Index: git/pseudo.c
++===================================================================
++--- git.orig/pseudo.c
+++++ git/pseudo.c
++@@ -695,17 +695,15 @@ pseudo_op(pseudo_msg_t *msg, const char
++ 						msg->path);
++ 					pdb_did_unlink_file(path_by_ino, &by_ino, by_ino.deleting);
++ 				} else {
++-					int flags = 0;
++-					if (msg->nlink > 1) {
++-						flags = PDBGF_FILE | PDBGF_VERBOSE;
++-					}
++-					pseudo_debug(flags, "path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
+++					pseudo_diag("path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
++ 						msg->nlink,
++ 						msg->nlink == 1 ? "" : "s",
++ 						(unsigned long long) msg_header.ino,
++ 						path_by_ino ? path_by_ino : "no path",
++ 						msg->path);
++ 					found_ino = 0;
+++					msg->result = RESULT_ABORT;
+++					goto op_exit;
++ 				}
++ 			}
++ 		} else {
++@@ -1025,6 +1023,7 @@ pseudo_op(pseudo_msg_t *msg, const char
++ 		break;
++ 	}
++ 
+++op_exit:
++ 	/* in the case of an exact match, we just used the pointer
++ 	 * rather than allocating space.
++ 	 */
 +Index: git/pseudo_client.c
 +===================================================================
 +--- git.orig/pseudo_client.c
 ++++ git/pseudo_client.c
-+@@ -1482,6 +1482,43 @@ base_path(int dirfd, const char *path, i
-+ 	return newpath;
-+ }
-+ 
-++int pseudo_client_ignore_fd(int fd) {
-++	if (fd >= 0 && fd <= nfds)
-++		return pseudo_client_ignore_path(fd_path(fd));
-++	return 0;
-++}
-++
-++int pseudo_client_ignore_path_chroot(const char *path, int ignore_chroot) {
-++	char *env;
-++	if (path) {
-++		if (ignore_chroot && pseudo_chroot && strncmp(path, pseudo_chroot, pseudo_chroot_len) == 0)
-++			return 0;
-++		env = pseudo_get_value("PSEUDO_IGNORE_PATHS");
-++		if (env) {
-++			char *p = env;
-++        	        while (*p) {
-++				char *next = strchr(p, ',');
-++				if (!next)
-++				    next = strchr(p, '\0');
-++				if ((next - p) && !strncmp(path, p, next - p)) {
-++		 			pseudo_debug(PDBGF_PATH | PDBGF_VERBOSE, "ignoring path: '%s'\n", path);
-++					return 1;
-++				}
-++				if (next && *next != '\0')
-++					p = next+1;
-++				else
-++					break;
++@@ -1919,6 +1919,10 @@ pseudo_client_op(pseudo_op_t op, int acc
++ #endif
++ 		if (result) {
++ 			pseudo_debug(PDBGF_OP, "(%d) %s", getpid(), pseudo_res_name(result->result));
+++			if (result->result == RESULT_ABORT) {
+++				pseudo_diag("abort()ing pseudi client by server request. See https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.\n");
+++				abort();
 ++			}
-++			free(env);
-++		}
-++	}
-++	return 0;
-++}
-++
-++int pseudo_client_ignore_path(const char *path) {
-++	return pseudo_client_ignore_path_chroot(path, 1);
-++}
-++
-+ pseudo_msg_t *
-+ pseudo_client_op(pseudo_op_t op, int access, int fd, int dirfd, const char *path, const PSEUDO_STATBUF *buf, ...) {
-+ 	pseudo_msg_t *result = 0;
-+@@ -1522,6 +1559,16 @@ pseudo_client_op(pseudo_op_t op, int acc
-+ 		}
-+ 	}
-+ 
-++	if (op != OP_CHROOT && op != OP_CHDIR && op != OP_CLOSE && op != OP_DUP
-++			&& pseudo_client_ignore_path_chroot(path, 0)) {
-++		if (op == OP_OPEN) {
-++			pseudo_client_path(fd, path);
-++		}
-++		/* reenable wrappers */
-++		pseudo_magic();
-++		return result;
-++	}
-++
-+ #ifdef PSEUDO_XATTRDB
-+ 	if (buf) {
-+ 		struct stat64 bufcopy = *buf;
-+Index: git/pseudo_util.c
++ 			if (op == OP_STAT || op == OP_FSTAT) {
++ 				pseudo_debug(PDBGF_OP, " mode 0%o uid %d:%d",
++ 					(int) result->mode,
++Index: git/enums/res.in
 +===================================================================
-+--- git.orig/pseudo_util.c
-++++ git/pseudo_util.c
-+@@ -43,6 +43,7 @@ static struct pseudo_variables pseudo_en
-+ 	{ "PSEUDO_BINDIR", 13, NULL },
-+ 	{ "PSEUDO_LIBDIR", 13, NULL },
-+ 	{ "PSEUDO_LOCALSTATEDIR", 20, NULL },
-++	{ "PSEUDO_IGNORE_PATHS", 19, NULL },
-+ 	{ "PSEUDO_PASSWD", 13, NULL },
-+ 	{ "PSEUDO_CHROOT", 13, NULL },
-+ 	{ "PSEUDO_UIDS", 11, NULL },
-+Index: git/pseudo_client.h
-+===================================================================
-+--- git.orig/pseudo_client.h
-++++ git/pseudo_client.h
-+@@ -7,6 +7,8 @@
-+  *
-+  */
-+ extern pseudo_msg_t *pseudo_client_op(pseudo_op_t op, int access, int fd, int dirfd, const char *path, const PSEUDO_STATBUF *buf, ...);
-++extern int pseudo_client_ignore_path(const char *path);
-++extern int pseudo_client_ignore_fd(int fd);
-+ #if PSEUDO_STATBUF_64
-+ #define base_lstat real_lstat64
-+ #define base_fstat real_fstat64
-+Index: git/ports/linux/wrapfuncs.in
-+===================================================================
-+--- git.orig/ports/linux/wrapfuncs.in
-++++ git/ports/linux/wrapfuncs.in
-+@@ -1,23 +1,23 @@
-+-int open(const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW */
-++int open(const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
-+ char *get_current_dir_name(void);
-+ int __xstat(int ver, const char *path, struct stat *buf);
-+ int __lxstat(int ver, const char *path, struct stat *buf); /* flags=AT_SYMLINK_NOFOLLOW */
-+ int __fxstat(int ver, int fd, struct stat *buf);
-+ int lchown(const char *path, uid_t owner, gid_t group); /* flags=AT_SYMLINK_NOFOLLOW */
-+ int __fxstatat(int ver, int dirfd, const char *path, struct stat *buf, int flags);
-+-int openat(int dirfd, const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW */
-+-int __openat_2(int dirfd, const char *path, int flags); /* flags=flags&O_NOFOLLOW */
-++int openat(int dirfd, const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
-++int __openat_2(int dirfd, const char *path, int flags); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
-+ int mknod(const char *path, mode_t mode, dev_t dev); /* real_func=pseudo_mknod */
-+ int mknodat(int dirfd, const char *path, mode_t mode, dev_t dev); /* real_func=pseudo_mknodat */
-+ int __xmknod(int ver, const char *path, mode_t mode, dev_t *dev); /* flags=AT_SYMLINK_NOFOLLOW */
-+ int __xmknodat(int ver, int dirfd, const char *path, mode_t mode, dev_t *dev); /* flags=AT_SYMLINK_NOFOLLOW */
-+-int fcntl(int fd, int cmd, ...{struct flock *lock});
-++int fcntl(int fd, int cmd, ...{struct flock *lock});  /* noignore_path=1 */
-+ # just so we know the inums of symlinks
-+ char *canonicalize_file_name(const char *filename);
-+ int eaccess(const char *path, int mode);
-+-int open64(const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW */
-+-int openat64(int dirfd, const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW */
-+-int __openat64_2(int dirfd, const char *path, int flags); /* flags=flags&O_NOFOLLOW */
-++int open64(const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
-++int openat64(int dirfd, const char *path, int flags, ...{mode_t mode}); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
-++int __openat64_2(int dirfd, const char *path, int flags); /* flags=flags&O_NOFOLLOW, noignore_path=1 */
-+ int creat64(const char *path, mode_t mode);
-+ int stat(const char *path, struct stat *buf); /* real_func=pseudo_stat */
-+ int lstat(const char *path, struct stat *buf); /* real_func=pseudo_lstat, flags=AT_SYMLINK_NOFOLLOW */
-+@@ -29,9 +29,9 @@ int __xstat64(int ver, const char *path,
-+ int __lxstat64(int ver, const char *path, struct stat64 *buf); /* flags=AT_SYMLINK_NOFOLLOW */
-+ int __fxstat64(int ver, int fd, struct stat64 *buf);
-+ int __fxstatat64(int ver, int dirfd, const char *path, struct stat64 *buf, int flags);
-+-FILE *fopen64(const char *path, const char *mode);
-+-int nftw64(const char *path, int (*fn)(const char *, const struct stat64 *, int, struct FTW *), int nopenfd, int flag);
-+-FILE *freopen64(const char *path, const char *mode, FILE *stream);
-++FILE *fopen64(const char *path, const char *mode); /* noignore_path=1 */
-++int nftw64(const char *path, int (*fn)(const char *, const struct stat64 *, int, struct FTW *), int nopenfd, int flag); /* noignore_path=1 */
-++FILE *freopen64(const char *path, const char *mode, FILE *stream);  /* noignore_path=1 */
-+ int ftw64(const char *path, int (*fn)(const char *, const struct stat64 *, int), int nopenfd);
-+ int glob64(const char *pattern, int flags, int (*errfunc)(const char *, int), glob64_t *pglob);
-+ int scandir64(const char *path, struct dirent64 ***namelist, int (*filter)(const struct dirent64 *), int (*compar)());
-+Index: git/templates/wrapfuncs.c
-+===================================================================
-+--- git.orig/templates/wrapfuncs.c
-++++ git/templates/wrapfuncs.c
-+@@ -60,9 +60,15 @@ ${maybe_async_skip}
-+ 		${rc_assign} (*real_${name})(${call_args});
-+ 	} else {
-+ 		${fix_paths}
-+-		/* exec*() use this to restore the sig mask */
-+-		pseudo_saved_sigmask = saved;
-+-		${rc_assign} wrap_$name(${call_args});
-++		if (${ignore_paths}) {
-++			/* call the real syscall */
-++			pseudo_debug(PDBGF_SYSCALL, "${name} ignored path, calling real syscall.\n");
-++			${rc_assign} (*real_${name})(${call_args});
-++		} else {
-++			/* exec*() use this to restore the sig mask */
-++			pseudo_saved_sigmask = saved;
-++			${rc_assign} wrap_$name(${call_args});
-++		}
-+ 	}
-+ 	${variadic_end}
-+ 	save_errno = errno;
-+Index: git/ports/unix/wrapfuncs.in
-+===================================================================
-+--- git.orig/ports/unix/wrapfuncs.in
-++++ git/ports/unix/wrapfuncs.in
-+@@ -1,14 +1,14 @@
-+ int creat(const char *path, mode_t mode);
-+ char *getcwd(char *buf, size_t size);
-+ char *getwd(char *buf);
-+-int close(int fd);
-++int close(int fd);  /* noignore_path=1 */
-+ int fchmod(int fd, mode_t mode);
-+ int fchown(int fd, uid_t owner, gid_t group);
-+ int lchown(const char *path, uid_t owner, gid_t group); /* flags=AT_SYMLINK_NOFOLLOW */
-+-int dup2(int oldfd, int newfd);
-+-int dup(int fd);
-+-int chdir(const char *path);
-+-int fchdir(int dirfd);
-++int dup2(int oldfd, int newfd); /* noignore_path=1 */
-++int dup(int fd); /* noignore_path=1 */
-++int chdir(const char *path); /* noignore_path=1 */
-++int fchdir(int dirfd); /* noignore_path=1 */
-+ int access(const char *path, int mode);
-+ FTS *fts_open(char * const *path_argv, int options, int (*compar)(const FTSENT **, const FTSENT **)); /* inode64=1 */
-+ int ftw(const char *path, int (*fn)(const char *, const struct stat *, int), int nopenfd);
-+@@ -20,18 +20,18 @@ char *mktemp(char *template);
-+ long pathconf(const char *path, int name);
-+ char *realpath(const char *name, char *resolved_name); /* version="GLIBC_2.3" */
-+ int remove(const char *path); /* flags=AT_SYMLINK_NOFOLLOW */
-+-DIR *opendir(const char *path);
-+-int closedir(DIR *dirp);
-++DIR *opendir(const char *path); /* noignore_path=1 */
-++int closedir(DIR *dirp); /* noignore_path=1 */
-+ char *tempnam(const char *template, const char *pfx);
-+ char *tmpnam(char *s);
-+ int truncate(const char *path, off_t length);
-+ int utime(const char *path, const struct utimbuf *buf);
-+ int utimes(const char *path, const struct timeval *times);
-+ # needed because libc stdio does horrible things with inline asm syscalls
-+-FILE *fopen(const char *path, const char *mode);
-+-int fclose(FILE *fp);
-+-FILE *freopen(const char *path, const char *mode, FILE *stream);
-+-int chroot(const char *path);
-++FILE *fopen(const char *path, const char *mode); /* noignore_path=1 */
-++int fclose(FILE *fp);  /* noignore_path=1 */
-++FILE *freopen(const char *path, const char *mode, FILE *stream); /* noignore_path=1 */
-++int chroot(const char *path); /* noignore_path=1 */
-+ int acct(const char *path);
-+ int chmod(const char *path, mode_t mode);
-+ int chown(const char *path, uid_t owner, gid_t group);
-+Index: git/makewrappers
-+===================================================================
-+--- git.orig/makewrappers
-++++ git/makewrappers
-+@@ -228,6 +228,8 @@ class Function:
-+         self.real_func = None
-+         self.paths_to_munge = []
-+         self.specific_dirfds = {}
-++        self.fd_arg = False
-++        self.noignore_path = False
-+         self.hand_wrapped = None
-+         self.async_skip = None
-+         # used for the copyright date when creating stub functions
-+@@ -267,6 +269,11 @@ class Function:
-+                 self.flags = '(flags & AT_SYMLINK_NOFOLLOW)'
-+             elif arg.name.endswith('path'):
-+                 self.paths_to_munge.append(arg.name)
-++            elif arg.name == 'fd':
-++                self.fd_arg = "fd"
-++            elif arg.name == 'filedes':
-++                self.fd_arg = "filedes"
-++
-+     
-+         # pick default values
-+         if self.type == 'void':
-+@@ -361,6 +368,25 @@ class Function:
-+                 (path, prefix, self.dirfd, path, self.flags))
-+         return "\n\t\t".join(fix_paths)
-+ 
-++    def ignore_paths(self):
-++        if self.noignore_path:
-++            return "0"
-++
-++        mainpath = None
-++        if "oldpath" in self.paths_to_munge:
-++            mainpath = "oldpath"
-++        elif "newpath" in self.paths_to_munge:
-++            mainpath = "newpath"
-++        elif "path" in self.paths_to_munge:
-++            mainpath = "path"
-++
-++        if mainpath:
-++            return "pseudo_client_ignore_path(%s)" % mainpath
-++        if self.fd_arg:
-++            return "pseudo_client_ignore_fd(%s)" % self.fd_arg
-++
-++        return "0"
-++
-+     def real_predecl(self):
-+         if self.real_func:
-+             return self.decl().replace(self.name, self.real_func, 1) + ";"
++--- git.orig/enums/res.in
+++++ git/enums/res.in
++@@ -2,3 +2,4 @@ res: RESULT
++ succeed
++ fail
++ error
+++abort
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 7eb72f0eab..57c32d0cfc 100644
+index 57c32d0cfc..56c9b4e232 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -3,6 +3,7 @@ require pseudo.inc
- SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
+@@ -4,6 +4,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
             file://0001-configure-Prune-PIE-flags.patch \
             file://delete_mismatches.patch \
-+           file://add_ignore_paths.patch \
+            file://add_ignore_paths.patch \
++           file://abort_on_mismatch.patch \
             file://fallback-passwd \
             file://fallback-group \
             "
