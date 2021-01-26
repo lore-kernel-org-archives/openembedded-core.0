@@ -1,50 +1,50 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web10.13082.1611672154310915231
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web09.12869.1611672156848544505
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:42:34 -0800
+ Tue, 26 Jan 2021 06:42:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EZfSUdB+;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id lw17so1385038pjb.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:34 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=twuU88L+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id n25so11582491pgb.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=N+mMWPZBDhSeHvQEA3R3OPIxG3GAdfqN8hf1f4AA/Ic=;
-        b=EZfSUdB+XFuAANWi3/pprb40QdyfNPyn5j0Iu9wxuzSSneN8fy3+6PDkCB+xFWO195
-         UWl/y9AW5igkezCst6yuPBXCJPPNctDaKsPUXPXzkLRcGne7H+C079GitrDX9BfBEFzl
-         1U6pPm9fUeTlPGmnbNR9N03PS/54rbZ2EiyrbR2ka9qJwAGMd/VQ5GFD+s09KQEP0lVu
-         M5XCtMkw4gHGZ/vqaSrTSA1+VCzRUJf+4UazYfRU2qVjUn5k2JHpV4x792OsF+jp8Bi5
-         l2CpmUChWyePBdKT4hz3qAS2Yp35AudwvcC1f6IdlcKFZXtaZjTxpWQRerUiAm1ymzlJ
-         os5Q==
+        bh=jEWEWGqqVgemRvAX/I6qpZXO7MHww2Ln3FQqO8f60f0=;
+        b=twuU88L+0SW4//WMn557eqzEAK99ubqBZYgbvTTg/7E9pOAFhKAu3FAOgM9UhfRAbW
+         FFlvq9XtthLYhDHW4FZIX8BdN47gIuWkerU9ghKyP/i/L6aVXEWGnjCYlVEYa01IUT6D
+         W7J4fMKMPCqzmUgZEE49QnT6+F+I2sAWTXhjnSZjHfpfwWL1gtgxrKJT9TGImn2pr+RJ
+         9poqJWAtVrJ/LzmJzJt6aNnyIJlVz1ufjXd7IJFZcOlNLannI9HVV5QnNJ9LrxMFjyrx
+         pVTR+/1mXi7qxJlfR7isa6pVJF4xXno9d8qB/0SqfjwGGTr7ctZ65WBgD2FVu9PO1wTm
+         pnIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=N+mMWPZBDhSeHvQEA3R3OPIxG3GAdfqN8hf1f4AA/Ic=;
-        b=SxbWha3m2BFVrsJe6S76pu3QAmRMdO1+txRXMaKj7FvlXB+6g385A2Egrieb58nqsw
-         BOxiiMjmRzFZ/rxpyoLlaXUrcEUfthCUPJz1h2dYi6jxbootb4Ny0b16VJmIOa9zseAa
-         29YsakeVGGjZ+o3XnCrofKJhALZ2aZ64eJz6aQEdBvnWb996ysYxyST1Tbodv3zMB91y
-         R0YGWjUaZK+8l3KKX0z+n8AkBEEaXaDtBbi1MUxe8C3A7zFrh0aYwG0wDP9hx5oBdM64
-         HXEhfSugMw9JqP7XbXUm81PkaI21BUFVmmqMBSvJKJHicDumBO5n7BxL/071R2S+0H/F
-         5Dvg==
-X-Gm-Message-State: AOAM531PePJN/FCVgQ3s8tOJ0H4i5tV+Z0X7TspMY2FgsoOFZTZRAjYM
-	o5TsVEwBMn4X/YPajCOJ4PvWqhp9O6JMZaAjUlg=
-X-Google-Smtp-Source: ABdhPJxbClCu7RBiZLJ1r5+4WSVt9qyUn+/HzDhcWy2U4vs4UiUd0LN9jl4Y4e6huTrLzYmNvxmy4A==
-X-Received: by 2002:a17:90b:1b50:: with SMTP id nv16mr63844pjb.153.1611672153343;
-        Tue, 26 Jan 2021 06:42:33 -0800 (PST)
+        bh=jEWEWGqqVgemRvAX/I6qpZXO7MHww2Ln3FQqO8f60f0=;
+        b=WrNoO79nhsMM4Lwa75v1SfNFKidBUIfgFKGySj8X9iLVHCs1zpqCR2UWodptb16ESU
+         d95F1J8EhuDSSeydWOa4yNYtiTCkwi/3u1wCSvBRsr7D0T6Y8pT21QgDB6RUa7c3IzPK
+         ewcYNHyLiKZvV4dtd/15AUGzwCWnH2hcw8yrNyuZK9sn+nR9pXBAhJVEmUmWopFIwduf
+         DPXHaX+YBXnKBeY3/iq+8s4nk5K8TQd+tTRkdEQ+N6YK/IS2TzO7Kq+xmn6KCeIRi8KZ
+         fwYHwyRxHgQ5mGfupdoA8OOxvpabBceguIcRMsRMuOG8Ep8LrCIH4eRgnXDdnTOr0Ll9
+         Bo6Q==
+X-Gm-Message-State: AOAM530k/0zihDLGpiSYsR6heAIvwicTGMbClqaNpoQjTDgjAzTMcFbn
+	REkzR4/vs/ORk4HArzZyfAkjcD2do2cGAGewRjk=
+X-Google-Smtp-Source: ABdhPJxn69Q0FAKneVKLFLZ7XO0LDowKaMtBO+xCrG1hkH+tiDTtbkZUUTN/FvlYEoFuAnYIRDaLzQ==
+X-Received: by 2002:a63:c941:: with SMTP id y1mr5863460pgg.313.1611672155851;
+        Tue, 26 Jan 2021 06:42:35 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.31
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:42:32 -0800 (PST)
+        Tue, 26 Jan 2021 06:42:35 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 07/46] pseudo: Abort on mismatch patch
-Date: Tue, 26 Jan 2021 04:41:18 -1000
-Message-Id: <2ebe58df3390a3610505bf573fb9de52f5418d4d.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 08/46] psuedo: Add tracking of linked files for fds
+Date: Tue, 26 Jan 2021 04:41:19 -1000
+Message-Id: <2579bab3048d5e995dc7e14ca9cca1975adb44ed.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
@@ -53,99 +53,189 @@ Content-Transfer-Encoding: 8bit
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Rather than doing what turns out to be a rather dangerous "fixup" if
-we see a file with a different path but the same inode as another file
-we've previously seen, throw and abort. Direct the user to a wiki page
-where we can maintain information about what this error means.
+Where files are link()'d and one is unlink()'d, pseudo's fd mappings
+can become confused. Add a patch to try and improve this for the common
+usecases we see.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2db491d97da08d44ebd257f98489550a82a7935c)
+(cherry picked from commit 9ce621fa2099608ca0ccbb8420b31d71cdd7b00e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../pseudo/files/abort_on_mismatch.patch      | 64 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch
+ .../pseudo/files/track_link_fds.patch         | 155 ++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
+ 2 files changed, 156 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/track_link_fds.patch
 
-diff --git a/meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch b/meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch
+diff --git a/meta/recipes-devtools/pseudo/files/track_link_fds.patch b/meta/recipes-devtools/pseudo/files/track_link_fds.patch
 new file mode 100644
-index 0000000000..1737269ec8
+index 0000000000..a3a9eb3f23
 --- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/abort_on_mismatch.patch
-@@ -0,0 +1,64 @@
-+Rather than mapping mismatched inode entries to paths, thrown an abort() 
-+instead. Add a new result type to allow the server to pass back
-+this instruction to the client.
++++ b/meta/recipes-devtools/pseudo/files/track_link_fds.patch
+@@ -0,0 +1,155 @@
++Consider what happens if a program does:
++
++fd = fopen("A")
++link("A", "B")
++unlink("A")
++fchown(fd)
++
++Assuming we can't use the database, in order to handle this correctly, 
++we need to change the open fd to point at B when A us unlinked.
 +
 +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 +Upstream-Status: Pending
 +
-+Index: git/pseudo.c
++Index: git/ports/unix/guts/linkat.c
 +===================================================================
-+--- git.orig/pseudo.c
-++++ git/pseudo.c
-+@@ -695,17 +695,15 @@ pseudo_op(pseudo_msg_t *msg, const char
-+ 						msg->path);
-+ 					pdb_did_unlink_file(path_by_ino, &by_ino, by_ino.deleting);
-+ 				} else {
-+-					int flags = 0;
-+-					if (msg->nlink > 1) {
-+-						flags = PDBGF_FILE | PDBGF_VERBOSE;
-+-					}
-+-					pseudo_debug(flags, "path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
-++					pseudo_diag("path mismatch [%d link%s]: ino %llu db '%s' req '%s'.\n",
-+ 						msg->nlink,
-+ 						msg->nlink == 1 ? "" : "s",
-+ 						(unsigned long long) msg_header.ino,
-+ 						path_by_ino ? path_by_ino : "no path",
-+ 						msg->path);
-+ 					found_ino = 0;
-++					msg->result = RESULT_ABORT;
-++					goto op_exit;
-+ 				}
-+ 			}
-+ 		} else {
-+@@ -1025,6 +1023,7 @@ pseudo_op(pseudo_msg_t *msg, const char
-+ 		break;
-+ 	}
-+ 
-++op_exit:
-+ 	/* in the case of an exact match, we just used the pointer
-+ 	 * rather than allocating space.
++--- git.orig/ports/unix/guts/linkat.c
+++++ git/ports/unix/guts/linkat.c
++@@ -116,6 +116,7 @@
++ 	 * if the thing linked is a symlink.
 + 	 */
++ 	pseudo_client_op(OP_LINK, 0, -1, -1, newpath, &buf);
+++	pseudo_client_linked_paths(oldpath, newpath);
++ 
++ 	errno = save_errno;
++ 
 +Index: git/pseudo_client.c
 +===================================================================
 +--- git.orig/pseudo_client.c
 ++++ git/pseudo_client.c
-+@@ -1919,6 +1919,10 @@ pseudo_client_op(pseudo_op_t op, int acc
-+ #endif
-+ 		if (result) {
-+ 			pseudo_debug(PDBGF_OP, "(%d) %s", getpid(), pseudo_res_name(result->result));
-++			if (result->result == RESULT_ABORT) {
-++				pseudo_diag("abort()ing pseudi client by server request. See https://wiki.yoctoproject.org/wiki/Pseudo_Abort for more details on this.\n");
-++				abort();
-++			}
-+ 			if (op == OP_STAT || op == OP_FSTAT) {
-+ 				pseudo_debug(PDBGF_OP, " mode 0%o uid %d:%d",
-+ 					(int) result->mode,
-+Index: git/enums/res.in
++@@ -70,6 +70,8 @@ int pseudo_umask = 022;
++ 
++ static char **fd_paths = NULL;
++ static int nfds = 0;
+++static char **linked_fd_paths = NULL;
+++static int linked_nfds = 0;
++ static const char **passwd_paths = NULL;
++ static int npasswd_paths = 0;
++ #ifdef PSEUDO_PROFILING
++@@ -889,39 +891,70 @@ fd_path(int fd) {
++ }
++ 
++ static void
++-pseudo_client_path(int fd, const char *path) {
+++pseudo_client_path_set(int fd, const char *path, char ***patharray, int *len) {
++ 	if (fd < 0)
++ 		return;
++ 
++-	if (fd >= nfds) {
+++	if (fd >= *len) {
++ 		int i;
++ 		pseudo_debug(PDBGF_CLIENT, "expanding fds from %d to %d\n",
++-			nfds, fd + 1);
++-		fd_paths = realloc(fd_paths, (fd + 1) * sizeof(char *));
++-		for (i = nfds; i < fd + 1; ++i)
++-			fd_paths[i] = 0;
++-		nfds = fd + 1;
+++			*len, fd + 1);
+++		(*patharray) = realloc((*patharray), (fd + 1) * sizeof(char *));
+++		for (i = *len; i < fd + 1; ++i)
+++			(*patharray)[i] = 0;
+++		*len = fd + 1;
++ 	} else {
++-		if (fd_paths[fd]) {
+++		if ((*patharray)[fd]) {
++ 			pseudo_debug(PDBGF_CLIENT, "reopening fd %d [%s] -- didn't see close\n",
++-				fd, fd_paths[fd]);
+++				fd, (*patharray)[fd]);
++ 		}
++ 		/* yes, it is safe to free null pointers. yay for C89 */
++-		free(fd_paths[fd]);
++-		fd_paths[fd] = 0;
+++		free((*patharray)[fd]);
+++		(*patharray)[fd] = 0;
++ 	}
++ 	if (path) {
++-		fd_paths[fd] = strdup(path);
+++		(*patharray)[fd] = strdup(path);
+++	}
+++}
+++
+++static void
+++pseudo_client_path(int fd, const char *path) {
+++	pseudo_client_path_set(fd, path, &fd_paths, &nfds);
+++}
+++
+++void
+++pseudo_client_linked_paths(const char *oldpath, const char *newpath) {
+++	int fd;
+++	for (fd = 3; fd < nfds; ++fd) {
+++		if (fd_paths[fd] && !strcmp(oldpath, fd_paths[fd])) {
+++			pseudo_client_path_set(fd, newpath, &linked_fd_paths, &linked_nfds);
+++		}
++ 	}
++ }
++ 
++ static void
+++pseudo_client_unlinked_path(const char *path) {
+++	int fd;
+++	for (fd = 0; fd < linked_nfds; ++fd) {
+++		if (linked_fd_paths[fd] && fd_paths[fd] && !strcmp(path, fd_paths[fd])) {
+++			pseudo_client_path(fd, linked_fd_paths[fd]);
+++		}
+++	}
+++}
+++
+++
+++static void
++ pseudo_client_close(int fd) {
++ 	if (fd < 0 || fd >= nfds)
++ 		return;
++ 
++ 	free(fd_paths[fd]);
++ 	fd_paths[fd] = 0;
+++
+++	if (fd < linked_nfds) {
+++		free(linked_fd_paths[fd]);
+++		linked_fd_paths[fd] = 0;
+++	}
++ }
++ 
++ /* spawn server */
++@@ -1860,6 +1893,12 @@ pseudo_client_op(pseudo_op_t op, int acc
++ 			dirfd);
++ 		pseudo_client_path(dirfd, fd_path(fd));
++ 		break;
+++	case OP_UNLINK:
+++	case OP_DID_UNLINK:
+++		if (path)
+++			pseudo_client_unlinked_path(path);
+++		do_request = 1;
+++		break;
++ 	/* operations for which we should use the magic uid/gid */
++ 	case OP_CHMOD:
++ 	case OP_CREAT:
++@@ -1882,8 +1921,6 @@ pseudo_client_op(pseudo_op_t op, int acc
++ 	case OP_LINK:
++ 	case OP_RENAME:
++ 	case OP_STAT:
++-	case OP_UNLINK:
++-	case OP_DID_UNLINK:
++ 	case OP_CANCEL_UNLINK:
++ 	case OP_MAY_UNLINK:
++ 	case OP_GET_XATTR:
++Index: git/pseudo_client.h
 +===================================================================
-+--- git.orig/enums/res.in
-++++ git/enums/res.in
-+@@ -2,3 +2,4 @@ res: RESULT
-+ succeed
-+ fail
-+ error
-++abort
++--- git.orig/pseudo_client.h
+++++ git/pseudo_client.h
++@@ -9,6 +9,7 @@
++ extern pseudo_msg_t *pseudo_client_op(pseudo_op_t op, int access, int fd, int dirfd, const char *path, const PSEUDO_STATBUF *buf, ...);
++ extern int pseudo_client_ignore_path(const char *path);
++ extern int pseudo_client_ignore_fd(int fd);
+++extern void pseudo_client_linked_paths(const char *oldpath, const char *newpath);
++ #if PSEUDO_STATBUF_64
++ #define base_lstat real_lstat64
++ #define base_fstat real_fstat64
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 57c32d0cfc..56c9b4e232 100644
+index 56c9b4e232..a5e79ec9a5 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -4,6 +4,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
-            file://0001-configure-Prune-PIE-flags.patch \
+@@ -5,6 +5,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo;branch=oe-core \
             file://delete_mismatches.patch \
             file://add_ignore_paths.patch \
-+           file://abort_on_mismatch.patch \
+            file://abort_on_mismatch.patch \
++           file://track_link_fds.patch \
             file://fallback-passwd \
             file://fallback-group \
             "
