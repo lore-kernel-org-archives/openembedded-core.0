@@ -1,226 +1,150 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web12.13362.1611673699841491923
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web12.13648.1611674714910371499
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 07:08:20 -0800
+ Tue, 26 Jan 2021 07:25:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sVE9OOxR;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.45, mailfrom: steve@sakoman.com)
-Received: by mail-wm1-f45.google.com with SMTP id u14so3060738wmq.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 07:08:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IS4d6EjF;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: andrey.z@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id p21so18146833lfu.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 07:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=n8Jhv8bEYIzhmLMD9Qh0XksLwXNU/SMGTvhQgc2L6GQ=;
-        b=sVE9OOxR+89Tikagv/Gpdk4/9F1I1l9pQvi4PmdaN64sF7PJC0BIoVgi0JSCCFBUfg
-         gFT+QNp1p7jLj4k73Htuplq/rv3SDBV4ESs65xadL1HvSmsS67Z0tfczber1WA25Po6f
-         jcRrSMJEI7Itjv4Ah5M87ufP/CRjBreI3ows8TZhzAEeVGnLgJnDeruoxfQy5pNSYaTi
-         cHLiOzvjMDyLp3BEc0U+Shp7FpsjCDck/i4gKi7hPPSPxLeBAqUCyPA5s36BfgJnZYdM
-         6msXNhN7Ld87OaSDqt9DvtDvYmspVyq3WDX3mNSum2EtUs1yOXIvyCunfsEyGy11D1cs
-         zg7Q==
+        bh=Z6n+KVT9fE6GdoWaQsb0U/PAsze88EonkWzeyc/Hx3o=;
+        b=IS4d6EjFSEK2McvJ/es1Hxw4XMsB7XgaGlp2PqyY8Mr6Ux4i5kJKFZRBYGvij1+Jt8
+         SxL3UlIqjIb3nvb0X2iZIkzHNwDzF32Drc44BuK+b4a+LJCW4Gmyb7N1Lj0PDh96/0Ne
+         ucjW8nQ6uT540odI90F3YlhYf6ZyDKD7kMZqiSXhJB+G8aAntYkHXRIKZXgCEe9Otb3O
+         KBWH0sJvrNBea3WdoO7FO3UQ8Rcwdfx/aZ+cGy78gnOQ8j5w+lsqWO9GXySHCWTsR9Qc
+         SOMsKbqj+U7N7q9eEUiH0fqtjAzXhVlSkPAio+TbwqQxLucAScOaA8epC1Z+K8gFpnUp
+         6rWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=n8Jhv8bEYIzhmLMD9Qh0XksLwXNU/SMGTvhQgc2L6GQ=;
-        b=nFvaSZraoeN26Q5WcXOWMWDUn+SHK72rd7XuDOMsI1uflftCtz6uKtEDcN88mZiWTF
-         mldDnv+QVSO7V0uDH6gPl9VRQUVbg8TomPUQtrYkGNU57ipPWqtRtcDC0N39LgasC4ub
-         tHGSAMRoFn124mXaBjA1sQ94ImQ8mskiL8dk76ZGT9H7qzVEuZ5Avj6bvmTgodY2K5uR
-         yfgJr1mAYszDeCBkKbYwgsfPFNHhY0iMz/oUcuSfq8ZJX4Ycekn+CQSuZ4qw4JaQc3qc
-         VF6l4VSCfaqItrVZP/JSmMcAeH6bUbVQgkG14EKY0Cdz854aVWxZT7xPcmLvzyHm1VeR
-         W7lw==
-X-Gm-Message-State: AOAM530Rg6T4I3hOUVjUqNWYzFK2pSRRROUkVh8bP2M5XYvSi+DRr4TL
-	RLNLvGumfWqIAR+Mu16VbzbNaWv3AyXQo7B/gLgP7w==
-X-Google-Smtp-Source: ABdhPJx05Ig+AXnW5k1NJSe94ag6cgkq1dw35KacoP8+S/21T5PpkFw6a1+65ki1VI6hlufTR9QMw8ldIO8iTBE9Uj4=
-X-Received: by 2002:a7b:c0d8:: with SMTP id s24mr208976wmh.4.1611673698282;
- Tue, 26 Jan 2021 07:08:18 -0800 (PST)
+        bh=Z6n+KVT9fE6GdoWaQsb0U/PAsze88EonkWzeyc/Hx3o=;
+        b=Nee0jTZi3PfVp0vZx6zp1thQTlE0VZKJiLljQeM28EhGry1AbZrqGdkP70y0Eh7m6A
+         KISodSISgcCVHPfwS5DeaSP07NuOMdbFyqdhFwPtOTrcz7M+sDpVQG+OcLh9RgrXluqP
+         AyvNFoJuPqz211f7n1U3SMQs1CCpmtHYiCSvRRGXSmjibLNB0xSbNsZt1/lFlSLYLm3+
+         GgNNlMCKGA/U4XL+TkBHXVM7+Z47d32SHUGWOqGsUzaS9fVL/lfKZ7z3Me3UQtY1pcZ6
+         czjfQvNdKZFHq4hFd3M0JfYA5NkMs+Yx4Eqalx3EWM1j71NLskySyOflQwxsIh1RXrQ8
+         YeGw==
+X-Gm-Message-State: AOAM530TojmbrZpcJeRUjgCKUkhEu5JNG8OVvGQUsNUKQDYfjnsUKbUd
+	QC1WKnBULrw98JeBySU3J8jA8/2rVAhqsBPzpHI=
+X-Google-Smtp-Source: ABdhPJyDFJ18aQLOYQTYC84T+ntQxW4p6GJaU6fbsbbxcBOWTzqbVd8M/cbQDvjdU3JGPBYcn/wQXL4OkXD/yWDp++o=
+X-Received: by 2002:a19:4158:: with SMTP id o85mr2951870lfa.429.1611674713164;
+ Tue, 26 Jan 2021 07:25:13 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1611671734.git.steve@sakoman.com> <CAM9ZRVtZuoU7h7aUr4FYxYHqS9xbCvqzx5_+D0qDKQ2DouFCFA@mail.gmail.com>
-In-Reply-To: <CAM9ZRVtZuoU7h7aUr4FYxYHqS9xbCvqzx5_+D0qDKQ2DouFCFA@mail.gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 26 Jan 2021 05:08:07 -1000
-Message-ID: <CAOSpxdZofFsJCszqJg62KGufFDECjrcFxgXehNXjeLoyU1NZeQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell V3 00/46] Patch review - pseudo file mode corruption fix V3
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Dorinda <dorindabassey@gmail.com>
+References: <CAHtQpK71uAoq_hwDGJCvt5O_=kNXHkWFkmHC-BQkzcSCM3ys7A@mail.gmail.com>
+ <CAOSpxdZ_0+QOwnpaCMMm=+1WUcedQ7aqnm=rmg1=_bU8TWOELQ@mail.gmail.com>
+In-Reply-To: <CAOSpxdZ_0+QOwnpaCMMm=+1WUcedQ7aqnm=rmg1=_bU8TWOELQ@mail.gmail.com>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Tue, 26 Jan 2021 16:25:01 +0100
+Message-ID: <CAHtQpK7N-vmpvTpm2Jt-3Q4i+WXtMHfNSq4Jf+BsgsjkETwv7Q@mail.gmail.com>
+Subject: Re: [dunfell]: gpsd recipe (3.19) build is broken
+To: Steve Sakoman <steve@sakoman.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
+	Armin Kuster <akuster808@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 26, 2021 at 4:57 AM Paul Barker <pbarker@konsulko.com> wrote:
+Hello Steve,
+
+On Tue, Jan 26, 2021 at 3:29 PM Steve Sakoman <steve@sakoman.com> wrote:
 >
-> On Tue, 26 Jan 2021 at 14:42, Steve Sakoman <steve@sakoman.com> wrote:
+> Hi Andrey,
+>
+> Thanks for reporting this issue.
+>
+> I'm the maintainer for the dunfell branch of oe-core.  The gpsd recipe
+> is part of meta-openembedded. I'm copying Armin, who is the maintainer
+> for the dunfell branch of meta-openembedded.
+
+True, I've realized the recipe is not part of OE-Core.
+
+>
+> That said, I'm surprised you are seeing this issue since the gpsd
+> recipe has been fairly stable for quite some time.  I know that Armin
+> does test builds quite frequently.
+>
+> FWIW, I tried doing a gpsd build with oe-core, meta-openembedded,
+> meta-freescale, and meta-freescale-distro on an Ubuntu 20.04 and it
+> completed successfully.
+
+Arghh, got the same setup now - and the build issue was gone! :( Looks
+like this was an intermittent one.
+
+I went ahead and invalidated the sstate for the recipe, and build went
+through alright.
+
+With that said: please discard this message, and thanks for responding here!
+
+>
+> Perhaps more information on your environment might help.  What
+> distro/version is the OS on your build machine? What other layers are
+> enabled in your build? What are you using for MACHINE and DISTRO?  Do
+> any of your layers have a .bbappend for gpsd?
+
+For the record: had nothing fancy, same setup as you've indicated above:
+
+Build Configuration:
+BB_VERSION           = "1.46.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "aarch64-fsl-linux"
+MACHINE              = "imx8mmevk"
+DISTRO               = "fsl-wayland"
+DISTRO_VERSION       = "3.1"
+TUNE_FEATURES        = "aarch64 cortexa53 crc crypto"
+TARGET_FPU           = ""
+meta
+meta-poky            = "HEAD:bb7747497adbc7c99f6fc9b48b643eecb4cb1408"
+meta-oe
+meta-multimedia
+meta-python
+meta-networking
+meta-filesystems     = "dunfell:5bba79488b7d393d2258d6e917f7bf7b0d7c4073"
+meta-freescale       =
+"update-kernel-dunfell:184ee6b12d1c06db9327535ad1ae84d4709cfdb0"
+meta-freescale-3rdparty = "HEAD:ed841161a97307ebd901c31c62f8ecbee6baaacf"
+meta-freescale-distro = "HEAD:5d882cdf079b3bde0bd9869ce3ca3db411acbf3b"
+
+>
+> Regards,
+>
+> Steve
+>
+> On Tue, Jan 26, 2021 at 2:13 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
 > >
-> > Issues with undetected file mode corruption in pseudo have been identified.
+> > Hello Steve,
 > >
-> > Fixes have been merged into master and gatesgarth over the past several months and
-> > things seem to have stabilized enough that we can consider backporting these fixes
-> > to dunfell.
+> > gpsd recipe build breaks on the dunfell branch with following error messages:
 > >
-> > This is a somewhat more invasive change than normal. Specifically the user will
-> > be required to clean TMPDIR after this merge. It may also expose issues with
-> > other layers, though master and gategarth have probably helped to pave the way for
-> > this change.
+> > | /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
+> > ./libgpsd.a(ppsthread.o): undefined reference to symbol
+> > 'pthread_create@@GLIBC_2.17'
+> > | /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
+> > /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot/lib/libpthread.so.0:
+> > error adding symbols: DSO missing from command line
 > >
-> > Personally I think that this fixes a serious enough issue that we should consider
-> > this series for dunfell.
+> > This cannot be reproduced on the current master branch, where the
+> > version of gpsd recipe has been bumped up from 3.19 to 3.20.
 > >
-> > This third version removes:
+> > Can you please consider to cherry-pick following commits from master
+> > in order to upgrade the gspd version on dunfell branch:
 > >
-> > bitbake.conf: Remove TERM from default BB_HASHBASE_WHITELIST
+> > 98e61961c gpsd: add new init script
+> > 04afc692a gpsd: mark CLEANBROKEN
+> > 33a15c790 gpsd: fix build on aarch64
+> > cecab9c4c gpsd: Upgrade 3.19 -> 3.20
 > >
-> > and hence the need for any bitbake changes.
-> >
-> > Let me know if you you are aware of any other pseudo issues which would necessitate
-> > delaying the merge of this series.
-> >
-> > Please have comments back by Thursday evening.
-> >
-> > Passed a-full on autobuilder:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1784
-> >
-> > The following changes since commit 897822233faef0f8f35dc1d8a39e1c4bc0550f1e:
-> >
-> >   ppp: Whitelist CVE-2020-15704 (2021-01-19 04:22:10 -1000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-> >   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-> >
-> > Jack Mitchell (1):
-> >   distutils3: allow setup.py to be run from a different directory to
-> >     ${S}
-> >
-> > Joe Slater (1):
-> >   pseudo: fix renaming to self
-> >
-> > Martin Jansa (2):
-> >   base.bbclass: use os.path.normpath instead of just comparing WORKDIR
-> >     and S as strings
-> >   license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to
-> >     PSEUDO_IGNORE_PATHS
-> >
-> > Mingli Yu (2):
-> >   tcl: adapt to potential pseudo changes
-> >   bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
-> >
-> > Paul Barker (8):
-> >   bitbake.conf: Prevent pyc file generation in pseudo context
-> >   wic: Add workdir argument
-> >   wic: Allow exec_native_cmd to run HOSTTOOLS
-> >   wic: Ensure internal workdir is not reused
-> >   image_types_wic: Move wic working directory
-> >   wic: Update pseudo db when excluding content from rootfs
-> >   wic: Copy rootfs dir if fstab needs updating
-> >   wic: Optimise fstab modification for ext2/3/4 and msdos partitions
-> >
-> > Peter Kjellerstedt (4):
-> >   pseudo: Simplify pseudo_client_ignore_path_chroot()
-> >   lib/oe/path: Add canonicalize()
-> >   bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
-> >   wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
-> >
-> > Ricardo Ribalda Delgado (4):
-> >   wic: Fix permissions when using exclude or include path
-> >   wic: Fix multi images .wks with bitbake
-> >   wic: Avoid creating invalid pseudo directory
-> >   wic: Add --change-directory argument
-> >
-> > Richard Purdie (23):
-> >   pseudo: Switch to oe-core branch in git repo
-> >   pseudo: merge in fixes for setfacl issue
-> >   pseudo: Update to add OFC fcntl lock updates
-> >   pseudo: Ignore mismatched inodes from the db
-> >   pseudo: Add support for ignoring paths from the pseudo DB
-> >   pseudo: Abort on mismatch patch
-> >   psuedo: Add tracking of linked files for fds
-> >   pseudo: Fix xattr segfault
-> >   pseudo: Add may unlink patch
-> >   pseudo: Add pathfix patch
-> >   base/bitbake.conf: Enable pseudo path filtering
-> >   wic: Handle new PSEUDO_IGNORE_PATHS variable
-> >   pseudo: Fix statx function usage
-> >   bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
-> >   abi_version,sanity: Tell users TMPDIR must be clean after pseudo
-> >     changes
-> >   pseudo: Update to account for patches merged on branch
-> >   pseudo: Upgrade to include mkostemp64 wrapper
-> >   oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
-> >   uninative: Don't use single sstate for pseudo-native
-> >   pseudo: Drop patches merged into upstream branch
-> >   bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
-> >   pseudo: Add lchmod wrapper
-> >   pseudo: Update for arm host and memleak fixes/cleanup
-> >
-> > Tomasz Dziendzielski (1):
-> >   pseudo: Update to print PSEUDO_LOGFILE in abort message on path
-> >     mismatches
-> >
-> >  meta-selftest/lib/pseudo_pyc_test1.py         |   1 +
-> >  meta-selftest/lib/pseudo_pyc_test2.py         |   1 +
-> >  .../pseudo-pyc-test/pseudo-pyc-test.bb        |  15 ++
-> >  meta/classes/archiver.bbclass                 |   2 +-
-> >  meta/classes/base.bbclass                     |   6 +
-> >  meta/classes/distutils3.bbclass               |  10 +-
-> >  meta/classes/image_types_wic.bbclass          |  20 ++-
-> >  meta/classes/license.bbclass                  |   1 +
-> >  meta/classes/populate_sdk_base.bbclass        |   2 +
-> >  meta/classes/sanity.bbclass                   |   3 +
-> >  meta/classes/sstate.bbclass                   |   4 +
-> >  meta/conf/abi_version.conf                    |   2 +-
-> >  meta/conf/bitbake.conf                        |  13 +-
-> >  meta/lib/oe/path.py                           |  21 +++
-> >  meta/lib/oe/sstatesig.py                      |   4 +-
-> >  meta/lib/oeqa/selftest/cases/pseudo.py        |  27 ++++
-> >  meta/lib/oeqa/selftest/cases/runtime_test.py  |   1 +
-> >  .../pseudo/files/0001-Add-statx.patch         | 106 --------------
-> >  ...001-maketables-wrappers-use-Python-3.patch |  34 -----
-> >  ...ixup-remove-files-that-do-not-exist-.patch |  49 -------
-> >  .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  |  31 ----
-> >  ...1-realpath.c-Remove-trailing-slashes.patch |  57 --------
-> >  ...xattr-adjust-for-attr-2.4.48-release.patch |  48 ------
-> >  .../pseudo/files/moreretries.patch            |  19 ---
-> >  .../pseudo/files/seccomp.patch                | 137 ------------------
-> >  .../pseudo/files/toomanyfiles.patch           |  71 ---------
-> >  .../pseudo/files/xattr_version.patch          |  54 -------
-> >  meta/recipes-devtools/pseudo/pseudo_git.bb    |  14 +-
-> >  meta/recipes-devtools/tcltk/tcl_8.6.10.bb     |   1 +
-> >  scripts/lib/wic/help.py                       |   6 +
-> >  scripts/lib/wic/ksparser.py                   |   1 +
-> >  scripts/lib/wic/misc.py                       |   7 +-
-> >  scripts/lib/wic/partition.py                  |  66 ++++++---
-> >  scripts/lib/wic/plugins/imager/direct.py      |  48 +++---
-> >  scripts/lib/wic/plugins/source/rootfs.py      |  85 +++++++++--
-> >  scripts/postinst-intercepts/update_font_cache |   2 +
-> >  scripts/wic                                   |   2 +
-> >  37 files changed, 281 insertions(+), 690 deletions(-)
-> >  create mode 100644 meta-selftest/lib/pseudo_pyc_test1.py
-> >  create mode 100644 meta-selftest/lib/pseudo_pyc_test2.py
-> >  create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-> >  create mode 100644 meta/lib/oeqa/selftest/cases/pseudo.py
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/moreretries.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
-> >  delete mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+> > I've tried to cherry-pick them locally and they do apply clean. Also
+> > the build of gpsd is successful after this upgrade.
 > >
 > > --
-> > 2.25.1
->
-> Acked-by: Paul Barker <pbarker@konsulko.com>
->
-> I also recommend backporting Dorinda's recent patch [1] once it's
-> accepted into master.
->
-> [1]: https://lists.openembedded.org/g/openembedded-core/message/147238
+> > Regards,
+> > Andrey.
 
-Yes, I have that one on my watch list! I wasn't going to hold up this
-series waiting for it though.
 
-Steve
+--
+Regards,
+Andrey.
