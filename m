@@ -1,209 +1,133 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web09.16214.1611683653651219112
+Received: from EUR06-AM7-obe.outbound.protection.outlook.com (EUR06-AM7-obe.outbound.protection.outlook.com [40.92.16.84])
+ by mx.groups.io with SMTP id smtpd.web12.16439.1611684509441264644
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 09:54:14 -0800
+ Tue, 26 Jan 2021 10:08:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=i0G2DEQt;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: andrey.z@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id i187so13636113lfd.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 09:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6j/UdVTPvc6sSVV2K8clOzl6QVX/R7qQul6YqnHLWgg=;
-        b=i0G2DEQt6fR8FemGR+N2Q1o8sRmqRwEs4akQxTcpXgYF4lnKG8fWJmW3BQ5v/4XKIN
-         BThOYXa0mb4BfG6CERbK+HlQ3vI1701O4DpkAOnG+3dgrPzBA0yX08W1hp8maXt5ZnSZ
-         fijenxjCF94uH2/Sg/uaYf+t6ULX4yobhQevNNtv6w81gL76Wkurv5fTv9Fxd46+ykA3
-         t6W7yqwQUx0VK3uONk6LpS5kZfmNwScQjJzp7/CCS+HMvpyuXFE9BJ2pqSRVlKHzV47e
-         9JmOm/FqZCX+zwRH9jpZHSbvypulxuDK25Heu1SkDXZML1/Vpd3wUkVklh827F1ANCkX
-         k0mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6j/UdVTPvc6sSVV2K8clOzl6QVX/R7qQul6YqnHLWgg=;
-        b=JRFWiqupNjkuVGRxvvV+FkZejUrNlALe2+2OqV3mYOxYAKled6Z5urzq/h5MeFF/9h
-         fLnED2hS6VHluZSzTE+CXGhglqELrp3bg84Tdl+wU7TIZXBNX3mKmQ1zTqLxTiZldQMH
-         V+nQrY47J34pawLVGBKeQw2FYroiTNZxc44KtJgjMpiFBJ8JSiq1BbaYOGWcuXMhw0vb
-         vS0FnZuoSZ5USij3UoHGIGBqjSZNLLQEbSrvTpvHRs2piRJpzhOymUGR0BEMKPYFHTHo
-         DlD0rTM5dYqLMRy8eGqUgc2ZcQW4/UDb1MVrrha15Ej8Fn4R/lMzg4j4QaQEk2oCyMb9
-         ulkQ==
-X-Gm-Message-State: AOAM532WOmWmn6qdeQramQPIOPbzN/Ws7pf3laUVRZIzBY/hZpYNaLs1
-	V4Z04bE4m3GAZ5OJbUSza/1+YKJrx2ipDUo7apo=
-X-Google-Smtp-Source: ABdhPJyPVhRYS918Ebzc9r9jmuOwTTniwx7cBl+MiUGYhXQWH3rMuaTJU3d1+QNwlMTgTVagu9cNFu/l8dk4EQpL3X0=
-X-Received: by 2002:ac2:4310:: with SMTP id l16mr3422667lfh.138.1611683651796;
- Tue, 26 Jan 2021 09:54:11 -0800 (PST)
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=EJXhuoGU;
+ spf=pass (domain: outlook.com, ip: 40.92.16.84, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qwwoi8j3I1KY5qk3py/5lTmatfZRv/NFOa6zgQLqktkx1c5ykaJSi3UrhLjzWQ7hBbgoVyXxIEUzckwzITwJmUywgwgCkOJm7Ue0pBHlojylyBdMiwfOyOqxFwg39d0yzESnpjGx6/7/ayfypqUU2mbFLCT3nVgsHBltQ8n9Sjp3u2HaUQV/rdm0agqLCCALPTCyMmcGDfIRKcp98Ue+hNR7h5AEImiuELp0VxKPrWUtMA5ydh9OQFXw8l9M33bgZ2PiiOtiebqlkTl5Vlk67Lxy2xgL7fxxLEdGuKg8lKSHXBTn3dhfb4GVjE2jK1nfxuxRCPx3ubbjdBZfnwtsGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L+eFaaB7DYCMDsufgIk+cSFjmWeTqx+sKtIz+RcYwZw=;
+ b=VPG/E215OPZuWRLDwWeniSA8UFAE7FFRTdxX9Ljru6CnbGmZOw3cSPyZ+KYvw+0gHBL1QX4xvm6s9ckJq98yP1Un1hr6gohrarPWj4hdgdNXISPvhuFB3Fzu2f3urd8xkXqBcQd3eZMHYJnTAdkXwQViXwevhuCPEPK5lzI0/f8hOaTJ/qT6EsrK+kDiDn8jnULvHs9KO+CkJ+BtNE1Jb5V17mFYL4Dn0FBM6Iy9cgyYcA4xxJLJD0kIRgvW2rxXiNM5JRGlQ/Lqdh1uY0K+/lA1Ihbl5JZzgpxpPCPi7VQ8qFbqYlcDTKW5IadJUsvjm+t3J8yUVIhA+cyju3lh+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L+eFaaB7DYCMDsufgIk+cSFjmWeTqx+sKtIz+RcYwZw=;
+ b=EJXhuoGUsIpnBhQskdP8gWDmVAKdvzRY7jbWOtttKPNNyhW/BkIV6jMfoBrFyaPi19qyrlDXY/TyplHgEXzhO4Tnka4QDCgtTILCG7AR25yvi6y5I53bgLG6BjTnOizSylb6qnCioMNymq8NvyyAG1t09EeNIXK4jesF5CmaBNgoH0HTT85RphOaU2UyfgB0WaqPHo6wbwc5iwhbFnNRdoIWbwuJPs8Qt9PwuqXqhvKY6BVKXjTuSvB+rfuPBYr0oGxBMpz9D2o90lkoR6asRvPjmgmjy6I7MXICfS8N+67ZibNXY6nLpHzboSL104bUx5pKiNK/9a2/XgLWXqbyGA==
+Received: from DB8EUR06FT017.eop-eur06.prod.protection.outlook.com
+ (2a01:111:e400:fc35::4a) by
+ DB8EUR06HT251.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc35::251)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Tue, 26 Jan
+ 2021 18:08:27 +0000
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2a01:111:e400:fc35::50) by DB8EUR06FT017.mail.protection.outlook.com
+ (2a01:111:e400:fc35::113) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11 via Frontend
+ Transport; Tue, 26 Jan 2021 18:08:27 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:BFA9BC5236D1EADB9327D340C935E9270ED026DE40522543B812783CD26F25FD;UpperCasedChecksum:6EE54A4B73E84908C0C260AF5C74A941C6B774BA02AFBED8424293DF1CA79435;SizeAsReceived:7295;Count:45
+Received: from AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c17:e937:d8cc:1970]) by AM9PR09MB4642.eurprd09.prod.outlook.com
+ ([fe80::7c17:e937:d8cc:1970%3]) with mapi id 15.20.3784.019; Tue, 26 Jan 2021
+ 18:08:27 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH v2 1/3] oeqa: add OETestPriority decorator
+Date: Tue, 26 Jan 2021 19:01:41 +0100
+Message-ID: <AM9PR09MB46420375BEE263298A28ED52A8BC0@AM9PR09MB4642.eurprd09.prod.outlook.com>
+X-Mailer: git-send-email 2.25.1
+X-TMN: [HrcDqgsTYUyhP4MmJwNPu7eHeljjSZw4]
+X-ClientProxiedBy: AM6P191CA0021.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:209:8b::34) To AM9PR09MB4642.eurprd09.prod.outlook.com
+ (2603:10a6:20b:284::24)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20210126180143.605303-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-References: <CAHtQpK71uAoq_hwDGJCvt5O_=kNXHkWFkmHC-BQkzcSCM3ys7A@mail.gmail.com>
- <CAOSpxdZ_0+QOwnpaCMMm=+1WUcedQ7aqnm=rmg1=_bU8TWOELQ@mail.gmail.com>
- <CAHtQpK7N-vmpvTpm2Jt-3Q4i+WXtMHfNSq4Jf+BsgsjkETwv7Q@mail.gmail.com>
- <559613c2-7d69-8ec6-a341-84ebf036d1b9@actia.se> <CA+chaQffacKr+9M5ibjui4Xt69+7vz3xLWdSpbO=hA5JcNW20Q@mail.gmail.com>
-In-Reply-To: <CA+chaQffacKr+9M5ibjui4Xt69+7vz3xLWdSpbO=hA5JcNW20Q@mail.gmail.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Tue, 26 Jan 2021 18:53:58 +0100
-Message-ID: <CAHtQpK79JcJ9WPCzDcSa6jkBTZG3yVrEmGdqVHPDeT0yU83b7Q@mail.gmail.com>
-Subject: Re: [OE-core] [dunfell]: gpsd recipe (3.19) build is broken
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: John Ernberg <john.ernberg@actia.se>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (87.141.86.85) by AM6P191CA0021.EURP191.PROD.OUTLOOK.COM (2603:10a6:209:8b::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12 via Frontend Transport; Tue, 26 Jan 2021 18:08:26 +0000
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 45
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 603dabec-05b1-4b75-969d-08d8c22560fe
+X-MS-Exchange-SLBlob-MailProps: 
+	7MJMDUNTCtxLuW3rfWTFfNVlooeYgJyUUyBrg1kYIXoJ9BsMW521jvOrh7Bs3FdMLTBtJSU6G8xBnrbL53YW/UNyo2z5OydUJo/4MgGyfQbX/av2YmvNyZYposk8prNeEi2AIoCJ1mBNlUAoZB/DGKJvO5xEM/5pK/vhqcOgYjOaj6k+ZHHd93EI1ilC8G0eaVqOtl/ykzc9kZHnmYgg+orthoCHazPviVMPdxirZy38N3STE7tWbsqxeMUUlKtM6oREHmE191Q8Gwu/PoUMyv2lYHUMzF1jHU8iJxOmY5aqA8MHyZco+l/Lp2/KFrXaCAW5L6yrwbIbxrqn5OhhuQbZkkDC2Dw6YsEXX7z3wWTEjuzpQN/r1xwaVnEbTJ/5So8bTts72JDL5PtlMSsFNeXUJcZi25VfHCAOnzScT5GRb8j/HJNKNqn06eaYepmNKxh8/TKRBcWPeM/3VBxmD+5fyu7WeacYCkxC1pJJbgXTLM3EwjoQp2kwNVrTd3KuotHRVxXFyl6xKG+lAWsrGuLDs9phELtPbFZjENl/4nxM8JEGCW7cBum8CJTBUJ+XoKqTD+udqRvjunubwPZe2eQ9u0r0PvHaJdLCqbHM6c4msIYLUkh46cKhvvNTt0S1WT2T0SM+I0pJY229s47CbdqTcQoYpv0vtBlBNmh7DNf09d+/ozoyfAn7kxJTHoj0HSr7p59zL4Ypv1KIVjhgD8WoYSga6KCe6NZMfRZtdjG3rXEUHj0POg==
+X-MS-TrafficTypeDiagnostic: DB8EUR06HT251:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	A/9eY6oKMprE7G+xOaBAJs10opW1vUquVAE54zabs/xQQc0N1VH82YcY2q1dC4IJdwUO1/JmWZ9rhqPXSsCVFXD/wASMMcEigAShMibrLESQu8ihDTju93acVpFeZRpaWbsHodlXV5SbGlRerBmZvRbm9HF1rYrBn2kVrfl3/3lcQ/mFfHHV4KP2ngfe92xc57cRKcNtUDe9yhwYXdgfvbTe5Ve31vwZTf43Sq5S+mY6YqWF0HdG2QRUO4rgR6Uy
+X-MS-Exchange-AntiSpam-MessageData: 
+	UCuVC+r3WsuVDFoznZSaVaGYW9c7P7plg0h67sOn8SKxHZBeTKM7KcoCYHUxPVcn8iiTm0YYw8vJLjSxCjtvs81ffuIZB/fnmhukQI6eUfgffpf3Jjm8+XauIKYXqDgHrWWXBgC+OvEaRFfH7p26uw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 603dabec-05b1-4b75-969d-08d8c22560fe
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 18:08:27.2937
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB8EUR06FT017.eop-eur06.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8EUR06HT251
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Hello John and Martin,
+This modifies an implicit default priority.
+Can be used to move the test case either to the front
+or to the end of the test suite.
+Value can be between 0 and 99, implicit default is 50.
+Lower values move are run at the beginning of the list,
+higher values at the end.
+Within a single priority ordering remains unchanged.
 
-On Tue, Jan 26, 2021 at 5:31 PM Martin Jansa <Martin.Jansa@gmail.com> wrote:
->
-> Yes, it's related to rebuilding in the same WORKDIR and the only fix which is needed to be backported to dunfell should be:
-> 04afc692a gpsd: mark CLEANBROKEN
->
-> see the previous discussion about this issue:
-> https://lists.openembedded.org/g/openembedded-devel/topic/74225704#84379
+It enables use cases such as shutdown tests, which
+should always run at the end of the overall test suite,
+no matter what test suites/cases are set in the current
+test suite list.
 
-Actually, I remember I was reading this and put it on my "internal
-watch list", but quickly dropped it since the solution was provided!
+This avoids also using test suite naming hacks, such as
+usage of zzz_foo_test.FooClass.test_foo to move it to
+the end of the test suite list.
 
-Martin,
-Would it be possible to cherry-pick that commit onto dunfell to fix
-those build errors then?
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/lib/oeqa/core/decorator/priority.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta/lib/oeqa/core/decorator/priority.py
 
->
-> On Tue, Jan 26, 2021 at 7:58 AM John Ernberg <john.ernberg@actia.se> wrote:
->>
->> Hi Andrey, Steve,
->>
->> On 1/26/21 4:25 PM, Andrey Zhizhikin wrote:
->> > Hello Steve,
->> >
->> > On Tue, Jan 26, 2021 at 3:29 PM Steve Sakoman <steve@sakoman.com> wrote:
->> >>
->> >> Hi Andrey,
->> >>
->> >> Thanks for reporting this issue.
->> >>
->> >> I'm the maintainer for the dunfell branch of oe-core.  The gpsd recipe
->> >> is part of meta-openembedded. I'm copying Armin, who is the maintainer
->> >> for the dunfell branch of meta-openembedded.
->> >
->> > True, I've realized the recipe is not part of OE-Core.
->> >
->> >>
->> >> That said, I'm surprised you are seeing this issue since the gpsd
->> >> recipe has been fairly stable for quite some time.  I know that Armin
->> >> does test builds quite frequently.
->> >>
->> >> FWIW, I tried doing a gpsd build with oe-core, meta-openembedded,
->> >> meta-freescale, and meta-freescale-distro on an Ubuntu 20.04 and it
->> >> completed successfully.
->> >
->> > Arghh, got the same setup now - and the build issue was gone! :( Looks
->> > like this was an intermittent one
->> >
->> > I went ahead and invalidated the sstate for the recipe, and build went
->> > through alright.
->> >
->> > With that said: please discard this message, and thanks for responding here!
->> >
->> >>
->> >> Perhaps more information on your environment might help.  What
->> >> distro/version is the OS on your build machine? What other layers are
->> >> enabled in your build? What are you using for MACHINE and DISTRO?  Do
->> >> any of your layers have a .bbappend for gpsd?
->> >
->> > For the record: had nothing fancy, same setup as you've indicated above:
->> >
->> > Build Configuration:
->> > BB_VERSION           = "1.46.0"
->> > BUILD_SYS            = "x86_64-linux"
->> > NATIVELSBSTRING      = "universal"
->> > TARGET_SYS           = "aarch64-fsl-linux"
->> > MACHINE              = "imx8mmevk"
->> > DISTRO               = "fsl-wayland"
->> > DISTRO_VERSION       = "3.1"
->> > TUNE_FEATURES        = "aarch64 cortexa53 crc crypto"
->> > TARGET_FPU           = ""
->> > meta
->> > meta-poky            = "HEAD:bb7747497adbc7c99f6fc9b48b643eecb4cb1408"
->> > meta-oe
->> > meta-multimedia
->> > meta-python
->> > meta-networking
->> > meta-filesystems     = "dunfell:5bba79488b7d393d2258d6e917f7bf7b0d7c4073"
->> > meta-freescale       =
->> > "update-kernel-dunfell:184ee6b12d1c06db9327535ad1ae84d4709cfdb0"
->> > meta-freescale-3rdparty = "HEAD:ed841161a97307ebd901c31c62f8ecbee6baaacf"
->> > meta-freescale-distro = "HEAD:5d882cdf079b3bde0bd9869ce3ca3db411acbf3b"
->> >
->> >>
->> >> Regards,
->> >>
->> >> Steve
->> >>
->> >> On Tue, Jan 26, 2021 at 2:13 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
->> >>>
->> >>> Hello Steve,
->> >>>
->> >>> gpsd recipe build breaks on the dunfell branch with following error messages:
->> >>>
->> >>> | /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
->> >>> ./libgpsd.a(ppsthread.o): undefined reference to symbol
->> >>> 'pthread_create@@GLIBC_2.17'
->> >>> | /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
->> >>> /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot/lib/libpthread.so.0:
->> >>> error adding symbols: DSO missing from command line
->>
->> We have seen this one as well, we have not identified why it happens,
->> but we believe it is triggered by an incremental rebuild of the recipe.
+diff --git a/meta/lib/oeqa/core/decorator/priority.py b/meta/lib/oeqa/core/=
+decorator/priority.py
+new file mode 100644
+index 0000000000..bca4675db0
+--- /dev/null
++++ b/meta/lib/oeqa/core/decorator/priority.py
+@@ -0,0 +1,17 @@
++#
++# SPDX-License-Identifier: MIT
++#
++
++from . import OETestDecorator, registerDecorator
++from oeqa.core.exception import OEQADependency
++
++@registerDecorator
++class OETestPriority(OETestDecorator):
++    attrs =3D ('priority',)
++
++    def bind(self, registry, case):
++        if not isinstance(self.priority, int) or self.priority < 0 or self=
+.priority > 99:
++            raise OEQADependency("OETestPriority must be an integer value =
+between 0-99")
++        self.case =3D case
++        self.logger =3D case.tc.logger
++        self.case.decorators.append(self)       =20
+--=20
+2.25.1
 
-Thanks for a quick confirmation here, it's good to know I was not
-alone to observe this issue. :)
-
->>
->> We have enabled systemd for gpsd, and if systemd is rebuilt due to a
->> patch or whatever, gpsd appears to error out exactly like this.
->>
->> A very quick analysis we did when it first happened seem to indicate
->> that Scons (when using a cache) gets confused about the pthread
->> capability in the environment.
->>
->> We have not been able to research the error further yet.
->>
->> Best regards // John Ernberg
->> >>>
->> >>> This cannot be reproduced on the current master branch, where the
->> >>> version of gpsd recipe has been bumped up from 3.19 to 3.20.
->> >>>
->> >>> Can you please consider to cherry-pick following commits from master
->> >>> in order to upgrade the gspd version on dunfell branch:
->> >>>
->> >>> 98e61961c gpsd: add new init script
->> >>> 04afc692a gpsd: mark CLEANBROKEN
->> >>> 33a15c790 gpsd: fix build on aarch64
->> >>> cecab9c4c gpsd: Upgrade 3.19 -> 3.20
->> >>>
->> >>> I've tried to cherry-pick them locally and they do apply clean. Also
->> >>> the build of gpsd is successful after this upgrade.
->> >>>
->> >>> --
->> >>> Regards,
->> >>> Andrey.
->> >
->> >
->> > --
->> > Regards,
->> > Andrey.
->> >
->> >
->> >
->> >
->> >
->>
->>
->>
->
-> 
->
-
-
--- 
-Regards,
-Andrey.
