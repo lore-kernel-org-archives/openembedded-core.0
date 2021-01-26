@@ -1,117 +1,222 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.13298.1611672652606928261
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+ by mx.groups.io with SMTP id smtpd.web10.13315.1611673032383985292
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:50:52 -0800
+ Tue, 26 Jan 2021 06:57:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=uvVlKXFA;
- spf=softfail (domain: sakoman.com, ip: 209.85.221.52, mailfrom: steve@sakoman.com)
-Received: by mail-wr1-f52.google.com with SMTP id v15so16750663wrx.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:50:52 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=tgupJbXl;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.178, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f178.google.com with SMTP id m13so10779761oig.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=konsulko.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=VoBA7KrHc7BTKdmvEK/esQDJqmABDtHbSgDmPH2vrFg=;
-        b=uvVlKXFAM0MHdx4TJJcDmRTXkhWLImNqCU6FVCCWRqUB8u4LQqeaGTcUPL9GF33tHX
-         dUhmYJlj14wdlALuIjBw1NEyL/qfk+b+RhxvyvQ6nFfajNVeET3e5lp82oRVK9vjhOVr
-         e+2+v/D/VUE/eu4fb4a0oVxZ2xXzviklLIW+JGtDcMBODZfMNRRQ3gtu0a4QjKgDv3XL
-         RbGeZ/nZfxTBnvVdZGlq5yaV4Xg+lqGuELSUoF5QtLx2U42DosLHgoYHA/h9AhXfs9Fp
-         hXPNfdtTgcXiXiySeeLT75q+9F4cR0IeFpCqOO22tuIT8vJCdZtSb9OWuAzwve9CrKmC
-         L1nw==
+        bh=YyLMJb3LBdV8flDz2KFEuK3pFQcg9oejmXrr+y/sJpk=;
+        b=tgupJbXl7blJYnIk0rVG9My/hIqmcPLuyHfolnPKf+dRxLkizXmnaUbtk0zmLXQ/Do
+         xbyupO0+sAy0zrV3hSKU9dRCawqY0rmQIvzrPS0xZwkGRXo4e/uP5Hx99k19noEiLHqT
+         KR73zVl+aJ1J1dNWmbPg0lHkEgdIChffp38/8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=VoBA7KrHc7BTKdmvEK/esQDJqmABDtHbSgDmPH2vrFg=;
-        b=M0eA8clc4ZrGnkDpRMp8HEezUdNslytCJ04nfwvrlUsMVazUAXCsIpz6O1xwWVJsb0
-         yJbOdeFPkWKXE0Xd2EapNDDNc7cn3PCuMDydP4bbJ47637nguhi/5ubaJjxcYjR3xvx4
-         wsqBc/j4Ukj3kg8JEvEn7suq9CT/cv1ufqKdNTxaRhpeqErTcSTxsi9FJokFQcN7irCk
-         oLMjqJXWZ1FCBJ9if2qOJJMdmiu6e+eTxky67w868i+OtyF3lXD3Izo+OsETLMLIHncq
-         RjCaYKoiULcjD3q9XNxlQBx0c+x7EwNZGruVS9uRmwhS8GH8HOapKyR7/io+WA+gMUPH
-         xiZA==
-X-Gm-Message-State: AOAM530CmnEwd3xaCVibeJbkTCvvIP3tD2/4go574QPGqsbl3pOQI4yu
-	ldsXKQQzHM7ZXHfiQ0f2v2pzjobalk28mIro3Y02JQ==
-X-Google-Smtp-Source: ABdhPJySNwZBIE918h81aQ1a9rfFR4T3pvYFqYdxx17g0OvcUNwbNUNCKz1LyQyjbMPXzzoZV1vWo6gLbQhjYeaCCj4=
-X-Received: by 2002:adf:d1ce:: with SMTP id b14mr6423835wrd.329.1611672651041;
- Tue, 26 Jan 2021 06:50:51 -0800 (PST)
+        bh=YyLMJb3LBdV8flDz2KFEuK3pFQcg9oejmXrr+y/sJpk=;
+        b=kMDfdTlx56Tcea2Tv6b8KyMClLEYb77K/ZSIAgpkD0i291/x5yzTfwRpo9o1mC9GJu
+         kq/72D8CtfvY1MN/syZtHOmZbHXDHLns4UgPZa5ipW2ju2GTptubc1MoTzPSgxn4vldK
+         2Q/J8Nc1/4TUI+ePbYobbUiDBi8Tgmd8etHUKrAM6VYUc1NImx96rYitLT+peAhXLsIk
+         5iV6ghqjmzTfH8DUB1gfk3B4DKIoyrUK/a71THoVMwjy3VR+8Os6DTgPblvHNCZw8F5M
+         CSH5Dnwd1WqxzatFGEcv18qsPM//YB/uw6d+ZjgWwhcOvRd++TBprv6xbEesPKYDQC04
+         qPtg==
+X-Gm-Message-State: AOAM533dEbjVmcWAQhB/IO0SjLUZ8vf+/jEZCrLIk11sRlKAD9yf63/9
+	ql79rhGCu7KYwPx2QMO/sCMzzNayke65GFbCsMCcVw==
+X-Google-Smtp-Source: ABdhPJwWUHvZnykCFut4rio1hqyNhN7HUZWN2D81HSst/9R+qxNUN5JAT+b3gCv760DY/zcIv9bdlQWohvgUseZvEjc=
+X-Received: by 2002:a05:6808:8fa:: with SMTP id d26mr50550oic.6.1611673031585;
+ Tue, 26 Jan 2021 06:57:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20210117211445.2341303-1-robert.joslyn@redrectangle.org>
- <CAOSpxdYiKrtF0t0wMJxp0rKqGz0bNHfbQ9XayjdgTtVNhQaoGg@mail.gmail.com> <1F9D5FAF-DA64-4BB4-B7BD-804976B80613@redrectangle.org>
-In-Reply-To: <1F9D5FAF-DA64-4BB4-B7BD-804976B80613@redrectangle.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Tue, 26 Jan 2021 04:50:39 -1000
-Message-ID: <CAOSpxdaLJMqNyM2y1z7ER=6k7+OaVLgHaRi3GmvgKe4RnSb0Ow@mail.gmail.com>
-Subject: Re: [OE-core] [master][gatesgarth][dunfell][PATCH] bluez: Whitelist CVE-2020-12351 and CVE-2020-12352
-To: Robert Joslyn <robert.joslyn@redrectangle.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <cover.1611671734.git.steve@sakoman.com>
+In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 26 Jan 2021 14:57:00 +0000
+Message-ID: <CAM9ZRVtZuoU7h7aUr4FYxYHqS9xbCvqzx5_+D0qDKQ2DouFCFA@mail.gmail.com>
+Subject: Re: [OE-core][dunfell V3 00/46] Patch review - pseudo file mode corruption fix V3
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Dorinda <dorindabassey@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 20, 2021 at 7:59 PM Robert Joslyn
-<robert.joslyn@redrectangle.org> wrote:
+On Tue, 26 Jan 2021 at 14:42, Steve Sakoman <steve@sakoman.com> wrote:
 >
+> Issues with undetected file mode corruption in pseudo have been identified.
 >
+> Fixes have been merged into master and gatesgarth over the past several months and
+> things seem to have stabilized enough that we can consider backporting these fixes
+> to dunfell.
 >
-> > On Jan 20, 2021, at 10:18 AM, Steve Sakoman <steve@sakoman.com> wrote:
-> >
-> > On Sun, Jan 17, 2021 at 11:16 AM Robert Joslyn
-> > <robert.joslyn@redrectangle.org> wrote:
-> >>
-> >> According to the Intel security advisory [1], these CVEs are mitigated by
-> >> the following kernel commits:
-> >>
-> >> eddb7732119d53400f48a02536a84c509692faa8 Bluetooth: A2MP: Fix not initializing all members
-> >> f19425641cb2572a33cb074d5e30283720bd4d22 Bluetooth: L2CAP: Fix calling sk_filter on non-socket based channel
-> >> b560a208cda0297fef6ff85bbfd58a8f0a52a543 Bluetooth: MGMT: Fix not checking if BT_HS is enabled
-> >> a2ec905d1e160a33b2e210e45ad30445ef26ce0e Bluetooth: fix kernel oops in store_pending_adv_report
-> >>
-> >> The latest of these commits were backported from 5.10 to the stable kernel
-> >> tree in the 5.8.16 and 5.4.72 releases. Since the kernels provied by OE-core
-> >> contain these fixes, mark them as whitelisted.
-> >
-> > This seems to be a good candidate for having the cpe database updated.
-> > Currently it is flagging all versions of bluez and Linux.
-> >
-> > I sent a request to have the entry updated.  If they accept the
-> > request then we won't need this patch.  If they deny it we can merge
-> > the patch.
+> This is a somewhat more invasive change than normal. Specifically the user will
+> be required to clean TMPDIR after this merge. It may also expose issues with
+> other layers, though master and gategarth have probably helped to pave the way for
+> this change.
 >
-> Sounds good, thanks!
+> Personally I think that this fixes a serious enough issue that we should consider
+> this series for dunfell.
+>
+> This third version removes:
+>
+> bitbake.conf: Remove TERM from default BB_HASHBASE_WHITELIST
+>
+> and hence the need for any bitbake changes.
+>
+> Let me know if you you are aware of any other pseudo issues which would necessitate
+> delaying the merge of this series.
+>
+> Please have comments back by Thursday evening.
+>
+> Passed a-full on autobuilder:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1784
+>
+> The following changes since commit 897822233faef0f8f35dc1d8a39e1c4bc0550f1e:
+>
+>   ppp: Whitelist CVE-2020-15704 (2021-01-19 04:22:10 -1000)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+>
+> Jack Mitchell (1):
+>   distutils3: allow setup.py to be run from a different directory to
+>     ${S}
+>
+> Joe Slater (1):
+>   pseudo: fix renaming to self
+>
+> Martin Jansa (2):
+>   base.bbclass: use os.path.normpath instead of just comparing WORKDIR
+>     and S as strings
+>   license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to
+>     PSEUDO_IGNORE_PATHS
+>
+> Mingli Yu (2):
+>   tcl: adapt to potential pseudo changes
+>   bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
+>
+> Paul Barker (8):
+>   bitbake.conf: Prevent pyc file generation in pseudo context
+>   wic: Add workdir argument
+>   wic: Allow exec_native_cmd to run HOSTTOOLS
+>   wic: Ensure internal workdir is not reused
+>   image_types_wic: Move wic working directory
+>   wic: Update pseudo db when excluding content from rootfs
+>   wic: Copy rootfs dir if fstab needs updating
+>   wic: Optimise fstab modification for ext2/3/4 and msdos partitions
+>
+> Peter Kjellerstedt (4):
+>   pseudo: Simplify pseudo_client_ignore_path_chroot()
+>   lib/oe/path: Add canonicalize()
+>   bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+>   wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
+>
+> Ricardo Ribalda Delgado (4):
+>   wic: Fix permissions when using exclude or include path
+>   wic: Fix multi images .wks with bitbake
+>   wic: Avoid creating invalid pseudo directory
+>   wic: Add --change-directory argument
+>
+> Richard Purdie (23):
+>   pseudo: Switch to oe-core branch in git repo
+>   pseudo: merge in fixes for setfacl issue
+>   pseudo: Update to add OFC fcntl lock updates
+>   pseudo: Ignore mismatched inodes from the db
+>   pseudo: Add support for ignoring paths from the pseudo DB
+>   pseudo: Abort on mismatch patch
+>   psuedo: Add tracking of linked files for fds
+>   pseudo: Fix xattr segfault
+>   pseudo: Add may unlink patch
+>   pseudo: Add pathfix patch
+>   base/bitbake.conf: Enable pseudo path filtering
+>   wic: Handle new PSEUDO_IGNORE_PATHS variable
+>   pseudo: Fix statx function usage
+>   bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+>   abi_version,sanity: Tell users TMPDIR must be clean after pseudo
+>     changes
+>   pseudo: Update to account for patches merged on branch
+>   pseudo: Upgrade to include mkostemp64 wrapper
+>   oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
+>   uninative: Don't use single sstate for pseudo-native
+>   pseudo: Drop patches merged into upstream branch
+>   bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
+>   pseudo: Add lchmod wrapper
+>   pseudo: Update for arm host and memleak fixes/cleanup
+>
+> Tomasz Dziendzielski (1):
+>   pseudo: Update to print PSEUDO_LOGFILE in abort message on path
+>     mismatches
+>
+>  meta-selftest/lib/pseudo_pyc_test1.py         |   1 +
+>  meta-selftest/lib/pseudo_pyc_test2.py         |   1 +
+>  .../pseudo-pyc-test/pseudo-pyc-test.bb        |  15 ++
+>  meta/classes/archiver.bbclass                 |   2 +-
+>  meta/classes/base.bbclass                     |   6 +
+>  meta/classes/distutils3.bbclass               |  10 +-
+>  meta/classes/image_types_wic.bbclass          |  20 ++-
+>  meta/classes/license.bbclass                  |   1 +
+>  meta/classes/populate_sdk_base.bbclass        |   2 +
+>  meta/classes/sanity.bbclass                   |   3 +
+>  meta/classes/sstate.bbclass                   |   4 +
+>  meta/conf/abi_version.conf                    |   2 +-
+>  meta/conf/bitbake.conf                        |  13 +-
+>  meta/lib/oe/path.py                           |  21 +++
+>  meta/lib/oe/sstatesig.py                      |   4 +-
+>  meta/lib/oeqa/selftest/cases/pseudo.py        |  27 ++++
+>  meta/lib/oeqa/selftest/cases/runtime_test.py  |   1 +
+>  .../pseudo/files/0001-Add-statx.patch         | 106 --------------
+>  ...001-maketables-wrappers-use-Python-3.patch |  34 -----
+>  ...ixup-remove-files-that-do-not-exist-.patch |  49 -------
+>  .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  |  31 ----
+>  ...1-realpath.c-Remove-trailing-slashes.patch |  57 --------
+>  ...xattr-adjust-for-attr-2.4.48-release.patch |  48 ------
+>  .../pseudo/files/moreretries.patch            |  19 ---
+>  .../pseudo/files/seccomp.patch                | 137 ------------------
+>  .../pseudo/files/toomanyfiles.patch           |  71 ---------
+>  .../pseudo/files/xattr_version.patch          |  54 -------
+>  meta/recipes-devtools/pseudo/pseudo_git.bb    |  14 +-
+>  meta/recipes-devtools/tcltk/tcl_8.6.10.bb     |   1 +
+>  scripts/lib/wic/help.py                       |   6 +
+>  scripts/lib/wic/ksparser.py                   |   1 +
+>  scripts/lib/wic/misc.py                       |   7 +-
+>  scripts/lib/wic/partition.py                  |  66 ++++++---
+>  scripts/lib/wic/plugins/imager/direct.py      |  48 +++---
+>  scripts/lib/wic/plugins/source/rootfs.py      |  85 +++++++++--
+>  scripts/postinst-intercepts/update_font_cache |   2 +
+>  scripts/wic                                   |   2 +
+>  37 files changed, 281 insertions(+), 690 deletions(-)
+>  create mode 100644 meta-selftest/lib/pseudo_pyc_test1.py
+>  create mode 100644 meta-selftest/lib/pseudo_pyc_test2.py
+>  create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+>  create mode 100644 meta/lib/oeqa/selftest/cases/pseudo.py
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/moreretries.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
+>  delete mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+>
+> --
+> 2.25.1
 
-After a bit of back and forth the CPE entry for this issue has been
-updated to reflect that it is a kernel issue and the affected kernel
-versions have also been added to the entry.
+Acked-by: Paul Barker <pbarker@konsulko.com>
 
-So we won't need this patch.  Thanks again for doing the initial
-research on this issue!
+I also recommend backporting Dorinda's recent patch [1] once it's
+accepted into master.
 
-Steve
+[1]: https://lists.openembedded.org/g/openembedded-core/message/147238
 
-> >> [1]: https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00435.html?wapkw=CVE-2020-12351
-> >>
-> >> Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
-> >> ---
-> >> meta/recipes-connectivity/bluez5/bluez5_5.55.bb | 2 ++
-> >> 1 file changed, 2 insertions(+)
-> >>
-> >> diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.55.bb b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-> >> index 8190924562..051fdef8ce 100644
-> >> --- a/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-> >> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.55.bb
-> >> @@ -3,6 +3,8 @@ require bluez5.inc
-> >> SRC_URI[md5sum] = "94972b8bc7ade60c72b0ffa6ccff2c0a"
-> >> SRC_URI[sha256sum] = "8863717113c4897e2ad3271fc808ea245319e6fd95eed2e934fae8e0894e9b88"
-> >>
-> >> +CVE_CHECK_WHITELIST += "CVE-2020-12351 CVE-2020-12352"
-> >> +
-> >> # noinst programs in Makefile.tools that are conditional on READLINE
-> >> # support
-> >> NOINST_TOOLS_READLINE ?= " \
-> >> --
-> >> 2.26.2
-> >>
-> >>
-> >>
-> >>
-> >
-> > 
->
+Thanks,
+
+--
+Paul Barker
+Konsulko Group
