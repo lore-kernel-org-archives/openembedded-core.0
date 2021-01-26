@@ -1,83 +1,70 @@
-Received: from esa2.hc324-48.eu.iphmx.com (esa2.hc324-48.eu.iphmx.com [207.54.68.120])
- by mx.groups.io with SMTP id smtpd.web11.9812.1611651203751358219
+Received: from bsmtp1.bon.at (bsmtp1.bon.at [213.33.87.15])
+ by mx.groups.io with SMTP id smtpd.web12.9855.1611652824413506892
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 00:53:24 -0800
+ Tue, 26 Jan 2021 01:20:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=U+X3bdC4;
- spf=pass (domain: bmw.de, ip: 207.54.68.120, mailfrom: prvs=6532865c5=michael.ho@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1611651204; x=1643187204;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=k9u5T311SWV2Qq6JljKpEj2rrAx9/mXAA06p4Olqh+0=;
-  b=U+X3bdC4OLrd68I6IcRE8OeY204GfNo7mg0x+oznCmjz/6QPgpjo6H8k
-   E17xciF2+diXzvk8TL0Hvaai69vADMxIboMrdA0w6cGJn8WoJjms/2wRs
-   K5XPb7q8TGQD5ULrXR/PHqBAB9AKhhPYPW3pNf1XtT7FhAroIwbqB8G4b
-   s=;
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa2.hc324-48.eu.iphmx.com with ESMTP/TLS; 26 Jan 2021 09:53:21 +0100
-Received: from esabb3.muc ([160.50.100.30])  by esagw4.muc with ESMTP/TLS;
- 26 Jan 2021 09:53:21 +0100
-Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
- by esabb3.muc with ESMTP/TLS; 26 Jan 2021 09:53:18 +0100
-Received: from michael-pcx.bmw-carit.intra (192.168.221.34) by
- smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
- Tue, 26 Jan 2021 09:53:16 +0100
-From: "Michael Ho" <Michael.Ho@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Michael Ho <Michael.Ho@bmw.de>
-Subject: [pseudo][PATCH] pseudo_client.c: Rebuild passwd paths after chroot
-Date: Tue, 26 Jan 2021 09:53:10 +0100
-Message-ID: <1611651190-330622-1-git-send-email-michael.ho@bmw.de>
-X-Mailer: git-send-email 2.7.4
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.15, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp1.bon.at (Postfix) with ESMTPSA id 4DQ1RH3XYvz5tlC;
+	Tue, 26 Jan 2021 10:20:11 +0100 (CET)
+Date: Tue, 26 Jan 2021 10:20:10 +0100
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Dorinda <dorindabassey@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] sanity.bbclass: verify that user isn't building in PSEUDO_IGNORE_PATHS
+Message-ID: <20210126092010.oxyjs253ndo2j3ta@qschulz>
+References: <20210126005347.7452-1-dorindabassey@gmail.com>
 MIME-Version: 1.0
-Return-Path: michael.ho@bmw.de
-X-ClientProxiedBy: SMUCM29L.europe.bmw.corp (160.46.167.43) To
- smucm09k.europe.bmw.corp (160.48.96.43)
-Content-Type: text/plain
+In-Reply-To: <20210126005347.7452-1-dorindabassey@gmail.com>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Michael Ho <Michael.Ho@bmw.de>
+Hi Dorinda,
 
-Pseudo will calculate the search paths used for passwd operations such
-as lckpwdf and ulckpwdf using build_passwd_paths when it initiates. This
-takes into account the chroot at the time.
+On Tue, Jan 26, 2021 at 01:53:47AM +0100, Dorinda wrote:
+> If a user builds in a path in PSEUDO_IGNORE_PATHS, random failures are generated. Hence this patch adds a sanity check in sanity.bbclass to ensure that a user isn't building in PSEUDO_IGNORE_PATHS.
+> 
 
-The problem is that after a chroot is performed, pseudo continues to use
-the search paths calculated from the start for lckpwdf and ulckpwdf.
-This makes it write the pwd.lock files to a different sysroot if a chroot
-is called during runtime.
+Commit log is usually wraped when reaching a given length. I personally
+have it set to 72 characters which IIRC is what's used for kernel
+contribution.
 
-This commit resolves that by calling build_passwd_paths again after
-intercepting chroot calls so the search paths are up to date.
+This does not apply to actual logs provided in the commit log.
 
-This bug manifests in Yocto when shadow is installed into an SDK target
-rootfs. The postinst triggered will call shadow-native with -R to point
-to the SDK target rootfs which in turn makes shadow call chroot to the
-SDK target rootfs before it perform its actions including lckpwdf() and
-ulckpwdf(). The lock files however will write instead to the normal image
-target rootfs because it was specified in PSEUDO_PASSWD and was the first
-path set when the pseudo environment was initiated. By rebuilding the
-search path after chroot is applied, the lockfiles appear in the correct
-rootfs.
+It's just nitpick, as I saw a commit or two not following this implicit
+"rule" in poky, I'd say there's no need to resend a patch just for this.
 
-Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
----
- pseudo_client.c | 2 ++
- 1 file changed, 2 insertions(+)
+Also, please add a version tag when you send revamped patches.
 
-diff --git a/pseudo_client.c b/pseudo_client.c
-index 478e450..60cd0d1 100644
---- a/pseudo_client.c
-+++ b/pseudo_client.c
-@@ -822,6 +822,8 @@ pseudo_client_chroot(const char *path) {
- 	}
- 	memcpy(pseudo_chroot, path, pseudo_chroot_len + 1);
- 	pseudo_set_value("PSEUDO_CHROOT", pseudo_chroot);
-+	/* Rebuild passwd paths since we've done a chroot */
-+	build_passwd_paths();
- 	return 0;
- }
- 
--- 
-2.7.4
+You can do that by adding -v 2 to git format-patch.
 
+> [YOCTO #14179]
+> 
+> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+> ---
+
+And if you want to do it really the very nice way (IMO, as always), you
+can provide below the --- (the one above this) and the list of files
+changed (the one below this), you can list what has changed between v
+N-1 and v N.
+
+e.g.
+
+ v2:
+  - rephrased error log,
+  - added a check for empty paths in pseudoignorepaths,
+
+>  meta/classes/sanity.bbclass | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index e527c13746..c6842ff549 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+
+Only nitpicks, so nothing to be done on my side if no new change is
+requested by other reviewers.
+
+Cheers,
+Quentin
