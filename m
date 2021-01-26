@@ -1,150 +1,274 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web12.13648.1611674714910371499
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web10.14035.1611675575537018670
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 07:25:15 -0800
+ Tue, 26 Jan 2021 07:39:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IS4d6EjF;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: andrey.z@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id p21so18146833lfu.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 07:25:14 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GRlWBJHx;
+ spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pj1-f49.google.com with SMTP id g15so2430034pjd.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 07:39:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Z6n+KVT9fE6GdoWaQsb0U/PAsze88EonkWzeyc/Hx3o=;
-        b=IS4d6EjFSEK2McvJ/es1Hxw4XMsB7XgaGlp2PqyY8Mr6Ux4i5kJKFZRBYGvij1+Jt8
-         SxL3UlIqjIb3nvb0X2iZIkzHNwDzF32Drc44BuK+b4a+LJCW4Gmyb7N1Lj0PDh96/0Ne
-         ucjW8nQ6uT540odI90F3YlhYf6ZyDKD7kMZqiSXhJB+G8aAntYkHXRIKZXgCEe9Otb3O
-         KBWH0sJvrNBea3WdoO7FO3UQ8Rcwdfx/aZ+cGy78gnOQ8j5w+lsqWO9GXySHCWTsR9Qc
-         SOMsKbqj+U7N7q9eEUiH0fqtjAzXhVlSkPAio+TbwqQxLucAScOaA8epC1Z+K8gFpnUp
-         6rWg==
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=i6cCsCckJFSOdrI3wne/XEWwZK/o11mH1vGHyEpoc1I=;
+        b=GRlWBJHxhwajBCA804fdyiVMThh0WyHCuXhjrUai5PCXnfs8GHDupUg4+nKTzlU1/D
+         E2imvlFKaVQYNy+W40r+DR1+vLJTFN/tYDWTBVmjyXtFxlEAQG9ipBukRtBSdS4UWKis
+         i+qJYb3PfGagu41t/e2x1YHahIwolaAhHqNHcmtu6xZK1odD8almjNnr8OOSxKpsDfQM
+         6jklbr9bNP20hsR1nsdLyTjDv79HGu1asjL5tyPmpYNgoz8g41LnSdhSyYCwNOhWnIgx
+         Dcrb6ipGI/waJEqBf6Q/yRp4iya0vuwmp4pAs4L88XP22lE89U6Ar91Vm8j51rf608fD
+         LWPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z6n+KVT9fE6GdoWaQsb0U/PAsze88EonkWzeyc/Hx3o=;
-        b=Nee0jTZi3PfVp0vZx6zp1thQTlE0VZKJiLljQeM28EhGry1AbZrqGdkP70y0Eh7m6A
-         KISodSISgcCVHPfwS5DeaSP07NuOMdbFyqdhFwPtOTrcz7M+sDpVQG+OcLh9RgrXluqP
-         AyvNFoJuPqz211f7n1U3SMQs1CCpmtHYiCSvRRGXSmjibLNB0xSbNsZt1/lFlSLYLm3+
-         GgNNlMCKGA/U4XL+TkBHXVM7+Z47d32SHUGWOqGsUzaS9fVL/lfKZ7z3Me3UQtY1pcZ6
-         czjfQvNdKZFHq4hFd3M0JfYA5NkMs+Yx4Eqalx3EWM1j71NLskySyOflQwxsIh1RXrQ8
-         YeGw==
-X-Gm-Message-State: AOAM530TojmbrZpcJeRUjgCKUkhEu5JNG8OVvGQUsNUKQDYfjnsUKbUd
-	QC1WKnBULrw98JeBySU3J8jA8/2rVAhqsBPzpHI=
-X-Google-Smtp-Source: ABdhPJyDFJ18aQLOYQTYC84T+ntQxW4p6GJaU6fbsbbxcBOWTzqbVd8M/cbQDvjdU3JGPBYcn/wQXL4OkXD/yWDp++o=
-X-Received: by 2002:a19:4158:: with SMTP id o85mr2951870lfa.429.1611674713164;
- Tue, 26 Jan 2021 07:25:13 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=i6cCsCckJFSOdrI3wne/XEWwZK/o11mH1vGHyEpoc1I=;
+        b=f+20RScu7dlFw5Orapwwo300teIArmpCqqvpSuyicWZOYTYal16kZXETu7Xbd/gU6T
+         RUsHyZAkJBQZ4bW0iUf57WMnEUGV2SKnFPJl5JMDJRta9kNZHLVLvIxLpYHx6gUl+ZKY
+         V4WFiWBbmu2UtsT0NLK3kX8UZ5ZR2Nes9Pc2JsUM2rehhDL5dcbXxBH3M6INYw+1tHa2
+         Vcn4F119ucuF1ZO8HpqqYhjWnY11RSfqWZWT8y0Pl/8c0q5XQ4DnOLtDY32SDKx0Dmz1
+         aLGpq+MNNy98eog8eLkqGqdCq2po7DdLuiQ0B7Y4RrmJowMj5HmTkWEzTmaiEZU2Jkq2
+         yTIA==
+X-Gm-Message-State: AOAM532Eyr7qhWgcvu+tcbKZZc86QR1QG72yC2d2VrGJGOGETvhlQTio
+	Qi/AcjfJl4dI8nBBJWtlyos=
+X-Google-Smtp-Source: ABdhPJz4v+JQJ8ycbcWCUeiNaPVpXuk/9IZW99Ibwwj+KLM6KHHVLJukFBnGTIsxUxo4YmBm6g+AvA==
+X-Received: by 2002:a17:902:e812:b029:de:57c4:f6f2 with SMTP id u18-20020a170902e812b02900de57c4f6f2mr6751619plg.37.1611675574910;
+        Tue, 26 Jan 2021 07:39:34 -0800 (PST)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id e3sm18712059pgs.60.2021.01.26.07.39.34
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 26 Jan 2021 07:39:34 -0800 (PST)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Date: Tue, 26 Jan 2021 07:39:34 -0800
+Message-ID: <0e2b01d6f3f9$72a21740$57e645c0$@gmail.com>
 MIME-Version: 1.0
-References: <CAHtQpK71uAoq_hwDGJCvt5O_=kNXHkWFkmHC-BQkzcSCM3ys7A@mail.gmail.com>
- <CAOSpxdZ_0+QOwnpaCMMm=+1WUcedQ7aqnm=rmg1=_bU8TWOELQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdZ_0+QOwnpaCMMm=+1WUcedQ7aqnm=rmg1=_bU8TWOELQ@mail.gmail.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Tue, 26 Jan 2021 16:25:01 +0100
-Message-ID: <CAHtQpK7N-vmpvTpm2Jt-3Q4i+WXtMHfNSq4Jf+BsgsjkETwv7Q@mail.gmail.com>
-Subject: Re: [dunfell]: gpsd recipe (3.19) build is broken
-To: Steve Sakoman <steve@sakoman.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, Khem Raj <raj.khem@gmail.com>, 
-	Armin Kuster <akuster808@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQISrzVI/mpiUtUXdhKGkBwjWW0Vew==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0E2C_01D6F3B6.647F9A90"
+Content-Language: en-us
 
-Hello Steve,
+------=_NextPart_000_0E2C_01D6F3B6.647F9A90
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 26, 2021 at 3:29 PM Steve Sakoman <steve@sakoman.com> wrote:
->
-> Hi Andrey,
->
-> Thanks for reporting this issue.
->
-> I'm the maintainer for the dunfell branch of oe-core.  The gpsd recipe
-> is part of meta-openembedded. I'm copying Armin, who is the maintainer
-> for the dunfell branch of meta-openembedded.
+All,
 
-True, I've realized the recipe is not part of OE-Core.
+ 
 
->
-> That said, I'm surprised you are seeing this issue since the gpsd
-> recipe has been fairly stable for quite some time.  I know that Armin
-> does test builds quite frequently.
->
-> FWIW, I tried doing a gpsd build with oe-core, meta-openembedded,
-> meta-freescale, and meta-freescale-distro on an Ubuntu 20.04 and it
-> completed successfully.
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-Arghh, got the same setup now - and the build issue was gone! :( Looks
-like this was an intermittent one.
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs  Also please
+review:
+https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded and
+how to create a bugzilla account at:
+<https://bugzilla.yoctoproject.org/createaccount.cgi>
+https://bugzilla.yoctoproject.org/createaccount.cgi
 
-I went ahead and invalidated the sstate for the recipe, and build went
-through alright.
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-With that said: please discard this message, and thanks for responding here!
+ 
 
->
-> Perhaps more information on your environment might help.  What
-> distro/version is the OS on your build machine? What other layers are
-> enabled in your build? What are you using for MACHINE and DISTRO?  Do
-> any of your layers have a .bbappend for gpsd?
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 337
+unassigned or newcomer bugs.
 
-For the record: had nothing fancy, same setup as you've indicated above:
+ 
 
-Build Configuration:
-BB_VERSION           = "1.46.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "aarch64-fsl-linux"
-MACHINE              = "imx8mmevk"
-DISTRO               = "fsl-wayland"
-DISTRO_VERSION       = "3.1"
-TUNE_FEATURES        = "aarch64 cortexa53 crc crypto"
-TARGET_FPU           = ""
-meta
-meta-poky            = "HEAD:bb7747497adbc7c99f6fc9b48b643eecb4cb1408"
-meta-oe
-meta-multimedia
-meta-python
-meta-networking
-meta-filesystems     = "dunfell:5bba79488b7d393d2258d6e917f7bf7b0d7c4073"
-meta-freescale       =
-"update-kernel-dunfell:184ee6b12d1c06db9327535ad1ae84d4709cfdb0"
-meta-freescale-3rdparty = "HEAD:ed841161a97307ebd901c31c62f8ecbee6baaacf"
-meta-freescale-distro = "HEAD:5d882cdf079b3bde0bd9869ce3ca3db411acbf3b"
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.2", "3.3, "3.99" and "Future", the more pressing/urgent issues
+being in "3.2" and then "3.3".
 
->
-> Regards,
->
-> Steve
->
-> On Tue, Jan 26, 2021 at 2:13 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
-> >
-> > Hello Steve,
-> >
-> > gpsd recipe build breaks on the dunfell branch with following error messages:
-> >
-> > | /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
-> > ./libgpsd.a(ppsthread.o): undefined reference to symbol
-> > 'pthread_create@@GLIBC_2.17'
-> > | /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot-native/usr/bin/aarch64-fsl-linux/../../libexec/aarch64-fsl-linux/gcc/aarch64-fsl-linux/9.3.0/ld:
-> > /development/dunfell/build-output/work/aarch64-fsl-linux/gpsd/3.19-r0/recipe-sysroot/lib/libpthread.so.0:
-> > error adding symbols: DSO missing from command line
-> >
-> > This cannot be reproduced on the current master branch, where the
-> > version of gpsd recipe has been bumped up from 3.19 to 3.20.
-> >
-> > Can you please consider to cherry-pick following commits from master
-> > in order to upgrade the gspd version on dunfell branch:
-> >
-> > 98e61961c gpsd: add new init script
-> > 04afc692a gpsd: mark CLEANBROKEN
-> > 33a15c790 gpsd: fix build on aarch64
-> > cecab9c4c gpsd: Upgrade 3.19 -> 3.20
-> >
-> > I've tried to cherry-pick them locally and they do apply clean. Also
-> > the build of gpsd is successful after this upgrade.
-> >
-> > --
-> > Regards,
-> > Andrey.
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
 
 
---
-Regards,
-Andrey.
+------=_NextPart_000_0E2C_01D6F3B6.647F9A90
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0E5D_01D6EDBD.688F1E20";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoNormal =
+style=3D'text-autospace:none'>All,<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The triage team is starting to try and =
+collect up and classify bugs which a newcomer to the project would be =
+able to work on in a way which means people can find them. They're being =
+listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a>&nbsp; Also =
+please review: <a =
+href=3D"https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded">https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded</a> and how to create a bugzilla account at: <a =
+href=3D"https://bugzilla.yoctoproject.org/createaccount.cgi"><span =
+style=3D'color:blue'>https://bugzilla.yoctoproject.org/createaccount.cgi<=
+/span></a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 337 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.2&#8221;, &#8220;3.3, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.2&quot; and then &#8220;3.3&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_0E2C_01D6F3B6.647F9A90--
