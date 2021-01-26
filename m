@@ -1,78 +1,86 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
- by mx.groups.io with SMTP id smtpd.web10.9449.1611648479531250212
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web12.9422.1611649240846118440
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 00:07:59 -0800
+ Tue, 26 Jan 2021 00:20:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=raFlGuUu;
- spf=pass (domain: gmail.com, ip: 209.85.160.180, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f180.google.com with SMTP id z9so11670447qtv.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 00:07:59 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NddZmUMa;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id m187so1688195wme.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 00:20:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=uYEpyUAL7KObefBGRlaPLSsoxDTJIf2e+f78V8qpWxE=;
-        b=raFlGuUu+OcdAA0F+Ib1LE1sBW9nv1GFWJEOZVbvoGpEoiarijoPEUTnnTJNE/mRuf
-         myk90CqSyqkTGXJ4SUUSDQ7V7JfgShLOsVt0NCgxeUYQWUdqtJ59fonqz55HBWIE5cQf
-         10Kf20zeHu652WnOiKZWa365DLkGKMM+H3Tf9sFn8fIb3RoDEa7Z4uW5x9yLs4L8TJIB
-         UOSor6Hv2FF4XW4ojO/DvrVUgF23hOI4ZEVPKhKiMhimstAjQw6ll5K3g9/cLksmuXV8
-         LC0UpIgc/Ef9qF4fXxEYUMXWY7okgRJTtnKn0kLHqPwVgcBgnbFbi3hYfZjFxh3wSUVD
-         EVLA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=12+Kk+O34SYBnLXxMVIQU64oHY35gUoE4kjJz7oWUoU=;
+        b=NddZmUMa2yADeffNb4Vs4EMaXHYHjGcQsAvHYoZLmLAVwAQy3Y2xqYfk3DKOXU7DVh
+         M2Oi/ydw9ZkYioJF2TxacxKg7CuFduEvr1K0WkIAxYxMLYl8muV/jm4J40bLNtKw3azU
+         jfS2WlRXFJ0lFeZyUd5/2y3kvYDyjXGUUxoV8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uYEpyUAL7KObefBGRlaPLSsoxDTJIf2e+f78V8qpWxE=;
-        b=kykIYdSHDycP6eVtPQMZufLh7lz5B76/M0H24Yc9yznH1Csg2S6OXM4BoTdbp9kFIG
-         Q2V3PYtG2pwuNgGMQf2S3w4U3L7Kavbqp3NMZL5oFd3Vez9KlP5bllB+yd8q0akL4eml
-         KrBUQu27nAadcMtiX8ETBtYTyQHufYlIeG6rtnPKKa220NnO/JskJvfS7laNgoxL5qLX
-         iamYnLEsbvSmMItWmPVu/TKGJUSd6aW/5g9D8V1ujW7HNZPM/joDAQLo+y2Y2JDzCNcV
-         k35n80QPEs8le2ZpYhjQQZFVi93aPdp4HWUn7sQzTkDK3DzKBSnyz0ooOwixCl3lrWNZ
-         JBkA==
-X-Gm-Message-State: AOAM530+WDrSsgdAqNmQXN8u1pfFVudm5Ln9kp453IqQMiv5cGvtNAUc
-	7znm6LjmESHfLxaD0FQSFXwJgtWfCD4qTwCV1fo=
-X-Google-Smtp-Source: ABdhPJyOubdXPM7wqJ3hLyKoUpNsV/cXevKU2raBGIgmUJdPOikDa0dAndft+5jH9uNk4D7Xvedt1qVj7wpY3VVVGWc=
-X-Received: by 2002:ac8:7441:: with SMTP id h1mr4083093qtr.88.1611648478500;
- Tue, 26 Jan 2021 00:07:58 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=12+Kk+O34SYBnLXxMVIQU64oHY35gUoE4kjJz7oWUoU=;
+        b=FqS8mZwbv+N7HHOEp7mlDtmg1JoN8kIL+99rdsjhuiFr+MKxhfTbq/k37oFr/77svV
+         pl4EeOURWV9CMvYsp//xaQKZDatQ55the4UAPMBqJIP5qh1pWwl498GrNlQrH4C7ZSeq
+         hEmgGDYvA/gMK9AWEUJHxJ8QmC3LFLBkKYd8Ji4Dmcb8+Wi42zfGPLzQXOUPpcMhAgDc
+         V4pSQI3ig+lv1ZcuthNWzmb5XK9qeSafJu+zQgE1Lyq2orxcsWGxRuXQFPQSzH6ZS/kT
+         /GE74oup5HR4fJIuEkZulqZEybM/cTyGjRymPN8m2gffqfDdcNrH4e97AU0y22/X78ux
+         0J+w==
+X-Gm-Message-State: AOAM531UR9AQAClAAkZgUtR8v7S28+Q6Y4kEx4bycfgMI6xX83XojouZ
+	N+kSq7Yho2s/ra705qvNbjKmAw==
+X-Google-Smtp-Source: ABdhPJxV6y80jDVi6CzOUg9M6wX2L7NEBWMNggM3jImuVG70sWJ7AMN/7Wkgz1SlG1V77XvCUKFhnQ==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr3468722wmr.179.1611649239364;
+        Tue, 26 Jan 2021 00:20:39 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:b393:1589:56b4:ccf1? ([2001:8b0:aba:5f3c:b393:1589:56b4:ccf1])
+        by smtp.gmail.com with ESMTPSA id u7sm13398537wrr.80.2021.01.26.00.20.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Jan 2021 00:20:38 -0800 (PST)
+Message-ID: <5e3acf487208372321ba28aec286fdb7fef7e6bf.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] core-image-sato-sdk-ptest: use 3G of RAM
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Changqing Li <changqing.li@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 26 Jan 2021 08:20:34 +0000
+In-Reply-To: <20210126053605.2003-1-changqing.li@windriver.com>
+References: <20210126053605.2003-1-changqing.li@windriver.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <CAN7sTguiWFuDzFbynGfZUO02Lh3X-bTVVSYezgBxZ75fGX0K6Q@mail.gmail.com>
-In-Reply-To: <CAN7sTguiWFuDzFbynGfZUO02Lh3X-bTVVSYezgBxZ75fGX0K6Q@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 26 Jan 2021 00:07:32 -0800
-Message-ID: <CAMKF1srP4QvoST3JMmgUtiem-g66Bu+X-egG3Sz+04dVv3cCGQ@mail.gmail.com>
-Subject: Re: [OE-core] World build doesn't include any recipes other than the core recipes
-To: Meh Mbeh Ida Delphine <idadelm@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello Ida
+On Tue, 2021-01-26 at 13:36 +0800, Changqing Li wrote:
+> [YOCTO #14164]
+> 
+> Some ptest cases, for example, libinput ptest intermittent failure on
+> arm64, this should caused by OOM Killer.
+> 
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+> index bf749acd79..b3ce859d76 100644
+> --- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+> +++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+> @@ -17,7 +17,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "1124288"
+>  
+> 
+> 
+> 
+>  # ptests need more memory than standard to avoid the OOM killer
+>  # also lttng-tools needs /tmp that has at least 1G
+> -QB_MEM = "-m 2048"
+> +QB_MEM = "-m 3072"
+> 
 
-You perhaps can build the respective test images e.g.
+What is libinput doing that needs 3GB of memory? Is this because its
+loading a whole graphics stack for testing or something? It seems odd
+that we need that much memory for input drivers!
 
-./meta-filesystems/recipes-filesystems/images/meta-filesystems-image.bb
-./meta-initramfs/recipes-core/images/meta-initramfs-image.bb
-./meta-multimedia/recipes-multimedia/images/meta-multimedia-image.bb
-./meta-networking/recipes-core/images/meta-networking-image.bb
-./meta-oe/recipes-core/images/meta-oe-image.bb
-./meta-oe/recipes-core/images/meta-oe-ptest-image.bb
-./meta-perl/recipes-perl/images/meta-perl-image.bb
-./meta-perl/recipes-perl/images/meta-perl-ptest-image.bb
-./meta-python/recipes-core/images/meta-python-image.bb
-./meta-python/recipes-core/images/meta-python-ptest-image.bb
-./meta-webserver/recipes-core/images/meta-webserver-image.bb
+Cheers,
 
-On Mon, Jan 25, 2021 at 8:54 PM Meh Mbeh Ida Delphine <idadelm@gmail.com> =
-wrote:
->
-> Hi Everyone,
-> I added meta-oe, meta-python and meta-networking layers before running m=
-y world build but from my output I get, none of the recipes of these layers=
- are included or taken into consideration. It's almost like they weren't ad=
-ded. Please what could be going on?
->
-> Cheers,
-> Ida.
->
->=20
->
+Richard
+
+
