@@ -1,106 +1,75 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web10.14974.1611678757240330104
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web08.15148.1611680110521367688
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 08:32:37 -0800
+ Tue, 26 Jan 2021 08:55:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qidJjgA9;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id b2so1519099lfq.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 08:32:36 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CuYeOYg7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.48, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f48.google.com with SMTP id g1so20618654edu.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 08:55:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TJ8D0bO5WPNQ6QOFYnf61+xJvoXj8YFEptxoXJpzwlo=;
-        b=qidJjgA9yC28PnG//KqrmtIG+y0Yw+5l6odZwuBzjop56pNMJCwnrZz9x6jcaTIybc
-         p9n2v3BCVuRoVRYjHfVHk5MIhoz+Kv3dGA4pQM3XBw1sLvkumttybN+FutyXw8PNVRXR
-         cdvbuh3Eb/T9MSdDBIKhsfC5+N5V4ypTwLPSvbX8YXrfp9Jz9Yvd7FG9+5wDTrB/tuK2
-         7AojcAhY1u11yHKjOjA0hmD4NZUiOGjqU7VPTc2LjkCMPxQR+q5ci+816AIUFDem6eAS
-         o4HJk8mWyOiCq7n8YNZr91g2N+oP+fsN77ySJ3gBa18xOmQ+bXSi8/OdPu1J/+BN9Sz7
-         96nw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=sP2m7E1Nsg/7KCgIWuOGar/AsJnU4daBhEMnMW83iV4=;
+        b=CuYeOYg7hFBE4g8hf5exAyxv8R7LO1mexRbmd4LakOa6FR5b4Y/KIB1FNLxsnASLxO
+         oKdWB6/s8gkM6IUEHZy6PsPznewZ3mR0PFMhkAZwLzbPIHsyBYZhVbslX/S3PKpwlYj3
+         jO5AAzJsOMEzvX+fPG/D7dVD9xhgtq3wuZMOQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=TJ8D0bO5WPNQ6QOFYnf61+xJvoXj8YFEptxoXJpzwlo=;
-        b=FnVu6zYhZWSIcadiBUjFz+91oHTnRj2pRN3yKQWXRCBTobmNQBFT1mR0XD2OPxjzl6
-         eN2HDiQXB6hYxlJptl7jG4NNdw0OLcKapkrD7S0nUBTSMwpivhkvHzzq1oHAH7g/WbJB
-         sfzNwEx2mCZhxpjWFn5SMPyT0icaj8p6YRd+WouDqG8lVsm4t70MRbGCkep0NH8oh8Z3
-         1U4x7MgRZj2txpQm/eA4u5PqcEWnElazDc2247oVLPXg6jLYbc2lAquyEdicU8D7LzWS
-         gfoqXovWKb9dl6ymjExuXSISM7SM9XfvJ7b3j/7yEYoE6ahwhWA/MFPg0NCicOxYFAQK
-         MTXQ==
-X-Gm-Message-State: AOAM533X5NwENaFwt8JiK/k7QJMk//0U25w5VqAgtz5EzFkJLoKL0trW
-	kCgJhb5qa+4cQ2PlQglBOwlRDsQMcfU=
-X-Google-Smtp-Source: ABdhPJxB8ZGH3XPSjE3P600UqxeN5xoZZOIqiFjWc+oenzHqJaGmOPhR8QrwavDTIyyuIIKbQIlmeA==
-X-Received: by 2002:ac2:5bd0:: with SMTP id u16mr3065549lfn.36.1611678755123;
-        Tue, 26 Jan 2021 08:32:35 -0800 (PST)
-Return-Path: <tomasz.dziendzielski@gmail.com>
-Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
-        by smtp.gmail.com with ESMTPSA id b5sm188836lfi.3.2021.01.26.08.32.34
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=sP2m7E1Nsg/7KCgIWuOGar/AsJnU4daBhEMnMW83iV4=;
+        b=t0eNEq1DLC90iBjZxY6DP2egmwhmHg/2JEIpCB7VrHz30OJRZtRO40S0KgPFppBq9I
+         ZCQdraHOVU0CmCuKkSYSSI8SYHRAs8/na0dLtto65k/ktjAqyqtwDMsMas64+2VtDBGQ
+         Mbk+avl6IG0dmZIdVjwkZkzcaXQcyy/bWzJdN/7Gd/rBi8cBbyYShJX28ZRoWnmT7ym4
+         I/lKGRd7V6axSykQM1xALkRfp9qvQCS4aZhOrT8tN/gCTUF7hX/61LfVkEylgSSQiaSz
+         EPq5QlHzDxPjp8MOiXTYHZQv7UewYkCrcARCfrRgHDf3N+HECcKZnOdNFkoRUw5A51Eg
+         Z8mg==
+X-Gm-Message-State: AOAM531dohAwywn42UEimQ/1LoEllIVHDP+k5aodya2fSpl2+Xyo0muz
+	1Fz5mhyG7vjKoj8h9TowjqusTw==
+X-Google-Smtp-Source: ABdhPJwbZ2XhaPzW6ZHWeRQw25yUgVR+1vUx6IT6WC0kf65aHoKTdakhNfq9+TORLwZyp7g/7YLGSQ==
+X-Received: by 2002:a05:6402:20e:: with SMTP id t14mr5372568edv.178.1611680108984;
+        Tue, 26 Jan 2021 08:55:08 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:740b:f7b2:9a90:fbc0? ([2001:8b0:aba:5f3c:740b:f7b2:9a90:fbc0])
+        by smtp.gmail.com with ESMTPSA id dm1sm12469899edb.72.2021.01.26.08.55.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 08:32:34 -0800 (PST)
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [PATCH] lib/oe/package_manager: Do not pass stderr to package manager as an argument
-Date: Tue, 26 Jan 2021 17:35:13 +0100
-Message-Id: <20210126163513.7840-1-tomasz.dziendzielski@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        Tue, 26 Jan 2021 08:55:08 -0800 (PST)
+Message-ID: <332c0f30e9d8ff14bda4bbb0aadbbda7ecdcc606.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [yocto-security] OE-core CVE metrics for master on Sun 24 Jan 2021 07:15:01 AM HST
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Lee, Chee Yang" <chee.yang.lee@intel.com>, Ross Burton
+ <ross@burtonini.com>
+Cc: Steve Sakoman <steve@sakoman.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>, 
+	"yocto-security@lists.yoctoproject.org"
+	 <yocto-security@lists.yoctoproject.org>
+Date: Tue, 26 Jan 2021 16:55:06 +0000
+In-Reply-To: <MWHPR11MB200003E4ED93C922C896F758B9BC9@MWHPR11MB2000.namprd11.prod.outlook.com>
+References: <20210124171809.D838F960256@nuc.router0800d9.com>
+	 <cc80f8541aeef99a4625420fbf7d27dcc6abf341.camel@linuxfoundation.org>
+	 <MWHPR11MB20005F089BE21737CFA246E7B9BD9@MWHPR11MB2000.namprd11.prod.outlook.com>
+	 <0d314728a5aceabe78e9d61bfe257d69396b23e3.camel@linuxfoundation.org>
+	 <MWHPR11MB2000D61465E2D74D9209E7DDB9BC9@MWHPR11MB2000.namprd11.prod.outlook.com>
+	 <CAAnfSTuE45wUNr2BSDa3GfL2etkEvh9GDpEThCju5B-wFYD6Ew@mail.gmail.com>
+	 <MWHPR11MB200003E4ED93C922C896F758B9BC9@MWHPR11MB2000.namprd11.prod.outlook.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The cmd redirected stderr to stdout that was then assigned to variable
-with pkgs to install. Then this variable was passed to package manager
-that then tried to install it and generated confusing warnings.
+On Tue, 2021-01-26 at 16:19 +0000, Lee, Chee Yang wrote:
+> A variable in recipe to indicate the character as patch level?
+> like CVE_VERSION_SUFFIX  in  “alphabetical”  so the parser understand
+> the last alphabetical character as patched release
 
-For example this variable could contain:
-| ['(en_US.UTF-8)', 'LC_ALL:', 'bash:', 'cannot', 'change', 'locale', 'setlocale:', 'warning:']
+Something like that could work. We really need to handle openssl
+versioning in particular so we need to do something (or revert the
+change if we can't fix it).
 
-and the warning was:
+Cheers,
 
-| WARNING: addon-bci-1.0-r0 do_populate_sdk: Unable to install packages.
-| Command 'PATH/usr/bin/opkg ... install (en_US.UTF-8) LC_ALL: bash:
-| cannot change locale setlocale: warning:' returned 255:
-| Collected errors:
-|  * opkg_prepare_url_for_install: Couldn't find anything to satisfy '(en_US.UTF-8)'.
-
-In this change I remove stderr redirection to stdout and pass it to
-bb.note instead.
-
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- meta/lib/oe/package_manager/__init__.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
-index 42225a3b2e..8e7128b195 100644
---- a/meta/lib/oe/package_manager/__init__.py
-+++ b/meta/lib/oe/package_manager/__init__.py
-@@ -328,7 +328,11 @@ class PackageManager(object, metaclass=ABCMeta):
-         try:
-             bb.note("Installing globbed packages...")
-             cmd = ["oe-pkgdata-util", "-p", pkgdatadir, "list-pkgs", globs]
--            pkgs = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
-+            bb.note('Running %s' % cmd)
-+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-+            stdout, stderr = proc.communicate()
-+            if stderr: bb.note(stderr.decode("utf-8"))
-+            pkgs = stdout.decode("utf-8")
-             self.install(pkgs.split(), attempt_only=True)
-         except subprocess.CalledProcessError as e:
-             # Return code 1 means no packages matched
-@@ -384,7 +388,10 @@ class PackageManager(object, metaclass=ABCMeta):
-                 cmd.extend(['--exclude=' + '|'.join(exclude.split())])
-             try:
-                 bb.note('Running %s' % cmd)
--                complementary_pkgs = subprocess.check_output(cmd, stderr=subprocess.STDOUT).decode("utf-8")
-+                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-+                stdout, stderr = proc.communicate()
-+                if stderr: bb.note(stderr.decode("utf-8"))
-+                complementary_pkgs = stdout.decode("utf-8")
-                 complementary_pkgs = set(complementary_pkgs.split())
-                 skip_pkgs = sorted(complementary_pkgs & provided_pkgs)
-                 install_pkgs = sorted(complementary_pkgs - provided_pkgs)
--- 
-2.30.0
+Richard
 
