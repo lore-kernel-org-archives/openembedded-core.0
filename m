@@ -1,50 +1,50 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.web12.12976.1611672169669952576
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web08.12954.1611672172081569215
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 06:42:49 -0800
+ Tue, 26 Jan 2021 06:42:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=WJjxd5Vp;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f51.google.com with SMTP id my11so1382957pjb.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:49 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=tK97qbR6;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id s24so774098pjp.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 06:42:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=BMEX/vYPtgYYI1SlqF6sQ+Pld/xDFIkteiq5IGdJzj8=;
-        b=WJjxd5Vp5QObPvvBF641dFBHV9g5gQBgBG895A1aODLTB8XQUB1L6PcRzsW+UlJhI5
-         /7nqtgtejRiRsVn46x1w+zkocGSelF6Z/XbhYTPlsmLDJGuQaykM+BgEeBQ2qF565aEy
-         oITJnTUbni8LK2gk1Gwx742d5o5nwePNAVKxRk255CUQCkLbnouwJ1nCJMX9F32yYjfx
-         ttx238Q0zUtNr5kZhLJzPwxsEEDHZXyJo/6rCKhLJaxcyOtpmIDTk/gD9RLUh+CLKS8p
-         CvVgsBK0iCurPD+T+8/LZBWHygoColEoHgeSuiSlMnuZatTU466cs8P/ZgN4uP3n5EdA
-         fjOg==
+        bh=+me/bbTvivw9lhsE1krhs8yJqPVhx8Ifs49hIl5R+V4=;
+        b=tK97qbR6bBZoErjZsus5RZJBytoeRGM6Tp18WsPxioadlwOHHmGGNlyPWhAqEUER3/
+         yHAIRPh84buAPgv+eAtJ0JfeuQ/vCE8nzYtIJOqca1XyCak3NJt3jq7QFHlR1wNBm7nn
+         gTR5CivNN2m0vJVVsMB3x2nkYOv4YPZ7QoItj5kYhCSZWAXHw+iwPXLmot/EvfWEwQS5
+         4IGPUko2IuRyuJ0132W7fQ4n+jVIpg3MWbpav5jFLorMOonMORpUfuH3YwSBzSfo4foD
+         gpR49AywW+1xl4dd1KzE4+b7JMSPOAwNg8xoubmuOsrFlVNKfBa8WP6asEyyKpeVXQKY
+         yozw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=BMEX/vYPtgYYI1SlqF6sQ+Pld/xDFIkteiq5IGdJzj8=;
-        b=S9uQMS+rNIaG/60fym4TntPRUwbfFLUi8spf/oapuRx1arBEzh9b29UvRiWPmHV/c3
-         MbxunyLlWZWH0/4tXpAjIdZ3YcyZrUXxiNHRjK+SHto+ICSpAsIUdZeu4KwLHSXjVmLs
-         E8StVQLjKNvSWnhkXNucoEaHSiVsp1Li2o4VQ1ltSihgixfjBGVZpBqmsIwIRNdRqtl1
-         wAyI8sNa3ImPSKo83GUiDFi9UucWnNR/GlJibiAQLxbC33f7hEEdtdi3wpdoP8TE0yqB
-         9Dyj8j7o6eUGM5jElBUpbcfSWjrANuBLtn9ksbDSKtgLPkZCuTBQBbenQS4MvM8ZDOHs
-         eVrA==
-X-Gm-Message-State: AOAM532nki9qGSjGK/iaJAgONSu0oT14KXEEWubQkEkPv/vvM2H0IckT
-	EQc0U1bNu2yv1hAIHvBzU4ScLTkiEAtp8/EM60Q=
-X-Google-Smtp-Source: ABdhPJxlmh2Cw2mv54kEZIl0lr9OAAQsE+yFux8mkXWUkt1YOFRvdwScbXIXXDgU2wUAP83vtSfecA==
-X-Received: by 2002:a17:90a:b78a:: with SMTP id m10mr107424pjr.164.1611672168582;
-        Tue, 26 Jan 2021 06:42:48 -0800 (PST)
+        bh=+me/bbTvivw9lhsE1krhs8yJqPVhx8Ifs49hIl5R+V4=;
+        b=at3R71q3pal27WSCvaijCNP162OrwwS6XRLyE/7bUFQ7JaizchE+/tjzF8zBSL98qw
+         KAGYB8moec8+L7tltHN/RXz9PM+iYM5KB3kRfwT+txWL8iaXppQ5zEAufr/2pbnmFn5T
+         eMRSsLnaO/eQLug8j9jQcn5aGdVuVfDepPxVHL/X6CoMYeOJWqtSZagLMu+cFd35hi7l
+         oVIWtfPxCOSc8yOnLMXaNv8BqXKnnYk8YZ1h7PJZDO1NeOc+cD0FCXidMcfqgOs5hHws
+         tADDdZtqxf6Kr18QEu+HZ/lHvRL4Hy/hxhCnHgkkDoleKO8J7M0ID+5hNaVuB+IEjtMQ
+         uz3w==
+X-Gm-Message-State: AOAM532L2jFDmTLQcH/5yAkK5lJGvTDn2vAI/dmr0F6pF909b3ioiD3s
+	TZFfkND9rR95kOf0P4e/0l0+dwLOWziYmh/mJ5g=
+X-Google-Smtp-Source: ABdhPJx/iL/KDOrWw49jykG0MUPcTFgc669WCeNFzOFqYjVnhWRFU1fbP1KO3tbKrEXSoq7Q2WYvyg==
+X-Received: by 2002:a17:902:7205:b029:db:d2d5:fe79 with SMTP id ba5-20020a1709027205b02900dbd2d5fe79mr6370935plb.30.1611672171044;
+        Tue, 26 Jan 2021 06:42:51 -0800 (PST)
 Return-Path: <steve@sakoman.com>
 Received: from hexa.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.47
+        by smtp.gmail.com with ESMTPSA id 11sm19303634pgz.22.2021.01.26.06.42.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 06:42:47 -0800 (PST)
+        Tue, 26 Jan 2021 06:42:50 -0800 (PST)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell V3 13/46] wic: Fix permissions when using exclude or include path
-Date: Tue, 26 Jan 2021 04:41:24 -1000
-Message-Id: <ed1dbd9ba6881c83932aad60cc1baff5e5f9a6a7.1611671734.git.steve@sakoman.com>
+Subject: [OE-core][dunfell V3 14/46] wic: Fix multi images .wks with bitbake
+Date: Tue, 26 Jan 2021 04:41:25 -1000
+Message-Id: <4ce1e304279581f592c77b0e254801d13fa10caa.1611671734.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1611671734.git.steve@sakoman.com>
 References: <cover.1611671734.git.steve@sakoman.com>
@@ -53,148 +53,83 @@ Content-Transfer-Encoding: 8bit
 
 From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 
-When parameters include_path or exclude_path are passed to the rootfs
-plugin, it will copy the partition content into a folder and make all
-the modifications there.
+In order to support .wks files with multiple images inside bitbake we
+need to explicitly set the pseudo database in use.
 
-This is done using copyhardlinktree(), which does not take into
-consideration the content of the pseudo folder, which contains the
-information about the right permissions and ownership of the folders.
+Eg: If we try this .mks:
+part / --source rootfs --ondisk sda --fstype=ext4
+part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
 
-This results in a rootfs owned by the user that is running the wic
-command (usually UID 1000), which makes some rootfs unbootable.
+The username for all the files under /export will be set to the runner
+of bitbake (usually UID 1000).
 
-This bug can be easily triggerd with the following .wks
-
-part / --source rootfs --fstype=ext4 --exclude-path=home
-
-And this sequence:
-
-$ wic create test-permissions -e core-image-minimal -o test/
-$ sudo mount test/test-permissions-202004080823-sda.direct.p1 /mnt
-$ ls -la /mnt/etc/shadow
-
-To fix this we copy the content of the pseudo folders to the new folder
-and modify the pseudo database using the "pseudo -B" command.
-
-If the rootfs is not a rootfs generated by bitbake a warning is shown
-making the user aware that the permissions on the target might not match
-what he expects.
-
-WARNING: /tmp/test/../pseudo folder does not exist. Usernames and permissions will be invalid
+Before we run wic, we need to make sure that the pseudo database will be
+flushed, and contains all the data needed.
 
 Cc: Paul Barker <pbarker@konsulko.com>
 Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fd739c15cdba221d9d497d3402b7d929c0be2ca4)
+(cherry picked from commit dde90a5dd2b22a539095d1bac82acc15c6380ac8)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/wic/partition.py             |  7 +++--
- scripts/lib/wic/plugins/source/rootfs.py | 37 ++++++++++++++++++++++--
- 2 files changed, 38 insertions(+), 6 deletions(-)
+ meta/classes/image_types_wic.bbclass | 8 ++++++--
+ scripts/lib/wic/partition.py         | 9 +++------
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 70ea46ef5b..82f0985eeb 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -33,8 +33,7 @@ IMAGE_CMD_wic () {
+ 	if [ -z "$wks" ]; then
+ 		bbfatal "No kickstart files from WKS_FILES were found: ${WKS_FILES}. Please set WKS_FILE or WKS_FILES appropriately."
+ 	fi
+-
+-	BUILDDIR="${TOPDIR}" wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" ${WIC_CREATE_EXTRA_ARGS}
++	BUILDDIR="${TOPDIR}" PSEUDO_UNLOAD=1 wic create "$wks" --vars "${STAGING_DIR}/${MACHINE}/imgdata/" -e "${IMAGE_BASENAME}" -o "$build_wic/" ${WIC_CREATE_EXTRA_ARGS}
+ 	mv "$build_wic/$(basename "${wks%.wks}")"*.direct "$out${IMAGE_NAME_SUFFIX}.wic"
+ }
+ IMAGE_CMD_wic[vardepsexclude] = "WKS_FULL_PATH WKS_FILES TOPDIR"
+@@ -89,6 +88,10 @@ python do_write_wks_template () {
+     bb.utils.copyfile(wks_file, "%s/%s" % (depdir, basename + '-' + os.path.basename(wks_file)))
+ }
+ 
++do_flush_pseudodb() {
++	${FAKEROOTENV} ${FAKEROOTCMD} -S
++}
++
+ python () {
+     if d.getVar('USING_WIC'):
+         wks_file_u = d.getVar('WKS_FULL_PATH', False)
+@@ -142,6 +145,7 @@ python do_rootfs_wicenv () {
+     depdir = d.getVar('IMGDEPLOYDIR')
+     bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
+ }
++addtask do_flush_pseudodb after do_image before do_image_wic
+ addtask do_rootfs_wicenv after do_image before do_image_wic
+ do_rootfs_wicenv[vardeps] += "${WICVARS}"
+ do_rootfs_wicenv[prefuncs] = 'set_image_size'
 diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 3490b4e75d..6e87770f3a 100644
+index 6e87770f3a..18ecec2de9 100644
 --- a/scripts/lib/wic/partition.py
 +++ b/scripts/lib/wic/partition.py
-@@ -191,7 +191,7 @@ class Partition():
-                            (self.mountpoint, self.size, self.fixed_size))
- 
-     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
--                       native_sysroot, real_rootfs = True):
-+                       native_sysroot, real_rootfs = True, pseudo_dir = None):
-         """
-         Prepare content for a rootfs partition i.e. create a partition
-         and fill it from a /rootfs dir.
-@@ -199,8 +199,9 @@ class Partition():
-         Currently handles ext2/3/4, btrfs, vfat and squashfs.
-         """
+@@ -201,13 +201,10 @@ class Partition():
          p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
--        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
--                                         "%s/../pseudo" %  rootfs_dir)
-+        if (pseudo_dir == None):
-+            pseudo_dir = "%s/../pseudo" %  rootfs_dir
-+        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR", pseudo_dir)
-         p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
-         p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
+         if (pseudo_dir == None):
+             pseudo_dir = "%s/../pseudo" %  rootfs_dir
+-        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR", pseudo_dir)
+-        p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
+-        p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
          pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 705aeb5563..8b2a067385 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -20,7 +20,7 @@ from oe.path import copyhardlinktree
- 
- from wic import WicError
- from wic.pluginbase import SourcePlugin
--from wic.misc import get_bitbake_var
-+from wic.misc import get_bitbake_var, exec_native_cmd
- 
- logger = logging.getLogger('wic')
- 
-@@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
- 
-         return os.path.realpath(image_rootfs_dir)
- 
-+    @staticmethod
-+    def __get_pseudo(native_sysroot, rootfs, pseudo_dir):
-+        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
+-        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % p_localstatedir
+-        pseudo += "export PSEUDO_PASSWD=%s;" % p_passwd
+-        pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
 +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-+        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
++        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
 +        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-+        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-+        return pseudo
-+
-     @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-@@ -68,8 +77,14 @@ class RootfsPlugin(SourcePlugin):
-                                "it is not a valid path, exiting" % part.rootfs_dir)
+         pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
  
-         part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
-+        pseudo_dir = os.path.join(part.rootfs_dir, "../pseudo")
-+        if not os.path.lexists(pseudo_dir):
-+            logger.warn("%s folder does not exist. "
-+                        "Usernames and permissions will be invalid " % pseudo_dir)
-+            pseudo_dir = None
- 
-         new_rootfs = None
-+        new_pseudo = None
-         # Handle excluded paths.
-         if part.exclude_path or part.include_path:
-             # We need a new rootfs directory we can delete files from. Copy to
-@@ -78,9 +93,24 @@ class RootfsPlugin(SourcePlugin):
- 
-             if os.path.lexists(new_rootfs):
-                 shutil.rmtree(os.path.join(new_rootfs))
--
-             copyhardlinktree(part.rootfs_dir, new_rootfs)
- 
-+            # Convert the pseudo directory to its new location
-+            if (pseudo_dir):
-+                new_pseudo = os.path.realpath(
-+                             os.path.join(cr_workdir, "pseudo%d" % part.lineno))
-+                if os.path.lexists(new_pseudo):
-+                    shutil.rmtree(new_pseudo)
-+                os.mkdir(new_pseudo)
-+                shutil.copy(os.path.join(pseudo_dir, "files.db"),
-+                            os.path.join(new_pseudo, "files.db"))
-+
-+                pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,
-+                                                                     new_rootfs,
-+                                                                     new_pseudo),
-+                                                    part.rootfs_dir, new_rootfs)
-+                exec_native_cmd(pseudo_cmd, native_sysroot)
-+
-             for path in part.include_path or []:
-                 copyhardlinktree(path, new_rootfs)
- 
-@@ -112,4 +142,5 @@ class RootfsPlugin(SourcePlugin):
-                     shutil.rmtree(full_path)
- 
-         part.prepare_rootfs(cr_workdir, oe_builddir,
--                            new_rootfs or part.rootfs_dir, native_sysroot)
-+                            new_rootfs or part.rootfs_dir, native_sysroot,
-+                            pseudo_dir = new_pseudo or pseudo_dir)
+         rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
 -- 
 2.25.1
 
