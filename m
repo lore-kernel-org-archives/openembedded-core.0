@@ -1,91 +1,83 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.14998.1611783041134613671
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
+ by mx.groups.io with SMTP id smtpd.web11.15121.1611783421772341277
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jan 2021 13:30:41 -0800
+ Wed, 27 Jan 2021 13:37:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kwZN/OMV;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id q8so4725868lfm.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 13:30:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZfG11L+W;
+ spf=pass (domain: gmail.com, ip: 209.85.166.50, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-io1-f50.google.com with SMTP id y19so3460367iov.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 13:37:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=orQiUpPtlYXRbiqMDoE7ADpCcmHLc38AgYeFLao70y4=;
-        b=kwZN/OMVSrmkK82cE+cMQosAxhHzj1f2mu7EHVfeaCJWf5vmMpUD0My0JOS72+nyQe
-         bR3jKIzikWiPIM1PON9j7D5NeWlW34GQBBGtVGd5sw9IbpW9UVbkU8Sgu+jl99Nr/No1
-         uNUa3YWuFq84SUiffXdO4qNML/9fd7pexKYGgqEh6kfenbPbb7N98Md7Xfkh20Bs/arK
-         g2Q6g6ZXzWyAotYYZYUIznwR46Li7sxp2c572gjUkjuAnrVDS/qOpeNSYcPEVtsCJim/
-         zKGthwij7XMUlrfh5wop9qqbp8OuB0G3karQEyy2HUDUEQuh2T+I2/7zsimRatTW6dgf
-         eATA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9sPjuIylY+OAVayecal3aYymgQxaKH/IotBvywI81y8=;
+        b=ZfG11L+WeTte1O9aK3q27CdDncy7zGlgeWnzA6qBYN5IXtSKPBUtRJVvrgTwtRRlmK
+         24ynzaekt5B0wprXsImJkS0zTWI80Yx4x84JG6GCDox2R3GU/0c9q2G5F2/HHZhWF6mV
+         Ctdj+an7cGC1cw8gRoKtjRHWJjVxbtHTrXEXO3/hlDm4rRN8JaADMNua2Se5b6ra8Xwt
+         iGvam1y6t4RYOhoHFVdASAKVHd2vFUuxJKDm0CHnyZue6hOV/GIuQ3LohsYcno+k3/dI
+         ikzEA32OvmGp22uWZ+lgb/YFKpN9Yqcfw7U2Z2tHGJoFLr23g7mv2SWueFJw3Jhic5a8
+         vFlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=orQiUpPtlYXRbiqMDoE7ADpCcmHLc38AgYeFLao70y4=;
-        b=DVEVKmi6oF5mS/T4fAWE8+64jDGstxWxl8d6tcDDVsfdAfebhrd/vtaC0DBtHjC68F
-         Byx79PLm4vSTf7mu6pyZKZNZYILIFVuZxhb1DCIEbdJ0u4q6Q3YjWNfpnIUKEIkgrgfz
-         0pXHazQ64B67VnC0Gs0PhAJcx53OnrKXVsCiUZgpbm8sk9QIw5fRPVYst195yq2Ioppo
-         /TBHXixjVBqsGvU3OFHVbFyI51JGLRyqooVdbgzJTntALEAC/iQFNwlujqsnCDokOoXz
-         NczXGwlNzX0TGiHt06AmKQ7yhxJ/qLZNZIFHo0ofoOfCEwTdw7JyQPnApytu6ToyRMwe
-         oj/A==
-X-Gm-Message-State: AOAM533fUAG54r9IMYTg9Ot7pPYg0AQwgu6uBR7nrzzhFqMP8JCnzLA/
-	PGL/FBVTXlz4VUUwdOYT6y4GtT0X20I=
-X-Google-Smtp-Source: ABdhPJwQ50ojTZZmQVB0L3illKbBdsz1qH/YgWY7FPwHXLbg3hqsbmzdxv3v0TaSlIG/Y4rIYFSWkQ==
-X-Received: by 2002:a05:6512:3710:: with SMTP id z16mr5872207lfr.646.1611783039216;
-        Wed, 27 Jan 2021 13:30:39 -0800 (PST)
-Return-Path: <tomasz.dziendzielski@gmail.com>
-Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
-        by smtp.gmail.com with ESMTPSA id m10sm829319lfk.2.2021.01.27.13.30.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 13:30:38 -0800 (PST)
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-Subject: [PATCH 2/2] insane: native-last: Print classes inherited after native/nativesdk
-Date: Wed, 27 Jan 2021 22:33:11 +0100
-Message-Id: <20210127213311.6030-2-tomasz.dziendzielski@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210127213311.6030-1-tomasz.dziendzielski@gmail.com>
-References: <20210127213311.6030-1-tomasz.dziendzielski@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9sPjuIylY+OAVayecal3aYymgQxaKH/IotBvywI81y8=;
+        b=jtjhKJ9ozEj9MCbmkfobYdCWbOrFrTntIz09p4GyKbDwnNzncf7/vEHpX+s0ccJE0O
+         yrI8yjwScwXu/y5aXYyFM5rb4dDSw/6bLBJo3gLUnL5yUaObdq4HBVLJIBatjyLn5oG4
+         f+WMmj3Tzt80yUmKi2KJaRDFz/4rsYNP3C8EIKdPw8LFlRlQQJD/134oaiI7qKvLRDjg
+         IcjnpGt6ritInr6PhefRLJbzkeFIaV1xJK0qxsoIKF7Z9s/dAj2uYzIGp/RpFZtGqkny
+         BPLdgXk/u4qlu0KRgbK6YPZw7kgkaQhyYwpwCoPMK4JtHXCDZ3beY9BNiJ4NA5/zfvsG
+         kcAQ==
+X-Gm-Message-State: AOAM532pWoD+we1ip2rhX7Rd/1ugeXIizhxVtosX5rbVstXK+96Grr2/
+	TDcg1+2yQ/zjBtQ83AGMPL1UO8I6rwqR/dW6XMU=
+X-Google-Smtp-Source: ABdhPJwmDI4qWOWEQpNb6bjvXaQh1qcqwROqgkz0PM2j5HEfEYezHq1alWaGVmw6q/YWaMxFHkMFfQkxMuX6eVhZKvo=
+X-Received: by 2002:a02:634b:: with SMTP id j72mr10551361jac.106.1611783421131;
+ Wed, 27 Jan 2021 13:37:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com>
+ <CA+chaQdyeDPFaitWi-42dZi-W=E0ss2_SeyvOjJ7EdmZisCwhA@mail.gmail.com> <165E2EBA5493813B.12137@lists.openembedded.org>
+In-Reply-To: <165E2EBA5493813B.12137@lists.openembedded.org>
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+Date: Wed, 27 Jan 2021 22:36:49 +0100
+Message-ID: <CAJkqNs1aXao9hJ-iCRNS58zfEy1nzXJejPuoodKWUnK4ujyqzg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004582d305b9e89227"
 
-See [YOCTO #5729] for details.
+--0000000000004582d305b9e89227
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
----
- meta/classes/insane.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Hello Martin,
+I have just submitted patches with fix for missing INSANE_SKIP and printing
+shortlist of classes inherited after native/nativesdk.
+Please check:
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index e371c1c71f..53230fc667 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1381,6 +1381,7 @@ python () {
-                     # native also inherits nopackages and relocatable bbclasses
-                     skip_classes.extend(['nopackages', 'relocatable'])
- 
-+                broken_order = []
-                 for class_item in reversed(inherited_classes):
-                     if needle not in class_item:
-                         for extend_item in skip_classes:
-@@ -1388,10 +1389,13 @@ python () {
-                                 break
-                         else:
-                             pn = d.getVar('PN')
--                            package_qa_handle_error("native-last", "%s: native/nativesdk class is not inherited last, this can result in unexpected behaviour. " % pn, d)
--                            break
-+                            broken_order.append(os.path.basename(class_item))
-                     else:
-                         break
-+                if broken_order:
-+                    package_qa_handle_error("native-last", "%s: native/nativesdk class is not inherited last, this can result in unexpected behaviour. "
-+                                             "Classes inherited after native/nativesdk: %s" % (pn, " ".join(broken_order)), d)
-+
- 
-     qa_sane = d.getVar("QA_SANE")
-     if not qa_sane:
--- 
-2.30.0
+https://lists.openembedded.org/g/openembedded-core/message/147370
 
+https://lists.openembedded.org/g/openembedded-core/message/147371
+
+Sorry for inconvenience.
+
+Best regards,
+Tomasz Dziendzielski
+
+--0000000000004582d305b9e89227
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hello Martin,</div><div dir=3D"auto">I have just sub=
+mitted patches with fix for missing INSANE_SKIP and printing shortlist of c=
+lasses inherited after native/nativesdk.</div><div dir=3D"auto">Please chec=
+k:</div><div dir=3D"auto"><br></div><div dir=3D"auto"><a href=3D"https://li=
+sts.openembedded.org/g/openembedded-core/message/147370">https://lists.open=
+embedded.org/g/openembedded-core/message/147370</a><br><br><a href=3D"https=
+://lists.openembedded.org/g/openembedded-core/message/147371">https://lists=
+.openembedded.org/g/openembedded-core/message/147371</a></div><div dir=3D"a=
+uto"><br></div><div dir=3D"auto">Sorry for inconvenience.</div><div dir=3D"=
+auto"><br></div><div dir=3D"auto">Best regards,</div><div dir=3D"auto">Toma=
+sz Dziendzielski</div></div>
+
+--0000000000004582d305b9e89227--
