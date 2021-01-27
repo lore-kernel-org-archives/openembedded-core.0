@@ -1,121 +1,84 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web10.1872.1611710784490508575
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by mx.groups.io with SMTP id smtpd.web08.2055.1611711379379759731
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 17:26:24 -0800
+ Tue, 26 Jan 2021 17:36:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: jmEDhwYZXbFtq5yMSJEtOF2RbOjNykcHsQnB9LrKx227eo/hib78bncZaD56s5EvsWqhUdmYjr
- /rDwfUls6QZg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="180080203"
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: jay.shen.teoh@intel.com)
+IronPort-SDR: +Sq0/Y9Eqir07Q2EaEXYcZuFAJor8SWrAr8bm0daH8/OdCVoY3hXxZiIVgJq7JywPyLyytvo2q
+ QQb/qO3tby7g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9876"; a="167672941"
 X-IronPort-AV: E=Sophos;i="5.79,378,1602572400"; 
-   d="scan'208";a="180080203"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 17:26:22 -0800
-IronPort-SDR: jeWWLizNbO/pLNXeE8A0xK/R4Nkny4sGmOT8zb+SJwUA0d6lAhiK29iichb7UEswDis68fqa1N
- 8CvqEMmRmKpQ==
+   d="scan'208";a="167672941"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 17:36:18 -0800
+IronPort-SDR: qFIrpxQuNLygDKJJuzdCHjBa4lraat68M23j6nMXq34r5U6ERTZ7gucbraMwE6IPpTsuLyWcG8
+ zi0GAe3APsZg==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.79,378,1602572400"; 
-   d="scan'208";a="472965417"
-Received: from yfong-mobl1.gar.corp.intel.com (HELO anmitta2-mobl1.gar.corp.intel.com) ([10.255.184.89])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jan 2021 17:26:21 -0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Subject: [gatesgarth][PATCH 00/20] pull request
-Date: Wed, 27 Jan 2021 09:26:13 +0800
-Message-Id: <cover.1611710622.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+   d="scan'208";a="429917600"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by orsmga001.jf.intel.com with ESMTP; 26 Jan 2021 17:36:17 -0800
+From: "Teoh, Jay Shen" <jay.shen.teoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/ethernet_ip_connman : add test for network connections
+Date: Wed, 27 Jan 2021 09:36:13 +0800
+Message-Id: <1611711373-34882-1-git-send-email-jay.shen.teoh@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-Please merge these changes in gatesgarth.
+From: Teoh Jay Shen <jay.shen.teoh@intel.com>
 
-Thanks,
+This test mimic the ethernet_static_ip_set_in_connman and ethernet_get_IP_in_connman_via_DHCP test case from oeqa/manual/bsp-hw.json.
+The ethernet_static_ip_set_in_connman and ethernet_get_IP_in_connman_via_DHCP manual test case should be remove from oeqa/manual/bsp-hw.json if this patch get merged.
 
-Anuj
+Signed-off-by: Teoh Jay Shen <jay.shen.teoh@intel.com>
+---
+ meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py | 36 ++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py
 
-The following changes since commit c7bf9aebd002fc6bc23a57bc5e9863382bd17ae7:
-
-  systemd: upgrade 246.6 -> 246.9 (2021-01-15 00:05:41 +0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/gatesgarth-next
-
-Adrian Herrera (1):
-  scripts: oe-run-native, fix *-native directories
-
-Andrey Mozzhuhin (1):
-  toolchain-shar-extract.sh: Handle special characters in script path
-
-Chris Laplante (1):
-  systemd.bbclass: improve error message when a service unit specified
-    in SYSTEMD_SERVICE is not found
-
-Mans Rullgard (1):
-  boost: drop arm-intrinsics.patch
-
-Marek Vasut (2):
-  meta: toolchain-shar-relocate.sh: Do not use $target_sdk_dir as regex
-  meta: toolchain-shar-relocate.sh: Filter out post-relocate-setup
-    script
-
-Mikko Rapeli (1):
-  zip: whitelist CVE-2018-13410 and CVE-2018-13684
-
-Nathan Rossi (1):
-  gcc: Backport patch to resolve i*86 tune configuration overrides
-
-Oleksiy Obitotskyy (1):
-  flex: Fix --noline option behavior
-
-Oleksiy Obitotskyy yIEf0zt.mo (1):
-  toolchain-shar-relocate.sh: Fix handling files with colons
-
-Paul Barker (7):
-  wic: Add workdir argument
-  wic: Ensure internal workdir is not reused
-  wic: Allow exec_native_cmd to run HOSTTOOLS
-  image_types_wic: Move wic working directory
-  wic: Update pseudo db when excluding content from rootfs
-  wic: Copy rootfs dir if fstab needs updating
-  wic: Optimise fstab modification for ext2/3/4 and msdos partitions
-
-Tomasz Dziendzielski (2):
-  lib/oe/utils: Return empty string in parallel_make
-  devtool: Fix source extraction for gcc shared source
-
-Yi Fan Yu (1):
-  binutils: Fix CVE-2020-35448
-
- meta/classes/image_types_wic.bbclass          |  10 +-
- meta/classes/systemd.bbclass                  |   3 +-
- meta/files/toolchain-shar-extract.sh          |  12 +-
- meta/files/toolchain-shar-relocate.sh         |   7 +-
- meta/lib/oe/utils.py                          |   2 +-
- .../binutils/binutils-2.35.1.inc              |   1 +
- .../binutils/binutils/CVE-2020-35448.patch    |  85 +++++++
- ...directives-if-gen_line_dirs-is-false.patch |  32 +++
- meta/recipes-devtools/flex/flex_2.6.4.bb      |   1 +
- meta/recipes-devtools/gcc/gcc-10.2.inc        |   2 +-
- ...0001-lib-Remove-i-86-march-overrides.patch | 113 ----------
- ...libgomp-libitc-Fix-bootstrap-PR70454.patch | 208 ++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |   6 +
- .../boost/boost/arm-intrinsics.patch          |  55 -----
- meta/recipes-support/boost/boost_1.74.0.bb    |   2 +-
- scripts/lib/devtool/standard.py               |  30 ++-
- scripts/lib/wic/misc.py                       |   7 +-
- scripts/lib/wic/partition.py                  |  32 ++-
- scripts/lib/wic/plugins/imager/direct.py      |  48 ++--
- scripts/lib/wic/plugins/source/rootfs.py      |  33 ++-
- scripts/oe-run-native                         |   2 +-
- scripts/wic                                   |   2 +
- 22 files changed, 464 insertions(+), 229 deletions(-)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-35448.patch
- create mode 100644 meta/recipes-devtools/flex/flex/0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch
- delete mode 100644 meta/recipes-devtools/gcc/gcc/0001-lib-Remove-i-86-march-overrides.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc/0001-libatomic-libgomp-libitc-Fix-bootstrap-PR70454.patch
- delete mode 100644 meta/recipes-support/boost/boost/arm-intrinsics.patch
-
+diff --git a/meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py b/meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py
+new file mode 100644
+index 0000000..e010612
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/ethernet_ip_connman.py
+@@ -0,0 +1,36 @@
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.data import skipIfQemu
++
++class Ethernet_Test(OERuntimeTestCase):
++
++    def set_ip(self, x): 
++        x = x.split(".")
++        sample_host_address = '150'        
++        x[3] = sample_host_address
++        x = '.'.join(x)
++        return x
++    
++    @skipIfQemu('qemuall', 'Test only runs on real hardware')    
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    def test_set_virtual_ip(self):
++        (status, output) = self.target.run("ifconfig eth0 | grep 'inet ' | awk '{print $2}'")
++        self.assertEqual(status, 0, msg='Failed to get ip address. Make sure you have an ethernet connection on your device, output: %s' % output)
++        original_ip = output 
++        virtual_ip = self.set_ip(original_ip)
++        
++        (status, output) = self.target.run("ifconfig eth0:1 %s netmask 255.255.255.0 && sleep 2 && ping -c 5 %s && ifconfig eth0:1 down" % (virtual_ip,virtual_ip))
++        self.assertEqual(status, 0, msg='Failed to create virtual ip address, output: %s' % output)
++        
++    @OETestDepends(['ethernet_ip_connman.Ethernet_Test.test_set_virtual_ip'])  
++    def test_get_ip_from_dhcp(self): 
++        (status, output) = self.target.run("connmanctl services | grep -E '*AO Wired|*AR Wired' | awk '{print $3}'")
++        self.assertEqual(status, 0, msg='No wired interfaces are detected, output: %s' % output)
++        wired_interfaces = output
++        
++        (status, output) = self.target.run("ip route | grep default | awk '{print $3}'")
++        self.assertEqual(status, 0, msg='Failed to retrieve the default gateway, output: %s' % output)
++        default_gateway = output
++
++        (status, output) = self.target.run("connmanctl config %s --ipv4 dhcp && sleep 2 && ping -c 5 %s" % (wired_interfaces,default_gateway))
++        self.assertEqual(status, 0, msg='Failed to get dynamic IP address via DHCP in connmand, output: %s' % output)
+\ No newline at end of file
 -- 
-2.29.2
+2.7.4
 
