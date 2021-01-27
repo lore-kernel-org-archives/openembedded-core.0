@@ -1,201 +1,127 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web12.10988.1611768479589855051
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+ by mx.groups.io with SMTP id smtpd.web12.11224.1611769214056943269
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jan 2021 09:27:59 -0800
+ Wed, 27 Jan 2021 09:40:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S8tejS0H;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f52.google.com with SMTP id l9so3814599ejx.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 09:27:59 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KsgqG5Jk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f45.google.com with SMTP id z22so3442202edb.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 09:40:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=RZN/PjTjKJwmHyE4HLpNbl6CnS+Z34eZTZuUxrc3hXg=;
-        b=S8tejS0H6Kd4yueIhfRTJLKd4e2yz3OdG2s+V86+7krXChGSMocGKfG9Oqa9aLhOhe
-         ZhaEhbEhIwIH6Hex9yU5+drgdBihifop44Qal543RysDts4avScA1L1qo50Du/xkbVAY
-         2o0kQHChgGZ9vz2mk60YF3jo+F70zqIB73PS8=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=eKRXkISqaZGHU7AitsbHnrQO78gmfVDhLx/+xRtbkXc=;
+        b=KsgqG5Jk7dypZsfxgU16e3c58IyW/QeORsQtIU7dOnyG4KhTFGPICfnhcYTLGXGmhO
+         V87sbCLh6J9Z4x3rrOCX/MLihGoS+OpTj1Pqn3wwrZPBx+KnlUev73vdcNHfHMoT2ajk
+         h6jo+Z4RwQTfkeM3wxZsYKLk2v+MhBFZN6NHE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=RZN/PjTjKJwmHyE4HLpNbl6CnS+Z34eZTZuUxrc3hXg=;
-        b=d0WdQhhsohK4/6gdLU2JvUkCPMmM8ZLfucT3FubPpigs1LUjlCu21yqsi8REO5dvl9
-         YvBzqbai0u/aDws1+Wmb+fFOEP7hFW16WJAZvB/rCnlJfb5QKdk42iR1t7UwvOiuWKWS
-         NLI1+RiwK5ckqKCaMmITkVHr9Z9TfFRGJD1J8yWIBJXk1V4ZX/hY4tToFnpx9d1hpli6
-         s4ncg0/K2inoGTsjskqczwpRu8Wfo2E1QinpbYPUWYHTOeb29OVLBBGNnutIyVUADDAN
-         Rnfysh7yLgM0QZIJ/qPBpILftOFKPJlU5wWsZNtwwTY7+Co6FodJKvFWesRuM73sdUxe
-         xQjg==
-X-Gm-Message-State: AOAM531OueZ7FjfFG83RJ4xNPMOATn582YEclMZLG1YKSZy7/PFyj1WH
-	JHkYemRgfVYs4sREkR8kkOAAccS6aPtz1w==
-X-Google-Smtp-Source: ABdhPJxSVkUkgt2Dy+Z9H+exZYLgIZgWMEtv4R8C88Jy/Kzjrd5T3hB3aQL2M4UCfDQI7CdaiUC1pQ==
-X-Received: by 2002:a17:907:d04:: with SMTP id gn4mr7929325ejc.126.1611768477884;
-        Wed, 27 Jan 2021 09:27:57 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=eKRXkISqaZGHU7AitsbHnrQO78gmfVDhLx/+xRtbkXc=;
+        b=e4FhjcFCazQCub3x4yAjOWUWba/THDpxUmKenWFKLpg2bvMJ8iJkrr4qnVhZ4G99e0
+         uTMmH57SAaubzV+/rzT3rCtWNDy3YHcZ9fTQU5IqX5kyVKhb/5Q7JLgOu5Rrt7sgRhnk
+         CLzVN5UKWLNjOYeqdBQhEBrxR/yNYWwEd1L+FZ7GBtT1bLmZUe8a+QHDzGAImVjXDoyn
+         T628GOKAg0QSdU4T2KPHUO3Pi4Mp5zyz3UB5RYZ2z5Yebg5NSrmaS3hu4akNZo2yMjNE
+         dbsrbkpYR8tiA/6uK85Pxc/7rcyToEi6csNI8pGzoYRySeQ9bb7sxBZ+lzAAfumEf988
+         +Sfg==
+X-Gm-Message-State: AOAM532dSQZWycDgyaPYA+QSc7Loqx0eMf1BTepdQSrSks1/oYagmHJJ
+	9pV8VKSUXAfvzr/0OlVG5HgaRw==
+X-Google-Smtp-Source: ABdhPJxIfDUXvSLPMEhwYu7iiVOdw7zLmv23SBdDvPR1NZsi8th6HZQ8eM3KJE/gSX/HdY1QT0RJFw==
+X-Received: by 2002:a05:6402:27d1:: with SMTP id c17mr10056185ede.109.1611769212501;
+        Wed, 27 Jan 2021 09:40:12 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:52a7:b6a0:dca3:45dc])
-        by smtp.gmail.com with ESMTPSA id k27sm1115581eje.67.2021.01.27.09.27.57
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:52a7:b6a0:dca3:45dc? ([2001:8b0:aba:5f3c:52a7:b6a0:dca3:45dc])
+        by smtp.gmail.com with ESMTPSA id i22sm1135080ejx.77.2021.01.27.09.40.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 09:27:57 -0800 (PST)
+        Wed, 27 Jan 2021 09:40:12 -0800 (PST)
+Message-ID: <21627f968cce11a5547e135742b8d740c3a7f7b2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] openssl: set CVE_VERSION_SUFFIX
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 7/7] meta: Clean up various class-native* RDEPENDS overrides
-Date: Wed, 27 Jan 2021 17:27:53 +0000
-Message-Id: <20210127172753.1286275-7-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210127172753.1286275-1-richard.purdie@linuxfoundation.org>
-References: <20210127172753.1286275-1-richard.purdie@linuxfoundation.org>
+To: Mikko.Rapeli@bmw.de
+Cc: chee.yang.lee@intel.com, openembedded-core@lists.openembedded.org
+Date: Wed, 27 Jan 2021 17:40:09 +0000
+In-Reply-To: <YBGezLdwMjy/faKV@korppu>
+References: <20210127090354.25091-1-chee.yang.lee@intel.com>
+	 <20210127090354.25091-2-chee.yang.lee@intel.com> <YBEuh09lQvJAvmqv@korppu>
+	 <fd0a039b6db0bfa994bf606d6fd54a10b22afdca.camel@linuxfoundation.org>
+	 <YBGezLdwMjy/faKV@korppu>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-With PACKAGES functioning more correctly for native recipes combined
-with classextend improvements over the years, there are various overrides
-of RDEPENDS which look unecessary now, clean them up.
+On Wed, 2021-01-27 at 17:11 +0000, Mikko.Rapeli@bmw.de wrote:
+> Hi,
+> 
+> On Wed, Jan 27, 2021 at 05:01:38PM +0000, Richard Purdie wrote:
+> > On Wed, 2021-01-27 at 09:12 +0000, Mikko Rapeli wrote:
+> > > On Wed, Jan 27, 2021 at 05:03:54PM +0800, Lee Chee Yang wrote:
+> > > > From: Lee Chee Yang <chee.yang.lee@intel.com>
+> > > > 
+> > > > Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+> > > > ---
+> > > >  meta/recipes-connectivity/openssl/openssl_1.1.1i.bb | 2 ++
+> > > >  1 file changed, 2 insertions(+)
+> > > > 
+> > > > diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+> > > > index 52e96b7831..9ff80b3d4f 100644
+> > > > --- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+> > > > +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+> > > > @@ -230,6 +230,8 @@ BBCLASSEXTEND = "native nativesdk"
+> > > >  
+> > > > 
+> > > > 
+> > > > 
+> > > >  CVE_PRODUCT = "openssl:openssl"
+> > > >  
+> > > > 
+> > > > 
+> > > > 
+> > > > +CVE_VERSION_SUFFIX = "alphabetical"
+> > > > +
+> > > 
+> > > I have to say that I don't like this. I'd prefer automation
+> > > which works like dpkg --compare-versions:
+> > > 
+> > >        --compare-versions ver1 op ver2
+> > >               Compare version numbers, where op is a binary operator. dpkg returns true (0) if the specified condition is satisfied,
+> > >               and  false  (1)  otherwise.  There  are two groups of operators, which differ in how they treat an empty ver1 or ver2.
+> > >               These treat an empty version as earlier than any version: lt le eq ne ge gt. These treat an  empty  version  as  later
+> > >               than any version: lt-nl le-nl ge-nl gt-nl. These are provided only for compatibility with control file syntax: < << <=
+> > >               = >= >> >. The < and > operators are obsolete and should not be used, due to confusing semantics. To illustrate: 0.1 <
+> > >               0.1 evaluates to true.
+> > 
+> > The trouble is we have no control over what versions end up in the CPEs
+> > and I suspect that even dpkg's version comparison doesn't work for some
+> > of our test cases?
+> 
+> For example:
+> 
+> $ dpkg --compare-versions 1.1.1i lt 1.1.1j && echo true
+> true
+> 
+> dpkg can tell that 1.1.1i older version than 1.1.1j.
+> 
+> $ dpkg --compare-versions 1.1.1i lt 1.1.1e || echo not older
+> not older
+> 
+> and dpkg can tell that 1.1.1i is not older than 1.1.1e.
 
-There some some minor changes in dependencies, specifically:
+I think the problem is things like:
 
-"python3-numpy-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
-"python3-mako-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
-"itstool-native.do_populate_sysroot" -> "libxml2-native.do_populate_sysroot"
+$ dpkg --compare-versions 1.1.1 gt 1.1.1pre0; echo $?
+1
+$ dpkg --compare-versions 1.1.1 gt 1.1.0; echo $?
+0
 
-however there are already:
+which we can disallow in OE's version fields but not in upstream CPE
+entries :(
 
-XXX-native.do_prepare_recipe_ssysroot -> YYY-native.do_populate_sysroot
+Cheers,
 
-mappings from DEPENDS so this is effectively a null op.
+Richard
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/dbus/dbus_1.12.20.bb        |  2 --
- meta/recipes-devtools/autoconf/autoconf.inc   | 29 +------------------
- .../automake/automake_1.16.2.bb               |  1 -
- .../python-numpy/python3-numpy_1.19.5.bb      |  2 --
- .../python/python3-mako_1.1.4.bb              |  2 --
- meta/recipes-devtools/tcltk/tcl_8.6.11.bb     |  1 -
- .../perl/libtimedate-perl_2.30.bb             |  1 -
- meta/recipes-support/itstool/itstool_2.0.6.bb |  1 -
- 8 files changed, 1 insertion(+), 38 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus_1.12.20.bb b/meta/recipes-core/dbus/dbus_1.12.20.bb
-index 09049301cc7..32e7d9cfa38 100644
---- a/meta/recipes-core/dbus/dbus_1.12.20.bb
-+++ b/meta/recipes-core/dbus/dbus_1.12.20.bb
-@@ -6,8 +6,6 @@ SECTION = "base"
- require dbus.inc
- 
- DEPENDS = "expat virtual/libintl autoconf-archive"
--RDEPENDS_dbus_class-native = ""
--RDEPENDS_dbus_class-nativesdk = ""
- PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
- ALLOW_EMPTY_dbus-ptest = "1"
- RDEPENDS_dbus-ptest_class-target = "dbus-test-ptest"
-diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
-index 787f30a0975..a4db7ca38f3 100644
---- a/meta/recipes-devtools/autoconf/autoconf.inc
-+++ b/meta/recipes-devtools/autoconf/autoconf.inc
-@@ -32,34 +32,7 @@ RDEPENDS_${PN} = "m4 gnu-config \
- 		  perl-module-thread-queue \
- 		  perl-module-threads \
- 		 "
--RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
--RDEPENDS_${PN}_class-nativesdk = "\
--		  nativesdk-gnu-config \
--		  nativesdk-m4 \
--		  nativesdk-perl \
--		  nativesdk-perl-module-bytes \
--		  nativesdk-perl-module-carp \
--		  nativesdk-perl-module-constant \
--		  nativesdk-perl-module-data-dumper \
--		  nativesdk-perl-module-errno \
--		  nativesdk-perl-module-exporter \
--		  nativesdk-perl-module-file-basename \
--		  nativesdk-perl-module-file-compare \
--		  nativesdk-perl-module-file-copy \
--		  nativesdk-perl-module-file-find \
--		  nativesdk-perl-module-file-glob \
--		  nativesdk-perl-module-file-path \
--		  nativesdk-perl-module-file-spec \
--		  nativesdk-perl-module-file-spec-unix \
--		  nativesdk-perl-module-file-stat \
--		  nativesdk-perl-module-getopt-long \
--		  nativesdk-perl-module-io-file \
--		  nativesdk-perl-module-overloading \
--		  nativesdk-perl-module-posix \
--		  nativesdk-perl-module-symbol \
--		  nativesdk-perl-module-thread-queue \
--		  nativesdk-perl-module-threads \
--                  "
-+RDEPENDS_${PN}_class-native = "m4-native gnu-config-native hostperl-runtime-native"
- 
- inherit autotools texinfo
- 
-diff --git a/meta/recipes-devtools/automake/automake_1.16.2.bb b/meta/recipes-devtools/automake/automake_1.16.2.bb
-index fd8ed0ed3b8..08ec0346263 100644
---- a/meta/recipes-devtools/automake/automake_1.16.2.bb
-+++ b/meta/recipes-devtools/automake/automake_1.16.2.bb
-@@ -17,7 +17,6 @@ RDEPENDS_${PN} += "\
-     perl-module-vars "
- 
- RDEPENDS_${PN}_class-native = "autoconf-native hostperl-runtime-native"
--RDEPENDS_${PN}_class-nativesdk = "nativesdk-autoconf"
- 
- SRC_URI += "file://python-libdir.patch \
-             file://buildtest.patch \
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
-index 5037d2a4221..b619bf6f32a 100644
---- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
-+++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
-@@ -53,6 +53,4 @@ RDEPENDS_${PN}-ptest += "${PYTHON_PN}-pytest \
-                          ldd \
- "
- 
--RDEPENDS_${PN}_class-native = ""
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-mako_1.1.4.bb b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
-index 531fc6a3c0e..1645f37da44 100644
---- a/meta/recipes-devtools/python/python3-mako_1.1.4.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
-@@ -15,6 +15,4 @@ RDEPENDS_${PN} = "${PYTHON_PN}-html \
-                   ${PYTHON_PN}-threading \
- "
- 
--RDEPENDS_${PN}_class-native = ""
--
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-index 74bdb098c6f..d0112020813 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
-@@ -69,7 +69,6 @@ ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
- 
- # isn't getting picked up by shlibs code
- RDEPENDS_${PN} += "tcl-lib"
--RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN}-ptest += "libgcc"
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-index 7219c7d11eb..d42eadb586e 100644
---- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-+++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-@@ -13,7 +13,6 @@ inherit cpan ptest-perl
- 
- BBCLASSEXTEND = "native"
- 
--RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN} += "perl-module-carp perl-module-exporter perl-module-strict perl-module-time-local"
- RDEPENDS_${PN}-ptest += "perl-module-test-more perl-module-utf8"
- 
-diff --git a/meta/recipes-support/itstool/itstool_2.0.6.bb b/meta/recipes-support/itstool/itstool_2.0.6.bb
-index 5f358f463d0..c52aa7941a3 100644
---- a/meta/recipes-support/itstool/itstool_2.0.6.bb
-+++ b/meta/recipes-support/itstool/itstool_2.0.6.bb
-@@ -18,4 +18,3 @@ SRC_URI[sha256sum] = "6233cc22726a9a5a83664bf67d1af79549a298c23185d926c3677afa91
- BBCLASSEXTEND = "native nativesdk"
- 
- RDEPENDS_${PN} += "libxml2-python"
--RDEPENDS_${PN}_class-native = ""
--- 
-2.27.0
 
