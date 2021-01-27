@@ -1,78 +1,118 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
- by mx.groups.io with SMTP id smtpd.web08.13561.1611777094200055820
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.15035.1611783038917469474
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jan 2021 11:51:34 -0800
+ Wed, 27 Jan 2021 13:30:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Uw45ZKVd;
- spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-io1-f45.google.com with SMTP id u17so3143453iow.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 11:51:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=V6zgBfCo;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id p21so4728076lfu.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 13:30:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vL+PG68Tj7ZufCcApeUNnOoBvORf3ZCrFCc9388xb7k=;
-        b=Uw45ZKVdKuAb58fkTilCKEf2Nsvooz2Qme1X7ha1p++VrzY4tpoe6RzuiP9eNwQYrf
-         vva6g8wy4Ht5BbdPRf6U8S9JEixl6ZcqslJPgpwziAARxCu9rGR/EMLRPiMpGmtSvxNQ
-         LQcou9Qs/XzKC+e10Dw1lc3zhv9EF8dLwd70ggCC0w8xU4PUIxgYNSuoa2yU323vz5Ej
-         cR3K0giKbJv4BcCTrW/z8WNLoZLTEEfLv7B/bFCSXsjhgVa+3Y4JzTynoTSmWywBfl4B
-         RiUiHYhquyWVmxS/tRSr/5pKrWvb8O7Jcs+4A4eQLhINRpZSEXCRoDDINjmXFgff7Ipp
-         n2UQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=itNN/mxVuNtkDhND6VjR7Gs4P1PCgrprZSTr2UZL4PY=;
+        b=V6zgBfCoAR0Ql+fMiy8lyuhOU7pXUCjsYAo9sGI+OBRcPdK1JN/TvhhNJObL55/zBg
+         FKsp7PJDLpVutvHqVia/U2+q2xbvAtbitlvQpEGpA2iX7UDjuDrU+3u81AbPOu9YcwPd
+         z0WXgX13xCUFDjRBZ8cVDT3a2GzIklLt1ZFFgNeb6fwqWvpkkPy5/JUAWvRi9ngw4ZBy
+         ltAs+IDxeo1gCWWLzAeFL0uVpLtaWEPCm0MiAS+aio0qFRU6hN0ktnxYcGnqA5ucnCE9
+         TjLdBhBtl2sUjv2tRbxUWrAk3a0Qeqdm1tieE+kX4bYSqtfO8y5vjBe3eX5I6v7IEZf0
+         qCjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vL+PG68Tj7ZufCcApeUNnOoBvORf3ZCrFCc9388xb7k=;
-        b=L81VF2ugufHXq3Zh0XllPsHIpO55YkvQWtY6xXffwaPVb+6sy1HQqetSmj6u7tMjkK
-         QB5H/Fw+5pLoSTP45kgOF0pZmVMD77Z2xglGRVSA1RSU/dUxEuwxEjaIL0otTkIIIHYH
-         dbttGr7N5qyjLTvSI4gbKTlJAxQzaIE1KoxqMJgvT8UeKd/FrMQaj3hR3tYSvD7hAf1G
-         i81uSDtVf4LFWXVXitw9t6X57MEBD+wTbBDUNZw4Od6uvXiKyGamuTauuXH58eCz3Zdw
-         aAvR9EEZgFKkoQ7H98svfl5a+yNpxC9/mNo6xODLgKoImXsPnHFl29CZrRMKEnJOIJ+a
-         VA7w==
-X-Gm-Message-State: AOAM5338vsoTGYg2pbuecwFQ24KBelpxP2ilFz3dpdftVyDjRUUemCCF
-	FaiKY/yg3/HMe34bcMCYw5XLS7CuYHqfcnhBcBk=
-X-Google-Smtp-Source: ABdhPJzBzAjgc2qPVo8Tk9qMrfzDwAemaUzDFd1aV62AbhlCnrz4dxrU5/K4dyvucF2z3vzbo8yisI5hD5bUAfWQEm4=
-X-Received: by 2002:a6b:d20d:: with SMTP id q13mr8812586iob.71.1611777093691;
- Wed, 27 Jan 2021 11:51:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20210124095546.3329-1-tomasz.dziendzielski@gmail.com> <CA+chaQdyeDPFaitWi-42dZi-W=E0ss2_SeyvOjJ7EdmZisCwhA@mail.gmail.com>
-In-Reply-To: <CA+chaQdyeDPFaitWi-42dZi-W=E0ss2_SeyvOjJ7EdmZisCwhA@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=itNN/mxVuNtkDhND6VjR7Gs4P1PCgrprZSTr2UZL4PY=;
+        b=UfAKdi/VB+F0iWTkfjpbnIWo66Lr+JsyXuB9dHGOwfNcRuty6y1snvDT23ivJwOUwI
+         ipja+jc5HbpIkVjcwOdcmWG8THy/Sainhm4ZsNn8otauH+dheWyFgr1aodtnvpaVx5T+
+         w2zHQrR3cH3gcyS6lpEVyGaoLkvjSS73V+y3MYDakYqST5sAVvvNuvWe/DhtGXefScyl
+         J4M+wMCB3vKO1TKR9X0hQm3ypJqxvaB3uWkgRJRQjrAsYEunQSp3esX8el6FT1BoPK0d
+         T1HzW3vMp/RDxf2fxPE+39dQCJ+GpdFPeEE9j+IsfVtjJP7ipiLi9N/qFvu4Jn7tqZNt
+         JRKA==
+X-Gm-Message-State: AOAM5311o8Gt2VHEvyWMxshFVvOHkwO5E4xfxZtL9d+cB0sb1eWGt/nG
+	8gxH0SGAHJ2i0T7mdRV3rPjomfJq7Hk=
+X-Google-Smtp-Source: ABdhPJzDoyohQyRzE7zJoMewvnVr2XkmD53zm9bWV8GdrR7Hxdn457ps7gtl7XDiUYrNRvKb8PkWZw==
+X-Received: by 2002:ac2:5e2d:: with SMTP id o13mr6245803lfg.431.1611783036556;
+        Wed, 27 Jan 2021 13:30:36 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id m10sm829319lfk.2.2021.01.27.13.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jan 2021 13:30:36 -0800 (PST)
 From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Wed, 27 Jan 2021 20:54:05 +0100
-Message-ID: <CAJkqNs0HpwZoDtKh5hfv8UPMm4M-Che0Zb0f8YgXNar-u5Dihw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] insane: Add test for native/nativesdk inherit order
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000206db305b9e7192d"
+To: openembedded-core@lists.openembedded.org
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH 1/2] insane: Add missing INSANE_SKIP mechanism for native-last QA check
+Date: Wed, 27 Jan 2021 22:33:10 +0100
+Message-Id: <20210127213311.6030-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.30.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---000000000000206db305b9e7192d
-Content-Type: text/plain; charset="UTF-8"
+See [YOCTO #5729] for details.
 
->Would it make sense to show some shortened version of inherited_classes?
-Yes, it wouldn't be a problem to continue the loop until native/nativesdk
-recipe is found and then just print the classes that were found.
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+---
+ meta/classes/insane.bbclass | 43 +++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 21 deletions(-)
 
->Unfortunately INSANE_SKIP doesn't seem to work with native-last as well.
-Is this expected?
-It's not expected. I wrongly assumed there is some general mechanism
-checking INSANE_SKIP. I will prepare a patch with the correct INSANE_SKIP
-handling.
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 3597943ddd..e371c1c71f 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1367,30 +1367,31 @@ python () {
+     for i in issues:
+         package_qa_handle_error("pkgvarcheck", "%s: Variable %s is set as not being package specific, please fix this." % (d.getVar("FILE"), i), d)
+ 
+-    for native_class in ['native', 'nativesdk']:
+-        if bb.data.inherits_class(native_class, d):
+-
+-            inherited_classes = d.getVar('__inherit_cache', False) or []
+-            needle = os.path.join('classes', native_class)
+-
+-            bbclassextend = (d.getVar('BBCLASSEXTEND') or '').split()
+-            # BBCLASSEXTEND items are always added in the end
+-            skip_classes = bbclassextend
+-            if bb.data.inherits_class('native', d) or 'native' in bbclassextend:
+-                # native also inherits nopackages and relocatable bbclasses
+-                skip_classes.extend(['nopackages', 'relocatable'])
+-
+-            for class_item in reversed(inherited_classes):
+-                if needle not in class_item:
+-                    for extend_item in skip_classes:
+-                        if os.path.join('classes', '%s.bbclass' % extend_item) in class_item:
++    if 'native-last' not in (d.getVar('INSANE_SKIP') or "").split():
++        for native_class in ['native', 'nativesdk']:
++            if bb.data.inherits_class(native_class, d):
++
++                inherited_classes = d.getVar('__inherit_cache', False) or []
++                needle = os.path.join('classes', native_class)
++
++                bbclassextend = (d.getVar('BBCLASSEXTEND') or '').split()
++                # BBCLASSEXTEND items are always added in the end
++                skip_classes = bbclassextend
++                if bb.data.inherits_class('native', d) or 'native' in bbclassextend:
++                    # native also inherits nopackages and relocatable bbclasses
++                    skip_classes.extend(['nopackages', 'relocatable'])
++
++                for class_item in reversed(inherited_classes):
++                    if needle not in class_item:
++                        for extend_item in skip_classes:
++                            if os.path.join('classes', '%s.bbclass' % extend_item) in class_item:
++                                break
++                        else:
++                            pn = d.getVar('PN')
++                            package_qa_handle_error("native-last", "%s: native/nativesdk class is not inherited last, this can result in unexpected behaviour. " % pn, d)
+                             break
+                     else:
+-                        pn = d.getVar('PN')
+-                        package_qa_handle_error("native-last", "%s: native/nativesdk class is not inherited last, this can result in unexpected behaviour. " % pn, d)
+                         break
+-                else:
+-                    break
+ 
+     qa_sane = d.getVar("QA_SANE")
+     if not qa_sane:
+-- 
+2.30.0
 
-Best regards,
-Tomasz Dziendzielski
-
---000000000000206db305b9e7192d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>&gt;Would it make sense to show some shortened versio=
-n of inherited_classes?</div><div>Yes, it wouldn&#39;t be a problem to cont=
-inue the loop until native/nativesdk recipe is found and then just print th=
-e classes that were found.</div><div><br></div><div>&gt;Unfortunately INSAN=
-E_SKIP doesn&#39;t seem to work with native-last as well. Is this expected?=
- <br></div><div>It&#39;s not expected. I wrongly assumed there is some gene=
-ral mechanism checking INSANE_SKIP. I will prepare a patch with the correct=
- INSANE_SKIP handling.</div><div><br></div><div>Best regards,</div><div>Tom=
-asz Dziendzielski<br></div><div><br></div></div>
-
---000000000000206db305b9e7192d--
