@@ -1,255 +1,231 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.52])
- by mx.groups.io with SMTP id smtpd.web09.5638.1611740266776315413
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web12.5593.1611740757940334168
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jan 2021 01:37:47 -0800
+ Wed, 27 Jan 2021 01:45:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=eGdE2YyK;
- spf=pass (domain: windriver.com, ip: 40.107.93.52, mailfrom: qi.chen@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ppk2SD7WUb5syQtZm8imAtZcOCg0OONp1QRR1MguourDOtSgdtfB9jJ8hvhUONhTTO9sB0FndOthYPCzkEz99R/HJGaMXOuDOATemE5lOkxaoBkVSJckX7rLrh1vF3zAKOXq0yibLnTaFuan6NudGy88DmpZsp2hsY+r8jeqtyPOm20ZBlNSuMPRvG8YmXtIqgFjl4gWrkE0jeBfnNoQ3AEF8dDKWhAJvc0+GZ/Lxsb1XCRy+slmH4zzu6mPTqHVPVCSsDNsJGZ1ja7G/cK5X4h1i8gLmJ7bBzim55A8fnwUODKf68V50yY0vcPggMLzN7gX/e/qPjuRMd0HrY3KWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4tOgGTCvZXjITXqSa3LQKzOGXShYhe9vwIqZm6QrMGE=;
- b=YTdPeJH2AwydYdBhLJsk5Rt8MevfZUtFwyvi50Hpl+lq9v40WfgSzAoRQ3cc2amjwNQPTjcq5KRCRMOxjpeLIGTqaAQJvECMuC4ddXfYOOaTANi1WK3iU1Y5vp3JZvwQNNJ9YhijhTgP3L6naHIyXJZFGwx7FzJlCio9CtR9UWm3wg0SxVfsUnrHnGaEPFjVD+LAnJjsVxchguFVLyPPttJ7YN1JReNUFm9irjC2gT0S1kuT/o/YijHTMdLM1srYEqwCgJq2dJ7hjTHNPWlizRLXXkS9pnRzotJqIG2r14IN3NQi6j688x/96dXyNoS7RXqjMHgkUnYbwB+/CmWZow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DCmYjHiP;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id r12so1706869ejb.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 01:45:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4tOgGTCvZXjITXqSa3LQKzOGXShYhe9vwIqZm6QrMGE=;
- b=eGdE2YyKwN9cEV8lDaJsJOvBfUMp9kJiKTvVSFQr0uIemuKYHrLjcic9gTCGsillhXWSxL/+rNzR82pk951v6socTebQEqrNF7NJ9sSY361C0d02w6SnQUK4zq+dmkwYYaohtO/8pDcnIXFeIR+bAcDEbwp5WotQsUuGdY3btl4=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by BYAPR11MB2839.namprd11.prod.outlook.com (2603:10b6:a02:c8::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12; Wed, 27 Jan
- 2021 09:37:44 +0000
-Received: from BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60]) by BYAPR11MB3480.namprd11.prod.outlook.com
- ([fe80::d9b:3f7c:136d:e60%7]) with mapi id 15.20.3784.019; Wed, 27 Jan 2021
- 09:37:44 +0000
-Subject: Re: [OE-core] [PATCH] sanity.bbclass: verify that user isn't building in PSEUDO_IGNORE_PATHS
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Dorinda <dorindabassey@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20210125230811.21862-1-dorindabassey@gmail.com>
- <77ad8e184576449791b56fe9c6e0fc872cc98a42.camel@linuxfoundation.org>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <4e6da54d-f6ef-9c04-4bdb-5af64807cbd7@windriver.com>
-Date: Wed, 27 Jan 2021 17:46:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
-In-Reply-To: <77ad8e184576449791b56fe9c6e0fc872cc98a42.camel@linuxfoundation.org>
-X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HK2PR04CA0086.apcprd04.prod.outlook.com
- (2603:1096:202:15::30) To BYAPR11MB3480.namprd11.prod.outlook.com
- (2603:10b6:a03:79::27)
-Return-Path: Qi.Chen@windriver.com
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Uo9KpDMt212UrHLuY0TtThMC2D9R6IA30OxiT8IfwiQ=;
+        b=DCmYjHiPlOImtOCIQ57i+XU/t385XotcQ8NYMmaH1Hd6yt4Z0kS9XP82C6lBVq6Ih8
+         mDl4klS9g8/dnsJQ3+FAp5Hh0C7vSlsgk6vPWNOPh+vMaYgglanoDRy0to+HeEjCDN+o
+         /lAF+cGq8u3Zs3yYv3HZ4tKVUD61cENgZd0Lw4AoN3NIoy71xIFa/6gcqIfXhuB60Dzt
+         l3h+XCs6ulCgVVOeNbemw+36TO0m3ydE18nC4ygHKsCSWsbIX7BMngsbgRVPJJe4XviC
+         hB3t3TmbpeYBunil580fYX4f20raqKJvkIcoq6lVmUgRpIoBR+wGicsiW6L9y3wUzzoN
+         w0uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Uo9KpDMt212UrHLuY0TtThMC2D9R6IA30OxiT8IfwiQ=;
+        b=sh8pUSCA/D0NK7ACEjEEI4REQ4Gy2tyhhnc4MOQ8b1myrHiGurKbMt6nJcShwI33+Z
+         u2YVE6pATg9qr6AREVkQw5m0qr7ZDj0vnnJw6CCt5q3Rim6Hk23JiJvdRfAhAcbGZEhE
+         kqvu+sSWb/uwHQWz/nwRw50yt0XGI3E6MLe0pnmEg1KkhY9Zs8UY0cTis5B3ejgoEKbK
+         vo32RTDDKAZY9udpvFscgQf8yaYzH7z1mT01rL4+/nDxzYW9ZsayKjfsk5cMDo/pNE0W
+         +5p/YxMATZJfezNyuUc3PFIwYsTQk/Pi/PTdITwrcVCq7ITmqB9yt5xPWqN4v/i9mCBq
+         +PYw==
+X-Gm-Message-State: AOAM533BUxB5W+BqLMkIpQ7cpK2SuBkOG/N9JBZjutcTt4IJzlvTKG3O
+	G/4oOQg5+5a69/4A1iJYkhHbLRPxior4fEf8EOg=
+X-Google-Smtp-Source: ABdhPJwwB0NIZoZUkLy62a9ekWIYo37GCsprjQRm+AZfV3zyFJFhnAProx8IYyRPoKbowR2mU5wZEFgDV4brVDh5Mms=
+X-Received: by 2002:a17:906:49c2:: with SMTP id w2mr5935527ejv.12.1611740756404;
+ Wed, 27 Jan 2021 01:45:56 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HK2PR04CA0086.apcprd04.prod.outlook.com (2603:1096:202:15::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3805.16 via Frontend Transport; Wed, 27 Jan 2021 09:37:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9b8c1708-5936-4b8c-b48c-08d8c2a73242
-X-MS-TrafficTypeDiagnostic: BYAPR11MB2839:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB28390D5E932A0D2B885D2670EDBB9@BYAPR11MB2839.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	5+u3vlG1OpI5odSFZAU3OxYc1g6qWHWVo8mAAlZfRhrFj/uL01tgDYJRsw34XNJVIuX3o1Wb0Ni8rgpYQG7+I6QAabsgjRoFVw9bdFuPsgkKgiP25+aPI9FoTiCFCFqtXRQvhDloOK6q/jjnFTWt867xVXHO0fwBg6olIzKYffOKoz/jSIS+ntFaGipCIA6qE+nbqBlGcRiHBXpAzqktP41W+44NKZY4AEpTlzNLCh+H+iav+25HiStTqDL7kP8w96+MnShor7G1t1hG6iRRskubpeiHiGTjeHlk5cmZ86zJZ2+NXhSXeO4JPTe8SiavfPdDTWmlAjtLBSHmuzIP9Nl/umOuigCD40073y6qaSDA4rtz1Zr8QBTLvLejCk8vtIsT+Nps1s6lNs5Yc0ZDCUQ8Sf/gSfXMpRyZP9BrrRw9tkzWf93YErYkDSZ27Fth+2xPS0h67uYzwA22nwGO4DiDn1J/xlRhiwUcf9FwoYuqqaXHLsy9Nq39via+y4jRwQz5sJ0D9rT92RZUKtD07uZRpXn+c/7RHeRIxcW8ujyPjNLbAZKaUkFmTfdcbU6XVy0pISy2zKhX7g4SHKn5EHOXHR2VanphMi6RqBGAB6mFuy51ZtUJ9CptKxRgJzPFeznhxKwYjUvlWce5SYxBvM5LXHvywnkfW3rXLCkAW33s6T7NuTQwbCuhHssZYC8i6Iovd7SEyQnyoCePU8Cy2A==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(376002)(39850400004)(136003)(396003)(366004)(166002)(5660300002)(956004)(2906002)(33964004)(86362001)(2616005)(83380400001)(66946007)(110136005)(6706004)(16526019)(186003)(52116002)(26005)(66556008)(66476007)(8676002)(53546011)(31696002)(8936002)(36756003)(31686004)(16576012)(6486002)(316002)(478600001)(15650500001)(966005)(78286007)(43740500002)(45980500001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	=?utf-8?B?cDloNUJQN2VySVlWSDFjWHFnZXRPY1ZtSXRmcHVubUFUcHU4bGUwOUxvbHNS?=
- =?utf-8?B?QmpTTnE1bFhSa1ZXZ3RleHVZVkwrY2RtTUkyNDV3VW92ekI3SCt3bkRsK2dS?=
- =?utf-8?B?YTlWcUZzV3NLY2RUWlNmU01MU2JZWjI3Z2tCL1gxR0hxYzhXUXVtdGRXK1N1?=
- =?utf-8?B?U0wvUFdDWEt2ZU50aTJ1eEpmcWpIVHNmdU12NWRpSXpxZk8wbHpLaUNNUUdI?=
- =?utf-8?B?RTREYy9UdXF3TXFPQ3hWVFJ0dS9QUE4rWkNTL2VWQ213a3hPWXpiM2ZVQlF6?=
- =?utf-8?B?VGV6QXpVeGJPZzV2bExQQ09yRDQvUjNYdU5uRkd4aC9KU1Iza1pSRzdNMmQ1?=
- =?utf-8?B?dWZsZnZlNXA5bitWNjlIM1RwZGZJeGFGWEdOWEZlUHh2Yk5XOFNIWWYyT2JP?=
- =?utf-8?B?V2VSc29VcGJxbmpyTlUwZzJXVksraDVEYTlrZVYxNUREa2ttem5MckRjWUw5?=
- =?utf-8?B?ZGR0VFpPWmtldEhSVEd1cTNzZnlSZktmNFBIcHhaR1doNVgzck9oWERzc2cx?=
- =?utf-8?B?Yjh4aUo5dEpndmZERmJ1VkwybGw0bFlnRDA0TGFSMUsyZlp5SUJ0UFQ2dk11?=
- =?utf-8?B?blZ4QlArdHlYOTJycHUreU9ob09WUEtCSG9lY3kvck1mM2hoelVGaU5zNXl6?=
- =?utf-8?B?WW05MGVOQmZHV2loTUxPRy9CT2tqZmZObnNKeSsyNlE0RzlqRjV1UndsWUw3?=
- =?utf-8?B?T1ViSDBzOGQ1NGRjNjZIM0Z2Qmh6Zk9acGc1dDJEdUVwNWQxVG9vWXVMUlJS?=
- =?utf-8?B?cDNOUHRiZFJUNTRkOVhpUWtPZEl2eDhDbmgxdTNwVEh6eUorQlJTRy9tQmFZ?=
- =?utf-8?B?WDAvV1ZyRThUdjNZOEF4M3kzNnovL2Z0cFZqQ0pNYVpLYzllYzg5K2FNUHRN?=
- =?utf-8?B?TWxCSXdPd2FSSHBsM1EzQnRJUkVtN3IyRzlnL1pQczlEMVM3SGt5a3ppcFR6?=
- =?utf-8?B?Zjh1TkU2YVA5RmdvNGY3b0lvMjNwcGxESnZNWXc3QWxsUnR0MHhSdWdIVE1T?=
- =?utf-8?B?dUlZOWNSMzhmREltNWhVVnhNaEhyMGt5TGNFaUlzNk1MandRSlVsNkRKM1JS?=
- =?utf-8?B?MCtmMGtkTXNaWjVXVld4NzMxeVdaTy82NWlENmJLVS9SSjdnK0RXWUgvVzVF?=
- =?utf-8?B?bCtBbXlTNVdBbmRuRnM5VUFBVktMblNYOFQ5UnZFM0FJbm80Z216aHA2RjVI?=
- =?utf-8?B?Zks4Rnh1bGFtYXFVakRac3RtdlRLc1VSb0EwOGdTcUtMcXA3ZjZSK0dvMmJu?=
- =?utf-8?B?STF6WGwrWHBjQi9pdmQwMVpZVGRBcEZWTXBndERRVXZrcG9HWUdXK1BGSE9D?=
- =?utf-8?B?MEpobElIb2Y3cStCME85VkdMNFFIQVRibWJkdW9yOGRKdjQ2UXNYQm9IM3Q3?=
- =?utf-8?B?NHZUZC84emZwWEdNWWJLTDVyM29DN0dhZzl0MlNwT3pQTW1QZUlveTlLaHlv?=
- =?utf-8?Q?xG0SJPin?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b8c1708-5936-4b8c-b48c-08d8c2a73242
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2021 09:37:44.4087
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cg6WuZYbxiuz9ntX1VwcWfOD0VGheEMSRAQyjE/xxFDGPsSVpoK4LgfMTifSNeTID1tYB0ie/VRUV6t5HqreIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2839
-Content-Type: multipart/alternative;
- boundary="------------09194F07D983EEAB988C80C3"
+References: <20210121050529.465241A30A4@debian8-ty-1.yocto.io> <BYAPR11MB362480C0773B27E427539424E3BB9@BYAPR11MB3624.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB362480C0773B27E427539424E3BB9@BYAPR11MB3624.namprd11.prod.outlook.com>
+From: "Jose Quaresma" <quaresma.jose@gmail.com>
+Date: Wed, 27 Jan 2021 09:45:45 +0000
+Message-ID: <CANPvuR=_aZWF7Yt=7sk3NSYCWAJbwz8zHtzbQvbUDeoS7YFB9w@mail.gmail.com>
+Subject: Re: [OE-core] [yocto] QA notification for completed autobuilder build (yocto-3.3_M2.rc1)
+To: Sangeeta Jain <sangeeta.jain@intel.com>
+Cc: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"qa-build-notification@lists.yoctoproject.org" <qa-build-notification@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="000000000000416e8a05b9dea373"
 
---------------09194F07D983EEAB988C80C3
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--000000000000416e8a05b9dea373
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+Hi All,
 
-Is it possible to use an opposite way for pseudo path filtering?
-Instead of ignoring paths, only take into consideration paths in 
-something like PSEUDO_CONSIDER_PATHS.
-The list should be short. ${D}, ${PKGD}, ${PKGDEST}, ${IMAGE_ROOTFS}?
+gstreamer1.0: fix failing ptest
+https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D7b90027aac9fa=
+41b3dc98765151d761df8dabb97
 
-Best Regards,
-Chen Qi
+Is this commit present yocto-3.3_M2.rc1 ?
 
-On 01/26/2021 07:54 AM, Richard Purdie wrote:
-> On Tue, 2021-01-26 at 00:08 +0100, Dorinda wrote:
->> If a user builds in a path in PSEUDO_IGNORE_PATHS, random failures are generated. Hence this patch adds a sanity check in sanity.bbclass to ensure that a user isn't building in PSEUDO_IGNORE_PATHS.
->>
->> [YOCTO #14179]
->>
->> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
->> ---
->>   meta/classes/sanity.bbclass | 7 +++++++
->>   1 file changed, 7 insertions(+)
->>
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index 2040b48595..14271c1ca9 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -703,6 +703,13 @@ def check_sanity_version_change(status, d):
->>       if (tmpdirmode & stat.S_ISUID):
->>           status.addresult("TMPDIR is setuid, please don't build in a setuid directory")
->>   
->>
->>
->>
->> +    # Check that a user isn't building in a path in PSEUDO_IGNORE_PATHS
->> +    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
->> +    workdir = d.getVar('WORKDIR', expand=True)
->> +    for i in pseudoignorepaths:
->> +        if i and workdir.startswith(i):
->> +            status.addresult("You are building in a path in PSEUDO_IGNORE_PATHS: " + str(i) + " please don't build in this directory: " + str(workdir) + "\n")
->>
-> To ensure the user fully understands this, should this be something
-> like:
+
+Sangeeta Jain <sangeeta.jain@intel.com> escreveu no dia quarta, 27/01/2021
+=C3=A0(s) 05:49:
+
+> Hi All,
+>
+> This is the full report for yocto-3.3_M2.rc1:
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tre=
+e/?h=3Dintel-yocto-testresults
+>
+> =3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D
+> No high milestone defects.
+>
+> new issue found
+>
+> BUG id:14203 - [QA 3.3 M2 RC1] failure in ptest :
+> gstreamer1.0.gstreamer-1.0/pipelines_seek.test
 >
 >
-> status.addresult("You are building in a path included in
-> PSEUDO_IGNORE_PATHS " + str(i) + " which will not work, please locate
-> the build outside this path.\n")
+> =3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14203
 >
-> as we then tell the user what to do (and don't repeat effectively the
-> same information twice).
+> Thanks,
+> Sangeeta
 >
-> Cheers,
+> > -----Original Message-----
+> > From: yocto@lists.yoctoproject.org <yocto@lists.yoctoproject.org> On
+> Behalf
+> > Of Pokybuild User
+> > Sent: Thursday, 21 January, 2021 1:05 PM
+> > To: yocto@lists.yoctoproject.org
+> > Cc: qa-build-notification@lists.yoctoproject.org
+> > Subject: [yocto] QA notification for completed autobuilder build (yoct=
+o-
+> > 3.3_M2.rc1)
+> >
+> >
+> > A build flagged for QA (yocto-3.3_M2.rc1) was completed on the
+> autobuilder
+> > and is available at:
+> >
+> >
+> >     https://autobuilder.yocto.io/pub/releases/yocto-3.3_M2.rc1
+> >
+> >
+> > Build hash information:
+> >
+> > bitbake: 01e901c44ab0f496606b1d45c8953dc54970204c
+> > meta-arm: a8f32f990a0d9dc1db310892c70d5a994c698b32
+> > meta-gplv2: 6e8e969590a22a729db1ff342de57f2fd5d02d43
+> > meta-intel: b4e5d33affeaa223459c0935a853485137b4591d
+> > meta-kernel: 8349870943ba44bbd688656897372e881f32c741
+> > meta-mingw: 352d8b0aa3c7bbd5060a4cc2ebe7c0e964de4879
+> > oecore: 79821d5a185e25384f5b6b5158b238bbee17c79e
+> > poky: b5e634644b69a968a93aad0dd0502cf479d3973a
+> >
+> >
+> >
+> > This is an automated message from the Yocto Project Autobuilder
+> > Git: git://git.yoctoproject.org/yocto-autobuilder2
+> > Email: richard.purdie@linuxfoundation.org
+> >
+> >
+> >
 >
-> Richard
+>=20
 >
 >
->
-> 
->
 
+--=20
+best regards,
+Jos=C3=A9 Quaresma
 
---------------09194F07D983EEAB988C80C3
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+--000000000000416e8a05b9dea373
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">Hi Richard,<br>
-      <br>
-      Is it possible to use an opposite way for pseudo path filtering?<br>
-      Instead of ignoring paths, only take into consideration paths in
-      something like PSEUDO_CONSIDER_PATHS.<br>
-      The list should be short. ${D}, ${PKGD}, ${PKGDEST},
-      ${IMAGE_ROOTFS}?<br>
-      <br>
-      Best Regards,<br>
-      Chen Qi<br>
-      <br>
-      On 01/26/2021 07:54 AM, Richard Purdie wrote:<br>
-    </div>
-    <blockquote cite="mid:77ad8e184576449791b56fe9c6e0fc872cc98a42.camel@linuxfoundation.org" type="cite">
-      <pre wrap="">On Tue, 2021-01-26 at 00:08 +0100, Dorinda wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">If a user builds in a path in PSEUDO_IGNORE_PATHS, random failures are generated. Hence this patch adds a sanity check in sanity.bbclass to ensure that a user isn't building in PSEUDO_IGNORE_PATHS.
+<div dir=3D"ltr">Hi All,<div><br></div><div>gstreamer1.0: fix failing ptest=
+</div><div><a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/commi=
+t/?id=3D7b90027aac9fa41b3dc98765151d761df8dabb97">https://git.yoctoproject.=
+org/cgit/cgit.cgi/poky/commit/?id=3D7b90027aac9fa41b3dc98765151d761df8dabb9=
+7</a><br></div><div><br></div><div><div>Is this commit present=C2=A0<span s=
+tyle=3D"color:rgb(0,0,0)">yocto-3.3_M2.rc1 ?</span></div><div><span style=
+=3D"color:rgb(0,0,0)"><br></span></div><div></div></div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Sangeeta Jain &lt;=
+<a href=3D"mailto:sangeeta.jain@intel.com">sangeeta.jain@intel.com</a>&gt; =
+escreveu no dia quarta, 27/01/2021 =C3=A0(s) 05:49:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">Hi All,<br>
+<br>
+This is the full report for yocto-3.3_M2.rc1:=C2=A0 <br>
+<a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-co=
+ntrib/tree/?h=3Dintel-yocto-testresults" rel=3D"noreferrer" target=3D"_blan=
+k">https://git.yoctoproject.org/cgit/cgit.cgi/yocto-testresults-contrib/tre=
+e/?h=3Dintel-yocto-testresults</a><br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D Summary =3D=3D=3D=3D=3D=3D=3D=3D<br>
+No high milestone defects.<br>
+<br>
+new issue found <br>
+<br>
+BUG id:14203 - [QA 3.3 M2 RC1] failure in ptest : gstreamer1.0.gstreamer-1=
+.0/pipelines_seek.test<br>
+<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D Bugs =3D=3D=3D=3D=3D=3D=3D=3D<br>
+<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14203" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_b=
+ug.cgi?id=3D14203</a><br>
+<br>
+Thanks,<br>
+Sangeeta<br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:yocto@lists.yoctoproject.org" target=3D"_blan=
+k">yocto@lists.yoctoproject.org</a> &lt;<a href=3D"mailto:yocto@lists.yocto=
+project.org" target=3D"_blank">yocto@lists.yoctoproject.org</a>&gt; On Beha=
+lf<br>
+&gt; Of Pokybuild User<br>
+&gt; Sent: Thursday, 21 January, 2021 1:05 PM<br>
+&gt; To: <a href=3D"mailto:yocto@lists.yoctoproject.org" target=3D"_blank"=
+>yocto@lists.yoctoproject.org</a><br>
+&gt; Cc: <a href=3D"mailto:qa-build-notification@lists.yoctoproject.org" t=
+arget=3D"_blank">qa-build-notification@lists.yoctoproject.org</a><br>
+&gt; Subject: [yocto] QA notification for completed autobuilder build (yoc=
+to-<br>
+&gt; 3.3_M2.rc1)<br>
+&gt; <br>
+&gt; <br>
+&gt; A build flagged for QA (yocto-3.3_M2.rc1) was completed on the autobu=
+ilder<br>
+&gt; and is available at:<br>
+&gt; <br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"https://autobuilder.yocto.io/pub/releas=
+es/yocto-3.3_M2.rc1" rel=3D"noreferrer" target=3D"_blank">https://autobuild=
+er.yocto.io/pub/releases/yocto-3.3_M2.rc1</a><br>
+&gt; <br>
+&gt; <br>
+&gt; Build hash information:<br>
+&gt; <br>
+&gt; bitbake: 01e901c44ab0f496606b1d45c8953dc54970204c<br>
+&gt; meta-arm: a8f32f990a0d9dc1db310892c70d5a994c698b32<br>
+&gt; meta-gplv2: 6e8e969590a22a729db1ff342de57f2fd5d02d43<br>
+&gt; meta-intel: b4e5d33affeaa223459c0935a853485137b4591d<br>
+&gt; meta-kernel: 8349870943ba44bbd688656897372e881f32c741<br>
+&gt; meta-mingw: 352d8b0aa3c7bbd5060a4cc2ebe7c0e964de4879<br>
+&gt; oecore: 79821d5a185e25384f5b6b5158b238bbee17c79e<br>
+&gt; poky: b5e634644b69a968a93aad0dd0502cf479d3973a<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; This is an automated message from the Yocto Project Autobuilder<br>
+&gt; Git: git://<a href=3D"http://git.yoctoproject.org/yocto-autobuilder2"=
+ rel=3D"noreferrer" target=3D"_blank">git.yoctoproject.org/yocto-autobuilde=
+r2</a><br>
+&gt; Email: <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
+=3D"_blank">richard.purdie@linuxfoundation.org</a><br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature"><div dir=3D"ltr">best regards,<br>Jos=C3=A9 Qua=
+resma</div></div>
 
-[YOCTO #14179]
-
-Signed-off-by: Dorinda Bassey <a class="moz-txt-link-rfc2396E" href="mailto:dorindabassey@gmail.com">&lt;dorindabassey@gmail.com&gt;</a>
----
-&nbsp;meta/classes/sanity.bbclass | 7 +++++++
-&nbsp;1 file changed, 7 insertions(+)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 2040b48595..14271c1ca9 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -703,6 +703,13 @@ def check_sanity_version_change(status, d):
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (tmpdirmode &amp; stat.S_ISUID):
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;status.addresult(&quot;TMPDIR is setuid, please don't build in a setuid directory&quot;)
-&nbsp;
-
-
-
-+    # Check that a user isn't building in a path in PSEUDO_IGNORE_PATHS
-+    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(&quot;,&quot;)
-+    workdir = d.getVar('WORKDIR', expand=True)
-+    for i in pseudoignorepaths:
-+        if i and workdir.startswith(i):
-+            status.addresult(&quot;You are building in a path in PSEUDO_IGNORE_PATHS: &quot; + str(i) + &quot; please don't build in this directory: &quot; + str(workdir) + &quot;\n&quot;)
-
-</pre>
-      </blockquote>
-      <pre wrap="">
-To ensure the user fully understands this, should this be something
-like:
-
-
-status.addresult(&quot;You are building in a path included in
-PSEUDO_IGNORE_PATHS &quot; + str(i) + &quot; which will not work, please locate
-the build outside this path.\n&quot;)
-
-as we then tell the user what to do (and don't repeat effectively the
-same information twice).
-
-Cheers,
-
-Richard
-
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-      <pre wrap="">
-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------09194F07D983EEAB988C80C3--
+--000000000000416e8a05b9dea373--
