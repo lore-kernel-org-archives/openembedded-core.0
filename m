@@ -1,124 +1,94 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.5173.1611735936375060120
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web09.5219.1611736058666160781
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jan 2021 00:25:36 -0800
+ Wed, 27 Jan 2021 00:27:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=X6V8pbVn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id c128so837962wme.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 00:25:36 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M5XO8JRF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id 6so968642wri.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 00:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=9W5zrdAMgg/LPK4yiNqyBKSqY+3oB2ML32On3eJAKhQ=;
-        b=X6V8pbVnSkIqow6VS/OBysojneuja1U35IulBV+cGmo54DxKIsueUy1Au1qAk06w/K
-         niTwCVvpCAAzBbcev4jAzz9cg6UzQQwdoa1dXMGSOzI5jVwjOeuoD4Cjk2acsAOuufEp
-         1XYpjI8BjIL+zd5iZnX00z5McVhoaoDO9fyiY=
+        bh=qQRlebMAVwYfnXmJSKSo0aDd0mrDYlKfwOHPSGEINHk=;
+        b=M5XO8JRFkvhugi4j0kdc6FJaHOzG4swrINGYqVRnG7RCuyH+J+lz8FN3hl0/WZrPEx
+         XapS885qOsoOJK0WOhRWzh2bub7lmSOresJTXDg0Ti3AAMPO2IfAdcVlVYkU+YhiH2Tj
+         J0MloVeMoNHPU+R7/XdRyY63nuRONQrNhB2S8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=9W5zrdAMgg/LPK4yiNqyBKSqY+3oB2ML32On3eJAKhQ=;
-        b=piSvz7jVSDOAYjZQ5UG9Q+JMJafTgz7v3xjh9LL9SA2ZN4OSgGRC/SUpe3ECtjdWyh
-         OLt1VMNIMB6MHVF8bIzHiHnZt7cFQbFPLC3WwevqDpTDwGnvhgaoYCSvPpN57YO9q/HP
-         qfEllWy8SwK04XWSnKW3vZjeVXXNpXgZT/C1fVXYv7V7Nf/toCqD3vbq8eBubd4+rb20
-         /anDoMIiZi7YKwORpMRvl+AyCL8WIpPhHJoHeZ2XvL3GWZsIN+P2XYW8hjCbVMQYHifA
-         zcn1XBfYUegX5MsyiCTWLRAfmEqHHyGu2UxhNylGSKu1+l26PGy7BH7Ksv37eld/URq/
-         x+8g==
-X-Gm-Message-State: AOAM530uUrI8LwV5UhiEWVRWr0rzJDLbxruzZTnAde8+25DMNCx4buqr
-	TxTsvXPxwxkq/6m3BsF2xcF9tg==
-X-Google-Smtp-Source: ABdhPJweDqEPV1EyVmGPNWIOT2S3onXVAYDHmkh8j2X30dzW6/Pe2zSpEicmE8G85rTtY0kFjY8qYg==
-X-Received: by 2002:a1c:ba04:: with SMTP id k4mr3109525wmf.16.1611735934772;
-        Wed, 27 Jan 2021 00:25:34 -0800 (PST)
+        bh=qQRlebMAVwYfnXmJSKSo0aDd0mrDYlKfwOHPSGEINHk=;
+        b=Ffs0LMX7/6kbBL5mTp9KxAKa6VWtnQRHsfAi76FJPqwNk7E1vuWKR9YcU1iTHtHnwg
+         Sr3fH+i++WK/NfM1IGrIbxSBzB1EZSJwbKt75RNPUY7Z8rU+4V9Nh1Yu7LxPmSZQZ8fT
+         GqX5cd96XYY9f0Vphtp3Bqi+l9g99p/bVNr6H5SNVgo+cm3mPF7ozieMHjwkmVI38bVX
+         n2vKqA0QSPW1QEuPufv8G7mnSc6aKluI6GavNCLWyJEPZbp6+YKX6BMzLLT+80oJzrhN
+         Lsz7dRNmWYfYovg58aDm97hE+WIeRe7CWa2l4Cc8Tim/u0OOwCTmhImZfvE2X3o9Y/5Q
+         wywA==
+X-Gm-Message-State: AOAM5335QmKlMf3K4RIv9zA6Wpp6vJbvq/kpwRYkSCpMmegf6SZ/8QvZ
+	ewCXOvQaeWfm8wxB9SK/1VrduA==
+X-Google-Smtp-Source: ABdhPJyDy19oY68P0HQNCMsYkVLr2jJuIaz7Mx8E89Hw5eOQ3+fZfBROhGcCQ68ATD8OQJr14ud3NA==
+X-Received: by 2002:adf:dd45:: with SMTP id u5mr9859024wrm.392.1611736057279;
+        Wed, 27 Jan 2021 00:27:37 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:52a7:b6a0:dca3:45dc? ([2001:8b0:aba:5f3c:52a7:b6a0:dca3:45dc])
-        by smtp.gmail.com with ESMTPSA id n11sm2177710wra.9.2021.01.27.00.25.34
+        by smtp.gmail.com with ESMTPSA id y24sm1552875wmi.47.2021.01.27.00.27.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 00:25:34 -0800 (PST)
-Message-ID: <7ae582bd8a678a8bd443c9a78e395fc3796f4131.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 0/2] Enable QMP Dumping for testimage
+        Wed, 27 Jan 2021 00:27:36 -0800 (PST)
+Message-ID: <30b9655a235160de1a9083122a258a93d026654c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2] qemu-system-native: install qmp python module
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: Saul Wold <Saul.Wold@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jan 2021 08:25:33 +0000
-In-Reply-To: <20210126173107.2204111-1-saul.wold@windriver.com>
+Date: Wed, 27 Jan 2021 08:27:36 +0000
+In-Reply-To: <20210126173107.2204111-2-saul.wold@windriver.com>
 References: <20210126173107.2204111-1-saul.wold@windriver.com>
+	 <20210126173107.2204111-2-saul.wold@windriver.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
 On Tue, 2021-01-26 at 09:31 -0800, Saul Wold wrote:
-> I hope that this is the final pass!
+> The qmp python module supports the Qemu Machine Protocol [0].
+> This module needs to be installed in a known location so the
+> qemurunner python script can find the qmp module.
 > 
-> This patch set enables getting debug information from QEMU via the
-> Qemu Machine Protocol interface. The Qemu source provides a qmp.py
-> module which is instaled in the recipe-sysroot-native and loaded 
-> via python's importlib during runtime.
+> This change causes it to be installed in the recipe-sysroot-native
+> of the target image and that directory can be added to the python
+> sys.path that needs to use the qmp.py module.
 > 
-> The initial commands that I issue to qmp with a failure is detected
-> is: query-status and query-block. The output goes into formated json
-> files as follows:
+> [0] https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt
 > 
-> tmp/log/runtime-hostdump/202101061054_qmp
-> ├── qmp_00_query-block
-> ├── qmp_00_query-status
-> ├── qmp_01_query-block
-> └── qmp_01_query-status
+> Signed-off-by: Saul Wold <saul.wold@windriver.com>
+> ---
+>  meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Comments welcome, I tested this by calling the monitor_dump code 
-> directly in the target/ssh.py code instead of waiting for a given
-> failure.
+> diff --git a/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
+> index 222b55cbc6e..4a58bf9055b 100644
+> --- a/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
+> +++ b/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
+> @@ -2,6 +2,7 @@ BPN = "qemu"
+>  
 > 
-> This has been tested with both testimage and oe-selftest as they 
-> take different code paths to the qemurunner code with different
-> parameters.  I also tested oe-selftest with and without the -j option.
-> I saw 1 failure which I think is due to my setup and not the code in
-> question, runtime_test.TestImage.test_testimage_virgl_gtk_sdl failed
+>  require qemu-native.inc
+>
+>  +inherit python3-dir
+> 
 
-I ran this through the autobuilder and it looks better but we're not
-quite there. We did reproduce the
-runtime_test.TestImage.test_testimage_virgl_gtk_sdl failure:
+In this patch the inherit needs to go before the qemu-native.inc, as
+in:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1758/steps/14/logs/stdio
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=5267509ea39770655dc707e9879158ca2ff3959d
 
-and given its giving a traceback here:
+due to:
 
-     0275:        try:
-     0276:            self.qmp = qmp.QEMUMonitorProtocol(qmp_port)
-     0277:            self.qmp.connect()
-     0278:        except socket.error as msg:
- *** 0279:            self.logger.error("Failed to connect qemu monitor socket: %s" % msg[1])
-     0280:            return False
-     0281:
-     0282:        # Release the qemu porcess to continue running
-     0283:        self.run_monitor('cont')
-Exception: TypeError: 'FileNotFoundError' object is not subscriptable
-
-I'd say that is an issue with this patch, it needs to more gracefully
-handle that. It could be its attempting the test and expecting a
-failure elsewhere in the stack as I think you're right that not every
-vrtigl test runs on every system. You could check older logs to see if
-this is expected to pass or skip.
-
-Besides that we are seeing a lot of warnings:
-
-stdio: WARNING: core-image-minimal-1.0-r0 do_testimage: Qemu ended unexpectedly, dump data from host is in /home/pokybuild/yocto-worker/pkgman-non-rpm/build/build/tmp/log/runtime-hostdump/202101270227_qemu
-stdio: WARNING: core-image-sato-1.0-r0 do_testimage: Qemu ended unexpectedly, dump data from host is in /home/pokybuild/yocto-worker/pkgman-non-rpm/build/build/tmp/log/runtime-hostdump/202101270227_qemu
-stdio: WARNING: core-image-sato-sdk-1.0-r0 do_testimage: Qemu ended unexpectedly, dump data from host is in /home/pokybuild/yocto-worker/pkgman-non-rpm/build/build/tmp/log/runtime-hostdump/202101270227_qemu
-
-The build is a lovely toaster orange:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1787
-
-so I suspect there is some other side effect we also need to fix.
-
-Sounds like we're getting there though!
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=62367fb4c240a054e6a73d0316cc6da6b5f18f79
 
 Cheers,
 
 Richard
-
 
 
