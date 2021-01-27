@@ -1,83 +1,114 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.930.1611706273947662363
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web08.979.1611706281497299782
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 16:11:14 -0800
+ Tue, 26 Jan 2021 16:11:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hrM02tVj;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: dorindabassey@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id e15so86934wme.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 16:11:13 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=b2J7BL08;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id y187so78515wmd.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 16:11:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=5bZJ/puGzLbkuYE49nPSJwLkRokwgHt8Xg8+l4L5X94=;
-        b=hrM02tVj9fqSQz6/DHSpiMw+ExYVkr1tyJdQ1pRD/B5Aua5M7wFI0Zo69MJtVeqw8K
-         IfN24J2yscBMPZ2W3tOpgntRpW/ppV2SUAFFK2Ec7b2lr+eycdDnZjJZFoZ89IHJOT0w
-         Js60pELy6un4vxVwEfoKdYicFO6O3fi0he504iUsFH04qC5q8mmUQIneZgfv84vJrb6Y
-         XRxEZmop9ClraaJ+eTb59vG1odG0PwL3xk6w1yuk1OC83PJcDTyrwp25zqiFUZtoJLAi
-         PvuWeiDh4tSC36D77qkOnnlSL1Rco958w2z9y+TSAQp3K0+d4Q796hmzDJuk4IG3AAnd
-         DHcw==
+        bh=mjaw32X93+VEZNQRI0ITzD24HQnXqMRP5Sbhike1+MA=;
+        b=b2J7BL08Pw5KmgdIwoblVN4u6/zLn/mouxj8IZ7N6s90LGaGZjgbfiO3ZEAJkjc8n2
+         dR51WLe4CY9NPgZ4tof/Oy4ali0Qdmy9Rt+fxMTqCrCDdilLuPtSrQyrWYSIiwJqXTic
+         K99umnMFvgTzLXDiCBhchiBmEcgnU48jtU6HUz26yALbY4p5u1mtPlEUZuxVO8wdiwdR
+         h0jZELOU+8sxDnb36LvzHiGnW1UZ1b7jp08+BWsvwet01qXS1DdUm0QIhSRam2Sy7G/R
+         SObivLV3fVoIct616DNXNQSeHXzu5BTTYpRJdxXdnHPZm49eKufiQao0attJ6ntFMJv6
+         JDPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=5bZJ/puGzLbkuYE49nPSJwLkRokwgHt8Xg8+l4L5X94=;
-        b=HfmggH1dqERVo8ebTpPEePcbfYAniUahpaaUke001Lvm/eXYA6rAy+QKPWzE1yepiO
-         kIgqfVvU8EXRiXjsHwuqVT54xYLAmqGDEx6lKCdEcw+CrFCo+hKd5Vxq6lbkmT7DE+/8
-         ls8xhfwQ3eql3xtW0SdArc0wwITfOuRZn2AaMIGaVfIWA8VGk73g4RClr2eToeZVKlDt
-         6qtv7NbkJ+mbpavrdZxIsjIoTyTFK4M00qwqPGrgw0TzSketu0coml+PWdYUZhvzGDGV
-         UlmVL5Ku0jw73g+jqhHMISrMm00tWinkTH9Z5vyH3VRk59GPKJv44B2+LcLQSeJNKr/l
-         VV4Q==
-X-Gm-Message-State: AOAM531e0Pt/DS1OX1DjF4+WevKsmVWm17ODO283U/pULRWmMTev8vg9
-	PsIgDUDkYytIXP8B759RCw0UBSOZWzwSyA==
-X-Google-Smtp-Source: ABdhPJxyZUluOk5nZfPacPBLFC78jZaoSF1zBbZIn4X7LGLyqRX6yx54ZUcsbKiz8M55wxuSpED9wA==
-X-Received: by 2002:a1c:cc19:: with SMTP id h25mr1738594wmb.124.1611706272360;
-        Tue, 26 Jan 2021 16:11:12 -0800 (PST)
+        bh=mjaw32X93+VEZNQRI0ITzD24HQnXqMRP5Sbhike1+MA=;
+        b=VGkmvV4Z6PoCVjz3+KrnfcbF/HLStLSHpof7Lfk49m6dQocuFiLo++39JB1dhHZJfX
+         6bPwEbNp7fU2NywF4721CQi882VGu4kFs2wdiP5TOnUSdJmBQw1WrWgRjNT8pb+iDI5i
+         20KP3kYR4CW/Ck7KFsL5QaYhMm5r05tzQ5Ib4s4Ztonnelw0NlvOx6sqhLKSQfekdSIb
+         +E2msWUeIbyCH8gXza4mAmRkI7kXBD/fRfDLaQ94wn18IceXFzIUrHjWVTaDvaG/nhUF
+         YyduNSBFKovFOBBqZFgxj6LxYij41lRGv30dQgot6uZ7CzSmwvXH5jryFPAHI7q5S1I0
+         5H3A==
+X-Gm-Message-State: AOAM532Sue3KQ8FfJrp0i1aMWl45Fh0vvDT8d9jfYiyVW3nR1vapJu6j
+	WLgPnzSmbfgQ76m/AzN5pEIkE0mvTz+szQ==
+X-Google-Smtp-Source: ABdhPJzdezq0/k7xFn/0ODc9lnQ5XcVBri2jVPdVMco/czVyo8gggm1zGjBumrDzwNprOuVZLMgE7Q==
+X-Received: by 2002:a05:600c:3591:: with SMTP id p17mr987491wmq.153.1611706279740;
+        Tue, 26 Jan 2021 16:11:19 -0800 (PST)
 Return-Path: <dorindabassey@gmail.com>
 Received: from localhost.localdomain ([105.112.33.220])
-        by smtp.gmail.com with ESMTPSA id b13sm509208wrt.31.2021.01.26.16.11.10
+        by smtp.gmail.com with ESMTPSA id b13sm509208wrt.31.2021.01.26.16.11.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 16:11:11 -0800 (PST)
+        Tue, 26 Jan 2021 16:11:19 -0800 (PST)
 From: "Dorinda" <dorindabassey@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: dorindabassey <dorindabassey@gmail.com>
-Subject: [PATCH v3 2/3] elfutils: add PACKAGECONFIG for debuginfod
-Date: Wed, 27 Jan 2021 01:10:44 +0100
-Message-Id: <20210127001045.6686-2-dorindabassey@gmail.com>
+Subject: [PATCH v3 3/3] elfutils: add support for ipkg
+Date: Wed, 27 Jan 2021 01:10:45 +0100
+Message-Id: <20210127001045.6686-3-dorindabassey@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210127001045.6686-1-dorindabassey@gmail.com>
 References: <20210127001045.6686-1-dorindabassey@gmail.com>
 
-removed the config option that disabled debuginfod and enabled it with PACKAGECONFIG
+debuginfod scanner 0.182 could only support RPM and scan .debs, it can now scan .ipk
 
 [YOCTO #13807]
 
 Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 ---
- meta/recipes-devtools/elfutils/elfutils_0.182.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../elfutils/elfutils_0.182.bb                |  1 +
+ ...d-support-for-ipkg-to-debuginfod.cxx.patch | 32 +++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
 
 diff --git a/meta/recipes-devtools/elfutils/elfutils_0.182.bb b/meta/recipes-devtools/elfutils/elfutils_0.182.bb
-index 823f0cab98..79cd84a8a2 100644
+index 79cd84a8a2..49b6ac8231 100644
 --- a/meta/recipes-devtools/elfutils/elfutils_0.182.bb
 +++ b/meta/recipes-devtools/elfutils/elfutils_0.182.bb
-@@ -34,7 +34,7 @@ SRC_URI[sha256sum] = "ecc406914edf335f0b7fc084ebe6c460c4d6d5175bfdd6688c1c78d914
- 
- inherit autotools gettext ptest pkgconfig
- 
--EXTRA_OECONF = "--program-prefix=eu- --disable-debuginfod"
-+EXTRA_OECONF = "--program-prefix=eu-"
- 
- DEPENDS_BZIP2 = "bzip2-replacement-native"
- DEPENDS_BZIP2_class-target = "bzip2"
-@@ -43,6 +43,7 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
- PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
- PACKAGECONFIG[libdebuginfod] = "--enable-libdebuginfod,--disable-libdebuginfod,curl"
-+PACKAGECONFIG[debuginfod] = "--enable-debuginfod,--disable-debuginfod,libarchive sqlite3 libmicrohttpd"
- 
- RDEPENDS_${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils"
- 
+@@ -22,6 +22,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://run-ptest \
+            file://ptest.patch \
+            file://0001-tests-Makefile.am-compile-test_nlist-with-standard-C.patch \
++           file://0001-add-support-for-ipkg-to-debuginfod.cxx.patch \
+            "
+ SRC_URI_append_libc-musl = " \
+            file://0001-musl-obstack-fts.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+new file mode 100644
+index 0000000000..f15eacbe72
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/0001-add-support-for-ipkg-to-debuginfod.cxx.patch
+@@ -0,0 +1,32 @@
++From b647d1df55c20772a9cc7ce96fcf323c500481bf Mon Sep 17 00:00:00 2001
++From: dorindabassey <dorindabassey@gmail.com>
++Date: Sat, 19 Dec 2020 01:11:46 +0100
++Subject: [PATCH] add support for ipkg to debuginfod.cxx
++
++added support for ipkg to the debuginfod scanner. 0.182 only supports RPM and scan .debs, with this patch, debuginfod scanner would be able to scan .ipk
++
++Upstream-status: Submitted [https://sourceware.org/pipermail/elfutils-devel/2020q4/003357.html]
++
++Signed-off-by: dorindabassey <dorindabassey@gmail.com>
++---
++ debuginfod/debuginfod.cxx | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/debuginfod/debuginfod.cxx b/debuginfod/debuginfod.cxx
++index 5621030..cc78c93 100644
++--- a/debuginfod/debuginfod.cxx
+++++ b/debuginfod/debuginfod.cxx
++@@ -442,11 +442,13 @@ parse_opt (int key, char *arg,
++         {
++           scan_archives[".deb"]="dpkg-deb --fsys-tarfile";
++           scan_archives[".ddeb"]="dpkg-deb --fsys-tarfile";
+++          scan_archives[".ipk"]="dpkg-deb --fsys-tarfile";
++         }
++       else
++         {
++           scan_archives[".deb"]="(bsdtar -O -x -f - data.tar.xz)<";
++           scan_archives[".ddeb"]="(bsdtar -O -x -f - data.tar.xz)<";
+++          scan_archives[".ipk"]="(bsdtar -O -x -f - data.tar.xz)<";
++         }
++       // .udeb too?
++       break;
 -- 
 2.17.1
 
