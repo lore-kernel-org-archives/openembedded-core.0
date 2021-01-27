@@ -1,94 +1,97 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web09.5219.1611736058666160781
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web12.5144.1611736270887366793
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jan 2021 00:27:39 -0800
+ Wed, 27 Jan 2021 00:31:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M5XO8JRF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id 6so968642wri.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 00:27:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=I0nT066t;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id c18so1078023ljd.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 00:31:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=qQRlebMAVwYfnXmJSKSo0aDd0mrDYlKfwOHPSGEINHk=;
-        b=M5XO8JRFkvhugi4j0kdc6FJaHOzG4swrINGYqVRnG7RCuyH+J+lz8FN3hl0/WZrPEx
-         XapS885qOsoOJK0WOhRWzh2bub7lmSOresJTXDg0Ti3AAMPO2IfAdcVlVYkU+YhiH2Tj
-         J0MloVeMoNHPU+R7/XdRyY63nuRONQrNhB2S8=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ra4oMm9qGQ3dDzp6XxxPoP/AreaFvv4U6DzQRtSpxHc=;
+        b=I0nT066tXMIELOIQ4XPc64Mt7m3Cuan/L3eoPmg/0R4bKjOseL+JX3cDkFc4kZ6R9H
+         iTR58ph+d/84HSpnyFh/4SjFzw3+aIRLe0bZEJcLlZVk2IhHJ3i68cfkkpCI7EfmfUIW
+         AQXl0y0u0zEmOi69ssKQ7QeGNiQjsxgAZx7ecX/+sMporljIJyWFrBObpZbt4XojHqPa
+         zIXiuY9k4utBNo7gtS3LIpDhIXkhMmDmVtQDLgQkFnc3Vr+4oLsKXUXYbesPLYE1Xubr
+         8La9Ik7lfQfJk+frcVI/knXyjo7sdn+zHaCr4H3Fda4CI1GoNR0Rxs/AQ3/4In6GlB9y
+         HaYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qQRlebMAVwYfnXmJSKSo0aDd0mrDYlKfwOHPSGEINHk=;
-        b=Ffs0LMX7/6kbBL5mTp9KxAKa6VWtnQRHsfAi76FJPqwNk7E1vuWKR9YcU1iTHtHnwg
-         Sr3fH+i++WK/NfM1IGrIbxSBzB1EZSJwbKt75RNPUY7Z8rU+4V9Nh1Yu7LxPmSZQZ8fT
-         GqX5cd96XYY9f0Vphtp3Bqi+l9g99p/bVNr6H5SNVgo+cm3mPF7ozieMHjwkmVI38bVX
-         n2vKqA0QSPW1QEuPufv8G7mnSc6aKluI6GavNCLWyJEPZbp6+YKX6BMzLLT+80oJzrhN
-         Lsz7dRNmWYfYovg58aDm97hE+WIeRe7CWa2l4Cc8Tim/u0OOwCTmhImZfvE2X3o9Y/5Q
-         wywA==
-X-Gm-Message-State: AOAM5335QmKlMf3K4RIv9zA6Wpp6vJbvq/kpwRYkSCpMmegf6SZ/8QvZ
-	ewCXOvQaeWfm8wxB9SK/1VrduA==
-X-Google-Smtp-Source: ABdhPJyDy19oY68P0HQNCMsYkVLr2jJuIaz7Mx8E89Hw5eOQ3+fZfBROhGcCQ68ATD8OQJr14ud3NA==
-X-Received: by 2002:adf:dd45:: with SMTP id u5mr9859024wrm.392.1611736057279;
-        Wed, 27 Jan 2021 00:27:37 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:52a7:b6a0:dca3:45dc? ([2001:8b0:aba:5f3c:52a7:b6a0:dca3:45dc])
-        by smtp.gmail.com with ESMTPSA id y24sm1552875wmi.47.2021.01.27.00.27.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ra4oMm9qGQ3dDzp6XxxPoP/AreaFvv4U6DzQRtSpxHc=;
+        b=YLEZmLVQHFRjSHYe/+OK3DKuRK6XJ8oU0STsJzuDQzsH8o/V4YLXP6KiiJVpzL6rE/
+         Qk4Yhlpac9j0zdE1ydg0xLtANoFaQtkWyiWqNvs9sN0nRqcbRSel4MQbw9jJ66TL7H67
+         m59kZQ1hEZ/AVax4YlgDkZR5WLjkDQsIyJZqHwtX7N/C2JdtFbjWY+pJh9ghLEz7ilHn
+         Z2mKhsk1x6qEJBV0aw/WSGC9I5loEWjzdRjxZTA0Ferea7ctchIeduXjK3lAKJ01h9+V
+         K3tLgMBHfoGGOM0UISn94NM1r0nCpq/ej2vzbUKel0QWJ5OeWdjW98d2Z85YweGdq+AT
+         tLmw==
+X-Gm-Message-State: AOAM533+SyJYuOrKaDDDYsqg3sW731j2OkxTXOS5AZeZohe5MH57M8JN
+	UYqJAhXaozurOfZhFEYWtIQAGZWIFRs=
+X-Google-Smtp-Source: ABdhPJyUVlNvvmvFNHnOKC31mxNqpyJwRET1KLPCSFiQHyZK9lmU/y0MkFQMtwQH836QYh6W1cNK1Q==
+X-Received: by 2002:a2e:914b:: with SMTP id q11mr4901698ljg.503.1611736268646;
+        Wed, 27 Jan 2021 00:31:08 -0800 (PST)
+Return-Path: <tomasz.dziendzielski@gmail.com>
+Received: from localhost.localdomain (h124200.man.tk-internet.pl. [93.175.124.200])
+        by smtp.gmail.com with ESMTPSA id r26sm328152lfi.295.2021.01.27.00.31.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jan 2021 00:27:36 -0800 (PST)
-Message-ID: <30b9655a235160de1a9083122a258a93d026654c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] qemu-system-native: install qmp python module
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Saul Wold <Saul.Wold@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 27 Jan 2021 08:27:36 +0000
-In-Reply-To: <20210126173107.2204111-2-saul.wold@windriver.com>
-References: <20210126173107.2204111-1-saul.wold@windriver.com>
-	 <20210126173107.2204111-2-saul.wold@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+        Wed, 27 Jan 2021 00:31:08 -0800 (PST)
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Subject: [PATCH] externalsrc: Detect code changes in submodules
+Date: Wed, 27 Jan 2021 09:33:31 +0100
+Message-Id: <20210127083331.2561-1-tomasz.dziendzielski@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2021-01-26 at 09:31 -0800, Saul Wold wrote:
-> The qmp python module supports the Qemu Machine Protocol [0].
-> This module needs to be installed in a known location so the
-> qemurunner python script can find the qmp module.
-> 
-> This change causes it to be installed in the recipe-sysroot-native
-> of the target image and that directory can be added to the python
-> sys.path that needs to use the qmp.py module.
-> 
-> [0] https://github.com/qemu/qemu/blob/master/docs/interop/qmp-spec.txt
-> 
-> Signed-off-by: Saul Wold <saul.wold@windriver.com>
-> ---
->  meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
-> index 222b55cbc6e..4a58bf9055b 100644
-> --- a/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu-system-native_5.2.0.bb
-> @@ -2,6 +2,7 @@ BPN = "qemu"
->  
-> 
->  require qemu-native.inc
->
->  +inherit python3-dir
-> 
+The srctree_hash was calculated only from main source directory ignoring
+changes in submodules.
 
-In this patch the inherit needs to go before the qemu-native.inc, as
-in:
+[YOCTO #13748]
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=5267509ea39770655dc707e9879158ca2ff3959d
+Use submodule--helper to determine all submodules, and calculate hash
+from all git tree objects names combined.
 
-due to:
+Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+---
+ meta/classes/externalsrc.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=62367fb4c240a054e6a73d0316cc6da6b5f18f79
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 7a7d31e311..64e94e3301 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -190,6 +190,7 @@ def srctree_hash_files(d, srcdir=None):
+     import shutil
+     import subprocess
+     import tempfile
++    import hashlib
+ 
+     s_dir = srcdir or d.getVar('EXTERNALSRC')
+     git_dir = None
+@@ -214,7 +215,16 @@ def srctree_hash_files(d, srcdir=None):
+             env = os.environ.copy()
+             env['GIT_INDEX_FILE'] = tmp_index.name
+             subprocess.check_output(['git', 'add', '-A', '.'], cwd=s_dir, env=env)
+-            sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env).decode("utf-8")
++            git_sha1 = subprocess.check_output(['git', 'write-tree'], cwd=s_dir, env=env).decode("utf-8")
++            submodule_helper = subprocess.check_output(['git', 'submodule--helper', 'list'], cwd=s_dir, env=env).decode("utf-8")
++            for line in submodule_helper.splitlines():
++                module_dir = os.path.join(s_dir, line.rsplit(maxsplit=1)[1])
++                proc = subprocess.Popen(['git', 'add', '-A', '.'], cwd=module_dir, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
++                proc.communicate()
++                proc = subprocess.Popen(['git', 'write-tree'], cwd=module_dir, env=env, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
++                stdout, _ = proc.communicate()
++                git_sha1 += stdout.decode("utf-8")
++            sha1 = hashlib.sha1(git_sha1.encode("utf-8")).hexdigest()
+         with open(oe_hash_file, 'w') as fobj:
+             fobj.write(sha1)
+         ret = oe_hash_file + ':True'
+-- 
+2.30.0
 
