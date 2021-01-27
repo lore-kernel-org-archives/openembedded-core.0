@@ -1,108 +1,83 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web08.974.1611706268008396201
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.930.1611706273947662363
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Jan 2021 16:11:08 -0800
+ Tue, 26 Jan 2021 16:11:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mxumuHz0;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: dorindabassey@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id u14so67107wml.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 16:11:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hrM02tVj;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: dorindabassey@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id e15so86934wme.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Jan 2021 16:11:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Nmrs7enxDr6X7zieEfrrhcPNI931G2oaqCgX/yV6zl8=;
-        b=mxumuHz0MpFZ7YS+aqU0AjHZEHMsYE3y7rotYdAalM/tjuC/EYF5eIuxrVIk0QuBAw
-         rhNLwhlRprANTMhKprpCWXf1zAM+lV23utuPV4Y9lzzIxh+oyLDYwjnMsAkOwMf9U0Ta
-         u0tniMIjZhLSGuJjiJ5t6LjFN2LzEinbhXAfLZte5jnAo0m6wGH7ZEi0pouzplY3esOl
-         GNRdEtjPC9FQNZUvlbsY68yGIHyEWm+oqHLaSyfvzIQZrrpFkYhxPefg+73qMQ7V9W9f
-         LOf7VOahu8MOa7i+rZXIUty5ZMWkfTL0iuXn+f8DGGJkkpX7oHu0eoCdXqpbID28Tqck
-         Ny4A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=5bZJ/puGzLbkuYE49nPSJwLkRokwgHt8Xg8+l4L5X94=;
+        b=hrM02tVj9fqSQz6/DHSpiMw+ExYVkr1tyJdQ1pRD/B5Aua5M7wFI0Zo69MJtVeqw8K
+         IfN24J2yscBMPZ2W3tOpgntRpW/ppV2SUAFFK2Ec7b2lr+eycdDnZjJZFoZ89IHJOT0w
+         Js60pELy6un4vxVwEfoKdYicFO6O3fi0he504iUsFH04qC5q8mmUQIneZgfv84vJrb6Y
+         XRxEZmop9ClraaJ+eTb59vG1odG0PwL3xk6w1yuk1OC83PJcDTyrwp25zqiFUZtoJLAi
+         PvuWeiDh4tSC36D77qkOnnlSL1Rco958w2z9y+TSAQp3K0+d4Q796hmzDJuk4IG3AAnd
+         DHcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Nmrs7enxDr6X7zieEfrrhcPNI931G2oaqCgX/yV6zl8=;
-        b=TDTu+0CHkATLpiox3Xsvv7hpI1kD5Yyg2pIhpK9LGPbmzQ/0pb4wKKFrWzPqLsCa3p
-         +k0GVTJAM7mPvDLuH6UAEm32CSN8SBTMe7GofgYXhJTCoB495n8SMKvlAa9IejuNX5UB
-         hYBga1diBdLBANnrnguREyqOeBv/4WKhlEb+IpRIpxpS8Lo8Th7kxoBcCrFacZ2tD+6x
-         vk9/0GWLTAGBS1fJ7SlJx4QsEaR+AWnFni5P9CtYC6brrSYGGZcIq81QuYTPiAQmPlfo
-         tZDKEFniLI0acZgmgA5XMRyX/4epASNbrrg4Ssrfbo5VcGyP5iPUNHX0G9gKVdRlm10o
-         p3NA==
-X-Gm-Message-State: AOAM532DvPY2qdniBEZRRPo55GJQzsP9Y4ySyueEMG6CKxnWEIiJGP5R
-	hn9YRh6noa9Uz7QgPF21Xnm1qFVgFmdHPQ==
-X-Google-Smtp-Source: ABdhPJwzTuNA5JyyVO+GlxDLq+VUa9Scx+N6bbldeoP/6EAs8wkea7duvaloDVMFAVe6YKM44avhzQ==
-X-Received: by 2002:a1c:3286:: with SMTP id y128mr1727115wmy.104.1611706266262;
-        Tue, 26 Jan 2021 16:11:06 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=5bZJ/puGzLbkuYE49nPSJwLkRokwgHt8Xg8+l4L5X94=;
+        b=HfmggH1dqERVo8ebTpPEePcbfYAniUahpaaUke001Lvm/eXYA6rAy+QKPWzE1yepiO
+         kIgqfVvU8EXRiXjsHwuqVT54xYLAmqGDEx6lKCdEcw+CrFCo+hKd5Vxq6lbkmT7DE+/8
+         ls8xhfwQ3eql3xtW0SdArc0wwITfOuRZn2AaMIGaVfIWA8VGk73g4RClr2eToeZVKlDt
+         6qtv7NbkJ+mbpavrdZxIsjIoTyTFK4M00qwqPGrgw0TzSketu0coml+PWdYUZhvzGDGV
+         UlmVL5Ku0jw73g+jqhHMISrMm00tWinkTH9Z5vyH3VRk59GPKJv44B2+LcLQSeJNKr/l
+         VV4Q==
+X-Gm-Message-State: AOAM531e0Pt/DS1OX1DjF4+WevKsmVWm17ODO283U/pULRWmMTev8vg9
+	PsIgDUDkYytIXP8B759RCw0UBSOZWzwSyA==
+X-Google-Smtp-Source: ABdhPJxyZUluOk5nZfPacPBLFC78jZaoSF1zBbZIn4X7LGLyqRX6yx54ZUcsbKiz8M55wxuSpED9wA==
+X-Received: by 2002:a1c:cc19:: with SMTP id h25mr1738594wmb.124.1611706272360;
+        Tue, 26 Jan 2021 16:11:12 -0800 (PST)
 Return-Path: <dorindabassey@gmail.com>
 Received: from localhost.localdomain ([105.112.33.220])
-        by smtp.gmail.com with ESMTPSA id b13sm509208wrt.31.2021.01.26.16.11.04
+        by smtp.gmail.com with ESMTPSA id b13sm509208wrt.31.2021.01.26.16.11.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Jan 2021 16:11:05 -0800 (PST)
+        Tue, 26 Jan 2021 16:11:11 -0800 (PST)
 From: "Dorinda" <dorindabassey@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: dorindabassey <dorindabassey@gmail.com>
-Subject: [PATCH v3 1/3] elfutils: split libdebuginfod into its own package
-Date: Wed, 27 Jan 2021 01:10:43 +0100
-Message-Id: <20210127001045.6686-1-dorindabassey@gmail.com>
+Subject: [PATCH v3 2/3] elfutils: add PACKAGECONFIG for debuginfod
+Date: Wed, 27 Jan 2021 01:10:44 +0100
+Message-Id: <20210127001045.6686-2-dorindabassey@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210127001045.6686-1-dorindabassey@gmail.com>
+References: <20210127001045.6686-1-dorindabassey@gmail.com>
 
-Added package options for libdebuginfod.
-Added GPLv2+ | LGPLv3+ license for libdebuginfod with reference to https://sourceware.org/git/?p=elfutils.git;a=blob;f=debuginfod/debuginfod-client.c;h=de26af5bb26e187b51d9ea00d5826e199a96d01a;hb=HEAD
+removed the config option that disabled debuginfod and enabled it with PACKAGECONFIG
 
 [YOCTO #13807]
 
 Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 ---
-v3:
-added YOCTO bug tag
-added LICENSE header
-changed upstream status
-edited typo error of recipe version from 0.181 to 0.182
-
- meta/recipes-devtools/elfutils/elfutils_0.182.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/elfutils/elfutils_0.182.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/elfutils/elfutils_0.182.bb b/meta/recipes-devtools/elfutils/elfutils_0.182.bb
-index f63208d72b..823f0cab98 100644
+index 823f0cab98..79cd84a8a2 100644
 --- a/meta/recipes-devtools/elfutils/elfutils_0.182.bb
 +++ b/meta/recipes-devtools/elfutils/elfutils_0.182.bb
-@@ -1,8 +1,10 @@
- SUMMARY = "Utilities and libraries for handling compiled object files"
- HOMEPAGE = "https://sourceware.org/elfutils"
- SECTION = "base"
--LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+LICENSE = "GPLv2 & GPLv2+ & LGPLv3+ & GPLv3+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-+                    file://${WORKDIR}/elfutils-0.182/debuginfod/debuginfod-client.c;beginline=4;endline=29;md5=f758740623cdf457eb76957eb50f0422 \
-+                    "
- DEPENDS = "zlib virtual/libintl"
- DEPENDS_append_libc-musl = " argp-standalone fts musl-obstack "
- # The Debian patches below are from:
-@@ -91,7 +93,7 @@ EXTRA_OEMAKE_class-nativesdk = ""
- BBCLASSEXTEND = "native nativesdk"
+@@ -34,7 +34,7 @@ SRC_URI[sha256sum] = "ecc406914edf335f0b7fc084ebe6c460c4d6d5175bfdd6688c1c78d914
  
- # Package utilities separately
--PACKAGES =+ "${PN}-binutils libelf libasm libdw"
-+PACKAGES =+ "${PN}-binutils libelf libasm libdw libdebuginfod"
+ inherit autotools gettext ptest pkgconfig
  
- # shared libraries are licensed GPLv2 or GPLv3+, binaries GPLv3+
- # according to NEWS file:
-@@ -103,6 +105,7 @@ LICENSE_${PN} = "GPLv3+"
- LICENSE_libelf = "GPLv2 | LGPLv3+"
- LICENSE_libasm = "GPLv2 | LGPLv3+"
- LICENSE_libdw = "GPLv2 | LGPLv3+"
-+LICENSE_libdebuginfod = "GPLv2+ | LGPLv3+"
+-EXTRA_OECONF = "--program-prefix=eu- --disable-debuginfod"
++EXTRA_OECONF = "--program-prefix=eu-"
  
- FILES_${PN}-binutils = "\
-     ${bindir}/eu-addr2line \
-@@ -115,6 +118,7 @@ FILES_${PN}-binutils = "\
- FILES_libelf = "${libdir}/libelf-${PV}.so ${libdir}/libelf.so.*"
- FILES_libasm = "${libdir}/libasm-${PV}.so ${libdir}/libasm.so.*"
- FILES_libdw  = "${libdir}/libdw-${PV}.so ${libdir}/libdw.so.* ${libdir}/elfutils/lib*"
-+FILES_libdebuginfod = "${libdir}/libdebuginfod-${PV}.so ${libdir}/libdebuginfod.so.*"
- # Some packages have the version preceeding the .so instead properly
- # versioned .so.<version>, so we need to reorder and repackage.
- #FILES_${PN} += "${libdir}/*-${PV}.so ${base_libdir}/*-${PV}.so"
+ DEPENDS_BZIP2 = "bzip2-replacement-native"
+ DEPENDS_BZIP2_class-target = "bzip2"
+@@ -43,6 +43,7 @@ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[bzip2] = "--with-bzlib,--without-bzlib,${DEPENDS_BZIP2}"
+ PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
+ PACKAGECONFIG[libdebuginfod] = "--enable-libdebuginfod,--disable-libdebuginfod,curl"
++PACKAGECONFIG[debuginfod] = "--enable-debuginfod,--disable-debuginfod,libarchive sqlite3 libmicrohttpd"
+ 
+ RDEPENDS_${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils"
+ 
 -- 
 2.17.1
 
