@@ -1,47 +1,47 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.93.1611868339603954880
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web09.297.1611869032657573667
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 13:12:19 -0800
+ Thu, 28 Jan 2021 13:23:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fUdYz4+S;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id u14so5648760wmq.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 13:12:19 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=b3NdQhXE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id y187so5674106wmd.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 13:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XXpLX0qKHFt75xn8/Xe5Y3FcKVVdjgfVeXg7GzVxlMg=;
-        b=fUdYz4+SUazSeugeuwA7tHM6h46p9bYBQ1vwyhRt0r8E44pMYUAHjkq6B1HolJQuyN
-         ROBtIHlRyEIAhVGMaTi9WJxAva/iIiCjweMvCAMdnpff80J3ud1jNfSPhZ52Urv/EpsH
-         wKjLrc5VBOqtnR9pXstCW+cy6dVSuXMzxF6x4=
+        bh=lOqVktjsJ94udfYiQDZsQbN5iPdzcwkGlALCfl6I6zs=;
+        b=b3NdQhXE7wHBlBGBpz0VBrdqHkeP3NYc8zsn4uwnbh+zpQhT9iSFDrrWsVZKKjErKM
+         uLW91xmyjNN2Dn5Y59beWNTCCzWOTUnhjcrF6DN9OLZbuAzc5MIEdaTLjdTgM4H7EaUJ
+         HX2KUztoA5Gg4v8V2D/T/lwWGlZANWxWIpxSE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=XXpLX0qKHFt75xn8/Xe5Y3FcKVVdjgfVeXg7GzVxlMg=;
-        b=XDLA3TQ25yvqzvG+MuTXbQdDZgyimANsRftiAzALDiA2EFpQRwObDw8v1XPB3gVwF+
-         E1wzoc5clr30/+FAIr+INzCKSDRjGK+rKj1ay62/FZk47eqyscZYrbFvDI7ko0ikTits
-         6KWTCn0VwwCTOc4VPCD6mImbcvkv7Bq3Y01T/KxvG99TzGL2y+bzur6FB83yDWhKRaO/
-         t7x+dpMZw6dx6X3zOqJg0HSj0XSW7jZNlETsV12bMgpYyEoz3AK/V6wfEehiuqGPEIZb
-         MoB3c5MelscsUksJjXGTZ8RdAlJfPA5BDODPCcfXiipzUfbcOc0o6dGM71BjIVTLeICh
-         w3ow==
-X-Gm-Message-State: AOAM531ZLYBO4yLzFUWV3OCa0ft1cHkh/KKPWw3eIHBEpIKLklEZBKSS
-	8p8s3m4C1nFV4w/affk+Yo13bVq0Kuvgww==
-X-Google-Smtp-Source: ABdhPJzfdEm10bLyQqqRJRgEHUTirAIgUug9YAxVS23UKy6Sf79DwPBtzMeZW5J0KP8hSD3YyWRKIw==
-X-Received: by 2002:a05:600c:2888:: with SMTP id g8mr951234wmd.169.1611868337728;
-        Thu, 28 Jan 2021 13:12:17 -0800 (PST)
+        bh=lOqVktjsJ94udfYiQDZsQbN5iPdzcwkGlALCfl6I6zs=;
+        b=fMh8dfuDINTMPt6Fmwn025EiFhLIUYPctuLITTIYxvR5RtVMCFVN3akpZeg3a8w8F3
+         h7xKw6bJiPfyhIstQ8DjDscLjEzQX1bJhKIXDLk0X3AjJ+wB2CAsQ7VfXFIybBpFaouX
+         PJh1eTz93bBtonjObGjqS9vCE0ApK6DwMQsDAXjnz2N4BNAuQNc0nW3JUnIrJ4uVqgiH
+         Y/HQOsX9wcIFeCIvMj19786IL2hGnzCcvS5dnH1YOS22lakDnnMrGo85EFcdJdeRFmcO
+         p6kBqsjWhXt8R/Ovx75w5UC88K5DPbfbxQT0r/WQXdT+wuHH+tEZBFR2W2R6qib/k0yV
+         pMkg==
+X-Gm-Message-State: AOAM532aSazqaqttcrLBGPAXSBouJMijebrDO7k2Joqo6PSHJGwHyLgq
+	Q9PmRNQlk5lWUt/uSVzicfmXLU6T5HHUGQ==
+X-Google-Smtp-Source: ABdhPJzUWUyK9yXp8jKeu0eqOfj85iXUjJopbCsWQppwSuozvg08CKbNHD0DNbLmct+iT4osMtcbMw==
+X-Received: by 2002:a05:600c:24b:: with SMTP id 11mr963489wmj.17.1611869030904;
+        Thu, 28 Jan 2021 13:23:50 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
-        by smtp.gmail.com with ESMTPSA id y24sm6885924wmi.47.2021.01.28.13.12.17
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id p18sm3779868wrx.84.2021.01.28.13.23.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 13:12:17 -0800 (PST)
+        Thu, 28 Jan 2021 13:23:50 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
+Cc: seebs@seebs.net
 Subject: [PATCH] pseudo_client: Ensure renames update open fd file paths
-Date: Thu, 28 Jan 2021 21:12:12 +0000
-Message-Id: <20210128211212.1337419-1-richard.purdie@linuxfoundation.org>
+Date: Thu, 28 Jan 2021 21:23:50 +0000
+Message-Id: <20210128212350.1337739-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -58,9 +58,9 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
  Makefile.in               |  1 +
  pseudo_client.c           | 20 +++++++++++++++++++-
- test/test-rename-fstat.c  | 21 +++++++++++++++++++++
- test/test-rename-fstat.sh |  9 +++++++++
- 4 files changed, 50 insertions(+), 1 deletion(-)
+ test/test-rename-fstat.c  | 23 +++++++++++++++++++++++
+ test/test-rename-fstat.sh | 12 ++++++++++++
+ 4 files changed, 55 insertions(+), 1 deletion(-)
  create mode 100644 test/test-rename-fstat.c
  create mode 100755 test/test-rename-fstat.sh
 
@@ -123,10 +123,10 @@ index f5cab7e..f846d54 100644
  		break;
 diff --git a/test/test-rename-fstat.c b/test/test-rename-fstat.c
 new file mode 100644
-index 0000000..ef1daf7
+index 0000000..fb47c05
 --- /dev/null
 +++ b/test/test-rename-fstat.c
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,23 @@
 +/*
 + * SPDX-License-Identifier: LGPL-2.1-only
 + *
@@ -143,26 +143,31 @@ index 0000000..ef1daf7
 +int main()
 +{
 +    struct stat buf;
++    int err;
 +    int fd = open("test-rename-fstat1", O_RDONLY);
-+    rename("test-rename-fstat1", "test-rename-fstat1");
-+    fstat(fd, &buf);
-+    return 0;
++    err = rename("test-rename-fstat1", "test-rename-fstat1");
++    if (err)
++        return err;
++    return fstat(fd, &buf);
 +}
 diff --git a/test/test-rename-fstat.sh b/test/test-rename-fstat.sh
 new file mode 100755
-index 0000000..93b3d8a
+index 0000000..4ac89b8
 --- /dev/null
 +++ b/test/test-rename-fstat.sh
-@@ -0,0 +1,9 @@
+@@ -0,0 +1,12 @@
 +#!/bin/bash
 +#
 +# SPDX-License-Identifier: LGPL-2.1-only
 +#
 +
 +rm -f test-rename-fstat1 test-rename-fstat2
++touch test-rename-fstat1
 +# Will abort if it fails
 +./test/test-rename-fstat
-+exit $?
++ecode=$?
++rm -f test-rename-fstat1 test-rename-fstat2
++exit $ecode
 -- 
 2.27.0
 
