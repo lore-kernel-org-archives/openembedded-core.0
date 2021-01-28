@@ -1,76 +1,69 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
- by mx.groups.io with SMTP id smtpd.web08.10898.1611851571240489447
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web12.27153.1611851892350860771
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 08:32:51 -0800
+ Thu, 28 Jan 2021 08:38:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=agWox6QF;
- spf=pass (domain: gmail.com, ip: 209.85.166.53, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-io1-f53.google.com with SMTP id h11so6154031ioh.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 08:32:51 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TdAbGtLo;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id e15so5093725wme.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 08:38:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bflaWMZkR1DGLI4fakRdzSqeOMzRRIHfydhvr5EQ1Q8=;
-        b=agWox6QFfJmTuLJDBcUzbJItEuNjFczhaVvoysMV4vAgoRG+Qtch1P8lEhoyMhtWzJ
-         xB5U7NDU3AnvrdFOs3zgrnZ9eTVEzIpyDRCnVPclrjXmPX6xiqJNhyaI5Nb9eXKV2qNd
-         IHI5bWotsthX75GhBXR99llhgZRqE8ab81DHNhBkCaGYTfhml+r6lcA3M4KyEGRkLd3j
-         1N/k0BsyDwQoz5awZxSpSZIUWreEj4lKa7CNDo6TlhCAxDV9bC2EcoDKOr2ZYF/SsgMI
-         4qooU0tLuAQArwcVG2rc4hs8zWk4EawczpzV6TnZFCxHhr7tdNwLl8X9bbml/ctzZuhV
-         +HDg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=QyGm1Sjre9uhNSeR+rQFcmKzD29Drd3TGDYsikvnHvM=;
+        b=TdAbGtLohkAW9SozQR8oForkTIFUt/g3tlk0CE5PJZWVb/uViq3ZzzM416oJyrpDu5
+         3IqWcR6bV+dyv/UQsslHpYJEjIfR0NUXP3M6fkPhgWa1bmvBzFqLaKCQ+LGorfMy5kJz
+         jebYzMfXtetc/m5wGF5Y2JzEAEtaeMBrW2sqA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bflaWMZkR1DGLI4fakRdzSqeOMzRRIHfydhvr5EQ1Q8=;
-        b=mjpLYmX+9I17dbmjHbx5xSv0NADx/CsdJ7SNerQY2VkWv8G48bUAk8aeO3qg6j9TGI
-         vH0EhRQ0O8kWZkCiWN/o8W0Ex+2IQgIVWgZLBo6Ds7B2hzieffdwnQwN+BQg3+9MMEtV
-         r1FdiUJsBqc9GgYrKYXLHpBlXOzsqWa0mEtgjLasfO7voe3mkQp1lJqCq1Yfu5Ozlvwu
-         lCxSjsaACCIniaAvbu5zmYIseUqfRoYoeRM5vvV3/ZDpTvfFipGAgzfsW1ecPyq31sQ1
-         EaVIOaDpub8+IYDNeVHrpmuFo3AyohZYHVnvcFNsuXW+g7OCrDCT2rLrwXfAnyVIcIA7
-         3Clw==
-X-Gm-Message-State: AOAM5300IIroXog9XVveTROsW+OM6AWGpv0sQvLk2X/GN6WoowG9wrpt
-	PEcnObtcqUjGITkI7AKKTx8zFXkDIzAXb4d1aSg=
-X-Google-Smtp-Source: ABdhPJzxWbHnBR6f1sYthHMNwCOvj0Ha53f8NalHZh9YmufD1QFOi4EmLfs+HVGhQJ526j2CbzlGG09gqI4Vm7JR12M=
-X-Received: by 2002:a02:5dc8:: with SMTP id w191mr97083jaa.23.1611851570676;
- Thu, 28 Jan 2021 08:32:50 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=QyGm1Sjre9uhNSeR+rQFcmKzD29Drd3TGDYsikvnHvM=;
+        b=rX2X8paQ3EqMXw1uQSrECQT44ALgT3IlrwUq/NrWkkQQDLSPX2EEepTholu/t031uM
+         Xr8mK+8RQckDUUhjmxCFtuYNBpVDMwy2vVzgil/XQsiYZzUxL9ybsmwdheCAGnPgoF9y
+         ohs8/3NXSCWxP+bL7ix2ee9xH4cmxezDi+9LrIIpTgAVftp0SwrzTdUai37FeGz+kDo1
+         VVJoLV+cQYWWnTbhhUS7NOEhoykwMMpQxSY8HMb6VaRJ9bHL5CeX1dO56Zkdfs+vkiSn
+         Lm5VkvqOJVB1wzCQV5Jlte1wYevXe0k9lEzMS3af77wxR+atQZ42UcjzQHNRzIPkaLnj
+         SUrg==
+X-Gm-Message-State: AOAM531IGDevSRdb1Sg5KtHMnbk+x0pTjakJL3Hg/sVy4or4lmCvUFm7
+	ysUkRoBXxUa85+9wMR9xyp4FSw==
+X-Google-Smtp-Source: ABdhPJzGTvdWvxyo5S/PdKWj466gcg2nNeEkz+e3ZY8DI5mb+aVfZy9MpCiD1zY4EOlt3CXZ3qNJ0A==
+X-Received: by 2002:a05:600c:2204:: with SMTP id z4mr98487wml.138.1611851890861;
+        Thu, 28 Jan 2021 08:38:10 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:4bc5:547d:5310:bf3a? ([2001:8b0:aba:5f3c:4bc5:547d:5310:bf3a])
+        by smtp.gmail.com with ESMTPSA id i7sm1663143wmq.2.2021.01.28.08.38.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 08:38:10 -0800 (PST)
+Message-ID: <12fd7a6096af189960490edfe5aada5a75e128ea.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/7] ncurses: Don't put terminfo into the sysroot
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Mikko.Rapeli@bmw.de
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 28 Jan 2021 16:38:08 +0000
+In-Reply-To: <YBJ5qanQrSxjhX6u@korppu>
+References: <20210127172753.1286275-1-richard.purdie@linuxfoundation.org>
+	 <YBJ5qanQrSxjhX6u@korppu>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-References: <20210128155534.7104-1-tomasz.dziendzielski@gmail.com> <224352e6-e15e-cace-6f8d-7a5bda5757b3@gmail.com>
-In-Reply-To: <224352e6-e15e-cace-6f8d-7a5bda5757b3@gmail.com>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Thu, 28 Jan 2021 17:34:05 +0100
-Message-ID: <CAJkqNs06aA8wGYb67Kn_8mgHDDM5CV3d+VZ=DyPQhONNu-Rk9Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bitbake: Don't treat mc recipe (Midnight Commander) as a multiconfig target
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000004d06c205b9f870bc"
-
---0000000000004d06c205b9f870bc
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
->Hmm, this might be problematic, since "bitbake -e mc:foo" needs to keep
-working to dump the base environment for the "foo" multiconfig, and I think
-this patch will break that (although I didn't test it to verify)
+On Thu, 2021-01-28 at 08:45 +0000, Mikko.Rapeli@bmw.de wrote:
+> Interesting series! Do you already have some numbers how this affects
+> bitbake builds?
 
-You're right. I just checked and with this patch "bitbake -e mc:foo"
-returns "ERROR: Nothing PROVIDES 'mc:foo'". I will try to find a solution
-to keep it working for the environment dump.
+We do now have measurements:
 
-Best regards,
-Tomasz Dziendzielski
+https://autobuilder.yocto.io/pub/non-release/20210128-10/testresults/buildperf-centos7/perf-centos7.yoctoproject.org_master-next_20210128130350_0ec9fb3f98.html
 
---0000000000004d06c205b9f870bc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+https://autobuilder.yocto.io/pub/non-release/20210128-9/testresults/buildperf-ubuntu1604/perf-ubuntu1604_master-next_20210128130346_0ec9fb3f98.html
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>&gt;Hmm, this might be problematic, =
-since &quot;bitbake -e mc:foo&quot; needs
-      to keep working to dump the base environment for the &quot;foo&quot;
-      multiconfig, and I think this patch will break that (although I
-      didn&#39;t test it to verify)</div><div><br></div><div>You&#39;re rig=
-ht. I just checked and with this patch &quot;bitbake -e mc:foo&quot; return=
-s &quot;ERROR: Nothing PROVIDES &#39;mc:foo&#39;&quot;. I will try to find =
-a solution to keep it working for the environment dump.</div><div><br></div=
-><div>Best regards,</div><div>Tomasz Dziendzielski<br></div></div></div>
+so a 5-7% build time speedup with and without rm_work and a 7%
+reduction in disk usage without rm_work.
 
---0000000000004d06c205b9f870bc--
+Cheers,
+
+Richard
+
