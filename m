@@ -1,227 +1,120 @@
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
- by mx.groups.io with SMTP id smtpd.web12.23142.1611834575499412061
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+ by mx.groups.io with SMTP id smtpd.web11.24621.1611842327652781277
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 03:49:36 -0800
+ Thu, 28 Jan 2021 05:58:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: alexandre.belloni@bootlin.com)
-X-Originating-IP: 86.202.109.140
-Received: from localhost (lfbn-lyo-1-13-140.w86-202.abo.wanadoo.fr [86.202.109.140])
-	(Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id E441120005;
-	Thu, 28 Jan 2021 11:49:32 +0000 (UTC)
-Date: Thu, 28 Jan 2021 12:49:32 +0100
-From: "Alexandre Belloni" <alexandre.belloni@bootlin.com>
-To: Lee Chee Yang <chee.yang.lee@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 1/2] cve_check: add CVE_VERSION_SUFFIX to indicate suffix in versioning
-Message-ID: <20210128114932.GA2456195@piout.net>
-References: <20210127090354.25091-1-chee.yang.lee@intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZWrBNM4z;
+ spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: dorindabassey@gmail.com)
+Received: by mail-io1-f44.google.com with SMTP id u8so534397ior.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 05:58:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YYdkFgLH0uJxO/sUqgIU5p/bL/I0Ae7Diu95yxa9RLg=;
+        b=ZWrBNM4zivfqPS9E5zxoBIYV2SEpTIHKm8ulstpDPNlCsW+Suku7fmH5IFSwi0A9Is
+         nHTLqj67YCdXI30IRv0QG7qXZIYolP18VtbkeuKNbi05zVNmkeqM6mJldo1sDY6DbUON
+         NVGzMjXp0BRJYveywkwj6KFNmz7fIOjLstMYc3Vdaw3kVJx8uxAbXh1MFqpqtBvlOYkG
+         SJtr5FiJPFcNolAV7+GwMmGKrCr44KQeT0bhZRXvGOp7YmCnjwPv7akDWPIxRKUfJrU1
+         EzllvWHl1ROIalEAm2NM/0WxP8in8bOe3veOWrjjpjcaViD1grtIbTh6zZuDWErw+12F
+         SZnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YYdkFgLH0uJxO/sUqgIU5p/bL/I0Ae7Diu95yxa9RLg=;
+        b=nOM/eO5gjPFnDWLe4VAPAPffmvIONj9ZS9+GPUd+aIC7Ydv7h+cUkHHI/d2ElaTz5K
+         5YPTQsEiTc1SiZxlrRSNtHJQy4yq/FnE7Rt/hC3lNkzhrk4pkM05g5G0PLnQhj3UPbkC
+         YsUfFtBiLDRn55TAIlbZX9Au4OfxVvgG0VS/0CEp8qMmcrQFvU5L1Re8JJ53NFFbtg3g
+         aun5FOvGtWhFlIwuF6NTO7RtnbXc7DcUcxn14wAK6gCs9tXBJ4KyobEOVbIb8zjw3QFn
+         E7XRxkAZ+hlnMnXRSxB4yrA2JNvA5GkSOf863sPw9WWxjMA8NDNbshB85TyJplqkUwPW
+         eQ5g==
+X-Gm-Message-State: AOAM530DPFOcvef22xkNTQZpnz3BmrUZZD3FyHtmDaiCfpqTlgRlgEz3
+	FxLm4k3OWYKKtMU7OyH4shoVDhup5+qwP+d5ET0=
+X-Google-Smtp-Source: ABdhPJxYfoQA6odJ69YCv89us24HV0YAPkE7e4gyIpoVijTtdW2b8monM7aWw5C6/9B+RHkncjn4gi25qNe+gP6jAzc=
+X-Received: by 2002:a6b:9346:: with SMTP id v67mr11356404iod.108.1611842327165;
+ Thu, 28 Jan 2021 05:58:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210127090354.25091-1-chee.yang.lee@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20210127225257.29286-1-dorindabassey@gmail.com> <CAJkqNs3ne7aba3jvW8NaeYd7Rn6H9Yn6eXDmN7OseNq=w9G-Og@mail.gmail.com>
+In-Reply-To: <CAJkqNs3ne7aba3jvW8NaeYd7Rn6H9Yn6eXDmN7OseNq=w9G-Og@mail.gmail.com>
+From: "Dorinda" <dorindabassey@gmail.com>
+Date: Thu, 28 Jan 2021 08:58:35 -0500
+Message-ID: <CAJSnhzsh9WH3_U19bEdd=-F_HhDt2Ha2VBznEAdEWAoY73dn=A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity.bbclass: check if PSEUDO_IGNORE_PATHS and ${S} overlap
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000583eec05b9f649f0"
 
-Hello,
+--000000000000583eec05b9f649f0
+Content-Type: text/plain; charset="UTF-8"
 
-On 27/01/2021 17:03:53+0800, Lee Chee Yang wrote:
-> From: Lee Chee Yang <chee.yang.lee@intel.com>
-> 
-> add CVE_VERSION_SUFFIX to indicate the version suffix type, currently
-> works in two value, "alphabetical" if the version string uses single
-> alphabetical character suffix as incremental release, blank to not
-> consider the unidentified suffixes. This can be expand when more suffix
-> pattern identified.
-> 
-> refactor cve_check.Version class to use functools add parameter to handle
-> suffix condition.
-> 
-> Also update testcases to cover new changes.
-> 
-> Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-> ---
->  meta/classes/cve-check.bbclass            | 12 ++++---
->  meta/lib/oe/cve_check.py                  | 40 ++++++++++++-----------
->  meta/lib/oeqa/selftest/cases/cve_check.py | 11 ++++++-
->  3 files changed, 39 insertions(+), 24 deletions(-)
-> 
+Hmm, thanks for spotting this, I think that was an oversight on my part.
+IMHO i think this patch should apply to cases where {WORKDIR} = {S}. so
+i'll make some changes to the patch soon.
 
-I believe this patch resulted in the following autobuilder errors:
+Thanks,
+Dorinda.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1768/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/1752/steps/15/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/1757/steps/14/logs/stdio
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1784/steps/14/logs/stdio
+On Wed, Jan 27, 2021 at 6:44 PM Tomasz Dziendzielski <
+tomasz.dziendzielski@gmail.com> wrote:
 
-2021-01-28 00:16:31,719 - oe-selftest - INFO - cve_check.CVECheck.test_version_compare (subunit.RemotedTestCase)
-2021-01-28 00:16:31,720 - oe-selftest - INFO -  ... FAIL
-2021-01-28 00:16:31,720 - oe-selftest - INFO - 11: 1/17 2/424 (0.14s) (cve_check.CVECheck.test_version_compare)
-2021-01-28 00:16:31,720 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/oe-selftest-centos/build/meta/lib/oeqa/selftest/cases/cve_check.py", line 36, in test_version_compare
-    self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' > '1.0'")
-  File "/usr/lib64/python3.6/unittest/case.py", line 699, in assertTrue
-    raise self.failureException(msg)
-AssertionError: False is not true : Failed to compare version with suffix '1.0b' > '1.0'
+> >+    # Check if PSEUDO_IGNORE_PATHS and ${S} overlap
+> >+    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS',
+> expand=True).split(",")
+> >+    sourcefile = d.getVar('S')
+> >+    for i in pseudoignorepaths:
+> >+        if i and sourcefile:
+> >+            if sourcefile.startswith(i) or i.startswith(sourcefile):
+> >+                status.addresult("a path included in PSEUDO_IGNORE_PATHS
+> " + str(i) + " and ${S} (source files) path " + str(sourcefile) + " are
+> overlapping each other, please set ${S} in your recipe to point to a
+> different directory. \n")
+>
+> Isn't ${S} added to PSEUDO_IGNORE_PATHS almost every time in
+> meta/classes/base.bbclass?
+>     if os.path.normpath(d.getVar("WORKDIR")) !=
+> os.path.normpath(d.getVar("S")):
+>         d.appendVar("PSEUDO_IGNORE_PATHS", ",${S}")
+>
+> Best regards,
+> Tomasz Dziendzielski
+>
 
+--000000000000583eec05b9f649f0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Hmm, thanks for spotting this, I think that was an ov=
+ersight on my part. IMHO i think this patch should apply to cases where {WO=
+RKDIR} =3D {S}. so i&#39;ll make some changes to the patch soon.</div><div>=
+<br></div><div>Thanks,</div><div>Dorinda.<br> </div></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jan 27, 2021 at=
+ 6:44 PM Tomasz Dziendzielski &lt;<a href=3D"mailto:tomasz.dziendzielski@gm=
+ail.com">tomasz.dziendzielski@gmail.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div><div dir=3D"lt=
+r"><div>
+&gt;+=C2=A0 =C2=A0 # Check if PSEUDO_IGNORE_PATHS and ${S} overlap<br>
+&gt;+=C2=A0 =C2=A0 pseudoignorepaths =3D d.getVar(&#39;PSEUDO_IGNORE_PATHS&=
+#39;, expand=3DTrue).split(&quot;,&quot;)<br>
+&gt;+=C2=A0 =C2=A0 sourcefile =3D d.getVar(&#39;S&#39;)<br>
+&gt;+=C2=A0 =C2=A0 for i in pseudoignorepaths:<br>
+&gt;+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if i and sourcefile:<br>
+&gt;+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if sourcefile.startswith(i) =
+or i.startswith(sourcefile):<br>
+&gt;+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status.addresu=
+lt(&quot;a path included in=20
+PSEUDO_IGNORE_PATHS &quot; + str(i) + &quot; and ${S} (source files) path &=
+quot; +=20
+str(sourcefile) + &quot; are overlapping each other, please set ${S} in you=
+r=20
+recipe to point to a different directory. \n&quot;)</div><div><br></div><di=
+v>Isn&#39;t ${S} added to PSEUDO_IGNORE_PATHS almost every time  in meta/cl=
+asses/base.bbclass?<br></div>=C2=A0 =C2=A0 if os.path.normpath(d.getVar(&qu=
+ot;WORKDIR&quot;)) !=3D os.path.normpath(d.getVar(&quot;S&quot;)):<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar(&quot;PSEUDO_IGNORE_PATHS&quot;, &quot=
+;,${S}&quot;)<br></div><br></div><div>Best regards,</div><div>Tomasz Dziend=
+zielski<br></div></div>
+</blockquote></div>
 
-> diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-> index 646cc879dd..ed86403b6b 100644
-> --- a/meta/classes/cve-check.bbclass
-> +++ b/meta/classes/cve-check.bbclass
-> @@ -53,6 +53,9 @@ CVE_CHECK_PN_WHITELIST ?= ""
->  #
->  CVE_CHECK_WHITELIST ?= ""
->  
-> +# set to "alphabetical" for version using single alphabetical character as increament release
-> +CVE_VERSION_SUFFIX ??= ""
-> +
->  python cve_save_summary_handler () {
->      import shutil
->      import datetime
-> @@ -210,6 +213,7 @@ def check_cves(d, patched_cves):
->  
->      pn = d.getVar("PN")
->      real_pv = d.getVar("PV")
-> +    suffix = d.getVar("CVE_VERSION_SUFFIX")
->  
->      cves_unpatched = []
->      # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-> @@ -263,8 +267,8 @@ def check_cves(d, patched_cves):
->                  else:
->                      if operator_start:
->                          try:
-> -                            vulnerable_start =  (operator_start == '>=' and Version(pv) >= Version(version_start))
-> -                            vulnerable_start |= (operator_start == '>' and Version(pv) > Version(version_start))
-> +                            vulnerable_start =  (operator_start == '>=' and Version(pv,suffix) >= Version(version_start,suffix))
-> +                            vulnerable_start |= (operator_start == '>' and Version(pv,suffix) > Version(version_start,suffix))
->                          except:
->                              bb.warn("%s: Failed to compare %s %s %s for %s" %
->                                      (product, pv, operator_start, version_start, cve))
-> @@ -274,8 +278,8 @@ def check_cves(d, patched_cves):
->  
->                      if operator_end:
->                          try:
-> -                            vulnerable_end  = (operator_end == '<=' and Version(pv) <= Version(version_end) )
-> -                            vulnerable_end |= (operator_end == '<' and Version(pv) < Version(version_end) )
-> +                            vulnerable_end  = (operator_end == '<=' and Version(pv,suffix) <= Version(version_end,suffix) )
-> +                            vulnerable_end |= (operator_end == '<' and Version(pv,suffix) < Version(version_end,suffix) )
->                          except:
->                              bb.warn("%s: Failed to compare %s %s %s for %s" %
->                                      (product, pv, operator_end, version_end, cve))
-> diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-> index ec48a3f829..e40929fd2b 100644
-> --- a/meta/lib/oe/cve_check.py
-> +++ b/meta/lib/oe/cve_check.py
-> @@ -1,58 +1,60 @@
->  import collections
->  import re
->  import itertools
-> +import functools
->  
->  _Version = collections.namedtuple(
-> -    "_Version", ["release", "pre_l", "pre_v"]
-> +    "_Version", ["release", "patch_l", "pre_l", "pre_v"]
->  )
->  
-> +@functools.total_ordering
->  class Version():
-> -    _version_pattern =  r"""v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-> -    _regex = re.compile(r"^\s*" + _version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
-> -    def __init__(self, version):
-> -        match = self._regex.search(version)
-> +
-> +    def __init__(self, version, suffix=None):
-> +        if suffix == "alphabetical":
-> +            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<patch>[-_\.]?(?P<patch_l>[a-z]))?(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-> +        else:
-> +            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-> +        regex = re.compile(r"^\s*" + version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
-> +
-> +        match = regex.search(version)
->          if not match:
->              raise Exception("Invalid version: '{0}'".format(version))
->  
->          self._version = _Version(
->              release=tuple(int(i) for i in match.group("release").replace("-",".").split(".")),
-> +            patch_l=str(match.group("patch_l")) if suffix == "alphabetical" else "",
->              pre_l=match.group("pre_l"),
->              pre_v=match.group("pre_v")
->          )
->  
->          self._key = _cmpkey(
->              self._version.release,
-> +            self._version.patch_l,
->              self._version.pre_l,
->              self._version.pre_v
->          )
->  
-> -    def __le__(self, other):
-> -        if not isinstance(other, Version):
-> -            return NotImplemented
-> -        return self._key <= other._key
-> -
-> -    def __lt__(self, other):
-> +    def __eq__(self, other):
->          if not isinstance(other, Version):
->              return NotImplemented
-> -        return self._key < other._key
-> -
-> -    def __ge__(self, other):
-> -        if not isinstance(other, Version):
-> -            return NotImplemented
-> -        return self._key >= other._key
-> +        return self._key == other._key
->  
->      def __gt__(self, other):
->          if not isinstance(other, Version):
->              return NotImplemented
->          return self._key > other._key
->  
-> -def _cmpkey(release, pre_l, pre_v):
-> +def _cmpkey(release, patch_l, pre_l, pre_v):
->      # remove leading 0
->      _release = tuple(
->          reversed(list(itertools.dropwhile(lambda x: x == 0, reversed(release))))
->      )
-> +
-> +    _patch = patch_l.upper()
-> +
->      if pre_l is None and pre_v is None:
->          _pre = float('inf')
->      else:
->          _pre = float(pre_v) if pre_v else float('-inf')
-> -    return _release, _pre
-> +    return _release, _patch, _pre
-> diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
-> index 35e2b29a9a..3f343a2841 100644
-> --- a/meta/lib/oeqa/selftest/cases/cve_check.py
-> +++ b/meta/lib/oeqa/selftest/cases/cve_check.py
-> @@ -23,5 +23,14 @@ class CVECheck(OESelftestTestCase):
->          self.assertTrue( result, msg="Failed to compare version '1.0_dev' <= '1.0'")
->  
->          # ignore "p1" and "p2", so these should be equal
-> -        result = Version("1.0p2") <= Version("1.0p1") and Version("1.0p2") >= Version("1.0p1")
-> +        result = Version("1.0p2") == Version("1.0p1")
->          self.assertTrue( result ,msg="Failed to compare version '1.0p2' to '1.0p1'")
-> +        # ignore the "b" and "r"
-> +        result = Version("1.0b") == Version("1.0r")
-> +        self.assertTrue( result ,msg="Failed to compare version '1.0b' to '1.0r'")
-> +
-> +        # consider the trailing alphabet as patched level when comparing
-> +        result = Version("1.0b","alphabetical") < Version("1.0r","alphabetical")
-> +        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' < '1.0r'")
-> +        result = Version("1.0b","alphabetical") > Version("1.0","alphabetical")
-> +        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' > '1.0'")
-> -- 
-> 2.17.1
-> 
-
-> 
-> 
-> 
-
-
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--000000000000583eec05b9f649f0--
