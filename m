@@ -1,99 +1,721 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
- by mx.groups.io with SMTP id smtpd.web10.17171.1611791097831009829
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web12.20425.1611810656607776759
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Jan 2021 15:44:57 -0800
+ Wed, 27 Jan 2021 21:10:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UFzg9SXO;
- spf=pass (domain: gmail.com, ip: 209.85.166.173, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-il1-f173.google.com with SMTP id d6so3579547ilo.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Jan 2021 15:44:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0fNlqMPNBgxF+kl7KT3bXnSksuk83fhhcPQwetuZXbw=;
-        b=UFzg9SXOWRVTGAR73wDhyMWJy1uNxc82jxwRqJ1TPgp/KWfBHQqGJirWDN0WmxR2Mm
-         P0tPoHz2WO0EylMPjLajvskBv/BfK1ov+DpWNETqA0ZL9cM9jTTtiTijSb3OK7fljRS1
-         0OJo96mk9dW5+w1uFNj60xgpFFdMqHlN3f8z8ki77erXCsyMBif6l1Bs3EcgL73YPtmO
-         8Lk3fc7fXQVk6Nw2AqFgTYdgoG2SXks5y7At6LAd5By7VFCowOeT8jPa+BXBEQZ9ethr
-         WOVBEbrXMeghNjLrIxNco2lCMGrs86tOd245lpWTvDEzQxxWge96llrra6J7cFcvtDF8
-         l5Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0fNlqMPNBgxF+kl7KT3bXnSksuk83fhhcPQwetuZXbw=;
-        b=KP8grNrZ8B4iMWY7AsswNQwBVN0jlGIZQLEgVnivLok4AJQVaV268T86/EA882IIEe
-         NLbODWPkmFUaPsm2JhYY5zJUTF3NTGO7bDm4qtZWq+M8qODHefuaFlYi8xAmxjOOPK+Y
-         UrmAIvvTrRBNU2f5hbMOscFWeqBSNUSRgRy014qGYXFYFF5oJ9Q0W94MgN0KG4xW9NMe
-         thXqSb4NepZjfnPK1Y3E+VacT2n2Qg6abqhwQsR0/qrVgKUmuvtS6okfnkzF5xFRRhW5
-         /NMccG0YQ/9ul/hERGtaekt3NQsUm3BpHN7h9iatqRRp+PRi+rXLudZ9QoQfMU7Wd7m+
-         W0dg==
-X-Gm-Message-State: AOAM532WhdmgPSUVSPO80f1E5aXIQhiygyOGAdagAlLb03WEtVzD4mzT
-	MSaNnzCI1UsDEiYD83OZRTPwAzadJ+doI7YxOb8=
-X-Google-Smtp-Source: ABdhPJyj4k5sk5BDF0q79iwuUQjL2VwcHCvSfJyz+GzsorUuO8MzVoAU2wMsqfabxZJwiY3a/Rho3bEr8FthJKvXjIg=
-X-Received: by 2002:a05:6e02:1032:: with SMTP id o18mr10776240ilj.13.1611791097257;
- Wed, 27 Jan 2021 15:44:57 -0800 (PST)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.79,381,1602518400"; 
+   d="scan'208";a="103924596"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 28 Jan 2021 13:10:27 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id E63C94CE6785
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 13:10:22 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 28 Jan 2021 13:10:22 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] bind: upgrade 9.16.10 -> 9.16.11
+Date: Thu, 28 Jan 2021 13:09:58 +0800
+Message-ID: <1611810598-10529-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20210127225257.29286-1-dorindabassey@gmail.com>
-In-Reply-To: <20210127225257.29286-1-dorindabassey@gmail.com>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Thu, 28 Jan 2021 00:47:29 +0100
-Message-ID: <CAJkqNs3ne7aba3jvW8NaeYd7Rn6H9Yn6eXDmN7OseNq=w9G-Og@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sanity.bbclass: check if PSEUDO_IGNORE_PATHS and ${S} overlap
-To: Dorinda <dorindabassey@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cde54d05b9ea5bf7"
+X-Originating-IP: [10.167.225.33]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
+X-yoursite-MailScanner-ID: E63C94CE6785.A55E2
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
---000000000000cde54d05b9ea5bf7
-Content-Type: text/plain; charset="UTF-8"
+rename directory of patches.
 
- >+    # Check if PSEUDO_IGNORE_PATHS and ${S} overlap
->+    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS',
-expand=True).split(",")
->+    sourcefile = d.getVar('S')
->+    for i in pseudoignorepaths:
->+        if i and sourcefile:
->+            if sourcefile.startswith(i) or i.startswith(sourcefile):
->+                status.addresult("a path included in PSEUDO_IGNORE_PATHS
-" + str(i) + " and ${S} (source files) path " + str(sourcefile) + " are
-overlapping each other, please set ${S} in your recipe to point to a
-different directory. \n")
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ ...1-avoid-start-failure-with-bind-user.patch |  27 ++
+ ...d-V-and-start-log-hide-build-options.patch |  35 ++
+ ...ching-for-json-headers-searches-sysr.patch |  47 +++
+ .../bind/bind-9.16.11/bind9                   |   2 +
+ .../bind/bind-9.16.11/conf.patch              | 330 ++++++++++++++++++
+ .../bind/bind-9.16.11/generate-rndc-key.sh    |   8 +
+ ...t.d-add-support-for-read-only-rootfs.patch |  65 ++++
+ .../make-etc-initd-bind-stop-work.patch       |  42 +++
+ .../bind/bind-9.16.11/named.service           |  22 ++
+ .../bind/{bind_9.16.10.bb => bind_9.16.11.bb} |   4 +-
+ 10 files changed, 580 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/bind9
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/conf.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.16.11/named.service
+ rename meta/recipes-connectivity/bind/{bind_9.16.10.bb => bind_9.16.11.bb} (96%)
 
-Isn't ${S} added to PSEUDO_IGNORE_PATHS almost every time in
-meta/classes/base.bbclass?
-    if os.path.normpath(d.getVar("WORKDIR")) !=
-os.path.normpath(d.getVar("S")):
-        d.appendVar("PSEUDO_IGNORE_PATHS", ",${S}")
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch
+new file mode 100644
+index 0000000000..8db96ec049
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/0001-avoid-start-failure-with-bind-user.patch
+@@ -0,0 +1,27 @@
++From 31dde3562f287429eea94b77250d184818b49063 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Mon, 15 Oct 2018 16:55:09 +0800
++Subject: [PATCH] avoid start failure with bind user
++
++Upstream-Status: Pending
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ init.d | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/init.d b/init.d
++index b2eec60..6e03936 100644
++--- a/init.d
+++++ b/init.d
++@@ -57,6 +57,7 @@ case "$1" in
++ 	modprobe capability >/dev/null 2>&1 || true
++ 	if [ ! -f /etc/bind/rndc.key ]; then
++ 	    /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
+++	    chown root:bind /etc/bind/rndc.key >/dev/null 2>&1 || true
++ 	    chmod 0640 /etc/bind/rndc.key
++ 	fi
++ 	if [ -f /var/run/named/named.pid ]; then
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+new file mode 100644
+index 0000000000..5bcc16c9b2
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/0001-named-lwresd-V-and-start-log-hide-build-options.patch
+@@ -0,0 +1,35 @@
++From a3af4a405baf5ff582e82aaba392dd9667d94bdc Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 27 Aug 2018 21:24:20 +0800
++Subject: [PATCH] `named/lwresd -V' and start log hide build options
++
++The build options expose build path directories, so hide them.
++[snip]
++$ named -V
++|built by make with *** (options are hidden)
++[snip]
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++
++Refreshed for 9.16.0
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ bin/named/include/named/globals.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++Index: bind-9.16.0/bin/named/include/named/globals.h
++===================================================================
++--- bind-9.16.0.orig/bin/named/include/named/globals.h
+++++ bind-9.16.0/bin/named/include/named/globals.h
++@@ -69,7 +69,7 @@ EXTERN const char *named_g_version     I
++ EXTERN const char *named_g_product     INIT(PRODUCT);
++ EXTERN const char *named_g_description INIT(DESCRIPTION);
++ EXTERN const char *named_g_srcid       INIT(SRCID);
++-EXTERN const char *named_g_configargs  INIT(CONFIGARGS);
+++EXTERN const char *named_g_configargs  INIT("*** (options are hidden)");
++ EXTERN const char *named_g_builder     INIT(BUILDER);
++ EXTERN in_port_t named_g_port	       INIT(0);
++ EXTERN isc_dscp_t named_g_dscp	       INIT(-1);
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
+new file mode 100644
+index 0000000000..f9cdc7ca4d
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/bind-ensure-searching-for-json-headers-searches-sysr.patch
+@@ -0,0 +1,47 @@
++From edda20fb5a6e88548f85e39d34d6c074306e15bc Mon Sep 17 00:00:00 2001
++From: Paul Gortmaker <paul.gortmaker@windriver.com>
++Date: Tue, 9 Jun 2015 11:22:00 -0400
++Subject: [PATCH] bind: ensure searching for json headers searches sysroot
++
++Bind can fail configure by detecting headers w/o libs[1], or
++it can fail the host contamination check as per below:
++
++ERROR: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
++Rerun configure task after fixing this. The path was 'build/tmp/work/core2-64-poky-linux/bind/9.10.2-r1/build'
++ERROR: Function failed: do_qa_configure
++ERROR: Logfile of failure stored in: build/tmp/work/core2-64-poky-linux/bind/9.10.2-r1/temp/log.do_configure.5242
++ERROR: Task 5 (meta/recipes-connectivity/bind/bind_9.10.2.bb, do_configure) failed with exit code '1'
++NOTE: Tasks Summary: Attempted 773 tasks of which 768 didn't need to be rerun and 1 failed.
++No currently running tasks (773 of 781)
++
++Summary: 1 task failed:
++  /meta/recipes-connectivity/bind/bind_9.10.2.bb, do_configure
++
++One way to fix it would be to unconditionally disable json in bind
++configure[2] but here we fix it by using the path to where we would
++put the header if we had json in the sysroot, in case someone wants
++to make use of the combination some day.
++
++[1] https://trac.macports.org/ticket/45305
++[2] https://trac.macports.org/changeset/126406
++
++Upstream-Status: Inappropriate [OE Specific]
++Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
++
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++Index: bind-9.16.4/configure.ac
++===================================================================
++--- bind-9.16.4.orig/configure.ac
+++++ bind-9.16.4/configure.ac
++@@ -1232,7 +1232,7 @@ case "$use_lmdb" in
++ 		LMDB_LIBS=""
++ 		;;
++ 	auto|yes)
++-		for d in /usr /usr/local /opt/local
+++		for d in "${STAGING_INCDIR}"
++ 		do
++ 			if test -f "${d}/include/lmdb.h"
++ 			then
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/bind9 b/meta/recipes-connectivity/bind/bind-9.16.11/bind9
+new file mode 100644
+index 0000000000..968679ff7f
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/bind9
+@@ -0,0 +1,2 @@
++# startup options for the server
++OPTIONS="-u bind"
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/conf.patch b/meta/recipes-connectivity/bind/bind-9.16.11/conf.patch
+new file mode 100644
+index 0000000000..aad345f9fc
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/conf.patch
+@@ -0,0 +1,330 @@
++Upstream-Status: Inappropriate [configuration]
++
++the patch is imported from openembedded project
++
++11/30/2010 - Qing He <qing.he@intel.com>
++
++diff -urN bind-9.3.1.orig/conf/db.0 bind-9.3.1/conf/db.0
++--- bind-9.3.1.orig/conf/db.0	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/db.0	2005-07-10 22:14:00.000000000 +0200
++@@ -0,0 +1,12 @@
+++;
+++; BIND reverse data file for broadcast zone
+++;
+++$TTL	604800
+++@	IN	SOA	localhost. root.localhost. (
+++			      1		; Serial
+++			 604800		; Refresh
+++			  86400		; Retry
+++			2419200		; Expire
+++			 604800 )	; Negative Cache TTL
+++;
+++@	IN	NS	localhost.
++diff -urN bind-9.3.1.orig/conf/db.127 bind-9.3.1/conf/db.127
++--- bind-9.3.1.orig/conf/db.127	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/db.127	2005-07-10 22:14:00.000000000 +0200
++@@ -0,0 +1,13 @@
+++;
+++; BIND reverse data file for local loopback interface
+++;
+++$TTL	604800
+++@	IN	SOA	localhost. root.localhost. (
+++			      1		; Serial
+++			 604800		; Refresh
+++			  86400		; Retry
+++			2419200		; Expire
+++			 604800 )	; Negative Cache TTL
+++;
+++@	IN	NS	localhost.
+++1.0.0	IN	PTR	localhost.
++diff -urN bind-9.3.1.orig/conf/db.empty bind-9.3.1/conf/db.empty
++--- bind-9.3.1.orig/conf/db.empty	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/db.empty	2005-07-10 22:14:00.000000000 +0200
++@@ -0,0 +1,14 @@
+++; BIND reverse data file for empty rfc1918 zone
+++;
+++; DO NOT EDIT THIS FILE - it is used for multiple zones.
+++; Instead, copy it, edit named.conf, and use that copy.
+++;
+++$TTL	86400
+++@	IN	SOA	localhost. root.localhost. (
+++			      1		; Serial
+++			 604800		; Refresh
+++			  86400		; Retry
+++			2419200		; Expire
+++			  86400 )	; Negative Cache TTL
+++;
+++@	IN	NS	localhost.
++diff -urN bind-9.3.1.orig/conf/db.255 bind-9.3.1/conf/db.255
++--- bind-9.3.1.orig/conf/db.255	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/db.255	2005-07-10 22:14:00.000000000 +0200
++@@ -0,0 +1,12 @@
+++;
+++; BIND reserve data file for broadcast zone
+++;
+++$TTL	604800
+++@	IN	SOA	localhost. root.localhost. (
+++			      1		; Serial
+++			 604800		; Refresh
+++			  86400		; Retry
+++			2419200		; Expire
+++			 604800 )	; Negative Cache TTL
+++;
+++@	IN	NS	localhost.
++diff -urN bind-9.3.1.orig/conf/db.local bind-9.3.1/conf/db.local
++--- bind-9.3.1.orig/conf/db.local	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/db.local	2005-07-10 22:14:00.000000000 +0200
++@@ -0,0 +1,13 @@
+++;
+++; BIND data file for local loopback interface
+++;
+++$TTL	604800
+++@	IN	SOA	localhost. root.localhost. (
+++			      1		; Serial
+++			 604800		; Refresh
+++			  86400		; Retry
+++			2419200		; Expire
+++			 604800 )	; Negative Cache TTL
+++;
+++@	IN	NS	localhost.
+++@	IN	A	127.0.0.1
++diff -urN bind-9.3.1.orig/conf/db.root bind-9.3.1/conf/db.root
++--- bind-9.3.1.orig/conf/db.root	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/db.root	2005-07-10 22:14:00.000000000 +0200
++@@ -0,0 +1,45 @@
+++
+++; <<>> DiG 9.2.3 <<>> ns . @a.root-servers.net.
+++;; global options:  printcmd
+++;; Got answer:
+++;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 18944
+++;; flags: qr aa rd; QUERY: 1, ANSWER: 13, AUTHORITY: 0, ADDITIONAL: 13
+++
+++;; QUESTION SECTION:
+++;.				IN	NS
+++
+++;; ANSWER SECTION:
+++.			518400	IN	NS	A.ROOT-SERVERS.NET.
+++.			518400	IN	NS	B.ROOT-SERVERS.NET.
+++.			518400	IN	NS	C.ROOT-SERVERS.NET.
+++.			518400	IN	NS	D.ROOT-SERVERS.NET.
+++.			518400	IN	NS	E.ROOT-SERVERS.NET.
+++.			518400	IN	NS	F.ROOT-SERVERS.NET.
+++.			518400	IN	NS	G.ROOT-SERVERS.NET.
+++.			518400	IN	NS	H.ROOT-SERVERS.NET.
+++.			518400	IN	NS	I.ROOT-SERVERS.NET.
+++.			518400	IN	NS	J.ROOT-SERVERS.NET.
+++.			518400	IN	NS	K.ROOT-SERVERS.NET.
+++.			518400	IN	NS	L.ROOT-SERVERS.NET.
+++.			518400	IN	NS	M.ROOT-SERVERS.NET.
+++
+++;; ADDITIONAL SECTION:
+++A.ROOT-SERVERS.NET.	3600000	IN	A	198.41.0.4
+++B.ROOT-SERVERS.NET.	3600000	IN	A	192.228.79.201
+++C.ROOT-SERVERS.NET.	3600000	IN	A	192.33.4.12
+++D.ROOT-SERVERS.NET.	3600000	IN	A	128.8.10.90
+++E.ROOT-SERVERS.NET.	3600000	IN	A	192.203.230.10
+++F.ROOT-SERVERS.NET.	3600000	IN	A	192.5.5.241
+++G.ROOT-SERVERS.NET.	3600000	IN	A	192.112.36.4
+++H.ROOT-SERVERS.NET.	3600000	IN	A	128.63.2.53
+++I.ROOT-SERVERS.NET.	3600000	IN	A	192.36.148.17
+++J.ROOT-SERVERS.NET.	3600000	IN	A	192.58.128.30
+++K.ROOT-SERVERS.NET.	3600000	IN	A	193.0.14.129
+++L.ROOT-SERVERS.NET.	3600000	IN	A	198.32.64.12
+++M.ROOT-SERVERS.NET.	3600000	IN	A	202.12.27.33
+++
+++;; Query time: 81 msec
+++;; SERVER: 198.41.0.4#53(a.root-servers.net.)
+++;; WHEN: Sun Feb  1 11:27:14 2004
+++;; MSG SIZE  rcvd: 436
+++
++diff -urN bind-9.3.1.orig/conf/named.conf bind-9.3.1/conf/named.conf
++--- bind-9.3.1.orig/conf/named.conf	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/named.conf	2005-07-10 22:33:46.000000000 +0200
++@@ -0,0 +1,49 @@
+++// This is the primary configuration file for the BIND DNS server named.
+++//
+++// If you are just adding zones, please do that in /etc/bind/named.conf.local
+++
+++include "/etc/bind/named.conf.options";
+++
+++// prime the server with knowledge of the root servers
+++zone "." {
+++	type hint;
+++	file "/etc/bind/db.root";
+++};
+++
+++// be authoritative for the localhost forward and reverse zones, and for
+++// broadcast zones as per RFC 1912
+++
+++zone "localhost" {
+++	type master;
+++	file "/etc/bind/db.local";
+++};
+++
+++zone "127.in-addr.arpa" {
+++	type master;
+++	file "/etc/bind/db.127";
+++};
+++
+++zone "0.in-addr.arpa" {
+++	type master;
+++	file "/etc/bind/db.0";
+++};
+++
+++zone "255.in-addr.arpa" {
+++	type master;
+++	file "/etc/bind/db.255";
+++};
+++
+++// zone "com" { type delegation-only; };
+++// zone "net" { type delegation-only; };
+++
+++// From the release notes:
+++//  Because many of our users are uncomfortable receiving undelegated answers
+++//  from root or top level domains, other than a few for whom that behaviour
+++//  has been trusted and expected for quite some length of time, we have now
+++//  introduced the "root-delegations-only" feature which applies delegation-only
+++//  logic to all top level domains, and to the root domain.  An exception list
+++//  should be specified, including "MUSEUM" and "DE", and any other top level
+++//  domains from whom undelegated responses are expected and trusted.
+++// root-delegation-only exclude { "DE"; "MUSEUM"; };
+++
+++include "/etc/bind/named.conf.local";
++diff -urN bind-9.3.1.orig/conf/named.conf.local bind-9.3.1/conf/named.conf.local
++--- bind-9.3.1.orig/conf/named.conf.local	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/named.conf.local	2005-07-10 22:14:06.000000000 +0200
++@@ -0,0 +1,8 @@
+++//
+++// Do any local configuration here
+++//
+++
+++// Consider adding the 1918 zones here, if they are not used in your
+++// organization
+++//include "/etc/bind/zones.rfc1918";
+++
++diff -urN bind-9.3.1.orig/conf/named.conf.options bind-9.3.1/conf/named.conf.options
++--- bind-9.3.1.orig/conf/named.conf.options	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/named.conf.options	2005-07-10 22:14:06.000000000 +0200
++@@ -0,0 +1,24 @@
+++options {
+++	directory "/var/cache/bind";
+++
+++	// If there is a firewall between you and nameservers you want
+++	// to talk to, you might need to uncomment the query-source
+++	// directive below.  Previous versions of BIND always asked
+++	// questions using port 53, but BIND 8.1 and later use an unprivileged
+++	// port by default.
+++
+++	// query-source address * port 53;
+++
+++	// If your ISP provided one or more IP addresses for stable 
+++	// nameservers, you probably want to use them as forwarders.  
+++	// Uncomment the following block, and insert the addresses replacing 
+++	// the all-0's placeholder.
+++
+++	// forwarders {
+++	// 	0.0.0.0;
+++	// };
+++
+++	auth-nxdomain no;    # conform to RFC1035
+++
+++};
+++
++diff -urN bind-9.3.1.orig/conf/zones.rfc1918 bind-9.3.1/conf/zones.rfc1918
++--- bind-9.3.1.orig/conf/zones.rfc1918	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/conf/zones.rfc1918	2005-07-10 22:14:10.000000000 +0200
++@@ -0,0 +1,20 @@
+++zone "10.in-addr.arpa"      { type master; file "/etc/bind/db.empty"; };
+++ 
+++zone "16.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "17.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "18.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "19.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "20.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "21.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "22.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "23.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "24.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "25.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "26.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "27.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "28.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "29.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "30.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++zone "31.172.in-addr.arpa"  { type master; file "/etc/bind/db.empty"; };
+++
+++zone "168.192.in-addr.arpa" { type master; file "/etc/bind/db.empty"; };
++diff -urN bind-9.3.1.orig/init.d bind-9.3.1/init.d
++--- bind-9.3.1.orig/init.d	1970-01-01 01:00:00.000000000 +0100
+++++ bind-9.3.1/init.d	2005-07-10 23:09:58.000000000 +0200
++@@ -0,0 +1,70 @@
+++#!/bin/sh
+++
+++PATH=/sbin:/bin:/usr/sbin:/usr/bin
+++
+++# for a chrooted server: "-u bind -t /var/lib/named"
+++# Don't modify this line, change or create /etc/default/bind9.
+++OPTIONS=""
+++
+++test -f /etc/default/bind9 && . /etc/default/bind9
+++
+++test -x /usr/sbin/rndc || exit 0
+++
+++case "$1" in
+++    start)
+++	echo -n "Starting domain name service: named"
+++
+++	modprobe capability >/dev/null 2>&1 || true
+++	if [ ! -f /etc/bind/rndc.key ]; then
+++	    /usr/sbin/rndc-confgen -a -b 512 -r /dev/urandom
+++	    chmod 0640 /etc/bind/rndc.key
+++	fi
+++	if [ -f /var/run/named/named.pid ]; then
+++	    ps `cat /var/run/named/named.pid` > /dev/null && exit 1
+++	fi
+++
+++	# dirs under /var/run can go away on reboots.
+++	mkdir -p /var/run/named
+++	mkdir -p /var/cache/bind
+++	chmod 775 /var/run/named
+++	chown root:bind /var/run/named >/dev/null 2>&1 || true
+++
+++	if [ ! -x /usr/sbin/named ]; then
+++	    echo "named binary missing - not starting"
+++	    exit 1
+++	fi
+++	if start-stop-daemon --start --quiet --exec /usr/sbin/named \
+++		--pidfile /var/run/named/named.pid -- $OPTIONS; then
+++	    if [ -x /sbin/resolvconf ] ; then
+++		echo "nameserver 127.0.0.1" | /sbin/resolvconf -a lo
+++	    fi
+++	fi
+++	echo "."	
+++    ;;
+++
+++    stop)
+++	echo -n "Stopping domain name service: named"
+++	if [ -x /sbin/resolvconf ]; then
+++	    /sbin/resolvconf -d lo
+++	fi
+++	/usr/sbin/rndc stop >/dev/null 2>&1
+++	echo "."	
+++    ;;
+++
+++    reload)
+++	/usr/sbin/rndc reload
+++    ;;
+++
+++    restart|force-reload)
+++	$0 stop
+++	sleep 2
+++	$0 start
+++    ;;
+++    
+++    *)
+++	echo "Usage: /etc/init.d/bind {start|stop|reload|restart|force-reload}" >&2
+++	exit 1
+++    ;;
+++esac
+++
+++exit 0
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh b/meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh
+new file mode 100644
+index 0000000000..633e29c0e6
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/generate-rndc-key.sh
+@@ -0,0 +1,8 @@
++#!/bin/sh
++
++if [ ! -s /etc/bind/rndc.key ]; then
++    echo -n "Generating /etc/bind/rndc.key:"
++    /usr/sbin/rndc-confgen -a -b 512
++    chown root:bind /etc/bind/rndc.key
++    chmod 0640 /etc/bind/rndc.key
++fi
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch
+new file mode 100644
+index 0000000000..11db95ede1
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/init.d-add-support-for-read-only-rootfs.patch
+@@ -0,0 +1,65 @@
++Subject: init.d: add support for read-only rootfs
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ init.d |   40 ++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 40 insertions(+)
++
++diff --git a/init.d b/init.d
++index 0111ed4..24677c8 100644
++--- a/init.d
+++++ b/init.d
++@@ -6,8 +6,48 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
++ # Don't modify this line, change or create /etc/default/bind9.
++ OPTIONS=""
++ 
+++test -f /etc/default/rcS && . /etc/default/rcS
++ test -f /etc/default/bind9 && . /etc/default/bind9
++ 
+++# This function is here because it's possible that /var and / are on different partitions.
+++is_on_read_only_partition () {
+++    DIRECTORY=$1
+++    dir=`readlink -f $DIRECTORY`
+++    while true; do
+++	if [ ! -d "$dir" ]; then
+++	    echo "ERROR: $dir is not a directory"
+++	    exit 1
+++	else
+++	    for flag in `awk -v dir=$dir '{ if ($2 == dir) { print "FOUND"; split($4,FLAGS,",") } }; \
+++		END { for (f in FLAGS) print FLAGS[f] }' < /proc/mounts`; do
+++		[ "$flag" = "FOUND" ] && partition="read-write"
+++		[ "$flag" = "ro" ] && { partition="read-only"; break; }
+++	    done
+++	    if [ "$dir" = "/" -o -n "$partition" ]; then
+++		break
+++	    else
+++		dir=`dirname $dir`
+++	    fi
+++	fi
+++    done
+++    [ "$partition" = "read-only" ] && echo "yes" || echo "no"
+++}
+++
+++bind_mount () {
+++    olddir=$1
+++    newdir=$2
+++    mkdir -p $olddir
+++    cp -a $newdir/* $olddir
+++    mount --bind $olddir $newdir
+++}
+++
+++# Deal with read-only rootfs
+++if [ "$ROOTFS_READ_ONLY" = "yes" ]; then
+++    [ "$VERBOSE" != "no" ] && echo "WARN: start bind service in read-only rootfs"
+++    [ `is_on_read_only_partition /etc/bind` = "yes" ] && bind_mount /var/volatile/bind/etc /etc/bind
+++    [ `is_on_read_only_partition /var/named` = "yes" ] && bind_mount /var/volatile/bind/named /var/named
+++fi
+++
++ test -x /usr/sbin/rndc || exit 0
++ 
++ case "$1" in
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch
+new file mode 100644
+index 0000000000..146f3e35db
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/make-etc-initd-bind-stop-work.patch
+@@ -0,0 +1,42 @@
++bind: make "/etc/init.d/bind stop" work
++
++Upstream-Status: Inappropriate [configuration]
++
++Add some configurations, make rndc command be able to controls
++the named daemon.
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ conf/named.conf |    5 +++++
++ conf/rndc.conf  |    5 +++++
++ 2 files changed, 10 insertions(+), 0 deletions(-)
++ create mode 100644 conf/rndc.conf
++
++diff --git a/conf/named.conf b/conf/named.conf
++index 95829cf..c8899e7 100644
++--- a/conf/named.conf
+++++ b/conf/named.conf
++@@ -47,3 +47,8 @@ zone "255.in-addr.arpa" {
++ // root-delegation-only exclude { "DE"; "MUSEUM"; };
++ 
++ include "/etc/bind/named.conf.local";
+++include "/etc/bind/rndc.key" ;
+++controls {
+++	inet 127.0.0.1 allow { localhost; }
+++	keys { rndc-key; };
+++};
++diff --git a/conf/rndc.conf b/conf/rndc.conf
++new file mode 100644
++index 0000000..a0b481d
++--- /dev/null
+++++ b/conf/rndc.conf
++@@ -0,0 +1,5 @@
+++include "/etc/bind/rndc.key";
+++options {
+++	default-server  localhost;
+++	default-key     rndc-key;
+++};
++
++-- 
++1.7.5.4
++
+diff --git a/meta/recipes-connectivity/bind/bind-9.16.11/named.service b/meta/recipes-connectivity/bind/bind-9.16.11/named.service
+new file mode 100644
+index 0000000000..cda56ef015
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.16.11/named.service
+@@ -0,0 +1,22 @@
++[Unit]
++Description=Berkeley Internet Name Domain (DNS)
++Wants=nss-lookup.target
++Before=nss-lookup.target
++After=network.target
++
++[Service]
++Type=forking
++EnvironmentFile=-/etc/default/bind9
++PIDFile=/run/named/named.pid
++
++ExecStartPre=@SBINDIR@/generate-rndc-key.sh
++ExecStart=@SBINDIR@/named $OPTIONS
++
++ExecReload=@BASE_BINDIR@/sh -c '@SBINDIR@/rndc reload > /dev/null 2>&1 || @BASE_BINDIR@/kill -HUP $MAINPID'
++
++ExecStop=@BASE_BINDIR@/sh -c '@SBINDIR@/rndc stop > /dev/null 2>&1 || @BASE_BINDIR@/kill -TERM $MAINPID'
++
++PrivateTmp=true
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/bind/bind_9.16.10.bb b/meta/recipes-connectivity/bind/bind_9.16.11.bb
+similarity index 96%
+rename from meta/recipes-connectivity/bind/bind_9.16.10.bb
+rename to meta/recipes-connectivity/bind/bind_9.16.11.bb
+index 71194a61bf..3b76a1f5cd 100644
+--- a/meta/recipes-connectivity/bind/bind_9.16.10.bb
++++ b/meta/recipes-connectivity/bind/bind_9.16.11.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://www.isc.org/bind/"
+ SECTION = "console/network"
+ 
+ LICENSE = "MPL-2.0"
+-LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4673dc07337cace3b93c65e9ffe57b60"
++LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=ef10b4de6371115dcecdc38ca2af4561"
+ 
+ DEPENDS = "openssl libcap zlib libuv"
+ 
+@@ -19,7 +19,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://0001-avoid-start-failure-with-bind-user.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "bc47fc019c6205e6a6bfb839c544a1472321df0537ba905b846a4cbffe3362b3"
++SRC_URI[sha256sum] = "0111f64dd7d8f515cfa129e181cce96ff82070d1b27f11a21f6856110d0699c1"
+ 
+ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.16 follow the ESV versions divisible by 4
+-- 
+2.25.1
 
-Best regards,
-Tomasz Dziendzielski
 
---000000000000cde54d05b9ea5bf7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div dir=3D"ltr"><div>
-&gt;+=C2=A0 =C2=A0 # Check if PSEUDO_IGNORE_PATHS and ${S} overlap<br>
-&gt;+=C2=A0 =C2=A0 pseudoignorepaths =3D d.getVar(&#39;PSEUDO_IGNORE_PATHS&=
-#39;, expand=3DTrue).split(&quot;,&quot;)<br>
-&gt;+=C2=A0 =C2=A0 sourcefile =3D d.getVar(&#39;S&#39;)<br>
-&gt;+=C2=A0 =C2=A0 for i in pseudoignorepaths:<br>
-&gt;+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if i and sourcefile:<br>
-&gt;+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if sourcefile.startswith(i) =
-or i.startswith(sourcefile):<br>
-&gt;+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 status.addresu=
-lt(&quot;a path included in=20
-PSEUDO_IGNORE_PATHS &quot; + str(i) + &quot; and ${S} (source files) path &=
-quot; +=20
-str(sourcefile) + &quot; are overlapping each other, please set ${S} in you=
-r=20
-recipe to point to a different directory. \n&quot;)</div><div><br></div><di=
-v>Isn&#39;t ${S} added to PSEUDO_IGNORE_PATHS almost every time  in meta/cl=
-asses/base.bbclass?<br></div>=C2=A0 =C2=A0 if os.path.normpath(d.getVar(&qu=
-ot;WORKDIR&quot;)) !=3D os.path.normpath(d.getVar(&quot;S&quot;)):<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVar(&quot;PSEUDO_IGNORE_PATHS&quot;, &quot=
-;,${S}&quot;)<br></div><br></div><div>Best regards,</div><div>Tomasz Dziend=
-zielski<br></div></div>
-
---000000000000cde54d05b9ea5bf7--
