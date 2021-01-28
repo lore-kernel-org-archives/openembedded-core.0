@@ -1,154 +1,73 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web08.2013.1611875762895485064
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.2019.1611875775994031906
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 15:16:03 -0800
+ Thu, 28 Jan 2021 15:16:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 41C5C406B9
-	for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 23:16:02 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Kjuqmdp1fHkT
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Jan 2021 23:16:02 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2B78E406B5
-	for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 23:16:02 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id D0CC41743CA;
-	Thu, 28 Jan 2021 18:16:01 -0500 (EST)
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>
-Subject: [PATCH] maintainers: update own email address
-Date: Thu, 28 Jan 2021 18:16:01 -0500
-Message-Id: <1611875761-26476-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UoIqOQxv;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id p15so7046716wrq.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 15:16:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=OYAkClynstDM4GhrNVK82o4XawVXnRWu0WOZ/X24kII=;
+        b=UoIqOQxvDrSkOJS+U5kGib7q88QMbZA2FV0+e6BT1xj4EULEsQCHR6JnoMvZCHZ94K
+         tffsc+SvO25R3qlFJ0Ke4L7majoi2/UUO7Ysi2QFub7Z5yWcL/a9vWrrihUkEze3YsZR
+         rrgZJemp2sl9U+9LuoRWRDm2tyC2BJSLDO8ec=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=OYAkClynstDM4GhrNVK82o4XawVXnRWu0WOZ/X24kII=;
+        b=Js6zZfREjxEMvvTFTR48jk0wEdsLmebee/6H9JLP/6tj5T82cO5UI4xMHjFCKoTeVY
+         NubOTtwwgvV20qD0cqvf9RsXjZ9AG4PEVLYdSjh/QteJfsO660XyE8Fqq0zvMt21VHi3
+         RFVGAPLTD29VH39kkXcdmKrO7+kkmVp2jgQ1RVSsoj3Y1ZkFH0ZKIYa+j8ApcGBFwTXo
+         otfP/SEeHlDzVs9yfsGTO4BlTglxB+C5u+IYJH60GrYAPfi1mfBJZUv2W08avMWxZJYU
+         EFDjKnGlUVMPK/VZdzT/FbVuIBN1DApTVn/1uJx0LXvyVQT1+uYwbKyG2a0fHetZwlHO
+         Ow5g==
+X-Gm-Message-State: AOAM533CT0zcCBcjj6DdlNdhUVhkpUDxNMr6uw5r2PSax7w95HwkpQ+D
+	VVYGnaCGkAQBMCLJfqejmsMh1Q==
+X-Google-Smtp-Source: ABdhPJzd8saKLJnycRoxq+TrKMZsCnqo7YNsTdV3cAHwfVERSh+tda3xa2JA554PI5BPlZkI06s2lg==
+X-Received: by 2002:adf:decf:: with SMTP id i15mr1329173wrn.405.1611875774509;
+        Thu, 28 Jan 2021 15:16:14 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:93ef:509c:4f16:14ff? ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
+        by smtp.gmail.com with ESMTPSA id z63sm7394435wme.8.2021.01.28.15.16.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Jan 2021 15:16:14 -0800 (PST)
+Message-ID: <f7478654da009d76e9bc6c7a1ba3a99865f775e6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] insane: native-last: Print classes inherited after native/nativesdk
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Tomasz Dziendzielski
+	 <tomasz.dziendzielski@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 28 Jan 2021 23:16:13 +0000
+In-Reply-To: <CAP9ODKow4MBA-WoGMJyxiU-75GXY3-BQyWRqT+dYsJ=+AT7ECQ@mail.gmail.com>
+References: <20210127213311.6030-1-tomasz.dziendzielski@gmail.com>
+	 <20210127213311.6030-2-tomasz.dziendzielski@gmail.com>
+	 <CAP9ODKow4MBA-WoGMJyxiU-75GXY3-BQyWRqT+dYsJ=+AT7ECQ@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Denys Dmytriyenko <denis@denix.org>
----
- meta/conf/distro/include/maintainers.inc | 42 ++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+On Thu, 2021-01-28 at 17:27 -0300, Otavio Salvador wrote:
+> Em qua., 27 de jan. de 2021 às 18:30, Tomasz Dziendzielski
+> <tomasz.dziendzielski@gmail.com> escreveu:
+> > 
+> > See [YOCTO #5729] for details.
+> > 
+> > Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> 
+> I'd prefer a little of context on the commit log.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index b0ddfb8..75af9e4 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -85,8 +85,8 @@ RECIPE_MAINTAINER_pn-builder = "Richard Purdie <richard.purdie@linuxfoundation.o
- RECIPE_MAINTAINER_pn-buildtools-extended-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-buildtools-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-busybox = "Andrej Valek <andrej.valek@siemens.com>"
--RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-busybox-inittab = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-bzip2 = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-cairo = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-cantarell-fonts = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -122,7 +122,7 @@ RECIPE_MAINTAINER_pn-core-image-sato-dev = "Richard Purdie <richard.purdie@linux
- RECIPE_MAINTAINER_pn-core-image-sato-ptest-fast = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-core-image-sato-sdk-ptest = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-coreutils = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER_pn-cpio = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-cpio = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-cracklib = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-createrepo-c = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-cronie = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -232,7 +232,7 @@ RECIPE_MAINTAINER_pn-gobject-introspection = "Alexander Kanavin <alex.kanavin@gm
- RECIPE_MAINTAINER_pn-gperf = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-gpgme = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-gptfdisk = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-grep = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-grep = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-groff = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-grub = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-grub-bootconf = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -253,9 +253,9 @@ RECIPE_MAINTAINER_pn-gstreamer1.0-rtsp-server = "Anuj Mittal <anuj.mittal@intel.
- RECIPE_MAINTAINER_pn-gstreamer1.0-vaapi = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-gtk+3 = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-gtk-doc = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-gzip = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-gzip = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-harfbuzz = "Anuj Mittal <anuj.mittal@intel.com>"
--RECIPE_MAINTAINER_pn-hdparm = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-hdparm = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-help2man = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-hicolor-icon-theme = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-hwlatdetect = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -461,10 +461,10 @@ RECIPE_MAINTAINER_pn-ltp = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-lttng-modules = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-lttng-tools = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-lttng-ust = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-lz4 = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-lzo = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-lzip = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-lzop = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-lz4 = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-lzo = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-lzip = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-lzop = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-m4 = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-m4-native = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-make = "Robert Yang <liezhi.yang@windriver.com>"
-@@ -508,7 +508,7 @@ RECIPE_MAINTAINER_pn-mpeg2dec = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-mpfr = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER_pn-mpg123 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-msmtp = "Wang Mingyu <wangmy@cn.fujitsu.com>"
--RECIPE_MAINTAINER_pn-mtd-utils = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-mtd-utils = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-mtdev = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-mtools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-musl = "Khem Raj <raj.khem@gmail.com>"
-@@ -553,7 +553,7 @@ RECIPE_MAINTAINER_pn-pango = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-parted = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-patch = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-patchelf = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-pbzip2 = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-pbzip2 = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-pciutils = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-pcmanfm = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-perf = "Bruce Ashfield <bruce.ashfield@gmail.com>"
-@@ -714,7 +714,7 @@ RECIPE_MAINTAINER_pn-udev-extraconf = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-unfs3 = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-uninative-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-unzip = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-unzip = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alex.kanavin@gmail.com>"
-@@ -735,12 +735,12 @@ RECIPE_MAINTAINER_pn-vulkan-tools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-waffle = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER_pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-watchdog-config = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-wayland = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-wayland-protocols = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-wayland-utils = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-wayland = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-wayland-protocols = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-wayland-utils = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-webkitgtk = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER_pn-weston = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-weston = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com>"
-@@ -794,7 +794,7 @@ RECIPE_MAINTAINER_pn-xtrans = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xuser-account = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xvinfo = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
--RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denys@ti.com>"
--RECIPE_MAINTAINER_pn-zlib = "Denys Dmytriyenko <denys@ti.com>"
-+RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denis@denix.org>"
-+RECIPE_MAINTAINER_pn-zlib = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER_pn-zstd = "Alexander Kanavin <alex.kanavin@gmail.com>"
--- 
-2.7.4
+Agreed, I've improved the log of the patch I've merged. Linking to a
+bugzilla entry isn't really enough information. I appreciate the
+patches though, there have been some good ones!
+
+Cheers,
+
+Richard
 
