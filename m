@@ -1,115 +1,72 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web12.22317.1611828356815510869
+Received: from esa1.hc324-48.eu.iphmx.com (esa1.hc324-48.eu.iphmx.com [207.54.68.119])
+ by mx.groups.io with SMTP id smtpd.web12.22535.1611830156602456721
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 02:06:03 -0800
+ Thu, 28 Jan 2021 02:35:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.79,381,1602518400"; 
-   d="scan'208";a="103938212"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 28 Jan 2021 18:06:01 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id CD2CD4CE678B
-	for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 18:05:58 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 28 Jan 2021 18:05:55 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] ca-certificates: upgrade 20200601 -> 20210119
-Date: Thu, 28 Jan 2021 18:05:52 +0800
-Message-ID: <1611828352-7553-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=pB/CzF5o;
+ spf=pass (domain: bmw.de, ip: 207.54.68.119, mailfrom: prvs=655e30c88=mikko.rapeli@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1611830156; x=1643366156;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=jIO75tuxw/S8x3zwDMxoP5lA1WlFaaZXDPtRwp7Lo60=;
+  b=pB/CzF5ofsmlcwUU12SU6ZG2611bU/A7ZIRVKVFlWRlvvxyk9bs+vFMK
+   zR/lafELK3KiOUdqsvypVqtwTtO9KfJsvJy2nfZoaLroPhxyM+L7ULKIF
+   ErrwnBKzCjdy2EyGmL8sEFcrpYpIHH1SGMz8/kVKABUhEF1AvHMfE3Kiz
+   g=;
+Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
+ esa1.hc324-48.eu.iphmx.com with ESMTP/TLS; 28 Jan 2021 11:35:54 +0100
+Received: from esabb5.muc ([160.50.100.47])  by esagw3.muc with ESMTP/TLS;
+ 28 Jan 2021 11:35:49 +0100
+Received: from smucm33k.bmwgroup.net (HELO smucm33k.europe.bmw.corp) ([160.46.167.67])
+ by esabb5.muc with ESMTP/TLS; 28 Jan 2021 11:35:48 +0100
+Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33k.europe.bmw.corp
+ (160.46.167.67) with Microsoft SMTP Server (TLS;
+ Thu, 28 Jan 2021 11:35:47 +0100
+Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
+ smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Thu,
+ 28 Jan 2021 11:35:47 +0100
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <richard.purdie@linuxfoundation.org>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/7] ncurses: Don't put terminfo into the sysroot
+Thread-Topic: [OE-core] [PATCH 1/7] ncurses: Don't put terminfo into the
+ sysroot
+Thread-Index: AQHW9NHRNmfwpIQ3xESg4osHtMRtkao8qXWAgAAEy4CAABoGgA==
+Date: Thu, 28 Jan 2021 10:35:47 +0000
+Message-ID: <YBKTg29d2wdbT2Lv@korppu>
+References: <20210127172753.1286275-1-richard.purdie@linuxfoundation.org>
+ <YBJ5qanQrSxjhX6u@korppu>
+ <36ea418d5095cf5ab6f8949a7c07f28e310e8a67.camel@linuxfoundation.org>
+In-Reply-To: <36ea418d5095cf5ab6f8949a7c07f28e310e8a67.camel@linuxfoundation.org>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: CD2CD4CE678B.AC4E7
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <B475D2EED684D64C8A1DCA3EA8A7DCA2@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-0001-certdata2pem.py-use-python3.patch
-removed since it is included in 20210119
+On Thu, Jan 28, 2021 at 09:02:39AM +0000, Richard Purdie wrote:
+> On Thu, 2021-01-28 at 08:45 +0000, Mikko.Rapeli@bmw.de wrote:
+> > Interesting series! Do you already have some numbers how this affects
+> > bitbake builds?
+>=20
+> Not yet. I should really have split the series into two, the files
+> reduction and the native PACKAGES pieces as the latter is proving quite
+> unstable on the autobuilder and holding the other up. Once it does
+> build cleanly and merges, we will get build time measurements which I'm
+> curious about too.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../0001-certdata2pem.py-use-python3.patch    | 37 -------------------
- ...0200601.bb => ca-certificates_20210119.bb} |  3 +-
- 2 files changed, 1 insertion(+), 39 deletions(-)
- delete mode 100644 meta/recipes-support/ca-certificates/ca-certificates/0001-certdata2pem.py-use-python3.patch
- rename meta/recipes-support/ca-certificates/{ca-certificates_20200601.bb => ca-certificates_20210119.bb} (96%)
+Yes, split would have been nice. I'm seeing issues after porting over
+to dunfell :)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-certdata2pem.py-use-python3.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-certdata2pem.py-use-python3.patch
-deleted file mode 100644
-index aa2c85ff43..0000000000
---- a/meta/recipes-support/ca-certificates/ca-certificates/0001-certdata2pem.py-use-python3.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From b6d18ca77f131cdcaa10d0eaa9d303399767edf6 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 28 Aug 2019 19:18:14 +0200
--Subject: [PATCH] certdata2pem.py: use python3
--
--Comments in that file imply it is already py3 compatible.
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- mozilla/Makefile        | 2 +-
-- mozilla/certdata2pem.py | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/mozilla/Makefile b/mozilla/Makefile
--index 6f46118..f98877c 100644
----- a/mozilla/Makefile
--+++ b/mozilla/Makefile
--@@ -3,7 +3,7 @@
-- #
-- 
-- all:
---	python certdata2pem.py
--+	python3 certdata2pem.py
-- 
-- clean:
-- 	-rm -f *.crt
--diff --git a/mozilla/certdata2pem.py b/mozilla/certdata2pem.py
--index 0b02b2a..7d796f1 100644
----- a/mozilla/certdata2pem.py
--+++ b/mozilla/certdata2pem.py
--@@ -1,4 +1,4 @@
---#!/usr/bin/python
--+#!/usr/bin/python3
-- # vim:set et sw=4:
-- #
-- # certdata2pem.py - splits certdata.txt into multiple files
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-similarity index 96%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-rename to meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-index 6f39df7985..888a235c1a 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20210119.bb
-@@ -14,7 +14,7 @@ DEPENDS_class-nativesdk = "openssl-native"
- # Need rehash from openssl and run-parts from debianutils
- PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
- 
--SRCREV = "b3a8980b781bc9a370e42714a605cd4191bb6c0b"
-+SRCREV = "181be7ebd169b4a6fb5d90c3e6dc791e90534144"
- 
- SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
-            file://0002-update-ca-certificates-use-SYSROOT.patch \
-@@ -23,7 +23,6 @@ SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
-            file://default-sysroot.patch \
-            file://sbindir.patch \
-            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
--           file://0001-certdata2pem.py-use-python3.patch \
-            "
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+)"
- 
--- 
-2.25.1
+-Mikko
 
-
-
+> Cheers,
+>=20
+> Richard=
