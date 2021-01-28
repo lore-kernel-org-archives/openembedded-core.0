@@ -1,73 +1,83 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.2019.1611875775994031906
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
+ by mx.groups.io with SMTP id smtpd.web11.2215.1611877444971243637
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 15:16:16 -0800
+ Thu, 28 Jan 2021 15:44:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UoIqOQxv;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id p15so7046716wrq.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 15:16:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gGcwyCJQ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.173, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-il1-f173.google.com with SMTP id c20so6948365ilj.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 15:44:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=OYAkClynstDM4GhrNVK82o4XawVXnRWu0WOZ/X24kII=;
-        b=UoIqOQxvDrSkOJS+U5kGib7q88QMbZA2FV0+e6BT1xj4EULEsQCHR6JnoMvZCHZ94K
-         tffsc+SvO25R3qlFJ0Ke4L7majoi2/UUO7Ysi2QFub7Z5yWcL/a9vWrrihUkEze3YsZR
-         rrgZJemp2sl9U+9LuoRWRDm2tyC2BJSLDO8ec=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/1FOHPVnEPMWEDpOswsy0PDsDpsWYiVBsC5HZxK0ff0=;
+        b=gGcwyCJQ1JZjHhqeG4OApxnvKa4rS4YFILbBix+7mxZJ1OsWUUgSfc34cnyFDoijyt
+         WJWdyJl08fWCYN63yxJCF+Uk5FpB+dpW/3ddXf/A3SvZgxgQLSr3vycFo84leImvHyGN
+         rw/8V239y7XbIg8gXMWnWo++qtruNpfCovmhOZpycgffAe5R9E6bSweYcVIAidggPP8z
+         xelMSB67cV5P2zGEtxW0Y/qCbZ4Mw+RKxTJ8JD9rC+tBFjfBAmSt7TFxt56CIIdiLoGm
+         97Ei1xgGWSCww8bkCE6nl6I0Kk2uvvBmKVyVZj1spSwXz/gMOh2tGvy7/SPSElmaqrpd
+         0uNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=OYAkClynstDM4GhrNVK82o4XawVXnRWu0WOZ/X24kII=;
-        b=Js6zZfREjxEMvvTFTR48jk0wEdsLmebee/6H9JLP/6tj5T82cO5UI4xMHjFCKoTeVY
-         NubOTtwwgvV20qD0cqvf9RsXjZ9AG4PEVLYdSjh/QteJfsO660XyE8Fqq0zvMt21VHi3
-         RFVGAPLTD29VH39kkXcdmKrO7+kkmVp2jgQ1RVSsoj3Y1ZkFH0ZKIYa+j8ApcGBFwTXo
-         otfP/SEeHlDzVs9yfsGTO4BlTglxB+C5u+IYJH60GrYAPfi1mfBJZUv2W08avMWxZJYU
-         EFDjKnGlUVMPK/VZdzT/FbVuIBN1DApTVn/1uJx0LXvyVQT1+uYwbKyG2a0fHetZwlHO
-         Ow5g==
-X-Gm-Message-State: AOAM533CT0zcCBcjj6DdlNdhUVhkpUDxNMr6uw5r2PSax7w95HwkpQ+D
-	VVYGnaCGkAQBMCLJfqejmsMh1Q==
-X-Google-Smtp-Source: ABdhPJzd8saKLJnycRoxq+TrKMZsCnqo7YNsTdV3cAHwfVERSh+tda3xa2JA554PI5BPlZkI06s2lg==
-X-Received: by 2002:adf:decf:: with SMTP id i15mr1329173wrn.405.1611875774509;
-        Thu, 28 Jan 2021 15:16:14 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:93ef:509c:4f16:14ff? ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
-        by smtp.gmail.com with ESMTPSA id z63sm7394435wme.8.2021.01.28.15.16.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Jan 2021 15:16:14 -0800 (PST)
-Message-ID: <f7478654da009d76e9bc6c7a1ba3a99865f775e6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] insane: native-last: Print classes inherited after native/nativesdk
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>, Tomasz Dziendzielski
-	 <tomasz.dziendzielski@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 28 Jan 2021 23:16:13 +0000
-In-Reply-To: <CAP9ODKow4MBA-WoGMJyxiU-75GXY3-BQyWRqT+dYsJ=+AT7ECQ@mail.gmail.com>
-References: <20210127213311.6030-1-tomasz.dziendzielski@gmail.com>
-	 <20210127213311.6030-2-tomasz.dziendzielski@gmail.com>
-	 <CAP9ODKow4MBA-WoGMJyxiU-75GXY3-BQyWRqT+dYsJ=+AT7ECQ@mail.gmail.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/1FOHPVnEPMWEDpOswsy0PDsDpsWYiVBsC5HZxK0ff0=;
+        b=kyh8RX3bdfx+8GZ04V8EV8T5uemIQXOP0LF0Es4LkwTzVThWegd7qNssgTVoGQx1dQ
+         2Yayr0u8NdJ94VqqMypWhe+EVStwbbo9MvW+5R5cH9aZmV5gflFEKnNnVJNj7fT9AC4G
+         na8N7/iI2fwKJrtxBqP72CoAfw++x1BfvlQLm3T5hLqOyontyLrZ9+PW5OdfD630O6qT
+         RHLpFJYXCIaVJezRYtnkpl7DkluNA+T9Z4KWKnGPdppPQP9LuBHXUfQP6BU3Hvvtv46W
+         Ue42OmPNhrsjmh1G5PBlDPAL8HmJKa1+6TiCOIbn2zXRO8lJ306ymckEkoMBZ3SSEVSi
+         j24w==
+X-Gm-Message-State: AOAM5303M9jpnxlPWjjXBnh7Bc2jDlhxMQUmVRx/B3e1tluqNnVQwGnL
+	cJMP4JzLK1GLf+gGq8DtnLtlrzy0elnJYpnD1YA=
+X-Google-Smtp-Source: ABdhPJyil37Wkl1UUiN4Af2wBmhUczEwi033ggLZOApIUj2NL+O2usNS34DdWx+T7PLpZfViLq6uYAP+S8kJk5IOThc=
+X-Received: by 2002:a05:6e02:1d02:: with SMTP id i2mr1318639ila.30.1611877444408;
+ Thu, 28 Jan 2021 15:44:04 -0800 (PST)
 MIME-Version: 1.0
+References: <20210127213311.6030-1-tomasz.dziendzielski@gmail.com>
+ <20210127213311.6030-2-tomasz.dziendzielski@gmail.com> <CAP9ODKow4MBA-WoGMJyxiU-75GXY3-BQyWRqT+dYsJ=+AT7ECQ@mail.gmail.com>
+ <f7478654da009d76e9bc6c7a1ba3a99865f775e6.camel@linuxfoundation.org>
+In-Reply-To: <f7478654da009d76e9bc6c7a1ba3a99865f775e6.camel@linuxfoundation.org>
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+Date: Fri, 29 Jan 2021 00:46:36 +0100
+Message-ID: <CAJkqNs0zRmQKw0eGTRJ7mo3-44BZ2fYLREYwLVHs+8SwCLjkkw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] insane: native-last: Print classes inherited after native/nativesdk
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000007ed8a405b9fe7664"
+
+--0000000000007ed8a405b9fe7664
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-01-28 at 17:27 -0300, Otavio Salvador wrote:
-> Em qua., 27 de jan. de 2021 às 18:30, Tomasz Dziendzielski
-> <tomasz.dziendzielski@gmail.com> escreveu:
-> > 
-> > See [YOCTO #5729] for details.
-> > 
-> > Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> 
-> I'd prefer a little of context on the commit log.
+>> I'd prefer a little of context on the commit log.
+>
+>Agreed, I've improved the log of the patch I've merged. Linking to a
+>bugzilla entry isn't really enough information. I appreciate the
+>patches though, there have been some good ones!
 
-Agreed, I've improved the log of the patch I've merged. Linking to a
-bugzilla entry isn't really enough information. I appreciate the
-patches though, there have been some good ones!
+Thank you both for your feedback and for improving the commit log. I will
+add more descriptive messages even for small changes next time.
 
-Cheers,
+Best regards,
+Tomasz Dziendzielski
 
-Richard
+--0000000000007ed8a405b9fe7664
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><span class=3D"gmail-im">&gt;&gt; I&#39;d=
+ prefer a little of context on the commit log.<br>
+&gt;<br></span>
+&gt;Agreed, I&#39;ve improved the log of the patch I&#39;ve merged. Linking=
+ to a<br>
+&gt;bugzilla entry isn&#39;t really enough information. I appreciate the<br=
+>
+&gt;patches though, there have been some good ones!</div><div dir=3D"ltr"><=
+br></div><div dir=3D"ltr">Thank you both for your feedback and for improvin=
+g the commit log. I will add more descriptive messages even for small chang=
+es next time.<div><br></div><div>Best regards,</div><div>Tomasz Dziendziels=
+ki<br></div></div></div>
+
+--0000000000007ed8a405b9fe7664--
