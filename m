@@ -1,36 +1,36 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
- by mx.groups.io with SMTP id smtpd.web09.7693.1611915863189614675
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web08.7907.1611915864013055016
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jan 2021 02:24:23 -0800
+ Fri, 29 Jan 2021 02:24:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Zyrm3Ku6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f54.google.com with SMTP id j13so9981248edp.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 02:24:22 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YvXkKODw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f50.google.com with SMTP id by1so12259584ejc.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 02:24:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=VzKrQv9pHYdRbFm768ovzZQKhyMEmGwsJyOHTYOJpnQ=;
-        b=Zyrm3Ku6Xj2rHFewFa2yGbpqPC6d71OKpqNhO52cJxNGyQHK3szzOYj5GilkBqtBLm
-         uvs7agk4Di06CxxSTF2gN8ZbvSHPFI+1ni3cyJpMQC6FWQZDtkXWz2m/fr7MFgmoUu3t
-         K83OkftkQQvBNsFaqe+IKr4R8+wQ4Q0ChTcfY=
+        bh=4QhVNr//01FMDB8qUsGiyTbOZo/UP+ZxjwqQIHBFWVs=;
+        b=YvXkKODw59rX1disS0rOuCUi4Zc+IeCK1n8w149/SJYOQKtkEuqAFxRqSOVkqrF5hL
+         DM1v56WpAcgtkUVspvFaBgQ/uSLes6mt4xtmkbY4f8MrWHaSaU7MQI+da6isOHnqymh8
+         dTTeFJNLm9etgy4hIdNoXqD7q3vHYjhWeYgug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VzKrQv9pHYdRbFm768ovzZQKhyMEmGwsJyOHTYOJpnQ=;
-        b=diKbRcxXkp8SjlkClHvV/GM7KX7u/pZOK+3WqLzJup3bP5XWzKb7nhBk43nfNYrN1G
-         bbr7VCDcecmg2tKl2nVHYH2KXH+M2ven2sTz4k6e/1Dnypzqj9SZMHCsMQMukpLFl7lQ
-         9ZEzd3NtftDKVRgsyZgeLFb/cojTX7C6t3nKck6KBLuJ+IOpn78R/g63LYCf/oZmArNB
-         awr2ZGfD7jH/bVgCdx+RDiKg+lwEeqHpyoPYVzW5p1pSrWPzMP2HRGyX4yGEyBmOMYK7
-         LyxZvvPX4LiB7GXTg0jm7K8iYjoYvWc8Gu9oH9CP+yHIaKNYIQ78GW0NqJK5os42eck9
-         8+vA==
-X-Gm-Message-State: AOAM531I31QYzwh+wdHYwzQDIaV+Qxr6zuu0wzt6YS/Rsbul1wqaquKv
-	qb2/Oom6cejmMXcqCfBukHkJjP2fSs+3Xw==
-X-Google-Smtp-Source: ABdhPJx3DaONDJ9wDeXrJk/8cV2X3exOQnOJ9xzZQ52QWgs/gDEmo3IQHrmbTafb2P3VopQC8hUdbQ==
-X-Received: by 2002:a05:6402:208:: with SMTP id t8mr4244577edv.189.1611915861645;
-        Fri, 29 Jan 2021 02:24:21 -0800 (PST)
+        bh=4QhVNr//01FMDB8qUsGiyTbOZo/UP+ZxjwqQIHBFWVs=;
+        b=eHzU/qD7rh8kBNZoYxpHI41JcixN8gNuYjsg9KDNSto6KAwxq+ny1dYJEzjkaGSrzl
+         FTMcGt05jSxWg0a38GWv4fjQicsdUPxPBFDVIt6iMS7DX/3fAFU6krSsltWhp2ZJ7LnU
+         f1H0lcuMhn+ldpTViB5Is6lymA7hSJao6SmxYVXceuJzY9WIrK/5ih4tbRxBLS/IDlqL
+         Szhy0sJ/Y09ecm2FKpzpw38UapfpND9FtevBI5tdkvhMA46ydNXw3XN6ehv6Lvy+8YzR
+         hQZfeoLaxCi6c1uxjT6pRSjpG2VIFuxiSmGRpgPTxBIQ14lVPBa3UPuPcVvHfzLKmQer
+         PxAw==
+X-Gm-Message-State: AOAM531cV1ZtIRKl9yfVMvGcGMdvlhyXsfTeHiQEuRkBVxXW9RUqVdCm
+	toNtPi+mGQ03Jh6zl8OznlVdtUP3vy9ZpQ==
+X-Google-Smtp-Source: ABdhPJyvp8bNaSQOYoF8vBYdcBqLPMtBIbKNxuTKaD+qp8qUz0DNJRlWGT/EQffXxW/VTAjsVKZtug==
+X-Received: by 2002:a17:906:b219:: with SMTP id p25mr3695927ejz.430.1611915862344;
+        Fri, 29 Jan 2021 02:24:22 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
         by smtp.gmail.com with ESMTPSA id k22sm3554574eji.101.2021.01.29.02.24.21
@@ -39,99 +39,55 @@ Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
         Fri, 29 Jan 2021 02:24:21 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 03/13] package_rpm: Clean up unset runtime package variable handling
-Date: Fri, 29 Jan 2021 10:24:09 +0000
-Message-Id: <20210129102419.1360572-3-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 04/13] bitbake.conf/python: Drop setting RDEPENDS/RPROVIDES default
+Date: Fri, 29 Jan 2021 10:24:10 +0000
+Message-Id: <20210129102419.1360572-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210129102419.1360572-1-richard.purdie@linuxfoundation.org>
 References: <20210129102419.1360572-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-If the R* runtime package variables are unset it could cause trackbacks. There
-were some fallbacks already, clean this up to handle consistently.
+We never recommend setting RDEPENDS or RPROVIDES without a package name
+against them. The default in bitbake.conf is legacy only, drop it.
 
-The code was expecting strings but setting defaults of empty lists
-which silently were converted to strings by the "or" statements which
-was a nightmare to understand or alter.
+The python recipe was trying to add to the empty variable in the native case
+fix that too.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package_rpm.bbclass | 40 ++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ meta/conf/bitbake.conf                        | 2 --
+ meta/recipes-devtools/python/python3_3.9.1.bb | 2 +-
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 53b4700cddb..43a825ad424 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -300,13 +300,13 @@ python write_specfile () {
-     srccustomtagschunk = get_package_additional_metadata("rpm", localdata)
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index af1b3b8c3e2..790859e8ae1 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -272,10 +272,8 @@ DEPCHAIN_PRE = ""
+ DEPCHAIN_POST = "-dev -dbg"
  
-     srcdepends     = d.getVar('DEPENDS')
--    srcrdepends    = []
--    srcrrecommends = []
--    srcrsuggests   = []
--    srcrprovides   = []
--    srcrreplaces   = []
--    srcrconflicts  = []
--    srcrobsoletes  = []
-+    srcrdepends    = ""
-+    srcrrecommends = ""
-+    srcrsuggests   = ""
-+    srcrprovides   = ""
-+    srcrreplaces   = ""
-+    srcrconflicts  = ""
-+    srcrobsoletes  = ""
+ DEPENDS = ""
+-RDEPENDS = ""
+ PROVIDES = ""
+ PROVIDES_prepend = "${PN} "
+-RPROVIDES = ""
  
-     srcrpreinst  = []
-     srcrpostinst = []
-@@ -365,13 +365,13 @@ python write_specfile () {
-         # Map the dependencies into their final form
-         mapping_rename_hook(localdata)
+ MULTI_PROVIDER_WHITELIST = "virtual/libintl virtual/libintl-native virtual/nativesdk-libintl virtual/xserver virtual/update-alternatives-native virtual/update-alternatives"
  
--        splitrdepends    = localdata.getVar('RDEPENDS')
--        splitrrecommends = localdata.getVar('RRECOMMENDS')
--        splitrsuggests   = localdata.getVar('RSUGGESTS')
--        splitrprovides   = localdata.getVar('RPROVIDES')
--        splitrreplaces   = localdata.getVar('RREPLACES')
--        splitrconflicts  = localdata.getVar('RCONFLICTS')
--        splitrobsoletes  = []
-+        splitrdepends    = localdata.getVar('RDEPENDS') or ""
-+        splitrrecommends = localdata.getVar('RRECOMMENDS') or ""
-+        splitrsuggests   = localdata.getVar('RSUGGESTS') or ""
-+        splitrprovides   = localdata.getVar('RPROVIDES') or ""
-+        splitrreplaces   = localdata.getVar('RREPLACES') or ""
-+        splitrconflicts  = localdata.getVar('RCONFLICTS') or ""
-+        splitrobsoletes  = ""
+diff --git a/meta/recipes-devtools/python/python3_3.9.1.bb b/meta/recipes-devtools/python/python3_3.9.1.bb
+index a89122f9494..a2dc572672c 100644
+--- a/meta/recipes-devtools/python/python3_3.9.1.bb
++++ b/meta/recipes-devtools/python/python3_3.9.1.bb
+@@ -240,7 +240,7 @@ python(){
+     # First set RPROVIDES for -native case
+     # Hardcoded since it cant be python3-native-foo, should be python3-foo-native
+     pn = 'python3'
+-    rprovides = d.getVar('RPROVIDES').split()
++    rprovides = (d.getVar('RPROVIDES') or "").split()
  
-         splitrpreinst  = localdata.getVar('pkg_preinst')
-         splitrpostinst = localdata.getVar('pkg_postinst')
-@@ -439,9 +439,9 @@ python write_specfile () {
-             spec_preamble_bottom.append(splitcustomtagschunk)
- 
-         # Replaces == Obsoletes && Provides
--        robsoletes = bb.utils.explode_dep_versions2(splitrobsoletes or "")
--        rprovides = bb.utils.explode_dep_versions2(splitrprovides or "")
--        rreplaces = bb.utils.explode_dep_versions2(splitrreplaces or "")
-+        robsoletes = bb.utils.explode_dep_versions2(splitrobsoletes)
-+        rprovides = bb.utils.explode_dep_versions2(splitrprovides)
-+        rreplaces = bb.utils.explode_dep_versions2(splitrreplaces)
-         for dep in rreplaces:
-             if not dep in robsoletes:
-                 robsoletes[dep] = rreplaces[dep]
-@@ -533,9 +533,9 @@ python write_specfile () {
-     tail_source(d)
- 
-     # Replaces == Obsoletes && Provides
--    robsoletes = bb.utils.explode_dep_versions2(srcrobsoletes or "")
--    rprovides = bb.utils.explode_dep_versions2(srcrprovides or "")
--    rreplaces = bb.utils.explode_dep_versions2(srcrreplaces or "")
-+    robsoletes = bb.utils.explode_dep_versions2(srcrobsoletes)
-+    rprovides = bb.utils.explode_dep_versions2(srcrprovides)
-+    rreplaces = bb.utils.explode_dep_versions2(srcrreplaces)
-     for dep in rreplaces:
-         if not dep in robsoletes:
-             robsoletes[dep] = rreplaces[dep]
+     # ${PN}-misc-native is not in the manifest
+     rprovides.append(pn + '-misc-native')
 -- 
 2.27.0
 
