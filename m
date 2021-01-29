@@ -1,223 +1,186 @@
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
- by mx.groups.io with SMTP id smtpd.web08.10655.1611931848210892597
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web10.10823.1611933059522775664
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jan 2021 06:50:48 -0800
+ Fri, 29 Jan 2021 07:10:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
-Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1l5V6j-00031J-Pl; Fri, 29 Jan 2021 16:50:46 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1l5V6j-0006CX-OO; Fri, 29 Jan 2021 16:50:45 +0200
-From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=C2AnFWZn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.50, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f50.google.com with SMTP id v1so8866464ott.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 07:10:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ilL0hLm/BX5thtP3GrTJ0RJmDtj5bmHjlUoy7zLuIYk=;
+        b=C2AnFWZn0JuJlFv+k3qZs0zVVmoXpryH//40UZX2O1Xh08jHY16vQOqy0lv2Dkt1UA
+         Ob1+zY8GCL8KcbAXiIPps53jAWIjTfz4iJW6lhUkKJut4QKN+HVkD/h/CT8fp1JTkODT
+         YNRnQ9zrYKL6cXURaCZ6P0ZmhSLaOeOAr15BLxcIRotrHu+kj0AoVye4P+rg1l6m3JxU
+         3XsHM3Qkg0AqNtL08GQSH+pI9bl49foXlr4cATx0eVne2uKdYcLAQxzbmPi89LVbkS3M
+         5fxdS9kv4+NgEXCwuoBlwBSp31+nRPcopYnM3o9vHcAXWyXDj++cGEg+VFMPDQrViqJk
+         v0dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ilL0hLm/BX5thtP3GrTJ0RJmDtj5bmHjlUoy7zLuIYk=;
+        b=pqLGVzGOL8Bb/2xrTkraICkqn/bS+Q8lhO0YBjKWDc790huEchQmq5gCyaUxxXbc1x
+         sSGCm7XEdUu2Hg1z4Gj6+p3UDOIV+9YAtNWmogr50Ffg4OCWpzSgroZjeK7vy24L+dyR
+         XJO9H0kVLdtlM9qw3S5js2WO62qBuf7KZ+ifFOAe3Pw4ZwqvoKrDU+78sRJ2WwXm2M6p
+         juPfttUwG0Vk50Mn4t4inUKufAF2gNIYJibUVOfkhwoG/YR6SXhR88xH0nYnf9vv+dGI
+         K63hHL67ENeXh6QhKKoNHwR+E7nKTfDfNFftssQklItFH1tSc2M02ThoQwT51NLu1z9G
+         Ak4g==
+X-Gm-Message-State: AOAM531LtERTrTwubv0eWw5ygcQ5ImSXmmGHvz+kDFwAbu42OjuTZ4cS
+	EQf5A/2GIcZldh7kt5Dks0hRYYgbPkiZ/TURmWU=
+X-Google-Smtp-Source: ABdhPJytYXB4HLoylz3dW0eAbWGLsoTiIueMeex5JS/nKrURKlPPQLNo8A9iE7lFj5FYILTmtfy9ow==
+X-Received: by 2002:a05:6830:134d:: with SMTP id r13mr3240919otq.140.1611933058165;
+        Fri, 29 Jan 2021 07:10:58 -0800 (PST)
+Return-Path: <steve@sakoman.com>
+Received: from hexa.router0800d9.com ([72.173.249.164])
+        by smtp.gmail.com with ESMTPSA id 2sm2164979otg.6.2021.01.29.07.10.53
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jan 2021 07:10:57 -0800 (PST)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: yocto@yoctoproject.org,
-	Marek Belisko <marek.belisko@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Mikko Rapeli <mikko.rapeli@bmw.de>,
-	Matt Hoosier <matt.hoosier@garmin.com>
-Subject: [dunfell][PATCH v2 3/3] bitbake: fetch/git: download LFS content too during do_fetch
-Date: Fri, 29 Jan 2021 16:50:29 +0200
-Message-Id: <20210129145029.22924-3-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210129145029.22924-1-mikko.rapeli@bmw.de>
-References: <165EBB517110DB0B.25485@lists.openembedded.org>
- <20210129145029.22924-1-mikko.rapeli@bmw.de>
+Subject: [OE-core][dunfell 00/46] Pull request (cover letter only)
+Date: Fri, 29 Jan 2021 05:10:35 -1000
+Message-Id: <cover.1611932916.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Rspam-Score: 3.8 (+++)
-X-Rspam-Report: Action: no action
- Symbol: RCVD_TLS_LAST(0.00)
- Symbol: ARC_NA(0.00)
- Symbol: RCVD_COUNT_TWO(0.00)
- Symbol: BAYES_HAM(-3.00)
- Symbol: FROM_HAS_DN(0.00)
- Symbol: TO_DN_SOME(0.00)
- Symbol: R_MISSING_CHARSET(2.50)
- Symbol: FREEMAIL_ENVRCPT(0.00)
- Symbol: TAGGED_RCPT(0.00)
- Symbol: MIME_GOOD(-0.10)
- Symbol: BROKEN_CONTENT_TYPE(1.50)
- Symbol: RCPT_COUNT_FIVE(0.00)
- Symbol: DMARC_POLICY_SOFTFAIL(0.10)
- Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
- Symbol: MID_CONTAINS_FROM(1.00)
- Symbol: R_SPF_NA(0.00)
- Symbol: FORGED_SENDER(0.30)
- Symbol: R_DKIM_NA(0.00)
- Symbol: MIME_TRACE(0.00)
- Symbol: ASN(0.00)
- Symbol: FROM_NEQ_ENVFROM(0.00)
- Symbol: SUSPICIOUS_RECIPS(1.50)
- Symbol: FREEMAIL_CC(0.00)
- Message-ID: 20210129145029.22924-3-mikko.rapeli@bmw.de
-X-SA-Exim-Connect-IP: 2001:67c:1be8::11
-X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Matt Hoosier <matt.hoosier@garmin.com>
+The following changes since commit b286258fc2f6974a88ebd90d3c2f9465437cfcfd:
 
-Insert an explicit pass to fetch all blobs needed by Git LFS, during the
-fetch() function. This avoids the default behavior of Git LFS to wait
-until 'git checkout' to begin downloading the blobs pointed to by LFS records.
-Network access is not allowed at that point in the recipe's lifecycle.
+  linuxloader: Avoid confusing string concat errors (2021-01-27 09:32:57 +0000)
 
-[YOCTO #14191]
+are available in the Git repository at:
 
-(Bitbake rev: 0efac66043662e7a2027192f50e92e982db2ba1c)
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-Signed-off-by: Matt Hoosier <matt.hoosier@garmin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- bitbake/lib/bb/fetch2/git.py  | 44 ++++++++++++++++++++++++++++++++---
- bitbake/lib/bb/tests/fetch.py | 28 +++++++++++++++-------
- 2 files changed, 61 insertions(+), 11 deletions(-)
+Jack Mitchell (1):
+  distutils3: allow setup.py to be run from a different directory to
+    ${S}
 
-diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
-index d255afeb36..7c32eba6c3 100644
---- a/bitbake/lib/bb/fetch2/git.py
-+++ b/bitbake/lib/bb/fetch2/git.py
-@@ -378,6 +378,35 @@ class Git(FetchMethod):
-             if missing_rev:
-                 raise bb.fetch2.FetchError("Unable to find revision %s even from upstream" % missing_rev)
- 
-+        if self._contains_lfs(ud, d, ud.clonedir) and self._need_lfs(ud):
-+            # Unpack temporary working copy, use it to run 'git checkout' to force pre-fetching
-+            # of all LFS blobs needed at the the srcrev.
-+            #
-+            # It would be nice to just do this inline here by running 'git-lfs fetch'
-+            # on the bare clonedir, but that operation requires a working copy on some
-+            # releases of Git LFS.
-+            tmpdir = tempfile.mkdtemp(dir=d.getVar('DL_DIR'))
-+            try:
-+                # Do the checkout. This implicitly involves a Git LFS fetch.
-+                self.unpack(ud, tmpdir, d)
-+
-+                # Scoop up a copy of any stuff that Git LFS downloaded. Merge them into
-+                # the bare clonedir.
-+                #
-+                # As this procedure is invoked repeatedly on incremental fetches as
-+                # a recipe's SRCREV is bumped throughout its lifetime, this will
-+                # result in a gradual accumulation of LFS blobs in <ud.clonedir>/lfs
-+                # corresponding to all the blobs reachable from the different revs
-+                # fetched across time.
-+                #
-+                # Only do this if the unpack resulted in a .git/lfs directory being
-+                # created; this only happens if at least one blob needed to be
-+                # downloaded.
-+                if os.path.exists(os.path.join(tmpdir, "git", ".git", "lfs")):
-+                    runfetchcmd("tar -cf - lfs | tar -xf - -C %s" % ud.clonedir, d, workdir="%s/git/.git" % tmpdir)
-+            finally:
-+                bb.utils.remove(tmpdir, recurse=True)
-+
-     def build_mirror_data(self, ud, d):
-         if ud.shallow and ud.write_shallow_tarballs:
-             if not os.path.exists(ud.fullshallow):
-@@ -473,7 +502,7 @@ class Git(FetchMethod):
-         if os.path.exists(destdir):
-             bb.utils.prunedir(destdir)
- 
--        need_lfs = ud.parm.get("lfs", "1") == "1"
-+        need_lfs = self._need_lfs(ud)
- 
-         if not need_lfs:
-             ud.basecmd = "GIT_LFS_SKIP_SMUDGE=1 " + ud.basecmd
-@@ -562,6 +591,9 @@ class Git(FetchMethod):
-             raise bb.fetch2.FetchError("The command '%s' gave output with more then 1 line unexpectedly, output: '%s'" % (cmd, output))
-         return output.split()[0] != "0"
- 
-+    def _need_lfs(self, ud):
-+        return ud.parm.get("lfs", "1") == "1"
-+
-     def _contains_lfs(self, ud, d, wd):
-         """
-         Check if the repository has 'lfs' (large file) content
-@@ -572,8 +604,14 @@ class Git(FetchMethod):
-         else:
-             branchname = "master"
- 
--        cmd = "%s grep lfs origin/%s:.gitattributes | wc -l" % (
--            ud.basecmd, ud.branches[ud.names[0]])
-+        # The bare clonedir doesn't use the remote names; it has the branch immediately.
-+        if wd == ud.clonedir:
-+            refname = ud.branches[ud.names[0]]
-+        else:
-+            refname = "origin/%s" % ud.branches[ud.names[0]]
-+
-+        cmd = "%s grep lfs %s:.gitattributes | wc -l" % (
-+            ud.basecmd, refname)
- 
-         try:
-             output = runfetchcmd(cmd, d, quiet=True, workdir=wd)
-diff --git a/bitbake/lib/bb/tests/fetch.py b/bitbake/lib/bb/tests/fetch.py
-index 4702c99a7e..9453c90d2b 100644
---- a/bitbake/lib/bb/tests/fetch.py
-+++ b/bitbake/lib/bb/tests/fetch.py
-@@ -2046,13 +2046,14 @@ class GitLfsTest(FetcherTest):
-             cwd = self.gitdir
-         return bb.process.run(cmd, cwd=cwd)[0]
- 
--    def fetch(self, uri=None):
-+    def fetch(self, uri=None, download=True):
-         uris = self.d.getVar('SRC_URI').split()
-         uri = uris[0]
-         d = self.d
- 
-         fetcher = bb.fetch2.Fetch(uris, d)
--        fetcher.download()
-+        if download:
-+            fetcher.download()
-         ud = fetcher.ud[uri]
-         return fetcher, ud
- 
-@@ -2062,16 +2063,21 @@ class GitLfsTest(FetcherTest):
-         uri = 'git://%s;protocol=file;subdir=${S};lfs=1' % self.srcdir
-         self.d.setVar('SRC_URI', uri)
- 
--        fetcher, ud = self.fetch()
-+        # Careful: suppress initial attempt at downloading until
-+        # we know whether git-lfs is installed.
-+        fetcher, ud = self.fetch(uri=None, download=False)
-         self.assertIsNotNone(ud.method._find_git_lfs)
- 
--        # If git-lfs can be found, the unpack should be successful
--        ud.method._find_git_lfs = lambda d: True
--        shutil.rmtree(self.gitdir, ignore_errors=True)
--        fetcher.unpack(self.d.getVar('WORKDIR'))
-+        # If git-lfs can be found, the unpack should be successful. Only
-+        # attempt this with the real live copy of git-lfs installed.
-+        if ud.method._find_git_lfs(self.d):
-+            fetcher.download()
-+            shutil.rmtree(self.gitdir, ignore_errors=True)
-+            fetcher.unpack(self.d.getVar('WORKDIR'))
- 
-         # If git-lfs cannot be found, the unpack should throw an error
-         with self.assertRaises(bb.fetch2.FetchError):
-+            fetcher.download()
-             ud.method._find_git_lfs = lambda d: False
-             shutil.rmtree(self.gitdir, ignore_errors=True)
-             fetcher.unpack(self.d.getVar('WORKDIR'))
-@@ -2082,10 +2088,16 @@ class GitLfsTest(FetcherTest):
-         uri = 'git://%s;protocol=file;subdir=${S};lfs=0' % self.srcdir
-         self.d.setVar('SRC_URI', uri)
- 
-+        # In contrast to test_lfs_enabled(), allow the implicit download
-+        # done by self.fetch() to occur here. The point of this test case
-+        # is to verify that the fetcher can survive even if the source
-+        # repository has Git LFS usage configured.
-         fetcher, ud = self.fetch()
-         self.assertIsNotNone(ud.method._find_git_lfs)
- 
--        # If git-lfs can be found, the unpack should be successful
-+        # If git-lfs can be found, the unpack should be successful. A
-+        # live copy of git-lfs is not required for this case, so
-+        # unconditionally forge its presence.
-         ud.method._find_git_lfs = lambda d: True
-         shutil.rmtree(self.gitdir, ignore_errors=True)
-         fetcher.unpack(self.d.getVar('WORKDIR'))
+Joe Slater (1):
+  pseudo: fix renaming to self
+
+Martin Jansa (2):
+  base.bbclass: use os.path.normpath instead of just comparing WORKDIR
+    and S as strings
+  license.bbclass: Add COMMON_LICENSE_DIR and LICENSE_PATH dirs to
+    PSEUDO_IGNORE_PATHS
+
+Mingli Yu (2):
+  tcl: adapt to potential pseudo changes
+  bitbake.conf: Exclude ${CCACHE_DIR} from pseudo database
+
+Paul Barker (8):
+  bitbake.conf: Prevent pyc file generation in pseudo context
+  wic: Add workdir argument
+  wic: Allow exec_native_cmd to run HOSTTOOLS
+  wic: Ensure internal workdir is not reused
+  image_types_wic: Move wic working directory
+  wic: Update pseudo db when excluding content from rootfs
+  wic: Copy rootfs dir if fstab needs updating
+  wic: Optimise fstab modification for ext2/3/4 and msdos partitions
+
+Peter Kjellerstedt (4):
+  pseudo: Simplify pseudo_client_ignore_path_chroot()
+  lib/oe/path: Add canonicalize()
+  bitbake.conf: Canonicalize paths in PSEUDO_IGNORE_PATHS
+  wic: Pass canonicalized paths in PSEUDO_IGNORE_PATHS
+
+Ricardo Ribalda Delgado (4):
+  wic: Fix permissions when using exclude or include path
+  wic: Fix multi images .wks with bitbake
+  wic: Avoid creating invalid pseudo directory
+  wic: Add --change-directory argument
+
+Richard Purdie (23):
+  pseudo: Switch to oe-core branch in git repo
+  pseudo: merge in fixes for setfacl issue
+  pseudo: Update to add OFC fcntl lock updates
+  pseudo: Ignore mismatched inodes from the db
+  pseudo: Add support for ignoring paths from the pseudo DB
+  pseudo: Abort on mismatch patch
+  psuedo: Add tracking of linked files for fds
+  pseudo: Fix xattr segfault
+  pseudo: Add may unlink patch
+  pseudo: Add pathfix patch
+  base/bitbake.conf: Enable pseudo path filtering
+  wic: Handle new PSEUDO_IGNORE_PATHS variable
+  pseudo: Fix statx function usage
+  bitbake.conf: Extend PSEUDO_IGNORE_PATHS to ${COREBASE}/meta
+  abi_version,sanity: Tell users TMPDIR must be clean after pseudo
+    changes
+  pseudo: Update to account for patches merged on branch
+  pseudo: Upgrade to include mkostemp64 wrapper
+  oeqa/selftest/runtime_test: Exclude gpg directory from pseudo database
+  uninative: Don't use single sstate for pseudo-native
+  pseudo: Drop patches merged into upstream branch
+  bitbake.conf: Add /run/ to PSEUDO_IGNORE_PATHS
+  pseudo: Add lchmod wrapper
+  pseudo: Update for arm host and memleak fixes/cleanup
+
+Tomasz Dziendzielski (1):
+  pseudo: Update to print PSEUDO_LOGFILE in abort message on path
+    mismatches
+
+ meta-selftest/lib/pseudo_pyc_test1.py         |   1 +
+ meta-selftest/lib/pseudo_pyc_test2.py         |   1 +
+ .../pseudo-pyc-test/pseudo-pyc-test.bb        |  15 ++
+ meta/classes/archiver.bbclass                 |   2 +-
+ meta/classes/base.bbclass                     |   6 +
+ meta/classes/distutils3.bbclass               |  10 +-
+ meta/classes/image_types_wic.bbclass          |  20 ++-
+ meta/classes/license.bbclass                  |   1 +
+ meta/classes/populate_sdk_base.bbclass        |   2 +
+ meta/classes/sanity.bbclass                   |   3 +
+ meta/classes/sstate.bbclass                   |   4 +
+ meta/conf/abi_version.conf                    |   2 +-
+ meta/conf/bitbake.conf                        |  13 +-
+ meta/lib/oe/path.py                           |  21 +++
+ meta/lib/oe/sstatesig.py                      |   4 +-
+ meta/lib/oeqa/selftest/cases/pseudo.py        |  27 ++++
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |   1 +
+ .../pseudo/files/0001-Add-statx.patch         | 106 --------------
+ ...001-maketables-wrappers-use-Python-3.patch |  34 -----
+ ...ixup-remove-files-that-do-not-exist-.patch |  49 -------
+ .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  |  31 ----
+ ...1-realpath.c-Remove-trailing-slashes.patch |  57 --------
+ ...xattr-adjust-for-attr-2.4.48-release.patch |  48 ------
+ .../pseudo/files/moreretries.patch            |  19 ---
+ .../pseudo/files/seccomp.patch                | 137 ------------------
+ .../pseudo/files/toomanyfiles.patch           |  71 ---------
+ .../pseudo/files/xattr_version.patch          |  54 -------
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  14 +-
+ meta/recipes-devtools/tcltk/tcl_8.6.10.bb     |   1 +
+ scripts/lib/wic/help.py                       |   6 +
+ scripts/lib/wic/ksparser.py                   |   1 +
+ scripts/lib/wic/misc.py                       |   7 +-
+ scripts/lib/wic/partition.py                  |  66 ++++++---
+ scripts/lib/wic/plugins/imager/direct.py      |  48 +++---
+ scripts/lib/wic/plugins/source/rootfs.py      |  85 +++++++++--
+ scripts/postinst-intercepts/update_font_cache |   2 +
+ scripts/wic                                   |   2 +
+ 37 files changed, 281 insertions(+), 690 deletions(-)
+ create mode 100644 meta-selftest/lib/pseudo_pyc_test1.py
+ create mode 100644 meta-selftest/lib/pseudo_pyc_test2.py
+ create mode 100644 meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/pseudo.py
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-maketables-wrappers-use-Python-3.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/0006-xattr-adjust-for-attr-2.4.48-release.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/moreretries.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/toomanyfiles.patch
+ delete mode 100644 meta/recipes-devtools/pseudo/files/xattr_version.patch
+
 -- 
-2.20.1
+2.25.1
 
