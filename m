@@ -1,245 +1,201 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.web09.7694.1611915864655700593
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web11.7462.1611915865242513213
  for <openembedded-core@lists.openembedded.org>;
  Fri, 29 Jan 2021 02:24:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HTtqh1fy;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f42.google.com with SMTP id j13so9981334edp.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 02:24:24 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YToV7wgd;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f50.google.com with SMTP id gx5so12197657ejb.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 02:24:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=VjU97vuZXwfsmo5UMj8MeXIDB1lnYU/UQPA2zCQQ9go=;
-        b=HTtqh1fyZPYKs0+OGlMleIWIcQBwQ62P8wU3zxvItPebVxxdMur0yc7qRNDCQUH0EK
-         lzctYgpipwQ7+IDVCqq3m+vHXuAZJgW3mbmRZyjQ8iUqid02Q6tXxEs43TMLp66igkmi
-         2N5pvYyPLJBr2uYncjIPtCqCyUyH6uqYsd5tw=
+        bh=lOoDvjWLpggte2klKANMAJZbB83hkWW/dkmU5IcsTA4=;
+        b=YToV7wgdY63a5/FI6/qdCEwV/L/9LmSjvy429yHuOAoNBeymFWGotYRU1QsCUDEntI
+         yoZ1vkpaPDux3RFOYErej2zM2BnaqGECsyQOjnBrqDX/i5vtgnZxZpXWvBfteM1+T5yQ
+         KXmSmMzSMXQTUiS3b49lCvlYEEsIrLHi3cxPs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=VjU97vuZXwfsmo5UMj8MeXIDB1lnYU/UQPA2zCQQ9go=;
-        b=M1vT0ngJ76pOhWzLQ2URcZRJ4QL5FsVE9Tsy7EwSlOI6dCnpbfn3zR9VdSKw00C1XW
-         wipwRjN26Ut9ETVWp47fX8NbZX7U1idmMVvPFHYfSSAlPfM87jOgfiqNQMhZnsGRYr1F
-         iVZlRef8xKL+nLJaCoC6QJs9sYRAy98ngFHgg1mZinffsDe8e9z485H82WOf7G6MBHMt
-         3K+7FuOTyqHi3nxDpPKTYi1TU9jXh71Br1QYnM7EgtDl8Sg9451CIxjmWiK0+EnmTzmj
-         kD/YCY2yLgY6vYTgnEu3vs4+0ZadGVXbAM6HUDsimyMfiyq9W5lIpORykGKSdEMBAAn8
-         TATw==
-X-Gm-Message-State: AOAM530ZrHO2Ep3oLiarEf4KY96eMVFgzNiCqt2zhT6alIsWhJ09OsxH
-	tJy1JaACzYTAudZO7sDmZco7+faj+P7mXA==
-X-Google-Smtp-Source: ABdhPJxPpwZ9LmJEOW/53T/qUl/vj4/n6QHit27yksCf4PoVxyxF9R/m4hlthweapAmm5fOosMfd4Q==
-X-Received: by 2002:aa7:cf94:: with SMTP id z20mr4257131edx.75.1611915862969;
-        Fri, 29 Jan 2021 02:24:22 -0800 (PST)
+        bh=lOoDvjWLpggte2klKANMAJZbB83hkWW/dkmU5IcsTA4=;
+        b=N838Dxzr1oDz4tmDQvN4EsElt+BArDFwRJ/FDlF6U02k4/9qlSy38yYYLooPuxcEr0
+         yZ7+8NKdn18VhkfHYkwzQT4qfv91FuK0AdKwbYQ+vXGnFAXEe+Zfp+iNUTr8HLF43rdt
+         i4vGX31CVbPX0qCcwVCPefxPbYa0sYdlLd5dI35GEMGP2Na5YGSWhaqfAEFOhewoa6hF
+         2F2QuvNHfy21mx7KiXJzsVjISD8tpBA4L7xrDzjziC+03TMV9xNVkoWEQUTpH0U2S15a
+         9CORnn652mmrZN2m7ZwxuE9J9D/PEzayig54coNCZbnjtOkEQybw0pzHZcq/bw7DloGL
+         d2VQ==
+X-Gm-Message-State: AOAM530ggVE+v08uvl1KVisr4DQVRVPIxWlMh8yPdCSkHmEtsjGTo9Vv
+	WVBw0yieAqoBZoymTnb4lhoz3U77onwOJg==
+X-Google-Smtp-Source: ABdhPJxoSmlTJmgXl660BigWZnfFvZMO86YNdCgS5ZJyzU2Oh8pH9oDqaqwSvLm1KIpfwK+yiiZdzw==
+X-Received: by 2002:a17:906:dbf2:: with SMTP id yd18mr3800059ejb.45.1611915863551;
+        Fri, 29 Jan 2021 02:24:23 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
-        by smtp.gmail.com with ESMTPSA id k22sm3554574eji.101.2021.01.29.02.24.22
+        by smtp.gmail.com with ESMTPSA id k22sm3554574eji.101.2021.01.29.02.24.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jan 2021 02:24:22 -0800 (PST)
+        Fri, 29 Jan 2021 02:24:23 -0800 (PST)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 05/13] native: Stop clearing PACKAGES
-Date: Fri, 29 Jan 2021 10:24:11 +0000
-Message-Id: <20210129102419.1360572-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 06/13] meta: Clean up various class-native* RDEPENDS overrides
+Date: Fri, 29 Jan 2021 10:24:12 +0000
+Message-Id: <20210129102419.1360572-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210129102419.1360572-1-richard.purdie@linuxfoundation.org>
 References: <20210129102419.1360572-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Native recipes have been special and they don't have packages generated
-from them. The RDEPENDS/RPROVIDES and other runtime package specific
-variables can contain important data about dependencies recipes need
-though and currently it is required to write this information explicitly
-in the native case.
+With PACKAGES functioning more correctly for native recipes combined
+with classextend improvements over the years, there are various overrides
+of RDEPENDS which look unecessary now, clean them up.
 
-We now delete the packaging tasks for native recipes which removes the
-need to clear PACKAGES. The next step to improve the metadata is to
-stop clearing it and ensure any entries in these variables are remapped
-appropriately. The R* variables were already being processed by the class
-extension code but the implementation was suboptimal.
+There some some minor changes in dependencies, specifically:
 
-This patch stops clearing PACKAGES and PACKAGES_DYNAMIC and fixes the places
-where that caused issues in OE-Core, for example PACKAGES additions in anonymous
-python without the "-native" suffix and a case where the included classes
-caused a self reference in DEPENDS which would once have been removed by
-the previous code.
+"python3-numpy-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
+"python3-mako-native.do_populate_sysroot" -> "python3-native.do_populate_sysroot"
+"itstool-native.do_populate_sysroot" -> "libxml2-native.do_populate_sysroot"
 
-The implementation uses datastore/parser parameters to ensure that the
-variable overrides are not overwritten when calling setVar which is appropriate
-for a function as close to the core as this one is.
+however there are already:
 
-Some now unneeded code in python3-setuptools is dropped, there are further
-changes like this which can follow.
+XXX-native.do_prepare_recipe_ssysroot -> YYY-native.do_populate_sysroot
 
-This change was verified with OE-Core by comparing task-depends.dot generated
-by "bitbake world -g" before and after the change, the files were identical.
+mappings from DEPENDS so this is effectively a null op.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/native.bbclass                   | 23 ++++++++-----------
- .../python/python3-setuptools_51.0.0.bb       |  5 ----
- .../gdk-pixbuf/gdk-pixbuf_2.40.0.bb           |  1 +
- meta/recipes-graphics/mesa/mesa.inc           | 14 +++++++----
- meta/recipes-support/boost/boost.inc          |  3 +++
- 5 files changed, 22 insertions(+), 24 deletions(-)
+ meta/recipes-core/dbus/dbus_1.12.20.bb        |  2 --
+ meta/recipes-devtools/autoconf/autoconf.inc   | 29 +------------------
+ .../automake/automake_1.16.2.bb               |  1 -
+ .../python-numpy/python3-numpy_1.19.5.bb      |  2 --
+ .../python/python3-mako_1.1.4.bb              |  2 --
+ meta/recipes-devtools/tcltk/tcl_8.6.11.bb     |  1 -
+ .../perl/libtimedate-perl_2.30.bb             |  1 -
+ meta/recipes-support/itstool/itstool_2.0.6.bb |  1 -
+ 8 files changed, 1 insertion(+), 38 deletions(-)
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 08106e345ca..a0838e41b97 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -5,20 +5,12 @@ inherit relocatable
- # no need for them to be a direct target of 'world'
- EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta/recipes-core/dbus/dbus_1.12.20.bb b/meta/recipes-core/dbus/dbus_1.12.20.bb
+index 09049301cc7..32e7d9cfa38 100644
+--- a/meta/recipes-core/dbus/dbus_1.12.20.bb
++++ b/meta/recipes-core/dbus/dbus_1.12.20.bb
+@@ -6,8 +6,6 @@ SECTION = "base"
+ require dbus.inc
  
--PACKAGES = ""
--PACKAGES_class-native = ""
--PACKAGES_DYNAMIC = ""
--PACKAGES_DYNAMIC_class-native = ""
- PACKAGE_ARCH = "${BUILD_ARCH}"
+ DEPENDS = "expat virtual/libintl autoconf-archive"
+-RDEPENDS_dbus_class-native = ""
+-RDEPENDS_dbus_class-nativesdk = ""
+ PACKAGES += "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
+ ALLOW_EMPTY_dbus-ptest = "1"
+ RDEPENDS_dbus-ptest_class-target = "dbus-test-ptest"
+diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
+index 868e1c8256d..03e4ca8a3ed 100644
+--- a/meta/recipes-devtools/autoconf/autoconf.inc
++++ b/meta/recipes-devtools/autoconf/autoconf.inc
+@@ -34,34 +34,7 @@ RDEPENDS_${PN} = "m4 gnu-config \
+ 		  perl-module-thread-queue \
+ 		  perl-module-threads \
+ 		 "
+-RDEPENDS_${PN}_class-native = "m4-native gnu-config-native"
+-RDEPENDS_${PN}_class-nativesdk = "\
+-		  nativesdk-gnu-config \
+-		  nativesdk-m4 \
+-		  nativesdk-perl \
+-		  nativesdk-perl-module-bytes \
+-		  nativesdk-perl-module-carp \
+-		  nativesdk-perl-module-constant \
+-		  nativesdk-perl-module-data-dumper \
+-		  nativesdk-perl-module-errno \
+-		  nativesdk-perl-module-exporter \
+-		  nativesdk-perl-module-file-basename \
+-		  nativesdk-perl-module-file-compare \
+-		  nativesdk-perl-module-file-copy \
+-		  nativesdk-perl-module-file-find \
+-		  nativesdk-perl-module-file-glob \
+-		  nativesdk-perl-module-file-path \
+-		  nativesdk-perl-module-file-spec \
+-		  nativesdk-perl-module-file-spec-unix \
+-		  nativesdk-perl-module-file-stat \
+-		  nativesdk-perl-module-getopt-long \
+-		  nativesdk-perl-module-io-file \
+-		  nativesdk-perl-module-overloading \
+-		  nativesdk-perl-module-posix \
+-		  nativesdk-perl-module-symbol \
+-		  nativesdk-perl-module-thread-queue \
+-		  nativesdk-perl-module-threads \
+-                  "
++RDEPENDS_${PN}_class-native = "m4-native gnu-config-native hostperl-runtime-native"
  
- # used by cmake class
- OECMAKE_RPATH = "${libdir}"
- OECMAKE_RPATH_class-native = "${libdir}"
+ inherit autotools texinfo
  
--# When this class has packaging enabled, setting 
--# RPROVIDES becomes unnecessary.
--RPROVIDES = "${PN}"
--
- TARGET_ARCH = "${BUILD_ARCH}"
- TARGET_OS = "${BUILD_OS}"
- TARGET_VENDOR = "${BUILD_VENDOR}"
-@@ -138,7 +130,7 @@ python native_virtclass_handler () {
-     if "native" not in classextend:
-         return
+diff --git a/meta/recipes-devtools/automake/automake_1.16.2.bb b/meta/recipes-devtools/automake/automake_1.16.2.bb
+index fd8ed0ed3b8..08ec0346263 100644
+--- a/meta/recipes-devtools/automake/automake_1.16.2.bb
++++ b/meta/recipes-devtools/automake/automake_1.16.2.bb
+@@ -17,7 +17,6 @@ RDEPENDS_${PN} += "\
+     perl-module-vars "
  
--    def map_dependencies(varname, d, suffix = ""):
-+    def map_dependencies(varname, d, suffix = "", selfref=True):
-         if suffix:
-             varname = varname + "_" + suffix
-         deps = d.getVar(varname)
-@@ -148,22 +140,25 @@ python native_virtclass_handler () {
-         newdeps = []
-         for dep in deps:
-             if dep == pn:
--                continue
-+                if not selfref:
-+                    continue
-+                newdeps.append(dep)
-             elif "-cross-" in dep:
-                 newdeps.append(dep.replace("-cross", "-native"))
-             elif not dep.endswith("-native"):
--                newdeps.append(dep + "-native")
-+                newdeps.append(dep.replace("-native", "") + "-native")
-             else:
-                 newdeps.append(dep)
--        d.setVar(varname, " ".join(newdeps))
-+        d.setVar(varname, " ".join(newdeps), parsing=True)
+ RDEPENDS_${PN}_class-native = "autoconf-native hostperl-runtime-native"
+-RDEPENDS_${PN}_class-nativesdk = "nativesdk-autoconf"
  
--    map_dependencies("DEPENDS", e.data)
--    for pkg in [e.data.getVar("PN"), "", "${PN}"]:
-+    map_dependencies("DEPENDS", e.data, selfref=False)
-+    for pkg in e.data.getVar("PACKAGES", False).split():
-         map_dependencies("RDEPENDS", e.data, pkg)
-         map_dependencies("RRECOMMENDS", e.data, pkg)
-         map_dependencies("RSUGGESTS", e.data, pkg)
-         map_dependencies("RPROVIDES", e.data, pkg)
-         map_dependencies("RREPLACES", e.data, pkg)
-+    map_dependencies("PACKAGES", e.data)
- 
-     provides = e.data.getVar("PROVIDES")
-     nprovides = []
-diff --git a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
-index 6ee935f8f79..db336bfa13b 100644
---- a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
-@@ -58,8 +58,3 @@ RDEPENDS_${PYTHON_PN}-pkg-resources = "\
-   ${PYTHON_PN}-plistlib \
-   ${PYTHON_PN}-pprint \
+ SRC_URI += "file://python-libdir.patch \
+             file://buildtest.patch \
+diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
+index 5037d2a4221..b619bf6f32a 100644
+--- a/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
++++ b/meta/recipes-devtools/python-numpy/python3-numpy_1.19.5.bb
+@@ -53,6 +53,4 @@ RDEPENDS_${PN}-ptest += "${PYTHON_PN}-pytest \
+                          ldd \
  "
--# Due to the way OE-Core implemented native recipes, the native class cannot
--# have a dependency on something that is not a recipe name. Work around that by
--# manually setting RPROVIDES.
--RDEPENDS_${PN}_append = " ${PYTHON_PN}-pkg-resources"
--RPROVIDES_append_class-native = " ${PYTHON_PN}-pkg-resources-native"
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-index 16708fd581d..226e1c7b89f 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
- SECTION = "libs"
  
- DEPENDS = "glib-2.0 gdk-pixbuf-native shared-mime-info"
-+DEPENDS_remove_class-native = "gdk-pixbuf-native"
+-RDEPENDS_${PN}_class-native = ""
+-
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-mako_1.1.4.bb b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
+index 531fc6a3c0e..1645f37da44 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.1.4.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.1.4.bb
+@@ -15,6 +15,4 @@ RDEPENDS_${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-threading \
+ "
  
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+-RDEPENDS_${PN}_class-native = ""
+-
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+index 74bdb098c6f..d0112020813 100644
+--- a/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
++++ b/meta/recipes-devtools/tcltk/tcl_8.6.11.bb
+@@ -69,7 +69,6 @@ ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
  
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index efb12e573f8..cb075a8b89e 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -218,6 +218,9 @@ do_install_append () {
- # RPROVIDEs/RCONFLICTs on the generic libgl name.
- python __anonymous() {
-     pkgconfig = (d.getVar('PACKAGECONFIG') or "").split()
-+    suffix = ""
-+    if "-native" in d.getVar("PN"):
-+        suffix = "-native"
-     for p in (("egl", "libegl", "libegl1"),
-               ("dri", "libgl", "libgl1"),
-               ("gles", "libgles1", "libglesv1-cm1"),
-@@ -226,19 +229,19 @@ python __anonymous() {
-         if not p[0] in pkgconfig:
-             continue
-         mlprefix = d.getVar("MLPREFIX")
--        fullp = mlprefix + p[1] + "-mesa"
-+        fullp = mlprefix + p[1] + "-mesa" + suffix
-         mlprefix = d.getVar("MLPREFIX")
--        pkgs = " ".join(mlprefix + x for x in p[1:])
-+        pkgs = " ".join(mlprefix + x + suffix for x in p[1:])
-         d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
-         d.appendVar("RREPLACES_" + fullp, pkgs)
-         d.appendVar("RPROVIDES_" + fullp, pkgs)
-         d.appendVar("RCONFLICTS_" + fullp, pkgs)
+ # isn't getting picked up by shlibs code
+ RDEPENDS_${PN} += "tcl-lib"
+-RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}-ptest += "libgcc"
  
--        d.appendVar("RRECOMMENDS_" + fullp, " ${MLPREFIX}mesa-megadriver")
-+        d.appendVar("RRECOMMENDS_" + fullp, " ${MLPREFIX}mesa-megadriver" + suffix)
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+index 7219c7d11eb..d42eadb586e 100644
+--- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
++++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
+@@ -13,7 +13,6 @@ inherit cpan ptest-perl
  
-         # For -dev, the first element is both the Debian and original name
--        fullp += "-dev"
--        pkgs = mlprefix + p[1] + "-dev"
-+        fullp = mlprefix + p[1] + "-mesa-dev" + suffix
-+        pkgs = mlprefix + p[1] + "-dev" + suffix
-         d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
-         d.appendVar("RREPLACES_" + fullp, pkgs)
-         d.appendVar("RPROVIDES_" + fullp, pkgs)
-@@ -272,6 +275,7 @@ python mesa_populate_packages() {
- PACKAGESPLITFUNCS_prepend = "mesa_populate_packages "
+ BBCLASSEXTEND = "native"
  
- PACKAGES_DYNAMIC += "^mesa-driver-.*"
-+PACKAGES_DYNAMIC_class-native = "^mesa-driver-.*-native"
+-RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN} += "perl-module-carp perl-module-exporter perl-module-strict perl-module-time-local"
+ RDEPENDS_${PN}-ptest += "perl-module-test-more perl-module-utf8"
  
- FILES_mesa-megadriver = "${libdir}/dri/* ${datadir}/drirc.d/00-mesa-defaults.conf"
- FILES_mesa-vulkan-drivers = "${libdir}/libvulkan_*.so ${datadir}/vulkan"
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index cbf9cad7071..c9bb1785419 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -59,10 +59,13 @@ PACKAGES = "${PN}-dbg ${BOOST_PACKAGES}"
- python __anonymous () {
-     packages = []
-     extras = []
-+    pn = d.getVar("PN")
-     mlprefix = d.getVar("MLPREFIX")
-     for lib in d.getVar('BOOST_LIBS').split():
-         extras.append("--with-%s" % lib)
-         pkg = "boost-%s" % (lib.replace("_", "-"))
-+        if "-native" in pn:
-+            pkg = pkg + "-native"
-         packages.append(mlprefix + pkg)
-         if not d.getVar("FILES_%s" % pkg):
-                 d.setVar("FILES_%s%s" % (mlprefix, pkg), "${libdir}/libboost_%s*.so.*" % lib)
+diff --git a/meta/recipes-support/itstool/itstool_2.0.6.bb b/meta/recipes-support/itstool/itstool_2.0.6.bb
+index 5f358f463d0..c52aa7941a3 100644
+--- a/meta/recipes-support/itstool/itstool_2.0.6.bb
++++ b/meta/recipes-support/itstool/itstool_2.0.6.bb
+@@ -18,4 +18,3 @@ SRC_URI[sha256sum] = "6233cc22726a9a5a83664bf67d1af79549a298c23185d926c3677afa91
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ RDEPENDS_${PN} += "libxml2-python"
+-RDEPENDS_${PN}_class-native = ""
 -- 
 2.27.0
 
