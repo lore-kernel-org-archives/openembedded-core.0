@@ -1,107 +1,97 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web10.10149.1611930248687921010
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web12.10176.1611930851911916314
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jan 2021 06:24:09 -0800
+ Fri, 29 Jan 2021 06:34:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P8vER7m1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f53.google.com with SMTP id n6so10704418edt.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 06:24:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ShTTxjC/WeYSltXpai1higeRNXy3u+BZeBWwgoJEPQM=;
-        b=P8vER7m11ZC1iGmb7vWRZu/gICLoJhpoaS/raW+vN1dvT+SSUVoKko8fqKGZqcBdLM
-         XOsNEAr0MpTxbvre8DQhQf+RRx/6pGP/64if9J1b0Dy/SpBntcSk+/lJ71QB7l/+lhV4
-         dXwLmn8CBz/F3Fv+eRDvbs/3w/3bPwSLr2J5Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ShTTxjC/WeYSltXpai1higeRNXy3u+BZeBWwgoJEPQM=;
-        b=J9Gkh5k77rTUBa0F5e814/pw3cCpmH2iTrOCGOMWwwiws9ZC3wCsJlNl+Btha4L3QF
-         Xq4ZJu1XJ3SqqPlAlNG+kLXHVHW/J/4b56u9qhaJDRpQ6fYC0A2H3ZToMC9RKy4N0eUS
-         fnTbKrp9D8lXfWXyjAPEPdiLCLF8Foto1Qs/aKoUJqgLi0kjDURpexVFWQI4pofZvuBn
-         fTO/C1zsHgXUgj2hsbhwoFUVUJ2axB/XBWB5SjxuGhMD9Ke94iHzBmkcETunBA1i7t7Y
-         XGfueoKICoo23Q86oY7KZlEdpX/GPREyQ0Nya6B2sRGLDIBQHTzT0q5KOyxTaZ4+LPeE
-         14MQ==
-X-Gm-Message-State: AOAM533eIsX9Dwx5lBJX8N9TjxS1R2YsOgDonZtU8lPg2hDZEiQuFOw1
-	zn4u8jaxxhRLp+q1hsP2LcAv9Q==
-X-Google-Smtp-Source: ABdhPJzcTHyrPa7dhlR5OGeyXM1tC+Ck+S9JWspRCL4JTibq+63sd+wgJAoMEl1ACkPOMPvQP4q8+w==
-X-Received: by 2002:aa7:cd08:: with SMTP id b8mr5278018edw.177.1611930246758;
-        Fri, 29 Jan 2021 06:24:06 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:93ef:509c:4f16:14ff? ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
-        by smtp.gmail.com with ESMTPSA id t19sm3858384ejc.62.2021.01.29.06.24.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jan 2021 06:24:06 -0800 (PST)
-Message-ID: <245dfd64ed2342f41062898834c7929bde4a6989.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v4 4/4] shaderc: fix the build with glslang 11.1.0
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Jose Quaresma
-	 <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Jan 2021 14:24:03 +0000
-In-Reply-To: <165EB138E76788A6.12832@lists.openembedded.org>
-References: <20210124180758.1610301-1-quaresma.jose@gmail.com>
-	 <20210124180758.1610301-4-quaresma.jose@gmail.com>
-	 <20210128223834.GA2544418@piout.net>
-	 <165E86C2AF927994.17182@lists.openembedded.org>
-	 <165EB138E76788A6.12832@lists.openembedded.org>
-User-Agent: Evolution 3.38.1-1 
+ dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1l5Uqd-0007Qw-2S; Fri, 29 Jan 2021 16:34:08 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1l5Uqc-000CN5-W9; Fri, 29 Jan 2021 16:34:06 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@yoctoproject.org,
+	Marek Belisko <marek.belisko@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Mikko Rapeli <mikko.rapeli@bmw.de>,
+	Mauro Queiros <maurofrqueiros@gmail.com>
+Subject: [dunfell][PATCH 1/2] bitbake: git.py: Use the correct branch to check if the repository has LFS objects.
+Date: Fri, 29 Jan 2021 16:33:43 +0200
+Message-Id: <20210129143344.45304-1-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <8f202e9d2617de34b914a81a54bdd0902a706930.camel@linuxfoundation.org>
+References: <8f202e9d2617de34b914a81a54bdd0902a706930.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-Rspam-Score: -0.2 (/)
+X-Rspam-Report: Action: no action
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: RCPT_COUNT_FIVE(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: FREEMAIL_ENVRCPT(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: TAGGED_RCPT(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FREEMAIL_CC(0.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Symbol: SUSPICIOUS_RECIPS(1.50)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Message-ID: 20210129143344.45304-1-mikko.rapeli@bmw.de
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-01-29 at 11:42 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Thu, 2021-01-28 at 22:44 +0000, Richard Purdie via
-> lists.openembedded.org wrote:
-> > On Thu, 2021-01-28 at 23:38 +0100, Alexandre Belloni wrote:
-> > > Hello Jose,
-> > > 
-> > > On 24/01/2021 18:07:58+0000, Jose Quaresma wrote:
-> > > > Drop patches:
-> > > >     * 0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
-> > > >       is rejected upstream and is not need when glslang as shared libs.
-> > > > 
-> > > > Update pacthes:
-> > > >     * 0001-cmake-de-vendor-libs-and-disable-git-versioning.patch
-> > > >       renamed and refreshed from 0003-cmake-de-vendor-libs-and-disable-git-versioning.patch.
-> > > > 
-> > > 
-> > > It seems there is still a linking issue when building shaderc-native.
-> > > The full log is available here:
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2978/steps/11/logs/stdio
-> > 
-> > I have a suspicion this happens on Ubuntu 18.04 systems since I've seen
-> > issues like this locally with 18.04's binutils version and OE generated
-> > vulkan-samples binaries, I think Joshua Watt reported the same issue
-> > too with 18.04.
-> > 
-> > Not sure what we can do about it, can we disable the debug symbol types
-> > causing problems in that -native recipe?
-> 
-> I tried to reproduce this and couldn't so far. I suspect what happens
-> is that one of the dependencies builds on a newer system, shaderc-
-> native then builds on 1804 and it can't read the binary generated by
-> the newer binutils.
-> 
-> This is obviously a pain to setup and reproduce. The "easiest" way may
-> be to build buildtools-tarball to build everything up to shaderc-
-> native, then remove buildtools-tarball and build shaderc-native. I'll
-> see if I can find some time to try that.
-> 
-> I've been holding the patches in master-next but I think we probably
-> should merge them as this could well be a generic ubuntu1804 issue that
-> already probably exists.
+From: Mauro Queirós <maurofrqueiros@gmail.com>
 
-I tried this and I couldn't reproduce with master's buildtools tarball
-so I guess we wait and see if it comes up again.
+Function "contains_lfs" was only looking at the master branch when searching for LFS
+content. LFS may be configured in specific branches only, so we need to use the
+correct branch.
 
-Cheers,
+(Bitbake rev: 4fa67c2af830035a1ddedc14592ee25a15ebff22)
 
-Richard
+Signed-off-by: Mauro Queiros <maurofrqueiros@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ bitbake/lib/bb/fetch2/git.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index dcecff5d38..fc14192e24 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -563,8 +563,15 @@ class Git(FetchMethod):
+         """
+         Check if the repository has 'lfs' (large file) content
+         """
+-        cmd = "%s grep lfs HEAD:.gitattributes | wc -l" % (
+-                ud.basecmd)
++
++        if not ud.nobranch:
++            branchname = ud.branches[ud.names[0]]
++        else:
++            branchname = "master"
++
++        cmd = "%s grep lfs origin/%s:.gitattributes | wc -l" % (
++            ud.basecmd, ud.branches[ud.names[0]])
++
+         try:
+             output = runfetchcmd(cmd, d, quiet=True, workdir=wd)
+             if int(output) > 0:
+-- 
+2.20.1
 
