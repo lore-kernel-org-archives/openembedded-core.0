@@ -1,201 +1,144 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web10.5124.1611892277859206714
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.web10.5642.1611896251898691613
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 19:51:17 -0800
+ Thu, 28 Jan 2021 20:57:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: Sx4zlyLaeGJyoK0NiGKV8eMP/88zrLlmt951COXP/rjAqm8MTq/fv9LkH2p+Waa2Q77xkyVMXs
- KFLdDY+nexoQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9878"; a="180501044"
-X-IronPort-AV: E=Sophos;i="5.79,384,1602572400"; 
-   d="scan'208";a="180501044"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jan 2021 19:51:17 -0800
-IronPort-SDR: lkx4MkRhkjt20fZ0NmDLcaq4TLkGn5UUnRAV1tb9dzznvK8PXKPxAUh7jbnbMe4bkyKrmKc37n
- 8uVR/5nPJFaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.79,384,1602572400"; 
-   d="scan'208";a="505575777"
-Received: from unknown (HELO guest1-ubuntu1804.png.intel.com) ([10.221.183.51])
-  by orsmga004.jf.intel.com with ESMTP; 28 Jan 2021 19:51:16 -0800
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] cve_check: add CVE_VERSION_SUFFIX to indicate suffix in versioning
-Date: Fri, 29 Jan 2021 11:51:15 +0800
-Message-Id: <20210129035115.72783-1-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VAoFSmY4;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id w11so3945411qvz.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 20:57:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EBN3y60JpNSPZbO4fESlTZzoYfpxXvWE7Ej8MkQB+04=;
+        b=VAoFSmY4S8IlwpGd2QtRybNsMU5Tp6PkIr1rdvwZC1RJVzHaB0u400uUtUDhQ8wNeQ
+         OUVbtzHlYt260bnTkbearMFsNQCEMNZm8kRllPDE9bFzWZFoV8BaGi2zF2uSY19I7/5O
+         Dvw81voLNqG91fKCJdj/SzEyOXOKYkUuyHtuxxD8X8SYnZOQ9qqHY6LW/87bBVWzPKSf
+         5B5K54+2LCeknjlKvtUdhb1L9MqKGOfqL7egUGzBUOJeuYQZlM2IwjGEIf4T9yN7yF97
+         xfD0r2e8duam0z8iiHTGSj7I8xgOovkMoXUxIlyKMz+hsu8Cf4qtaPCXOrJer7+n6iZR
+         i5EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EBN3y60JpNSPZbO4fESlTZzoYfpxXvWE7Ej8MkQB+04=;
+        b=ILlgb4MLBO1fLT37+RsUVVvqVQikTIy4A/XnapoliLnUgfIY3NEP7jY09VbJX65tY7
+         eZCCjc6RuRqF3xLmLqlP1sZJ7agbKAltbzZ5NhzK9YPQi0oq+8aewAWZMnuSpomZzVev
+         aQJfK5bvwzDODVIr6SM4ZeqPlZtxCugLmHd6VSdCuDcmh6XsWTfNyOjNaW0e12VFFHk6
+         WelkiOaoPD1Ykaj6366VhyVNbGdM1iL4FcF6dij3i/22Cjk2gYpIuwBRQehExPnkiwOq
+         YHGfhFkrXopIvj/QRfOZ5YgA+RvFZ/q9EkTEn1arlyHMHWgPdPDqPAkg0HW9WR/QOPHY
+         OZWQ==
+X-Gm-Message-State: AOAM530tDBRhOycjS0KwEUr6f+A2DhWxrnFp7MI7HGVOL0kkRDUFdpTW
+	BI3fuxOM0HNYPm/E/c2tJF9rAMSkeDyRUituVXQ=
+X-Google-Smtp-Source: ABdhPJzzEuX9Q6eedHH5Qw6OCnZ6iv5C0XyugVl1FysQV+3C83VqJSQLKLX/m0gRAgdtgR6fbY8geS/IhqGqrmZ0gWY=
+X-Received: by 2002:a0c:eda6:: with SMTP id h6mr2746000qvr.19.1611896251026;
+ Thu, 28 Jan 2021 20:57:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20210129014259.7985-1-tom.hochstein@nxp.com>
+In-Reply-To: <20210129014259.7985-1-tom.hochstein@nxp.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 28 Jan 2021 20:57:20 -0800
+Message-ID: <CAMKF1srvbmYWe1EwDK-mLhgN0vDhKe7AfL1zznAy8CSTxv3G6Q@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH] glm: Fix packaging for header-only recipe
+To: Tom Hochstein <tom.hochstein@nxp.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000750fdf05ba02d77a"
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+--000000000000750fdf05ba02d77a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-add CVE_VERSION_SUFFIX to indicate the version suffix type, currently
-works in two value, "alphabetical" if the version string uses single
-alphabetical character suffix as incremental release, blank to not
-consider the unidentified suffixes. This can be expand when more suffix
-pattern identified.
+On Thu, Jan 28, 2021 at 5:44 PM Tom Hochstein <tom.hochstein@nxp.com> wrote=
+:
 
-refactor cve_check.Version class to use functools and add parameter to
-handle suffix condition.
+> Set ALLOW_EMPTY for the main package to "1" for this header-only recipe.
+> This
+> allows the SDK to be created properly when there is an RDEPENDS on glm.
 
-Also update testcases to cover new changes.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
+Runtime dependency on a header only package seems a bit iffy it=E2=80=99s =
+perhaps
+better to depend on glm-dev perhaps ?
 
-V2 make sure match.group("patch_l") not "None" before assign it to key 
+>
+>
+> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+> ---
+>  meta-oe/recipes-graphics/glm/glm_0.9.9.6.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta-oe/recipes-graphics/glm/glm_0.9.9.6.bb
+> b/meta-oe/recipes-graphics/glm/glm_0.9.9.6.bb
+> index e2f4dbebc..019e6257d 100644
+> --- a/meta-oe/recipes-graphics/glm/glm_0.9.9.6.bb
+> +++ b/meta-oe/recipes-graphics/glm/glm_0.9.9.6.bb
+> @@ -34,6 +34,7 @@ do_install() {
+>
+>  }
+>
+> -RDEPENDS_${PN}-dev =3D ""
+> +# This is a header-only library, so the main package will be empty.
+> +ALLOW_EMPTY_${PN} =3D "1"
+>
+>  BBCLASSEXTEND =3D "native"
+> --
+> 2.17.1
+>
+>
+>=20
+>
+>
 
- meta/classes/cve-check.bbclass            | 12 ++++---
- meta/lib/oe/cve_check.py                  | 40 ++++++++++++-----------
- meta/lib/oeqa/selftest/cases/cve_check.py | 11 ++++++-
- 3 files changed, 39 insertions(+), 24 deletions(-)
+--000000000000750fdf05ba02d77a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 646cc879dd..ed86403b6b 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -53,6 +53,9 @@ CVE_CHECK_PN_WHITELIST ?= ""
- #
- CVE_CHECK_WHITELIST ?= ""
- 
-+# set to "alphabetical" for version using single alphabetical character as increament release
-+CVE_VERSION_SUFFIX ??= ""
-+
- python cve_save_summary_handler () {
-     import shutil
-     import datetime
-@@ -210,6 +213,7 @@ def check_cves(d, patched_cves):
- 
-     pn = d.getVar("PN")
-     real_pv = d.getVar("PV")
-+    suffix = d.getVar("CVE_VERSION_SUFFIX")
- 
-     cves_unpatched = []
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-@@ -263,8 +267,8 @@ def check_cves(d, patched_cves):
-                 else:
-                     if operator_start:
-                         try:
--                            vulnerable_start =  (operator_start == '>=' and Version(pv) >= Version(version_start))
--                            vulnerable_start |= (operator_start == '>' and Version(pv) > Version(version_start))
-+                            vulnerable_start =  (operator_start == '>=' and Version(pv,suffix) >= Version(version_start,suffix))
-+                            vulnerable_start |= (operator_start == '>' and Version(pv,suffix) > Version(version_start,suffix))
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_start, version_start, cve))
-@@ -274,8 +278,8 @@ def check_cves(d, patched_cves):
- 
-                     if operator_end:
-                         try:
--                            vulnerable_end  = (operator_end == '<=' and Version(pv) <= Version(version_end) )
--                            vulnerable_end |= (operator_end == '<' and Version(pv) < Version(version_end) )
-+                            vulnerable_end  = (operator_end == '<=' and Version(pv,suffix) <= Version(version_end,suffix) )
-+                            vulnerable_end |= (operator_end == '<' and Version(pv,suffix) < Version(version_end,suffix) )
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_end, version_end, cve))
-diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
-index ec48a3f829..ce755f940a 100644
---- a/meta/lib/oe/cve_check.py
-+++ b/meta/lib/oe/cve_check.py
-@@ -1,58 +1,60 @@
- import collections
- import re
- import itertools
-+import functools
- 
- _Version = collections.namedtuple(
--    "_Version", ["release", "pre_l", "pre_v"]
-+    "_Version", ["release", "patch_l", "pre_l", "pre_v"]
- )
- 
-+@functools.total_ordering
- class Version():
--    _version_pattern =  r"""v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
--    _regex = re.compile(r"^\s*" + _version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
--    def __init__(self, version):
--        match = self._regex.search(version)
-+
-+    def __init__(self, version, suffix=None):
-+        if str(suffix) == "alphabetical":
-+            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<patch>[-_\.]?(?P<patch_l>[a-z]))?(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-+        else:
-+            version_pattern =  r"""r?v?(?:(?P<release>[0-9]+(?:[-\.][0-9]+)*)(?P<pre>[-_\.]?(?P<pre_l>(rc|alpha|beta|pre|preview|dev))[-_\.]?(?P<pre_v>[0-9]+)?)?)(.*)?"""
-+        regex = re.compile(r"^\s*" + version_pattern + r"\s*$", re.VERBOSE | re.IGNORECASE)
-+
-+        match = regex.search(version)
-         if not match:
-             raise Exception("Invalid version: '{0}'".format(version))
- 
-         self._version = _Version(
-             release=tuple(int(i) for i in match.group("release").replace("-",".").split(".")),
-+            patch_l=match.group("patch_l") if str(suffix) == "alphabetical" and match.group("patch_l") else "",
-             pre_l=match.group("pre_l"),
-             pre_v=match.group("pre_v")
-         )
- 
-         self._key = _cmpkey(
-             self._version.release,
-+            self._version.patch_l,
-             self._version.pre_l,
-             self._version.pre_v
-         )
- 
--    def __le__(self, other):
--        if not isinstance(other, Version):
--            return NotImplemented
--        return self._key <= other._key
--
--    def __lt__(self, other):
-+    def __eq__(self, other):
-         if not isinstance(other, Version):
-             return NotImplemented
--        return self._key < other._key
--
--    def __ge__(self, other):
--        if not isinstance(other, Version):
--            return NotImplemented
--        return self._key >= other._key
-+        return self._key == other._key
- 
-     def __gt__(self, other):
-         if not isinstance(other, Version):
-             return NotImplemented
-         return self._key > other._key
- 
--def _cmpkey(release, pre_l, pre_v):
-+def _cmpkey(release, patch_l, pre_l, pre_v):
-     # remove leading 0
-     _release = tuple(
-         reversed(list(itertools.dropwhile(lambda x: x == 0, reversed(release))))
-     )
-+
-+    _patch = patch_l.upper()
-+
-     if pre_l is None and pre_v is None:
-         _pre = float('inf')
-     else:
-         _pre = float(pre_v) if pre_v else float('-inf')
--    return _release, _pre
-+    return _release, _patch, _pre
-diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/selftest/cases/cve_check.py
-index 35e2b29a9a..3f343a2841 100644
---- a/meta/lib/oeqa/selftest/cases/cve_check.py
-+++ b/meta/lib/oeqa/selftest/cases/cve_check.py
-@@ -23,5 +23,14 @@ class CVECheck(OESelftestTestCase):
-         self.assertTrue( result, msg="Failed to compare version '1.0_dev' <= '1.0'")
- 
-         # ignore "p1" and "p2", so these should be equal
--        result = Version("1.0p2") <= Version("1.0p1") and Version("1.0p2") >= Version("1.0p1")
-+        result = Version("1.0p2") == Version("1.0p1")
-         self.assertTrue( result ,msg="Failed to compare version '1.0p2' to '1.0p1'")
-+        # ignore the "b" and "r"
-+        result = Version("1.0b") == Version("1.0r")
-+        self.assertTrue( result ,msg="Failed to compare version '1.0b' to '1.0r'")
-+
-+        # consider the trailing alphabet as patched level when comparing
-+        result = Version("1.0b","alphabetical") < Version("1.0r","alphabetical")
-+        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' < '1.0r'")
-+        result = Version("1.0b","alphabetical") > Version("1.0","alphabetical")
-+        self.assertTrue( result ,msg="Failed to compare version with suffix '1.0b' > '1.0'")
--- 
-2.17.1
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Jan 28, 2021 at 5:44 PM Tom Hochstein &lt;<a href=
+=3D"mailto:tom.hochstein@nxp.com">tom.hochstein@nxp.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-c=
+olor:rgb(204,204,204)">Set ALLOW_EMPTY for the main package to &quot;1&quot=
+; for this header-only recipe. This<br>
+allows the SDK to be created properly when there is an RDEPENDS on glm.</b=
+lockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Runtime dependency =
+on a header only package seems a bit iffy it=E2=80=99s perhaps better to de=
+pend on glm-dev perhaps ?</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;paddi=
+ng-left:1ex;border-left-color:rgb(204,204,204)" dir=3D"auto"><br>
+<br>
+Signed-off-by: Tom Hochstein &lt;<a href=3D"mailto:tom.hochstein@nxp.com" =
+target=3D"_blank">tom.hochstein@nxp.com</a>&gt;<br>
+---<br>
+=C2=A0meta-oe/recipes-graphics/glm/<a href=3D"http://glm_0.9.9.6.bb" rel=
+=3D"noreferrer" target=3D"_blank">glm_0.9.9.6.bb</a> | 3 ++-<br>
+=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta-oe/recipes-graphics/glm/<a href=3D"http://glm_0.9.9.6.bb=
+" rel=3D"noreferrer" target=3D"_blank">glm_0.9.9.6.bb</a> b/meta-oe/recipes=
+-graphics/glm/<a href=3D"http://glm_0.9.9.6.bb" rel=3D"noreferrer" target=
+=3D"_blank">glm_0.9.9.6.bb</a><br>
+index e2f4dbebc..019e6257d 100644<br>
+--- a/meta-oe/recipes-graphics/glm/<a href=3D"http://glm_0.9.9.6.bb" rel=
+=3D"noreferrer" target=3D"_blank">glm_0.9.9.6.bb</a><br>
++++ b/meta-oe/recipes-graphics/glm/<a href=3D"http://glm_0.9.9.6.bb" rel=
+=3D"noreferrer" target=3D"_blank">glm_0.9.9.6.bb</a><br>
+@@ -34,6 +34,7 @@ do_install() {<br>
+<br>
+=C2=A0}<br>
+<br>
+-RDEPENDS_${PN}-dev =3D &quot;&quot;<br>
++# This is a header-only library, so the main package will be empty.<br>
++ALLOW_EMPTY_${PN} =3D &quot;1&quot;<br>
+<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native&quot;<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
 
+--000000000000750fdf05ba02d77a--
