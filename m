@@ -1,83 +1,97 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
- by mx.groups.io with SMTP id smtpd.web11.2215.1611877444971243637
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.3306.1611882944360226157
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 Jan 2021 15:44:05 -0800
+ Thu, 28 Jan 2021 17:15:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gGcwyCJQ;
- spf=pass (domain: gmail.com, ip: 209.85.166.173, mailfrom: tomasz.dziendzielski@gmail.com)
-Received: by mail-il1-f173.google.com with SMTP id c20so6948365ilj.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 15:44:04 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qlBqbr31;
+ spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f172.google.com with SMTP id q2so4363615plk.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 Jan 2021 17:15:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/1FOHPVnEPMWEDpOswsy0PDsDpsWYiVBsC5HZxK0ff0=;
-        b=gGcwyCJQ1JZjHhqeG4OApxnvKa4rS4YFILbBix+7mxZJ1OsWUUgSfc34cnyFDoijyt
-         WJWdyJl08fWCYN63yxJCF+Uk5FpB+dpW/3ddXf/A3SvZgxgQLSr3vycFo84leImvHyGN
-         rw/8V239y7XbIg8gXMWnWo++qtruNpfCovmhOZpycgffAe5R9E6bSweYcVIAidggPP8z
-         xelMSB67cV5P2zGEtxW0Y/qCbZ4Mw+RKxTJ8JD9rC+tBFjfBAmSt7TFxt56CIIdiLoGm
-         97Ei1xgGWSCww8bkCE6nl6I0Kk2uvvBmKVyVZj1spSwXz/gMOh2tGvy7/SPSElmaqrpd
-         0uNA==
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=bSjKZO7E0rTW/CGqPkMjn1xUUWt8AbLUnfHd+zGVre0=;
+        b=qlBqbr310RargonDJ7q0cHWB/hDeJgaa46UywHM6ELax4tTtj5AbB9ZOlwj4RX7XRc
+         9BeycMIEHbo2IhhmB99yECsdTO0ooHC1v6s7KfK5GXp3Z0wAu9meiI3rRCOQHWYSKv2U
+         0t1iATvaptjUDygmSeZwN6mFkWazP/cc+/ZAZ9fbPs+dHTzpeG07FcgQQ/HTc4ciJc1D
+         MqIaxtOpPpG9i8FKaEU9BY4J5HoxKQfIdBpHFW83/LvU4n85/XUcLpgXrEmcAZJGi1Y2
+         NbbnPstzWr8mFbEyddNIHQukIqxVvKhu1OJbTkVBlyUtBblZW26dvjsMaD1C54TDei7O
+         BlNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/1FOHPVnEPMWEDpOswsy0PDsDpsWYiVBsC5HZxK0ff0=;
-        b=kyh8RX3bdfx+8GZ04V8EV8T5uemIQXOP0LF0Es4LkwTzVThWegd7qNssgTVoGQx1dQ
-         2Yayr0u8NdJ94VqqMypWhe+EVStwbbo9MvW+5R5cH9aZmV5gflFEKnNnVJNj7fT9AC4G
-         na8N7/iI2fwKJrtxBqP72CoAfw++x1BfvlQLm3T5hLqOyontyLrZ9+PW5OdfD630O6qT
-         RHLpFJYXCIaVJezRYtnkpl7DkluNA+T9Z4KWKnGPdppPQP9LuBHXUfQP6BU3Hvvtv46W
-         Ue42OmPNhrsjmh1G5PBlDPAL8HmJKa1+6TiCOIbn2zXRO8lJ306ymckEkoMBZ3SSEVSi
-         j24w==
-X-Gm-Message-State: AOAM5303M9jpnxlPWjjXBnh7Bc2jDlhxMQUmVRx/B3e1tluqNnVQwGnL
-	cJMP4JzLK1GLf+gGq8DtnLtlrzy0elnJYpnD1YA=
-X-Google-Smtp-Source: ABdhPJyil37Wkl1UUiN4Af2wBmhUczEwi033ggLZOApIUj2NL+O2usNS34DdWx+T7PLpZfViLq6uYAP+S8kJk5IOThc=
-X-Received: by 2002:a05:6e02:1d02:: with SMTP id i2mr1318639ila.30.1611877444408;
- Thu, 28 Jan 2021 15:44:04 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=bSjKZO7E0rTW/CGqPkMjn1xUUWt8AbLUnfHd+zGVre0=;
+        b=DlFx8SYBNikcrH8+jrTa/U5jjXEhCIHs3PZe/PSwf97MXyNYU54sn7brOsRx7WgD/y
+         rXcFGd4Y/d+zy+OGpMCh/S7v6v0JULtvcyIl1xM9zNa0umG2V4y7UHeisdjN3thNvCp7
+         4hR++lAnskPcjws0B0vSK7ZP7EYvTLs9cYt3wltpd2xaw6bE5VYKTL5XH+phSaLwAGod
+         9r0PPc8DL2Gap3o6Uz3A8W5EyZge0Dlaj5sQh9oUu8NkBfXoZNL6Au076sn8MIQllgCS
+         1phQeI5HGBySyH/4lfOx6qTKdkbLdEFJgvrOKKLHdfDhanyfOO6k9o93bLBKl7PQQC13
+         1m9A==
+X-Gm-Message-State: AOAM53289S6QLV0dO8MY1we1kc0RxsZjFqelcMvtRCyodr0OtQS13DbC
+	ZAd6g0kOYbqHsucdg1BTo8I=
+X-Google-Smtp-Source: ABdhPJxsArj7eLV3mNoMkm9pxieGK3at2ET0An3Ub50+9mIkcG9yO+BbMalCxtG3+QQuoQ0V5HW3fQ==
+X-Received: by 2002:a17:902:b604:b029:df:fe41:f55d with SMTP id b4-20020a170902b604b02900dffe41f55dmr1851524pls.43.1611882943782;
+        Thu, 28 Jan 2021 17:15:43 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:a0f0:4cc0:6157:4a24:8f68? ([2601:646:9200:a0f0:4cc0:6157:4a24:8f68])
+        by smtp.gmail.com with ESMTPSA id p7sm6707738pfn.52.2021.01.28.17.15.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Jan 2021 17:15:43 -0800 (PST)
+Subject: Re: [OE-core] [PATCH] [RFC] openssl: Enable cryptodev-linux by default
+To: Tom Hochstein <tom.hochstein@nxp.com>,
+ openembedded-core@lists.openembedded.org
+Cc: otavio@ossystems.com.br
+References: <20210128213504.3821-1-tom.hochstein@nxp.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <a525b7f9-c4d2-f28d-5be2-4d97590c9730@gmail.com>
+Date: Thu, 28 Jan 2021 17:15:41 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210127213311.6030-1-tomasz.dziendzielski@gmail.com>
- <20210127213311.6030-2-tomasz.dziendzielski@gmail.com> <CAP9ODKow4MBA-WoGMJyxiU-75GXY3-BQyWRqT+dYsJ=+AT7ECQ@mail.gmail.com>
- <f7478654da009d76e9bc6c7a1ba3a99865f775e6.camel@linuxfoundation.org>
-In-Reply-To: <f7478654da009d76e9bc6c7a1ba3a99865f775e6.camel@linuxfoundation.org>
-From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
-Date: Fri, 29 Jan 2021 00:46:36 +0100
-Message-ID: <CAJkqNs0zRmQKw0eGTRJ7mo3-44BZ2fYLREYwLVHs+8SwCLjkkw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] insane: native-last: Print classes inherited after native/nativesdk
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000007ed8a405b9fe7664"
+In-Reply-To: <20210128213504.3821-1-tom.hochstein@nxp.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---0000000000007ed8a405b9fe7664
-Content-Type: text/plain; charset="UTF-8"
 
->> I'd prefer a little of context on the commit log.
->
->Agreed, I've improved the log of the patch I've merged. Linking to a
->bugzilla entry isn't really enough information. I appreciate the
->patches though, there have been some good ones!
 
-Thank you both for your feedback and for improving the commit log. I will
-add more descriptive messages even for small changes next time.
+On 1/28/21 1:35 PM, Tom Hochstein wrote:
+> This is a Request for Comment. Would it be a good idea to enable cryptodev-linux
+> by default, gaining hardware acceleration where supported? Are there any
+> unacceptable drawbacks? What happens on hardware without acceleration?
+> 
 
-Best regards,
-Tomasz Dziendzielski
+this perhaps helps with devices that include a hardware crypto device 
+but not as much with one;s thats fine but we use qemu machines quite a 
+bit in testing so it would be good to get a readout on qemu secondly, if 
+it does not, then maybe we should see if defining it via 
+MACHINE_FEATUREs might be an option to enable it.
 
---0000000000007ed8a405b9fe7664
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><span class=3D"gmail-im">&gt;&gt; I&#39;d=
- prefer a little of context on the commit log.<br>
-&gt;<br></span>
-&gt;Agreed, I&#39;ve improved the log of the patch I&#39;ve merged. Linking=
- to a<br>
-&gt;bugzilla entry isn&#39;t really enough information. I appreciate the<br=
->
-&gt;patches though, there have been some good ones!</div><div dir=3D"ltr"><=
-br></div><div dir=3D"ltr">Thank you both for your feedback and for improvin=
-g the commit log. I will add more descriptive messages even for small chang=
-es next time.<div><br></div><div>Best regards,</div><div>Tomasz Dziendziels=
-ki<br></div></div></div>
-
---0000000000007ed8a405b9fe7664--
+> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+> ---
+>   meta/recipes-connectivity/openssl/openssl_1.1.1i.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+> index 5617f337e0..d4c19f1a52 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1i.bb
+> @@ -28,7 +28,7 @@ SRC_URI[sha256sum] = "e8be6a35fe41d10603c3cc635e93289ed00bf34b79671a3a4de64fcee0
+>   inherit lib_package multilib_header multilib_script ptest
+>   MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+>   
+> -PACKAGECONFIG ?= ""
+> +PACKAGECONFIG ?= "cryptodev-linux"
+>   PACKAGECONFIG_class-native = ""
+>   PACKAGECONFIG_class-nativesdk = ""
+>   
+> 
+> 
+> 
+> 
+> 
