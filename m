@@ -1,63 +1,101 @@
-Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
- by mx.groups.io with SMTP id smtpd.web08.8539.1611920508438808706
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.8126.1611920574103889981
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jan 2021 03:41:49 -0800
+ Fri, 29 Jan 2021 03:42:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.16, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp2.bon.at (Postfix) with ESMTPSA id 4DRwRF5VGlz5tlD;
-	Fri, 29 Jan 2021 12:41:45 +0100 (CET)
-Date: Fri, 29 Jan 2021 12:41:44 +0100
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KD5Zp5+d;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id u14so6595864wml.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 03:42:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=py8gcEs5sBCbXnvoSMW4MgzvjreT76IWWyEu/BL2nN0=;
+        b=KD5Zp5+d8mM2TjFDtoFvtze41EMG0NlmkldSi2ypobRr8t9qPwsTlWqxjXeuMZMnn1
+         oPAYt4/nPhhUBmmh1U9eYEJ0KdzyWotoTSnQkGSOXYyuABJkRHmjmfh+4Xoc/fgVC81a
+         Hvrx9dohgJLFo+za9GgcIw1P6tQ3uI/ZVcX3A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=py8gcEs5sBCbXnvoSMW4MgzvjreT76IWWyEu/BL2nN0=;
+        b=mYJODIB//Q5ve8Ip2le7hG2/dnrFeuw+1Yxme5UBZqmXvr8i5C/1Pfj6ZMjo5ig8sH
+         4DgtDyR+MLO4bt1/cCOp1FVfqskyan79f+gaauxKh6wA+XMz5SlyBRxo+JppA9xpgMcK
+         Y0cy9OHZSnxzoW1ZDkqhzGx2U2+il/0ZLj1GDdYVqHCFrJlyyAyf1PNntfXglIffbxhI
+         IG+JKxbxpQ+p4karoeTNzuazphMiZBs7oeGLNvSygtWEAJV5eztloK+GMFNHRGvEJnPZ
+         zp1peIs+Q76acegqiM0x7ZCHv2DYQOuCoSwAe7DSprKAGdzm61NSOS9R7V3KJI0edl/q
+         /A9Q==
+X-Gm-Message-State: AOAM530UuHJ+kBFJ/fnUvwXgthNwpykLX1LN6oSml43c1Sj0RuAHNDIf
+	haKEGYS2TTuHZ3KVBX4bqxarfA==
+X-Google-Smtp-Source: ABdhPJzvYs7HdxYny+JUxmDgLomD7CgGMrROp6dIasBIatbn5BbIOayRF+XnUOEWRWbNaCKlW6Z1DQ==
+X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr3436915wmg.55.1611920572735;
+        Fri, 29 Jan 2021 03:42:52 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:93ef:509c:4f16:14ff? ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
+        by smtp.gmail.com with ESMTPSA id r126sm9891380wma.48.2021.01.29.03.42.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jan 2021 03:42:52 -0800 (PST)
+Message-ID: <71ecfbece4999636acb5e2a245125971c5520385.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4 4/4] shaderc: fix the build with glslang 11.1.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Jose Quaresma
+	 <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] lib/oe/patch.py: Don't return command stderr from runcmd function
-Message-ID: <20210129114144.lvip5kzzoo2slhqr@qschulz>
-References: <20210129113808.16982-1-tomasz.dziendzielski@gmail.com>
+Date: Fri, 29 Jan 2021 11:42:50 +0000
+In-Reply-To: <165E86C2AF927994.17182@lists.openembedded.org>
+References: <20210124180758.1610301-1-quaresma.jose@gmail.com>
+	 <20210124180758.1610301-4-quaresma.jose@gmail.com>
+	 <20210128223834.GA2544418@piout.net>
+	 <165E86C2AF927994.17182@lists.openembedded.org>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-In-Reply-To: <20210129113808.16982-1-tomasz.dziendzielski@gmail.com>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Tomasz,
+On Thu, 2021-01-28 at 22:44 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> On Thu, 2021-01-28 at 23:38 +0100, Alexandre Belloni wrote:
+> > Hello Jose,
+> > 
+> > On 24/01/2021 18:07:58+0000, Jose Quaresma wrote:
+> > > Drop patches:
+> > >     * 0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
+> > >       is rejected upstream and is not need when glslang as shared libs.
+> > > 
+> > > Update pacthes:
+> > >     * 0001-cmake-de-vendor-libs-and-disable-git-versioning.patch
+> > >       renamed and refreshed from 0003-cmake-de-vendor-libs-and-disable-git-versioning.patch.
+> > > 
+> > 
+> > It seems there is still a linking issue when building shaderc-native.
+> > The full log is available here:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2978/steps/11/logs/stdio
+> 
+> I have a suspicion this happens on Ubuntu 18.04 systems since I've seen
+> issues like this locally with 18.04's binutils version and OE generated
+> vulkan-samples binaries, I think Joshua Watt reported the same issue
+> too with 18.04.
+> 
+> Not sure what we can do about it, can we disable the debug symbol types
+> causing problems in that -native recipe?
 
-On Fri, Jan 29, 2021 at 12:38:08PM +0100, Tomasz Dziendzielski wrote:
-> If a function returns any stderr it will be passed to extractPatches and
-> used as path to patch.
-> 
-> For example subprocess command output can be:
-> | sh: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
-> | /tmp/oepatchhuqle8fj/0001-foo.patch
-> | /tmp/oepatchhuqle8fj/0002-bar.patch
-> 
-> that will result in:
-> | FileNotFoundError: [Errno 2] No such file or directory: 'sh:'
-> 
-> To fix this I separated output, made the function return stdout and
-> print stderr only in case of command error.
-> 
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> ---
->  meta/lib/oe/patch.py | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-> index 40755fbb03..8ad70f53f1 100644
-> --- a/meta/lib/oe/patch.py
-> +++ b/meta/lib/oe/patch.py
-> @@ -38,15 +38,19 @@ def runcmd(args, dir = None):
->          args = [ pipes.quote(str(arg)) for arg in args ]
->          cmd = " ".join(args)
->          # print("cmd: %s" % cmd)
-> -        (exitstatus, output) = subprocess.getstatusoutput(cmd)
-> +        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+I tried to reproduce this and couldn't so far. I suspect what happens
+is that one of the dependencies builds on a newer system, shaderc-
+native then builds on 1804 and it can't read the binary generated by
+the newer binutils.
 
-I'd rather avoid having shell=True passed to Popen, read
-https://docs.python.org/3/library/subprocess.html#security-considerations
+This is obviously a pain to setup and reproduce. The "easiest" way may
+be to build buildtools-tarball to build everything up to shaderc-
+native, then remove buildtools-tarball and build shaderc-native. I'll
+see if I can find some time to try that.
 
-Can't we just use args directly instead of cmd in Popen to avoid using
-shell=True?
+I've been holding the patches in master-next but I think we probably
+should merge them as this could well be a generic ubuntu1804 issue that
+already probably exists.
 
 Cheers,
-Quentin
+
+Richard
+
