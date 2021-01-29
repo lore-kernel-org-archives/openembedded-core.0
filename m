@@ -1,55 +1,89 @@
-Received: from esa4.hc324-48.eu.iphmx.com (esa4.hc324-48.eu.iphmx.com [207.54.71.48])
- by mx.groups.io with SMTP id smtpd.web10.10476.1611931673662844907
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+ by mx.groups.io with SMTP id smtpd.web08.10653.1611931840372688107
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jan 2021 06:47:54 -0800
+ Fri, 29 Jan 2021 06:50:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=ozH/3AIR;
- spf=pass (domain: bmw.de, ip: 207.54.71.48, mailfrom: prvs=656141f01=mikko.rapeli@bmw.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1611931673; x=1643467673;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   content-id:content-transfer-encoding:mime-version;
-  bh=IY+C1rx8Pm/2gADSa6w92A97FtoaBIyp+PFGdUt5J78=;
-  b=ozH/3AIRTNz+JzNp5eIDwuq/Niudmvl8etJ5VtlkHDz+kOnAT1do0ZHz
-   hOhKqzSXDmiV646QAZWNFZ8pLhox+BwROuJQmYUitaBzhni4Q+6UFNpjG
-   1Mg2MHHlAP/x2nmyjC1wXuAY/R7/vXEanF4hwneq51xgHY+jvFqZWJCXk
-   s=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
- esa4.hc324-48.eu.iphmx.com with ESMTP/TLS; 29 Jan 2021 15:47:51 +0100
-Received: from esabb5.muc ([160.50.100.47])  by esagw6.muc with ESMTP/TLS;
- 29 Jan 2021 15:47:51 +0100
-Received: from smucm33j.bmwgroup.net (HELO smucm33j.europe.bmw.corp) ([160.46.167.66])
- by esabb5.muc with ESMTP/TLS; 29 Jan 2021 15:47:51 +0100
-Received: from smucm33l.europe.bmw.corp (160.46.167.68) by smucm33j.europe.bmw.corp
- (160.46.167.66) with Microsoft SMTP Server (TLS;
- Fri, 29 Jan 2021 15:47:50 +0100
-Received: from smucm33l.europe.bmw.corp ([160.46.167.68]) by
- smucm33l.europe.bmw.corp ([160.46.167.68]) with mapi id 15.00.1497.010; Fri,
- 29 Jan 2021 15:47:50 +0100
+ dkim=missing; spf=none, err=permanent DNS error (domain: lakka.kapsi.fi, ip: 91.232.154.25, mailfrom: mcfrisk@lakka.kapsi.fi)
+Received: from kapsi.fi ([2001:67c:1be8::11] helo=lakka.kapsi.fi)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.89)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1l5V6a-0002zG-O7; Fri, 29 Jan 2021 16:50:37 +0200
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.92)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1l5V6a-00065k-MK; Fri, 29 Jan 2021 16:50:36 +0200
 From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
-To: <openembedded-core@lists.openembedded.org>, <yocto@yoctoproject.org>
-CC: <marek.belisko@gmail.com>, <richard.purdie@linuxfoundation.org>,
-	<maurofrqueiros@gmail.com>, <Matt.Hoosier@garmin.com>
-Subject: Re: [OE-core] [dunfell][PATCH 1/2] bitbake: git.py: Use the correct branch to check if the repository has LFS objects.
-Thread-Topic: [OE-core] [dunfell][PATCH 1/2] bitbake: git.py: Use the correct
- branch to check if the repository has LFS objects.
-Thread-Index: AQHW9k2398ahWBG35EyXWhPs7WWcRg==
-Date: Fri, 29 Jan 2021 14:47:50 +0000
-Message-ID: <YBQgFdaLan6GXXPH@korppu>
-In-Reply-To: <165EBA9582347C18.12832@lists.openembedded.org>
- <165EBA91F8FDFBB3.12832@lists.openembedded.org>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@yoctoproject.org,
+	Marek Belisko <marek.belisko@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Mikko Rapeli <mikko.rapeli@bmw.de>,
+	Mauro Queiros <maurofrqueiros@gmail.com>
+Subject: [dunfell][PATCH v2 1/3] bitbake: git.py: skip smudging if lfs=0 is set
+Date: Fri, 29 Jan 2021 16:50:27 +0200
+Message-Id: <20210129145029.22924-1-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <165EBB517110DB0B.25485@lists.openembedded.org>
+References: <165EBB517110DB0B.25485@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <6BD7F1A3729A474583F270D7C1A49709@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-Rspam-Score: -0.2 (/)
+X-Rspam-Report: Action: no action
+ Symbol: RCVD_TLS_LAST(0.00)
+ Symbol: ARC_NA(0.00)
+ Symbol: RCVD_COUNT_TWO(0.00)
+ Symbol: BAYES_HAM(-3.00)
+ Symbol: FROM_HAS_DN(0.00)
+ Symbol: TO_DN_SOME(0.00)
+ Symbol: FREEMAIL_ENVRCPT(0.00)
+ Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
+ Symbol: TAGGED_RCPT(0.00)
+ Symbol: MIME_GOOD(-0.10)
+ Symbol: RCPT_COUNT_FIVE(0.00)
+ Symbol: DMARC_POLICY_SOFTFAIL(0.10)
+ Symbol: MID_CONTAINS_FROM(1.00)
+ Symbol: R_SPF_NA(0.00)
+ Symbol: FORGED_SENDER(0.30)
+ Symbol: R_DKIM_NA(0.00)
+ Symbol: MIME_TRACE(0.00)
+ Symbol: ASN(0.00)
+ Symbol: FROM_NEQ_ENVFROM(0.00)
+ Symbol: SUSPICIOUS_RECIPS(1.50)
+ Symbol: FREEMAIL_CC(0.00)
+ Message-ID: 20210129145029.22924-1-mikko.rapeli@bmw.de
+X-SA-Exim-Connect-IP: 2001:67c:1be8::11
+X-SA-Exim-Mail-From: mcfrisk@lakka.kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Sorry, third patch needs to be backported from master for git lfs to work
-nicely on dunfell. Will send a v2.
+From: Mauro Queirós <maurofrqueiros@gmail.com>
 
--Mikko=
+Git-LFS objects were being fetched even when lfs=0 was not set.
+This patch disables LFS smudging when lfs=0. That way, only the LFS pointers
+are downloaded during checkout.
+
+(Bitbake rev: 646d86df7de774255246a3d7051c308e43eb257d)
+
+Signed-off-by: Mauro Queiros <maurofrqueiros@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ bitbake/lib/bb/fetch2/git.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
+index dcecff5d38..59afc32de1 100644
+--- a/bitbake/lib/bb/fetch2/git.py
++++ b/bitbake/lib/bb/fetch2/git.py
+@@ -475,6 +475,9 @@ class Git(FetchMethod):
+ 
+         need_lfs = ud.parm.get("lfs", "1") == "1"
+ 
++        if not need_lfs:
++            ud.basecmd = "GIT_LFS_SKIP_SMUDGE=1 " + ud.basecmd
++
+         source_found = False
+         source_error = []
+ 
+-- 
+2.20.1
+
