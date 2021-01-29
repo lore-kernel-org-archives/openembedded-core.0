@@ -1,70 +1,107 @@
-Received: from esa4.mentor.iphmx.com (esa4.mentor.iphmx.com [68.232.137.252])
- by mx.groups.io with SMTP id smtpd.web09.8899.1611924203315783023
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web10.10149.1611930248687921010
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jan 2021 04:43:23 -0800
+ Fri, 29 Jan 2021 06:24:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: mentor.com, ip: 68.232.137.252, mailfrom: awais_belal@mentor.com)
-IronPort-SDR: wJQZomM8QqGm4xfqUGG0jUUjg3m3HfRmKm6ncwG4DCqB3+WR+0JuFTOpsoUid8qLMHr+OTq4eG
- L44nSCbjMi+w1grQIUbNnA2J6/A47J7lmN4pcJYJTs5n4YkMuU63x89e5WKQnSz3FnMhQkn5/I
- MBohRoJ1ohPF2N93vsFltLHb37jEVyIzjLc5RozywNMOdcA/tQFQwURy8q3CapteFFQN7T9Bz9
- e8evpssyY13vypMbvErW+DE+IZBNukL9kEyfSv+6QMFNh1TsZgYJvSaJ3LXLwxWdA5scJQYbce
- y+s=
-X-IronPort-AV: E=Sophos;i="5.79,385,1602576000"; 
-   d="scan'208";a="57710472"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 29 Jan 2021 04:43:21 -0800
-IronPort-SDR: f77Ixs4+IoPfBTZldPnU20y3Rmkr7gYxg3kSGVcEh7Cg5u6HJn243RTUPenHhxNtr2jMBMkRJB
- 1dNhx6yhGfL1e2Njvu6Ymjyr3YBGCE7rHkwC6++cRY7cF+cmxdATCUq9EjDmTJEwD9L1l88t1L
- b6tb8huf7Dc5WnYMDk4fECUhLwa0WX4OExSxLbsXDGPkwoTs0b9+jpBPOTbjM6S+K1465qTeMF
- 212RKioCe4k/N9dnJ+aWSFCyemeg5D8nbHltUygUGyzCNHk08m9Flb+zPTipHKkg9dpB4yG4in
- 6mw=
-From: "Awais Belal" <Awais_Belal@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] kernel.bbclass: fix deployment for initramfs images
-Date: Fri, 29 Jan 2021 17:42:39 +0500
-Message-ID: <20210129124239.21688-1-awais_belal@mentor.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=P8vER7m1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.208.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed1-f53.google.com with SMTP id n6so10704418edt.10
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 06:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=ShTTxjC/WeYSltXpai1higeRNXy3u+BZeBWwgoJEPQM=;
+        b=P8vER7m11ZC1iGmb7vWRZu/gICLoJhpoaS/raW+vN1dvT+SSUVoKko8fqKGZqcBdLM
+         XOsNEAr0MpTxbvre8DQhQf+RRx/6pGP/64if9J1b0Dy/SpBntcSk+/lJ71QB7l/+lhV4
+         dXwLmn8CBz/F3Fv+eRDvbs/3w/3bPwSLr2J5Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ShTTxjC/WeYSltXpai1higeRNXy3u+BZeBWwgoJEPQM=;
+        b=J9Gkh5k77rTUBa0F5e814/pw3cCpmH2iTrOCGOMWwwiws9ZC3wCsJlNl+Btha4L3QF
+         Xq4ZJu1XJ3SqqPlAlNG+kLXHVHW/J/4b56u9qhaJDRpQ6fYC0A2H3ZToMC9RKy4N0eUS
+         fnTbKrp9D8lXfWXyjAPEPdiLCLF8Foto1Qs/aKoUJqgLi0kjDURpexVFWQI4pofZvuBn
+         fTO/C1zsHgXUgj2hsbhwoFUVUJ2axB/XBWB5SjxuGhMD9Ke94iHzBmkcETunBA1i7t7Y
+         XGfueoKICoo23Q86oY7KZlEdpX/GPREyQ0Nya6B2sRGLDIBQHTzT0q5KOyxTaZ4+LPeE
+         14MQ==
+X-Gm-Message-State: AOAM533eIsX9Dwx5lBJX8N9TjxS1R2YsOgDonZtU8lPg2hDZEiQuFOw1
+	zn4u8jaxxhRLp+q1hsP2LcAv9Q==
+X-Google-Smtp-Source: ABdhPJzcTHyrPa7dhlR5OGeyXM1tC+Ck+S9JWspRCL4JTibq+63sd+wgJAoMEl1ACkPOMPvQP4q8+w==
+X-Received: by 2002:aa7:cd08:: with SMTP id b8mr5278018edw.177.1611930246758;
+        Fri, 29 Jan 2021 06:24:06 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:93ef:509c:4f16:14ff? ([2001:8b0:aba:5f3c:93ef:509c:4f16:14ff])
+        by smtp.gmail.com with ESMTPSA id t19sm3858384ejc.62.2021.01.29.06.24.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Jan 2021 06:24:06 -0800 (PST)
+Message-ID: <245dfd64ed2342f41062898834c7929bde4a6989.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v4 4/4] shaderc: fix the build with glslang 11.1.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Jose Quaresma
+	 <quaresma.jose@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 29 Jan 2021 14:24:03 +0000
+In-Reply-To: <165EB138E76788A6.12832@lists.openembedded.org>
+References: <20210124180758.1610301-1-quaresma.jose@gmail.com>
+	 <20210124180758.1610301-4-quaresma.jose@gmail.com>
+	 <20210128223834.GA2544418@piout.net>
+	 <165E86C2AF927994.17182@lists.openembedded.org>
+	 <165EB138E76788A6.12832@lists.openembedded.org>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
-Return-Path: awais_belal@mentor.com
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) To
- SVR-IES-MBX-03.mgc.mentorg.com (139.181.222.3)
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The do_bundle_initramfs() only processes kernel image
-types that are found in KERNEL_IMAGETYPE_FOR_MAKE whereas
-the build system can generate other types that are not
-directly supported by the kernel build system. In which
-case when we come to the deploy phase not all the images
-mentioned in KERNEL_IMAGETYPES would have a respective
-initramfs bundled image. An example is using vmlinux.gz
-in KERNEL_IMAGETYPES and enabling initramfs and then we
-see
+On Fri, 2021-01-29 at 11:42 +0000, Richard Purdie via
+lists.openembedded.org wrote:
+> On Thu, 2021-01-28 at 22:44 +0000, Richard Purdie via
+> lists.openembedded.org wrote:
+> > On Thu, 2021-01-28 at 23:38 +0100, Alexandre Belloni wrote:
+> > > Hello Jose,
+> > > 
+> > > On 24/01/2021 18:07:58+0000, Jose Quaresma wrote:
+> > > > Drop patches:
+> > > >     * 0001-Fix-the-link-order-of-libglslang-and-libHLSL.patch
+> > > >       is rejected upstream and is not need when glslang as shared libs.
+> > > > 
+> > > > Update pacthes:
+> > > >     * 0001-cmake-de-vendor-libs-and-disable-git-versioning.patch
+> > > >       renamed and refreshed from 0003-cmake-de-vendor-libs-and-disable-git-versioning.patch.
+> > > > 
+> > > 
+> > > It seems there is still a linking issue when building shaderc-native.
+> > > The full log is available here:
+> > > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/2978/steps/11/logs/stdio
+> > 
+> > I have a suspicion this happens on Ubuntu 18.04 systems since I've seen
+> > issues like this locally with 18.04's binutils version and OE generated
+> > vulkan-samples binaries, I think Joshua Watt reported the same issue
+> > too with 18.04.
+> > 
+> > Not sure what we can do about it, can we disable the debug symbol types
+> > causing problems in that -native recipe?
+> 
+> I tried to reproduce this and couldn't so far. I suspect what happens
+> is that one of the dependencies builds on a newer system, shaderc-
+> native then builds on 1804 and it can't read the binary generated by
+> the newer binutils.
+> 
+> This is obviously a pain to setup and reproduce. The "easiest" way may
+> be to build buildtools-tarball to build everything up to shaderc-
+> native, then remove buildtools-tarball and build shaderc-native. I'll
+> see if I can find some time to try that.
+> 
+> I've been holding the patches in master-next but I think we probably
+> should merge them as this could well be a generic ubuntu1804 issue that
+> already probably exists.
 
-install: cannot stat 'arch/arm64/boot/vmlinux.gz.initramfs': No such file or directory
+I tried this and I couldn't reproduce with master's buildtools tarball
+so I guess we wait and see if it comes up again.
 
-So we align the deploy phase with bundle initramfs phase
-and pick up relevant initramfs bundled images using
-KERNEL_IMAGETYPE_FOR_MAKE instead of KERNEL_IMAGETYPES.
+Cheers,
 
-Signed-off-by: Awais Belal <awais_belal@mentor.com>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ddff2ddcd2..8693ab86be 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -759,7 +759,7 @@ kernel_do_deploy() {
- 	fi
- 
- 	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
--		for imageType in ${KERNEL_IMAGETYPES} ; do
-+		for imageType in ${KERNEL_IMAGETYPE_FOR_MAKE} ; do
- 			if [ "$imageType" = "fitImage" ] ; then
- 				continue
- 			fi
--- 
-2.17.1
+Richard
 
