@@ -1,111 +1,103 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web09.2546.1612004478241564910
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web09.2659.1612005236246063660
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Jan 2021 03:01:18 -0800
+ Sat, 30 Jan 2021 03:13:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dpyMjNrh;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id f16so8694616wmq.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Jan 2021 03:01:18 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HnhriD3/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id f16so8713997wmq.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Jan 2021 03:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=9WvTsQy7JJsiMGb9DEpNNHbs5OOuQnlGeoHyQ8CSVqo=;
-        b=dpyMjNrh8cXA3PGwoEWePUkIafY2DiLPTDUzChgB8Wyd46PRJdgS8PGJPiDdri+tOz
-         wrBlq9EVXGcf0fb0DcodGZX5vFXcS9mRRgdNe5RAzW3luOFIqry5amirBjrKHIYYGaym
-         Vm3HzGyiGQXPyCHzrbsv51PzM6JTo411HWQNk=
+        bh=KlKQqfzrleVerrNRrCB/wRgIC+pKkfaxmB4IhLg5ApA=;
+        b=HnhriD3/aPczqvwk9Wdghf6rTz9jbSPEkaUD1FSLapa0KiTlY7knwt7ZHO9Y0TnrO6
+         EYpJFZhc1LCKhBw3IN0oRnHRJQwWgvpM5wi76L4fzTgMrbSxxT6jfCy3ECg6rB6AAUED
+         tKiA59+jna6d4ZmBkXGMmrKDgdyWGfgHF3CPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=9WvTsQy7JJsiMGb9DEpNNHbs5OOuQnlGeoHyQ8CSVqo=;
-        b=mf3jdczIdyNrUjgfAB5CB7HZpT9R7hAP5+wAxIObRyC9itQfko1rBK/HSTZCU3J/Xn
-         /AxrtOWe+9O+4gxAVS+MqfRsqt3DJeu/W5+3ZhCzcMLxbJ5nGP3pZfVMVLY1QJhfF9KM
-         OHIR9w8udpQREm5sWuFOE9r5+EFB3QnzZbeq/Emibc/xoUVlEDNi+xSm5PvxeIF6V4aO
-         VATIj2PI6HxWKe90acJY7uo7bRn6RmWov7WunUqOy+7JxonLh/5nKZmJJRJW0jw7S9XH
-         0vAwxp0wJBl1dAYzcBS/rIHnahQoghFNyBgcWAyJyrLGvHZ8b4d5BayOuLRSMSWqXiK1
-         Ii3g==
-X-Gm-Message-State: AOAM530QdVfHZPisoWh9b+Iu6jLDPw5+XoUUAciS6yr7K30Zsu7Ror02
-	INjgWd1i408gdKS1DZJlsiF5yw==
-X-Google-Smtp-Source: ABdhPJzyclwpTcxVg+U0Lg6p24s999JYRlK/FWfZk5Ic2FGqRAI53/iTWVOnx187q/GQU588BdEC9w==
-X-Received: by 2002:a1c:6089:: with SMTP id u131mr7400670wmb.99.1612004476565;
-        Sat, 30 Jan 2021 03:01:16 -0800 (PST)
+        bh=KlKQqfzrleVerrNRrCB/wRgIC+pKkfaxmB4IhLg5ApA=;
+        b=XQZ7SYVS/a0s40pcsK0+aTkj/+CNFIThChvFguH9zSP09ATGJriJTC1YEtYD3mz1a3
+         B7o+0jlFswSli4uDdH6xPqmrmAiUnsarH1q/LmLrTFFCfYmvTabXK19I9/BRHS9KKnIj
+         yOhAfyKIwUHvrtKV56sLaBKhvPJtP8eqMK0MZ+1/sdpci/8HU9BPWqmqZ0xIVUepmDPn
+         Z+1P3oybyjiSgRpbIal4svGNeWgffZyyI9v2tU1IIgD/8Pgd5CZP9NkWADIkPs8QVZpE
+         tCcUTqP64ibPNOxmSnJa0coVOyTo/xOaGQzh3pD7N/dyPMnXhz79PI5+U9fK3pBN/J1U
+         rPXw==
+X-Gm-Message-State: AOAM530Hbz9yE72G1ziHVHDT4j2biZkYf9TDy7nFrtcFOf3y6dvNBAre
+	yeF76q0fDhSMzk0gCJ3BpbHLQg==
+X-Google-Smtp-Source: ABdhPJw29ENdxQYNrWrkCKkBmkeuM0+U+rodfgjbpAkAzFN2W2dYWdt/9l+iQL3sfl2/cp1NbX+ZoQ==
+X-Received: by 2002:a1c:f312:: with SMTP id q18mr7447846wmq.79.1612005234677;
+        Sat, 30 Jan 2021 03:13:54 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb? ([2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb])
-        by smtp.gmail.com with ESMTPSA id u6sm18262338wro.75.2021.01.30.03.01.15
+        by smtp.gmail.com with ESMTPSA id m82sm13951907wmf.29.2021.01.30.03.13.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 03:01:15 -0800 (PST)
-Message-ID: <509abad9152214d2cb073912e89518082bb92857.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] sanity.bbclass: check if PSEUDO_IGNORE_PATHS and ${S} overlap
+        Sat, 30 Jan 2021 03:13:54 -0800 (PST)
+Message-ID: <38ac3474d3115a65dae518b8577a81ae9f872042.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 1/3] pseudo: use PSEUDO_CONSIDER_PATHS for path filetering
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Dorinda <dorindabassey@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: "Qi.Chen" <Qi.Chen@windriver.com>, ip.jango@gmail.com
-Date: Sat, 30 Jan 2021 11:01:13 +0000
-In-Reply-To: <20210128195108.5247-1-dorindabassey@gmail.com>
-References: <20210128195108.5247-1-dorindabassey@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Cc: Mark Hatle <mghatle@gmail.com>, Seebs <seebs@seebs.net>
+Date: Sat, 30 Jan 2021 11:13:52 +0000
+In-Reply-To: <20210129083352.13305-1-Qi.Chen@windriver.com>
+References: <20210129083352.13305-1-Qi.Chen@windriver.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-01-28 at 20:51 +0100, Dorinda wrote:
-> added a sanity check for when PSEUDO_IGNORE_PATHS and ${S} overlap to avoid random failures generated.
+On Fri, 2021-01-29 at 16:33 +0800, Chen Qi wrote:
+> Patch pseudo to only take into consideration paths we care about.
+> Use PSEUDO_CONSIDER_PATHS to hold the paths. The behavior of this
+> var is the opposite of PSEUDO_IGNORE_PATHS.
 > 
-> [YOCTO #14193]
-> 
-> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
-> v2:
-> added a condition for when {WORKDIR}={S}
-> 
->  meta/classes/sanity.bbclass | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index c6842ff549..63284b7917 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -710,6 +710,16 @@ def check_sanity_version_change(status, d):
->          if i and workdir.startswith(i):
->              status.addresult("You are building in a path included in PSEUDO_IGNORE_PATHS " + str(i) + " please locate the build outside this path.\n")
->  
-> 
-> 
-> 
-> +    # Check if PSEUDO_IGNORE_PATHS and ${S} overlap
-> +    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
-> +    workdir = d.getVar('WORKDIR')
-> +    sourcefile = d.getVar('S')
-> +    if (workdir == sourcefile):
-> +        for i in pseudoignorepaths:
-> +            if i and sourcefile:
-> +                if sourcefile.startswith(i) or i.startswith(sourcefile):
-> +                    status.addresult("a path included in PSEUDO_IGNORE_PATHS " + str(i) + " and ${S} (source files) path " + str(sourcefile) + " are overlapping each other, please set ${S} in your recipe to point to a different directory. \n")
-> +
->      # Some third-party software apparently relies on chmod etc. being suid root (!!)
->      import stat
->      suid_check_bins = "chown chmod mknod".split()
+>  ...DO_CONSIDER_PATHS-for-path-filtering.patch | 55 +++++++++++++++++++
+>  meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+>  2 files changed, 56 insertions(+)
+>  create mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-use-PSEUDO_CONSIDER_PATHS-for-path-filtering.patch
 
+This is interesting but these patches would need more work before we
+could consider this.
 
-This isn't quite solving the problem in bug 14193. In that bug lets
-say:
+a) It no longer supports PSEUDO_IGNORE_PATHS and we have code widely
+using that. We'd probably need to support both options.
 
-S = "${WORKDIR}/pack"
+b) There are a load of references to PSEUDO_IGNORE_PATHS in OE-Core
+which this series doesn't touch in the following files:
 
-and this overlaps with ${WORKDIR}/package (PKGD) and
-${WORKDIR}/packages-split (PKGDEST) which are set in package.bbclass.
+meta/lib/oeqa/selftest/cases/runtime_test.py
+meta/classes/sanity.bbclass
+meta/classes/sanity.bbclass
+meta/classes/sanity.bbclass
+meta/classes/base.bbclass
+meta/classes/image_types_wic.bbclass
+meta/classes/populate_sdk_base.bbclass
+meta/classes/license.bbclass
+scripts/lib/wic/partition.py
 
-So the sanity test we need here is to test whether any element of
-PSEUDO_IGNORE_PATHS overlaps with directories we know need to be under
-pseudo control. Qi already had a list of these in a different patch:
+We'd need to do something with those. Was wic tested? Were oe-selftests
+run?
 
-${D},${PKGD},${PKGDEST},${IMAGE_ROOTFS},${SDK_OUTPUT}
+c) Has the output been compared before and after this change to ensure
+permissions/ownership is correctly being handled in all cases?
+
+d) The pseudo authors explicitly asked we implement exclusions, not an
+inclusion list like this. I'd want to understand more about why they
+made such a strong recommendation. FWIW I'd originally hoped to do
+something like this patch but they dissuaded me.
+
+e) The name PSEUDO_CONSIDER_PATHS doesn't sound right to me, if we did
+this I'd like to find a better one.
 
 Cheers,
 
 Richard
+
 
 
 
