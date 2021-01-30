@@ -1,103 +1,116 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web09.2659.1612005236246063660
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
+ by mx.groups.io with SMTP id smtpd.web12.3147.1612010029129230880
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Jan 2021 03:13:56 -0800
+ Sat, 30 Jan 2021 04:33:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HnhriD3/;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id f16so8713997wmq.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Jan 2021 03:13:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l+76Xi1W;
+ spf=pass (domain: gmail.com, ip: 209.85.166.47, mailfrom: tomasz.dziendzielski@gmail.com)
+Received: by mail-io1-f47.google.com with SMTP id d81so12279683iof.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Jan 2021 04:33:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=KlKQqfzrleVerrNRrCB/wRgIC+pKkfaxmB4IhLg5ApA=;
-        b=HnhriD3/aPczqvwk9Wdghf6rTz9jbSPEkaUD1FSLapa0KiTlY7knwt7ZHO9Y0TnrO6
-         EYpJFZhc1LCKhBw3IN0oRnHRJQwWgvpM5wi76L4fzTgMrbSxxT6jfCy3ECg6rB6AAUED
-         tKiA59+jna6d4ZmBkXGMmrKDgdyWGfgHF3CPk=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QlYyrl8umr7puFP69bcapImoGJ1A1HLRhYLDSXuMQes=;
+        b=l+76Xi1WwJFr85HeGThuvnur/TwBqfOZG/7ciUY6YE5TCLiKlHpMQpZZ/cT3qAN/bI
+         IRp83YiUxkKMoYKFqi74z8RKqbuSo2oCNT2qhp4DD5JEXBCY2mqr0wnxgEZ8bk547xOO
+         Dtp0fNTviswAayG2x4os6UurcZIQWiOUKS59rHyrTUCeIu3hnuv1sZ8Y/rc9V9ySGFUp
+         QDkzFuJD18hfvxtZyKtogq8Q1Xsi3lMW982vKlwj6S4s53Xxkhko9XpUgSfNKDOTkfIF
+         dNEgWx6uWdkCOi3g60C6FAh8qs5Tcv8W+afdYsPwNeYkrzhx3GJ2iAzm1ZZLGnFld9V5
+         uLZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=KlKQqfzrleVerrNRrCB/wRgIC+pKkfaxmB4IhLg5ApA=;
-        b=XQZ7SYVS/a0s40pcsK0+aTkj/+CNFIThChvFguH9zSP09ATGJriJTC1YEtYD3mz1a3
-         B7o+0jlFswSli4uDdH6xPqmrmAiUnsarH1q/LmLrTFFCfYmvTabXK19I9/BRHS9KKnIj
-         yOhAfyKIwUHvrtKV56sLaBKhvPJtP8eqMK0MZ+1/sdpci/8HU9BPWqmqZ0xIVUepmDPn
-         Z+1P3oybyjiSgRpbIal4svGNeWgffZyyI9v2tU1IIgD/8Pgd5CZP9NkWADIkPs8QVZpE
-         tCcUTqP64ibPNOxmSnJa0coVOyTo/xOaGQzh3pD7N/dyPMnXhz79PI5+U9fK3pBN/J1U
-         rPXw==
-X-Gm-Message-State: AOAM530Hbz9yE72G1ziHVHDT4j2biZkYf9TDy7nFrtcFOf3y6dvNBAre
-	yeF76q0fDhSMzk0gCJ3BpbHLQg==
-X-Google-Smtp-Source: ABdhPJw29ENdxQYNrWrkCKkBmkeuM0+U+rodfgjbpAkAzFN2W2dYWdt/9l+iQL3sfl2/cp1NbX+ZoQ==
-X-Received: by 2002:a1c:f312:: with SMTP id q18mr7447846wmq.79.1612005234677;
-        Sat, 30 Jan 2021 03:13:54 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb? ([2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb])
-        by smtp.gmail.com with ESMTPSA id m82sm13951907wmf.29.2021.01.30.03.13.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 03:13:54 -0800 (PST)
-Message-ID: <38ac3474d3115a65dae518b8577a81ae9f872042.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH 1/3] pseudo: use PSEUDO_CONSIDER_PATHS for path filetering
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Cc: Mark Hatle <mghatle@gmail.com>, Seebs <seebs@seebs.net>
-Date: Sat, 30 Jan 2021 11:13:52 +0000
-In-Reply-To: <20210129083352.13305-1-Qi.Chen@windriver.com>
-References: <20210129083352.13305-1-Qi.Chen@windriver.com>
-User-Agent: Evolution 3.38.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QlYyrl8umr7puFP69bcapImoGJ1A1HLRhYLDSXuMQes=;
+        b=sDtyLA2RNBh2uFGLp5ycZL9A20ywjmfFfOXh7LCCRd/tXDkJvO0/0JGF73NaxyYIxh
+         VkhUqVZx0eMCLrqvocrgp8EobPkp2DLhfjravq3odGRNoTPfED7VgSTC7+z9lXQbxjzx
+         En7SChxaHdAK1G1dtj9t07z7HBwN1zX3rLiUBvCLb8UK3jA9clRlViUeZvQVIdQkXuKs
+         vOfixtg3ygh7kHsRa/ec7tfs/YgN42KmznMj0W/ya7XCY160wQrYf2aGrY1ggr4jZNxy
+         jIPf+0WG5m14XAT+oCEJlETOZY47Yyn3+A9IpCRxq1j4+BBsGtDll5qbbRSR9iw5hyrG
+         hEHw==
+X-Gm-Message-State: AOAM533D5THRYuUMVRuNrjMjuz7KH7Lz1uaDObnwyYs+0L+z6s4v0wP2
+	5oZ0zo46Ea08FzD62QgsQSmappKGMLwLv0AButM=
+X-Google-Smtp-Source: ABdhPJzzcEUEkm35FIDTjdeRKh7sSOOjb0vOjSStJapAVTvKlCcRlHN+iykTeFbMcOchm1iRfLOE6FxsRdSl9m/9m5U=
+X-Received: by 2002:a6b:d20d:: with SMTP id q13mr6841533iob.71.1612010028609;
+ Sat, 30 Jan 2021 04:33:48 -0800 (PST)
 MIME-Version: 1.0
+References: <20210128172313.7681-1-tomasz.dziendzielski@gmail.com> <70cd3945856eb783c7239fd716eeea39b127e773.camel@linuxfoundation.org>
+In-Reply-To: <70cd3945856eb783c7239fd716eeea39b127e773.camel@linuxfoundation.org>
+From: "Tomasz Dziendzielski" <tomasz.dziendzielski@gmail.com>
+Date: Sat, 30 Jan 2021 12:52:46 +0100
+Message-ID: <CAJkqNs13mzhNW7vgbZbRSUTz5XziB5XkC3FspZR=9Kq=asewpQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] bitbake: Don't treat mc recipe (Midnight Commander) as a multiconfig target
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Jon Mason <jon.mason@arm.com>
+Content-Type: multipart/alternative; boundary="00000000000021340905ba1d55de"
+
+--00000000000021340905ba1d55de
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Fri, 2021-01-29 at 16:33 +0800, Chen Qi wrote:
-> Patch pseudo to only take into consideration paths we care about.
-> Use PSEUDO_CONSIDER_PATHS to hold the paths. The behavior of this
-> var is the opposite of PSEUDO_IGNORE_PATHS.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  ...DO_CONSIDER_PATHS-for-path-filtering.patch | 55 +++++++++++++++++++
->  meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
->  2 files changed, 56 insertions(+)
->  create mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo-use-PSEUDO_CONSIDER_PATHS-for-path-filtering.patch
+>bitbake patches need to go to the bitbake-devel list.
+>
+>I did put this into testing anyway and it triggered errors in several
+selftests:
+>
+>bitbake-selftest:
+>https
+://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/11/logs/stdio
+<https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/11/logs/stdio>
+>
+>and oe-selftest:
+>https
+://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/14/logs/stdio
+<https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/14/logs/stdio>
+>
+>(these occurred in all the selftest builds but I've just linked to one).
 
-This is interesting but these patches would need more work before we
-could consider this.
+It seems in these tests multiconfig targets can have more than 2 colons.
+Probably changing "== 2" to ">= 2" should help.
+I tried "bitbake-selftest" and with this change and it passed.
+Unfortunately now I don't have access to machine that could handle all
+oe-selftest. Could we agree that I will send second patch so it will be
+tested on autobuider?
 
-a) It no longer supports PSEUDO_IGNORE_PATHS and we have code widely
-using that. We'd probably need to support both options.
+Best regards,
+Tomasz Dziendzielski
 
-b) There are a load of references to PSEUDO_IGNORE_PATHS in OE-Core
-which this series doesn't touch in the following files:
+--00000000000021340905ba1d55de
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-meta/lib/oeqa/selftest/cases/runtime_test.py
-meta/classes/sanity.bbclass
-meta/classes/sanity.bbclass
-meta/classes/sanity.bbclass
-meta/classes/base.bbclass
-meta/classes/image_types_wic.bbclass
-meta/classes/populate_sdk_base.bbclass
-meta/classes/license.bbclass
-scripts/lib/wic/partition.py
+<div dir=3D"auto"><span style=3D"font-family:sans-serif">&gt;bitbake patche=
+s need to go to the bitbake-devel list.=C2=A0</span><br style=3D"font-famil=
+y:sans-serif">&gt;<br style=3D"font-family:sans-serif"><span style=3D"font-=
+family:sans-serif">&gt;I did put this into testing anyway and it triggered =
+errors in several</span><br style=3D"font-family:sans-serif"><span style=3D=
+"font-family:sans-serif">selftests:</span><br style=3D"font-family:sans-ser=
+if">&gt;<br style=3D"font-family:sans-serif"><span style=3D"font-family:san=
+s-serif">&gt;bitbake-selftest:</span><br style=3D"font-family:sans-serif">&=
+gt;https<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/=
+87/builds/1792/steps/11/logs/stdio" style=3D"font-family:sans-serif" rel=3D=
+"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">://autobuil=
+der.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/11/logs/stdio<=
+/a><br style=3D"font-family:sans-serif">&gt;<br style=3D"font-family:sans-s=
+erif"><span style=3D"font-family:sans-serif">&gt;and oe-selftest:</span><br=
+ style=3D"font-family:sans-serif">&gt;https<a href=3D"https://autobuilder.y=
+octoproject.org/typhoon/#/builders/87/builds/1792/steps/14/logs/stdio" styl=
+e=3D"font-family:sans-serif" rel=3D"noreferrer noreferrer noreferrer norefe=
+rrer" target=3D"_blank">://autobuilder.yoctoproject.org/typhoon/#/builders/=
+87/builds/1792/steps/14/logs/stdio</a><br style=3D"font-family:sans-serif">=
+&gt;<br style=3D"font-family:sans-serif"><span style=3D"font-family:sans-se=
+rif">&gt;(these occurred in all the selftest builds but I&#39;ve just linke=
+d to one).</span><div dir=3D"auto"><span style=3D"font-family:sans-serif"><=
+br></span></div><div dir=3D"auto"><span style=3D"font-family:sans-serif">It=
+ seems in these tests multiconfig targets can have more than 2 colons. Prob=
+ably changing &quot;=3D=3D 2&quot; to &quot;&gt;=3D 2&quot; should help.</s=
+pan></div><div dir=3D"auto"><span style=3D"font-family:sans-serif">I tried =
+&quot;bitbake-selftest&quot; and with this change and it passed. Unfortunat=
+ely now I don&#39;t have access to machine that could handle all oe-selftes=
+t. Could we agree that I will send second patch so it will be tested on aut=
+obuider?</span></div><div dir=3D"auto"><span style=3D"font-family:sans-seri=
+f"><br></span></div><div dir=3D"auto"><span style=3D"font-family:sans-serif=
+">Best regards,</span></div><div dir=3D"auto"><font face=3D"sans-serif">Tom=
+asz Dziendzielski</font></div></div>
 
-We'd need to do something with those. Was wic tested? Were oe-selftests
-run?
-
-c) Has the output been compared before and after this change to ensure
-permissions/ownership is correctly being handled in all cases?
-
-d) The pseudo authors explicitly asked we implement exclusions, not an
-inclusion list like this. I'd want to understand more about why they
-made such a strong recommendation. FWIW I'd originally hoped to do
-something like this patch but they dissuaded me.
-
-e) The name PSEUDO_CONSIDER_PATHS doesn't sound right to me, if we did
-this I'd like to find a better one.
-
-Cheers,
-
-Richard
-
-
-
-
+--00000000000021340905ba1d55de--
