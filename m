@@ -1,330 +1,84 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web10.1077.1611991203352565623
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web08.1653.1611997092122729713
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Jan 2021 23:20:03 -0800
+ Sat, 30 Jan 2021 00:58:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aJ8QSzDf;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id b8so6701455plh.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 Jan 2021 23:20:03 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BXIxsTIE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id c127so8907669wmf.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Jan 2021 00:58:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Q585fxHoK6hrKdNDl4IwZMWXLUFel0VdnJxLv1FflvM=;
-        b=aJ8QSzDfyZxqRWgQUNktK/zK5zz8EilWYWTRhGqQWvvR0ZFL3MMTiLMXDYBo7E88LC
-         AnbsHnpkR9gM7npFgnjWzgcQJmj/0vVrlLcQeHdqhGoSwBTm7FaECdrB4m1Z9M4/5/PY
-         2phRyvsUas/aoZqlJn5rznX8MqIFTOzk4B/u9qkJ4u2P80n0+QKCI67HR4toLFonAMKZ
-         Z07CQJ5gmasKfcG5Y89aUcGVQqgAmJ6i4mqfxSNUns2A3/BplOTfIvdPBzlQMyf7eM2S
-         Mrsa76uRm59WGpEW7YczHRw9o5O6wOIhZwnEJP9oMxegQVcsB0k36JK/semsY5O3MTzR
-         KdIw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=WMli2cNcbrDt4a2EAKCrKx315ynJeh/0nXPAmPt4cA0=;
+        b=BXIxsTIELFi8WRxaoMUfoUPuwZvrAwPkmxqXMkA3i0VvHMcowHSrfpooDBTkBeay+C
+         kWN4JDCejFjAUjHBoMc5BnrvsJgKLRDEmCBWhj3yEqTLPrJJrcWFcFtivPY4MlgZeSXj
+         jmdgVZBo+N6YlDtzCkSIBlNNNF+U0BUrpYkmw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Q585fxHoK6hrKdNDl4IwZMWXLUFel0VdnJxLv1FflvM=;
-        b=dw3UNc+npes2IUBIgR9Jlhr73GOzRRFchALDGPjdjENlqJ4bZdyyuchLAVTX2+h31d
-         jF0e7tO2iBkRhlI+/mhdbt19EoqF1tr3npPbhW/oJTSegjzxRq5qkF713XwQjsaqJAzZ
-         8Yp//jArNcIq3C5Xkdo8gPOnme+QCf2izXkN5LiOKbWJsuPNS8Yt9kth0NhFTlHIlbJZ
-         n/pnNgcgZgbftAe3lRIR4WtXuaM/BmJNBGD+OVxVs+czZj8jw/Ei9h451FDBBme4b91Z
-         CNfAmpjbFBipTr9At/XnYHZyOPaA/IMDREQoR6Gar6WlcM1UdU1XRQJE87DO7z/1mEYe
-         Ai4g==
-X-Gm-Message-State: AOAM532ynsP9+EE87yW9QdFEPRRwMrunbdYhpLx/WGaTij/U/srQpVL6
-	EK+zbfqDGOGXn3KorKkcUbJmWA9Z4ZbsLA==
-X-Google-Smtp-Source: ABdhPJy7wry1bMc7E1hi854QXlMvNNJRCpfnZZLD6R/2QJl3Lpg6IbOLu26HT+L8oViec5pB7KwCVw==
-X-Received: by 2002:a17:90a:ab94:: with SMTP id n20mr3446267pjq.96.1611991202580;
-        Fri, 29 Jan 2021 23:20:02 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:a0f0::9296])
-        by smtp.gmail.com with ESMTPSA id m18sm10797221pfd.206.2021.01.29.23.20.01
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=WMli2cNcbrDt4a2EAKCrKx315ynJeh/0nXPAmPt4cA0=;
+        b=gKSPPec9smhzRZBB7mnPeA1qY4dnbTaKEI/rEOgQWRgSUJYMTcK4h8Ii8fDe/H5n96
+         gg7g0qVL3mnljpF1Y6Xc/wmT+m9xNQ1LVRiUlABPLgi4UnOv4LRHCt0vIMrjlHcBTI6A
+         /NDUrj07EFM0mp84UQWjV1TtzEuVoypVOlrK77u6DwxnXkv+6agkxpWA5S+8p37m5gvi
+         O9hdrFxdbA7sv+A5PTnVupmPqwS8PepsQoFkO/4BheAfvhq7We9jnSQIrP0doYeOuWm8
+         QVZ5OYHF5CLIM4X8fKAhFLMI1+ze9n0NcNwLFONGN/igvDfS0/p0/lUDzwG9K471Oryp
+         rPqg==
+X-Gm-Message-State: AOAM531bVjCT1pWNhtDP6G+hgtt0x7CT1aUpXas1aD+n/HJwLkjQy6mL
+	VQKM48PJvwob7Vhu4SXOxxZX6A==
+X-Google-Smtp-Source: ABdhPJxA1jBzhMFU0qetwzykHie6aQSRo0OgPAp/bCEotfKOWGRTJ6g4q3/fbhUmF8OiCUHaeN9iFA==
+X-Received: by 2002:a1c:149:: with SMTP id 70mr7079433wmb.165.1611997090564;
+        Sat, 30 Jan 2021 00:58:10 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb? ([2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb])
+        by smtp.gmail.com with ESMTPSA id g9sm21127494wmh.3.2021.01.30.00.58.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Jan 2021 23:20:01 -0800 (PST)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 5/5] musl: Drop adding .file directive in asm files
-Date: Fri, 29 Jan 2021 23:19:54 -0800
-Message-Id: <20210130071954.2695419-5-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210130071954.2695419-1-raj.khem@gmail.com>
-References: <20210130071954.2695419-1-raj.khem@gmail.com>
+        Sat, 30 Jan 2021 00:58:10 -0800 (PST)
+Message-ID: <70cd3945856eb783c7239fd716eeea39b127e773.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] bitbake: Don't treat mc recipe (Midnight Commander) as a multiconfig target
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: Jon Mason <Jon.Mason@arm.com>
+Date: Sat, 30 Jan 2021 08:58:07 +0000
+In-Reply-To: <20210128172313.7681-1-tomasz.dziendzielski@gmail.com>
+References: <20210128172313.7681-1-tomasz.dziendzielski@gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-it was a workaround for binutils issue which is fixed in 2.36 with
+On Thu, 2021-01-28 at 18:23 +0100, Tomasz Dziendzielski wrote:
+> When we run `devtool build mc` recipe's task dependencies are expanded
+> to "mc:do_populate_sysroot" where "mc" name is treated as multiconfig
+> and "do_package_sysroot" as multiconfigname.
+> 
+> > ERROR: Multiconfig dependency mc:do_populate_sysroot depends on
+> > nonexistent multiconfig configuration named do_populate_sysroot
+> 
+> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
+> 
+> --- skipped change in showEnvironment() to keep "bitbake -e" working
+> ---
 
-https://sourceware.org/bugzilla/show_bug.cgi?id=26822
+bitbake patches need to go to the bitbake-devel list. 
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../musl/0001-crt-Add-.file-directive.patch   | 245 ------------------
- meta/recipes-core/musl/musl_git.bb            |   1 -
- 2 files changed, 246 deletions(-)
- delete mode 100644 meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
+I did put this into testing anyway and it triggered errors in several
+selftests:
 
-diff --git a/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch b/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
-deleted file mode 100644
-index 1cd08cdcd4..0000000000
---- a/meta/recipes-core/musl/musl/0001-crt-Add-.file-directive.patch
-+++ /dev/null
-@@ -1,245 +0,0 @@
--From b0124f3c4f2a353506621d387135ebea6b8c6609 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 29 Oct 2020 22:40:53 -0700
--Subject: [PATCH] crt: Add .file directive
--
--Musl linked binaries come out to be not reproducible because
--absolute build path is seen in debug info of crti.o and crtn.o
--This is due to the fact that these objects are built from assembly
--source files and they are missing .file directive
--if we add .file <filename>.s in them then debug info encodes this
--value instead of absolute path in debug_line section
--
--fixed in binutils 2.36 [1]
--
--[1] https://sourceware.org/bugzilla/show_bug.cgi?id=26822
--
--Upstream-Status: OE-Specific [ Drop when upgrading binutils 2.36+ ]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- crt/aarch64/crti.s    | 1 +
-- crt/aarch64/crtn.s    | 1 +
-- crt/arm/crti.s        | 1 +
-- crt/arm/crtn.s        | 1 +
-- crt/i386/crti.s       | 1 +
-- crt/i386/crtn.s       | 1 +
-- crt/microblaze/crti.s | 1 +
-- crt/microblaze/crtn.s | 1 +
-- crt/mips/crti.s       | 1 +
-- crt/mips/crtn.s       | 1 +
-- crt/mips64/crti.s     | 1 +
-- crt/mips64/crtn.s     | 1 +
-- crt/mipsn32/crti.s    | 1 +
-- crt/mipsn32/crtn.s    | 1 +
-- crt/or1k/crti.s       | 1 +
-- crt/or1k/crtn.s       | 1 +
-- crt/powerpc/crti.s    | 1 +
-- crt/powerpc/crtn.s    | 1 +
-- crt/powerpc64/crti.s  | 1 +
-- crt/powerpc64/crtn.s  | 1 +
-- crt/s390x/crti.s      | 1 +
-- crt/s390x/crtn.s      | 1 +
-- crt/sh/crti.s         | 1 +
-- crt/sh/crtn.s         | 1 +
-- crt/x32/crti.s        | 1 +
-- crt/x32/crtn.s        | 1 +
-- crt/x86_64/crti.s     | 1 +
-- crt/x86_64/crtn.s     | 1 +
-- 28 files changed, 28 insertions(+)
--
----- a/crt/aarch64/crti.s
--+++ b/crt/aarch64/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .global _init
-- .type _init,%function
----- a/crt/aarch64/crtn.s
--+++ b/crt/aarch64/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- 	ldp x29,x30,[sp],#16
-- 	ret
----- a/crt/arm/crti.s
--+++ b/crt/arm/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .syntax unified
-- 
-- .section .init
----- a/crt/arm/crtn.s
--+++ b/crt/arm/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .syntax unified
-- 
-- .section .init
----- a/crt/i386/crti.s
--+++ b/crt/i386/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .global _init
-- _init:
----- a/crt/i386/crtn.s
--+++ b/crt/i386/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- 	add $12,%esp
-- 	ret
----- a/crt/microblaze/crti.s
--+++ b/crt/microblaze/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .global _init
-- .align 2
----- a/crt/microblaze/crtn.s
--+++ b/crt/microblaze/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- 	lwi r15, r1, 0
-- 	rtsd r15, 8
----- a/crt/mips/crti.s
--+++ b/crt/mips/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .set noreorder
-- 
-- .section .init
----- a/crt/mips/crtn.s
--+++ b/crt/mips/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .set noreorder
-- 
-- .section .init
----- a/crt/mips64/crti.s
--+++ b/crt/mips64/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .set noreorder
-- 
-- .section .init
----- a/crt/mips64/crtn.s
--+++ b/crt/mips64/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .set noreorder
-- 
-- .section .init
----- a/crt/mipsn32/crti.s
--+++ b/crt/mipsn32/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .set	noreorder
-- .section	.init
-- .global	_init
----- a/crt/mipsn32/crtn.s
--+++ b/crt/mipsn32/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .set	noreorder
-- .section	.init
-- 	ld	$gp, 16($sp)
----- a/crt/or1k/crti.s
--+++ b/crt/or1k/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .global _init
-- _init:
----- a/crt/or1k/crtn.s
--+++ b/crt/or1k/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- 	l.lwz	r9,0(r1)
-- 	l.jr	r9
----- a/crt/powerpc/crti.s
--+++ b/crt/powerpc/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .align 2
-- .global _init
----- a/crt/powerpc/crtn.s
--+++ b/crt/powerpc/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- .align 2
-- 	lwz 0,36(1)
----- a/crt/powerpc64/crti.s
--+++ b/crt/powerpc64/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .align 2
-- .global _init
----- a/crt/powerpc64/crtn.s
--+++ b/crt/powerpc64/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- .align 2
-- 	addi 1, 1, 32
----- a/crt/s390x/crti.s
--+++ b/crt/s390x/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .align 2
-- .global _init
----- a/crt/s390x/crtn.s
--+++ b/crt/s390x/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- .align 2
-- 	lmg  %r14, %r15, 272(%r15)
----- a/crt/sh/crti.s
--+++ b/crt/sh/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .global  _init
-- .type    _init, @function
----- a/crt/sh/crtn.s
--+++ b/crt/sh/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- 	lds.l @r15+, pr
-- 	mov.l @r15+, r14
----- a/crt/x32/crti.s
--+++ b/crt/x32/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .global _init
-- _init:
----- a/crt/x32/crtn.s
--+++ b/crt/x32/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- 	pop %rax
-- 	ret
----- a/crt/x86_64/crti.s
--+++ b/crt/x86_64/crti.s
--@@ -1,3 +1,4 @@
--+.file "crti.s"
-- .section .init
-- .global _init
-- _init:
----- a/crt/x86_64/crtn.s
--+++ b/crt/x86_64/crtn.s
--@@ -1,3 +1,4 @@
--+.file "crtn.s"
-- .section .init
-- 	pop %rax
-- 	ret
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 265f79f2fd..249ce53521 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,7 +15,6 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
--           file://0001-crt-Add-.file-directive.patch \
-           "
- 
- S = "${WORKDIR}/git"
--- 
-2.30.0
+bitbake-selftest:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/11/logs/stdio
+
+and oe-selftest:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/14/logs/stdio
+
+(these occurred in all the selftest builds but I've just linked to one).
+
+Cheers,
+
+Richard
+
+
 
