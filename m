@@ -1,80 +1,107 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web08.1653.1611997092122729713
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web09.2546.1612004478241564910
  for <openembedded-core@lists.openembedded.org>;
- Sat, 30 Jan 2021 00:58:12 -0800
+ Sat, 30 Jan 2021 03:01:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BXIxsTIE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id c127so8907669wmf.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 30 Jan 2021 00:58:11 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dpyMjNrh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id f16so8694616wmq.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 30 Jan 2021 03:01:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=WMli2cNcbrDt4a2EAKCrKx315ynJeh/0nXPAmPt4cA0=;
-        b=BXIxsTIELFi8WRxaoMUfoUPuwZvrAwPkmxqXMkA3i0VvHMcowHSrfpooDBTkBeay+C
-         kWN4JDCejFjAUjHBoMc5BnrvsJgKLRDEmCBWhj3yEqTLPrJJrcWFcFtivPY4MlgZeSXj
-         jmdgVZBo+N6YlDtzCkSIBlNNNF+U0BUrpYkmw=
+        bh=9WvTsQy7JJsiMGb9DEpNNHbs5OOuQnlGeoHyQ8CSVqo=;
+        b=dpyMjNrh8cXA3PGwoEWePUkIafY2DiLPTDUzChgB8Wyd46PRJdgS8PGJPiDdri+tOz
+         wrBlq9EVXGcf0fb0DcodGZX5vFXcS9mRRgdNe5RAzW3luOFIqry5amirBjrKHIYYGaym
+         Vm3HzGyiGQXPyCHzrbsv51PzM6JTo411HWQNk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WMli2cNcbrDt4a2EAKCrKx315ynJeh/0nXPAmPt4cA0=;
-        b=gKSPPec9smhzRZBB7mnPeA1qY4dnbTaKEI/rEOgQWRgSUJYMTcK4h8Ii8fDe/H5n96
-         gg7g0qVL3mnljpF1Y6Xc/wmT+m9xNQ1LVRiUlABPLgi4UnOv4LRHCt0vIMrjlHcBTI6A
-         /NDUrj07EFM0mp84UQWjV1TtzEuVoypVOlrK77u6DwxnXkv+6agkxpWA5S+8p37m5gvi
-         O9hdrFxdbA7sv+A5PTnVupmPqwS8PepsQoFkO/4BheAfvhq7We9jnSQIrP0doYeOuWm8
-         QVZ5OYHF5CLIM4X8fKAhFLMI1+ze9n0NcNwLFONGN/igvDfS0/p0/lUDzwG9K471Oryp
-         rPqg==
-X-Gm-Message-State: AOAM531bVjCT1pWNhtDP6G+hgtt0x7CT1aUpXas1aD+n/HJwLkjQy6mL
-	VQKM48PJvwob7Vhu4SXOxxZX6A==
-X-Google-Smtp-Source: ABdhPJxA1jBzhMFU0qetwzykHie6aQSRo0OgPAp/bCEotfKOWGRTJ6g4q3/fbhUmF8OiCUHaeN9iFA==
-X-Received: by 2002:a1c:149:: with SMTP id 70mr7079433wmb.165.1611997090564;
-        Sat, 30 Jan 2021 00:58:10 -0800 (PST)
+        bh=9WvTsQy7JJsiMGb9DEpNNHbs5OOuQnlGeoHyQ8CSVqo=;
+        b=mf3jdczIdyNrUjgfAB5CB7HZpT9R7hAP5+wAxIObRyC9itQfko1rBK/HSTZCU3J/Xn
+         /AxrtOWe+9O+4gxAVS+MqfRsqt3DJeu/W5+3ZhCzcMLxbJ5nGP3pZfVMVLY1QJhfF9KM
+         OHIR9w8udpQREm5sWuFOE9r5+EFB3QnzZbeq/Emibc/xoUVlEDNi+xSm5PvxeIF6V4aO
+         VATIj2PI6HxWKe90acJY7uo7bRn6RmWov7WunUqOy+7JxonLh/5nKZmJJRJW0jw7S9XH
+         0vAwxp0wJBl1dAYzcBS/rIHnahQoghFNyBgcWAyJyrLGvHZ8b4d5BayOuLRSMSWqXiK1
+         Ii3g==
+X-Gm-Message-State: AOAM530QdVfHZPisoWh9b+Iu6jLDPw5+XoUUAciS6yr7K30Zsu7Ror02
+	INjgWd1i408gdKS1DZJlsiF5yw==
+X-Google-Smtp-Source: ABdhPJzyclwpTcxVg+U0Lg6p24s999JYRlK/FWfZk5Ic2FGqRAI53/iTWVOnx187q/GQU588BdEC9w==
+X-Received: by 2002:a1c:6089:: with SMTP id u131mr7400670wmb.99.1612004476565;
+        Sat, 30 Jan 2021 03:01:16 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from ?IPv6:2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb? ([2001:8b0:aba:5f3c:1e22:34f6:7a80:adbb])
-        by smtp.gmail.com with ESMTPSA id g9sm21127494wmh.3.2021.01.30.00.58.09
+        by smtp.gmail.com with ESMTPSA id u6sm18262338wro.75.2021.01.30.03.01.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Jan 2021 00:58:10 -0800 (PST)
-Message-ID: <70cd3945856eb783c7239fd716eeea39b127e773.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] bitbake: Don't treat mc recipe (Midnight Commander) as a multiconfig target
+        Sat, 30 Jan 2021 03:01:15 -0800 (PST)
+Message-ID: <509abad9152214d2cb073912e89518082bb92857.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] sanity.bbclass: check if PSEUDO_IGNORE_PATHS and ${S} overlap
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>, 
+To: Dorinda <dorindabassey@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Cc: Jon Mason <Jon.Mason@arm.com>
-Date: Sat, 30 Jan 2021 08:58:07 +0000
-In-Reply-To: <20210128172313.7681-1-tomasz.dziendzielski@gmail.com>
-References: <20210128172313.7681-1-tomasz.dziendzielski@gmail.com>
+Cc: "Qi.Chen" <Qi.Chen@windriver.com>, ip.jango@gmail.com
+Date: Sat, 30 Jan 2021 11:01:13 +0000
+In-Reply-To: <20210128195108.5247-1-dorindabassey@gmail.com>
+References: <20210128195108.5247-1-dorindabassey@gmail.com>
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Thu, 2021-01-28 at 18:23 +0100, Tomasz Dziendzielski wrote:
-> When we run `devtool build mc` recipe's task dependencies are expanded
-> to "mc:do_populate_sysroot" where "mc" name is treated as multiconfig
-> and "do_package_sysroot" as multiconfigname.
+On Thu, 2021-01-28 at 20:51 +0100, Dorinda wrote:
+> added a sanity check for when PSEUDO_IGNORE_PATHS and ${S} overlap to avoid random failures generated.
 > 
-> > ERROR: Multiconfig dependency mc:do_populate_sysroot depends on
-> > nonexistent multiconfig configuration named do_populate_sysroot
+> [YOCTO #14193]
 > 
-> Signed-off-by: Tomasz Dziendzielski <tomasz.dziendzielski@gmail.com>
-> 
-> --- skipped change in showEnvironment() to keep "bitbake -e" working
+> Signed-off-by: Dorinda Bassey <dorindabassey@gmail.com>
 > ---
+> v2:
+> added a condition for when {WORKDIR}={S}
+> 
+>  meta/classes/sanity.bbclass | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index c6842ff549..63284b7917 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -710,6 +710,16 @@ def check_sanity_version_change(status, d):
+>          if i and workdir.startswith(i):
+>              status.addresult("You are building in a path included in PSEUDO_IGNORE_PATHS " + str(i) + " please locate the build outside this path.\n")
+>  
+> 
+> 
+> 
+> +    # Check if PSEUDO_IGNORE_PATHS and ${S} overlap
+> +    pseudoignorepaths = d.getVar('PSEUDO_IGNORE_PATHS', expand=True).split(",")
+> +    workdir = d.getVar('WORKDIR')
+> +    sourcefile = d.getVar('S')
+> +    if (workdir == sourcefile):
+> +        for i in pseudoignorepaths:
+> +            if i and sourcefile:
+> +                if sourcefile.startswith(i) or i.startswith(sourcefile):
+> +                    status.addresult("a path included in PSEUDO_IGNORE_PATHS " + str(i) + " and ${S} (source files) path " + str(sourcefile) + " are overlapping each other, please set ${S} in your recipe to point to a different directory. \n")
+> +
+>      # Some third-party software apparently relies on chmod etc. being suid root (!!)
+>      import stat
+>      suid_check_bins = "chown chmod mknod".split()
 
-bitbake patches need to go to the bitbake-devel list. 
 
-I did put this into testing anyway and it triggered errors in several
-selftests:
+This isn't quite solving the problem in bug 14193. In that bug lets
+say:
 
-bitbake-selftest:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/11/logs/stdio
+S = "${WORKDIR}/pack"
 
-and oe-selftest:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/1792/steps/14/logs/stdio
+and this overlaps with ${WORKDIR}/package (PKGD) and
+${WORKDIR}/packages-split (PKGDEST) which are set in package.bbclass.
 
-(these occurred in all the selftest builds but I've just linked to one).
+So the sanity test we need here is to test whether any element of
+PSEUDO_IGNORE_PATHS overlaps with directories we know need to be under
+pseudo control. Qi already had a list of these in a different patch:
+
+${D},${PKGD},${PKGDEST},${IMAGE_ROOTFS},${SDK_OUTPUT}
 
 Cheers,
 
