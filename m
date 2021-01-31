@@ -1,72 +1,70 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web11.17179.1612092344136671484
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web12.16995.1612092888336702664
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 Jan 2021 03:25:44 -0800
+ Sun, 31 Jan 2021 03:34:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ExtYhhUG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.208.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed1-f41.google.com with SMTP id dj23so15554418edb.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 03:25:43 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MRsuQyu4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f46.google.com with SMTP id g12so19751202ejf.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 Jan 2021 03:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VkSvFhtWuMhuPE2kpgF5o1wO3FFfBoZYYYUuRMT3ZU0=;
-        b=ExtYhhUG+K0BPTosqKwuNzIyZIje5WS6+lDFkkc6GBFZdV8JXEbVmLFjNP8DSwNCLP
-         w1+GssXEnwBIc+t0yqW35LgLg6QCc7LduUH/E4mykivBGCXBzpfDU1CruCi4cs9aOspf
-         F7eBa46/uZHsS0EMibzzgb/nyOuIZ+OZ9FKcU=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=mkXjQOqRFoGMj+tEUntm4CKnbITHjh2FRGAuGo/t2Qw=;
+        b=MRsuQyu4rVoPorcqtB61J7r+jS/qp2C/M4+gKNfXkW4ooHNs5bc4zC9fldXX1Qllvm
+         As26NhfABXSC+7VbVZ/skkMEF9ruMuPlPOMvfdONL7+oDHi65DOARvw8a+xpHyj6sh4/
+         sMzR+yacVMnIuaY05k6QwDDfgsHq0k59VSWdU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VkSvFhtWuMhuPE2kpgF5o1wO3FFfBoZYYYUuRMT3ZU0=;
-        b=XylvdLZYoxy4VDsfwIWEh9Sx/EWGqiXSs6jaiIRIPwLxBoxu8/H5yCZGmoeq1D2ytJ
-         xWFaYRdPtDNBJS62bZw+alOASnMoHk6bj2DQY+9xusJ8FgBijns22p/tLL1zEGNV0D4g
-         ZuVvLsJ7LauN2Wwl3pw4oHhu79Dz8JeoccZBcMDivOEkF7ygwP1hD9VfiUxuPwd/fIOk
-         0kYD0UOccN2DuNVrI0LD3U7xdP5nDXOIQMbS71qp/7yEFDw5g27YKxVpUlIlQIoXa8i2
-         9hci8fHXhpcI67cgQtNV8SsPXkau4IBI0cVAL4LzfvnHczaHRX0SL8OCvJNkxZ9RjQ2J
-         r+VA==
-X-Gm-Message-State: AOAM530hAyJJ2FgHS/PbzanNIWUFHewkqSf338e+ny2IjE+vDnO+o3zK
-	GaMoKew6D33w7Z/LuTqbZ2rX2N/HsVEgAQ==
-X-Google-Smtp-Source: ABdhPJwSAK3WyaaPB/ODVKeSf0+yZabkCBmXYkkCTb6ZjQQRtRP4HtwSKgtkCqIOzw0YKhbS3LhpfQ==
-X-Received: by 2002:a50:ed97:: with SMTP id h23mr13547609edr.278.1612092342386;
-        Sun, 31 Jan 2021 03:25:42 -0800 (PST)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=mkXjQOqRFoGMj+tEUntm4CKnbITHjh2FRGAuGo/t2Qw=;
+        b=mkyux9d8aGJCxp8PvWBiMr3VDX6o2R9Wb5qfumHl9k/nMIUelKfFQ1AD9ii0zE6Ib/
+         IRKxZYioPvij5bTqGuZ0AXqOEXdGNGHBjO1xRDzNP8oIAHRx8nazmvDsRUk84bECXrvT
+         jnHgpQ4TSGXvZbygdVh140CNS0yejYjLQfdMlLP8eCMQLkffTQF1PGnn3A0EujBh+iOA
+         QdCu1pkId6mbSZjUMAxBpGUlINA/VkYBxRff1zo3b/lkKZt7xTusFcYl7dPUVRP05a9r
+         HAXDlOtGrzWOfiJybhePryrfS6CLaEKwHel21ikMkFTlZREJa54pvfYQ9qjhu2CD1mJC
+         KttQ==
+X-Gm-Message-State: AOAM5313v4FSakTE0T4XQuJts9tMgA00Z+1Q/XOVf/uQB0oPtaS7JH1h
+	1AyK+WlWcuKktWBWA4u22K/4rg==
+X-Google-Smtp-Source: ABdhPJyI4XU3i8SURagNXfx17K8s048793o4toC7o4DY4QGV30P/kFod0DyQfceODLF/E8hnl5yGSA==
+X-Received: by 2002:a17:906:a2d2:: with SMTP id by18mr5217056ejb.262.1612092886954;
+        Sun, 31 Jan 2021 03:34:46 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net ([2001:8b0:aba:5f3c:29f7:5a4e:c660:258e])
-        by smtp.gmail.com with ESMTPSA id u21sm1554963ejj.120.2021.01.31.03.25.41
-        for <openembedded-core@lists.openembedded.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:29f7:5a4e:c660:258e? ([2001:8b0:aba:5f3c:29f7:5a4e:c660:258e])
+        by smtp.gmail.com with ESMTPSA id p21sm7034564edx.90.2021.01.31.03.34.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 Jan 2021 03:25:41 -0800 (PST)
+        Sun, 31 Jan 2021 03:34:46 -0800 (PST)
+Message-ID: <a74c0f3dfbbcd6655b577f281858e264c0458a2c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [yocto] QA notification for completed autobuilder build (yocto-3.3_M2.rc1)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-setuptools: Add back accidentally dropped RDEPENDS
-Date: Sun, 31 Jan 2021 11:25:41 +0000
-Message-Id: <20210131112541.1441542-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.27.0
+To: Jose Quaresma <quaresma.jose@gmail.com>, Sangeeta Jain
+	 <sangeeta.jain@intel.com>
+Cc: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, 
+ openembedded-core <openembedded-core@lists.openembedded.org>,
+ "qa-build-notification@lists.yoctoproject.org"
+ <qa-build-notification@lists.yoctoproject.org>
+Date: Sun, 31 Jan 2021 11:34:45 +0000
+In-Reply-To: <CANPvuR=_aZWF7Yt=7sk3NSYCWAJbwz8zHtzbQvbUDeoS7YFB9w@mail.gmail.com>
+References: <20210121050529.465241A30A4@debian8-ty-1.yocto.io>
+	 <BYAPR11MB362480C0773B27E427539424E3BB9@BYAPR11MB3624.namprd11.prod.outlook.com>
+	 <CANPvuR=_aZWF7Yt=7sk3NSYCWAJbwz8zHtzbQvbUDeoS7YFB9w@mail.gmail.com>
+User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-This was accidentally removed in a previous commit. Due to improvements
-in the core, we can now just add it as a normal RDEPENDS along with the
-others as the native case no longer causes issues.
+On Wed, 2021-01-27 at 09:45 +0000, Jose Quaresma wrote:
+> Hi All,
+> gstreamer1.0: fix failing ptest
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=7b90027aac9fa41b3dc98765151d761df8dabb97
+> 
+> Is this commit present yocto-3.3_M2.rc1 ?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/python/python3-setuptools_51.0.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+Just to confirm, it wasn't so this should be fixed for M3, thanks!
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
-index db336bfa13b..dc09c13846d 100644
---- a/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools_51.0.0.bb
-@@ -28,6 +28,7 @@ RDEPENDS_${PN} = "\
-   ${PYTHON_PN}-netserver \
-   ${PYTHON_PN}-numbers \
-   ${PYTHON_PN}-pickle \
-+  ${PYTHON_PN}-pkg-resources \
-   ${PYTHON_PN}-pkgutil \
-   ${PYTHON_PN}-plistlib \
-   ${PYTHON_PN}-shell \
--- 
-2.27.0
+Cheers,
+
+Richard
 
